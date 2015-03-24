@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
+	<false/>
+	<key>IDESourceControlProjectIdentifier</key>
+	<string>AD9C440D-F2D8-4A31-B18E-CEBED6A0C97E</string>
+	<key>IDESourceControlProjectOriginsDictionary</key>
+	<dict>
+		<key>910A3B3A1D352F7A0B5C487506E17B8D6367FF66</key>
+		<string>https://github.com/nerdyc/Squeal.git</string>
+	</dict>
+	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
+	<dict>
+		<key>910A3B3A1D352F7A0B5C487506E17B8D6367FF66</key>
+		<string>Squeal/</string>
+	</dict>
+	<key>IDESourceControlProjectURL</key>
+	<string>https://github.com/nerdyc/Squeal.git</string>
+	<key>IDESourceControlProjectVersion</key>
+	<integer>111</integer>
+	<key>IDESourceControlProjectWCCIdentifier</key>
+	<string>910A3B3A1D352F7A0B5C487506E17B8D6367FF66</string>
+	<key>IDESourceControlProjectWCConfigurations</key>
+	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>910A3B3A1D352F7A0B5C487506E17B8D6367FF66</string>
+			<key>IDESourceControlWCCName</key>
+			<string>Squeal</string>
+		</dict>
+	</array>
+</dict>
+</plist>

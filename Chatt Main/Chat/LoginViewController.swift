@@ -7,6 +7,8 @@
 //
 
 import UIKit
+import Alamofire
+//import SwiftRequest
 
 class LoginViewController: UIViewController, UITextFieldDelegate{
     
@@ -14,6 +16,10 @@ class LoginViewController: UIViewController, UITextFieldDelegate{
     @IBOutlet var viewForUser : UIView!
     @IBOutlet var txtForEmail : UITextField!
     @IBOutlet var txtForPassword : UITextField!
+    
+    // Signup fields
+    
+    
     
     override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: NSBundle?) {
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
@@ -89,12 +95,42 @@ class LoginViewController: UIViewController, UITextFieldDelegate{
     }
     
     @IBAction func registerBtnTapped() {
+        
+        
         self.dismissViewControllerAnimated(true, completion: nil);
     }
     
     @IBAction func loginBtnTapped() {
-        self.dismissViewControllerAnimated(true, completion: nil);
         
+        Alamofire.request(.POST, "https://www.cloudkibo.com/auth/local", parameters: ["username": txtForEmail.text, "password": txtForPassword.text])
+            .responseJSON { (request, response, data, error) in
+                //println(request)
+                println(response)
+                println(data)
+                //println(error)
+
+        }
+
+        self.dismissViewControllerAnimated(true, completion: nil);
+/*
+        let url = "http://localhost:8000";
+        var swiftRequest = SwiftRequest();
+        var params:[String:String] = [
+            "username" : txtForEmail!.text,
+            "password" : txtForPassword!.text
+        ];
+        
+        swiftRequest.post(url + "https://wwww.cloudkibo.com/auth/local", data: params, callback: {err, response, body in
+            if( err == nil && response!.statusCode == 200) {
+                if((body as NSDictionary)["success"] as Int == 1) {
+                    self.showAlert("User successfully authenticated!");
+                } else {
+                    self.showAlert("That token isn't valid");
+                }
+            } else {
+                self.showAlert("We're sorry, something went wrong");
+            }
+        })*/
         
         
     }

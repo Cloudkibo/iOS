@@ -1,0 +1,8 @@
+
+source 'https://github.com/CocoaPods/Specs.git'
+
+platform :ios, '8.0'
+
+xcodeproj ‘/Users/cloudkibo/Desktop/ChattiOSSwift/Chatt Main/Chat.xcodeproj'
+
+pod 'SwiftRequest', ‘~> 0.0.4'
