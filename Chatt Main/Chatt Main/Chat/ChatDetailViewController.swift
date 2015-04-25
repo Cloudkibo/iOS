@@ -55,37 +55,37 @@ class ChatDetailViewController: UIViewController {
     }
     
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-        var messageDic = messages.objectAtIndex(indexPath.row) as [String : String];
-        var msg = messageDic["message"] as NSString!
+        var messageDic = messages.objectAtIndex(indexPath.row) as! [String : String];
+        var msg: NSString = messageDic["message"] as NSString!
         var sizeOFStr = self.getSizeOfString(msg)
         return sizeOFStr.height + 70
     }
     
     func tableView(tableView: UITableView!, cellForRowAtIndexPath indexPath: NSIndexPath!) -> UITableViewCell! {
         var cell : UITableViewCell!
-        var messageDic = messages.objectAtIndex(indexPath.row) as [String : String];
+        var messageDic = messages.objectAtIndex(indexPath.row) as! [String : String];
         NSLog(messageDic["message"]!, 1)
         var msgType = messageDic["type"] as NSString!
         var msg = messageDic["message"] as NSString!
         var sizeOFStr = self.getSizeOfString(msg)
         
         if (msgType.isEqualToString("1")){
-            cell = tblForChats.dequeueReusableCellWithIdentifier("ChatSentCell") as UITableViewCell
-            var textLable = cell.viewWithTag(12) as UILabel
-            var chatImage = cell.viewWithTag(1) as UIImageView
-            var profileImage = cell.viewWithTag(2) as UIImageView
+            cell = tblForChats.dequeueReusableCellWithIdentifier("ChatSentCell") as! UITableViewCell
+            var textLable = cell.viewWithTag(12) as! UILabel
+            var chatImage = cell.viewWithTag(1) as! UIImageView
+            var profileImage = cell.viewWithTag(2) as! UIImageView
             chatImage.frame = CGRectMake(chatImage.frame.origin.x, chatImage.frame.origin.y, ((sizeOFStr.width + 60)  > 100 ? (sizeOFStr.width + 60) : 100), sizeOFStr.height + 40)
             chatImage.image = UIImage(named: "chat_new_receive")?.stretchableImageWithLeftCapWidth(40,topCapHeight: 20);
             textLable.frame = CGRectMake(textLable.frame.origin.x, textLable.frame.origin.y, textLable.frame.size.width, sizeOFStr.height)
             profileImage.center = CGPointMake(profileImage.center.x, textLable.frame.origin.y + textLable.frame.size.height - profileImage.frame.size.height/2 + 10)
-            textLable.text = msg
+            textLable.text = msg as String;
         } else {
-            cell = tblForChats.dequeueReusableCellWithIdentifier("ChatReceivedCell") as UITableViewCell
-            var deliveredLabel = cell.viewWithTag(13) as UILabel
-            var textLable = cell.viewWithTag(12) as UILabel
-            var timeLabel = cell.viewWithTag(11) as UILabel
-            var chatImage = cell.viewWithTag(1) as UIImageView
-            var profileImage = cell.viewWithTag(2) as UIImageView
+            cell = tblForChats.dequeueReusableCellWithIdentifier("ChatReceivedCell") as! UITableViewCell
+            var deliveredLabel = cell.viewWithTag(13) as! UILabel
+            var textLable = cell.viewWithTag(12) as! UILabel
+            var timeLabel = cell.viewWithTag(11) as! UILabel
+            var chatImage = cell.viewWithTag(1) as! UIImageView
+            var profileImage = cell.viewWithTag(2) as! UIImageView
             var distanceFactor = (170.0 - sizeOFStr.width) < 130 ? (170.0 - sizeOFStr.width) : 130
             chatImage.frame = CGRectMake(20 + distanceFactor, chatImage.frame.origin.y, ((sizeOFStr.width + 60)  > 100 ? (sizeOFStr.width + 60) : 100), sizeOFStr.height + 40)
             chatImage.image = UIImage(named: "chat_new_send")?.stretchableImageWithLeftCapWidth(20,topCapHeight: 20);
@@ -93,7 +93,7 @@ class ChatDetailViewController: UIViewController {
             profileImage.center = CGPointMake(profileImage.center.x, textLable.frame.origin.y + textLable.frame.size.height - profileImage.frame.size.height/2 + 10)
             timeLabel.frame = CGRectMake(36 + distanceFactor, timeLabel.frame.origin.y, timeLabel.frame.size.width, timeLabel.frame.size.height)
             deliveredLabel.frame = CGRectMake(deliveredLabel.frame.origin.x, textLable.frame.origin.y + textLable.frame.size.height + 20, deliveredLabel.frame.size.width, deliveredLabel.frame.size.height)
-            textLable.text = msg
+            textLable.text = msg as String;
         }
         return cell
     }
@@ -104,9 +104,9 @@ class ChatDetailViewController: UIViewController {
         userInfo = notification.userInfo
         
         var duration : NSTimeInterval = 0
-        var curve = userInfo.objectForKey(UIKeyboardAnimationCurveUserInfoKey) as UInt
-        duration = userInfo[UIKeyboardAnimationDurationUserInfoKey] as NSTimeInterval
-        var keyboardF:NSValue = userInfo.objectForKey(UIKeyboardFrameEndUserInfoKey) as NSValue
+        var curve = userInfo.objectForKey(UIKeyboardAnimationCurveUserInfoKey) as! UInt
+        duration = userInfo[UIKeyboardAnimationDurationUserInfoKey] as! NSTimeInterval
+        var keyboardF:NSValue = userInfo.objectForKey(UIKeyboardFrameEndUserInfoKey) as! NSValue
         var keyboardFrame = keyboardF.CGRectValue()
         
         UIView.animateWithDuration(duration, delay: 0, options:nil, animations: {
@@ -125,9 +125,9 @@ class ChatDetailViewController: UIViewController {
         userInfo = notification.userInfo
         
         var duration : NSTimeInterval = 0
-        var curve = userInfo.objectForKey(UIKeyboardAnimationCurveUserInfoKey) as UInt
-        duration = userInfo[UIKeyboardAnimationDurationUserInfoKey] as NSTimeInterval
-        var keyboardF:NSValue = userInfo.objectForKey(UIKeyboardFrameEndUserInfoKey) as NSValue
+        var curve = userInfo.objectForKey(UIKeyboardAnimationCurveUserInfoKey)as! UInt
+        duration = userInfo[UIKeyboardAnimationDurationUserInfoKey] as! NSTimeInterval
+        var keyboardF:NSValue = userInfo.objectForKey(UIKeyboardFrameEndUserInfoKey) as! NSValue
         var keyboardFrame = keyboardF.CGRectValue()
         
         UIView.animateWithDuration(duration, delay: 0, options:nil, animations: {

@@ -16,13 +16,13 @@
 
 import UIKit
 
-//import Alamofire
+import Alamofire
 
-//import SwiftyJSON
+import SwiftyJSON
 
 
 
-var globalTocken: String = "";
+var globalToken: String = "";
 
 
 
@@ -108,11 +108,11 @@ class LoginViewController: UIViewController, UITextFieldDelegate{
         
         var duration : NSTimeInterval = 0
         
-        var curve = userInfo.objectForKey(UIKeyboardAnimationCurveUserInfoKey) as UInt
+        var curve = userInfo.objectForKey(UIKeyboardAnimationCurveUserInfoKey) as! UInt
         
-        duration = userInfo[UIKeyboardAnimationDurationUserInfoKey] as NSTimeInterval
+        duration = userInfo[UIKeyboardAnimationDurationUserInfoKey]as! NSTimeInterval
         
-        var keyboardF:NSValue = userInfo.objectForKey(UIKeyboardFrameEndUserInfoKey) as NSValue
+        var keyboardF:NSValue = userInfo.objectForKey(UIKeyboardFrameEndUserInfoKey) as! NSValue
         
         var keyboardFrame = keyboardF.CGRectValue()
         
@@ -144,11 +144,11 @@ class LoginViewController: UIViewController, UITextFieldDelegate{
         
         var duration : NSTimeInterval = 0
         
-        var curve = userInfo.objectForKey(UIKeyboardAnimationCurveUserInfoKey) as UInt
+        var curve = userInfo.objectForKey(UIKeyboardAnimationCurveUserInfoKey)as! UInt
         
-        duration = userInfo[UIKeyboardAnimationDurationUserInfoKey] as NSTimeInterval
+        duration = userInfo[UIKeyboardAnimationDurationUserInfoKey]as! NSTimeInterval
         
-        var keyboardF:NSValue = userInfo.objectForKey(UIKeyboardFrameEndUserInfoKey) as NSValue
+        var keyboardF:NSValue = userInfo.objectForKey(UIKeyboardFrameEndUserInfoKey) as! NSValue
         
         var keyboardFrame = keyboardF.CGRectValue()
         
@@ -168,7 +168,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate{
     
     
     
-    func textFieldShouldReturn (textField: UITextField!) -> Bool{
+    func textFieldShouldReturn (textField: UITextField) -> Bool{
         
         if ((textField == txtForEmail)){
             
@@ -198,52 +198,153 @@ class LoginViewController: UIViewController, UITextFieldDelegate{
         
         
         
-        /*Alamofire.request(.POST, "https://www.cloudkibo.com/auth/local", parameters: ["username" : txtForEmail.text, "password" : txtForPassword.text])
+        Alamofire.request(.POST, "https://www.cloudkibo.com/auth/local", parameters: ["username" : txtForEmail.text, "password" : txtForPassword.text])
             
             .responseJSON { (request, response, data, error) in
                 
                 
-                
                 let jsonObject = JSON(data!)
                 
-                //println(jsonObject)
+                
+                let tok: String = jsonObject["token"].string!
+                
+                globalToken = tok;
                 
                 
-                
-                let tock: String = jsonObject["token"].string!
-                
-                
-                
-                globalTocken = tock;
-                
-                println(globalTocken);
-                
-                
-                
-                Alamofire.request(.GET, "https://www.cloudkibo.com/api/users/me?access_token=" + globalTocken)
+                Alamofire.request(.GET, "https://www.cloudkibo.com/api/users/me?access_token=" + globalToken)
                     
                     .responseJSON { (request, response, data, error) in
+        
+                        //println(data);
                         
                         
-                        
-                        println(data);
-                        
+                        Alamofire.request(.GET, "https://www.cloudkibo.com/api/contactslist/?access_token=" + globalToken)
+                            
+                            .responseJSON { (request, response, data, error) in
+                                
+                                
+                                println(data)
+                                
+                                
+                                let socket = SocketIOClient(socketURL: "https://www.cloudkibo.com")
+                                
+                                socket.on("connect") {data, ack in
+                                    println("socket connected")
+                                }
+                                
+                                // Connect
+                                socket.connect()
+                                
+                                //////////////////////////////////////
+                                // sqlite moved here
+                                //////////////////////////////////////
+                                
+                                
+                                import Squeal
+                                
+                                let cloudkibo= Database(path:"data.sqlite3")!
+                                
+                                cloudkibo= .createTable("users",
+                                    definitions:[
+                                        "username TEXT",
+                                        "firstname TEXT",
+                                        "lastname TEXT",
+                                        "email(email)",
+                                        "phone INTEGER",
+                                        "country TEXT",
+                                        "city TEXT",
+                                        "state TEXT",
+                                        "gender TEXT",
+                                        "role TEXT = 'user' ",
+                                        "fb_photo TEXT",
+                                        "google_photo TEXT",
+                                        "windows_photo TEXT",
+                                        "isOwner TEXT",
+                                        "picture TEXT",
+                                        "accountVerified : {type: String, default: 'No' }",
+                                        "date  :  { type: Date, default: Date.now }",
+                                        "initialTesting TEXT,",
+                                        "status : {type: String, default: 'I am on CloudKibo' }",
+                                        "hashedPassword TEXT",
+                                        "provider TEXT",
+                                        "salt TEXT"
+                                        
+                                        
+                                    ])
+                                
+                                cloudkibo= .createTable("contactlist",
+                                    definitions:[
+                                        "username TEXT",
+                                        "userid TEXT",
+                                        "contactid TEXT",
+                                        "unreadMessage : {type: Boolean, default: false }",
+                                        "detailsshared: {type : String, default :'No'}"
+                                        
+                                    ])
+                                
+                                
+                                
+                                cloudkibo= .createTable("contactlist",
+                                    definitions:[
+                                        "to TEXT",
+                                        "from TEXT",
+                                        "fromFullName TEXT",
+                                        "msg TEXT",
+                                        "date : {type: Date, default: Date.now },
+                                        "owneruser TEXT
+                                    ])
+                                
+                                
+                                
+                                ////////////////////////////////
+                                
+                                var error: NSError?
+                                if let rowId = database.insertInto("user", values:[
+                                    "username":,
+                                    "firstname":,
+                                    "lastname":,
+                                    "email":,
+                                    "phone":, 
+                                    "country":,
+                                    "city":,
+                                    "state":,
+                                    "gender":,
+                                    "role" = 'user' ,
+                                    "fb_photo":,
+                                    "google_photo TEXT",
+                                    "windows_photo TEXT",
+                                    "isOwner":,
+                                    "picture TEXT",
+                                    "accountVerified":,
+                                    "date":,
+                                    "initialTesting TEXT,",
+                                    "status":,
+                                    "hashedPassword TEXT",
+                                    "provider TEXT",
+                                    "salt TEXT"
+                                    
+                                    ], error:&error]) {
+                                        // rowId is the id in the database
+                                } else {
+                                    // handle error
+                                }
+                                
+                                /////////////////////////////////////////
+                                // sqlite moved here
+                                ////////////////////////////////////////
+                                
+                                
+                        }
                         
                         
                 }
                 
-                
-                
-                
-                
         }
-        */
-        
+
         
         self.dismissViewControllerAnimated(true, completion: nil);
         
     }
-    
     
     
     @IBAction func facebookBtnTapped() {

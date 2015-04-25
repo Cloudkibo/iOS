@@ -51,9 +51,9 @@ class NotesViewController: UIViewController {
     
     func tableView(tableView: UITableView!, cellForRowAtIndexPath indexPath: NSIndexPath!) -> UITableViewCell! {
         if (indexPath.row%2 == 0){
-            return tblForNotes.dequeueReusableCellWithIdentifier("NotePrivateCell") as UITableViewCell
+            return tblForNotes.dequeueReusableCellWithIdentifier("NotePrivateCell") as! UITableViewCell
         } else {
-            return tblForNotes.dequeueReusableCellWithIdentifier("NotePublicCell") as UITableViewCell
+            return tblForNotes.dequeueReusableCellWithIdentifier("NotePublicCell") as! UITableViewCell
         }
     }
     

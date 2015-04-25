@@ -50,9 +50,9 @@ class ProjectsViewController: UIViewController {
     
     func tableView(tableView: UITableView!, cellForRowAtIndexPath indexPath: NSIndexPath!) -> UITableViewCell! {
         if (indexPath.row%2 == 0){
-            return tblForProjects.dequeueReusableCellWithIdentifier("ProjectCell") as UITableViewCell
+            return tblForProjects.dequeueReusableCellWithIdentifier("ProjectCell") as! UITableViewCell
         } else {
-            return tblForProjects.dequeueReusableCellWithIdentifier("ProjectCell1") as UITableViewCell
+            return tblForProjects.dequeueReusableCellWithIdentifier("ProjectCell1") as! UITableViewCell
         }
     }
     

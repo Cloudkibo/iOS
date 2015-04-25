@@ -57,9 +57,9 @@ class ChatViewController: UIViewController {
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath!) -> UITableViewCell! {
         if (indexPath.row%2 == 0){
-            return tblForChat.dequeueReusableCellWithIdentifier("ChatPrivateCell") as UITableViewCell
+            return tblForChat.dequeueReusableCellWithIdentifier("ChatPrivateCell") as! UITableViewCell
         } else {
-            return tblForChat.dequeueReusableCellWithIdentifier("ChatPublicCell") as UITableViewCell
+            return tblForChat.dequeueReusableCellWithIdentifier("ChatPublicCell") as! UITableViewCell
         }
     }
     

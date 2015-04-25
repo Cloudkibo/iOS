@@ -7,18 +7,26 @@
 	<key>IDESourceControlProjectIdentifier</key>
 	<string>524EF9E0-64B0-4A98-8486-E546BBC6EA0D</string>
 	<key>IDESourceControlProjectName</key>
-	<string>Chat</string>
+	<string>project</string>
 	<key>IDESourceControlProjectOriginsDictionary</key>
 	<dict>
+		<key>01C4019DAB2F13C7FB458F088D0A991884C46F1A</key>
+		<string>https://github.com/nuclearace/Socket.IO-Client-Swift</string>
 		<key>51D919B02F515DF511C628E9A9DE3260C99F16D5</key>
 		<string>https://github.com/Cloudkibo/iOS.git</string>
+		<key>C861FC00CEE0F6A6BE81FCFF6785FAA78C58EBB3</key>
+		<string>https://github.com/SwiftyJSON/SwiftyJSON</string>
 	</dict>
 	<key>IDESourceControlProjectPath</key>
-	<string>Chatt Main/Chatt Main/Chat.xcodeproj</string>
+	<string>Chatt Main/Chatt Main/Chat.xcodeproj/project.xcworkspace</string>
 	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
 	<dict>
+		<key>01C4019DAB2F13C7FB458F088D0A991884C46F1A</key>
+		<string>../../../..Chatt%20Main/Chatt%20Main/Socket.IO-Client-Swift/</string>
 		<key>51D919B02F515DF511C628E9A9DE3260C99F16D5</key>
 		<string>../../../..</string>
+		<key>C861FC00CEE0F6A6BE81FCFF6785FAA78C58EBB3</key>
+		<string>../../../..Chatt%20Main/Chatt%20Main/SwiftyJSON/</string>
 	</dict>
 	<key>IDESourceControlProjectURL</key>
 	<string>https://github.com/Cloudkibo/iOS.git</string>
@@ -35,6 +43,22 @@
 			<string>51D919B02F515DF511C628E9A9DE3260C99F16D5</string>
 			<key>IDESourceControlWCCName</key>
 			<string>iOS</string>
+		</dict>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>01C4019DAB2F13C7FB458F088D0A991884C46F1A</string>
+			<key>IDESourceControlWCCName</key>
+			<string>Socket.IO-Client-Swift</string>
+		</dict>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>C861FC00CEE0F6A6BE81FCFF6785FAA78C58EBB3</string>
+			<key>IDESourceControlWCCName</key>
+			<string>SwiftyJSON</string>
 		</dict>
 	</array>
 </dict>
