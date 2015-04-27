@@ -267,8 +267,14 @@ class LoginViewController: UIViewController, UITextFieldDelegate{
                                         
                                         
                                         ) {
+                                            NSArray *jsonDataArray = [[NSArray alloc] initWithArray:[NSJSONSerialization JSONObjectWithData:c_jsonData options:NSJSONReadingMutableContainers error:&error]];
+                                            
+                                            NSDictionary *dictObject = [jsonDataArray objectAtIndex:indexPath.row];
+                                            cell.textLabel.text = [dictObject valueForKey:@"Shark"];
+                                            
+                                            
                                             println("inserted id: \(c_insertId)")
-                                            println(c_jsonData["username"].string!)
+                                            //println(c_jsonData["username"].string!)
                                             // inserted id: 1
                                             //alice = users.filter(id == insertId)
                                     }
