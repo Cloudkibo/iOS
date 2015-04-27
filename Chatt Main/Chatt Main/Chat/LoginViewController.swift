@@ -20,6 +20,8 @@ import Alamofire
 
 import SwiftyJSON
 
+import SQLite
+
 
 
 var globalToken: String = "";
@@ -196,7 +198,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate{
     
     @IBAction func loginBtnTapped() {
         
-        
+        let db = Database("/Users/cloudkibo/Desktop/iOS/db.sqlite3")
         
         Alamofire.request(.POST, "https://www.cloudkibo.com/auth/local", parameters: ["username" : txtForEmail.text, "password" : txtForPassword.text])
             
@@ -215,18 +217,73 @@ class LoginViewController: UIViewController, UITextFieldDelegate{
                     
                     .responseJSON { (request, response, data, error) in
         
-                        //println(data);
-                        
+                        let u_jsonData = JSON(data!)
+                        //println(jsonData["username"].string!);
+                        ///////////////////////////////////
                         
                         Alamofire.request(.GET, "https://www.cloudkibo.com/api/contactslist/?access_token=" + globalToken)
                             
-                            .responseJSON { (request, response, data, error) in
+                            .responseJSON { (request, response, data1, error) in
                                 
                                 
-                                println(data)
+                                println(data1)
+                                let c_jsonData = JSON(data1!)
                                 
                                 
-                                let socket = SocketIOClient(socketURL: "https://www.cloudkibo.com")
+                                
+                                let contacts = db["contacts"]
+                                let c_id = Expression<String>("id")
+                                let c_username = Expression<String>("username")
+                                let c_firstname = Expression<String>("firstname")
+                                let c_lastname = Expression<String>("lastname")
+                                let c_phone = Expression<String>("phone")
+                                let detailshared = Expression<String>("detailshared")
+                                let c_status = Expression<String>("status")
+                                
+                                db.drop(table: contacts, ifExists: true);
+                                
+                                db.create(table: contacts, ifNotExists: true) { t in
+                                    t.column(c_id, defaultValue: "Anonymous")
+                                    t.column(c_username, defaultValue: "Anonymous")
+                                    t.column(c_firstname, defaultValue: "Anonymous")
+                                    t.column(c_lastname, defaultValue: "Anonymous")
+                                    t.column(c_phone, defaultValue: "0987")
+                                    t.column(c_status, defaultValue: "Anonymous")
+                                    t.column(detailshared, defaultValue: "Anonymous")
+                                    
+                                }// db created
+                                
+                                for (index: String, subJson: JSON) in c_jsonData {
+                                    //Do something you want
+                                    //var alice: Query?
+                                    if let c_insertId = contacts.insert(
+                                        c_username <- c_jsonData["username"].string!,
+                                        c_firstname <- c_jsonData["firstname"].string!,
+                                        c_lastname <- c_jsonData["lastname"].string!,
+                                        c_phone <- c_jsonData["phone"].string!,
+                                        c_id <- c_jsonData["id"].string!,
+                                        c_status <- c_jsonData["status"].string!,
+                                        detailshared <- c_jsonData["detailshared"].string!
+                                        
+                                        
+                                        ) {
+                                            println("inserted id: \(c_insertId)")
+                                            println(c_jsonData["username"].string!)
+                                            // inserted id: 1
+                                            //alice = users.filter(id == insertId)
+                                    }
+                                    
+                                    
+                                }
+                                
+                                
+                                
+                                
+                                
+                                
+                                
+                                
+                                let socket = SocketIOClient(socketURL: "http://45.55.233.191:8080")
                                 
                                 socket.on("connect") {data, ack in
                                     println("socket connected")
@@ -235,107 +292,87 @@ class LoginViewController: UIViewController, UITextFieldDelegate{
                                 // Connect
                                 socket.connect()
                                 
-                                //////////////////////////////////////
-                                // sqlite moved here
-                                //////////////////////////////////////
                                 
                                 
-                                import Squeal
-                                
-                                let cloudkibo= Database(path:"data.sqlite3")!
-                                
-                                cloudkibo= .createTable("users",
-                                    definitions:[
-                                        "username TEXT",
-                                        "firstname TEXT",
-                                        "lastname TEXT",
-                                        "email(email)",
-                                        "phone INTEGER",
-                                        "country TEXT",
-                                        "city TEXT",
-                                        "state TEXT",
-                                        "gender TEXT",
-                                        "role TEXT = 'user' ",
-                                        "fb_photo TEXT",
-                                        "google_photo TEXT",
-                                        "windows_photo TEXT",
-                                        "isOwner TEXT",
-                                        "picture TEXT",
-                                        "accountVerified : {type: String, default: 'No' }",
-                                        "date  :  { type: Date, default: Date.now }",
-                                        "initialTesting TEXT,",
-                                        "status : {type: String, default: 'I am on CloudKibo' }",
-                                        "hashedPassword TEXT",
-                                        "provider TEXT",
-                                        "salt TEXT"
-                                        
-                                        
-                                    ])
-                                
-                                cloudkibo= .createTable("contactlist",
-                                    definitions:[
-                                        "username TEXT",
-                                        "userid TEXT",
-                                        "contactid TEXT",
-                                        "unreadMessage : {type: Boolean, default: false }",
-                                        "detailsshared: {type : String, default :'No'}"
-                                        
-                                    ])
-                                
-                                
-                                
-                                cloudkibo= .createTable("contactlist",
-                                    definitions:[
-                                        "to TEXT",
-                                        "from TEXT",
-                                        "fromFullName TEXT",
-                                        "msg TEXT",
-                                        "date : {type: Date, default: Date.now },
-                                        "owneruser TEXT
-                                    ])
-                                
-                                
-                                
-                                ////////////////////////////////
-                                
-                                var error: NSError?
-                                if let rowId = database.insertInto("user", values:[
-                                    "username":,
-                                    "firstname":,
-                                    "lastname":,
-                                    "email":,
-                                    "phone":, 
-                                    "country":,
-                                    "city":,
-                                    "state":,
-                                    "gender":,
-                                    "role" = 'user' ,
-                                    "fb_photo":,
-                                    "google_photo TEXT",
-                                    "windows_photo TEXT",
-                                    "isOwner":,
-                                    "picture TEXT",
-                                    "accountVerified":,
-                                    "date":,
-                                    "initialTesting TEXT,",
-                                    "status":,
-                                    "hashedPassword TEXT",
-                                    "provider TEXT",
-                                    "salt TEXT"
-                                    
-                                    ], error:&error]) {
-                                        // rowId is the id in the database
-                                } else {
-                                    // handle error
-                                }
-                                
-                                /////////////////////////////////////////
-                                // sqlite moved here
-                                ////////////////////////////////////////
-                                
-                                
+                        }//////////////////////////////////
+                        
+                        
+                        //////////////////////////////////////
+                        // sqlite moved here
+                        //////////////////////////////////////
+                        
+                        
+                        
+                        
+                        let users = db["users"]
+                        let id = Expression<String>("id")
+                        let username = Expression<String>("username")
+                        let firstname = Expression<String>("firstname")
+                        let lastname = Expression<String>("lastname")
+                        let email = Expression<String>("email")
+                        let phone = Expression<String>("phone")
+                        let country = Expression<String>("country")
+                        let city = Expression<String>("city")
+                        let state = Expression<String>("state")
+                        let gender = Expression<String>("gender")
+                        let role = Expression<String>("role")
+                        let date = Expression<String>("date")
+                        let isOwner = Expression<String>("isOwner")
+                        let status = Expression<String>("status")
+                        
+                        db.drop(table: users, ifExists: true);
+                        
+                        db.create(table: users, ifNotExists: true) { t in
+                            t.column(id, defaultValue: "Anonymous")
+                            t.column(username, defaultValue: "Anonymous")
+                            t.column(email, defaultValue: "Anonymous")
+                            t.column(firstname, defaultValue: "Anonymous")
+                            t.column(lastname, defaultValue: "Anonymous")
+                            t.column(phone, defaultValue: "0987")
+                            t.column(country, defaultValue: "Anonymous")
+                            t.column(city, defaultValue: "Anonymous")
+                            t.column(state, defaultValue: "Anonymous")
+                            t.column(gender, defaultValue: "Anonymous")
+                            t.column(role, defaultValue: "Anonymous")
+                            t.column(date, defaultValue: "Anonymous")
+                            t.column(isOwner, defaultValue: "Anonymous")
+                            t.column(status, defaultValue: "Anonymous")
+                            
                         }
                         
+                        /*println(jsonData["email"].string!)
+                        println(jsonData["date"].string!)
+                        println(jsonData["firstname"].string!)
+                        println(jsonData["lastname"].string!)
+                        println(jsonData["phone"].string!)
+                        println(jsonData["role"].string!)
+                        println(jsonData["_id"].string!)*/
+                    
+                        var alice: Query?
+                        if let insertId = users.insert(username <- u_jsonData["username"].string!,
+                                                        email <- u_jsonData["email"].string!,
+                                                        //date <- jsonData["date"].string!,
+                                                        firstname <- u_jsonData["firstname"].string!,
+                                                        lastname <- u_jsonData["lastname"].string!,
+                                                        phone <- u_jsonData["phone"].string!,
+                                                        role <- u_jsonData["role"].string!,
+                                                        id <- u_jsonData["_id"].string!
+                           
+                            
+                            ) {
+                            //println("inserted id: \(insertId)")
+                            // inserted id: 1
+                            //alice = users.filter(id == insertId)
+                        }
+                        
+                        
+                        
+                        /*for user in users {
+                            println("name: \(user[username]), email: \(user[email])")
+                            // id: 1, name: Optional("Alice"), email: alice@mac.com
+                        }*/
+              //////////////////////////////////////////////
+                       
                         
                 }
                 
@@ -365,7 +402,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate{
     
     @IBAction func forgotPasswordBtnTapped() {
         
-        self.dismissViewControllerAnimated(true, completion: nil);  
+        self.dismissViewControllerAnimated(true, completion: nil);
         
     }
     

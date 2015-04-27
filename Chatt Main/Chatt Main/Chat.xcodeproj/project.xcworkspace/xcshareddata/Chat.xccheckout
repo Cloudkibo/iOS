@@ -22,11 +22,11 @@
 	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
 	<dict>
 		<key>01C4019DAB2F13C7FB458F088D0A991884C46F1A</key>
-		<string>../../../..Chatt%20Main/Chatt%20Main/Socket.IO-Client-Swift/</string>
+		<string>../../../..Chatt%20Main/Chatt%20Main/Socket.IO-Client-Swift</string>
 		<key>51D919B02F515DF511C628E9A9DE3260C99F16D5</key>
 		<string>../../../..</string>
 		<key>C861FC00CEE0F6A6BE81FCFF6785FAA78C58EBB3</key>
-		<string>../../../..Chatt%20Main/Chatt%20Main/SwiftyJSON/</string>
+		<string>../../../..Chatt%20Main/Chatt%20Main/SwiftyJSON</string>
 	</dict>
 	<key>IDESourceControlProjectURL</key>
 	<string>https://github.com/Cloudkibo/iOS.git</string>
