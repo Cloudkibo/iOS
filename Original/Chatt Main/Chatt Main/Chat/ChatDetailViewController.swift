@@ -17,6 +17,7 @@ class ChatDetailViewController: UIViewController {
     @IBOutlet var chatComposeView : UIView!
     @IBOutlet var txtFldMessage : UITextField!
     var messages : NSMutableArray!
+    
 
     override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: NSBundle?) {
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
@@ -32,15 +33,19 @@ class ChatDetailViewController: UIViewController {
         
         let db = Database("/Users/cloudkibo/Desktop/iOS/db.sqlite3")
         
+        let user = db["users"]
+        let user_username = Expression<String>("username")
+        
+        
         super.viewDidLoad()
         NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("willShowKeyBoard:"), name:UIKeyboardWillShowNotification, object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("willHideKeyBoard:"), name:UIKeyboardWillHideNotification, object: nil)
         
         
         messages = NSMutableArray()
-        self.addMessage("Its actually pretty good!", ofType: "1")
-        self.addMessage("What do you think of this tool!", ofType: "2")
-        self.addMessage("Saba here !", ofType: "2")
+        //self.addMessage("Its actually pretty good!", ofType: "1")
+        //self.addMessage("What do you think of this tool!", ofType: "2")
+        //self.addMessage("Saba here !", ofType: "2")
         
    
         //println(globalToken)
@@ -101,6 +106,24 @@ class ChatDetailViewController: UIViewController {
                 
                 for chat in userchat {
                     println("INSERTED DATA: msg: \(chat[uc_msg]), from: \(chat[uc_fromFullName]), to: \(chat[uc_to])")
+                    
+                    let str1: String = user.first!.get(user_username)
+                    let str2: String = chat[uc_to]
+                    
+                    if(str1 == str2){
+                        
+                        self.addMessage(chat[uc_msg], ofType: "1")
+                    
+                    }
+                    else{
+                    
+                        self.addMessage(chat[uc_msg], ofType: "2")
+                        
+                    }
+                    
+                    
+                    
+                    self.tblForChats.reloadData()
                 }
                 
                 
