@@ -204,21 +204,20 @@ class LoginViewController: UIViewController, UITextFieldDelegate{
             
             .responseJSON { (request, response, data, error) in
                 
-                
                 let jsonObject = JSON(data!)
-                
                 
                 let tok: String = jsonObject["token"].string!
                 
                 globalToken = tok;
+                println(tok);
                 
                 
                 Alamofire.request(.GET, "https://www.cloudkibo.com/api/users/me?access_token=" + globalToken)
                     
                     .responseJSON { (request, response, data, error) in
         
-                        let u_jsonData = JSON(data!)
-                        //println(jsonData["username"].string!);
+                        let u_jsonData = JSON(data!);
+                        println(u_jsonData["username"].string);
                         ///////////////////////////////////
                         
                         Alamofire.request(.GET, "https://www.cloudkibo.com/api/contactslist/?access_token=" + globalToken)
@@ -226,7 +225,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate{
                             .responseJSON { (request, response, data1, error) in
                                 
                                 
-                                //println(data1)
+                              //  println(data1)
                                 let c_jsonData = JSON(data1!)
                                 
                                 
@@ -253,48 +252,25 @@ class LoginViewController: UIViewController, UITextFieldDelegate{
                                     
                                 }// db created
                                 
-                                for (index: String, subJson: JSON) in c_jsonData {
+                               // let j_username:String = c_jsonData["username"].string!
+                                
+                              /*  for (index: String, subJson: JSON) in c_jsonData {
                                     //Do something you want
                                     //var alice: Query?
-                                    if let c_insertId = contacts.insert(
+                                //if let c_insertId = 
+                                  let  c_insertID = contacts.insert(
                                         c_username <- c_jsonData["username"].string!,
                                         c_firstname <- c_jsonData["firstname"].string!,
                                         c_lastname <- c_jsonData["lastname"].string!,
                                         c_phone <- c_jsonData["phone"].string!,
                                         c_id <- c_jsonData["id"].string!,
                                         c_status <- c_jsonData["status"].string!,
-                                        detailshared <- c_jsonData["detailshared"].string!
-                                        
-                                        
-                                        ) {
-                                           println(c_jsonData[1]["username"].string)
-                                            
-                                            println("inserted id: \(c_insertId)")
-                                            //println(c_jsonData["username"].string!)
-                                            // inserted id: 1
-                                            //alice = users.filter(id == insertId)
-                                    }
-                                    
-                                    
+                                        detailshared <- c_jsonData["detailshared"].string!)
+                              
                                 }
-                                
-                                
-                                
-                                
-                                
-                                
-                                
-                                
-                                let socket = SocketIOClient(socketURL: "http://45.55.233.191:8080")
-                                
-                                socket.on("connect") {data, ack in
-                                    println("socket connected")
-                                }
-                                
-                                // Connect
-                                socket.connect()
-                                
-                                
+                                println("row inserted are  ");*/
+                                //println("row id ",/(c_insertID));
+
                                 
                         }//////////////////////////////////
                         
@@ -342,16 +318,9 @@ class LoginViewController: UIViewController, UITextFieldDelegate{
                             
                         }
                         
-                        /*println(jsonData["email"].string!)
-                        println(jsonData["date"].string!)
-                        println(jsonData["firstname"].string!)
-                        println(jsonData["lastname"].string!)
-                        println(jsonData["phone"].string!)
-                        println(jsonData["role"].string!)
-                        println(jsonData["_id"].string!)*/
                     
-                        var alice: Query?
-                        if let insertId = users.insert(username <- u_jsonData["username"].string!,
+                        //var alice: Query?
+                      let insertId = users.insert(username <- u_jsonData["username"].string!,
                                                         email <- u_jsonData["email"].string!,
                                                         //date <- jsonData["date"].string!,
                                                         firstname <- u_jsonData["firstname"].string!,
@@ -361,13 +330,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate{
                                                         id <- u_jsonData["_id"].string!
                            
                             
-                            ) {
-                            //println("inserted id: \(insertId)")
-                            // inserted id: 1
-                            //alice = users.filter(id == insertId)
-                        }
-                        
-                        
+                            )
                         
                         /*for user in users {
                             println("name: \(user[username]), email: \(user[email])")

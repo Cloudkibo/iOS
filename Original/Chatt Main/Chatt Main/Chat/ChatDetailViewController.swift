@@ -7,6 +7,9 @@
 //
 
 import UIKit
+import Alamofire
+import SwiftyJSON
+import SQLite
 
 class ChatDetailViewController: UIViewController {
 
@@ -26,12 +29,87 @@ class ChatDetailViewController: UIViewController {
     }
     
     override func viewDidLoad() {
+        
+        let db = Database("/Users/cloudkibo/Desktop/iOS/db.sqlite3")
+        
         super.viewDidLoad()
         NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("willShowKeyBoard:"), name:UIKeyboardWillShowNotification, object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("willHideKeyBoard:"), name:UIKeyboardWillHideNotification, object: nil)
+        
+        
         messages = NSMutableArray()
         self.addMessage("Its actually pretty good!", ofType: "1")
         self.addMessage("What do you think of this tool!", ofType: "2")
+        self.addMessage("Saba here !", ofType: "2")
+        
+   
+        //println(globalToken)
+        Alamofire.request(.POST, "https://www.cloudkibo.com/api/userchat/?access_token=" + globalToken ,parameters: ["user1" : "sabachanna", "user2" : "sojharo"])
+            .responseJSON { (request, response, data, error) in
+                //println(request)
+                //println(response)
+                //println(data)
+                //println(error)
+                
+                
+                let uc_res_jsonData = JSON(data!)
+                
+                let uc_jsonArray = JSON(uc_res_jsonData["msg"].arrayObject!)
+                
+                //println(uc_jsonArray)
+                
+                let userchat = db["userchat"]
+                let uc_id = Expression<String>("_id")
+                let uc_date = Expression<String>("date")
+                let uc_from = Expression<String>("from")
+                let uc_msg = Expression<String>("msg")
+                let uc_fromFullName = Expression<String>("fromFullName")
+                let owneruser = Expression<String>("owneruser")
+                let uc_to = Expression<String>("to")
+                
+                db.drop(table: userchat, ifExists: true);
+                
+                db.create(table: userchat, ifNotExists: true) { t in
+                    t.column(uc_id, defaultValue: "Anonymous")
+                    t.column(uc_date, defaultValue: "Anonymous")
+                    t.column(uc_from, defaultValue: "Anonymous")
+                    t.column(uc_msg, defaultValue: "Anonymous")
+                    t.column(uc_fromFullName, defaultValue: "0987")
+                    t.column(owneruser, defaultValue: "Anonymous")
+                    t.column(uc_to, defaultValue: "Anonymous")
+                    
+                }// db created
+                
+                 for (index: String, subJson: JSON) in uc_jsonArray {
+                    
+                    //println(subJson)
+                    
+                    
+                    let  c_insertID = userchat.insert(
+                        uc_id <- subJson["_id"].string!,
+                        uc_date <- subJson["date"].string!,
+                        uc_from <- subJson["from"].string!,
+                        uc_msg <- subJson["msg"].string!,
+                        uc_fromFullName <- subJson["fromFullName"].string!,
+                        owneruser <- subJson["owneruser"].string!,
+                        uc_to <- subJson["to"].string!)
+                
+                }
+                println("row inserted are  ");
+                
+                println(userchat.count)
+                
+                for chat in userchat {
+                    println("INSERTED DATA: msg: \(chat[uc_msg]), from: \(chat[uc_fromFullName]), to: \(chat[uc_to])")
+                }
+                
+                
+        }//alamofire
+        
+        
+
+        
+
         
     }
 
