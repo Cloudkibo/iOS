@@ -217,18 +217,20 @@ class LoginViewController: UIViewController, UITextFieldDelegate{
                     .responseJSON { (request, response, data, error) in
         
                         let u_jsonData = JSON(data!);
-                        println(u_jsonData["username"].string);
-                        ///////////////////////////////////
                         
-                        Alamofire.request(.GET, "https://www.cloudkibo.com/api/contactslist/?access_token=" + globalToken)
+                       /* Alamofire.request(.GET, "https://www.cloudkibo.com/api/contactslist/?access_token=" + globalToken)
                             
                             .responseJSON { (request, response, data1, error) in
                                 
                                 
-                              //  println(data1)
+                                //println(data1)
                                 let c_jsonData = JSON(data1!)
+                                let c_jsonArray = JSON(c_jsonData.arrayObject!)
                                 
-                                
+                                for contact in c_jsonArray {
+                                    //println("INSERTED DATA: contact username: \(contact)")
+                                    
+                                }
                                 
                                 let contacts = db["contacts"]
                                 let c_id = Expression<String>("id")
@@ -254,26 +256,26 @@ class LoginViewController: UIViewController, UITextFieldDelegate{
                                 
                                // let j_username:String = c_jsonData["username"].string!
                                 
-                              /*  for (index: String, subJson: JSON) in c_jsonData {
+                               /*for (index: String, subJson: JSON) in c_jsonData {
                                     //Do something you want
                                     //var alice: Query?
                                 //if let c_insertId = 
                                   let  c_insertID = contacts.insert(
-                                        c_username <- c_jsonData["username"].string!,
-                                        c_firstname <- c_jsonData["firstname"].string!,
-                                        c_lastname <- c_jsonData["lastname"].string!,
-                                        c_phone <- c_jsonData["phone"].string!,
-                                        c_id <- c_jsonData["id"].string!,
-                                        c_status <- c_jsonData["status"].string!,
-                                        detailshared <- c_jsonData["detailshared"].string!)
+                                        c_username <- c_jsonArray["username"].string!,
+                                        c_firstname <- c_jsonArray["firstname"].string!,
+                                        c_lastname <- c_jsonArray["lastname"].string!,
+                                        c_phone <- c_jsonArray["phone"].string!,
+                                        c_id <- c_jsonArray["id"].string!,
+                                        c_status <- c_jsonArray["status"].string!,
+                                        detailshared <- c_jsonArray["detailshared"].string!)
                               
-                                }
-                                println("row inserted are  ");*/
-                                //println("row id ",/(c_insertID));
+                                }*/
+                                
+                                
 
                                 
                         }//////////////////////////////////
-                        
+                        */
                         
                         //////////////////////////////////////
                         // sqlite moved here

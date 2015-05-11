@@ -100,9 +100,9 @@ class ChatDetailViewController: UIViewController {
                         uc_to <- subJson["to"].string!)
                 
                 }
-                println("row inserted are  ");
+                ///println("row inserted are  ");
                 
-                println(userchat.count)
+                //println(userchat.count)
                 
                 for chat in userchat {
                     println("INSERTED DATA: msg: \(chat[uc_msg]), from: \(chat[uc_fromFullName]), to: \(chat[uc_to])")
