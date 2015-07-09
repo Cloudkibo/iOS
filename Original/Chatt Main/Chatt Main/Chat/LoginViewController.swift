@@ -22,6 +22,8 @@ import SwiftyJSON
 
 import SQLite
 
+import Socket_IO_Client_Swift
+
 
 
 var globalToken: String = "";
@@ -79,6 +81,9 @@ class LoginViewController: UIViewController, UITextFieldDelegate{
     override func viewDidLoad() {
         
         super.viewDidLoad()
+        
+        self.addHandlers()
+        self.socket.connect()
         
         var size = UIScreen.mainScreen().bounds.size
         
@@ -217,6 +222,29 @@ class LoginViewController: UIViewController, UITextFieldDelegate{
                     .responseJSON { (request, response, data, error) in
         
                         let u_jsonData = JSON(data!);
+                        
+                        
+                        
+                        let socket = SocketIOClient(socketURL: "https://www.cloudkibo.com")
+                        
+                        socket.on("connect") {data, ack in
+                        println("socket connected")
+                        }
+                        
+                        socket.on("conxion") {data, ack in
+                        if let cur = data?[0] as? Double {
+                        socket.emitWithAck("canUpdate", cur)(timeout: 0) {data in
+                        
+                        }
+                        
+                        ack?("person is conected", "account")
+                        }
+                        }
+                        
+                        socket.connect()
+
+
+                        
                         
                        /* Alamofire.request(.GET, "https://www.cloudkibo.com/api/contactslist/?access_token=" + globalToken)
                             
