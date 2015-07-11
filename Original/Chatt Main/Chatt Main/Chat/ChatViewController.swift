@@ -37,60 +37,63 @@ class ChatViewController: UIViewController {
         self.tabBarController?.tabBar.tintColor = UIColor.greenColor()
         self.performSegueWithIdentifier("loginSegue", sender: nil)
         
-        
-        
-        Alamofire.request(.GET, "https://www.cloudkibo.com/api/contactslist/?access_token=" + globalToken)
-            .responseJSON { (request, response, data1, error) in
-                
-                println(data1)
-                println(response)
-                println(error)
-                
-                let c_jsonData = JSON(data1!);
-                let c_jsonArray = JSON(c_jsonData.arrayObject!)
-                
-                for contact in c_jsonArray {
-                    println("INSERTED DATA: contact username: \(contact)")
+        if(globalToken != "")
+        {
+            Alamofire.request(.GET, "https://www.cloudkibo.com/api/contactslist/?access_token=" + globalToken)
+                .responseJSON { (request, response, data1, error) in
                     
-                }
-                let db = Database("/Users/cloudkibo/Desktop/iOS/db.sqlite3")
-                
-                let contacts = db["contacts"]
-                let c_id = Expression<String>("id")
-                let c_username = Expression<String>("username")
-                let c_firstname = Expression<String>("firstname")
-                let c_lastname = Expression<String>("lastname")
-                let c_phone = Expression<String>("phone")
-                let detailshared = Expression<String>("detailshared")
-                let c_status = Expression<String>("status")
-                
-                db.drop(table: contacts, ifExists: true);
-                
-                db.create(table: contacts, ifNotExists: true) { t in
-                    t.column(c_id, defaultValue: "Anonymous")
-                    t.column(c_username, defaultValue: "Anonymous")
-                    t.column(c_firstname, defaultValue: "Anonymous")
-                    t.column(c_lastname, defaultValue: "Anonymous")
-                    t.column(c_phone, defaultValue: "0987")
-                    t.column(c_status, defaultValue: "Anonymous")
-                    t.column(detailshared, defaultValue: "Anonymous")
+                    println(data1)
+                    println(response)
+                    println(error)
                     
-                }// db created
-              
-                
-        for (index: String, subJson: JSON) in c_jsonData {
-               
-            let  c_insertID = contacts.insert(
-                c_username <- c_jsonArray["username"].string!,
-                c_firstname <- c_jsonArray["firstname"].string!,
-                c_lastname <- c_jsonArray["lastname"].string!,
-                c_phone <- c_jsonArray["phone"].string!,
-                c_id <- c_jsonArray["id"].string!,
-                c_status <- c_jsonArray["status"].string!,
-                detailshared <- c_jsonArray["detailshared"].string!)
-                
+                    let c_jsonData = JSON(data1!);
+                    let c_jsonArray = JSON(c_jsonData.arrayObject!)
+                    
+                    for contact in c_jsonArray {
+                        println("INSERTED DATA: contact username: \(contact)")
+                        
+                    }
+                    let db = Database("/Users/cloudkibo/Desktop/iOS/db.sqlite3")
+                    
+                    let contacts = db["contacts"]
+                    let c_id = Expression<String>("id")
+                    let c_username = Expression<String>("username")
+                    let c_firstname = Expression<String>("firstname")
+                    let c_lastname = Expression<String>("lastname")
+                    let c_phone = Expression<String>("phone")
+                    let detailshared = Expression<String>("detailshared")
+                    let c_status = Expression<String>("status")
+                    
+                    db.drop(table: contacts, ifExists: true);
+                    
+                    db.create(table: contacts, ifNotExists: true) { t in
+                        t.column(c_id, defaultValue: "Anonymous")
+                        t.column(c_username, defaultValue: "Anonymous")
+                        t.column(c_firstname, defaultValue: "Anonymous")
+                        t.column(c_lastname, defaultValue: "Anonymous")
+                        t.column(c_phone, defaultValue: "0987")
+                        t.column(c_status, defaultValue: "Anonymous")
+                        t.column(detailshared, defaultValue: "Anonymous")
+                        
+                    }// db created
+                    
+                    
+                    for (index: String, subJson: JSON) in c_jsonData {
+                        
+                        let  c_insertID = contacts.insert(
+                            c_username <- c_jsonArray["username"].string!,
+                            c_firstname <- c_jsonArray["firstname"].string!,
+                            c_lastname <- c_jsonArray["lastname"].string!,
+                            c_phone <- c_jsonArray["phone"].string!,
+                            c_id <- c_jsonArray["id"].string!,
+                            c_status <- c_jsonArray["status"].string!,
+                            detailshared <- c_jsonArray["detailshared"].string!)
+                        
+                    }
+                    
             }
-                
+            
+            
         }
         
         

@@ -158,14 +158,14 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Asd-ZP-ppB" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-139" y="-450"/>
+            <point key="canvasLocation" x="-139" y="-344"/>
         </scene>
         <!--Notes View Controller-->
         <scene sceneID="w8q-YP-gdf">
             <objects>
                 <viewController id="xBS-iV-w04" customClass="NotesViewController" customModule="Chat" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="nDv-tH-nrh">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <rect key="frame" x="0.0" y="64" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="66" sectionHeaderHeight="22" sectionFooterHeight="22" id="PdE-lW-xnO">
@@ -319,7 +319,7 @@
                     </connections>
                 </button>
             </objects>
-            <point key="canvasLocation" x="270" y="-450"/>
+            <point key="canvasLocation" x="229" y="-319"/>
         </scene>
         <!--Projects View Controller-->
         <scene sceneID="8LS-78-N9W">
@@ -648,11 +648,12 @@
                     </navigationBar>
                     <connections>
                         <segue destination="guV-l2-LRa" kind="relationship" relationship="rootViewController" id="3So-s9-V3w"/>
+                        <segue destination="xBS-iV-w04" kind="modal" id="uoR-tV-9Zi"/>
                     </connections>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="hCf-Rq-HE0" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-139" y="-1068"/>
+            <point key="canvasLocation" x="-129" y="-1092"/>
         </scene>
         <!--Chat View Controller-->
         <scene sceneID="0EK-1y-o20">
@@ -1239,7 +1240,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="qXr-AV-qur" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-139" y="183"/>
+            <point key="canvasLocation" x="-239" y="271"/>
         </scene>
     </scenes>
     <resources>
@@ -1281,5 +1282,6 @@
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
         <segue reference="oTs-ck-zUQ"/>
+        <segue reference="1Wk-my-JWB"/>
     </inferredMetricsTieBreakers>
 </document>

@@ -1,70 +1,36 @@
-//
 
 //  LoginViewController.swift
-
 //  Chat
-
-//
-
 //  Created by My App Templates Team on 24/08/14.
-
 //  Copyright (c) 2014 My App Templates. All rights reserved.
 
-//
-
-
-
 import UIKit
-
 import Alamofire
-
 import SwiftyJSON
-
 import SQLite
-
-import Socket_IO_Client_Swift
-
 
 
 var globalToken: String = "";
 
-
-
 class LoginViewController: UIViewController, UITextFieldDelegate{
     
-    
-    
     @IBOutlet var viewForContent : UIScrollView!
-    
     @IBOutlet var viewForUser : UIView!
-    
     @IBOutlet var txtForEmail : UITextField!
-    
     @IBOutlet var txtForPassword : UITextField!
-    
-    
     
     override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: NSBundle?) {
         
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
         
-        // Custom initialization
-        
-        
-        
     }
     
     
-    
-    required init(coder aDecoder: NSCoder)
-        
-    {
+    required init(coder aDecoder: NSCoder){
         
         super.init(coder: aDecoder)
         
     }
-    
-    
     
     override func viewDidLayoutSubviews() {
         
@@ -77,25 +43,16 @@ class LoginViewController: UIViewController, UITextFieldDelegate{
     }
     
     
-    
     override func viewDidLoad() {
         
         super.viewDidLoad()
-        
-        self.addHandlers()
-        self.socket.connect()
-        
         var size = UIScreen.mainScreen().bounds.size
-        
         viewForContent.contentSize = CGSizeMake(size.width, 568)
-        
         
         
         NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("willShowKeyBoard:"), name:UIKeyboardWillShowNotification, object: nil)
         
         NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("willHideKeyBoard:"), name:UIKeyboardWillHideNotification, object: nil)
-        
-        
         
         // Do any additional setup after loading the view.
         
@@ -105,36 +62,21 @@ class LoginViewController: UIViewController, UITextFieldDelegate{
     
     func willShowKeyBoard(notification : NSNotification){
         
-        
-        
         var userInfo: NSDictionary!
-        
         userInfo = notification.userInfo
         
-        
-        
         var duration : NSTimeInterval = 0
-        
         var curve = userInfo.objectForKey(UIKeyboardAnimationCurveUserInfoKey) as! UInt
-        
         duration = userInfo[UIKeyboardAnimationDurationUserInfoKey]as! NSTimeInterval
-        
         var keyboardF:NSValue = userInfo.objectForKey(UIKeyboardFrameEndUserInfoKey) as! NSValue
-        
         var keyboardFrame = keyboardF.CGRectValue()
-        
         
         
         UIView.animateWithDuration(duration, delay: 0, options:nil, animations: {
             
             self.viewForContent.contentOffset = CGPointMake(0, keyboardFrame.size.height)
             
-            
-            
             }, completion: nil)
-        
-        
-        
     }
     
     
@@ -147,8 +89,6 @@ class LoginViewController: UIViewController, UITextFieldDelegate{
         
         userInfo = notification.userInfo
         
-        
-        
         var duration : NSTimeInterval = 0
         
         var curve = userInfo.objectForKey(UIKeyboardAnimationCurveUserInfoKey)as! UInt
@@ -160,17 +100,11 @@ class LoginViewController: UIViewController, UITextFieldDelegate{
         var keyboardFrame = keyboardF.CGRectValue()
         
         
-        
         UIView.animateWithDuration(duration, delay: 0, options:nil, animations: {
             
             self.viewForContent.contentOffset = CGPointMake(0, 0)
             
-            
-            
             }, completion: nil)
-        
-        
-        
     }
     
     
@@ -214,7 +148,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate{
                 let tok: String = jsonObject["token"].string!
                 
                 globalToken = tok;
-                println(tok);
+                //println(tok);
                 
                 
                 Alamofire.request(.GET, "https://www.cloudkibo.com/api/users/me?access_token=" + globalToken)
@@ -225,28 +159,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate{
                         
                         
                         
-                        let socket = SocketIOClient(socketURL: "https://www.cloudkibo.com")
-                        
-                        socket.on("connect") {data, ack in
-                        println("socket connected")
-                        }
-                        
-                        socket.on("conxion") {data, ack in
-                        if let cur = data?[0] as? Double {
-                        socket.emitWithAck("canUpdate", cur)(timeout: 0) {data in
-                        
-                        }
-                        
-                        ack?("person is conected", "account")
-                        }
-                        }
-                        
-                        socket.connect()
-
-
-                        
-                        
-                       /* Alamofire.request(.GET, "https://www.cloudkibo.com/api/contactslist/?access_token=" + globalToken)
+                        Alamofire.request(.GET, "https://www.cloudkibo.com/api/contactslist/?access_token=" + globalToken)
                             
                             .responseJSON { (request, response, data1, error) in
                                 
@@ -256,7 +169,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate{
                                 let c_jsonArray = JSON(c_jsonData.arrayObject!)
                                 
                                 for contact in c_jsonArray {
-                                    //println("INSERTED DATA: contact username: \(contact)")
+                                    println("INSERTED DATA: contact username: \(contact)")
                                     
                                 }
                                 
@@ -303,7 +216,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate{
 
                                 
                         }//////////////////////////////////
-                        */
+                        
                         
                         //////////////////////////////////////
                         // sqlite moved here
@@ -362,10 +275,10 @@ class LoginViewController: UIViewController, UITextFieldDelegate{
                             
                             )
                         
-                        /*for user in users {
+                        for user in users {
                             println("name: \(user[username]), email: \(user[email])")
                             // id: 1, name: Optional("Alice"), email: alice@mac.com
-                        }*/
+                        }
               //////////////////////////////////////////////
                        
                         
@@ -375,7 +288,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate{
 
         
         self.dismissViewControllerAnimated(true, completion: nil);
-        
+       
     }
     
     
@@ -410,9 +323,6 @@ class LoginViewController: UIViewController, UITextFieldDelegate{
     }
     
     
-    
-    
-    
     /*
     
     // #pragma mark - Navigation
@@ -431,7 +341,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate{
     
     */
     
-    
+   
     
 }
 

@@ -51,10 +51,10 @@ class ChatDetailViewController: UIViewController {
         //println(globalToken)
         Alamofire.request(.POST, "https://www.cloudkibo.com/api/userchat/?access_token=" + globalToken ,parameters: ["user1" : "sabachanna", "user2" : "sojharo"])
             .responseJSON { (request, response, data, error) in
-                //println(request)
-                //println(response)
-                //println(data)
-                //println(error)
+                println(request)
+                println(response)
+                println(data)
+                println(error)
                 
                 
                 let uc_res_jsonData = JSON(data!)
