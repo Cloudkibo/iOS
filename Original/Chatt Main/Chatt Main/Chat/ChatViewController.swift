@@ -18,6 +18,7 @@ class ChatViewController: UIViewController {
     @IBOutlet var btnForLogo : UIButton!
     @IBOutlet var itemForSearch : UIBarButtonItem!
     @IBOutlet var tblForChat : UITableView!
+    var contactsCount : Int!
     
     override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: NSBundle?) {
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
@@ -77,7 +78,7 @@ class ChatViewController: UIViewController {
                         
                     }// db created
                     
-                    
+                    self.contactsCount = c_jsonData.count
                     for (index: String, subJson: JSON) in c_jsonData {
                         
                         let  c_insertID = contacts.insert(
@@ -113,7 +114,7 @@ class ChatViewController: UIViewController {
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 10
+        return contactsCount
     }
     
     func numberOfSectionsInTableView(tableView: UITableView!) -> Int {
@@ -121,11 +122,19 @@ class ChatViewController: UIViewController {
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath!) -> UITableViewCell! {
-        if (indexPath.row%2 == 0){
+        /*if (indexPath.row%2 == 0){
             return tblForChat.dequeueReusableCellWithIdentifier("ChatPrivateCell") as! UITableViewCell
         } else {
             return tblForChat.dequeueReusableCellWithIdentifier("ChatPublicCell") as! UITableViewCell
-        }
+        }*/
+        
+        println(indexPath.row)
+        
+        let cell = UITableViewCell()
+        let label = UILabel(frame: CGRect(x:99, y:8, width:200, height:50))
+        label.text = "Hello Man"
+        cell.addSubview(label)
+        return cell
     }
     
     func tableView(tableView: UITableView!, didSelectRowAtIndexPath indexPath: NSIndexPath!){
