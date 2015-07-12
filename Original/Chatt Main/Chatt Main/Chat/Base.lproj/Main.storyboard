@@ -174,7 +174,7 @@
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="NotePrivateCell" id="3ss-ZL-8D6">
-                                        <rect key="frame" x="0.0" y="86" width="320" height="66"/>
+                                        <rect key="frame" x="0.0" y="22" width="320" height="66"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="3ss-ZL-8D6" id="YdB-Ik-598">
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="65"/>
@@ -216,7 +216,7 @@
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="NotePublicCell" id="T1C-LC-heK">
-                                        <rect key="frame" x="0.0" y="152" width="320" height="66"/>
+                                        <rect key="frame" x="0.0" y="88" width="320" height="66"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="T1C-LC-heK" id="YXp-QL-h2b">
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="65"/>
@@ -319,7 +319,7 @@
                     </connections>
                 </button>
             </objects>
-            <point key="canvasLocation" x="229" y="-319"/>
+            <point key="canvasLocation" x="228" y="-408"/>
         </scene>
         <!--Projects View Controller-->
         <scene sceneID="8LS-78-N9W">
@@ -475,7 +475,7 @@
                     </connections>
                 </button>
             </objects>
-            <point key="canvasLocation" x="270" y="183"/>
+            <point key="canvasLocation" x="277" y="236"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="pCF-EK-RpA">
@@ -1281,7 +1281,7 @@
         <simulatedScreenMetrics key="destination" type="retina4"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
+        <segue reference="uoR-tV-9Zi"/>
         <segue reference="oTs-ck-zUQ"/>
-        <segue reference="1Wk-my-JWB"/>
     </inferredMetricsTieBreakers>
 </document>

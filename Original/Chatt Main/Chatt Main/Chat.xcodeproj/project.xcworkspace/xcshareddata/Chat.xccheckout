@@ -7,14 +7,14 @@
 	<key>IDESourceControlProjectIdentifier</key>
 	<string>524EF9E0-64B0-4A98-8486-E546BBC6EA0D</string>
 	<key>IDESourceControlProjectName</key>
-	<string>Chat</string>
+	<string>project</string>
 	<key>IDESourceControlProjectOriginsDictionary</key>
 	<dict>
 		<key>51D919B02F515DF511C628E9A9DE3260C99F16D5</key>
 		<string>https://github.com/Cloudkibo/iOS.git</string>
 	</dict>
 	<key>IDESourceControlProjectPath</key>
-	<string>Original/Chatt Main/Chatt Main/Chat.xcodeproj</string>
+	<string>Original/Chatt Main/Chatt Main/Chat.xcodeproj/project.xcworkspace</string>
 	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
 	<dict>
 		<key>51D919B02F515DF511C628E9A9DE3260C99F16D5</key>

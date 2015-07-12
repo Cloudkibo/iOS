@@ -169,7 +169,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate{
                                 let c_jsonArray = JSON(c_jsonData.arrayObject!)
                                 
                                 for contact in c_jsonArray {
-                                    println("INSERTED DATA: contact username: \(contact)")
+                                   // println("INSERTED DATA: contact username: \(contact)")
                                     
                                 }
                                 
@@ -276,7 +276,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate{
                             )
                         
                         for user in users {
-                            println("name: \(user[username]), email: \(user[email])")
+                           // println("name: \(user[username]), email: \(user[email])")
                             // id: 1, name: Optional("Alice"), email: alice@mac.com
                         }
               //////////////////////////////////////////////

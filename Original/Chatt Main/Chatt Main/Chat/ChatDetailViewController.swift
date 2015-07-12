@@ -263,7 +263,61 @@ class ChatDetailViewController: UIViewController {
             options: NSStringDrawingOptions.UsesLineFragmentOrigin,
             attributes: attributes,
             context: nil)
-        return labelSize.size
+        return labelSize.size//
+        
+        
+    }
+    
+    func sendMessage(text: String!, sender: String!) {
+        // *** STEP 3: ADD A MESSAGE TO FIREBASE
+        messagesRef.childByAutoId().setValue([
+            "text":text,
+            "sender":sender,
+            "imageUrl":senderImageUrl
+            ])
+    }
+    
+    func tempSendMessage(text: String!, sender: String!) {
+        let message = Message(text: text, sender: sender, imageUrl: senderImageUrl)
+        messages.append(message)
+    }
+    
+    override func collectionView(collectionView: JSQMessagesCollectionView!, attributedTextForMessageBubbleTopLabelAtIndexPath indexPath: NSIndexPath!) -> NSAttributedString! {
+        let message = messages[indexPath.item];
+        
+        // Sent by me, skip
+        if message.sender() == sender {
+            return nil;
+        }
+        
+        // Same as previous sender, skip
+        if indexPath.item > 0 {
+            let previousMessage = messages[indexPath.item - 1];
+            if previousMessage.sender() == message.sender() {
+                return nil;
+            }
+        }
+        
+        return NSAttributedString(string:message.sender())
+    }
+    
+    override func collectionView(collectionView: JSQMessagesCollectionView!, layout collectionViewLayout: JSQMessagesCollectionViewFlowLayout!, heightForMessageBubbleTopLabelAtIndexPath indexPath: NSIndexPath!) -> CGFloat {
+        let message = messages[indexPath.item]
+        
+        // Sent by me, skip
+        if message.sender() == sender {
+            return CGFloat(0.0);
+        }
+        
+        // Same as previous sender, skip
+        if indexPath.item > 0 {
+            let previousMessage = messages[indexPath.item - 1];
+            if previousMessage.sender() == message.sender() {
+                return CGFloat(0.0);
+            }
+        }
+        
+        return kJSQMessagesCollectionViewCellLabelHeightDefault
     }
     
     
