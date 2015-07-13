@@ -320,7 +320,52 @@ class ChatDetailViewController: UIViewController {
         return kJSQMessagesCollectionViewCellLabelHeightDefault
     }
     
+    override init() {
+        super.init()
+        
+        peer = MCPeerID(displayName: UIDevice.currentDevice().name)
+        
+        session = MCSession(peer: peer)
+        session.delegate = self
+        
+        browser = MCNearbyServiceBrowser(peer: peer, serviceType: "appcoda-mpc")
+        browser.delegate = self
+        
+        advertiser = MCNearbyServiceAdvertiser(peer: peer, discoveryInfo: nil, serviceType: "appcoda-mpc")
+        advertiser.delegate = self
+    }
     
+    @IBAction func startStopAdvertising(sender: AnyObject) {
+        let actionSheet = UIAlertController(title: "", message: "Change Visibility", preferredStyle: UIAlertControllerStyle.ActionSheet)
+        
+        var actionTitle: String
+        if isAdvertising == true {
+            actionTitle = "Make me invisible to others"
+        }
+        else{
+            actionTitle = "Make me visible to others"
+        }
+        
+        let visibilityAction: UIAlertAction = UIAlertAction(title: actionTitle, style: UIAlertActionStyle.Default) { (alertAction) -> Void in
+            if self.isAdvertising == true {
+                self.appDelegate.mpcManager.advertiser.stopAdvertisingPeer()
+            }
+            else{
+                self.appDelegate.mpcManager.advertiser.startAdvertisingPeer()
+            }
+            
+            self.isAdvertising = !self.isAdvertising
+        }
+        
+        let cancelAction = UIAlertAction(title: "Cancel", style: UIAlertActionStyle.Cancel) { (alertAction) -> Void in
+            
+        }
+        
+        actionSheet.addAction(visibilityAction)
+        actionSheet.addAction(cancelAction)
+        
+        self.presentViewController(actionSheet, animated: true, completion: nil)
+    }
     
     /*
     // #pragma mark - Navigation

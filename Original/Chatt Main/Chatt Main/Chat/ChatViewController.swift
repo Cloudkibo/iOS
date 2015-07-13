@@ -21,6 +21,9 @@ class ChatViewController: UIViewController {
     var contactsCount : Int!
     var contactArray: [String] = []
     
+    var toPass:String!
+    
+    
     override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: NSBundle?) {
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
         // Custom initialization
@@ -38,11 +41,13 @@ class ChatViewController: UIViewController {
         self.navigationItem.rightBarButtonItem = itemForSearch
         self.tabBarController?.tabBar.tintColor = UIColor.greenColor()
         self.performSegueWithIdentifier("loginSegue", sender: nil)
-
+        println("in chat view did load");
         
         
         // Do any additional setup after loading the view.
     }
+    
+   
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -67,7 +72,7 @@ class ChatViewController: UIViewController {
         } else {
         return tblForChat.dequeueReusableCellWithIdentifier("ChatPublicCell") as! UITableViewCell
         }*/
-
+        println(toPass);
         
         println(indexPath.row)
         

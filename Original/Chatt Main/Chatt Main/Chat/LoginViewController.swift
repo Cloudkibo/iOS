@@ -340,7 +340,16 @@ class LoginViewController: UIViewController, UITextFieldDelegate{
     }
     
     */
-    
+  
+    override func prepareForSegue(segue: UIStoryboardSegue?, sender: AnyObject?) {
+        if (segue!.identifier == "loginSegue") {
+            var svc = segue!.destinationViewController as! ChatViewController;
+            
+            svc.toPass = globalToken;
+            println("hiiiiii")
+            
+        }
+    }
    
     
 }
