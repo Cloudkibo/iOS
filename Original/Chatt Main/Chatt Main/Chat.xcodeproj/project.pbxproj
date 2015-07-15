@@ -21,6 +21,7 @@
 		5BF6364E19AA143A00ABD0BA /* ChatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BF6364D19AA143A00ABD0BA /* ChatViewController.swift */; };
 		71394F031AFCC7F5006BB68E /* SQLite.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 71394EF81AFCC76C006BB68E /* SQLite.framework */; };
 		71394F041AFCC819006BB68E /* SQLite.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 71394EF81AFCC76C006BB68E /* SQLite.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		715866A91B563951001F7734 /* ForgotPasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 715866A81B563951001F7734 /* ForgotPasswordViewController.swift */; };
 		71D6F1331AEBA4F700151295 /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 71D6F1321AEBA4F700151295 /* libsqlite3.dylib */; };
 		71FF075C1AEA8C0A00CE7603 /* Alamofire.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 71FF07521AEA8AB300CE7603 /* Alamofire.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		71FF077D1AEA8FDA00CE7603 /* SwiftyJSON.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 71FF07741AEA8F6500CE7603 /* SwiftyJSON.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -195,6 +196,7 @@
 		5BF6364B19A9FCE500ABD0BA /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		5BF6364D19AA143A00ABD0BA /* ChatViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatViewController.swift; sourceTree = "<group>"; };
 		71394EEE1AFCC76C006BB68E /* SQLite.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SQLite.xcodeproj; path = "../../../../../Downloads/SQLite.swift-master/SQLite.xcodeproj"; sourceTree = "<group>"; };
+		715866A81B563951001F7734 /* ForgotPasswordViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ForgotPasswordViewController.swift; sourceTree = "<group>"; };
 		71D6F1321AEBA4F700151295 /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
 		71D6F1341AEBA56B00151295 /* Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Bridging-Header.h"; sourceTree = "<group>"; };
 		71FF074A1AEA8AB300CE7603 /* Alamofire.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Alamofire.xcodeproj; path = Alamofire/Alamofire.xcodeproj; sourceTree = "<group>"; };
@@ -261,6 +263,7 @@
 		5BF6362719A9F3D900ABD0BA /* Chat */ = {
 			isa = PBXGroup;
 			children = (
+				715866A81B563951001F7734 /* ForgotPasswordViewController.swift */,
 				5BF6362A19A9F3D900ABD0BA /* AppDelegate.swift */,
 				5BF6362C19A9F3D900ABD0BA /* ViewController.swift */,
 				5BF6364B19A9FCE500ABD0BA /* LoginViewController.swift */,
@@ -568,6 +571,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				71FF07941AEA952500CE7603 /* SocketEngineClient.swift in Sources */,
+				715866A91B563951001F7734 /* ForgotPasswordViewController.swift in Sources */,
 				71FF07931AEA952500CE7603 /* SocketEngine.swift in Sources */,
 				71FF079B1AEA952500CE7603 /* SocketTypes.swift in Sources */,
 				71FF079D1AEA952500CE7603 /* WebSocket.swift in Sources */,

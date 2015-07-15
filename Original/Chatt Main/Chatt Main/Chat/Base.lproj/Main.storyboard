@@ -114,6 +114,7 @@
                                                 </state>
                                                 <connections>
                                                     <action selector="forgotPasswordBtnTapped" destination="QT6-9P-ZWh" eventType="touchUpInside" id="aqa-cJ-qd8"/>
+                                                    <segue destination="uKF-ot-qUc" kind="modal" id="8AO-Nk-oI4"/>
                                                 </connections>
                                             </button>
                                         </subviews>
@@ -137,7 +138,46 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="yhe-QT-SOY" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-515" y="-1068"/>
+            <point key="canvasLocation" x="-741" y="-1450"/>
+        </scene>
+        <!--View Controller-->
+        <scene sceneID="R6X-UI-tYz">
+            <objects>
+                <viewController id="uKF-ot-qUc" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="eKh-gt-8ZY">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="email" textAlignment="center" minimumFontSize="17" id="4W2-G5-5MZ" userLabel="Txt - Email">
+                                <rect key="frame" x="48" y="184" width="224" height="32"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" keyboardType="emailAddress" returnKeyType="next"/>
+                                <connections>
+                                    <outlet property="delegate" destination="QT6-9P-ZWh" id="mFN-bd-tZc"/>
+                                </connections>
+                            </textField>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Enter your email id" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Vw2-3R-aiN">
+                                <rect key="frame" x="89" y="110" width="143" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="cYH-io-4tb">
+                                <rect key="frame" x="136" y="288" width="49" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Submit">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="JcB-Tb-xMe" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-270" y="-1849"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="Y8j-OF-kQe">
@@ -1281,7 +1321,7 @@
         <simulatedScreenMetrics key="destination" type="retina4"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="uoR-tV-9Zi"/>
         <segue reference="oTs-ck-zUQ"/>
+        <segue reference="uoR-tV-9Zi"/>
     </inferredMetricsTieBreakers>
 </document>
