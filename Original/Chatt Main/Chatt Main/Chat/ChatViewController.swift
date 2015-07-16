@@ -59,7 +59,7 @@ class ChatViewController: UIViewController {
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return contactArray.count
+        return 4
     }
     
     func numberOfSectionsInTableView(tableView: UITableView!) -> Int {
@@ -67,20 +67,22 @@ class ChatViewController: UIViewController {
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath!) -> UITableViewCell! {
-        /*if (indexPath.row%2 == 0){
+        if (indexPath.row%2 == 0){
         return tblForChat.dequeueReusableCellWithIdentifier("ChatPrivateCell") as! UITableViewCell
         } else {
         return tblForChat.dequeueReusableCellWithIdentifier("ChatPublicCell") as! UITableViewCell
-        }*/
-        println(toPass);
+        }
+       /* println(toPass);
         
         println(indexPath.row)
         
         let cell = UITableViewCell()
         let label = UILabel(frame: CGRect(x:99, y:8, width:200, height:50))
         label.text = contactArray[indexPath.row]
-        cell.addSubview(label)
-        return cell
+        cell.addSubview(label)*/
+        
+        
+        //return cell
     }
     
     func tableView(tableView: UITableView!, didSelectRowAtIndexPath indexPath: NSIndexPath!){

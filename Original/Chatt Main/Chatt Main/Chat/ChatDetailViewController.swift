@@ -11,6 +11,9 @@ import Alamofire
 import SwiftyJSON
 import SQLite
 
+protocol DetailsDelegate { func labelDelegateMethodWithString(string: String) }
+
+
 class ChatDetailViewController: UIViewController {
 
     @IBOutlet var tblForChats : UITableView!
@@ -18,7 +21,10 @@ class ChatDetailViewController: UIViewController {
     @IBOutlet var txtFldMessage : UITextField!
     var messages : NSMutableArray!
     
-
+    
+   
+    
+    
     override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: NSBundle?) {
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
         // Custom initialization
@@ -88,8 +94,6 @@ class ChatDetailViewController: UIViewController {
                  for (index: String, subJson: JSON) in uc_jsonArray {
                     
                     //println(subJson)
-                    
-                    
                     let  c_insertID = userchat.insert(
                         uc_id <- subJson["_id"].string!,
                         uc_date <- subJson["date"].string!,
@@ -243,12 +247,16 @@ class ChatDetailViewController: UIViewController {
         return true
     }
     
+    var delegate: DetailsDelegate!
+    
     @IBAction func postBtnTapped() {
     
         self.addMessage(txtFldMessage.text, ofType: "1")
         self.addMessage(txtFldMessage.text, ofType: "2")
         txtFldMessage.text = "";
         tblForChats.reloadData()
+        
+        delegate.labelDelegateMethodWithString("hello")
         
         var indexPath = NSIndexPath(forRow:messages.count-1, inSection: 0)
         tblForChats.scrollToRowAtIndexPath(indexPath, atScrollPosition: UITableViewScrollPosition.Bottom, animated: true)
@@ -268,104 +276,7 @@ class ChatDetailViewController: UIViewController {
         
     }
     
-    func sendMessage(text: String!, sender: String!) {
-        // *** STEP 3: ADD A MESSAGE TO FIREBASE
-        messagesRef.childByAutoId().setValue([
-            "text":text,
-            "sender":sender,
-            "imageUrl":senderImageUrl
-            ])
-    }
-    
-    func tempSendMessage(text: String!, sender: String!) {
-        let message = Message(text: text, sender: sender, imageUrl: senderImageUrl)
-        messages.append(message)
-    }
-    
-    override func collectionView(collectionView: JSQMessagesCollectionView!, attributedTextForMessageBubbleTopLabelAtIndexPath indexPath: NSIndexPath!) -> NSAttributedString! {
-        let message = messages[indexPath.item];
-        
-        // Sent by me, skip
-        if message.sender() == sender {
-            return nil;
-        }
-        
-        // Same as previous sender, skip
-        if indexPath.item > 0 {
-            let previousMessage = messages[indexPath.item - 1];
-            if previousMessage.sender() == message.sender() {
-                return nil;
-            }
-        }
-        
-        return NSAttributedString(string:message.sender())
-    }
-    
-    override func collectionView(collectionView: JSQMessagesCollectionView!, layout collectionViewLayout: JSQMessagesCollectionViewFlowLayout!, heightForMessageBubbleTopLabelAtIndexPath indexPath: NSIndexPath!) -> CGFloat {
-        let message = messages[indexPath.item]
-        
-        // Sent by me, skip
-        if message.sender() == sender {
-            return CGFloat(0.0);
-        }
-        
-        // Same as previous sender, skip
-        if indexPath.item > 0 {
-            let previousMessage = messages[indexPath.item - 1];
-            if previousMessage.sender() == message.sender() {
-                return CGFloat(0.0);
-            }
-        }
-        
-        return kJSQMessagesCollectionViewCellLabelHeightDefault
-    }
-    
-    override init() {
-        super.init()
-        
-        peer = MCPeerID(displayName: UIDevice.currentDevice().name)
-        
-        session = MCSession(peer: peer)
-        session.delegate = self
-        
-        browser = MCNearbyServiceBrowser(peer: peer, serviceType: "appcoda-mpc")
-        browser.delegate = self
-        
-        advertiser = MCNearbyServiceAdvertiser(peer: peer, discoveryInfo: nil, serviceType: "appcoda-mpc")
-        advertiser.delegate = self
-    }
-    
-    @IBAction func startStopAdvertising(sender: AnyObject) {
-        let actionSheet = UIAlertController(title: "", message: "Change Visibility", preferredStyle: UIAlertControllerStyle.ActionSheet)
-        
-        var actionTitle: String
-        if isAdvertising == true {
-            actionTitle = "Make me invisible to others"
-        }
-        else{
-            actionTitle = "Make me visible to others"
-        }
-        
-        let visibilityAction: UIAlertAction = UIAlertAction(title: actionTitle, style: UIAlertActionStyle.Default) { (alertAction) -> Void in
-            if self.isAdvertising == true {
-                self.appDelegate.mpcManager.advertiser.stopAdvertisingPeer()
-            }
-            else{
-                self.appDelegate.mpcManager.advertiser.startAdvertisingPeer()
-            }
-            
-            self.isAdvertising = !self.isAdvertising
-        }
-        
-        let cancelAction = UIAlertAction(title: "Cancel", style: UIAlertActionStyle.Cancel) { (alertAction) -> Void in
-            
-        }
-        
-        actionSheet.addAction(visibilityAction)
-        actionSheet.addAction(cancelAction)
-        
-        self.presentViewController(actionSheet, animated: true, completion: nil)
-    }
+  
     
     /*
     // #pragma mark - Navigation

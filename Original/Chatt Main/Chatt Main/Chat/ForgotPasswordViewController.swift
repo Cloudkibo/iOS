@@ -8,7 +8,7 @@
 
 import Foundation
 
-class ForgotPasswordViewController: UIViewController {
+/*class ForgotPasswordViewController: UIViewController {
 
     let userEmail = userEmailTextField.textPFUser.requestPasswordResetForEmailInBackground(userEmail) {
         (success:Bool, error:NSError?) -> Void in
@@ -43,4 +43,4 @@ class ForgotPasswordViewController: UIViewController {
     }
     }
     
-}
+}*/
