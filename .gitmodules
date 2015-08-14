@@ -1,6 +1,0 @@
-[submodule "Chatt Main/Chatt Main/SwiftyJSON"]
-	path = Chatt Main/Chatt Main/SwiftyJSON
-	url = https://github.com/SwiftyJSON/SwiftyJSON
-[submodule "Chatt Main/Chatt Main/Socket.IO-Client-Swift"]
-	path = Chatt Main/Chatt Main/Socket.IO-Client-Swift
-	url = https://github.com/nuclearace/Socket.IO-Client-Swift
