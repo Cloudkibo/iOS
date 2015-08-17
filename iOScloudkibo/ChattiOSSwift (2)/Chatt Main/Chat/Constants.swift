@@ -12,5 +12,6 @@ class Constants{
     static let MainUrl="https://www.cloudkibo.com"
     static let authentictionUrl="/auth/local/"
     static let bringUserChat="/api/userchat/"
+    static let getCurrentUser="/api/users/me"
     
 }

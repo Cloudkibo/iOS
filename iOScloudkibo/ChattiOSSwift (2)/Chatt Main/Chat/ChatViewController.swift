@@ -15,15 +15,21 @@ class ChatViewController: UIViewController {
     @IBOutlet var btnForLogo : UIButton!
     @IBOutlet var itemForSearch : UIBarButtonItem!
     @IBOutlet var tblForChat : UITableView!
+    var AuthToken:String=""
+    
     
     override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: NSBundle?) {
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
         // Custom initialization
+        println(self.AuthToken)
+        //println("tokennn abovee1")
     }
     
     required init(coder aDecoder: NSCoder)
     {
         super.init(coder: aDecoder)
+        println(self.AuthToken)
+        //println("tokennn abovee2")
     }
 
     override func viewDidLoad() {
@@ -34,8 +40,10 @@ class ChatViewController: UIViewController {
         self.navigationItem.rightBarButtonItem = itemForSearch
         self.tabBarController?.tabBar.tintColor = UIColor.greenColor()
         self.performSegueWithIdentifier("loginSegue", sender: nil)
-        
+        println("chat view")
        // Do any additional setup after loading the view.
+        println(self.AuthToken)
+        println("tokennn3 abovee")
     }
 
     override func didReceiveMemoryWarning() {
@@ -44,7 +52,7 @@ class ChatViewController: UIViewController {
     }
     
     @IBAction func unwindToChat (segueSelected : UIStoryboardSegue) {
-        
+        println("unwind chat")
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -69,14 +77,23 @@ class ChatViewController: UIViewController {
 
     
     
-    /*
+    
     // #pragma mark - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue?, sender: AnyObject?) {
+    /*override func prepareForSegue(segue: UIStoryboardSegue?, sender: AnyObject?) {
+        //var newController=segue ?.destinationViewController
         // Get the new view controller using [segue destinationViewController].
         // Pass the selected object to the new view controller.
-    }
-    */
-
+        // Get the new view controller using [segue destinationViewController].
+        // Pass the selected object to the new view controller.
+        if segue!.identifier == "chatSegue" {
+            if let destinationVC = segue!.destinationViewController as? ChatDetailViewController{
+                destinationVC.AuthToken = self.AuthToken
+            }
+        }
+    
+    }*/
 }
+
+

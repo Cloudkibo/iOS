@@ -8,21 +8,27 @@
 
 import UIKit
 
+
 class ChatDetailViewController: UIViewController {
 
     @IBOutlet var tblForChats : UITableView!
     @IBOutlet var chatComposeView : UIView!
     @IBOutlet var txtFldMessage : UITextField!
+    var AuthToken:String=""
     var messages : NSMutableArray!
 
     override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: NSBundle?) {
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
+        println(NSBundle)
+        
         // Custom initialization
     }
 
     required init(coder aDecoder: NSCoder)
     {
         super.init(coder: aDecoder)
+        println("hiiiiii22 \(self.AuthToken)")
+        
     }
     
     override func viewDidLoad() {
@@ -30,10 +36,12 @@ class ChatDetailViewController: UIViewController {
         NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("willShowKeyBoard:"), name:UIKeyboardWillShowNotification, object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("willHideKeyBoard:"), name:UIKeyboardWillHideNotification, object: nil)
         messages = NSMutableArray()
+       //self.performSegueWithIdentifier("chatSegue", sender: nil)
         
+        println("chat detail view")
         
         //=== socket.io connect code
-       /* var socketUrlValue=Constants.MainUrl+Constants.bringUserChat
+        /*var socketUrlValue=Constants.MainUrl+Constants.bringUserChat
         let socket = SocketIOClient(socketURL: "\(socketUrlValue)")
         
         socket.on("'join global chatroom") {data, ack in
@@ -41,10 +49,29 @@ class ChatDetailViewController: UIViewController {
             println(data)
         }*/
 
+        println("hiiiiiiiiiiii \(self.AuthToken)")
         
-      self.addMessage("Its actually pretty good!", ofType: "1")
-        self.addMessage("What do you think of this tool!", ofType: "2")
+       let socket = SocketIOClient(socketURL: "https://www.cloudkibo.com")
+    
+        
+           socket.connect()
+      ////////  var userObj={["username":"sabachanna","_id:"]}
+        //username:sabachanna _id:
+        socket.on("youareonline") {data,ack in
+            println("socket connected")
+            
+        }
+        socket.on("join global chatroom"){data,ack in
+        println("response im ... \(data)")
+            println("listening")
+        }
+        socket.connect()
+        println(socket.connected)
 
+        
+    /*  self.addMessage("Its actually pretty good!", ofType: "1")
+        self.addMessage("What do you think of this tool!", ofType: "2")*/
+//println("hereee")
         
     }
 
@@ -191,6 +218,9 @@ class ChatDetailViewController: UIViewController {
     override func prepareForSegue(segue: UIStoryboardSegue?, sender: AnyObject?) {
         // Get the new view controller using [segue destinationViewController].
         // Pass the selected object to the new view controller.
+        
+        
+        
     }
     */
 
