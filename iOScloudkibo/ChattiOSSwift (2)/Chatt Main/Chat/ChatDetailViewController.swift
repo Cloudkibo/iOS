@@ -49,7 +49,7 @@ class ChatDetailViewController: UIViewController {
             println(data)
         }*/
 
-        println("hiiiiiiiiiiii \(self.AuthToken)")
+       /* println("hiiiiiiiiiiii \(self.AuthToken)")
         
        let socket = SocketIOClient(socketURL: "https://www.cloudkibo.com")
     
@@ -67,6 +67,7 @@ class ChatDetailViewController: UIViewController {
         }
         socket.connect()
         println(socket.connected)
+*/
 
         
     /*  self.addMessage("Its actually pretty good!", ofType: "1")

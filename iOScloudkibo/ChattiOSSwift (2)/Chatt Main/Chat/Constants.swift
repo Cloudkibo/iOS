@@ -13,5 +13,8 @@ class Constants{
     static let authentictionUrl="/auth/local/"
     static let bringUserChat="/api/userchat/"
     static let getCurrentUser="/api/users/me"
+    static let getContactsList="/api/contactslist/"
+    
+    
     
 }

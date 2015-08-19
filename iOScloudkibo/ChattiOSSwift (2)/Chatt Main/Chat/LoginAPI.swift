@@ -12,26 +12,18 @@ import Alamofire
 
 class LoginAPI{
     
-    var token:String=""
+    var socket:SocketIOClient
     init(){
-        
+        socket=SocketIOClient(socketURL: "")
     }
     
-
-func performLogin(url:String,params:[String:String]){
-    var responseObj=Alamofire.request(.POST, "\(url)", parameters: params)
-        .response { request, response, data, error in
-           // println(request)
-            println("response is \(response)")
-            self.token=NSString(data: data!, encoding: NSUTF8StringEncoding)! as String
-           // println(error)
-          //  println("......\(response?.statusCode)")
-            
-    }
-  //   println("result is \(responseObj)")
-    //return responseObj.response?.statusCode
+    func connect(url:String){
+        socket=SocketIOClient(socketURL: "\(url)")
     }
     
+    func getSocket()->SocketIOClient{
+        return self.socket
+    }
     
     
 }
