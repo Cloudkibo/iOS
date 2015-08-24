@@ -13,7 +13,7 @@ import SwiftyJSON
 
 class LoginViewController: UIViewController, UITextFieldDelegate{
     
-    var contactsJsonObj:JSON="[]"
+    var contactsJsonObj:JSON=""
     @IBOutlet var viewForContent : UIScrollView!
     @IBOutlet var viewForUser : UIView!
     @IBOutlet var txtForEmail : UITextField!
@@ -165,70 +165,36 @@ class LoginViewController: UIViewController, UITextFieldDelegate{
                 
                 //========GET USER DETAILS===============
                 var getUserDataURL=userDataUrl+"?access_token="+AuthToken
-                Alamofire.request(.GET,"\(getUserDataURL)").response{
+                Alamofire.request(.GET,"\(getUserDataURL)").responseJSON{
                     request1, response1, data1, error1 in
                     
                     if response1?.statusCode==200
                         
                     {   // println("got user success")
                         self.gotToken=true
-                        let json = JSON(data: data1!)
-                        self.currentUserData=json
+                      //  let json = JSON(data: data1!)
+                      //  self.currentUserData=json
                         
                         //===========INITIALISE SOCKETIOCLIENT=========
                             dispatch_async(dispatch_get_main_queue(), {
                             
-                             //self.dismissViewControllerAnimated(true, completion: nil);
-                           /// activityOverlayView.dismissAnimated(true)
-                           /// self.performSegueWithIdentifier("loginSegue", sender: nil)
+                             self.dismissViewControllerAnimated(true, completion: nil);
+                          /// self.performSegueWithIdentifier("loginSegue", sender: nil)
                             
 
                             if response1?.statusCode==200 {
                                 println("got user success")
                                 self.gotToken=true
-                                let json = JSON(data: data1!)
-                                self.currentUserData=json
-                                
-                                var joinChatParas=JSON(["room":"globalchatroom","user":"\(json)"])
-                                
-                                // println(joinChatParas.description)
-                                
-                              
-                                
-                                
-                                //var paramsssGLoballl=JSON(["room":"globalchatroom","user":"\(joinChatParas)"])
-                                var joinChatParas2 = joinChatParas.description.stringByReplacingOccurrencesOfString("\\n", withString: "")
-                                joinChatParas2=joinChatParas2.stringByReplacingOccurrencesOfString("\n", withString: "")
-                             
-                                joinChatParas2 = joinChatParas2.stringByReplacingOccurrencesOfString("\\", withString: "")
-                                //var jSonParams=JSON(joinChatParas2)
-                          //      var paramsCorrect=JSONStringify(joinChatParas)
-                            //    println(paramsCorrect)
-                                
-                                
-                      
-                                // self.socketObj.socket.emit("join global chatroom","\(joinChatParas)")
-                                
-                                
-                                
-                                socketObj.socket.on("youareonline") {data,ack in
+                                var json=JSON(data1!)
+                                       socketObj.socket.on("youareonline") {data,ack in
                                     
-                                    println("you onlineeee")
+                                    println("you onlineeee \(ack)")
                                 }
                                 
                                 var jsonNew=JSON("{\"room\": \"globalchatroom\",\"user\": {\"username\":\"sabachanna\"}}")
-                                //socketObj.socket.emit("join globat chatroom","")
-                                //socketObj.socket.emit("join global chatroom", ["room": "globalchatroom", "user": ["username":"sabachanna"]]) WORKINGGG
-                                println(json.description)
-                            
-                                var jsonSquare=json.debugDescription.stringByReplacingOccurrencesOfString("{", withString: "[")
-                                jsonSquare=jsonSquare.stringByReplacingOccurrencesOfString("}", withString: "]")
-                                jsonSquare=jsonSquare.stringByReplacingOccurrencesOfString("\n", withString: "")
-                                //jsonSquare=jsonSquare.stringByReplacingOccurrencesOfString("\\\"", withString: "\"")
-                                jsonSquare=jsonSquare.stringByReplacingOccurrencesOfString("\\", withString: " ")
+                                 //socketObj.socket.emit("join global chatroom", ["room": "globalchatroom", "user": ["username":"sabachanna"]]) WORKINGGG
                                 
-                                println(jsonSquare)
-                               socketObj.socket.emit("join global chatroom", ["room": "globalchatroom", "user": jsonSquare])
+                               socketObj.socket.emit("join global chatroom",["room": "globalchatroom", "user": json.object])
                                 
                                 
                                 
