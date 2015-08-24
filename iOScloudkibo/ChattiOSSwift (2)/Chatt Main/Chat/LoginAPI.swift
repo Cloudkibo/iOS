@@ -13,13 +13,21 @@ import Alamofire
 class LoginAPI{
     
     var socket:SocketIOClient
-    init(){
-        socket=SocketIOClient(socketURL: "")
+    init(url:String){
+        socket=SocketIOClient(socketURL: "\(url)", opts: ["log": true])
+        
+    }
+    func connect()
+    {
+        self.socket.on("connect") {data, ack in
+            NSLog("connected to socket")
+        }
+        
+        self.socket.connect()
+        println(socket.connected)
     }
     
-    func connect(url:String){
-        socket=SocketIOClient(socketURL: "\(url)")
-    }
+   
     
     func getSocket()->SocketIOClient{
         return self.socket

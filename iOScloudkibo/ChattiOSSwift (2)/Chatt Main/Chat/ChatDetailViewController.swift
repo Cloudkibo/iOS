@@ -14,7 +14,7 @@ class ChatDetailViewController: UIViewController {
     @IBOutlet var tblForChats : UITableView!
     @IBOutlet var chatComposeView : UIView!
     @IBOutlet var txtFldMessage : UITextField!
-    var AuthToken:String=""
+    //var AuthToken:String=""
     var messages : NSMutableArray!
 
     override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: NSBundle?) {
@@ -27,7 +27,7 @@ class ChatDetailViewController: UIViewController {
     required init(coder aDecoder: NSCoder)
     {
         super.init(coder: aDecoder)
-        println("hiiiiii22 \(self.AuthToken)")
+        //println("hiiiiii22 \(self.AuthToken)")
         
     }
     
@@ -76,7 +76,7 @@ class ChatDetailViewController: UIViewController {
         
     }
 
-    
+       
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.

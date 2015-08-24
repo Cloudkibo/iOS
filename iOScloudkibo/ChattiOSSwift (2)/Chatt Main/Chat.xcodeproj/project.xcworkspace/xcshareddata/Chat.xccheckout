@@ -7,18 +7,18 @@
 	<key>IDESourceControlProjectIdentifier</key>
 	<string>3E2B1AAF-C864-4A8F-AC15-5900D9AB1BE8</string>
 	<key>IDESourceControlProjectName</key>
-	<string>Chat</string>
+	<string>project</string>
 	<key>IDESourceControlProjectOriginsDictionary</key>
 	<dict>
 		<key>51D919B02F515DF511C628E9A9DE3260C99F16D5</key>
-		<string>https://github.com/Cloudkibo/iOS</string>
+		<string>https://github.com/Cloudkibo/iOS.git</string>
 	</dict>
 	<key>IDESourceControlProjectPath</key>
-	<string>iOScloudkibo/ChattiOSSwift (2)/Chatt Main/Chat.xcodeproj</string>
+	<string>iOScloudkibo/ChattiOSSwift (2)/Chatt Main/Chat.xcodeproj/project.xcworkspace</string>
 	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
 	<dict>
 		<key>51D919B02F515DF511C628E9A9DE3260C99F16D5</key>
-		<string>../../../../..</string>
+		<string>../../../../../../../Desktop/iOS2</string>
 	</dict>
 	<key>IDESourceControlProjectURL</key>
 	<string>https://github.com/Cloudkibo/iOS</string>
@@ -35,6 +35,14 @@
 			<string>51D919B02F515DF511C628E9A9DE3260C99F16D5</string>
 			<key>IDESourceControlWCCName</key>
 			<string>iOS</string>
+		</dict>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>51D919B02F515DF511C628E9A9DE3260C99F16D5</string>
+			<key>IDESourceControlWCCName</key>
+			<string>iOS2</string>
 		</dict>
 	</array>
 </dict>

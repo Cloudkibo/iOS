@@ -13,21 +13,18 @@ import SwiftyJSON
 
 class LoginViewController: UIViewController, UITextFieldDelegate{
     
-    
+    var contactsJsonObj:JSON="[]"
     @IBOutlet var viewForContent : UIScrollView!
     @IBOutlet var viewForUser : UIView!
     @IBOutlet var txtForEmail : UITextField!
     @IBOutlet var txtForPassword : UITextField!
     
     @IBOutlet weak var labelLoginUnsuccessful: UILabel!
-    var AuthToken:String=""
+    //var AuthToken:String=""
     var authParams:String=""
     var currentUserData:JSON=""
     var gotToken:Bool=false
     var gotUser:Bool=false
-    
-    
-    
     
     
     var joinedRoom:Bool=false
@@ -35,6 +32,14 @@ class LoginViewController: UIViewController, UITextFieldDelegate{
     override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: NSBundle?) {
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
         // Custom initialization
+       /* socketObj.connect()
+        
+        socketObj.socket.on("connect") {data, ack in
+        NSLog("connected to socket")
+        }
+        
+        */
+        
         
     }
     
@@ -51,6 +56,13 @@ class LoginViewController: UIViewController, UITextFieldDelegate{
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        socketObj.connect()
+        
+        socketObj.socket.on("connect") {data, ack in
+            NSLog("connected to socket")
+        }
+        
         var size = UIScreen.mainScreen().bounds.size
         viewForContent.contentSize = CGSizeMake(size.width, 568)
         
@@ -127,22 +139,13 @@ class LoginViewController: UIViewController, UITextFieldDelegate{
     
     
     @IBAction func loginBtnTapped() {
-        
         //============================ Authenticate User ================
-       var url=Constants.MainUrl+Constants.authentictionUrl
-        var param:[String:String]=["username": txtForEmail.text!,"password":txtForPassword.text!] //get username and pwd from text fields
-        
-        
-        //requesting server response , sending username and password
+        var url=Constants.MainUrl+Constants.authentictionUrl
+        var param:[String:String]=["username": txtForEmail.text!,"password":txtForPassword.text!]
         Alamofire.request(.POST,"\(url)",parameters: param).response{
             request, response, data, error in
-            println(request)
-            println(response)
-            println(data)
             println(error)
             
-            
-            //if username and password matched on server
             if response?.statusCode==200
                 
             {
@@ -155,136 +158,135 @@ class LoginViewController: UIViewController, UITextFieldDelegate{
                 var userDataUrl=Constants.MainUrl+Constants.getCurrentUser
                 //let index: String.Index = advance(self.AuthToken.startIndex, 10)
                 
-                //===============================STORING Token========================
+                //======================STORING Token========================
                 let jsonLogin = JSON(data: data!)
                 let token = jsonLogin["token"]
-                println()
-                self.AuthToken=token.string!
-                //println("ttttttt \(self.AuthTokenNew)")
-                println()
-                //========GET USER DETAILS===============
+                AuthToken=token.string!
                 
-                var getUserDataURL=userDataUrl+"?access_token="+self.AuthToken
+                //========GET USER DETAILS===============
+                var getUserDataURL=userDataUrl+"?access_token="+AuthToken
                 Alamofire.request(.GET,"\(getUserDataURL)").response{
                     request1, response1, data1, error1 in
                     
-                  if response1?.statusCode==200
+                    if response1?.statusCode==200
                         
-                    {println("got user success")
-                        
+                    {   // println("got user success")
                         self.gotToken=true
-                        //Saving USER OBJECT ===================
-                    
                         let json = JSON(data: data1!)
                         self.currentUserData=json
                         
-                        
-                        //INITIALISE
-                        let socket=SocketIOClient(socketURL:"\(url)")
-                        socket.connect()
-                        
-                        socket.on("connect") {data, ack in
-                            println("socket connected")
-                        }
-                        
-                        socket.connect()
-                        
-                        println(socket.connected) //this prints false always
-                        
-                        //==========FETHCHING CHAT================
-                        //==================================================
-                        
-                        self.fetchContacts(self.AuthToken)
-                        
-                        
-                        
-                        
-                        
-                        
-                        
-                        
+                        //===========INITIALISE SOCKETIOCLIENT=========
+                            dispatch_async(dispatch_get_main_queue(), {
+                            
+                             //self.dismissViewControllerAnimated(true, completion: nil);
+                           /// activityOverlayView.dismissAnimated(true)
+                           /// self.performSegueWithIdentifier("loginSegue", sender: nil)
+                            
+
+                            if response1?.statusCode==200 {
+                                println("got user success")
+                                self.gotToken=true
+                                let json = JSON(data: data1!)
+                                self.currentUserData=json
+                                
+                                var joinChatParas=JSON(["room":"globalchatroom","user":"\(json)"])
+                                
+                                // println(joinChatParas.description)
+                                
+                              
+                                
+                                
+                                //var paramsssGLoballl=JSON(["room":"globalchatroom","user":"\(joinChatParas)"])
+                                var joinChatParas2 = joinChatParas.description.stringByReplacingOccurrencesOfString("\\n", withString: "")
+                                joinChatParas2=joinChatParas2.stringByReplacingOccurrencesOfString("\n", withString: "")
+                             
+                                joinChatParas2 = joinChatParas2.stringByReplacingOccurrencesOfString("\\", withString: "")
+                                //var jSonParams=JSON(joinChatParas2)
+                          //      var paramsCorrect=JSONStringify(joinChatParas)
+                            //    println(paramsCorrect)
+                                
+                                
+                      
+                                // self.socketObj.socket.emit("join global chatroom","\(joinChatParas)")
+                                
+                                
+                                
+                                socketObj.socket.on("youareonline") {data,ack in
+                                    
+                                    println("you onlineeee")
+                                }
+                                
+                                var jsonNew=JSON("{\"room\": \"globalchatroom\",\"user\": {\"username\":\"sabachanna\"}}")
+                                //socketObj.socket.emit("join globat chatroom","")
+                                //socketObj.socket.emit("join global chatroom", ["room": "globalchatroom", "user": ["username":"sabachanna"]]) WORKINGGG
+                                println(json.description)
+                            
+                                var jsonSquare=json.debugDescription.stringByReplacingOccurrencesOfString("{", withString: "[")
+                                jsonSquare=jsonSquare.stringByReplacingOccurrencesOfString("}", withString: "]")
+                                jsonSquare=jsonSquare.stringByReplacingOccurrencesOfString("\n", withString: "")
+                                //jsonSquare=jsonSquare.stringByReplacingOccurrencesOfString("\\\"", withString: "\"")
+                                jsonSquare=jsonSquare.stringByReplacingOccurrencesOfString("\\", withString: " ")
+                                
+                                println(jsonSquare)
+                               socketObj.socket.emit("join global chatroom", ["room": "globalchatroom", "user": jsonSquare])
+                                
+                                
+                                
+                               //// self.fetchContacts(AuthToken)
+                                
+                                
+                            } else {
+                               println("GOT USER FAILED")
+                            }
+                        })
                     
-                    self.dismissViewControllerAnimated(true, completion: nil);
                     
                     
+                    
+                    /////////
+                        
+                      //^^^^^^^  socketObj.socket.emit("join global chatroom","\(joinChatParas)")
+                        
+                        // self.socketObj.socket.emit("join global chatroom","\(joinChatParas)")
+                        
+                        
+                        
+                       // ^^socketObj.socket.on("youareonline") {data,ack in
+                            
+                         //   println("you onlineeee")
+                       //^^ }
+                        
+                        //self.dismissViewControllerAnimated(true, completion: nil);
+                        
+                        
+                        
+
+                        
                 }
+                        
+            else{
+                        println("got user failed")
+                        self.labelLoginUnsuccessful.text="Sorry, you are not registered"
+                        self.txtForEmail.text=nil
+                        self.txtForPassword.text=nil
+                    }
+                }
+            }
                 
             else
             {
-                //if login failed
                 println("login failed")
-                
-                // var errorMsg=NSString(data: data!, encoding: NSUTF8StringEncoding)! as String
                 self.labelLoginUnsuccessful.text="Sorry, you are not registered"
                 self.txtForEmail.text=nil
                 self.txtForPassword.text=nil
             }
         }
-       
-       
-    }
-            
-            
-        
-        else
-        {
-            //if login failed
-            println("got user failed")
-            
-            // var errorMsg=NSString(data: data!, encoding: NSUTF8StringEncoding)! as String
-            self.labelLoginUnsuccessful.text="Sorry, you are not registered"
-            self.txtForEmail.text=nil
-            self.txtForPassword.text=nil
-        }
-    }
-    }
-
-
-        func fetchContacts(token:String){
-            
-            var fetchChatURL=Constants.MainUrl+Constants.getContactsList+"?access_token="+token
-            
-            println(fetchChatURL)
-            
-            Alamofire.request(.GET,"\(fetchChatURL)").response{
-                
-                request1, response1, data1, error1 in
-                
-                
-                
-                //============GOT Contacts SECCESS=================
-                
-                if response1?.statusCode==200
-                    
-                {
-                    
-                    println("Contacts fetched success")
-                    
-                    //println(data1?.debugDescription)
-                    
-                    let contactsJsonObj = JSON(data: data1!)
-                    
-                    println(contactsJsonObj)
-                    
-                    
-                    
-                    
-                    
-                }else{
-                    
-                    println("Contacts Error, not fetched")
-                    
-                    println(request1)
-                    
-                    //println(response1)
-                    
-                    println(error1)
-                    
-                }
-                
-            }
-        }
-
+               }
+    
+    
+    
+    
+    
     @IBAction func facebookBtnTapped() {
         self.dismissViewControllerAnimated(true, completion: nil);
     }
@@ -303,15 +305,16 @@ class LoginViewController: UIViewController, UITextFieldDelegate{
 
 
 
-    // #pragma mark - Navigation
+       // #pragma mark - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
-    /*override func prepareForSegue(segue: UIStoryboardSegue?, sender: AnyObject?) {
+   /* override func prepareForSegue(segue: UIStoryboardSegue?, sender: AnyObject?) {
         // Get the new view controller using [segue destinationViewController].
         // Pass the selected object to the new view controller.
         if segue!.identifier == "loginSegue" {
             if let destinationVC = segue!.destinationViewController as? ChatViewController{
-                destinationVC.AuthToken = self.AuthToken
+                destinationVC.AuthToken = AuthToken
+                destinationVC.contactsJsonObj=self.contactsJsonObj
             }
         }
     }*/

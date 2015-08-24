@@ -7,28 +7,35 @@
 //
 
 import UIKit
+import SwiftyJSON
+import Alamofire
 
 class ChatViewController: UIViewController {
 
+    
+    var contactsJsonObj:JSON="[]"
     @IBOutlet var viewForTitle : UIView!
     @IBOutlet var ctrlForChat : UISegmentedControl!
     @IBOutlet var btnForLogo : UIButton!
     @IBOutlet var itemForSearch : UIBarButtonItem!
     @IBOutlet var tblForChat : UITableView!
     var AuthToken:String=""
-    
+    //var socketObj=LoginAPI(url: "\(Constants.MainUrl)")
+
+    let transportItems = ["Bus","Helicopter","Truck","Boat","Bicycle","Motorcycle","Plane","Train","Car","Scooter","Caravan"]
     
     override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: NSBundle?) {
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
         // Custom initialization
-        println(self.AuthToken)
-        //println("tokennn abovee1")
+       //println("tokennn abovee1")
     }
     
     required init(coder aDecoder: NSCoder)
     {
         super.init(coder: aDecoder)
         println(self.AuthToken)
+        fetchContacts(AuthToken)
+        
         //println("tokennn abovee2")
     }
 
@@ -39,12 +46,193 @@ class ChatViewController: UIViewController {
         self.navigationItem.leftBarButtonItem = UIBarButtonItem(customView: btnForLogo)
         self.navigationItem.rightBarButtonItem = itemForSearch
         self.tabBarController?.tabBar.tintColor = UIColor.greenColor()
-        self.performSegueWithIdentifier("loginSegue", sender: nil)
-        println("chat view")
+        println("////////////////////// new class tokn \(self.AuthToken)")
+
+        if self.AuthToken==""
+        {performSegueWithIdentifier("loginSegue", sender: nil)}
+       
+        
+        //println("chat view")
        // Do any additional setup after loading the view.
-        println(self.AuthToken)
-        println("tokennn3 abovee")
+        
+        //println(self.AuthToken)
+        //println("tokennn3 abovee")
+        
+        
+        
+        /////////////
+        
     }
+   
+    override func viewWillAppear(animated: Bool) {
+        println("sdfsdsdfsdfsdfsdfsdfsd   "+AuthToken)
+        if AuthToken==""{}
+        else{
+            var fetchChatURL=Constants.MainUrl+Constants.getContactsList+"?access_token="+AuthToken
+            
+            println(fetchChatURL)
+            
+            Alamofire.request(.GET,"\(fetchChatURL)").response{
+                
+                request1, response1, data1, error1 in
+                
+                
+                
+                //============GOT Contacts SECCESS=================
+                
+                if response1?.statusCode==200
+                    
+                { self.contactsJsonObj = JSON(data: data1!)
+                    println("Contactsss fetcheddddddd")
+                    
+                    
+                    //println("Contacts fetched success")
+                    
+                    //println(data1?.debugDescription)
+                    
+                    // let contactsJsonObj = JSON(data: data1!)
+                    //println(contactsJsonObj["userid"])
+                    //let contact=contactsJsonObj["contactid"]
+                    //println(contact)
+                    
+                    //let contact=JSON(contactsJsonObj["contactid"])
+                    //   println(contact["firstname"])
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    ////////////////////////
+                    dispatch_async(dispatch_get_main_queue(), {
+                        //self.fetchContacts(self.AuthToken)
+                        /// activityOverlayView.dismissAnimated(true)
+                        
+                        
+                        if response1?.statusCode==200 {
+                            //println("Contacts fetched success")
+                            
+                            
+                             println(self.contactsJsonObj)
+                            
+                            // println(self.AuthToken)
+                            
+                            
+                            //var userr=contactsJsonObj["userid"]
+                            // println(self.contactsJsonObj.count)
+                            
+                            
+                            
+                        } else {
+                            println("FETCH CONTACTS FAILED")
+                        }
+                    })
+                    
+                    
+                    
+                }else{
+                    
+                    println("Contacts Error, not fetched")
+                    
+                    println(request1)
+                    
+                    //println(response1)
+                    
+                    println(error1)
+                    
+                }
+                
+            }}
+        
+    }
+    
+    
+    func fetchContacts(token:String){
+        
+        var fetchChatURL=Constants.MainUrl+Constants.getContactsList+"?access_token="+token
+        
+        println(fetchChatURL)
+        
+        Alamofire.request(.GET,"\(fetchChatURL)").response{
+            
+            request1, response1, data1, error1 in
+            
+            
+            
+            //============GOT Contacts SECCESS=================
+            
+            if response1?.statusCode==200
+                
+            {
+                
+                //println("Contacts fetched success")
+                
+                //println(data1?.debugDescription)
+                
+                // let contactsJsonObj = JSON(data: data1!)
+                //println(contactsJsonObj["userid"])
+                //let contact=contactsJsonObj["contactid"]
+                //println(contact)
+                
+                //let contact=JSON(contactsJsonObj["contactid"])
+                //   println(contact["firstname"])
+                
+                
+                
+                
+                
+                
+                
+                
+                ////////////////////////
+                dispatch_async(dispatch_get_main_queue(), {
+                    //self.fetchContacts(self.AuthToken)
+                    /// activityOverlayView.dismissAnimated(true)
+                    
+                    
+                    if response1?.statusCode==200 {
+                        //println("Contacts fetched success")
+                        
+                        
+                        self.contactsJsonObj = JSON(data: data1!)
+                        println("Contactsss fetcheddddddd")
+                        println(self.contactsJsonObj)
+                        
+                       // println(self.AuthToken)
+                        
+
+                        //var userr=contactsJsonObj["userid"]
+                        // println(self.contactsJsonObj.count)
+                        
+                        
+                        
+                    } else {
+                        println("FETCH CONTACTS FAILED")
+                    }
+                })
+                
+                
+                
+            }else{
+                
+                println("Contacts Error, not fetched")
+                
+                println(request1)
+                
+                //println(response1)
+                
+                println(error1)
+                
+            }
+            
+        }
+        
+    }
+
+    
+    
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -56,7 +244,7 @@ class ChatViewController: UIViewController {
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 10
+        return transportItems.count
     }
     
     func numberOfSectionsInTableView(tableView: UITableView!) -> Int {
@@ -64,11 +252,19 @@ class ChatViewController: UIViewController {
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath!) -> UITableViewCell! {
-        if (indexPath.row%2 == 0){
+        
+      /*  if (indexPath.row%2 == 0){
             return tblForChat.dequeueReusableCellWithIdentifier("ChatPrivateCell") as! UITableViewCell
         } else {
             return tblForChat.dequeueReusableCellWithIdentifier("ChatPublicCell")as! UITableViewCell
         }
+*/
+        var cell=tblForChat.dequeueReusableCellWithIdentifier("ChatPrivateCell") as! ContactsListCell
+        
+        cell.contactName?.text=transportItems[indexPath.row]
+        
+        return cell
+        
     }
     
     func tableView(tableView: UITableView!, didSelectRowAtIndexPath indexPath: NSIndexPath!){

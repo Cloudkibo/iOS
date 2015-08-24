@@ -34,6 +34,9 @@
 		71307F1D1B7FA6480037CB7E /* WebSocket.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71307F101B7FA6480037CB7E /* WebSocket.swift */; };
 		713080631B825C1E0037CB7E /* SwiftyJSON.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7130805C1B825BB00037CB7E /* SwiftyJSON.framework */; };
 		713080641B825C1E0037CB7E /* SwiftyJSON.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 7130805C1B825BB00037CB7E /* SwiftyJSON.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		713F70A01B89547F0086D992 /* ContactsListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 713F709F1B89547F0086D992 /* ContactsListCell.swift */; };
+		713FB04B1B89795300E7BDD6 /* JSONStringify.swift in Sources */ = {isa = PBXBuildFile; fileRef = 713FB04A1B89795300E7BDD6 /* JSONStringify.swift */; };
+		713FB0661B897D1B00E7BDD6 /* SwiftyJSON in Resources */ = {isa = PBXBuildFile; fileRef = 713FB0651B897D1A00E7BDD6 /* SwiftyJSON */; };
 		714638FE1B7D0FED002084FF /* Alamofire.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 714638F71B7D0F1A002084FF /* Alamofire.framework */; };
 		714638FF1B7D0FED002084FF /* Alamofire.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 714638F71B7D0F1A002084FF /* Alamofire.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		714639041B7D1624002084FF /* LoginAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 714639031B7D1624002084FF /* LoginAPI.swift */; };
@@ -166,6 +169,9 @@
 		71307F0F1B7FA6480037CB7E /* SwiftRegex.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwiftRegex.swift; sourceTree = "<group>"; };
 		71307F101B7FA6480037CB7E /* WebSocket.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WebSocket.swift; sourceTree = "<group>"; };
 		713080541B825BB00037CB7E /* SwiftyJSON.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SwiftyJSON.xcodeproj; path = SwiftyJSON/SwiftyJSON.xcodeproj; sourceTree = "<group>"; };
+		713F709F1B89547F0086D992 /* ContactsListCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContactsListCell.swift; sourceTree = "<group>"; };
+		713FB04A1B89795300E7BDD6 /* JSONStringify.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = JSONStringify.swift; path = "../../../../../../Downloads/97aa46871cde0c0cb8a8-4d962436e6de9898286e172eaf2280b78d4d5a86/JSONStringify.swift"; sourceTree = "<group>"; };
+		713FB0651B897D1A00E7BDD6 /* SwiftyJSON */ = {isa = PBXFileReference; lastKnownFileType = folder; name = SwiftyJSON; path = "../../../../../Desktop/iOS2/Original/Chatt Main/Chatt Main/SwiftyJSON"; sourceTree = "<group>"; };
 		714638EF1B7D0F19002084FF /* Alamofire.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Alamofire.xcodeproj; path = "../../Alamofire-master/Alamofire.xcodeproj"; sourceTree = "<group>"; };
 		714639031B7D1624002084FF /* LoginAPI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginAPI.swift; sourceTree = "<group>"; };
 		714639051B7D41F9002084FF /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
@@ -194,6 +200,7 @@
 		5BF6361C19A9F3D900ABD0BA = {
 			isa = PBXGroup;
 			children = (
+				713FB0651B897D1A00E7BDD6 /* SwiftyJSON */,
 				713080541B825BB00037CB7E /* SwiftyJSON.xcodeproj */,
 				71307F031B7FA6480037CB7E /* SocketIOClientSwift */,
 				5BF6362719A9F3D900ABD0BA /* Chat */,
@@ -215,12 +222,14 @@
 		5BF6362719A9F3D900ABD0BA /* Chat */ = {
 			isa = PBXGroup;
 			children = (
+				713FB04A1B89795300E7BDD6 /* JSONStringify.swift */,
 				5BF6362A19A9F3D900ABD0BA /* AppDelegate.swift */,
 				714639051B7D41F9002084FF /* Constants.swift */,
 				714639031B7D1624002084FF /* LoginAPI.swift */,
 				5BF6362C19A9F3D900ABD0BA /* ViewController.swift */,
 				5BF6364B19A9FCE500ABD0BA /* LoginViewController.swift */,
 				5BF6364D19AA143A00ABD0BA /* ChatViewController.swift */,
+				713F709F1B89547F0086D992 /* ContactsListCell.swift */,
 				5B990C9C19ACE5AF00F9278A /* ChatDetailViewController.swift */,
 				5B01667919AC2B730059918D /* NotesViewController.swift */,
 				5B75921519AC313C005E2745 /* ProjectsViewController.swift */,
@@ -453,6 +462,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				713FB0661B897D1B00E7BDD6 /* SwiftyJSON in Resources */,
 				5BF6363019A9F3D900ABD0BA /* Main.storyboard in Resources */,
 				5BF6363219A9F3D900ABD0BA /* Images.xcassets in Resources */,
 			);
@@ -481,6 +491,7 @@
 				5B94184019B8D296006A9EAD /* MoreTableViewController.swift in Sources */,
 				714639041B7D1624002084FF /* LoginAPI.swift in Sources */,
 				5BF6364C19A9FCE500ABD0BA /* LoginViewController.swift in Sources */,
+				713FB04B1B89795300E7BDD6 /* JSONStringify.swift in Sources */,
 				5B01667A19AC2B730059918D /* NotesViewController.swift in Sources */,
 				5B990C9D19ACE5AF00F9278A /* ChatDetailViewController.swift in Sources */,
 				71307F171B7FA6480037CB7E /* SocketIOClient.swift in Sources */,
@@ -490,6 +501,7 @@
 				71307F131B7FA6480037CB7E /* SocketEngine.swift in Sources */,
 				5BF6364E19AA143A00ABD0BA /* ChatViewController.swift in Sources */,
 				71307F151B7FA6480037CB7E /* SocketEventHandler.swift in Sources */,
+				713F70A01B89547F0086D992 /* ContactsListCell.swift in Sources */,
 				5B990C9B19ACD59B00F9278A /* ChatComposeViewController.swift in Sources */,
 				71307F141B7FA6480037CB7E /* SocketEngineClient.swift in Sources */,
 				71307F1A1B7FA6480037CB7E /* SocketParser.swift in Sources */,
