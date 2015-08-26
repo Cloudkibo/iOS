@@ -14,19 +14,31 @@ class LoginAPI{
     
     var socket:SocketIOClient
     init(url:String){
-        socket=SocketIOClient(socketURL: "\(url)", opts: ["log": true])
+        socket=SocketIOClient(socketURL: "\(url)", opts: ["log": false])
         
     }
     func connect()
     {
+        
         self.socket.on("connect") {data, ack in
             NSLog("connected to socket")
+            
+            
         }
         
         self.socket.connect()
         println(socket.connected)
     }
     
+    func addHandlers(){
+        socket.on("youareonline") {data,ack in
+            
+            println("you onlineeee \(ack)")
+        }
+
+        
+        
+    }
    
     
     func getSocket()->SocketIOClient{

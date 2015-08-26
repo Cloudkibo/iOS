@@ -14,6 +14,7 @@ class Constants{
     static let bringUserChat="/api/userchat/"
     static let getCurrentUser="/api/users/me"
     static let getContactsList="/api/contactslist/"
+    static let room="globalchatroom"
     
     
     

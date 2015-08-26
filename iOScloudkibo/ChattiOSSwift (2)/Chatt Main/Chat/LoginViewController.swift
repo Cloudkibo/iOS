@@ -180,23 +180,24 @@ class LoginViewController: UIViewController, UITextFieldDelegate{
                             
                              self.dismissViewControllerAnimated(true, completion: nil);
                           /// self.performSegueWithIdentifier("loginSegue", sender: nil)
-                            
-
+                              
                             if response1?.statusCode==200 {
                                 println("got user success")
                                 self.gotToken=true
                                 var json=JSON(data1!)
-                                       socketObj.socket.on("youareonline") {data,ack in
+                                
+                                socketObj.addHandlers()
+                                   /*    socketObj.socket.on("youareonline") {data,ack in
                                     
                                     println("you onlineeee \(ack)")
                                 }
-                                
+                                */
                                 var jsonNew=JSON("{\"room\": \"globalchatroom\",\"user\": {\"username\":\"sabachanna\"}}")
                                  //socketObj.socket.emit("join global chatroom", ["room": "globalchatroom", "user": ["username":"sabachanna"]]) WORKINGGG
                                 
                                socketObj.socket.emit("join global chatroom",["room": "globalchatroom", "user": json.object])
                                 
-                                
+                                println(json["_id"])
                                 
                                //// self.fetchContacts(AuthToken)
                                 
@@ -251,7 +252,9 @@ class LoginViewController: UIViewController, UITextFieldDelegate{
     
     
     
-    
+    func AuthenticateUser(){}
+    func getUserObject(){}
+    func joinGlobalChatRoom(){}
     
     @IBAction func facebookBtnTapped() {
         self.dismissViewControllerAnimated(true, completion: nil);

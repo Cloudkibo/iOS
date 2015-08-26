@@ -7,7 +7,7 @@
 //
 
 import UIKit
-
+import SwiftyJSON
 
 class ChatDetailViewController: UIViewController {
 
@@ -188,6 +188,18 @@ class ChatDetailViewController: UIViewController {
         ///=== code for sending chat here
         ///=================
         
+        
+      var imParas=["from":"sabachanna","to":"sumi","from_id":"55351437fff0f13a73518ae1","to_id":"55dafd46aa4c720e78e23776","fromFullName":"Sabach Channa","msg":"\(txtFldMessage.text)"]
+        
+        socketObj.socket.emit("im",["room":"globalchatroom","stanza":imParas])
+        socketObj.socket.on("im") {data,ack in
+            
+            println("chat sent to server.ack received")
+            var chatJson=JSON(data!)
+            println(chatJson)
+        }
+        
+        //////
     
         self.addMessage(txtFldMessage.text, ofType: "1")
         self.addMessage(txtFldMessage.text, ofType: "2")

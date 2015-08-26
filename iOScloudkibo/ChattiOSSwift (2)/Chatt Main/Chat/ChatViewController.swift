@@ -13,13 +13,13 @@ import Alamofire
 class ChatViewController: UIViewController {
 
     
-    var contactsJsonObj:JSON="[]"
+    //var contactsJsonObj:JSON="[]"
     @IBOutlet var viewForTitle : UIView!
     @IBOutlet var ctrlForChat : UISegmentedControl!
     @IBOutlet var btnForLogo : UIButton!
     @IBOutlet var itemForSearch : UIBarButtonItem!
     @IBOutlet var tblForChat : UITableView!
-    var AuthToken:String=""
+    //var AuthToken:String=""
     //var socketObj=LoginAPI(url: "\(Constants.MainUrl)")
 
     let transportItems = ["Bus","Helicopter","Truck","Boat","Bicycle","Motorcycle","Plane","Train","Car","Scooter","Caravan"]
@@ -33,8 +33,8 @@ class ChatViewController: UIViewController {
     required init(coder aDecoder: NSCoder)
     {
         super.init(coder: aDecoder)
-        println(self.AuthToken)
-        fetchContacts(AuthToken)
+        println(AuthToken)
+      ///  fetchContacts(AuthToken)
         
         //println("tokennn abovee2")
     }
@@ -46,9 +46,9 @@ class ChatViewController: UIViewController {
         self.navigationItem.leftBarButtonItem = UIBarButtonItem(customView: btnForLogo)
         self.navigationItem.rightBarButtonItem = itemForSearch
         self.tabBarController?.tabBar.tintColor = UIColor.greenColor()
-        println("////////////////////// new class tokn \(self.AuthToken)")
+        println("////////////////////// new class tokn \(AuthToken)")
 
-        if self.AuthToken==""
+        if AuthToken==""
         {performSegueWithIdentifier("loginSegue", sender: nil)}
        
         
@@ -65,14 +65,16 @@ class ChatViewController: UIViewController {
     }
    
     override func viewWillAppear(animated: Bool) {
-        println("sdfsdsdfsdfsdfsdfsdfsd   "+AuthToken)
+        
+        fetchContacts(AuthToken)
+       /* println("sdfsdsdfsdfsdfsdfsdfsd   "+AuthToken)
         if AuthToken==""{}
         else{
             var fetchChatURL=Constants.MainUrl+Constants.getContactsList+"?access_token="+AuthToken
             
             println(fetchChatURL)
             
-            Alamofire.request(.GET,"\(fetchChatURL)").response{
+            Alamofire.request(.GET,"\(fetchChatURL)").responseJSON{
                 
                 request1, response1, data1, error1 in
                 
@@ -82,8 +84,12 @@ class ChatViewController: UIViewController {
                 
                 if response1?.statusCode==200
                     
-                { self.contactsJsonObj = JSON(data: data1!)
+                { var contactsJson = JSON(data1!)
                     println("Contactsss fetcheddddddd")
+                    
+                   
+                  
+
                     
                     
                     //println("Contacts fetched success")
@@ -115,8 +121,9 @@ class ChatViewController: UIViewController {
                             //println("Contacts fetched success")
                             
                             
-                             println(self.contactsJsonObj)
-                            
+                             println(contactsJson.object)
+                          ////^^  var username=contactsJson[0]["contactid"]["username"]
+                           ////^^ println("emaillllllll............. \(username)")
                             // println(self.AuthToken)
                             
                             
@@ -141,10 +148,11 @@ class ChatViewController: UIViewController {
                     //println(response1)
                     
                     println(error1)
-                    
+                   
+                  
                 }
                 
-            }}
+            }}*/
         
     }
     
@@ -196,9 +204,9 @@ class ChatViewController: UIViewController {
                         //println("Contacts fetched success")
                         
                         
-                        self.contactsJsonObj = JSON(data: data1!)
+                     //   self.contactsJsonObj = JSON(data: data1!)
                         println("Contactsss fetcheddddddd")
-                        println(self.contactsJsonObj)
+                      //  println(self.contactsJsonObj)
                         
                        // println(self.AuthToken)
                         
@@ -253,22 +261,23 @@ class ChatViewController: UIViewController {
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath!) -> UITableViewCell! {
         
-      /*  if (indexPath.row%2 == 0){
+       if (indexPath.row%2 == 0){
             return tblForChat.dequeueReusableCellWithIdentifier("ChatPrivateCell") as! UITableViewCell
         } else {
             return tblForChat.dequeueReusableCellWithIdentifier("ChatPublicCell")as! UITableViewCell
         }
-*/
-        var cell=tblForChat.dequeueReusableCellWithIdentifier("ChatPrivateCell") as! ContactsListCell
+
+      /*  var cell=tblForChat.dequeueReusableCellWithIdentifier("ChatPrivateCell") as! ContactsListCell
         
         cell.contactName?.text=transportItems[indexPath.row]
         
-        return cell
+        return cell*/
         
     }
     
     func tableView(tableView: UITableView!, didSelectRowAtIndexPath indexPath: NSIndexPath!){
-        self.performSegueWithIdentifier("slideToChat", sender: nil);
+        self.performSegueWithIdentifier("contactChat", sender: nil);
+        //slideToChat
     }
 
     
