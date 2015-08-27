@@ -8,9 +8,12 @@
 
 import UIKit
 import SwiftyJSON
+import SQLite
 
 class ChatDetailViewController: UIViewController {
 
+    @IBOutlet weak var NewChatNavigationTitle: UINavigationItem!
+    @IBOutlet weak var labelToName: UILabel!
     @IBOutlet var tblForChats : UITableView!
     @IBOutlet var chatComposeView : UIView!
     @IBOutlet var txtFldMessage : UITextField!
@@ -39,6 +42,21 @@ class ChatDetailViewController: UIViewController {
        //self.performSegueWithIdentifier("chatSegue", sender: nil)
         
         println("chat detail view")
+         self.NewChatNavigationTitle.title="Sumi"
+        var receivedMsg=JSON("")
+        socketObj.socket.on("im") {data,ack in
+            
+            println("chat sent to server.ack received")
+            var chatJson=JSON(data!)
+            println(chatJson[0]["msg"])
+            receivedMsg=chatJson[0]["msg"]
+            var username=chatJson[0]["fullName"]
+            self.addMessage(receivedMsg.description, ofType: "1")
+           
+            self.tblForChats.reloadData()
+            
+            
+        }
         
         //=== socket.io connect code
         /*var socketUrlValue=Constants.MainUrl+Constants.bringUserChat
@@ -187,21 +205,13 @@ class ChatDetailViewController: UIViewController {
         
         ///=== code for sending chat here
         ///=================
-        
-        
+       
       var imParas=["from":"sabachanna","to":"sumi","from_id":"55351437fff0f13a73518ae1","to_id":"55dafd46aa4c720e78e23776","fromFullName":"Sabach Channa","msg":"\(txtFldMessage.text)"]
         
         socketObj.socket.emit("im",["room":"globalchatroom","stanza":imParas])
-        socketObj.socket.on("im") {data,ack in
-            
-            println("chat sent to server.ack received")
-            var chatJson=JSON(data!)
-            println(chatJson)
-        }
         
         //////
     
-        self.addMessage(txtFldMessage.text, ofType: "1")
         self.addMessage(txtFldMessage.text, ofType: "2")
         txtFldMessage.text = "";
         tblForChats.reloadData()
