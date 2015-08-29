@@ -32,14 +32,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate{
     override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: NSBundle?) {
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
         // Custom initialization
-       /* socketObj.connect()
-        
-        socketObj.socket.on("connect") {data, ack in
-        NSLog("connected to socket")
-        }
-        
-        */
-        
+       
         
     }
     
@@ -69,7 +62,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate{
         NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("willShowKeyBoard:"), name:UIKeyboardWillShowNotification, object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("willHideKeyBoard:"), name:UIKeyboardWillHideNotification, object: nil)
         
-        println("loginviewcontrollerrr")
+        
         // Do any additional setup after loading the view.
     }
     
@@ -123,21 +116,6 @@ class LoginViewController: UIViewController, UITextFieldDelegate{
     }
     
     
-    func convertStringToDictionary(text: String) -> [String:String]? {
-        println(text)
-        if let data = text.dataUsingEncoding(NSUTF8StringEncoding) {
-            println(data.debugDescription)
-            var error: NSError?
-            let json = NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions.allZeros, error: &error) as? [String:String]
-            if error != nil {
-                println(error)
-            }
-            return json
-        }
-        return nil
-    }
-    
-    
     @IBAction func loginBtnTapped() {
         //============================ Authenticate User ================
         var url=Constants.MainUrl+Constants.authentictionUrl
@@ -168,13 +146,6 @@ class LoginViewController: UIViewController, UITextFieldDelegate{
                 Alamofire.request(.GET,"\(getUserDataURL)").responseJSON{
                     request1, response1, data1, error1 in
                     
-                    if response1?.statusCode==200
-                        
-                    {   // println("got user success")
-                        self.gotToken=true
-                      //  let json = JSON(data: data1!)
-                      //  self.currentUserData=json
-                        
                         //===========INITIALISE SOCKETIOCLIENT=========
                             dispatch_async(dispatch_get_main_queue(), {
                             
@@ -187,56 +158,26 @@ class LoginViewController: UIViewController, UITextFieldDelegate{
                                 var json=JSON(data1!)
                                 
                                 socketObj.addHandlers()
-                                   /*    socketObj.socket.on("youareonline") {data,ack in
-                                    
-                                    println("you onlineeee \(ack)")
-                                }
-                                */
+                                
                                 var jsonNew=JSON("{\"room\": \"globalchatroom\",\"user\": {\"username\":\"sabachanna\"}}")
                                  //socketObj.socket.emit("join global chatroom", ["room": "globalchatroom", "user": ["username":"sabachanna"]]) WORKINGGG
                                 
                                socketObj.socket.emit("join global chatroom",["room": "globalchatroom", "user": json.object])
                                 
                                 println(json["_id"])
-                                
+                               /* sqliteDB.insertUser(_id:json["_id"].string!, firstname: json["firstname"].string!, lastname: json["lastname"].string!, email: json["email"].string!, username: json["username"].string!, status: json["status"].string!)
+*/
                                //// self.fetchContacts(AuthToken)
                                 
                                 
                             } else {
+                                self.labelLoginUnsuccessful.text="Sorry, you are not registered"
+                                self.txtForEmail.text=nil
+                                self.txtForPassword.text=nil
+
                                println("GOT USER FAILED")
                             }
                         })
-                    
-                    
-                    
-                    
-                    /////////
-                        
-                      //^^^^^^^  socketObj.socket.emit("join global chatroom","\(joinChatParas)")
-                        
-                        // self.socketObj.socket.emit("join global chatroom","\(joinChatParas)")
-                        
-                        
-                        
-                       // ^^socketObj.socket.on("youareonline") {data,ack in
-                            
-                         //   println("you onlineeee")
-                       //^^ }
-                        
-                        //self.dismissViewControllerAnimated(true, completion: nil);
-                        
-                        
-                        
-
-                        
-                }
-                        
-            else{
-                        println("got user failed")
-                        self.labelLoginUnsuccessful.text="Sorry, you are not registered"
-                        self.txtForEmail.text=nil
-                        self.txtForPassword.text=nil
-                    }
                 }
             }
                 

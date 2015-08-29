@@ -7,9 +7,13 @@
 //
 
 import UIKit
+import SQLite
 
 let socketObj=LoginAPI(url:"\(Constants.MainUrl)")
+let sqliteDB=DatabaseHandler(dbName: "cloudkiboDB")
+
 var AuthToken=""
+let dbSQLite=DatabaseHandler(dbName: "/cloudKibo.sqlite3")
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
                             
@@ -56,7 +60,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         socketObj.socket.disconnect(fast: true)
         socketObj.socket.close(fast: true)
     }
-
-
+  
+ 
 }
 

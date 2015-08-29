@@ -27,19 +27,18 @@ class LoginAPI{
         }
         
         self.socket.connect()
-        println(socket.connected)
-    }
+            }
     
     func addHandlers(){
         socket.on("youareonline") {data,ack in
             
             println("you onlineeee \(ack)")
         }
-
-        
-        
     }
    
+    func isConnected()->Bool{
+        return socket.connected
+    }
     
     func getSocket()->SocketIOClient{
         return self.socket

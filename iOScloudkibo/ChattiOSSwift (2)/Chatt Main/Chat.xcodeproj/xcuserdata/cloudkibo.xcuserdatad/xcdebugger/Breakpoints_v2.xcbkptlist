@@ -86,11 +86,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Chat/LoginViewController.swift"
-            timestampString = "462192576.403553"
+            timestampString = "462440357.517412"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "198"
-            endingLineNumber = "198"
+            startingLineNumber = "165"
+            endingLineNumber = "165"
             landmarkName = "loginBtnTapped()"
             landmarkType = "5">
          </BreakpointContent>
@@ -108,6 +108,22 @@
             startingLineNumber = "210"
             endingLineNumber = "210"
             landmarkName = "postBtnTapped()"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Chat/DatabaseHandler.swift"
+            timestampString = "462582617.523187"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "60"
+            endingLineNumber = "60"
+            landmarkName = "insertUser(_:firstname:lastname:email:username:status:)"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>

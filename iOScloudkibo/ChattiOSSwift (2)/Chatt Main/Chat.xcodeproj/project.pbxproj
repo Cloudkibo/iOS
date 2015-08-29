@@ -40,7 +40,9 @@
 		714442CD1B8F8B4B0048B3A5 /* SQLite.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 714442C61B8F8B250048B3A5 /* SQLite.framework */; };
 		714442CE1B8F8B5F0048B3A5 /* SQLite.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 714442C61B8F8B250048B3A5 /* SQLite.framework */; };
 		714442CF1B8F8B5F0048B3A5 /* SQLite.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 714442C61B8F8B250048B3A5 /* SQLite.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		714442D31B8F8E560048B3A5 /* DatabaseHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 714442D21B8F8E560048B3A5 /* DatabaseHandler.swift */; };
+		714560561B904DAA00C8E0D2 /* Contacts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 714560551B904DAA00C8E0D2 /* Contacts.swift */; };
+		7145605A1B905FE700C8E0D2 /* DatabaseHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 714560591B905FE700C8E0D2 /* DatabaseHandler.swift */; };
+		7145605C1B90875D00C8E0D2 /* Accounts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7145605B1B90875D00C8E0D2 /* Accounts.swift */; };
 		714638FE1B7D0FED002084FF /* Alamofire.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 714638F71B7D0F1A002084FF /* Alamofire.framework */; };
 		714638FF1B7D0FED002084FF /* Alamofire.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 714638F71B7D0F1A002084FF /* Alamofire.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		714639041B7D1624002084FF /* LoginAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 714639031B7D1624002084FF /* LoginAPI.swift */; };
@@ -213,7 +215,9 @@
 		713FB04A1B89795300E7BDD6 /* JSONStringify.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = JSONStringify.swift; path = "../../../../../../Downloads/97aa46871cde0c0cb8a8-4d962436e6de9898286e172eaf2280b78d4d5a86/JSONStringify.swift"; sourceTree = "<group>"; };
 		713FB0651B897D1A00E7BDD6 /* SwiftyJSON */ = {isa = PBXFileReference; lastKnownFileType = folder; name = SwiftyJSON; path = "../../../../../Desktop/iOS2/Original/Chatt Main/Chatt Main/SwiftyJSON"; sourceTree = "<group>"; };
 		714442BE1B8F8B250048B3A5 /* SQLite.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SQLite.xcodeproj; path = "../../../../../Downloads/SQLite.swift-master 2/SQLite.xcodeproj"; sourceTree = "<group>"; };
-		714442D21B8F8E560048B3A5 /* DatabaseHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DatabaseHandler.swift; sourceTree = "<group>"; };
+		714560551B904DAA00C8E0D2 /* Contacts.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Contacts.swift; sourceTree = "<group>"; };
+		714560591B905FE700C8E0D2 /* DatabaseHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DatabaseHandler.swift; sourceTree = "<group>"; };
+		7145605B1B90875D00C8E0D2 /* Accounts.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Accounts.swift; sourceTree = "<group>"; };
 		714638EF1B7D0F19002084FF /* Alamofire.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Alamofire.xcodeproj; path = "../../Alamofire-master/Alamofire.xcodeproj"; sourceTree = "<group>"; };
 		714639031B7D1624002084FF /* LoginAPI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginAPI.swift; sourceTree = "<group>"; };
 		714639051B7D41F9002084FF /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
@@ -273,9 +277,9 @@
 				714639031B7D1624002084FF /* LoginAPI.swift */,
 				5BF6362C19A9F3D900ABD0BA /* ViewController.swift */,
 				5BF6364B19A9FCE500ABD0BA /* LoginViewController.swift */,
+				714560591B905FE700C8E0D2 /* DatabaseHandler.swift */,
 				5BF6364D19AA143A00ABD0BA /* ChatViewController.swift */,
 				5B990C9C19ACE5AF00F9278A /* ChatDetailViewController.swift */,
-				714442D21B8F8E560048B3A5 /* DatabaseHandler.swift */,
 				713F709F1B89547F0086D992 /* ContactsListCell.swift */,
 				5B01667919AC2B730059918D /* NotesViewController.swift */,
 				5B75921519AC313C005E2745 /* ProjectsViewController.swift */,
@@ -283,6 +287,7 @@
 				5B94183F19B8D296006A9EAD /* MoreTableViewController.swift */,
 				5BF6362E19A9F3D900ABD0BA /* Main.storyboard */,
 				5BF6363119A9F3D900ABD0BA /* Images.xcassets */,
+				714560491B904D6900C8E0D2 /* Models */,
 				5BF6362819A9F3D900ABD0BA /* Supporting Files */,
 			);
 			path = Chat;
@@ -354,6 +359,15 @@
 				714442CC1B8F8B250048B3A5 /* SQLiteCipher Tests.xctest */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		714560491B904D6900C8E0D2 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				714560551B904DAA00C8E0D2 /* Contacts.swift */,
+				7145605B1B90875D00C8E0D2 /* Accounts.swift */,
+			);
+			name = Models;
 			sourceTree = "<group>";
 		};
 		714638F01B7D0F19002084FF /* Products */ = {
@@ -582,18 +596,20 @@
 				714639041B7D1624002084FF /* LoginAPI.swift in Sources */,
 				5BF6364C19A9FCE500ABD0BA /* LoginViewController.swift in Sources */,
 				713FB04B1B89795300E7BDD6 /* JSONStringify.swift in Sources */,
+				7145605C1B90875D00C8E0D2 /* Accounts.swift in Sources */,
 				5B01667A19AC2B730059918D /* NotesViewController.swift in Sources */,
 				5B990C9D19ACE5AF00F9278A /* ChatDetailViewController.swift in Sources */,
 				71307F171B7FA6480037CB7E /* SocketIOClient.swift in Sources */,
 				71307F191B7FA6480037CB7E /* SocketPacket.swift in Sources */,
 				71307F1C1B7FA6480037CB7E /* SwiftRegex.swift in Sources */,
+				7145605A1B905FE700C8E0D2 /* DatabaseHandler.swift in Sources */,
 				5BF6362D19A9F3D900ABD0BA /* ViewController.swift in Sources */,
 				71307F131B7FA6480037CB7E /* SocketEngine.swift in Sources */,
 				5BF6364E19AA143A00ABD0BA /* ChatViewController.swift in Sources */,
 				71307F151B7FA6480037CB7E /* SocketEventHandler.swift in Sources */,
 				713F70A01B89547F0086D992 /* ContactsListCell.swift in Sources */,
+				714560561B904DAA00C8E0D2 /* Contacts.swift in Sources */,
 				5B990C9B19ACD59B00F9278A /* ChatComposeViewController.swift in Sources */,
-				714442D31B8F8E560048B3A5 /* DatabaseHandler.swift in Sources */,
 				71307F141B7FA6480037CB7E /* SocketEngineClient.swift in Sources */,
 				71307F1A1B7FA6480037CB7E /* SocketParser.swift in Sources */,
 				71307F181B7FA6480037CB7E /* SocketLogger.swift in Sources */,
@@ -681,7 +697,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
 				METAL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -717,7 +733,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
 				METAL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";

@@ -50,109 +50,16 @@ class ChatViewController: UIViewController {
 
         if AuthToken==""
         {performSegueWithIdentifier("loginSegue", sender: nil)}
-       
-        
-        //println("chat view")
+      
        // Do any additional setup after loading the view.
-        
-        //println(self.AuthToken)
-        //println("tokennn3 abovee")
-        
-        
-        
-        /////////////
+       
         
     }
    
     override func viewWillAppear(animated: Bool) {
         
         fetchContacts(AuthToken)
-       /* println("sdfsdsdfsdfsdfsdfsdfsd   "+AuthToken)
-        if AuthToken==""{}
-        else{
-            var fetchChatURL=Constants.MainUrl+Constants.getContactsList+"?access_token="+AuthToken
-            
-            println(fetchChatURL)
-            
-            Alamofire.request(.GET,"\(fetchChatURL)").responseJSON{
-                
-                request1, response1, data1, error1 in
-                
-                
-                
-                //============GOT Contacts SECCESS=================
-                
-                if response1?.statusCode==200
-                    
-                { var contactsJson = JSON(data1!)
-                    println("Contactsss fetcheddddddd")
-                    
-                   
-                  
-
-                    
-                    
-                    //println("Contacts fetched success")
-                    
-                    //println(data1?.debugDescription)
-                    
-                    // let contactsJsonObj = JSON(data: data1!)
-                    //println(contactsJsonObj["userid"])
-                    //let contact=contactsJsonObj["contactid"]
-                    //println(contact)
-                    
-                    //let contact=JSON(contactsJsonObj["contactid"])
-                    //   println(contact["firstname"])
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    ////////////////////////
-                    dispatch_async(dispatch_get_main_queue(), {
-                        //self.fetchContacts(self.AuthToken)
-                        /// activityOverlayView.dismissAnimated(true)
-                        
-                        
-                        if response1?.statusCode==200 {
-                            //println("Contacts fetched success")
-                            
-                            
-                             println(contactsJson.object)
-                          ////^^  var username=contactsJson[0]["contactid"]["username"]
-                           ////^^ println("emaillllllll............. \(username)")
-                            // println(self.AuthToken)
-                            
-                            
-                            //var userr=contactsJsonObj["userid"]
-                            // println(self.contactsJsonObj.count)
-                            
-                            
-                            
-                        } else {
-                            println("FETCH CONTACTS FAILED")
-                        }
-                    })
-                    
-                    
-                    
-                }else{
-                    
-                    println("Contacts Error, not fetched")
-                    
-                    println(request1)
-                    
-                    //println(response1)
-                    
-                    println(error1)
-                   
-                  
-                }
-                
-            }}*/
+        var db=DatabaseHandler(dbName: "abc.sqlite")
         
     }
     
@@ -171,29 +78,7 @@ class ChatViewController: UIViewController {
             
             //============GOT Contacts SECCESS=================
             
-            if response1?.statusCode==200
-                
-            {
-                
-                //println("Contacts fetched success")
-                
-                //println(data1?.debugDescription)
-                
-                // let contactsJsonObj = JSON(data: data1!)
-                //println(contactsJsonObj["userid"])
-                //let contact=contactsJsonObj["contactid"]
-                //println(contact)
-                
-                //let contact=JSON(contactsJsonObj["contactid"])
-                //   println(contact["firstname"])
-                
-                
-                
-                
-                
-                
-                
-                
+            
                 ////////////////////////
                 dispatch_async(dispatch_get_main_queue(), {
                     //self.fetchContacts(self.AuthToken)
@@ -202,38 +87,19 @@ class ChatViewController: UIViewController {
                     
                     if response1?.statusCode==200 {
                         //println("Contacts fetched success")
-                        
-                        
-                     //   self.contactsJsonObj = JSON(data: data1!)
-                        println("Contactsss fetcheddddddd")
-                      //  println(self.contactsJsonObj)
-                        
-                       // println(self.AuthToken)
-                        
-
+                        // let contactsJsonObj = JSON(data: data1!)
+                        //println(contactsJsonObj["userid"])
+                        //let contact=JSON(contactsJsonObj["contactid"])
+                        //   println(contact["firstname"])
+                      println("Contactsss fetcheddddddd")
                         //var userr=contactsJsonObj["userid"]
                         // println(self.contactsJsonObj.count)
-                        
-                        
-                        
                     } else {
                         println("FETCH CONTACTS FAILED")
                     }
                 })
                 
                 
-                
-            }else{
-                
-                println("Contacts Error, not fetched")
-                
-                println(request1)
-                
-                //println(response1)
-                
-                println(error1)
-                
-            }
             
         }
         
