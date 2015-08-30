@@ -86,11 +86,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Chat/LoginViewController.swift"
-            timestampString = "462440357.517412"
+            timestampString = "462629599.572086"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "165"
-            endingLineNumber = "165"
+            startingLineNumber = "166"
+            endingLineNumber = "166"
             landmarkName = "loginBtnTapped()"
             landmarkType = "5">
          </BreakpointContent>
@@ -118,13 +118,13 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Chat/DatabaseHandler.swift"
-            timestampString = "462582617.523187"
+            timestampString = "462634969.356405"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "60"
-            endingLineNumber = "60"
-            landmarkName = "insertUser(_:firstname:lastname:email:username:status:)"
-            landmarkType = "5">
+            startingLineNumber = "71"
+            endingLineNumber = "71"
+            landmarkName = "DatabaseHandler"
+            landmarkType = "3">
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

@@ -9,6 +9,7 @@
 import UIKit
 import Alamofire
 import SwiftyJSON
+import SQLite
 
 
 class LoginViewController: UIViewController, UITextFieldDelegate{
@@ -165,10 +166,49 @@ class LoginViewController: UIViewController, UITextFieldDelegate{
                                socketObj.socket.emit("join global chatroom",["room": "globalchatroom", "user": json.object])
                                 
                                 println(json["_id"])
-                               /* sqliteDB.insertUser(_id:json["_id"].string!, firstname: json["firstname"].string!, lastname: json["lastname"].string!, email: json["email"].string!, username: json["username"].string!, status: json["status"].string!)
-*/
-                               //// self.fetchContacts(AuthToken)
                                 
+                                let tbl_accounts = sqliteDB.db["accounts"]
+                                let _id = Expression<String>("_id")
+                                let firstname = Expression<String?>("firstname")
+                                let lastname = Expression<String?>("lastname")
+                                let email = Expression<String>("email")
+                                let phone = Expression<String>("phone")
+                                let username = Expression<String>("username")
+                                let status = Expression<String>("status")
+                                let date = Expression<String>("date")
+                                let accountVerified = Expression<String>("accountVerified")
+                                let role = Expression<String>("role")
+
+                                
+                               // let insert = users.insert(email <- "alice@mac.com")
+                               
+                                
+                                tbl_accounts.delete()
+                                let insert=tbl_accounts.insert(_id<-json["_id"].string!,
+                                firstname<-json["firstname"].string!,
+                                lastname<-json["lastname"].string!,
+                                email<-json["email"].string!,
+                                username<-json["username"].string!,
+                                status<-json["status"].string!,
+                                phone<-json["phone"].string!)
+                                if let rowid = insert.rowid {
+                                    println("inserted id: \(rowid)")
+                                } else if insert.statement.failed {
+                                    println("insertion failed: \(insert.statement.reason)")
+                                }
+                                
+                               //// self.fetchContacts(AuthToken)
+                                for account in tbl_accounts {
+                                    println("id: \(account[_id]), email: \(account[email]), firstname: \(account[firstname])")
+                                    // id: 1, email: alice@mac.com, name: Optional("Alice")
+                                }
+                                
+                              /*  let stmt = sqliteDB.db.prepare("SELECT * FROM accounts")
+                                println(stmt.columnNames)
+                                for row in stmt {
+                                    println("...................... firstname: \(row[1]), email: \(row[3])")
+                                    // id: Optional(1), email: Optional("alice@mac.com")
+                                }*/
                                 
                             } else {
                                 self.labelLoginUnsuccessful.text="Sorry, you are not registered"
