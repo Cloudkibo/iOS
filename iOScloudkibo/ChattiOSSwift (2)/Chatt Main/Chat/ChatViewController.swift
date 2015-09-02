@@ -9,6 +9,7 @@
 import UIKit
 import SwiftyJSON
 import Alamofire
+import SQLite
 
 class ChatViewController: UIViewController {
 
@@ -48,9 +49,22 @@ class ChatViewController: UIViewController {
         self.tabBarController?.tabBar.tintColor = UIColor.greenColor()
         println("////////////////////// new class tokn \(AuthToken)")
 
-        if AuthToken==""
+        let username = Expression<String?>("username")
+        //if sqliteDB.db["accounts"].count(username)<1
+        //if AuthToken==""
+        
+        //everytime new login
+        KeychainWrapper.removeObjectForKey("access_token")
+        let retrievedToken=KeychainWrapper.stringForKey("access_token")
+        if retrievedToken==nil
         {performSegueWithIdentifier("loginSegue", sender: nil)}
+        else
+        {println("rrrrrrrrr \(retrievedToken)")
+            
+            //performSegueWithIdentifier("loginSegue", sender: nil)
+        }
       
+        
        // Do any additional setup after loading the view.
        
         
@@ -87,13 +101,48 @@ class ChatViewController: UIViewController {
                     
                     if response1?.statusCode==200 {
                         //println("Contacts fetched success")
-                        // let contactsJsonObj = JSON(data: data1!)
+                         let contactsJsonObj = JSON(data: data1!)
+                        println(contactsJsonObj)
                         //println(contactsJsonObj["userid"])
                         //let contact=JSON(contactsJsonObj["contactid"])
                         //   println(contact["firstname"])
                       println("Contactsss fetcheddddddd")
                         //var userr=contactsJsonObj["userid"]
                         // println(self.contactsJsonObj.count)
+                        let contactid = Expression<String>("contactid")
+                        let detailsshared = Expression<String>("detailsshared")
+                        let unreadMessage = Expression<String>("unreadMessage")
+                        let userid = Expression<String>("userid")
+                        let firstname = Expression<String>("firstname")
+                        let lastname = Expression<String>("lastname")
+                        let email = Expression<String>("email")
+                        let phone = Expression<String>("phone")
+                        let username = Expression<String>("username")
+                        let status = Expression<String>("status")
+                        
+                        
+                        let tbl_contactslists=sqliteDB.db["contactslists"]
+                        for var i=0;i<contactsJsonObj.count;i++
+                        {
+                        let insert=tbl_contactslists.insert(contactid<-contactsJsonObj[i]["contactid"]["_id"].string!,
+                            detailsshared<-contactsJsonObj[i]["detailsshared"].string!,
+                            //unreadMessage<-contactsJsonObj[i]["unreadMessage"].string!,
+                            userid<-contactsJsonObj[i]["userid"].string!,
+                            firstname<-contactsJsonObj[i]["contactid"]["firstname"].string!,
+                            lastname<-contactsJsonObj[i]["contactid"]["lastname"].string!,
+                            email<-contactsJsonObj[i]["contactid"]["email"].string!,
+                            phone<-contactsJsonObj[i]["contactid"]["_id"].string!,
+                            username<-contactsJsonObj[i]["contactid"]["username"].string!,
+                            status<-contactsJsonObj[i]["contactid"]["status"].string!)
+                        if let rowid = insert.rowid {
+                            println("inserted id: \(rowid)")
+                        } else if insert.statement.failed {
+                            println("insertion failed: \(insert.statement.reason)")
+                        }
+                        }
+
+                        
+                        
                     } else {
                         println("FETCH CONTACTS FAILED")
                     }

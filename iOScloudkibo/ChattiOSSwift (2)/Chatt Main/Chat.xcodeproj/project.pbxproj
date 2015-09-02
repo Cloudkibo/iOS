@@ -47,6 +47,7 @@
 		714638FF1B7D0FED002084FF /* Alamofire.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 714638F71B7D0F1A002084FF /* Alamofire.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		714639041B7D1624002084FF /* LoginAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 714639031B7D1624002084FF /* LoginAPI.swift */; };
 		714639061B7D41F9002084FF /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 714639051B7D41F9002084FF /* Constants.swift */; };
+		71DDAD9D1B94CA690013F4D9 /* KeychainWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71DDAD9C1B94CA690013F4D9 /* KeychainWrapper.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -221,6 +222,7 @@
 		714638EF1B7D0F19002084FF /* Alamofire.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Alamofire.xcodeproj; path = "../../Alamofire-master/Alamofire.xcodeproj"; sourceTree = "<group>"; };
 		714639031B7D1624002084FF /* LoginAPI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginAPI.swift; sourceTree = "<group>"; };
 		714639051B7D41F9002084FF /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
+		71DDAD9C1B94CA690013F4D9 /* KeychainWrapper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = KeychainWrapper.swift; path = "../../../../../../Downloads/SwiftKeychainWrapper-master/SwiftKeychainWrapper/KeychainWrapper.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -271,6 +273,7 @@
 		5BF6362719A9F3D900ABD0BA /* Chat */ = {
 			isa = PBXGroup;
 			children = (
+				71DDAD9C1B94CA690013F4D9 /* KeychainWrapper.swift */,
 				713FB04A1B89795300E7BDD6 /* JSONStringify.swift */,
 				5BF6362A19A9F3D900ABD0BA /* AppDelegate.swift */,
 				714639051B7D41F9002084FF /* Constants.swift */,
@@ -595,6 +598,7 @@
 				5B94184019B8D296006A9EAD /* MoreTableViewController.swift in Sources */,
 				714639041B7D1624002084FF /* LoginAPI.swift in Sources */,
 				5BF6364C19A9FCE500ABD0BA /* LoginViewController.swift in Sources */,
+				71DDAD9D1B94CA690013F4D9 /* KeychainWrapper.swift in Sources */,
 				713FB04B1B89795300E7BDD6 /* JSONStringify.swift in Sources */,
 				7145605C1B90875D00C8E0D2 /* Accounts.swift in Sources */,
 				5B01667A19AC2B730059918D /* NotesViewController.swift in Sources */,
@@ -751,6 +755,8 @@
 					"$(inherited)",
 					"/Users/cloudkibo/Downloads/SQLite.swift-master",
 					2/build/Debug,
+					"/Users/cloudkibo/Documents/iOS/iOScloudkibo/Locksmith-master/Example/Pods/../build/Debug-iphoneos",
+					"/Users/cloudkibo/Documents/iOS/iOScloudkibo/Locksmith-master/build/Debug-iphoneos",
 				);
 				INFOPLIST_FILE = Chat/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
@@ -769,6 +775,8 @@
 					"$(inherited)",
 					"/Users/cloudkibo/Downloads/SQLite.swift-master",
 					2/build/Debug,
+					"/Users/cloudkibo/Documents/iOS/iOScloudkibo/Locksmith-master/Example/Pods/../build/Debug-iphoneos",
+					"/Users/cloudkibo/Documents/iOS/iOScloudkibo/Locksmith-master/build/Debug-iphoneos",
 				);
 				INFOPLIST_FILE = Chat/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.3;

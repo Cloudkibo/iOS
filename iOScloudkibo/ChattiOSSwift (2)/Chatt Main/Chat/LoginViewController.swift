@@ -12,6 +12,7 @@ import SwiftyJSON
 import SQLite
 
 
+
 class LoginViewController: UIViewController, UITextFieldDelegate{
     
     var contactsJsonObj:JSON=""
@@ -140,6 +141,8 @@ class LoginViewController: UIViewController, UITextFieldDelegate{
                 //======================STORING Token========================
                 let jsonLogin = JSON(data: data!)
                 let token = jsonLogin["token"]
+                KeychainWrapper.setString(token.string!, forKey: "access_token")
+                
                 AuthToken=token.string!
                 
                 //========GET USER DETAILS===============
@@ -184,6 +187,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate{
                                
                                 
                                 tbl_accounts.delete()
+                                
                                 let insert=tbl_accounts.insert(_id<-json["_id"].string!,
                                 firstname<-json["firstname"].string!,
                                 lastname<-json["lastname"].string!,
@@ -203,6 +207,10 @@ class LoginViewController: UIViewController, UITextFieldDelegate{
                                     // id: 1, email: alice@mac.com, name: Optional("Alice")
                                 }
                                 
+
+                                
+                                
+                                //...........
                               /*  let stmt = sqliteDB.db.prepare("SELECT * FROM accounts")
                                 println(stmt.columnNames)
                                 for row in stmt {

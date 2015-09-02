@@ -17,6 +17,16 @@ class ChatDetailViewController: UIViewController {
     @IBOutlet var tblForChats : UITableView!
     @IBOutlet var chatComposeView : UIView!
     @IBOutlet var txtFldMessage : UITextField!
+    
+    let to = Expression<String>("to")
+    let from = Expression<String>("from")
+    let fromFullName = Expression<String>("fromFullName")
+    let msg = Expression<String>("msg")
+    //let owneruser = Expression<String>("owneruser")
+    let date = Expression<NSDate>("date")
+    
+    var tbl_userchats:Query!
+
     //var AuthToken:String=""
     var messages : NSMutableArray!
 
@@ -42,6 +52,7 @@ class ChatDetailViewController: UIViewController {
        //self.performSegueWithIdentifier("chatSegue", sender: nil)
         
         println("chat detail view")
+        self.tbl_userchats=sqliteDB.db["userschats"]
          self.NewChatNavigationTitle.title="Sumi"
         var receivedMsg=JSON("")
         socketObj.socket.on("im") {data,ack in
@@ -51,13 +62,32 @@ class ChatDetailViewController: UIViewController {
             println(chatJson[0]["msg"])
             receivedMsg=chatJson[0]["msg"]
             var username=chatJson[0]["fullName"]
+            
+            
             self.addMessage(receivedMsg.description, ofType: "1")
            
-            self.tblForChats.reloadData()
             
+            
+            self.tblForChats.reloadData()
+            let insert=self.tbl_userchats.insert(self.fromFullName<-chatJson[0]["fromFullName"].string!,
+                self.msg<-chatJson[0]["msg"].string!,
+                //self.owneruser<-chatJson[0]["owneruser"].string!,
+                self.to<-chatJson[0]["to"].string!,
+                self.from<-chatJson[0]["from"].string!
+            )
+            if let rowid = insert.rowid {
+                println("inserted id: \(rowid)")
+            } else if insert.statement.failed {
+                println("insertion failed: \(insert.statement.reason)")
+            }
+            
+            
+            
+
             
         }
-        
+    
+
         //=== socket.io connect code
         /*var socketUrlValue=Constants.MainUrl+Constants.bringUserChat
         let socket = SocketIOClient(socketURL: "\(socketUrlValue)")
@@ -212,6 +242,19 @@ class ChatDetailViewController: UIViewController {
         
         //////
     
+        let insert=self.tbl_userchats.insert(self.fromFullName<-"Sabach Channa",
+            self.msg<-"\(txtFldMessage.text)",
+            //self.owneruser<-"sabachanna",
+            self.to<-"sumi",
+            self.from<-"sabachanna"
+        )
+        if let rowid = insert.rowid {
+            println("inserted id: \(rowid)")
+        } else if insert.statement.failed {
+            println("insertion failed: \(insert.statement.reason)")
+        }
+        
+        
         self.addMessage(txtFldMessage.text, ofType: "2")
         txtFldMessage.text = "";
         tblForChats.reloadData()
