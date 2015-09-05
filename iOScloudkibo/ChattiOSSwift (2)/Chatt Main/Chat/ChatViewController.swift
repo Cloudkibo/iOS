@@ -13,7 +13,7 @@ import SQLite
 
 class ChatViewController: UIViewController {
 
-    
+    var refreshControl = UIRefreshControl()
     //var contactsJsonObj:JSON="[]"
     @IBOutlet var viewForTitle : UIView!
     @IBOutlet var ctrlForChat : UISegmentedControl!
@@ -23,21 +23,20 @@ class ChatViewController: UIViewController {
     //var AuthToken:String=""
     //var socketObj=LoginAPI(url: "\(Constants.MainUrl)")
 
-    let transportItems = ["Bus","Helicopter","Truck","Boat","Bicycle","Motorcycle","Plane","Train","Car","Scooter","Caravan"]
+    var transportItems:[String]=[]
+    //["Bus","Helicopter","Truck","Boat","Bicycle","Motorcycle","Plane","Train","Car","Scooter","Caravan"]
     
     override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: NSBundle?) {
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
         // Custom initialization
-       //println("tokennn abovee1")
+       
     }
     
     required init(coder aDecoder: NSCoder)
     {
         super.init(coder: aDecoder)
         println(AuthToken)
-      ///  fetchContacts(AuthToken)
-        
-        //println("tokennn abovee2")
+      
     }
 
     override func viewDidLoad() {
@@ -48,7 +47,16 @@ class ChatViewController: UIViewController {
         self.navigationItem.rightBarButtonItem = itemForSearch
         self.tabBarController?.tabBar.tintColor = UIColor.greenColor()
         println("////////////////////// new class tokn \(AuthToken)")
-
+       // fetchContacts(AuthToken)
+        println(self.transportItems.count.description)
+        // self.tblForChat.reloadData()
+        
+        
+        
+        refreshControl.addTarget(self, action: Selector("fetchContacts"), forControlEvents: UIControlEvents.ValueChanged)
+        //self.refreshControl = refreshControl
+    
+    
         let username = Expression<String?>("username")
         //if sqliteDB.db["accounts"].count(username)<1
         //if AuthToken==""
@@ -60,7 +68,10 @@ class ChatViewController: UIViewController {
         {performSegueWithIdentifier("loginSegue", sender: nil)}
         else
         {println("rrrrrrrrr \(retrievedToken)")
-            
+            refreshControl.addTarget(self, action: Selector("fetchContacts"), forControlEvents: UIControlEvents.ValueChanged)
+
+            //fetchContacts()
+             self.tblForChat.reloadData()
             //performSegueWithIdentifier("loginSegue", sender: nil)
         }
       
@@ -72,15 +83,15 @@ class ChatViewController: UIViewController {
    
     override func viewWillAppear(animated: Bool) {
         
-        fetchContacts(AuthToken)
-        var db=DatabaseHandler(dbName: "abc.sqlite")
+        fetchContacts()
+        //var db=DatabaseHandler(dbName: "abc.sqlite")
         
     }
     
     
-    func fetchContacts(token:String){
+    func fetchContacts(){
         
-        var fetchChatURL=Constants.MainUrl+Constants.getContactsList+"?access_token="+token
+        var fetchChatURL=Constants.MainUrl+Constants.getContactsList+"?access_token="+AuthToken
         
         println(fetchChatURL)
         
@@ -134,6 +145,10 @@ class ChatViewController: UIViewController {
                             phone<-contactsJsonObj[i]["contactid"]["_id"].string!,
                             username<-contactsJsonObj[i]["contactid"]["username"].string!,
                             status<-contactsJsonObj[i]["contactid"]["status"].string!)
+                            
+                            //self.transportItems.insert(contactsJsonObj[i]["contactid"]["firstname"].string!+" "+contactsJsonObj[i]["contactid"]["lastname"].string!, atIndex: i)
+                            
+                            self.transportItems.append(contactsJsonObj[i]["contactid"]["firstname"].string!+" "+contactsJsonObj[i]["contactid"]["lastname"].string!)
                         if let rowid = insert.rowid {
                             println("inserted id: \(rowid)")
                         } else if insert.statement.failed {
@@ -141,7 +156,8 @@ class ChatViewController: UIViewController {
                         }
                         }
 
-                        
+                        self.tblForChat.reloadData()
+                        self.refreshControl.endRefreshing()
                         
                     } else {
                         println("FETCH CONTACTS FAILED")
@@ -167,6 +183,8 @@ class ChatViewController: UIViewController {
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        //refreshControl.addTarget(self, action: Selector("fetchContacts"), forControlEvents: UIControlEvents.ValueChanged)
+        println(transportItems.count)
         return transportItems.count
     }
     

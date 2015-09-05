@@ -9,6 +9,7 @@
 import UIKit
 import SwiftyJSON
 import SQLite
+import Alamofire
 
 class ChatDetailViewController: UIViewController {
 
@@ -22,13 +23,11 @@ class ChatDetailViewController: UIViewController {
     let from = Expression<String>("from")
     let fromFullName = Expression<String>("fromFullName")
     let msg = Expression<String>("msg")
-    //let owneruser = Expression<String>("owneruser")
     let date = Expression<NSDate>("date")
     
     var tbl_userchats:Query!
 
-    //var AuthToken:String=""
-    var messages : NSMutableArray!
+       var messages : NSMutableArray!
 
     override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: NSBundle?) {
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
@@ -52,6 +51,9 @@ class ChatDetailViewController: UIViewController {
        //self.performSegueWithIdentifier("chatSegue", sender: nil)
         
         println("chat detail view")
+        
+        FetchChatServer()
+        
         self.tbl_userchats=sqliteDB.db["userschats"]
          self.NewChatNavigationTitle.title="Sumi"
         var receivedMsg=JSON("")
@@ -80,48 +82,9 @@ class ChatDetailViewController: UIViewController {
             } else if insert.statement.failed {
                 println("insertion failed: \(insert.statement.reason)")
             }
-            
-            
-            
-
-            
         }
-    
-
-        //=== socket.io connect code
-        /*var socketUrlValue=Constants.MainUrl+Constants.bringUserChat
-        let socket = SocketIOClient(socketURL: "\(socketUrlValue)")
-        
-        socket.on("'join global chatroom") {data, ack in
-            println("socket connected")
-            println(data)
-        }*/
-
-       /* println("hiiiiiiiiiiii \(self.AuthToken)")
-        
-       let socket = SocketIOClient(socketURL: "https://www.cloudkibo.com")
-    
-        
-           socket.connect()
-      ////////  var userObj={["username":"sabachanna","_id:"]}
-        //username:sabachanna _id:
-        socket.on("youareonline") {data,ack in
-            println("socket connected")
-            
-        }
-        socket.on("join global chatroom"){data,ack in
-        println("response im ... \(data)")
-            println("listening")
-        }
-        socket.connect()
-        println(socket.connected)
-*/
-
-        
     /*  self.addMessage("Its actually pretty good!", ofType: "1")
         self.addMessage("What do you think of this tool!", ofType: "2")*/
-//println("hereee")
-        
     }
 
        
@@ -134,6 +97,42 @@ class ChatDetailViewController: UIViewController {
         messages.addObject(["message":message, "type":msgType])
     }
     
+    func fetchChatSQlite(){
+        
+        
+    }
+    
+    func FetchChatServer()
+    {
+        var bringUserChatURL=Constants.MainUrl+Constants.bringUserChat+"?access_token="+AuthToken
+        let configuration = NSURLSessionConfiguration.defaultSessionConfiguration()
+        Alamofire.request(.POST,"\(bringUserChatURL)",parameters: ["user1":"sabachanna","user2":"sumi"]
+).responseJSON{
+            request1, response1, data1, error1 in
+            
+            //===========INITIALISE SOCKETIOCLIENT=========
+           // dispatch_async(dispatch_get_main_queue(), {
+            
+                //self.dismissViewControllerAnimated(true, completion: nil);
+                /// self.performSegueWithIdentifier("loginSegue", sender: nil)
+                
+                if response1?.statusCode==200 {
+                    println("chatttttttt:::::")
+                    println(request1)
+                    println(data1)
+                }
+                else
+                {
+                    println("chatttttt faileddddddd")
+                    println(request1)
+                    println(error1)
+                    println(data1)
+                }
+            //})
+        }
+    
+    
+    }
     
     func tableView(tableView: UITableView!, numberOfRowsInSection section: Int) -> Int {
         return messages.count
