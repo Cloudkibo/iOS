@@ -54,7 +54,7 @@ class ChatDetailViewController: UIViewController {
         
         FetchChatServer()
         
-        self.tbl_userchats=sqliteDB.db["userschats"]
+        //^^self.tbl_userchats=sqliteDB.db["userschats"]
          self.NewChatNavigationTitle.title="Sumi"
         var receivedMsg=JSON("")
         socketObj.socket.on("im") {data,ack in
@@ -71,7 +71,11 @@ class ChatDetailViewController: UIViewController {
             
             
             self.tblForChats.reloadData()
-            let insert=self.tbl_userchats.insert(self.fromFullName<-chatJson[0]["fromFullName"].string!,
+            var indexPath = NSIndexPath(forRow:self.messages.count-1, inSection: 0)
+            self.tblForChats.scrollToRowAtIndexPath(indexPath, atScrollPosition: UITableViewScrollPosition.Bottom, animated: true)
+
+            sqliteDB.SaveChat(chatJson[0]["to"].string!, from1: chatJson[0]["from"].string!, fromFullName1: chatJson[0]["fromFullName"].string!, msg1: chatJson[0]["msg"].string!)
+           /* ^^^let insert=self.tbl_userchats.insert(self.fromFullName<-chatJson[0]["fromFullName"].string!,
                 self.msg<-chatJson[0]["msg"].string!,
                 //self.owneruser<-chatJson[0]["owneruser"].string!,
                 self.to<-chatJson[0]["to"].string!,
@@ -82,6 +86,7 @@ class ChatDetailViewController: UIViewController {
             } else if insert.statement.failed {
                 println("insertion failed: \(insert.statement.reason)")
             }
+*/
         }
     /*  self.addMessage("Its actually pretty good!", ofType: "1")
         self.addMessage("What do you think of this tool!", ofType: "2")*/
@@ -118,8 +123,29 @@ class ChatDetailViewController: UIViewController {
                 
                 if response1?.statusCode==200 {
                     println("chatttttttt:::::")
-                    println(request1)
-                    println(data1)
+                    //println(request1)
+                   // println(data1)
+                    var UserchatJson=JSON(data1!)
+                    println(UserchatJson["msg"][0])
+                    println(UserchatJson["msg"][0]["to"])
+                    for var i=0;i<UserchatJson["msg"].count
+                        ;i++
+                    {
+                    sqliteDB.SaveChat(UserchatJson["msg"][i]["to"].string!, from1: UserchatJson["msg"][i]["from"].string!, fromFullName1: UserchatJson["msg"][i]["fromFullName"].string!, msg1: UserchatJson["msg"][i]["msg"].string!)
+                        if UserchatJson["msg"][i]["from"]=="sabachanna"
+                        {//type1
+                            self.addMessage(UserchatJson["msg"][i]["msg"].string!, ofType: "2")
+                        }
+                        else
+                        {//type2
+                            self.addMessage(UserchatJson["msg"][i]["msg"].string!, ofType: "1")
+
+                        }
+                        self.tblForChats.reloadData()
+                        var indexPath = NSIndexPath(forRow:self.messages.count-1, inSection: 0)
+                        self.tblForChats.scrollToRowAtIndexPath(indexPath, atScrollPosition: UITableViewScrollPosition.Bottom, animated: true)
+
+                    }
                 }
                 else
                 {
@@ -241,7 +267,9 @@ class ChatDetailViewController: UIViewController {
         
         //////
     
-        let insert=self.tbl_userchats.insert(self.fromFullName<-"Sabach Channa",
+        sqliteDB.SaveChat("sumi", from1: "sabachanna", fromFullName1: "Sabach Channa", msg1: "\(txtFldMessage.text)")
+        
+        /*insert(self.fromFullName<-"Sabach Channa",
             self.msg<-"\(txtFldMessage.text)",
             //self.owneruser<-"sabachanna",
             self.to<-"sumi",
@@ -251,7 +279,7 @@ class ChatDetailViewController: UIViewController {
             println("inserted id: \(rowid)")
         } else if insert.statement.failed {
             println("insertion failed: \(insert.statement.reason)")
-        }
+        }*/
         
         
         self.addMessage(txtFldMessage.text, ofType: "2")

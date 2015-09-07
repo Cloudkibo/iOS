@@ -53,7 +53,7 @@ class ChatViewController: UIViewController {
         
         
         
-        refreshControl.addTarget(self, action: Selector("fetchContacts"), forControlEvents: UIControlEvents.ValueChanged)
+        //refreshControl.addTarget(self, action: Selector("fetchContacts"), forControlEvents: UIControlEvents.ValueChanged)
         //self.refreshControl = refreshControl
     
     
@@ -74,7 +74,6 @@ class ChatViewController: UIViewController {
              self.tblForChat.reloadData()
             //performSegueWithIdentifier("loginSegue", sender: nil)
         }
-      
         
        // Do any additional setup after loading the view.
        
@@ -157,7 +156,7 @@ class ChatViewController: UIViewController {
                         }
 
                         self.tblForChat.reloadData()
-                        self.refreshControl.endRefreshing()
+                        //self.refreshControl.endRefreshing()
                         
                     } else {
                         println("FETCH CONTACTS FAILED")

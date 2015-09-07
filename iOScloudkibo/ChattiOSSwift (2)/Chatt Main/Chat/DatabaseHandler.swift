@@ -149,4 +149,37 @@ class DatabaseHandler:NSObject{
         
     }*/
     
+    func SaveChat(to1:String,from1:String,fromFullName1:String,msg1:String)
+    {
+        
+        let to = Expression<String>("to")
+        let from = Expression<String>("from")
+        let fromFullName = Expression<String>("fromFullName")
+        let msg = Expression<String>("msg")
+        let date = Expression<NSDate>("date")
+        
+        var tbl_userchats=sqliteDB.db["userschats"]
+        
+        let insert=tbl_userchats.insert(fromFullName<-fromFullName1,
+            msg<-msg1,
+            to<-to1,
+            from<-from1
+        )
+        if let rowid = insert.rowid {
+            //println("inserted id: \(rowid)")
+        } else if insert.statement.failed {
+            println("insertion failed: \(insert.statement.reason)")
+        }
+
+
+    }
+    func retrieveChat()
+    {
+        
+    }
+    func deleteChat()
+    {
+        
+    }
+    
 }
