@@ -16,6 +16,9 @@ class Constants{
     static let getContactsList="/api/contactslist/"
     static let room="globalchatroom"
     
-    
+    static let addContactByUsername="/api/contactslist/addbyusername"
+    static let addContactByEmail="/api/contactslist/addbyemail"
+    static let markAsRead="/api/userchat/markasread"
+    static let getSingleUserByID="/api/users/" //send if along
     
 }

@@ -18,22 +18,34 @@ class DatabaseHandler:NSObject{
     
     init(dbName:String)
     {
-       // super.init()
-        let docsDir = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true).last!
-     dbPath = (docsDir as! NSString).stringByAppendingPathComponent("/cloudkibo")
         
-     self.db = Database(dbPath)
+        /* let fileManager = NSFileManager.defaultManager()
+        let dirPaths = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)
+        
+        let docsDir1 = dirPaths[0] as! String
+        
+        let pathForDB = NSBundle.mainBundle().resourcePath!.stringByAppendingPathComponent("myNewDatabase.sqlite3")
+        
+        var databasePath = docsDir1.stringByAppendingPathComponent("myNewDatabase.sqlite3")
+        
+        self.db = Database(databasePath)*/
+        
+        // super.init()
+        let docsDir = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true).last!
+        dbPath = (docsDir as! NSString).stringByAppendingPathComponent("/cloudkibo")
+        
+        self.db = Database(dbPath)
         println(db.description)
         db=Database(dbPath)
-       super.init()
-     
-       /* insertUser(_id:"abc",
-            firstname: "sum",
-            lastname: "saeed",
-            email: "s@sdf.com",
-            username: "sum",
-            status: "testing table")*/
-
+        super.init()
+        
+        /* insertUser(_id:"abc",
+        firstname: "sum",
+        lastname: "saeed",
+        email: "s@sdf.com",
+        username: "sum",
+        status: "testing table")*/
+        
         createAccountsTable()
         db.drop(table: self.db["contactslists"])
         createContactListsTable()
@@ -42,7 +54,7 @@ class DatabaseHandler:NSObject{
     
     func createAccountsTable()
     {
-     
+        
         
         let _id = Expression<String>("_id")
         let firstname = Expression<String>("firstname")
@@ -56,7 +68,8 @@ class DatabaseHandler:NSObject{
         let role = Expression<String>("role")
         
         self.accounts = db["accounts"]
-        //self.accounts.delete()
+        
+        self.accounts.delete()
         db.create(table: self.accounts, ifNotExists: true) { t in
             //t.column(_id, primaryKey: true)
             t.column(email, unique: true,check: like("%@%", email))
@@ -74,7 +87,7 @@ class DatabaseHandler:NSObject{
         //let _id = Expression<String>("_id")
         let contactid = Expression<String>("contactid")
         let detailsshared = Expression<String>("detailsshared")
-        //let unreadMessage = Expression<Bool>("unreadMessage")
+        let unreadMessage = Expression<Bool>("unreadMessage")
         
         let userid = Expression<String>("userid")
         let firstname = Expression<String>("firstname")
@@ -83,7 +96,7 @@ class DatabaseHandler:NSObject{
         let phone = Expression<String>("phone")
         let username = Expression<String>("username")
         let status = Expression<String>("status")
-
+        
         
         self.contactslists = db["contactslists"]
         //self.contactslists.delete()
@@ -93,7 +106,8 @@ class DatabaseHandler:NSObject{
             //t.column(_id)
             t.column(contactid)//loggedin user id
             t.column(detailsshared)
-            //t.column(unreadMessage)
+            
+            t.column(unreadMessage)
             t.column(userid) //id of friend
             t.column(firstname)
             t.column(lastname)
@@ -102,12 +116,12 @@ class DatabaseHandler:NSObject{
             t.column(username)
             t.column(status)
             
-
+            
             
         }
-    
-    
-    
+        
+        
+        
     }
     
     func createUserChatTable(){
@@ -121,10 +135,11 @@ class DatabaseHandler:NSObject{
         let date = Expression<NSDate>("date")
         
         self.userschats = db["userschats"]
-        db.drop(table: self.userschats)
+        
+        //db.drop(table: self.userschats)
         
         db.create(table: self.userschats, ifNotExists: true) { t in
-           
+            
             t.column(to)//loggedin user id
             t.column(from)
             t.column(fromFullName)
@@ -136,21 +151,22 @@ class DatabaseHandler:NSObject{
     }
     /*func insertUser(_id:String,firstname:String,lastname:Expression<String>,email:Expression<String>,username:Expression<String>,status:Expression<String>)
     {
-        let a=accounts.insert(email<-email,
-            firstname<-firstname,
-            lastname<-lastname,
-            _id<-_id,
-            status<-status)
-        if let rowid = a.rowid {
-            println("inserted id: \(rowid)")
-        } else if a.statement.failed {
-            println("insertion failed: \(a.statement.reason)")
-        }
-        
+    let a=accounts.insert(email<-email,
+    firstname<-firstname,
+    lastname<-lastname,
+    _id<-_id,
+    status<-status)
+    if let rowid = a.rowid {
+    println("inserted id: \(rowid)")
+    } else if a.statement.failed {
+    println("insertion failed: \(a.statement.reason)")
+    }
+    
     }*/
     
     func SaveChat(to1:String,from1:String,fromFullName1:String,msg1:String)
     {
+        //createUserChatTable()
         
         let to = Expression<String>("to")
         let from = Expression<String>("from")
@@ -170,15 +186,17 @@ class DatabaseHandler:NSObject{
         } else if insert.statement.failed {
             println("insertion failed: \(insert.statement.reason)")
         }
-
-
+        
+        
     }
     func retrieveChat()
     {
         
     }
-    func deleteChat()
+    func deleteChat(userTo:String)
     {
+        let to = Expression<String>("to")
+        self.userschats.filter(to==userTo).delete()
         
     }
     
