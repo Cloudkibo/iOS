@@ -23,7 +23,7 @@ class ChatDetailViewController: UIViewController {
     
     var selectedContact=""
     var selectedID=""
-    var selectedUserObj=JSON("")
+    var selectedUserObj=JSON("[]")
     let to = Expression<String>("to")
     let from = Expression<String>("from")
     let fromFullName = Expression<String>("fromFullName")
@@ -61,7 +61,8 @@ class ChatDetailViewController: UIViewController {
         
         
         FetchChatServer()
-        //self.getUserObjectById()
+        self.getUserObjectById()
+        //self.markChatAsRead()
         /*dispatch_async(dispatch_get_main_queue(), {
         
         
@@ -124,9 +125,33 @@ class ChatDetailViewController: UIViewController {
     }
     func getUserObjectById()
     {
+        var tbl_contactList=sqliteDB.db["contactslists"]
+        let username = Expression<String>("username")
+        let email = Expression<String>("email")
+        let _id = Expression<String>("_id")
+        //let detailsshared = Expression<String>("detailsshared")
+        //let unreadMessage = Expression<Bool>("unreadMessage")
+        let userid = Expression<String>("userid")
+        let firstname = Expression<String>("firstname")
+        let lastname = Expression<String>("lastname")
+        let phone = Expression<String>("phone")
+        let status = Expression<String>("status")
+        
+        for user in tbl_contactList.select(username, email,_id,userid,firstname,lastname,phone,status).filter(username==selectedContact) {
+            println("id: \(user[username]), email: \(user[email])")
+            var userObj=JSON(["_id":"\(user[_id])","userid":"\(user[userid])","firstname":"\(user[firstname])","lastname":"\(user[lastname])","email":"\(user[email])","phone":"\(user[phone])","status":"\(user[status])"])
+            self.selectedUserObj=userObj
+            // id: 1, email: alice@mac.com
+        }
+        markChatAsRead()
+        //removeChatHistory()
+        /*
+        
+        
+        println(self.selectedID+" idddd")
         var getUserbByIdURL=Constants.MainUrl+Constants.getSingleUserByID+self.selectedID+"?access_token="+AuthToken
         println(getUserbByIdURL.debugDescription+"..........")
-        Alamofire.request(.GET,"\(getUserbByIdURL)").response{
+        Alamofire.request(.GET,"\(getUserbByIdURL)").responseJSON{
             request, response, data, error in
             //println(error)
             
@@ -136,6 +161,7 @@ class ChatDetailViewController: UIViewController {
                 println("got userrrrrrr")
                 println(data!.debugDescription)
                 self.selectedUserObj=JSON(data!)
+                println(self.selectedUserObj.description)
             }
             else
             {
@@ -145,7 +171,34 @@ class ChatDetailViewController: UIViewController {
                 println(response)
             }
         }
+        */
+    }
+    func removeChatHistory(){
+        //var loggedUsername=loggedUserObj["username"]
+        var removeChatHistoryURL=Constants.MainUrl+Constants.removeChatHistory+"?access_token=\(AuthToken)"
         
+        Alamofire.request(.POST,"\(removeChatHistoryURL)",parameters: ["username":"\(selectedContact)"]).response{
+                request1, response1, data1, error1 in
+                
+                //===========INITIALISE SOCKETIOCLIENT=========
+                // dispatch_async(dispatch_get_main_queue(), {
+                
+                //self.dismissViewControllerAnimated(true, completion: nil);
+                /// self.performSegueWithIdentifier("loginSegue", sender: nil)
+                
+                if response1?.statusCode==200 {
+                    println("chat history deleted")
+                    //println(request1)
+                    println(data1?.debugDescription)
+                    
+                }
+                else
+                {println("chat history not deleted")
+                    println(error1)
+                    println(data1)}
+        }
+        
+
     }
     
     func markChatAsRead()
@@ -154,8 +207,11 @@ class ChatDetailViewController: UIViewController {
         var markChatReadURL=Constants.MainUrl+Constants.markAsRead+"?access_token=\(AuthToken)"
         println(["user1":"\(loggedUserObj)","user2":"\(self.selectedUserObj)"])
         println("**")
+        var loggedID=loggedUserObj["_id"]
+        println(loggedID.description+" logged id")
+        println(self.selectedID+" selected id")
         Alamofire.request(.POST,"\(markChatReadURL)",parameters: ["user1":"\(loggedUserObj)","user2":"\(self.selectedUserObj)"]
-            ).responseJSON{
+            ).response{
                 request1, response1, data1, error1 in
                 
                 //===========INITIALISE SOCKETIOCLIENT=========
@@ -167,7 +223,7 @@ class ChatDetailViewController: UIViewController {
                 if response1?.statusCode==200 {
                     println("chat marked as read")
                     //println(request1)
-                    println(data1)
+                    println(data1?.debugDescription)
                     var UserchatJson=JSON(data1!)
                 }
                 else
@@ -214,8 +270,8 @@ class ChatDetailViewController: UIViewController {
                     //println(request1)
                     // println(data1)
                     var UserchatJson=JSON(data1!)
-                    println(UserchatJson["msg"][0])
-                    println(UserchatJson["msg"][0]["to"])
+                   // println(UserchatJson["msg"][0])
+                    //println(UserchatJson["msg"][0]["to"])
                     
                     //Overwrite sqlite db
                     sqliteDB.deleteChat(self.selectedContact)

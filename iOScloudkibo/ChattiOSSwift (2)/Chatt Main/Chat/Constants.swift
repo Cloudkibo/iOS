@@ -20,5 +20,6 @@ class Constants{
     static let addContactByEmail="/api/contactslist/addbyemail"
     static let markAsRead="/api/userchat/markasread"
     static let getSingleUserByID="/api/users/" //send if along
+    static let removeChatHistory="/api/userchat/removechathistory"
     
 }
