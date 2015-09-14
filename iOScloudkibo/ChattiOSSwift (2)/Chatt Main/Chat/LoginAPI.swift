@@ -27,6 +27,7 @@ class LoginAPI{
         }
         
         self.socket.connect()
+        
             }
     
     func addHandlers(){

@@ -62,28 +62,6 @@ class ChatDetailViewController: UIViewController {
         
         FetchChatServer()
         self.getUserObjectById()
-        //self.markChatAsRead()
-        /*dispatch_async(dispatch_get_main_queue(), {
-        
-        
-        self.markChatAsRead()
-        })
-        */
-        /*dispatch_async(dispatch_get_global_queue(Int(QOS_CLASS_USER_INITIATED.value), 0)) { // 1
-        //let overlayImage = self.faceOverlayImageFromImage(self.image)
-        self.getUserObjectById()
-        self.markChatAsRead()
-        
-        dispatch_async(dispatch_get_main_queue()) { // 2
-        //self.fadeInNewImage(overlayImage) // 3
-        
-        
-        }
-        }*/
-        // })
-        
-        //getUserObjectById()
-        //markChatAsRead()
         
         
         //^^self.tbl_userchats=sqliteDB.db["userschats"]
@@ -99,26 +77,13 @@ class ChatDetailViewController: UIViewController {
             
             
             self.addMessage(receivedMsg.description, ofType: "1")
-            
-            
-            
+                        
             self.tblForChats.reloadData()
             var indexPath = NSIndexPath(forRow:self.messages.count-1, inSection: 0)
             self.tblForChats.scrollToRowAtIndexPath(indexPath, atScrollPosition: UITableViewScrollPosition.Bottom, animated: true)
             
             sqliteDB.SaveChat(chatJson[0]["to"].string!, from1: chatJson[0]["from"].string!, fromFullName1: chatJson[0]["fromFullName"].string!, msg1: chatJson[0]["msg"].string!)
-            /* ^^^let insert=self.tbl_userchats.insert(self.fromFullName<-chatJson[0]["fromFullName"].string!,
-            self.msg<-chatJson[0]["msg"].string!,
-            //self.owneruser<-chatJson[0]["owneruser"].string!,
-            self.to<-chatJson[0]["to"].string!,
-            self.from<-chatJson[0]["from"].string!
-            )
-            if let rowid = insert.rowid {
-            println("inserted id: \(rowid)")
-            } else if insert.statement.failed {
-            println("insertion failed: \(insert.statement.reason)")
-            }
-            */
+           
         }
         /*  self.addMessage("Its actually pretty good!", ofType: "1")
         self.addMessage("What do you think of this tool!", ofType: "2")*/
@@ -143,38 +108,16 @@ class ChatDetailViewController: UIViewController {
             self.selectedUserObj=userObj
             // id: 1, email: alice@mac.com
         }
-        markChatAsRead()
+        
         //removeChatHistory()
-        /*
         
-        
-        println(self.selectedID+" idddd")
-        var getUserbByIdURL=Constants.MainUrl+Constants.getSingleUserByID+self.selectedID+"?access_token="+AuthToken
-        println(getUserbByIdURL.debugDescription+"..........")
-        Alamofire.request(.GET,"\(getUserbByIdURL)").responseJSON{
-            request, response, data, error in
-            //println(error)
-            
-            if response?.statusCode==200
-                
-            {
-                println("got userrrrrrr")
-                println(data!.debugDescription)
-                self.selectedUserObj=JSON(data!)
-                println(self.selectedUserObj.description)
-            }
-            else
-            {
-                println("didnt get userrrrr")
-                println(error)
-                println(data)
-                println(response)
-            }
-        }
-        */
+        self.markChatAsRead()
     }
+    
+    
     func removeChatHistory(){
         //var loggedUsername=loggedUserObj["username"]
+        println("inside mark funcc")
         var removeChatHistoryURL=Constants.MainUrl+Constants.removeChatHistory+"?access_token=\(AuthToken)"
         
         Alamofire.request(.POST,"\(removeChatHistoryURL)",parameters: ["username":"\(selectedContact)"]).response{
@@ -210,7 +153,7 @@ class ChatDetailViewController: UIViewController {
         var loggedID=loggedUserObj["_id"]
         println(loggedID.description+" logged id")
         println(self.selectedID+" selected id")
-        Alamofire.request(.POST,"\(markChatReadURL)",parameters: ["user1":"\(loggedUserObj)","user2":"\(self.selectedUserObj)"]
+        Alamofire.request(.POST,"\(markChatReadURL)",parameters: ["user1":"\(loggedID)","user2":"\(self.selectedID)"]
             ).response{
                 request1, response1, data1, error1 in
                 
