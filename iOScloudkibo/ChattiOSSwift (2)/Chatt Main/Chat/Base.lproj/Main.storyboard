@@ -993,12 +993,16 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
                     <navigationItem key="navigationItem" title="New Chat" id="DA8-is-YEu">
-                        <barButtonItem key="rightBarButtonItem" enabled="NO" title="Cancel" id="dyH-8l-xxD">
+                        <barButtonItem key="rightBarButtonItem" title="Delete" id="dyH-8l-xxD">
                             <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            <connections>
+                                <action selector="btn_deleteChatHistoryPressed:" destination="vqu-uk-8SN" id="fyp-f7-sI0"/>
+                            </connections>
                         </barButtonItem>
                     </navigationItem>
                     <connections>
                         <outlet property="NewChatNavigationTitle" destination="DA8-is-YEu" id="SDC-KV-Xfw"/>
+                        <outlet property="btn_chatDeleteHistory" destination="dyH-8l-xxD" id="y2a-Qp-zzl"/>
                         <outlet property="chatComposeView" destination="LxC-Tv-JZr" id="5Jb-OE-pIC"/>
                         <outlet property="tblForChats" destination="8ne-qn-KGp" id="IKm-bB-e2a"/>
                         <outlet property="txtFldMessage" destination="4FE-aT-v0f" id="ytJ-BX-lo5"/>

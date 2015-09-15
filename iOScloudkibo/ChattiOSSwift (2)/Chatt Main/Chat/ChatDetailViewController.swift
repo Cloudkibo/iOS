@@ -19,6 +19,7 @@ class ChatDetailViewController: UIViewController {
     @IBOutlet var chatComposeView : UIView!
     @IBOutlet var txtFldMessage : UITextField!
     
+    @IBOutlet weak var btn_chatDeleteHistory: UIBarButtonItem!
     
     
     var selectedContact=""
@@ -403,6 +404,29 @@ class ChatDetailViewController: UIViewController {
     }
     
     
+    @IBAction func btn_deleteChatHistoryPressed(sender: AnyObject) {
+        removeChatHistory()
+        sqliteDB.deleteChat(selectedContact)
+       messages.removeAllObjects()
+        tblForChats.reloadData()
+    }
+    
+    /*
+    /*
+    // delete slider to delete individual row
+    // Override to support editing the table view.
+    func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
+    if editingStyle == .Delete {
+    messages.removeObjectAtIndex(indexPath.row)
+    // Delete the row from the data source
+    tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Fade)
+    } else if editingStyle == .Insert {
+    // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
+    }
+    }
+    */
+
+*/
     
     /*
     // #pragma mark - Navigation
