@@ -129,6 +129,9 @@ class ChatViewController: UIViewController {
     var ContactNames:[String]=[]
     var ContactUsernames:[String]=[]
     var ContactIDs:[String]=[]
+    var ContactFirstname:[String]=[]
+    var ContactLastNAme:[String]=[]
+    var ContactStatus:[String]=[]
     
     //["Bus","Helicopter","Truck","Boat","Bicycle","Motorcycle","Plane","Train","Car","Scooter","Caravan"]
     
@@ -241,6 +244,11 @@ class ChatViewController: UIViewController {
                     
                     
                     let tbl_contactslists=sqliteDB.db["contactslists"]
+                    self.ContactIDs.removeAll(keepCapacity: false)
+                    self.ContactLastNAme.removeAll(keepCapacity: false)
+                    self.ContactNames.removeAll(keepCapacity: false)
+                    self.ContactStatus.removeAll(keepCapacity: false)
+                    self.ContactUsernames.removeAll(keepCapacity: false)
                     for var i=0;i<contactsJsonObj.count;i++
                     {
                         let insert=tbl_contactslists.insert(contactid<-contactsJsonObj[i]["contactid"]["_id"].string!,
@@ -262,6 +270,9 @@ class ChatViewController: UIViewController {
                         self.ContactNames.append(contactsJsonObj[i]["contactid"]["firstname"].string!+" "+contactsJsonObj[i]["contactid"]["lastname"].string!)
                         self.ContactUsernames.append(contactsJsonObj[i]["contactid"]["username"].string!)
                         self.ContactIDs.append(contactsJsonObj[i]["contactid"]["_id"].string!)
+                        self.ContactFirstname.append(contactsJsonObj[i]["contactid"]["firstname"].string!)
+                        self.ContactLastNAme.append(contactsJsonObj[i]["contactid"]["lastname"].string!)
+                        self.ContactStatus.append(contactsJsonObj[i]["contactid"]["status"].string!)
                         if let rowid = insert.rowid {
                             println("inserted id: \(rowid)")
                             self.tblForChat.reloadData()
@@ -332,6 +343,83 @@ class ChatViewController: UIViewController {
         self.performSegueWithIdentifier("contactChat", sender: nil);
         //slideToChat
         
+    }
+    
+    func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
+        if editingStyle == .Delete {
+            
+             var selectedRow = indexPath.row
+            println(selectedRow.description+" selected")
+            
+            var removeChatFromServer=NetworkingLibAlamofire()
+            var loggedFirstName=loggedUserObj["firstname"]
+            var loggedLastName=loggedUserObj["lastname"]
+            var loggedStatus=loggedUserObj["status"]
+            var loggedUsername=loggedUserObj["username"]
+            
+            println(self.ContactFirstname[selectedRow]+self.ContactLastNAme[selectedRow]+self.ContactStatus[selectedRow]+self.ContactUsernames[selectedRow])
+            
+            
+            
+            
+            var url=Constants.MainUrl+Constants.removeFriend+"?access_token=\(AuthToken)"
+            //var parameters1=[)"]
+            var parameters1=["contact":["_id":"\(ContactIDs[selectedRow])","firstname":"\(ContactFirstname[selectedRow])","lastname":"\(ContactLastNAme[selectedRow])","status":"\(ContactStatus[selectedRow])","username":"\(ContactUsernames[selectedRow])"]]
+            Alamofire.request(.POST,"\(url)",parameters:parameters1).responseJSON{
+                request1, response1, data1, error1 in
+                
+                //===========INITIALISE SOCKETIOCLIENT=========
+                dispatch_async(dispatch_get_main_queue(), {
+                    
+                    //self.dismissViewControllerAnimated(true, completion: nil);
+                    /// self.performSegueWithIdentifier("loginSegue", sender: nil)
+                    
+                    if response1?.statusCode==200 {
+                        //println("got user success")
+                        println("Request success")
+                        //var json=JSON(data1!)
+                        //println(json)
+                        //dataMy=JSON(data1!)
+                        //println(dataMy.description)
+                        
+                    }
+                    else
+                    {
+                        println("request failed")
+                        var json=JSON(error1!)
+                        println(json)
+                        //errorMy=JSON(error1!)
+                        // println(errorMy.description)
+                    }
+                })
+            }
+            //return dataMy
+        
+        
+        
+        
+        
+           /* removeChatFromServer.sendRequestPOST("POST", url: Constants.MainUrl+Constants.removeFriend+"?access_token=\(AuthToken)", parameters1: ["firstname":"\(ContactFirstname[selectedRow])", "lastname":"\(ContactLastNAme[selectedRow])", "status":"\(ContactStatus[selectedRow])", "username" : "\(ContactUsernames[selectedRow])"])
+            */
+        
+        
+            sqliteDB.deleteChat(ContactNames[selectedRow])
+            
+            println(ContactNames[selectedRow]+" deleted")
+            sqliteDB.deleteFriend(ContactUsernames[selectedRow])
+            ContactNames.removeAtIndex(selectedRow)
+            ContactIDs.removeAtIndex(selectedRow)
+            ContactFirstname.removeAtIndex(selectedRow)
+            ContactLastNAme.removeAtIndex(selectedRow)
+            ContactStatus.removeAtIndex(selectedRow)
+            ContactUsernames.removeAtIndex(selectedRow)
+            // Delete the row from the data source
+            tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Fade)
+            //tblForChat.reloadData()
+            
+        } else if editingStyle == .Insert {
+            // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
+        }
     }
     
     

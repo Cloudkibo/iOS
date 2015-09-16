@@ -199,5 +199,14 @@ class DatabaseHandler:NSObject{
         self.userschats.filter(to==userTo).delete()
         
     }
+
+    func deleteFriend(user:String)
+    {
+    let username = Expression<String>("username")
+        println("sqlitedb queryyy"+self.contactslists.filter(username==user).description)
+    println(self.contactslists.filter(username==user).delete().changes!)
+        println(" are deleted")
     
+    }
+
 }

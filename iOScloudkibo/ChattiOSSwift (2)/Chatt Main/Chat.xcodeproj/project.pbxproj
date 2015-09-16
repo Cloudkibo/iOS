@@ -48,6 +48,7 @@
 		714639041B7D1624002084FF /* LoginAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 714639031B7D1624002084FF /* LoginAPI.swift */; };
 		714639061B7D41F9002084FF /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 714639051B7D41F9002084FF /* Constants.swift */; };
 		71DDAD9D1B94CA690013F4D9 /* KeychainWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71DDAD9C1B94CA690013F4D9 /* KeychainWrapper.swift */; };
+		71E9BB8D1BA8E006001C895F /* NetworkingLibAlamofire.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71E9BB8C1BA8E006001C895F /* NetworkingLibAlamofire.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -223,6 +224,7 @@
 		714639031B7D1624002084FF /* LoginAPI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginAPI.swift; sourceTree = "<group>"; };
 		714639051B7D41F9002084FF /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		71DDAD9C1B94CA690013F4D9 /* KeychainWrapper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = KeychainWrapper.swift; path = "../../../../../../Downloads/SwiftKeychainWrapper-master/SwiftKeychainWrapper/KeychainWrapper.swift"; sourceTree = "<group>"; };
+		71E9BB8C1BA8E006001C895F /* NetworkingLibAlamofire.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkingLibAlamofire.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -282,6 +284,7 @@
 				5BF6364B19A9FCE500ABD0BA /* LoginViewController.swift */,
 				714560591B905FE700C8E0D2 /* DatabaseHandler.swift */,
 				5BF6364D19AA143A00ABD0BA /* ChatViewController.swift */,
+				71E9BB8C1BA8E006001C895F /* NetworkingLibAlamofire.swift */,
 				5B990C9C19ACE5AF00F9278A /* ChatDetailViewController.swift */,
 				713F709F1B89547F0086D992 /* ContactsListCell.swift */,
 				5B01667919AC2B730059918D /* NotesViewController.swift */,
@@ -595,6 +598,7 @@
 				71307F1B1B7FA6480037CB7E /* SocketTypes.swift in Sources */,
 				714639061B7D41F9002084FF /* Constants.swift in Sources */,
 				71307F121B7FA6480037CB7E /* SocketAnyEvent.swift in Sources */,
+				71E9BB8D1BA8E006001C895F /* NetworkingLibAlamofire.swift in Sources */,
 				5B94184019B8D296006A9EAD /* MoreTableViewController.swift in Sources */,
 				714639041B7D1624002084FF /* LoginAPI.swift in Sources */,
 				5BF6364C19A9FCE500ABD0BA /* LoginViewController.swift in Sources */,

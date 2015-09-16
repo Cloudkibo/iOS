@@ -356,7 +356,11 @@ class ChatDetailViewController: UIViewController {
         ///=== code for sending chat here
         ///=================
         
-        var imParas=["from":"\(username!)","to":"\(selectedContact)","from_id":"55351437fff0f13a73518ae1","to_id":"55dafd46aa4c720e78e23776","fromFullName":"Sabach Channa","msg":"\(txtFldMessage.text)"]
+        var loggedid=loggedUserObj["_id"]
+        var firstNameSelected=selectedUserObj["firstname"]
+        var lastNameSelected=selectedUserObj["lastname"]
+        var fullNameSelected=firstNameSelected.string!+" "+lastNameSelected.string!
+        var imParas=["from":"\(username!)","to":"\(selectedContact)","from_id":"\(loggedid)","to_id":"\(selectedID)","fromFullName":"\(loggedFullName)","msg":"\(txtFldMessage.text)"]
         
         println(imParas)
         println()
@@ -368,7 +372,7 @@ class ChatDetailViewController: UIViewController {
         
         //////
         
-        sqliteDB.SaveChat("\(selectedContact)", from1: "\(username)", fromFullName1: "Sabach Channa", msg1: "\(txtFldMessage.text)")
+        sqliteDB.SaveChat("\(selectedContact)", from1: "\(username!)", fromFullName1: "\(loggedFullName)", msg1: "\(txtFldMessage.text)")
         
         /*insert(self.fromFullName<-"Sabach Channa",
         self.msg<-"\(txtFldMessage.text)",
@@ -406,13 +410,14 @@ class ChatDetailViewController: UIViewController {
     
     @IBAction func btn_deleteChatHistoryPressed(sender: AnyObject) {
         removeChatHistory()
-        sqliteDB.deleteChat(selectedContact)
-       messages.removeAllObjects()
+        sqliteDB.deleteChat(selectedContact.debugDescription)
+        
+        messages.removeAllObjects()
         tblForChats.reloadData()
     }
     
-    /*
-    /*
+    
+  /*
     // delete slider to delete individual row
     // Override to support editing the table view.
     func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
@@ -424,9 +429,9 @@ class ChatDetailViewController: UIViewController {
     // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
     }
     }
-    */
 
 */
+    
     
     /*
     // #pragma mark - Navigation
