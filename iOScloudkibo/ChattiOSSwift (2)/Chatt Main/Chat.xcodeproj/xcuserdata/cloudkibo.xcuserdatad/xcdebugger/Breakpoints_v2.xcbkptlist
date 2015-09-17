@@ -38,11 +38,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Chat/NetworkingLibAlamofire.swift"
-            timestampString = "464055767.683324"
+            timestampString = "464141870.549861"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "82"
-            endingLineNumber = "82"
+            startingLineNumber = "86"
+            endingLineNumber = "86"
             landmarkName = "sendRequestPOST(_:url:parameters1:)"
             landmarkType = "5">
          </BreakpointContent>
@@ -54,11 +54,27 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Chat/ChatViewController.swift"
-            timestampString = "464059208.745307"
+            timestampString = "464128813.722296"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "351"
-            endingLineNumber = "351"
+            startingLineNumber = "356"
+            endingLineNumber = "356"
+            landmarkName = "tableView(_:commitEditingStyle:forRowAtIndexPath:)"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Chat/ChatViewController.swift"
+            timestampString = "464136216.866726"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "378"
+            endingLineNumber = "378"
             landmarkName = "tableView(_:commitEditingStyle:forRowAtIndexPath:)"
             landmarkType = "5">
          </BreakpointContent>

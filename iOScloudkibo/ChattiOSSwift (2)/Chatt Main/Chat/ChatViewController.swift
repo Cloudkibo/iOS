@@ -132,6 +132,7 @@ class ChatViewController: UIViewController {
     var ContactFirstname:[String]=[]
     var ContactLastNAme:[String]=[]
     var ContactStatus:[String]=[]
+    var ContactsObjectss:[JSON]=[]
     
     //["Bus","Helicopter","Truck","Boat","Bicycle","Motorcycle","Plane","Train","Car","Scooter","Caravan"]
     
@@ -244,11 +245,15 @@ class ChatViewController: UIViewController {
                     
                     
                     let tbl_contactslists=sqliteDB.db["contactslists"]
+                    
+                    //-========Remove old values=====================
                     self.ContactIDs.removeAll(keepCapacity: false)
                     self.ContactLastNAme.removeAll(keepCapacity: false)
                     self.ContactNames.removeAll(keepCapacity: false)
                     self.ContactStatus.removeAll(keepCapacity: false)
                     self.ContactUsernames.removeAll(keepCapacity: false)
+                    self.ContactsObjectss.removeAll(keepCapacity: false)
+                    
                     for var i=0;i<contactsJsonObj.count;i++
                     {
                         let insert=tbl_contactslists.insert(contactid<-contactsJsonObj[i]["contactid"]["_id"].string!,
@@ -266,7 +271,7 @@ class ChatViewController: UIViewController {
                         
                         //self.transportItems.insert(contactsJsonObj[i]["contactid"]["firstname"].string!+" "+contactsJsonObj[i]["contactid"]["lastname"].string!, atIndex: i)
                         
-                        
+                        self.ContactsObjectss.append(contactsJsonObj[i]["contactid"])
                         self.ContactNames.append(contactsJsonObj[i]["contactid"]["firstname"].string!+" "+contactsJsonObj[i]["contactid"]["lastname"].string!)
                         self.ContactUsernames.append(contactsJsonObj[i]["contactid"]["username"].string!)
                         self.ContactIDs.append(contactsJsonObj[i]["contactid"]["_id"].string!)
@@ -363,9 +368,13 @@ class ChatViewController: UIViewController {
             
             
             var url=Constants.MainUrl+Constants.removeFriend+"?access_token=\(AuthToken)"
-            //var parameters1=[)"]
-            var parameters1=["contact":["_id":"\(ContactIDs[selectedRow])","firstname":"\(ContactFirstname[selectedRow])","lastname":"\(ContactLastNAme[selectedRow])","status":"\(ContactStatus[selectedRow])","username":"\(ContactUsernames[selectedRow])"]]
-            Alamofire.request(.POST,"\(url)",parameters:parameters1).responseJSON{
+            
+            var params=self.ContactsObjectss[selectedRow].arrayValue
+            //var pp=JSON(params)
+            //var bb=jsonString(self.ContactsObjectss[selectedRow].stringValue)
+            //var a=JSONStringify(self.ContactsObjectss[selectedRow].object, prettyPrinted: false)
+            Alamofire.request(.POST,"\(url)",parameters:["username":"\(self.ContactUsernames[selectedRow])"]
+                ).responseJSON{
                 request1, response1, data1, error1 in
                 
                 //===========INITIALISE SOCKETIOCLIENT=========
@@ -377,7 +386,10 @@ class ChatViewController: UIViewController {
                     if response1?.statusCode==200 {
                         //println("got user success")
                         println("Request success")
-                        //var json=JSON(data1!)
+                        var json=JSON(data1!)
+
+                        
+                        println(json)
                         //println(json)
                         //dataMy=JSON(data1!)
                         //println(dataMy.description)
@@ -386,8 +398,9 @@ class ChatViewController: UIViewController {
                     else
                     {
                         println("request failed")
-                        var json=JSON(error1!)
-                        println(json)
+                        //var json=JSON(error1!)
+                        println(error1?.description)
+                        println(response1?.statusCode)
                         //errorMy=JSON(error1!)
                         // println(errorMy.description)
                     }
@@ -405,7 +418,7 @@ class ChatViewController: UIViewController {
         
             sqliteDB.deleteChat(ContactNames[selectedRow])
             
-            println(ContactNames[selectedRow]+" deleted")
+            //println(ContactNames[selectedRow]+" deleted")
             sqliteDB.deleteFriend(ContactUsernames[selectedRow])
             ContactNames.removeAtIndex(selectedRow)
             ContactIDs.removeAtIndex(selectedRow)

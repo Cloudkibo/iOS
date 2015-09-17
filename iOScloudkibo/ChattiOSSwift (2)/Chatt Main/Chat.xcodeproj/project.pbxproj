@@ -38,7 +38,6 @@
 		713FB04B1B89795300E7BDD6 /* JSONStringify.swift in Sources */ = {isa = PBXBuildFile; fileRef = 713FB04A1B89795300E7BDD6 /* JSONStringify.swift */; };
 		713FB0661B897D1B00E7BDD6 /* SwiftyJSON in Resources */ = {isa = PBXBuildFile; fileRef = 713FB0651B897D1A00E7BDD6 /* SwiftyJSON */; };
 		714442CD1B8F8B4B0048B3A5 /* SQLite.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 714442C61B8F8B250048B3A5 /* SQLite.framework */; };
-		714442CE1B8F8B5F0048B3A5 /* SQLite.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 714442C61B8F8B250048B3A5 /* SQLite.framework */; };
 		714442CF1B8F8B5F0048B3A5 /* SQLite.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 714442C61B8F8B250048B3A5 /* SQLite.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		714560561B904DAA00C8E0D2 /* Contacts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 714560551B904DAA00C8E0D2 /* Contacts.swift */; };
 		7145605A1B905FE700C8E0D2 /* DatabaseHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 714560591B905FE700C8E0D2 /* DatabaseHandler.swift */; };
@@ -49,6 +48,8 @@
 		714639061B7D41F9002084FF /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 714639051B7D41F9002084FF /* Constants.swift */; };
 		71DDAD9D1B94CA690013F4D9 /* KeychainWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71DDAD9C1B94CA690013F4D9 /* KeychainWrapper.swift */; };
 		71E9BB8D1BA8E006001C895F /* NetworkingLibAlamofire.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71E9BB8C1BA8E006001C895F /* NetworkingLibAlamofire.swift */; };
+		71E9BB981BAA2B91001C895F /* PendingFriendRequestsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71E9BB971BAA2B91001C895F /* PendingFriendRequestsViewController.swift */; };
+		71E9BB9A1BAA2F19001C895F /* PendingRequestsListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71E9BB991BAA2F19001C895F /* PendingRequestsListCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -225,6 +226,8 @@
 		714639051B7D41F9002084FF /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		71DDAD9C1B94CA690013F4D9 /* KeychainWrapper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = KeychainWrapper.swift; path = "../../../../../../Downloads/SwiftKeychainWrapper-master/SwiftKeychainWrapper/KeychainWrapper.swift"; sourceTree = "<group>"; };
 		71E9BB8C1BA8E006001C895F /* NetworkingLibAlamofire.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkingLibAlamofire.swift; sourceTree = "<group>"; };
+		71E9BB971BAA2B91001C895F /* PendingFriendRequestsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PendingFriendRequestsViewController.swift; sourceTree = "<group>"; };
+		71E9BB991BAA2F19001C895F /* PendingRequestsListCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PendingRequestsListCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -234,7 +237,6 @@
 			files = (
 				714442CD1B8F8B4B0048B3A5 /* SQLite.framework in Frameworks */,
 				713080631B825C1E0037CB7E /* SwiftyJSON.framework in Frameworks */,
-				714442CE1B8F8B5F0048B3A5 /* SQLite.framework in Frameworks */,
 				714638FE1B7D0FED002084FF /* Alamofire.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -287,11 +289,13 @@
 				71E9BB8C1BA8E006001C895F /* NetworkingLibAlamofire.swift */,
 				5B990C9C19ACE5AF00F9278A /* ChatDetailViewController.swift */,
 				713F709F1B89547F0086D992 /* ContactsListCell.swift */,
+				71E9BB991BAA2F19001C895F /* PendingRequestsListCell.swift */,
 				5B01667919AC2B730059918D /* NotesViewController.swift */,
 				5B75921519AC313C005E2745 /* ProjectsViewController.swift */,
 				5B990C9A19ACD59B00F9278A /* ChatComposeViewController.swift */,
 				5B94183F19B8D296006A9EAD /* MoreTableViewController.swift */,
 				5BF6362E19A9F3D900ABD0BA /* Main.storyboard */,
+				71E9BB971BAA2B91001C895F /* PendingFriendRequestsViewController.swift */,
 				5BF6363119A9F3D900ABD0BA /* Images.xcassets */,
 				714560491B904D6900C8E0D2 /* Models */,
 				5BF6362819A9F3D900ABD0BA /* Supporting Files */,
@@ -435,7 +439,7 @@
 		5BF6361D19A9F3D900ABD0BA /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0600;
+				LastUpgradeCheck = 0640;
 				ORGANIZATIONNAME = MyAppTemplates;
 				TargetAttributes = {
 					5BF6362419A9F3D900ABD0BA = {
@@ -613,6 +617,7 @@
 				7145605A1B905FE700C8E0D2 /* DatabaseHandler.swift in Sources */,
 				5BF6362D19A9F3D900ABD0BA /* ViewController.swift in Sources */,
 				71307F131B7FA6480037CB7E /* SocketEngine.swift in Sources */,
+				71E9BB9A1BAA2F19001C895F /* PendingRequestsListCell.swift in Sources */,
 				5BF6364E19AA143A00ABD0BA /* ChatViewController.swift in Sources */,
 				71307F151B7FA6480037CB7E /* SocketEventHandler.swift in Sources */,
 				713F70A01B89547F0086D992 /* ContactsListCell.swift in Sources */,
@@ -620,6 +625,7 @@
 				5B990C9B19ACD59B00F9278A /* ChatComposeViewController.swift in Sources */,
 				71307F141B7FA6480037CB7E /* SocketEngineClient.swift in Sources */,
 				71307F1A1B7FA6480037CB7E /* SocketParser.swift in Sources */,
+				71E9BB981BAA2B91001C895F /* PendingFriendRequestsViewController.swift in Sources */,
 				71307F181B7FA6480037CB7E /* SocketLogger.swift in Sources */,
 				5BF6362B19A9F3D900ABD0BA /* AppDelegate.swift in Sources */,
 				71307F161B7FA6480037CB7E /* SocketFixUTF8.swift in Sources */,
@@ -763,7 +769,7 @@
 					"/Users/cloudkibo/Documents/iOS/iOScloudkibo/Locksmith-master/build/Debug-iphoneos",
 				);
 				INFOPLIST_FILE = Chat/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.4;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TARGETED_DEVICE_FAMILY = 1;
@@ -784,7 +790,7 @@
 					"/Users/cloudkibo/Documents/iOS/iOScloudkibo/Locksmith-master/build/Debug-iphoneos",
 				);
 				INFOPLIST_FILE = Chat/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.4;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";

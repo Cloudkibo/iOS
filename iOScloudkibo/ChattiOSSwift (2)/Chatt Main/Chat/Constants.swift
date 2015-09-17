@@ -21,6 +21,6 @@ class Constants{
     static let markAsRead="/api/userchat/markasread"
     static let getSingleUserByID="/api/users/" //send if along
     static let removeChatHistory="/api/userchat/removechathistory"
-    static let removeFriend="/api/contactlist/removefriend"
-    
+    static let removeFriend="/api/contactslist/removefriend"
+    static let getPendingFriendRequestsContacts="/api/contactslist/pendingcontacts"
 }

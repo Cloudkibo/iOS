@@ -11,16 +11,18 @@ import Alamofire
 import SwiftyJSON
 
 class NetworkingLibAlamofire{
-    
+    var dataMy:JSON="[]"
+    var errorMy:JSON="[]"
+
     init()
     {
         
     }
-    func sendRequestGetWithoutParameters(method:String,url:String)
+    func sendRequestGetWithoutParameters(method:String,url:String)->JSON
     {
-        var dataMy:JSON="[]"
-        var errorMy:JSON="[]"
-        Alamofire.request(.GET,"\( url)").responseJSON{
+        println(url)
+        
+                Alamofire.request(.GET,"\(url)").responseJSON{
             request1, response1, data1, error1 in
             
             //===========INITIALISE SOCKETIOCLIENT=========
@@ -31,7 +33,9 @@ class NetworkingLibAlamofire{
                 
                 if response1?.statusCode==200 {
                     println("Request success")
-                    //dataMy=JSON(data1!)
+                    self.dataMy=JSON(data1!)
+                    //println(data1!.description)
+                    //println(self.dataMy)
                     //println(dataMy.description)
 
                 
@@ -39,13 +43,13 @@ class NetworkingLibAlamofire{
                 else
                 {
                     println("request failed")
-                   //errorMy=JSON(error1!)
+              self.errorMy=JSON(error1!)
                     //println(errorMy.description)
 
                 }
             })
         }
-     //return dataMy
+     return self.dataMy
     }
     
     
