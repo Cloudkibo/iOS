@@ -360,7 +360,7 @@ class ChatDetailViewController: UIViewController {
         var firstNameSelected=selectedUserObj["firstname"]
         var lastNameSelected=selectedUserObj["lastname"]
         var fullNameSelected=firstNameSelected.string!+" "+lastNameSelected.string!
-        var imParas=["from":"\(username!)","to":"\(selectedContact)","from_id":"\(loggedid)","to_id":"\(selectedID)","fromFullName":"\(loggedFullName)","msg":"\(txtFldMessage.text)"]
+        var imParas=["from":"\(username!)","to":"\(selectedContact)","from_id":"\(loggedid)","to_id":"\(selectedID)","fromFullName":"\(loggedFullName!)","msg":"\(txtFldMessage.text)"]
         
         println(imParas)
         println()
@@ -372,7 +372,7 @@ class ChatDetailViewController: UIViewController {
         
         //////
         
-        sqliteDB.SaveChat("\(selectedContact)", from1: "\(username!)", fromFullName1: "\(loggedFullName)", msg1: "\(txtFldMessage.text)")
+        sqliteDB.SaveChat("\(selectedContact)", from1: "\(username!)", fromFullName1: "\(loggedFullName!)", msg1: "\(txtFldMessage.text)")
         
         /*insert(self.fromFullName<-"Sabach Channa",
         self.msg<-"\(txtFldMessage.text)",
