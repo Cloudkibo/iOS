@@ -9,22 +9,82 @@
 import UIKit
 import Alamofire
 import SwiftyJSON
+import SQLite
 
 class PendingFriendRequestsViewController: UIViewController {
 
     @IBOutlet weak var tbl_pendingContacts: UITableView!
     var pendingContactsNames:[String]=[]
     var pendingContactsObj:[JSON]=[]
+    var ContactIDs:[String]=[]
+    var ContactLastNAme:[String]=[]
+    var ContactFirstNAme:[String]=[]
+    var ContactNames:[String]=[]
+    var ContactStatus:[String]=[]
+    var ContactUsernames:[String]=[]
+    var ContactsObjectss:[JSON]=[]
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
 loadPendingRequests()
         // Do any additional setup after loading the view.
-       /*socketObj.socket.on("friendrequest"){data,ack in
+       socketObj.socket.on("friendrequest"){data,ack in
             println("friend request socket received")
-            var chatJson=JSON(data!)
-            println(chatJson)
-        }*/
+            var freindReqJSON=JSON(data!)
+            println(freindReqJSON)
+        println("$$$$$$$$$$")
+        let contactid = Expression<String>("contactid")
+        let detailsshared = Expression<String>("detailsshared")
+        
+        let unreadMessage = Expression<Bool>("unreadMessage")
+        
+        let userid = Expression<String>("userid")
+        let firstname = Expression<String>("firstname")
+        let lastname = Expression<String>("lastname")
+        let email = Expression<String>("email")
+        let phone = Expression<String>("phone")
+        let username = Expression<String>("username")
+        let status = Expression<String>("status")
+        
+        
+        let tbl_contactslists=sqliteDB.db["contactslists"]
+        
+        //-========Remove old values=====================
+       
+        for var i=0;i<freindReqJSON.count;i++
+        {
+            let insert=tbl_contactslists.insert(contactid<-freindReqJSON[i]["contactid"]["_id"].string!,
+                detailsshared<-freindReqJSON[i]["detailsshared"].string!,
+                
+                unreadMessage<-freindReqJSON[i]["unreadMessage"].boolValue,
+                
+                userid<-freindReqJSON[i]["userid"].string!,
+                firstname<-freindReqJSON[i]["contactid"]["firstname"].string!,
+                lastname<-freindReqJSON[i]["contactid"]["lastname"].string!,
+                email<-freindReqJSON[i]["contactid"]["email"].string!,
+                phone<-freindReqJSON[i]["contactid"]["_id"].string!,
+                username<-freindReqJSON[i]["contactid"]["username"].string!,
+                status<-freindReqJSON[i]["contactid"]["status"].string!)
+            
+            //self.transportItems.insert(contactsJsonObj[i]["contactid"]["firstname"].string!+" "+contactsJsonObj[i]["contactid"]["lastname"].string!, atIndex: i)
+            
+            self.ContactsObjectss.append(freindReqJSON[i]["contactid"])
+            self.ContactNames.append(freindReqJSON[i]["contactid"]["firstname"].string!+" "+freindReqJSON[i]["contactid"]["lastname"].string!)
+            self.ContactUsernames.append(freindReqJSON[i]["contactid"]["username"].string!)
+            self.ContactIDs.append(freindReqJSON[i]["contactid"]["_id"].string!)
+            self.ContactFirstNAme.append(freindReqJSON[i]["contactid"]["firstname"].string!)
+            self.ContactLastNAme.append(freindReqJSON[i]["contactid"]["lastname"].string!)
+            self.ContactStatus.append(freindReqJSON[i]["contactid"]["status"].string!)
+            if let rowid = insert.rowid {
+                println("inserted id: \(rowid)")
+                self.tbl_pendingContacts.reloadData()
+            } else if insert.statement.failed {
+                println("insertion failed: \(insert.statement.reason)")
+            }
+        //saveContact()
+        }
+        }
     }
 
     override func didReceiveMemoryWarning() {
@@ -292,6 +352,11 @@ loadPendingRequests()
         }*/
     }
 
+    func saveContact()
+    {
+        
+        
+    }
     
    /* func tableView(tableView: UITableView!, didSelectRowAtIndexPath indexPath: NSIndexPath!){
         

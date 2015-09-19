@@ -14,6 +14,7 @@ let sqliteDB=DatabaseHandler(dbName:"cloudkiboDB.sqlite3")
 
 var AuthToken=""
 var loggedUserObj=JSON("[]")
+
 //let dbSQLite=DatabaseHandler(dbName: "/cloudKibo.sqlite3")
 let username=KeychainWrapper.stringForKey("username")
 let loggedFullName=KeychainWrapper.stringForKey("loggedFullName")

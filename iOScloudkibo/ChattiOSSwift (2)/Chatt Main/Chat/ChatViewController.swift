@@ -19,7 +19,7 @@ class ChatViewController: UIViewController {
     @IBOutlet var viewForTitle : UIView!
     @IBOutlet var ctrlForChat : UISegmentedControl!
     @IBOutlet var btnForLogo : UIButton!
-    
+    var loggedID=loggedUserObj["_id"]
     //@IBOutlet var itemForSearch : UIBarButtonItem!
     @IBOutlet var tblForChat : UITableView!
     //var AuthToken:String=""
@@ -48,6 +48,15 @@ class ChatViewController: UIViewController {
         
         //Create and add the Cancel action
         let cancelAction: UIAlertAction = UIAlertAction(title: "Add by Email", style: UIAlertActionStyle.Cancel) { action -> Void in
+            
+            println(loggedUserObj)
+            socketObj.socket.emit("friendrequest",[
+                "room":"globalchatroom",
+                "userid":"\(loggedUserObj)",
+                "contact":"\(tField.text!)"]
+            )
+            
+            
             //Do some stuff
             var addContactUsernameURL=Constants.MainUrl+Constants.addContactByEmail+"?access_token=\(AuthToken)"
             Alamofire.request(.POST,"\(addContactUsernameURL)",parameters: ["searchemail":"\(tField.text!)"]).responseJSON{
@@ -85,6 +94,16 @@ class ChatViewController: UIViewController {
         actionSheetController.addAction(cancelAction)
         //Create and an option action
         let nextAction: UIAlertAction = UIAlertAction(title: "Add by Username", style: UIAlertActionStyle.Default) { action -> Void in
+            
+            //var ContactEmail=self.ContactsObjectss[]
+            println(loggedUserObj)
+            socketObj.socket.emit("friendrequest",[
+                "room":"globalchatroom",
+                "userid":"\(loggedUserObj)",
+                "contact":"\(tField.text!)"]
+            )
+            
+            
             //Do some other stuff
             var addContactUsernameURL=Constants.MainUrl+Constants.addContactByUsername+"?access_token=\(AuthToken)"
             Alamofire.request(.POST,"\(addContactUsernameURL)",parameters: ["searchusername":"\(tField.text!)"]).responseJSON{
