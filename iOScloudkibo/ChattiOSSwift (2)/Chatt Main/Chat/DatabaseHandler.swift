@@ -205,6 +205,7 @@ class DatabaseHandler:NSObject{
     let username = Expression<String>("username")
        // println("sqlitedb queryyy"+self.contactslists.filter(username==user).description)
     self.contactslists.filter(username==user).delete().changes!
+        deleteChat(user)
         
     
     }
