@@ -121,6 +121,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate{
     @IBAction func loginBtnTapped() {
         //============================ Authenticate User ================
         var url=Constants.MainUrl+Constants.authentictionUrl
+        KeychainWrapper.setString(txtForPassword.text!, forKey: "password")
         var param:[String:String]=["username": txtForEmail.text!,"password":txtForPassword.text!]
         Alamofire.request(.POST,"\(url)",parameters: param).response{
             request, response, data, error in
@@ -240,6 +241,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate{
                 
             else
             {
+                KeychainWrapper.removeObjectForKey("password")
                 println("login failed")
                 self.labelLoginUnsuccessful.text="Sorry, you are not registered"
                 self.txtForEmail.text=nil

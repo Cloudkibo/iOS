@@ -50,9 +50,23 @@ class ChatViewController: UIViewController {
         let cancelAction: UIAlertAction = UIAlertAction(title: "Add by Email", style: UIAlertActionStyle.Cancel) { action -> Void in
             
             println(loggedUserObj)
+            var fname=["firstname":loggedUserObj["firstname"]]
+            var lname=["lastname":loggedUserObj["lastname"]]
+            var usern=["username":loggedUserObj["username"]]
+            var idd=["_id":loggedUserObj["_id"]]
+            var date=["date":loggedUserObj["date"]]
+            var email=["email":loggedUserObj["email"]]
+            var status=["status":loggedUserObj["stauts"]]
+            //var merge=fname.description+lname.description+String(usern)
+            
+           // var userID=["userid":"\(merge)"]
+            //loggedUserObj["accountVerified"]
+            //loggedUserObj["city"]
+            //sloggedUserObj["country"]
+            
             socketObj.socket.emit("friendrequest",[
                 "room":"globalchatroom",
-                "userid":"\(loggedUserObj)",
+                "userid":loggedUserObj.object,
                 "contact":"\(tField.text!)"]
             )
             
@@ -97,9 +111,10 @@ class ChatViewController: UIViewController {
             
             //var ContactEmail=self.ContactsObjectss[]
             println(loggedUserObj)
+            var userid=""
             socketObj.socket.emit("friendrequest",[
                 "room":"globalchatroom",
-                "userid":"\(loggedUserObj)",
+                "userid":loggedUserObj.object,
                 "contact":"\(tField.text!)"]
             )
             

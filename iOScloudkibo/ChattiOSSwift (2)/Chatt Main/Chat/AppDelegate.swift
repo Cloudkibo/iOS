@@ -9,6 +9,8 @@
 import UIKit
 import SQLite
 import SwiftyJSON
+import Alamofire
+
 let socketObj=LoginAPI(url:"\(Constants.MainUrl)")
 let sqliteDB=DatabaseHandler(dbName:"cloudkiboDB.sqlite3")
 
@@ -17,6 +19,7 @@ var loggedUserObj=JSON("[]")
 
 //let dbSQLite=DatabaseHandler(dbName: "/cloudKibo.sqlite3")
 let username=KeychainWrapper.stringForKey("username")
+let password=KeychainWrapper.stringForKey("password")
 let loggedFullName=KeychainWrapper.stringForKey("loggedFullName")
 let loggedPhone=KeychainWrapper.stringForKey("loggedPhone")
 let loggedEmail=KeychainWrapper.stringForKey("loggedEmail")
@@ -71,6 +74,139 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         socketObj.socket.disconnect(fast: true)
         socketObj.socket.close(fast: true)
     }
+    func fetchNewToken()
+    {
+        var url=Constants.MainUrl+Constants.authentictionUrl
+        var param:[String:String]=["username": username!,"password":password!]
+        Alamofire.request(.POST,"\(url)",parameters: param).response{
+            request, response, data, error in
+            println(error)
+            
+            if response?.statusCode==200
+                
+            {
+                println("login success")
+                //self.labelLoginUnsuccessful.text=nil
+                //self.gotToken=true
+                
+                //======GETTING REST API TO GET CURRENT USER=======================
+                
+                var userDataUrl=Constants.MainUrl+Constants.getCurrentUser
+                //let index: String.Index = advance(self.AuthToken.startIndex, 10)
+                
+                //======================STORING Token========================
+                let jsonLogin = JSON(data: data!)
+                let token = jsonLogin["token"]
+                KeychainWrapper.setString(token.string!, forKey: "access_token")
+                AuthToken=token.string!
+                
+                //========GET USER DETAILS===============
+                var getUserDataURL=userDataUrl+"?access_token="+AuthToken
+                Alamofire.request(.GET,"\(getUserDataURL)").responseJSON{
+                    request1, response1, data1, error1 in
+                    
+                    //===========INITIALISE SOCKETIOCLIENT=========
+                    dispatch_async(dispatch_get_main_queue(), {
+                        
+                        //self.dismissViewControllerAnimated(true, completion: nil);
+                        /// self.performSegueWithIdentifier("loginSegue", sender: nil)
+                        
+                        if response1?.statusCode==200 {
+                            println("got user success")
+                            //self.gotToken=true
+                            var json=JSON(data1!)
+                            
+                            loggedUserObj=json
+                            //===========saving username======================
+                            KeychainWrapper.setString(json["username"].string!, forKey: "username")
+                            KeychainWrapper.setString(json["firstname"].string!+" "+json["lastname"].string!, forKey: "loggedFullName")
+                            KeychainWrapper.setString(json["phone"].string!, forKey: "loggedPhone")
+                            KeychainWrapper.setString(json["email"].string!, forKey: "loggedEmail")
+                            KeychainWrapper.setString(json["_id"].string!, forKey: "_id")
+                            
+                            
+                            socketObj.addHandlers()
+                            
+                            var jsonNew=JSON("{\"room\": \"globalchatroom\",\"user\": {\"username\":\"sabachanna\"}}")
+                            //socketObj.socket.emit("join global chatroom", ["room": "globalchatroom", "user": ["username":"sabachanna"]]) WORKINGGG
+                            
+                            socketObj.socket.emit("join global chatroom",["room": "globalchatroom", "user": json.object])
+                            
+                            println(json["_id"])
+                            
+                            let tbl_accounts = sqliteDB.db["accounts"]
+                            let _id = Expression<String>("_id")
+                            let firstname = Expression<String?>("firstname")
+                            let lastname = Expression<String?>("lastname")
+                            let email = Expression<String>("email")
+                            let phone = Expression<String>("phone")
+                            let username = Expression<String>("username")
+                            let status = Expression<String>("status")
+                            let date = Expression<String>("date")
+                            let accountVerified = Expression<String>("accountVerified")
+                            let role = Expression<String>("role")
+                            
+                            
+                            // let insert = users.insert(email <- "alice@mac.com")
+                            
+                            
+                            tbl_accounts.delete()
+                            
+                            let insert=tbl_accounts.insert(_id<-json["_id"].string!,
+                                firstname<-json["firstname"].string!,
+                                lastname<-json["lastname"].string!,
+                                email<-json["email"].string!,
+                                username<-json["username"].string!,
+                                status<-json["status"].string!,
+                                phone<-json["phone"].string!)
+                            if let rowid = insert.rowid {
+                                println("inserted id: \(rowid)")
+                            } else if insert.statement.failed {
+                                println("insertion failed: \(insert.statement.reason)")
+                            }
+                            
+                            //// self.fetchContacts(AuthToken)
+                            for account in tbl_accounts {
+                                println("id: \(account[_id]), email: \(account[email]), firstname: \(account[firstname])")
+                                // id: 1, email: alice@mac.com, name: Optional("Alice")
+                            }
+                            
+                            
+                            
+                            
+                            //...........
+                            /*  let stmt = sqliteDB.db.prepare("SELECT * FROM accounts")
+                            println(stmt.columnNames)
+                            for row in stmt {
+                            println("...................... firstname: \(row[1]), email: \(row[3])")
+                            // id: Optional(1), email: Optional("alice@mac.com")
+                            }*/
+                            
+                        } else {
+                            /*self.labelLoginUnsuccessful.text="Sorry, you are not registered"
+                            self.txtForEmail.text=nil
+                            self.txtForPassword.text=nil
+                            */
+                            println("GOT USER FAILED")
+                        }
+                    })
+                }
+                
+            }
+                
+            else
+            {
+                println("login failed")
+                /*self.labelLoginUnsuccessful.text="Sorry, you are not registered"
+                self.txtForEmail.text=nil
+                self.txtForPassword.text=nil*/
+            }
+        }
+    }
+    
+    
+        
+    
     
     
 }
