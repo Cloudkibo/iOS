@@ -27,7 +27,8 @@ class PendingFriendRequestsViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-loadPendingRequests()
+
+        loadPendingRequests()
         // Do any additional setup after loading the view.
        socketObj.socket.on("friendrequest"){data,ack in
             println("friend request socket received")

@@ -168,6 +168,8 @@ class ChatViewController: UIViewController {
     var ContactStatus:[String]=[]
     var ContactsObjectss:[JSON]=[]
     
+    var ContactOnlineStatus:[Int]=[]
+    
     //["Bus","Helicopter","Truck","Boat","Bicycle","Motorcycle","Plane","Train","Car","Scooter","Caravan"]
     
     override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: NSBundle?) {
@@ -197,6 +199,87 @@ class ChatViewController: UIViewController {
         // self.tblForChat.reloadData()
         
         
+        //==========Show Online============
+        socketObj.socket.emit("whozonline",[
+            "room":"globalchatroom",
+            "user":loggedUserObj.object])
+        
+        //========
+        socketObj.socket.on("online")
+            {data,ack in
+                    
+                    println("online status...")
+                    var onlineUsers=JSON(data!)
+                    println(onlineUsers[0])
+                    //println(onlineUsers[0]["username"])
+                
+                for(var i=0;i<onlineUsers.count;i++)
+                {
+                    for(var j=0;j<self.ContactUsernames.count;j++)
+                    {
+                        if self.ContactUsernames[j]==onlineUsers[i]["username"].string!
+                        {
+                            //found online contact,s username
+                            println("user found onlineeeee \(self.ContactUsernames[j])")
+                            self.ContactOnlineStatus[j]=1
+                            self.tblForChat.reloadData()
+                        }
+                    }
+                }
+                
+                }
+        
+        //======Offline users=========
+        socketObj.socket.on("offline")
+            {data,ack in
+                
+                println("offline status...")
+                var offlineUsers=JSON(data!)
+                println(offlineUsers[0])
+                //println(offlineUsers[0]["username"])
+                
+                for(var i=0;i<offlineUsers.count;i++)
+                {
+                    for(var j=0;j<self.ContactUsernames.count;j++)
+                    {
+                        if self.ContactUsernames[j]==offlineUsers[i]["username"].string!
+                        {
+                            //found online contact,s username
+                            println("user found onlineeeee \(self.ContactUsernames[j])")
+                            self.ContactOnlineStatus[j]=0
+                            self.tblForChat.reloadData()
+                        }
+                    }
+                }
+                
+        }
+
+        //====YOu are Online====
+        
+        socketObj.socket.on("youareonline")
+            {data,ack in
+                
+                println("youareonline status...")
+                var oonlineUsers=JSON(data!)
+                println(oonlineUsers[0])
+                //println(oonlineUsers[0]["username"])
+                
+                for(var i=0;i<oonlineUsers.count;i++)
+                {
+                    for(var j=0;j<self.ContactUsernames.count;j++)
+                    {
+                        if self.ContactUsernames[j]==oonlineUsers[i]["username"].string!
+                        {
+                            //found online contact,s username
+                            println("user found youareonline \(self.ContactUsernames[j])")
+                            self.ContactOnlineStatus[j]=1
+                            self.tblForChat.reloadData()
+                            break
+                        }
+                    }
+                }
+                
+        }
         
         //refreshControl.addTarget(self, action: Selector("fetchContacts"), forControlEvents: UIControlEvents.ValueChanged)
         //self.refreshControl = refreshControl
@@ -312,6 +395,7 @@ class ChatViewController: UIViewController {
                         self.ContactFirstname.append(contactsJsonObj[i]["contactid"]["firstname"].string!)
                         self.ContactLastNAme.append(contactsJsonObj[i]["contactid"]["lastname"].string!)
                         self.ContactStatus.append(contactsJsonObj[i]["contactid"]["status"].string!)
+                        self.ContactOnlineStatus.append(0)
                         if let rowid = insert.rowid {
                             println("inserted id: \(rowid)")
                             self.tblForChat.reloadData()
@@ -367,6 +451,14 @@ class ChatViewController: UIViewController {
         var cell=tblForChat.dequeueReusableCellWithIdentifier("ChatPrivateCell") as! ContactsListCell
         
         cell.contactName?.text=ContactNames[indexPath.row]
+        if ContactOnlineStatus[indexPath.row]==0
+        {
+            cell.btnGreenDot.hidden=true
+        }
+        else
+        {
+            cell.btnGreenDot.hidden=false
+        }
         
         
         return cell

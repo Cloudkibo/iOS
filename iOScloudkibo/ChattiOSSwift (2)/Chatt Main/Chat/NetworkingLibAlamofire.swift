@@ -87,4 +87,41 @@ class NetworkingLibAlamofire{
     }
     
     
+    func getToken(userid:String?,passw:String?)
+    {
+        
+        var url=Constants.MainUrl+Constants.authentictionUrl
+        //KeychainWrapper.setString(txtForPassword.text!, forKey: "password")
+        var param:[String:String]=["username": userid!,"password":passw!]
+        Alamofire.request(.POST,"\(url)",parameters: param).response{
+            request, response, data, error in
+            println(error)
+            
+            if response?.statusCode==200
+                
+            {
+                println("login success")
+               // self.labelLoginUnsuccessful.text=nil
+                //self.gotToken=true
+                
+                //======GETTING REST API TO GET CURRENT USER=======================
+                
+                var userDataUrl=Constants.MainUrl+Constants.getCurrentUser
+                //let index: String.Index = advance(self.AuthToken.startIndex, 10)
+                
+                //======================STORING Token========================
+                let jsonLogin = JSON(data: data!)
+                let token = jsonLogin["token"]
+                KeychainWrapper.setString(token.string!, forKey: "access_token")
+                AuthToken=token.string!
+            }
+            else
+            {
+                
+                println("Login failed")
+            }
+        }
+
+    }
+    
 }
