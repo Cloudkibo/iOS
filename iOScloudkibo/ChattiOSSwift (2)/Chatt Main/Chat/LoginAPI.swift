@@ -8,7 +8,7 @@
 
 import Foundation
 import Alamofire
-
+import SwiftyJSON
 
 class LoginAPI{
     
@@ -35,8 +35,12 @@ class LoginAPI{
             
             println("you onlineeee \(ack)")
         }
+        
+       
+        
+    
     }
-   
+
     func isConnected()->Bool{
         return socket.connected
     }

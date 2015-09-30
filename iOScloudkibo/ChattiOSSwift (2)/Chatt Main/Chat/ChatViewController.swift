@@ -187,6 +187,15 @@ class ChatViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+      
+       
+        //==========Show Online============
+
+        
+       /* socketObj.socket.emit("whozonline",[
+            "room":"globalchatroom",
+            "user":loggedUserObj.object])
+        */
         
         self.navigationItem.titleView = viewForTitle
         self.navigationItem.leftBarButtonItem = UIBarButtonItem(customView: btnForLogo)
@@ -199,11 +208,7 @@ class ChatViewController: UIViewController {
         // self.tblForChat.reloadData()
         
         
-        //==========Show Online============
-        socketObj.socket.emit("whozonline",[
-            "room":"globalchatroom",
-            "user":loggedUserObj.object])
-        
+       
         //========
         socketObj.socket.on("online")
             {data,ack in
@@ -229,6 +234,10 @@ class ChatViewController: UIViewController {
                 
                 }
         
+       
+
+     
+        
         //======Offline users=========
         socketObj.socket.on("offline")
             {data,ack in
@@ -245,7 +254,7 @@ class ChatViewController: UIViewController {
                         if self.ContactUsernames[j]==offlineUsers[i]["username"].string!
                         {
                             //found online contact,s username
-                            println("user found onlineeeee \(self.ContactUsernames[j])")
+                            println("user found offlinee \(self.ContactUsernames[j])")
                             self.ContactOnlineStatus[j]=0
                             self.tblForChat.reloadData()
                         }
@@ -253,34 +262,9 @@ class ChatViewController: UIViewController {
                 }
                 
         }
-
-        //====YOu are Online====
         
-        socketObj.socket.on("youareonline")
-            {data,ack in
-                
-                println("youareonline status...")
-                var oonlineUsers=JSON(data!)
-                println(oonlineUsers[0])
-                //println(oonlineUsers[0]["username"])
-                
-                for(var i=0;i<oonlineUsers.count;i++)
-                {
-                    for(var j=0;j<self.ContactUsernames.count;j++)
-                    {
-                        if self.ContactUsernames[j]==oonlineUsers[i]["username"].string!
-                        {
-                            //found online contact,s username
-                            println("user found youareonline \(self.ContactUsernames[j])")
-                            self.ContactOnlineStatus[j]=1
-                            self.tblForChat.reloadData()
-                            break
-                        }
-                    }
-                }
-                
-        }
         
+       
         //refreshControl.addTarget(self, action: Selector("fetchContacts"), forControlEvents: UIControlEvents.ValueChanged)
         //self.refreshControl = refreshControl
         
@@ -311,7 +295,9 @@ class ChatViewController: UIViewController {
     override func viewWillAppear(animated: Bool) {
         
         fetchContacts()
+        
         //var db=DatabaseHandler(dbName: "abc.sqlite")
+        
         
     }
     
@@ -415,6 +401,43 @@ class ChatViewController: UIViewController {
             
         }
         
+        
+        //====These are Online====
+        
+        socketObj.socket.on("theseareonline")
+            {data,ack in
+                
+                println("theseareonline status...")
+                var theseareonlineUsers=JSON(data!)
+                println(theseareonlineUsers.object)
+                //println(offlineUsers[0]["username"])
+                
+                for(var i=0;i<theseareonlineUsers[0].count;i++)
+                {
+                    for(var j=0;j<self.ContactUsernames.count && i<theseareonlineUsers.count;j++)
+                    {println(theseareonlineUsers[i].description)
+                        println(theseareonlineUsers.count)
+                        println(theseareonlineUsers[0][0].description)
+                        println(self.ContactUsernames[j])
+                        if self.ContactUsernames[j]==theseareonlineUsers[0][i]["username"].description
+                        {
+                            //found online contact,s username
+                            println("user found theseareonline \(self.ContactUsernames[j])")
+                            self.ContactOnlineStatus[j]=1
+                            self.tblForChat.reloadData()
+                        }
+                    }
+                }
+                
+        }
+        //==========Show Online============
+        
+        
+        socketObj.socket.emit("whozonline",[
+            "room":"globalchatroom",
+            "user":loggedUserObj.object])
+
+
     }
     
     
