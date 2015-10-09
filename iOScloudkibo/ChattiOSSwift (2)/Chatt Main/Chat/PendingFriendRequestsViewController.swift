@@ -27,7 +27,14 @@ class PendingFriendRequestsViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        if loggedUserObj==""
+        {
+            if let loggd=KeychainWrapper.objectForKey("loggedUserObj")
+            {
+                loggedUserObj=JSON(loggd)
+            }
+        }
+        
         loadPendingRequests()
         // Do any additional setup after loading the view.
        socketObj.socket.on("friendrequest"){data,ack in

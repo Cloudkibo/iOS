@@ -31,14 +31,19 @@ class DatabaseHandler:NSObject{
         self.db = Database(databasePath)*/
         
         // super.init()
-        let docsDir = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true).last!
-        dbPath = (docsDir as! NSString).stringByAppendingPathComponent("/cloudkibo")
+        //let docsDir = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, false).last!
+        //dbPath = (docsDir as! NSString).stringByAppendingPathComponent("/cloudkibo")
+        let fileManager = NSFileManager.defaultManager()
+        let dirPaths = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)
+        let docsDir1 = dirPaths[0] as! String
+        self.dbPath = docsDir1.stringByAppendingPathComponent("cloudKiboDatabase.sqlite3")
         
         self.db = Database(dbPath)
         println(db.description)
+       
         db=Database(dbPath)
-        super.init()
-        
+       
+         super.init()
         /* insertUser(_id:"abc",
         firstname: "sum",
         lastname: "saeed",
@@ -47,9 +52,10 @@ class DatabaseHandler:NSObject{
         status: "testing table")*/
         
         createAccountsTable()
-        db.drop(table: self.db["contactslists"])
+        //^^^^^^db.drop(table: self.db["contactslists"])
         createContactListsTable()
         createUserChatTable()
+        
     }
     
     func createAccountsTable()
@@ -69,8 +75,9 @@ class DatabaseHandler:NSObject{
         
         self.accounts = db["accounts"]
         
-        self.accounts.delete()
-        db.create(table: self.accounts, ifNotExists: true) { t in
+        //^^^^^self.accounts.delete()
+        db.create(table: self.accounts, ifNotExists: true)
+            {t in
             //t.column(_id, primaryKey: true)
             t.column(email, unique: true,check: like("%@%", email))
             t.column(firstname)

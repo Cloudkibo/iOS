@@ -57,7 +57,13 @@ class ChatDetailViewController: UIViewController {
         //self.performSegueWithIdentifier("chatSegue", sender: nil)
         
         println("chat detail view")
-        
+       /* if loggedUserObj==nil
+        {
+            if let loggd=KeychainWrapper.objectForKey("loggedUserObj")
+            {
+                loggedUserObj=JSON(loggd)
+            }
+        }*/
         // dispatch_async(dispatch_get_main_queue(), {
         
         
@@ -148,10 +154,11 @@ class ChatDetailViewController: UIViewController {
     func markChatAsRead()
     {
         
-        var markChatReadURL=Constants.MainUrl+Constants.markAsRead+"?access_token=\(AuthToken)"
+        var markChatReadURL=Constants.MainUrl+Constants.markAsRead+"?access_token=\(AuthToken!)"
         println(["user1":"\(loggedUserObj)","user2":"\(self.selectedUserObj)"])
         println("**")
         var loggedID=loggedUserObj["_id"]
+        //var loggedID=JSON(loggedUserObj)["_id"]
         println(loggedID.description+" logged id")
         println(self.selectedID+" selected id")
         Alamofire.request(.POST,"\(markChatReadURL)",parameters: ["user1":"\(loggedID)","user2":"\(self.selectedID)"]
@@ -197,7 +204,7 @@ class ChatDetailViewController: UIViewController {
         
         println("[user1:\(username!),user2:\(selectedContact)]")
         
-        var bringUserChatURL=Constants.MainUrl+Constants.bringUserChat+"?access_token="+AuthToken
+        var bringUserChatURL=Constants.MainUrl+Constants.bringUserChat+"?access_token="+AuthToken!
         let configuration = NSURLSessionConfiguration.defaultSessionConfiguration()
         Alamofire.request(.POST,"\(bringUserChatURL)",parameters: ["user1":"\(username!)","user2":"\(selectedContact)"]
             ).responseJSON{

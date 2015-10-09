@@ -188,7 +188,13 @@ class ChatViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
       
-       
+       /*if loggedUserObj==nil
+       {
+        if let loggd=KeychainWrapper.objectForKey("loggedUserObj")
+        {
+            loggedUserObj=JSON(loggd)
+        }
+        }*/
         //==========Show Online============
 
         
@@ -274,7 +280,7 @@ class ChatViewController: UIViewController {
         //if AuthToken==""
         
         //everytime new login
-        KeychainWrapper.removeObjectForKey("access_token")
+        //^^^^^^^^^^^KeychainWrapper.removeObjectForKey("access_token")
         let retrievedToken=KeychainWrapper.stringForKey("access_token")
         if retrievedToken==nil
         {performSegueWithIdentifier("loginSegue", sender: nil)}
@@ -301,10 +307,61 @@ class ChatViewController: UIViewController {
         
     }
     
+    //=====================================
+    //to fetch contacts from SQLite db
     
     func fetchContacts(){
+        let contactid = Expression<String>("contactid")
+        let detailsshared = Expression<String>("detailsshared")
         
-        var fetchChatURL=Constants.MainUrl+Constants.getContactsList+"?access_token="+AuthToken
+        let unreadMessage = Expression<Bool>("unreadMessage")
+        
+        let userid = Expression<String>("userid")
+        let firstname = Expression<String>("firstname")
+        let lastname = Expression<String>("lastname")
+        let email = Expression<String>("email")
+        let phone = Expression<String>("phone")
+        let username = Expression<String>("username")
+        let status = Expression<String>("status")
+        
+        //-========Remove old values=====================
+        /*self.ContactIDs.removeAll(keepCapacity: false)
+        self.ContactLastNAme.removeAll(keepCapacity: false)
+        self.ContactNames.removeAll(keepCapacity: false)
+        self.ContactStatus.removeAll(keepCapacity: false)
+        self.ContactUsernames.removeAll(keepCapacity: false)*/
+        //self.ContactsObjectss.removeAll(keepCapacity: false)
+
+        let tbl_contactslists=sqliteDB.db["contactslists"]
+        for tblContacts in tbl_contactslists.select(contactid,firstname,lastname,username,userid,status) {
+           println("queryy runned count is \(tbl_contactslists.count)")
+            println(tblContacts[firstname]+" "+tblContacts[lastname])
+            //ContactsObjectss.append(tblContacts[contactid])
+            ContactNames.append(tblContacts[firstname]+" "+tblContacts[lastname])
+            ContactUsernames.append(tblContacts[username])
+            ContactIDs.append(tblContacts[userid])
+            ContactFirstname.append(tblContacts[firstname])
+            ContactLastNAme.append(tblContacts[lastname])
+            ContactStatus.append(tblContacts[status])
+            ContactOnlineStatus.append(0)
+
+        }
+        
+         dispatch_async(dispatch_get_main_queue(), {
+            if AuthToken==nil{}
+            else{
+                self.fetchContactsFromServer()}
+        })
+    
+    }
+    
+    
+    //======================================
+    //to fetch contacts from server
+    
+    func fetchContactsFromServer(){
+        println("Server fetchingg contactss")
+        var fetchChatURL=Constants.MainUrl+Constants.getContactsList+"?access_token="+AuthToken!
         
         println(fetchChatURL)
         

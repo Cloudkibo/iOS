@@ -14,7 +14,7 @@ import Alamofire
 let socketObj=LoginAPI(url:"\(Constants.MainUrl)")
 let sqliteDB=DatabaseHandler(dbName:"cloudkiboDB.sqlite3")
 
-var AuthToken=""
+var AuthToken=KeychainWrapper.stringForKey("access_token")
 var loggedUserObj=JSON("[]")
 
 //let dbSQLite=DatabaseHandler(dbName: "/cloudKibo.sqlite3")
@@ -101,7 +101,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 AuthToken=token.string!
                 
                 //========GET USER DETAILS===============
-                var getUserDataURL=userDataUrl+"?access_token="+AuthToken
+                var getUserDataURL=userDataUrl+"?access_token="+AuthToken!
                 Alamofire.request(.GET,"\(getUserDataURL)").responseJSON{
                     request1, response1, data1, error1 in
                     

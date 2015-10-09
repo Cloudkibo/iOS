@@ -146,7 +146,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate{
                 AuthToken=token.string!
                 
                 //========GET USER DETAILS===============
-                var getUserDataURL=userDataUrl+"?access_token="+AuthToken
+                var getUserDataURL=userDataUrl+"?access_token="+AuthToken!
                 Alamofire.request(.GET,"\(getUserDataURL)").responseJSON{
                     request1, response1, data1, error1 in
                     
@@ -160,8 +160,10 @@ class LoginViewController: UIViewController, UITextFieldDelegate{
                             println("got user success")
                             self.gotToken=true
                             var json=JSON(data1!)
-                            
+                            //KeychainWrapper.setData(data1!, forKey: "loggedUserObj")
+                            //loggedUserObj=json(loggedUserObj)
                             loggedUserObj=json
+                            
                             //===========saving username======================
                             KeychainWrapper.setString(json["username"].string!, forKey: "username")
                             KeychainWrapper.setString(json["firstname"].string!+" "+json["lastname"].string!, forKey: "loggedFullName")
