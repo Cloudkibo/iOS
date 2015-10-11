@@ -173,13 +173,14 @@ class ChatDetailViewController: UIViewController {
                 
                 if response1?.statusCode==200 {
                     println("chat marked as read")
-                    //println(request1)
+                    println(response1)
                     println(data1?.debugDescription)
                     var UserchatJson=JSON(data1!)
                 }
                 else
                 {println("chat not marked as read")
                     println(error1)
+                     println(response1)
                     println(data1)}
         }
         
@@ -218,8 +219,8 @@ class ChatDetailViewController: UIViewController {
                 
                 if response1?.statusCode==200 {
                     println("chatttttttt:::::")
-                    //println(request1)
-                    // println(data1)
+                    println(response1)
+                     println(data1)
                     var UserchatJson=JSON(data1!)
                    // println(UserchatJson["msg"][0])
                     //println(UserchatJson["msg"][0]["to"])
@@ -250,7 +251,7 @@ class ChatDetailViewController: UIViewController {
                 else
                 {
                     println("chatttttt faileddddddd")
-                    println(request1)
+                    println(response1)
                     println(error1)
                     println(data1)
                 }

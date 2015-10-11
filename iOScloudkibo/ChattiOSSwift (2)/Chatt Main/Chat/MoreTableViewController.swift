@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import SwiftyJSON
 
 class MoreTableViewController: UITableViewController {
 
@@ -99,5 +100,38 @@ class MoreTableViewController: UITableViewController {
         // Pass the selected object to the new view controller.
     }
     */
-
+    
+    override func prepareForSegue(segue: UIStoryboardSegue?, sender: AnyObject?) {
+        //var newController=segue ?.destinationViewController
+        // Get the new view controller using [segue destinationViewController].
+        // Pass the selected object to the new view controller.
+        // Get the new view controller using [segue destinationViewController].
+        // Pass the selected object to the new view controller.
+        
+        //if segue!.identifier == "chatSegue" {
+        if segue!.identifier == "logoutSegue" {
+            
+            if let destinationVC = segue!.destinationViewController as? LoginViewController{
+                AuthToken=""
+                let tbl_contactslists=sqliteDB.db["contactslists"]
+                let tbl_accounts=sqliteDB.db["accounts"]
+                let tbl_userchats=sqliteDB.db["userschats"]
+                tbl_contactslists.delete()
+                tbl_accounts.delete()
+                tbl_userchats.delete()
+                KeychainWrapper.removeObjectForKey("access_token")
+                KeychainWrapper.removeObjectForKey("username")
+                KeychainWrapper.removeObjectForKey("password")
+                KeychainWrapper.removeObjectForKey("loggedFullName")
+                KeychainWrapper.removeObjectForKey("loggedPhone")
+                KeychainWrapper.removeObjectForKey("loggedEmail")
+                KeychainWrapper.removeObjectForKey("_id")
+                loggedUserObj=JSON("[]")
+               
+                //let dbSQLite=DatabaseHandler(dbName: "/cloudKibo.sqlite3")
+                
+                
+            }
+        }
+    }
 }

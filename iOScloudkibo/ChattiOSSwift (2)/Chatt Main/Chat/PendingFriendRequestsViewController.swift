@@ -116,7 +116,7 @@ class PendingFriendRequestsViewController: UIViewController {
     func loadPendingRequests()
     {
         //var pendingReqHTTP=NetworkingLibAlamofire()
-        var url=Constants.MainUrl+Constants.getPendingFriendRequestsContacts+"?access_token=\(AuthToken)"
+        var url=Constants.MainUrl+Constants.getPendingFriendRequestsContacts+"?access_token=\(AuthToken!)"
        //println(pendingList.description)
        // println(pendingList.count)
         Alamofire.request(.GET,"\(url)").responseJSON{
@@ -214,7 +214,7 @@ class PendingFriendRequestsViewController: UIViewController {
             
             println("inside delete old func")
            
-            var url=Constants.MainUrl+Constants.rejectPendingFriendRequest+"?access_token=\(AuthToken)"
+            var url=Constants.MainUrl+Constants.rejectPendingFriendRequest+"?access_token=\(AuthToken!)"
             var usernameToReject=self.pendingContactsObj[selectedRow]["username"]
             //var params=self.ContactsObjectss[selectedRow].arrayValue
             Alamofire.request(.POST,"\(url)",parameters:["username":"\(usernameToReject)"]
@@ -258,7 +258,7 @@ class PendingFriendRequestsViewController: UIViewController {
         let accept = UITableViewRowAction(style: .Normal, title: "Accept") { action, index in
             println("accept button tapped")
             
-            var url=Constants.MainUrl+Constants.approvePendingFriendRequest+"?access_token=\(AuthToken)"
+            var url=Constants.MainUrl+Constants.approvePendingFriendRequest+"?access_token=\(AuthToken!)"
             var usernameToReject=self.pendingContactsObj[selectedRow]["username"]
             //var params=self.ContactsObjectss[selectedRow].arrayValue
             Alamofire.request(.POST,"\(url)",parameters:["username":"\(usernameToReject)"]

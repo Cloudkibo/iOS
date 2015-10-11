@@ -281,6 +281,8 @@ class ChatViewController: UIViewController {
         
         //everytime new login
         //^^^^^^^^^^^KeychainWrapper.removeObjectForKey("access_token")
+        
+        
         let retrievedToken=KeychainWrapper.stringForKey("access_token")
         if retrievedToken==nil
         {performSegueWithIdentifier("loginSegue", sender: nil)}
@@ -299,9 +301,19 @@ class ChatViewController: UIViewController {
     }
     
     override func viewWillAppear(animated: Bool) {
-        
+        let retrievedToken=KeychainWrapper.stringForKey("access_token")
+        if retrievedToken==nil
+        {performSegueWithIdentifier("loginSegue", sender: nil)}
+        else
+        {
         fetchContacts()
-        
+            dispatch_async(dispatch_get_main_queue(), {
+                self.fetchContactsFromServer()
+                self.tblForChat.reloadData()
+                
+            })
+    }
+    
         //var db=DatabaseHandler(dbName: "abc.sqlite")
         
         
@@ -325,12 +337,12 @@ class ChatViewController: UIViewController {
         let status = Expression<String>("status")
         
         //-========Remove old values=====================
-        /*self.ContactIDs.removeAll(keepCapacity: false)
+        self.ContactIDs.removeAll(keepCapacity: false)
         self.ContactLastNAme.removeAll(keepCapacity: false)
         self.ContactNames.removeAll(keepCapacity: false)
         self.ContactStatus.removeAll(keepCapacity: false)
-        self.ContactUsernames.removeAll(keepCapacity: false)*/
-        //self.ContactsObjectss.removeAll(keepCapacity: false)
+        self.ContactUsernames.removeAll(keepCapacity: false)
+        self.ContactsObjectss.removeAll(keepCapacity: false)
 
         let tbl_contactslists=sqliteDB.db["contactslists"]
         for tblContacts in tbl_contactslists.select(contactid,firstname,lastname,username,userid,status) {
@@ -347,11 +359,42 @@ class ChatViewController: UIViewController {
 
         }
         
-         dispatch_async(dispatch_get_main_queue(), {
-            if AuthToken==nil{}
-            else{
-                self.fetchContactsFromServer()}
-        })
+        //====These are Online====
+        
+        socketObj.socket.on("theseareonline")
+            {data,ack in
+                
+                println("theseareonline status...")
+                var theseareonlineUsers=JSON(data!)
+                println(theseareonlineUsers.object)
+                //println(offlineUsers[0]["username"])
+                
+                for(var i=0;i<theseareonlineUsers[0].count;i++)
+                {
+                    for(var j=0;j<self.ContactUsernames.count && i<theseareonlineUsers.count;j++)
+                    {println(theseareonlineUsers[i].description)
+                        println(theseareonlineUsers.count)
+                        println(theseareonlineUsers[0][0].description)
+                        println(self.ContactUsernames[j])
+                        if self.ContactUsernames[j]==theseareonlineUsers[0][i]["username"].description
+                        {
+                            //found online contact,s username
+                            println("user found theseareonline \(self.ContactUsernames[j])")
+                            self.ContactOnlineStatus[j]=1
+                            self.tblForChat.reloadData()
+                        }
+                    }
+                }
+                
+        }
+        //==========Show Online============
+        
+        
+        socketObj.socket.emit("whozonline",[
+            "room":"globalchatroom",
+            "user":loggedUserObj.object])
+        
+
     
     }
     
@@ -405,6 +448,8 @@ class ChatViewController: UIViewController {
                     
                     
                     let tbl_contactslists=sqliteDB.db["contactslists"]
+                    tbl_contactslists.delete() //complete refresh
+                    
                     
                     //-========Remove old values=====================
                     self.ContactIDs.removeAll(keepCapacity: false)
@@ -413,6 +458,8 @@ class ChatViewController: UIViewController {
                     self.ContactStatus.removeAll(keepCapacity: false)
                     self.ContactUsernames.removeAll(keepCapacity: false)
                     self.ContactsObjectss.removeAll(keepCapacity: false)
+
+                
                     
                     for var i=0;i<contactsJsonObj.count;i++
                     {
@@ -431,6 +478,8 @@ class ChatViewController: UIViewController {
                         
                         //self.transportItems.insert(contactsJsonObj[i]["contactid"]["firstname"].string!+" "+contactsJsonObj[i]["contactid"]["lastname"].string!, atIndex: i)
                         
+                        
+                        //=========this is done in fetching from sqlite not here====
                         self.ContactsObjectss.append(contactsJsonObj[i]["contactid"])
                         self.ContactNames.append(contactsJsonObj[i]["contactid"]["firstname"].string!+" "+contactsJsonObj[i]["contactid"]["lastname"].string!)
                         self.ContactUsernames.append(contactsJsonObj[i]["contactid"]["username"].string!)
@@ -439,6 +488,8 @@ class ChatViewController: UIViewController {
                         self.ContactLastNAme.append(contactsJsonObj[i]["contactid"]["lastname"].string!)
                         self.ContactStatus.append(contactsJsonObj[i]["contactid"]["status"].string!)
                         self.ContactOnlineStatus.append(0)
+
+                        
                         if let rowid = insert.rowid {
                             println("inserted id: \(rowid)")
                             self.tblForChat.reloadData()
@@ -459,42 +510,7 @@ class ChatViewController: UIViewController {
         }
         
         
-        //====These are Online====
-        
-        socketObj.socket.on("theseareonline")
-            {data,ack in
-                
-                println("theseareonline status...")
-                var theseareonlineUsers=JSON(data!)
-                println(theseareonlineUsers.object)
-                //println(offlineUsers[0]["username"])
-                
-                for(var i=0;i<theseareonlineUsers[0].count;i++)
-                {
-                    for(var j=0;j<self.ContactUsernames.count && i<theseareonlineUsers.count;j++)
-                    {println(theseareonlineUsers[i].description)
-                        println(theseareonlineUsers.count)
-                        println(theseareonlineUsers[0][0].description)
-                        println(self.ContactUsernames[j])
-                        if self.ContactUsernames[j]==theseareonlineUsers[0][i]["username"].description
-                        {
-                            //found online contact,s username
-                            println("user found theseareonline \(self.ContactUsernames[j])")
-                            self.ContactOnlineStatus[j]=1
-                            self.tblForChat.reloadData()
-                        }
-                    }
-                }
-                
-        }
-        //==========Show Online============
-        
-        
-        socketObj.socket.emit("whozonline",[
-            "room":"globalchatroom",
-            "user":loggedUserObj.object])
-
-
+       
     }
     
     
@@ -573,9 +589,9 @@ class ChatViewController: UIViewController {
             
             
             
-            var url=Constants.MainUrl+Constants.removeFriend+"?access_token=\(AuthToken)"
+            var url=Constants.MainUrl+Constants.removeFriend+"?access_token=\(AuthToken!)"
             
-            var params=self.ContactsObjectss[selectedRow].arrayValue
+            //var params=self.ContactsObjectss[selectedRow].arrayValue
             //var pp=JSON(params)
             //var bb=jsonString(self.ContactsObjectss[selectedRow].stringValue)
             //var a=JSONStringify(self.ContactsObjectss[selectedRow].object, prettyPrinted: false)
@@ -600,6 +616,20 @@ class ChatViewController: UIViewController {
                         //dataMy=JSON(data1!)
                         //println(dataMy.description)
                         
+                        sqliteDB.deleteChat(self.ContactNames[selectedRow])
+                        
+                        //println(ContactNames[selectedRow]+" deleted")
+                        sqliteDB.deleteFriend(self.ContactUsernames[selectedRow])
+                        self.ContactNames.removeAtIndex(selectedRow)
+                        self.ContactIDs.removeAtIndex(selectedRow)
+                        self.ContactFirstname.removeAtIndex(selectedRow)
+                        self.ContactLastNAme.removeAtIndex(selectedRow)
+                        self.ContactStatus.removeAtIndex(selectedRow)
+                        self.ContactUsernames.removeAtIndex(selectedRow)
+                        // Delete the row from the data source
+                        tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Fade)
+                        //tblForChat.reloadData()
+                        
                     }
                     else
                     {
@@ -622,19 +652,7 @@ class ChatViewController: UIViewController {
             */
         
         
-            sqliteDB.deleteChat(ContactNames[selectedRow])
             
-            //println(ContactNames[selectedRow]+" deleted")
-            sqliteDB.deleteFriend(ContactUsernames[selectedRow])
-            ContactNames.removeAtIndex(selectedRow)
-            ContactIDs.removeAtIndex(selectedRow)
-            ContactFirstname.removeAtIndex(selectedRow)
-            ContactLastNAme.removeAtIndex(selectedRow)
-            ContactStatus.removeAtIndex(selectedRow)
-            ContactUsernames.removeAtIndex(selectedRow)
-            // Delete the row from the data source
-            tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Fade)
-            //tblForChat.reloadData()
             
         } else if editingStyle == .Insert {
             // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
