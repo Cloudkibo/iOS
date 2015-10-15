@@ -18,10 +18,10 @@
 	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
 	<dict>
 		<key>51D919B02F515DF511C628E9A9DE3260C99F16D5</key>
-		<string>../../../../../../iOS</string>
+		<string>../../../../../../iOS2</string>
 	</dict>
 	<key>IDESourceControlProjectURL</key>
-	<string>https://github.com/Cloudkibo/iOS.git</string>
+	<string>https://github.com/Cloudkibo/iOS</string>
 	<key>IDESourceControlProjectVersion</key>
 	<integer>111</integer>
 	<key>IDESourceControlProjectWCCIdentifier</key>

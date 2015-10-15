@@ -13,6 +13,8 @@ import SQLite
 
 class PendingFriendRequestsViewController: UIViewController {
 
+    var rt=NetworkingLibAlamofire()
+
     @IBOutlet weak var tbl_pendingContacts: UITableView!
     var pendingContactsNames:[String]=[]
     var pendingContactsObj:[JSON]=[]
@@ -27,14 +29,14 @@ class PendingFriendRequestsViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        if loggedUserObj==""
+        /*if loggedUserObj==""
         {
             if let loggd=KeychainWrapper.objectForKey("loggedUserObj")
             {
                 loggedUserObj=JSON(loggd)
             }
         }
-        
+        */
         loadPendingRequests()
         // Do any additional setup after loading the view.
        socketObj.socket.on("friendrequest"){data,ack in
@@ -119,7 +121,7 @@ class PendingFriendRequestsViewController: UIViewController {
         var url=Constants.MainUrl+Constants.getPendingFriendRequestsContacts+"?access_token=\(AuthToken!)"
        //println(pendingList.description)
        // println(pendingList.count)
-        Alamofire.request(.GET,"\(url)").responseJSON{
+        Alamofire.request(.GET,"\(url)").validate(statusCode: 200..<300).responseJSON{
             request1, response1, data1, error1 in
             
             //===========INITIALISE SOCKETIOCLIENT=========
@@ -148,12 +150,17 @@ class PendingFriendRequestsViewController: UIViewController {
                 }
                 else
                 {
-                    println("request failed")
+                    println("load pending request failed")
                    // self.errorMy=JSON(error1!)
                     //println(errorMy.description)
                     
                 }
             })
+            if(response1?.statusCode==401)
+            {
+             println("loading pending request failed token expired")
+                self.rt.refrToken()
+            }
         }
 
         
@@ -219,7 +226,7 @@ class PendingFriendRequestsViewController: UIViewController {
             //var params=self.ContactsObjectss[selectedRow].arrayValue
             Alamofire.request(.POST,"\(url)",parameters:["username":"\(usernameToReject)"]
                 //Alamofire.request(.POST,"\(url)",parameters:["index":"\(selectedRow)"]
-                ).responseJSON{
+                ).validate(statusCode: 200..<300).responseJSON{
                     request1, response1, data1, error1 in
                     
                     //===========INITIALISE SOCKETIOCLIENT=========
@@ -241,13 +248,18 @@ class PendingFriendRequestsViewController: UIViewController {
                         }
                         else
                         {
-                            println("request failed")
+                            println("reject pending request failed")
                             //var json=JSON(error1!)
                             println(error1?.description)
                             println(response1?.statusCode)
                             
                         }
                     })
+                    if(response1?.statusCode==401)
+                    {
+                        println("reject request failed token expired")
+                        self.rt.refrToken()
+                    }
             }
             
             
@@ -263,7 +275,7 @@ class PendingFriendRequestsViewController: UIViewController {
             //var params=self.ContactsObjectss[selectedRow].arrayValue
             Alamofire.request(.POST,"\(url)",parameters:["username":"\(usernameToReject)"]
                 //Alamofire.request(.POST,"\(url)",parameters:["index":"\(selectedRow)"]
-                ).responseJSON{
+                ).validate(statusCode: 200..<300).responseJSON{
                     request1, response1, data1, error1 in
                     
                     //===========INITIALISE SOCKETIOCLIENT=========
@@ -285,13 +297,18 @@ class PendingFriendRequestsViewController: UIViewController {
                         }
                         else
                         {
-                            println("request failed")
+                            println("approve request failed")
                             //var json=JSON(error1!)
                             println(error1?.description)
                             println(response1?.statusCode)
                             
                         }
                     })
+                    if(response1?.statusCode==401)
+                    {
+                        println("approve request failed token expired")
+                        self.rt.refrToken()
+                    }
             }
             
 

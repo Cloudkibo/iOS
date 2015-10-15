@@ -25,4 +25,5 @@ class Constants{
     static let getPendingFriendRequestsContacts="/api/contactslist/pendingcontacts"
     static let rejectPendingFriendRequest="/api/contactslist/rejectfriendrequest"
     static let approvePendingFriendRequest="/api/contactslist/approvefriendrequest"
+    static let createNewUser="/api/users/"
 }

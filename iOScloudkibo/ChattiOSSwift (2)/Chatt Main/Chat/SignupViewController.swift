@@ -1,85 +1,125 @@
 //
-//  AppDelegate.swift
+//  SignupViewController.swift
 //  Chat
 //
-//  Created by My App Templates Team on 24/08/14.
-//  Copyright (c) 2014 My App Templates. All rights reserved.
+//  Created by Cloudkibo on 14/10/2015.
+//  Copyright (c) 2015 MyAppTemplates. All rights reserved.
+//
+
+//import UIKit
 //
 
 import UIKit
-import SQLite
-import SwiftyJSON
 import Alamofire
-
-let socketObj=LoginAPI(url:"\(Constants.MainUrl)")
-let sqliteDB=DatabaseHandler(dbName:"cloudkiboDB.sqlite3")
-
-var AuthToken=KeychainWrapper.stringForKey("access_token")
-var loggedUserObj=JSON("[]")
-
-//let dbSQLite=DatabaseHandler(dbName: "/cloudKibo.sqlite3")
-let username=KeychainWrapper.stringForKey("username")
-let password=KeychainWrapper.stringForKey("password")
-let loggedFullName=KeychainWrapper.stringForKey("loggedFullName")
-let loggedPhone=KeychainWrapper.stringForKey("loggedPhone")
-let loggedEmail=KeychainWrapper.stringForKey("loggedEmail")
-let _id=KeychainWrapper.stringForKey("_id")
-//let loggedIDKeyChain=KeychainWrapper.stringForKey("loggedIDKeyChain")
-
-//from id, to id remaining
-//mark chat as read is remaining
+import SwiftyJSON
+import SQLite
 
 
-@UIApplicationMain
-class AppDelegate: UIResponder, UIApplicationDelegate {
+class SignupViewController: UIViewController, UITextFieldDelegate {
+
+    @IBOutlet var txtEmail: UIView!
+   //// @IBOutlet var viewForContent: UIScrollView!
     
-    var window: UIWindow?
+    @IBOutlet weak var txtfirstname: UIView!
+    @IBOutlet weak var txtlastname: UIView!
     
+    @IBOutlet var txtPhone: UIImageView!
     
-    //  var window: UIWindow?
+    @IBOutlet var txtUsername: UIView!
     
+    @IBOutlet var txtPassword: UIView!
     
-    func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
-        // Override point for customization after application launch.
+    override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: NSBundle?) {
+        super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
+        // Custom initialization
         
-        UIApplication.sharedApplication().setStatusBarHidden(true, withAnimation: UIStatusBarAnimation.Fade);
-        
-        UIApplication.sharedApplication().setStatusBarStyle(UIStatusBarStyle.LightContent, animated: false);
-        
-        UINavigationBar.appearance().titleTextAttributes = [NSForegroundColorAttributeName: UIColor.whiteColor()]
-        
-        return true
         
     }
     
-    func applicationWillResignActive(application: UIApplication) {
-        // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
-        // Use this method to pause ongoing tasks, disable timers, and throttle down OpenGL ES frame rates. Games should use this method to pause the game.
-    }
-    
-    func applicationDidEnterBackground(application: UIApplication) {
-        // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
-        // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
-    }
-    
-    func applicationWillEnterForeground(application: UIApplication) {
-        // Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
-    }
-    
-    func applicationDidBecomeActive(application: UIApplication) {
-        // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
-    }
-    
-    func applicationWillTerminate(application: UIApplication) {
-        // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
-        
-        socketObj.socket.disconnect(fast: true)
-        socketObj.socket.close(fast: true)
-    }
-    func fetchNewToken()
+    required init(coder aDecoder: NSCoder)
     {
+        super.init(coder: aDecoder)
+    }
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        var size = UIScreen.mainScreen().bounds.size
+        ///viewForContent.contentSize = CGSizeMake(size.width, 568)
+    }
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        socketObj.connect()
+        
+        socketObj.socket.on("connect") {data, ack in
+            NSLog("connected to socket")
+        }
+        
+        var size = UIScreen.mainScreen().bounds.size
+      ///  viewForContent.contentSize = CGSizeMake(size.width, 568)
+        
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("willShowKeyBoard:"), name:UIKeyboardWillShowNotification, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("willHideKeyBoard:"), name:UIKeyboardWillHideNotification, object: nil)
+        
+        
+        // Do any additional setup after loading the view.
+    }
+    
+    func willShowKeyBoard(notification : NSNotification){
+        
+        var userInfo: NSDictionary!
+        userInfo = notification.userInfo
+        
+        var duration : NSTimeInterval = 0
+        var curve = userInfo.objectForKey(UIKeyboardAnimationCurveUserInfoKey) as! UInt
+        duration = userInfo[UIKeyboardAnimationDurationUserInfoKey]as! NSTimeInterval
+        var keyboardF:NSValue = userInfo.objectForKey(UIKeyboardFrameEndUserInfoKey)as! NSValue
+        var keyboardFrame = keyboardF.CGRectValue()
+        
+        UIView.animateWithDuration(duration, delay: 0, options:nil, animations: {
+         ///   self.viewForContent.contentOffset = CGPointMake(0, keyboardFrame.size.height)
+            
+            }, completion: nil)
+        
+    }
+    
+    func willHideKeyBoard(notification : NSNotification){
+        
+        var userInfo: NSDictionary!
+        userInfo = notification.userInfo
+        
+        var duration : NSTimeInterval = 0
+        var curve = userInfo.objectForKey(UIKeyboardAnimationCurveUserInfoKey) as! UInt
+        duration = userInfo[UIKeyboardAnimationDurationUserInfoKey]as! NSTimeInterval
+        var keyboardF:NSValue = userInfo.objectForKey(UIKeyboardFrameEndUserInfoKey) as! NSValue
+        var keyboardFrame = keyboardF.CGRectValue()
+        
+        UIView.animateWithDuration(duration, delay: 0, options:nil, animations: {
+          ////  self.viewForContent.contentOffset = CGPointMake(0, 0)
+            
+            }, completion: nil)
+        
+    }
+    
+    /*func textFieldShouldReturn (textField: UITextField) -> Bool{
+        if ((textField == txtfirstname)){
+            txtlastname.becomeFirstResponder();
+        } else if (textField == txtlastname){
+            txtfirstname.resignFirstResponder()
+        }
+        return true
+    }*/
+    
+    @IBAction func registerBtnTapped(sender: AnyObject) {
+    }
+    
+    
+    /*@IBAction func loginBtnTapped() {
+        //============================ Authenticate User ================
         var url=Constants.MainUrl+Constants.authentictionUrl
-        var param:[String:String]=["username": username!,"password":password!]
+        KeychainWrapper.setString(txtForPassword.text!, forKey: "password")
+        var param:[String:String]=["username": txtForEmail.text!,"password":txtForPassword.text!]
         Alamofire.request(.POST,"\(url)",parameters: param).response{
             request, response, data, error in
             println(error)
@@ -88,8 +128,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 
             {
                 println("login success")
-                //self.labelLoginUnsuccessful.text=nil
-                //self.gotToken=true
+                self.labelLoginUnsuccessful.text=nil
+                self.gotToken=true
                 
                 //======GETTING REST API TO GET CURRENT USER=======================
                 
@@ -104,27 +144,30 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 
                 //========GET USER DETAILS===============
                 var getUserDataURL=userDataUrl+"?access_token="+AuthToken!
-                Alamofire.request(.GET,"\(getUserDataURL)").responseJSON{
+                Alamofire.request(.GET,"\(getUserDataURL)").validate(statusCode: 200..<300).responseJSON{
                     request1, response1, data1, error1 in
                     
                     //===========INITIALISE SOCKETIOCLIENT=========
                     dispatch_async(dispatch_get_main_queue(), {
                         
-                        //self.dismissViewControllerAnimated(true, completion: nil);
+                        self.dismissViewControllerAnimated(true, completion: nil);
                         /// self.performSegueWithIdentifier("loginSegue", sender: nil)
                         
                         if response1?.statusCode==200 {
                             println("got user success")
-                            //self.gotToken=true
+                            self.gotToken=true
                             var json=JSON(data1!)
-                            
+                            //KeychainWrapper.setData(data1!, forKey: "loggedUserObj")
+                            //loggedUserObj=json(loggedUserObj)
                             loggedUserObj=json
+                            ///KeychainWrapper.setString(JSONStringify(json, prettyPrinted: true), forKey:"loggedIDKeyChain")
                             //===========saving username======================
                             KeychainWrapper.setString(json["username"].string!, forKey: "username")
                             KeychainWrapper.setString(json["firstname"].string!+" "+json["lastname"].string!, forKey: "loggedFullName")
                             KeychainWrapper.setString(json["phone"].string!, forKey: "loggedPhone")
                             KeychainWrapper.setString(json["email"].string!, forKey: "loggedEmail")
                             KeychainWrapper.setString(json["_id"].string!, forKey: "_id")
+                            KeychainWrapper.setString(self.txtForPassword.text!, forKey: "password")
                             
                             
                             socketObj.addHandlers()
@@ -185,31 +228,68 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                             }*/
                             
                         } else {
-                            /*self.labelLoginUnsuccessful.text="Sorry, you are not registered"
+                            self.labelLoginUnsuccessful.text="Sorry, you are not registered"
                             self.txtForEmail.text=nil
                             self.txtForPassword.text=nil
-                            */
+                            
                             println("GOT USER FAILED")
                         }
                     })
+                    
+                    if(response?.statusCode==401)
+                    {
+                        println("got user failed token expired")
+                        self.rt.refrToken()
+                    }
                 }
                 
             }
                 
             else
             {
+                KeychainWrapper.removeObjectForKey("password")
                 println("login failed")
-                /*self.labelLoginUnsuccessful.text="Sorry, you are not registered"
+                self.labelLoginUnsuccessful.text="Sorry, you are not registered"
                 self.txtForEmail.text=nil
-                self.txtForPassword.text=nil*/
+                self.txtForPassword.text=nil
             }
         }
     }
+    */
     
     
+    func AuthenticateUser(){}
+    func getUserObject(){}
+    func joinGlobalChatRoom(){}
+    
+    @IBAction func facebookBtnTapped(sender: AnyObject) {
+         self.dismissViewControllerAnimated(true, completion: nil);
+    }
+   
+    @IBAction func twitterBtnTapped(sender: AnyObject) {
+        self.dismissViewControllerAnimated(true, completion: nil);
         
+    }
+    
+  
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+        // Dispose of any resources that can be recreated.
+    }
     
     
     
+    // #pragma mark - Navigation
+    
+    // In a storyboard-based application, you will often want to do a little preparation before navigation
+    /* override func prepareForSegue(segue: UIStoryboardSegue?, sender: AnyObject?) {
+    // Get the new view controller using [segue destinationViewController].
+    // Pass the selected object to the new view controller.
+    if segue!.identifier == "loginSegue" {
+    if let destinationVC = segue!.destinationViewController as? ChatViewController{
+    destinationVC.AuthToken = AuthToken
+    destinationVC.contactsJsonObj=self.contactsJsonObj
+    }
+    }
+    }*/
 }
-

@@ -189,7 +189,7 @@ class DatabaseHandler:NSObject{
             from<-from1
         )
         if let rowid = insert.rowid {
-            //println("inserted id: \(rowid)")
+            println("inserted id: \(rowid)")
         } else if insert.statement.failed {
             println("insertion failed: \(insert.statement.reason)")
         }
@@ -203,7 +203,10 @@ class DatabaseHandler:NSObject{
     func deleteChat(userTo:String)
     {
         let to = Expression<String>("to")
-        self.userschats.filter(to==userTo).delete()
+        let from = Expression<String>("from")
+        var tbl_userchats=sqliteDB.db["userschats"]
+        var n=tbl_userchats.filter(to==userTo).delete()
+        tbl_userchats.filter(from==userTo).delete()
         
     }
 

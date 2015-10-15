@@ -14,7 +14,6 @@
 		5B990C9D19ACE5AF00F9278A /* ChatDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B990C9C19ACE5AF00F9278A /* ChatDetailViewController.swift */; };
 		5BF6362B19A9F3D900ABD0BA /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BF6362A19A9F3D900ABD0BA /* AppDelegate.swift */; };
 		5BF6362D19A9F3D900ABD0BA /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BF6362C19A9F3D900ABD0BA /* ViewController.swift */; };
-		5BF6363019A9F3D900ABD0BA /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5BF6362E19A9F3D900ABD0BA /* Main.storyboard */; };
 		5BF6363219A9F3D900ABD0BA /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5BF6363119A9F3D900ABD0BA /* Images.xcassets */; };
 		5BF6363E19A9F3D900ABD0BA /* ChatTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BF6363D19A9F3D900ABD0BA /* ChatTests.swift */; };
 		5BF6364C19A9FCE500ABD0BA /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BF6364B19A9FCE500ABD0BA /* LoginViewController.swift */; };
@@ -46,6 +45,9 @@
 		714638FF1B7D0FED002084FF /* Alamofire.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 714638F71B7D0F1A002084FF /* Alamofire.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		714639041B7D1624002084FF /* LoginAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 714639031B7D1624002084FF /* LoginAPI.swift */; };
 		714639061B7D41F9002084FF /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 714639051B7D41F9002084FF /* Constants.swift */; };
+		7191CC611BCDB4D800F0847F /* TableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7191CC601BCDB4D800F0847F /* TableViewController.swift */; };
+		7191CC651BCDC4F100F0847F /* RegisterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7191CC641BCDC4F100F0847F /* RegisterViewController.swift */; };
+		7191CC681BCF0D9400F0847F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7191CC661BCF0D9400F0847F /* Main.storyboard */; };
 		71DDAD9D1B94CA690013F4D9 /* KeychainWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71DDAD9C1B94CA690013F4D9 /* KeychainWrapper.swift */; };
 		71E9BB8D1BA8E006001C895F /* NetworkingLibAlamofire.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71E9BB8C1BA8E006001C895F /* NetworkingLibAlamofire.swift */; };
 		71E9BB981BAA2B91001C895F /* PendingFriendRequestsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71E9BB971BAA2B91001C895F /* PendingFriendRequestsViewController.swift */; };
@@ -193,7 +195,6 @@
 		5BF6362919A9F3D900ABD0BA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		5BF6362A19A9F3D900ABD0BA /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		5BF6362C19A9F3D900ABD0BA /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
-		5BF6362F19A9F3D900ABD0BA /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		5BF6363119A9F3D900ABD0BA /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		5BF6363719A9F3D900ABD0BA /* ChatTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ChatTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		5BF6363C19A9F3D900ABD0BA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -224,6 +225,9 @@
 		714638EF1B7D0F19002084FF /* Alamofire.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Alamofire.xcodeproj; path = "../../Alamofire-master/Alamofire.xcodeproj"; sourceTree = "<group>"; };
 		714639031B7D1624002084FF /* LoginAPI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginAPI.swift; sourceTree = "<group>"; };
 		714639051B7D41F9002084FF /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
+		7191CC601BCDB4D800F0847F /* TableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TableViewController.swift; sourceTree = "<group>"; };
+		7191CC641BCDC4F100F0847F /* RegisterViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegisterViewController.swift; sourceTree = "<group>"; };
+		7191CC671BCF0D9400F0847F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		71DDAD9C1B94CA690013F4D9 /* KeychainWrapper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = KeychainWrapper.swift; path = "../../../../../../Downloads/SwiftKeychainWrapper-master/SwiftKeychainWrapper/KeychainWrapper.swift"; sourceTree = "<group>"; };
 		71E9BB8C1BA8E006001C895F /* NetworkingLibAlamofire.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkingLibAlamofire.swift; sourceTree = "<group>"; };
 		71E9BB971BAA2B91001C895F /* PendingFriendRequestsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PendingFriendRequestsViewController.swift; sourceTree = "<group>"; };
@@ -254,6 +258,7 @@
 		5BF6361C19A9F3D900ABD0BA = {
 			isa = PBXGroup;
 			children = (
+				7191CC601BCDB4D800F0847F /* TableViewController.swift */,
 				714442BE1B8F8B250048B3A5 /* SQLite.xcodeproj */,
 				713FB0651B897D1A00E7BDD6 /* SwiftyJSON */,
 				713080541B825BB00037CB7E /* SwiftyJSON.xcodeproj */,
@@ -284,6 +289,7 @@
 				714639031B7D1624002084FF /* LoginAPI.swift */,
 				5BF6362C19A9F3D900ABD0BA /* ViewController.swift */,
 				5BF6364B19A9FCE500ABD0BA /* LoginViewController.swift */,
+				7191CC641BCDC4F100F0847F /* RegisterViewController.swift */,
 				714560591B905FE700C8E0D2 /* DatabaseHandler.swift */,
 				5BF6364D19AA143A00ABD0BA /* ChatViewController.swift */,
 				71E9BB8C1BA8E006001C895F /* NetworkingLibAlamofire.swift */,
@@ -294,8 +300,8 @@
 				5B75921519AC313C005E2745 /* ProjectsViewController.swift */,
 				5B990C9A19ACD59B00F9278A /* ChatComposeViewController.swift */,
 				5B94183F19B8D296006A9EAD /* MoreTableViewController.swift */,
-				5BF6362E19A9F3D900ABD0BA /* Main.storyboard */,
 				71E9BB971BAA2B91001C895F /* PendingFriendRequestsViewController.swift */,
+				7191CC661BCF0D9400F0847F /* Main.storyboard */,
 				5BF6363119A9F3D900ABD0BA /* Images.xcassets */,
 				714560491B904D6900C8E0D2 /* Models */,
 				5BF6362819A9F3D900ABD0BA /* Supporting Files */,
@@ -576,8 +582,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7191CC681BCF0D9400F0847F /* Main.storyboard in Resources */,
 				713FB0661B897D1B00E7BDD6 /* SwiftyJSON in Resources */,
-				5BF6363019A9F3D900ABD0BA /* Main.storyboard in Resources */,
 				5BF6363219A9F3D900ABD0BA /* Images.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -615,12 +621,14 @@
 				71307F191B7FA6480037CB7E /* SocketPacket.swift in Sources */,
 				71307F1C1B7FA6480037CB7E /* SwiftRegex.swift in Sources */,
 				7145605A1B905FE700C8E0D2 /* DatabaseHandler.swift in Sources */,
+				7191CC611BCDB4D800F0847F /* TableViewController.swift in Sources */,
 				5BF6362D19A9F3D900ABD0BA /* ViewController.swift in Sources */,
 				71307F131B7FA6480037CB7E /* SocketEngine.swift in Sources */,
 				71E9BB9A1BAA2F19001C895F /* PendingRequestsListCell.swift in Sources */,
 				5BF6364E19AA143A00ABD0BA /* ChatViewController.swift in Sources */,
 				71307F151B7FA6480037CB7E /* SocketEventHandler.swift in Sources */,
 				713F70A01B89547F0086D992 /* ContactsListCell.swift in Sources */,
+				7191CC651BCDC4F100F0847F /* RegisterViewController.swift in Sources */,
 				714560561B904DAA00C8E0D2 /* Contacts.swift in Sources */,
 				5B990C9B19ACD59B00F9278A /* ChatComposeViewController.swift in Sources */,
 				71307F141B7FA6480037CB7E /* SocketEngineClient.swift in Sources */,
@@ -666,10 +674,10 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
-		5BF6362E19A9F3D900ABD0BA /* Main.storyboard */ = {
+		7191CC661BCF0D9400F0847F /* Main.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
-				5BF6362F19A9F3D900ABD0BA /* Base */,
+				7191CC671BCF0D9400F0847F /* Base */,
 			);
 			name = Main.storyboard;
 			sourceTree = "<group>";

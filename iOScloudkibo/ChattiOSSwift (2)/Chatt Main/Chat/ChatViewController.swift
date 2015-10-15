@@ -12,7 +12,7 @@ import Alamofire
 import SQLite
 
 class ChatViewController: UIViewController {
-    
+    var rt=NetworkingLibAlamofire()
     
     var refreshControl = UIRefreshControl()
     //var contactsJsonObj:JSON="[]"
@@ -72,12 +72,48 @@ class ChatViewController: UIViewController {
             
             
             //Do some stuff
-            var addContactUsernameURL=Constants.MainUrl+Constants.addContactByEmail+"?access_token=\(AuthToken)"
-            Alamofire.request(.POST,"\(addContactUsernameURL)",parameters: ["searchemail":"\(tField.text!)"]).responseJSON{
-                request1, response1, data1, error1 in
+            
+            var addContactUsernameURL=Constants.MainUrl+Constants.addContactByEmail+"?access_token=\(AuthToken!)"
+           
+            
+            Alamofire.request(.POST,"\(addContactUsernameURL)",parameters: ["searchemail":"\(tField.text!)"])
+                .validate(statusCode: 200..<300)
+                .response { (request1, response1, data1, error1) in
+                    println("success")
+                    
+                    var json=JSON(data1!)
+                    //println(json)
+                    if(json["msg"].string=="null")
+                    {println("Invalid email")}
+                    else
+                    {
+                        if(json["status"].string=="danger"){
+                            println("contact already in your list")}
+                        else
+                        {println("friend request sent")}
+                    println(error1)
+                        
+                    
+                    }
+                    if response1?.statusCode==401
+                    {
+                        println("REFRESH TOKEN Neededd Add Contact Username...")
+                        
+                        self.rt.refrToken()
+                    }
+            
+            }
+        println("outttt of sucess parasssss")
+        }
+            
+            //////
+          /* Alamofire.request(.POST,"\(addContactUsernameURL)",parameters: ["searchemail":"\(tField.text!)"])
+                .responseJSON { request1, response1, data1, error1 in
+                    
+                //request1, response1, data1, error1 in
                 //searchemail  f@lkjlklkm.com
                 //====================
-                dispatch_async(dispatch_get_main_queue(), {
+               dispatch_async(dispatch_get_main_queue(), {
                     
                     self.dismissViewControllerAnimated(true, completion: nil);
                     /// self.performSegueWithIdentifier("loginSegue", sender: nil)
@@ -104,7 +140,8 @@ class ChatViewController: UIViewController {
                 })
             }
             
-        }
+        }*/
+
         actionSheetController.addAction(cancelAction)
         //Create and an option action
         let nextAction: UIAlertAction = UIAlertAction(title: "Add by Username", style: UIAlertActionStyle.Default) { action -> Void in
@@ -120,8 +157,8 @@ class ChatViewController: UIViewController {
             
             
             //Do some other stuff
-            var addContactUsernameURL=Constants.MainUrl+Constants.addContactByUsername+"?access_token=\(AuthToken)"
-            Alamofire.request(.POST,"\(addContactUsernameURL)",parameters: ["searchusername":"\(tField.text!)"]).responseJSON{
+            var addContactUsernameURL=Constants.MainUrl+Constants.addContactByUsername+"?access_token=\(AuthToken!)"
+            Alamofire.request(.POST,"\(addContactUsernameURL)",parameters: ["searchusername":"\(tField.text!)"]).validate(statusCode: 200..<300).responseJSON{
                 request1, response1, data1, error1 in
                 //searchemail  f@lkjlklkm.com
                 //====================
@@ -150,6 +187,17 @@ class ChatViewController: UIViewController {
                         println("error in sending friend request")
                     }
                 })
+                if response1?.statusCode==401
+                {
+                    println(error1)
+                    println("REFRESH TOKEN Neededd Add Contact Username...")
+                    
+                    self.rt.refrToken()
+                }
+ 
+                
+                
+                
             }
             
         }
@@ -181,7 +229,7 @@ class ChatViewController: UIViewController {
     required init(coder aDecoder: NSCoder)
     {
         super.init(coder: aDecoder)
-        println(AuthToken)
+        //println(AuthToken!)
         
     }
     
@@ -202,6 +250,8 @@ class ChatViewController: UIViewController {
             "room":"globalchatroom",
             "user":loggedUserObj.object])
         */
+     //   println("logged id key chain is \(loggedIDKeyChain)")
+        
         
         self.navigationItem.titleView = viewForTitle
         self.navigationItem.leftBarButtonItem = UIBarButtonItem(customView: btnForLogo)
@@ -366,16 +416,17 @@ class ChatViewController: UIViewController {
                 
                 println("theseareonline status...")
                 var theseareonlineUsers=JSON(data!)
-                println(theseareonlineUsers.object)
+                //println(theseareonlineUsers.object)
                 //println(offlineUsers[0]["username"])
                 
                 for(var i=0;i<theseareonlineUsers[0].count;i++)
                 {
                     for(var j=0;j<self.ContactUsernames.count && i<theseareonlineUsers.count;j++)
-                    {println(theseareonlineUsers[i].description)
-                        println(theseareonlineUsers.count)
-                        println(theseareonlineUsers[0][0].description)
-                        println(self.ContactUsernames[j])
+                    {
+                        //println(theseareonlineUsers[i].description)
+                        //println(theseareonlineUsers.count)
+                        //println(theseareonlineUsers[0][0].description)
+                        //println(self.ContactUsernames[j])
                         if self.ContactUsernames[j]==theseareonlineUsers[0][i]["username"].description
                         {
                             //found online contact,s username
@@ -408,7 +459,126 @@ class ChatViewController: UIViewController {
         
         println(fetchChatURL)
         
-        Alamofire.request(.GET,"\(fetchChatURL)").response{
+        
+        Alamofire.request(.GET,"\(fetchChatURL)").validate(statusCode: 200..<300)
+            .response { (request1, response1, data1, error1) in
+                println("success")
+
+            
+            
+            
+            //============GOT Contacts SECCESS=================
+            
+            
+            ////////////////////////
+           //^^^^^ dispatch_async(dispatch_get_main_queue(), {
+                //self.fetchContacts(self.AuthToken)
+                /// activityOverlayView.dismissAnimated(true)
+                
+                
+                if response1?.statusCode==200 {
+                    //println("Contacts fetched success")
+                    let contactsJsonObj = JSON(data: data1!)
+                    println(contactsJsonObj)
+                    //println(contactsJsonObj["userid"])
+                    //let contact=JSON(contactsJsonObj["contactid"])
+                    //   println(contact["firstname"])
+                    println("Contactsss fetcheddddddd")
+                    //var userr=contactsJsonObj["userid"]
+                    // println(self.contactsJsonObj.count)
+                    let contactid = Expression<String>("contactid")
+                    let detailsshared = Expression<String>("detailsshared")
+                    
+                    let unreadMessage = Expression<Bool>("unreadMessage")
+                    
+                    let userid = Expression<String>("userid")
+                    let firstname = Expression<String>("firstname")
+                    let lastname = Expression<String>("lastname")
+                    let email = Expression<String>("email")
+                    let phone = Expression<String>("phone")
+                    let username = Expression<String>("username")
+                    let status = Expression<String>("status")
+                    
+                    
+                    let tbl_contactslists=sqliteDB.db["contactslists"]
+                    tbl_contactslists.delete() //complete refresh
+                    
+                    
+                    //-========Remove old values=====================
+                    self.ContactIDs.removeAll(keepCapacity: false)
+                    self.ContactLastNAme.removeAll(keepCapacity: false)
+                    self.ContactNames.removeAll(keepCapacity: false)
+                    self.ContactStatus.removeAll(keepCapacity: false)
+                    self.ContactUsernames.removeAll(keepCapacity: false)
+                    self.ContactsObjectss.removeAll(keepCapacity: false)
+                    
+                    
+                    
+                    for var i=0;i<contactsJsonObj.count;i++
+                    {
+                        let insert=tbl_contactslists.insert(contactid<-contactsJsonObj[i]["contactid"]["_id"].string!,
+                            detailsshared<-contactsJsonObj[i]["detailsshared"].string!,
+                            
+                            unreadMessage<-contactsJsonObj[i]["unreadMessage"].boolValue,
+                            
+                            userid<-contactsJsonObj[i]["userid"].string!,
+                            firstname<-contactsJsonObj[i]["contactid"]["firstname"].string!,
+                            lastname<-contactsJsonObj[i]["contactid"]["lastname"].string!,
+                            email<-contactsJsonObj[i]["contactid"]["email"].string!,
+                            phone<-contactsJsonObj[i]["contactid"]["_id"].string!,
+                            username<-contactsJsonObj[i]["contactid"]["username"].string!,
+                            status<-contactsJsonObj[i]["contactid"]["status"].string!)
+                        
+                        //self.transportItems.insert(contactsJsonObj[i]["contactid"]["firstname"].string!+" "+contactsJsonObj[i]["contactid"]["lastname"].string!, atIndex: i)
+                        
+                        
+                        //=========this is done in fetching from sqlite not here====
+                        self.ContactsObjectss.append(contactsJsonObj[i]["contactid"])
+                        self.ContactNames.append(contactsJsonObj[i]["contactid"]["firstname"].string!+" "+contactsJsonObj[i]["contactid"]["lastname"].string!)
+                        self.ContactUsernames.append(contactsJsonObj[i]["contactid"]["username"].string!)
+                        self.ContactIDs.append(contactsJsonObj[i]["contactid"]["_id"].string!)
+                        self.ContactFirstname.append(contactsJsonObj[i]["contactid"]["firstname"].string!)
+                        self.ContactLastNAme.append(contactsJsonObj[i]["contactid"]["lastname"].string!)
+                        self.ContactStatus.append(contactsJsonObj[i]["contactid"]["status"].string!)
+                        self.ContactOnlineStatus.append(0)
+                        
+                        
+                        if let rowid = insert.rowid {
+                            println("inserted id: \(rowid)")
+                            self.tblForChat.reloadData()
+                        } else if insert.statement.failed {
+                            println("insertion failed: \(insert.statement.reason)")
+                        }
+                    }
+                    
+                    //println(error1)
+                    //
+                    //self.refreshControl.endRefreshing()
+                    
+                } //else {
+                
+                //}
+            //^^^^^^^})
+                println(error1)
+                println(response1?.statusCode)
+                println("FETCH CONTACTS FAILED")
+                println("eeeeeeeeeeeeeeeeeeeeee")
+                if(response1?.statusCode==401)
+                {
+                    println("Refreshinggggggggggggggggggg token expired")
+                    self.rt.refrToken()
+                    
+                }
+                
+                
+                
+            
+            
+            
+        }
+        
+        
+        /*Alamofire.request(.GET,"\(fetchChatURL)").response{
             
             request1, response1, data1, error1 in
             
@@ -509,7 +679,7 @@ class ChatViewController: UIViewController {
             
         }
         
-        
+        */
        
     }
     
@@ -596,7 +766,7 @@ class ChatViewController: UIViewController {
             //var bb=jsonString(self.ContactsObjectss[selectedRow].stringValue)
             //var a=JSONStringify(self.ContactsObjectss[selectedRow].object, prettyPrinted: false)
             Alamofire.request(.POST,"\(url)",parameters:["username":"\(self.ContactUsernames[selectedRow])"]
-                ).responseJSON{
+                ).validate(statusCode: 200..<300).responseJSON{
                 request1, response1, data1, error1 in
                 
                 //===========INITIALISE SOCKETIOCLIENT=========
@@ -633,7 +803,7 @@ class ChatViewController: UIViewController {
                     }
                     else
                     {
-                        println("request failed")
+                        println("delete friend failed")
                         //var json=JSON(error1!)
                         println(error1?.description)
                         println(response1?.statusCode)
@@ -641,6 +811,14 @@ class ChatViewController: UIViewController {
                         // println(errorMy.description)
                     }
                 })
+                    if(response1!.statusCode==401)
+                    {
+                        println(error1)
+                        println("delete friend failed token expired")
+                        self.rt.refrToken()
+                        
+                    }
+                    
             }
             //return dataMy
         
@@ -681,6 +859,8 @@ class ChatViewController: UIViewController {
                 let selectedRow = tblForChat.indexPathForSelectedRow()!.row
                 //destinationVC.selectedContact = ContactNames[selectedRow]
                 destinationVC.selectedContact = ContactUsernames[selectedRow]
+                destinationVC.selectedFirstName=ContactFirstname[selectedRow]
+                destinationVC.selectedLastName=ContactLastNAme[selectedRow]
                 destinationVC.selectedID=ContactIDs[selectedRow]
                 //destinationVC.AuthToken = self.AuthToken
                 

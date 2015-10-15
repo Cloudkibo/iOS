@@ -15,6 +15,8 @@ import SQLite
 
 class LoginViewController: UIViewController, UITextFieldDelegate{
     
+    var rt=NetworkingLibAlamofire()
+    
     var contactsJsonObj:JSON=""
     @IBOutlet var viewForContent : UIScrollView!
     @IBOutlet var viewForUser : UIView!
@@ -113,9 +115,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate{
         return true
     }
     
-    @IBAction func registerBtnTapped() {
-        self.dismissViewControllerAnimated(true, completion: nil);
-    }
+   
     
     
     @IBAction func loginBtnTapped() {
@@ -147,7 +147,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate{
                 
                 //========GET USER DETAILS===============
                 var getUserDataURL=userDataUrl+"?access_token="+AuthToken!
-                Alamofire.request(.GET,"\(getUserDataURL)").responseJSON{
+                Alamofire.request(.GET,"\(getUserDataURL)").validate(statusCode: 200..<300).responseJSON{
                     request1, response1, data1, error1 in
                     
                     //===========INITIALISE SOCKETIOCLIENT=========
@@ -163,13 +163,14 @@ class LoginViewController: UIViewController, UITextFieldDelegate{
                             //KeychainWrapper.setData(data1!, forKey: "loggedUserObj")
                             //loggedUserObj=json(loggedUserObj)
                             loggedUserObj=json
-                            
+                            ///KeychainWrapper.setString(JSONStringify(json, prettyPrinted: true), forKey:"loggedIDKeyChain")
                             //===========saving username======================
                             KeychainWrapper.setString(json["username"].string!, forKey: "username")
                             KeychainWrapper.setString(json["firstname"].string!+" "+json["lastname"].string!, forKey: "loggedFullName")
                             KeychainWrapper.setString(json["phone"].string!, forKey: "loggedPhone")
                             KeychainWrapper.setString(json["email"].string!, forKey: "loggedEmail")
                             KeychainWrapper.setString(json["_id"].string!, forKey: "_id")
+                            KeychainWrapper.setString(self.txtForPassword.text!, forKey: "password")
                             
                             
                             socketObj.addHandlers()
@@ -237,6 +238,12 @@ class LoginViewController: UIViewController, UITextFieldDelegate{
                             println("GOT USER FAILED")
                         }
                     })
+                    
+                    if(response?.statusCode==401)
+                    {
+                        println("got user failed token expired")
+                        self.rt.refrToken()
+                    }
                 }
                
             }

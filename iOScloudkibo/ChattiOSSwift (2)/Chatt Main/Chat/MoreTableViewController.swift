@@ -110,11 +110,11 @@ class MoreTableViewController: UITableViewController {
         
         //if segue!.identifier == "chatSegue" {
         if segue!.identifier == "logoutSegue" {
-            
+            println("Logging out")
             if let destinationVC = segue!.destinationViewController as? LoginViewController{
                 AuthToken=""
-                let tbl_contactslists=sqliteDB.db["contactslists"]
-                let tbl_accounts=sqliteDB.db["accounts"]
+                var tbl_contactslists=sqliteDB.db["contactslists"]
+                var tbl_accounts=sqliteDB.db["accounts"]
                 let tbl_userchats=sqliteDB.db["userschats"]
                 tbl_contactslists.delete()
                 tbl_accounts.delete()
@@ -129,7 +129,7 @@ class MoreTableViewController: UITableViewController {
                 loggedUserObj=JSON("[]")
                
                 //let dbSQLite=DatabaseHandler(dbName: "/cloudKibo.sqlite3")
-                
+                println("loggedout")
                 
             }
         }

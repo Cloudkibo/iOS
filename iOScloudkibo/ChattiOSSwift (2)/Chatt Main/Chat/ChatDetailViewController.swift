@@ -13,6 +13,7 @@ import Alamofire
 
 class ChatDetailViewController: UIViewController {
     
+    var rt=NetworkingLibAlamofire()
     @IBOutlet weak var NewChatNavigationTitle: UINavigationItem!
     @IBOutlet weak var labelToName: UILabel!
     @IBOutlet var tblForChats : UITableView!
@@ -22,8 +23,10 @@ class ChatDetailViewController: UIViewController {
     @IBOutlet weak var btn_chatDeleteHistory: UIBarButtonItem!
     
     
-    var selectedContact=""
+    var selectedContact="" //username
     var selectedID=""
+    var selectedFirstName=""
+    var selectedLastName=""
     var selectedUserObj=JSON("[]")
     let to = Expression<String>("to")
     let from = Expression<String>("from")
@@ -55,8 +58,25 @@ class ChatDetailViewController: UIViewController {
         NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("willHideKeyBoard:"), name:UIKeyboardWillHideNotification, object: nil)
         messages = NSMutableArray()
         //self.performSegueWithIdentifier("chatSegue", sender: nil)
+       
+       /* var tbl_contactList=sqliteDB.db["contactslists"]
+        let username = Expression<String>("username")
+        let email = Expression<String>("email")
+        let _id = Expression<String>("_id")
+        //let detailsshared = Expression<String>("detailsshared")
+        //let unreadMessage = Expression<Bool>("unreadMessage")
+        let userid = Expression<String>("userid")
+        let firstname = Expression<String>("firstname")
+        let lastname = Expression<String>("lastname")
+        let phone = Expression<String>("phone")
+        let status = Expression<String>("status")
         
+        for user in tbl_contactList.select(username, email,_id,userid,firstname,lastname,phone,status).filter(username==selectedContact) {
+            println("id: \(user[username]), email: \(user[email])")
+            var userObj=JSON(["_id":"\(user[_id])","userid":"\(user[userid])","firstname":"\(user[firstname])","lastname":"\(user[lastname])","email":"\(user[email])","phone":"\(user[phone])","status":"\(user[status])"])
+            self.selectedUserObj=userObj
         println("chat detail view")
+        }*/
        /* if loggedUserObj==nil
         {
             if let loggd=KeychainWrapper.objectForKey("loggedUserObj")
@@ -68,8 +88,8 @@ class ChatDetailViewController: UIViewController {
         
         
         FetchChatServer()
-        self.getUserObjectById()
-        
+        //^^self.getUserObjectById()
+        ///^^^^^^^^markChatAsRead()
         
         //^^self.tbl_userchats=sqliteDB.db["userschats"]
         self.NewChatNavigationTitle.title=selectedContact
@@ -108,10 +128,15 @@ class ChatDetailViewController: UIViewController {
         let lastname = Expression<String>("lastname")
         let phone = Expression<String>("phone")
         let status = Expression<String>("status")
+        let contactid = Expression<String>("contactid")
         
-        for user in tbl_contactList.select(username, email,_id,userid,firstname,lastname,phone,status).filter(username==selectedContact) {
+
+        
+        for user in tbl_contactList.select(username, email,_id,contactid,firstname,lastname,phone,status).filter(username==selectedContact) {
             println("id: \(user[username]), email: \(user[email])")
-            var userObj=JSON(["_id":"\(user[_id])","userid":"\(user[userid])","firstname":"\(user[firstname])","lastname":"\(user[lastname])","email":"\(user[email])","phone":"\(user[phone])","status":"\(user[status])"])
+            //^^^^var userObj=JSON(["_id":"\(user[_id])","userid":"\(user[userid])","firstname":"\(user[firstname])","lastname":"\(user[lastname])","email":"\(user[email])","phone":"\(user[phone])","status":"\(user[status])"])
+            var userObj=JSON(["_id":"\(user[_id])","userid":"\(user[contactid])","firstname":"\(user[firstname])","lastname":"\(user[lastname])","email":"\(user[email])","phone":"\(user[phone])","status":"\(user[status])"])
+            
             self.selectedUserObj=userObj
             // id: 1, email: alice@mac.com
         }
@@ -125,9 +150,9 @@ class ChatDetailViewController: UIViewController {
     func removeChatHistory(){
         //var loggedUsername=loggedUserObj["username"]
         println("inside mark funcc")
-        var removeChatHistoryURL=Constants.MainUrl+Constants.removeChatHistory+"?access_token=\(AuthToken)"
+        var removeChatHistoryURL=Constants.MainUrl+Constants.removeChatHistory+"?access_token=\(AuthToken!)"
         
-        Alamofire.request(.POST,"\(removeChatHistoryURL)",parameters: ["username":"\(selectedContact)"]).response{
+        Alamofire.request(.POST,"\(removeChatHistoryURL)",parameters: ["username":"\(selectedContact)"]).validate(statusCode: 200..<300).response{
                 request1, response1, data1, error1 in
                 
                 //===========INITIALISE SOCKETIOCLIENT=========
@@ -145,7 +170,13 @@ class ChatDetailViewController: UIViewController {
                 else
                 {println("chat history not deleted")
                     println(error1)
-                    println(data1)}
+                    println(data1)
+            }
+            if(response1?.statusCode==401)
+            {
+                println("chat history not deleted token refresh needed")
+                self.rt.refrToken()
+            }
         }
         
 
@@ -155,33 +186,48 @@ class ChatDetailViewController: UIViewController {
     {
         
         var markChatReadURL=Constants.MainUrl+Constants.markAsRead+"?access_token=\(AuthToken!)"
-        println(["user1":"\(loggedUserObj)","user2":"\(self.selectedUserObj)"])
+        //println(["user1":"\(loggedUserObj)","user2":"\(selectedUserObj)"])
         println("**")
-        var loggedID=loggedUserObj["_id"]
-        //var loggedID=JSON(loggedUserObj)["_id"]
-        println(loggedID.description+" logged id")
+       //^^^^^ var loggedID=loggedUserObj["_id"]
+        var loggedID=_id
+        //^^^^println(loggedID.description+" logged id")
+        println(loggedID!+" logged id")
         println(self.selectedID+" selected id")
-        Alamofire.request(.POST,"\(markChatReadURL)",parameters: ["user1":"\(loggedID)","user2":"\(self.selectedID)"]
-            ).response{
+        Alamofire.request(.POST,"\(markChatReadURL)",parameters: ["user1":"\(loggedID!)","user2":"\(self.selectedID)"]
+            ).responseJSON{
                 request1, response1, data1, error1 in
                 
+                if(error1==nil)
+                {println("chat marked as read")}
+                else
+                {
+                    self.rt.refrToken()
+                }
                 //===========INITIALISE SOCKETIOCLIENT=========
                 // dispatch_async(dispatch_get_main_queue(), {
                 
                 //self.dismissViewControllerAnimated(true, completion: nil);
                 /// self.performSegueWithIdentifier("loginSegue", sender: nil)
                 
-                if response1?.statusCode==200 {
+               //^^ if response1?.statusCode==200 {
                     println("chat marked as read")
                     println(response1)
-                    println(data1?.debugDescription)
-                    var UserchatJson=JSON(data1!)
-                }
-                else
-                {println("chat not marked as read")
+                    //println(data1?.debugDescription)
+                    //var UserchatJson=JSON(data1!)
+                //^^}
+               /*else
+                {println("chat marked as read but status code is not 200")
                     println(error1)
-                     println(response1)
-                    println(data1)}
+                     //println(response1?.statusCode)
+                    //println(data1)
+                }
+*/
+                /*if(response1?.statusCode==401)
+                {
+                    println("chat not marked as read refresh token needed")
+                    self.rt.refrToken()
+                }
+*/
         }
         
         
@@ -208,11 +254,11 @@ class ChatDetailViewController: UIViewController {
         var bringUserChatURL=Constants.MainUrl+Constants.bringUserChat+"?access_token="+AuthToken!
         let configuration = NSURLSessionConfiguration.defaultSessionConfiguration()
         Alamofire.request(.POST,"\(bringUserChatURL)",parameters: ["user1":"\(username!)","user2":"\(selectedContact)"]
-            ).responseJSON{
+            ).validate(statusCode: 200..<300).responseJSON{
                 request1, response1, data1, error1 in
                 
                 //===========INITIALISE SOCKETIOCLIENT=========
-                // dispatch_async(dispatch_get_main_queue(), {
+                dispatch_async(dispatch_get_main_queue(), {
                 
                 //self.dismissViewControllerAnimated(true, completion: nil);
                 /// self.performSegueWithIdentifier("loginSegue", sender: nil)
@@ -222,7 +268,8 @@ class ChatDetailViewController: UIViewController {
                     println(response1)
                      println(data1)
                     var UserchatJson=JSON(data1!)
-                   // println(UserchatJson["msg"][0])
+                    println(UserchatJson)
+                    println(":::::^^^&&&&&")
                     //println(UserchatJson["msg"][0]["to"])
                     
                     //Overwrite sqlite db
@@ -232,7 +279,7 @@ class ChatDetailViewController: UIViewController {
                     {
                         sqliteDB.SaveChat(UserchatJson["msg"][i]["to"].string!, from1: UserchatJson["msg"][i]["from"].string!, fromFullName1: UserchatJson["msg"][i]["fromFullName"].string!, msg1: UserchatJson["msg"][i]["msg"].string!)
                         
-                        if (UserchatJson["msg"][i]["from"].string==username)
+                        if (UserchatJson["msg"][i]["from"].string==username!)
                             
                         {//type1
                             self.addMessage(UserchatJson["msg"][i]["msg"].string!, ofType: "2")
@@ -255,7 +302,14 @@ class ChatDetailViewController: UIViewController {
                     println(error1)
                     println(data1)
                 }
-                //})
+                
+               
+                })
+                if(response1?.statusCode==401)
+                {
+                    println("chatttttt fetch faileddddddd token expired")
+                    self.rt.refrToken()
+                }
         }
         
         
@@ -364,11 +418,12 @@ class ChatDetailViewController: UIViewController {
         ///=== code for sending chat here
         ///=================
         
-        var loggedid=loggedUserObj["_id"]
-        var firstNameSelected=selectedUserObj["firstname"]
-        var lastNameSelected=selectedUserObj["lastname"]
-        var fullNameSelected=firstNameSelected.string!+" "+lastNameSelected.string!
-        var imParas=["from":"\(username!)","to":"\(selectedContact)","from_id":"\(loggedid)","to_id":"\(selectedID)","fromFullName":"\(loggedFullName!)","msg":"\(txtFldMessage.text)"]
+        //^^^^var loggedid=loggedUserObj["_id"]
+        var loggedid=_id!
+        //^^var firstNameSelected=selectedUserObj["firstname"]
+        //^^^var lastNameSelected=selectedUserObj["lastname"]
+        //^^^var fullNameSelected=firstNameSelected.string!+" "+lastNameSelected.string!
+        var imParas=["from":"\(username!)","to":"\(selectedContact)","from_id":"\(loggedid)","to_id":"\(self.selectedID)","fromFullName":"\(loggedFullName!)","msg":"\(txtFldMessage.text)"]
         
         println(imParas)
         println()

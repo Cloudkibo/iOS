@@ -1,93 +1,58 @@
 //
-//  AppDelegate.swift
+//  RegisterViewController.swift
 //  Chat
 //
-//  Created by My App Templates Team on 24/08/14.
-//  Copyright (c) 2014 My App Templates. All rights reserved.
+//  Created by Cloudkibo on 14/10/2015.
+//  Copyright (c) 2015 MyAppTemplates. All rights reserved.
 //
 
 import UIKit
-import SQLite
-import SwiftyJSON
 import Alamofire
+import SwiftyJSON
+import SQLite
 
-let socketObj=LoginAPI(url:"\(Constants.MainUrl)")
-let sqliteDB=DatabaseHandler(dbName:"cloudkiboDB.sqlite3")
+class RegisterViewController: UIViewController {
 
-var AuthToken=KeychainWrapper.stringForKey("access_token")
-var loggedUserObj=JSON("[]")
+    var rt=NetworkingLibAlamofire()
+    
+    
+    @IBOutlet weak var txtFirstname: UITextField!
+    @IBOutlet weak var txtLastname: UITextField!
+    @IBOutlet weak var txtEmail: UITextField!
+    @IBOutlet weak var txtPhone: UITextField!
+    @IBOutlet weak var txtUsername: UITextField!
+    @IBOutlet weak var txtPassword: UITextField!
+    
+    /*@IBOutlet var txtFirstname: UIView!
+    @IBOutlet var txtLastname: UIView!
+    @IBOutlet var txtEmail: UIView!
+    @IBOutlet var txtPhone: UIView!
+    @IBOutlet var txtUsername: UIView!
+    @IBOutlet var txtPassword: UIView!
+*/
+    override func viewDidLoad() {
+        super.viewDidLoad()
 
-//let dbSQLite=DatabaseHandler(dbName: "/cloudKibo.sqlite3")
-let username=KeychainWrapper.stringForKey("username")
-let password=KeychainWrapper.stringForKey("password")
-let loggedFullName=KeychainWrapper.stringForKey("loggedFullName")
-let loggedPhone=KeychainWrapper.stringForKey("loggedPhone")
-let loggedEmail=KeychainWrapper.stringForKey("loggedEmail")
-let _id=KeychainWrapper.stringForKey("_id")
-//let loggedIDKeyChain=KeychainWrapper.stringForKey("loggedIDKeyChain")
+        // Do any additional setup after loading the view.
+    }
 
-//from id, to id remaining
-//mark chat as read is remaining
-
-
-@UIApplicationMain
-class AppDelegate: UIResponder, UIApplicationDelegate {
-    
-    var window: UIWindow?
-    
-    
-    //  var window: UIWindow?
-    
-    
-    func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
-        // Override point for customization after application launch.
+    @IBAction func btnRegisterTapped(sender: AnyObject) {
         
-        UIApplication.sharedApplication().setStatusBarHidden(true, withAnimation: UIStatusBarAnimation.Fade);
-        
-        UIApplication.sharedApplication().setStatusBarStyle(UIStatusBarStyle.LightContent, animated: false);
-        
-        UINavigationBar.appearance().titleTextAttributes = [NSForegroundColorAttributeName: UIColor.whiteColor()]
-        
-        return true
-        
-    }
-    
-    func applicationWillResignActive(application: UIApplication) {
-        // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
-        // Use this method to pause ongoing tasks, disable timers, and throttle down OpenGL ES frame rates. Games should use this method to pause the game.
-    }
-    
-    func applicationDidEnterBackground(application: UIApplication) {
-        // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
-        // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
-    }
-    
-    func applicationWillEnterForeground(application: UIApplication) {
-        // Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
-    }
-    
-    func applicationDidBecomeActive(application: UIApplication) {
-        // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
-    }
-    
-    func applicationWillTerminate(application: UIApplication) {
-        // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
-        
-        socketObj.socket.disconnect(fast: true)
-        socketObj.socket.close(fast: true)
-    }
-    func fetchNewToken()
-    {
-        var url=Constants.MainUrl+Constants.authentictionUrl
-        var param:[String:String]=["username": username!,"password":password!]
-        Alamofire.request(.POST,"\(url)",parameters: param).response{
+        var url=Constants.MainUrl+Constants.createNewUser
+        KeychainWrapper.setString(txtPassword.text!, forKey: "password")
+        var param:[String:String]=["username": txtUsername.text!,"password":txtPassword.text!,"firstname":txtFirstname.text!,"lastname":txtLastname.text!,"phone":txtPhone.text!,"email":txtEmail.text!]
+        var json=JSON(param)
+        var registerParams=["user":json.object]
+        var pp="[\"username\":\(txtUsername.text!),\"password\":\(txtPassword.text!),\"firstname\":\(txtFirstname.text!),\"lastname\":\(txtLastname.text!),\"phone\":\(txtPhone.text!),\"email\":\(txtEmail.text!)]"
+        println(pp)
+        Alamofire.request(.POST,"\(url)",parameters:["user":pp]).response{
             request, response, data, error in
             println(error)
             
             if response?.statusCode==200
                 
             {
-                println("login success")
+                println("Registration success")
                 //self.labelLoginUnsuccessful.text=nil
                 //self.gotToken=true
                 
@@ -104,32 +69,38 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 
                 //========GET USER DETAILS===============
                 var getUserDataURL=userDataUrl+"?access_token="+AuthToken!
-                Alamofire.request(.GET,"\(getUserDataURL)").responseJSON{
+                Alamofire.request(.GET,"\(getUserDataURL)").validate(statusCode: 200..<300).responseJSON{
                     request1, response1, data1, error1 in
                     
                     //===========INITIALISE SOCKETIOCLIENT=========
                     dispatch_async(dispatch_get_main_queue(), {
                         
-                        //self.dismissViewControllerAnimated(true, completion: nil);
+                        self.dismissViewControllerAnimated(true, completion: nil);
                         /// self.performSegueWithIdentifier("loginSegue", sender: nil)
                         
                         if response1?.statusCode==200 {
                             println("got user success")
                             //self.gotToken=true
                             var json=JSON(data1!)
-                            
+                            //KeychainWrapper.setData(data1!, forKey: "loggedUserObj")
+                            //loggedUserObj=json(loggedUserObj)
+                           
                             loggedUserObj=json
+                            
+                            KeychainWrapper.setString(JSONStringify(json.object, prettyPrinted: true), forKey:"loggedIDKeyChain")
                             //===========saving username======================
+                            
                             KeychainWrapper.setString(json["username"].string!, forKey: "username")
                             KeychainWrapper.setString(json["firstname"].string!+" "+json["lastname"].string!, forKey: "loggedFullName")
                             KeychainWrapper.setString(json["phone"].string!, forKey: "loggedPhone")
                             KeychainWrapper.setString(json["email"].string!, forKey: "loggedEmail")
                             KeychainWrapper.setString(json["_id"].string!, forKey: "_id")
+                            KeychainWrapper.setString(self.txtPassword.text!, forKey: "password")
                             
                             
                             socketObj.addHandlers()
                             
-                            var jsonNew=JSON("{\"room\": \"globalchatroom\",\"user\": {\"username\":\"sabachanna\"}}")
+                            //var jsonNew=JSON("{\"room\": \"globalchatroom\",\"user\": {\"username\":\"sabachanna\"}}")
                             //socketObj.socket.emit("join global chatroom", ["room": "globalchatroom", "user": ["username":"sabachanna"]]) WORKINGGG
                             
                             socketObj.socket.emit("join global chatroom",["room": "globalchatroom", "user": json.object])
@@ -185,31 +156,70 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                             }*/
                             
                         } else {
-                            /*self.labelLoginUnsuccessful.text="Sorry, you are not registered"
-                            self.txtForEmail.text=nil
-                            self.txtForPassword.text=nil
-                            */
+                            println(error1)
+                            println(response1)
+                            println(data1)
+                            //self.labelLoginUnsuccessful.text="Sorry, you are not registered"
+                            //self.txtForEmail.text=nil
+                            //self.txtForPassword.text=nil
+                            
                             println("GOT USER FAILED")
                         }
                     })
+                    
+                    if(response?.statusCode==401)
+                    {
+                        println("got user failed token expired")
+                        self.rt.refrToken()
+                    }
+                   
                 }
                 
             }
                 
             else
             {
-                println("login failed")
-                /*self.labelLoginUnsuccessful.text="Sorry, you are not registered"
-                self.txtForEmail.text=nil
-                self.txtForPassword.text=nil*/
+                if(response?.statusCode==401)
+                {
+                    println("registration failed token expired")
+                    self.rt.refrToken()
+                }
+                if(response?.statusCode==422)
+                {
+                    println("registration failed something duplicate")
+                    
+                }
+                println("status code is \(response?.statusCode)")
+                println(error)
+                println(response?.debugDescription)
+                println(data!.debugDescription)
+                var jj=JSON(data:data!)
+                //var json=JSON(data!.debugDescription)
+                println(jj.object)
+                println(jj.description)
+                
+                KeychainWrapper.removeObjectForKey("password")
+                println("registration failed")
+               // self.labelLoginUnsuccessful.text="Sorry, you are not registered"
+                //self.txtForEmail.text=nil
+                //self.txtForPassword.text=nil
             }
         }
     }
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+        // Dispose of any resources that can be recreated.
+    }
     
-    
-        
-    
-    
-    
-}
 
+    /*
+    // MARK: - Navigation
+
+    // In a storyboard-based application, you will often want to do a little preparation before navigation
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        // Get the new view controller using segue.destinationViewController.
+        // Pass the selected object to the new view controller.
+    }
+    */
+
+}
