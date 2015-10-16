@@ -41,11 +41,35 @@ class RegisterViewController: UIViewController {
         var url=Constants.MainUrl+Constants.createNewUser
         KeychainWrapper.setString(txtPassword.text!, forKey: "password")
         var param:[String:String]=["username": txtUsername.text!,"password":txtPassword.text!,"firstname":txtFirstname.text!,"lastname":txtLastname.text!,"phone":txtPhone.text!,"email":txtEmail.text!]
-        var json=JSON(param)
-        var registerParams=["user":json.object]
-        var pp="[\"username\":\(txtUsername.text!),\"password\":\(txtPassword.text!),\"firstname\":\(txtFirstname.text!),\"lastname\":\(txtLastname.text!),\"phone\":\(txtPhone.text!),\"email\":\(txtEmail.text!)]"
+        
+        
+        var param2:[String:AnyObject]=["username":"\(txtUsername.text!)","password":"\(txtPassword.text!)","firstname":"\(txtFirstname.text!)","lastname":"\(txtLastname.text)","phone":"\(txtPhone.text!)","email":"\(txtEmail.text!)"]
+        var fff=JSONStringify(param2, prettyPrinted: false)
+        var okk=JSON(param2)
+        var okkpretty=JSONStringify(okk.object, prettyPrinted: false)
+        var json=JSONStringify(param, prettyPrinted: false)
+        //var registerParams=["user":json.object]
+        var pp="{\"user\":[{\"username\":\(txtUsername.text!),\"password\":\(txtPassword.text!),\"firstname\":\(txtFirstname.text!),\"lastname\":\(txtLastname.text!),\"phone\":\(txtPhone.text!),\"email\":\(txtEmail.text!)}]}"
+        var jj=JSON(pp)
+        var ppdata = pp.dataUsingEncoding(NSUTF8StringEncoding)
+        let ppjson = JSON(data: ppdata!)
+        
         println(pp)
-        Alamofire.request(.POST,"\(url)",parameters:["user":pp]).response{
+        println(ppjson["user"].description)
+        var pppp=JSON(["username":"\(txtUsername.text!)","password":"\(txtPassword.text!)","firstname":"\(txtFirstname.text!)","lastname":"\(txtLastname.text!)","phone":"\(txtPhone.text!)","email":"\(txtEmail.text!)"])
+        var i=JSONStringify(pppp.object, prettyPrinted: false)
+        /*var j1=json.stringByReplacingOccurrencesOfString("\\n", withString: "", options: NSStringCompareOptions.LiteralSearch, range: nil)
+        var j2=j1.stringByReplacingOccurrencesOfString("\\", withString: "", options: NSStringCompareOptions.LiteralSearch, range: nil)
+        var j3=j2.stringByReplacingOccurrencesOfString("\"", withString: "", options: NSStringCompareOptions.LiteralSearch, range: nil)
+        */
+        var j1=okkpretty.stringByReplacingOccurrencesOfString("\n", withString: "", options: NSStringCompareOptions.LiteralSearch, range: nil)
+        var j2=j1.stringByReplacingOccurrencesOfString("\"", withString: "", options: NSStringCompareOptions.LiteralSearch, range: nil)
+        //var j3=j2.stringByReplacingOccurrencesOfString("\"", withString: "\"", options: NSStringCompareOptions.LiteralSearch, range: nil)
+        var finalP: JSON=["username":txtUsername.text!,"password":txtPassword.text!,"firstname":txtFirstname.text!,"lastname":txtLastname.text!,"phone":txtPhone.text!,"email":txtEmail.text!]
+        ////var a=JSONStringify(pppp.dictionaryObject!, prettyPrinted: false)
+        Alamofire.request(.POST,"\(url)",parameters: ["username":"\(txtUsername.text!)","password":"\(txtPassword.text!)","firstname":"\(txtFirstname.text!)","lastname":"\(txtLastname.text!)","phone":"\(txtPhone.text!)","email":"\(txtEmail.text!)"]).response{
+        //ppjson["user"].arrayValue
+        //Alamofire.request(.POST,"\(url)",parameters:["user":"[\"username\":\(txtUsername.text!),\"password\":\(txtPassword.text!),\"firstname\":\(txtFirstname.text!),\"lastname\":\(txtLastname.text!),\"phone\":\(txtPhone.text!),\"email\":\(txtEmail.text!)]"]).response{
             request, response, data, error in
             println(error)
             
