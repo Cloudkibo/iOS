@@ -9,13 +9,18 @@
 import Foundation
 import Alamofire
 import SwiftyJSON
+import UIKit
 
 class LoginAPI{
     
     var socket:SocketIOClient
+    var areYouFreeForCall:Bool
+    var isBusy:Bool
+    //var areYouFreeForCall:Bool
     init(url:String){
         socket=SocketIOClient(socketURL: "\(url)", opts: ["log": false])
-        
+        areYouFreeForCall=true
+        isBusy=false
     }
     func connect()
     {
@@ -35,11 +40,46 @@ class LoginAPI{
             
             println("you onlineeee \(ack)")
         }
+      
         
-       
+        /*
+        socket.on("areyoufreeforcall") {data,ack in
+            var jdata=JSON(data!)
+            println("somebody callinggg  \(data) \(ack)")
+            
+            if(self.areYouFreeForCall==true)
+            {
+                println(jdata[0]["caller"].string!)
+                println(username!)
+                self.socket.emit("yesiamfreeforcall",["mycaller" : jdata[0]["caller"].string!, "me":username!])
+                //self.areYouFreeForCall=false
+                //self.isBusy=true
+                /*var storyBoard = UIStoryboard(name: "Main", bundle: nil)
+                storyBoard.instantiateViewControllerWithIdentifier("CallRingingViewController") as! CallRingingViewController
+                
+*/
+                //transition
+                self.socket.emit("message","Accept Call")
+                
+                //show screen
+            }
+        }
         
+        
+        self.socket.on("othersideringing") {data,ack in
+            var jdata=JSON(data!)
+            println("received call as u were free")
+        }
+        */
     
     }
+    
+    /*func transition() {
+        let secondViewController:CallRingingViewController = CallRingingViewController()
+        
+      presentViewController(secondViewController, animated: true, completion: nil)
+        
+    }*/
 
     func isConnected()->Bool{
         return socket.connected

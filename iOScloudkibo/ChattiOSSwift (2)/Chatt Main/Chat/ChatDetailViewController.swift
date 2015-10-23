@@ -175,7 +175,13 @@ class ChatDetailViewController: UIViewController {
             if(response1?.statusCode==401)
             {
                 println("chat history not deleted token refresh needed")
+                if(username==nil || password==nil)
+                {
+                    self.performSegueWithIdentifier("loginSegue", sender: nil)
+                }
+                else{
                 self.rt.refrToken()
+                }
             }
         }
         
@@ -184,7 +190,7 @@ class ChatDetailViewController: UIViewController {
     
     func markChatAsRead()
     {
-        
+        println("inside mark as read")
         var markChatReadURL=Constants.MainUrl+Constants.markAsRead+"?access_token=\(AuthToken!)"
         //println(["user1":"\(loggedUserObj)","user2":"\(selectedUserObj)"])
         println("**")

@@ -16,6 +16,7 @@ class RegisterViewController: UIViewController {
     var rt=NetworkingLibAlamofire()
     
     
+    @IBOutlet weak var labelError: UILabel!
     @IBOutlet weak var txtFirstname: UITextField!
     @IBOutlet weak var txtLastname: UITextField!
     @IBOutlet weak var txtEmail: UITextField!
@@ -207,14 +208,17 @@ class RegisterViewController: UIViewController {
                 {
                     println("registration failed token expired")
                     self.rt.refrToken()
+                    self.labelError.text=error?.description
                 }
                 if(response?.statusCode==422)
                 {
                     println("registration failed something duplicate")
+                    self.labelError.text=error?.description
                     
                 }
                 println("status code is \(response?.statusCode)")
                 println(error)
+                //self.labelError.text=error["messages"]?.description
                 println(response?.debugDescription)
                 println(data!.debugDescription)
                 var jj=JSON(data:data!)

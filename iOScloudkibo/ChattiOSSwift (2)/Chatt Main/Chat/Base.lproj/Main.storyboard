@@ -1610,10 +1610,6 @@
                                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <subviews>
-                                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="logo_chatt" id="k6W-iH-XJk" userLabel="Img - Logo">
-                                                <rect key="frame" x="88" y="10" width="145" height="135"/>
-                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                            </imageView>
                                             <view contentMode="scaleToFill" id="cg7-CJ-bI2" userLabel="View - firstname">
                                                 <rect key="frame" x="28" y="161" width="264" height="44"/>
                                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -1733,6 +1729,17 @@
                                                     <action selector="btnRegisterTapped:" destination="MqT-o3-n3p" eventType="touchUpInside" id="Pl8-Xa-GMm"/>
                                                 </connections>
                                             </button>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="8TG-oF-ukr" userLabel="error">
+                                                <rect key="frame" x="33" y="124" width="259" height="21"/>
+                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="logo_chatt" id="k6W-iH-XJk" userLabel="Img - Logo">
+                                                <rect key="frame" x="105" y="8" width="110" height="93"/>
+                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            </imageView>
                                         </subviews>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                     </view>
@@ -1747,6 +1754,7 @@
                     </view>
                     <navigationItem key="navigationItem" id="Rm3-RR-Rtf"/>
                     <connections>
+                        <outlet property="labelError" destination="8TG-oF-ukr" id="bs8-FR-Wf3"/>
                         <outlet property="txtEmail" destination="AHI-OP-Xy4" id="8Kg-o9-eda"/>
                         <outlet property="txtFirstname" destination="El8-Yg-BMf" id="RAe-sO-tC7"/>
                         <outlet property="txtLastname" destination="4Ha-F0-jkt" id="IKq-ch-hZa"/>
@@ -1758,6 +1766,49 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="1sZ-bb-a2q" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-1183" y="-490"/>
+        </scene>
+        <!--CallRingingViewController-->
+        <scene sceneID="3ln-wu-NFV">
+            <objects>
+                <viewController storyboardIdentifier="Main" title="CallRingingViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="pEh-DU-l9J" customClass="CallRingingViewController" customModule="Chat" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="NJJ-mo-TNZ">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" id="mva-y5-sYt">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="gbx-D0-MSL">
+                                        <rect key="frame" x="7" y="8" width="49" height="30"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <state key="normal" title="Accept">
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="btnAcceptPressed:" destination="pEh-DU-l9J" eventType="touchUpInside" id="TgH-6y-Snu"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="bU4-eP-oAa">
+                                        <rect key="frame" x="8" y="530" width="44" height="30"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <state key="normal" title="Reject">
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="btnRejectPressed:" destination="pEh-DU-l9J" eventType="touchUpInside" id="amX-A4-jwl"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="gME-Qx-Qsz" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-1191" y="148"/>
         </scene>
     </scenes>
     <resources>

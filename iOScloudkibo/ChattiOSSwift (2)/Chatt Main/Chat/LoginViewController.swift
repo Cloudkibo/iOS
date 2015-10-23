@@ -122,6 +122,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate{
         //============================ Authenticate User ================
         var url=Constants.MainUrl+Constants.authentictionUrl
         KeychainWrapper.setString(txtForPassword.text!, forKey: "password")
+        password=KeychainWrapper.stringForKey("password")
         var param:[String:String]=["username": txtForEmail.text!,"password":txtForPassword.text!]
         Alamofire.request(.POST,"\(url)",parameters: param).response{
             request, response, data, error in
@@ -130,6 +131,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate{
             if response?.statusCode==200
                 
             {
+                //^^^^^username=txtForEmail.text!
                 println("login success")
                 self.labelLoginUnsuccessful.text=nil
                 self.gotToken=true
@@ -172,7 +174,12 @@ class LoginViewController: UIViewController, UITextFieldDelegate{
                             KeychainWrapper.setString(json["_id"].string!, forKey: "_id")
                             KeychainWrapper.setString(self.txtForPassword.text!, forKey: "password")
                             
-                            
+                           /* username=KeychainWrapper.stringForKey("password")
+                            firstname=KeychainWrapper.stringForKey("firstname")
+                            password=KeychainWrapper.stringForKey("password")
+                            password=KeychainWrapper.stringForKey("password")
+                            password=KeychainWrapper.stringForKey("password")
+                            */
                             socketObj.addHandlers()
                             
                             var jsonNew=JSON("{\"room\": \"globalchatroom\",\"user\": {\"username\":\"sabachanna\"}}")

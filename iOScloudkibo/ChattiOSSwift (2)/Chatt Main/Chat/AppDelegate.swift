@@ -18,8 +18,8 @@ var AuthToken=KeychainWrapper.stringForKey("access_token")
 var loggedUserObj=JSON("[]")
 
 //let dbSQLite=DatabaseHandler(dbName: "/cloudKibo.sqlite3")
-let username=KeychainWrapper.stringForKey("username")
-let password=KeychainWrapper.stringForKey("password")
+var username=KeychainWrapper.stringForKey("username")
+var password=KeychainWrapper.stringForKey("password")
 let loggedFullName=KeychainWrapper.stringForKey("loggedFullName")
 let loggedPhone=KeychainWrapper.stringForKey("loggedPhone")
 let loggedEmail=KeychainWrapper.stringForKey("loggedEmail")
@@ -47,7 +47,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         UIApplication.sharedApplication().setStatusBarStyle(UIStatusBarStyle.LightContent, animated: false);
         
         UINavigationBar.appearance().titleTextAttributes = [NSForegroundColorAttributeName: UIColor.whiteColor()]
-        
         return true
         
     }

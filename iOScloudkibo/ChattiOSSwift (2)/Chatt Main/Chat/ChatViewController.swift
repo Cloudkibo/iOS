@@ -26,6 +26,10 @@ class ChatViewController: UIViewController {
     //var socketObj=LoginAPI(url: "\(Constants.MainUrl)")
     @IBOutlet weak var btnContactAdd: UIBarButtonItem!
     
+    
+    var areYouFreeForCall:Bool=true
+    
+    
     @IBAction func addContactTapped(sender: UIBarButtonItem) {
         /* let alert = UIAlertView()
         alert.title = "Alert"
@@ -265,6 +269,13 @@ class ChatViewController: UIViewController {
         
         
        
+        
+
+        
+        
+        
+        
+        
         //========
         socketObj.socket.on("online")
             {data,ack in
@@ -438,6 +449,51 @@ class ChatViewController: UIViewController {
                 }
                 
         }
+        
+        
+        
+        var currrentUsernameRetrieved=KeychainWrapper.stringForKey("username")!
+        socketObj.socket.on("areyoufreeforcall") {data,ack in
+            var jdata=JSON(data!)
+            println("somebody callinggg  \(data) \(ack)")
+            
+            if(self.areYouFreeForCall==true)
+            {
+                println(jdata[0]["caller"].string!)
+                println(currrentUsernameRetrieved)
+                socketObj.socket.emit("yesiamfreeforcall",["mycaller" : jdata[0]["caller"].string!, "me":currrentUsernameRetrieved])
+                //self.areYouFreeForCall=false
+                //self.isBusy=true
+                /*var storyBoard = UIStoryboard(name: "Main", bundle: nil)
+                storyBoard.instantiateViewControllerWithIdentifier("CallRingingViewController") as! CallRingingViewController
+                
+                */
+                //transition
+                
+                //let secondViewController:CallRingingViewController = CallRingingViewController()
+                var next = self.storyboard?.instantiateViewControllerWithIdentifier("Main") as! CallRingingViewController
+                self.presentViewController(next, animated: true, completion: nil)
+                
+                //self.presentViewController(CallRingingViewController(), animated: true, completion: {println("call screen shown")}
+                
+                //)
+
+                
+                socketObj.socket.emit("message","Accept Call")
+                
+                //show screen
+            }
+        }
+        
+        
+        socketObj.socket.on("othersideringing") {data,ack in
+            var jdata=JSON(data!)
+            println("received call as u were free")
+        }
+        
+        
+        
+        
         //==========Show Online============
         
         
@@ -566,7 +622,13 @@ class ChatViewController: UIViewController {
                 if(response1?.statusCode==401)
                 {
                     println("Refreshinggggggggggggggggggg token expired")
+                    if(username==nil || password==nil)
+                    {
+                        self.performSegueWithIdentifier("loginSegue", sender: nil)
+                    }
+                    else{
                     self.rt.refrToken()
+                    }
                     
                 }
                 

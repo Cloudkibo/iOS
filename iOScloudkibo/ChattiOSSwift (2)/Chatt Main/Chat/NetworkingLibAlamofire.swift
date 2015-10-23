@@ -9,6 +9,7 @@
 import Foundation
 import Alamofire
 import SwiftyJSON
+import UIKit
 
 class NetworkingLibAlamofire{
     var dataMy:JSON="[]"
@@ -159,6 +160,8 @@ class NetworkingLibAlamofire{
     {
         var url=Constants.MainUrl+Constants.authentictionUrl
         //KeychainWrapper.setString(txtForPassword.text!, forKey: "password")
+        
+        //dismiss and show login screen
         var param:[String:String]=["username": username!,"password":password!]
         Alamofire.request(.POST,"\(url)",parameters: param).response{
             request, response, data, error in
