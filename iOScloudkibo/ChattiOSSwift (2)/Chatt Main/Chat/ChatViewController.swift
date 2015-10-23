@@ -26,7 +26,7 @@ class ChatViewController: UIViewController {
     //var socketObj=LoginAPI(url: "\(Constants.MainUrl)")
     @IBOutlet weak var btnContactAdd: UIBarButtonItem!
     
-    
+    var currrentUsernameRetrieved:String=""
     var areYouFreeForCall:Bool=true
     
     
@@ -452,7 +452,7 @@ class ChatViewController: UIViewController {
         
         
         
-        var currrentUsernameRetrieved=KeychainWrapper.stringForKey("username")!
+        currrentUsernameRetrieved=KeychainWrapper.stringForKey("username")!
         socketObj.socket.on("areyoufreeforcall") {data,ack in
             var jdata=JSON(data!)
             println("somebody callinggg  \(data) \(ack)")
@@ -460,8 +460,8 @@ class ChatViewController: UIViewController {
             if(self.areYouFreeForCall==true)
             {
                 println(jdata[0]["caller"].string!)
-                println(currrentUsernameRetrieved)
-                socketObj.socket.emit("yesiamfreeforcall",["mycaller" : jdata[0]["caller"].string!, "me":currrentUsernameRetrieved])
+                println(self.currrentUsernameRetrieved)
+                
                 //self.areYouFreeForCall=false
                 //self.isBusy=true
                 /*var storyBoard = UIStoryboard(name: "Main", bundle: nil)
@@ -472,8 +472,9 @@ class ChatViewController: UIViewController {
                 
                 //let secondViewController:CallRingingViewController = CallRingingViewController()
                 var next = self.storyboard?.instantiateViewControllerWithIdentifier("Main") as! CallRingingViewController
-                self.presentViewController(next, animated: true, completion: nil)
                 
+                socketObj.socket.emit("yesiamfreeforcall",["mycaller" : jdata[0]["caller"].string!, "me":self.currrentUsernameRetrieved])
+                self.presentViewController(next, animated: false, completion: {next.txtCallerName.text=jdata[0]["caller"].string!})
                 //self.presentViewController(CallRingingViewController(), animated: true, completion: {println("call screen shown")}
                 
                 //)
@@ -486,13 +487,7 @@ class ChatViewController: UIViewController {
         }
         
         
-        socketObj.socket.on("othersideringing") {data,ack in
-            var jdata=JSON(data!)
-            println("received call as u were free")
-        }
-        
-        
-        
+        //room callee callthisperson
         
         //==========Show Online============
         
@@ -897,10 +892,145 @@ class ChatViewController: UIViewController {
         } else if editingStyle == .Insert {
             // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
         }
+        
+            }
+    
+    
+    
+    
+    func tableView(tableView: UITableView, editActionsForRowAtIndexPath indexPath: NSIndexPath) -> [AnyObject]?  {
+        // 1
+        var shareAction = UITableViewRowAction(style: UITableViewRowActionStyle.Default, title: "Delete" , handler: { (action:UITableViewRowAction!, indexPath:NSIndexPath!) -> Void in
+            // 2
+            
+            
+            /*let shareMenu = UIAlertController(title: nil, message: "Share using", preferredStyle: .ActionSheet)
+            
+            let twitterAction = UIAlertAction(title: "Twitter", style: UIAlertActionStyle.Default, handler: nil)
+            let cancelAction = UIAlertAction(title: "Cancel", style: UIAlertActionStyle.Cancel, handler: nil)
+            
+            shareMenu.addAction(twitterAction)
+            shareMenu.addAction(cancelAction)
+            
+            
+            self.presentViewController(shareMenu, animated: true, completion: nil)
+
+*/
+            
+            
+            var selectedRow = indexPath.row
+            println(selectedRow.description+" selected")
+            
+            var removeChatFromServer=NetworkingLibAlamofire()
+            var loggedFirstName=loggedUserObj["firstname"]
+            var loggedLastName=loggedUserObj["lastname"]
+            var loggedStatus=loggedUserObj["status"]
+            var loggedUsername=loggedUserObj["username"]
+            
+            println(self.ContactFirstname[selectedRow]+self.ContactLastNAme[selectedRow]+self.ContactStatus[selectedRow]+self.ContactUsernames[selectedRow])
+            
+            
+            
+            
+            var url=Constants.MainUrl+Constants.removeFriend+"?access_token=\(AuthToken!)"
+            
+            //var params=self.ContactsObjectss[selectedRow].arrayValue
+            //var pp=JSON(params)
+            //var bb=jsonString(self.ContactsObjectss[selectedRow].stringValue)
+            //var a=JSONStringify(self.ContactsObjectss[selectedRow].object, prettyPrinted: false)
+            Alamofire.request(.POST,"\(url)",parameters:["username":"\(self.ContactUsernames[selectedRow])"]
+                ).validate(statusCode: 200..<300).responseJSON{
+                    request1, response1, data1, error1 in
+                    
+                    //===========INITIALISE SOCKETIOCLIENT=========
+                    dispatch_async(dispatch_get_main_queue(), {
+                        
+                        //self.dismissViewControllerAnimated(true, completion: nil);
+                        /// self.performSegueWithIdentifier("loginSegue", sender: nil)
+                        
+                        if response1?.statusCode==200 {
+                            //println("got user success")
+                            println("Request success")
+                            var json=JSON(data1!)
+                            
+                            
+                            println(json)
+                            //println(json)
+                            //dataMy=JSON(data1!)
+                            //println(dataMy.description)
+                            
+                            sqliteDB.deleteChat(self.ContactNames[selectedRow])
+                            
+                            //println(ContactNames[selectedRow]+" deleted")
+                            sqliteDB.deleteFriend(self.ContactUsernames[selectedRow])
+                            self.ContactNames.removeAtIndex(selectedRow)
+                            self.ContactIDs.removeAtIndex(selectedRow)
+                            self.ContactFirstname.removeAtIndex(selectedRow)
+                            self.ContactLastNAme.removeAtIndex(selectedRow)
+                            self.ContactStatus.removeAtIndex(selectedRow)
+                            self.ContactUsernames.removeAtIndex(selectedRow)
+                            // Delete the row from the data source
+                            tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Fade)
+                            //tblForChat.reloadData()
+                            
+                        }
+                        else
+                        {
+                            println("delete friend failed")
+                            //var json=JSON(error1!)
+                            println(error1?.description)
+                            println(response1?.statusCode)
+                            //errorMy=JSON(error1!)
+                            // println(errorMy.description)
+                        }
+                    })
+                    if(response1!.statusCode==401)
+                    {
+                        println(error1)
+                        println("delete friend failed token expired")
+                        self.rt.refrToken()
+                        
+                    }
+                    
+            }
+
+        })
+        // 3
+        var rateAction = UITableViewRowAction(style: UITableViewRowActionStyle.Default, title: "Call" , handler: { (action:UITableViewRowAction!, indexPath:NSIndexPath!) -> Void in
+            
+            //ON CALL BUTTON PRESSED
+            
+            var selectedRow = indexPath.row
+            socketObj.socket.emit("callthisperson",["room" : "globalchatroom","callee": self.ContactUsernames[selectedRow], "caller":self.currrentUsernameRetrieved])
+            
+            var next = self.storyboard?.instantiateViewControllerWithIdentifier("Main") as! CallRingingViewController
+            
+             self.presentViewController(next, animated: false, completion: {next.txtCallerName.text=self.currrentUsernameRetrieved
+             next.txtCallingDialing.text="Dialing.."
+             })
+
+            // 4
+           /* let rateMenu = UIAlertController(title: nil, message: "Rate this App", preferredStyle: .ActionSheet)
+            
+            let appRateAction = UIAlertAction(title: "Rate", style: UIAlertActionStyle.Default, handler: nil)
+            let cancelAction = UIAlertAction(title: "Cancel", style: UIAlertActionStyle.Cancel, handler: nil)
+            
+            rateMenu.addAction(appRateAction)
+            rateMenu.addAction(cancelAction)
+            
+            
+            self.presentViewController(rateMenu, animated: true, completion: nil)
+*/
+        }
+
+)
+
+
+        // 5
+        return [shareAction,rateAction]
+
     }
-    
-    
-    
+
     
     // #pragma mark - Navigation
     

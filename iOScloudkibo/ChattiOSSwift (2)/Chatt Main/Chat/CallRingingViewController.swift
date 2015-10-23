@@ -11,6 +11,8 @@ import UIKit
 class CallRingingViewController: UIViewController {
 
   
+    @IBOutlet weak var txtCallingDialing: UILabel!
+    @IBOutlet weak var txtCallerName: UILabel!
     @IBAction func btnAcceptPressed(sender: AnyObject) {
     }
     @IBAction func btnRejectPressed(sender: AnyObject) {
