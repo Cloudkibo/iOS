@@ -12,7 +12,6 @@ import SwiftyJSON
 import SQLite
 
 
-
 class LoginViewController: UIViewController, UITextFieldDelegate{
     
     var rt=NetworkingLibAlamofire()

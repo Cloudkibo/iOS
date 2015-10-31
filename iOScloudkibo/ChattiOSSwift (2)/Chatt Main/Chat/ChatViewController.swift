@@ -363,7 +363,8 @@ class ChatViewController: UIViewController {
     
     override func viewWillAppear(animated: Bool) {
         let retrievedToken=KeychainWrapper.stringForKey("access_token")
-        if retrievedToken==nil
+        let retrievedUsername=KeychainWrapper.stringForKey("username")
+        if retrievedToken==nil || retrievedUsername==nil
         {performSegueWithIdentifier("loginSegue", sender: nil)}
         else
         {

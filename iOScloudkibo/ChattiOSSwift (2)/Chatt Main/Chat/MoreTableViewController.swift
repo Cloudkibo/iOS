@@ -8,6 +8,8 @@
 
 import UIKit
 import SwiftyJSON
+import SQLite
+
 
 class MoreTableViewController: UITableViewController {
 
