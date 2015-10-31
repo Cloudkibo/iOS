@@ -1,6 +1,6 @@
 #include "SQLCipher.xcconfig"
 GCC_PREPROCESSOR_DEFINITIONS = $(inherited) COCOAPODS=1
-HEADER_SEARCH_PATHS = "${PODS_ROOT}/Headers/Private" "${PODS_ROOT}/Headers/Private/SQLCipher" "${PODS_ROOT}/Headers/Public"
+HEADER_SEARCH_PATHS = "${PODS_ROOT}/Headers/Private" "${PODS_ROOT}/Headers/Private/SQLCipher" "${PODS_ROOT}/Headers/Public" "${PODS_ROOT}/Headers/Public/libjingle_peerconnection"
 OTHER_CFLAGS = ${SQLCIPHER_OTHER_CFLAGS}
 OTHER_LDFLAGS = ${SQLCIPHER_OTHER_LDFLAGS}
 PODS_ROOT = ${SRCROOT}

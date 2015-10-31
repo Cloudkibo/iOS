@@ -45,6 +45,7 @@
 		717C50A41BE5544600ECE41E /* SocketTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 717C50971BE5544600ECE41E /* SocketTypes.swift */; };
 		717C50A51BE5544600ECE41E /* SwiftRegex.swift in Sources */ = {isa = PBXBuildFile; fileRef = 717C50981BE5544600ECE41E /* SwiftRegex.swift */; };
 		717C50A61BE5544600ECE41E /* WebSocket.swift in Sources */ = {isa = PBXBuildFile; fileRef = 717C50991BE5544600ECE41E /* WebSocket.swift */; };
+		717C50AF1BE56EC400ECE41E /* test.m in Sources */ = {isa = PBXBuildFile; fileRef = 717C50AE1BE56EC400ECE41E /* test.m */; };
 		7191CC611BCDB4D800F0847F /* TableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7191CC601BCDB4D800F0847F /* TableViewController.swift */; };
 		7191CC651BCDC4F100F0847F /* RegisterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7191CC641BCDC4F100F0847F /* RegisterViewController.swift */; };
 		7191CC681BCF0D9400F0847F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7191CC661BCF0D9400F0847F /* Main.storyboard */; };
@@ -228,6 +229,8 @@
 		717C50971BE5544600ECE41E /* SocketTypes.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SocketTypes.swift; sourceTree = "<group>"; };
 		717C50981BE5544600ECE41E /* SwiftRegex.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwiftRegex.swift; sourceTree = "<group>"; };
 		717C50991BE5544600ECE41E /* WebSocket.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WebSocket.swift; sourceTree = "<group>"; };
+		717C50AD1BE56EC300ECE41E /* Chat-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Chat-Bridging-Header.h"; sourceTree = "<group>"; };
+		717C50AE1BE56EC400ECE41E /* test.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = test.m; sourceTree = "<group>"; };
 		7191CC601BCDB4D800F0847F /* TableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TableViewController.swift; sourceTree = "<group>"; };
 		7191CC641BCDC4F100F0847F /* RegisterViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegisterViewController.swift; sourceTree = "<group>"; };
 		7191CC671BCF0D9400F0847F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -316,6 +319,8 @@
 				5BF6363119A9F3D900ABD0BA /* Images.xcassets */,
 				714560491B904D6900C8E0D2 /* Models */,
 				5BF6362819A9F3D900ABD0BA /* Supporting Files */,
+				717C50AE1BE56EC400ECE41E /* test.m */,
+				717C50AD1BE56EC300ECE41E /* Chat-Bridging-Header.h */,
 			);
 			path = Chat;
 			sourceTree = "<group>";
@@ -691,6 +696,7 @@
 				5B75921619AC313C005E2745 /* ProjectsViewController.swift in Sources */,
 				714639061B7D41F9002084FF /* Constants.swift in Sources */,
 				71E9BB8D1BA8E006001C895F /* NetworkingLibAlamofire.swift in Sources */,
+				717C50AF1BE56EC400ECE41E /* test.m in Sources */,
 				713D65961BD8406400893721 /* CallRingingViewController.swift in Sources */,
 				717C509E1BE5544600ECE41E /* SocketEventHandler.swift in Sources */,
 				5B94184019B8D296006A9EAD /* MoreTableViewController.swift in Sources */,
@@ -852,6 +858,7 @@
 				ARCHS = "$(ARCHS_STANDARD)";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -876,6 +883,8 @@
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos8.4;
+				SWIFT_OBJC_BRIDGING_HEADER = "Chat/Chat-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				TARGETED_DEVICE_FAMILY = 1;
 				VALID_ARCHS = "$(ARCHS_STANDARD)";
 			};
@@ -888,6 +897,7 @@
 				ARCHS = "$(ARCHS_STANDARD)";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -912,6 +922,7 @@
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos8.4;
+				SWIFT_OBJC_BRIDGING_HEADER = "Chat/Chat-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				TARGETED_DEVICE_FAMILY = 1;
 				VALID_ARCHS = "$(ARCHS_STANDARD)";

@@ -234,12 +234,14 @@ class ChatViewController: UIViewController {
     {
         super.init(coder: aDecoder)
         //println(AuthToken!)
-        
+    
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
       
+        
+         
        /*if loggedUserObj==nil
        {
         if let loggd=KeychainWrapper.objectForKey("loggedUserObj")
@@ -751,6 +753,7 @@ class ChatViewController: UIViewController {
     
     @IBAction func unwindToChat (segueSelected : UIStoryboardSegue) {
         println("unwind chat")
+      
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {

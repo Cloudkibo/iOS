@@ -1,5 +1,6 @@
 PODS:
   - Alamofire (1.3.1)
+  - libjingle_peerconnection (9814.2.0)
   - SQLCipher (3.1.0):
     - SQLCipher/standard (= 3.1.0)
   - SQLCipher/common (3.1.0)
@@ -12,6 +13,7 @@ PODS:
 
 DEPENDENCIES:
   - Alamofire (~> 1.3.1)
+  - libjingle_peerconnection
   - SQLite.swift (from `https://github.com/stephencelis/SQLite.swift.git`)
   - SQLiteCipher.swift (from `https://github.com/stephencelis/SQLite.swift.git`)
   - SwiftyJSON (~> 2.2.0)
@@ -32,6 +34,7 @@ CHECKOUT OPTIONS:
 
 SPEC CHECKSUMS:
   Alamofire: e4ab637e3195b645c814b87a652373439e59f2a4
+  libjingle_peerconnection: f03d6c0532595e8b9b233eccea68ad344e0395ac
   SQLCipher: c44fcca49c31483c2489cfb79aa7a69407f3794a
   SQLite.swift: 3bb75f5a650f08673276bc6d3fb1de1b542b8f4d
   SQLiteCipher.swift: 6405d3937f6afc94614949336fd1fdefa37428b5

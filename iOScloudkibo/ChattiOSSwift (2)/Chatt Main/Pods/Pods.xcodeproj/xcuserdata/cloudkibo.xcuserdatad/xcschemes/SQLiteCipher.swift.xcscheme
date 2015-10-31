@@ -14,7 +14,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "79EEFE29F0BDE29B4586775E"
+               BlueprintIdentifier = "5F1A211BC4CE81738347DE87"
                BuildableName = "SQLiteCipher.framework"
                BlueprintName = "SQLiteCipher.swift"
                ReferencedContainer = "container:Pods.xcodeproj">
