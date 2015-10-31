@@ -11,7 +11,7 @@ import SwiftyJSON
 import SQLite
 import Alamofire
 
-class ChatDetailViewController: UIViewController {
+class ChatDetailViewController: UIViewController{
     
     var rt=NetworkingLibAlamofire()
     @IBOutlet weak var NewChatNavigationTitle: UINavigationItem!
@@ -52,6 +52,7 @@ class ChatDetailViewController: UIViewController {
         
     }
     
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("willShowKeyBoard:"), name:UIKeyboardWillShowNotification, object: nil)
@@ -59,11 +60,7 @@ class ChatDetailViewController: UIViewController {
         messages = NSMutableArray()
         
         
-        
-        
-        var rtc:RTCPeerConnectionFactory=RTCPeerConnectionFactory()
-        
-        //self.performSegueWithIdentifier("chatSegue", sender: nil)
+                //self.performSegueWithIdentifier("chatSegue", sender: nil)
        
        /* var tbl_contactList=sqliteDB.db["contactslists"]
         let username = Expression<String>("username")
