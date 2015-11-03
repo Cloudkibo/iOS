@@ -46,6 +46,7 @@
 		717C50A51BE5544600ECE41E /* SwiftRegex.swift in Sources */ = {isa = PBXBuildFile; fileRef = 717C50981BE5544600ECE41E /* SwiftRegex.swift */; };
 		717C50A61BE5544600ECE41E /* WebSocket.swift in Sources */ = {isa = PBXBuildFile; fileRef = 717C50991BE5544600ECE41E /* WebSocket.swift */; };
 		717C50AF1BE56EC400ECE41E /* test.m in Sources */ = {isa = PBXBuildFile; fileRef = 717C50AE1BE56EC400ECE41E /* test.m */; };
+		717C50BC1BE800E500ECE41E /* VideoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 717C50BB1BE800E500ECE41E /* VideoViewController.swift */; };
 		7191CC611BCDB4D800F0847F /* TableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7191CC601BCDB4D800F0847F /* TableViewController.swift */; };
 		7191CC651BCDC4F100F0847F /* RegisterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7191CC641BCDC4F100F0847F /* RegisterViewController.swift */; };
 		7191CC681BCF0D9400F0847F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7191CC661BCF0D9400F0847F /* Main.storyboard */; };
@@ -231,6 +232,7 @@
 		717C50991BE5544600ECE41E /* WebSocket.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WebSocket.swift; sourceTree = "<group>"; };
 		717C50AD1BE56EC300ECE41E /* Chat-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Chat-Bridging-Header.h"; sourceTree = "<group>"; };
 		717C50AE1BE56EC400ECE41E /* test.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = test.m; sourceTree = "<group>"; };
+		717C50BB1BE800E500ECE41E /* VideoViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VideoViewController.swift; sourceTree = "<group>"; };
 		7191CC601BCDB4D800F0847F /* TableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TableViewController.swift; sourceTree = "<group>"; };
 		7191CC641BCDC4F100F0847F /* RegisterViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegisterViewController.swift; sourceTree = "<group>"; };
 		7191CC671BCF0D9400F0847F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -321,6 +323,7 @@
 				5BF6362819A9F3D900ABD0BA /* Supporting Files */,
 				717C50AE1BE56EC400ECE41E /* test.m */,
 				717C50AD1BE56EC300ECE41E /* Chat-Bridging-Header.h */,
+				717C50BB1BE800E500ECE41E /* VideoViewController.swift */,
 			);
 			path = Chat;
 			sourceTree = "<group>";
@@ -717,6 +720,7 @@
 				7191CC611BCDB4D800F0847F /* TableViewController.swift in Sources */,
 				717C509A1BE5544600ECE41E /* SocketAckManager.swift in Sources */,
 				5BF6362D19A9F3D900ABD0BA /* ViewController.swift in Sources */,
+				717C50BC1BE800E500ECE41E /* VideoViewController.swift in Sources */,
 				71E9BB9A1BAA2F19001C895F /* PendingRequestsListCell.swift in Sources */,
 				5BF6364E19AA143A00ABD0BA /* ChatViewController.swift in Sources */,
 				717C50A61BE5544600ECE41E /* WebSocket.swift in Sources */,

@@ -1,33 +1,27 @@
 //
-//  CallRingingViewController.swift
+//  VideoViewController.swift
 //  Chat
 //
-//  Created by Cloudkibo on 22/10/2015.
+//  Created by Cloudkibo on 03/11/2015.
 //  Copyright (c) 2015 MyAppTemplates. All rights reserved.
 //
 
 import UIKit
+import AVFoundation
 import Foundation
 
-import AVFoundation
+class VideoViewController: UIViewController,RTCPeerConnectionDelegate,RTCSessionDescriptionDelegate {
 
-class CallRingingViewController: UIViewController//RTCPeerConnectionDelegate,RTCSessionDescriptionDelegate
-{
-
+    
     var rtcFact:RTCPeerConnectionFactory!
     var pc:RTCPeerConnection!
-    //var rtcFact:RTCPeerConnectionFactory
-    //@IBOutlet weak var localView: RTCEAGLVideoView!
     
-    @IBOutlet weak var txtCallingDialing: UILabel!
-    @IBOutlet weak var txtCallerName: UILabel!
-    @IBAction func btnAcceptPressed(sender: AnyObject) {
-        
-        var next = self.storyboard?.instantiateViewControllerWithIdentifier("Main2") as! VideoViewController
-        
-        self.presentViewController(next, animated: false, completion: {println("showing video")})
+    @IBOutlet weak var localView: RTCEAGLVideoView!
+    override func viewDidLoad() {
+        super.viewDidLoad()
 
-       /* var mainICEServerURL:NSURL=NSURL(fileURLWithPath: Constants.MainUrl)!
+        /*
+        var mainICEServerURL:NSURL=NSURL(fileURLWithPath: Constants.MainUrl)!
         var rtcICEarray:[RTCICEServer]=[RTCICEServer]()
         var rtcICEobj=RTCICEServer(URI: mainICEServerURL, username: username!, password: password!)
         rtcICEarray.append(rtcICEobj)
@@ -37,56 +31,40 @@ class CallRingingViewController: UIViewController//RTCPeerConnectionDelegate,RTC
         pc=RTCPeerConnection.alloc()
         pc.delegate=self
         println(pc.description)
-       // var rtcMediaStream:RTCMediaStream=pc.localStreams[0] as! RTCMediaStream
-        var localStream:RTCMediaStream=createLocalMediaStream()
-        pc.addStream(localStream)
+        */
         
-                //pc.createOfferWithDelegate(self, constraints: RTCMediaConstraints(mandatoryConstraints: nil, optionalConstraints: nil))
+        ////
+        //^^var localStream:RTCMediaStream=createLocalMediaStream()
+        //^^pc.addStream(localStream)
+        ///
+        //var rtcMediaStream:RTCMediaStream=pc.localStreams[0] as! RTCMediaStream
         
-        /*
-RTCMediaStream *localStream = [self createLocalMediaStream];
-[_peerConnection addStream:localStream];
-if (_isInitiator) {
-[self sendOffer];
-} else {
-[self waitForAnswer];
-}
-}
-
-- (void)sendOffer {
-[_peerConnection createOfferWithDelegate:self
-constraints:[self defaultOfferConstraints]];
-}
-
-*/
-
-
-
-
-
-
-*/
         
-    }
-    @IBAction func btnRejectPressed(sender: AnyObject) {
-        
-        dismissViewControllerAnimated(true, completion: nil)
-    }
-    override func viewDidLoad() {
-        super.viewDidLoad()
-
-        
-    
+        //pc.createOfferWithDelegate(self, constraints: RTCMediaConstraints(mandatoryConstraints: nil, optionalConstraints: nil))
         // Do any additional setup after loading the view.
     }
 
-    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-    
-    
+    override func viewWillAppear(animated: Bool) {
+        
+        var mainICEServerURL:NSURL=NSURL(fileURLWithPath: Constants.MainUrl)!
+        var rtcICEarray:[RTCICEServer]=[RTCICEServer]()
+        var rtcICEobj=RTCICEServer(URI: mainICEServerURL, username: username!, password: password!)
+        rtcICEarray.append(rtcICEobj)
+        println("rtcICEServerObj is \(rtcICEarray[0])")
+        rtcFact=RTCPeerConnectionFactory.alloc()
+        //rtcFact.peerConnectionWithICEServers(rtcICEarray, constraints: nil, delegate: self)
+        pc=RTCPeerConnection.alloc()
+        pc.delegate=self
+        println(pc.description)
+
+        
+        var localStream:RTCMediaStream=createLocalMediaStream()
+        pc.addStream(localStream)
+    }
 
     /*
     // MARK: - Navigation
@@ -97,7 +75,6 @@ constraints:[self defaultOfferConstraints]];
         // Pass the selected object to the new view controller.
     }
     */
-    /*
     func createLocalMediaStream()->RTCMediaStream
     {
         var mediaStreamLabel:String!
@@ -111,7 +88,7 @@ constraints:[self defaultOfferConstraints]];
         if let lvt=localVideoTrack
         {
             localStream.addVideoTrack(localVideoTrack)
-        
+            
             
         }
         //localStream.addAudioTrack(rtcFact.audioTrackWithID(mediaAudioLabel!))
@@ -121,23 +98,23 @@ constraints:[self defaultOfferConstraints]];
         return localStream
         /*
         
-RTCMediaStream* localStream = [_factory mediaStreamWithLabel:@"ARDAMS"];
-
-RTCVideoTrack *localVideoTrack = [self createLocalVideoTrack];
-if (localVideoTrack) {
-[localStream addVideoTrack:localVideoTrack];
-[_delegate appClient:self didReceiveLocalVideoTrack:localVideoTrack];
-}
-
-[localStream addAudioTrack:[_factory audioTrackWithID:@"ARDAMSa0"]];
-return localStream;
+        RTCMediaStream* localStream = [_factory mediaStreamWithLabel:@"ARDAMS"];
+        
+        RTCVideoTrack *localVideoTrack = [self createLocalVideoTrack];
+        if (localVideoTrack) {
+        [localStream addVideoTrack:localVideoTrack];
+        [_delegate appClient:self didReceiveLocalVideoTrack:localVideoTrack];
+        }
+        
+        [localStream addAudioTrack:[_factory audioTrackWithID:@"ARDAMSa0"]];
+        return localStream;
 */
-
+        
+        
     }
-
+    
     func createLocalVideoTrack()->RTCVideoTrack
-    {
-        var rtcVideoTrack:RTCVideoTrack
+    { var rtcVideoTrack:RTCVideoTrack
         var cameraID:NSString!
         for aaa in AVCaptureDevice.devicesWithMediaType(AVMediaTypeVideo)
         {
@@ -150,7 +127,7 @@ return localStream;
                 //println(aaa.localizedModel!)
                 cameraID=aaa.localizedName!
                 println("got front camera")
-                //break
+                break
             }
             
         }
@@ -161,19 +138,23 @@ return localStream;
         //AVCaptureDevice
         var rtcVideoCapturer=RTCVideoCapturer(deviceName: cameraID! as String)
         println(rtcVideoCapturer.description)
-        var rtcMediaConst=RTCMediaConstraints(mandatoryConstraints: nil, optionalConstraints: nil)
-        var rtcVideoSource=RTCVideoSource.alloc()
+        var rtcMediaConst=RTCMediaConstraints()
+        rtcMediaConst=RTCMediaConstraints(mandatoryConstraints: nil, optionalConstraints: nil)
+        println(rtcMediaConst)
+        //var rtcVideoSource=RTCVideoSource.alloc()
+        var rtcVideoSource:RTCVideoSource()
+            
+        
         rtcVideoSource=rtcFact.videoSourceWithCapturer(rtcVideoCapturer, constraints: rtcMediaConst)
-        rtcVideoTrack=rtcFact.videoTrackWithID("sss", source: rtcVideoSource)
+        rtcVideoTrack=rtcFact.videoTrackWithID("sss", source: rtcVideoSource!)
         
         return rtcVideoTrack
-
     }
-    */
-
-   /* func peerConnection(peerConnection: RTCPeerConnection!, addedStream stream: RTCMediaStream!) {
-        println("added stream")
     
+    
+    func peerConnection(peerConnection: RTCPeerConnection!, addedStream stream: RTCMediaStream!) {
+        println("added stream")
+        
     }
     func peerConnection(peerConnection: RTCPeerConnection!, didOpenDataChannel dataChannel: RTCDataChannel!) {
         
@@ -202,5 +183,5 @@ return localStream;
     }
     func peerConnection(peerConnection: RTCPeerConnection!, didSetSessionDescriptionWithError error: NSError!) {
         
-    }*/
+    }
 }

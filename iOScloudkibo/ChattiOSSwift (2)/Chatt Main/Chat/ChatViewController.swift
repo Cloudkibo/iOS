@@ -10,6 +10,8 @@ import UIKit
 import SwiftyJSON
 import Alamofire
 import SQLite
+import AVFoundation
+import Foundation
 
 class ChatViewController: UIViewController {
     var rt=NetworkingLibAlamofire()
@@ -270,6 +272,11 @@ class ChatViewController: UIViewController {
         // self.tblForChat.reloadData()
         
         
+        /////////////----------------------================================++++++++++
+       
+        
+
+        //((((((((()))))))___________++++++++++++__________++++++++++++((((((((((()))))))))
        
         
 

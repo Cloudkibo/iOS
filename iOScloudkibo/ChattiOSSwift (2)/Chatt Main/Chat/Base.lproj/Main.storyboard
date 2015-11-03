@@ -182,7 +182,7 @@
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="NotePrivateCell" id="xsw-ZS-qbh">
-                                        <rect key="frame" x="0.0" y="22" width="320" height="66"/>
+                                        <rect key="frame" x="0.0" y="86" width="320" height="66"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="xsw-ZS-qbh" id="p9P-HJ-EFV">
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="65.5"/>
@@ -224,7 +224,7 @@
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="NotePublicCell" id="MVy-RE-e1f">
-                                        <rect key="frame" x="0.0" y="88" width="320" height="66"/>
+                                        <rect key="frame" x="0.0" y="152" width="320" height="66"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="MVy-RE-e1f" id="vMV-aV-UBn">
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="65.5"/>
@@ -1216,6 +1216,30 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="f9P-2f-Sfg" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-139" y="183"/>
+        </scene>
+        <!--Video View Controller-->
+        <scene sceneID="Apj-VL-Pbf">
+            <objects>
+                <viewController restorationIdentifier="Main2" storyboardIdentifier="Main2" id="VkD-da-dMy" customClass="VideoViewController" customModule="Chat" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="KSC-m3-8y7" userLabel="LocalView">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" id="dyW-fy-Dia" userLabel="localView" customClass="RTCEAGLVideoView">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <connections>
+                        <outlet property="localView" destination="dyW-fy-Dia" id="Jbk-WA-B0q"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="URD-gR-s34" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="676" y="-1688"/>
         </scene>
         <!--New Chat-->
         <scene sceneID="s71-yX-xpp">

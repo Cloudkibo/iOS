@@ -199,6 +199,14 @@ class DatabaseHandler:NSObject{
     func retrieveChat()
     {
         
+        let to = Expression<String>("to")
+        let from = Expression<String>("from")
+        let fromFullName = Expression<String>("fromFullName")
+        let msg = Expression<String>("msg")
+        let date = Expression<NSDate>("date")
+        
+        var tbl_userchats=sqliteDB.db["userschats"]
+
     }
     func deleteChat(userTo:String)
     {
