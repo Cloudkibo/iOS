@@ -14,19 +14,193 @@ import AVFoundation
 class CallRingingViewController: UIViewController//RTCPeerConnectionDelegate,RTCSessionDescriptionDelegate
 {
 
-    var rtcFact:RTCPeerConnectionFactory!
-    var pc:RTCPeerConnection!
+   // var rtcFact:RTCPeerConnectionFactory!
+    //var pc:RTCPeerConnection!
     //var rtcFact:RTCPeerConnectionFactory
     //@IBOutlet weak var localView: RTCEAGLVideoView!
     
+    @IBOutlet weak var localView: RTCEAGLVideoView!
     @IBOutlet weak var txtCallingDialing: UILabel!
     @IBOutlet weak var txtCallerName: UILabel!
     @IBAction func btnAcceptPressed(sender: AnyObject) {
+    /*
+        var mainICEServerURL:NSURL=NSURL(fileURLWithPath: Constants.MainUrl)!
+        var rtcICEarray:[RTCICEServer]=[RTCICEServer]()
+        var rtcICEobj=RTCICEServer(URI: mainICEServerURL, username: username!, password: password!)
+        rtcICEarray.append(rtcICEobj)
+        println("rtcICEServerObj is \(rtcICEarray[0])")
+        //^^^^rtcFact=RTCPeerConnectionFactory.alloc()
+        RTCPeerConnectionFactory.initializeSSL()
+        var rtcFact=RTCPeerConnectionFactory()
         
-        var next = self.storyboard?.instantiateViewControllerWithIdentifier("Main2") as! VideoViewController
-        
-        self.presentViewController(next, animated: false, completion: {println("showing video")})
+        //rtcFact=RTCPeerConnectionFactory.alloc()
+        //pc=rtcFact.peerConnectionWithICEServers(rtcICEarray, constraints: RTCMediaConstraints(mandatoryConstraints: nil, optionalConstraints: nil), delegate: self)
+        //rtcFact.peerConnectionWithICEServers(rtcICEarray, constraints: nil, delegate: self)
+        var pc=RTCPeerConnection.alloc()
+        //pc.delegate=self
+        println(pc.description)
+        RTCMediaStream.initialize()
 
+        var rtcMediaStream=rtcFact.mediaStreamWithLabel("@kibo")
+        
+        ///rtcMediaStream=rtcFact.mediaStreamWithLabel("@kibo:)")
+        ////rtcFact.mediaStreamWithLabel("@kibo")
+        var rtcAudioTrack=rtcFact.audioTrackWithID("@kiboa0")
+        rtcMediaStream.addAudioTrack(rtcAudioTrack)
+        
+
+        var cameraID:NSString!
+        for aaa in AVCaptureDevice.devicesWithMediaType(AVMediaTypeVideo)
+        {
+            if aaa.position==AVCaptureDevicePosition.Front
+            {
+                //println(aaa.description)
+                //println(aaa.deviceCurrentTime)
+                //println(aaa.localizedName!)
+                //println(aaa.localStreams.description!)
+                //println(aaa.localizedModel!)
+                cameraID=aaa.localizedName!
+                //println(aaa.description)
+                //println(aaa.localizedDescription)
+                println(cameraID!)
+                println("got front camera")
+                break
+            }
+            
+        }
+        if cameraID==nil
+            
+        {println("failed to get camera")}
+        
+        //AVCaptureDevice
+        var rtcVideoCapturer=RTCVideoCapturer(deviceName: cameraID! as String)
+        
+        println(rtcVideoCapturer.debugDescription)
+        var rtcMediaConst=RTCMediaConstraints(mandatoryConstraints: nil, optionalConstraints: nil)
+        //RTCMediaConstraints(mandatoryConstraints: nil, optionalConstraints: nil)
+        println(rtcMediaConst.debugDescription)
+        //var rtcVideoSource:RTCVideoSource
+        //rtcVideoSource.
+        //rtcVideoCapturer=rtcVideoCapturer()
+        //println(rtcVideoSource.debugDescription)
+        var rtcVideoSource=rtcFact.videoSourceWithCapturer(rtcVideoCapturer, constraints: nil)
+        println(rtcVideoSource.debugDescription)
+        println("outttt")
+        
+        var rtcVideoTrack=RTCVideoTrack(factory: rtcFact, source: rtcVideoSource, trackId: "sss")
+        println(rtcVideoTrack.debugDescription)
+        /*
+        
+        if let lvt=rtcVideoTrack
+        {
+            rtcMediaStream.addVideoTrack(rtcVideoTrack)
+            
+            println("got video track")
+        }
+        
+        //^^^rtcVideoTrack.addRenderer(localView)
+        */
+        //pc.addStream(rtcMediaStream)
+        //return localStream
+
+        */
+
+       var next = self.storyboard?.instantiateViewControllerWithIdentifier("Main2") as! VideoViewController
+        
+        self.presentViewController(next, animated: false, completion: {
+            ////^^^^next.rtcVideoTrack=RTCVideoTrack(factory: rtcFact, source: rtcVideoSource, trackId: "sss")
+            /*
+            var mainICEServerURL:NSURL=NSURL(fileURLWithPath: Constants.MainUrl)!
+            var rtcICEarray:[RTCICEServer]=[RTCICEServer]()
+            var rtcICEobj=RTCICEServer(URI: mainICEServerURL, username: username!, password: password!)
+            rtcICEarray.append(rtcICEobj)
+            println("rtcICEServerObj is \(rtcICEarray[0])")
+            //^^^^rtcFact=RTCPeerConnectionFactory.alloc()
+            RTCPeerConnectionFactory.initializeSSL()
+            var rtcFact=RTCPeerConnectionFactory()
+            
+            //rtcFact=RTCPeerConnectionFactory.alloc()
+            //pc=rtcFact.peerConnectionWithICEServers(rtcICEarray, constraints: RTCMediaConstraints(mandatoryConstraints: nil, optionalConstraints: nil), delegate: self)
+            //rtcFact.peerConnectionWithICEServers(rtcICEarray, constraints: nil, delegate: self)
+            var pc=RTCPeerConnection.alloc()
+            //pc.delegate=self
+            println(pc.description)
+            RTCMediaStream.initialize()
+            
+            var rtcMediaStream=rtcFact.mediaStreamWithLabel("@kibo")
+            
+            ///rtcMediaStream=rtcFact.mediaStreamWithLabel("@kibo:)")
+            ////rtcFact.mediaStreamWithLabel("@kibo")
+            var rtcAudioTrack=rtcFact.audioTrackWithID("@kiboa0")
+            rtcMediaStream.addAudioTrack(rtcAudioTrack)
+            
+            
+            var cameraID:NSString!
+            for aaa in AVCaptureDevice.devicesWithMediaType(AVMediaTypeVideo)
+            {
+                if aaa.position==AVCaptureDevicePosition.Front
+                {
+                    //println(aaa.description)
+                    //println(aaa.deviceCurrentTime)
+                    //println(aaa.localizedName!)
+                    //println(aaa.localStreams.description!)
+                    //println(aaa.localizedModel!)
+                    cameraID=aaa.localizedName!
+                    //println(aaa.description)
+                    //println(aaa.localizedDescription)
+                    println(cameraID!)
+                    println("got front camera")
+                    break
+                }
+                
+            }
+            if cameraID==nil
+                
+            {println("failed to get camera")}
+            
+            //AVCaptureDevice
+            var rtcVideoCapturer=RTCVideoCapturer(deviceName: cameraID! as String)
+            
+            println(rtcVideoCapturer.debugDescription)
+            var rtcMediaConst=RTCMediaConstraints(mandatoryConstraints: nil, optionalConstraints: nil)
+            //RTCMediaConstraints(mandatoryConstraints: nil, optionalConstraints: nil)
+            println(rtcMediaConst.debugDescription)
+            //var rtcVideoSource:RTCVideoSource
+            //rtcVideoSource.
+            //rtcVideoCapturer=rtcVideoCapturer()
+            //println(rtcVideoSource.debugDescription)
+            var rtcVideoSource=rtcFact.videoSourceWithCapturer(rtcVideoCapturer, constraints: nil)
+            println(rtcVideoSource.debugDescription)
+            println("outttt")
+            
+            var rtcVideoTrack=RTCVideoTrack(factory: rtcFact, source: rtcVideoSource, trackId: "sss")
+            println(rtcVideoTrack.debugDescription)
+            /*
+            
+            if let lvt=rtcVideoTrack
+            {
+            rtcMediaStream.addVideoTrack(rtcVideoTrack)
+            
+            println("got video track")
+            }
+            
+            //^^^rtcVideoTrack.addRenderer(localView)
+            */
+            //pc.addStream(rtcMediaStream)
+            //return localStream
+            
+
+            next.rtcFact=rtcFact
+            next.rtcMediaStream=rtcMediaStream
+            next.rtcVideoTrack=rtcVideoTrack
+            next.rtcVideoSource=rtcVideoSource
+            
+            */
+            println("showing video")
+        })
+
+
+        
        /* var mainICEServerURL:NSURL=NSURL(fileURLWithPath: Constants.MainUrl)!
         var rtcICEarray:[RTCICEServer]=[RTCICEServer]()
         var rtcICEobj=RTCICEServer(URI: mainICEServerURL, username: username!, password: password!)
