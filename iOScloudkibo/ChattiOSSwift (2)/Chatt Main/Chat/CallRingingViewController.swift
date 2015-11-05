@@ -107,7 +107,7 @@ class CallRingingViewController: UIViewController//RTCPeerConnectionDelegate,RTC
 
        var next = self.storyboard?.instantiateViewControllerWithIdentifier("Main2") as! VideoViewController
         
-        self.presentViewController(next, animated: false, completion: {
+        self.presentViewController(next, animated: true, completion: {
             ////^^^^next.rtcVideoTrack=RTCVideoTrack(factory: rtcFact, source: rtcVideoSource, trackId: "sss")
             /*
             var mainICEServerURL:NSURL=NSURL(fileURLWithPath: Constants.MainUrl)!
