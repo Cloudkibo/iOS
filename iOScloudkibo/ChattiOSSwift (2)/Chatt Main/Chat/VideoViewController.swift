@@ -94,14 +94,19 @@ class VideoViewController: UIViewController,RTCPeerConnectionDelegate,RTCSession
         var rtcVideoTrack=RTCVideoTrack(factory: rtcFact, source: rtcVideoSource, trackId: "sss")
         //println(rtcVideoTrack.debugDescription)
         
-        localViewTop.drawRect(CGRect(x: 0,y: 20,width: 100,height: 100))
-        localView.setSize(CGSize(width: 100, height: 100))
+        localViewTop.setSize(CGSize(width: 500, height: 500))
+        localViewTop.drawRect(CGRect(x: 50,y: 50,width: 300,height: 320))
+        
+        localView.setSize(CGSize(width: 400, height: 400))
+        localView.drawRect(CGRect(x: 50,y: 50,width: 300,height: 320))
+        
+        //localView.setSize(400,400)
         //localViewTop.sizeToFit()
 
 
         if let lvt=rtcVideoTrack
         {
-            //^^^^^^^^^^^^^^====rtcVideoTrack.addRenderer(localView)
+            rtcVideoTrack.addRenderer(localView)
         var addedVideoTrack=rtcMediaStream.addVideoTrack(rtcVideoTrack)
         println(addedVideoTrack)
         println("got video track")
@@ -120,15 +125,21 @@ class VideoViewController: UIViewController,RTCPeerConnectionDelegate,RTCSession
         localViewTop.layer.backgroundColor=cc1.CGColor
         
         
-       // rtcsurfaceview in renderer
+        // rtcsurfaceview in renderer
         //rtcVideoTrack.setEnabled(true)
         //^^^^^^^^localView.sizeToFit()
-
-        //^^^^^^^^^^^^^^^^^^^============rtcMediaStream.videoTracks[0].addRenderer(localView)
+        
+        
+        rtcVideoRenderer=localView
+        rtcVideoRenderer.self.setSize(CGSize(width: 300, height: 320))
+        println("size is set")
+        //rtcMediaStream.videoTracks[0].addRenderer(localView)
+        rtcMediaStream.videoTracks[0].addRenderer(rtcVideoRenderer)
+       //rtcVideoRenderer.renderFrame()
         //rtcMediaStream.videoTracks[0].update()
                 //^^^^^localView.updateConstraints()
         //^^^^^^localViewTop.addSubview(localView)
-        //^^^^^^^localView.setNeedsDisplay()
+        //localView.setNeedsDisplay()
         ////rtcMediaStream.
         //'localView' is RTCEAGLVideoView object in story board
        /* var captureSession = AVCaptureSession()
@@ -245,7 +256,7 @@ RTCVideoTrack *videoTrack = [factory videoTrackWithID:videoId source:videoSource
         // Dispose of any resources that can be recreated.
     }
     override func viewWillAppear(animated: Bool) {
-        var cc=UIColor.redColor()
+       /* var cc=UIColor.redColor()
         var cc1=UIColor.redColor()
         
         localView.layer.backgroundColor=cc.CGColor
@@ -253,6 +264,7 @@ RTCVideoTrack *videoTrack = [factory videoTrackWithID:videoId source:videoSource
         //localViewTop.backgroundColor=(UIColor.blueColor())
         println(localViewTop.subviews.count)
         println(localView.subviews.count)
+*/
         
     }
 

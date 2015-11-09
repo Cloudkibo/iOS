@@ -50,6 +50,8 @@
 		7191CC611BCDB4D800F0847F /* TableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7191CC601BCDB4D800F0847F /* TableViewController.swift */; };
 		7191CC651BCDC4F100F0847F /* RegisterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7191CC641BCDC4F100F0847F /* RegisterViewController.swift */; };
 		7191CC681BCF0D9400F0847F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7191CC661BCF0D9400F0847F /* Main.storyboard */; };
+		71E922FA1BEF991C00C1AFC3 /* Peer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71E922F91BEF991C00C1AFC3 /* Peer.swift */; };
+		71E922FC1BEFF02C00C1AFC3 /* RoomService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71E922FB1BEFF02C00C1AFC3 /* RoomService.swift */; };
 		71E9BB8D1BA8E006001C895F /* NetworkingLibAlamofire.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71E9BB8C1BA8E006001C895F /* NetworkingLibAlamofire.swift */; };
 		71E9BB981BAA2B91001C895F /* PendingFriendRequestsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71E9BB971BAA2B91001C895F /* PendingFriendRequestsViewController.swift */; };
 		71E9BB9A1BAA2F19001C895F /* PendingRequestsListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71E9BB991BAA2F19001C895F /* PendingRequestsListCell.swift */; };
@@ -236,6 +238,8 @@
 		7191CC601BCDB4D800F0847F /* TableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TableViewController.swift; sourceTree = "<group>"; };
 		7191CC641BCDC4F100F0847F /* RegisterViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegisterViewController.swift; sourceTree = "<group>"; };
 		7191CC671BCF0D9400F0847F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		71E922F91BEF991C00C1AFC3 /* Peer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Peer.swift; sourceTree = "<group>"; };
+		71E922FB1BEFF02C00C1AFC3 /* RoomService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RoomService.swift; sourceTree = "<group>"; };
 		71E9BB8C1BA8E006001C895F /* NetworkingLibAlamofire.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkingLibAlamofire.swift; sourceTree = "<group>"; };
 		71E9BB971BAA2B91001C895F /* PendingFriendRequestsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PendingFriendRequestsViewController.swift; sourceTree = "<group>"; };
 		71E9BB991BAA2F19001C895F /* PendingRequestsListCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PendingRequestsListCell.swift; sourceTree = "<group>"; };
@@ -318,6 +322,8 @@
 				71E9BB971BAA2B91001C895F /* PendingFriendRequestsViewController.swift */,
 				7191CC661BCF0D9400F0847F /* Main.storyboard */,
 				713D65951BD8406400893721 /* CallRingingViewController.swift */,
+				71E922F91BEF991C00C1AFC3 /* Peer.swift */,
+				71E922FB1BEFF02C00C1AFC3 /* RoomService.swift */,
 				5BF6363119A9F3D900ABD0BA /* Images.xcassets */,
 				714560491B904D6900C8E0D2 /* Models */,
 				5BF6362819A9F3D900ABD0BA /* Supporting Files */,
@@ -696,6 +702,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				71E922FA1BEF991C00C1AFC3 /* Peer.swift in Sources */,
 				5B75921619AC313C005E2745 /* ProjectsViewController.swift in Sources */,
 				714639061B7D41F9002084FF /* Constants.swift in Sources */,
 				71E9BB8D1BA8E006001C895F /* NetworkingLibAlamofire.swift in Sources */,
@@ -729,6 +736,7 @@
 				7191CC651BCDC4F100F0847F /* RegisterViewController.swift in Sources */,
 				714560561B904DAA00C8E0D2 /* Contacts.swift in Sources */,
 				5B990C9B19ACD59B00F9278A /* ChatComposeViewController.swift in Sources */,
+				71E922FC1BEFF02C00C1AFC3 /* RoomService.swift in Sources */,
 				717C509D1BE5544600ECE41E /* SocketEngineClient.swift in Sources */,
 				7123FDE51BE54DA100198FF9 /* KeychainWrapper.swift in Sources */,
 				7123FDE71BE54DF700198FF9 /* JSONStringify.swift in Sources */,
