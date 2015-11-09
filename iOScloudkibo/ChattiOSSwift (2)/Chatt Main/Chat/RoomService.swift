@@ -9,27 +9,79 @@
 import Foundation
 class RoomService{
     
-    var peers:[Peer]!
+    var peers:[Peer]=[]
     var streams:[RTCMediaStream]=[]
    
-    func getPeerConnection(var id:String)
-    {
+    init(var id:String)    {
+    
+        var foundPeer=false
+        var ind=0
+        
         for var i=0;i<peers.count;i++
         {
             if(peers[i].getID()==id)
             {
                 //peer already in list
+                foundPeer=true;
+                break
             }
+        
         }
+        //if not in list
+        if(foundPeer==false)
+        {
+            peers.append(Peer(id: id, username: username!))
+            //return peers[peers.count].pc
+            
+        }
+        else{
+           // return peers[ind].pc
+        }
+        
+        
     }
     func joinRoom(var roomname:String)
     {
+        socketObj.socket.emit("init",["room": roomname, "username": username! ])
         
-        
+        /*
+if (!connected) {
+socket.emit('init', { room: r, username: username }, function (roomid, id) {
+if(id === null){
+alert('You cannot join conference. Room is full');
+connected = false;
+return;
+}
+currentId = id;
+roomId = roomid;
+});
+connected = true;
+}
+*/
+
+
     }
-    func makeOffer()
-    {
-        //socket.emit('msg', { by: currentId, to: id, sdp: sdp, type: 'offer', username: username });
+    func makeOffer(var id:String)
+    {var foundPeer=false
+        var ind=0
+        for var i=0;i<peers.count;i++
+        {
+            if(peers[i].getID()==id)
+            {
+                //peer already in list
+                foundPeer=true;
+                ind=i
+                break
+            }
+        }
+        
+        //if not in list
+        if(foundPeer)
+        {
+            peers[ind].createOffer()
+        }
+        
+        
     }
     
     

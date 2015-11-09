@@ -29,13 +29,51 @@ class VideoViewController: UIViewController,RTCPeerConnectionDelegate,RTCSession
     override func viewDidLoad() {
         super.viewDidLoad()
         var mainICEServerURL:NSURL=NSURL(fileURLWithPath: Constants.MainUrl)!
-        var rtcICEarray:[RTCICEServer]=[RTCICEServer]()
-        var rtcICEobj=RTCICEServer(URI: mainICEServerURL, username: username!, password: password!)
-        rtcICEarray.append(rtcICEobj)
+        
+        //var rtcICEarray:[RTCICEServer]=[]
+        
+        var roomServer=RoomService(id: _id!)
+        ////self.pc=roomServer.peers[0].getPC()
+        roomServer.joinRoom(_id!)
+        roomServer.makeOffer(_id!)
+        
+        
+        
+        //var rtcICEobj=RTCICEServer(URI: mainICEServerURL, username: username!, password: password!)
+        //rtcICEarray.append(rtcICEobj)
+        
+        
+        /*rtcICEarray.append(RTCICEServer(URI: NSURL(string:"turn:45.55.232.65:3478?transport=udp"), username: "cloudkibo", password: "cloudkibo"))
+        rtcICEarray.append(RTCICEServer(URI: NSURL(string:"turn:45.55.232.65:3478?transport=tcp"), username: "cloudkibo", password: "cloudkibo"))
+        rtcICEarray.append(RTCICEServer(URI: NSURL(string:"stun:stun.l.google.com:19302"), username: "", password: ""))
+        rtcICEarray.append(RTCICEServer(URI: NSURL(string:"stun:23.21.150.121"), username: "", password: ""))
+        rtcICEarray.append(RTCICEServer(URI: NSURL(string:"stun:stun.anyfirewall.com:3478"), username: "", password: ""))
+        rtcICEarray.append(RTCICEServer(URI: NSURL(string:"turn:turn.bistri.com:80?transport=udp"), username: "homeo", password: "homeo"))
+        rtcICEarray.append(RTCICEServer(URI: NSURL(string:"turn:turn.bistri.com:80?transport=tcp"), username: "homeo", password: "homeo"))
+        rtcICEarray.append(RTCICEServer(URI: NSURL(string:"turn:turn.anyfirewall.com:443?transport=tcp"), username: "webrtc", password: "webrtc"))
+        
+        
+        /*
+'turn:45.55.232.65:3478?transport=tcp', 'cloudkibo', 'cloudkibo'),
+createIceServer(isChrome
+? 'stun:stun.l.google.com:19302'
+: 'stun:23.21.150.121', null, null),
+createIceServer('stun:stun.anyfirewall.com:3478', null, null),
+createIceServer('turn:turn.bistri.com:80?transport=udp', 'homeo', 'homeo'),
+createIceServer('turn:turn.bistri.com:80?transport=tcp', 'homeo', 'homeo'),
+createIceServer('turn:turn.anyfirewall.com:443?transport=tcp', 'webrtc', 'webrtc')
+*/
         println("rtcICEServerObj is \(rtcICEarray[0])")
         RTCPeerConnectionFactory.initializeSSL()
         var rtcFact=RTCPeerConnectionFactory()
-        var pc=RTCPeerConnection.alloc()
+        
+        rtcMediaConst=RTCMediaConstraints(mandatoryConstraints: [RTCPair(key: "OfferToReceiveAudio", value: "true"),RTCPair(key: "OfferToReceiveVideo", value: "true")], optionalConstraints: nil)
+        
+        var pc=rtcFact.peerConnectionWithICEServers(rtcICEarray, constraints: rtcMediaConst, delegate:self)
+        
+        
+        */
+        var pc=roomServer.peers[0].pc
         println(pc.description)
         RTCMediaStream.initialize()
         
@@ -82,16 +120,20 @@ class VideoViewController: UIViewController,RTCPeerConnectionDelegate,RTCSession
         if cameraID==nil
          {println("failed to get camera")}
         
+        
+        rtcVideoRenderer=localView
+        rtcVideoRenderer.self.setSize(CGSize(width: 300, height: 320))
+        println("size is set")
+        
         //AVCaptureDevice
         var rtcVideoCapturer=RTCVideoCapturer(deviceName: cameraID! as String)
         //println(rtcVideoCapturer.debugDescription)
         
-        var rtcMediaConst=RTCMediaConstraints(mandatoryConstraints: nil, optionalConstraints: nil)
-        //println(rtcMediaConst.debugDescription)
-        var rtcVideoSource=rtcFact.videoSourceWithCapturer(rtcVideoCapturer, constraints: nil)
+        var rtcVideoSource=rtcFact.videoSourceWithCapturer(rtcVideoCapturer, constraints: rtcMediaConst)
         
         //println(rtcVideoSource.debugDescription)
         var rtcVideoTrack=RTCVideoTrack(factory: rtcFact, source: rtcVideoSource, trackId: "sss")
+        rtcVideoTrack.setEnabled(true)
         //println(rtcVideoTrack.debugDescription)
         
         localViewTop.setSize(CGSize(width: 500, height: 500))
@@ -113,6 +155,8 @@ class VideoViewController: UIViewController,RTCPeerConnectionDelegate,RTCSession
             println(addedAudioStream)
         println("got audio track")
         }
+        pc.addStream(rtcMediaStream)
+        peerConnection(pc, addedStream: rtcMediaStream)
         
         //localView.backgroundColor=(UIColor.redColor())
         //localViewTop.backgroundColor=(UIColor.blueColor())
@@ -130,11 +174,12 @@ class VideoViewController: UIViewController,RTCPeerConnectionDelegate,RTCSession
         //^^^^^^^^localView.sizeToFit()
         
         
-        rtcVideoRenderer=localView
-        rtcVideoRenderer.self.setSize(CGSize(width: 300, height: 320))
-        println("size is set")
+        
         //rtcMediaStream.videoTracks[0].addRenderer(localView)
         rtcMediaStream.videoTracks[0].addRenderer(rtcVideoRenderer)
+        rtcVideoTrack.addRenderer(localView)
+        
+        
        //rtcVideoRenderer.renderFrame()
         //rtcMediaStream.videoTracks[0].update()
                 //^^^^^localView.updateConstraints()
