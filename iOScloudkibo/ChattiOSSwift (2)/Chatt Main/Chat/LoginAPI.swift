@@ -90,5 +90,13 @@ class LoginAPI{
         return self.socket
     }
     
+    func registerWithRoomId(var roomId:NSString,var clientId:NSString)
+    {
+        
+    }
+    func sendMessage(var msg:String)
+    {
+        
+    }
     
 }

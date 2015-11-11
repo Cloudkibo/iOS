@@ -14,6 +14,9 @@ class VideoViewController: UIViewController,RTCPeerConnectionDelegate,RTCSession
 
     @IBOutlet var localViewTop: RTCEAGLVideoView!
     
+    @IBOutlet weak var localViewTrailing: NSLayoutConstraint!
+    
+    @IBOutlet weak var localViewLeading: NSLayoutConstraint!
     var rtcMediaStream:RTCMediaStream!
     var rtcFact:RTCPeerConnectionFactory!
     var pc:RTCPeerConnection!
@@ -30,20 +33,14 @@ class VideoViewController: UIViewController,RTCPeerConnectionDelegate,RTCSession
         super.viewDidLoad()
         var mainICEServerURL:NSURL=NSURL(fileURLWithPath: Constants.MainUrl)!
         
-        //var rtcICEarray:[RTCICEServer]=[]
+        var rtcICEarray:[RTCICEServer]=[]
         
-        var roomServer=RoomService(id: _id!)
+        //var roomServer=RoomService(id: _id!)
         ////self.pc=roomServer.peers[0].getPC()
-        roomServer.joinRoom(_id!)
-        roomServer.makeOffer(_id!)
-        
-        
-        
-        //var rtcICEobj=RTCICEServer(URI: mainICEServerURL, username: username!, password: password!)
-        //rtcICEarray.append(rtcICEobj)
-        
-        
-        /*rtcICEarray.append(RTCICEServer(URI: NSURL(string:"turn:45.55.232.65:3478?transport=udp"), username: "cloudkibo", password: "cloudkibo"))
+        //roomServer.joinRoom(_id!)
+        //roomServer.makeOffer(_id!)
+    
+      rtcICEarray.append(RTCICEServer(URI: NSURL(string:"turn:45.55.232.65:3478?transport=udp"), username: "cloudkibo", password: "cloudkibo"))
         rtcICEarray.append(RTCICEServer(URI: NSURL(string:"turn:45.55.232.65:3478?transport=tcp"), username: "cloudkibo", password: "cloudkibo"))
         rtcICEarray.append(RTCICEServer(URI: NSURL(string:"stun:stun.l.google.com:19302"), username: "", password: ""))
         rtcICEarray.append(RTCICEServer(URI: NSURL(string:"stun:23.21.150.121"), username: "", password: ""))
@@ -53,17 +50,7 @@ class VideoViewController: UIViewController,RTCPeerConnectionDelegate,RTCSession
         rtcICEarray.append(RTCICEServer(URI: NSURL(string:"turn:turn.anyfirewall.com:443?transport=tcp"), username: "webrtc", password: "webrtc"))
         
         
-        /*
-'turn:45.55.232.65:3478?transport=tcp', 'cloudkibo', 'cloudkibo'),
-createIceServer(isChrome
-? 'stun:stun.l.google.com:19302'
-: 'stun:23.21.150.121', null, null),
-createIceServer('stun:stun.anyfirewall.com:3478', null, null),
-createIceServer('turn:turn.bistri.com:80?transport=udp', 'homeo', 'homeo'),
-createIceServer('turn:turn.bistri.com:80?transport=tcp', 'homeo', 'homeo'),
-createIceServer('turn:turn.anyfirewall.com:443?transport=tcp', 'webrtc', 'webrtc')
-*/
-        println("rtcICEServerObj is \(rtcICEarray[0])")
+               println("rtcICEServerObj is \(rtcICEarray[0])")
         RTCPeerConnectionFactory.initializeSSL()
         var rtcFact=RTCPeerConnectionFactory()
         
@@ -72,9 +59,7 @@ createIceServer('turn:turn.anyfirewall.com:443?transport=tcp', 'webrtc', 'webrtc
         var pc=rtcFact.peerConnectionWithICEServers(rtcICEarray, constraints: rtcMediaConst, delegate:self)
         
         
-        */
-        var pc=roomServer.peers[0].pc
-        println(pc.description)
+
         RTCMediaStream.initialize()
         
         var rtcMediaStream=rtcFact.mediaStreamWithLabel("@kibo")
@@ -83,22 +68,7 @@ createIceServer('turn:turn.anyfirewall.com:443?transport=tcp', 'webrtc', 'webrtc
         
         var device11:AnyObject!
         var cameraID:NSString!
-        /*for aaa in AVCaptureDevice.devicesWithMediaType(AVMediaTypeVideo)
-        {
-            if aaa.position==AVCaptureDevicePosition.Front
-                
-            {   cameraID=aaa.localizedName!
-                println(cameraID!)
-                println("got front camera")
-               /* if let ddd=aaa.device!
-                {
-                println("got device")
-                device[0]=aaa.device
-                }*/
-                //break
-            }        }
-
-*/
+   
         let captureDevice = AVCaptureDevice.devices();
         // Loop through all the capture devices on this phone
         for device in captureDevice {
@@ -150,6 +120,8 @@ createIceServer('turn:turn.anyfirewall.com:443?transport=tcp', 'webrtc', 'webrtc
         {
             rtcVideoTrack.addRenderer(localView)
         var addedVideoTrack=rtcMediaStream.addVideoTrack(rtcVideoTrack)
+            
+            
         println(addedVideoTrack)
         println("got video track")
             println(addedAudioStream)
@@ -157,26 +129,7 @@ createIceServer('turn:turn.anyfirewall.com:443?transport=tcp', 'webrtc', 'webrtc
         }
         pc.addStream(rtcMediaStream)
         peerConnection(pc, addedStream: rtcMediaStream)
-        
-        //localView.backgroundColor=(UIColor.redColor())
-        //localViewTop.backgroundColor=(UIColor.blueColor())
-        
-        
-        var cc=UIColor.redColor()
-        var cc1=UIColor.redColor()
-        
-        localView.layer.backgroundColor=cc.CGColor
-        localViewTop.layer.backgroundColor=cc1.CGColor
-        
-        
-        // rtcsurfaceview in renderer
-        //rtcVideoTrack.setEnabled(true)
-        //^^^^^^^^localView.sizeToFit()
-        
-        
-        
-        //rtcMediaStream.videoTracks[0].addRenderer(localView)
-        rtcMediaStream.videoTracks[0].addRenderer(rtcVideoRenderer)
+      
         rtcVideoTrack.addRenderer(localView)
         
         
@@ -301,7 +254,10 @@ RTCVideoTrack *videoTrack = [factory videoTrackWithID:videoId source:videoSource
         // Dispose of any resources that can be recreated.
     }
     override func viewWillAppear(animated: Bool) {
-       /* var cc=UIColor.redColor()
+       
+        self.localViewTop.setSize(CGSize(width: 500, height: 500))
+        
+        /* var cc=UIColor.redColor()
         var cc1=UIColor.redColor()
         
         localView.layer.backgroundColor=cc.CGColor
@@ -414,7 +370,25 @@ RTCVideoTrack *videoTrack = [factory videoTrackWithID:videoId source:videoSource
     */
     func peerConnection(peerConnection: RTCPeerConnection!, addedStream stream: RTCMediaStream!) {
         println("added stream")
-        
+        println(stream.videoTracks.count)
+        if(stream.videoTracks.count>0)
+        {
+            self.rtcVideoTrack1=stream.videoTracks[0] as! RTCVideoTrack
+             rtcVideoTrack1.addRenderer(localView)
+            localViewTop.setSize(CGSize(width: 300,height: 300))
+            localViewTop.setNeedsDisplayInRect(CGRect(x: 20,y: 20,width: 300,height: 300))
+            rtcVideoTrack1.addRenderer(localView)
+            
+        }
+        /*
+NSLog(@"Received %lu video tracks and %lu audio tracks",
+(unsigned long)stream.videoTracks.count,
+(unsigned long)stream.audioTracks.count);
+if (stream.videoTracks.count) {
+RTCVideoTrack *videoTrack = stream.videoTracks[0];
+[_delegate appClient:self didReceiveRemoteVideoTrack:videoTrack];
+*/
+
     }
     func peerConnection(peerConnection: RTCPeerConnection!, didOpenDataChannel dataChannel: RTCDataChannel!) {
         

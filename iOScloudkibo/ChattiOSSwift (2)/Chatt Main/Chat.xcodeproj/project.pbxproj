@@ -26,6 +26,7 @@
 		714560561B904DAA00C8E0D2 /* Contacts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 714560551B904DAA00C8E0D2 /* Contacts.swift */; };
 		7145605A1B905FE700C8E0D2 /* DatabaseHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 714560591B905FE700C8E0D2 /* DatabaseHandler.swift */; };
 		7145605C1B90875D00C8E0D2 /* Accounts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7145605B1B90875D00C8E0D2 /* Accounts.swift */; };
+		714626011BF3EC8E0026623C /* ChatAppClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 714626001BF3EC8E0026623C /* ChatAppClient.swift */; };
 		714639041B7D1624002084FF /* LoginAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 714639031B7D1624002084FF /* LoginAPI.swift */; };
 		714639061B7D41F9002084FF /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 714639051B7D41F9002084FF /* Constants.swift */; };
 		717C50831BE553D600ECE41E /* SQLite.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 717C507A1BE553C300ECE41E /* SQLite.framework */; };
@@ -215,6 +216,7 @@
 		714560551B904DAA00C8E0D2 /* Contacts.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Contacts.swift; sourceTree = "<group>"; };
 		714560591B905FE700C8E0D2 /* DatabaseHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DatabaseHandler.swift; sourceTree = "<group>"; };
 		7145605B1B90875D00C8E0D2 /* Accounts.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Accounts.swift; sourceTree = "<group>"; };
+		714626001BF3EC8E0026623C /* ChatAppClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatAppClient.swift; sourceTree = "<group>"; };
 		714638EF1B7D0F19002084FF /* Alamofire.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Alamofire.xcodeproj; path = "../../Alamofire-master/Alamofire.xcodeproj"; sourceTree = "<group>"; };
 		714639031B7D1624002084FF /* LoginAPI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginAPI.swift; sourceTree = "<group>"; };
 		714639051B7D41F9002084FF /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
@@ -324,6 +326,7 @@
 				713D65951BD8406400893721 /* CallRingingViewController.swift */,
 				71E922F91BEF991C00C1AFC3 /* Peer.swift */,
 				71E922FB1BEFF02C00C1AFC3 /* RoomService.swift */,
+				714626001BF3EC8E0026623C /* ChatAppClient.swift */,
 				5BF6363119A9F3D900ABD0BA /* Images.xcassets */,
 				714560491B904D6900C8E0D2 /* Models */,
 				5BF6362819A9F3D900ABD0BA /* Supporting Files */,
@@ -708,6 +711,7 @@
 				71E9BB8D1BA8E006001C895F /* NetworkingLibAlamofire.swift in Sources */,
 				717C50AF1BE56EC400ECE41E /* test.m in Sources */,
 				713D65961BD8406400893721 /* CallRingingViewController.swift in Sources */,
+				714626011BF3EC8E0026623C /* ChatAppClient.swift in Sources */,
 				717C509E1BE5544600ECE41E /* SocketEventHandler.swift in Sources */,
 				5B94184019B8D296006A9EAD /* MoreTableViewController.swift in Sources */,
 				717C509F1BE5544600ECE41E /* SocketFixUTF8.swift in Sources */,
