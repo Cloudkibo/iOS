@@ -36,8 +36,8 @@ class ChatAppClient:NSObject,RTCPeerConnectionDelegate, RTCSessionDescriptionDel
     static NSString *kARDTurnRequestUrl =
     @"https://computeengineondemand.appspot.com"
     @"/turn?username=iapprtc&key=4080218913";
+*/
 
-    */
     static var kARDAppClientErrorDomain:NSString="ChatAppclient"
     static var kARDAppClientErrorUnknown:NSInteger = -1
     static var kARDAppClientErrorRoomFull:NSInteger = -2
@@ -47,69 +47,156 @@ class ChatAppClient:NSObject,RTCPeerConnectionDelegate, RTCSessionDescriptionDel
     static var kARDAppClientErrorInvalidClient:NSInteger = -6
     static var kARDAppClientErrorInvalidRoom:NSInteger = -7
     var peerConnection:RTCPeerConnection!
-    var factory:RTCPeerConnectionFactory
-    var messageQueue:NSMutableArray
+    var factory:RTCPeerConnectionFactory!
+    var messageQueue:NSMutableArray!
     var isTurnComplete:Bool!
     var hasReceivedSdp:Bool!
-    var isRegisteredWithRoomServer:Bool
-    var roomId:NSString
-    var clientId:NSString
-    var isInitiator:Bool
-    var iceServers:NSMutableArray
-    var channel:AnyObject //ARDWebSocketChannel
-    var serverHostURL:NSString
-    var state:ChatAppClientState
-    ///var id:ChatAppClientDelegate
+    var isRegisteredWithRoomServer:Bool!
+    var roomId:NSString!
+    var clientId:NSString!
+    var isInitiator:Bool!
+    var iceServers:NSMutableArray!
+    var channel:AnyObject! //ARDWebSocketChannel
+    var serverHostURL:NSString!
+    var state:ChatAppClientState!
+    var delegate:ChatAppClientDelegate!
+    
 /* ARDAppClientState state;
 @property(nonatomic, weak) id<ARDAppClientDelegate> delegate;
 @property(nonatomic, strong) NSString *serverHostUrl;*/
     
    
-    static var kARDRoomServerHostUrl:NSString=""
-    static var kARDRoomServerRegisterFormat:NSString=""
-    static var kARDRoomServerMessageFormat:NSString=""
-    static var kARDRoomServerByeFormat:NSString=""
-    static var kARDDefaultSTUNServerUrl:NSString="fsfs"
-    static var kARDTurnRequestUrl:NSString=""
+    static var kARDRoomServerHostUrl:NSString="https://apprtc.appspot.com";
+    static var kARDRoomServerRegisterFormat:NSString="%@/join/%@"
+    static var kARDRoomServerMessageFormat:NSString="%@/message/%@/%@"
+    static var kARDRoomServerByeFormat:NSString="%@/leave/%@/%@"
+    static var kARDDefaultSTUNServerUrl:NSString="stun:stun.l.google.com:19302"
+    static var kARDTurnRequestUrl:NSString="https://computeengineondemand.appspot.com@/turn?username=iapprtc&key=4080218913";
+
     
     
-   override init()
+    init(delegate:ChatAppClientDelegate)
    {
-    
+    super.init()
+    self.delegate=delegate
     RTCPeerConnectionFactory.initializeSSL()
-    self.factory=RTCPeerConnectionFactory()
+    self.factory=RTCPeerConnectionFactory.alloc()
     messageQueue=NSMutableArray(array: [])
     iceServers=NSMutableArray(array: [ChatAppClient.kARDDefaultSTUNServerUrl])
     serverHostURL=ChatAppClient.kARDRoomServerHostUrl
+    
+    NSNotificationCenter.defaultCenter().addObserver(self, selector: "orientationChanged", name: UIDeviceOrientationDidChangeNotification, object: nil)
    
     
+    }
+    
+    deinit
+    {
+        NSNotificationCenter.defaultCenter().removeObserver(self, name: UIDeviceOrientationDidChangeNotification, object: nil)
+        self.disconnect()
+        
+    }
+    
+   
+    func orientationChanged(notification:NSNotification)
+    {
+        var orientation:UIDeviceOrientation=UIDevice.currentDevice().orientation
+        if(UIDeviceOrientationIsLandscape(orientation) || UIDeviceOrientationIsPortrait(orientation))
+        {//Remove current video track
+            var localStream:RTCMediaStream=self.peerConnection.localStreams[0] as! RTCMediaStream
+            localStream.removeVideoTrack(localStream.videoTracks[0] as! RTCVideoTrack)
+            var localVideoTrack:RTCVideoTrack!=self.createLocalVideoTrack()
+            if let lvt=localVideoTrack
+            {
+                localStream.addVideoTrack(localVideoTrack)
+                self.delegate.appClient(self, didReceiveLocalVideoTrack: localVideoTrack)
+                
+            }
+            self.peerConnection.removeStream(localStream)
+            self.peerConnection.addStream(localStream)
+            
+        }
+    }
+    
+    func createLocalVideoTrack()->RTCVideoTrack!
+    {
     
     }
+
+    func setState(state:ChatAppClientState)
+    {
+        if(self.state==state)
+        {return}
+        self.state=state
+        self.delegate.appClient(self, didChangeState: self.state)
+        
+    }
+    
+    func connectToRoomWithId(roomId:NSString,options:NSDictionary)
+    {
+        self.state=ChatAppClientState.kARDAppClientStateConnecting
+        // Request TURN.
+        weak var weakSelf:ChatAppClient!=self
+        var turnRequestURL:NSURL=NSURL(string: ChatAppClient.kARDTurnRequestUrl as String)!
+        /*
+[self requestTURNServersWithURL:turnRequestURL
+completionHandler:^(NSArray *turnServers) {
+ARDAppClient *strongSelf = weakSelf;
+[strongSelf.iceServers addObjectsFromArray:turnServers];
+strongSelf.isTurnComplete = YES;
+[strongSelf startSignalingIfReady];
+}];*/
+        
+        // Register with room server.
+        
+        
+    }
+    func disconnect()
+    {
+        if self.state==ChatAppClientState.kARDAppClientStateDisconnected
+        return
+        
+        if((self.isRegisteredWithRoomServer) != nil)
+        {
+            self.unregisterWithRoomServer()
+        }
+        if(self.channel!=nil)
+        //if(self.channel.state == ChatAppClient.kar
+    }
+    func unregisterWithRoomServer()
+    {}
     
     /*
 
-@interface ARDAppClient () <ARDWebSocketChannelDelegate,
-RTCPeerConnectionDelegate, RTCSessionDescriptionDelegate>
-@property(nonatomic, strong) ARDWebSocketChannel *channel;
-
-    (instancetype)initWithDelegate:(id<ARDAppClientDelegate>)delegate {
-    if (self = [super init]) {
-    _delegate = delegate;
-    _factory = [[RTCPeerConnectionFactory alloc] init];
-    _messageQueue = [NSMutableArray array];
-    _iceServers = [NSMutableArray arrayWithObject:[self defaultSTUNServer]];
-    _serverHostUrl = kARDRoomServerHostUrl;
-    
-    [[NSNotificationCenter defaultCenter] addObserver:self
-    selector:@selector(orientationChanged:)
-    name:@"UIDeviceOrientationDidChangeNotification"
-    object:nil];
+  
+    - (void)disconnect {
+    if (_state == kARDAppClientStateDisconnected) {
+    return;
     }
-    return self;
- 
-   
+    if (self.isRegisteredWithRoomServer) {
+    [self unregisterWithRoomServer];
+    }
+    if (_channel) {
+    if (_channel.state == kARDWebSocketChannelStateRegistered) {
+    // Tell the other client we're hanging up.
+    ARDByeMessage *byeMessage = [[ARDByeMessage alloc] init];
+    NSData *byeData = [byeMessage JSONData];
+    [_channel sendData:byeData];
+    }
+    // Disconnect from collider.
+    _channel = nil;
+    }
+    _clientId = nil;
+    _roomId = nil;
+    _isInitiator = NO;
+    _hasReceivedSdp = NO;
+    _messageQueue = [NSMutableArray array];
+    _peerConnection = nil;
+    self.state = kARDAppClientStateDisconnected;
+    }
 */
-    
+
+
     func peerConnection(peerConnection: RTCPeerConnection!, addedStream stream: RTCMediaStream!) {
         println("added stream")
         
@@ -159,20 +246,5 @@ protocol ChatAppClientDelegate
     //func game(game: DiceGame, didStartNewTurnWithDiceRoll diceRoll: Int)
 }
 
-/*
-@protocol ARDAppClientDelegate <NSObject>
 
-- (void)appClient:(ARDAppClient *)client
-didChangeState:(ARDAppClientState)state;
-
-- (void)appClient:(ARDAppClient *)client
-didReceiveLocalVideoTrack:(RTCVideoTrack *)localVideoTrack;
-
-- (void)appClient:(ARDAppClient *)client
-didReceiveRemoteVideoTrack:(RTCVideoTrack *)remoteVideoTrack;
-
-- (void)appClient:(ARDAppClient *)client
-didError:(NSError *)error;
-
-*/
 
