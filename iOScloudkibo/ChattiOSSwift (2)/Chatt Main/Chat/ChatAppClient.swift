@@ -22,7 +22,17 @@ enum ChatAppClientState:NSInteger{
 }
 class ChatAppClient:NSObject,RTCPeerConnectionDelegate, RTCSessionDescriptionDelegate
 {
+    var mainICEServerURL:NSURL=NSURL(fileURLWithPath: Constants.MainUrl)!
+    
+    var rtcICEarray:[RTCICEServer]=[]
+    
+    //var roomServer=RoomService(id: _id!)
+    ////self.pc=roomServer.peers[0].getPC()
+    //roomServer.joinRoom(_id!)
+    //roomServer.makeOffer(_id!)
+    
    
+
     /*
     static NSString *kARDRoomServerHostUrl =
     @"https://apprtc.appspot.com";
@@ -69,12 +79,13 @@ class ChatAppClient:NSObject,RTCPeerConnectionDelegate, RTCSessionDescriptionDel
 @property(nonatomic, strong) NSString *serverHostUrl;*/
     
    
-    static var kARDRoomServerHostUrl:NSString="https://apprtc.appspot.com";
+    static var kARDRoomServerHostUrl:NSString=Constants.MainUrl
     static var kARDRoomServerRegisterFormat:NSString="%@/join/%@"
     static var kARDRoomServerMessageFormat:NSString="%@/message/%@/%@"
     static var kARDRoomServerByeFormat:NSString="%@/leave/%@/%@"
     static var kARDDefaultSTUNServerUrl:NSString="stun:stun.l.google.com:19302"
-    static var kARDTurnRequestUrl:NSString="https://computeengineondemand.appspot.com@/turn?username=iapprtc&key=4080218913";
+    //static var kARDTurnRequestUrl:NSString="https://computeengineondemand.appspot.com@/turn?username=iapprtc&key=4080218913";
+    static var kARDTurnRequestUrl:NSString="turn:45.55.232.65:3478?transport=udp"
 
     
     
@@ -91,7 +102,17 @@ class ChatAppClient:NSObject,RTCPeerConnectionDelegate, RTCSessionDescriptionDel
     NSNotificationCenter.defaultCenter().addObserver(self, selector: "orientationChanged", name: UIDeviceOrientationDidChangeNotification, object: nil)
    
     //===========================================================================================
+    
+    self.rtcICEarray.append(RTCICEServer(URI: NSURL(string:"turn:45.55.232.65:3478?transport=udp"), username: "cloudkibo", password: "cloudkibo"))
+    rtcICEarray.append(RTCICEServer(URI: NSURL(string:"turn:45.55.232.65:3478?transport=tcp"), username: "cloudkibo", password: "cloudkibo"))
+    rtcICEarray.append(RTCICEServer(URI: NSURL(string:"stun:stun.l.google.com:19302"), username: "", password: ""))
+    rtcICEarray.append(RTCICEServer(URI: NSURL(string:"stun:23.21.150.121"), username: "", password: ""))
+    rtcICEarray.append(RTCICEServer(URI: NSURL(string:"stun:stun.anyfirewall.com:3478"), username: "", password: ""))
+    rtcICEarray.append(RTCICEServer(URI: NSURL(string:"turn:turn.bistri.com:80?transport=udp"), username: "homeo", password: "homeo"))
+    rtcICEarray.append(RTCICEServer(URI: NSURL(string:"turn:turn.bistri.com:80?transport=tcp"), username: "homeo", password: "homeo"))
+    rtcICEarray.append(RTCICEServer(URI: NSURL(string:"turn:turn.anyfirewall.com:443?transport=tcp"), username: "webrtc", password: "webrtc"))
     addHandlers(socketObj.socket)
+    startSignallingIfReady()
     
     }
     
@@ -254,11 +275,13 @@ strongSelf.isTurnComplete = YES;
             self.unregisterWithRoomServer()
         }
         //if socket is connected
-        if((self.channel) != nil)
+        if((self.channel) != nil || socketObj.socket.connected)
         {
             //if(self.channel.state ==
             //if socket is connected
             //// Tell the other client we're hanging up. send bye message through socket
+            socketObj.socket.emit("bye")
+            println("message sent BYE")
         
         }
         //if(self.channel.state == ChatAppClient.kar
@@ -460,10 +483,105 @@ strongSelf.isTurnComplete = YES;
 
 */
     func peerConnection(peerConnection: RTCPeerConnection!, didSetSessionDescriptionWithError error: NSError!) {
+        println("didsetpeerconnecxn with error")
+    }
+    
+    func isRegisteredWithRoomServerFunc()
+    {
+        if(self.clientId.length>0)
+        {self.isRegisteredWithRoomServer=true}
+        else
+            {self.isRegisteredWithRoomServer=false}
+    }
+    func startSignallingIfReady()
+    {println("inside signalling")
+        /*^^^^^^if(self.isTurnComplete==false || self.isRegisteredWithRoomServer==false)
+        {
+        return;
+        }*/
+        self.state=ChatAppClientState.kARDAppClientStateConnected
+        socketObj.socket.connect()
+        
+        //Create Peer connection
+        var constraints:RTCMediaConstraints=self.defaultPeerConnectionConstraints()
+        self.factory=RTCPeerConnectionFactory.alloc()
+        self.peerConnection=RTCPeerConnection.alloc()
+        self.peerConnection=self.factory.peerConnectionWithICEServers(nil, constraints: nil, delegate: self)
+        var localStream:RTCMediaStream=createLocalMediaStream()
+        self.peerConnection.addStream(localStream)
+        if(isInitiator==true)
+        {
+            self.sendOffer()
+        }
+        else
+        {
+            self.waitForAnswer()
+        }
+    }
+    
+    func sendOffer(){
+        self.peerConnection.createOfferWithDelegate(self, constraints: defaultOfferConstraints())
+    }
+    func waitForAnswer()
+    {
+        self.drainMessageQueueIfReady()
+    }
+    
+    
+    /*
+    
+    - (void)drainMessageQueueIfReady {
+    if (!_peerConnection || !_hasReceivedSdp) {
+    return;
+    }
+    for (ARDSignalingMessage *message in _messageQueue) {
+    [self processSignalingMessage:message];
+    }
+    [_messageQueue removeAllObjects];
+    }
+
+
+*/
+   
+    func defaultMediaStreamConstraints()->RTCMediaConstraints
+    {
+        var constraints:RTCMediaConstraints=RTCMediaConstraints(mandatoryConstraints: nil, optionalConstraints: nil)
+        return constraints
+    }
+    func defaultOfferConstraints()->RTCMediaConstraints
+    {
+        var mandatoryConstraints:NSArray=[RTCPair(key: "OfferToReceiveAudio", value: "true"),RTCPair(key: "OfferToReceiveVideo", value: "true")]
+        var constraints:RTCMediaConstraints=RTCMediaConstraints(mandatoryConstraints: mandatoryConstraints as [AnyObject], optionalConstraints: nil)
+        return constraints
+
         
     }
     
+    func defaultAnswerConstraints()->RTCMediaConstraints
+    {
+        return self.defaultOfferConstraints()
+    }
+    
+    func defaultPeerConnectionConstraints()->RTCMediaConstraints
+    {
+        var optionalConstraints:NSArray=[RTCPair(key: "DtlsSrtpKeyAgreement", value: "true")]
+        var constraints:RTCMediaConstraints=RTCMediaConstraints(mandatoryConstraints: nil, optionalConstraints: optionalConstraints as [AnyObject])
+        return constraints
+
+        
+    }
+    func defaultSTUNServer()->RTCICEServer
+    {
+        var defaultSTUNServerURL=rtcICEarray[3].URI
+        println(defaultSTUNServerURL.debugDescription)
+        return rtcICEarray[3]
+    }
+    
+    /*
+    
    
+
+*/
     
 }
 

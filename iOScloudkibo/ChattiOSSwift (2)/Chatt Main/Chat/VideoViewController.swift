@@ -10,12 +10,141 @@ import UIKit
 import AVFoundation
 import Foundation
 
-class VideoViewController: UIViewController,RTCPeerConnectionDelegate,RTCSessionDescriptionDelegate {
-
+class VideoViewController: UIViewController,ChatAppClientDelegate,RTCEAGLVideoViewDelegate {
+    
+    func videoView(videoView: RTCEAGLVideoView!, didChangeVideoSize size: CGSize) {
+        
+        println("video size changed")
+    }
+    
     @IBOutlet var localViewTop: RTCEAGLVideoView!
     
     @IBOutlet weak var localViewTrailing: NSLayoutConstraint!
     
+    @IBOutlet weak var localViewLeading: NSLayoutConstraint!
+    var rtcMediaStream:RTCMediaStream!
+    var rtcFact:RTCPeerConnectionFactory!
+    var pc:RTCPeerConnection!
+    var rtcLocalVideoTrack:RTCVideoTrack!
+    var rtcMediaConst:RTCMediaConstraints!
+    var rtcVideoSource:RTCVideoSource!
+    var rtcVideoCapturer:RTCVideoCapturer!
+    var rtcRemoteVideoTrack:RTCVideoTrack!
+    var rtcVideoRenderer:RTCVideoRenderer!
+    var abc:RTCVideoTrack!!
+    var client:ChatAppClient!
+   
+    @IBOutlet weak var remoteView: RTCEAGLVideoView!
+    @IBOutlet weak var localView: RTCEAGLVideoView!
+    override func viewDidLoad() {
+        super.viewDidLoad()
+
+        println("inside video view controller class")
+        
+        //self.remoteView.delegate=self
+        
+        
+        
+    }
+    
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+        // Dispose of any resources that can be recreated.
+    }
+    override func viewWillAppear(animated: Bool) {
+        self.client=ChatAppClient(delegate: self)
+        
+    }
+    
+    /*
+
+//Display the Local View full screen while connecting to Room
+[self.localViewBottomConstraint setConstant:0.0f];
+[self.localViewRightConstraint setConstant:0.0f];
+[self.localViewHeightConstraint setConstant:self.view.frame.size.height];
+[self.localViewWidthConstraint setConstant:self.view.frame.size.width];
+[self.footerViewBottomConstraint setConstant:0.0f];
+
+//Connect to the room
+[self disconnect];
+self.client = [[ARDAppClient alloc] initWithDelegate:self];
+[self.client setServerHostUrl:SERVER_HOST_URL];
+[self.client connectToRoomWithId:self.roomName options:nil];
+
+[self.urlLabel setText:self.roomUrl];
+*/
+    func appClient(client: ChatAppClient, didChangeState state: ChatAppClientState) {
+        switch (state) {
+        case ChatAppClientState.kARDAppClientStateConnected:
+           println("Client connected.")
+            break;
+        case ChatAppClientState.kARDAppClientStateConnecting:
+           println("Client connecring.")
+           break;
+        case .kARDAppClientStateDisconnected:
+            println("client disconnected")
+            
+           // [self remoteDisconnected];
+            break;
+        }
+    }
+    func appClient(client: ChatAppClient, didError error: NSError) {
+        println("errorrrrrrrr")
+        
+        
+    }
+    func appClient(client: ChatAppClient, didReceiveLocalVideoTrack localVideoTrack: RTCVideoTrack) {
+     if let lvt=self.rtcLocalVideoTrack
+     {
+    self.rtcLocalVideoTrack.removeRenderer(self.localView)
+        self.rtcLocalVideoTrack=nil
+        self.localView.renderFrame(nil)
+    }
+        self.rtcLocalVideoTrack=localVideoTrack
+        self.rtcLocalVideoTrack.addRenderer(self.localView)
+    }
+    func appClient(client: ChatAppClient, didReceiveRemoteVideoTrack remoteVideoTrack: RTCVideoTrack) {
+        self.rtcRemoteVideoTrack=remoteVideoTrack
+        self.rtcRemoteVideoTrack.addRenderer(self.remoteView)
+        UIView.animateWithDuration(0.4, animations: { () -> Void in
+            self.view.layoutIfNeeded()
+        })
+    }
+    
+    
+    /*
+
+- (void)appClient:(ARDAppClient *)client didReceiveRemoteVideoTrack:(RTCVideoTrack *)remoteVideoTrack {
+self.remoteVideoTrack = remoteVideoTrack;
+[self.remoteVideoTrack addRenderer:self.remoteView];
+
+[UIView animateWithDuration:0.4f animations:^{
+[self.localViewBottomConstraint setConstant:28.0f];
+[self.localViewRightConstraint setConstant:28.0f];
+[self.localViewHeightConstraint setConstant:self.view.frame.size.height/4.0f];
+[self.localViewWidthConstraint setConstant:self.view.frame.size.width/4.0f];
+[self.footerViewBottomConstraint setConstant:-80.0f];
+[self.view layoutIfNeeded];
+}];
+}
+
+- (void)appClient:(ARDAppClient *)client didError:(NSError *)error {
+UIAlertView* alertView = [[UIAlertView alloc] initWithTitle:nil
+message:[NSString stringWithFormat:@"%@", error]
+delegate:nil
+cancelButtonTitle:@"OK"
+otherButtonTitles:nil];
+[alertView show];
+[self disconnect];
+}*/
+
+
+/*class VideoViewController: UIViewController,RTCPeerConnectionDelegate,RTCSessionDescriptionDelegate {
+
+    @IBOutlet var localViewTop: RTCEAGLVideoView!
+
+    @IBOutlet weak var localViewTrailing: NSLayoutConstraint!
+
     @IBOutlet weak var localViewLeading: NSLayoutConstraint!
     var rtcMediaStream:RTCMediaStream!
     var rtcFact:RTCPeerConnectionFactory!
@@ -256,7 +385,7 @@ RTCVideoTrack *videoTrack = [factory videoTrackWithID:videoId source:videoSource
     override func viewWillAppear(animated: Bool) {
        
         self.localViewTop.setSize(CGSize(width: 500, height: 500))
-        
+    
         /* var cc=UIColor.redColor()
         var cc1=UIColor.redColor()
         
@@ -418,4 +547,6 @@ RTCVideoTrack *videoTrack = stream.videoTracks[0];
     func peerConnection(peerConnection: RTCPeerConnection!, didSetSessionDescriptionWithError error: NSError!) {
         
     }
+    
+    */
 }

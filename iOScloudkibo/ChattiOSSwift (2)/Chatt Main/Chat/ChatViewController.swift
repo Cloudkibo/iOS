@@ -461,7 +461,12 @@ class ChatViewController: UIViewController {
         }
         
         
-        
+        socketObj.socket.on("yesiamfreeforcall"){data,ack in
+            var message=JSON(data!)
+            
+        socketObj.socket.emit("othersideringing", ["callee": message["me"].string!])
+            
+        }
         currrentUsernameRetrieved=KeychainWrapper.stringForKey("username")!
         socketObj.socket.on("areyoufreeforcall") {data,ack in
             var jdata=JSON(data!)
@@ -491,6 +496,7 @@ class ChatViewController: UIViewController {
 
                 
                 socketObj.socket.emit("message","Accept Call")
+                socketObj.socket.emit("message","Accept")
                 
                 //show screen
             }
