@@ -8,6 +8,8 @@
 
 import Foundation
 import SwiftyJSON
+import UIKit
+import AVFoundation
 
 enum ChatAppClientState:NSInteger{
     // Disconnected from servers.
@@ -121,11 +123,97 @@ class ChatAppClient:NSObject,RTCPeerConnectionDelegate, RTCSessionDescriptionDel
         }
     }
     
-    func createLocalVideoTrack()->RTCVideoTrack!
+    
+    /*func createLocalVideoTrack1()->RTCVideoTrack!
     {
     
     }
+    */
+    func createLocalVideoTrack()->RTCVideoTrack
+    {
+        var cameraID:NSString!
+        for aaa in AVCaptureDevice.devicesWithMediaType(AVMediaTypeVideo)
+        {
+            if aaa.position==AVCaptureDevicePosition.Front
+            {
+                //println(aaa.description)
+                //println(aaa.deviceCurrentTime)
+                //println(aaa.localizedName!)
+                //println(aaa.localStreams.description!)
+                //println(aaa.localizedModel!)
+                cameraID=aaa.localizedName!!
+                //println(aaa.description)
+                //println(aaa.localizedDescription)
+                println(cameraID!)
+                println("got front camera")
+                break
+            }
+            
+        }
+        if cameraID==nil
+            
+        {println("failed to get camera")}
+        
+        //AVCaptureDevice
+        var rtcVideoCapturer=RTCVideoCapturer(deviceName: cameraID! as String)
+        
+        println(rtcVideoCapturer.debugDescription)
+        var rtcMediaConst=RTCMediaConstraints(mandatoryConstraints: nil, optionalConstraints: nil)
+        //RTCMediaConstraints(mandatoryConstraints: nil, optionalConstraints: nil)
+        println(rtcMediaConst.debugDescription)
+        //var rtcVideoSource:RTCVideoSource
+        //rtcVideoSource.
+        //rtcVideoCapturer=rtcVideoCapturer()
+        var rtcVideoSource=self.factory.videoSourceWithCapturer(rtcVideoCapturer, constraints: nil)
+        println("outttt")
+        println(rtcVideoSource.debugDescription)
+        
+        var rtcVideoTrack1=RTCVideoTrack(factory: self.factory!, source: rtcVideoSource, trackId: "sss")
+        //rtcVideoTrack=rtcFact.videoTrackWithID("sss", source: rtcVideoSource)
+        println("out of error")
+        return rtcVideoTrack1
+    }
 
+    func createLocalMediaStream()->RTCMediaStream
+    {
+        var mediaStreamLabel:String!
+        var mediaAudioLabel:String!
+        mediaStreamLabel="kibo"
+        mediaAudioLabel="kiboa1"
+        var localStream:RTCMediaStream!
+        
+        //localStream=rtcFact.mediaStreamWithLabel("kibo")
+        
+        var localVideoTrack:RTCVideoTrack!=createLocalVideoTrack()
+        
+        if let lvt=localVideoTrack
+        {
+            localStream.addVideoTrack(localVideoTrack)
+            self.delegate.appClient(self, didReceiveLocalVideoTrack: localVideoTrack)
+            
+            
+        }
+        localStream.addAudioTrack(self.factory.audioTrackWithID("Chata0"))
+        println("localStreammm ")
+        print(localStream.description)
+        //localVideoTrack.addRenderer(localView)
+        return localStream
+        /*
+        
+        RTCMediaStream* localStream = [_factory mediaStreamWithLabel:@"ARDAMS"];
+        
+        RTCVideoTrack *localVideoTrack = [self createLocalVideoTrack];
+        if (localVideoTrack) {
+        [localStream addVideoTrack:localVideoTrack];
+        [_delegate appClient:self didReceiveLocalVideoTrack:localVideoTrack];
+        }
+        
+        [localStream addAudioTrack:[_factory audioTrackWithID:@"ARDAMSa0"]];
+        return localStream;
+        */
+        
+        
+    }
     func setState(state:ChatAppClientState)
     {
         if(self.state==state)
