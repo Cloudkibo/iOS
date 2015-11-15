@@ -602,7 +602,7 @@ class ChatViewController: UIViewController {
                         self.ContactLastNAme.append(contactsJsonObj[i]["contactid"]["lastname"].string!)
                         self.ContactStatus.append(contactsJsonObj[i]["contactid"]["status"].string!)
                         self.ContactOnlineStatus.append(0)
-                        
+                    
                         
                         if let rowid = insert.rowid {
                             println("inserted id: \(rowid)")

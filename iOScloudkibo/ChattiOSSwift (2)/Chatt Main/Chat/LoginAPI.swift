@@ -12,6 +12,27 @@ import SwiftyJSON
 import UIKit
 import SQLite
 
+enum ChatAppSocketChannelState:NSInteger{
+    
+    case kARDWebSocketChannelStateClosed
+    // State when connection is established but not ready for use.
+    case kARDWebSocketChannelStateOpen
+    // State when connection is established and registered.
+    case kARDWebSocketChannelStateRegistered
+    // State when connection encounters a fatal error.
+    case kARDWebSocketChannelStateError
+    
+}
+
+/*
+kARDWebSocketChannelStateClosed,
+// State when connection is established but not ready for use.
+kARDWebSocketChannelStateOpen,
+// State when connection is established and registered.
+kARDWebSocketChannelStateRegistered,
+// State when connection encounters a fatal error.
+kARDWebSocketChannelStateError*/
+
 class LoginAPI{
     
     var socket:SocketIOClient
@@ -41,6 +62,13 @@ class LoginAPI{
             
             println("you onlineeee \(ack)")
         }
+        
+      /*  socket.on("msg") {data,ack in
+           
+            //println("you onlineeee \(ack)")
+            
+        }
+*/
       
         
         /*
@@ -94,9 +122,35 @@ class LoginAPI{
     {
         
     }
-    func sendMessage(var msg:String)
+    func sendMessage(var msg:String,para:[AnyObject!])
     {
-        
-    }
-    
+        socket.emit(msg, para)
+        println("Socket emitted \(msg) \(para.debugDescription)")
+        //ChatAppSocketDelegate.channel(socket,didReceiveMessage:msg)
 }
+   
+}
+
+protocol ChatAppSocketDelegate
+{
+    func channel(channel:SocketIOClient ,didChangeState state:ChatAppSocketChannelState);
+     func channel(channel:SocketIOClient,didReceiveMessage message:String);
+    //socket.on(message
+    /*
+    example:
+socketObj.socket.on("online")
+{data,ack in
+
+println("online status...")
+var onlineUsers=JSON(data!)
+*/
+    /*
+    - (void)channel:(ARDWebSocketChannel *)channel
+    didChangeState:(ARDWebSocketChannelState)state;
+    
+    - (void)channel:(ARDWebSocketChannel *)channel
+    didReceiveMessage:(ARDSignalingMessage *)message;
+    
+    */
+}
+

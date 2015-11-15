@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import SwiftyJSON
 
 enum ChatAppClientState:NSInteger{
     // Disconnected from servers.
@@ -87,6 +88,8 @@ class ChatAppClient:NSObject,RTCPeerConnectionDelegate, RTCSessionDescriptionDel
     
     NSNotificationCenter.defaultCenter().addObserver(self, selector: "orientationChanged", name: UIDeviceOrientationDidChangeNotification, object: nil)
    
+    //===========================================================================================
+    addHandlers(socketObj.socket)
     
     }
     
@@ -153,59 +156,165 @@ strongSelf.isTurnComplete = YES;
     }
     func disconnect()
     {
+        println("inside disconnect function")
         if self.state==ChatAppClientState.kARDAppClientStateDisconnected
-        return
+        {println("chat app client disconnected")
+            return}
         
         if((self.isRegisteredWithRoomServer) != nil)
         {
             self.unregisterWithRoomServer()
         }
-        if(self.channel!=nil)
+        //if socket is connected
+        if((self.channel) != nil)
+        {
+            //if(self.channel.state ==
+            //if socket is connected
+            //// Tell the other client we're hanging up. send bye message through socket
+        
+        }
         //if(self.channel.state == ChatAppClient.kar
+        self.clientId=nil
+        self.roomId=nil
+        self.isInitiator=false
+        self.hasReceivedSdp=false
+        self.messageQueue=NSMutableArray(array: [])
+        self.peerConnection=nil
+        self.state = ChatAppClientState.kARDAppClientStateDisconnected
     }
     func unregisterWithRoomServer()
-    {}
+    {
+    
+    }
+    func addHandlers(socket:SocketIOClient)
+    {
+        socketObj.socket.on("msg")
+            {data,ack in
+                
+                println("received msg from socket")
+                var message=JSON(data!)
+                
+                //var pc=RTCPeerConnection.alloc()
+                switch (message["type"])
+                {
+                    case "offer":println("msg is offer")
+                    case "answer":println("msg is answer")
+                                self.hasReceivedSdp=true
+                    self.messageQueue.insertObject(data!, atIndex: 0)
+                    break
+                    case "ice":println("msg is ices")
+                        self.messageQueue.addObject(data!)
+                default: println("msg type is invalid")
+                }
+            }
+        self.drainMessageQueueIfReady()
+        
+        
+    }
+    
+    func drainMessageQueueIfReady()
+    {
+        if((self.peerConnection) == nil || self.hasReceivedSdp==false)
+        {
+         return
+        }
+        for message in self.messageQueue
+        {
+            self.processSignallingMessage(message as! NSArray)
+        }
+        self.messageQueue.removeAllObjects()
+        
+    }
+    func processSignallingMessage(data:NSArray!)
+    {
+        var message=JSON(data!)
+        if((self.peerConnection) != nil)//NSParameterAssert(_peerConnection || message.type == kARDSignalingMessageTypeBye);
+        {
+            
+          switch(message["type"])
+          {
+            
+            case "offer":println("processing msg offer")
+            case "answer":
+                println("processing msg answer");
+                var description=RTCSessionDescription(type:"answer",sdp: message["sdp"].string!)
+                self.peerConnection.setRemoteDescriptionWithDelegate(self, sessionDescription: description)
+                break
+            
+            case "ice":println("processing msg ice candidate")
+            var candidate=RTCICECandidate(mid: message["ice"]["sdpMid"].string!,index: message["ice"]["sdpMLineIndex"].intValue,sdp: message["ice"]["candidate"].string!)
+            var success=self.peerConnection.addICECandidate(candidate)
+            println(success)
+          default: println("processing invalid msg")
+        }
+        }
+        
+    }
+    
+    func sendSignallingMessage(message:NSObject)
+    {
+        if(self.isInitiator==true)
+        {//send to room server
+        }
+        else
+            {//send to collider
+            }
+    }
     
     /*
+//WEBSOCKETDELEGATE
+    
+    - (void)channel:(ARDWebSocketChannel *)channel
+    didChangeState:(ARDWebSocketChannelState)state {
+    switch (state) {
+    case kARDWebSocketChannelStateOpen:
+    break;
+    case kARDWebSocketChannelStateRegistered:
+    break;
+    case kARDWebSocketChannelStateClosed:
+    case kARDWebSocketChannelStateError:
+    // TODO(tkchin): reconnection scenarios. Right now we just disconnect
+    // completely if the websocket connection fails.
+    [self disconnect];
+    break;
+    }
+    }
+    - (void)sendSignalingMessage:(ARDSignalingMessage *)message {
+    if (_isInitiator) {
+    [self sendSignalingMessageToRoomServer:message completionHandler:nil];
+    } else {
+    [self sendSignalingMessageToCollider:message];
+    }
+    }
 
-  
-    - (void)disconnect {
-    if (_state == kARDAppClientStateDisconnected) {
-    return;
-    }
-    if (self.isRegisteredWithRoomServer) {
-    [self unregisterWithRoomServer];
-    }
-    if (_channel) {
-    if (_channel.state == kARDWebSocketChannelStateRegistered) {
-    // Tell the other client we're hanging up.
-    ARDByeMessage *byeMessage = [[ARDByeMessage alloc] init];
-    NSData *byeData = [byeMessage JSONData];
-    [_channel sendData:byeData];
-    }
-    // Disconnect from collider.
-    _channel = nil;
-    }
-    _clientId = nil;
-    _roomId = nil;
-    _isInitiator = NO;
-    _hasReceivedSdp = NO;
-    _messageQueue = [NSMutableArray array];
-    _peerConnection = nil;
-    self.state = kARDAppClientStateDisconnected;
-    }
+   
+
+   
+    
 */
 
 
     func peerConnection(peerConnection: RTCPeerConnection!, addedStream stream: RTCMediaStream!) {
         println("added stream")
+        dispatch_async(dispatch_get_main_queue(), { () -> Void in
+            println("received \(stream.videoTracks.count) video tracks and \(stream.audioTracks.count) audio tracks")
+            if (stream.videoTracks.count>0) {
+                var videoTrack:RTCVideoTrack=stream.videoTracks[0] as! RTCVideoTrack
+                self.delegate.appClient(self, didReceiveRemoteVideoTrack: videoTrack)
+            }
+        })
         
-    }
+        }
     func peerConnection(peerConnection: RTCPeerConnection!, didOpenDataChannel dataChannel: RTCDataChannel!) {
         
     }
     func peerConnection(peerConnection: RTCPeerConnection!, gotICECandidate candidate: RTCICECandidate!) {
         println("got ice candidate")
+        dispatch_async(dispatch_get_main_queue(), { () -> Void in
+            self.sendSignallingMessage(["mid":candidate.sdpMid,"sdp":candidate.sdp,"index":candidate.sdpMLineIndex])
+            
+            
+        })
     }
     func peerConnection(peerConnection: RTCPeerConnection!, iceConnectionChanged newState: RTCICEConnectionState) {
         
@@ -217,6 +326,7 @@ strongSelf.isTurnComplete = YES;
         
     }
     func peerConnection(peerConnection: RTCPeerConnection!, signalingStateChanged stateChanged: RTCSignalingState) {
+        println("signalling state changed \(stateChanged)")
         
     }
     func peerConnectionOnRenegotiationNeeded(peerConnection: RTCPeerConnection!) {
@@ -224,8 +334,43 @@ strongSelf.isTurnComplete = YES;
     }
     
     func peerConnection(peerConnection: RTCPeerConnection!, didCreateSessionDescription sdp: RTCSessionDescription!, error: NSError!) {
-        
+        if((error) != nil)
+        {
+            println("failed to create session desc \(error.debugDescription)")
+            self.disconnect()
+            return
+        }
+        self.peerConnection.setLocalDescriptionWithDelegate(self, sessionDescription: sdp)
     }
+    /*
+    
+    - (void)peerConnection:(RTCPeerConnection *)peerConnection
+    didCreateSessionDescription:(RTCSessionDescription *)sdp
+    error:(NSError *)error {
+    dispatch_async(dispatch_get_main_queue(), ^{
+    if (error) {
+    NSLog(@"Failed to create session description. Error: %@", error);
+    [self disconnect];
+    NSDictionary *userInfo = @{
+    NSLocalizedDescriptionKey: @"Failed to create session description.",
+    };
+    NSError *sdpError =
+    [[NSError alloc] initWithDomain:kARDAppClientErrorDomain
+    code:kARDAppClientErrorCreateSDP
+    userInfo:userInfo];
+    [_delegate appClient:self didError:sdpError];
+    return;
+    }
+    [_peerConnection setLocalDescriptionWithDelegate:self
+    sessionDescription:sdp];
+    ARDSessionDescriptionMessage *message =
+    [[ARDSessionDescriptionMessage alloc] initWithDescription:sdp];
+    [self sendSignalingMessage:message];
+    });
+    }
+    
+
+*/
     func peerConnection(peerConnection: RTCPeerConnection!, didSetSessionDescriptionWithError error: NSError!) {
         
     }
@@ -240,11 +385,12 @@ protocol ChatAppClientDelegate
     
     func appClient(client:ChatAppClient,didChangeState state:ChatAppClientState);
     func appClient(client:ChatAppClient,didReceiveLocalVideoTrack localVideoTrack:RTCVideoTrack);
-    func appClient(client:ChatAppClient,didReceiveRemoteVideoTrack remoteVideoTrack:ChatAppClientState);
+    func appClient(client:ChatAppClient,didReceiveRemoteVideoTrack remoteVideoTrack:RTCVideoTrack);
     func appClient(client:ChatAppClient,didError error:NSError);
     
     //func game(game: DiceGame, didStartNewTurnWithDiceRoll diceRoll: Int)
 }
+
 
 
 
