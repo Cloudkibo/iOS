@@ -165,7 +165,8 @@ class VideoViewController: UIViewController,RTCPeerConnectionDelegate,RTCSession
     var rtcVideoTrack:RTCVideoTrack!
     var rtcVideoRenderer:RTCVideoRenderer!
     var abc:RTCVideoTrack!!
-   
+    var currentId:String!
+    var by:String!
     
     func randomStringWithLength (len : Int) -> NSString {
         
@@ -182,10 +183,65 @@ class VideoViewController: UIViewController,RTCPeerConnectionDelegate,RTCSession
         return randomString
     }
     
+    
+    func addHandlers()
+    {
+        socketObj.socket.on("msg"){data,ack in
+            println("msg reeived.. check if offer answer or ice")
+            var msg=JSON(data!)
+            println(msg.debugDescription)
+            
+            if(msg[0]["type"].string! == "offer")
+            {
+                var sessionDescription=RTCSessionDescription(type: "offer", sdp: msg[0]["sdp"]["sdp"].string!)
+                self.pc.setRemoteDescriptionWithDelegate(self, sessionDescription: sessionDescription)
+                self.by=msg[0]["by"].debugDescription
+               // socketObj.socket.emit("msg",["by":currentId!,"to":msg["by"].string!])
+                
+            }
+            if(msg[0]["type"].string! == "answer")
+            {
+                var sessionDescription=RTCSessionDescription(type: "answer", sdp: msg[0]["sdp"]["sdp"].string!)
+                self.pc.setRemoteDescriptionWithDelegate(self, sessionDescription: sessionDescription)
+                                // socketObj.socket.emit("msg",["by":currentId!,"to":msg["by"].string!])
+                
+            }
+            
+            /*
+            
+            pc.setLocalDescription(sdp);
+            socket.emit('msg', { by: currentId, to: data.by, sdp: sdp, type: 'answer' });
+            if((self.peerConnection) != nil)//NSParameterAssert(_peerConnection || message.type == kARDSignalingMessageTypeBye);
+            {
+            
+            switch(message["type"])
+            {
+            
+            case "offer":println("processing msg offer")
+            case "answer":
+            println("processing msg answer");
+            var description=RTCSessionDescription(type:"answer",sdp: message["sdp"].string!)
+            self.peerConnection.setRemoteDescriptionWithDelegate(self, sessionDescription: description)
+            break
+            
+            case "ice":println("processing msg ice candidate")
+            var candidate=RTCICECandidate(mid: message["ice"]["sdpMid"].string!,index: message["ice"]["sdpMLineIndex"].intValue,sdp: message["ice"]["candidate"].string!)
+            var success=self.peerConnection.addICECandidate(candidate)
+            println(success)
+            default: println("processing invalid msg")
+            }
+            }
+*/
+            
+        }
+        
+        //socket.emit('msg', { by: currentId, to: id, sdp: sdp, type: 'offer', username: username });
+    }
     @IBOutlet weak var localView: RTCEAGLVideoView!
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        addHandlers()
         
         socketObj.socket.on("message"){data,ack in
             println("received messageee")
@@ -195,6 +251,7 @@ class VideoViewController: UIViewController,RTCPeerConnectionDelegate,RTCSession
             if(msg[0]["type"]=="room_name")
             {
                 joinedRoomInCall=msg[0]["room"].string!
+                self.currentId=msg[0]["from"].string!
                 println("got room name as \(joinedRoomInCall)")
                 println("trying to join room")
                 //socketObj.socket.emit("init",["room":joinedRoomInCall,"username":username!])
@@ -242,6 +299,9 @@ class VideoViewController: UIViewController,RTCPeerConnectionDelegate,RTCSession
             println(datajson.debugDescription)
             
         }
+        
+        
+        
                 var mainICEServerURL:NSURL=NSURL(fileURLWithPath: Constants.MainUrl)!
         
         var rtcICEarray:[RTCICEServer]=[]
@@ -263,11 +323,11 @@ class VideoViewController: UIViewController,RTCPeerConnectionDelegate,RTCSession
         
                println("rtcICEServerObj is \(rtcICEarray[0])")
         RTCPeerConnectionFactory.initializeSSL()
-        var rtcFact=RTCPeerConnectionFactory()
+        self.rtcFact=RTCPeerConnectionFactory()
         
         rtcMediaConst=RTCMediaConstraints(mandatoryConstraints: [RTCPair(key: "OfferToReceiveAudio", value: "true"),RTCPair(key: "OfferToReceiveVideo", value: "true")], optionalConstraints: nil)
         
-        var pc=rtcFact.peerConnectionWithICEServers(rtcICEarray, constraints: rtcMediaConst, delegate:self)
+        self.pc=rtcFact.peerConnectionWithICEServers(rtcICEarray, constraints: rtcMediaConst, delegate:self)
         
         
 
@@ -625,10 +685,22 @@ RTCVideoTrack *videoTrack = stream.videoTracks[0];
     }
     
     func peerConnection(peerConnection: RTCPeerConnection!, didCreateSessionDescription sdp: RTCSessionDescription!, error: NSError!) {
+        println("did create session description success")
+        self.pc.setLocalDescriptionWithDelegate(self, sessionDescription: sdp)
         
+        socketObj.socket.emit("msg",["by":currentId!,"to":self.by!,"sdp":sdp,"type":"answer"])
+        
+
+
+/*
+
+pc.setLocalDescription(sdp);
+socket.emit('msg', { by: currentId, to: data.by, sdp: sdp, type: 'answer' });
+*/
+
     }
     func peerConnection(peerConnection: RTCPeerConnection!, didSetSessionDescriptionWithError error: NSError!) {
-        
+        println("did crate session desc with error")
     }
     
     
