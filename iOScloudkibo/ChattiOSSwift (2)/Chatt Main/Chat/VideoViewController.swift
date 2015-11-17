@@ -9,7 +9,9 @@
 import UIKit
 import AVFoundation
 import Foundation
+import SwiftyJSON
 
+/*
 class VideoViewController: UIViewController,ChatAppClientDelegate,RTCEAGLVideoViewDelegate {
     
     func videoView(videoView: RTCEAGLVideoView!, didChangeVideoSize size: CGSize) {
@@ -55,6 +57,10 @@ class VideoViewController: UIViewController,ChatAppClientDelegate,RTCEAGLVideoVi
         self.client=ChatAppClient(delegate: self)
         
     }
+    
+    
+    
+    
     
     /*
 
@@ -138,14 +144,17 @@ otherButtonTitles:nil];
 [self disconnect];
 }*/
 
+    
+    */
 
-/*class VideoViewController: UIViewController,RTCPeerConnectionDelegate,RTCSessionDescriptionDelegate {
+class VideoViewController: UIViewController,RTCPeerConnectionDelegate,RTCSessionDescriptionDelegate {
 
     @IBOutlet var localViewTop: RTCEAGLVideoView!
 
     @IBOutlet weak var localViewTrailing: NSLayoutConstraint!
 
     @IBOutlet weak var localViewLeading: NSLayoutConstraint!
+      @IBOutlet weak var remoteView: RTCEAGLVideoView!
     var rtcMediaStream:RTCMediaStream!
     var rtcFact:RTCPeerConnectionFactory!
     var pc:RTCPeerConnection!
@@ -153,14 +162,87 @@ otherButtonTitles:nil];
     var rtcMediaConst:RTCMediaConstraints!
     var rtcVideoSource:RTCVideoSource!
     var rtcVideoCapturer:RTCVideoCapturer!
-    //var rtcVideoTrack:RTCVideoTrack!
+    var rtcVideoTrack:RTCVideoTrack!
     var rtcVideoRenderer:RTCVideoRenderer!
     var abc:RTCVideoTrack!!
    
+    
+    func randomStringWithLength (len : Int) -> NSString {
+        
+        let letters : NSString = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
+        
+        var randomString : NSMutableString = NSMutableString(capacity: len)
+        
+        for (var i=0; i < len; i++){
+            var length = UInt32 (letters.length)
+            var rand = arc4random_uniform(length)
+            randomString.appendFormat("%C", letters.characterAtIndex(Int(rand)))
+        }
+        
+        return randomString
+    }
+    
     @IBOutlet weak var localView: RTCEAGLVideoView!
     override func viewDidLoad() {
         super.viewDidLoad()
-        var mainICEServerURL:NSURL=NSURL(fileURLWithPath: Constants.MainUrl)!
+        
+        
+        socketObj.socket.on("message"){data,ack in
+            println("received messageee")
+            var msg=JSON(data!)
+            println(msg.debugDescription)
+            
+            if(msg[0]["type"]=="room_name")
+            {
+                joinedRoomInCall=msg[0]["room"].string!
+                println("got room name as \(joinedRoomInCall)")
+                println("trying to join room")
+                //socketObj.socket.emit("init",["room":joinedRoomInCall,"username":username!])
+                //socketObj.socket.emitWithAck("init",["room":joinedRoomInCall,"username":username!])(timeout: 0)
+                
+                socketObj.socket.emitWithAck("init", ["room":joinedRoomInCall,"username":username!])(timeout: 1500) {data in
+                    println("got ack")
+                    var a=JSON(data!)
+                    println(a.debugDescription)
+                }
+            }
+            if(msg[0]=="Accept Call")
+            {
+                println("inside accept call")
+                var roomname=self.randomStringWithLength(9)
+                areYouFreeForCall=false
+                socketObj.sendMessagesOfMessageType("[\"type\" : \"room_name\", \"room\": \(roomname)]")
+            }
+
+                               /*
+                
+                socket.emitWithAck("canUpdate", cur)(timeoutAfter: 0) {data in
+                socket.emit("update", ["amount": cur + 2.50])
+                }
+                
+                socket.emit('init', { room: r, username: username }, function (roomid, id) {
+                if(id === null){
+                alert('You cannot join conference. Room is full');
+                connected = false;
+                return;
+                }
+                currentId = id;
+                roomId = roomid;
+                });
+                connected = true;
+                */
+            
+        }
+
+        
+        
+        socketObj.socket.on("peer.connected"){data,ack in
+            println("received peer.connected obj from server")
+            var datajson=JSON(data!)
+            println(datajson.debugDescription)
+            
+        }
+                var mainICEServerURL:NSURL=NSURL(fileURLWithPath: Constants.MainUrl)!
         
         var rtcICEarray:[RTCICEServer]=[]
         
@@ -500,6 +582,7 @@ RTCVideoTrack *videoTrack = [factory videoTrackWithID:videoId source:videoSource
     func peerConnection(peerConnection: RTCPeerConnection!, addedStream stream: RTCMediaStream!) {
         println("added stream")
         println(stream.videoTracks.count)
+        println(stream.audioTracks.count)
         if(stream.videoTracks.count>0)
         {
             self.rtcVideoTrack1=stream.videoTracks[0] as! RTCVideoTrack
@@ -548,5 +631,5 @@ RTCVideoTrack *videoTrack = stream.videoTracks[0];
         
     }
     
-    */
+    
 }

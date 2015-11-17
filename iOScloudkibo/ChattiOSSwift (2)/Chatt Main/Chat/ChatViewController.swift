@@ -29,7 +29,8 @@ class ChatViewController: UIViewController {
     @IBOutlet weak var btnContactAdd: UIBarButtonItem!
     
     var currrentUsernameRetrieved:String=""
-    var areYouFreeForCall:Bool=true
+    
+    
     
     
     @IBAction func addContactTapped(sender: UIBarButtonItem) {
@@ -463,8 +464,10 @@ class ChatViewController: UIViewController {
         
         socketObj.socket.on("yesiamfreeforcall"){data,ack in
             var message=JSON(data!)
+            println("other user is free")
+            println(data?.debugDescription)
             
-        socketObj.socket.emit("othersideringing", ["callee": message["me"].string!])
+        //socketObj.socket.emit("othersideringing", ["callee": message["me"].string!])
             
         }
         currrentUsernameRetrieved=KeychainWrapper.stringForKey("username")!
@@ -472,35 +475,44 @@ class ChatViewController: UIViewController {
             var jdata=JSON(data!)
             println("somebody callinggg  \(data) \(ack)")
             
-            if(self.areYouFreeForCall==true)
+            if(areYouFreeForCall==true)
             {
                 println(jdata[0]["caller"].string!)
                 println(self.currrentUsernameRetrieved)
-                
-                //self.areYouFreeForCall=false
-                //self.isBusy=true
-                /*var storyBoard = UIStoryboard(name: "Main", bundle: nil)
-                storyBoard.instantiateViewControllerWithIdentifier("CallRingingViewController") as! CallRingingViewController
-                
-                */
+               
                 //transition
                 
                 //let secondViewController:CallRingingViewController = CallRingingViewController()
-                var next = self.storyboard?.instantiateViewControllerWithIdentifier("Main") as! CallRingingViewController
                 
                 socketObj.socket.emit("yesiamfreeforcall",["mycaller" : jdata[0]["caller"].string!, "me":self.currrentUsernameRetrieved])
-                self.presentViewController(next, animated: false, completion: {next.txtCallerName.text=jdata[0]["caller"].string!})
+                
+                
+                var next = self.storyboard?.instantiateViewControllerWithIdentifier("Main") as! CallRingingViewController
+                
+                self.presentViewController(next, animated: false, completion: {next.txtCallerName.text=jdata[0]["caller"].string!; next.currentusernameretrieved=self.currrentUsernameRetrieved; next.callerName=jdata[0]["caller"].string!
+                })
+                
+                }
+                else{
+                socketObj.socket.emit("noiambusy",["mycaller" : jdata[0]["caller"].string!, "me":self.currrentUsernameRetrieved])
+                
+                println("i am busyyy")
+                    
+                }
+                
+            
                 //self.presentViewController(CallRingingViewController(), animated: true, completion: {println("call screen shown")}
                 
                 //)
 
                 
-                socketObj.socket.emit("message","Accept Call")
-                socketObj.socket.emit("message","Accept")
+                //socketObj.socket.emit("message","Accept Call")
+                //socketObj.socket.emit("message","Accept")
                 
                 //show screen
-            }
+            
         }
+        
         
         
         //room callee callthisperson
@@ -1024,6 +1036,7 @@ class ChatViewController: UIViewController {
             
              self.presentViewController(next, animated: false, completion: {next.txtCallerName.text=self.currrentUsernameRetrieved
              next.txtCallingDialing.text="Dialing.."
+                next.callerName=self.currrentUsernameRetrieved
              })
 
             // 4

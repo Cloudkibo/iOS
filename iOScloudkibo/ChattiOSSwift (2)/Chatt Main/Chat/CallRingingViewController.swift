@@ -8,7 +8,7 @@
 
 import UIKit
 import Foundation
-
+import SwiftyJSON
 import AVFoundation
 
 class CallRingingViewController: UIViewController//RTCPeerConnectionDelegate,RTCSessionDescriptionDelegate
@@ -22,7 +22,20 @@ class CallRingingViewController: UIViewController//RTCPeerConnectionDelegate,RTC
     @IBOutlet weak var localView: RTCEAGLVideoView!
     @IBOutlet weak var txtCallingDialing: UILabel!
     @IBOutlet weak var txtCallerName: UILabel!
+    var iamincall:Bool=false
+    var othersideringing:Bool=false
+    var callerName:String!
+    //var data:JSON
+    var currentusernameretrieved:String!
+    
+    
     @IBAction func btnAcceptPressed(sender: AnyObject) {
+        areYouFreeForCall=false
+        iamincall=true
+        iamincallWith=txtCallerName.text!
+        socketObj.sendMessagesOfMessageType("Accept Call")
+        
+        
     /*
         var mainICEServerURL:NSURL=NSURL(fileURLWithPath: Constants.MainUrl)!
         var rtcICEarray:[RTCICEServer]=[RTCICEServer]()
@@ -109,8 +122,8 @@ class CallRingingViewController: UIViewController//RTCPeerConnectionDelegate,RTC
         
         self.presentViewController(next, animated: true, completion: {
             ////^^^^next.rtcVideoTrack=RTCVideoTrack(factory: rtcFact, source: rtcVideoSource, trackId: "sss")
-            /*
-            var mainICEServerURL:NSURL=NSURL(fileURLWithPath: Constants.MainUrl)!
+            
+            /*var mainICEServerURL:NSURL=NSURL(fileURLWithPath: Constants.MainUrl)!
             var rtcICEarray:[RTCICEServer]=[RTCICEServer]()
             var rtcICEobj=RTCICEServer(URI: mainICEServerURL, username: username!, password: password!)
             rtcICEarray.append(rtcICEobj)
@@ -175,7 +188,7 @@ class CallRingingViewController: UIViewController//RTCPeerConnectionDelegate,RTC
             
             var rtcVideoTrack=RTCVideoTrack(factory: rtcFact, source: rtcVideoSource, trackId: "sss")
             println(rtcVideoTrack.debugDescription)
-            /*
+            
             
             if let lvt=rtcVideoTrack
             {
@@ -185,7 +198,7 @@ class CallRingingViewController: UIViewController//RTCPeerConnectionDelegate,RTC
             }
             
             //^^^rtcVideoTrack.addRenderer(localView)
-            */
+
             //pc.addStream(rtcMediaStream)
             //return localStream
             
@@ -195,8 +208,8 @@ class CallRingingViewController: UIViewController//RTCPeerConnectionDelegate,RTC
             next.rtcVideoTrack=rtcVideoTrack
             next.rtcVideoSource=rtcVideoSource
             
-            */
-            println("showing video")
+            
+            println("showing video")*/
         })
 
 
@@ -243,12 +256,25 @@ constraints:[self defaultOfferConstraints]];
         
     }
     @IBAction func btnRejectPressed(sender: AnyObject) {
+        areYouFreeForCall=true
+        //socketObj.socket.emit("noiambusy",["mycaller" :txtCallerName.text!, "me":self.currentusernameretrieved!])
+        socketObj.sendMessagesOfMessageType("Accept Call")
         
         dismissViewControllerAnimated(true, completion: nil)
     }
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        //on othersideringing var iamincall:Bool=false var othersideringing:Bool=false var callerName:String!
 
+        socketObj.socket.on("othersideringing"){data,ack in
+            println("otherside ringing")
+            var msg=JSON(data!)
+            self.othersideringing=true;
+            println(msg.debugDescription)
+            self.callerName=msg[0]["callee"].string!
+            println("callee is \(self.callerName)")
+        }
         
     
         // Do any additional setup after loading the view.

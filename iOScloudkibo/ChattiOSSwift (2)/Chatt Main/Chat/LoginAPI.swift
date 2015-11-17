@@ -122,35 +122,31 @@ class LoginAPI{
     {
         
     }
-    func sendMessage(var msg:String,para:[AnyObject!])
+    func sendMessage(var msg:String,para:[AnyObject]!)
     {
         socket.emit(msg, para)
         println("Socket emitted \(msg) \(para.debugDescription)")
         //ChatAppSocketDelegate.channel(socket,didReceiveMessage:msg)
 }
+    
+    
+    func sendMessagesOfMessageType(msg:String)
+    {
+        println("inside sendMessagesOfMessageType func")
+        //var message:JSON=["msg":msg,"room":globalroom,"to":iamincallWith!,"username":username!]
+        socket.emit("message",["msg":msg,"room":globalroom,"to":iamincallWith!,"username":username!])
+        
+        
+    }
    
 }
+
 
 protocol ChatAppSocketDelegate
 {
     func channel(channel:SocketIOClient ,didChangeState state:ChatAppSocketChannelState);
      func channel(channel:SocketIOClient,didReceiveMessage message:String);
     //socket.on(message
-    /*
-    example:
-socketObj.socket.on("online")
-{data,ack in
-
-println("online status...")
-var onlineUsers=JSON(data!)
-*/
-    /*
-    - (void)channel:(ARDWebSocketChannel *)channel
-    didChangeState:(ARDWebSocketChannelState)state;
-    
-    - (void)channel:(ARDWebSocketChannel *)channel
-    didReceiveMessage:(ARDSignalingMessage *)message;
-    
-    */
+   
 }
 

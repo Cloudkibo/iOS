@@ -25,31 +25,6 @@ class ChatAppClient:NSObject,RTCPeerConnectionDelegate, RTCSessionDescriptionDel
     var mainICEServerURL:NSURL=NSURL(fileURLWithPath: Constants.MainUrl)!
     
     var rtcICEarray:[RTCICEServer]=[]
-    
-    //var roomServer=RoomService(id: _id!)
-    ////self.pc=roomServer.peers[0].getPC()
-    //roomServer.joinRoom(_id!)
-    //roomServer.makeOffer(_id!)
-    
-   
-
-    /*
-    static NSString *kARDRoomServerHostUrl =
-    @"https://apprtc.appspot.com";
-    static NSString *kARDRoomServerRegisterFormat =
-    @"%@/join/%@";
-    static NSString *kARDRoomServerMessageFormat =
-    @"%@/message/%@/%@";
-    static NSString *kARDRoomServerByeFormat =
-    @"%@/leave/%@/%@";
-    
-    static NSString *kARDDefaultSTUNServerUrl =
-    @"stun:stun.l.google.com:19302";
-    // TODO(tkchin): figure out a better username for CEOD statistics.
-    static NSString *kARDTurnRequestUrl =
-    @"https://computeengineondemand.appspot.com"
-    @"/turn?username=iapprtc&key=4080218913";
-*/
 
     static var kARDAppClientErrorDomain:NSString="ChatAppclient"
     static var kARDAppClientErrorUnknown:NSInteger = -1
@@ -74,11 +49,6 @@ class ChatAppClient:NSObject,RTCPeerConnectionDelegate, RTCSessionDescriptionDel
     var state:ChatAppClientState!
     var delegate:ChatAppClientDelegate!
     
-/* ARDAppClientState state;
-@property(nonatomic, weak) id<ARDAppClientDelegate> delegate;
-@property(nonatomic, strong) NSString *serverHostUrl;*/
-    
-   
     static var kARDRoomServerHostUrl:NSString=Constants.MainUrl
     static var kARDRoomServerRegisterFormat:NSString="%@/join/%@"
     static var kARDRoomServerMessageFormat:NSString="%@/message/%@/%@"
@@ -144,27 +114,15 @@ class ChatAppClient:NSObject,RTCPeerConnectionDelegate, RTCSessionDescriptionDel
         }
     }
     
-    
-    /*func createLocalVideoTrack1()->RTCVideoTrack!
-    {
-    
-    }
-    */
+  
     func createLocalVideoTrack()->RTCVideoTrack
     {
         var cameraID:NSString!
         for aaa in AVCaptureDevice.devicesWithMediaType(AVMediaTypeVideo)
         {
             if aaa.position==AVCaptureDevicePosition.Front
-            {
-                //println(aaa.description)
-                //println(aaa.deviceCurrentTime)
-                //println(aaa.localizedName!)
-                //println(aaa.localStreams.description!)
-                //println(aaa.localizedModel!)
-                cameraID=aaa.localizedName!!
-                //println(aaa.description)
-                //println(aaa.localizedDescription)
+            {                cameraID=aaa.localizedName!!
+               
                 println(cameraID!)
                 println("got front camera")
                 break
@@ -197,13 +155,15 @@ class ChatAppClient:NSObject,RTCPeerConnectionDelegate, RTCSessionDescriptionDel
 
     func createLocalMediaStream()->RTCMediaStream
     {
+        println("inside createLocalMediaStream func  ")
+        
         var mediaStreamLabel:String!
         var mediaAudioLabel:String!
         mediaStreamLabel="kibo"
         mediaAudioLabel="kiboa1"
         var localStream:RTCMediaStream!
         
-        //localStream=rtcFact.mediaStreamWithLabel("kibo")
+        localStream=self.factory.mediaStreamWithLabel("kibo")
         
         var localVideoTrack:RTCVideoTrack!=createLocalVideoTrack()
         
@@ -214,25 +174,9 @@ class ChatAppClient:NSObject,RTCPeerConnectionDelegate, RTCSessionDescriptionDel
             
             
         }
-        localStream.addAudioTrack(self.factory.audioTrackWithID("Chata0"))
-        println("localStreammm ")
+        localStream.addAudioTrack(self.factory.audioTrackWithID("kiboa0"))
         print(localStream.description)
-        //localVideoTrack.addRenderer(localView)
         return localStream
-        /*
-        
-        RTCMediaStream* localStream = [_factory mediaStreamWithLabel:@"ARDAMS"];
-        
-        RTCVideoTrack *localVideoTrack = [self createLocalVideoTrack];
-        if (localVideoTrack) {
-        [localStream addVideoTrack:localVideoTrack];
-        [_delegate appClient:self didReceiveLocalVideoTrack:localVideoTrack];
-        }
-        
-        [localStream addAudioTrack:[_factory audioTrackWithID:@"ARDAMSa0"]];
-        return localStream;
-        */
-        
         
     }
     func setState(state:ChatAppClientState)
@@ -246,20 +190,14 @@ class ChatAppClient:NSObject,RTCPeerConnectionDelegate, RTCSessionDescriptionDel
     
     func connectToRoomWithId(roomId:NSString,options:NSDictionary)
     {
+        println("inside connectToRoomWithId function")
         self.state=ChatAppClientState.kARDAppClientStateConnecting
         // Request TURN.
         weak var weakSelf:ChatAppClient!=self
         var turnRequestURL:NSURL=NSURL(string: ChatAppClient.kARDTurnRequestUrl as String)!
-        /*
-[self requestTURNServersWithURL:turnRequestURL
-completionHandler:^(NSArray *turnServers) {
-ARDAppClient *strongSelf = weakSelf;
-[strongSelf.iceServers addObjectsFromArray:turnServers];
-strongSelf.isTurnComplete = YES;
-[strongSelf startSignalingIfReady];
-}];*/
-        
+     
         // Register with room server.
+        //incomplete
         
         
     }
@@ -364,6 +302,9 @@ strongSelf.isTurnComplete = YES;
     
     func sendSignallingMessage(message:NSObject)
     {
+        
+        //incomplete
+        
         if(self.isInitiator==true)
         {//send to room server
         }
@@ -372,37 +313,6 @@ strongSelf.isTurnComplete = YES;
             }
     }
     
-    /*
-//WEBSOCKETDELEGATE
-    
-    - (void)channel:(ARDWebSocketChannel *)channel
-    didChangeState:(ARDWebSocketChannelState)state {
-    switch (state) {
-    case kARDWebSocketChannelStateOpen:
-    break;
-    case kARDWebSocketChannelStateRegistered:
-    break;
-    case kARDWebSocketChannelStateClosed:
-    case kARDWebSocketChannelStateError:
-    // TODO(tkchin): reconnection scenarios. Right now we just disconnect
-    // completely if the websocket connection fails.
-    [self disconnect];
-    break;
-    }
-    }
-    - (void)sendSignalingMessage:(ARDSignalingMessage *)message {
-    if (_isInitiator) {
-    [self sendSignalingMessageToRoomServer:message completionHandler:nil];
-    } else {
-    [self sendSignalingMessageToCollider:message];
-    }
-    }
-
-   
-
-   
-    
-*/
 
 
     func peerConnection(peerConnection: RTCPeerConnection!, addedStream stream: RTCMediaStream!) {
@@ -453,35 +363,7 @@ strongSelf.isTurnComplete = YES;
         }
         self.peerConnection.setLocalDescriptionWithDelegate(self, sessionDescription: sdp)
     }
-    /*
-    
-    - (void)peerConnection:(RTCPeerConnection *)peerConnection
-    didCreateSessionDescription:(RTCSessionDescription *)sdp
-    error:(NSError *)error {
-    dispatch_async(dispatch_get_main_queue(), ^{
-    if (error) {
-    NSLog(@"Failed to create session description. Error: %@", error);
-    [self disconnect];
-    NSDictionary *userInfo = @{
-    NSLocalizedDescriptionKey: @"Failed to create session description.",
-    };
-    NSError *sdpError =
-    [[NSError alloc] initWithDomain:kARDAppClientErrorDomain
-    code:kARDAppClientErrorCreateSDP
-    userInfo:userInfo];
-    [_delegate appClient:self didError:sdpError];
-    return;
-    }
-    [_peerConnection setLocalDescriptionWithDelegate:self
-    sessionDescription:sdp];
-    ARDSessionDescriptionMessage *message =
-    [[ARDSessionDescriptionMessage alloc] initWithDescription:sdp];
-    [self sendSignalingMessage:message];
-    });
-    }
-    
 
-*/
     func peerConnection(peerConnection: RTCPeerConnection!, didSetSessionDescriptionWithError error: NSError!) {
         println("didsetpeerconnecxn with error")
     }
@@ -528,21 +410,6 @@ strongSelf.isTurnComplete = YES;
     }
     
     
-    /*
-    
-    - (void)drainMessageQueueIfReady {
-    if (!_peerConnection || !_hasReceivedSdp) {
-    return;
-    }
-    for (ARDSignalingMessage *message in _messageQueue) {
-    [self processSignalingMessage:message];
-    }
-    [_messageQueue removeAllObjects];
-    }
-
-
-*/
-   
     func defaultMediaStreamConstraints()->RTCMediaConstraints
     {
         var constraints:RTCMediaConstraints=RTCMediaConstraints(mandatoryConstraints: nil, optionalConstraints: nil)

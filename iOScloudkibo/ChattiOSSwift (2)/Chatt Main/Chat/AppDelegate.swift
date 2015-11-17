@@ -24,11 +24,16 @@ let loggedFullName=KeychainWrapper.stringForKey("loggedFullName")
 let loggedPhone=KeychainWrapper.stringForKey("loggedPhone")
 let loggedEmail=KeychainWrapper.stringForKey("loggedEmail")
 let _id=KeychainWrapper.stringForKey("_id")
+var globalroom=""
+var joinedRoomInCall=""
+
 //let loggedIDKeyChain=KeychainWrapper.stringForKey("loggedIDKeyChain")
 
 //from id, to id remaining
 //mark chat as read is remaining
 
+var areYouFreeForCall:Bool=true
+var iamincallWith:String!
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
