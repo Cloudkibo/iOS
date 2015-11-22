@@ -24,9 +24,10 @@ let loggedFullName=KeychainWrapper.stringForKey("loggedFullName")
 let loggedPhone=KeychainWrapper.stringForKey("loggedPhone")
 let loggedEmail=KeychainWrapper.stringForKey("loggedEmail")
 let _id=KeychainWrapper.stringForKey("_id")
-var globalroom=""
+var globalroom="globalchatroom"
 var joinedRoomInCall=""
-
+var currentID=""
+var otherID=""
 //let loggedIDKeyChain=KeychainWrapper.stringForKey("loggedIDKeyChain")
 
 //from id, to id remaining

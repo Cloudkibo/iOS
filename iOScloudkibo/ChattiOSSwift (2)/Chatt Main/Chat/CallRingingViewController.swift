@@ -256,9 +256,9 @@ constraints:[self defaultOfferConstraints]];
         
     }
     @IBAction func btnRejectPressed(sender: AnyObject) {
-        areYouFreeForCall=true
+        //areYouFreeForCall=true
         //socketObj.socket.emit("noiambusy",["mycaller" :txtCallerName.text!, "me":self.currentusernameretrieved!])
-        socketObj.sendMessagesOfMessageType("Accept Call")
+        //socketObj.sendMessagesOfMessageType("Accept Call")
         
         dismissViewControllerAnimated(true, completion: nil)
     }
@@ -273,6 +273,8 @@ constraints:[self defaultOfferConstraints]];
             self.othersideringing=true;
             println(msg.debugDescription)
             self.callerName=msg[0]["callee"].string!
+            iamincallWith=msg[0]["callee"].string!
+            
             println("callee is \(self.callerName)")
         }
         

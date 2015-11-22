@@ -132,8 +132,12 @@ class LoginAPI{
     
     func sendMessagesOfMessageType(msg:String)
     {
-        println("inside sendMessagesOfMessageType func")
+        println("inside sendMessagesOfMessageType func \(msg)")
+        //var str=msg
+        //str = msg.stringByReplacingOccurrencesOfString("\\", withString: "", options: NSStringCompareOptions.LiteralSearch, range: nil)
+        println(msg)
         //var message:JSON=["msg":msg,"room":globalroom,"to":iamincallWith!,"username":username!]
+        
         socket.emit("message",["msg":msg,"room":globalroom,"to":iamincallWith!,"username":username!])
         
         

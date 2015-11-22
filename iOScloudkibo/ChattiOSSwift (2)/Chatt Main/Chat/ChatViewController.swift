@@ -479,7 +479,7 @@ class ChatViewController: UIViewController {
             {
                 println(jdata[0]["caller"].string!)
                 println(self.currrentUsernameRetrieved)
-               
+                //callerID=jdata[0]["sendersocket"].string!
                 //transition
                 
                 //let secondViewController:CallRingingViewController = CallRingingViewController()
@@ -1030,6 +1030,7 @@ class ChatViewController: UIViewController {
             //ON CALL BUTTON PRESSED
             
             var selectedRow = indexPath.row
+            
             socketObj.socket.emit("callthisperson",["room" : "globalchatroom","callee": self.ContactUsernames[selectedRow], "caller":self.currrentUsernameRetrieved])
             
             var next = self.storyboard?.instantiateViewControllerWithIdentifier("Main") as! CallRingingViewController
