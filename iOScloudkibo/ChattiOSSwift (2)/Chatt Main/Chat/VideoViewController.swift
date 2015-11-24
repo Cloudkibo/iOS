@@ -197,7 +197,7 @@ class VideoViewController: UIViewController,RTCPeerConnectionDelegate,RTCSession
                 {}
                 
                 println("offer received")
-                var sessionDescription=RTCSessionDescription(type: "offer", sdp: msg[0]["sdp"]["sdp"].string!)
+                var sessionDescription=RTCSessionDescription(type: "offer", sdp: msg[0]["sdp"]["sdp"].debugDescription)
                 //self.by=msg[0]["by"].int!
                 self.pc.setRemoteDescriptionWithDelegate(self, sessionDescription: sessionDescription)
                 
@@ -256,8 +256,6 @@ class VideoViewController: UIViewController,RTCPeerConnectionDelegate,RTCSession
             if(msg[0]["type"]=="room_name")
             {
                 if(joinedRoomInCall=="")
-                {println("do nothing u are initiator")}
-                else
                 {
                 joinedRoomInCall=msg[0]["room"].string!
                 otherID=msg[0]["from"].string!
@@ -273,6 +271,7 @@ class VideoViewController: UIViewController,RTCPeerConnectionDelegate,RTCSession
                     currentID=a[0][1].debugDescription
                 }
                 }
+                
             }
             if(msg[0]=="Accept Call")
             {
@@ -280,6 +279,7 @@ class VideoViewController: UIViewController,RTCPeerConnectionDelegate,RTCSession
                 var roomname=self.randomStringWithLength(9)
                 areYouFreeForCall=false
                 var aa=JSON(["msg":["type":"room_name","room":roomname],"room":globalroom,"to":iamincallWith!,"username":username!])
+                println(aa.description)
                 //socketObj.socket.emit("message",["type":"room_name","room":roomname,"room":globalroom,"to":iamincallWith!,"username":username!])
                 /////^^^^^^^^^socketObj.sendMessagesOfMessageType(aa.description)
                 socketObj.socket.emit("message",aa.object)
@@ -701,7 +701,10 @@ RTCVideoTrack *videoTrack = stream.videoTracks[0];
     
     func peerConnection(peerConnection: RTCPeerConnection!, didCreateSessionDescription sdp: RTCSessionDescription!, error: NSError!) {
         println("did create session description success")
-        self.pc.setLocalDescriptionWithDelegate(self, sessionDescription: sdp)
+        println(sdp.debugDescription)
+        var sessionDescription=RTCSessionDescription(type: "offer", sdp: sdp!.debugDescription)
+        
+        self.pc.setLocalDescriptionWithDelegate(self, sessionDescription: sessionDescription)
         
         //current id and by are those received in acknowlegement when room is created and peer.connected
         //socketObj.socket.emit("msg",["by":currentID,"to":otherID,"sdp":sdp,"type":"answer"])
@@ -717,6 +720,7 @@ socket.emit('msg', { by: currentId, to: data.by, sdp: sdp, type: 'answer' });
     }
     func peerConnection(peerConnection: RTCPeerConnection!, didSetSessionDescriptionWithError error: NSError!) {
         //println(error.localizedDescription)
+        
         println("did crate session desc with error")
     }
     

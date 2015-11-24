@@ -32,8 +32,13 @@ class CallRingingViewController: UIViewController//RTCPeerConnectionDelegate,RTC
     @IBAction func btnAcceptPressed(sender: AnyObject) {
         areYouFreeForCall=false
         iamincall=true
-        iamincallWith=txtCallerName.text!
-        socketObj.sendMessagesOfMessageType("Accept Call")
+      /////^^  iamincallWith=txtCallerName.text!
+        if(txtCallerName.text!==username!)
+        {}
+        else
+        {   iamincallWith=txtCallerName.text!
+            socketObj.sendMessagesOfMessageType("Accept Call")
+        }
         
         
     /*
