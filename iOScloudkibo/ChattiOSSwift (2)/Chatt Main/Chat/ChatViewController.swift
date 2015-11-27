@@ -278,7 +278,7 @@ class ChatViewController: UIViewController {
         
 
         //((((((((()))))))___________++++++++++++__________++++++++++++((((((((((()))))))))
-       
+    
         
 
         
@@ -360,6 +360,23 @@ class ChatViewController: UIViewController {
         else
         {println("rrrrrrrrr \(retrievedToken)")
             refreshControl.addTarget(self, action: Selector("fetchContacts"), forControlEvents: UIControlEvents.ValueChanged)
+            
+            socketObj.socket.on("othersideringing"){data,ack in
+                println("otherside ringing")
+                var msg=JSON(data!)
+                //self.othersideringing=true;
+                println(msg.debugDescription)
+                callerName=KeychainWrapper.stringForKey("username")!
+                //iamincallWith=msg[0]["callee"].string!
+                
+                println("callee is \(callerName)")
+                
+                var next = self.storyboard?.instantiateViewControllerWithIdentifier("Main2") as! VideoViewController
+                
+                self.presentViewController(next, animated: true, completion: {
+                })
+                
+            }
             
             //fetchContacts()
             self.tblForChat.reloadData()
@@ -479,6 +496,8 @@ class ChatViewController: UIViewController {
             {
                 println(jdata[0]["caller"].string!)
                 println(self.currrentUsernameRetrieved)
+                iamincallWith=jdata[0]["caller"].string!
+                isInitiator=false
                 //callerID=jdata[0]["sendersocket"].string!
                 //transition
                 
@@ -486,11 +505,16 @@ class ChatViewController: UIViewController {
                 
                 socketObj.socket.emit("yesiamfreeforcall",["mycaller" : jdata[0]["caller"].string!, "me":self.currrentUsernameRetrieved])
                 
+              
                 
+                
+            
+            
                 var next = self.storyboard?.instantiateViewControllerWithIdentifier("Main") as! CallRingingViewController
                 
                 self.presentViewController(next, animated: false, completion: {next.txtCallerName.text=jdata[0]["caller"].string!; next.currentusernameretrieved=self.currrentUsernameRetrieved; next.callerName=jdata[0]["caller"].string!
                 })
+                
                 
                 }
                 else{
@@ -662,109 +686,7 @@ class ChatViewController: UIViewController {
             
         }
         
-        
-        /*Alamofire.request(.GET,"\(fetchChatURL)").response{
-            
-            request1, response1, data1, error1 in
-            
-            
-            
-            //============GOT Contacts SECCESS=================
-            
-            
-            ////////////////////////
-            dispatch_async(dispatch_get_main_queue(), {
-                //self.fetchContacts(self.AuthToken)
-                /// activityOverlayView.dismissAnimated(true)
-                
-                
-                if response1?.statusCode==200 {
-                    //println("Contacts fetched success")
-                    let contactsJsonObj = JSON(data: data1!)
-                    println(contactsJsonObj)
-                    //println(contactsJsonObj["userid"])
-                    //let contact=JSON(contactsJsonObj["contactid"])
-                    //   println(contact["firstname"])
-                    println("Contactsss fetcheddddddd")
-                    //var userr=contactsJsonObj["userid"]
-                    // println(self.contactsJsonObj.count)
-                    let contactid = Expression<String>("contactid")
-                    let detailsshared = Expression<String>("detailsshared")
-                    
-                    let unreadMessage = Expression<Bool>("unreadMessage")
-                    
-                    let userid = Expression<String>("userid")
-                    let firstname = Expression<String>("firstname")
-                    let lastname = Expression<String>("lastname")
-                    let email = Expression<String>("email")
-                    let phone = Expression<String>("phone")
-                    let username = Expression<String>("username")
-                    let status = Expression<String>("status")
-                    
-                    
-                    let tbl_contactslists=sqliteDB.db["contactslists"]
-                    tbl_contactslists.delete() //complete refresh
-                    
-                    
-                    //-========Remove old values=====================
-                    self.ContactIDs.removeAll(keepCapacity: false)
-                    self.ContactLastNAme.removeAll(keepCapacity: false)
-                    self.ContactNames.removeAll(keepCapacity: false)
-                    self.ContactStatus.removeAll(keepCapacity: false)
-                    self.ContactUsernames.removeAll(keepCapacity: false)
-                    self.ContactsObjectss.removeAll(keepCapacity: false)
-
-                
-                    
-                    for var i=0;i<contactsJsonObj.count;i++
-                    {
-                        let insert=tbl_contactslists.insert(contactid<-contactsJsonObj[i]["contactid"]["_id"].string!,
-                            detailsshared<-contactsJsonObj[i]["detailsshared"].string!,
-                            
-                            unreadMessage<-contactsJsonObj[i]["unreadMessage"].boolValue,
-                            
-                            userid<-contactsJsonObj[i]["userid"].string!,
-                            firstname<-contactsJsonObj[i]["contactid"]["firstname"].string!,
-                            lastname<-contactsJsonObj[i]["contactid"]["lastname"].string!,
-                            email<-contactsJsonObj[i]["contactid"]["email"].string!,
-                            phone<-contactsJsonObj[i]["contactid"]["_id"].string!,
-                            username<-contactsJsonObj[i]["contactid"]["username"].string!,
-                            status<-contactsJsonObj[i]["contactid"]["status"].string!)
-                        
-                        //self.transportItems.insert(contactsJsonObj[i]["contactid"]["firstname"].string!+" "+contactsJsonObj[i]["contactid"]["lastname"].string!, atIndex: i)
-                        
-                        
-                        //=========this is done in fetching from sqlite not here====
-                        self.ContactsObjectss.append(contactsJsonObj[i]["contactid"])
-                        self.ContactNames.append(contactsJsonObj[i]["contactid"]["firstname"].string!+" "+contactsJsonObj[i]["contactid"]["lastname"].string!)
-                        self.ContactUsernames.append(contactsJsonObj[i]["contactid"]["username"].string!)
-                        self.ContactIDs.append(contactsJsonObj[i]["contactid"]["_id"].string!)
-                        self.ContactFirstname.append(contactsJsonObj[i]["contactid"]["firstname"].string!)
-                        self.ContactLastNAme.append(contactsJsonObj[i]["contactid"]["lastname"].string!)
-                        self.ContactStatus.append(contactsJsonObj[i]["contactid"]["status"].string!)
-                        self.ContactOnlineStatus.append(0)
-
-                        
-                        if let rowid = insert.rowid {
-                            println("inserted id: \(rowid)")
-                            self.tblForChat.reloadData()
-                        } else if insert.statement.failed {
-                            println("insertion failed: \(insert.statement.reason)")
-                        }
-                    }
-                    
-                    //self.refreshControl.endRefreshing()
-                    
-                } else {
-                    println("FETCH CONTACTS FAILED")
-                }
-            })
-            
-            
-            
-        }
-        
-        */
+   
        
     }
     
@@ -1030,15 +952,25 @@ class ChatViewController: UIViewController {
             //ON CALL BUTTON PRESSED
             
             var selectedRow = indexPath.row
-            
+            println("call pressed")
             socketObj.socket.emit("callthisperson",["room" : "globalchatroom","callee": self.ContactUsernames[selectedRow], "caller":self.currrentUsernameRetrieved])
+            isInitiator=true
+            callerName=username!
+            iamincallWith=self.ContactUsernames[selectedRow]
             
-            var next = self.storyboard?.instantiateViewControllerWithIdentifier("Main") as! CallRingingViewController
+            /*var next = self.storyboard?.instantiateViewControllerWithIdentifier("Main2") as! VideoViewController
+            
+            self.presentViewController(next, animated: false, completion: {
+            })
+            */
+            
+            /*var next = self.storyboard?.instantiateViewControllerWithIdentifier("Main") as! CallRingingViewController
             
              self.presentViewController(next, animated: false, completion: {next.txtCallerName.text=self.currrentUsernameRetrieved
              next.txtCallingDialing.text="Dialing.."
                 next.callerName=self.currrentUsernameRetrieved
              })
+*/
 
             // 4
            /* let rateMenu = UIAlertController(title: nil, message: "Rate this App", preferredStyle: .ActionSheet)

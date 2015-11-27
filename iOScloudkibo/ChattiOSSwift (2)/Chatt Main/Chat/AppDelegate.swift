@@ -26,8 +26,8 @@ let loggedEmail=KeychainWrapper.stringForKey("loggedEmail")
 let _id=KeychainWrapper.stringForKey("_id")
 var globalroom="globalchatroom"
 var joinedRoomInCall=""
-var currentID=""
-var otherID=""
+var currentID:Int!
+var otherID:Int!
 //let loggedIDKeyChain=KeychainWrapper.stringForKey("loggedIDKeyChain")
 
 //from id, to id remaining
@@ -35,7 +35,8 @@ var otherID=""
 
 var areYouFreeForCall:Bool=true
 var iamincallWith:String!
-
+var isInitiator=false
+var callerName=""
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
     

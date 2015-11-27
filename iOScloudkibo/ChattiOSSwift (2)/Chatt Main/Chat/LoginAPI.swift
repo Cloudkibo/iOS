@@ -52,7 +52,11 @@ class LoginAPI{
             
             
         }
-        
+        self.socket.on("disconnect") {data, ack in
+            NSLog("disconnected from socket")
+            self.socket.emit("message", ["msg":"hangup"])
+            
+        }
         self.socket.connect()
         
             }
@@ -62,6 +66,9 @@ class LoginAPI{
             
             println("you onlineeee \(ack)")
         }
+        
+       
+        
         
       /*  socket.on("msg") {data,ack in
            

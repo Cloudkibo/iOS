@@ -10,27 +10,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Chat/CallRingingViewController.swift"
-            timestampString = "470016460.799274"
+            timestampString = "470227121.703738"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "259"
-            endingLineNumber = "259"
-            landmarkName = "btnAcceptPressed(_:)"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Chat/CallRingingViewController.swift"
-            timestampString = "470016460.799274"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "319"
-            endingLineNumber = "319"
+            startingLineNumber = "108"
+            endingLineNumber = "108"
             landmarkName = "CallRingingViewController"
             landmarkType = "3">
          </BreakpointContent>
@@ -99,11 +83,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Chat/VideoViewController.swift"
-            timestampString = "470014784.817504"
+            timestampString = "470278125.039858"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "320"
-            endingLineNumber = "320"
+            startingLineNumber = "392"
+            endingLineNumber = "392"
             landmarkName = "viewDidLoad()"
             landmarkType = "5">
          </BreakpointContent>
