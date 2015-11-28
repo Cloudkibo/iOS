@@ -277,7 +277,24 @@ class VideoViewController: UIViewController,RTCPeerConnectionDelegate,RTCSession
             println(datajson.debugDescription)
             otherID=datajson[0]["id"].int
             iamincallWith=datajson[0]["username"].description
+            self.pc.addStream(self.rtcMediaStream)
+            socketObj.socket.emit("conference.stream", ["username":username!,"id":currentID!,"type":"video","action":"true"])
+            socketObj.socket.emit("conference.stream", ["username":username!,"id":currentID!,"type":"audio","action":"true"])
             self.pc.createOfferWithDelegate(self, constraints: self.rtcMediaConst!)
+            
+        }
+        
+        socketObj.socket.on("conference.stream"){data,ack in
+            println("received conference.stream obj from server")
+            var datajson=JSON(data!)
+            println(datajson.debugDescription)
+            
+        }
+
+        socketObj.socket.on("peer.stream"){data,ack in
+            println("received peer.stream obj from server")
+            var datajson=JSON(data!)
+            println(datajson.debugDescription)
             
         }
 
@@ -359,12 +376,7 @@ class VideoViewController: UIViewController,RTCPeerConnectionDelegate,RTCSession
                 self.dismissViewControllerAnimated(true, completion: nil);
                 
             }
-            if(msg[0]=="peer.connected")
-            {
-                println("inside peer.connected")
-            }
-
-                               /*
+                                /*
                 
                 socket.emitWithAck("canUpdate", cur)(timeoutAfter: 0) {data in
                 socket.emit("update", ["amount": cur + 2.50])
@@ -460,8 +472,8 @@ class VideoViewController: UIViewController,RTCPeerConnectionDelegate,RTCSession
         var rtcVideoSource=rtcFact.videoSourceWithCapturer(rtcVideoCapturer, constraints: rtcMediaConst)
         
         //println(rtcVideoSource.debugDescription)
-        var rtcVideoTrack=RTCVideoTrack(factory: rtcFact, source: rtcVideoSource, trackId: "sss")
-        rtcVideoTrack.setEnabled(true)
+        rtcVideoTrack=RTCVideoTrack(factory: rtcFact, source: rtcVideoSource, trackId: "sss")
+        //rtcVideoTrack.setEnabled(true)
         //println(rtcVideoTrack.debugDescription)
         
         localViewTop.setSize(CGSize(width: 500, height: 500))
@@ -476,7 +488,7 @@ class VideoViewController: UIViewController,RTCPeerConnectionDelegate,RTCSession
 
         if let lvt=rtcVideoTrack
         {
-            rtcVideoTrack.addRenderer(localView)
+            self.rtcVideoTrack.addRenderer(localView)
         var addedVideoTrack=rtcMediaStream.addVideoTrack(rtcVideoTrack)
             
             
@@ -486,11 +498,11 @@ class VideoViewController: UIViewController,RTCPeerConnectionDelegate,RTCSession
         println("got audio track")
         }
         pc.addStream(rtcMediaStream)
-        peerConnection(pc, addedStream: rtcMediaStream)
+        //peerConnection(pc, addedStream: rtcMediaStream)
       
         rtcVideoTrack.addRenderer(localView)
-        rtcMediaStream.audioTracks[0].addRenderer(localView)
-        rtcMediaStream
+        rtcMediaStream.videoTracks[0].addRenderer(localView)
+        
         
           }
 
@@ -507,15 +519,15 @@ class VideoViewController: UIViewController,RTCPeerConnectionDelegate,RTCSession
 
       func peerConnection(peerConnection: RTCPeerConnection!, addedStream stream: RTCMediaStream!) {
         println("added stream")
+        
         println(stream.videoTracks.count)
         println(stream.audioTracks.count)
         if(stream.videoTracks.count>0)
         {
-            self.rtcVideoTrack1=stream.videoTracks[0] as! RTCVideoTrack
-             rtcVideoTrack1.addRenderer(localView)
+            var receivedVideo=stream.videoTracks[0] as! RTCVideoTrack
             localViewTop.setSize(CGSize(width: 300,height: 300))
             localViewTop.setNeedsDisplayInRect(CGRect(x: 20,y: 20,width: 300,height: 300))
-            rtcVideoTrack1.addRenderer(localView)
+            receivedVideo.addRenderer(localView)
             
         }
         
@@ -633,6 +645,18 @@ socket.emit('msg', { by: currentId, to: data.by, sdp: sdp, type: 'answer' });
                 if isInitiator==false &&
                     self.pc.localDescription == nil {
                         println("creating answer")
+                        self.pc.addStream(self.rtcMediaStream)
+                        socketObj.socket.emit("conference.stream", ["username":username!,"id":currentID!,"type":"video","action":"true"])
+                        socketObj.socket.emit("conference.stream", ["username":username!,"id":currentID!,"type":"audio","action":"true"])
+/* conference.stream obj from server
+[
+{
+"username" : "sojharo",
+"id" : 1,
+"type" : "video",
+"action" : true
+}
+] */
                         self.pc.createAnswerWithDelegate(self, constraints: self.rtcMediaConst)
                 }
                 else

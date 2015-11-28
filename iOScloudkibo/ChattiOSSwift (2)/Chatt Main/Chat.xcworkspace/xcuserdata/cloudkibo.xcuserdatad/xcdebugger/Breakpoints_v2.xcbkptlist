@@ -83,11 +83,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Chat/VideoViewController.swift"
-            timestampString = "470278125.039858"
+            timestampString = "470445998.001023"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "392"
-            endingLineNumber = "392"
+            startingLineNumber = "404"
+            endingLineNumber = "404"
             landmarkName = "viewDidLoad()"
             landmarkType = "5">
          </BreakpointContent>
