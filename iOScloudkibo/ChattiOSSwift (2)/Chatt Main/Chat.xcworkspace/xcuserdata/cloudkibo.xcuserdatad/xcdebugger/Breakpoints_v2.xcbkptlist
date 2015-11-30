@@ -10,11 +10,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Chat/CallRingingViewController.swift"
-            timestampString = "470227121.703738"
+            timestampString = "470548327.008817"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "108"
-            endingLineNumber = "108"
+            startingLineNumber = "116"
+            endingLineNumber = "116"
             landmarkName = "CallRingingViewController"
             landmarkType = "3">
          </BreakpointContent>
@@ -83,11 +83,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Chat/VideoViewController.swift"
-            timestampString = "470445998.001023"
+            timestampString = "470559908.272482"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "404"
-            endingLineNumber = "404"
+            startingLineNumber = "546"
+            endingLineNumber = "546"
             landmarkName = "viewDidLoad()"
             landmarkType = "5">
          </BreakpointContent>
@@ -373,6 +373,22 @@
             startingLineNumber = "389"
             endingLineNumber = "389"
             landmarkName = "startSignallingIfReady()"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Chat/VideoViewController.swift"
+            timestampString = "470559908.272482"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "641"
+            endingLineNumber = "641"
+            landmarkName = "peerConnection(_:addedStream:)"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>

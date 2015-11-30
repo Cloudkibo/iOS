@@ -34,16 +34,21 @@ class CallRingingViewController: UIViewController//RTCPeerConnectionDelegate,RTC
         iamincall=true
       /////^^  iamincallWith=txtCallerName.text!
         if(txtCallerName.text!==username!)
-        {}
+        {
+        //i am not initiator
+        isInitiator=false
+        }
         else
         {   iamincallWith=txtCallerName.text!
-            socketObj.sendMessagesOfMessageType("Accept Call")
+            //^^^socketObj.sendMessagesOfMessageType("Accept Call")
         }
         
         
        var next = self.storyboard?.instantiateViewControllerWithIdentifier("Main2") as! VideoViewController
         
         self.presentViewController(next, animated: true, completion: {
+            socketObj.sendMessagesOfMessageType("Accept Call")
+
                     })
 
 
@@ -51,10 +56,13 @@ class CallRingingViewController: UIViewController//RTCPeerConnectionDelegate,RTC
            }
     @IBAction func btnRejectPressed(sender: AnyObject) {
         areYouFreeForCall=true
-        socketObj.socket.emit("noiambusy",["mycaller" :iamincallWith!, "me":self.currentusernameretrieved!])
+        socketObj.socket.emit("noiambusy",["mycaller" :iamincallWith!, "me":username!])
         
         
-        dismissViewControllerAnimated(true, completion: nil)
+        dismissViewControllerAnimated(true, completion: {
+        iamincallWith=""
+            self.othersideringing=false
+        })
     }
     override func viewDidLoad() {
         super.viewDidLoad()

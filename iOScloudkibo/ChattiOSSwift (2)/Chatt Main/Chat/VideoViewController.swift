@@ -158,14 +158,16 @@ class VideoViewController: UIViewController,RTCPeerConnectionDelegate,RTCSession
     var rtcMediaStream:RTCMediaStream!
     var rtcFact:RTCPeerConnectionFactory!
     var pc:RTCPeerConnection!
-    var rtcVideoTrack1:RTCVideoTrack!
+    //var rtcVideoTrack1:RTCVideoTrack!
     var rtcMediaConst:RTCMediaConstraints!
     var rtcVideoSource:RTCVideoSource!
     var rtcVideoCapturer:RTCVideoCapturer!
-    var rtcVideoTrack:RTCVideoTrack!
+    //var rtcVideoTrack:RTCVideoTrack!
     var rtcVideoRenderer:RTCVideoRenderer!
-    var abc:RTCVideoTrack!!
+    //var abc:RTCVideoTrack!!
+    var rtcLocalVideoTrack:RTCVideoTrack!
     //var currentId:String!
+     var rtcICEarray:[RTCICEServer]=[]
     var by:Int!
     
     func randomStringWithLength (len : Int) -> NSString {
@@ -207,6 +209,8 @@ class VideoViewController: UIViewController,RTCPeerConnectionDelegate,RTCSession
                 println("***************** \(sdpNew)")
                 var sessionDescription=RTCSessionDescription(type: msg[0]["type"].description, sdp: msg[0]["sdp"]["sdp"].description)
                 ////var sessionDescription=RTCSessionDescription(type: "offer", sdp: sdpNew)
+               
+
                 self.pc.setRemoteDescriptionWithDelegate(self, sessionDescription: sessionDescription)
                 
                // socketObj.socket.emit("msg",["by":currentId!,"to":msg["by"].string!])
@@ -271,13 +275,137 @@ class VideoViewController: UIViewController,RTCPeerConnectionDelegate,RTCSession
         super.viewDidLoad()
         
         
+        
+        
+        var mainICEServerURL:NSURL=NSURL(fileURLWithPath: Constants.MainUrl)!
+        
+        var rtcICEarray:[RTCICEServer]=[]
+        
+        //var roomServer=RoomService(id: _id!)
+        ////self.pc=roomServer.peers[0].getPC()
+        //roomServer.joinRoom(_id!)
+        //roomServer.makeOffer(_id!)
+        
+        rtcICEarray.append(RTCICEServer(URI: NSURL(string:"turn:45.55.232.65:3478?transport=udp"), username: "cloudkibo", password: "cloudkibo"))
+        rtcICEarray.append(RTCICEServer(URI: NSURL(string:"turn:45.55.232.65:3478?transport=tcp"), username: "cloudkibo", password: "cloudkibo"))
+        rtcICEarray.append(RTCICEServer(URI: NSURL(string:"stun:stun.l.google.com:19302"), username: "", password: ""))
+        rtcICEarray.append(RTCICEServer(URI: NSURL(string:"stun:23.21.150.121"), username: "", password: ""))
+        rtcICEarray.append(RTCICEServer(URI: NSURL(string:"stun:stun.anyfirewall.com:3478"), username: "", password: ""))
+        rtcICEarray.append(RTCICEServer(URI: NSURL(string:"turn:turn.bistri.com:80?transport=udp"), username: "homeo", password: "homeo"))
+        rtcICEarray.append(RTCICEServer(URI: NSURL(string:"turn:turn.bistri.com:80?transport=tcp"), username: "homeo", password: "homeo"))
+        rtcICEarray.append(RTCICEServer(URI: NSURL(string:"turn:turn.anyfirewall.com:443?transport=tcp"), username: "webrtc", password: "webrtc"))
+        
+        
+        println("rtcICEServerObj is \(rtcICEarray[0])")
+        
+        
+        
+        //Initialise Peer Connection Object
+        RTCPeerConnectionFactory.initializeSSL()
+        self.rtcFact=RTCPeerConnectionFactory()
+        self.rtcMediaConst=RTCMediaConstraints(mandatoryConstraints: [RTCPair(key: "OfferToReceiveAudio", value: "true"),RTCPair(key: "OfferToReceiveVideo", value: "true")], optionalConstraints: nil)
+        
+        self.pc=self.rtcFact.peerConnectionWithICEServers(self.rtcICEarray, constraints: self.rtcMediaConst, delegate:self)
+        var localStream:RTCMediaStream=createLocalMediaStream()
+        self.pc.addStream(localStream)
+        /*
+        RTCMediaStream *localStream = [self createLocalMediaStream];
+        [_peerConnection addStream:localStream];
+        if (_isInitiator) {
+        [self sendOffer];
+        } else {
+        [self waitForAnswer];
+        }
+        */
+
+        
+        
+       /* RTCPeerConnectionFactory.initializeSSL()
+        self.rtcFact=RTCPeerConnectionFactory()
+        
+        self.rtcMediaConst=RTCMediaConstraints(mandatoryConstraints: [RTCPair(key: "OfferToReceiveAudio", value: "true"),RTCPair(key: "OfferToReceiveVideo", value: "true")], optionalConstraints: nil)
+        
+        self.pc=rtcFact.peerConnectionWithICEServers(rtcICEarray, constraints: rtcMediaConst, delegate:self)
+        */
+        
+        
+        
+        /*^^^^^^^^ new
+        RTCMediaStream.initialize()
+        
+        var rtcMediaStream=rtcFact.mediaStreamWithLabel("@kibo")
+        var rtcAudioTrack=rtcFact.audioTrackWithID("@kiboa0")
+        var addedAudioStream=rtcMediaStream.addAudioTrack(rtcAudioTrack)
+        
+        var device11:AnyObject!
+        var cameraID:NSString!
+        
+        let captureDevice = AVCaptureDevice.devices();
+        // Loop through all the capture devices on this phone
+        for device in captureDevice {
+            // Make sure this particular device supports video
+            if (device.hasMediaType(AVMediaTypeVideo)) {
+                // Finally check the position and confirm we've got the front camera
+                if(device.position == AVCaptureDevicePosition.Front) {
+                    device11 = device as! AVCaptureDevice
+                    if device11 != nil {
+                        println("got device")
+                        cameraID=device11.localizedName
+                        println(cameraID!)
+                        //beginSession()
+                        break
+                    }
+                }
+            }
+        }
+        if cameraID==nil
+        {println("failed to get camera")}
+        
+        
+        rtcVideoRenderer=localView
+        rtcVideoRenderer.self.setSize(CGSize(width: 300, height: 320))
+        println("size is set")
+        
+        //AVCaptureDevice
+        var rtcVideoCapturer=RTCVideoCapturer(deviceName: cameraID! as String)
+                var rtcVideoSource=rtcFact.videoSourceWithCapturer(rtcVideoCapturer, constraints: rtcMediaConst)
+        
+        rtcVideoTrack=RTCVideoTrack(factory: rtcFact, source: rtcVideoSource, trackId: "sss")
+       localViewTop.setSize(CGSize(width: 500, height: 500))
+        localViewTop.drawRect(CGRect(x: 50,y: 50,width: 300,height: 320))
+        
+        localView.setSize(CGSize(width: 400, height: 400))
+        localView.drawRect(CGRect(x: 50,y: 50,width: 300,height: 320))
+        
+        if let lvt=rtcVideoTrack
+        {
+            self.rtcVideoTrack.addRenderer(localView)
+            var addedVideoTrack=rtcMediaStream.addVideoTrack(rtcVideoTrack)
+            
+            
+            println(addedVideoTrack)
+            println("got video track")
+            println(addedAudioStream)
+            println("got audio track")
+        }
+        //^^^^^^^^^^^new pc.addStream(rtcMediaStream)
+        //peerConnection(pc, addedStream: rtcMediaStream)
+        
+        rtcVideoTrack.addRenderer(localView)
+        rtcMediaStream.videoTracks[0].addRenderer(localView)
+        
+
+        */
+        
+        
+        
         socketObj.socket.on("peer.connected"){data,ack in
             println("received peer.connected obj from server")
             var datajson=JSON(data!)
             println(datajson.debugDescription)
             otherID=datajson[0]["id"].int
             iamincallWith=datajson[0]["username"].description
-            self.pc.addStream(self.rtcMediaStream)
+            //^^^^^^^^ new self.pc.addStream(self.rtcMediaStream)
             socketObj.socket.emit("conference.stream", ["username":username!,"id":currentID!,"type":"video","action":"true"])
             socketObj.socket.emit("conference.stream", ["username":username!,"id":currentID!,"type":"audio","action":"true"])
             self.pc.createOfferWithDelegate(self, constraints: self.rtcMediaConst!)
@@ -308,22 +436,24 @@ class VideoViewController: UIViewController,RTCPeerConnectionDelegate,RTCSession
             
             if(msg[0]["type"]=="room_name")
             {
-                if(joinedRoomInCall=="")
-                {
-                joinedRoomInCall=msg[0]["room"].string!
-                //^^^^^^otherID=msg[0]["from"].string!
+                //What to do if already in a room??
+                
+                //if(joinedRoomInCall=="")
+                //{
+                var CurrentRoomName=msg[0]["room"].string!
                 println("got room name as \(joinedRoomInCall)")
                 println("trying to join room")
                 //socketObj.socket.emit("init",["room":joinedRoomInCall,"username":username!])
                 //socketObj.socket.emitWithAck("init",["room":joinedRoomInCall,"username":username!])(timeout: 0)
                 
-                socketObj.socket.emitWithAck("init", ["room":joinedRoomInCall,"username":username!])(timeout: 1500) {data in
+                socketObj.socket.emitWithAck("init", ["room":CurrentRoomName,"username":username!])(timeout: 1500) {data in
                     println("room joined got ack")
                     var a=JSON(data!)
                     println(a.debugDescription)
                     currentID=a[1].int!
+                    joinedRoomInCall=msg[0]["room"].string!
                     println("current id is \(currentID)")
-                }
+                //}
                 }
                 
             }
@@ -373,6 +503,18 @@ class VideoViewController: UIViewController,RTCPeerConnectionDelegate,RTCSession
                 joinedRoomInCall=""
                 iamincallWith=""
                 
+                
+                /*
+                When we hangup or end call
+                var localStreams:RTCMediaStream=self.pc.localStreams[0] as! RTCMediaStream
+                localStreams.removeVideoTrack(localStreams.videoTracks[0] as! RTCVideoTrack)
+                
+                self.pc.removeStream(localStreams as RTCMediaStream)
+                
+                */
+
+
+
                 self.dismissViewControllerAnimated(true, completion: nil);
                 
             }
@@ -401,111 +543,89 @@ class VideoViewController: UIViewController,RTCPeerConnectionDelegate,RTCSession
         
         
         
-                var mainICEServerURL:NSURL=NSURL(fileURLWithPath: Constants.MainUrl)!
-        
-        var rtcICEarray:[RTCICEServer]=[]
-        
-        //var roomServer=RoomService(id: _id!)
-        ////self.pc=roomServer.peers[0].getPC()
-        //roomServer.joinRoom(_id!)
-        //roomServer.makeOffer(_id!)
-    
-      rtcICEarray.append(RTCICEServer(URI: NSURL(string:"turn:45.55.232.65:3478?transport=udp"), username: "cloudkibo", password: "cloudkibo"))
-        rtcICEarray.append(RTCICEServer(URI: NSURL(string:"turn:45.55.232.65:3478?transport=tcp"), username: "cloudkibo", password: "cloudkibo"))
-        rtcICEarray.append(RTCICEServer(URI: NSURL(string:"stun:stun.l.google.com:19302"), username: "", password: ""))
-        rtcICEarray.append(RTCICEServer(URI: NSURL(string:"stun:23.21.150.121"), username: "", password: ""))
-        rtcICEarray.append(RTCICEServer(URI: NSURL(string:"stun:stun.anyfirewall.com:3478"), username: "", password: ""))
-        rtcICEarray.append(RTCICEServer(URI: NSURL(string:"turn:turn.bistri.com:80?transport=udp"), username: "homeo", password: "homeo"))
-        rtcICEarray.append(RTCICEServer(URI: NSURL(string:"turn:turn.bistri.com:80?transport=tcp"), username: "homeo", password: "homeo"))
-        rtcICEarray.append(RTCICEServer(URI: NSURL(string:"turn:turn.anyfirewall.com:443?transport=tcp"), username: "webrtc", password: "webrtc"))
-        
-        
-               println("rtcICEServerObj is \(rtcICEarray[0])")
-        RTCPeerConnectionFactory.initializeSSL()
-        self.rtcFact=RTCPeerConnectionFactory()
-        
-        rtcMediaConst=RTCMediaConstraints(mandatoryConstraints: [RTCPair(key: "OfferToReceiveAudio", value: "true"),RTCPair(key: "OfferToReceiveVideo", value: "true")], optionalConstraints: nil)
-        
-        self.pc=rtcFact.peerConnectionWithICEServers(rtcICEarray, constraints: rtcMediaConst, delegate:self)
-        
-        
-
-        RTCMediaStream.initialize()
-        
-        var rtcMediaStream=rtcFact.mediaStreamWithLabel("@kibo")
-        var rtcAudioTrack=rtcFact.audioTrackWithID("@kiboa0")
-        var addedAudioStream=rtcMediaStream.addAudioTrack(rtcAudioTrack)
-        
-        var device11:AnyObject!
-        var cameraID:NSString!
-   
-        let captureDevice = AVCaptureDevice.devices();
-        // Loop through all the capture devices on this phone
-        for device in captureDevice {
-            // Make sure this particular device supports video
-            if (device.hasMediaType(AVMediaTypeVideo)) {
-                // Finally check the position and confirm we've got the front camera
-                if(device.position == AVCaptureDevicePosition.Front) {
-                    device11 = device as! AVCaptureDevice
-                    if device11 != nil {
-                        println("got device")
-                        cameraID=device11.localizedName
-                        println(cameraID!)
-                        //beginSession()
-                        break
-                    }
-                }
-            }
-        }
-        if cameraID==nil
-         {println("failed to get camera")}
-        
-        
-        rtcVideoRenderer=localView
-        rtcVideoRenderer.self.setSize(CGSize(width: 300, height: 320))
-        println("size is set")
-        
-        //AVCaptureDevice
-        var rtcVideoCapturer=RTCVideoCapturer(deviceName: cameraID! as String)
-        //println(rtcVideoCapturer.debugDescription)
-        
-        var rtcVideoSource=rtcFact.videoSourceWithCapturer(rtcVideoCapturer, constraints: rtcMediaConst)
-        
-        //println(rtcVideoSource.debugDescription)
-        rtcVideoTrack=RTCVideoTrack(factory: rtcFact, source: rtcVideoSource, trackId: "sss")
-        //rtcVideoTrack.setEnabled(true)
-        //println(rtcVideoTrack.debugDescription)
-        
-        localViewTop.setSize(CGSize(width: 500, height: 500))
-        localViewTop.drawRect(CGRect(x: 50,y: 50,width: 300,height: 320))
-        
-        localView.setSize(CGSize(width: 400, height: 400))
-        localView.drawRect(CGRect(x: 50,y: 50,width: 300,height: 320))
-        
-        //localView.setSize(400,400)
-        //localViewTop.sizeToFit()
-
-
-        if let lvt=rtcVideoTrack
-        {
-            self.rtcVideoTrack.addRenderer(localView)
-        var addedVideoTrack=rtcMediaStream.addVideoTrack(rtcVideoTrack)
-            
-            
-        println(addedVideoTrack)
-        println("got video track")
-            println(addedAudioStream)
-        println("got audio track")
-        }
-        pc.addStream(rtcMediaStream)
-        //peerConnection(pc, addedStream: rtcMediaStream)
-      
-        rtcVideoTrack.addRenderer(localView)
-        rtcMediaStream.videoTracks[0].addRenderer(localView)
-        
         
           }
+    
+    func createLocalMediaStream()->RTCMediaStream
+    {
+      
+        var localStream:RTCMediaStream!
+        localStream=rtcFact.mediaStreamWithLabel("@kibo")
+        
+        var localVideoTrack:RTCVideoTrack!=createLocalVideoTrack()
+        if let lvt=localVideoTrack
+        {
+            var addedVideo=localStream.addVideoTrack(localVideoTrack)
+            
+            println("video stream \(addedVideo)")
+            
+        }
+        var audioTrack=rtcFact.audioTrackWithID("@kiboa0")
+        var addedAudioStream=localStream.addAudioTrack(audioTrack)
+        println("audio stream \(addedAudioStream)")
+        //localStream.addAudioTrack(mediaAudioLabel!)
+        println("localStreammm ")
+        print(localStream.description)
+        //^^^localVideoTrack.addRenderer(localView)
+        return localStream
+    }
 
+    func createLocalVideoTrack()->RTCVideoTrack
+    {
+        var localVideoTrack:RTCVideoTrack
+        var cameraID:NSString!
+        for aaa in AVCaptureDevice.devicesWithMediaType(AVMediaTypeVideo)
+        {
+            if aaa.position==AVCaptureDevicePosition.Front
+            {
+                println(aaa.description)
+                println(aaa.deviceCurrentTime)
+                println(aaa.localizedName!)
+                //println(aaa.localStreams.description!)
+                //println(aaa.localizedModel!)
+                
+                cameraID=aaa.localizedName!!
+                println("got front cameraaa as id \(cameraID)")
+                //break
+            }
+            
+        }
+        if cameraID==nil
+            
+        {println("failed to get front camera")}
+        
+        
+        //AVCaptureDevice
+        var capturer=RTCVideoCapturer(deviceName: cameraID! as String)
+        println(capturer.description)
+        var mediaConstraints:RTCMediaConstraints=self.rtcMediaConst
+        var VideoSource=RTCVideoSource.alloc()
+        VideoSource=rtcFact.videoSourceWithCapturer(capturer, constraints: mediaConstraints)
+        localVideoTrack=rtcFact.videoTrackWithID("kibov0", source: VideoSource)
+        didReceiveLocalVideoTrack(localVideoTrack)
+        println("sending localVideoTrack")
+        return localVideoTrack
+        
+    }
+    
+    func didReceiveLocalVideoTrack(localVideoTrack:RTCVideoTrack)
+{/*var minSize = min(self.view.bounds.size.width, self.view.bounds.size.height)
+var bounds: CGRect = CGRectMake(0.0, 0.0, minSize, minSize)
+self.previewLayer = AVCaptureVideoPreviewLayer(session: self.cameraSessionController.session)
+self.previewLayer.bounds = bounds
+self.previewLayer.position = CGPointMake(CGRectGetMidX(self.view.bounds), CGRectGetMidY(self.view.bounds))
+self.previewLayer.videoGravity = AVLayerVideoGravityResizeAspectFill
+
+self.view.layer.addSublayer(self.previewLayer)*/
+    println("got video track as\(localVideoTrack.debugDescription)")
+    self.rtcLocalVideoTrack=localVideoTrack
+    var minSize = min(self.view.bounds.size.width, self.view.bounds.size.height)
+    var bounds: CGRect = CGRectMake(0.0, 0.0, minSize, minSize)
+    remoteView.bounds = bounds
+    remoteView.sendSubviewToBack(localView)
+        self.rtcLocalVideoTrack.addRenderer(remoteView)
+    
+    }
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -525,11 +645,18 @@ class VideoViewController: UIViewController,RTCPeerConnectionDelegate,RTCSession
         if(stream.videoTracks.count>0)
         {
             var receivedVideo=stream.videoTracks[0] as! RTCVideoTrack
+            
             localViewTop.setSize(CGSize(width: 300,height: 300))
             localViewTop.setNeedsDisplayInRect(CGRect(x: 20,y: 20,width: 300,height: 300))
             receivedVideo.addRenderer(localView)
-            
+            //receivedVideo.addRenderer(remoteView)
+            localViewTop.setNeedsDisplayInRect(CGRect(x: 20,y: 20,width: 300,height: 300))
+
+            localView.viewForBaselineLayout()
+            //remoteView.viewForBaselineLayout()
         }
+        socketObj.socket.emit("conference.stream", ["username":username!,"id":currentID!,"type":"video","action":"true"])
+        socketObj.socket.emit("conference.stream", ["username":username!,"id":currentID!,"type":"audio","action":"true"])
         
 
     }
@@ -539,10 +666,10 @@ class VideoViewController: UIViewController,RTCPeerConnectionDelegate,RTCSession
     }
     func peerConnection(peerConnection: RTCPeerConnection!, gotICECandidate candidate: RTCICECandidate!) {
         println("got ice candidate")
-        //println(candidate.description)
+        println(candidate.description)
         var cnd=JSON(["type":"candidate","sdpMLineIndex":candidate.sdpMLineIndex,"sdpMid":candidate.sdpMid!,"candidate":candidate.sdp!])
         var aa=JSON(["msg":["by":currentID!,"to":otherID,"ice":cnd.object,"type":"ice"]])
-        println(aa.description)
+        //println(aa.description)
         socketObj.socket.emit("msg",["by":currentID!,"to":otherID,"ice":cnd.object,"type":"ice"])
 
         /*
@@ -587,15 +714,20 @@ class VideoViewController: UIViewController,RTCPeerConnectionDelegate,RTCSession
         println("did create session description success")
         if error==nil{
         println(sdp.debugDescription)
-        var sessionDescription=RTCSessionDescription(type: sdp.type!, sdp: sdp.description)
+        var sessionDescription=RTCSessionDescription(type: sdp.type!, sdp: sdp.debugDescription)
         
         self.pc.setLocalDescriptionWithDelegate(self, sessionDescription: sessionDescription)
-            if(sdp.type!=="answer"){
-            socketObj.socket.emit("msg",["by":currentID!,"to":otherID,"sdp":["sdp":sdp.description,"type":sdp.type!],"type":sdp.type!])
+            
+            socketObj.socket.emit("conference.stream", ["username":username!,"id":currentID!,"type":"video","action":"true"])
+            socketObj.socket.emit("conference.stream", ["username":username!,"id":currentID!,"type":"audio","action":"true"])
+            
+            
+            if(sdp.type! == "answer"){
+            socketObj.socket.emit("msg",["by":currentID!,"to":otherID,"sdp":["sdp":sdp.debugDescription,"type":sdp.type!],"type":sdp.type!])
             }
-            if(sdp.type!=="offer"){
+            if(sdp.type! == "offer"){
 
-            socketObj.socket.emit("msg",["by":currentID!,"to":otherID,"sdp":["sdp":sdp.description,"type":sdp.type!],"type":sdp.type!,"username":username!])
+            socketObj.socket.emit("msg",["by":currentID!,"to":otherID,"sdp":["sdp":sdp.debugDescription,"type":sdp.type!],"type":sdp.type!,"username":username!])
             }
             /*
             pc.setLocalDescription(sdp);
@@ -639,29 +771,22 @@ socket.emit('msg', { by: currentId, to: data.by, sdp: sdp, type: 'answer' });
         
         // If we are acting as the callee then generate an answer to the offer.
         if error == nil {
-            println("did set sdp no error")
+            println("did set remote sdp no error")
             dispatch_async(dispatch_get_main_queue()) {
                 println("isinitiator is \(isInitiator)")
                 if isInitiator==false &&
                     self.pc.localDescription == nil {
                         println("creating answer")
-                        self.pc.addStream(self.rtcMediaStream)
+                        //^^^^^^^^^ new self.pc.addStream(self.rtcMediaStream)
                         socketObj.socket.emit("conference.stream", ["username":username!,"id":currentID!,"type":"video","action":"true"])
                         socketObj.socket.emit("conference.stream", ["username":username!,"id":currentID!,"type":"audio","action":"true"])
-/* conference.stream obj from server
-[
-{
-"username" : "sojharo",
-"id" : 1,
-"type" : "video",
-"action" : true
-}
-] */
+
                         self.pc.createAnswerWithDelegate(self, constraints: self.rtcMediaConst)
                 }
                 else
                 {
                     println("local not nil or initiator is true")
+                    
                     //println(self.pc.localDescription.description)
                     
                 }
