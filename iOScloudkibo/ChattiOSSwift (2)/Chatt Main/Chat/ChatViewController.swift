@@ -243,8 +243,25 @@ class ChatViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
       
+        socketObj.socket.on("othersideringing"){data,ack in
+            println("otherside ringing")
+            var msg=JSON(data!)
+            //self.othersideringing=true;
+            println(msg.debugDescription)
+            callerName=KeychainWrapper.stringForKey("username")!
+            //iamincallWith=msg[0]["callee"].string!
+            
+            println("callee is \(callerName)")
+            
+            var next = self.storyboard?.instantiateViewControllerWithIdentifier("Main2") as! VideoViewController
+            
+            self.presentViewController(next, animated: true, completion: {
+            })
+            
+        }
+
         
-         
+        
        /*if loggedUserObj==nil
        {
         if let loggd=KeychainWrapper.objectForKey("loggedUserObj")
@@ -361,7 +378,7 @@ class ChatViewController: UIViewController {
         {println("rrrrrrrrr \(retrievedToken)")
             refreshControl.addTarget(self, action: Selector("fetchContacts"), forControlEvents: UIControlEvents.ValueChanged)
             
-            socketObj.socket.on("othersideringing"){data,ack in
+            /*^^^^^^newwww socketObj.socket.on("othersideringing"){data,ack in
                 println("otherside ringing")
                 var msg=JSON(data!)
                 //self.othersideringing=true;
@@ -377,7 +394,7 @@ class ChatViewController: UIViewController {
                 })
                 
             }
-            
+            */
             //fetchContacts()
             self.tblForChat.reloadData()
             //performSegueWithIdentifier("loginSegue", sender: nil)
@@ -513,6 +530,7 @@ class ChatViewController: UIViewController {
                 var next = self.storyboard?.instantiateViewControllerWithIdentifier("Main") as! CallRingingViewController
                 
                 self.presentViewController(next, animated: false, completion: {next.txtCallerName.text=jdata[0]["caller"].string!; next.currentusernameretrieved=self.currrentUsernameRetrieved; next.callerName=jdata[0]["caller"].string!
+                    isInitiator=false
                 })
                 
                 
@@ -953,7 +971,7 @@ class ChatViewController: UIViewController {
             
             var selectedRow = indexPath.row
             println("call pressed")
-            socketObj.socket.emit("callthisperson",["room" : "globalchatroom","callee": self.ContactUsernames[selectedRow], "caller":self.currrentUsernameRetrieved])
+            socketObj.socket.emit("callthisperson",["room" : "globalchatroom","callee": self.ContactUsernames[selectedRow], "caller":username!])
             isInitiator=true
             callerName=username!
             iamincallWith=self.ContactUsernames[selectedRow]

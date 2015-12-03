@@ -62,6 +62,10 @@ class CallRingingViewController: UIViewController//RTCPeerConnectionDelegate,RTC
         dismissViewControllerAnimated(true, completion: {
         iamincallWith=""
             self.othersideringing=false
+            if(joinedRoomInCall != "")
+            {
+            socketObj.socket.emit("message", ["msg":"hangup"])
+            }
         })
     }
     override func viewDidLoad() {

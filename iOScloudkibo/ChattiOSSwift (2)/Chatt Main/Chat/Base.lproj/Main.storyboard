@@ -1168,14 +1168,14 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="wnH-o7-3kI" firstAttribute="top" secondItem="e3t-1t-fHL" secondAttribute="bottom" constant="20" id="5qt-1M-sk9"/>
-                            <constraint firstAttribute="trailing" secondItem="dyW-fy-Dia" secondAttribute="trailing" constant="185" id="Iib-Lz-11e"/>
-                            <constraint firstItem="dyW-fy-Dia" firstAttribute="leading" secondItem="KSC-m3-8y7" secondAttribute="leadingMargin" id="LUh-VM-FSV"/>
-                            <constraint firstItem="e3t-1t-fHL" firstAttribute="leading" secondItem="KSC-m3-8y7" secondAttribute="leadingMargin" id="Ssi-XY-LJr"/>
-                            <constraint firstItem="wnH-o7-3kI" firstAttribute="top" secondItem="dyW-fy-Dia" secondAttribute="bottom" constant="440" id="XGo-IU-kIB"/>
-                            <constraint firstItem="dyW-fy-Dia" firstAttribute="top" secondItem="aAw-0i-KRF" secondAttribute="bottom" id="bsg-q5-g0W"/>
-                            <constraint firstItem="e3t-1t-fHL" firstAttribute="trailing" secondItem="KSC-m3-8y7" secondAttribute="trailingMargin" id="cbV-lu-MCG"/>
-                            <constraint firstItem="e3t-1t-fHL" firstAttribute="top" secondItem="aAw-0i-KRF" secondAttribute="bottom" id="qIb-RJ-18l"/>
+                            <constraint firstItem="dyW-fy-Dia" firstAttribute="top" secondItem="e3t-1t-fHL" secondAttribute="top" id="2Pw-7Y-mib"/>
+                            <constraint firstItem="wnH-o7-3kI" firstAttribute="top" secondItem="dyW-fy-Dia" secondAttribute="bottom" constant="440" id="3En-EM-Rj9"/>
+                            <constraint firstItem="dyW-fy-Dia" firstAttribute="leading" secondItem="e3t-1t-fHL" secondAttribute="leading" id="6F6-Jj-pa0"/>
+                            <constraint firstItem="e3t-1t-fHL" firstAttribute="top" secondItem="aAw-0i-KRF" secondAttribute="bottom" id="NHo-vb-EOc"/>
+                            <constraint firstItem="e3t-1t-fHL" firstAttribute="leading" secondItem="KSC-m3-8y7" secondAttribute="leadingMargin" id="SB9-ah-Sup"/>
+                            <constraint firstItem="e3t-1t-fHL" firstAttribute="trailing" secondItem="KSC-m3-8y7" secondAttribute="trailingMargin" id="TKL-iq-0HG"/>
+                            <constraint firstAttribute="bottom" secondItem="e3t-1t-fHL" secondAttribute="bottom" constant="20" symbolic="YES" id="VFb-3x-2Hp"/>
+                            <constraint firstAttribute="trailing" secondItem="dyW-fy-Dia" secondAttribute="trailing" constant="185" id="XEq-Cs-W0t"/>
                         </constraints>
                     </view>
                     <connections>
