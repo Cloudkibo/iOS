@@ -178,34 +178,6 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "Chat/VideoViewController.swift"
-            timestampString = "469407147.0127"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "45"
-            endingLineNumber = "45">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Chat/VideoViewController.swift"
-            timestampString = "469407147.0127"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "57"
-            endingLineNumber = "57">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
             filePath = "Chat/ChatAppClient.swift"
             timestampString = "469366356.379384"
             startingColumnNumber = "9223372036854775807"
@@ -367,11 +339,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Chat/VideoViewController.swift"
-            timestampString = "471024507.9592"
+            timestampString = "471040718.973184"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "705"
-            endingLineNumber = "705"
+            startingLineNumber = "450"
+            endingLineNumber = "450"
             landmarkName = "peerConnection(_:addedStream:)"
             landmarkType = "5">
          </BreakpointContent>
@@ -383,11 +355,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Chat/VideoViewController.swift"
-            timestampString = "471017004.43745"
+            timestampString = "471038224.701436"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "214"
-            endingLineNumber = "214"
+            startingLineNumber = "83"
+            endingLineNumber = "83"
             landmarkName = "addHandlers()"
             landmarkType = "5">
          </BreakpointContent>
@@ -399,11 +371,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Chat/VideoViewController.swift"
-            timestampString = "471017004.43745"
+            timestampString = "471038224.701436"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "222"
-            endingLineNumber = "222"
+            startingLineNumber = "91"
+            endingLineNumber = "91"
             landmarkName = "addHandlers()"
             landmarkType = "5">
          </BreakpointContent>
@@ -415,11 +387,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Chat/VideoViewController.swift"
-            timestampString = "471017004.43745"
+            timestampString = "471038224.701436"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "200"
-            endingLineNumber = "200"
+            startingLineNumber = "69"
+            endingLineNumber = "69"
             landmarkName = "addHandlers()"
             landmarkType = "5">
          </BreakpointContent>
@@ -431,11 +403,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Chat/VideoViewController.swift"
-            timestampString = "471017004.43745"
+            timestampString = "471041724.91169"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "415"
-            endingLineNumber = "415"
+            startingLineNumber = "170"
+            endingLineNumber = "170"
             landmarkName = "viewDidLoad()"
             landmarkType = "5">
          </BreakpointContent>
@@ -447,11 +419,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Chat/VideoViewController.swift"
-            timestampString = "471019520.228954"
+            timestampString = "471041390.078777"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "638"
-            endingLineNumber = "638"
+            startingLineNumber = "397"
+            endingLineNumber = "397"
             landmarkName = "createLocalVideoTrack()"
             landmarkType = "5">
          </BreakpointContent>
@@ -463,11 +435,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Chat/VideoViewController.swift"
-            timestampString = "471024507.9592"
+            timestampString = "471040718.973184"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "727"
-            endingLineNumber = "727"
+            startingLineNumber = "472"
+            endingLineNumber = "472"
             landmarkName = "peerConnection(_:addedStream:)"
             landmarkType = "5">
          </BreakpointContent>
@@ -479,11 +451,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Chat/VideoViewController.swift"
-            timestampString = "471024507.9592"
+            timestampString = "471040718.973184"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "729"
-            endingLineNumber = "729"
+            startingLineNumber = "474"
+            endingLineNumber = "474"
             landmarkName = "peerConnection(_:addedStream:)"
             landmarkType = "5">
          </BreakpointContent>
@@ -495,28 +467,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Chat/VideoViewController.swift"
-            timestampString = "471024507.9592"
+            timestampString = "471040718.973184"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "690"
-            endingLineNumber = "690"
-            landmarkName = "didReceiveLocalVideoTrack(_:)"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Chat/VideoViewController.swift"
-            timestampString = "471024507.9592"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "691"
-            endingLineNumber = "691"
-            landmarkName = "didReceiveLocalVideoTrack(_:)"
+            startingLineNumber = "436"
+            endingLineNumber = "436"
+            landmarkName = "didReceiveLocalStream(_:)"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
