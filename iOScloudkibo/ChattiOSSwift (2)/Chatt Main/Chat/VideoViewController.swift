@@ -17,6 +17,9 @@ class VideoViewController: UIViewController,RTCPeerConnectionDelegate,RTCSession
 
    
     @IBOutlet var localViewOutlet: UIView!
+    var rtcLocalMediaStream:RTCMediaStream!
+    var videoAction=false
+    var audioAction=true
     var rtcMediaStream:RTCMediaStream!
     var rtcFact:RTCPeerConnectionFactory!
     var pc:RTCPeerConnection!
@@ -34,7 +37,7 @@ class VideoViewController: UIViewController,RTCPeerConnectionDelegate,RTCSession
     var rtcStreamReceived:RTCMediaStream!
     var rtcVideoTrackReceived:RTCVideoTrack!
     var rtcAudioTrackReceived:RTCAudioTrack!
-    var rtcLocalMediaStream:RTCMediaStream!
+    
     
     
     func randomStringWithLength (len : Int) -> NSString {
@@ -72,6 +75,9 @@ class VideoViewController: UIViewController,RTCPeerConnectionDelegate,RTCSession
                 self.pc.addStream(self.getLocalMediaStream())
                 otherID=msg[0]["by"].int!
                 currentID=msg[0]["to"].int!
+                
+                socketObj.socket.emit("conference.stream", ["username":username!,"id":currentID!,"type":"video","action":"false"])
+                socketObj.socket.emit("conference.stream", ["username":username!,"id":currentID!,"type":"audio","action":"true"])
                 
                    var sdpNew = msg[0]["sdp"]["sdp"].description.stringByReplacingOccurrencesOfString("\n", withString: "")
                 //sdpNew=sdpNew.string!.stringByReplacingOccurrencesOfString("\r", withString: "")
@@ -119,6 +125,35 @@ class VideoViewController: UIViewController,RTCPeerConnectionDelegate,RTCSession
         //socket.emit('msg', { by: currentId, to: id, sdp: sdp, type: 'offer', username: username });
     }
     
+    @IBAction func endCallBtnPressed(sender: AnyObject) {
+        socketObj.socket.emit("message",["msg":"hangup","room":globalroom,"to":iamincallWith!,"username":username!])
+        socketObj.socket.emit("leave",["room":joinedRoomInCall])
+        
+        //self.rtcMediaStream.removeAudioTrack(self.rtcAudioTrackReceived)
+       // self.rtcMediaStream.removeVideoTrack(self.rtcVideoTrackReceived)
+        self.rtcLocalVideoTrack=nil
+        self.rtcVideoTrackReceived=nil
+        self.rtcAudioTrackReceived=nil
+        self.pc=nil
+        joinedRoomInCall=""
+        iamincallWith=""
+        isInitiator=false
+
+        
+    
+    }
+    
+    @IBAction func toggleVideoBtnPressed(sender: AnyObject) {
+        videoAction = !videoAction
+        socketObj.socket.emit("conference.stream", ["username":username!,"id":otherID!,"type":"video","action":videoAction.description])
+        
+        
+
+    }
+    
+    @IBAction func toggleAudioPressed(sender: AnyObject) {
+        self.rtcLocalMediaStream.audioTracks[0].toggleAudioPressed(self)
+    }
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -168,6 +203,10 @@ class VideoViewController: UIViewController,RTCPeerConnectionDelegate,RTCSession
 */
             self.createPeerConnectionObject()
             self.pc.addStream(self.getLocalMediaStream())
+            socketObj.socket.emit("conference.stream", ["username":username!,"id":currentID!,"type":"video","action":"false"])
+            socketObj.socket.emit("conference.stream", ["username":username!,"id":currentID!,"type":"audio","action":"true"])
+            
+
             self.pc.createOfferWithDelegate(self, constraints: self.rtcMediaConst!)
             
         }
@@ -181,6 +220,12 @@ class VideoViewController: UIViewController,RTCPeerConnectionDelegate,RTCSession
 
         socketObj.socket.on("peer.stream"){data,ack in
             println("received peer.stream obj from server")
+            var datajson=JSON(data!)
+            println(datajson.debugDescription)
+            
+        }
+        socketObj.socket.on("peer.disconnected"){data,ack in
+            println("received peer.disconnected obj from server")
             var datajson=JSON(data!)
             println(datajson.debugDescription)
             
@@ -264,13 +309,19 @@ class VideoViewController: UIViewController,RTCPeerConnectionDelegate,RTCSession
 
             if(msg[0]=="hangup")
             {
+                
+                println("hangupppppp received")
+               // self.rtcMediaStream.removeAudioTrack(self.rtcAudioTrackReceived)
+                //self.rtcMediaStream.removeVideoTrack(self.rtcVideoTrackReceived)
+                self.rtcLocalVideoTrack=nil
+                self.rtcVideoTrackReceived=nil
+                self.rtcAudioTrackReceived=nil
+                self.pc=nil
+                socketObj.socket.emit("message",["msg":"hangup","room":globalroom,"to":iamincallWith!,"username":username!])
+                socketObj.socket.emit("leave",["room":joinedRoomInCall])
                 joinedRoomInCall=""
                 iamincallWith=""
                 isInitiator=false
-                self.rtcLocalVideoTrack=nil
-                self.pc=nil
-                socketObj.socket.emit("message", "disconnect")
-                
                 
                 
                 
@@ -474,42 +525,7 @@ class VideoViewController: UIViewController,RTCPeerConnectionDelegate,RTCSession
             
         }
             
-            //localViewUIview.setNeedsDisplayInRect(CGRect(x: 0, y: 0, width: 500, height: 500))
-            //localViewUIview.displayLayer(self.remoteView.layer)
-        //}
-        
-        /*
-        println(stream.videoTracks.count)
-        println(stream.audioTracks.count)
-       //^^^^newww if(stream.videoTracks.count>0)
-       //^^^^newww {
-            //^^^^^neww var receivedVideo=stream.videoTracks[0] as! RTCVideoTrack
-        
-        self.rtcVideoTrackReceived=stream.videoTracks[0] as! RTCVideoTrack
-        
-            //localViewTop.setSize(CGSize(width: 300,height: 300))
-            //localViewTop.setNeedsDisplayInRect(CGRect(x: 20,y: 20,width: 300,height: 300))
-        self.remoteView=RTCEAGLVideoView(frame: CGRect(x: 0, y: 0, width: 300, height: 300))
-        
-          //  self.remoteView.updateConstraintsIfNeeded()
-          // self.localView=RTCEAGLVideoView(frame: CGRect(x: 0, y: 0, width: self.view.bounds.width/4, height: self.view.bounds.height/4))
-            self.rtcVideoTrackReceived.addRenderer(self.remoteView)
-        self.remoteView.hidden=false
-        self.remoteView.setNeedsDisplay()
-        
-        println(self.remoteView.constraints().description)
-            //receivedVideo.addRenderer(remoteView)
-          //  localViewTop.setNeedsDisplayInRect(CGRect(x: 20,y: 20,width: 300,height: 300))
-
-        //    localView.viewForBaselineLayout()
-            //remoteView.viewForBaselineLayout()
-       //^^^neww }
-
-*/
-            
-            
-        socketObj.socket.emit("conference.stream", ["username":username!,"id":currentID!,"type":"video","action":"true"])
-        socketObj.socket.emit("conference.stream", ["username":username!,"id":currentID!,"type":"audio","action":"true"])
+      
         })
 
     }
@@ -553,10 +569,10 @@ class VideoViewController: UIViewController,RTCPeerConnectionDelegate,RTCSession
         })
     }
     func peerConnection(peerConnection: RTCPeerConnection!, iceConnectionChanged newState: RTCICEConnectionState) {
-         println("............... ice connection changed")
+         println("............... ice connection changed new state is \(newState)")
     }
     func peerConnection(peerConnection: RTCPeerConnection!, iceGatheringChanged newState: RTCICEGatheringState) {
-        println("............... ice gathering changed")
+        println("............... ice gathering changed \(newState)")
     }
     func peerConnection(peerConnection: RTCPeerConnection!, removedStream stream: RTCMediaStream!) {
         println("...............removed stream")
@@ -643,10 +659,7 @@ socket.emit('msg', { by: currentId, to: data.by, sdp: sdp, type: 'answer' });
                     self.pc.localDescription == nil {
                         println("creating answer")
                         //^^^^^^^^^ new self.pc.addStream(self.rtcMediaStream)
-                        socketObj.socket.emit("conference.stream", ["username":username!,"id":currentID!,"type":"video","action":"true"])
-                        socketObj.socket.emit("conference.stream", ["username":username!,"id":currentID!,"type":"audio","action":"true"])
-
-                       self.pc.createAnswerWithDelegate(self, constraints: self.rtcMediaConst)
+                                               self.pc.createAnswerWithDelegate(self, constraints: self.rtcMediaConst)
                 }
                 else
                 {
