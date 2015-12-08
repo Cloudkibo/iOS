@@ -17,6 +17,8 @@ class VideoViewController: UIViewController,RTCPeerConnectionDelegate,RTCSession
 
    
     @IBOutlet var localViewOutlet: UIView!
+    var localView:RTCEAGLVideoView!
+    var remoteView:RTCEAGLVideoView!
     var rtcLocalMediaStream:RTCMediaStream!
     var videoAction=false
     var audioAction=true
@@ -146,7 +148,7 @@ class VideoViewController: UIViewController,RTCPeerConnectionDelegate,RTCSession
         
         rtcLocalMediaStream=nil //test and try-------------
         //rtcMediaStream=nil //test and try---------------------
-
+        self.rtcFact=nil
         //AVCaptureSession.stopRunning(<#AVCaptureSession#>)
         dismissViewControllerAnimated(true, completion: { () -> Void in
     
@@ -245,7 +247,13 @@ class VideoViewController: UIViewController,RTCPeerConnectionDelegate,RTCSession
                 self.rtcVideoTrackReceived.setEnabled((datajson[0]["action"].bool!))
                 if(datajson[0]["action"].bool! == false)
                 {
-                    //self.rtcVideoTrackReceived=nil
+                       self.localView.hidden=true
+                       self.remoteView.hidden=true
+                }
+                if(datajson[0]["action"].bool! == true)
+                {
+                    self.localView.hidden=true
+                    self.remoteView.hidden=false
                 }
             }
             
@@ -502,22 +510,24 @@ class VideoViewController: UIViewController,RTCPeerConnectionDelegate,RTCSession
     func didReceiveLocalStream(stream:RTCMediaStream)
 {
     
+    dispatch_async(dispatch_get_main_queue(), {
+            self.localView=RTCEAGLVideoView(frame: CGRect(x: 0, y: 0, width: 500, height: 500))
     
-            var localView=RTCEAGLVideoView(frame: CGRect(x: 0, y: 0, width: 500, height: 500))
-        localView.drawRect(CGRect(x: 0, y: 0, width: 500, height: 500))
+        self.localView.drawRect(CGRect(x: 0, y: 0, width: 500, height: 500))
         // self.remoteView.addConstraints(mediaConstraints.d)
         if(stream.videoTracks.count>0)
         {println("remote video track count is greater than one")
             self.rtcLocalVideoTrack=stream.videoTracks[0] as! RTCVideoTrack
             
-            self.rtcLocalVideoTrack.addRenderer(localView)
+            self.rtcLocalVideoTrack.addRenderer(self.localView)
             
-            self.localViewOutlet.addSubview(localView)
+            self.localViewOutlet.addSubview(self.localView)
             self.localViewOutlet.updateConstraintsIfNeeded()
-            localView.setNeedsDisplay()
+            self.localView.setNeedsDisplay()
             self.localViewOutlet.setNeedsDisplay()
         }
-        
+    })
+    
    
     }
     override func didReceiveMemoryWarning() {
@@ -542,19 +552,19 @@ class VideoViewController: UIViewController,RTCPeerConnectionDelegate,RTCSession
         //if(!self.remoteView)
         //{
         
-            var remoteView=RTCEAGLVideoView(frame: CGRect(x: 0, y: 0, width: 500, height: 500))
-        remoteView.drawRect(CGRect(x: 0, y: 0, width: 500, height: 500))
+            self.remoteView=RTCEAGLVideoView(frame: CGRect(x: 0, y: 0, width: 500, height: 500))
+            self.remoteView.drawRect(CGRect(x: 0, y: 0, width: 500, height: 500))
         var mediaConstraints=RTCMediaConstraints(mandatoryConstraints: [RTCPair(key: "maxWidth", value: "640"),RTCPair(key: "minWidth", value: "640"),RTCPair(key: "maxHeight", value: "480"),RTCPair(key: "minHeight", value: "480"),RTCPair(key: "maxFrameRate", value: "30"),RTCPair(key: "minFrameRate", value: "5"),RTCPair(key: "googLeakyBucket", value: "true")], optionalConstraints: nil)
        // self.remoteView.addConstraints(mediaConstraints.d)
         if(stream.videoTracks.count>0)
         {println("remote video track count is greater than one")
             self.rtcVideoTrackReceived=stream.videoTracks[0] as! RTCVideoTrack
         
-            self.rtcVideoTrackReceived.addRenderer(remoteView)
-            
-            self.localViewOutlet.addSubview(remoteView)
+            self.rtcVideoTrackReceived.addRenderer(self.remoteView)
+            self.remoteView.hidden=true // ^^^^newww
+            self.localViewOutlet.addSubview(self.remoteView)
             self.localViewOutlet.updateConstraintsIfNeeded()
-            remoteView.setNeedsDisplay()
+            self.remoteView.setNeedsDisplay()
             self.localViewOutlet.setNeedsDisplay()
             
         }
