@@ -126,33 +126,56 @@ class VideoViewController: UIViewController,RTCPeerConnectionDelegate,RTCSession
     }
     
     @IBAction func endCallBtnPressed(sender: AnyObject) {
+        
         socketObj.socket.emit("message",["msg":"hangup","room":globalroom,"to":iamincallWith!,"username":username!])
         socketObj.socket.emit("leave",["room":joinedRoomInCall])
         
         //self.rtcMediaStream.removeAudioTrack(self.rtcAudioTrackReceived)
        // self.rtcMediaStream.removeVideoTrack(self.rtcVideoTrackReceived)
-        self.rtcLocalVideoTrack=nil
-        self.rtcVideoTrackReceived=nil
-        self.rtcAudioTrackReceived=nil
         self.pc=nil
         joinedRoomInCall=""
         iamincallWith=""
         isInitiator=false
+        areYouFreeForCall=true
+        rtcLocalMediaStream.videoTracks[0].stopRunning
+        //self.rtcMediaStream.videoTracks[0].stopRunning()
+        self.rtcLocalVideoTrack=nil
+        self.rtcLocalVideoTrack=nil
+        self.rtcVideoTrackReceived=nil
+        self.rtcAudioTrackReceived=nil
+        
+        rtcLocalMediaStream=nil //test and try-------------
+        //rtcMediaStream=nil //test and try---------------------
+
+        //AVCaptureSession.stopRunning(<#AVCaptureSession#>)
+        dismissViewControllerAnimated(true, completion: { () -> Void in
+    
+            for(var i=self.localViewOutlet.subviews.count;i<0;i--)
+            {
+                if(i<=(self.localViewOutlet.subviews.count-1))
+                {
+                self.localViewOutlet.subviews[i].removeFromParentViewController()
+                }
+                
+            }
+            
+        })
 
         
     
     }
     
     @IBAction func toggleVideoBtnPressed(sender: AnyObject) {
-        videoAction = !videoAction
-        socketObj.socket.emit("conference.stream", ["username":username!,"id":otherID!,"type":"video","action":videoAction.description])
+        videoAction = !videoAction.boolValue
+        socketObj.socket.emit("conference.stream", ["username":username!,"id":currentID!,"type":"video","action":videoAction.boolValue])
         
         
 
     }
     
     @IBAction func toggleAudioPressed(sender: AnyObject) {
-        self.rtcLocalMediaStream.audioTracks[0].toggleAudioPressed(self)
+        audioAction = !audioAction.boolValue
+        self.rtcLocalMediaStream!.audioTracks[0].setEnabled(audioAction)
     }
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -215,6 +238,16 @@ class VideoViewController: UIViewController,RTCPeerConnectionDelegate,RTCSession
             println("received conference.stream obj from server")
             var datajson=JSON(data!)
             println(datajson.debugDescription)
+            //if(datajson[0]["id"].intValue == otherID! && datajson[0]["type"].description == "video")
+                if(datajson[0]["username"].debugDescription != username! && datajson[0]["type"].debugDescription == "video")
+            {
+                println("toggle remote video stream")
+                self.rtcVideoTrackReceived.setEnabled((datajson[0]["action"].bool!))
+                if(datajson[0]["action"].bool! == false)
+                {
+                    //self.rtcVideoTrackReceived=nil
+                }
+            }
             
         }
 
@@ -322,6 +355,7 @@ class VideoViewController: UIViewController,RTCPeerConnectionDelegate,RTCSession
                 joinedRoomInCall=""
                 iamincallWith=""
                 isInitiator=false
+                areYouFreeForCall=true
                 
                 
                 
