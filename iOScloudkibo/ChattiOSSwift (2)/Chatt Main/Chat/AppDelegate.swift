@@ -11,12 +11,13 @@ import SQLite
 import SwiftyJSON
 import Alamofire
 
-let socketObj=LoginAPI(url:"\(Constants.MainUrl)")
+//let socketObj=LoginAPI(url:"\(Constants.MainUrl)")
+var socketObj:LoginAPI!
 let sqliteDB=DatabaseHandler(dbName:"cloudkiboDB.sqlite3")
 
 var AuthToken=KeychainWrapper.stringForKey("access_token")
 var loggedUserObj=JSON("[]")
-
+var glocalChatRoomJoined:Bool=false
 //let dbSQLite=DatabaseHandler(dbName: "/cloudKibo.sqlite3")
 var username=KeychainWrapper.stringForKey("username")
 var password=KeychainWrapper.stringForKey("password")
@@ -37,6 +38,9 @@ var areYouFreeForCall:Bool=true
 var iamincallWith:String!
 var isInitiator=false
 var callerName=""
+var rtcICEarray:[RTCICEServer]=[]
+var rtcFact:RTCPeerConnectionFactory!
+
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
     
@@ -54,6 +58,19 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         UIApplication.sharedApplication().setStatusBarStyle(UIStatusBarStyle.LightContent, animated: false);
         
         UINavigationBar.appearance().titleTextAttributes = [NSForegroundColorAttributeName: UIColor.whiteColor()]
+        
+        application.registerUserNotificationSettings(UIUserNotificationSettings(forTypes: .Alert | .Badge | .Sound, categories: nil))  // types are UIUserNotificationType members
+          if(socketObj == nil)
+            {
+                println("socket is nillll1")
+                socketObj=LoginAPI(url:"\(Constants.MainUrl)")
+                socketObj.connect()
+            }
+        
+    
+        
+        
+        
         return true
         
     }
@@ -70,10 +87,22 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func applicationWillEnterForeground(application: UIApplication) {
         // Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
+        if(socketObj == nil)
+        {
+            println("socket is nillll")
+            socketObj=LoginAPI(url:"\(Constants.MainUrl)")
+            socketObj.connect()
+        }
     }
     
     func applicationDidBecomeActive(application: UIApplication) {
         // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
+        if(socketObj == nil)
+        {
+            println("socket is nillll")
+            socketObj=LoginAPI(url:"\(Constants.MainUrl)")
+            socketObj.connect()
+        }
     }
     
     func applicationWillTerminate(application: UIApplication) {

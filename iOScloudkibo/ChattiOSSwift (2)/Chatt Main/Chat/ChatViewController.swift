@@ -226,23 +226,88 @@ class ChatViewController: UIViewController {
     var ContactOnlineStatus:[Int]=[]
     
     //["Bus","Helicopter","Truck","Boat","Bicycle","Motorcycle","Plane","Train","Car","Scooter","Caravan"]
+    required init(coder aDecoder: NSCoder)
+    {
+        super.init(coder: aDecoder)
+        //println(AuthToken!)
+        
+    }
     
     override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: NSBundle?) {
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
         // Custom initialization
         
     }
-    
-    required init(coder aDecoder: NSCoder)
-    {
-        super.init(coder: aDecoder)
-        //println(AuthToken!)
-    
-    }
+
+   
+   
     
     override func viewDidLoad() {
         super.viewDidLoad()
-      
+      currrentUsernameRetrieved=KeychainWrapper.stringForKey("username")!
+        
+        if(loggedUserObj == JSON("[]"))
+        {
+            var lusername=KeychainWrapper.stringForKey("username")
+            //KeychainWrapper.stringForKey("password")
+            //KeychainWrapper.stringForKey("loggedFullName")
+            //KeychainWrapper.stringForKey("loggedPhone")
+            //KeychainWrapper.stringForKey("loggedEmail")
+            var lid=KeychainWrapper.stringForKey("_id")
+            
+            var lobj=["_id" : lid!, "username" : lusername!]
+            if let dataFromString = jsonString.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false) {
+                let json11 = JSON(lobj.debugDescription)
+                
+                var lllooo = json11
+                loggedUserObj=json11
+                loggedUserObj.object=json11.object
+                println(lllooo.object)
+                //var jsonNew=JSON("{\"room\": \"globalchatroom\",\"user\": {\"username\":\"sabachanna\"}}")
+                //socketObj.socket.emit("join global chatroom", ["room": "globalchatroom", "user": ["username":"sabachanna"]]) WORKINGGG
+                
+                
+                /*
+                
+                var logonjuser=KeychainWrapper.stringForKey("loggedUserObjString")
+                var newloggedUserObj=logonjuser!.stringByResolvingSymlinksInPath
+                println("newloggeduserobj string")
+                println(newloggedUserObj)
+                if let dataFromString = jsonString.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false) {
+                let json11 = JSON(newloggedUserObj)
+                
+                println("json11 object")
+                println(json11.object)
+                
+                loggedUserObj=json11
+                
+                
+                println("joining rooon \(json11.object)")
+                socketObj.socket.emit("join global chatroom",["room": "globalchatroom", "user": json11.object])
+                
+                }*/
+            }
+            
+        }
+        
+        
+        println("loadddddd")
+        if(socketObj == nil)
+        {
+            println("socket is nillll")
+            
+            
+            socketObj=LoginAPI(url:"\(Constants.MainUrl)")
+            println("connected issssss \(socketObj.socket.connected)")
+           socketObj.connect()
+        }
+
+    
+        
+        
+   
+        
+            
         socketObj.socket.on("othersideringing"){data,ack in
             println("otherside ringing")
             var msg=JSON(data!)
@@ -368,7 +433,7 @@ class ChatViewController: UIViewController {
         //if AuthToken==""
         
         //everytime new login
-        //^^^^^^^^^^^KeychainWrapper.removeObjectForKey("access_token")
+        ////KeychainWrapper.removeObjectForKey("access_token")
         
         
         let retrievedToken=KeychainWrapper.stringForKey("access_token")
@@ -400,23 +465,73 @@ class ChatViewController: UIViewController {
             //performSegueWithIdentifier("loginSegue", sender: nil)
         }
         
+        
+        
+        
         // Do any additional setup after loading the view.
         
         
     }
     
     override func viewWillAppear(animated: Bool) {
+        println("appearrrrrr")
+        socketObj.addHandlers()
+                   /*var lusername=KeychainWrapper.stringForKey("username")
+            //KeychainWrapper.stringForKey("password")
+            //KeychainWrapper.stringForKey("loggedFullName")
+            //KeychainWrapper.stringForKey("loggedPhone")
+            //KeychainWrapper.stringForKey("loggedEmail")
+            var lid=KeychainWrapper.stringForKey("_id")
+            
+            
+            var lobj=["_id": lid!, "username":lusername!]
+            if let dataFromString = jsonString.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false) {
+                let json11 = JSON(lobj.debugDescription)
+                
+            var lllooo = json11
+                loggedUserObj.object=lllooo.object
+                socketObj.addHandlers()
+                println(lllooo.object)
+                //var jsonNew=JSON("{\"room\": \"globalchatroom\",\"user\": {\"username\":\"sabachanna\"}}")
+                //socketObj.socket.emit("join global chatroom", ["room": "globalchatroom", "user": ["username":"sabachanna"]]) WORKINGGG
+                
+                socketObj.socket.emit("join global chatroom",["room": "globalchatroom", "user": lllooo.object])
+                
+               // println(lllooo["_id"])
+
+            }
+            /*var lll=KeychainWrapper.stringForKey("loggedIDKeyChain")
+            println("------------------")
+            println(lll!.stringByDeletingPathExtension)
+            println("------------------")
+            println(lll!.stringByRemovingPercentEncoding)
+            println("------------------")
+            println(lll!.stringByResolvingSymlinksInPath)
+            loggedUserObj = JSON(lll!.stringByResolvingSymlinksInPath)
+            */
+            */
+        
+        println("khul raha hai1")
+        ///^^^^^^^neww let retrievedToken=KeychainWrapper.stringForKey("access_token")
+        //var retrievedToken:String!
         let retrievedToken=KeychainWrapper.stringForKey("access_token")
-        let retrievedUsername=KeychainWrapper.stringForKey("username")
-        if retrievedToken==nil || retrievedUsername==nil
-        {performSegueWithIdentifier("loginSegue", sender: nil)}
+        println("khul raha hai2")
+        println(loggedUserObj.object)
+        //let retrievedUsername=KeychainWrapper.stringForKey("username")
+        //if retrievedToken==nil || retrievedUsername==nil
+        if retrievedToken == nil
+            {performSegueWithIdentifier("loginSegue", sender: nil)}
         else
         {
-        fetchContacts()
+        //^^^^^^^^^^^newwwww ************* 
+            fetchContacts()
+           //^^^^^^^^^^^^newwwww 
+             ////////self.fetchContactsFromServer()
             dispatch_async(dispatch_get_main_queue(), {
-                self.fetchContactsFromServer()
+               self.fetchContactsFromServer()
                 self.tblForChat.reloadData()
                 
+            //^^^^^^^^^^^newwwww ******* 
             })
     }
     
@@ -561,12 +676,7 @@ class ChatViewController: UIViewController {
         
         //==========Show Online============
         
-        
-        socketObj.socket.emit("whozonline",[
-            "room":"globalchatroom",
-            "user":loggedUserObj.object])
-        
-
+       
     
     }
     
@@ -576,6 +686,53 @@ class ChatViewController: UIViewController {
     
     func fetchContactsFromServer(){
         println("Server fetchingg contactss")
+        if(loggedUserObj == JSON("[]"))
+        {
+            var lusername=KeychainWrapper.stringForKey("username")
+            if(lusername == nil)
+            {lusername=username!}
+            //KeychainWrapper.stringForKey("password")
+            //KeychainWrapper.stringForKey("loggedFullName")
+            //KeychainWrapper.stringForKey("loggedPhone")
+            //KeychainWrapper.stringForKey("loggedEmail")
+            var lid=KeychainWrapper.stringForKey("_id")
+            
+            var lobj=["_id": lid!, "username" : lusername!]
+            if let dataFromString = jsonString.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false) {
+                let json11 = JSON(lobj.debugDescription)
+                
+                var lllooo = json11
+                loggedUserObj=json11
+                loggedUserObj.object=json11.object
+                println(lllooo.object)
+                //var jsonNew=JSON("{\"room\": \"globalchatroom\",\"user\": {\"username\":\"sabachanna\"}}")
+                //socketObj.socket.emit("join global chatroom", ["room": "globalchatroom", "user": ["username":"sabachanna"]]) WORKINGGG
+                
+                
+                /*
+                
+                var logonjuser=KeychainWrapper.stringForKey("loggedUserObjString")
+                var newloggedUserObj=logonjuser!.stringByResolvingSymlinksInPath
+                println("newloggeduserobj string")
+                println(newloggedUserObj)
+                if let dataFromString = jsonString.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false) {
+                let json11 = JSON(newloggedUserObj)
+                
+                println("json11 object")
+                println(json11.object)
+                
+                loggedUserObj=json11
+                
+                
+                println("joining rooon \(json11.object)")
+                socketObj.socket.emit("join global chatroom",["room": "globalchatroom", "user": json11.object])
+                
+                }*/
+            }
+            
+        }
+        
+
         var fetchChatURL=Constants.MainUrl+Constants.getContactsList+"?access_token="+AuthToken!
         
         println(fetchChatURL)
@@ -598,6 +755,37 @@ class ChatViewController: UIViewController {
                 
                 
                 if response1?.statusCode==200 {
+                    
+                    if(glocalChatRoomJoined == false)
+                    {
+                        socketObj.addHandlers()
+                    println("joiningggggg")
+                        //var lll=KeychainWrapper.stringForKey("loggedIDKeyChain")
+                        var lll=KeychainWrapper.stringForKey("loggedUserObjString")
+                        //loggedUserObjString
+                        println("------------------")
+                        println(lll!.stringByDeletingPathExtension)
+                        println("------------------")
+                        println(lll!.stringByRemovingPercentEncoding)
+                        println("------------------")
+                        println(lll!.stringByResolvingSymlinksInPath)
+                        var ssss=lll!.stringByResolvingSymlinksInPath
+                        
+                        if let dataFromString = jsonString.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false) {
+                            let json22 = JSON(ssss)
+                            
+                            println(";;;;;;;;;")
+                            println(json22.object)
+                            
+                        loggedUserObj = json22
+                        var lllloooobbbb = json22
+                          //  var dd:[AnyObject]=json22.rawValue as! [AnyObject]
+                   /// socketObj.socket.emit("join global chatroom",["room":"globalchatroom","user":loggedUserObj.object])
+                        ///socketObj.socket.emit("join global chatroom", ["room": "globalchatroom", "user": json22.object])
+                            socketObj.socket.emit("join global chatroom", ["room": "globalchatroom", "user": ["username":KeychainWrapper.stringForKey("username")!]])
+                        }
+                     
+                    }
                     //println("Contacts fetched success")
                     let contactsJsonObj = JSON(data: data1!)
                     println(contactsJsonObj)
@@ -703,6 +891,14 @@ class ChatViewController: UIViewController {
             
             
         }
+        
+        println("before whozonline print")
+        println(loggedUserObj.object)
+        socketObj.socket.emit("whozonline",[
+            "room":"globalchatroom",
+            "user":loggedUserObj.object])
+        
+
         
    
        

@@ -48,7 +48,6 @@ class CallRingingViewController: UIViewController//RTCPeerConnectionDelegate,RTC
         
         self.presentViewController(next, animated: true, completion: {
             socketObj.sendMessagesOfMessageType("Accept Call")
-
                     })
 
 
@@ -56,8 +55,10 @@ class CallRingingViewController: UIViewController//RTCPeerConnectionDelegate,RTC
            }
     @IBAction func btnRejectPressed(sender: AnyObject) {
         areYouFreeForCall=true
-        socketObj.socket.emit("noiambusy",["mycaller" :iamincallWith!, "me":username!])
-        
+        //if(iamincallWith != nil)
+        //{
+            socketObj.socket.emit("noiambusy",["mycaller" :iamincallWith!, "me":username!])
+        //}
         
         dismissViewControllerAnimated(true, completion: {
         iamincallWith=""

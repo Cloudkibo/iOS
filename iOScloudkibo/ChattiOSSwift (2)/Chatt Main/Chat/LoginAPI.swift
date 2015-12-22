@@ -54,8 +54,20 @@ class LoginAPI{
         }
         self.socket.on("disconnect") {data, ack in
             NSLog("disconnected from socket")
-            self.socket.emit("message", ["msg":"hangup"])
+            //self.socket.emit("message", ["msg":"hangup"])
             
+        }
+        //connection.status
+        self.socket.on("connection.status") {data, ack in
+            NSLog("disconnected from socket")
+            println(data?.debugDescription)
+           // self.socket.emit("message", ["msg":"hangup"])
+            
+        }
+        socket.on("youareonline") {data,ack in
+            
+            println("you onlineeee \(ack)")
+            glocalChatRoomJoined = true
         }
         self.socket.connect()
         
@@ -65,6 +77,7 @@ class LoginAPI{
         socket.on("youareonline") {data,ack in
             
             println("you onlineeee \(ack)")
+            glocalChatRoomJoined = true
         }
         
        

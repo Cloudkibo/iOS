@@ -52,8 +52,8 @@ class LoginViewController: UIViewController, UITextFieldDelegate{
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        socketObj.connect()
+        if(socketObj.isConnected() == false)
+        {socketObj.connect()}
         
         socketObj.socket.on("connect") {data, ack in
             NSLog("connected to socket")
@@ -163,8 +163,22 @@ class LoginViewController: UIViewController, UITextFieldDelegate{
                             var json=JSON(data1!)
                             //KeychainWrapper.setData(data1!, forKey: "loggedUserObj")
                             //loggedUserObj=json(loggedUserObj)
+                            
                             loggedUserObj=json
-                            ///KeychainWrapper.setString(JSONStringify(json, prettyPrinted: true), forKey:"loggedIDKeyChain")
+                            //stringByResolvingSymlinksInPath
+                            
+                            KeychainWrapper.setString(loggedUserObj.description, forKey:"loggedUserObjString")
+                            
+                            
+                            println(loggedUserObj.object)
+                            println("$$$$$$$$$$$$$$$$$$$$$$$$$")
+                            ////println(loggedUserObj.string)
+                            //KeychainWrapper.setString(loggedUserObj.string!, forKey:"loggedUserObjString")
+                            var lll = JSONStringify(data1!, prettyPrinted: false)
+                            println(lll)
+                            KeychainWrapper.setString(lll,forKey:"loggedIDKeyChain")
+                            println("************************")
+                            
                             //===========saving username======================
                             KeychainWrapper.setString(json["username"].string!, forKey: "username")
                             KeychainWrapper.setString(json["firstname"].string!+" "+json["lastname"].string!, forKey: "loggedFullName")
