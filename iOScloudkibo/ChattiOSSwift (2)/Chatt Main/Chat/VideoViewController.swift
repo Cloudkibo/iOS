@@ -129,8 +129,8 @@ class VideoViewController: UIViewController,RTCPeerConnectionDelegate,RTCSession
     }
     
     @IBAction func endCallBtnPressed(sender: AnyObject) {
+         socketObj.socket.emit("message",["msg":"hangup","room":globalroom,"to":iamincallWith!,"username":username!])
         socketObj.socket.emit("leave",["room":joinedRoomInCall])
-        socketObj.socket.emit("message",["msg":"hangup","room":globalroom,"to":iamincallWith!,"username":username!])
         
         //self.pc=nil
         joinedRoomInCall=""
@@ -241,8 +241,8 @@ rtcLocalMediaStream=nil
         //self.rtcMediaStream.videoTracks[0].stopRunning()
         //self.rtcLocalVideoTrack=nil
         //self.rtcLocalVideoTrack=nil
-        self.rtcVideoTrackReceived=nil
-        self.rtcAudioTrackReceived=nil
+        //self.rtcVideoTrackReceived=nil
+        //self.rtcAudioTrackReceived=nil
         
         rtcLocalMediaStream=nil //test and try-------------
         //rtcMediaStream=nil //test and try---------------------
@@ -870,7 +870,7 @@ println("doneeeeeee")
         
         localStream=rtcFact.mediaStreamWithLabel("ARDAMS")
         /////////////************^^^
-        var localVideoTrack=createLocalVideoTrack()
+        ///////////////var localVideoTrack=createLocalVideoTrack()
         
         //^^^^^^^^^newwwww self.rtcLocalVideoTrack = createLocalVideoTrack()
         if let lvt=self.rtcLocalVideoTrack
@@ -879,7 +879,7 @@ println("doneeeeeee")
             
             println("video stream \(addedVideo)")
             ////++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-            didReceiveLocalVideoTrack(localVideoTrack)
+            ////////////////////////didReceiveLocalVideoTrack(localVideoTrack)
             
         }
         var audioTrack=rtcFact.audioTrackWithID("ARDAMSa0")
@@ -1188,7 +1188,7 @@ println("doneeeeeee")
                 println("hangupppppp received \(msg[0])")
                 self.remoteDisconnected()
                 socketObj.socket.emit("leave",["room":joinedRoomInCall])
-                self.disconnect()
+                //self.disconnect()
                     /*            areYouFreeForCall=true
                 
                 joinedRoomInCall=""

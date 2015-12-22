@@ -433,7 +433,7 @@ class ChatViewController: UIViewController {
         //if AuthToken==""
         
         //everytime new login
-        ////KeychainWrapper.removeObjectForKey("access_token")
+        KeychainWrapper.removeObjectForKey("access_token")
         
         
         let retrievedToken=KeychainWrapper.stringForKey("access_token")
@@ -526,9 +526,10 @@ class ChatViewController: UIViewController {
         //^^^^^^^^^^^newwwww ************* 
             fetchContacts()
            //^^^^^^^^^^^^newwwww 
+            self.fetchContactsFromServer()
              ////////self.fetchContactsFromServer()
             dispatch_async(dispatch_get_main_queue(), {
-               self.fetchContactsFromServer()
+               
                 self.tblForChat.reloadData()
                 
             //^^^^^^^^^^^newwwww ******* 
