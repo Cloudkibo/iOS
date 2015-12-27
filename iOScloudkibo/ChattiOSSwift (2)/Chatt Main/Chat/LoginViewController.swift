@@ -105,7 +105,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate{
         
     }
     
-    func textFieldShouldReturn (textField: UITextField!) -> Bool{
+    func textFieldShouldReturn (textField: UITextField) -> Bool{
         if ((textField == txtForEmail)){
             txtForPassword.becomeFirstResponder();
         } else if (textField == txtForPassword){

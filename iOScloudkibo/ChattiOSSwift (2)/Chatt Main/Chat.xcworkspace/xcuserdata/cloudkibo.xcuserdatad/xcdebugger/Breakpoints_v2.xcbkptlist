@@ -1059,6 +1059,17 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             symbolName = "*0x1003c5b20">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "cricket::TCPPort::SendTo(void const*, unsigned long, rtc::SocketAddress const&amp;, rtc::PacketOptions const&amp;, bool)"
+                  moduleName = "Chat"
+                  usesParentBreakpointCondition = "Yes"
+                  offsetFromSymbolStart = "640">
+               </Location>
+            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -1068,6 +1079,17 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             symbolName = "*0x1003c5b34">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "cricket::TCPPort::SendTo(void const*, unsigned long, rtc::SocketAddress const&amp;, rtc::PacketOptions const&amp;, bool)"
+                  moduleName = "Chat"
+                  usesParentBreakpointCondition = "Yes"
+                  offsetFromSymbolStart = "660">
+               </Location>
+            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -1077,6 +1099,17 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             symbolName = "*0x1003c5b50">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "cricket::TCPPort::SendTo(void const*, unsigned long, rtc::SocketAddress const&amp;, rtc::PacketOptions const&amp;, bool)"
+                  moduleName = "Chat"
+                  usesParentBreakpointCondition = "Yes"
+                  offsetFromSymbolStart = "688">
+               </Location>
+            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -1230,7 +1263,7 @@
                   moduleName = "Chat"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/cloudkibo/Desktop/iOS/iOS/iOScloudkibo/ChattiOSSwift%20(2)/Chatt%20Main/Chat/VideoViewController.swift"
-                  timestampString = "472437236.643329"
+                  timestampString = "472606223.628054"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "487"
@@ -1245,7 +1278,7 @@
                   moduleName = "Chat"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/cloudkibo/Desktop/iOS/iOS/iOScloudkibo/ChattiOSSwift%20(2)/Chatt%20Main/Chat/VideoViewController.swift"
-                  timestampString = "472437236.643474"
+                  timestampString = "472606223.62821"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "487"
@@ -1326,12 +1359,28 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Chat/ChatViewController.swift"
-            timestampString = "472442043.841448"
+            timestampString = "472608829.754235"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "688"
-            endingLineNumber = "688"
+            startingLineNumber = "689"
+            endingLineNumber = "689"
             landmarkName = "fetchContactsFromServer()"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Chat/ChatViewController.swift"
+            timestampString = "472606223.394317"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "528"
+            endingLineNumber = "528"
+            landmarkName = "viewWillAppear(_:)"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>

@@ -524,6 +524,7 @@ class ChatViewController: UIViewController {
         else
         {
         //^^^^^^^^^^^newwwww ************* 
+            
             fetchContacts()
            //^^^^^^^^^^^^newwwww 
             self.fetchContactsFromServer()

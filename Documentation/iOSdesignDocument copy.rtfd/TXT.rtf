@@ -1,0 +1,214 @@
+{\rtf1\ansi\ansicpg1252\cocoartf1347\cocoasubrtf570
+{\fonttbl\f0\fnil\fcharset0 HelveticaNeue;\f1\fnil\fcharset0 Menlo-Regular;\f2\fswiss\fcharset0 Helvetica;
+\f3\fnil\fcharset0 Monaco;}
+{\colortbl;\red255\green255\blue255;\red38\green38\blue38;\red170\green13\blue145;\red196\green26\blue22;
+\red0\green116\blue0;\red38\green38\blue38;\red255\green255\blue255;\red148\green6\blue75;\red50\green98\blue178;
+}
+\paperw11900\paperh16840\margl1440\margr1440\vieww25400\viewh13480\viewkind0
+\deftab720
+\pard\pardeftab720\ri-10257\sl512\sa320\qj
+
+\f0\b\fs48 \cf2 \expnd0\expndtw0\kerning0
+CloudKibo (iOS) Design Document
+\fs32 \
+\pard\pardeftab720\ri-10257\sl320\sa240\qj
+
+\fs36 \cf0 \expnd0\expndtw0\kerning0
+Application Delegate
+\b0\fs24 \expnd0\expndtw0\kerning0
+\
+\pard\pardeftab720\ri-10257\sl360\slmult1\qj
+
+\fs32 \cf0 \expnd0\expndtw0\kerning0
+This class is responsible for setting up tasks for launching application, terminating application, running application in background, bringing application in foreground. This class connects the application to socket.io . Also it makes sure that we close our socket.io service before the application is terminated.It is also responsible for retrieving any data stored in device Key chains. For example, user\'92s login credentials are retrieved(if saved) when application is launched.
+\fs28 \expnd0\expndtw0\kerning0
+\
+\pard\pardeftab720\ri-10257\sl360\slmult1\qj
+\cf2 \expnd0\expndtw0\kerning0
+\
+\pard\pardeftab720\ri-10257\sl512\sa320\qj
+
+\b\fs36 \cf2 Database Handler
+\b0\fs32 \expnd0\expndtw0\kerning0
+\
+\pard\pardeftab720\ri-10257\sl360\slmult1\qj
+\cf2 We have this utility class which we use in all our application to store and retrieve data from local SQLite database of our application. It has separate functions to fetch data from each table. We also use functions to store data in table. We don\'92t deal with the database instance in all our application. We just create one database instance in this utility class and rest of the application invokes functions of this class to talk to database.\cf0 \expnd0\expndtw0\kerning0
+\
+\
+\pard\pardeftab720\ri-10257\sl360\slmult1\qj
+
+\b\fs36 \cf0 \expnd0\expndtw0\kerning0
+Socket.io Component
+\b0 \expnd0\expndtw0\kerning0
+\
+
+\fs32 \expnd0\expndtw0\kerning0
+These is a separate component which handles sockets. It has socket handlers. It has details of what to listen on socket. It has a separate function for emitting message on socket. This function can be accessed throughout application for emitting socket messages to CloudKibo Server.\cf2 \expnd0\expndtw0\kerning0
+\
+\pard\pardeftab720\ri-10257\sl360\slmult1\qj
+
+\b \cf2 \expnd0\expndtw0\kerning0
+\
+\pard\pardeftab720\ri-10257\sl360\slmult1\qj
+
+\fs36 \cf0 \expnd0\expndtw0\kerning0
+Constants Class
+\b0\fs24 \expnd0\expndtw0\kerning0
+\
+
+\fs32 \expnd0\expndtw0\kerning0
+This class stores our REST API addresses values in constant variables which are accessible throughout application. These constants are refrenced in our application. This helps to maintain consistency. If there is any change in our URL or rest API, we will have to make changes in this file only. Below are details of REST API urls as stored in this class:\
+\
+\pard\pardeftab529\ri-10257\pardirnatural\qj
+
+\f1\fs22 \cf3 \kerning1\expnd0\expndtw0 \CocoaLigature0 	static\cf0  \cf3 let\cf0  MainUrl=\cf4 "https://api.cloudkibo.com"\cf0 \
+\
+    \cf3 static\cf0  \cf3 let\cf0  authentictionUrl=\cf4 "/auth/local/"\cf0 \
+    \cf3 static\cf0  \cf3 let\cf0  bringUserChat=\cf4 "/api/userchat/"\cf0 \
+    \cf3 static\cf0  \cf3 let\cf0  getCurrentUser=\cf4 "/api/users/me"\cf0 \
+    \cf3 static\cf0  \cf3 let\cf0  getContactsList=\cf4 "/api/contactslist/"\cf0 \
+    \cf3 static\cf0  \cf3 let\cf0  room=\cf4 "globalchatroom"\cf0 \
+    \
+    \cf3 static\cf0  \cf3 let\cf0  addContactByUsername=\cf4 "/api/contactslist/addbyusername"\cf0 \
+    \cf3 static\cf0  \cf3 let\cf0  addContactByEmail=\cf4 "/api/contactslist/addbyemail"\cf0 \
+    \cf3 static\cf0  \cf3 let\cf0  markAsRead=\cf4 "/api/userchat/markasread"\cf0 \
+    \cf3 static\cf0  \cf3 let\cf0  getSingleUserByID=\cf4 "/api/users/"\cf0  \cf5 //send if along\
+\cf0     \cf3 static\cf0  \cf3 let\cf0  removeChatHistory=\cf4 "/api/userchat/removechathistory"\cf0 \
+    \cf3 static\cf0  \cf3 let\cf0  removeFriend=\cf4 "/api/contactslist/removefriend"\cf0 \
+    \cf3 static\cf0  \cf3 let\cf0  getPendingFriendRequestsContacts=\cf4 "/api/contactslist/pendingcontacts"\cf0 \
+    \cf3 static\cf0  \cf3 let\cf0  rejectPendingFriendRequest=\cf4 "/api/contactslist/rejectfriendrequest"\cf0 \
+    \cf3 static\cf0  \cf3 let\cf0  approvePendingFriendRequest=\cf4 "/api/contactslist/approvefriendrequest"\cf0 \
+    \cf3 static\cf0  \cf3 let\cf0  createNewUser=\cf4 "/api/users/"\
+\
+\
+\pard\pardeftab720\ri-10257\sl512\qj
+
+\f0\b\fs40 \cf2 \expnd0\expndtw0\kerning0
+\ul \ulc2 \CocoaLigature1 View Controllers
+\b0\fs32 \ulnone \
+Swift language works on Model View Controller(MVC) framework. Our application has View Controllers to show different screens of our application. Following diagram gives details of our main views:\
+\
+\pard\ri-10257\pardirnatural\qj
+
+\f2\fs24 \cf0 \kerning1\expnd0\expndtw0 {{\NeXTGraphic Pasted Graphic 1.tiff \width17140 \height6340
+}¬}
+\f1\fs22 \cf4 \CocoaLigature0 \
+\pard\pardeftab529\ri-10257\pardirnatural\qj
+\cf4 \
+\
+\
+\
+\
+\pard\pardeftab720\ri-10257\sl360\slmult1\qj
+
+\f0\b\fs40 \cf0 \expnd0\expndtw0\kerning0
+\ul \ulc0 \CocoaLigature1 Open Source External Libraries
+\fs36 \ulnone \
+
+\b0\fs32 \expnd0\expndtw0\kerning0
+Our iOS application uses some of Open Source libraries. Details of those libraries are provided below:
+\b\fs36 \expnd0\expndtw0\kerning0
+\
+
+\f1\b0\fs22 \cf4 \kerning1\expnd0\expndtw0 \CocoaLigature0 \
+\pard\pardeftab529\ri-10257\pardirnatural\qj
+\cf4 \
+\
+\pard\ri-10257\pardirnatural\qj
+
+\f2\fs24 \cf0 \CocoaLigature1 {{\NeXTGraphic Pasted Graphic.tiff \width17140 \height6340
+}¬}
+\f0\b\fs32 \cf2 \expnd0\expndtw0\kerning0
+\
+\pard\pardeftab720\ri-10257\sl360\slmult1\qj
+
+\fs36 \cf2 \
+\
+\pard\pardeftab720\ri-10257\sl360\slmult1\qj
+\cf0 \expnd0\expndtw0\kerning0
+SwiftyJSON Library\
+\pard\pardeftab720\ri-10257\sl512\qj
+
+\b0\fs32 \cf2 \expnd0\expndtw0\kerning0
+SwiftyJSON makes it easy to deal with JSON data in Swift.
+\fs24 \cf0 \expnd0\expndtw0\kerning0
+\
+\pard\pardeftab720\ri-10257\sl360\slmult1\qj
+
+\b\fs36 \cf2 \expnd0\expndtw0\kerning0
+\
+KeyChainsWrapper Library
+\fs32 \
+\pard\pardeftab720\ri-10257\sl360\slmult1\qj
+
+\b0 \cf2 \expnd0\expndtw0\kerning0
+\
+\pard\pardeftab720\ri-10257\sl360\slmult1\qj
+\cf0 \expnd0\expndtw0\kerning0
+This is an open source library for storing data at persistent place on device. Our application is using this library for storing user user,s login credentials, example: Authentication Token, username and password. Keychains are safe place to store such information. This API helps to retrieve data when application is re launched after termination. Thus, user will not have to login every time.\
+\
+\pard\pardeftab720\ri-10257\pardirnatural\qj
+
+\f2\fs24 \cf0 \kerning1\expnd0\expndtw0 {{\NeXTGraphic Screen Shot 2015-12-27 at 4.31.42 am.png \width13400 \height11060
+}¬}
+\f0\fs32 \expnd0\expndtw0\kerning0
+\
+\pard\pardeftab720\ri-10257\sl360\slmult1\qj
+\cf0 \expnd0\expndtw0\kerning0
+\
+\
+
+\b\fs36 \expnd0\expndtw0\kerning0
+Alamofire Library\
+\pard\pardeftab720\ri-10257\sl512\qj
+
+\b0\fs32 \cf6 \cb7 \expnd0\expndtw0\kerning0
+\outl0\strokewidth0 \strokec6 Alamofire is an HTTP networking library written in Swift. Our application uses this library for making any network requests from Cloudkibo Server. All REST API requests use this library for GET or POST requests from server.
+\fs36 \cf0 \cb1 \expnd0\expndtw0\kerning0
+\outl0\strokewidth0 \
+\pard\pardeftab720\ri-10257\sl360\slmult1\qj
+
+\b \cf0 \expnd0\expndtw0\kerning0
+\
+WebRTC Library\
+
+\b0 \expnd0\expndtw0\kerning0
+Our iOS application uses a WebRTC li\cf0 brary nam
+\fs32 ed \'93
+\f3 \expnd0\expndtw0\kerning0
+\outl0\strokewidth0 \strokec8 libjingle_peerconnection\expnd0\expndtw0\kerning0
+\outl0\strokewidth0 \strokec6 \'94.
+\f0 \cf6 \cb7 \expnd0\expndtw0\kerning0
+\outl0\strokewidth0 The code that implements WebRTC native APIs (including the Stream and the PeerConnection APIs) are available in this library.
+\b\fs36 \cf0 \cb1 \expnd0\expndtw0\kerning0
+\outl0\strokewidth0 \
+\cf0 \
+SQLite Library
+\b0 \expnd0\expndtw0\kerning0
+\
+\pard\pardeftab720\ri-10257\sl512\sa320\qj
+
+\fs32 \cf6 \expnd0\expndtw0\kerning0
+\outl0\strokewidth0 \strokec6 This is a type-safe, \cf0 \expnd0\expndtw0\kerning0
+\outl0\strokewidth0 \strokec9 Swift\cf6 \expnd0\expndtw0\kerning0
+\outl0\strokewidth0 \strokec6 -language layer over \cf0 \expnd0\expndtw0\kerning0
+\outl0\strokewidth0 \strokec9 SQLite3\cf6 \expnd0\expndtw0\kerning0
+\outl0\strokewidth0 \strokec6 . \cf0 \expnd0\expndtw0\kerning0
+\outl0\strokewidth0 \strokec9 SQLite.swift\cf6 \expnd0\expndtw0\kerning0
+\outl0\strokewidth0 \strokec6  provides compile-time confidence in SQL statement syntax 
+\i \expnd0\expndtw0\kerning0
+\outl0\strokewidth0 and
+\i0 \expnd0\expndtw0\kerning0
+\outl0\strokewidth0  intent. Our application uses this API for creating database connection, creating tables, adding and retireving data from SQLite database.\
+\pard\pardeftab720\ri-10257\sl360\slmult1\qj
+
+\fs36 \cf0 \expnd0\expndtw0\kerning0
+\outl0\strokewidth0 \
+\
+
+\b \expnd0\expndtw0\kerning0
+\
+
+\b0\fs32 \expnd0\expndtw0\kerning0
+\
+}
