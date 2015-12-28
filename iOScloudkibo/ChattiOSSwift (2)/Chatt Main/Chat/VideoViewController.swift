@@ -1215,7 +1215,8 @@ println("doneeeeeee")
             
             if(msg[0]=="hangup")
             {
-                
+                if(self.pc != nil)
+                {
                 println("hangupppppp received \(msg[0])")
                 
                 println("hangupppppp received \(msg.debugDescription)")
@@ -1224,6 +1225,7 @@ println("doneeeeeee")
                 
                 socketObj.socket.emit("leave",["room":joinedRoomInCall])
                 self.disconnect()
+                }
                     /*            areYouFreeForCall=true
                 
                 joinedRoomInCall=""

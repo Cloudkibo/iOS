@@ -32,14 +32,16 @@ class CallRingingViewController: UIViewController//RTCPeerConnectionDelegate,RTC
     @IBAction func btnAcceptPressed(sender: AnyObject) {
         areYouFreeForCall=false
         iamincall=true
+        isInitiator=false
       /////^^  iamincallWith=txtCallerName.text!
-        if(txtCallerName.text!==username!)
+        if(txtCallerName.text! == username!)
         {
         //i am not initiator
         isInitiator=false
         }
         else
         {   iamincallWith=txtCallerName.text!
+            
             //^^^socketObj.sendMessagesOfMessageType("Accept Call")
         }
         
@@ -55,10 +57,10 @@ class CallRingingViewController: UIViewController//RTCPeerConnectionDelegate,RTC
            }
     @IBAction func btnRejectPressed(sender: AnyObject) {
         areYouFreeForCall=true
-        //if(iamincallWith != nil)
-        //{
+        if(iamincallWith != nil)
+        {
             socketObj.socket.emit("noiambusy",["mycaller" :iamincallWith!, "me":username!])
-        //}
+        }
         
         dismissViewControllerAnimated(true, completion: {
         iamincallWith=""
