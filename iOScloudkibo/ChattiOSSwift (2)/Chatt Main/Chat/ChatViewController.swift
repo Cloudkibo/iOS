@@ -244,7 +244,8 @@ class ChatViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-      currrentUsernameRetrieved=KeychainWrapper.stringForKey("username")!
+        if(KeychainWrapper.stringForKey("username") != nil)
+        {currrentUsernameRetrieved=KeychainWrapper.stringForKey("username")!
         
         if(loggedUserObj == JSON("[]"))
         {
@@ -290,6 +291,7 @@ class ChatViewController: UIViewController {
             
         }
         
+        }//end if username definned
         
         println("loadddddd")
         if(socketObj == nil)
@@ -434,6 +436,25 @@ class ChatViewController: UIViewController {
         
         //everytime new login
         KeychainWrapper.removeObjectForKey("access_token")
+        AuthToken=""
+        var tbl_contactslists=sqliteDB.db["contactslists"]
+        var tbl_accounts=sqliteDB.db["accounts"]
+        let tbl_userchats=sqliteDB.db["userschats"]
+        tbl_contactslists.delete()
+        tbl_accounts.delete()
+        tbl_userchats.delete()
+        KeychainWrapper.removeObjectForKey("access_token")
+        KeychainWrapper.removeObjectForKey("username")
+        KeychainWrapper.removeObjectForKey("password")
+        KeychainWrapper.removeObjectForKey("loggedFullName")
+        KeychainWrapper.removeObjectForKey("loggedPhone")
+        KeychainWrapper.removeObjectForKey("loggedEmail")
+        KeychainWrapper.removeObjectForKey("_id")
+        loggedUserObj=JSON("[]")
+        
+        //let dbSQLite=DatabaseHandler(dbName: "/cloudKibo.sqlite3")
+        println("loggedout")
+
         
         
         let retrievedToken=KeychainWrapper.stringForKey("access_token")
