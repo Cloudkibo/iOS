@@ -64,7 +64,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             {
                 println("socket is nillll1")
                 socketObj=LoginAPI(url:"\(Constants.MainUrl)")
-                socketObj.connect()
+                //socketObj.connect()
+                socketObj.addHandlers()
+                socketObj.addWebRTCHandlers()
             }
         
     
@@ -91,7 +93,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         {
             println("socket is nillll")
             socketObj=LoginAPI(url:"\(Constants.MainUrl)")
-            socketObj.connect()
+            ///socketObj.connect()
+            socketObj.addHandlers()
+            socketObj.addWebRTCHandlers()
         }
     }
     
@@ -101,7 +105,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         {
             println("socket is nillll")
             socketObj=LoginAPI(url:"\(Constants.MainUrl)")
-            socketObj.connect()
+            ///socketObj.connect()
+            socketObj.addHandlers()
+            socketObj.addWebRTCHandlers()
         }
     }
     

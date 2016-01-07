@@ -52,12 +52,17 @@ class LoginViewController: UIViewController, UITextFieldDelegate{
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        if(socketObj.isConnected() == false)
-        {socketObj.connect()}
-        
-        socketObj.socket.on("connect") {data, ack in
-            NSLog("connected to socket")
+        if(socketObj == nil)
+        {
+            println("socket is nillll22")
+            socketObj=LoginAPI(url:"\(Constants.MainUrl)")
+            //socketObj.connect()
+            socketObj.addHandlers()
         }
+        
+        //socketObj.socket.on("connect") {data, ack in
+          //  NSLog("connected to socket")
+        //}
         
         var size = UIScreen.mainScreen().bounds.size
         viewForContent.contentSize = CGSizeMake(size.width, 568)
@@ -193,7 +198,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate{
                             password=KeychainWrapper.stringForKey("password")
                             password=KeychainWrapper.stringForKey("password")
                             */
-                            socketObj.addHandlers()
+                            /////////socketObj.addHandlers()
                             
                             var jsonNew=JSON("{\"room\": \"globalchatroom\",\"user\": {\"username\":\"sabachanna\"}}")
                             //socketObj.socket.emit("join global chatroom", ["room": "globalchatroom", "user": ["username":"sabachanna"]]) WORKINGGG

@@ -263,7 +263,8 @@ class ChatViewController: UIViewController,SocketClientDelegate {
             
             socketObj=LoginAPI(url:"\(Constants.MainUrl)")
             println("connected issssss \(socketObj.socket.connected)")
-           socketObj.connect()
+           ///socketObj.connect()
+            socketObj.addHandlers()
         }
 
     
