@@ -57,7 +57,7 @@ class CallRingingViewController: UIViewController//RTCPeerConnectionDelegate,RTC
            }
     @IBAction func btnRejectPressed(sender: AnyObject) {
         areYouFreeForCall=true
-        if(iamincallWith != nil)
+        if(iamincallWith != nil && iamincallWith != "")
         {
             socketObj.socket.emit("noiambusy",["mycaller" :iamincallWith!, "me":username!])
         }
@@ -73,6 +73,27 @@ class CallRingingViewController: UIViewController//RTCPeerConnectionDelegate,RTC
     }
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        socketObj.socket.on("message"){data,ack in
+            println("received messageee")
+            var msg=JSON(data!)
+            var missedMsg=""
+            println(msg.debugDescription)
+            var mmm=msg[0].debugDescription
+            let start = mmm.startIndex
+            let end = find(mmm, ":")
+            
+            if (end != nil) {
+                missedMsg = mmm[start...end!]
+                println(missedMsg)
+            }
+            if(missedMsg == "Missed Call:")
+            {println("inside missed notification")
+                let todoItem = NotificationItem(otherUserName: "abc", message: "you received a mised call", type: "missed call", UUID: "111", deadline: NSDate())
+                notificationsMainClass.sharedInstance.addItem(todoItem) // schedule a local notification to persist this item
+                
+            }
+        }
         
         //on othersideringing var iamincall:Bool=false var othersideringing:Bool=false var callerName:String!
 

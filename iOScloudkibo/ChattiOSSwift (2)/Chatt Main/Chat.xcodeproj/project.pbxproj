@@ -21,6 +21,8 @@
 		7123FDE51BE54DA100198FF9 /* KeychainWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7123FDE31BE54DA100198FF9 /* KeychainWrapper.swift */; };
 		7123FDE71BE54DF700198FF9 /* JSONStringify.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7123FDE61BE54DF700198FF9 /* JSONStringify.swift */; };
 		7123FE0D1BE54FBE00198FF9 /* SQLite.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7123FE0C1BE54FBE00198FF9 /* SQLite.framework */; };
+		712AA47E1C3F0ADD009FB172 /* notifications.swift in Sources */ = {isa = PBXBuildFile; fileRef = 712AA47C1C3F0ADD009FB172 /* notifications.swift */; };
+		712AA47F1C3F0ADD009FB172 /* notificationsMainClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 712AA47D1C3F0ADD009FB172 /* notificationsMainClass.swift */; };
 		713D65961BD8406400893721 /* CallRingingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 713D65951BD8406400893721 /* CallRingingViewController.swift */; };
 		713F70A01B89547F0086D992 /* ContactsListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 713F709F1B89547F0086D992 /* ContactsListCell.swift */; };
 		714560561B904DAA00C8E0D2 /* Contacts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 714560551B904DAA00C8E0D2 /* Contacts.swift */; };
@@ -195,6 +197,8 @@
 		7123FDE41BE54DA100198FF9 /* SwiftKeychainWrapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SwiftKeychainWrapper.h; sourceTree = "<group>"; };
 		7123FDE61BE54DF700198FF9 /* JSONStringify.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JSONStringify.swift; sourceTree = "<group>"; };
 		7123FE0C1BE54FBE00198FF9 /* SQLite.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SQLite.framework; path = "Pods/../build/Debug-iphoneos/SQLite.framework"; sourceTree = "<group>"; };
+		712AA47C1C3F0ADD009FB172 /* notifications.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = notifications.swift; sourceTree = "<group>"; };
+		712AA47D1C3F0ADD009FB172 /* notificationsMainClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = notificationsMainClass.swift; sourceTree = "<group>"; };
 		713080541B825BB00037CB7E /* SwiftyJSON.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SwiftyJSON.xcodeproj; path = SwiftyJSON/SwiftyJSON.xcodeproj; sourceTree = "<group>"; };
 		713D65951BD8406400893721 /* CallRingingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CallRingingViewController.swift; sourceTree = "<group>"; };
 		713F709F1B89547F0086D992 /* ContactsListCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContactsListCell.swift; sourceTree = "<group>"; };
@@ -320,6 +324,8 @@
 				5BF6362819A9F3D900ABD0BA /* Supporting Files */,
 				717C50AE1BE56EC400ECE41E /* test.m */,
 				717C50AD1BE56EC300ECE41E /* Chat-Bridging-Header.h */,
+				712AA47C1C3F0ADD009FB172 /* notifications.swift */,
+				712AA47D1C3F0ADD009FB172 /* notificationsMainClass.swift */,
 				717C50BB1BE800E500ECE41E /* VideoViewController.swift */,
 			);
 			path = Chat;
@@ -706,6 +712,7 @@
 				5B990C9D19ACE5AF00F9278A /* ChatDetailViewController.swift in Sources */,
 				717C50A21BE5544600ECE41E /* SocketPacket.swift in Sources */,
 				7145605A1B905FE700C8E0D2 /* DatabaseHandler.swift in Sources */,
+				712AA47F1C3F0ADD009FB172 /* notificationsMainClass.swift in Sources */,
 				717C50A51BE5544600ECE41E /* SwiftRegex.swift in Sources */,
 				717C509C1BE5544600ECE41E /* SocketEngine.swift in Sources */,
 				717C50A01BE5544600ECE41E /* SocketIOClient.swift in Sources */,
@@ -720,6 +727,7 @@
 				713F70A01B89547F0086D992 /* ContactsListCell.swift in Sources */,
 				7191CC651BCDC4F100F0847F /* RegisterViewController.swift in Sources */,
 				714560561B904DAA00C8E0D2 /* Contacts.swift in Sources */,
+				712AA47E1C3F0ADD009FB172 /* notifications.swift in Sources */,
 				5B990C9B19ACD59B00F9278A /* ChatComposeViewController.swift in Sources */,
 				71E922FC1BEFF02C00C1AFC3 /* RoomService.swift in Sources */,
 				717C509D1BE5544600ECE41E /* SocketEngineClient.swift in Sources */,

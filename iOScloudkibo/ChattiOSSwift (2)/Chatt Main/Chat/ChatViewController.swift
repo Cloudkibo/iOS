@@ -13,24 +13,20 @@ import SQLite
 import AVFoundation
 import Foundation
 
-class ChatViewController: UIViewController {
+class ChatViewController: UIViewController,SocketClientDelegate {
     var rt=NetworkingLibAlamofire()
     
     var refreshControl = UIRefreshControl()
-    //var contactsJsonObj:JSON="[]"
     @IBOutlet var viewForTitle : UIView!
     @IBOutlet var ctrlForChat : UISegmentedControl!
     @IBOutlet var btnForLogo : UIButton!
     var loggedID=loggedUserObj["_id"]
-    //@IBOutlet var itemForSearch : UIBarButtonItem!
     @IBOutlet var tblForChat : UITableView!
-    //var AuthToken:String=""
-    //var socketObj=LoginAPI(url: "\(Constants.MainUrl)")
     @IBOutlet weak var btnContactAdd: UIBarButtonItem!
     
     var currrentUsernameRetrieved:String=""
-    
-    
+    var delegate:SocketClientDelegate!
+    ////////let delegateController=LoginAPI(url: "sdfsfes")
     
     
     @IBAction func addContactTapped(sender: UIBarButtonItem) {
@@ -112,42 +108,7 @@ class ChatViewController: UIViewController {
             }
         println("outttt of sucess parasssss")
         }
-            
-            //////
-          /* Alamofire.request(.POST,"\(addContactUsernameURL)",parameters: ["searchemail":"\(tField.text!)"])
-                .responseJSON { request1, response1, data1, error1 in
-                    
-                //request1, response1, data1, error1 in
-                //searchemail  f@lkjlklkm.com
-                //====================
-               dispatch_async(dispatch_get_main_queue(), {
-                    
-                    self.dismissViewControllerAnimated(true, completion: nil);
-                    /// self.performSegueWithIdentifier("loginSegue", sender: nil)
-                    
-                    if response1?.statusCode==200 {
-                        println("success")
-                        
-                        var json=JSON(data1!)
-                        //println(json)
-                        if(json["msg"].string=="null")
-                        {println("Invalid email")}
-                        else
-                        {
-                            if(json["status"].string=="danger"){
-                                println("contact already in your list")}
-                            else
-                            {println("friend request sent")}
-                        }
-                    }
-                    else
-                    {
-                        println("error in sending friend request")
-                    }
-                })
-            }
-            
-        }*/
+       
 
         actionSheetController.addAction(cancelAction)
         //Create and an option action
@@ -244,16 +205,17 @@ class ChatViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        socketObj.delegate=self
+        
+        
         if(KeychainWrapper.stringForKey("username") != nil)
         {currrentUsernameRetrieved=KeychainWrapper.stringForKey("username")!
         
         if(loggedUserObj == JSON("[]"))
         {
             var lusername=KeychainWrapper.stringForKey("username")
-            //KeychainWrapper.stringForKey("password")
-            //KeychainWrapper.stringForKey("loggedFullName")
-            //KeychainWrapper.stringForKey("loggedPhone")
-            //KeychainWrapper.stringForKey("loggedEmail")
+            
             var lid=KeychainWrapper.stringForKey("_id")
             
             var lobj=["_id" : lid!, "username" : lusername!]
@@ -308,8 +270,9 @@ class ChatViewController: UIViewController {
         
         
    
-        
-            
+        //:::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+       //////////////////////////////
+        /*
         socketObj.socket.on("othersideringing"){data,ack in
             println("otherside ringing")
             var msg=JSON(data!)
@@ -327,7 +290,7 @@ class ChatViewController: UIViewController {
             
         }
 
-        
+        */
         
        /*if loggedUserObj==nil
        {
@@ -496,7 +459,7 @@ class ChatViewController: UIViewController {
     
     override func viewWillAppear(animated: Bool) {
         println("appearrrrrr")
-        socketObj.addHandlers()
+        //socketObj.addHandlers()
                    /*var lusername=KeychainWrapper.stringForKey("username")
             //KeychainWrapper.stringForKey("password")
             //KeychainWrapper.stringForKey("loggedFullName")
@@ -550,12 +513,12 @@ class ChatViewController: UIViewController {
            //^^^^^^^^^^^^newwwww 
             self.fetchContactsFromServer()
              ////////self.fetchContactsFromServer()
-            dispatch_async(dispatch_get_main_queue(), {
+            ///////////////////dispatch_async(dispatch_get_main_queue(), {
                
                 self.tblForChat.reloadData()
                 
             //^^^^^^^^^^^newwwww ******* 
-            })
+           /////// })
     }
     
         //var db=DatabaseHandler(dbName: "abc.sqlite")
@@ -605,7 +568,7 @@ class ChatViewController: UIViewController {
         
         //====These are Online====
         
-        socketObj.socket.on("theseareonline")
+       /* socketObj.socket.on("theseareonline")
             {data,ack in
                 
                 println("theseareonline status...")
@@ -631,9 +594,9 @@ class ChatViewController: UIViewController {
                     }
                 }
                 
-        }
+        }*/
         
-        
+        /*
         socketObj.socket.on("yesiamfreeforcall"){data,ack in
             var message=JSON(data!)
             println("other user is free")
@@ -641,8 +604,13 @@ class ChatViewController: UIViewController {
             
         //socketObj.socket.emit("othersideringing", ["callee": message["me"].string!])
             
-        }
+        }*/
+        
         currrentUsernameRetrieved=KeychainWrapper.stringForKey("username")!
+        
+        
+        
+        /*
         socketObj.socket.on("areyoufreeforcall") {data,ack in
             var jdata=JSON(data!)
             println("somebody callinggg  \(data) \(ack)")
@@ -693,7 +661,7 @@ class ChatViewController: UIViewController {
             
         }
         
-        
+        */
         
         //room callee callthisperson
         
@@ -781,7 +749,7 @@ class ChatViewController: UIViewController {
                     
                     if(glocalChatRoomJoined == false)
                     {
-                        socketObj.addHandlers()
+                        //socketObj.addHandlers()
                     println("joiningggggg")
                         //var lll=KeychainWrapper.stringForKey("loggedIDKeyChain")
                         var lll=KeychainWrapper.stringForKey("loggedUserObjString")
@@ -1286,6 +1254,146 @@ class ChatViewController: UIViewController {
         
     }
     
+    
+    ///////////////////////////////
+    //SOCKET CLIENT DELEGATE MESSAGES
+    ///////////////////////////////
+    
+    func socketReceivedMessage(message:String,data:AnyObject!)
+    {println("socketReceivedMessage inside")
+        //var msg=JSON(params)
+        switch(message)
+        {
+        case "othersideringing":
+       // println(msg.debugDescription)
+        callerName=KeychainWrapper.stringForKey("username")!
+        //iamincallWith=msg[0]["callee"].string!
+        
+        println("callee is \(callerName)")
+        
+        var next = self.storyboard?.instantiateViewControllerWithIdentifier("Main2") as! VideoViewController
+        
+        self.presentViewController(next, animated: true, completion: {
+        })
+            
+        case "offline":
+            
+            
+                    println("offline status...")
+                    var offlineUsers=JSON(data!)
+                    println(offlineUsers[0])
+                    //println(offlineUsers[0]["username"])
+                    
+                    for(var i=0;i<offlineUsers.count;i++)
+                    {
+                        for(var j=0;j<self.ContactUsernames.count;j++)
+                        {
+                            if self.ContactUsernames[j]==offlineUsers[i]["username"].string!
+                            {
+                                //found online contact,s username
+                                println("user found offlinee \(self.ContactUsernames[j])")
+                                self.ContactOnlineStatus[j]=0
+                                self.tblForChat.reloadData()
+                            }
+                        }
+                    }
+            
+            case "theseareonline":
+               
+                        println("theseareonline status...")
+                        var theseareonlineUsers=JSON(data!)
+                        //println(theseareonlineUsers.object)
+                        //println(offlineUsers[0]["username"])
+                        
+                        for(var i=0;i<theseareonlineUsers[0].count;i++)
+                        {
+                            for(var j=0;j<self.ContactUsernames.count && i<theseareonlineUsers.count;j++)
+                            {
+                                if self.ContactUsernames[j]==theseareonlineUsers[0][i]["username"].description
+                                {
+                                    //found online contact,s username
+                                    println("user found theseareonline \(self.ContactUsernames[j])")
+                                    self.ContactOnlineStatus[j]=1
+                                    self.tblForChat.reloadData()
+                                }
+                            }
+                        }
+            
+            
+        case "yesiamfreeforcall":
+                var message=JSON(data!)
+                println("other user is free")
+                println(data?.debugDescription)
+            
+            
+        case "areyoufreeforcall":
+        
+            var jdata=JSON(data!)
+        println("areyoufreeforcall ......")
+            println(jdata.debugDescription)
+            
+            if(areYouFreeForCall==true)
+            {
+                println(jdata[0]["caller"].string!)
+                println(self.currrentUsernameRetrieved)
+                iamincallWith=jdata[0]["caller"].string!
+                isInitiator=false
+                //callerID=jdata[0]["sendersocket"].string!
+                //transition
+                
+                //let secondViewController:CallRingingViewController = CallRingingViewController()
+                
+                socketObj.socket.emit("yesiamfreeforcall",["mycaller" : jdata[0]["caller"].string!, "me":self.currrentUsernameRetrieved])
+                
+                var next = self.storyboard?.instantiateViewControllerWithIdentifier("Main") as! CallRingingViewController
+                
+                self.presentViewController(next, animated: false, completion: {next.txtCallerName.text=jdata[0]["caller"].string!; next.currentusernameretrieved=self.currrentUsernameRetrieved; next.callerName=jdata[0]["caller"].string!
+                    isInitiator=false
+                })
+                
+                
+            }
+            else{
+                socketObj.socket.emit("noiambusy",["mycaller" : jdata[0]["caller"].string!, "me":self.currrentUsernameRetrieved])
+                
+                println("i am busyyy")
+                
+            }
+         
+            
+        
+            
+
+        default: println("")
+        
+        }//end switch
+
+    }
+    func socketReceivedSpecialMessage(message:String,params:JSON!)
+    {
+        
+    }
+
+    
 }
+
+
+/*
+println("otherside ringing")
+var msg=JSON(data!)
+//self.othersideringing=true;
+println(msg.debugDescription)
+callerName=KeychainWrapper.stringForKey("username")!
+//iamincallWith=msg[0]["callee"].string!
+
+println("callee is \(callerName)")
+
+var next = self.storyboard?.instantiateViewControllerWithIdentifier("Main2") as! VideoViewController
+
+self.presentViewController(next, animated: true, completion: {
+})
+
+
+*/
 
 
