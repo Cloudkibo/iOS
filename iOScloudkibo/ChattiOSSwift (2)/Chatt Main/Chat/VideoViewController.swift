@@ -631,7 +631,10 @@ class VideoViewController: UIViewController,RTCPeerConnectionDelegate,RTCSession
     }
     override func viewDidLoad() {
         super.viewDidLoad()
+        if(socketObj.delegateWebRTC == nil)
+        {
         socketObj.delegateWebRTC=self
+        }
         ////////////////addHandlers()
         println("video view loadddddd")
     }
@@ -693,16 +696,19 @@ class VideoViewController: UIViewController,RTCPeerConnectionDelegate,RTCSession
         
         localStream=rtcFact.mediaStreamWithLabel("ARDAMS")
         /////////////************^^^
-        var localVideoTrack=createLocalVideoTrack()
+        ///////var localVideoTrack=createLocalVideoTrack()
         
-        //^^^^^^^^^newwwww self.rtcLocalVideoTrack = createLocalVideoTrack()
+        self.rtcLocalVideoTrack = createLocalVideoTrack()
         if let lvt=self.rtcLocalVideoTrack
         {
             var addedVideo=localStream.addVideoTrack(self.rtcLocalVideoTrack)
             
             println("video stream \(addedVideo)")
             ////++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-            /////////didReceiveLocalVideoTrack(localVideoTrack)
+            dispatch_async(dispatch_get_main_queue(), {
+            //////self.didReceiveLocalVideoTrack(localVideoTrack)
+            self.didReceiveLocalVideoTrack(self.rtcLocalVideoTrack)
+            })
             
         }
         var audioTrack=rtcFact.audioTrackWithID("ARDAMSa0")
@@ -755,11 +761,11 @@ class VideoViewController: UIViewController,RTCPeerConnectionDelegate,RTCSession
     
     func didReceiveLocalVideoTrack(localVideoTrack:RTCVideoTrack)
     {
-        dispatch_async(dispatch_get_global_queue(Int(QOS_CLASS_USER_INITIATED.value),0)){
+        ///dispatch_async(dispatch_get_global_queue(Int(QOS_CLASS_USER_INITIATED.value),0)){
             // self.localView=RTCEAGLVideoView(frame: CGRect(x: 0, y: 0, width: 500, height: 500))
             
             //self.localView.drawRect(CGRect(x: 0, y: 0, width: 500, height: 500))
-            if((self.rtcLocalVideoTrack) != nil)
+            /*if((self.rtcLocalVideoTrack) != nil)
             {
                 self.rtcLocalVideoTrack.removeRenderer(self.localView)
                 ///////////////////self.rtcLocalVideoTrack=nil
@@ -767,8 +773,13 @@ class VideoViewController: UIViewController,RTCPeerConnectionDelegate,RTCSession
             }
             self.rtcLocalVideoTrack=localVideoTrack
             self.rtcLocalVideoTrack.addRenderer(self.localView)
-            self.localViewOutlet.addSubview(self.localView)
-            dispatch_async(dispatch_get_main_queue(), {
+            self.localViewOutlet.addSubview(self.localView)*/
+        
+            /////////dispatch_async(dispatch_get_main_queue(), {
+                self.rtcLocalVideoTrack=localVideoTrack
+                self.rtcLocalVideoTrack.addRenderer(self.localView)
+                self.localViewOutlet.addSubview(self.localView)
+
                 //////////////////////////
                 //self.rtcLocalVideoTrack.addRenderer(self.localView)
                 //self.localViewOutlet.addSubview(self.localView)
@@ -778,8 +789,8 @@ class VideoViewController: UIViewController,RTCPeerConnectionDelegate,RTCSession
                 self.localViewOutlet.updateConstraintsIfNeeded()
                 self.localView.setNeedsDisplay()
                 self.localViewOutlet.setNeedsDisplay()
-            })
-        }
+            ///////////////})
+       /// }
     }
     
     func didReceiveLocalStream(stream:RTCMediaStream)
@@ -805,17 +816,18 @@ class VideoViewController: UIViewController,RTCPeerConnectionDelegate,RTCSession
     
     func didReceiveRemoteVideoTrack(remoteVideoTrack:RTCVideoTrack)
     {
-        dispatch_async(dispatch_get_global_queue(Int(QOS_CLASS_USER_INITIATED.value),0)){
-            
-            if(self.rtcVideoTrackReceived != nil)
+       // dispatch_async(dispatch_get_global_queue(Int(QOS_CLASS_USER_INITIATED.value),0)){
+        
+          /*  if(self.rtcVideoTrackReceived != nil)
             {
                 self.remoteView.renderFrame(nil)
                 self.rtcVideoTrackReceived.removeRenderer(self.remoteView)
                 //self.rtcVideoTrackReceived.delete(self)
                 ///////////////////self.rtcLocalVideoTrack=nil
+                self.rtcVideoTrackReceived=nil
                 
-            }
-            
+            }*/
+            /*
             //self.remoteView=RTCEAGLVideoView(frame: CGRect(x: 0, y: 0, width: 500, height: 500))
             //self.remoteView.drawRect(CGRect(x: 0, y: 0, width: 500, height: 500))
             self.rtcVideoTrackReceived=remoteVideoTrack
@@ -826,17 +838,28 @@ class VideoViewController: UIViewController,RTCPeerConnectionDelegate,RTCSession
             //////////////remoteVideoTrack.addRenderer(self.remoteView)
             self.remoteView.hidden=true // ^^^^newww
             self.localViewOutlet.addSubview(self.remoteView)
-            dispatch_async(dispatch_get_main_queue(), {
+            
+            */
+            ////dispatch_async(dispatch_get_main_queue(), {
                 
+                self.rtcVideoTrackReceived=remoteVideoTrack
+                /////////self.remoteView=RTCEAGLVideoView(frame: CGRect(x: 0, y: 0, width: 500, height: 500))
+                //////////self.remoteView.drawRect(CGRect(x: 0, y: 0, width: 500, height: 500))
                 
+                self.rtcVideoTrackReceived.addRenderer(self.remoteView)
+                //////////////remoteVideoTrack.addRenderer(self.remoteView)
+                self.remoteView.hidden=true // ^^^^newww
+                
+                self.localViewOutlet.addSubview(self.remoteView)
+
                 ///self.localViewOutlet.addSubview(self.remoteView)
                 self.localViewOutlet.updateConstraintsIfNeeded()
-                self.remoteView.updateConstraintsIfNeeded()
+                //////////self.remoteView.updateConstraintsIfNeeded()
                 self.remoteView.setNeedsDisplay()
                 self.localViewOutlet.setNeedsDisplay()
                 
-            })
-        }
+           /// })
+       // }
         
     }
     
@@ -936,9 +959,10 @@ class VideoViewController: UIViewController,RTCPeerConnectionDelegate,RTCSession
         {println("remote video track count is greater than one")
             var remoteVideoTrack=stream.videoTracks[0] as! RTCVideoTrack
             //^^^^^^newwwww self.rtcVideoTrackReceived=stream.videoTracks[0] as! RTCVideoTrack
-            
-            /////////////////self.didReceiveRemoteVideoTrack(remoteVideoTrack)
-            
+            dispatch_async(dispatch_get_main_queue(), {
+                
+            self.didReceiveRemoteVideoTrack(remoteVideoTrack)
+            })
             
             /* ^^^^^^ self.rtcVideoTrackReceived.addRenderer(self.remoteView)
             
@@ -1220,7 +1244,25 @@ class VideoViewController: UIViewController,RTCPeerConnectionDelegate,RTCSession
     
     func handleConferenceStream(data:AnyObject!)
     {
-        
+        println("received conference.stream obj from server")
+        var datajson=JSON(data!)
+        println(datajson.debugDescription)
+        //if(datajson[0]["id"].intValue == otherID! && datajson[0]["type"].description == "video")
+        if(datajson[0]["username"].debugDescription != username! && datajson[0]["type"].debugDescription == "video" && self.rtcVideoTrackReceived != nil)
+        {
+            println("toggle remote video stream")
+            ////////////self.rtcVideoTrackReceived.setEnabled((datajson[0]["action"].bool!))
+            if(datajson[0]["action"].bool! == false)
+            {
+                self.localView.hidden=true
+                self.remoteView.hidden=true
+            }
+            if(datajson[0]["action"].bool! == true)
+            {
+                self.localView.hidden=true
+                self.remoteView.hidden=false
+            }
+        }
     }
     
     func handleMessage(data:AnyObject!)
