@@ -60,6 +60,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         UINavigationBar.appearance().titleTextAttributes = [NSForegroundColorAttributeName: UIColor.whiteColor()]
         
         application.registerUserNotificationSettings(UIUserNotificationSettings(forTypes: .Alert | .Badge | .Sound, categories: nil))  // types are UIUserNotificationType members
+        
+        application.registerForRemoteNotifications()
+        
           if(socketObj == nil)
             {
                 println("socket is nillll1")
@@ -114,8 +117,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func applicationWillTerminate(application: UIApplication) {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
         
-        socketObj.socket.disconnect(fast: true)
-        socketObj.socket.close(fast: true)
+        //socketObj.socket.disconnect(fast: true)
+        //socketObj.socket.close(fast: true)
     }
     func fetchNewToken()
     {
@@ -249,6 +252,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     
         
+    func application(application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: NSData) {
+        var token=JSON(deviceToken)
+        println("device tokennnnnnn...")
+        println(token.debugDescription)
+        
+        println("registered for notification")
+    }
+    func application(application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: NSError) {
+        
+        println("registered for notification error")
+        NSLog("Error in registration. Error: \(error)")
+    }
     
     
     

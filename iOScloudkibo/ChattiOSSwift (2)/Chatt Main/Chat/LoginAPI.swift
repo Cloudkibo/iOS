@@ -171,7 +171,7 @@ class LoginAPI{
             }
         }
         
-        socketObj.socket.on("message"){data,ack in
+       /* socketObj.socket.on("message"){data,ack in
             println("received messageee")
             var msg=JSON(data!)
             println(msg.debugDescription)
@@ -182,7 +182,7 @@ class LoginAPI{
             
         }
         
-        }
+        }*/
     }
     
         
@@ -349,7 +349,7 @@ class LoginAPI{
             
             socketObj.socket.on("message"){data,ack in
                 println("received messageee11")
-                self.delegateWebRTC.socketReceivedMessageWebRTC("message",data: data)
+                self.delegateWebRTC.socketReceivedMessageWebRTC("message",data: data!)
                 var msg=JSON(data!)
                 println(msg.debugDescription)
                 
