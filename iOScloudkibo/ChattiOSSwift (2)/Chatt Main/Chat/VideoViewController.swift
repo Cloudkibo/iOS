@@ -13,6 +13,7 @@ import SwiftyJSON
 
 
 
+
 class VideoViewController: UIViewController,RTCPeerConnectionDelegate,RTCSessionDescriptionDelegate,RTCEAGLVideoViewDelegate,SocketClientDelegateWebRTC {
     
     var delegate:SocketClientDelegateWebRTC!
@@ -982,6 +983,7 @@ class VideoViewController: UIViewController,RTCPeerConnectionDelegate,RTCSession
     func peerConnection(peerConnection: RTCPeerConnection!, didOpenDataChannel dataChannel: RTCDataChannel!) {
         println(".................. did open data channel")
         println(dataChannel.description)
+        
     }
     func peerConnection(peerConnection: RTCPeerConnection!, gotICECandidate candidate: RTCICECandidate!) {
         ////////println("got ice candidate")

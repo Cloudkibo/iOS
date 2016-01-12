@@ -11,4 +11,5 @@ target 'Chat' do
    pod 'SwiftyJSON', '~> 2.2.0'
 end
 
+pod 'APAddressBook', '~> 0.0'
 pod "libjingle_peerconnection"
