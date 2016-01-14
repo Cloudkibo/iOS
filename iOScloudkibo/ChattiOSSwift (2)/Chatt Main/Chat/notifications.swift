@@ -7,6 +7,7 @@
 //
 
 import Foundation
+
 struct NotificationItem {
     var type:String
     var message: String

@@ -16,6 +16,7 @@ import SwiftyJSON
 
 class VideoViewController: UIViewController,RTCPeerConnectionDelegate,RTCSessionDescriptionDelegate,RTCEAGLVideoViewDelegate,SocketClientDelegateWebRTC {
     
+    var screenshared=false
     var delegate:SocketClientDelegateWebRTC!
     @IBOutlet var localViewOutlet: UIView!
     var localView:RTCEAGLVideoView! = nil
@@ -817,6 +818,7 @@ class VideoViewController: UIViewController,RTCPeerConnectionDelegate,RTCSession
     
     func didReceiveRemoteVideoTrack(remoteVideoTrack:RTCVideoTrack)
     {
+        println("didreceiveremotevideotrack")
        // dispatch_async(dispatch_get_global_queue(Int(QOS_CLASS_USER_INITIATED.value),0)){
         
           /*  if(self.rtcVideoTrackReceived != nil)
@@ -850,6 +852,9 @@ class VideoViewController: UIViewController,RTCPeerConnectionDelegate,RTCSession
                 self.rtcVideoTrackReceived.addRenderer(self.remoteView)
                 //////////////remoteVideoTrack.addRenderer(self.remoteView)
                 self.remoteView.hidden=true // ^^^^newww
+        if(self.screenshared==true){
+            self.remoteView.hidden=false
+        }
                 
                 self.localViewOutlet.addSubview(self.remoteView)
 
@@ -1027,7 +1032,22 @@ class VideoViewController: UIViewController,RTCPeerConnectionDelegate,RTCSession
         //^^^^^^^^^^^^^^^^^^^newwwww
         ////dispatch_async(dispatch_get_main_queue(), {
         
-        if (error==nil && self.pc.localDescription == nil){
+        ///if (error==nil && self.pc.localDescription == nil){
+        if (error==nil){
+            if(self.screenshared == true)
+            {
+                println("\(sdp.type) creatddddd")
+                println(sdp.debugDescription)
+                var sessionDescription=RTCSessionDescription(type: sdp.type!, sdp: sdp.description)
+                
+                self.pc.setLocalDescriptionWithDelegate(self, sessionDescription: sessionDescription)
+                
+                println(["by":currentID!,"to":otherID,"sdp":["type":sdp.type!,"sdp":sdp.description],"type":sdp.type!,"username":username!])
+                
+                socketObj.socket.emit("msg",["by":currentID!,"to":otherID,"sdp":["type":sdp.type!,"sdp":sdp.description],"type":sdp.type!,"username":username!])
+                println("\(sdp.type) emitteddd")
+            }
+            if(self.pc.localDescription == nil){
             println("\(sdp.type) creatddddd")
             println(sdp.debugDescription)
             var sessionDescription=RTCSessionDescription(type: sdp.type!, sdp: sdp.description)
@@ -1038,6 +1058,7 @@ class VideoViewController: UIViewController,RTCPeerConnectionDelegate,RTCSession
             
             socketObj.socket.emit("msg",["by":currentID!,"to":otherID,"sdp":["type":sdp.type!,"sdp":sdp.description],"type":sdp.type!,"username":username!])
             println("\(sdp.type) emitteddd")
+            }
             
         }
         else
@@ -1184,6 +1205,12 @@ class VideoViewController: UIViewController,RTCPeerConnectionDelegate,RTCSession
         
         if(msg[0]["type"].string! == "answer" && msg[0]["by"].int != currentID)
         {
+            if(self.screenshared==true){
+                println("answer received screen")
+                var sessionDescription=RTCSessionDescription(type: msg[0]["type"].description, sdp: msg[0]["sdp"]["sdp"].description)
+                self.pc.setRemoteDescriptionWithDelegate(self, sessionDescription: sessionDescription)
+            }
+            
             if(isInitiator.description == "true" && self.pc.remoteDescription == nil)
             {println("answer received")
                 var sessionDescription=RTCSessionDescription(type: msg[0]["type"].description, sdp: msg[0]["sdp"]["sdp"].description)
@@ -1249,7 +1276,14 @@ class VideoViewController: UIViewController,RTCPeerConnectionDelegate,RTCSession
         println("received conference.stream obj from server")
         var datajson=JSON(data!)
         println(datajson.debugDescription)
-        //if(datajson[0]["id"].intValue == otherID! && datajson[0]["type"].description == "video")
+        
+        if(datajson[0]["username"].debugDescription != username! && datajson[0]["type"].debugDescription == "screen" && datajson[0]["action"].boolValue==true )
+            {self.screenshared=true
+                //Handle Screen sharing
+                println("handle screen sharing")
+                self.pc.createOfferWithDelegate(self, constraints: self.rtcMediaConst)
+            }
+        
         if(datajson[0]["username"].debugDescription != username! && datajson[0]["type"].debugDescription == "video" && self.rtcVideoTrackReceived != nil)
         {
             println("toggle remote video stream")
@@ -1365,7 +1399,7 @@ class VideoViewController: UIViewController,RTCPeerConnectionDelegate,RTCSession
         
         }
 
-        
+    
         
         
         
