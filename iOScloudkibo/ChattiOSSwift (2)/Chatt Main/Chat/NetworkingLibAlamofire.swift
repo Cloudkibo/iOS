@@ -21,7 +21,7 @@ class NetworkingLibAlamofire{
     }
     func sendRequestGetWithoutParameters(method:String,url:String)->JSON
     {
-        println(url)
+        print(url)
         
                 Alamofire.request(.GET,"\(url)").responseJSON{
             request1, response1, data1, error1 in
@@ -33,19 +33,19 @@ class NetworkingLibAlamofire{
                 /// self.performSegueWithIdentifier("loginSegue", sender: nil)
                 
                 if response1?.statusCode==200 {
-                    println("Request success")
+                    print("Request success")
                     self.dataMy=JSON(data1!)
-                    //println(data1!.description)
-                    //println(self.dataMy)
-                    //println(dataMy.description)
+                    //print(data1!.description)
+                    //print(self.dataMy)
+                    //print(dataMy.description)
 
                 
                 }
                 else
                 {
-                    println("request failed")
+                    print("request failed")
               self.errorMy=JSON(error1!)
-                    //println(errorMy.description)
+                    //print(errorMy.description)
 
                 }
             })
@@ -68,19 +68,19 @@ class NetworkingLibAlamofire{
                     /// self.performSegueWithIdentifier("loginSegue", sender: nil)
                     
                     if response1?.statusCode==200 {
-                        //println("got user success")
-                        println("Request success")
+                        //print("got user success")
+                        print("Request success")
                         
                         //dataMy=JSON(data1!)
-                        //println(dataMy.description)
+                        //print(dataMy.description)
                         
                     }
                     else
                     {
-                        println("request failed")
+                        print("request failed")
 
                         //errorMy=JSON(error1!)
-                       // println(errorMy.description)
+                       // print(errorMy.description)
                     }
                 })
             }
@@ -96,12 +96,12 @@ class NetworkingLibAlamofire{
         var param:[String:String]=["username": userid!,"password":passw!]
         Alamofire.request(.POST,"\(url)",parameters: param).response{
             request, response, data, error in
-            println(error)
+            print(error)
             
             if response?.statusCode==200
                 
             {
-                println("login success")
+                print("login success")
                // self.labelLoginUnsuccessful.text=nil
                 //self.gotToken=true
                 
@@ -119,7 +119,7 @@ class NetworkingLibAlamofire{
             else
             {
                 
-                println("Login failed")
+                print("Login failed")
             }
         }
 
@@ -132,12 +132,12 @@ class NetworkingLibAlamofire{
         var param:[String:String]=["username": username!,"password": password!]
         Alamofire.request(.POST,"\(url)",parameters: param).response{
             request, response, data, error in
-            println(error)
+            print(error)
             
             if response?.statusCode==200
                 
             {
-                println("Refresh Token success")
+                print("Refresh Token success")
                 
                 
                 //======GETTING REST API TO GET CURRENT USER=======================
@@ -151,7 +151,7 @@ class NetworkingLibAlamofire{
             }
             else
             {
-                println("Token refresh failed........")
+                print("Token refresh failed........")
             }
         }
     }
@@ -165,12 +165,12 @@ class NetworkingLibAlamofire{
         var param:[String:String]=["username": username!,"password":password!]
         Alamofire.request(.POST,"\(url)",parameters: param).response{
             request, response, data, error in
-            println(error)
+            print(error)
             
             if response?.statusCode==200
                 
             {
-                println("login success")
+                print("login success")
                // self.labelLoginUnsuccessful.text=nil
                // self.gotToken=true
                 
@@ -197,7 +197,7 @@ class NetworkingLibAlamofire{
                         /// self.performSegueWithIdentifier("loginSegue", sender: nil)
                         
                         if response1?.statusCode==200 {
-                            println("got user success")
+                            print("got user success")
                            // self.gotToken=true
                             var json=JSON(data1!)
                             //KeychainWrapper.setData(data1!, forKey: "loggedUserObj")
@@ -220,22 +220,22 @@ class NetworkingLibAlamofire{
                             
                             socketObj.socket.emit("join global chatroom",["room": "globalchatroom", "user": json.object])
                             
-                            println(json["_id"])
+                            print(json["_id"])
                             
                             
                             
                             //...........
                             /*  let stmt = sqliteDB.db.prepare("SELECT * FROM accounts")
-                            println(stmt.columnNames)
+                            print(stmt.columnNames)
                             for row in stmt {
-                            println("...................... firstname: \(row[1]), email: \(row[3])")
+                            print("...................... firstname: \(row[1]), email: \(row[3])")
                             // id: Optional(1), email: Optional("alice@mac.com")
                             }*/
                             
                         } else {
                             
                             
-                            println("GOT USER FAILED")
+                            print("GOT USER FAILED")
                         }
                     })
                     
@@ -247,7 +247,7 @@ class NetworkingLibAlamofire{
             else
             {
                 KeychainWrapper.removeObjectForKey("password")
-                println("login failed")
+                print("login failed")
                 
             }
         }

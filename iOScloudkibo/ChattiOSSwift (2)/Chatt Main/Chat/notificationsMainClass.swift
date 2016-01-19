@@ -25,7 +25,7 @@ class notificationsMainClass {
         NSUserDefaults.standardUserDefaults().setObject(todoDictionary, forKey: ITEMS_KEY) // save/overwrite todo item list
         
         // create a corresponding local notification
-        var notification = UILocalNotification()
+        let notification = UILocalNotification()
         notification.alertBody = "You received a \"\(item.type)\" from \(item.otherUserName)" // text that will be displayed in the notification
         notification.alertAction = "open" // text that is displayed after "slide to..." on the lock screen - defaults to "slide to view"
         notification.fireDate = item.deadline // todo item due date (when notification will be fired)

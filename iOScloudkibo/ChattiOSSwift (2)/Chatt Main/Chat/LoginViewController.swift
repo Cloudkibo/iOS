@@ -39,14 +39,17 @@ class LoginViewController: UIViewController, UITextFieldDelegate{
         
     }
     
-    required init(coder aDecoder: NSCoder)
-    {
+    
+
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    
         super.init(coder: aDecoder)
     }
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        var size = UIScreen.mainScreen().bounds.size
+        let size = UIScreen.mainScreen().bounds.size
         viewForContent.contentSize = CGSizeMake(size.width, 568)
     }
     
@@ -54,7 +57,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate{
         super.viewDidLoad()
         if(socketObj == nil)
         {
-            println("socket is nillll22")
+            print("socket is nillll22", terminator: "")
             socketObj=LoginAPI(url:"\(Constants.MainUrl)")
             //socketObj.connect()
             socketObj.addHandlers()
@@ -64,7 +67,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate{
           //  NSLog("connected to socket")
         //}
         
-        var size = UIScreen.mainScreen().bounds.size
+        let size = UIScreen.mainScreen().bounds.size
         viewForContent.contentSize = CGSizeMake(size.width, 568)
         
         NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("willShowKeyBoard:"), name:UIKeyboardWillShowNotification, object: nil)
@@ -82,10 +85,10 @@ class LoginViewController: UIViewController, UITextFieldDelegate{
         var duration : NSTimeInterval = 0
         var curve = userInfo.objectForKey(UIKeyboardAnimationCurveUserInfoKey) as! UInt
         duration = userInfo[UIKeyboardAnimationDurationUserInfoKey]as! NSTimeInterval
-        var keyboardF:NSValue = userInfo.objectForKey(UIKeyboardFrameEndUserInfoKey)as! NSValue
-        var keyboardFrame = keyboardF.CGRectValue()
+        let keyboardF:NSValue = userInfo.objectForKey(UIKeyboardFrameEndUserInfoKey)as! NSValue
+        let keyboardFrame = keyboardF.CGRectValue()
         
-        UIView.animateWithDuration(duration, delay: 0, options:nil, animations: {
+        UIView.animateWithDuration(duration, delay: 0, options:[], animations: {
             self.viewForContent.contentOffset = CGPointMake(0, keyboardFrame.size.height)
             
             }, completion: nil)
@@ -100,10 +103,10 @@ class LoginViewController: UIViewController, UITextFieldDelegate{
         var duration : NSTimeInterval = 0
         var curve = userInfo.objectForKey(UIKeyboardAnimationCurveUserInfoKey) as! UInt
         duration = userInfo[UIKeyboardAnimationDurationUserInfoKey]as! NSTimeInterval
-        var keyboardF:NSValue = userInfo.objectForKey(UIKeyboardFrameEndUserInfoKey) as! NSValue
+        let keyboardF:NSValue = userInfo.objectForKey(UIKeyboardFrameEndUserInfoKey) as! NSValue
         var keyboardFrame = keyboardF.CGRectValue()
         
-        UIView.animateWithDuration(duration, delay: 0, options:nil, animations: {
+        UIView.animateWithDuration(duration, delay: 0, options:[], animations: {
             self.viewForContent.contentOffset = CGPointMake(0, 0)
             
             }, completion: nil)
@@ -130,13 +133,13 @@ class LoginViewController: UIViewController, UITextFieldDelegate{
         var param:[String:String]=["username": txtForEmail.text!,"password":txtForPassword.text!]
         Alamofire.request(.POST,"\(url)",parameters: param).response{
             request, response, data, error in
-            println(error)
+            print(error)
             
             if response?.statusCode==200
                 
             {
                 //^^^^^username=txtForEmail.text!
-                println("login success")
+                print("login success")
                 self.labelLoginUnsuccessful.text=nil
                 self.gotToken=true
                 
@@ -163,7 +166,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate{
                         /// self.performSegueWithIdentifier("loginSegue", sender: nil)
                         
                         if response1?.statusCode==200 {
-                            println("got user success")
+                            print("got user success")
                             self.gotToken=true
                             var json=JSON(data1!)
                             //KeychainWrapper.setData(data1!, forKey: "loggedUserObj")
@@ -175,14 +178,14 @@ class LoginViewController: UIViewController, UITextFieldDelegate{
                             KeychainWrapper.setString(loggedUserObj.description, forKey:"loggedUserObjString")
                             
                             
-                            println(loggedUserObj.object)
-                            println("$$$$$$$$$$$$$$$$$$$$$$$$$")
-                            ////println(loggedUserObj.string)
+                            print(loggedUserObj.object)
+                            print("$$$$$$$$$$$$$$$$$$$$$$$$$")
+                            ////print(loggedUserObj.string)
                             //KeychainWrapper.setString(loggedUserObj.string!, forKey:"loggedUserObjString")
                             var lll = JSONStringify(data1!, prettyPrinted: false)
-                            println(lll)
+                            print(lll)
                             KeychainWrapper.setString(lll,forKey:"loggedIDKeyChain")
-                            println("************************")
+                            print("************************")
                             
                             //===========saving username======================
                             KeychainWrapper.setString(json["username"].string!, forKey: "username")
@@ -205,7 +208,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate{
                             
                             socketObj.socket.emit("join global chatroom",["room": "globalchatroom", "user": json.object])
                             
-                            println(json["_id"])
+                            print(json["_id"])
                             
                             let tbl_accounts = sqliteDB.db["accounts"]
                             let _id = Expression<String>("_id")
@@ -233,14 +236,14 @@ class LoginViewController: UIViewController, UITextFieldDelegate{
                                 status<-json["status"].string!,
                                 phone<-json["phone"].string!)
                             if let rowid = insert.rowid {
-                                println("inserted id: \(rowid)")
+                                print("inserted id: \(rowid)")
                             } else if insert.statement.failed {
-                                println("insertion failed: \(insert.statement.reason)")
+                                print("insertion failed: \(insert.statement.reason)")
                             }
                             
                             //// self.fetchContacts(AuthToken)
                             for account in tbl_accounts {
-                                println("id: \(account[_id]), email: \(account[email]), firstname: \(account[firstname])")
+                                print("id: \(account[_id]), email: \(account[email]), firstname: \(account[firstname])")
                                 // id: 1, email: alice@mac.com, name: Optional("Alice")
                             }
                             
@@ -249,9 +252,9 @@ class LoginViewController: UIViewController, UITextFieldDelegate{
                             
                             //...........
                             /*  let stmt = sqliteDB.db.prepare("SELECT * FROM accounts")
-                            println(stmt.columnNames)
+                            print(stmt.columnNames)
                             for row in stmt {
-                            println("...................... firstname: \(row[1]), email: \(row[3])")
+                            print("...................... firstname: \(row[1]), email: \(row[3])")
                             // id: Optional(1), email: Optional("alice@mac.com")
                             }*/
                             
@@ -260,13 +263,13 @@ class LoginViewController: UIViewController, UITextFieldDelegate{
                             self.txtForEmail.text=nil
                             self.txtForPassword.text=nil
                             
-                            println("GOT USER FAILED")
+                            print("GOT USER FAILED")
                         }
                     })
                     
                     if(response?.statusCode==401)
                     {
-                        println("got user failed token expired")
+                        print("got user failed token expired")
                         self.rt.refrToken()
                     }
                 }
@@ -276,7 +279,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate{
             else
             {
                 KeychainWrapper.removeObjectForKey("password")
-                println("login failed")
+                print("login failed")
                 self.labelLoginUnsuccessful.text="Sorry, you are not registered"
                 self.txtForEmail.text=nil
                 self.txtForPassword.text=nil

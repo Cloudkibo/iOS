@@ -48,11 +48,11 @@ class VideoViewController: UIViewController,RTCPeerConnectionDelegate,RTCSession
         
         let letters : NSString = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
         
-        var randomString : NSMutableString = NSMutableString(capacity: len)
+        let randomString : NSMutableString = NSMutableString(capacity: len)
         
         for (var i=0; i < len; i++){
-            var length = UInt32 (letters.length)
-            var rand = arc4random_uniform(length)
+            let length = UInt32 (letters.length)
+            let rand = arc4random_uniform(length)
             randomString.appendFormat("%C", letters.characterAtIndex(Int(rand)))
         }
         
@@ -77,19 +77,19 @@ class VideoViewController: UIViewController,RTCPeerConnectionDelegate,RTCSession
     func addHandlers()
     {
         socketObj.socket.on("msg"){data,ack in
-            println("msg reeived.. check if offer answer or ice")
-            var msg=JSON(data!)
-            println(msg[0].description)
+            print("msg reeived.. check if offer answer or ice")
+            var msg=JSON(data)
+            print(msg[0].description)
             
             if(msg[0]["type"].string! == "offer")
             {
                 //^^^^^^^^^^^^^^^^newwwww if(joinedRoomInCall == "" && isInitiator.description == "false")
                 if(joinedRoomInCall == "")
                 {
-                    println("room joined is null")
+                    print("room joined is null")
                 }
                 
-                println("offer received")
+                print("offer received")
                 //var sdpNew=msg[0]["sdp"].object
                 if(self.pc == nil) //^^^^^^^^^^^^^^^^^^newwwww tryyy
                 {
@@ -117,25 +117,25 @@ class VideoViewController: UIViewController,RTCPeerConnectionDelegate,RTCSession
             if(msg[0]["type"].string! == "answer" && msg[0]["by"].int != currentID)
             {
                 if(isInitiator.description == "true" && self.pc.remoteDescription == nil)
-                {println("answer received")
+                {print("answer received")
                     var sessionDescription=RTCSessionDescription(type: msg[0]["type"].description, sdp: msg[0]["sdp"]["sdp"].description)
                     self.pc.setRemoteDescriptionWithDelegate(self, sessionDescription: sessionDescription)
                 }
                 
             }
             if(msg[0]["type"].string! == "ice")
-            {println("ice received of other peer")
+            {print("ice received of other peer")
                 if(msg[0]["ice"].description=="null")
-                {println("last ice as null so ignore")}
+                {print("last ice as null so ignore")}
                 else{
                     if(msg[0]["by"].intValue != currentID)
                     {var iceCandidate=RTCICECandidate(mid: msg[0]["ice"]["sdpMid"].description, index: msg[0]["ice"]["sdpMLineIndex"].int!, sdp: msg[0]["ice"]["candidate"].description)
-                        println(iceCandidate.description)
+                        print(iceCandidate.description)
                         
                         if(self.pc.localDescription != nil && self.pc.remoteDescription != nil)
                             
                         {var addedcandidate=self.pc.addICECandidate(iceCandidate)
-                            println("ice candidate added \(addedcandidate)")
+                            print("ice candidate added \(addedcandidate)")
                         }
                     }
                 }
@@ -153,12 +153,12 @@ class VideoViewController: UIViewController,RTCPeerConnectionDelegate,RTCSession
         ///////////////////////
         /////////////////////////////////////
         socketObj.socket.on("peer.connected"){data,ack in
-            println("received peer.connected obj from server")
+            print("received peer.connected obj from server")
             
             //Both joined same room
             
             var datajson=JSON(data!)
-            println(datajson.debugDescription)
+            print(datajson.debugDescription)
             
             if(datajson[0]["username"].description != username!){
                 otherID=datajson[0]["id"].int
@@ -179,7 +179,7 @@ class VideoViewController: UIViewController,RTCPeerConnectionDelegate,RTCSession
                 
                 self.addLocalMediaStreamToPeerConnection()
                 //^^^^^^^^^^^^^^^^^^newwwww self.pc.addStream(self.rtcLocalMediaStream)
-                println("peer attached stream")
+                print("peer attached stream")
                 //^^^^^^^^^^^self.pc.addStream(self.getLocalMediaStream())
                 //////socketObj.socket.emit("conference.stream", ["username":username!,"id":currentID!,"type":"video","action":"false"])
                 ///////socketObj.socket.emit("conference.stream", ["username":username!,"id":currentID!,"type":"audio","action":"true"])
@@ -191,13 +191,13 @@ class VideoViewController: UIViewController,RTCPeerConnectionDelegate,RTCSession
         
         socketObj.socket.on("conference.stream"){data,ack in
             
-            println("received conference.stream obj from server")
+            print("received conference.stream obj from server")
             var datajson=JSON(data!)
-            println(datajson.debugDescription)
+            print(datajson.debugDescription)
             //if(datajson[0]["id"].intValue == otherID! && datajson[0]["type"].description == "video")
             if(datajson[0]["username"].debugDescription != username! && datajson[0]["type"].debugDescription == "video" && self.rtcVideoTrackReceived != nil)
             {
-                println("toggle remote video stream")
+                print("toggle remote video stream")
                 ////////////self.rtcVideoTrackReceived.setEnabled((datajson[0]["action"].bool!))
                 if(datajson[0]["action"].bool! == false)
                 {
@@ -214,15 +214,15 @@ class VideoViewController: UIViewController,RTCPeerConnectionDelegate,RTCSession
         }
         
         socketObj.socket.on("peer.stream"){data,ack in
-            println("received peer.stream obj from server")
+            print("received peer.stream obj from server")
             var datajson=JSON(data!)
-            println(datajson.debugDescription)
+            print(datajson.debugDescription)
             
         }
         socketObj.socket.on("peer.disconnected"){data,ack in
-            println("received peer.disconnected obj from server")
+            print("received peer.disconnected obj from server")
             var datajson=JSON(data!)
-            println(datajson.debugDescription)
+            print(datajson.debugDescription)
             
         }
         
@@ -230,9 +230,9 @@ class VideoViewController: UIViewController,RTCPeerConnectionDelegate,RTCSession
         
         
         socketObj.socket.on("message"){data,ack in
-            println("received messageee11")
-            var msg=JSON(data!)
-            println(msg.debugDescription)
+            print("received messageee11")
+            var msg=JSON(data)
+            print(msg.debugDescription)
             
             if(msg[0]["type"]=="room_name")
             {////////////////////////////////////////////////////////////////
@@ -242,18 +242,18 @@ class VideoViewController: UIViewController,RTCPeerConnectionDelegate,RTCSession
                 if(joinedRoomInCall=="")
                 {
                     var CurrentRoomName=msg[0]["room"].string!
-                    println("got room name as \(joinedRoomInCall)")
-                    println("trying to join room")
+                    print("got room name as \(joinedRoomInCall)")
+                    print("trying to join room")
                     //socketObj.socket.emit("init",["room":joinedRoomInCall,"username":username!])
                     //socketObj.socket.emitWithAck("init",["room":joinedRoomInCall,"username":username!])(timeout: 0)
                     
                     socketObj.socket.emitWithAck("init", ["room":CurrentRoomName,"username":username!])(timeout: 1500000000) {data in
-                        println("room joined got ack")
+                        print("room joined got ack")
                         var a=JSON(data!)
-                        println(a.debugDescription)
+                        print(a.debugDescription)
                         currentID=a[1].int!
                         joinedRoomInCall=msg[0]["room"].string!
-                        println("current id is \(currentID)")
+                        print("current id is \(currentID)")
                         //}
                     }}
                     ////////////////////////newwwwwww
@@ -267,19 +267,19 @@ class VideoViewController: UIViewController,RTCPeerConnectionDelegate,RTCSession
             {
                 if(joinedRoomInCall == "")
                 {
-                    println("inside accept call")
+                    print("inside accept call")
                     var roomname=self.randomStringWithLength(9)
                     //iamincallWith=username!
                     areYouFreeForCall=false
                     joinedRoomInCall=roomname as String
-                    socketObj.socket.emitWithAck("init", ["room":joinedRoomInCall,"username":username!])(timeout: 150000000) {data in
-                        println("room joined by got ack")
+                    socketObj.socket.emitWithAck("init", ["room":joinedRoomInCall,"username":username!])(timeoutAfter: 150000000) {data in
+                        print("room joined by got ack")
                         var a=JSON(data!)
-                        println(a.debugDescription)
+                        print(a.debugDescription)
                         currentID=a[1].int!
-                        println("current id is \(currentID)")
+                        print("current id is \(currentID)")
                         var aa=JSON(["msg":["type":"room_name","room":roomname as String],"room":globalroom,"to":iamincallWith!,"username":username!])
-                        println(aa.description)
+                        print(aa.description)
                         socketObj.socket.emit("message",aa.object)
                         
                     }
@@ -287,7 +287,7 @@ class VideoViewController: UIViewController,RTCPeerConnectionDelegate,RTCSession
                 
                 
                 /*^^^^^^^^^var aa=JSON(["msg":["type":"room_name","room":roomname as String],"room":globalroom,"to":iamincallWith!,"username":username!])
-                println(aa.description)
+                print(aa.description)
                 */
                 //socketObj.socket.emit("message",["type":"room_name","room":roomname,"room":globalroom,"to":iamincallWith!,"username":username!])
                 /////^^^^^^^^^socketObj.sendMessagesOfMessageType(aa.description)
@@ -296,7 +296,7 @@ class VideoViewController: UIViewController,RTCPeerConnectionDelegate,RTCSession
             }
             if(msg[0]=="Reject Call")
             {
-                println("inside reject call")
+                print("inside reject call")
                 var roomname=""
                 iamincallWith=""
                 areYouFreeForCall=true
@@ -313,9 +313,9 @@ class VideoViewController: UIViewController,RTCPeerConnectionDelegate,RTCSession
             {
                 if(self.pc != nil)
                 {
-                    println("hangupppppp received \(msg[0])")
+                    print("hangupppppp received \(msg[0])")
                     
-                    println("hangupppppp received \(msg.debugDescription)")
+                    print("hangupppppp received \(msg.debugDescription)")
                     self.remoteDisconnected()
                     
                     
@@ -332,12 +332,12 @@ class VideoViewController: UIViewController,RTCPeerConnectionDelegate,RTCSession
                 otherID=nil
                 //self.disconnect()
                 if((self.rtcLocalVideoTrack) != nil)
-                {println("remove localtrack renderer")
+                {print("remove localtrack renderer")
                 self.rtcLocalVideoTrack = nil
                 ///////  self.rtcLocalVideoTrack.removeRenderer(self.localView)
                 }
                 /*if((self.rtcVideoTrackReceived) != nil)
-                {println("remove remotetrack renderer")
+                {print("remove remotetrack renderer")
                 self.rtcVideoTrackReceived.removeRenderer(self.remoteView)
                 }
                 */
@@ -351,7 +351,7 @@ class VideoViewController: UIViewController,RTCPeerConnectionDelegate,RTCSession
                 */
                 //////self.localViewOutlet.removeFromSuperview()
                 //self.dismissViewControllerAnimated(true, completion: { () -> Void in
-                //println("doneee hanguppp")
+                //print("doneee hanguppp")
                 // })
                 //self.performSegueWithIdentifier("endCallSegue", sender: nil);
                 //  })
@@ -418,7 +418,7 @@ class VideoViewController: UIViewController,RTCPeerConnectionDelegate,RTCSession
                 //}
                 /*else
                 {
-                println("hangup by youuu")
+                print("hangup by youuu")
                 
                 }
                 */
@@ -466,7 +466,7 @@ class VideoViewController: UIViewController,RTCPeerConnectionDelegate,RTCSession
         if((self.pc) != nil)
         {
             if((self.rtcLocalVideoTrack) != nil)
-            {println("remove localtrack renderer")
+            {print("remove localtrack renderer")
                 
                 self.rtcLocalVideoTrack.removeRenderer(self.localView)
                 //////////////////////////////////////////////////////
@@ -475,10 +475,10 @@ class VideoViewController: UIViewController,RTCPeerConnectionDelegate,RTCSession
                 /////////////////////////////////////////////////////
             }
             if((self.rtcVideoTrackReceived) != nil)
-            {println("remove remotetrack renderer")
+            {print("remove remotetrack renderer")
                 self.rtcVideoTrackReceived.removeRenderer(self.remoteView)
             }
-            println("out of removing remoterenderer")
+            print("out of removing remoterenderer")
             ////self.rtcLocalVideoTrack=nil
             ////self.rtcVideoTrackReceived=nil
             //kjkljkljkkhkjhkj
@@ -497,35 +497,35 @@ class VideoViewController: UIViewController,RTCPeerConnectionDelegate,RTCSession
             
             
             // iamincallWith=nil
-            println("hangup emitted")
+            print("hangup emitted")
             
             if(localView.superview != nil)
             {
-                println("localview was a subview. remmoving")
+                print("localview was a subview. remmoving")
                 localView.removeFromSuperview()
             }
             if(remoteView.superview != nil)
             {
-                println("remoteview was a subview. remmoving")
+                print("remoteview was a subview. remmoving")
                 
                 remoteView.removeFromSuperview()
             }
             
             if(self.rtcLocalMediaStream != nil)
             {
-                println("stopped local stream")
+                print("stopped local stream")
                 ///// rtcLocalMediaStream.videoTracks[0].stopRunning()
                 //rtcLocalMediaStream.audioTracks[0].stopRunning()
             }
             if(self.rtcStreamReceived != nil)
             {
-                println("stopped remote stream")
+                print("stopped remote stream")
                 self.rtcStreamReceived.removeAudioTrack(rtcStreamReceived.audioTracks[0] as! RTCAudioTrack)
                 /////rtcStreamReceived.videoTracks[0].stopRunning()
                 //rtcStreamReceived.audioTracks[0].stopRunning()
             }
             
-            println("views removed from parent")
+            print("views removed from parent")
         }
         
         joinedRoomInCall=""
@@ -538,7 +538,7 @@ class VideoViewController: UIViewController,RTCPeerConnectionDelegate,RTCSession
         
         self.dismissViewControllerAnimated(true, completion: { () -> Void in
             
-            println("doneeeeeee")
+            print("doneeeeeee")
             
         })
         
@@ -560,20 +560,20 @@ class VideoViewController: UIViewController,RTCPeerConnectionDelegate,RTCSession
     
     func disconnect()
     {
-        println("inside disconnect")
+        print("inside disconnect")
         if((self.pc) != nil)
         {
-            dispatch_async(dispatch_get_global_queue(Int(QOS_CLASS_USER_INITIATED.value),0)){
+            dispatch_async(dispatch_get_global_queue(Int(QOS_CLASS_USER_INITIATED.rawValue),0)){
                 
                 if((self.rtcLocalVideoTrack) != nil)
-                {println("remove localtrack renderer")
+                {print("remove localtrack renderer")
                     self.rtcLocalVideoTrack.removeRenderer(self.localView)
                 }
                 if((self.rtcVideoTrackReceived) != nil)
-                {println("remove remotetrack renderer")
+                {print("remove remotetrack renderer")
                     self.rtcVideoTrackReceived.removeRenderer(self.remoteView)
                 }
-                println("out of removing remoterenderer")
+                print("out of removing remoterenderer")
                 self.rtcLocalVideoTrack=nil
                 
                 //////////////self.localView.renderFrame(nil)
@@ -625,10 +625,10 @@ class VideoViewController: UIViewController,RTCPeerConnectionDelegate,RTCSession
         }
     }
     
-    required init(coder aDecoder: NSCoder)
+    required init?(coder aDecoder: NSCoder)
     {
         super.init(coder: aDecoder)
-        //println(AuthToken!)
+        //print(AuthToken!)
         
     }
     override func viewDidLoad() {
@@ -638,12 +638,12 @@ class VideoViewController: UIViewController,RTCPeerConnectionDelegate,RTCSession
         socketObj.delegateWebRTC=self
         }
         ////////////////addHandlers()
-        println("video view loadddddd")
+        print("video view loadddddd")
     }
     
     func remoteDisconnected()
     {
-        println("inside remote disconnected")
+        print("inside remote disconnected")
         if((self.rtcVideoTrackReceived) != nil)
         {
             self.rtcVideoTrackReceived.removeRenderer(self.remoteView)
@@ -651,19 +651,19 @@ class VideoViewController: UIViewController,RTCPeerConnectionDelegate,RTCSession
         self.rtcVideoTrackReceived=nil
         if((remoteView) != nil)
         {self.remoteView.renderFrame(nil)}
-        println("remote disconnected")
+        print("remote disconnected")
     }
     
     func getLocalMediaStream()->RTCMediaStream!
     {
-        println("getlocalmediastream")
+        print("getlocalmediastream")
         
         self.rtcLocalMediaStream=createLocalMediaStream()
         
         
-        //println(rtcLocalMediaStream.audioTracks.count)
+        //print(rtcLocalMediaStream.audioTracks.count)
         
-        // println(rtcLocalMediaStream.videoTracks.count)
+        // print(rtcLocalMediaStream.videoTracks.count)
         return rtcLocalMediaStream
         
     }
@@ -671,12 +671,12 @@ class VideoViewController: UIViewController,RTCPeerConnectionDelegate,RTCSession
     
     func createPeerConnectionObject()
     {//Initialise Peer Connection Object
-        println("inside create peer conn object method")
+        print("inside create peer conn object method")
         self.rtcMediaConst=RTCMediaConstraints(mandatoryConstraints: [RTCPair(key: "OfferToReceiveAudio", value: "true"),RTCPair(key: "OfferToReceiveVideo", value: "true")], optionalConstraints: nil)
         //rtcFact=nil
         if(self.pc != nil)
         {
-            println("pc closeddddd")
+            print("pc closeddddd")
             
             self.pc.close()
             self.pc = nil
@@ -692,7 +692,7 @@ class VideoViewController: UIViewController,RTCPeerConnectionDelegate,RTCSession
     }
     
     func createLocalMediaStream()->RTCMediaStream
-    {println("inside createlocalvideotrack")
+    {print("inside createlocalvideotrack")
         
         var localStream:RTCMediaStream!
         
@@ -703,9 +703,9 @@ class VideoViewController: UIViewController,RTCPeerConnectionDelegate,RTCSession
         self.rtcLocalVideoTrack = createLocalVideoTrack()
         if let lvt=self.rtcLocalVideoTrack
         {
-            var addedVideo=localStream.addVideoTrack(self.rtcLocalVideoTrack)
+            let addedVideo=localStream.addVideoTrack(self.rtcLocalVideoTrack)
             
-            println("video stream \(addedVideo)")
+            print("video stream \(addedVideo)")
             ////++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
             dispatch_async(dispatch_get_main_queue(), {
             //////self.didReceiveLocalVideoTrack(localVideoTrack)
@@ -713,14 +713,14 @@ class VideoViewController: UIViewController,RTCPeerConnectionDelegate,RTCSession
             })
             
         }
-        var audioTrack=rtcFact.audioTrackWithID("ARDAMSa0")
+        let audioTrack=rtcFact.audioTrackWithID("ARDAMSa0")
         audioTrack.setEnabled(true)
-        var addedAudioStream=localStream.addAudioTrack(audioTrack)
+        let addedAudioStream=localStream.addAudioTrack(audioTrack)
         
-        println("audio stream \(addedAudioStream)")
+        print("audio stream \(addedAudioStream)")
         //localStream.addAudioTrack(mediaAudioLabel!)
-        println("localStreammm ")
-        print(localStream.description)
+        print("localStreammm ")
+        print(localStream.description, terminator: "")
         //^^^localVideoTrack.addRenderer(localView)
         
         
@@ -735,27 +735,27 @@ class VideoViewController: UIViewController,RTCPeerConnectionDelegate,RTCSession
             //self.rtcCaptureSession=aaa.captureSession
             if aaa.position==AVCaptureDevicePosition.Front
             {
-                println(aaa.localizedName!)
+                print(aaa.localizedName!)
                 cameraID=aaa.localizedName!!
-                println("got front cameraaa as id \(cameraID)")
+                print("got front cameraaa as id \(cameraID)")
                 break
             }
             
         }
         if cameraID==nil
             
-        {println("failed to get front camera")}
+        {print("failed to get front camera")}
         
         //AVCaptureDevice
-        var capturer=RTCVideoCapturer(deviceName: cameraID! as String)
+        let capturer=RTCVideoCapturer(deviceName: cameraID! as String)
         
-        println(capturer.description)
+        print(capturer.description)
         
         var VideoSource=RTCVideoSource.alloc()
         VideoSource=rtcFact.videoSourceWithCapturer(capturer, constraints: nil)
         self.rtcLocalVideoTrack=nil
         self.rtcLocalVideoTrack=rtcFact.videoTrackWithID("ARDAMSv0", source: VideoSource)
-        println("sending localVideoTrack")
+        print("sending localVideoTrack")
         return self.rtcLocalVideoTrack
         
     }
@@ -803,7 +803,7 @@ class VideoViewController: UIViewController,RTCPeerConnectionDelegate,RTCSession
             self.localView.drawRect(CGRect(x: 0, y: 0, width: 500, height: 500))
             // self.remoteView.addConstraints(mediaConstraints.d)
             if(stream.videoTracks.count>0)
-            {println("local video track count is greater than one")
+            {print("local video track count is greater than one")
                 self.rtcLocalVideoTrack=stream.videoTracks[0] as! RTCVideoTrack
                 
                 self.rtcLocalVideoTrack.addRenderer(self.localView)
@@ -818,7 +818,7 @@ class VideoViewController: UIViewController,RTCPeerConnectionDelegate,RTCSession
     
     func didReceiveRemoteVideoTrack(remoteVideoTrack:RTCVideoTrack)
     {
-        println("didreceiveremotevideotrack")
+        print("didreceiveremotevideotrack")
        // dispatch_async(dispatch_get_global_queue(Int(QOS_CLASS_USER_INITIATED.value),0)){
         
           /*  if(self.rtcVideoTrackReceived != nil)
@@ -895,7 +895,7 @@ class VideoViewController: UIViewController,RTCPeerConnectionDelegate,RTCSession
         rtcICEarray.append(RTCICEServer(URI: NSURL(string:"turn:turn.anyfirewall.com:443?transport=tcp"), username: "webrtc", password: "webrtc"))
         
         
-        println("rtcICEServerObj is \(rtcICEarray[0])")
+        print("rtcICEServerObj is \(rtcICEarray[0])")
         
         //self.createPeerConnectionObject()
         RTCPeerConnectionFactory.initializeSSL()
@@ -924,7 +924,7 @@ class VideoViewController: UIViewController,RTCPeerConnectionDelegate,RTCSession
         self.remoteView=RTCEAGLVideoView(frame: CGRect(x: 0, y: 0, width: 500, height: 500))
         self.remoteView.drawRect(CGRect(x: 0, y: 0, width: 500, height: 500))
         
-        var mainICEServerURL:NSURL=NSURL(fileURLWithPath: Constants.MainUrl)!
+        var mainICEServerURL:NSURL=NSURL(fileURLWithPath: Constants.MainUrl)
         
         rtcICEarray.append(RTCICEServer(URI: NSURL(string:"turn:45.55.232.65:3478?transport=udp"), username: "cloudkibo", password: "cloudkibo"))
         rtcICEarray.append(RTCICEServer(URI: NSURL(string:"turn:45.55.232.65:3478?transport=tcp"), username: "cloudkibo", password: "cloudkibo"))
@@ -936,7 +936,7 @@ class VideoViewController: UIViewController,RTCPeerConnectionDelegate,RTCSession
         rtcICEarray.append(RTCICEServer(URI: NSURL(string:"turn:turn.anyfirewall.com:443?transport=tcp"), username: "webrtc", password: "webrtc"))
         
         
-        println("rtcICEServerObj is \(rtcICEarray[0])")
+        print("rtcICEServerObj is \(rtcICEarray[0])")
         
         //self.createPeerConnectionObject()
         RTCPeerConnectionFactory.initializeSSL()
@@ -947,9 +947,9 @@ class VideoViewController: UIViewController,RTCPeerConnectionDelegate,RTCSession
     }
     
     func peerConnection(peerConnection: RTCPeerConnection!, addedStream stream: RTCMediaStream!) {
-        println("added stream \(stream.debugDescription)")
-        println(stream.videoTracks.count)
-        println(stream.audioTracks.count)
+        print("added stream \(stream.debugDescription)")
+        print(stream.videoTracks.count)
+        print(stream.audioTracks.count)
         
         // dispatch_async(dispatch_get_main_queue(), {
         
@@ -962,8 +962,8 @@ class VideoViewController: UIViewController,RTCPeerConnectionDelegate,RTCSession
         
         */
         if(stream.videoTracks.count>0)
-        {println("remote video track count is greater than one")
-            var remoteVideoTrack=stream.videoTracks[0] as! RTCVideoTrack
+        {print("remote video track count is greater than one")
+            let remoteVideoTrack=stream.videoTracks[0] as! RTCVideoTrack
             //^^^^^^newwwww self.rtcVideoTrackReceived=stream.videoTracks[0] as! RTCVideoTrack
             dispatch_async(dispatch_get_main_queue(), {
                 
@@ -986,49 +986,49 @@ class VideoViewController: UIViewController,RTCPeerConnectionDelegate,RTCSession
         
     }
     func peerConnection(peerConnection: RTCPeerConnection!, didOpenDataChannel dataChannel: RTCDataChannel!) {
-        println(".................. did open data channel")
-        println(dataChannel.description)
+        print(".................. did open data channel")
+        print(dataChannel.description)
         
     }
     func peerConnection(peerConnection: RTCPeerConnection!, gotICECandidate candidate: RTCICECandidate!) {
-        ////////println("got ice candidate")
+        ////////print("got ice candidate")
         
         //// dispatch_async(dispatch_get_main_queue(), {
         
-        ////////println(candidate.description)
+        ////////print(candidate.description)
         
         var cnd=JSON(["sdpMLineIndex":candidate.sdpMLineIndex,"sdpMid":candidate.sdpMid!,"candidate":candidate.sdp!])
         
         var aa=JSON(["msg":["by":currentID!,"to":otherID,"ice":cnd.object,"type":"ice"]])
-        //println(aa.description)
+        //print(aa.description)
         socketObj.socket.emit("msg",["by":currentID!,"to":otherID,"ice":cnd.object,"type":"ice"])
         
         
         //// })
     }
     func peerConnection(peerConnection: RTCPeerConnection!, iceConnectionChanged newState: RTCICEConnectionState) {
-        ////////println("............... ice connection changed new state is \(newState.value.description)")
+        ////////print("............... ice connection changed new state is \(newState.value.description)")
         
     }
     func peerConnection(peerConnection: RTCPeerConnection!, iceGatheringChanged newState: RTCICEGatheringState) {
-        ///////// println("............... ice gathering changed \(newState.value.description)")
+        ///////// print("............... ice gathering changed \(newState.value.description)")
     }
     func peerConnection(peerConnection: RTCPeerConnection!, removedStream stream: RTCMediaStream!) {
-        println("...............removed stream")
+        print("...............removed stream")
         
     }
     func peerConnection(peerConnection: RTCPeerConnection!, signalingStateChanged stateChanged: RTCSignalingState) {
-        //////// println("................signalling state changed")
-        ////////println(stateChanged.value)
+        //////// print("................signalling state changed")
+        ////////print(stateChanged.value)
         
     }
     func peerConnectionOnRenegotiationNeeded(peerConnection: RTCPeerConnection!) {
-        ///////////println("............... on negotiation needed")
+        ///////////print("............... on negotiation needed")
         
     }
     
     func peerConnection(peerConnection: RTCPeerConnection!, didCreateSessionDescription sdp: RTCSessionDescription!, error: NSError!) {
-        println("did create offer/answer session description success")
+        print("did create offer/answer session description success")
         //^^^^^^^^^^^^^^^^^^^newwwww
         ////dispatch_async(dispatch_get_main_queue(), {
         
@@ -1036,34 +1036,34 @@ class VideoViewController: UIViewController,RTCPeerConnectionDelegate,RTCSession
         if (error==nil){
             if(self.screenshared == true)
             {
-                println("\(sdp.type) creatddddd")
-                println(sdp.debugDescription)
-                var sessionDescription=RTCSessionDescription(type: sdp.type!, sdp: sdp.description)
+                print("\(sdp.type) creatddddd")
+                print(sdp.debugDescription)
+                let sessionDescription=RTCSessionDescription(type: sdp.type!, sdp: sdp.description)
                 
                 self.pc.setLocalDescriptionWithDelegate(self, sessionDescription: sessionDescription)
                 
-                println(["by":currentID!,"to":otherID,"sdp":["type":sdp.type!,"sdp":sdp.description],"type":sdp.type!,"username":username!])
+                print(["by":currentID!,"to":otherID,"sdp":["type":sdp.type!,"sdp":sdp.description],"type":sdp.type!,"username":username!])
                 
                 socketObj.socket.emit("msg",["by":currentID!,"to":otherID,"sdp":["type":sdp.type!,"sdp":sdp.description],"type":sdp.type!,"username":username!])
-                println("\(sdp.type) emitteddd")
+                print("\(sdp.type) emitteddd")
             }
             if(self.pc.localDescription == nil){
-            println("\(sdp.type) creatddddd")
-            println(sdp.debugDescription)
-            var sessionDescription=RTCSessionDescription(type: sdp.type!, sdp: sdp.description)
+            print("\(sdp.type) creatddddd")
+            print(sdp.debugDescription)
+            let sessionDescription=RTCSessionDescription(type: sdp.type!, sdp: sdp.description)
             
             self.pc.setLocalDescriptionWithDelegate(self, sessionDescription: sessionDescription)
             
-            println(["by":currentID!,"to":otherID,"sdp":["type":sdp.type!,"sdp":sdp.description],"type":sdp.type!,"username":username!])
+            print(["by":currentID!,"to":otherID,"sdp":["type":sdp.type!,"sdp":sdp.description],"type":sdp.type!,"username":username!])
             
             socketObj.socket.emit("msg",["by":currentID!,"to":otherID,"sdp":["type":sdp.type!,"sdp":sdp.description],"type":sdp.type!,"username":username!])
-            println("\(sdp.type) emitteddd")
+            print("\(sdp.type) emitteddd")
             }
             
         }
         else
         {
-            println("sdp created with error \(error.localizedDescription)")
+            print("sdp created with error \(error.localizedDescription)")
         }
         
         
@@ -1071,31 +1071,31 @@ class VideoViewController: UIViewController,RTCPeerConnectionDelegate,RTCSession
         
     }
     func peerConnection(peerConnection: RTCPeerConnection!, didSetSessionDescriptionWithError error: NSError!) {
-        //println(error.localizedDescription)
+        //print(error.localizedDescription)
         
         // If we are acting as the callee then generate an answer to the offer.
         //^^^^^^^^^^^^^^newwwwwwww
         /////dispatch_async(dispatch_get_main_queue(), {
         
         if error == nil {
-            println("did set remote sdp no error")
+            print("did set remote sdp no error")
             
-            println("isinitiator is \(isInitiator)")
+            print("isinitiator is \(isInitiator)")
             if isInitiator == false &&
                 self.pc.localDescription == nil {
-                    println("creating answer")
+                    print("creating answer")
                     //^^^^^^^^^ new self.pc.addStream(self.rtcMediaStream)
                     self.pc.createAnswerWithDelegate(self, constraints: self.rtcMediaConst)
             }
             else
             {
-                println("local not nil or initiator is true")
-                //println(self.pc.localDescription.description)
+                print("local not nil or initiator is true")
+                //print(self.pc.localDescription.description)
                 
             }
             
         } else {
-            print(".......sdp set ERROR: \(error.localizedDescription)")
+            print(".......sdp set ERROR: \(error.localizedDescription)", terminator: "")
         }
         ///// })
         
@@ -1103,7 +1103,7 @@ class VideoViewController: UIViewController,RTCPeerConnectionDelegate,RTCSession
     
     func videoView(videoView: RTCEAGLVideoView!, didChangeVideoSize size: CGSize) {
         
-        println("video size has changed")
+        print("video size has changed")
         
     }
     
@@ -1124,19 +1124,19 @@ class VideoViewController: UIViewController,RTCPeerConnectionDelegate,RTCSession
         
     }
     func socketReceivedMSGWebRTC(message:String,data:AnyObject!)
-    {println("socketReceivedMSGWebRTC inside")
+    {print("socketReceivedMSGWebRTC inside")
         switch(message){
         case "msg":
             handlemsg(data)
             
             
-        default:println("wrong socket msg received")
+        default:print("wrong socket msg received")
         }
     }
     
     func socketReceivedOtherWebRTC(message:String,data:AnyObject!)
     {
-        println("socketReceivedOtherWebRTC inside")
+        print("socketReceivedOtherWebRTC inside")
         switch(message){
            
         case "peer.connected":
@@ -1146,20 +1146,20 @@ class VideoViewController: UIViewController,RTCPeerConnectionDelegate,RTCSession
             handleConferenceStream(data)
             
             
-        default:println("wrong socket other mesage received")
+        default:print("wrong socket other mesage received")
         }
     
     }
     
     func socketReceivedMessageWebRTC(message:String,data:AnyObject!)
-    {println("socketReceivedMessageWebRTC inside")
+    {print("socketReceivedMessageWebRTC inside")
         switch(message){
         
         case "message":
             handleMessage(data)
             
             
-        default:println("wrong socket message received")
+        default:print("wrong socket message received")
         
         }
     }
@@ -1168,19 +1168,19 @@ class VideoViewController: UIViewController,RTCPeerConnectionDelegate,RTCSession
     
     func handlemsg(data:AnyObject!)
     {
-        println("msg reeived.. check if offer answer or ice")
-        var msg=JSON(data!)
-        println(msg[0].description)
+        print("msg reeived.. check if offer answer or ice")
+        var msg=JSON(data)
+        print(msg[0].description)
         
         if(msg[0]["type"].string! == "offer")
         {
             //^^^^^^^^^^^^^^^^newwwww if(joinedRoomInCall == "" && isInitiator.description == "false")
             if(joinedRoomInCall == "")
             {
-                println("room joined is null")
+                print("room joined is null")
             }
             
-            println("offer received")
+            print("offer received")
             //var sdpNew=msg[0]["sdp"].object
             if(self.pc == nil) //^^^^^^^^^^^^^^^^^^newwwww tryyy
             {
@@ -1206,31 +1206,31 @@ class VideoViewController: UIViewController,RTCPeerConnectionDelegate,RTCSession
         if(msg[0]["type"].string! == "answer" && msg[0]["by"].int != currentID)
         {
             if(self.screenshared==true){
-                println("answer received screen")
+                print("answer received screen")
                 var sessionDescription=RTCSessionDescription(type: msg[0]["type"].description, sdp: msg[0]["sdp"]["sdp"].description)
                 self.pc.setRemoteDescriptionWithDelegate(self, sessionDescription: sessionDescription)
             }
             
             if(isInitiator.description == "true" && self.pc.remoteDescription == nil)
-            {println("answer received")
+            {print("answer received")
                 var sessionDescription=RTCSessionDescription(type: msg[0]["type"].description, sdp: msg[0]["sdp"]["sdp"].description)
                 self.pc.setRemoteDescriptionWithDelegate(self, sessionDescription: sessionDescription)
             }
             
         }
         if(msg[0]["type"].string! == "ice")
-        {println("ice received of other peer")
+        {print("ice received of other peer")
             if(msg[0]["ice"].description=="null")
-            {println("last ice as null so ignore")}
+            {print("last ice as null so ignore")}
             else{
                 if(msg[0]["by"].intValue != currentID)
                 {var iceCandidate=RTCICECandidate(mid: msg[0]["ice"]["sdpMid"].description, index: msg[0]["ice"]["sdpMLineIndex"].int!, sdp: msg[0]["ice"]["candidate"].description)
-                    println(iceCandidate.description)
+                    print(iceCandidate.description)
                     
                     if(self.pc.localDescription != nil && self.pc.remoteDescription != nil)
                         
                     {var addedcandidate=self.pc.addICECandidate(iceCandidate)
-                        println("ice candidate added \(addedcandidate)")
+                        print("ice candidate added \(addedcandidate)")
                     }
                 }
             }
@@ -1242,12 +1242,12 @@ class VideoViewController: UIViewController,RTCPeerConnectionDelegate,RTCSession
     
     func handlePeerConnected(data:AnyObject!)
     {
-        println("received peer.connected obj from server")
+        print("received peer.connected obj from server")
         
         //Both joined same room
         
         var datajson=JSON(data!)
-        println(datajson.debugDescription)
+        print(datajson.debugDescription)
         
         if(datajson[0]["username"].description != username!){
         otherID=datajson[0]["id"].int
@@ -1263,7 +1263,7 @@ class VideoViewController: UIViewController,RTCPeerConnectionDelegate,RTCSession
         
         self.addLocalMediaStreamToPeerConnection()
         //^^^^^^^^^^^^^^^^^^newwwww self.pc.addStream(self.rtcLocalMediaStream)
-        println("peer attached stream")
+        print("peer attached stream")
         
         
         self.pc.createOfferWithDelegate(self, constraints: self.rtcMediaConst!)
@@ -1273,20 +1273,20 @@ class VideoViewController: UIViewController,RTCPeerConnectionDelegate,RTCSession
     
     func handleConferenceStream(data:AnyObject!)
     {
-        println("received conference.stream obj from server")
+        print("received conference.stream obj from server")
         var datajson=JSON(data!)
-        println(datajson.debugDescription)
+        print(datajson.debugDescription)
         
         if(datajson[0]["username"].debugDescription != username! && datajson[0]["type"].debugDescription == "screen" && datajson[0]["action"].boolValue==true )
             {self.screenshared=true
                 //Handle Screen sharing
-                println("handle screen sharing")
+                print("handle screen sharing")
                 self.pc.createOfferWithDelegate(self, constraints: self.rtcMediaConst)
             }
         
         if(datajson[0]["username"].debugDescription != username! && datajson[0]["type"].debugDescription == "video" && self.rtcVideoTrackReceived != nil)
         {
-            println("toggle remote video stream")
+            print("toggle remote video stream")
             ////////////self.rtcVideoTrackReceived.setEnabled((datajson[0]["action"].bool!))
             if(datajson[0]["action"].bool! == false)
             {
@@ -1303,8 +1303,8 @@ class VideoViewController: UIViewController,RTCPeerConnectionDelegate,RTCSession
     
     func handleMessage(data:AnyObject!)
     {
-        var msg=JSON(data!)
-        println(msg.debugDescription)
+        var msg=JSON(data)
+        print(msg.debugDescription)
         
         if(msg[0]["type"]=="room_name")
         {
@@ -1316,16 +1316,16 @@ class VideoViewController: UIViewController,RTCPeerConnectionDelegate,RTCSession
             if(joinedRoomInCall=="")
             {
             var CurrentRoomName=msg[0]["room"].string!
-            println("got room name as \(joinedRoomInCall)")
-            println("trying to join room")
+            print("got room name as \(joinedRoomInCall)")
+            print("trying to join room")
             
             socketObj.socket.emitWithAck("init", ["room":CurrentRoomName,"username":username!])(timeout: 1500000000) {data in
-            println("room joined got ack")
+            print("room joined got ack")
             var a=JSON(data!)
-            println(a.debugDescription)
+            print(a.debugDescription)
             currentID=a[1].int!
             joinedRoomInCall=msg[0]["room"].string!
-            println("current id is \(currentID)")
+            print("current id is \(currentID)")
             //}
             }}
             ////////////////////////newwwwwww
@@ -1339,19 +1339,19 @@ class VideoViewController: UIViewController,RTCPeerConnectionDelegate,RTCSession
         {
             if(joinedRoomInCall == "")
             {
-            println("inside accept call")
+            print("inside accept call")
             var roomname=self.randomStringWithLength(9)
             //iamincallWith=username!
             areYouFreeForCall=false
             joinedRoomInCall=roomname as String
-            socketObj.socket.emitWithAck("init", ["room":joinedRoomInCall,"username":username!])(timeout: 150000000) {data in
-            println("room joined by got ack")
+            socketObj.socket.emitWithAck("init", ["room":joinedRoomInCall,"username":username!])(timeoutAfter: 150000000) {data in
+            print("room joined by got ack")
             var a=JSON(data!)
-            println(a.debugDescription)
+            print(a.debugDescription)
             currentID=a[1].int!
-            println("current id is \(currentID)")
+            print("current id is \(currentID)")
             var aa=JSON(["msg":["type":"room_name","room":roomname as String],"room":globalroom,"to":iamincallWith!,"username":username!])
-            println(aa.description)
+            print(aa.description)
             socketObj.socket.emit("message",aa.object)
             
             }//end data
@@ -1362,7 +1362,7 @@ class VideoViewController: UIViewController,RTCPeerConnectionDelegate,RTCSession
         if(msg[0]=="Reject Call")
         {
             
-            println("inside reject call")
+            print("inside reject call")
             var roomname=""
             iamincallWith=""
             areYouFreeForCall=true
@@ -1380,9 +1380,9 @@ class VideoViewController: UIViewController,RTCPeerConnectionDelegate,RTCSession
         {
             if(self.pc != nil)
             {
-            println("hangupppppp received \(msg[0])")
+            print("hangupppppp received \(msg[0])")
             
-            println("hangupppppp received \(msg.debugDescription)")
+            print("hangupppppp received \(msg.debugDescription)")
             self.remoteDisconnected()
             
             

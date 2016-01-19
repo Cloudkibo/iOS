@@ -22,7 +22,7 @@ enum ChatAppClientState:NSInteger{
 }
 class ChatAppClient:NSObject,RTCPeerConnectionDelegate, RTCSessionDescriptionDelegate
 {
-    var mainICEServerURL:NSURL=NSURL(fileURLWithPath: Constants.MainUrl)!
+    var mainICEServerURL:NSURL=NSURL(fileURLWithPath: Constants.MainUrl)
     
     var rtcICEarray:[RTCICEServer]=[]
 
@@ -96,12 +96,12 @@ class ChatAppClient:NSObject,RTCPeerConnectionDelegate, RTCSessionDescriptionDel
    
     func orientationChanged(notification:NSNotification)
     {
-        var orientation:UIDeviceOrientation=UIDevice.currentDevice().orientation
+        let orientation:UIDeviceOrientation=UIDevice.currentDevice().orientation
         if(UIDeviceOrientationIsLandscape(orientation) || UIDeviceOrientationIsPortrait(orientation))
         {//Remove current video track
-            var localStream:RTCMediaStream=self.peerConnection.localStreams[0] as! RTCMediaStream
+            let localStream:RTCMediaStream=self.peerConnection.localStreams[0] as! RTCMediaStream
             localStream.removeVideoTrack(localStream.videoTracks[0] as! RTCVideoTrack)
-            var localVideoTrack:RTCVideoTrack!=self.createLocalVideoTrack()
+            let localVideoTrack:RTCVideoTrack!=self.createLocalVideoTrack()
             if let lvt=localVideoTrack
             {
                 localStream.addVideoTrack(localVideoTrack)
@@ -123,39 +123,39 @@ class ChatAppClient:NSObject,RTCPeerConnectionDelegate, RTCSessionDescriptionDel
             if aaa.position==AVCaptureDevicePosition.Front
             {                cameraID=aaa.localizedName!!
                
-                println(cameraID!)
-                println("got front camera")
+                print(cameraID!)
+                print("got front camera")
                 break
             }
             
         }
         if cameraID==nil
             
-        {println("failed to get camera")}
+        {print("failed to get camera")}
         
         //AVCaptureDevice
-        var rtcVideoCapturer=RTCVideoCapturer(deviceName: cameraID! as String)
+        let rtcVideoCapturer=RTCVideoCapturer(deviceName: cameraID! as String)
         
-        println(rtcVideoCapturer.debugDescription)
-        var rtcMediaConst=RTCMediaConstraints(mandatoryConstraints: nil, optionalConstraints: nil)
+        print(rtcVideoCapturer.debugDescription)
+        let rtcMediaConst=RTCMediaConstraints(mandatoryConstraints: nil, optionalConstraints: nil)
         //RTCMediaConstraints(mandatoryConstraints: nil, optionalConstraints: nil)
-        println(rtcMediaConst.debugDescription)
+        print(rtcMediaConst.debugDescription)
         //var rtcVideoSource:RTCVideoSource
         //rtcVideoSource.
         //rtcVideoCapturer=rtcVideoCapturer()
-        var rtcVideoSource=self.factory.videoSourceWithCapturer(rtcVideoCapturer, constraints: nil)
-        println("outttt")
-        println(rtcVideoSource.debugDescription)
+        let rtcVideoSource=self.factory.videoSourceWithCapturer(rtcVideoCapturer, constraints: nil)
+        print("outttt")
+        print(rtcVideoSource.debugDescription)
         
-        var rtcVideoTrack1=RTCVideoTrack(factory: self.factory!, source: rtcVideoSource, trackId: "sss")
+        let rtcVideoTrack1=RTCVideoTrack(factory: self.factory!, source: rtcVideoSource, trackId: "sss")
         //rtcVideoTrack=rtcFact.videoTrackWithID("sss", source: rtcVideoSource)
-        println("out of error")
+        print("out of error")
         return rtcVideoTrack1
     }
 
     func createLocalMediaStream()->RTCMediaStream
     {
-        println("inside createLocalMediaStream func  ")
+        print("inside createLocalMediaStream func  ")
         
         var mediaStreamLabel:String!
         var mediaAudioLabel:String!
@@ -165,7 +165,7 @@ class ChatAppClient:NSObject,RTCPeerConnectionDelegate, RTCSessionDescriptionDel
         
         localStream=self.factory.mediaStreamWithLabel("kibo")
         
-        var localVideoTrack:RTCVideoTrack!=createLocalVideoTrack()
+        let localVideoTrack:RTCVideoTrack!=createLocalVideoTrack()
         
         if let lvt=localVideoTrack
         {
@@ -175,7 +175,7 @@ class ChatAppClient:NSObject,RTCPeerConnectionDelegate, RTCSessionDescriptionDel
             
         }
         localStream.addAudioTrack(self.factory.audioTrackWithID("kiboa0"))
-        print(localStream.description)
+        print(localStream.description, terminator: "")
         return localStream
         
     }
@@ -190,7 +190,7 @@ class ChatAppClient:NSObject,RTCPeerConnectionDelegate, RTCSessionDescriptionDel
     
     func connectToRoomWithId(roomId:NSString,options:NSDictionary)
     {
-        println("inside connectToRoomWithId function")
+        print("inside connectToRoomWithId function")
         self.state=ChatAppClientState.kARDAppClientStateConnecting
         // Request TURN.
         weak var weakSelf:ChatAppClient!=self
@@ -203,9 +203,9 @@ class ChatAppClient:NSObject,RTCPeerConnectionDelegate, RTCSessionDescriptionDel
     }
     func disconnect()
     {
-        println("inside disconnect function")
+        print("inside disconnect function")
         if self.state==ChatAppClientState.kARDAppClientStateDisconnected
-        {println("chat app client disconnected")
+        {print("chat app client disconnected")
             return}
         
         if((self.isRegisteredWithRoomServer) != nil)
@@ -219,7 +219,7 @@ class ChatAppClient:NSObject,RTCPeerConnectionDelegate, RTCSessionDescriptionDel
             //if socket is connected
             //// Tell the other client we're hanging up. send bye message through socket
             socketObj.socket.emit("bye")
-            println("message sent BYE")
+            print("message sent BYE")
         
         }
         //if(self.channel.state == ChatAppClient.kar
@@ -240,20 +240,20 @@ class ChatAppClient:NSObject,RTCPeerConnectionDelegate, RTCSessionDescriptionDel
         socketObj.socket.on("msg")
             {data,ack in
                 
-                println("received msg from socket")
+                print("received msg from socket")
                 var message=JSON(data!)
                 
                 //var pc=RTCPeerConnection.alloc()
                 switch (message["type"])
                 {
-                    case "offer":println("msg is offer")
-                    case "answer":println("msg is answer")
+                    case "offer":print("msg is offer")
+                    case "answer":print("msg is answer")
                                 self.hasReceivedSdp=true
-                    self.messageQueue.insertObject(data!, atIndex: 0)
+                    self.messageQueue.insertObject(data, atIndex: 0)
                     break
-                    case "ice":println("msg is ices")
-                        self.messageQueue.addObject(data!)
-                default: println("msg type is invalid")
+                    case "ice":print("msg is ices")
+                        self.messageQueue.addObject(data)
+                default: print("msg type is invalid")
                 }
             }
         self.drainMessageQueueIfReady()
@@ -283,18 +283,18 @@ class ChatAppClient:NSObject,RTCPeerConnectionDelegate, RTCSessionDescriptionDel
           switch(message["type"])
           {
             
-            case "offer":println("processing msg offer")
+            case "offer":print("processing msg offer")
             case "answer":
-                println("processing msg answer");
+                print("processing msg answer");
                 var description=RTCSessionDescription(type:"answer",sdp: message["sdp"].string!)
                 self.peerConnection.setRemoteDescriptionWithDelegate(self, sessionDescription: description)
                 break
             
-            case "ice":println("processing msg ice candidate")
+            case "ice":print("processing msg ice candidate")
             var candidate=RTCICECandidate(mid: message["ice"]["sdpMid"].string!,index: message["ice"]["sdpMLineIndex"].intValue,sdp: message["ice"]["candidate"].string!)
             var success=self.peerConnection.addICECandidate(candidate)
-            println(success)
-          default: println("processing invalid msg")
+            print(success)
+          default: print("processing invalid msg")
         }
         }
         
@@ -316,11 +316,11 @@ class ChatAppClient:NSObject,RTCPeerConnectionDelegate, RTCSessionDescriptionDel
 
 
     func peerConnection(peerConnection: RTCPeerConnection!, addedStream stream: RTCMediaStream!) {
-        println("added stream")
+        print("added stream")
         dispatch_async(dispatch_get_main_queue(), { () -> Void in
-            println("received \(stream.videoTracks.count) video tracks and \(stream.audioTracks.count) audio tracks")
+            print("received \(stream.videoTracks.count) video tracks and \(stream.audioTracks.count) audio tracks")
             if (stream.videoTracks.count>0) {
-                var videoTrack:RTCVideoTrack=stream.videoTracks[0] as! RTCVideoTrack
+                let videoTrack:RTCVideoTrack=stream.videoTracks[0] as! RTCVideoTrack
                 self.delegate.appClient(self, didReceiveRemoteVideoTrack: videoTrack)
             }
         })
@@ -330,7 +330,7 @@ class ChatAppClient:NSObject,RTCPeerConnectionDelegate, RTCSessionDescriptionDel
         
     }
     func peerConnection(peerConnection: RTCPeerConnection!, gotICECandidate candidate: RTCICECandidate!) {
-        println("got ice candidate")
+        print("got ice candidate")
         dispatch_async(dispatch_get_main_queue(), { () -> Void in
             self.sendSignallingMessage(["mid":candidate.sdpMid,"sdp":candidate.sdp,"index":candidate.sdpMLineIndex])
             
@@ -347,7 +347,7 @@ class ChatAppClient:NSObject,RTCPeerConnectionDelegate, RTCSessionDescriptionDel
         
     }
     func peerConnection(peerConnection: RTCPeerConnection!, signalingStateChanged stateChanged: RTCSignalingState) {
-        println("signalling state changed \(stateChanged)")
+        print("signalling state changed \(stateChanged)")
         
     }
     func peerConnectionOnRenegotiationNeeded(peerConnection: RTCPeerConnection!) {
@@ -357,7 +357,7 @@ class ChatAppClient:NSObject,RTCPeerConnectionDelegate, RTCSessionDescriptionDel
     func peerConnection(peerConnection: RTCPeerConnection!, didCreateSessionDescription sdp: RTCSessionDescription!, error: NSError!) {
         if((error) != nil)
         {
-            println("failed to create session desc \(error.debugDescription)")
+            print("failed to create session desc \(error.debugDescription)")
             self.disconnect()
             return
         }
@@ -365,7 +365,7 @@ class ChatAppClient:NSObject,RTCPeerConnectionDelegate, RTCSessionDescriptionDel
     }
 
     func peerConnection(peerConnection: RTCPeerConnection!, didSetSessionDescriptionWithError error: NSError!) {
-        println("didsetpeerconnecxn with error")
+        print("didsetpeerconnecxn with error")
     }
     
     func isRegisteredWithRoomServerFunc()
@@ -376,7 +376,7 @@ class ChatAppClient:NSObject,RTCPeerConnectionDelegate, RTCSessionDescriptionDel
             {self.isRegisteredWithRoomServer=false}
     }
     func startSignallingIfReady()
-    {println("inside signalling")
+    {print("inside signalling")
         /*^^^^^^if(self.isTurnComplete==false || self.isRegisteredWithRoomServer==false)
         {
         return;
@@ -389,7 +389,7 @@ class ChatAppClient:NSObject,RTCPeerConnectionDelegate, RTCSessionDescriptionDel
         self.factory=RTCPeerConnectionFactory.alloc()
         self.peerConnection=RTCPeerConnection.alloc()
         self.peerConnection=self.factory.peerConnectionWithICEServers(nil, constraints: nil, delegate: self)
-        var localStream:RTCMediaStream=createLocalMediaStream()
+        let localStream:RTCMediaStream=createLocalMediaStream()
         self.peerConnection.addStream(localStream)
         if(isInitiator==true)
         {
@@ -412,13 +412,13 @@ class ChatAppClient:NSObject,RTCPeerConnectionDelegate, RTCSessionDescriptionDel
     
     func defaultMediaStreamConstraints()->RTCMediaConstraints
     {
-        var constraints:RTCMediaConstraints=RTCMediaConstraints(mandatoryConstraints: nil, optionalConstraints: nil)
+        let constraints:RTCMediaConstraints=RTCMediaConstraints(mandatoryConstraints: nil, optionalConstraints: nil)
         return constraints
     }
     func defaultOfferConstraints()->RTCMediaConstraints
     {
-        var mandatoryConstraints:NSArray=[RTCPair(key: "OfferToReceiveAudio", value: "true"),RTCPair(key: "OfferToReceiveVideo", value: "true")]
-        var constraints:RTCMediaConstraints=RTCMediaConstraints(mandatoryConstraints: mandatoryConstraints as [AnyObject], optionalConstraints: nil)
+        let mandatoryConstraints:NSArray=[RTCPair(key: "OfferToReceiveAudio", value: "true"),RTCPair(key: "OfferToReceiveVideo", value: "true")]
+        let constraints:RTCMediaConstraints=RTCMediaConstraints(mandatoryConstraints: mandatoryConstraints as [AnyObject], optionalConstraints: nil)
         return constraints
 
         
@@ -431,16 +431,16 @@ class ChatAppClient:NSObject,RTCPeerConnectionDelegate, RTCSessionDescriptionDel
     
     func defaultPeerConnectionConstraints()->RTCMediaConstraints
     {
-        var optionalConstraints:NSArray=[RTCPair(key: "DtlsSrtpKeyAgreement", value: "true")]
-        var constraints:RTCMediaConstraints=RTCMediaConstraints(mandatoryConstraints: nil, optionalConstraints: optionalConstraints as [AnyObject])
+        let optionalConstraints:NSArray=[RTCPair(key: "DtlsSrtpKeyAgreement", value: "true")]
+        let constraints:RTCMediaConstraints=RTCMediaConstraints(mandatoryConstraints: nil, optionalConstraints: optionalConstraints as [AnyObject])
         return constraints
 
         
     }
     func defaultSTUNServer()->RTCICEServer
     {
-        var defaultSTUNServerURL=rtcICEarray[3].URI
-        println(defaultSTUNServerURL.debugDescription)
+        let defaultSTUNServerURL=rtcICEarray[3].URI
+        print(defaultSTUNServerURL.debugDescription)
         return rtcICEarray[3]
     }
     

@@ -34,21 +34,25 @@ class ChatDetailViewController: UIViewController{
     let msg = Expression<String>("msg")
     let date = Expression<NSDate>("date")
     
-    var tbl_userchats:Query!
+    var tbl_userchats:Table!
     
     var messages : NSMutableArray!
     override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: NSBundle?)
     {
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
-        println(NSBundle)
+        print((NSBundle))
         
         // Custom initialization
     }
     
-    required init(coder aDecoder: NSCoder)
-    {
+    
+/*
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }*/
+    required init?(coder aDecoder: NSCoder){
         super.init(coder: aDecoder)
-        //println("hiiiiii22 \(self.AuthToken)")
+        //print("hiiiiii22 \(self.AuthToken)")
         
     }
     
@@ -75,10 +79,10 @@ class ChatDetailViewController: UIViewController{
         let status = Expression<String>("status")
         
         for user in tbl_contactList.select(username, email,_id,userid,firstname,lastname,phone,status).filter(username==selectedContact) {
-            println("id: \(user[username]), email: \(user[email])")
+            print("id: \(user[username]), email: \(user[email])")
             var userObj=JSON(["_id":"\(user[_id])","userid":"\(user[userid])","firstname":"\(user[firstname])","lastname":"\(user[lastname])","email":"\(user[email])","phone":"\(user[phone])","status":"\(user[status])"])
             self.selectedUserObj=userObj
-        println("chat detail view")
+        print("chat detail view")
         }*/
        /* if loggedUserObj==nil
         {
@@ -99,9 +103,9 @@ class ChatDetailViewController: UIViewController{
         var receivedMsg=JSON("")
         socketObj.socket.on("im") {data,ack in
             
-            println("chat sent to server.ack received")
-            var chatJson=JSON(data!)
-            println(chatJson[0]["msg"])
+            print("chat sent to server.ack received")
+            var chatJson=JSON(data)
+            print(chatJson[0]["msg"])
             receivedMsg=chatJson[0]["msg"]
             var username=chatJson[0]["fullName"]
             
@@ -120,7 +124,8 @@ class ChatDetailViewController: UIViewController{
     }
     func getUserObjectById()
     {
-        var tbl_contactList=sqliteDB.db["contactslists"]
+        var tbl_contactList=sqliteDB.contactslists
+        ////var tbl_contactList=sqliteDB.db["contactslists"]
         let username = Expression<String>("username")
         let email = Expression<String>("email")
         let _id = Expression<String>("_id")
@@ -133,16 +138,26 @@ class ChatDetailViewController: UIViewController{
         let status = Expression<String>("status")
         let contactid = Expression<String>("contactid")
         
-
+        do{
+        for user in try sqliteDB.db.prepare(tbl_contactList) {
+            print("id: \(user[username]), email: \(user[email])")
+            // id: 1, name: Optional("Alice"), email: alice@mac.com
+            var userObj=JSON(["_id":"\(user[_id])","userid":"\(user[contactid])","firstname":"\(user[firstname])","lastname":"\(user[lastname])","email":"\(user[email])","phone":"\(user[phone])","status":"\(user[status])"])
+            
+            self.selectedUserObj=userObj
+            }}catch{
+            
+        }
         
-        for user in tbl_contactList.select(username, email,_id,contactid,firstname,lastname,phone,status).filter(username==selectedContact) {
-            println("id: \(user[username]), email: \(user[email])")
+        
+       /* for user in tbl_contactList.select(username, email,_id,contactid,firstname,lastname,phone,status).filter(username==selectedContact) {
+            print("id: \(user[username]), email: \(user[email])")
             //^^^^var userObj=JSON(["_id":"\(user[_id])","userid":"\(user[userid])","firstname":"\(user[firstname])","lastname":"\(user[lastname])","email":"\(user[email])","phone":"\(user[phone])","status":"\(user[status])"])
             var userObj=JSON(["_id":"\(user[_id])","userid":"\(user[contactid])","firstname":"\(user[firstname])","lastname":"\(user[lastname])","email":"\(user[email])","phone":"\(user[phone])","status":"\(user[status])"])
             
             self.selectedUserObj=userObj
             // id: 1, email: alice@mac.com
-        }
+        }*/
         
         //removeChatHistory()
         
@@ -152,7 +167,7 @@ class ChatDetailViewController: UIViewController{
     
     func removeChatHistory(){
         //var loggedUsername=loggedUserObj["username"]
-        println("inside mark funcc")
+        print("inside mark funcc", terminator: "")
         var removeChatHistoryURL=Constants.MainUrl+Constants.removeChatHistory+"?access_token=\(AuthToken!)"
         
         Alamofire.request(.POST,"\(removeChatHistoryURL)",parameters: ["username":"\(selectedContact)"]).validate(statusCode: 200..<300).response{
@@ -165,19 +180,19 @@ class ChatDetailViewController: UIViewController{
                 /// self.performSegueWithIdentifier("loginSegue", sender: nil)
                 
                 if response1?.statusCode==200 {
-                    println("chat history deleted")
-                    //println(request1)
-                    println(data1?.debugDescription)
+                    print("chat history deleted")
+                    //print(request1)
+                    print(data1?.debugDescription)
                     
                 }
                 else
-                {println("chat history not deleted")
-                    println(error1)
-                    println(data1)
+                {print("chat history not deleted")
+                    print(error1)
+                    print(data1)
             }
             if(response1?.statusCode==401)
             {
-                println("chat history not deleted token refresh needed")
+                print("chat history not deleted token refresh needed")
                 if(username==nil || password==nil)
                 {
                     self.performSegueWithIdentifier("loginSegue", sender: nil)
@@ -193,21 +208,21 @@ class ChatDetailViewController: UIViewController{
     
     func markChatAsRead()
     {
-        println("inside mark as read")
+        print("inside mark as read", terminator: "")
         var markChatReadURL=Constants.MainUrl+Constants.markAsRead+"?access_token=\(AuthToken!)"
-        //println(["user1":"\(loggedUserObj)","user2":"\(selectedUserObj)"])
-        println("**")
+        //print(["user1":"\(loggedUserObj)","user2":"\(selectedUserObj)"])
+        print("**", terminator: "")
        //^^^^^ var loggedID=loggedUserObj["_id"]
         var loggedID=_id
-        //^^^^println(loggedID.description+" logged id")
-        println(loggedID!+" logged id")
-        println(self.selectedID+" selected id")
+        //^^^^print(loggedID.description+" logged id")
+        print(loggedID!+" logged id", terminator: "")
+        print(self.selectedID+" selected id", terminator: "")
         Alamofire.request(.POST,"\(markChatReadURL)",parameters: ["user1":"\(loggedID!)","user2":"\(self.selectedID)"]
             ).responseJSON{
                 request1, response1, data1, error1 in
                 
                 if(error1==nil)
-                {println("chat marked as read")}
+                {print("chat marked as read")}
                 else
                 {
                     self.rt.refrToken()
@@ -219,21 +234,21 @@ class ChatDetailViewController: UIViewController{
                 /// self.performSegueWithIdentifier("loginSegue", sender: nil)
                 
                //^^ if response1?.statusCode==200 {
-                    println("chat marked as read")
-                    println(response1)
-                    //println(data1?.debugDescription)
+                    print("chat marked as read")
+                    print(response1)
+                    //print(data1?.debugDescription)
                     //var UserchatJson=JSON(data1!)
                 //^^}
                /*else
-                {println("chat marked as read but status code is not 200")
-                    println(error1)
-                     //println(response1?.statusCode)
-                    //println(data1)
+                {print("chat marked as read but status code is not 200")
+                    print(error1)
+                     //print(response1?.statusCode)
+                    //print(data1)
                 }
 */
                 /*if(response1?.statusCode==401)
                 {
-                    println("chat not marked as read refresh token needed")
+                    print("chat not marked as read refresh token needed")
                     self.rt.refrToken()
                 }
 */
@@ -258,7 +273,7 @@ class ChatDetailViewController: UIViewController{
     func FetchChatServer()
     {
         
-        println("[user1:\(username!),user2:\(selectedContact)]")
+        print("[user1:\(username!),user2:\(selectedContact)]", terminator: "")
         
         var bringUserChatURL=Constants.MainUrl+Constants.bringUserChat+"?access_token="+AuthToken!
         let configuration = NSURLSessionConfiguration.defaultSessionConfiguration()
@@ -273,13 +288,13 @@ class ChatDetailViewController: UIViewController{
                 /// self.performSegueWithIdentifier("loginSegue", sender: nil)
                 
                 if response1?.statusCode==200 {
-                    println("chatttttttt:::::")
-                    println(response1)
-                     println(data1)
+                    print("chatttttttt:::::")
+                    print(response1)
+                     print(data1)
                     var UserchatJson=JSON(data1!)
-                    println(UserchatJson)
-                    println(":::::^^^&&&&&")
-                    //println(UserchatJson["msg"][0]["to"])
+                    print(UserchatJson)
+                    print(":::::^^^&&&&&")
+                    //print(UserchatJson["msg"][0]["to"])
                     
                     //Overwrite sqlite db
                     sqliteDB.deleteChat(self.selectedContact)
@@ -306,17 +321,17 @@ class ChatDetailViewController: UIViewController{
                 }
                 else
                 {
-                    println("chatttttt faileddddddd")
-                    println(response1)
-                    println(error1)
-                    println(data1)
+                    print("chatttttt faileddddddd")
+                    print(response1)
+                    print(error1)
+                    print(data1)
                 }
                 
                
                 })
                 if(response1?.statusCode==401)
                 {
-                    println("chatttttt fetch faileddddddd token expired")
+                    print("chatttttt fetch faileddddddd token expired")
                     self.rt.refrToken()
                 }
         }
@@ -334,8 +349,8 @@ class ChatDetailViewController: UIViewController{
     
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
         var messageDic = messages.objectAtIndex(indexPath.row) as! [String : String];
-        var msg = messageDic["message"] as NSString!
-        var sizeOFStr = self.getSizeOfString(msg)
+        let msg = messageDic["message"] as NSString!
+        let sizeOFStr = self.getSizeOfString(msg)
         return sizeOFStr.height + 70
     }
     
@@ -343,28 +358,28 @@ class ChatDetailViewController: UIViewController{
         var cell : UITableViewCell!
         var messageDic = messages.objectAtIndex(indexPath.row) as! [String : String];
         NSLog(messageDic["message"]!, 1)
-        var msgType = messageDic["type"] as NSString!
-        var msg = messageDic["message"] as NSString!
-        var sizeOFStr = self.getSizeOfString(msg)
+        let msgType = messageDic["type"] as NSString!
+        let msg = messageDic["message"] as NSString!
+        let sizeOFStr = self.getSizeOfString(msg)
         
         if (msgType.isEqualToString("1")){
-            cell = tblForChats.dequeueReusableCellWithIdentifier("ChatSentCell") as! UITableViewCell
-            var textLable = cell.viewWithTag(12) as! UILabel
-            var chatImage = cell.viewWithTag(1) as! UIImageView
-            var profileImage = cell.viewWithTag(2) as! UIImageView
+            cell = tblForChats.dequeueReusableCellWithIdentifier("ChatSentCell")! as UITableViewCell
+            let textLable = cell.viewWithTag(12) as! UILabel
+            let chatImage = cell.viewWithTag(1) as! UIImageView
+            let profileImage = cell.viewWithTag(2) as! UIImageView
             chatImage.frame = CGRectMake(chatImage.frame.origin.x, chatImage.frame.origin.y, ((sizeOFStr.width + 60)  > 100 ? (sizeOFStr.width + 60) : 100), sizeOFStr.height + 40)
             chatImage.image = UIImage(named: "chat_new_receive")?.stretchableImageWithLeftCapWidth(40,topCapHeight: 20);
             textLable.frame = CGRectMake(textLable.frame.origin.x, textLable.frame.origin.y, textLable.frame.size.width, sizeOFStr.height)
             profileImage.center = CGPointMake(profileImage.center.x, textLable.frame.origin.y + textLable.frame.size.height - profileImage.frame.size.height/2 + 10)
             textLable.text = "\(msg)"
         } else {
-            cell = tblForChats.dequeueReusableCellWithIdentifier("ChatReceivedCell") as! UITableViewCell
-            var deliveredLabel = cell.viewWithTag(13) as! UILabel
-            var textLable = cell.viewWithTag(12) as! UILabel
-            var timeLabel = cell.viewWithTag(11) as! UILabel
-            var chatImage = cell.viewWithTag(1) as! UIImageView
-            var profileImage = cell.viewWithTag(2) as! UIImageView
-            var distanceFactor = (170.0 - sizeOFStr.width) < 130 ? (170.0 - sizeOFStr.width) : 130
+            cell = tblForChats.dequeueReusableCellWithIdentifier("ChatReceivedCell")! as UITableViewCell
+            let deliveredLabel = cell.viewWithTag(13) as! UILabel
+            let textLable = cell.viewWithTag(12) as! UILabel
+            let timeLabel = cell.viewWithTag(11) as! UILabel
+            let chatImage = cell.viewWithTag(1) as! UIImageView
+            let profileImage = cell.viewWithTag(2) as! UIImageView
+            let distanceFactor = (170.0 - sizeOFStr.width) < 130 ? (170.0 - sizeOFStr.width) : 130
             chatImage.frame = CGRectMake(20 + distanceFactor, chatImage.frame.origin.y, ((sizeOFStr.width + 60)  > 100 ? (sizeOFStr.width + 60) : 100), sizeOFStr.height + 40)
             chatImage.image = UIImage(named: "chat_new_send")?.stretchableImageWithLeftCapWidth(20,topCapHeight: 20);
             textLable.frame = CGRectMake(36 + distanceFactor, textLable.frame.origin.y, textLable.frame.size.width, sizeOFStr.height)
@@ -384,15 +399,15 @@ class ChatDetailViewController: UIViewController{
         var duration : NSTimeInterval = 0
         var curve = userInfo.objectForKey(UIKeyboardAnimationCurveUserInfoKey) as! UInt
         duration = userInfo[UIKeyboardAnimationDurationUserInfoKey] as! NSTimeInterval
-        var keyboardF:NSValue = userInfo.objectForKey(UIKeyboardFrameEndUserInfoKey) as! NSValue
-        var keyboardFrame = keyboardF.CGRectValue()
+        let keyboardF:NSValue = userInfo.objectForKey(UIKeyboardFrameEndUserInfoKey) as! NSValue
+        let keyboardFrame = keyboardF.CGRectValue()
         
-        UIView.animateWithDuration(duration, delay: 0, options:nil, animations: {
+        UIView.animateWithDuration(duration, delay: 0, options:[], animations: {
             self.chatComposeView.frame = CGRectMake(self.chatComposeView.frame.origin.x, self.chatComposeView.frame.origin.y - keyboardFrame.size.height+self.chatComposeView.frame.size.height+3, self.chatComposeView.frame.size.width, self.chatComposeView.frame.size.height)
             
             self.tblForChats.frame = CGRectMake(self.tblForChats.frame.origin.x, self.tblForChats.frame.origin.y, self.tblForChats.frame.size.width, self.tblForChats.frame.size.height - keyboardFrame.size.height+49);
             }, completion: nil)
-        var indexPath = NSIndexPath(forRow:messages.count-1, inSection: 0)
+        let indexPath = NSIndexPath(forRow:messages.count-1, inSection: 0)
         tblForChats.scrollToRowAtIndexPath(indexPath, atScrollPosition: UITableViewScrollPosition.Bottom, animated: true)
         
     }
@@ -405,11 +420,11 @@ class ChatDetailViewController: UIViewController{
         var duration : NSTimeInterval = 0
         var curve = userInfo.objectForKey(UIKeyboardAnimationCurveUserInfoKey) as! UInt
         duration = userInfo[UIKeyboardAnimationDurationUserInfoKey] as! NSTimeInterval
-        var keyboardF:NSValue = userInfo.objectForKey(UIKeyboardFrameEndUserInfoKey) as! NSValue
-        var keyboardFrame = keyboardF.CGRectValue()
+        let keyboardF:NSValue = userInfo.objectForKey(UIKeyboardFrameEndUserInfoKey) as! NSValue
+        let keyboardFrame = keyboardF.CGRectValue()
         
         
-        UIView.animateWithDuration(duration, delay: 0, options:nil, animations: {
+        UIView.animateWithDuration(duration, delay: 0, options:[], animations: {
             self.chatComposeView.frame = CGRectMake(self.chatComposeView.frame.origin.x, self.chatComposeView.frame.origin.y + keyboardFrame.size.height-self.chatComposeView.frame.size.height-3, self.chatComposeView.frame.size.width, self.chatComposeView.frame.size.height)
             self.tblForChats.frame = CGRectMake(self.tblForChats.frame.origin.x, self.tblForChats.frame.origin.y, self.tblForChats.frame.size.width, self.tblForChats.frame.size.height + keyboardFrame.size.height-49);
             }, completion: nil)
@@ -434,8 +449,8 @@ class ChatDetailViewController: UIViewController{
         //^^^var fullNameSelected=firstNameSelected.string!+" "+lastNameSelected.string!
         var imParas=["from":"\(username!)","to":"\(selectedContact)","from_id":"\(loggedid)","to_id":"\(self.selectedID)","fromFullName":"\(loggedFullName!)","msg":"\(txtFldMessage.text)"]
         
-        println(imParas)
-        println()
+        print(imParas, terminator: "")
+        print("", terminator: "")
         ///=== code for sending chat here
         ///=================
         
@@ -453,13 +468,13 @@ class ChatDetailViewController: UIViewController{
         self.from<-"sabachanna"
         )
         if let rowid = insert.rowid {
-        println("inserted id: \(rowid)")
+        print("inserted id: \(rowid)")
         } else if insert.statement.failed {
-        println("insertion failed: \(insert.statement.reason)")
+        print("insertion failed: \(insert.statement.reason)")
         }*/
         
         
-        self.addMessage(txtFldMessage.text, ofType: "2")
+        self.addMessage(txtFldMessage.text!, ofType: "2")
         txtFldMessage.text = "";
         tblForChats.reloadData()
         

@@ -112,7 +112,7 @@ class MoreTableViewController: UITableViewController {
         
         //if segue!.identifier == "chatSegue" {
         if segue!.identifier == "logoutSegue" {
-            println("Logging out")
+            print("Logging out", terminator: "")
             if let destinationVC = segue!.destinationViewController as? LoginViewController{
                 AuthToken=""
                 var tbl_contactslists=sqliteDB.db["contactslists"]
@@ -131,7 +131,7 @@ class MoreTableViewController: UITableViewController {
                 loggedUserObj=JSON("[]")
                
                 //let dbSQLite=DatabaseHandler(dbName: "/cloudKibo.sqlite3")
-                println("loggedout")
+                print("loggedout", terminator: "")
                 
             }
         }

@@ -45,7 +45,7 @@ class LoginAPI{
     
     
     init(url:String){
-        socket=SocketIOClient(socketURL: "\(url)", opts: ["log": false])
+        socket=SocketIOClient(socketURL: "\(url)", options: ["log": false])
         areYouFreeForCall=true
         isBusy=false
         self.socket.connect()
@@ -68,13 +68,13 @@ class LoginAPI{
         //connection.status
         self.socket.on("connection.status") {data, ack in
             NSLog("disconnected from socket")
-            println(data?.debugDescription)
+            print(data?.debugDescription)
            // self.socket.emit("message", ["msg":"hangup"])
             
         }
        /* socket.on("youareonline") {data,ack in
             
-            println("you onlineeee \(ack)")
+            print("you onlineeee \(ack)")
             glocalChatRoomJoined = true
         }*/
         //self.socket.connect()
@@ -84,7 +84,7 @@ class LoginAPI{
 */
     
     func addHandlers(){
-        println("adding socket handlerssss")
+        print("adding socket handlerssss", terminator: "")
         self.socket.on("connect") {data, ack in
             NSLog("connected to socket")
             
@@ -98,38 +98,38 @@ class LoginAPI{
         //connection.status
         self.socket.on("connection.status") {data, ack in
             NSLog("disconnected from socket")
-            println(data?.debugDescription)
+            print(data.debugDescription)
             // self.socket.emit("message", ["msg":"hangup"])
             
         }
         
         socketObj.socket.on("theseareonline"){data,ack in
-            println("theseareonline ........")
-            println(":::::::::::::::::::::::::::::::::::")
-            var msg=JSON(data!)
-            println(msg.debugDescription)
-            self.delegate?.socketReceivedMessage("theseareonline",data: data!)
+            print("theseareonline ........")
+            print(":::::::::::::::::::::::::::::::::::")
+            var msg=JSON(data)
+            print(msg.debugDescription)
+            self.delegate?.socketReceivedMessage("theseareonline",data: data)
         }
         socketObj.socket.on("yesiamfreeforcall"){data,ack in
-            println("yesiamfreeforcall .......")
-            println(":::::::::::::::::::::::::::::::::::")
-            var msg=JSON(data!)
-            println(msg.debugDescription)
-            self.delegate?.socketReceivedMessage("yesiamfreeforcall",data: data!)
+            print("yesiamfreeforcall .......")
+            print(":::::::::::::::::::::::::::::::::::")
+            var msg=JSON(data)
+            print(msg.debugDescription)
+            self.delegate?.socketReceivedMessage("yesiamfreeforcall",data: data)
         }
         socketObj.socket.on("areyoufreeforcall"){data,ack in
-            println("areyoufreeforcall ........")
-            println(":::::::::::::::::::::::::::::::::::")
-            var msg=JSON(data!)
-            println(msg.debugDescription)
-            self.delegate?.socketReceivedMessage("areyoufreeforcall",data: data!)
+            print("areyoufreeforcall ........")
+            print(":::::::::::::::::::::::::::::::::::")
+            var msg=JSON(data)
+            print(msg.debugDescription)
+            self.delegate?.socketReceivedMessage("areyoufreeforcall",data: data)
         }
         socketObj.socket.on("offline"){data,ack in
-            println("offline ......")
-            println(":::::::::::::::::::::::::::::::::::")
-            var msg=JSON(data!)
-            println(msg.debugDescription)
-            self.delegate?.socketReceivedMessage("offline",data: data!)
+            print("offline ......")
+            print(":::::::::::::::::::::::::::::::::::")
+            var msg=JSON(data)
+            print(msg.debugDescription)
+            self.delegate?.socketReceivedMessage("offline",data: data)
         }
         
         
@@ -137,34 +137,36 @@ class LoginAPI{
         ///////////////
         
         socketObj.socket.on("othersideringing"){data,ack in
-            println("otherside ringing")
-            println(":::::::::::::::::::::::::::::::::::")
-            var msg=JSON(data!)
-            println(msg.debugDescription)
-            self.delegate?.socketReceivedMessage("othersideringing",data: data!)
+            print("otherside ringing")
+            print(":::::::::::::::::::::::::::::::::::")
+            let msg=JSON(data)
+            print(msg.debugDescription)
+            self.delegate?.socketReceivedMessage("othersideringing",data: data)
             
         }
         
         socket.on("youareonline") {data,ack in
             
-            println("you onlineeee \(ack)")
+            print("you onlineeee \(ack)")
             glocalChatRoomJoined = true
         }
         socketObj.socket.on("message"){data,ack in
-            println("received messageee")
-            var msg=JSON(data!)
+            print("received messageee")
+            var msg=JSON(data)
             var missedMsg=""
-            println(msg.debugDescription)
-            var mmm=msg[0].debugDescription
+            print(msg.debugDescription)
+            let mmm=msg[0].debugDescription
             let start = mmm.startIndex
-            let end = find(mmm, ":")
+            let char:Character=":"
+            let end=mmm.characters.indexOf(char)
+            ////////^^^^^^newww let end = find(mmm, ":")
             
             if (end != nil) {
                 missedMsg = mmm[start...end!]
-                println(missedMsg)
+                print(missedMsg)
             }
             if(missedMsg == "Missed Call:")
-            {println("inside missed notification")
+            {print("inside missed notification")
                 let todoItem = NotificationItem(otherUserName: "\(iamincallWith!)", message: "you received a mised call", type: "missed call", UUID: "111", deadline: NSDate())
                 notificationsMainClass.sharedInstance.addItem(todoItem) // schedule a local notification to persist this item
                 
@@ -172,9 +174,9 @@ class LoginAPI{
         }
         
        /* socketObj.socket.on("message"){data,ack in
-            println("received messageee")
-            var msg=JSON(data!)
-            println(msg.debugDescription)
+            print("received messageee")
+            var msg=JSON(data)
+            print(msg.debugDescription)
         if(msg[0]["type"]=="Missed")
         {
             let todoItem = NotificationItem(otherUserName: "\(iamincallWith!)", message: "You have received a missed call", type: "missed call", UUID: "111", deadline: NSDate())
@@ -190,14 +192,14 @@ class LoginAPI{
         {
             socketObj.socket.on("msg"){data,ack in
                 
-                self.delegateWebRTC.socketReceivedMSGWebRTC("msg", data: data!)
+                self.delegateWebRTC.socketReceivedMSGWebRTC("msg", data: data)
                 
-                println("msg reeived.. check if offer answer or ice")
+                print("msg reeived.. check if offer answer or ice")
                 
                 /*
                 
-                var msg=JSON(data!)
-                println(msg[0].description)
+                var msg=JSON(data)
+                print(msg[0].description)
                 
                 if(msg[0]["type"].string! == "offer")
                 {
@@ -207,10 +209,10 @@ class LoginAPI{
                     //^^^^^^^^^^^^^^^^newwwww if(joinedRoomInCall == "" && isInitiator.description == "false")
                     if(joinedRoomInCall == "")
                     {
-                        println("room joined is null")
+                        print("room joined is null")
                     }
                     
-                    println("offer received")
+                    print("offer received")
                     //var sdpNew=msg[0]["sdp"].object
                     if(self.pc == nil) //^^^^^^^^^^^^^^^^^^newwwww tryyy
                     {
@@ -236,7 +238,7 @@ class LoginAPI{
                 {
                     /*
                     if(isInitiator.description == "true" && self.pc.remoteDescription == nil)
-                    {println("answer received")
+                    {print("answer received")
                         var sessionDescription=RTCSessionDescription(type: msg[0]["type"].description, sdp: msg[0]["sdp"]["sdp"].description)
                         self.pc.setRemoteDescriptionWithDelegate(self, sessionDescription: sessionDescription)
                     }
@@ -244,18 +246,18 @@ class LoginAPI{
                     
                 }
                 if(msg[0]["type"].string! == "ice")
-                {println("ice received of other peer")
+                {print("ice received of other peer")
                    /* if(msg[0]["ice"].description=="null")
-                    {println("last ice as null so ignore")}
+                    {print("last ice as null so ignore")}
                     else{
                         if(msg[0]["by"].intValue != currentID)
                         {var iceCandidate=RTCICECandidate(mid: msg[0]["ice"]["sdpMid"].description, index: msg[0]["ice"]["sdpMLineIndex"].int!, sdp: msg[0]["ice"]["candidate"].description)
-                            println(iceCandidate.description)
+                            print(iceCandidate.description)
                             
                             if(self.pc.localDescription != nil && self.pc.remoteDescription != nil)
                                 
                             {var addedcandidate=self.pc.addICECandidate(iceCandidate)
-                                println("ice candidate added \(addedcandidate)")
+                                print("ice candidate added \(addedcandidate)")
                             }
 
                         }
@@ -274,13 +276,13 @@ class LoginAPI{
             ///////////////////////
             /////////////////////////////////////
             socketObj.socket.on("peer.connected"){data,ack in
-                println("received peer.connected obj from server")
-                self.delegateWebRTC.socketReceivedOtherWebRTC("peer.connected", data: data!)
+                print("received peer.connected obj from server")
+                self.delegateWebRTC.socketReceivedOtherWebRTC("peer.connected", data: data)
                 
                 //Both joined same room
                 /*
                 var datajson=JSON(data!)
-                println(datajson.debugDescription)
+                print(datajson.debugDescription)
                 
                 if(datajson[0]["username"].description != username!){
                     otherID=datajson[0]["id"].int
@@ -296,7 +298,7 @@ class LoginAPI{
                     
                     self.addLocalMediaStreamToPeerConnection()
                     //^^^^^^^^^^^^^^^^^^newwwww self.pc.addStream(self.rtcLocalMediaStream)
-                    println("peer attached stream")
+                    print("peer attached stream")
                    
                     
                     self.pc.createOfferWithDelegate(self, constraints: self.rtcMediaConst!)
@@ -307,13 +309,13 @@ class LoginAPI{
             
             socketObj.socket.on("conference.stream"){data,ack in
                 
-                println("received conference.stream obj from server")
-                self.delegateWebRTC.socketReceivedOtherWebRTC("conference.stream", data: data!)
-                var datajson=JSON(data!)
-                println(datajson.debugDescription)
+                print("received conference.stream obj from server")
+                self.delegateWebRTC.socketReceivedOtherWebRTC("conference.stream", data: data)
+                var datajson=JSON(data)
+                print(datajson.debugDescription)
                 /*if(datajson[0]["username"].debugDescription != username! && datajson[0]["type"].debugDescription == "video" && self.rtcVideoTrackReceived != nil)
                 {
-                    println("toggle remote video stream")
+                    print("toggle remote video stream")
                     ////////////self.rtcVideoTrackReceived.setEnabled((datajson[0]["action"].bool!))
                     if(datajson[0]["action"].bool! == false)
                     {
@@ -332,15 +334,15 @@ class LoginAPI{
             }
             
             socketObj.socket.on("peer.stream"){data,ack in
-                println("received peer.stream obj from server")
-                var datajson=JSON(data!)
-                println(datajson.debugDescription)
+                print("received peer.stream obj from server")
+                var datajson=JSON(data)
+                print(datajson.debugDescription)
                 
             }
             socketObj.socket.on("peer.disconnected"){data,ack in
-                println("received peer.disconnected obj from server")
-                var datajson=JSON(data!)
-                println(datajson.debugDescription)
+                print("received peer.disconnected obj from server")
+                var datajson=JSON(data)
+                print(datajson.debugDescription)
                 
             }
             
@@ -348,10 +350,10 @@ class LoginAPI{
             
             
             socketObj.socket.on("message"){data,ack in
-                println("received messageee11")
-                self.delegateWebRTC.socketReceivedMessageWebRTC("message",data: data!)
-                var msg=JSON(data!)
-                println(msg.debugDescription)
+                print("received messageee11")
+                self.delegateWebRTC.socketReceivedMessageWebRTC("message",data: data)
+                var msg=JSON(data)
+                print(msg.debugDescription)
                 
                 if(msg[0]["type"]=="room_name")
                 {
@@ -363,16 +365,16 @@ class LoginAPI{
                     if(joinedRoomInCall=="")
                     {
                         var CurrentRoomName=msg[0]["room"].string!
-                        println("got room name as \(joinedRoomInCall)")
-                        println("trying to join room")
+                        print("got room name as \(joinedRoomInCall)")
+                        print("trying to join room")
                         
                         socketObj.socket.emitWithAck("init", ["room":CurrentRoomName,"username":username!])(timeout: 1500000000) {data in
-                            println("room joined got ack")
+                            print("room joined got ack")
                             var a=JSON(data!)
-                            println(a.debugDescription)
+                            print(a.debugDescription)
                             currentID=a[1].int!
                             joinedRoomInCall=msg[0]["room"].string!
-                            println("current id is \(currentID)")
+                            print("current id is \(currentID)")
                             //}
                         }}
                         ////////////////////////newwwwwww
@@ -386,19 +388,19 @@ class LoginAPI{
                 {/*
                     if(joinedRoomInCall == "")
                     {
-                        println("inside accept call")
+                        print("inside accept call")
                         var roomname=self.randomStringWithLength(9)
                         //iamincallWith=username!
                         self.areYouFreeForCall=false
                         joinedRoomInCall=roomname as String
                         socketObj.socket.emitWithAck("init", ["room":joinedRoomInCall,"username":username!])(timeout: 150000000) {data in
-                            println("room joined by got ack")
+                            print("room joined by got ack")
                             var a=JSON(data!)
-                            println(a.debugDescription)
+                            print(a.debugDescription)
                             currentID=a[1].int!
-                            println("current id is \(currentID)")
+                            print("current id is \(currentID)")
                             var aa=JSON(["msg":["type":"room_name","room":roomname as String],"room":globalroom,"to":iamincallWith!,"username":username!])
-                            println(aa.description)
+                            print(aa.description)
                             socketObj.socket.emit("message",aa.object)
                             
                         }//end data
@@ -409,7 +411,7 @@ class LoginAPI{
                 if(msg[0]=="Reject Call")
                 {
                     /*
-                    println("inside reject call")
+                    print("inside reject call")
                     var roomname=""
                     iamincallWith=""
                     self.areYouFreeForCall=true
@@ -427,9 +429,9 @@ class LoginAPI{
                 {
                     /*if(self.pc != nil)
                     {
-                        println("hangupppppp received \(msg[0])")
+                        print("hangupppppp received \(msg[0])")
                         
-                        println("hangupppppp received \(msg.debugDescription)")
+                        print("hangupppppp received \(msg.debugDescription)")
                         self.remoteDisconnected()
                         
                         
@@ -465,7 +467,7 @@ self.navigationController?.popToRootViewControllerAnimated(true) // return to li
         
       /*  socket.on("msg") {data,ack in
            
-            //println("you onlineeee \(ack)")
+            //print("you onlineeee \(ack)")
             
         }
 */
@@ -474,12 +476,12 @@ self.navigationController?.popToRootViewControllerAnimated(true) // return to li
         /*
         socket.on("areyoufreeforcall") {data,ack in
             var jdata=JSON(data!)
-            println("somebody callinggg  \(data) \(ack)")
+            print("somebody callinggg  \(data) \(ack)")
             
             if(self.areYouFreeForCall==true)
             {
-                println(jdata[0]["caller"].string!)
-                println(username!)
+                print(jdata[0]["caller"].string!)
+                print(username!)
                 self.socket.emit("yesiamfreeforcall",["mycaller" : jdata[0]["caller"].string!, "me":username!])
                 //self.areYouFreeForCall=false
                 //self.isBusy=true
@@ -497,7 +499,7 @@ self.navigationController?.popToRootViewControllerAnimated(true) // return to li
         
         self.socket.on("othersideringing") {data,ack in
             var jdata=JSON(data!)
-            println("received call as u were free")
+            print("received call as u were free")
         }
         */
     
@@ -510,32 +512,32 @@ self.navigationController?.popToRootViewControllerAnimated(true) // return to li
         
     }*/
 
-    func isConnected()->Bool{
+    /*func isConnected()->Bool{
         return socket.connected
-    }
+    }*/
     
-    func getSocket()->SocketIOClient{
+    func getSocket()->SocketIOClient {
         return self.socket
     }
     
-    func registerWithRoomId(var roomId:NSString,var clientId:NSString)
+    func registerWithRoomId(roomId:NSString,clientId:NSString)
     {
         
     }
-    func sendMessage(var msg:String,para:[AnyObject]!)
+    func sendMessage(msg:String,para:[AnyObject]!)
     {
         socket.emit(msg, para)
-        println("Socket emitted \(msg) \(para.debugDescription)")
+        print("Socket emitted \(msg) \(para.debugDescription)", terminator: "")
         //ChatAppSocketDelegate.channel(socket,didReceiveMessage:msg)
 }
     
     
     func sendMessagesOfMessageType(msg:String)
     {
-        println("inside sendMessagesOfMessageType func \(msg)")
+        print("inside sendMessagesOfMessageType func \(msg)", terminator: "")
         //var str=msg
         //str = msg.stringByReplacingOccurrencesOfString("\\", withString: "", options: NSStringCompareOptions.LiteralSearch, range: nil)
-        println(msg)
+        print(msg, terminator: "")
         //var message:JSON=["msg":msg,"room":globalroom,"to":iamincallWith!,"username":username!]
         
         socket.emit("message",["msg":msg,"room":globalroom,"to":iamincallWith!,"username":username!])

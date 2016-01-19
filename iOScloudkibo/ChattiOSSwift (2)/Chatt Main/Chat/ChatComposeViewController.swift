@@ -18,8 +18,12 @@ class ChatComposeViewController: UIViewController {
         // Custom initialization
     }
 
-    required init(coder aDecoder: NSCoder)
-    {
+    
+
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    required init?(coder aDecoder: NSCoder){
         super.init(coder: aDecoder)
     }
     
@@ -38,10 +42,10 @@ class ChatComposeViewController: UIViewController {
         var duration : NSTimeInterval = 0
         var curve = userInfo.objectForKey(UIKeyboardAnimationCurveUserInfoKey) as! UInt
         duration = userInfo[UIKeyboardAnimationDurationUserInfoKey]as! NSTimeInterval
-        var keyboardF:NSValue = userInfo.objectForKey(UIKeyboardFrameEndUserInfoKey)as! NSValue
-        var keyboardFrame = keyboardF.CGRectValue()
+        let keyboardF:NSValue = userInfo.objectForKey(UIKeyboardFrameEndUserInfoKey)as! NSValue
+        let keyboardFrame = keyboardF.CGRectValue()
         
-        UIView.animateWithDuration(duration, delay: 0, options:nil, animations: {
+        UIView.animateWithDuration(duration, delay: 0, options:[], animations: {
             self.chatComposeView.frame = CGRectMake(self.chatComposeView.frame.origin.x, self.chatComposeView.frame.origin.y - keyboardFrame.size.height, self.chatComposeView.frame.size.width, self.chatComposeView.frame.size.height)
             }, completion: nil)
         

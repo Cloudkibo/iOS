@@ -1,6 +1,0 @@
-#include "SQLiteCipher.swift.xcconfig"
-GCC_PREPROCESSOR_DEFINITIONS = $(inherited) COCOAPODS=1 ${SQLITECIPHER_SWIFT_GCC_PREPROCESSOR_DEFINITIONS}
-HEADER_SEARCH_PATHS = "${PODS_ROOT}/Headers/Private" "${PODS_ROOT}/Headers/Private/SQLiteCipher.swift" "${PODS_ROOT}/Headers/Public" "${PODS_ROOT}/Headers/Public/libjingle_peerconnection"
-OTHER_SWIFT_FLAGS = $(inherited) "-D" "COCOAPODS"
-PODS_ROOT = ${SRCROOT}
-SKIP_INSTALL = YES

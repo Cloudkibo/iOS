@@ -40,10 +40,10 @@ class PendingFriendRequestsViewController: UIViewController {
         loadPendingRequests()
         // Do any additional setup after loading the view.
        socketObj.socket.on("friendrequest"){data,ack in
-            println("friend request socket received")
+            print("friend request socket received")
             var freindReqJSON=JSON(data!)
-            println(freindReqJSON)
-        println("$$$$$$$$$$")
+            print(freindReqJSON)
+        print("$$$$$$$$$$")
         let contactid = Expression<String>("contactid")
         let detailsshared = Expression<String>("detailsshared")
         
@@ -87,10 +87,10 @@ class PendingFriendRequestsViewController: UIViewController {
             self.ContactLastNAme.append(freindReqJSON[i]["contactid"]["lastname"].string!)
             self.ContactStatus.append(freindReqJSON[i]["contactid"]["status"].string!)
             if let rowid = insert.rowid {
-                println("inserted id: \(rowid)")
+                print("inserted id: \(rowid)")
                 self.tbl_pendingContacts.reloadData()
             } else if insert.statement.failed {
-                println("insertion failed: \(insert.statement.reason)")
+                print("insertion failed: \(insert.statement.reason)")
             }
         //saveContact()
         }
@@ -119,8 +119,8 @@ class PendingFriendRequestsViewController: UIViewController {
     {
         //var pendingReqHTTP=NetworkingLibAlamofire()
         var url=Constants.MainUrl+Constants.getPendingFriendRequestsContacts+"?access_token=\(AuthToken!)"
-       //println(pendingList.description)
-       // println(pendingList.count)
+       //print(pendingList.description)
+       // print(pendingList.count)
         Alamofire.request(.GET,"\(url)").validate(statusCode: 200..<300).responseJSON{
             request1, response1, data1, error1 in
             
@@ -131,34 +131,34 @@ class PendingFriendRequestsViewController: UIViewController {
                 /// self.performSegueWithIdentifier("loginSegue", sender: nil)
                 
                 if response1?.statusCode==200 {
-                    println("Request success")
+                    print("Request success")
                     var json=JSON(data1!)
                     for(var i=0;i<json.count;i++){
-                        //println(json[i])
+                        //print(json[i])
                     self.pendingContactsNames.append(json[i]["userid"]["username"].string!)
                         self.pendingContactsObj.append(json[i]["userid"])
-                        println(".,.,.,.,.,><><><>....")
-                        println(json[i])
+                        print(".,.,.,.,.,><><><>....")
+                        print(json[i])
                     }
                     self.tbl_pendingContacts.reloadData()
                     //self.dataMy=JSON(data1!)
-                    //println(data1!.description)
-                    //println(self.dataMy)
-                    //println(dataMy.description)
+                    //print(data1!.description)
+                    //print(self.dataMy)
+                    //print(dataMy.description)
                     
                     
                 }
                 else
                 {
-                    println("load pending request failed")
+                    print("load pending request failed")
                    // self.errorMy=JSON(error1!)
-                    //println(errorMy.description)
+                    //print(errorMy.description)
                     
                 }
             })
             if(response1?.statusCode==401)
             {
-             println("loading pending request failed token expired")
+             print("loading pending request failed token expired")
                 self.rt.refrToken()
             }
         }
@@ -167,13 +167,13 @@ class PendingFriendRequestsViewController: UIViewController {
     }
     
     @IBAction func unwindToChat (segueSelected : UIStoryboardSegue) {
-        println("unwind chat")
+        print("unwind chat", terminator: "")
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         //refreshControl.addTarget(self, action: Selector("fetchContacts"), forControlEvents: UIControlEvents.ValueChanged)
         
-        println(pendingContactsNames.count)
+        print(pendingContactsNames.count, terminator: "")
         return pendingContactsNames.count
     }
     
@@ -189,7 +189,7 @@ class PendingFriendRequestsViewController: UIViewController {
         return tblForChat.dequeueReusableCellWithIdentifier("ChatPublicCell")as! UITableViewCell
         }
         */
-        var cell=tbl_pendingContacts.dequeueReusableCellWithIdentifier("ChatPrivateCell") as! PendingRequestsListCell
+        let cell=tbl_pendingContacts.dequeueReusableCellWithIdentifier("ChatPrivateCell") as! PendingRequestsListCell
         
         cell.labelFriendName.text=pendingContactsNames[indexPath.row]
         
@@ -216,10 +216,10 @@ class PendingFriendRequestsViewController: UIViewController {
     func tableView(tableView: UITableView, editActionsForRowAtIndexPath indexPath: NSIndexPath) -> [AnyObject]? {
         var selectedRow = indexPath.row
         let Delete = UITableViewRowAction(style: .Normal, title: "Delete") { action, index in
-            println("reject button tapped")
+            print("reject button tapped", terminator: "")
             //var selectedRow = indexPath.row
             
-            println("inside delete old func")
+            print("inside delete old func", terminator: "")
            
             var url=Constants.MainUrl+Constants.rejectPendingFriendRequest+"?access_token=\(AuthToken!)"
             var usernameToReject=self.pendingContactsObj[selectedRow]["username"]
@@ -236,28 +236,28 @@ class PendingFriendRequestsViewController: UIViewController {
                         /// self.performSegueWithIdentifier("loginSegue", sender: nil)
                         
                         if response1?.statusCode==200 {
-                            //println("got user success")
-                            println("Request successfully rejected")
+                            //print("got user success")
+                            print("Request successfully rejected")
                             self.pendingContactsNames.removeAtIndex(selectedRow)
                             var json=JSON(data1!)
                             
                             
-                            println(json)
+                            print(json)
                             self.tbl_pendingContacts.reloadData()
                             
                         }
                         else
                         {
-                            println("reject pending request failed")
+                            print("reject pending request failed")
                             //var json=JSON(error1!)
-                            println(error1?.description)
-                            println(response1?.statusCode)
+                            print(error1?.description)
+                            print(response1?.statusCode)
                             
                         }
                     })
                     if(response1?.statusCode==401)
                     {
-                        println("reject request failed token expired")
+                        print("reject request failed token expired")
                         self.rt.refrToken()
                     }
             }
@@ -268,7 +268,7 @@ class PendingFriendRequestsViewController: UIViewController {
     Delete.backgroundColor = UIColor.redColor()
     
         let accept = UITableViewRowAction(style: .Normal, title: "Accept") { action, index in
-            println("accept button tapped")
+            print("accept button tapped", terminator: "")
             
             var url=Constants.MainUrl+Constants.approvePendingFriendRequest+"?access_token=\(AuthToken!)"
             var usernameToReject=self.pendingContactsObj[selectedRow]["username"]
@@ -285,28 +285,28 @@ class PendingFriendRequestsViewController: UIViewController {
                         /// self.performSegueWithIdentifier("loginSegue", sender: nil)
                         
                         if response1?.statusCode==200 {
-                            //println("got user success")
-                            println("Request successfully rejected")
+                            //print("got user success")
+                            print("Request successfully rejected")
                             self.pendingContactsNames.removeAtIndex(selectedRow)
                             var json=JSON(data1!)
                             
                             
-                            println(json)
+                            print(json)
                             self.tbl_pendingContacts.reloadData()
                             
                         }
                         else
                         {
-                            println("approve request failed")
+                            print("approve request failed")
                             //var json=JSON(error1!)
-                            println(error1?.description)
-                            println(response1?.statusCode)
+                            print(error1?.description)
+                            print(response1?.statusCode)
                             
                         }
                     })
                     if(response1?.statusCode==401)
                     {
-                        println("approve request failed token expired")
+                        print("approve request failed token expired")
                         self.rt.refrToken()
                     }
             }
@@ -328,9 +328,9 @@ class PendingFriendRequestsViewController: UIViewController {
       /*
         if editingStyle == .Delete {
             
-            println("inside delete old func")
+            print("inside delete old func")
             var selectedRow = indexPath.row
-            println(selectedRow.description+" selected")
+            print(selectedRow.description+" selected")
             
             
             var url=Constants.MainUrl+Constants.rejectPendingFriendRequest+"?access_token=\(AuthToken)"
@@ -348,22 +348,22 @@ class PendingFriendRequestsViewController: UIViewController {
                         /// self.performSegueWithIdentifier("loginSegue", sender: nil)
                         
                         if response1?.statusCode==200 {
-                            //println("got user success")
-                            println("Request successfully rejected")
+                            //print("got user success")
+                            print("Request successfully rejected")
                             self.pendingContactsNames.removeAtIndex(selectedRow)
                             var json=JSON(data1!)
                             
                             
-                            println(json)
+                            print(json)
                             self.tbl_pendingContacts.reloadData()
                              
                         }
                         else
                         {
-                            println("request failed")
+                            print("request failed")
                             //var json=JSON(error1!)
-                            println(error1?.description)
-                            println(response1?.statusCode)
+                            print(error1?.description)
+                            print(response1?.statusCode)
                             
                         }
                     })
@@ -372,7 +372,7 @@ class PendingFriendRequestsViewController: UIViewController {
             
                 
             
-            println("hi")
+            print("hi")
             // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
         }*/
     }
@@ -388,7 +388,7 @@ class PendingFriendRequestsViewController: UIViewController {
         //let indexPath = tableView.indexPathForSelectedRow();
         //let currentCell = tableView.cellForRowAtIndexPath(indexPath!) as UITableViewCell!;
         
-        //println(ContactNames[indexPath.row])
+        //print(ContactNames[indexPath.row])
         self.performSegueWithIdentifier("pendingRequestSegue", sender: nil);
         //slideToChat
         

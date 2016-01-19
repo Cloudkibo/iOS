@@ -9,39 +9,30 @@
 import Foundation
 import SQLite
 class DatabaseHandler:NSObject{
-    
-    var db:Database
+    var db:Connection!
+    //var db:Database
     var dbPath:String
-    var accounts:Query!
-    var contactslists:Query!
-    var userschats:Query!
+    var accounts:Table!
+    var contactslists:Table!
+    var userschats:Table!
     
     init(dbName:String)
     {
         
-        /* let fileManager = NSFileManager.defaultManager()
-        let dirPaths = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)
-        
-        let docsDir1 = dirPaths[0] as! String
-        
-        let pathForDB = NSBundle.mainBundle().resourcePath!.stringByAppendingPathComponent("myNewDatabase.sqlite3")
-        
-        var databasePath = docsDir1.stringByAppendingPathComponent("myNewDatabase.sqlite3")
-        
-        self.db = Database(databasePath)*/
-        
-        // super.init()
-        //let docsDir = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, false).last!
-        //dbPath = (docsDir as! NSString).stringByAppendingPathComponent("/cloudkibo")
         let fileManager = NSFileManager.defaultManager()
         let dirPaths = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)
-        let docsDir1 = dirPaths[0] as! String
-        self.dbPath = docsDir1.stringByAppendingPathComponent("cloudKiboDatabase.sqlite3")
+        let docsDir1 = dirPaths[0] 
+        self.dbPath = (docsDir1 as NSString).stringByAppendingPathComponent("cloudKiboDatabase.sqlite3")
         
-        self.db = Database(dbPath)
-        println(db.description)
-       
-        db=Database(dbPath)
+        ////////self.db = Database(dbPath)
+        print(db.description)
+        do {
+            self.db = try Connection(dbPath)
+        }
+        catch{
+            print("Database Connection failed")
+        }
+        /////////db=Database(dbPath)
        
          super.init()
         /* insertUser(_id:"abc",
@@ -73,7 +64,29 @@ class DatabaseHandler:NSObject{
         let accountVerified = Expression<String>("accountVerified")
         let role = Expression<String>("role")
         
-        self.accounts = db["accounts"]
+        
+        self.accounts = Table("accounts")
+        do{
+            try db.run(accounts.create { t in     // CREATE TABLE "accounts" (
+                t.column(email, unique: true,check: email.like("%@%"))
+                t.column(firstname)
+                t.column(lastname)
+                t.column(_id)
+                t.column(status)
+                t.column(username, unique: true)
+                t.column(phone, unique: true)
+
+                
+                //     "name" TEXT
+                })
+            
+        }
+        catch
+        {
+            print("error in creating accounts table")
+        }
+        
+       /* self.accounts = db["accounts"]
         
         //^^^^^self.accounts.delete()
         db.create(table: self.accounts, ifNotExists: true)
@@ -86,7 +99,7 @@ class DatabaseHandler:NSObject{
             t.column(status)
             t.column(username, unique: true)
             t.column(phone, unique: true)
-        }
+        }*/
     }
     
     func createContactListsTable()
@@ -104,8 +117,32 @@ class DatabaseHandler:NSObject{
         let username = Expression<String>("username")
         let status = Expression<String>("status")
         
+        self.contactslists = Table("contactslists")
+        do{
+        try db.run(contactslists.create{ t in     // CREATE TABLE "users" (
+            t.column(contactid)//loggedin user id
+            t.column(detailsshared)
+            
+            t.column(unreadMessage)
+            t.column(userid) //id of friend
+            t.column(firstname)
+            t.column(lastname)
+            t.column(email, unique: true, check: email.like("%@%"))
+            t.column(phone)
+            t.column(username)
+            t.column(status)
+            
+            //     "name" TEXT
+            })
+            
+        }
+        catch
+        {
+            print("error in creating contactslists table")
+        }
+        // )
         
-        self.contactslists = db["contactslists"]
+        /*self.contactslists = db["contactslists"]
         //self.contactslists.delete()
         db.create(table: self.contactslists, ifNotExists: true) { t in
             //t.column(_id, primaryKey: true)
@@ -125,7 +162,7 @@ class DatabaseHandler:NSObject{
             
             
             
-        }
+        }*/
         
         
         
@@ -141,7 +178,25 @@ class DatabaseHandler:NSObject{
         //let owneruser = Expression<String>("owneruser")
         let date = Expression<NSDate>("date")
         
-        self.userschats = db["userschats"]
+        self.userschats = Table("userschats")
+        do{
+            try db.run(userschats.create { t in     // CREATE TABLE "accounts" (
+                t.column(to)//loggedin user id
+                t.column(from)
+                t.column(fromFullName)
+                t.column(msg)
+                
+                
+                //     "name" TEXT
+                })
+            
+        }
+        catch
+        {
+            print("error in creating userschats table")
+        }
+        
+        /*self.userschats = db["userschats"]
         
         //db.drop(table: self.userschats)
         
@@ -154,7 +209,7 @@ class DatabaseHandler:NSObject{
             //t.column(owneruser)
             //t.column(date as )
             //t.column(unreadMessage)
-        }
+        }*/
     }
     /*func insertUser(_id:String,firstname:String,lastname:Expression<String>,email:Expression<String>,username:Expression<String>,status:Expression<String>)
     {
@@ -164,9 +219,9 @@ class DatabaseHandler:NSObject{
     _id<-_id,
     status<-status)
     if let rowid = a.rowid {
-    println("inserted id: \(rowid)")
+    print("inserted id: \(rowid)")
     } else if a.statement.failed {
-    println("insertion failed: \(a.statement.reason)")
+    print("insertion failed: \(a.statement.reason)")
     }
     
     }*/
@@ -180,19 +235,35 @@ class DatabaseHandler:NSObject{
         let fromFullName = Expression<String>("fromFullName")
         let msg = Expression<String>("msg")
         let date = Expression<NSDate>("date")
+        var tbl_userchats=sqliteDB.userschats
         
-        var tbl_userchats=sqliteDB.db["userschats"]
         
-        let insert=tbl_userchats.insert(fromFullName<-fromFullName1,
+        //////var tbl_userchats=sqliteDB.db["userschats"]
+        
+        /*let insert=tbl_userchats.insert(fromFullName<-fromFullName1,
             msg<-msg1,
             to<-to1,
             from<-from1
-        )
-        if let rowid = insert.rowid {
-            println("inserted id: \(rowid)")
-        } else if insert.statement.failed {
-            println("insertion failed: \(insert.statement.reason)")
+        )*/
+        
+        
+        do {
+            let rowid = try db.run(tbl_userchats.insert(fromFullName<-fromFullName1,
+                msg<-msg1,
+                to<-to1,
+                from<-from1
+))
+            print("inserted id: \(rowid)")
+        } catch {
+            print("insertion failed: \(error)")
         }
+        
+        
+        /*if let rowid = insert.rowid {
+            print("inserted id: \(rowid)")
+        } else if insert.statement.failed {
+            print("insertion failed: \(insert.statement.reason)")
+        }*/
         
         
     }
@@ -205,24 +276,34 @@ class DatabaseHandler:NSObject{
         let msg = Expression<String>("msg")
         let date = Expression<NSDate>("date")
         
-        var tbl_userchats=sqliteDB.db["userschats"]
+        var tbl_userchats=sqliteDB.userschats
+        /////var tbl_userchats=sqliteDB.db["userschats"]
 
     }
     func deleteChat(userTo:String)
     {
         let to = Expression<String>("to")
         let from = Expression<String>("from")
-        var tbl_userchats=sqliteDB.db["userschats"]
+        
+        var tbl_userchats=sqliteDB.userschats
+        /////var tbl_userchats=sqliteDB.db["userschats"]
         var n=tbl_userchats.filter(to==userTo).delete()
         tbl_userchats.filter(from==userTo).delete()
+     
+        
+        /*let alice = users.filter(id == 1)
+        try db.run(alice.delete())
+        // DELETE FROM "users" WHERE ("id" = 1)
+*/
         
     }
 
     func deleteFriend(user:String)
     {
     let username = Expression<String>("username")
-       // println("sqlitedb queryyy"+self.contactslists.filter(username==user).description)
-    self.contactslists.filter(username==user).delete().changes!
+       // print("sqlitedb queryyy"+self.contactslists.filter(username==user).description)
+    ////self.contactslists.filter(username==user).delete().changes!
+        self.contactslists.filter(username==user).delete()
         deleteChat(user)
         
     

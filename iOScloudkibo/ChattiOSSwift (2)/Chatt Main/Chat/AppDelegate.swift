@@ -59,13 +59,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         UINavigationBar.appearance().titleTextAttributes = [NSForegroundColorAttributeName: UIColor.whiteColor()]
         
-        application.registerUserNotificationSettings(UIUserNotificationSettings(forTypes: .Alert | .Badge | .Sound, categories: nil))  // types are UIUserNotificationType members
+        application.registerUserNotificationSettings(UIUserNotificationSettings(forTypes: [.Alert, .Badge, .Sound], categories: nil))  // types are UIUserNotificationType members
         
         application.registerForRemoteNotifications()
         
           if(socketObj == nil)
             {
-                println("socket is nillll1")
+                print("socket is nillll1", terminator: "")
                 socketObj=LoginAPI(url:"\(Constants.MainUrl)")
                 //socketObj.connect()
                 socketObj.addHandlers()
@@ -94,7 +94,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
         if(socketObj == nil)
         {
-            println("socket is nillll")
+            print("socket is nillll", terminator: "")
             socketObj=LoginAPI(url:"\(Constants.MainUrl)")
             ///socketObj.connect()
             socketObj.addHandlers()
@@ -106,7 +106,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
         if(socketObj == nil)
         {
-            println("socket is nillll")
+            print("socket is nillll", terminator: "")
             socketObj=LoginAPI(url:"\(Constants.MainUrl)")
             ///socketObj.connect()
             socketObj.addHandlers()
@@ -126,12 +126,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         var param:[String:String]=["username": username!,"password":password!]
         Alamofire.request(.POST,"\(url)",parameters: param).response{
             request, response, data, error in
-            println(error)
+            print(error)
             
             if response?.statusCode==200
                 
             {
-                println("login success")
+                print("login success")
                 //self.labelLoginUnsuccessful.text=nil
                 //self.gotToken=true
                 
@@ -158,7 +158,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                         /// self.performSegueWithIdentifier("loginSegue", sender: nil)
                         
                         if response1?.statusCode==200 {
-                            println("got user success")
+                            print("got user success")
                             //self.gotToken=true
                             var json=JSON(data1!)
                             
@@ -178,7 +178,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                             
                             socketObj.socket.emit("join global chatroom",["room": "globalchatroom", "user": json.object])
                             
-                            println(json["_id"])
+                            print(json["_id"])
                             
                             let tbl_accounts = sqliteDB.db["accounts"]
                             let _id = Expression<String>("_id")
@@ -206,14 +206,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                                 status<-json["status"].string!,
                                 phone<-json["phone"].string!)
                             if let rowid = insert.rowid {
-                                println("inserted id: \(rowid)")
+                                print("inserted id: \(rowid)")
                             } else if insert.statement.failed {
-                                println("insertion failed: \(insert.statement.reason)")
+                                print("insertion failed: \(insert.statement.reason)")
                             }
                             
                             //// self.fetchContacts(AuthToken)
                             for account in tbl_accounts {
-                                println("id: \(account[_id]), email: \(account[email]), firstname: \(account[firstname])")
+                                print("id: \(account[_id]), email: \(account[email]), firstname: \(account[firstname])")
                                 // id: 1, email: alice@mac.com, name: Optional("Alice")
                             }
                             
@@ -222,9 +222,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                             
                             //...........
                             /*  let stmt = sqliteDB.db.prepare("SELECT * FROM accounts")
-                            println(stmt.columnNames)
+                            print(stmt.columnNames)
                             for row in stmt {
-                            println("...................... firstname: \(row[1]), email: \(row[3])")
+                            print("...................... firstname: \(row[1]), email: \(row[3])")
                             // id: Optional(1), email: Optional("alice@mac.com")
                             }*/
                             
@@ -233,7 +233,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                             self.txtForEmail.text=nil
                             self.txtForPassword.text=nil
                             */
-                            println("GOT USER FAILED")
+                            print("GOT USER FAILED")
                         }
                     })
                 }
@@ -242,7 +242,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 
             else
             {
-                println("login failed")
+                print("login failed")
                 /*self.labelLoginUnsuccessful.text="Sorry, you are not registered"
                 self.txtForEmail.text=nil
                 self.txtForPassword.text=nil*/
@@ -253,15 +253,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
         
     func application(application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: NSData) {
-        var token=JSON(deviceToken)
-        println("device tokennnnnnn...")
-        println(token.debugDescription)
+        let token=JSON(deviceToken)
+        print("device tokennnnnnn...", terminator: "")
+        print(token.debugDescription)
         
-        println("registered for notification")
+        print("registered for notification", terminator: "")
     }
     func application(application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: NSError) {
         
-        println("registered for notification error")
+        print("registered for notification error", terminator: "")
         NSLog("Error in registration. Error: \(error)")
     }
     

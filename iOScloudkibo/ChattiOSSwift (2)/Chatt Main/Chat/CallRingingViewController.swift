@@ -46,7 +46,7 @@ class CallRingingViewController: UIViewController//RTCPeerConnectionDelegate,RTC
         }
         
         
-       var next = self.storyboard?.instantiateViewControllerWithIdentifier("Main2") as! VideoViewController
+       let next = self.storyboard?.instantiateViewControllerWithIdentifier("Main2") as! VideoViewController
         
         self.presentViewController(next, animated: true, completion: {
             socketObj.sendMessagesOfMessageType("Accept Call")
@@ -75,20 +75,20 @@ class CallRingingViewController: UIViewController//RTCPeerConnectionDelegate,RTC
         super.viewDidLoad()
         
         socketObj.socket.on("message"){data,ack in
-            println("received messageee")
-            var msg=JSON(data!)
+            print("received messageee")
+            var msg=JSON(data)
             var missedMsg=""
-            println(msg.debugDescription)
+            print(msg.debugDescription)
             var mmm=msg[0].debugDescription
             let start = mmm.startIndex
-            let end = find(mmm, ":")
+            let end = mmm.indexOf(":")
             
             if (end != nil) {
                 missedMsg = mmm[start...end!]
-                println(missedMsg)
+                print(missedMsg)
             }
             if(missedMsg == "Missed Call:")
-            {println("inside missed notification")
+            {print("inside missed notification")
                 let todoItem = NotificationItem(otherUserName: "abc", message: "you received a mised call", type: "missed call", UUID: "111", deadline: NSDate())
                 notificationsMainClass.sharedInstance.addItem(todoItem) // schedule a local notification to persist this item
                 
@@ -98,14 +98,14 @@ class CallRingingViewController: UIViewController//RTCPeerConnectionDelegate,RTC
         //on othersideringing var iamincall:Bool=false var othersideringing:Bool=false var callerName:String!
 
         socketObj.socket.on("othersideringing"){data,ack in
-            println("otherside ringing")
-            var msg=JSON(data!)
+            print("otherside ringing")
+            var msg=JSON(data)
             self.othersideringing=true;
-            println(msg.debugDescription)
+            print(msg.debugDescription)
             self.callerName=msg[0]["callee"].string!
             iamincallWith=msg[0]["callee"].string!
             
-            println("callee is \(self.callerName)")
+            print("callee is \(self.callerName)")
         }
         
     
@@ -147,7 +147,7 @@ class CallRingingViewController: UIViewController//RTCPeerConnectionDelegate,RTC
             
         }
         //localStream.addAudioTrack(rtcFact.audioTrackWithID(mediaAudioLabel!))
-        println("localStreammm ")
+        print("localStreammm ")
         print(localStream.description)
         localVideoTrack.addRenderer(localView)
         return localStream
@@ -175,24 +175,24 @@ return localStream;
         {
             if aaa.position==AVCaptureDevicePosition.Front
             {
-                println(aaa.description)
-                println(aaa.deviceCurrentTime)
-                println(aaa.localizedName!)
-                //println(aaa.localStreams.description!)
-                //println(aaa.localizedModel!)
+                print(aaa.description)
+                print(aaa.deviceCurrentTime)
+                print(aaa.localizedName!)
+                //print(aaa.localStreams.description!)
+                //print(aaa.localizedModel!)
                 cameraID=aaa.localizedName!
-                println("got front camera")
+                print("got front camera")
                 //break
             }
             
         }
         if cameraID==nil
             
-        {println("failed to get camera")}
+        {print("failed to get camera")}
         
         //AVCaptureDevice
         var rtcVideoCapturer=RTCVideoCapturer(deviceName: cameraID! as String)
-        println(rtcVideoCapturer.description)
+        print(rtcVideoCapturer.description)
         var rtcMediaConst=RTCMediaConstraints(mandatoryConstraints: nil, optionalConstraints: nil)
         var rtcVideoSource=RTCVideoSource.alloc()
         rtcVideoSource=rtcFact.videoSourceWithCapturer(rtcVideoCapturer, constraints: rtcMediaConst)
@@ -204,14 +204,14 @@ return localStream;
     */
 
    /* func peerConnection(peerConnection: RTCPeerConnection!, addedStream stream: RTCMediaStream!) {
-        println("added stream")
+        print("added stream")
     
     }
     func peerConnection(peerConnection: RTCPeerConnection!, didOpenDataChannel dataChannel: RTCDataChannel!) {
         
     }
     func peerConnection(peerConnection: RTCPeerConnection!, gotICECandidate candidate: RTCICECandidate!) {
-        println("got ice candidate")
+        print("got ice candidate")
     }
     func peerConnection(peerConnection: RTCPeerConnection!, iceConnectionChanged newState: RTCICEConnectionState) {
         

@@ -52,7 +52,7 @@ class ChatViewController: UIViewController,SocketClientDelegate {
         //Create and add the Cancel action
         let cancelAction: UIAlertAction = UIAlertAction(title: "Add by Email", style: UIAlertActionStyle.Cancel) { action -> Void in
             
-            println(loggedUserObj)
+            print(loggedUserObj)
             var fname=["firstname":loggedUserObj["firstname"]]
             var lname=["lastname":loggedUserObj["lastname"]]
             var usern=["username":loggedUserObj["username"]]
@@ -82,31 +82,31 @@ class ChatViewController: UIViewController,SocketClientDelegate {
             Alamofire.request(.POST,"\(addContactUsernameURL)",parameters: ["searchemail":"\(tField.text!)"])
                 .validate(statusCode: 200..<300)
                 .response { (request1, response1, data1, error1) in
-                    println("success")
+                    print("success")
                     
                     var json=JSON(data1!)
-                    //println(json)
+                    //print(json)
                     if(json["msg"].string=="null")
-                    {println("Invalid email")}
+                    {print("Invalid email")}
                     else
                     {
                         if(json["status"].string=="danger"){
-                            println("contact already in your list")}
+                            print("contact already in your list")}
                         else
-                        {println("friend request sent")}
-                    println(error1)
+                        {print("friend request sent")}
+                    print(error1)
                         
                     
                     }
                     if response1?.statusCode==401
                     {
-                        println("REFRESH TOKEN Neededd Add Contact Username...")
+                        print("REFRESH TOKEN Neededd Add Contact Username...")
                         
                         self.rt.refrToken()
                     }
             
             }
-        println("outttt of sucess parasssss")
+        print("outttt of sucess parasssss", terminator: "")
         }
        
 
@@ -115,7 +115,7 @@ class ChatViewController: UIViewController,SocketClientDelegate {
         let nextAction: UIAlertAction = UIAlertAction(title: "Add by Username", style: UIAlertActionStyle.Default) { action -> Void in
             
             //var ContactEmail=self.ContactsObjectss[]
-            println(loggedUserObj)
+            print(loggedUserObj)
             var userid=""
             socketObj.socket.emit("friendrequest",[
                 "room":"globalchatroom",
@@ -136,29 +136,29 @@ class ChatViewController: UIViewController,SocketClientDelegate {
                     /// self.performSegueWithIdentifier("loginSegue", sender: nil)
                     
                     if response1?.statusCode==200 {
-                        println("success")
+                        print("success")
                         
                         var json=JSON(data1!)
-                        //println(json)
+                        //print(json)
                         if(json["msg"].string=="null")
-                        {println("Invalid user")}
+                        {print("Invalid user")}
                         else
                         {
                             if(json["status"].string=="danger"){
-                                println("contact already in your list")}
+                                print("contact already in your list")}
                             else
-                            {println("friend request sent")}
+                            {print("friend request sent")}
                         }
                     }
                     else
                     {
-                        println("error in sending friend request")
+                        print("error in sending friend request")
                     }
                 })
                 if response1?.statusCode==401
                 {
-                    println(error1)
-                    println("REFRESH TOKEN Neededd Add Contact Username...")
+                    print(error1)
+                    print("REFRESH TOKEN Neededd Add Contact Username...")
                     
                     self.rt.refrToken()
                 }
@@ -187,10 +187,10 @@ class ChatViewController: UIViewController,SocketClientDelegate {
     var ContactOnlineStatus:[Int]=[]
     
     //["Bus","Helicopter","Truck","Boat","Bicycle","Motorcycle","Plane","Train","Car","Scooter","Caravan"]
-    required init(coder aDecoder: NSCoder)
+    required init?(coder aDecoder: NSCoder)
     {
         super.init(coder: aDecoder)
-        //println(AuthToken!)
+        //print(AuthToken!)
         
     }
     
@@ -200,6 +200,7 @@ class ChatViewController: UIViewController,SocketClientDelegate {
         
     }
 
+    
    
    
     
@@ -225,7 +226,7 @@ class ChatViewController: UIViewController,SocketClientDelegate {
                 var lllooo = json11
                 loggedUserObj=json11
                 loggedUserObj.object=json11.object
-                println(lllooo.object)
+                print(lllooo.object)
                 //var jsonNew=JSON("{\"room\": \"globalchatroom\",\"user\": {\"username\":\"sabachanna\"}}")
                 //socketObj.socket.emit("join global chatroom", ["room": "globalchatroom", "user": ["username":"sabachanna"]]) WORKINGGG
                 
@@ -234,18 +235,18 @@ class ChatViewController: UIViewController,SocketClientDelegate {
                 
                 var logonjuser=KeychainWrapper.stringForKey("loggedUserObjString")
                 var newloggedUserObj=logonjuser!.stringByResolvingSymlinksInPath
-                println("newloggeduserobj string")
-                println(newloggedUserObj)
+                print("newloggeduserobj string")
+                print(newloggedUserObj)
                 if let dataFromString = jsonString.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false) {
                 let json11 = JSON(newloggedUserObj)
                 
-                println("json11 object")
-                println(json11.object)
+                print("json11 object")
+                print(json11.object)
                 
                 loggedUserObj=json11
                 
                 
-                println("joining rooon \(json11.object)")
+                print("joining rooon \(json11.object)")
                 socketObj.socket.emit("join global chatroom",["room": "globalchatroom", "user": json11.object])
                 
                 }*/
@@ -255,14 +256,14 @@ class ChatViewController: UIViewController,SocketClientDelegate {
         
         }//end if username definned
         
-        println("loadddddd")
+        print("loadddddd", terminator: "")
         if(socketObj == nil)
         {
-            println("socket is nillll")
+            print("socket is nillll", terminator: "")
             
             
             socketObj=LoginAPI(url:"\(Constants.MainUrl)")
-            println("connected issssss \(socketObj.socket.connected)")
+           /////////// print("connected issssss \(socketObj.socket.connected)")
            ///socketObj.connect()
             socketObj.addHandlers()
         }
@@ -275,14 +276,14 @@ class ChatViewController: UIViewController,SocketClientDelegate {
        //////////////////////////////
         /*
         socketObj.socket.on("othersideringing"){data,ack in
-            println("otherside ringing")
-            var msg=JSON(data!)
+            print("otherside ringing")
+            var msg=JSON(data)
             //self.othersideringing=true;
-            println(msg.debugDescription)
+            print(msg.debugDescription)
             callerName=KeychainWrapper.stringForKey("username")!
             //iamincallWith=msg[0]["callee"].string!
             
-            println("callee is \(callerName)")
+            print("callee is \(callerName)")
             
             var next = self.storyboard?.instantiateViewControllerWithIdentifier("Main2") as! VideoViewController
             
@@ -307,7 +308,7 @@ class ChatViewController: UIViewController,SocketClientDelegate {
             "room":"globalchatroom",
             "user":loggedUserObj.object])
         */
-     //   println("logged id key chain is \(loggedIDKeyChain)")
+     //   print("logged id key chain is \(loggedIDKeyChain)")
         
         
         self.navigationItem.titleView = viewForTitle
@@ -315,9 +316,9 @@ class ChatViewController: UIViewController,SocketClientDelegate {
         //self.navigationItem.rightBarButtonItem = itemForSearch
         self.navigationItem.rightBarButtonItem = btnContactAdd
         self.tabBarController?.tabBar.tintColor = UIColor.greenColor()
-        println("////////////////////// new class tokn \(AuthToken)")
+        print("////////////////////// new class tokn \(AuthToken)", terminator: "")
         // fetchContacts(AuthToken)
-        println(self.ContactNames.count.description)
+        print(self.ContactNames.count.description, terminator: "")
         // self.tblForChat.reloadData()
         
         
@@ -338,10 +339,10 @@ class ChatViewController: UIViewController,SocketClientDelegate {
         socketObj.socket.on("online")
             {data,ack in
                     
-                    println("online status...")
-                    var onlineUsers=JSON(data!)
-                    println(onlineUsers[0])
-                    //println(onlineUsers[0]["username"])
+                    print("online status...")
+                    var onlineUsers=JSON(data)
+                    print(onlineUsers[0])
+                    //print(onlineUsers[0]["username"])
                 
                 for(var i=0;i<onlineUsers.count;i++)
                 {
@@ -350,7 +351,7 @@ class ChatViewController: UIViewController,SocketClientDelegate {
                         if self.ContactUsernames[j]==onlineUsers[i]["username"].string!
                         {
                             //found online contact,s username
-                            println("user found onlineeeee \(self.ContactUsernames[j])")
+                            print("user found onlineeeee \(self.ContactUsernames[j])")
                             self.ContactOnlineStatus[j]=1
                             self.tblForChat.reloadData()
                         }
@@ -367,10 +368,10 @@ class ChatViewController: UIViewController,SocketClientDelegate {
         socketObj.socket.on("offline")
             {data,ack in
                 
-                println("offline status...")
-                var offlineUsers=JSON(data!)
-                println(offlineUsers[0])
-                //println(offlineUsers[0]["username"])
+                print("offline status...")
+                var offlineUsers=JSON(data)
+                print(offlineUsers[0])
+                //print(offlineUsers[0]["username"])
                 
                 for(var i=0;i<offlineUsers.count;i++)
                 {
@@ -379,7 +380,7 @@ class ChatViewController: UIViewController,SocketClientDelegate {
                         if self.ContactUsernames[j]==offlineUsers[i]["username"].string!
                         {
                             //found online contact,s username
-                            println("user found offlinee \(self.ContactUsernames[j])")
+                            print("user found offlinee \(self.ContactUsernames[j])")
                             self.ContactOnlineStatus[j]=0
                             self.tblForChat.reloadData()
                         }
@@ -401,9 +402,18 @@ class ChatViewController: UIViewController,SocketClientDelegate {
         //everytime new login
         KeychainWrapper.removeObjectForKey("access_token")
         AuthToken=""
+        
+        var tbl_contactslists=sqliteDB.contactslists
+        var tbl_accounts=sqliteDB.accounts
+        let tbl_userchats=sqliteDB.userschats
+        
+        
+        /*
         var tbl_contactslists=sqliteDB.db["contactslists"]
         var tbl_accounts=sqliteDB.db["accounts"]
         let tbl_userchats=sqliteDB.db["userschats"]
+        
+        */
         tbl_contactslists.delete()
         tbl_accounts.delete()
         tbl_userchats.delete()
@@ -417,7 +427,7 @@ class ChatViewController: UIViewController,SocketClientDelegate {
         loggedUserObj=JSON("[]")
         
         //let dbSQLite=DatabaseHandler(dbName: "/cloudKibo.sqlite3")
-        println("loggedout")
+        print("loggedout", terminator: "")
 
         
         
@@ -425,18 +435,18 @@ class ChatViewController: UIViewController,SocketClientDelegate {
         if retrievedToken==nil
         {performSegueWithIdentifier("loginSegue", sender: nil)}
         else
-        {println("rrrrrrrrr \(retrievedToken)")
+        {print("rrrrrrrrr \(retrievedToken)", terminator: "")
             refreshControl.addTarget(self, action: Selector("fetchContacts"), forControlEvents: UIControlEvents.ValueChanged)
             
             /*^^^^^^newwww socketObj.socket.on("othersideringing"){data,ack in
-                println("otherside ringing")
-                var msg=JSON(data!)
+                print("otherside ringing")
+                var msg=JSON(data)
                 //self.othersideringing=true;
-                println(msg.debugDescription)
+                print(msg.debugDescription)
                 callerName=KeychainWrapper.stringForKey("username")!
                 //iamincallWith=msg[0]["callee"].string!
                 
-                println("callee is \(callerName)")
+                print("callee is \(callerName)")
                 
                 var next = self.storyboard?.instantiateViewControllerWithIdentifier("Main2") as! VideoViewController
                 
@@ -459,7 +469,7 @@ class ChatViewController: UIViewController,SocketClientDelegate {
     }
     
     override func viewWillAppear(animated: Bool) {
-        println("appearrrrrr")
+        print("appearrrrrr", terminator: "")
         //socketObj.addHandlers()
                    /*var lusername=KeychainWrapper.stringForKey("username")
             //KeychainWrapper.stringForKey("password")
@@ -476,32 +486,32 @@ class ChatViewController: UIViewController,SocketClientDelegate {
             var lllooo = json11
                 loggedUserObj.object=lllooo.object
                 socketObj.addHandlers()
-                println(lllooo.object)
+                print(lllooo.object)
                 //var jsonNew=JSON("{\"room\": \"globalchatroom\",\"user\": {\"username\":\"sabachanna\"}}")
                 //socketObj.socket.emit("join global chatroom", ["room": "globalchatroom", "user": ["username":"sabachanna"]]) WORKINGGG
                 
                 socketObj.socket.emit("join global chatroom",["room": "globalchatroom", "user": lllooo.object])
                 
-               // println(lllooo["_id"])
+               // print(lllooo["_id"])
 
             }
             /*var lll=KeychainWrapper.stringForKey("loggedIDKeyChain")
-            println("------------------")
-            println(lll!.stringByDeletingPathExtension)
-            println("------------------")
-            println(lll!.stringByRemovingPercentEncoding)
-            println("------------------")
-            println(lll!.stringByResolvingSymlinksInPath)
+            print("------------------")
+            print(lll!.stringByDeletingPathExtension)
+            print("------------------")
+            print(lll!.stringByRemovingPercentEncoding)
+            print("------------------")
+            print(lll!.stringByResolvingSymlinksInPath)
             loggedUserObj = JSON(lll!.stringByResolvingSymlinksInPath)
             */
             */
         
-        println("khul raha hai1")
+        print("khul raha hai1", terminator: "")
         ///^^^^^^^neww let retrievedToken=KeychainWrapper.stringForKey("access_token")
         //var retrievedToken:String!
         let retrievedToken=KeychainWrapper.stringForKey("access_token")
-        println("khul raha hai2")
-        println(loggedUserObj.object)
+        print("khul raha hai2", terminator: "")
+        print(loggedUserObj.object)
         //let retrievedUsername=KeychainWrapper.stringForKey("username")
         //if retrievedToken==nil || retrievedUsername==nil
         if retrievedToken == nil
@@ -554,8 +564,8 @@ class ChatViewController: UIViewController,SocketClientDelegate {
 
         let tbl_contactslists=sqliteDB.db["contactslists"]
         for tblContacts in tbl_contactslists.select(contactid,firstname,lastname,username,userid,status) {
-           println("queryy runned count is \(tbl_contactslists.count)")
-            println(tblContacts[firstname]+" "+tblContacts[lastname])
+           print("queryy runned count is \(tbl_contactslists.count)")
+            print(tblContacts[firstname]+" "+tblContacts[lastname])
             //ContactsObjectss.append(tblContacts[contactid])
             ContactNames.append(tblContacts[firstname]+" "+tblContacts[lastname])
             ContactUsernames.append(tblContacts[username])
@@ -572,23 +582,23 @@ class ChatViewController: UIViewController,SocketClientDelegate {
        /* socketObj.socket.on("theseareonline")
             {data,ack in
                 
-                println("theseareonline status...")
+                print("theseareonline status...")
                 var theseareonlineUsers=JSON(data!)
-                //println(theseareonlineUsers.object)
-                //println(offlineUsers[0]["username"])
+                //print(theseareonlineUsers.object)
+                //print(offlineUsers[0]["username"])
                 
                 for(var i=0;i<theseareonlineUsers[0].count;i++)
                 {
                     for(var j=0;j<self.ContactUsernames.count && i<theseareonlineUsers.count;j++)
                     {
-                        //println(theseareonlineUsers[i].description)
-                        //println(theseareonlineUsers.count)
-                        //println(theseareonlineUsers[0][0].description)
-                        //println(self.ContactUsernames[j])
+                        //print(theseareonlineUsers[i].description)
+                        //print(theseareonlineUsers.count)
+                        //print(theseareonlineUsers[0][0].description)
+                        //print(self.ContactUsernames[j])
                         if self.ContactUsernames[j]==theseareonlineUsers[0][i]["username"].description
                         {
                             //found online contact,s username
-                            println("user found theseareonline \(self.ContactUsernames[j])")
+                            print("user found theseareonline \(self.ContactUsernames[j])")
                             self.ContactOnlineStatus[j]=1
                             self.tblForChat.reloadData()
                         }
@@ -600,8 +610,8 @@ class ChatViewController: UIViewController,SocketClientDelegate {
         /*
         socketObj.socket.on("yesiamfreeforcall"){data,ack in
             var message=JSON(data!)
-            println("other user is free")
-            println(data?.debugDescription)
+            print("other user is free")
+            print(data?.debugDescription)
             
         //socketObj.socket.emit("othersideringing", ["callee": message["me"].string!])
             
@@ -614,12 +624,12 @@ class ChatViewController: UIViewController,SocketClientDelegate {
         /*
         socketObj.socket.on("areyoufreeforcall") {data,ack in
             var jdata=JSON(data!)
-            println("somebody callinggg  \(data) \(ack)")
+            print("somebody callinggg  \(data) \(ack)")
             
             if(areYouFreeForCall==true)
             {
-                println(jdata[0]["caller"].string!)
-                println(self.currrentUsernameRetrieved)
+                print(jdata[0]["caller"].string!)
+                print(self.currrentUsernameRetrieved)
                 iamincallWith=jdata[0]["caller"].string!
                 isInitiator=false
                 //callerID=jdata[0]["sendersocket"].string!
@@ -645,12 +655,12 @@ class ChatViewController: UIViewController,SocketClientDelegate {
                 else{
                 socketObj.socket.emit("noiambusy",["mycaller" : jdata[0]["caller"].string!, "me":self.currrentUsernameRetrieved])
                 
-                println("i am busyyy")
+                print("i am busyyy")
                     
                 }
                 
             
-                //self.presentViewController(CallRingingViewController(), animated: true, completion: {println("call screen shown")}
+                //self.presentViewController(CallRingingViewController(), animated: true, completion: {print("call screen shown")}
                 
                 //)
 
@@ -677,7 +687,7 @@ class ChatViewController: UIViewController,SocketClientDelegate {
     //to fetch contacts from server
     
     func fetchContactsFromServer(){
-        println("Server fetchingg contactss")
+        print("Server fetchingg contactss", terminator: "")
         if(loggedUserObj == JSON("[]"))
         {
             var lusername=KeychainWrapper.stringForKey("username")
@@ -696,7 +706,7 @@ class ChatViewController: UIViewController,SocketClientDelegate {
                 var lllooo = json11
                 loggedUserObj=json11
                 loggedUserObj.object=json11.object
-                println(lllooo.object)
+                print(lllooo.object)
                 //var jsonNew=JSON("{\"room\": \"globalchatroom\",\"user\": {\"username\":\"sabachanna\"}}")
                 //socketObj.socket.emit("join global chatroom", ["room": "globalchatroom", "user": ["username":"sabachanna"]]) WORKINGGG
                 
@@ -705,18 +715,18 @@ class ChatViewController: UIViewController,SocketClientDelegate {
                 
                 var logonjuser=KeychainWrapper.stringForKey("loggedUserObjString")
                 var newloggedUserObj=logonjuser!.stringByResolvingSymlinksInPath
-                println("newloggeduserobj string")
-                println(newloggedUserObj)
+                print("newloggeduserobj string")
+                print(newloggedUserObj)
                 if let dataFromString = jsonString.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false) {
                 let json11 = JSON(newloggedUserObj)
                 
-                println("json11 object")
-                println(json11.object)
+                print("json11 object")
+                print(json11.object)
                 
                 loggedUserObj=json11
                 
                 
-                println("joining rooon \(json11.object)")
+                print("joining rooon \(json11.object)")
                 socketObj.socket.emit("join global chatroom",["room": "globalchatroom", "user": json11.object])
                 
                 }*/
@@ -727,12 +737,12 @@ class ChatViewController: UIViewController,SocketClientDelegate {
 
         var fetchChatURL=Constants.MainUrl+Constants.getContactsList+"?access_token="+AuthToken!
         
-        println(fetchChatURL)
+        print(fetchChatURL, terminator: "")
         
         
         Alamofire.request(.GET,"\(fetchChatURL)").validate(statusCode: 200..<300)
             .response { (request1, response1, data1, error1) in
-                println("success")
+                print("success")
 
             
             
@@ -751,42 +761,61 @@ class ChatViewController: UIViewController,SocketClientDelegate {
                     if(glocalChatRoomJoined == false)
                     {
                         //socketObj.addHandlers()
-                    println("joiningggggg")
+                    print("joiningggggg")
                         //var lll=KeychainWrapper.stringForKey("loggedIDKeyChain")
                         var lll=KeychainWrapper.stringForKey("loggedUserObjString")
+                        
                         //loggedUserObjString
-                        println("------------------")
-                        println(lll!.stringByDeletingPathExtension)
-                        println("------------------")
-                        println(lll!.stringByRemovingPercentEncoding)
-                        println("------------------")
-                        println(lll!.stringByResolvingSymlinksInPath)
+                        
+                        
+                        
+                        
+                        
+                        /*
+                        /////////////////////////////////////////////////
+                        
+                        COMENTED TEMPERORARILY AS A FUNCTION stringByR IOS9
+                        LOGIN LOGOUT NEEDED ISSUE
+                        
+                        //////////////////////////////////////////////////
+                        
+                        print("------------------")
+                        print(lll!.stringByDeletingPathExtension)
+                        print("------------------")
+                        print(lll!.stringByRemovingPercentEncoding)
+                        print("------------------")
+                        print(lll!.stringByResolvingSymlinksInPath)
                         var ssss=lll!.stringByResolvingSymlinksInPath
                         
                         if let dataFromString = jsonString.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false) {
                             let json22 = JSON(ssss)
                             
-                            println(";;;;;;;;;")
-                            println(json22.object)
+                            print(";;;;;;;;;")
+                            print(json22.object)
                             
                         loggedUserObj = json22
-                        var lllloooobbbb = json22
+                            
+                            
+                            
+
+                        //var lllloooobbbb = json22
                           //  var dd:[AnyObject]=json22.rawValue as! [AnyObject]
                    /// socketObj.socket.emit("join global chatroom",["room":"globalchatroom","user":loggedUserObj.object])
                         ///socketObj.socket.emit("join global chatroom", ["room": "globalchatroom", "user": json22.object])
                             socketObj.socket.emit("join global chatroom", ["room": "globalchatroom", "user": ["username":KeychainWrapper.stringForKey("username")!]])
                         }
+*/
                      
                     }
-                    //println("Contacts fetched success")
+                    //print("Contacts fetched success")
                     let contactsJsonObj = JSON(data: data1!)
-                    println(contactsJsonObj)
-                    //println(contactsJsonObj["userid"])
+                    print(contactsJsonObj)
+                    //print(contactsJsonObj["userid"])
                     //let contact=JSON(contactsJsonObj["contactid"])
-                    //   println(contact["firstname"])
-                    println("Contactsss fetcheddddddd")
+                    //   print(contact["firstname"])
+                    print("Contactsss fetcheddddddd")
                     //var userr=contactsJsonObj["userid"]
-                    // println(self.contactsJsonObj.count)
+                    // print(self.contactsJsonObj.count)
                     let contactid = Expression<String>("contactid")
                     let detailsshared = Expression<String>("detailsshared")
                     
@@ -801,7 +830,7 @@ class ChatViewController: UIViewController,SocketClientDelegate {
                     let status = Expression<String>("status")
                     
                     
-                    let tbl_contactslists=sqliteDB.db["contactslists"]
+                    let tbl_contactslists=sqliteDB.contactslists
                     tbl_contactslists.delete() //complete refresh
                     
                     
@@ -845,14 +874,14 @@ class ChatViewController: UIViewController,SocketClientDelegate {
                     
                         
                         if let rowid = insert.rowid {
-                            println("inserted id: \(rowid)")
+                            print("inserted id: \(rowid)")
                             self.tblForChat.reloadData()
                         } else if insert.statement.failed {
-                            println("insertion failed: \(insert.statement.reason)")
+                            print("insertion failed: \(insert.statement.reason)")
                         }
                     }
                     
-                    //println(error1)
+                    //print(error1)
                     //
                     //self.refreshControl.endRefreshing()
                     
@@ -860,13 +889,13 @@ class ChatViewController: UIViewController,SocketClientDelegate {
                 
                 //}
             //^^^^^^^})
-                println(error1)
-                println(response1?.statusCode)
-                println("FETCH CONTACTS FAILED")
-                println("eeeeeeeeeeeeeeeeeeeeee")
+                print(error1)
+                print(response1?.statusCode)
+                print("FETCH CONTACTS FAILED")
+                print("eeeeeeeeeeeeeeeeeeeeee")
                 if(response1?.statusCode==401)
                 {
-                    println("Refreshinggggggggggggggggggg token expired")
+                    print("Refreshinggggggggggggggggggg token expired")
                     if(username==nil || password==nil)
                     {
                         self.performSegueWithIdentifier("loginSegue", sender: nil)
@@ -884,8 +913,8 @@ class ChatViewController: UIViewController,SocketClientDelegate {
             
         }
         
-        println("before whozonline print")
-        println(loggedUserObj.object)
+        print("before whozonline print", terminator: "")
+        print(loggedUserObj.object)
         socketObj.socket.emit("whozonline",[
             "room":"globalchatroom",
             "user":loggedUserObj.object])
@@ -905,14 +934,14 @@ class ChatViewController: UIViewController,SocketClientDelegate {
     }
     
     @IBAction func unwindToChat (segueSelected : UIStoryboardSegue) {
-        println("unwind chat")
+        print("unwind chat", terminator: "")
       
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         //refreshControl.addTarget(self, action: Selector("fetchContacts"), forControlEvents: UIControlEvents.ValueChanged)
         
-        println(ContactNames.count)
+        print(ContactNames.count, terminator: "")
         return ContactNames.count
     }
     
@@ -928,7 +957,7 @@ class ChatViewController: UIViewController,SocketClientDelegate {
         return tblForChat.dequeueReusableCellWithIdentifier("ChatPublicCell")as! UITableViewCell
         }
         */
-        var cell=tblForChat.dequeueReusableCellWithIdentifier("ChatPrivateCell") as! ContactsListCell
+        let cell=tblForChat.dequeueReusableCellWithIdentifier("ChatPrivateCell") as! ContactsListCell
         
         cell.contactName?.text=ContactNames[indexPath.row]
         if ContactOnlineStatus[indexPath.row]==0
@@ -950,7 +979,7 @@ class ChatViewController: UIViewController,SocketClientDelegate {
         //let indexPath = tableView.indexPathForSelectedRow();
         //let currentCell = tableView.cellForRowAtIndexPath(indexPath!) as UITableViewCell!;
         
-        println(ContactNames[indexPath.row])
+        print(ContactNames[indexPath.row], terminator: "")
         self.performSegueWithIdentifier("contactChat", sender: nil);
         //slideToChat
         
@@ -960,7 +989,7 @@ class ChatViewController: UIViewController,SocketClientDelegate {
         if editingStyle == .Delete {
             
              var selectedRow = indexPath.row
-            println(selectedRow.description+" selected")
+            print(selectedRow.description+" selected", terminator: "")
             
             var removeChatFromServer=NetworkingLibAlamofire()
             var loggedFirstName=loggedUserObj["firstname"]
@@ -968,7 +997,7 @@ class ChatViewController: UIViewController,SocketClientDelegate {
             var loggedStatus=loggedUserObj["status"]
             var loggedUsername=loggedUserObj["username"]
             
-            println(self.ContactFirstname[selectedRow]+self.ContactLastNAme[selectedRow]+self.ContactStatus[selectedRow]+self.ContactUsernames[selectedRow])
+            print(self.ContactFirstname[selectedRow]+self.ContactLastNAme[selectedRow]+self.ContactStatus[selectedRow]+self.ContactUsernames[selectedRow], terminator: "")
             
             
             
@@ -990,19 +1019,19 @@ class ChatViewController: UIViewController,SocketClientDelegate {
                     /// self.performSegueWithIdentifier("loginSegue", sender: nil)
                     
                     if response1?.statusCode==200 {
-                        //println("got user success")
-                        println("Request success")
+                        //print("got user success")
+                        print("Request success")
                         var json=JSON(data1!)
 
                         
-                        println(json)
-                        //println(json)
+                        print(json)
+                        //print(json)
                         //dataMy=JSON(data1!)
-                        //println(dataMy.description)
+                        //print(dataMy.description)
                         
                         sqliteDB.deleteChat(self.ContactNames[selectedRow])
                         
-                        //println(ContactNames[selectedRow]+" deleted")
+                        //print(ContactNames[selectedRow]+" deleted")
                         sqliteDB.deleteFriend(self.ContactUsernames[selectedRow])
                         self.ContactNames.removeAtIndex(selectedRow)
                         self.ContactIDs.removeAtIndex(selectedRow)
@@ -1017,18 +1046,18 @@ class ChatViewController: UIViewController,SocketClientDelegate {
                     }
                     else
                     {
-                        println("delete friend failed")
+                        print("delete friend failed")
                         //var json=JSON(error1!)
-                        println(error1?.description)
-                        println(response1?.statusCode)
+                        print(error1?.description)
+                        print(response1?.statusCode)
                         //errorMy=JSON(error1!)
-                        // println(errorMy.description)
+                        // print(errorMy.description)
                     }
                 })
                     if(response1!.statusCode==401)
                     {
-                        println(error1)
-                        println("delete friend failed token expired")
+                        print(error1)
+                        print("delete friend failed token expired")
                         self.rt.refrToken()
                         
                     }
@@ -1057,7 +1086,7 @@ class ChatViewController: UIViewController,SocketClientDelegate {
     
     func tableView(tableView: UITableView, editActionsForRowAtIndexPath indexPath: NSIndexPath) -> [AnyObject]?  {
         // 1
-        var shareAction = UITableViewRowAction(style: UITableViewRowActionStyle.Default, title: "Delete" , handler: { (action:UITableViewRowAction!, indexPath:NSIndexPath!) -> Void in
+        var shareAction = UITableViewRowAction(style: UITableViewRowActionStyle.Default, title: "Delete" , handler: { (action:UITableViewRowAction, indexPath:NSIndexPath) -> Void in
             // 2
             
             
@@ -1076,7 +1105,7 @@ class ChatViewController: UIViewController,SocketClientDelegate {
             
             
             var selectedRow = indexPath.row
-            println(selectedRow.description+" selected")
+            print(selectedRow.description+" selected")
             
             var removeChatFromServer=NetworkingLibAlamofire()
             var loggedFirstName=loggedUserObj["firstname"]
@@ -1084,7 +1113,7 @@ class ChatViewController: UIViewController,SocketClientDelegate {
             var loggedStatus=loggedUserObj["status"]
             var loggedUsername=loggedUserObj["username"]
             
-            println(self.ContactFirstname[selectedRow]+self.ContactLastNAme[selectedRow]+self.ContactStatus[selectedRow]+self.ContactUsernames[selectedRow])
+            print(self.ContactFirstname[selectedRow]+self.ContactLastNAme[selectedRow]+self.ContactStatus[selectedRow]+self.ContactUsernames[selectedRow])
             
             
             
@@ -1106,19 +1135,19 @@ class ChatViewController: UIViewController,SocketClientDelegate {
                         /// self.performSegueWithIdentifier("loginSegue", sender: nil)
                         
                         if response1?.statusCode==200 {
-                            //println("got user success")
-                            println("Request success")
+                            //print("got user success")
+                            print("Request success")
                             var json=JSON(data1!)
                             
                             
-                            println(json)
-                            //println(json)
+                            print(json)
+                            //print(json)
                             //dataMy=JSON(data1!)
-                            //println(dataMy.description)
+                            //print(dataMy.description)
                             
                             sqliteDB.deleteChat(self.ContactNames[selectedRow])
                             
-                            //println(ContactNames[selectedRow]+" deleted")
+                            //print(ContactNames[selectedRow]+" deleted")
                             sqliteDB.deleteFriend(self.ContactUsernames[selectedRow])
                             self.ContactNames.removeAtIndex(selectedRow)
                             self.ContactIDs.removeAtIndex(selectedRow)
@@ -1133,18 +1162,18 @@ class ChatViewController: UIViewController,SocketClientDelegate {
                         }
                         else
                         {
-                            println("delete friend failed")
+                            print("delete friend failed")
                             //var json=JSON(error1!)
-                            println(error1?.description)
-                            println(response1?.statusCode)
+                            print(error1?.description)
+                            print(response1?.statusCode)
                             //errorMy=JSON(error1!)
-                            // println(errorMy.description)
+                            // print(errorMy.description)
                         }
                     })
                     if(response1!.statusCode==401)
                     {
-                        println(error1)
-                        println("delete friend failed token expired")
+                        print(error1)
+                        print("delete friend failed token expired")
                         self.rt.refrToken()
                         
                     }
@@ -1153,12 +1182,12 @@ class ChatViewController: UIViewController,SocketClientDelegate {
 
         })
         // 3
-        var rateAction = UITableViewRowAction(style: UITableViewRowActionStyle.Default, title: "Call" , handler: { (action:UITableViewRowAction!, indexPath:NSIndexPath!) -> Void in
+        var rateAction = UITableViewRowAction(style: UITableViewRowActionStyle.Default, title: "Call" , handler: { (action:UITableViewRowAction, indexPath:NSIndexPath) -> Void in
             
             //ON CALL BUTTON PRESSED
             
             var selectedRow = indexPath.row
-            println("call pressed")
+            print("call pressed")
             socketObj.socket.emit("callthisperson",["room" : "globalchatroom","callee": self.ContactUsernames[selectedRow], "caller":username!])
             isInitiator=true
             callerName=username!
@@ -1217,7 +1246,7 @@ class ChatViewController: UIViewController,SocketClientDelegate {
             
             if let destinationVC = segue!.destinationViewController as? ChatDetailViewController{
                 
-                let selectedRow = tblForChat.indexPathForSelectedRow()!.row
+                let selectedRow = tblForChat.indexPathForSelectedRow!.row
                 //destinationVC.selectedContact = ContactNames[selectedRow]
                 destinationVC.selectedContact = ContactUsernames[selectedRow]
                 destinationVC.selectedFirstName=ContactFirstname[selectedRow]
@@ -1227,25 +1256,25 @@ class ChatViewController: UIViewController,SocketClientDelegate {
                 
                 //
                 /* var getUserbByIdURL=Constants.MainUrl+Constants.getSingleUserByID+ContactIDs[selectedRow]+"?access_token="+AuthToken
-                println(getUserbByIdURL.debugDescription+"..........")
+                print(getUserbByIdURL.debugDescription+"..........")
                 Alamofire.request(.GET,"\(getUserbByIdURL)").response{
                 request, response, data, error in
-                println(error)
+                print(error)
                 
                 if response?.statusCode==200
                 
                 {
-                println("got userrrrrrr")
-                println(data?.debugDescription)
-                println(":::::::::")
+                print("got userrrrrrr")
+                print(data?.debugDescription)
+                print(":::::::::")
                 destinationVC.selectedUserObj=JSON(data!)
                 }
                 else
                 {
-                println("didnt get userrrrr")
-                println(error)
-                println(data)
-                println(response)
+                print("didnt get userrrrr")
+                print(error)
+                print(data)
+                print(response)
                 }
                 }*/
                 
@@ -1261,18 +1290,18 @@ class ChatViewController: UIViewController,SocketClientDelegate {
     ///////////////////////////////
     
     func socketReceivedMessage(message:String,data:AnyObject!)
-    {println("socketReceivedMessage inside")
+    {print("socketReceivedMessage inside", terminator: "")
         //var msg=JSON(params)
         switch(message)
         {
         case "othersideringing":
-       // println(msg.debugDescription)
+       // print(msg.debugDescription)
         callerName=KeychainWrapper.stringForKey("username")!
         //iamincallWith=msg[0]["callee"].string!
         
-        println("callee is \(callerName)")
+        print("callee is \(callerName)", terminator: "")
         
-        var next = self.storyboard?.instantiateViewControllerWithIdentifier("Main2") as! VideoViewController
+        var next = self.storyboard!.instantiateViewControllerWithIdentifier("Main2") as VideoViewController
         
         self.presentViewController(next, animated: true, completion: {
         })
@@ -1280,10 +1309,10 @@ class ChatViewController: UIViewController,SocketClientDelegate {
         case "offline":
             
             
-                    println("offline status...")
+                    print("offline status...", terminator: "")
                     var offlineUsers=JSON(data!)
-                    println(offlineUsers[0])
-                    //println(offlineUsers[0]["username"])
+                    print(offlineUsers[0])
+                    //print(offlineUsers[0]["username"])
                     
                     for(var i=0;i<offlineUsers.count;i++)
                     {
@@ -1292,7 +1321,7 @@ class ChatViewController: UIViewController,SocketClientDelegate {
                             if self.ContactUsernames[j]==offlineUsers[i]["username"].string!
                             {
                                 //found online contact,s username
-                                println("user found offlinee \(self.ContactUsernames[j])")
+                                print("user found offlinee \(self.ContactUsernames[j])")
                                 self.ContactOnlineStatus[j]=0
                                 self.tblForChat.reloadData()
                             }
@@ -1301,10 +1330,10 @@ class ChatViewController: UIViewController,SocketClientDelegate {
             
             case "theseareonline":
                
-                        println("theseareonline status...")
+                        print("theseareonline status...", terminator: "")
                         var theseareonlineUsers=JSON(data!)
-                        //println(theseareonlineUsers.object)
-                        //println(offlineUsers[0]["username"])
+                        //print(theseareonlineUsers.object)
+                        //print(offlineUsers[0]["username"])
                         
                         for(var i=0;i<theseareonlineUsers[0].count;i++)
                         {
@@ -1313,7 +1342,7 @@ class ChatViewController: UIViewController,SocketClientDelegate {
                                 if self.ContactUsernames[j]==theseareonlineUsers[0][i]["username"].description
                                 {
                                     //found online contact,s username
-                                    println("user found theseareonline \(self.ContactUsernames[j])")
+                                    print("user found theseareonline \(self.ContactUsernames[j])")
                                     self.ContactOnlineStatus[j]=1
                                     self.tblForChat.reloadData()
                                 }
@@ -1323,20 +1352,20 @@ class ChatViewController: UIViewController,SocketClientDelegate {
             
         case "yesiamfreeforcall":
                 var message=JSON(data!)
-                println("other user is free")
-                println(data?.debugDescription)
+                print("other user is free", terminator: "")
+                print(data?.debugDescription, terminator: "")
             
             
         case "areyoufreeforcall":
         
             var jdata=JSON(data!)
-        println("areyoufreeforcall ......")
-            println(jdata.debugDescription)
+        print("areyoufreeforcall ......", terminator: "")
+            print(jdata.debugDescription)
             
             if(areYouFreeForCall==true)
             {
-                println(jdata[0]["caller"].string!)
-                println(self.currrentUsernameRetrieved)
+                print(jdata[0]["caller"].string!)
+                print(self.currrentUsernameRetrieved, terminator: "")
                 iamincallWith=jdata[0]["caller"].string!
                 isInitiator=false
                 //callerID=jdata[0]["sendersocket"].string!
@@ -1357,7 +1386,7 @@ class ChatViewController: UIViewController,SocketClientDelegate {
             else{
                 socketObj.socket.emit("noiambusy",["mycaller" : jdata[0]["caller"].string!, "me":self.currrentUsernameRetrieved])
                 
-                println("i am busyyy")
+                print("i am busyyy", terminator: "")
                 
             }
          
@@ -1365,7 +1394,7 @@ class ChatViewController: UIViewController,SocketClientDelegate {
         
             
 
-        default: println("")
+        default: print("", terminator: "")
         
         }//end switch
 
@@ -1375,19 +1404,19 @@ class ChatViewController: UIViewController,SocketClientDelegate {
         
     }
 
-    
+
 }
 
 
 /*
-println("otherside ringing")
-var msg=JSON(data!)
+print("otherside ringing")
+var msg=JSON(data)
 //self.othersideringing=true;
-println(msg.debugDescription)
+print(msg.debugDescription)
 callerName=KeychainWrapper.stringForKey("username")!
 //iamincallWith=msg[0]["callee"].string!
 
-println("callee is \(callerName)")
+print("callee is \(callerName)")
 
 var next = self.storyboard?.instantiateViewControllerWithIdentifier("Main2") as! VideoViewController
 

@@ -77,14 +77,14 @@ class Peer: NSObject,RTCPeerConnectionDelegate,RTCSessionDescriptionDelegate {
     }
 
     func peerConnection(peerConnection: RTCPeerConnection!, addedStream stream: RTCMediaStream!) {
-        println("added stream")
+        print("added stream", terminator: "")
         
     }
     func peerConnection(peerConnection: RTCPeerConnection!, didOpenDataChannel dataChannel: RTCDataChannel!) {
         
     }
     func peerConnection(peerConnection: RTCPeerConnection!, gotICECandidate candidate: RTCICECandidate!) {
-        println("got ice candidate")
+        print("got ice candidate", terminator: "")
     }
     func peerConnection(peerConnection: RTCPeerConnection!, iceConnectionChanged newState: RTCICEConnectionState) {
         
@@ -96,21 +96,21 @@ class Peer: NSObject,RTCPeerConnectionDelegate,RTCSessionDescriptionDelegate {
         
     }
     func peerConnection(peerConnection: RTCPeerConnection!, signalingStateChanged stateChanged: RTCSignalingState) {
-        println("signaling state changed \(stateChanged)")
+        print("signaling state changed \(stateChanged)", terminator: "")
     }
     func peerConnectionOnRenegotiationNeeded(peerConnection: RTCPeerConnection!) {
         
     }
     
     func peerConnection(peerConnection: RTCPeerConnection!, didCreateSessionDescription sdp: RTCSessionDescription!, error: NSError!) {
-        println("created sdp..")
+        print("created sdp..", terminator: "")
         socketObj.socket.emit("msg", ["by": "\(_id!)" , "to": "553513f8fff0f13a73518adc", "sdp": sdp, "type": "offer", "username": "\(username)" ]);
         
         //set SDP
         pc.setLocalDescriptionWithDelegate(self, sessionDescription: sdp)
     }
     func peerConnection(peerConnection: RTCPeerConnection!, didSetSessionDescriptionWithError error: NSError!) {
-        println("error setting sdp")
+        print("error setting sdp", terminator: "")
     }
     override func didChange(changeKind: NSKeyValueChange, valuesAtIndexes indexes: NSIndexSet, forKey key: String) {
         

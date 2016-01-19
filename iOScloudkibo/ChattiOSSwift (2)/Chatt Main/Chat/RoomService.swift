@@ -12,7 +12,7 @@ class RoomService{
     var peers:[Peer]=[]
     var streams:[RTCMediaStream]=[]
    
-    init(var id:String)    {
+    init(id:String)    {
     
         var foundPeer=false
         var ind=0
@@ -40,7 +40,7 @@ class RoomService{
         
         
     }
-    func joinRoom(var roomname:String)
+    func joinRoom(roomname:String)
     {
         socketObj.socket.emit("init",["room": roomname, "username": username! ])
         
@@ -61,7 +61,7 @@ connected = true;
 
 
     }
-    func makeOffer(var id:String)
+    func makeOffer(id:String)
     {var foundPeer=false
         var ind=0
         for var i=0;i<peers.count;i++

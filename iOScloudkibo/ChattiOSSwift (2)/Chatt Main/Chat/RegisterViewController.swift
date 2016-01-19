@@ -45,26 +45,27 @@ class RegisterViewController: UIViewController {
         
         
         var param2:[String:AnyObject]=["username":"\(txtUsername.text!)","password":"\(txtPassword.text!)","firstname":"\(txtFirstname.text!)","lastname":"\(txtLastname.text)","phone":"\(txtPhone.text!)","email":"\(txtEmail.text!)"]
-        var fff=JSONStringify(param2, prettyPrinted: false)
+        /*var fff=JSONStringify(param2, prettyPrinted: false)
         var okk=JSON(param2)
         var okkpretty=JSONStringify(okk.object, prettyPrinted: false)
         var json=JSONStringify(param, prettyPrinted: false)
+*/
         //var registerParams=["user":json.object]
         var pp="{\"user\":[{\"username\":\(txtUsername.text!),\"password\":\(txtPassword.text!),\"firstname\":\(txtFirstname.text!),\"lastname\":\(txtLastname.text!),\"phone\":\(txtPhone.text!),\"email\":\(txtEmail.text!)}]}"
         var jj=JSON(pp)
         var ppdata = pp.dataUsingEncoding(NSUTF8StringEncoding)
         let ppjson = JSON(data: ppdata!)
         
-        println(pp)
-        println(ppjson["user"].description)
+        print(pp, terminator: "")
+        print(ppjson["user"].description)
         var pppp=JSON(["username":"\(txtUsername.text!)","password":"\(txtPassword.text!)","firstname":"\(txtFirstname.text!)","lastname":"\(txtLastname.text!)","phone":"\(txtPhone.text!)","email":"\(txtEmail.text!)"])
-        var i=JSONStringify(pppp.object, prettyPrinted: false)
+        ////var i=JSONStringify(pppp.object, prettyPrinted: false)
         /*var j1=json.stringByReplacingOccurrencesOfString("\\n", withString: "", options: NSStringCompareOptions.LiteralSearch, range: nil)
         var j2=j1.stringByReplacingOccurrencesOfString("\\", withString: "", options: NSStringCompareOptions.LiteralSearch, range: nil)
         var j3=j2.stringByReplacingOccurrencesOfString("\"", withString: "", options: NSStringCompareOptions.LiteralSearch, range: nil)
         */
-        var j1=okkpretty.stringByReplacingOccurrencesOfString("\n", withString: "", options: NSStringCompareOptions.LiteralSearch, range: nil)
-        var j2=j1.stringByReplacingOccurrencesOfString("\"", withString: "", options: NSStringCompareOptions.LiteralSearch, range: nil)
+        ////var j1=okkpretty.stringByReplacingOccurrencesOfString("\n", withString: "", options: NSStringCompareOptions.LiteralSearch, range: nil)
+        ////var j2=j1.stringByReplacingOccurrencesOfString("\"", withString: "", options: NSStringCompareOptions.LiteralSearch, range: nil)
         //var j3=j2.stringByReplacingOccurrencesOfString("\"", withString: "\"", options: NSStringCompareOptions.LiteralSearch, range: nil)
         var finalP: JSON=["username":txtUsername.text!,"password":txtPassword.text!,"firstname":txtFirstname.text!,"lastname":txtLastname.text!,"phone":txtPhone.text!,"email":txtEmail.text!]
         ////var a=JSONStringify(pppp.dictionaryObject!, prettyPrinted: false)
@@ -72,12 +73,12 @@ class RegisterViewController: UIViewController {
         //ppjson["user"].arrayValue
         //Alamofire.request(.POST,"\(url)",parameters:["user":"[\"username\":\(txtUsername.text!),\"password\":\(txtPassword.text!),\"firstname\":\(txtFirstname.text!),\"lastname\":\(txtLastname.text!),\"phone\":\(txtPhone.text!),\"email\":\(txtEmail.text!)]"]).response{
             request, response, data, error in
-            println(error)
+            print(error)
             
             if response?.statusCode==200
                 
             {
-                println("Registration success")
+                print("Registration success")
                 //self.labelLoginUnsuccessful.text=nil
                 //self.gotToken=true
                 
@@ -104,7 +105,7 @@ class RegisterViewController: UIViewController {
                         /// self.performSegueWithIdentifier("loginSegue", sender: nil)
                         
                         if response1?.statusCode==200 {
-                            println("got user success")
+                            print("got user success")
                             //self.gotToken=true
                             var json=JSON(data1!)
                             //KeychainWrapper.setData(data1!, forKey: "loggedUserObj")
@@ -130,7 +131,7 @@ class RegisterViewController: UIViewController {
                             
                             socketObj.socket.emit("join global chatroom",["room": "globalchatroom", "user": json.object])
                             
-                            println(json["_id"])
+                            print(json["_id"])
                             
                             let tbl_accounts = sqliteDB.db["accounts"]
                             let _id = Expression<String>("_id")
@@ -158,14 +159,14 @@ class RegisterViewController: UIViewController {
                                 status<-json["status"].string!,
                                 phone<-json["phone"].string!)
                             if let rowid = insert.rowid {
-                                println("inserted id: \(rowid)")
+                                print("inserted id: \(rowid)")
                             } else if insert.statement.failed {
-                                println("insertion failed: \(insert.statement.reason)")
+                                print("insertion failed: \(insert.statement.reason)")
                             }
                             
                             //// self.fetchContacts(AuthToken)
                             for account in tbl_accounts {
-                                println("id: \(account[_id]), email: \(account[email]), firstname: \(account[firstname])")
+                                print("id: \(account[_id]), email: \(account[email]), firstname: \(account[firstname])")
                                 // id: 1, email: alice@mac.com, name: Optional("Alice")
                             }
                             
@@ -174,27 +175,27 @@ class RegisterViewController: UIViewController {
                             
                             //...........
                             /*  let stmt = sqliteDB.db.prepare("SELECT * FROM accounts")
-                            println(stmt.columnNames)
+                            print(stmt.columnNames)
                             for row in stmt {
-                            println("...................... firstname: \(row[1]), email: \(row[3])")
+                            print("...................... firstname: \(row[1]), email: \(row[3])")
                             // id: Optional(1), email: Optional("alice@mac.com")
                             }*/
                             
                         } else {
-                            println(error1)
-                            println(response1)
-                            println(data1)
+                            print(error1)
+                            print(response1)
+                            print(data1)
                             //self.labelLoginUnsuccessful.text="Sorry, you are not registered"
                             //self.txtForEmail.text=nil
                             //self.txtForPassword.text=nil
                             
-                            println("GOT USER FAILED")
+                            print("GOT USER FAILED")
                         }
                     })
                     
                     if(response?.statusCode==401)
                     {
-                        println("got user failed token expired")
+                        print("got user failed token expired")
                         self.rt.refrToken()
                     }
                    
@@ -206,28 +207,28 @@ class RegisterViewController: UIViewController {
             {
                 if(response?.statusCode==401)
                 {
-                    println("registration failed token expired")
+                    print("registration failed token expired")
                     self.rt.refrToken()
                     self.labelError.text=error?.description
                 }
                 if(response?.statusCode==422)
                 {
-                    println("registration failed something duplicate")
+                    print("registration failed something duplicate")
                     self.labelError.text=error?.description
                     
                 }
-                println("status code is \(response?.statusCode)")
-                println(error)
+                print("status code is \(response?.statusCode)")
+                print(error)
                 //self.labelError.text=error["messages"]?.description
-                println(response?.debugDescription)
-                println(data!.debugDescription)
+                print(response?.debugDescription)
+                print(data!.debugDescription)
                 var jj=JSON(data:data!)
                 //var json=JSON(data!.debugDescription)
-                println(jj.object)
-                println(jj.description)
+                print(jj.object)
+                print(jj.description)
                 
                 KeychainWrapper.removeObjectForKey("password")
-                println("registration failed")
+                print("registration failed")
                // self.labelLoginUnsuccessful.text="Sorry, you are not registered"
                 //self.txtForEmail.text=nil
                 //self.txtForPassword.text=nil
