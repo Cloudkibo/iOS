@@ -41,7 +41,7 @@ class PendingFriendRequestsViewController: UIViewController {
         // Do any additional setup after loading the view.
        socketObj.socket.on("friendrequest"){data,ack in
             print("friend request socket received")
-            var freindReqJSON=JSON(data!)
+            var freindReqJSON=JSON(data)
             print(freindReqJSON)
         print("$$$$$$$$$$")
         let contactid = Expression<String>("contactid")
@@ -58,12 +58,41 @@ class PendingFriendRequestsViewController: UIViewController {
         let status = Expression<String>("status")
         
         
-        let tbl_contactslists=sqliteDB.db["contactslists"]
+        let tbl_contactslists=sqliteDB.contactslists
         
         //-========Remove old values=====================
        
         for var i=0;i<freindReqJSON.count;i++
         {
+            
+            do {
+                let rowid = try sqliteDB.db.run(tbl_contactslists.insert(contactid<-freindReqJSON[i]["contactid"]["_id"].string!,
+                    detailsshared<-freindReqJSON[i]["detailsshared"].string!,
+                    
+                    unreadMessage<-freindReqJSON[i]["unreadMessage"].boolValue,
+                    
+                    userid<-freindReqJSON[i]["userid"].string!,
+                    firstname<-freindReqJSON[i]["contactid"]["firstname"].string!,
+                    lastname<-freindReqJSON[i]["contactid"]["lastname"].string!,
+                    email<-freindReqJSON[i]["contactid"]["email"].string!,
+                    phone<-freindReqJSON[i]["contactid"]["_id"].string!,
+                    username<-freindReqJSON[i]["contactid"]["username"].string!,
+                    status<-freindReqJSON[i]["contactid"]["status"].string!)
+                    )
+                
+                print("inserted id: \(rowid)")
+                self.ContactsObjectss.append(freindReqJSON[i]["contactid"])
+                self.ContactNames.append(freindReqJSON[i]["contactid"]["firstname"].string!+" "+freindReqJSON[i]["contactid"]["lastname"].string!)
+                self.ContactUsernames.append(freindReqJSON[i]["contactid"]["username"].string!)
+                self.ContactIDs.append(freindReqJSON[i]["contactid"]["_id"].string!)
+                self.ContactFirstNAme.append(freindReqJSON[i]["contactid"]["firstname"].string!)
+                self.ContactLastNAme.append(freindReqJSON[i]["contactid"]["lastname"].string!)
+                self.ContactStatus.append(freindReqJSON[i]["contactid"]["status"].string!)
+            } catch {
+                print("insertion failed: \(error)")
+            }
+            /*
+            
             let insert=tbl_contactslists.insert(contactid<-freindReqJSON[i]["contactid"]["_id"].string!,
                 detailsshared<-freindReqJSON[i]["detailsshared"].string!,
                 
@@ -91,7 +120,7 @@ class PendingFriendRequestsViewController: UIViewController {
                 self.tbl_pendingContacts.reloadData()
             } else if insert.statement.failed {
                 print("insertion failed: \(insert.statement.reason)")
-            }
+            }*/
         //saveContact()
         }
         }
@@ -121,10 +150,11 @@ class PendingFriendRequestsViewController: UIViewController {
         var url=Constants.MainUrl+Constants.getPendingFriendRequestsContacts+"?access_token=\(AuthToken!)"
        //print(pendingList.description)
        // print(pendingList.count)
-        Alamofire.request(.GET,"\(url)").validate(statusCode: 200..<300).responseJSON{
-            request1, response1, data1, error1 in
-            
-            //===========INITIALISE SOCKETIOCLIENT=========
+        Alamofire.request(.GET,"\(url)").validate(statusCode: 200..<300).responseJSON{response in
+            var response1=response.response
+            var request1=response.request
+            var data1=response.data
+            var error1=response.result.error            //===========INITIALISE SOCKETIOCLIENT=========
             dispatch_async(dispatch_get_main_queue(), {
                 
                 //self.dismissViewControllerAnimated(true, completion: nil);
@@ -226,8 +256,11 @@ class PendingFriendRequestsViewController: UIViewController {
             //var params=self.ContactsObjectss[selectedRow].arrayValue
             Alamofire.request(.POST,"\(url)",parameters:["username":"\(usernameToReject)"]
                 //Alamofire.request(.POST,"\(url)",parameters:["index":"\(selectedRow)"]
-                ).validate(statusCode: 200..<300).responseJSON{
-                    request1, response1, data1, error1 in
+                ).validate(statusCode: 200..<300).responseJSON{response in
+                    var response1=response.response
+                    var request1=response.request
+                    var data1=response.data
+                    var error1=response.result.error
                     
                     //===========INITIALISE SOCKETIOCLIENT=========
                     dispatch_async(dispatch_get_main_queue(), {
@@ -275,8 +308,11 @@ class PendingFriendRequestsViewController: UIViewController {
             //var params=self.ContactsObjectss[selectedRow].arrayValue
             Alamofire.request(.POST,"\(url)",parameters:["username":"\(usernameToReject)"]
                 //Alamofire.request(.POST,"\(url)",parameters:["index":"\(selectedRow)"]
-                ).validate(statusCode: 200..<300).responseJSON{
-                    request1, response1, data1, error1 in
+                ).validate(statusCode: 200..<300).responseJSON{response in
+                    var response1=response.response
+                    var request1=response.request
+                    var data1=response.data
+                    var error1=response.result.error
                     
                     //===========INITIALISE SOCKETIOCLIENT=========
                     dispatch_async(dispatch_get_main_queue(), {

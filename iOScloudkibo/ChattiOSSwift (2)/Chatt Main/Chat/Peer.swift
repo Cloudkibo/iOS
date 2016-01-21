@@ -25,7 +25,7 @@ class Peer: NSObject,RTCPeerConnectionDelegate,RTCSessionDescriptionDelegate {
         self.username=username as NSString
        // self.peerNumber=peerNumber
         RTCPeerConnectionFactory.initializeSSL()
-        factory=RTCPeerConnectionFactory.alloc()
+        factory=RTCPeerConnectionFactory.init()
         //super.init()
         
         

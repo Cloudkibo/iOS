@@ -23,8 +23,11 @@ class NetworkingLibAlamofire{
     {
         print(url)
         
-                Alamofire.request(.GET,"\(url)").responseJSON{
-            request1, response1, data1, error1 in
+        Alamofire.request(.GET,"\(url)").responseJSON{response in
+            var response1=response.response
+            var request1=response.request
+            var data1=response.data
+            var error1=response.result.error
             
             //===========INITIALISE SOCKETIOCLIENT=========
             dispatch_async(dispatch_get_main_queue(), {
@@ -58,9 +61,11 @@ class NetworkingLibAlamofire{
         {
             var dataMy:JSON="[]"
             var errorMy:JSON="[]"
-            Alamofire.request(.POST,"\(url)",parameters:parameters1).responseJSON{
-                request1, response1, data1, error1 in
-                
+            Alamofire.request(.POST,"\(url)",parameters:parameters1).responseJSON{response in
+                var response1=response.response
+                var request1=response.request
+                var data1=response.data
+                var error1=response.result.error
                 //===========INITIALISE SOCKETIOCLIENT=========
                 dispatch_async(dispatch_get_main_queue(), {
                     
@@ -187,8 +192,11 @@ class NetworkingLibAlamofire{
                 
                 //========GET USER DETAILS===============
                 var getUserDataURL=userDataUrl+"?access_token="+AuthToken!
-                Alamofire.request(.GET,"\(getUserDataURL)").validate(statusCode: 200..<300).responseJSON{
-                    request1, response1, data1, error1 in
+                Alamofire.request(.GET,"\(getUserDataURL)").validate(statusCode: 200..<300).responseJSON{response in
+                    var response1=response.response
+                    var request1=response.request
+                    var data1=response.data
+                    var error1=response.result.error
                     
                     //===========INITIALISE SOCKETIOCLIENT=========
                     dispatch_async(dispatch_get_main_queue(), {

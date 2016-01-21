@@ -132,10 +132,10 @@ class LoginViewController: UIViewController, UITextFieldDelegate{
         password=KeychainWrapper.stringForKey("password")
         var param:[String:String]=["username": txtForEmail.text!,"password":txtForPassword.text!]
         Alamofire.request(.POST,"\(url)",parameters: param).response{
-            request, response, data, error in
+            request, response_, data, error in
             print(error)
             
-            if response?.statusCode==200
+            if response_?.statusCode==200
                 
             {
                 //^^^^^username=txtForEmail.text!
@@ -156,9 +156,11 @@ class LoginViewController: UIViewController, UITextFieldDelegate{
                 
                 //========GET USER DETAILS===============
                 var getUserDataURL=userDataUrl+"?access_token="+AuthToken!
-                Alamofire.request(.GET,"\(getUserDataURL)").validate(statusCode: 200..<300).responseJSON{
-                    request1, response1, data1, error1 in
-                    
+                Alamofire.request(.GET,"\(getUserDataURL)").validate(statusCode: 200..<300).responseJSON{response in
+                    var response1=response.response
+                    var request1=response.request
+                    var data1=response.data
+                    var error1=response.result.error
                     //===========INITIALISE SOCKETIOCLIENT=========
                     dispatch_async(dispatch_get_main_queue(), {
                         
@@ -182,9 +184,9 @@ class LoginViewController: UIViewController, UITextFieldDelegate{
                             print("$$$$$$$$$$$$$$$$$$$$$$$$$")
                             ////print(loggedUserObj.string)
                             //KeychainWrapper.setString(loggedUserObj.string!, forKey:"loggedUserObjString")
-                            var lll = JSONStringify(data1!, prettyPrinted: false)
-                            print(lll)
-                            KeychainWrapper.setString(lll,forKey:"loggedIDKeyChain")
+                            /////var lll = JSONStringify(data1!, prettyPrinted: false)
+                            ///print(lll)
+                            /////KeychainWrapper.setString(lll,forKey:"loggedIDKeyChain")
                             print("************************")
                             
                             //===========saving username======================
@@ -210,7 +212,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate{
                             
                             print(json["_id"])
                             
-                            let tbl_accounts = sqliteDB.db["accounts"]
+                            let tbl_accounts = sqliteDB.accounts
                             let _id = Expression<String>("_id")
                             let firstname = Expression<String?>("firstname")
                             let lastname = Expression<String?>("lastname")
@@ -227,8 +229,21 @@ class LoginViewController: UIViewController, UITextFieldDelegate{
                             
                             
                             tbl_accounts.delete()
+                            do {
+                                let rowid = try sqliteDB.db.run(tbl_accounts.insert(_id<-json["_id"].string!,
+                                    firstname<-json["firstname"].string!,
+                                    lastname<-json["lastname"].string!,
+                                    email<-json["email"].string!,
+                                    username<-json["username"].string!,
+                                    status<-json["status"].string!,
+                                    phone<-json["phone"].string!))
+                                print("inserted id: \(rowid)")
+                            } catch {
+                                print("insertion failed: \(error)")
+                            }
                             
-                            let insert=tbl_accounts.insert(_id<-json["_id"].string!,
+                            
+                            /*let insert=tbl_accounts.insert(_id<-json["_id"].string!,
                                 firstname<-json["firstname"].string!,
                                 lastname<-json["lastname"].string!,
                                 email<-json["email"].string!,
@@ -240,11 +255,14 @@ class LoginViewController: UIViewController, UITextFieldDelegate{
                             } else if insert.statement.failed {
                                 print("insertion failed: \(insert.statement.reason)")
                             }
-                            
+                            */
                             //// self.fetchContacts(AuthToken)
-                            for account in tbl_accounts {
+                            do{for account in try sqliteDB.db.prepare(tbl_accounts) {
                                 print("id: \(account[_id]), email: \(account[email]), firstname: \(account[firstname])")
                                 // id: 1, email: alice@mac.com, name: Optional("Alice")
+                            }
+                            }catch{
+                                print("failed accounts data print")
                             }
                             
                             
@@ -267,7 +285,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate{
                         }
                     })
                     
-                    if(response?.statusCode==401)
+                    if(response_!.statusCode==401)
                     {
                         print("got user failed token expired")
                         self.rt.refrToken()

@@ -157,7 +157,7 @@ class VideoViewController: UIViewController,RTCPeerConnectionDelegate,RTCSession
             
             //Both joined same room
             
-            var datajson=JSON(data!)
+            var datajson=JSON(data)
             print(datajson.debugDescription)
             
             if(datajson[0]["username"].description != username!){
@@ -192,7 +192,7 @@ class VideoViewController: UIViewController,RTCPeerConnectionDelegate,RTCSession
         socketObj.socket.on("conference.stream"){data,ack in
             
             print("received conference.stream obj from server")
-            var datajson=JSON(data!)
+            var datajson=JSON(data)
             print(datajson.debugDescription)
             //if(datajson[0]["id"].intValue == otherID! && datajson[0]["type"].description == "video")
             if(datajson[0]["username"].debugDescription != username! && datajson[0]["type"].debugDescription == "video" && self.rtcVideoTrackReceived != nil)
@@ -215,13 +215,13 @@ class VideoViewController: UIViewController,RTCPeerConnectionDelegate,RTCSession
         
         socketObj.socket.on("peer.stream"){data,ack in
             print("received peer.stream obj from server")
-            var datajson=JSON(data!)
+            var datajson=JSON(data)
             print(datajson.debugDescription)
             
         }
         socketObj.socket.on("peer.disconnected"){data,ack in
             print("received peer.disconnected obj from server")
-            var datajson=JSON(data!)
+            var datajson=JSON(data)
             print(datajson.debugDescription)
             
         }
@@ -247,9 +247,9 @@ class VideoViewController: UIViewController,RTCPeerConnectionDelegate,RTCSession
                     //socketObj.socket.emit("init",["room":joinedRoomInCall,"username":username!])
                     //socketObj.socket.emitWithAck("init",["room":joinedRoomInCall,"username":username!])(timeout: 0)
                     
-                    socketObj.socket.emitWithAck("init", ["room":CurrentRoomName,"username":username!])(timeout: 1500000000) {data in
+                    socketObj.socket.emitWithAck("init", ["room":CurrentRoomName,"username":username!])(timeoutAfter: 1500000000) {data in
                         print("room joined got ack")
-                        var a=JSON(data!)
+                        var a=JSON(data)
                         print(a.debugDescription)
                         currentID=a[1].int!
                         joinedRoomInCall=msg[0]["room"].string!
@@ -274,7 +274,7 @@ class VideoViewController: UIViewController,RTCPeerConnectionDelegate,RTCSession
                     joinedRoomInCall=roomname as String
                     socketObj.socket.emitWithAck("init", ["room":joinedRoomInCall,"username":username!])(timeoutAfter: 150000000) {data in
                         print("room joined by got ack")
-                        var a=JSON(data!)
+                        var a=JSON(data)
                         print(a.debugDescription)
                         currentID=a[1].int!
                         print("current id is \(currentID)")
@@ -751,7 +751,8 @@ class VideoViewController: UIViewController,RTCPeerConnectionDelegate,RTCSession
         
         print(capturer.description)
         
-        var VideoSource=RTCVideoSource.alloc()
+        var VideoSource:RTCVideoSource
+        
         VideoSource=rtcFact.videoSourceWithCapturer(capturer, constraints: nil)
         self.rtcLocalVideoTrack=nil
         self.rtcLocalVideoTrack=rtcFact.videoTrackWithID("ARDAMSv0", source: VideoSource)
@@ -1319,9 +1320,9 @@ class VideoViewController: UIViewController,RTCPeerConnectionDelegate,RTCSession
             print("got room name as \(joinedRoomInCall)")
             print("trying to join room")
             
-            socketObj.socket.emitWithAck("init", ["room":CurrentRoomName,"username":username!])(timeout: 1500000000) {data in
+            socketObj.socket.emitWithAck("init", ["room":CurrentRoomName,"username":username!])(timeoutAfter: 1500000000) {data in
             print("room joined got ack")
-            var a=JSON(data!)
+            var a=JSON(data)
             print(a.debugDescription)
             currentID=a[1].int!
             joinedRoomInCall=msg[0]["room"].string!
@@ -1346,7 +1347,7 @@ class VideoViewController: UIViewController,RTCPeerConnectionDelegate,RTCSession
             joinedRoomInCall=roomname as String
             socketObj.socket.emitWithAck("init", ["room":joinedRoomInCall,"username":username!])(timeoutAfter: 150000000) {data in
             print("room joined by got ack")
-            var a=JSON(data!)
+            var a=JSON(data)
             print(a.debugDescription)
             currentID=a[1].int!
             print("current id is \(currentID)")

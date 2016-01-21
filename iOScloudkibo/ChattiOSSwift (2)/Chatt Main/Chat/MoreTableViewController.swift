@@ -13,7 +13,7 @@ import SQLite
 
 class MoreTableViewController: UITableViewController {
 
-    required init(coder aDecoder: NSCoder) {
+    required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
     }
 
@@ -115,9 +115,9 @@ class MoreTableViewController: UITableViewController {
             print("Logging out", terminator: "")
             if let destinationVC = segue!.destinationViewController as? LoginViewController{
                 AuthToken=""
-                var tbl_contactslists=sqliteDB.db["contactslists"]
-                var tbl_accounts=sqliteDB.db["accounts"]
-                let tbl_userchats=sqliteDB.db["userschats"]
+                var tbl_contactslists=sqliteDB.contactslists
+                var tbl_accounts=sqliteDB.accounts
+                let tbl_userchats=sqliteDB.userschats
                 tbl_contactslists.delete()
                 tbl_accounts.delete()
                 tbl_userchats.delete()

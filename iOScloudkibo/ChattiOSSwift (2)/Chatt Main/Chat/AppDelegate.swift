@@ -13,8 +13,8 @@ import Alamofire
 
 //let socketObj=LoginAPI(url:"\(Constants.MainUrl)")
 var socketObj:LoginAPI!
-let sqliteDB=DatabaseHandler(dbName:"cloudkiboDB.sqlite3")
-
+let sqliteDB=DatabaseHandler(dbName:"cloudkibo.sqlite3")
+////let sqliteDB=DatabaseHandler(dbName: "")
 var AuthToken=KeychainWrapper.stringForKey("access_token")
 var loggedUserObj=JSON("[]")
 var glocalChatRoomJoined:Bool=false
@@ -121,14 +121,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         //socketObj.socket.close(fast: true)
     }
     func fetchNewToken()
-    {
+    {let tbl_accounts = sqliteDB.accounts
         var url=Constants.MainUrl+Constants.authentictionUrl
         var param:[String:String]=["username": username!,"password":password!]
         Alamofire.request(.POST,"\(url)",parameters: param).response{
-            request, response, data, error in
+            request, response_, data, error in
             print(error)
             
-            if response?.statusCode==200
+            if response_?.statusCode==200
                 
             {
                 print("login success")
@@ -146,10 +146,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 KeychainWrapper.setString(token.string!, forKey: "access_token")
                 AuthToken=token.string!
                 
+                
                 //========GET USER DETAILS===============
                 var getUserDataURL=userDataUrl+"?access_token="+AuthToken!
                 Alamofire.request(.GET,"\(getUserDataURL)").responseJSON{
-                    request1, response1, data1, error1 in
+                    response in
                     
                     //===========INITIALISE SOCKETIOCLIENT=========
                     dispatch_async(dispatch_get_main_queue(), {
@@ -157,10 +158,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                         //self.dismissViewControllerAnimated(true, completion: nil);
                         /// self.performSegueWithIdentifier("loginSegue", sender: nil)
                         
-                        if response1?.statusCode==200 {
+                        if response.response!.statusCode==200 {
                             print("got user success")
                             //self.gotToken=true
-                            var json=JSON(data1!)
+                            var json=JSON(response.data!)
                             
                             loggedUserObj=json
                             //===========saving username======================
@@ -180,7 +181,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                             
                             print(json["_id"])
                             
-                            let tbl_accounts = sqliteDB.db["accounts"]
+                            
                             let _id = Expression<String>("_id")
                             let firstname = Expression<String?>("firstname")
                             let lastname = Expression<String?>("lastname")
@@ -197,25 +198,30 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                             
                             
                             tbl_accounts.delete()
-                            
-                            let insert=tbl_accounts.insert(_id<-json["_id"].string!,
-                                firstname<-json["firstname"].string!,
-                                lastname<-json["lastname"].string!,
-                                email<-json["email"].string!,
-                                username<-json["username"].string!,
-                                status<-json["status"].string!,
-                                phone<-json["phone"].string!)
-                            if let rowid = insert.rowid {
+                            do {
+                                let rowid = try sqliteDB.db.run(tbl_accounts.insert(_id<-json["_id"].string!,
+                                    firstname<-json["firstname"].string!,
+                                    lastname<-json["lastname"].string!,
+                                    email<-json["email"].string!,
+                                    username<-json["username"].string!,
+                                    status<-json["status"].string!,
+                                    phone<-json["phone"].string!))
                                 print("inserted id: \(rowid)")
-                            } else if insert.statement.failed {
-                                print("insertion failed: \(insert.statement.reason)")
+                                for account in try sqliteDB.db.prepare(tbl_accounts) {
+                                    print("id: \(account[_id]), email: \(account[email]), firstname: \(account[firstname])")
+                                }
+                            } catch {
+                                print("insertion failed: \(error)")
                             }
+                           
+
                             
-                            //// self.fetchContacts(AuthToken)
-                            for account in tbl_accounts {
-                                print("id: \(account[_id]), email: \(account[email]), firstname: \(account[firstname])")
-                                // id: 1, email: alice@mac.com, name: Optional("Alice")
-                            }
+                            
+                            
+                            
+                            
+                            
+                                                       //// self.fetchContacts(AuthToken)
                             
                             
                             
@@ -228,18 +234,23 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                             // id: Optional(1), email: Optional("alice@mac.com")
                             }*/
                             
+                           
                         } else {
                             /*self.labelLoginUnsuccessful.text="Sorry, you are not registered"
                             self.txtForEmail.text=nil
                             self.txtForPassword.text=nil
                             */
                             print("GOT USER FAILED")
-                        }
+                        }//end else
+                        
                     })
+                    
+                        // id: 1, email: alice@mac.com, name: Optional("Alice")
+                    }
                 }
-                
-            }
-                
+            
+            
+        
             else
             {
                 print("login failed")

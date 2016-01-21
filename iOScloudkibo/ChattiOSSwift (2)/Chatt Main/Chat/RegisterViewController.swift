@@ -72,10 +72,10 @@ class RegisterViewController: UIViewController {
         Alamofire.request(.POST,"\(url)",parameters: ["username":"\(txtUsername.text!)","password":"\(txtPassword.text!)","firstname":"\(txtFirstname.text!)","lastname":"\(txtLastname.text!)","phone":"\(txtPhone.text!)","email":"\(txtEmail.text!)"]).response{
         //ppjson["user"].arrayValue
         //Alamofire.request(.POST,"\(url)",parameters:["user":"[\"username\":\(txtUsername.text!),\"password\":\(txtPassword.text!),\"firstname\":\(txtFirstname.text!),\"lastname\":\(txtLastname.text!),\"phone\":\(txtPhone.text!),\"email\":\(txtEmail.text!)]"]).response{
-            request, response, data, error in
+            request, response_, data, error in
             print(error)
             
-            if response?.statusCode==200
+            if response_?.statusCode==200
                 
             {
                 print("Registration success")
@@ -95,8 +95,11 @@ class RegisterViewController: UIViewController {
                 
                 //========GET USER DETAILS===============
                 var getUserDataURL=userDataUrl+"?access_token="+AuthToken!
-                Alamofire.request(.GET,"\(getUserDataURL)").validate(statusCode: 200..<300).responseJSON{
-                    request1, response1, data1, error1 in
+                Alamofire.request(.GET,"\(getUserDataURL)").validate(statusCode: 200..<300).responseJSON{response in
+                    var response1=response.response
+                    var request1=response.request
+                    var data1=response.data
+                    var error1=response.result.error
                     
                     //===========INITIALISE SOCKETIOCLIENT=========
                     dispatch_async(dispatch_get_main_queue(), {
@@ -113,7 +116,7 @@ class RegisterViewController: UIViewController {
                            
                             loggedUserObj=json
                             
-                            KeychainWrapper.setString(JSONStringify(json.object, prettyPrinted: true), forKey:"loggedIDKeyChain")
+                            ///KeychainWrapper.setString(JSONStringify(json.object, prettyPrinted: true), forKey:"loggedIDKeyChain")
                             //===========saving username======================
                             
                             KeychainWrapper.setString(json["username"].string!, forKey: "username")
@@ -133,7 +136,7 @@ class RegisterViewController: UIViewController {
                             
                             print(json["_id"])
                             
-                            let tbl_accounts = sqliteDB.db["accounts"]
+                            let tbl_accounts = sqliteDB.accounts
                             let _id = Expression<String>("_id")
                             let firstname = Expression<String?>("firstname")
                             let lastname = Expression<String?>("lastname")
@@ -150,7 +153,19 @@ class RegisterViewController: UIViewController {
                             
                             
                             tbl_accounts.delete()
-                            
+                            do {
+                                let rowid = try sqliteDB.db.run(tbl_accounts.insert(_id<-json["_id"].string!,
+                                    firstname<-json["firstname"].string!,
+                                    lastname<-json["lastname"].string!,
+                                    email<-json["email"].string!,
+                                    username<-json["username"].string!,
+                                    status<-json["status"].string!,
+                                    phone<-json["phone"].string!))
+                                print("inserted id: \(rowid)")
+                            } catch {
+                                print("insertion failed: \(error)")
+                            }
+                            /*
                             let insert=tbl_accounts.insert(_id<-json["_id"].string!,
                                 firstname<-json["firstname"].string!,
                                 lastname<-json["lastname"].string!,
@@ -163,11 +178,15 @@ class RegisterViewController: UIViewController {
                             } else if insert.statement.failed {
                                 print("insertion failed: \(insert.statement.reason)")
                             }
-                            
+                            */
                             //// self.fetchContacts(AuthToken)
-                            for account in tbl_accounts {
+                            do{
+                            for account in try sqliteDB.db.prepare(tbl_accounts) {
                                 print("id: \(account[_id]), email: \(account[email]), firstname: \(account[firstname])")
                                 // id: 1, email: alice@mac.com, name: Optional("Alice")
+                            }
+                            }catch{
+                             print("query not runned tblaccounts")
                             }
                             
                             
@@ -193,7 +212,7 @@ class RegisterViewController: UIViewController {
                         }
                     })
                     
-                    if(response?.statusCode==401)
+                    if(response_!.statusCode==401)
                     {
                         print("got user failed token expired")
                         self.rt.refrToken()
@@ -205,22 +224,22 @@ class RegisterViewController: UIViewController {
                 
             else
             {
-                if(response?.statusCode==401)
+                if(response_!.statusCode==401)
                 {
                     print("registration failed token expired")
                     self.rt.refrToken()
                     self.labelError.text=error?.description
                 }
-                if(response?.statusCode==422)
+                if(response_?.statusCode==422)
                 {
                     print("registration failed something duplicate")
                     self.labelError.text=error?.description
                     
                 }
-                print("status code is \(response?.statusCode)")
+                print("status code is \(response_?.statusCode)")
                 print(error)
                 //self.labelError.text=error["messages"]?.description
-                print(response?.debugDescription)
+                print(response_?.debugDescription)
                 print(data!.debugDescription)
                 var jj=JSON(data:data!)
                 //var json=JSON(data!.debugDescription)

@@ -81,7 +81,8 @@ class CallRingingViewController: UIViewController//RTCPeerConnectionDelegate,RTC
             print(msg.debugDescription)
             var mmm=msg[0].debugDescription
             let start = mmm.startIndex
-            let end = mmm.indexOf(":")
+            
+            let end = mmm.characters.indexOf(":")
             
             if (end != nil) {
                 missedMsg = mmm[start...end!]

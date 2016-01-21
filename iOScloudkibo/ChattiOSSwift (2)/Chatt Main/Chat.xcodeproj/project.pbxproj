@@ -30,8 +30,10 @@
 		71514C821C4DAB1600EE6D64 /* SocketTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71514C6C1C4DAB1600EE6D64 /* SocketTypes.swift */; };
 		71514C831C4DAB1600EE6D64 /* SwiftRegex.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71514C6D1C4DAB1600EE6D64 /* SwiftRegex.swift */; };
 		71514C841C4DAB1600EE6D64 /* WebSocket.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71514C6E1C4DAB1600EE6D64 /* WebSocket.swift */; };
-		7188AAB21C0E2DFC0036E119 /* libsqlite3.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 7188AAB11C0E2DFC0036E119 /* libsqlite3.0.dylib */; };
-		7188AAB41C0E2E050036E119 /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 7188AAB31C0E2E050036E119 /* libsqlite3.dylib */; };
+		7154938E1C505A7E003A7C05 /* libWebRTC.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7154938A1C505876003A7C05 /* libWebRTC.a */; };
+		716174A01C506B1700A72E83 /* SQLite.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 7123FE0C1BE54FBE00198FF9 /* SQLite.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		716174EE1C51370A00A72E83 /* libsqlite3.0.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 716174971C5065BA00A72E83 /* libsqlite3.0.tbd */; };
+		716174EF1C51371100A72E83 /* libsqlite3.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 716174981C5065BA00A72E83 /* libsqlite3.tbd */; };
 		7191CC681BCF0D9400F0847F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7191CC661BCF0D9400F0847F /* Main.storyboard */; };
 		71A98F901C4D5D88009D04D7 /* SwiftyJSON.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7130805C1B825BB00037CB7E /* SwiftyJSON.framework */; };
 		71A98F911C4D5D88009D04D7 /* SwiftyJSON.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 7130805C1B825BB00037CB7E /* SwiftyJSON.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -59,7 +61,6 @@
 		71CDCCDF1C4D99D00066EEAF /* CallRingingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 713D65951BD8406400893721 /* CallRingingViewController.swift */; };
 		71CDCCE01C4D99D00066EEAF /* Peer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71E922F91BEF991C00C1AFC3 /* Peer.swift */; };
 		71CDCCE11C4D99D00066EEAF /* RoomService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71E922FB1BEFF02C00C1AFC3 /* RoomService.swift */; };
-		71CDCCE21C4D99D00066EEAF /* ChatAppClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 714626001BF3EC8E0026623C /* ChatAppClient.swift */; };
 		71CDCCE31C4D99D00066EEAF /* Chat-Bridging-Header.h in Sources */ = {isa = PBXBuildFile; fileRef = 717C50AD1BE56EC300ECE41E /* Chat-Bridging-Header.h */; };
 		71CDCCE41C4D99D00066EEAF /* notifications.swift in Sources */ = {isa = PBXBuildFile; fileRef = 712AA47C1C3F0ADD009FB172 /* notifications.swift */; };
 		71CDCCE51C4D99D00066EEAF /* notificationsMainClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 712AA47D1C3F0ADD009FB172 /* notificationsMainClass.swift */; };
@@ -141,6 +142,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
+				716174A01C506B1700A72E83 /* SQLite.framework in Embed Frameworks */,
 				71A98F911C4D5D88009D04D7 /* SwiftyJSON.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
@@ -200,6 +202,12 @@
 		71514C6C1C4DAB1600EE6D64 /* SocketTypes.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SocketTypes.swift; sourceTree = "<group>"; };
 		71514C6D1C4DAB1600EE6D64 /* SwiftRegex.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwiftRegex.swift; sourceTree = "<group>"; };
 		71514C6E1C4DAB1600EE6D64 /* WebSocket.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WebSocket.swift; sourceTree = "<group>"; };
+		7154938A1C505876003A7C05 /* libWebRTC.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libWebRTC.a; path = Pods/libjingle_peerconnection/libjingle_peerconnection/libWebRTC.a; sourceTree = "<group>"; };
+		7154938C1C5058FA003A7C05 /* SQLite.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SQLite.framework; path = "Pods/../build/Debug-iphoneos/SQLite.framework"; sourceTree = "<group>"; };
+		716174971C5065BA00A72E83 /* libsqlite3.0.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.0.tbd; path = usr/lib/libsqlite3.0.tbd; sourceTree = SDKROOT; };
+		716174981C5065BA00A72E83 /* libsqlite3.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.tbd; path = usr/lib/libsqlite3.tbd; sourceTree = SDKROOT; };
+		7161749B1C506AB900A72E83 /* SQLite.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SQLite.framework; path = "Pods/../build/Debug-iphoneos/SQLite.framework"; sourceTree = "<group>"; };
+		7161749D1C506B0600A72E83 /* SQLite.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SQLite.framework; path = "Pods/../build/Debug-iphoneos/SQLite.framework"; sourceTree = "<group>"; };
 		717C50AD1BE56EC300ECE41E /* Chat-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Chat-Bridging-Header.h"; sourceTree = "<group>"; };
 		717C50AE1BE56EC400ECE41E /* test.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = test.m; sourceTree = "<group>"; };
 		717C50BB1BE800E500ECE41E /* VideoViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VideoViewController.swift; sourceTree = "<group>"; };
@@ -225,10 +233,11 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				716174EF1C51371100A72E83 /* libsqlite3.tbd in Frameworks */,
+				716174EE1C51370A00A72E83 /* libsqlite3.0.tbd in Frameworks */,
+				7154938E1C505A7E003A7C05 /* libWebRTC.a in Frameworks */,
 				71A98F961C4D6434009D04D7 /* Foundation.framework in Frameworks */,
 				71A98F901C4D5D88009D04D7 /* SwiftyJSON.framework in Frameworks */,
-				7188AAB41C0E2E050036E119 /* libsqlite3.dylib in Frameworks */,
-				7188AAB21C0E2DFC0036E119 /* libsqlite3.0.dylib in Frameworks */,
 				B48A646AC21087C838E73D15 /* Pods_Chat.framework in Frameworks */,
 				9A7CA2A9832331D9C15A4473 /* Pods.framework in Frameworks */,
 			);
@@ -378,6 +387,12 @@
 		FB1C3696C1C732596BCC879C /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				7161749D1C506B0600A72E83 /* SQLite.framework */,
+				7161749B1C506AB900A72E83 /* SQLite.framework */,
+				716174971C5065BA00A72E83 /* libsqlite3.0.tbd */,
+				716174981C5065BA00A72E83 /* libsqlite3.tbd */,
+				7154938C1C5058FA003A7C05 /* SQLite.framework */,
+				7154938A1C505876003A7C05 /* libWebRTC.a */,
 				71A98F951C4D6434009D04D7 /* Foundation.framework */,
 				7142DF811C4D27B900CCF82D /* SQLite.framework */,
 				7188AAB31C0E2E050036E119 /* libsqlite3.dylib */,
@@ -644,7 +659,6 @@
 				71CDCCE01C4D99D00066EEAF /* Peer.swift in Sources */,
 				71514C741C4DAB1600EE6D64 /* SocketEngineClient.swift in Sources */,
 				71CDCCE11C4D99D00066EEAF /* RoomService.swift in Sources */,
-				71CDCCE21C4D99D00066EEAF /* ChatAppClient.swift in Sources */,
 				71514C761C4DAB1600EE6D64 /* SocketEnginePollable.swift in Sources */,
 				71CDCCE31C4D99D00066EEAF /* Chat-Bridging-Header.h in Sources */,
 				71CDCCE41C4D99D00066EEAF /* notifications.swift in Sources */,
@@ -784,7 +798,7 @@
 				INFOPLIST_FILE = Chat/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				LIBRARY_SEARCH_PATHS = "";
+				LIBRARY_SEARCH_PATHS = "$(PROJECT_DIR)/Pods/libjingle_peerconnection/libjingle_peerconnection";
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
@@ -822,7 +836,7 @@
 				INFOPLIST_FILE = Chat/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				LIBRARY_SEARCH_PATHS = "";
+				LIBRARY_SEARCH_PATHS = "$(PROJECT_DIR)/Pods/libjingle_peerconnection/libjingle_peerconnection";
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = (
 					"$(inherited)",

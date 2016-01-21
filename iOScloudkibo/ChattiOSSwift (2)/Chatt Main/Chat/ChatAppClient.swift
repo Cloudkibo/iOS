@@ -213,7 +213,7 @@ class ChatAppClient:NSObject,RTCPeerConnectionDelegate, RTCSessionDescriptionDel
             self.unregisterWithRoomServer()
         }
         //if socket is connected
-        if((self.channel) != nil || socketObj.socket.connected)
+        if((self.channel) != nil || socketObj != nil)
         {
             //if(self.channel.state ==
             //if socket is connected

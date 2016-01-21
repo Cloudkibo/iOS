@@ -40,7 +40,7 @@ class ChatDetailViewController: UIViewController{
     override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: NSBundle?)
     {
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
-        print((NSBundle))
+        print(NSBundle.debugDescription())
         
         // Custom initialization
     }
@@ -218,8 +218,11 @@ class ChatDetailViewController: UIViewController{
         print(loggedID!+" logged id", terminator: "")
         print(self.selectedID+" selected id", terminator: "")
         Alamofire.request(.POST,"\(markChatReadURL)",parameters: ["user1":"\(loggedID!)","user2":"\(self.selectedID)"]
-            ).responseJSON{
-                request1, response1, data1, error1 in
+            ).responseJSON{response in
+                    var response1=response.response
+                    var request1=response.request
+                    var data1=response.data
+                    var error1=response.result.error
                 
                 if(error1==nil)
                 {print("chat marked as read")}
@@ -278,8 +281,11 @@ class ChatDetailViewController: UIViewController{
         var bringUserChatURL=Constants.MainUrl+Constants.bringUserChat+"?access_token="+AuthToken!
         let configuration = NSURLSessionConfiguration.defaultSessionConfiguration()
         Alamofire.request(.POST,"\(bringUserChatURL)",parameters: ["user1":"\(username!)","user2":"\(selectedContact)"]
-            ).validate(statusCode: 200..<300).responseJSON{
-                request1, response1, data1, error1 in
+            ).validate(statusCode: 200..<300).responseJSON{response in
+                var response1=response.response
+                var request1=response.request
+                var data1=response.data
+                var error1=response.result.error
                 
                 //===========INITIALISE SOCKETIOCLIENT=========
                 dispatch_async(dispatch_get_main_queue(), {

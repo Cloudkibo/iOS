@@ -126,9 +126,11 @@ class ChatViewController: UIViewController,SocketClientDelegate {
             
             //Do some other stuff
             var addContactUsernameURL=Constants.MainUrl+Constants.addContactByUsername+"?access_token=\(AuthToken!)"
-            Alamofire.request(.POST,"\(addContactUsernameURL)",parameters: ["searchusername":"\(tField.text!)"]).validate(statusCode: 200..<300).responseJSON{
-                request1, response1, data1, error1 in
-                //searchemail  f@lkjlklkm.com
+            Alamofire.request(.POST,"\(addContactUsernameURL)",parameters: ["searchusername":"\(tField.text!)"]).validate(statusCode: 200..<300).responseJSON{response in
+                var response1=response.response
+                var request1=response.request
+                var data1=response.data
+                var error1=response.result.error                //searchemail  f@lkjlklkm.com
                 //====================
                 dispatch_async(dispatch_get_main_queue(), {
                     
@@ -220,13 +222,18 @@ class ChatViewController: UIViewController,SocketClientDelegate {
             var lid=KeychainWrapper.stringForKey("_id")
             
             var lobj=["_id" : lid!, "username" : lusername!]
-            if let dataFromString = jsonString.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false) {
+            ///////////////////not supported ^^^^^^^^^^^newwwif let dataFromString = jsonString.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false) {
                 let json11 = JSON(lobj.debugDescription)
                 
                 var lllooo = json11
                 loggedUserObj=json11
                 loggedUserObj.object=json11.object
                 print(lllooo.object)
+                
+                
+                
+                
+                
                 //var jsonNew=JSON("{\"room\": \"globalchatroom\",\"user\": {\"username\":\"sabachanna\"}}")
                 //socketObj.socket.emit("join global chatroom", ["room": "globalchatroom", "user": ["username":"sabachanna"]]) WORKINGGG
                 
@@ -250,7 +257,7 @@ class ChatViewController: UIViewController,SocketClientDelegate {
                 socketObj.socket.emit("join global chatroom",["room": "globalchatroom", "user": json11.object])
                 
                 }*/
-            }
+            ///////////////////////not supported}
             
         }
         
@@ -562,8 +569,9 @@ class ChatViewController: UIViewController,SocketClientDelegate {
         self.ContactUsernames.removeAll(keepCapacity: false)
         self.ContactsObjectss.removeAll(keepCapacity: false)
 
-        let tbl_contactslists=sqliteDB.db["contactslists"]
-        for tblContacts in tbl_contactslists.select(contactid,firstname,lastname,username,userid,status) {
+        let tbl_contactslists=sqliteDB.contactslists
+        do{
+        for tblContacts in try sqliteDB.db.prepare(tbl_contactslists){
            print("queryy runned count is \(tbl_contactslists.count)")
             print(tblContacts[firstname]+" "+tblContacts[lastname])
             //ContactsObjectss.append(tblContacts[contactid])
@@ -576,7 +584,10 @@ class ChatViewController: UIViewController,SocketClientDelegate {
             ContactOnlineStatus.append(0)
 
         }
-        
+        }catch
+        {
+            print("query not runned contactlist")
+        }
         //====These are Online====
         
        /* socketObj.socket.on("theseareonline")
@@ -700,7 +711,7 @@ class ChatViewController: UIViewController,SocketClientDelegate {
             var lid=KeychainWrapper.stringForKey("_id")
             
             var lobj=["_id": lid!, "username" : lusername!]
-            if let dataFromString = jsonString.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false) {
+            /*if let dataFromString = jsonString.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false) {
                 let json11 = JSON(lobj.debugDescription)
                 
                 var lllooo = json11
@@ -730,7 +741,7 @@ class ChatViewController: UIViewController,SocketClientDelegate {
                 socketObj.socket.emit("join global chatroom",["room": "globalchatroom", "user": json11.object])
                 
                 }*/
-            }
+            }*/
             
         }
         
@@ -845,8 +856,38 @@ class ChatViewController: UIViewController,SocketClientDelegate {
                     
                     
                     for var i=0;i<contactsJsonObj.count;i++
-                    {
-                        let insert=tbl_contactslists.insert(contactid<-contactsJsonObj[i]["contactid"]["_id"].string!,
+                    { do {
+                        let rowid = try sqliteDB.db.run(tbl_contactslists.insert(contactid<-contactsJsonObj[i]["contactid"]["_id"].string!,
+                            detailsshared<-contactsJsonObj[i]["detailsshared"].string!,
+                            
+                            unreadMessage<-contactsJsonObj[i]["unreadMessage"].boolValue,
+                            
+                            userid<-contactsJsonObj[i]["userid"].string!,
+                            firstname<-contactsJsonObj[i]["contactid"]["firstname"].string!,
+                            lastname<-contactsJsonObj[i]["contactid"]["lastname"].string!,
+                            email<-contactsJsonObj[i]["contactid"]["email"].string!,
+                            phone<-contactsJsonObj[i]["contactid"]["_id"].string!,
+                            username<-contactsJsonObj[i]["contactid"]["username"].string!,
+                            status<-contactsJsonObj[i]["contactid"]["status"].string!)
+                            )
+                        //=========this is done in fetching from sqlite not here====
+                        self.ContactsObjectss.append(contactsJsonObj[i]["contactid"])
+                        self.ContactNames.append(contactsJsonObj[i]["contactid"]["firstname"].string!+" "+contactsJsonObj[i]["contactid"]["lastname"].string!)
+                        self.ContactUsernames.append(contactsJsonObj[i]["contactid"]["username"].string!)
+                        self.ContactIDs.append(contactsJsonObj[i]["contactid"]["_id"].string!)
+                        self.ContactFirstname.append(contactsJsonObj[i]["contactid"]["firstname"].string!)
+                        self.ContactLastNAme.append(contactsJsonObj[i]["contactid"]["lastname"].string!)
+                        self.ContactStatus.append(contactsJsonObj[i]["contactid"]["status"].string!)
+                        self.ContactOnlineStatus.append(0)
+                        
+                        print("inserted id: \(rowid)")
+                        self.tblForChat.reloadData()
+                    } catch {
+                        print("insertion failed: \(error)")
+                        }
+                        
+                    }
+                        /*let insert=tbl_contactslists.insert(contactid<-contactsJsonObj[i]["contactid"]["_id"].string!,
                             detailsshared<-contactsJsonObj[i]["detailsshared"].string!,
                             
                             unreadMessage<-contactsJsonObj[i]["unreadMessage"].boolValue,
@@ -880,7 +921,7 @@ class ChatViewController: UIViewController,SocketClientDelegate {
                             print("insertion failed: \(insert.statement.reason)")
                         }
                     }
-                    
+                    */
                     //print(error1)
                     //
                     //self.refreshControl.endRefreshing()
@@ -1009,8 +1050,11 @@ class ChatViewController: UIViewController,SocketClientDelegate {
             //var bb=jsonString(self.ContactsObjectss[selectedRow].stringValue)
             //var a=JSONStringify(self.ContactsObjectss[selectedRow].object, prettyPrinted: false)
             Alamofire.request(.POST,"\(url)",parameters:["username":"\(self.ContactUsernames[selectedRow])"]
-                ).validate(statusCode: 200..<300).responseJSON{
-                request1, response1, data1, error1 in
+                ).validate(statusCode: 200..<300).responseJSON{response in
+                    var response1=response.response
+                    var request1=response.request
+                    var data1=response.data
+                    var error1=response.result.error
                 
                 //===========INITIALISE SOCKETIOCLIENT=========
                 dispatch_async(dispatch_get_main_queue(), {
@@ -1125,9 +1169,11 @@ class ChatViewController: UIViewController,SocketClientDelegate {
             //var bb=jsonString(self.ContactsObjectss[selectedRow].stringValue)
             //var a=JSONStringify(self.ContactsObjectss[selectedRow].object, prettyPrinted: false)
             Alamofire.request(.POST,"\(url)",parameters:["username":"\(self.ContactUsernames[selectedRow])"]
-                ).validate(statusCode: 200..<300).responseJSON{
-                    request1, response1, data1, error1 in
-                    
+                ).validate(statusCode: 200..<300).responseJSON{response in
+                    var response1=response.response
+                    var request1=response.request
+                    var data1=response.data
+                    var error1=response.result.error
                     //===========INITIALISE SOCKETIOCLIENT=========
                     dispatch_async(dispatch_get_main_queue(), {
                         
@@ -1301,7 +1347,7 @@ class ChatViewController: UIViewController,SocketClientDelegate {
         
         print("callee is \(callerName)", terminator: "")
         
-        var next = self.storyboard!.instantiateViewControllerWithIdentifier("Main2") as VideoViewController
+        var next = self.storyboard!.instantiateViewControllerWithIdentifier("Main2") as! VideoViewController
         
         self.presentViewController(next, animated: true, completion: {
         })
