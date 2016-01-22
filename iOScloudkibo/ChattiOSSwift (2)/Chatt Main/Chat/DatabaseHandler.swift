@@ -17,17 +17,18 @@ class DatabaseHandler:NSObject{
     var userschats:Table!
     
     init(dbName:String)
-    {
+    {print("inside database handler class")
         
         let fileManager = NSFileManager.defaultManager()
         let dirPaths = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)
         let docsDir1 = dirPaths[0] 
-        self.dbPath = (docsDir1 as NSString).stringByAppendingPathComponent("cloudKiboDatabase.sqlite3")
+        self.dbPath = (docsDir1 as NSString).stringByAppendingPathComponent("cloudKiboDatabase2.sqlite3")
         
         ////////self.db = Database(dbPath)
-        print(db.description)
-        do {
+                do {
             self.db = try Connection(dbPath)
+                    print(db.description)
+
         }
         catch{
             print("Database Connection failed")
@@ -43,7 +44,7 @@ class DatabaseHandler:NSObject{
         status: "testing table")*/
         
         createAccountsTable()
-        //^^^^^^db.drop(table: self.db["contactslists"])
+        ///////contactslists.drop()
         createContactListsTable()
         createUserChatTable()
         

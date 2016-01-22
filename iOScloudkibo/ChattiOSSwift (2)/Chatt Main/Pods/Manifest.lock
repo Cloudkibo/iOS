@@ -1,16 +1,13 @@
 PODS:
   - Alamofire (3.1.5)
-  - libjingle_peerconnection (9814.2.0)
-  - SQLite.swift (0.9.2)
+  - libjingle_peerconnection (11177.2.0)
 
 DEPENDENCIES:
   - Alamofire (~> 3.0)
   - libjingle_peerconnection
-  - SQLite.swift (~> 0.9.2)
 
 SPEC CHECKSUMS:
   Alamofire: 5f730ba29fd113b7ddd71c1e65d0c630acf5d7b0
-  libjingle_peerconnection: f03d6c0532595e8b9b233eccea68ad344e0395ac
-  SQLite.swift: 5dca22dbf6634fdb9c3270fae9491830804e9b2d
+  libjingle_peerconnection: 3458f646ddd61f08a9f3a0c43fb01fff5c165eb8
 
 COCOAPODS: 0.38.2

@@ -8,37 +8,21 @@
 		<dict>
 			<key>isShown</key>
 			<false/>
-			<key>orderHint</key>
-			<integer>5</integer>
 		</dict>
 		<key>Pods.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
-			<key>orderHint</key>
-			<integer>6</integer>
-		</dict>
-		<key>SQLite.swift.xcscheme</key>
-		<dict>
-			<key>isShown</key>
-			<false/>
-			<key>orderHint</key>
-			<integer>7</integer>
 		</dict>
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
-		<key>8A45A2B3161D42452FFB50A68E55D484</key>
+		<key>5B876DF3DFFED8E761AD2802537DDF17</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>CF138FD5EC7B1FC210ADAC139C1AB1AD</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>DBACA3F453698569DD241E04BCA0C8F4</key>
+		<key>E9AD967CAA74F482799165449970707E</key>
 		<dict>
 			<key>primary</key>
 			<true/>

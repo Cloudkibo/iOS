@@ -409,7 +409,8 @@ class ChatViewController: UIViewController,SocketClientDelegate {
         //everytime new login
         KeychainWrapper.removeObjectForKey("access_token")
         AuthToken=""
-        
+        if(sqliteDB.db != nil)
+        {
         var tbl_contactslists=sqliteDB.contactslists
         var tbl_accounts=sqliteDB.accounts
         let tbl_userchats=sqliteDB.userschats
@@ -424,6 +425,9 @@ class ChatViewController: UIViewController,SocketClientDelegate {
         tbl_contactslists.delete()
         tbl_accounts.delete()
         tbl_userchats.delete()
+        }
+        
+        
         KeychainWrapper.removeObjectForKey("access_token")
         KeychainWrapper.removeObjectForKey("username")
         KeychainWrapper.removeObjectForKey("password")
