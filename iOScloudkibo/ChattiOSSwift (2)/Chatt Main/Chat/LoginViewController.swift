@@ -39,10 +39,8 @@ class LoginViewController: UIViewController, UITextFieldDelegate{
         
     }
     
-    
-
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+ required init?(coder aDecoder: NSCoder) {
+        ////fatalError("init(coder:) has not been implemented")
     
         super.init(coder: aDecoder)
     }
@@ -132,7 +130,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate{
         password=KeychainWrapper.stringForKey("password")
         var param:[String:String]=["username": txtForEmail.text!,"password":txtForPassword.text!]
         Alamofire.request(.POST,"\(url)",parameters: param).response{
-            request, response_, data, error in
+            request, response_, _data, error in
             print(error)
             
             if response_?.statusCode==200
@@ -149,7 +147,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate{
                 //let index: String.Index = advance(self.AuthToken.startIndex, 10)
                 
                 //======================STORING Token========================
-                let jsonLogin = JSON(data: data!)
+                let jsonLogin = JSON(data: _data!)
                 let token = jsonLogin["token"]
                 KeychainWrapper.setString(token.string!, forKey: "access_token")
                 AuthToken=token.string!
@@ -157,10 +155,154 @@ class LoginViewController: UIViewController, UITextFieldDelegate{
                 //========GET USER DETAILS===============
                 var getUserDataURL=userDataUrl+"?access_token="+AuthToken!
                 Alamofire.request(.GET,"\(getUserDataURL)").validate(statusCode: 200..<300).responseJSON{response in
-                    var response1=response.response
-                    var request1=response.request
-                    var data1=response.data
-                    var error1=response.result.error
+                   
+                    
+                    switch response.result {
+                    case .Success:
+                        if let data1 = response.result.value {
+                            let json = JSON(data1)
+                            print("JSON: \(json)")
+                            dispatch_async(dispatch_get_main_queue(), {
+                                
+                                self.dismissViewControllerAnimated(true, completion: nil);
+                                print("got user success")
+                                self.gotToken=true
+                                var json=JSON(data1)
+                                //KeychainWrapper.setData(data1!, forKey: "loggedUserObj")
+                                //loggedUserObj=json(loggedUserObj)
+                                
+                                loggedUserObj=json
+                                //stringByResolvingSymlinksInPath
+                                
+                                KeychainWrapper.setString(loggedUserObj.description, forKey:"loggedUserObjString")
+                                
+                                print(loggedUserObj.debugDescription)
+                                print(loggedUserObj.object)
+                                print("$$$$$$$$$$$$$$$$$$$$$$$$$")
+                                ////print(loggedUserObj.string)
+                                //KeychainWrapper.setString(loggedUserObj.string!, forKey:"loggedUserObjString")
+                                /////var lll = JSONStringify(data1!, prettyPrinted: false)
+                                ///print(lll)
+                                /////KeychainWrapper.setString(lll,forKey:"loggedIDKeyChain")
+                                print("************************")
+                                
+                                //===========saving username======================
+                                
+                                do{
+                                    try KeychainWrapper.setString(json["username"].string!, forKey: "username")
+                                    try KeychainWrapper.setString(json["firstname"].string!+" "+json["lastname"].string!, forKey: "loggedFullName")
+                                    try KeychainWrapper.setString(json["phone"].string!, forKey: "loggedPhone")
+                                    try KeychainWrapper.setString(json["email"].string!, forKey: "loggedEmail")
+                                    try KeychainWrapper.setString(json["_id"].string!, forKey: "_id")
+                                    try KeychainWrapper.setString(self.txtForPassword.text!, forKey: "password")
+                                    
+                                }
+                                catch{
+                                    print("error is setting keychain value")
+                                    print(json.error?.localizedDescription)
+                                }
+                                
+                                /* username=KeychainWrapper.stringForKey("password")
+                                firstname=KeychainWrapper.stringForKey("firstname")
+                                password=KeychainWrapper.stringForKey("password")
+                                password=KeychainWrapper.stringForKey("password")
+                                password=KeychainWrapper.stringForKey("password")
+                                */
+                                /////////socketObj.addHandlers()
+                                
+                                var jsonNew=JSON("{\"room\": \"globalchatroom\",\"user\": {\"username\":\"sabachanna\"}}")
+                                //socketObj.socket.emit("join global chatroom", ["room": "globalchatroom", "user": ["username":"sabachanna"]]) WORKINGGG
+                                
+                                socketObj.socket.emit("join global chatroom",["room": "globalchatroom", "user": json.object])
+                                
+                                print(json["_id"])
+                                
+                                let tbl_accounts = sqliteDB.accounts
+                                let _id = Expression<String>("_id")
+                                let firstname = Expression<String?>("firstname")
+                                let lastname = Expression<String?>("lastname")
+                                let email = Expression<String>("email")
+                                let phone = Expression<String>("phone")
+                                let username = Expression<String>("username")
+                                let status = Expression<String>("status")
+                                let date = Expression<String>("date")
+                                let accountVerified = Expression<String>("accountVerified")
+                                let role = Expression<String>("role")
+                                
+                                
+                                // let insert = users.insert(email <- "alice@mac.com")
+                                
+                                
+                                tbl_accounts.delete()
+                                do {
+                                    let rowid = try sqliteDB.db.run(tbl_accounts.insert(_id<-json["_id"].string!,
+                                        firstname<-json["firstname"].string!,
+                                        lastname<-json["lastname"].string!,
+                                        email<-json["email"].string!,
+                                        username<-json["username"].string!,
+                                        status<-json["status"].string!,
+                                        phone<-json["phone"].string!))
+                                    print("inserted id: \(rowid)")
+                                } catch {
+                                    print("insertion failed: \(error)")
+                                }
+                                
+                                
+                                /*let insert=tbl_accounts.insert(_id<-json["_id"].string!,
+                                firstname<-json["firstname"].string!,
+                                lastname<-json["lastname"].string!,
+                                email<-json["email"].string!,
+                                username<-json["username"].string!,
+                                status<-json["status"].string!,
+                                phone<-json["phone"].string!)
+                                if let rowid = insert.rowid {
+                                print("inserted id: \(rowid)")
+                                } else if insert.statement.failed {
+                                print("insertion failed: \(insert.statement.reason)")
+                                }
+                                */
+                                //// self.fetchContacts(AuthToken)
+                                do{for account in try sqliteDB.db.prepare(tbl_accounts) {
+                                    print("id: \(account[_id]), email: \(account[email]), firstname: \(account[firstname])")
+                                    // id: 1, email: alice@mac.com, name: Optional("Alice")
+                                    }
+                                }catch{
+                                    print("failed accounts data print")
+                                }
+                                
+                                
+                                
+                                
+                                //...........
+                                /*  let stmt = sqliteDB.db.prepare("SELECT * FROM accounts")
+                                print(stmt.columnNames)
+                                for row in stmt {
+                                print("...................... firstname: \(row[1]), email: \(row[3])")
+                                // id: Optional(1), email: Optional("alice@mac.com")
+                                }*/
+                                
+                            
+                            })
+                        
+                        }
+                    case .Failure(let error):
+                        self.labelLoginUnsuccessful.text="Sorry, you are not registered"
+                        self.txtForEmail.text=nil
+                        self.txtForPassword.text=nil
+                        
+                        print("GOT USER FAILED")
+                    
+                
+                        print(error)
+                    }}}}
+                    
+                    
+                    
+                    /*
+                    let response1=response.response
+                    let request1=response.request
+                    let data1=response.data
+                    let error1=response.result.error
                     //===========INITIALISE SOCKETIOCLIENT=========
                     dispatch_async(dispatch_get_main_queue(), {
                         
@@ -179,7 +321,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate{
                             
                             KeychainWrapper.setString(loggedUserObj.description, forKey:"loggedUserObjString")
                             
-                            
+                            print(loggedUserObj.debugDescription)
                             print(loggedUserObj.object)
                             print("$$$$$$$$$$$$$$$$$$$$$$$$$")
                             ////print(loggedUserObj.string)
@@ -190,12 +332,20 @@ class LoginViewController: UIViewController, UITextFieldDelegate{
                             print("************************")
                             
                             //===========saving username======================
-                            KeychainWrapper.setString(json["username"].string!, forKey: "username")
-                            KeychainWrapper.setString(json["firstname"].string!+" "+json["lastname"].string!, forKey: "loggedFullName")
-                            KeychainWrapper.setString(json["phone"].string!, forKey: "loggedPhone")
-                            KeychainWrapper.setString(json["email"].string!, forKey: "loggedEmail")
-                            KeychainWrapper.setString(json["_id"].string!, forKey: "_id")
-                            KeychainWrapper.setString(self.txtForPassword.text!, forKey: "password")
+                           
+                            do{
+                            try KeychainWrapper.setString(json["username"].string!, forKey: "username")
+                            try KeychainWrapper.setString(json["firstname"].string!+" "+json["lastname"].string!, forKey: "loggedFullName")
+                            try KeychainWrapper.setString(json["phone"].string!, forKey: "loggedPhone")
+                            try KeychainWrapper.setString(json["email"].string!, forKey: "loggedEmail")
+                            try KeychainWrapper.setString(json["_id"].string!, forKey: "_id")
+                            try KeychainWrapper.setString(self.txtForPassword.text!, forKey: "password")
+                            
+                            }
+                                catch{
+                                    print("error is setting keychain value")
+                                    print(json.error?.localizedDescription)
+                                }
                             
                            /* username=KeychainWrapper.stringForKey("password")
                             firstname=KeychainWrapper.stringForKey("firstname")
@@ -302,7 +452,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate{
                 self.txtForEmail.text=nil
                 self.txtForPassword.text=nil
             }
-        }
+        }*/
     }
     
     

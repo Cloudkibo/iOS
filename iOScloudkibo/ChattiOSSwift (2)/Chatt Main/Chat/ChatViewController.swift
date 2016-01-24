@@ -173,6 +173,22 @@ class ChatViewController: UIViewController,SocketClientDelegate {
         }
         actionSheetController.addAction(nextAction)
         
+        ///////////////
+        //CONTACTS from Address Book
+        //////////////
+        var nextAction2: UIAlertAction = UIAlertAction(title: "Invite Contacts", style: UIAlertActionStyle.Default) { action -> Void in
+            
+            //var ContactEmail=self.ContactsObjectss[]
+            print(loggedUserObj)
+            var userid=""
+            
+            //Do some other stuff
+            var inviteContactEmailURL=Constants.MainUrl+Constants.inviteContactsByEmail+"?access_token=\(AuthToken!)"
+            Alamofire.request(.POST,"\(inviteContactEmailURL)",parameters: ["emails":""]).validate(statusCode: 200..<300).responseJSON{response in
+                var response1=response.response
+            }}
+        actionSheetController.addAction(nextAction2)
+        
         
         //Present the AlertController
         self.presentViewController(actionSheetController, animated: true, completion: nil)

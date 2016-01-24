@@ -86,11 +86,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Chat/LoginViewController.swift"
-            timestampString = "473898312.951679"
+            timestampString = "475243700.196434"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "182"
-            endingLineNumber = "182"
+            startingLineNumber = "324"
+            endingLineNumber = "324"
             landmarkName = "loginBtnTapped()"
             landmarkType = "5">
          </BreakpointContent>
