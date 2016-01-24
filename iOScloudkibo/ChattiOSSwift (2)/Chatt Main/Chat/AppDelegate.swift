@@ -10,6 +10,7 @@ import UIKit
 import SQLite
 import SwiftyJSON
 import Alamofire
+import Contacts
 
 //let socketObj=LoginAPI(url:"\(Constants.MainUrl)")
 var socketObj:LoginAPI!
@@ -40,7 +41,7 @@ var isInitiator=false
 var callerName=""
 var rtcICEarray:[RTCICEServer]=[]
 var rtcFact:RTCPeerConnectionFactory!
-
+var contactsList=iOSContact(keys: [CNContactGivenNameKey, CNContactFamilyNameKey, CNContactEmailAddressesKey, CNContactPhoneNumbersKey])
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
     

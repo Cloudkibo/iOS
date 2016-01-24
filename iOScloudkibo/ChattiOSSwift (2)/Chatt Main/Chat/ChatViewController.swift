@@ -177,7 +177,8 @@ class ChatViewController: UIViewController,SocketClientDelegate {
         //CONTACTS from Address Book
         //////////////
         var nextAction2: UIAlertAction = UIAlertAction(title: "Invite Contacts", style: UIAlertActionStyle.Default) { action -> Void in
-            
+           contactsList.fetch()
+            /*
             //var ContactEmail=self.ContactsObjectss[]
             print(loggedUserObj)
             var userid=""
@@ -186,7 +187,8 @@ class ChatViewController: UIViewController,SocketClientDelegate {
             var inviteContactEmailURL=Constants.MainUrl+Constants.inviteContactsByEmail+"?access_token=\(AuthToken!)"
             Alamofire.request(.POST,"\(inviteContactEmailURL)",parameters: ["emails":""]).validate(statusCode: 200..<300).responseJSON{response in
                 var response1=response.response
-            }}
+            }
+        */}
         actionSheetController.addAction(nextAction2)
         
         
@@ -203,6 +205,11 @@ class ChatViewController: UIViewController,SocketClientDelegate {
     var ContactsObjectss:[JSON]=[]
     
     var ContactOnlineStatus:[Int]=[]
+    ///////////////////////
+    /////////NEW//////////////
+    //////////////////////////
+    var ContactsEmail:[String]=[]
+    var ContactsPhone:[String]=[]
     
     //["Bus","Helicopter","Truck","Boat","Bicycle","Motorcycle","Plane","Train","Car","Scooter","Caravan"]
     required init?(coder aDecoder: NSCoder)
@@ -588,7 +595,10 @@ class ChatViewController: UIViewController,SocketClientDelegate {
         self.ContactStatus.removeAll(keepCapacity: false)
         self.ContactUsernames.removeAll(keepCapacity: false)
         self.ContactsObjectss.removeAll(keepCapacity: false)
-
+        ////////////////////////
+        self.ContactsPhone.removeAll(keepCapacity: false)
+        self.ContactsEmail.removeAll(keepCapacity: false)
+        
         let tbl_contactslists=sqliteDB.contactslists
         do{
         for tblContacts in try sqliteDB.db.prepare(tbl_contactslists){
@@ -601,6 +611,8 @@ class ChatViewController: UIViewController,SocketClientDelegate {
             ContactFirstname.append(tblContacts[firstname])
             ContactLastNAme.append(tblContacts[lastname])
             ContactStatus.append(tblContacts[status])
+            ContactsEmail.append(tblContacts[email])
+            ContactsPhone.append(tblContacts[phone])
             ContactOnlineStatus.append(0)
 
         }
@@ -872,7 +884,8 @@ class ChatViewController: UIViewController,SocketClientDelegate {
                     self.ContactStatus.removeAll(keepCapacity: false)
                     self.ContactUsernames.removeAll(keepCapacity: false)
                     self.ContactsObjectss.removeAll(keepCapacity: false)
-                    
+                    self.ContactsEmail.removeAll(keepCapacity: false)
+                    self.ContactsPhone.removeAll(keepCapacity: false)
                     
                     
                     for var i=0;i<contactsJsonObj.count;i++
@@ -898,6 +911,8 @@ class ChatViewController: UIViewController,SocketClientDelegate {
                         self.ContactFirstname.append(contactsJsonObj[i]["contactid"]["firstname"].string!)
                         self.ContactLastNAme.append(contactsJsonObj[i]["contactid"]["lastname"].string!)
                         self.ContactStatus.append(contactsJsonObj[i]["contactid"]["status"].string!)
+                        self.ContactsPhone.append(contactsJsonObj[i]["contactid"]["phone"].string!)
+                        self.ContactsEmail.append(contactsJsonObj[i]["contactid"]["email"].string!)
                         self.ContactOnlineStatus.append(0)
                         
                         print("inserted id: \(rowid)")
@@ -1103,6 +1118,8 @@ class ChatViewController: UIViewController,SocketClientDelegate {
                         self.ContactLastNAme.removeAtIndex(selectedRow)
                         self.ContactStatus.removeAtIndex(selectedRow)
                         self.ContactUsernames.removeAtIndex(selectedRow)
+                        self.ContactsEmail.removeAtIndex(selectedRow)
+                        self.ContactsPhone.removeAtIndex(selectedRow)
                         // Delete the row from the data source
                         tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Fade)
                         //tblForChat.reloadData()
@@ -1221,6 +1238,8 @@ class ChatViewController: UIViewController,SocketClientDelegate {
                             self.ContactLastNAme.removeAtIndex(selectedRow)
                             self.ContactStatus.removeAtIndex(selectedRow)
                             self.ContactUsernames.removeAtIndex(selectedRow)
+                            self.ContactsPhone.removeAtIndex(selectedRow)
+                            self.ContactsEmail.removeAtIndex(selectedRow)
                             // Delete the row from the data source
                             tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Fade)
                             //tblForChat.reloadData()
