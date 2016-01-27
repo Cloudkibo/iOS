@@ -68,7 +68,7 @@ class DatabaseHandler:NSObject{
         
         self.accounts = Table("accounts")
         do{
-            try db.run(accounts.create { t in     // CREATE TABLE "accounts" (
+            try db.run(accounts.create(ifNotExists: true) { t in     // CREATE TABLE "accounts" (
                 t.column(email, unique: true,check: email.like("%@%"))
                 t.column(firstname)
                 t.column(lastname)
@@ -120,7 +120,7 @@ class DatabaseHandler:NSObject{
         
         self.contactslists = Table("contactslists")
         do{
-        try db.run(contactslists.create{ t in     // CREATE TABLE "users" (
+        try db.run(contactslists.create(ifNotExists: true){ t in     // CREATE TABLE "users" (
             t.column(contactid)//loggedin user id
             t.column(detailsshared)
             
@@ -181,7 +181,7 @@ class DatabaseHandler:NSObject{
         
         self.userschats = Table("userschats")
         do{
-            try db.run(userschats.create { t in     // CREATE TABLE "accounts" (
+            try db.run(userschats.create(ifNotExists: true) { t in     // CREATE TABLE "accounts" (
                 t.column(to)//loggedin user id
                 t.column(from)
                 t.column(fromFullName)

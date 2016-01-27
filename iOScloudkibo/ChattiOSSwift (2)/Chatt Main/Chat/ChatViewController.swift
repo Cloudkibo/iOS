@@ -177,7 +177,11 @@ class ChatViewController: UIViewController,SocketClientDelegate {
         //CONTACTS from Address Book
         //////////////
         var nextAction2: UIAlertAction = UIAlertAction(title: "Invite Contacts", style: UIAlertActionStyle.Default) { action -> Void in
-           contactsList.fetch()
+            contactsList.fetch()
+            /////self.performSegueWithIdentifier("inviteSegue",sender: nil)
+            //var newContact=["fname":self.ContactFirstname[0],"lname":self.ContactLastNAme[0],"email":self.ContactsEmail[0],"phone":self.ContactsPhone[0]]
+            
+            //contactsList.saveToAddressBook(newContact)
             /*
             //var ContactEmail=self.ContactsObjectss[]
             print(loggedUserObj)
@@ -432,22 +436,27 @@ class ChatViewController: UIViewController,SocketClientDelegate {
         //everytime new login
         KeychainWrapper.removeObjectForKey("access_token")
         AuthToken=""
-        if(sqliteDB.db != nil)
+        ///////////////if(sqliteDB.db != nil)
+        if(sqliteDB.accounts != nil && sqliteDB.contactslists != nil && sqliteDB.userschats != nil)
         {
         var tbl_contactslists=sqliteDB.contactslists
         var tbl_accounts=sqliteDB.accounts
         let tbl_userchats=sqliteDB.userschats
         
         
-        /*
-        var tbl_contactslists=sqliteDB.db["contactslists"]
-        var tbl_accounts=sqliteDB.db["accounts"]
-        let tbl_userchats=sqliteDB.db["userschats"]
+        ///try db.run(users.delete())
+            do{
+        try sqliteDB.db.run(tbl_contactslists.delete())
+        try sqliteDB.db.run(tbl_accounts.delete())
+        try sqliteDB.db.run(tbl_userchats.delete())
+            }catch{
+                print("cannot delete tables")
+            }
         
-        */
-        tbl_contactslists.delete()
+            print("deletinggggg tablessss")
+        /*tbl_contactslists.delete()
         tbl_accounts.delete()
-        tbl_userchats.delete()
+        tbl_userchats.delete()*/
         }
         
         
@@ -596,6 +605,9 @@ class ChatViewController: UIViewController,SocketClientDelegate {
         self.ContactUsernames.removeAll(keepCapacity: false)
         self.ContactsObjectss.removeAll(keepCapacity: false)
         ////////////////////////
+        self.ContactFirstname.removeAll(keepCapacity: false)
+        ////////
+        
         self.ContactsPhone.removeAll(keepCapacity: false)
         self.ContactsEmail.removeAll(keepCapacity: false)
         
@@ -874,8 +886,14 @@ class ChatViewController: UIViewController,SocketClientDelegate {
                     
                     
                     let tbl_contactslists=sqliteDB.contactslists
-                    tbl_contactslists.delete() //complete refresh
-                    
+                    /////////newwwwwwwww///////
+                    do{try sqliteDB.db.run(tbl_contactslists.delete())}catch{
+                        print("contactslist table not deleted")
+                    }
+                    ////////////////
+                    ///tbl_contactslists.delete() //complete refresh
+                    ////////////////////////////////////////COUNTTTTTTT
+                    print(sqliteDB.contactslists.count)
                     
                     //-========Remove old values=====================
                     self.ContactIDs.removeAll(keepCapacity: false)
@@ -886,10 +904,13 @@ class ChatViewController: UIViewController,SocketClientDelegate {
                     self.ContactsObjectss.removeAll(keepCapacity: false)
                     self.ContactsEmail.removeAll(keepCapacity: false)
                     self.ContactsPhone.removeAll(keepCapacity: false)
-                    
-                    
+                    //////////
+                    self.ContactFirstname.removeAll(keepCapacity: false)
+                    //////
                     for var i=0;i<contactsJsonObj.count;i++
-                    { do {
+                    {
+                        print("inside for loop")
+                        do {
                         let rowid = try sqliteDB.db.run(tbl_contactslists.insert(contactid<-contactsJsonObj[i]["contactid"]["_id"].string!,
                             detailsshared<-contactsJsonObj[i]["detailsshared"].string!,
                             
@@ -899,10 +920,11 @@ class ChatViewController: UIViewController,SocketClientDelegate {
                             firstname<-contactsJsonObj[i]["contactid"]["firstname"].string!,
                             lastname<-contactsJsonObj[i]["contactid"]["lastname"].string!,
                             email<-contactsJsonObj[i]["contactid"]["email"].string!,
-                            phone<-contactsJsonObj[i]["contactid"]["_id"].string!,
+                            phone<-contactsJsonObj[i]["contactid"]["phone"].string!,
                             username<-contactsJsonObj[i]["contactid"]["username"].string!,
                             status<-contactsJsonObj[i]["contactid"]["status"].string!)
                             )
+                            print("data inserttt")
                         //=========this is done in fetching from sqlite not here====
                         self.ContactsObjectss.append(contactsJsonObj[i]["contactid"])
                         self.ContactNames.append(contactsJsonObj[i]["contactid"]["firstname"].string!+" "+contactsJsonObj[i]["contactid"]["lastname"].string!)
@@ -1277,12 +1299,14 @@ class ChatViewController: UIViewController,SocketClientDelegate {
             isInitiator=true
             callerName=username!
             iamincallWith=self.ContactUsernames[selectedRow]
+
             
-            /*var next = self.storyboard?.instantiateViewControllerWithIdentifier("Main2") as! VideoViewController
+            /*
+            var next = self.storyboard?.instantiateViewControllerWithIdentifier("Main2") as! VideoViewController
             
             self.presentViewController(next, animated: false, completion: {
             })
-            */
+*/
             
             /*var next = self.storyboard?.instantiateViewControllerWithIdentifier("Main") as! CallRingingViewController
             
@@ -1327,6 +1351,12 @@ class ChatViewController: UIViewController,SocketClientDelegate {
         // Pass the selected object to the new view controller.
         
         //if segue!.identifier == "chatSegue" {
+        /*if segue!.identifier == "inviteSegue"{
+            if let destinationVC = segue!.destinationViewController as? ContactsInviteViewController{
+                
+                //contactsList.searchContactsByEmail(contactsList.emails)
+            }
+        }*/
         if segue!.identifier == "contactChat" {
             
             if let destinationVC = segue!.destinationViewController as? ChatDetailViewController{

@@ -637,9 +637,7 @@ class VideoViewController: UIViewController,RTCPeerConnectionDelegate,RTCSession
         {
         socketObj.delegateWebRTC=self
         }
-        ////////////////addHandlers()
-        print("video view loadddddd")
-    }
+       }
     
     func remoteDisconnected()
     {
