@@ -1867,7 +1867,11 @@
                     </view>
                     <toolbarItems/>
                     <navigationItem key="navigationItem" title="Invite to Cloudkibo" id="umL-Vx-88Q" userLabel="Back">
-                        <barButtonItem key="leftBarButtonItem" title="Back" id="Rdp-dA-oqt" userLabel="Back"/>
+                        <barButtonItem key="leftBarButtonItem" title="Back" id="Rdp-dA-oqt" userLabel="Back">
+                            <connections>
+                                <action selector="btn_BackPressed:" destination="BrB-JZ-hqZ" id="2gZ-C3-jW2"/>
+                            </connections>
+                        </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" title="Done" id="heh-dU-cKb">
                             <connections>
                                 <action selector="btn_DoneInvite:" destination="BrB-JZ-hqZ" id="Sh5-C4-AVo"/>

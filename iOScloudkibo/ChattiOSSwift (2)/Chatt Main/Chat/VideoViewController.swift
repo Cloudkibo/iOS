@@ -46,6 +46,9 @@ class VideoViewController: UIViewController,RTCPeerConnectionDelegate,RTCSession
         var screenshot:UIImage=UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsEndImageContext()
         saveImage(screenshot)
+        
+        
+        
         /*
         
         bitmapData,

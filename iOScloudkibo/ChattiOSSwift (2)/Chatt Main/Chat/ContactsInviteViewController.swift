@@ -33,6 +33,9 @@ class ContactsInviteViewController: UIViewController,UITableViewDelegate,UITable
         // Do any additional setup after loading the view.
     }
 
+    @IBAction func btn_BackPressed(sender: AnyObject) {
+        self.dismissViewControllerAnimated(true, completion: nil)
+    }
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -124,7 +127,12 @@ class ContactsInviteViewController: UIViewController,UITableViewDelegate,UITable
         dispatch_async(dispatch_get_main_queue()) { () -> Void in
             var alertview=UIAlertController(title: "Success", message: "Invitations are sent to selected contacts", preferredStyle: UIAlertControllerStyle.Alert)
             //self.dismissViewControllerAnimated(true, completion: { () -> Void in
-                self.presentViewController(alertview, animated: true, completion: { () -> Void in
+            //alertview.addAction(<#T##action: UIAlertAction##UIAlertAction#>)
+            var okAction=UIAlertAction(title: "Ok", style: UIAlertActionStyle.Default, handler: { (action:UIAlertAction) -> Void in
+                
+            })
+            alertview.addAction(okAction)
+            self.presentViewController(alertview, animated: true, completion: { () -> Void in
                     
                     
                 })
