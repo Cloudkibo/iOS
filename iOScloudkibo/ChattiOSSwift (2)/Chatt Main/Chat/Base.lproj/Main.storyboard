@@ -1212,6 +1212,27 @@
                                     <action selector="toggleAudioPressed:" destination="VkD-da-dMy" eventType="touchUpInside" id="Oeh-xV-nFB"/>
                                 </connections>
                             </button>
+                            <navigationBar contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="hQ4-J5-BLT">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                                <color key="barTintColor" red="0.090196078431372548" green="0.68627450980392157" blue="0.33725490196078434" alpha="1" colorSpace="calibratedRGB"/>
+                                <items>
+                                    <navigationItem id="jxX-Mf-K5x">
+                                        <barButtonItem key="backBarButtonItem" title="Item" id="O8B-ca-1RO">
+                                            <connections>
+                                                <action selector="backbtnPressed:" destination="VkD-da-dMy" id="9ii-lk-Mkt"/>
+                                            </connections>
+                                        </barButtonItem>
+                                        <barButtonItem key="rightBarButtonItem" title="Capture" id="Nba-B7-Etl" userLabel="capture">
+                                            <connections>
+                                                <action selector="btnCapturePressed:" destination="VkD-da-dMy" id="gwf-xn-GqK"/>
+                                            </connections>
+                                        </barButtonItem>
+                                        <connections>
+                                            <outlet property="leftBarButtonItem" destination="O8B-ca-1RO" id="3oU-nv-7AQ"/>
+                                        </connections>
+                                    </navigationItem>
+                                </items>
+                            </navigationBar>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
@@ -1223,13 +1244,15 @@
                             <constraint firstItem="1mX-yp-FUh" firstAttribute="baseline" secondItem="9dh-eh-AtJ" secondAttribute="baseline" id="elO-uF-9uQ"/>
                         </constraints>
                     </view>
+                    <toolbarItems/>
+                    <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
                         <outlet property="localViewOutlet" destination="KSC-m3-8y7" id="yxY-lI-H54"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="URD-gR-s34" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="676" y="-1688"/>
+            <point key="canvasLocation" x="676" y="-1687"/>
         </scene>
         <!--New Chat-->
         <scene sceneID="s71-yX-xpp">
@@ -1831,7 +1854,7 @@
                                                     <rect key="frame" x="15" y="0.0" width="266" height="65.5"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="16"/>
-                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                             </subviews>

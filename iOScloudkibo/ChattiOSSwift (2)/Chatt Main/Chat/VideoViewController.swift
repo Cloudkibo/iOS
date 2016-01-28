@@ -15,6 +15,69 @@ import SwiftyJSON
 
 
 class VideoViewController: UIViewController,RTCPeerConnectionDelegate,RTCSessionDescriptionDelegate,RTCEAGLVideoViewDelegate,SocketClientDelegateWebRTC {
+
+    
+    
+    func saveImage(screen:UIImage){
+        var imageData:NSData = UIImageJPEGRepresentation(screen, 1.0)!
+        var paths:NSArray=NSSearchPathForDirectoriesInDomains(NSSearchPathDirectory.PicturesDirectory, NSSearchPathDomainMask.UserDomainMask, true)
+        var documentPath:NSString=paths.objectAtIndex(0) as! NSString
+        var filePath:NSString=documentPath.stringByAppendingPathComponent("cloudkibo.jpg")
+        imageData.writeToFile(filePath as String, atomically: true)
+        print("image saved \(filePath)")
+        
+    }
+
+    
+    @IBAction func btnCapturePressed(sender: UIBarButtonItem) {
+        UIGraphicsBeginImageContext(self.view.layer.bounds.size)
+        self.view.layer.renderInContext(UIGraphicsGetCurrentContext()!)
+        var screenshot:UIImage=UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        saveImage(screenshot)
+        /*
+        NSData *imageData = UIImagePNGRepresentation(capturedImage);
+        
+        if(imageData != nil)
+        
+        {
+        
+        NSArray *paths =NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+        
+        NSString *documentsPath = [paths objectAtIndex:0];
+        
+        NSString *filePath = [documentsPath stringByAppendingPathComponent:@”myfile.png”];
+        
+        [imageData writeToFile:filePath atomically:YES];
+        
+
+        
+        
+        
+        + (UIImage *) captureImageOfView:(UIView *)srcView
+        
+        {
+        
+        UIGraphicsBeginImageContext(srcView.bounds.size);
+        
+        [srcView.layer renderInContext:UIGraphicsGetCurrentContext()];
+        
+        UIImage *anImage = UIGraphicsGetImageFromCurrentImageContext();
+        
+        UIGraphicsEndImageContext();
+        
+        return anImage;
+        
+        }
+*/
+        
+        
+    }
+    @IBAction func backbtnPressed(sender: UIBarButtonItem) {
+        print("backkkkkkkkkkkkkk pressed")
+        self.dismissViewControllerAnimated(true, completion: nil)
+    }
+   
     
     var screenshared=false
     var delegate:SocketClientDelegateWebRTC!
@@ -797,9 +860,9 @@ class VideoViewController: UIViewController,RTCPeerConnectionDelegate,RTCSession
     func didReceiveLocalStream(stream:RTCMediaStream)
     {
         dispatch_async(dispatch_get_main_queue(), {
-            self.localView=RTCEAGLVideoView(frame: CGRect(x: 0, y: 0, width: 500, height: 500))
+            self.localView=RTCEAGLVideoView(frame: CGRect(x: 0 , y: 150, width: 500, height: 350))
             
-            self.localView.drawRect(CGRect(x: 0, y: 0, width: 500, height: 500))
+            self.localView.drawRect(CGRect(x: 0, y: 150, width: 500, height: 350))
             // self.remoteView.addConstraints(mediaConstraints.d)
             if(stream.videoTracks.count>0)
             {print("local video track count is greater than one")
@@ -911,17 +974,17 @@ class VideoViewController: UIViewController,RTCPeerConnectionDelegate,RTCSession
         
         //******************************************************************************
         /* self.localViewTop.setSize(CGSize(width: 500, height: 500))*/
-        self.localView=RTCEAGLVideoView(frame: CGRect(x: 0, y: 0, width: 500, height: 500))
+        self.localView=RTCEAGLVideoView(frame: CGRect(x: 0, y: 50, width: 500, height: 450))
         
-        self.localView.drawRect(CGRect(x: 0, y: 0, width: 500, height: 500))
+        self.localView.drawRect(CGRect(x: 0, y: 50, width: 500, height: 450))
         // self.remoteView.addConstraints(mediaConstraints.d)
         /* self.localViewOutlet.addSubview(self.localView)
         self.localViewOutlet.updateConstraintsIfNeeded()
         self.localView.setNeedsDisplay()
         self.localViewOutlet.setNeedsDisplay()*/
         
-        self.remoteView=RTCEAGLVideoView(frame: CGRect(x: 0, y: 0, width: 500, height: 500))
-        self.remoteView.drawRect(CGRect(x: 0, y: 0, width: 500, height: 500))
+        self.remoteView=RTCEAGLVideoView(frame: CGRect(x: 0, y: 50, width: 500, height: 450))
+        self.remoteView.drawRect(CGRect(x: 0, y: 50, width: 500, height: 450))
         
         var mainICEServerURL:NSURL=NSURL(fileURLWithPath: Constants.MainUrl)
         
