@@ -21,7 +21,7 @@ class iOSContact{
         //fetch()
     }
 
-    func fetch(){
+    func fetch()->[String]{
         var emails=[String]()
     print("inside fetchhhhh")
     let contactStore = CNContactStore()
@@ -36,7 +36,7 @@ class iOSContact{
     
     
      print(contacts.first?.givenName)
-    dispatch_async(dispatch_get_main_queue(), { () -> Void in
+   // dispatch_async(dispatch_get_main_queue(), { () -> Void in
         
         
         for(var i=0;i<self.contacts.count;i++){
@@ -58,15 +58,16 @@ class iOSContact{
         
     //self.delegate.didFetchContacts(contacts)
     //self.navigationController?.popViewControllerAnimated(true)
-    })
-        searchContactsByEmail(emails)
-        sendInvite()
+  ////  })
+        ////searchContactsByEmail(emails)
+        ////sendInvite()
+        //return emails
     }
     catch let error as NSError {
     print(error.description, separator: "", terminator: "\n")
     }
     
-    
+    return emails
     
     }
     func searchContactsByEmail(emails:[String])
@@ -150,10 +151,10 @@ class iOSContact{
         }
 
     }
-    func sendInvite()
-    {var emails=[String]()
-        emails.append("sumaira.syedsaeed@gmail.com")
-        emails.append("kibo@kibo.com")
+    func sendInvite(var emails:[String])
+    {
+        //emails.append("sumaira.syedsaeed@gmail.com")
+        //emails.append("kibo@kibo.com")
          let inviteMultipleURL=Constants.MainUrl+Constants.invitebymultipleemail+"?access_token="+AuthToken!
         Alamofire.request(.POST,inviteMultipleURL,parameters:["emails":emails],encoding: .JSON).responseJSON { response in
             debugPrint(response.data)
@@ -164,6 +165,7 @@ class iOSContact{
             
             //print(response.result.value!)
             var res=JSON(response.result.value!)
+            print("invite sent")
         }
         
     }

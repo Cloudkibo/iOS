@@ -30,12 +30,36 @@ class VideoViewController: UIViewController,RTCPeerConnectionDelegate,RTCSession
 
     
     @IBAction func btnCapturePressed(sender: UIBarButtonItem) {
+        
+        
+        
+        var bitmapBytesPerRow = Int(self.view.layer.bounds.size.width * 4)
+        var bitmapByteCount = Int(bitmapBytesPerRow * Int(self.view.layer.bounds.size.height))
+        var bitmapData=malloc(bitmapByteCount)
+        var colorSpace = CGColorSpaceCreateDeviceRGB()
+        var ww=Int(self.view.layer.bounds.size.width)
+        var hh=Int(self.view.layer.bounds.size.height)
+        //////CGBitmapContextCreate(bitmapData, ww , hh, 8, bitmapBytesPerRow, colorSpace,)
+        
         UIGraphicsBeginImageContext(self.view.layer.bounds.size)
         self.view.layer.renderInContext(UIGraphicsGetCurrentContext()!)
         var screenshot:UIImage=UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsEndImageContext()
         saveImage(screenshot)
         /*
+        
+        bitmapData,
+        size.width,
+        size.height,
+        8,      // bits per component
+        bitmapBytesPerRow,
+        colorSpace,
+        kCGImageAlphaNoneSkipFirst);
+        
+        CGContextSetAllowsAntialiasing(context,NO);
+
+        
+        
         NSData *imageData = UIImagePNGRepresentation(capturedImage);
         
         if(imageData != nil)

@@ -177,8 +177,8 @@ class ChatViewController: UIViewController,SocketClientDelegate {
         //CONTACTS from Address Book
         //////////////
         var nextAction2: UIAlertAction = UIAlertAction(title: "Invite Contacts", style: UIAlertActionStyle.Default) { action -> Void in
-            contactsList.fetch()
-            /////self.performSegueWithIdentifier("inviteSegue",sender: nil)
+            ///////contactsList.fetch()
+            self.performSegueWithIdentifier("inviteSegue",sender: nil)
             //var newContact=["fname":self.ContactFirstname[0],"lname":self.ContactLastNAme[0],"email":self.ContactsEmail[0],"phone":self.ContactsPhone[0]]
             
             //contactsList.saveToAddressBook(newContact)
