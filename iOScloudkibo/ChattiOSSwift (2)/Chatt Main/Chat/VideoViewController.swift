@@ -16,23 +16,70 @@ import SwiftyJSON
 
 class VideoViewController: UIViewController,RTCPeerConnectionDelegate,RTCSessionDescriptionDelegate,RTCEAGLVideoViewDelegate,SocketClientDelegateWebRTC {
 
-    
+    var countTimer=1
+    var atimer:NSTimer!
     
     func saveImage(screen:UIImage){
-        var imageData:NSData = UIImageJPEGRepresentation(screen, 1.0)!
+      /*  var imageData:NSData = UIImageJPEGRepresentation(screen, 1.0)!
+        
         var paths:NSArray=NSSearchPathForDirectoriesInDomains(NSSearchPathDirectory.PicturesDirectory, NSSearchPathDomainMask.UserDomainMask, true)
         var documentPath:NSString=paths.objectAtIndex(0) as! NSString
         var filePath:NSString=documentPath.stringByAppendingPathComponent("cloudkibo.jpg")
         imageData.writeToFile(filePath as String, atomically: true)
         print("image saved \(filePath)")
         
+
+*/
+        
+        
+        /*
+        UIScreen *screen = [UIScreen mainScreen] ;
+        UIWindow *keyWindow = [[UIApplication sharedApplication] keyWindow];
+        UIView *view = [screen snapshotViewAfterScreenUpdates:YES];
+        UIGraphicsBeginImageContextWithOptions(screen.bounds.size, NO, 0);
+        [keyWindow drawViewHierarchyInRect:keyWindow.bounds afterScreenUpdates:YES];
+        UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
+        UIGraphicsEndImageContext();
+        NSData *data= UIImagePNGRepresentation(image);
+        [data writeToFile:[NSString stringWithFormat:@"%@/ScreenShot.png",[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0]] atomically:YES];
+*/
     }
 
     
+    
+    
+    
+    
+    
+    
+    /*
+    NSTimer *aTimer = [NSTimer scheduledTimerWithTimeInterval:10.0
+    target:self
+    selector:@selector(timerFired:)
+    userInfo:nil
+    repeats:YES];
+    [aTimer fire];
+    
+    
+    -(void)timerFired:(NSTimer *) theTimer
+    {
+*/
+    
     @IBAction func btnCapturePressed(sender: UIBarButtonItem) {
+        atimer=NSTimer(timeInterval: 0.5, target: self, selector: "timerFiredScreenCapture", userInfo: nil, repeats: true)
         
         
-        
+        countTimer++
+        dispatch_async(dispatch_get_main_queue(), { () -> Void in
+            
+        self.atimer.fire()
+    
+        ///if(countTimer==10){
+           // atimer.invalidate()
+            print("timer stopped1")
+        })
+        ///}
+        /*
         var bitmapBytesPerRow = Int(self.view.layer.bounds.size.width * 4)
         var bitmapByteCount = Int(bitmapBytesPerRow * Int(self.view.layer.bounds.size.height))
         var bitmapData=malloc(bitmapByteCount)
@@ -47,7 +94,7 @@ class VideoViewController: UIViewController,RTCPeerConnectionDelegate,RTCSession
         UIGraphicsEndImageContext()
         saveImage(screenshot)
         
-        
+        */
         
         /*
         
@@ -99,6 +146,54 @@ class VideoViewController: UIViewController,RTCPeerConnectionDelegate,RTCSession
 */
         
         
+    }
+    func timerFiredScreenCapture()
+    {print("inside timerFiredScreenCapture")
+       // var myscreen=UIScreen.mainScreen().snapshotViewAfterScreenUpdates(true)
+        
+        //if(countTimer%2 == 0){
+        
+            dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                    //while(atimer.timeInterval < 3000)
+                for(var i=0;i<500;i++)
+                {
+                var bitmapBytesPerRow = Int(self.view.layer.bounds.size.width * 4)
+                var bitmapByteCount = Int(bitmapBytesPerRow * Int(self.view.layer.bounds.size.height))
+                var bitmapData=malloc(bitmapByteCount)
+                var colorSpace = CGColorSpaceCreateDeviceRGB()
+                var ww=Int(self.view.layer.bounds.size.width)
+                var hh=Int(self.view.layer.bounds.size.height)
+                //////CGBitmapContextCreate(bitmapData, ww , hh, 8, bitmapBytesPerRow, colorSpace,)
+                
+                UIGraphicsBeginImageContext(self.view.layer.bounds.size)
+                self.view.layer.renderInContext(UIGraphicsGetCurrentContext()!)
+                var screenshot:UIImage=UIGraphicsGetImageFromCurrentImageContext()
+                UIGraphicsEndImageContext()
+                ////////////////// saveImage(screenshot)
+                var imageData:NSData = UIImageJPEGRepresentation(screenshot, 1.0)!
+                
+                var paths:NSArray=NSSearchPathForDirectoriesInDomains(NSSearchPathDirectory.PicturesDirectory, NSSearchPathDomainMask.UserDomainMask, true)
+                var documentPath:NSString=paths.objectAtIndex(0) as! NSString
+                var filePath:NSString=documentPath.stringByAppendingPathComponent("cloudkibo\(self.countTimer).jpg")
+                UIImageWriteToSavedPhotosAlbum(screenshot, nil, nil, nil)
+                ////imageData.writeToFile(filePath as String, atomically: true)
+                ////print("image saved \(filePath)")
+                print("screen captured")
+                }
+                print("outside")
+                self.atimer.invalidate()
+                print("timer stopped")
+            
+            })
+       
+        
+    
+  
+       // } else
+   // {
+       
+       // }
+   
     }
     @IBAction func backbtnPressed(sender: UIBarButtonItem) {
         print("backkkkkkkkkkkkkk pressed")
