@@ -66,7 +66,8 @@ class VideoViewController: UIViewController,RTCPeerConnectionDelegate,RTCSession
 */
     
     @IBAction func btnCapturePressed(sender: UIBarButtonItem) {
-        var senttt=rtcDataChannel.sendData(RTCDataBuffer(data: NSData(base64EncodedString: "helloooo iphone sendind data through data channel", options: NSDataBase64DecodingOptions.IgnoreUnknownCharacters),isBinary: true))
+       ///DATA SENT CODE
+        /* var senttt=rtcDataChannel.sendData(RTCDataBuffer(data: NSData(base64EncodedString: "helloooo iphone sendind data through data channel", options: NSDataBase64DecodingOptions.IgnoreUnknownCharacters),isBinary: true))
         print("datachannel message sent is \(senttt)")
         var test="hellooo"
         let buffer = RTCDataBuffer(
@@ -76,9 +77,12 @@ class VideoViewController: UIViewController,RTCPeerConnectionDelegate,RTCSession
         
         let result = self.rtcDataChannel!.sendData(buffer)
         print("datachannel message sent is \(result)")
+        */
         
-        /*
         ////////////CORRECT CODE TO CAPTURE IMAGES
+        socketObj.socket.emit("conference.stream", ["username":username!,"id":currentID!,"type":"androidScreen","action":"true"])
+        socketObj.socket.emit("conference.stream", ["username":username!,"id":currentID!,"type":"screenAndroid","action":"true"])
+        
         atimer=NSTimer(timeInterval: 0.5, target: self, selector: "timerFiredScreenCapture", userInfo: nil, repeats: true)
         
         
@@ -92,7 +96,7 @@ class VideoViewController: UIViewController,RTCPeerConnectionDelegate,RTCSession
             print("timer stopped1")
         })
         
-        */
+        
         
         ///}
         /*
@@ -204,7 +208,10 @@ class VideoViewController: UIViewController,RTCPeerConnectionDelegate,RTCSession
                         UIGraphicsEndImageContext()
                         ////////////////// saveImage(screenshot)
                         var imageData:NSData = UIImageJPEGRepresentation(screenshot, 1.0)!
-                      UIImageWriteToSavedPhotosAlbum(screenshot, nil, nil, nil)
+                /////
+                ///////IMAGE SAVE CODE
+                /////
+                      /*UIImageWriteToSavedPhotosAlbum(screenshot, nil, nil, nil)
                   ///  })
                     var paths:NSArray=NSSearchPathForDirectoriesInDomains(NSSearchPathDirectory.PicturesDirectory, NSSearchPathDomainMask.UserDomainMask, true)
                     var documentPath:NSString=paths.objectAtIndex(0) as! NSString
@@ -213,6 +220,10 @@ class VideoViewController: UIViewController,RTCPeerConnectionDelegate,RTCSession
                     ////imageData.writeToFile(filePath as String, atomically: true)
                     ////print("image saved \(filePath)")
                  print("screen captured")
+*/
+                var imageSent=rtcDataChannel.sendData(RTCDataBuffer(data: imageData, isBinary: true))
+                print("image senttttt \(imageSent)")
+                
                //// }
                 ///else{
                   ////  print("not captured")
@@ -320,9 +331,9 @@ datainit.streamId = 12;*/
         print("datachannel not nil")
         rtcDataChannel.delegate=self
         
-        var senttt=rtcDataChannel.sendData(RTCDataBuffer(data: NSData(base64EncodedString: "helloooo iphone sendind data through data channel", options: NSDataBase64DecodingOptions.IgnoreUnknownCharacters),isBinary: true))
-        print("datachannel message sent is \(senttt)")
-        var test="hellooo"
+       //////// var senttt=rtcDataChannel.sendData(RTCDataBuffer(data: NSData(base64EncodedString: "helloooo iphone sendind data through data channel", options: NSDataBase64DecodingOptions.IgnoreUnknownCharacters),isBinary: true))
+       /// print("datachannel message sent is \(senttt)")
+        ///var test="hellooo"
         
         }
     //rtcDataChannel.sendDat
@@ -810,7 +821,9 @@ datainit.streamId = 12;*/
         
         rtcLocalMediaStream=nil //test and try-------------
         rtcStreamReceived=nil
-        
+        if(rtcDataChannel != nil){
+        rtcDataChannel.close()
+        }
         self.dismissViewControllerAnimated(true, completion: { () -> Void in
             
             print("doneeeeeee")
@@ -874,6 +887,12 @@ datainit.streamId = 12;*/
                 //^^^^^^^^^^^^newwwwww
                 self.rtcLocalMediaStream = nil
                 self.rtcStreamReceived = nil//^^^^^^^^^^^^^^^^newwwww
+                
+                
+                if(self.rtcDataChannel != nil){
+                    self.rtcDataChannel.close()
+                }
+                
                 
                 dispatch_async(dispatch_get_main_queue(), { () -> Void in
                     
@@ -1333,7 +1352,7 @@ datainit.streamId = 12;*/
             
             self.pc.setLocalDescriptionWithDelegate(self, sessionDescription: sessionDescription)
             
-            print(["by":currentID!,"to":otherID,"sdp":["type":sdp.type!,"sdp":sdp.description],"type":sdp.type!,"username":username!])
+            ////print(["by":currentID!,"to":otherID,"sdp":["type":sdp.type!,"sdp":sdp.description],"type":sdp.type!,"username":username!])
             
             socketObj.socket.emit("msg",["by":currentID!,"to":otherID,"sdp":["type":sdp.type!,"sdp":sdp.description],"type":sdp.type!,"username":username!])
             print("\(sdp.type) emitteddd")
