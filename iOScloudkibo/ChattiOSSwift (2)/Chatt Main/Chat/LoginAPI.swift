@@ -344,6 +344,8 @@ class LoginAPI{
                 var datajson=JSON(data)
                 print(datajson.debugDescription)
                 
+                self.delegateWebRTC.socketReceivedOtherWebRTC("peer.disconnected", data: data)
+                
             }
             
             

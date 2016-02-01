@@ -235,9 +235,12 @@ class ChatViewController: UIViewController,SocketClientDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        print("Chat ViewController is loadingggggg")
         socketObj.delegate=self
-        
+        if(isConference == true)
+        {
+            self.dismissViewControllerAnimated(true,completion: nil)
+        }
         
         if(KeychainWrapper.stringForKey("username") != nil)
         {currrentUsernameRetrieved=KeychainWrapper.stringForKey("username")!
@@ -475,7 +478,7 @@ class ChatViewController: UIViewController,SocketClientDelegate {
         
         
         let retrievedToken=KeychainWrapper.stringForKey("access_token")
-        if retrievedToken==nil
+        if (retrievedToken==nil && isConference == false)
         {performSegueWithIdentifier("loginSegue", sender: nil)}
         else
         {print("rrrrrrrrr \(retrievedToken)", terminator: "")
@@ -557,7 +560,7 @@ class ChatViewController: UIViewController,SocketClientDelegate {
         print(loggedUserObj.object)
         //let retrievedUsername=KeychainWrapper.stringForKey("username")
         //if retrievedToken==nil || retrievedUsername==nil
-        if retrievedToken == nil
+        if (retrievedToken == nil && isConference == false)
             {performSegueWithIdentifier("loginSegue", sender: nil)}
         else
         {
@@ -1295,11 +1298,37 @@ class ChatViewController: UIViewController,SocketClientDelegate {
             
             var selectedRow = indexPath.row
             print("call pressed")
+            
+            username = "iphoneUser"
+            iamincallWith = "webConference"
+            isInitiator = true
+            isConference = true
+            ////ConferenceRoomName = txtForRoomName.text!
+            /////////socketObj.sendMessagesOfMessageType("Conference Call")
+            
+            socketObj.socket.emitWithAck("init", ["room":ConferenceRoomName,"username":username!])(timeoutAfter: 150000000) {data in
+                print("room joined by got ack")
+                var a=JSON(data)
+                print(a.debugDescription)
+                currentID=a[1].int!
+                print("current id is \(currentID)")
+                print("room joined is\(ConferenceRoomName)")
+            }
+            let next = self.storyboard!.instantiateViewControllerWithIdentifier("Main2") as! VideoViewController
+            
+            self.presentViewController(next, animated: true, completion:nil)
+            
+            
+            
+            //////////////////////////////
+            //CORRECT CODE ONE TO ONE CALL COMMENTED
+            //////////////////////////////
+            /*
             socketObj.socket.emit("callthisperson",["room" : "globalchatroom","callee": self.ContactUsernames[selectedRow], "caller":username!])
             isInitiator=true
             callerName=username!
             iamincallWith=self.ContactUsernames[selectedRow]
-
+*/
             
             /*
             var next = self.storyboard?.instantiateViewControllerWithIdentifier("Main2") as! VideoViewController

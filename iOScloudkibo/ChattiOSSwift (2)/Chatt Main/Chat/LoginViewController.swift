@@ -21,7 +21,30 @@ class LoginViewController: UIViewController, UITextFieldDelegate{
     @IBOutlet var viewForUser : UIView!
     @IBOutlet var txtForEmail : UITextField!
     @IBOutlet var txtForPassword : UITextField!
-    
+     @IBOutlet weak var txtForRoomName: UITextField!
+    @IBAction func btnConferenceStart(sender: AnyObject) {
+        username = "iphoneUser"
+        iamincallWith = "webConference"
+        isInitiator = true
+        isConference = true
+        ConferenceRoomName = txtForRoomName.text!
+       /////////socketObj.sendMessagesOfMessageType("Conference Call")
+        
+        socketObj.socket.emitWithAck("init", ["room":ConferenceRoomName,"username":username!])(timeoutAfter: 150000000) {data in
+            print("room joined by got ack")
+            var a=JSON(data)
+            print(a.debugDescription)
+            currentID=a[1].int!
+            print("current id is \(currentID)")
+            print("room joined is\(ConferenceRoomName)")
+        }
+        let next = self.storyboard!.instantiateViewControllerWithIdentifier("Main2") as! VideoViewController
+        
+        self.presentViewController(next, animated: true, completion:nil)
+        
+    }
+   
+   
     @IBOutlet weak var labelLoginUnsuccessful: UILabel!
     //var AuthToken:String=""
     var authParams:String=""
@@ -53,6 +76,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate{
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        print("Login ViewController loadeddddd")
         if(socketObj == nil)
         {
             print("socket is nillll22", terminator: "")

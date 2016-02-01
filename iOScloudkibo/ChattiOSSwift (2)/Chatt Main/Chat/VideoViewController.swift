@@ -14,10 +14,10 @@ import SwiftyJSON
 
 
 
-class VideoViewController: UIViewController,RTCPeerConnectionDelegate,RTCSessionDescriptionDelegate,RTCEAGLVideoViewDelegate,SocketClientDelegateWebRTC {
+class VideoViewController: UIViewController,RTCPeerConnectionDelegate,RTCSessionDescriptionDelegate,RTCEAGLVideoViewDelegate,SocketClientDelegateWebRTC,RTCDataChannelDelegate {
 
     var countTimer=1
-    var atimer:NSTimer!
+    
     
     func saveImage(screen:UIImage){
       /*  var imageData:NSData = UIImageJPEGRepresentation(screen, 1.0)!
@@ -66,18 +66,34 @@ class VideoViewController: UIViewController,RTCPeerConnectionDelegate,RTCSession
 */
     
     @IBAction func btnCapturePressed(sender: UIBarButtonItem) {
+        var senttt=rtcDataChannel.sendData(RTCDataBuffer(data: NSData(base64EncodedString: "helloooo iphone sendind data through data channel", options: NSDataBase64DecodingOptions.IgnoreUnknownCharacters),isBinary: true))
+        print("datachannel message sent is \(senttt)")
+        var test="hellooo"
+        let buffer = RTCDataBuffer(
+            data: (test.dataUsingEncoding(NSUTF8StringEncoding))!,
+            isBinary: false
+        )
+        
+        let result = self.rtcDataChannel!.sendData(buffer)
+        print("datachannel message sent is \(result)")
+        
+        /*
+        ////////////CORRECT CODE TO CAPTURE IMAGES
         atimer=NSTimer(timeInterval: 0.5, target: self, selector: "timerFiredScreenCapture", userInfo: nil, repeats: true)
         
         
         countTimer++
-        dispatch_async(dispatch_get_main_queue(), { () -> Void in
+       dispatch_async(dispatch_get_main_queue(), { () -> Void in
             
-        self.atimer.fire()
+        atimer.fire()
     
         ///if(countTimer==10){
            // atimer.invalidate()
             print("timer stopped1")
         })
+        
+        */
+        
         ///}
         /*
         var bitmapBytesPerRow = Int(self.view.layer.bounds.size.width * 4)
@@ -147,57 +163,75 @@ class VideoViewController: UIViewController,RTCPeerConnectionDelegate,RTCSession
         
         
     }
-    func timerFiredScreenCapture()
-    {print("inside timerFiredScreenCapture")
-       // var myscreen=UIScreen.mainScreen().snapshotViewAfterScreenUpdates(true)
-        
-        //if(countTimer%2 == 0){
-        
-            dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                    //while(atimer.timeInterval < 3000)
-                for(var i=0;i<500;i++)
-                {
-                var bitmapBytesPerRow = Int(self.view.layer.bounds.size.width * 4)
-                var bitmapByteCount = Int(bitmapBytesPerRow * Int(self.view.layer.bounds.size.height))
-                var bitmapData=malloc(bitmapByteCount)
-                var colorSpace = CGColorSpaceCreateDeviceRGB()
-                var ww=Int(self.view.layer.bounds.size.width)
-                var hh=Int(self.view.layer.bounds.size.height)
-                //////CGBitmapContextCreate(bitmapData, ww , hh, 8, bitmapBytesPerRow, colorSpace,)
-                
-                UIGraphicsBeginImageContext(self.view.layer.bounds.size)
-                self.view.layer.renderInContext(UIGraphicsGetCurrentContext()!)
-                var screenshot:UIImage=UIGraphicsGetImageFromCurrentImageContext()
-                UIGraphicsEndImageContext()
-                ////////////////// saveImage(screenshot)
-                var imageData:NSData = UIImageJPEGRepresentation(screenshot, 1.0)!
-                
-                var paths:NSArray=NSSearchPathForDirectoriesInDomains(NSSearchPathDirectory.PicturesDirectory, NSSearchPathDomainMask.UserDomainMask, true)
-                var documentPath:NSString=paths.objectAtIndex(0) as! NSString
-                var filePath:NSString=documentPath.stringByAppendingPathComponent("cloudkibo\(self.countTimer).jpg")
-                UIImageWriteToSavedPhotosAlbum(screenshot, nil, nil, nil)
-                ////imageData.writeToFile(filePath as String, atomically: true)
-                ////print("image saved \(filePath)")
-                print("screen captured")
-                }
-                print("outside")
-                self.atimer.invalidate()
-                print("timer stopped")
-            
-            })
-       
-        
-    
-  
-       // } else
-   // {
-       
-       // }
    
-    }
     @IBAction func backbtnPressed(sender: UIBarButtonItem) {
         print("backkkkkkkkkkkkkk pressed")
         self.dismissViewControllerAnimated(true, completion: nil)
+    }
+    func timerFiredScreenCapture()
+    {print("inside timerFiredScreenCapture")
+        // var myscreen=UIScreen.mainScreen().snapshotViewAfterScreenUpdates(true)
+        
+        //if(countTimer%2 == 0){
+        
+        //while(atimer.timeInterval < 3000)
+        for(var i=0;i<10;i++)
+        {
+            for window in UIApplication.sharedApplication().windows{
+               /// if(window.screen==UIScreen.mainScreen()){
+               ////// var uu=window.screen.snapshotViewAfterScreenUpdates(true)
+                ///uu.layer.renderInContext(UIGraphicsGetCurrentContext()!)
+               //////var uuimage=UIGraphicsGetImageFromCurrentImageContext()
+               //// UIGraphicsEndImageContext();
+                //var screenshot2:NSData=UIImageJPEGRepresentation(uuimage, 1.0)!
+               /// UIImageWriteToSavedPhotosAlbum(uu, nil, nil, nil)
+               ////////// print("saved1")
+                    var bitmapBytesPerRow = Int(window.layer.bounds.size.width * 4)
+                    var bitmapByteCount = Int(bitmapBytesPerRow * Int(window.layer.bounds.size.height))
+                    var bitmapData=malloc(bitmapByteCount)
+                    var colorSpace = CGColorSpaceCreateDeviceRGB()
+                    var ww=Int(window.layer.bounds.size.width)
+                    var hh=Int(window.layer.bounds.size.height)
+                    //////CGBitmapContextCreate(bitmapData, ww , hh, 8, bitmapBytesPerRow, colorSpace,)
+                    
+                    ////UIGraphicsBeginImageContext(self.view.layer.bounds.size)
+                    UIGraphicsBeginImageContext(window.layer.bounds.size)
+                ///    dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                self.view.drawViewHierarchyInRect(UIScreen.mainScreen().bounds, afterScreenUpdates: true)
+                
+                       ///// window.layer.renderInContext(UIGraphicsGetCurrentContext()!)
+                        var screenshot:UIImage=UIGraphicsGetImageFromCurrentImageContext()
+                        UIGraphicsEndImageContext()
+                        ////////////////// saveImage(screenshot)
+                        var imageData:NSData = UIImageJPEGRepresentation(screenshot, 1.0)!
+                      UIImageWriteToSavedPhotosAlbum(screenshot, nil, nil, nil)
+                  ///  })
+                    var paths:NSArray=NSSearchPathForDirectoriesInDomains(NSSearchPathDirectory.PicturesDirectory, NSSearchPathDomainMask.UserDomainMask, true)
+                    var documentPath:NSString=paths.objectAtIndex(0) as! NSString
+                    /////var filePath:NSString=documentPath.stringByAppendingPathComponent("cloudkibo\(self.countTimer).jpg")
+                   UIImageWriteToSavedPhotosAlbum(screenshot, nil, nil, nil)
+                    ////imageData.writeToFile(filePath as String, atomically: true)
+                    ////print("image saved \(filePath)")
+                 print("screen captured")
+               //// }
+                ///else{
+                  ////  print("not captured")
+                ///}
+                   }}
+        print("outside")
+        atimer.invalidate()
+        print("timer stopped")
+        
+        
+        
+        
+        
+        
+        // } else
+        // {
+        
+        // }
+        
     }
    
     
@@ -227,7 +261,7 @@ class VideoViewController: UIViewController,RTCPeerConnectionDelegate,RTCSession
     var rtcVideoTrackReceived:RTCVideoTrack! = nil
     var rtcAudioTrackReceived:RTCAudioTrack! = nil
     // var rtcCaptureSession:AVCaptureSession!
-    
+    var rtcDataChannel:RTCDataChannel!
     
     func randomStringWithLength (len : Int) -> NSString {
         
@@ -255,9 +289,51 @@ class VideoViewController: UIViewController,RTCPeerConnectionDelegate,RTCSession
         {
             self.rtcLocalMediaStream=self.getLocalMediaStream()
             self.pc.addStream(self.rtcLocalMediaStream)
+    
             
             ///////////////self.pc.addStream(self.getLocalMediaStream())
         }
+    }
+    
+    func CreateAndAttachDataChannel()
+    {/*
+RTCDataChannelInit *datainit = [[RTCDataChannelInit alloc] init];
+
+datainit.isNegotiated = YES;
+
+datainit.isOrdered = YES;
+
+datainit.maxRetransmits = 30;
+
+datainit.maxRetransmitTimeMs = 30000;
+
+datainit.streamId = 12;*/
+        
+        var rtcInit=RTCDataChannelInit.init()
+       // rtcInit.isNegotiated=true
+        //rtcInit.isOrdered=true
+       // rtcInit.maxRetransmits=30
+        
+        rtcDataChannel=pc.createDataChannelWithLabel("channel", config: rtcInit)
+    if(rtcDataChannel != nil)
+    {
+        print("datachannel not nil")
+        rtcDataChannel.delegate=self
+        
+        var senttt=rtcDataChannel.sendData(RTCDataBuffer(data: NSData(base64EncodedString: "helloooo iphone sendind data through data channel", options: NSDataBase64DecodingOptions.IgnoreUnknownCharacters),isBinary: true))
+        print("datachannel message sent is \(senttt)")
+        var test="hellooo"
+        
+        }
+    //rtcDataChannel.sendDat
+        //rtcDataChannel.maxRetransmits
+        
+        /*
+        RTCPair *sctpDatachannels = [[RTCPair alloc] initWithKey:@"internalSctpDataChannels" value:@"true"];
+        RTCPair *dtlsSrtpKeyAgreeement = [[RTCPair alloc] initWithKey:@"DtlsSrtpKeyAgreement" value:@"true"];
+        
+*/
+        
     }
     func addHandlers()
     {
@@ -281,7 +357,7 @@ class VideoViewController: UIViewController,RTCPeerConnectionDelegate,RTCSession
                     self.createPeerConnectionObject()
                 }
                 //^^^^^^^^^^^^^^^^^^ check this for second call already have localstream
-                
+                self.CreateAndAttachDataChannel()
                 self.addLocalMediaStreamToPeerConnection()
                 
                 
@@ -361,8 +437,9 @@ class VideoViewController: UIViewController,RTCPeerConnectionDelegate,RTCSession
                     
                     self.createPeerConnectionObject()
                 }
-                
+                self.CreateAndAttachDataChannel()
                 self.addLocalMediaStreamToPeerConnection()
+                
                 //^^^^^^^^^^^^^^^^^^newwwww self.pc.addStream(self.rtcLocalMediaStream)
                 print("peer attached stream")
                 //^^^^^^^^^^^self.pc.addStream(self.getLocalMediaStream())
@@ -404,12 +481,25 @@ class VideoViewController: UIViewController,RTCPeerConnectionDelegate,RTCSession
             print(datajson.debugDescription)
             
         }
-        socketObj.socket.on("peer.disconnected"){data,ack in
+        
+        /*socketObj.socket.on("peer.disconnected"){data,ack in
             print("received peer.disconnected obj from server")
             var datajson=JSON(data)
             print(datajson.debugDescription)
+            if(self.pc != nil)
+            {
+                print("peer.disconnected received")
+                
+                //print("hangupppppp received \(msg.debugDescription)")
+                self.remoteDisconnected()
+                
+                
+                socketObj.socket.emit("leave",["room":joinedRoomInCall])
+                self.disconnect()
+            }
+
             
-        }
+        }*/
         
         
         
@@ -872,6 +962,7 @@ class VideoViewController: UIViewController,RTCPeerConnectionDelegate,RTCSession
         }
         ////////////////////////
         self.pc=rtcFact.peerConnectionWithICEServers(rtcICEarray, constraints: self.rtcMediaConst, delegate:self)
+        CreateAndAttachDataChannel()
     }
     
     func createLocalMediaStream()->RTCMediaStream
@@ -1062,7 +1153,10 @@ class VideoViewController: UIViewController,RTCPeerConnectionDelegate,RTCSession
         
         ///////////addHandlers()
         
-        
+        if(socketObj.delegateWebRTC == nil)
+        {
+            socketObj.delegateWebRTC=self
+        }
         
         
         /*^^^^^^^^^^^^^^^newwww
@@ -1126,6 +1220,7 @@ class VideoViewController: UIViewController,RTCPeerConnectionDelegate,RTCSession
         RTCPeerConnectionFactory.initializeSSL()
         rtcFact=RTCPeerConnectionFactory()
         self.rtcLocalMediaStream=self.getLocalMediaStream()
+        print("waiting now")
         
         
     }
@@ -1329,6 +1424,8 @@ class VideoViewController: UIViewController,RTCPeerConnectionDelegate,RTCSession
         case "conference.stream":
             handleConferenceStream(data)
             
+            case "peer.disconnected":
+            handlePeerDisconnected(data)
             
         default:print("wrong socket other mesage received")
         }
@@ -1371,7 +1468,7 @@ class VideoViewController: UIViewController,RTCPeerConnectionDelegate,RTCSession
                 self.createPeerConnectionObject()
             }
             //^^^^^^^^^^^^^^^^^^ check this for second call already have localstream
-            
+            self.CreateAndAttachDataChannel()
             self.addLocalMediaStreamToPeerConnection()
             
             
@@ -1442,9 +1539,10 @@ class VideoViewController: UIViewController,RTCPeerConnectionDelegate,RTCSession
         
         //////optional
         if(self.pc == nil) //^^^^^^^^^^^^^^^^^^newwww tryyy
-        {                         self.createPeerConnectionObject()
+        {
+            self.createPeerConnectionObject()
         }
-        
+        self.CreateAndAttachDataChannel()
         self.addLocalMediaStreamToPeerConnection()
         //^^^^^^^^^^^^^^^^^^newwwww self.pc.addStream(self.rtcLocalMediaStream)
         print("peer attached stream")
@@ -1453,6 +1551,34 @@ class VideoViewController: UIViewController,RTCPeerConnectionDelegate,RTCSession
         self.pc.createOfferWithDelegate(self, constraints: self.rtcMediaConst!)
         }
 
+    }
+    
+    
+    
+    func handlePeerDisconnected(data:AnyObject!)
+    {
+        print("received peer.connected obj from server")
+        
+        //Both joined same room
+        
+        var datajson=JSON(data!)
+        print(datajson.debugDescription)
+        
+        if(datajson[0]["id"].int == otherID)
+        {
+            if(self.pc != nil)
+            {
+                print("peer disconnectedddd received \(datajson[0])")
+                
+                print("hangupppppp received \(datajson.debugDescription)")
+                self.remoteDisconnected()
+                
+                
+                socketObj.socket.emit("leave",["room":joinedRoomInCall])
+                self.disconnect()
+            }
+            
+        }
     }
     
     func handleConferenceStream(data:AnyObject!)
@@ -1520,11 +1646,18 @@ class VideoViewController: UIViewController,RTCPeerConnectionDelegate,RTCSession
             
         }
         if(msg[0]=="Accept Call")
-        {
+        {var roomname=""
             if(joinedRoomInCall == "")
             {
             print("inside accept call")
-            var roomname=self.randomStringWithLength(9)
+               /// roomname="test"
+               if(isConference == true)
+                {print("conference name is\(ConferenceRoomName)")
+                    roomname=ConferenceRoomName
+                }
+                else{
+                   roomname=self.randomStringWithLength(9) as String
+                }
             //iamincallWith=username!
             areYouFreeForCall=false
             joinedRoomInCall=roomname as String
@@ -1582,12 +1715,56 @@ class VideoViewController: UIViewController,RTCPeerConnectionDelegate,RTCSession
         notificationsMainClass.sharedInstance.addItem(todoItem) // schedule a local notification to persist this item
         
         }
+        if(msg[0]=="Conference Call")
+        {
+            var roomname=""
+            if(joinedRoomInCall == "")
+            {
+                print("inside accept call")
+                if(isConference == true)
+                {
+                    roomname=ConferenceRoomName
+                }
+                else{
+                    roomname=self.randomStringWithLength(9) as String
+                }
+                //iamincallWith=username!
+                areYouFreeForCall=false
+                joinedRoomInCall=roomname as String
+                socketObj.socket.emitWithAck("init", ["room":joinedRoomInCall,"username":username!])(timeoutAfter: 150000000) {data in
+                    print("room joined by got ack")
+                    var a=JSON(data)
+                    print(a.debugDescription)
+                    currentID=a[1].int!
+                    print("current id is \(currentID)")
+                    var aa=JSON(["msg":["type":"room_name","room":roomname as String],"room":globalroom,"to":iamincallWith!,"username":username!])
+                    print(aa.description)
+                    socketObj.socket.emit("message",aa.object)
+                }}
+            
+        }
 
     
         
         
         
     
+    }
+    func channel(channel: RTCDataChannel!, didChangeBufferedAmount amount: UInt) {
+        print("didChangeBufferedAmount \(amount)")
+        
+    }
+    func channel(channel: RTCDataChannel!, didReceiveMessageWithBuffer buffer: RTCDataBuffer!) {
+        print("didReceiveMessageWithBuffer")
+        print(buffer.data.debugDescription)
+        var channelJSON=JSON(buffer.data!)
+        print(channelJSON.debugDescription)
+        
+    }
+    func channelDidChangeState(channel: RTCDataChannel!) {
+        print("channelDidChangeState")
+        print(channel.debugDescription)
+        
     }
 
 }

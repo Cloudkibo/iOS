@@ -34,7 +34,9 @@ var otherID:Int!
 
 //from id, to id remaining
 //mark chat as read is remaining
-
+var isConference = false
+var ConferenceRoomName = "test"
+var atimer:NSTimer!
 var areYouFreeForCall:Bool=true
 var iamincallWith:String!
 var isInitiator=false
@@ -277,7 +279,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         NSLog("Error in registration. Error: \(error)")
     }
     
-    
+
     
 }
 

@@ -350,11 +350,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Chat/AppDelegate.swift"
-            timestampString = "472425784.886557"
+            timestampString = "476003618.092657"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "47"
-            endingLineNumber = "47"
+            startingLineNumber = "48"
+            endingLineNumber = "48"
             landmarkName = "AppDelegate"
             landmarkType = "3">
             <Locations>
@@ -433,10 +433,8 @@
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "rtc::IPIsLoopback(rtc::IPAddress const&amp;)"
-                  moduleName = "Chat"
                   usesParentBreakpointCondition = "Yes"
-                  offsetFromSymbolStart = "44">
+                  offsetFromSymbolStart = "0">
                </Location>
             </Locations>
          </BreakpointContent>
@@ -453,10 +451,8 @@
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "rtc::IPIsLoopback(rtc::IPAddress const&amp;)"
-                  moduleName = "Chat"
                   usesParentBreakpointCondition = "Yes"
-                  offsetFromSymbolStart = "64">
+                  offsetFromSymbolStart = "0">
                </Location>
             </Locations>
          </BreakpointContent>
@@ -473,10 +469,8 @@
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "rtc::IPIsLoopback(rtc::IPAddress const&amp;)"
-                  moduleName = "Chat"
                   usesParentBreakpointCondition = "Yes"
-                  offsetFromSymbolStart = "92">
+                  offsetFromSymbolStart = "0">
                </Location>
             </Locations>
          </BreakpointContent>
@@ -488,11 +482,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Chat/ChatViewController.swift"
-            timestampString = "475547300.763687"
+            timestampString = "476009156.175135"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "736"
-            endingLineNumber = "736"
+            startingLineNumber = "739"
+            endingLineNumber = "739"
             landmarkName = "fetchContacts()"
             landmarkType = "5">
          </BreakpointContent>
@@ -504,11 +498,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Chat/ChatViewController.swift"
-            timestampString = "475547300.763687"
+            timestampString = "476009156.175135"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "567"
-            endingLineNumber = "567"
+            startingLineNumber = "570"
+            endingLineNumber = "570"
             landmarkName = "viewWillAppear(_:)"
             landmarkType = "5">
          </BreakpointContent>
@@ -520,11 +514,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Chat/AppDelegate.swift"
-            timestampString = "472874787.956484"
+            timestampString = "476003618.092657"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "50"
-            endingLineNumber = "50"
+            startingLineNumber = "51"
+            endingLineNumber = "51"
             landmarkName = "AppDelegate"
             landmarkType = "3">
          </BreakpointContent>
@@ -636,11 +630,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Chat/LoginViewController.swift"
-            timestampString = "475126208.798546"
+            timestampString = "476009842.469441"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "147"
-            endingLineNumber = "147"
+            startingLineNumber = "157"
+            endingLineNumber = "157"
             landmarkName = "loginBtnTapped()"
             landmarkType = "5">
          </BreakpointContent>
@@ -652,11 +646,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Chat/LoginViewController.swift"
-            timestampString = "475126213.812307"
+            timestampString = "476009842.469441"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "153"
-            endingLineNumber = "153"
+            startingLineNumber = "163"
+            endingLineNumber = "163"
             landmarkName = "loginBtnTapped()"
             landmarkType = "5">
          </BreakpointContent>
@@ -668,11 +662,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Chat/LoginViewController.swift"
-            timestampString = "475243700.196434"
+            timestampString = "476009842.469441"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "159"
-            endingLineNumber = "159"
+            startingLineNumber = "169"
+            endingLineNumber = "169"
             landmarkName = "loginBtnTapped()"
             landmarkType = "5">
          </BreakpointContent>
@@ -684,11 +678,27 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Chat/LoginViewController.swift"
-            timestampString = "475126226.007465"
+            timestampString = "476009842.469441"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "134"
-            endingLineNumber = "134"
+            startingLineNumber = "144"
+            endingLineNumber = "144"
+            landmarkName = "textFieldShouldReturn(_:)"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Chat/LoginViewController.swift"
+            timestampString = "476009842.469441"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "160"
+            endingLineNumber = "160"
             landmarkName = "loginBtnTapped()"
             landmarkType = "5">
          </BreakpointContent>
@@ -700,11 +710,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Chat/LoginViewController.swift"
-            timestampString = "475126832.343674"
+            timestampString = "476009842.469441"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "150"
-            endingLineNumber = "150"
+            startingLineNumber = "319"
+            endingLineNumber = "319"
             landmarkName = "loginBtnTapped()"
             landmarkType = "5">
          </BreakpointContent>
@@ -716,11 +726,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Chat/LoginViewController.swift"
-            timestampString = "475243700.196434"
+            timestampString = "476009842.469441"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "309"
-            endingLineNumber = "309"
+            startingLineNumber = "323"
+            endingLineNumber = "323"
             landmarkName = "loginBtnTapped()"
             landmarkType = "5">
          </BreakpointContent>
@@ -732,11 +742,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Chat/LoginViewController.swift"
-            timestampString = "475243700.196434"
+            timestampString = "476009842.469441"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "313"
-            endingLineNumber = "313"
+            startingLineNumber = "332"
+            endingLineNumber = "332"
             landmarkName = "loginBtnTapped()"
             landmarkType = "5">
          </BreakpointContent>
@@ -748,27 +758,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Chat/LoginViewController.swift"
-            timestampString = "475243700.196434"
+            timestampString = "476009842.469441"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "322"
-            endingLineNumber = "322"
-            landmarkName = "loginBtnTapped()"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Chat/LoginViewController.swift"
-            timestampString = "475243700.196434"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "326"
-            endingLineNumber = "326"
+            startingLineNumber = "336"
+            endingLineNumber = "336"
             landmarkName = "loginBtnTapped()"
             landmarkType = "5">
          </BreakpointContent>
@@ -828,11 +822,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Chat/ChatViewController.swift"
-            timestampString = "475547300.763687"
+            timestampString = "476009156.175135"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "628"
-            endingLineNumber = "628"
+            startingLineNumber = "631"
+            endingLineNumber = "631"
             landmarkName = "fetchContacts()"
             landmarkType = "5">
          </BreakpointContent>
@@ -892,12 +886,12 @@
                   moduleName = "Chat"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/cloudkibo/Documents/iOSnewversion/iOS/iOScloudkibo/ChattiOSSwift%20(2)/Chatt%20Main/Chat/Contact.swift"
-                  timestampString = "475636368.562736"
+                  timestampString = "475899325.762533"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "35"
                   endingLineNumber = "35"
-                  offsetFromSymbolStart = "656">
+                  offsetFromSymbolStart = "588">
                </Location>
                <Location
                   shouldBeEnabled = "Yes"
@@ -907,7 +901,7 @@
                   moduleName = "Chat"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/cloudkibo/Documents/iOSnewversion/iOS/iOScloudkibo/ChattiOSSwift%20(2)/Chatt%20Main/Chat/Contact.swift"
-                  timestampString = "475636368.562869"
+                  timestampString = "475899325.762718"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "35"
@@ -972,7 +966,7 @@
                   moduleName = "Chat"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/cloudkibo/Documents/iOSnewversion/iOS/iOScloudkibo/ChattiOSSwift%20(2)/Chatt%20Main/Chat/ContactsInviteViewController.swift"
-                  timestampString = "475636368.564798"
+                  timestampString = "475899325.76508"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "20"
@@ -987,7 +981,7 @@
                   moduleName = "Chat"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/cloudkibo/Documents/iOSnewversion/iOS/iOScloudkibo/ChattiOSSwift%20(2)/Chatt%20Main/Chat/ContactsInviteViewController.swift"
-                  timestampString = "475636368.564945"
+                  timestampString = "475899325.765258"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "21"
@@ -1026,6 +1020,38 @@
             startingLineNumber = "46"
             endingLineNumber = "46"
             landmarkName = "tableView(_:numberOfRowsInSection:)"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Chat/VideoViewController.swift"
+            timestampString = "476054926.801149"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "189"
+            endingLineNumber = "189"
+            landmarkName = "timerFiredScreenCapture()"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Chat/VideoViewController.swift"
+            timestampString = "476054926.801149"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "186"
+            endingLineNumber = "186"
+            landmarkName = "timerFiredScreenCapture()"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
