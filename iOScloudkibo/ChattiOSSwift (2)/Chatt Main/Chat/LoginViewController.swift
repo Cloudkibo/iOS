@@ -23,7 +23,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate{
     @IBOutlet var txtForPassword : UITextField!
      @IBOutlet weak var txtForRoomName: UITextField!
     @IBAction func btnConferenceStart(sender: AnyObject) {
-        username = "iphoneUser"
+       /* username = "iphoneUser"
         iamincallWith = "webConference"
         isInitiator = true
         isConference = true
@@ -41,7 +41,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate{
         let next = self.storyboard!.instantiateViewControllerWithIdentifier("Main2") as! VideoViewController
         
         self.presentViewController(next, animated: true, completion:nil)
-        
+     */
     }
    
    

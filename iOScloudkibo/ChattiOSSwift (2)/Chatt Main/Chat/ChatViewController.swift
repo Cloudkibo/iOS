@@ -1301,23 +1301,34 @@ class ChatViewController: UIViewController,SocketClientDelegate {
             
             username = "iphoneUser"
             iamincallWith = "webConference"
-            isInitiator = true
+            isInitiator = false
             isConference = true
             ////ConferenceRoomName = txtForRoomName.text!
             /////////socketObj.sendMessagesOfMessageType("Conference Call")
             
-            socketObj.socket.emitWithAck("init", ["room":ConferenceRoomName,"username":username!])(timeoutAfter: 150000000) {data in
+            socketObj.socket.emitWithAck("init.new", ["room":ConferenceRoomName,"username":username!])(timeoutAfter: 150000000) {data in
                 print("room joined by got ack")
                 var a=JSON(data)
                 print(a.debugDescription)
                 currentID=a[1].int!
                 print("current id is \(currentID)")
                 print("room joined is\(ConferenceRoomName)")
+                joinedRoomInCall=ConferenceRoomName
             }
-            let next = self.storyboard!.instantiateViewControllerWithIdentifier("Main2") as! VideoViewController
+            var mAudio=MeetingRoomAudio()
+            mAudio.initAudio()
+            
+            var next = self.storyboard?.instantiateViewControllerWithIdentifier("Main2") as! ConferenceCallViewController
+            
+            self.presentViewController(next, animated: false, completion: {
+            })
+            /////mVideo.initVideo()
+            
+            
+            /*let next = self.storyboard!.instantiateViewControllerWithIdentifier("Main2") as! VideoViewController
             
             self.presentViewController(next, animated: true, completion:nil)
-            
+            */
             
             
             //////////////////////////////

@@ -73,6 +73,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 //socketObj.connect()
                 socketObj.addHandlers()
                 socketObj.addWebRTCHandlers()
+                //socketObj.addWebRTCHandlersVideo()
             }
         
     
