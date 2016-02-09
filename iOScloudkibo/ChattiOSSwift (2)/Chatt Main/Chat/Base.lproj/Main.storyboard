@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9531" systemVersion="14F27" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="EQb-Ls-ePT">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9532" systemVersion="14F27" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="EQb-Ls-ePT">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9529"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9530"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
@@ -1203,10 +1203,10 @@
             </objects>
             <point key="canvasLocation" x="-139" y="183"/>
         </scene>
-        <!--Video View Controller-->
+        <!--Conference Call View Controller-->
         <scene sceneID="Apj-VL-Pbf">
             <objects>
-                <viewController restorationIdentifier="Main2" storyboardIdentifier="Main2" id="VkD-da-dMy" customClass="VideoViewController" customModule="Chat" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController restorationIdentifier="Main2" storyboardIdentifier="Main2" id="VkD-da-dMy" customClass="ConferenceCallViewController" customModule="Chat" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="aAw-0i-KRF"/>
                         <viewControllerLayoutGuide type="bottom" id="wnH-o7-3kI"/>
@@ -1221,7 +1221,7 @@
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
-                                    <action selector="endCallBtnPressed:" destination="VkD-da-dMy" eventType="touchUpInside" id="XNI-rr-ShK"/>
+                                    <action selector="endCallBtnPressed:" destination="VkD-da-dMy" eventType="touchUpInside" id="UMH-Nu-Dee"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9dh-eh-AtJ">
@@ -1230,7 +1230,7 @@
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
-                                    <action selector="toggleVideoBtnPressed:" destination="VkD-da-dMy" eventType="touchUpInside" id="xe8-As-tgI"/>
+                                    <action selector="toggleVideoBtnPressed:" destination="VkD-da-dMy" eventType="touchUpInside" id="zWJ-r2-yez"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1mX-yp-FUh">
@@ -1239,7 +1239,7 @@
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
-                                    <action selector="toggleAudioPressed:" destination="VkD-da-dMy" eventType="touchUpInside" id="Oeh-xV-nFB"/>
+                                    <action selector="toggleAudioBtnPressed:" destination="VkD-da-dMy" eventType="touchUpInside" id="0QB-cC-vWx"/>
                                 </connections>
                             </button>
                             <navigationBar contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="hQ4-J5-BLT">
@@ -1249,12 +1249,12 @@
                                     <navigationItem id="jxX-Mf-K5x">
                                         <barButtonItem key="backBarButtonItem" title="Item" id="O8B-ca-1RO">
                                             <connections>
-                                                <action selector="backbtnPressed:" destination="VkD-da-dMy" id="9ii-lk-Mkt"/>
+                                                <action selector="backbtnPressed:" destination="VkD-da-dMy" id="YNZ-S8-YXf"/>
                                             </connections>
                                         </barButtonItem>
                                         <barButtonItem key="rightBarButtonItem" title="Capture" id="Nba-B7-Etl" userLabel="capture">
                                             <connections>
-                                                <action selector="btnCapturePressed:" destination="VkD-da-dMy" id="gwf-xn-GqK"/>
+                                                <action selector="btnCapturePressed:" destination="VkD-da-dMy" id="hB8-tt-3Qi"/>
                                             </connections>
                                         </barButtonItem>
                                         <connections>
@@ -1278,7 +1278,7 @@
                     <navigationItem key="navigationItem" id="JU6-t2-ivy"/>
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
-                        <outlet property="localViewOutlet" destination="KSC-m3-8y7" id="yxY-lI-H54"/>
+                        <outlet property="localViewOutlet" destination="KSC-m3-8y7" id="cdR-8Y-Nqy"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="URD-gR-s34" userLabel="First Responder" sceneMemberID="firstResponder"/>
