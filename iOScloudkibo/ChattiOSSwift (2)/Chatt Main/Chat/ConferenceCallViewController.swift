@@ -8,11 +8,12 @@
 
 import UIKit
 import AVFoundation
+import SwiftyJSON
 
-class ConferenceCallViewController: UIViewController,ConferenceDelegate,ConferenceScreenDelegate {
+class ConferenceCallViewController: UIViewController,ConferenceDelegate,ConferenceScreenReceiveDelegate {
 
     var mvideo:MeetingRoomVideo!
-   /// var mvideo:MeetingVideo!
+    var mdata:MeetingRoomData!
     //var mvideo:MeetingRoomVideo!
     var svideo:MeetingRoomScreen!
     var rtcVideoTrackReceived:RTCVideoTrack! = nil
@@ -21,9 +22,11 @@ class ConferenceCallViewController: UIViewController,ConferenceDelegate,Conferen
     var rtcLocalVideoTrack:RTCVideoTrack! = nil
     var actionVideo:Bool=false
     var rtcLocalVideoStream:RTCMediaStream!
+    //var rtcDataChannel:RTCDataChannel!
+    var countTimer=1
     
     @IBOutlet var localViewOutlet: UIView!
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -35,6 +38,10 @@ class ConferenceCallViewController: UIViewController,ConferenceDelegate,Conferen
         svideo=MeetingRoomScreen()
         svideo.addHandlers()
         svideo.delegateConference=self
+        
+        mdata=MeetingRoomData()
+        mdata.addHandlers()
+        ////mdata.delegateConference=self
         //////mvideo=MeetingVideo()
         //////mvideo.initVideo()
         /////mvideo.delegate=self
@@ -80,12 +87,99 @@ class ConferenceCallViewController: UIViewController,ConferenceDelegate,Conferen
     }
     
     @IBAction func backbtnPressed(sender: AnyObject) {
+        print("backkkkkkkkkkkkkk pressed")
+        self.dismissViewControllerAnimated(true, completion: nil)
     }
     
     
     @IBAction func btnCapturePressed(sender: AnyObject) {
+        
+       //////// mdata.toggleScreen(screenAction, tempstream: <#T##RTCMediaStream!#>)
+        if(mdata.pc == nil)
+        {
+            mdata.createPeerConnection()
+            mdata.CreateAndAttachDataChannel()
+        }
+       socketObj.socket.emit("conference.streamScreen", ["username":username!,"id":currentID!,"type":"screenAndroid","action":"true"])
+
+        
+        
+        
+        atimer=NSTimer(timeInterval: 0.5, target: self, selector: "timerFiredScreenCapture", userInfo: nil, repeats: true)
+        
+        
+        countTimer++
+        dispatch_async(dispatch_get_main_queue(), { () -> Void in
+            
+            atimer.fire()
+            
+            ///if(countTimer==10){
+            // atimer.invalidate()
+            print("timer stopped1")
+        })
+
     }
     
+    func timerFiredScreenCapture()
+    {print("inside timerFiredScreenCapture")
+        // var myscreen=UIScreen.mainScreen().snapshotViewAfterScreenUpdates(true)
+        
+        //if(countTimer%2 == 0){
+        
+        //while(atimer.timeInterval < 3000)
+        for(var i=0;i<30;i++)
+        {
+            for window in UIApplication.sharedApplication().windows{
+                
+                var bitmapBytesPerRow = Int(window.layer.bounds.size.width * 4)
+                var bitmapByteCount = Int(bitmapBytesPerRow * Int(window.layer.bounds.size.height))
+                var bitmapData=malloc(bitmapByteCount)
+                var colorSpace = CGColorSpaceCreateDeviceRGB()
+                var ww=Int(window.layer.bounds.size.width)
+                var hh=Int(window.layer.bounds.size.height)
+                //////CGBitmapContextCreate(bitmapData, ww , hh, 8, bitmapBytesPerRow, colorSpace,)
+                
+                ////UIGraphicsBeginImageContext(self.view.layer.bounds.size)
+                UIGraphicsBeginImageContext(window.layer.bounds.size)
+                ///    dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                self.view.drawViewHierarchyInRect(UIScreen.mainScreen().bounds, afterScreenUpdates: true)
+                
+                ///// window.layer.renderInContext(UIGraphicsGetCurrentContext()!)
+                var screenshot:UIImage=UIGraphicsGetImageFromCurrentImageContext()
+                UIGraphicsEndImageContext()
+                ////////////////// saveImage(screenshot)
+                var imageData:NSData = UIImageJPEGRepresentation(screenshot, 1.0)!
+                /////
+                ///////IMAGE SAVE CODE
+                /////
+                /*UIImageWriteToSavedPhotosAlbum(screenshot, nil, nil, nil)
+                ///  })
+                var paths:NSArray=NSSearchPathForDirectoriesInDomains(NSSearchPathDirectory.PicturesDirectory, NSSearchPathDomainMask.UserDomainMask, true)
+                var documentPath:NSString=paths.objectAtIndex(0) as! NSString
+                /////var filePath:NSString=documentPath.stringByAppendingPathComponent("cloudkibo\(self.countTimer).jpg")
+                UIImageWriteToSavedPhotosAlbum(screenshot, nil, nil, nil)
+                ////imageData.writeToFile(filePath as String, atomically: true)
+                ////print("image saved \(filePath)")
+                print("screen captured")
+                */
+                
+                mdata.sendImage(imageData)
+                ///////var imageSent=rtcDataChannel.sendData(RTCDataBuffer(data: imageData, isBinary: true))
+                //////print("image senttttt \(imageSent)")
+                
+                //// }
+                ///else{
+                ////  print("not captured")
+                ///}
+            }}
+        print("outside")
+        atimer.invalidate()
+        print("timer stopped")
+        
+        
+        
+    }
+
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -304,4 +398,31 @@ class ConferenceCallViewController: UIViewController,ConferenceDelegate,Conferen
         self.localView.setNeedsDisplay()
         self.localViewOutlet.setNeedsDisplay()
     }
+    
+    
+    
+    func captureSreenStart()
+    {
+        
+    }
+
+   
+    /*
+    func channel(channel: RTCDataChannel!, didChangeBufferedAmount amount: UInt) {
+        print("didChangeBufferedAmount \(amount)")
+        
+    }
+    func channel(channel: RTCDataChannel!, didReceiveMessageWithBuffer buffer: RTCDataBuffer!) {
+        print("didReceiveMessageWithBuffer")
+        print(buffer.data.debugDescription)
+        var channelJSON=JSON(buffer.data!)
+        print(channelJSON.debugDescription)
+        
+    }
+    func channelDidChangeState(channel: RTCDataChannel!) {
+        print("channelDidChangeState")
+        print(channel.debugDescription)
+        
+    }*/
+    
 }

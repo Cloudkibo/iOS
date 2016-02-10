@@ -11,15 +11,16 @@ import AVFoundation
 import Foundation
 import SwiftyJSON
 
-class MeetingRoomScreen:NSObject,RTCPeerConnectionDelegate,RTCSessionDescriptionDelegate{
+class MeetingRoomData:NSObject,RTCPeerConnectionDelegate,RTCSessionDescriptionDelegate,RTCDataChannelDelegate{
     
     var pc:RTCPeerConnection!
     var rtcMediaConst:RTCMediaConstraints!
-    var rtcLocalVideoTrack:RTCVideoTrack!
-    var rtcRemoteVideoTrack:RTCVideoTrack!
+    //////var rtcLocalVideoTrack:RTCVideoTrack!
+    ///////var rtcRemoteVideoTrack:RTCVideoTrack!
     var stream:RTCMediaStream!
-    var delegateConference:ConferenceScreenReceiveDelegate!
+    //////var delegateConference:ConferenceScreenDelegate!
     var screenshared=false
+    var rtcDataChannel:RTCDataChannel!
     
     override init()
     {/*var mainICEServerURL:NSURL=NSURL(fileURLWithPath: Constants.MainUrl)
@@ -93,12 +94,11 @@ class MeetingRoomScreen:NSObject,RTCPeerConnectionDelegate,RTCSessionDescription
         
     }
     
-    func createLocalVideoStream()->RTCMediaStream
-    {
-        print("inside createlocalvideostream")
+   /* func createLocalVideoStream()->RTCMediaStream
+    {print("inside createlocalvideostream")
         
         var localStream:RTCMediaStream!
-        /*
+        
         localStream=rtcFact.mediaStreamWithLabel("ARDAMS")
         
         self.rtcLocalVideoTrack = createLocalVideoTrack()
@@ -120,13 +120,11 @@ class MeetingRoomScreen:NSObject,RTCPeerConnectionDelegate,RTCSessionDescription
         print("localStreammm ")
         print(localStream.description, terminator: "")
         //^^^localVideoTrack.addRenderer(localView)
-*/
         return localStream
-
-    }
+    }*/
     
     
-    
+    /*
     func createLocalVideoTrack()->RTCVideoTrack{
         //var localVideoTrack:RTCVideoTrack
         var cameraID:NSString!
@@ -160,6 +158,8 @@ class MeetingRoomScreen:NSObject,RTCPeerConnectionDelegate,RTCSessionDescription
         return self.rtcLocalVideoTrack
         
     }
+    
+    */
     /* func removeLocalMediaStreamFromPeerConnection()
     {
     
@@ -200,22 +200,22 @@ class MeetingRoomScreen:NSObject,RTCPeerConnectionDelegate,RTCSessionDescription
             createPeerConnection()
         }
         
-        socketObj.socket.emit("conference.streamScreen", ["username":username!,"id":currentID!,"type":"screen","action":videoAction.boolValue])
+        socketObj.socket.emit("conference.streamScreen", ["username":username!,"id":currentID!,"type":"screenAndroid","action":videoAction.boolValue])
         
     }
     
     
     
     func peerConnection(peerConnection: RTCPeerConnection!, addedStream stream1: RTCMediaStream!) {
-        print("added remote stream")
-        if(stream1.videoTracks.count>0)
+        print("added remote data stream")
+        /*if(stream1.videoTracks.count>0)
         {self.rtcRemoteVideoTrack=stream1.videoTracks[0] as! RTCVideoTrack
             dispatch_async(dispatch_get_main_queue(), {
                 
                 self.delegateConference.didReceiveRemoteScreen(self.rtcRemoteVideoTrack)
             })
             
-        }
+        }*/
         
     }
     func peerConnection(peerConnection: RTCPeerConnection!, didCreateSessionDescription sdp: RTCSessionDescription!, error: NSError!) {
@@ -236,7 +236,7 @@ class MeetingRoomScreen:NSObject,RTCPeerConnectionDelegate,RTCSessionDescription
                 
                 print(["by":currentID!,"to":otherID,"sdp":["type":sdp.type!,"sdp":sdp.description],"type":sdp.type!,"username":username!])
                 
-                socketObj.socket.emit("msgScreen",["by":currentID!,"to":otherID,"sdp":["type":sdp.type!,"sdp":sdp.description],"type":sdp.type!,"username":username!])
+                socketObj.socket.emit("msgData",["by":currentID!,"to":otherID,"sdp":["type":sdp.type!,"sdp":sdp.description],"type":sdp.type!,"username":username!])
                 print("\(sdp.type) emitteddd")
             }
             if(self.pc.localDescription == nil){
@@ -248,7 +248,7 @@ class MeetingRoomScreen:NSObject,RTCPeerConnectionDelegate,RTCSessionDescription
                 
                 ////print(["by":currentID!,"to":otherID,"sdp":["type":sdp.type!,"sdp":sdp.description],"type":sdp.type!,"username":username!])
                 
-                socketObj.socket.emit("msgScreen",["by":currentID!,"to":otherID,"sdp":["type":sdp.type!,"sdp":sdp.description],"type":sdp.type!,"username":username!])
+                socketObj.socket.emit("msgData",["by":currentID!,"to":otherID,"sdp":["type":sdp.type!,"sdp":sdp.description],"type":sdp.type!,"username":username!])
                 print("\(sdp.type) emitteddd")
             }
             
@@ -300,9 +300,9 @@ class MeetingRoomScreen:NSObject,RTCPeerConnectionDelegate,RTCSessionDescription
         
         var cnd=JSON(["sdpMLineIndex":candidate.sdpMLineIndex,"sdpMid":candidate.sdpMid!,"candidate":candidate.sdp!])
         
-        var aa=JSON(["msgScreen":["by":currentID!,"to":otherID,"ice":cnd.object,"type":"ice"]])
+        var aa=JSON(["msgData":["by":currentID!,"to":otherID,"ice":cnd.object,"type":"ice"]])
         //print(aa.description)
-        socketObj.socket.emit("msgScreen",["by":currentID!,"to":otherID,"ice":cnd.object,"type":"ice"])
+        socketObj.socket.emit("msgData",["by":currentID!,"to":otherID,"ice":cnd.object,"type":"ice"])
         
         
     }
@@ -369,11 +369,11 @@ class MeetingRoomScreen:NSObject,RTCPeerConnectionDelegate,RTCSessionDescription
                 self.createPeerConnection()
             }
             //^^^^^^^^^^^^^^^^^^ check this for second call already have localstream
-            ////self.CreateAndAttachDataChannel()
+            self.CreateAndAttachDataChannel()
             
-            //.........................
-            ////////////////////////////////////self.stream=self.createLocalVideoStream()
-            pc.addStream(self.stream)
+            
+            ////self.stream=self.createLocalVideoStream()
+            //////pc.addStream(self.stream)
             
             
             //^^^^^^^^^^^^^^^^^^^^^^^newwwwww self.pc.addStream(self.getLocalMediaStream())
@@ -450,13 +450,12 @@ class MeetingRoomScreen:NSObject,RTCPeerConnectionDelegate,RTCSessionDescription
     }
     func addHandlers()
     {
-        
-        socketObj.socket.on("msgScreen"){data,ack in
+        socketObj.socket.on("msgData"){data,ack in
             
-            //self.delegateWebRTCVideo.socketReceivedMSGWebRTCVideo("msgScreen", data: data)
+            //self.delegateWebRTCVideo.socketReceivedMSGWebRTCVideo("msgData", data: data)
             
-            //print("msgScreen reeived.. check if offer answer or ice")
-            print("msgScreen received from socket")
+            //print("msgData reeived.. check if offer answer or ice")
+            print("msgData received from socket")
             self.handlemsg(data)
             /*switch(message){
             
@@ -497,20 +496,27 @@ class MeetingRoomScreen:NSObject,RTCPeerConnectionDelegate,RTCSessionDescription
                 iamincallWith=datajson[0]["username"].description
                 isInitiator=true
             }
+            //////optional
+            if(self.pc == nil) //^^^^^^^^^^^^^^^^^^newwww tryyy
+            {
+                self.createPeerConnection()
+            }
+            self.CreateAndAttachDataChannel()
+            ////self.addLocalMediaStreamToPeerConnection()
+            //^^^^^^^^^^^^^^^^^^newwwww self.pc.addStream(self.rtcLocalMediaStream)
+            print("peer created datachanned")
+            
+            
+            self.pc.createOfferWithDelegate(self, constraints: self.rtcMediaConst!)
+        
             
         }
         
         
-        socketObj.socket.on("conference.streamScreen"){data,ack in
+        socketObj.socket.on("conference.streamData"){data,ack in
             
-            print("received conference.streamScreen obj from server")
-             var datajson=JSON(data)
-            if(datajson[0]["id"].int != currentID!)
-            {
+            print("received conference.streamData obj from server")
             self.handleConferenceStream(data)
-            }
-            else
-            {print("conference.streamScreen received of myself so no need to handle")}
             //self.delegateWebRTCVideo.socketReceivedOtherWebRTCVideo("conference.streamVideo", data: data)
             
         }
@@ -547,7 +553,7 @@ class MeetingRoomScreen:NSObject,RTCPeerConnectionDelegate,RTCSessionDescription
     }
     
     
-    func removeLocalMediaStreamFromPeerConnection()
+    /*func removeLocalMediaStreamFromPeerConnection()
     {
         
         //self.pc.removeStream(stream)
@@ -566,18 +572,62 @@ class MeetingRoomScreen:NSObject,RTCPeerConnectionDelegate,RTCSessionDescription
         ///self.rtcLocalVideoStream=nil
         
         
+    }*/
+    
+    
+    func CreateAndAttachDataChannel()
+    {
+        
+        var rtcInit=RTCDataChannelInit.init()
+        // rtcInit.isNegotiated=true
+        //rtcInit.isOrdered=true
+        // rtcInit.maxRetransmits=30
+        
+        rtcDataChannel=pc.createDataChannelWithLabel("channel", config: rtcInit)
+        if(rtcDataChannel != nil)
+        {
+            print("datachannel not nil")
+            rtcDataChannel.delegate=self
+            
+            //////////////////
+            var senttt=rtcDataChannel.sendData(RTCDataBuffer(data: NSData(base64EncodedString: "helloooo iphone sendind data through data channel", options: NSDataBase64DecodingOptions.IgnoreUnknownCharacters),isBinary: true))
+             print("datachannel message sent is \(senttt)")
+            ///var test="hellooo"
+            
+        }
+        
+    }
+    func channel(channel: RTCDataChannel!, didChangeBufferedAmount amount: UInt) {
+        print("didChangeBufferedAmount \(amount)")
+        
+    }
+    func channel(channel: RTCDataChannel!, didReceiveMessageWithBuffer buffer: RTCDataBuffer!) {
+        print("didReceiveMessageWithBuffer")
+        print(buffer.data.debugDescription)
+        var channelJSON=JSON(buffer.data!)
+        print(channelJSON.debugDescription)
+        
+    }
+    func channelDidChangeState(channel: RTCDataChannel!) {
+        print("channelDidChangeState")
+        print(channel.debugDescription)
+        
     }
     
-    
-       
+    func sendImage(imageData:NSData)
+    {
+        
+        var imageSent=rtcDataChannel.sendData(RTCDataBuffer(data: imageData, isBinary: true))
+        print("image senttttt \(imageSent)")
 
+    }
     
 }
-
-protocol ConferenceScreenReceiveDelegate:class
+/*
+protocol ConferenceScreenDelegate:class
 {
     func didReceiveRemoteScreen(remoteAudioTrack:RTCVideoTrack);
     //func didReceiveLocalVideoTrack(localVideoTrack:RTCVideoTrack);
-    //func didReceiveLocalScreen(remoteVideoTrack:RTCVideoTrack);
+    func didReceiveLocalScreen(remoteVideoTrack:RTCVideoTrack);
     
-}
+}*/
