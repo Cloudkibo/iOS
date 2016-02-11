@@ -76,7 +76,17 @@ class ConferenceCallViewController: UIViewController,ConferenceDelegate,Conferen
         else{
             mvideo.toggleVideo(actionVideo,tempstream: rtcLocalVideoStream)
              mvideo.removeLocalMediaStreamFromPeerConnection()
-            mvideo.pc.close()
+            mvideo.pc=nil
+            if((self.rtcLocalVideoTrack) != nil)
+            {
+                print("remove remote video renderer")
+                
+                self.rtcLocalVideoTrack.removeRenderer(self.localView)
+                self.rtcLocalVideoStream.removeVideoTrack(self.rtcLocalVideoTrack)
+                self.rtcLocalVideoTrack=nil
+                self.localView.removeFromSuperview()
+            }
+            
             
         }
         
@@ -399,6 +409,32 @@ class ConferenceCallViewController: UIViewController,ConferenceDelegate,Conferen
         self.localViewOutlet.setNeedsDisplay()
     }
     
+    func didRemoveRemoteScreen()
+    {
+        if((self.rtcVideoTrackReceived) != nil)
+        {print("remove remote screen renderer")
+            
+            self.rtcVideoTrackReceived.removeRenderer(self.remoteView)
+            self.rtcVideoTrackReceived=nil
+            self.remoteView.removeFromSuperview()
+        }
+    }
+    
+    
+    func didRemoveRemoteVideoTrack()
+    {
+        if((self.rtcVideoTrackReceived) != nil)
+        {
+            print("remove remote video renderer")
+    
+            self.rtcVideoTrackReceived.removeRenderer(self.remoteView)
+            self.rtcVideoTrackReceived=nil
+            self.remoteView.removeFromSuperview()
+        }
+    
+    }
+    
+   
     
     
     func captureSreenStart()

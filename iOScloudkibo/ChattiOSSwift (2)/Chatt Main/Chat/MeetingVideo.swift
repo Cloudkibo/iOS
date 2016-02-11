@@ -722,12 +722,14 @@ class MeetingVideo:NSObject,SocketClientDelegateWebRTCVideo,RTCPeerConnectionDel
         print(datajson.debugDescription)
         /////////////////////////////////VIDEO AND SCREEN
         
-        if(datajson[0]["username"].debugDescription != username! && datajson[0]["type"].debugDescription == "video" && datajson[0]["action"].boolValue==true )
-        {self.videoshared=true
-        //Handle Screen sharing
-        print("handle video sharing")
-        self.pc.createOfferWithDelegate(self, constraints: self.rtcMediaConst)
-        }
+        if(datajson[0]["id"].int != currentID! && datajson[0]["type"].debugDescription == "video" && datajson[0]["action"].boolValue==true )
+            {self.videoshared=true
+                //Handle Screen sharing
+                print("handle video sharing")
+                self.pc.createOfferWithDelegate(self, constraints: self.rtcMediaConst)
+            }
+        
+        
         //TOGLE CODE VIDEO
        /*if(datajson[0]["username"].debugDescription != username! && datajson[0]["type"].debugDescription == "video" && self.rtcRemoteVideoStream.videoTracks.count>0)
         {
@@ -925,6 +927,7 @@ protocol ConferenceVideoViewDelegate:class
 {
     //func didReceiveRemoteAudioTrack(remoteAudioTrack:RTCAudioTrack);
     //func didReceiveLocalVideoTrack(localVideoTrack:RTCVideoTrack);
+    //func didRemoveRemoteVideoTrack();
     func didReceiveRemoteVideoTrack(remoteVideoTrack:RTCVideoTrack);
    
 }

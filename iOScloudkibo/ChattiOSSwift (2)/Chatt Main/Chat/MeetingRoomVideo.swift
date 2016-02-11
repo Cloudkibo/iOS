@@ -452,6 +452,19 @@ class MeetingRoomVideo:NSObject,RTCPeerConnectionDelegate,RTCSessionDescriptionD
         print("handle video sharing")
         self.pc.createOfferWithDelegate(self, constraints: self.rtcMediaConst)
     }
+        
+        if(datajson[0]["id"].int != currentID! && datajson[0]["type"].debugDescription == "video" && datajson[0]["action"].boolValue==false)
+        {
+            self.rtcRemoteVideoTrack=nil
+            //self.pc.close()
+            self.pc=nil
+            self.videoshared=false
+            dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                self.delegateConference.didRemoveRemoteVideoTrack()
+            })
+        }
+        
+        
     }
 func addHandlers()
 {
@@ -572,6 +585,7 @@ func addHandlers()
 protocol ConferenceDelegate:class
 {
     func didReceiveRemoteVideoTrack(remoteAudioTrack:RTCVideoTrack);
+    func didRemoveRemoteVideoTrack();
     //func didReceiveLocalVideoTrack(localVideoTrack:RTCVideoTrack);
     func didReceiveLocalVideoTrack(remoteVideoTrack:RTCVideoTrack);
     

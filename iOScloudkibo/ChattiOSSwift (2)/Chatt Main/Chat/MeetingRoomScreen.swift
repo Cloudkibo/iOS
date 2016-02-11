@@ -315,8 +315,11 @@ class MeetingRoomScreen:NSObject,RTCPeerConnectionDelegate,RTCSessionDescription
         
     }
     func peerConnection(peerConnection: RTCPeerConnection!, removedStream stream: RTCMediaStream!) {
-        
-        
+        print("removed screen stream")
+        print("stream screen tracks are \(stream.videoTracks.count)")
+       // self.delegateConference.didRemoveRemoteScreen()
+        //self.rtcRemoteVideoTrack=nil
+        //self.pc.close()
     }
     func peerConnection(peerConnection: RTCPeerConnection!, signalingStateChanged stateChanged: RTCSignalingState) {
         
@@ -389,8 +392,8 @@ class MeetingRoomScreen:NSObject,RTCPeerConnectionDelegate,RTCSessionDescription
         }
         
         if(msg[0]["type"].string! == "answer" && msg[0]["by"].int != currentID)
-        {
-            if(self.screenshared==true){
+        {//if(self.screenshared==true)
+            if(self.screenshared==true && self.pc.remoteDescription == nil){
                 print("answer received video")
                 var sessionDescription=RTCSessionDescription(type: msg[0]["type"].description, sdp: msg[0]["sdp"]["sdp"].description)
                 self.pc.setRemoteDescriptionWithDelegate(self, sessionDescription: sessionDescription)
@@ -430,10 +433,10 @@ class MeetingRoomScreen:NSObject,RTCPeerConnectionDelegate,RTCSessionDescription
     func handleConferenceStream(data:AnyObject!)
     {
         var datajson=JSON(data!)
-        print(datajson.debugDescription)
+        //print(datajson.debugDescription)
         /////////////////////////////////VIDEO AND SCREEN
         if(self.pc == nil)
-        {
+        {print("screen peer connection was nil")
             createPeerConnection()
             
         }
@@ -504,10 +507,30 @@ class MeetingRoomScreen:NSObject,RTCPeerConnectionDelegate,RTCSessionDescription
         socketObj.socket.on("conference.streamScreen"){data,ack in
             
             print("received conference.streamScreen obj from server")
-             var datajson=JSON(data)
+            var datajson=JSON(data)
+            print(datajson.debugDescription)
             if(datajson[0]["id"].int != currentID!)
             {
-            self.handleConferenceStream(data)
+                if(datajson[0]["action"]==true)
+                {
+                    self.handleConferenceStream(data)
+
+                }
+                else
+                {
+                    //HIDE SCREEN DESTROY PeerConnection object
+                    self.rtcRemoteVideoTrack=nil
+                    //self.pc.close()
+                    self.pc=nil
+                    self.screenshared=false
+                    dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                        self.delegateConference.didRemoveRemoteScreen()
+                        
+                    })
+                    
+                    
+                }
+                
             }
             else
             {print("conference.streamScreen received of myself so no need to handle")}
@@ -577,6 +600,7 @@ class MeetingRoomScreen:NSObject,RTCPeerConnectionDelegate,RTCSessionDescription
 protocol ConferenceScreenReceiveDelegate:class
 {
     func didReceiveRemoteScreen(remoteAudioTrack:RTCVideoTrack);
+    func didRemoveRemoteScreen();
     //func didReceiveLocalVideoTrack(localVideoTrack:RTCVideoTrack);
     //func didReceiveLocalScreen(remoteVideoTrack:RTCVideoTrack);
     

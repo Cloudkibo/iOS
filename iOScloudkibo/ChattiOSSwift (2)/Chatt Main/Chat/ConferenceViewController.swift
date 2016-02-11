@@ -53,5 +53,4 @@ class ConferenceViewController: UIViewController {
     
 
 
-
 }
