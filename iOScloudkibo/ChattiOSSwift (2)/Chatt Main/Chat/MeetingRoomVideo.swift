@@ -201,6 +201,12 @@ class MeetingRoomVideo:NSObject,RTCPeerConnectionDelegate,RTCSessionDescriptionD
         {
             createPeerConnection()
         }
+        if(videoAction==false)
+        {
+            self.rtcLocalVideoTrack=nil
+            self.rtcLocalstream=nil
+            
+        }
         socketObj.socket.emit("conference.streamVideo", ["username":username!,"id":currentID!,"type":"video","action":videoAction.boolValue])
         
     }
@@ -208,7 +214,7 @@ class MeetingRoomVideo:NSObject,RTCPeerConnectionDelegate,RTCSessionDescriptionD
     
     
     func peerConnection(peerConnection: RTCPeerConnection!, addedStream stream: RTCMediaStream!) {
-        print("video added remote stream")
+        print("video added remote stream count is \(stream.videoTracks.count)")
         self.rtcStreamReceived=stream
         if(stream.videoTracks.count>0)
         {self.rtcRemoteVideoTrack=stream.videoTracks[0] as! RTCVideoTrack
@@ -227,7 +233,7 @@ class MeetingRoomVideo:NSObject,RTCPeerConnectionDelegate,RTCSessionDescriptionD
         ////dispatch_async(dispatch_get_main_queue(), {
         
         ///if (error==nil && self.pc.localDescription == nil){
-        if (error==nil){
+        if (error==nil && pc != nil){
            /* if(self.videoshared == true)
             {
                 print("\(sdp.type) creatddddd")
@@ -252,7 +258,7 @@ class MeetingRoomVideo:NSObject,RTCPeerConnectionDelegate,RTCSessionDescriptionD
                 
                 socketObj.socket.emit("msgVideo",["by":currentID!,"to":otherID,"sdp":["type":sdp.type!,"sdp":sdp.description],"type":sdp.type!,"username":username!])
                 print("\(sdp.type) emitteddd")
-            }
+          }
             
         }
         else
@@ -273,7 +279,7 @@ class MeetingRoomVideo:NSObject,RTCPeerConnectionDelegate,RTCSessionDescriptionD
         //^^^^^^^^^^^^^^newwwwwwww
         /////dispatch_async(dispatch_get_main_queue(), {
         
-        if error == nil {
+        if (error == nil && self.pc != nil) {
             print("did set remote sdp no error")
             
             print("isinitiator is \(isInitiator)")
@@ -377,7 +383,6 @@ class MeetingRoomVideo:NSObject,RTCPeerConnectionDelegate,RTCSessionDescriptionD
             self.rtcLocalstream=self.createLocalVideoStream()
             pc.addStream(self.rtcLocalstream)
             
-            
             //^^^^^^^^^^^^^^^^^^^^^^^newwwwww self.pc.addStream(self.getLocalMediaStream())
             otherID=msg[0]["by"].int!
             currentID=msg[0]["to"].int!
@@ -417,10 +422,15 @@ class MeetingRoomVideo:NSObject,RTCPeerConnectionDelegate,RTCSessionDescriptionD
                 {var iceCandidate=RTCICECandidate(mid: msg[0]["ice"]["sdpMid"].description, index: msg[0]["ice"]["sdpMLineIndex"].int!, sdp: msg[0]["ice"]["candidate"].description)
                     print(iceCandidate.description)
                     
+                    
+                    /////////////neww testttttt
+                    if(self.pc != nil)
+                    {
                     if(self.pc.localDescription != nil && self.pc.remoteDescription != nil)
                         
                     {var addedcandidate=self.pc.addICECandidate(iceCandidate)
                         print("iceVideo candidate added \(addedcandidate)")
+                    }
                     }
                 }
             }
@@ -457,11 +467,14 @@ class MeetingRoomVideo:NSObject,RTCPeerConnectionDelegate,RTCSessionDescriptionD
         {
             self.rtcRemoteVideoTrack=nil
             //self.pc.close()
-            self.pc=nil
+            //////////
             self.videoshared=false
+            self.rtcRemoteVideoTrack=nil
             dispatch_async(dispatch_get_main_queue(), { () -> Void in
                 self.delegateConference.didRemoveRemoteVideoTrack()
             })
+            //self.pc.removeStream(rtcLocalstream)
+            self.pc=nil
         }
         
         
@@ -565,7 +578,10 @@ func addHandlers()
         //self.pc.removeStream(stream)
         
         if((self.rtcLocalVideoTrack) != nil)
-        {print("remove localtrack renderer")
+        {self.rtcLocalVideoTrack=nil
+            self.rtcLocalstream=nil
+        
+            print("remove localtrack renderer")
             ////////// ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^self.rtcLocalVideoTrack.removeRenderer(self.localView)
         }
         /*if((self.rtcVideoTrackReceived) != nil)
@@ -573,8 +589,8 @@ func addHandlers()
         self.rtcVideoTrackReceived.removeRenderer(self.remoteView)
         }
         */
-        print("out of removing remoterenderer")
-        self.rtcLocalVideoTrack=nil
+        print("out of removing localrenderer")
+        
         ///self.rtcLocalVideoStream=nil
         
         

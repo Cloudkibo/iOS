@@ -47,10 +47,15 @@ class ConferenceCallViewController: UIViewController,ConferenceDelegate,Conferen
         /////mvideo.delegate=self
         
         //isInitiator=true
-        self.localView=RTCEAGLVideoView(frame: CGRect(x: 0, y: 50, width: 500, height: 450))
-        self.localView.drawRect(CGRect(x: 0, y: 50, width: 500, height: 450))
+        //self.localView=RTCEAGLVideoView()
+        self.localView=RTCEAGLVideoView(frame: CGRect(x: 0, y: 50, width: 90, height: 85))
+        self.localView.drawRect(CGRect(x: 0, y: 50, width: 90, height: 85))
+        
+        ///self.remoteView=RTCEAGLVideoView()
         self.remoteView=RTCEAGLVideoView(frame: CGRect(x: 0, y: 50, width: 500, height: 450))
         self.remoteView.drawRect(CGRect(x: 0, y: 50, width: 500, height: 450))
+        print("size is... \(localViewOutlet.bounds.width)")
+        print("size is... \(localViewOutlet.bounds.height)")
         
         // Do any additional setup after loading the view.
     }
@@ -80,11 +85,16 @@ class ConferenceCallViewController: UIViewController,ConferenceDelegate,Conferen
             if((self.rtcLocalVideoTrack) != nil)
             {
                 print("remove remote video renderer")
+                dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                    self.rtcLocalVideoTrack.removeRenderer(self.localView)
+                    self.rtcLocalVideoStream.removeVideoTrack(self.rtcLocalVideoTrack)
+                    self.localView.removeFromSuperview()
+                    self.rtcLocalVideoTrack=nil
+                })
+               
                 
-                self.rtcLocalVideoTrack.removeRenderer(self.localView)
-                self.rtcLocalVideoStream.removeVideoTrack(self.rtcLocalVideoTrack)
-                self.rtcLocalVideoTrack=nil
-                self.localView.removeFromSuperview()
+                ////rtcLocalVideoStream=nil
+                
             }
             
             
@@ -225,12 +235,25 @@ class ConferenceCallViewController: UIViewController,ConferenceDelegate,Conferen
         self.rtcVideoTrackReceived.addRenderer(self.remoteView)
         //////////////remoteVideoTrack.addRenderer(self.remoteView)
         ///////self.remoteView.hidden=true // ^^^^newww
+        ////self.localView.setSize(CGSize(width: 200,height: 250))
+        if(self.localView.superview != nil)
+        {
+            self.localView.removeFromSuperview()
+        }
+
         self.localViewOutlet.addSubview(self.remoteView)
-        
+        //self.localView=RTCEAGLVideoView(frame: CGRect(x: 0, y: 50, width: 50, height: 45))
+        //////////^^^^^^self.localView.setSize(CGSize(width: 50,height: 45))
+        //self.localView.drawRect(CGRect(x: 0, y: 50, width: 50, height: 45))
+        ///////^^^^^^^^^self.localView.updateConstraintsIfNeeded()
+        //////////^^^^^^^self.localViewOutlet.addSubview(localView)
+        /////self.localViewOutlet.addSubview(self.localView)
         ///self.localViewOutlet.addSubview(self.remoteView)
         self.localViewOutlet.updateConstraintsIfNeeded()
+        
         //////////self.remoteView.updateConstraintsIfNeeded()
         self.remoteView.setNeedsDisplay()
+        self.localView.setNeedsDisplay()
         self.localViewOutlet.setNeedsDisplay()
 
     }
@@ -430,6 +453,7 @@ class ConferenceCallViewController: UIViewController,ConferenceDelegate,Conferen
             self.rtcVideoTrackReceived.removeRenderer(self.remoteView)
             self.rtcVideoTrackReceived=nil
             self.remoteView.removeFromSuperview()
+            
         }
     
     }
