@@ -1315,8 +1315,8 @@ class ChatViewController: UIViewController,SocketClientDelegate {
                 print("room joined is\(ConferenceRoomName)")
                 joinedRoomInCall=ConferenceRoomName
             }
-            var mAudio=MeetingRoomAudio()
-            mAudio.initAudio()
+           /// var mAudio=MeetingRoomAudio()
+            ////mAudio.initAudio()
             
             var next = self.storyboard?.instantiateViewControllerWithIdentifier("Main2") as! ConferenceCallViewController
             

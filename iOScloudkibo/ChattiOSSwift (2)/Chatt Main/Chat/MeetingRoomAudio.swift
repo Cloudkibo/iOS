@@ -17,7 +17,7 @@ class MeetingRoomAudio:NSObject,SocketClientDelegateWebRTC,RTCPeerConnectionDele
     var nullStream:RTCMediaStream!
     var audioAction=true
     var rtcMediaConst:RTCMediaConstraints! = nil
-    
+    var delegateDisconnect:ConferenceRoomDisconnectDelegate!
     
     
     override init()
@@ -607,13 +607,16 @@ class MeetingRoomAudio:NSObject,SocketClientDelegateWebRTC,RTCPeerConnectionDele
     
     func handlePeerDisconnected(data:AnyObject!)
     {
-        print("received peer.connected obj from server")
+        print("received peer.disconnected audio obj from server")
         
         //Both joined same room
+        
+        
         
         var datajson=JSON(data!)
         print(datajson.debugDescription)
         
+        delegateDisconnect.disconnectAll()
         if(datajson[0]["id"].int == otherID)
         {
             if(self.pc != nil)
@@ -827,9 +830,9 @@ class MeetingRoomAudio:NSObject,SocketClientDelegateWebRTC,RTCPeerConnectionDele
         print(channel.debugDescription)
         
     }
-
-
     
-    
-    
+}
+protocol ConferenceRoomDisconnectDelegate:class
+{
+    func disconnectAll();
 }

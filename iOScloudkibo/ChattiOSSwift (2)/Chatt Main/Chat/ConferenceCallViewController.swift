@@ -10,7 +10,7 @@ import UIKit
 import AVFoundation
 import SwiftyJSON
 
-class ConferenceCallViewController: UIViewController,ConferenceDelegate,ConferenceScreenReceiveDelegate {
+class ConferenceCallViewController: UIViewController,ConferenceDelegate,ConferenceScreenReceiveDelegate,ConferenceRoomDisconnectDelegate {
 
     var mvideo:MeetingRoomVideo!
     var mdata:MeetingRoomData!
@@ -24,12 +24,17 @@ class ConferenceCallViewController: UIViewController,ConferenceDelegate,Conferen
     var rtcLocalVideoStream:RTCMediaStream!
     //var rtcDataChannel:RTCDataChannel!
     var countTimer=1
+    var mAudio:MeetingRoomAudio!
     
     @IBOutlet var localViewOutlet: UIView!
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        mAudio=MeetingRoomAudio()
+        mAudio.initAudio()
+        mAudio.delegateDisconnect=self
+        
         print("inside controller did load")
         mvideo=MeetingRoomVideo()
         mvideo.addHandlers()
@@ -48,8 +53,14 @@ class ConferenceCallViewController: UIViewController,ConferenceDelegate,Conferen
         
         //isInitiator=true
         //self.localView=RTCEAGLVideoView()
-        self.localView=RTCEAGLVideoView(frame: CGRect(x: 0, y: 50, width: 90, height: 85))
-        self.localView.drawRect(CGRect(x: 0, y: 50, width: 90, height: 85))
+        var w=localViewOutlet.bounds.width-(localViewOutlet.bounds.width*0.23)
+        var h=localViewOutlet.bounds.height-(localViewOutlet.bounds.height*0.27)
+        
+        self.localView=RTCEAGLVideoView(frame: CGRect(x: w, y: h, width: 90, height: 85))
+        self.localView.drawRect(CGRect(x: w, y: h, width: 90, height: 85))
+        
+        //self.localView=RTCEAGLVideoView(frame: CGRect(x: 0, y: 50, width: 90, height: 85))
+        //self.localView.drawRect(CGRect(x: 0, y: 50, width: 90, height: 85))
         
         ///self.remoteView=RTCEAGLVideoView()
         self.remoteView=RTCEAGLVideoView(frame: CGRect(x: 0, y: 50, width: 500, height: 450))
@@ -484,5 +495,64 @@ class ConferenceCallViewController: UIViewController,ConferenceDelegate,Conferen
         print(channel.debugDescription)
         
     }*/
+    
+    func disconnectAll()
+    {
+        if(mvideo.pc != nil)
+        {
+        mvideo.pc=nil
+        }
+        
+        if(self.rtcLocalVideoTrack != nil)
+        {
+        self.rtcLocalVideoTrack.removeRenderer(self.localView)
+        }
+        if(self.rtcVideoTrackReceived != nil)
+        {
+        self.rtcVideoTrackReceived.removeRenderer(self.remoteView)
+        }
+        mvideo.rtcLocalstream=nil
+        mvideo.rtcLocalVideoTrack=nil
+        mvideo.rtcRemoteVideoTrack=nil
+        mvideo.rtcStreamReceived=nil
+        mvideo=nil
+       
+    
+        mAudio.stream=nil
+        mAudio.pc=nil
+        mAudio=nil
+       
+       
+        
+        if(svideo.pc != nil)
+        {
+        svideo.pc=nil
+        }
+        svideo=nil
+        
+        
+        if(mdata.pc != nil)
+        {
+        mdata.pc=nil
+        }
+        
+        mAudio=MeetingRoomAudio()
+        mAudio.initAudio()
+        mAudio.delegateDisconnect=self
+        
+        
+        mdata=MeetingRoomData()
+        mdata.addHandlers()
+        
+        mvideo=MeetingRoomVideo()
+        mvideo.addHandlers()
+        mvideo.delegateConference=self
+        
+        svideo=MeetingRoomScreen()
+        svideo.addHandlers()
+        svideo.delegateConference=self
+        
+        
+    }
     
 }
