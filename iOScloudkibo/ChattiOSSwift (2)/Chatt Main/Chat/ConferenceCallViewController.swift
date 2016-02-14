@@ -111,6 +111,8 @@ class ConferenceCallViewController: UIViewController,ConferenceDelegate,Conferen
             
         }
         
+        socketObj.socket.emit("conference.chat", ["message":"This is test mesage from iphone","username":username!])
+        
         
     }
     
