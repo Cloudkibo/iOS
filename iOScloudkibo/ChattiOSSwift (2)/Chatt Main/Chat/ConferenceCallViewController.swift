@@ -11,7 +11,7 @@ import AVFoundation
 import SwiftyJSON
 
 class ConferenceCallViewController: UIViewController,ConferenceDelegate,ConferenceScreenReceiveDelegate,ConferenceRoomDisconnectDelegate {
-
+    
     var mvideo:MeetingRoomVideo!
     var mdata:MeetingRoomData!
     //var mvideo:MeetingRoomVideo!
@@ -27,10 +27,10 @@ class ConferenceCallViewController: UIViewController,ConferenceDelegate,Conferen
     var mAudio:MeetingRoomAudio!
     
     @IBOutlet var localViewOutlet: UIView!
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         mAudio=MeetingRoomAudio()
         mAudio.initAudio()
         mAudio.delegateDisconnect=self
@@ -46,10 +46,7 @@ class ConferenceCallViewController: UIViewController,ConferenceDelegate,Conferen
         
         mdata=MeetingRoomData()
         mdata.addHandlers()
-        ////mdata.delegateConference=self
-        //////mvideo=MeetingVideo()
-        //////mvideo.initVideo()
-        /////mvideo.delegate=self
+        
         
         //isInitiator=true
         //self.localView=RTCEAGLVideoView()
@@ -70,8 +67,10 @@ class ConferenceCallViewController: UIViewController,ConferenceDelegate,Conferen
         
         // Do any additional setup after loading the view.
     }
-
+    
     @IBAction func endCallBtnPressed(sender: AnyObject) {
+        
+        
     }
     
     @IBAction func toggleVideoBtnPressed(sender: AnyObject) {
@@ -83,7 +82,7 @@ class ConferenceCallViewController: UIViewController,ConferenceDelegate,Conferen
             mvideo.delegateConference=self
         }
         if(actionVideo == true)
-        {
+        {isInitiator=true
             ///self.rtcLocalVideoStream=getLocalMediaStream()
             
             self.rtcLocalVideoStream=mvideo.createLocalVideoStream()
@@ -91,18 +90,18 @@ class ConferenceCallViewController: UIViewController,ConferenceDelegate,Conferen
         }
         else{
             mvideo.toggleVideo(actionVideo,tempstream: rtcLocalVideoStream)
-             mvideo.removeLocalMediaStreamFromPeerConnection()
+            mvideo.removeLocalMediaStreamFromPeerConnection()
             mvideo.pc=nil
             if((self.rtcLocalVideoTrack) != nil)
             {
-                print("remove remote video renderer")
+                print("remove local video renderer")
                 dispatch_async(dispatch_get_main_queue(), { () -> Void in
                     self.rtcLocalVideoTrack.removeRenderer(self.localView)
                     self.rtcLocalVideoStream.removeVideoTrack(self.rtcLocalVideoTrack)
                     self.localView.removeFromSuperview()
                     self.rtcLocalVideoTrack=nil
                 })
-               
+                
                 
                 ////rtcLocalVideoStream=nil
                 
@@ -127,14 +126,14 @@ class ConferenceCallViewController: UIViewController,ConferenceDelegate,Conferen
     
     @IBAction func btnCapturePressed(sender: AnyObject) {
         
-       //////// mdata.toggleScreen(screenAction, tempstream: <#T##RTCMediaStream!#>)
+        //////// mdata.toggleScreen(screenAction, tempstream: <#T##RTCMediaStream!#>)
         if(mdata.pc == nil)
         {
             mdata.createPeerConnection()
             mdata.CreateAndAttachDataChannel()
         }
-       socketObj.socket.emit("conference.streamScreen", ["username":username!,"id":currentID!,"type":"screenAndroid","action":"true"])
-
+        socketObj.socket.emit("conference.streamScreen", ["username":username!,"id":currentID!,"type":"screenAndroid","action":"true"])
+        
         
         
         
@@ -150,7 +149,7 @@ class ConferenceCallViewController: UIViewController,ConferenceDelegate,Conferen
             // atimer.invalidate()
             print("timer stopped1")
         })
-
+        
     }
     
     func timerFiredScreenCapture()
@@ -212,7 +211,7 @@ class ConferenceCallViewController: UIViewController,ConferenceDelegate,Conferen
         
         
     }
-
+    
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -253,7 +252,7 @@ class ConferenceCallViewController: UIViewController,ConferenceDelegate,Conferen
         {
             self.localView.removeFromSuperview()
         }
-
+        
         self.localViewOutlet.addSubview(self.remoteView)
         //self.localView=RTCEAGLVideoView(frame: CGRect(x: 0, y: 50, width: 50, height: 45))
         //////////^^^^^^self.localView.setSize(CGSize(width: 50,height: 45))
@@ -268,149 +267,21 @@ class ConferenceCallViewController: UIViewController,ConferenceDelegate,Conferen
         self.remoteView.setNeedsDisplay()
         self.localView.setNeedsDisplay()
         self.localViewOutlet.setNeedsDisplay()
-
+        
     }
     
-   
+    
     
     /*
     // MARK: - Navigation
-
+    
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+    // Get the new view controller using segue.destinationViewController.
+    // Pass the selected object to the new view controller.
     }
     */
     
-    
-    /*
-    func getLocalMediaStream()->RTCMediaStream!
-    {
-        print("getlocalmediastream")
-        
-        self.rtcLocalVideoStream=createLocalVideoStream()
-        mvideo.pc.addStream(self.rtcLocalVideoStream)
-        
-        //print(rtcLocalMediaStream.audioTracks.count)
-        
-        // print(rtcLocalMediaStream.videoTracks.count)
-        return self.rtcLocalVideoStream
-        
-    }
-    
-    func createLocalVideoStream()->RTCMediaStream
-    {print("inside createlocalvideotrack")
-        
-        var localStream:RTCMediaStream!
-        
-        localStream=rtcFact.mediaStreamWithLabel("ARDAMS")
-        /////////////************^^^
-        var localVideoTrack=createLocalVideoTrack()
-        
-        self.rtcLocalVideoTrack = createLocalVideoTrack()
-        if let lvt=self.rtcLocalVideoTrack
-        {
-            let addedVideo=localStream.addVideoTrack(self.rtcLocalVideoTrack)
-            
-            print("video stream \(addedVideo)")
-            ////++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-            dispatch_async(dispatch_get_main_queue(), {
-                //********************
-                //TELL CONTROLLER TO SHOW LOCAL VIDEO
-                self.didReceiveLocalVideoTrack(self.rtcLocalVideoTrack)
-            })
-            
-        }
-        
-        print("localStreammm ")
-        print(localStream.description, terminator: "")
-        //^^^localVideoTrack.addRenderer(localView)
-        return localStream
-    }
-    
-    func createLocalVideoTrack()->RTCVideoTrack{
-        //var localVideoTrack:RTCVideoTrack
-        var cameraID:NSString!
-        for aaa in AVCaptureDevice.devicesWithMediaType(AVMediaTypeVideo)
-        {
-            //self.rtcCaptureSession=aaa.captureSession
-            if aaa.position==AVCaptureDevicePosition.Front
-            {
-                print(aaa.localizedName!)
-                cameraID=aaa.localizedName!!
-                print("got front cameraaa as id \(cameraID)")
-                break
-            }
-            
-        }
-        if cameraID==nil
-            
-        {print("failed to get front camera")}
-        
-        //AVCaptureDevice
-        let capturer=RTCVideoCapturer(deviceName: cameraID! as String)
-        
-        print(capturer.description)
-        
-        var VideoSource:RTCVideoSource
-        
-        VideoSource=rtcFact.videoSourceWithCapturer(capturer, constraints: nil)
-        self.rtcLocalVideoTrack=nil
-        self.rtcLocalVideoTrack=rtcFact.videoTrackWithID("ARDAMSv0", source: VideoSource)
-        print("sending localVideoTrack")
-        return self.rtcLocalVideoTrack
-        
-    }
-    */
-   
-
-    
-   
-    func didReceiveRemoteVideoTrack(remoteVideoTrack:RTCVideoTrack)
-    {//******************
-        print("didreceiveremotevideotrack11")
-        ////dispatch_async(dispatch_get_main_queue(), {
-        
-        
-        //////CODE TO RENDER REMOTE VIDEO
-        
-        
-        self.rtcVideoTrackReceived=remoteVideoTrack
-        /////////self.remoteView=RTCEAGLVideoView(frame: CGRect(x: 0, y: 0, width: 500, height: 500))
-        //////////self.remoteView.drawRect(CGRect(x: 0, y: 0, width: 500, height: 500))
-        
-        self.rtcVideoTrackReceived.addRenderer(self.remoteView)
-        //////////////remoteVideoTrack.addRenderer(self.remoteView)
-        self.remoteView.hidden=true // ^^^^newww
-        
-        
-        //..********************************
-        //SCREEN SHARING CODE
-        /////////
-        
-        /*if(self.screenshared==true){
-        self.remoteView.hidden=false
-        }*/
-        
-        self.localViewOutlet.addSubview(self.remoteView)
-        
-        ///self.localViewOutlet.addSubview(self.remoteView)
-        self.localViewOutlet.updateConstraintsIfNeeded()
-        //////////self.remoteView.updateConstraintsIfNeeded()
-        self.remoteView.setNeedsDisplay()
-        self.localViewOutlet.setNeedsDisplay()
-        
-
-        
-        /// })
-        // }
-        
-    }
-
-   
-
-}*/*/*/
     func didReceiveRemoteScreen(remoteVideoTrack:RTCVideoTrack){
         print("didreceiveremotevideotrack11")
         
@@ -434,7 +305,7 @@ class ConferenceCallViewController: UIViewController,ConferenceDelegate,Conferen
         //////////self.remoteView.updateConstraintsIfNeeded()
         self.remoteView.setNeedsDisplay()
         self.localViewOutlet.setNeedsDisplay()
-}
+    }
     //func didReceiveLocalVideoTrack(localVideoTrack:RTCVideoTrack);
     func didReceiveLocalScreen(localVideoTrack:RTCVideoTrack){
         self.rtcLocalVideoTrack=localVideoTrack
@@ -462,80 +333,56 @@ class ConferenceCallViewController: UIViewController,ConferenceDelegate,Conferen
         if((self.rtcVideoTrackReceived) != nil)
         {
             print("remove remote video renderer")
-    
+            
             self.rtcVideoTrackReceived.removeRenderer(self.remoteView)
             self.rtcVideoTrackReceived=nil
             self.remoteView.removeFromSuperview()
             
         }
-    
-    }
-    
-   
-    
-    
-    func captureSreenStart()
-    {
         
     }
-
-   
-    /*
-    func channel(channel: RTCDataChannel!, didChangeBufferedAmount amount: UInt) {
-        print("didChangeBufferedAmount \(amount)")
-        
-    }
-    func channel(channel: RTCDataChannel!, didReceiveMessageWithBuffer buffer: RTCDataBuffer!) {
-        print("didReceiveMessageWithBuffer")
-        print(buffer.data.debugDescription)
-        var channelJSON=JSON(buffer.data!)
-        print(channelJSON.debugDescription)
-        
-    }
-    func channelDidChangeState(channel: RTCDataChannel!) {
-        print("channelDidChangeState")
-        print(channel.debugDescription)
-        
-    }*/
+    
+    
+    
     
     func disconnectAll()
     {
         if(mvideo.pc != nil)
         {
-        mvideo.pc=nil
+            mvideo.pc=nil
         }
         
         if(self.rtcLocalVideoTrack != nil)
         {
-        self.rtcLocalVideoTrack.removeRenderer(self.localView)
+            self.rtcLocalVideoTrack.removeRenderer(self.localView)
         }
         if(self.rtcVideoTrackReceived != nil)
         {
-        self.rtcVideoTrackReceived.removeRenderer(self.remoteView)
+            self.rtcVideoTrackReceived.removeRenderer(self.remoteView)
         }
         mvideo.rtcLocalstream=nil
         mvideo.rtcLocalVideoTrack=nil
         mvideo.rtcRemoteVideoTrack=nil
         mvideo.rtcStreamReceived=nil
         mvideo=nil
-       
-    
+        
+        
         mAudio.stream=nil
         mAudio.pc=nil
         mAudio=nil
-       
-       
+        
+        
         
         if(svideo.pc != nil)
         {
-        svideo.pc=nil
+            svideo.pc=nil
         }
         svideo=nil
         
         
         if(mdata.pc != nil)
         {
-        mdata.pc=nil
+            mdata.pc=nil
         }
         
         mAudio=MeetingRoomAudio()

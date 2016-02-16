@@ -119,6 +119,7 @@ class ChatDetailViewController: UIViewController{
             sqliteDB.SaveChat(chatJson[0]["to"].string!, from1: chatJson[0]["from"].string!, fromFullName1: chatJson[0]["fromFullName"].string!, msg1: chatJson[0]["msg"].string!)
            
         }
+        messages.addObject(["message":"helloo","hiiii":"tstingggg","type":"1"])
         /*  self.addMessage("Its actually pretty good!", ofType: "1")
         self.addMessage("What do you think of this tool!", ofType: "2")*/
     }
