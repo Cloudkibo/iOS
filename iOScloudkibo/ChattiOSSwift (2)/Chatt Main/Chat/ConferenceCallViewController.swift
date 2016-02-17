@@ -404,4 +404,54 @@ class ConferenceCallViewController: UIViewController,ConferenceDelegate,Conferen
         
     }
     
+    @IBAction func btnFileSharePressed(sender: AnyObject) {
+        
+        //var documentDir:String!
+        print(NSOpenStepRootDirectory())
+        
+        let fm = NSFileManager.defaultManager()
+        let dirPaths = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)
+        let docsDir1 = dirPaths[0]
+        
+        var documentDir=docsDir1 as NSString
+        /*var filePath=documentDir.stringByAppendingPathComponent("file1.txt")
+        fm.createFileAtPath(filePath, contents: nil, attributes: nil)*/
+        var filePath=documentDir.stringByAppendingPathComponent("file3.jpg")
+        print(filePath)
+        var s=fm.createFileAtPath(filePath, contents: NSData(contentsOfFile: "This is a test file on iphone.sdfsdkmfnskdfnjsdfnsjdfnsjkdnfsjdnfsjkdfnjksdfnsjdnfskjdnfjsnfjksdnfjsdknfnf sdfnsjdfnsjkf sdf sdjkfnsdf dsf sdf sdfsbdfjsd fksdf sdbfsf sdnf sdkf sndm fsdf sdf sdf dmnsf sdhf sdnmf sdf msnd snd fsdbnf nds fsnd fnsdbfndsf bdnsbfnsdbfnsdbfnsdbfnds fnbdsf nsdf bnsdf nsbdf nsdf nsdfb dhsbfdhsbdnsbfhsdbf sdhfb dnsf vdhb dsbvshd fbdnsbhdsf dbfvdnbfhdbfhdsfbhsdfhsdfhsdfbsdhbfhsdfhsjdfvhsdjfhsfhsfhjsfhsfvhsfvshvhjdfvhdsfvdhjsfvhdsfhdsfvhjsdvfhdjsfhsdfvhsdvfhjsdfv"), attributes: nil)
+        print("file created \(s)")
+        
+        
+        
+        
+        /*var paths:NSArray=NSSearchPathForDirectoriesInDomains(NSSearchPathDirectory.PicturesDirectory, NSSearchPathDomainMask.UserDomainMask, true)
+        var documentPath:NSString=paths.objectAtIndex(0) as! NSString
+        var filePath2:NSString=documentPath.stringByAppendingPathComponent("IMG_0036.jpg")
+        
+        */
+        let dirPaths2 = NSSearchPathForDirectoriesInDomains(.DocumentDirectory,
+            .UserDomainMask, true)
+        
+        let docsDir2 = dirPaths2[0] as! NSString
+        var filePath3:NSString=docsDir2.stringByAppendingPathComponent("file3.jpg")
+        var fileSize : UInt64 = 0
+        
+        do {
+            let attr : NSDictionary? = try NSFileManager.defaultManager().attributesOfItemAtPath(filePath3 as String)
+            
+            if let fileattribs = attr {
+                let type = fileattribs["NSFileType"] as! String
+                print("File type \(type)")
+            }
+            /*if let _attr = attr {
+                fileSize = _attr.fileSize();
+                print(fileSize)
+                print(_attr.fileType())
+                
+            }*/
+        } catch {
+            print("Error: \(error)")
+        }
+        
+    }
 }

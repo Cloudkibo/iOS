@@ -11,6 +11,8 @@ import SwiftyJSON
 
 class MeetingRoomAudio:NSObject,SocketClientDelegateWebRTC,RTCPeerConnectionDelegate,RTCSessionDescriptionDelegate{
     
+    
+    ///////perform segue completion handler pass webmeetingModel
     var pc:RTCPeerConnection!
     /////var username =username!
     var stream:RTCMediaStream!
@@ -18,11 +20,12 @@ class MeetingRoomAudio:NSObject,SocketClientDelegateWebRTC,RTCPeerConnectionDele
     var audioAction=true
     var rtcMediaConst:RTCMediaConstraints! = nil
     var delegateDisconnect:ConferenceRoomDisconnectDelegate!
-    var delegateChat:WebMeetingChatDelegate!
-
+    /////////var delegateChat:WebMeetingChatDelegate!
+    var webmeetingModel:webmeetingMsgsModel!
     
     override init()
     {
+        webmeetingModel=webmeetingMsgsModel()
         
         super.init()
     }
@@ -60,8 +63,9 @@ class MeetingRoomAudio:NSObject,SocketClientDelegateWebRTC,RTCPeerConnectionDele
         return pc
     }
     
-    func makeOffer()
+    func receivedChatMessage(message:String,username:String)
     {
+        webmeetingModel.addChatMsg(message, usr: username)
         
     }
     
@@ -482,11 +486,12 @@ class MeetingRoomAudio:NSObject,SocketClientDelegateWebRTC,RTCPeerConnectionDele
             print("\(data)")
             var chat=JSON(data)
             print(JSON(data))
-            print(chat["message"].description)
-            print(chat["username"].description)
-            print(chat["message"].string)
-            print(chat["username"].string)
-            ////self.delegateChat.receivedChatMessage(chat[0]["message"].description,username: "\(chat[0]["username"].description)")
+            ////self.delegateChat=WebmeetingChatViewController
+            print(chat[0]["message"].description)
+            print(chat[0]["username"].description)
+            print(chat[0]["message"].string)
+            print(chat[0]["username"].string)
+            self.receivedChatMessage(chat[0]["message"].description,username: "\(chat[0]["username"].description)")
         
         default:print("wrong socket other mesage received \(message)")
         }
@@ -847,7 +852,7 @@ protocol ConferenceRoomDisconnectDelegate:class
 {
     func disconnectAll();
 }
-protocol WebMeetingChatDelegate:class
+/*protocol WebMeetingChatDelegate:class
 {
     func receivedChatMessage(message:String,username:String);
-}
+}*/

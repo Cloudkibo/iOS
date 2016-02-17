@@ -594,6 +594,8 @@ class MeetingRoomData:NSObject,RTCPeerConnectionDelegate,RTCSessionDescriptionDe
              print("datachannel message sent is \(senttt)")
             ///var test="hellooo"
             
+           //// rtcDataChannel.sendData(RTCDataBuffer()
+            
         }
         
     }
@@ -602,6 +604,8 @@ class MeetingRoomData:NSObject,RTCPeerConnectionDelegate,RTCSessionDescriptionDe
         
     }
     func channel(channel: RTCDataChannel!, didReceiveMessageWithBuffer buffer: RTCDataBuffer!) {
+        
+        //////buffer.data.length// make array of this size
         print("didReceiveMessageWithBuffer")
         print(buffer.data.debugDescription)
         var channelJSON=JSON(buffer.data!)
