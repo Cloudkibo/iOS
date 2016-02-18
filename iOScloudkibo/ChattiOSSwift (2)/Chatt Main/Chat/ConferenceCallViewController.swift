@@ -75,33 +75,26 @@ class ConferenceCallViewController: UIViewController,ConferenceDelegate,Conferen
     
     @IBAction func toggleVideoBtnPressed(sender: AnyObject) {
         actionVideo = !actionVideo
-        if(mvideo == nil)
+        /*if(mvideo == nil)
         {
             mvideo=MeetingRoomVideo()
             mvideo.addHandlers()
             mvideo.delegateConference=self
-        }
+        }*/
         if(actionVideo == true)
         {isInitiator=true
             ///self.rtcLocalVideoStream=getLocalMediaStream()
             
-            self.rtcLocalVideoStream=mvideo.createLocalVideoStream()
-            mvideo.toggleVideo(actionVideo,tempstream: rtcLocalVideoStream)
+            ////////////self.rtcLocalVideoStream=mvideo.createLocalVideoStream()
+            mvideo.toggleVideo(actionVideo)
         }
         else{
-            mvideo.toggleVideo(actionVideo,tempstream: rtcLocalVideoStream)
-            mvideo.removeLocalMediaStreamFromPeerConnection()
-            mvideo.pc=nil
+            mvideo.toggleVideo(actionVideo)
+            //mvideo.removeLocalMediaStreamFromPeerConnection()
+            //////////////////^^^^^^^^^^newwwwwwwwwwwww mvideo.pc=nil
             if((self.rtcLocalVideoTrack) != nil)
             {
-                print("remove local video renderer")
-                dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                    self.rtcLocalVideoTrack.removeRenderer(self.localView)
-                    self.rtcLocalVideoStream.removeVideoTrack(self.rtcLocalVideoTrack)
-                    self.localView.removeFromSuperview()
-                    self.rtcLocalVideoTrack=nil
-                })
-                
+               didremoveLocalVideoTrack()
                 
                 ////rtcLocalVideoStream=nil
                 
@@ -341,7 +334,18 @@ class ConferenceCallViewController: UIViewController,ConferenceDelegate,Conferen
         }
         
     }
-    
+     func didremoveLocalVideoTrack()
+     {
+        print("remove local video renderer")
+        dispatch_async(dispatch_get_main_queue(), { () -> Void in
+            self.rtcLocalVideoTrack.removeRenderer(self.localView)
+            self.rtcLocalVideoStream = nil
+            ////////////////self.rtcLocalVideoStream.removeVideoTrack(self.rtcLocalVideoTrack)
+            self.localView.removeFromSuperview()
+            self.rtcLocalVideoTrack=nil
+        })
+        
+    }
     
     
     
@@ -360,10 +364,10 @@ class ConferenceCallViewController: UIViewController,ConferenceDelegate,Conferen
         {
             self.rtcVideoTrackReceived.removeRenderer(self.remoteView)
         }
-        mvideo.rtcLocalstream=nil
-        mvideo.rtcLocalVideoTrack=nil
-        mvideo.rtcRemoteVideoTrack=nil
-        mvideo.rtcStreamReceived=nil
+        //mvideo.rtcLocalstream=nil
+        //mvideo.rtcLocalVideoTrack=nil
+        //mvideo.rtcRemoteVideoTrack=nil
+        //mvideo.rtcStreamReceived=nil
         mvideo=nil
         
         
@@ -416,12 +420,46 @@ class ConferenceCallViewController: UIViewController,ConferenceDelegate,Conferen
         var documentDir=docsDir1 as NSString
         /*var filePath=documentDir.stringByAppendingPathComponent("file1.txt")
         fm.createFileAtPath(filePath, contents: nil, attributes: nil)*/
-        var filePath=documentDir.stringByAppendingPathComponent("file3.jpg")
+        var filePath=documentDir.stringByAppendingPathComponent("file3.pdf")
         print(filePath)
         var s=fm.createFileAtPath(filePath, contents: NSData(contentsOfFile: "This is a test file on iphone.sdfsdkmfnskdfnjsdfnsjdfnsjkdnfsjdnfsjkdfnjksdfnsjdnfskjdnfjsnfjksdnfjsdknfnf sdfnsjdfnsjkf sdf sdjkfnsdf dsf sdf sdfsbdfjsd fksdf sdbfsf sdnf sdkf sndm fsdf sdf sdf dmnsf sdhf sdnmf sdf msnd snd fsdbnf nds fsnd fnsdbfndsf bdnsbfnsdbfnsdbfnsdbfnds fnbdsf nsdf bnsdf nsbdf nsdf nsdfb dhsbfdhsbdnsbfhsdbf sdhfb dnsf vdhb dsbvshd fbdnsbhdsf dbfvdnbfhdbfhdsfbhsdfhsdfhsdfbsdhbfhsdfhsjdfvhsdjfhsfhsfhjsfhsfvhsfvshvhjdfvhdsfvdhjsfvhdsfhdsfvhjsdvfhdjsfhsdfvhsdvfhjsdfv"), attributes: nil)
         print("file created \(s)")
         
+        var filePathImage=documentDir.stringByAppendingPathComponent("cloudkibo.jpg")
+        //filePathImage.
+        print(filePathImage)
+        var furl=NSURL(fileURLWithPath: filePathImage)
         
+        
+        //METADATA FILE NAME,TYPE
+        print(furl.pathExtension!)
+        print(furl.URLByDeletingPathExtension?.lastPathComponent!)
+        
+        
+        //var attributesError=nil
+        var fileAttributes:[String:AnyObject]=["":""]
+        do{
+             fileAttributes = try NSFileManager.defaultManager().attributesOfItemAtPath(furl.path!)
+        
+            }catch
+            {print("error")
+                print(fileAttributes)
+            }
+        
+        let fileSizeNumber = fileAttributes[NSFileSize] as! NSNumber
+        print(fileAttributes[NSFileType] as! String)
+        
+        let fileSize = fileSizeNumber.longLongValue
+        
+        //FILE METADATA size
+        print(fileSize)
+        
+        
+        let filemanager:NSFileManager = NSFileManager()
+        let files = filemanager.enumeratorAtPath(NSHomeDirectory())
+        while let file = files?.nextObject() {
+            print(file)
+        }
         
         
         /*var paths:NSArray=NSSearchPathForDirectoriesInDomains(NSSearchPathDirectory.PicturesDirectory, NSSearchPathDomainMask.UserDomainMask, true)
@@ -429,18 +467,21 @@ class ConferenceCallViewController: UIViewController,ConferenceDelegate,Conferen
         var filePath2:NSString=documentPath.stringByAppendingPathComponent("IMG_0036.jpg")
         
         */
-        let dirPaths2 = NSSearchPathForDirectoriesInDomains(.DocumentDirectory,
+        /*let dirPaths2 = NSSearchPathForDirectoriesInDomains(.DocumentDirectory,
             .UserDomainMask, true)
         
         let docsDir2 = dirPaths2[0] as! NSString
         var filePath3:NSString=docsDir2.stringByAppendingPathComponent("file3.jpg")
         var fileSize : UInt64 = 0
         
+        var camp="/var/mobile/Media/DCIM/IMG_0607.JPG"
         do {
-            let attr : NSDictionary? = try NSFileManager.defaultManager().attributesOfItemAtPath(filePath3 as String)
+            let attr : NSDictionary? = try NSFileManager.defaultManager().attributesOfItemAtPath(camp as String)
             
             if let fileattribs = attr {
                 let type = fileattribs["NSFileType"] as! String
+                fileSize = fileattribs.fileSize();
+                print(fileSize)
                 print("File type \(type)")
             }
             /*if let _attr = attr {
@@ -451,7 +492,7 @@ class ConferenceCallViewController: UIViewController,ConferenceDelegate,Conferen
             }*/
         } catch {
             print("Error: \(error)")
-        }
+        }*/
         
     }
 }
