@@ -21,7 +21,7 @@ class MeetingRoomData:NSObject,RTCPeerConnectionDelegate,RTCSessionDescriptionDe
     //////var delegateConference:ConferenceScreenDelegate!
     var screenshared=false
     var rtcDataChannel:RTCDataChannel!
-    
+    //var rtcInit:RTCDataChannelInit!
     override init()
     {/*var mainICEServerURL:NSURL=NSURL(fileURLWithPath: Constants.MainUrl)
         rtcICEarray.append(RTCICEServer(URI: NSURL(string:"turn:45.55.232.65:3478?transport=udp"), username: "cloudkibo", password: "cloudkibo"))
@@ -39,6 +39,8 @@ class MeetingRoomData:NSObject,RTCPeerConnectionDelegate,RTCSessionDescriptionDe
         //self.createPeerConnectionObject()
         RTCPeerConnectionFactory.initializeSSL()
         rtcFact=RTCPeerConnectionFactory()*/
+        
+        //rtcInit=RTCDataChannelInit.init()
         super.init()
     }
     /*func joinRoom(var roomname:String,id:Int)
@@ -348,7 +350,7 @@ class MeetingRoomData:NSObject,RTCPeerConnectionDelegate,RTCSessionDescriptionDe
     
     func handlemsg(data:AnyObject!)
     {
-        print("msg reeived.. check if offer answer or ice")
+        print("msgData reeived.. check if offer answer or ice")
         print(data.description)
         var msg=JSON(data)
         print(msg.description)
@@ -398,14 +400,14 @@ class MeetingRoomData:NSObject,RTCPeerConnectionDelegate,RTCSessionDescriptionDe
             
             ///// if(isInitiator.description == "true")
             if(isInitiator.description == "true" && self.pc.remoteDescription == nil)
-            {print("answer received")
+            {print("answer received data")
                 var sessionDescription=RTCSessionDescription(type: msg[0]["type"].description, sdp: msg[0]["sdp"]["sdp"].description)
                 self.pc.setRemoteDescriptionWithDelegate(self, sessionDescription: sessionDescription)
             }
             
         }
         if(msg[0]["type"].string! == "ice")
-        {print("ice received of other peer")
+        {print("ice data received of other peer")
             if(msg[0]["ice"].description=="null")
             {print("last ice as null so ignore")}
             else{
@@ -441,7 +443,7 @@ class MeetingRoomData:NSObject,RTCPeerConnectionDelegate,RTCSessionDescriptionDe
         if(datajson[0]["username"].debugDescription != username! && datajson[0]["type"].debugDescription == "screen" && datajson[0]["action"].boolValue==true )
         {self.screenshared=true
             //Handle Screen sharing
-            print("handle screen sharing")
+            print("handle screen sharing data")
             self.pc.createOfferWithDelegate(self, constraints: self.rtcMediaConst)
         }
         
@@ -484,7 +486,7 @@ class MeetingRoomData:NSObject,RTCPeerConnectionDelegate,RTCSessionDescriptionDe
         
         
         socketObj.socket.on("peer.connected.new"){data,ack in
-            print("received peer.connected.new obj from server")
+            print("received peer.connected.new data obj from server")
             // self.delegateWebRTCVideo.socketReceivedOtherWebRTCVideo("peer.connected.new", data: data)
             //handlePeerConnected(data)
             //Both joined same room
@@ -504,7 +506,7 @@ class MeetingRoomData:NSObject,RTCPeerConnectionDelegate,RTCSessionDescriptionDe
             self.CreateAndAttachDataChannel()
             ////self.addLocalMediaStreamToPeerConnection()
             //^^^^^^^^^^^^^^^^^^newwwww self.pc.addStream(self.rtcLocalMediaStream)
-            print("peer created datachanned")
+            print("peer created datachannel")
             
             
             self.pc.createOfferWithDelegate(self, constraints: self.rtcMediaConst!)
@@ -574,15 +576,46 @@ class MeetingRoomData:NSObject,RTCPeerConnectionDelegate,RTCSessionDescriptionDe
         
     }*/
     
-    
+    func sendDataBuffer(message:String,isb:Bool)
+    {
+        var my="{\"eventName\":\"data_msg\",\"data\":{\"file_meta\":{}}}"
+        let buffer2 = RTCDataBuffer(
+            data: (my.dataUsingEncoding(NSUTF8StringEncoding))!,
+            isBinary: false
+        )
+        var sent=self.rtcDataChannel.sendData(buffer2)
+        print("datachannel file sample METADATA sent is \(sent)")
+        
+        
+        let buffer = RTCDataBuffer(
+            data: (message.dataUsingEncoding(NSUTF8StringEncoding))!,
+            isBinary: false
+        )
+        var sentFile=self.rtcDataChannel.sendData(buffer)
+        print("datachannel file METADATA sent is \(sent)")
+       
+        
+        /*var senttt=rtcDataChannel.sendData(RTCDataBuffer(data: NSData(base64EncodedString: "{helloooo iphone sendind data through data channel}", options: NSDataBase64DecodingOptions.IgnoreUnknownCharacters),isBinary: true))
+        print("datachannel message sent is \(senttt)")*/
+        /*var test="{hellooo}"
+        let buffer = RTCDataBuffer(
+        data: (test.dataUsingEncoding(NSUTF8StringEncoding))!,
+        isBinary: false
+        )
+        
+        let result = self.rtcDataChannel!.sendData(buffer)
+        print("datachannel message sent is \(result)")
+*/
+
+    }
     func CreateAndAttachDataChannel()
     {
         
-        var rtcInit=RTCDataChannelInit.init()
+        
         // rtcInit.isNegotiated=true
         //rtcInit.isOrdered=true
         // rtcInit.maxRetransmits=30
-        
+        var rtcInit=RTCDataChannelInit.init()
         rtcDataChannel=pc.createDataChannelWithLabel("channel", config: rtcInit)
         if(rtcDataChannel != nil)
         {

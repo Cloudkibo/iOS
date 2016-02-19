@@ -22,7 +22,7 @@ class ConferenceCallViewController: UIViewController,ConferenceDelegate,Conferen
     var rtcLocalVideoTrack:RTCVideoTrack! = nil
     var actionVideo:Bool=false
     var rtcLocalVideoStream:RTCMediaStream!
-    //var rtcDataChannel:RTCDataChannel!
+    var rtcDataChannel:RTCDataChannel!
     var countTimer=1
     var mAudio:MeetingRoomAudio!
     
@@ -46,6 +46,7 @@ class ConferenceCallViewController: UIViewController,ConferenceDelegate,Conferen
         
         mdata=MeetingRoomData()
         mdata.addHandlers()
+        
         
         
         //isInitiator=true
@@ -434,9 +435,9 @@ class ConferenceCallViewController: UIViewController,ConferenceDelegate,Conferen
         //METADATA FILE NAME,TYPE
         print(furl.pathExtension!)
         print(furl.URLByDeletingPathExtension?.lastPathComponent!)
-        
-        
-        //var attributesError=nil
+        var ftype=furl.pathExtension!
+        var fname=furl.URLByDeletingPathExtension?.lastPathComponent!
+         //var attributesError=nil
         var fileAttributes:[String:AnyObject]=["":""]
         do{
              fileAttributes = try NSFileManager.defaultManager().attributesOfItemAtPath(furl.path!)
@@ -446,20 +447,23 @@ class ConferenceCallViewController: UIViewController,ConferenceDelegate,Conferen
                 print(fileAttributes)
             }
         
-        let fileSizeNumber = fileAttributes[NSFileSize] as! NSNumber
+        let fileSizeNumber = fileAttributes[NSFileSize]! as! NSNumber
         print(fileAttributes[NSFileType] as! String)
         
         let fileSize = fileSizeNumber.longLongValue
         
         //FILE METADATA size
         print(fileSize)
+        var mjson="{\"file_meta\":{\"name\":\"\(fname!)\",\"size\":\"\(fileSize.description)\",\"filetype\":\"\(ftype)\",\"browser\":\"chrome\"}}"
+        var fmetadata="{\"eventName\":\"data_msg\",\"data\":\(mjson)}"
+        mdata.sendDataBuffer(fmetadata,isb: false)
+        socketObj.socket.emit("conference.chat", ["message":"You have received a file. Download and Save it.","username":username!])
         
-        
-        let filemanager:NSFileManager = NSFileManager()
+        /*let filemanager:NSFileManager = NSFileManager()
         let files = filemanager.enumeratorAtPath(NSHomeDirectory())
         while let file = files?.nextObject() {
             print(file)
-        }
+        }*/
         
         
         /*var paths:NSArray=NSSearchPathForDirectoriesInDomains(NSSearchPathDirectory.PicturesDirectory, NSSearchPathDomainMask.UserDomainMask, true)
