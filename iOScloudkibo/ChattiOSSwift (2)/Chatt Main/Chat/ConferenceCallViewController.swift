@@ -11,15 +11,17 @@ import AVFoundation
 import SwiftyJSON
 
 class ConferenceCallViewController: UIViewController,ConferenceDelegate,ConferenceScreenReceiveDelegate,ConferenceRoomDisconnectDelegate {
-    
+    var rtcLocalVideoTrack:RTCVideoTrack!
+    ////////////////////////////////////////var rtcLocalstream:RTCMediaStream!
     var mvideo:MeetingRoomVideo!
     var mdata:MeetingRoomData!
     //var mvideo:MeetingRoomVideo!
+    ////////////////var rtcRemoteVideoStream:RTCMediaStream!
     var svideo:MeetingRoomScreen!
     var rtcVideoTrackReceived:RTCVideoTrack! = nil
     var localView:RTCEAGLVideoView! = nil
     var remoteView:RTCEAGLVideoView! = nil
-    var rtcLocalVideoTrack:RTCVideoTrack! = nil
+    ////////////////////////////////////////////var rtcLocalVideoTrack:RTCVideoTrack! = nil
     var actionVideo:Bool=false
     var rtcLocalVideoStream:RTCMediaStream!
     var rtcDataChannel:RTCDataChannel!
@@ -61,8 +63,9 @@ class ConferenceCallViewController: UIViewController,ConferenceDelegate,Conferen
         //self.localView.drawRect(CGRect(x: 0, y: 50, width: 90, height: 85))
         
         ///self.remoteView=RTCEAGLVideoView()
-        self.remoteView=RTCEAGLVideoView(frame: CGRect(x: 0, y: 50, width: 500, height: 450))
-        self.remoteView.drawRect(CGRect(x: 0, y: 50, width: 500, height: 450))
+        self.remoteView=RTCEAGLVideoView(frame: CGRect(x: 0, y: 50, width: 400, height: 370))
+        self.remoteView.drawRect(CGRect(x: 0, y: 50, width: 400, height: 370))
+        //w 500 h 450
         print("size is... \(localViewOutlet.bounds.width)")
         print("size is... \(localViewOutlet.bounds.height)")
         
@@ -76,35 +79,40 @@ class ConferenceCallViewController: UIViewController,ConferenceDelegate,Conferen
     
     @IBAction func toggleVideoBtnPressed(sender: AnyObject) {
         actionVideo = !actionVideo
-        /*if(mvideo == nil)
-        {
+        if(mvideo == nil)
+        {print("my video was nil)")
             mvideo=MeetingRoomVideo()
             mvideo.addHandlers()
             mvideo.delegateConference=self
-        }*/
+        }
         if(actionVideo == true)
-        {isInitiator=true
+        {//isInitiator=true
             ///self.rtcLocalVideoStream=getLocalMediaStream()
-            
-            ////////////self.rtcLocalVideoStream=mvideo.createLocalVideoStream()
-            mvideo.toggleVideo(actionVideo)
+            if(self.rtcLocalVideoStream == nil)
+            {self.rtcLocalVideoStream=createLocalVideoStream()}
+            mvideo.toggleVideo(actionVideo,s: rtcLocalVideoStream)
         }
         else{
-            mvideo.toggleVideo(actionVideo)
+            
+            mvideo.toggleVideo(actionVideo,s: nil)
+            //isInitiator=false
+            resetVideo()
             //mvideo.removeLocalMediaStreamFromPeerConnection()
             //////////////////^^^^^^^^^^newwwwwwwwwwwww mvideo.pc=nil
-            if((self.rtcLocalVideoTrack) != nil)
+            /////////////////////////////////////////////////^^^^^^^^^^
+            
+           /* if(self.rtcLocalVideoTrack != nil)
             {
                didremoveLocalVideoTrack()
                 
                 ////rtcLocalVideoStream=nil
                 
-            }
+            }*/
             
             
         }
         
-        socketObj.socket.emit("conference.chat", ["message":"This is test mesage from iphone","username":username!])
+        /////socketObj.socket.emit("conference.chat", ["message":"This is test mesage from iphone","username":username!])
         
         
     }
@@ -207,6 +215,75 @@ class ConferenceCallViewController: UIViewController,ConferenceDelegate,Conferen
     }
     
     
+    
+    func createLocalVideoStream()->RTCMediaStream
+    {print("inside createlocalvideostream")
+        
+        var localStream:RTCMediaStream!
+        
+        localStream=rtcFact.mediaStreamWithLabel("ARDAMS")
+        
+        self.rtcLocalVideoTrack = createLocalVideoTrack()
+        if let lvt=self.rtcLocalVideoTrack
+        {
+            let addedVideo=localStream.addVideoTrack(self.rtcLocalVideoTrack)
+            self.rtcLocalVideoStream=localStream
+            
+            print("video stream \(addedVideo)")
+            ////////////////////////////////pc.addStream(self.rtcLocalstream)
+            ////++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+            dispatch_async(dispatch_get_main_queue(), {
+                //////self.didReceiveLocalVideoTrack(localVideoTrack)
+                
+                
+                self.didReceiveLocalVideoTrack(self.rtcLocalVideoTrack)
+                //////self.didReceiveLocalVideoTrack()
+            })
+            
+        }
+        print("localStreammm ")
+        print(localStream.description, terminator: "")
+        //^^^localVideoTrack.addRenderer(localView)
+        return localStream
+    }
+    
+    
+    
+    func createLocalVideoTrack()->RTCVideoTrack{
+        //var localVideoTrack:RTCVideoTrack
+        var cameraID:NSString!
+        for aaa in AVCaptureDevice.devicesWithMediaType(AVMediaTypeVideo)
+        {
+            //self.rtcCaptureSession=aaa.captureSession
+            if aaa.position==AVCaptureDevicePosition.Front
+            {
+                print(aaa.localizedName!)
+                cameraID=aaa.localizedName!!
+                print("got front cameraaa as id \(cameraID)")
+                break
+            }
+            
+        }
+        if cameraID==nil
+            
+        {print("failed to get front camera")}
+        
+        //AVCaptureDevice
+        let capturer=RTCVideoCapturer(deviceName: cameraID! as String)
+        
+        print(capturer.description)
+        
+        var VideoSource:RTCVideoSource
+        
+        VideoSource=rtcFact.videoSourceWithCapturer(capturer, constraints: nil)
+        /////////////self.rtcLocalVideoTrack=nil
+        self.rtcLocalVideoTrack=rtcFact.videoTrackWithID("ARDAMSv0", source: VideoSource)
+        print("sending localVideoTrack")
+        return self.rtcLocalVideoTrack
+        
+    }
+    
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -228,7 +305,7 @@ class ConferenceCallViewController: UIViewController,ConferenceDelegate,Conferen
     {
         print("didreceiveremotevideotrack11")
         
-        ////dispatch_async(dispatch_get_main_queue(), {
+        dispatch_async(dispatch_get_main_queue(), {
         
         
         //////CODE TO RENDER REMOTE VIDEO
@@ -242,11 +319,7 @@ class ConferenceCallViewController: UIViewController,ConferenceDelegate,Conferen
         //////////////remoteVideoTrack.addRenderer(self.remoteView)
         ///////self.remoteView.hidden=true // ^^^^newww
         ////self.localView.setSize(CGSize(width: 200,height: 250))
-        if(self.localView.superview != nil)
-        {
-            self.localView.removeFromSuperview()
-        }
-        
+       
         self.localViewOutlet.addSubview(self.remoteView)
         //self.localView=RTCEAGLVideoView(frame: CGRect(x: 0, y: 50, width: 50, height: 45))
         //////////^^^^^^self.localView.setSize(CGSize(width: 50,height: 45))
@@ -261,6 +334,11 @@ class ConferenceCallViewController: UIViewController,ConferenceDelegate,Conferen
         self.remoteView.setNeedsDisplay()
         self.localView.setNeedsDisplay()
         self.localViewOutlet.setNeedsDisplay()
+        if(self.localView.superview != nil)
+        {
+            self.localView.setNeedsDisplay()
+        }
+        })
         
     }
     
@@ -324,13 +402,18 @@ class ConferenceCallViewController: UIViewController,ConferenceDelegate,Conferen
     
     func didRemoveRemoteVideoTrack()
     {
+       
+        
         if((self.rtcVideoTrackReceived) != nil)
         {
+             dispatch_async(dispatch_get_main_queue(), { () -> Void in
             print("remove remote video renderer")
             
             self.rtcVideoTrackReceived.removeRenderer(self.remoteView)
             self.rtcVideoTrackReceived=nil
+            //self.remoteView.hidden=true
             self.remoteView.removeFromSuperview()
+            })
             
         }
         
@@ -338,13 +421,22 @@ class ConferenceCallViewController: UIViewController,ConferenceDelegate,Conferen
      func didremoveLocalVideoTrack()
      {
         print("remove local video renderer")
-        dispatch_async(dispatch_get_main_queue(), { () -> Void in
+       //// dispatch_async(dispatch_get_main_queue(), { () -> Void in
+        self.localView.renderFrame(nil)
             self.rtcLocalVideoTrack.removeRenderer(self.localView)
+            
+            self.rtcLocalVideoStream.removeVideoTrack(self.rtcLocalVideoTrack)
             self.rtcLocalVideoStream = nil
-            ////////////////self.rtcLocalVideoStream.removeVideoTrack(self.rtcLocalVideoTrack)
+            //self.localView.hidden=true
             self.localView.removeFromSuperview()
+                //if(self.remoteView.superview != nil)
+                //{
+                   // self.remoteView.setNeedsDisplay()
+        //}
+    
+            /////localViewOutlet.setNeedsDisplay()
             self.rtcLocalVideoTrack=nil
-        })
+       ///// })
         
     }
     
@@ -498,5 +590,33 @@ class ConferenceCallViewController: UIViewController,ConferenceDelegate,Conferen
             print("Error: \(error)")
         }*/
         
+    }
+    
+    func resetVideo()
+    {print("resetttttt")
+        if(rtcVideoTrackReceived != nil)
+        {
+            dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                
+            
+            self.rtcVideoTrackReceived.removeRenderer(self.remoteView)
+            self.rtcVideoTrackReceived=nil
+                self.mvideo.rtcRemoteVideoTrack=nil
+                self.rtcVideoTrackReceived=nil
+                self.remoteView.removeFromSuperview()
+            //self.=nil
+            })
+    }
+        /*
+resetVideo: function () {
+logger.log('going to stop local video stream')
+if(videoStream || videoStream.getTracks()[0]) {
+
+logger.log('stopping local video stream now')
+videoStream.getTracks()[0].stop();
+videoStream = null;
+
+}
+*/
     }
 }

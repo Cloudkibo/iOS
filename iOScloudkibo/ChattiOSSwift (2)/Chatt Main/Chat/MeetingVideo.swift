@@ -5,7 +5,7 @@
 //  Created by Cloudkibo on 04/02/2016.
 //  Copyright © 2016 MyAppTemplates. All rights reserved.
 //
-
+/*
 import Foundation
 import SwiftyJSON
 import AVFoundation
@@ -931,4 +931,4 @@ protocol ConferenceVideoViewDelegate:class
     func didReceiveRemoteVideoTrack(remoteVideoTrack:RTCVideoTrack);
    
 }
-
+*/*/*/*/*/
