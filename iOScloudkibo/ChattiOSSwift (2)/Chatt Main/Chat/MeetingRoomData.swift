@@ -640,10 +640,120 @@ class MeetingRoomData:NSObject,RTCPeerConnectionDelegate,RTCSessionDescriptionDe
         
         //////buffer.data.length// make array of this size
         print("didReceiveMessageWithBuffer")
-        print(buffer.data.debugDescription)
+        //print(buffer.data.debugDescription)
         var channelJSON=JSON(buffer.data!)
-        print(channelJSON.debugDescription)
+       ///// print(channelJSON.debugDescription)
+        //var bytes:[UInt8]
+        var bytes=Array<UInt8>(count: buffer.data.length, repeatedValue: 0)
         
+       // bytes.append(buffer.data.bytes)
+        buffer.data.getBytes(&bytes, length: buffer.data.length)
+        print(bytes.debugDescription)
+        var sssss=NSString(bytes: &bytes, length: buffer.data.length, encoding: NSUTF8StringEncoding)
+        print(sssss!.description)
+        //buffer.data.
+        
+        var myJSONdata=JSON(sssss!)
+        print("myjsondata is \(myJSONdata)")
+        
+        
+        let count = buffer.data.length
+        var doubles: [Double] = []
+        ///let data = NSData(bytes: doubles, length: count)
+        var result = [UInt8](count: count, repeatedValue: 0)
+        buffer.data.getBytes(&result, length: count)
+     //////   print(result.debugDescription)
+        var ddd=NSData(bytes: result,length: result.count)
+       /////////////// print(ddd)
+        print(JSON(ddd).debugDescription)
+        //if(buffer.isBinary)
+        //{
+        
+        
+        
+        
+        var strData=String(bytes)
+        print(strData)
+        var jsonStrData=JSON(strData)
+        print(jsonStrData.debugDescription)
+       // }
+        
+        if(!buffer.isBinary)
+        {
+            print("not binary")
+            if(strData=="Speaking")
+            {
+                print("speakingggggg")
+            }
+            if(strData=="Silent")
+            {
+                print("Silentttt")
+            }
+           // if(jsonStrData["data"].count > 0)
+            //{
+                //////print("json data found")
+                ////print(jsonStrData["data"].debugDescription)
+                /*var resjson=jsonStrData["data"] as! [AnyObject]
+                for item in resjson{
+                    if((item["chunk"]) != nil)
+                    {
+                        print("got key chain")
+                    }
+                }*/
+            
+            print(myJSONdata["data"]["chunk"].debugDescription)
+            if(strData != "Silent" && strData != "Speaking" && myJSONdata["data"].object["chunk"] != nil)
+            { print("file chunk request received")
+               // var jj=myJSONdata!["data"] as! JSON
+                //var ch=jj["chunk"].int!
+                var ch = myJSONdata.object as! JSON
+                
+                print(ch)
+               
+            var a=myJSONdata["data"] as! [JSON]
+            for chunk in a
+            {
+                if(chunk["chunk"].int != nil)
+                {
+                    print("file chunk info received")
+                    print(chunk["chunk"].int!)
+                }
+            }
+            }
+            
+               /* if(a. ["chunk"].int != nil)
+                {
+                   //as! [[String: AnyObject]]
+                    
+                   
+                    print("file chunk info received")
+                    print(a!["chunk"].int!)
+                }*/
+        
+            }
+            else
+            {
+                print("no binary")
+            }
+        //}
+        //else{
+          //  print("not binary")
+        //}
+        /*
+ByteBuffer data = buffer.data;
+final byte[] bytes = new byte[ data.capacity() ];
+data.get(bytes);
+
+if(buffer.binary){
+
+String strData = new String( bytes );
+Log.w("FILE_TRANSFER", strData);
+
+for(int i=0; i<bytes.length; i++)
+fileBytesArray.add(bytes[i]);
+
+*/
+
     }
     func channelDidChangeState(channel: RTCDataChannel!) {
         print("channelDidChangeState")

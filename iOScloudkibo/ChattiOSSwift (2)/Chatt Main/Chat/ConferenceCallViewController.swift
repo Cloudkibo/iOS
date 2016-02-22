@@ -96,7 +96,7 @@ class ConferenceCallViewController: UIViewController,ConferenceDelegate,Conferen
             
             mvideo.toggleVideo(actionVideo,s: nil)
             //isInitiator=false
-            resetVideo()
+           //////////////////// resetVideo()
             //mvideo.removeLocalMediaStreamFromPeerConnection()
             //////////////////^^^^^^^^^^newwwwwwwwwwwww mvideo.pc=nil
             /////////////////////////////////////////////////^^^^^^^^^^
@@ -294,7 +294,8 @@ class ConferenceCallViewController: UIViewController,ConferenceDelegate,Conferen
         self.rtcLocalVideoTrack=localVideoTrack
         self.rtcLocalVideoTrack.addRenderer(self.localView)
         self.localViewOutlet.addSubview(self.localView)
-        self.localViewOutlet.updateConstraintsIfNeeded()
+        /////////////////self.localViewOutlet.updateConstraintsIfNeeded()
+        self.remoteView.setNeedsDisplay()
         self.localView.setNeedsDisplay()
         self.localViewOutlet.setNeedsDisplay()
         
@@ -433,8 +434,9 @@ class ConferenceCallViewController: UIViewController,ConferenceDelegate,Conferen
                 //{
                    // self.remoteView.setNeedsDisplay()
         //}
-    
-            /////localViewOutlet.setNeedsDisplay()
+        
+            localViewOutlet.setNeedsDisplay()
+        remoteView.setNeedsDisplay()
             self.rtcLocalVideoTrack=nil
        ///// })
         
@@ -546,6 +548,12 @@ class ConferenceCallViewController: UIViewController,ConferenceDelegate,Conferen
         
         //FILE METADATA size
         print(fileSize)
+        
+        let text2 = fm.contentsAtPath(filePath)
+        print(text2)
+        print(JSON(text2!))
+        var filecontentsJSON=JSON(fm.contentsAtPath(filePathImage)!)
+        print(filecontentsJSON)
         var mjson="{\"file_meta\":{\"name\":\"\(fname!)\",\"size\":\"\(fileSize.description)\",\"filetype\":\"\(ftype)\",\"browser\":\"chrome\"}}"
         var fmetadata="{\"eventName\":\"data_msg\",\"data\":\(mjson)}"
         mdata.sendDataBuffer(fmetadata,isb: false)
@@ -594,16 +602,17 @@ class ConferenceCallViewController: UIViewController,ConferenceDelegate,Conferen
     
     func resetVideo()
     {print("resetttttt")
-        if(rtcVideoTrackReceived != nil)
+        if(mvideo.streambackup != nil)
         {
             dispatch_async(dispatch_get_main_queue(), { () -> Void in
                 
             
-            self.rtcVideoTrackReceived.removeRenderer(self.remoteView)
-            self.rtcVideoTrackReceived=nil
-                self.mvideo.rtcRemoteVideoTrack=nil
-                self.rtcVideoTrackReceived=nil
-                self.remoteView.removeFromSuperview()
+                self.mvideo.streambackup=nil
+            //self.rtcVideoTrackReceived.removeRenderer(self.remoteView)
+            //self.rtcVideoTrackReceived=nil
+              //  self.mvideo.rtcRemoteVideoTrack=nil
+              //  self.rtcVideoTrackReceived=nil
+              //  self.remoteView.removeFromSuperview()
             //self.=nil
             })
     }
