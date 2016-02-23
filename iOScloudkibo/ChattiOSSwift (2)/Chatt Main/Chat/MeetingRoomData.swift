@@ -636,6 +636,9 @@ class MeetingRoomData:NSObject,RTCPeerConnectionDelegate,RTCSessionDescriptionDe
         print("didChangeBufferedAmount \(amount)")
         
     }
+    var newjson:JSON!
+    var myJSONdata:JSON!
+    var chunknumber:Int!
     func channel(channel: RTCDataChannel!, didReceiveMessageWithBuffer buffer: RTCDataBuffer!) {
         
         //////buffer.data.length// make array of this size
@@ -648,14 +651,18 @@ class MeetingRoomData:NSObject,RTCPeerConnectionDelegate,RTCSessionDescriptionDe
         
        // bytes.append(buffer.data.bytes)
         buffer.data.getBytes(&bytes, length: buffer.data.length)
-        print(bytes.debugDescription)
+       // print(bytes.debugDescription)
         var sssss=NSString(bytes: &bytes, length: buffer.data.length, encoding: NSUTF8StringEncoding)
         print(sssss!.description)
         //buffer.data.
         
-        var myJSONdata=JSON(sssss!)
+        myJSONdata=JSON(sssss!)
         print("myjsondata is \(myJSONdata)")
         
+        var oldjsombrackets=myJSONdata.description.stringByReplacingOccurrencesOfString("{", withString: "[")
+        var new=oldjsombrackets.stringByReplacingOccurrencesOfString("}", withString: "]")
+        print("new is \(new)")
+        newjson=JSON(rawValue: new)!
         
         let count = buffer.data.length
         var doubles: [Double] = []
@@ -663,19 +670,14 @@ class MeetingRoomData:NSObject,RTCPeerConnectionDelegate,RTCSessionDescriptionDe
         var result = [UInt8](count: count, repeatedValue: 0)
         buffer.data.getBytes(&result, length: count)
      //////   print(result.debugDescription)
-        var ddd=NSData(bytes: result,length: result.count)
-       /////////////// print(ddd)
-        print(JSON(ddd).debugDescription)
-        //if(buffer.isBinary)
-        //{
-        
-        
-        
-        
+       
         var strData=String(bytes)
+        print("strdata")
         print(strData)
         var jsonStrData=JSON(strData)
+        print("jsonStrData")
         print(jsonStrData.debugDescription)
+       
        // }
         
         if(!buffer.isBinary)
@@ -700,17 +702,30 @@ class MeetingRoomData:NSObject,RTCPeerConnectionDelegate,RTCSessionDescriptionDe
                         print("got key chain")
                     }
                 }*/
-            
-            print(myJSONdata["data"]["chunk"].debugDescription)
-            if(strData != "Silent" && strData != "Speaking" && myJSONdata["data"].object["chunk"] != nil)
+            print("newjson[data][chunk.debugDescription is:")
+            print("newjson[data][chunk].debugDescription")
+            print(myJSONdata)
+            print(myJSONdata["data"].isExists())
+            if(myJSONdata != "Speaking" && myJSONdata != "Silent" && myJSONdata["data"].isExists()){
+             
+                    if myJSONdata["data"]["chunk"].isExists() {
+                        print("chunk number is \(myJSONdata["data"]["chunk"].rawValue)")
+                        print(myJSONdata["data"][0]["browser"].debugDescription)
+                        print(myJSONdata["data"][0]["chunk"].intValue)
+                        chunknumber=myJSONdata["data"][0]["chunk"].intValue
+                        requestchunk(chunknumber)
+                    }
+            }
+           /* if(strData != "Silent" && strData != "Speaking" && newjson["data"].debugDescription != "null")
             { print("file chunk request received")
+                print("strdata is \(strData)")
                // var jj=myJSONdata!["data"] as! JSON
                 //var ch=jj["chunk"].int!
-                var ch = myJSONdata.object as! JSON
+                //var ch = newjson.object as! JSON
                 
-                print(ch)
+                //print(ch)
                
-            var a=myJSONdata["data"] as! [JSON]
+            var a=newjson["data"] as! [JSON]
             for chunk in a
             {
                 if(chunk["chunk"].int != nil)
@@ -720,20 +735,47 @@ class MeetingRoomData:NSObject,RTCPeerConnectionDelegate,RTCSessionDescriptionDe
                 }
             }
             }
+            */
+            /////var chnum = [Int]()
             
-               /* if(a. ["chunk"].int != nil)
-                {
-                   //as! [[String: AnyObject]]
-                    
-                   
-                    print("file chunk info received")
-                    print(a!["chunk"].int!)
-                }*/
+           
         
+        }
+            /*
+            if let dataFromString = message.body.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false) {
+            let json = JSON(data: dataFromString)
+            if let status = json["status"].string {
+            */
+            /*  do {
+            let json = try NSJSONSerialization.JSONObjectWithData(sssss, options: .AllowFragments)
+            
+            if let blogs = json["data"] as? [[String: AnyObject]] {
+            for blog in blogs {
+            if let chunkNum = blog["chunk"] as? Int {
+            print(chunkNum)
+            chnum.append(chunkNum)
             }
+            }
+            }
+            } catch {
+            print("error serializing JSON: \(error)")
+            }*/
+            
+            ////print(chnum) // ["Bloxus test", "Manila Test"]
+            
+            
+            
+            /* if(a. ["chunk"].int != nil)
+            {
+            //as! [[String: AnyObject]]
+            
+            
+            print("file chunk info received")
+            print(a!["chunk"].int!)
+            }*/
             else
             {
-                print("no binary")
+                print("yes binary")
             }
         //}
         //else{
@@ -755,9 +797,13 @@ fileBytesArray.add(bytes[i]);
 */
 
     }
+    func requestchunk(num:Int!)
+    {
+        
+    }
     func channelDidChangeState(channel: RTCDataChannel!) {
         print("channelDidChangeState")
-        print(channel.debugDescription)
+       // print(channel.debugDescription)
         
     }
     
