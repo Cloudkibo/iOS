@@ -13,6 +13,11 @@ import SwiftyJSON
 
 class MeetingRoomData:NSObject,RTCPeerConnectionDelegate,RTCSessionDescriptionDelegate,RTCDataChannelDelegate{
     
+    
+    var filePathImage:String!
+    var fileSize:Int!
+    var fileContents:NSData!
+    
     var pc:RTCPeerConnection!
     var rtcMediaConst:RTCMediaConstraints!
     //////var rtcLocalVideoTrack:RTCVideoTrack!
@@ -713,108 +718,198 @@ class MeetingRoomData:NSObject,RTCPeerConnectionDelegate,RTCSessionDescriptionDe
                         print(myJSONdata["data"][0]["browser"].debugDescription)
                         print(myJSONdata["data"][0]["chunk"].intValue)
                         chunknumber=myJSONdata["data"][0]["chunk"].intValue
-                        requestchunk(chunknumber)
+                        
+                        var fu=FileUtility()
+                        
+                        if(chunknumber % fu.chunks_per_ack == 0)
+                        {
+                            for(var i=0;i<fu.chunks_per_ack;i++)
+                            {
+                                if(fileSize < fu.chunkSize)
+                                {
+                                    var bytebuffer=fu.convert_file_to_byteArray(filePathImage)
+                                    var byteToNSstring=NSString(bytes: &bytebuffer, length: bytebuffer.count, encoding: NSUTF8StringEncoding)
+                                    var bytestringfile=NSData(contentsOfFile: byteToNSstring as! String)
+                                    print("file size smaller than chunk")
+                                    
+                                    self.rtcDataChannel.sendData(RTCDataBuffer(data: bytestringfile,isBinary: true))
+                                    break
+                                    
+                                }
+                                print("file size is \(fileSize)")
+                                var x=CGFloat(fileContents.length/fu.chunkSize)
+                                if(CGFloat(chunknumber+i) >= ceil(x))
+                                {
+                                print("file size came in math ceiling condition")
+                                }
+                                var upperlimit=(chunknumber+i+1)*fu.chunkSize
+                                if(upperlimit > fileContents.length)
+                                {
+                                    upperlimit = fileContents.length-1
+                                }
+                                var lowerlimit=(chunknumber+i)*fu.chunkSize
+                                print("lowerlimit \(lowerlimit) upper limit \(upperlimit)")
+                                if(lowerlimit > upperlimit)
+                                {break}
+                                //var a=RTCDataBuffer(data: fileContents,isBinary: true)
+                                var bytebuffer=fu.convert_file_to_byteArray(filePathImage)
+                                var byteToNSstring=NSString(bytes: &bytebuffer, length: bytebuffer.count, encoding: NSUTF8StringEncoding)
+                                var bytestringfile=NSFileManager.defaultManager().contentsAtPath(filePathImage)
+                               /// var bytestringfile=NSData(contentsOfFile: bytebuffer)
+                                var newbuffer=Array<UInt8>(count: upperlimit-lowerlimit, repeatedValue: 0)
+                                bytestringfile?.getBytes(&newbuffer, range: NSRange(location: lowerlimit,length: upperlimit-lowerlimit))
+                                self.rtcDataChannel.sendData(RTCDataBuffer(data: bytestringfile,isBinary: true))
+                                print("chunk has been sent")
+                                /*
+                                int upperLimit = (chunkNumber + i + 1) * Utility.getChunkSize();
+                                
+                                if (upperLimit > (int) file.length()) {
+                                    upperLimit = (int) file.length() - 1;
+                                }
+                                
+                                int lowerLimit = (chunkNumber + i) * Utility.getChunkSize();
+                                Log.w("FILE_TRANSFER", "Limits: " + lowerLimit + " " + upperLimit);
+                                
+                                if (lowerLimit > upperLimit)
+                                break;
+                                
+                                ByteBuffer byteBuffer = ByteBuffer.wrap(Utility.convertFileToByteArray(file), lowerLimit, upperLimit - lowerLimit);
+                                DataChannel.Buffer buf = new DataChannel.Buffer(byteBuffer, isBinaryFile);
+                                
+                                mListener.sendDataChannelMessage(buf);
+                                Log.w("FILE_TRANSFER", "Chunk has been sent");*/
+
+                            }
+                        }
+                        //requestchunk(chunknumber)
+                        
                     }
+   
+
+
             }
-           /* if(strData != "Silent" && strData != "Speaking" && newjson["data"].debugDescription != "null")
-            { print("file chunk request received")
-                print("strdata is \(strData)")
-               // var jj=myJSONdata!["data"] as! JSON
-                //var ch=jj["chunk"].int!
-                //var ch = newjson.object as! JSON
-                
-                //print(ch)
-               
-            var a=newjson["data"] as! [JSON]
-            for chunk in a
-            {
-                if(chunk["chunk"].int != nil)
-                {
-                    print("file chunk info received")
-                    print(chunk["chunk"].int!)
-                }
-            }
-            }
-            */
-            /////var chnum = [Int]()
-            
-           
-        
+
+
         }
-            /*
-            if let dataFromString = message.body.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false) {
-            let json = JSON(data: dataFromString)
-            if let status = json["status"].string {
-            */
-            /*  do {
-            let json = try NSJSONSerialization.JSONObjectWithData(sssss, options: .AllowFragments)
-            
-            if let blogs = json["data"] as? [[String: AnyObject]] {
-            for blog in blogs {
-            if let chunkNum = blog["chunk"] as? Int {
-            print(chunkNum)
-            chnum.append(chunkNum)
-            }
-            }
-            }
-            } catch {
-            print("error serializing JSON: \(error)")
-            }*/
-            
-            ////print(chnum) // ["Bloxus test", "Manila Test"]
-            
-            
-            
-            /* if(a. ["chunk"].int != nil)
-            {
-            //as! [[String: AnyObject]]
-            
-            
-            print("file chunk info received")
-            print(a!["chunk"].int!)
-            }*/
+
             else
             {
                 print("yes binary")
             }
-        //}
-        //else{
-          //  print("not binary")
-        //}
-        /*
-ByteBuffer data = buffer.data;
-final byte[] bytes = new byte[ data.capacity() ];
-data.get(bytes);
 
-if(buffer.binary){
-
-String strData = new String( bytes );
-Log.w("FILE_TRANSFER", strData);
-
-for(int i=0; i<bytes.length; i++)
-fileBytesArray.add(bytes[i]);
-
-*/
 
     }
     func requestchunk(num:Int!)
     {
-        
+
     }
     func channelDidChangeState(channel: RTCDataChannel!) {
         print("channelDidChangeState")
        // print(channel.debugDescription)
-        
+
     }
-    
+
     func sendImage(imageData:NSData)
     {
-        
+
         var imageSent=rtcDataChannel.sendData(RTCDataBuffer(data: imageData, isBinary: true))
         print("image senttttt \(imageSent)")
 
     }
-    
+    func sharefile()
+    {
+        let fm = NSFileManager.defaultManager()
+        let dirPaths = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)
+        let docsDir1 = dirPaths[0]
+        var documentDir=docsDir1 as NSString
+        /*var filePath=documentDir.stringByAppendingPathComponent("file1.txt")
+        fm.createFileAtPath(filePath, contents: nil, attributes: nil)*/
+        var filePath=documentDir.stringByAppendingPathComponent("file3.pdf")
+        print(filePath)
+        var s=fm.createFileAtPath(filePath, contents: NSData(contentsOfFile: "This is a test file on iphone.sdfsdkmfnskdfnjsdfnsjdfnsjkdnfsjdnfsjkdfnjksdfnsjdnfskjdnfjsnfjksdnfjsdknfnf sdfnsjdfnsjkf sdf sdjkfnsdf dsf sdf sdfsbdfjsd fksdf sdbfsf sdnf sdkf sndm fsdf sdf sdf dmnsf sdhf sdnmf sdf msnd snd fsdbnf nds fsnd fnsdbfndsf bdnsbfnsdbfnsdbfnsdbfnds fnbdsf nsdf bnsdf nsbdf nsdf nsdfb dhsbfdhsbdnsbfhsdbf sdhfb dnsf vdhb dsbvshd fbdnsbhdsf dbfvdnbfhdbfhdsfbhsdfhsdfhsdfbsdhbfhsdfhsjdfvhsdjfhsfhsfhjsfhsfvhsfvshvhjdfvhdsfvdhjsfvhdsfhdsfvhjsdvfhdjsfhsdfvhsdvfhjsdfv"), attributes: nil)
+        print("file created \(s)")
+        
+        filePathImage=documentDir.stringByAppendingPathComponent("cloudkibo.jpg")
+        //filePathImage.
+        print(filePathImage)
+        var furl=NSURL(fileURLWithPath: filePathImage)
+        
+        
+        //METADATA FILE NAME,TYPE
+        print(furl.pathExtension!)
+        print(furl.URLByDeletingPathExtension?.lastPathComponent!)
+        var ftype=furl.pathExtension!
+        var fname=furl.URLByDeletingPathExtension?.lastPathComponent!
+        //var attributesError=nil
+        var fileAttributes:[String:AnyObject]=["":""]
+        do{
+            fileAttributes = try NSFileManager.defaultManager().attributesOfItemAtPath(furl.path!)
+            
+        }catch
+        {print("error")
+            print(fileAttributes)
+        }
+        
+        let fileSizeNumber = fileAttributes[NSFileSize]! as! NSNumber
+        print(fileAttributes[NSFileType] as! String)
+        
+        fileSize=fileSizeNumber.integerValue
+        
+        //FILE METADATA size
+        print(fileSize)
+        
+        let text2 = fm.contentsAtPath(filePath)
+        print(text2)
+        print(JSON(text2!))
+        fileContents=fm.contentsAtPath(filePathImage)!
+        var filecontentsJSON=JSON(fm.contentsAtPath(filePathImage)!)
+        print(filecontentsJSON)
+        var mjson="{\"file_meta\":{\"name\":\"\(fname!)\",\"size\":\"\(fileSize.description)\",\"filetype\":\"\(ftype)\",\"browser\":\"chrome\"}}"
+        var fmetadata="{\"eventName\":\"data_msg\",\"data\":\(mjson)}"
+        self.sendDataBuffer(fmetadata,isb: false)
+        socketObj.socket.emit("conference.chat", ["message":"You have received a file. Download and Save it.","username":username!])
+        
+        /*let filemanager:NSFileManager = NSFileManager()
+        let files = filemanager.enumeratorAtPath(NSHomeDirectory())
+        while let file = files?.nextObject() {
+        print(file)
+        }*/
+        
+        
+        /*var paths:NSArray=NSSearchPathForDirectoriesInDomains(NSSearchPathDirectory.PicturesDirectory, NSSearchPathDomainMask.UserDomainMask, true)
+        var documentPath:NSString=paths.objectAtIndex(0) as! NSString
+        var filePath2:NSString=documentPath.stringByAppendingPathComponent("IMG_0036.jpg")
+        
+        */
+        /*let dirPaths2 = NSSearchPathForDirectoriesInDomains(.DocumentDirectory,
+        .UserDomainMask, true)
+        
+        let docsDir2 = dirPaths2[0] as! NSString
+        var filePath3:NSString=docsDir2.stringByAppendingPathComponent("file3.jpg")
+        var fileSize : UInt64 = 0
+        
+        var camp="/var/mobile/Media/DCIM/IMG_0607.JPG"
+        do {
+        let attr : NSDictionary? = try NSFileManager.defaultManager().attributesOfItemAtPath(camp as String)
+        
+        if let fileattribs = attr {
+        let type = fileattribs["NSFileType"] as! String
+        fileSize = fileattribs.fileSize();
+        print(fileSize)
+        print("File type \(type)")
+        }
+        /*if let _attr = attr {
+        fileSize = _attr.fileSize();
+        print(fileSize)
+        print(_attr.fileType())
+        
+        }*/
+        } catch {
+        print("Error: \(error)")
+        }*/
+
+    }
+
 }
 /*
 protocol ConferenceScreenDelegate:class
