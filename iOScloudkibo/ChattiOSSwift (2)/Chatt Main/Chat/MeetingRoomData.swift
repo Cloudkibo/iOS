@@ -17,7 +17,7 @@ class MeetingRoomData:NSObject,RTCPeerConnectionDelegate,RTCSessionDescriptionDe
     var filePathImage:String!
     var fileSize:Int!
     var fileContents:NSData!
-    
+    var chunknumbertorequest:Int=0
     var pc:RTCPeerConnection!
     var rtcMediaConst:RTCMediaConstraints!
     //////var rtcLocalVideoTrack:RTCVideoTrack!
@@ -713,7 +713,26 @@ class MeetingRoomData:NSObject,RTCPeerConnectionDelegate,RTCSessionDescriptionDe
             print(myJSONdata["data"].isExists())
             if(myJSONdata != "Speaking" && myJSONdata != "Silent" && myJSONdata["data"].isExists()){
              
-                    if myJSONdata["data"]["chunk"].isExists() {
+                if (myJSONdata["data"]["metadata"].isExists()) {
+                    print("file received")
+                    
+                    var ccccc:Int
+                    ccccc=0
+var mjson="{\"file_meta\":{\"chunk\":\(ccccc),\"browser\":\"chrome\"}}"
+var fmetadata="{\"eventName\":\"request_chunk\",\"data\":\(mjson)}"
+self.sendDataBuffer(fmetadata,isb: false)
+
+                    /*
+request_chunk.put("eventName", "request_chunk");
+JSONObject request_data = new JSONObject();
+request_data.put("chunk", chunkNumberToRequest);
+request_data.put("browser", "chrome"); // This chrome is hardcoded for testing purpose
+request_chunk.put("data", request_data);
+*/
+
+                }
+                else
+                {if (myJSONdata["data"]["chunk"].isExists()) {
                         print("chunk number is \(myJSONdata["data"]["chunk"].rawValue)")
                         print(myJSONdata["data"][0]["browser"].debugDescription)
                         print(myJSONdata["data"][0]["chunk"].intValue)
@@ -760,34 +779,16 @@ class MeetingRoomData:NSObject,RTCPeerConnectionDelegate,RTCSessionDescriptionDe
                                 bytestringfile?.getBytes(&newbuffer, range: NSRange(location: lowerlimit,length: upperlimit-lowerlimit))
                                 self.rtcDataChannel.sendData(RTCDataBuffer(data: bytestringfile,isBinary: true))
                                 print("chunk has been sent")
-                                /*
-                                int upperLimit = (chunkNumber + i + 1) * Utility.getChunkSize();
-                                
-                                if (upperLimit > (int) file.length()) {
-                                    upperLimit = (int) file.length() - 1;
-                                }
-                                
-                                int lowerLimit = (chunkNumber + i) * Utility.getChunkSize();
-                                Log.w("FILE_TRANSFER", "Limits: " + lowerLimit + " " + upperLimit);
-                                
-                                if (lowerLimit > upperLimit)
-                                break;
-                                
-                                ByteBuffer byteBuffer = ByteBuffer.wrap(Utility.convertFileToByteArray(file), lowerLimit, upperLimit - lowerLimit);
-                                DataChannel.Buffer buf = new DataChannel.Buffer(byteBuffer, isBinaryFile);
-                                
-                                mListener.sendDataChannelMessage(buf);
-                                Log.w("FILE_TRANSFER", "Chunk has been sent");*/
 
                             }
                         }
                         //requestchunk(chunknumber)
                         
-                    }
+                    }//if data chunk exists
    
+                }//end else
 
-
-            }
+            }//if speaking!=nil
 
 
         }
@@ -869,45 +870,7 @@ class MeetingRoomData:NSObject,RTCPeerConnectionDelegate,RTCSessionDescriptionDe
         self.sendDataBuffer(fmetadata,isb: false)
         socketObj.socket.emit("conference.chat", ["message":"You have received a file. Download and Save it.","username":username!])
         
-        /*let filemanager:NSFileManager = NSFileManager()
-        let files = filemanager.enumeratorAtPath(NSHomeDirectory())
-        while let file = files?.nextObject() {
-        print(file)
-        }*/
-        
-        
-        /*var paths:NSArray=NSSearchPathForDirectoriesInDomains(NSSearchPathDirectory.PicturesDirectory, NSSearchPathDomainMask.UserDomainMask, true)
-        var documentPath:NSString=paths.objectAtIndex(0) as! NSString
-        var filePath2:NSString=documentPath.stringByAppendingPathComponent("IMG_0036.jpg")
-        
-        */
-        /*let dirPaths2 = NSSearchPathForDirectoriesInDomains(.DocumentDirectory,
-        .UserDomainMask, true)
-        
-        let docsDir2 = dirPaths2[0] as! NSString
-        var filePath3:NSString=docsDir2.stringByAppendingPathComponent("file3.jpg")
-        var fileSize : UInt64 = 0
-        
-        var camp="/var/mobile/Media/DCIM/IMG_0607.JPG"
-        do {
-        let attr : NSDictionary? = try NSFileManager.defaultManager().attributesOfItemAtPath(camp as String)
-        
-        if let fileattribs = attr {
-        let type = fileattribs["NSFileType"] as! String
-        fileSize = fileattribs.fileSize();
-        print(fileSize)
-        print("File type \(type)")
-        }
-        /*if let _attr = attr {
-        fileSize = _attr.fileSize();
-        print(fileSize)
-        print(_attr.fileType())
-        
-        }*/
-        } catch {
-        print("Error: \(error)")
-        }*/
-
+       
     }
 
 }
