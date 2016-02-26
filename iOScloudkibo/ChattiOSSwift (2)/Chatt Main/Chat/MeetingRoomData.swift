@@ -644,23 +644,24 @@ class MeetingRoomData:NSObject,RTCPeerConnectionDelegate,RTCSessionDescriptionDe
     var newjson:JSON!
     var myJSONdata:JSON!
     var chunknumber:Int!
+    var strData:String!
     func channel(channel: RTCDataChannel!, didReceiveMessageWithBuffer buffer: RTCDataBuffer!) {
         
         //////buffer.data.length// make array of this size
         print("didReceiveMessageWithBuffer")
         //print(buffer.data.debugDescription)
         var channelJSON=JSON(buffer.data!)
-       ///// print(channelJSON.debugDescription)
+        print(channelJSON.debugDescription)
         //var bytes:[UInt8]
         var bytes=Array<UInt8>(count: buffer.data.length, repeatedValue: 0)
         
        // bytes.append(buffer.data.bytes)
         buffer.data.getBytes(&bytes, length: buffer.data.length)
-       // print(bytes.debugDescription)
+       print(bytes.debugDescription)
         var sssss=NSString(bytes: &bytes, length: buffer.data.length, encoding: NSUTF8StringEncoding)
-        print(sssss!.description)
+        print(sssss?.description)
         //buffer.data.
-        
+            if(sssss != nil){
         myJSONdata=JSON(sssss!)
         print("myjsondata is \(myJSONdata)")
         
@@ -676,13 +677,13 @@ class MeetingRoomData:NSObject,RTCPeerConnectionDelegate,RTCSessionDescriptionDe
         buffer.data.getBytes(&result, length: count)
      //////   print(result.debugDescription)
        
-        var strData=String(bytes)
+        strData=String(bytes)
         print("strdata")
         print(strData)
         var jsonStrData=JSON(strData)
         print("jsonStrData")
         print(jsonStrData.debugDescription)
-       
+    }
        // }
         
         if(!buffer.isBinary)
@@ -713,12 +714,15 @@ class MeetingRoomData:NSObject,RTCPeerConnectionDelegate,RTCSessionDescriptionDe
             print(myJSONdata["data"].isExists())
             if(myJSONdata != "Speaking" && myJSONdata != "Silent" && myJSONdata["data"].isExists()){
              
-                if (myJSONdata["data"]["metadata"].isExists()) {
+                if (myJSONdata["data"]["file_meta"].isExists())
+                //&& myJSONdata["data"]["file_meta"].debugDescription != "null") 
+                {
+                    print(myJSONdata["data"]["file_meta"].debugDescription)
                     print("file received")
                     
                     var ccccc:Int
                     ccccc=0
-var mjson="{\"file_meta\":{\"chunk\":\(ccccc),\"browser\":\"chrome\"}}"
+var mjson="{\"chunk\":\(ccccc),\"browser\":\"chrome\"}"
 var fmetadata="{\"eventName\":\"request_chunk\",\"data\":\(mjson)}"
 self.sendDataBuffer(fmetadata,isb: false)
 
@@ -796,6 +800,13 @@ request_chunk.put("data", request_data);
             else
             {
                 print("yes binary")
+               // var bytesreceived=Array<UInt8>(count: fileSizereceived, repeatedValue: 0)
+                
+                // bytes.append(buffer.data.bytes)
+                //buffer.data.getBytes(&bytesreceived, length: buffer.data.length)
+                // print(bytes.debugDescription)
+                ///////// var sssss=NSString(bytes: &bytes, length: buffer.data.length, encoding: NSUTF8StringEncoding)
+                
             }
 
 
@@ -829,6 +840,7 @@ request_chunk.put("data", request_data);
         print(filePath)
         var s=fm.createFileAtPath(filePath, contents: NSData(contentsOfFile: "This is a test file on iphone.sdfsdkmfnskdfnjsdfnsjdfnsjkdnfsjdnfsjkdfnjksdfnsjdnfskjdnfjsnfjksdnfjsdknfnf sdfnsjdfnsjkf sdf sdjkfnsdf dsf sdf sdfsbdfjsd fksdf sdbfsf sdnf sdkf sndm fsdf sdf sdf dmnsf sdhf sdnmf sdf msnd snd fsdbnf nds fsnd fnsdbfndsf bdnsbfnsdbfnsdbfnsdbfnds fnbdsf nsdf bnsdf nsbdf nsdf nsdfb dhsbfdhsbdnsbfhsdbf sdhfb dnsf vdhb dsbvshd fbdnsbhdsf dbfvdnbfhdbfhdsfbhsdfhsdfhsdfbsdhbfhsdfhsjdfvhsdjfhsfhsfhjsfhsfvhsfvshvhjdfvhdsfvdhjsfvhdsfhdsfvhjsdvfhdjsfhsdfvhsdvfhjsdfv"), attributes: nil)
         print("file created \(s)")
+        
         
         filePathImage=documentDir.stringByAppendingPathComponent("cloudkibo.jpg")
         //filePathImage.
