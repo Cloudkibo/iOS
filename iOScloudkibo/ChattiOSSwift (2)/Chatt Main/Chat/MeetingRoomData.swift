@@ -13,11 +13,16 @@ import SwiftyJSON
 
 class MeetingRoomData:NSObject,RTCPeerConnectionDelegate,RTCSessionDescriptionDelegate,RTCDataChannelDelegate{
     
-    
+    var numberOfChunksReceived:Int=0
+    var fu=FileUtility()
     var filePathImage:String!
     var fileSize:Int!
     var fileContents:NSData!
     var chunknumbertorequest:Int=0
+    var numberOfChunksInFileToSave:Double=0
+    var filePathReceived:String!
+    var fileSizeReceived:Int!
+    var fileContentsReceived:NSData!
     var pc:RTCPeerConnection!
     var rtcMediaConst:RTCMediaConstraints!
     //////var rtcLocalVideoTrack:RTCVideoTrack!
@@ -583,13 +588,13 @@ class MeetingRoomData:NSObject,RTCPeerConnectionDelegate,RTCSessionDescriptionDe
     
     func sendDataBuffer(message:String,isb:Bool)
     {
-        var my="{\"eventName\":\"data_msg\",\"data\":{\"file_meta\":{}}}"
-        let buffer2 = RTCDataBuffer(
-            data: (my.dataUsingEncoding(NSUTF8StringEncoding))!,
-            isBinary: false
-        )
-        var sent=self.rtcDataChannel.sendData(buffer2)
-        print("datachannel file sample METADATA sent is \(sent)")
+        //var my="{\"eventName\":\"data_msg\",\"data\":{\"file_meta\":{}}}"
+        //let buffer2 = RTCDataBuffer(
+            //data: (my.dataUsingEncoding(NSUTF8StringEncoding))!,
+            //isBinary: false
+       // )
+        //var sent=self.rtcDataChannel.sendData(buffer2)
+       // print("datachannel file sample METADATA sent is \(sent)")
         
         
         let buffer = RTCDataBuffer(
@@ -597,7 +602,7 @@ class MeetingRoomData:NSObject,RTCPeerConnectionDelegate,RTCSessionDescriptionDe
             isBinary: false
         )
         var sentFile=self.rtcDataChannel.sendData(buffer)
-        print("datachannel file METADATA sent is \(sent)")
+        print("datachannel file METADATA sent is \(sentFile)")
        
         
         /*var senttt=rtcDataChannel.sendData(RTCDataBuffer(data: NSData(base64EncodedString: "{helloooo iphone sendind data through data channel}", options: NSDataBase64DecodingOptions.IgnoreUnknownCharacters),isBinary: true))
@@ -645,8 +650,14 @@ class MeetingRoomData:NSObject,RTCPeerConnectionDelegate,RTCSessionDescriptionDe
     var myJSONdata:JSON!
     var chunknumber:Int!
     var strData:String!
+    
     func channel(channel: RTCDataChannel!, didReceiveMessageWithBuffer buffer: RTCDataBuffer!) {
         
+       
+        
+        ///var dictttt=buffer.data.dictionaryWithValuesForKeys(["event_name","data"])
+        ///print("dicttt is \(dictttt)")
+        var new:String!
         //////buffer.data.length// make array of this size
         print("didReceiveMessageWithBuffer")
         //print(buffer.data.debugDescription)
@@ -658,18 +669,48 @@ class MeetingRoomData:NSObject,RTCPeerConnectionDelegate,RTCSessionDescriptionDe
        // bytes.append(buffer.data.bytes)
         buffer.data.getBytes(&bytes, length: buffer.data.length)
        print(bytes.debugDescription)
+        
+        NSUTF8StringEncoding
+        
+        
         var sssss=NSString(bytes: &bytes, length: buffer.data.length, encoding: NSUTF8StringEncoding)
+        sssss=sssss?.stringByReplacingOccurrencesOfString("\\", withString: "")
         print(sssss?.description)
+        
+       
+        //JSONObjectWithData:jsonData options:NSJSONReadingMutableContainers error:&e];
+
+
         //buffer.data.
-            if(sssss != nil){
+        var tryyyyy=NSData(bytes: &bytes , length: buffer.data.length)
+        var mytryyJSON=JSON(tryyyyy)
+        
+        
+        if(sssss != nil){
+            var jsonnnn:NSMutableArray!
+            var jjj:NSData = (sssss?.dataUsingEncoding(NSUTF8StringEncoding))!
+            
+            do
+            {var jsonnnn = try NSJSONSerialization.JSONObjectWithData(jjj, options: NSJSONReadingOptions.MutableContainers) as! NSMutableArray
+                print("jsonnn")
+                print(jsonnnn)
+            }catch
+            {
+                print(jsonnnn)
+            }
+            
+            
         myJSONdata=JSON(sssss!)
         print("myjsondata is \(myJSONdata)")
-        
         var oldjsombrackets=myJSONdata.description.stringByReplacingOccurrencesOfString("{", withString: "[")
-        var new=oldjsombrackets.stringByReplacingOccurrencesOfString("}", withString: "]")
+        new=oldjsombrackets.stringByReplacingOccurrencesOfString("}", withString: "]")
         print("new is \(new)")
+           
         newjson=JSON(rawValue: new)!
-        
+         print("new json is \(newjson)")
+          /////  var dddd:[String:AnyObject]=newjson.debugDescription as! [String:AnyObject]
+            //////print("ddddddddd is \(dddd)")
+            
         let count = buffer.data.length
         var doubles: [Double] = []
         ///let data = NSData(bytes: doubles, length: count)
@@ -684,6 +725,10 @@ class MeetingRoomData:NSObject,RTCPeerConnectionDelegate,RTCSessionDescriptionDe
         print("jsonStrData")
         print(jsonStrData.debugDescription)
     }
+        else
+        {
+            print("sssss is nil and binary is\(buffer.isBinary)")
+        }
        // }
         
         if(!buffer.isBinary)
@@ -712,19 +757,72 @@ class MeetingRoomData:NSObject,RTCPeerConnectionDelegate,RTCSessionDescriptionDe
             print("newjson[data][chunk].debugDescription")
             print(myJSONdata)
             print(myJSONdata["data"].isExists())
-            if(myJSONdata != "Speaking" && myJSONdata != "Silent" && myJSONdata["data"].isExists()){
-             
-                if (myJSONdata["data"]["file_meta"].isExists())
+            if(myJSONdata != "Speaking" && myJSONdata != "Silent" && channelJSON["data"].isExists()){
+                print("inside 1")
+             print(channelJSON["eventName"])
+                //if (myJSONdata["data"]["file_meta"].isExists())
+                if(channelJSON["eventName"].debugDescription == "data_msg")
                 //&& myJSONdata["data"]["file_meta"].debugDescription != "null") 
-                {
-                    print(myJSONdata["data"]["file_meta"].debugDescription)
-                    print("file received")
+                {   print("myjsondata....")
+                    print(myJSONdata["data"]["file_meta"])
+                    print("channelJSON....")
+                    print(channelJSON["data"]["file_meta"])
+                    print("file received \(myJSONdata["data"]["file_meta"].isExists())")
+              
+                    filePathReceived=channelJSON["data"]["file_meta"]["name"].debugDescription
+                    fileSizeReceived=channelJSON["data"]["file_meta"]["size"].intValue
+                    var x=Double(fileSizeReceived / fu.chunkSize)
+                    numberOfChunksInFileToSave = ceil(x)
+                    print("number of chunks to save in received file are \(numberOfChunksInFileToSave)")
+                    numberOfChunksReceived=0
+                    chunknumbertorequest=0
+                    if(fu.isFreeSpacAvailable(fileSizeReceived))
+                    {
+                        print("requesting chunk now")
+                        requestchunk(chunknumbertorequest)
+                        
+                        var mjson="{\"chunk\":\(chunknumbertorequest),\"browser\":\"chrome\"}"
+                        var fmetadata="{\"eventName\":\"request_chunk\",\"data\":\(mjson)}"
+                        self.sendDataBuffer(fmetadata,isb: false)
+                        
+                        
+                    }
+                    else
+                    {
+                        print("need more space")
+                    }
+                    //UPDATE FILE UI..........................................receivedfileoffer
                     
-                    var ccccc:Int
-                    ccccc=0
-var mjson="{\"chunk\":\(ccccc),\"browser\":\"chrome\"}"
-var fmetadata="{\"eventName\":\"request_chunk\",\"data\":\(mjson)}"
-self.sendDataBuffer(fmetadata,isb: false)
+                    
+                    /*
+public void onClick(DialogInterface dialog, int whichButton) {
+onStatusChanged("Receiving file...");
+if (Utility.isFreeSpaceAvailableForFileSize(sizeOfFileToSave)) {
+Log.w("FILE_TRANSFER", "Free space is available for file save, requesting chunk now");
+fileTransferService.requestChunk();
+} else {
+Log.w("FILE_TRANSFER", "Need more space to save this file");
+onStatusChanged("Need more free space to save this file");
+}
+}*/
+
+
+                    //var fileSizeReceived:Int!
+                    //var fileContentsReceived:NSData!
+                    /*
+                    fileNameToSave = jsonData.getJSONObject("data").getJSONObject("file_meta").getString("name");
+                    sizeOfFileToSave = jsonData.getJSONObject("data").getJSONObject("file_meta").getInt("size");
+                    numberOfChunksInFileToSave = (int) Math.ceil(sizeOfFileToSave / Utility.getChunkSize());
+                    numberOfChunksReceived = 0;
+                    chunkNumberToRequest = 0;
+                    fileBytesArray = new ArrayList<Byte>();
+                    
+                    mListener.receivedFileOffer(fileNameToSave + " : " + FileUtils.getReadableFileSize(sizeOfFileToSave), sizeOfFileToSave);
+                    */
+                    
+                    ///var ccccc:Int
+                    ////ccccc=0
+
 
                     /*
 request_chunk.put("eventName", "request_chunk");
@@ -736,14 +834,18 @@ request_chunk.put("data", request_data);
 
                 }
                 else
-                {if (myJSONdata["data"]["chunk"].isExists()) {
+                {
+                    print("inside 2")
+                    print(channelJSON["eventName"])
+                    //if (myJSONdata["data"]["chunk"].isExists() && myJSONdata["data"]["chunk"].debugDescription != "" )
+                    if(channelJSON["eventName"].debugDescription == "request_chunk")
+                    {
                         print("chunk number is \(myJSONdata["data"]["chunk"].rawValue)")
-                        print(myJSONdata["data"][0]["browser"].debugDescription)
-                        print(myJSONdata["data"][0]["chunk"].intValue)
+                        print(channelJSON["data"][0]["browser"].debugDescription)
+                        print(channelJSON["data"][0]["chunk"].intValue)
                         chunknumber=myJSONdata["data"][0]["chunk"].intValue
                         
-                        var fu=FileUtility()
-                        
+                        ////////FU utility
                         if(chunknumber % fu.chunks_per_ack == 0)
                         {
                             for(var i=0;i<fu.chunks_per_ack;i++)
@@ -775,8 +877,8 @@ request_chunk.put("data", request_data);
                                 if(lowerlimit > upperlimit)
                                 {break}
                                 //var a=RTCDataBuffer(data: fileContents,isBinary: true)
-                                var bytebuffer=fu.convert_file_to_byteArray(filePathImage)
-                                var byteToNSstring=NSString(bytes: &bytebuffer, length: bytebuffer.count, encoding: NSUTF8StringEncoding)
+                                /////////////////////^^^^^^^^var bytebuffer=fu.convert_file_to_byteArray(filePathImage)
+                                /////////^^^^^^^^^^^^^^^^var byteToNSstring=NSString(bytes: &bytebuffer, length: bytebuffer.count, encoding: NSUTF8StringEncoding)
                                 var bytestringfile=NSFileManager.defaultManager().contentsAtPath(filePathImage)
                                /// var bytestringfile=NSData(contentsOfFile: bytebuffer)
                                 var newbuffer=Array<UInt8>(count: upperlimit-lowerlimit, repeatedValue: 0)
@@ -800,13 +902,51 @@ request_chunk.put("data", request_data);
             else
             {
                 print("yes binary")
+                
+                /*
+                if(buffer.binary){
+                
+                String strData = new String( bytes );
+                Log.w("FILE_TRANSFER", strData);
+                
+                for(int i=0; i<bytes.length; i++)
+                fileBytesArray.add(bytes[i]);
+                
+                if (numberOfChunksReceived % Utility.getChunksPerACK() == (Utility.getChunksPerACK() - 1)
+                || numberOfChunksInFileToSave == (numberOfChunksReceived + 1)) {
+                if (numberOfChunksInFileToSave > numberOfChunksReceived) {
+                chunkNumberToRequest += Utility.getChunksPerACK();
+                Log.w("FILETRANSFER", "Asking other chunk");
+                requestChunk();
+                }
+                } else {
+                if (numberOfChunksInFileToSave == numberOfChunksReceived) {
+                Log.w("FILETRANSFER", "File transfer completed");
+                mListener.fileTransferCompleteNotification(fileNameToSave + " : " +
+                FileUtils.getReadableFileSize(sizeOfFileToSave), fileBytesArray, fileNameToSave);
+                }
+                }
+                
+                numberOfChunksReceived++;s
+*/
+                
                // var bytesreceived=Array<UInt8>(count: fileSizereceived, repeatedValue: 0)
                 
                 // bytes.append(buffer.data.bytes)
                 //buffer.data.getBytes(&bytesreceived, length: buffer.data.length)
                 // print(bytes.debugDescription)
                 ///////// var sssss=NSString(bytes: &bytes, length: buffer.data.length, encoding: NSUTF8StringEncoding)
+                /*
+                let writeString = "Hello, world!"
                 
+                let filePath = NSHomeDirectory() + "/Library/Caches/test.txt"
+                
+                do {
+                _ = try writeString.writeToFile(filePath, atomically: true, encoding: NSUTF8StringEncoding)
+                } catch let error as NSError {
+                print(error.description)
+                }
+*/
             }
 
 
