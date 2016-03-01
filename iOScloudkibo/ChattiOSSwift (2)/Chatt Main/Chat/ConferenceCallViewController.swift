@@ -56,6 +56,7 @@ class ConferenceCallViewController: UIViewController,ConferenceDelegate,Conferen
         var w=localViewOutlet.bounds.width-(localViewOutlet.bounds.width*0.23)
         var h=localViewOutlet.bounds.height-(localViewOutlet.bounds.height*0.27)
         
+        dispatch_async(dispatch_get_main_queue(), {
         self.localView=RTCEAGLVideoView(frame: CGRect(x: w, y: h, width: 90, height: 85))
         self.localView.drawRect(CGRect(x: w, y: h, width: 90, height: 85))
         
@@ -66,8 +67,9 @@ class ConferenceCallViewController: UIViewController,ConferenceDelegate,Conferen
         self.remoteView=RTCEAGLVideoView(frame: CGRect(x: 0, y: 50, width: 400, height: 370))
         self.remoteView.drawRect(CGRect(x: 0, y: 50, width: 400, height: 370))
         //w 500 h 450
-        print("size is... \(localViewOutlet.bounds.width)")
-        print("size is... \(localViewOutlet.bounds.height)")
+        print("size is... \(self.localViewOutlet.bounds.width)")
+        print("size is.self... \(self.localViewOutlet.bounds.height)")
+        })
         
         // Do any additional setup after loading the view.
     }

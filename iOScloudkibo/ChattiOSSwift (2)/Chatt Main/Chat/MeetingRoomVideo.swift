@@ -221,7 +221,7 @@ class MeetingRoomVideo:NSObject,RTCPeerConnectionDelegate,RTCSessionDescriptionD
 */
         if(videoAction==false)
         {
-            pc=nil
+           //self.pc=nil
         }
         if(videoAction==true)
         {
@@ -237,10 +237,10 @@ class MeetingRoomVideo:NSObject,RTCPeerConnectionDelegate,RTCSessionDescriptionD
             self.rtcLocalstream=nil
             self.rtcLocalVideoTrack=nil
             //////////////////////////^^^^^^^^^^^^^^^^^^newwwww
-            ///////////////////dispatch_async(dispatch_get_main_queue(), {
+          dispatch_async(dispatch_get_main_queue(), {
                 
-            self.delegateConference.didremoveLocalVideoTrack()
-            /////////////////////})
+           self.delegateConference.didremoveLocalVideoTrack()
+         })
         }
         
         
@@ -614,6 +614,7 @@ class MeetingRoomVideo:NSObject,RTCPeerConnectionDelegate,RTCSessionDescriptionD
                     rtcRemoteVideoTrack=nil
                 //////dispatch_async(dispatch_get_main_queue(), { () -> Void in
                     self.delegateConference.didRemoveRemoteVideoTrack()
+                    //////////RESOLVED PC NOT NILL///////////
                //////// })
                 
                 //video=false

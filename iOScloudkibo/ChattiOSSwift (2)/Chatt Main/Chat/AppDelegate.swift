@@ -44,6 +44,8 @@ var callerName=""
 var rtcICEarray:[RTCICEServer]=[]
 var rtcFact:RTCPeerConnectionFactory!
 var contactsList=iOSContact(keys: [CNContactGivenNameKey, CNContactFamilyNameKey, CNContactEmailAddressesKey, CNContactPhoneNumbersKey])
+var filejustreceivedname:String!
+
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
     

@@ -12,7 +12,8 @@ import Foundation
 import SwiftyJSON
 
 class MeetingRoomData:NSObject,RTCPeerConnectionDelegate,RTCSessionDescriptionDelegate,RTCDataChannelDelegate{
-    
+    var bytesarraytowrite:Array<UInt8>!
+    var jsonnnn:Dictionary<String, AnyObject>!
     var numberOfChunksReceived:Int=0
     var fu=FileUtility()
     var filePathImage:String!
@@ -51,6 +52,7 @@ class MeetingRoomData:NSObject,RTCPeerConnectionDelegate,RTCSessionDescriptionDe
         rtcFact=RTCPeerConnectionFactory()*/
         
         //rtcInit=RTCDataChannelInit.init()
+        bytesarraytowrite=Array<UInt8>()
         super.init()
     }
     /*func joinRoom(var roomname:String,id:Int)
@@ -666,9 +668,9 @@ class MeetingRoomData:NSObject,RTCPeerConnectionDelegate,RTCSessionDescriptionDe
         //var bytes:[UInt8]
         var bytes=Array<UInt8>(count: buffer.data.length, repeatedValue: 0)
         
-       // bytes.append(buffer.data.bytes)
+        // bytes.append(buffer.data.bytes)
         buffer.data.getBytes(&bytes, length: buffer.data.length)
-       print(bytes.debugDescription)
+        print(bytes.debugDescription)
         
         NSUTF8StringEncoding
         
@@ -676,6 +678,7 @@ class MeetingRoomData:NSObject,RTCPeerConnectionDelegate,RTCSessionDescriptionDe
         var sssss=NSString(bytes: &bytes, length: buffer.data.length, encoding: NSUTF8StringEncoding)
         sssss=sssss?.stringByReplacingOccurrencesOfString("\\", withString: "")
         print(sssss?.description)
+        
         
        
         //JSONObjectWithData:jsonData options:NSJSONReadingMutableContainers error:&e];
@@ -685,20 +688,19 @@ class MeetingRoomData:NSObject,RTCPeerConnectionDelegate,RTCSessionDescriptionDe
         var tryyyyy=NSData(bytes: &bytes , length: buffer.data.length)
         var mytryyJSON=JSON(tryyyyy)
         
-        
         if(sssss != nil){
-            var jsonnnn:NSMutableArray!
-            var jjj:NSData = (sssss?.dataUsingEncoding(NSUTF8StringEncoding))!
+            
+           var jjj:NSData = (sssss?.dataUsingEncoding(NSUTF8StringEncoding))!
             
             do
-            {var jsonnnn = try NSJSONSerialization.JSONObjectWithData(jjj, options: NSJSONReadingOptions.MutableContainers) as! NSMutableArray
+            {jsonnnn = try NSJSONSerialization.JSONObjectWithData(jjj, options: NSJSONReadingOptions.MutableContainers) as! Dictionary<String, AnyObject>
                 print("jsonnn")
                 print(jsonnnn)
             }catch
-            {
-                print(jsonnnn)
+            {print("hi")
+               // print(jsonnnn)
             }
-            
+
             
         myJSONdata=JSON(sssss!)
         print("myjsondata is \(myJSONdata)")
@@ -724,10 +726,12 @@ class MeetingRoomData:NSObject,RTCPeerConnectionDelegate,RTCSessionDescriptionDe
         var jsonStrData=JSON(strData)
         print("jsonStrData")
         print(jsonStrData.debugDescription)
-    }
+        }
         else
         {
             print("sssss is nil and binary is\(buffer.isBinary)")
+            
+
         }
        // }
         
@@ -757,20 +761,25 @@ class MeetingRoomData:NSObject,RTCPeerConnectionDelegate,RTCSessionDescriptionDe
             print("newjson[data][chunk].debugDescription")
             print(myJSONdata)
             print(myJSONdata["data"].isExists())
-            if(myJSONdata != "Speaking" && myJSONdata != "Silent" && channelJSON["data"].isExists()){
+            if(myJSONdata != "Speaking" && myJSONdata != "Silent" && !jsonnnn.isEmpty){
                 print("inside 1")
-             print(channelJSON["eventName"])
+             print(jsonnnn["eventName"]!)
                 //if (myJSONdata["data"]["file_meta"].isExists())
-                if(channelJSON["eventName"].debugDescription == "data_msg")
+                if(jsonnnn["eventName"]!.debugDescription == "data_msg")
                 //&& myJSONdata["data"]["file_meta"].debugDescription != "null") 
                 {   print("myjsondata....")
                     print(myJSONdata["data"]["file_meta"])
-                    print("channelJSON....")
-                    print(channelJSON["data"]["file_meta"])
+                    print("jsonnnn.valueForKey.......")
+                    print(jsonnnn["eventName"])
                     print("file received \(myJSONdata["data"]["file_meta"].isExists())")
               
-                    filePathReceived=channelJSON["data"]["file_meta"]["name"].debugDescription
-                    fileSizeReceived=channelJSON["data"]["file_meta"]["size"].intValue
+                    //////////filePathReceived=channelJSON["data"]["file_meta"]["name"].debugDescription
+                    filePathReceived=jsonnnn["data"]!["file_meta"]!!["name"]!!.debugDescription
+                    fileSizeReceived=jsonnnn["data"]!["file_meta"]!!["size"]!!.debugDescription as! Int
+                    ///////fileSizeReceived=channelJSON["data"]["file_meta"]["size"].intValue
+                    ///NEW ADDITION MAKE FILENAME GLOBAL
+                    filejustreceivedname=filePathReceived!
+                    /////////
                     var x=Double(fileSizeReceived / fu.chunkSize)
                     numberOfChunksInFileToSave = ceil(x)
                     print("number of chunks to save in received file are \(numberOfChunksInFileToSave)")
@@ -836,9 +845,9 @@ request_chunk.put("data", request_data);
                 else
                 {
                     print("inside 2")
-                    print(channelJSON["eventName"])
+                    print(jsonnnn["eventName"]!)
                     //if (myJSONdata["data"]["chunk"].isExists() && myJSONdata["data"]["chunk"].debugDescription != "" )
-                    if(channelJSON["eventName"].debugDescription == "request_chunk")
+                    if(jsonnnn["eventName"]!.debugDescription == "request_chunk")
                     {
                         print("chunk number is \(myJSONdata["data"]["chunk"].rawValue)")
                         print(channelJSON["data"][0]["browser"].debugDescription)
@@ -903,6 +912,35 @@ request_chunk.put("data", request_data);
             {
                 print("yes binary")
                 
+                for eachbyte in bytes
+                {
+                    bytesarraytowrite.append(eachbyte)
+                }
+                
+                var modanswer=numberOfChunksReceived % fu.chunks_per_ack
+                if(modanswer==(fu.chunks_per_ack-1) || numberOfChunksInFileToSave == (Double(numberOfChunksReceived+1)))
+                {
+                    
+                    
+                    if(numberOfChunksInFileToSave > Double(numberOfChunksReceived))
+                    {
+                        chunknumbertorequest += fu.chunks_per_ack
+                        print("asking other chunk..")
+                        requestchunk(chunknumbertorequest)
+                        
+                        var mjson="{\"chunk\":\(chunknumbertorequest),\"browser\":\"chrome\"}"
+                        var fmetadata="{\"eventName\":\"request_chunk\",\"data\":\(mjson)}"
+                        self.sendDataBuffer(fmetadata,isb: false)
+                    }
+                }
+                else{
+                    if(numberOfChunksInFileToSave == Double(numberOfChunksReceived))
+                    {
+                        print("file transfer completed..")
+                        //////bytesarraytowrite=Array<UInt8>()
+                    }
+                }
+                numberOfChunksReceived++
                 /*
                 if(buffer.binary){
                 
@@ -928,8 +966,58 @@ request_chunk.put("data", request_data);
                 }
                 
                 numberOfChunksReceived++;s
-*/
+                */
+      
                 
+                
+               /* let writeString = "Hello, world!"
+                
+                let filePath = NSHomeDirectory() + "/Library/Caches/test.txt"
+                
+                do {
+                    _ = try writeString.writeToFile(filePath, atomically: true, encoding: NSUTF8StringEncoding)
+                } catch let error as NSError {
+                    print(error.description)
+                }
+                
+                */
+                //let fm = NSFileManager.defaultManager()
+                let dirPaths = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)
+                let docsDir1 = dirPaths[0]
+                var documentDir=docsDir1 as NSString
+                var filePathImage2=documentDir.stringByAppendingPathComponent(filejustreceivedname!)
+                var fm=NSFileManager.defaultManager()
+                
+                
+                //////////^^^^^^^newww tryy var filedata:NSData=fu.convert_byteArray_to_fileNSData(bytes)
+                var filedata:NSData=fu.convert_byteArray_to_fileNSData(bytesarraytowrite)
+                
+                var s=fm.createFileAtPath(filePathImage2, contents: nil, attributes: nil)
+
+                filedata.writeToFile(filePathImage2, atomically: true)
+                print("file writtennnnn \(s) \(filedata.debugDescription)")
+                var receivedfile=fm.contentsAtPath(filePathImage2)
+                do{var receivedfile2=try NSString(contentsOfFile: filePathImage2, encoding: NSUTF8StringEncoding)
+                    print("file output is ")
+                    print(receivedfile2)
+                    
+                }catch let error as NSError
+                {
+                    print(error)
+                }
+                catch
+                {
+                    
+                }
+                
+                /*
+//to convert NSData to pdf
+NSData *data     = [NSData dataWithBytes:(void)wdslBytes length:sizeOf(wdslBytes)];
+CFDataRef myPDFData  = (CFDataRef)data;
+CGDataProviderRef provider = CGDataProviderCreateWithCFData(myPDFData);
+CGPDFDocumentRef pdf   = CGPDFDocumentCreateWithProvider(provider);
+*/
+               
                // var bytesreceived=Array<UInt8>(count: fileSizereceived, repeatedValue: 0)
                 
                 // bytes.append(buffer.data.bytes)
