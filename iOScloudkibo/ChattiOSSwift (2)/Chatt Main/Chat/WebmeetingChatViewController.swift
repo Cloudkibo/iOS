@@ -11,10 +11,10 @@ import SwiftyJSON
 import SQLite
 import Alamofire
 
-class WebmeetingChatViewController: UIViewController,WebMeetingChatDelegate {
+class WebmeetingChatViewController: UIViewController {
     
         var rt=NetworkingLibAlamofire()
-        
+        /////var webMeetingModel=webmeetingMsgsModel()
         @IBOutlet weak var NewChatNavigationTitle: UINavigationItem!
         @IBOutlet weak var labelToName: UILabel!
         @IBOutlet var tblForChats : UITableView!
@@ -23,22 +23,12 @@ class WebmeetingChatViewController: UIViewController,WebMeetingChatDelegate {
         
         @IBOutlet weak var btn_chatDeleteHistory: UIBarButtonItem!
         
-        
-       /* var selectedContact="" //username
-        var selectedID=""
-        var selectedFirstName=""
-        var selectedLastName=""
-        var selectedUserObj=JSON("[]")
-        let to = Expression<String>("to")
-        let from = Expression<String>("from")
-        let fromFullName = Expression<String>("fromFullName")
-        let msg = Expression<String>("msg")
-        let date = Expression<NSDate>("date")
-        */
         var tbl_userchats:Table!
         
         var messages : NSMutableArray!
-        override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: NSBundle?)
+    
+    
+    override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: NSBundle?)
         {
             super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
             print(NSBundle.debugDescription())
@@ -51,6 +41,7 @@ class WebmeetingChatViewController: UIViewController,WebMeetingChatDelegate {
         required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
         }*/
+    
         required init?(coder aDecoder: NSCoder){
             super.init(coder: aDecoder)
             //print("hiiiiii22 \(self.AuthToken)")
@@ -63,70 +54,14 @@ class WebmeetingChatViewController: UIViewController,WebMeetingChatDelegate {
             NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("willShowKeyBoard:"), name:UIKeyboardWillShowNotification, object: nil)
             NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("willHideKeyBoard:"), name:UIKeyboardWillHideNotification, object: nil)
             
-            messages = NSMutableArray()
-            MeetingRoomAudio().delegateChat=self
-            
-            //self.performSegueWithIdentifier("chatSegue", sender: nil)
-            
-            /* var tbl_contactList=sqliteDB.db["contactslists"]
-            let username = Expression<String>("username")
-            let email = Expression<String>("email")
-            let _id = Expression<String>("_id")
-            //let detailsshared = Expression<String>("detailsshared")
-            //let unreadMessage = Expression<Bool>("unreadMessage")
-            let userid = Expression<String>("userid")
-            let firstname = Expression<String>("firstname")
-            let lastname = Expression<String>("lastname")
-            let phone = Expression<String>("phone")
-            let status = Expression<String>("status")
-            
-            for user in tbl_contactList.select(username, email,_id,userid,firstname,lastname,phone,status).filter(username==selectedContact) {
-            print("id: \(user[username]), email: \(user[email])")
-            var userObj=JSON(["_id":"\(user[_id])","userid":"\(user[userid])","firstname":"\(user[firstname])","lastname":"\(user[lastname])","email":"\(user[email])","phone":"\(user[phone])","status":"\(user[status])"])
-            self.selectedUserObj=userObj
-            print("chat detail view")
-            }*/
-            /* if loggedUserObj==nil
-            {
-            if let loggd=KeychainWrapper.objectForKey("loggedUserObj")
-            {
-            loggedUserObj=JSON(loggd)
-            }
-            }*/
-            // dispatch_async(dispatch_get_main_queue(), {
+            /////messages = webMeetingModel.messages
             
             
-            //FetchChatServer()
-            //^^self.getUserObjectById()
-            ///^^^^^^^^markChatAsRead()
             
-            //^^self.tbl_userchats=sqliteDB.db["userschats"]
             self.NewChatNavigationTitle.title="webmeeting/test"
             var receivedMsg=JSON("")
             
-            
-            /*socketObj.socket.on("conference") {data,ack in
-                
-                print("chat sent to server.ack received")
-                var chatJson=JSON(data)
-                print(chatJson[0]["msg"])
-                receivedMsg=chatJson[0]["msg"]
-                var username=chatJson[0]["fullName"]
-
-                
-                self.addMessage(receivedMsg.description, ofType: "1")
-                
-                self.tblForChats.reloadData()
-                var indexPath = NSIndexPath(forRow:self.messages.count-1, inSection: 0)
-                self.tblForChats.scrollToRowAtIndexPath(indexPath, atScrollPosition: UITableViewScrollPosition.Bottom, animated: true)
-                
-                /*sqliteDB.SaveChat(chatJson[0]["to"].string!, from1: chatJson[0]["from"].string!, fromFullName1: chatJson[0]["fromFullName"].string!, msg1: chatJson[0]["msg"].string!)*/
-                
-            }
-            
-            */
-            
-            ///////////messages.addObject(["message":"helloo","hiiii":"tstingggg","type":"1"])
+            messages.addObject(["message":"helloo","hiiii":"tstingggg","type":"1"])
             /*  self.addMessage("Its actually pretty good!", ofType: "1")
             self.addMessage("What do you think of this tool!", ofType: "2")*/
         }
@@ -134,15 +69,18 @@ class WebmeetingChatViewController: UIViewController,WebMeetingChatDelegate {
         
         
     
-               override func didReceiveMemoryWarning() {
+        override func didReceiveMemoryWarning() {
             super.didReceiveMemoryWarning()
             // Dispose of any resources that can be recreated.
         }
     
-        func receivedChatMessage(message:String,username:String)
+        /*func receivedChatMessage(message:String,username:String)
         {
             messages.addObject(["message":"\(username): \(message)","type":"1"])
-        }
+            self.tblForChats.reloadData()
+            var indexPath = NSIndexPath(forRow:self.messages.count-1, inSection: 0)
+            self.tblForChats.scrollToRowAtIndexPath(indexPath, atScrollPosition: UITableViewScrollPosition.Bottom, animated: true)
+        }*/
         
         func addMessage(message: String, ofType msgType:String) {
             messages.addObject(["message":message, "type":msgType])
@@ -151,10 +89,8 @@ class WebmeetingChatViewController: UIViewController,WebMeetingChatDelegate {
         
     
         func tableView(tableView: UITableView!, numberOfRowsInSection section: Int) -> Int {
-            if(messages.count>0)
-            {return messages.count}
-            //else
-            return 1
+            return messages.count
+            
         }
         
         func numberOfSectionsInTableView(tableView: UITableView!) -> Int {
@@ -221,8 +157,11 @@ class WebmeetingChatViewController: UIViewController,WebMeetingChatDelegate {
                 
                 self.tblForChats.frame = CGRectMake(self.tblForChats.frame.origin.x, self.tblForChats.frame.origin.y, self.tblForChats.frame.size.width, self.tblForChats.frame.size.height - keyboardFrame.size.height+49);
                 }, completion: nil)
-            let indexPath = NSIndexPath(forRow:1, inSection: 0)
+            if(messages.count>1)
+            {
+            let indexPath = NSIndexPath(forRow:messages.count-1, inSection: 0)
             tblForChats.scrollToRowAtIndexPath(indexPath, atScrollPosition: UITableViewScrollPosition.Bottom, animated: true)
+            }
             
         }
         

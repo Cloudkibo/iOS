@@ -775,8 +775,16 @@ class MeetingRoomData:NSObject,RTCPeerConnectionDelegate,RTCSessionDescriptionDe
               
                     //////////filePathReceived=channelJSON["data"]["file_meta"]["name"].debugDescription
                     filePathReceived=jsonnnn["data"]!["file_meta"]!!["name"]!!.debugDescription
-                    fileSizeReceived=jsonnnn["data"]!["file_meta"]!!["size"]!!.debugDescription as! Int
-                    ///////fileSizeReceived=channelJSON["data"]["file_meta"]["size"].intValue
+                    ////fileSizeReceived=jsonnnn["data"]!["file_meta"]!!["size"]!! as! Int
+                    print("file sizeeee jsonnnn is \(channelJSON["data"]["file_meta"]["size"].debugDescription)")
+                    
+                     print("file sizeeee channelJSON is \(jsonnnn["data"]!["file_meta"]!!["size"].debugDescription)")
+                    fileSizeReceived = channelJSON["data"]["file_meta"]["size"].int
+                    
+                    ///fileSizeReceived=myJSONdata["data"]["file_meta"]["size"].intValue
+                    
+
+                    
                     ///NEW ADDITION MAKE FILENAME GLOBAL
                     filejustreceivedname=filePathReceived!
                     /////////
@@ -885,9 +893,7 @@ request_chunk.put("data", request_data);
                                 print("lowerlimit \(lowerlimit) upper limit \(upperlimit)")
                                 if(lowerlimit > upperlimit)
                                 {break}
-                                //var a=RTCDataBuffer(data: fileContents,isBinary: true)
-                                /////////////////////^^^^^^^^var bytebuffer=fu.convert_file_to_byteArray(filePathImage)
-                                /////////^^^^^^^^^^^^^^^^var byteToNSstring=NSString(bytes: &bytebuffer, length: bytebuffer.count, encoding: NSUTF8StringEncoding)
+                                
                                 var bytestringfile=NSFileManager.defaultManager().contentsAtPath(filePathImage)
                                /// var bytestringfile=NSData(contentsOfFile: bytebuffer)
                                 var newbuffer=Array<UInt8>(count: upperlimit-lowerlimit, repeatedValue: 0)
@@ -1051,6 +1057,15 @@ CGPDFDocumentRef pdf   = CGPDFDocumentCreateWithProvider(provider);
 
     func sendImage(imageData:NSData)
     {
+        
+        //var test="{length:\(imageData.length)}"
+        var test="\(imageData.length)"
+        let buffer = RTCDataBuffer(
+            data: (test.dataUsingEncoding(NSUTF8StringEncoding))!,
+            isBinary: false
+        )
+
+        rtcDataChannel.sendData(buffer)
 
         var imageSent=rtcDataChannel.sendData(RTCDataBuffer(data: imageData, isBinary: true))
         print("image senttttt \(imageSent)")

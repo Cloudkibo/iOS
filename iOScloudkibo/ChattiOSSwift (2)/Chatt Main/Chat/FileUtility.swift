@@ -131,5 +131,38 @@ return totalFreeSpace;
 private static final int CHUNK_SIZE = 16000;
 private static final int CHUNKS_PER_ACK = 16;
 */
+  
     
+    func convert_byteArray_to_fileNSData(filecontent:Array<UInt8>)->NSData
+    {
+        var myfile=filecontent
+        //var file=fm.contentsAtPath(filename)
+        //print(file?.debugDescription)
+       // print(filecontent.length)
+        //var bytes=Array<UInt8>(count: file!.length, repeatedValue: 0)
+        var file:NSData!
+        // bytes.append(buffer.data.bytes)
+        //file!.getBytes(&filecontent, length: (file?.length)!)
+               // print(bytes.debugDescription)
+         file=NSData(bytes: filecontent, length: filecontent.count)
+       // var sssss=NSString(bytes: &bytes, length: file!.length, encoding: NSUTF8StringEncoding)
+       
+        return file
+        /*java.io.FileInputStream fis = null;
+        byte[] stream = new byte[(int) f.length()];
+        try {
+        fis = new java.io.FileInputStream(f);
+        } catch (java.io.FileNotFoundException ex) {
+        return null;
+        }
+        try {
+        fis.read(stream);
+        fis.close();
+        } catch (java.io.IOException ex) {
+        return null;
+        }
+        return stream;
+        */
+    }
+
 }
