@@ -144,7 +144,7 @@ class ConferenceCallViewController: UIViewController,ConferenceDelegate,Conferen
         atimer=NSTimer(timeInterval: 0.5, target: self, selector: "timerFiredScreenCapture", userInfo: nil, repeats: true)
         
         
-        countTimer++
+        //countTimer++
         dispatch_async(dispatch_get_main_queue(), { () -> Void in
             
             atimer.fire()
@@ -163,54 +163,96 @@ class ConferenceCallViewController: UIViewController,ConferenceDelegate,Conferen
         //if(countTimer%2 == 0){
         
         //while(atimer.timeInterval < 3000)
-        for(var i=0;i<30;i++)
+        var chunkLength=64000
+        
+        for(var i=0;i<30000;i++)
         {
-            for window in UIApplication.sharedApplication().windows{
+            //////for window in UIApplication.sharedApplication().windows{
+                print("i is \(i)")
+               
+                ////UIGraphicsBeginImageContext(window.layer.bounds.size)
+            
+           /////////// dispatch_async(dispatch_get_main_queue(), { () -> Void in
                 
-                var bitmapBytesPerRow = Int(window.layer.bounds.size.width * 4)
-                var bitmapByteCount = Int(bitmapBytesPerRow * Int(window.layer.bounds.size.height))
-                var bitmapData=malloc(bitmapByteCount)
-                var colorSpace = CGColorSpaceCreateDeviceRGB()
-                var ww=Int(window.layer.bounds.size.width)
-                var hh=Int(window.layer.bounds.size.height)
-                //////CGBitmapContextCreate(bitmapData, ww , hh, 8, bitmapBytesPerRow, colorSpace,)
-                
-                ////UIGraphicsBeginImageContext(self.view.layer.bounds.size)
-                UIGraphicsBeginImageContext(window.layer.bounds.size)
-                ///    dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                UIGraphicsBeginImageContext(UIScreen.mainScreen().bounds.size)
                 self.view.drawViewHierarchyInRect(UIScreen.mainScreen().bounds, afterScreenUpdates: true)
-                
-                ///// window.layer.renderInContext(UIGraphicsGetCurrentContext()!)
+                print("width is \(UIScreen.mainScreen().bounds.width), height is \(UIScreen.mainScreen().bounds.height)")
                 var screenshot:UIImage=UIGraphicsGetImageFromCurrentImageContext()
                 UIGraphicsEndImageContext()
-                ////////////////// saveImage(screenshot)
                 var imageData:NSData = UIImageJPEGRepresentation(screenshot, 1.0)!
-                /////
-                ///////IMAGE SAVE CODE
-                /////
-                /*UIImageWriteToSavedPhotosAlbum(screenshot, nil, nil, nil)
-                ///  })
-                var paths:NSArray=NSSearchPathForDirectoriesInDomains(NSSearchPathDirectory.PicturesDirectory, NSSearchPathDomainMask.UserDomainMask, true)
-                var documentPath:NSString=paths.objectAtIndex(0) as! NSString
-                /////var filePath:NSString=documentPath.stringByAppendingPathComponent("cloudkibo\(self.countTimer).jpg")
-                UIImageWriteToSavedPhotosAlbum(screenshot, nil, nil, nil)
-                ////imageData.writeToFile(filePath as String, atomically: true)
-                ////print("image saved \(filePath)")
-                print("screen captured")
-                */
+                var numchunks=0
+                var len=imageData.length
+                print("length is\(len)")
+                numchunks=len/chunkLength
+                print("numchunks are \(numchunks)")
                 
-                mdata.sendImage(imageData)
-                ///////var imageSent=rtcDataChannel.sendData(RTCDataBuffer(data: imageData, isBinary: true))
-                //////print("image senttttt \(imageSent)")
+            var start=0;
+            if(len<chunkLength)
+            {
+                print("inside first if")
+                print("chunk numberrrrr is \(numchunks)")
+                self.mdata.sendImage(imageData.subdataWithRange(NSMakeRange(0,len)))
+            }
+            else
+            {
+                var j=0
+                for(j=0;j<numchunks;j++)
+                {
+                    print("inside for loop")
+                    
+                    start=j*chunkLength
+                    //var end=(i+1)*chunkLength
+                    
+                    /*if(end>len)
+                    {
+                    end=len-1
+                    }*/
+                    print("len \(len) start \(start) start+chunklength is \(start+chunkLength)")
+                    if(start+chunkLength > len)
+                    {
+                        print("inside screen if")
+                        self.mdata.sendImage(imageData.subdataWithRange(NSMakeRange(start, len-start)))
+                        
+                        /////////self.mdata.sendImage(imageData.subdataWithRange(NSMakeRange(start, start-len)))
+                        ////self.mdata.sendImage(imageData.subdataWithRange(NSMakeRange(start, len%chunkLength)))
+                        break
+                        
+                        
+                        /*len=start+chunkLength-len-1
+                        print("changed len \(len) start \(start) start+chunklength is \(start+chunkLength)")
+                        break
+                        */
+                    }
+                     self.mdata.sendImage(imageData.subdataWithRange(NSMakeRange(start, chunkLength)))
+                   /// self.mdata.sendImage(imageData.subdataWithRange(NSMakeRange(start, chunkLength-1)))
+                }
                 
-                //// }
-                ///else{
-                ////  print("not captured")
-                ///}
-            }}
+                if(len%chunkLength>0 && j<len)
+                {
+                    self.mdata.sendImage(imageData.subdataWithRange(NSMakeRange(numchunks*chunkLength,len-(numchunks*chunkLength))))
+                    
+                    print("inside mod if")
+                    ////self.mdata.sendImage(imageData.subdataWithRange(NSMakeRange(numchunks*chunkLength,len-(numchunks*chunkLength))))
+                    //self.mdata.sendImage(imageData.subdataWithRange(NSMakeRange(numchunks*chunkLength,len)))
+                }
+
+                
+            }
+            
+
+                /////self.mdata.sendImage(imageData)
+                
+           //////////// })
+            
+            
+            
+            
+                //mdata.sendImage(imageData)
+        ////////    }
+        }
         print("outside")
-        atimer.invalidate()
-        print("timer stopped")
+       /// atimer.invalidate()
+       /// print("timer stopped")
         
         
         

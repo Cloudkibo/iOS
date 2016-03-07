@@ -771,15 +771,21 @@ class MeetingRoomData:NSObject,RTCPeerConnectionDelegate,RTCSessionDescriptionDe
                     print(myJSONdata["data"]["file_meta"])
                     print("jsonnnn.valueForKey.......")
                     print(jsonnnn["eventName"])
+                    print(jsonnnn["data"]!["file_meta"]!!["size"]!)
+                   
                     print("file received \(myJSONdata["data"]["file_meta"].isExists())")
               
+                    var sizeee=Int.init((jsonnnn["data"]!["file_meta"]!!["size"]!?.debugDescription)!)
+                    fileSizeReceived=sizeee
+                    
                     //////////filePathReceived=channelJSON["data"]["file_meta"]["name"].debugDescription
                     filePathReceived=jsonnnn["data"]!["file_meta"]!!["name"]!!.debugDescription
                     ////fileSizeReceived=jsonnnn["data"]!["file_meta"]!!["size"]!! as! Int
                     print("file sizeeee jsonnnn is \(channelJSON["data"]["file_meta"]["size"].debugDescription)")
                     
                      print("file sizeeee channelJSON is \(jsonnnn["data"]!["file_meta"]!!["size"].debugDescription)")
-                    fileSizeReceived = channelJSON["data"]["file_meta"]["size"].int
+                    print("file sizeeee sizeee is \(sizeee)")
+                    /////////////fileSizeReceived = channelJSON["data"]["file_meta"]["size"].intValue
                     
                     ///fileSizeReceived=myJSONdata["data"]["file_meta"]["size"].intValue
                     
