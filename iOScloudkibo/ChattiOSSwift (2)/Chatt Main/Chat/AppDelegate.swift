@@ -11,6 +11,7 @@ import SQLite
 import SwiftyJSON
 import Alamofire
 import Contacts
+import CloudKit
 
 //let socketObj=LoginAPI(url:"\(Constants.MainUrl)")
 var socketObj:LoginAPI!
@@ -67,7 +68,41 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         application.registerUserNotificationSettings(UIUserNotificationSettings(forTypes: [.Alert, .Badge, .Sound], categories: nil))  // types are UIUserNotificationType members
         
         application.registerForRemoteNotifications()
+        var fileManager=NSFileManager.defaultManager()
+        var currentiCloudToken=fileManager.ubiquityIdentityToken
+        if(currentiCloudToken != nil)
+            {
+                print("currentiCloudToken is \(currentiCloudToken)")
+                var newTokenData:NSData=NSKeyedArchiver.archivedDataWithRootObject(currentiCloudToken!)
+                NSUserDefaults.standardUserDefaults().setObject(newTokenData, forKey: "com.apple.Chat.UbiquityIdentityToken")
+                
+            }
+        else{
+                NSUserDefaults.standardUserDefaults().removeObjectForKey("com.apple.Chat.UbiquityIdentityToken")
+            }
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "iCloudAccountAvailabilityChanged:",name: nil, object: nil)
         
+        /*
+NSFileManager* fileManager = [NSFileManager defaultManager];
+id currentiCloudToken = fileManager.ubiquityIdentityToken;
+        if (currentiCloudToken) {
+        NSData *newTokenData =
+        [NSKeyedArchiver archivedDataWithRootObject: currentiCloudToken];
+        [[NSUserDefaults standardUserDefaults]
+        setObject: newTokenData
+        forKey: @"com.apple.MyAppName.UbiquityIdentityToken"];
+        } else {
+        [[NSUserDefaults standardUserDefaults]
+        removeObjectForKey: @"com.apple.MyAppName.UbiquityIdentityToken"];
+        }
+        
+        [[NSNotificationCenter defaultCenter]
+        addObserver: self
+        selector: @selector (iCloudAccountAvailabilityChanged:)
+        name: NSUbiquityIdentityDidChangeNotification
+        object: nil];
+
+        */
           if(socketObj == nil)
             {
                 print("socket is nillll1", terminator: "")
@@ -282,7 +317,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         NSLog("Error in registration. Error: \(error)")
     }
     
+    func iCloudAccountAvailabilityChanged(sender:NSNotification)
+    {
 
+}
     
 }
 
