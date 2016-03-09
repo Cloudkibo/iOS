@@ -601,10 +601,10 @@ class MeetingRoomData:NSObject,RTCPeerConnectionDelegate,RTCSessionDescriptionDe
         
         let buffer = RTCDataBuffer(
             data: (message.dataUsingEncoding(NSUTF8StringEncoding))!,
-            isBinary: false
+            isBinary: isb
         )
         var sentFile=self.rtcDataChannel.sendData(buffer)
-        print("datachannel file METADATA sent is \(sentFile)")
+        print("datachannel file METADATA sent is \(sentFile) OR image chunk size is sent \(sentFile)")
        
         
         /*var senttt=rtcDataChannel.sendData(RTCDataBuffer(data: NSData(base64EncodedString: "{helloooo iphone sendind data through data channel}", options: NSDataBase64DecodingOptions.IgnoreUnknownCharacters),isBinary: true))
@@ -1007,6 +1007,46 @@ request_chunk.put("data", request_data);
                 var s=fm.createFileAtPath(filePathImage2, contents: nil, attributes: nil)
 
                 filedata.writeToFile(filePathImage2, atomically: true)
+                
+                
+                var furl2=NSURL(fileURLWithPath: filePathImage2)
+                print("local furl2 is\(furl2)")
+                
+                //documentInteractionController = UIDocumentInteractionController(URL: fileURL)
+                //documentInteractionController.delegate=self
+                //documentInteractionController.presentOpenInMenuFromRect(CGRect(x: 20, y: 100, width: 300, height: 200), inView: self.view, animated: true)
+                
+                
+                
+                
+                //var fileManager=NSFileManager.defaultManager()
+                var e:NSError!
+                print("saving to iCloud")
+                dispatch_async(dispatch_get_global_queue(QOS_CLASS_BACKGROUND, 0), { () -> Void in
+                    var dest=fm.URLForUbiquityContainerIdentifier(nil)
+                    
+                    do
+                    {
+                        //var newdest=dest!.URLByAppendingPathComponent("Documents", isDirectory: true)
+                        //print("newdest is \(newdest.debugDescription)")
+                        //var ans=try fileManager.setUbiquitous(true, itemAtURL: self.fileURL, destinationURL: newdest)
+                        var ans=try fm.setUbiquitous(true, itemAtURL: furl2, destinationURL: dest!)
+                        
+                        print("ans is \(ans)")
+                        
+                    }catch
+                    {
+                        print("error is \(error)")
+                    }
+                    
+                    
+                    
+                })
+                
+                
+                
+                
+                
                 print("file writtennnnn \(s) \(filedata.debugDescription)")
                 var receivedfile=fm.contentsAtPath(filePathImage2)
                 do{var receivedfile2=try NSString(contentsOfFile: filePathImage2, encoding: NSUTF8StringEncoding)
@@ -1056,8 +1096,30 @@ CGPDFDocumentRef pdf   = CGPDFDocumentCreateWithProvider(provider);
 
     }
     func channelDidChangeState(channel: RTCDataChannel!) {
-        print("channelDidChangeState")
+        print("channelDidChangeState \(channel.state)")
+        
+
+        /*if(channel==nil || rtcDataChannel==nil)
+        {
+            var rtcInit=RTCDataChannelInit.init()
+            rtcDataChannel=pc.createDataChannelWithLabel("channel", config: rtcInit)
+            if(rtcDataChannel != nil)
+            {
+                print("datachannel not nil")
+                rtcDataChannel.delegate=self
+                
+            }
+            
+        }*/
        // print(channel.debugDescription)
+       /* var rtcInit=RTCDataChannelInit.init()
+        rtcDataChannel=pc.createDataChannelWithLabel("channel", config: rtcInit)
+        if(rtcDataChannel != nil)
+        {
+            print("datachannel not nil")
+            rtcDataChannel.delegate=self
+            
+        }*/
 
     }
 
@@ -1065,17 +1127,20 @@ CGPDFDocumentRef pdf   = CGPDFDocumentCreateWithProvider(provider);
     {
         
         //var test="{length:\(imageData.length)}"
-        var test="\(imageData.length)"
-        let buffer = RTCDataBuffer(
-            data: (test.dataUsingEncoding(NSUTF8StringEncoding))!,
-            isBinary: false
-        )
+        
 
-        rtcDataChannel.sendData(buffer)
-
-        var imageSent=rtcDataChannel.sendData(RTCDataBuffer(data: imageData, isBinary: true))
-        print("image senttttt \(imageSent)")
-
+        //dispatch_async(dispatch_get_main_queue(), { () -> Void in
+        var buf=Double(rtcDataChannel.bufferedAmount).value
+        var buflimit:Int64=16000000
+        
+        //if(buf < buflimit.value)
+       // {
+        var imageSent=self.rtcDataChannel.sendData(RTCDataBuffer(data: imageData, isBinary: true))
+            print("image senttttt \(imageSent)")
+        //}
+        
+        //})
+       
     }
     func sharefile()
     {

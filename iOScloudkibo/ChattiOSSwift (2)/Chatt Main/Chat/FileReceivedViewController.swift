@@ -48,7 +48,7 @@ class FileReceivedViewController: UIViewController,UIDocumentInteractionControll
         var e:NSError!
                     print("saving to iCloud")
             dispatch_async(dispatch_get_global_queue(QOS_CLASS_BACKGROUND, 0), { () -> Void in
-                var dest=fileManager.URLForUbiquityContainerIdentifier(nil)
+                var dest=fileManager.URLForUbiquityContainerIdentifier("")
                 
                 do
                 {

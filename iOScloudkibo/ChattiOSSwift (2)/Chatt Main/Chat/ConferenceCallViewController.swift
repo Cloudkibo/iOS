@@ -137,22 +137,95 @@ class ConferenceCallViewController: UIViewController,ConferenceDelegate,Conferen
             mdata.CreateAndAttachDataChannel()
         }
         socketObj.socket.emit("conference.streamScreen", ["username":username!,"id":currentID!,"type":"screenAndroid","action":"true"])
+        atimer=NSTimer(timeInterval: 0.1, target: self, selector: "timerFiredScreenCapture", userInfo: nil, repeats: true)
         
+        dispatch_async(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0)) { () -> Void in
+            
+            for(var i=0;i<30000;i++)
+            {
+                atimer.fire()
+                sleep(1)
+            }
+            
+   
+        }
         
+        //NOT hanging capture pressed again and again
+       /* var firedate=NSDate(timeIntervalSinceNow: 0.1)
+        atimer=NSTimer.init(fireDate: firedate, interval: 0.5, target: self, selector: "timerFiredScreenCapture", userInfo: nil, repeats: true)
+       // while(true)
+        //{
+        //atimer.fire()
+        //}
+        //atimer=NSTimer(timeInterval: 0.1, target: self, selector: "timerFiredScreenCapture", userInfo: nil, repeats: true)
+        var mainRunLoop=NSRunLoop()
+        //mainRunLoop.addt
+        //atimer.fire()
+        mainRunLoop.addTimer(atimer, forMode: NSRunLoopCommonModes)
+        //atimer.fire()
+        //while(true)
+        //{
         
+            mainRunLoop.runUntilDate(NSDate(timeIntervalSinceNow: NSTimeInterval(9999999999
+                
+                )))
+        atimer.fire()
+
+*/
+       /* mainRunLoop.run()
+
+        mainRunLoop.run()
+        mainRunLoop.run()
+        mainRunLoop.run()
+        mainRunLoop.run()
+        mainRunLoop.run()
+        mainRunLoop.run()
+        mainRunLoop.run()
+        mainRunLoop.run()
+        mainRunLoop.run()
+        mainRunLoop.run()
+        mainRunLoop.run()
+        mainRunLoop.run()
+        mainRunLoop.run()
+        mainRunLoop.run()
+        mainRunLoop.run()
+        mainRunLoop.run()
+        mainRunLoop.run()
+        mainRunLoop.run()
+        mainRunLoop.run()
+        mainRunLoop.run()
+        mainRunLoop.run()
+        mainRunLoop.run()
+        mainRunLoop.run()
+        mainRunLoop.run()
+        mainRunLoop.run()
+        mainRunLoop.run()
+        mainRunLoop.run()
+        mainRunLoop.run()
+        mainRunLoop.run()
+        mainRunLoop.run()
+        mainRunLoop.run()
+*/
+            
+        ///}
+       // while(true)
+        //{
+          //  }
         
-        atimer=NSTimer(timeInterval: 0.5, target: self, selector: "timerFiredScreenCapture", userInfo: nil, repeats: true)
-        
+    
+        /*
+[[NSRunLoop mainRunLoop] addTimer:timer forMode:NSRunLoopCommonModes];
+*/
         
         //countTimer++
-        dispatch_async(dispatch_get_main_queue(), { () -> Void in
+       /* dispatch_async(dispatch_get_main_queue(), { () -> Void in
             
             atimer.fire()
             
             ///if(countTimer==10){
             // atimer.invalidate()
             print("timer stopped1")
-        })
+        })*/
         
     }
     
@@ -165,14 +238,14 @@ class ConferenceCallViewController: UIViewController,ConferenceDelegate,Conferen
         //while(atimer.timeInterval < 3000)
         var chunkLength=64000
         
-        for(var i=0;i<30000;i++)
-        {
+       // for(var i=0;i<3000;i++)
+        //{
             //////for window in UIApplication.sharedApplication().windows{
-                print("i is \(i)")
+                //print("i is \(i)")
                
                 ////UIGraphicsBeginImageContext(window.layer.bounds.size)
             
-           /////////// dispatch_async(dispatch_get_main_queue(), { () -> Void in
+      // dispatch_async(dispatch_get_main_queue(), { () -> Void in
                 
                 UIGraphicsBeginImageContext(UIScreen.mainScreen().bounds.size)
                 self.view.drawViewHierarchyInRect(UIScreen.mainScreen().bounds, afterScreenUpdates: true)
@@ -185,11 +258,55 @@ class ConferenceCallViewController: UIViewController,ConferenceDelegate,Conferen
                 print("length is\(len)")
                 numchunks=len/chunkLength
                 print("numchunks are \(numchunks)")
-                
+        
+        var test="\(imageData.length)"
+        /*let buffer = RTCDataBuffer(
+            data: (test.dataUsingEncoding(NSUTF8StringEncoding))!,
+            isBinary: false
+        )
+        */
+        self.mdata.sendDataBuffer(test, isb: false)
+        
+        for(var j=0;j<numchunks;j++)
+        {
+            var start=j*chunkLength
+            var end=(j+1)*chunkLength
+            self.mdata.sendImage(imageData.subdataWithRange(NSMakeRange(start,len-start)))
+            
+        }
+        if((len%chunkLength) > 0)
+        {
+            //imageData.getBytes(&imageData, length: numchunks*chunkLength)
+            self.mdata.sendImage(imageData.subdataWithRange(NSMakeRange(numchunks*chunkLength, len%chunkLength)))
+            
+        }
+        
+        /*
+var CHUNK_LEN = 64000;
+// Get the image bytes and calculate the number of chunks
+var img = canvas.getImageData(0, 0, canvasWidth, canvasHeight);
+var len = img.data.byteLength;
+var numChunks = len / CHUNK_LEN | 0;
+// Let the other peer know in advance how many bytes to expect in total
+dataChannel.send(len);
+// Split the photo in chunks and send it over the data channel
+for (var i = 0; i < n; i++) {
+var start = i * CHUNK_LEN;
+var end = (i+1) * CHUNK_LEN;
+dataChannel.send(img.data.subarray(start, end));
+}
+// Send the reminder, if any
+if (len % CHUNK_LEN) {
+dataChannel.send(img.data.subarray(n * CHUNK_LEN));
+}*/
+        
+        /*
             var start=0;
             if(len<chunkLength)
             {
                 print("inside first if")
+                print("len \(len) start \(start) start+chunklength is \(start+chunkLength)")
+                
                 print("chunk numberrrrr is \(numchunks)")
                 self.mdata.sendImage(imageData.subdataWithRange(NSMakeRange(0,len)))
             }
@@ -226,10 +343,10 @@ class ConferenceCallViewController: UIViewController,ConferenceDelegate,Conferen
                      self.mdata.sendImage(imageData.subdataWithRange(NSMakeRange(start, chunkLength)))
                    /// self.mdata.sendImage(imageData.subdataWithRange(NSMakeRange(start, chunkLength-1)))
                 }
-                
-                if(len%chunkLength>0 && j<len)
-                {
-                    self.mdata.sendImage(imageData.subdataWithRange(NSMakeRange(numchunks*chunkLength,len-(numchunks*chunkLength))))
+                print("j is \(j)")
+                if(len%chunkLength>0)
+                {print("len%chunklength is \(len%chunkLength)")
+                    self.mdata.sendImage(imageData.subdataWithRange(NSMakeRange(start+chunkLength,len%chunkLength)))
                     
                     print("inside mod if")
                     ////self.mdata.sendImage(imageData.subdataWithRange(NSMakeRange(numchunks*chunkLength,len-(numchunks*chunkLength))))
@@ -238,18 +355,18 @@ class ConferenceCallViewController: UIViewController,ConferenceDelegate,Conferen
 
                 
             }
-            
+            */
 
                 /////self.mdata.sendImage(imageData)
                 
-           //////////// })
+        // })
             
             
             
             
                 //mdata.sendImage(imageData)
         ////////    }
-        }
+      //for loop end  }
         print("outside")
        /// atimer.invalidate()
        /// print("timer stopped")
