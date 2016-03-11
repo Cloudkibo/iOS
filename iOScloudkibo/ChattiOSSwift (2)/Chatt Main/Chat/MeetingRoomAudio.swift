@@ -22,6 +22,7 @@ class MeetingRoomAudio:NSObject,SocketClientDelegateWebRTC,RTCPeerConnectionDele
     var delegateDisconnect:ConferenceRoomDisconnectDelegate!
     /////////var delegateChat:WebMeetingChatDelegate!
     var webmeetingModel:webmeetingMsgsModel!
+    var delegateConferenceEnd:ConferenceEndDelegate!
     
     override init()
     {
@@ -481,6 +482,7 @@ class MeetingRoomAudio:NSObject,SocketClientDelegateWebRTC,RTCPeerConnectionDele
             
         case "peer.disconnected.new":
             handlePeerDisconnected(data)
+            self.delegateConferenceEnd.disconnectAll()
             
         case "conference.chat":
             print("\(data)")

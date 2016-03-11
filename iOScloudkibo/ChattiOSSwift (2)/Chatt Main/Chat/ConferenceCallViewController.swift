@@ -10,7 +10,7 @@ import UIKit
 import AVFoundation
 import SwiftyJSON
 
-class ConferenceCallViewController: UIViewController,ConferenceDelegate,ConferenceScreenReceiveDelegate,ConferenceRoomDisconnectDelegate {
+class ConferenceCallViewController: UIViewController,ConferenceDelegate,ConferenceScreenReceiveDelegate,ConferenceRoomDisconnectDelegate,ConferenceEndDelegate {
     var rtcLocalVideoTrack:RTCVideoTrack!
     ////////////////////////////////////////var rtcLocalstream:RTCMediaStream!
     var mvideo:MeetingRoomVideo!
@@ -27,6 +27,7 @@ class ConferenceCallViewController: UIViewController,ConferenceDelegate,Conferen
     var rtcDataChannel:RTCDataChannel!
     var countTimer=1
     var mAudio:MeetingRoomAudio!
+    var screenCaptureToggle:Bool=false
     
     @IBOutlet var localViewOutlet: UIView!
     
@@ -36,18 +37,22 @@ class ConferenceCallViewController: UIViewController,ConferenceDelegate,Conferen
         mAudio=MeetingRoomAudio()
         mAudio.initAudio()
         mAudio.delegateDisconnect=self
+        mAudio.delegateConferenceEnd=self
         
         print("inside controller did load")
         mvideo=MeetingRoomVideo()
         mvideo.addHandlers()
         mvideo.delegateConference=self
+        mvideo.delegateConferenceEnd=self
         
         svideo=MeetingRoomScreen()
         svideo.addHandlers()
         svideo.delegateConference=self
+        svideo.delegateConferenceEnd=self
         
         mdata=MeetingRoomData()
         mdata.addHandlers()
+        mdata.delegateConferenceEnd=self
         
         
         
@@ -86,6 +91,7 @@ class ConferenceCallViewController: UIViewController,ConferenceDelegate,Conferen
             mvideo=MeetingRoomVideo()
             mvideo.addHandlers()
             mvideo.delegateConference=self
+            mvideo.delegateConferenceEnd=self
         }
         if(actionVideo == true)
         {//isInitiator=true
@@ -130,18 +136,32 @@ class ConferenceCallViewController: UIViewController,ConferenceDelegate,Conferen
     
     @IBAction func btnCapturePressed(sender: AnyObject) {
         
+        screenCaptureToggle = !screenCaptureToggle
         //////// mdata.toggleScreen(screenAction, tempstream: <#T##RTCMediaStream!#>)
+        
+        if(screenCaptureToggle)
+        {
+            
+        
         if(mdata.pc == nil)
         {
             mdata.createPeerConnection()
             mdata.CreateAndAttachDataChannel()
         }
+        
+        }
+        else
+        {
+            mdata=nil
+        }
+        
         socketObj.socket.emit("conference.streamScreen", ["username":username!,"id":currentID!,"type":"screenAndroid","action":"true"])
         atimer=NSTimer(timeInterval: 0.1, target: self, selector: "timerFiredScreenCapture", userInfo: nil, repeats: true)
         
-        dispatch_async(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0)) { () -> Void in
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0)) { () -> Void in
             
-            for(var i=0;i<30000;i++)
+            while(self.screenCaptureToggle)
+            //for(var i=0;i<30000;i++)
             {
                 atimer.fire()
                 sleep(1)
@@ -150,108 +170,41 @@ class ConferenceCallViewController: UIViewController,ConferenceDelegate,Conferen
    
         }
         
-        //NOT hanging capture pressed again and again
-       /* var firedate=NSDate(timeIntervalSinceNow: 0.1)
-        atimer=NSTimer.init(fireDate: firedate, interval: 0.5, target: self, selector: "timerFiredScreenCapture", userInfo: nil, repeats: true)
-       // while(true)
-        //{
-        //atimer.fire()
-        //}
-        //atimer=NSTimer(timeInterval: 0.1, target: self, selector: "timerFiredScreenCapture", userInfo: nil, repeats: true)
-        var mainRunLoop=NSRunLoop()
-        //mainRunLoop.addt
-        //atimer.fire()
-        mainRunLoop.addTimer(atimer, forMode: NSRunLoopCommonModes)
-        //atimer.fire()
-        //while(true)
-        //{
-        
-            mainRunLoop.runUntilDate(NSDate(timeIntervalSinceNow: NSTimeInterval(9999999999
-                
-                )))
-        atimer.fire()
-
-*/
-       /* mainRunLoop.run()
-
-        mainRunLoop.run()
-        mainRunLoop.run()
-        mainRunLoop.run()
-        mainRunLoop.run()
-        mainRunLoop.run()
-        mainRunLoop.run()
-        mainRunLoop.run()
-        mainRunLoop.run()
-        mainRunLoop.run()
-        mainRunLoop.run()
-        mainRunLoop.run()
-        mainRunLoop.run()
-        mainRunLoop.run()
-        mainRunLoop.run()
-        mainRunLoop.run()
-        mainRunLoop.run()
-        mainRunLoop.run()
-        mainRunLoop.run()
-        mainRunLoop.run()
-        mainRunLoop.run()
-        mainRunLoop.run()
-        mainRunLoop.run()
-        mainRunLoop.run()
-        mainRunLoop.run()
-        mainRunLoop.run()
-        mainRunLoop.run()
-        mainRunLoop.run()
-        mainRunLoop.run()
-        mainRunLoop.run()
-        mainRunLoop.run()
-        mainRunLoop.run()
-*/
-            
-        ///}
-       // while(true)
-        //{
-          //  }
-        
-    
-        /*
-[[NSRunLoop mainRunLoop] addTimer:timer forMode:NSRunLoopCommonModes];
-*/
-        
-        //countTimer++
-       /* dispatch_async(dispatch_get_main_queue(), { () -> Void in
-            
-            atimer.fire()
-            
-            ///if(countTimer==10){
-            // atimer.invalidate()
-            print("timer stopped1")
-        })*/
+ 
         
     }
     
     func timerFiredScreenCapture()
     {print("inside timerFiredScreenCapture")
-        // var myscreen=UIScreen.mainScreen().snapshotViewAfterScreenUpdates(true)
         
         //if(countTimer%2 == 0){
         
         //while(atimer.timeInterval < 3000)
         var chunkLength=64000
-        
+        //UIImage(myscreen)
        // for(var i=0;i<3000;i++)
         //{
-            //////for window in UIApplication.sharedApplication().windows{
-                //print("i is \(i)")
-               
-                ////UIGraphicsBeginImageContext(window.layer.bounds.size)
-            
-      // dispatch_async(dispatch_get_main_queue(), { () -> Void in
+           ////for window in UIApplication.sharedApplication().windows{
+           var screenshot:UIImage!
+            dispatch_async(dispatch_get_main_queue(), { () -> Void in
                 
-                UIGraphicsBeginImageContext(UIScreen.mainScreen().bounds.size)
-                self.view.drawViewHierarchyInRect(UIScreen.mainScreen().bounds, afterScreenUpdates: true)
-                print("width is \(UIScreen.mainScreen().bounds.width), height is \(UIScreen.mainScreen().bounds.height)")
-                var screenshot:UIImage=UIGraphicsGetImageFromCurrentImageContext()
+                var myscreen=UIScreen.mainScreen().snapshotViewAfterScreenUpdates(true)
+                
+                UIGraphicsBeginImageContext(myscreen.bounds.size)
+        
+                /////////workingg UIGraphicsBeginImageContext(UIScreen.mainScreen().bounds.size)
+                ////////UIGraphicsBeginImageContext( UIScreen.mainScreen().bounds.size)
+                ///self.view.drawViewHierarchyInRect(window.layer.bounds, afterScreenUpdates: true)
+                 self.view.drawViewHierarchyInRect(myscreen.bounds, afterScreenUpdates: true)
+                //print("width is \(UIScreen.mainScreen().bounds.width), height is \(UIScreen.mainScreen().bounds.height)")
+                print("width is \(myscreen.layer.bounds.width), height is \(myscreen.layer.bounds.height)")
+                var context:CGContextRef=UIGraphicsGetCurrentContext()!;
+                myscreen.layer.renderInContext(context)
+                
+                screenshot=UIGraphicsGetImageFromCurrentImageContext()
                 UIGraphicsEndImageContext()
+                
+        
                 var imageData:NSData = UIImageJPEGRepresentation(screenshot, 1.0)!
                 var numchunks=0
                 var len=imageData.length
@@ -260,11 +213,7 @@ class ConferenceCallViewController: UIViewController,ConferenceDelegate,Conferen
                 print("numchunks are \(numchunks)")
         
         var test="\(imageData.length)"
-        /*let buffer = RTCDataBuffer(
-            data: (test.dataUsingEncoding(NSUTF8StringEncoding))!,
-            isBinary: false
-        )
-        */
+      
         self.mdata.sendDataBuffer(test, isb: false)
         
         for(var j=0;j<numchunks;j++)
@@ -280,7 +229,8 @@ class ConferenceCallViewController: UIViewController,ConferenceDelegate,Conferen
             self.mdata.sendImage(imageData.subdataWithRange(NSMakeRange(numchunks*chunkLength, len%chunkLength)))
             
         }
-        
+        })
+       //// }//end for windows
         /*
 var CHUNK_LEN = 64000;
 // Get the image bytes and calculate the number of chunks
@@ -648,19 +598,21 @@ dataChannel.send(img.data.subarray(n * CHUNK_LEN));
         mAudio=MeetingRoomAudio()
         mAudio.initAudio()
         mAudio.delegateDisconnect=self
-        
+        mAudio.delegateDisconnect=self
         
         mdata=MeetingRoomData()
         mdata.addHandlers()
+        mdata.delegateConferenceEnd=self
         
         mvideo=MeetingRoomVideo()
         mvideo.addHandlers()
         mvideo.delegateConference=self
+        mvideo.delegateConferenceEnd=self
         
         svideo=MeetingRoomScreen()
         svideo.addHandlers()
         svideo.delegateConference=self
-        
+        svideo.delegateConferenceEnd=self
         
     }
     

@@ -19,6 +19,7 @@ class MeetingRoomScreen:NSObject,RTCPeerConnectionDelegate,RTCSessionDescription
     var rtcRemoteVideoTrack:RTCVideoTrack!
     var stream:RTCMediaStream!
     var delegateConference:ConferenceScreenReceiveDelegate!
+    var delegateConferenceEnd:ConferenceEndDelegate!
     var screenshared=false
     
     override init()
@@ -549,6 +550,7 @@ class MeetingRoomScreen:NSObject,RTCPeerConnectionDelegate,RTCSessionDescription
             print("received peer.disconnected obj from server")
             var datajson=JSON(data)
             print(datajson.debugDescription)
+            self.delegateConferenceEnd.disconnectAll()
             //handlePeerDisconnected(data)
             
             //self.delegateWebRTCVideo.socketReceivedOtherWebRTCVideo("peer.disconnected.new", data: data)

@@ -23,7 +23,7 @@ class MeetingRoomVideo:NSObject,RTCPeerConnectionDelegate,RTCSessionDescriptionD
     var streambackup:RTCMediaStream!
     var delegateConference:ConferenceDelegate!
     var videoshared=false
-    
+    var delegateConferenceEnd:ConferenceEndDelegate!
     override init()
     {
         
@@ -779,6 +779,7 @@ func addHandlers()
         self.rtcRemoteVideoTrack=nil
         self.rtcStreamReceived=nil
         self.delegateConference.didRemoveRemoteVideoTrack()
+        self.delegateConferenceEnd.disconnectAll()
         //////self.handleConferenceStream(data)
         //self.delegateWebRTCVideo.socketReceivedOtherWebRTCVideo("conference.streamVideo", data: data)
         

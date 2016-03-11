@@ -29,7 +29,7 @@ class MeetingRoomData:NSObject,RTCPeerConnectionDelegate,RTCSessionDescriptionDe
     //////var rtcLocalVideoTrack:RTCVideoTrack!
     ///////var rtcRemoteVideoTrack:RTCVideoTrack!
     var stream:RTCMediaStream!
-    //////var delegateConference:ConferenceScreenDelegate!
+    var delegateConferenceEnd:ConferenceEndDelegate!
     var screenshared=false
     var rtcDataChannel:RTCDataChannel!
     //var rtcInit:RTCDataChannelInit!
@@ -543,9 +543,10 @@ class MeetingRoomData:NSObject,RTCPeerConnectionDelegate,RTCSessionDescriptionDe
         }
         */
         socketObj.socket.on("peer.disconnected.new"){data,ack in
-            print("received peer.disconnected obj from server")
+            print("received peer.disconnected.new obj from server")
             var datajson=JSON(data)
             print(datajson.debugDescription)
+            self.delegateConferenceEnd.disconnectAll()
             //handlePeerDisconnected(data)
             
             //self.delegateWebRTCVideo.socketReceivedOtherWebRTCVideo("peer.disconnected.new", data: data)
@@ -1209,6 +1210,10 @@ CGPDFDocumentRef pdf   = CGPDFDocumentCreateWithProvider(provider);
        
     }
 
+}
+protocol ConferenceEndDelegate:class
+{
+    func disconnectAll();
 }
 /*
 protocol ConferenceScreenDelegate:class

@@ -29,25 +29,26 @@ class FileReceivedViewController: UIViewController,UIDocumentInteractionControll
         
         
         
-        let filemgr = NSFileManager.init()
+        //let filemgr = NSFileManager.init()
+        let filemgr = NSFileManager.defaultManager()
         var error: NSError?
-        
         var document: fileTestingDoc?
         var documentURL: NSURL?
         var ubiquityURL2: NSURL?
         ubiquityURL2 = filemgr.URLForUbiquityContainerIdentifier(nil)!.URLByAppendingPathComponent("Documents")
-        ubiquityURL2 = ubiquityURL2!.URLByAppendingPathComponent("savefile.pages")
-        
+        ubiquityURL2 = ubiquityURL2!.URLByAppendingPathComponent(filejustreceivedname)
+        print("ubiquityURL2 is \(ubiquityURL2)")
         document = fileTestingDoc(fileURL: ubiquityURL2!)
-        
+        document?.userText="tesing document sample text"
+            ///filemgr.contentsAtPath(filejustreceivedPathURL).
         
         document?.saveToURL(ubiquityURL2!,
-            forSaveOperation: .ForOverwriting,
+            forSaveOperation: .ForCreating,
             completionHandler: {(success: Bool) -> Void in
                 if success {
-                    print("Save overwrite OK")
+                    print("Save  OK")
                 } else {
-                    print("Save overwrite failed")
+                    print("Save  failed")
                 }
         })
         
