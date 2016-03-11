@@ -75,7 +75,7 @@ class ConferenceCallViewController: UIViewController,ConferenceDelegate,Conferen
     }
     
     @IBAction func endCallBtnPressed(sender: AnyObject) {
-        
+        self.disconnectAll()
         
     }
     

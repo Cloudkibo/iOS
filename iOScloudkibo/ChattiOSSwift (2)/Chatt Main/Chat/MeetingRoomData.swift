@@ -998,6 +998,8 @@ request_chunk.put("data", request_data);
                 let docsDir1 = dirPaths[0]
                 var documentDir=docsDir1 as NSString
                 var filePathImage2=documentDir.stringByAppendingPathComponent(filejustreceivedname!)
+                filejustreceivedPathURL=NSURL(fileURLWithPath: filePathImage2)
+                print("filejustreceivedPathURL is \(filejustreceivedPathURL)")
                 var fm=NSFileManager.defaultManager()
                 
                 
@@ -1006,9 +1008,10 @@ request_chunk.put("data", request_data);
                 
                 var s=fm.createFileAtPath(filePathImage2, contents: nil, attributes: nil)
 
-                filedata.writeToFile(filePathImage2, atomically: true)
+                var written=filedata.writeToFile(filePathImage2, atomically: true)
                 
-                
+                if(written==true)
+                {
                 var furl2=NSURL(fileURLWithPath: filePathImage2)
                 print("local furl2 is\(furl2)")
                 
@@ -1019,18 +1022,24 @@ request_chunk.put("data", request_data);
                 
                 
                 
-                //var fileManager=NSFileManager.defaultManager()
+               /* var fileManager=NSFileManager.defaultManager()
                 var e:NSError!
                 print("saving to iCloud")
-                dispatch_async(dispatch_get_global_queue(QOS_CLASS_BACKGROUND, 0), { () -> Void in
-                    var dest=fm.URLForUbiquityContainerIdentifier(nil)
+                //dispatch_async(dispatch_get_global_queue(QOS_CLASS_BACKGROUND, 0), { () -> Void in
+                    var dest=fileManager.URLForUbiquityContainerIdentifier(nil)
+                print("desi is \(dest)")
+                if(fileManager.fileExistsAtPath((dest?.URLByAppendingPathComponent("Documents").URLString)!))
+                    {
+                    print("yess file directory dest document existss")
+                    }
+                        //?.URLByAppendingPathComponent("Documents")
                     
                     do
                     {
                         //var newdest=dest!.URLByAppendingPathComponent("Documents", isDirectory: true)
                         //print("newdest is \(newdest.debugDescription)")
                         //var ans=try fileManager.setUbiquitous(true, itemAtURL: self.fileURL, destinationURL: newdest)
-                        var ans=try fm.setUbiquitous(true, itemAtURL: furl2, destinationURL: dest!)
+                        var ans=try fileManager.setUbiquitous(true, itemAtURL: furl2, destinationURL: dest!.URLByAppendingPathComponent("myfile.doc"))
                         
                         print("ans is \(ans)")
                         
@@ -1038,17 +1047,18 @@ request_chunk.put("data", request_data);
                     {
                         print("error is \(error)")
                     }
+                   */ 
                     
                     
-                    
-                })
+               // })
                 
                 
                 
                 
                 
                 print("file writtennnnn \(s) \(filedata.debugDescription)")
-                var receivedfile=fm.contentsAtPath(filePathImage2)
+                }
+                /*var receivedfile=fm.contentsAtPath(filePathImage2)
                 do{var receivedfile2=try NSString(contentsOfFile: filePathImage2, encoding: NSUTF8StringEncoding)
                     print("file output is ")
                     print(receivedfile2)
@@ -1060,7 +1070,7 @@ request_chunk.put("data", request_data);
                 catch
                 {
                     
-                }
+                }*/
                 
                 /*
 //to convert NSData to pdf

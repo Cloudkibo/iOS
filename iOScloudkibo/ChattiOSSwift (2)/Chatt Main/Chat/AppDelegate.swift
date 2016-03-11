@@ -46,6 +46,7 @@ var rtcICEarray:[RTCICEServer]=[]
 var rtcFact:RTCPeerConnectionFactory!
 var contactsList=iOSContact(keys: [CNContactGivenNameKey, CNContactFamilyNameKey, CNContactEmailAddressesKey, CNContactPhoneNumbersKey])
 var filejustreceivedname:String!
+var filejustreceivedPathURL:NSURL!
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -157,6 +158,7 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
     
     func applicationWillTerminate(application: UIApplication) {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
+       
         
         //socketObj.socket.disconnect(fast: true)
         //socketObj.socket.close(fast: true)
@@ -300,6 +302,8 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
                 self.txtForPassword.text=nil*/
             }
         }
+        
+        
     }
     
     

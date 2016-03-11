@@ -26,6 +26,110 @@ class FileReceivedViewController: UIViewController,UIDocumentInteractionControll
     
     
     @IBAction func btnFileOpenPressed(sender: AnyObject) {
+        
+        
+        
+        let filemgr = NSFileManager.init()
+        var error: NSError?
+        
+        var document: fileTestingDoc?
+        var documentURL: NSURL?
+        var ubiquityURL2: NSURL?
+        ubiquityURL2 = filemgr.URLForUbiquityContainerIdentifier(nil)!.URLByAppendingPathComponent("Documents")
+        ubiquityURL2 = ubiquityURL2!.URLByAppendingPathComponent("savefile.pages")
+        
+        document = fileTestingDoc(fileURL: ubiquityURL2!)
+        
+        
+        document?.saveToURL(ubiquityURL2!,
+            forSaveOperation: .ForOverwriting,
+            completionHandler: {(success: Bool) -> Void in
+                if success {
+                    print("Save overwrite OK")
+                } else {
+                    print("Save overwrite failed")
+                }
+        })
+        
+        
+        
+        
+        
+        /*
+         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0))
+            {
+                () -> Void in
+        var rootDirect=filemgr.URLForUbiquityContainerIdentifier(nil)?.URLByAppendingPathComponent("Documents")
+        if((rootDirect) != nil)
+        {
+            if((filemgr.fileExistsAtPath(rootDirect!.description, isDirectory: nil)) == false)
+            {
+                print("create directory")
+                //var cloudDirect=rootDirect!.URLByAppendingPathComponent("cloudkibo")
+                
+                var cloudDirect=filemgr.URLForUbiquityContainerIdentifier(nil)!.URLByAppendingPathComponent("cloudkibo")
+                do{
+                var directAns = try filemgr.createDirectoryAtURL(cloudDirect, withIntermediateDirectories: true, attributes: nil)
+                    print("cloudDirect is \(cloudDirect)")
+                    print("directAns is \(directAns)")
+                }catch{
+                    print("error 2 is \(error)")
+                }
+            }
+        }
+
+        
+        /*
+        NSURL *rootDirectory = [[[NSFileManager defaultManager] URLForUbiquityContainerIdentifier:nil]URLByAppendingPathComponent:@"Documents"];
+        
+        if (rootDirectory) {
+        if (![[NSFileManager defaultManager] fileExistsAtPath:rootDirectory.path isDirectory:nil]) {
+        NSLog(@"Create directory");
+        [[NSFileManager defaultManager] createDirectoryAtURL:rootDirectory withIntermediateDirectories:YES attributes:nil error:nil];
+        }
+        }
+
+*/
+        var ubiquityURL=filemgr.URLForUbiquityContainerIdentifier("iCloud.iCloud.MyAppTemplates.cloudkibo")
+        
+        print("number 1 is \(ubiquityURL)")
+        ubiquityURL=ubiquityURL!.URLByAppendingPathComponent("Documents", isDirectory: true)
+        //print("number 2 is \(ubiquityURL)")
+        ubiquityURL=ubiquityURL!.URLByAppendingPathComponent("cloudkibo", isDirectory: true)
+        //print("number 3 is \(ubiquityURL)")
+        ubiquityURL=ubiquityURL!.URLByAppendingPathComponent("\(filejustreceivedname)")
+        print("number 4 is \(ubiquityURL)")
+        
+        var documentURL=filejustreceivedPathURL
+        
+        
+       do
+        {
+            //var newdest=dest!.URLByAppendingPathComponent("Documents", isDirectory: true)
+            //print("newdest is \(newdest.debugDescription)")
+            //var ans=try fileManager.setUbiquitous(true, itemAtURL: self.fileURL, destinationURL: newdest)
+               var ans = try filemgr.setUbiquitous(true, itemAtURL:documentURL ,
+                destinationURL: ubiquityURL! )
+          print("ans is \(ans)")
+            
+        }catch
+        {
+            //print("error anssss is \(ans)")
+            print("error is \(error)")
+        }
+        
+        }*/
+        
+        
+        /*if filemgr.setUbiquitous(true, itemAtURL: documentURL,
+            destinationURL: ubiquityURL) {
+                print("setUbiquitous OK")
+        } else {
+            print("setUbiquitous failed: \(error!.localizedDescription)")
+        }
+        */
+        
+        /*
         //open
         //[self.documentInteractionController presentOpenInMenuFromRect:[button frame] inView:self.view animated:YES];
         let dirPaths = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)
@@ -67,10 +171,41 @@ class FileReceivedViewController: UIViewController,UIDocumentInteractionControll
                 
                 
             })
-            
+            */
         
     }
     
+    /*
+    
+    
+    document!.userText = textView.text
+    
+    document?.saveToURL(ubiquityURL!,
+    forSaveOperation: .ForOverwriting,
+    completionHandler: {(success: Bool) -> Void in
+    if success {
+    println("Save overwrite OK")
+    } else {
+    println("Save overwrite failed")
+    }
+    })
+    }
+    
+    
+document = MyDocument(fileURL: ubiquityURL!)
+
+document?.saveToURL(ubiquityURL!,
+forSaveOperation: .ForCreating,
+completionHandler: {(success: Bool) -> Void in
+if success {
+println("iCloud create OK")
+} else {
+println("iCloud create failed")
+}
+})
+}
+*/
+
     @IBAction func btnFilePreviewPressed(sender: AnyObject) {
         //preview
         let dirPaths = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)
