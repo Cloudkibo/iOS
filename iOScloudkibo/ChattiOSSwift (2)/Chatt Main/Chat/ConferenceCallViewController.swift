@@ -17,6 +17,7 @@ class ConferenceCallViewController: UIViewController,ConferenceDelegate,Conferen
     var mdata:MeetingRoomData!
     //var mvideo:MeetingRoomVideo!
     ////////////////var rtcRemoteVideoStream:RTCMediaStream!
+    @IBOutlet weak var btncapture: UIBarButtonItem!
     var svideo:MeetingRoomScreen!
     var rtcVideoTrackReceived:RTCVideoTrack! = nil
     var localView:RTCEAGLVideoView! = nil
@@ -52,6 +53,7 @@ class ConferenceCallViewController: UIViewController,ConferenceDelegate,Conferen
         
         mdata=MeetingRoomData()
         mdata.addHandlers()
+        
         mdata.delegateConferenceEnd=self
         
         
@@ -141,7 +143,7 @@ class ConferenceCallViewController: UIViewController,ConferenceDelegate,Conferen
         
         if(screenCaptureToggle)
         {
-            
+            btncapture.title! = "Hide"
         
         if(mdata.pc == nil)
         {
@@ -149,14 +151,21 @@ class ConferenceCallViewController: UIViewController,ConferenceDelegate,Conferen
             mdata.CreateAndAttachDataChannel()
         }
         
+            socketObj.socket.emit("conference.streamScreen", ["username":username!,"id":currentID!,"type":"screenAndroid","action":"true"])
+            atimer=NSTimer(timeInterval: 0.1, target: self, selector: "timerFiredScreenCapture", userInfo: nil, repeats: true)
+            
         }
         else
         {
-            mdata=nil
+            btncapture.title! = "Capture"
+            
+            socketObj.socket.emit("conference.streamScreen", ["username":username!,"id":currentID!,"type":"screenAndroid","action":"false"])
+            atimer=NSTimer(timeInterval: 0.1, target: self, selector: "timerFiredScreenCapture", userInfo: nil, repeats: true)
+        
+            
+            mdata.pc = nil
         }
         
-        socketObj.socket.emit("conference.streamScreen", ["username":username!,"id":currentID!,"type":"screenAndroid","action":"true"])
-        atimer=NSTimer(timeInterval: 0.1, target: self, selector: "timerFiredScreenCapture", userInfo: nil, repeats: true)
         
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0)) { () -> Void in
             
@@ -188,18 +197,18 @@ class ConferenceCallViewController: UIViewController,ConferenceDelegate,Conferen
            var screenshot:UIImage!
             dispatch_async(dispatch_get_main_queue(), { () -> Void in
                 
-                var myscreen=UIScreen.mainScreen().snapshotViewAfterScreenUpdates(true)
-                
-                UIGraphicsBeginImageContext(myscreen.bounds.size)
+                //////////working var myscreen=UIScreen.mainScreen().snapshotViewAfterScreenUpdates(true)
+                var myscreen=UIApplication.sharedApplication().keyWindow?.snapshotViewAfterScreenUpdates(true)
+                UIGraphicsBeginImageContext(myscreen!.bounds.size)
         
                 /////////workingg UIGraphicsBeginImageContext(UIScreen.mainScreen().bounds.size)
                 ////////UIGraphicsBeginImageContext( UIScreen.mainScreen().bounds.size)
                 ///self.view.drawViewHierarchyInRect(window.layer.bounds, afterScreenUpdates: true)
-                 self.view.drawViewHierarchyInRect(myscreen.bounds, afterScreenUpdates: true)
+                 self.view.drawViewHierarchyInRect(myscreen!.bounds, afterScreenUpdates: true)
                 //print("width is \(UIScreen.mainScreen().bounds.width), height is \(UIScreen.mainScreen().bounds.height)")
-                print("width is \(myscreen.layer.bounds.width), height is \(myscreen.layer.bounds.height)")
+                print("width is \(myscreen!.layer.bounds.width), height is \(myscreen!.layer.bounds.height)")
                 var context:CGContextRef=UIGraphicsGetCurrentContext()!;
-                myscreen.layer.renderInContext(context)
+                myscreen!.layer.renderInContext(context)
                 
                 screenshot=UIGraphicsGetImageFromCurrentImageContext()
                 UIGraphicsEndImageContext()

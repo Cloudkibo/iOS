@@ -4,6 +4,7 @@
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9530"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+        <capability name="Navigation items with more than one left or right bar item" minToolsVersion="7.0"/>
     </dependencies>
     <scenes>
         <!--Login View Controller-->
@@ -1222,7 +1223,6 @@
                                 </state>
                                 <connections>
                                     <action selector="endCallBtnPressed:" destination="VkD-da-dMy" eventType="touchUpInside" id="UMH-Nu-Dee"/>
-                                    <segue destination="ZmW-9n-qGp" kind="modal" identifier="conferenceChat" id="Xg9-SK-tNg"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9dh-eh-AtJ">
@@ -1253,11 +1253,23 @@
                                                 <action selector="backbtnPressed:" destination="VkD-da-dMy" id="EcD-mT-UkP"/>
                                             </connections>
                                         </barButtonItem>
-                                        <barButtonItem key="rightBarButtonItem" title="Capture" id="Nba-B7-Etl" userLabel="capture">
-                                            <connections>
-                                                <action selector="btnCapturePressed:" destination="VkD-da-dMy" id="hB8-tt-3Qi"/>
-                                            </connections>
-                                        </barButtonItem>
+                                        <rightBarButtonItems>
+                                            <barButtonItem title="Capture" id="Nba-B7-Etl" userLabel="capture">
+                                                <connections>
+                                                    <action selector="btnCapturePressed:" destination="VkD-da-dMy" id="hB8-tt-3Qi"/>
+                                                </connections>
+                                            </barButtonItem>
+                                            <barButtonItem title="File" id="4Nv-SW-SrJ" userLabel="file">
+                                                <connections>
+                                                    <action selector="btnFileSharePressed:" destination="VkD-da-dMy" id="QxD-AG-U7K"/>
+                                                </connections>
+                                            </barButtonItem>
+                                            <barButtonItem title="view" id="Rds-G3-nkw">
+                                                <connections>
+                                                    <segue destination="Exh-2t-JZc" kind="modal" id="X5X-Qt-8lc"/>
+                                                </connections>
+                                            </barButtonItem>
+                                        </rightBarButtonItems>
                                         <connections>
                                             <outlet property="leftBarButtonItem" destination="O8B-ca-1RO" id="3oU-nv-7AQ"/>
                                         </connections>
@@ -1279,12 +1291,13 @@
                     <navigationItem key="navigationItem" id="JU6-t2-ivy"/>
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
+                        <outlet property="btncapture" destination="Nba-B7-Etl" id="7eq-yr-qgl"/>
                         <outlet property="localViewOutlet" destination="KSC-m3-8y7" id="cdR-8Y-Nqy"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="URD-gR-s34" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="790" y="-1697"/>
+            <point key="canvasLocation" x="830" y="-1681"/>
         </scene>
         <!--View Controller-->
         <scene sceneID="j1m-xl-Ml3">
@@ -1302,7 +1315,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="e7b-i3-cgc" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1712" y="-1861"/>
+            <point key="canvasLocation" x="2988" y="-1761"/>
         </scene>
         <!--Root View Controller-->
         <scene sceneID="ofI-4l-zkU">
@@ -1331,7 +1344,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="wea-2N-AG4" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2154" y="-2564"/>
+            <point key="canvasLocation" x="3430" y="-2464"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="IVY-2p-PeU">
@@ -1347,7 +1360,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="W5O-5S-VnD" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1684" y="-2506"/>
+            <point key="canvasLocation" x="2960" y="-2406"/>
         </scene>
         <!--Split View Controller-->
         <scene sceneID="wgs-we-04D">
@@ -1360,7 +1373,7 @@
                 </splitViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="z0L-XF-Z5e" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1148" y="-2149"/>
+            <point key="canvasLocation" x="2428" y="-2185"/>
         </scene>
         <!--Pending Friend Requests View Controller-->
         <scene sceneID="0dB-5y-0ey">
@@ -1829,6 +1842,47 @@
                 </view>
             </objects>
             <point key="canvasLocation" x="676" y="-2383"/>
+        </scene>
+        <!--File Received View Controller-->
+        <scene sceneID="MfT-tg-MAc">
+            <objects>
+                <viewController id="Exh-2t-JZc" customClass="FileReceivedViewController" customModule="Chat" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="162-kI-knp"/>
+                        <viewControllerLayoutGuide type="bottom" id="k64-Ry-R0K"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="pR4-Uo-1v3">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="H8S-4J-jAQ">
+                                <rect key="frame" x="137" y="269" width="46" height="30"/>
+                                <state key="normal" title="Open"/>
+                                <connections>
+                                    <action selector="btnFileOpenPressed:" destination="Exh-2t-JZc" eventType="touchUpInside" id="0kX-KW-RG6"/>
+                                </connections>
+                            </button>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" editable="NO" text="You have received a file. Click on buttons below to preview or open file in other application" textAlignment="center" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1Bj-fJ-bsg">
+                                <rect key="frame" x="40" y="187" width="240" height="62"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                            </textView>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="iAt-Ty-od0">
+                                <rect key="frame" x="93" y="307" width="134" height="30"/>
+                                <state key="normal" title="Preview"/>
+                                <connections>
+                                    <action selector="btnFilePreviewPressed:" destination="Exh-2t-JZc" eventType="touchUpInside" id="e9n-Hi-3lt"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="dy2-gu-gBI"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="xbH-r1-Jr9" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1337" y="-2345"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="3Qu-ph-XPJ">
