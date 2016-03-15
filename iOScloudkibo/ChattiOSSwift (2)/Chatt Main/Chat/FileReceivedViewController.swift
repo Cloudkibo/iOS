@@ -29,9 +29,10 @@ class FileReceivedViewController: UIViewController,UIDocumentInteractionControll
         
         
         
-        //let filemgr = NSFileManager.init()
-        let filemgr = NSFileManager.defaultManager()
+        let filemgr = NSFileManager.init()
+        //let filemgr = NSFileManager.defaultManager()
         var error: NSError?
+        /*
         var document: fileTestingDoc?
         var documentURL: NSURL?
         var ubiquityURL2: NSURL?
@@ -53,10 +54,10 @@ class FileReceivedViewController: UIViewController,UIDocumentInteractionControll
         })
         
         
+        */
         
         
         
-        /*
          dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0))
             {
                 () -> Void in
@@ -68,7 +69,7 @@ class FileReceivedViewController: UIViewController,UIDocumentInteractionControll
                 print("create directory")
                 //var cloudDirect=rootDirect!.URLByAppendingPathComponent("cloudkibo")
                 
-                var cloudDirect=filemgr.URLForUbiquityContainerIdentifier(nil)!.URLByAppendingPathComponent("cloudkibo")
+                var cloudDirect=filemgr.URLForUbiquityContainerIdentifier(nil)!.URLByAppendingPathComponent("cloudkibo2")
                 do{
                 var directAns = try filemgr.createDirectoryAtURL(cloudDirect, withIntermediateDirectories: true, attributes: nil)
                     print("cloudDirect is \(cloudDirect)")
@@ -96,7 +97,7 @@ class FileReceivedViewController: UIViewController,UIDocumentInteractionControll
         print("number 1 is \(ubiquityURL)")
         ubiquityURL=ubiquityURL!.URLByAppendingPathComponent("Documents", isDirectory: true)
         //print("number 2 is \(ubiquityURL)")
-        ubiquityURL=ubiquityURL!.URLByAppendingPathComponent("cloudkibo", isDirectory: true)
+        ///ubiquityURL=ubiquityURL!.URLByAppendingPathComponent("cloudkibo2", isDirectory: true)
         //print("number 3 is \(ubiquityURL)")
         ubiquityURL=ubiquityURL!.URLByAppendingPathComponent("\(filejustreceivedname)")
         print("number 4 is \(ubiquityURL)")
@@ -112,14 +113,20 @@ class FileReceivedViewController: UIViewController,UIDocumentInteractionControll
                var ans = try filemgr.setUbiquitous(true, itemAtURL:documentURL ,
                 destinationURL: ubiquityURL! )
           print("ans is \(ans)")
+            let alert = UIAlertController(title: "Success", message: "Your file has been successfully saved to iCloud", preferredStyle: UIAlertControllerStyle.Alert)
+            alert.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.Default, handler: nil))
+            self.presentViewController(alert, animated: true, completion: nil)
             
         }catch
         {
             //print("error anssss is \(ans)")
             print("error is \(error)")
+            let alert = UIAlertController(title: "Cancel", message: "\(error)", preferredStyle: UIAlertControllerStyle.Alert)
+            alert.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.Default, handler: nil))
+            self.presentViewController(alert, animated: true, completion: nil)
         }
         
-        }*/
+        }
         
         
         /*if filemgr.setUbiquitous(true, itemAtURL: documentURL,
@@ -132,6 +139,7 @@ class FileReceivedViewController: UIViewController,UIDocumentInteractionControll
         
         /*
         //open
+        
         //[self.documentInteractionController presentOpenInMenuFromRect:[button frame] inView:self.view animated:YES];
         let dirPaths = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)
         let docsDir1 = dirPaths[0]
@@ -218,7 +226,7 @@ println("iCloud create failed")
         var documentInteractionController = UIDocumentInteractionController(URL: fileURL)
         documentInteractionController.delegate=self
         documentInteractionController.presentPreviewAnimated(true)
-
+        
         
     }
     
