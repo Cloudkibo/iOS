@@ -12,6 +12,8 @@ import Foundation
 import SwiftyJSON
 
 class MeetingRoomData:NSObject,RTCPeerConnectionDelegate,RTCSessionDescriptionDelegate,RTCDataChannelDelegate{
+    var myfid=0
+    var fid:Int!
     var bytesarraytowrite:Array<UInt8>!
     var jsonnnn:Dictionary<String, AnyObject>!
     var numberOfChunksReceived:Int=0
@@ -778,6 +780,8 @@ class MeetingRoomData:NSObject,RTCPeerConnectionDelegate,RTCSessionDescriptionDe
               
                     var sizeee=Int.init((jsonnnn["data"]!["file_meta"]!!["size"]!?.debugDescription)!)
                     fileSizeReceived=sizeee
+                    fid=Int.init((jsonnnn["data"]!["file_meta"]!!["fid"]!?.debugDescription)!)
+                    print("fid is \(fid)")
                     
                     //////////filePathReceived=channelJSON["data"]["file_meta"]["name"].debugDescription
                     filePathReceived=jsonnnn["data"]!["file_meta"]!!["name"]!!.debugDescription
@@ -805,7 +809,7 @@ class MeetingRoomData:NSObject,RTCPeerConnectionDelegate,RTCSessionDescriptionDe
                         print("requesting chunk now")
                         requestchunk(chunknumbertorequest)
                         
-                        var mjson="{\"chunk\":\(chunknumbertorequest),\"browser\":\"chrome\"}"
+                        var mjson="{\"chunk\":\(chunknumbertorequest),\"browser\":\"chrome\",\"fid\":\(fid!),\"requesterid\":\(currentID!)}"
                         var fmetadata="{\"eventName\":\"request_chunk\",\"data\":\(mjson)}"
                         self.sendDataBuffer(fmetadata,isb: false)
                         
@@ -941,7 +945,7 @@ request_chunk.put("data", request_data);
                         print("asking other chunk..")
                         requestchunk(chunknumbertorequest)
                         
-                        var mjson="{\"chunk\":\(chunknumbertorequest),\"browser\":\"chrome\"}"
+                        var mjson="{\"chunk\":\(chunknumbertorequest),\"browser\":\"chrome\",\"fid\":\(fid) ,\"requesterid\":\(currentID!)}"
                         var fmetadata="{\"eventName\":\"request_chunk\",\"data\":\(mjson)}"
                         self.sendDataBuffer(fmetadata,isb: false)
                     }
@@ -1155,19 +1159,21 @@ CGPDFDocumentRef pdf   = CGPDFDocumentCreateWithProvider(provider);
     }
     func sharefile()
     {
+        myfid++;
         let fm = NSFileManager.defaultManager()
         let dirPaths = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)
         let docsDir1 = dirPaths[0]
         var documentDir=docsDir1 as NSString
         /*var filePath=documentDir.stringByAppendingPathComponent("file1.txt")
         fm.createFileAtPath(filePath, contents: nil, attributes: nil)*/
-        var filePath=documentDir.stringByAppendingPathComponent("file3.pdf")
+        /*var filePath=documentDir.stringByAppendingPathComponent("file3.pdf")
         print(filePath)
         var s=fm.createFileAtPath(filePath, contents: NSData(contentsOfFile: "This is a test file on iphone.sdfsdkmfnskdfnjsdfnsjdfnsjkdnfsjdnfsjkdfnjksdfnsjdnfskjdnfjsnfjksdnfjsdknfnf sdfnsjdfnsjkf sdf sdjkfnsdf dsf sdf sdfsbdfjsd fksdf sdbfsf sdnf sdkf sndm fsdf sdf sdf dmnsf sdhf sdnmf sdf msnd snd fsdbnf nds fsnd fnsdbfndsf bdnsbfnsdbfnsdbfnsdbfnds fnbdsf nsdf bnsdf nsbdf nsdf nsdfb dhsbfdhsbdnsbfhsdbf sdhfb dnsf vdhb dsbvshd fbdnsbhdsf dbfvdnbfhdbfhdsfbhsdfhsdfhsdfbsdhbfhsdfhsjdfvhsdjfhsfhsfhjsfhsfvhsfvshvhjdfvhdsfvdhjsfvhdsfhdsfvhjsdvfhdjsfhsdfvhsdvfhjsdfv"), attributes: nil)
         print("file created \(s)")
+        */
+        filePathImage=documentDir.stringByAppendingPathComponent("file3.pdf")
         
-        
-        filePathImage=documentDir.stringByAppendingPathComponent("cloudkibo.jpg")
+       ////// filePathImage=documentDir.stringByAppendingPathComponent("cloudkibo.jpg")
         //filePathImage.
         print(filePathImage)
         var furl=NSURL(fileURLWithPath: filePathImage)
@@ -1196,13 +1202,13 @@ CGPDFDocumentRef pdf   = CGPDFDocumentCreateWithProvider(provider);
         //FILE METADATA size
         print(fileSize)
         
-        let text2 = fm.contentsAtPath(filePath)
-        print(text2)
-        print(JSON(text2!))
+        /////let text2 = fm.contentsAtPath(filePath)
+        ////////print(text2)
+        /////////print(JSON(text2!))
         fileContents=fm.contentsAtPath(filePathImage)!
         var filecontentsJSON=JSON(fm.contentsAtPath(filePathImage)!)
         print(filecontentsJSON)
-        var mjson="{\"file_meta\":{\"name\":\"\(fname!)\",\"size\":\"\(fileSize.description)\",\"filetype\":\"\(ftype)\",\"browser\":\"chrome\"}}"
+        var mjson="{\"file_meta\":{\"name\":\"\(fname!)\",\"size\":\"\(fileSize.description)\",\"filetype\":\"\(ftype)\",\"browser\":\"chrome\",\"uname\":\"\(username!)\",\"fid\":\(myfid)}}"
         var fmetadata="{\"eventName\":\"data_msg\",\"data\":\(mjson)}"
         self.sendDataBuffer(fmetadata,isb: false)
         socketObj.socket.emit("conference.chat", ["message":"You have received a file. Download and Save it.","username":username!])
