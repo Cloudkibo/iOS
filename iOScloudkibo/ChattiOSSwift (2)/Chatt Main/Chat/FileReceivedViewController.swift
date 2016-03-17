@@ -230,6 +230,16 @@ println("iCloud create failed")
         
     }
     
+    @IBAction func btnSaveToOtherLocPressed(sender: AnyObject) {
+        
+        var documentURL=filejustreceivedPathURL
+        documentInteractionController = UIDocumentInteractionController(URL: documentURL)
+        documentInteractionController.delegate=self
+        documentInteractionController.presentOpenInMenuFromRect(CGRect(x: 20, y: 100, width: 300, height: 200), inView: self.view, animated: true)
+    }
+ 
+    
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.

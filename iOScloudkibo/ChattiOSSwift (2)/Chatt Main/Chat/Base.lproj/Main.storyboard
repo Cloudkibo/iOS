@@ -1856,8 +1856,8 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="H8S-4J-jAQ">
-                                <rect key="frame" x="137" y="269" width="46" height="30"/>
-                                <state key="normal" title="Open"/>
+                                <rect key="frame" x="90" y="296" width="141" height="30"/>
+                                <state key="normal" title="Save to iCloud"/>
                                 <connections>
                                     <action selector="btnFileOpenPressed:" destination="Exh-2t-JZc" eventType="touchUpInside" id="0kX-KW-RG6"/>
                                 </connections>
@@ -1868,8 +1868,15 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textView>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="oqA-R9-fuV">
+                                <rect key="frame" x="72" y="341" width="176" height="30"/>
+                                <state key="normal" title="Save to other Location"/>
+                                <connections>
+                                    <action selector="btnSaveToOtherLocPressed:" destination="Exh-2t-JZc" eventType="touchUpInside" id="DDN-Vk-0Me"/>
+                                </connections>
+                            </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="iAt-Ty-od0">
-                                <rect key="frame" x="93" y="307" width="134" height="30"/>
+                                <rect key="frame" x="93" y="257" width="134" height="30"/>
                                 <state key="normal" title="Preview"/>
                                 <connections>
                                     <action selector="btnFilePreviewPressed:" destination="Exh-2t-JZc" eventType="touchUpInside" id="e9n-Hi-3lt"/>
