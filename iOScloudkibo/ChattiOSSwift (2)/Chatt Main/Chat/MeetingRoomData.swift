@@ -1157,7 +1157,7 @@ CGPDFDocumentRef pdf   = CGPDFDocumentCreateWithProvider(provider);
         //})
        
     }
-    func sharefile()
+    func sharefile(fileurl:String!)
     {
         myfid++;
         let fm = NSFileManager.defaultManager()
@@ -1171,23 +1171,27 @@ CGPDFDocumentRef pdf   = CGPDFDocumentCreateWithProvider(provider);
         var s=fm.createFileAtPath(filePath, contents: NSData(contentsOfFile: "This is a test file on iphone.sdfsdkmfnskdfnjsdfnsjdfnsjkdnfsjdnfsjkdfnjksdfnsjdnfskjdnfjsnfjksdnfjsdknfnf sdfnsjdfnsjkf sdf sdjkfnsdf dsf sdf sdfsbdfjsd fksdf sdbfsf sdnf sdkf sndm fsdf sdf sdf dmnsf sdhf sdnmf sdf msnd snd fsdbnf nds fsnd fnsdbfndsf bdnsbfnsdbfnsdbfnsdbfnds fnbdsf nsdf bnsdf nsbdf nsdf nsdfb dhsbfdhsbdnsbfhsdbf sdhfb dnsf vdhb dsbvshd fbdnsbhdsf dbfvdnbfhdbfhdsfbhsdfhsdfhsdfbsdhbfhsdfhsjdfvhsdjfhsfhsfhjsfhsfvhsfvshvhjdfvhdsfvdhjsfvhdsfhdsfvhjsdvfhdjsfhsdfvhsdvfhjsdfv"), attributes: nil)
         print("file created \(s)")
         */
-        filePathImage=documentDir.stringByAppendingPathComponent("file3.pdf")
+        /////////filePathImage=documentDir.stringByAppendingPathComponent("file3.pdf")
         
-       ////// filePathImage=documentDir.stringByAppendingPathComponent("cloudkibo.jpg")
-        //filePathImage.
+       /////////newwwww filePathImage=documentDir.stringByAppendingPathComponent("cloudkibo.jpg")
+        //filePathImage="file:///private/var/mobile/Containers/Data/Application/F4137E3A-02E9-4A4D-8F20-089484823C88/tmp/iCloud.MyAppTemplates.cloudkibo-Inbox/regularExpressions.html"
+        filePathImage=fileurl!
         print(filePathImage)
-        var furl=NSURL(fileURLWithPath: filePathImage)
+        var furl=NSURL(string: filePathImage)
         
+        /////////////////newwwwwvar furl=NSURL(fileURLWithPath: filePathImage)
+        
+       ///// var furl=NSURL(fileURLWithPath:"file:///private/var/mobile/Containers/Data/Application/F4137E3A-02E9-4A4D-8F20-089484823C88/tmp/iCloud.MyAppTemplates.cloudkibo-Inbox/regularExpressions.html")
         
         //METADATA FILE NAME,TYPE
-        print(furl.pathExtension!)
-        print(furl.URLByDeletingPathExtension?.lastPathComponent!)
-        var ftype=furl.pathExtension!
-        var fname=furl.URLByDeletingPathExtension?.lastPathComponent!
+        print(furl!.pathExtension!)
+        print(furl!.URLByDeletingPathExtension?.lastPathComponent!)
+        var ftype=furl!.pathExtension!
+        var fname=furl!.URLByDeletingPathExtension?.lastPathComponent!
         //var attributesError=nil
         var fileAttributes:[String:AnyObject]=["":""]
         do{
-            fileAttributes = try NSFileManager.defaultManager().attributesOfItemAtPath(furl.path!)
+            fileAttributes = try NSFileManager.defaultManager().attributesOfItemAtPath(furl!.path!)
             
         }catch
         {print("error")

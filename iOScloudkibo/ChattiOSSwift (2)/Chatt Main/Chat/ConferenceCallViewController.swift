@@ -9,8 +9,9 @@
 import UIKit
 import AVFoundation
 import SwiftyJSON
+import MobileCoreServices
 
-class ConferenceCallViewController: UIViewController,ConferenceDelegate,ConferenceScreenReceiveDelegate,ConferenceRoomDisconnectDelegate,ConferenceEndDelegate {
+class ConferenceCallViewController: UIViewController,ConferenceDelegate,ConferenceScreenReceiveDelegate,ConferenceRoomDisconnectDelegate,ConferenceEndDelegate,UIDocumentMenuDelegate,UIDocumentPickerDelegate {
     var rtcLocalVideoTrack:RTCVideoTrack!
     ////////////////////////////////////////var rtcLocalstream:RTCMediaStream!
     var mvideo:MeetingRoomVideo!
@@ -629,8 +630,37 @@ dataChannel.send(img.data.subarray(n * CHUNK_LEN));
         
         //var documentDir:String!
         print(NSOpenStepRootDirectory())
+        ///var UTIs=UTTypeCopyPreferredTagWithClass("public.image", kUTTypeImage)?.takeRetainedValue() as! [String]
         
-        mdata.sharefile()
+        let importMenu = UIDocumentMenuViewController(documentTypes: [kUTTypeText as NSString as String],
+            inMode: .Import)
+        ///////let importMenu = UIDocumentMenuViewController(documentTypes: UTIs, inMode: .Import)
+        importMenu.delegate = self
+        self.presentViewController(importMenu, animated: true, completion: nil)
+        //////////mdata.sharefile()
+        
+        /*let documentPicker = UIDocumentPickerViewController(documentTypes: [kUTTypeText as NSString as String],
+            inMode: .Import)
+        documentPicker.delegate = self
+        presentViewController(documentPicker, animated: true, completion: nil)*/
+    }
+    
+    func documentPicker(controller: UIDocumentPickerViewController, didPickDocumentAtURL url: NSURL) {
+        
+        print("picker url is \(url)")
+        mdata.sharefile(url)
+    }
+    
+    
+    
+    func documentMenu(documentMenu: UIDocumentMenuViewController, didPickDocumentPicker documentPicker: UIDocumentPickerViewController) {
+        
+        documentPicker.delegate = self
+        presentViewController(documentPicker, animated: true, completion: nil)
+    }
+    func documentMenuWasCancelled(documentMenu: UIDocumentMenuViewController) {
+        
+        
     }
     
     func resetVideo()
