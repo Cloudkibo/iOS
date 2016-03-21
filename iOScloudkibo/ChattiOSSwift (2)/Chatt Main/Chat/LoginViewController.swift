@@ -22,43 +22,37 @@ class LoginViewController: UIViewController, UITextFieldDelegate{
     @IBOutlet var txtForEmail : UITextField!
     @IBOutlet var txtForPassword : UITextField!
      @IBOutlet weak var txtForRoomName: UITextField!
+    
     @IBAction func btnConferenceStart(sender: AnyObject) {
         
+        
+        
         print("call pressed")
-        if(socketObj == nil)
-        {
-            print("socket is nillll1", terminator: "")
-            socketObj=LoginAPI(url:"\(Constants.MainUrl)")
-            //socketObj.connect()
-            socketObj.addHandlers()
-            socketObj.addWebRTCHandlers()
-            //socketObj.addWebRTCHandlersVideo()
-        }
-
+        
         username = "iphoneUser"
         iamincallWith = "webConference"
-        isInitiator = false
+        isInitiator = true
         isConference = true
-        ////ConferenceRoomName = txtForRoomName.text!
+        ConferenceRoomName = txtForRoomName.text!
         /////////socketObj.sendMessagesOfMessageType("Conference Call")
         
-        socketObj.socket.emitWithAck("init.new", ["room":ConferenceRoomName,"username":username!])(timeoutAfter: 150000000) {data in
+        socketObj.socket.emitWithAck("init", ["room":ConferenceRoomName,"username":username!])(timeoutAfter: 150000000) {data in
             print("room joined by got ack")
             var a=JSON(data)
             print(a.debugDescription)
             currentID=a[1].int!
             print("current id is \(currentID)")
             print("room joined is\(ConferenceRoomName)")
-            joinedRoomInCall=ConferenceRoomName
         }
-        /// var mAudio=MeetingRoomAudio()
-        ////mAudio.initAudio()
+        let next = self.storyboard!.instantiateViewControllerWithIdentifier("MainV2") as! VideoViewController
         
-        var next = self.storyboard?.instantiateViewControllerWithIdentifier("Main2") as! ConferenceCallViewController
+        self.presentViewController(next, animated: true, completion:nil)
         
-        self.presentViewController(next, animated: false, completion: {
-        })
         
+        
+        
+        
+        ////////CONFERENCE OLD CODE COMMENTED
         
        /* username = "iphoneUser"
         iamincallWith = "webConference"
@@ -81,6 +75,46 @@ class LoginViewController: UIViewController, UITextFieldDelegate{
      */
     }
    
+    @IBAction func btnWebmeetingStart(sender: AnyObject) {
+        
+        
+        print("call pressed")
+        if(socketObj == nil)
+        {
+            print("socket is nillll1", terminator: "")
+            socketObj=LoginAPI(url:"\(Constants.MainUrl)")
+            //socketObj.connect()
+            socketObj.addHandlers()
+            socketObj.addWebRTCHandlers()
+            //socketObj.addWebRTCHandlersVideo()
+        }
+        
+        username = "iphoneUser"
+        iamincallWith = "webConference"
+        isInitiator = false
+        isConference = true
+        ConferenceRoomName = txtForRoomName.text!
+        /////////socketObj.sendMessagesOfMessageType("Conference Call")
+        
+        socketObj.socket.emitWithAck("init.new", ["room":ConferenceRoomName,"username":username!])(timeoutAfter: 150000000) {data in
+            print("room joined by got ack")
+            var a=JSON(data)
+            print(a.debugDescription)
+            currentID=a[1].int!
+            print("current id is \(currentID)")
+            print("room joined is\(ConferenceRoomName)")
+            joinedRoomInCall=ConferenceRoomName
+        }
+        /// var mAudio=MeetingRoomAudio()
+        ////mAudio.initAudio()
+        
+        var next = self.storyboard?.instantiateViewControllerWithIdentifier("Main2") as! ConferenceCallViewController
+        
+        self.presentViewController(next, animated: false, completion: {
+        })
+        
+    }
+    
    
     @IBOutlet weak var labelLoginUnsuccessful: UILabel!
     //var AuthToken:String=""
@@ -120,6 +154,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate{
             socketObj=LoginAPI(url:"\(Constants.MainUrl)")
             //socketObj.connect()
             socketObj.addHandlers()
+            socketObj.addWebRTCHandlers()
         }
         
         //socketObj.socket.on("connect") {data, ack in

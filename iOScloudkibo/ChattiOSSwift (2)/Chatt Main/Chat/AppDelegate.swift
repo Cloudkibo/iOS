@@ -113,6 +113,7 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
                 //socketObj.connect()
                 socketObj.addHandlers()
                 socketObj.addWebRTCHandlers()
+                
                 //socketObj.addWebRTCHandlersVideo()
             }
         

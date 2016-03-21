@@ -303,6 +303,7 @@ class ChatViewController: UIViewController,SocketClientDelegate {
            /////////// print("connected issssss \(socketObj.socket.connected)")
            ///socketObj.connect()
             socketObj.addHandlers()
+            socketObj.addWebRTCHandlers()
         }
 
     
@@ -1299,7 +1300,10 @@ class ChatViewController: UIViewController,SocketClientDelegate {
             var selectedRow = indexPath.row
             print("call pressed")
             
-            username = "iphoneUser"
+            //-----------------------------------
+            ///NEWW WEBMEETING WORKING CODE
+            //------------------------------------
+            /*username = "iphoneUser"
             iamincallWith = "webConference"
             isInitiator = false
             isConference = true
@@ -1322,10 +1326,43 @@ class ChatViewController: UIViewController,SocketClientDelegate {
             
             self.presentViewController(next, animated: false, completion: {
             })
+            
+            */
+            
+            
             /////mVideo.initVideo()
             
+            //------------------------
+            //CONFERENCE CODE COMMENTED
             
-            /*let next = self.storyboard!.instantiateViewControllerWithIdentifier("Main2") as! VideoViewController
+            //var selectedRow = indexPath.row
+            print("call pressed")
+            
+            username = "iphoneUser"
+            iamincallWith = "webConference"
+            isInitiator = true
+            isConference = true
+            ////ConferenceRoomName = txtForRoomName.text!
+            /////////socketObj.sendMessagesOfMessageType("Conference Call")
+            
+            socketObj.socket.emitWithAck("init", ["room":ConferenceRoomName,"username":username!])(timeoutAfter: 150000000) {data in
+                print("room joined by got ack")
+                var a=JSON(data)
+                print(a.debugDescription)
+                currentID=a[1].int!
+                print("current id is \(currentID)")
+                print("room joined is\(ConferenceRoomName)")
+            }
+            let next = self.storyboard!.instantiateViewControllerWithIdentifier("MainV2") as! VideoViewController
+            
+            self.presentViewController(next, animated: true, completion:nil)
+            
+
+            
+            
+            
+            //-----------------------
+            /*let next = self.storyboard!.instantiateViewControllerWithIdentifier("MainV2") as! VideoViewController
             
             self.presentViewController(next, animated: true, completion:nil)
             */
