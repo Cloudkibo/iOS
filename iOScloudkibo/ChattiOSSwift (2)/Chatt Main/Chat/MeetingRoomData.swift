@@ -809,7 +809,7 @@ class MeetingRoomData:NSObject,RTCPeerConnectionDelegate,RTCSessionDescriptionDe
                         print("requesting chunk now")
                         requestchunk(chunknumbertorequest)
                         
-                        var mjson="{\"chunk\":\(chunknumbertorequest),\"browser\":\"chrome\",\"fid\":\(fid!),\"requesterid\":\(currentID!)}"
+                        var mjson="{\"chunk\":\(chunknumbertorequest),\"browser\":\"firefox\",\"fid\":\(fid!),\"requesterid\":\(currentID!)}"
                         var fmetadata="{\"eventName\":\"request_chunk\",\"data\":\(mjson)}"
                         self.sendDataBuffer(fmetadata,isb: false)
                         
@@ -856,7 +856,7 @@ onStatusChanged("Need more free space to save this file");
 request_chunk.put("eventName", "request_chunk");
 JSONObject request_data = new JSONObject();
 request_data.put("chunk", chunkNumberToRequest);
-request_data.put("browser", "chrome"); // This chrome is hardcoded for testing purpose
+request_data.put("browser", "firefox"); // This firefox is hardcoded for testing purpose
 request_chunk.put("data", request_data);
 */
 
@@ -884,8 +884,12 @@ request_chunk.put("data", request_data);
                                     var byteToNSstring=NSString(bytes: &bytebuffer, length: bytebuffer.count, encoding: NSUTF8StringEncoding)
                                     var bytestringfile=NSData(contentsOfFile: byteToNSstring as! String)
                                     print("file size smaller than chunk")
-                                    
-                                    self.rtcDataChannel.sendData(RTCDataBuffer(data: bytestringfile,isBinary: true))
+                                    if(bytestringfile==nil)
+                                    {
+                                        bytestringfile=NSData(contentsOfURL: urlLocalFile)
+                                    }
+                                    var check=self.rtcDataChannel.sendData(RTCDataBuffer(data: bytestringfile,isBinary: true))
+                                    print("chunk has been sent \(check)")
                                     break
                                     
                                 }
@@ -906,6 +910,10 @@ request_chunk.put("data", request_data);
                                 {break}
                                 
                                 var bytestringfile=NSFileManager.defaultManager().contentsAtPath(filePathImage)
+                                if(bytestringfile==nil)
+                                {
+                                    bytestringfile=NSData(contentsOfURL: urlLocalFile)
+                                }
                                /// var bytestringfile=NSData(contentsOfFile: bytebuffer)
                                 var newbuffer=Array<UInt8>(count: upperlimit-lowerlimit, repeatedValue: 0)
                                 bytestringfile?.getBytes(&newbuffer, range: NSRange(location: lowerlimit,length: upperlimit-lowerlimit))
@@ -945,7 +953,7 @@ request_chunk.put("data", request_data);
                         print("asking other chunk..")
                         requestchunk(chunknumbertorequest)
                         
-                        var mjson="{\"chunk\":\(chunknumbertorequest),\"browser\":\"chrome\",\"fid\":\(fid) ,\"requesterid\":\(currentID!)}"
+                        var mjson="{\"chunk\":\(chunknumbertorequest),\"browser\":\"firefox\",\"fid\":\(fid) ,\"requesterid\":\(currentID!)}"
                         var fmetadata="{\"eventName\":\"request_chunk\",\"data\":\(mjson)}"
                         self.sendDataBuffer(fmetadata,isb: false)
                     }
@@ -1171,14 +1179,15 @@ CGPDFDocumentRef pdf   = CGPDFDocumentCreateWithProvider(provider);
         var s=fm.createFileAtPath(filePath, contents: NSData(contentsOfFile: "This is a test file on iphone.sdfsdkmfnskdfnjsdfnsjdfnsjkdnfsjdnfsjkdfnjksdfnsjdnfskjdnfjsnfjksdnfjsdknfnf sdfnsjdfnsjkf sdf sdjkfnsdf dsf sdf sdfsbdfjsd fksdf sdbfsf sdnf sdkf sndm fsdf sdf sdf dmnsf sdhf sdnmf sdf msnd snd fsdbnf nds fsnd fnsdbfndsf bdnsbfnsdbfnsdbfnsdbfnds fnbdsf nsdf bnsdf nsbdf nsdf nsdfb dhsbfdhsbdnsbfhsdbf sdhfb dnsf vdhb dsbvshd fbdnsbhdsf dbfvdnbfhdbfhdsfbhsdfhsdfhsdfbsdhbfhsdfhsjdfvhsdjfhsfhsfhjsfhsfvhsfvshvhjdfvhdsfvdhjsfvhdsfhdsfvhjsdvfhdjsfhsdfvhsdvfhjsdfv"), attributes: nil)
         print("file created \(s)")
         */
-        /////////filePathImage=documentDir.stringByAppendingPathComponent("file3.pdf")
+        ///filePathImage=documentDir.stringByAppendingPathComponent("file3.pdf")
         
        /////////newwwww filePathImage=documentDir.stringByAppendingPathComponent("cloudkibo.jpg")
         //filePathImage="file:///private/var/mobile/Containers/Data/Application/F4137E3A-02E9-4A4D-8F20-089484823C88/tmp/iCloud.MyAppTemplates.cloudkibo-Inbox/regularExpressions.html"
         filePathImage=fileurl!
         print(filePathImage)
         var furl=NSURL(string: filePathImage)
-        
+        //ADDEDDDDD
+        //////furl=fileurl
         /////////////////newwwwwvar furl=NSURL(fileURLWithPath: filePathImage)
         
        ///// var furl=NSURL(fileURLWithPath:"file:///private/var/mobile/Containers/Data/Application/F4137E3A-02E9-4A4D-8F20-089484823C88/tmp/iCloud.MyAppTemplates.cloudkibo-Inbox/regularExpressions.html")
@@ -1212,7 +1221,7 @@ CGPDFDocumentRef pdf   = CGPDFDocumentCreateWithProvider(provider);
         fileContents=fm.contentsAtPath(filePathImage)!
         var filecontentsJSON=JSON(fm.contentsAtPath(filePathImage)!)
         print(filecontentsJSON)
-        var mjson="{\"file_meta\":{\"name\":\"\(fname!)\",\"size\":\"\(fileSize.description)\",\"filetype\":\"\(ftype)\",\"browser\":\"chrome\",\"uname\":\"\(username!)\",\"fid\":\(myfid)}}"
+        var mjson="{\"file_meta\":{\"name\":\"\(fname!)\",\"size\":\"\(fileSize.description)\",\"filetype\":\"\(ftype)\",\"browser\":\"firefox\",\"uname\":\"\(username!)\",\"fid\":\(myfid),\"senderid\":\(currentID!)}}"
         var fmetadata="{\"eventName\":\"data_msg\",\"data\":\(mjson)}"
         self.sendDataBuffer(fmetadata,isb: false)
         socketObj.socket.emit("conference.chat", ["message":"You have received a file. Download and Save it.","username":username!])

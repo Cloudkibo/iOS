@@ -100,6 +100,14 @@ return totalFreeSpace;
     {
         var file=fm.contentsAtPath(filename)
         //print(file?.debugDescription)
+        if(file==nil)
+        {
+            
+            
+            file=NSData(contentsOfURL: urlLocalFile)
+            
+            
+        }
         print(file?.length)
         var bytes=Array<UInt8>(count: file!.length, repeatedValue: 0)
         

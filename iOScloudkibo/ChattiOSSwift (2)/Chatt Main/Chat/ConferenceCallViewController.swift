@@ -133,7 +133,7 @@ class ConferenceCallViewController: UIViewController,ConferenceDelegate,Conferen
     
     @IBAction func backbtnPressed(sender: AnyObject) {
         print("backkkkkkkkkkkkkk pressed")
-        self.dismissViewControllerAnimated(true, completion: nil)
+        ///self.dismissViewControllerAnimated(true, completion: nil)
     }
     
     
@@ -648,7 +648,65 @@ dataChannel.send(img.data.subarray(n * CHUNK_LEN));
     func documentPicker(controller: UIDocumentPickerViewController, didPickDocumentAtURL url: NSURL) {
         
         print("picker url is \(url)")
-        mdata.sharefile(url)
+        
+        url.startAccessingSecurityScopedResource()
+        let coordinator = NSFileCoordinator()
+        var error:NSError? = nil
+        coordinator.coordinateReadingItemAtURL(url, options: [], error: &error) { (url) -> Void in
+            // do something with it
+            let fileData = NSData(contentsOfURL: url)
+            print(fileData?.description)
+            print("file gotttttt")
+            ///////////self.mdata.sharefile(url.URLString)
+            var furl=NSURL(string: url.URLString)
+            //ADDEDDDDD
+            //////furl=fileurl
+            /////////////////newwwwwvar furl=NSURL(fileURLWithPath: filePathImage)
+            
+            ///// var furl=NSURL(fileURLWithPath:"file:///private/var/mobile/Containers/Data/Application/F4137E3A-02E9-4A4D-8F20-089484823C88/tmp/iCloud.MyAppTemplates.cloudkibo-Inbox/regularExpressions.html")
+            
+            //METADATA FILE NAME,TYPE
+            print(furl!.pathExtension!)
+            print(furl!.URLByDeletingPathExtension?.lastPathComponent!)
+            var ftype=furl!.pathExtension!
+            var fname=furl!.URLByDeletingPathExtension?.lastPathComponent!
+            //var attributesError=nil
+            var fileAttributes:[String:AnyObject]=["":""]
+            do{
+                fileAttributes = try NSFileManager.defaultManager().attributesOfItemAtPath(furl!.path!)
+                
+            }catch
+            {print("error")
+                print(fileAttributes)
+            }
+            
+            let fileSizeNumber = fileAttributes[NSFileSize]! as! NSNumber
+            print(fileAttributes[NSFileType] as! String)
+            
+            self.mdata.fileSize=fileSizeNumber.integerValue
+            
+            //FILE METADATA size
+            print(self.mdata.fileSize)
+            urlLocalFile=url
+            /////let text2 = fm.contentsAtPath(filePath)
+            ////////print(text2)
+            /////////print(JSON(text2!))
+            ///mdata.fileContents=fm.contentsAtPath(filePathImage)!
+            self.mdata.fileContents=NSData(contentsOfURL: url)
+            self.mdata.filePathImage=url.URLString
+            var filecontentsJSON=JSON(NSData(contentsOfURL: url)!)
+            print(filecontentsJSON)
+            var mjson="{\"file_meta\":{\"name\":\"\(fname!)\",\"size\":\"\(self.mdata.fileSize.description)\",\"filetype\":\"\(ftype)\",\"browser\":\"firefox\",\"uname\":\"\(username!)\",\"fid\":\(self.mdata.myfid),\"senderid\":\(currentID!)}}"
+            var fmetadata="{\"eventName\":\"data_msg\",\"data\":\(mjson)}"
+            self.mdata.sendDataBuffer(fmetadata,isb: false)
+            socketObj.socket.emit("conference.chat", ["message":"You have received a file. Download and Save it.","username":username!])
+            
+            
+        }
+
+    
+        url.stopAccessingSecurityScopedResource()
+        //mdata.sharefile(url)
     }
     
     
@@ -657,6 +715,8 @@ dataChannel.send(img.data.subarray(n * CHUNK_LEN));
         
         documentPicker.delegate = self
         presentViewController(documentPicker, animated: true, completion: nil)
+        
+        
     }
     func documentMenuWasCancelled(documentMenu: UIDocumentMenuViewController) {
         

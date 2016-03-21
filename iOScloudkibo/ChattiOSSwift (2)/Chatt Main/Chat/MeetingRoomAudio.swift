@@ -20,7 +20,7 @@ class MeetingRoomAudio:NSObject,SocketClientDelegateWebRTC,RTCPeerConnectionDele
     var audioAction=true
     var rtcMediaConst:RTCMediaConstraints! = nil
     var delegateDisconnect:ConferenceRoomDisconnectDelegate!
-    /////////var delegateChat:WebMeetingChatDelegate!
+    var delegateChat:WebMeetingChatDelegate!
     var webmeetingModel:webmeetingMsgsModel!
     var delegateConferenceEnd:ConferenceEndDelegate!
     
@@ -33,14 +33,21 @@ class MeetingRoomAudio:NSObject,SocketClientDelegateWebRTC,RTCPeerConnectionDele
     
     func initAudio()
     {var mainICEServerURL:NSURL=NSURL(fileURLWithPath: Constants.MainUrl)
+        //turn:turn.cloudkibo.com:3478?transport=udp
+        //turn:turn.cloudkibo.com:3478?transport=udp
+        /*rtcICEarray.append(RTCICEServer(URI: NSURL(string: "turn:turn.cloudkibo.com:3478?transport=udp"), username: "", password: ""))
+        rtcICEarray.append(RTCICEServer(URI: NSURL(string: "turn:turn.cloudkibo.com:3478?transport=tcp"), username: "", password: ""))
+        */
         rtcICEarray.append(RTCICEServer(URI: NSURL(string:"turn:45.55.232.65:3478?transport=udp"), username: "cloudkibo", password: "cloudkibo"))
         rtcICEarray.append(RTCICEServer(URI: NSURL(string:"turn:45.55.232.65:3478?transport=tcp"), username: "cloudkibo", password: "cloudkibo"))
+        
         rtcICEarray.append(RTCICEServer(URI: NSURL(string:"stun:stun.l.google.com:19302"), username: "", password: ""))
         rtcICEarray.append(RTCICEServer(URI: NSURL(string:"stun:23.21.150.121"), username: "", password: ""))
         rtcICEarray.append(RTCICEServer(URI: NSURL(string:"stun:stun.anyfirewall.com:3478"), username: "", password: ""))
         rtcICEarray.append(RTCICEServer(URI: NSURL(string:"turn:turn.bistri.com:80?transport=udp"), username: "homeo", password: "homeo"))
         rtcICEarray.append(RTCICEServer(URI: NSURL(string:"turn:turn.bistri.com:80?transport=tcp"), username: "homeo", password: "homeo"))
-        rtcICEarray.append(RTCICEServer(URI: NSURL(string:"turn:turn.anyfirewall.com:443?transport=tcp"), username: "webrtc", password: "webrtc"))
+        rtcICEarray.append(RTCICEServer(URI: NSURL(string:"turn:turn.anyfirewall.com:443?transport=tcp"), username: "webrtc", password: "webrtc")
+        )
         
         
         print("rtcICEServerObj is \(rtcICEarray[0])")
@@ -488,7 +495,7 @@ class MeetingRoomAudio:NSObject,SocketClientDelegateWebRTC,RTCPeerConnectionDele
             print("\(data)")
             var chat=JSON(data)
             print(JSON(data))
-            ////self.delegateChat=WebmeetingChatViewController
+            ///self.delegateChat=WebmeetingChatViewController
             print(chat[0]["message"].description)
             print(chat[0]["username"].description)
             print(chat[0]["message"].string)
@@ -854,7 +861,7 @@ protocol ConferenceRoomDisconnectDelegate:class
 {
     func disconnectAll();
 }
-/*protocol WebMeetingChatDelegate:class
+protocol WebMeetingChatDelegate:class
 {
     func receivedChatMessage(message:String,username:String);
-}*/
+}

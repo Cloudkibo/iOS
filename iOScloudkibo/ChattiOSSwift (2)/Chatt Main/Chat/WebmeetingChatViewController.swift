@@ -14,7 +14,7 @@ import Alamofire
 class WebmeetingChatViewController: UIViewController {
     
         var rt=NetworkingLibAlamofire()
-        /////var webMeetingModel=webmeetingMsgsModel()
+        var webMeetingModel=webmeetingMsgsModel()
         @IBOutlet weak var NewChatNavigationTitle: UINavigationItem!
         @IBOutlet weak var labelToName: UILabel!
         @IBOutlet var tblForChats : UITableView!
@@ -54,14 +54,14 @@ class WebmeetingChatViewController: UIViewController {
             NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("willShowKeyBoard:"), name:UIKeyboardWillShowNotification, object: nil)
             NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("willHideKeyBoard:"), name:UIKeyboardWillHideNotification, object: nil)
             
-            /////messages = webMeetingModel.messages
+            messages = webMeetingModel.messages
             
             
             
             self.NewChatNavigationTitle.title="webmeeting/test"
             var receivedMsg=JSON("")
             
-            messages.addObject(["message":"helloo","hiiii":"tstingggg","type":"1"])
+            ///////messages.addObject(["message":"helloo","hiiii":"tstingggg","type":"1"])
             /*  self.addMessage("Its actually pretty good!", ofType: "1")
             self.addMessage("What do you think of this tool!", ofType: "2")*/
         }
@@ -196,7 +196,7 @@ class WebmeetingChatViewController: UIViewController {
             ///=================
             
             //^^^^var loggedid=loggedUserObj["_id"]
-            var loggedid=_id!
+            //var loggedid=_id!
             //^^var firstNameSelected=selectedUserObj["firstname"]
             //^^^var lastNameSelected=selectedUserObj["lastname"]
             //^^^var fullNameSelected=firstNameSelected.string!+" "+lastNameSelected.string!

@@ -47,6 +47,7 @@ var rtcFact:RTCPeerConnectionFactory!
 var contactsList=iOSContact(keys: [CNContactGivenNameKey, CNContactFamilyNameKey, CNContactEmailAddressesKey, CNContactPhoneNumbersKey])
 var filejustreceivedname:String!
 var filejustreceivedPathURL:NSURL!
+var urlLocalFile:NSURL!
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -69,7 +70,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         application.registerUserNotificationSettings(UIUserNotificationSettings(forTypes: [.Alert, .Badge, .Sound], categories: nil))  // types are UIUserNotificationType members
         
         application.registerForRemoteNotifications()
-        var fileManager=NSFileManager.defaultManager()
+        
+        /*var fileManager=NSFileManager.defaultManager()
         var currentiCloudToken=fileManager.ubiquityIdentityToken
         if(currentiCloudToken != nil)
             {
@@ -81,7 +83,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         else{
                 NSUserDefaults.standardUserDefaults().removeObjectForKey("com.apple.Chat.UbiquityIdentityToken")
             }
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "iCloudAccountAvailabilityChanged:",name: nil, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "iCloudAccountAvailabilityChanged:",name: nil, object: nil)*/
         
         /*
 NSFileManager* fileManager = [NSFileManager defaultManager];

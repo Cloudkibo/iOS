@@ -238,8 +238,8 @@ class ChatViewController: UIViewController,SocketClientDelegate {
         print("Chat ViewController is loadingggggg")
         socketObj.delegate=self
         if(isConference == true)
-        {
-            self.dismissViewControllerAnimated(true,completion: nil)
+        {print("dont know why dismiss was there")
+            /////self.dismissViewControllerAnimated(true,completion: nil)
         }
         
         if(KeychainWrapper.stringForKey("username") != nil)
@@ -570,12 +570,12 @@ class ChatViewController: UIViewController,SocketClientDelegate {
            //^^^^^^^^^^^^newwwww 
             self.fetchContactsFromServer()
              ////////self.fetchContactsFromServer()
-            ///////////////////dispatch_async(dispatch_get_main_queue(), {
-               
+            dispatch_async(dispatch_get_main_queue(), {
+             ///////////newwwwwwwwwwwww
                 self.tblForChat.reloadData()
                 
             //^^^^^^^^^^^newwwww ******* 
-           /////// })
+           })
     }
     
         //var db=DatabaseHandler(dbName: "abc.sqlite")
