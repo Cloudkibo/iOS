@@ -25,6 +25,17 @@ class FileReceivedViewController: UIViewController,UIDocumentInteractionControll
     //var documentInteractionController = UIDocumentInteractionController().delegate=self
     
     
+    @IBAction func btn_backPressed(sender: AnyObject) {
+        self.dismissViewControllerAnimated(true) { () -> Void in
+            
+            
+        }
+    }
+    
+    
+    
+    
+    
     @IBAction func btnFileOpenPressed(sender: AnyObject) {
         
         
