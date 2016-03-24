@@ -10,14 +10,33 @@ import UIKit
 import AVFoundation
 import Foundation
 import SwiftyJSON
+import MobileCoreServices
 
 
 
-
-class VideoViewController: UIViewController,RTCPeerConnectionDelegate,RTCSessionDescriptionDelegate,RTCEAGLVideoViewDelegate,SocketClientDelegateWebRTC,RTCDataChannelDelegate {
+class VideoViewController: UIViewController,RTCPeerConnectionDelegate,RTCSessionDescriptionDelegate,RTCEAGLVideoViewDelegate,SocketClientDelegateWebRTC,RTCDataChannelDelegate,UIDocumentPickerDelegate,UIDocumentMenuDelegate {
     
+    var newjson:JSON!
+    var myJSONdata:JSON!
+    var chunknumber:Int!
+    var strData:String!
     
-    
+    var myfid=0
+    var fid:Int!
+    var bytesarraytowrite:Array<UInt8>!
+    var jsonnnn:Dictionary<String, AnyObject>!
+    var numberOfChunksReceived:Int=0
+    var fu=FileUtility()
+    var filePathImage:String!
+    var fileSize:Int!
+    var fileContents:NSData!
+    var chunknumbertorequest:Int=0
+    var numberOfChunksInFileToSave:Double=0
+    var filePathReceived:String!
+    var fileSizeReceived:Int!
+    var fileContentsReceived:NSData!
+
+    //------
     var screenshared=false
     var delegate:SocketClientDelegateWebRTC!
     @IBOutlet var localViewOutlet: UIView!
@@ -301,6 +320,8 @@ class VideoViewController: UIViewController,RTCPeerConnectionDelegate,RTCSession
         rtcLocalMediaStream=nil //test and try-------------
         rtcStreamReceived=nil
         if(rtcDataChannel != nil){
+            //////rtcDataChannel=nil
+            //newwwwwwww tryy
             rtcDataChannel.close()
         }
         self.dismissViewControllerAnimated(true, completion: { () -> Void in
@@ -371,6 +392,8 @@ class VideoViewController: UIViewController,RTCPeerConnectionDelegate,RTCSession
                 
                 if(self.rtcDataChannel != nil){
                     self.rtcDataChannel.close()
+                    ////////newwwwwww
+                    self.rtcDataChannel=nil
                 }
                 
                 
@@ -392,16 +415,64 @@ class VideoViewController: UIViewController,RTCPeerConnectionDelegate,RTCSession
     
     required init?(coder aDecoder: NSCoder)
     {
+        bytesarraytowrite=Array<UInt8>()
         super.init(coder: aDecoder)
         //print(AuthToken!)
         
     }
     override func viewDidLoad() {
         super.viewDidLoad()
+        /*if(socketObj.delegateWebRTC == nil)
+        {
+            socketObj.delegateWebRTC=self
+        }*/
+        
+        //--------------
+        //----------------
+        ///////////addHandlers()
+        
         if(socketObj.delegateWebRTC == nil)
         {
             socketObj.delegateWebRTC=self
         }
+        
+        
+        //******************************************************************************
+        /* self.localViewTop.setSize(CGSize(width: 500, height: 500))*/
+        self.localView=RTCEAGLVideoView(frame: CGRect(x: 0, y: 50, width: 500, height: 450))
+        self.localView.drawRect(CGRect(x: 0, y: 50, width: 500, height: 450))
+        self.remoteView=RTCEAGLVideoView(frame: CGRect(x: 0, y: 50, width: 500, height: 450))
+        self.remoteView.drawRect(CGRect(x: 0, y: 50, width: 500, height: 450))
+        
+        var mainICEServerURL:NSURL=NSURL(fileURLWithPath: Constants.MainUrl)
+        
+        
+        rtcICEarray.append(RTCICEServer(URI: NSURL(string:"turn:45.55.232.65:3478?transport=udp"), username: "cloudkibo", password: "cloudkibo"))
+        rtcICEarray.append(RTCICEServer(URI: NSURL(string:"turn:45.55.232.65:3478?transport=tcp"), username: "cloudkibo", password: "cloudkibo"))
+        rtcICEarray.append(RTCICEServer(URI: NSURL(string:"stun:stun.l.google.com:19302"), username: "", password: ""))
+        rtcICEarray.append(RTCICEServer(URI: NSURL(string:"stun:23.21.150.121"), username: "", password: ""))
+        rtcICEarray.append(RTCICEServer(URI: NSURL(string:"stun:stun.anyfirewall.com:3478"), username: "", password: ""))
+        rtcICEarray.append(RTCICEServer(URI: NSURL(string:"turn:turn.bistri.com:80?transport=udp"), username: "homeo", password: "homeo"))
+        rtcICEarray.append(RTCICEServer(URI: NSURL(string:"turn:turn.bistri.com:80?transport=tcp"), username: "homeo", password: "homeo"))
+        rtcICEarray.append(RTCICEServer(URI: NSURL(string:"turn:turn.anyfirewall.com:443?transport=tcp"), username: "webrtc", password: "webrtc"))
+        
+        /*
+        {"url":"stun:turn01.uswest.xirsys.com"},
+        {"username":"bcd62532-f1cd-11e5-a87b-5883419cfa3a","url":"turn:turn01.uswest.xirsys.com:443?transport=udp","credential":"bcd625be-f1cd-11e5-b663-8968345edd51"},
+        {"username":"bcd62532-f1cd-11e5-a87b-5883419cfa3a","url":"turn:turn01.uswest.xirsys.com:443?transport=tcp","credential":"bcd625be-f1cd-11e5-b663-8968345edd51"},
+        {"username":"bcd62532-f1cd-11e5-a87b-5883419cfa3a","url":"turn:turn01.uswest.xirsys.com:5349?transport=udp","credential":"bcd625be-f1cd-11e5-b663-8968345edd51"},
+        {"username":"bcd62532-f1cd-11e5-a87b-5883419cfa3a","url":"turn:turn01.uswest.xirsys.com:5349?transport=tcp","credential":"bcd625be-f1cd-11e5-b663-8968345edd51"},
+        {"url":"turn:turn.cloudkibo.com:3478?transport=tcp","username":"cloudkibo","credential":"cloudkibo"},
+        {"url":"turn:turn.cloudkibo.com:3478?transport=udp","username":"cloudkibo","credential":"cloudkibo"},
+        {"url":"turn:numb.viagenie.ca:3478","username":"support@cloudkibo.com","credential":"cloudkibo"}
+        */
+        print("rtcICEServerObj is \(rtcICEarray[0])")
+        
+        //self.createPeerConnectionObject()
+        RTCPeerConnectionFactory.initializeSSL()
+        rtcFact=RTCPeerConnectionFactory()
+        self.rtcLocalMediaStream=self.getLocalMediaStream()
+        print("waiting now")
     }
     
     func remoteDisconnected()
@@ -452,6 +523,8 @@ class VideoViewController: UIViewController,RTCPeerConnectionDelegate,RTCSession
         }
         ////////////////////////
         self.pc=rtcFact.peerConnectionWithICEServers(rtcICEarray, constraints: self.rtcMediaConst, delegate:self)
+        
+        //Create Data channel
         CreateAndAttachDataChannel()
     }
     
@@ -614,7 +687,7 @@ class VideoViewController: UIViewController,RTCPeerConnectionDelegate,RTCSession
     
     
     
-    override func viewWillAppear(animated: Bool) {
+    /*override func viewWillAppear(animated: Bool) {
         
         ///////////addHandlers()
         
@@ -632,6 +705,8 @@ class VideoViewController: UIViewController,RTCPeerConnectionDelegate,RTCSession
         self.remoteView.drawRect(CGRect(x: 0, y: 50, width: 500, height: 450))
         
         var mainICEServerURL:NSURL=NSURL(fileURLWithPath: Constants.MainUrl)
+        
+        
         rtcICEarray.append(RTCICEServer(URI: NSURL(string:"turn:45.55.232.65:3478?transport=udp"), username: "cloudkibo", password: "cloudkibo"))
         rtcICEarray.append(RTCICEServer(URI: NSURL(string:"turn:45.55.232.65:3478?transport=tcp"), username: "cloudkibo", password: "cloudkibo"))
         rtcICEarray.append(RTCICEServer(URI: NSURL(string:"stun:stun.l.google.com:19302"), username: "", password: ""))
@@ -641,7 +716,16 @@ class VideoViewController: UIViewController,RTCPeerConnectionDelegate,RTCSession
         rtcICEarray.append(RTCICEServer(URI: NSURL(string:"turn:turn.bistri.com:80?transport=tcp"), username: "homeo", password: "homeo"))
         rtcICEarray.append(RTCICEServer(URI: NSURL(string:"turn:turn.anyfirewall.com:443?transport=tcp"), username: "webrtc", password: "webrtc"))
         
-        
+        /*
+        {"url":"stun:turn01.uswest.xirsys.com"},
+        {"username":"bcd62532-f1cd-11e5-a87b-5883419cfa3a","url":"turn:turn01.uswest.xirsys.com:443?transport=udp","credential":"bcd625be-f1cd-11e5-b663-8968345edd51"},
+        {"username":"bcd62532-f1cd-11e5-a87b-5883419cfa3a","url":"turn:turn01.uswest.xirsys.com:443?transport=tcp","credential":"bcd625be-f1cd-11e5-b663-8968345edd51"},
+        {"username":"bcd62532-f1cd-11e5-a87b-5883419cfa3a","url":"turn:turn01.uswest.xirsys.com:5349?transport=udp","credential":"bcd625be-f1cd-11e5-b663-8968345edd51"},
+        {"username":"bcd62532-f1cd-11e5-a87b-5883419cfa3a","url":"turn:turn01.uswest.xirsys.com:5349?transport=tcp","credential":"bcd625be-f1cd-11e5-b663-8968345edd51"},
+        {"url":"turn:turn.cloudkibo.com:3478?transport=tcp","username":"cloudkibo","credential":"cloudkibo"},
+        {"url":"turn:turn.cloudkibo.com:3478?transport=udp","username":"cloudkibo","credential":"cloudkibo"},
+        {"url":"turn:numb.viagenie.ca:3478","username":"support@cloudkibo.com","credential":"cloudkibo"}
+*/
         print("rtcICEServerObj is \(rtcICEarray[0])")
         
         //self.createPeerConnectionObject()
@@ -650,7 +734,7 @@ class VideoViewController: UIViewController,RTCPeerConnectionDelegate,RTCSession
         self.rtcLocalMediaStream=self.getLocalMediaStream()
         print("waiting now")
         
-    }
+    }*/*/
     
     func peerConnection(peerConnection: RTCPeerConnection!, addedStream stream: RTCMediaStream!) {
         print("added stream \(stream.debugDescription)")
@@ -968,7 +1052,7 @@ class VideoViewController: UIViewController,RTCPeerConnectionDelegate,RTCSession
     
     func handlePeerDisconnected(data:AnyObject!)
     {
-        print("received peer.connected obj from server")
+        print("received peer.disconnected obj from server")
         
         //Both joined same room
         
@@ -1161,15 +1245,514 @@ class VideoViewController: UIViewController,RTCPeerConnectionDelegate,RTCSession
         
         
     }
+    
+    
+    func sendDataBuffer(message:String,isb:Bool)
+    {
+        //var my="{\"eventName\":\"data_msg\",\"data\":{\"file_meta\":{}}}"
+        //let buffer2 = RTCDataBuffer(
+        //data: (my.dataUsingEncoding(NSUTF8StringEncoding))!,
+        //isBinary: false
+        // )
+        //var sent=self.rtcDataChannel.sendData(buffer2)
+        // print("datachannel file sample METADATA sent is \(sent)")
+        
+        
+        let buffer = RTCDataBuffer(
+            data: (message.dataUsingEncoding(NSUTF8StringEncoding))!,
+            isBinary: isb
+        )
+        var sentFile=self.rtcDataChannel.sendData(buffer)
+        print("datachannel file METADATA sent is \(sentFile) OR image chunk size is sent \(sentFile)")
+        
+        
+        /*var senttt=rtcDataChannel.sendData(RTCDataBuffer(data: NSData(base64EncodedString: "{helloooo iphone sendind data through data channel}", options: NSDataBase64DecodingOptions.IgnoreUnknownCharacters),isBinary: true))
+        print("datachannel message sent is \(senttt)")*/
+        /*var test="{hellooo}"
+        let buffer = RTCDataBuffer(
+        data: (test.dataUsingEncoding(NSUTF8StringEncoding))!,
+        isBinary: false
+        )
+        
+        let result = self.rtcDataChannel!.sendData(buffer)
+        print("datachannel message sent is \(result)")
+        */
+        
+    }
+
+
     func channel(channel: RTCDataChannel!, didChangeBufferedAmount amount: UInt) {
         print("didChangeBufferedAmount \(amount)")
         
     }
+    
+    
+    
     func channel(channel: RTCDataChannel!, didReceiveMessageWithBuffer buffer: RTCDataBuffer!) {
         print("didReceiveMessageWithBuffer")
         print(buffer.data.debugDescription)
+        //var channelJSON=JSON(buffer.data!)
+        //print(channelJSON.debugDescription)
+        
+        //----------------------
+        //-----------------------
+        var new:String!
+        //////buffer.data.length// make array of this size
+        print("didReceiveMessageWithBuffer")
+        //print(buffer.data.debugDescription)
         var channelJSON=JSON(buffer.data!)
         print(channelJSON.debugDescription)
+        //var bytes:[UInt8]
+        var bytes=Array<UInt8>(count: buffer.data.length, repeatedValue: 0)
+        
+        // bytes.append(buffer.data.bytes)
+        buffer.data.getBytes(&bytes, length: buffer.data.length)
+        print(bytes.debugDescription)
+        
+        NSUTF8StringEncoding
+        
+        
+        var sssss=NSString(bytes: &bytes, length: buffer.data.length, encoding: NSUTF8StringEncoding)
+        sssss=sssss?.stringByReplacingOccurrencesOfString("\\", withString: "")
+        print(sssss?.description)
+        
+        
+        
+        //JSONObjectWithData:jsonData options:NSJSONReadingMutableContainers error:&e];
+        
+        
+        //buffer.data.
+        var tryyyyy=NSData(bytes: &bytes , length: buffer.data.length)
+        var mytryyJSON=JSON(tryyyyy)
+        
+        if(sssss != nil){
+            
+            var jjj:NSData = (sssss?.dataUsingEncoding(NSUTF8StringEncoding))!
+            
+            do
+            {jsonnnn = try NSJSONSerialization.JSONObjectWithData(jjj, options: NSJSONReadingOptions.MutableContainers) as! Dictionary<String, AnyObject>
+                print("jsonnn")
+                print(jsonnnn)
+            }catch
+            {print("hi")
+                // print(jsonnnn)
+            }
+            
+            
+            myJSONdata=JSON(sssss!)
+            print("myjsondata is \(myJSONdata)")
+            var oldjsombrackets=myJSONdata.description.stringByReplacingOccurrencesOfString("{", withString: "[")
+            new=oldjsombrackets.stringByReplacingOccurrencesOfString("}", withString: "]")
+            print("new is \(new)")
+            
+            newjson=JSON(rawValue: new)!
+            print("new json is \(newjson)")
+            /////  var dddd:[String:AnyObject]=newjson.debugDescription as! [String:AnyObject]
+            //////print("ddddddddd is \(dddd)")
+            
+            let count = buffer.data.length
+            var doubles: [Double] = []
+            ///let data = NSData(bytes: doubles, length: count)
+            var result = [UInt8](count: count, repeatedValue: 0)
+            buffer.data.getBytes(&result, length: count)
+            //////   print(result.debugDescription)
+            
+            strData=String(bytes)
+            print("strdata")
+            print(strData)
+            var jsonStrData=JSON(strData)
+            print("jsonStrData")
+            print(jsonStrData.debugDescription)
+        }
+        else
+        {
+            print("sssss is nil and binary is\(buffer.isBinary)")
+            
+            
+        }
+        // }
+        
+        if(!buffer.isBinary)
+        {
+            print("not binary")
+            if(strData=="Speaking")
+            {
+                print("speakingggggg")
+            }
+            if(strData=="Silent")
+            {
+                print("Silentttt")
+            }
+            // if(jsonStrData["data"].count > 0)
+            //{
+            //////print("json data found")
+            ////print(jsonStrData["data"].debugDescription)
+            /*var resjson=jsonStrData["data"] as! [AnyObject]
+            for item in resjson{
+            if((item["chunk"]) != nil)
+            {
+            print("got key chain")
+            }
+            }*/
+            print("newjson[data][chunk.debugDescription is:")
+            print("newjson[data][chunk].debugDescription")
+            print(myJSONdata)
+            print(myJSONdata["data"].isExists())
+            if(myJSONdata != "Speaking" && myJSONdata != "Silent" && !jsonnnn.isEmpty){
+                print("inside 1")
+                print(jsonnnn["eventName"]!)
+                //if (myJSONdata["data"]["file_meta"].isExists())
+                if(jsonnnn["eventName"]!.debugDescription == "data_msg")
+                    //&& myJSONdata["data"]["file_meta"].debugDescription != "null")
+                {   print("myjsondata....")
+                    print(myJSONdata["data"]["file_meta"])
+                    print("jsonnnn.valueForKey.......")
+                    print(jsonnnn["eventName"])
+                    print(jsonnnn["data"]!["file_meta"]!!["size"]!)
+                    
+                    print("file received \(myJSONdata["data"]["file_meta"].isExists())")
+                    
+                    var sizeee=Int.init((jsonnnn["data"]!["file_meta"]!!["size"]!?.debugDescription)!)
+                    fileSizeReceived=sizeee
+                    fid=Int.init((jsonnnn["data"]!["file_meta"]!!["fid"]!?.debugDescription)!)
+                    print("fid is \(fid)")
+                    
+                    //////////filePathReceived=channelJSON["data"]["file_meta"]["name"].debugDescription
+                    filePathReceived=jsonnnn["data"]!["file_meta"]!!["name"]!!.debugDescription
+                    ////fileSizeReceived=jsonnnn["data"]!["file_meta"]!!["size"]!! as! Int
+                    print("file sizeeee jsonnnn is \(channelJSON["data"]["file_meta"]["size"].debugDescription)")
+                    
+                    print("file sizeeee channelJSON is \(jsonnnn["data"]!["file_meta"]!!["size"].debugDescription)")
+                    print("file sizeeee sizeee is \(sizeee)")
+                    /////////////fileSizeReceived = channelJSON["data"]["file_meta"]["size"].intValue
+                    
+                    ///fileSizeReceived=myJSONdata["data"]["file_meta"]["size"].intValue
+                    
+                    
+                    
+                    ///NEW ADDITION MAKE FILENAME GLOBAL
+                    filejustreceivedname=filePathReceived!
+                    /////////
+                    var x=Double(fileSizeReceived / fu.chunkSize)
+                    numberOfChunksInFileToSave = ceil(x)
+                    print("number of chunks to save in received file are \(numberOfChunksInFileToSave)")
+                    numberOfChunksReceived=0
+                    chunknumbertorequest=0
+                    if(fu.isFreeSpacAvailable(fileSizeReceived))
+                    {
+                        print("requesting chunk now")
+                        //requestchunk(chunknumbertorequest)
+                        
+                        var mjson="{\"chunk\":\(chunknumbertorequest),\"browser\":\"firefox\",\"fid\":\(fid!),\"requesterid\":\(currentID!)}"
+                        var fmetadata="{\"eventName\":\"request_chunk\",\"data\":\(mjson)}"
+                        self.sendDataBuffer(fmetadata,isb: false)
+                        
+                        
+                    }
+                    else
+                    {
+                        print("need more space")
+                    }
+                    //UPDATE FILE UI..........................................receivedfileoffer
+                    
+                    
+                    /*
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                    onStatusChanged("Receiving file...");
+                    if (Utility.isFreeSpaceAvailableForFileSize(sizeOfFileToSave)) {
+                    Log.w("FILE_TRANSFER", "Free space is available for file save, requesting chunk now");
+                    fileTransferService.requestChunk();
+                    } else {
+                    Log.w("FILE_TRANSFER", "Need more space to save this file");
+                    onStatusChanged("Need more free space to save this file");
+                    }
+                    }*/
+                    
+                    
+                    //var fileSizeReceived:Int!
+                    //var fileContentsReceived:NSData!
+                    /*
+                    fileNameToSave = jsonData.getJSONObject("data").getJSONObject("file_meta").getString("name");
+                    sizeOfFileToSave = jsonData.getJSONObject("data").getJSONObject("file_meta").getInt("size");
+                    numberOfChunksInFileToSave = (int) Math.ceil(sizeOfFileToSave / Utility.getChunkSize());
+                    numberOfChunksReceived = 0;
+                    chunkNumberToRequest = 0;
+                    fileBytesArray = new ArrayList<Byte>();
+                    
+                    mListener.receivedFileOffer(fileNameToSave + " : " + FileUtils.getReadableFileSize(sizeOfFileToSave), sizeOfFileToSave);
+                    */
+                    
+                    ///var ccccc:Int
+                    ////ccccc=0
+                    
+                    
+                    /*
+                    request_chunk.put("eventName", "request_chunk");
+                    JSONObject request_data = new JSONObject();
+                    request_data.put("chunk", chunkNumberToRequest);
+                    request_data.put("browser", "firefox"); // This firefox is hardcoded for testing purpose
+                    request_chunk.put("data", request_data);
+                    */
+                    
+                }
+                else
+                {
+                    print("inside 2")
+                    print(jsonnnn["eventName"]!)
+                    //if (myJSONdata["data"]["chunk"].isExists() && myJSONdata["data"]["chunk"].debugDescription != "" )
+                    if(jsonnnn["eventName"]!.debugDescription == "request_chunk")
+                    {
+                        print("chunk number is \(myJSONdata["data"]["chunk"].rawValue)")
+                        print(channelJSON["data"][0]["browser"].debugDescription)
+                        print(channelJSON["data"][0]["chunk"].intValue)
+                        chunknumber=myJSONdata["data"][0]["chunk"].intValue
+                        
+                        ////////FU utility
+                        if(chunknumber % fu.chunks_per_ack == 0)
+                        {
+                            for(var i=0;i<fu.chunks_per_ack;i++)
+                            {
+                                if(fileSize < fu.chunkSize)
+                                {
+                                    var bytebuffer=fu.convert_file_to_byteArray(filePathImage)
+                                    var byteToNSstring=NSString(bytes: &bytebuffer, length: bytebuffer.count, encoding: NSUTF8StringEncoding)
+                                    var bytestringfile=NSData(contentsOfFile: byteToNSstring as! String)
+                                    print("file size smaller than chunk")
+                                    if(bytestringfile==nil)
+                                    {
+                                        bytestringfile=NSData(contentsOfURL: urlLocalFile)
+                                    }
+                                    var check=self.rtcDataChannel.sendData(RTCDataBuffer(data: bytestringfile,isBinary: true))
+                                    print("chunk has been sent \(check)")
+                                    break
+                                    
+                                }
+                                print("file size is \(fileSize)")
+                                var x=CGFloat(fileContents.length/fu.chunkSize)
+                                if(CGFloat(chunknumber+i) >= ceil(x))
+                                {
+                                    print("file size came in math ceiling condition")
+                                }
+                                var upperlimit=(chunknumber+i+1)*fu.chunkSize
+                                if(upperlimit > fileContents.length)
+                                {
+                                    upperlimit = fileContents.length-1
+                                }
+                                var lowerlimit=(chunknumber+i)*fu.chunkSize
+                                print("lowerlimit \(lowerlimit) upper limit \(upperlimit)")
+                                if(lowerlimit > upperlimit)
+                                {break}
+                                
+                                var bytestringfile=NSFileManager.defaultManager().contentsAtPath(filePathImage)
+                                if(bytestringfile==nil)
+                                {
+                                    bytestringfile=NSData(contentsOfURL: urlLocalFile)
+                                }
+                                /// var bytestringfile=NSData(contentsOfFile: bytebuffer)
+                                var newbuffer=Array<UInt8>(count: upperlimit-lowerlimit, repeatedValue: 0)
+                                bytestringfile?.getBytes(&newbuffer, range: NSRange(location: lowerlimit,length: upperlimit-lowerlimit))
+                                self.rtcDataChannel.sendData(RTCDataBuffer(data: bytestringfile,isBinary: true))
+                                print("chunk has been sent")
+                                
+                            }
+                        }
+                        //requestchunk(chunknumber)
+                        
+                    }//if data chunk exists
+                    
+                }//end else
+                
+            }//if speaking!=nil
+            
+            
+        }
+            
+        else
+        {
+            print("yes binary")
+            
+            for eachbyte in bytes
+            {
+                bytesarraytowrite.append(eachbyte)
+            }
+            
+            var modanswer=numberOfChunksReceived % fu.chunks_per_ack
+            if(modanswer==(fu.chunks_per_ack-1) || numberOfChunksInFileToSave == (Double(numberOfChunksReceived+1)))
+            {
+                
+                
+                if(numberOfChunksInFileToSave > Double(numberOfChunksReceived))
+                {
+                    chunknumbertorequest += fu.chunks_per_ack
+                    print("asking other chunk..")
+                    //requestchunk(chunknumbertorequest)
+                    
+                    var mjson="{\"chunk\":\(chunknumbertorequest),\"browser\":\"firefox\",\"fid\":\(fid) ,\"requesterid\":\(currentID!)}"
+                    var fmetadata="{\"eventName\":\"request_chunk\",\"data\":\(mjson)}"
+                    self.sendDataBuffer(fmetadata,isb: false)
+                }
+            }
+            else{
+                if(numberOfChunksInFileToSave == Double(numberOfChunksReceived))
+                {
+                    print("file transfer completed..")
+                    //////bytesarraytowrite=Array<UInt8>()
+                }
+            }
+            numberOfChunksReceived++
+            /*
+            if(buffer.binary){
+            
+            String strData = new String( bytes );
+            Log.w("FILE_TRANSFER", strData);
+            
+            for(int i=0; i<bytes.length; i++)
+            fileBytesArray.add(bytes[i]);
+            
+            if (numberOfChunksReceived % Utility.getChunksPerACK() == (Utility.getChunksPerACK() - 1)
+            || numberOfChunksInFileToSave == (numberOfChunksReceived + 1)) {
+            if (numberOfChunksInFileToSave > numberOfChunksReceived) {
+            chunkNumberToRequest += Utility.getChunksPerACK();
+            Log.w("FILETRANSFER", "Asking other chunk");
+            requestChunk();
+            }
+            } else {
+            if (numberOfChunksInFileToSave == numberOfChunksReceived) {
+            Log.w("FILETRANSFER", "File transfer completed");
+            mListener.fileTransferCompleteNotification(fileNameToSave + " : " +
+            FileUtils.getReadableFileSize(sizeOfFileToSave), fileBytesArray, fileNameToSave);
+            }
+            }
+            
+            numberOfChunksReceived++;s
+            */
+            
+            
+            
+            /* let writeString = "Hello, world!"
+            
+            let filePath = NSHomeDirectory() + "/Library/Caches/test.txt"
+            
+            do {
+            _ = try writeString.writeToFile(filePath, atomically: true, encoding: NSUTF8StringEncoding)
+            } catch let error as NSError {
+            print(error.description)
+            }
+            
+            */
+            //let fm = NSFileManager.defaultManager()
+            let dirPaths = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)
+            let docsDir1 = dirPaths[0]
+            var documentDir=docsDir1 as NSString
+            var filePathImage2=documentDir.stringByAppendingPathComponent(filejustreceivedname!)
+            filejustreceivedPathURL=NSURL(fileURLWithPath: filePathImage2)
+            print("filejustreceivedPathURL is \(filejustreceivedPathURL)")
+            var fm=NSFileManager.defaultManager()
+            
+            
+            //////////^^^^^^^newww tryy var filedata:NSData=fu.convert_byteArray_to_fileNSData(bytes)
+            var filedata:NSData=fu.convert_byteArray_to_fileNSData(bytesarraytowrite)
+            
+            var s=fm.createFileAtPath(filePathImage2, contents: nil, attributes: nil)
+            
+            var written=filedata.writeToFile(filePathImage2, atomically: true)
+            
+            if(written==true)
+            {
+                var furl2=NSURL(fileURLWithPath: filePathImage2)
+                print("local furl2 is\(furl2)")
+                
+                //documentInteractionController = UIDocumentInteractionController(URL: fileURL)
+                //documentInteractionController.delegate=self
+                //documentInteractionController.presentOpenInMenuFromRect(CGRect(x: 20, y: 100, width: 300, height: 200), inView: self.view, animated: true)
+                
+                
+                
+                
+                /* var fileManager=NSFileManager.defaultManager()
+                var e:NSError!
+                print("saving to iCloud")
+                //dispatch_async(dispatch_get_global_queue(QOS_CLASS_BACKGROUND, 0), { () -> Void in
+                var dest=fileManager.URLForUbiquityContainerIdentifier(nil)
+                print("desi is \(dest)")
+                if(fileManager.fileExistsAtPath((dest?.URLByAppendingPathComponent("Documents").URLString)!))
+                {
+                print("yess file directory dest document existss")
+                }
+                //?.URLByAppendingPathComponent("Documents")
+                
+                do
+                {
+                //var newdest=dest!.URLByAppendingPathComponent("Documents", isDirectory: true)
+                //print("newdest is \(newdest.debugDescription)")
+                //var ans=try fileManager.setUbiquitous(true, itemAtURL: self.fileURL, destinationURL: newdest)
+                var ans=try fileManager.setUbiquitous(true, itemAtURL: furl2, destinationURL: dest!.URLByAppendingPathComponent("myfile.doc"))
+                
+                print("ans is \(ans)")
+                
+                }catch
+                {
+                print("error is \(error)")
+                }
+                */
+                
+                
+                // })
+                
+                
+                
+                
+                
+                print("file writtennnnn \(s) \(filedata.debugDescription)")
+            }
+            /*var receivedfile=fm.contentsAtPath(filePathImage2)
+            do{var receivedfile2=try NSString(contentsOfFile: filePathImage2, encoding: NSUTF8StringEncoding)
+            print("file output is ")
+            print(receivedfile2)
+            
+            }catch let error as NSError
+            {
+            print(error)
+            }
+            catch
+            {
+            
+            }*/
+            
+            /*
+            //to convert NSData to pdf
+            NSData *data     = [NSData dataWithBytes:(void)wdslBytes length:sizeOf(wdslBytes)];
+            CFDataRef myPDFData  = (CFDataRef)data;
+            CGDataProviderRef provider = CGDataProviderCreateWithCFData(myPDFData);
+            CGPDFDocumentRef pdf   = CGPDFDocumentCreateWithProvider(provider);
+            */
+            
+            // var bytesreceived=Array<UInt8>(count: fileSizereceived, repeatedValue: 0)
+            
+            // bytes.append(buffer.data.bytes)
+            //buffer.data.getBytes(&bytesreceived, length: buffer.data.length)
+            // print(bytes.debugDescription)
+            ///////// var sssss=NSString(bytes: &bytes, length: buffer.data.length, encoding: NSUTF8StringEncoding)
+            /*
+            let writeString = "Hello, world!"
+            
+            let filePath = NSHomeDirectory() + "/Library/Caches/test.txt"
+            
+            do {
+            _ = try writeString.writeToFile(filePath, atomically: true, encoding: NSUTF8StringEncoding)
+            } catch let error as NSError {
+            print(error.description)
+            }
+            */
+        }
+
+        
+        
+        //-----------------------
+        //----------------------
+        
+        
+        
         
     }
     func channelDidChangeState(channel: RTCDataChannel!) {
@@ -1177,5 +1760,102 @@ class VideoViewController: UIViewController,RTCPeerConnectionDelegate,RTCSession
         print(channel.debugDescription)
         
     }
+    
+    @IBAction func btnFilePressed(sender: AnyObject) {
+        
+        print(NSOpenStepRootDirectory())
+        ///var UTIs=UTTypeCopyPreferredTagWithClass("public.image", kUTTypeImage)?.takeRetainedValue() as! [String]
+        
+        let importMenu = UIDocumentMenuViewController(documentTypes: [kUTTypeText as NSString as String],
+            inMode: .Import)
+        ///////let importMenu = UIDocumentMenuViewController(documentTypes: UTIs, inMode: .Import)
+        importMenu.delegate = self
+        self.presentViewController(importMenu, animated: true, completion: nil)
+        //////////mdata.sharefile()
+        
+        /*let documentPicker = UIDocumentPickerViewController(documentTypes: [kUTTypeText as NSString as String],
+        inMode: .Import)
+        documentPicker.delegate = self
+        presentViewController(documentPicker, animated: true, completion: nil)*/
+    }
+    
+    func documentPicker(controller: UIDocumentPickerViewController, didPickDocumentAtURL url: NSURL) {
+        
+        print("picker url is \(url)")
+        
+        url.startAccessingSecurityScopedResource()
+        let coordinator = NSFileCoordinator()
+        var error:NSError? = nil
+        coordinator.coordinateReadingItemAtURL(url, options: [], error: &error) { (url) -> Void in
+            // do something with it
+            let fileData = NSData(contentsOfURL: url)
+            print(fileData?.description)
+            print("file gotttttt")
+            ///////////self.mdata.sharefile(url.URLString)
+            var furl=NSURL(string: url.URLString)
+            //ADDEDDDDD
+            //////furl=fileurl
+            /////////////////newwwwwvar furl=NSURL(fileURLWithPath: filePathImage)
+            
+            ///// var furl=NSURL(fileURLWithPath:"file:///private/var/mobile/Containers/Data/Application/F4137E3A-02E9-4A4D-8F20-089484823C88/tmp/iCloud.MyAppTemplates.cloudkibo-Inbox/regularExpressions.html")
+            
+            //METADATA FILE NAME,TYPE
+            print(furl!.pathExtension!)
+            print(furl!.URLByDeletingPathExtension?.lastPathComponent!)
+            var ftype=furl!.pathExtension!
+            var fname=furl!.URLByDeletingPathExtension?.lastPathComponent!
+            //var attributesError=nil
+            var fileAttributes:[String:AnyObject]=["":""]
+            do{
+                fileAttributes = try NSFileManager.defaultManager().attributesOfItemAtPath(furl!.path!)
+                
+            }catch
+            {print("error")
+                print(fileAttributes)
+            }
+            
+            let fileSizeNumber = fileAttributes[NSFileSize]! as! NSNumber
+            print(fileAttributes[NSFileType] as! String)
+            
+            self.fileSize=fileSizeNumber.integerValue
+            
+            //FILE METADATA size
+            print(self.fileSize)
+            urlLocalFile=url
+            /////let text2 = fm.contentsAtPath(filePath)
+            ////////print(text2)
+            /////////print(JSON(text2!))
+            ///mdata.fileContents=fm.contentsAtPath(filePathImage)!
+            self.fileContents=NSData(contentsOfURL: url)
+            self.filePathImage=url.URLString
+            var filecontentsJSON=JSON(NSData(contentsOfURL: url)!)
+            print(filecontentsJSON)
+            var mjson="{\"file_meta\":{\"name\":\"\(fname!)\",\"size\":\"\(self.fileSize.description)\",\"filetype\":\"\(ftype)\",\"browser\":\"firefox\",\"uname\":\"\(username!)\",\"fid\":\(self.myfid),\"senderid\":\(currentID!)}}"
+            var fmetadata="{\"eventName\":\"data_msg\",\"data\":\(mjson)}"
+            self.sendDataBuffer(fmetadata,isb: false)
+            socketObj.socket.emit("conference.chat", ["message":"You have received a file. Download and Save it.","username":username!])
+            
+            
+        }
+        
+        
+        url.stopAccessingSecurityScopedResource()
+        //mdata.sharefile(url)
+    }
+    
+    
+    
+    func documentMenu(documentMenu: UIDocumentMenuViewController, didPickDocumentPicker documentPicker: UIDocumentPickerViewController) {
+        
+        documentPicker.delegate = self
+        presentViewController(documentPicker, animated: true, completion: nil)
+        
+        
+    }
+    func documentMenuWasCancelled(documentMenu: UIDocumentMenuViewController) {
+        
+        
+    }
+
     
 }
