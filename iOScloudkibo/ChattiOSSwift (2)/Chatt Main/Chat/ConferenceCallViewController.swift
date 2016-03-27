@@ -10,14 +10,18 @@ import UIKit
 import AVFoundation
 import SwiftyJSON
 import MobileCoreServices
+import MediaPlayer
 
-class ConferenceCallViewController: UIViewController,ConferenceDelegate,ConferenceScreenReceiveDelegate,ConferenceRoomDisconnectDelegate,ConferenceEndDelegate,UIDocumentMenuDelegate,UIDocumentPickerDelegate {
+class ConferenceCallViewController: UIViewController,ConferenceDelegate,ConferenceScreenReceiveDelegate,ConferenceRoomDisconnectDelegate,ConferenceEndDelegate,ConferenceFileDelegate,UIDocumentMenuDelegate,UIDocumentPickerDelegate {
     var rtcLocalVideoTrack:RTCVideoTrack!
     ////////////////////////////////////////var rtcLocalstream:RTCMediaStream!
     var mvideo:MeetingRoomVideo!
     var mdata:MeetingRoomData!
     //var mvideo:MeetingRoomVideo!
     ////////////////var rtcRemoteVideoStream:RTCMediaStream!
+    
+    @IBOutlet weak var btnFileView: UIBarButtonItem!
+    
     @IBOutlet weak var btncapture: UIBarButtonItem!
     var svideo:MeetingRoomScreen!
     var rtcVideoTrackReceived:RTCVideoTrack! = nil
@@ -36,6 +40,8 @@ class ConferenceCallViewController: UIViewController,ConferenceDelegate,Conferen
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        //var mpVolumeView=MPVolumeView.init(frame: CGRect(x:0, y:0, width: 400,height: 400))
+            //self.view.addSubview(mpVolumeView)
         mAudio=MeetingRoomAudio()
         mAudio.initAudio()
         mAudio.delegateDisconnect=self
@@ -56,7 +62,7 @@ class ConferenceCallViewController: UIViewController,ConferenceDelegate,Conferen
         mdata.addHandlers()
         
         mdata.delegateConferenceEnd=self
-        
+        mdata.delegateConferenceFile=self
         
         
         //isInitiator=true
@@ -563,6 +569,11 @@ dataChannel.send(img.data.subarray(n * CHUNK_LEN));
         
     }
     
+    func didReceiveFile() {
+        print("file receivedddddddddddddd;;;;;;;;")
+        btnFileView.enabled=true
+        btnFileView.tintColor=UIColor.blackColor()
+    }
     
     
     func disconnectAll()
@@ -613,6 +624,7 @@ dataChannel.send(img.data.subarray(n * CHUNK_LEN));
         mdata=MeetingRoomData()
         mdata.addHandlers()
         mdata.delegateConferenceEnd=self
+        mdata.delegateConferenceFile=self
         
         mvideo=MeetingRoomVideo()
         mvideo.addHandlers()

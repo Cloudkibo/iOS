@@ -14,7 +14,7 @@ import Alamofire
 class WebmeetingChatViewController: UIViewController {
     
         var rt=NetworkingLibAlamofire()
-        var webMeetingModel=webmeetingMsgsModel()
+        
         @IBOutlet weak var NewChatNavigationTitle: UINavigationItem!
         @IBOutlet weak var labelToName: UILabel!
         @IBOutlet var tblForChats : UITableView!
@@ -84,6 +84,8 @@ class WebmeetingChatViewController: UIViewController {
         
         func addMessage(message: String, ofType msgType:String) {
             messages.addObject(["message":message, "type":msgType])
+            tblForChats.reloadData()
+            
         }
     
         

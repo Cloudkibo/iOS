@@ -17,7 +17,10 @@ class webmeetingMsgsModel{
         
     }
     func addChatMsg(msg:String,usr:String)
-    {
-        messages.addObject(["message":msg,"username":usr])
+    {//["message":message, "type":msgType]
+        if(usr != username!)
+        {//Message of other user not myself
+        messages.addObject(["message":msg,"type":"1"])
+        }
     }
 }

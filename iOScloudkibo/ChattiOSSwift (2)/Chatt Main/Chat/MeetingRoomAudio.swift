@@ -21,12 +21,12 @@ class MeetingRoomAudio:NSObject,SocketClientDelegateWebRTC,RTCPeerConnectionDele
     var rtcMediaConst:RTCMediaConstraints! = nil
     var delegateDisconnect:ConferenceRoomDisconnectDelegate!
     var delegateChat:WebMeetingChatDelegate!
-    var webmeetingModel:webmeetingMsgsModel!
+    //var webmeetingModel:webmeetingMsgsModel!
     var delegateConferenceEnd:ConferenceEndDelegate!
     
     override init()
     {
-        webmeetingModel=webmeetingMsgsModel()
+        //webmeetingModel=webmeetingMsgsModel()
         
         super.init()
     }
@@ -73,7 +73,7 @@ class MeetingRoomAudio:NSObject,SocketClientDelegateWebRTC,RTCPeerConnectionDele
     
     func receivedChatMessage(message:String,username:String)
     {
-        webmeetingModel.addChatMsg(message, usr: username)
+        webMeetingModel.addChatMsg(message, usr: username)
         
     }
     
