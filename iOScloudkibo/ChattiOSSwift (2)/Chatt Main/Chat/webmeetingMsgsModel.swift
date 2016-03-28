@@ -9,7 +9,7 @@
 import Foundation
 
 class webmeetingMsgsModel{
-    
+    var delegateWebmeetingChat:WebMeetingChatDelegate!
     var messages:NSMutableArray!
     init()
     {
@@ -23,4 +23,9 @@ class webmeetingMsgsModel{
         messages.addObject(["message":msg,"type":"1"])
         }
     }
+   
+}
+protocol WebMeetingChatDelegate:class
+{
+    func receivedChatMessageUpdateUI(message:String,username:String);
 }

@@ -20,7 +20,7 @@ class MeetingRoomAudio:NSObject,SocketClientDelegateWebRTC,RTCPeerConnectionDele
     var audioAction=true
     var rtcMediaConst:RTCMediaConstraints! = nil
     var delegateDisconnect:ConferenceRoomDisconnectDelegate!
-    var delegateChat:WebMeetingChatDelegate!
+    //var delegateChat:WebMeetingChatDelegate!
     //var webmeetingModel:webmeetingMsgsModel!
     var delegateConferenceEnd:ConferenceEndDelegate!
     
@@ -53,9 +53,12 @@ class MeetingRoomAudio:NSObject,SocketClientDelegateWebRTC,RTCPeerConnectionDele
         print("rtcICEServerObj is \(rtcICEarray[0])")
         
         //self.createPeerConnectionObject()
+        if(rtcFact == nil)
+        {
         RTCPeerConnectionFactory.initializeSSL()
         rtcFact=RTCPeerConnectionFactory()
         
+        }
         if(socketObj.delegateWebRTC == nil)
         {
             socketObj.delegateWebRTC=self
@@ -477,8 +480,8 @@ class MeetingRoomAudio:NSObject,SocketClientDelegateWebRTC,RTCPeerConnectionDele
         case "peer.connected.new":
             handlePeerConnected(data)
             
-        case "peer.connected":
-            print("error old peer.connected received from socket")
+        //case "peer.connected":
+          //  print("error old peer.connected received from socket")
            /// handlePeerConnected(data)
             
        //// case "conference.stream":
@@ -527,7 +530,7 @@ class MeetingRoomAudio:NSObject,SocketClientDelegateWebRTC,RTCPeerConnectionDele
         print("msgAudio reeived.. check if offer answer or ice")
         var msg=JSON(data)
         print(msg[0].description)
-        
+        iamincallWith=msg[0]["username"].description
         if(msg[0]["type"].string! == "offer")
         {
             //^^^^^^^^^^^^^^^^newwwww if(joinedRoomInCall == "" && isInitiator.description == "false")
@@ -550,7 +553,7 @@ class MeetingRoomAudio:NSObject,SocketClientDelegateWebRTC,RTCPeerConnectionDele
             //^^^^^^^^^^^^^^^^^^^^^^^newwwwww self.pc.addStream(self.getLocalMediaStream())
             otherID=msg[0]["by"].int!
             currentID=msg[0]["to"].int!
-            
+            iamincallWith=msg[0]["username"].description
             
             if(msg[0]["username"].description != username! && self.pc.remoteDescription == nil){
                 var sessionDescription=RTCSessionDescription(type: msg[0]["type"].description, sdp: msg[0]["sdp"]["sdp"].description)
@@ -860,8 +863,4 @@ class MeetingRoomAudio:NSObject,SocketClientDelegateWebRTC,RTCPeerConnectionDele
 protocol ConferenceRoomDisconnectDelegate:class
 {
     func disconnectAll();
-}
-protocol WebMeetingChatDelegate:class
-{
-    func receivedChatMessage(message:String,username:String);
 }

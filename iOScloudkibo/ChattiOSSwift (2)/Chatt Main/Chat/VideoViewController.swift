@@ -21,6 +21,7 @@ class VideoViewController: UIViewController,RTCPeerConnectionDelegate,RTCSession
     var chunknumber:Int!
     var strData:String!
     
+    @IBOutlet weak var btnViewFile: UIBarButtonItem!
     var myfid=0
     var fid:Int!
     var bytesarraytowrite:Array<UInt8>!
@@ -106,11 +107,10 @@ class VideoViewController: UIViewController,RTCPeerConnectionDelegate,RTCSession
         
         
     }
-    
-    @IBAction func backbtnPressed(sender: UIBarButtonItem) {
+    /*@IBAction func backbtnPressed(sender: UIBarButtonItem) {
         print("backkkkkkkkkkkkkk pressed")
         self.dismissViewControllerAnimated(true, completion: nil)
-    }
+    }*/
     func timerFiredScreenCapture()
     {print("inside timerFiredScreenCapture")
         // var myscreen=UIScreen.mainScreen().snapshotViewAfterScreenUpdates(true)
@@ -320,9 +320,9 @@ class VideoViewController: UIViewController,RTCPeerConnectionDelegate,RTCSession
         rtcLocalMediaStream=nil //test and try-------------
         rtcStreamReceived=nil
         if(rtcDataChannel != nil){
-            //////rtcDataChannel=nil
+            rtcDataChannel=nil
             //newwwwwwww tryy
-            rtcDataChannel.close()
+            //rtcDataChannel.close()
         }
         self.dismissViewControllerAnimated(true, completion: { () -> Void in
             
@@ -922,6 +922,18 @@ class VideoViewController: UIViewController,RTCPeerConnectionDelegate,RTCSession
         case "peer.disconnected":
             handlePeerDisconnected(data)
             
+        case "conference.chat":
+            print("\(data)")
+            var chat=JSON(data)
+            print(JSON(data))
+            ///self.delegateChat=WebmeetingChatViewController
+            print(chat[0]["message"].description)
+            print(chat[0]["username"].description)
+            print(chat[0]["message"].string)
+            print(chat[0]["username"].string)
+            //self.receivedChatMessage(chat[0]["message"].description,username: "\(chat[0]["username"].description)")
+            webMeetingModel.addChatMsg(message, usr: username!)
+            
         default:print("wrong socket other mesage received")
         }
         
@@ -1119,7 +1131,8 @@ class VideoViewController: UIViewController,RTCPeerConnectionDelegate,RTCSession
             //What to do if already in a room??
             
             if(joinedRoomInCall=="")
-            {
+            {//newwwwwww tryyy isinitiator
+                isInitiator = false
                 var CurrentRoomName=msg[0]["room"].string!
                 print("got room name as \(joinedRoomInCall)")
                 print("trying to join room")
@@ -1702,7 +1715,7 @@ class VideoViewController: UIViewController,RTCPeerConnectionDelegate,RTCSession
                 
                 
                 
-                
+                btnViewFile.enabled=true
                 print("file writtennnnn \(s) \(filedata.debugDescription)")
             }
             /*var receivedfile=fm.contentsAtPath(filePathImage2)

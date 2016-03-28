@@ -1336,8 +1336,9 @@ class ChatViewController: UIViewController,SocketClientDelegate {
             //CONFERENCE CODE COMMENTED
             
             //var selectedRow = indexPath.row
-            print("call pressed")
             
+            print("call pressed")
+            /*
             username = "iphoneUser"
             iamincallWith = "webConference"
             isInitiator = true
@@ -1356,7 +1357,7 @@ class ChatViewController: UIViewController,SocketClientDelegate {
             let next = self.storyboard!.instantiateViewControllerWithIdentifier("MainV2") as! VideoViewController
             
             self.presentViewController(next, animated: true, completion:nil)
-            
+            */
 
             
             
@@ -1371,12 +1372,12 @@ class ChatViewController: UIViewController,SocketClientDelegate {
             //////////////////////////////
             //CORRECT CODE ONE TO ONE CALL COMMENTED
             //////////////////////////////
-            /*
+            
             socketObj.socket.emit("callthisperson",["room" : "globalchatroom","callee": self.ContactUsernames[selectedRow], "caller":username!])
             isInitiator=true
             callerName=username!
             iamincallWith=self.ContactUsernames[selectedRow]
-*/
+
             
             /*
             var next = self.storyboard?.instantiateViewControllerWithIdentifier("Main2") as! VideoViewController
@@ -1493,7 +1494,7 @@ class ChatViewController: UIViewController,SocketClientDelegate {
         
         print("callee is \(callerName)", terminator: "")
         
-        var next = self.storyboard!.instantiateViewControllerWithIdentifier("Main2") as! VideoViewController
+        var next = self.storyboard!.instantiateViewControllerWithIdentifier("MainV2") as! VideoViewController
         
         self.presentViewController(next, animated: true, completion: {
         })

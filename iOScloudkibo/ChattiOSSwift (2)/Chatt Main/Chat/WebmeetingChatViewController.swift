@@ -11,7 +11,7 @@ import SwiftyJSON
 import SQLite
 import Alamofire
 
-class WebmeetingChatViewController: UIViewController {
+class WebmeetingChatViewController: UIViewController,WebMeetingChatDelegate {
     
         var rt=NetworkingLibAlamofire()
         
@@ -27,7 +27,13 @@ class WebmeetingChatViewController: UIViewController {
         
         var messages : NSMutableArray!
     
+        var delegateChat:WebMeetingChatDelegate!
     
+    func receivedChatMessageApdateUI(message: String, username: String) {
+        //Reload table
+        tblForChats.reloadData()
+    
+    }
     override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: NSBundle?)
         {
             super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
@@ -54,8 +60,9 @@ class WebmeetingChatViewController: UIViewController {
             NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("willShowKeyBoard:"), name:UIKeyboardWillShowNotification, object: nil)
             NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("willHideKeyBoard:"), name:UIKeyboardWillHideNotification, object: nil)
             
-            messages = webMeetingModel.messages
             
+            messages = webMeetingModel.messages
+            delegateChat=self
             
             
             self.NewChatNavigationTitle.title="webmeeting/test"
@@ -81,7 +88,13 @@ class WebmeetingChatViewController: UIViewController {
             var indexPath = NSIndexPath(forRow:self.messages.count-1, inSection: 0)
             self.tblForChats.scrollToRowAtIndexPath(indexPath, atScrollPosition: UITableViewScrollPosition.Bottom, animated: true)
         }*/
+    
+    func receivedChatMessageUpdateUI(message: String, username: String) {
         
+        tblForChats.reloadData()
+    }
+    
+    
         func addMessage(message: String, ofType msgType:String) {
             messages.addObject(["message":message, "type":msgType])
             tblForChats.reloadData()

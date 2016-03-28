@@ -422,7 +422,7 @@ dataChannel.send(img.data.subarray(n * CHUNK_LEN));
         self.rtcLocalVideoTrack.addRenderer(self.localView)
         self.localViewOutlet.addSubview(self.localView)
         /////////////////self.localViewOutlet.updateConstraintsIfNeeded()
-        self.remoteView.setNeedsDisplay()
+        ////////////////////////////self.remoteView.setNeedsDisplay()
         self.localView.setNeedsDisplay()
         self.localViewOutlet.setNeedsDisplay()
         
@@ -483,7 +483,7 @@ dataChannel.send(img.data.subarray(n * CHUNK_LEN));
     */
     
     func didReceiveRemoteScreen(remoteVideoTrack:RTCVideoTrack){
-        print("didreceiveremotevideotrack11")
+        print("didreceiveremotescreentrack11")
         
         ////dispatch_async(dispatch_get_main_queue(), {
         
@@ -572,7 +572,7 @@ dataChannel.send(img.data.subarray(n * CHUNK_LEN));
     func didReceiveFile() {
         print("file receivedddddddddddddd;;;;;;;;")
         btnFileView.enabled=true
-        btnFileView.tintColor=UIColor.blackColor()
+        //btnFileView.tintColor=UIColor.blackColor()
     }
     
     
@@ -595,6 +595,7 @@ dataChannel.send(img.data.subarray(n * CHUNK_LEN));
         //mvideo.rtcLocalVideoTrack=nil
         //mvideo.rtcRemoteVideoTrack=nil
         //mvideo.rtcStreamReceived=nil
+        
         mvideo=nil
         
         
