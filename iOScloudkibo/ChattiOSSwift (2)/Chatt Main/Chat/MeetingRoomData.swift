@@ -10,8 +10,15 @@ import Foundation
 import AVFoundation
 import Foundation
 import SwiftyJSON
+import MobileCoreServices
 
 class MeetingRoomData:NSObject,RTCPeerConnectionDelegate,RTCSessionDescriptionDelegate,RTCDataChannelDelegate{
+    
+    var newjson:JSON!
+    var myJSONdata:JSON!
+    var chunknumber:Int!
+    var strData:String!
+    
     var myfid=0
     var fid:Int!
     var bytesarraytowrite:Array<UInt8>!
@@ -32,6 +39,7 @@ class MeetingRoomData:NSObject,RTCPeerConnectionDelegate,RTCSessionDescriptionDe
     ///////var rtcRemoteVideoTrack:RTCVideoTrack!
     var stream:RTCMediaStream!
     var delegateConferenceEnd:ConferenceEndDelegate!
+    var delegateConferenceFile:ConferenceFileDelegate!
     var screenshared=false
     var rtcDataChannel:RTCDataChannel!
     //var rtcInit:RTCDataChannelInit!
@@ -638,8 +646,9 @@ class MeetingRoomData:NSObject,RTCPeerConnectionDelegate,RTCSessionDescriptionDe
             rtcDataChannel.delegate=self
             
             //////////////////
-            var senttt=rtcDataChannel.sendData(RTCDataBuffer(data: NSData(base64EncodedString: "helloooo iphone sendind data through data channel", options: NSDataBase64DecodingOptions.IgnoreUnknownCharacters),isBinary: true))
+            /*var senttt=rtcDataChannel.sendData(RTCDataBuffer(data: NSData(base64EncodedString: "helloooo iphone sendind data through data channel", options: NSDataBase64DecodingOptions.IgnoreUnknownCharacters),isBinary: true))
              print("datachannel message sent is \(senttt)")
+            */
             ///var test="hellooo"
             
            //// rtcDataChannel.sendData(RTCDataBuffer()
@@ -651,10 +660,7 @@ class MeetingRoomData:NSObject,RTCPeerConnectionDelegate,RTCSessionDescriptionDe
         print("didChangeBufferedAmount \(amount)")
         
     }
-    var newjson:JSON!
-    var myJSONdata:JSON!
-    var chunknumber:Int!
-    var strData:String!
+   
     
     func channel(channel: RTCDataChannel!, didReceiveMessageWithBuffer buffer: RTCDataBuffer!) {
         
@@ -1070,6 +1076,11 @@ request_chunk.put("data", request_data);
                 
                 
                 print("file writtennnnn \(s) \(filedata.debugDescription)")
+                    
+                    //FILE RECEIVED. NOTIFY CONTROLLER TO ENABLE VIEW BUTTON
+                    //------------------
+                    self.delegateConferenceFile.didReceiveFile()
+                    
                 }
                 /*var receivedfile=fm.contentsAtPath(filePathImage2)
                 do{var receivedfile2=try NSString(contentsOfFile: filePathImage2, encoding: NSUTF8StringEncoding)
@@ -1233,6 +1244,10 @@ CGPDFDocumentRef pdf   = CGPDFDocumentCreateWithProvider(provider);
 protocol ConferenceEndDelegate:class
 {
     func disconnectAll();
+}
+protocol ConferenceFileDelegate:class
+{
+    func didReceiveFile();
 }
 /*
 protocol ConferenceScreenDelegate:class

@@ -1717,6 +1717,8 @@ class VideoViewController: UIViewController,RTCPeerConnectionDelegate,RTCSession
                 
                 btnViewFile.enabled=true
                 print("file writtennnnn \(s) \(filedata.debugDescription)")
+                
+                self.didReceiveFileConference()
             }
             /*var receivedfile=fm.contentsAtPath(filePathImage2)
             do{var receivedfile2=try NSString(contentsOfFile: filePathImage2, encoding: NSUTF8StringEncoding)
@@ -1848,6 +1850,10 @@ class VideoViewController: UIViewController,RTCPeerConnectionDelegate,RTCSession
             self.sendDataBuffer(fmetadata,isb: false)
             socketObj.socket.emit("conference.chat", ["message":"You have received a file. Download and Save it.","username":username!])
             
+            let alert = UIAlertController(title: "Success", message: "Your file has been successfully sent", preferredStyle: UIAlertControllerStyle.Alert)
+            alert.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.Default, handler: nil))
+            self.presentViewController(alert, animated: true, completion: nil)
+
             
         }
         
@@ -1870,5 +1876,12 @@ class VideoViewController: UIViewController,RTCPeerConnectionDelegate,RTCSession
         
     }
 
+    func didReceiveFileConference()
+    {
+        btnViewFile.enabled=true
+        let alert = UIAlertController(title: "Success", message: "You have received a new file", preferredStyle: UIAlertControllerStyle.Alert)
+        alert.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.Default, handler: nil))
+        self.presentViewController(alert, animated: true, completion: nil)
+    }
     
 }
