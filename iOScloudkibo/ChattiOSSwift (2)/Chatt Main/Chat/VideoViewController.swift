@@ -38,6 +38,8 @@ class VideoViewController: UIViewController,RTCPeerConnectionDelegate,RTCSession
     var fileContentsReceived:NSData!
 
     //------
+    var localvideoshared=false
+    var remotevideoshared=false
     var screenshared=false
     var delegate:SocketClientDelegateWebRTC!
     @IBOutlet var localViewOutlet: UIView!
@@ -336,7 +338,41 @@ class VideoViewController: UIViewController,RTCPeerConnectionDelegate,RTCSession
     
     @IBAction func toggleVideoBtnPressed(sender: AnyObject) {
         videoAction = !videoAction.boolValue
+        localvideoshared=videoAction.boolValue
+        var w=localViewOutlet.bounds.width-(localViewOutlet.bounds.width*0.23)
+        var h=localViewOutlet.bounds.height-(localViewOutlet.bounds.height*0.27)
+        if(localvideoshared==false)
+        {
+            localView.hidden=true
+        }
+        else{
+            localView.hidden=false
+        }
         socketObj.socket.emit("conference.stream", ["username":username!,"id":currentID!,"type":"video","action":videoAction.boolValue])
+        
+       /* if(remotevideoshared==true && localvideoshared==true)
+        {
+           print("yesss sharedd")
+                dispatch_async(dispatch_get_main_queue(), {
+                    //self.rtcLocalVideoTrack.removeRenderer(self.localView)
+                    
+                    self.localView=RTCEAGLVideoView(frame: CGRect(x: w, y: h, width: 90, height: 85))
+                    self.localView.drawRect(CGRect(x: w, y: h, width: 90, height: 85))
+                    
+                    // self.remoteView.addConstraints(mediaConstraints.d)
+                    
+                        //self.rtcLocalVideoTrack.addRenderer(self.localView)
+                    
+                        ///self.localViewOutlet.addSubview(self.localView)
+                        self.localView.updateConstraints()
+                        self.localViewOutlet.updateConstraintsIfNeeded()
+                        self.localView.setNeedsDisplay()
+                        self.localViewOutlet.setNeedsDisplay()
+                    
+                })
+                
+            
+        }*/
         
         
         
@@ -439,11 +475,22 @@ class VideoViewController: UIViewController,RTCPeerConnectionDelegate,RTCSession
         
         //******************************************************************************
         /* self.localViewTop.setSize(CGSize(width: 500, height: 500))*/
-        self.localView=RTCEAGLVideoView(frame: CGRect(x: 0, y: 50, width: 500, height: 450))
-        self.localView.drawRect(CGRect(x: 0, y: 50, width: 500, height: 450))
-        self.remoteView=RTCEAGLVideoView(frame: CGRect(x: 0, y: 50, width: 500, height: 450))
-        self.remoteView.drawRect(CGRect(x: 0, y: 50, width: 500, height: 450))
+        ////self.localView=RTCEAGLVideoView(frame: CGRect(x: 0, y: 50, width: 500, height: 450))
+        ////self.localView.drawRect(CGRect(x: 0, y: 50, width: 500, height: 450))
         
+        
+       ////// self.remoteView=RTCEAGLVideoView(frame: CGRect(x: 0, y: 50, width: 500, height: 450))
+       //// self.remoteView.drawRect(CGRect(x: 0, y: 50, width: 500, height: 450))
+        var w=localViewOutlet.bounds.width-(localViewOutlet.bounds.width*0.23)
+        var h=localViewOutlet.bounds.height-(localViewOutlet.bounds.height*0.27)
+        
+        self.localView=RTCEAGLVideoView(frame: CGRect(x: w, y: h, width: 90, height: 85))
+        self.localView.drawRect(CGRect(x: w, y: h, width: 90, height: 85))
+        
+        
+        self.remoteView=RTCEAGLVideoView(frame: CGRect(x: 0, y: 50, width: 400, height: 370))
+        self.remoteView.drawRect(CGRect(x: 0, y: 50, width: 400, height: 370))
+
         var mainICEServerURL:NSURL=NSURL(fileURLWithPath: Constants.MainUrl)
         
         
@@ -606,6 +653,8 @@ class VideoViewController: UIViewController,RTCPeerConnectionDelegate,RTCSession
     func didReceiveLocalVideoTrack(localVideoTrack:RTCVideoTrack)
     {
         /////////dispatch_async(dispatch_get_main_queue(), {
+        
+        
         self.rtcLocalVideoTrack=localVideoTrack
         self.rtcLocalVideoTrack.addRenderer(self.localView)
         self.localViewOutlet.addSubview(self.localView)
@@ -627,6 +676,8 @@ class VideoViewController: UIViewController,RTCPeerConnectionDelegate,RTCSession
     
     func didReceiveLocalStream(stream:RTCMediaStream)
     {
+        
+        
         dispatch_async(dispatch_get_main_queue(), {
             self.localView=RTCEAGLVideoView(frame: CGRect(x: 0 , y: 150, width: 500, height: 350))
             
@@ -644,6 +695,9 @@ class VideoViewController: UIViewController,RTCPeerConnectionDelegate,RTCSession
                 self.localViewOutlet.setNeedsDisplay()
             }
         })
+      
+      
+        
     }
     
     
@@ -1107,12 +1161,14 @@ class VideoViewController: UIViewController,RTCPeerConnectionDelegate,RTCSession
             ////////////self.rtcVideoTrackReceived.setEnabled((datajson[0]["action"].bool!))
             if(datajson[0]["action"].bool! == false)
             {
-                self.localView.hidden=true
+                remotevideoshared=false
+                ///self.localView.hidden=false
                 self.remoteView.hidden=true
             }
             if(datajson[0]["action"].bool! == true)
             {
-                self.localView.hidden=true
+                remotevideoshared=true
+                //self.localView.hidden=true
                 self.remoteView.hidden=false
             }
         }
