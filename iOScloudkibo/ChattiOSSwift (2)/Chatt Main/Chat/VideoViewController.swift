@@ -115,58 +115,166 @@ class VideoViewController: UIViewController,RTCPeerConnectionDelegate,RTCSession
     }*/
     func timerFiredScreenCapture()
     {print("inside timerFiredScreenCapture")
-        // var myscreen=UIScreen.mainScreen().snapshotViewAfterScreenUpdates(true)
         
         //if(countTimer%2 == 0){
         
         //while(atimer.timeInterval < 3000)
-        for(var i=0;i<10;i++)
+        var chunkLength=64000
+        //UIImage(myscreen)
+        // for(var i=0;i<3000;i++)
+        //{
+        ////for window in UIApplication.sharedApplication().windows{
+        var screenshot:UIImage!
+        dispatch_async(dispatch_get_main_queue(), { () -> Void in
+            /*
+            UIGraphicsBeginImageContext(UIScreen.mainScreen().bounds.size)
+            self.view.drawViewHierarchyInRect(UIScreen.mainScreen().bounds, afterScreenUpdates: true)
+            print("width is \(UIScreen.mainScreen().bounds.width), height is \(UIScreen.mainScreen().bounds.height)")
+            var screenshot:UIImage=UIGraphicsGetImageFromCurrentImageContext()
+            UIGraphicsEndImageContext()
+            var imageData:NSData = UIImageJPEGRepresentation(screenshot, 1.0)!
+            var numchunks=0
+            var len=imageData.length
+            print("length is\(len)")
+            numchunks=len/chunkLength
+            print("numchunks are \(numchunks)")
+            
+            var test="\(imageData.length)"
+            */
+            //////////working
+            var myscreen=UIScreen.mainScreen().snapshotViewAfterScreenUpdates(true)
+            //var myscreen=UIApplication.sharedApplication().keyWindow?.snapshotViewAfterScreenUpdates(true)
+            //UIGraphicsBeginImageContext(myscreen!.bounds.size)
+            
+            ///workingg
+            UIGraphicsBeginImageContext(UIScreen.mainScreen().bounds.size)
+            ////////UIGraphicsBeginImageContext( UIScreen.mainScreen().bounds.size)
+            ///self.view.drawViewHierarchyInRect(window.layer.bounds, afterScreenUpdates: true)
+            self.view.drawViewHierarchyInRect(myscreen.bounds, afterScreenUpdates: true)
+            //print("width is \(UIScreen.mainScreen().bounds.width), height is \(UIScreen.mainScreen().bounds.height)")
+            print("width is \(myscreen.layer.bounds.width), height is \(myscreen.layer.bounds.height)")
+            //var context:CGContextRef=UIGraphicsGetCurrentContext()!;
+            //myscreen!.layer.renderInContext(context)
+            
+            screenshot=UIGraphicsGetImageFromCurrentImageContext()
+            UIGraphicsEndImageContext()
+            
+            
+            var imageData:NSData = UIImageJPEGRepresentation(screenshot, 1.0)!
+            var numchunks=0
+            var len=imageData.length
+            print("length is\(len)")
+            numchunks=len/chunkLength
+            print("numchunks are \(numchunks)")
+            
+            var test="\(imageData.length)"
+            
+            self.sendDataBuffer(test, isb: false)
+            
+            for(var j=0;j<numchunks;j++)
+            {
+                var start=j*chunkLength
+                var end=(j+1)*chunkLength
+                self.sendImage(imageData.subdataWithRange(NSMakeRange(start,len-start)))
+                
+            }
+            if((len%chunkLength) > 0)
+            {
+                //imageData.getBytes(&imageData, length: numchunks*chunkLength)
+                self.sendImage(imageData.subdataWithRange(NSMakeRange(numchunks*chunkLength, len%chunkLength)))
+                
+            }
+        })
+        //// }//end for windows
+        /*
+        var CHUNK_LEN = 64000;
+        // Get the image bytes and calculate the number of chunks
+        var img = canvas.getImageData(0, 0, canvasWidth, canvasHeight);
+        var len = img.data.byteLength;
+        var numChunks = len / CHUNK_LEN | 0;
+        // Let the other peer know in advance how many bytes to expect in total
+        dataChannel.send(len);
+        // Split the photo in chunks and send it over the data channel
+        for (var i = 0; i < n; i++) {
+        var start = i * CHUNK_LEN;
+        var end = (i+1) * CHUNK_LEN;
+        dataChannel.send(img.data.subarray(start, end));
+        }
+        // Send the reminder, if any
+        if (len % CHUNK_LEN) {
+        dataChannel.send(img.data.subarray(n * CHUNK_LEN));
+        }*/
+        
+        /*
+        var start=0;
+        if(len<chunkLength)
         {
-            for window in UIApplication.sharedApplication().windows{
-                
-                var bitmapBytesPerRow = Int(window.layer.bounds.size.width * 4)
-                var bitmapByteCount = Int(bitmapBytesPerRow * Int(window.layer.bounds.size.height))
-                var bitmapData=malloc(bitmapByteCount)
-                var colorSpace = CGColorSpaceCreateDeviceRGB()
-                var ww=Int(window.layer.bounds.size.width)
-                var hh=Int(window.layer.bounds.size.height)
-                //////CGBitmapContextCreate(bitmapData, ww , hh, 8, bitmapBytesPerRow, colorSpace,)
-                
-                ////UIGraphicsBeginImageContext(self.view.layer.bounds.size)
-                UIGraphicsBeginImageContext(window.layer.bounds.size)
-                ///    dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                self.view.drawViewHierarchyInRect(UIScreen.mainScreen().bounds, afterScreenUpdates: true)
-                
-                ///// window.layer.renderInContext(UIGraphicsGetCurrentContext()!)
-                var screenshot:UIImage=UIGraphicsGetImageFromCurrentImageContext()
-                UIGraphicsEndImageContext()
-                ////////////////// saveImage(screenshot)
-                var imageData:NSData = UIImageJPEGRepresentation(screenshot, 1.0)!
-                /////
-                ///////IMAGE SAVE CODE
-                /////
-                /*UIImageWriteToSavedPhotosAlbum(screenshot, nil, nil, nil)
-                ///  })
-                var paths:NSArray=NSSearchPathForDirectoriesInDomains(NSSearchPathDirectory.PicturesDirectory, NSSearchPathDomainMask.UserDomainMask, true)
-                var documentPath:NSString=paths.objectAtIndex(0) as! NSString
-                /////var filePath:NSString=documentPath.stringByAppendingPathComponent("cloudkibo\(self.countTimer).jpg")
-                UIImageWriteToSavedPhotosAlbum(screenshot, nil, nil, nil)
-                ////imageData.writeToFile(filePath as String, atomically: true)
-                ////print("image saved \(filePath)")
-                print("screen captured")
-                */
-                
-                var imageSent=rtcDataChannel.sendData(RTCDataBuffer(data: imageData, isBinary: true))
-                print("image senttttt \(imageSent)")
-                
-                //// }
-                ///else{
-                ////  print("not captured")
-                ///}
-            }}
+        print("inside first if")
+        print("len \(len) start \(start) start+chunklength is \(start+chunkLength)")
+        
+        print("chunk numberrrrr is \(numchunks)")
+        self.mdata.sendImage(imageData.subdataWithRange(NSMakeRange(0,len)))
+        }
+        else
+        {
+        var j=0
+        for(j=0;j<numchunks;j++)
+        {
+        print("inside for loop")
+        
+        start=j*chunkLength
+        //var end=(i+1)*chunkLength
+        
+        /*if(end>len)
+        {
+        end=len-1
+        }*/
+        print("len \(len) start \(start) start+chunklength is \(start+chunkLength)")
+        if(start+chunkLength > len)
+        {
+        print("inside screen if")
+        self.mdata.sendImage(imageData.subdataWithRange(NSMakeRange(start, len-start)))
+        
+        /////////self.mdata.sendImage(imageData.subdataWithRange(NSMakeRange(start, start-len)))
+        ////self.mdata.sendImage(imageData.subdataWithRange(NSMakeRange(start, len%chunkLength)))
+        break
+        
+        
+        /*len=start+chunkLength-len-1
+        print("changed len \(len) start \(start) start+chunklength is \(start+chunkLength)")
+        break
+        */
+        }
+        self.mdata.sendImage(imageData.subdataWithRange(NSMakeRange(start, chunkLength)))
+        /// self.mdata.sendImage(imageData.subdataWithRange(NSMakeRange(start, chunkLength-1)))
+        }
+        print("j is \(j)")
+        if(len%chunkLength>0)
+        {print("len%chunklength is \(len%chunkLength)")
+        self.mdata.sendImage(imageData.subdataWithRange(NSMakeRange(start+chunkLength,len%chunkLength)))
+        
+        print("inside mod if")
+        ////self.mdata.sendImage(imageData.subdataWithRange(NSMakeRange(numchunks*chunkLength,len-(numchunks*chunkLength))))
+        //self.mdata.sendImage(imageData.subdataWithRange(NSMakeRange(numchunks*chunkLength,len)))
+        }
+        
+        
+        }
+        */
+        
+        /////self.mdata.sendImage(imageData)
+        
+        // })
+        
+        
+        
+        
+        //mdata.sendImage(imageData)
+        ////////    }
+        //for loop end  }
         print("outside")
-        atimer.invalidate()
-        print("timer stopped")
+        /// atimer.invalidate()
+        /// print("timer stopped")
         
         
         
@@ -415,7 +523,7 @@ class VideoViewController: UIViewController,RTCPeerConnectionDelegate,RTCSession
                 
                 //////////////socketObj.socket.emit("message",["msg":"hangup","room":globalroom,"to":iamincallWith!,"username":username!])
                 
-                iamincallWith=nil
+                ///////tryy april 2016 iamincallWith=nil
                 //self.localView.removeFromSuperview()
                 //self.remoteView.removeFromSuperview()
                 self.localView=nil
@@ -1938,6 +2046,25 @@ class VideoViewController: UIViewController,RTCPeerConnectionDelegate,RTCSession
         let alert = UIAlertController(title: "Success", message: "You have received a new file", preferredStyle: UIAlertControllerStyle.Alert)
         alert.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.Default, handler: nil))
         self.presentViewController(alert, animated: true, completion: nil)
+    }
+    func sendImage(imageData:NSData)
+    {
+        
+        //var test="{length:\(imageData.length)}"
+        
+        
+        //dispatch_async(dispatch_get_main_queue(), { () -> Void in
+        var buf=Double(rtcDataChannel.bufferedAmount).value
+        var buflimit:Int64=16000000
+        
+        //if(buf < buflimit.value)
+        // {
+        var imageSent=self.rtcDataChannel.sendData(RTCDataBuffer(data: imageData, isBinary: true))
+        print("image senttttt \(imageSent)")
+        //}
+        
+        //})
+        
     }
     
 }
