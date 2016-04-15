@@ -13,6 +13,8 @@ import Alamofire
 import Contacts
 import CloudKit
 
+
+var webMeetingModel=webmeetingMsgsModel()
 //let socketObj=LoginAPI(url:"\(Constants.MainUrl)")
 var socketObj:LoginAPI!
 let sqliteDB=DatabaseHandler(dbName:"cloudkibo.sqlite3")
@@ -67,10 +69,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         UINavigationBar.appearance().titleTextAttributes = [NSForegroundColorAttributeName: UIColor.whiteColor()]
         
-        application.registerUserNotificationSettings(UIUserNotificationSettings(forTypes: [.Alert, .Badge, .Sound], categories: nil))  // types are UIUserNotificationType members
+        /*application.registerUserNotificationSettings(UIUserNotificationSettings(forTypes: [.Alert, .Badge, .Sound], categories: nil))  // types are UIUserNotificationType members
         
         application.registerForRemoteNotifications()
-        
+        */
         /*var fileManager=NSFileManager.defaultManager()
         var currentiCloudToken=fileManager.ubiquityIdentityToken
         if(currentiCloudToken != nil)

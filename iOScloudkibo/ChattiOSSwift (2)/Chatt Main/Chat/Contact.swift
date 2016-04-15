@@ -23,6 +23,7 @@ class iOSContact{
 
     func fetch()->[String]{
         var emails=[String]()
+        self.contacts.removeAll()
     print("inside fetchhhhh")
     let contactStore = CNContactStore()
      

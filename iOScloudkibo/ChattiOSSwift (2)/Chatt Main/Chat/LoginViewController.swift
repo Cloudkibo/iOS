@@ -30,8 +30,8 @@ class LoginViewController: UIViewController, UITextFieldDelegate{
         print("call pressed")
         
         username = "iphoneUser"
-        iamincallWith = "webConference"
-        isInitiator = true
+        //iamincallWith = "webConference"
+        isInitiator = false
         isConference = true
         ConferenceRoomName = txtForRoomName.text!
         /////////socketObj.sendMessagesOfMessageType("Conference Call")
@@ -90,7 +90,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate{
         }
         
         username = "iphoneUser"
-        iamincallWith = "webConference"
+        //iamincallWith = "webConference"
         isInitiator = false
         isConference = true
         ConferenceRoomName = txtForRoomName.text!
@@ -169,6 +169,29 @@ class LoginViewController: UIViewController, UITextFieldDelegate{
         
         
         // Do any additional setup after loading the view.
+    }
+    
+    override func viewWillAppear(animated: Bool) {
+        
+        if(socketObj == nil)
+        {
+            print("socket is nillll22", terminator: "")
+            socketObj=LoginAPI(url:"\(Constants.MainUrl)")
+            //socketObj.connect()
+            socketObj.addHandlers()
+            socketObj.addWebRTCHandlers()
+        }
+        
+    }
+    override func viewDidAppear(animated: Bool) {
+        if(socketObj == nil)
+        {
+            print("socket is nillll22", terminator: "")
+            socketObj=LoginAPI(url:"\(Constants.MainUrl)")
+            //socketObj.connect()
+            socketObj.addHandlers()
+            socketObj.addWebRTCHandlers()
+        }
     }
     
     func willShowKeyBoard(notification : NSNotification){

@@ -51,6 +51,7 @@ class LoginAPI{
         isBusy=false
         self.socket.connect()
         //self.delegate=SocketClientDelegate()
+        
     }
     /*
     func connect()
@@ -168,7 +169,9 @@ class LoginAPI{
             if(missedMsg == "Missed Call:")
             {print("inside missed notification")
                 let todoItem = NotificationItem(otherUserName: "\(iamincallWith!)", message: "you received a mised call", type: "missed call", UUID: "111", deadline: NSDate())
-                notificationsMainClass.sharedInstance.addItem(todoItem) // schedule a local notification to persist this item
+                /*notificationsMainClass.sharedInstance.addItem(todoItem)
+                */
+                // schedule a local notification to persist this item
                 
             }
         }
@@ -514,7 +517,7 @@ class LoginAPI{
             }
 */
             socketObj.socket.on("peer.disconnected.new"){data,ack in
-                print("received peer.disconnected obj from server")
+                print("received peer.disconnected.new obj from server")
                 var datajson=JSON(data)
                 print(datajson.debugDescription)
                 
@@ -533,8 +536,9 @@ class LoginAPI{
             
             socketObj.socket.on("conference.chat"){data,ack in
                 print("chat received")
-                self.delegateWebRTC.socketReceivedOtherWebRTC("conference.chat",data: data)
-                
+                ///self.delegateWebRTC.socketReceivedOtherWebRTC("conference.chat",data: data)
+                var chat=JSON(data)
+                webMeetingModel.addChatMsg(chat[0]["message"].description, usr: chat[0]["username"].description)
                 
                 
             }

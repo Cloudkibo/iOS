@@ -91,7 +91,10 @@ class CallRingingViewController: UIViewController//RTCPeerConnectionDelegate,RTC
             if(missedMsg == "Missed Call:")
             {print("inside missed notification")
                 let todoItem = NotificationItem(otherUserName: "abc", message: "you received a mised call", type: "missed call", UUID: "111", deadline: NSDate())
-                notificationsMainClass.sharedInstance.addItem(todoItem) // schedule a local notification to persist this item
+                
+                /*notificationsMainClass.sharedInstance.addItem(todoItem) 
+*/
+                // schedule a local notification to persist this item
                 
             }
         }

@@ -25,23 +25,20 @@ class WebmeetingChatViewController: UIViewController,WebMeetingChatDelegate {
         
         var tbl_userchats:Table!
         
-        var messages : NSMutableArray!
+        var messages : NSMutableArray! = webMeetingModel.messages
     
         var delegateChat:WebMeetingChatDelegate!
     
-    func receivedChatMessageApdateUI(message: String, username: String) {
-        //Reload table
-        tblForChats.reloadData()
-    
-    }
+   
+
     override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: NSBundle?)
         {
             super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
             print(NSBundle.debugDescription())
             
             // Custom initialization
-        }
-        
+}
+
         
         /*
         required init?(coder aDecoder: NSCoder) {
@@ -62,7 +59,7 @@ class WebmeetingChatViewController: UIViewController,WebMeetingChatDelegate {
             
             
             messages = webMeetingModel.messages
-            delegateChat=self
+            webMeetingModel.delegateWebmeetingChat = self
             
             
             self.NewChatNavigationTitle.title="webmeeting/test"
@@ -71,9 +68,9 @@ class WebmeetingChatViewController: UIViewController,WebMeetingChatDelegate {
             ///////messages.addObject(["message":"helloo","hiiii":"tstingggg","type":"1"])
             /*  self.addMessage("Its actually pretty good!", ofType: "1")
             self.addMessage("What do you think of this tool!", ofType: "2")*/
-        }
+}
     
-        
+
         
     
         override func didReceiveMemoryWarning() {
@@ -89,15 +86,22 @@ class WebmeetingChatViewController: UIViewController,WebMeetingChatDelegate {
             self.tblForChats.scrollToRowAtIndexPath(indexPath, atScrollPosition: UITableViewScrollPosition.Bottom, animated: true)
         }*/
     
-    func receivedChatMessageUpdateUI(message: String, username: String) {
-        
+
+    func receivedChatMessageUpdateUI()
+    {
         tblForChats.reloadData()
+        var indexPath = NSIndexPath(forRow:self.messages.count-1, inSection: 0)
+        self.tblForChats.scrollToRowAtIndexPath(indexPath, atScrollPosition: UITableViewScrollPosition.Bottom, animated: true)
+   
     }
     
     
         func addMessage(message: String, ofType msgType:String) {
             messages.addObject(["message":message, "type":msgType])
             tblForChats.reloadData()
+            var indexPath = NSIndexPath(forRow:self.messages.count-1, inSection: 0)
+            self.tblForChats.scrollToRowAtIndexPath(indexPath, atScrollPosition: UITableViewScrollPosition.Bottom, animated: true)
+
             
         }
     

@@ -19,7 +19,8 @@ class ConferenceCallViewController: UIViewController,ConferenceDelegate,Conferen
     var mdata:MeetingRoomData!
     //var mvideo:MeetingRoomVideo!
     ////////////////var rtcRemoteVideoStream:RTCMediaStream!
-    
+    var videostream:RTCMediaStream!
+    var vidstream:RTCMediaStream!
     @IBOutlet weak var btnFileView: UIBarButtonItem!
     
     @IBOutlet weak var btncapture: UIBarButtonItem!
@@ -105,15 +106,19 @@ class ConferenceCallViewController: UIViewController,ConferenceDelegate,Conferen
         if(actionVideo == true)
         {//isInitiator=true
             ///self.rtcLocalVideoStream=getLocalMediaStream()
+            
             if(self.rtcLocalVideoStream == nil)
             {self.rtcLocalVideoStream=createLocalVideoStream()}
-            mvideo.toggleVideo(actionVideo,s: rtcLocalVideoStream)
+            videostream=rtcLocalVideoStream
+            vidstream=rtcLocalVideoStream
+            
+            mvideo.toggleVideo(actionVideo,s: vidstream)
         }
         else{
             
-            mvideo.toggleVideo(actionVideo,s: nil)
+            mvideo.toggleVideo(actionVideo,s: vidstream)
             //isInitiator=false
-           //////////////////// resetVideo()
+           resetVideo()
             //mvideo.removeLocalMediaStreamFromPeerConnection()
             //////////////////^^^^^^^^^^newwwwwwwwwwwww mvideo.pc=nil
             /////////////////////////////////////////////////^^^^^^^^^^
@@ -150,6 +155,8 @@ class ConferenceCallViewController: UIViewController,ConferenceDelegate,Conferen
         
         if(screenCaptureToggle)
         {
+            socketObj.socket.emit("conference.streamScreen", ["username":username!,"id":currentID!,"type":"screenAndroid","action":"true"])
+            
             btncapture.title! = "Hide"
         
         if(mdata.pc == nil)
@@ -158,7 +165,7 @@ class ConferenceCallViewController: UIViewController,ConferenceDelegate,Conferen
             mdata.CreateAndAttachDataChannel()
         }
         
-            socketObj.socket.emit("conference.streamScreen", ["username":username!,"id":currentID!,"type":"screenAndroid","action":"true"])
+           ////////////tryy march 31 2016  socketObj.socket.emit("conference.streamScreen", ["username":username!,"id":currentID!,"type":"screenAndroid","action":"true"])
             atimer=NSTimer(timeInterval: 0.1, target: self, selector: "timerFiredScreenCapture", userInfo: nil, repeats: true)
             
         }
@@ -203,19 +210,35 @@ class ConferenceCallViewController: UIViewController,ConferenceDelegate,Conferen
            ////for window in UIApplication.sharedApplication().windows{
            var screenshot:UIImage!
             dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                /*
+                UIGraphicsBeginImageContext(UIScreen.mainScreen().bounds.size)
+                self.view.drawViewHierarchyInRect(UIScreen.mainScreen().bounds, afterScreenUpdates: true)
+                print("width is \(UIScreen.mainScreen().bounds.width), height is \(UIScreen.mainScreen().bounds.height)")
+                var screenshot:UIImage=UIGraphicsGetImageFromCurrentImageContext()
+                UIGraphicsEndImageContext()
+                var imageData:NSData = UIImageJPEGRepresentation(screenshot, 1.0)!
+                var numchunks=0
+                var len=imageData.length
+                print("length is\(len)")
+                numchunks=len/chunkLength
+                print("numchunks are \(numchunks)")
                 
-                //////////working var myscreen=UIScreen.mainScreen().snapshotViewAfterScreenUpdates(true)
-                var myscreen=UIApplication.sharedApplication().keyWindow?.snapshotViewAfterScreenUpdates(true)
-                UIGraphicsBeginImageContext(myscreen!.bounds.size)
+                var test="\(imageData.length)"
+                */
+                //////////working 
+                var myscreen=UIScreen.mainScreen().snapshotViewAfterScreenUpdates(true)
+                //var myscreen=UIApplication.sharedApplication().keyWindow?.snapshotViewAfterScreenUpdates(true)
+                //UIGraphicsBeginImageContext(myscreen!.bounds.size)
         
-                /////////workingg UIGraphicsBeginImageContext(UIScreen.mainScreen().bounds.size)
+                ///workingg
+                UIGraphicsBeginImageContext(UIScreen.mainScreen().bounds.size)
                 ////////UIGraphicsBeginImageContext( UIScreen.mainScreen().bounds.size)
                 ///self.view.drawViewHierarchyInRect(window.layer.bounds, afterScreenUpdates: true)
-                 self.view.drawViewHierarchyInRect(myscreen!.bounds, afterScreenUpdates: true)
+                 self.view.drawViewHierarchyInRect(myscreen.bounds, afterScreenUpdates: true)
                 //print("width is \(UIScreen.mainScreen().bounds.width), height is \(UIScreen.mainScreen().bounds.height)")
-                print("width is \(myscreen!.layer.bounds.width), height is \(myscreen!.layer.bounds.height)")
-                var context:CGContextRef=UIGraphicsGetCurrentContext()!;
-                myscreen!.layer.renderInContext(context)
+                print("width is \(myscreen.layer.bounds.width), height is \(myscreen.layer.bounds.height)")
+                //var context:CGContextRef=UIGraphicsGetCurrentContext()!;
+                //myscreen!.layer.renderInContext(context)
                 
                 screenshot=UIGraphicsGetImageFromCurrentImageContext()
                 UIGraphicsEndImageContext()
@@ -418,14 +441,47 @@ dataChannel.send(img.data.subarray(n * CHUNK_LEN));
     
     func didReceiveLocalVideoTrack(localVideoTrack: RTCVideoTrack) {
         
+        
+        
+        /*
+        self.rtcVideoTrackReceived=remoteVideoTrack
+        self.rtcVideoTrackReceived.addRenderer(self.remoteView)
+        self.localViewOutlet.addSubview(self.remoteView)
+        self.localViewOutlet.updateConstraintsIfNeeded()
+        
+        self.remoteView.setNeedsDisplay()
+        self.localView.setNeedsDisplay()
+        self.localViewOutlet.setNeedsDisplay()
+        if(self.localView.superview != nil)
+        {
+        self.localView.setNeedsDisplay()
+        }
+*/
         self.rtcLocalVideoTrack=localVideoTrack
         self.rtcLocalVideoTrack.addRenderer(self.localView)
         self.localViewOutlet.addSubview(self.localView)
-        /////////////////self.localViewOutlet.updateConstraintsIfNeeded()
-        ////////////////////////////self.remoteView.setNeedsDisplay()
+        
+        
+        //////march 30 2016
+        self.localViewOutlet.updateConstraintsIfNeeded()
+        
         self.localView.setNeedsDisplay()
+        
+        
+        //march 30 2016
+        self.remoteView.setNeedsDisplay()
+        
+        
         self.localViewOutlet.setNeedsDisplay()
         
+        /////march 30 2016
+        //--------
+        if(self.remoteView.superview != nil)
+        {
+            self.remoteView.setNeedsDisplay()
+        }
+        
+        ///-----
         //// mvideo.addLocalMediaStreamToPeerConnection(rtcLocalVideoStream)
         
     }
@@ -440,25 +496,10 @@ dataChannel.send(img.data.subarray(n * CHUNK_LEN));
         
         
         self.rtcVideoTrackReceived=remoteVideoTrack
-        /////////self.remoteView=RTCEAGLVideoView(frame: CGRect(x: 0, y: 0, width: 500, height: 500))
-        //////////self.remoteView.drawRect(CGRect(x: 0, y: 0, width: 500, height: 500))
-        
         self.rtcVideoTrackReceived.addRenderer(self.remoteView)
-        //////////////remoteVideoTrack.addRenderer(self.remoteView)
-        ///////self.remoteView.hidden=true // ^^^^newww
-        ////self.localView.setSize(CGSize(width: 200,height: 250))
-       
         self.localViewOutlet.addSubview(self.remoteView)
-        //self.localView=RTCEAGLVideoView(frame: CGRect(x: 0, y: 50, width: 50, height: 45))
-        //////////^^^^^^self.localView.setSize(CGSize(width: 50,height: 45))
-        //self.localView.drawRect(CGRect(x: 0, y: 50, width: 50, height: 45))
-        ///////^^^^^^^^^self.localView.updateConstraintsIfNeeded()
-        //////////^^^^^^^self.localViewOutlet.addSubview(localView)
-        /////self.localViewOutlet.addSubview(self.localView)
-        ///self.localViewOutlet.addSubview(self.remoteView)
         self.localViewOutlet.updateConstraintsIfNeeded()
         
-        //////////self.remoteView.updateConstraintsIfNeeded()
         self.remoteView.setNeedsDisplay()
         self.localView.setNeedsDisplay()
         self.localViewOutlet.setNeedsDisplay()
@@ -572,6 +613,9 @@ dataChannel.send(img.data.subarray(n * CHUNK_LEN));
     func didReceiveFile() {
         print("file receivedddddddddddddd;;;;;;;;")
         btnFileView.enabled=true
+        let alert = UIAlertController(title: "Success", message: "You have received a new file", preferredStyle: UIAlertControllerStyle.Alert)
+        alert.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.Default, handler: nil))
+        self.presentViewController(alert, animated: true, completion: nil)
         //btnFileView.tintColor=UIColor.blackColor()
     }
     
@@ -645,7 +689,7 @@ dataChannel.send(img.data.subarray(n * CHUNK_LEN));
         print(NSOpenStepRootDirectory())
         ///var UTIs=UTTypeCopyPreferredTagWithClass("public.image", kUTTypeImage)?.takeRetainedValue() as! [String]
         
-        let importMenu = UIDocumentMenuViewController(documentTypes: [kUTTypeText as NSString as String],
+        let importMenu = UIDocumentMenuViewController(documentTypes: [kUTTypePackage as String, kUTTypeText as NSString as String, kUTTypePDF as String,kUTTypeJPEG as String, kUTTypeMP3 as String, kUTTypeContent as String, kUTTypeData as String, kUTTypeDiskImage as String,"com.apple.iwork.keynote.key","com.apple.iwork.numbers.numbers","com.apple.iwork.pages.pages"],
             inMode: .Import)
         ///////let importMenu = UIDocumentMenuViewController(documentTypes: UTIs, inMode: .Import)
         importMenu.delegate = self
@@ -714,6 +758,9 @@ dataChannel.send(img.data.subarray(n * CHUNK_LEN));
             self.mdata.sendDataBuffer(fmetadata,isb: false)
             socketObj.socket.emit("conference.chat", ["message":"You have received a file. Download and Save it.","username":username!])
             
+            let alert = UIAlertController(title: "Success", message: "Your file has been successfully sent", preferredStyle: UIAlertControllerStyle.Alert)
+            alert.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.Default, handler: nil))
+            self.presentViewController(alert, animated: true, completion: nil)
             
         }
 

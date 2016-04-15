@@ -8,7 +8,7 @@
 
 import Foundation
 class RoomService{
-    
+    /*
     var peers:[Peer]=[]
     var streams:[RTCMediaStream]=[]
    
@@ -84,5 +84,5 @@ connected = true;
         
     }
     
-    
+    */
 }

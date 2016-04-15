@@ -10,7 +10,7 @@
         <!--Login View Controller-->
         <scene sceneID="f3k-q2-qtU">
             <objects>
-                <viewController id="519-eF-35I" customClass="LoginViewController" customModule="Chat" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController restorationIdentifier="mainpage" storyboardIdentifier="mainpage" id="519-eF-35I" customClass="LoginViewController" customModule="Chat" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="96o-Cj-rqK"/>
                         <viewControllerLayoutGuide type="bottom" id="AyS-xI-Nfi"/>
@@ -25,33 +25,51 @@
                                     <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="oK7-lH-a2E" userLabel="View - User">
                                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                                         <subviews>
-                                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="logo_chatt" translatesAutoresizingMaskIntoConstraints="NO" id="maJ-Q6-3t4" userLabel="Img - Logo">
-                                                <rect key="frame" x="88" y="22" width="145" height="135"/>
-                                            </imageView>
-                                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gf2-G6-WLl" userLabel="Btn - Facebook">
-                                                <rect key="frame" x="28" y="179" width="125" height="56"/>
+                                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="qop-Ha-0a7" userLabel="View - Roomname">
+                                                <rect key="frame" x="28" y="115" width="264" height="56"/>
+                                                <subviews>
+                                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="login_text_background" translatesAutoresizingMaskIntoConstraints="NO" id="jgB-JR-etK" userLabel="Img - Background">
+                                                        <rect key="frame" x="0.0" y="0.0" width="264" height="56"/>
+                                                    </imageView>
+                                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Room name" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="WxN-59-A4o" userLabel="Txt - Password">
+                                                        <rect key="frame" x="20" y="12" width="224" height="32"/>
+                                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                        <textInputTraits key="textInputTraits" returnKeyType="done"/>
+                                                        <connections>
+                                                            <outlet property="delegate" destination="519-eF-35I" id="2sa-wa-giG"/>
+                                                        </connections>
+                                                    </textField>
+                                                </subviews>
+                                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                            </view>
+                                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="c0I-DY-yGf" userLabel="Btn - ConferenceStart">
+                                                <rect key="frame" x="28" y="185" width="125" height="56"/>
+                                                <color key="backgroundColor" red="0.11764705882352941" green="0.58431372549019611" blue="0.18823529411764706" alpha="1" colorSpace="calibratedRGB"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                                <state key="normal" image="login_facebook">
-                                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                                <state key="normal" title="Conference">
+                                                    <color key="titleColor" red="0.96909065701839314" green="1" blue="0.96733392469021995" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <color key="titleShadowColor" red="0.060141317105874642" green="0.27237215909090906" blue="0.066708786942120679" alpha="1" colorSpace="calibratedRGB"/>
                                                 </state>
                                                 <connections>
-                                                    <action selector="facebookBtnTapped" destination="519-eF-35I" eventType="touchUpInside" id="3sk-zM-eGO"/>
+                                                    <action selector="btnConferenceStart:" destination="519-eF-35I" eventType="touchUpInside" id="es0-D3-p9g"/>
                                                 </connections>
                                             </button>
-                                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Vgw-2y-M1w" userLabel="Btn - Twitter">
-                                                <rect key="frame" x="167" y="179" width="125" height="56"/>
+                                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8a9-hM-erS" userLabel="Btn - ConferenceStart">
+                                                <rect key="frame" x="167" y="185" width="125" height="56"/>
+                                                <color key="backgroundColor" red="0.11372549019607843" green="0.63529411764705879" blue="0.24705882352941178" alpha="1" colorSpace="calibratedRGB"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                                <state key="normal" image="login_twitter">
-                                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                                <state key="normal" title="Webmeeting">
+                                                    <color key="titleColor" red="0.97543724741829962" green="0.93664525419779976" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <color key="titleShadowColor" red="0.060141317110000002" green="0.27237215910000001" blue="0.066708786940000001" alpha="1" colorSpace="calibratedRGB"/>
                                                 </state>
                                                 <connections>
-                                                    <action selector="twitterBtnTapped" destination="519-eF-35I" eventType="touchUpInside" id="FhX-0u-YkF"/>
+                                                    <action selector="btnWebmeetingStart:" destination="519-eF-35I" eventType="touchUpInside" id="7pz-sk-IFt"/>
                                                 </connections>
                                             </button>
                                             <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="szt-Ze-nMX" userLabel="View - Email">
-                                                <rect key="frame" x="28" y="243" width="264" height="56"/>
+                                                <rect key="frame" x="28" y="305" width="264" height="56"/>
                                                 <subviews>
-                                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="login_text_background" translatesAutoresizingMaskIntoConstraints="NO" id="xRk-K0-k5b" userLabel="Img - Background">
+                                                    <imageView contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="login_text_background" translatesAutoresizingMaskIntoConstraints="NO" id="xRk-K0-k5b" userLabel="Img - Background">
                                                         <rect key="frame" x="0.0" y="0.0" width="264" height="56"/>
                                                     </imageView>
                                                     <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="email" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="adW-sx-O0L" userLabel="Txt - Email">
@@ -66,9 +84,9 @@
                                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                             </view>
                                             <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Z97-V1-Bhv" userLabel="View - Password">
-                                                <rect key="frame" x="28" y="307" width="264" height="56"/>
+                                                <rect key="frame" x="28" y="369" width="264" height="56"/>
                                                 <subviews>
-                                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="login_text_background" translatesAutoresizingMaskIntoConstraints="NO" id="3HQ-aX-IJ9" userLabel="Img - Background">
+                                                    <imageView contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="login_text_background" translatesAutoresizingMaskIntoConstraints="NO" id="3HQ-aX-IJ9" userLabel="Img - Background">
                                                         <rect key="frame" x="0.0" y="0.0" width="264" height="56"/>
                                                     </imageView>
                                                     <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="password" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="FM4-cl-KU9" userLabel="Txt - Password">
@@ -83,13 +101,13 @@
                                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                             </view>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CAW-Me-XSX">
-                                                <rect key="frame" x="28" y="238" width="264" height="21"/>
+                                                <rect key="frame" x="28" y="434" width="264" height="21"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                                 <color key="textColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="HHO-av-rto" userLabel="Btn - Register">
-                                                <rect key="frame" x="28" y="416" width="264" height="56"/>
+                                                <rect key="frame" x="28" y="478" width="264" height="56"/>
                                                 <state key="normal" image="login_register">
                                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                                 </state>
@@ -98,7 +116,7 @@
                                                 </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="tRc-Fc-R5S" userLabel="Btn - Login">
-                                                <rect key="frame" x="137" y="371" width="46" height="22"/>
+                                                <rect key="frame" x="137" y="433" width="46" height="22"/>
                                                 <state key="normal" image="login_button">
                                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                                 </state>
@@ -107,7 +125,7 @@
                                                 </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="DMw-AI-jrc" userLabel="Btn - Forgot">
-                                                <rect key="frame" x="102" y="396" width="117" height="12"/>
+                                                <rect key="frame" x="102" y="458" width="117" height="12"/>
                                                 <state key="normal" image="login_forgot">
                                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                                 </state>
@@ -115,34 +133,21 @@
                                                     <action selector="forgotPasswordBtnTapped" destination="519-eF-35I" eventType="touchUpInside" id="9Oq-uE-t2w"/>
                                                 </connections>
                                             </button>
-                                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="qop-Ha-0a7" userLabel="View - Roomname">
-                                                <rect key="frame" x="28" y="484" width="235" height="56"/>
-                                                <subviews>
-                                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="login_text_background" translatesAutoresizingMaskIntoConstraints="NO" id="jgB-JR-etK" userLabel="Img - Background">
-                                                        <rect key="frame" x="0.0" y="0.0" width="264" height="56"/>
-                                                    </imageView>
-                                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Room name" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="WxN-59-A4o" userLabel="Txt - Password">
-                                                        <rect key="frame" x="20" y="12" width="224" height="32"/>
-                                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                                        <textInputTraits key="textInputTraits" returnKeyType="done" secureTextEntry="YES"/>
-                                                        <connections>
-                                                            <outlet property="delegate" destination="519-eF-35I" id="2sa-wa-giG"/>
-                                                        </connections>
-                                                    </textField>
-                                                </subviews>
-                                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                            </view>
-                                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="c0I-DY-yGf" userLabel="Btn - ConferenceStart">
-                                                <rect key="frame" x="271" y="484" width="21" height="56"/>
-                                                <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                                <state key="normal" image="chat_arrow">
-                                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                                </state>
-                                                <connections>
-                                                    <action selector="btnConferenceStart:" destination="519-eF-35I" eventType="touchUpInside" id="es0-D3-p9g"/>
-                                                    <action selector="twitterBtnTapped" destination="519-eF-35I" eventType="touchUpInside" id="cOq-93-ctT"/>
-                                                    <segue destination="VkD-da-dMy" kind="modal" id="b1u-Xo-oPs"/>
-                                                </connections>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Join Meeting" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Tot-09-2fK">
+                                                <rect key="frame" x="28" y="65" width="264" height="42"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Login to Cloudkibo Application" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wfa-HY-wgX">
+                                                <rect key="frame" x="28" y="249" width="264" height="43"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <button opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yBZ-y1-9ck">
+                                                <rect key="frame" x="137" y="27" width="46" height="30"/>
+                                                <state key="normal" backgroundImage="logo"/>
                                             </button>
                                         </subviews>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -1218,6 +1223,9 @@
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="JG4-Yn-Cwj">
                                 <rect key="frame" x="246" y="530" width="58" height="30"/>
+                                <accessibility key="accessibilityConfiguration">
+                                    <bool key="isElement" value="NO"/>
+                                </accessibility>
                                 <state key="normal" title="End Call">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
@@ -1248,9 +1256,9 @@
                                 <color key="barTintColor" red="0.090196078431372548" green="0.68627450980392157" blue="0.33725490196078434" alpha="1" colorSpace="calibratedRGB"/>
                                 <items>
                                     <navigationItem id="jxX-Mf-K5x">
-                                        <barButtonItem key="backBarButtonItem" title="Item" id="O8B-ca-1RO">
+                                        <barButtonItem key="backBarButtonItem" title="Chat" id="O8B-ca-1RO">
                                             <connections>
-                                                <action selector="backbtnPressed:" destination="VkD-da-dMy" id="EcD-mT-UkP"/>
+                                                <segue destination="ZmW-9n-qGp" kind="modal" id="8LM-cv-XXH"/>
                                             </connections>
                                         </barButtonItem>
                                         <rightBarButtonItems>
@@ -1259,12 +1267,12 @@
                                                     <action selector="btnCapturePressed:" destination="VkD-da-dMy" id="hB8-tt-3Qi"/>
                                                 </connections>
                                             </barButtonItem>
-                                            <barButtonItem title="File" id="4Nv-SW-SrJ" userLabel="file">
+                                            <barButtonItem title="Share" id="4Nv-SW-SrJ" userLabel="file">
                                                 <connections>
                                                     <action selector="btnFileSharePressed:" destination="VkD-da-dMy" id="QxD-AG-U7K"/>
                                                 </connections>
                                             </barButtonItem>
-                                            <barButtonItem title="view" id="Rds-G3-nkw">
+                                            <barButtonItem enabled="NO" title="View" id="Rds-G3-nkw">
                                                 <connections>
                                                     <segue destination="Exh-2t-JZc" kind="modal" id="X5X-Qt-8lc"/>
                                                 </connections>
@@ -1291,6 +1299,7 @@
                     <navigationItem key="navigationItem" id="JU6-t2-ivy"/>
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
+                        <outlet property="btnFileView" destination="Rds-G3-nkw" id="Ijc-hr-cVL"/>
                         <outlet property="btncapture" destination="Nba-B7-Etl" id="7eq-yr-qgl"/>
                         <outlet property="localViewOutlet" destination="KSC-m3-8y7" id="cdR-8Y-Nqy"/>
                     </connections>
@@ -1654,12 +1663,21 @@
                                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
-                                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="logo_chatt" translatesAutoresizingMaskIntoConstraints="NO" id="k6W-iH-XJk" userLabel="Img - Logo">
-                                                <rect key="frame" x="105" y="8" width="110" height="93"/>
-                                            </imageView>
                                         </subviews>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                     </view>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="logo_chatt" translatesAutoresizingMaskIntoConstraints="NO" id="k6W-iH-XJk" userLabel="Img - Logo">
+                                        <rect key="frame" x="105" y="49" width="110" height="93"/>
+                                    </imageView>
+                                    <navigationBar contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="sg7-4V-ACj">
+                                        <rect key="frame" x="0.0" y="-5" width="320" height="44"/>
+                                        <color key="barTintColor" red="0.14901960784313725" green="0.66274509803921566" blue="0.30980392156862746" alpha="1" colorSpace="calibratedRGB"/>
+                                        <items>
+                                            <navigationItem title="Register" id="9ix-El-WAQ">
+                                                <barButtonItem key="leftBarButtonItem" title="Back" id="HGD-DU-4Zd"/>
+                                            </navigationItem>
+                                        </items>
+                                    </navigationBar>
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
@@ -1882,14 +1900,26 @@
                                     <action selector="btnFilePreviewPressed:" destination="Exh-2t-JZc" eventType="touchUpInside" id="e9n-Hi-3lt"/>
                                 </connections>
                             </button>
+                            <navigationBar contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ces-VU-2ZN">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                                <color key="barTintColor" red="0.14901960784313725" green="0.66274509803921566" blue="0.30980392156862746" alpha="1" colorSpace="calibratedRGB"/>
+                                <items>
+                                    <navigationItem id="dy2-gu-gBI">
+                                        <barButtonItem key="leftBarButtonItem" title="Back" id="SRf-ZL-sQS">
+                                            <connections>
+                                                <action selector="btn_backPressed:" destination="Exh-2t-JZc" id="IfT-ao-XqB"/>
+                                            </connections>
+                                        </barButtonItem>
+                                    </navigationItem>
+                                </items>
+                            </navigationBar>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
-                    <navigationItem key="navigationItem" id="dy2-gu-gBI"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="xbH-r1-Jr9" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1337" y="-2345"/>
+            <point key="canvasLocation" x="1503" y="-2413"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="3Qu-ph-XPJ">
@@ -2512,6 +2542,105 @@
             </objects>
             <point key="canvasLocation" x="2008" y="-521"/>
         </scene>
+        <!--Video View Controller-->
+        <scene sceneID="Kj3-zU-HQQ">
+            <objects>
+                <viewController restorationIdentifier="MainV2" storyboardIdentifier="MainV2" id="m3L-mH-iZu" customClass="VideoViewController" customModule="Chat" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="LeC-G2-GD7"/>
+                        <viewControllerLayoutGuide type="bottom" id="OsI-dH-ON0"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="0mV-ZG-QD5" userLabel="LocalView">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="F6y-hL-LW0">
+                                <rect key="frame" x="246" y="530" width="58" height="30"/>
+                                <accessibility key="accessibilityConfiguration">
+                                    <bool key="isElement" value="NO"/>
+                                </accessibility>
+                                <state key="normal" title="End Call">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="endCallBtnPressed:" destination="m3L-mH-iZu" eventType="touchUpInside" id="3e0-1w-Tix"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="EO0-nM-1bE">
+                                <rect key="frame" x="16" y="530" width="88" height="30"/>
+                                <state key="normal" title="Toggle Video">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="toggleVideoBtnPressed:" destination="m3L-mH-iZu" eventType="touchUpInside" id="uGu-FS-a0c"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="52F-42-Gn2">
+                                <rect key="frame" x="112" y="530" width="90" height="30"/>
+                                <state key="normal" title="Toggle Audio">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="toggleAudioPressed:" destination="m3L-mH-iZu" eventType="touchUpInside" id="Oxo-Z3-soe"/>
+                                </connections>
+                            </button>
+                            <navigationBar contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="rlU-dg-Izy">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                                <color key="barTintColor" red="0.090196078430000007" green="0.68627450980000004" blue="0.33725490200000002" alpha="1" colorSpace="calibratedRGB"/>
+                                <items>
+                                    <navigationItem id="JPX-3t-RGh">
+                                        <barButtonItem key="backBarButtonItem" title="Chat" id="1Q3-hY-TkG">
+                                            <connections>
+                                                <segue destination="ZmW-9n-qGp" kind="modal" id="3Qa-aS-eRu"/>
+                                            </connections>
+                                        </barButtonItem>
+                                        <rightBarButtonItems>
+                                            <barButtonItem title="Capture" id="xOo-F1-erW" userLabel="capture">
+                                                <connections>
+                                                    <action selector="btnCapturePressed:" destination="m3L-mH-iZu" id="zul-Dz-cAu"/>
+                                                </connections>
+                                            </barButtonItem>
+                                            <barButtonItem enabled="NO" title="View" id="qw0-sO-Rab">
+                                                <connections>
+                                                    <segue destination="Exh-2t-JZc" kind="modal" id="Cjg-Ar-cdZ"/>
+                                                </connections>
+                                            </barButtonItem>
+                                            <barButtonItem title="Share" id="A7v-i2-gQr">
+                                                <connections>
+                                                    <action selector="btnFilePressed:" destination="m3L-mH-iZu" id="TZf-44-YaL"/>
+                                                </connections>
+                                            </barButtonItem>
+                                        </rightBarButtonItems>
+                                        <connections>
+                                            <outlet property="leftBarButtonItem" destination="1Q3-hY-TkG" id="0hv-0Y-oR0"/>
+                                        </connections>
+                                    </navigationItem>
+                                </items>
+                            </navigationBar>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="52F-42-Gn2" firstAttribute="leading" secondItem="EO0-nM-1bE" secondAttribute="trailing" constant="8" symbolic="YES" id="DIb-oR-WqN"/>
+                            <constraint firstItem="OsI-dH-ON0" firstAttribute="top" secondItem="F6y-hL-LW0" secondAttribute="bottom" constant="8" id="DnI-d3-dzs"/>
+                            <constraint firstItem="EO0-nM-1bE" firstAttribute="baseline" secondItem="F6y-hL-LW0" secondAttribute="baseline" id="NdJ-lf-h03"/>
+                            <constraint firstItem="52F-42-Gn2" firstAttribute="baseline" secondItem="EO0-nM-1bE" secondAttribute="baseline" id="cZt-5l-97x"/>
+                            <constraint firstItem="EO0-nM-1bE" firstAttribute="leading" secondItem="0mV-ZG-QD5" secondAttribute="leadingMargin" id="egh-l9-IUQ"/>
+                            <constraint firstItem="F6y-hL-LW0" firstAttribute="trailing" secondItem="0mV-ZG-QD5" secondAttribute="trailingMargin" id="oON-uP-MZs"/>
+                        </constraints>
+                    </view>
+                    <toolbarItems/>
+                    <navigationItem key="navigationItem" id="yPy-Eu-8oE"/>
+                    <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
+                    <connections>
+                        <outlet property="btnViewFile" destination="qw0-sO-Rab" id="0OW-LD-quf"/>
+                        <outlet property="btncapture" destination="xOo-F1-erW" id="XhU-i6-JUG"/>
+                        <outlet property="localViewOutlet" destination="0mV-ZG-QD5" id="Ni1-0B-QTI"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="F9m-2N-USX" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1054" y="-2521"/>
+        </scene>
     </scenes>
     <resources>
         <image name="chat_arrow" width="6" height="11"/>
@@ -2526,11 +2655,10 @@
         <image name="chat_send" width="232" height="51"/>
         <image name="chat_user_small" width="26" height="26"/>
         <image name="login_button" width="46" height="16"/>
-        <image name="login_facebook" width="125" height="56"/>
         <image name="login_forgot" width="117" height="10"/>
         <image name="login_register" width="264" height="56"/>
         <image name="login_text_background" width="264" height="56"/>
-        <image name="login_twitter" width="125" height="56"/>
+        <image name="logo" width="77" height="36"/>
         <image name="logo_chatt" width="145" height="135"/>
         <image name="navi_logo.png" width="52" height="52"/>
         <image name="navi_search" width="16" height="16"/>
@@ -2546,7 +2674,9 @@
         <image name="tabbar_project" width="30" height="38"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="Spe-dd-EXu"/>
+        <segue reference="OaJ-Hk-2uB"/>
+        <segue reference="8LM-cv-XXH"/>
+        <segue reference="X5X-Qt-8lc"/>
         <segue reference="Lsn-aA-q1J"/>
     </inferredMetricsTieBreakers>
 </document>

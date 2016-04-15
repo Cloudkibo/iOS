@@ -5,7 +5,7 @@
 //  Created by Cloudkibo on 12/11/2015.
 //  Copyright (c) 2015 MyAppTemplates. All rights reserved.
 //
-
+/*
 import Foundation
 import SwiftyJSON
 import UIKit
@@ -465,5 +465,5 @@ protocol ChatAppClientDelegate
 }
 
 
-
+*/
 
