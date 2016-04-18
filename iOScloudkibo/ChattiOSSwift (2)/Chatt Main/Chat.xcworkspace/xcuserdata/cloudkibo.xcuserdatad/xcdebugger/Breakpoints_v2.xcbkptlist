@@ -1300,11 +1300,27 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "../../../../../iOSupdated/iOScloudkibo/ChattiOSSwift (2)/Chatt Main/Chat/VideoViewController.swift"
-            timestampString = "482632873.703558"
+            timestampString = "482672090.472991"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1506"
-            endingLineNumber = "1506"
+            startingLineNumber = "1352"
+            endingLineNumber = "1352"
+            landmarkName = "handlePeerDisconnected(_:)"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "../../../../../iOSupdated/iOScloudkibo/ChattiOSSwift (2)/Chatt Main/Chat/VideoViewController.swift"
+            timestampString = "482672090.472991"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "1363"
+            endingLineNumber = "1363"
             landmarkName = "handleConferenceStream(_:)"
             landmarkType = "5">
          </BreakpointContent>
@@ -1316,28 +1332,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "../../../../../iOSupdated/iOScloudkibo/ChattiOSSwift (2)/Chatt Main/Chat/VideoViewController.swift"
-            timestampString = "482632873.703558"
+            timestampString = "482672090.472991"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1517"
-            endingLineNumber = "1517"
-            landmarkName = "handleConferenceStream(_:)"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "../../../../../iOSupdated/iOScloudkibo/ChattiOSSwift (2)/Chatt Main/Chat/VideoViewController.swift"
-            timestampString = "482632873.703558"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1511"
-            endingLineNumber = "1511"
-            landmarkName = "handleConferenceStream(_:)"
+            startingLineNumber = "1357"
+            endingLineNumber = "1357"
+            landmarkName = "handlePeerDisconnected(_:)"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -1348,12 +1348,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "../../../../../iOSupdated/iOScloudkibo/ChattiOSSwift (2)/Chatt Main/Chat/VideoViewController.swift"
-            timestampString = "482632873.703558"
+            timestampString = "482672090.472991"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1501"
-            endingLineNumber = "1501"
-            landmarkName = "handleConferenceStream(_:)"
+            startingLineNumber = "1347"
+            endingLineNumber = "1347"
+            landmarkName = "handlePeerDisconnected(_:)"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -1364,12 +1364,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "../../../../../iOSupdated/iOScloudkibo/ChattiOSSwift (2)/Chatt Main/Chat/VideoViewController.swift"
-            timestampString = "482632873.703558"
+            timestampString = "482672090.472991"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1500"
-            endingLineNumber = "1500"
-            landmarkName = "handleConferenceStream(_:)"
+            startingLineNumber = "1346"
+            endingLineNumber = "1346"
+            landmarkName = "handlePeerDisconnected(_:)"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
