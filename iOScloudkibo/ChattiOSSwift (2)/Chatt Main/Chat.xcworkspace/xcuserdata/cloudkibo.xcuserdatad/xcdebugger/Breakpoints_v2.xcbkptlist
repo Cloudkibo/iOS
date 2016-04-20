@@ -1300,11 +1300,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "../../../../../iOSupdated/iOScloudkibo/ChattiOSSwift (2)/Chatt Main/Chat/VideoViewController.swift"
-            timestampString = "482672090.472991"
+            timestampString = "482860766.883048"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1352"
-            endingLineNumber = "1352"
+            startingLineNumber = "1237"
+            endingLineNumber = "1237"
             landmarkName = "handlePeerDisconnected(_:)"
             landmarkType = "5">
          </BreakpointContent>
@@ -1316,11 +1316,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "../../../../../iOSupdated/iOScloudkibo/ChattiOSSwift (2)/Chatt Main/Chat/VideoViewController.swift"
-            timestampString = "482672090.472991"
+            timestampString = "482860766.883048"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1363"
-            endingLineNumber = "1363"
+            startingLineNumber = "1248"
+            endingLineNumber = "1248"
             landmarkName = "handleConferenceStream(_:)"
             landmarkType = "5">
          </BreakpointContent>
@@ -1332,11 +1332,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "../../../../../iOSupdated/iOScloudkibo/ChattiOSSwift (2)/Chatt Main/Chat/VideoViewController.swift"
-            timestampString = "482672090.472991"
+            timestampString = "482860766.883048"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1357"
-            endingLineNumber = "1357"
+            startingLineNumber = "1242"
+            endingLineNumber = "1242"
             landmarkName = "handlePeerDisconnected(_:)"
             landmarkType = "5">
          </BreakpointContent>
@@ -1348,11 +1348,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "../../../../../iOSupdated/iOScloudkibo/ChattiOSSwift (2)/Chatt Main/Chat/VideoViewController.swift"
-            timestampString = "482672090.472991"
+            timestampString = "482860766.883048"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1347"
-            endingLineNumber = "1347"
+            startingLineNumber = "1232"
+            endingLineNumber = "1232"
             landmarkName = "handlePeerDisconnected(_:)"
             landmarkType = "5">
          </BreakpointContent>
@@ -1364,12 +1364,44 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "../../../../../iOSupdated/iOScloudkibo/ChattiOSSwift (2)/Chatt Main/Chat/VideoViewController.swift"
-            timestampString = "482672090.472991"
+            timestampString = "482860766.883048"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1346"
-            endingLineNumber = "1346"
+            startingLineNumber = "1231"
+            endingLineNumber = "1231"
             landmarkName = "handlePeerDisconnected(_:)"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "../../../../../iOSupdated/iOScloudkibo/ChattiOSSwift (2)/Chatt Main/Chat/AppDelegate.swift"
+            timestampString = "482757861.145498"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "320"
+            endingLineNumber = "320"
+            landmarkName = "application(_:didRegisterForRemoteNotificationsWithDeviceToken:)"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "../../../../../iOSupdated/iOScloudkibo/ChattiOSSwift (2)/Chatt Main/Chat/VideoViewController.swift"
+            timestampString = "482860766.883048"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "2062"
+            endingLineNumber = "2062"
+            landmarkName = "sendImage(_:)"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
