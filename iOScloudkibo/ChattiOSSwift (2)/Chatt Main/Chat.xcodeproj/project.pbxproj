@@ -211,7 +211,7 @@
 
 /* Begin PBXFileReference section */
 		5BF6362519A9F3D900ABD0BA /* Chat.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Chat.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		5BF6363119A9F3D900ABD0BA /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
+		5BF6363119A9F3D900ABD0BA /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = "../../../../../sumairaGit/iOS/iOScloudkibo/ChattiOSSwift (2)/Chatt Main/Chat/Images.xcassets"; sourceTree = "<group>"; };
 		5BF6363719A9F3D900ABD0BA /* ChatTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ChatTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		710EF26B1C96B16500578739 /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = System/Library/Frameworks/CloudKit.framework; sourceTree = SDKROOT; };
 		713D50F71CC11465007E0B47 /* SwiftyJSON.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SwiftyJSON.xcodeproj; path = "../../../../../../Desktop/iOSupdated/iOScloudkibo/ChattiOSSwift (2)/Chatt Main/SwiftyJSON/SwiftyJSON.xcodeproj"; sourceTree = "<group>"; };

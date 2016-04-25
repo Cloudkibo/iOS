@@ -1396,11 +1396,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "../../../../../iOSupdated/iOScloudkibo/ChattiOSSwift (2)/Chatt Main/Chat/VideoViewController.swift"
-            timestampString = "483209200.093506"
+            timestampString = "483223532.449396"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "2067"
-            endingLineNumber = "2067"
+            startingLineNumber = "2090"
+            endingLineNumber = "2090"
             landmarkName = "sendImage(_:)"
             landmarkType = "5">
          </BreakpointContent>
