@@ -409,7 +409,7 @@
 				5BF6362819A9F3D900ABD0BA /* Supporting Files */,
 			);
 			name = Chat;
-			path = "/Users/cloudkibo/Documents/iOSnewLogic/iOS/iOScloudkibo/ChattiOSSwift (2)/Chatt Main/../../../../../../Desktop/iOSupdated/iOScloudkibo/ChattiOSSwift (2)/Chatt Main/Chat";
+			path = "/Users/cloudkibo/Desktop/iOSupdated/iOScloudkibo/ChattiOSSwift (2)/Chatt Main/Chat";
 			sourceTree = "<absolute>";
 		};
 		5BF6362819A9F3D900ABD0BA /* Supporting Files */ = {

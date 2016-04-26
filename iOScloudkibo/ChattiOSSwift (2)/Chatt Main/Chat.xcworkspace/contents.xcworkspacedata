@@ -2,7 +2,7 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "group:/Users/cloudkibo/Documents/iOSnewLogic/iOS/iOScloudkibo/ChattiOSSwift (2)/Chatt Main/Chat.xcodeproj">
+      location = "absolute:/Users/cloudkibo/Documents/iOSnewLogic/iOS/iOScloudkibo/ChattiOSSwift (2)/Chatt Main/Chat.xcodeproj">
    </FileRef>
    <FileRef
       location = "group:Pods/Pods.xcodeproj">
