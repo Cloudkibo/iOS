@@ -1363,8 +1363,8 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "2603"
             endingLineNumber = "2603"
-            landmarkName = "sendImage(_:)"
-            landmarkType = "5">
+            landmarkName = "VideoViewController"
+            landmarkType = "3">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
