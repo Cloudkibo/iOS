@@ -42,6 +42,7 @@ class LoginAPI{
     var delegate:SocketClientDelegate!
     var delegateWebRTC:SocketClientDelegateWebRTC!
     var delegateWebRTCVideo:SocketClientDelegateWebRTCVideo!
+    var delegateSocketConnected:SocketConnecting!
     //var areYouFreeForCall:Bool
     
     
@@ -49,9 +50,21 @@ class LoginAPI{
         socket=SocketIOClient(socketURL: "\(url)", options: ["log": false])
         areYouFreeForCall=true
         isBusy=false
-        self.socket.connect()
+        self.socket.on("connect") {data, ack in
+            isSocketConnected=true
+            NSLog("connected to socket")
+            self.delegateSocketConnected?.socketConnected()
+            
+        }
+        self.socket .connect()
+        self.socket.reconnects=true
+        /*self.socket.connect()
+        socketConnected=true
+        self.addHandlers()
+        self.addWebRTCHandlers()
+       
+        */
         //self.delegate=SocketClientDelegate()
-        
     }
     /*
     func connect()
@@ -87,12 +100,21 @@ class LoginAPI{
     
     func addHandlers(){
         print("adding socket handlerssss", terminator: "")
-        self.socket.on("connect") {data, ack in
+        
+        /*self.socket.on("connect") {data, ack in
+            isSocketConnected=true
             NSLog("connected to socket")
+            self.delegateSocketConnected?.socketConnected()
             
-        }
+        }*/
+        
         self.socket.on("disconnect") {data, ack in
-            NSLog("disconnected from socket")
+            //NSLog("disconnected from socket")
+            print("disconnected from socket")
+            meetingStarted=false
+            isSocketConnected=false
+            self.socket.reconnects=true
+            self.socket.reconnect()
             //self.socket.emit("message", ["msg":"hangup"])
             
         }
@@ -169,11 +191,10 @@ class LoginAPI{
             if(missedMsg == "Missed Call:")
             {print("inside missed notification")
                 let todoItem = NotificationItem(otherUserName: "\(iamincallWith!)", message: "you received a mised call", type: "missed call", UUID: "111", deadline: NSDate())
-                /*notificationsMainClass.sharedInstance.addItem(todoItem)
-                */
-                // schedule a local notification to persist this item
+                notificationsMainClass.sharedInstance.addItem(todoItem) // schedule a local notification to persist this item
                 
             }
+            print("handlers added")
         }
         
        /* socketObj.socket.on("message"){data,ack in
@@ -193,6 +214,7 @@ class LoginAPI{
         
         func addWebRTCHandlers()
         {
+            print("adding webrtc handlers")
             //-----------------------
             //-----old conference handlers
             //-----------------------
@@ -517,7 +539,7 @@ class LoginAPI{
             }
 */
             socketObj.socket.on("peer.disconnected.new"){data,ack in
-                print("received peer.disconnected.new obj from server")
+                print("received peer.disconnected obj from server")
                 var datajson=JSON(data)
                 print(datajson.debugDescription)
                 
@@ -536,9 +558,20 @@ class LoginAPI{
             
             socketObj.socket.on("conference.chat"){data,ack in
                 print("chat received")
-                ///self.delegateWebRTC.socketReceivedOtherWebRTC("conference.chat",data: data)
+                print("\(data)")
                 var chat=JSON(data)
+                print(JSON(data))
+                ///self.delegateChat=WebmeetingChatViewController
+                print(chat[0]["message"].description)
+                print(chat[0]["username"].description)
+                print(chat[0]["message"].string)
+                print(chat[0]["username"].string)
+                //self.receivedChatMessage(chat[0]["message"].description,username: "\(chat[0]["username"].description)")
+                
                 webMeetingModel.addChatMsg(chat[0]["message"].description, usr: chat[0]["username"].description)
+                //webMeetingModel.delegateWebmeetingChat.receivedChatMessageUpdateUI(chat[0]["message"].description, username: chat[0]["username"].description)
+                //self.delegateWebRTC.socketReceivedOtherWebRTC("conference.chat",data: data)
+                
                 
                 
             }
@@ -630,9 +663,9 @@ class LoginAPI{
         print(msg, terminator: "")
         //var message:JSON=["msg":msg,"room":globalroom,"to":iamincallWith!,"username":username!]
         
-        //////////////////////////socket.emit("message",["msg":msg,"room":globalroom,"to":iamincallWith!,"username":username!])
+        socket.emit("message",["msg":msg,"room":globalroom,"to":iamincallWith!,"username":username!])
         
-        socket.emit("message",["msgAudio":msg,"room":globalroom,"to":iamincallWith!,"username":username!])
+        //////////socket.emit("message",["msgAudio":msg,"room":globalroom,"to":iamincallWith!,"username":username!])
         
     }
    
@@ -678,4 +711,7 @@ protocol SocketClientDelegateWebRTCVideo:class
     
     
 }
-
+protocol SocketConnecting:class
+{
+    func socketConnected();
+}

@@ -14,12 +14,28 @@ import MobileCoreServices
 
 
 
-class VideoViewController: UIViewController,RTCPeerConnectionDelegate,RTCSessionDescriptionDelegate,RTCEAGLVideoViewDelegate,SocketClientDelegateWebRTC,RTCDataChannelDelegate,UIDocumentPickerDelegate,UIDocumentMenuDelegate {
-    var screenCaptureToggle=false
+class VideoViewController: UIViewController,RTCPeerConnectionDelegate,RTCSessionDescriptionDelegate,RTCEAGLVideoViewDelegate,SocketClientDelegateWebRTC,RTCDataChannelDelegate,UIDocumentPickerDelegate,UIDocumentMenuDelegate,DelegateSendScreenshotDelegate {
+    
+    public var delegateFileReceived:FileReceivedAlertDelegate!
+    
+    @IBOutlet weak var btnShareFile: UIBarButtonItem!
+    
+    var fileTransferCompleted=false
+    @IBOutlet weak var btnAudio: UIButton!
+    @IBOutlet weak var btnVideo: UIButton!
+    @IBOutlet weak var btnEndCall: UIButton!
+    
+    @IBOutlet weak var txtLabelMainPage: UITextView!
+    var fileSize1:UInt64=0
+    public var delegateSendScreenDatachannel:DelegateSendScreenshotDelegate!
+    //////var screenCaptureToggle=false
     var newjson:JSON!
     var myJSONdata:JSON!
     var chunknumber:Int!
     var strData:String!
+    
+    
+    var localFull:RTCEAGLVideoView!
     
     @IBOutlet weak var btnViewFile: UIBarButtonItem!
     var myfid=0
@@ -29,7 +45,7 @@ class VideoViewController: UIViewController,RTCPeerConnectionDelegate,RTCSession
     var numberOfChunksReceived:Int=0
     var fu=FileUtility()
     var filePathImage:String!
-    var fileSize:Int!
+    ////** new commented april 2016var fileSize:Int!
     var fileContents:NSData!
     var chunknumbertorequest:Int=0
     var numberOfChunksInFileToSave:Double=0
@@ -46,6 +62,7 @@ class VideoViewController: UIViewController,RTCPeerConnectionDelegate,RTCSession
     @IBOutlet var localViewOutlet: UIView!
     var localView:RTCEAGLVideoView! = nil
     var remoteView:RTCEAGLVideoView! = nil
+    var remoteScreenView:RTCEAGLVideoView! = nil
     var rtcLocalMediaStream:RTCMediaStream! = nil
     var videoAction=false
     var audioAction=true
@@ -60,6 +77,7 @@ class VideoViewController: UIViewController,RTCPeerConnectionDelegate,RTCSession
     var rtcVideoRenderer:RTCVideoRenderer! = nil
     //var abc:RTCVideoTrack!!
     var rtcLocalVideoTrack:RTCVideoTrack! = nil
+    var rtcScreenTrackReceived:RTCVideoTrack! = nil
     //var currentId:String!
     
     var by:Int!
@@ -70,10 +88,7 @@ class VideoViewController: UIViewController,RTCPeerConnectionDelegate,RTCSession
     var rtcDataChannel:RTCDataChannel! = nil
     var countTimer=1
     
-    
-    func saveImage(screen:UIImage){
-        
-    }
+   
     
     
     
@@ -88,11 +103,8 @@ class VideoViewController: UIViewController,RTCPeerConnectionDelegate,RTCSession
             socketObj.socket.emit("conference.stream", ["username":username!,"id":currentID!,"type":"screenAndroid","action":"true"])
             
             btncapture.title! = "Hide"
-            
-            
-            
-            ////////////tryy march 31 2016  socketObj.socket.emit("conference.streamScreen", ["username":username!,"id":currentID!,"type":"screenAndroid","action":"true"])
-            atimer=NSTimer(timeInterval: 0.1, target: self, selector: "timerFiredScreenCapture", userInfo: nil, repeats: true)
+            webMeetingModel.delegateScreen.screenCapture()
+            /////atimer=NSTimer(timeInterval: 0.1, target: self, selector: "timerFiredScreenCapture", userInfo: nil, repeats: true)
             
         }
         else
@@ -100,226 +112,58 @@ class VideoViewController: UIViewController,RTCPeerConnectionDelegate,RTCSession
             btncapture.title! = "Capture"
             
             socketObj.socket.emit("conference.stream", ["username":username!,"id":currentID!,"type":"screenAndroid","action":"false"])
-            atimer=NSTimer(timeInterval: 0.1, target: self, selector: "timerFiredScreenCapture", userInfo: nil, repeats: true)
+            
+            webMeetingModel.delegateScreen.screenCapture()
+            
+            //atimer=NSTimer(timeInterval: 0.1, target: self, selector: "timerFiredScreenCapture", userInfo: nil, repeats: true)
             
             
             
         }
-        
-        ///DATA SENT CODE
-        /* var senttt=rtcDataChannel.sendData(RTCDataBuffer(data: NSData(base64EncodedString: "helloooo iphone sendind data through data channel", options: NSDataBase64DecodingOptions.IgnoreUnknownCharacters),isBinary: true))
-        print("datachannel message sent is \(senttt)")
-        var test="hellooo"
-        let buffer = RTCDataBuffer(
-        data: (test.dataUsingEncoding(NSUTF8StringEncoding))!,
-        isBinary: false
-        )
-        
-        let result = self.rtcDataChannel!.sendData(buffer)
-        print("datachannel message sent is \(result)")
-        */
-        
-        ////////////CORRECT CODE TO CAPTURE IMAGES
-       /* socketObj.socket.emit("conference.stream", ["username":username!,"id":currentID!,"type":"androidScreen","action":"true"])
-        socketObj.socket.emit("conference.stream", ["username":username!,"id":currentID!,"type":"screenAndroid","action":"true"])
-        
-        atimer=NSTimer(timeInterval: 0.5, target: self, selector: "timerFiredScreenCapture", userInfo: nil, repeats: true)
-        
-        
-        countTimer++*/
-       dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0)) { () -> Void in
-            while(self.screenCaptureToggle)
+       
+      /* dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0)) { () -> Void in
+            while(screenCaptureToggle)
                 //for(var i=0;i<30000;i++)
             {
                 atimer.fire()
                 sleep(1)
             }
             
-        }
+        }*/
         
         
     }
-    /*@IBAction func backbtnPressed(sender: UIBarButtonItem) {
-        print("backkkkkkkkkkkkkk pressed")
-        self.dismissViewControllerAnimated(true, completion: nil)
-    }*/
-    func timerFiredScreenCapture()
-    {print("inside timerFiredScreenCapture")
-        
-        //if(countTimer%2 == 0){
-        
-        //while(atimer.timeInterval < 3000)
+   
+    func sendImageFromDataChannel(screenshot: UIImage!) {
         var chunkLength=64000
-        //UIImage(myscreen)
-        // for(var i=0;i<3000;i++)
-        //{
-        ////for window in UIApplication.sharedApplication().windows{
-        var screenshot:UIImage!
-        dispatch_async(dispatch_get_main_queue(), { () -> Void in
-            /*
-            UIGraphicsBeginImageContext(UIScreen.mainScreen().bounds.size)
-            self.view.drawViewHierarchyInRect(UIScreen.mainScreen().bounds, afterScreenUpdates: true)
-            print("width is \(UIScreen.mainScreen().bounds.width), height is \(UIScreen.mainScreen().bounds.height)")
-            var screenshot:UIImage=UIGraphicsGetImageFromCurrentImageContext()
-            UIGraphicsEndImageContext()
-            var imageData:NSData = UIImageJPEGRepresentation(screenshot, 1.0)!
-            var numchunks=0
-            var len=imageData.length
-            print("length is\(len)")
-            numchunks=len/chunkLength
-            print("numchunks are \(numchunks)")
-            
-            var test="\(imageData.length)"
-            */
-            //////////working
-            var myscreen=UIApplication.sharedApplication().keyWindow?.snapshotViewAfterScreenUpdates(true)
-            ///////*******
-            ///***** april 201666666666 workingg var myscreen=UIScreen.mainScreen().snapshotViewAfterScreenUpdates(true)
-            //*********
-            
-            
-            //var myscreen=UIApplication.sharedApplication().keyWindow?.snapshotViewAfterScreenUpdates(true)
-            //UIGraphicsBeginImageContext(myscreen!.bounds.size)
-            
-            UIGraphicsBeginImageContext((UIApplication.sharedApplication().keyWindow?.bounds.size)!)
-            
-            ///workingg
-            ///////*******
-            ///***** april 201666666666 workingg  UIGraphicsBeginImageContext(UIScreen.mainScreen().bounds.size)
-            //***********
-            
-            
-            ////////UIGraphicsBeginImageContext( UIScreen.mainScreen().bounds.size)
-            ///self.view.drawViewHierarchyInRect(window.layer.bounds, afterScreenUpdates: true)
-            self.view.drawViewHierarchyInRect(myscreen!.bounds, afterScreenUpdates: true)
-            //print("width is \(UIScreen.mainScreen().bounds.width), height is \(UIScreen.mainScreen().bounds.height)")
-            print("width is \(myscreen!.layer.bounds.width), height is \(myscreen!.layer.bounds.height)")
-            //var context:CGContextRef=UIGraphicsGetCurrentContext()!;
-            //myscreen!.layer.renderInContext(context)
-            
-            screenshot=UIGraphicsGetImageFromCurrentImageContext()
-            UIGraphicsEndImageContext()
-            
-            
-            var imageData:NSData = UIImageJPEGRepresentation(screenshot, 1.0)!
-            var numchunks=0
-            var len=imageData.length
-            print("length is\(len)")
-            numchunks=len/chunkLength
-            print("numchunks are \(numchunks)")
-            
-            var test="\(imageData.length)"
-            
-            self.sendDataBuffer(test, isb: false)
-            
-            for(var j=0;j<numchunks;j++)
-            {
-                var start=j*chunkLength
-                var end=(j+1)*chunkLength
-                self.sendImage(imageData.subdataWithRange(NSMakeRange(start,len-start)))
-                
-            }
-            if((len%chunkLength) > 0)
-            {
-                //imageData.getBytes(&imageData, length: numchunks*chunkLength)
-                self.sendImage(imageData.subdataWithRange(NSMakeRange(numchunks*chunkLength, len%chunkLength)))
-                
-            }
-        })
-        //// }//end for windows
-        /*
-        var CHUNK_LEN = 64000;
-        // Get the image bytes and calculate the number of chunks
-        var img = canvas.getImageData(0, 0, canvasWidth, canvasHeight);
-        var len = img.data.byteLength;
-        var numChunks = len / CHUNK_LEN | 0;
-        // Let the other peer know in advance how many bytes to expect in total
-        dataChannel.send(len);
-        // Split the photo in chunks and send it over the data channel
-        for (var i = 0; i < n; i++) {
-        var start = i * CHUNK_LEN;
-        var end = (i+1) * CHUNK_LEN;
-        dataChannel.send(img.data.subarray(start, end));
-        }
-        // Send the reminder, if any
-        if (len % CHUNK_LEN) {
-        dataChannel.send(img.data.subarray(n * CHUNK_LEN));
-        }*/
+        var imageData:NSData = UIImageJPEGRepresentation(screenshot, 1.0)!
+        var numchunks=0
+        var len=imageData.length
+        print("length is\(len)")
+        numchunks=len/chunkLength
+        print("numchunks are \(numchunks)")
         
-        /*
-        var start=0;
-        if(len<chunkLength)
+        var test="\(imageData.length)"
+        
+        self.sendDataBuffer(test, isb: false)
+        
+        for(var j=0;j<numchunks;j++)
         {
-        print("inside first if")
-        print("len \(len) start \(start) start+chunklength is \(start+chunkLength)")
-        
-        print("chunk numberrrrr is \(numchunks)")
-        self.mdata.sendImage(imageData.subdataWithRange(NSMakeRange(0,len)))
+            var start=j*chunkLength
+            var end=(j+1)*chunkLength
+            self.sendImage(imageData.subdataWithRange(NSMakeRange(start,len-start)))
+            
         }
-        else
+        if((len%chunkLength) > 0)
         {
-        var j=0
-        for(j=0;j<numchunks;j++)
-        {
-        print("inside for loop")
-        
-        start=j*chunkLength
-        //var end=(i+1)*chunkLength
-        
-        /*if(end>len)
-        {
-        end=len-1
-        }*/
-        print("len \(len) start \(start) start+chunklength is \(start+chunkLength)")
-        if(start+chunkLength > len)
-        {
-        print("inside screen if")
-        self.mdata.sendImage(imageData.subdataWithRange(NSMakeRange(start, len-start)))
-        
-        /////////self.mdata.sendImage(imageData.subdataWithRange(NSMakeRange(start, start-len)))
-        ////self.mdata.sendImage(imageData.subdataWithRange(NSMakeRange(start, len%chunkLength)))
-        break
-        
-        
-        /*len=start+chunkLength-len-1
-        print("changed len \(len) start \(start) start+chunklength is \(start+chunkLength)")
-        break
-        */
+            //imageData.getBytes(&imageData, length: numchunks*chunkLength)
+            self.sendImage(imageData.subdataWithRange(NSMakeRange(numchunks*chunkLength, len%chunkLength)))
+            
         }
-        self.mdata.sendImage(imageData.subdataWithRange(NSMakeRange(start, chunkLength)))
-        /// self.mdata.sendImage(imageData.subdataWithRange(NSMakeRange(start, chunkLength-1)))
-        }
-        print("j is \(j)")
-        if(len%chunkLength>0)
-        {print("len%chunklength is \(len%chunkLength)")
-        self.mdata.sendImage(imageData.subdataWithRange(NSMakeRange(start+chunkLength,len%chunkLength)))
-        
-        print("inside mod if")
-        ////self.mdata.sendImage(imageData.subdataWithRange(NSMakeRange(numchunks*chunkLength,len-(numchunks*chunkLength))))
-        //self.mdata.sendImage(imageData.subdataWithRange(NSMakeRange(numchunks*chunkLength,len)))
-        }
-        
-        
-        }
-        */
-        
-        /////self.mdata.sendImage(imageData)
-        
-        // })
-        
-        
-        
-        
-        //mdata.sendImage(imageData)
-        ////////    }
-        //for loop end  }
-        print("outside")
-        /// atimer.invalidate()
-        /// print("timer stopped")
-        
-        
         
     }
+    
+ 
     
     
     func randomStringWithLength (len : Int) -> NSString {
@@ -378,6 +222,15 @@ class VideoViewController: UIViewController,RTCPeerConnectionDelegate,RTCSession
     }
     
     @IBAction func endCallBtnPressed(sender: AnyObject) {
+       print("ending meeting")
+        meetingStarted=false
+        if(screenCaptureToggle==false){
+             webMeetingModel.delegateScreen.screenCapture()
+            socketObj.socket.emit("conference.stream", ["username":username!,"id":currentID!,"type":"screenAndroid","action":"false"])
+
+        btncapture.title! = "Capture"
+        
+            }
        
         
     if(isConference != true)
@@ -387,10 +240,11 @@ class VideoViewController: UIViewController,RTCPeerConnectionDelegate,RTCSession
             print("doneeeeeee")
             
         })
-        }
+    }
         else
-    { if(iamincallWith != nil)
-    {print("ending meeting")
+    { if(iamincallWith != nil && currentID != nil)
+    {webMeetingModel.messages.removeAllObjects()
+        print("ending meeting")
        //// socketObj.socket.disconnect()
         socketObj.socket.emit("peer.disconnected", ["username":username!,"id":currentID!,"room":joinedRoomInCall])
         socketObj.socket.emit("message",["msg":"hangup","room":globalroom,"to":iamincallWith!,"username":username!, "id":currentID!])
@@ -411,9 +265,11 @@ class VideoViewController: UIViewController,RTCPeerConnectionDelegate,RTCSession
         //self.pc=nil
         //rtcFact=nil //**********important********
         //iamincallWith=nil
+        self.localFull.renderFrame(nil)
         self.localView.renderFrame(nil)
         self.remoteView.renderFrame(nil)
         
+        self.remoteScreenView.renderFrame(nil)
         if((self.rtcDataChannel) != nil){
             self.rtcDataChannel.close()
             self.rtcDataChannel=nil
@@ -423,28 +279,31 @@ class VideoViewController: UIViewController,RTCPeerConnectionDelegate,RTCSession
         
         
         //^^^^^^^^^^^newwwww self.disconnect()
-        if((self.pc) != nil)
-        {
+        if((self.rtcLocalVideoTrack) != nil)
+        {print("remove localtrack renderer")
+            
+            self.rtcLocalVideoTrack.removeRenderer(self.localView)
+            self.rtcLocalVideoTrack.removeRenderer(self.localFull)
+            //////////////////////////////////////////////////////
+            self.rtcLocalVideoTrack=nil
+            self.localView.removeFromSuperview()
+            /////////////////////////////////////////////////////
+        }
+        //if((self.pc) != nil)
+        //{
             
             
-            if((self.rtcLocalVideoTrack) != nil)
-            {print("remove localtrack renderer")
-                
-                self.rtcLocalVideoTrack.removeRenderer(self.localView)
-                //////////////////////////////////////////////////////
-                self.rtcLocalVideoTrack=nil
-                self.localView.removeFromSuperview()
-                /////////////////////////////////////////////////////
-            }
+           
             if((self.rtcVideoTrackReceived) != nil)
             {print("remove remotetrack renderer")
                 self.rtcVideoTrackReceived.removeRenderer(self.remoteView)
+                
             }
             print("out of removing remoterenderer")
             ////self.rtcLocalVideoTrack=nil
             ////self.rtcVideoTrackReceived=nil
             //kjkljkljkkhkjhkj
-            
+        
             self.pc=nil
             joinedRoomInCall=""
             //iamincallWith=nil
@@ -488,7 +347,7 @@ class VideoViewController: UIViewController,RTCPeerConnectionDelegate,RTCSession
             }
             
             print("views removed from parent")
-        }
+        ////Commenting april 2016 pc nill}
         
         joinedRoomInCall=""
         iamincallWith=""
@@ -497,14 +356,16 @@ class VideoViewController: UIViewController,RTCPeerConnectionDelegate,RTCSession
         
         self.rtcLocalMediaStream=nil //test and try-------------
         self.rtcStreamReceived=nil
+        
         screenCaptureToggle=false
         
         socketObj.socket.disconnect()
-        socketObj=nil
+        //socketObj=nil
         dispatch_async(dispatch_get_main_queue(), { () -> Void in
             let next = self.storyboard!.instantiateViewControllerWithIdentifier("mainpage") as! LoginViewController
             self.presentViewController(next, animated: false, completion: { () -> Void in
                 print("nexttttt viewwww")
+                socketObj.socket.connect()////uncommenting may april 2016
                 
             })//end present controller
             
@@ -520,14 +381,34 @@ class VideoViewController: UIViewController,RTCPeerConnectionDelegate,RTCSession
         var w=localViewOutlet.bounds.width-(localViewOutlet.bounds.width*0.23)
         var h=localViewOutlet.bounds.height-(localViewOutlet.bounds.height*0.27)
         if(localvideoshared==false)
-        {
+        {   localFull.hidden=true
             localView.hidden=true
+            btnVideo.setImage(UIImage(named: "video_off"), forState: .Normal)
         }
         else{
-            localView.hidden=false
+            btnVideo.setImage(UIImage(named: "video_on"), forState: .Normal)
+            if(remotevideoshared==true){
+                //////self.rtcLocalVideoTrack.removeRenderer(self.localFull)
+                self.rtcLocalVideoTrack.addRenderer(self.localView)
+                self.localViewOutlet.addSubview(self.localView)
+                
+                self.localViewOutlet.updateConstraintsIfNeeded()
+                localFull.setNeedsDisplay()
+                self.localView.setNeedsDisplay()
+                self.localViewOutlet.setNeedsDisplay()
+                
+                
+                localFull.hidden=true
+                localView.hidden=false}
+            else{
+                /////self.rtcLocalVideoTrack.removeRenderer(self.localView)
+                localFull.hidden=false
+                localView.hidden=true
+            }
         }
+        if(socketObj != nil){
         socketObj.socket.emit("conference.stream", ["username":username!,"id":currentID!,"type":"video","action":videoAction.boolValue])
-        
+        }
        /* if(remotevideoshared==true && localvideoshared==true)
         {
            print("yesss sharedd")
@@ -558,6 +439,14 @@ class VideoViewController: UIViewController,RTCPeerConnectionDelegate,RTCSession
     
     @IBAction func toggleAudioPressed(sender: AnyObject) {
         audioAction = !audioAction.boolValue
+        if(audioAction==true)
+        {
+            btnAudio.setImage(UIImage(named: "audio_on"), forState: .Normal)
+        }
+        else
+        {
+             btnAudio.setImage(UIImage(named: "audio_off"), forState: .Normal)
+        }
         self.rtcLocalMediaStream!.audioTracks[0].setEnabled(audioAction)
     }
     
@@ -662,8 +551,37 @@ class VideoViewController: UIViewController,RTCPeerConnectionDelegate,RTCSession
         //print(AuthToken!)
         
     }
+    override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: NSBundle?) {
+        
+      super.init(nibName: nibNameOrNil,bundle: nibBundleOrNil)
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        webMeetingModel.delegateSendScreenshotDataChannel=self
+        
+        
+        
+        socketObj.socket.on("connect") {data, ack in
+            
+            
+            
+            
+            print("meeting disconnected in video view controller")
+            if(meetingStarted==true){
+                print("connecting to room again")
+            socketObj.socket.emitWithAck("init", ["room":ConferenceRoomName,"username":username!])(timeoutAfter: 600000) {data in
+                meetingStarted=true
+                print("room joined by got ack")
+                var a=JSON(data)
+                print(a.debugDescription)
+                currentID=a[1].int!
+                print("current id is \(currentID)")
+                print("room joined is\(ConferenceRoomName)")
+                }
+            }
+            
+        }
         /*if(socketObj.delegateWebRTC == nil)
         {
             socketObj.delegateWebRTC=self
@@ -672,6 +590,15 @@ class VideoViewController: UIViewController,RTCPeerConnectionDelegate,RTCSession
         //--------------
         //----------------
         ///////////addHandlers()
+        if(socketObj == nil)
+        {
+            print("socket is nillll", terminator: "")
+            socketObj=LoginAPI(url:"\(Constants.MainUrl)")
+            ///socketObj.connect()
+            socketObj.addHandlers()
+            socketObj.addWebRTCHandlers()
+            
+        }
         
         if(socketObj.delegateWebRTC == nil)
         {
@@ -690,13 +617,30 @@ class VideoViewController: UIViewController,RTCPeerConnectionDelegate,RTCSession
         var w=localViewOutlet.bounds.width-(localViewOutlet.bounds.width*0.23)
         var h=localViewOutlet.bounds.height-(localViewOutlet.bounds.height*0.27)
         
+        //Dimensions to show large video
+        
+        self.localFull=RTCEAGLVideoView(frame: CGRect(x: 0, y: localViewOutlet.bounds.height*0.08, width: localViewOutlet.bounds.width, height: (localViewOutlet.bounds.height*0.80)))
+        self.localFull.drawRect(CGRect(x: 0, y: localViewOutlet.bounds.height*0.08, width: localViewOutlet.bounds.width, height: (localViewOutlet.bounds.height*0.80)))
+        
+        
+        
+        //Dimensions to show small video
         self.localView=RTCEAGLVideoView(frame: CGRect(x: w, y: h, width: 90, height: 85))
         self.localView.drawRect(CGRect(x: w, y: h, width: 90, height: 85))
         
-        
-        self.remoteView=RTCEAGLVideoView(frame: CGRect(x: 0, y: 50, width: 400, height: 370))
-        self.remoteView.drawRect(CGRect(x: 0, y: 50, width: 400, height: 370))
+        //Dimensions to show small remote video
+        //self.remoteView=RTCEAGLVideoView(frame: CGRect(x: 0, y: 50, width: 400, height: 370))
+        //self.remoteView.drawRect(CGRect(x: 0, y: 50, width: 400, height: 370))
 
+        self.remoteView=RTCEAGLVideoView(frame: CGRect(x: 0, y: localViewOutlet.bounds.height*0.08, width: localViewOutlet.bounds.width, height: (localViewOutlet.bounds.height*0.80)))
+        self.remoteView.drawRect(CGRect(x: 0, y: localViewOutlet.bounds.height*0.08, width: localViewOutlet.bounds.width, height: (localViewOutlet.bounds.height*0.80)))
+        
+        
+        self.remoteScreenView=RTCEAGLVideoView(frame: CGRect(x: 0, y: 50, width: 400, height: 370))
+        self.remoteScreenView.drawRect(CGRect(x: 0, y: 50, width: 400, height: 370))
+
+        
+        
         var mainICEServerURL:NSURL=NSURL(fileURLWithPath: Constants.MainUrl)
         
         
@@ -728,6 +672,14 @@ class VideoViewController: UIViewController,RTCPeerConnectionDelegate,RTCSession
         print("waiting now")
     }
     
+    override func viewWillAppear(animated: Bool) {
+        
+        
+               
+        self.remoteView=RTCEAGLVideoView(frame: CGRect(x: 0, y: localViewOutlet.bounds.height*0.08, width: localViewOutlet.bounds.width, height: (localViewOutlet.bounds.height*0.80)))
+        self.remoteView.drawRect(CGRect(x: 0, y: localViewOutlet.bounds.height*0.08, width: localViewOutlet.bounds.width, height: (localViewOutlet.bounds.height*0.80)))
+
+    }
     func remoteDisconnected()
     {
         print("inside remote disconnected")
@@ -738,6 +690,9 @@ class VideoViewController: UIViewController,RTCPeerConnectionDelegate,RTCSession
         self.rtcVideoTrackReceived=nil
         if((remoteView) != nil)
         {self.remoteView.renderFrame(nil)}
+        remotevideoshared=false
+        remoteView.hidden=true
+        localView.hidden=true
         print("remote disconnected")
     }
     
@@ -859,18 +814,25 @@ class VideoViewController: UIViewController,RTCPeerConnectionDelegate,RTCSession
     func didReceiveLocalVideoTrack(localVideoTrack:RTCVideoTrack)
     {
         /////////dispatch_async(dispatch_get_main_queue(), {
+        //FULL VIDEO
+        if(localvideoshared==false)
+        {
+            localFull.hidden=true
+        }
+        self.rtcLocalVideoTrack.addRenderer(self.localFull)
+        self.localViewOutlet.addSubview(self.localFull)
+        
+        self.localViewOutlet.updateConstraintsIfNeeded()
+        localFull.setNeedsDisplay()
+        self.localView.setNeedsDisplay()
+        self.localViewOutlet.setNeedsDisplay()
         
         
         self.rtcLocalVideoTrack=localVideoTrack
-        self.rtcLocalVideoTrack.addRenderer(self.localView)
+        //SMALL VIDEO
+        /*self.rtcLocalVideoTrack.addRenderer(self.localView)
         self.localViewOutlet.addSubview(self.localView)
-        
-        //////////////////////////
-        //self.rtcLocalVideoTrack.addRenderer(self.localView)
-        //self.localViewOutlet.addSubview(self.localView)
-        
-        //self.localViewOutlet.addSubview(self.localView)
-        //////////////////////////////////
+        */
         self.localViewOutlet.updateConstraintsIfNeeded()
         self.localView.setNeedsDisplay()
         self.localViewOutlet.setNeedsDisplay()
@@ -880,7 +842,7 @@ class VideoViewController: UIViewController,RTCPeerConnectionDelegate,RTCSession
     
     
     
-    func didReceiveLocalStream(stream:RTCMediaStream)
+   /* func didReceiveLocalStream(stream:RTCMediaStream)
     {
         
         
@@ -904,7 +866,7 @@ class VideoViewController: UIViewController,RTCPeerConnectionDelegate,RTCSession
       
       
         
-    }
+    }*/
     
     
     
@@ -912,29 +874,53 @@ class VideoViewController: UIViewController,RTCPeerConnectionDelegate,RTCSession
     func didReceiveRemoteVideoTrack(remoteVideoTrack:RTCVideoTrack)
     {
         print("didreceiveremotevideotrack")
-        ////dispatch_async(dispatch_get_main_queue(), {
-        
-        self.rtcVideoTrackReceived=remoteVideoTrack
-        /////////self.remoteView=RTCEAGLVideoView(frame: CGRect(x: 0, y: 0, width: 500, height: 500))
-        //////////self.remoteView.drawRect(CGRect(x: 0, y: 0, width: 500, height: 500))
-        
-        self.rtcVideoTrackReceived.addRenderer(self.remoteView)
-        //////////////remoteVideoTrack.addRenderer(self.remoteView)
-        self.remoteView.hidden=true // ^^^^newww
+       
         if(self.screenshared==true){
-            self.remoteView.hidden=false
+            print("showw screen")
+            self.rtcScreenTrackReceived=remoteVideoTrack
+            ////self.rtcScreenTrackReceived=remoteVideoTrack
+            self.rtcScreenTrackReceived.addRenderer(self.remoteScreenView)
+            self.remoteView.hidden=true
+            self.remoteScreenView.hidden=false
+            self.localViewOutlet.addSubview(self.remoteScreenView)
+            self.localViewOutlet.updateConstraintsIfNeeded()
+            self.remoteView.updateConstraintsIfNeeded()
+            self.remoteView.setNeedsDisplay()
+            self.remoteScreenView.setNeedsDisplay()
+            self.localViewOutlet.setNeedsDisplay()
+            
         }
-        
-        self.localViewOutlet.addSubview(self.remoteView)
-        
-        ///self.localViewOutlet.addSubview(self.remoteView)
-        self.localViewOutlet.updateConstraintsIfNeeded()
-        //////////self.remoteView.updateConstraintsIfNeeded()
-        self.remoteView.setNeedsDisplay()
-        self.localViewOutlet.setNeedsDisplay()
-        
-        /// })
-        // }
+        else
+        {
+            print("showw videoo")
+            self.rtcVideoTrackReceived=remoteVideoTrack
+            
+            self.rtcVideoTrackReceived.addRenderer(self.remoteView)
+            if(remotevideoshared==false){
+                self.remoteView.hidden=true
+
+            }else{
+                self.remoteView.hidden=true
+
+            }
+                        self.remoteScreenView.hidden=true
+            self.localViewOutlet.addSubview(self.remoteView)
+            
+            //self.rtcLocalVideoTrack.addRenderer(self.localFull)
+            //self.localViewOutlet.addSubview(self.localFull)
+            //FULL SHOW
+            self.localViewOutlet.updateConstraintsIfNeeded()
+            localFull.setNeedsDisplay()
+            self.localView.setNeedsDisplay()
+            self.localViewOutlet.setNeedsDisplay()
+
+            self.localViewOutlet.updateConstraintsIfNeeded()
+            self.remoteView.updateConstraintsIfNeeded()
+            self.remoteView.setNeedsDisplay()
+            self.remoteScreenView.setNeedsDisplay()
+            self.localViewOutlet.setNeedsDisplay()
+        }
+       
         
     }
     
@@ -947,54 +933,6 @@ class VideoViewController: UIViewController,RTCPeerConnectionDelegate,RTCSession
     
     
     
-    /*override func viewWillAppear(animated: Bool) {
-        
-        ///////////addHandlers()
-        
-        if(socketObj.delegateWebRTC == nil)
-        {
-            socketObj.delegateWebRTC=self
-        }
-        
-        
-        //******************************************************************************
-        /* self.localViewTop.setSize(CGSize(width: 500, height: 500))*/
-        self.localView=RTCEAGLVideoView(frame: CGRect(x: 0, y: 50, width: 500, height: 450))
-        self.localView.drawRect(CGRect(x: 0, y: 50, width: 500, height: 450))
-        self.remoteView=RTCEAGLVideoView(frame: CGRect(x: 0, y: 50, width: 500, height: 450))
-        self.remoteView.drawRect(CGRect(x: 0, y: 50, width: 500, height: 450))
-        
-        var mainICEServerURL:NSURL=NSURL(fileURLWithPath: Constants.MainUrl)
-        
-        
-        rtcICEarray.append(RTCICEServer(URI: NSURL(string:"turn:45.55.232.65:3478?transport=udp"), username: "cloudkibo", password: "cloudkibo"))
-        rtcICEarray.append(RTCICEServer(URI: NSURL(string:"turn:45.55.232.65:3478?transport=tcp"), username: "cloudkibo", password: "cloudkibo"))
-        rtcICEarray.append(RTCICEServer(URI: NSURL(string:"stun:stun.l.google.com:19302"), username: "", password: ""))
-        rtcICEarray.append(RTCICEServer(URI: NSURL(string:"stun:23.21.150.121"), username: "", password: ""))
-        rtcICEarray.append(RTCICEServer(URI: NSURL(string:"stun:stun.anyfirewall.com:3478"), username: "", password: ""))
-        rtcICEarray.append(RTCICEServer(URI: NSURL(string:"turn:turn.bistri.com:80?transport=udp"), username: "homeo", password: "homeo"))
-        rtcICEarray.append(RTCICEServer(URI: NSURL(string:"turn:turn.bistri.com:80?transport=tcp"), username: "homeo", password: "homeo"))
-        rtcICEarray.append(RTCICEServer(URI: NSURL(string:"turn:turn.anyfirewall.com:443?transport=tcp"), username: "webrtc", password: "webrtc"))
-        
-        /*
-        {"url":"stun:turn01.uswest.xirsys.com"},
-        {"username":"bcd62532-f1cd-11e5-a87b-5883419cfa3a","url":"turn:turn01.uswest.xirsys.com:443?transport=udp","credential":"bcd625be-f1cd-11e5-b663-8968345edd51"},
-        {"username":"bcd62532-f1cd-11e5-a87b-5883419cfa3a","url":"turn:turn01.uswest.xirsys.com:443?transport=tcp","credential":"bcd625be-f1cd-11e5-b663-8968345edd51"},
-        {"username":"bcd62532-f1cd-11e5-a87b-5883419cfa3a","url":"turn:turn01.uswest.xirsys.com:5349?transport=udp","credential":"bcd625be-f1cd-11e5-b663-8968345edd51"},
-        {"username":"bcd62532-f1cd-11e5-a87b-5883419cfa3a","url":"turn:turn01.uswest.xirsys.com:5349?transport=tcp","credential":"bcd625be-f1cd-11e5-b663-8968345edd51"},
-        {"url":"turn:turn.cloudkibo.com:3478?transport=tcp","username":"cloudkibo","credential":"cloudkibo"},
-        {"url":"turn:turn.cloudkibo.com:3478?transport=udp","username":"cloudkibo","credential":"cloudkibo"},
-        {"url":"turn:numb.viagenie.ca:3478","username":"support@cloudkibo.com","credential":"cloudkibo"}
-*/
-        print("rtcICEServerObj is \(rtcICEarray[0])")
-        
-        //self.createPeerConnectionObject()
-        RTCPeerConnectionFactory.initializeSSL()
-        rtcFact=RTCPeerConnectionFactory()
-        self.rtcLocalMediaStream=self.getLocalMediaStream()
-        print("waiting now")
-        
-    }*/*/
     
     func peerConnection(peerConnection: RTCPeerConnection!, addedStream stream: RTCMediaStream!) {
         print("added stream \(stream.debugDescription)")
@@ -1005,11 +943,12 @@ class VideoViewController: UIViewController,RTCPeerConnectionDelegate,RTCSession
         
         self.rtcStreamReceived=stream
         if(stream.videoTracks.count>0)
-        {print("remote video track count is greater than one")
+        {print("remote video track count is greater than one \(stream.videoTracks.count)")
             let remoteVideoTrack=stream.videoTracks[0] as! RTCVideoTrack
             //^^^^^^newwwww self.rtcVideoTrackReceived=stream.videoTracks[0] as! RTCVideoTrack
+            
             dispatch_async(dispatch_get_main_queue(), {
-                
+            
                 self.didReceiveRemoteVideoTrack(remoteVideoTrack)
             })
             
@@ -1022,6 +961,13 @@ class VideoViewController: UIViewController,RTCPeerConnectionDelegate,RTCSession
     func peerConnection(peerConnection: RTCPeerConnection!, didOpenDataChannel dataChannel: RTCDataChannel!) {
         print(".................. did open data channel")
         print(dataChannel.description)
+    
+        dispatch_async(dispatch_get_main_queue()) { () -> Void in
+            self.btncapture.enabled=true
+       self.btnShareFile.enabled=true
+            
+        }
+       
         
     }
     func peerConnection(peerConnection: RTCPeerConnection!, gotICECandidate candidate: RTCICECandidate!) {
@@ -1141,22 +1087,7 @@ class VideoViewController: UIViewController,RTCPeerConnectionDelegate,RTCSession
         
     }
     
-    func createOrJoinRoom()
-    {
-        
-    }
-    func leaveRoom()
-    {
-        
-    }
-    func connectToRoom()
-    {
-        
-    }
-    func createOffer()
-    {
-        
-    }
+
     func socketReceivedMSGWebRTC(message:String,data:AnyObject!)
     {print("socketReceivedMSGWebRTC inside")
         switch(message){
@@ -1180,10 +1111,10 @@ class VideoViewController: UIViewController,RTCPeerConnectionDelegate,RTCSession
             print("peer.connected received")
             handlePeerConnected(data)
             
-        case "peer.connected.new":
+        /*case "peer.connected.new":
             print("peer.connected.new received")
             handlePeerConnected(data)
-            
+            */
         case "conference.stream":
             handleConferenceStream(data)
             
@@ -1264,9 +1195,10 @@ class VideoViewController: UIViewController,RTCPeerConnectionDelegate,RTCSession
             //^^^^^^^^^^^^^^^^^^^^^^^newwwwww self.pc.addStream(self.getLocalMediaStream())
             otherID=msg[0]["by"].int!
             currentID=msg[0]["to"].int!
-            
+            iamincallWith=msg[0]["username"].description
             
             if(msg[0]["username"].description != username! && self.pc.remoteDescription == nil){
+                txtLabelMainPage.text="You are now connected in call with \(iamincallWith)"
                 var sessionDescription=RTCSessionDescription(type: msg[0]["type"].description, sdp: msg[0]["sdp"]["sdp"].description)
                 self.pc.setRemoteDescriptionWithDelegate(self, sessionDescription: sessionDescription)
             }
@@ -1324,7 +1256,8 @@ class VideoViewController: UIViewController,RTCPeerConnectionDelegate,RTCSession
             iamincallWith=datajson[0]["username"].description
             isInitiator=true
             iamincallWith = datajson[0]["username"].description
-            
+            //txtLabelMainPage.font
+            txtLabelMainPage.text="You are now connected in call with \(iamincallWith)"
             
             //////optional
             if(self.pc == nil) //^^^^^^^^^^^^^^^^^^newwww tryyy
@@ -1362,10 +1295,14 @@ class VideoViewController: UIViewController,RTCPeerConnectionDelegate,RTCSession
         
         if(datajson[0]["id"].int == otherID)
         {
+            webMeetingModel.messages.removeAllObjects()
             if(self.pc != nil)
             {
                 print("peer disconnectedddd received \(datajson[0])")
-                
+                if(screenCaptureToggle==true)
+                {
+                    screenCaptureToggle=false
+                }
                 //print("hangupppppp received \(datajson.debugDescription)")
                 self.remoteDisconnected()
                 
@@ -1375,9 +1312,56 @@ class VideoViewController: UIViewController,RTCPeerConnectionDelegate,RTCSession
                 isInitiator=false
                 
                 //socketObj.socket.disconnect()
-                socketObj=nil
-                self.disconnect()
+                //****************newwww april 2016 socketObj=nil
+                //*********************newww april 2016 self.disconnect()
                 
+                
+                dispatch_async(dispatch_get_global_queue(Int(QOS_CLASS_USER_INITIATED.rawValue),0)){
+                    //************* newwww april 2016 commented
+                    /*if((self.rtcLocalVideoTrack) != nil)
+                    {print("remove localtrack renderer")
+                        self.rtcLocalVideoTrack.removeRenderer(self.localView)
+                    }*/
+                    
+                    if((self.rtcVideoTrackReceived) != nil)
+                        //if((self.rtcVideoTrackReceived) != nil && (self.videoAction==true || self.screenshared==true))
+                    {print("remove remotetrack renderer")
+                        self.rtcVideoTrackReceived.removeRenderer(self.remoteView)
+                    }
+                    print("out of removing remoterenderer")
+                    ////** neww april 2016self.rtcLocalVideoTrack=nil
+                    
+                    //////////////self.localView.renderFrame(nil)
+                    /////////////self.remoteView.renderFrame(nil)
+                    self.pc=nil
+                    joinedRoomInCall=""
+                    //iamincallWith=nil
+                    isInitiator=false
+                    // rtcFact=nil
+                    areYouFreeForCall=true
+                    ///////////////****************april 2016 currentID=nil
+                    otherID=nil
+                    //self.remoteDisconnected()
+                    
+                    //////////////socketObj.socket.emit("message",["msg":"hangup","room":globalroom,"to":iamincallWith!,"username":username!])
+                    
+                    ///////tryy april 2016 iamincallWith=nil
+                    //self.localView.removeFromSuperview()
+                    //self.remoteView.removeFromSuperview()
+                    //********************** self.localView=nil
+                    //*********************** self.remoteView=nil
+                    
+                    //^^^^^^^^^^^^newwwwww
+                    //************************* april 2016self.rtcLocalMediaStream = nil
+                    self.rtcStreamReceived = nil//^^^^^^^^^^^^^^^^newwwww
+                    
+                    
+                    if(self.rtcDataChannel != nil){
+                        self.rtcDataChannel.close()
+                        ////////newwwwwww
+                        self.rtcDataChannel=nil
+                    }
+                }
                 /*
                 //Join room again.. capture local stream again.. wait for user to come
                 isInitiator=false
@@ -1422,26 +1406,47 @@ class VideoViewController: UIViewController,RTCPeerConnectionDelegate,RTCSession
         
         if(datajson[0]["username"].debugDescription != username! && datajson[0]["type"].debugDescription == "screen" && datajson[0]["action"].boolValue==true )
         {self.screenshared=true
+            remoteScreenView.hidden=false//***
+            remoteView.hidden=true
             //Handle Screen sharing
             print("handle screen sharing")
             self.pc.createOfferWithDelegate(self, constraints: self.rtcMediaConst)
         }
         
-        if(datajson[0]["username"].debugDescription != username! && datajson[0]["type"].debugDescription == "video" && self.rtcVideoTrackReceived != nil)
+        if(datajson[0]["username"].debugDescription != username! && datajson[0]["type"].debugDescription == "screen" && datajson[0]["action"].boolValue==false )
+        {
+           self.screenshared=false
+           remoteScreenView.hidden=true
+            if(remotevideoshared==true)
+            {remoteView.hidden=false}
+            else
+            {remoteView.hidden=true}
+        }
+        
+        if(datajson[0]["username"].debugDescription != username! && datajson[0]["type"].debugDescription == "video" && (self.rtcVideoTrackReceived != nil || rtcStreamReceived != nil))
         {
             print("toggle remote video stream")
             ////////////self.rtcVideoTrackReceived.setEnabled((datajson[0]["action"].bool!))
-            if(datajson[0]["action"].bool! == false)
+            if(datajson[0]["action"].boolValue == false)
             {
                 remotevideoshared=false
                 ///self.localView.hidden=false
                 self.remoteView.hidden=true
+                localFull.hidden=false
+                localView.hidden=true
+                //remoteScreenView.hidden=true
             }
-            if(datajson[0]["action"].bool! == true)
-            {
+            if(datajson[0]["action"].boolValue == true)
+            {//self.rtcVideoTrackReceived.addRenderer(self.remoteView)
                 remotevideoshared=true
+                localFull.hidden=true
                 //self.localView.hidden=true
+                if(localvideoshared==true)
+                {
+                    localView.hidden=false
+                }
                 self.remoteView.hidden=false
+                remoteScreenView.hidden=true
             }
         }
     }
@@ -1464,8 +1469,9 @@ class VideoViewController: UIViewController,RTCPeerConnectionDelegate,RTCSession
                 var CurrentRoomName=msg[0]["room"].string!
                 print("got room name as \(joinedRoomInCall)")
                 print("trying to join room")
-                
-                socketObj.socket.emitWithAck("init", ["room":CurrentRoomName,"username":username!])(timeoutAfter: 1500000000) {data in
+                print("line #1394")
+                socketObj.socket.emitWithAck("init", ["room":CurrentRoomName,"username":username!])(timeoutAfter: 600000) {data in
+                    meetingStarted=true
                     print("room joined got ack")
                     var a=JSON(data)
                     print(a.debugDescription)
@@ -1497,7 +1503,8 @@ class VideoViewController: UIViewController,RTCPeerConnectionDelegate,RTCSession
                 //iamincallWith=username!
                 areYouFreeForCall=false
                 joinedRoomInCall=roomname as String
-                socketObj.socket.emitWithAck("init", ["room":joinedRoomInCall,"username":username!])(timeoutAfter: 150000000) {data in
+                socketObj.socket.emitWithAck("init", ["room":joinedRoomInCall,"username":username!])(timeoutAfter: 1500000) {data in
+                    meetingStarted=true
                     print("room joined by got ack")
                     var a=JSON(data)
                     print(a.debugDescription)
@@ -1555,6 +1562,7 @@ class VideoViewController: UIViewController,RTCPeerConnectionDelegate,RTCSession
         }
         if(msg[0]=="Conference Call")
         {
+            print("conference #1486")
             var roomname=""
             if(joinedRoomInCall == "")
             {
@@ -1570,6 +1578,7 @@ class VideoViewController: UIViewController,RTCPeerConnectionDelegate,RTCSession
                 areYouFreeForCall=false
                 joinedRoomInCall=roomname as String
                 socketObj.socket.emitWithAck("init", ["room":joinedRoomInCall,"username":username!])(timeoutAfter: 150000000) {data in
+                    meetingStarted=true
                     print("room joined by got ack")
                     var a=JSON(data)
                     print(a.debugDescription)
@@ -1630,7 +1639,6 @@ class VideoViewController: UIViewController,RTCPeerConnectionDelegate,RTCSession
     }
     
     
-    
     func channel(channel: RTCDataChannel!, didReceiveMessageWithBuffer buffer: RTCDataBuffer!) {
         print("didReceiveMessageWithBuffer")
         print(buffer.data.debugDescription)
@@ -1653,6 +1661,506 @@ class VideoViewController: UIViewController,RTCPeerConnectionDelegate,RTCSession
         print(bytes.debugDescription)
         
         NSUTF8StringEncoding
+        
+        
+        var sssss=NSString(bytes: &bytes, length: buffer.data.length, encoding: NSUTF8StringEncoding)
+        sssss=sssss?.stringByReplacingOccurrencesOfString("\\", withString: "")
+        print(sssss?.description)
+        
+        
+        
+        //JSONObjectWithData:jsonData options:NSJSONReadingMutableContainers error:&e];
+        
+        
+        //buffer.data.
+        var tryyyyy=NSData(bytes: &bytes , length: buffer.data.length)
+        var mytryyJSON=JSON(tryyyyy)
+        
+        if(sssss != nil){
+            
+            var jjj:NSData = (sssss?.dataUsingEncoding(NSUTF8StringEncoding))!
+            
+            do
+            {jsonnnn = try NSJSONSerialization.JSONObjectWithData(jjj, options: NSJSONReadingOptions.MutableContainers) as! Dictionary<String, AnyObject>
+                print("jsonnn")
+                print(jsonnnn)
+            }catch
+            {print("hi")
+                // print(jsonnnn)
+            }
+            
+            
+            myJSONdata=JSON(sssss!)
+            print("myjsondata is \(myJSONdata)")
+            var oldjsombrackets=myJSONdata.description.stringByReplacingOccurrencesOfString("{", withString: "[")
+            new=oldjsombrackets.stringByReplacingOccurrencesOfString("}", withString: "]")
+            print("new is \(new)")
+            
+            newjson=JSON(rawValue: new)!
+            print("new json is \(newjson)")
+            /////  var dddd:[String:AnyObject]=newjson.debugDescription as! [String:AnyObject]
+            //////print("ddddddddd is \(dddd)")
+            
+            let count = buffer.data.length
+            var doubles: [Double] = []
+            ///let data = NSData(bytes: doubles, length: count)
+            var result = [UInt8](count: count, repeatedValue: 0)
+            buffer.data.getBytes(&result, length: count)
+            //////   print(result.debugDescription)
+            
+            strData=String(bytes)
+            print("strdata")
+            print(strData)
+            var jsonStrData=JSON(strData)
+            print("jsonStrData")
+            print(jsonStrData.debugDescription)
+        }
+        else
+        {
+            print("sssss is nil and binary is\(buffer.isBinary)")
+            
+            
+        }
+        // }
+        
+        if(!buffer.isBinary)
+        {
+            print("not binary")
+            if(strData=="Speaking")
+            {
+                print("speakingggggg")
+            }
+            if(strData=="Silent")
+            {
+                print("Silentttt")
+            }
+            // if(jsonStrData["data"].count > 0)
+            //{
+            //////print("json data found")
+            ////print(jsonStrData["data"].debugDescription)
+            /*var resjson=jsonStrData["data"] as! [AnyObject]
+            for item in resjson{
+            if((item["chunk"]) != nil)
+            {
+            print("got key chain")
+            }
+            }*/
+            print("newjson[data][chunk.debugDescription is:")
+            print("newjson[data][chunk].debugDescription")
+            print(myJSONdata)
+            print(myJSONdata["data"].isExists())
+            if(myJSONdata != "Speaking" && myJSONdata != "Silent" && !jsonnnn.isEmpty){
+                print("inside 1")
+                print(jsonnnn["eventName"]!)
+                //if (myJSONdata["data"]["file_meta"].isExists())
+                if(jsonnnn["eventName"]!.debugDescription == "data_msg")
+                    //&& myJSONdata["data"]["file_meta"].debugDescription != "null")
+                {   fileTransferCompleted=false
+                    
+                    print("myjsondata....")
+                    print(myJSONdata["data"]["file_meta"])
+                    print("jsonnnn.valueForKey.......")
+                    print(jsonnnn["eventName"])
+                    print(jsonnnn["data"]!["file_meta"]!!["size"]!)
+                    
+                    print("file received \(myJSONdata["data"]["file_meta"].isExists())")
+                    
+                    var sizeee=Int.init((jsonnnn["data"]!["file_meta"]!!["size"]!?.debugDescription)!)
+                    fileSizeReceived=sizeee
+                    fid=Int.init((jsonnnn["data"]!["file_meta"]!!["fid"]!?.debugDescription)!)
+                    print("fid is \(fid)")
+                    
+                    //////////filePathReceived=channelJSON["data"]["file_meta"]["name"].debugDescription
+                    filePathReceived=jsonnnn["data"]!["file_meta"]!!["name"]!!.debugDescription
+                    ////fileSizeReceived=jsonnnn["data"]!["file_meta"]!!["size"]!! as! Int
+                    print("file sizeeee jsonnnn is \(channelJSON["data"]["file_meta"]["size"].debugDescription)")
+                    
+                    print("file sizeeee channelJSON is \(jsonnnn["data"]!["file_meta"]!!["size"].debugDescription)")
+                    print("file sizeeee sizeee is \(sizeee)")
+                    /////////////fileSizeReceived = channelJSON["data"]["file_meta"]["size"].intValue
+                    
+                    ///fileSizeReceived=myJSONdata["data"]["file_meta"]["size"].intValue
+                    
+                    
+                    
+                    ///NEW ADDITION MAKE FILENAME GLOBAL
+                    filejustreceivedname=filePathReceived!
+                    /////////
+                    var x=Double(fileSizeReceived / fu.chunkSize)
+                    numberOfChunksInFileToSave = ceil(x)
+                    print("number of chunks to save in received file are \(numberOfChunksInFileToSave)")
+                    numberOfChunksReceived=0
+                    chunknumbertorequest=0
+                    if(fu.isFreeSpacAvailable(fileSizeReceived))
+                    {
+                        print("requesting chunk now")
+                        //requestchunk(chunknumbertorequest)
+                        
+                        var mjson="{\"chunk\":\(chunknumbertorequest),\"browser\":\"firefox\",\"fid\":\(fid!),\"requesterid\":\(currentID!)}"
+                        var fmetadata="{\"eventName\":\"request_chunk\",\"data\":\(mjson)}"
+                        self.sendDataBuffer(fmetadata,isb: false)
+                        
+                        
+                    }
+                    else
+                    {
+                        print("need more space")
+                    }
+                    //UPDATE FILE UI..........................................receivedfileoffer
+                    
+                    
+                    /*
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                    onStatusChanged("Receiving file...");
+                    if (Utility.isFreeSpaceAvailableForFileSize(sizeOfFileToSave)) {
+                    Log.w("FILE_TRANSFER", "Free space is available for file save, requesting chunk now");
+                    fileTransferService.requestChunk();
+                    } else {
+                    Log.w("FILE_TRANSFER", "Need more space to save this file");
+                    onStatusChanged("Need more free space to save this file");
+                    }
+                    }*/
+                    
+                    
+                    //var fileSizeReceived:Int!
+                    //var fileContentsReceived:NSData!
+                    /*
+                    fileNameToSave = jsonData.getJSONObject("data").getJSONObject("file_meta").getString("name");
+                    sizeOfFileToSave = jsonData.getJSONObject("data").getJSONObject("file_meta").getInt("size");
+                    numberOfChunksInFileToSave = (int) Math.ceil(sizeOfFileToSave / Utility.getChunkSize());
+                    numberOfChunksReceived = 0;
+                    chunkNumberToRequest = 0;
+                    fileBytesArray = new ArrayList<Byte>();
+                    
+                    mListener.receivedFileOffer(fileNameToSave + " : " + FileUtils.getReadableFileSize(sizeOfFileToSave), sizeOfFileToSave);
+                    */
+                    
+                    ///var ccccc:Int
+                    ////ccccc=0
+                    
+                    
+                    /*
+                    request_chunk.put("eventName", "request_chunk");
+                    JSONObject request_data = new JSONObject();
+                    request_data.put("chunk", chunkNumberToRequest);
+                    request_data.put("browser", "firefox"); // This firefox is hardcoded for testing purpose
+                    request_chunk.put("data", request_data);
+                    */
+                    
+                }
+                else
+                {
+                    print("inside 2")
+                    print(jsonnnn["eventName"]!)
+                    //if (myJSONdata["data"]["chunk"].isExists() && myJSONdata["data"]["chunk"].debugDescription != "" )
+                    if(jsonnnn["eventName"]!.debugDescription == "request_chunk")
+                    {
+                        print("chunk number is \(myJSONdata["data"]["chunk"].rawValue)")
+                        print(channelJSON["data"][0]["browser"].debugDescription)
+                        print(channelJSON["data"][0]["chunk"].intValue)
+                        chunknumber=myJSONdata["data"][0]["chunk"].intValue
+                        
+                        ////////FU utility
+                        if(chunknumber % fu.chunks_per_ack == 0)
+                        {
+                            for(var i=0;i<fu.chunks_per_ack;i++)
+                            {
+                                if(Int(fileSize1) < fu.chunkSize)
+                                {
+                                    var bytebuffer=fu.convert_file_to_byteArray(filePathImage)
+                                    var byteToNSstring=NSString(bytes: &bytebuffer, length: bytebuffer.count, encoding: NSUTF8StringEncoding)
+                                    var bytestringfile:NSData!
+                                    do{
+                                        
+                                    bytestringfile=try NSData(contentsOfFile: byteToNSstring as! String)
+                                    }catch
+                                    {
+                                       bytestringfile=NSData(contentsOfURL: urlLocalFile)
+                                    }
+                                    print("file size smaller than chunk")
+                                    if(bytestringfile==nil)
+                                    {
+                                        bytestringfile=NSData(contentsOfURL: urlLocalFile)
+                                    }
+                                    var check=self.rtcDataChannel.sendData(RTCDataBuffer(data: bytestringfile,isBinary: true))
+                                    print("chunk has been sent \(check)")
+                                    break
+                                    
+                                }
+                                print("file size is \(fileSize1)")
+                                var x=CGFloat(fileContents.length/fu.chunkSize)
+                                if(CGFloat(chunknumber+i) >= ceil(x))
+                                {
+                                    print("file size came in math ceiling condition")
+                                }
+                                var upperlimit=(chunknumber+i+1)*fu.chunkSize
+                                if(upperlimit > fileContents.length)
+                                {
+                                    upperlimit = fileContents.length-1
+                                }
+                                var lowerlimit=(chunknumber+i)*fu.chunkSize
+                                print("lowerlimit \(lowerlimit) upper limit \(upperlimit)")
+                                if(lowerlimit > upperlimit)
+                                {break}
+                                
+                                var bytestringfile=NSFileManager.defaultManager().contentsAtPath(filePathImage)
+                                if(bytestringfile==nil)
+                                {
+                                    bytestringfile=NSData(contentsOfURL: urlLocalFile)
+                                }
+                                /// var bytestringfile=NSData(contentsOfFile: bytebuffer)
+                                var newbuffer=Array<UInt8>(count: upperlimit-lowerlimit, repeatedValue: 0)
+                                bytestringfile?.getBytes(&newbuffer, range: NSRange(location: lowerlimit,length: upperlimit-lowerlimit))
+                                self.rtcDataChannel.sendData(RTCDataBuffer(data: bytestringfile,isBinary: true))
+                                print("chunk has been sent")
+                                
+                            }
+                        }
+                        //requestchunk(chunknumber)
+                        
+                    }//if data chunk exists
+                    
+                }//end else
+                
+            }//if speaking!=nil
+            
+            
+        }
+            
+        else
+        {
+            print("yes binary")
+            
+            for eachbyte in bytes
+            {
+                print("appending bytes array")
+                bytesarraytowrite.append(eachbyte)
+            }
+            
+            var modanswer=numberOfChunksReceived % fu.chunks_per_ack
+            if(modanswer==(fu.chunks_per_ack-1) || numberOfChunksInFileToSave == (Double(numberOfChunksReceived+1)))
+            {
+                
+                
+                if(numberOfChunksInFileToSave > Double(numberOfChunksReceived))
+                {
+                    chunknumbertorequest += fu.chunks_per_ack
+                    print("asking other chunk..")
+                    //requestchunk(chunknumbertorequest)
+                    
+                    var mjson="{\"chunk\":\(chunknumbertorequest),\"browser\":\"firefox\",\"fid\":\(fid) ,\"requesterid\":\(currentID!)}"
+                    var fmetadata="{\"eventName\":\"request_chunk\",\"data\":\(mjson)}"
+                    self.sendDataBuffer(fmetadata,isb: false)
+                }
+            }
+            else{
+                if(numberOfChunksInFileToSave == Double(numberOfChunksReceived))
+                {
+                    print("file transfer completed..")
+                    fileTransferCompleted=true;
+                    
+       
+                }
+            }
+            numberOfChunksReceived++
+            /*
+            if(buffer.binary){
+            
+            String strData = new String( bytes );
+            Log.w("FILE_TRANSFER", strData);
+            
+            for(int i=0; i<bytes.length; i++)
+            fileBytesArray.add(bytes[i]);
+            
+            if (numberOfChunksReceived % Utility.getChunksPerACK() == (Utility.getChunksPerACK() - 1)
+            || numberOfChunksInFileToSave == (numberOfChunksReceived + 1)) {
+            if (numberOfChunksInFileToSave > numberOfChunksReceived) {
+            chunkNumberToRequest += Utility.getChunksPerACK();
+            Log.w("FILETRANSFER", "Asking other chunk");
+            requestChunk();
+            }
+            } else {
+            if (numberOfChunksInFileToSave == numberOfChunksReceived) {
+            Log.w("FILETRANSFER", "File transfer completed");
+            mListener.fileTransferCompleteNotification(fileNameToSave + " : " +
+            FileUtils.getReadableFileSize(sizeOfFileToSave), fileBytesArray, fileNameToSave);
+            }
+            }
+            
+            numberOfChunksReceived++;s
+            */
+            
+            
+            
+            /* let writeString = "Hello, world!"
+            
+            let filePath = NSHomeDirectory() + "/Library/Caches/test.txt"
+            
+            do {
+            _ = try writeString.writeToFile(filePath, atomically: true, encoding: NSUTF8StringEncoding)
+            } catch let error as NSError {
+            print(error.description)
+            }
+            
+            */
+            //let fm = NSFileManager.defaultManager()
+            let dirPaths = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)
+            let docsDir1 = dirPaths[0]
+            var documentDir=docsDir1 as NSString
+            var filePathImage2=documentDir.stringByAppendingPathComponent(filejustreceivedname!)
+            filejustreceivedPathURL=NSURL(fileURLWithPath: filePathImage2)
+            print("filejustreceivedPathURL is \(filejustreceivedPathURL)")
+            var fm=NSFileManager.defaultManager()
+            
+            
+            //////////^^^^^^^newww tryy var filedata:NSData=fu.convert_byteArray_to_fileNSData(bytes)
+            var filedata:NSData=fu.convert_byteArray_to_fileNSData(bytesarraytowrite)
+            
+            var s=fm.createFileAtPath(filePathImage2, contents: nil, attributes: nil)
+            
+            var written=filedata.writeToFile(filePathImage2, atomically: false)
+            
+            if(written==true)
+            {
+                var furl2=NSURL(fileURLWithPath: filePathImage2)
+                print("local furl2 is\(furl2)")
+                
+                //documentInteractionController = UIDocumentInteractionController(URL: fileURL)
+                //documentInteractionController.delegate=self
+                //documentInteractionController.presentOpenInMenuFromRect(CGRect(x: 20, y: 100, width: 300, height: 200), inView: self.view, animated: true)
+                
+                
+                
+                
+                /* var fileManager=NSFileManager.defaultManager()
+                var e:NSError!
+                print("saving to iCloud")
+                //dispatch_async(dispatch_get_global_queue(QOS_CLASS_BACKGROUND, 0), { () -> Void in
+                var dest=fileManager.URLForUbiquityContainerIdentifier(nil)
+                print("desi is \(dest)")
+                if(fileManager.fileExistsAtPath((dest?.URLByAppendingPathComponent("Documents").URLString)!))
+                {
+                print("yess file directory dest document existss")
+                }
+                //?.URLByAppendingPathComponent("Documents")
+                
+                do
+                {
+                //var newdest=dest!.URLByAppendingPathComponent("Documents", isDirectory: true)
+                //print("newdest is \(newdest.debugDescription)")
+                //var ans=try fileManager.setUbiquitous(true, itemAtURL: self.fileURL, destinationURL: newdest)
+                var ans=try fileManager.setUbiquitous(true, itemAtURL: furl2, destinationURL: dest!.URLByAppendingPathComponent("myfile.doc"))
+                
+                print("ans is \(ans)")
+                
+                }catch
+                {
+                print("error is \(error)")
+                }
+                */
+                
+                
+                // })
+                
+                
+                
+                
+                btnViewFile.enabled=true
+                print("file writtennnnn \(s) \(filedata.debugDescription)")
+                
+                if(fileTransferCompleted==true)
+                {
+                    bytesarraytowrite=Array<UInt8>()
+                    numberOfChunksReceived=0
+                    numberOfChunksInFileToSave=0
+                    btnViewFile.enabled=true
+                    let alert = UIAlertController(title: "Success", message: "You have received a new file. Click on \"View\" button at top to View and Save it.", preferredStyle: UIAlertControllerStyle.Alert)
+                    alert.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.Default, handler: nil))
+                    //UIApplication.sharedApplication().keyWindow?.rootViewController!.presentViewController(alert, animated: true, completion: nil)
+                    //if(UIApplication.sharedApplication().keyWindow?.rootViewController.present)
+                    self.presentViewController(alert, animated: true, completion: nil)
+                    //delegateFileReceived.didReceiveFileConference()
+
+                    self.delegateFileReceived?.didReceiveFileConference()
+                    //self.didReceiveFileConference()
+                }
+                ///self.didReceiveFileConference()
+            }
+            /*var receivedfile=fm.contentsAtPath(filePathImage2)
+            do{var receivedfile2=try NSString(contentsOfFile: filePathImage2, encoding: NSUTF8StringEncoding)
+            print("file output is ")
+            print(receivedfile2)
+            
+            }catch let error as NSError
+            {
+            print(error)
+            }
+            catch
+            {
+            
+            }*/
+            
+            /*
+            //to convert NSData to pdf
+            NSData *data     = [NSData dataWithBytes:(void)wdslBytes length:sizeOf(wdslBytes)];
+            CFDataRef myPDFData  = (CFDataRef)data;
+            CGDataProviderRef provider = CGDataProviderCreateWithCFData(myPDFData);
+            CGPDFDocumentRef pdf   = CGPDFDocumentCreateWithProvider(provider);
+            */
+            
+            // var bytesreceived=Array<UInt8>(count: fileSizereceived, repeatedValue: 0)
+            
+            // bytes.append(buffer.data.bytes)
+            //buffer.data.getBytes(&bytesreceived, length: buffer.data.length)
+            // print(bytes.debugDescription)
+            ///////// var sssss=NSString(bytes: &bytes, length: buffer.data.length, encoding: NSUTF8StringEncoding)
+            /*
+            let writeString = "Hello, world!"
+            
+            let filePath = NSHomeDirectory() + "/Library/Caches/test.txt"
+            
+            do {
+            _ = try writeString.writeToFile(filePath, atomically: true, encoding: NSUTF8StringEncoding)
+            } catch let error as NSError {
+            print(error.description)
+            }
+            */
+        }
+        
+        
+        
+        //-----------------------
+        //----------------------
+        
+        
+        
+        
+    }
+    
+    
+    
+    /*func channel(channel: RTCDataChannel!, didReceiveMessageWithBuffer buffer: RTCDataBuffer!) {
+        print("didReceiveMessageWithBuffer")
+        print(buffer.data.debugDescription)
+        //var channelJSON=JSON(buffer.data!)
+        //print(channelJSON.debugDescription)
+        
+        //----------------------
+        //-----------------------
+        var new:String!
+        //////buffer.data.length// make array of this size
+        print("didReceiveMessageWithBuffer")
+        //print(buffer.data.debugDescription)
+        var channelJSON=JSON(buffer.data!)
+        print(channelJSON.debugDescription)
+        //var bytes:[UInt8]
+        var bytes=Array<UInt8>(count: buffer.data.length, repeatedValue: 0)
+        
+        // bytes.append(buffer.data.bytes)
+        buffer.data.getBytes(&bytes, length: buffer.data.length)
+        print(bytes.debugDescription)
+        
+        //NSUTF8StringEncoding
         
         
         var sssss=NSString(bytes: &bytes, length: buffer.data.length, encoding: NSUTF8StringEncoding)
@@ -1939,6 +2447,7 @@ class VideoViewController: UIViewController,RTCPeerConnectionDelegate,RTCSession
                 if(numberOfChunksInFileToSave == Double(numberOfChunksReceived))
                 {
                     print("file transfer completed..")
+                    self.didReceiveFileConference()
                     //////bytesarraytowrite=Array<UInt8>()
                 }
             }
@@ -2048,7 +2557,7 @@ class VideoViewController: UIViewController,RTCPeerConnectionDelegate,RTCSession
                 btnViewFile.enabled=true
                 print("file writtennnnn \(s) \(filedata.debugDescription)")
                 
-                self.didReceiveFileConference()
+                //////////***************** april 2016 self.didReceiveFileConference()
             }
             /*var receivedfile=fm.contentsAtPath(filePathImage2)
             do{var receivedfile2=try NSString(contentsOfFile: filePathImage2, encoding: NSUTF8StringEncoding)
@@ -2100,9 +2609,22 @@ class VideoViewController: UIViewController,RTCPeerConnectionDelegate,RTCSession
         
         
     }
+    
+    */
+*/
+    
     func channelDidChangeState(channel: RTCDataChannel!) {
         print("channelDidChangeState")
         print(channel.debugDescription)
+        if(channel.state == kRTCDataChannelStateOpen)
+        {
+          print("data channel opened now")
+            dispatch_async(dispatch_get_main_queue()) { () -> Void in
+                self.btncapture.enabled=true
+                self.btnShareFile.enabled=true
+                
+            }
+        }
         
     }
     
@@ -2111,11 +2633,16 @@ class VideoViewController: UIViewController,RTCPeerConnectionDelegate,RTCSession
         print(NSOpenStepRootDirectory())
         ///var UTIs=UTTypeCopyPreferredTagWithClass("public.image", kUTTypeImage)?.takeRetainedValue() as! [String]
         
-        let importMenu = UIDocumentMenuViewController(documentTypes: [kUTTypeText as NSString as String],
+        let importMenu = UIDocumentMenuViewController(documentTypes: [kUTTypeText as NSString as String, kUTTypeImage as String,"com.adobe.pdf","public.jpeg","public.html","public.content","public.data","public.item",kUTTypeBundle as String],
             inMode: .Import)
         ///////let importMenu = UIDocumentMenuViewController(documentTypes: UTIs, inMode: .Import)
         importMenu.delegate = self
-        self.presentViewController(importMenu, animated: true, completion: nil)
+        dispatch_async(dispatch_get_main_queue()) { () -> Void in
+            self.presentViewController(importMenu, animated: true, completion: nil)
+            
+            
+        }
+        
         //////////mdata.sharefile()
         
         /*let documentPicker = UIDocumentPickerViewController(documentTypes: [kUTTypeText as NSString as String],
@@ -2124,7 +2651,13 @@ class VideoViewController: UIViewController,RTCPeerConnectionDelegate,RTCSession
         presentViewController(documentPicker, animated: true, completion: nil)*/
     }
     
+    
     func documentPicker(controller: UIDocumentPickerViewController, didPickDocumentAtURL url: NSURL) {
+        
+        if (controller.documentPickerMode == UIDocumentPickerMode.Import) {
+            NSLog("Opened ", url.path!);
+        
+
         
         print("picker url is \(url)")
         
@@ -2149,23 +2682,36 @@ class VideoViewController: UIViewController,RTCPeerConnectionDelegate,RTCSession
             print(furl!.URLByDeletingPathExtension?.lastPathComponent!)
             var ftype=furl!.pathExtension!
             var fname=furl!.URLByDeletingPathExtension?.lastPathComponent!
+            
             //var attributesError=nil
             var fileAttributes:[String:AnyObject]=["":""]
-            do{
-                fileAttributes = try NSFileManager.defaultManager().attributesOfItemAtPath(furl!.path!)
+            do {
+                let fileAttributes : NSDictionary? = try NSFileManager.defaultManager().attributesOfItemAtPath(furl!.path!)
+                
+                if let _attr = fileAttributes {
+                   self.fileSize1 = _attr.fileSize();
+                    ////***april 2016 neww self.fileSize=(fileSize1 as! NSNumber).integerValue
+                }
+            } catch {
+                print("Error: \(error)")
+            }
+            /*do{
+               /// fileAttributes = try NSFileManager.defaultManager().attributesOfItemAtPath(furl!.path!)
+                fileAttributes = try NSFileManager.defaultManager().attributesOfItemAtPath(url.URLString)
                 
             }catch
             {print("error")
-                print(fileAttributes)
+                print(error)
             }
-            
+            */
+            /* NEW COMMENTED APRIL @)!^
             let fileSizeNumber = fileAttributes[NSFileSize]! as! NSNumber
             print(fileAttributes[NSFileType] as! String)
             
             self.fileSize=fileSizeNumber.integerValue
-            
+            */
             //FILE METADATA size
-            print(self.fileSize)
+            //print(self.fileSize)
             urlLocalFile=url
             /////let text2 = fm.contentsAtPath(filePath)
             ////////print(text2)
@@ -2173,9 +2719,9 @@ class VideoViewController: UIViewController,RTCPeerConnectionDelegate,RTCSession
             ///mdata.fileContents=fm.contentsAtPath(filePathImage)!
             self.fileContents=NSData(contentsOfURL: url)
             self.filePathImage=url.URLString
-            var filecontentsJSON=JSON(NSData(contentsOfURL: url)!)
-            print(filecontentsJSON)
-            var mjson="{\"file_meta\":{\"name\":\"\(fname!)\",\"size\":\"\(self.fileSize.description)\",\"filetype\":\"\(ftype)\",\"browser\":\"firefox\",\"uname\":\"\(username!)\",\"fid\":\(self.myfid),\"senderid\":\(currentID!)}}"
+            //var filecontentsJSON=JSON(NSData(contentsOfURL: url)!)
+            //print(filecontentsJSON)
+            var mjson="{\"file_meta\":{\"name\":\"\(fname!)\",\"size\":\"\(self.fileSize1.description)\",\"filetype\":\"\(ftype)\",\"browser\":\"firefox\",\"uname\":\"\(username!)\",\"fid\":\(self.myfid),\"senderid\":\(currentID!)}}"
             var fmetadata="{\"eventName\":\"data_msg\",\"data\":\(mjson)}"
             self.sendDataBuffer(fmetadata,isb: false)
             socketObj.socket.emit("conference.chat", ["message":"You have received a file. Download and Save it.","username":username!])
@@ -2187,9 +2733,9 @@ class VideoViewController: UIViewController,RTCPeerConnectionDelegate,RTCSession
             
         }
         
-        
-        url.stopAccessingSecurityScopedResource()
+   url.stopAccessingSecurityScopedResource()
         //mdata.sharefile(url)
+    }
     }
     
     
@@ -2205,27 +2751,68 @@ class VideoViewController: UIViewController,RTCPeerConnectionDelegate,RTCSession
         
         
     }
+    
+    
 
-    func didReceiveFileConference()
+    /*func didReceiveFileConference()
     {
         btnViewFile.enabled=true
-        let alert = UIAlertController(title: "Success", message: "You have received a new file", preferredStyle: UIAlertControllerStyle.Alert)
+        
+        let alert = UIAlertController(title: "Success", message: "You have received a new file. Click on \"View\" button at top to View and Save it.", preferredStyle: UIAlertControllerStyle.Alert)
         alert.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.Default, handler: nil))
+        //UIApplication.sharedApplication().keyWindow?.rootViewController!.presentViewController(alert, animated: true, completion: nil)
+        //if(UIApplication.sharedApplication().keyWindow?.rootViewController.present)
         self.presentViewController(alert, animated: true, completion: nil)
+        delegateFileReceived.didReceiveFileConference()
     }
-    func sendImage(imageData:NSData)
+    */
+    public func sendImage(imageData:NSData)
     {
         
         //var test="{length:\(imageData.length)}"
+        //var a=nil
+        /*var imageWithHeaderBinary:NSData!
+        var imageWithHeader:[String:AnyObject]=["image":imageData, "type":"screen"]
+        do{
+        var imageDataJSON = JSON(["image":imageData, "type":"screen"])
+            
+        imageWithHeaderBinary = try imageDataJSON.rawValue as! NSData
+          print(":::::::::::::::::::::::::::::: \(imageWithHeaderBinary)")
+        }
+        catch{
+            print("Error in image data binary \(imageWithHeaderBinary)")
+        }*/
         
-        
-        //dispatch_async(dispatch_get_main_queue(), { () -> Void in
+            //dispatch_async(dispatch_get_main_queue(), { () -> Void in
         var buf=Double(rtcDataChannel.bufferedAmount).value
         var buflimit:Int64=16000000
-        
+    
         //if(buf < buflimit.value)
         // {
+        //file=NSData(contentsOfURL: urlLocalFile)
+        
+        
+    /*
+    var bytes=Array<UInt8>(count: imageData.length, repeatedValue: 0)
+    
+    // bytes.append(buffer.data.bytes)
+    imageData.getBytes(&bytes, length: imageData.length)
+    // print(bytes.debugDescription)
+    var sssss=NSString(bytes: &bytes, length: imageData.length, encoding: NSUTF8StringEncoding)
+    print("image contents are \(sssss)")
+        ////var testimage=NSString(data: imageData, encoding: NSDataBase64EncodingOptions.Encoding76CharacterLineLength.rawValue)
+       //working haultsss********** 
+        var testimage=NSString(data: imageData, encoding: NSUTF16StringEncoding)
+    print("testimage is \(testimage)")
+        
+        var imageString="{\"image\":\"\(testimage)\",\"type\":\"screen\"}"
+        var imageWithHeader=NSData(contentsOfFile: testimage as! String)
+    //NSData(
+        var imageSent=self.rtcDataChannel.sendData(RTCDataBuffer(data: imageWithHeader, isBinary: false))
+        
+        */
         var imageSent=self.rtcDataChannel.sendData(RTCDataBuffer(data: imageData, isBinary: true))
+        ////var imageSent=self.rtcDataChannel.sendData(RTCDataBuffer(data: imageWithHeaderBinary, isBinary: false))
         print("image senttttt \(imageSent)")
         //}
         
@@ -2234,3 +2821,9 @@ class VideoViewController: UIViewController,RTCPeerConnectionDelegate,RTCSession
     }
     
 }
+
+protocol FileReceivedAlertDelegate:class
+{
+    func didReceiveFileConference();
+}
+

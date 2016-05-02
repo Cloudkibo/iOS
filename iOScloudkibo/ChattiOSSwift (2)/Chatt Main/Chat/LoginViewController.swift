@@ -12,43 +12,118 @@ import SwiftyJSON
 import SQLite
 
 
-class LoginViewController: UIViewController, UITextFieldDelegate{
+class LoginViewController: UIViewController,SocketConnecting{
     
     var rt=NetworkingLibAlamofire()
-    
+    var delegateSocket:SocketConnecting!
+    @IBOutlet weak var progressWheel: UIActivityIndicatorView!
     var contactsJsonObj:JSON=""
     @IBOutlet var viewForContent : UIScrollView!
     @IBOutlet var viewForUser : UIView!
     @IBOutlet var txtForEmail : UITextField!
     @IBOutlet var txtForPassword : UITextField!
      @IBOutlet weak var txtForRoomName: UITextField!
+   
+    
+    override func viewWillAppear(animated: Bool) {
+        
+        /*if(socketConnected == false)
+        {
+            socketObj.socket.connect(timeoutAfter: 5000) { () -> Void in
+                
+                socketObj.socket.reconnect()
+                
+            }
+        }*/
+        
+        /*if(socketObj == nil)
+        {
+            print("socket is nillll22", terminator: "")
+            socketObj=LoginAPI(url:"\(Constants.MainUrl)")
+            //socketObj.connect()
+            socketObj.addHandlers()
+            socketObj.addWebRTCHandlers()
+        }*/
+    }
     
     @IBAction func btnConferenceStart(sender: AnyObject) {
         
         
-        
+        meetingStarted=true
         print("call pressed")
+        //1. Create the alert controller.
         
-        username = "iphoneUser"
-        //iamincallWith = "webConference"
-        isInitiator = false
-        isConference = true
-        ConferenceRoomName = txtForRoomName.text!
-        /////////socketObj.sendMessagesOfMessageType("Conference Call")
-        
-        socketObj.socket.emitWithAck("init", ["room":ConferenceRoomName,"username":username!])(timeoutAfter: 150000000) {data in
-            print("room joined by got ack")
-            var a=JSON(data)
-            print(a.debugDescription)
-            currentID=a[1].int!
-            print("current id is \(currentID)")
-            print("room joined is\(ConferenceRoomName)")
-        }
-        let next = self.storyboard!.instantiateViewControllerWithIdentifier("MainV2") as! VideoViewController
-        
-        self.presentViewController(next, animated: true, completion:nil)
-        
-        
+        dispatch_async(dispatch_get_main_queue(),{
+            var alert = UIAlertController(title: "Welcome to Cloudkibo Meeting", message: "Please enter your username", preferredStyle: .Alert)
+            
+            //2. Add the text field. You can configure it however you need.
+            alert.addTextFieldWithConfigurationHandler({ (textField) -> Void in
+            textField.text = ""
+            })
+
+            
+            //3. Grab the value from the text field, and print it when the user clicks OK.
+            alert.addAction(UIAlertAction(title: "OK", style: .Default, handler: { (action) -> Void in
+                let textField = alert.textFields![0] as UITextField
+                username = textField.text!
+                print("Text field: \(textField.text)")
+                
+                
+                ///username = "iphoneUser"
+                //iamincallWith = "webConference"
+                isInitiator = false
+                isConference = true
+                ConferenceRoomName = self.txtForRoomName.text!
+                
+                
+                /////////socketObj.sendMessagesOfMessageType("Conference Call")
+                /*if(socketConnected == false)
+                {
+                    socketObj.socket.connect(timeoutAfter: 5000) { () -> Void in
+                        
+                        socketObj.socket.reconnect()
+                        
+                    }
+                }*/
+                
+                /*
+                if(socketObj == nil)
+                {
+                    print("socket is nillll22", terminator: "")
+                    socketObj=LoginAPI(url:"\(Constants.MainUrl)")
+                    //socketObj.connect()
+                    socketObj.addHandlers()
+                    socketObj.addWebRTCHandlers()
+                }
+                */
+                if(isSocketConnected==true){
+                socketObj.socket.emitWithAck("init", ["room":ConferenceRoomName,"username":username!])(timeoutAfter: 1500000) {data in
+                    
+                    print("room joined by got ack")
+                    var a=JSON(data)
+                    print(a.debugDescription)
+                    currentID=a[1].int!
+                    print("current id is \(currentID)")
+                    print("room joined is\(ConferenceRoomName)")
+                }
+                }
+                let next = self.storyboard!.instantiateViewControllerWithIdentifier("MainV2") as! VideoViewController
+                
+                self.presentViewController(next, animated: true, completion:nil)
+                
+
+            }))
+            
+            // 4. Present the alert.
+            self.presentViewController(alert, animated: true, completion:
+                {
+                    
+
+                }
+            )
+            
+ 
+        })
         
         
         
@@ -79,7 +154,15 @@ class LoginViewController: UIViewController, UITextFieldDelegate{
         
         
         print("call pressed")
-        if(socketObj == nil)
+        /*if(socketConnected == false)
+        {
+            socketObj.socket.connect(timeoutAfter: 5000) { () -> Void in
+                
+                socketObj.socket.reconnect()
+                
+            }
+        }*/
+        /*if(socketObj == nil)
         {
             print("socket is nillll1", terminator: "")
             socketObj=LoginAPI(url:"\(Constants.MainUrl)")
@@ -87,7 +170,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate{
             socketObj.addHandlers()
             socketObj.addWebRTCHandlers()
             //socketObj.addWebRTCHandlersVideo()
-        }
+        }*/
         
         username = "iphoneUser"
         //iamincallWith = "webConference"
@@ -148,6 +231,50 @@ class LoginViewController: UIViewController, UITextFieldDelegate{
     override func viewDidLoad() {
         super.viewDidLoad()
         print("Login ViewController loadeddddd")
+        socketObj.delegateSocketConnected=self
+        if(isSocketConnected==true)
+        {
+            progressWheel.stopAnimating()
+            progressWheel.hidden=true
+        }
+        /*while(isSocketConnected==false)
+        {
+            if(isSocketConnected==false)
+            {progressWheel.startAnimating()
+                progressWheel.hidden=false
+            }
+            else{
+                progressWheel.stopAnimating()
+                progressWheel.hidden=true
+                break
+            }
+        }*/
+        /*if(isSocketConnected==false)
+        {
+            progressWheel.startAnimating()
+            progressWheel.hidden=false
+        }
+        if(isSocketConnected==true)
+        {
+            progressWheel.stopAnimating()
+            progressWheel.hidden=true
+        }*/
+       /* if(isSocketConnected == false)
+        {
+            progressWheel.startAnimating()
+        }
+        else{
+        progressWheel.stopAnimating()
+            progressWheel.hidden=true
+        }*/
+        /*if(socketConnected == false)
+        {
+            socketObj.socket.connect(timeoutAfter: 5000) { () -> Void in
+                
+                socketObj.socket.reconnect()
+                
+            }
+        }*/
         if(socketObj == nil)
         {
             print("socket is nillll22", terminator: "")
@@ -169,29 +296,6 @@ class LoginViewController: UIViewController, UITextFieldDelegate{
         
         
         // Do any additional setup after loading the view.
-    }
-    
-    override func viewWillAppear(animated: Bool) {
-        
-        if(socketObj == nil)
-        {
-            print("socket is nillll22", terminator: "")
-            socketObj=LoginAPI(url:"\(Constants.MainUrl)")
-            //socketObj.connect()
-            socketObj.addHandlers()
-            socketObj.addWebRTCHandlers()
-        }
-        
-    }
-    override func viewDidAppear(animated: Bool) {
-        if(socketObj == nil)
-        {
-            print("socket is nillll22", terminator: "")
-            socketObj=LoginAPI(url:"\(Constants.MainUrl)")
-            //socketObj.connect()
-            socketObj.addHandlers()
-            socketObj.addWebRTCHandlers()
-        }
     }
     
     func willShowKeyBoard(notification : NSNotification){
@@ -236,6 +340,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate{
         } else if (textField == txtForPassword){
             textField.resignFirstResponder()
         }
+        textField.resignFirstResponder()
         return true
     }
     
@@ -413,7 +518,19 @@ class LoginViewController: UIViewController, UITextFieldDelegate{
                     
                 
                         print(error)
-                    }}}}
+                    }
+                }
+                
+            }
+            else
+            {self.labelLoginUnsuccessful.text="Please enter valid username/password"
+                self.txtForEmail.text=nil
+                self.txtForPassword.text=nil
+                
+                print("GOT USER FAILED")
+    
+            }
+        }
                     
                     
                     
@@ -597,7 +714,55 @@ class LoginViewController: UIViewController, UITextFieldDelegate{
     }
     
     
+    func textFieldDidBeginEditing(textField: UITextField) {
+        
+        
+    }
+    func textFieldDidEndEditing(textField: UITextField) {
+        
+        
+    }
+    func textFieldShouldBeginEditing(textField: UITextField) -> Bool {
+        return true
+        
+        
+    }
     
+    func textFieldShouldClear(textField: UITextField) -> Bool {
+        return true
+        
+        
+    }
+    func textFieldShouldEndEditing(textField: UITextField) -> Bool {
+        return true
+        
+        
+    }
+    
+    
+    func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange, replacementString string: String) -> Bool {
+        
+        return true
+        
+        
+    }
+    func socketConnected() {
+        if(progressWheel != nil){
+        self.progressWheel.stopAnimating()
+        self.progressWheel.hidden=true
+        }
+    }
+    /*override func viewWillDisappear(animated: Bool) {
+        super.viewWillDisappear(false)
+        print("disappearing loginview")
+        if (self.isMovingFromParentViewController())
+        {
+            if ((self.navigationController!.delegate?.isEqual(self)) != nil)
+            {print("removing delegate")
+                self.navigationController!.delegate = nil;
+            }
+        }
+    }*/
     // #pragma mark - Navigation
     
     // In a storyboard-based application, you will often want to do a little preparation before navigation

@@ -689,7 +689,8 @@ dataChannel.send(img.data.subarray(n * CHUNK_LEN));
         print(NSOpenStepRootDirectory())
         ///var UTIs=UTTypeCopyPreferredTagWithClass("public.image", kUTTypeImage)?.takeRetainedValue() as! [String]
         
-        let importMenu = UIDocumentMenuViewController(documentTypes: [kUTTypePackage as String, kUTTypeText as NSString as String, kUTTypePDF as String,kUTTypeJPEG as String, kUTTypeMP3 as String, kUTTypeContent as String, kUTTypeData as String, kUTTypeDiskImage as String,"com.apple.iwork.keynote.key","com.apple.iwork.numbers.numbers","com.apple.iwork.pages.pages"],
+        let importMenu = UIDocumentMenuViewController(documentTypes: [kUTTypePackage as String, kUTTypeText as NSString as String, kUTTypePDF as String,kUTTypeJPEG as String, kUTTypeMP3 as String, kUTTypeContent as String, kUTTypeData as String, kUTTypeDiskImage as String,"com.apple.iwork.keynote.key","com.apple.iwork.numbers.numbers","com.apple.iwork.pages.pages",
+            "public.text","com.microsoft.word.doc","com.microsoft.excel.xls", "com.microsoft.powerpoint.ppt", "com.adobe.pdf"],
             inMode: .Import)
         ///////let importMenu = UIDocumentMenuViewController(documentTypes: UTIs, inMode: .Import)
         importMenu.delegate = self

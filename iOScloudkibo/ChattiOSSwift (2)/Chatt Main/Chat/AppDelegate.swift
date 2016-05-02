@@ -13,10 +13,13 @@ import Alamofire
 import Contacts
 import CloudKit
 
-
+var meetingStarted=false
+var isSocketConnected=false
+var delegateScreen:AppDelegateScreenDelegate!
+var screenCaptureToggle:Bool=false
 var webMeetingModel=webmeetingMsgsModel()
 //let socketObj=LoginAPI(url:"\(Constants.MainUrl)")
-var socketObj:LoginAPI!
+var socketObj:LoginAPI!=nil
 let sqliteDB=DatabaseHandler(dbName:"cloudkibo.sqlite3")
 ////let sqliteDB=DatabaseHandler(dbName: "")
 var AuthToken=KeychainWrapper.stringForKey("access_token")
@@ -52,7 +55,7 @@ var filejustreceivedPathURL:NSURL!
 var urlLocalFile:NSURL!
 
 @UIApplicationMain
-class AppDelegate: UIResponder, UIApplicationDelegate {
+class AppDelegate: UIResponder, UIApplicationDelegate,AppDelegateScreenDelegate {
     
     var window: UIWindow?
     
@@ -60,6 +63,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     //  var window: UIWindow?
     
     
+    /*func application(application: UIApplication, willFinishLaunchingWithOptions launchOptions: [NSObject : AnyObject]?) -> Bool {
+        
+        print("launchingggggggggg")
+        return true
+    }*/
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         // Override point for customization after application launch.
         
@@ -68,6 +76,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         UIApplication.sharedApplication().setStatusBarStyle(UIStatusBarStyle.LightContent, animated: false);
         
         UINavigationBar.appearance().titleTextAttributes = [NSForegroundColorAttributeName: UIColor.whiteColor()]
+        //var socketObj=LoginAPI(url:"\(Constants.MainUrl)")
+        webMeetingModel.delegateScreen=self
+        UIApplication.sharedApplication().networkActivityIndicatorVisible=true
+        print("appdidFinishLaunching")
+        if(socketObj == nil)
+        {
+            print("socket is nillll", terminator: "")
+            socketObj=LoginAPI(url:"\(Constants.MainUrl)")
+            ///socketObj.connect()
+            socketObj.addHandlers()
+            socketObj.addWebRTCHandlers()
+        }
         
         /*application.registerUserNotificationSettings(UIUserNotificationSettings(forTypes: [.Alert, .Badge, .Sound], categories: nil))  // types are UIUserNotificationType members
         
@@ -108,18 +128,18 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
         object: nil];
 
         */
-          if(socketObj == nil)
-            {
-                print("socket is nillll1", terminator: "")
-                socketObj=LoginAPI(url:"\(Constants.MainUrl)")
-                //socketObj.connect()
-                socketObj.addHandlers()
-                socketObj.addWebRTCHandlers()
-                
-                //socketObj.addWebRTCHandlersVideo()
-            }
         
-    
+       
+       
+        /*
+            socketObj.socket.connect()
+            socketObj.addHandlers()
+            socketObj.addWebRTCHandlers()
+            //socketConnected=true
+            
+        */
+
+     
         
         
         
@@ -139,7 +159,17 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
     
     func applicationWillEnterForeground(application: UIApplication) {
         // Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
-        if(socketObj == nil)
+       
+        /*if(socketConnected == false)
+        {
+            
+            socketObj.socket.connect(timeoutAfter: 5000) { () -> Void in
+                
+                socketObj.socket.reconnect()
+                
+            }
+        }*/
+         if(socketObj == nil)
         {
             print("socket is nillll", terminator: "")
             socketObj=LoginAPI(url:"\(Constants.MainUrl)")
@@ -147,11 +177,22 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
             socketObj.addHandlers()
             socketObj.addWebRTCHandlers()
         }
+        
     }
     
     func applicationDidBecomeActive(application: UIApplication) {
         // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
-        if(socketObj == nil)
+       
+        /*if(socketConnected == false)
+        {
+            socketObj.socket.connect(timeoutAfter: 5000) { () -> Void in
+                
+                socketObj.socket.reconnect()
+                
+            }
+        }*/
+        print("app becomeActive")
+        if(socketObj == nil || isSocketConnected==false)
         {
             print("socket is nillll", terminator: "")
             socketObj=LoginAPI(url:"\(Constants.MainUrl)")
@@ -159,6 +200,18 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
             socketObj.addHandlers()
             socketObj.addWebRTCHandlers()
         }
+        else{
+            socketObj.socket.reconnects=true
+        }
+        
+        /* if(socketObj == nil)
+        {
+            print("socket is nillll", terminator: "")
+            socketObj=LoginAPI(url:"\(Constants.MainUrl)")
+            ///socketObj.connect()
+            socketObj.addHandlers()
+            socketObj.addWebRTCHandlers()
+        }*/
     }
     
     func applicationWillTerminate(application: UIApplication) {
@@ -330,6 +383,64 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
     {
 
 }
+    func screenCapture() {
+        atimer=NSTimer(timeInterval: 0.1, target: self, selector: "timerFiredScreenCapture", userInfo: nil, repeats: true)
+        
+    
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0)) { () -> Void in
+    while(screenCaptureToggle)
+    //for(var i=0;i<30000;i++)
+    {
+    atimer.fire()
+    sleep(1)
+    }
+    
+    }
+        
+
+    
+    }
+    func timerFiredScreenCapture()
+    {print("inside timerFiredScreenCapture")
+        
+        //if(countTimer%2 == 0){
+        
+        //while(atimer.timeInterval < 3000)
+        var chunkLength=64000
+        var screenshot:UIImage!
+        dispatch_async(dispatch_get_main_queue(), { () -> Void in
+            var myscreen=self.window!.snapshotViewAfterScreenUpdates(true)
+            
+            UIGraphicsBeginImageContext((self.window!.bounds.size))
+            
+            self.window!.drawViewHierarchyInRect(myscreen.bounds, afterScreenUpdates: true)
+            print("width is \(myscreen.layer.bounds.width), height is \(myscreen.layer.bounds.height)")
+            screenshot=UIGraphicsGetImageFromCurrentImageContext()
+            UIGraphicsEndImageContext()
+            webMeetingModel.delegateSendScreenshotDataChannel.sendImageFromDataChannel(screenshot)
+            
+        })
+        
+        print("outside")
+        
+    }
+    public func showFileRecievedNotification()
+    {
+        let alert = UIAlertController(title: "Success", message: "You have received a new file. Click on \"View\" button at top to View and Save it.", preferredStyle: UIAlertControllerStyle.Alert)
+        alert.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.Default, handler: nil))
+        let navigationController = UIApplication.sharedApplication().windows[0].rootViewController as! UINavigationController
+        
+        let activeViewCont = navigationController.visibleViewController
+        
+        activeViewCont!.presentViewController(alert, animated: true, completion: nil)
+        
+        
+    
+    //self.window?.rootViewController!.presentViewController(alert, animated: true, completion: nil)
+    }
     
 }
+
+
+
 

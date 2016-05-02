@@ -10,7 +10,10 @@ import Foundation
 
 class webmeetingMsgsModel{
     
-    public var delegateWebmeetingChat:WebMeetingChatDelegate!
+    var delegateSendScreenshotDataChannel:DelegateSendScreenshotDelegate!
+    var delegateWebmeetingChat:WebMeetingChatDelegate!
+    var delegateScreen:AppDelegateScreenDelegate!
+    
     var messages:NSMutableArray!
     init()
     {
@@ -21,15 +24,24 @@ class webmeetingMsgsModel{
     {//["message":message, "type":msgType]
         if(usr != username!)
         {//Message of other user not myself
-        messages.addObject(["message":msg,"type":"1"])
-            print("callingreceivedchat")
-           self.delegateWebmeetingChat?.receivedChatMessageUpdateUI()
+        messages.addObject(["message":msg,"type":"1","username":usr])
+            if(self.delegateWebmeetingChat != nil)
+            {
+            self.delegateWebmeetingChat.receivedChatMessageUpdateUI(msg, username: usr)
+            }
         }
     }
    
 }
 protocol WebMeetingChatDelegate:class
 {
-    //func receivedChatMessageUpdateUI(message:String,username:String);
-    func receivedChatMessageUpdateUI();
+    func receivedChatMessageUpdateUI(message:String,username:String);
+}
+protocol DelegateSendScreenshotDelegate:class
+{
+    func sendImageFromDataChannel(screenshot:UIImage!);
+}
+protocol AppDelegateScreenDelegate:class
+{
+    func screenCapture();
 }

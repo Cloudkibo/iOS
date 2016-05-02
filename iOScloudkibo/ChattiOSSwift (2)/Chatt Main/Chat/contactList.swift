@@ -6,7 +6,7 @@
 //
 //
 
-import Cocoa
+//import Cocoa
 import UIKit
 
 class contactList: UITableViewCell {

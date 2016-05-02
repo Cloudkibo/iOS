@@ -17,6 +17,7 @@ class FileUtility{
     
     //credit:http://stackoverflow.com/questions/5712527/how-to-detect-total-available-free-disk-space-on-the-iphone-ipad-device
    
+    
     func getfreeDiskSpace()->UInt64
     {
         var dictionary:[String:AnyObject]=["":""]
@@ -99,15 +100,23 @@ return totalFreeSpace;
     func convert_file_to_byteArray(filename:String)->Array<UInt8>
     {
         var file=fm.contentsAtPath(filename)
+        
         //print(file?.debugDescription)
         if(file==nil)
         {
             
             
             file=NSData(contentsOfURL: urlLocalFile)
-            
+            if(file == nil)
+            {
+                 print("invalid file. Choose other file type please")
+                
+            }
+          
             
         }
+        if(file != nil)
+        {
         print(file?.length)
         var bytes=Array<UInt8>(count: file!.length, repeatedValue: 0)
         
@@ -119,6 +128,10 @@ return totalFreeSpace;
         print(bytes.capacity)
         print(bytes.debugDescription)
         return bytes
+        }
+        else
+        {var bytes=Array<UInt8>(count: 0, repeatedValue: 0)
+        return bytes}
     /*java.io.FileInputStream fis = null;
     byte[] stream = new byte[(int) f.length()];
     try {

@@ -11,34 +11,38 @@ import SwiftyJSON
 import SQLite
 import Alamofire
 
-class WebmeetingChatViewController: UIViewController,WebMeetingChatDelegate {
+class WebmeetingChatViewController: UIViewController,WebMeetingChatDelegate,FileReceivedAlertDelegate {
     
         var rt=NetworkingLibAlamofire()
         
+        var delegateFileReceived:FileReceivedAlertDelegate!
         @IBOutlet weak var NewChatNavigationTitle: UINavigationItem!
         @IBOutlet weak var labelToName: UILabel!
         @IBOutlet var tblForChats : UITableView!
         @IBOutlet var chatComposeView : UIView!
         @IBOutlet var txtFldMessage : UITextField!
-        
+        var videoCont:VideoViewController!
         @IBOutlet weak var btn_chatDeleteHistory: UIBarButtonItem!
         
         var tbl_userchats:Table!
         
-        var messages : NSMutableArray! = webMeetingModel.messages
+        var messages : NSMutableArray!
     
         var delegateChat:WebMeetingChatDelegate!
     
-   
-
+    func receivedChatMessageApdateUI(message: String, username: String) {
+        //Reload table
+        tblForChats.reloadData()
+    
+    }
     override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: NSBundle?)
         {
             super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
             print(NSBundle.debugDescription())
             
             // Custom initialization
-}
-
+        }
+        
         
         /*
         required init?(coder aDecoder: NSCoder) {
@@ -47,19 +51,28 @@ class WebmeetingChatViewController: UIViewController,WebMeetingChatDelegate {
     
         required init?(coder aDecoder: NSCoder){
             super.init(coder: aDecoder)
+       
+
             //print("hiiiiii22 \(self.AuthToken)")
             
         }
         
+    override func viewWillAppear(animated: Bool) {
         
+        videoCont=VideoViewController.init(nibName: "VideoViewController", bundle: nil)
+        videoCont.delegateFileReceived=self
+        
+    }
         override func viewDidLoad() {
             super.viewDidLoad()
+            videoCont=VideoViewController.init(nibName: "VideoViewController", bundle: nil)
+            videoCont.delegateFileReceived=self
             NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("willShowKeyBoard:"), name:UIKeyboardWillShowNotification, object: nil)
             NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("willHideKeyBoard:"), name:UIKeyboardWillHideNotification, object: nil)
             
             
             messages = webMeetingModel.messages
-            webMeetingModel.delegateWebmeetingChat = self
+            webMeetingModel.delegateWebmeetingChat=self
             
             
             self.NewChatNavigationTitle.title="webmeeting/test"
@@ -68,9 +81,9 @@ class WebmeetingChatViewController: UIViewController,WebMeetingChatDelegate {
             ///////messages.addObject(["message":"helloo","hiiii":"tstingggg","type":"1"])
             /*  self.addMessage("Its actually pretty good!", ofType: "1")
             self.addMessage("What do you think of this tool!", ofType: "2")*/
-}
+        }
     
-
+        
         
     
         override func didReceiveMemoryWarning() {
@@ -86,22 +99,15 @@ class WebmeetingChatViewController: UIViewController,WebMeetingChatDelegate {
             self.tblForChats.scrollToRowAtIndexPath(indexPath, atScrollPosition: UITableViewScrollPosition.Bottom, animated: true)
         }*/
     
-
-    func receivedChatMessageUpdateUI()
-    {
+    func receivedChatMessageUpdateUI(message: String, username: String) {
+        
         tblForChats.reloadData()
-        var indexPath = NSIndexPath(forRow:self.messages.count-1, inSection: 0)
-        self.tblForChats.scrollToRowAtIndexPath(indexPath, atScrollPosition: UITableViewScrollPosition.Bottom, animated: true)
-   
     }
     
     
-        func addMessage(message: String, ofType msgType:String) {
-            messages.addObject(["message":message, "type":msgType])
+    func addMessage(message: String, ofType msgType:String,usr:String) {
+            messages.addObject(["message":message, "type":msgType,"username":usr])
             tblForChats.reloadData()
-            var indexPath = NSIndexPath(forRow:self.messages.count-1, inSection: 0)
-            self.tblForChats.scrollToRowAtIndexPath(indexPath, atScrollPosition: UITableViewScrollPosition.Bottom, animated: true)
-
             
         }
     
@@ -130,17 +136,24 @@ class WebmeetingChatViewController: UIViewController,WebMeetingChatDelegate {
             let msgType = messageDic["type"] as NSString!
             let msg = messageDic["message"] as NSString!
             let sizeOFStr = self.getSizeOfString(msg)
+            let myInitialUsername=username!.substringToIndex(username!.startIndex.advancedBy(1)).uppercaseString as String
             
+            let initialOfName=messageDic["username"]!.substringToIndex(messageDic["username"]!.startIndex.advancedBy(1)).uppercaseString as String
             if (msgType.isEqualToString("1")){
                 cell = tblForChats.dequeueReusableCellWithIdentifier("ChatSentCell")! as UITableViewCell
                 let textLable = cell.viewWithTag(12) as! UILabel
                 let chatImage = cell.viewWithTag(1) as! UIImageView
                 let profileImage = cell.viewWithTag(2) as! UIImageView
+                let labelName = cell.viewWithTag(5) as! UILabel
+                
                 chatImage.frame = CGRectMake(chatImage.frame.origin.x, chatImage.frame.origin.y, ((sizeOFStr.width + 60)  > 100 ? (sizeOFStr.width + 60) : 100), sizeOFStr.height + 40)
                 chatImage.image = UIImage(named: "chat_new_receive")?.stretchableImageWithLeftCapWidth(40,topCapHeight: 20);
                 textLable.frame = CGRectMake(textLable.frame.origin.x, textLable.frame.origin.y, textLable.frame.size.width, sizeOFStr.height)
                 profileImage.center = CGPointMake(profileImage.center.x, textLable.frame.origin.y + textLable.frame.size.height - profileImage.frame.size.height/2 + 10)
                 textLable.text = "\(msg)"
+                labelName.text=initialOfName
+                print("ifffffffff")
+                
             } else {
                 cell = tblForChats.dequeueReusableCellWithIdentifier("ChatReceivedCell")! as UITableViewCell
                 let deliveredLabel = cell.viewWithTag(13) as! UILabel
@@ -148,14 +161,21 @@ class WebmeetingChatViewController: UIViewController,WebMeetingChatDelegate {
                 let timeLabel = cell.viewWithTag(11) as! UILabel
                 let chatImage = cell.viewWithTag(1) as! UIImageView
                 let profileImage = cell.viewWithTag(2) as! UIImageView
+                let labelName = cell.viewWithTag(5) as! UILabel
                 let distanceFactor = (170.0 - sizeOFStr.width) < 130 ? (170.0 - sizeOFStr.width) : 130
+                
                 chatImage.frame = CGRectMake(20 + distanceFactor, chatImage.frame.origin.y, ((sizeOFStr.width + 60)  > 100 ? (sizeOFStr.width + 60) : 100), sizeOFStr.height + 40)
                 chatImage.image = UIImage(named: "chat_new_send")?.stretchableImageWithLeftCapWidth(20,topCapHeight: 20);
                 textLable.frame = CGRectMake(36 + distanceFactor, textLable.frame.origin.y, textLable.frame.size.width, sizeOFStr.height)
                 profileImage.center = CGPointMake(profileImage.center.x, textLable.frame.origin.y + textLable.frame.size.height - profileImage.frame.size.height/2 + 10)
+                //******
+                
+                //*******
                 timeLabel.frame = CGRectMake(36 + distanceFactor, timeLabel.frame.origin.y, timeLabel.frame.size.width, timeLabel.frame.size.height)
                 deliveredLabel.frame = CGRectMake(deliveredLabel.frame.origin.x, textLable.frame.origin.y + textLable.frame.size.height + 20, deliveredLabel.frame.size.width, deliveredLabel.frame.size.height)
                 textLable.text = "\(msg)"
+                labelName.text=myInitialUsername
+                print("elseeeeee")
             }
             return cell
         }
@@ -231,7 +251,7 @@ class WebmeetingChatViewController: UIViewController,WebMeetingChatDelegate {
             
             
             
-            self.addMessage(txtFldMessage.text!, ofType: "2")
+            self.addMessage(txtFldMessage.text!, ofType: "2",usr: username!)
             txtFldMessage.text = "";
             tblForChats.reloadData()
             
@@ -257,7 +277,15 @@ class WebmeetingChatViewController: UIViewController,WebMeetingChatDelegate {
     
         self.dismissViewControllerAnimated(true, completion: nil)
     }
-        
+    func didReceiveFileConference()
+    {print("hereeeeee")
+        videoCont.btnViewFile.enabled=true
+        let alert = UIAlertController(title: "Success", message: "You have received a new file. You can view files by clicking on \"View\" button present on Main conference page.", preferredStyle: UIAlertControllerStyle.Alert)
+        alert.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.Default, handler: nil))
+        alert.showViewController(videoCont, sender: nil)
+        //videoCont.presentViewController(alert, animated: true, completion: nil)
+    }
+
         /*
         // delete slider to delete individual row
         // Override to support editing the table view.

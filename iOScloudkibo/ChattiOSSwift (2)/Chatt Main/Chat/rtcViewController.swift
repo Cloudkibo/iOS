@@ -6,7 +6,7 @@
 //  Copyright (c) 2015 MyAppTemplates. All rights reserved.
 //
 
-
+/*
 import Foundation
 
 class rtcViewController: NSObject,RTCPeerConnectionDelegate {
@@ -55,4 +55,4 @@ class rtcViewController: NSObject,RTCPeerConnectionDelegate {
     func peerConnection(peerConnection: RTCPeerConnection!, didSetSessionDescriptionWithError error: NSError!) {
         
     }
-}
+}*/

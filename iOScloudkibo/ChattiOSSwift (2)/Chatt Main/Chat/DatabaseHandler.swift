@@ -8,6 +8,7 @@
 
 import Foundation
 import SQLite
+
 class DatabaseHandler:NSObject{
     var db:Connection!
     //var db:Database

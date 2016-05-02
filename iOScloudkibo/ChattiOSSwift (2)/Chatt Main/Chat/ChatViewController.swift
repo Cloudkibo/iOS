@@ -23,7 +23,7 @@ class ChatViewController: UIViewController,SocketClientDelegate {
     var loggedID=loggedUserObj["_id"]
     @IBOutlet var tblForChat : UITableView!
     @IBOutlet weak var btnContactAdd: UIBarButtonItem!
-    
+    //var delegateSocketConn:SocketConnecting!
     var currrentUsernameRetrieved:String=""
     var delegate:SocketClientDelegate!
     ////////let delegateController=LoginAPI(url: "sdfsfes")
@@ -82,6 +82,8 @@ class ChatViewController: UIViewController,SocketClientDelegate {
             Alamofire.request(.POST,"\(addContactUsernameURL)",parameters: ["searchemail":"\(tField.text!)"])
                 .validate(statusCode: 200..<300)
                 .response { (request1, response1, data1, error1) in
+                    
+                    
                     print("success")
                     
                     var json=JSON(data1!)
@@ -143,13 +145,23 @@ class ChatViewController: UIViewController,SocketClientDelegate {
                         var json=JSON(data1!)
                         //print(json)
                         if(json["msg"].string=="null")
-                        {print("Invalid user")}
+                        {print("Invalid user")
+                            let alert = UIAlertController(title: "Failed", message: "Invalid user", preferredStyle: UIAlertControllerStyle.Alert)
+                            alert.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.Default, handler: nil))
+                            self.presentViewController(alert, animated: true, completion: nil)}
                         else
                         {
                             if(json["status"].string=="danger"){
-                                print("contact already in your list")}
+                                print("contact already in your list")
+                                let alert = UIAlertController(title: "Failed", message: "Contact already in your list", preferredStyle: UIAlertControllerStyle.Alert)
+                                alert.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.Default, handler: nil))
+                                self.presentViewController(alert, animated: true, completion: nil)
+                            }
                             else
-                            {print("friend request sent")}
+                            {print("friend request sent")
+                                let alert = UIAlertController(title: "Success", message: "Friend request sent", preferredStyle: UIAlertControllerStyle.Alert)
+                                alert.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.Default, handler: nil))
+                                self.presentViewController(alert, animated: true, completion: nil)}
                         }
                     }
                     else
@@ -236,15 +248,43 @@ class ChatViewController: UIViewController,SocketClientDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         print("Chat ViewController is loadingggggg")
-        socketObj.delegate=self
+        //var lll=self.storyboard?.instantiateViewControllerWithIdentifier("mainpage") as! LoginViewController
+        
+        
+        /*if(isSocketConnected==false)
+        {   
+            lll.progressWheel.startAnimating()
+            lll.progressWheel.hidden=false
+        }
+        if(isSocketConnected==true)
+        {
+            lll.progressWheel.stopAnimating()
+            lll.progressWheel.hidden=true
+        }*/
+
+        /*if(socketConnected == false)
+        {            socketObj.socket.connect(timeoutAfter: 5000) { () -> Void in
+                
+                socketObj.socket.reconnect()
+                
+            }
+        }*/
+        
         if(isConference == true)
         {print("dont know why dismiss was there")
             /////self.dismissViewControllerAnimated(true,completion: nil)
         }
+        var retrievedToken=KeychainWrapper.stringForKey("access_token")
+        print("khul raha hai2", terminator: "")
+        print(loggedUserObj.object)
+        //let retrievedUsername=KeychainWrapper.stringForKey("username")
+        //if retrievedToken==nil || retrievedUsername==nil
+     
+
         
         if(KeychainWrapper.stringForKey("username") != nil)
         {currrentUsernameRetrieved=KeychainWrapper.stringForKey("username")!
-        
+        socketObj.delegate=self
         if(loggedUserObj == JSON("[]"))
         {
             var lusername=KeychainWrapper.stringForKey("username")
@@ -478,9 +518,15 @@ class ChatViewController: UIViewController,SocketClientDelegate {
 
         
         
-        let retrievedToken=KeychainWrapper.stringForKey("access_token")
-        if (retrievedToken==nil && isConference == false)
-        {performSegueWithIdentifier("loginSegue", sender: nil)}
+        /////////COMMENTING APRIL @)!^ CONFLICTING WITH ABOVE 
+        retrievedToken=KeychainWrapper.stringForKey("access_token")
+        if (retrievedToken==nil)
+        {print("line #524")
+           
+            self.performSelector("loginSegueMethod", withObject: nil, afterDelay: 0.0)
+            //////////neww socket delay commented april 2016 performSegueWithIdentifier("loginSegue", sender: nil)
+        
+        }
         else
         {print("rrrrrrrrr \(retrievedToken)", terminator: "")
             refreshControl.addTarget(self, action: Selector("fetchContacts"), forControlEvents: UIControlEvents.ValueChanged)
@@ -515,8 +561,32 @@ class ChatViewController: UIViewController,SocketClientDelegate {
         
     }
     
+    func loginSegueMethod()
+    {print("line # 564")
+        self.performSegueWithIdentifier("loginSegue", sender: nil)
+    }
+    /*func socketConnected() {
+       /* var lll=self.storyboard?.instantiateViewControllerWithIdentifier("mainpage") as! LoginViewController
+        
+        lll.progressWheel.stopAnimating()
+        lll.progressWheel.hidden=true*/
+        print("progressWheel hidden")
+        
+    }*/
+
+    
     override func viewWillAppear(animated: Bool) {
         print("appearrrrrr", terminator: "")
+               // socketObj.delegateSocketConnected=self
+        
+        /*if(socketConnected == false)
+        {
+        socketObj.socket.connect(timeoutAfter: 5000) { () -> Void in
+            
+            socketObj.socket.reconnect()
+            
+            }
+        }*/
         //socketObj.addHandlers()
                    /*var lusername=KeychainWrapper.stringForKey("username")
             //KeychainWrapper.stringForKey("password")
@@ -556,13 +626,19 @@ class ChatViewController: UIViewController,SocketClientDelegate {
         print("khul raha hai1", terminator: "")
         ///^^^^^^^neww let retrievedToken=KeychainWrapper.stringForKey("access_token")
         //var retrievedToken:String!
+       
+        
+        //COMMENTING SOCKET LOAD APRIL @)!^
         let retrievedToken=KeychainWrapper.stringForKey("access_token")
         print("khul raha hai2", terminator: "")
         print(loggedUserObj.object)
         //let retrievedUsername=KeychainWrapper.stringForKey("username")
         //if retrievedToken==nil || retrievedUsername==nil
         if (retrievedToken == nil && isConference == false)
-            {performSegueWithIdentifier("loginSegue", sender: nil)}
+            {print("line # 635 commented")
+                //performSegueWithIdentifier("loginSegue", sender: nil)
+                
+        }
         else
         {
         //^^^^^^^^^^^newwwww ************* 
@@ -578,7 +654,7 @@ class ChatViewController: UIViewController,SocketClientDelegate {
             //^^^^^^^^^^^newwwww ******* 
            })
     }
-    
+
         //var db=DatabaseHandler(dbName: "abc.sqlite")
         
         
@@ -999,7 +1075,7 @@ class ChatViewController: UIViewController,SocketClientDelegate {
                 {
                     print("Refreshinggggggggggggggggggg token expired")
                     if(username==nil || password==nil)
-                    {
+                    {print("line # 1074")
                         self.performSegueWithIdentifier("loginSegue", sender: nil)
                     }
                     else{

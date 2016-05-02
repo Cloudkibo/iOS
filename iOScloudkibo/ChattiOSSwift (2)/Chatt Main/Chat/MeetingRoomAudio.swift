@@ -720,7 +720,7 @@ class MeetingRoomAudio:NSObject,SocketClientDelegateWebRTC,RTCPeerConnectionDele
                     print("current id is \(currentID)")
                     //}
                 }*/
-                socketObj.socket.emitWithAck("init.new", ["room":CurrentRoomName,"username":username!,"supportcall":""])(timeoutAfter: 1500000000) {data in
+                socketObj.socket.emitWithAck("init.new", ["room":CurrentRoomName,"username":username!,"supportcall":""])(timeoutAfter: 150000000) {data in
                     print("room joined got ack")
                     var a=JSON(data)
                     print(a.debugDescription)
@@ -804,10 +804,7 @@ class MeetingRoomAudio:NSObject,SocketClientDelegateWebRTC,RTCPeerConnectionDele
         if(msg[0]["type"]=="Missed")
         {
             let todoItem = NotificationItem(otherUserName: "\(iamincallWith!)", message: "You have received a missed call", type: "missed call", UUID: "111", deadline: NSDate())
-            /*notificationsMainClass.sharedInstance.addItem(todoItem) 
-
-*/
-            // schedule a local notification to persist this item
+            notificationsMainClass.sharedInstance.addItem(todoItem) // schedule a local notification to persist this item
             
         }
         if(msg[0]=="Conference Call")

@@ -11,7 +11,7 @@ import Alamofire
 import SwiftyJSON
 import SQLite
 
-class RegisterViewController: UIViewController {
+class RegisterViewController: UIViewController,UITextFieldDelegate {
 
     var rt=NetworkingLibAlamofire()
     
@@ -34,9 +34,22 @@ class RegisterViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        txtEmail.delegate=self
+        txtFirstname.delegate=self
+        txtPassword.delegate=self
+        txtLastname.delegate=self
+        txtPhone.delegate=self
+        txtUsername.delegate=self
+        
         // Do any additional setup after loading the view.
     }
 
+    @IBAction func backBtnRegister(sender: AnyObject) {
+        self.dismissViewControllerAnimated(true) { () -> Void in
+            
+            
+        }
+    }
     @IBAction func btnRegisterTapped(sender: AnyObject) {
         
         var url=Constants.MainUrl+Constants.createNewUser
@@ -78,7 +91,11 @@ class RegisterViewController: UIViewController {
             if response_?.statusCode==200
                 
             {
+                let alert = UIAlertController(title: "Success", message: "Registration successful!", preferredStyle: UIAlertControllerStyle.Alert)
+                alert.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.Default, handler: nil))
+                self.presentViewController(alert, animated: true, completion: nil)
                 print("Registration success")
+                
                 //self.labelLoginUnsuccessful.text=nil
                 //self.gotToken=true
                 
@@ -98,15 +115,16 @@ class RegisterViewController: UIViewController {
                 Alamofire.request(.GET,"\(getUserDataURL)").validate(statusCode: 200..<300).responseJSON{response in
                     var response1=response.response
                     var request1=response.request
-                    var data1=response.data
+                    var data1=response.result.value
                     var error1=response.result.error
                     
                     //===========INITIALISE SOCKETIOCLIENT=========
                     dispatch_async(dispatch_get_main_queue(), {
                         
-                        self.dismissViewControllerAnimated(true, completion: nil);
-                        /// self.performSegueWithIdentifier("loginSegue", sender: nil)
-                        
+                       self.dismissViewControllerAnimated(true, completion: nil);
+                        ////self.performSegueWithIdentifier("loginSegue", sender: nil)
+                        self.labelError.text=""
+
                         if response1?.statusCode==200 {
                             print("got user success")
                             //self.gotToken=true
@@ -215,6 +233,7 @@ class RegisterViewController: UIViewController {
                     if(response_!.statusCode==401)
                     {
                         print("got user failed token expired")
+                        
                         self.rt.refrToken()
                     }
                    
@@ -224,27 +243,65 @@ class RegisterViewController: UIViewController {
                 
             else
             {
+                self.labelError.text=""
                 if(response_!.statusCode==401)
                 {
+                    let alert = UIAlertController(title: "Error", message: "Registration Failed!", preferredStyle: UIAlertControllerStyle.Alert)
+                    alert.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.Default, handler: nil))
+                    self.presentViewController(alert, animated: true, completion: nil)
+                    
                     print("registration failed token expired")
                     self.rt.refrToken()
-                    self.labelError.text=error?.description
+                    //self.labelError.text=error?.description
                 }
                 if(response_?.statusCode==422)
                 {
+                    /*let alert = UIAlertController(title: "Failure", message: "Registration Failed. User is already registered", preferredStyle: UIAlertControllerStyle.Alert)
+                    alert.addAction(UIAlertAction(title: "Click", style: UIAlertActionStyle.Default, handler: nil))
+                    self.presentViewController(alert, animated: true, completion: nil)*/
                     print("registration failed something duplicate")
-                    self.labelError.text=error?.description
+                    //self.labelError.text=error?.description
                     
                 }
+                self.labelError.text=""
                 print("status code is \(response_?.statusCode)")
                 print(error)
                 //self.labelError.text=error["messages"]?.description
-                print(response_?.debugDescription)
-                print(data!.debugDescription)
+                //print(response_?.debugDescription)
+                //print(data!.debugDescription)
                 var jj=JSON(data:data!)
                 //var json=JSON(data!.debugDescription)
                 print(jj.object)
+                print("rrrrrr")
+                self.labelError.textColor=UIColor.redColor()
+                
                 print(jj.description)
+                print("..\(jj["errors"][0])")
+                    
+                    if(jj["errors"]["email"] != nil){
+                        print("email error exists \(jj["errors"]["username"]["email"]) \r\n")
+                         self.labelError.text=self.labelError.text!+"\(jj["errors"]["email"]["message"]) \r\n"
+                    }
+                    if(jj["errors"]["firstName"] != nil){
+                        print("hashedPassword error exists \(jj["errors"]["username"]["firstName"]) \r\n")
+                         self.labelError.text=self.labelError.text!+"\(jj["errors"]["hashedPassword"]["message"]) \r\n"
+                    }
+                    if(jj["errors"]["lastName"] != nil){
+                         self.labelError.text=self.labelError.text!+"\(jj["errors"]["hashedPassword"]["message"]) \r\n"
+                        print("hashedPassword error exists \(jj["errors"]["username"]["lastName"]) \r\n")
+                    }
+                    
+                    if(jj["errors"]["username"] != nil){
+                         self.labelError.text=self.labelError.text!+"\(jj["errors"]["username"]["message"]) \r\n"
+                        
+                        print("username error exists \(jj["errors"]["username"]["message"])")
+                    }
+                    if(jj["errors"]["hashedPassword"] != nil){
+                         self.labelError.text=self.labelError.text!+"\(jj["errors"]["hashedPassword"]["message"]) \r\n"
+                        print("hashedPassword error exists \(jj["errors"]["username"]["hashedPassword"]) \r\n")
+                    }
+                 
+                
                 
                 KeychainWrapper.removeObjectForKey("password")
                 print("registration failed")
@@ -257,6 +314,43 @@ class RegisterViewController: UIViewController {
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+    
+    func textFieldDidBeginEditing(textField: UITextField) {
+        
+        
+    }
+    func textFieldDidEndEditing(textField: UITextField) {
+        
+        
+    }
+    func textFieldShouldBeginEditing(textField: UITextField) -> Bool {
+        return true
+
+        
+    }
+    
+    func textFieldShouldClear(textField: UITextField) -> Bool {
+        return true
+
+        
+    }
+    func textFieldShouldEndEditing(textField: UITextField) -> Bool {
+        return true
+
+        
+    }
+    
+    func textFieldShouldReturn(textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return true;
+        
+    }
+    func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange, replacementString string: String) -> Bool {
+        
+        return true
+
+        
     }
     
 

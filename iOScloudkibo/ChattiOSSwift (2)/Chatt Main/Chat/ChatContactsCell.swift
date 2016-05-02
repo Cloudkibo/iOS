@@ -9,5 +9,6 @@
 import UIKit
 
 class ChatContactsCell: UITableViewCell {
-
+    var test:String = ""
+    var title:String = ""
 }

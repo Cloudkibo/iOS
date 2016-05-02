@@ -4,104 +4,125 @@
 <dict>
 	<key></key>
 	<string></string>
+	<key>CFBundleName</key>
+	<string>${PRODUCT_NAME}</string>
+	<key>UIFileSharingEnabled</key>
+	<true/>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
-	<key>CFBundleDisplayName</key>
-	<string>cloudkibo</string>
+	<key>CFBundleVersion</key>
+	<string>1.6</string>
+	<key>UIBackgroundModes</key>
+	<array>
+		<string>audio</string>
+		<string>voip</string>
+	</array>
+	<key>com.apple.developer.ubiquity-kvstore-identifier</key>
+	<string>$(TeamIdentifierPrefix)$(CFBundleIdentifier)</string>
 	<key>CFBundleDocumentTypes</key>
 	<array>
 		<dict>
-			<key>CFBundleTypeIconFiles</key>
-			<array/>
 			<key>CFBundleTypeName</key>
 			<string>Adobe PDF</string>
-			<key>CFBundleTypeRole</key>
-			<string>Viewer</string>
-			<key>LSHandlerRank</key>
-			<string>Alternate</string>
+			<key>CFBundleTypeIconFiles</key>
+			<array/>
 			<key>LSItemContentTypes</key>
 			<array>
 				<string>com.adobe.pdf</string>
 			</array>
-		</dict>
-		<dict>
-			<key>CFBundleTypeIconFiles</key>
-			<array/>
-			<key>CFBundleTypeName</key>
-			<string>CSV</string>
 			<key>CFBundleTypeRole</key>
 			<string>Viewer</string>
 			<key>LSHandlerRank</key>
 			<string>Alternate</string>
+		</dict>
+		<dict>
+			<key>CFBundleTypeName</key>
+			<string>CSV</string>
+			<key>CFBundleTypeIconFiles</key>
+			<array/>
 			<key>LSItemContentTypes</key>
 			<array>
 				<string>public.comma-separated-values-text</string>
 			</array>
+			<key>CFBundleTypeRole</key>
+			<string>Viewer</string>
+			<key>LSHandlerRank</key>
+			<string>Alternate</string>
 		</dict>
 	</array>
-	<key>CFBundleExecutable</key>
-	<string>${EXECUTABLE_NAME}</string>
-	<key>CFBundleIdentifier</key>
-	<string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
-	<key>CFBundleInfoDictionaryVersion</key>
-	<string>6.0</string>
-	<key>CFBundleName</key>
-	<string>${PRODUCT_NAME}</string>
+	<key>UIMainStoryboardFile</key>
+	<string>Main</string>
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
+	<key>com.apple.developer.icloud-services</key>
+	<array>
+		<string>CloudDocuments</string>
+	</array>
 	<key>CFBundleShortVersionString</key>
 	<string>0.1</string>
-	<key>CFBundleSignature</key>
-	<string>????</string>
-	<key>CFBundleVersion</key>
-	<string>1.6005</string>
-	<key>LSRequiresIPhoneOS</key>
-	<true/>
+	<key>com.apple.developer.ubiquity-container-identifiers</key>
+	<array>
+		<string>iCloud.$(CFBundleIdentifier)</string>
+	</array>
 	<key>NSAppTransportSecurity</key>
 	<dict>
 		<key>NSAllowsArbitraryLoads</key>
 		<true/>
 	</dict>
+	<key>CFBundleInfoDictionaryVersion</key>
+	<string>6.0</string>
+	<key>CFBundleExecutable</key>
+	<string>${EXECUTABLE_NAME}</string>
+	<key>UIRequiredDeviceCapabilities</key>
+	<array>
+		<string>armv7</string>
+	</array>
+	<key>UIViewControllerBasedStatusBarAppearance</key>
+	<false/>
+	<key>CFBundleIdentifier</key>
+	<string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
+	<key>CFBundleSignature</key>
+	<string>????</string>
+	<key>LSRequiresIPhoneOS</key>
+	<true/>
+	<key>CFBundleDisplayName</key>
+	<string>cloudkibo</string>
+	<key>UISupportedInterfaceOrientations</key>
+	<array>
+		<string>UIInterfaceOrientationPortrait</string>
+	</array>
 	<key>NSUbiquitousContainers</key>
 	<dict>
 		<key>iCloud.iCloud.MyAppTemplates.cloudkibo</key>
 		<dict>
 			<key>NSUbiquitousContainerIsDocumentScopePublic</key>
 			<true/>
-			<key>NSUbiquitousContainerName</key>
-			<string>cloudkibo</string>
 			<key>NSUbiquitousContainerSupportedFolderLevels</key>
 			<string>Any</string>
+			<key>NSUbiquitousContainerName</key>
+			<string>cloudkibo</string>
 		</dict>
 	</dict>
-	<key>UIBackgroundModes</key>
-	<array>
-		<string>audio</string>
-		<string>voip</string>
-	</array>
-	<key>UIFileSharingEnabled</key>
-	<true/>
-	<key>UIMainStoryboardFile</key>
-	<string>Main</string>
-	<key>UIRequiredDeviceCapabilities</key>
-	<array>
-		<string>armv7</string>
-	</array>
-	<key>UISupportedInterfaceOrientations</key>
-	<array>
-		<string>UIInterfaceOrientationPortrait</string>
-	</array>
-	<key>UIViewControllerBasedStatusBarAppearance</key>
-	<false/>
-	<key>com.apple.developer.icloud-services</key>
-	<array>
-		<string>CloudDocuments</string>
-	</array>
-	<key>com.apple.developer.ubiquity-container-identifiers</key>
-	<array>
-		<string>iCloud.$(CFBundleIdentifier)</string>
-	</array>
-	<key>com.apple.developer.ubiquity-kvstore-identifier</key>
-	<string>$(TeamIdentifierPrefix)$(CFBundleIdentifier)</string>
+	<key>NSExtension</key>
+	<dict>
+		<key>NSExtensionAttributes</key>
+		<dict>
+			<key>UIDocumentPickerModes</key>
+			<array>
+				<string>UIDocumentPickerModeImport</string>
+				<string>UIDocumentPickerModeOpen</string>
+				<string>UIDocumentPickerModeExportToService</string>
+				<string>UIDocumentPickerModeMoveToService</string>
+			</array>
+			<key>UIDocumentPickerSupportedFileTypes</key>
+			<array>
+				<string>public.content</string>
+			</array>
+		</dict>
+		<key>NSExtensionPointIdentifier</key>
+		<string>com.apple.fileprovider-ui</string>
+		<key>NSExtensionMainStoryboard</key>
+		<string>MainInterface</string>
+	</dict>
 </dict>
 </plist>

@@ -113,13 +113,16 @@ class ChatDetailViewController: UIViewController{
             self.addMessage(receivedMsg.description, ofType: "1")
                         
             self.tblForChats.reloadData()
+            if(self.messages.count>1)
+            {
             var indexPath = NSIndexPath(forRow:self.messages.count-1, inSection: 0)
-            self.tblForChats.scrollToRowAtIndexPath(indexPath, atScrollPosition: UITableViewScrollPosition.Bottom, animated: true)
             
+            self.tblForChats.scrollToRowAtIndexPath(indexPath, atScrollPosition: UITableViewScrollPosition.Bottom, animated: true)
+            }
             sqliteDB.SaveChat(chatJson[0]["to"].string!, from1: chatJson[0]["from"].string!, fromFullName1: chatJson[0]["fromFullName"].string!, msg1: chatJson[0]["msg"].string!)
            
         }
-        messages.addObject(["message":"helloo","hiiii":"tstingggg","type":"1"])
+        ////////////messages.addObject(["message":"helloo","hiiii":"tstingggg","type":"1"])
         /*  self.addMessage("Its actually pretty good!", ofType: "1")
         self.addMessage("What do you think of this tool!", ofType: "2")*/
     }
@@ -278,16 +281,22 @@ class ChatDetailViewController: UIViewController{
     {
         
         print("[user1:\(username!),user2:\(selectedContact)]", terminator: "")
-        
+        ///POST GET april 2016
         var bringUserChatURL=Constants.MainUrl+Constants.bringUserChat+"?access_token="+AuthToken!
         let configuration = NSURLSessionConfiguration.defaultSessionConfiguration()
         Alamofire.request(.POST,"\(bringUserChatURL)",parameters: ["user1":"\(username!)","user2":"\(selectedContact)"]
-            ).validate(statusCode: 200..<300).responseJSON{response in
-                var response1=response.response
-                var request1=response.request
-                var data1=response.data
-                var error1=response.result.error
-                
+        ).validate(statusCode: 200..<300).responseJSON{response in
+        var response1=response.response
+        var request1=response.request
+        var data1=response.result.value
+        var error1=response.result.error
+        
+            
+        
+            /*.validate(statusCode: 200..<300)
+            .response { (request1, response1, data1, error1) in*/
+        
+        
                 //===========INITIALISE SOCKETIOCLIENT=========
                 dispatch_async(dispatch_get_main_queue(), {
                 
@@ -321,8 +330,11 @@ class ChatDetailViewController: UIViewController{
                             
                         }
                         self.tblForChats.reloadData()
+                        if(self.messages.count>1)
+                        {
                         var indexPath = NSIndexPath(forRow:self.messages.count-1, inSection: 0)
                         self.tblForChats.scrollToRowAtIndexPath(indexPath, atScrollPosition: UITableViewScrollPosition.Bottom, animated: true)
+                        }
                         
                     }
                 }
@@ -394,6 +406,7 @@ class ChatDetailViewController: UIViewController{
             timeLabel.frame = CGRectMake(36 + distanceFactor, timeLabel.frame.origin.y, timeLabel.frame.size.width, timeLabel.frame.size.height)
             deliveredLabel.frame = CGRectMake(deliveredLabel.frame.origin.x, textLable.frame.origin.y + textLable.frame.size.height + 20, deliveredLabel.frame.size.width, deliveredLabel.frame.size.height)
             textLable.text = "\(msg)"
+            deliveredLabel.text="J"
         }
         return cell
     }
@@ -414,8 +427,11 @@ class ChatDetailViewController: UIViewController{
             
             self.tblForChats.frame = CGRectMake(self.tblForChats.frame.origin.x, self.tblForChats.frame.origin.y, self.tblForChats.frame.size.width, self.tblForChats.frame.size.height - keyboardFrame.size.height+49);
             }, completion: nil)
+        if(messages.count>1)
+        {
         let indexPath = NSIndexPath(forRow:messages.count-1, inSection: 0)
         tblForChats.scrollToRowAtIndexPath(indexPath, atScrollPosition: UITableViewScrollPosition.Bottom, animated: true)
+        }
         
     }
     
@@ -466,7 +482,7 @@ class ChatDetailViewController: UIViewController{
         
         //////
         
-        sqliteDB.SaveChat("\(selectedContact)", from1: "\(username!)", fromFullName1: "\(loggedFullName!)", msg1: "\(txtFldMessage.text!)")
+        sqliteDB.SaveChat("\(selectedContact)", from1: "\(username!)", fromFullName1: "\(loggedFullName!)", msg1: "\(txtFldMessage.text)")
         
         /*insert(self.fromFullName<-"Sabach Channa",
         self.msg<-"\(txtFldMessage.text)",
@@ -484,9 +500,12 @@ class ChatDetailViewController: UIViewController{
         self.addMessage(txtFldMessage.text!, ofType: "2")
         txtFldMessage.text = "";
         tblForChats.reloadData()
-        
+        if(messages.count>1)
+        {
         var indexPath = NSIndexPath(forRow:messages.count-1, inSection: 0)
         tblForChats.scrollToRowAtIndexPath(indexPath, atScrollPosition: UITableViewScrollPosition.Bottom, animated: true)
+            
+        }
     }
     
     func getSizeOfString(postTitle: NSString) -> CGSize {

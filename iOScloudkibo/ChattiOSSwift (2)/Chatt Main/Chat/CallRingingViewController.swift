@@ -46,7 +46,7 @@ class CallRingingViewController: UIViewController//RTCPeerConnectionDelegate,RTC
         }
         
         
-       let next = self.storyboard?.instantiateViewControllerWithIdentifier("Main2") as! VideoViewController
+       let next = self.storyboard?.instantiateViewControllerWithIdentifier("MainV2") as! VideoViewController
         
         self.presentViewController(next, animated: true, completion: {
             socketObj.sendMessagesOfMessageType("Accept Call")
@@ -91,10 +91,7 @@ class CallRingingViewController: UIViewController//RTCPeerConnectionDelegate,RTC
             if(missedMsg == "Missed Call:")
             {print("inside missed notification")
                 let todoItem = NotificationItem(otherUserName: "abc", message: "you received a mised call", type: "missed call", UUID: "111", deadline: NSDate())
-                
-                /*notificationsMainClass.sharedInstance.addItem(todoItem) 
-*/
-                // schedule a local notification to persist this item
+                notificationsMainClass.sharedInstance.addItem(todoItem) // schedule a local notification to persist this item
                 
             }
         }

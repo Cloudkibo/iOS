@@ -8,20 +8,30 @@
 
 import UIKit
 
-class FileReceivedViewController: UIViewController,UIDocumentInteractionControllerDelegate {
+class FileReceivedViewController: UIViewController,UIDocumentInteractionControllerDelegate,FileReceivedAlertDelegate {
 
     
     var documentInteractionController:UIDocumentInteractionController!
-    
+    var delegateFileReceived:FileReceivedAlertDelegate!
     var fileURL:NSURL!
+    var videoCont:VideoViewController!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        //videoCont=storyboard?.instantiateViewControllerWithIdentifier("MainV2") as! VideoViewController
+        //videoCont.delegateFileReceived=self
 
         
         // Do any additional setup after loading the view.
         
     }
 
+    override func viewWillAppear(animated: Bool) {
+        
+        videoCont=storyboard?.instantiateViewControllerWithIdentifier("MainV2") as! VideoViewController
+        videoCont.delegateFileReceived=self
+        
+    }
     //var documentInteractionController = UIDocumentInteractionController().delegate=self
     
     
@@ -32,7 +42,13 @@ class FileReceivedViewController: UIViewController,UIDocumentInteractionControll
         }
     }
     
-    
+    func didReceiveFileConference()
+    {
+        videoCont.btnViewFile.enabled=true
+        let alert = UIAlertController(title: "Success", message: "You have received a new file. You can view files by clicking on \"View\" button present on Main conference page.", preferredStyle: UIAlertControllerStyle.Alert)
+        alert.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.Default, handler: nil))
+        self.presentViewController(alert, animated: true, completion: nil)
+    }
     
     
     
