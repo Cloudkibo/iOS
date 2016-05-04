@@ -84,6 +84,7 @@
 		716175851C51BCDE00A72E83 /* Pods.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = BC0C99CB9F91896CEAE65024 /* Pods.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		716175A01C51C9B200A72E83 /* libsqlite3.0.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 716174971C5065BA00A72E83 /* libsqlite3.0.tbd */; };
 		716175A11C51C9B200A72E83 /* libsqlite3.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 716174981C5065BA00A72E83 /* libsqlite3.tbd */; };
+		7175503F1CD83F5D00782CC8 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 713D51361CC11740007E0B47 /* Info.plist */; };
 		7191CC681BCF0D9400F0847F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7191CC661BCF0D9400F0847F /* Main.storyboard */; };
 		71A98F961C4D6434009D04D7 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 71A98F951C4D6434009D04D7 /* Foundation.framework */; };
 		71AA0D571CC12DCB00AB3111 /* SwiftyJSON.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 713D51021CC11466007E0B47 /* SwiftyJSON.framework */; };
@@ -693,6 +694,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7175503F1CD83F5D00782CC8 /* Info.plist in Resources */,
 				7191CC681BCF0D9400F0847F /* Main.storyboard in Resources */,
 				5BF6363219A9F3D900ABD0BA /* Images.xcassets in Resources */,
 				713D51561CC11740007E0B47 /* Chat.entitlements in Resources */,
