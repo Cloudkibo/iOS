@@ -401,8 +401,10 @@
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
+                  symbolName = "void std::__1::__sort&lt;bool (*&amp;)(cricket::MediaSessionOptions::Stream const&amp;, cricket::MediaSessionOptions::Stream const&amp;), cricket::MediaSessionOptions::Stream*&gt;(cricket::MediaSessionOptions::Stream*, cricket::MediaSessionOptions::Stream*, bool (*&amp;)(cricket::MediaSessionOptions::Stream const&amp;, cricket::MediaSessionOptions::Stream const&amp;))"
+                  moduleName = "Chat"
                   usesParentBreakpointCondition = "Yes"
-                  offsetFromSymbolStart = "0">
+                  offsetFromSymbolStart = "972">
                </Location>
             </Locations>
          </BreakpointContent>
@@ -419,8 +421,10 @@
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
+                  symbolName = "void std::__1::__sort&lt;bool (*&amp;)(cricket::MediaSessionOptions::Stream const&amp;, cricket::MediaSessionOptions::Stream const&amp;), cricket::MediaSessionOptions::Stream*&gt;(cricket::MediaSessionOptions::Stream*, cricket::MediaSessionOptions::Stream*, bool (*&amp;)(cricket::MediaSessionOptions::Stream const&amp;, cricket::MediaSessionOptions::Stream const&amp;))"
+                  moduleName = "Chat"
                   usesParentBreakpointCondition = "Yes"
-                  offsetFromSymbolStart = "0">
+                  offsetFromSymbolStart = "992">
                </Location>
             </Locations>
          </BreakpointContent>
@@ -437,8 +441,10 @@
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
+                  symbolName = "void std::__1::__sort&lt;bool (*&amp;)(cricket::MediaSessionOptions::Stream const&amp;, cricket::MediaSessionOptions::Stream const&amp;), cricket::MediaSessionOptions::Stream*&gt;(cricket::MediaSessionOptions::Stream*, cricket::MediaSessionOptions::Stream*, bool (*&amp;)(cricket::MediaSessionOptions::Stream const&amp;, cricket::MediaSessionOptions::Stream const&amp;))"
+                  moduleName = "Chat"
                   usesParentBreakpointCondition = "Yes"
-                  offsetFromSymbolStart = "0">
+                  offsetFromSymbolStart = "1020">
                </Location>
             </Locations>
          </BreakpointContent>
@@ -1262,11 +1268,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "../../../../../iOSupdated/iOScloudkibo/ChattiOSSwift (2)/Chatt Main/Chat/VideoViewController.swift"
-            timestampString = "484087913.231253"
+            timestampString = "484201639.464425"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1549"
-            endingLineNumber = "1549"
+            startingLineNumber = "1758"
+            endingLineNumber = "1758"
             landmarkName = "handlePeerDisconnected(_:)"
             landmarkType = "5">
          </BreakpointContent>
@@ -1278,11 +1284,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "../../../../../iOSupdated/iOScloudkibo/ChattiOSSwift (2)/Chatt Main/Chat/VideoViewController.swift"
-            timestampString = "484087913.231253"
+            timestampString = "484201639.464425"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1560"
-            endingLineNumber = "1560"
+            startingLineNumber = "1769"
+            endingLineNumber = "1769"
             landmarkName = "handlePeerDisconnected(_:)"
             landmarkType = "5">
          </BreakpointContent>
@@ -1294,11 +1300,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "../../../../../iOSupdated/iOScloudkibo/ChattiOSSwift (2)/Chatt Main/Chat/VideoViewController.swift"
-            timestampString = "484087913.231253"
+            timestampString = "484201639.464425"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1554"
-            endingLineNumber = "1554"
+            startingLineNumber = "1763"
+            endingLineNumber = "1763"
             landmarkName = "handlePeerDisconnected(_:)"
             landmarkType = "5">
          </BreakpointContent>
@@ -1310,11 +1316,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "../../../../../iOSupdated/iOScloudkibo/ChattiOSSwift (2)/Chatt Main/Chat/VideoViewController.swift"
-            timestampString = "484087913.231253"
+            timestampString = "484201639.464425"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1544"
-            endingLineNumber = "1544"
+            startingLineNumber = "1753"
+            endingLineNumber = "1753"
             landmarkName = "handlePeerDisconnected(_:)"
             landmarkType = "5">
          </BreakpointContent>
@@ -1326,11 +1332,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "../../../../../iOSupdated/iOScloudkibo/ChattiOSSwift (2)/Chatt Main/Chat/VideoViewController.swift"
-            timestampString = "484087913.231253"
+            timestampString = "484201639.464425"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1543"
-            endingLineNumber = "1543"
+            startingLineNumber = "1752"
+            endingLineNumber = "1752"
             landmarkName = "handlePeerDisconnected(_:)"
             landmarkType = "5">
          </BreakpointContent>
@@ -1342,11 +1348,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "../../../../../iOSupdated/iOScloudkibo/ChattiOSSwift (2)/Chatt Main/Chat/VideoViewController.swift"
-            timestampString = "484087913.231253"
+            timestampString = "484201639.464425"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "2941"
-            endingLineNumber = "2941"
+            startingLineNumber = "3157"
+            endingLineNumber = "3157"
             landmarkName = "documentMenu(_:didPickDocumentPicker:)"
             landmarkType = "5">
          </BreakpointContent>
@@ -1374,11 +1380,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "../../../../../iOSupdated/iOScloudkibo/ChattiOSSwift (2)/Chatt Main/Chat/VideoViewController.swift"
-            timestampString = "484067942.993399"
+            timestampString = "484199933.560764"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "377"
-            endingLineNumber = "377"
+            startingLineNumber = "496"
+            endingLineNumber = "496"
             landmarkName = "endCallBtnPressed(_:)"
             landmarkType = "5">
          </BreakpointContent>
@@ -1422,11 +1428,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "../../../../../iOSupdated/iOScloudkibo/ChattiOSSwift (2)/Chatt Main/Chat/LoginAPI.swift"
-            timestampString = "483691711.329107"
+            timestampString = "484148374.963272"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "102"
-            endingLineNumber = "102"
+            startingLineNumber = "103"
+            endingLineNumber = "103"
             landmarkName = "addHandlers()"
             landmarkType = "5">
          </BreakpointContent>
@@ -1454,11 +1460,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "../../../../../iOSupdated/iOScloudkibo/ChattiOSSwift (2)/Chatt Main/Chat/LoginAPI.swift"
-            timestampString = "483691711.329107"
+            timestampString = "484148374.963272"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "63"
-            endingLineNumber = "63"
+            startingLineNumber = "64"
+            endingLineNumber = "64"
             landmarkName = "init(url:)"
             landmarkType = "5">
          </BreakpointContent>
@@ -1470,11 +1476,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "../../../../../iOSupdated/iOScloudkibo/ChattiOSSwift (2)/Chatt Main/Chat/LoginViewController.swift"
-            timestampString = "484087137.225767"
+            timestampString = "484153303.702378"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "257"
-            endingLineNumber = "257"
+            startingLineNumber = "263"
+            endingLineNumber = "263"
             landmarkName = "LoginViewController"
             landmarkType = "3">
          </BreakpointContent>
@@ -1579,11 +1585,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "../../../../../iOSupdated/iOScloudkibo/ChattiOSSwift (2)/Chatt Main/Chat/VideoViewController.swift"
-            timestampString = "484087913.231253"
+            timestampString = "484201639.464425"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "2949"
-            endingLineNumber = "2949"
+            startingLineNumber = "3165"
+            endingLineNumber = "3165"
             landmarkName = "VideoViewController"
             landmarkType = "3">
          </BreakpointContent>
@@ -1627,11 +1633,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "../../../../../iOSupdated/iOScloudkibo/ChattiOSSwift (2)/Chatt Main/Chat/VideoViewController.swift"
-            timestampString = "484067942.993399"
+            timestampString = "484201639.464425"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "816"
-            endingLineNumber = "816"
+            startingLineNumber = "959"
+            endingLineNumber = "959"
             landmarkName = "viewDidLoad()"
             landmarkType = "5">
          </BreakpointContent>
@@ -1643,11 +1649,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "../../../../../iOSupdated/iOScloudkibo/ChattiOSSwift (2)/Chatt Main/Chat/VideoViewController.swift"
-            timestampString = "484067942.993399"
+            timestampString = "484201639.464425"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "794"
-            endingLineNumber = "794"
+            startingLineNumber = "937"
+            endingLineNumber = "937"
             landmarkName = "viewDidLoad()"
             landmarkType = "5">
          </BreakpointContent>
@@ -1666,6 +1672,131 @@
             endingLineNumber = "21"
             landmarkName = "VideoViewController"
             landmarkType = "3">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Chat.VideoViewController.btnShareFile.getter : Swift.ImplicitlyUnwrappedOptional&lt;__ObjC.UIBarButtonItem&gt;"
+                  moduleName = "Chat"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/cloudkibo/Desktop/iOSupdated/iOScloudkibo/ChattiOSSwift%20(2)/Chatt%20Main/Chat/VideoViewController.swift"
+                  timestampString = "484132071.446475"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "0"
+                  endingLineNumber = "0"
+                  offsetFromSymbolStart = "24">
+               </Location>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Chat.VideoViewController.btnShareFile.setter : Swift.ImplicitlyUnwrappedOptional&lt;__ObjC.UIBarButtonItem&gt;"
+                  moduleName = "Chat"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/cloudkibo/Desktop/iOSupdated/iOScloudkibo/ChattiOSSwift%20(2)/Chatt%20Main/Chat/VideoViewController.swift"
+                  timestampString = "484132071.446629"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "0"
+                  endingLineNumber = "0"
+                  offsetFromSymbolStart = "20">
+               </Location>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Chat.VideoViewController.init (Chat.VideoViewController.Type)(coder : __ObjC.NSCoder) -&gt; Swift.Optional&lt;Chat.VideoViewController&gt;"
+                  moduleName = "Chat"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/cloudkibo/Desktop/iOSupdated/iOScloudkibo/ChattiOSSwift%20(2)/Chatt%20Main/Chat/VideoViewController.swift"
+                  timestampString = "484132071.44706"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "21"
+                  endingLineNumber = "21"
+                  offsetFromSymbolStart = "116">
+               </Location>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Chat.VideoViewController.init (Chat.VideoViewController.Type)(nibName : Swift.Optional&lt;Swift.String&gt;, bundle : Swift.Optional&lt;__ObjC.NSBundle&gt;) -&gt; Chat.VideoViewController"
+                  moduleName = "Chat"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/cloudkibo/Desktop/iOSupdated/iOScloudkibo/ChattiOSSwift%20(2)/Chatt%20Main/Chat/VideoViewController.swift"
+                  timestampString = "484132071.447537"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "21"
+                  endingLineNumber = "21"
+                  offsetFromSymbolStart = "156">
+               </Location>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Chat.VideoViewController.btnShareFile.materializeForSet : Swift.ImplicitlyUnwrappedOptional&lt;__ObjC.UIBarButtonItem&gt;"
+                  moduleName = "Chat"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/cloudkibo/Desktop/iOSupdated/iOScloudkibo/ChattiOSSwift%20(2)/Chatt%20Main/Chat/VideoViewController.swift"
+                  timestampString = "484132071.447965"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "0"
+                  endingLineNumber = "0"
+                  offsetFromSymbolStart = "12">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "../../../../../iOSupdated/iOScloudkibo/ChattiOSSwift (2)/Chatt Main/Chat/LoginViewController.swift"
+            timestampString = "484153303.702378"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "129"
+            endingLineNumber = "129"
+            landmarkName = "btnConferenceStart(_:)"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "../../../../../iOSupdated/iOScloudkibo/ChattiOSSwift (2)/Chatt Main/Chat/LoginAPI.swift"
+            timestampString = "484148374.963272"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "573"
+            endingLineNumber = "573"
+            landmarkName = "addWebRTCHandlers()"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "../../../../../iOSupdated/iOScloudkibo/ChattiOSSwift (2)/Chatt Main/Chat/LoginViewController.swift"
+            timestampString = "484198869.608247"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "786"
+            endingLineNumber = "786"
+            landmarkName = "socketConnected()"
+            landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>
