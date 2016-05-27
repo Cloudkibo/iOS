@@ -39,24 +39,24 @@ static let createNewUser="/api/users/"
 ## View Controllers
 Swift language works on Model View Controller(MVC) framework. Our application has View Controllers to show different screens of our application. Following diagram gives details of our main views:
 ￼
-![view controllers](https://github.com/Cloudkibo/iOS/tree/master/Documentation/viewcontrollers.png)
+![view controllers](viewcontrollers.png)
 
-￼**/ Open Source External Libraries **
+￼**/Open Source External Libraries**
 Our iOS application uses some of Open Source libraries. Details of those libraries are provided below:
 
 ![view controllers](https://github.com/Cloudkibo/iOS/tree/master/Documentation/libraries.png)
 
-**/ SwiftyJSON Library **
+**/SwiftyJSON Library**
 SwiftyJSON makes it easy to deal with JSON data in Swift.
 ￼￼￼
-**/ KeyChainsWrapper Library **
+**/KeyChainsWrapper Library**
 This is an open source library for storing data at persistent place on device. Our application is using this library for storing user user,s login credentials, example: Authentication Token, username and password. Keychains are safe place to store such information. This API helps to retrieve data when application is re launched after termination. Thus, user will not have to login every time.
 
 ![view controllers](https://github.com/Cloudkibo/iOS/tree/master/Documentation/auth.png)
 ￼
-**/ Alamofire Library **
+**/Alamofire Library**
 Alamofire is an HTTP networking library written in Swift. Our application uses this library for making any network requests from Cloudkibo Server. All REST API requests use this library for GET or POST requests from server.
-**/ WebRTC Library **
+**/WebRTC Library**
 Our iOS application uses a WebRTC library named “libjingle_peerconnection”.The code that implements WebRTC native APIs (including the Stream and the PeerConnection APIs) are available in this library.
-**/ SQLite Library **
+**/SQLite Library**
 This is a type-safe, Swift-language layer over SQLite3. SQLite.swift provides compile-time confidence in SQL statement syntax and intent. Our application uses this API for creating database connection, creating tables, adding and retireving data from SQLite database.
