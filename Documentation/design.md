@@ -60,3 +60,7 @@ Alamofire is an HTTP networking library written in Swift. Our application uses t
 Our iOS application uses a WebRTC library named “libjingle_peerconnection”.The code that implements WebRTC native APIs (including the Stream and the PeerConnection APIs) are available in this library.
 ## SQLite Library
 This is a type-safe, Swift-language layer over SQLite3. SQLite.swift provides compile-time confidence in SQL statement syntax and intent. Our application uses this API for creating database connection, creating tables, adding and retireving data from SQLite database.
+
+##Comparison of current Cloudkibo model with Cloudkibo
+![Watsapp Model](watsapp.png)
+![Watsapp Model](cloudkibo.png)
