@@ -126,6 +126,11 @@ class MoreTableViewController: UITableViewController {
                     
                 }
                 self.accountKit.logOut()
+                firstTimeLogin=true
+                
+                
+                
+                
                 AuthToken=""
                 var tbl_contactslists=sqliteDB.contactslists
                 var tbl_accounts=sqliteDB.accounts

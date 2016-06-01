@@ -1854,7 +1854,7 @@
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="ContactsInviteCell" editingAccessoryType="checkmark" textLabel="ZJQ-d3-fhQ" style="IBUITableViewCellStyleDefault" id="woi-iF-7Sx">
-                                        <rect key="frame" x="0.0" y="22" width="320" height="66"/>
+                                        <rect key="frame" x="0.0" y="86" width="320" height="66"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="woi-iF-7Sx" id="zbH-XF-8av">
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="65.5"/>

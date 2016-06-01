@@ -637,7 +637,7 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
         //%%%%%% new phone model add
         
         if(AuthToken != nil)
-        {
+        {   socketObj.socket.emit("logClient","login success and AuthToken was not nil getting myself details from server")
             
             print("login success")
             //self.labelLoginUnsuccessful.text=nil
@@ -672,7 +672,8 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
                         print("JSON: \(json)")
                         dispatch_async(dispatch_get_main_queue(), {
                             
-                            self.dismissViewControllerAnimated(true, completion: nil);
+                            //%%%%%%%% commenting it for a while phone model
+                            //self.dismissViewControllerAnimated(true, completion: nil);
                             print("got user success")
                             //self.gotToken=true
                             var json=JSON(data1)
@@ -706,6 +707,7 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
                                 //%%%% new phone model
                                 // try KeychainWrapper.setString(self.txtForPassword.text!, forKey: "password")
                                 try KeychainWrapper.setString("", forKey: "password")
+                                
                                 
                             }
                             catch{
@@ -877,7 +879,7 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
         print("khul raha hai1", terminator: "")
         ///^^^^^^^neww let retrievedToken=KeychainWrapper.stringForKey("access_token")
         //var retrievedToken:String!
-       
+       username = KeychainWrapper.stringForKey("username")
         
         //COMMENTING SOCKET LOAD APRIL @)!^
         let retrievedToken=KeychainWrapper.stringForKey("access_token")
@@ -919,7 +921,8 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
            })
             if(firstTimeLogin==true)
             {
-                
+                print("first time login user \(username) token \(AuthToken)")
+                socketObj.socket.emit("logClient","user \(username) token \(AuthToken) loginned for first time")
                 firstTimeLogin=false
                 self.performSegueWithIdentifier("inviteSegue",sender: nil)
                 
@@ -1096,9 +1099,14 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
         print("Server fetchingg contactss", terminator: "")
         if(loggedUserObj == JSON("[]"))
         {
-            var lusername=KeychainWrapper.stringForKey("username")
-            if(lusername == nil)
-            {lusername=username!}
+            
+            //%%%%% commented 3 lines phone model
+            //var lusername=KeychainWrapper.stringForKey("username")
+            //if(lusername == nil)
+            //{lusername=username!}
+            
+            
+            
             //KeychainWrapper.stringForKey("password")
             //KeychainWrapper.stringForKey("loggedFullName")
             //KeychainWrapper.stringForKey("loggedPhone")

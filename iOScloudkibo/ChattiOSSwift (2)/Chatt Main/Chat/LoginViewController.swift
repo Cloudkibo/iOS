@@ -29,9 +29,13 @@ class LoginViewController: UIViewController,SocketConnecting,AKFViewControllerDe
         
         
         if (accountKit.currentAccessToken != nil) {
+            //%%%%%%%%%%%%%%%%%%%%% phone model added firtsttimelogin
+            firstTimeLogin=false
+            AuthToken=accountKit.currentAccessToken!.tokenString
             // if the user is already logged in, go to the main screen
             print("User already logged in go to ViewController")
             dispatch_async(dispatch_get_main_queue(), {
+                //no seque from login to chat. it is from chat to login
                 //self.performSegueWithIdentifier("loginSegue", sender: self)
             self.dismissViewControllerAnimated(true, completion: { () -> Void in
                 
@@ -921,7 +925,8 @@ class LoginViewController: UIViewController,SocketConnecting,AKFViewControllerDe
     override func viewWillDisappear(animated: Bool) {
         print("dismissed loginnnnn")
         socketObj.delegateSocketConnected=nil
-        firstTimeLogin=true
+        //%%%%%%%% commented firsttimelogin
+        //firstTimeLogin=true
         print("firsttimeloginn yesss")
     }
     
