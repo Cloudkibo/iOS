@@ -147,10 +147,10 @@ class PendingFriendRequestsViewController: UIViewController {
     func loadPendingRequests()
     {
         //var pendingReqHTTP=NetworkingLibAlamofire()
-        var url=Constants.MainUrl+Constants.getPendingFriendRequestsContacts+"?access_token=\(AuthToken!)"
+        var url=Constants.MainUrl+Constants.getPendingFriendRequestsContacts
        //print(pendingList.description)
        // print(pendingList.count)
-        Alamofire.request(.GET,"\(url)").validate(statusCode: 200..<300).responseJSON{response in
+        Alamofire.request(.GET,"\(url)",headers:header).validate(statusCode: 200..<300).responseJSON{response in
             var response1=response.response
             var request1=response.request
             var data1=response.data
@@ -251,10 +251,10 @@ class PendingFriendRequestsViewController: UIViewController {
             
             print("inside delete old func", terminator: "")
            
-            var url=Constants.MainUrl+Constants.rejectPendingFriendRequest+"?access_token=\(AuthToken!)"
+            var url=Constants.MainUrl+Constants.rejectPendingFriendRequest
             var usernameToReject=self.pendingContactsObj[selectedRow]["username"]
             //var params=self.ContactsObjectss[selectedRow].arrayValue
-            Alamofire.request(.POST,"\(url)",parameters:["username":"\(usernameToReject)"]
+            Alamofire.request(.POST,"\(url)",headers:header,parameters:["username":"\(usernameToReject)"]
                 //Alamofire.request(.POST,"\(url)",parameters:["index":"\(selectedRow)"]
                 ).validate(statusCode: 200..<300).responseJSON{response in
                     var response1=response.response
@@ -303,10 +303,10 @@ class PendingFriendRequestsViewController: UIViewController {
         let accept = UITableViewRowAction(style: .Normal, title: "Accept") { action, index in
             print("accept button tapped", terminator: "")
             
-            var url=Constants.MainUrl+Constants.approvePendingFriendRequest+"?access_token=\(AuthToken!)"
+            var url=Constants.MainUrl+Constants.approvePendingFriendRequest
             var usernameToReject=self.pendingContactsObj[selectedRow]["username"]
             //var params=self.ContactsObjectss[selectedRow].arrayValue
-            Alamofire.request(.POST,"\(url)",parameters:["username":"\(usernameToReject)"]
+            Alamofire.request(.POST,"\(url)",headers:header,parameters:["username":"\(usernameToReject)"]
                 //Alamofire.request(.POST,"\(url)",parameters:["index":"\(selectedRow)"]
                 ).validate(statusCode: 200..<300).responseJSON{response in
                     var response1=response.response

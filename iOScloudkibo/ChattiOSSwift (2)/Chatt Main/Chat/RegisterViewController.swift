@@ -111,8 +111,8 @@ class RegisterViewController: UIViewController,UITextFieldDelegate {
                 AuthToken=token.string!
                 
                 //========GET USER DETAILS===============
-                var getUserDataURL=userDataUrl+"?access_token="+AuthToken!
-                Alamofire.request(.GET,"\(getUserDataURL)").validate(statusCode: 200..<300).responseJSON{response in
+                var getUserDataURL=userDataUrl
+                Alamofire.request(.GET,"\(getUserDataURL)",headers:header).validate(statusCode: 200..<300).responseJSON{response in
                     var response1=response.response
                     var request1=response.request
                     var data1=response.result.value

@@ -251,6 +251,11 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
     override func viewDidLoad() {
         super.viewDidLoad()
         print("Chat ViewController is loadingggggg")
+        if accountKit == nil {
+            // may also specify AKFResponseTypeAccessToken
+            print("initialising AccountKit .......")
+            self.accountKit = AKFAccountKit(responseType: AKFResponseType.AccessToken)
+        }
         /*if(socketObj != nil)
         {
             socketObj.delegate=self
@@ -263,7 +268,7 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
         
         
         
-        if (AuthToken == nil) {
+        if (AuthToken == nil || accountKit.currentAccessToken == nil) {
             
             //specify AKFResponseType.AccessToken
             self.accountKit = AKFAccountKit(responseType: AKFResponseType.AccessToken)
@@ -885,11 +890,16 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
         print(loggedUserObj.object)
         //let retrievedUsername=KeychainWrapper.stringForKey("username")
         //if retrievedToken==nil || retrievedUsername==nil
-        if (retrievedToken == nil && isConference == false && AuthToken==nil)
+        
+        //%%%%%%%%%%% commenting for testing
+        /*if (retrievedToken == nil && isConference == false && AuthToken==nil)
             {print("line # 635 commented")
                 //%%%%% was commented new phone model
                 //performSegueWithIdentifier("loginSegue", sender: nil)
                 
+        }*/
+        if (accountKit.currentAccessToken == nil) {
+            // if the user is already logged in, go to the main screen
         }
         else
         {print("on line # 660")

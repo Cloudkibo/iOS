@@ -172,9 +172,9 @@ class ChatDetailViewController: UIViewController{
     func removeChatHistory(){
         //var loggedUsername=loggedUserObj["username"]
         print("inside mark funcc", terminator: "")
-        var removeChatHistoryURL=Constants.MainUrl+Constants.removeChatHistory+"?access_token=\(AuthToken!)"
+        var removeChatHistoryURL=Constants.MainUrl+Constants.removeChatHistory
         
-        Alamofire.request(.POST,"\(removeChatHistoryURL)",parameters: ["username":"\(selectedContact)"]).validate(statusCode: 200..<300).response{
+        Alamofire.request(.POST,"\(removeChatHistoryURL)",headers:header,parameters: ["username":"\(selectedContact)"]).validate(statusCode: 200..<300).response{
                 request1, response1, data1, error1 in
                 
                 //===========INITIALISE SOCKETIOCLIENT=========
@@ -213,7 +213,7 @@ class ChatDetailViewController: UIViewController{
     func markChatAsRead()
     {
         print("inside mark as read", terminator: "")
-        var markChatReadURL=Constants.MainUrl+Constants.markAsRead+"?access_token=\(AuthToken!)"
+        var markChatReadURL=Constants.MainUrl+Constants.markAsRead
         //print(["user1":"\(loggedUserObj)","user2":"\(selectedUserObj)"])
         print("**", terminator: "")
        //^^^^^ var loggedID=loggedUserObj["_id"]
@@ -221,7 +221,7 @@ class ChatDetailViewController: UIViewController{
         //^^^^print(loggedID.description+" logged id")
         print(loggedID!+" logged id", terminator: "")
         print(self.selectedID+" selected id", terminator: "")
-        Alamofire.request(.POST,"\(markChatReadURL)",parameters: ["user1":"\(loggedID!)","user2":"\(self.selectedID)"]
+        Alamofire.request(.POST,"\(markChatReadURL)",headers:header,parameters: ["user1":"\(loggedID!)","user2":"\(self.selectedID)"]
             ).responseJSON{response in
                     var response1=response.response
                     var request1=response.request
@@ -282,9 +282,9 @@ class ChatDetailViewController: UIViewController{
         
         print("[user1:\(username!),user2:\(selectedContact)]", terminator: "")
         ///POST GET april 2016
-        var bringUserChatURL=Constants.MainUrl+Constants.bringUserChat+"?access_token="+AuthToken!
+        var bringUserChatURL=Constants.MainUrl+Constants.bringUserChat
         let configuration = NSURLSessionConfiguration.defaultSessionConfiguration()
-        Alamofire.request(.POST,"\(bringUserChatURL)",parameters: ["user1":"\(username!)","user2":"\(selectedContact)"]
+        Alamofire.request(.POST,"\(bringUserChatURL)",headers:header,parameters: ["user1":"\(username!)","user2":"\(selectedContact)"]
         ).validate(statusCode: 200..<300).responseJSON{response in
         var response1=response.response
         var request1=response.request

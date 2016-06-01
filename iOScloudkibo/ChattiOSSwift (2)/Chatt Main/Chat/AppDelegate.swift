@@ -282,8 +282,8 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
                 
                 
                 //========GET USER DETAILS===============
-                var getUserDataURL=userDataUrl+"?access_token="+AuthToken!
-                Alamofire.request(.GET,"\(getUserDataURL)").responseJSON{
+                var getUserDataURL=userDataUrl
+                Alamofire.request(.GET,"\(getUserDataURL)",headers:header).responseJSON{
                     response in
                     
                     //===========INITIALISE SOCKETIOCLIENT=========
