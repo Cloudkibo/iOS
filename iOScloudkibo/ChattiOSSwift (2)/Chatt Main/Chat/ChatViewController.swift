@@ -885,10 +885,10 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
         print(loggedUserObj.object)
         //let retrievedUsername=KeychainWrapper.stringForKey("username")
         //if retrievedToken==nil || retrievedUsername==nil
-        if (retrievedToken == nil && isConference == false)
+        if (retrievedToken == nil && isConference == false && AuthToken==nil)
             {print("line # 635 commented")
                 //%%%%% was commented new phone model
-                performSegueWithIdentifier("loginSegue", sender: nil)
+                //performSegueWithIdentifier("loginSegue", sender: nil)
                 
         }
         else

@@ -1214,6 +1214,21 @@ self.disconnect()
     func didReceiveLocalVideoTrack(localVideoTrack:RTCVideoTrack)
     {
         socketObj.socket.emit("logClient","iphone user \(username!) captured audio/video stream")
+        
+        var session: AVAudioSession = AVAudioSession.sharedInstance()
+        var e:NSError!
+        do{
+            let res=try session.overrideOutputAudioPort(AVAudioSessionPortOverride.Speaker)
+            print("speaker got correctly")
+            socketObj.socket.emit("logClient","success speaker iphone is ON")
+        }
+        catch _
+        {
+            socketObj.socket.emit("logClient","cannot enable speakers2 error..")
+            print("Speaker errorrr3")
+            
+        }
+        
         /////////dispatch_async(dispatch_get_main_queue(), {
         //FULL VIDEO
         if(localvideoshared==false)
@@ -1317,6 +1332,22 @@ self.disconnect()
         else
         {
             print("showw videoo")
+            
+            var session: AVAudioSession = AVAudioSession.sharedInstance()
+            var e:NSError!
+            do{
+                let res=try session.overrideOutputAudioPort(AVAudioSessionPortOverride.Speaker)
+                print("speaker got correctly")
+                socketObj.socket.emit("logClient","success speaker iphone is ON")
+            }
+            catch _
+            {
+                socketObj.socket.emit("logClient","cannot enable speakers2 error..")
+                print("Speaker errorrr4")
+                
+            }
+            
+            
             self.rtcVideoTrackReceived=remoteVideoTrack
             self.localViewOutlet.addSubview(self.remoteView)
             self.rtcVideoTrackReceived.addRenderer(self.remoteView)
@@ -1370,6 +1401,19 @@ self.disconnect()
     
     func peerConnection(peerConnection: RTCPeerConnection!, addedStream stream: RTCMediaStream!) {
         print("added stream \(stream.debugDescription)")
+        var session: AVAudioSession = AVAudioSession.sharedInstance()
+        var e:NSError!
+        do{
+            let res=try session.overrideOutputAudioPort(AVAudioSessionPortOverride.Speaker)
+            print("speaker got correctly")
+            socketObj.socket.emit("logClient","success speaker iphone is ON")
+        }
+        catch _
+        {
+            socketObj.socket.emit("logClient","cannot enable speakers2 error..")
+            print("Speaker errorrr3")
+            
+        }
         print(stream.videoTracks.count)
         print(stream.audioTracks.count)
         

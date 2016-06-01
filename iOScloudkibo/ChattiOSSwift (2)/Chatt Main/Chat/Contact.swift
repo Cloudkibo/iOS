@@ -47,8 +47,11 @@ class iOSContact{
             for(var i=0;i<self.contacts.count;i++){
                 
                 print(self.contacts[i].givenName)
-                let phone=self.contacts[i].phoneNumbers.first?.value as! CNPhoneNumber
+                let phone=self.contacts[i].phoneNumbers.first?.value as! CNPhoneNumber!
+                if( phone != ""  && phone != nil)
+                {
                 print(phone.stringValue)
+                }
                 let em=self.contacts[i].emailAddresses.first
                 if(em != nil && em != "")
                 {
@@ -102,7 +105,7 @@ class iOSContact{
         
         //%%%%%%%%%%%%%%% new phone model change
         //Alamofire.request(.POST,searchContactsByEmail,parameters:["emails":emails],encoding: .JSON).responseJSON { response in
-        Alamofire.request(.POST,searchContactsByEmail,headers:["":""],parameters:["emails":emails],encoding: .JSON).responseJSON { response in
+        Alamofire.request(.POST,searchContactsByEmail,headers:header,parameters:["emails":emails],encoding: .JSON).responseJSON { response in
             debugPrint(response.data)
             //print(response.request)
             //print(response.response)
@@ -178,8 +181,8 @@ class iOSContact{
     {
         //emails.append("sumaira.syedsaeed@gmail.com")
         //emails.append("kibo@kibo.com")
-        let inviteMultipleURL=Constants.MainUrl+Constants.invitebymultipleemail+"?access_token="+AuthToken!
-        Alamofire.request(.POST,inviteMultipleURL,parameters:["emails":emails],encoding: .JSON).responseJSON { response in
+        let inviteMultipleURL=Constants.MainUrl+Constants.invitebymultipleemail
+        Alamofire.request(.POST,inviteMultipleURL,headers:header,parameters:["emails":emails],encoding: .JSON).responseJSON { response in
             debugPrint(response.data)
             //print(response.request)
             //print(response.response)
