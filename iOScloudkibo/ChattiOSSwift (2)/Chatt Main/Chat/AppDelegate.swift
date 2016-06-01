@@ -66,7 +66,7 @@ var filejustreceivedPathURL:NSURL!
 var urlLocalFile:NSURL!
 var iOSstartedCall=false
 var firstTimeLogin=false
-let header:[String:String]=["kibo-token":AuthToken!]
+var header:[String:String]!=["kibo-token":AuthToken!]
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate,AppDelegateScreenDelegate {

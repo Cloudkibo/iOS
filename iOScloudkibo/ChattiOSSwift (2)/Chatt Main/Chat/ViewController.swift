@@ -41,8 +41,7 @@ class ViewController: UIViewController{
                 
                                 if(account != nil){
                                     var url=Constants.MainUrl+Constants.getContactsList
-                                    
-                                    let header:[String:String]=["kibo-token":(self.accountKit.currentAccessToken?.tokenString)!]
+                                    header=["kibo-token":(self.accountKit!.currentAccessToken!.tokenString)]
                                     
                                     print(header)
                                     
