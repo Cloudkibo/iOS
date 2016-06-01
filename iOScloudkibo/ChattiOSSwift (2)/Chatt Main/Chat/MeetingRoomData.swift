@@ -565,7 +565,7 @@ class MeetingRoomData:NSObject,RTCPeerConnectionDelegate,RTCSessionDescriptionDe
         
         
         socketObj.socket.on("message"){data,ack in
-            print("received messageee11")
+            print("received messageee00")
             // self.delegateWebRTCVideo.socketReceivedMessageWebRTCVideo("message",data: data)
             
             

@@ -13,6 +13,14 @@ import Alamofire
 import Contacts
 import CloudKit
 
+
+
+
+var selectedEmails=[String]()
+var emailList=[String]()
+var notAvailableEmails=[String]()
+
+var isFileReceived=false
 var meetingStarted=false
 var isSocketConnected=false
 var delegateScreen:AppDelegateScreenDelegate!
@@ -26,7 +34,10 @@ var AuthToken=KeychainWrapper.stringForKey("access_token")
 var loggedUserObj=JSON("[]")
 var glocalChatRoomJoined:Bool=false
 //let dbSQLite=DatabaseHandler(dbName: "/cloudKibo.sqlite3")
-var username=KeychainWrapper.stringForKey("username")
+
+//%%%%%%%%%%%%%%%% new phone model
+//var username=KeychainWrapper.stringForKey("username")
+var username:String!="sadia1"
 var password=KeychainWrapper.stringForKey("password")
 let loggedFullName=KeychainWrapper.stringForKey("loggedFullName")
 let loggedPhone=KeychainWrapper.stringForKey("loggedPhone")
@@ -41,7 +52,7 @@ var otherID:Int!
 //from id, to id remaining
 //mark chat as read is remaining
 var isConference = false
-var ConferenceRoomName = "test"
+var ConferenceRoomName = ""
 var atimer:NSTimer!
 var areYouFreeForCall:Bool=true
 var iamincallWith:String!
@@ -53,6 +64,9 @@ var contactsList=iOSContact(keys: [CNContactGivenNameKey, CNContactFamilyNameKey
 var filejustreceivedname:String!
 var filejustreceivedPathURL:NSURL!
 var urlLocalFile:NSURL!
+var iOSstartedCall=false
+var firstTimeLogin=false
+let header:[String:String]=["kibo-token":AuthToken!]
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate,AppDelegateScreenDelegate {
@@ -147,14 +161,19 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
         
     }
     
+    
+    
+    
     func applicationWillResignActive(application: UIApplication) {
         // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
         // Use this method to pause ongoing tasks, disable timers, and throttle down OpenGL ES frame rates. Games should use this method to pause the game.
+        print("appwillresignactive")
     }
     
     func applicationDidEnterBackground(application: UIApplication) {
         // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
         // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
+        print("didenterbackground")
     }
     
     func applicationWillEnterForeground(application: UIApplication) {
@@ -169,7 +188,8 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
                 
             }
         }*/
-         if(socketObj == nil)
+        print("app will enter foreground")
+        /*if(socketObj == nil || isSocketConnected==false)
         {
             print("socket is nillll", terminator: "")
             socketObj=LoginAPI(url:"\(Constants.MainUrl)")
@@ -177,6 +197,19 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
             socketObj.addHandlers()
             socketObj.addWebRTCHandlers()
         }
+        else{
+            socketObj.socket.reconnects=true
+        }
+        */
+        /*
+         if(socketObj == nil)
+        {
+            print("socket is nillll", terminator: "")
+            socketObj=LoginAPI(url:"\(Constants.MainUrl)")
+            ///socketObj.connect()
+            socketObj.addHandlers()
+            socketObj.addWebRTCHandlers()
+        }*/
         
     }
     
@@ -192,7 +225,7 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
             }
         }*/
         print("app becomeActive")
-        if(socketObj == nil || isSocketConnected==false)
+       /* if(socketObj == nil || isSocketConnected==false)
         {
             print("socket is nillll", terminator: "")
             socketObj=LoginAPI(url:"\(Constants.MainUrl)")
@@ -201,8 +234,8 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
             socketObj.addWebRTCHandlers()
         }
         else{
-            socketObj.socket.reconnects=true
-        }
+           // socketObj.socket.reconnects=true
+        }*/
         
         /* if(socketObj == nil)
         {
@@ -217,14 +250,14 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
     func applicationWillTerminate(application: UIApplication) {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
        
-        
+        print("app will terminate")
         //socketObj.socket.disconnect(fast: true)
         //socketObj.socket.close(fast: true)
     }
     func fetchNewToken()
     {let tbl_accounts = sqliteDB.accounts
         var url=Constants.MainUrl+Constants.authentictionUrl
-        var param:[String:String]=["username": username!,"password":password!]
+        var param:[String:String]=["username": username,"password":password!]
         Alamofire.request(.POST,"\(url)",parameters: param).response{
             request, response_, data, error in
             print(error)

@@ -9,17 +9,33 @@
 import UIKit
 
 class ContactsInviteViewController: UIViewController,UITableViewDelegate,UITableViewDataSource {
-    var selectedEmails=[String]()
+    /*var selectedEmails=[String]()
     var emailList=[String]()
+    var notAvailableEmails=[String]()*/
     @IBOutlet weak var contactsInviteNames: UILabel!
     @IBOutlet weak var tbl_inviteContacts: UITableView!
+    
     var eeee=[String]()
+    
+    
     override func viewWillAppear(animated: Bool) {
-        self.emailList = contactsList.fetch()
-
-        dispatch_async(dispatch_get_main_queue()) { () -> Void in
-                        self.tbl_inviteContacts.reloadData()
+       /* contactsList.fetch(){ (result) -> () in
+            emailList = result
+            contactsList.searchContactsByEmail(emailList){ (result) -> () in
+                notAvailableEmails=result
+                dispatch_async(dispatch_get_main_queue()) { () -> Void in
+                    
+                    self.tbl_inviteContacts.reloadData()
+                }
             }
+        }
+        */
+        
+
+                /*dispatch_async(dispatch_get_main_queue()) { () -> Void in
+                    
+                                           self.tbl_inviteContacts.reloadData()
+            }*/
         
     }
     override func viewDidLoad() {
@@ -28,13 +44,44 @@ class ContactsInviteViewController: UIViewController,UITableViewDelegate,UITable
         
         super.viewDidLoad()
         
+       // if(firstTimeLogin==true){
+        contactsList.fetch(){ (result) -> () in
+            
+            for r in result
+            {
+                emailList.append(r)
+            }
+            
+            //emailList = result
+            contactsList.searchContactsByEmail(emailList){ (result2) -> () in
+                
+                for r2 in result2
+                {
+                        notAvailableEmails.append(r2)
+                }
+                //notAvailableEmails=result2
+                //dispatch_async(dispatch_get_main_queue()) { () -> Void in
+                    
+                    self.tbl_inviteContacts.reloadData()
+                //}
+            }
+        }
+        //}
+        
+               self.tbl_inviteContacts.reloadData()
         ////contactsList.fetch()
         
         // Do any additional setup after loading the view.
     }
 
     @IBAction func btn_BackPressed(sender: AnyObject) {
-        self.dismissViewControllerAnimated(true, completion: nil)
+        self.dismissViewControllerAnimated(true, completion: { () -> Void in
+            
+            //contactsList.contacts.removeAll()
+            //contactsList.notAvailableContacts.removeAll()
+            selectedEmails.removeAll()
+
+        })
     }
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -43,7 +90,8 @@ class ContactsInviteViewController: UIViewController,UITableViewDelegate,UITable
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         //refreshControl.addTarget(self, action: Selector("fetchContacts"), forControlEvents: UIControlEvents.ValueChanged)
         
-        return emailList.count
+        return notAvailableEmails.count
+        //return emailList.count
     }
     func tableView(tableView: UITableView, didDeselectRowAtIndexPath indexPath: NSIndexPath) {
         
@@ -56,8 +104,8 @@ class ContactsInviteViewController: UIViewController,UITableViewDelegate,UITable
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         
         let cell=tbl_inviteContacts.dequeueReusableCellWithIdentifier("ContactsInviteCell")! as UITableViewCell
-        cell.textLabel?.text = emailList[indexPath.row]
-        
+        //cell.textLabel?.text = emailList[indexPath.row]
+        cell.textLabel?.text = notAvailableEmails[indexPath.row]
                 /*
         if ( theSelectedCell.accessoryType == UITableViewCellAccessoryNone ) {
         
@@ -104,7 +152,8 @@ class ContactsInviteViewController: UIViewController,UITableViewDelegate,UITable
         if selectedCell!.accessoryType == UITableViewCellAccessoryType.None
         {
             selectedCell!.accessoryType = UITableViewCellAccessoryType.Checkmark
-            selectedEmails.append(emailList[indexPath.row])
+            //selectedEmails.append(emailList[indexPath.row])
+            selectedEmails.append(notAvailableEmails[indexPath.row])
             
         }
         else
@@ -133,8 +182,7 @@ class ContactsInviteViewController: UIViewController,UITableViewDelegate,UITable
             })
             alertview.addAction(okAction)
             self.presentViewController(alertview, animated: true, completion: { () -> Void in
-                    
-                    
+                
                 })
                 
             //})

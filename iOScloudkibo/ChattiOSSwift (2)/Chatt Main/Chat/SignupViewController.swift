@@ -8,6 +8,7 @@
 
 //import UIKit
 //
+/*
 
 import UIKit
 import Alamofire
@@ -293,3 +294,4 @@ class SignupViewController: UIViewController, UITextFieldDelegate {
     }
     }*/
 }
+*/

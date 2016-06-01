@@ -31,4 +31,11 @@ class Constants{
     static let searchContactsByEmail="/api/users/searchaccountsbyemail"
     static let invitebymultipleemail="/api/users/invitebymultipleemail"
     static let invitebyemail="/api/users/invitebyemail"
+    static let invitebyphone="api/users/searchaccountsbyphone/"
+    
+    /*
+    private static String phoneContactsURL = "https://www.cloudkibo.com/api/users/searchaccountsbyphone/";
+    private static String emailContactsURL = "https://www.cloudkibo.com/api/users/searchaccountsbyemail/";
+    private static String inviteContactsURL = "https://www.cloudkibo.com/api/users/invitebymultipleemail/";
+    */
 }

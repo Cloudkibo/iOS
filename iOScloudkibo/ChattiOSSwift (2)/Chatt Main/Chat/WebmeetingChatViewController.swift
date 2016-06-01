@@ -59,14 +59,14 @@ class WebmeetingChatViewController: UIViewController,WebMeetingChatDelegate,File
         
     override func viewWillAppear(animated: Bool) {
         
-        videoCont=VideoViewController.init(nibName: "VideoViewController", bundle: nil)
-        videoCont.delegateFileReceived=self
+        //videoCont=VideoViewController.init(nibName: "VideoViewController", bundle: nil)
+        //videoCont.delegateFileReceived=self
         
     }
         override func viewDidLoad() {
             super.viewDidLoad()
-            videoCont=VideoViewController.init(nibName: "VideoViewController", bundle: nil)
-            videoCont.delegateFileReceived=self
+            //videoCont=VideoViewController.init(nibName: "VideoViewController", bundle: nil)
+            //videoCont.delegateFileReceived=self
             NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("willShowKeyBoard:"), name:UIKeyboardWillShowNotification, object: nil)
             NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("willHideKeyBoard:"), name:UIKeyboardWillHideNotification, object: nil)
             
@@ -279,11 +279,11 @@ class WebmeetingChatViewController: UIViewController,WebMeetingChatDelegate,File
     }
     func didReceiveFileConference()
     {print("hereeeeee")
-        videoCont.btnViewFile.enabled=true
+        //videoCont.btnViewFile.enabled=true
         let alert = UIAlertController(title: "Success", message: "You have received a new file. You can view files by clicking on \"View\" button present on Main conference page.", preferredStyle: UIAlertControllerStyle.Alert)
         alert.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.Default, handler: nil))
-        alert.showViewController(videoCont, sender: nil)
-        //videoCont.presentViewController(alert, animated: true, completion: nil)
+        //alert.showViewController(videoCont, sender: nil)
+        self.presentViewController(alert, animated: true, completion: nil)
     }
 
         /*

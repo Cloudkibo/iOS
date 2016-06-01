@@ -18,13 +18,14 @@ class VideoViewController: UIViewController,RTCPeerConnectionDelegate,RTCSession
     
     public var delegateFileReceived:FileReceivedAlertDelegate!
     
-    @IBOutlet weak var btnShareFile: UIBarButtonItem!
+    @IBOutlet var btnShareFile: UIBarButtonItem!
     
     var fileTransferCompleted=false
     @IBOutlet weak var btnAudio: UIButton!
     @IBOutlet weak var btnVideo: UIButton!
     @IBOutlet weak var btnEndCall: UIButton!
     
+    @IBOutlet weak var txtLabelUsername: UILabel!
     @IBOutlet weak var txtLabelMainPage: UITextView!
     var fileSize1:UInt64=0
     public var delegateSendScreenDatachannel:DelegateSendScreenshotDelegate!
@@ -53,7 +54,7 @@ class VideoViewController: UIViewController,RTCPeerConnectionDelegate,RTCSession
     var fileSizeReceived:Int!
     var fileContentsReceived:NSData!
 
-    @IBOutlet weak var btncapture: UIBarButtonItem!
+    @IBOutlet var btncapture: UIBarButtonItem!
     //------
     var localvideoshared=false
     var remotevideoshared=false
@@ -222,6 +223,295 @@ class VideoViewController: UIViewController,RTCPeerConnectionDelegate,RTCSession
     }
     
     @IBAction func endCallBtnPressed(sender: AnyObject) {
+
+        if(isConference != true)
+        {print("ending meeting 1-1 call")
+            meetingStarted=false
+            isConference=false
+            iOSstartedCall=false
+            ConferenceRoomName=""
+            // ********$$$$$$$$$$$$$$$$$$$$$$
+if(self.pc != nil)
+{
+socketObj.socket.emit("logClient","\(iamincallWith) is disconnecting from call")
+
+
+print("hangupppppp emitteddd")
+self.remoteDisconnected()
+
+socketObj.socket.emit("message",["msg":"hangup","room":globalroom,"to":iamincallWith!,"username":username!, "id":currentID!])
+socketObj.socket.emit("leave",["room":joinedRoomInCall])
+self.disconnect()
+}
+
+
+// ******$$$$$$$$$$$$
+
+            //meetingStarted=false
+
+            /*
+            //// socketObj.socket.disconnect()
+            ///socketObj.socket.emit("peer.disconnected", ["username":username!,"id":currentID!,"room":ConferenceRoomName])
+            socketObj.socket.emit("message",["msg":"hangup","room":globalroom,"to":iamincallWith!,"username":username!, "id":currentID!])
+            socketObj.socket.emit("leave",["room":joinedRoomInCall,"id":currentID!])
+        
+        //self.pc=nil
+        joinedRoomInCall=""
+        //iamincallWith=nil
+        isInitiator=false
+        //rtcFact=nil
+        areYouFreeForCall=true
+        currentID=nil
+        otherID=nil
+        self.rtcLocalMediaStream=nil
+        self.rtcStreamReceived=nil
+        //self.pc.close()
+        
+        //self.pc=nil
+        //rtcFact=nil //**********important********
+        //iamincallWith=nil
+        self.localView.renderFrame(nil)
+        self.remoteView.renderFrame(nil)
+        
+        if((self.rtcDataChannel) != nil){
+            self.rtcDataChannel.close()
+            self.rtcDataChannel=nil
+            //newwwwwwww tryy
+            //rtcDataChannel.close()
+        }
+        
+        
+        //^^^^^^^^^^^newwwww self.disconnect()
+        //if((self.pc) != nil)
+        //{
+        
+        
+        if((self.rtcLocalVideoTrack) != nil)
+        {print("remove localtrack renderer")
+            
+            self.rtcLocalVideoTrack.removeRenderer(self.localView)
+            //////////////////////////////////////////////////////
+            self.rtcLocalVideoTrack=nil
+            self.localView.removeFromSuperview()
+            /////////////////////////////////////////////////////
+        }
+        if((self.rtcVideoTrackReceived) != nil)
+        {print("remove remotetrack renderer")
+            self.rtcVideoTrackReceived.removeRenderer(self.remoteView)
+        }
+        print("out of removing remoterenderer")
+        ////self.rtcLocalVideoTrack=nil
+        ////self.rtcVideoTrackReceived=nil
+        //kjkljkljkkhkjhkj
+        
+        self.pc=nil
+        joinedRoomInCall=""
+        ConferenceRoomName=""
+        //iamincallWith=nil
+        isInitiator=false
+        rtcFact=nil
+        areYouFreeForCall=true
+        currentID=nil
+        otherID=nil
+        ////// self.remoteDisconnected()
+        
+        ////// socketObj.socket.emit("message",["msg":"hangup","room":globalroom,"to":iamincallWith!,"username":username!])
+        
+        
+        // iamincallWith=nil
+        print("hangup emitted")
+        
+        if(self.localView.superview != nil)
+        {
+            print("localview was a subview. remmoving")
+            self.localView.removeFromSuperview()
+        }
+        if(self.remoteView.superview != nil)
+        {
+            print("remoteview was a subview. remmoving")
+            
+            self.remoteView.removeFromSuperview()
+        }
+        
+        if(self.rtcLocalMediaStream != nil)
+        {
+            print("stopped local stream")
+            ///// rtcLocalMediaStream.videoTracks[0].stopRunning()
+            //rtcLocalMediaStream.audioTracks[0].stopRunning()
+        }
+        if(self.rtcStreamReceived != nil)
+        {
+            print("stopped remote stream")
+            self.rtcStreamReceived.removeAudioTrack(self.rtcStreamReceived.audioTracks[0] as! RTCAudioTrack)
+            /////rtcStreamReceived.videoTracks[0].stopRunning()
+            //rtcStreamReceived.audioTracks[0].stopRunning()
+        }
+        
+        print("views removed from parent")
+        ///**** neww may 2016}
+        
+        joinedRoomInCall=""
+        iamincallWith=""
+        isInitiator=false
+        areYouFreeForCall=true
+        
+        self.rtcLocalMediaStream=nil //test and try-------------
+        self.rtcStreamReceived=nil
+        screenCaptureToggle=false*/
+        */ */
+           // dispatch_async(dispatch_get_main_queue(), { () -> Void in
+
+               /* let next = self.storyboard!.instantiateViewControllerWithIdentifier("MainChatView") as! ChatViewController
+                self.presentViewController(next, animated: false, completion: { () -> Void in
+                    print("doneeee")
+                    
+                })//end present controller
+                */
+           /*self.dismissViewControllerAnimated(true, completion: { () -> Void in
+            
+            self.view.removeFromSuperview()
+                print("doneeeeeee")
+                
+            })*/
+           // })
+        }
+        else
+        { if(iamincallWith != nil)
+        {print("ending meeting")
+            meetingStarted=false
+            //// socketObj.socket.disconnect()
+            if(currentID != nil){
+            socketObj.socket.emit("peer.disconnected", ["username":username!,"id":currentID!,"room":ConferenceRoomName])
+            socketObj.socket.emit("message",["msg":"hangup","room":globalroom,"to":iamincallWith!,"username":username!, "id":currentID!])
+            socketObj.socket.emit("leave",["room":joinedRoomInCall,"id":currentID!])
+            }
+            }
+           
+            socketObj.socket.disconnect()
+            socketObj=nil
+            
+            //self.pc=nil
+            joinedRoomInCall=""
+            //iamincallWith=nil
+            isInitiator=false
+            //rtcFact=nil
+            areYouFreeForCall=true
+            currentID=nil
+            otherID=nil
+            self.rtcLocalMediaStream=nil
+            self.rtcStreamReceived=nil
+            //self.pc.close()
+            
+            //self.pc=nil
+            //rtcFact=nil //**********important********
+            //iamincallWith=nil
+            self.localView.renderFrame(nil)
+            self.remoteView.renderFrame(nil)
+            
+            if((self.rtcDataChannel) != nil){
+                self.rtcDataChannel.close()
+                self.rtcDataChannel=nil
+                //newwwwwwww tryy
+                //rtcDataChannel.close()
+            }
+            
+            
+            //^^^^^^^^^^^newwwww self.disconnect()
+            //if((self.pc) != nil)
+            //{
+            
+            
+            if((self.rtcLocalVideoTrack) != nil)
+            {print("remove localtrack renderer")
+                
+                self.rtcLocalVideoTrack.removeRenderer(self.localView)
+                //////////////////////////////////////////////////////
+                self.rtcLocalVideoTrack=nil
+                self.localView.removeFromSuperview()
+                /////////////////////////////////////////////////////
+            }
+            if((self.rtcVideoTrackReceived) != nil)
+            {print("remove remotetrack renderer")
+                self.rtcVideoTrackReceived.removeRenderer(self.remoteView)
+            }
+            print("out of removing remoterenderer")
+            ////self.rtcLocalVideoTrack=nil
+            ////self.rtcVideoTrackReceived=nil
+            //kjkljkljkkhkjhkj
+            
+            self.pc=nil
+            joinedRoomInCall=""
+            ConferenceRoomName=""
+            //iamincallWith=nil
+            isInitiator=false
+            rtcFact=nil
+            areYouFreeForCall=true
+            currentID=nil
+            otherID=nil
+            ////// self.remoteDisconnected()
+            
+            ////// socketObj.socket.emit("message",["msg":"hangup","room":globalroom,"to":iamincallWith!,"username":username!])
+            
+            
+            // iamincallWith=nil
+            print("hangup emitted")
+            
+            if(self.localView.superview != nil)
+            {
+                print("localview was a subview. remmoving")
+                self.localView.removeFromSuperview()
+            }
+            if(self.remoteView.superview != nil)
+            {
+                print("remoteview was a subview. remmoving")
+                
+                self.remoteView.removeFromSuperview()
+            }
+            
+            if(self.rtcLocalMediaStream != nil)
+            {
+                print("stopped local stream")
+                ///// rtcLocalMediaStream.videoTracks[0].stopRunning()
+                //rtcLocalMediaStream.audioTracks[0].stopRunning()
+            }
+            if(self.rtcStreamReceived != nil)
+            {
+                print("stopped remote stream")
+                self.rtcStreamReceived.removeAudioTrack(self.rtcStreamReceived.audioTracks[0] as! RTCAudioTrack)
+                /////rtcStreamReceived.videoTracks[0].stopRunning()
+                //rtcStreamReceived.audioTracks[0].stopRunning()
+            }
+            
+            print("views removed from parent")
+            ///**** neww may 2016}
+            
+            joinedRoomInCall=""
+            iamincallWith=""
+            isInitiator=false
+            areYouFreeForCall=true
+            
+            self.rtcLocalMediaStream=nil //test and try-------------
+            self.rtcStreamReceived=nil
+            screenCaptureToggle=false
+            ConferenceRoomName=""
+            
+            dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                let next = self.storyboard!.instantiateViewControllerWithIdentifier("mainpage") as! LoginViewController
+                self.presentViewController(next, animated: false, completion: { () -> Void in
+                    print("nexttttt viewwww")
+                    
+                })//end present controller
+                
+            })//end dispatch_async
+            
+            
+            
+            
+            
+        }//end else
+        
+
+        /*
        print("ending meeting")
         meetingStarted=false
         if(screenCaptureToggle==false){
@@ -244,13 +534,16 @@ class VideoViewController: UIViewController,RTCPeerConnectionDelegate,RTCSession
         else
     { if(iamincallWith != nil && currentID != nil)
     {webMeetingModel.messages.removeAllObjects()
+        isFileReceived=false
         print("ending meeting")
        //// socketObj.socket.disconnect()
-        socketObj.socket.emit("peer.disconnected", ["username":username!,"id":currentID!,"room":joinedRoomInCall])
+        print("ending meeting leaving room \(joinedRoomInCall)")
+        socketObj.socket.emit("peer.disconnected", ["username":username!,"id":currentID!,"room":ConferenceRoomName])
         socketObj.socket.emit("message",["msg":"hangup","room":globalroom,"to":iamincallWith!,"username":username!, "id":currentID!])
-        socketObj.socket.emit("leave",["room":joinedRoomInCall,"id":currentID!])
+        socketObj.socket.emit("leave",["room":ConferenceRoomName,"id":currentID!])
         }
         //self.pc=nil
+        ConferenceRoomName=""
         joinedRoomInCall=""
         //iamincallWith=nil
         isInitiator=false
@@ -265,6 +558,8 @@ class VideoViewController: UIViewController,RTCPeerConnectionDelegate,RTCSession
         //self.pc=nil
         //rtcFact=nil //**********important********
         //iamincallWith=nil
+        
+        // *******tryy neww commented may 2016
         self.localFull.renderFrame(nil)
         self.localView.renderFrame(nil)
         self.remoteView.renderFrame(nil)
@@ -287,12 +582,15 @@ class VideoViewController: UIViewController,RTCPeerConnectionDelegate,RTCSession
             //////////////////////////////////////////////////////
             self.rtcLocalVideoTrack=nil
             self.localView.removeFromSuperview()
+            self.localFull.removeFromSuperview()
             /////////////////////////////////////////////////////
         }
         //if((self.pc) != nil)
         //{
             
-            
+        
+        //newww may 2016 added ****************************
+        remoteDisconnected()
            
             if((self.rtcVideoTrackReceived) != nil)
             {print("remove remotetrack renderer")
@@ -359,19 +657,26 @@ class VideoViewController: UIViewController,RTCPeerConnectionDelegate,RTCSession
         
         screenCaptureToggle=false
         
+        /// *******may 2016 added
+        if(self.rtcDataChannel != nil){
+            self.rtcDataChannel.close()
+            ////////newwwwwww
+            self.rtcDataChannel=nil
+        }
+
         socketObj.socket.disconnect()
         //socketObj=nil
         dispatch_async(dispatch_get_main_queue(), { () -> Void in
             let next = self.storyboard!.instantiateViewControllerWithIdentifier("mainpage") as! LoginViewController
             self.presentViewController(next, animated: false, completion: { () -> Void in
                 print("nexttttt viewwww")
-                socketObj.socket.connect()////uncommenting may april 2016
+                //socketObj.socket.connect()////uncommenting may april 2016
                 
             })//end present controller
             
         })//end dispatch_async
                 }//end else
-        
+*/ */
     }
     
     
@@ -557,20 +862,38 @@ class VideoViewController: UIViewController,RTCPeerConnectionDelegate,RTCSession
     }
     
     override func viewDidLoad() {
+        
         super.viewDidLoad()
+        print("video controller loadeddddd")
+        txtLabelUsername.text=username!
+        if(isConference==true){
         webMeetingModel.delegateSendScreenshotDataChannel=self
+        }
+        if(socketObj.delegateWebRTC == nil)
+        {
+            socketObj.delegateWebRTC=self
+        }
         
         
-        
+        socketObj.socket.on("disconnected") {data, ack in
+            
+            if(meetingStarted==true && ConferenceRoomName != ""){
+                print("\(username!) socket is disconnected in between meeting")
+                socketObj.socket.emit("logClient","\(username!) socket is disconnected in between meeting")
+                
+            }
+        }
         socketObj.socket.on("connect") {data, ack in
             
             
             
             
             print("meeting disconnected in video view controller")
-            if(meetingStarted==true){
+            
+            /*if(meetingStarted==true && ConferenceRoomName != "" && isConference==true){
+                socketObj.socket.emit("logClient","\(username!) is trying to connect in room again")
                 print("connecting to room again")
-            socketObj.socket.emitWithAck("init", ["room":ConferenceRoomName,"username":username!])(timeoutAfter: 600000) {data in
+            socketObj.socket.emitWithAck("init", ["room":ConferenceRoomName,"username":username!])(timeoutAfter: 6000000) {data in
                 meetingStarted=true
                 print("room joined by got ack")
                 var a=JSON(data)
@@ -579,7 +902,7 @@ class VideoViewController: UIViewController,RTCPeerConnectionDelegate,RTCSession
                 print("current id is \(currentID)")
                 print("room joined is\(ConferenceRoomName)")
                 }
-            }
+            }*/
             
         }
         /*if(socketObj.delegateWebRTC == nil)
@@ -590,7 +913,7 @@ class VideoViewController: UIViewController,RTCPeerConnectionDelegate,RTCSession
         //--------------
         //----------------
         ///////////addHandlers()
-        if(socketObj == nil)
+        /*if(socketObj == nil)
         {
             print("socket is nillll", terminator: "")
             socketObj=LoginAPI(url:"\(Constants.MainUrl)")
@@ -599,12 +922,21 @@ class VideoViewController: UIViewController,RTCPeerConnectionDelegate,RTCSession
             socketObj.addWebRTCHandlers()
             
         }
+        */
         
-        if(socketObj.delegateWebRTC == nil)
-        {
-            socketObj.delegateWebRTC=self
-        }
-        
+        /*if(meetingStarted==true && ConferenceRoomName != ""){
+            print("connecting to room first time")
+            socketObj.socket.emitWithAck("init", ["room":ConferenceRoomName,"username":username!])(timeoutAfter: 6000000) {data in
+                meetingStarted=true
+                print("room joined by got ack")
+                var a=JSON(data)
+                print(a.debugDescription)
+                currentID=a[1].int!
+                print("current id is \(currentID)")
+                print("room joined is\(ConferenceRoomName)")
+            }
+        }*/
+
         
         //******************************************************************************
         /* self.localViewTop.setSize(CGSize(width: 500, height: 500))*/
@@ -669,17 +1001,79 @@ class VideoViewController: UIViewController,RTCPeerConnectionDelegate,RTCSession
         RTCPeerConnectionFactory.initializeSSL()
         rtcFact=RTCPeerConnectionFactory()
         self.rtcLocalMediaStream=self.getLocalMediaStream()
+        
+        //$$$$
+        meetingStarted=true
+        if(isConference == true)
+        {print("conference name is\(ConferenceRoomName)")
+            if(isSocketConnected==true){
+                socketObj.socket.emitWithAck("init", ["room":ConferenceRoomName,"username":username!])(timeoutAfter: 1500000) {data in
+                    
+                    print("conference room joined by got ack")
+                    var a=JSON(data)
+                    print(a.debugDescription)
+                    currentID=a[1].int!
+                    print("current id is \(currentID)")
+                    print("room joined is\(ConferenceRoomName)")
+                }
+            }
+            
+            //roomname=ConferenceRoomName
+        }
+        else{
+            if(iOSstartedCall==true){
+                var roomname=self.randomStringWithLength(9) as String
+                //joinedRoomInCall=roomname as String
+                ConferenceRoomName=roomname
+                areYouFreeForCall=false
+                //}
+                //iamincallWith=username!
+                
+                //joinedRoomInCall=roomname as String
+                socketObj.socket.emitWithAck("init", ["room":ConferenceRoomName,"username":username!])(timeoutAfter: 1500000) {data in
+                    meetingStarted=true
+                    print("1-1 call room joined by got ack")
+                    var a=JSON(data)
+                    print(a.debugDescription)
+                    currentID=a[1].int!
+                    print("current id is \(currentID)")
+                    var aa=JSON(["msg":["type":"room_name","room":ConferenceRoomName as String],"room":globalroom,"to":iamincallWith!,"username":username!])
+                    print(aa.description)
+                    socketObj.socket.emit("message",aa.object)
+                    
+                }
+            }// end if iOs started calll
+        }//end else
+        
+
         print("waiting now")
     }
     
     override func viewWillAppear(animated: Bool) {
         
-        
-               
-        self.remoteView=RTCEAGLVideoView(frame: CGRect(x: 0, y: localViewOutlet.bounds.height*0.08, width: localViewOutlet.bounds.width, height: (localViewOutlet.bounds.height*0.80)))
-        self.remoteView.drawRect(CGRect(x: 0, y: localViewOutlet.bounds.height*0.08, width: localViewOutlet.bounds.width, height: (localViewOutlet.bounds.height*0.80)))
+        txtLabelMainPage.font=UIFont.boldSystemFontOfSize(20)
+        if(isFileReceived==true){
+            print("here1")
+            dispatch_async(dispatch_get_main_queue()) { () -> Void in
+            self.btnViewFile.enabled=true
+            }
+        }
+        if(rtcFact != nil){
+            print("here2")
+            if(isSocketConnected==true){
+        if(socketObj.delegateWebRTC == nil)
+        {
+            socketObj.delegateWebRTC=self
+        }
+       /* if(self.rtcLocalMediaStream==nil){
+            self.rtcLocalMediaStream=self.getLocalMediaStream()
+        }*/
+            }}
+       /* self.remoteView=RTCEAGLVideoView(frame: CGRect(x: 0, y: localViewOutlet.bounds.height*0.08, width: localViewOutlet.bounds.width, height: (localViewOutlet.bounds.height*0.80)))
+        self.remoteView.drawRect(CGRect(x: 0, y: localViewOutlet.bounds.height*0.08, width: localViewOutlet.bounds.width, height: (localViewOutlet.bounds.height*0.80)))*/
 
     }
+    
     func remoteDisconnected()
     {
         print("inside remote disconnected")
@@ -694,6 +1088,9 @@ class VideoViewController: UIViewController,RTCPeerConnectionDelegate,RTCSession
         remoteView.hidden=true
         localView.hidden=true
         print("remote disconnected")
+        
+        txtLabelMainPage.font=UIFont.boldSystemFontOfSize(20)
+        txtLabelMainPage.text="Welcome to cloudkibo meeting. Waiting for other peer to connect"
     }
     
     func getLocalMediaStream()->RTCMediaStream!
@@ -791,9 +1188,11 @@ class VideoViewController: UIViewController,RTCPeerConnectionDelegate,RTCSession
         }
         if cameraID==nil
             
-        {print("failed to get front camera")}
+        {print("failed to get front camera")
+        }
         
         //AVCaptureDevice
+        else{
         let capturer=RTCVideoCapturer(deviceName: cameraID! as String)
         
         print(capturer.description)
@@ -804,8 +1203,9 @@ class VideoViewController: UIViewController,RTCPeerConnectionDelegate,RTCSession
         self.rtcLocalVideoTrack=nil
         self.rtcLocalVideoTrack=rtcFact.videoTrackWithID("ARDAMSv0", source: VideoSource)
         print("sending localVideoTrack")
-        return self.rtcLocalVideoTrack
         
+        }
+        return self.rtcLocalVideoTrack
     }
     
     
@@ -813,6 +1213,7 @@ class VideoViewController: UIViewController,RTCPeerConnectionDelegate,RTCSession
     
     func didReceiveLocalVideoTrack(localVideoTrack:RTCVideoTrack)
     {
+        socketObj.socket.emit("logClient","iphone user \(username!) captured audio/video stream")
         /////////dispatch_async(dispatch_get_main_queue(), {
         //FULL VIDEO
         if(localvideoshared==false)
@@ -824,7 +1225,9 @@ class VideoViewController: UIViewController,RTCPeerConnectionDelegate,RTCSession
         
         self.localViewOutlet.updateConstraintsIfNeeded()
         localFull.setNeedsDisplay()
+        if(self.localView != nil){
         self.localView.setNeedsDisplay()
+        }
         self.localViewOutlet.setNeedsDisplay()
         
         
@@ -834,9 +1237,30 @@ class VideoViewController: UIViewController,RTCPeerConnectionDelegate,RTCSession
         self.localViewOutlet.addSubview(self.localView)
         */
         self.localViewOutlet.updateConstraintsIfNeeded()
+        if(self.localView != nil){
+
         self.localView.setNeedsDisplay()
+        }
         self.localViewOutlet.setNeedsDisplay()
         ///////////////})
+        
+        
+        // *********** JOIN ROOM NOW
+        
+        /*if(isSocketConnected==true){
+            socketObj.socket.emitWithAck("init", ["room":ConferenceRoomName,"username":username!])(timeoutAfter: 1500000) {data in
+                
+                print("room joined by got ack")
+                var a=JSON(data)
+                print(a.debugDescription)
+                currentID=a[1].int!
+                print("current id is \(currentID)")
+                print("room joined is\(ConferenceRoomName)")
+            }
+        }*/
+        
+        
+               // *****
     }
     
     
@@ -844,11 +1268,11 @@ class VideoViewController: UIViewController,RTCPeerConnectionDelegate,RTCSession
     
    /* func didReceiveLocalStream(stream:RTCMediaStream)
     {
-        
-        
+    
+    
         dispatch_async(dispatch_get_main_queue(), {
             self.localView=RTCEAGLVideoView(frame: CGRect(x: 0 , y: 150, width: 500, height: 350))
-            
+    
             self.localView.drawRect(CGRect(x: 0, y: 150, width: 500, height: 350))
             // self.remoteView.addConstraints(mediaConstraints.d)
             if(stream.videoTracks.count>0)
@@ -894,31 +1318,41 @@ class VideoViewController: UIViewController,RTCPeerConnectionDelegate,RTCSession
         {
             print("showw videoo")
             self.rtcVideoTrackReceived=remoteVideoTrack
-            
+            self.localViewOutlet.addSubview(self.remoteView)
             self.rtcVideoTrackReceived.addRenderer(self.remoteView)
             if(remotevideoshared==false){
                 self.remoteView.hidden=true
 
             }else{
                 self.remoteView.hidden=true
+                if(localvideoshared==true)
+                {
+                    localView.hidden=false
+                    self.localViewOutlet.addSubview(self.localView)
+                }
 
             }
                         self.remoteScreenView.hidden=true
-            self.localViewOutlet.addSubview(self.remoteView)
+            
             
             //self.rtcLocalVideoTrack.addRenderer(self.localFull)
             //self.localViewOutlet.addSubview(self.localFull)
             //FULL SHOW
-            self.localViewOutlet.updateConstraintsIfNeeded()
-            localFull.setNeedsDisplay()
-            self.localView.setNeedsDisplay()
-            self.localViewOutlet.setNeedsDisplay()
-
+             localFull.setNeedsDisplay()
+            
             self.localViewOutlet.updateConstraintsIfNeeded()
             self.remoteView.updateConstraintsIfNeeded()
             self.remoteView.setNeedsDisplay()
             self.remoteScreenView.setNeedsDisplay()
             self.localViewOutlet.setNeedsDisplay()
+            
+            self.localViewOutlet.updateConstraintsIfNeeded()
+           
+           
+            self.localView.setNeedsDisplay()
+            self.localViewOutlet.setNeedsDisplay()
+
+            
         }
        
         
@@ -946,7 +1380,7 @@ class VideoViewController: UIViewController,RTCPeerConnectionDelegate,RTCSession
         {print("remote video track count is greater than one \(stream.videoTracks.count)")
             let remoteVideoTrack=stream.videoTracks[0] as! RTCVideoTrack
             //^^^^^^newwwww self.rtcVideoTrackReceived=stream.videoTracks[0] as! RTCVideoTrack
-            
+            socketObj.socket.emit("logClient","iphone user received audio/video stream from \(iamincallWith)")
             dispatch_async(dispatch_get_main_queue(), {
             
                 self.didReceiveRemoteVideoTrack(remoteVideoTrack)
@@ -1109,6 +1543,7 @@ class VideoViewController: UIViewController,RTCPeerConnectionDelegate,RTCSession
             
         case "peer.connected":
             print("peer.connected received")
+            
             handlePeerConnected(data)
             
         /*case "peer.connected.new":
@@ -1198,6 +1633,8 @@ class VideoViewController: UIViewController,RTCPeerConnectionDelegate,RTCSession
             iamincallWith=msg[0]["username"].description
             
             if(msg[0]["username"].description != username! && self.pc.remoteDescription == nil){
+                
+                txtLabelMainPage.font=UIFont.boldSystemFontOfSize(20)
                 txtLabelMainPage.text="You are now connected in call with \(iamincallWith)"
                 var sessionDescription=RTCSessionDescription(type: msg[0]["type"].description, sdp: msg[0]["sdp"]["sdp"].description)
                 self.pc.setRemoteDescriptionWithDelegate(self, sessionDescription: sessionDescription)
@@ -1257,8 +1694,11 @@ class VideoViewController: UIViewController,RTCPeerConnectionDelegate,RTCSession
             isInitiator=true
             iamincallWith = datajson[0]["username"].description
             //txtLabelMainPage.font
+            
+            txtLabelMainPage.font=UIFont.boldSystemFontOfSize(20)
             txtLabelMainPage.text="You are now connected in call with \(iamincallWith)"
             
+            print("socketObj value new is \(socketObj)")
             //////optional
             if(self.pc == nil) //^^^^^^^^^^^^^^^^^^newwww tryyy
             {
@@ -1276,7 +1716,7 @@ class VideoViewController: UIViewController,RTCPeerConnectionDelegate,RTCSession
             //^^^^^^^^^^^^^^^^^^newwwww self.pc.addStream(self.rtcLocalMediaStream)
             print("peer attached stream")
             
-            
+            socketObj.socket.emit("logClient","iphone user is creating offer for \(iamincallWith)")
             self.pc.createOfferWithDelegate(self, constraints: self.rtcMediaConst!)
         }
         
@@ -1298,6 +1738,7 @@ class VideoViewController: UIViewController,RTCPeerConnectionDelegate,RTCSession
             webMeetingModel.messages.removeAllObjects()
             if(self.pc != nil)
             {
+                socketObj.socket.emit("logClient","iphone got info that \(iamincallWith) has disconnected")
                 print("peer disconnectedddd received \(datajson[0])")
                 if(screenCaptureToggle==true)
                 {
@@ -1405,7 +1846,8 @@ class VideoViewController: UIViewController,RTCPeerConnectionDelegate,RTCSession
         print(datajson.debugDescription)
         
         if(datajson[0]["username"].debugDescription != username! && datajson[0]["type"].debugDescription == "screen" && datajson[0]["action"].boolValue==true )
-        {self.screenshared=true
+        {socketObj.socket.emit("logClient","\(iamincallWith) is sharing screen")
+            self.screenshared=true
             remoteScreenView.hidden=false//***
             remoteView.hidden=true
             //Handle Screen sharing
@@ -1415,6 +1857,7 @@ class VideoViewController: UIViewController,RTCPeerConnectionDelegate,RTCSession
         
         if(datajson[0]["username"].debugDescription != username! && datajson[0]["type"].debugDescription == "screen" && datajson[0]["action"].boolValue==false )
         {
+            socketObj.socket.emit("logClient","\(iamincallWith) is hiding screen")
            self.screenshared=false
            remoteScreenView.hidden=true
             if(remotevideoshared==true)
@@ -1429,6 +1872,7 @@ class VideoViewController: UIViewController,RTCPeerConnectionDelegate,RTCSession
             ////////////self.rtcVideoTrackReceived.setEnabled((datajson[0]["action"].bool!))
             if(datajson[0]["action"].boolValue == false)
             {
+                socketObj.socket.emit("logClient","\(iamincallWith) is hiding video")
                 remotevideoshared=false
                 ///self.localView.hidden=false
                 self.remoteView.hidden=true
@@ -1437,16 +1881,25 @@ class VideoViewController: UIViewController,RTCPeerConnectionDelegate,RTCSession
                 //remoteScreenView.hidden=true
             }
             if(datajson[0]["action"].boolValue == true)
-            {//self.rtcVideoTrackReceived.addRenderer(self.remoteView)
+            {socketObj.socket.emit("logClient","\(iamincallWith) is sharing video")
+                //self.rtcVideoTrackReceived.addRenderer(self.remoteView)
                 remotevideoshared=true
                 localFull.hidden=true
                 //self.localView.hidden=true
+                self.remoteView.hidden=false
                 if(localvideoshared==true)
                 {
                     localView.hidden=false
+                    self.rtcLocalVideoTrack.addRenderer(self.localView)
+                    localViewOutlet.addSubview(localView)
                 }
-                self.remoteView.hidden=false
+                
                 remoteScreenView.hidden=true
+                
+                self.localViewOutlet.updateConstraintsIfNeeded()
+                localFull.setNeedsDisplay()
+                self.localView.setNeedsDisplay()
+                self.localViewOutlet.setNeedsDisplay()
             }
         }
     }
@@ -1488,7 +1941,14 @@ class VideoViewController: UIViewController,RTCPeerConnectionDelegate,RTCSession
             
         }
         if(msg[0]=="Accept Call")
-        {var roomname=""
+        {
+            
+            print("accept call in video view")
+            
+            
+            /*
+            
+            var roomname=""
             if(joinedRoomInCall == "")
             {
                 print("inside accept call")
@@ -1516,7 +1976,7 @@ class VideoViewController: UIViewController,RTCPeerConnectionDelegate,RTCSession
                     
                 }//end data
             }
-            
+            */
             
         }
         if(msg[0]=="Reject Call")
@@ -1538,16 +1998,25 @@ class VideoViewController: UIViewController,RTCPeerConnectionDelegate,RTCSession
         
         if(msg[0]=="hangup")
         {
+            meetingStarted=false
+            isConference=false
+            iOSstartedCall=false
+            
             if(self.pc != nil)
             {
+                
+                //// newwwww may 2016 neww
+                socketObj.socket.emit("logClient","\(iamincallWith) is disconnecting from call")
                 print("hangupppppp received \(msg[0])")
                 
                 print("hangupppppp received \(msg.debugDescription)")
                 self.remoteDisconnected()
                 
-                
+                socketObj.socket.emit("message",["msg":"hangup","room":globalroom,"to":iamincallWith!,"username":username!, "id":currentID!])
                 socketObj.socket.emit("leave",["room":joinedRoomInCall])
+                ConferenceRoomName=""
                 self.disconnect()
+
             }
             
         }
@@ -2064,16 +2533,22 @@ class VideoViewController: UIViewController,RTCPeerConnectionDelegate,RTCSession
                 
                 
                 
-                
-                btnViewFile.enabled=true
+               
                 print("file writtennnnn \(s) \(filedata.debugDescription)")
                 
                 if(fileTransferCompleted==true)
                 {
+                    isFileReceived=true
                     bytesarraytowrite=Array<UInt8>()
                     numberOfChunksReceived=0
                     numberOfChunksInFileToSave=0
-                    btnViewFile.enabled=true
+                    
+                    // **** neww may 2016
+                    dispatch_async(dispatch_get_main_queue()) { () -> Void in
+                        self.btnViewFile.enabled=true
+                    }
+                    // **
+                    
                     let alert = UIAlertController(title: "Success", message: "You have received a new file. Click on \"View\" button at top to View and Save it.", preferredStyle: UIAlertControllerStyle.Alert)
                     alert.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.Default, handler: nil))
                     //UIApplication.sharedApplication().keyWindow?.rootViewController!.presentViewController(alert, animated: true, completion: nil)
@@ -2616,6 +3091,7 @@ class VideoViewController: UIViewController,RTCPeerConnectionDelegate,RTCSession
     func channelDidChangeState(channel: RTCDataChannel!) {
         print("channelDidChangeState")
         print(channel.debugDescription)
+        kRTCDataChannelStateClosed
         if(channel.state == kRTCDataChannelStateOpen)
         {
           print("data channel opened now")
@@ -2625,6 +3101,7 @@ class VideoViewController: UIViewController,RTCPeerConnectionDelegate,RTCSession
                 
             }
         }
+        
         
     }
     
@@ -2819,6 +3296,39 @@ class VideoViewController: UIViewController,RTCPeerConnectionDelegate,RTCSession
         //})
         
     }
+    
+    
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        if segue.identifier == "chatConferenceSegue" {
+            print("segueee chattt")
+            let conferenceChatView = segue.destinationViewController as? WebmeetingChatViewController
+            //let addItemViewController = navigationController?.topViewController as? AddItemViewController
+            
+            if let viewController = conferenceChatView {
+                self.delegateFileReceived=viewController
+            }
+        }
+        if segue.identifier == "filePreviewSegue" {
+            print("segueee chattt")
+            let filePreviewView = segue.destinationViewController as? FileReceivedViewController
+            //let addItemViewController = navigationController?.topViewController as? AddItemViewController
+            
+            if let viewController = filePreviewView {
+                self.delegateFileReceived=viewController
+            }
+        }
+        //
+    }
+    
+    override func viewDidLayoutSubviews() {
+        
+        txtLabelMainPage.font=UIFont.boldSystemFontOfSize(20)
+    }
+    override func viewWillDisappear(animated: Bool) {
+        print("videoviewcontroller will dismissed ")
+        //socketObj.delegateWebRTC=nil
+    }
+    
     
 }
 

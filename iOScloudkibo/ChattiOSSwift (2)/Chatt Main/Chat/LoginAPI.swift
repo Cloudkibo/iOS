@@ -56,8 +56,9 @@ class LoginAPI{
             self.delegateSocketConnected?.socketConnected()
             
         }
-        self.socket .connect()
-        self.socket.reconnects=true
+        self.socket.connect()
+        print("socketObj value is \(socketObj)")
+        self.socket.reconnects=false
         /*self.socket.connect()
         socketConnected=true
         self.addHandlers()
@@ -113,14 +114,14 @@ class LoginAPI{
             print("disconnected from socket")
             meetingStarted=false
             isSocketConnected=false
-            self.socket.reconnects=true
-            self.socket.reconnect()
+            //self.socket.reconnects=true
+            self.socket.connect()
             //self.socket.emit("message", ["msg":"hangup"])
             
         }
         //connection.status
         self.socket.on("connection.status") {data, ack in
-            NSLog("disconnected from socket")
+            NSLog(" socket status \(data.debugDescription)")
             print(data.debugDescription)
             // self.socket.emit("message", ["msg":"hangup"])
             
@@ -194,6 +195,12 @@ class LoginAPI{
                 notificationsMainClass.sharedInstance.addItem(todoItem) // schedule a local notification to persist this item
                 
             }
+            if(msg[0].description=="Accept Call")
+            {
+                print("loginAPI Accept Call delegate sentt")
+                self.delegate?.socketReceivedMessage("Accept Call",data: data)
+            }
+
             print("handlers added")
         }
         
@@ -380,11 +387,17 @@ class LoginAPI{
             
             
             socketObj.socket.on("message"){data,ack in
-                print("received messageee11")
-                self.delegateWebRTC.socketReceivedMessageWebRTC("message",data: data)
-                var msg=JSON(data)
-                print(msg.debugDescription)
+                print("received messageee101")
                 
+                
+                
+                if(self.delegateWebRTC != nil){
+                    print("insidee hereeee")
+                    self.delegateWebRTC.socketReceivedMessageWebRTC("message",data: data)
+                    var msg=JSON(data)
+                    print(msg.debugDescription)
+
+                //socketReceivedMessage
                 if(msg[0]["type"]=="room_name")
                 {
                     /*
@@ -482,8 +495,8 @@ class LoginAPI{
                 
                 
                 
-            }
-            
+            }//end if Accept call
+            }//end if "messages"
             
             
             
@@ -549,9 +562,17 @@ class LoginAPI{
             
             
             socketObj.socket.on("message"){data,ack in
-                print("received messageee11")
+                print("received messageee22")
+                var msg=JSON(data)
+                if(msg[0].description != "Accept Call")
+                {
                 self.delegateWebRTC.socketReceivedMessageWebRTC("message",data: data)
-                
+                }
+                else
+                {
+                    /////// *** may 2016 neww self.delegate?.socketReceivedMessage("Accept Call",data: data)
+
+}
                 
                 
             }
@@ -628,7 +649,7 @@ class LoginAPI{
         
         
         socketObj.socket.on("message"){data,ack in
-            print("received messageee11")
+            print("received messageee33")
            // self.delegateWebRTCVideo.socketReceivedMessageWebRTCVideo("message",data: data)
             
             

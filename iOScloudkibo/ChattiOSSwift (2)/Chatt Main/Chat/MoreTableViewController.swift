@@ -8,6 +8,7 @@
 
 import UIKit
 import SwiftyJSON
+import AccountKit
 //import SQLite
 
 
@@ -17,6 +18,7 @@ class MoreTableViewController: UITableViewController {
         super.init(coder: aDecoder)
     }
 
+    var accountKit:AKFAccountKit!
     @IBOutlet var tblOptions : UITableView?
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -114,6 +116,16 @@ class MoreTableViewController: UITableViewController {
         if segue!.identifier == "logoutSegue" {
             print("Logging out", terminator: "")
             if let destinationVC = segue!.destinationViewController as? LoginViewController{
+                
+                //%%%%%% new phone model
+                
+                if accountKit == nil {
+                    
+                    //specify AKFResponseType.AccessToken
+                    self.accountKit = AKFAccountKit(responseType: AKFResponseType.AccessToken)
+                    
+                }
+                self.accountKit.logOut()
                 AuthToken=""
                 var tbl_contactslists=sqliteDB.contactslists
                 var tbl_accounts=sqliteDB.accounts
