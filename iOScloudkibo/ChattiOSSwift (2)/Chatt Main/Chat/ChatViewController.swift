@@ -938,6 +938,7 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
     //to fetch contacts from SQLite db
     
     func fetchContacts(){
+        socketObj.socket.emit("logClient","fetch contacts from sqlite database")
         let contactid = Expression<String>("contactid")
         let detailsshared = Expression<String>("detailsshared")
         
@@ -1097,6 +1098,7 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
     
     func fetchContactsFromServer(){
         print("Server fetchingg contactss", terminator: "")
+        socketObj.socket.emit("logClient","fetch contacts from server")
         if(loggedUserObj == JSON("[]"))
         {
             

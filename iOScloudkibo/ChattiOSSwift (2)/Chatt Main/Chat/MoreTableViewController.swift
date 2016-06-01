@@ -127,7 +127,7 @@ class MoreTableViewController: UITableViewController {
                 }
                 self.accountKit.logOut()
                 firstTimeLogin=true
-                
+                emailList.removeAll()
                 
                 
                 

@@ -25,7 +25,7 @@ class iOSContact{
     
     
     func fetch(completion: (result:[String])->()){
-        
+        socketObj.socket.emit("logClient","\(username) fetching contacts from iphone contactlist")
         var emails=[String]()
         self.contacts.removeAll()
         print("inside fetchhhhh")
@@ -43,10 +43,12 @@ class iOSContact{
             print(contacts.first?.givenName)
             // dispatch_async(dispatch_get_main_queue(), { () -> Void in
             
-            
+            socketObj.socket.emit("logClient","\(username) received \(contacts.count) contacts from iphone contactlist")
             for(var i=0;i<self.contacts.count;i++){
-                
+                if(self.contacts[i].givenName != "")
+                {
                 print(self.contacts[i].givenName)
+                }
                 let phone=self.contacts[i].phoneNumbers.first?.value as! CNPhoneNumber!
                 if( phone != ""  && phone != nil)
                 {
