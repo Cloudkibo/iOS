@@ -12,6 +12,7 @@ import UIKit
 class ContactsListCell:UITableViewCell {
     
     
+    @IBOutlet weak var statusPrivate: UILabel!
     @IBOutlet weak var contactName: UILabel!
     
     @IBOutlet weak var btnGreenDot: UIButton!
@@ -22,7 +23,13 @@ class ContactsListCell:UITableViewCell {
     
     @IBOutlet weak var profilePic: UIImageView!
     
-   /* override func awakeFromNib() {
+    @IBOutlet weak var contactNamePublic: UILabel!
+    @IBOutlet weak var btnGreenPublic: UIButton!
+    @IBOutlet weak var statusPublic: UILabel!
+    
+    
+    /* override func awakeFromNib() {
+    @IBOutlet weak var contactNamePublic: UILabel!
         super.awakeFromNib()
         
     }

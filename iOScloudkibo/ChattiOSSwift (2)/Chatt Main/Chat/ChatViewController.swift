@@ -679,7 +679,7 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
                             var json=JSON(data1)
                             //KeychainWrapper.setData(data1!, forKey: "loggedUserObj")
                             //loggedUserObj=json(loggedUserObj)
-                            
+                            username=json["username"].string!
                             loggedUserObj=json
                             //stringByResolvingSymlinksInPath
                             
@@ -736,7 +736,7 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
                             let lastname = Expression<String?>("lastname")
                             let email = Expression<String>("email")
                             let phone = Expression<String>("phone")
-                            let username = Expression<String>("username")
+                            let username1 = Expression<String>("username")
                             let status = Expression<String>("status")
                             let date = Expression<String>("date")
                             let accountVerified = Expression<String>("accountVerified")
@@ -752,7 +752,7 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
                                     firstname<-json["firstname"].string!,
                                     lastname<-json["lastname"].string!,
                                     email<-json["email"].string!,
-                                    username<-json["username"].string!,
+                                    username1<-json["username"].string!,
                                     status<-json["status"].string!,
                                     phone<-json["phone"].string!))
                                 print("inserted id: \(rowid)")
@@ -807,6 +807,7 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
                     
                     
                     print(error)
+                    print("error: \(error.localizedDescription)")
                 }
                 
                 
@@ -825,56 +826,10 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
                 }*/
             }
             
-            
-
-
-
 
         }
         
-        /*if(socketConnected == false)
-        {
-        socketObj.socket.connect(timeoutAfter: 5000) { () -> Void in
-            
-            socketObj.socket.reconnect()
-            
-            }
-        }*/
-        //socketObj.addHandlers()
-                   /*var lusername=KeychainWrapper.stringForKey("username")
-            //KeychainWrapper.stringForKey("password")
-            //KeychainWrapper.stringForKey("loggedFullName")
-            //KeychainWrapper.stringForKey("loggedPhone")
-            //KeychainWrapper.stringForKey("loggedEmail")
-            var lid=KeychainWrapper.stringForKey("_id")
-            
-            
-            var lobj=["_id": lid!, "username":lusername!]
-            if let dataFromString = jsonString.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false) {
-                let json11 = JSON(lobj.debugDescription)
-                
-            var lllooo = json11
-                loggedUserObj.object=lllooo.object
-                socketObj.addHandlers()
-                print(lllooo.object)
-                //var jsonNew=JSON("{\"room\": \"globalchatroom\",\"user\": {\"username\":\"sabachanna\"}}")
-                //socketObj.socket.emit("join global chatroom", ["room": "globalchatroom", "user": ["username":"sabachanna"]]) WORKINGGG
-                
-                socketObj.socket.emit("join global chatroom",["room": "globalchatroom", "user": lllooo.object])
-                
-               // print(lllooo["_id"])
 
-            }
-            /*var lll=KeychainWrapper.stringForKey("loggedIDKeyChain")
-            print("------------------")
-            print(lll!.stringByDeletingPathExtension)
-            print("------------------")
-            print(lll!.stringByRemovingPercentEncoding)
-            print("------------------")
-            print(lll!.stringByResolvingSymlinksInPath)
-            loggedUserObj = JSON(lll!.stringByResolvingSymlinksInPath)
-            */
-            */
         
         print("khul raha hai1", terminator: "")
         ///^^^^^^^neww let retrievedToken=KeychainWrapper.stringForKey("access_token")
@@ -1101,57 +1056,6 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
         socketObj.socket.emit("logClient","fetch contacts from server")
         if(loggedUserObj == JSON("[]"))
         {
-            
-            //%%%%% commented 3 lines phone model
-            //var lusername=KeychainWrapper.stringForKey("username")
-            //if(lusername == nil)
-            //{lusername=username!}
-            
-            
-            
-            //KeychainWrapper.stringForKey("password")
-            //KeychainWrapper.stringForKey("loggedFullName")
-            //KeychainWrapper.stringForKey("loggedPhone")
-            //KeychainWrapper.stringForKey("loggedEmail")
-            var lid=KeychainWrapper.stringForKey("_id")
-            
-            //%%%%% commented new phone model
-            //var lobj=["_id": lid!, "username" : lusername!]
-            
-            
-            
-            /*if let dataFromString = jsonString.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false) {
-                let json11 = JSON(lobj.debugDescription)
-                
-                var lllooo = json11
-                loggedUserObj=json11
-                loggedUserObj.object=json11.object
-                print(lllooo.object)
-                //var jsonNew=JSON("{\"room\": \"globalchatroom\",\"user\": {\"username\":\"sabachanna\"}}")
-                //socketObj.socket.emit("join global chatroom", ["room": "globalchatroom", "user": ["username":"sabachanna"]]) WORKINGGG
-                
-                
-                /*
-                
-                var logonjuser=KeychainWrapper.stringForKey("loggedUserObjString")
-                var newloggedUserObj=logonjuser!.stringByResolvingSymlinksInPath
-                print("newloggeduserobj string")
-                print(newloggedUserObj)
-                if let dataFromString = jsonString.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false) {
-                let json11 = JSON(newloggedUserObj)
-                
-                print("json11 object")
-                print(json11.object)
-                
-                loggedUserObj=json11
-                
-                
-                print("joining rooon \(json11.object)")
-                socketObj.socket.emit("join global chatroom",["room": "globalchatroom", "user": json11.object])
-                
-                }*/
-            }*/
-            
         }
         
         //%%%%% new phone model
@@ -1166,11 +1070,8 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
         print("header iss \(header)")
         Alamofire.request(.GET,"\(fetchChatURL)",headers:header).validate(statusCode: 200..<300)
             .response { (request1, response1, data1, error1) in
-                print("success")
+                
 
-            
-            
-            
             //============GOT Contacts SECCESS=================
             
             
@@ -1181,7 +1082,8 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
                 
                 
                 if response1?.statusCode==200 {
-                    
+                    print("success successfully received friends list from server")
+                    socketObj.socket.emit("logClient"," successfully received friends list from server")
                     if(glocalChatRoomJoined == false)
                     {
                         //socketObj.addHandlers()
@@ -1351,17 +1253,20 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
                     //print(error1)
                     //
                     //self.refreshControl.endRefreshing()
+                    print("contacts fetchedddddddddddddd sucecess")
                     
-                } //else {
-                
-                //}
-            //^^^^^^^})
+                }else{
+                print("error: \(error1!.localizedDescription)")
+                    socketObj.socket.emit("logClient", "error: \(error1!.localizedDescription)")
                 print(error1)
                 print(response1?.statusCode)
                 print("FETCH CONTACTS FAILED")
                 print("eeeeeeeeeeeeeeeeeeeeee")
+                    
+        }
                 if(response1?.statusCode==401)
                 {
+                    socketObj.socket.emit("logClient", "error: \(error1!.localizedDescription)")
                     print("Refreshinggggggggggggggggggg token expired")
                     if(username==nil || password==nil)
                     {print("line # 1074")
@@ -1380,6 +1285,7 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
             
         }
         
+        socketObj.socket.emit("logClient","user object is \(loggedUserObj)")
         print("before whozonline print", terminator: "")
         print(loggedUserObj.object)
         socketObj.socket.emit("whozonline",[
@@ -1424,6 +1330,8 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
         return tblForChat.dequeueReusableCellWithIdentifier("ChatPublicCell")as! UITableViewCell
         }
         */
+        let cellPublic=tblForChat.dequeueReusableCellWithIdentifier("ChatPublicCell") as! ContactsListCell
+        
         let cell=tblForChat.dequeueReusableCellWithIdentifier("ChatPrivateCell") as! ContactsListCell
         
         cell.contactName?.text=ContactNames[indexPath.row]

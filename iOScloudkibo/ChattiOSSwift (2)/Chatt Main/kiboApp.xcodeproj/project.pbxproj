@@ -107,6 +107,7 @@
 		71E20B9E1CF720DD0042EDAD /* avatarHalf.png in Resources */ = {isa = PBXBuildFile; fileRef = 71E20B9A1CF720DD0042EDAD /* avatarHalf.png */; };
 		71E20B9F1CF720DD0042EDAD /* avatarTwo.png in Resources */ = {isa = PBXBuildFile; fileRef = 71E20B9B1CF720DD0042EDAD /* avatarTwo.png */; };
 		71E20BA01CF720DD0042EDAD /* avatarTwoHalf.png in Resources */ = {isa = PBXBuildFile; fileRef = 71E20B9C1CF720DD0042EDAD /* avatarTwoHalf.png */; };
+		71E861C81D0066F4008BCC7C /* DisplayNameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71E861C71D0066F4008BCC7C /* DisplayNameViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -331,6 +332,7 @@
 		71E20B9A1CF720DD0042EDAD /* avatarHalf.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = avatarHalf.png; sourceTree = "<group>"; };
 		71E20B9B1CF720DD0042EDAD /* avatarTwo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = avatarTwo.png; sourceTree = "<group>"; };
 		71E20B9C1CF720DD0042EDAD /* avatarTwoHalf.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = avatarTwoHalf.png; sourceTree = "<group>"; };
+		71E861C71D0066F4008BCC7C /* DisplayNameViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DisplayNameViewController.swift; sourceTree = "<group>"; };
 		96C3D9B6784B14EFEA3C9944 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 		BC0C99CB9F91896CEAE65024 /* Pods.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		CB378204D17188B74218CCD7 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
@@ -390,22 +392,16 @@
 		5BF6362719A9F3D900ABD0BA /* Chat */ = {
 			isa = PBXGroup;
 			children = (
+				713D51881CC11896007E0B47 /* Accounts.swift */,
+				713D51891CC11896007E0B47 /* AppDelegate.swift */,
 				71C401821CF715C500D38126 /* audioOff.png */,
 				71C401831CF715C500D38126 /* audioOff@2x.png */,
 				71C401841CF715C500D38126 /* audioOn.png */,
 				71C401851CF715C500D38126 /* audioOn@2x.png */,
-				71C401861CF715C500D38126 /* endCall.png */,
-				71C401871CF715C500D38126 /* endCall@2x.png */,
-				71C401701CF7159F00D38126 /* video-camera-icon.png */,
-				71C401711CF7159F00D38126 /* video-camera-icon@2x.png */,
-				71C401721CF7159F00D38126 /* videoOff.png */,
-				71C401731CF7159F00D38126 /* videoOff@2x.png */,
 				71E20B991CF720DD0042EDAD /* avatar.png */,
 				71E20B9A1CF720DD0042EDAD /* avatarHalf.png */,
 				71E20B9B1CF720DD0042EDAD /* avatarTwo.png */,
 				71E20B9C1CF720DD0042EDAD /* avatarTwoHalf.png */,
-				713D51881CC11896007E0B47 /* Accounts.swift */,
-				713D51891CC11896007E0B47 /* AppDelegate.swift */,
 				713D518A1CC11896007E0B47 /* CallRingingViewController.swift */,
 				713D518B1CC11896007E0B47 /* Chat-Bridging-Header.h */,
 				713D518C1CC11896007E0B47 /* Chat.entitlements */,
@@ -424,18 +420,24 @@
 				713D51991CC11896007E0B47 /* ContactsInviteViewController.swift */,
 				713D519A1CC11896007E0B47 /* ContactsListCell.swift */,
 				713D519B1CC11896007E0B47 /* DatabaseHandler.swift */,
+				71E861C71D0066F4008BCC7C /* DisplayNameViewController.swift */,
+				71C401861CF715C500D38126 /* endCall.png */,
+				71C401871CF715C500D38126 /* endCall@2x.png */,
 				713D519C1CC11896007E0B47 /* File.swift */,
 				713D519D1CC11896007E0B47 /* FileReceivedViewController.swift */,
 				713D519F1CC11896007E0B47 /* FileUtility.swift */,
+				5BF6363119A9F3D900ABD0BA /* Images.xcassets */,
 				713D51A11CC11896007E0B47 /* JSONStringify.swift */,
 				713D51A21CC11896007E0B47 /* KeychainWrapper.swift */,
 				713D51A31CC11896007E0B47 /* LoginAPI.swift */,
 				713D51A41CC11896007E0B47 /* LoginViewController.swift */,
+				7191CC661BCF0D9400F0847F /* Main.storyboard */,
 				713D51A51CC11896007E0B47 /* MeetingRoomAudio.swift */,
 				713D51A61CC11896007E0B47 /* MeetingRoomData.swift */,
 				713D51A71CC11896007E0B47 /* MeetingRoomScreen.swift */,
 				713D51A81CC11896007E0B47 /* MeetingRoomVideo.swift */,
 				713D51A91CC11896007E0B47 /* MeetingVideo.swift */,
+				714560491B904D6900C8E0D2 /* Models */,
 				713D51AA1CC11896007E0B47 /* MoreTableViewController.swift */,
 				713D51AB1CC11896007E0B47 /* NetworkingLibAlamofire.swift */,
 				713D51AC1CC11896007E0B47 /* NotesViewController.swift */,
@@ -449,16 +451,17 @@
 				713D51B41CC11896007E0B47 /* RoomService.swift */,
 				713D51B51CC11896007E0B47 /* rtcViewController.swift */,
 				713D51B61CC11896007E0B47 /* SignupViewController.swift */,
+				5BF6362819A9F3D900ABD0BA /* Supporting Files */,
 				713D51B71CC11896007E0B47 /* SwiftKeychainWrapper.h */,
 				713D51B81CC11896007E0B47 /* test.m */,
+				71C401701CF7159F00D38126 /* video-camera-icon.png */,
+				71C401711CF7159F00D38126 /* video-camera-icon@2x.png */,
+				71C401721CF7159F00D38126 /* videoOff.png */,
+				71C401731CF7159F00D38126 /* videoOff@2x.png */,
 				713D51B91CC11896007E0B47 /* VideoViewController.swift */,
 				713D51BA1CC11896007E0B47 /* ViewController.swift */,
 				713D51BB1CC11896007E0B47 /* WebmeetingChatViewController.swift */,
 				713D51BC1CC11896007E0B47 /* webmeetingMsgsModel.swift */,
-				5BF6363119A9F3D900ABD0BA /* Images.xcassets */,
-				7191CC661BCF0D9400F0847F /* Main.storyboard */,
-				714560491B904D6900C8E0D2 /* Models */,
-				5BF6362819A9F3D900ABD0BA /* Supporting Files */,
 			);
 			path = Chat;
 			sourceTree = "<group>";
@@ -842,6 +845,7 @@
 				713D51EF1CC11896007E0B47 /* webmeetingMsgsModel.swift in Sources */,
 				713D51DD1CC11896007E0B47 /* MeetingVideo.swift in Sources */,
 				713D51E61CC11896007E0B47 /* ProjectsViewController.swift in Sources */,
+				71E861C81D0066F4008BCC7C /* DisplayNameViewController.swift in Sources */,
 				713D51BF1CC11896007E0B47 /* CallRingingViewController.swift in Sources */,
 				713D51EA1CC11896007E0B47 /* SignupViewController.swift in Sources */,
 				718B8D8A1CC11A9B000B4AB2 /* SocketFixUTF8.swift in Sources */,

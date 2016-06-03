@@ -30,22 +30,42 @@ class LoginViewController: UIViewController,SocketConnecting,AKFViewControllerDe
         
         if (accountKit.currentAccessToken != nil) {
             //%%%%%%%%%%%%%%%%%%%%% phone model added firtsttimelogin
-            firstTimeLogin=false
+             //%%%%%%%%%%%%%%newwwww phone model firstTimeLogin=false
             AuthToken=accountKit.currentAccessToken!.tokenString
             // if the user is already logged in, go to the main screen
             print("User already logged in go to ViewController")
+            if(firstTimeLogin==true)
+            {print("displayname ................")
             dispatch_async(dispatch_get_main_queue(), {
+                
+               self.performSegueWithIdentifier("displaynamesegue", sender: self)
+                
                 //no seque from login to chat. it is from chat to login
                 //self.performSegueWithIdentifier("loginSegue", sender: self)
-            self.dismissViewControllerAnimated(true, completion: { () -> Void in
+                //%%%%%%%%%%%%%%%%%% was working but showing contact list directly
+            /*self.dismissViewControllerAnimated(true, completion: { () -> Void in
                 
                 
                 print("login success now going to contact list")
-                socketObj.socket.emit("loginSeque","login success now going to contact list")
+                socketObj.socket.emit("logClient","login success now going to contact list")
+            })*/
+                
             })
-                //self.performSegueWithIdentifier("showhome", sender: self)
-            })
+            }
+            else{
+                print("firsttimelogin false no displayname....")
+                self.dismissViewControllerAnimated(true, completion: { () -> Void in
+                    
+                    
+                    print("login success now going to contact list")
+                    socketObj.socket.emit("logClient","login success now going to contact list")
+                })
+                
+            }
             
+        }
+        else
+        {
             
         }
         
