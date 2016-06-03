@@ -15,11 +15,31 @@ class NotesViewController: UIViewController {
     @IBOutlet var btnForLogo : UIButton!
     @IBOutlet var itemForSearch : UIBarButtonItem!
     @IBOutlet var tblForNotes : UITableView!
-    
+    var messageFrame = UIView()
+    var activityIndicator = UIActivityIndicatorView()
+    var strLabel = UILabel()
     
     override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: NSBundle?) {
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
         // Custom initialization
+    }
+
+    func progressBarDisplayer(msg:String, _ indicator:Bool ) {
+        print(msg)
+        strLabel = UILabel(frame: CGRect(x: 50, y: 0, width: 250, height: 50))
+        strLabel.text = msg
+        strLabel.textColor = UIColor.whiteColor()
+        messageFrame = UIView(frame: CGRect(x: view.frame.midX - 110, y: view.frame.midY - 25 , width: 230, height: 50))
+        messageFrame.layer.cornerRadius = 15
+        messageFrame.backgroundColor = UIColor(white: 0, alpha: 0.7)
+        if indicator {
+            activityIndicator = UIActivityIndicatorView(activityIndicatorStyle: UIActivityIndicatorViewStyle.White)
+            activityIndicator.frame = CGRect(x: 0, y: 0, width: 50, height: 50)
+            activityIndicator.startAnimating()
+            messageFrame.addSubview(activityIndicator)
+        }
+        messageFrame.addSubview(strLabel)
+        view.addSubview(messageFrame)
     }
 
     override func viewDidLoad() {
@@ -29,6 +49,38 @@ class NotesViewController: UIViewController {
         self.navigationItem.leftBarButtonItem = UIBarButtonItem(customView: btnForLogo)
         self.navigationItem.rightBarButtonItem = itemForSearch
         self.tabBarController?.tabBar.tintColor = UIColor.greenColor()
+        
+        
+        /*
+        progressBarDisplayer("Fetching Contacts", true)
+        let priority = DISPATCH_QUEUE_PRIORITY_DEFAULT
+        
+        dispatch_async(dispatch_get_global_queue(priority, 0)) {
+            // do some task start to show progress wheel
+        contactsList.fetch(){ (result) -> () in
+            
+            
+            dispatch_async(dispatch_get_main_queue()) {
+                // update some UI
+                //remove progress wheel
+                print("got server response")
+                socketObj.socket.emit("logClient", "Got contacts List from device")
+                self.messageFrame.removeFromSuperview()
+                //move to next screen
+                //self.saveButton.enabled = true
+            }
+
+            socketObj.socket.emit("logClient", "done fetched contacts from iphone")
+          
+            print("notes view loaded. fetch")
+            for r in result{
+                self.tblForNotes.reloadData()
+            }
+            socketObj.socket.emit("logClient", "Fetching whole contacts list")
+        }
+        }*/
+        
+        
         // Do any additional setup after loading the view.
     }
     
@@ -47,7 +99,7 @@ class NotesViewController: UIViewController {
     }
     
     func tableView(tableView: UITableView!, numberOfRowsInSection section: Int) -> Int {
-        return 10
+        return nameList.count
     }
     
     func numberOfSectionsInTableView(tableView: UITableView!) -> Int {
@@ -55,11 +107,11 @@ class NotesViewController: UIViewController {
     }
     
     func tableView(tableView: UITableView!, cellForRowAtIndexPath indexPath: NSIndexPath!) -> UITableViewCell! {
-        if (indexPath.row%2 == 0){
+       //if (indexPath.row%2 == 0){
             //var cellPrivate = tblForNotes.dequeueReusableCellWithIdentifier("NotePrivateCell")! as UITableViewCell
             var cellPrivate = tblForNotes.dequeueReusableCellWithIdentifier("NotePrivateCell")! as! AllContactsCell
-            
-            
+            print("namelist count is \(nameList.count)")
+            cellPrivate.labelNamePrivate.text=nameList[indexPath.row]
             
             
             return cellPrivate
@@ -70,13 +122,16 @@ class NotesViewController: UIViewController {
             
             cell.contactName?.text=ContactNames[indexPath.row]
 */
-        } else {
+       // }
+        
+        /*else {
            // var cellPublic = tblForNotes.dequeueReusableCellWithIdentifier("NotePublicCell")! as UITableViewCell
             
             var cellPublic = tblForNotes.dequeueReusableCellWithIdentifier("NotePrivateCell")! as! AllContactsCell
             
+            
             return cellPublic
-        }
+        }*/
     }
     
 

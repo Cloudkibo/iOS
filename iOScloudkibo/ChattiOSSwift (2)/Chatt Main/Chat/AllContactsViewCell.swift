@@ -11,5 +11,7 @@ import UIKit
 
 class AllContactsCell:UITableViewCell {
 
+    @IBOutlet weak var labelNamePrivate: UILabel!
 
+    @IBOutlet weak var labelStatusPrivate: UILabel!
 }

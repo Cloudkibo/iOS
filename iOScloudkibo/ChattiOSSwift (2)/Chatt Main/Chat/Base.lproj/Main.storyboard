@@ -232,7 +232,7 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="NotePrivateCell" id="xsw-ZS-qbh">
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="NotePrivateCell" id="xsw-ZS-qbh" customClass="AllContactsCell" customModule="Chat" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="86" width="320" height="66"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="xsw-ZS-qbh" id="p9P-HJ-EFV">
@@ -266,6 +266,10 @@
                                                 </label>
                                             </subviews>
                                         </tableViewCellContentView>
+                                        <connections>
+                                            <outlet property="labelNamePrivate" destination="Cui-4B-FY0" id="0Fo-La-A6z"/>
+                                            <outlet property="labelStatusPrivate" destination="qkw-eY-Ou5" id="3eI-2I-YEK"/>
+                                        </connections>
                                     </tableViewCell>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="NotePublicCell" id="MVy-RE-e1f">
                                         <rect key="frame" x="0.0" y="152" width="320" height="66"/>
@@ -2972,7 +2976,7 @@
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="Spe-dd-EXu"/>
-        <segue reference="Lsn-aA-q1J"/>
+        <segue reference="cUz-4Q-FcK"/>
         <segue reference="X5X-Qt-8lc"/>
         <segue reference="8LM-cv-XXH"/>
     </inferredMetricsTieBreakers>

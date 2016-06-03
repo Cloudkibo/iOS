@@ -18,6 +18,8 @@ import CloudKit
 
 var selectedEmails=[String]()
 var emailList=[String]()
+var nameList=[String]()
+var phonesList=[String]()
 var notAvailableEmails=[String]()
 
 var isFileReceived=false

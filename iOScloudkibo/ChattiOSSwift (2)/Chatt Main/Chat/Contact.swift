@@ -28,6 +28,11 @@ class iOSContact{
         socketObj.socket.emit("logClient","\(username) fetching contacts from iphone contactlist")
         var emails=[String]()
         self.contacts.removeAll()
+        emailList.removeAll()
+        nameList.removeAll()
+        phonesList.removeAll()
+        notAvailableEmails.removeAll()
+        notAvailableContacts.removeAll()
         print("inside fetchhhhh")
         let contactStore = CNContactStore()
         
@@ -47,11 +52,13 @@ class iOSContact{
             for(var i=0;i<self.contacts.count;i++){
                 if(self.contacts[i].givenName != "")
                 {
+                    nameList.append(self.contacts[i].givenName)
                 print(self.contacts[i].givenName)
                 }
                 let phone=self.contacts[i].phoneNumbers.first?.value as! CNPhoneNumber!
                 if( phone != ""  && phone != nil)
                 {
+                    phonesList.append(phone.stringValue)
                 print(phone.stringValue)
                 }
                 let em=self.contacts[i].emailAddresses.first

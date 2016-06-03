@@ -19,6 +19,12 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
     var accountKit: AKFAccountKit!
     var rt=NetworkingLibAlamofire()
     
+    
+    var messageFrame = UIView()
+    var activityIndicator = UIActivityIndicatorView()
+    var strLabel = UILabel()
+    
+    
     var refreshControl = UIRefreshControl()
     @IBOutlet var viewForTitle : UIView!
     @IBOutlet var ctrlForChat : UISegmentedControl!
@@ -634,6 +640,25 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
     }
 
     
+    func progressBarDisplayer(msg:String, _ indicator:Bool ) {
+        print(msg)
+        strLabel = UILabel(frame: CGRect(x: 50, y: 0, width: 250, height: 50))
+        strLabel.text = msg
+        strLabel.textColor = UIColor.whiteColor()
+        messageFrame = UIView(frame: CGRect(x: view.frame.midX - 110, y: view.frame.midY - 25 , width: 230, height: 50))
+        messageFrame.layer.cornerRadius = 15
+        messageFrame.backgroundColor = UIColor(white: 0, alpha: 0.7)
+        if indicator {
+            activityIndicator = UIActivityIndicatorView(activityIndicatorStyle: UIActivityIndicatorViewStyle.White)
+            activityIndicator.frame = CGRect(x: 0, y: 0, width: 50, height: 50)
+            activityIndicator.startAnimating()
+            messageFrame.addSubview(activityIndicator)
+        }
+        messageFrame.addSubview(strLabel)
+        view.addSubview(messageFrame)
+    }
+    
+    
     override func viewWillAppear(animated: Bool) {
         print("appearrrrrr", terminator: "")
         if(socketObj.delegateSocketConnected == nil && isSocketConnected==true)
@@ -652,29 +677,56 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
             
             socketObj.socket.emit("logClient", "fetching contacts from iphone")
             
-            contactsList.fetch(){ (result) -> () in
-                socketObj.socket.emit("logClient", "done fetched contacts from iphone")
-                for r in result
-                {
-                    emailList.append(r)
-                }
-                
-                //emailList = result
-                 socketObj.socket.emit("logClient", "getting contacts from cloudkibo server")
-                contactsList.searchContactsByEmail(emailList){ (result2) -> () in
+            
+            
+            
+            progressBarDisplayer("Fetching Contacts", true)
+            let priority = DISPATCH_QUEUE_PRIORITY_DEFAULT
+            
+            dispatch_async(dispatch_get_global_queue(priority, 0)) {
+                // do some task start to show progress wheel
+                contactsList.fetch(){ (result) -> () in
                     
-                     socketObj.socket.emit("logClient", "received contacts from cloudkibo server")
-                    for r2 in result2
+                    
+                    dispatch_async(dispatch_get_main_queue()) {
+                        // update some UI
+                        //remove progress wheel
+                        print("got server response")
+                        socketObj.socket.emit("logClient", "Got contacts List from device")
+                        self.messageFrame.removeFromSuperview()
+                        //move to next screen
+                        //self.saveButton.enabled = true
+                    }
+                    
+                    socketObj.socket.emit("logClient", "done fetched contacts from iphone")
+                    for r in result
                     {
-                        notAvailableEmails.append(r2)
-
-                    //notAvailableEmails=result2
-                    //dispatch_async(dispatch_get_main_queue()) { () -> Void in
+                        emailList.append(r)
+                    }
                     
-                   self.tblForChat.reloadData()
+                    //emailList = result
+                    socketObj.socket.emit("logClient", "getting contacts from cloudkibo server")
+                    contactsList.searchContactsByEmail(emailList){ (result2) -> () in
+                        
+                        socketObj.socket.emit("logClient", "received contacts from cloudkibo server")
+                        for r2 in result2
+                        {
+                            notAvailableEmails.append(r2)
+                            
+                            //notAvailableEmails=result2
+                            //dispatch_async(dispatch_get_main_queue()) { () -> Void in
+                            
+                            self.tblForChat.reloadData()
+                        }
                     }
                 }
             }
+            
+            
+            
+            
+            
+            
 
             
             
@@ -1262,7 +1314,10 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
                             print("data inserttt")
                         //=========this is done in fetching from sqlite not here====
                         self.ContactsObjectss.append(contactsJsonObj[i]["contactid"])
-                        self.ContactNames.append(contactsJsonObj[i]["contactid"]["firstname"].string!+" "+contactsJsonObj[i]["contactid"]["lastname"].string!)
+                            //****%%%%% database changes new june
+                            self.ContactNames.append(contactsJsonObj[i]["contactid"]["firstname"].string!+" "+contactsJsonObj[i]["contactid"]["lastname"].string!)
+                            
+                        //self.ContactNames.append(contactsJsonObj[i]["contactid"]["firstname"].string!+" "+contactsJsonObj[i]["contactid"]["lastname"].string!)
                         self.ContactUsernames.append(contactsJsonObj[i]["contactid"]["username"].string!)
                         self.ContactIDs.append(contactsJsonObj[i]["contactid"]["_id"].string!)
                         self.ContactFirstname.append(contactsJsonObj[i]["contactid"]["firstname"].string!)
