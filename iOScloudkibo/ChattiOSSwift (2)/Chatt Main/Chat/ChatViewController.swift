@@ -678,15 +678,18 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
             socketObj.socket.emit("logClient", "fetching contacts from iphone")
             
             
-            
-            
+            //dont do on every appear. just do once
+            print("emaillist is \(emailList.first)")
+            print("emailList count is \(emailList.count)")
+            if(emailList.count<1)
+            {
             progressBarDisplayer("Fetching Contacts", true)
             let priority = DISPATCH_QUEUE_PRIORITY_DEFAULT
             
             dispatch_async(dispatch_get_global_queue(priority, 0)) {
                 // do some task start to show progress wheel
                 contactsList.fetch(){ (result) -> () in
-                    
+                     print("got contacts from device")
                     
                     dispatch_async(dispatch_get_main_queue()) {
                         // update some UI
@@ -720,6 +723,7 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
                         }
                     }
                 }
+            }
             }
             
             
@@ -920,17 +924,41 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
             }
             
             
-            
-            //***************
-            fetchContacts()
-            self.fetchContactsFromServer()
-            dispatch_async(dispatch_get_main_queue(), {
+           // dispatch_async(dispatch_get_main_queue(), {
                 ///////////newwwwwwwwwwwww
-                self.tblForChat.reloadData()
+            
+            
+            dispatch_async(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0)) {
+                // do some task start to show progress wheel
+                self.fetchContacts()
+                self.fetchContactsFromServer()
+                    dispatch_async(dispatch_get_main_queue()) {
+                        self.tblForChat.reloadData()
+                }
+            }
+                        
+            
+                /*self.fetchContacts()
+                self.fetchContactsFromServer()
+           
+                    dispatch_async(dispatch_get_main_queue(), {
+                        self.tblForChat.reloadData()
+                    }*/
+            
+
+            
+                //^^^^^^^^^^^newwwww *******
+            //})
+
+            //***************
+            /*
+                       dispatch_async(dispatch_get_main_queue(), {
+                ///////////newwwwwwwwwwwww
+            
                 
                 //^^^^^^^^^^^newwwww *******
             })
-        
+        */
             
 
         }
@@ -1283,6 +1311,8 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
                     print(sqliteDB.contactslists.count)
                     
                     //-========Remove old values=====================
+                    // ***************%%%%%%%%%%%%%%%%%%% newww june
+                    /*
                     self.ContactIDs.removeAll(keepCapacity: false)
                     self.ContactLastNAme.removeAll(keepCapacity: false)
                     self.ContactNames.removeAll(keepCapacity: false)
@@ -1293,6 +1323,7 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
                     self.ContactsPhone.removeAll(keepCapacity: false)
                     //////////
                     self.ContactFirstname.removeAll(keepCapacity: false)
+                    */
                     //////
                     for var i=0;i<contactsJsonObj.count;i++
                     {
@@ -1313,8 +1344,11 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
                             )
                             print("data inserttt")
                         //=========this is done in fetching from sqlite not here====
+
+
+                            /* %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%new commented june
                         self.ContactsObjectss.append(contactsJsonObj[i]["contactid"])
-                            //****%%%%% database changes new june
+                            // ****%%%%% database changes new june
                             self.ContactNames.append(contactsJsonObj[i]["contactid"]["firstname"].string!+" "+contactsJsonObj[i]["contactid"]["lastname"].string!)
                             
                         //self.ContactNames.append(contactsJsonObj[i]["contactid"]["firstname"].string!+" "+contactsJsonObj[i]["contactid"]["lastname"].string!)
@@ -1329,6 +1363,7 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
                         
                         print("inserted id: \(rowid)")
                         self.tblForChat.reloadData()
+                            */
                     } catch {
                         print("insertion failed: \(error)")
                         }

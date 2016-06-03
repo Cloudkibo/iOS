@@ -198,11 +198,11 @@
             </objects>
             <point key="canvasLocation" x="-711" y="-1006"/>
         </scene>
-        <!--Navigation Controller-->
+        <!--Contacts-->
         <scene sceneID="eio-Q2-iDF">
             <objects>
                 <navigationController id="btP-4N-NZt" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="" image="tabbar_note" id="35A-sW-V98">
+                    <tabBarItem key="tabBarItem" title="Contacts" image="tabbar_note" id="35A-sW-V98">
                         <inset key="imageInsets" minX="0.0" minY="5" maxX="0.0" maxY="-5"/>
                     </tabBarItem>
                     <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
@@ -731,11 +731,11 @@
             </objects>
             <point key="canvasLocation" x="176" y="-1651"/>
         </scene>
-        <!--Contacts-->
+        <!--Favourites-->
         <scene sceneID="2v1-Kp-zHu">
             <objects>
                 <navigationController id="EF7-fc-vdB" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Contacts" image="tabbar_project" id="EvI-wl-R4T">
+                    <tabBarItem key="tabBarItem" title="Favourites" image="tabbar_chat" id="EvI-wl-R4T">
                         <inset key="imageInsets" minX="0.0" minY="5" maxX="0.0" maxY="-5"/>
                     </tabBarItem>
                     <navigationItem key="navigationItem" id="gm6-wK-huN"/>
@@ -1910,7 +1910,7 @@
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="ContactsInviteCell" editingAccessoryType="checkmark" textLabel="ZJQ-d3-fhQ" style="IBUITableViewCellStyleDefault" id="woi-iF-7Sx">
-                                        <rect key="frame" x="0.0" y="86" width="320" height="66"/>
+                                        <rect key="frame" x="0.0" y="22" width="320" height="66"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="woi-iF-7Sx" id="zbH-XF-8av">
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="65.5"/>
@@ -2969,8 +2969,9 @@
         <image name="profile-pic2.c" width="26" height="26"/>
         <image name="profile-pic4" width="52" height="52"/>
         <image name="project_plus" width="35" height="36"/>
+        <image name="tabbar_chat" width="23" height="32"/>
         <image name="tabbar_more" width="24" height="37"/>
-        <image name="tabbar_note" width="23" height="36"/>
+        <image name="tabbar_note" width="23" height="33"/>
         <image name="tabbar_project" width="30" height="38"/>
         <image name="video_off" width="50" height="50"/>
     </resources>
