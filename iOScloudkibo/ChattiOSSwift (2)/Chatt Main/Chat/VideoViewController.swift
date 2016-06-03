@@ -1051,6 +1051,8 @@ self.disconnect()
     
     override func viewWillAppear(animated: Bool) {
         
+        
+        //%%******* later instantiate remoteview and localview here also for socond time call
         txtLabelMainPage.font=UIFont.boldSystemFontOfSize(20)
         if(isFileReceived==true){
             print("here1")

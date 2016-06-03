@@ -251,6 +251,10 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
     override func viewDidLoad() {
         super.viewDidLoad()
         print("Chat ViewController is loadingggggg")
+        if(self.accountKit == nil){
+        self.accountKit = AKFAccountKit(responseType: AKFResponseType.AccessToken)
+}
+
         /*if(socketObj != nil)
         {
             socketObj.delegate=self
@@ -263,7 +267,7 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
         
         
         
-        if (AuthToken == nil) {
+        if (self.accountKit!.currentAccessToken == nil) {
             
             //specify AKFResponseType.AccessToken
             self.accountKit = AKFAccountKit(responseType: AKFResponseType.AccessToken)
@@ -568,7 +572,9 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
         
         
         /////////COMMENTING APRIL @)!^ CONFLICTING WITH ABOVE 
-        retrievedToken=KeychainWrapper.stringForKey("access_token")
+        
+        //// **********************************%%%%%%%%%%%%%%% newww commented
+        /*retrievedToken=KeychainWrapper.stringForKey("access_token")
         if (retrievedToken==nil)
         {print("line #524")
            
@@ -602,7 +608,7 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
             //performSegueWithIdentifier("loginSegue", sender: nil)
         }
         
-        
+        */
         
         
         // Do any additional setup after loading the view.
@@ -636,8 +642,43 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
         }
         //%%%%%% new phone model add
         
-        if(AuthToken != nil)
-        {   socketObj.socket.emit("logClient","login success and AuthToken was not nil getting myself details from server")
+        
+       ////////////*******  if(AuthToken != nil)
+        
+        //already logged in
+        if(accountKit.currentAccessToken != nil)
+        {
+            header=["kibo-token":self.accountKit!.currentAccessToken!.tokenString]
+            
+            socketObj.socket.emit("logClient", "fetching contacts from iphone")
+            
+            contactsList.fetch(){ (result) -> () in
+                socketObj.socket.emit("logClient", "done fetched contacts from iphone")
+                for r in result
+                {
+                    emailList.append(r)
+                }
+                
+                //emailList = result
+                 socketObj.socket.emit("logClient", "getting contacts from cloudkibo server")
+                contactsList.searchContactsByEmail(emailList){ (result2) -> () in
+                    
+                     socketObj.socket.emit("logClient", "received contacts from cloudkibo server")
+                    for r2 in result2
+                    {
+                        notAvailableEmails.append(r2)
+
+                    //notAvailableEmails=result2
+                    //dispatch_async(dispatch_get_main_queue()) { () -> Void in
+                    
+                   self.tblForChat.reloadData()
+                    }
+                }
+            }
+
+            
+            
+            socketObj.socket.emit("logClient","login success and AuthToken was not nil getting myself details from server")
             
             print("login success")
             //self.labelLoginUnsuccessful.text=nil
@@ -826,11 +867,33 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
                 }*/
             }
             
+            
+            
+            //***************
+            fetchContacts()
+            self.fetchContactsFromServer()
+            dispatch_async(dispatch_get_main_queue(), {
+                ///////////newwwwwwwwwwwww
+                self.tblForChat.reloadData()
+                
+                //^^^^^^^^^^^newwwww *******
+            })
+        
+            
 
+        }
+            
+            //******************%%%%%%%%% addition new
+        else
+        {
+            //*********%%%%%%%%%%%%% Not logged in
+            socketObj.socket.emit("logClient","access token is nil so go to login page")
+            print("access token is nil so go to login page")
+            self.performSegueWithIdentifier("loginSegue", sender: self)
         }
         
 
-        
+        /*
         print("khul raha hai1", terminator: "")
         ///^^^^^^^neww let retrievedToken=KeychainWrapper.stringForKey("access_token")
         //var retrievedToken:String!
@@ -845,7 +908,7 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
         
         //%%%%%%%%%%% commenting for testing
         if (retrievedToken == nil && isConference == false && AuthToken==nil)
-            {print("line # 635 commented")
+            {print("line # 635 commented important line %%%%%%%%%%%%%%%%%%%%  nothing happens if it is here ")
                 //%%%%% was commented new phone model
                 //performSegueWithIdentifier("loginSegue", sender: nil)
                 
@@ -885,7 +948,7 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
     }
 
         //var db=DatabaseHandler(dbName: "abc.sqlite")
-        
+        */
         
     }
     
@@ -1067,6 +1130,7 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
         
         //%%%%% new phone model
         //Alamofire.request(.GET,"\(fetchChatURL)").validate(statusCode: 200..<300)
+        header=["kibo-token":self.accountKit!.currentAccessToken!.tokenString]
         print("header iss \(header)")
         Alamofire.request(.GET,"\(fetchChatURL)",headers:header).validate(statusCode: 200..<300)
             .response { (request1, response1, data1, error1) in

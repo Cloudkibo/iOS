@@ -89,6 +89,7 @@
 		71A98F901C4D5D88009D04D7 /* SwiftyJSON.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7130805C1B825BB00037CB7E /* SwiftyJSON.framework */; };
 		71A98F911C4D5D88009D04D7 /* SwiftyJSON.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 7130805C1B825BB00037CB7E /* SwiftyJSON.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		71A98F961C4D6434009D04D7 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 71A98F951C4D6434009D04D7 /* Foundation.framework */; };
+		71AEC9891D01D67300DF58BD /* AllContactsViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71AEC9881D01D67300DF58BD /* AllContactsViewCell.swift */; };
 		71BFD46F1CFD13CC004ACCBF /* AccountKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 71BFD46E1CFD13CC004ACCBF /* AccountKit.framework */; };
 		71BFD47A1CFD13D3004ACCBF /* AccountKitStrings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 71BFD4791CFD13D3004ACCBF /* AccountKitStrings.bundle */; };
 		71C401741CF7159F00D38126 /* video-camera-icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 71C401701CF7159F00D38126 /* video-camera-icon.png */; };
@@ -316,6 +317,7 @@
 		7191CC671BCF0D9400F0847F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		719EFCFC1C9260FF000FD52F /* fileTestingDoc.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = fileTestingDoc.swift; sourceTree = "<group>"; };
 		71A98F951C4D6434009D04D7 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		71AEC9881D01D67300DF58BD /* AllContactsViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AllContactsViewCell.swift; sourceTree = "<group>"; };
 		71BFD46E1CFD13CC004ACCBF /* AccountKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = AccountKit.framework; sourceTree = "<group>"; };
 		71BFD4791CFD13D3004ACCBF /* AccountKitStrings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = AccountKitStrings.bundle; sourceTree = "<group>"; };
 		71C401701CF7159F00D38126 /* video-camera-icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "video-camera-icon.png"; sourceTree = "<group>"; };
@@ -462,6 +464,7 @@
 				713D51BA1CC11896007E0B47 /* ViewController.swift */,
 				713D51BB1CC11896007E0B47 /* WebmeetingChatViewController.swift */,
 				713D51BC1CC11896007E0B47 /* webmeetingMsgsModel.swift */,
+				71AEC9881D01D67300DF58BD /* AllContactsViewCell.swift */,
 			);
 			path = Chat;
 			sourceTree = "<group>";
@@ -843,6 +846,7 @@
 				713D51D91CC11896007E0B47 /* MeetingRoomAudio.swift in Sources */,
 				718B8D841CC11A9B000B4AB2 /* SocketEngineClient.swift in Sources */,
 				713D51EF1CC11896007E0B47 /* webmeetingMsgsModel.swift in Sources */,
+				71AEC9891D01D67300DF58BD /* AllContactsViewCell.swift in Sources */,
 				713D51DD1CC11896007E0B47 /* MeetingVideo.swift in Sources */,
 				713D51E61CC11896007E0B47 /* ProjectsViewController.swift in Sources */,
 				71E861C81D0066F4008BCC7C /* DisplayNameViewController.swift in Sources */,

@@ -30,7 +30,8 @@ var webMeetingModel=webmeetingMsgsModel()
 var socketObj:LoginAPI!=nil
 let sqliteDB=DatabaseHandler(dbName:"cloudkibo.sqlite3")
 ////let sqliteDB=DatabaseHandler(dbName: "")
-var AuthToken=KeychainWrapper.stringForKey("access_token")
+//%%%%%%%%%%%%var AuthToken=KeychainWrapper.stringForKey("access_token")
+var AuthToken:String!=nil
 var loggedUserObj=JSON("[]")
 var glocalChatRoomJoined:Bool=false
 //let dbSQLite=DatabaseHandler(dbName: "/cloudKibo.sqlite3")
@@ -66,7 +67,7 @@ var filejustreceivedPathURL:NSURL!
 var urlLocalFile:NSURL!
 var iOSstartedCall=false
 var firstTimeLogin=false
-var header:[String:String]!=["kibo-token":AuthToken!]
+var header:[String:String]=["kibo-token":""]
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate,AppDelegateScreenDelegate {

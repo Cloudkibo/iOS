@@ -56,9 +56,26 @@ class NotesViewController: UIViewController {
     
     func tableView(tableView: UITableView!, cellForRowAtIndexPath indexPath: NSIndexPath!) -> UITableViewCell! {
         if (indexPath.row%2 == 0){
-            return tblForNotes.dequeueReusableCellWithIdentifier("NotePrivateCell")! as UITableViewCell
+            //var cellPrivate = tblForNotes.dequeueReusableCellWithIdentifier("NotePrivateCell")! as UITableViewCell
+            var cellPrivate = tblForNotes.dequeueReusableCellWithIdentifier("NotePrivateCell")! as! AllContactsCell
+            
+            
+            
+            
+            return cellPrivate
+            /*
+            let cellPublic=tblForChat.dequeueReusableCellWithIdentifier("ChatPublicCell") as! ContactsListCell
+            
+            let cell=tblForChat.dequeueReusableCellWithIdentifier("ChatPrivateCell") as! ContactsListCell
+            
+            cell.contactName?.text=ContactNames[indexPath.row]
+*/
         } else {
-            return tblForNotes.dequeueReusableCellWithIdentifier("NotePublicCell")! as UITableViewCell
+           // var cellPublic = tblForNotes.dequeueReusableCellWithIdentifier("NotePublicCell")! as UITableViewCell
+            
+            var cellPublic = tblForNotes.dequeueReusableCellWithIdentifier("NotePrivateCell")! as! AllContactsCell
+            
+            return cellPublic
         }
     }
     

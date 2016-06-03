@@ -114,7 +114,7 @@ class iOSContact{
             print(response.data)
             //print(response.e
             
-            //print(response.result.value!)
+            print(response.result.value!)
             var res=JSON(response.result.value!)
             //print(res)
             ////////////////var availableContactsEmails=res["available"].object

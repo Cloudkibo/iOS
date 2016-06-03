@@ -43,6 +43,7 @@ class ContactsInviteViewController: UIViewController,UITableViewDelegate,UITable
         tbl_inviteContacts.dataSource=self
         
         super.viewDidLoad()
+        print("fetch contacts from address book")
         
        // if(firstTimeLogin==true){
         contactsList.fetch(){ (result) -> () in
@@ -75,6 +76,20 @@ class ContactsInviteViewController: UIViewController,UITableViewDelegate,UITable
     }
 
     @IBAction func btn_BackPressed(sender: AnyObject) {
+        
+        //Go to contacts list
+        //var next = self.storyboard?.instantiateViewControllerWithIdentifier("MainChatView") as! ChatViewController
+        
+        //self.presentViewController(ChatViewController() as! UIViewController, animated: true) { () -> Void in
+        ////// ************%%%%%%%%%%%%%%%%
+        selectedEmails.removeAll()
+        //self.performSegueWithIdentifier("invitetochatsegue", sender: self)
+        
+        //}
+        //}
+        
+        
+        //*************************%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% newww
         self.dismissViewControllerAnimated(true, completion: { () -> Void in
             
             //contactsList.contacts.removeAll()
@@ -82,6 +97,7 @@ class ContactsInviteViewController: UIViewController,UITableViewDelegate,UITable
             selectedEmails.removeAll()
 
         })
+
     }
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()

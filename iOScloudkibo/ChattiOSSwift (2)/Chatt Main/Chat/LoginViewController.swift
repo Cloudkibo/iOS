@@ -27,15 +27,27 @@ class LoginViewController: UIViewController,SocketConnecting,AKFViewControllerDe
     
     override func viewWillAppear(animated: Bool) {
         
+        if (accountKit.currentAccessToken != nil && firstTimeLogin==false) {
+            header=["kibo-token":accountKit!.currentAccessToken!.tokenString]
+          print("login view will appear")
+            self.dismissViewControllerAnimated(true, completion:{
+                socketObj.socket.emit("logClient", "login done fetch contacts and show contacts list now")
+                print("show contacts list now")
+                }
+            )
+            
+        }
         
-        if (accountKit.currentAccessToken != nil) {
+        /*if (accountKit.currentAccessToken != nil) {
+            header=["kibo-token":accountKit!.currentAccessToken!.tokenString]
             //%%%%%%%%%%%%%%%%%%%%% phone model added firtsttimelogin
              //%%%%%%%%%%%%%%newwwww phone model firstTimeLogin=false
             AuthToken=accountKit.currentAccessToken!.tokenString
             // if the user is already logged in, go to the main screen
             print("User already logged in go to ViewController")
             if(firstTimeLogin==true)
-            {print("displayname ................")
+            {
+                print("displayname ................")
             dispatch_async(dispatch_get_main_queue(), {
                 
                self.performSegueWithIdentifier("displaynamesegue", sender: self)
@@ -53,21 +65,30 @@ class LoginViewController: UIViewController,SocketConnecting,AKFViewControllerDe
             })
             }
             else{
-                print("firsttimelogin false no displayname....")
+                print("firsttimelogin true no displayname....")
+                if(firstTimeLogin==false)
+                {
+                
                 self.dismissViewControllerAnimated(true, completion: { () -> Void in
                     
                     
                     print("login success now going to contact list")
                     socketObj.socket.emit("logClient","login success now going to contact list")
                 })
-                
+                }
             }
             
         }
         else
         {
+           
+            /*self.dismissViewControllerAnimated(true, completion:{
+                socketObj.socket.emit("logClient", "login done fetch contacts and show contacts list now")
+                print("show contacts list now")
+                }
+            )*/
             
-        }
+        }*/
         
         
         /*if(socketConnected == false)
@@ -93,10 +114,20 @@ class LoginViewController: UIViewController,SocketConnecting,AKFViewControllerDe
     
     func viewController(viewController: UIViewController!, didCompleteLoginWithAccessToken accessToken: AKFAccessToken!, state: String!) {
         print("Login succcess with AccessToken \(accessToken.debugDescription)")
+        dispatch_async(dispatch_get_main_queue(), {
+            
+            
+            self.performSegueWithIdentifier("displaynamesegue", sender: self)
+            
+        })
+        
     }
     func viewController(viewController: UIViewController!, didCompleteLoginWithAuthorizationCode code: String!, state: String!) {
         print("Login succcess with AuthorizationCode")
+        
+        
     }
+    
     func viewController(viewController: UIViewController!, didFailWithError error: NSError!) {
         print("We have an error \(error)")
     }
@@ -474,6 +505,8 @@ class LoginViewController: UIViewController,SocketConnecting,AKFViewControllerDe
     
     @IBAction func loginBtnTapped() {
         //login with Phone
+        //%%%%%%%%%%%%%%%%%%%% new firsttimelogin ...
+        firstTimeLogin=true
         let inputState: String = NSUUID().UUIDString
         let viewController:AKFViewController = accountKit.viewControllerForPhoneLoginWithPhoneNumber(nil, state: inputState)  as! AKFViewController
         viewController.enableSendToFacebook = true

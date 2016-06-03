@@ -95,6 +95,13 @@ class DisplayNameViewController: UIViewController {
                         print(data)
                         let json = JSON(data!)
                         print("JSON: \(json)")
+                    //%%%%%*******************
+                        firstTimeLogin=false
+                    
+                    //////// %%%%%%%%%%%%%%***************self.performSegueWithIdentifier("fetchContactsSegue", sender: self)
+                    //self.performSegueWithIdentifier("fetchaddressbooksegue", sender: self)
+                    //*********************%%%%%%%%%%%%%%%%%%%%%%%%% commented new
+                    
                     self.dismissViewControllerAnimated(false, completion: { () -> Void in
                         
                         print("logged in going to contactlist")
