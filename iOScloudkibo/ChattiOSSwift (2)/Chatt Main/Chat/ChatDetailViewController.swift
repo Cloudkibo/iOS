@@ -57,6 +57,10 @@ class ChatDetailViewController: UIViewController{
     }
     
     
+    override func viewWillAppear(animated: Bool) {
+        FetchChatServer()
+        
+    }
     override func viewDidLoad() {
         super.viewDidLoad()
         NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("willShowKeyBoard:"), name:UIKeyboardWillShowNotification, object: nil)
@@ -94,17 +98,22 @@ class ChatDetailViewController: UIViewController{
         // dispatch_async(dispatch_get_main_queue(), {
         
         
-        FetchChatServer()
+        
         //^^self.getUserObjectById()
         ///^^^^^^^^markChatAsRead()
         
         //^^self.tbl_userchats=sqliteDB.db["userschats"]
+        
+        
+        
+        FetchChatServer()
         self.NewChatNavigationTitle.title=selectedContact
         var receivedMsg=JSON("")
         socketObj.socket.on("im") {data,ack in
             
             print("chat sent to server.ack received")
             var chatJson=JSON(data)
+            print("chat received \(chatJson.debugDescription)")
             print(chatJson[0]["msg"])
             receivedMsg=chatJson[0]["msg"]
             var username=chatJson[0]["fullName"]
@@ -592,14 +601,14 @@ class ChatDetailViewController: UIViewController{
         //^^var firstNameSelected=selectedUserObj["firstname"]
         //^^^var lastNameSelected=selectedUserObj["lastname"]
         //^^^var fullNameSelected=firstNameSelected.string!+" "+lastNameSelected.string!
-        var imParas=["from":"\(username!)","to":"\(selectedContact)","from_id":"\(loggedid)","to_id":"\(self.selectedID)","fromFullName":"\(loggedFullName!)","msg":"\(txtFldMessage.text!)"]
-        
+        var imParas=["from":"\(username!)","to":"\(selectedContact)","from_id":"\(_id!)","to_id":"\(self.selectedID)","fromFullName":"\(loggedFullName!)","msg":"\(txtFldMessage.text!)","date":NSDate().debugDescription]
+        print("imparas are \(imParas)")
         print(imParas, terminator: "")
         print("", terminator: "")
         ///=== code for sending chat here
         ///=================
         
-        
+        socketObj.socket.emit("logClient","sending chat \(imParas)")
         socketObj.socket.emit("im",["room":"globalchatroom","stanza":imParas])
         
         //////

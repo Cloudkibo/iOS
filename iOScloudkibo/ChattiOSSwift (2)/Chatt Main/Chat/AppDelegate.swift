@@ -15,7 +15,7 @@ import CloudKit
 
 
 
-
+var displayname=""
 var selectedEmails=[String]()
 var emailList=[String]()
 var nameList=[String]()
@@ -39,8 +39,8 @@ var glocalChatRoomJoined:Bool=false
 //let dbSQLite=DatabaseHandler(dbName: "/cloudKibo.sqlite3")
 
 //%%%%%%%%%%%%%%%% new phone model
-//var username=KeychainWrapper.stringForKey("username")
-var username:String!="sadia1"
+var username:String! = KeychainWrapper.stringForKey("username")
+//var username:String!="sadia1"
 var password=KeychainWrapper.stringForKey("password")
 let loggedFullName=KeychainWrapper.stringForKey("loggedFullName")
 let loggedPhone=KeychainWrapper.stringForKey("loggedPhone")

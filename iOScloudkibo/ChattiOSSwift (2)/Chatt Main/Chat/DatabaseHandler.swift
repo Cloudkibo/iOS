@@ -53,7 +53,7 @@ class DatabaseHandler:NSObject{
     
     func createAccountsTable()
     {
-        
+        socketObj.socket.emit("logClient","creating accounts table")
         
         let _id = Expression<String>("_id")
         let firstname = Expression<String>("firstname")
@@ -85,6 +85,7 @@ class DatabaseHandler:NSObject{
         }
         catch
         {
+            socketObj.socket.emit("logClient","error in creating accounts table \(error)")
             print("error in creating accounts table")
         }
         
@@ -106,6 +107,7 @@ class DatabaseHandler:NSObject{
     
     func createContactListsTable()
     {
+           socketObj.socket.emit("logClient","creating contacts table")
         //let _id = Expression<String>("_id")
         let contactid = Expression<String>("contactid")
         let detailsshared = Expression<String>("detailsshared")
@@ -140,6 +142,7 @@ class DatabaseHandler:NSObject{
         }
         catch
         {
+            socketObj.socket.emit("logClient","error in creating contacts table \(error)")
             print("error in creating contactslists table")
         }
         // )
@@ -172,6 +175,7 @@ class DatabaseHandler:NSObject{
     
     func createUserChatTable(){
         
+           socketObj.socket.emit("logClient","creating chat table")
         
         let to = Expression<String>("to")
         let from = Expression<String>("from")
@@ -193,8 +197,9 @@ class DatabaseHandler:NSObject{
                 })
             
         }
-        catch
+        catch(let error)
         {
+            socketObj.socket.emit("logClient","error in creating chat table \(error)")
             print("error in creating userschats table")
         }
         

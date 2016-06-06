@@ -51,7 +51,7 @@ class DisplayNameViewController: UIViewController {
         self.sendNameToServer(displayName)
     }
     
-    func sendNameToServer(displayName:String)
+    func sendNameToServer(var displayName:String)
     {
         progressBarDisplayer("Contacting Server", true)
         let priority = DISPATCH_QUEUE_PRIORITY_DEFAULT
@@ -60,19 +60,20 @@ class DisplayNameViewController: UIViewController {
             // do some task start to show progress wheel
             
             var urlToSendDisplayName=Constants.MainUrl+Constants.firstTimeLogin
-            var nn="{display_name:displayName}"
+            //var nn="{display_name:displayName}"
             //var getUserDataURL=userDataUrl
             
             
             
             
-            Alamofire.request(.GET,"\(urlToSendDisplayName)",headers:header,parameters:["display_name":"\(displayName)"])
+            Alamofire.request(.GET,"\(urlToSendDisplayName)",headers:header,parameters:["display_name":displayName])
                 .validate(statusCode: 200..<300)
                 .response { (request, response, data, error) in
                     
                     
 
-            
+            username=displayName
+                displayname=displayName
             print("display name is \(displayName)")
             /*Alamofire.request(.GET,"\(urlToSendDisplayName)",headers:header,parameters:["display_name":"\(displayName)"]).validate(statusCode: 200..<300).responseJSON{response in
                 */
@@ -84,17 +85,22 @@ class DisplayNameViewController: UIViewController {
                     //move to next screen
                     //self.saveButton.enabled = true
                 }
+                    
+                    print(data?.debugDescription)
                 switch response!.statusCode {
-                    
-                    
                     
                 case 200:
                     print("display name sent to server")
                     firstTimeLogin=false
                         socketObj.socket.emit("logClient", "display name \(displayName) sent to server successfully")
                         print(data)
-                        let json = JSON(data!)
-                        print("JSON: \(json)")
+                    
+                    let json = JSON(data!)
+                    
+                    print("JSON: \(json[0].debugDescription)")
+                    print("data: \(json.debugDescription)")
+                    
+
                     //%%%%%*******************
                         firstTimeLogin=false
                     

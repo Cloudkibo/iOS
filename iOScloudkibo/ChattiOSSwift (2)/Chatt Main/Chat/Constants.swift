@@ -12,7 +12,7 @@ class Constants{
     //static let MainUrl="https://www.cloudkibo.com"
     static let MainUrl="https://api.cloudkibo.com"
 
-    static let firstTimeLogin="/newuser/"
+    static let firstTimeLogin="/users/newuser"
     static let authentictionUrl="/auth/local/"
     static let bringUserChat="/api/userchat/"
     static let getCurrentUser="/api/users/me"
@@ -32,7 +32,7 @@ class Constants{
     static let searchContactsByEmail="/api/users/searchaccountsbyemail"
     static let invitebymultipleemail="/api/users/invitebymultipleemail"
     static let invitebyemail="/api/users/invitebyemail"
-    static let invitebyphone="api/users/searchaccountsbyphone/"
+    static let invitebyphone="/api/users/searchaccountsbyphone/"
     
     /*
     private static String phoneContactsURL = "https://www.cloudkibo.com/api/users/searchaccountsbyphone/";

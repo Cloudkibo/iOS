@@ -116,7 +116,7 @@ class LoginViewController: UIViewController,SocketConnecting,AKFViewControllerDe
         print("Login succcess with AccessToken \(accessToken.debugDescription)")
         dispatch_async(dispatch_get_main_queue(), {
             
-            
+            header=["kibo-token":self.accountKit!.currentAccessToken!.tokenString]
             self.performSegueWithIdentifier("displaynamesegue", sender: self)
             
         })
@@ -130,6 +130,8 @@ class LoginViewController: UIViewController,SocketConnecting,AKFViewControllerDe
     
     func viewController(viewController: UIViewController!, didFailWithError error: NSError!) {
         print("We have an error \(error)")
+        self.showError("An error has occured:", message: error.debugDescription, button1: "Ok")
+        
     }
     func viewControllerDidCancel(viewController: UIViewController!) {
         print("The user cancel the login")
@@ -974,6 +976,20 @@ class LoginViewController: UIViewController,SocketConnecting,AKFViewControllerDe
     }
     }
     }*/
+    
+    func showError(title:String,message:String,button1:String) {
+        
+        // create the alert
+        let alert = UIAlertController(title: title, message: message, preferredStyle: UIAlertControllerStyle.Alert)
+        
+        // add the actions (buttons)
+        alert.addAction(UIAlertAction(title: button1, style: UIAlertActionStyle.Default, handler: nil))
+        //alert.addAction(UIAlertAction(title: button2, style: UIAlertActionStyle.Cancel, handler: nil))
+        
+        // show the alert
+        self.presentViewController(alert, animated: true, completion: nil)
+    }
+    
     
     override func viewWillDisappear(animated: Bool) {
         print("dismissed loginnnnn")

@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		5BF6363219A9F3D900ABD0BA /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5BF6363119A9F3D900ABD0BA /* Images.xcassets */; };
+		7108B9861D020E720031FC5A /* Alamofire.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7108B9851D020E720031FC5A /* Alamofire.framework */; };
 		710EF26C1C96B16500578739 /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 710EF26B1C96B16500578739 /* CloudKit.framework */; };
 		713D51BD1CC11896007E0B47 /* Accounts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 713D51881CC11896007E0B47 /* Accounts.swift */; };
 		713D51BE1CC11896007E0B47 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 713D51891CC11896007E0B47 /* AppDelegate.swift */; };
@@ -233,6 +234,7 @@
 		5BF6362919A9F3D900ABD0BA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		5BF6363119A9F3D900ABD0BA /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		5BF6363719A9F3D900ABD0BA /* ChatTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ChatTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		7108B9851D020E720031FC5A /* Alamofire.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Alamofire.framework; path = "Pods/../build/Debug-iphoneos/Alamofire.framework"; sourceTree = "<group>"; };
 		710EF26B1C96B16500578739 /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = System/Library/Frameworks/CloudKit.framework; sourceTree = SDKROOT; };
 		713080541B825BB00037CB7E /* SwiftyJSON.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SwiftyJSON.xcodeproj; path = SwiftyJSON/SwiftyJSON.xcodeproj; sourceTree = "<group>"; };
 		713D51881CC11896007E0B47 /* Accounts.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Accounts.swift; sourceTree = "<group>"; };
@@ -345,6 +347,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7108B9861D020E720031FC5A /* Alamofire.framework in Frameworks */,
 				71C4018E1CF71ABB00D38126 /* SQLite.framework in Frameworks */,
 				710EF26C1C96B16500578739 /* CloudKit.framework in Frameworks */,
 				716175A01C51C9B200A72E83 /* libsqlite3.0.tbd in Frameworks */,
@@ -553,6 +556,7 @@
 		FB1C3696C1C732596BCC879C /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				7108B9851D020E720031FC5A /* Alamofire.framework */,
 				710EF26B1C96B16500578739 /* CloudKit.framework */,
 				716174971C5065BA00A72E83 /* libsqlite3.0.tbd */,
 				716174981C5065BA00A72E83 /* libsqlite3.tbd */,
@@ -987,6 +991,7 @@
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				VALID_ARCHS = "arm64 armv7 armv7s $(inherited)";
 			};
 			name = Debug;
 		};
@@ -1023,6 +1028,7 @@
 				SDKROOT = iphoneos;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				VALIDATE_PRODUCT = YES;
+				VALID_ARCHS = "arm64 armv7 armv7s $(inherited)";
 			};
 			name = Release;
 		};
@@ -1039,7 +1045,10 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
 				ENABLE_BITCODE = NO;
-				FRAMEWORK_SEARCH_PATHS = "$(PROJECT_DIR)";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(PROJECT_DIR)",
+					"$(PROJECT_DIR)/build/Debug-iphoneos",
+				);
 				HEADER_SEARCH_PATHS = (
 					"\"${PODS_ROOT}/Headers/Public/libjingle_peerconnection\"",
 					"\"${PODS_ROOT}/Headers/libjingle_peerconnection\"",
@@ -1079,7 +1088,10 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
 				ENABLE_BITCODE = NO;
-				FRAMEWORK_SEARCH_PATHS = "$(PROJECT_DIR)";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(PROJECT_DIR)",
+					"$(PROJECT_DIR)/build/Debug-iphoneos",
+				);
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"$(inherited)",
 					"COCOAPODS=1",

@@ -50,24 +50,64 @@ class iOSContact{
             
             socketObj.socket.emit("logClient","\(username) received \(contacts.count) contacts from iphone contactlist")
             for(var i=0;i<self.contacts.count;i++){
-                if(self.contacts[i].givenName != "")
-                {
-                    nameList.append(self.contacts[i].givenName)
-                print(self.contacts[i].givenName)
+                
+                
+                do{
+                    
+                    if(try self.contacts[i].givenName != "")
+                    {
+                        nameList.append(self.contacts[i].givenName)
+                        print(self.contacts[i].givenName)
+                    }
+                    
+                    
                 }
-                let phone=self.contacts[i].phoneNumbers.first?.value as! CNPhoneNumber!
-                if( phone != ""  && phone != nil)
+                catch(let error)
+                {
+                    print("error: \(error)")
+                    socketObj.socket.emit("logClient", "error in fetching contact name: \(error)")
+                }
+
+                
+               
+                do{
+                    if let phone = try self.contacts[i].phoneNumbers.first?.value as! CNPhoneNumber!
+                    {
+                        
+                    }
+                        
+                }
+                catch(let error)
+                {
+                    print("error: \(error)")
+                    socketObj.socket.emit("logClient", "error in fetching phone: \(error)")
+                }
+                    
+                
+                /*if( phone != ""  && phone != nil)
                 {
                     phonesList.append(phone.stringValue)
                 print(phone.stringValue)
+                }*/
+                
+                do{
+                    let em = try self.contacts[i].emailAddresses.first
+                    if(em != nil && em != "")
+                    {
+                        print(em?.label)
+                        print(em?.value)
+                        emails.append(em!.value as! String)
+                    }
+                
+                    
                 }
-                let em=self.contacts[i].emailAddresses.first
-                if(em != nil && em != "")
+                catch(let error)
                 {
-                print(em?.label)
-                print(em?.value)
-                emails.append(em!.value as! String)
+                    print("error: \(error)")
+                    socketObj.socket.emit("logClient", "error in fetching email address: \(error)")
                 }
+                
+               
                 //print(self.contacts[i].emailAddresses.first!.value)
                 ////self.emails.append(phone.stringValue)
                 // print(self.emails[i])
@@ -87,6 +127,7 @@ class iOSContact{
         }
         catch let error as NSError {
             print("errorrrrr ...")
+            socketObj.socket.emit("logClient","error: fetching contacts from device \(error.description)")
             print(error.description, separator: "", terminator: "\n")
         }
         
@@ -95,6 +136,8 @@ class iOSContact{
     }
     func searchContactsByEmail(emails:[String],completion: (result:[String])->())
     {
+        print("emails are \(emails)")
+        socketObj.socket.emit("logClient","sending emails to server")
         // %%%%%%%%%%%%%%%%%% new phone model change
         let searchContactsByEmail=Constants.MainUrl+Constants.searchContactsByEmail
         //let searchContactsByEmail=Constants.MainUrl+Constants.searchContactsByEmail+"?access_token="+AuthToken!
@@ -115,12 +158,16 @@ class iOSContact{
         //%%%%%%%%%%%%%%% new phone model change
         //Alamofire.request(.POST,searchContactsByEmail,parameters:["emails":emails],encoding: .JSON).responseJSON { response in
         Alamofire.request(.POST,searchContactsByEmail,headers:header,parameters:["emails":emails],encoding: .JSON).responseJSON { response in
+            
+            if(response.response?.statusCode==200)
+            {socketObj.socket.emit("logClient","success in getting available and not available contacts")
             debugPrint(response.data)
             //print(response.request)
             //print(response.response)
             print(response.data)
             //print(response.e
             
+            //************* error here...........................
             print(response.result.value!)
             var res=JSON(response.result.value!)
             //print(res)
@@ -137,7 +184,12 @@ class iOSContact{
             print(NotavailableContactsEmails!)
             print("**************** \(self.notAvailableContacts)")
             completion(result: self.notAvailableContacts)
-            
+        }
+            else
+            {
+                socketObj.socket.emit("logClient","error: \(response.debugDescription)")
+            }
+        
         }
         
        
@@ -211,3 +263,19 @@ protocol InviteContactsDelegate:class
 {
     func receivedContactsUpdateUI(message:String,username:String);
 }
+
+/*
+if let phone=self.contacts[i].phoneNumbers.first?.value as! CNPhoneNumber!
+{
+
+do
+{
+
+}
+catch
+{
+
+}
+
+}
+*/
