@@ -350,12 +350,17 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
             }
         if(loggedUserObj == JSON("[]"))
         {
-            var lusername=KeychainWrapper.stringForKey("username")
             
-            var lid=KeychainWrapper.stringForKey("_id")
             
-            var lobj=["_id" : lid!, "username" : lusername!]
-            ///////////////////not supported ^^^^^^^^^^^newwwif let dataFromString = jsonString.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false) {
+            ///%%%%%%%%%%%%%%%%%%%%***************
+            /*
+            do{
+                var lusername = try KeychainWrapper.stringForKey("username")
+                
+                var lid = try KeychainWrapper.stringForKey("_id")
+                
+                var lobj= ["_id" : lid!, "username" : lusername!]
+                ///////////////////not supported ^^^^^^^^^^^newwwif let dataFromString = jsonString.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false) {
                 let json11 = JSON(lobj.debugDescription)
                 
                 var lllooo = json11
@@ -363,6 +368,8 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
                 loggedUserObj.object=json11.object
                 print(lllooo.object)
                 
+}*/
+            
                 
                 
                 
@@ -770,7 +777,14 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
                                     //var json=JSON(data1)
                                     //KeychainWrapper.setData(data1!, forKey: "loggedUserObj")
                                     //loggedUserObj=json(loggedUserObj)
-                                    username=json["username"].string!
+                                    if let u = json["username"].string
+                                    {
+                                    username=u
+                                    }
+                                    else
+                                    {
+                                    username=json["display_name"].string!
+                                    }
                                     loggedUserObj=json
                                     //stringByResolvingSymlinksInPath
                                     
@@ -788,7 +802,8 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
                                     
                                     //===========saving username======================
                                     dispatch_async(dispatch_get_main_queue(), {
-                                        
+                                       if let uu = json["username"].string
+                                       {
                                         do{
                                             try KeychainWrapper.setString(json["username"].string!, forKey: "username")
                                             try KeychainWrapper.setString(json["firstname"].string!+" "+json["lastname"].string!, forKey: "loggedFullName")
@@ -806,7 +821,30 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
                                             print("error is setting keychain value")
                                             print(json.error?.localizedDescription)
                                         }
+                                    }
+                                        else
+                                       {
+                                        do{
+                                            try KeychainWrapper.setString(json["display_name"].string!, forKey: "username")
+                                            try KeychainWrapper.setString(json["display_name"].string!, forKey: "loggedFullName")
+                                            try KeychainWrapper.setString(json["phone"].string!, forKey: "loggedPhone")
+                                            try KeychainWrapper.setString("", forKey: "loggedEmail")
+                                            try KeychainWrapper.setString(json["_id"].string!, forKey: "_id")
+                                            
+                                            //%%%% new phone model
+                                            // try KeychainWrapper.setString(self.txtForPassword.text!, forKey: "password")
+                                            try KeychainWrapper.setString("", forKey: "password")
+                                            
+                                            
+                                        }
+                                        catch{
+                                            print("error is setting keychain value")
+                                            print(json.error?.localizedDescription)
+                                        }
+
                                         
+                                        }
+                                    
                                         /* username=KeychainWrapper.stringForKey("password")
                                         firstname=KeychainWrapper.stringForKey("firstname")
                                         password=KeychainWrapper.stringForKey("password")
@@ -840,6 +878,8 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
                                         
                                         tbl_accounts.delete()
                                         do {
+                                            if(json["username"].string != nil)
+                                            {
                                             let rowid = try sqliteDB.db.run(tbl_accounts.insert(_id<-json["_id"].string!,
                                                 firstname<-json["firstname"].string!,
                                                 lastname<-json["lastname"].string!,
@@ -848,6 +888,18 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
                                                 status<-json["status"].string!,
                                                 phone<-json["phone"].string!))
                                             print("inserted id: \(rowid)")
+                                        }
+                                            else
+                                            {
+                                                let rowid = try sqliteDB.db.run(tbl_accounts.insert(_id<-json["_id"].string!,
+                                                    firstname<-json["display_name"].string!,
+                                                    lastname<-"",
+                                                    email<-"",
+                                                    username1<-json["display_name"].string!,
+                                                    status<-json["status"].string!,
+                                                    phone<-json["phone"].string!))
+                                                print("inserted id: \(rowid)")
+                                            }
                                         } catch {
                                             print("insertion failed: \(error)")
                                         }
@@ -1263,6 +1315,8 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
                     {
                         print("inside for loop")
                         do {
+                            if(contactsJsonObj[i]["contactid"]["username"].string != nil)
+                            {
                         let rowid = try sqliteDB.db.run(tbl_contactslists.insert(contactid<-contactsJsonObj[i]["contactid"]["_id"].string!,
                             detailsshared<-contactsJsonObj[i]["detailsshared"].string!,
                             
@@ -1277,6 +1331,7 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
                             status<-contactsJsonObj[i]["contactid"]["status"].string!)
                             )
                             print("data inserttt")
+                            
                         //=========this is done in fetching from sqlite not here====
 
 
@@ -1296,6 +1351,45 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
                         self.ContactOnlineStatus.append(0)
                         
                         print("inserted id: \(rowid)")
+                            }
+                            else
+                            {
+                                let rowid = try sqliteDB.db.run(tbl_contactslists.insert(contactid<-contactsJsonObj[i]["contactid"]["_id"].string!,
+                                    detailsshared<-contactsJsonObj[i]["detailsshared"].string!,
+                                    
+                                    unreadMessage<-contactsJsonObj[i]["unreadMessage"].boolValue,
+                                    
+                                    userid<-contactsJsonObj[i]["userid"].string!,
+                                    firstname<-contactsJsonObj[i]["contactid"]["firstname"].string!,
+                                    lastname<-contactsJsonObj[i]["contactid"]["lastname"].string!,
+                                    email<-contactsJsonObj[i]["contactid"]["email"].string!,
+                                    phone<-contactsJsonObj[i]["contactid"]["phone"].string!,
+                                    username<-contactsJsonObj[i]["contactid"]["display_name"].string!,
+                                    status<-contactsJsonObj[i]["contactid"]["status"].string!)
+                                )
+                                print("data inserttt")
+                                
+                                //=========this is done in fetching from sqlite not here====
+                                
+                                
+                                // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%new commented june
+                                self.ContactsObjectss.append(contactsJsonObj[i]["contactid"])
+                                // ****%%%%% database changes new june
+                                self.ContactNames.append(contactsJsonObj[i]["contactid"]["firstname"].string!+" "+contactsJsonObj[i]["contactid"]["lastname"].string!)
+                                
+                                //self.ContactNames.append(contactsJsonObj[i]["contactid"]["firstname"].string!+" "+contactsJsonObj[i]["contactid"]["lastname"].string!)
+                                self.ContactUsernames.append(contactsJsonObj[i]["contactid"]["display_name"].string!)
+                                self.ContactIDs.append(contactsJsonObj[i]["contactid"]["_id"].string!)
+                                self.ContactFirstname.append(contactsJsonObj[i]["contactid"]["firstname"].string!)
+                                self.ContactLastNAme.append(contactsJsonObj[i]["contactid"]["lastname"].string!)
+                                self.ContactStatus.append(contactsJsonObj[i]["contactid"]["status"].string!)
+                                self.ContactsPhone.append(contactsJsonObj[i]["contactid"]["phone"].string!)
+                                self.ContactsEmail.append(contactsJsonObj[i]["contactid"]["email"].string!)
+                                self.ContactOnlineStatus.append(0)
+                                
+                                print("inserted id: \(rowid)")
+
+}
                         self.tblForChat.reloadData()
                             
                     } catch {

@@ -60,7 +60,7 @@ class DisplayNameViewController: UIViewController {
             //var getUserDataURL=userDataUrl
             
             socketObj.socket.emit("logClient", "")
-            Alamofire.request(.GET,"\(urlToSendDisplayName)",headers:header,parameters:["display_name":displayName]).responseJSON{
+            Alamofire.request(.POST,"\(urlToSendDisplayName)",headers:header,parameters:["display_name":displayName]).responseJSON{
                 response in
                 
                 //===========INITIALISE SOCKETIOCLIENT=========
