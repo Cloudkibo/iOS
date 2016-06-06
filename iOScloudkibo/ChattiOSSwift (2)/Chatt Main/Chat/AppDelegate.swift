@@ -12,9 +12,9 @@ import SwiftyJSON
 import Alamofire
 import Contacts
 import CloudKit
+import AccountKit
 
-
-
+var accountKit:AKFAccountKit!
 var displayname=""
 var selectedEmails=[String]()
 var emailList=[String]()

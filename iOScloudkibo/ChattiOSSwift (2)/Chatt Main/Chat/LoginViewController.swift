@@ -13,7 +13,7 @@ import SQLite
 import AccountKit
 class LoginViewController: UIViewController,SocketConnecting,AKFViewControllerDelegate{
     
-    var accountKit:AKFAccountKit!
+    ///////var accountKit:AKFAccountKit!
     var rt=NetworkingLibAlamofire()
     var delegateSocket:SocketConnecting!
     @IBOutlet weak var progressWheel: UIActivityIndicatorView!
@@ -116,7 +116,7 @@ class LoginViewController: UIViewController,SocketConnecting,AKFViewControllerDe
         print("Login succcess with AccessToken \(accessToken.debugDescription)")
         dispatch_async(dispatch_get_main_queue(), {
             
-            header=["kibo-token":self.accountKit!.currentAccessToken!.tokenString]
+            header=["kibo-token":accountKit!.currentAccessToken!.tokenString]
             self.performSegueWithIdentifier("displaynamesegue", sender: self)
             
         })
@@ -364,7 +364,7 @@ class LoginViewController: UIViewController,SocketConnecting,AKFViewControllerDe
         if accountKit == nil {
             // may also specify AKFResponseTypeAccessToken
             print("initialising AccountKit .......")
-            self.accountKit = AKFAccountKit(responseType: AKFResponseType.AccessToken)
+            accountKit = AKFAccountKit(responseType: AKFResponseType.AccessToken)
         }
         
         //socketObj.delegateSocketConnected=self

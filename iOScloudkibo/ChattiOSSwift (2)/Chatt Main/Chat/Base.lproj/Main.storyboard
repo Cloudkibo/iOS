@@ -382,7 +382,7 @@
             <objects>
                 <viewController id="nee-6e-03O" customClass="ProjectsViewController" customModule="Chat" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="jkQ-mB-Qse">
-                        <rect key="frame" x="0.0" y="64" width="320" height="504"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="66" sectionHeaderHeight="22" sectionFooterHeight="22" id="iew-ta-HDe">
@@ -731,11 +731,11 @@
             </objects>
             <point key="canvasLocation" x="176" y="-1651"/>
         </scene>
-        <!--Favourites-->
+        <!--Navigation Controller-->
         <scene sceneID="2v1-Kp-zHu">
             <objects>
                 <navigationController id="EF7-fc-vdB" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Favourites" image="tabbar_chat" id="EvI-wl-R4T">
+                    <tabBarItem key="tabBarItem" title="" image="tabbar_chatmain" id="EvI-wl-R4T">
                         <inset key="imageInsets" minX="0.0" minY="5" maxX="0.0" maxY="-5"/>
                     </tabBarItem>
                     <navigationItem key="navigationItem" id="gm6-wK-huN"/>
@@ -762,10 +762,10 @@
             </objects>
             <point key="canvasLocation" x="393" y="-1068"/>
         </scene>
-        <!--Chat View Controller-->
+        <!--Favourites-->
         <scene sceneID="U0I-6f-Qcl">
             <objects>
-                <viewController restorationIdentifier="MainChatView" storyboardIdentifier="MainChatView" id="cJu-ld-BCz" customClass="ChatViewController" customModule="Chat" sceneMemberID="viewController">
+                <viewController restorationIdentifier="MainChatView" storyboardIdentifier="MainChatView" title="Favourites" id="cJu-ld-BCz" customClass="ChatViewController" customModule="Chat" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="PNV-85-Adt">
                         <rect key="frame" x="0.0" y="64" width="320" height="504"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -860,7 +860,7 @@
                                                     <rect key="frame" x="305" y="15" width="6" height="11"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                 </imageView>
-                                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="chat_lock" id="bQF-ZH-KHX">
+                                                <imageView hidden="YES" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="chat_lock" id="bQF-ZH-KHX">
                                                     <rect key="frame" x="297" y="34" width="14" height="18"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                 </imageView>
@@ -1289,11 +1289,11 @@
             </objects>
             <point key="canvasLocation" x="-621" y="-51"/>
         </scene>
-        <!--Navigation Controller-->
+        <!--Favourites-->
         <scene sceneID="KV5-4K-q77">
             <objects>
                 <navigationController id="tYJ-aX-mJE" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="" image="tabbar_project" id="Ihc-4U-QqU">
+                    <tabBarItem key="tabBarItem" title="Favourites" image="tabbar_chat" id="Ihc-4U-QqU">
                         <inset key="imageInsets" minX="0.0" minY="5" maxX="0.0" maxY="-5"/>
                     </tabBarItem>
                     <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
@@ -1303,7 +1303,7 @@
                         <color key="barTintColor" red="0.0" green="0.7254902124" blue="0.41176474089999998" alpha="1" colorSpace="deviceRGB"/>
                     </navigationBar>
                     <connections>
-                        <segue destination="nee-6e-03O" kind="relationship" relationship="rootViewController" id="gI4-Bt-E9W"/>
+                        <segue destination="v28-cs-4pq" kind="relationship" relationship="rootViewController" id="DG8-Wc-RK7"/>
                     </connections>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="f9P-2f-Sfg" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -2070,7 +2070,7 @@
                         </view>
                         <prototypes>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="JC4-iV-Jwg">
-                                <rect key="frame" x="0.0" y="197" width="320" height="44"/>
+                                <rect key="frame" x="0.0" y="133" width="320" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="JC4-iV-Jwg" id="H6p-c1-bTR">
                                     <rect key="frame" x="0.0" y="0.0" width="320" height="43.5"/>
@@ -2940,6 +2940,194 @@
             </objects>
             <point key="canvasLocation" x="676" y="-2383"/>
         </scene>
+        <!--Chats-->
+        <scene sceneID="YJi-J4-sJL">
+            <objects>
+                <viewController restorationIdentifier="MainChats" storyboardIdentifier="MAinChats" title="Chats" id="v28-cs-4pq" customClass="ChatMainViewController" customModule="Chat" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="myq-CV-swO">
+                        <rect key="frame" x="0.0" y="64" width="320" height="504"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="66" sectionHeaderHeight="22" sectionFooterHeight="22" id="K2C-Ei-zZY">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="504"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <prototypes>
+                                    <tableViewCell userInteractionEnabled="NO" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="ChatPublicCell" id="mLm-vv-rBx" customClass="ContactsListCell" customModule="Chat">
+                                        <rect key="frame" x="0.0" y="22" width="320" height="66"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="mLm-vv-rBx" id="1OV-Gk-iEZ">
+                                            <rect key="frame" x="0.0" y="0.0" width="320" height="65.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="p6r-Ee-w9Z">
+                                                    <rect key="frame" x="10" y="28" width="10" height="10"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <color key="tintColor" red="0.0" green="0.7254902124" blue="0.41176474089999998" alpha="1" colorSpace="deviceRGB"/>
+                                                    <state key="normal" image="chat_user_small">
+                                                        <color key="titleColor" red="0.0" green="0.7254902124" blue="0.41176474089999998" alpha="1" colorSpace="deviceRGB"/>
+                                                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                                    </state>
+                                                </button>
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="profile-pic2.a" id="4gu-gm-zbG">
+                                                    <rect key="frame" x="27" y="3" width="26" height="26"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                </imageView>
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="profile-pic2.b" id="o3s-ov-tsz">
+                                                    <rect key="frame" x="59" y="19" width="26" height="26"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                </imageView>
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="profile-pic2.c" id="nd6-jV-woG">
+                                                    <rect key="frame" x="27" y="35" width="26" height="26"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                </imageView>
+                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="12:45 PM" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Dd1-uB-qkb">
+                                                    <rect key="frame" x="252" y="8" width="50" height="21"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="10"/>
+                                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="chat_arrow" id="waN-gn-UtM">
+                                                    <rect key="frame" x="305" y="14" width="6" height="11"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                </imageView>
+                                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="chat_public" id="tP1-gW-kqv">
+                                                    <rect key="frame" x="288" y="33" width="23" height="18"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                </imageView>
+                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Jonathan L, Matt G, Nicole" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="dm7-r2-WeC">
+                                                    <rect key="frame" x="99" y="8" width="148" height="21"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="I agree. I think our audience will definitely gravitate towards our" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Yrv-Xn-pxI">
+                                                    <rect key="frame" x="99" y="28" width="148" height="27"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="11"/>
+                                                    <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                        </tableViewCellContentView>
+                                        <connections>
+                                            <outlet property="btnGreenPublic" destination="p6r-Ee-w9Z" id="Q21-iL-Hue"/>
+                                            <outlet property="contactNamePublic" destination="dm7-r2-WeC" id="6Vw-MF-40a"/>
+                                            <outlet property="statusPublic" destination="Yrv-Xn-pxI" id="eGB-kt-C5q"/>
+                                        </connections>
+                                    </tableViewCell>
+                                    <tableViewCell userInteractionEnabled="NO" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="ChatPrivateCell" id="qOR-yY-ieU" customClass="ContactsListCell" customModule="Chat">
+                                        <rect key="frame" x="0.0" y="88" width="320" height="66"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="qOR-yY-ieU" id="hep-nT-8xd">
+                                            <rect key="frame" x="0.0" y="0.0" width="320" height="65.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="OEz-wQ-8oH">
+                                                    <rect key="frame" x="10" y="28" width="10" height="10"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <color key="tintColor" red="0.0" green="0.7254902124" blue="0.41176474089999998" alpha="1" colorSpace="deviceRGB"/>
+                                                    <state key="normal" image="chat_user_small">
+                                                        <color key="titleColor" red="0.0" green="0.7254902124" blue="0.41176474089999998" alpha="1" colorSpace="deviceRGB"/>
+                                                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                                    </state>
+                                                </button>
+                                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="chat_arrow" id="Gbr-or-Ei5">
+                                                    <rect key="frame" x="305" y="15" width="6" height="11"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                </imageView>
+                                                <imageView hidden="YES" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="chat_lock" id="oIs-fz-rlu">
+                                                    <rect key="frame" x="297" y="34" width="14" height="18"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                </imageView>
+                                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="profile-pic1" id="9Az-D5-FiZ">
+                                                    <rect key="frame" x="28" y="7" width="52" height="52"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                </imageView>
+                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Jonathan L @ jayL" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Xgc-Xu-0e6">
+                                                    <rect key="frame" x="99" y="5" width="148" height="21"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <accessibility key="accessibilityConfiguration">
+                                                        <accessibilityTraits key="traits" none="YES"/>
+                                                    </accessibility>
+                                                    <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="13"/>
+                                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Hey there! I am using KiboApp" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="rvk-SI-dvz">
+                                                    <rect key="frame" x="99" y="19" width="190" height="27"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="11"/>
+                                                    <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                        </tableViewCellContentView>
+                                        <connections>
+                                            <outlet property="ImgChatArrow" destination="Gbr-or-Ei5" id="sGz-G5-0rv"/>
+                                            <outlet property="btnGreenDot" destination="OEz-wQ-8oH" id="5et-Rg-gZc"/>
+                                            <outlet property="contactName" destination="Xgc-Xu-0e6" id="Fi8-O5-3Sw"/>
+                                            <outlet property="imgChatLock" destination="oIs-fz-rlu" id="CFg-Si-qBo"/>
+                                            <outlet property="profilePic" destination="9Az-D5-FiZ" id="ZRA-KI-F3w"/>
+                                            <outlet property="statusPrivate" destination="rvk-SI-dvz" id="HGh-PP-sJy"/>
+                                        </connections>
+                                    </tableViewCell>
+                                </prototypes>
+                                <connections>
+                                    <outlet property="dataSource" destination="v28-cs-4pq" id="Pph-K8-cal"/>
+                                    <outlet property="delegate" destination="v28-cs-4pq" id="H5j-2P-dVS"/>
+                                </connections>
+                            </tableView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <toolbarItems/>
+                    <navigationItem key="navigationItem" id="BO5-xM-pGS">
+                        <barButtonItem key="rightBarButtonItem" enabled="NO" image="project_plus" id="5c1-H2-nNE">
+                            <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                            <connections>
+                                <action selector="addContactTapped:" destination="v28-cs-4pq" id="DEt-SW-vGi"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <nil key="simulatedBottomBarMetrics"/>
+                    <connections>
+                        <outlet property="btnContactAdd" destination="5c1-H2-nNE" id="nMt-4T-j8k"/>
+                        <outlet property="btnForLogo" destination="KXr-Gf-PHk" id="TAa-wn-0ru"/>
+                        <outlet property="tblForChat" destination="K2C-Ei-zZY" id="zjL-KP-A8N"/>
+                        <outlet property="viewForTitle" destination="p8c-cs-iQq" id="eux-4v-zph"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="2jl-4s-gJf" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="Qc9-uo-He2" userLabel="Btn - Logo">
+                    <rect key="frame" x="0.0" y="0.0" width="26" height="26"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                    <state key="normal" image="navi_logo.png">
+                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                    </state>
+                </button>
+                <view hidden="YES" userInteractionEnabled="NO" contentMode="scaleToFill" id="vzT-nW-ju5" userLabel="View - Title">
+                    <rect key="frame" x="0.0" y="0.0" width="161" height="28"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <subviews>
+                        <segmentedControl hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="bar" id="Gp2-3a-Gfi">
+                            <rect key="frame" x="0.0" y="0.0" width="161" height="29"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <segments>
+                                <segment title="My Chats" enabled="NO"/>
+                                <segment title="All Chats"/>
+                            </segments>
+                            <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        </segmentedControl>
+                    </subviews>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                </view>
+            </objects>
+            <point key="canvasLocation" x="1292" y="480"/>
+        </scene>
     </scenes>
     <resources>
         <image name="audio_on" width="50" height="50"/>
@@ -2970,6 +3158,7 @@
         <image name="profile-pic4" width="52" height="52"/>
         <image name="project_plus" width="35" height="36"/>
         <image name="tabbar_chat" width="23" height="32"/>
+        <image name="tabbar_chatmain" width="23" height="36"/>
         <image name="tabbar_more" width="24" height="37"/>
         <image name="tabbar_note" width="23" height="33"/>
         <image name="tabbar_project" width="30" height="38"/>
@@ -2977,9 +3166,9 @@
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="Spe-dd-EXu"/>
-        <segue reference="cUz-4Q-FcK"/>
-        <segue reference="X5X-Qt-8lc"/>
+        <segue reference="Lsn-aA-q1J"/>
         <segue reference="8LM-cv-XXH"/>
+        <segue reference="X5X-Qt-8lc"/>
     </inferredMetricsTieBreakers>
     <color key="tintColor" red="0.054901960784313725" green="0.47843137254901963" blue="1" alpha="1" colorSpace="calibratedRGB"/>
 </document>

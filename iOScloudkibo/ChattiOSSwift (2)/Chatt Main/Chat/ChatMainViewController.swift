@@ -14,7 +14,7 @@ import AVFoundation
 import Foundation
 import AccountKit
 
-class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
+class ChatMainViewController:UIViewController,SocketClientDelegate,SocketConnecting
 {
     var accountKit: AKFAccountKit!
     var rt=NetworkingLibAlamofire()
@@ -453,9 +453,9 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
         
         
         self.navigationItem.titleView = viewForTitle
-        self.navigationItem.leftBarButtonItem = UIBarButtonItem(customView: btnForLogo)
+        ////////////////////self.navigationItem.leftBarButtonItem = UIBarButtonItem(customView: btnForLogo)
         //self.navigationItem.rightBarButtonItem = itemForSearch
-        self.navigationItem.rightBarButtonItem = btnContactAdd
+        //////////////////self.navigationItem.rightBarButtonItem = btnContactAdd
         self.tabBarController?.tabBar.tintColor = UIColor.greenColor()
         print("////////////////////// new class tokn \(AuthToken)", terminator: "")
         // fetchContacts(AuthToken)

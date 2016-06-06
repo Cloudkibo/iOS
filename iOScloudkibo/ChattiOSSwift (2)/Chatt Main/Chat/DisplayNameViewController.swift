@@ -9,8 +9,8 @@
 import UIKit
 import Alamofire
 import SwiftyJSON
-
 class DisplayNameViewController: UIViewController {
+    
     
     @IBOutlet weak var txtDisplayName: UITextField!
     var messageFrame = UIView()
@@ -47,9 +47,14 @@ class DisplayNameViewController: UIViewController {
     
     @IBAction func btnDonePressed(sender: AnyObject) {
         var displayName=txtDisplayName.text!
-        
+        if(accountKit!.currentAccessToken != nil)
+        {
+        header=["kibo-token":accountKit!.currentAccessToken!.tokenString]
+        }
         self.sendNameToServer(displayName)
     }
+
+
     
     func sendNameToServer(var displayName:String)
     {
@@ -65,83 +70,171 @@ class DisplayNameViewController: UIViewController {
             
             
             
+            socketObj.socket.emit("logClient", "contacting server to register user(if new)")
+            Alamofire.request(.GET,"\(urlToSendDisplayName)",headers:header,parameters:["display_name":displayName])
+                .validate(statusCode: 200..<300)
+                .response { (request, response, data, error) in
+                    
+                    
+                    socketObj.socket.emit("logClient","got server response ..")
+                    username=displayName
+                    displayname=displayName
+                    print("display name is \(displayName)")
+                    /*Alamofire.request(.GET,"\(urlToSendDisplayName)",headers:header,parameters:["display_name":"\(displayName)"]).validate(statusCode: 200..<300).responseJSON{response in
+                    */
+                    dispatch_async(dispatch_get_main_queue()) {
+                        // update some UI
+                        //remove progress wheel
+                        print("got server response")
+                        self.messageFrame.removeFromSuperview()
+                        //move to next screen
+                        //self.saveButton.enabled = true
+                    }
+                    
+                    print(data?.debugDescription)
+                    switch response!.statusCode {
+                        
+                    case 200:
+                        print("display name sent to server")
+                        firstTimeLogin=false
+                        socketObj.socket.emit("logClient", "display name \(displayName) sent to server successfully")
+                        print(data)
+                        
+                        let json = JSON(data!)
+                        
+                        print("JSON: \(json[0].debugDescription)")
+                        print("data: \(json.debugDescription)")
+                        
+                        
+                        //%%%%%*******************
+                        firstTimeLogin=false
+                        
+                        //////// %%%%%%%%%%%%%%***************self.performSegueWithIdentifier("fetchContactsSegue", sender: self)
+                        //self.performSegueWithIdentifier("fetchaddressbooksegue", sender: self)
+                        //*********************%%%%%%%%%%%%%%%%%%%%%%%%% commented new
+                        
+                        self.dismissViewControllerAnimated(false, completion: { () -> Void in
+                            
+                            print("logged in going to contactlist")
+                        })
+                        
+                        
+                        //self.performSegueWithIdentifier(<#T##identifier: String##String#>, sender: <#T##AnyObject?#>)
+                        
+                    default:
+                        print(error)
+                        socketObj.socket.emit("logClient","error in display name routine \(error)")
+                        
+                        
+                    }
+                    
+                    
+                    
+                    //when server sends response:
+                    
+            }
+        }
+        
+        
+    }
+    
+    
+    
+    /*
+    // MARK: - Navigation
+    
+    // In a storyboard-based application, you will often want to do a little preparation before navigation
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+    // Get the new view controller using segue.destinationViewController.
+    // Pass the selected object to the new view controller.
+    }
+    */
+}
+
+    /*func sendNameToServer(var displayName:String)
+    {
+        progressBarDisplayer("Contacting Server", true)
+        let priority = DISPATCH_QUEUE_PRIORITY_DEFAULT
+        
+        dispatch_async(dispatch_get_global_queue(priority, 0)) {
+            // do some task start to show progress wheel
+            
+            var urlToSendDisplayName=Constants.MainUrl+Constants.firstTimeLogin
+            var nn="{display_name:displayName}"
+            //var getUserDataURL=userDataUrl
+            
+            
+            
             
             Alamofire.request(.GET,"\(urlToSendDisplayName)",headers:header,parameters:["display_name":displayName])
                 .validate(statusCode: 200..<300)
                 .response { (request, response, data, error) in
                     
                     
-
-            username=displayName
-                displayname=displayName
-            print("display name is \(displayName)")
-            /*Alamofire.request(.GET,"\(urlToSendDisplayName)",headers:header,parameters:["display_name":"\(displayName)"]).validate(statusCode: 200..<300).responseJSON{response in
-                */
-                dispatch_async(dispatch_get_main_queue()) {
-                    // update some UI
-                    //remove progress wheel
-                    print("got server response")
-                    self.messageFrame.removeFromSuperview()
-                    //move to next screen
-                    //self.saveButton.enabled = true
-                }
                     
                     print(data?.debugDescription)
-                switch response!.statusCode {
                     
-                case 200:
-                    print("display name sent to server")
-                    firstTimeLogin=false
+                    print("display name is \(displayName)")
+                    /*Alamofire.request(.GET,"\(urlToSendDisplayName)",headers:header,parameters:["display_name":"\(displayName)"]).validate(statusCode: 200..<300).responseJSON{response in
+                    */
+                    dispatch_async(dispatch_get_main_queue()) {
+                        // update some UI
+                        //remove progress wheel
+                        print("got server response")
+                        self.messageFrame.removeFromSuperview()
+                        //move to next screen
+                        //self.saveButton.enabled = true
+                    }
+                    switch response!.statusCode {
+                        
+                        
+                        
+                    case 200:
+                        print("display name sent to server")
+                        firstTimeLogin=false
                         socketObj.socket.emit("logClient", "display name \(displayName) sent to server successfully")
                         print(data)
-                    
-                    let json = JSON(data!)
-                    
-                    print("JSON: \(json[0].debugDescription)")
-                    print("data: \(json.debugDescription)")
-                    
-
-                    //%%%%%*******************
+                        let json = JSON(data!)
+                        print("JSON: \(json)")
+                        //%%%%%*******************
                         firstTimeLogin=false
-                    
-                    //////// %%%%%%%%%%%%%%***************self.performSegueWithIdentifier("fetchContactsSegue", sender: self)
-                    //self.performSegueWithIdentifier("fetchaddressbooksegue", sender: self)
-                    //*********************%%%%%%%%%%%%%%%%%%%%%%%%% commented new
-                    
-                    self.dismissViewControllerAnimated(false, completion: { () -> Void in
                         
-                        print("logged in going to contactlist")
-                    })
-                    
-
-                    //self.performSegueWithIdentifier(<#T##identifier: String##String#>, sender: <#T##AnyObject?#>)
-                    
-                default:
-                    print(error)
-                    
-                
-                }
+                        //////// %%%%%%%%%%%%%%***************self.performSegueWithIdentifier("fetchContactsSegue", sender: self)
+                        //self.performSegueWithIdentifier("fetchaddressbooksegue", sender: self)
+                        //*********************%%%%%%%%%%%%%%%%%%%%%%%%% commented new
+                        
+                        self.dismissViewControllerAnimated(false, completion: { () -> Void in
+                            
+                            print("logged in going to contactlist")
+                        })
+                        
+                        
+                        //self.performSegueWithIdentifier(<#T##identifier: String##String#>, sender: <#T##AnyObject?#>)
+                        
+                    default:
+                        print(error)
+                        
+                        
+                    }
                     
                     
                     
                     //when server sends response:
-                   
-                }
+                    
             }
-            
-            
         }
         
-      
-        
-        /*
-        // MARK: - Navigation
-        
-        // In a storyboard-based application, you will often want to do a little preparation before navigation
-        override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-        }
-        */
         
 }
+*/
+}
+
+/*
+// MARK: - Navigation
+
+// In a storyboard-based application, you will often want to do a little preparation before navigation
+override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+// Get the new view controller using segue.destinationViewController.
+// Pass the selected object to the new view controller.
+}
+*/*/
