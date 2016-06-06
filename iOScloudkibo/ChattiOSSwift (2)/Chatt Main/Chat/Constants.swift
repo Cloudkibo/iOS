@@ -12,7 +12,7 @@ class Constants{
     //static let MainUrl="https://www.cloudkibo.com"
     static let MainUrl="https://api.cloudkibo.com"
 
-    static let firstTimeLogin="/users/newuser"
+    static let firstTimeLogin="/api/users/newuser"
     static let authentictionUrl="/auth/local/"
     static let bringUserChat="/api/userchat/"
     static let getCurrentUser="/api/users/me"

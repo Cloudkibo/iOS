@@ -45,6 +45,94 @@ class DisplayNameViewController: UIViewController {
         view.addSubview(messageFrame)
     }
     
+    
+    
+    func sendNameToServer(var displayName:String)
+    {
+        progressBarDisplayer("Contacting Server", true)
+        let priority = DISPATCH_QUEUE_PRIORITY_DEFAULT
+        
+        dispatch_async(dispatch_get_global_queue(priority, 0)) {
+            // do some task start to show progress wheel
+            
+            var urlToSendDisplayName=Constants.MainUrl+Constants.firstTimeLogin
+            var nn="{display_name:displayName}"
+            //var getUserDataURL=userDataUrl
+            
+            socketObj.socket.emit("logClient", "")
+            Alamofire.request(.GET,"\(urlToSendDisplayName)",headers:header,parameters:["display_name":displayName]).responseJSON{
+                response in
+                
+                //===========INITIALISE SOCKETIOCLIENT=========
+               // dispatch_async(dispatch_get_main_queue(), {
+                    
+                    //self.dismissViewControllerAnimated(true, completion: nil);
+                    /// self.performSegueWithIdentifier("loginSegue", sender: nil)
+                    
+                
+            
+          /*  Alamofire.request(.GET,"\(urlToSendDisplayName)",headers:header,parameters:["display_name":displayName])
+                .validate(statusCode: 200..<300)
+                .response { (request, response, data, error) in
+                    
+                    */
+                    
+                    print(response.data?.debugDescription)
+                    
+                    print("display name is \(displayName)")
+                    /*Alamofire.request(.GET,"\(urlToSendDisplayName)",headers:header,parameters:["display_name":"\(displayName)"]).validate(statusCode: 200..<300).responseJSON{response in
+                */
+                    dispatch_async(dispatch_get_main_queue()) {
+                        // update some UI
+                        //remove progress wheel
+                        print("got server response")
+                        self.messageFrame.removeFromSuperview()
+                        //move to next screen
+                        //self.saveButton.enabled = true
+                    }
+                    switch response.result {
+                        
+                        
+                        
+                    case .Success:
+                        print("display name sent to server")
+                        firstTimeLogin=false
+                        socketObj.socket.emit("logClient", "display name \(displayName) sent to server successfully")
+                        //print(response.data)
+                        //let json = JSON(data!)
+                        //print("JSON: \(json)")
+                        //%%%%%*******************
+                        firstTimeLogin=false
+                        
+                        //////// %%%%%%%%%%%%%%***************self.performSegueWithIdentifier("fetchContactsSegue", sender: self)
+                        //self.performSegueWithIdentifier("fetchaddressbooksegue", sender: self)
+                        //*********************%%%%%%%%%%%%%%%%%%%%%%%%% commented new
+                        
+                        self.dismissViewControllerAnimated(false, completion: { () -> Void in
+                            
+                            print("logged in going to contactlist")
+                        })
+                        
+                        
+                        //self.performSegueWithIdentifier(<#T##identifier: String##String#>, sender: <#T##AnyObject?#>)
+                        
+                   case .Failure(let error):
+                       print(error)
+                        socketObj.socket.emit("logClient","\(error)")
+                        
+                    
+                    
+                    
+                    
+                    //when server sends response:
+                    
+            }
+        
+        
+        
+    }
+        }
+    }
     @IBAction func btnDonePressed(sender: AnyObject) {
         var displayName=txtDisplayName.text!
         if(accountKit!.currentAccessToken != nil)
@@ -53,9 +141,9 @@ class DisplayNameViewController: UIViewController {
         }
         self.sendNameToServer(displayName)
     }
+}
 
-
-    
+    /*
     func sendNameToServer(var displayName:String)
     {
         progressBarDisplayer("Contacting Server", true)
@@ -138,7 +226,7 @@ class DisplayNameViewController: UIViewController {
         
     }
     
-    
+    */
     
     /*
     // MARK: - Navigation
@@ -149,85 +237,8 @@ class DisplayNameViewController: UIViewController {
     // Pass the selected object to the new view controller.
     }
     */
-}
 
-    /*func sendNameToServer(var displayName:String)
-    {
-        progressBarDisplayer("Contacting Server", true)
-        let priority = DISPATCH_QUEUE_PRIORITY_DEFAULT
-        
-        dispatch_async(dispatch_get_global_queue(priority, 0)) {
-            // do some task start to show progress wheel
-            
-            var urlToSendDisplayName=Constants.MainUrl+Constants.firstTimeLogin
-            var nn="{display_name:displayName}"
-            //var getUserDataURL=userDataUrl
-            
-            
-            
-            
-            Alamofire.request(.GET,"\(urlToSendDisplayName)",headers:header,parameters:["display_name":displayName])
-                .validate(statusCode: 200..<300)
-                .response { (request, response, data, error) in
-                    
-                    
-                    
-                    print(data?.debugDescription)
-                    
-                    print("display name is \(displayName)")
-                    /*Alamofire.request(.GET,"\(urlToSendDisplayName)",headers:header,parameters:["display_name":"\(displayName)"]).validate(statusCode: 200..<300).responseJSON{response in
-                    */
-                    dispatch_async(dispatch_get_main_queue()) {
-                        // update some UI
-                        //remove progress wheel
-                        print("got server response")
-                        self.messageFrame.removeFromSuperview()
-                        //move to next screen
-                        //self.saveButton.enabled = true
-                    }
-                    switch response!.statusCode {
-                        
-                        
-                        
-                    case 200:
-                        print("display name sent to server")
-                        firstTimeLogin=false
-                        socketObj.socket.emit("logClient", "display name \(displayName) sent to server successfully")
-                        print(data)
-                        let json = JSON(data!)
-                        print("JSON: \(json)")
-                        //%%%%%*******************
-                        firstTimeLogin=false
-                        
-                        //////// %%%%%%%%%%%%%%***************self.performSegueWithIdentifier("fetchContactsSegue", sender: self)
-                        //self.performSegueWithIdentifier("fetchaddressbooksegue", sender: self)
-                        //*********************%%%%%%%%%%%%%%%%%%%%%%%%% commented new
-                        
-                        self.dismissViewControllerAnimated(false, completion: { () -> Void in
-                            
-                            print("logged in going to contactlist")
-                        })
-                        
-                        
-                        //self.performSegueWithIdentifier(<#T##identifier: String##String#>, sender: <#T##AnyObject?#>)
-                        
-                    default:
-                        print(error)
-                        
-                        
-                    }
-                    
-                    
-                    
-                    //when server sends response:
-                    
-            }
-        }
-        
-        
-}
-*/
-}
+
 
 /*
 // MARK: - Navigation
@@ -237,4 +248,6 @@ override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
 // Get the new view controller using segue.destinationViewController.
 // Pass the selected object to the new view controller.
 }
-*/*/
+*/
+
+*/

@@ -343,26 +343,9 @@
                         <outlet property="btnForLogo" destination="Xn1-0z-MP0" id="4Hf-r9-mkk"/>
                         <outlet property="itemForSearch" destination="vCW-mn-gCM" id="AeX-LV-PaM"/>
                         <outlet property="tblForNotes" destination="JA3-KT-r6M" id="rDH-A6-Bmi"/>
-                        <outlet property="viewForTitle" destination="MMO-hM-amq" id="ew8-kt-dnW"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ECF-7i-oCj" userLabel="First Responder" sceneMemberID="firstResponder"/>
-                <view contentMode="scaleToFill" id="MMO-hM-amq" userLabel="View - Title">
-                    <rect key="frame" x="0.0" y="0.0" width="161" height="28"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    <subviews>
-                        <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="bar" selectedSegmentIndex="0" id="2dd-SP-Tjo">
-                            <rect key="frame" x="0.0" y="0.0" width="161" height="29"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            <segments>
-                                <segment title="My Notes"/>
-                                <segment title="All Notes"/>
-                            </segments>
-                            <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        </segmentedControl>
-                    </subviews>
-                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                </view>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="Xn1-0z-MP0" userLabel="Btn - Logo">
                     <rect key="frame" x="0.0" y="0.0" width="26" height="26"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -3166,9 +3149,9 @@
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="Spe-dd-EXu"/>
-        <segue reference="Lsn-aA-q1J"/>
-        <segue reference="8LM-cv-XXH"/>
         <segue reference="X5X-Qt-8lc"/>
+        <segue reference="8LM-cv-XXH"/>
+        <segue reference="cUz-4Q-FcK"/>
     </inferredMetricsTieBreakers>
     <color key="tintColor" red="0.054901960784313725" green="0.47843137254901963" blue="1" alpha="1" colorSpace="calibratedRGB"/>
 </document>
