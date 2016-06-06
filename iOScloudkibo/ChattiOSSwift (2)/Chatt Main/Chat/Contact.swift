@@ -14,7 +14,7 @@ import SwiftyJSON
 class iOSContact{
     
     var delegate:InviteContactsDelegate!
-    var contacts = [CNContact]()
+    //var contacts = [CNContact]()
     var keys:[String]
     var notAvailableContacts=[String]()
     //// var emails=[String]()
@@ -27,12 +27,13 @@ class iOSContact{
     func fetch(completion: (result:[String])->()){
         socketObj.socket.emit("logClient","\(username) fetching contacts from iphone contactlist")
         var emails=[String]()
-        self.contacts.removeAll()
+        contacts.removeAll()
         emailList.removeAll()
         nameList.removeAll()
         phonesList.removeAll()
         notAvailableEmails.removeAll()
         notAvailableContacts.removeAll()
+        
         print("inside fetchhhhh")
         let contactStore = CNContactStore()
         
@@ -40,7 +41,7 @@ class iOSContact{
         do {
             /////let contactStore = AppDelegate.getAppDelegate().contactStore
             try contactStore.enumerateContactsWithFetchRequest(CNContactFetchRequest(keysToFetch: keys)) { (contact, pointer) -> Void in
-                self.contacts.append(contact)
+                contacts.append(contact)
                 
             }
             
@@ -49,15 +50,15 @@ class iOSContact{
             // dispatch_async(dispatch_get_main_queue(), { () -> Void in
             
             socketObj.socket.emit("logClient","\(username) received \(contacts.count) contacts from iphone contactlist")
-            for(var i=0;i<self.contacts.count;i++){
+            for(var i=0;i<contacts.count;i++){
                 
                 
                 do{
                     
-                    if(try self.contacts[i].givenName != "")
+                    if(try contacts[i].givenName != "")
                     {
-                        nameList.append(self.contacts[i].givenName)
-                        print(self.contacts[i].givenName)
+                        nameList.append(contacts[i].givenName)
+                        print(contacts[i].givenName)
                     }
                     
                     
@@ -71,7 +72,7 @@ class iOSContact{
                 
                
                 do{
-                    if let phone = try self.contacts[i].phoneNumbers.first?.value as! CNPhoneNumber!
+                    if let phone = try contacts[i].phoneNumbers.first?.value as! CNPhoneNumber!
                     {
                         
                     }
@@ -91,7 +92,7 @@ class iOSContact{
                 }*/
                 
                 do{
-                    let em = try self.contacts[i].emailAddresses.first
+                    let em = try contacts[i].emailAddresses.first
                     if(em != nil && em != "")
                     {
                         print(em?.label)
@@ -181,9 +182,20 @@ class iOSContact{
                 self.notAvailableContacts.append(NotavailableContactsEmails![i].debugDescription)
                 print("----------- \(self.notAvailableContacts[i].debugDescription)")
             }
+                
+                for var i=0;i<availableContactsEmails.count;i++
+                {
+                    // self.notAvailableContacts[i]=NotavailableContactsEmails![i].rawString()!
+                    availableEmailsList.append(availableContactsEmails[i].debugDescription)
+                   // print("----------- \(self.notAvailableContacts[i].debugDescription)")
+                }
+                
+                
             print(NotavailableContactsEmails!)
             print("**************** \(self.notAvailableContacts)")
             completion(result: self.notAvailableContacts)
+                
+                self.delegate?.receivedContactsUpdateUI()
         }
             else
             {
@@ -261,7 +273,7 @@ class iOSContact{
 
 protocol InviteContactsDelegate:class
 {
-    func receivedContactsUpdateUI(message:String,username:String);
+    func receivedContactsUpdateUI();
 }
 
 /*

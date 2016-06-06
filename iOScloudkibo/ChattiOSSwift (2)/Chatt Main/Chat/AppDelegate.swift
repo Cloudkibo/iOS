@@ -21,6 +21,8 @@ var emailList=[String]()
 var nameList=[String]()
 var phonesList=[String]()
 var notAvailableEmails=[String]()
+var contacts = [CNContact]()
+var availableEmailsList=[String]()
 
 var isFileReceived=false
 var meetingStarted=false

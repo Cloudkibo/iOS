@@ -7,9 +7,11 @@
 //
 
 import UIKit
+import SQLite
 
-class NotesViewController: UIViewController {
+class NotesViewController: UIViewController,InviteContactsDelegate {
 
+    var delegate:InviteContactsDelegate!
     @IBOutlet var viewForTitle : UIView!
     @IBOutlet var ctrlForChat : UISegmentedControl!
     @IBOutlet var btnForLogo : UIButton!
@@ -24,6 +26,7 @@ class NotesViewController: UIViewController {
         // Custom initialization
     }
 
+    
     func progressBarDisplayer(msg:String, _ indicator:Bool ) {
         print(msg)
         strLabel = UILabel(frame: CGRect(x: 50, y: 0, width: 250, height: 50))
@@ -41,10 +44,15 @@ class NotesViewController: UIViewController {
         messageFrame.addSubview(strLabel)
         view.addSubview(messageFrame)
     }
+    
+    override func viewWillAppear(animated: Bool) {
+        
+        tblForNotes.reloadData()
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        contactsList.delegate=self
         self.navigationItem.titleView = viewForTitle
         self.navigationItem.leftBarButtonItem = UIBarButtonItem(customView: btnForLogo)
         self.navigationItem.rightBarButtonItem = itemForSearch
@@ -99,7 +107,7 @@ class NotesViewController: UIViewController {
     }
     
     func tableView(tableView: UITableView!, numberOfRowsInSection section: Int) -> Int {
-        return nameList.count
+        return contacts.count
     }
     
     func numberOfSectionsInTableView(tableView: UITableView!) -> Int {
@@ -109,11 +117,35 @@ class NotesViewController: UIViewController {
     func tableView(tableView: UITableView!, cellForRowAtIndexPath indexPath: NSIndexPath!) -> UITableViewCell! {
        //if (indexPath.row%2 == 0){
             //var cellPrivate = tblForNotes.dequeueReusableCellWithIdentifier("NotePrivateCell")! as UITableViewCell
+        
+        let email = Expression<String>("email")
+     
+        
+
+            let tbl_contactslist = sqliteDB.contactslists
             var cellPrivate = tblForNotes.dequeueReusableCellWithIdentifier("NotePrivateCell")! as! AllContactsCell
             print("namelist count is \(nameList.count)")
-            cellPrivate.labelNamePrivate.text=nameList[indexPath.row]
-            
-            
+            //cellPrivate.labelNamePrivate.text=nameList[indexPath.row]
+        
+            cellPrivate.labelStatusPrivate.hidden=true
+        
+            cellPrivate.labelNamePrivate.text=contacts[indexPath.row].givenName
+        do{
+            let em = try contacts[indexPath.row].emailAddresses.first
+            if(em != nil && em != "")
+            {
+                for(var i=0;i<availableEmailsList.count;i++)
+                {print(em!.value as! String)
+                    print(availableEmailsList[i])
+                    
+                    if(em!.value as! String == availableEmailsList[i])
+                    {
+                        cellPrivate.labelStatusPrivate.hidden=false
+                    }
+                }
+            }
+        }
+        
             return cellPrivate
             /*
             let cellPublic=tblForChat.dequeueReusableCellWithIdentifier("ChatPublicCell") as! ContactsListCell
@@ -151,4 +183,8 @@ class NotesViewController: UIViewController {
     }
     */
 
+    func receivedContactsUpdateUI() {
+        
+        tblForNotes.reloadData()
+    }
 }
