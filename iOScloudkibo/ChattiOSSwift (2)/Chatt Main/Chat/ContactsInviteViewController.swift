@@ -54,7 +54,7 @@ class ContactsInviteViewController: UIViewController,UITableViewDelegate,UITable
             }
             
             //emailList = result
-            contactsList.searchContactsByEmail(emailList){ (result2) -> () in
+            contactsList.searchContactsByPhone(emailList){ (result2) -> () in
                 
                 for r2 in result2
                 {

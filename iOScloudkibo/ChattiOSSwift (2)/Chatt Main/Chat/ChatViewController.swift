@@ -725,8 +725,9 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
                     
                     //emailList = result
                     socketObj.socket.emit("logClient", "getting contacts from cloudkibo server")
-                    contactsList.searchContactsByEmail(emailList){ (result2) -> () in
+                    ///// %%%%%%%%%%%%%%%%%% contactsList.searchContactsByEmail(emailList){ (result2) -> () in
                         
+                    contactsList.searchContactsByPhone(emailList){ (result2) -> () in
                         
                         
                         
@@ -1317,6 +1318,7 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
                         do {
                             if(contactsJsonObj[i]["contactid"]["username"].string != nil)
                             {
+                                print("inside username hereeeeeee")
                         let rowid = try sqliteDB.db.run(tbl_contactslists.insert(contactid<-contactsJsonObj[i]["contactid"]["_id"].string!,
                             detailsshared<-contactsJsonObj[i]["detailsshared"].string!,
                             
@@ -1338,7 +1340,7 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
                             // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%new commented june
                         self.ContactsObjectss.append(contactsJsonObj[i]["contactid"])
                             // ****%%%%% database changes new june
-                            self.ContactNames.append(contactsJsonObj[i]["contactid"]["firstname"].string!+" "+contactsJsonObj[i]["contactid"]["lastname"].string!)
+                            self.ContactNames.append(contactsJsonObj[i]["contactid"]["display_name"].string!)
                             
                         //self.ContactNames.append(contactsJsonObj[i]["contactid"]["firstname"].string!+" "+contactsJsonObj[i]["contactid"]["lastname"].string!)
                         self.ContactUsernames.append(contactsJsonObj[i]["contactid"]["username"].string!)
@@ -1354,15 +1356,18 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
                             }
                             else
                             {
+                                print("inside displayname hereeeeeee")
                                 let rowid = try sqliteDB.db.run(tbl_contactslists.insert(contactid<-contactsJsonObj[i]["contactid"]["_id"].string!,
                                     detailsshared<-contactsJsonObj[i]["detailsshared"].string!,
                                     
                                     unreadMessage<-contactsJsonObj[i]["unreadMessage"].boolValue,
                                     
                                     userid<-contactsJsonObj[i]["userid"].string!,
-                                    firstname<-contactsJsonObj[i]["contactid"]["firstname"].string!,
-                                    lastname<-contactsJsonObj[i]["contactid"]["lastname"].string!,
-                                    email<-contactsJsonObj[i]["contactid"]["email"].string!,
+                                    firstname<-contactsJsonObj[i]["contactid"]["display_name"].string!,
+                                    lastname<-"",
+
+                                    //lastname<-contactsJsonObj[i]["contactid"]["lastname"].string!,
+                                    email<-"@",
                                     phone<-contactsJsonObj[i]["contactid"]["phone"].string!,
                                     username<-contactsJsonObj[i]["contactid"]["display_name"].string!,
                                     status<-contactsJsonObj[i]["contactid"]["status"].string!)
@@ -1375,16 +1380,16 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
                                 // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%new commented june
                                 self.ContactsObjectss.append(contactsJsonObj[i]["contactid"])
                                 // ****%%%%% database changes new june
-                                self.ContactNames.append(contactsJsonObj[i]["contactid"]["firstname"].string!+" "+contactsJsonObj[i]["contactid"]["lastname"].string!)
+                                self.ContactNames.append(contactsJsonObj[i]["contactid"]["display_name"].string!)
                                 
                                 //self.ContactNames.append(contactsJsonObj[i]["contactid"]["firstname"].string!+" "+contactsJsonObj[i]["contactid"]["lastname"].string!)
                                 self.ContactUsernames.append(contactsJsonObj[i]["contactid"]["display_name"].string!)
                                 self.ContactIDs.append(contactsJsonObj[i]["contactid"]["_id"].string!)
-                                self.ContactFirstname.append(contactsJsonObj[i]["contactid"]["firstname"].string!)
-                                self.ContactLastNAme.append(contactsJsonObj[i]["contactid"]["lastname"].string!)
+                                self.ContactFirstname.append(contactsJsonObj[i]["contactid"]["display_name"].string!)
+                                self.ContactLastNAme.append("")
                                 self.ContactStatus.append(contactsJsonObj[i]["contactid"]["status"].string!)
                                 self.ContactsPhone.append(contactsJsonObj[i]["contactid"]["phone"].string!)
-                                self.ContactsEmail.append(contactsJsonObj[i]["contactid"]["email"].string!)
+                                self.ContactsEmail.append("@")
                                 self.ContactOnlineStatus.append(0)
                                 
                                 print("inserted id: \(rowid)")

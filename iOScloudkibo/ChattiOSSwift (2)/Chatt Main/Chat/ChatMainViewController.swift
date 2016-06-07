@@ -841,10 +841,12 @@ class ChatMainViewController:UIViewController,SocketClientDelegate,SocketConnect
                                         tbl_accounts.delete()
                                         do {
                                             let rowid = try sqliteDB.db.run(tbl_accounts.insert(_id<-json["_id"].string!,
-                                                firstname<-json["firstname"].string!,
-                                                lastname<-json["lastname"].string!,
+                                                //firstname<-json["firstname"].string!,
+                                                firstname<-json["dislay_name"].string!,
+                                                lastname<-"",
+                                                //lastname<-json["lastname"].string!,
                                                 email<-json["email"].string!,
-                                                username1<-json["username"].string!,
+                                                username1<-json["display_name"].string!,
                                                 status<-json["status"].string!,
                                                 phone<-json["phone"].string!))
                                             print("inserted id: \(rowid)")
@@ -1263,6 +1265,9 @@ class ChatMainViewController:UIViewController,SocketClientDelegate,SocketConnect
                     {
                         print("inside for loop")
                         do {
+                            
+                            if(contactsJsonObj[i]["contactid"]["username"].string != nil)
+                            {
                         let rowid = try sqliteDB.db.run(tbl_contactslists.insert(contactid<-contactsJsonObj[i]["contactid"]["_id"].string!,
                             detailsshared<-contactsJsonObj[i]["detailsshared"].string!,
                             
@@ -1296,6 +1301,53 @@ class ChatMainViewController:UIViewController,SocketClientDelegate,SocketConnect
                         self.ContactOnlineStatus.append(0)
                         
                         print("inserted id: \(rowid)")
+                        }
+                            
+                            else
+                            {
+                                let rowid = try sqliteDB.db.run(tbl_contactslists.insert(contactid<-contactsJsonObj[i]["contactid"]["_id"].string!,
+                                    detailsshared<-contactsJsonObj[i]["detailsshared"].string!,
+                                    
+                                    unreadMessage<-contactsJsonObj[i]["unreadMessage"].boolValue,
+                                    
+                                    userid<-contactsJsonObj[i]["userid"].string!,
+                                    //firstname<-contactsJsonObj[i]["contactid"]["firstname"].string!,
+                                    firstname<-contactsJsonObj[i]["contactid"]["display_name"].string!,
+                                    //lastname<-contactsJsonObj[i]["contactid"]["lastname"].string!,
+                                    email<-contactsJsonObj[i]["contactid"]["email"].string!,
+                                    phone<-contactsJsonObj[i]["contactid"]["phone"].string!,
+                                     username<-contactsJsonObj[i]["contactid"]["display_name"].string!,
+                                    //username<-contactsJsonObj[i]["contactid"]["username"].string!,
+                                    status<-contactsJsonObj[i]["contactid"]["status"].string!)
+                                )
+                                print("data inserttt")
+                                //=========this is done in fetching from sqlite not here====
+                                
+                                
+                                // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%new commented june
+                                self.ContactsObjectss.append(contactsJsonObj[i]["contactid"])
+                                // ****%%%%% database changes new june
+                                self.ContactNames.append(contactsJsonObj[i]["contactid"]["firstname"].string!+" "+contactsJsonObj[i]["contactid"]["lastname"].string!)
+                                
+                                //self.ContactNames.append(contactsJsonObj[i]["contactid"]["firstname"].string!+" "+contactsJsonObj[i]["contactid"]["lastname"].string!)
+                                self.ContactUsernames.append(contactsJsonObj[i]["contactid"]["display_name"].string!)
+                                self.ContactIDs.append(contactsJsonObj[i]["contactid"]["_id"].string!)
+                                self.ContactFirstname.append(contactsJsonObj[i]["contactid"]["display_name"].string!)
+                                self.ContactLastNAme.append("")
+                                
+                                
+                                
+                                //self.ContactFirstname.append(contactsJsonObj[i]["contactid"]["firstname"].string!)
+                                //self.ContactLastNAme.append(contactsJsonObj[i]["contactid"]["lastname"].string!)
+                                
+                                self.ContactStatus.append(contactsJsonObj[i]["contactid"]["status"].string!)
+                                self.ContactsPhone.append(contactsJsonObj[i]["contactid"]["phone"].string!)
+                                self.ContactsEmail.append(contactsJsonObj[i]["contactid"]["email"].string!)
+                                self.ContactOnlineStatus.append(0)
+                                
+                                
+
+                            }
                         self.tblForChat.reloadData()
                             
                     } catch {

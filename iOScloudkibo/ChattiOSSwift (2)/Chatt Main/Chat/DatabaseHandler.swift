@@ -70,12 +70,13 @@ class DatabaseHandler:NSObject{
         self.accounts = Table("accounts")
         do{
             try db.run(accounts.create(ifNotExists: true) { t in     // CREATE TABLE "accounts" (
-                t.column(email, unique: true,check: email.like("%@%"))
+                t.column(email,check: email.like("%@%"))
                 t.column(firstname)
                 t.column(lastname)
                 t.column(_id)
                 t.column(status)
-                t.column(username, unique: true)
+                t.column(username)
+                ///t.column(username, unique: true)
                 t.column(phone, unique: true)
 
                 
@@ -131,8 +132,8 @@ class DatabaseHandler:NSObject{
             t.column(userid) //id of friend
             t.column(firstname)
             t.column(lastname)
-            t.column(email, unique: true, check: email.like("%@%"))
-            t.column(phone)
+            t.column(email,check: email.like("%@%"))
+            t.column(phone,unique: true)
             t.column(username)
             t.column(status)
             

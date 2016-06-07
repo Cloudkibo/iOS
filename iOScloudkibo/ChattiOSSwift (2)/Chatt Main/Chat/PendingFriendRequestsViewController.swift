@@ -82,7 +82,7 @@ class PendingFriendRequestsViewController: UIViewController {
                 
                 print("inserted id: \(rowid)")
                 self.ContactsObjectss.append(freindReqJSON[i]["contactid"])
-                self.ContactNames.append(freindReqJSON[i]["contactid"]["firstname"].string!+" "+freindReqJSON[i]["contactid"]["lastname"].string!)
+                self.ContactNames.append(freindReqJSON[i]["contactid"]["display_name"].string!)
                 self.ContactUsernames.append(freindReqJSON[i]["contactid"]["username"].string!)
                 self.ContactIDs.append(freindReqJSON[i]["contactid"]["_id"].string!)
                 self.ContactFirstNAme.append(freindReqJSON[i]["contactid"]["firstname"].string!)

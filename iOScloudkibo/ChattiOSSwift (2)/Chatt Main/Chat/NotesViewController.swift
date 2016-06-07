@@ -131,7 +131,7 @@ class NotesViewController: UIViewController,InviteContactsDelegate {
         
             cellPrivate.labelNamePrivate.text=contacts[indexPath.row].givenName
         do{
-            let em = try contacts[indexPath.row].emailAddresses.first
+            let em = try contacts[indexPath.row].phoneNumbers 
             if(em != nil && em != "")
             {
                 for(var i=0;i<availableEmailsList.count;i++)
