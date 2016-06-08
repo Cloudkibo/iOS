@@ -219,6 +219,14 @@ class NotesViewController: UIViewController,InviteContactsDelegate {
             
             if let viewController = contactsDetailController {
                 contactsDetailController?.contactIndex=tblForNotes.indexPathForSelectedRow!.row
+                var cell=tblForNotes.cellForRowAtIndexPath(tblForNotes.indexPathForSelectedRow!) as! AllContactsCell
+                if(cell.labelStatusPrivate.hidden==false)
+                {
+                    contactsDetailController?.isKiboContact = true
+                    //print("hidden falseeeeeee")
+                }
+                
+                
             }
         }
         

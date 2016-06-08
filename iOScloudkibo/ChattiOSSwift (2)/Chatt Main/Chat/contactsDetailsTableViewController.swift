@@ -11,6 +11,7 @@ import Contacts
 
 class contactsDetailsTableViewController: UITableViewController {
     var contactIndex:Int=1
+    var isKiboContact=false
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -36,7 +37,7 @@ class contactsDetailsTableViewController: UITableViewController {
 
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        return 3
+        return 6
     }
 
     
@@ -97,6 +98,13 @@ class contactsDetailsTableViewController: UITableViewController {
                 break
             }
         }
+        }
+        if(indexPath.row==3 && isKiboContact==true)
+        {
+            cell = tableView.dequeueReusableCellWithIdentifier("Status_Cell", forIndexPath: indexPath) as! AllContactsCell
+            cell.hidden=false
+            cell.lbl_status.text="Hey there! I am using KiboApp"
+            
         }
         
         //cell.lbl_phone

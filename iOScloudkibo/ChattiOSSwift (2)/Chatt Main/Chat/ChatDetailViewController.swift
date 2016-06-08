@@ -183,7 +183,9 @@ class ChatDetailViewController: UIViewController{
         print("inside mark funcc", terminator: "")
         var removeChatHistoryURL=Constants.MainUrl+Constants.removeChatHistory
         
-        Alamofire.request(.POST,"\(removeChatHistoryURL)",headers:header,parameters: ["username":"\(selectedContact)"]).validate(statusCode: 200..<300).response{
+        //Alamofire.request(.POST,"\(removeChatHistoryURL)",headers:header,parameters: ["username":"\(selectedContact)"]).validate(statusCode: 200..<300).response{
+        Alamofire.request(.POST,"\(removeChatHistoryURL)",headers:header,parameters: ["phone":"\(selectedContact)"]).validate(statusCode: 200..<300).response{
+            
                 request1, response1, data1, error1 in
                 
                 //===========INITIALISE SOCKETIOCLIENT=========

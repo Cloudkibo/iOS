@@ -345,6 +345,7 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
         if(KeychainWrapper.stringForKey("username") != nil)
         {print("delegate added in chat")
             currrentUsernameRetrieved=KeychainWrapper.stringForKey("username")!
+            print("currrentUsernameRetrieved is \(currrentUsernameRetrieved)")
             if(socketObj != nil){
                 socketObj.delegate=self
             }
@@ -496,7 +497,7 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
                 {
                     for(var j=0;j<self.ContactUsernames.count;j++)
                     {
-                        if self.ContactUsernames[j]==onlineUsers[i]["username"].string!
+                        if self.ContactIDs[j]==onlineUsers[i]["_id"].string!
                         {
                             //found online contact,s username
                             print("user found onlineeeee \(self.ContactUsernames[j])")
@@ -525,7 +526,7 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
                 {
                     for(var j=0;j<self.ContactUsernames.count;j++)
                     {
-                        if self.ContactUsernames[j]==offlineUsers[i]["username"].string!
+                        if self.ContactUsernames[j]==offlineUsers[i]["phone"].string!
                         {
                             //found online contact,s username
                             print("user found offlinee \(self.ContactUsernames[j])")
@@ -778,14 +779,20 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
                                     //var json=JSON(data1)
                                     //KeychainWrapper.setData(data1!, forKey: "loggedUserObj")
                                     //loggedUserObj=json(loggedUserObj)
-                                    if let u = json["username"].string
+                                   
+                                   // if let u = json["phone"].string
+                                   // {
+                                        username=json["phone"].string
+                                    ////}
+                                    
+                                    /* if let u = json["username"].string
                                     {
                                     username=u
                                     }
                                     else
                                     {
                                     username=json["display_name"].string!
-                                    }
+                                    }*/
                                     loggedUserObj=json
                                     //stringByResolvingSymlinksInPath
                                     
@@ -806,7 +813,7 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
                                        if let uu = json["username"].string
                                        {
                                         do{
-                                            try KeychainWrapper.setString(json["username"].string!, forKey: "username")
+                                            try KeychainWrapper.setString(json["phone"].string!, forKey: "username")
                                             try KeychainWrapper.setString(json["firstname"].string!+" "+json["lastname"].string!, forKey: "loggedFullName")
                                             try KeychainWrapper.setString(json["phone"].string!, forKey: "loggedPhone")
                                             try KeychainWrapper.setString(json["email"].string!, forKey: "loggedEmail")
@@ -826,7 +833,8 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
                                         else
                                        {
                                         do{
-                                            try KeychainWrapper.setString(json["display_name"].string!, forKey: "username")
+                                             try KeychainWrapper.setString(json["phone"].string!, forKey: "username")
+                                           /// try KeychainWrapper.setString(json["display_name"].string!, forKey: "username")
                                             try KeychainWrapper.setString(json["display_name"].string!, forKey: "loggedFullName")
                                             try KeychainWrapper.setString(json["phone"].string!, forKey: "loggedPhone")
                                             try KeychainWrapper.setString("", forKey: "loggedEmail")
@@ -885,7 +893,7 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
                                                 firstname<-json["firstname"].string!,
                                                 lastname<-json["lastname"].string!,
                                                 email<-json["email"].string!,
-                                                username1<-json["username"].string!,
+                                                username1<-json["phone"].string!,
                                                 status<-json["status"].string!,
                                                 phone<-json["phone"].string!))
                                             print("inserted id: \(rowid)")
@@ -896,7 +904,7 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
                                                     firstname<-json["display_name"].string!,
                                                     lastname<-"",
                                                     email<-"",
-                                                    username1<-json["display_name"].string!,
+                                                    username1<-json["phone"].string!,
                                                     status<-json["status"].string!,
                                                     phone<-json["phone"].string!))
                                                 print("inserted id: \(rowid)")
@@ -1154,6 +1162,7 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
             //ContactsObjectss.append(tblContacts[contactid])
             ContactNames.append(tblContacts[firstname]+" "+tblContacts[lastname])
             ContactUsernames.append(tblContacts[username])
+            print("ContactUsernames is \(tblContacts[username])")
             // %%%%%%%%%%%%%%%%************ CHAT BUG ID %%%%%%%%%%%
             ContactIDs.append(tblContacts[contactid])
            // ContactIDs.append(tblContacts[userid])
@@ -1340,10 +1349,10 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
                             // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%new commented june
                         self.ContactsObjectss.append(contactsJsonObj[i]["contactid"])
                             // ****%%%%% database changes new june
-                            self.ContactNames.append(contactsJsonObj[i]["contactid"]["display_name"].string!)
+                            self.ContactNames.append(contactsJsonObj[i]["contactid"]["phone"].string!)
                             
                         //self.ContactNames.append(contactsJsonObj[i]["contactid"]["firstname"].string!+" "+contactsJsonObj[i]["contactid"]["lastname"].string!)
-                        self.ContactUsernames.append(contactsJsonObj[i]["contactid"]["username"].string!)
+                        self.ContactUsernames.append(contactsJsonObj[i]["contactid"]["phone"].string!)
                         self.ContactIDs.append(contactsJsonObj[i]["contactid"]["_id"].string!)
                         self.ContactFirstname.append(contactsJsonObj[i]["contactid"]["firstname"].string!)
                         self.ContactLastNAme.append(contactsJsonObj[i]["contactid"]["lastname"].string!)
@@ -1357,6 +1366,8 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
                             else
                             {
                                 print("inside displayname hereeeeeee")
+                                
+                                
                                 let rowid = try sqliteDB.db.run(tbl_contactslists.insert(contactid<-contactsJsonObj[i]["contactid"]["_id"].string!,
                                     detailsshared<-contactsJsonObj[i]["detailsshared"].string!,
                                     
@@ -1369,7 +1380,7 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
                                     //lastname<-contactsJsonObj[i]["contactid"]["lastname"].string!,
                                     email<-"@",
                                     phone<-contactsJsonObj[i]["contactid"]["phone"].string!,
-                                    username<-contactsJsonObj[i]["contactid"]["display_name"].string!,
+                                    username<-contactsJsonObj[i]["contactid"]["phone"].string!,
                                     status<-contactsJsonObj[i]["contactid"]["status"].string!)
                                 )
                                 print("data inserttt")
@@ -1380,10 +1391,12 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
                                 // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%new commented june
                                 self.ContactsObjectss.append(contactsJsonObj[i]["contactid"])
                                 // ****%%%%% database changes new june
-                                self.ContactNames.append(contactsJsonObj[i]["contactid"]["display_name"].string!)
+                                self.ContactNames.append(contactsJsonObj[i]["contactid"]["phone"].string!)
                                 
                                 //self.ContactNames.append(contactsJsonObj[i]["contactid"]["firstname"].string!+" "+contactsJsonObj[i]["contactid"]["lastname"].string!)
-                                self.ContactUsernames.append(contactsJsonObj[i]["contactid"]["display_name"].string!)
+                                //self.ContactUsernames.append(contactsJsonObj[i]["contactid"]["display_name"].string!)
+                                self.ContactUsernames.append(contactsJsonObj[i]["contactid"]["phone"].string!)
+                                
                                 self.ContactIDs.append(contactsJsonObj[i]["contactid"]["_id"].string!)
                                 self.ContactFirstname.append(contactsJsonObj[i]["contactid"]["display_name"].string!)
                                 self.ContactLastNAme.append("")
@@ -1559,7 +1572,8 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
             var loggedFirstName=loggedUserObj["firstname"]
             var loggedLastName=loggedUserObj["lastname"]
             var loggedStatus=loggedUserObj["status"]
-            var loggedUsername=loggedUserObj["username"]
+            var loggedUsername=loggedUserObj["phone"]
+           // var loggedUsername=loggedUserObj["username"]
             
             print(self.ContactFirstname[selectedRow]+self.ContactLastNAme[selectedRow]+self.ContactStatus[selectedRow]+self.ContactUsernames[selectedRow], terminator: "")
             
@@ -1839,7 +1853,12 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
                 print("contact is offline")
                 socketObj.socket.emit("logClient","contact is offline")
             }
+            //socketObj.socket.emit("callthisperson",["room" : "globalchatroom","callee": self.ContactUsernames[selectedRow], "caller":username!])
+             // &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&**************************
+            print("callthisperson,room : globalchatroom,callee: \(self.ContactUsernames[selectedRow]), caller:\(username!)")
             socketObj.socket.emit("callthisperson",["room" : "globalchatroom","callee": self.ContactUsernames[selectedRow], "caller":username!])
+            print("username is ... \(username!)")
+            
             isInitiator=true
             callerName=username!
             iamincallWith=self.ContactUsernames[selectedRow]
@@ -2037,7 +2056,7 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
                     {
                         for(var j=0;j<self.ContactUsernames.count;j++)
                         {
-                            if self.ContactUsernames[j]==offlineUsers[i]["username"].string!
+                            if self.ContactUsernames[j]==offlineUsers[i]["phone"].string!
                             {
                                 //found online contact,s username
                                 print("user found offlinee \(self.ContactUsernames[j])")
@@ -2058,7 +2077,7 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
                         {
                             for(var j=0;j<self.ContactUsernames.count && i<theseareonlineUsers.count;j++)
                             {
-                                if self.ContactUsernames[j]==theseareonlineUsers[0][i]["username"].description
+                                if self.ContactUsernames[j]==theseareonlineUsers[0][i]["phone"].description
                                 {
                                     //found online contact,s username
                                     print("user found theseareonline \(self.ContactUsernames[j])")

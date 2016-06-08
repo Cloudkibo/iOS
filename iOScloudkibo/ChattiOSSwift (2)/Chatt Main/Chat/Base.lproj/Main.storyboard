@@ -205,6 +205,7 @@
                     <tabBarItem key="tabBarItem" title="Contacts" image="tabbar_note" id="35A-sW-V98">
                         <inset key="imageInsets" minX="0.0" minY="5" maxX="0.0" maxY="-5"/>
                     </tabBarItem>
+                    <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="ulN-pN-tvY">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -228,7 +229,7 @@
             <objects>
                 <viewController title="All Contacts" id="Eg8-OD-8L6" customClass="NotesViewController" customModule="Chat" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="9vc-k6-CGp">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="519"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="66" sectionHeaderHeight="22" sectionFooterHeight="22" id="JA3-KT-r6M">
@@ -339,7 +340,7 @@
                     <tabBarItem key="tabBarItem" title="" image="tabbar_note" id="CNQ-57-UJf">
                         <inset key="imageInsets" minX="0.0" minY="5" maxX="0.0" maxY="-5"/>
                     </tabBarItem>
-                    <navigationItem key="navigationItem" id="RSp-lL-SlV">
+                    <navigationItem key="navigationItem" title="All Contacts" id="RSp-lL-SlV">
                         <barButtonItem key="rightBarButtonItem" enabled="NO" image="project_plus" id="vCW-mn-gCM">
                             <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         </barButtonItem>
@@ -719,14 +720,14 @@
             </objects>
             <point key="canvasLocation" x="176" y="-1651"/>
         </scene>
-        <!--Navigation Controller-->
+        <!--Chats-->
         <scene sceneID="2v1-Kp-zHu">
             <objects>
                 <navigationController id="EF7-fc-vdB" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="" image="tabbar_chatmain" id="EvI-wl-R4T">
                         <inset key="imageInsets" minX="0.0" minY="5" maxX="0.0" maxY="-5"/>
                     </tabBarItem>
-                    <navigationItem key="navigationItem" id="gm6-wK-huN"/>
+                    <navigationItem key="navigationItem" title="Chats" id="gm6-wK-huN"/>
                     <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" barStyle="black" translucent="NO" id="Ftl-RI-GPN">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
@@ -750,10 +751,10 @@
             </objects>
             <point key="canvasLocation" x="393" y="-1068"/>
         </scene>
-        <!--Favourites-->
+        <!--Chats-->
         <scene sceneID="U0I-6f-Qcl">
             <objects>
-                <viewController restorationIdentifier="MainChatView" storyboardIdentifier="MainChatView" title="Favourites" id="cJu-ld-BCz" customClass="ChatViewController" customModule="Chat" sceneMemberID="viewController">
+                <viewController restorationIdentifier="MainChatView" storyboardIdentifier="MainChatView" title="Chats" id="cJu-ld-BCz" customClass="ChatViewController" customModule="Chat" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="PNV-85-Adt">
                         <rect key="frame" x="0.0" y="64" width="320" height="504"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -894,7 +895,7 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
                     <toolbarItems/>
-                    <navigationItem key="navigationItem" id="QZL-y5-aQ9">
+                    <navigationItem key="navigationItem" title="Chats" id="QZL-y5-aQ9">
                         <barButtonItem key="rightBarButtonItem" image="project_plus" id="cB7-Wy-yKI">
                             <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                             <connections>
@@ -907,7 +908,6 @@
                         <outlet property="btnContactAdd" destination="cB7-Wy-yKI" id="bVE-vT-ne2"/>
                         <outlet property="btnForLogo" destination="KXr-Gf-PHk" id="vbF-qc-KNp"/>
                         <outlet property="tblForChat" destination="qPF-7P-jaS" id="UVa-gb-6sW"/>
-                        <outlet property="viewForTitle" destination="p8c-cs-iQq" id="gbt-5e-R3N"/>
                         <segue destination="519-eF-35I" kind="modal" identifier="loginSegue" animates="NO" id="Spe-dd-EXu"/>
                         <segue destination="vqu-uk-8SN" kind="push" identifier="contactChat" id="W8i-Cs-Z8T"/>
                         <segue destination="tCr-3N-niL" kind="modal" identifier="inviteSegue" id="s9Z-xh-M0I"/>
@@ -925,22 +925,6 @@
                         <segue destination="kph-33-xSo" kind="modal" identifier="newChat" id="Lsn-aA-q1J"/>
                     </connections>
                 </button>
-                <view hidden="YES" userInteractionEnabled="NO" contentMode="scaleToFill" id="p8c-cs-iQq" userLabel="View - Title">
-                    <rect key="frame" x="0.0" y="0.0" width="161" height="28"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    <subviews>
-                        <segmentedControl hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="bar" id="cED-XK-few">
-                            <rect key="frame" x="0.0" y="0.0" width="161" height="29"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            <segments>
-                                <segment title="My Chats" enabled="NO"/>
-                                <segment title="All Chats"/>
-                            </segments>
-                            <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        </segmentedControl>
-                    </subviews>
-                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                </view>
             </objects>
             <point key="canvasLocation" x="828" y="-1036"/>
         </scene>
@@ -1121,7 +1105,7 @@
             <objects>
                 <tableViewController id="f95-J5-fN9" customClass="contactsDetailsTableViewController" customModule="Chat" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="60" sectionHeaderHeight="28" sectionFooterHeight="28" id="ysj-dd-SVD">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="519"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
@@ -1627,7 +1611,7 @@
             </objects>
             <point key="canvasLocation" x="3492" y="-2406"/>
         </scene>
-        <!--Pending Friend Requests View Controller-->
+        <!--Requests-->
         <scene sceneID="0dB-5y-0ey">
             <objects>
                 <viewController id="Wfn-mC-i9N" customClass="PendingFriendRequestsViewController" customModule="Chat" sceneMemberID="viewController">
@@ -1755,7 +1739,7 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
                     <toolbarItems/>
-                    <navigationItem key="navigationItem" id="qOU-x9-C7N">
+                    <navigationItem key="navigationItem" title="Requests" id="qOU-x9-C7N">
                         <barButtonItem key="rightBarButtonItem" image="project_plus" id="3f1-pu-7Ok">
                             <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                         </barButtonItem>
@@ -1764,7 +1748,6 @@
                     <connections>
                         <outlet property="btnForLogo" destination="KXr-Gf-PHk" id="YaF-aJ-sJa"/>
                         <outlet property="tbl_pendingContacts" destination="p4w-jJ-3XV" id="OOC-Wq-ADn"/>
-                        <outlet property="viewForTitle" destination="p8c-cs-iQq" id="kDn-UF-7D9"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Svb-eG-xVa" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -2094,7 +2077,6 @@
                     <connections>
                         <outlet property="btnForLogo" destination="KXr-Gf-PHk" id="gC7-Vf-x3t"/>
                         <outlet property="tbl_inviteContacts" destination="syR-45-CMF" id="1ig-dQ-i7a"/>
-                        <outlet property="viewForTitle" destination="p8c-cs-iQq" id="f5S-w4-Q3b"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="VWR-Ps-5g1" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -3093,7 +3075,7 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
                     <toolbarItems/>
-                    <navigationItem key="navigationItem" id="BO5-xM-pGS">
+                    <navigationItem key="navigationItem" title="Favourites" id="BO5-xM-pGS">
                         <barButtonItem key="rightBarButtonItem" enabled="NO" image="project_plus" id="5c1-H2-nNE">
                             <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                             <connections>
@@ -3106,7 +3088,6 @@
                         <outlet property="btnContactAdd" destination="5c1-H2-nNE" id="nMt-4T-j8k"/>
                         <outlet property="btnForLogo" destination="KXr-Gf-PHk" id="TAa-wn-0ru"/>
                         <outlet property="tblForChat" destination="K2C-Ei-zZY" id="zjL-KP-A8N"/>
-                        <outlet property="viewForTitle" destination="p8c-cs-iQq" id="eux-4v-zph"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="2jl-4s-gJf" userLabel="First Responder" sceneMemberID="firstResponder"/>
