@@ -60,6 +60,8 @@ class ChatDetailViewController: UIViewController{
     override func viewWillAppear(animated: Bool) {
         print("chat will appear")
         FetchChatServer()
+        print("calling retrieveChat")
+        sqliteDB.retrieveChat(username!)
         
     }
     override func viewDidLoad() {
@@ -107,7 +109,7 @@ class ChatDetailViewController: UIViewController{
         
         print("chat on load")
         
-        FetchChatServer()
+        //%%%%%%%%%%%%%%%%%&&&&&&&&&&&&&&&&&&^^^^^^^^^FetchChatServer()
         self.NewChatNavigationTitle.title=selectedContact
         var receivedMsg=JSON("")
         socketObj.socket.on("im") {data,ack in
@@ -129,7 +131,7 @@ class ChatDetailViewController: UIViewController{
             
             self.tblForChats.scrollToRowAtIndexPath(indexPath, atScrollPosition: UITableViewScrollPosition.Bottom, animated: true)
             }
-            sqliteDB.SaveChat(chatJson[0]["to"].string!, from1: chatJson[0]["from"].string!, fromFullName1: chatJson[0]["fromFullName"].string!, msg1: chatJson[0]["msg"].string!)
+            sqliteDB.SaveChat(chatJson[0]["to"].string!, from1: chatJson[0]["from"].string!,owneruser1:chatJson[0]["owneruser"].string! , fromFullName1: chatJson[0]["fromFullName"].string!, msg1: chatJson[0]["msg"].string!)
            
         }
         ////////////messages.addObject(["message":"helloo","hiiii":"tstingggg","type":"1"])
@@ -288,6 +290,7 @@ class ChatDetailViewController: UIViewController{
     func fetchChatSQlite(){
         
         
+        
     }
     
     func FetchChatServer()
@@ -322,15 +325,19 @@ class ChatDetailViewController: UIViewController{
                      print(data1)
                     var UserchatJson=JSON(data1!)
                     print(UserchatJson)
+                    socketObj.socket.emit("logClient", "user chat fetched \(UserchatJson)")
                     print(":::::^^^&&&&&")
                     //print(UserchatJson["msg"][0]["to"])
                     
                     //Overwrite sqlite db
                     sqliteDB.deleteChat(self.selectedContact)
+                    socketObj.socket.emit("logClient","chat messages count is \(UserchatJson["msg"].count)")
                     for var i=0;i<UserchatJson["msg"].count
                         ;i++
                     {
-                        sqliteDB.SaveChat(UserchatJson["msg"][i]["to"].string!, from1: UserchatJson["msg"][i]["from"].string!, fromFullName1: UserchatJson["msg"][i]["fromFullName"].string!, msg1: UserchatJson["msg"][i]["msg"].string!)
+                        
+                        
+                        sqliteDB.SaveChat(UserchatJson["msg"][i]["to"].string!, from1: UserchatJson["msg"][i]["from"].string!,owneruser1:UserchatJson["msg"][i]["owneruser"].string! , fromFullName1: UserchatJson["msg"][i]["fromFullName"].string!, msg1: UserchatJson["msg"][i]["msg"].string!)
                         
                         if (UserchatJson["msg"][i]["from"].string==username!)
                             
@@ -618,7 +625,7 @@ class ChatDetailViewController: UIViewController{
         
         //////
         
-        sqliteDB.SaveChat("\(selectedContact)", from1: "\(username!)", fromFullName1: "\(loggedFullName!)", msg1: "\(txtFldMessage.text!)")
+        sqliteDB.SaveChat("\(selectedContact)", from1: "\(username!)",owneruser1: "\(username!)", fromFullName1: "\(loggedFullName!)", msg1: "\(txtFldMessage.text!)")
         
         /*insert(self.fromFullName<-"Sabach Channa",
         self.msg<-"\(txtFldMessage.text)",
@@ -664,7 +671,7 @@ class ChatDetailViewController: UIViewController{
             options: NSStringDrawingOptions.UsesLineFragmentOrigin,
             attributes:[NSFontAttributeName : UIFont.systemFontOfSize(11.0)],
             context: nil)
-        print("size is width \(labelSize.width) and height is \(labelSize.height)")
+        //print("size is width \(labelSize.width) and height is \(labelSize.height)")
         return labelSize.size
     }
     

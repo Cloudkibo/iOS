@@ -182,7 +182,7 @@ class DatabaseHandler:NSObject{
         let from = Expression<String>("from")
         let fromFullName = Expression<String>("fromFullName")
         let msg = Expression<String>("msg")
-        //let owneruser = Expression<String>("owneruser")
+        let owneruser = Expression<String>("owneruser")
         let date = Expression<NSDate>("date")
         
         self.userschats = Table("userschats")
@@ -190,6 +190,7 @@ class DatabaseHandler:NSObject{
             try db.run(userschats.create(ifNotExists: true) { t in     // CREATE TABLE "accounts" (
                 t.column(to)//loggedin user id
                 t.column(from)
+                t.column(owneruser)
                 t.column(fromFullName)
                 t.column(msg)
                 
@@ -234,12 +235,13 @@ class DatabaseHandler:NSObject{
     
     }*/
     
-    func SaveChat(to1:String,from1:String,fromFullName1:String,msg1:String)
+    func SaveChat(to1:String,from1:String,owneruser1:String,fromFullName1:String,msg1:String)
     {
         //createUserChatTable()
         
         let to = Expression<String>("to")
         let from = Expression<String>("from")
+        let owneruser = Expression<String>("owneruser")
         let fromFullName = Expression<String>("fromFullName")
         let msg = Expression<String>("msg")
         let date = Expression<NSDate>("date")
@@ -258,6 +260,7 @@ class DatabaseHandler:NSObject{
         do {
             let rowid = try db.run(tbl_userchats.insert(fromFullName<-fromFullName1,
                 msg<-msg1,
+                owneruser<-owneruser1,
                 to<-to1,
                 from<-from1
 ))
@@ -275,16 +278,22 @@ class DatabaseHandler:NSObject{
         
         
     }
-    func retrieveChat()
+    func retrieveChat(owneruser1:String)
     {
         
         let to = Expression<String>("to")
         let from = Expression<String>("from")
+        let owneruser = Expression<String>("owneruser")
         let fromFullName = Expression<String>("fromFullName")
         let msg = Expression<String>("msg")
         let date = Expression<NSDate>("date")
         
         var tbl_userchats=sqliteDB.userschats
+        var res=tbl_userchats.filter(owneruser==owneruser1)
+        
+            print("chat from sqlite is")
+            print(res)
+        
         /////var tbl_userchats=sqliteDB.db["userschats"]
 
     }
@@ -297,6 +306,7 @@ class DatabaseHandler:NSObject{
         /////var tbl_userchats=sqliteDB.db["userschats"]
         var n=tbl_userchats.filter(to==userTo).delete()
         tbl_userchats.filter(from==userTo).delete()
+        
      
         
         /*let alice = users.filter(id == 1)
