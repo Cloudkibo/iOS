@@ -293,7 +293,19 @@ class DatabaseHandler:NSObject{
         
             print("chat from sqlite is")
             print(res)
-        
+        do
+        {for tblContacts in try sqliteDB.db.prepare(tbl_userchats.filter(owneruser==owneruser1)){
+            //print("queryy runned count is \(tbl_contactslists.count)")
+            print(tblContacts[to])
+            print(tblContacts[from])
+            print(tblContacts[msg])
+print("--------")
+            }
+        }
+        catch(let error)
+            {
+                print(error)
+            }
         /////var tbl_userchats=sqliteDB.db["userschats"]
 
     }
