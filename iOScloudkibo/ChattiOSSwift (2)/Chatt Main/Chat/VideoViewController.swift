@@ -101,7 +101,10 @@ class VideoViewController: UIViewController,RTCPeerConnectionDelegate,RTCSession
         
         if(screenCaptureToggle)
         {
-            socketObj.socket.emit("conference.stream", ["username":username!,"id":currentID!,"type":"screenAndroid","action":"true"])
+           // socketObj.socket.emit("conference.stream", ["username":username!,"id":currentID!,"type":"screenAndroid","action":"true"])
+            
+            socketObj.socket.emit("conference.stream", ["phone":username!,"id":currentID!,"type":"screenAndroid","action":"true"])
+            
             
             btncapture.title! = "Hide"
             webMeetingModel.delegateScreen.screenCapture()
@@ -112,7 +115,9 @@ class VideoViewController: UIViewController,RTCPeerConnectionDelegate,RTCSession
         {
             btncapture.title! = "Capture"
             
-            socketObj.socket.emit("conference.stream", ["username":username!,"id":currentID!,"type":"screenAndroid","action":"false"])
+            //socketObj.socket.emit("conference.stream", ["username":username!,"id":currentID!,"type":"screenAndroid","action":"false"])
+            
+            socketObj.socket.emit("conference.stream", ["phone":username!,"id":currentID!,"type":"screenAndroid","action":"false"])
             
             webMeetingModel.delegateScreen.screenCapture()
             
@@ -239,8 +244,13 @@ socketObj.socket.emit("logClient","\(iamincallWith) is disconnecting from call")
 print("hangupppppp emitteddd")
 self.remoteDisconnected()
 
-socketObj.socket.emit("message",["msg":"hangup","room":globalroom,"to":iamincallWith!,"username":username!, "id":currentID!])
-socketObj.socket.emit("leave",["room":joinedRoomInCall])
+//socketObj.socket.emit("message",["msg":"hangup","room":globalroom,"to":iamincallWith!,"username":username!, "id":currentID!])
+
+    socketObj.socket.emit("message",["msg":"hangup","room":globalroom,"to":iamincallWith!,"phone":username!, "id":currentID!])
+    socketObj.socket.emit("leave",["room":joinedRoomInCall])
+    socketObj.socket.emit("leave",["room":joinedRoomInCall])
+    
+    
 self.disconnect()
 }
 
@@ -381,9 +391,15 @@ self.disconnect()
             meetingStarted=false
             //// socketObj.socket.disconnect()
             if(currentID != nil){
-            socketObj.socket.emit("peer.disconnected", ["username":username!,"id":currentID!,"room":ConferenceRoomName])
-            socketObj.socket.emit("message",["msg":"hangup","room":globalroom,"to":iamincallWith!,"username":username!, "id":currentID!])
-            socketObj.socket.emit("leave",["room":joinedRoomInCall,"id":currentID!])
+            //socketObj.socket.emit("peer.disconnected", ["username":username!,"id":currentID!,"room":ConferenceRoomName])
+                socketObj.socket.emit("peer.disconnected", ["phone":username!,"id":currentID!,"room":ConferenceRoomName])
+                
+                
+                //socketObj.socket.emit("message",["msg":"hangup","room":globalroom,"to":iamincallWith!,"username":username!, "id":currentID!])
+            
+                socketObj.socket.emit("message",["msg":"hangup","room":globalroom,"to":iamincallWith!,"phone":username!, "id":currentID!])
+                
+                socketObj.socket.emit("leave",["room":joinedRoomInCall,"id":currentID!])
             }
             }
            
@@ -712,7 +728,10 @@ self.disconnect()
             }
         }
         if(socketObj != nil){
-        socketObj.socket.emit("conference.stream", ["username":username!,"id":currentID!,"type":"video","action":videoAction.boolValue])
+        //socketObj.socket.emit("conference.stream", ["username":username!,"id":currentID!,"type":"video","action":videoAction.boolValue])
+       
+            socketObj.socket.emit("conference.stream", ["phone":username!,"id":currentID!,"type":"video","action":videoAction.boolValue])
+            
         }
        /* if(remotevideoshared==true && localvideoshared==true)
         {
@@ -865,7 +884,11 @@ self.disconnect()
         
         super.viewDidLoad()
         print("video controller loadeddddd")
-        txtLabelUsername.text=username!
+        //txtLabelUsername.text=username!
+        
+        txtLabelUsername.text=displayname
+       
+        
         if(isConference==true){
         webMeetingModel.delegateSendScreenshotDataChannel=self
         }
@@ -1007,7 +1030,9 @@ self.disconnect()
         if(isConference == true)
         {print("conference name is\(ConferenceRoomName)")
             if(isSocketConnected==true){
-                socketObj.socket.emitWithAck("init", ["room":ConferenceRoomName,"username":username!])(timeoutAfter: 1500000) {data in
+                //socketObj.socket.emitWithAck("init", ["room":ConferenceRoomName,"username":username!])(timeoutAfter: 1500000) {data in
+                
+                socketObj.socket.emitWithAck("init", ["room":ConferenceRoomName,"phone":username!])(timeoutAfter: 1500000) {data in
                     
                     print("conference room joined by got ack")
                     var a=JSON(data)
@@ -1030,14 +1055,20 @@ self.disconnect()
                 //iamincallWith=username!
                 
                 //joinedRoomInCall=roomname as String
-                socketObj.socket.emitWithAck("init", ["room":ConferenceRoomName,"username":username!])(timeoutAfter: 1500000) {data in
+                //socketObj.socket.emitWithAck("init", ["room":ConferenceRoomName,"username":username!])(timeoutAfter: 1500000) {data in
+                
+                socketObj.socket.emitWithAck("init", ["room":ConferenceRoomName,"phone":username!])(timeoutAfter: 1500000) {data in
+                    
                     meetingStarted=true
                     print("1-1 call room joined by got ack")
                     var a=JSON(data)
                     print(a.debugDescription)
                     currentID=a[1].int!
                     print("current id is \(currentID)")
-                    var aa=JSON(["msg":["type":"room_name","room":ConferenceRoomName as String],"room":globalroom,"to":iamincallWith!,"username":username!])
+                    //var aa=JSON(["msg":["type":"room_name","room":ConferenceRoomName as String],"room":globalroom,"to":iamincallWith!,"username":username!])
+                    
+                    var aa=JSON(["msg":["type":"room_name","room":ConferenceRoomName as String],"room":globalroom,"to":iamincallWith!,"phone":username!])
+                    
                     print(aa.description)
                     socketObj.socket.emit("message",aa.object)
                     
@@ -1502,9 +1533,14 @@ self.disconnect()
                 
                 self.pc.setLocalDescriptionWithDelegate(self, sessionDescription: sessionDescription)
                 
-                print(["by":currentID!,"to":otherID,"sdp":["type":sdp.type!,"sdp":sdp.description],"type":sdp.type!,"username":username!])
+                //print(["by":currentID!,"to":otherID,"sdp":["type":sdp.type!,"sdp":sdp.description],"type":sdp.type!,"username":username!])
                 
-                socketObj.socket.emit("msg",["by":currentID!,"to":otherID,"sdp":["type":sdp.type!,"sdp":sdp.description],"type":sdp.type!,"username":username!])
+                print(["by":currentID!,"to":otherID,"sdp":["type":sdp.type!,"sdp":sdp.description],"type":sdp.type!,"phone":username!])
+                
+                //socketObj.socket.emit("msg",["by":currentID!,"to":otherID,"sdp":["type":sdp.type!,"sdp":sdp.description],"type":sdp.type!,"username":username!])
+                
+                socketObj.socket.emit("msg",["by":currentID!,"to":otherID,"sdp":["type":sdp.type!,"sdp":sdp.description],"type":sdp.type!,"phone":username!])
+                
                 print("\(sdp.type) emitteddd")
             }
             if(self.pc.localDescription == nil){
@@ -1516,7 +1552,10 @@ self.disconnect()
                 
                 ////print(["by":currentID!,"to":otherID,"sdp":["type":sdp.type!,"sdp":sdp.description],"type":sdp.type!,"username":username!])
                 
-                socketObj.socket.emit("msg",["by":currentID!,"to":otherID,"sdp":["type":sdp.type!,"sdp":sdp.description],"type":sdp.type!,"username":username!])
+                //socketObj.socket.emit("msg",["by":currentID!,"to":otherID,"sdp":["type":sdp.type!,"sdp":sdp.description],"type":sdp.type!,"username":username!])
+                
+                socketObj.socket.emit("msg",["by":currentID!,"to":otherID,"sdp":["type":sdp.type!,"sdp":sdp.description],"type":sdp.type!,"phone":username!])
+                
                 print("\(sdp.type) emitteddd")
             }
             
@@ -1676,9 +1715,13 @@ self.disconnect()
             //^^^^^^^^^^^^^^^^^^^^^^^newwwwww self.pc.addStream(self.getLocalMediaStream())
             otherID=msg[0]["by"].int!
             currentID=msg[0]["to"].int!
-            iamincallWith=msg[0]["username"].description
+            //iamincallWith=msg[0]["username"].description
             
-            if(msg[0]["username"].description != username! && self.pc.remoteDescription == nil){
+            iamincallWith=msg[0]["phone"].description
+            
+            //if(msg[0]["username"].description != username! && self.pc.remoteDescription == nil){
+            
+            if(msg[0]["phone"].description != username! && self.pc.remoteDescription == nil){
                 
                 txtLabelMainPage.font=UIFont.boldSystemFontOfSize(20)
                 txtLabelMainPage.text="You are now connected in call with \(iamincallWith)"
@@ -1734,11 +1777,14 @@ self.disconnect()
         var datajson=JSON(data!)
         print(datajson.debugDescription)
         
-        if(datajson[0]["username"].description != username!){
-            otherID=datajson[0]["id"].int
-            iamincallWith=datajson[0]["username"].description
+        //if(datajson[0]["username"].description != username!){
+        
+        if(datajson[0]["phone"].description != username!){
+            
+        otherID=datajson[0]["id"].int
+            iamincallWith=datajson[0]["phone"].description
             isInitiator=true
-            iamincallWith = datajson[0]["username"].description
+            iamincallWith = datajson[0]["phone"].description
             //txtLabelMainPage.font
             
             txtLabelMainPage.font=UIFont.boldSystemFontOfSize(20)
@@ -1891,7 +1937,7 @@ self.disconnect()
         var datajson=JSON(data!)
         print(datajson.debugDescription)
         
-        if(datajson[0]["username"].debugDescription != username! && datajson[0]["type"].debugDescription == "screen" && datajson[0]["action"].boolValue==true )
+        if(datajson[0]["phone"].debugDescription != username! && datajson[0]["type"].debugDescription == "screen" && datajson[0]["action"].boolValue==true )
         {socketObj.socket.emit("logClient","\(iamincallWith) is sharing screen")
             self.screenshared=true
             remoteScreenView.hidden=false//***
@@ -1901,7 +1947,7 @@ self.disconnect()
             self.pc.createOfferWithDelegate(self, constraints: self.rtcMediaConst)
         }
         
-        if(datajson[0]["username"].debugDescription != username! && datajson[0]["type"].debugDescription == "screen" && datajson[0]["action"].boolValue==false )
+        if(datajson[0]["phone"].debugDescription != username! && datajson[0]["type"].debugDescription == "screen" && datajson[0]["action"].boolValue==false )
         {
             socketObj.socket.emit("logClient","\(iamincallWith) is hiding screen")
            self.screenshared=false
@@ -1912,7 +1958,7 @@ self.disconnect()
             {remoteView.hidden=true}
         }
         
-        if(datajson[0]["username"].debugDescription != username! && datajson[0]["type"].debugDescription == "video" && (self.rtcVideoTrackReceived != nil || rtcStreamReceived != nil))
+        if(datajson[0]["phone"].debugDescription != username! && datajson[0]["type"].debugDescription == "video" && (self.rtcVideoTrackReceived != nil || rtcStreamReceived != nil))
         {
             print("toggle remote video stream")
             ////////////self.rtcVideoTrackReceived.setEnabled((datajson[0]["action"].bool!))
@@ -1969,7 +2015,7 @@ self.disconnect()
                 print("got room name as \(joinedRoomInCall)")
                 print("trying to join room")
                 print("line #1394")
-                socketObj.socket.emitWithAck("init", ["room":CurrentRoomName,"username":username!])(timeoutAfter: 600000) {data in
+                socketObj.socket.emitWithAck("init", ["room":CurrentRoomName,"phone":username!])(timeoutAfter: 600000) {data in
                     meetingStarted=true
                     print("room joined got ack")
                     var a=JSON(data)
@@ -2058,7 +2104,7 @@ self.disconnect()
                 print("hangupppppp received \(msg.debugDescription)")
                 self.remoteDisconnected()
                 
-                socketObj.socket.emit("message",["msg":"hangup","room":globalroom,"to":iamincallWith!,"username":username!, "id":currentID!])
+                socketObj.socket.emit("message",["msg":"hangup","room":globalroom,"to":iamincallWith!,"phone":username!, "id":currentID!])
                 socketObj.socket.emit("leave",["room":joinedRoomInCall])
                 ConferenceRoomName=""
                 self.disconnect()
@@ -2092,14 +2138,14 @@ self.disconnect()
                 //iamincallWith=username!
                 areYouFreeForCall=false
                 joinedRoomInCall=roomname as String
-                socketObj.socket.emitWithAck("init", ["room":joinedRoomInCall,"username":username!])(timeoutAfter: 150000000) {data in
+                socketObj.socket.emitWithAck("init", ["room":joinedRoomInCall,"phone":username!])(timeoutAfter: 150000000) {data in
                     meetingStarted=true
                     print("room joined by got ack")
                     var a=JSON(data)
                     print(a.debugDescription)
                     currentID=a[1].int!
                     print("current id is \(currentID)")
-                    var aa=JSON(["msg":["type":"room_name","room":roomname as String],"room":globalroom,"to":iamincallWith!,"username":username!])
+                    var aa=JSON(["msg":["type":"room_name","room":roomname as String],"room":globalroom,"to":iamincallWith!,"phone":username!])
                     print(aa.description)
                     socketObj.socket.emit("message",aa.object)
                 }}

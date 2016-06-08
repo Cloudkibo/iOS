@@ -139,6 +139,7 @@ class DisplayNameViewController: UIViewController {
         {
         header=["kibo-token":accountKit!.currentAccessToken!.tokenString]
         }
+        displayname=displayName
         self.sendNameToServer(displayName)
     }
 }

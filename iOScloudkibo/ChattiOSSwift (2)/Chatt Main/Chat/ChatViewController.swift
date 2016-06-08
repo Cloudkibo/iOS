@@ -814,7 +814,7 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
                                        {
                                         do{
                                             try KeychainWrapper.setString(json["phone"].string!, forKey: "username")
-                                            try KeychainWrapper.setString(json["firstname"].string!+" "+json["lastname"].string!, forKey: "loggedFullName")
+                                            try KeychainWrapper.setString(json["display_name"].string!, forKey: "loggedFullName")
                                             try KeychainWrapper.setString(json["phone"].string!, forKey: "loggedPhone")
                                             try KeychainWrapper.setString(json["email"].string!, forKey: "loggedEmail")
                                             try KeychainWrapper.setString(json["_id"].string!, forKey: "_id")
@@ -1582,10 +1582,6 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
             
             var url=Constants.MainUrl+Constants.removeFriend
             
-            //var params=self.ContactsObjectss[selectedRow].arrayValue
-            //var pp=JSON(params)
-            //var bb=jsonString(self.ContactsObjectss[selectedRow].stringValue)
-            //var a=JSONStringify(self.ContactsObjectss[selectedRow].object, prettyPrinted: false)
             Alamofire.request(.POST,"\(url)",headers:header,parameters:["username":"\(self.ContactUsernames[selectedRow])"]
                 ).validate(statusCode: 200..<300).responseJSON{response in
                     var response1=response.response
@@ -1596,8 +1592,6 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
                 //===========INITIALISE SOCKETIOCLIENT=========
                 dispatch_async(dispatch_get_main_queue(), {
                     
-                    //self.dismissViewControllerAnimated(true, completion: nil);
-                    /// self.performSegueWithIdentifier("loginSegue", sender: nil)
                     
                     if response1?.statusCode==200 {
                         //print("got user success")
@@ -1606,9 +1600,6 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
 
                         
                         print(json)
-                        //print(json)
-                        //dataMy=JSON(data1!)
-                        //print(dataMy.description)
                         
                         sqliteDB.deleteChat(self.ContactNames[selectedRow])
                         

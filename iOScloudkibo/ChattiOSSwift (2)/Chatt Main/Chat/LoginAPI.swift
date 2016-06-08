@@ -584,12 +584,12 @@ class LoginAPI{
                 print(JSON(data))
                 ///self.delegateChat=WebmeetingChatViewController
                 print(chat[0]["message"].description)
-                print(chat[0]["username"].description)
+                print(chat[0]["phone"].description)
                 print(chat[0]["message"].string)
-                print(chat[0]["username"].string)
+                print(chat[0]["phone"].string)
                 //self.receivedChatMessage(chat[0]["message"].description,username: "\(chat[0]["username"].description)")
                 
-                webMeetingModel.addChatMsg(chat[0]["message"].description, usr: chat[0]["username"].description)
+                webMeetingModel.addChatMsg(chat[0]["message"].description, usr: chat[0]["phone"].description)
                 //webMeetingModel.delegateWebmeetingChat.receivedChatMessageUpdateUI(chat[0]["message"].description, username: chat[0]["username"].description)
                 //self.delegateWebRTC.socketReceivedOtherWebRTC("conference.chat",data: data)
                 
@@ -684,7 +684,7 @@ class LoginAPI{
         print(msg, terminator: "")
         //var message:JSON=["msg":msg,"room":globalroom,"to":iamincallWith!,"username":username!]
         
-        socket.emit("message",["msg":msg,"room":globalroom,"to":iamincallWith!,"username":username!])
+        socket.emit("message",["msg":msg,"room":globalroom,"to":iamincallWith!,"phone":username!])
         
         //////////socket.emit("message",["msgAudio":msg,"room":globalroom,"to":iamincallWith!,"username":username!])
         

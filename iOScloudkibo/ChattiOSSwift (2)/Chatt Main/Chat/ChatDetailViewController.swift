@@ -58,6 +58,7 @@ class ChatDetailViewController: UIViewController{
     
     
     override func viewWillAppear(animated: Bool) {
+        print("chat will appear")
         FetchChatServer()
         
     }
@@ -104,7 +105,7 @@ class ChatDetailViewController: UIViewController{
         
         //^^self.tbl_userchats=sqliteDB.db["userschats"]
         
-        
+        print("chat on load")
         
         FetchChatServer()
         self.NewChatNavigationTitle.title=selectedContact
@@ -116,7 +117,7 @@ class ChatDetailViewController: UIViewController{
             print("chat received \(chatJson.debugDescription)")
             print(chatJson[0]["msg"])
             receivedMsg=chatJson[0]["msg"]
-            var username=chatJson[0]["fullName"]
+            //var username=chatJson[0]["fullName"]
             
             
             self.addMessage(receivedMsg.description, ofType: "1")
@@ -135,7 +136,8 @@ class ChatDetailViewController: UIViewController{
         /*  self.addMessage("Its actually pretty good!", ofType: "1")
         self.addMessage("What do you think of this tool!", ofType: "2")*/
     }
-    func getUserObjectById()
+   
+    /*func getUserObjectById()
     {
         var tbl_contactList=sqliteDB.contactslists
         ////var tbl_contactList=sqliteDB.db["contactslists"]
@@ -175,7 +177,7 @@ class ChatDetailViewController: UIViewController{
         //removeChatHistory()
         
         self.markChatAsRead()
-    }
+    }*/
     
     
     func removeChatHistory(){
@@ -361,6 +363,7 @@ class ChatDetailViewController: UIViewController{
                 })
                 if(response1?.statusCode==401)
                 {
+                    socketObj.socket.emit("logClient","error in fetching chat status 401")
                     print("chatttttt fetch faileddddddd token expired")
                     self.rt.refrToken()
                 }
@@ -603,7 +606,7 @@ class ChatDetailViewController: UIViewController{
         //^^var firstNameSelected=selectedUserObj["firstname"]
         //^^^var lastNameSelected=selectedUserObj["lastname"]
         //^^^var fullNameSelected=firstNameSelected.string!+" "+lastNameSelected.string!
-        var imParas=["from":"\(username!)","to":"\(selectedContact)","from_id":"\(_id!)","to_id":"\(self.selectedID)","fromFullName":"\(loggedFullName!)","msg":"\(txtFldMessage.text!)","date":NSDate().debugDescription]
+        var imParas=["from":"\(username!)","to":"\(selectedContact)","from_id":"\(_id!)","to_id":"\(self.selectedID)","fromFullName":"\(displayname)","msg":"\(txtFldMessage.text!)","date":NSDate().debugDescription]
         print("imparas are \(imParas)")
         print(imParas, terminator: "")
         print("", terminator: "")
@@ -615,7 +618,7 @@ class ChatDetailViewController: UIViewController{
         
         //////
         
-        sqliteDB.SaveChat("\(selectedContact)", from1: "\(username!)", fromFullName1: "\(loggedFullName!)", msg1: "\(txtFldMessage.text)")
+        sqliteDB.SaveChat("\(selectedContact)", from1: "\(username!)", fromFullName1: "\(loggedFullName!)", msg1: "\(txtFldMessage.text!)")
         
         /*insert(self.fromFullName<-"Sabach Channa",
         self.msg<-"\(txtFldMessage.text)",

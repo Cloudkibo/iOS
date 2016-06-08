@@ -213,8 +213,8 @@ class NetworkingLibAlamofire{
                             loggedUserObj=json
                             ///KeychainWrapper.setString(JSONStringify(json, prettyPrinted: true), forKey:"loggedIDKeyChain")
                             //===========saving username======================
-                            KeychainWrapper.setString(json["username"].string!, forKey: "username")
-                            KeychainWrapper.setString(json["firstname"].string!+" "+json["lastname"].string!, forKey: "loggedFullName")
+                            KeychainWrapper.setString(json["display_name"].string!, forKey: "username")
+                            KeychainWrapper.setString(json["display_name"].string!, forKey: "loggedFullName")
                             KeychainWrapper.setString(json["phone"].string!, forKey: "loggedPhone")
                             KeychainWrapper.setString(json["email"].string!, forKey: "loggedEmail")
                             KeychainWrapper.setString(json["_id"].string!, forKey: "_id")

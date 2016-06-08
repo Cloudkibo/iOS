@@ -305,7 +305,7 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
                             loggedUserObj=json
                             //===========saving username======================
                             KeychainWrapper.setString(json["username"].string!, forKey: "username")
-                            KeychainWrapper.setString(json["firstname"].string!+" "+json["lastname"].string!, forKey: "loggedFullName")
+                            KeychainWrapper.setString(json["display_name"].string!, forKey: "loggedFullName")
                             KeychainWrapper.setString(json["phone"].string!, forKey: "loggedPhone")
                             KeychainWrapper.setString(json["email"].string!, forKey: "loggedEmail")
                             KeychainWrapper.setString(json["_id"].string!, forKey: "_id")
@@ -339,10 +339,10 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
                             tbl_accounts.delete()
                             do {
                                 let rowid = try sqliteDB.db.run(tbl_accounts.insert(_id<-json["_id"].string!,
-                                    firstname<-json["firstname"].string!,
-                                    lastname<-json["lastname"].string!,
+                                    firstname<-json["display_name"].string!,
+                                    lastname<-"",
                                     email<-json["email"].string!,
-                                    username<-json["username"].string!,
+                                    username<-json["phone"].string!,
                                     status<-json["status"].string!,
                                     phone<-json["phone"].string!))
                                 print("inserted id: \(rowid)")

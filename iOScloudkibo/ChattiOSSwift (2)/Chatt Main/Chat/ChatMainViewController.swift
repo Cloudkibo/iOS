@@ -791,7 +791,7 @@ class ChatMainViewController:UIViewController,SocketClientDelegate,SocketConnect
                                         
                                         do{
                                             try KeychainWrapper.setString(json["username"].string!, forKey: "username")
-                                            try KeychainWrapper.setString(json["firstname"].string!+" "+json["lastname"].string!, forKey: "loggedFullName")
+                                            try KeychainWrapper.setString(json["display_name"].string!, forKey: "loggedFullName")
                                             try KeychainWrapper.setString(json["phone"].string!, forKey: "loggedPhone")
                                             try KeychainWrapper.setString(json["email"].string!, forKey: "loggedEmail")
                                             try KeychainWrapper.setString(json["_id"].string!, forKey: "_id")
@@ -1327,10 +1327,10 @@ class ChatMainViewController:UIViewController,SocketClientDelegate,SocketConnect
                                 // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%new commented june
                                 self.ContactsObjectss.append(contactsJsonObj[i]["contactid"])
                                 // ****%%%%% database changes new june
-                                self.ContactNames.append(contactsJsonObj[i]["contactid"]["firstname"].string!+" "+contactsJsonObj[i]["contactid"]["lastname"].string!)
+                                self.ContactNames.append(contactsJsonObj[i]["contactid"]["display_name"].string!)
                                 
                                 //self.ContactNames.append(contactsJsonObj[i]["contactid"]["firstname"].string!+" "+contactsJsonObj[i]["contactid"]["lastname"].string!)
-                                self.ContactUsernames.append(contactsJsonObj[i]["contactid"]["display_name"].string!)
+                                self.ContactUsernames.append(contactsJsonObj[i]["contactid"]["phone"].string!)
                                 self.ContactIDs.append(contactsJsonObj[i]["contactid"]["_id"].string!)
                                 self.ContactFirstname.append(contactsJsonObj[i]["contactid"]["display_name"].string!)
                                 self.ContactLastNAme.append("")
@@ -1525,7 +1525,7 @@ class ChatMainViewController:UIViewController,SocketClientDelegate,SocketConnect
             //var pp=JSON(params)
             //var bb=jsonString(self.ContactsObjectss[selectedRow].stringValue)
             //var a=JSONStringify(self.ContactsObjectss[selectedRow].object, prettyPrinted: false)
-            Alamofire.request(.POST,"\(url)",headers:header,parameters:["username":"\(self.ContactUsernames[selectedRow])"]
+            Alamofire.request(.POST,"\(url)",headers:header,parameters:["phone":"\(self.ContactUsernames[selectedRow])"]
                 ).validate(statusCode: 200..<300).responseJSON{response in
                     var response1=response.response
                     var request1=response.request
@@ -1646,7 +1646,7 @@ class ChatMainViewController:UIViewController,SocketClientDelegate,SocketConnect
             //var pp=JSON(params)
             //var bb=jsonString(self.ContactsObjectss[selectedRow].stringValue)
             //var a=JSONStringify(self.ContactsObjectss[selectedRow].object, prettyPrinted: false)
-            Alamofire.request(.POST,"\(url)",headers:header,parameters:["username":"\(self.ContactUsernames[selectedRow])"]
+            Alamofire.request(.POST,"\(url)",headers:header,parameters:["phone":"\(self.ContactUsernames[selectedRow])"]
                 ).validate(statusCode: 200..<300).responseJSON{response in
                     var response1=response.response
                     var request1=response.request
@@ -1789,9 +1789,11 @@ class ChatMainViewController:UIViewController,SocketClientDelegate,SocketConnect
             //////////////////////////////
             if(self.ContactOnlineStatus[selectedRow]==0)
             {
+                
                 print("contact is offline")
                 socketObj.socket.emit("logClient","contact is offline")
             }
+            socketObj.socket.emit("logClient","callthisperson,room:globalchatroom,callee: \(self.ContactUsernames[selectedRow]), caller:\(username!)")
             socketObj.socket.emit("callthisperson",["room" : "globalchatroom","callee": self.ContactUsernames[selectedRow], "caller":username!])
             isInitiator=true
             callerName=username!
@@ -1909,7 +1911,10 @@ class ChatMainViewController:UIViewController,SocketClientDelegate,SocketConnect
         {
             case "Accept Call":
                 print("Accept call in chat view")
+              
                 callerName=KeychainWrapper.stringForKey("username")!
+                  print("callerName is ........... \(callerName)")
+                socketObj.socket.emit("logClient","callerName is ........... \(callerName)")
                 //iamincallWith=msg[0]["callee"].string!
                 
                 print("callee is \(callerName)", terminator: "")
@@ -2004,7 +2009,8 @@ class ChatMainViewController:UIViewController,SocketClientDelegate,SocketConnect
                
                         print("theseareonline status...", terminator: "")
                         var theseareonlineUsers=JSON(data!)
-                        //print(theseareonlineUsers.object)
+                        print(theseareonlineUsers.object)
+                        print(theseareonlineUsers[0])
                         //print(offlineUsers[0]["username"])
                         print("contact user names count is \(self.ContactUsernames.count) and theseareonline users count is \(theseareonlineUsers[0].count) and self array of online users count is \(self.ContactOnlineStatus.count)")
                         for(var i=0;i<theseareonlineUsers[0].count;i++)
@@ -2046,6 +2052,7 @@ class ChatMainViewController:UIViewController,SocketClientDelegate,SocketConnect
                 
                 //let secondViewController:CallRingingViewController = CallRingingViewController()
                 
+                print("currrentUsernameRetrieved is \(currrentUsernameRetrieved)")
                 socketObj.socket.emit("yesiamfreeforcall",["mycaller" : jdata[0]["caller"].string!, "me":self.currrentUsernameRetrieved])
                 
                 var next = self.storyboard?.instantiateViewControllerWithIdentifier("Main") as! CallRingingViewController
