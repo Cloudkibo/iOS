@@ -14,4 +14,10 @@ class AllContactsCell:UITableViewCell {
     @IBOutlet weak var labelNamePrivate: UILabel!
 
     @IBOutlet weak var labelStatusPrivate: UILabel!
+    
+    @IBOutlet weak var lbl_status: UILabel!
+    @IBOutlet weak var lbl_contactName: UILabel!
+
+    @IBOutlet weak var lbl_phone: UILabel!
+    @IBOutlet weak var lbl_email: UILabel!
 }

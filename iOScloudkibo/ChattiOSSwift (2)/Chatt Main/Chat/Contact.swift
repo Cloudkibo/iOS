@@ -17,7 +17,7 @@ class iOSContact{
     //var contacts = [CNContact]()
     var keys:[String]
     var notAvailableContacts=[String]()
-    var notAvailableNames=[String]()
+    
     //// var emails=[String]()
     init(keys:[String]){
         self.keys=keys
@@ -57,7 +57,7 @@ class iOSContact{
                     
                     if(try contacts[i].givenName != "")
                     {
-                        nameList.append(contacts[i].givenName)
+                        nameList.append(contacts[i].givenName+" "+contacts[i].familyName)
                         print(contacts[i].givenName)
                     }
                     

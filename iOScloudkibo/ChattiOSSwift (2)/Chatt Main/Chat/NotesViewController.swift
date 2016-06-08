@@ -8,7 +8,7 @@
 
 import UIKit
 import SQLite
-
+import Contacts
 class NotesViewController: UIViewController,InviteContactsDelegate {
 
     var delegate:InviteContactsDelegate!
@@ -20,7 +20,7 @@ class NotesViewController: UIViewController,InviteContactsDelegate {
     var messageFrame = UIView()
     var activityIndicator = UIActivityIndicatorView()
     var strLabel = UILabel()
-    
+    var currentIndex:Int!
     override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: NSBundle?) {
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
         // Custom initialization
@@ -129,9 +129,29 @@ class NotesViewController: UIViewController,InviteContactsDelegate {
         
             cellPrivate.labelStatusPrivate.hidden=true
         
-            cellPrivate.labelNamePrivate.text=contacts[indexPath.row].givenName
-        do{
-            let em = try contacts[indexPath.row].phoneNumbers 
+            cellPrivate.labelNamePrivate.text=contacts[indexPath.row].givenName+" "+contacts[indexPath.row].familyName
+        
+        // %%%%%%%%%%%%%%%%%%%%%%%%%_------------------------- need to show names also ------
+        
+        if (contacts[indexPath.row].isKeyAvailable(CNContactPhoneNumbersKey)) {
+            for phoneNumber:CNLabeledValue in contacts[indexPath.row].phoneNumbers {
+                let a = phoneNumber.value as! CNPhoneNumber
+                //print("\()
+                var phone=a.valueForKey("digits") as! String
+                for(var i=0;i<availableEmailsList.count;i++)
+                {
+                    if(phone == availableEmailsList[i])
+                    {
+                        cellPrivate.labelStatusPrivate.hidden=false
+                    }
+                    
+                }
+                
+            }
+        }
+        
+        /*do{
+            let em = try contacts[indexPath.row].emailAddresses.first
             if(em != nil && em != "")
             {
                 for(var i=0;i<availableEmailsList.count;i++)
@@ -144,7 +164,7 @@ class NotesViewController: UIViewController,InviteContactsDelegate {
                     }
                 }
             }
-        }
+        }*/
         
             return cellPrivate
             /*
@@ -172,16 +192,40 @@ class NotesViewController: UIViewController,InviteContactsDelegate {
         // Dispose of any resources that can be recreated.
     }
     
+    
+   /* func tableView(tableView: UITableView!, didSelectRowAtIndexPath indexPath: NSIndexPath!){
+        
+        
+        //let indexPath = tableView.indexPathForSelectedRow();
+        //let currentCell = tableView.cellForRowAtIndexPath(indexPath!) as UITableViewCell!;
+        
+        //print(ContactNames[indexPath.row], terminator: "")
+        self.performSegueWithIdentifier("contactDetailsSegue", sender: nil);
+        //slideToChat
 
-    /*
+        
+    }*/
+
+    
     // #pragma mark - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepareForSegue(segue: UIStoryboardSegue?, sender: AnyObject?) {
+        
+        if segue!.identifier == "contactDetailsSegue" {
+            print("contactDetailsSegue")
+            let contactsDetailController = segue!.destinationViewController as? contactsDetailsTableViewController
+            //let addItemViewController = navigationController?.topViewController as? AddItemViewController
+            
+            if let viewController = contactsDetailController {
+                contactsDetailController?.contactIndex=tblForNotes.indexPathForSelectedRow!.row
+            }
+        }
+        
         // Get the new view controller using [segue destinationViewController].
         // Pass the selected object to the new view controller.
     }
-    */
+
 
     func receivedContactsUpdateUI() {
         
