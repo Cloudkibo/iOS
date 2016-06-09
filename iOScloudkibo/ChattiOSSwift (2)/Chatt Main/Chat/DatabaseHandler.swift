@@ -315,10 +315,24 @@ print("--------")
         let from = Expression<String>("from")
         
         var tbl_userchats=sqliteDB.userschats
-        /////var tbl_userchats=sqliteDB.db["userschats"]
-        var n=tbl_userchats.filter(to==userTo).delete()
-        tbl_userchats.filter(from==userTo).delete()
         
+        //%%%%%%%%%%%%%%%% new running delete chat from sqlite database june 2016 %%%%%%%%%%%%%%%%
+        //-----------------____________
+        /////var tbl_userchats=sqliteDB.db["userschats"]
+        //tbl_userchats.filter(to==userTo).delete()
+        //tbl_userchats.filter(from==userTo).delete()
+        do
+        {
+        try sqliteDB.db.run(tbl_userchats.filter(to==userTo).delete())
+        try sqliteDB.db.run(tbl_userchats.filter(from==userTo).delete())
+            
+        }
+        catch(let error)
+            {
+                print("error in deleting previous chat \(error)")
+                socketObj.socket.emit("logClient","error in deleting previous chat from sqliteDB \(error)")
+                
+            }
      
         
         /*let alice = users.filter(id == 1)

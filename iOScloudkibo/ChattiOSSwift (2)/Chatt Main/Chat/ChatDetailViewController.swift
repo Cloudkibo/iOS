@@ -59,9 +59,11 @@ class ChatDetailViewController: UIViewController{
     
     override func viewWillAppear(animated: Bool) {
         print("chat will appear")
-        FetchChatServer()
+        socketObj.socket.emit("logClient","chat page will appear")
+        //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%------------ commented june 16 FetchChatServer()
         print("calling retrieveChat")
-        sqliteDB.retrieveChat(username!)
+        self.retrieveChatFromSqlite(selectedContact)
+        //sqliteDB.retrieveChat(username!)
         
     }
     override func viewDidLoad() {
@@ -70,46 +72,10 @@ class ChatDetailViewController: UIViewController{
         NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("willHideKeyBoard:"), name:UIKeyboardWillHideNotification, object: nil)
         messages = NSMutableArray()
         
-        
-                //self.performSegueWithIdentifier("chatSegue", sender: nil)
-       
-       /* var tbl_contactList=sqliteDB.db["contactslists"]
-        let username = Expression<String>("username")
-        let email = Expression<String>("email")
-        let _id = Expression<String>("_id")
-        //let detailsshared = Expression<String>("detailsshared")
-        //let unreadMessage = Expression<Bool>("unreadMessage")
-        let userid = Expression<String>("userid")
-        let firstname = Expression<String>("firstname")
-        let lastname = Expression<String>("lastname")
-        let phone = Expression<String>("phone")
-        let status = Expression<String>("status")
-        
-        for user in tbl_contactList.select(username, email,_id,userid,firstname,lastname,phone,status).filter(username==selectedContact) {
-            print("id: \(user[username]), email: \(user[email])")
-            var userObj=JSON(["_id":"\(user[_id])","userid":"\(user[userid])","firstname":"\(user[firstname])","lastname":"\(user[lastname])","email":"\(user[email])","phone":"\(user[phone])","status":"\(user[status])"])
-            self.selectedUserObj=userObj
-        print("chat detail view")
-        }*/
-       /* if loggedUserObj==nil
-        {
-            if let loggd=KeychainWrapper.objectForKey("loggedUserObj")
-            {
-                loggedUserObj=JSON(loggd)
-            }
-        }*/
-        // dispatch_async(dispatch_get_main_queue(), {
-        
-        
-        
-        //^^self.getUserObjectById()
-        ///^^^^^^^^markChatAsRead()
-        
-        //^^self.tbl_userchats=sqliteDB.db["userschats"]
-        
         print("chat on load")
-        
-        //%%%%%%%%%%%%%%%%%&&&&&&&&&&&&&&&&&&^^^^^^^^^FetchChatServer()
+        socketObj.socket.emit("logClient","chat page loading")
+        //%%%%%%%%%%%%%%%%%&&&&&&&&&&&&&&&&&&^^^^^^^^^
+        FetchChatServer()
         self.NewChatNavigationTitle.title=selectedContact
         var receivedMsg=JSON("")
         socketObj.socket.on("im") {data,ack in
@@ -124,7 +90,8 @@ class ChatDetailViewController: UIViewController{
             
             self.addMessage(receivedMsg.description, ofType: "1")
                         
-            self.tblForChats.reloadData()
+           
+            
             if(self.messages.count>1)
             {
             var indexPath = NSIndexPath(forRow:self.messages.count-1, inSection: 0)
@@ -132,6 +99,8 @@ class ChatDetailViewController: UIViewController{
             self.tblForChats.scrollToRowAtIndexPath(indexPath, atScrollPosition: UITableViewScrollPosition.Bottom, animated: true)
             }
             sqliteDB.SaveChat(chatJson[0]["to"].string!, from1: chatJson[0]["from"].string!,owneruser1:chatJson[0]["owneruser"].string! , fromFullName1: chatJson[0]["fromFullName"].string!, msg1: chatJson[0]["msg"].string!)
+            
+             self.tblForChats.reloadData()
            
         }
         ////////////messages.addObject(["message":"helloo","hiiii":"tstingggg","type":"1"])
@@ -181,6 +150,67 @@ class ChatDetailViewController: UIViewController{
         self.markChatAsRead()
     }*/
     
+    func retrieveChatFromSqlite(selecteduser:String)
+    {
+        
+        let to = Expression<String>("to")
+        let from = Expression<String>("from")
+        let owneruser = Expression<String>("owneruser")
+        let fromFullName = Expression<String>("fromFullName")
+        let msg = Expression<String>("msg")
+        let date = Expression<NSDate>("date")
+        
+        var tbl_userchats=sqliteDB.userschats
+        var res=tbl_userchats.filter(to==selecteduser || from==selecteduser)
+        //to==selecteduser || from==selecteduser
+        print("chat from sqlite is")
+        print(res)
+        do
+        {
+            
+            //for tblContacts in try sqliteDB.db.prepare(tbl_userchats.filter(owneruser==owneruser1)){
+            //print("queryy runned count is \(tbl_contactslists.count)")
+            for tblContacts in try sqliteDB.db.prepare(tbl_userchats.filter(to==selecteduser || from==selecteduser)){
+            print(tblContacts[to])
+            print(tblContacts[from])
+            print(tblContacts[msg])
+            print("--------")
+            
+            if (tblContacts[from]==username!)
+                
+            {//type1
+                self.addMessage(tblContacts[msg], ofType: "2")
+            }
+            else
+            {//type2
+                self.addMessage(tblContacts[msg], ofType: "1")
+                
+            }
+               /* if(self.messages.count>1)
+                {
+                    var indexPath = NSIndexPath(forRow:self.messages.count-1, inSection: 0)
+                    
+                    self.tblForChats.scrollToRowAtIndexPath(indexPath, atScrollPosition: UITableViewScrollPosition.Bottom, animated: false)
+                }*/
+
+            //self.tblForChats.reloadData()
+            
+            }
+            if(self.messages.count>1)
+            {
+                var indexPath = NSIndexPath(forRow:self.messages.count-1, inSection: 0)
+                
+                self.tblForChats.scrollToRowAtIndexPath(indexPath, atScrollPosition: UITableViewScrollPosition.Bottom, animated: true)
+            }
+            
+        }
+        catch(let error)
+        {
+            print(error)
+        }
+        /////var tbl_userchats=sqliteDB.db["userschats"]
+        
+    }
     
     func removeChatHistory(){
         //var loggedUsername=loggedUserObj["username"]
@@ -331,6 +361,7 @@ class ChatDetailViewController: UIViewController{
                     
                     //Overwrite sqlite db
                     sqliteDB.deleteChat(self.selectedContact)
+                    
                     socketObj.socket.emit("logClient","chat messages count is \(UserchatJson["msg"].count)")
                     for var i=0;i<UserchatJson["msg"].count
                         ;i++
@@ -339,7 +370,12 @@ class ChatDetailViewController: UIViewController{
                         
                         sqliteDB.SaveChat(UserchatJson["msg"][i]["to"].string!, from1: UserchatJson["msg"][i]["from"].string!,owneruser1:UserchatJson["msg"][i]["owneruser"].string! , fromFullName1: UserchatJson["msg"][i]["fromFullName"].string!, msg1: UserchatJson["msg"][i]["msg"].string!)
                         
-                        if (UserchatJson["msg"][i]["from"].string==username!)
+                        //%%%%%%%%%%%%%%%%%%%%%%%%%
+                        //%%%%%%%%%%%%%%%%%%%%%%%%%%
+                        //_______________________________commenting june 2016 for testing--------
+                        
+                      
+                        /*if (UserchatJson["msg"][i]["from"].string==username!)
                             
                         {//type1
                             self.addMessage(UserchatJson["msg"][i]["msg"].string!, ofType: "2")
@@ -349,12 +385,14 @@ class ChatDetailViewController: UIViewController{
                             self.addMessage(UserchatJson["msg"][i]["msg"].string!, ofType: "1")
                             
                         }
+                        
                         self.tblForChats.reloadData()
                         if(self.messages.count>1)
                         {
                         var indexPath = NSIndexPath(forRow:self.messages.count-1, inSection: 0)
                         self.tblForChats.scrollToRowAtIndexPath(indexPath, atScrollPosition: UITableViewScrollPosition.Bottom, animated: true)
                         }
+                        */
                         
                     }
                 }

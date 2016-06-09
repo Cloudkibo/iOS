@@ -112,6 +112,7 @@ class LoginAPI{
         self.socket.on("disconnect") {data, ack in
             //NSLog("disconnected from socket")
             print("disconnected from socket")
+            socketObj.socket.emit("logClient","kibo disconnected from socket")
             meetingStarted=false
             isSocketConnected=false
             //self.socket.reconnects=true

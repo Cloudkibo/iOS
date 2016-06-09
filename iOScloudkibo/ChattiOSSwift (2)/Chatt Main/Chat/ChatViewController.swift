@@ -349,58 +349,7 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
             if(socketObj != nil){
                 socketObj.delegate=self
             }
-        if(loggedUserObj == JSON("[]"))
-        {
-            
-            
-            ///%%%%%%%%%%%%%%%%%%%%***************
-            /*
-            do{
-                var lusername = try KeychainWrapper.stringForKey("username")
-                
-                var lid = try KeychainWrapper.stringForKey("_id")
-                
-                var lobj= ["_id" : lid!, "username" : lusername!]
-                ///////////////////not supported ^^^^^^^^^^^newwwif let dataFromString = jsonString.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false) {
-                let json11 = JSON(lobj.debugDescription)
-                
-                var lllooo = json11
-                loggedUserObj=json11
-                loggedUserObj.object=json11.object
-                print(lllooo.object)
-                
-}*/
-            
-                
-                
-                
-                
-                //var jsonNew=JSON("{\"room\": \"globalchatroom\",\"user\": {\"username\":\"sabachanna\"}}")
-                //socketObj.socket.emit("join global chatroom", ["room": "globalchatroom", "user": ["username":"sabachanna"]]) WORKINGGG
-                
-                
-                /*
-                
-                var logonjuser=KeychainWrapper.stringForKey("loggedUserObjString")
-                var newloggedUserObj=logonjuser!.stringByResolvingSymlinksInPath
-                print("newloggeduserobj string")
-                print(newloggedUserObj)
-                if let dataFromString = jsonString.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false) {
-                let json11 = JSON(newloggedUserObj)
-                
-                print("json11 object")
-                print(json11.object)
-                
-                loggedUserObj=json11
-                
-                
-                print("joining rooon \(json11.object)")
-                socketObj.socket.emit("join global chatroom",["room": "globalchatroom", "user": json11.object])
-                
-                }*/
-            ///////////////////////not supported}
-            
-        }
+    
         
         }//end if username definned
         
@@ -997,6 +946,22 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
                             ////self.tblForChat.reloadData()
                         }
                         dispatch_async(dispatch_get_main_queue(), {
+                            
+                            if(nameList.count>1||displayname=="")
+                            {
+                                
+                                
+                                dispatch_async(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0)) {
+                                    // do some task start to show progress wheel
+                                    self.fetchContacts()
+                                    //self.fetchContactsFromServer()
+                                    dispatch_async(dispatch_get_main_queue()) {
+                                        self.tblForChat.reloadData()
+                                    }
+                                }
+                                
+                            }
+                            
                             self.tblForChat.reloadData()
                         })
                     }
@@ -1012,7 +977,8 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
             
            // dispatch_async(dispatch_get_main_queue(), {
                 ///////////newwwwwwwwwwwww
-            //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+            // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+            
             if(nameList.count>1||displayname=="")
             {
             
@@ -1174,6 +1140,7 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
             ContactOnlineStatus.append(0)
 
         }
+            tblForChat.reloadData()
         }catch
         {
             print("query not runned contactlist")
@@ -1298,6 +1265,10 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
                     
                     let tbl_contactslists=sqliteDB.contactslists
                     /////////newwwwwwwww///////
+                    
+                    
+                    
+                    //-------------deleting table of contactslist--------------
                     do{try sqliteDB.db.run(tbl_contactslists.delete())}catch{
                         print("contactslist table not deleted")
                     }
@@ -1309,6 +1280,10 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
                     //-========Remove old values=====================
                     // ***************%%%%%%%%%%%%%%%%%%% newww june
                     
+                    
+                    //%%%%%%%%%%%%%%%%%%%% new commented. happens in sqlite 9 june 2016 %%%%%%%%
+                    //------------------------------
+                    /*
                     self.ContactIDs.removeAll(keepCapacity: false)
                     self.ContactLastNAme.removeAll(keepCapacity: false)
                     self.ContactNames.removeAll(keepCapacity: false)
@@ -1319,6 +1294,8 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
                     self.ContactsPhone.removeAll(keepCapacity: false)
                     //////////
                     self.ContactFirstname.removeAll(keepCapacity: false)
+
+*/
                     
                     //////
                     for var i=0;i<contactsJsonObj.count;i++
@@ -1347,6 +1324,9 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
 
 
                             // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%new commented june
+//%%%%%%%%%%%%%%%%%%%% new commented. happens in sqlite 9 june 2016 %%%%%%%%
+//------------------------------
+/*
                         self.ContactsObjectss.append(contactsJsonObj[i]["contactid"])
                             // ****%%%%% database changes new june
                             self.ContactNames.append(contactsJsonObj[i]["contactid"]["phone"].string!)
@@ -1360,6 +1340,7 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
                         self.ContactsPhone.append(contactsJsonObj[i]["contactid"]["phone"].string!)
                         self.ContactsEmail.append(contactsJsonObj[i]["contactid"]["email"].string!)
                         self.ContactOnlineStatus.append(0)
+*/
                         
                         print("inserted id: \(rowid)")
                             }
@@ -1389,9 +1370,12 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
                                 
                                 
                                 // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%new commented june
+//%%%%%%%%%%%%%%%%%%%% new commented. happens in sqlite 9 june 2016 %%%%%%%%
+//------------------------------
+/*
                                 self.ContactsObjectss.append(contactsJsonObj[i]["contactid"])
                                 // ****%%%%% database changes new june
-                                self.ContactNames.append(contactsJsonObj[i]["contactid"]["phone"].string!)
+                                self.ContactNames.append(contactsJsonObj[i]["contactid"]["display_name"].string!)
                                 
                                 //self.ContactNames.append(contactsJsonObj[i]["contactid"]["firstname"].string!+" "+contactsJsonObj[i]["contactid"]["lastname"].string!)
                                 //self.ContactUsernames.append(contactsJsonObj[i]["contactid"]["display_name"].string!)
@@ -1404,8 +1388,9 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
                                 self.ContactsPhone.append(contactsJsonObj[i]["contactid"]["phone"].string!)
                                 self.ContactsEmail.append("@")
                                 self.ContactOnlineStatus.append(0)
-                                
-                                print("inserted id: \(rowid)")
+                                */
+                               // print("inserted id: \(rowid)")
+                                //fetchContacts()
 
 }
                         self.tblForChat.reloadData()
@@ -1601,7 +1586,9 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
                         
                         print(json)
                         
-                        sqliteDB.deleteChat(self.ContactNames[selectedRow])
+                        // %%%%%%%%%% use phone now not username
+                        //sqliteDB.deleteChat(self.ContactNames[selectedRow])
+                        sqliteDB.deleteChat(self.ContactUsernames[selectedRow])
                         
                         //print(ContactNames[selectedRow]+" deleted")
                         sqliteDB.deleteFriend(self.ContactUsernames[selectedRow])
@@ -1721,7 +1708,9 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
                             //dataMy=JSON(data1!)
                             //print(dataMy.description)
                             
-                            sqliteDB.deleteChat(self.ContactNames[selectedRow])
+                            /////sqliteDB.deleteChat(self.ContactNames[selectedRow])
+                            
+                            sqliteDB.deleteChat(self.ContactUsernames[selectedRow])
                             
                             //print(ContactNames[selectedRow]+" deleted")
                             sqliteDB.deleteFriend(self.ContactUsernames[selectedRow])

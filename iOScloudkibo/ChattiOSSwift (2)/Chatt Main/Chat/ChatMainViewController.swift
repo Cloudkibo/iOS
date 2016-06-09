@@ -700,7 +700,7 @@ class ChatMainViewController:UIViewController,SocketClientDelegate,SocketConnect
                 contactsList.fetch(){ (result) -> () in
                      print("got contacts from device")
                     
-                    dispatch_async(dispatch_get_main_queue()) {
+                   /* dispatch_async(dispatch_get_main_queue()) {
                         // update some UI
                         //remove progress wheel
                         print("got server response")
@@ -708,7 +708,7 @@ class ChatMainViewController:UIViewController,SocketClientDelegate,SocketConnect
                         self.messageFrame.removeFromSuperview()
                         //move to next screen
                         //self.saveButton.enabled = true
-                    }
+                    }*/
                     
                     socketObj.socket.emit("logClient", "done fetched contacts from iphone")
                     for r in result
