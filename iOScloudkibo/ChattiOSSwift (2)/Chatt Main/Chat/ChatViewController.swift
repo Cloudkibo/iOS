@@ -1389,8 +1389,7 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
                                 self.ContactsEmail.append("@")
                                 self.ContactOnlineStatus.append(0)
                                 */
-                               // print("inserted id: \(rowid)")
-                                //fetchContacts()
+                                print("inserted id: \(rowid)")
 
 }
                         self.tblForChat.reloadData()
