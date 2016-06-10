@@ -22,7 +22,7 @@ class ChatDetailViewController: UIViewController{
     
     @IBOutlet weak var btn_chatDeleteHistory: UIBarButtonItem!
     
-    
+    var selectedIndex:Int!
     var selectedContact="" //username
     var selectedID=""
     var selectedFirstName=""
@@ -60,9 +60,27 @@ class ChatDetailViewController: UIViewController{
     override func viewWillAppear(animated: Bool) {
         print("chat will appear")
         socketObj.socket.emit("logClient","chat page will appear")
+           self.retrieveChatFromSqlite(selectedContact)
         //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%------------ commented june 16 FetchChatServer()
         print("calling retrieveChat")
-        self.retrieveChatFromSqlite(selectedContact)
+        
+       // if(appJustInstalled[self.selectedIndex] == true)
+        //{
+            FetchChatServer(){ (result) -> () in
+                if(result==true)
+                {
+          //          appJustInstalled[self.selectedIndex] = false
+                    self.retrieveChatFromSqlite(self.selectedContact)
+                    
+                }
+            }
+
+        //}
+        //else
+        //{
+            self.retrieveChatFromSqlite(selectedContact)
+        //}
+        ///////%%%%% self.retrieveChatFromSqlite(selectedContact)
         //sqliteDB.retrieveChat(username!)
         
     }
@@ -75,7 +93,7 @@ class ChatDetailViewController: UIViewController{
         print("chat on load")
         socketObj.socket.emit("logClient","chat page loading")
         //%%%%%%%%%%%%%%%%%&&&&&&&&&&&&&&&&&&^^^^^^^^^
-        FetchChatServer()
+        //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%FetchChatServer()
         self.NewChatNavigationTitle.title=selectedContact
         var receivedMsg=JSON("")
         socketObj.socket.on("im") {data,ack in
@@ -152,7 +170,7 @@ class ChatDetailViewController: UIViewController{
     
     func retrieveChatFromSqlite(selecteduser:String)
     {
-        
+        messages.removeAllObjects()
         let to = Expression<String>("to")
         let from = Expression<String>("from")
         let owneruser = Expression<String>("owneruser")
@@ -196,6 +214,8 @@ class ChatDetailViewController: UIViewController{
             //self.tblForChats.reloadData()
             
             }
+            self.tblForChats.reloadData()
+            
             if(self.messages.count>1)
             {
                 var indexPath = NSIndexPath(forRow:self.messages.count-1, inSection: 0)
@@ -323,14 +343,16 @@ class ChatDetailViewController: UIViewController{
         
     }
     
-    func FetchChatServer()
+    func FetchChatServer(completion:(result:Bool)->())
     {
         
         print("[user1:\(username!),user2:\(selectedContact)]", terminator: "")
         ///POST GET april 2016
         var bringUserChatURL=Constants.MainUrl+Constants.bringUserChat
         let configuration = NSURLSessionConfiguration.defaultSessionConfiguration()
-        Alamofire.request(.POST,"\(bringUserChatURL)",headers:header,parameters: ["user1":"\(username!)","user2":"\(selectedContact)"]
+         let priority = DISPATCH_QUEUE_PRIORITY_DEFAULT
+        dispatch_async(dispatch_get_global_queue(priority, 0)) {
+        Alamofire.request(.POST,"\(bringUserChatURL)",headers:header,parameters: ["user1":"\(username!)","user2":"\(self.selectedContact)"]
         ).validate(statusCode: 200..<300).responseJSON{response in
         var response1=response.response
         var request1=response.request
@@ -344,7 +366,7 @@ class ChatDetailViewController: UIViewController{
         
         
                 //===========INITIALISE SOCKETIOCLIENT=========
-                dispatch_async(dispatch_get_main_queue(), {
+               // dispatch_async(dispatch_get_main_queue(), {
                 
                 //self.dismissViewControllerAnimated(true, completion: nil);
                 /// self.performSegueWithIdentifier("loginSegue", sender: nil)
@@ -395,6 +417,9 @@ class ChatDetailViewController: UIViewController{
                         */
                         
                     }
+                    dispatch_async(dispatch_get_main_queue()) {
+                        completion(result:true)
+                    }
                 }
                 else
                 {
@@ -402,10 +427,11 @@ class ChatDetailViewController: UIViewController{
                     print(response1)
                     print(error1)
                     print(data1)
+                    completion(result:false)
                 }
                 
                
-                })
+               // })
                 if(response1?.statusCode==401)
                 {
                     socketObj.socket.emit("logClient","error in fetching chat status 401")
@@ -413,8 +439,9 @@ class ChatDetailViewController: UIViewController{
                     self.rt.refrToken()
                 }
         }
+        }
         
-        
+    
     }
     
     func tableView(tableView: UITableView!, numberOfRowsInSection section: Int) -> Int {

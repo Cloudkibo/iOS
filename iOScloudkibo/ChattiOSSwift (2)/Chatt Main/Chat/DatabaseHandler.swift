@@ -8,7 +8,7 @@
 
 import Foundation
 import SQLite
-
+import Contacts
 class DatabaseHandler:NSObject{
     var db:Connection!
     //var db:Database
@@ -16,6 +16,7 @@ class DatabaseHandler:NSObject{
     var accounts:Table!
     var contactslists:Table!
     var userschats:Table!
+    var allcontacts:Table!
     
     init(dbName:String)
     {print("inside database handler class")
@@ -45,6 +46,7 @@ class DatabaseHandler:NSObject{
         status: "testing table")*/
         
         createAccountsTable()
+        createAllContactsTable()
         ///////contactslists.drop()
         createContactListsTable()
         createUserChatTable()
@@ -174,6 +176,32 @@ class DatabaseHandler:NSObject{
         
     }
     
+    func createAllContactsTable(){
+        
+        socketObj.socket.emit("logClient","creating allcontacts table")
+        //let contactObject=Expression<CNContact>("contactObj")
+        //let kiboContact = Expression<Bool>("kiboContact")
+        let name = Expression<String>("name")
+        let phone = Expression<String>("phone")
+        //let email = Expression<String>("email")
+        let kiboContact = Expression<Bool>("kiboContact")
+        
+        self.allcontacts = Table("allcontacts")
+        do{
+            try db.run(allcontacts.create(ifNotExists: true) { t in     // CREATE TABLE "accounts" (
+                t.column(name)
+                t.column(phone)
+                t.column(kiboContact)
+                })
+            
+        }
+        catch(let error)
+        {
+            socketObj.socket.emit("logClient","error in creating allcontacts table \(error)")
+            print("error in creating allcontacts table")
+        }
+    }
+    
     func createUserChatTable(){
         
            socketObj.socket.emit("logClient","creating chat table")
@@ -234,6 +262,32 @@ class DatabaseHandler:NSObject{
     }
     
     }*/
+    func saveAllContacts(name1:String,phone1:String,kiboContact1:Bool)
+    {
+        // let contactObject=Expression<CNContact>("contactObj")
+        let name = Expression<String>("name")
+        let phone = Expression<String>("phone")
+       // let email = Expression<String>("email")
+
+        let kiboContact = Expression<Bool>("kiboContact")
+
+        var tbl_allcontacts=sqliteDB.allcontacts
+        
+        do {
+            let rowid = try db.run(tbl_allcontacts.insert(
+                name<-name1,
+                phone<-phone1,
+                kiboContact<-kiboContact1
+                ))
+            socketObj.socket.emit("logClient","all contacts saved in sqliteDB")
+            print("inserted id allcontacts : \(rowid)")
+        } catch {
+            print("insertion failed: allcontacts \(error)")
+        }
+        
+
+
+    }
     
     func SaveChat(to1:String,from1:String,owneruser1:String,fromFullName1:String,msg1:String)
     {

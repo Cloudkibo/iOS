@@ -72,6 +72,7 @@ var urlLocalFile:NSURL!
 var iOSstartedCall=false
 var firstTimeLogin=false
 var header:[String:String]=["kibo-token":""]
+//var appJustInstalled=[Bool]()
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate,AppDelegateScreenDelegate {
