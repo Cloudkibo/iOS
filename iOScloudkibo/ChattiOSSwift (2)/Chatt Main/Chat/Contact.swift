@@ -10,6 +10,7 @@ import Foundation
 import Contacts
 import Alamofire
 import SwiftyJSON
+import SQLite
 
 class iOSContact{
     
@@ -25,6 +26,24 @@ class iOSContact{
     }
     
     func fetch(completion: (result:[String])->()){
+        
+        let tbl_allcontacts=sqliteDB.allcontacts
+        
+        //deleting all records
+        do
+        {
+            try sqliteDB.db.run(tbl_allcontacts.delete())
+        }
+        catch
+            {
+                print("error in deleting allcontacts table")
+                socketObj.socket.emit("logClient","iphoneLog: error in deleting allcontacts data \(error)")
+        }
+        
+        
+        var name=Expression<String>("name")
+        var phone=Expression<String>("phone")
+        
         socketObj.socket.emit("logClient","\(username) fetching contacts from iphone contactlist")
         var emails=[String]()
         contacts.removeAll()
@@ -72,12 +91,21 @@ class iOSContact{
                 
                 
                 do{
-                    
+                    var fullname=contacts[i].givenName+" "+contacts[i].familyName
                     if (contacts[i].isKeyAvailable(CNContactPhoneNumbersKey)) {
                         for phoneNumber:CNLabeledValue in contacts[i].phoneNumbers {
                             let a = phoneNumber.value as! CNPhoneNumber
                             //print("\()
                             emails.append(a.valueForKey("digits") as! String)
+                            var phoneDigits=a.valueForKey("digits") as! String
+                            do{
+                                try sqliteDB.db.run(tbl_allcontacts.insert(name<-fullname,phone<-phoneDigits))
+                        }
+                            catch(let error)
+                            {
+                                print("error in name : \(error)")
+                                socketObj.socket.emit("logClient","iphoneLog: error is getting name \(error)")
+                            }
                         }
                     }
                     

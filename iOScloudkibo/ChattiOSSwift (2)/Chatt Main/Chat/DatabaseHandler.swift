@@ -50,6 +50,7 @@ class DatabaseHandler:NSObject{
         ///////contactslists.drop()
         createContactListsTable()
         createUserChatTable()
+        createAllContactsTable()
         
     }
     
@@ -191,7 +192,7 @@ class DatabaseHandler:NSObject{
             try db.run(allcontacts.create(ifNotExists: true) { t in     // CREATE TABLE "accounts" (
                 t.column(name)
                 t.column(phone)
-                t.column(kiboContact)
+                t.column(kiboContact, defaultValue:false)
                 })
             
         }

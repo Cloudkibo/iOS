@@ -94,7 +94,7 @@ class ChatDetailViewController: UIViewController{
         socketObj.socket.emit("logClient","chat page loading")
         //%%%%%%%%%%%%%%%%%&&&&&&&&&&&&&&&&&&^^^^^^^^^
         //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%FetchChatServer()
-        self.NewChatNavigationTitle.title=selectedContact
+        self.NewChatNavigationTitle.title=selectedFirstName
         var receivedMsg=JSON("")
         socketObj.socket.on("im") {data,ack in
             

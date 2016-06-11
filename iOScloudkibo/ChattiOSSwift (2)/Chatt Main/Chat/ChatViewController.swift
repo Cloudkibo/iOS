@@ -13,6 +13,7 @@ import SQLite
 import AVFoundation
 import Foundation
 import AccountKit
+import Contacts
 
 class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
 {
@@ -1532,7 +1533,47 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
         
         let cell=tblForChat.dequeueReusableCellWithIdentifier("ChatPrivateCell") as! ContactsListCell
         
-        cell.contactName?.text=ContactNames[indexPath.row]
+        var contactFound=false
+        ////%%%%%%%%%%%%%cell.contactName?.text=ContactNames[indexPath.row]
+        for(var i=0;i<contacts.count;i++)
+        {
+            if(contacts[i].isKeyAvailable(CNContactPhoneNumbersKey)) {
+                for phoneNumber:CNLabeledValue in contacts[i].phoneNumbers {
+                    let a = phoneNumber.value as! CNPhoneNumber
+                    //print("\()
+                    var phone=a.valueForKey("digits") as! String
+                    if(phone==ContactUsernames[indexPath.row])
+                    {
+                        //Matched phone number. Got contact
+                        if(contacts[i].givenName != "" || contacts[i].familyName != "")
+                        {
+                        cell.contactName?.text=contacts[i].givenName+" "+contacts[i].familyName
+                            print("name is \(contacts[i].givenName+" "+contacts[i].familyName)")
+                        ContactNames[indexPath.row]=contacts[i].givenName+" "+contacts[i].familyName
+                        }
+                        else
+                        {
+                            print("name is no name")
+                            cell.contactName?.text=phone
+                        }
+                        contactFound=true
+                      
+                    }
+                }
+        }
+            if(contactFound==false)
+            {
+                cell.contactName?.text=ContactUsernames[indexPath.row]
+            }
+        }
+        
+        
+        // %%%%%%%%%%%%%%%%%%%%%%%%%_------------------------- need to show names also ------
+        
+        
+        
+        
+            
         if ContactOnlineStatus[indexPath.row]==0
         {
             cell.btnGreenDot.hidden=true
@@ -1559,7 +1600,7 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
     }
     
     func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
-        if editingStyle == .Delete {
+        /*if editingStyle == .Delete {
             
             var selectedRow = indexPath.row
             print(selectedRow.description+" selected", terminator: "")
@@ -1647,7 +1688,7 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
             
         } else if editingStyle == .Insert {
             // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-        }
+        }*/
         
     }
     
@@ -1656,7 +1697,7 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
     
     func tableView(tableView: UITableView, editActionsForRowAtIndexPath indexPath: NSIndexPath) -> [AnyObject]?  {
         // 1
-        var shareAction = UITableViewRowAction(style: UITableViewRowActionStyle.Default, title: "Delete" , handler: { (action:UITableViewRowAction, indexPath:NSIndexPath) -> Void in
+        /*var shareAction = UITableViewRowAction(style: UITableViewRowActionStyle.Default, title: "Delete" , handler: { (action:UITableViewRowAction, indexPath:NSIndexPath) -> Void in
             // 2
             
             
@@ -1753,7 +1794,7 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
                     
             }
             
-        })
+        })*/
         // 3
         var rateAction = UITableViewRowAction(style: UITableViewRowActionStyle.Default, title: "Call" , handler: { (action:UITableViewRowAction, indexPath:NSIndexPath) -> Void in
             
@@ -1884,7 +1925,7 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
         
         
         // 5
-        return [shareAction,rateAction]
+        return [rateAction]
         
     }
     
@@ -1914,9 +1955,10 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
                 let selectedRow = tblForChat.indexPathForSelectedRow!.row
                 //destinationVC.selectedContact = ContactNames[selectedRow]
                 destinationVC.selectedContact = ContactUsernames[selectedRow]
-                destinationVC.selectedFirstName=ContactFirstname[selectedRow]
+                destinationVC.selectedFirstName=ContactNames[selectedRow]
                 destinationVC.selectedLastName=ContactLastNAme[selectedRow]
                 destinationVC.selectedID=ContactIDs[selectedRow]
+                
                 //destinationVC.AuthToken = self.AuthToken
                 
                 //
