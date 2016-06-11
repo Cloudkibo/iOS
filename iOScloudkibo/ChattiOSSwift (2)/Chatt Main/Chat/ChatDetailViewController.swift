@@ -10,6 +10,7 @@ import UIKit
 import SwiftyJSON
 import SQLite
 import Alamofire
+import AVFoundation
 
 class ChatDetailViewController: UIViewController{
     
@@ -99,6 +100,12 @@ class ChatDetailViewController: UIViewController{
         socketObj.socket.on("im") {data,ack in
             
             print("chat sent to server.ack received")
+            // declared system sound here
+            let systemSoundID: SystemSoundID = 1104
+            
+            // to play sound
+            AudioServicesPlaySystemSound (systemSoundID)
+            
             var chatJson=JSON(data)
             print("chat received \(chatJson.debugDescription)")
             print(chatJson[0]["msg"])

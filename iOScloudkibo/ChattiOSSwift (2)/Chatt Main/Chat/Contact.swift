@@ -444,7 +444,7 @@ class iOSContact{
         // })
     }
 
-    func saveToAddressBook(newcontact:[String:String]){
+    func saveToAddressBook(newcontact:[String:String],completion: (result:Bool)->()){
         let contactTemp = CNMutableContact()
         
         contactTemp.imageData = NSData() // The profile picture as a NSData object
@@ -453,9 +453,9 @@ class iOSContact{
         contactTemp.familyName = newcontact["lname"]!
         
         //let homeEmail = CNLabeledValue(label:CNLabelHome, value:"john@example.com")
-        let workEmail = CNLabeledValue(label:CNLabelWork, value:newcontact["email"]!)
+        //%%%%%%%%%%%%let workEmail = CNLabeledValue(label:CNLabelWork, value:newcontact["email"]!)
         //contactTemp.emailAddresses = [homeEmail, workEmail]
-        contactTemp.emailAddresses = [workEmail]
+        //%%%%%%%%%%%%%%%%%%%%%%%contactTemp.emailAddresses = [workEmail]
         /* contactTemp.phoneNumbers = [CNLabeledValue(
         label:CNLabelPhoneNumberiPhone,
         value:CNPhoneNumber(stringValue:"(408) 555-0126"))]
@@ -481,8 +481,16 @@ class iOSContact{
         let store = CNContactStore()
         let saveRequest = CNSaveRequest()
         saveRequest.addContact(contactTemp, toContainerWithIdentifier:nil)
-        do{try store.executeSaveRequest(saveRequest)}
+        do{
+            
+             try store.executeSaveRequest(saveRequest)
+            
+                completion(result:true)
+            
+        
+        }
         catch{
+            completion(result:false)
             print("cannot save contact to address book. Try again with correct values")
         }
         

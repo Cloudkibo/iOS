@@ -13,6 +13,7 @@ import SQLite
 import AVFoundation
 import Foundation
 import AccountKit
+import Contacts
 
 class ChatMainViewController:UIViewController,SocketClientDelegate,SocketConnecting
 {
@@ -489,7 +490,8 @@ class ChatMainViewController:UIViewController,SocketClientDelegate,SocketConnect
                 {
                     for(var j=0;j<self.ContactUsernames.count;j++)
                     {
-                        if self.ContactUsernames[j]==onlineUsers[i]["username"].string!
+                       //%%% if self.ContactUsernames[j]==onlineUsers[i]["username"].string!
+                        if self.ContactUsernames[j]==onlineUsers[i]["phone"].string!
                         {
                             //found online contact,s username
                             print("user found onlineeeee \(self.ContactUsernames[j])")
@@ -1478,7 +1480,42 @@ class ChatMainViewController:UIViewController,SocketClientDelegate,SocketConnect
         
         let cell=tblForChat.dequeueReusableCellWithIdentifier("ChatPrivateCell") as! ContactsListCell
         
-        cell.contactName?.text=ContactNames[indexPath.row]
+        //%%%%%%%%%%%%%%%%cell.contactName?.text=ContactNames[indexPath.row]
+        
+        var contactFound=false
+        ////%%%%%%%%%%%%%cell.contactName?.text=ContactNames[indexPath.row]
+        for(var i=0;i<contacts.count;i++)
+        {
+            if(contacts[i].isKeyAvailable(CNContactPhoneNumbersKey)) {
+                for phoneNumber:CNLabeledValue in contacts[i].phoneNumbers {
+                    let a = phoneNumber.value as! CNPhoneNumber
+                    //print("\()
+                    var phone=a.valueForKey("digits") as! String
+                    if(phone==ContactUsernames[indexPath.row])
+                    {
+                        //Matched phone number. Got contact
+                        if(contacts[i].givenName != "" || contacts[i].familyName != "")
+                        {
+                            cell.contactName?.text=contacts[i].givenName+" "+contacts[i].familyName
+                            print("name is \(contacts[i].givenName+" "+contacts[i].familyName)")
+                            ContactNames[indexPath.row]=contacts[i].givenName+" "+contacts[i].familyName
+                        }
+                        else
+                        {
+                            print("name is no name")
+                            cell.contactName?.text=phone
+                        }
+                        contactFound=true
+                        
+                    }
+                }
+            }
+            if(contactFound==false)
+            {
+                cell.contactName?.text=ContactUsernames[indexPath.row]
+            }
+        }
+        
         if ContactOnlineStatus[indexPath.row]==0
         {
             cell.btnGreenDot.hidden=true
@@ -1793,6 +1830,7 @@ class ChatMainViewController:UIViewController,SocketClientDelegate,SocketConnect
             {
                 
                 print("contact is offline")
+                
                 socketObj.socket.emit("logClient","contact is offline")
             }
             socketObj.socket.emit("logClient","callthisperson,room:globalchatroom,callee: \(self.ContactUsernames[selectedRow]), caller:\(username!)")

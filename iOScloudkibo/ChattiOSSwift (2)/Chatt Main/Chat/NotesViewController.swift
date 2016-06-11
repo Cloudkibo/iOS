@@ -27,6 +27,67 @@ class NotesViewController: UIViewController,InviteContactsDelegate {
     }
 
     
+    @IBAction func btnAddNewContact(sender: AnyObject) {
+        var contactdata:[String:String]!
+        
+        dispatch_async(dispatch_get_main_queue(),{
+            var alert = UIAlertController(title: "Add new contact", message: "Please Fill details", preferredStyle: .Alert)
+            
+            //2. Add the text field. You can configure it however you need.
+            alert.addTextFieldWithConfigurationHandler({(textField: UITextField!) in
+                textField.placeholder = "First Name"
+                textField.secureTextEntry = false
+            })
+            
+            alert.addTextFieldWithConfigurationHandler({(textField: UITextField!) in
+                textField.placeholder = "Last Name"
+                textField.secureTextEntry = false
+            })
+            
+            alert.addTextFieldWithConfigurationHandler({(textField: UITextField!) in
+                textField.placeholder = "Phone Number"
+                textField.secureTextEntry = false
+            })
+            
+           /* alert.addTextFieldWithConfigurationHandler({ (textField) -> Void in
+                textField.text = ""
+            })*/
+            
+            
+            //3. Grab the value from the text field, and print it when the user clicks OK.
+            alert.addAction(UIAlertAction(title: "OK", style: .Default, handler: { (action) -> Void in
+                
+                let textFieldFname = alert.textFields![0] as UITextField
+                let textFieldLname = alert.textFields![1] as UITextField
+                let textFieldPhone = alert.textFields![2] as UITextField
+                //username = textField.text!
+               // print("Text field: \(textField.text)")
+                contactdata=["fname":textFieldFname.text!,"lname":textFieldLname.text!,"phone":textFieldPhone.text!]
+                
+                contactsList.saveToAddressBook(contactdata){(result) -> () in
+                    if(result==true)
+                    {
+                        var alert = UIAlertController(title: "Add new contact", message: "Please Fill details", preferredStyle: .Alert)
+                        
+                    }
+                
+                }}))
+            
+            self.presentViewController(alert, animated: true, completion:
+                {
+                    
+                    
+                })
+
+            
+       // contactsList.saveToAddressBook(["fname":"kibo new user","lname":"","phone":"1234567890"])
+        print("new contact added")
+        
+        
+        
+    })
+    }
+    
     func progressBarDisplayer(msg:String, _ indicator:Bool ) {
         print(msg)
         strLabel = UILabel(frame: CGRect(x: 50, y: 0, width: 250, height: 50))
@@ -54,8 +115,8 @@ class NotesViewController: UIViewController,InviteContactsDelegate {
         super.viewDidLoad()
         contactsList.delegate=self
         self.navigationItem.titleView = viewForTitle
-        self.navigationItem.leftBarButtonItem = UIBarButtonItem(customView: btnForLogo)
-        self.navigationItem.rightBarButtonItem = itemForSearch
+        //self.navigationItem.leftBarButtonItem = UIBarButtonItem(customView: btnForLogo)
+        //self.navigationItem.rightBarButtonItem = itemForSearch
         self.tabBarController?.tabBar.tintColor = UIColor.greenColor()
         
         
