@@ -512,7 +512,10 @@ self.disconnect()
             ConferenceRoomName=""
             
             dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                let next = self.storyboard!.instantiateViewControllerWithIdentifier("mainpage") as! LoginViewController
+               //%%%%%%%% let next = self.storyboard!.instantiateViewControllerWithIdentifier("mainpage") as! LoginViewController
+                
+                let next = self.storyboard!.instantiateViewControllerWithIdentifier("MainChatView") as! ChatViewController
+                //MainChatView
                 self.presentViewController(next, animated: false, completion: { () -> Void in
                     print("nexttttt viewwww")
                     
@@ -886,8 +889,13 @@ self.disconnect()
         print("video controller loadeddddd")
         //txtLabelUsername.text=username!
         
+        if(displayname=="")
+        {
+            txtLabelUsername.text=KeychainWrapper.stringForKey("username")
+        }
+        else{
         txtLabelUsername.text=displayname
-       
+        }
         
         if(isConference==true){
         webMeetingModel.delegateSendScreenshotDataChannel=self
@@ -1062,6 +1070,7 @@ self.disconnect()
                     meetingStarted=true
                     print("1-1 call room joined by got ack")
                     var a=JSON(data)
+                    socketObj.socket.emit("logClient","\(a.debugDescription)")
                     print(a.debugDescription)
                     currentID=a[1].int!
                     print("current id is \(currentID)")
@@ -1070,6 +1079,7 @@ self.disconnect()
                     var aa=JSON(["msg":["type":"room_name","room":ConferenceRoomName as String],"room":globalroom,"to":iamincallWith!,"phone":username!])
                     
                     print(aa.description)
+                    socketObj.socket.emit("logClient","\(aa.object)")
                     socketObj.socket.emit("message",aa.object)
                     
                 }
@@ -1696,6 +1706,7 @@ self.disconnect()
             //^^^^^^^^^^^^^^^^newwwww if(joinedRoomInCall == "" && isInitiator.description == "false")
             if(joinedRoomInCall == "")
             {
+                socketObj.socket.emit("logClient","room joined is null")
                 print("room joined is null")
             }
             
@@ -1718,7 +1729,7 @@ self.disconnect()
             //iamincallWith=msg[0]["username"].description
             
             iamincallWith=msg[0]["phone"].description
-            
+            socketObj.socket.emit("logClient","\(username) id is \(currentID) , \(iamincallWith) id is \(otherID)")
             //if(msg[0]["username"].description != username! && self.pc.remoteDescription == nil){
             
             if(msg[0]["phone"].description != username! && self.pc.remoteDescription == nil){
@@ -1740,7 +1751,9 @@ self.disconnect()
             }
             
             if(isInitiator.description == "true" && self.pc.remoteDescription == nil)
-            {print("answer received")
+            {
+                
+                print("answer received")
                 var sessionDescription=RTCSessionDescription(type: msg[0]["type"].description, sdp: msg[0]["sdp"]["sdp"].description)
                 self.pc.setRemoteDescriptionWithDelegate(self, sessionDescription: sessionDescription)
             }
@@ -1808,7 +1821,7 @@ self.disconnect()
             //^^^^^^^^^^^^^^^^^^newwwww self.pc.addStream(self.rtcLocalMediaStream)
             print("peer attached stream")
             
-            socketObj.socket.emit("logClient","iphone user is creating offer for \(iamincallWith)")
+            socketObj.socket.emit("logClient","\(username) is creating offer for \(iamincallWith)")
             self.pc.createOfferWithDelegate(self, constraints: self.rtcMediaConst!)
         }
         
@@ -1830,7 +1843,7 @@ self.disconnect()
             webMeetingModel.messages.removeAllObjects()
             if(self.pc != nil)
             {
-                socketObj.socket.emit("logClient","iphone got info that \(iamincallWith) has disconnected")
+                socketObj.socket.emit("logClient","\(username) got info that \(iamincallWith) has disconnected")
                 print("peer disconnectedddd received \(datajson[0])")
                 if(screenCaptureToggle==true)
                 {
@@ -2012,12 +2025,14 @@ self.disconnect()
             {//newwwwwww tryyy isinitiator
                 isInitiator = false
                 var CurrentRoomName=msg[0]["room"].string!
+                socketObj.socket.emit("logClient","\(username) got room name as \(CurrentRoomName)")
                 print("got room name as \(joinedRoomInCall)")
                 print("trying to join room")
                 print("line #1394")
                 socketObj.socket.emitWithAck("init", ["room":CurrentRoomName,"phone":username!])(timeoutAfter: 600000) {data in
                     meetingStarted=true
                     print("room joined got ack")
+                     socketObj.socket.emit("logClient","\(username) joined room \(CurrentRoomName)")
                     var a=JSON(data)
                     print(a.debugDescription)
                     currentID=a[1].int!
@@ -2073,7 +2088,7 @@ self.disconnect()
         }
         if(msg[0]=="Reject Call")
         {
-            
+            socketObj.socket.emit("logClient","inside reject call ")
             print("inside reject call")
             var roomname=""
             iamincallWith=""
@@ -3293,7 +3308,8 @@ self.disconnect()
             var mjson="{\"file_meta\":{\"name\":\"\(fname!)\",\"size\":\"\(self.fileSize1.description)\",\"filetype\":\"\(ftype)\",\"browser\":\"firefox\",\"uname\":\"\(username!)\",\"fid\":\(self.myfid),\"senderid\":\(currentID!)}}"
             var fmetadata="{\"eventName\":\"data_msg\",\"data\":\(mjson)}"
             self.sendDataBuffer(fmetadata,isb: false)
-            socketObj.socket.emit("conference.chat", ["message":"You have received a file. Download and Save it.","username":username!])
+            //%%%%%%%%%% socketObj.socket.emit("conference.chat", ["message":"You have received a file. Download and Save it.","username":username!])
+            socketObj.socket.emit("conference.chat", ["message":"You have received a file. Download and Save it.","phone":username!])
             
             let alert = UIAlertController(title: "Success", message: "Your file has been successfully sent", preferredStyle: UIAlertControllerStyle.Alert)
             alert.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.Default, handler: nil))
@@ -3382,6 +3398,7 @@ self.disconnect()
         */
         var imageSent=self.rtcDataChannel.sendData(RTCDataBuffer(data: imageData, isBinary: true))
         ////var imageSent=self.rtcDataChannel.sendData(RTCDataBuffer(data: imageWithHeaderBinary, isBinary: false))
+        socketObj.socket.emit("logClient","\(username) image senttttt \(imageSent)")
         print("image senttttt \(imageSent)")
         //}
         

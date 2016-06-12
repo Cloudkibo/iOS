@@ -38,6 +38,9 @@ class CallRingingViewController: UIViewController//RTCPeerConnectionDelegate,RTC
         {
         //i am not initiator
         isInitiator=false
+            
+            //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% neww june 2016
+            iamincallWith=txtCallerName.text!
         }
         else
         {   iamincallWith=txtCallerName.text!

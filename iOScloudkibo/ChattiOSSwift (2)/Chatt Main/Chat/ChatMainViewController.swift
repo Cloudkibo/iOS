@@ -15,7 +15,7 @@ import Foundation
 import AccountKit
 import Contacts
 
-class ChatMainViewController:UIViewController,SocketClientDelegate,SocketConnecting
+class ChatMainViewController:UIViewController,SocketConnecting
 {
     var accountKit: AKFAccountKit!
     var rt=NetworkingLibAlamofire()
@@ -277,7 +277,7 @@ class ChatMainViewController:UIViewController,SocketClientDelegate,SocketConnect
         }*/
         socketObj.socket.on("connect") {data, ack in
             print("connected caught in chat view")
-            socketObj.delegate=self
+            //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%socketObj.delegate=self
             
         }
         
@@ -346,9 +346,10 @@ class ChatMainViewController:UIViewController,SocketClientDelegate,SocketConnect
         if(KeychainWrapper.stringForKey("username") != nil)
         {print("delegate added in chat")
             currrentUsernameRetrieved=KeychainWrapper.stringForKey("username")!
-            if(socketObj != nil){
+            //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+           /* if(socketObj != nil){
                 socketObj.delegate=self
-            }
+            }*/
         if(loggedUserObj == JSON("[]"))
         {
             var lusername=KeychainWrapper.stringForKey("username")
@@ -520,7 +521,8 @@ class ChatMainViewController:UIViewController,SocketClientDelegate,SocketConnect
                 {
                     for(var j=0;j<self.ContactUsernames.count;j++)
                     {
-                        if self.ContactUsernames[j]==offlineUsers[i]["username"].string!
+                        //%%%%%%%if self.ContactUsernames[j]==offlineUsers[i]["username"].string!
+                        if self.ContactUsernames[j]==offlineUsers[i]["phone"].string!
                         {
                             //found online contact,s username
                             print("user found offlinee \(self.ContactUsernames[j])")
@@ -645,7 +647,7 @@ class ChatMainViewController:UIViewController,SocketClientDelegate,SocketConnect
         lll.progressWheel.hidden=true*/
         print("progressWheel hidden")
         //**** neww may 2016 added
-        socketObj.delegate=self
+        ///////%%%%%%%%%%%%%%%%%% socketObj.delegate=self
         }
         
     }
@@ -772,7 +774,7 @@ class ChatMainViewController:UIViewController,SocketClientDelegate,SocketConnect
                                     //var json=JSON(data1)
                                     //KeychainWrapper.setData(data1!, forKey: "loggedUserObj")
                                     //loggedUserObj=json(loggedUserObj)
-                                    username=json["username"].string!
+                                    username=json["phone"].string!
                                     loggedUserObj=json
                                     //stringByResolvingSymlinksInPath
                                     
@@ -792,7 +794,7 @@ class ChatMainViewController:UIViewController,SocketClientDelegate,SocketConnect
                                     dispatch_async(dispatch_get_main_queue(), {
                                         
                                         do{
-                                            try KeychainWrapper.setString(json["username"].string!, forKey: "username")
+                                            try KeychainWrapper.setString(json["phone"].string!, forKey: "username")
                                             try KeychainWrapper.setString(json["display_name"].string!, forKey: "loggedFullName")
                                             try KeychainWrapper.setString(json["phone"].string!, forKey: "loggedPhone")
                                             try KeychainWrapper.setString(json["email"].string!, forKey: "loggedEmail")
@@ -1551,7 +1553,7 @@ class ChatMainViewController:UIViewController,SocketClientDelegate,SocketConnect
             var loggedFirstName=loggedUserObj["firstname"]
             var loggedLastName=loggedUserObj["lastname"]
             var loggedStatus=loggedUserObj["status"]
-            var loggedUsername=loggedUserObj["username"]
+            //%%%%%%%%var loggedUsername=loggedUserObj["username"]
             
             print(self.ContactFirstname[selectedRow]+self.ContactLastNAme[selectedRow]+self.ContactStatus[selectedRow]+self.ContactUsernames[selectedRow], terminator: "")
             
@@ -1943,7 +1945,7 @@ class ChatMainViewController:UIViewController,SocketClientDelegate,SocketConnect
     ///////////////////////////////
     //SOCKET CLIENT DELEGATE MESSAGES
     ///////////////////////////////
-    
+    /*
     func socketReceivedMessage(message:String,data:AnyObject!)
     {print("socketReceivedMessage inside", terminator: "")
         //var msg=JSON(params)
@@ -2128,6 +2130,8 @@ class ChatMainViewController:UIViewController,SocketClientDelegate,SocketConnect
     {
         
     }
+    
+    */*/
     override func viewWillDisappear(animated: Bool) {
         print("dismissed chatttttttt")
         //socketObj.delegate=nil

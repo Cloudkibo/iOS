@@ -9,8 +9,10 @@
 import UIKit
 import SQLite
 import Contacts
-class NotesViewController: UIViewController,InviteContactsDelegate {
+class NotesViewController: UIViewController,InviteContactsDelegate,UITextFieldDelegate {
 
+    
+    var alert:UIAlertController!
     var delegate:InviteContactsDelegate!
     @IBOutlet var viewForTitle : UIView!
     @IBOutlet var ctrlForChat : UISegmentedControl!
@@ -31,35 +33,43 @@ class NotesViewController: UIViewController,InviteContactsDelegate {
         var contactdata:[String:String]!
         
         dispatch_async(dispatch_get_main_queue(),{
-            var alert = UIAlertController(title: "Add new contact", message: "Please Fill details", preferredStyle: .Alert)
+             self.alert = UIAlertController(title: "Add new contact", message: "Please Fill details", preferredStyle: .Alert)
             
             //2. Add the text field. You can configure it however you need.
-            alert.addTextFieldWithConfigurationHandler({(textField: UITextField!) in
+            self.alert.addTextFieldWithConfigurationHandler({(textField: UITextField!) in
                 textField.placeholder = "First Name"
                 textField.secureTextEntry = false
+               // textField.addTarget(self, action: "textChanged", forControlEvents: .EditingChanged)
             })
             
-            alert.addTextFieldWithConfigurationHandler({(textField: UITextField!) in
+            self.alert.addTextFieldWithConfigurationHandler({(textField: UITextField!) in
                 textField.placeholder = "Last Name"
                 textField.secureTextEntry = false
+               // textField.addTarget(self, action: "textChanged", forControlEvents: .EditingChanged)
             })
             
-            alert.addTextFieldWithConfigurationHandler({(textField: UITextField!) in
+            self.alert.addTextFieldWithConfigurationHandler({(textField: UITextField!) in
                 textField.placeholder = "Phone Number"
                 textField.secureTextEntry = false
+                //textField.addTarget(self, action: "textChanged", forControlEvents: .EditingChanged)
             })
             
            /* alert.addTextFieldWithConfigurationHandler({ (textField) -> Void in
                 textField.text = ""
             })*/
             
+            var cancelAction=UIAlertAction(title: "Cancel", style: .Cancel, handler: { (action) -> Void in
+                
+                
+                
+            })
             
             //3. Grab the value from the text field, and print it when the user clicks OK.
-            alert.addAction(UIAlertAction(title: "OK", style: .Default, handler: { (action) -> Void in
+            var okAction=UIAlertAction(title: "Ok", style: .Default, handler: { (action) -> Void in
                 
-                let textFieldFname = alert.textFields![0] as UITextField
-                let textFieldLname = alert.textFields![1] as UITextField
-                let textFieldPhone = alert.textFields![2] as UITextField
+                let textFieldFname = self.alert.textFields![0] as UITextField
+                let textFieldLname = self.alert.textFields![1] as UITextField
+                let textFieldPhone = self.alert.textFields![2] as UITextField
                 //username = textField.text!
                // print("Text field: \(textField.text)")
                 contactdata=["fname":textFieldFname.text!,"lname":textFieldLname.text!,"phone":textFieldPhone.text!]
@@ -71,9 +81,15 @@ class NotesViewController: UIViewController,InviteContactsDelegate {
                         
                     }
                 
-                }}))
+                }})
             
-            self.presentViewController(alert, animated: true, completion:
+            
+            
+            self.alert.addAction(cancelAction)
+            self.alert.addAction(okAction)
+           // self.alert.actions[1].enabled=false
+            
+            self.presentViewController(self.alert, animated: true, completion:
                 {
                     
                     
@@ -87,6 +103,17 @@ class NotesViewController: UIViewController,InviteContactsDelegate {
         
     })
     }
+    
+   /* func textChanged(textField: UITextField) {
+        //TODO: Text changed handler
+        //if(sender.text != "")
+        //{
+        if(textField.text != "")
+        {
+        alert.actions[1].enabled=true
+        }
+        //}
+    }*/
     
     func progressBarDisplayer(msg:String, _ indicator:Bool ) {
         print(msg)
