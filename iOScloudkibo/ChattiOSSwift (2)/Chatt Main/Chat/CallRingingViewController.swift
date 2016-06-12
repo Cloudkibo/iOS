@@ -74,6 +74,24 @@ class CallRingingViewController: UIViewController//RTCPeerConnectionDelegate,RTC
             }
         })
     }
+    
+    override func viewWillAppear(animated: Bool) {
+        
+        if(endedCall==true)
+        {
+            socketObj.socket.emit("logClient","ended call, going back from call ringing view")
+        dispatch_async(dispatch_get_main_queue(), { () -> Void in
+            
+            
+            
+            self.dismissViewControllerAnimated(true, completion: { () -> Void in
+                endedCall=false
+            })
+            
+            
+        })
+        }
+    }
     override func viewDidLoad() {
         super.viewDidLoad()
         

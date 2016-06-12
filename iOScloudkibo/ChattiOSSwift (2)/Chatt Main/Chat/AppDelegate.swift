@@ -14,6 +14,8 @@ import Contacts
 import CloudKit
 import AccountKit
 
+
+var endedCall=false
 var accountKit:AKFAccountKit!
 var displayname=""
 var selectedEmails=[String]()

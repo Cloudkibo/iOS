@@ -511,6 +511,7 @@ self.disconnect()
             screenCaptureToggle=false
             ConferenceRoomName=""
             
+            socketObj.socket.emit("logClient","\(username!) pressed end call. going back to contacts list")
             dispatch_async(dispatch_get_main_queue(), { () -> Void in
                //%%%%%%%% let next = self.storyboard!.instantiateViewControllerWithIdentifier("mainpage") as! LoginViewController
                 
@@ -705,11 +706,13 @@ self.disconnect()
         var w=localViewOutlet.bounds.width-(localViewOutlet.bounds.width*0.23)
         var h=localViewOutlet.bounds.height-(localViewOutlet.bounds.height*0.27)
         if(localvideoshared==false)
-        {   localFull.hidden=true
+        {socketObj.socket.emit("logClient","\(username!) is sharing video")
+            localFull.hidden=true
             localView.hidden=true
             btnVideo.setImage(UIImage(named: "video_off"), forState: .Normal)
         }
         else{
+            socketObj.socket.emit("logClient","\(username!) is hiding video")
             btnVideo.setImage(UIImage(named: "video_on"), forState: .Normal)
             if(remotevideoshared==true){
                 //////self.rtcLocalVideoTrack.removeRenderer(self.localFull)
@@ -768,10 +771,12 @@ self.disconnect()
         audioAction = !audioAction.boolValue
         if(audioAction==true)
         {
+            socketObj.socket.emit("logClient","\(username!) is unmuted")
             btnAudio.setImage(UIImage(named: "audio_on"), forState: .Normal)
         }
         else
         {
+            socketObj.socket.emit("logClient","\(username!) is mute")
              btnAudio.setImage(UIImage(named: "audio_off"), forState: .Normal)
         }
         self.rtcLocalMediaStream!.audioTracks[0].setEnabled(audioAction)
@@ -830,6 +835,8 @@ self.disconnect()
                 
                 if(isConference==true)
                 {
+                    endedCall=true
+                    socketObj.socket.emit("logClient","inside end call, isConference is true")
                     dispatch_async(dispatch_get_main_queue(), { () -> Void in
                         
                         
@@ -855,6 +862,8 @@ self.disconnect()
             
                 if(isConference != true)
                 {
+                    socketObj.socket.emit("logClient","inside end call, isConference is false")
+                    endedCall=true
                 dispatch_async(dispatch_get_main_queue(), { () -> Void in
                     
                     
@@ -920,7 +929,7 @@ self.disconnect()
             
             
             print("meeting disconnected in video view controller")
-            
+            socketObj.socket.emit("logClient","meeting disconnected in video view controller")
             /*if(meetingStarted==true && ConferenceRoomName != "" && isConference==true){
                 socketObj.socket.emit("logClient","\(username!) is trying to connect in room again")
                 print("connecting to room again")
@@ -1058,6 +1067,7 @@ self.disconnect()
                 var roomname=self.randomStringWithLength(9) as String
                 //joinedRoomInCall=roomname as String
                 ConferenceRoomName=roomname
+                socketObj.socket.emit("logClient","\(username) is trying to join room \(ConferenceRoomName)")
                 areYouFreeForCall=false
                 //}
                 //iamincallWith=username!
@@ -1153,6 +1163,7 @@ self.disconnect()
     
     func createPeerConnectionObject()
     {//Initialise Peer Connection Object
+        socketObj.socket.emit("logClient","iphoneLog: \(username!) is trying to make peer connection")
         print("inside create peer conn object method")
         self.rtcMediaConst=RTCMediaConstraints(mandatoryConstraints: [RTCPair(key: "OfferToReceiveAudio", value: "true"),RTCPair(key: "OfferToReceiveVideo", value: "true")], optionalConstraints: nil)
         //rtcFact=nil
@@ -1180,6 +1191,7 @@ self.disconnect()
     
     func createLocalMediaStream()->RTCMediaStream
     {print("inside createlocalvideotrack")
+        socketObj.socket.emit("logClient","creating local video track")
         
         var localStream:RTCMediaStream!
         
@@ -1529,6 +1541,7 @@ self.disconnect()
     }
     
     func peerConnection(peerConnection: RTCPeerConnection!, didCreateSessionDescription sdp: RTCSessionDescription!, error: NSError!) {
+        
         print("did create offer/answer session description success")
         //^^^^^^^^^^^^^^^^^^^newwwww
         ////dispatch_async(dispatch_get_main_queue(), {
@@ -1537,6 +1550,7 @@ self.disconnect()
         if (error==nil){
             if(self.screenshared == true)
             {
+                socketObj.socket.emit("logClient","\(username!) did create \(sdp.type) success")
                 print("\(sdp.type) creatddddd")
                 print(sdp.debugDescription)
                 let sessionDescription=RTCSessionDescription(type: sdp.type!, sdp: sdp.description)
@@ -1544,6 +1558,7 @@ self.disconnect()
                 self.pc.setLocalDescriptionWithDelegate(self, sessionDescription: sessionDescription)
                 
                 //print(["by":currentID!,"to":otherID,"sdp":["type":sdp.type!,"sdp":sdp.description],"type":sdp.type!,"username":username!])
+                
                 
                 print(["by":currentID!,"to":otherID,"sdp":["type":sdp.type!,"sdp":sdp.description],"type":sdp.type!,"phone":username!])
                 
@@ -1554,6 +1569,7 @@ self.disconnect()
                 print("\(sdp.type) emitteddd")
             }
             if(self.pc.localDescription == nil){
+                socketObj.socket.emit("logClient","\(username!) did create \(sdp.type) success, currentID is \(currentID!) and otherID is\(otherID!)")
                 print("\(sdp.type) creatddddd")
                 print(sdp.debugDescription)
                 let sessionDescription=RTCSessionDescription(type: sdp.type!, sdp: sdp.description)
@@ -1572,6 +1588,7 @@ self.disconnect()
         }
         else
         {
+            socketObj.socket.emit("logClient","\(username!) error creating \(sdp.type)")
             print("sdp created with error \(error.localizedDescription)")
         }
         
@@ -1593,17 +1610,20 @@ self.disconnect()
             if isInitiator == false &&
                 self.pc.localDescription == nil {
                     print("creating answer")
+                    socketObj.socket.emit("logClient","\(username!) is creating answer")
                     //^^^^^^^^^ new self.pc.addStream(self.rtcMediaStream)
                     self.pc.createAnswerWithDelegate(self, constraints: self.rtcMediaConst)
             }
             else
             {
+                socketObj.socket.emit("logClient","\(username!) local not nil or initiator is true")
                 print("local not nil or initiator is true")
                 //print(self.pc.localDescription.description)
                 
             }
             
         } else {
+            socketObj.socket.emit("logClient","\(username!) .......sdp set ERROR: \(error.localizedDescription)")
             print(".......sdp set ERROR: \(error.localizedDescription)", terminator: "")
         }
         ///// })
@@ -1632,6 +1652,7 @@ self.disconnect()
     func socketReceivedOtherWebRTC(message:String,data:AnyObject!)
     {
         var msg=JSON(data)
+        socketObj.socket.emit("logClient","\(username!) received message \(message)")
         
         print("socketReceivedOtherWebRTC inside \(msg)")
         switch(message){
@@ -1670,18 +1691,21 @@ self.disconnect()
         default:print("wrong socket other mesage received")
         var msg=JSON(data)
         print(msg.description)
+            socketObj.socket.emit("logClient","\(username!)received wrong socket message  \(msg.description)")
         }
         
     }
     
     func receivedChatMessage(message:String,username:String)
     {
+        socketObj.socket.emit("logClient","received chat message \(message) from \(username)")
         webMeetingModel.addChatMsg(message, usr: username)
         
     }
     
     func socketReceivedMessageWebRTC(message:String,data:AnyObject!)
     {print("socketReceivedMessageWebRTC inside")
+        socketObj.socket.emit("logClient","\(username!) received socketReceivedMessageWebRTC  \(message)")
         switch(message){
             
         case "message":
@@ -1710,6 +1734,7 @@ self.disconnect()
                 print("room joined is null")
             }
             
+            socketObj.socket.emit("logClient","\(username) received offer")
             print("offer received")
             isInitiator=false
             //var sdpNew=msg[0]["sdp"].object
@@ -1737,6 +1762,7 @@ self.disconnect()
                 txtLabelMainPage.font=UIFont.boldSystemFontOfSize(20)
                 txtLabelMainPage.text="You are now connected in call with \(iamincallWith)"
                 var sessionDescription=RTCSessionDescription(type: msg[0]["type"].description, sdp: msg[0]["sdp"]["sdp"].description)
+                socketObj.socket.emit("logClient","\(username) is setting remote sdp")
                 self.pc.setRemoteDescriptionWithDelegate(self, sessionDescription: sessionDescription)
             }
             
@@ -1746,12 +1772,14 @@ self.disconnect()
         {
             if(self.screenshared==true){
                 print("answer received screen")
+                socketObj.socket.emit("logClient","\(username) received screen answer")
                 var sessionDescription=RTCSessionDescription(type: msg[0]["type"].description, sdp: msg[0]["sdp"]["sdp"].description)
                 self.pc.setRemoteDescriptionWithDelegate(self, sessionDescription: sessionDescription)
             }
             
             if(isInitiator.description == "true" && self.pc.remoteDescription == nil)
             {
+                socketObj.socket.emit("logClient","\(username) received answer")
                 
                 print("answer received")
                 var sessionDescription=RTCSessionDescription(type: msg[0]["type"].description, sdp: msg[0]["sdp"]["sdp"].description)
@@ -1761,6 +1789,7 @@ self.disconnect()
         }
         if(msg[0]["type"].string! == "ice")
         {print("ice received of other peer")
+            socketObj.socket.emit("logClient","\(username) received ice candidate")
             if(msg[0]["ice"].description=="null")
             {print("last ice as null so ignore")}
             else{
@@ -1771,6 +1800,7 @@ self.disconnect()
                     if(self.pc.localDescription != nil && self.pc.remoteDescription != nil)
                         
                     {var addedcandidate=self.pc.addICECandidate(iceCandidate)
+                        socketObj.socket.emit("logClient","\(username) added ice candidate")
                         print("ice candidate added \(addedcandidate)")
                     }
                 }
@@ -1809,6 +1839,7 @@ self.disconnect()
             {
                 self.createPeerConnectionObject()
             }
+            socketObj.socket.emit("logClient","\(username) is creating data channel for \(iamincallWith)")
             self.CreateAndAttachDataChannel()
             self.addLocalMediaStreamToPeerConnection()
             
@@ -1820,7 +1851,7 @@ self.disconnect()
             
             //^^^^^^^^^^^^^^^^^^newwwww self.pc.addStream(self.rtcLocalMediaStream)
             print("peer attached stream")
-            
+            socketObj.socket.emit("logClient","\(username) attached stream")
             socketObj.socket.emit("logClient","\(username) is creating offer for \(iamincallWith)")
             self.pc.createOfferWithDelegate(self, constraints: self.rtcMediaConst!)
         }
@@ -1948,6 +1979,7 @@ self.disconnect()
     {
         print("received conference.stream obj from server")
         var datajson=JSON(data!)
+        socketObj.socket.emit("logClient","\(username) has received conference.stream message \(datajson.debugDescription)")
         print(datajson.debugDescription)
         
         if(datajson[0]["phone"].debugDescription != username! && datajson[0]["type"].debugDescription == "screen" && datajson[0]["action"].boolValue==true )
@@ -2050,6 +2082,7 @@ self.disconnect()
         if(msg[0]=="Accept Call")
         {
             
+            socketObj.socket.emit("logClient","\(username!) accept call in video view")
             print("accept call in video view")
             
             
@@ -2088,7 +2121,7 @@ self.disconnect()
         }
         if(msg[0]=="Reject Call")
         {
-            socketObj.socket.emit("logClient","inside reject call ")
+            socketObj.socket.emit("logClient","\(username!) is inside reject call ")
             print("inside reject call")
             var roomname=""
             iamincallWith=""
@@ -2130,6 +2163,8 @@ self.disconnect()
         
         if(msg[0]["type"]=="Missed")
         {
+            socketObj.socket.emit("logClient","\(username!) has received a missed call from \(iamincallWith!)")
+            
             let todoItem = NotificationItem(otherUserName: "\(iamincallWith!)", message: "You have received a missed call", type: "missed call", UUID: "111", deadline: NSDate())
             /*notificationsMainClass.sharedInstance.addItem(todoItem)
 
@@ -2191,7 +2226,9 @@ self.disconnect()
             isBinary: isb
         )
         var sentFile=self.rtcDataChannel.sendData(buffer)
+        socketObj.socket.emit("logClient","datachannel file METADATA sent is \(sentFile) OR image chunk size is sent \(sentFile)")
         print("datachannel file METADATA sent is \(sentFile) OR image chunk size is sent \(sentFile)")
+        
         
         
         /*var senttt=rtcDataChannel.sendData(RTCDataBuffer(data: NSData(base64EncodedString: "{helloooo iphone sendind data through data channel}", options: NSDataBase64DecodingOptions.IgnoreUnknownCharacters),isBinary: true))
@@ -2521,6 +2558,7 @@ self.disconnect()
                 if(numberOfChunksInFileToSave > Double(numberOfChunksReceived))
                 {
                     chunknumbertorequest += fu.chunks_per_ack
+                    socketObj.socket.emit("logClient","\(username) is asking for other file chunk")
                     print("asking other chunk..")
                     //requestchunk(chunknumbertorequest)
                     
@@ -2532,6 +2570,7 @@ self.disconnect()
             else{
                 if(numberOfChunksInFileToSave == Double(numberOfChunksReceived))
                 {
+                    socketObj.socket.emit("logClient","\(username) file transfer completed")
                     print("file transfer completed..")
                     fileTransferCompleted=true;
                     
@@ -2642,7 +2681,7 @@ self.disconnect()
                 
                
                 print("file writtennnnn \(s) \(filedata.debugDescription)")
-                
+                socketObj.socket.emit("logClient","\(username!) file writtennnnn")
                 if(fileTransferCompleted==true)
                 {
                     isFileReceived=true
@@ -3252,6 +3291,7 @@ self.disconnect()
             // do something with it
             let fileData = NSData(contentsOfURL: url)
             print(fileData?.description)
+            socketObj.socket.emit("logClient","\(username!) selected file ")
             print("file gotttttt")
             ///////////self.mdata.sharefile(url.URLString)
             var furl=NSURL(string: url.URLString)
@@ -3277,6 +3317,7 @@ self.disconnect()
                     ////***april 2016 neww self.fileSize=(fileSize1 as! NSNumber).integerValue
                 }
             } catch {
+                socketObj.socket.emit("logClient","error: \(error)")
                 print("Error: \(error)")
             }
             /*do{

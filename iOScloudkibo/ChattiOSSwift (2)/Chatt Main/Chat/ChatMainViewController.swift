@@ -485,6 +485,7 @@ class ChatMainViewController:UIViewController,SocketConnecting
                     print("online status...")
                     var onlineUsers=JSON(data)
                     print(onlineUsers[0])
+                socketObj.socket.emit("logClient","online users \(onlineUsers)")
                     //print(onlineUsers[0]["username"])
                 
                 for(var i=0;i<onlineUsers.count;i++)

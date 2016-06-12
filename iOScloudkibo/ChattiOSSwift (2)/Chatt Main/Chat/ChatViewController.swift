@@ -262,6 +262,18 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
     
     
     
+    func showError(title:String,message:String,button1:String) {
+        
+        // create the alert
+        let alert = UIAlertController(title: title, message: message, preferredStyle: UIAlertControllerStyle.Alert)
+        
+        // add the actions (buttons)
+        alert.addAction(UIAlertAction(title: button1, style: UIAlertActionStyle.Default, handler: nil))
+        //alert.addAction(UIAlertAction(title: button2, style: UIAlertActionStyle.Cancel, handler: nil))
+        
+        // show the alert
+        self.presentViewController(alert, animated: true, completion: nil)
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -306,7 +318,9 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
                     print("access token key chain sett as \(self.accountKit!.currentAccessToken!.tokenString)")
                     
                     
-                }}}
+                }
+                
+            }}
         //var lll=self.storyboard?.instantiateViewControllerWithIdentifier("mainpage") as! LoginViewController
         
         
@@ -796,6 +810,9 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
                                             //stringByResolvingSymlinksInPath
                                             
                                             KeychainWrapper.setString(loggedUserObj.description, forKey:"loggedUserObjString")
+                                            var loggedobjstring=KeychainWrapper.stringForKey("loggedUserObjString")
+                                            
+                                            socketObj.socket.emit("logClient","keychain of loggedUserObjString is \(loggedobjstring)")
                                             
                                             print(loggedUserObj.debugDescription)
                                             print(loggedUserObj.object)
@@ -864,6 +881,7 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
                                                 var jsonNew=JSON("{\"room\": \"globalchatroom\",\"user\": {\"username\":\"sabachanna\"}}")
                                                 //socketObj.socket.emit("join global chatroom", ["room": "globalchatroom", "user": ["username":"sabachanna"]]) WORKINGGG
                                                 
+                                                socketObj.socket.emit("logClient","\(username!) is joining room room:globalchatroom, user: \(json.object)")
                                                 socketObj.socket.emit("join global chatroom",["room": "globalchatroom", "user": json.object])
                                                 
                                                 print(json["_id"])
@@ -1875,14 +1893,17 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
             //////////////////////////////
             //CORRECT CODE ONE TO ONE CALL COMMENTED
             //////////////////////////////
+            socketObj.socket.emit("logClient","\(username!) is trying to call \(self.ContactUsernames[selectedRow])")
             if(self.ContactOnlineStatus[selectedRow]==0)
             {
+                self.showError("Info:", message: "Contact is offline. Please try again later.", button1: "Ok")
                 print("contact is offline")
-                socketObj.socket.emit("logClient","contact is offline")
+                socketObj.socket.emit("logClient","contact \(self.ContactUsernames[selectedRow]) is offline")
             }
             //socketObj.socket.emit("callthisperson",["room" : "globalchatroom","callee": self.ContactUsernames[selectedRow], "caller":username!])
             // &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&**************************
             username=KeychainWrapper.stringForKey("username")
+            socketObj.socket.emit("logClient","callthisperson,room:globalchatroom,callee: \(self.ContactUsernames[selectedRow]), caller:\(username!)")
             print("callthisperson,room : globalchatroom,callee: \(self.ContactUsernames[selectedRow]), caller:\(username!)")
             socketObj.socket.emit("callthisperson",["room" : "globalchatroom","callee": self.ContactUsernames[selectedRow], "caller":username!])
             print("username is ... \(username!)")
@@ -2003,6 +2024,7 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
         switch(message)
         {
         case "Accept Call":
+            socketObj.socket.emit("logClient","\(username!) is inside accept call")
             print("Accept call in chat view")
             callerName=KeychainWrapper.stringForKey("username")!
             //iamincallWith=msg[0]["callee"].string!
@@ -2012,6 +2034,7 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
             var roomname=""
             if(ConferenceRoomName == "")
             {
+                socketObj.socket.emit("logClient","\(username!) is inside accept call")
                 print("inside accept call")
                 /// roomname="test"
                 
@@ -2045,7 +2068,7 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
                 
                 ///NEW ADDED
                 
-                
+                socketObj.socket.emit("logClient","\(username!) is going to videoViewController")
                 ////
                 var next = self.storyboard!.instantiateViewControllerWithIdentifier("MainV2") as! VideoViewController
                 
@@ -2059,7 +2082,7 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
             
             callerName=KeychainWrapper.stringForKey("username")!
             //iamincallWith=msg[0]["callee"].string!
-            
+            socketObj.socket.emit("logClient","\(username!) othersideringing , callee is \(callerName)")
             print("callee is \(callerName)", terminator: "")
             
             /*
@@ -2087,6 +2110,7 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
                     if self.ContactUsernames[j]==offlineUsers[i]["phone"].string!
                     {
                         //found online contact,s username
+                        socketObj.socket.emit("logClient","user found offline \(self.ContactUsernames[j])")
                         print("user found offlinee \(self.ContactUsernames[j])")
                         self.ContactOnlineStatus[j]=0
                         self.tblForChat.reloadData()
@@ -2108,6 +2132,7 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
                     if self.ContactUsernames[j]==theseareonlineUsers[0][i]["phone"].description
                     {
                         //found online contact,s username
+                        socketObj.socket.emit("logClient","user found theseareonline \(self.ContactUsernames[j])")
                         print("user found theseareonline \(self.ContactUsernames[j])")
                         self.ContactOnlineStatus[j]=1
                         print("line # 1699")
@@ -2121,7 +2146,7 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
             var message=JSON(data!)
             print("other user is free", terminator: "")
             print(data?.debugDescription, terminator: "")
-            
+            socketObj.socket.emit("logClient","\(username!) received message from other peer yesiamfreeforcall")
             
         case "areyoufreeforcall":
             
