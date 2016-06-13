@@ -113,7 +113,7 @@ class DisplayNameViewController: UIViewController {
                             print("got server response")
                             self.messageFrame.removeFromSuperview()
                             self.fetchContactsFromDevice(){ (result) -> () in
-                                socketObj.socket.emit("logClient","contacts fetched from device")
+                                socketObj.socket.emit("logClient","IPHONE-LOG: contacts fetched from device")
                                 for cc in contacts{
                                     sqliteDB.saveAllContacts(cc, kiboContact1: false)
                                 }
@@ -136,7 +136,7 @@ class DisplayNameViewController: UIViewController {
                         
                    case .Failure(let error):
                        print(error)
-                        socketObj.socket.emit("logClient","\(error)")
+                        socketObj.socket.emit("logClient","IPHONE-LOG: \(error)")
                         
                     
                     
@@ -200,7 +200,7 @@ class DisplayNameViewController: UIViewController {
                                 
                                 
                                 
-                                socketObj.socket.emit("logClient","login success and AuthToken was not nil getting myself details from server")
+                                socketObj.socket.emit("logClient","IPHONE-LOG: login success and AuthToken was not nil getting myself details from server")
                                 
                                 print("login success")
                                 //self.labelLoginUnsuccessful.text=nil
@@ -401,7 +401,7 @@ class DisplayNameViewController: UIViewController {
                                         }
                                     case .Failure(let error):
                                         
-                                        socketObj.socket.emit("logClient","error in logging in  \(error)")
+                                        socketObj.socket.emit("logClient","IPHONE-LOG: error in logging in  \(error)")
                                         print("GOT USER FAILED \(error)")
                                         
                                         
@@ -561,7 +561,7 @@ protocol initialSettingsProtocol:class
                 .response { (request, response, data, error) in
                     
                     
-                    socketObj.socket.emit("logClient","got server response ..")
+                    socketObj.socket.emit("logClient","IPHONE-LOG: got server response ..")
                     username=displayName
                     displayname=displayName
                     print("display name is \(displayName)")
@@ -608,7 +608,7 @@ protocol initialSettingsProtocol:class
                         
                     default:
                         print(error)
-                        socketObj.socket.emit("logClient","error in display name routine \(error)")
+                        socketObj.socket.emit("logClient","IPHONE-LOG: error in display name routine \(error)")
                         
                         
                     }

@@ -104,7 +104,7 @@ class MeetingRoomVideo:NSObject,RTCPeerConnectionDelegate,RTCSessionDescriptionD
             rtcFact=RTCPeerConnectionFactory()
         }
         ////////////////////////
-        socketObj.socket.emit("logClient","\(username!) creating video peer connection object with \(iamincallWith!)")
+        socketObj.socket.emit("logClient","IPHONE-LOG: \(username!) creating video peer connection object with \(iamincallWith!)")
         
         //march 30 2016 new if
         if(pc == nil)
@@ -264,7 +264,7 @@ class MeetingRoomVideo:NSObject,RTCPeerConnectionDelegate,RTCSessionDescriptionD
         }
         if(videoAction==true)
         {
-            socketObj.socket.emit("logClient","\(username!) is sharing video")
+            socketObj.socket.emit("logClient","IPHONE-LOG: \(username!) is sharing video")
             //videoshared=false
             localvideoshared=true
             self.rtcLocalstream=s
@@ -275,7 +275,7 @@ class MeetingRoomVideo:NSObject,RTCPeerConnectionDelegate,RTCSessionDescriptionD
         }
         else
         {
-            socketObj.socket.emit("logClient","\(username!) is hiding video ")
+            socketObj.socket.emit("logClient","IPHONE-LOG: \(username!) is hiding video ")
             localvideoshared=false
             self.streambackup=s
             self.rtcLocalstream=s
@@ -377,7 +377,7 @@ class MeetingRoomVideo:NSObject,RTCPeerConnectionDelegate,RTCSessionDescriptionD
                 self.pc.setLocalDescriptionWithDelegate(self, sessionDescription: sessionDescription)
                 
                 ////print(["by":currentID!,"to":otherID,"sdp":["type":sdp.type!,"sdp":sdp.description],"type":sdp.type!,"username":username!])
-                socketObj.socket.emit("logClient","\(username!) sending video \(sdp.type) to \(iamincallWith!)")
+                socketObj.socket.emit("logClient","IPHONE-LOG: \(username!) sending video \(sdp.type) to \(iamincallWith!)")
                 socketObj.socket.emit("msgVideo",["by":currentID!,"to":otherID,"sdp":["type":sdp.type!,"sdp":sdp.description],"type":sdp.type!,"username":username!])
                 print("\(sdp.type) emitteddd")
          }
@@ -419,7 +419,7 @@ class MeetingRoomVideo:NSObject,RTCPeerConnectionDelegate,RTCSessionDescriptionD
             if(pc.localDescription == nil && videoshared == false)
             
                 {
-                    socketObj.socket.emit("logClient","\(username!) created video answer for \(iamincallWith!)")
+                    socketObj.socket.emit("logClient","IPHONE-LOG: \(username!) created video answer for \(iamincallWith!)")
                     self.pc.createAnswerWithDelegate(self, constraints: self.rtcMediaConst)
                 }
                     /* if isInitiator == true &&
@@ -454,7 +454,7 @@ class MeetingRoomVideo:NSObject,RTCPeerConnectionDelegate,RTCSessionDescriptionD
         //print(aa.description)
         
         socketObj.socket.emit("msgVideo",["by":currentID!,"to":otherID,"ice":cnd.object,"type":"ice"])
-        socketObj.socket.emit("logClient","\(username!) sent video ice candidates to \(iamincallWith!)")
+        socketObj.socket.emit("logClient","IPHONE-LOG: \(username!) sent video ice candidates to \(iamincallWith!)")
         
     }
     func peerConnection(peerConnection: RTCPeerConnection!, iceConnectionChanged newState: RTCICEConnectionState) {
@@ -517,7 +517,7 @@ class MeetingRoomVideo:NSObject,RTCPeerConnectionDelegate,RTCSessionDescriptionD
         
         if(msg[0]["type"].string! == "offer" && msg[0]["by"].intValue != currentID)
         {
-            socketObj.socket.emit("logClient","\(username!) received video offer from \(iamincallWith!)")
+            socketObj.socket.emit("logClient","IPHONE-LOG: \(username!) received video offer from \(iamincallWith!)")
            /* if(rtcLocalVideoTrack != nil || rtcLocalstream != nil)
             {
                 rtcLocalstream = nil
@@ -620,7 +620,7 @@ class MeetingRoomVideo:NSObject,RTCPeerConnectionDelegate,RTCSessionDescriptionD
             if(msg[0]["username"].description != username!){
                 var sessionDescription=RTCSessionDescription(type: msg[0]["type"].description, sdp: msg[0]["sdp"]["sdp"].description)
                 self.pc.setRemoteDescriptionWithDelegate(self, sessionDescription: sessionDescription)
-                socketObj.socket.emit("logClient","\(username!) set video remote sdp")
+                socketObj.socket.emit("logClient","IPHONE-LOG: \(username!) set video remote sdp")
                 ////self.pc.createAnswerWithDelegate(self, constraints: self.rtcMediaConst)
             }
             
@@ -640,7 +640,7 @@ class MeetingRoomVideo:NSObject,RTCPeerConnectionDelegate,RTCSessionDescriptionD
        //////////// if(isInitiator.description == "true" && self.pc.remoteDescription == nil)
             //////////{
             
-            socketObj.socket.emit("logClient","\(username!) received video answer from \(iamincallWith!)")
+            socketObj.socket.emit("logClient","IPHONE-LOG: \(username!) received video answer from \(iamincallWith!)")
                 print("answer received")
                 var sessionDescription=RTCSessionDescription(type: msg[0]["type"].description, sdp: msg[0]["sdp"]["sdp"].description)
             
@@ -665,7 +665,7 @@ class MeetingRoomVideo:NSObject,RTCPeerConnectionDelegate,RTCSessionDescriptionD
                         
                     ////{
                         
-                        socketObj.socket.emit("logClient","\(username!) is adding ice candidates from \(iamincallWith!)")
+                        socketObj.socket.emit("logClient","IPHONE-LOG: \(username!) is adding ice candidates from \(iamincallWith!)")
 
                         var addedcandidate=self.pc.addICECandidate(iceCandidate)
                         print("iceVideo candidate added \(addedcandidate)")
@@ -689,7 +689,7 @@ class MeetingRoomVideo:NSObject,RTCPeerConnectionDelegate,RTCSessionDescriptionD
             if(datajson[0]["type"].debugDescription == "video" && datajson[0]["action"].boolValue==false) {
                 print("video falseeeeeeeee")
                 print("here .. 1")
-                socketObj.socket.emit("logClient","\(username!)was informed that \(iamincallWith!) is hiding video")
+                socketObj.socket.emit("logClient","IPHONE-LOG: \(username!)was informed that \(iamincallWith!) is hiding video")
                 //////tryyyyy 28march2016
                 videoshared=false
                 rtcStreamReceived=nil
@@ -716,7 +716,7 @@ class MeetingRoomVideo:NSObject,RTCPeerConnectionDelegate,RTCSessionDescriptionD
             if(datajson[0]["type"].debugDescription == "video" && datajson[0]["action"].boolValue==true )
             { //video=true
                 videoshared=true
-                socketObj.socket.emit("logClient","\(username!)was informed that \(iamincallWith!) is sharing video")
+                socketObj.socket.emit("logClient","IPHONE-LOG: \(username!)was informed that \(iamincallWith!) is sharing video")
 
                 print("here .. 31")
                 ///////////////////////////////^^^^^^^^^^^^^^^^^^newwwww

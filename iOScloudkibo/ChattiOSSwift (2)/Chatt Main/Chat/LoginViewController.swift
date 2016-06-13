@@ -59,7 +59,7 @@ class LoginViewController: UIViewController,SocketConnecting,AKFViewControllerDe
                 
                 
                 print("login success now going to contact list")
-                socketObj.socket.emit("logClient","login success now going to contact list")
+                socketObj.socket.emit("logClient","IPHONE-LOG: login success now going to contact list")
             })*/
                 
             })
@@ -73,7 +73,7 @@ class LoginViewController: UIViewController,SocketConnecting,AKFViewControllerDe
                     
                     
                     print("login success now going to contact list")
-                    socketObj.socket.emit("logClient","login success now going to contact list")
+                    socketObj.socket.emit("logClient","IPHONE-LOG: login success now going to contact list")
                 })
                 }
             }

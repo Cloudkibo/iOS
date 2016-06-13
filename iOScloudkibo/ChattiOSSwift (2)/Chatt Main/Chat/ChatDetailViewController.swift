@@ -60,7 +60,7 @@ class ChatDetailViewController: UIViewController{
     
     override func viewWillAppear(animated: Bool) {
         print("chat will appear")
-        socketObj.socket.emit("logClient","chat page will appear")
+        socketObj.socket.emit("logClient","IPHONE-LOG: chat page will appear")
            self.retrieveChatFromSqlite(selectedContact)
         //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%------------ commented june 16 FetchChatServer()
         print("calling retrieveChat")
@@ -92,7 +92,7 @@ class ChatDetailViewController: UIViewController{
         messages = NSMutableArray()
         
         print("chat on load")
-        socketObj.socket.emit("logClient","chat page loading")
+        socketObj.socket.emit("logClient","IPHONE-LOG: chat page loading")
         //%%%%%%%%%%%%%%%%%&&&&&&&&&&&&&&&&&&^^^^^^^^^
         //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%FetchChatServer()
         self.NewChatNavigationTitle.title=selectedFirstName
@@ -102,7 +102,7 @@ class ChatDetailViewController: UIViewController{
             print("chat sent to server.ack received")
             // declared system sound here
             let systemSoundID: SystemSoundID = 1104
-            
+            //AudioServicesCre
             // to play sound
             AudioServicesPlaySystemSound (systemSoundID)
             
@@ -403,7 +403,7 @@ class ChatDetailViewController: UIViewController{
                     //Overwrite sqlite db
                     sqliteDB.deleteChat(self.selectedContact)
                     
-                    socketObj.socket.emit("logClient","chat messages count is \(UserchatJson["msg"].count)")
+                    socketObj.socket.emit("logClient","IPHONE-LOG: chat messages count is \(UserchatJson["msg"].count)")
                     for var i=0;i<UserchatJson["msg"].count
                         ;i++
                     {
@@ -453,7 +453,7 @@ class ChatDetailViewController: UIViewController{
                // })
                 if(response1?.statusCode==401)
                 {
-                    socketObj.socket.emit("logClient","error in fetching chat status 401")
+                    socketObj.socket.emit("logClient","IPHONE-LOG: error in fetching chat status 401")
                     print("chatttttt fetch faileddddddd token expired")
                     self.rt.refrToken()
                 }
@@ -704,7 +704,7 @@ class ChatDetailViewController: UIViewController{
         ///=== code for sending chat here
         ///=================
         
-        socketObj.socket.emit("logClient","sending chat \(imParas)")
+        socketObj.socket.emit("logClient","IPHONE-LOG: sending chat \(imParas)")
         socketObj.socket.emit("im",["room":"globalchatroom","stanza":imParas])
         
         //////

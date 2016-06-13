@@ -79,7 +79,7 @@ class CallRingingViewController: UIViewController//RTCPeerConnectionDelegate,RTC
         
         if(endedCall==true)
         {
-            socketObj.socket.emit("logClient","ended call, going back from call ringing view")
+            socketObj.socket.emit("logClient","IPHONE-LOG: ended call, going back from call ringing view")
         dispatch_async(dispatch_get_main_queue(), { () -> Void in
             
             

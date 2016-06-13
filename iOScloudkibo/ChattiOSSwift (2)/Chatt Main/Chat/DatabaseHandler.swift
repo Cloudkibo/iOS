@@ -56,7 +56,7 @@ class DatabaseHandler:NSObject{
     
     func createAccountsTable()
     {
-        socketObj.socket.emit("logClient","creating accounts table")
+        socketObj.socket.emit("logClient","IPHONE-LOG: creating accounts table")
         
         let _id = Expression<String>("_id")
         let firstname = Expression<String>("firstname")
@@ -89,7 +89,7 @@ class DatabaseHandler:NSObject{
         }
         catch
         {
-            socketObj.socket.emit("logClient","error in creating accounts table \(error)")
+            socketObj.socket.emit("logClient","IPHONE-LOG: error in creating accounts table \(error)")
             print("error in creating accounts table")
         }
         
@@ -111,7 +111,7 @@ class DatabaseHandler:NSObject{
     
     func createContactListsTable()
     {
-           socketObj.socket.emit("logClient","creating contacts table")
+           socketObj.socket.emit("logClient","IPHONE-LOG: creating contacts table")
         //let _id = Expression<String>("_id")
         let contactid = Expression<String>("contactid")
         let detailsshared = Expression<String>("detailsshared")
@@ -146,7 +146,7 @@ class DatabaseHandler:NSObject{
         }
         catch
         {
-            socketObj.socket.emit("logClient","error in creating contacts table \(error)")
+            socketObj.socket.emit("logClient","IPHONE-LOG: error in creating contacts table \(error)")
             print("error in creating contactslists table")
         }
         // )
@@ -179,7 +179,7 @@ class DatabaseHandler:NSObject{
     
     func createAllContactsTable(){
         
-        socketObj.socket.emit("logClient","creating allcontacts table")
+        socketObj.socket.emit("logClient","IPHONE-LOG: creating allcontacts table")
         //let contactObject=Expression<CNContact>("contactObj")
         //let kiboContact = Expression<Bool>("kiboContact")
         let name = Expression<String>("name")
@@ -198,14 +198,14 @@ class DatabaseHandler:NSObject{
         }
         catch(let error)
         {
-            socketObj.socket.emit("logClient","error in creating allcontacts table \(error)")
+            socketObj.socket.emit("logClient","IPHONE-LOG: error in creating allcontacts table \(error)")
             print("error in creating allcontacts table")
         }
     }
     
     func createUserChatTable(){
         
-           socketObj.socket.emit("logClient","creating chat table")
+           socketObj.socket.emit("logClient","IPHONE-LOG: creating chat table")
         
         let to = Expression<String>("to")
         let from = Expression<String>("from")
@@ -230,7 +230,7 @@ class DatabaseHandler:NSObject{
         }
         catch(let error)
         {
-            socketObj.socket.emit("logClient","error in creating chat table \(error)")
+            socketObj.socket.emit("logClient","IPHONE-LOG: error in creating chat table \(error)")
             print("error in creating userschats table")
         }
         
@@ -280,7 +280,7 @@ class DatabaseHandler:NSObject{
                 phone<-phone1,
                 kiboContact<-kiboContact1
                 ))
-            socketObj.socket.emit("logClient","all contacts saved in sqliteDB")
+            socketObj.socket.emit("logClient","IPHONE-LOG: all contacts saved in sqliteDB")
             print("inserted id allcontacts : \(rowid)")
         } catch {
             print("insertion failed: allcontacts \(error)")
@@ -385,7 +385,7 @@ print("--------")
         catch(let error)
             {
                 print("error in deleting previous chat \(error)")
-                socketObj.socket.emit("logClient","error in deleting previous chat from sqliteDB \(error)")
+                socketObj.socket.emit("logClient","IPHONE-LOG: error in deleting previous chat from sqliteDB \(error)")
                 
             }
      

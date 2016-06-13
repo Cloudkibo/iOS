@@ -238,7 +238,7 @@ class VideoViewController: UIViewController,RTCPeerConnectionDelegate,RTCSession
             // ********$$$$$$$$$$$$$$$$$$$$$$
 if(self.pc != nil)
 {
-socketObj.socket.emit("logClient","\(iamincallWith) is disconnecting from call")
+socketObj.socket.emit("logClient","IPHONE-LOG: \(iamincallWith) is disconnecting from call")
 
 
 print("hangupppppp emitteddd")
@@ -251,8 +251,9 @@ self.remoteDisconnected()
     socketObj.socket.emit("leave",["room":joinedRoomInCall])
     
     
-self.disconnect()
+//%%%%%%%%%%% self.disconnect()
 }
+            self.disconnect()
 
 
 // ******$$$$$$$$$$$$
@@ -511,7 +512,7 @@ self.disconnect()
             screenCaptureToggle=false
             ConferenceRoomName=""
             
-            socketObj.socket.emit("logClient","\(username!) pressed end call. going back to contacts list")
+            socketObj.socket.emit("logClient","IPHONE-LOG: \(username!) pressed end call. going back to contacts list")
             dispatch_async(dispatch_get_main_queue(), { () -> Void in
                //%%%%%%%% let next = self.storyboard!.instantiateViewControllerWithIdentifier("mainpage") as! LoginViewController
                 
@@ -706,13 +707,13 @@ self.disconnect()
         var w=localViewOutlet.bounds.width-(localViewOutlet.bounds.width*0.23)
         var h=localViewOutlet.bounds.height-(localViewOutlet.bounds.height*0.27)
         if(localvideoshared==false)
-        {socketObj.socket.emit("logClient","\(username!) is sharing video")
+        {socketObj.socket.emit("logClient","IPHONE-LOG: \(username!) is sharing video")
             localFull.hidden=true
             localView.hidden=true
             btnVideo.setImage(UIImage(named: "video_off"), forState: .Normal)
         }
         else{
-            socketObj.socket.emit("logClient","\(username!) is hiding video")
+            socketObj.socket.emit("logClient","IPHONE-LOG: \(username!) is hiding video")
             btnVideo.setImage(UIImage(named: "video_on"), forState: .Normal)
             if(remotevideoshared==true){
                 //////self.rtcLocalVideoTrack.removeRenderer(self.localFull)
@@ -771,12 +772,12 @@ self.disconnect()
         audioAction = !audioAction.boolValue
         if(audioAction==true)
         {
-            socketObj.socket.emit("logClient","\(username!) is unmuted")
+            socketObj.socket.emit("logClient","IPHONE-LOG: \(username!) is unmuted")
             btnAudio.setImage(UIImage(named: "audio_on"), forState: .Normal)
         }
         else
         {
-            socketObj.socket.emit("logClient","\(username!) is mute")
+            socketObj.socket.emit("logClient","IPHONE-LOG: \(username!) is mute")
              btnAudio.setImage(UIImage(named: "audio_off"), forState: .Normal)
         }
         self.rtcLocalMediaStream!.audioTracks[0].setEnabled(audioAction)
@@ -836,7 +837,7 @@ self.disconnect()
                 if(isConference==true)
                 {
                     endedCall=true
-                    socketObj.socket.emit("logClient","inside end call, isConference is true")
+                    socketObj.socket.emit("logClient","IPHONE-LOG: inside end call, isConference is true")
                     dispatch_async(dispatch_get_main_queue(), { () -> Void in
                         
                         
@@ -862,7 +863,7 @@ self.disconnect()
             
                 if(isConference != true)
                 {
-                    socketObj.socket.emit("logClient","inside end call, isConference is false")
+                    socketObj.socket.emit("logClient","IPHONE-LOG: inside end call, isConference is false")
                     endedCall=true
                 dispatch_async(dispatch_get_main_queue(), { () -> Void in
                     
@@ -878,8 +879,56 @@ self.disconnect()
             
             
         }
+        else
+        {
+            if(isConference==true)
+            {
+                endedCall=true
+                socketObj.socket.emit("logClient","IPHONE-LOG: inside end call, isConference is true and pc is nil")
+                dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                    
+                    
+                    
+                    self.dismissViewControllerAnimated(true, completion: { () -> Void in
+                        
+                    })
+                    
+                    
+                })
+                
+                
+                /* dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                let next = self.storyboard!.instantiateViewControllerWithIdentifier("mainpage") as! LoginViewController
+                self.presentViewController(next, animated: false, completion: { () -> Void in
+                print("nexttttt viewwww")
+                
+                })//end present controller
+                
+                })//end dispatch_async
+                */
+            }//end if
+            
+            if(isConference != true)
+            {
+                socketObj.socket.emit("logClient","IPHONE-LOG: inside end call, isConference is false, pc is nil")
+                endedCall=true
+                dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                    
+                    
+                    
+                    self.dismissViewControllerAnimated(true, completion: { () -> Void in
+                        
+                    })
+                    
+                    
+                })}
+        //}
+        
+
+        
+        }
     }
-    
+
     required init?(coder aDecoder: NSCoder)
     {
         bytesarraytowrite=Array<UInt8>()
@@ -919,7 +968,7 @@ self.disconnect()
             
             if(meetingStarted==true && ConferenceRoomName != ""){
                 print("\(username!) socket is disconnected in between meeting")
-                socketObj.socket.emit("logClient","\(username!) socket is disconnected in between meeting")
+                socketObj.socket.emit("logClient","IPHONE-LOG: \(username!) socket is disconnected in between meeting")
                 
             }
         }
@@ -929,9 +978,9 @@ self.disconnect()
             
             
             print("meeting disconnected in video view controller")
-            socketObj.socket.emit("logClient","meeting disconnected in video view controller")
+            socketObj.socket.emit("logClient","IPHONE-LOG: meeting disconnected in video view controller")
             /*if(meetingStarted==true && ConferenceRoomName != "" && isConference==true){
-                socketObj.socket.emit("logClient","\(username!) is trying to connect in room again")
+                socketObj.socket.emit("logClient","IPHONE-LOG: \(username!) is trying to connect in room again")
                 print("connecting to room again")
             socketObj.socket.emitWithAck("init", ["room":ConferenceRoomName,"username":username!])(timeoutAfter: 6000000) {data in
                 meetingStarted=true
@@ -1067,7 +1116,7 @@ self.disconnect()
                 var roomname=self.randomStringWithLength(9) as String
                 //joinedRoomInCall=roomname as String
                 ConferenceRoomName=roomname
-                socketObj.socket.emit("logClient","\(username) is trying to join room \(ConferenceRoomName)")
+                socketObj.socket.emit("logClient","IPHONE-LOG: \(username) is trying to join room \(ConferenceRoomName)")
                 areYouFreeForCall=false
                 //}
                 //iamincallWith=username!
@@ -1080,7 +1129,7 @@ self.disconnect()
                     meetingStarted=true
                     print("1-1 call room joined by got ack")
                     var a=JSON(data)
-                    socketObj.socket.emit("logClient","\(a.debugDescription)")
+                    socketObj.socket.emit("logClient","IPHONE-LOG: \(username!) joined room\(ConferenceRoomName) and got id \(a[1].int!) , also \(a.debugDescription)")
                     print(a.debugDescription)
                     currentID=a[1].int!
                     print("current id is \(currentID)")
@@ -1089,7 +1138,7 @@ self.disconnect()
                     var aa=JSON(["msg":["type":"room_name","room":ConferenceRoomName as String],"room":globalroom,"to":iamincallWith!,"phone":username!])
                     
                     print(aa.description)
-                    socketObj.socket.emit("logClient","\(aa.object)")
+                    socketObj.socket.emit("logClient","IPHONE-LOG: \(aa.object)")
                     socketObj.socket.emit("message",aa.object)
                     
                 }
@@ -1163,7 +1212,7 @@ self.disconnect()
     
     func createPeerConnectionObject()
     {//Initialise Peer Connection Object
-        socketObj.socket.emit("logClient","iphoneLog: \(username!) is trying to make peer connection")
+        socketObj.socket.emit("logClient","IPHONE-LOG: iphoneLog: \(username!) is trying to make peer connection")
         print("inside create peer conn object method")
         self.rtcMediaConst=RTCMediaConstraints(mandatoryConstraints: [RTCPair(key: "OfferToReceiveAudio", value: "true"),RTCPair(key: "OfferToReceiveVideo", value: "true")], optionalConstraints: nil)
         //rtcFact=nil
@@ -1191,7 +1240,7 @@ self.disconnect()
     
     func createLocalMediaStream()->RTCMediaStream
     {print("inside createlocalvideotrack")
-        socketObj.socket.emit("logClient","creating local video track")
+        socketObj.socket.emit("logClient","IPHONE-LOG: creating local video track")
         
         var localStream:RTCMediaStream!
         
@@ -1268,18 +1317,18 @@ self.disconnect()
     
     func didReceiveLocalVideoTrack(localVideoTrack:RTCVideoTrack)
     {
-        socketObj.socket.emit("logClient","iphone user \(username!) captured audio/video stream")
+        socketObj.socket.emit("logClient","IPHONE-LOG: iphone user \(username!) captured audio/video stream")
         
         var session: AVAudioSession = AVAudioSession.sharedInstance()
         var e:NSError!
         do{
             let res=try session.overrideOutputAudioPort(AVAudioSessionPortOverride.Speaker)
             print("speaker got correctly")
-            socketObj.socket.emit("logClient","success speaker iphone is ON")
+            socketObj.socket.emit("logClient","IPHONE-LOG: success speaker iphone is ON")
         }
         catch _
         {
-            socketObj.socket.emit("logClient","cannot enable speakers2 error..")
+            socketObj.socket.emit("logClient","IPHONE-LOG: cannot enable speakers2 error..")
             print("Speaker errorrr3")
             
         }
@@ -1393,11 +1442,11 @@ self.disconnect()
             do{
                 let res=try session.overrideOutputAudioPort(AVAudioSessionPortOverride.Speaker)
                 print("speaker got correctly")
-                socketObj.socket.emit("logClient","success speaker iphone is ON")
+                socketObj.socket.emit("logClient","IPHONE-LOG: success speaker iphone is ON")
             }
             catch _
             {
-                socketObj.socket.emit("logClient","cannot enable speakers2 error..")
+                socketObj.socket.emit("logClient","IPHONE-LOG: cannot enable speakers2 error..")
                 print("Speaker errorrr4")
                 
             }
@@ -1461,11 +1510,11 @@ self.disconnect()
         do{
             let res=try session.overrideOutputAudioPort(AVAudioSessionPortOverride.Speaker)
             print("speaker got correctly")
-            socketObj.socket.emit("logClient","success speaker iphone is ON")
+            socketObj.socket.emit("logClient","IPHONE-LOG: success speaker iphone is ON")
         }
         catch _
         {
-            socketObj.socket.emit("logClient","cannot enable speakers2 error..")
+            socketObj.socket.emit("logClient","IPHONE-LOG: cannot enable speakers2 error..")
             print("Speaker errorrr3")
             
         }
@@ -1479,7 +1528,7 @@ self.disconnect()
         {print("remote video track count is greater than one \(stream.videoTracks.count)")
             let remoteVideoTrack=stream.videoTracks[0] as! RTCVideoTrack
             //^^^^^^newwwww self.rtcVideoTrackReceived=stream.videoTracks[0] as! RTCVideoTrack
-            socketObj.socket.emit("logClient","iphone user received audio/video stream from \(iamincallWith)")
+            socketObj.socket.emit("logClient","IPHONE-LOG: iphone user received audio/video stream from \(iamincallWith)")
             dispatch_async(dispatch_get_main_queue(), {
             
                 self.didReceiveRemoteVideoTrack(remoteVideoTrack)
@@ -1550,7 +1599,7 @@ self.disconnect()
         if (error==nil){
             if(self.screenshared == true)
             {
-                socketObj.socket.emit("logClient","\(username!) did create \(sdp.type) success")
+                socketObj.socket.emit("logClient","IPHONE-LOG: \(username!) did create \(sdp.type) success")
                 print("\(sdp.type) creatddddd")
                 print(sdp.debugDescription)
                 let sessionDescription=RTCSessionDescription(type: sdp.type!, sdp: sdp.description)
@@ -1569,7 +1618,7 @@ self.disconnect()
                 print("\(sdp.type) emitteddd")
             }
             if(self.pc.localDescription == nil){
-                socketObj.socket.emit("logClient","\(username!) did create \(sdp.type) success, currentID is \(currentID!) and otherID is\(otherID!)")
+                socketObj.socket.emit("logClient","IPHONE-LOG: \(username!) did create \(sdp.type) success, currentID is \(currentID!) and otherID is\(otherID!)")
                 print("\(sdp.type) creatddddd")
                 print(sdp.debugDescription)
                 let sessionDescription=RTCSessionDescription(type: sdp.type!, sdp: sdp.description)
@@ -1588,7 +1637,7 @@ self.disconnect()
         }
         else
         {
-            socketObj.socket.emit("logClient","\(username!) error creating \(sdp.type)")
+            socketObj.socket.emit("logClient","IPHONE-LOG: \(username!) error creating \(sdp.type)")
             print("sdp created with error \(error.localizedDescription)")
         }
         
@@ -1610,20 +1659,20 @@ self.disconnect()
             if isInitiator == false &&
                 self.pc.localDescription == nil {
                     print("creating answer")
-                    socketObj.socket.emit("logClient","\(username!) is creating answer")
+                    socketObj.socket.emit("logClient","IPHONE-LOG: \(username!) is creating answer")
                     //^^^^^^^^^ new self.pc.addStream(self.rtcMediaStream)
                     self.pc.createAnswerWithDelegate(self, constraints: self.rtcMediaConst)
             }
             else
             {
-                socketObj.socket.emit("logClient","\(username!) local not nil or initiator is true")
+                socketObj.socket.emit("logClient","IPHONE-LOG: \(username!) local not nil or initiator is true")
                 print("local not nil or initiator is true")
                 //print(self.pc.localDescription.description)
                 
             }
             
         } else {
-            socketObj.socket.emit("logClient","\(username!) .......sdp set ERROR: \(error.localizedDescription)")
+            socketObj.socket.emit("logClient","IPHONE-LOG: \(username!) .......sdp set ERROR: \(error.localizedDescription)")
             print(".......sdp set ERROR: \(error.localizedDescription)", terminator: "")
         }
         ///// })
@@ -1652,7 +1701,7 @@ self.disconnect()
     func socketReceivedOtherWebRTC(message:String,data:AnyObject!)
     {
         var msg=JSON(data)
-        socketObj.socket.emit("logClient","\(username!) received message \(message)")
+        socketObj.socket.emit("logClient","IPHONE-LOG: \(username!) received message \(message)")
         
         print("socketReceivedOtherWebRTC inside \(msg)")
         switch(message){
@@ -1691,21 +1740,21 @@ self.disconnect()
         default:print("wrong socket other mesage received")
         var msg=JSON(data)
         print(msg.description)
-            socketObj.socket.emit("logClient","\(username!)received wrong socket message  \(msg.description)")
+            socketObj.socket.emit("logClient","IPHONE-LOG: \(username!)received wrong socket message  \(msg.description)")
         }
         
     }
     
     func receivedChatMessage(message:String,username:String)
     {
-        socketObj.socket.emit("logClient","received chat message \(message) from \(username)")
+        socketObj.socket.emit("logClient","IPHONE-LOG: received chat message \(message) from \(username)")
         webMeetingModel.addChatMsg(message, usr: username)
         
     }
     
     func socketReceivedMessageWebRTC(message:String,data:AnyObject!)
     {print("socketReceivedMessageWebRTC inside")
-        socketObj.socket.emit("logClient","\(username!) received socketReceivedMessageWebRTC  \(message)")
+        socketObj.socket.emit("logClient","IPHONE-LOG: \(username!) received socketReceivedMessageWebRTC  \(message)")
         switch(message){
             
         case "message":
@@ -1730,11 +1779,11 @@ self.disconnect()
             //^^^^^^^^^^^^^^^^newwwww if(joinedRoomInCall == "" && isInitiator.description == "false")
             if(joinedRoomInCall == "")
             {
-                socketObj.socket.emit("logClient","room joined is null")
+                socketObj.socket.emit("logClient","IPHONE-LOG: room joined is null")
                 print("room joined is null")
             }
             
-            socketObj.socket.emit("logClient","\(username) received offer")
+            socketObj.socket.emit("logClient","IPHONE-LOG: \(username) received offer")
             print("offer received")
             isInitiator=false
             //var sdpNew=msg[0]["sdp"].object
@@ -1754,7 +1803,7 @@ self.disconnect()
             //iamincallWith=msg[0]["username"].description
             
             iamincallWith=msg[0]["phone"].description
-            socketObj.socket.emit("logClient","\(username) id is \(currentID) , \(iamincallWith) id is \(otherID)")
+            socketObj.socket.emit("logClient","IPHONE-LOG: \(username) id is \(currentID) , \(iamincallWith) id is \(otherID)")
             //if(msg[0]["username"].description != username! && self.pc.remoteDescription == nil){
             
             if(msg[0]["phone"].description != username! && self.pc.remoteDescription == nil){
@@ -1762,7 +1811,7 @@ self.disconnect()
                 txtLabelMainPage.font=UIFont.boldSystemFontOfSize(20)
                 txtLabelMainPage.text="You are now connected in call with \(iamincallWith)"
                 var sessionDescription=RTCSessionDescription(type: msg[0]["type"].description, sdp: msg[0]["sdp"]["sdp"].description)
-                socketObj.socket.emit("logClient","\(username) is setting remote sdp")
+                socketObj.socket.emit("logClient","IPHONE-LOG: \(username) is setting remote sdp")
                 self.pc.setRemoteDescriptionWithDelegate(self, sessionDescription: sessionDescription)
             }
             
@@ -1772,14 +1821,14 @@ self.disconnect()
         {
             if(self.screenshared==true){
                 print("answer received screen")
-                socketObj.socket.emit("logClient","\(username) received screen answer")
+                socketObj.socket.emit("logClient","IPHONE-LOG: \(username) received screen answer")
                 var sessionDescription=RTCSessionDescription(type: msg[0]["type"].description, sdp: msg[0]["sdp"]["sdp"].description)
                 self.pc.setRemoteDescriptionWithDelegate(self, sessionDescription: sessionDescription)
             }
             
             if(isInitiator.description == "true" && self.pc.remoteDescription == nil)
             {
-                socketObj.socket.emit("logClient","\(username) received answer")
+                socketObj.socket.emit("logClient","IPHONE-LOG: \(username) received answer")
                 
                 print("answer received")
                 var sessionDescription=RTCSessionDescription(type: msg[0]["type"].description, sdp: msg[0]["sdp"]["sdp"].description)
@@ -1789,7 +1838,7 @@ self.disconnect()
         }
         if(msg[0]["type"].string! == "ice")
         {print("ice received of other peer")
-            socketObj.socket.emit("logClient","\(username) received ice candidate")
+            socketObj.socket.emit("logClient","IPHONE-LOG: \(username) received ice candidate")
             if(msg[0]["ice"].description=="null")
             {print("last ice as null so ignore")}
             else{
@@ -1800,7 +1849,7 @@ self.disconnect()
                     if(self.pc.localDescription != nil && self.pc.remoteDescription != nil)
                         
                     {var addedcandidate=self.pc.addICECandidate(iceCandidate)
-                        socketObj.socket.emit("logClient","\(username) added ice candidate")
+                        socketObj.socket.emit("logClient","IPHONE-LOG: \(username) added ice candidate")
                         print("ice candidate added \(addedcandidate)")
                     }
                 }
@@ -1839,7 +1888,7 @@ self.disconnect()
             {
                 self.createPeerConnectionObject()
             }
-            socketObj.socket.emit("logClient","\(username) is creating data channel for \(iamincallWith)")
+            socketObj.socket.emit("logClient","IPHONE-LOG: \(username) is creating data channel for \(iamincallWith)")
             self.CreateAndAttachDataChannel()
             self.addLocalMediaStreamToPeerConnection()
             
@@ -1851,8 +1900,8 @@ self.disconnect()
             
             //^^^^^^^^^^^^^^^^^^newwwww self.pc.addStream(self.rtcLocalMediaStream)
             print("peer attached stream")
-            socketObj.socket.emit("logClient","\(username) attached stream")
-            socketObj.socket.emit("logClient","\(username) is creating offer for \(iamincallWith)")
+            socketObj.socket.emit("logClient","IPHONE-LOG: \(username) attached stream")
+            socketObj.socket.emit("logClient","IPHONE-LOG: \(username) is creating offer for \(iamincallWith)")
             self.pc.createOfferWithDelegate(self, constraints: self.rtcMediaConst!)
         }
         
@@ -1874,7 +1923,7 @@ self.disconnect()
             webMeetingModel.messages.removeAllObjects()
             if(self.pc != nil)
             {
-                socketObj.socket.emit("logClient","\(username) got info that \(iamincallWith) has disconnected")
+                socketObj.socket.emit("logClient","IPHONE-LOG: \(username) got info that \(iamincallWith) has disconnected")
                 print("peer disconnectedddd received \(datajson[0])")
                 if(screenCaptureToggle==true)
                 {
@@ -1979,11 +2028,11 @@ self.disconnect()
     {
         print("received conference.stream obj from server")
         var datajson=JSON(data!)
-        socketObj.socket.emit("logClient","\(username) has received conference.stream message \(datajson.debugDescription)")
+        socketObj.socket.emit("logClient","IPHONE-LOG: \(username) has received conference.stream message \(datajson.debugDescription)")
         print(datajson.debugDescription)
         
         if(datajson[0]["phone"].debugDescription != username! && datajson[0]["type"].debugDescription == "screen" && datajson[0]["action"].boolValue==true )
-        {socketObj.socket.emit("logClient","\(iamincallWith) is sharing screen")
+        {socketObj.socket.emit("logClient","IPHONE-LOG: \(iamincallWith) is sharing screen")
             self.screenshared=true
             remoteScreenView.hidden=false//***
             remoteView.hidden=true
@@ -1994,7 +2043,7 @@ self.disconnect()
         
         if(datajson[0]["phone"].debugDescription != username! && datajson[0]["type"].debugDescription == "screen" && datajson[0]["action"].boolValue==false )
         {
-            socketObj.socket.emit("logClient","\(iamincallWith) is hiding screen")
+            socketObj.socket.emit("logClient","IPHONE-LOG: \(iamincallWith) is hiding screen")
            self.screenshared=false
            remoteScreenView.hidden=true
             if(remotevideoshared==true)
@@ -2009,7 +2058,7 @@ self.disconnect()
             ////////////self.rtcVideoTrackReceived.setEnabled((datajson[0]["action"].bool!))
             if(datajson[0]["action"].boolValue == false)
             {
-                socketObj.socket.emit("logClient","\(iamincallWith) is hiding video")
+                socketObj.socket.emit("logClient","IPHONE-LOG: \(iamincallWith) is hiding video")
                 remotevideoshared=false
                 ///self.localView.hidden=false
                 self.remoteView.hidden=true
@@ -2018,7 +2067,7 @@ self.disconnect()
                 //remoteScreenView.hidden=true
             }
             if(datajson[0]["action"].boolValue == true)
-            {socketObj.socket.emit("logClient","\(iamincallWith) is sharing video")
+            {socketObj.socket.emit("logClient","IPHONE-LOG: \(iamincallWith) is sharing video")
                 //self.rtcVideoTrackReceived.addRenderer(self.remoteView)
                 remotevideoshared=true
                 localFull.hidden=true
@@ -2057,14 +2106,14 @@ self.disconnect()
             {//newwwwwww tryyy isinitiator
                 isInitiator = false
                 var CurrentRoomName=msg[0]["room"].string!
-                socketObj.socket.emit("logClient","\(username) got room name as \(CurrentRoomName)")
+                socketObj.socket.emit("logClient","IPHONE-LOG: \(username) got room name as \(CurrentRoomName)")
                 print("got room name as \(joinedRoomInCall)")
                 print("trying to join room")
                 print("line #1394")
                 socketObj.socket.emitWithAck("init", ["room":CurrentRoomName,"phone":username!])(timeoutAfter: 600000) {data in
                     meetingStarted=true
                     print("room joined got ack")
-                     socketObj.socket.emit("logClient","\(username) joined room \(CurrentRoomName)")
+                     socketObj.socket.emit("logClient","IPHONE-LOG: \(username) joined room \(CurrentRoomName)")
                     var a=JSON(data)
                     print(a.debugDescription)
                     currentID=a[1].int!
@@ -2082,7 +2131,7 @@ self.disconnect()
         if(msg[0]=="Accept Call")
         {
             
-            socketObj.socket.emit("logClient","\(username!) accept call in video view")
+            socketObj.socket.emit("logClient","IPHONE-LOG: \(username!) accept call in video view")
             print("accept call in video view")
             
             
@@ -2121,7 +2170,7 @@ self.disconnect()
         }
         if(msg[0]=="Reject Call")
         {
-            socketObj.socket.emit("logClient","\(username!) is inside reject call ")
+            socketObj.socket.emit("logClient","IPHONE-LOG: \(username!) is inside reject call ")
             print("inside reject call")
             var roomname=""
             iamincallWith=""
@@ -2146,7 +2195,7 @@ self.disconnect()
             {
                 
                 //// newwwww may 2016 neww
-                socketObj.socket.emit("logClient","\(iamincallWith) is disconnecting from call")
+                socketObj.socket.emit("logClient","IPHONE-LOG: \(iamincallWith) is disconnecting from call")
                 print("hangupppppp received \(msg[0])")
                 
                 print("hangupppppp received \(msg.debugDescription)")
@@ -2163,7 +2212,7 @@ self.disconnect()
         
         if(msg[0]["type"]=="Missed")
         {
-            socketObj.socket.emit("logClient","\(username!) has received a missed call from \(iamincallWith!)")
+            socketObj.socket.emit("logClient","IPHONE-LOG: \(username!) has received a missed call from \(iamincallWith!)")
             
             let todoItem = NotificationItem(otherUserName: "\(iamincallWith!)", message: "You have received a missed call", type: "missed call", UUID: "111", deadline: NSDate())
             /*notificationsMainClass.sharedInstance.addItem(todoItem)
@@ -2226,7 +2275,7 @@ self.disconnect()
             isBinary: isb
         )
         var sentFile=self.rtcDataChannel.sendData(buffer)
-        socketObj.socket.emit("logClient","datachannel file METADATA sent is \(sentFile) OR image chunk size is sent \(sentFile)")
+        socketObj.socket.emit("logClient","IPHONE-LOG: datachannel file METADATA sent is \(sentFile) OR image chunk size is sent \(sentFile)")
         print("datachannel file METADATA sent is \(sentFile) OR image chunk size is sent \(sentFile)")
         
         
@@ -2558,7 +2607,7 @@ self.disconnect()
                 if(numberOfChunksInFileToSave > Double(numberOfChunksReceived))
                 {
                     chunknumbertorequest += fu.chunks_per_ack
-                    socketObj.socket.emit("logClient","\(username) is asking for other file chunk")
+                    socketObj.socket.emit("logClient","IPHONE-LOG: \(username) is asking for other file chunk")
                     print("asking other chunk..")
                     //requestchunk(chunknumbertorequest)
                     
@@ -2570,7 +2619,7 @@ self.disconnect()
             else{
                 if(numberOfChunksInFileToSave == Double(numberOfChunksReceived))
                 {
-                    socketObj.socket.emit("logClient","\(username) file transfer completed")
+                    socketObj.socket.emit("logClient","IPHONE-LOG: \(username) file transfer completed")
                     print("file transfer completed..")
                     fileTransferCompleted=true;
                     
@@ -2681,7 +2730,7 @@ self.disconnect()
                 
                
                 print("file writtennnnn \(s) \(filedata.debugDescription)")
-                socketObj.socket.emit("logClient","\(username!) file writtennnnn")
+                socketObj.socket.emit("logClient","IPHONE-LOG: \(username!) file writtennnnn")
                 if(fileTransferCompleted==true)
                 {
                     isFileReceived=true
@@ -3291,7 +3340,7 @@ self.disconnect()
             // do something with it
             let fileData = NSData(contentsOfURL: url)
             print(fileData?.description)
-            socketObj.socket.emit("logClient","\(username!) selected file ")
+            socketObj.socket.emit("logClient","IPHONE-LOG: \(username!) selected file ")
             print("file gotttttt")
             ///////////self.mdata.sharefile(url.URLString)
             var furl=NSURL(string: url.URLString)
@@ -3317,7 +3366,7 @@ self.disconnect()
                     ////***april 2016 neww self.fileSize=(fileSize1 as! NSNumber).integerValue
                 }
             } catch {
-                socketObj.socket.emit("logClient","error: \(error)")
+                socketObj.socket.emit("logClient","IPHONE-LOG: error: \(error)")
                 print("Error: \(error)")
             }
             /*do{
@@ -3439,7 +3488,7 @@ self.disconnect()
         */
         var imageSent=self.rtcDataChannel.sendData(RTCDataBuffer(data: imageData, isBinary: true))
         ////var imageSent=self.rtcDataChannel.sendData(RTCDataBuffer(data: imageWithHeaderBinary, isBinary: false))
-        socketObj.socket.emit("logClient","\(username) image senttttt \(imageSent)")
+        socketObj.socket.emit("logClient","IPHONE-LOG: \(username) image senttttt \(imageSent)")
         print("image senttttt \(imageSent)")
         //}
         

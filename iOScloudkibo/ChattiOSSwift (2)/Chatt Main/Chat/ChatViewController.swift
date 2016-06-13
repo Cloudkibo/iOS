@@ -751,7 +751,7 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
                                 
                                 
                                 
-                                socketObj.socket.emit("logClient","login success and AuthToken was not nil getting myself details from server")
+                                socketObj.socket.emit("logClient","IPHONE-LOG: login success and AuthToken was not nil getting myself details from server")
                                 
                                 print("login success")
                                 //self.labelLoginUnsuccessful.text=nil
@@ -812,7 +812,7 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
                                             KeychainWrapper.setString(loggedUserObj.description, forKey:"loggedUserObjString")
                                             var loggedobjstring=KeychainWrapper.stringForKey("loggedUserObjString")
                                             
-                                            socketObj.socket.emit("logClient","keychain of loggedUserObjString is \(loggedobjstring)")
+                                            socketObj.socket.emit("logClient","IPHONE-LOG: keychain of loggedUserObjString is \(loggedobjstring)")
                                             
                                             print(loggedUserObj.debugDescription)
                                             print(loggedUserObj.object)
@@ -881,7 +881,7 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
                                                 var jsonNew=JSON("{\"room\": \"globalchatroom\",\"user\": {\"username\":\"sabachanna\"}}")
                                                 //socketObj.socket.emit("join global chatroom", ["room": "globalchatroom", "user": ["username":"sabachanna"]]) WORKINGGG
                                                 
-                                                socketObj.socket.emit("logClient","\(username!) is joining room room:globalchatroom, user: \(json.object)")
+                                                socketObj.socket.emit("logClient","IPHONE-LOG: \(username!) is joining room room:globalchatroom, user: \(json.object)")
                                                 socketObj.socket.emit("join global chatroom",["room": "globalchatroom", "user": json.object])
                                                 
                                                 print(json["_id"])
@@ -973,7 +973,7 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
                                         self.txtForEmail.text=nil
                                         self.txtForPassword.text=nil
                                         */
-                                        socketObj.socket.emit("logClient","error is \(error)")
+                                        socketObj.socket.emit("logClient","IPHONE-LOG: error is \(error)")
                                         print("GOT USER FAILED \(error)")
                                         
                                         
@@ -1074,7 +1074,7 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
         else
         {
             //*********%%%%%%%%%%%%% Not logged in
-            socketObj.socket.emit("logClient","access token is nil so go to login page")
+            socketObj.socket.emit("logClient","IPHONE-LOG: access token is nil so go to login page")
             print("access token is nil so go to login page")
             self.performSegueWithIdentifier("loginSegue", sender: self)
         }
@@ -1127,7 +1127,7 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
         if(firstTimeLogin==true)
         {
         print("first time login user \(username) token \(AuthToken)")
-        socketObj.socket.emit("logClient","user \(username) token \(AuthToken) loginned for first time")
+        socketObj.socket.emit("logClient","IPHONE-LOG: user \(username) token \(AuthToken) loginned for first time")
         firstTimeLogin=false
         self.performSegueWithIdentifier("inviteSegue",sender: nil)
         
@@ -1142,7 +1142,7 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
     //to fetch contacts from SQLite db
     
     func fetchContacts(){
-        socketObj.socket.emit("logClient","fetch contacts from sqlite database")
+        socketObj.socket.emit("logClient","IPHONE-LOG: fetch contacts from sqlite database")
         let contactid = Expression<String>("contactid")
         let detailsshared = Expression<String>("detailsshared")
         
@@ -1204,7 +1204,7 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
     
     func fetchContactsFromServer(){
         print("Server fetchingg contactss", terminator: "")
-        socketObj.socket.emit("logClient","fetch contacts from server")
+        socketObj.socket.emit("logClient","IPHONE-LOG: fetch contacts from server")
         if(loggedUserObj == JSON("[]"))
         {
         }
@@ -1239,7 +1239,7 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
                 
                 if response1?.statusCode==200 {
                     print("success successfully received friends list from server")
-                    socketObj.socket.emit("logClient"," successfully received friends list from server")
+                    socketObj.socket.emit("logClient","IPHONE-LOG:  successfully received friends list from server")
                     if(glocalChatRoomJoined == false)
                     {
                         //socketObj.addHandlers()
@@ -1501,7 +1501,7 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
         }
         
         /*
-        socketObj.socket.emit("logClient","user object is \(loggedUserObj)")
+        socketObj.socket.emit("logClient","IPHONE-LOG: user object is \(loggedUserObj)")
         print("before whozonline print", terminator: "")
         print(loggedUserObj.object)
         
@@ -1893,17 +1893,17 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
             //////////////////////////////
             //CORRECT CODE ONE TO ONE CALL COMMENTED
             //////////////////////////////
-            socketObj.socket.emit("logClient","\(username!) is trying to call \(self.ContactUsernames[selectedRow])")
+            socketObj.socket.emit("logClient","IPHONE-LOG: \(username!) is trying to call \(self.ContactUsernames[selectedRow])")
             if(self.ContactOnlineStatus[selectedRow]==0)
             {
                 self.showError("Info:", message: "Contact is offline. Please try again later.", button1: "Ok")
                 print("contact is offline")
-                socketObj.socket.emit("logClient","contact \(self.ContactUsernames[selectedRow]) is offline")
+                socketObj.socket.emit("logClient","IPHONE-LOG: contact \(self.ContactUsernames[selectedRow]) is offline")
             }
             //socketObj.socket.emit("callthisperson",["room" : "globalchatroom","callee": self.ContactUsernames[selectedRow], "caller":username!])
             // &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&**************************
             username=KeychainWrapper.stringForKey("username")
-            socketObj.socket.emit("logClient","callthisperson,room:globalchatroom,callee: \(self.ContactUsernames[selectedRow]), caller:\(username!)")
+            socketObj.socket.emit("logClient","IPHONE-LOG: callthisperson,room:globalchatroom,callee: \(self.ContactUsernames[selectedRow]), caller:\(username!)")
             print("callthisperson,room : globalchatroom,callee: \(self.ContactUsernames[selectedRow]), caller:\(username!)")
             socketObj.socket.emit("callthisperson",["room" : "globalchatroom","callee": self.ContactUsernames[selectedRow], "caller":username!])
             print("username is ... \(username!)")
@@ -2024,7 +2024,7 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
         switch(message)
         {
         case "Accept Call":
-            socketObj.socket.emit("logClient","\(username!) is inside accept call")
+            socketObj.socket.emit("logClient","IPHONE-LOG: \(username!) is inside accept call")
             print("Accept call in chat view")
             callerName=KeychainWrapper.stringForKey("username")!
             //iamincallWith=msg[0]["callee"].string!
@@ -2034,7 +2034,7 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
             var roomname=""
             if(ConferenceRoomName == "")
             {
-                socketObj.socket.emit("logClient","\(username!) is inside accept call")
+                socketObj.socket.emit("logClient","IPHONE-LOG: \(username!) is inside accept call")
                 print("inside accept call")
                 /// roomname="test"
                 
@@ -2068,7 +2068,7 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
                 
                 ///NEW ADDED
                 
-                socketObj.socket.emit("logClient","\(username!) is going to videoViewController")
+                socketObj.socket.emit("logClient","IPHONE-LOG: \(username!) is going to videoViewController")
                 ////
                 var next = self.storyboard!.instantiateViewControllerWithIdentifier("MainV2") as! VideoViewController
                 
@@ -2082,7 +2082,7 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
             
             callerName=KeychainWrapper.stringForKey("username")!
             //iamincallWith=msg[0]["callee"].string!
-            socketObj.socket.emit("logClient","\(username!) othersideringing , callee is \(callerName)")
+            socketObj.socket.emit("logClient","IPHONE-LOG: \(username!) othersideringing , callee is \(callerName)")
             print("callee is \(callerName)", terminator: "")
             
             /*
@@ -2110,7 +2110,7 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
                     if self.ContactUsernames[j]==offlineUsers[i]["phone"].string!
                     {
                         //found online contact,s username
-                        socketObj.socket.emit("logClient","user found offline \(self.ContactUsernames[j])")
+                        socketObj.socket.emit("logClient","IPHONE-LOG: user found offline \(self.ContactUsernames[j])")
                         print("user found offlinee \(self.ContactUsernames[j])")
                         self.ContactOnlineStatus[j]=0
                         self.tblForChat.reloadData()
@@ -2132,7 +2132,7 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
                     if self.ContactUsernames[j]==theseareonlineUsers[0][i]["phone"].description
                     {
                         //found online contact,s username
-                        socketObj.socket.emit("logClient","user found theseareonline \(self.ContactUsernames[j])")
+                        socketObj.socket.emit("logClient","IPHONE-LOG: user found theseareonline \(self.ContactUsernames[j])")
                         print("user found theseareonline \(self.ContactUsernames[j])")
                         self.ContactOnlineStatus[j]=1
                         print("line # 1699")
@@ -2146,7 +2146,7 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
             var message=JSON(data!)
             print("other user is free", terminator: "")
             print(data?.debugDescription, terminator: "")
-            socketObj.socket.emit("logClient","\(username!) received message from other peer yesiamfreeforcall")
+            socketObj.socket.emit("logClient","IPHONE-LOG: \(username!) received message from other peer yesiamfreeforcall")
             
         case "areyoufreeforcall":
             

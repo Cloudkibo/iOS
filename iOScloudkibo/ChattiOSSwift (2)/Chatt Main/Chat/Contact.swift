@@ -37,14 +37,14 @@ class iOSContact{
         catch
             {
                 print("error in deleting allcontacts table")
-                socketObj.socket.emit("logClient","iphoneLog: error in deleting allcontacts data \(error)")
+                socketObj.socket.emit("logClient","IPHONE-LOG: iphoneLog: error in deleting allcontacts data \(error)")
         }
         
         
         var name=Expression<String>("name")
         var phone=Expression<String>("phone")
         
-        socketObj.socket.emit("logClient","\(username) fetching contacts from iphone contactlist")
+        socketObj.socket.emit("logClient","IPHONE-LOG: \(username) fetching contacts from iphone contactlist")
         var emails=[String]()
         contacts.removeAll()
         emailList.removeAll()
@@ -68,7 +68,7 @@ class iOSContact{
             print(contacts.first?.givenName)
             // dispatch_async(dispatch_get_main_queue(), { () -> Void in
             
-            socketObj.socket.emit("logClient","\(username) received \(contacts.count) contacts from iphone contactlist")
+            socketObj.socket.emit("logClient","IPHONE-LOG: \(username) received \(contacts.count) contacts from iphone contactlist")
             for(var i=0;i<contacts.count;i++){
                 
                 
@@ -104,7 +104,7 @@ class iOSContact{
                             catch(let error)
                             {
                                 print("error in name : \(error)")
-                                socketObj.socket.emit("logClient","iphoneLog: error is getting name \(error)")
+                                socketObj.socket.emit("logClient","IPHONE-LOG: iphoneLog: error is getting name \(error)")
                             }
                         }
                     }
@@ -170,7 +170,7 @@ class iOSContact{
         }
         catch let error as NSError {
             print("errorrrrr ...")
-            socketObj.socket.emit("logClient","error: fetching contacts from device \(error.description)")
+            socketObj.socket.emit("logClient","IPHONE-LOG: error: fetching contacts from device \(error.description)")
             print(error.description, separator: "", terminator: "\n")
         }
         
@@ -180,7 +180,7 @@ class iOSContact{
     
     
     func fetchContactsByEmails(completion: (result:[String])->()){
-        socketObj.socket.emit("logClient","\(username) fetching contacts from iphone contactlist")
+        socketObj.socket.emit("logClient","IPHONE-LOG: \(username) fetching contacts from iphone contactlist")
         var emails=[String]()
         contacts.removeAll()
         emailList.removeAll()
@@ -204,7 +204,7 @@ class iOSContact{
             print(contacts.first?.givenName)
             // dispatch_async(dispatch_get_main_queue(), { () -> Void in
             
-            socketObj.socket.emit("logClient","\(username) received \(contacts.count) contacts from iphone contactlist")
+            socketObj.socket.emit("logClient","IPHONE-LOG: \(username) received \(contacts.count) contacts from iphone contactlist")
             for(var i=0;i<contacts.count;i++){
                 
                 
@@ -283,7 +283,7 @@ class iOSContact{
         }
         catch let error as NSError {
             print("errorrrrr ...")
-            socketObj.socket.emit("logClient","error: fetching contacts from device \(error.description)")
+            socketObj.socket.emit("logClient","IPHONE-LOG: error: fetching contacts from device \(error.description)")
             print(error.description, separator: "", terminator: "\n")
         }
         
@@ -293,7 +293,7 @@ class iOSContact{
     func searchContactsByEmail(emails:[String],completion: (result:[String])->())
     {
         print("emails are \(emails)")
-        socketObj.socket.emit("logClient","sending emails to server")
+        socketObj.socket.emit("logClient","IPHONE-LOG: sending emails to server")
         // %%%%%%%%%%%%%%%%%% new phone model change
         let searchContactsByEmail=Constants.MainUrl+Constants.searchContactsByEmail
         //let searchContactsByEmail=Constants.MainUrl+Constants.searchContactsByEmail+"?access_token="+AuthToken!
@@ -316,7 +316,7 @@ class iOSContact{
         Alamofire.request(.POST,searchContactsByEmail,headers:header,parameters:["emails":emails],encoding: .JSON).responseJSON { response in
             
             if(response.response?.statusCode==200)
-            {socketObj.socket.emit("logClient","success in getting available and not available contacts")
+            {socketObj.socket.emit("logClient","IPHONE-LOG: success in getting available and not available contacts")
             debugPrint(response.data)
             //print(response.request)
             //print(response.response)
@@ -354,7 +354,7 @@ class iOSContact{
         }
             else
             {
-                socketObj.socket.emit("logClient","error: \(response.debugDescription)")
+                socketObj.socket.emit("logClient","IPHONE-LOG: error: \(response.debugDescription)")
             }
         
         }
@@ -368,7 +368,7 @@ class iOSContact{
        // phones=phones.description.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
         
         print("phones are are \(phones)")
-        socketObj.socket.emit("logClient","sending emails to server")
+        socketObj.socket.emit("logClient","IPHONE-LOG: sending emails to server")
         // %%%%%%%%%%%%%%%%%% new phone model change
         let searchContactsByPhones=Constants.MainUrl+Constants.searchContactsByPhone
         //let searchContactsByEmail=Constants.MainUrl+Constants.searchContactsByEmail+"?access_token="+AuthToken!
@@ -397,7 +397,7 @@ class iOSContact{
         Alamofire.request(.POST,searchContactsByPhones,headers:header,parameters:["phonenumbers":phones],encoding: .JSON).responseJSON { response in
             
             if(response.response?.statusCode==200)
-            {socketObj.socket.emit("logClient","success in getting available and not available contacts")
+            {socketObj.socket.emit("logClient","IPHONE-LOG: success in getting available and not available contacts")
                 debugPrint(response.data)
                 //print(response.request)
                 //print(response.response)
@@ -435,7 +435,7 @@ class iOSContact{
             }
             else
             {
-                socketObj.socket.emit("logClient","error: \(response.debugDescription)")
+                socketObj.socket.emit("logClient","IPHONE-LOG: error: \(response.debugDescription)")
             }
             
         }
