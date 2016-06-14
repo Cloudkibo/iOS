@@ -172,6 +172,7 @@ class iOSContact{
             print("errorrrrr ...")
             socketObj.socket.emit("logClient","IPHONE-LOG: error: fetching contacts from device \(error.description)")
             print(error.description, separator: "", terminator: "\n")
+             print("... ... \(error.localizedFailureReason)")
         }
         
         //return emails
@@ -285,6 +286,8 @@ class iOSContact{
             print("errorrrrr ...")
             socketObj.socket.emit("logClient","IPHONE-LOG: error: fetching contacts from device \(error.description)")
             print(error.description, separator: "", terminator: "\n")
+            print("... ... \(error.localizedFailureReason)")
+            
         }
         
         //return emails

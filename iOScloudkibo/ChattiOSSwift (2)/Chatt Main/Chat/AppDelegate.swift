@@ -52,7 +52,8 @@ let loggedEmail=KeychainWrapper.stringForKey("loggedEmail")
 let _id=KeychainWrapper.stringForKey("_id")
 var globalroom="globalchatroom"
 var joinedRoomInCall=""
-var currentID:Int!
+//%%%%%%%%
+var currentID:Int! = -1
 var otherID:Int!
 //let loggedIDKeyChain=KeychainWrapper.stringForKey("loggedIDKeyChain")
 
@@ -111,10 +112,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate,AppDelegateScreenDelegate 
             socketObj.addWebRTCHandlers()
         }
         
-        /*application.registerUserNotificationSettings(UIUserNotificationSettings(forTypes: [.Alert, .Badge, .Sound], categories: nil))  // types are UIUserNotificationType members
-        
+        let notificationTypes: UIUserNotificationType = [UIUserNotificationType.Alert, UIUserNotificationType.Badge, UIUserNotificationType.Sound]
+        let pushNotificationSettings = UIUserNotificationSettings(forTypes: notificationTypes, categories: nil)
+ 
+        application.registerUserNotificationSettings(pushNotificationSettings)
         application.registerForRemoteNotifications()
-        */
+        
+       // application.registerUserNotificationSettings(UIUserNotificationSettings(forTypes: [.Alert, .Badge, .Sound], categories: nil))  // types are UIUserNotificationType members
+        
+        //application.registerForRemoteNotifications()
+
         /*var fileManager=NSFileManager.defaultManager()
         var currentiCloudToken=fileManager.ubiquityIdentityToken
         if(currentiCloudToken != nil)
@@ -410,6 +417,7 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
     func application(application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: NSData) {
         let token=JSON(deviceToken)
         print("device tokennnnnnn...", terminator: "")
+        socketObj.socket.emit("logClient","deviceToken: \(token)")
         print(token.debugDescription)
         
         print("registered for notification", terminator: "")

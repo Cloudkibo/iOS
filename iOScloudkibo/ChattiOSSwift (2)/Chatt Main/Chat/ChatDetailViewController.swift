@@ -101,10 +101,15 @@ class ChatDetailViewController: UIViewController{
             
             print("chat sent to server.ack received")
             // declared system sound here
-            let systemSoundID: SystemSoundID = 1104
-            //AudioServicesCre
+            //let systemSoundID: SystemSoundID = 1104
+            // create a sound ID, in this case its the tweet sound.
+            let systemSoundID: SystemSoundID = 1016
+            
             // to play sound
             AudioServicesPlaySystemSound (systemSoundID)
+            //AudioServicesCre
+            // to play sound
+            //AudioServicesPlaySystemSound (systemSoundID)
             
             var chatJson=JSON(data)
             print("chat received \(chatJson.debugDescription)")

@@ -11,6 +11,7 @@ import Alamofire
 import SwiftyJSON
 import UIKit
 import SQLite
+import AVFoundation
 
 enum ChatAppSocketChannelState:NSInteger{
     
@@ -157,7 +158,17 @@ class LoginAPI{
             self.delegate?.socketReceivedMessage("offline",data: data)
         }
         
-        
+        socketObj.socket.on("im") {data,ack in
+            
+            //print("chat sent to server.ack received")
+            // declared system sound here
+            //let systemSoundID: SystemSoundID = 1104
+            // create a sound ID, in this case its the tweet sound.
+            let systemSoundID: SystemSoundID = 1016
+            
+            // to play sound
+            AudioServicesPlaySystemSound (systemSoundID)
+        }
         
         ///////////////
         
