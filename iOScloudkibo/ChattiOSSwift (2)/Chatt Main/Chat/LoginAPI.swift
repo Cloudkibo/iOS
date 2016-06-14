@@ -159,6 +159,10 @@ class LoginAPI{
         }
         
         socketObj.socket.on("im") {data,ack in
+            var chatJson=JSON(data)
+            //print("chat received \(chatJson.debugDescription)")
+            //print(chatJson[0]["msg"])
+            //receivedMsg=chatJson[0]["msg"]
             
             //print("chat sent to server.ack received")
             // declared system sound here
@@ -168,6 +172,8 @@ class LoginAPI{
             
             // to play sound
             AudioServicesPlaySystemSound (systemSoundID)
+            let todoItem = NotificationItem(otherUserName: chatJson[0]["fromFullName"].string!, message:chatJson[0]["msg"].string! , type: "New Message", UUID: "111", deadline: NSDate())
+            notificationsMainClass.sharedInstance.addItem(todoItem) // schedule a local notification to persist this item
         }
         
         ///////////////

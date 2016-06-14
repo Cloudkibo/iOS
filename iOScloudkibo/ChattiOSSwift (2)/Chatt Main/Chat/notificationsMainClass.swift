@@ -26,7 +26,9 @@ class notificationsMainClass {
         
         // create a corresponding local notification
         let notification = UILocalNotification()
-        notification.alertBody = "You received a \"\(item.type)\" from \(item.otherUserName)" // text that will be displayed in the notification
+        ////%%%%notification.alertBody = "You received a \"\(item.type)\" from \(item.otherUserName)" // text that will be displayed in the notification
+        notification.alertBody = "\(item.otherUserName) says: \(item.message)" // text that will be displayed in the notification
+        
         notification.alertAction = "open" // text that is displayed after "slide to..." on the lock screen - defaults to "slide to view"
         notification.fireDate = item.deadline // todo item due date (when notification will be fired)
         notification.soundName = UILocalNotificationDefaultSoundName // play default sound
