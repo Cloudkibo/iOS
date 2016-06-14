@@ -115,10 +115,10 @@ class ChatDetailViewController: UIViewController{
             print("chat received \(chatJson.debugDescription)")
             print(chatJson[0]["msg"])
             receivedMsg=chatJson[0]["msg"]
-            //var username=chatJson[0]["fullName"]
+            var dateString=chatJson[0]["date"]
             
             
-            self.addMessage(receivedMsg.description, ofType: "1")
+            self.addMessage(receivedMsg.description, ofType: "1",date: dateString.debugDescription)
                         
            
             /*
@@ -131,7 +131,7 @@ class ChatDetailViewController: UIViewController{
             */
             
             
-            sqliteDB.SaveChat(chatJson[0]["to"].string!, from1: chatJson[0]["from"].string!,owneruser1:chatJson[0]["to"].string!, fromFullName1: chatJson[0]["fromFullName"].string!, msg1: chatJson[0]["msg"].string!)
+            sqliteDB.SaveChat(chatJson[0]["to"].string!, from1: chatJson[0]["from"].string!,owneruser1:chatJson[0]["to"].string!, fromFullName1: chatJson[0]["fromFullName"].string!, msg1: chatJson[0]["msg"].string!,date1: chatJson[0]["date"].string!)
             
             
             //sqliteDB.SaveChat(chatJson["msg"][0]["to"].string!, from1: chatJson["msg"][0]["from"].string!,owneruser1:chatJson["msg"][0]["owneruser"].string! , fromFullName1: chatJson["msg"][0]["fromFullName"].string!, msg1: UserchatJson["msg"][0]["msg"].string!)
@@ -200,7 +200,7 @@ class ChatDetailViewController: UIViewController{
         let owneruser = Expression<String>("owneruser")
         let fromFullName = Expression<String>("fromFullName")
         let msg = Expression<String>("msg")
-        let date = Expression<NSDate>("date")
+        let date = Expression<String>("date")
         
         var tbl_userchats=sqliteDB.userschats
         var res=tbl_userchats.filter(to==selecteduser || from==selecteduser)
@@ -216,16 +216,17 @@ class ChatDetailViewController: UIViewController{
             print(tblContacts[to])
             print(tblContacts[from])
             print(tblContacts[msg])
+            print(tblContacts[date])
             print("--------")
             
             if (tblContacts[from]==username!)
                 
             {//type1
-                self.addMessage(tblContacts[msg], ofType: "2")
+                self.addMessage(tblContacts[msg], ofType: "2",date: tblContacts[date])
             }
             else
             {//type2
-                self.addMessage(tblContacts[msg], ofType: "1")
+                self.addMessage(tblContacts[msg], ofType: "1", date: tblContacts[date])
                 
             }
                /* if(self.messages.count>1)
@@ -357,8 +358,8 @@ class ChatDetailViewController: UIViewController{
         // Dispose of any resources that can be recreated.
     }
     
-    func addMessage(message: String, ofType msgType:String) {
-        messages.addObject(["message":message, "type":msgType])
+    func addMessage(message: String, ofType msgType:String, date:String) {
+        messages.addObject(["message":message, "type":msgType, "date":date])
     }
     
     func fetchChatSQlite(){
@@ -414,7 +415,7 @@ class ChatDetailViewController: UIViewController{
                     {
                         
                         
-                        sqliteDB.SaveChat(UserchatJson["msg"][i]["to"].string!, from1: UserchatJson["msg"][i]["from"].string!,owneruser1:UserchatJson["msg"][i]["owneruser"].string! , fromFullName1: UserchatJson["msg"][i]["fromFullName"].string!, msg1: UserchatJson["msg"][i]["msg"].string!)
+                        sqliteDB.SaveChat(UserchatJson["msg"][i]["to"].string!, from1: UserchatJson["msg"][i]["from"].string!,owneruser1:UserchatJson["msg"][i]["owneruser"].string! , fromFullName1: UserchatJson["msg"][i]["fromFullName"].string!, msg1: UserchatJson["msg"][i]["msg"].string!,date1:UserchatJson["msg"][i]["date"].string!)
                         
                         //%%%%%%%%%%%%%%%%%%%%%%%%%
                         //%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -521,7 +522,7 @@ class ChatDetailViewController: UIViewController{
         NSLog(messageDic["message"]!, 1)
         let msgType = messageDic["type"] as NSString!
         let msg = messageDic["message"] as NSString!
-        
+        let date2=messageDic["date"] as NSString!
         let sizeOFStr = self.getSizeOfString(msg)
          print("sizeOfstr is width \(sizeOFStr.width) and height is \(sizeOFStr.height)")
         
@@ -548,6 +549,7 @@ class ChatDetailViewController: UIViewController{
             let textLable = cell.viewWithTag(12) as! UILabel
             let chatImage = cell.viewWithTag(1) as! UIImageView
             let profileImage = cell.viewWithTag(2) as! UIImageView
+            let timeLabel = cell.viewWithTag(11) as! UILabel
             chatImage.frame = CGRectMake(chatImage.frame.origin.x, chatImage.frame.origin.y, ((sizeOFStr.width + 60)  > 100 ? (sizeOFStr.width + 60) : 100), sizeOFStr.height + 40)
             chatImage.image = UIImage(named: "chat_receive")?.stretchableImageWithLeftCapWidth(40,topCapHeight: 20);
             //******
@@ -557,6 +559,7 @@ class ChatDetailViewController: UIViewController{
            ////// profileImage.center = CGPointMake(profileImage.center.x, textLable.frame.origin.y + textLable.frame.size.height - profileImage.frame.size.height/2 + 10)
             profileImage.center = CGPointMake(profileImage.center.x, textLable.frame.origin.y + textLable.frame.size.height - profileImage.frame.size.height/2+20)
             textLable.text = "\(msg)"
+            timeLabel.text=date2.debugDescription
         } else {
             cell = tblForChats.dequeueReusableCellWithIdentifier("ChatReceivedCell")! as UITableViewCell
             let deliveredLabel = cell.viewWithTag(13) as! UILabel
@@ -577,6 +580,7 @@ class ChatDetailViewController: UIViewController{
             deliveredLabel.frame = CGRectMake(deliveredLabel.frame.origin.x, textLable.frame.origin.y + textLable.frame.size.height + 15, deliveredLabel.frame.size.width, deliveredLabel.frame.size.height)
             textLable.text = "\(msg)"
             deliveredLabel.text="Delivered"
+            timeLabel.text=date2.debugDescription
         }
         return cell
         /*if (msgType.isEqualToString("1")){
@@ -714,7 +718,7 @@ class ChatDetailViewController: UIViewController{
         
         //////
         
-        sqliteDB.SaveChat("\(selectedContact)", from1: "\(username!)",owneruser1: "\(username!)", fromFullName1: "\(loggedFullName!)", msg1: "\(txtFldMessage.text!)")
+        sqliteDB.SaveChat("\(selectedContact)", from1: "\(username!)",owneruser1: "\(username!)", fromFullName1: "\(loggedFullName!)", msg1: "\(txtFldMessage.text!)", date1: NSDate().debugDescription)
         
         /*insert(self.fromFullName<-"Sabach Channa",
         self.msg<-"\(txtFldMessage.text)",
@@ -729,7 +733,7 @@ class ChatDetailViewController: UIViewController{
         }*/
         
         
-        self.addMessage(txtFldMessage.text!, ofType: "2")
+        self.addMessage(txtFldMessage.text!, ofType: "2",date:NSDate().debugDescription)
         txtFldMessage.text = "";
         tblForChats.reloadData()
         if(messages.count>1)

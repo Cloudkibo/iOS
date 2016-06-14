@@ -212,7 +212,7 @@ class DatabaseHandler:NSObject{
         let fromFullName = Expression<String>("fromFullName")
         let msg = Expression<String>("msg")
         let owneruser = Expression<String>("owneruser")
-        let date = Expression<NSDate>("date")
+        let date = Expression<String>("date")
         
         self.userschats = Table("userschats")
         do{
@@ -222,6 +222,7 @@ class DatabaseHandler:NSObject{
                 t.column(owneruser)
                 t.column(fromFullName)
                 t.column(msg)
+                t.column(date, defaultValue:NSDate().debugDescription)
                 
                 
                 //     "name" TEXT
@@ -290,7 +291,7 @@ class DatabaseHandler:NSObject{
 
     }
     
-    func SaveChat(to1:String,from1:String,owneruser1:String,fromFullName1:String,msg1:String)
+    func SaveChat(to1:String,from1:String,owneruser1:String,fromFullName1:String,msg1:String,date1:String)
     {
         //createUserChatTable()
         
@@ -299,7 +300,7 @@ class DatabaseHandler:NSObject{
         let owneruser = Expression<String>("owneruser")
         let fromFullName = Expression<String>("fromFullName")
         let msg = Expression<String>("msg")
-        let date = Expression<NSDate>("date")
+        let date = Expression<String>("date")
         var tbl_userchats=sqliteDB.userschats
         
         
@@ -317,7 +318,8 @@ class DatabaseHandler:NSObject{
                 msg<-msg1,
                 owneruser<-owneruser1,
                 to<-to1,
-                from<-from1
+                from<-from1,
+                date<-date1
 ))
             print("inserted id: \(rowid)")
         } catch {
@@ -341,7 +343,7 @@ class DatabaseHandler:NSObject{
         let owneruser = Expression<String>("owneruser")
         let fromFullName = Expression<String>("fromFullName")
         let msg = Expression<String>("msg")
-        let date = Expression<NSDate>("date")
+        let date = Expression<String>("date")
         
         var tbl_userchats=sqliteDB.userschats
         var res=tbl_userchats.filter(owneruser==owneruser1)
@@ -354,6 +356,7 @@ class DatabaseHandler:NSObject{
             print(tblContacts[to])
             print(tblContacts[from])
             print(tblContacts[msg])
+            print(tblContacts[date])
 print("--------")
             }
         }
