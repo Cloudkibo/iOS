@@ -1169,7 +1169,7 @@ class ChatMainViewController:UIViewController,SocketConnecting
                 if response1?.statusCode==200 {
                     print("success successfully received friends list from server")
                     socketObj.socket.emit("logClient","IPHONE-LOG:  successfully received friends list from server")
-                    if(glocalChatRoomJoined == false)
+                    if(globalChatRoomJoined == false)
                     {
                         //socketObj.addHandlers()
                     print("joiningggggg")
