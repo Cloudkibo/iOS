@@ -116,6 +116,7 @@ class LoginAPI{
             socketObj.socket.emit("logClient","IPHONE-LOG: kibo disconnected from socket")
             meetingStarted=false
             isSocketConnected=false
+            globalChatRoomJoined=false
             //self.socket.reconnects=true
             self.socket.connect()
             //self.socket.emit("message", ["msg":"hangup"])
@@ -188,9 +189,12 @@ class LoginAPI{
         }
         
         socket.on("youareonline") {data,ack in
-            
+            //var contactsOnlineList=JSON(data)
+            //print(contactsOnlineList.debugDescription)
+            //print("you onlineeee \(ack)")
             print("you onlineeee \(ack)")
-            glocalChatRoomJoined = true
+            globalChatRoomJoined = true
+            self.delegate?.socketReceivedMessage("youareonline",data: data)
         }
         socketObj.socket.on("message"){data,ack in
             print("received messageee")

@@ -16,7 +16,7 @@ func socketReceivedOtherWebRTC(message:String,data:AnyObject!);
 func
 socketReceivedMessageWebRTC(message:String,data:AnyObject!);
 }
-## Push Notifications Service:
+
 ## Constants Class
 This class stores our REST API addresses values in constant variables which are accessible throughout application. These
 constants are refrenced in our application. This helps to maintain consistency. If there is any change in our URL or rest API, we will have to make changes in this file only. Below are details of REST API urls as stored in this class:
@@ -60,6 +60,8 @@ Alamofire is an HTTP networking library written in Swift. Our application uses t
 Our iOS application uses a WebRTC library named “libjingle_peerconnection”.The code that implements WebRTC native APIs (including the Stream and the PeerConnection APIs) are available in this library.
 ## SQLite Library
 This is a type-safe, Swift-language layer over SQLite3. SQLite.swift provides compile-time confidence in SQL statement syntax and intent. Our application uses this API for creating database connection, creating tables, adding and retireving data from SQLite database.
+
+##Kibo App 1-1 Call Logic:
 
 ##Comparison of current Cloudkibo model with Cloudkibo
 ![Watsapp Model](watsapp.png)

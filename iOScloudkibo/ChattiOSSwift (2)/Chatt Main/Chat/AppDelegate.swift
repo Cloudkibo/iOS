@@ -39,7 +39,7 @@ let sqliteDB=DatabaseHandler(dbName:"cloudkibo.sqlite3")
 //%%%%%%%%%%%%var AuthToken=KeychainWrapper.stringForKey("access_token")
 var AuthToken:String!=nil
 var loggedUserObj=JSON("[]")
-var glocalChatRoomJoined:Bool=false
+var globalChatRoomJoined:Bool=false
 //let dbSQLite=DatabaseHandler(dbName: "/cloudKibo.sqlite3")
 
 //%%%%%%%%%%%%%%%% new phone model
@@ -350,15 +350,15 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
                             do {
                                 let rowid = try sqliteDB.db.run(tbl_accounts.insert(_id<-json["_id"].string!,
                                     firstname<-json["display_name"].string!,
-                                    lastname<-"",
-                                    email<-json["email"].string!,
+                                    //lastname<-"",
+                                    //email<-json["email"].string!,
                                     username<-json["phone"].string!,
                                     status<-json["status"].string!,
                                     phone<-json["phone"].string!))
                                 print("inserted id: \(rowid)")
-                                for account in try sqliteDB.db.prepare(tbl_accounts) {
+                                /*for account in try sqliteDB.db.prepare(tbl_accounts) {
                                     print("id: \(account[_id]), email: \(account[email]), firstname: \(account[firstname])")
-                                }
+                                }*/
                             } catch {
                                 print("insertion failed: \(error)")
                             }

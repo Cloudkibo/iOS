@@ -886,7 +886,18 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
                                                 
                                                 print(json["_id"])
                                                 
+                                                
+                                                
                                                 let tbl_accounts = sqliteDB.accounts
+                                                
+                                                do{
+                                                    
+                                                    try sqliteDB.db.run(tbl_accounts.delete())
+                                                }catch{
+                                                    socketObj.socket.emit("logClient","accounts table not deleted")
+                                                    print("accounts table not deleted")
+                                                }
+                                                
                                                 let _id = Expression<String>("_id")
                                                 let firstname = Expression<String?>("firstname")
                                                 let lastname = Expression<String?>("lastname")
@@ -903,7 +914,23 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
                                                 
                                                 
                                                 tbl_accounts.delete()
+                                                
                                                 do {
+                                                    let rowid = try sqliteDB.db.run(tbl_accounts.insert(_id<-json["_id"].string!,
+                                                        //firstname<-json["firstname"].string!,
+                                                        firstname<-json["display_name"].string!,
+                                                        //lastname<-"",
+                                                        //lastname<-json["lastname"].string!,
+                                                        //email<-json["email"].string!,
+                                                        username1<-json["phone"].string!,
+                                                        status<-json["status"].string!,
+                                                        phone<-json["phone"].string!))
+                                                    print("inserted id: \(rowid)")
+                                                } catch {
+                                                    print("insertion failed: \(error)")
+                                                }
+                                                
+                                               /* do {
                                                     if(json["username"].string != nil)
                                                     {
                                                         let rowid = try sqliteDB.db.run(tbl_accounts.insert(_id<-json["_id"].string!,
@@ -928,7 +955,7 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
                                                     }
                                                 } catch {
                                                     print("insertion failed: \(error)")
-                                                }
+                                                }*/
                                                 
                                                 
                                                 /*let insert=tbl_accounts.insert(_id<-json["_id"].string!,
@@ -946,7 +973,7 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
                                                 */
                                                 //// self.fetchContacts(AuthToken)
                                                 do{for account in try sqliteDB.db.prepare(tbl_accounts) {
-                                                    print("id: \(account[_id]), email: \(account[email]), firstname: \(account[firstname])")
+                                                    print("id: \(account[_id]), phone: \(account[phone]), firstname: \(account[firstname])")
                                                     // id: 1, email: alice@mac.com, name: Optional("Alice")
                                                     }
                                                 }catch{
@@ -1240,7 +1267,7 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
                 if response1?.statusCode==200 {
                     print("success successfully received friends list from server")
                     socketObj.socket.emit("logClient","IPHONE-LOG:  successfully received friends list from server")
-                    if(glocalChatRoomJoined == false)
+                    if(globalChatRoomJoined == false)
                     {
                         //socketObj.addHandlers()
                         print("joiningggggg")
@@ -2185,6 +2212,24 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
                 alert.addButtonWithTitle("Ok")
                 alert.show()*/
                 
+            }
+            
+            case "youareonline":
+            globalChatRoomJoined=true
+            var contactsOnlineList=JSON(data)
+            print(contactsOnlineList.debugDescription)
+            for(var i=0;i<contactsOnlineList[0].count;i++)
+            {
+                for(var j=0;j<self.ContactUsernames.count;j++)
+                {
+                    if self.ContactIDs[j]==contactsOnlineList[0][i]["_id"].string!
+                    {
+                        //found online contact,s username
+                        print("user found onlineeeee \(self.ContactUsernames[j])")
+                        self.ContactOnlineStatus[j]=1
+                        self.tblForChat.reloadData()
+                    }
+                }
             }
             
             

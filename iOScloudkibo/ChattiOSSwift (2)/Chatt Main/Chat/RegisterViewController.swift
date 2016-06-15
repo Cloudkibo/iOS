@@ -158,7 +158,7 @@ class RegisterViewController: UIViewController,UITextFieldDelegate {
                             let _id = Expression<String>("_id")
                             let firstname = Expression<String?>("firstname")
                             let lastname = Expression<String?>("lastname")
-                            let email = Expression<String>("email")
+                            //let email = Expression<String>("email")
                             let phone = Expression<String>("phone")
                             let username = Expression<String>("username")
                             let status = Expression<String>("status")
@@ -172,11 +172,12 @@ class RegisterViewController: UIViewController,UITextFieldDelegate {
                             
                             tbl_accounts.delete()
                             do {
-                                let rowid = try sqliteDB.db.run(tbl_accounts.insert(_id<-json["_id"].string!,
-                                    firstname<-json["firstname"].string!,
-                                    lastname<-json["lastname"].string!,
-                                    email<-json["email"].string!,
-                                    username<-json["username"].string!,
+                                let rowid = try sqliteDB.db.run(tbl_accounts.insert(
+                                    _id<-json["_id"].string!,
+                                    firstname<-json["display_name"].string!,
+                                    //lastname<-json["lastname"].string!,
+                                    //_id<-json["_id"].string!,
+                                    username<-json["display_name"].string!,
                                     status<-json["status"].string!,
                                     phone<-json["phone"].string!))
                                 print("inserted id: \(rowid)")
@@ -200,7 +201,7 @@ class RegisterViewController: UIViewController,UITextFieldDelegate {
                             //// self.fetchContacts(AuthToken)
                             do{
                             for account in try sqliteDB.db.prepare(tbl_accounts) {
-                                print("id: \(account[_id]), email: \(account[email]), firstname: \(account[firstname])")
+                                print("id: \(account[_id]), phone: \(account[phone]), firstname: \(account[firstname])")
                                 // id: 1, email: alice@mac.com, name: Optional("Alice")
                             }
                             }catch{

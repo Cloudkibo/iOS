@@ -61,7 +61,7 @@ class DatabaseHandler:NSObject{
         let _id = Expression<String>("_id")
         let firstname = Expression<String>("firstname")
         let lastname = Expression<String>("lastname")
-        let email = Expression<String>("email")
+        //let email = Expression<String>("email")
         let phone = Expression<String>("phone")
         let username = Expression<String>("username")
         let status = Expression<String>("status")
@@ -73,9 +73,9 @@ class DatabaseHandler:NSObject{
         self.accounts = Table("accounts")
         do{
             try db.run(accounts.create(ifNotExists: true) { t in     // CREATE TABLE "accounts" (
-                t.column(email,check: email.like("%@%"))
+                //t.column(email,check: email.like("%@%"))
                 t.column(firstname)
-                t.column(lastname)
+                //t.column(lastname)
                 t.column(_id)
                 t.column(status)
                 t.column(username)
