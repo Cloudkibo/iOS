@@ -214,6 +214,12 @@ class DatabaseHandler:NSObject{
         let owneruser = Expression<String>("owneruser")
         let date = Expression<String>("date")
         
+        
+       // let dateFormatter = NSDateFormatter()
+       // dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
+       // dateFormatter.
+        //let datens2 = dateFormatter.dateFromString(NSDate().debugDescription)
+       //print("defaultDate is \(datens2)")
         self.userschats = Table("userschats")
         do{
             try db.run(userschats.create(ifNotExists: true) { t in     // CREATE TABLE "accounts" (

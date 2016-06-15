@@ -559,7 +559,7 @@ class ChatDetailViewController: UIViewController{
            ////// profileImage.center = CGPointMake(profileImage.center.x, textLable.frame.origin.y + textLable.frame.size.height - profileImage.frame.size.height/2 + 10)
             profileImage.center = CGPointMake(profileImage.center.x, textLable.frame.origin.y + textLable.frame.size.height - profileImage.frame.size.height/2+20)
             textLable.text = "\(msg)"
-            
+            /*
             
             let dateFormatter = NSDateFormatter()
             dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
@@ -572,8 +572,8 @@ class ChatDetailViewController: UIViewController{
             formatter.timeStyle = .ShortStyle
             
             let dateString = formatter.stringFromDate(datens2!)
-            
-            timeLabel.text=dateString
+            */
+            timeLabel.text=date2.debugDescription
         } else {
             cell = tblForChats.dequeueReusableCellWithIdentifier("ChatReceivedCell")! as UITableViewCell
             let deliveredLabel = cell.viewWithTag(13) as! UILabel
@@ -594,7 +594,7 @@ class ChatDetailViewController: UIViewController{
             deliveredLabel.frame = CGRectMake(deliveredLabel.frame.origin.x, textLable.frame.origin.y + textLable.frame.size.height + 15, deliveredLabel.frame.size.width, deliveredLabel.frame.size.height)
             textLable.text = "\(msg)"
             deliveredLabel.text="Delivered"
-            
+            /*
             let dateFormatter = NSDateFormatter()
             dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
             let datens2 = dateFormatter.dateFromString(date2.debugDescription)
@@ -606,8 +606,8 @@ class ChatDetailViewController: UIViewController{
             formatter.timeStyle = .ShortStyle
             
             let dateString = formatter.stringFromDate(datens2!)
-
-            timeLabel.text=dateString
+*/
+            timeLabel.text=date2.debugDescription
             //timeLabel.text=date2.debugDescription
         }
         return cell
@@ -734,7 +734,7 @@ class ChatDetailViewController: UIViewController{
         //^^var firstNameSelected=selectedUserObj["firstname"]
         //^^^var lastNameSelected=selectedUserObj["lastname"]
         //^^^var fullNameSelected=firstNameSelected.string!+" "+lastNameSelected.string!
-        var imParas=["from":"\(username!)","to":"\(selectedContact)","from_id":"\(_id!)","to_id":"\(self.selectedID)","fromFullName":"\(displayname)","msg":"\(txtFldMessage.text!)","date":NSDate().debugDescription]
+        var imParas=["from":"\(username!)","to":"\(selectedContact)","from_id":"\(_id!)","to_id":"\(self.selectedID)","fromFullName":"\(displayname)","msg":"\(txtFldMessage.text!)"]
         print("imparas are \(imParas)")
         print(imParas, terminator: "")
         print("", terminator: "")
