@@ -112,11 +112,27 @@ class AppDelegate: UIResponder, UIApplicationDelegate,AppDelegateScreenDelegate 
             socketObj.addWebRTCHandlers()
         }
         
+        
+        
+        
         let notificationTypes: UIUserNotificationType = [UIUserNotificationType.Alert, UIUserNotificationType.Badge, UIUserNotificationType.Sound]
         let pushNotificationSettings = UIUserNotificationSettings(forTypes: notificationTypes, categories: nil)
- 
+        
+        /*
         application.registerUserNotificationSettings(pushNotificationSettings)
-        application.registerForRemoteNotifications()
+        application.registerForRemoteNotifications()*/
+        
+        
+        
+        if(UIApplication.instancesRespondToSelector(Selector("registerUserNotificationSettings:"))) {
+            
+            UIApplication.sharedApplication().registerUserNotificationSettings(pushNotificationSettings)
+            ///UIApplication.sharedApplication().registerUserNotificationSettings(UIUserNotificationSettings(forTypes: .Alert | .Badge, categories: nil))
+        }
+        
+       // return true
+        
+        
         
        // application.registerUserNotificationSettings(UIUserNotificationSettings(forTypes: [.Alert, .Badge, .Sound], categories: nil))  // types are UIUserNotificationType members
         
@@ -487,6 +503,12 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
     
     //self.window?.rootViewController!.presentViewController(alert, animated: true, completion: nil)
     }
+    
+    func application(application: UIApplication, didReceiveLocalNotification notification: UILocalNotification) {
+        application.applicationIconBadgeNumber = 0
+    }
+    
+
     
 }
 

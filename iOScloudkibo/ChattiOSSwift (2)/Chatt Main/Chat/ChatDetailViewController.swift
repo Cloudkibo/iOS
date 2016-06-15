@@ -115,10 +115,10 @@ class ChatDetailViewController: UIViewController{
             print("chat received \(chatJson.debugDescription)")
             print(chatJson[0]["msg"])
             receivedMsg=chatJson[0]["msg"]
-            var dateString=chatJson[0]["date"]
+            //var dateString=chatJson[0]["date"]
             
             
-            self.addMessage(receivedMsg.description, ofType: "1",date: dateString.debugDescription)
+            self.addMessage(receivedMsg.description, ofType: "1",date: NSDate().debugDescription)
                         
            
             /*
@@ -131,7 +131,7 @@ class ChatDetailViewController: UIViewController{
             */
             
             
-            sqliteDB.SaveChat(chatJson[0]["to"].string!, from1: chatJson[0]["from"].string!,owneruser1:chatJson[0]["to"].string!, fromFullName1: chatJson[0]["fromFullName"].string!, msg1: chatJson[0]["msg"].string!,date1: chatJson[0]["date"].string!)
+            sqliteDB.SaveChat(chatJson[0]["to"].string!, from1: chatJson[0]["from"].string!,owneruser1:chatJson[0]["to"].string!, fromFullName1: chatJson[0]["fromFullName"].string!, msg1: chatJson[0]["msg"].string!,date1:nil)
             
             
             //sqliteDB.SaveChat(chatJson["msg"][0]["to"].string!, from1: chatJson["msg"][0]["from"].string!,owneruser1:chatJson["msg"][0]["owneruser"].string! , fromFullName1: chatJson["msg"][0]["fromFullName"].string!, msg1: UserchatJson["msg"][0]["msg"].string!)
@@ -746,7 +746,7 @@ class ChatDetailViewController: UIViewController{
         
         //////
         
-        sqliteDB.SaveChat("\(selectedContact)", from1: "\(username!)",owneruser1: "\(username!)", fromFullName1: "\(loggedFullName!)", msg1: "\(txtFldMessage.text!)", date1: NSDate().debugDescription)
+        sqliteDB.SaveChat("\(selectedContact)", from1: "\(username!)",owneruser1: "\(username!)", fromFullName1: "\(loggedFullName!)", msg1: "\(txtFldMessage.text!)",date1: nil)
         
         /*insert(self.fromFullName<-"Sabach Channa",
         self.msg<-"\(txtFldMessage.text)",

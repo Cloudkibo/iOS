@@ -38,7 +38,7 @@ class LoginAPI{
     
     
     var socket:SocketIOClient
-    var areYouFreeForCall:Bool
+    //var areYouFreeForCall:Bool
     var isBusy:Bool
     var delegate:SocketClientDelegate!
     var delegateWebRTC:SocketClientDelegateWebRTC!
@@ -149,6 +149,50 @@ class LoginAPI{
             print(":::::::::::::::::::::::::::::::::::")
             var msg=JSON(data)
             print(msg.debugDescription)
+            
+            
+            var jdata=JSON(data)
+            print("areyoufreeforcall ......", terminator: "")
+            print(jdata.debugDescription)
+            var state=UIApplication.sharedApplication().applicationState
+            
+            if (state == UIApplicationState.Background || state == UIApplicationState.Inactive)
+                
+                
+            {
+                var localNotification = UILocalNotification()
+                
+                
+                localNotification.fireDate = NSDate(timeIntervalSinceNow: 0)
+                
+                
+                localNotification.alertBody = "You have a new call"
+                
+                
+                localNotification.timeZone = NSTimeZone.defaultTimeZone()
+                
+                
+                localNotification.applicationIconBadgeNumber = UIApplication.sharedApplication().applicationIconBadgeNumber + 1
+                
+
+             
+                
+            }
+            /*if(areYouFreeForCall==true)
+            {   iOSstartedCall=false
+                print(jdata[0]["caller"].string!)
+                //print(self.currrentUsernameRetrieved, terminator: "")
+                iamincallWith=jdata[0]["caller"].string!
+                isInitiator=false
+                //callerID=jdata[0]["sendersocket"].string!
+                //transition
+                
+                //let secondViewController:CallRingingViewController = CallRingingViewController()
+                
+                socketObj.socket.emit("yesiamfreeforcall",["mycaller" : jdata[0]["caller"].string!, "me":username!])
+                
+                
+            }*/
             self.delegate?.socketReceivedMessage("areyoufreeforcall",data: data)
         }
         socketObj.socket.on("offline"){data,ack in
@@ -169,17 +213,30 @@ class LoginAPI{
             // declared system sound here
             //let systemSoundID: SystemSoundID = 1104
             // create a sound ID, in this case its the tweet sound.
+            var state=UIApplication.sharedApplication().applicationState
+            
+            //UIApplicationState state = [[UIApplication sharedApplication] applicationState];
+            
+            if (state == UIApplicationState.Background || state == UIApplicationState.Inactive)
+            {
+                //Do checking here.
+            
             let systemSoundID: SystemSoundID = 1016
             
             // to play sound
             AudioServicesPlaySystemSound (systemSoundID)
             let todoItem = NotificationItem(otherUserName: chatJson[0]["fromFullName"].string!, message:chatJson[0]["msg"].string! , type: "New Message", UUID: "111", deadline: NSDate())
             notificationsMainClass.sharedInstance.addItem(todoItem) // schedule a local notification to persist this item
+            }
         }
         
         ///////////////
         
         socketObj.socket.on("othersideringing"){data,ack in
+            
+            
+            //UIApplicationState state = [[UIApplication sharedApplication] applicationState];
+           
             print("otherside ringing")
             print(":::::::::::::::::::::::::::::::::::")
             let msg=JSON(data)

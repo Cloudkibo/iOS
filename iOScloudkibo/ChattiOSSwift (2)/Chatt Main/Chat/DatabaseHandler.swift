@@ -297,7 +297,7 @@ class DatabaseHandler:NSObject{
 
     }
     
-    func SaveChat(to1:String,from1:String,owneruser1:String,fromFullName1:String,msg1:String,date1:String)
+    func SaveChat(to1:String,from1:String,owneruser1:String,fromFullName1:String,msg1:String,date1:String!)
     {
         //createUserChatTable()
         
@@ -317,7 +317,15 @@ class DatabaseHandler:NSObject{
             to<-to1,
             from<-from1
         )*/
-        
+        var mydate:String!
+        if(date1 == nil)
+        {
+            mydate=NSDate().debugDescription
+            }
+        else
+        {
+            mydate=date1
+        }
         
         do {
             let rowid = try db.run(tbl_userchats.insert(fromFullName<-fromFullName1,
@@ -325,7 +333,7 @@ class DatabaseHandler:NSObject{
                 owneruser<-owneruser1,
                 to<-to1,
                 from<-from1,
-                date<-date1
+                date<-mydate
 ))
             print("inserted id: \(rowid)")
         } catch {
