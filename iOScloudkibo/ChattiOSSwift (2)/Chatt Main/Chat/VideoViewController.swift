@@ -865,6 +865,8 @@ self.remoteDisconnected()
             
                 if(isConference != true)
                 {
+                    //%%%%%%% new june 2016
+                    
                     socketObj.socket.emit("logClient","IPHONE-LOG: inside end call, isConference is false")
                     endedCall=true
                 dispatch_async(dispatch_get_main_queue(), { () -> Void in
@@ -872,7 +874,7 @@ self.remoteDisconnected()
                     
                     
                     self.dismissViewControllerAnimated(true, completion: { () -> Void in
-                        
+                        areYouFreeForCall=true
                     })
                     
                     
@@ -892,7 +894,7 @@ self.remoteDisconnected()
                     
                     
                     self.dismissViewControllerAnimated(true, completion: { () -> Void in
-                        
+                        areYouFreeForCall=true
                     })
                     
                     
@@ -919,7 +921,7 @@ self.remoteDisconnected()
                     
                     
                     self.dismissViewControllerAnimated(true, completion: { () -> Void in
-                        
+                        areYouFreeForCall=true
                     })
                     
                     
@@ -2199,7 +2201,7 @@ self.remoteDisconnected()
             {
                 
                 //// newwwww may 2016 neww
-                socketObj.socket.emit("logClient","IPHONE-LOG: \(iamincallWith) is disconnecting from call")
+                socketObj.socket.emit("logClient","IPHONE-LOG: \(iamincallWith) received hangup")
                 print("hangupppppp received \(msg[0])")
                 
                 print("hangupppppp received \(msg.debugDescription)")

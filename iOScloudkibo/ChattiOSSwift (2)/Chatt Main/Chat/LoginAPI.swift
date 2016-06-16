@@ -54,12 +54,49 @@ class LoginAPI{
         self.socket.on("connect") {data, ack in
             isSocketConnected=true
             NSLog("connected to socket")
+            
+            //if(globalChatRoomJoined==false)
+            //{
+                let _id = Expression<String>("_id")
+                let phone = Expression<String>("phone")
+                let username1 = Expression<String>("username")
+                let status = Expression<String>("status")
+                let firstname = Expression<String>("firstname")
+                
+              
+                
+                let tbl_accounts = sqliteDB.accounts
+                do{for account in try sqliteDB.db.prepare(tbl_accounts) {
+                    
+                    socketObj.socket.emit("logClient","IPHONE-LOG:username:\(account[phone]) _id: \(account[_id]) ,status: \(account[status]),display_name: \(account[firstname])")
+                    
+                    print("username:\(account[phone]) _id: \(account[_id]) ,status: \(account[status]),display_name: \(account[firstname])")
+                    username=account[phone]
+                socketObj.socket.emit("join global chatroom", ["room": "globalchatroom", "user":["username":"\(account[phone])","_id":"\(account[_id])","status":"\(account[status])","display_name":"\(account[firstname])","phone":"\(account[phone])"]])
+                    //WORKINGGG
+                    globalChatRoomJoined=true
+                    
+                    self.socket.emit("logClient","IPHONE-LOG: \(username!) is joining room room:globalchatroom")
+                    }}
+                catch
+                {
+                    self.socket.emit("logClient","IPHONE-LOG: no value in accounts table")
+                }
+                
+                //self.socket.emit("join global chatroom",["room": "globalchatroom", "user": json.object])
+                
+                //print(json["_id"])
+                
+                
+                
+                
+            //}
             self.delegateSocketConnected?.socketConnected()
             
         }
         self.socket.connect()
         print("socketObj value is \(socketObj)")
-        self.socket.reconnects=false
+        //%%%%%%%%% self.socket.reconnects=false
         /*self.socket.connect()
         socketConnected=true
         self.addHandlers()
@@ -113,7 +150,7 @@ class LoginAPI{
         self.socket.on("disconnect") {data, ack in
             //NSLog("disconnected from socket")
             print("disconnected from socket")
-            socketObj.socket.emit("logClient","IPHONE-LOG: kibo disconnected from socket")
+            socketObj.socket.emit("logClient","IPHONE-LOG: kibo disconnected from socket. conneted again")
             meetingStarted=false
             isSocketConnected=false
             globalChatRoomJoined=false
@@ -195,6 +232,15 @@ class LoginAPI{
             }*/
             self.delegate?.socketReceivedMessage("areyoufreeforcall",data: data)
         }
+        
+        socketObj.socket.on("noiambusy"){data,ack in
+            print("i am busyy ......")
+            print(":::::::::::::::::::::::::::::::::::")
+            var msg=JSON(data)
+            print(msg.debugDescription)
+            self.delegate?.socketReceivedMessage("noiambusy",data: data)
+        }
+        
         socketObj.socket.on("offline"){data,ack in
             print("offline ......")
             print(":::::::::::::::::::::::::::::::::::")

@@ -61,6 +61,17 @@ class ChatDetailViewController: UIViewController{
     override func viewWillAppear(animated: Bool) {
         print("chat will appear")
         socketObj.socket.emit("logClient","IPHONE-LOG: chat page will appear")
+        if(socketObj == nil)
+        {
+            print("socket is nillll", terminator: "")
+            
+            
+            socketObj=LoginAPI(url:"\(Constants.MainUrl)")
+            /////////// print("connected issssss \(socketObj.socket.connected)")
+            ///socketObj.connect()
+            socketObj.addHandlers()
+            socketObj.addWebRTCHandlers()
+        }
            self.retrieveChatFromSqlite(selectedContact)
         //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%------------ commented june 16 FetchChatServer()
         print("calling retrieveChat")

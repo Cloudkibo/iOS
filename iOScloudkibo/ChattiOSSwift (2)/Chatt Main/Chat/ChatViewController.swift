@@ -1272,7 +1272,7 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
                         //socketObj.addHandlers()
                         print("joiningggggg")
                         //var lll=KeychainWrapper.stringForKey("loggedIDKeyChain")
-                        var lll=KeychainWrapper.stringForKey("loggedUserObjString")
+                        //////%%%%%%%%var lll=KeychainWrapper.stringForKey("loggedUserObjString")
                         
                         //loggedUserObjString
                         
@@ -2059,8 +2059,8 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
             print("callee is \(callerName)", terminator: "")
             
             var roomname=""
-            if(ConferenceRoomName == "")
-            {
+            //if(ConferenceRoomName == "")
+            //{
                 socketObj.socket.emit("logClient","IPHONE-LOG: \(username!) is inside accept call")
                 print("inside accept call")
                 /// roomname="test"
@@ -2101,7 +2101,7 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
                 
                 self.presentViewController(next, animated: true, completion: {
                 })
-            }
+            //}
         case "othersideringing":
             print(message)
             iOSstartedCall=true
@@ -2178,6 +2178,7 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
         case "areyoufreeforcall":
             
             var jdata=JSON(data!)
+            socketObj.socket.emit("logClient","IPHONE-LOG: checking if \(username!) is free for call")
             print("areyoufreeforcall ......", terminator: "")
             print(jdata.debugDescription)
             
@@ -2203,6 +2204,8 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
                 
             }
             else{
+                socketObj.socket.emit("logClient","IPHONE-LOG: \(username!) is busy on another call")
+                
                 socketObj.socket.emit("noiambusy",["mycaller" : jdata[0]["caller"].string!, "me":self.currrentUsernameRetrieved])
                 /*
                 print("i am busyyy", terminator: "")
@@ -2232,6 +2235,8 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
                 }
             }
             
+            case "noiambusy":
+            self.showError("Information", message: "User is busy. Please try again later", button1: "Ok")
             
             
             

@@ -371,7 +371,7 @@ class iOSContact{
        // phones=phones.description.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
         
         print("phones are are \(phones)")
-        socketObj.socket.emit("logClient","IPHONE-LOG: sending emails to server")
+        socketObj.socket.emit("logClient","IPHONE-LOG: sending phone numbers to server")
         // %%%%%%%%%%%%%%%%%% new phone model change
         let searchContactsByPhones=Constants.MainUrl+Constants.searchContactsByPhone
         //let searchContactsByEmail=Constants.MainUrl+Constants.searchContactsByEmail+"?access_token="+AuthToken!
