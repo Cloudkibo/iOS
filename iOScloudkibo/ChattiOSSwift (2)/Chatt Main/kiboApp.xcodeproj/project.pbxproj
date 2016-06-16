@@ -61,6 +61,7 @@
 		713D51EE1CC11896007E0B47 /* WebmeetingChatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 713D51BB1CC11896007E0B47 /* WebmeetingChatViewController.swift */; };
 		713D51EF1CC11896007E0B47 /* webmeetingMsgsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 713D51BC1CC11896007E0B47 /* webmeetingMsgsModel.swift */; };
 		713EC7051D0518B800495A43 /* ChatMainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 713EC7041D0518B800495A43 /* ChatMainViewController.swift */; };
+		7150119F1D12D0940091AD7B /* Reachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7150119E1D12D0940091AD7B /* Reachability.swift */; };
 		716175841C51BCDE00A72E83 /* Pods.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BC0C99CB9F91896CEAE65024 /* Pods.framework */; };
 		716175851C51BCDE00A72E83 /* Pods.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = BC0C99CB9F91896CEAE65024 /* Pods.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		716175A01C51C9B200A72E83 /* libsqlite3.0.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 716174971C5065BA00A72E83 /* libsqlite3.0.tbd */; };
@@ -294,6 +295,7 @@
 		713EC7041D0518B800495A43 /* ChatMainViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatMainViewController.swift; sourceTree = "<group>"; };
 		714560551B904DAA00C8E0D2 /* Contacts.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Contacts.swift; sourceTree = "<group>"; };
 		7145605B1B90875D00C8E0D2 /* Accounts.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Accounts.swift; sourceTree = "<group>"; };
+		7150119E1D12D0940091AD7B /* Reachability.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Reachability.swift; sourceTree = "<group>"; };
 		716174971C5065BA00A72E83 /* libsqlite3.0.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.0.tbd; path = usr/lib/libsqlite3.0.tbd; sourceTree = SDKROOT; };
 		716174981C5065BA00A72E83 /* libsqlite3.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.tbd; path = usr/lib/libsqlite3.tbd; sourceTree = SDKROOT; };
 		717403E21CF7151800EA7ABF /* SQLite.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SQLite.xcodeproj; path = "SQLite.swift-master 6/SQLite.xcodeproj"; sourceTree = "<group>"; };
@@ -474,6 +476,7 @@
 				713D51BC1CC11896007E0B47 /* webmeetingMsgsModel.swift */,
 				71AEC9881D01D67300DF58BD /* AllContactsViewCell.swift */,
 				710CB64D1D06EB030070CA3D /* contactsDetailsTableViewController.swift */,
+				7150119E1D12D0940091AD7B /* Reachability.swift */,
 			);
 			path = Chat;
 			sourceTree = "<group>";
@@ -847,6 +850,7 @@
 			files = (
 				713D51C61CC11896007E0B47 /* ConferenceCallViewController.swift in Sources */,
 				718B8D941CC11A9B000B4AB2 /* WebSocket.swift in Sources */,
+				7150119F1D12D0940091AD7B /* Reachability.swift in Sources */,
 				713D51EC1CC11896007E0B47 /* VideoViewController.swift in Sources */,
 				713D51CB1CC11896007E0B47 /* Contacts.swift in Sources */,
 				718B8D811CC11A9B000B4AB2 /* SocketAnyEvent.swift in Sources */,

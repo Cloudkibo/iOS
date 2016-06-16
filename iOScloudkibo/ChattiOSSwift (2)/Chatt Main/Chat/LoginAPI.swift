@@ -211,7 +211,7 @@ class LoginAPI{
                 
                 localNotification.applicationIconBadgeNumber = UIApplication.sharedApplication().applicationIconBadgeNumber + 1
                 
-
+              UIApplication.sharedApplication().presentLocalNotificationNow(localNotification)
              
                 
             }

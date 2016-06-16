@@ -399,6 +399,8 @@ class ChatMainViewController:UIViewController,SocketConnecting
         }//end if username definned
         
         print("loadddddd", terminator: "")
+        //%%%%%%%%%%%% commented socket connect again and again
+        /*
         if(socketObj == nil)
         {
             print("socket is nillll", terminator: "")
@@ -409,7 +411,7 @@ class ChatMainViewController:UIViewController,SocketConnecting
            ///socketObj.connect()
             socketObj.addHandlers()
             socketObj.addWebRTCHandlers()
-        }
+        }*/
 
     
         

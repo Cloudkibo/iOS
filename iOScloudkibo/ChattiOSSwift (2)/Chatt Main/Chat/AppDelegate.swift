@@ -205,11 +205,22 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
         // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
         // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
         print("didenterbackground")
+        
     }
     
     func applicationWillEnterForeground(application: UIApplication) {
         // Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
        
+        
+        if(socketObj == nil)
+        {
+            print("socket is nillll", terminator: "")
+            socketObj=LoginAPI(url:"\(Constants.MainUrl)")
+            ///socketObj.connect()
+            socketObj.addHandlers()
+            socketObj.addWebRTCHandlers()
+        }
+        
         /*if(socketConnected == false)
         {
             
@@ -247,6 +258,15 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
     func applicationDidBecomeActive(application: UIApplication) {
         // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
        
+        if(socketObj == nil)
+        {
+            print("socket is nillll", terminator: "")
+            socketObj=LoginAPI(url:"\(Constants.MainUrl)")
+            ///socketObj.connect()
+            socketObj.addHandlers()
+            socketObj.addWebRTCHandlers()
+        }
+        
         /*if(socketConnected == false)
         {
             socketObj.socket.connect(timeoutAfter: 5000) { () -> Void in
@@ -506,6 +526,8 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
     
     func application(application: UIApplication, didReceiveLocalNotification notification: UILocalNotification) {
         application.applicationIconBadgeNumber = 0
+        UIApplication.sharedApplication().presentLocalNotificationNow(notification)
+        socketObj.socket.emit("logClient","IPHONE-LOG: call notification received in background")
     }
     
 

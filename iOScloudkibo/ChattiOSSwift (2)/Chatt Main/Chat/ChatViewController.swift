@@ -419,6 +419,8 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
         }//end if username definned
         
         print("loadddddd", terminator: "")
+        //%%%%%%%% new commented socket connect again and again
+        /*
         if(socketObj == nil)
         {
             print("socket is nillll", terminator: "")
@@ -432,7 +434,7 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
         }
         
         
-        
+        */
         
         
         //:::::::::::::::::::::::::::::::::::::::::::::::::::::::::
@@ -1938,6 +1940,7 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
             isInitiator=true
             callerName=username!
             iamincallWith=self.ContactUsernames[selectedRow]
+            
             
             
             

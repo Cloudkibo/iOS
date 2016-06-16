@@ -2099,7 +2099,7 @@ self.remoteDisconnected()
     {
         var msg=JSON(data)
         print(msg.debugDescription)
-        socketObj.socket.emit("logClient","webrtc message received \(msg)")
+        socketObj.socket.emit("logClient","webrtc message received \(msg.debugDescription)")
         if(msg[0]["type"]=="room_name")
         {
             
@@ -2107,8 +2107,9 @@ self.remoteDisconnected()
             //////////////^^^^^^^^^^^^^^^^^^^^^^newww isInitiator=false
             //What to do if already in a room??
             
-            if(joinedRoomInCall=="")
-            {//newwwwwww tryyy isinitiator
+            //%%%%%%%% new commented call june 201//6
+            //if(joinedRoomInCall=="")
+           // {//newwwwwww tryyy isinitiator
                 isInitiator = false
                 var CurrentRoomName=msg[0]["room"].string!
                 socketObj.socket.emit("logClient","IPHONE-LOG: \(username) got room name as \(CurrentRoomName)")
@@ -2126,13 +2127,15 @@ self.remoteDisconnected()
                     joinedRoomInCall=msg[0]["room"].string!
                     print("current id is \(currentID)")
                     //}
-                }}
+             //   }}
                 ////////////////////////newwwwwww
-            else
-            {
+          //%%%%%%%%% commented now june 2016
+                    
+                    /* else
+        {
                 isInitiator = false
+            }*/
             }
-            
         }
         if(msg[0]=="Accept Call")
         {
@@ -2221,9 +2224,10 @@ self.remoteDisconnected()
             socketObj.socket.emit("logClient","IPHONE-LOG: \(username!) has received a missed call from \(iamincallWith!)")
             
             let todoItem = NotificationItem(otherUserName: "\(iamincallWith!)", message: "You have received a missed call", type: "missed call", UUID: "111", deadline: NSDate())
-            /*notificationsMainClass.sharedInstance.addItem(todoItem)
+           // notificationsMainClass.sharedInstance.addItem(todoItem)
+            
 
-*/// schedule a local notification to persist this item
+// schedule a local notification to persist this item
             
         }
         if(msg[0]=="Conference Call")

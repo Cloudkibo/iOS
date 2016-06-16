@@ -61,7 +61,10 @@ class ChatDetailViewController: UIViewController{
     override func viewWillAppear(animated: Bool) {
         print("chat will appear")
         socketObj.socket.emit("logClient","IPHONE-LOG: chat page will appear")
-        if(socketObj == nil)
+        
+        
+        //%%%%%%%%%%%%%% commented new socket connected again and again
+        /*if(socketObj == nil)
         {
             print("socket is nillll", terminator: "")
             
@@ -71,7 +74,7 @@ class ChatDetailViewController: UIViewController{
             ///socketObj.connect()
             socketObj.addHandlers()
             socketObj.addWebRTCHandlers()
-        }
+        }*/
            self.retrieveChatFromSqlite(selectedContact)
         //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%------------ commented june 16 FetchChatServer()
         print("calling retrieveChat")
@@ -459,6 +462,7 @@ class ChatDetailViewController: UIViewController{
                 }
                 else
                 {
+                    
                     print("chatttttt faileddddddd")
                     print(response1)
                     print(error1)
