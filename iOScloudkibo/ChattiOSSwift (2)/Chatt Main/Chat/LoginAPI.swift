@@ -211,7 +211,9 @@ class LoginAPI{
                 
                 localNotification.applicationIconBadgeNumber = UIApplication.sharedApplication().applicationIconBadgeNumber + 1
                 
-              UIApplication.sharedApplication().presentLocalNotificationNow(localNotification)
+                UIApplication.sharedApplication().scheduleLocalNotification(localNotification)
+                
+                //UIApplication.sharedApplication().presentLocalNotificationNow(localNotification)
              
                 
             }
@@ -271,7 +273,7 @@ class LoginAPI{
             
             // to play sound
             AudioServicesPlaySystemSound (systemSoundID)
-            let todoItem = NotificationItem(otherUserName: chatJson[0]["fromFullName"].string!, message:chatJson[0]["msg"].string! , type: "New Message", UUID: "111", deadline: NSDate())
+            let todoItem = NotificationItem(otherUserName: chatJson[0]["fromFullName"].string!, message:chatJson[0]["msg"].string! , type: "New Message", UUID: "111", deadline: NSDate(timeIntervalSinceNow: 0))
             notificationsMainClass.sharedInstance.addItem(todoItem) // schedule a local notification to persist this item
             }
         }

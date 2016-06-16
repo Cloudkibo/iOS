@@ -1758,7 +1758,8 @@ self.remoteDisconnected()
     
     func socketReceivedMessageWebRTC(message:String,data:AnyObject!)
     {print("socketReceivedMessageWebRTC inside")
-        socketObj.socket.emit("logClient","IPHONE-LOG: \(username!) received socketReceivedMessageWebRTC  \(message)")
+        var msg=JSON(data!)
+        socketObj.socket.emit("logClient","IPHONE-LOG: \(username!) received socketReceivedMessageWebRTC  \(msg)")
         switch(message){
             
         case "message":
@@ -2099,7 +2100,7 @@ self.remoteDisconnected()
     {
         var msg=JSON(data)
         print(msg.debugDescription)
-        socketObj.socket.emit("logClient","webrtc message received \(msg.debugDescription)")
+        socketObj.socket.emit("logClient","webrtc message received \(msg[0].debugDescription)")
         if(msg[0]["type"]=="room_name")
         {
             
