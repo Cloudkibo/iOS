@@ -48,7 +48,7 @@ class LoginAPI{
     
     
     init(url:String){
-        socket=SocketIOClient(socketURL: "\(url)", options: ["log": false])
+        socket=SocketIOClient(socketURL: "\(url)", options: [.Log(true),.VoipEnabled(true)])
         areYouFreeForCall=true
         isBusy=false
         self.socket.on("connect") {data, ack in
@@ -200,7 +200,7 @@ class LoginAPI{
                 var localNotification = UILocalNotification()
                 
                 
-                localNotification.fireDate = NSDate(timeIntervalSinceNow: 0)
+                localNotification.fireDate = NSDate(timeIntervalSinceNow: 1)
                 
                 
                 localNotification.alertBody = "You have a new call"
