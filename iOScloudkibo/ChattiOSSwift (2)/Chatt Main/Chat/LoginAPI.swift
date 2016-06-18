@@ -94,6 +94,7 @@ class LoginAPI{
             self.delegateSocketConnected?.socketConnected()
             
         }
+        self.socket.reconnects=true
         self.socket.connect()
         print("socketObj value is \(socketObj)")
         //%%%%%%%%% self.socket.reconnects=false
@@ -155,7 +156,7 @@ class LoginAPI{
             isSocketConnected=false
             globalChatRoomJoined=false
             //self.socket.reconnects=true
-            self.socket.connect()
+           // self.socket.connect()
             //self.socket.emit("message", ["msg":"hangup"])
             
         }
@@ -252,7 +253,36 @@ class LoginAPI{
         }
         
         socketObj.socket.on("im") {data,ack in
+            print("im is reeived from server........................")
+            var msg=JSON(data)
+            
+            let systemSoundID: SystemSoundID = 1016
+            
+            // to play sound
+            AudioServicesPlaySystemSound (systemSoundID)
+            //AudioServicesCre
+            // to play sound
+            //AudioServicesPlaySystemSound (systemSoundID)
+            
             var chatJson=JSON(data)
+            print("chat received \(chatJson.debugDescription)")
+            print(chatJson[0]["msg"])
+            var receivedMsg=chatJson[0]["msg"]
+            //var dateString=chatJson[0]["date"]
+            
+            
+            //self.addMessage(receivedMsg.description, ofType: "1",date: NSDate().debugDescription)
+          
+            
+            
+            sqliteDB.SaveChat(chatJson[0]["to"].string!, from1: chatJson[0]["from"].string!,owneruser1:chatJson[0]["to"].string!, fromFullName1: chatJson[0]["fromFullName"].string!, msg1: chatJson[0]["msg"].string!,date1:nil)
+            
+            
+            
+            
+            print(msg.debugDescription)
+            self.delegate?.socketReceivedMessage("im",data: data)
+            
             //print("chat received \(chatJson.debugDescription)")
             //print(chatJson[0]["msg"])
             //receivedMsg=chatJson[0]["msg"]
@@ -273,7 +303,7 @@ class LoginAPI{
             
             // to play sound
             AudioServicesPlaySystemSound (systemSoundID)
-            let todoItem = NotificationItem(otherUserName: chatJson[0]["fromFullName"].string!, message:chatJson[0]["msg"].string! , type: "New Message", UUID: "111", deadline: NSDate(timeIntervalSinceNow: 0))
+            let todoItem = NotificationItem(otherUserName: msg[0]["fromFullName"].string!, message:msg[0]["msg"].string! , type: "New Message", UUID: "111", deadline: NSDate(timeIntervalSinceNow: 0))
             notificationsMainClass.sharedInstance.addItem(todoItem) // schedule a local notification to persist this item
             }
         }

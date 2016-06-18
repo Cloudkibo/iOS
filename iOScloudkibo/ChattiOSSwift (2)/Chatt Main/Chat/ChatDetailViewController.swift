@@ -12,9 +12,11 @@ import SQLite
 import Alamofire
 import AVFoundation
 
-class ChatDetailViewController: UIViewController{
+class ChatDetailViewController: UIViewController,SocketClientDelegate{
     
-    var rt=NetworkingLibAlamofire()
+    var delegate:SocketClientDelegate!
+    //var socketEventID:NSUUID
+        var rt=NetworkingLibAlamofire()
     @IBOutlet weak var NewChatNavigationTitle: UINavigationItem!
     @IBOutlet weak var labelToName: UILabel!
     @IBOutlet var tblForChats : UITableView!
@@ -81,6 +83,11 @@ class ChatDetailViewController: UIViewController{
         
        // if(appJustInstalled[self.selectedIndex] == true)
         //{
+        
+        //%%%%% new imp commented for testing ***** ******** ***** $$$$ $$$
+        //--------------------------------
+        //____+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+        /*
             FetchChatServer(){ (result) -> () in
                 if(result==true)
                 {
@@ -89,11 +96,13 @@ class ChatDetailViewController: UIViewController{
                     
                 }
             }
+// ****************__________________________
+*/
 
         //}
         //else
         //{
-            self.retrieveChatFromSqlite(selectedContact)
+            //self.retrieveChatFromSqlite(selectedContact)
         //}
         ///////%%%%% self.retrieveChatFromSqlite(selectedContact)
         //sqliteDB.retrieveChat(username!)
@@ -105,19 +114,47 @@ class ChatDetailViewController: UIViewController{
         NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("willHideKeyBoard:"), name:UIKeyboardWillHideNotification, object: nil)
         messages = NSMutableArray()
         
+        
+        
         print("chat on load")
         socketObj.socket.emit("logClient","IPHONE-LOG: chat page loading")
+        socketObj.delegate=self
+        
+        self.tblForChats.reloadData()
+        if(self.messages.count>1)
+        {
+            var indexPath = NSIndexPath(forRow:self.messages.count-1, inSection: 0)
+            
+            self.tblForChats.scrollToRowAtIndexPath(indexPath, atScrollPosition: UITableViewScrollPosition.Bottom, animated: true)
+        }
         //%%%%%%%%%%%%%%%%%&&&&&&&&&&&&&&&&&&^^^^^^^^^
         //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%FetchChatServer()
         self.NewChatNavigationTitle.title=selectedFirstName
         var receivedMsg=JSON("")
-        socketObj.socket.on("im") {data,ack in
+        
+        //%%%%%%% workinggg commented
+        /*socketEventID=socketObj.socket.on("im") {data,ack in
             
-            print("chat sent to server.ack received")
+            print("chat sent to server.ack received 222 ")
+            var chatJson=JSON(data)
+            print("chat received \(chatJson.debugDescription)")
+            print(chatJson[0]["msg"])
+            receivedMsg=chatJson[0]["msg"]
+
+            self.addMessage(receivedMsg.description, ofType: "1",date: NSDate().debugDescription)
+            self.tblForChats.reloadData()
+            if(self.messages.count>1)
+            {
+                var indexPath = NSIndexPath(forRow:self.messages.count-1, inSection: 0)
+                
+                self.tblForChats.scrollToRowAtIndexPath(indexPath, atScrollPosition: UITableViewScrollPosition.Bottom, animated: true)
+            }
+            
             // declared system sound here
             //let systemSoundID: SystemSoundID = 1104
             // create a sound ID, in this case its the tweet sound.
-            let systemSoundID: SystemSoundID = 1016
+            
+            /*let systemSoundID: SystemSoundID = 1016
             
             // to play sound
             AudioServicesPlaySystemSound (systemSoundID)
@@ -157,8 +194,12 @@ class ChatDetailViewController: UIViewController{
                 var indexPath = NSIndexPath(forRow:self.messages.count-1, inSection: 0)
                 
                 self.tblForChats.scrollToRowAtIndexPath(indexPath, atScrollPosition: UITableViewScrollPosition.Bottom, animated: true)
-            }
+            }*/
         }
+        */
+        //________%%%%% workingggg
+        
+        
         ////////////messages.addObject(["message":"helloo","hiiii":"tstingggg","type":"1"])
         /*  self.addMessage("Its actually pretty good!", ofType: "1")
         self.addMessage("What do you think of this tool!", ofType: "2")*/
@@ -381,8 +422,8 @@ class ChatDetailViewController: UIViewController{
         
         
     }
-    
-    func FetchChatServer(completion:(result:Bool)->())
+    //***** was working but not needed
+    /*func FetchChatServer(completion:(result:Bool)->())
     {
         
         print("[user1:\(username!),user2:\(selectedContact)]", terminator: "")
@@ -482,7 +523,7 @@ class ChatDetailViewController: UIViewController{
         }
         
     
-    }
+    }*/
     
     func tableView(tableView: UITableView!, numberOfRowsInSection section: Int) -> Int {
         return messages.count
@@ -820,7 +861,42 @@ class ChatDetailViewController: UIViewController{
         tblForChats.reloadData()
     }
     
-    
+    func socketReceivedMessage(message: String, data: AnyObject!) {
+        
+        print("socketReceivedMessage inside im got", terminator: "")
+        var msg=JSON(data)
+print("$$ \(msg)")
+        print(message)
+        switch(message)
+        {
+        case "im":
+            print("chat sent to server.ack received 222 ")
+            var chatJson=JSON(data)
+            print("chat received \(chatJson.debugDescription)")
+            print(chatJson[0]["msg"])
+            var receivedMsg=chatJson[0]["msg"]
+            
+            self.addMessage(receivedMsg.description, ofType: "1",date: NSDate().debugDescription)
+            self.tblForChats.reloadData()
+            if(self.messages.count>1)
+            {
+                var indexPath = NSIndexPath(forRow:self.messages.count-1, inSection: 0)
+                
+                self.tblForChats.scrollToRowAtIndexPath(indexPath, atScrollPosition: UITableViewScrollPosition.Bottom, animated: true)
+            }
+            
+        default:
+        print("error: wrong messgae received2")
+
+            
+        }
+        
+    }
+    func socketReceivedSpecialMessage(message: String, params: JSON!) {
+        
+        
+    }
+
   /*
     // delete slider to delete individual row
     // Override to support editing the table view.
@@ -850,5 +926,9 @@ class ChatDetailViewController: UIViewController{
     }
     */
     
+    override func viewWillDisappear(animated: Bool) {
+        
+        //socketObj.socket.off(socketEventID)
+    }
     
 }

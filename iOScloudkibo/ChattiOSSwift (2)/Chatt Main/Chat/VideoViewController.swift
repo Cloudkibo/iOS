@@ -248,13 +248,17 @@ self.remoteDisconnected()
 
 //socketObj.socket.emit("message",["msg":"hangup","room":globalroom,"to":iamincallWith!,"username":username!, "id":currentID!])
 
+    //%%%%%%%% new
+    /*
     socketObj.socket.emit("message",["msg":"hangup","room":globalroom,"to":iamincallWith!,"username":username!, "id":currentID!])
     socketObj.socket.emit("leave",["room":joinedRoomInCall])
     socketObj.socket.emit("leave",["room":joinedRoomInCall])
-    
+    */
     
 //%%%%%%%%%%% self.disconnect()
 }
+            socketObj.socket.disconnect()
+            socketObj.socket.connect()
             self.disconnect()
 
 
@@ -840,6 +844,7 @@ self.remoteDisconnected()
                 {
                     endedCall=true
                     socketObj.socket.emit("logClient","IPHONE-LOG: inside end call, isConference is true")
+                    
                     dispatch_async(dispatch_get_main_queue(), { () -> Void in
                         
                         

@@ -729,6 +729,12 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
                             print("got server response")
                             socketObj.socket.emit("logClient", "Got contacts List from device")
                             self.messageFrame.removeFromSuperview()
+                            
+                          
+                            
+   
+                            
+                            
                             //move to next screen
                             //self.saveButton.enabled = true
                         }
@@ -978,6 +984,67 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
                                                     print("id: \(account[_id]), phone: \(account[phone]), firstname: \(account[firstname])")
                                                     // id: 1, email: alice@mac.com, name: Optional("Alice")
                                                     }
+                                                    
+                                                    
+                                                    
+                                                    
+                                                    //%%%%%% fetch chat
+                                                    dispatch_async(dispatch_get_global_queue(priority, 0)) {
+                                                        socketObj.socket.emit("logClient","\(username) is Fetching chat")
+                                                        var fetchChatURL=Constants.MainUrl+Constants.fetchMyAllchats
+                                                        //var getUserDataURL=userDataUrl
+                                                        
+                                                        Alamofire.request(.POST,"\(fetchChatURL)",headers:header,parameters:["user1":username!]).validate(statusCode: 200..<300).responseJSON{response in
+                                                            
+                                                            
+                                                            switch response.result {
+                                                            case .Success:
+                                                                socketObj.socket.emit("logClient", "All chat fetched success")
+                                                                if let data1 = response.result.value {
+                                                                    let UserchatJson = JSON(data1)
+                                                                    print("chat fetched JSON: \(json)")
+                                                                    
+                                                                    var tableUserChatSQLite=sqliteDB.userschats
+                                                                    
+                                                                    do{
+                                                                    try sqliteDB.db.run(tableUserChatSQLite.delete())
+                                                                    }catch{
+                                                                    socketObj.socket.emit("logClient","sqlite chat table refreshed")
+                                                                    print("chat table not deleted")
+                                                                }
+                                                                
+                                                                    //Overwrite sqlite db
+                                                                    //sqliteDB.deleteChat(self.selectedContact)
+                                                                    
+                                                                    socketObj.socket.emit("logClient","IPHONE-LOG: all chat messages count is \(UserchatJson["msg"].count)")
+                                                                    for var i=0;i<UserchatJson["msg"].count
+                                                                        ;i++
+                                                                    {
+                                                                        
+                                                                        
+                                                                        sqliteDB.SaveChat(UserchatJson["msg"][i]["to"].string!, from1: UserchatJson["msg"][i]["from"].string!,owneruser1:UserchatJson["msg"][i]["owneruser"].string! , fromFullName1: UserchatJson["msg"][i]["fromFullName"].string!, msg1: UserchatJson["msg"][i]["msg"].string!,date1:UserchatJson["msg"][i]["date"].string!)
+                                                                        
+                                                                       
+                                                                        
+                                                                    }
+                                                                    /*
+                                                                    dispatch_async(dispatch_get_main_queue()) {
+                                                                        completion(result:true)
+                                                                    }*/
+                                                                    
+                                                                
+                                                                
+                                                                }
+                                                                /*dispatch_async(dispatch_get_main_queue()) {
+                                                                    
+                                                                }*/
+                                                                
+                                                            case .Failure:
+                                                                socketObj.socket.emit("logClient", "All chat fetched failed")
+                                                                print("all chat fetched failed")
+                                                            }
+                                                        }
+                                                    }
                                                 }catch{
                                                     print("failed accounts data print")
                                                 }
@@ -1044,6 +1111,10 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
                             }
                             dispatch_async(dispatch_get_main_queue(), {
                                 self.tblForChat.reloadData()
+                                
+                                
+                             
+                                
                             })
                         }
                         
