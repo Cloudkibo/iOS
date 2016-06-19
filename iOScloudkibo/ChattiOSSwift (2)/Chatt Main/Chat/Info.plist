@@ -62,7 +62,7 @@
 		<string>ak1452049518365321</string>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>1.70016</string>
+	<string>1.70019</string>
 	<key>FacebookAppID</key>
 	<string>1452049518365321</string>
 	<key>FacebookDisplayName</key>
@@ -88,7 +88,6 @@
 	</dict>
 	<key>UIBackgroundModes</key>
 	<array>
-		<string>audio</string>
 		<string>fetch</string>
 		<string>remote-notification</string>
 		<string>voip</string>

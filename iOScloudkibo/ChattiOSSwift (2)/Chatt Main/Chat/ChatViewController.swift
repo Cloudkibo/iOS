@@ -2122,6 +2122,7 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
     func socketReceivedMessage(message:String,data:AnyObject!)
     {print("socketReceivedMessage inside", terminator: "")
         //var msg=JSON(params)
+        socketObj.socket.emit("logClient","IPHONE-LOG: \(username!) received message \(message)")
         switch(message)
         {
         case "Accept Call":
@@ -2310,6 +2311,7 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
             }
             
             case "noiambusy":
+                
             self.showError("Information", message: "User is busy. Please try again later", button1: "Ok")
             
             
