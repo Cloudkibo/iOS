@@ -23,8 +23,10 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
     
     var messageFrame = UIView()
     var activityIndicator = UIActivityIndicatorView()
+    var messageFrame2 = UIView()
+    var activityIndicator2 = UIActivityIndicatorView()
     var strLabel = UILabel()
-    
+    var strLabel2 = UILabel()
     
     var refreshControl = UIRefreshControl()
     @IBOutlet var viewForTitle : UIView!
@@ -690,6 +692,23 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
         view.addSubview(messageFrame)
     }
     
+    func progressBarDisplayer2(msg:String, _ indicator:Bool ) {
+        print(msg)
+        strLabel2 = UILabel(frame: CGRect(x: 50, y: 0, width: 250, height: 50))
+        strLabel2.text = msg
+        strLabel2.textColor = UIColor.whiteColor()
+        messageFrame2 = UIView(frame: CGRect(x: view.frame.midX - 110, y: view.frame.midY - 25 , width: 230, height: 50))
+        messageFrame2.layer.cornerRadius = 15
+        messageFrame2.backgroundColor = UIColor(white: 0, alpha: 0.7)
+        if indicator {
+            activityIndicator2 = UIActivityIndicatorView(activityIndicatorStyle: UIActivityIndicatorViewStyle.White)
+            activityIndicator2.frame = CGRect(x: 0, y: 0, width: 50, height: 50)
+            activityIndicator2.startAnimating()
+            messageFrame2.addSubview(activityIndicator2)
+        }
+        messageFrame2.addSubview(strLabel2)
+        view.addSubview(messageFrame2)
+    }
     
     override func viewWillAppear(animated: Bool) {
         print("appearrrrrr", terminator: "")
@@ -833,7 +852,8 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
                                             print("************************")
                                             
                                             //===========saving username======================
-                                            dispatch_async(dispatch_get_main_queue(), {
+                                            //%%%%%%%%% dispatch_async(dispatch_get_main_queue(), {
+                                            dispatch_async(dispatch_get_global_queue(priority, 0)) {
                                                 if let uu = json["username"].string
                                                 {
                                                     do{
@@ -938,48 +958,7 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
                                                     print("insertion failed: \(error)")
                                                 }
                                                 
-                                               /* do {
-                                                    if(json["username"].string != nil)
-                                                    {
-                                                        let rowid = try sqliteDB.db.run(tbl_accounts.insert(_id<-json["_id"].string!,
-                                                            firstname<-json["firstname"].string!,
-                                                            lastname<-json["lastname"].string!,
-                                                            email<-json["email"].string!,
-                                                            username1<-json["phone"].string!,
-                                                            status<-json["status"].string!,
-                                                            phone<-json["phone"].string!))
-                                                        print("inserted id: \(rowid)")
-                                                    }
-                                                    else
-                                                    {
-                                                        let rowid = try sqliteDB.db.run(tbl_accounts.insert(_id<-json["_id"].string!,
-                                                            firstname<-json["display_name"].string!,
-                                                            lastname<-"",
-                                                            email<-"",
-                                                            username1<-json["phone"].string!,
-                                                            status<-json["status"].string!,
-                                                            phone<-json["phone"].string!))
-                                                        print("inserted id: \(rowid)")
-                                                    }
-                                                } catch {
-                                                    print("insertion failed: \(error)")
-                                                }*/
-                                                
-                                                
-                                                /*let insert=tbl_accounts.insert(_id<-json["_id"].string!,
-                                                firstname<-json["firstname"].string!,
-                                                lastname<-json["lastname"].string!,
-                                                email<-json["email"].string!,
-                                                username<-json["username"].string!,
-                                                status<-json["status"].string!,
-                                                phone<-json["phone"].string!)
-                                                if let rowid = insert.rowid {
-                                                print("inserted id: \(rowid)")
-                                                } else if insert.statement.failed {
-                                                print("insertion failed: \(insert.statement.reason)")
-                                                }
-                                                */
-                                                //// self.fetchContacts(AuthToken)
+                                             
                                                 do{for account in try sqliteDB.db.prepare(tbl_accounts) {
                                                     print("id: \(account[_id]), phone: \(account[phone]), firstname: \(account[firstname])")
                                                     // id: 1, email: alice@mac.com, name: Optional("Alice")
@@ -989,7 +968,9 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
                                                     
                                                     
                                                     //%%%%%% fetch chat
+                                                    
                                                     dispatch_async(dispatch_get_global_queue(priority, 0)) {
+                                                        self.progressBarDisplayer2("Setting Conversations", true)
                                                         socketObj.socket.emit("logClient","\(username) is Fetching chat")
                                                         var fetchChatURL=Constants.MainUrl+Constants.fetchMyAllchats
                                                         //var getUserDataURL=userDataUrl
@@ -1027,11 +1008,11 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
                                                                        
                                                                         
                                                                     }
-                                                                    /*
-                                                                    dispatch_async(dispatch_get_main_queue()) {
-                                                                        completion(result:true)
-                                                                    }*/
                                                                     
+                                                                   /* dispatch_async(dispatch_get_main_queue()) {
+                                                                        self.messageFrame2.removeFromSuperview()
+                                                                    }
+                                                                    */
                                                                 
                                                                 
                                                                 }
@@ -1061,7 +1042,8 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
                                                 }*/
                                                 
                                                 
-                                            })
+                                            }
+                                            //%%)
                                             
                                         }
                                     case .Failure(let error):
@@ -1240,6 +1222,18 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
     
     //=====================================
     //to fetch contacts from SQLite db
+    
+    func saveAllChat(UserchatJson:JSON,completion: (result:Bool)->())
+    {
+         for var i=0;i<UserchatJson["msg"].count;i++
+        {
+            sqliteDB.SaveChat(UserchatJson["msg"][i]["to"].string!, from1: UserchatJson["msg"][i]["from"].string!,owneruser1:UserchatJson["msg"][i]["owneruser"].string! , fromFullName1: UserchatJson["msg"][i]["fromFullName"].string!, msg1: UserchatJson["msg"][i]["msg"].string!,date1:UserchatJson["msg"][i]["date"].string!)
+                                                                        
+                                                                       
+                                                                        
+        }
+        completion(result: true)
+    }
     
     func fetchContacts(){
         socketObj.socket.emit("logClient","IPHONE-LOG: fetch contacts from sqlite database")
@@ -1990,6 +1984,31 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
             */
             
             
+            
+            
+            
+            
+            /*
+            dispatch_async(dispatch_get_main_queue(),{
+                var alert = UIAlertController(title: "Welcome to Cloudkibo Meeting", message: "Please enter your username", preferredStyle: .Alert)
+                
+                //2. Add the text field. You can configure it however you need.
+                alert.addTextFieldWithConfigurationHandler({ (textField) -> Void in
+                    textField.text = ""
+                })
+                
+                
+                //3. Grab the value from the text field, and print it when the user clicks OK.
+                alert.addAction(UIAlertAction(title: "OK", style: .Default, handler: { (action) -> Void in
+                    let textField = alert.textFields![0] as UITextField
+                    username = textField.text!
+                    print("Text field: \(textField.text)")
+                    
+                    
+                    
+                    
+                }))})
+            */
             //////////////////////////////
             //CORRECT CODE ONE TO ONE CALL COMMENTED
             //////////////////////////////
@@ -2012,7 +2031,13 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
             callerName=username!
             iamincallWith=self.ContactUsernames[selectedRow]
             
+            iOSstartedCall=true
+            socketObj.socket.emit("logClient","IPHONE-LOG: \(username!) is going to videoViewController")
+            ////
+            var next = self.storyboard!.instantiateViewControllerWithIdentifier("MainV2") as! VideoViewController
             
+            self.presentViewController(next, animated: true, completion: {
+            })
             
             
             /*
@@ -2125,7 +2150,10 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
         socketObj.socket.emit("logClient","IPHONE-LOG: \(username!) received message \(message)")
         switch(message)
         {
-        case "Accept Call":
+        
+        
+            // %%%%%%%%%%%%%%%%%% new commented
+        /*case "Accept Call":
             socketObj.socket.emit("logClient","IPHONE-LOG: \(username!) is inside accept call")
             print("Accept call in chat view")
             callerName=KeychainWrapper.stringForKey("username")!
@@ -2176,7 +2204,10 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
                 
                 self.presentViewController(next, animated: true, completion: {
                 })
+            
             //}
+
+*/
         case "othersideringing":
             print(message)
             iOSstartedCall=true
@@ -2260,7 +2291,7 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
             if(areYouFreeForCall==true)
             {   iOSstartedCall=false
                 print(jdata[0]["caller"].string!)
-                print(self.currrentUsernameRetrieved, terminator: "")
+                //print(self.currrentUsernameRetrieved, terminator: "")
                 iamincallWith=jdata[0]["caller"].string!
                 isInitiator=false
                 //callerID=jdata[0]["sendersocket"].string!
@@ -2268,7 +2299,7 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
                 
                 //let secondViewController:CallRingingViewController = CallRingingViewController()
                 
-                socketObj.socket.emit("yesiamfreeforcall",["mycaller" : jdata[0]["caller"].string!, "me":self.currrentUsernameRetrieved])
+                socketObj.socket.emit("yesiamfreeforcall",["mycaller" : jdata[0]["caller"].string!, "me":username!])
                 
                 var next = self.storyboard?.instantiateViewControllerWithIdentifier("Main") as! CallRingingViewController
                 
@@ -2310,7 +2341,7 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
                 }
             }
             
-            case "noiambusy":
+            case "calleeisbusy":
                 
             self.showError("Information", message: "User is busy. Please try again later", button1: "Ok")
             

@@ -48,7 +48,7 @@ class LoginAPI{
     
     
     init(url:String){
-        socket=SocketIOClient(socketURL: "\(url)", options: [.Log(true),.VoipEnabled(true)])
+        socket=SocketIOClient(socketURL: "\(url)", options: [.Log(true)])
         areYouFreeForCall=true
         isBusy=false
         self.socket.on("connect") {data, ack in
@@ -94,7 +94,7 @@ class LoginAPI{
             self.delegateSocketConnected?.socketConnected()
             
         }
-        self.socket.reconnects=true
+        //self.socket.reconnects=true
         self.socket.connect()
         print("socketObj value is \(socketObj)")
         //%%%%%%%%% self.socket.reconnects=false
@@ -183,6 +183,7 @@ class LoginAPI{
             self.delegate?.socketReceivedMessage("yesiamfreeforcall",data: data)
         }
         socketObj.socket.on("areyoufreeforcall"){data,ack in
+            socketObj.socket.emit("logClient","\(username) received message areyoufreeforcall")
             print("areyoufreeforcall ........")
             print(":::::::::::::::::::::::::::::::::::")
             var msg=JSON(data)
@@ -242,6 +243,14 @@ class LoginAPI{
             var msg=JSON(data)
             print(msg.debugDescription)
             self.delegate?.socketReceivedMessage("noiambusy",data: data)
+        }
+        //calleeisbusy
+        socketObj.socket.on("calleeisbusy"){data,ack in
+            print("calleeisbusy ......")
+            print(":::::::::::::::::::::::::::::::::::")
+            var msg=JSON(data)
+            print(msg.debugDescription)
+            self.delegate?.socketReceivedMessage("calleeisbusy",data: data)
         }
         
         socketObj.socket.on("offline"){data,ack in

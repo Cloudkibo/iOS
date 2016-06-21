@@ -832,7 +832,7 @@ self.remoteDisconnected()
             //roomname=ConferenceRoomName
         }
         else{
-            if(iOSstartedCall==true){
+           /* if(iOSstartedCall==true){
                 var roomname=self.randomStringWithLength(9) as String
                 //joinedRoomInCall=roomname as String
                 ConferenceRoomName=roomname
@@ -863,6 +863,9 @@ self.remoteDisconnected()
                     
                 }
             }// end if iOs started calll
+            
+            
+            */
         }//end else
         
 
@@ -1761,6 +1764,38 @@ self.remoteDisconnected()
             
             socketObj.socket.emit("logClient","IPHONE-LOG: \(username!) accept call in video view")
             print("accept call in video view")
+            
+            if(iOSstartedCall==true){
+                var roomname=self.randomStringWithLength(9) as String
+                //joinedRoomInCall=roomname as String
+                ConferenceRoomName=roomname
+                socketObj.socket.emit("logClient","IPHONE-LOG: \(username) is trying to join room \(ConferenceRoomName)")
+                areYouFreeForCall=false
+                //}
+                //iamincallWith=username!
+                
+                //joinedRoomInCall=roomname as String
+                //socketObj.socket.emitWithAck("init", ["room":ConferenceRoomName,"username":username!])(timeoutAfter: 1500000) {data in
+                
+                socketObj.socket.emitWithAck("init", ["room":ConferenceRoomName,"username":username!])(timeoutAfter: 1500000) {data in
+                    
+                    meetingStarted=true
+                    print("1-1 call room joined by got ack")
+                    var a=JSON(data)
+                    socketObj.socket.emit("logClient","IPHONE-LOG: \(username!) joined room\(ConferenceRoomName) and got id \(a[1].int!) , also \(a.debugDescription)")
+                    print(a.debugDescription)
+                    currentID=a[1].int!
+                    print("current id is \(currentID)")
+                    //var aa=JSON(["msg":["type":"room_name","room":ConferenceRoomName as String],"room":globalroom,"to":iamincallWith!,"username":username!])
+                    
+                    var aa=JSON(["msg":["type":"room_name","room":ConferenceRoomName as String],"room":globalroom,"to":iamincallWith!,"username":username!])
+                    
+                    print(aa.description)
+                    socketObj.socket.emit("logClient","IPHONE-LOG: \(aa.object)")
+                    socketObj.socket.emit("message",aa.object)
+                    
+                }
+            }
             
             
             /*
@@ -3152,14 +3187,45 @@ self.remoteDisconnected()
         
         txtLabelMainPage.font=UIFont.boldSystemFontOfSize(20)
     }
-    override func viewWillDisappear(animated: Bool) {
+    override func viewDidDisappear(animated: Bool) {
+    /*
         print("videoviewcontroller will dismissed ")
+        
+         localView = nil
+         remoteView = nil
+         remoteScreenView = nil
+         rtcLocalMediaStream = nil
+         videoAction=false
+         audioAction=true
+        //var rtcMediaStream:RTCMediaStream!
+        
+         pc = nil
+        //var rtcVideoTrack1:RTCVideoTrack!
+         rtcMediaConst = nil
+         rtcVideoSource = nil
+         rtcVideoCapturer = nil
+        //var rtcVideoTrack:RTCVideoTrack!
+         rtcVideoRenderer = nil
+        //var abc:RTCVideoTrack!!
+         rtcLocalVideoTrack = nil
+         rtcScreenTrackReceived = nil
+        //var currentId:String!
+        
+         /////by:Int!
+         rtcStreamReceived = nil
+         rtcVideoTrackReceived = nil
+         rtcAudioTrackReceived = nil
+        // var rtcCaptureSession:AVCaptureSession!
+         rtcDataChannel = nil
+         countTimer=1
+        */
         //socketObj.delegateWebRTC=nil
     }
     
     func endMeeting()
     {
         print("ending meeting")
+        endedCall=true
         meetingStarted=false
         //// socketObj.socket.disconnect()
         if(currentID != nil){
@@ -3169,14 +3235,15 @@ self.remoteDisconnected()
             
             //socketObj.socket.emit("message",["msg":"hangup","room":globalroom,"to":iamincallWith!,"username":username!, "id":currentID!])
             
-            socketObj.socket.emit("message",["msg":"hangup","room":globalroom,"to":iamincallWith!,"username":username!, "id":currentID!])
+            //socketObj.socket.emit("message",["msg":"hangup","room":globalroom,"to":iamincallWith!,"username":username!, "id":currentID!])
             
-            socketObj.socket.emit("leave",["room":joinedRoomInCall,"id":currentID!])
+           // socketObj.socket.emit("leave",["room":joinedRoomInCall,"id":currentID!])
         }
     
     
     socketObj.socket.disconnect()
-    socketObj=nil
+        socketObj.socket.connect()
+    //socketObj=nil
     
     //self.pc=nil
     joinedRoomInCall=""
@@ -3193,8 +3260,6 @@ self.remoteDisconnected()
     //self.pc=nil
     //rtcFact=nil //**********important********
     //iamincallWith=nil
-    self.localView.renderFrame(nil)
-    self.remoteView.renderFrame(nil)
     
     if((self.rtcDataChannel) != nil){
     self.rtcDataChannel.close()
@@ -3208,7 +3273,11 @@ self.remoteDisconnected()
     //if((self.pc) != nil)
     //{
     
-    
+        //%%%%%%%% neww june
+        
+        self.localView.renderFrame(nil)
+        self.remoteView.renderFrame(nil)
+        self.localFull.renderFrame(nil)
     if((self.rtcLocalVideoTrack) != nil)
     {print("remove localtrack renderer")
     
@@ -3242,8 +3311,16 @@ self.remoteDisconnected()
     
     
     // iamincallWith=nil
-    print("hangup emitted")
+    //print("hangup emitted")
     
+        
+        if(self.localFull.superview != nil)
+        {
+            print("localFull was a subview. remmoving")
+            self.localFull.removeFromSuperview()
+        }
+        
+        
     if(self.localView.superview != nil)
     {
     print("localview was a subview. remmoving")
@@ -3283,16 +3360,26 @@ self.remoteDisconnected()
     screenCaptureToggle=false
     ConferenceRoomName=""
     
-    socketObj.socket.emit("logClient","IPHONE-LOG: \(username!) pressed end call. going back to contacts list")
+    //socketObj.socket.emit("logClient","IPHONE-LOG: \(username!) pressed end call. going back to contacts list")
     dispatch_async(dispatch_get_main_queue(), { () -> Void in
     //%%%%%%%% let next = self.storyboard!.instantiateViewControllerWithIdentifier("mainpage") as! LoginViewController
     
-    let next = self.storyboard!.instantiateViewControllerWithIdentifier("MainChatView") as! ChatViewController
+    
     //MainChatView
-    self.presentViewController(next, animated: false, completion: { () -> Void in
+        
+               print("views removed from parent")
+        self.dismissViewControllerAnimated(false, completion: { () -> Void in
+                
+                
+        })
+   /*
+        let next = self.storyboard!.instantiateViewControllerWithIdentifier("MainChatView") as! ChatViewController
+        self.presentViewController(next, animated: false, completion: { () -> Void in
     print("nexttttt viewwww")
     
-    })//end present controller
+    })
+        */
+        //end present controller
     
     })//end dispatch_async
     

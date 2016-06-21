@@ -335,7 +335,7 @@ class DatabaseHandler:NSObject{
                 from<-from1,
                 date<-mydate
 ))
-            print("inserted id: \(rowid)")
+            //////print("inserted id: \(rowid)")
         } catch {
             print("insertion failed: \(error)")
         }

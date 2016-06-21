@@ -12,9 +12,9 @@ import SQLite
 import Alamofire
 import AVFoundation
 
-class ChatDetailViewController: UIViewController,SocketClientDelegate{
+class ChatDetailViewController: UIViewController{
     
-    var delegate:SocketClientDelegate!
+   // var delegate:SocketClientDelegate!
     //var socketEventID:NSUUID
         var rt=NetworkingLibAlamofire()
     @IBOutlet weak var NewChatNavigationTitle: UINavigationItem!
@@ -118,7 +118,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate{
         
         print("chat on load")
         socketObj.socket.emit("logClient","IPHONE-LOG: chat page loading")
-        socketObj.delegate=self
+       // socketObj.delegate=self
         
         self.tblForChats.reloadData()
         if(self.messages.count>1)
@@ -863,7 +863,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate{
     
     func socketReceivedMessage(message: String, data: AnyObject!) {
         
-        print("socketReceivedMessage inside im got", terminator: "")
+        //print("socketReceivedMessage inside im got", terminator: "")
         var msg=JSON(data)
 print("$$ \(msg)")
         print(message)
