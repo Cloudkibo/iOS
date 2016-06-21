@@ -774,32 +774,23 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
                             
                             dispatch_async(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0)) {
                                 // do some task start to show progress wheel
-                                self.fetchContactsFromServer()
+                                self.fetchContactsFromServer({ (result) -> () in
+                                    dispatch_async(dispatch_get_main_queue()) {
+                                        self.tblForChat.reloadData()
+                                    }
+                                    
+                                })
                                 
                                 
                                 
                                 socketObj.socket.emit("logClient","IPHONE-LOG: login success and AuthToken was not nil getting myself details from server")
                                 
                                 print("login success")
-                                //self.labelLoginUnsuccessful.text=nil
-                                //self.gotToken=true
                                 
                                 //======GETTING REST API TO GET CURRENT USER=======================
                                 
                                 var userDataUrl=Constants.MainUrl+Constants.getCurrentUser
-                                //let index: String.Index = advance(self.AuthToken.startIndex, 10)
-                                
-                                //======================STORING Token========================
-                                
-                                //%%%%% already set token
-                                /*let jsonLogin = JSON(data: _data!)
-                                let token = jsonLogin["token"]
-                                KeychainWrapper.setString(token.string!, forKey: "access_token")
-                                AuthToken=token.string!
-                                */
-                                //========GET USER DETAILS===============
-                                //%%%% new phone model
-                                //var getUserDataURL=userDataUrl+"?access_token="+AuthToken!
+                           
                                 
                                 var getUserDataURL=userDataUrl
                                 
@@ -822,7 +813,7 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
                                             
                                             // if let u = json["phone"].string
                                             // {
-                                            username=json["phone"].string
+                                           
                                             ////}
                                             
                                             /* if let u = json["username"].string
@@ -833,9 +824,12 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
                                             {
                                             username=json["display_name"].string!
                                             }*/
-                                            loggedUserObj=json
+                                       
                                             //stringByResolvingSymlinksInPath
                                             
+                                            
+                                            username=json["phone"].string
+                                            loggedUserObj=json
                                             KeychainWrapper.setString(loggedUserObj.description, forKey:"loggedUserObjString")
                                             var loggedobjstring=KeychainWrapper.stringForKey("loggedUserObjString")
                                             
@@ -844,11 +838,6 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
                                             print(loggedUserObj.debugDescription)
                                             print(loggedUserObj.object)
                                             print("$$$$$$$$$$$$$$$$$$$$$$$$$")
-                                            ////print(loggedUserObj.string)
-                                            //KeychainWrapper.setString(loggedUserObj.string!, forKey:"loggedUserObjString")
-                                            /////var lll = JSONStringify(data1!, prettyPrinted: false)
-                                            ///print(lll)
-                                            /////KeychainWrapper.setString(lll,forKey:"loggedIDKeyChain")
                                             print("************************")
                                             
                                             //===========saving username======================
@@ -980,6 +969,8 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
                                                             
                                                             switch response.result {
                                                             case .Success:
+                                                                
+                                                                
                                                                 socketObj.socket.emit("logClient", "All chat fetched success")
                                                                 if let data1 = response.result.value {
                                                                     let UserchatJson = JSON(data1)
@@ -1091,13 +1082,15 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
                                 
                                 ////self.tblForChat.reloadData()
                             }
-                            dispatch_async(dispatch_get_main_queue(), {
+                            
+                            // %%%%%% new june
+                            /*dispatch_async(dispatch_get_main_queue(), {
                                 self.tblForChat.reloadData()
                                 
                                 
                              
                                 
-                            })
+                            })*/
                         }
                         
                         ///
@@ -1296,7 +1289,7 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
     //======================================
     //to fetch contacts from server
     
-    func fetchContactsFromServer(){
+    func fetchContactsFromServer(completion:(result:Bool)->()){
         print("Server fetchingg contactss", terminator: "")
         socketObj.socket.emit("logClient","IPHONE-LOG: fetch contacts from server")
         if(loggedUserObj == JSON("[]"))
@@ -1564,7 +1557,13 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
                     //self.refreshControl.endRefreshing()
                     print("contacts fetchedddddddddddddd sucecess")
                     
+                    
+                    completion(result:true)
+                    
                 }else{
+                    
+                    completion(result:false)
+                    
                     print("error: \(error1!.localizedDescription)")
                     socketObj.socket.emit("logClient", "error: \(error1!.localizedDescription)")
                     print(error1)
