@@ -619,7 +619,45 @@ class DisplayNameViewController: UIViewController {
                                             dispatch_async(self.Q3_getContactsFromServer,
                                                 {
                                                     self.fetchContactsFromServer({ (result) -> () in
-                                                      
+                                                        
+                                                        
+                                                        var allcontactslist1=sqliteDB.allcontacts
+                                                        var alladdressContactsArray:Array<Row>
+                                                        
+                                                        let phone = Expression<String>("phone")
+                                                        let kibocontact = Expression<Bool>("kiboContact")
+                                                        let name = Expression<String?>("name")
+                                                        
+                                                        //alladdressContactsArray = Array(try sqliteDB.db.prepare(allcontactslist1))
+                                                        
+                                                        do{for ccc in try sqliteDB.db.prepare(allcontactslist1) {
+                                                            
+                                                            for var i=0;i<availableEmailsList.count;i++
+                                                            {print(":::email .......  : \(availableEmailsList[i])")
+                                                                if(ccc[phone]==availableEmailsList[i])
+                                                                { print(":::::::: \(ccc[phone])  and emaillist : \(availableEmailsList[i])")
+                                                                    //ccc[kibocontact]
+                                                                    
+                                                                    let query = allcontactslist1.select(kibocontact)           // SELECT "email" FROM "users"
+                                                                        .filter(phone == ccc[phone])     // WHERE "name" IS NOT NULL
+                                                                    
+                                                                    try sqliteDB.db.run(query.update(kibocontact <- true))
+                                                                    // for kk in try sqliteDB.db.prepare(query) {
+                                                                    //  try sqliteDB.db.run(query.update(kk[kibocontact] <- true))
+                                                                    //}
+                                                                    //try sqliteDB.db.run(allcontactslist1.update(query[kibocontact] <- true))
+                                                                    
+                                                                    // try sqliteDB.db.run(allcontactslist1.update(ccc[kibocontact] <- true))
+                                                                }
+                                                                
+                                                            }
+                                                            
+                                                            }
+                                                        }
+                                                        catch{
+                                                            print("error 123")
+                                                        }
+                                                        
                                                         dispatch_async(self.Q4_getUserData,
                                                             {
                                                                 self.getCurrentUserDetails({ (result) -> () in

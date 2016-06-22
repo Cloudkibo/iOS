@@ -11,7 +11,7 @@ import SQLite
 import Contacts
 class NotesViewController: UIViewController,InviteContactsDelegate,UITextFieldDelegate {
 
-    
+    var alladdressContactsArray=Array<Row>()
     var alert:UIAlertController!
     var delegate:InviteContactsDelegate!
     @IBOutlet var viewForTitle : UIView!
@@ -147,6 +147,25 @@ class NotesViewController: UIViewController,InviteContactsDelegate,UITextFieldDe
         self.tabBarController?.tabBar.tintColor = UIColor.greenColor()
         
         
+        var allcontactslist1=sqliteDB.allcontacts
+        
+        
+        let phone = Expression<String>("phone")
+        let kibocontact = Expression<Bool>("kiboContact")
+        let name = Expression<String?>("name")
+        
+        //alladdressContactsArray = Array(try sqliteDB.db.prepare(allcontactslist1))
+        
+        
+        do
+        {alladdressContactsArray = Array(try sqliteDB.db.prepare(allcontactslist1))
+            
+        }
+        catch
+        {
+            
+        }
+        
         /*
         progressBarDisplayer("Fetching Contacts", true)
         let priority = DISPATCH_QUEUE_PRIORITY_DEFAULT
@@ -195,7 +214,7 @@ class NotesViewController: UIViewController,InviteContactsDelegate,UITextFieldDe
     }
     
     func tableView(tableView: UITableView!, numberOfRowsInSection section: Int) -> Int {
-        return contacts.count
+        return alladdressContactsArray.count
     }
     
     func numberOfSectionsInTableView(tableView: UITableView!) -> Int {
@@ -221,6 +240,30 @@ class NotesViewController: UIViewController,InviteContactsDelegate,UITextFieldDe
         
         // %%%%%%%%%%%%%%%%%%%%%%%%%_------------------------- need to show names also ------
         
+        
+        var allcontactslist1=sqliteDB.allcontacts
+        var alladdressContactsArray:Array<Row>
+        
+        let phone = Expression<String>("phone")
+        let kibocontact = Expression<Bool>("kiboContact")
+        let name = Expression<String?>("name")
+        
+        //alladdressContactsArray = Array(try sqliteDB.db.prepare(allcontactslist1))
+        
+        
+        do
+        {alladdressContactsArray = Array(try sqliteDB.db.prepare(allcontactslist1))
+        
+        if(alladdressContactsArray[indexPath.row].get(kibocontact)==true)
+        {
+            cellPrivate.labelStatusPrivate.hidden=false
+        }
+        }
+        catch{
+            print("error 123")
+        }
+        /*
+        
         if (contacts[indexPath.row].isKeyAvailable(CNContactPhoneNumbersKey)) {
             for phoneNumber:CNLabeledValue in contacts[indexPath.row].phoneNumbers {
                 let a = phoneNumber.value as! CNPhoneNumber
@@ -236,7 +279,7 @@ class NotesViewController: UIViewController,InviteContactsDelegate,UITextFieldDe
                 }
                 
             }
-        }
+        }*/
         
         /*do{
             let em = try contacts[indexPath.row].emailAddresses.first
