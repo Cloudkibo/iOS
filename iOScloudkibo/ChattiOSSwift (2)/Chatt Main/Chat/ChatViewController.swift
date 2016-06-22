@@ -806,18 +806,6 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
                                                     print("failed accounts data print")
                                                 }
                                                 
-                                                
-                                                
-                                                
-                                                //...........
-                                                /*  let stmt = sqliteDB.db.prepare("SELECT * FROM accounts")
-                                                print(stmt.columnNames)
-                                                for row in stmt {
-                                                print("...................... firstname: \(row[1]), email: \(row[3])")
-                                                // id: Optional(1), email: Optional("alice@mac.com")
-                                                }*/
-                                                
-                                                
                                             }
                                             //%%)
                                             
@@ -851,11 +839,7 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
                                     }*/
                                 }
                             }
-                            
-                            
-                            
-                            
-                            socketObj.socket.emit("logClient", "received contacts from cloudkibo server")
+                      socketObj.socket.emit("logClient", "received contacts from cloudkibo server")
                             for r2 in result2
                             {
                                 notAvailableEmails.append(r2)
@@ -867,15 +851,7 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
                                 
                                 ////self.tblForChat.reloadData()
                             }
-                            
-                            // %%%%%% new june
-                            /*dispatch_async(dispatch_get_main_queue(), {
-                                self.tblForChat.reloadData()
-                                
-                                
-                             
-                                
-                            })*/
+                 
                         }
                         
                         ///
@@ -1096,68 +1072,19 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
             .response { (request1, response1, data1, error1) in
                 
                 
-                //============GOT Contacts SECCESS=================
-                /*
-                switch response.result {
-                case .Success:
-                
-                case .Failure:
-                }*/
-                ////////////////////////
-                //^^^^^ dispatch_async(dispatch_get_main_queue(), {
-                //self.fetchContacts(self.AuthToken)
-                /// activityOverlayView.dismissAnimated(true)
                 
                 
                 if response1?.statusCode==200 {
+                    //============GOT Contacts SECCESS=================
+                    
+
                     print("success successfully received friends list from server")
                     socketObj.socket.emit("logClient","IPHONE-LOG:  successfully received friends list from server")
                     if(globalChatRoomJoined == false)
                     {
                         //socketObj.addHandlers()
                         print("joiningggggg")
-                        //var lll=KeychainWrapper.stringForKey("loggedIDKeyChain")
-                        //////%%%%%%%%var lll=KeychainWrapper.stringForKey("loggedUserObjString")
-                        
-                        //loggedUserObjString
-                        
-                        
-                        
-                        
-                        
-                        /*
-                        /////////////////////////////////////////////////
-                        
-                        COMENTED TEMPERORARILY AS A FUNCTION stringByR IOS9
-                        LOGIN LOGOUT NEEDED ISSUE
-                        
-                        //////////////////////////////////////////////////
-                        
-                        print("------------------")
-                        print(lll!.stringByDeletingPathExtension)
-                        print("------------------")
-                        print(lll!.stringByRemovingPercentEncoding)
-                        print("------------------")
-                        print(lll!.stringByResolvingSymlinksInPath)
-                        var ssss=lll!.stringByResolvingSymlinksInPath
-                        
-                        if let dataFromString = jsonString.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false) {
-                        let json22 = JSON(ssss)
-                        
-                        print(";;;;;;;;;")
-                        print(json22.object)
-                        
-                        loggedUserObj = json22
-                        
-                        
-                        
-                        //var lllloooobbbb = json22
-                        //  var dd:[AnyObject]=json22.rawValue as! [AnyObject]
-                        /// socketObj.socket.emit("join global chatroom",["room":"globalchatroom","user":loggedUserObj.object])
-                        ///socketObj.socket.emit("join global chatroom", ["room": "globalchatroom", "user": json22.object])
-                        socketObj.socket.emit("join global chatroom", ["room": "globalchatroom", "user": ["username":KeychainWrapper.stringForKey("username")!]])
-                        }
-                        */
+                  
                         
                     }
                     //print("Contacts fetched success")
@@ -1302,44 +1229,7 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
                         }
                         
                     }
-                    /*let insert=tbl_contactslists.insert(contactid<-contactsJsonObj[i]["contactid"]["_id"].string!,
-                    detailsshared<-contactsJsonObj[i]["detailsshared"].string!,
-                    
-                    unreadMessage<-contactsJsonObj[i]["unreadMessage"].boolValue,
-                    
-                    userid<-contactsJsonObj[i]["userid"].string!,
-                    firstname<-contactsJsonObj[i]["contactid"]["firstname"].string!,
-                    lastname<-contactsJsonObj[i]["contactid"]["lastname"].string!,
-                    email<-contactsJsonObj[i]["contactid"]["email"].string!,
-                    phone<-contactsJsonObj[i]["contactid"]["_id"].string!,
-                    username<-contactsJsonObj[i]["contactid"]["username"].string!,
-                    status<-contactsJsonObj[i]["contactid"]["status"].string!)
-                    
-                    //self.transportItems.insert(contactsJsonObj[i]["contactid"]["firstname"].string!+" "+contactsJsonObj[i]["contactid"]["lastname"].string!, atIndex: i)
-                    
-                    
-                    //=========this is done in fetching from sqlite not here====
-                    self.ContactsObjectss.append(contactsJsonObj[i]["contactid"])
-                    self.ContactNames.append(contactsJsonObj[i]["contactid"]["firstname"].string!+" "+contactsJsonObj[i]["contactid"]["lastname"].string!)
-                    self.ContactUsernames.append(contactsJsonObj[i]["contactid"]["username"].string!)
-                    self.ContactIDs.append(contactsJsonObj[i]["contactid"]["_id"].string!)
-                    self.ContactFirstname.append(contactsJsonObj[i]["contactid"]["firstname"].string!)
-                    self.ContactLastNAme.append(contactsJsonObj[i]["contactid"]["lastname"].string!)
-                    self.ContactStatus.append(contactsJsonObj[i]["contactid"]["status"].string!)
-                    self.ContactOnlineStatus.append(0)
-                    
-                    
-                    if let rowid = insert.rowid {
-                    print("inserted id: \(rowid)")
-                    self.tblForChat.reloadData()
-                    } else if insert.statement.failed {
-                    print("insertion failed: \(insert.statement.reason)")
-                    }
-                    }
-                    */
-                    //print(error1)
-                    //
-                    //self.refreshControl.endRefreshing()
+                
                     print("contacts fetchedddddddddddddd sucecess")
                     
                     
@@ -1371,24 +1261,8 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
                     
                 }
                 
-                
-                
-                
-                
-                
         }
-        
-        /*
-        socketObj.socket.emit("logClient","IPHONE-LOG: user object is \(loggedUserObj)")
-        print("before whozonline print", terminator: "")
-        print(loggedUserObj.object)
-        
-        socketObj.socket.emit("whozonline",[
-        "room":"globalchatroom",
-        "user":loggedUserObj.object])
-        */
-        
-        
+    
         
         
     }

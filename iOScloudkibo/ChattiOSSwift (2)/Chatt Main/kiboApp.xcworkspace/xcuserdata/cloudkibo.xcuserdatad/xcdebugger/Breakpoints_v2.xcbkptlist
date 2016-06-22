@@ -58,12 +58,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Chat/DisplayNameViewController.swift"
-            timestampString = "487237730.549385"
+            timestampString = "488280347.389398"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "138"
-            endingLineNumber = "138"
-            landmarkName = "sendNameToServer(_:)"
+            startingLineNumber = "171"
+            endingLineNumber = "171"
+            landmarkName = "sendNameToServer(_:completion:)"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -158,6 +158,22 @@
             startingLineNumber = "325"
             endingLineNumber = "325"
             landmarkName = "SaveChat(_:from1:owneruser1:fromFullName1:msg1:date1:)"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Chat/DisplayNameViewController.swift"
+            timestampString = "488280347.389398"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "95"
+            endingLineNumber = "95"
+            landmarkName = "sendNameToServer(_:completion:)"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
