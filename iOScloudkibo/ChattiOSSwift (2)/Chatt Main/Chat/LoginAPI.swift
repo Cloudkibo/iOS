@@ -193,6 +193,11 @@ class LoginAPI{
             var jdata=JSON(data)
             print("areyoufreeforcall ......", terminator: "")
             print(jdata.debugDescription)
+            
+            
+            
+            
+            
             var state=UIApplication.sharedApplication().applicationState
             
             if (state == UIApplicationState.Background || state == UIApplicationState.Inactive)
@@ -261,6 +266,16 @@ class LoginAPI{
             self.delegate?.socketReceivedMessage("offline",data: data)
         }
         
+        socketObj.socket.on("messageStatusUpdate"){data,ack in
+            print("messageStatusUpdate ......")
+            print(":::::::::::::::::::::::::::::::::::")
+            var msg=JSON(data)
+            print(msg.debugDescription)
+            self.delegate?.socketReceivedMessage("messageStatusUpdate",data: data)
+        }
+        
+        //messageStatusUpdate
+        
         socketObj.socket.on("im") {data,ack in
             print("im is reeived from server........................")
             var msg=JSON(data)
@@ -277,6 +292,8 @@ class LoginAPI{
             print("chat received \(chatJson.debugDescription)")
             print(chatJson[0]["msg"])
             var receivedMsg=chatJson[0]["msg"]
+            var status=chatJson[0]["status"]
+            var uniqueid=chatJson[0]["uniqueid"]
             //var dateString=chatJson[0]["date"]
             
             
@@ -284,8 +301,13 @@ class LoginAPI{
           
             
             
-            sqliteDB.SaveChat(chatJson[0]["to"].string!, from1: chatJson[0]["from"].string!,owneruser1:chatJson[0]["to"].string!, fromFullName1: chatJson[0]["fromFullName"].string!, msg1: chatJson[0]["msg"].string!,date1:nil)
+            sqliteDB.SaveChat(chatJson[0]["to"].string!, from1: chatJson[0]["from"].string!,owneruser1:chatJson[0]["to"].string!, fromFullName1: chatJson[0]["fromFullName"].string!, msg1: chatJson[0]["msg"].string!,date1:nil,uniqueid1:chatJson[0]["uniqueid"].string!,status1: "")
             
+            //{status : '<delivered or seen>', uniqueid : '<unique id of message>', sender : '<cell number of sender>'}
+            
+            socketObj.socket.emitWithAck("messageStatusUpdate", ["status":"seen","uniqueid":chatJson[0]["status"].string!,"sender": "\(username!)"])(timeoutAfter: 0){data in
+                
+                }
             
             
             

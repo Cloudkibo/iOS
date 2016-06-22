@@ -256,6 +256,10 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate{
         let fromFullName = Expression<String>("fromFullName")
         let msg = Expression<String>("msg")
         let date = Expression<String>("date")
+        let status = Expression<String>("status")
+        //let date = Expression<String>("date")
+
+        
         
         var tbl_userchats=sqliteDB.userschats
         var res=tbl_userchats.filter(to==selecteduser || from==selecteduser)
@@ -272,16 +276,17 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate{
             print(tblContacts[from])
             print(tblContacts[msg])
             print(tblContacts[date])
+            print(tblContacts[status])
             print("--------")
             
             if (tblContacts[from]==username!)
                 
             {//type1
-                self.addMessage(tblContacts[msg], ofType: "2",date: tblContacts[date])
+                self.addMessage(tblContacts[msg]+" (\(tblContacts[status])) ", ofType: "2",date: tblContacts[date])
             }
             else
             {//type2
-                self.addMessage(tblContacts[msg], ofType: "1", date: tblContacts[date])
+                self.addMessage(tblContacts[msg]+" (\(tblContacts[status])) ", ofType: "1", date: tblContacts[date])
                 
             }
                /* if(self.messages.count>1)
@@ -779,6 +784,22 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate{
         return true
     }
     
+    
+    func randomStringWithLength (len : Int) -> NSString {
+        
+        let letters : NSString = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
+        
+        let randomString : NSMutableString = NSMutableString(capacity: len)
+        
+        for (var i=0; i < len; i++){
+            let length = UInt32 (letters.length)
+            let rand = arc4random_uniform(length)
+            randomString.appendFormat("%C", letters.characterAtIndex(Int(rand)))
+        }
+        
+        return randomString
+    }
+
     @IBAction func postBtnTapped() {
         
         
@@ -786,23 +807,60 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate{
         ///=================
         
         //^^^^var loggedid=loggedUserObj["_id"]
+       /* var uniqueid=self.randomStringWithLength(5)
+        let formatter = NSDateFormatter()
+        formatter.dateStyle = NSDateFormatterStyle.LongStyle
+        formatter.timeStyle = .ShortStyle
+        */
+        //let dateString = formatter.stringFromDate(NSDate())
+        let calendar = NSCalendar.currentCalendar()
+        let comp = calendar.components([.Hour, .Minute], fromDate: NSDate())
+         let year = String(comp.year)
+        let month = String(comp.month)
+        let day = String(comp.day)
+        let hour = String(comp.hour)
+        let minute = String(comp.minute)
+        let second = String(comp.second)
+       
+        var randNum5=self.randomStringWithLength(5) as! String
+        var uniqueID=randNum5+year+month+day+hour+minute+second
+        //var uniqueID=randNum5+year
+        print("unique ID is \(uniqueID)")
+        
         var loggedid=_id!
         //^^var firstNameSelected=selectedUserObj["firstname"]
         //^^^var lastNameSelected=selectedUserObj["lastname"]
         //^^^var fullNameSelected=firstNameSelected.string!+" "+lastNameSelected.string!
-        var imParas=["from":"\(username!)","to":"\(selectedContact)","from_id":"\(_id!)","to_id":"\(self.selectedID)","fromFullName":"\(displayname)","msg":"\(txtFldMessage.text!)"]
+        var imParas=["from":"\(username!)","to":"\(selectedContact)","from_id":"\(_id!)","to_id":"\(self.selectedID)","fromFullName":"\(displayname)","msg":"\(txtFldMessage.text!)","uniqueid":"\(uniqueID)"]
         print("imparas are \(imParas)")
         print(imParas, terminator: "")
         print("", terminator: "")
         ///=== code for sending chat here
         ///=================
         
-        socketObj.socket.emit("logClient","IPHONE-LOG: sending chat \(imParas)")
-        socketObj.socket.emit("im",["room":"globalchatroom","stanza":imParas])
+        //socketObj.socket.emit("logClient","IPHONE-LOG: \(username!) is sending chat message")
+        //////socketObj.socket.emit("im",["room":"globalchatroom","stanza":imParas])
+        var statusNow=""
+        if(isSocketConnected==true)
+        {
+            statusNow="sent"
+            
+        }
+        else
+        {
+            statusNow="pending"
+        }
+        
+        socketObj.socket.emitWithAck("im",["room":"globalchatroom","stanza":imParas])(timeoutAfter: 150000000)
+        {data in
+            print("chat ack received \(data)")
+            
+        }
+        
         
         //////
         
-        sqliteDB.SaveChat("\(selectedContact)", from1: "\(username!)",owneruser1: "\(username!)", fromFullName1: "\(loggedFullName!)", msg1: "\(txtFldMessage.text!)",date1: nil)
+        sqliteDB.SaveChat("\(selectedContact)", from1: "\(username!)",owneruser1: "\(username!)", fromFullName1: "\(loggedFullName!)", msg1: "\(txtFldMessage.text!)",date1: nil,uniqueid1: uniqueID, status1: statusNow)
         
         /*insert(self.fromFullName<-"Sabach Channa",
         self.msg<-"\(txtFldMessage.text)",

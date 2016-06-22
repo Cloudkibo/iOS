@@ -203,6 +203,8 @@ class DatabaseHandler:NSObject{
         }
     }
     
+    
+    
     func createUserChatTable(){
         
            socketObj.socket.emit("logClient","IPHONE-LOG: creating chat table")
@@ -213,6 +215,8 @@ class DatabaseHandler:NSObject{
         let msg = Expression<String>("msg")
         let owneruser = Expression<String>("owneruser")
         let date = Expression<String>("date")
+        let uniqueid = Expression<String>("uniqueid")
+        let status = Expression<String>("status")
         
         
        // let dateFormatter = NSDateFormatter()
@@ -229,7 +233,8 @@ class DatabaseHandler:NSObject{
                 t.column(fromFullName)
                 t.column(msg)
                 t.column(date, defaultValue:NSDate().debugDescription)
-                
+                t.column(status)
+                t.column(uniqueid)
                 
                 //     "name" TEXT
                 })
@@ -297,7 +302,7 @@ class DatabaseHandler:NSObject{
 
     }
     
-    func SaveChat(to1:String,from1:String,owneruser1:String,fromFullName1:String,msg1:String,date1:String!)
+    func SaveChat(to1:String,from1:String,owneruser1:String,fromFullName1:String,msg1:String,date1:String!,uniqueid1:String!,status1:String)
     {
         //createUserChatTable()
         
@@ -307,6 +312,8 @@ class DatabaseHandler:NSObject{
         let fromFullName = Expression<String>("fromFullName")
         let msg = Expression<String>("msg")
         let date = Expression<String>("date")
+         let uniqueID = Expression<String>("uniqueid")
+        let status = Expression<String>("status")
         var tbl_userchats=sqliteDB.userschats
         
         
@@ -333,7 +340,9 @@ class DatabaseHandler:NSObject{
                 owneruser<-owneruser1,
                 to<-to1,
                 from<-from1,
-                date<-mydate
+                date<-mydate,
+                uniqueID<-uniqueid1,
+                status:status1
 ))
             //////print("inserted id: \(rowid)")
         } catch {

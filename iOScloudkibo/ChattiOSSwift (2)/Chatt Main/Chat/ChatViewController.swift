@@ -69,6 +69,7 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
                     print("got user success")
                     
                     username=json["phone"].string
+                    displayname=json["display_name"].string!
                     loggedUserObj=json
                     KeychainWrapper.setString(loggedUserObj.description, forKey:"loggedUserObjString")
                     var loggedobjstring=KeychainWrapper.stringForKey("loggedUserObjString")
@@ -482,10 +483,10 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
             self.accountKit = AKFAccountKit(responseType: AKFResponseType.AccessToken)
         }
         
-        /*if(socketObj != nil)
+        if(socketObj != nil)
         {
         socketObj.delegate=self
-        }*/
+        }
         socketObj.socket.on("connect") {data, ack in
             print("connected caught in chat view")
             socketObj.delegate=self
@@ -709,7 +710,10 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
     override func viewWillAppear(animated: Bool) {
         print("appearrrrrr", terminator: "")
         
-        
+        if(socketObj != nil)
+    {
+    socketObj.delegate=self
+    }
         if(socketObj.delegateSocketConnected == nil && isSocketConnected==true)
         {
             socketObj.delegateSocketConnected=self
