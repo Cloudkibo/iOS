@@ -58,11 +58,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Chat/DisplayNameViewController.swift"
-            timestampString = "488280347.389398"
+            timestampString = "488282340.545783"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "171"
-            endingLineNumber = "171"
+            startingLineNumber = "167"
+            endingLineNumber = "167"
             landmarkName = "sendNameToServer(_:completion:)"
             landmarkType = "5">
          </BreakpointContent>

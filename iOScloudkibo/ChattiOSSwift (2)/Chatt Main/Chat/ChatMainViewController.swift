@@ -1001,6 +1001,8 @@ class ChatMainViewController:UIViewController,SocketConnecting
 
         }
             
+            
+            
             //******************%%%%%%%%% addition new
         else
         {

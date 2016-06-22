@@ -41,6 +41,204 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
     ////////let delegateController=LoginAPI(url: "sdfsfes")
     
     
+    
+    
+    func getCurrentUserDetails(completion: (result:Bool)->())
+    {
+        
+        socketObj.socket.emit("logClient","IPHONE-LOG: login success and AuthToken was not nil getting myself details from server")
+        
+        print("login success")
+        
+        //======GETTING REST API TO GET CURRENT USER=======================
+        
+        var userDataUrl=Constants.MainUrl+Constants.getCurrentUser
+        
+        
+        var getUserDataURL=userDataUrl
+        
+        Alamofire.request(.GET,"\(getUserDataURL)",headers:header).validate(statusCode: 200..<300).responseJSON{response in
+            
+            
+            switch response.result {
+            case .Success:
+                if let data1 = response.result.value {
+                    let json = JSON(data1)
+                    print("JSON: \(json)")
+                    
+                    print("got user success")
+                    
+                    username=json["phone"].string
+                    loggedUserObj=json
+                    KeychainWrapper.setString(loggedUserObj.description, forKey:"loggedUserObjString")
+                    var loggedobjstring=KeychainWrapper.stringForKey("loggedUserObjString")
+                    
+                    socketObj.socket.emit("logClient","IPHONE-LOG: keychain of loggedUserObjString is \(loggedobjstring)")
+                    
+                    print(loggedUserObj.debugDescription)
+                    print(loggedUserObj.object)
+                    print("$$$$$$$$$$$$$$$$$$$$$$$$$")
+                    print("************************")
+                    
+                    do{
+                        try KeychainWrapper.setString(json["phone"].string!, forKey: "username")
+                        /// try KeychainWrapper.setString(json["display_name"].string!, forKey: "username")
+                        try KeychainWrapper.setString(json["display_name"].string!, forKey: "loggedFullName")
+                        try KeychainWrapper.setString(json["phone"].string!, forKey: "loggedPhone")
+                        try KeychainWrapper.setString("", forKey: "loggedEmail")
+                        try KeychainWrapper.setString(json["_id"].string!, forKey: "_id")
+                        
+                        //%%%% new phone model
+                        // try KeychainWrapper.setString(self.txtForPassword.text!, forKey: "password")
+                        try KeychainWrapper.setString("", forKey: "password")
+                    }
+                    catch{
+                        print("error is setting keychain value")
+                        print(json.error?.localizedDescription)
+                    }
+                    
+                    
+                    var jsonNew=JSON("{\"room\": \"globalchatroom\",\"user\": {\"username\":\"sabachanna\"}}")
+                    //socketObj.socket.emit("join global chatroom", ["room": "globalchatroom", "user": ["username":"sabachanna"]]) WORKINGGG
+                    
+                    socketObj.socket.emit("logClient","IPHONE-LOG: \(username!) is joining room room:globalchatroom, user: \(json.object)")
+                    socketObj.socket.emit("join global chatroom",["room": "globalchatroom", "user": json.object])
+                    
+                    print(json["_id"])
+                    
+                    
+                    
+                    let tbl_accounts = sqliteDB.accounts
+                    
+                    do{
+                        
+                        try sqliteDB.db.run(tbl_accounts.delete())
+                    }catch{
+                        socketObj.socket.emit("logClient","accounts table not deleted")
+                        print("accounts table not deleted")
+                    }
+                    
+                    let _id = Expression<String>("_id")
+                    let firstname = Expression<String?>("firstname")
+                    let lastname = Expression<String?>("lastname")
+                    let email = Expression<String>("email")
+                    let phone = Expression<String>("phone")
+                    let username1 = Expression<String>("username")
+                    let status = Expression<String>("status")
+                    let date = Expression<String>("date")
+                    let accountVerified = Expression<String>("accountVerified")
+                    let role = Expression<String>("role")
+                    
+                    
+                    // let insert = users.insert(email <- "alice@mac.com")
+                    
+                    
+                    tbl_accounts.delete()
+                    
+                    do {
+                        let rowid = try sqliteDB.db.run(tbl_accounts.insert(_id<-json["_id"].string!,
+                            //firstname<-json["firstname"].string!,
+                            firstname<-json["display_name"].string!,
+                            //lastname<-"",
+                            //lastname<-json["lastname"].string!,
+                            //email<-json["email"].string!,
+                            username1<-json["phone"].string!,
+                            status<-json["status"].string!,
+                            phone<-json["phone"].string!))
+                        print("inserted id: \(rowid)")
+                        
+                        return completion(result:true)
+                        
+                    } catch {
+                        print("insertion failed: \(error)")
+                    }
+                    
+                    
+                    do{for account in try sqliteDB.db.prepare(tbl_accounts) {
+                        print("id: \(account[_id]), phone: \(account[phone]), firstname: \(account[firstname])")
+                        // id: 1, email: alice@mac.com, name: Optional("Alice")
+                        }
+                        
+                    }
+                    catch
+                    {
+                        
+                    }
+                }
+            case .Failure:
+                socketObj.socket.emit("logClient", "\(username!) failed to get its data")
+            }
+        }
+    }
+    
+    func fetchChatsFromServer(completion: (result:Bool)->())
+    {
+        
+        //%%%%%% fetch chat
+        
+        //dispatch_async(dispatch_get_global_queue(priority, 0)) {
+        //self.progressBarDisplayer("Setting Conversations", true)
+        socketObj.socket.emit("logClient","\(username) is Fetching chat")
+        var fetchChatURL=Constants.MainUrl+Constants.fetchMyAllchats
+        //var getUserDataURL=userDataUrl
+        
+        Alamofire.request(.POST,"\(fetchChatURL)",headers:header,parameters:["user1":username!]).validate(statusCode: 200..<300).responseJSON{response in
+            
+            
+            switch response.result {
+            case .Success:
+                
+                
+                socketObj.socket.emit("logClient", "All chat fetched success")
+                if let data1 = response.result.value {
+                    let UserchatJson = JSON(data1)
+                    // print("chat fetched JSON: \(json)")
+                    
+                    var tableUserChatSQLite=sqliteDB.userschats
+                    
+                    do{
+                        try sqliteDB.db.run(tableUserChatSQLite.delete())
+                    }catch{
+                        socketObj.socket.emit("logClient","sqlite chat table refreshed")
+                        print("chat table not deleted")
+                    }
+                    
+                    //Overwrite sqlite db
+                    //sqliteDB.deleteChat(self.selectedContact)
+                    
+                    socketObj.socket.emit("logClient","IPHONE-LOG: all chat messages count is \(UserchatJson["msg"].count)")
+                    for var i=0;i<UserchatJson["msg"].count
+                        ;i++
+                    {
+                        
+                        
+                        sqliteDB.SaveChat(UserchatJson["msg"][i]["to"].string!, from1: UserchatJson["msg"][i]["from"].string!,owneruser1:UserchatJson["msg"][i]["owneruser"].string! , fromFullName1: UserchatJson["msg"][i]["fromFullName"].string!, msg1: UserchatJson["msg"][i]["msg"].string!,date1:UserchatJson["msg"][i]["date"].string!)
+                        
+                        
+                        
+                    }
+                    return completion(result: true)
+                    
+                    /* dispatch_async(dispatch_get_main_queue()) {
+                    self.messageFrame2.removeFromSuperview()
+                    }
+                    */
+                    
+                    
+                }
+                /*dispatch_async(dispatch_get_main_queue()) {
+                
+                }*/
+                
+            case .Failure:
+                socketObj.socket.emit("logClient", "All chat fetched failed")
+                print("all chat fetched failed")
+            }
+        }
+        // }
+        
+    }
+    
     @IBAction func addContactTapped(sender: UIBarButtonItem) {
         
         self.performSegueWithIdentifier("inviteSegue",sender: nil)
@@ -436,7 +634,20 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
                 }
                 
         }
-       
+        
+        
+        //-----------------------NEW TRY FROM APPEAR TO HERE -------------
+        if(socketObj.delegateSocketConnected == nil && isSocketConnected==true)
+        {
+            socketObj.delegateSocketConnected=self
+        }
+        //%%%%%% new phone model add
+        
+        
+        ////////////*******  if(AuthToken != nil)
+        
+        //already logged in
+        
         
         
     }
@@ -497,6 +708,8 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
     
     override func viewWillAppear(animated: Bool) {
         print("appearrrrrr", terminator: "")
+        
+        
         if(socketObj.delegateSocketConnected == nil && isSocketConnected==true)
         {
             socketObj.delegateSocketConnected=self
@@ -504,7 +717,7 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
         //%%%%%% new phone model add
         
         
-        ////////////*******  if(AuthToken != nil)
+        //////////// *******  if(AuthToken != nil)
         
         //already logged in
         if(accountKit.currentAccessToken != nil)
@@ -517,461 +730,68 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
             //dont do on every appear. just do once
             print("emaillist is \(emailList.first)")
             print("emailList count is \(emailList.count)")
-            if(emailList.count<1)
-            {
-                progressBarDisplayer("Fetching Contacts", true)
-                let priority = DISPATCH_QUEUE_PRIORITY_DEFAULT
-                
-                dispatch_async(dispatch_get_global_queue(priority, 0)) {
-                    // do some task start to show progress wheel
-                    contactsList.fetch(){ (result) -> () in
-                        print("got contacts from device")
-                        
-                        dispatch_async(dispatch_get_main_queue()) {
-                            // update some UI
-                            //remove progress wheel
-                            print("got server response")
-                            socketObj.socket.emit("logClient", "Got contacts List from device")
-                            self.messageFrame.removeFromSuperview()
-                            
-                          
-                            
-   
-                            
-                            
-                            //move to next screen
-                            //self.saveButton.enabled = true
-                        }
-                        
-                        socketObj.socket.emit("logClient", "done fetched contacts from iphone")
-                        for r in result
-                        {
-                            emailList.append(r)
-                        }
-                        
-                        //emailList = result
-                        socketObj.socket.emit("logClient", "getting contacts from cloudkibo server")
-                        ///// %%%%%%%%%%%%%%%%%% contactsList.searchContactsByEmail(emailList){ (result2) -> () in
-                        
-                        contactsList.searchContactsByPhone(emailList){ (result2) -> () in
-                            
-                            
-                            
-                            dispatch_async(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0)) {
-                                // do some task start to show progress wheel
-                                self.fetchContactsFromServer({ (result) -> () in
-                                    dispatch_async(dispatch_get_main_queue()) {
-                                        self.tblForChat.reloadData()
-                                    }
-                                    
-                                })
-                                
-                                
-                                
-                                socketObj.socket.emit("logClient","IPHONE-LOG: login success and AuthToken was not nil getting myself details from server")
-                                
-                                print("login success")
-                                
-                                //======GETTING REST API TO GET CURRENT USER=======================
-                                
-                                var userDataUrl=Constants.MainUrl+Constants.getCurrentUser
-                           
-                                
-                                var getUserDataURL=userDataUrl
-                                
-                                Alamofire.request(.GET,"\(getUserDataURL)",headers:header).validate(statusCode: 200..<300).responseJSON{response in
-                                    
-                                    
-                                    switch response.result {
-                                    case .Success:
-                                        if let data1 = response.result.value {
-                                            let json = JSON(data1)
-                                            print("JSON: \(json)")
-                                            
-                                            //%%%%%%%% commenting it for a while phone model
-                                            //self.dismissViewControllerAnimated(true, completion: nil);
-                                            print("got user success")
-                                            //self.gotToken=true
-                                            //var json=JSON(data1)
-                                            //KeychainWrapper.setData(data1!, forKey: "loggedUserObj")
-                                            //loggedUserObj=json(loggedUserObj)
-                                            
-                                            // if let u = json["phone"].string
-                                            // {
-                                           
-                                            ////}
-                                            
-                                            /* if let u = json["username"].string
-                                            {
-                                            username=u
-                                            }
-                                            else
-                                            {
-                                            username=json["display_name"].string!
-                                            }*/
-                                       
-                                            //stringByResolvingSymlinksInPath
-                                            
-                                            
-                                            username=json["phone"].string
-                                            loggedUserObj=json
-                                            KeychainWrapper.setString(loggedUserObj.description, forKey:"loggedUserObjString")
-                                            var loggedobjstring=KeychainWrapper.stringForKey("loggedUserObjString")
-                                            
-                                            socketObj.socket.emit("logClient","IPHONE-LOG: keychain of loggedUserObjString is \(loggedobjstring)")
-                                            
-                                            print(loggedUserObj.debugDescription)
-                                            print(loggedUserObj.object)
-                                            print("$$$$$$$$$$$$$$$$$$$$$$$$$")
-                                            print("************************")
-                                            
-                                            //===========saving username======================
-                                            //%%%%%%%%% dispatch_async(dispatch_get_main_queue(), {
-                                            dispatch_async(dispatch_get_global_queue(priority, 0)) {
-                                                if let uu = json["username"].string
-                                                {
-                                                    do{
-                                                        try KeychainWrapper.setString(json["phone"].string!, forKey: "username")
-                                                        try KeychainWrapper.setString(json["display_name"].string!, forKey: "loggedFullName")
-                                                        try KeychainWrapper.setString(json["phone"].string!, forKey: "loggedPhone")
-                                                        try KeychainWrapper.setString(json["email"].string!, forKey: "loggedEmail")
-                                                        try KeychainWrapper.setString(json["_id"].string!, forKey: "_id")
-                                                        
-                                                        //%%%% new phone model
-                                                        // try KeychainWrapper.setString(self.txtForPassword.text!, forKey: "password")
-                                                        try KeychainWrapper.setString("", forKey: "password")
-                                                        
-                                                        
-                                                    }
-                                                    catch{
-                                                        print("error is setting keychain value")
-                                                        print(json.error?.localizedDescription)
-                                                    }
-                                                }
-                                                else
-                                                {
-                                                    do{
-                                                        try KeychainWrapper.setString(json["phone"].string!, forKey: "username")
-                                                        /// try KeychainWrapper.setString(json["display_name"].string!, forKey: "username")
-                                                        try KeychainWrapper.setString(json["display_name"].string!, forKey: "loggedFullName")
-                                                        try KeychainWrapper.setString(json["phone"].string!, forKey: "loggedPhone")
-                                                        try KeychainWrapper.setString("", forKey: "loggedEmail")
-                                                        try KeychainWrapper.setString(json["_id"].string!, forKey: "_id")
-                                                        
-                                                        //%%%% new phone model
-                                                        // try KeychainWrapper.setString(self.txtForPassword.text!, forKey: "password")
-                                                        try KeychainWrapper.setString("", forKey: "password")
-                                                        
-                                                        
-                                                    }
-                                                    catch{
-                                                        print("error is setting keychain value")
-                                                        print(json.error?.localizedDescription)
-                                                    }
-                                                    
-                                                    
-                                                }
-                                                
-                                                /* username=KeychainWrapper.stringForKey("password")
-                                                firstname=KeychainWrapper.stringForKey("firstname")
-                                                password=KeychainWrapper.stringForKey("password")
-                                                password=KeychainWrapper.stringForKey("password")
-                                                password=KeychainWrapper.stringForKey("password")
-                                                */
-                                                /////////socketObj.addHandlers()
-                                                
-                                                var jsonNew=JSON("{\"room\": \"globalchatroom\",\"user\": {\"username\":\"sabachanna\"}}")
-                                                //socketObj.socket.emit("join global chatroom", ["room": "globalchatroom", "user": ["username":"sabachanna"]]) WORKINGGG
-                                                
-                                                socketObj.socket.emit("logClient","IPHONE-LOG: \(username!) is joining room room:globalchatroom, user: \(json.object)")
-                                                socketObj.socket.emit("join global chatroom",["room": "globalchatroom", "user": json.object])
-                                                
-                                                print(json["_id"])
-                                                
-                                                
-                                                
-                                                let tbl_accounts = sqliteDB.accounts
-                                                
-                                                do{
-                                                    
-                                                    try sqliteDB.db.run(tbl_accounts.delete())
-                                                }catch{
-                                                    socketObj.socket.emit("logClient","accounts table not deleted")
-                                                    print("accounts table not deleted")
-                                                }
-                                                
-                                                let _id = Expression<String>("_id")
-                                                let firstname = Expression<String?>("firstname")
-                                                let lastname = Expression<String?>("lastname")
-                                                let email = Expression<String>("email")
-                                                let phone = Expression<String>("phone")
-                                                let username1 = Expression<String>("username")
-                                                let status = Expression<String>("status")
-                                                let date = Expression<String>("date")
-                                                let accountVerified = Expression<String>("accountVerified")
-                                                let role = Expression<String>("role")
-                                                
-                                                
-                                                // let insert = users.insert(email <- "alice@mac.com")
-                                                
-                                                
-                                                tbl_accounts.delete()
-                                                
-                                                do {
-                                                    let rowid = try sqliteDB.db.run(tbl_accounts.insert(_id<-json["_id"].string!,
-                                                        //firstname<-json["firstname"].string!,
-                                                        firstname<-json["display_name"].string!,
-                                                        //lastname<-"",
-                                                        //lastname<-json["lastname"].string!,
-                                                        //email<-json["email"].string!,
-                                                        username1<-json["phone"].string!,
-                                                        status<-json["status"].string!,
-                                                        phone<-json["phone"].string!))
-                                                    print("inserted id: \(rowid)")
-                                                } catch {
-                                                    print("insertion failed: \(error)")
-                                                }
-                                                
-                                             
-                                                do{for account in try sqliteDB.db.prepare(tbl_accounts) {
-                                                    print("id: \(account[_id]), phone: \(account[phone]), firstname: \(account[firstname])")
-                                                    // id: 1, email: alice@mac.com, name: Optional("Alice")
-                                                    }
-                                                    
-                                                    
-                                                    
-                                                    
-                                                    //%%%%%% fetch chat
-                                                    
-                                                    dispatch_async(dispatch_get_global_queue(priority, 0)) {
-                                                        self.progressBarDisplayer2("Setting Conversations", true)
-                                                        socketObj.socket.emit("logClient","\(username) is Fetching chat")
-                                                        var fetchChatURL=Constants.MainUrl+Constants.fetchMyAllchats
-                                                        //var getUserDataURL=userDataUrl
-                                                        
-                                                        Alamofire.request(.POST,"\(fetchChatURL)",headers:header,parameters:["user1":username!]).validate(statusCode: 200..<300).responseJSON{response in
-                                                            
-                                                            
-                                                            switch response.result {
-                                                            case .Success:
-                                                                
-                                                                
-                                                                socketObj.socket.emit("logClient", "All chat fetched success")
-                                                                if let data1 = response.result.value {
-                                                                    let UserchatJson = JSON(data1)
-                                                                    print("chat fetched JSON: \(json)")
-                                                                    
-                                                                    var tableUserChatSQLite=sqliteDB.userschats
-                                                                    
-                                                                    do{
-                                                                    try sqliteDB.db.run(tableUserChatSQLite.delete())
-                                                                    }catch{
-                                                                    socketObj.socket.emit("logClient","sqlite chat table refreshed")
-                                                                    print("chat table not deleted")
-                                                                }
-                                                                
-                                                                    //Overwrite sqlite db
-                                                                    //sqliteDB.deleteChat(self.selectedContact)
-                                                                    
-                                                                    socketObj.socket.emit("logClient","IPHONE-LOG: all chat messages count is \(UserchatJson["msg"].count)")
-                                                                    for var i=0;i<UserchatJson["msg"].count
-                                                                        ;i++
-                                                                    {
-                                                                        
-                                                                        
-                                                                        sqliteDB.SaveChat(UserchatJson["msg"][i]["to"].string!, from1: UserchatJson["msg"][i]["from"].string!,owneruser1:UserchatJson["msg"][i]["owneruser"].string! , fromFullName1: UserchatJson["msg"][i]["fromFullName"].string!, msg1: UserchatJson["msg"][i]["msg"].string!,date1:UserchatJson["msg"][i]["date"].string!)
-                                                                        
-                                                                       
-                                                                        
-                                                                    }
-                                                                    
-                                                                   /* dispatch_async(dispatch_get_main_queue()) {
-                                                                        self.messageFrame2.removeFromSuperview()
-                                                                    }
-                                                                    */
-                                                                
-                                                                
-                                                                }
-                                                                /*dispatch_async(dispatch_get_main_queue()) {
-                                                                    
-                                                                }*/
-                                                                
-                                                            case .Failure:
-                                                                socketObj.socket.emit("logClient", "All chat fetched failed")
-                                                                print("all chat fetched failed")
-                                                            }
-                                                        }
-                                                    }
-                                                }catch{
-                                                    print("failed accounts data print")
-                                                }
-                                                
-                                            }
-                                            //%%)
-                                            
-                                        }
-                                    case .Failure(let error):
-                                        /* self.labelLoginUnsuccessful.text="Sorry, you are not registered"
-                                        self.txtForEmail.text=nil
-                                        self.txtForPassword.text=nil
-                                        */
-                                        socketObj.socket.emit("logClient","IPHONE-LOG: error is \(error)")
-                                        print("GOT USER FAILED \(error)")
-                                        
-                                        
-                                        print(error)
-                                        print("error: \(error.localizedDescription)")
-                                    }
-                                    
-                                    
-                                    
-                                    //%%%%%% new phone model login done
-                                    
-                                    /*}
-                                    }
-                                    else
-                                    {self.labelLoginUnsuccessful.text="Please enter valid username/password"
-                                    self.txtForEmail.text=nil
-                                    self.txtForPassword.text=nil
-                                    
-                                    print("GOT USER FAILED")
-                                    
-                                    }*/
-                                }
-                            }
-                      socketObj.socket.emit("logClient", "received contacts from cloudkibo server")
-                            for r2 in result2
-                            {
-                                notAvailableEmails.append(r2)
-                                
-                                //notAvailableEmails=result2
-                                //dispatch_async(dispatch_get_main_queue()) { () -> Void in
-                                //%%%%%%%%*********
-                                
-                                
-                                ////self.tblForChat.reloadData()
-                            }
-                 
-                        }
-                        
-                        ///
-                        
-                    }
-                }
+            
+            dispatch_sync(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0)) {
+                // do some task start to show progress wheel
+                self.fetchContacts({ (result) -> () in
+                    //self.fetchContactsFromServer()
+                    //dispatch_async(dispatch_get_main_queue()) {
+                    self.tblForChat.reloadData()
+                    //}
+                })
             }
             
-            
-            
+            if(emailList.count<1)
+            {
+                                
+               
             
             // dispatch_async(dispatch_get_main_queue(), {
             ///////////newwwwwwwwwwwww
             //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-            if(nameList.count>1||displayname=="")
+            if(displayname=="")
             {
-                
-                
                 dispatch_async(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0)) {
-                    // do some task start to show progress wheel
-                    self.fetchContacts()
-                    //self.fetchContactsFromServer()
-                    dispatch_async(dispatch_get_main_queue()) {
-                        self.tblForChat.reloadData()
-                    }
+                self.getCurrentUserDetails({ (result) -> () in
+                    
+                    self.fetchChatsFromServer({ (result) -> () in
+                        
+                        
+                    })
+                })
                 }
                 
+               
+                
             }
+               
+                /*dispatch_async(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0)) {
+                    // do some task start to show progress wheel
+                    self.fetchContacts({ (result) -> () in
+                    //self.fetchContactsFromServer()
+                    //dispatch_async(dispatch_get_main_queue()) {
+                        self.tblForChat.reloadData()
+                    //}
+                    })
+                }
+                */
+                
             
-            /*self.fetchContacts()
-            self.fetchContactsFromServer()
-            
-            dispatch_async(dispatch_get_main_queue(), {
-            self.tblForChat.reloadData()
-            }*/
-            
-            
-            
-            //^^^^^^^^^^^newwwww *******
-            //})
-            
-            //***************
-            /*
-            dispatch_async(dispatch_get_main_queue(), {
-            ///////////newwwwwwwwwwwww
-            
-            
-            //^^^^^^^^^^^newwwww *******
-            })
-            */
-            
-            
+                
         }
-            
-            //******************%%%%%%%%% addition new
+        }
+            // ******************%%%%%%%%% addition new
         else
         {
-            //*********%%%%%%%%%%%%% Not logged in
+            // *********%%%%%%%%%%%%% Not logged in
             socketObj.socket.emit("logClient","IPHONE-LOG: access token is nil so go to login page")
             print("access token is nil so go to login page")
             self.performSegueWithIdentifier("loginSegue", sender: self)
         }
         
         
-        /*
-        print("khul raha hai1", terminator: "")
-        ///^^^^^^^neww let retrievedToken=KeychainWrapper.stringForKey("access_token")
-        //var retrievedToken:String!
-        username = KeychainWrapper.stringForKey("username")
         
-        //COMMENTING SOCKET LOAD APRIL @)!^
-        let retrievedToken=KeychainWrapper.stringForKey("access_token")
-        print("khul raha hai2", terminator: "")
-        print(loggedUserObj.object)
-        //let retrievedUsername=KeychainWrapper.stringForKey("username")
-        //if retrievedToken==nil || retrievedUsername==nil
-        
-        //%%%%%%%%%%% commenting for testing
-        if (retrievedToken == nil && isConference == false && AuthToken==nil)
-        {print("line # 635 commented important line %%%%%%%%%%%%%%%%%%%%  nothing happens if it is here ")
-        //%%%%% was commented new phone model
-        //performSegueWithIdentifier("loginSegue", sender: nil)
-        
-        }
-        else
-        {print("on line # 660")
-        //^^^^^^^^^^^newwwww *************
-        
-        
-        /* if(firstTimeLogin==true)
-        {
-        
-        firstTimeLogin=false
-        self.performSegueWithIdentifier("inviteSegue",sender: nil)
-        
-        }*/
-        
-        
-        fetchContacts()
-        //^^^^^^^^^^^^newwwww
-        self.fetchContactsFromServer()
-        ////////self.fetchContactsFromServer()
-        dispatch_async(dispatch_get_main_queue(), {
-        ///////////newwwwwwwwwwwww
-        self.tblForChat.reloadData()
-        
-        //^^^^^^^^^^^newwwww *******
-        })
-        if(firstTimeLogin==true)
-        {
-        print("first time login user \(username) token \(AuthToken)")
-        socketObj.socket.emit("logClient","IPHONE-LOG: user \(username) token \(AuthToken) loginned for first time")
-        firstTimeLogin=false
-        self.performSegueWithIdentifier("inviteSegue",sender: nil)
-        
-        }
-        }
-        //var db=DatabaseHandler(dbName: "abc.sqlite")
-        */
-        
+
     }
     
     //=====================================
@@ -989,7 +809,7 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
         completion(result: true)
     }
     
-    func fetchContacts(){
+    func fetchContacts(completion:(result:Bool)->()){
         socketObj.socket.emit("logClient","IPHONE-LOG: fetch contacts from sqlite database")
         let contactid = Expression<String>("contactid")
         let detailsshared = Expression<String>("detailsshared")
@@ -1038,6 +858,8 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
                 ContactOnlineStatus.append(0)
                 
             }
+            
+            return completion(result:true)
         }catch
         {
             print("query not runned contactlist")
@@ -1305,6 +1127,71 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
         
         var contactFound=false
         ////%%%%%%%%%%%%%cell.contactName?.text=ContactNames[indexPath.row]
+        
+        /*
+        let query = users.join(posts, on: user_id == users[id])
+        // SELECT * FROM "users" INNER JOIN "posts" ON ("user_id" = "users"."id")
+        
+        select * from contacts
+
+*/
+        var allcontacts=sqliteDB.allcontacts
+        var contactsKibo=sqliteDB.contactslists
+        var allkiboContactsArray:Array<Row>
+        
+        let phone = Expression<String>("phone")
+        let usernameFromDb = Expression<String?>("username")
+        let name = Expression<String?>("name")
+        
+        do
+        {allkiboContactsArray = Array(try sqliteDB.db.prepare(contactsKibo))
+            do{for all in try sqliteDB.db.prepare(allcontacts) {
+                //print("id: \(account[_id]), phone: \(account[phone]), firstname: \(account[firstname])")
+                // id: 1, email: alice@mac.com, name: Optional("Alice")
+                
+                //if(all[phone]==allkiboContactsArray[indexPath.row][username])
+                if(all[phone]==allkiboContactsArray[indexPath.row].get(usernameFromDb))
+                    
+                {
+                    //Matched phone number. Got contact
+                    if(all[name] != "" || all[name] != nil)
+                    {
+                        cell.contactName?.text=all[name]
+                        print("name is \(all[name])")
+                        ContactNames[indexPath.row]=all[name]!
+                    }
+                    else
+                    {
+                        print("name is no name")
+                        cell.contactName?.text=all[phone]
+                    }
+                    contactFound=true
+                    
+                }
+                
+                }
+                
+            }
+            catch
+            {
+                socketObj.socket.emit("logClient","error in fetching contacts from database..")
+                print("error in fetching contacts from database..")
+            }
+            if(contactFound==false)
+            {
+                cell.contactName?.text=ContactUsernames[indexPath.row]
+            }
+
+            
+        }
+        catch
+        {
+            socketObj.socket.emit("logClient","error in getching contactss and making one array")
+            print("error in getching contactss and making one array")
+        }
+        
+        
+                /*
         for(var i=0;i<contacts.count;i++)
         {
             if(contacts[i].isKeyAvailable(CNContactPhoneNumbersKey)) {
@@ -1335,7 +1222,7 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
             {
                 cell.contactName?.text=ContactUsernames[indexPath.row]
             }
-        }
+        }*/
         
         
         // %%%%%%%%%%%%%%%%%%%%%%%%%_------------------------- need to show names also ------
@@ -2019,6 +1906,7 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
         print("dismissed chatttttttt")
         //socketObj.delegate=nil
     }
+
     
     
 }

@@ -202,6 +202,12 @@ class DisplayNameViewController: UIViewController {
     {
         contactsList.searchContactsByPhone(emailList)
             { (result2) -> () in
+                socketObj.socket.emit("logClient", "received contacts from cloudkibo server")
+                for r2 in result2
+                {
+                    notAvailableEmails.append(r2)
+                    
+                }
                 
                 completion(result: true)
             }
@@ -627,6 +633,11 @@ class DisplayNameViewController: UIViewController {
                                                                     dispatch_async(dispatch_get_main_queue())
                                                                         {
                                                                             self.messageFrame.removeFromSuperview()
+                                                                            self.dismissViewControllerAnimated(false, completion: { () -> Void in
+                                                                                
+                                                                                print("logged in going to contactlist")
+                                                                            })
+
                                                                     }
                                                                     
                                                                 })
