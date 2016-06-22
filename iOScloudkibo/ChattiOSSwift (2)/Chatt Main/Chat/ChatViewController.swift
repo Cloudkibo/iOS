@@ -345,18 +345,12 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
         }
         }*/
         
-        if(isConference == true)
-        {print("dont know why dismiss was there")
-            /////self.dismissViewControllerAnimated(true,completion: nil)
-        }
+        
         var retrievedToken=KeychainWrapper.stringForKey("access_token")
         print("retrieved token === \(retrievedToken)")
         print("khul raha hai2", terminator: "")
         print(loggedUserObj.object)
-        //let retrievedUsername=KeychainWrapper.stringForKey("username")
-        //if retrievedToken==nil || retrievedUsername==nil
-        
-        
+       
         
         if(KeychainWrapper.stringForKey("username") != nil)
         {print("delegate added in chat")
@@ -367,114 +361,14 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
             }
             if(loggedUserObj == JSON("[]"))
             {
-                
-                
-                ///%%%%%%%%%%%%%%%%%%%%***************
-                /*
-                do{
-                var lusername = try KeychainWrapper.stringForKey("username")
-                
-                var lid = try KeychainWrapper.stringForKey("_id")
-                
-                var lobj= ["_id" : lid!, "username" : lusername!]
-                ///////////////////not supported ^^^^^^^^^^^newwwif let dataFromString = jsonString.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false) {
-                let json11 = JSON(lobj.debugDescription)
-                
-                var lllooo = json11
-                loggedUserObj=json11
-                loggedUserObj.object=json11.object
-                print(lllooo.object)
-                
-                }*/
-                
-                
-                
-                
-                
-                //var jsonNew=JSON("{\"room\": \"globalchatroom\",\"user\": {\"username\":\"sabachanna\"}}")
-                //socketObj.socket.emit("join global chatroom", ["room": "globalchatroom", "user": ["username":"sabachanna"]]) WORKINGGG
-                
-                
-                /*
-                
-                var logonjuser=KeychainWrapper.stringForKey("loggedUserObjString")
-                var newloggedUserObj=logonjuser!.stringByResolvingSymlinksInPath
-                print("newloggeduserobj string")
-                print(newloggedUserObj)
-                if let dataFromString = jsonString.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false) {
-                let json11 = JSON(newloggedUserObj)
-                
-                print("json11 object")
-                print(json11.object)
-                
-                loggedUserObj=json11
-                
-                
-                print("joining rooon \(json11.object)")
-                socketObj.socket.emit("join global chatroom",["room": "globalchatroom", "user": json11.object])
-                
-                }*/
-                ///////////////////////not supported}
+             
                 
             }
             
         }//end if username definned
         
         print("loadddddd", terminator: "")
-        //%%%%%%%% new commented socket connect again and again
-        /*
-        if(socketObj == nil)
-        {
-            print("socket is nillll", terminator: "")
-            
-            
-            socketObj=LoginAPI(url:"\(Constants.MainUrl)")
-            /////////// print("connected issssss \(socketObj.socket.connected)")
-            ///socketObj.connect()
-            socketObj.addHandlers()
-            socketObj.addWebRTCHandlers()
-        }
-        
-        
-        */
-        
-        
-        //:::::::::::::::::::::::::::::::::::::::::::::::::::::::::
-        //////////////////////////////
-        /*
-        socketObj.socket.on("othersideringing"){data,ack in
-        print("otherside ringing")
-        var msg=JSON(data)
-        //self.othersideringing=true;
-        print(msg.debugDescription)
-        callerName=KeychainWrapper.stringForKey("username")!
-        //iamincallWith=msg[0]["callee"].string!
-        
-        print("callee is \(callerName)")
-        
-        var next = self.storyboard?.instantiateViewControllerWithIdentifier("Main2") as! VideoViewController
-        
-        self.presentViewController(next, animated: true, completion: {
-        })
-        
-        }
-        */
-        
-        /*if loggedUserObj==nil
-        {
-        if let loggd=KeychainWrapper.objectForKey("loggedUserObj")
-        {
-        loggedUserObj=JSON(loggd)
-        }
-        }*/
-        //==========Show Online============
-        
-        
-        /* socketObj.socket.emit("whozonline",[
-        "room":"globalchatroom",
-        "user":loggedUserObj.object])
-        */
-        //   print("logged id key chain is \(loggedIDKeyChain)")
+       
         
         
         self.navigationItem.titleView = viewForTitle
@@ -486,18 +380,6 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
         // fetchContacts(AuthToken)
         print(self.ContactNames.count.description, terminator: "")
         // self.tblForChat.reloadData()
-        
-        
-        /////////////----------------------================================++++++++++
-        
-        
-        
-        //((((((((()))))))___________++++++++++++__________++++++++++++((((((((((()))))))))
-        
-        
-        
-        
-        
         
         
         
@@ -554,104 +436,7 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
                 }
                 
         }
-        
-        
-        
-        //refreshControl.addTarget(self, action: Selector("fetchContacts"), forControlEvents: UIControlEvents.ValueChanged)
-        //self.refreshControl = refreshControl
-        
-        
-        let username = Expression<String?>("username")
-        //if sqliteDB.db["accounts"].count(username)<1
-        //if AuthToken==""
-        
-        //everytime new login
-        // %%%%%%%%%% removing this. keep loginned new phone model
-        //%% KeychainWrapper.removeObjectForKey("access_token")
-        //%% AuthToken=""
-        ///////////////if(sqliteDB.db != nil)
-        
-        
-        
-        //%%%%%%%%%% removing this. keep loginned new phone model
-        /*if(sqliteDB.accounts != nil && sqliteDB.contactslists != nil && sqliteDB.userschats != nil)
-        {
-        var tbl_contactslists=sqliteDB.contactslists
-        var tbl_accounts=sqliteDB.accounts
-        let tbl_userchats=sqliteDB.userschats
-        
-        
-        ///try db.run(users.delete())
-        do{
-        try sqliteDB.db.run(tbl_contactslists.delete())
-        try sqliteDB.db.run(tbl_accounts.delete())
-        try sqliteDB.db.run(tbl_userchats.delete())
-        }catch{
-        print("cannot delete tables")
-        }
-        
-        print("deletinggggg tablessss")
-        /*tbl_contactslists.delete()
-        tbl_accounts.delete()
-        tbl_userchats.delete()*/
-        }
-        
-        
-        KeychainWrapper.removeObjectForKey("access_token")
-        KeychainWrapper.removeObjectForKey("username")
-        KeychainWrapper.removeObjectForKey("password")
-        KeychainWrapper.removeObjectForKey("loggedFullName")
-        KeychainWrapper.removeObjectForKey("loggedPhone")
-        KeychainWrapper.removeObjectForKey("loggedEmail")
-        KeychainWrapper.removeObjectForKey("_id")
-        loggedUserObj=JSON("[]")
-        
-        //let dbSQLite=DatabaseHandler(dbName: "/cloudKibo.sqlite3")
-        print("loggedout", terminator: "")
-        */
-        
-        
-        /////////COMMENTING APRIL @)!^ CONFLICTING WITH ABOVE
-        
-        //// **********************************%%%%%%%%%%%%%%% newww commented
-        /*retrievedToken=KeychainWrapper.stringForKey("access_token")
-        if (retrievedToken==nil)
-        {print("line #524")
-        
-        self.performSelector("loginSegueMethod", withObject: nil, afterDelay: 0.0)
-        //////////neww socket delay commented april 2016 performSegueWithIdentifier("loginSegue", sender: nil)
-        
-        }
-        else
-        {print("rrrrrrrrr \(retrievedToken)", terminator: "")
-        refreshControl.addTarget(self, action: Selector("fetchContacts"), forControlEvents: UIControlEvents.ValueChanged)
-        
-        /*^^^^^^newwww socketObj.socket.on("othersideringing"){data,ack in
-        print("otherside ringing")
-        var msg=JSON(data)
-        //self.othersideringing=true;
-        print(msg.debugDescription)
-        callerName=KeychainWrapper.stringForKey("username")!
-        //iamincallWith=msg[0]["callee"].string!
-        
-        print("callee is \(callerName)")
-        
-        var next = self.storyboard?.instantiateViewControllerWithIdentifier("Main2") as! VideoViewController
-        
-        self.presentViewController(next, animated: true, completion: {
-        })
-        
-        }
-        */
-        //fetchContacts()
-        self.tblForChat.reloadData()
-        //performSegueWithIdentifier("loginSegue", sender: nil)
-        }
-        
-        */
-        
-        
-        // Do any additional setup after loading the view.
+       
         
         
     }

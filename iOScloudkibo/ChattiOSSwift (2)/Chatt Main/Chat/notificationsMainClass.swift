@@ -34,6 +34,6 @@ class notificationsMainClass {
         notification.soundName = UILocalNotificationDefaultSoundName // play default sound
         notification.userInfo = ["UUID": item.UUID, ] // assign a unique identifier to the notification so that we can retrieve it later
         notification.category = "Cloudkibo_Category"
-        UIApplication.sharedApplication().scheduleLocalNotification(notification)
+        //UIApplication.sharedApplication().scheduleLocalNotification(notification)
     }
 }

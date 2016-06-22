@@ -895,7 +895,8 @@ self.remoteDisconnected()
         }*/
             }}
        /* self.remoteView=RTCEAGLVideoView(frame: CGRect(x: 0, y: localViewOutlet.bounds.height*0.08, width: localViewOutlet.bounds.width, height: (localViewOutlet.bounds.height*0.80)))
-        self.remoteView.drawRect(CGRect(x: 0, y: localViewOutlet.bounds.height*0.08, width: localViewOutlet.bounds.width, height: (localViewOutlet.bounds.height*0.80)))*/
+        self.remoteView.drawRect(CGRect(x: 0, y: localViewOutlet.bounds.height*0.08, width: localViewOutlet.bounds.width, height: (localViewOutlet.bounds.height*0.80)))
+        */
 
     }
     
@@ -1175,9 +1176,21 @@ self.remoteDisconnected()
             }
             
             
+            //%%%%%%%%%%%%%% neww added
+            if((self.rtcVideoTrackReceived) != nil)
+            {print("remove remotetrack renderer")
+                self.rtcVideoTrackReceived.removeRenderer(self.remoteView)
+            }
+            //%%%%%%%%%%%%%%%%%%%%%%%%%%
+            
             self.rtcVideoTrackReceived=remoteVideoTrack
-            self.localViewOutlet.addSubview(self.remoteView)
+            
+            
+            // %%%%%% newly brought here
             self.rtcVideoTrackReceived.addRenderer(self.remoteView)
+            
+            self.localViewOutlet.addSubview(self.remoteView)
+           ///// swapping it %%%%% newww  self.rtcVideoTrackReceived.addRenderer(self.remoteView)
             if(remotevideoshared==false){
                 self.remoteView.hidden=true
 
