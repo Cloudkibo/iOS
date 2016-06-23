@@ -831,7 +831,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate{
         //^^var firstNameSelected=selectedUserObj["firstname"]
         //^^^var lastNameSelected=selectedUserObj["lastname"]
         //^^^var fullNameSelected=firstNameSelected.string!+" "+lastNameSelected.string!
-        var imParas=["from":"\(username!)","to":"\(selectedContact)","from_id":"\(_id!)","to_id":"\(self.selectedID)","fromFullName":"\(displayname)","msg":"\(txtFldMessage.text!)","uniqueid":"\(uniqueID)"]
+        var imParas=["from":"\(username!)","to":"\(selectedContact)","fromFullName":"\(displayname)","msg":"\(txtFldMessage.text!)","uniqueid":"\(uniqueID)"]
         print("imparas are \(imParas)")
         print(imParas, terminator: "")
         print("", terminator: "")

@@ -213,7 +213,7 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
                     {
                         
                         
-                        sqliteDB.SaveChat(UserchatJson["msg"][i]["to"].string!, from1: UserchatJson["msg"][i]["from"].string!,owneruser1:UserchatJson["msg"][i]["owneruser"].string! , fromFullName1: UserchatJson["msg"][i]["fromFullName"].string!, msg1: UserchatJson["msg"][i]["msg"].string!,date1:UserchatJson["msg"][i]["date"].string!)
+                        sqliteDB.SaveChat(UserchatJson["msg"][i]["to"].string!, from1: UserchatJson["msg"][i]["from"].string!,owneruser1:UserchatJson["msg"][i]["owneruser"].string! , fromFullName1: UserchatJson["msg"][i]["fromFullName"].string!, msg1: UserchatJson["msg"][i]["msg"].string!,date1:UserchatJson["msg"][i]["date"].string!,uniqueid1:UserchatJson["msg"][i]["uniqueid"].string!,status1: UserchatJson["msg"][i]["status"].string! )
                         
                         
                         
@@ -798,6 +798,75 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
 
     }
     
+    
+    func sendPendingChatMessages(completion:(result:Bool)->())
+    {
+        var userchats=sqliteDB.userschats
+        var userchatsArray:Array<Row>
+        
+        
+        
+        let to = Expression<String>("to")
+        let from = Expression<String>("from")
+        let owneruser = Expression<String>("owneruser")
+        let fromFullName = Expression<String>("fromFullName")
+        let msg = Expression<String>("msg")
+        let date = Expression<String>("date")
+        let status = Expression<String>("status")
+        let uniqueid = Expression<String>("uniqueid")
+        
+        
+        
+        var tbl_userchats=sqliteDB.userschats
+        //var res=tbl_userchats.filter(to==selecteduser || from==selecteduser)
+        //to==selecteduser || from==selecteduser
+        //print("chat from sqlite is")
+        //print(res)
+        do
+        {
+            for pendingchats in try sqliteDB.db.prepare(tbl_userchats.filter(status=="pending"))
+            {
+                 var imParas=["from":pendingchats[from],"to":pendingchats[to],"fromFullName":pendingchats[fromFullName],"msg":pendingchats[msg],"uniqueid":pendingchats[uniqueid]]
+                
+                print("imparas are \(imParas)")
+                print(imParas, terminator: "")
+                print("", terminator: "")
+                ///=== code for sending chat here
+                ///=================
+                
+                //socketObj.socket.emit("logClient","IPHONE-LOG: \(username!) is sending chat message")
+                //////socketObj.socket.emit("im",["room":"globalchatroom","stanza":imParas])
+                var statusNow=""
+                if(isSocketConnected==true)
+                {
+                    statusNow="sent"
+                    
+                }
+                else
+                {
+                    statusNow="pending"
+                }
+                
+                socketObj.socket.emitWithAck("im",["room":"globalchatroom","stanza":imParas])(timeoutAfter: 150000000)
+                    {data in
+                        print("chat ack received \(data)")
+                        
+                }
+                
+
+            }
+            socketObj.socket.emit("logClient","IPHONE-LOG: \(username!) done sending pending chat messages")
+        }
+        catch
+        {
+            print("error in pending chat fetching")
+            socketObj.socket.emit("logClient","IPHONE-LOG: \(username!) error in sending pending chat messages")
+            return completion(result: false)
+        }
+        return completion(result: true)
+        
+    }
+        
     //=====================================
     //to fetch contacts from SQLite db
     
@@ -805,10 +874,10 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
     {
          for var i=0;i<UserchatJson["msg"].count;i++
         {
-            sqliteDB.SaveChat(UserchatJson["msg"][i]["to"].string!, from1: UserchatJson["msg"][i]["from"].string!,owneruser1:UserchatJson["msg"][i]["owneruser"].string! , fromFullName1: UserchatJson["msg"][i]["fromFullName"].string!, msg1: UserchatJson["msg"][i]["msg"].string!,date1:UserchatJson["msg"][i]["date"].string!)
-                                                                        
-                                                                       
-                                                                        
+            sqliteDB.SaveChat(UserchatJson["msg"][i]["to"].string!, from1: UserchatJson["msg"][i]["from"].string!,owneruser1:UserchatJson["msg"][i]["owneruser"].string! , fromFullName1: UserchatJson["msg"][i]["fromFullName"].string!, msg1: UserchatJson["msg"][i]["msg"].string!,date1:UserchatJson["msg"][i]["date"].string!,uniqueid1: UserchatJson["msg"][i]["uniqueid"].string!,status1: UserchatJson["msg"][i]["status"].string!)
+            
+            
+            
         }
         completion(result: true)
     }
