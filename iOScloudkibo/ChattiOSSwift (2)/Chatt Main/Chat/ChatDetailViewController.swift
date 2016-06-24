@@ -841,26 +841,37 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate{
         //socketObj.socket.emit("logClient","IPHONE-LOG: \(username!) is sending chat message")
         //////socketObj.socket.emit("im",["room":"globalchatroom","stanza":imParas])
         var statusNow=""
-        if(isSocketConnected==true)
+        /*if(isSocketConnected==true)
         {
             statusNow="sent"
             
         }
         else
         {
+*/
             statusNow="pending"
-        }
+        //}
         
+        sqliteDB.SaveChat("\(selectedContact)", from1: "\(username!)",owneruser1: "\(username!)", fromFullName1: "\(loggedFullName!)", msg1: "\(txtFldMessage.text!)",date1: nil,uniqueid1: uniqueID, status1: statusNow)
+
         socketObj.socket.emitWithAck("im",["room":"globalchatroom","stanza":imParas])(timeoutAfter: 150000000)
         {data in
+          
             print("chat ack received \(data)")
+            statusNow="sent"
+            var chatmsg=JSON(data)
+            print(data[0])
+            print(chatmsg[0])
+            sqliteDB.UpdateChatStatus(chatmsg[0]["uniqueid"].string!, newstatus: chatmsg[0]["status"].string!)
+            
+            
+            
             
         }
         
         
         //////
         
-        sqliteDB.SaveChat("\(selectedContact)", from1: "\(username!)",owneruser1: "\(username!)", fromFullName1: "\(loggedFullName!)", msg1: "\(txtFldMessage.text!)",date1: nil,uniqueid1: uniqueID, status1: statusNow)
         
         /*insert(self.fromFullName<-"Sabach Channa",
         self.msg<-"\(txtFldMessage.text)",
@@ -875,7 +886,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate{
         }*/
         
         
-        self.addMessage(txtFldMessage.text!, ofType: "2",date:NSDate().debugDescription)
+        self.addMessage(txtFldMessage.text!+" (\(statusNow))", ofType: "2",date:NSDate().debugDescription)
         txtFldMessage.text = "";
         tblForChats.reloadData()
         if(messages.count>1)
@@ -934,7 +945,7 @@ print("$$ \(msg)")
             print(chatJson[0]["msg"])
             var receivedMsg=chatJson[0]["msg"]
             
-            self.addMessage(receivedMsg.description, ofType: "1",date: NSDate().debugDescription)
+            self.addMessage(receivedMsg.description+" \(chatJson[0]["status"])", ofType: "1",date: NSDate().debugDescription)
             self.tblForChats.reloadData()
             if(self.messages.count>1)
             {

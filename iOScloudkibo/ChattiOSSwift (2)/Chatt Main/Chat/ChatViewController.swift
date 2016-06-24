@@ -21,6 +21,10 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
     var rt=NetworkingLibAlamofire()
     
     
+    var Q_serial1=dispatch_queue_create("Q_serial1",DISPATCH_QUEUE_SERIAL)
+     var Q_serial2=dispatch_queue_create("Q_serial2",DISPATCH_QUEUE_SERIAL)
+    var Q_serial3=dispatch_queue_create("Q_serial3",DISPATCH_QUEUE_SERIAL)
+
     var messageFrame = UIView()
     var activityIndicator = UIActivityIndicatorView()
     var messageFrame2 = UIView()
@@ -211,10 +215,16 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
                     for var i=0;i<UserchatJson["msg"].count
                         ;i++
                     {
-                        
+                    
+                        if(UserchatJson["msg"][i]["uniqueid"].isExists())
+                        {
                         
                         sqliteDB.SaveChat(UserchatJson["msg"][i]["to"].string!, from1: UserchatJson["msg"][i]["from"].string!,owneruser1:UserchatJson["msg"][i]["owneruser"].string! , fromFullName1: UserchatJson["msg"][i]["fromFullName"].string!, msg1: UserchatJson["msg"][i]["msg"].string!,date1:UserchatJson["msg"][i]["date"].string!,uniqueid1:UserchatJson["msg"][i]["uniqueid"].string!,status1: UserchatJson["msg"][i]["status"].string! )
-                        
+                        }
+                        else
+                        {
+                            sqliteDB.SaveChat(UserchatJson["msg"][i]["to"].string!, from1: UserchatJson["msg"][i]["from"].string!,owneruser1:UserchatJson["msg"][i]["owneruser"].string! , fromFullName1: UserchatJson["msg"][i]["fromFullName"].string!, msg1: UserchatJson["msg"][i]["msg"].string!,date1:UserchatJson["msg"][i]["date"].string!,uniqueid1:"",status1: "" )
+                        }
                         
                         
                     }
@@ -735,7 +745,7 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
             print("emaillist is \(emailList.first)")
             print("emailList count is \(emailList.count)")
             
-            dispatch_sync(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0)) {
+          /*  dispatch_sync(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0)) {
                 // do some task start to show progress wheel
                 self.fetchContacts({ (result) -> () in
                     //self.fetchContactsFromServer()
@@ -743,12 +753,24 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
                     self.tblForChat.reloadData()
                     //}
                 })
-            }
+            }*/
             
             if(emailList.count<1)
             {
                                 
                
+                
+                
+                dispatch_sync(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0)) {
+                    // do some task start to show progress wheel
+                    self.fetchContacts({ (result) -> () in
+                        //self.fetchContactsFromServer()
+                        //dispatch_async(dispatch_get_main_queue()) {
+                        self.tblForChat.reloadData()
+                        //}
+                    })
+                }
+                
             
             // dispatch_async(dispatch_get_main_queue(), {
             ///////////newwwwwwwwwwwww
@@ -756,18 +778,22 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
             if(displayname=="")
             {
                 dispatch_async(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0)) {
+                
                 self.getCurrentUserDetails({ (result) -> () in
-                    
-                    self.fetchChatsFromServer({ (result) -> () in
+                  //dispatch_async(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0)) {
+                self.sendPendingChatMessages({ (result) -> () in
+                        
+                     // dispatch_async(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0)) {
+
+                            self.fetchChatsFromServer({ (result) -> () in
                         
                         
                     })
-                })
-                }
-                
-               
-                
-            }
+                    //}
+                        })
+                        
+                    //}
+                    })}
                
                 /*dispatch_async(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0)) {
                     // do some task start to show progress wheel
@@ -784,6 +810,8 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
                 
         }
         }
+        }
+        
             // ******************%%%%%%%%% addition new
         else
         {
@@ -794,10 +822,8 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
         }
         
         
-        
-
-    }
     
+    }
     
     func sendPendingChatMessages(completion:(result:Bool)->())
     {
@@ -824,8 +850,11 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
         //print(res)
         do
         {
+            var count=0
             for pendingchats in try sqliteDB.db.prepare(tbl_userchats.filter(status=="pending"))
             {
+                print("pending chats count is \(count)")
+                count++
                  var imParas=["from":pendingchats[from],"to":pendingchats[to],"fromFullName":pendingchats[fromFullName],"msg":pendingchats[msg],"uniqueid":pendingchats[uniqueid]]
                 
                 print("imparas are \(imParas)")
@@ -837,7 +866,7 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
                 //socketObj.socket.emit("logClient","IPHONE-LOG: \(username!) is sending chat message")
                 //////socketObj.socket.emit("im",["room":"globalchatroom","stanza":imParas])
                 var statusNow=""
-                if(isSocketConnected==true)
+               /* if(isSocketConnected==true)
                 {
                     statusNow="sent"
                     
@@ -846,12 +875,26 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
                 {
                     statusNow="pending"
                 }
+                */
+                statusNow="pending"
                 
+                //sqliteDB.SaveChat(pendingchats[to], from1:pendingchats[from],owneruser1: pendingchats[from], fromFullName1: pendingchats[fromFullName], msg1:pendingchats[msg],date1: nil,uniqueid1: pendingchats[uniqueid], status1: statusNow)
+                
+
                 socketObj.socket.emitWithAck("im",["room":"globalchatroom","stanza":imParas])(timeoutAfter: 150000000)
                     {data in
                         print("chat ack received \(data)")
+                        statusNow="sent"
+                        var chatmsg=JSON(data)
+                        print(data[0])
+                        print(chatmsg[0])
+                        sqliteDB.UpdateChatStatus(chatmsg[0]["uniqueid"].string!, newstatus: chatmsg[0]["status"].string!)
+
                         
                 }
+                
+                
+
                 
 
             }

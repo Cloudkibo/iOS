@@ -556,9 +556,17 @@ class DisplayNameViewController: UIViewController {
                         for var i=0;i<UserchatJson["msg"].count
                             ;i++
                         {
-                            
-                            
+                            print("all chat here 1")
+                            if(UserchatJson["msg"][i]["uniqueid"].isExists())
+                            {
+                            print("all chat here 1 got uniqueid field")
                             sqliteDB.SaveChat(UserchatJson["msg"][i]["to"].string!, from1: UserchatJson["msg"][i]["from"].string!,owneruser1:UserchatJson["msg"][i]["owneruser"].string! , fromFullName1: UserchatJson["msg"][i]["fromFullName"].string!, msg1: UserchatJson["msg"][i]["msg"].string!,date1:UserchatJson["msg"][i]["date"].string!,uniqueid1:UserchatJson["msg"][i]["uniqueid"].string!,status1: UserchatJson["msg"][i]["status"].string! )
+                            }
+                            else
+                            {
+                                print("all chat here 2 no uniqueid field")
+                              sqliteDB.SaveChat(UserchatJson["msg"][i]["to"].string!, from1: UserchatJson["msg"][i]["from"].string!,owneruser1:UserchatJson["msg"][i]["owneruser"].string! , fromFullName1: UserchatJson["msg"][i]["fromFullName"].string!, msg1: UserchatJson["msg"][i]["msg"].string!,date1:UserchatJson["msg"][i]["date"].string!,uniqueid1:"",status1: "" ) 
+                            }
                             
                             
                             

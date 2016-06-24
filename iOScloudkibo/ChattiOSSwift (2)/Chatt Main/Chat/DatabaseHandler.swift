@@ -301,7 +301,26 @@ class DatabaseHandler:NSObject{
 
 
     }
-    
+    func UpdateChatStatus(uniqueid1:String,newstatus:String)
+    {
+        
+        let uniqueid = Expression<String>("uniqueid")
+        let status = Expression<String>("status")
+
+        
+        var tbl_userchats=sqliteDB.userschats
+        
+        let query = tbl_userchats.select(status)           // SELECT "email" FROM "users"
+            .filter(uniqueid == uniqueid1)     // WHERE "name" IS NOT NULL
+        
+        do
+        {try sqliteDB.db.run(query.update(status <- newstatus))}
+        catch
+        {
+            print("error in updating chat")
+            socketObj.socket.emit("logClient","\(username!) error in updating chat satatus")
+        }
+}
     func SaveChat(to1:String,from1:String,owneruser1:String,fromFullName1:String,msg1:String,date1:String!,uniqueid1:String!,status1:String)
     {
         //createUserChatTable()
@@ -314,6 +333,7 @@ class DatabaseHandler:NSObject{
         let date = Expression<String>("date")
          let uniqueID = Expression<String>("uniqueid")
         let status = Expression<String>("status")
+        
         var tbl_userchats=sqliteDB.userschats
         
         
@@ -342,7 +362,7 @@ class DatabaseHandler:NSObject{
                 from<-from1,
                 date<-mydate,
                 uniqueID<-uniqueid1,
-                status:status1
+                status<-status1
 ))
             //////print("inserted id: \(rowid)")
         } catch {
