@@ -106,15 +106,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate,AppDelegateScreenDelegate 
         if(socketObj == nil)
         {
             print("socket is nillll", terminator: "")
-           dispatch_sync(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND,0))
-            {
+           //dispatch_async(dispatch_get_main_queue())
+            //{
             socketObj=LoginAPI(url:"\(Constants.MainUrl)")
             ///socketObj.connect()
 //            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND,0))
 //{
             socketObj.addHandlers()
             socketObj.addWebRTCHandlers()
-            }
+            //}
 //}
         }
         

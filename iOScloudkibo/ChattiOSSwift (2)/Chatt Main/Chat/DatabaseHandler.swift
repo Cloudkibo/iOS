@@ -50,7 +50,7 @@ class DatabaseHandler:NSObject{
         ///////contactslists.drop()
         createContactListsTable()
         createUserChatTable()
-        createAllContactsTable()
+        //createAllContactsTable()
         
     }
     

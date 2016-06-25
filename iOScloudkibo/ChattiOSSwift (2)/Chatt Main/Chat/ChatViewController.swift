@@ -184,6 +184,7 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
         
         //dispatch_async(dispatch_get_global_queue(priority, 0)) {
         //self.progressBarDisplayer("Setting Conversations", true)
+        print("\(username) is Fetching chat")
         socketObj.socket.emit("logClient","\(username) is Fetching chat")
         var fetchChatURL=Constants.MainUrl+Constants.fetchMyAllchats
         //var getUserDataURL=userDataUrl
@@ -219,8 +220,28 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
                     
                         if(UserchatJson["msg"][i]["uniqueid"].isExists())
                         {
+                            if(UserchatJson["msg"][i]["to"].string! == username! && UserchatJson["msg"][i]["status"].string!=="sent")
+                            {
+                                var updatedStatus="delivered"
+                                sqliteDB.SaveChat(UserchatJson["msg"][i]["to"].string!, from1: UserchatJson["msg"][i]["from"].string!,owneruser1:UserchatJson["msg"][i]["owneruser"].string! , fromFullName1: UserchatJson["msg"][i]["fromFullName"].string!, msg1: UserchatJson["msg"][i]["msg"].string!,date1:UserchatJson["msg"][i]["date"].string!,uniqueid1:UserchatJson["msg"][i]["uniqueid"].string!,status1: updatedStatus )
+                                
+                                //socketObj.socket.emit("messageStatusUpdate",["status":"","iniqueid":"","sender":""])
+                                socketObj.socket.emitWithAck("messageStatusUpdate", ["status":updatedStatus,"uniqueid":UserchatJson["msg"][i]["uniqueid"].string!,"sender": UserchatJson["msg"][i]["from"].string!])(timeoutAfter: 0){data in
+                                    var chatmsg=JSON(data)
+                                    print(data[0])
+                                    print(chatmsg[0])
+                                    print("chat status emitted")
+                                    socketObj.socket.emit("logClient","\(username) chat status emitted")
+                                }
+                                
+
+                                
+                            }
+                            else
+                            {
                         
-                        sqliteDB.SaveChat(UserchatJson["msg"][i]["to"].string!, from1: UserchatJson["msg"][i]["from"].string!,owneruser1:UserchatJson["msg"][i]["owneruser"].string! , fromFullName1: UserchatJson["msg"][i]["fromFullName"].string!, msg1: UserchatJson["msg"][i]["msg"].string!,date1:UserchatJson["msg"][i]["date"].string!,uniqueid1:UserchatJson["msg"][i]["uniqueid"].string!,status1: UserchatJson["msg"][i]["status"].string! )
+                                sqliteDB.SaveChat(UserchatJson["msg"][i]["to"].string!, from1: UserchatJson["msg"][i]["from"].string!,owneruser1:UserchatJson["msg"][i]["owneruser"].string! , fromFullName1: UserchatJson["msg"][i]["fromFullName"].string!, msg1: UserchatJson["msg"][i]["msg"].string!,date1:UserchatJson["msg"][i]["date"].string!,uniqueid1:UserchatJson["msg"][i]["uniqueid"].string!,status1: UserchatJson["msg"][i]["status"].string! )
+                            }
                         }
                         else
                         {
@@ -836,6 +857,17 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
             print("emaillist is \(emailList.first)")
             print("emailList count is \(emailList.count)")
             
+            dispatch_async(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0)) {
+                // do some task start to show progress wheel
+                self.fetchContacts({ (result) -> () in
+                    //self.fetchContactsFromServer()
+                    print("checkinnn")
+                     dispatch_async(dispatch_get_main_queue()) {
+                    self.tblForChat.reloadData()
+                     }
+                })
+            }
+            
            /*dispatch_sync(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0)) {
                 // do some task start to show progress wheel
                 self.fetchContacts({ (result) -> () in
@@ -933,7 +965,9 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
                     
                 }
                 
-            
+                
+                
+            /*
                     dispatch_async(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0)) {
                         // do some task start to show progress wheel
                         self.fetchContacts({ (result) -> () in
@@ -943,15 +977,52 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
                                 self.tblForChat.reloadData()
                            // }
                         })
-                    }
+                    }*/
                 
                 //
                 
                 
                 
+                var dispatch_group_t = dispatch_group_create();
+                
+               // dispatch_group_async(group,
+                
+                dispatch_group_async(dispatch_group_t,dispatch_get_global_queue(QOS_CLASS_BACKGROUND, 0)) {
+                    // block1
+                   // NSLog(@"Block1");
+                    //[NSThread sleepForTimeInterval:5.0];
+                   // NSLog(@"Block1 End");
+                    self.sendPendingChatMessages({ (result) -> () in
+                    })
+                    }
                 
                 
-                dispatch_async(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0)) {
+                /*dispatch_group_async(dispatch_group_t,dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0)){
+                    // block2
+                    //NSLog(@"Block2");
+                   // [NSThread sleepForTimeInterval:8.0];
+                    //NSLog(@"Block2 End");
+                   
+                    }*/
+                
+                //dispatch_group_notify(dispatch_group_t,dispatch_get_global_queue(QOS_CLASS_BACKGROUND, 0)){
+                dispatch_group_async(dispatch_group_t,dispatch_get_global_queue(QOS_CLASS_BACKGROUND, 0)) {
+
+                    // block3
+                   // NSLog(@"Block3");
+                    
+                    self.fetchChatsFromServer({ (result) -> () in
+                        
+                        
+                    })
+                    }
+
+                // only for non-ARC projects, handled automatically in ARC-enabled projects.
+            //    dispatch_release(dispatch_group_t);
+                
+                
+                
+              /*  dispatch_async(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0)) {
                     
                     self.getCurrentUserDetails({ (result) -> () in
                         //dispatch_async(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0)) {
@@ -969,7 +1040,7 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
                         //}
                     })}
                 
-                
+                */
                 /*
                 ////dispatch_async(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0)) {
                 dispatch_async(dispatch_get_global_queue(QOS_CLASS_BACKGROUND, 0)) {

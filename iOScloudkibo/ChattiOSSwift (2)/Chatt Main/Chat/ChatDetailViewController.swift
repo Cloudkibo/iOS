@@ -958,6 +958,7 @@ print("$$ \(msg)")
                 self.tblForChats.scrollToRowAtIndexPath(indexPath, atScrollPosition: UITableViewScrollPosition.Bottom, animated: true)
             }
             
+            
         default:
         print("error: wrong messgae received2")
 
