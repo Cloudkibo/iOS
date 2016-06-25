@@ -948,6 +948,29 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
                 //
                 
                 
+                
+                
+                
+                dispatch_async(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0)) {
+                    
+                    self.getCurrentUserDetails({ (result) -> () in
+                        //dispatch_async(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0)) {
+                        self.sendPendingChatMessages({ (result) -> () in
+                            
+                            // dispatch_async(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0)) {
+                            
+                            self.fetchChatsFromServer({ (result) -> () in
+                                
+                                
+                            })
+                            //}
+                        })
+                        
+                        //}
+                    })}
+                
+                
+                /*
                 ////dispatch_async(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0)) {
                 dispatch_async(dispatch_get_global_queue(QOS_CLASS_BACKGROUND, 0)) {
                     print("checkin here .....")
@@ -968,6 +991,7 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
                         
                     })
                 }
+                */
                 
                 //}
                 //})
@@ -1031,7 +1055,7 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
                 
                 //socketObj.socket.emit("logClient","IPHONE-LOG: \(username!) is sending chat message")
                 //////socketObj.socket.emit("im",["room":"globalchatroom","stanza":imParas])
-                var statusNow=""
+               // var statusNow=""
                /* if(isSocketConnected==true)
                 {
                     statusNow="sent"
@@ -1042,15 +1066,15 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
                     statusNow="pending"
                 }
                 */
-                statusNow="pending"
+               // statusNow="pending"
                 
                 //sqliteDB.SaveChat(pendingchats[to], from1:pendingchats[from],owneruser1: pendingchats[from], fromFullName1: pendingchats[fromFullName], msg1:pendingchats[msg],date1: nil,uniqueid1: pendingchats[uniqueid], status1: statusNow)
                 
 
-                socketObj.socket.emitWithAck("im",["room":"globalchatroom","stanza":imParas])(timeoutAfter: 15000)
+                socketObj.socket.emitWithAck("im",["room":"globalchatroom","stanza":imParas])(timeoutAfter: 150000)
                     {data in
                         print("chat ack received \(data)")
-                        statusNow="sent"
+                       // statusNow="sent"
                         var chatmsg=JSON(data)
                         print(data[0])
                         print(chatmsg[0])
@@ -1065,6 +1089,7 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
 
             }
             socketObj.socket.emit("logClient","IPHONE-LOG: \(username!) done sending pending chat messages")
+            return completion(result: true)
         }
         catch
         {
@@ -1072,7 +1097,7 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
             socketObj.socket.emit("logClient","IPHONE-LOG: \(username!) error in sending pending chat messages")
             return completion(result: false)
         }
-        return completion(result: true)
+        
         
     }
         

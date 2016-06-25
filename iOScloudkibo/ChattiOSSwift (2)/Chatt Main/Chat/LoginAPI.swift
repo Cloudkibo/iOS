@@ -329,7 +329,7 @@ class LoginAPI{
             
             //{status : '<delivered or seen>', uniqueid : '<unique id of message>', sender : '<cell number of sender>'}
             
-            socketObj.socket.emitWithAck("messageStatusUpdate", ["status":status,"uniqueid":chatJson[0]["uniqueid"].string!,"sender": chatJson[0]["to"].string!])(timeoutAfter: 0){data in
+            socketObj.socket.emitWithAck("messageStatusUpdate", ["status":status,"uniqueid":chatJson[0]["uniqueid"].string!,"sender": chatJson[0]["from"].string!])(timeoutAfter: 0){data in
                 var chatmsg=JSON(data)
                 print(data[0])
                 print(chatmsg[0])

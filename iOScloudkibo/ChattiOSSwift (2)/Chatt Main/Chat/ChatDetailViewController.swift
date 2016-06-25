@@ -949,7 +949,7 @@ print("$$ \(msg)")
             print(chatJson[0]["msg"])
             var receivedMsg=chatJson[0]["msg"]
             
-            self.addMessage(receivedMsg.description+" \(chatJson[0]["status"])", ofType: "1",date: NSDate().debugDescription)
+            self.addMessage(receivedMsg.description, ofType: "1",date: NSDate().debugDescription)
             self.tblForChats.reloadData()
             if(self.messages.count>1)
             {
