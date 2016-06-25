@@ -182,6 +182,24 @@ class LoginAPI{
             print(msg.debugDescription)
             self.delegate?.socketReceivedMessage("yesiamfreeforcall",data: data)
         }
+        
+        socketObj.socket.on("online"){data,ack in
+            print("online .......")
+            print(":::::::::::::::::::::::::::::::::::")
+            var msg=JSON(data)
+            print(msg.debugDescription)
+            self.delegate?.socketReceivedMessage("online",data: data)
+        }
+    
+        socketObj.socket.on("offline"){data,ack in
+            print("offline .......")
+            print(":::::::::::::::::::::::::::::::::::")
+            var msg=JSON(data)
+            print(msg.debugDescription)
+            self.delegate?.socketReceivedMessage("offline",data: data)
+        }
+        
+        
         socketObj.socket.on("areyoufreeforcall"){data,ack in
             socketObj.socket.emit("logClient","\(username) received message areyoufreeforcall")
             print("areyoufreeforcall ........")
@@ -311,7 +329,7 @@ class LoginAPI{
             
             //{status : '<delivered or seen>', uniqueid : '<unique id of message>', sender : '<cell number of sender>'}
             
-            socketObj.socket.emitWithAck("messageStatusUpdate", ["status":status,"uniqueid":chatJson[0]["status"].string!,"sender": "\(username!)"])(timeoutAfter: 0){data in
+            socketObj.socket.emitWithAck("messageStatusUpdate", ["status":status,"uniqueid":chatJson[0]["uniqueid"].string!,"sender": chatJson[0]["to"].string!])(timeoutAfter: 0){data in
                 var chatmsg=JSON(data)
                 print(data[0])
                 print(chatmsg[0])

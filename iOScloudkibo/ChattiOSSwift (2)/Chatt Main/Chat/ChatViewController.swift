@@ -19,7 +19,7 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
 {
     var accountKit: AKFAccountKit!
     var rt=NetworkingLibAlamofire()
-    
+     var allkiboContactsArray=Array<Row>()
     
     var Q_serial1=dispatch_queue_create("Q_serial1",DISPATCH_QUEUE_SERIAL)
      var Q_serial2=dispatch_queue_create("Q_serial2",DISPATCH_QUEUE_SERIAL)
@@ -71,6 +71,7 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
                     print("JSON: \(json)")
                     
                     print("got user success")
+                    
                     
                     username=json["phone"].string
                     displayname=json["display_name"].string!
@@ -493,6 +494,11 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
             self.accountKit = AKFAccountKit(responseType: AKFResponseType.AccessToken)
         }
         
+        
+        
+        
+        
+        
         if(socketObj != nil)
         {
         socketObj.delegate=self
@@ -532,6 +538,79 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
                 }
                 
             }}
+        
+            /*
+            if(displayname=="")
+            {
+                
+                
+                let _id = Expression<String>("_id")
+                let phone = Expression<String>("phone")
+                let username1 = Expression<String>("username")
+                let status = Expression<String>("status")
+                let firstname = Expression<String>("firstname")
+                
+                
+                
+                let tbl_accounts = sqliteDB.accounts
+                do{for account in try sqliteDB.db.prepare(tbl_accounts) {
+                username=account[username1]
+                    displayname=account[firstname]
+                    
+                }
+                }
+                catch
+                    {
+                        socketObj.socket.emit("error getting data from accounts table")
+                        print("error in getting data from accounts table")
+                    
+                    }
+                    
+                    
+                dispatch_async(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0)) {
+                    print("checkin here .....")
+                    //////////self.getCurrentUserDetails({ (result) -> () in
+                        //dispatch_async(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0)) {
+                        print("checkin here1 .....")
+                        self.sendPendingChatMessages({ (result) -> () in
+                            print("checkin here2 .....")
+                            /////dispatch_async(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0)) {
+                                print("checkin here3 .....")
+                                self.fetchChatsFromServer({ (result) -> () in
+                                    print("checkin here4 .....")
+                                    
+                                })
+                                
+                           ///// }
+                            
+                        })
+                    }
+                        
+                        //}
+                    //})
+                }
+            
+            
+            */
+                /*dispatch_async(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0)) {
+                // do some task start to show progress wheel
+                self.fetchContacts({ (result) -> () in
+                //self.fetchContactsFromServer()
+                //dispatch_async(dispatch_get_main_queue()) {
+                self.tblForChat.reloadData()
+                //}
+                })
+                }
+                */
+                
+                
+                
+            //}
+        
+        
+        
+   
+        
         //var lll=self.storyboard?.instantiateViewControllerWithIdentifier("mainpage") as! LoginViewController
         
         
@@ -593,7 +672,7 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
         
         
         //========
-        socketObj.socket.on("online")
+        /*socketObj.socket.on("online")
             {data,ack in
                 
                 print("online status...")
@@ -616,13 +695,13 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
                 }
                 
         }
-        
+        */
         
         
         
         
         //======Offline users=========
-        socketObj.socket.on("offline")
+        /*socketObj.socket.on("offline")
             {data,ack in
                 
                 print("offline status...")
@@ -644,7 +723,7 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
                     }
                 }
                 
-        }
+        }*/
         
         
         //-----------------------NEW TRY FROM APPEAR TO HERE -------------
@@ -660,7 +739,19 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
         //already logged in
         
         
-        
+        /////workingg next time
+       /* dispatch_sync(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0)) {
+            // do some task start to show progress wheel
+            self.fetchContacts({ (result) -> () in
+                //self.fetchContactsFromServer()
+               // dispatch_async(dispatch_get_main_queue()) {
+                    //dispatch_async(dispatch_get_main_queue)
+                    self.tblForChat.reloadData()
+                //}
+           // })
+     
+        })
+    }*/
     }
     
     func loginSegueMethod()
@@ -745,37 +836,38 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
             print("emaillist is \(emailList.first)")
             print("emailList count is \(emailList.count)")
             
-          /*  dispatch_sync(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0)) {
+           /*dispatch_sync(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0)) {
                 // do some task start to show progress wheel
                 self.fetchContacts({ (result) -> () in
                     //self.fetchContactsFromServer()
-                    //dispatch_async(dispatch_get_main_queue()) {
+                    dispatch_async(dispatch_get_main_queue()) {
                     self.tblForChat.reloadData()
-                    //}
+                    }
                 })
             }*/
             
-            if(emailList.count<1)
-            {
+            //if(emailList.count<1)
+            //{
                                 
                
                 
-                
+                /*
                 dispatch_sync(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0)) {
                     // do some task start to show progress wheel
                     self.fetchContacts({ (result) -> () in
                         //self.fetchContactsFromServer()
-                        //dispatch_async(dispatch_get_main_queue()) {
+                        dispatch_async(dispatch_get_main_queue()) {
+                        //dispatch_async(dispatch_get_main_queue)
                         self.tblForChat.reloadData()
-                        //}
+                        }
                     })
-                }
+                }*/
                 
             
             // dispatch_async(dispatch_get_main_queue(), {
             ///////////newwwwwwwwwwwww
             //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-            if(displayname=="")
+            /*if(displayname=="")
             {
                 dispatch_async(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0)) {
                 
@@ -783,13 +875,15 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
                   //dispatch_async(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0)) {
                 self.sendPendingChatMessages({ (result) -> () in
                         
-                     // dispatch_async(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0)) {
+                      dispatch_async(dispatch_get_global_queue(QOS_CLASS_UTILITY, 0)) {
 
                             self.fetchChatsFromServer({ (result) -> () in
                         
                         
                     })
-                    //}
+                    
+                    }
+                    
                         })
                         
                     //}
@@ -808,8 +902,79 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
                 
             
                 
-        }
-        }
+        }*/
+            
+            
+            
+            if(displayname=="")
+            {
+                
+                
+                
+                let _id = Expression<String>("_id")
+                let phone = Expression<String>("phone")
+                let username1 = Expression<String>("username")
+                let status = Expression<String>("status")
+                let firstname = Expression<String>("firstname")
+                
+                
+                
+                let tbl_accounts = sqliteDB.accounts
+                do{for account in try sqliteDB.db.prepare(tbl_accounts) {
+                    username=account[username1]
+                    displayname=account[firstname]
+                    
+                    }
+                }
+                catch
+                {
+                    socketObj.socket.emit("error getting data from accounts table")
+                    print("error in getting data from accounts table")
+                    
+                }
+                
+            
+                    dispatch_async(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0)) {
+                        // do some task start to show progress wheel
+                        self.fetchContacts({ (result) -> () in
+                            //self.fetchContactsFromServer()
+                            print("checkinnn")
+                           // dispatch_async(dispatch_get_main_queue()) {
+                                self.tblForChat.reloadData()
+                           // }
+                        })
+                    }
+                
+                //
+                
+                
+                ////dispatch_async(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0)) {
+                dispatch_async(dispatch_get_global_queue(QOS_CLASS_BACKGROUND, 0)) {
+                    print("checkin here .....")
+                    //////////self.getCurrentUserDetails({ (result) -> () in
+                    //dispatch_async(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0)) {
+                    print("checkin here1 .....")
+                    self.sendPendingChatMessages({ (result) -> () in
+                        print("checkin here2 .....")
+                        //QOS_CLASS_BACKGROUND
+                        //dispatch_async(dispatch_get_global_queue(QOS_CLASS_BACKGROUND, 0)) {
+                        //print("checkin here3 .....")
+                        self.fetchChatsFromServer({ (result) -> () in
+                            print("checkin here3 .....")
+                            
+                        })
+                        
+                       //}
+                        
+                    })
+                }
+                
+                //}
+                //})
+            }
+          
+            
+        //}
         }
         
             // ******************%%%%%%%%% addition new
@@ -827,6 +992,7 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
     
     func sendPendingChatMessages(completion:(result:Bool)->())
     {
+        print("checkin here inside pending chat messages.....")
         var userchats=sqliteDB.userschats
         var userchatsArray:Array<Row>
         
@@ -881,7 +1047,7 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
                 //sqliteDB.SaveChat(pendingchats[to], from1:pendingchats[from],owneruser1: pendingchats[from], fromFullName1: pendingchats[fromFullName], msg1:pendingchats[msg],date1: nil,uniqueid1: pendingchats[uniqueid], status1: statusNow)
                 
 
-                socketObj.socket.emitWithAck("im",["room":"globalchatroom","stanza":imParas])(timeoutAfter: 150000000)
+                socketObj.socket.emitWithAck("im",["room":"globalchatroom","stanza":imParas])(timeoutAfter: 15000)
                     {data in
                         print("chat ack received \(data)")
                         statusNow="sent"
@@ -979,6 +1145,7 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
         }catch
         {
             print("query not runned contactlist")
+             return completion(result:false)
         }
         
         
@@ -1221,8 +1388,8 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         //refreshControl.addTarget(self, action: Selector("fetchContacts"), forControlEvents: UIControlEvents.ValueChanged)
         
-        print(ContactNames.count, terminator: "")
-        return ContactNames.count
+       // print(ContactNames.count, terminator: "")
+        return ContactUsernames.count
     }
     
     func numberOfSectionsInTableView(tableView: UITableView!) -> Int {
@@ -1253,7 +1420,7 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
 */
         var allcontacts=sqliteDB.allcontacts
         var contactsKibo=sqliteDB.contactslists
-        var allkiboContactsArray:Array<Row>
+       
         
         let phone = Expression<String>("phone")
         let usernameFromDb = Expression<String?>("username")
@@ -2002,12 +2169,69 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
                 }
             }
             
+          //  dispatch_async(dispatch_get_main_queue())
+               // {
+            
+                //}
             case "calleeisbusy":
                 
             self.showError("Information", message: "User is busy. Please try again later", button1: "Ok")
             
+            case "online":
+                //{data,ack in
+                    var onlinefound=false
+                    print("online status...")
+                    var onlineUsers=JSON(data)
+                    print(onlineUsers[0])
+                    //print(onlineUsers[0]["username"])
+                    
+                    for(var i=0;i<onlineUsers.count;i++)
+                    {
+                        for(var j=0;j<self.ContactUsernames.count;j++)
+                        {
+                            if self.ContactIDs[j]==onlineUsers[i]["_id"].string!
+                            {
+                                //found online contact,s username
+                                print("user found online2 \(self.ContactUsernames[j])")
+                                self.ContactOnlineStatus[j]=1
+                                onlinefound=true
+                                dispatch_async(dispatch_get_main_queue())
+                                    {
+                                        self.tblForChat.reloadData()
+                                }
+                            }
+                        }
+                    }
             
+           // }
+            case "offline":
+                var offlinefound=false
+                //{data,ack in
+                    
+                    print("offline status...")
+                    var offlineUsers=JSON(data)
+                    print(offlineUsers[0])
+                    //print(offlineUsers[0]["username"])
+                    
+                    for(var i=0;i<offlineUsers.count;i++)
+                    {
+                        for(var j=0;j<self.ContactUsernames.count;j++)
+                        {
+                            if self.ContactUsernames[j]==offlineUsers[i]["phone"].string!
+                            {
+                                //found online contact,s username
+                                print("user found offlinee \(self.ContactUsernames[j])")
+                                self.ContactOnlineStatus[j]=0
+                                offlinefound=true
+                                dispatch_async(dispatch_get_main_queue())
+                                    {
+                                        self.tblForChat.reloadData()
+                                }
+                            }
+                        }
+                    }
             
+            //}
             
         default: print("", terminator: "")
             

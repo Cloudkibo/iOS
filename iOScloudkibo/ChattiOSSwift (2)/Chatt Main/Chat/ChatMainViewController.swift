@@ -275,12 +275,12 @@ class ChatMainViewController:UIViewController,SocketConnecting
         {
             socketObj.delegate=self
         }*/
-        socketObj.socket.on("connect") {data, ack in
+       /* socketObj.socket.on("connect") {data, ack in
             print("connected caught in chat view")
             //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%socketObj.delegate=self
             
         }
-        
+        */
         
         
         if (self.accountKit!.currentAccessToken == nil) {
@@ -481,7 +481,7 @@ class ChatMainViewController:UIViewController,SocketConnecting
         
         
         //========
-        socketObj.socket.on("online")
+    /*    socketObj.socket.on("online")
             {data,ack in
                     
                     print("online status...")
@@ -505,13 +505,13 @@ class ChatMainViewController:UIViewController,SocketConnecting
                     }
                 }
                 
-                }
+                }*/
         
        
 
      
         
-        //======Offline users=========
+    /*    //======Offline users=========
         socketObj.socket.on("offline")
             {data,ack in
                 
@@ -535,7 +535,7 @@ class ChatMainViewController:UIViewController,SocketConnecting
                     }
                 }
                 
-        }
+        }*/
         
         
        

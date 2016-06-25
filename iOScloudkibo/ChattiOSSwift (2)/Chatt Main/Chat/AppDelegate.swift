@@ -108,8 +108,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate,AppDelegateScreenDelegate 
             print("socket is nillll", terminator: "")
             socketObj=LoginAPI(url:"\(Constants.MainUrl)")
             ///socketObj.connect()
+            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND,0))
+{
             socketObj.addHandlers()
             socketObj.addWebRTCHandlers()
+}
         }
         
         

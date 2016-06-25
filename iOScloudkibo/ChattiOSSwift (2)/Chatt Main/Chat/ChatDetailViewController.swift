@@ -77,7 +77,11 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate{
             socketObj.addHandlers()
             socketObj.addWebRTCHandlers()
         }*/
+        
+        
            self.retrieveChatFromSqlite(selectedContact)
+        
+        
         //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%------------ commented june 16 FetchChatServer()
         print("calling retrieveChat")
         
@@ -654,7 +658,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate{
             timeLabel.frame = CGRectMake(36 + distanceFactor, timeLabel.frame.origin.y, timeLabel.frame.size.width, timeLabel.frame.size.height)
             deliveredLabel.frame = CGRectMake(deliveredLabel.frame.origin.x, textLable.frame.origin.y + textLable.frame.size.height + 15, deliveredLabel.frame.size.width, deliveredLabel.frame.size.height)
             textLable.text = "\(msg)"
-            deliveredLabel.text="Delivered"
+            //////////////////////deliveredLabel.text="Delivered"
             /*
             let dateFormatter = NSDateFormatter()
             dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"

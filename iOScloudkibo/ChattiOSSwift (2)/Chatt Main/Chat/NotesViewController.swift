@@ -236,7 +236,7 @@ class NotesViewController: UIViewController,InviteContactsDelegate,UITextFieldDe
         
             cellPrivate.labelStatusPrivate.hidden=true
         
-            cellPrivate.labelNamePrivate.text=contacts[indexPath.row].givenName+" "+contacts[indexPath.row].familyName
+           /////////////%%%'5 cellPrivate.labelNamePrivate.text=contacts[indexPath.row].givenName+" "+contacts[indexPath.row].familyName
         
         // %%%%%%%%%%%%%%%%%%%%%%%%%_------------------------- need to show names also ------
         
@@ -254,6 +254,10 @@ class NotesViewController: UIViewController,InviteContactsDelegate,UITextFieldDe
         do
         {alladdressContactsArray = Array(try sqliteDB.db.prepare(allcontactslist1))
         
+            
+            cellPrivate.labelNamePrivate.text=alladdressContactsArray[indexPath.row].get(name)
+            
+            //alladdressContactsArray[indexPath.row].
         if(alladdressContactsArray[indexPath.row].get(kibocontact)==true)
         {
             cellPrivate.labelStatusPrivate.hidden=false
