@@ -345,6 +345,8 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
                                     print(chatmsg[0])
                                     print("chat status emitted")
                                     socketObj.socket.emit("logClient","\(username) chat status emitted")
+                                if(socketObj.delegateChat != nil)
+                                    {socketObj.delegateChat?.socketReceivedMessageChat("updateUI", data: nil)}
                                 }
                                 
 
@@ -624,6 +626,53 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
         self.presentViewController(alert, animated: true, completion: nil)
     }
     
+    func synchroniseChatData()
+    {
+         if (self.accountKit!.currentAccessToken != nil) {
+        
+        header=["kibo-token":self.accountKit!.currentAccessToken!.tokenString]
+        
+        let _id = Expression<String>("_id")
+        let phone = Expression<String>("phone")
+        let username1 = Expression<String>("username")
+        let status = Expression<String>("status")
+        let firstname = Expression<String>("firstname")
+        
+        
+        
+        let tbl_accounts = sqliteDB.accounts
+        do{for account in try sqliteDB.db.prepare(tbl_accounts) {
+            username=account[username1]
+            //displayname=account[firstname]
+            
+            }
+        }
+        catch
+        {
+            socketObj.socket.emit("error getting data from accounts table")
+            print("error in getting data from accounts table")
+            
+        }
+        
+        //  dispatch_async(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0)) {
+        
+        
+        //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+        // if(socketObj != nil)
+        // {
+        
+        self.sendPendingChatMessages({ (result) -> () in
+            print("checkin here pending messages sent")
+            print("checkin fetching chats")
+            if(socketObj != nil)
+            {
+                socketObj.fetchChatsFromServer()
+            }
+            
+        })
+    }
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         print("Chat ViewController is loadingggggg")
@@ -643,7 +692,7 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
         socketObj.socket.on("connect") {data, ack in
             print("connected caught in chat view")
             socketObj.delegate=self
-            
+            self.synchroniseChatData()
         }
         
         
@@ -689,7 +738,7 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
                 })
             }
             
-             header=["kibo-token":self.accountKit!.currentAccessToken!.tokenString]
+           /*  header=["kibo-token":self.accountKit!.currentAccessToken!.tokenString]
             
             let _id = Expression<String>("_id")
             let phone = Expression<String>("phone")
@@ -729,7 +778,7 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
                     }
                     
                 })
-            
+            */
             
            // }
             
@@ -737,6 +786,8 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
            // }
         }
         
+        
+
       
             /*
             if(displayname=="")
