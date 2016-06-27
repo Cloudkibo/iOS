@@ -944,7 +944,7 @@ class LoginAPI{
         print("Parsing JSON on thread: \(NSThread.currentThread()) is main thread: \(NSThread.isMainThread())")
         
         // Validate your JSON response and convert into model objects if necessary
-        print(response)
+        //print(response)
         //print(response.result.value)
         
         
