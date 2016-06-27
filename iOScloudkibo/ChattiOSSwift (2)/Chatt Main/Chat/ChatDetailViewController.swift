@@ -267,7 +267,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
         let msg = Expression<String>("msg")
         let date = Expression<String>("date")
         let status = Expression<String>("status")
-        //let date = Expression<String>("date")
+        let uniqueid = Expression<String>("uniqueid")
 
         
         
@@ -289,13 +289,30 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
             print(tblContacts[status])
             print("--------")
             
+                if(tblContacts[to]==selecteduser && (tblContacts[status]=="sent" || tblContacts[status]=="delivered"))
+                {
+                    sqliteDB.UpdateChatStatus(tblContacts[uniqueid], newstatus: "seen")
+                    socketObj.socket.emitWithAck("messageStatusUpdate", ["status":tblContacts[status],"uniqueid":tblContacts[uniqueid],"sender": tblContacts[from]])(timeoutAfter: 15000){data in
+                        var chatmsg=JSON(data)
+                        print(data[0])
+                        print(chatmsg[0])
+                        print("chat status seen emitted")
+                        socketObj.socket.emit("logClient","\(username) chat status emitted")
+                        // if(socketObj.delegateChat != nil)
+                        // {socketObj.delegateChat?.socketReceivedMessageChat("updateUI", data: nil)}
+                        //}
+                    }
+                }
+                
             if (tblContacts[from]==username!)
                 
             {//type1
+                print("statussss is \(tblContacts[status])")
                 self.addMessage(tblContacts[msg]+" (\(tblContacts[status])) ", ofType: "2",date: tblContacts[date])
             }
             else
             {//type2
+                print("statussss is \(tblContacts[status])")
                 self.addMessage(tblContacts[msg], ofType: "1", date: tblContacts[date])
                 
             }
@@ -1002,7 +1019,19 @@ print("$$ \(message) is this \(msg)")
             print(chatJson[0]["msg"])
             var receivedMsg=chatJson[0]["msg"]
             
-            self.addMessage(receivedMsg.description, ofType: "1",date: NSDate().debugDescription)
+            
+            var date22=NSDate()
+            var formatter = NSDateFormatter();
+            formatter.dateFormat = "yyyy-MM-dd HH:mm:ss ZZZ";
+            formatter.timeZone = NSTimeZone.localTimeZone()
+            formatter.dateStyle = .ShortStyle
+            formatter.timeStyle = .ShortStyle
+            let defaultTimeZoneStr = formatter.stringFromDate(date22);
+            
+            
+            
+            
+            self.addMessage(receivedMsg.description, ofType: "1",date: defaultTimeZoneStr)
             self.tblForChats.reloadData()
             if(self.messages.count>1)
             {

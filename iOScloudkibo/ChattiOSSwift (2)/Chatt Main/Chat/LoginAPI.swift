@@ -301,7 +301,7 @@ class LoginAPI{
             if(self.delegateChat != nil)
             {
             self.delegateChat?.socketReceivedMessageChat("updateUI", data: nil)
-}
+            }
         }
         
         //messageStatusUpdate
@@ -974,6 +974,7 @@ class LoginAPI{
         ;i++
         {
             //UserchatJson["msg"][i]["date"].string!
+            
             
             
             let dateFormatter = NSDateFormatter()

@@ -356,7 +356,16 @@ class DatabaseHandler:NSObject{
         var mydate:String!
         if(date1 == nil)
         {
-            mydate=NSDate().debugDescription
+            var date22=NSDate()
+            var formatter = NSDateFormatter();
+            formatter.dateFormat = "yyyy-MM-dd HH:mm:ss ZZZ";
+            formatter.timeZone = NSTimeZone.localTimeZone()
+            formatter.dateStyle = .ShortStyle
+            formatter.timeStyle = .ShortStyle
+            let defaultTimeZoneStr = formatter.stringFromDate(date22);
+            
+            mydate=defaultTimeZoneStr
+            
             }
         else
         {

@@ -557,18 +557,52 @@ class DisplayNameViewController: UIViewController {
                         for var i=0;i<UserchatJson["msg"].count
                             ;i++
                         {
-                            print("all chat here 1")
+                            //UserchatJson["msg"][i]["date"].string!
+                            
+                            
+                            
+                            let dateFormatter = NSDateFormatter()
+                            dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
+                            let datens2 = dateFormatter.dateFromString(UserchatJson["msg"][i]["date"].string!)
+                            
+                            
+                            
+                            let formatter = NSDateFormatter()
+                            formatter.dateStyle = NSDateFormatterStyle.ShortStyle
+                            formatter.timeStyle = .ShortStyle
+                            
+                            let dateString = formatter.stringFromDate(datens2!)
+                            
+                            
                             if(UserchatJson["msg"][i]["uniqueid"].isExists())
                             {
-                            print("all chat here 1 got uniqueid field")
-                            sqliteDB.SaveChat(UserchatJson["msg"][i]["to"].string!, from1: UserchatJson["msg"][i]["from"].string!,owneruser1:UserchatJson["msg"][i]["owneruser"].string! , fromFullName1: UserchatJson["msg"][i]["fromFullName"].string!, msg1: UserchatJson["msg"][i]["msg"].string!,date1:UserchatJson["msg"][i]["date"].string!,uniqueid1:UserchatJson["msg"][i]["uniqueid"].string!,status1: UserchatJson["msg"][i]["status"].string! )
+                                if(UserchatJson["msg"][i]["to"].string! == username! && UserchatJson["msg"][i]["status"].string!=="sent")
+                                {
+                                    var updatedStatus="delivered"
+                                    sqliteDB.SaveChat(UserchatJson["msg"][i]["to"].string!, from1: UserchatJson["msg"][i]["from"].string!,owneruser1:UserchatJson["msg"][i]["owneruser"].string! , fromFullName1: UserchatJson["msg"][i]["fromFullName"].string!, msg1: UserchatJson["msg"][i]["msg"].string!,date1:dateString,uniqueid1:UserchatJson["msg"][i]["uniqueid"].string!,status1: updatedStatus )
+                                    
+                                    //socketObj.socket.emit("messageStatusUpdate",["status":"","iniqueid":"","sender":""])
+                                    socketObj.socket.emitWithAck("messageStatusUpdate", ["status":updatedStatus,"uniqueid":UserchatJson["msg"][i]["uniqueid"].string!,"sender": UserchatJson["msg"][i]["from"].string!])(timeoutAfter: 0){data in
+                                        var chatmsg=JSON(data)
+                                        print(data[0])
+                                        print(chatmsg[0])
+                                        print("chat status emitted")
+                                        socketObj.socket.emit("logClient","\(username) chat status emitted")
+                                    }
+                                    
+                                    
+                                    
+                                }
+                                else
+                                {
+                                    
+                                    sqliteDB.SaveChat(UserchatJson["msg"][i]["to"].string!, from1: UserchatJson["msg"][i]["from"].string!,owneruser1:UserchatJson["msg"][i]["owneruser"].string! , fromFullName1: UserchatJson["msg"][i]["fromFullName"].string!, msg1: UserchatJson["msg"][i]["msg"].string!,date1:dateString,uniqueid1:UserchatJson["msg"][i]["uniqueid"].string!,status1: UserchatJson["msg"][i]["status"].string! )
+                                }
                             }
                             else
                             {
-                                print("all chat here 2 no uniqueid field")
-                              sqliteDB.SaveChat(UserchatJson["msg"][i]["to"].string!, from1: UserchatJson["msg"][i]["from"].string!,owneruser1:UserchatJson["msg"][i]["owneruser"].string! , fromFullName1: UserchatJson["msg"][i]["fromFullName"].string!, msg1: UserchatJson["msg"][i]["msg"].string!,date1:UserchatJson["msg"][i]["date"].string!,uniqueid1:"",status1: "" ) 
+                                sqliteDB.SaveChat(UserchatJson["msg"][i]["to"].string!, from1: UserchatJson["msg"][i]["from"].string!,owneruser1:UserchatJson["msg"][i]["owneruser"].string! , fromFullName1: UserchatJson["msg"][i]["fromFullName"].string!, msg1: UserchatJson["msg"][i]["msg"].string!,date1:dateString,uniqueid1:"",status1: "" )
                             }
-                            
                             
                             
                         }

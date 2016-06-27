@@ -727,6 +727,7 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
         else
         {
             
+            /*
             dispatch_async(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0)) {
                 // do some task start to show progress wheel
                 self.fetchContacts({ (result) -> () in
@@ -737,6 +738,7 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
                     }
                 })
             }
+            */
             
            /*  header=["kibo-token":self.accountKit!.currentAccessToken!.tokenString]
             
@@ -1085,6 +1087,18 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
             //dont do on every appear. just do once
             print("emaillist is \(emailList.first)")
             print("emailList count is \(emailList.count)")
+            
+            dispatch_async(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0)) {
+                // do some task start to show progress wheel
+                self.fetchContacts({ (result) -> () in
+                    //self.fetchContactsFromServer()
+                    print("checkinnn")
+                    dispatch_async(dispatch_get_main_queue()) {
+                        self.tblForChat.reloadData()
+                    }
+                })
+            }
+            
             
            /* dispatch_async(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0)) {
                 // do some task start to show progress wheel
