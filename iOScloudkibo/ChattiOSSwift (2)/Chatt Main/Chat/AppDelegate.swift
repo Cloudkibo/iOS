@@ -15,6 +15,10 @@ import CloudKit
 import AccountKit
 
 
+
+let configuration1 = NSURLSessionConfiguration.backgroundSessionConfigurationWithIdentifier("com.example.app.background")
+let manager = Alamofire.Manager(configuration: configuration1)
+
 var endedCall=false
 var accountKit:AKFAccountKit!
 var displayname=""

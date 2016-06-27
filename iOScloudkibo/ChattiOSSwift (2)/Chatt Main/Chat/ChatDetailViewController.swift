@@ -12,8 +12,9 @@ import SQLite
 import Alamofire
 import AVFoundation
 
-class ChatDetailViewController: UIViewController,SocketClientDelegate{
+class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChatDelegate{
     
+    var delegateChat:UpdateChatDelegate!
     var delegate:SocketClientDelegate!
     //var socketEventID:NSUUID
         var rt=NetworkingLibAlamofire()
@@ -79,7 +80,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate{
         }*/
         
         
-           self.retrieveChatFromSqlite(selectedContact)
+         self.retrieveChatFromSqlite(selectedContact)
         
         
         //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%------------ commented june 16 FetchChatServer()
@@ -123,8 +124,13 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate{
         print("chat on load")
         socketObj.socket.emit("logClient","IPHONE-LOG: chat page loading")
         socketObj.delegate=self
+        socketObj.delegateChat=self
         
-        self.tblForChats.reloadData()
+        dispatch_async(dispatch_get_main_queue())
+            {
+               self.tblForChats.reloadData()
+        }
+        
         if(self.messages.count>1)
         {
             var indexPath = NSIndexPath(forRow:self.messages.count-1, inSection: 0)
@@ -858,16 +864,18 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate{
         
         sqliteDB.SaveChat("\(selectedContact)", from1: "\(username!)",owneruser1: "\(username!)", fromFullName1: "\(loggedFullName!)", msg1: "\(txtFldMessage.text!)",date1: nil,uniqueid1: uniqueID, status1: statusNow)
 
-        socketObj.socket.emitWithAck("im",["room":"globalchatroom","stanza":imParas])(timeoutAfter: 150000000)
+        socketObj.socket.emitWithAck("im",["room":"globalchatroom","stanza":imParas])(timeoutAfter: 150000)
         {data in
           
-            print("chat ack received \(data)")
+            print("chat ack received  \(data)")
             statusNow="sent"
             var chatmsg=JSON(data)
             print(data[0])
             print(chatmsg[0])
             sqliteDB.UpdateChatStatus(chatmsg[0]["uniqueid"].string!, newstatus: chatmsg[0]["status"].string!)
             
+            self.retrieveChatFromSqlite(self.selectedContact)
+            //self.tblForChats.reloadData()
             
             
             
@@ -935,10 +943,10 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate{
     }
     
     func socketReceivedMessage(message: String, data: AnyObject!) {
-        
+    /*
         print("socketReceivedMessage inside im got", terminator: "")
         var msg=JSON(data)
-print("$$ \(msg)")
+print("$$ \(message) is this \(msg)")
         print(message)
         switch(message)
         {
@@ -960,15 +968,64 @@ print("$$ \(msg)")
             
             
         default:
-        print("error: wrong messgae received2")
+        print("error: wrong messgae received2 \(message)")
 
             
         }
+*/
         
     }
     func socketReceivedSpecialMessage(message: String, params: JSON!) {
         
         
+    }
+    func socketReceivedMessageChat(message: String, data: AnyObject!) {
+        
+        print("socketReceivedMessage inside im got", terminator: "")
+                switch(message)
+        {
+        case "im":
+            var msg=JSON(data)
+            print("$$ \(message) is this \(msg)")
+            print(message)
+
+            print("chat sent to server.ack received 222 ")
+            var chatJson=JSON(data)
+            print("chat received \(chatJson.debugDescription)")
+            print(chatJson[0]["msg"])
+            var receivedMsg=chatJson[0]["msg"]
+            
+            self.addMessage(receivedMsg.description, ofType: "1",date: NSDate().debugDescription)
+            self.tblForChats.reloadData()
+            if(self.messages.count>1)
+            {
+                var indexPath = NSIndexPath(forRow:self.messages.count-1, inSection: 0)
+                
+                self.tblForChats.scrollToRowAtIndexPath(indexPath, atScrollPosition: UITableViewScrollPosition.Bottom, animated: true)
+            }
+            case "updateUI":
+              
+                print("$$ \(message)")
+                print(message)
+
+                self.retrieveChatFromSqlite(self.selectedContact)
+                if(self.messages.count>1)
+                {
+                    var indexPath = NSIndexPath(forRow:self.messages.count-1, inSection: 0)
+                    
+                    self.tblForChats.scrollToRowAtIndexPath(indexPath, atScrollPosition: UITableViewScrollPosition.Bottom, animated: true)
+                    }
+           // dispatch_async(dispatch_get_main_queue())
+              //  {
+               //     self.tblForChats.reloadData()
+               // }
+            
+            
+        default:
+            print("error: wrong messgae received2 \(message)")
+
+        
+    }
     }
 
   /*

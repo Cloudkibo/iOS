@@ -17,6 +17,9 @@ import Contacts
 
 class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
 {
+    
+   
+    
     var accountKit: AKFAccountKit!
     var rt=NetworkingLibAlamofire()
      var allkiboContactsArray=Array<Row>()
@@ -177,7 +180,7 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
         }
     }
     
-    func fetchChatsFromServer(completion: (result:Bool)->())
+    func fetchChatsFromServer()
     {
         
         //%%%%%% fetch chat
@@ -189,8 +192,118 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
         var fetchChatURL=Constants.MainUrl+Constants.fetchMyAllchats
         //var getUserDataURL=userDataUrl
         
-        Alamofire.request(.POST,"\(fetchChatURL)",headers:header,parameters:["user1":username!]).validate(statusCode: 200..<300).responseJSON{response in
+      //  dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND,0))
+        //    {
+        
+        /*
+        let queue2 = dispatch_queue_create("com.cnoon.manager-response-queue", DISPATCH_QUEUE_CONCURRENT)
+        
+        let request = Alamofire.request(.POST, "\(fetchChatURL)", parameters: ["user1":username!])
+        request.response(
+            queue: queue2,
+            responseSerializer: Request.JSONResponseSerializer(),
+            completionHandler: { response in
+                // You are now running on the concurrent `queue` you created earlier.
+                print("Parsing JSON on thread: \(NSThread.currentThread()) is main thread: \(NSThread.isMainThread())")
+                
+                // Validate your JSON response and convert into model objects if necessary
+                print(response)
+                print(response.result.value)
+                
+                
+                switch response.result {
+                case .Success:
+                    
+                    
+                    socketObj.socket.emit("logClient", "All chat fetched success")
+                    if let data1 = response.result.value {
+                        let UserchatJson = JSON(data1)
+                        // print("chat fetched JSON: \(json)")
+                        
+                        var tableUserChatSQLite=sqliteDB.userschats
+                        
+                        do{
+                            try sqliteDB.db.run(tableUserChatSQLite.delete())
+                        }catch{
+                            socketObj.socket.emit("logClient","sqlite chat table refreshed")
+                            print("chat table not deleted")
+                        }
+                        
+                        //Overwrite sqlite db
+                        //sqliteDB.deleteChat(self.selectedContact)
+                        
+                        socketObj.socket.emit("logClient","IPHONE-LOG: all chat messages count is \(UserchatJson["msg"].count)")
+                        for var i=0;i<UserchatJson["msg"].count
+                            ;i++
+                        {
+                            
+                            if(UserchatJson["msg"][i]["uniqueid"].isExists())
+                            {
+                                if(UserchatJson["msg"][i]["to"].string! == username! && UserchatJson["msg"][i]["status"].string!=="sent")
+                                {
+                                    var updatedStatus="delivered"
+                                    sqliteDB.SaveChat(UserchatJson["msg"][i]["to"].string!, from1: UserchatJson["msg"][i]["from"].string!,owneruser1:UserchatJson["msg"][i]["owneruser"].string! , fromFullName1: UserchatJson["msg"][i]["fromFullName"].string!, msg1: UserchatJson["msg"][i]["msg"].string!,date1:UserchatJson["msg"][i]["date"].string!,uniqueid1:UserchatJson["msg"][i]["uniqueid"].string!,status1: updatedStatus )
+                                    
+                                    //socketObj.socket.emit("messageStatusUpdate",["status":"","iniqueid":"","sender":""])
+                                    socketObj.socket.emitWithAck("messageStatusUpdate", ["status":updatedStatus,"uniqueid":UserchatJson["msg"][i]["uniqueid"].string!,"sender": UserchatJson["msg"][i]["from"].string!])(timeoutAfter: 0){data in
+                                        var chatmsg=JSON(data)
+                                        print(data[0])
+                                        print(chatmsg[0])
+                                        print("chat status emitted")
+                                        socketObj.socket.emit("logClient","\(username) chat status emitted")
+                                    }
+                                    
+                                    
+                                    
+                                }
+                                else
+                                {
+                                    
+                                    sqliteDB.SaveChat(UserchatJson["msg"][i]["to"].string!, from1: UserchatJson["msg"][i]["from"].string!,owneruser1:UserchatJson["msg"][i]["owneruser"].string! , fromFullName1: UserchatJson["msg"][i]["fromFullName"].string!, msg1: UserchatJson["msg"][i]["msg"].string!,date1:UserchatJson["msg"][i]["date"].string!,uniqueid1:UserchatJson["msg"][i]["uniqueid"].string!,status1: UserchatJson["msg"][i]["status"].string! )
+                                }
+                            }
+                            else
+                            {
+                                sqliteDB.SaveChat(UserchatJson["msg"][i]["to"].string!, from1: UserchatJson["msg"][i]["from"].string!,owneruser1:UserchatJson["msg"][i]["owneruser"].string! , fromFullName1: UserchatJson["msg"][i]["fromFullName"].string!, msg1: UserchatJson["msg"][i]["msg"].string!,date1:UserchatJson["msg"][i]["date"].string!,uniqueid1:"",status1: "" )
+                            }
+                            
+                            
+                        }
+                        
+                        
+                        /* dispatch_async(dispatch_get_main_queue()) {
+                        self.messageFrame2.removeFromSuperview()
+                        }
+                        */
+                        
+                        
+                    }
+                    /*dispatch_async(dispatch_get_main_queue()) {
+                    
+                    }*/
+                    
+                    return completion(result: true)
+                case .Failure:
+                    socketObj.socket.emit("logClient", "All chat fetched failed")
+                    print("all chat fetched failed")
+                }
+                // }
+           
             
+                // To update anything on the main thread, just jump back on like so.
+              ///  dispatch_async(dispatch_get_main_queue()) {
+              ///      print("Am I back on the main thread: \(NSThread.isMainThread())")
+               /// }
+            }
+        )
+        */
+        
+       
+        
+        Alamofire.request(.POST,"\(fetchChatURL)",headers:header,parameters:["user1":username!]).validate(statusCode: 200..<300).responseJSON{response in
+           // print(response)
+           // print(response.result)
+           // print(response.result.value)
             
             switch response.result {
             case .Success:
@@ -250,7 +363,7 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
                         
                         
                     }
-                    return completion(result: true)
+                    //return completion(result: true)
                     
                     /* dispatch_async(dispatch_get_main_queue()) {
                     self.messageFrame2.removeFromSuperview()
@@ -267,8 +380,11 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
                 socketObj.socket.emit("logClient", "All chat fetched failed")
                 print("all chat fetched failed")
             }
+       // }
         }
         // }
+        
+        
         
     }
     
@@ -559,7 +675,69 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
                 }
                 
             }}
+        else
+        {
+            
+            dispatch_async(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0)) {
+                // do some task start to show progress wheel
+                self.fetchContacts({ (result) -> () in
+                    //self.fetchContactsFromServer()
+                    print("checkinnn")
+                    dispatch_async(dispatch_get_main_queue()) {
+                        self.tblForChat.reloadData()
+                    }
+                })
+            }
+            
+             header=["kibo-token":self.accountKit!.currentAccessToken!.tokenString]
+            
+            let _id = Expression<String>("_id")
+            let phone = Expression<String>("phone")
+            let username1 = Expression<String>("username")
+            let status = Expression<String>("status")
+            let firstname = Expression<String>("firstname")
+            
+            
+            
+            let tbl_accounts = sqliteDB.accounts
+            do{for account in try sqliteDB.db.prepare(tbl_accounts) {
+                username=account[username1]
+                //displayname=account[firstname]
+                
+                }
+            }
+            catch
+            {
+                socketObj.socket.emit("error getting data from accounts table")
+                print("error in getting data from accounts table")
+                
+            }
+            
+          //  dispatch_async(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0)) {
+            
+            
+            //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+           // if(socketObj != nil)
+           // {
+                
+            self.sendPendingChatMessages({ (result) -> () in
+                    print("checkin here pending messages sent")
+                    print("checkin fetching chats")
+                    if(socketObj != nil)
+                    {
+                        socketObj.fetchChatsFromServer()
+                    }
+                    
+                })
+            
+            
+           // }
+            
+
+           // }
+        }
         
+      
             /*
             if(displayname=="")
             {
@@ -857,7 +1035,7 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
             print("emaillist is \(emailList.first)")
             print("emailList count is \(emailList.count)")
             
-            dispatch_async(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0)) {
+           /* dispatch_async(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0)) {
                 // do some task start to show progress wheel
                 self.fetchContacts({ (result) -> () in
                     //self.fetchContactsFromServer()
@@ -866,7 +1044,7 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
                     self.tblForChat.reloadData()
                      }
                 })
-            }
+            }*/
             
            /*dispatch_sync(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0)) {
                 // do some task start to show progress wheel
@@ -984,18 +1162,63 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
                 
                 
                 var dispatch_group_t = dispatch_group_create();
+               // let queue = dispatch_queue_create("com.cnoon.manager-response-queue", DISPA)
                 
+                //dispatch_async(queue)
+              //  dispatch_async(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0))
+               // {
+              
+                
+                /*
+                dispatch_async(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0)) {
+              
+                self.sendPendingChatMessages({ (result) -> () in
+                    print("checkin here pending messages sent")
+                    print("checkin fetching chats")
+                    if(socketObj != nil)
+                    {
+                        socketObj.fetchChatsFromServer()
+                    }
+                    
+                })
+                }
+                
+                */
+              //  }
                // dispatch_group_async(group,
                 
-                dispatch_group_async(dispatch_group_t,dispatch_get_global_queue(QOS_CLASS_BACKGROUND, 0)) {
+               // dispatch_group_async(dispatch_group_t,dispatch_get_global_queue(QOS_CLASS_BACKGROUND, 0)) {
+                //
+               /* dispatch_group_async(dispatch_group_t,queue) {
                     // block1
                    // NSLog(@"Block1");
                     //[NSThread sleepForTimeInterval:5.0];
                    // NSLog(@"Block1 End");
                     self.sendPendingChatMessages({ (result) -> () in
+                        print("checkin here pending messages sent")
+                          print("checkin fetching chats")
+                         self.fetchChatsFromServer()
+                        //self.fetchChatsFromServer({ (result) -> () in
+                         //   print("checkin here fertched chat")
+
                     })
+                    //})
                     }
+                */
                 
+              /*  let queue = dispatch_queue_create("com.cnoon.manager-response-queue", DISPATCH_QUEUE_CONCURRENT)
+
+                dispatch_group_notify(dispatch_group_t,queue) {
+                    print("checkin fetching chats")
+                    self.fetchChatsFromServer()
+                   // self.fetchChatsFromServer({ (result) -> () in
+                    //    print("checkin here fertched chat")
+                        
+                    //})
+                    
+                }
+                */
+              
                 
                 /*dispatch_group_async(dispatch_group_t,dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0)){
                     // block2
@@ -1006,16 +1229,17 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
                     }*/
                 
                 //dispatch_group_notify(dispatch_group_t,dispatch_get_global_queue(QOS_CLASS_BACKGROUND, 0)){
-                dispatch_group_async(dispatch_group_t,dispatch_get_global_queue(QOS_CLASS_BACKGROUND, 0)) {
+              /*  dispatch_group_async(dispatch_group_t,dispatch_get_global_queue(QOS_CLASS_BACKGROUND, 0)) {
 
+                    print("checkin here fetching chat from server")
                     // block3
                    // NSLog(@"Block3");
                     
                     self.fetchChatsFromServer({ (result) -> () in
-                        
+                        print("checkin here fertched chat")
                         
                     })
-                    }
+                    }*/
 
                 // only for non-ARC projects, handled automatically in ARC-enabled projects.
             //    dispatch_release(dispatch_group_t);
@@ -1142,7 +1366,7 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
                 //sqliteDB.SaveChat(pendingchats[to], from1:pendingchats[from],owneruser1: pendingchats[from], fromFullName1: pendingchats[fromFullName], msg1:pendingchats[msg],date1: nil,uniqueid1: pendingchats[uniqueid], status1: statusNow)
                 
 
-                socketObj.socket.emitWithAck("im",["room":"globalchatroom","stanza":imParas])(timeoutAfter: 150000)
+                socketObj.socket.emitWithAck("im",["room":"globalchatroom","stanza":imParas])(timeoutAfter: 1500000)
                     {data in
                         print("chat ack received \(data)")
                        // statusNow="sent"
@@ -1150,7 +1374,6 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
                         print(data[0])
                         print(chatmsg[0])
                         sqliteDB.UpdateChatStatus(chatmsg[0]["uniqueid"].string!, newstatus: chatmsg[0]["status"].string!)
-
                         
                 }
                 
@@ -1161,6 +1384,7 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
             }
             socketObj.socket.emit("logClient","IPHONE-LOG: \(username!) done sending pending chat messages")
             return completion(result: true)
+           //// return completion(result: true)
         }
         catch
         {
@@ -1423,7 +1647,10 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
                                 print("inserted id: \(rowid)")
                                 
                             }
-                            self.tblForChat.reloadData()
+                            dispatch_async(dispatch_get_main_queue())
+                                {
+                                    self.tblForChat.reloadData()
+                            }
                             
                         } catch {
                             print("insertion failed: \(error)")
@@ -2170,7 +2397,10 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
                         socketObj.socket.emit("logClient","IPHONE-LOG: user found offline \(self.ContactUsernames[j])")
                         print("user found offlinee \(self.ContactUsernames[j])")
                         self.ContactOnlineStatus[j]=0
+                        dispatch_async(dispatch_get_main_queue())
+{
                         self.tblForChat.reloadData()
+                        }
                     }
                 }
             }
@@ -2260,7 +2490,10 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
                         //found online contact,s username
                         print("user found onlineeeee \(self.ContactUsernames[j])")
                         self.ContactOnlineStatus[j]=1
-                        self.tblForChat.reloadData()
+                        dispatch_async(dispatch_get_main_queue())
+                            {
+                                self.tblForChat.reloadData()
+                        }
                     }
                 }
             }
