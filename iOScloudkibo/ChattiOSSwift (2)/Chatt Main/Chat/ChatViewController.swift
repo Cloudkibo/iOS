@@ -345,10 +345,10 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
                                     print(chatmsg[0])
                                     print("chat status emitted")
                                     socketObj.socket.emit("logClient","\(username) chat status emitted")
-                                if(socketObj.delegateChat != nil)
-                                    {socketObj.delegateChat?.socketReceivedMessageChat("updateUI", data: nil)}
+                               // if(socketObj.delegateChat != nil)
+                                   // {socketObj.delegateChat?.socketReceivedMessageChat("updateUI", data: nil)}
+                                //}
                                 }
-                                
 
                                 
                             }

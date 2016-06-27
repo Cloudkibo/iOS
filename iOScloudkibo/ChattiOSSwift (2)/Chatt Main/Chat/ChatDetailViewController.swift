@@ -296,7 +296,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
             }
             else
             {//type2
-                self.addMessage(tblContacts[msg]+" (\(tblContacts[status])) ", ofType: "1", date: tblContacts[date])
+                self.addMessage(tblContacts[msg], ofType: "1", date: tblContacts[date])
                 
             }
                /* if(self.messages.count>1)
@@ -897,8 +897,15 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
         print("insertion failed: \(insert.statement.reason)")
         }*/
         
+        var date=NSDate()
+        var formatter = NSDateFormatter();
+        formatter.dateFormat = "yyyy-MM-dd HH:mm:ss ZZZ";
+        formatter.timeZone = NSTimeZone.localTimeZone()
+        formatter.dateStyle = .ShortStyle
+        formatter.timeStyle = .ShortStyle
+        let defaultTimeZoneStr = formatter.stringFromDate(date);
         
-        self.addMessage(txtFldMessage.text!+" (\(statusNow))", ofType: "2",date:NSDate().debugDescription)
+        self.addMessage(txtFldMessage.text!+" (\(statusNow))", ofType: "2",date:defaultTimeZoneStr)
         txtFldMessage.text = "";
         tblForChats.reloadData()
         if(messages.count>1)

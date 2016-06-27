@@ -225,6 +225,15 @@ class DatabaseHandler:NSObject{
         //let datens2 = dateFormatter.dateFromString(NSDate().debugDescription)
        //print("defaultDate is \(datens2)")
         self.userschats = Table("userschats")
+        
+        var date22=NSDate()
+        var formatter = NSDateFormatter();
+        formatter.dateFormat = "yyyy-MM-dd HH:mm:ss ZZZ";
+        formatter.timeZone = NSTimeZone.localTimeZone()
+        formatter.dateStyle = .ShortStyle
+        formatter.timeStyle = .ShortStyle
+        let defaultTimeZoneStr = formatter.stringFromDate(date22);
+        
         do{
             try db.run(userschats.create(ifNotExists: true) { t in     // CREATE TABLE "accounts" (
                 t.column(to)//loggedin user id
@@ -232,7 +241,7 @@ class DatabaseHandler:NSObject{
                 t.column(owneruser)
                 t.column(fromFullName)
                 t.column(msg)
-                t.column(date, defaultValue:NSDate().debugDescription)
+                t.column(date, defaultValue:defaultTimeZoneStr)
                 t.column(status)
                 t.column(uniqueid)
                 
