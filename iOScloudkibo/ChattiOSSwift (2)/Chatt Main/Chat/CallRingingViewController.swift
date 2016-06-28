@@ -10,7 +10,7 @@ import UIKit
 import Foundation
 import SwiftyJSON
 import AVFoundation
-
+import SQLite
 class CallRingingViewController: UIViewController//RTCPeerConnectionDelegate,RTCSessionDescriptionDelegate
 {
 
@@ -48,6 +48,37 @@ class CallRingingViewController: UIViewController//RTCPeerConnectionDelegate,RTC
             //^^^socketObj.sendMessagesOfMessageType("Accept Call")
         }
         
+        var nameOfCaller=""
+        var allcontacts=sqliteDB.allcontacts
+        //var contactsKibo=sqliteDB.contactslists
+        
+        
+        let phone = Expression<String>("phone")
+        let usernameFromDb = Expression<String?>("username")
+        let name = Expression<String?>("name")
+        
+       nameOfCaller=txtCallerName.text!
+        //do
+        //{allkiboContactsArray = Array(try sqliteDB.db.prepare(contactsKibo))
+        do{
+            for all in try sqliteDB.db.prepare(allcontacts) {
+                if(all[phone]==txtCallerName.text!) //if we found contact in our AddressBook
+                    
+                {
+                    //Matched phone number. Got contact
+                    if(all[name] != "" || all[name] != nil)
+                    {
+                        nameOfCaller=all[name]!
+                        //cell.contactName?.text=all[name]
+                    }}}}
+        catch
+        {
+            print("error here 111")
+        }
+        
+        sqliteDB.saveCallHist(nameOfCaller, dateTime1: NSDate().debugDescription, type1: "Incoming")
+        
+        
         
        let next = self.storyboard?.instantiateViewControllerWithIdentifier("MainV2") as! VideoViewController
         
@@ -63,6 +94,39 @@ class CallRingingViewController: UIViewController//RTCPeerConnectionDelegate,RTC
         if(iamincallWith != nil && iamincallWith != "")
         {
             socketObj.socket.emit("noiambusy",["mycaller" :iamincallWith!, "me":username!])
+            
+            var nameOfCaller=""
+            var allcontacts=sqliteDB.allcontacts
+            //var contactsKibo=sqliteDB.contactslists
+            
+            
+            let phone = Expression<String>("phone")
+            let usernameFromDb = Expression<String?>("username")
+            let name = Expression<String?>("name")
+            
+            nameOfCaller=iamincallWith
+            //do
+            //{allkiboContactsArray = Array(try sqliteDB.db.prepare(contactsKibo))
+            do{
+                for all in try sqliteDB.db.prepare(allcontacts) {
+                    if(all[phone]==iamincallWith) //if we found contact in our AddressBook
+                        
+                    {
+                        //Matched phone number. Got contact
+                        if(all[name] != "" || all[name] != nil)
+                        {
+                            nameOfCaller=all[name]!
+                            //cell.contactName?.text=all[name]
+                        }}}}
+            catch
+            {
+                print("error here 111")
+            }
+            
+            sqliteDB.saveCallHist(nameOfCaller, dateTime1: NSDate().debugDescription, type1: "Incoming")
+        
+            
+            
         }
         
         dismissViewControllerAnimated(true, completion: {
@@ -99,19 +163,24 @@ class CallRingingViewController: UIViewController//RTCPeerConnectionDelegate,RTC
             print("received messageee")
             var msg=JSON(data)
             var missedMsg=""
+            var nameOfCaller=""
             print(msg.debugDescription)
             var mmm=msg[0].debugDescription
             let start = mmm.startIndex
             
-            let end = mmm.characters.indexOf(":")
+            let end = mmm.characters.indexOf(":")?.advancedBy(1)
             
             if (end != nil) {
                 missedMsg = mmm[start...end!]
                 print(missedMsg)
+                var startNameChar=end
+                var lastChar=missedMsg.characters.indices.last
+                nameOfCaller=mmm[startNameChar!...lastChar!]
+                print(nameOfCaller)
             }
-            if(missedMsg == "Missed Call:")
+            if(missedMsg == "Missed Incoming Call: ")
             {print("inside missed notification")
-                let todoItem = NotificationItem(otherUserName: "abc", message: "you received a mised call", type: "missed call", UUID: "111", deadline: NSDate())
+                let todoItem = NotificationItem(otherUserName: nameOfCaller, message: "you received a mised call", type: "missed call", UUID: "111", deadline: NSDate())
                 notificationsMainClass.sharedInstance.addItem(todoItem) // schedule a local notification to persist this item
                 
             }

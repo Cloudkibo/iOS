@@ -18,16 +18,16 @@ import Contacts
 class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
 {
     
-   
+    
     
     var accountKit: AKFAccountKit!
     var rt=NetworkingLibAlamofire()
-     var allkiboContactsArray=Array<Row>()
+    var allkiboContactsArray=Array<Row>()
     
     var Q_serial1=dispatch_queue_create("Q_serial1",DISPATCH_QUEUE_SERIAL)
-     var Q_serial2=dispatch_queue_create("Q_serial2",DISPATCH_QUEUE_SERIAL)
+    var Q_serial2=dispatch_queue_create("Q_serial2",DISPATCH_QUEUE_SERIAL)
     var Q_serial3=dispatch_queue_create("Q_serial3",DISPATCH_QUEUE_SERIAL)
-
+    
     var messageFrame = UIView()
     var activityIndicator = UIActivityIndicatorView()
     var messageFrame2 = UIView()
@@ -421,49 +421,49 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
     
     func synchroniseChatData()
     {
-         if (self.accountKit!.currentAccessToken != nil) {
-        
-        header=["kibo-token":self.accountKit!.currentAccessToken!.tokenString]
-        
-        let _id = Expression<String>("_id")
-        let phone = Expression<String>("phone")
-        let username1 = Expression<String>("username")
-        let status = Expression<String>("status")
-        let firstname = Expression<String>("firstname")
-        
-        
-        
-        let tbl_accounts = sqliteDB.accounts
-        do{for account in try sqliteDB.db.prepare(tbl_accounts) {
-            username=account[username1]
-            //displayname=account[firstname]
+        if (self.accountKit!.currentAccessToken != nil) {
             
+            header=["kibo-token":self.accountKit!.currentAccessToken!.tokenString]
+            
+            let _id = Expression<String>("_id")
+            let phone = Expression<String>("phone")
+            let username1 = Expression<String>("username")
+            let status = Expression<String>("status")
+            let firstname = Expression<String>("firstname")
+            
+            
+            
+            let tbl_accounts = sqliteDB.accounts
+            do{for account in try sqliteDB.db.prepare(tbl_accounts) {
+                username=account[username1]
+                //displayname=account[firstname]
+                
+                }
             }
-        }
-        catch
-        {
-            socketObj.socket.emit("error getting data from accounts table")
-            print("error in getting data from accounts table")
-            
-        }
-        
-        //  dispatch_async(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0)) {
-        
-        
-        //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-        // if(socketObj != nil)
-        // {
-        
-        self.sendPendingChatMessages({ (result) -> () in
-            print("checkin here pending messages sent")
-            print("checkin fetching chats")
-            if(socketObj != nil)
+            catch
             {
-                socketObj.fetchChatsFromServer()
+                socketObj.socket.emit("error getting data from accounts table")
+                print("error in getting data from accounts table")
+                
             }
             
-        })
-    }
+            //  dispatch_async(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0)) {
+            
+            
+            //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+            // if(socketObj != nil)
+            // {
+            
+            self.sendPendingChatMessages({ (result) -> () in
+                print("checkin here pending messages sent")
+                print("checkin fetching chats")
+                if(socketObj != nil)
+                {
+                    socketObj.fetchChatsFromServer()
+                }
+                
+            })
+        }
     }
     
     override func viewDidLoad() {
@@ -480,7 +480,7 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
         
         if(socketObj != nil)
         {
-        socketObj.delegate=self
+            socketObj.delegate=self
         }
         socketObj.socket.on("connect") {data, ack in
             print("connected caught in chat view")
@@ -522,18 +522,18 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
             
             /*
             dispatch_async(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0)) {
-                // do some task start to show progress wheel
-                self.fetchContacts({ (result) -> () in
-                    //self.fetchContactsFromServer()
-                    print("checkinnn")
-                    dispatch_async(dispatch_get_main_queue()) {
-                        self.tblForChat.reloadData()
-                    }
-                })
+            // do some task start to show progress wheel
+            self.fetchContacts({ (result) -> () in
+            //self.fetchContactsFromServer()
+            print("checkinnn")
+            dispatch_async(dispatch_get_main_queue()) {
+            self.tblForChat.reloadData()
+            }
+            })
             }
             */
             
-           /*  header=["kibo-token":self.accountKit!.currentAccessToken!.tokenString]
+            /*  header=["kibo-token":self.accountKit!.currentAccessToken!.tokenString]
             
             let _id = Expression<String>("_id")
             let phone = Expression<String>("phone")
@@ -545,116 +545,116 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
             
             let tbl_accounts = sqliteDB.accounts
             do{for account in try sqliteDB.db.prepare(tbl_accounts) {
-                username=account[username1]
-                //displayname=account[firstname]
-                
-                }
+            username=account[username1]
+            //displayname=account[firstname]
+            
+            }
             }
             catch
             {
-                socketObj.socket.emit("error getting data from accounts table")
-                print("error in getting data from accounts table")
-                
+            socketObj.socket.emit("error getting data from accounts table")
+            print("error in getting data from accounts table")
+            
             }
             
-          //  dispatch_async(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0)) {
+            //  dispatch_async(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0)) {
             
             
             //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-           // if(socketObj != nil)
-           // {
-                
+            // if(socketObj != nil)
+            // {
+            
             self.sendPendingChatMessages({ (result) -> () in
-                    print("checkin here pending messages sent")
-                    print("checkin fetching chats")
-                    if(socketObj != nil)
-                    {
-                        socketObj.fetchChatsFromServer()
-                    }
-                    
-                })
+            print("checkin here pending messages sent")
+            print("checkin fetching chats")
+            if(socketObj != nil)
+            {
+            socketObj.fetchChatsFromServer()
+            }
+            
+            })
             */
             
-           // }
+            // }
             
-
-           // }
+            
+            // }
         }
         
         
-
-      
-            /*
-            if(displayname=="")
-            {
-                
-                
-                let _id = Expression<String>("_id")
-                let phone = Expression<String>("phone")
-                let username1 = Expression<String>("username")
-                let status = Expression<String>("status")
-                let firstname = Expression<String>("firstname")
-                
-                
-                
-                let tbl_accounts = sqliteDB.accounts
-                do{for account in try sqliteDB.db.prepare(tbl_accounts) {
-                username=account[username1]
-                    displayname=account[firstname]
-                    
-                }
-                }
-                catch
-                    {
-                        socketObj.socket.emit("error getting data from accounts table")
-                        print("error in getting data from accounts table")
-                    
-                    }
-                    
-                    
-                dispatch_async(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0)) {
-                    print("checkin here .....")
-                    //////////self.getCurrentUserDetails({ (result) -> () in
-                        //dispatch_async(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0)) {
-                        print("checkin here1 .....")
-                        self.sendPendingChatMessages({ (result) -> () in
-                            print("checkin here2 .....")
-                            /////dispatch_async(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0)) {
-                                print("checkin here3 .....")
-                                self.fetchChatsFromServer({ (result) -> () in
-                                    print("checkin here4 .....")
-                                    
-                                })
-                                
-                           ///// }
-                            
-                        })
-                    }
-                        
-                        //}
-                    //})
-                }
-            
-            
-            */
-                /*dispatch_async(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0)) {
-                // do some task start to show progress wheel
-                self.fetchContacts({ (result) -> () in
-                //self.fetchContactsFromServer()
-                //dispatch_async(dispatch_get_main_queue()) {
-                self.tblForChat.reloadData()
-                //}
-                })
-                }
-                */
-                
-                
-                
-            //}
+        
+        
+        /*
+        if(displayname=="")
+        {
+        
+        
+        let _id = Expression<String>("_id")
+        let phone = Expression<String>("phone")
+        let username1 = Expression<String>("username")
+        let status = Expression<String>("status")
+        let firstname = Expression<String>("firstname")
         
         
         
-   
+        let tbl_accounts = sqliteDB.accounts
+        do{for account in try sqliteDB.db.prepare(tbl_accounts) {
+        username=account[username1]
+        displayname=account[firstname]
+        
+        }
+        }
+        catch
+        {
+        socketObj.socket.emit("error getting data from accounts table")
+        print("error in getting data from accounts table")
+        
+        }
+        
+        
+        dispatch_async(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0)) {
+        print("checkin here .....")
+        //////////self.getCurrentUserDetails({ (result) -> () in
+        //dispatch_async(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0)) {
+        print("checkin here1 .....")
+        self.sendPendingChatMessages({ (result) -> () in
+        print("checkin here2 .....")
+        /////dispatch_async(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0)) {
+        print("checkin here3 .....")
+        self.fetchChatsFromServer({ (result) -> () in
+        print("checkin here4 .....")
+        
+        })
+        
+        ///// }
+        
+        })
+        }
+        
+        //}
+        //})
+        }
+        
+        
+        */
+        /*dispatch_async(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0)) {
+        // do some task start to show progress wheel
+        self.fetchContacts({ (result) -> () in
+        //self.fetchContactsFromServer()
+        //dispatch_async(dispatch_get_main_queue()) {
+        self.tblForChat.reloadData()
+        //}
+        })
+        }
+        */
+        
+        
+        
+        //}
+        
+        
+        
+        
         
         //var lll=self.storyboard?.instantiateViewControllerWithIdentifier("mainpage") as! LoginViewController
         
@@ -683,7 +683,7 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
         print("retrieved token === \(retrievedToken)")
         print("khul raha hai2", terminator: "")
         print(loggedUserObj.object)
-       
+        
         
         if(KeychainWrapper.stringForKey("username") != nil)
         {print("delegate added in chat")
@@ -694,14 +694,14 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
             }
             if(loggedUserObj == JSON("[]"))
             {
-             
+                
                 
             }
             
         }//end if username definned
         
         print("loadddddd", terminator: "")
-       
+        
         
         
         self.navigationItem.titleView = viewForTitle
@@ -718,27 +718,27 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
         
         //========
         /*socketObj.socket.on("online")
-            {data,ack in
-                
-                print("online status...")
-                var onlineUsers=JSON(data)
-                print(onlineUsers[0])
-                //print(onlineUsers[0]["username"])
-                
-                for(var i=0;i<onlineUsers.count;i++)
-                {
-                    for(var j=0;j<self.ContactUsernames.count;j++)
-                    {
-                        if self.ContactIDs[j]==onlineUsers[i]["_id"].string!
-                        {
-                            //found online contact,s username
-                            print("user found onlineeeee \(self.ContactUsernames[j])")
-                            self.ContactOnlineStatus[j]=1
-                            self.tblForChat.reloadData()
-                        }
-                    }
-                }
-                
+        {data,ack in
+        
+        print("online status...")
+        var onlineUsers=JSON(data)
+        print(onlineUsers[0])
+        //print(onlineUsers[0]["username"])
+        
+        for(var i=0;i<onlineUsers.count;i++)
+        {
+        for(var j=0;j<self.ContactUsernames.count;j++)
+        {
+        if self.ContactIDs[j]==onlineUsers[i]["_id"].string!
+        {
+        //found online contact,s username
+        print("user found onlineeeee \(self.ContactUsernames[j])")
+        self.ContactOnlineStatus[j]=1
+        self.tblForChat.reloadData()
+        }
+        }
+        }
+        
         }
         */
         
@@ -747,27 +747,27 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
         
         //======Offline users=========
         /*socketObj.socket.on("offline")
-            {data,ack in
-                
-                print("offline status...")
-                var offlineUsers=JSON(data)
-                print(offlineUsers[0])
-                //print(offlineUsers[0]["username"])
-                
-                for(var i=0;i<offlineUsers.count;i++)
-                {
-                    for(var j=0;j<self.ContactUsernames.count;j++)
-                    {
-                        if self.ContactUsernames[j]==offlineUsers[i]["phone"].string!
-                        {
-                            //found online contact,s username
-                            print("user found offlinee \(self.ContactUsernames[j])")
-                            self.ContactOnlineStatus[j]=0
-                            self.tblForChat.reloadData()
-                        }
-                    }
-                }
-                
+        {data,ack in
+        
+        print("offline status...")
+        var offlineUsers=JSON(data)
+        print(offlineUsers[0])
+        //print(offlineUsers[0]["username"])
+        
+        for(var i=0;i<offlineUsers.count;i++)
+        {
+        for(var j=0;j<self.ContactUsernames.count;j++)
+        {
+        if self.ContactUsernames[j]==offlineUsers[i]["phone"].string!
+        {
+        //found online contact,s username
+        print("user found offlinee \(self.ContactUsernames[j])")
+        self.ContactOnlineStatus[j]=0
+        self.tblForChat.reloadData()
+        }
+        }
+        }
+        
         }*/
         
         
@@ -785,18 +785,18 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
         
         
         /////workingg next time
-       /* dispatch_sync(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0)) {
-            // do some task start to show progress wheel
-            self.fetchContacts({ (result) -> () in
-                //self.fetchContactsFromServer()
-               // dispatch_async(dispatch_get_main_queue()) {
-                    //dispatch_async(dispatch_get_main_queue)
-                    self.tblForChat.reloadData()
-                //}
-           // })
-     
+        /* dispatch_sync(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0)) {
+        // do some task start to show progress wheel
+        self.fetchContacts({ (result) -> () in
+        //self.fetchContactsFromServer()
+        // dispatch_async(dispatch_get_main_queue()) {
+        //dispatch_async(dispatch_get_main_queue)
+        self.tblForChat.reloadData()
+        //}
+        // })
+        
         })
-    }*/
+        }*/
     }
     
     func loginSegueMethod()
@@ -857,9 +857,9 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
         print("appearrrrrr", terminator: "")
         
         if(socketObj != nil)
-    {
-    socketObj.delegate=self
-    }
+        {
+            socketObj.delegate=self
+        }
         if(socketObj.delegateSocketConnected == nil && isSocketConnected==true)
         {
             socketObj.delegateSocketConnected=self
@@ -893,84 +893,84 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
             }
             
             
-           /* dispatch_async(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0)) {
-                // do some task start to show progress wheel
-                self.fetchContacts({ (result) -> () in
-                    //self.fetchContactsFromServer()
-                    print("checkinnn")
-                     dispatch_async(dispatch_get_main_queue()) {
-                    self.tblForChat.reloadData()
-                     }
-                })
+            /* dispatch_async(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0)) {
+            // do some task start to show progress wheel
+            self.fetchContacts({ (result) -> () in
+            //self.fetchContactsFromServer()
+            print("checkinnn")
+            dispatch_async(dispatch_get_main_queue()) {
+            self.tblForChat.reloadData()
+            }
+            })
             }*/
             
-           /*dispatch_sync(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0)) {
-                // do some task start to show progress wheel
-                self.fetchContacts({ (result) -> () in
-                    //self.fetchContactsFromServer()
-                    dispatch_async(dispatch_get_main_queue()) {
-                    self.tblForChat.reloadData()
-                    }
-                })
+            /*dispatch_sync(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0)) {
+            // do some task start to show progress wheel
+            self.fetchContacts({ (result) -> () in
+            //self.fetchContactsFromServer()
+            dispatch_async(dispatch_get_main_queue()) {
+            self.tblForChat.reloadData()
+            }
+            })
             }*/
             
             //if(emailList.count<1)
             //{
-                                
-               
-                
-                /*
-                dispatch_sync(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0)) {
-                    // do some task start to show progress wheel
-                    self.fetchContacts({ (result) -> () in
-                        //self.fetchContactsFromServer()
-                        dispatch_async(dispatch_get_main_queue()) {
-                        //dispatch_async(dispatch_get_main_queue)
-                        self.tblForChat.reloadData()
-                        }
-                    })
-                }*/
-                
+            
+            
+            
+            /*
+            dispatch_sync(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0)) {
+            // do some task start to show progress wheel
+            self.fetchContacts({ (result) -> () in
+            //self.fetchContactsFromServer()
+            dispatch_async(dispatch_get_main_queue()) {
+            //dispatch_async(dispatch_get_main_queue)
+            self.tblForChat.reloadData()
+            }
+            })
+            }*/
+            
             
             // dispatch_async(dispatch_get_main_queue(), {
             ///////////newwwwwwwwwwwww
             //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
             /*if(displayname=="")
             {
-                dispatch_async(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0)) {
-                
-                self.getCurrentUserDetails({ (result) -> () in
-                  //dispatch_async(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0)) {
-                self.sendPendingChatMessages({ (result) -> () in
-                        
-                      dispatch_async(dispatch_get_global_queue(QOS_CLASS_UTILITY, 0)) {
-
-                            self.fetchChatsFromServer({ (result) -> () in
-                        
-                        
-                    })
-                    
-                    }
-                    
-                        })
-                        
-                    //}
-                    })}
-               
-                /*dispatch_async(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0)) {
-                    // do some task start to show progress wheel
-                    self.fetchContacts({ (result) -> () in
-                    //self.fetchContactsFromServer()
-                    //dispatch_async(dispatch_get_main_queue()) {
-                        self.tblForChat.reloadData()
-                    //}
-                    })
-                }
-                */
-                
+            dispatch_async(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0)) {
             
-                
-        }*/
+            self.getCurrentUserDetails({ (result) -> () in
+            //dispatch_async(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0)) {
+            self.sendPendingChatMessages({ (result) -> () in
+            
+            dispatch_async(dispatch_get_global_queue(QOS_CLASS_UTILITY, 0)) {
+            
+            self.fetchChatsFromServer({ (result) -> () in
+            
+            
+            })
+            
+            }
+            
+            })
+            
+            //}
+            })}
+            
+            /*dispatch_async(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0)) {
+            // do some task start to show progress wheel
+            self.fetchContacts({ (result) -> () in
+            //self.fetchContactsFromServer()
+            //dispatch_async(dispatch_get_main_queue()) {
+            self.tblForChat.reloadData()
+            //}
+            })
+            }
+            */
+            
+            
+            
+            }*/
             
             
             
@@ -1003,157 +1003,157 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
                 
                 
                 
-            /*
-                    dispatch_async(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0)) {
-                        // do some task start to show progress wheel
-                        self.fetchContacts({ (result) -> () in
-                            //self.fetchContactsFromServer()
-                            print("checkinnn")
-                           // dispatch_async(dispatch_get_main_queue()) {
-                                self.tblForChat.reloadData()
-                           // }
-                        })
-                    }*/
+                /*
+                dispatch_async(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0)) {
+                // do some task start to show progress wheel
+                self.fetchContacts({ (result) -> () in
+                //self.fetchContactsFromServer()
+                print("checkinnn")
+                // dispatch_async(dispatch_get_main_queue()) {
+                self.tblForChat.reloadData()
+                // }
+                })
+                }*/
                 
                 //
                 
                 
                 
                 var dispatch_group_t = dispatch_group_create();
-               // let queue = dispatch_queue_create("com.cnoon.manager-response-queue", DISPA)
+                // let queue = dispatch_queue_create("com.cnoon.manager-response-queue", DISPA)
                 
                 //dispatch_async(queue)
-              //  dispatch_async(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0))
-               // {
-              
+                //  dispatch_async(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0))
+                // {
+                
                 
                 /*
                 dispatch_async(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0)) {
-              
+                
                 self.sendPendingChatMessages({ (result) -> () in
-                    print("checkin here pending messages sent")
-                    print("checkin fetching chats")
-                    if(socketObj != nil)
-                    {
-                        socketObj.fetchChatsFromServer()
-                    }
-                    
+                print("checkin here pending messages sent")
+                print("checkin fetching chats")
+                if(socketObj != nil)
+                {
+                socketObj.fetchChatsFromServer()
+                }
+                
                 })
                 }
                 
                 */
-              //  }
-               // dispatch_group_async(group,
+                //  }
+                // dispatch_group_async(group,
                 
-               // dispatch_group_async(dispatch_group_t,dispatch_get_global_queue(QOS_CLASS_BACKGROUND, 0)) {
+                // dispatch_group_async(dispatch_group_t,dispatch_get_global_queue(QOS_CLASS_BACKGROUND, 0)) {
                 //
-               /* dispatch_group_async(dispatch_group_t,queue) {
-                    // block1
-                   // NSLog(@"Block1");
-                    //[NSThread sleepForTimeInterval:5.0];
-                   // NSLog(@"Block1 End");
-                    self.sendPendingChatMessages({ (result) -> () in
-                        print("checkin here pending messages sent")
-                          print("checkin fetching chats")
-                         self.fetchChatsFromServer()
-                        //self.fetchChatsFromServer({ (result) -> () in
-                         //   print("checkin here fertched chat")
-
-                    })
-                    //})
-                    }
-                */
+                /* dispatch_group_async(dispatch_group_t,queue) {
+                // block1
+                // NSLog(@"Block1");
+                //[NSThread sleepForTimeInterval:5.0];
+                // NSLog(@"Block1 End");
+                self.sendPendingChatMessages({ (result) -> () in
+                print("checkin here pending messages sent")
+                print("checkin fetching chats")
+                self.fetchChatsFromServer()
+                //self.fetchChatsFromServer({ (result) -> () in
+                //   print("checkin here fertched chat")
                 
-              /*  let queue = dispatch_queue_create("com.cnoon.manager-response-queue", DISPATCH_QUEUE_CONCURRENT)
-
-                dispatch_group_notify(dispatch_group_t,queue) {
-                    print("checkin fetching chats")
-                    self.fetchChatsFromServer()
-                   // self.fetchChatsFromServer({ (result) -> () in
-                    //    print("checkin here fertched chat")
-                        
-                    //})
-                    
+                })
+                //})
                 }
                 */
-              
+                
+                /*  let queue = dispatch_queue_create("com.cnoon.manager-response-queue", DISPATCH_QUEUE_CONCURRENT)
+                
+                dispatch_group_notify(dispatch_group_t,queue) {
+                print("checkin fetching chats")
+                self.fetchChatsFromServer()
+                // self.fetchChatsFromServer({ (result) -> () in
+                //    print("checkin here fertched chat")
+                
+                //})
+                
+                }
+                */
+                
                 
                 /*dispatch_group_async(dispatch_group_t,dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0)){
-                    // block2
-                    //NSLog(@"Block2");
-                   // [NSThread sleepForTimeInterval:8.0];
-                    //NSLog(@"Block2 End");
-                   
-                    }*/
+                // block2
+                //NSLog(@"Block2");
+                // [NSThread sleepForTimeInterval:8.0];
+                //NSLog(@"Block2 End");
+                
+                }*/
                 
                 //dispatch_group_notify(dispatch_group_t,dispatch_get_global_queue(QOS_CLASS_BACKGROUND, 0)){
-              /*  dispatch_group_async(dispatch_group_t,dispatch_get_global_queue(QOS_CLASS_BACKGROUND, 0)) {
-
-                    print("checkin here fetching chat from server")
-                    // block3
-                   // NSLog(@"Block3");
-                    
-                    self.fetchChatsFromServer({ (result) -> () in
-                        print("checkin here fertched chat")
-                        
-                    })
-                    }*/
-
+                /*  dispatch_group_async(dispatch_group_t,dispatch_get_global_queue(QOS_CLASS_BACKGROUND, 0)) {
+                
+                print("checkin here fetching chat from server")
+                // block3
+                // NSLog(@"Block3");
+                
+                self.fetchChatsFromServer({ (result) -> () in
+                print("checkin here fertched chat")
+                
+                })
+                }*/
+                
                 // only for non-ARC projects, handled automatically in ARC-enabled projects.
-            //    dispatch_release(dispatch_group_t);
+                //    dispatch_release(dispatch_group_t);
                 
                 
                 
-              /*  dispatch_async(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0)) {
-                    
-                    self.getCurrentUserDetails({ (result) -> () in
-                        //dispatch_async(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0)) {
-                        self.sendPendingChatMessages({ (result) -> () in
-                            
-                            // dispatch_async(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0)) {
-                            
-                            self.fetchChatsFromServer({ (result) -> () in
-                                
-                                
-                            })
-                            //}
-                        })
-                        
-                        //}
-                    })}
+                /*  dispatch_async(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0)) {
+                
+                self.getCurrentUserDetails({ (result) -> () in
+                //dispatch_async(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0)) {
+                self.sendPendingChatMessages({ (result) -> () in
+                
+                // dispatch_async(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0)) {
+                
+                self.fetchChatsFromServer({ (result) -> () in
+                
+                
+                })
+                //}
+                })
+                
+                //}
+                })}
                 
                 */
                 /*
                 ////dispatch_async(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0)) {
                 dispatch_async(dispatch_get_global_queue(QOS_CLASS_BACKGROUND, 0)) {
-                    print("checkin here .....")
-                    //////////self.getCurrentUserDetails({ (result) -> () in
-                    //dispatch_async(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0)) {
-                    print("checkin here1 .....")
-                    self.sendPendingChatMessages({ (result) -> () in
-                        print("checkin here2 .....")
-                        //QOS_CLASS_BACKGROUND
-                        //dispatch_async(dispatch_get_global_queue(QOS_CLASS_BACKGROUND, 0)) {
-                        //print("checkin here3 .....")
-                        self.fetchChatsFromServer({ (result) -> () in
-                            print("checkin here3 .....")
-                            
-                        })
-                        
-                       //}
-                        
-                    })
+                print("checkin here .....")
+                //////////self.getCurrentUserDetails({ (result) -> () in
+                //dispatch_async(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0)) {
+                print("checkin here1 .....")
+                self.sendPendingChatMessages({ (result) -> () in
+                print("checkin here2 .....")
+                //QOS_CLASS_BACKGROUND
+                //dispatch_async(dispatch_get_global_queue(QOS_CLASS_BACKGROUND, 0)) {
+                //print("checkin here3 .....")
+                self.fetchChatsFromServer({ (result) -> () in
+                print("checkin here3 .....")
+                
+                })
+                
+                //}
+                
+                })
                 }
                 */
                 
                 //}
                 //})
             }
-          
             
-        //}
+            
+            //}
         }
-        
+            
             // ******************%%%%%%%%% addition new
         else
         {
@@ -1164,7 +1164,7 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
         }
         
         
-    
+        
     }
     
     func sendPendingChatMessages(completion:(result:Bool)->())
@@ -1198,7 +1198,7 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
             {
                 print("pending chats count is \(count)")
                 count++
-                 var imParas=["from":pendingchats[from],"to":pendingchats[to],"fromFullName":pendingchats[fromFullName],"msg":pendingchats[msg],"uniqueid":pendingchats[uniqueid]]
+                var imParas=["from":pendingchats[from],"to":pendingchats[to],"fromFullName":pendingchats[fromFullName],"msg":pendingchats[msg],"uniqueid":pendingchats[uniqueid]]
                 
                 print("imparas are \(imParas)")
                 print(imParas, terminator: "")
@@ -1208,26 +1208,26 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
                 
                 //socketObj.socket.emit("logClient","IPHONE-LOG: \(username!) is sending chat message")
                 //////socketObj.socket.emit("im",["room":"globalchatroom","stanza":imParas])
-               // var statusNow=""
-               /* if(isSocketConnected==true)
+                // var statusNow=""
+                /* if(isSocketConnected==true)
                 {
-                    statusNow="sent"
-                    
+                statusNow="sent"
+                
                 }
                 else
                 {
-                    statusNow="pending"
+                statusNow="pending"
                 }
                 */
-               // statusNow="pending"
+                // statusNow="pending"
                 
                 //sqliteDB.SaveChat(pendingchats[to], from1:pendingchats[from],owneruser1: pendingchats[from], fromFullName1: pendingchats[fromFullName], msg1:pendingchats[msg],date1: nil,uniqueid1: pendingchats[uniqueid], status1: statusNow)
                 
-
+                
                 socketObj.socket.emitWithAck("im",["room":"globalchatroom","stanza":imParas])(timeoutAfter: 1500000)
                     {data in
                         print("chat ack received \(data)")
-                       // statusNow="sent"
+                        // statusNow="sent"
                         var chatmsg=JSON(data)
                         print(data[0])
                         print(chatmsg[0])
@@ -1236,13 +1236,13 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
                 }
                 
                 
-
                 
-
+                
+                
             }
             socketObj.socket.emit("logClient","IPHONE-LOG: \(username!) done sending pending chat messages")
             return completion(result: true)
-           //// return completion(result: true)
+            //// return completion(result: true)
         }
         catch
         {
@@ -1253,13 +1253,13 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
         
         
     }
-        
+    
     //=====================================
     //to fetch contacts from SQLite db
     
     func saveAllChat(UserchatJson:JSON,completion: (result:Bool)->())
     {
-         for var i=0;i<UserchatJson["msg"].count;i++
+        for var i=0;i<UserchatJson["msg"].count;i++
         {
             sqliteDB.SaveChat(UserchatJson["msg"][i]["to"].string!, from1: UserchatJson["msg"][i]["from"].string!,owneruser1:UserchatJson["msg"][i]["owneruser"].string! , fromFullName1: UserchatJson["msg"][i]["fromFullName"].string!, msg1: UserchatJson["msg"][i]["msg"].string!,date1:UserchatJson["msg"][i]["date"].string!,uniqueid1: UserchatJson["msg"][i]["uniqueid"].string!,status1: UserchatJson["msg"][i]["status"].string!)
             
@@ -1323,7 +1323,7 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
         }catch
         {
             print("query not runned contactlist")
-             return completion(result:false)
+            return completion(result:false)
         }
         
         
@@ -1360,14 +1360,14 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
                 if response1?.statusCode==200 {
                     //============GOT Contacts SECCESS=================
                     
-
+                    
                     print("success successfully received friends list from server")
                     socketObj.socket.emit("logClient","IPHONE-LOG:  successfully received friends list from server")
                     if(globalChatRoomJoined == false)
                     {
                         //socketObj.addHandlers()
                         print("joiningggggg")
-                  
+                        
                         
                     }
                     //print("Contacts fetched success")
@@ -1515,7 +1515,7 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
                         }
                         
                     }
-                
+                    
                     print("contacts fetchedddddddddddddd sucecess")
                     
                     
@@ -1548,7 +1548,7 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
                 }
                 
         }
-    
+        
         
         
     }
@@ -1569,7 +1569,7 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         //refreshControl.addTarget(self, action: Selector("fetchContacts"), forControlEvents: UIControlEvents.ValueChanged)
         
-       // print(ContactNames.count, terminator: "")
+        // print(ContactNames.count, terminator: "")
         return ContactUsernames.count
     }
     
@@ -1597,11 +1597,11 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
         // SELECT * FROM "users" INNER JOIN "posts" ON ("user_id" = "users"."id")
         
         select * from contacts
-
-*/
+        
+        */
         var allcontacts=sqliteDB.allcontacts
         var contactsKibo=sqliteDB.contactslists
-       
+        
         
         let phone = Expression<String>("phone")
         let usernameFromDb = Expression<String?>("username")
@@ -1645,7 +1645,7 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
             {
                 cell.contactName?.text=ContactUsernames[indexPath.row]
             }
-
+            
             
         }
         catch
@@ -1655,37 +1655,37 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
         }
         
         
-                /*
+        /*
         for(var i=0;i<contacts.count;i++)
         {
-            if(contacts[i].isKeyAvailable(CNContactPhoneNumbersKey)) {
-                for phoneNumber:CNLabeledValue in contacts[i].phoneNumbers {
-                    let a = phoneNumber.value as! CNPhoneNumber
-                    //print("\()
-                    var phone=a.valueForKey("digits") as! String
-                    if(phone==ContactUsernames[indexPath.row])
-                    {
-                        //Matched phone number. Got contact
-                        if(contacts[i].givenName != "" || contacts[i].familyName != "")
-                        {
-                        cell.contactName?.text=contacts[i].givenName+" "+contacts[i].familyName
-                            print("name is \(contacts[i].givenName+" "+contacts[i].familyName)")
-                        ContactNames[indexPath.row]=contacts[i].givenName+" "+contacts[i].familyName
-                        }
-                        else
-                        {
-                            print("name is no name")
-                            cell.contactName?.text=phone
-                        }
-                        contactFound=true
-                      
-                    }
-                }
+        if(contacts[i].isKeyAvailable(CNContactPhoneNumbersKey)) {
+        for phoneNumber:CNLabeledValue in contacts[i].phoneNumbers {
+        let a = phoneNumber.value as! CNPhoneNumber
+        //print("\()
+        var phone=a.valueForKey("digits") as! String
+        if(phone==ContactUsernames[indexPath.row])
+        {
+        //Matched phone number. Got contact
+        if(contacts[i].givenName != "" || contacts[i].familyName != "")
+        {
+        cell.contactName?.text=contacts[i].givenName+" "+contacts[i].familyName
+        print("name is \(contacts[i].givenName+" "+contacts[i].familyName)")
+        ContactNames[indexPath.row]=contacts[i].givenName+" "+contacts[i].familyName
         }
-            if(contactFound==false)
-            {
-                cell.contactName?.text=ContactUsernames[indexPath.row]
-            }
+        else
+        {
+        print("name is no name")
+        cell.contactName?.text=phone
+        }
+        contactFound=true
+        
+        }
+        }
+        }
+        if(contactFound==false)
+        {
+        cell.contactName?.text=ContactUsernames[indexPath.row]
+        }
         }*/
         
         
@@ -1694,7 +1694,7 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
         
         
         
-            
+        
         if ContactOnlineStatus[indexPath.row]==0
         {
             cell.btnGreenDot.hidden=true
@@ -1722,93 +1722,93 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
     
     func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
         /*if editingStyle == .Delete {
-            
-            var selectedRow = indexPath.row
-            print(selectedRow.description+" selected", terminator: "")
-            
-            var removeChatFromServer=NetworkingLibAlamofire()
-            var loggedFirstName=loggedUserObj["firstname"]
-            var loggedLastName=loggedUserObj["lastname"]
-            var loggedStatus=loggedUserObj["status"]
-            var loggedUsername=loggedUserObj["phone"]
-            // var loggedUsername=loggedUserObj["username"]
-            
-            print(self.ContactFirstname[selectedRow]+self.ContactLastNAme[selectedRow]+self.ContactStatus[selectedRow]+self.ContactUsernames[selectedRow], terminator: "")
-            
-            
-            
-            
-            var url=Constants.MainUrl+Constants.removeFriend
-            
-            Alamofire.request(.POST,"\(url)",headers:header,parameters:["username":"\(self.ContactUsernames[selectedRow])"]
-                ).validate(statusCode: 200..<300).responseJSON{response in
-                    var response1=response.response
-                    var request1=response.request
-                    var data1=response.data
-                    var error1=response.result.error
-                    
-                    //===========INITIALISE SOCKETIOCLIENT=========
-                    dispatch_async(dispatch_get_main_queue(), {
-                        
-                        
-                        if response1?.statusCode==200 {
-                            //print("got user success")
-                            print("Request success")
-                            var json=JSON(data1!)
-                            
-                            
-                            print(json)
-                            
-                            sqliteDB.deleteChat(self.ContactNames[selectedRow])
-                            
-                            //print(ContactNames[selectedRow]+" deleted")
-                            sqliteDB.deleteFriend(self.ContactUsernames[selectedRow])
-                            self.ContactNames.removeAtIndex(selectedRow)
-                            self.ContactIDs.removeAtIndex(selectedRow)
-                            self.ContactFirstname.removeAtIndex(selectedRow)
-                            self.ContactLastNAme.removeAtIndex(selectedRow)
-                            self.ContactStatus.removeAtIndex(selectedRow)
-                            self.ContactUsernames.removeAtIndex(selectedRow)
-                            self.ContactsEmail.removeAtIndex(selectedRow)
-                            self.ContactsPhone.removeAtIndex(selectedRow)
-                            // Delete the row from the data source
-                            tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Fade)
-                            //tblForChat.reloadData()
-                            
-                        }
-                        else
-                        {
-                            print("delete friend failed")
-                            //var json=JSON(error1!)
-                            print(error1?.description)
-                            print(response1?.statusCode)
-                            //errorMy=JSON(error1!)
-                            // print(errorMy.description)
-                        }
-                    })
-                    if(response1!.statusCode==401)
-                    {
-                        print(error1)
-                        print("delete friend failed token expired")
-                        self.rt.refrToken()
-                        
-                    }
-                    
-            }
-            //return dataMy
-            
-            
-            
-            
-            
-            /* removeChatFromServer.sendRequestPOST("POST", url: Constants.MainUrl+Constants.removeFriend+"?access_token=\(AuthToken)", parameters1: ["firstname":"\(ContactFirstname[selectedRow])", "lastname":"\(ContactLastNAme[selectedRow])", "status":"\(ContactStatus[selectedRow])", "username" : "\(ContactUsernames[selectedRow])"])
-            */
-            
-            
-            
-            
+        
+        var selectedRow = indexPath.row
+        print(selectedRow.description+" selected", terminator: "")
+        
+        var removeChatFromServer=NetworkingLibAlamofire()
+        var loggedFirstName=loggedUserObj["firstname"]
+        var loggedLastName=loggedUserObj["lastname"]
+        var loggedStatus=loggedUserObj["status"]
+        var loggedUsername=loggedUserObj["phone"]
+        // var loggedUsername=loggedUserObj["username"]
+        
+        print(self.ContactFirstname[selectedRow]+self.ContactLastNAme[selectedRow]+self.ContactStatus[selectedRow]+self.ContactUsernames[selectedRow], terminator: "")
+        
+        
+        
+        
+        var url=Constants.MainUrl+Constants.removeFriend
+        
+        Alamofire.request(.POST,"\(url)",headers:header,parameters:["username":"\(self.ContactUsernames[selectedRow])"]
+        ).validate(statusCode: 200..<300).responseJSON{response in
+        var response1=response.response
+        var request1=response.request
+        var data1=response.data
+        var error1=response.result.error
+        
+        //===========INITIALISE SOCKETIOCLIENT=========
+        dispatch_async(dispatch_get_main_queue(), {
+        
+        
+        if response1?.statusCode==200 {
+        //print("got user success")
+        print("Request success")
+        var json=JSON(data1!)
+        
+        
+        print(json)
+        
+        sqliteDB.deleteChat(self.ContactNames[selectedRow])
+        
+        //print(ContactNames[selectedRow]+" deleted")
+        sqliteDB.deleteFriend(self.ContactUsernames[selectedRow])
+        self.ContactNames.removeAtIndex(selectedRow)
+        self.ContactIDs.removeAtIndex(selectedRow)
+        self.ContactFirstname.removeAtIndex(selectedRow)
+        self.ContactLastNAme.removeAtIndex(selectedRow)
+        self.ContactStatus.removeAtIndex(selectedRow)
+        self.ContactUsernames.removeAtIndex(selectedRow)
+        self.ContactsEmail.removeAtIndex(selectedRow)
+        self.ContactsPhone.removeAtIndex(selectedRow)
+        // Delete the row from the data source
+        tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Fade)
+        //tblForChat.reloadData()
+        
+        }
+        else
+        {
+        print("delete friend failed")
+        //var json=JSON(error1!)
+        print(error1?.description)
+        print(response1?.statusCode)
+        //errorMy=JSON(error1!)
+        // print(errorMy.description)
+        }
+        })
+        if(response1!.statusCode==401)
+        {
+        print(error1)
+        print("delete friend failed token expired")
+        self.rt.refrToken()
+        
+        }
+        
+        }
+        //return dataMy
+        
+        
+        
+        
+        
+        /* removeChatFromServer.sendRequestPOST("POST", url: Constants.MainUrl+Constants.removeFriend+"?access_token=\(AuthToken)", parameters1: ["firstname":"\(ContactFirstname[selectedRow])", "lastname":"\(ContactLastNAme[selectedRow])", "status":"\(ContactStatus[selectedRow])", "username" : "\(ContactUsernames[selectedRow])"])
+        */
+        
+        
+        
+        
         } else if editingStyle == .Insert {
-            // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
+        // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
         }*/
         
     }
@@ -1819,102 +1819,102 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
     func tableView(tableView: UITableView, editActionsForRowAtIndexPath indexPath: NSIndexPath) -> [AnyObject]?  {
         // 1
         /*var shareAction = UITableViewRowAction(style: UITableViewRowActionStyle.Default, title: "Delete" , handler: { (action:UITableViewRowAction, indexPath:NSIndexPath) -> Void in
-            // 2
-            
-            
-            /*let shareMenu = UIAlertController(title: nil, message: "Share using", preferredStyle: .ActionSheet)
-            
-            let twitterAction = UIAlertAction(title: "Twitter", style: UIAlertActionStyle.Default, handler: nil)
-            let cancelAction = UIAlertAction(title: "Cancel", style: UIAlertActionStyle.Cancel, handler: nil)
-            
-            shareMenu.addAction(twitterAction)
-            shareMenu.addAction(cancelAction)
-            
-            
-            self.presentViewController(shareMenu, animated: true, completion: nil)
-            */
-            
-            
-            var selectedRow = indexPath.row
-            print(selectedRow.description+" selected")
-            
-            var removeChatFromServer=NetworkingLibAlamofire()
-            var loggedFirstName=loggedUserObj["firstname"]
-            var loggedLastName=loggedUserObj["lastname"]
-            var loggedStatus=loggedUserObj["status"]
-            var loggedUsername=loggedUserObj["username"]
-            
-            print(self.ContactFirstname[selectedRow]+self.ContactLastNAme[selectedRow]+self.ContactStatus[selectedRow]+self.ContactUsernames[selectedRow])
-            
-            
-            
-            
-            var url=Constants.MainUrl+Constants.removeFriend
-            
-            //var params=self.ContactsObjectss[selectedRow].arrayValue
-            //var pp=JSON(params)
-            //var bb=jsonString(self.ContactsObjectss[selectedRow].stringValue)
-            //var a=JSONStringify(self.ContactsObjectss[selectedRow].object, prettyPrinted: false)
-            Alamofire.request(.POST,"\(url)",headers:header,parameters:["username":"\(self.ContactUsernames[selectedRow])"]
-                ).validate(statusCode: 200..<300).responseJSON{response in
-                    var response1=response.response
-                    var request1=response.request
-                    var data1=response.data
-                    var error1=response.result.error
-                    //===========INITIALISE SOCKETIOCLIENT=========
-                    dispatch_async(dispatch_get_main_queue(), {
-                        
-                        //self.dismissViewControllerAnimated(true, completion: nil);
-                        /// self.performSegueWithIdentifier("loginSegue", sender: nil)
-                        
-                        if response1?.statusCode==200 {
-                            //print("got user success")
-                            print("Request success")
-                            var json=JSON(data1!)
-                            
-                            
-                            print(json)
-                            //print(json)
-                            //dataMy=JSON(data1!)
-                            //print(dataMy.description)
-                            
-                            sqliteDB.deleteChat(self.ContactNames[selectedRow])
-                            
-                            //print(ContactNames[selectedRow]+" deleted")
-                            sqliteDB.deleteFriend(self.ContactUsernames[selectedRow])
-                            self.ContactNames.removeAtIndex(selectedRow)
-                            self.ContactIDs.removeAtIndex(selectedRow)
-                            self.ContactFirstname.removeAtIndex(selectedRow)
-                            self.ContactLastNAme.removeAtIndex(selectedRow)
-                            self.ContactStatus.removeAtIndex(selectedRow)
-                            self.ContactUsernames.removeAtIndex(selectedRow)
-                            self.ContactsPhone.removeAtIndex(selectedRow)
-                            self.ContactsEmail.removeAtIndex(selectedRow)
-                            // Delete the row from the data source
-                            tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Fade)
-                            //tblForChat.reloadData()
-                            
-                        }
-                        else
-                        {
-                            print("delete friend failed")
-                            //var json=JSON(error1!)
-                            print(error1?.description)
-                            print(response1?.statusCode)
-                            //errorMy=JSON(error1!)
-                            // print(errorMy.description)
-                        }
-                    })
-                    if(response1!.statusCode==401)
-                    {
-                        print(error1)
-                        print("delete friend failed token expired")
-                        self.rt.refrToken()
-                        
-                    }
-                    
-            }
-            
+        // 2
+        
+        
+        /*let shareMenu = UIAlertController(title: nil, message: "Share using", preferredStyle: .ActionSheet)
+        
+        let twitterAction = UIAlertAction(title: "Twitter", style: UIAlertActionStyle.Default, handler: nil)
+        let cancelAction = UIAlertAction(title: "Cancel", style: UIAlertActionStyle.Cancel, handler: nil)
+        
+        shareMenu.addAction(twitterAction)
+        shareMenu.addAction(cancelAction)
+        
+        
+        self.presentViewController(shareMenu, animated: true, completion: nil)
+        */
+        
+        
+        var selectedRow = indexPath.row
+        print(selectedRow.description+" selected")
+        
+        var removeChatFromServer=NetworkingLibAlamofire()
+        var loggedFirstName=loggedUserObj["firstname"]
+        var loggedLastName=loggedUserObj["lastname"]
+        var loggedStatus=loggedUserObj["status"]
+        var loggedUsername=loggedUserObj["username"]
+        
+        print(self.ContactFirstname[selectedRow]+self.ContactLastNAme[selectedRow]+self.ContactStatus[selectedRow]+self.ContactUsernames[selectedRow])
+        
+        
+        
+        
+        var url=Constants.MainUrl+Constants.removeFriend
+        
+        //var params=self.ContactsObjectss[selectedRow].arrayValue
+        //var pp=JSON(params)
+        //var bb=jsonString(self.ContactsObjectss[selectedRow].stringValue)
+        //var a=JSONStringify(self.ContactsObjectss[selectedRow].object, prettyPrinted: false)
+        Alamofire.request(.POST,"\(url)",headers:header,parameters:["username":"\(self.ContactUsernames[selectedRow])"]
+        ).validate(statusCode: 200..<300).responseJSON{response in
+        var response1=response.response
+        var request1=response.request
+        var data1=response.data
+        var error1=response.result.error
+        //===========INITIALISE SOCKETIOCLIENT=========
+        dispatch_async(dispatch_get_main_queue(), {
+        
+        //self.dismissViewControllerAnimated(true, completion: nil);
+        /// self.performSegueWithIdentifier("loginSegue", sender: nil)
+        
+        if response1?.statusCode==200 {
+        //print("got user success")
+        print("Request success")
+        var json=JSON(data1!)
+        
+        
+        print(json)
+        //print(json)
+        //dataMy=JSON(data1!)
+        //print(dataMy.description)
+        
+        sqliteDB.deleteChat(self.ContactNames[selectedRow])
+        
+        //print(ContactNames[selectedRow]+" deleted")
+        sqliteDB.deleteFriend(self.ContactUsernames[selectedRow])
+        self.ContactNames.removeAtIndex(selectedRow)
+        self.ContactIDs.removeAtIndex(selectedRow)
+        self.ContactFirstname.removeAtIndex(selectedRow)
+        self.ContactLastNAme.removeAtIndex(selectedRow)
+        self.ContactStatus.removeAtIndex(selectedRow)
+        self.ContactUsernames.removeAtIndex(selectedRow)
+        self.ContactsPhone.removeAtIndex(selectedRow)
+        self.ContactsEmail.removeAtIndex(selectedRow)
+        // Delete the row from the data source
+        tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Fade)
+        //tblForChat.reloadData()
+        
+        }
+        else
+        {
+        print("delete friend failed")
+        //var json=JSON(error1!)
+        print(error1?.description)
+        print(response1?.statusCode)
+        //errorMy=JSON(error1!)
+        // print(errorMy.description)
+        }
+        })
+        if(response1!.statusCode==401)
+        {
+        print(error1)
+        print("delete friend failed token expired")
+        self.rt.refrToken()
+        
+        }
+        
+        }
+        
         })*/
         // 3
         var rateAction = UITableViewRowAction(style: UITableViewRowActionStyle.Default, title: "Call" , handler: { (action:UITableViewRowAction, indexPath:NSIndexPath) -> Void in
@@ -1999,24 +1999,24 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
             
             /*
             dispatch_async(dispatch_get_main_queue(),{
-                var alert = UIAlertController(title: "Welcome to Cloudkibo Meeting", message: "Please enter your username", preferredStyle: .Alert)
-                
-                //2. Add the text field. You can configure it however you need.
-                alert.addTextFieldWithConfigurationHandler({ (textField) -> Void in
-                    textField.text = ""
-                })
-                
-                
-                //3. Grab the value from the text field, and print it when the user clicks OK.
-                alert.addAction(UIAlertAction(title: "OK", style: .Default, handler: { (action) -> Void in
-                    let textField = alert.textFields![0] as UITextField
-                    username = textField.text!
-                    print("Text field: \(textField.text)")
-                    
-                    
-                    
-                    
-                }))})
+            var alert = UIAlertController(title: "Welcome to Cloudkibo Meeting", message: "Please enter your username", preferredStyle: .Alert)
+            
+            //2. Add the text field. You can configure it however you need.
+            alert.addTextFieldWithConfigurationHandler({ (textField) -> Void in
+            textField.text = ""
+            })
+            
+            
+            //3. Grab the value from the text field, and print it when the user clicks OK.
+            alert.addAction(UIAlertAction(title: "OK", style: .Default, handler: { (action) -> Void in
+            let textField = alert.textFields![0] as UITextField
+            username = textField.text!
+            print("Text field: \(textField.text)")
+            
+            
+            
+            
+            }))})
             */
             //////////////////////////////
             //CORRECT CODE ONE TO ONE CALL COMMENTED
@@ -2030,29 +2030,29 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
             }
             else{
                 
-                 sqliteDB.saveCallHist(self.ContactUsernames[selectedRow], dateTime1: NSDate().debugDescription, type1: "Outgoing")
+                sqliteDB.saveCallHist(self.ContactNames[selectedRow], dateTime1: NSDate().debugDescription, type1: "Outgoing")
                 
-            //socketObj.socket.emit("callthisperson",["room" : "globalchatroom","callee": self.ContactUsernames[selectedRow], "caller":username!])
-            // &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&**************************
-            username=KeychainWrapper.stringForKey("username")
-            socketObj.socket.emit("logClient","IPHONE-LOG: callthisperson,room:globalchatroom,callee: \(self.ContactUsernames[selectedRow]), caller:\(username!)")
-            print("callthisperson,room : globalchatroom,callee: \(self.ContactUsernames[selectedRow]), caller:\(username!)")
-            socketObj.socket.emit("callthisperson",["room" : "globalchatroom","callee": self.ContactUsernames[selectedRow], "caller":username!])
-            print("username is ... \(username!)")
+                //socketObj.socket.emit("callthisperson",["room" : "globalchatroom","callee": self.ContactUsernames[selectedRow], "caller":username!])
+                // &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&**************************
+                username=KeychainWrapper.stringForKey("username")
+                socketObj.socket.emit("logClient","IPHONE-LOG: callthisperson,room:globalchatroom,callee: \(self.ContactUsernames[selectedRow]), caller:\(username!)")
+                print("callthisperson,room : globalchatroom,callee: \(self.ContactUsernames[selectedRow]), caller:\(username!)")
+                socketObj.socket.emit("callthisperson",["room" : "globalchatroom","callee": self.ContactUsernames[selectedRow], "caller":username!])
+                print("username is ... \(username!)")
+                
+                isInitiator=true
+                callerName=username!
+                iamincallWith=self.ContactUsernames[selectedRow]
+                
+                iOSstartedCall=true
+                socketObj.socket.emit("logClient","IPHONE-LOG: \(username!) is going to videoViewController")
+                ////
+                var next = self.storyboard!.instantiateViewControllerWithIdentifier("MainV2") as! VideoViewController
+                
+                self.presentViewController(next, animated: true, completion: {
+                })
+            }
             
-            isInitiator=true
-            callerName=username!
-            iamincallWith=self.ContactUsernames[selectedRow]
-            
-            iOSstartedCall=true
-            socketObj.socket.emit("logClient","IPHONE-LOG: \(username!) is going to videoViewController")
-            ////
-            var next = self.storyboard!.instantiateViewControllerWithIdentifier("MainV2") as! VideoViewController
-            
-            self.presentViewController(next, animated: true, completion: {
-            })
-        }
-        
             /*
             var next = self.storyboard?.instantiateViewControllerWithIdentifier("Main2") as! VideoViewController
             
@@ -2163,10 +2163,10 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
         socketObj.socket.emit("logClient","IPHONE-LOG: \(username!) received message \(message)")
         switch(message)
         {
-        
-        
+            
+            
             // %%%%%%%%%%%%%%%%%% new commented
-        /*case "Accept Call":
+            /*case "Accept Call":
             socketObj.socket.emit("logClient","IPHONE-LOG: \(username!) is inside accept call")
             print("Accept call in chat view")
             callerName=KeychainWrapper.stringForKey("username")!
@@ -2177,55 +2177,55 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
             var roomname=""
             //if(ConferenceRoomName == "")
             //{
-                socketObj.socket.emit("logClient","IPHONE-LOG: \(username!) is inside accept call")
-                print("inside accept call")
-                /// roomname="test"
-                
-                /*** neww may 2016 MOVED ROOM JOIN
-                
-                if(isConference == true)
-                {print("conference name is\(ConferenceRoomName)")
-                roomname=ConferenceRoomName
-                }
-                else{
-                //roomname=self.randomStringWithLength(9) as String
-                roomname="sumaira"
-                }
-                //iamincallWith=username!
-                areYouFreeForCall=false
-                joinedRoomInCall=roomname as String
-                socketObj.socket.emitWithAck("init", ["room":joinedRoomInCall,"username":username!])(timeoutAfter: 1500000) {data in
-                meetingStarted=true
-                print("room joined by got ack")
-                var a=JSON(data)
-                print(a.debugDescription)
-                currentID=a[1].int!
-                print("current id is \(currentID)")
-                var aa=JSON(["msg":["type":"room_name","room":roomname as String],"room":globalroom,"to":iamincallWith!,"username":username!])
-                print(aa.description)
-                socketObj.socket.emit("message",aa.object)
-                
-                }//end data
-                */
-                
-                
-                ///NEW ADDED
-                
-                socketObj.socket.emit("logClient","IPHONE-LOG: \(username!) is going to videoViewController")
-                ////
-                var next = self.storyboard!.instantiateViewControllerWithIdentifier("MainV2") as! VideoViewController
-                
-                self.presentViewController(next, animated: true, completion: {
-                })
+            socketObj.socket.emit("logClient","IPHONE-LOG: \(username!) is inside accept call")
+            print("inside accept call")
+            /// roomname="test"
+            
+            /*** neww may 2016 MOVED ROOM JOIN
+            
+            if(isConference == true)
+            {print("conference name is\(ConferenceRoomName)")
+            roomname=ConferenceRoomName
+            }
+            else{
+            //roomname=self.randomStringWithLength(9) as String
+            roomname="sumaira"
+            }
+            //iamincallWith=username!
+            areYouFreeForCall=false
+            joinedRoomInCall=roomname as String
+            socketObj.socket.emitWithAck("init", ["room":joinedRoomInCall,"username":username!])(timeoutAfter: 1500000) {data in
+            meetingStarted=true
+            print("room joined by got ack")
+            var a=JSON(data)
+            print(a.debugDescription)
+            currentID=a[1].int!
+            print("current id is \(currentID)")
+            var aa=JSON(["msg":["type":"room_name","room":roomname as String],"room":globalroom,"to":iamincallWith!,"username":username!])
+            print(aa.description)
+            socketObj.socket.emit("message",aa.object)
+            
+            }//end data
+            */
+            
+            
+            ///NEW ADDED
+            
+            socketObj.socket.emit("logClient","IPHONE-LOG: \(username!) is going to videoViewController")
+            ////
+            var next = self.storyboard!.instantiateViewControllerWithIdentifier("MainV2") as! VideoViewController
+            
+            self.presentViewController(next, animated: true, completion: {
+            })
             
             //}
-
-*/
+            
+            */
         case "othersideringing":
             print(message)
             iOSstartedCall=true
             //////*** newww may 2016
-           
+            
             callerName=KeychainWrapper.stringForKey("username")!
             //iamincallWith=msg[0]["callee"].string!
             socketObj.socket.emit("logClient","IPHONE-LOG: \(username!) othersideringing , callee is \(callerName)")
@@ -2260,8 +2260,8 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
                         print("user found offlinee \(self.ContactUsernames[j])")
                         self.ContactOnlineStatus[j]=0
                         dispatch_async(dispatch_get_main_queue())
-{
-                        self.tblForChat.reloadData()
+                            {
+                                self.tblForChat.reloadData()
                         }
                     }
                 }
@@ -2317,9 +2317,37 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
                 
                 socketObj.socket.emit("yesiamfreeforcall",["mycaller" : jdata[0]["caller"].string!, "me":username!])
                 
-                 sqliteDB.saveCallHist(iamincallWith, dateTime1: NSDate().debugDescription, type1: "Incoming")
+                /*
+                var allcontacts=sqliteDB.allcontacts
+                //var contactsKibo=sqliteDB.contactslists
                 
                 
+                let phone = Expression<String>("phone")
+                let usernameFromDb = Expression<String?>("username")
+                let name = Expression<String?>("name")
+                
+                var nameOfCaller=iamincallWith
+                //do
+                //{allkiboContactsArray = Array(try sqliteDB.db.prepare(contactsKibo))
+                do{
+                    for all in try sqliteDB.db.prepare(allcontacts) {
+                        if(all[phone]==iamincallWith) //if we found contact in our AddressBook
+                            
+                        {
+                            //Matched phone number. Got contact
+                            if(all[name] != "" || all[name] != nil)
+                            {
+                                nameOfCaller=all[name]!
+                                //cell.contactName?.text=all[name]
+                            }}}}
+                catch
+                {
+                    print("error here 111")
+                }
+                
+                sqliteDB.saveCallHist(nameOfCaller, dateTime1: NSDate().debugDescription, type1: "Incoming")
+                
+                */
                 
                 var next = self.storyboard?.instantiateViewControllerWithIdentifier("Main") as! CallRingingViewController
                 
@@ -2343,7 +2371,7 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
                 
             }
             
-            case "youareonline":
+        case "youareonline":
             globalChatRoomJoined=true
             var contactsOnlineList=JSON(data)
             print(contactsOnlineList.debugDescription)
@@ -2364,67 +2392,67 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
                 }
             }
             
-          //  dispatch_async(dispatch_get_main_queue())
-               // {
+            //  dispatch_async(dispatch_get_main_queue())
+            // {
             
-                //}
-            case "calleeisbusy":
-                
+            //}
+        case "calleeisbusy":
+            
             self.showError("Information", message: "User is busy. Please try again later", button1: "Ok")
             
-            case "online":
-                //{data,ack in
-                    var onlinefound=false
-                    print("online status...")
-                    var onlineUsers=JSON(data)
-                    print(onlineUsers[0])
-                    //print(onlineUsers[0]["username"])
-                    
-                    for(var i=0;i<onlineUsers.count;i++)
-                    {
-                        for(var j=0;j<self.ContactUsernames.count;j++)
-                        {
-                            if self.ContactIDs[j]==onlineUsers[i]["_id"].string!
-                            {
-                                //found online contact,s username
-                                print("user found online2 \(self.ContactUsernames[j])")
-                                self.ContactOnlineStatus[j]=1
-                                onlinefound=true
-                                dispatch_async(dispatch_get_main_queue())
-                                    {
-                                        self.tblForChat.reloadData()
-                                }
-                            }
-                        }
-                    }
+        case "online":
+            //{data,ack in
+            var onlinefound=false
+            print("online status...")
+            var onlineUsers=JSON(data)
+            print(onlineUsers[0])
+            //print(onlineUsers[0]["username"])
             
-           // }
-            case "offline":
-                var offlinefound=false
-                //{data,ack in
-                    
-                    print("offline status...")
-                    var offlineUsers=JSON(data)
-                    print(offlineUsers[0])
-                    //print(offlineUsers[0]["username"])
-                    
-                    for(var i=0;i<offlineUsers.count;i++)
+            for(var i=0;i<onlineUsers.count;i++)
+            {
+                for(var j=0;j<self.ContactUsernames.count;j++)
+                {
+                    if self.ContactIDs[j]==onlineUsers[i]["_id"].string!
                     {
-                        for(var j=0;j<self.ContactUsernames.count;j++)
-                        {
-                            if self.ContactUsernames[j]==offlineUsers[i]["phone"].string!
+                        //found online contact,s username
+                        print("user found online2 \(self.ContactUsernames[j])")
+                        self.ContactOnlineStatus[j]=1
+                        onlinefound=true
+                        dispatch_async(dispatch_get_main_queue())
                             {
-                                //found online contact,s username
-                                print("user found offlinee \(self.ContactUsernames[j])")
-                                self.ContactOnlineStatus[j]=0
-                                offlinefound=true
-                                dispatch_async(dispatch_get_main_queue())
-                                    {
-                                        self.tblForChat.reloadData()
-                                }
-                            }
+                                self.tblForChat.reloadData()
                         }
                     }
+                }
+            }
+            
+            // }
+        case "offline":
+            var offlinefound=false
+            //{data,ack in
+            
+            print("offline status...")
+            var offlineUsers=JSON(data)
+            print(offlineUsers[0])
+            //print(offlineUsers[0]["username"])
+            
+            for(var i=0;i<offlineUsers.count;i++)
+            {
+                for(var j=0;j<self.ContactUsernames.count;j++)
+                {
+                    if self.ContactUsernames[j]==offlineUsers[i]["phone"].string!
+                    {
+                        //found online contact,s username
+                        print("user found offlinee \(self.ContactUsernames[j])")
+                        self.ContactOnlineStatus[j]=0
+                        offlinefound=true
+                        dispatch_async(dispatch_get_main_queue())
+                            {
+                                self.tblForChat.reloadData()
+                        }
+                    }
+                }
+            }
             
             //}
             
@@ -2441,7 +2469,7 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
         print("dismissed chatttttttt")
         //socketObj.delegate=nil
     }
-
+    
     
     
 }

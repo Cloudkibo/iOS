@@ -512,11 +512,11 @@
             </objects>
             <point key="canvasLocation" x="1330" y="-402"/>
         </scene>
-        <!--Navigation Controller-->
+        <!--Calls-->
         <scene sceneID="g7Y-fH-vpa">
             <objects>
                 <navigationController id="GLU-bm-Cvs" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="" image="tabbar_more" id="u4X-wt-T2C">
+                    <tabBarItem key="tabBarItem" title="Calls" image="tabbar_clock" selectedImage="tabbar_clock_highlighted" id="u4X-wt-T2C">
                         <inset key="imageInsets" minX="0.0" minY="5" maxX="0.0" maxY="-5"/>
                     </tabBarItem>
                     <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
@@ -3174,7 +3174,8 @@
         <image name="project_plus" width="35" height="36"/>
         <image name="tabbar_chat" width="23" height="32"/>
         <image name="tabbar_chatmain" width="23" height="36"/>
-        <image name="tabbar_more" width="24" height="37"/>
+        <image name="tabbar_clock" width="26" height="26"/>
+        <image name="tabbar_clock_highlighted" width="26" height="26"/>
         <image name="tabbar_note" width="23" height="33"/>
         <image name="tabbar_project" width="30" height="38"/>
         <image name="video_off" width="50" height="50"/>

@@ -46,6 +46,7 @@ class CallHistoryTableViewController: UIViewController,UITableViewDelegate,UITab
               //  print("id: \(user[username]), email: \(user[email])")
                 
             }
+            tblForCallsHistory.reloadData()
         }
         catch
         {

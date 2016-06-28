@@ -405,14 +405,65 @@ class LoginAPI{
             print("received messageee")
             var msg=JSON(data)
             var missedMsg=""
+            var nameOfCaller=""
             print(msg.debugDescription)
             let mmm=msg[0].debugDescription
             let start = mmm.startIndex
             let char:Character=":"
             let end=mmm.characters.indexOf(char)
             ////////^^^^^^newww let end = find(mmm, ":")
-            
+            print("missed here in login API")
             if (end != nil) {
+                missedMsg = mmm[start...end!]
+                print(missedMsg)
+                var startNameChar=end
+                var lastChar=missedMsg.characters.indices.last
+                nameOfCaller=mmm[startNameChar!...lastChar!]
+                print(nameOfCaller)
+            }
+            if(missedMsg == "Missed Incoming Call: ")
+            {print("inside missed notification")
+                
+                var allcontacts=sqliteDB.allcontacts
+                //var contactsKibo=sqliteDB.contactslists
+                
+                
+                let phone = Expression<String>("phone")
+                let usernameFromDb = Expression<String?>("username")
+                let name = Expression<String?>("name")
+                
+                //do
+                //{allkiboContactsArray = Array(try sqliteDB.db.prepare(contactsKibo))
+                    do{
+                        for all in try sqliteDB.db.prepare(allcontacts) {
+                        if(all[phone]==nameOfCaller) //if we found contact in our AddressBook
+                            
+                        {
+                            //Matched phone number. Got contact
+                            if(all[name] != "" || all[name] != nil)
+                            {
+                                nameOfCaller=all[name]!
+                                //cell.contactName?.text=all[name]
+                                print("name is \(all[name])")
+
+                            }
+                            }
+                        }
+                    }
+                catch
+                {
+                    print("error in fetching all contacts from addressbook")
+                }
+            //}
+                
+                sqliteDB.saveCallHist(nameOfCaller, dateTime1: NSDate().debugDescription, type1: "Missed")
+                
+                let todoItem = NotificationItem(otherUserName: nameOfCaller, message: "you received a mised call", type: "missed call", UUID: "111", deadline: NSDate())
+                notificationsMainClass.sharedInstance.addItem(todoItem) // schedule a local notification to persist this item
+                
+            }
+        
+           /* if (end != nil) {
                 missedMsg = mmm[start...end!]
                 print(missedMsg)
             }
@@ -424,7 +475,7 @@ class LoginAPI{
                 let todoItem = NotificationItem(otherUserName: "\(iamincallWith!)", message: "you received a mised call", type: "missed call", UUID: "111", deadline: NSDate())
                 notificationsMainClass.sharedInstance.addItem(todoItem) // schedule a local notification to persist this item
                 
-            }
+            }*/
             if(msg[0].description=="Accept Call")
             {
                 print("loginAPI Accept Call delegate sentt")
@@ -796,8 +847,11 @@ class LoginAPI{
                 var msg=JSON(data)
                 if(msg[0].description != "Accept Call")
                 {
+                    if(self.delegateWebRTC != nil)
+{
                 self.delegateWebRTC.socketReceivedMessageWebRTC("message",data: data)
                 }
+}
                 else
                 {
                     /////// *** may 2016 neww self.delegate?.socketReceivedMessage("Accept Call",data: data)
