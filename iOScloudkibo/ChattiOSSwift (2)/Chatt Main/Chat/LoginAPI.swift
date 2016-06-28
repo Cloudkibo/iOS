@@ -418,6 +418,9 @@ class LoginAPI{
             }
             if(missedMsg == "Missed Call:")
             {print("inside missed notification")
+                
+                sqliteDB.saveCallHist(iamincallWith, dateTime1: NSDate().debugDescription, type1: "Missed")
+                
                 let todoItem = NotificationItem(otherUserName: "\(iamincallWith!)", message: "you received a mised call", type: "missed call", UUID: "111", deadline: NSDate())
                 notificationsMainClass.sharedInstance.addItem(todoItem) // schedule a local notification to persist this item
                 
@@ -984,8 +987,9 @@ class LoginAPI{
             
             
             let formatter = NSDateFormatter()
-            formatter.dateStyle = NSDateFormatterStyle.ShortStyle
-            formatter.timeStyle = .ShortStyle
+            formatter.dateFormat = "MM/dd, HH:mm";
+           // formatter.dateStyle = NSDateFormatterStyle.ShortStyle
+            //formatter.timeStyle = .ShortStyle
             
             let dateString = formatter.stringFromDate(datens2!)
             

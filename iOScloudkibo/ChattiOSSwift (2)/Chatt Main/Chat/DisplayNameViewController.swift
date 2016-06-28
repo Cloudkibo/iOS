@@ -568,8 +568,9 @@ class DisplayNameViewController: UIViewController {
                             
                             
                             let formatter = NSDateFormatter()
-                            formatter.dateStyle = NSDateFormatterStyle.ShortStyle
-                            formatter.timeStyle = .ShortStyle
+                            formatter.dateFormat = "MM/dd, HH:mm";
+                            //formatter.dateStyle = NSDateFormatterStyle.ShortStyle
+                            //formatter.timeStyle = .ShortStyle
                             
                             let dateString = formatter.stringFromDate(datens2!)
                             

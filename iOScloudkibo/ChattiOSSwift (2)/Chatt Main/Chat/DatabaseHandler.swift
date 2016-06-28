@@ -17,7 +17,7 @@ class DatabaseHandler:NSObject{
     var contactslists:Table!
     var userschats:Table!
     var allcontacts:Table!
-    
+    var callHistory:Table!
     init(dbName:String)
     {print("inside database handler class")
         
@@ -50,6 +50,7 @@ class DatabaseHandler:NSObject{
         ///////contactslists.drop()
         createContactListsTable()
         createUserChatTable()
+        createCallHistoryTable()
         //createAllContactsTable()
         
     }
@@ -228,10 +229,11 @@ class DatabaseHandler:NSObject{
         
         var date22=NSDate()
         var formatter = NSDateFormatter();
-        formatter.dateFormat = "yyyy-MM-dd HH:mm:ss ZZZ";
+        //formatter.dateFormat = "yyyy-MM-dd HH:mm:ss ZZZ";
+        formatter.dateFormat = "MM/dd, HH:mm";
         formatter.timeZone = NSTimeZone.localTimeZone()
-        formatter.dateStyle = .ShortStyle
-        formatter.timeStyle = .ShortStyle
+        //formatter.dateStyle = .ShortStyle
+        //formatter.timeStyle = .ShortStyle
         let defaultTimeZoneStr = formatter.stringFromDate(date22);
         
         do{
@@ -284,6 +286,73 @@ class DatabaseHandler:NSObject{
     }
     
     }*/
+    
+    func createCallHistoryTable()
+    {
+    
+            socketObj.socket.emit("logClient","IPHONE-LOG: creating accounts table")
+            
+            let name = Expression<String>("name")
+            let dateTime = Expression<String>("dateTime")
+            let type = Expression<String>("type")
+            
+            
+            self.callHistory = Table("callHistory")
+            do{
+                try db.run(callHistory.create(ifNotExists: true) { t in     // CREATE TABLE "callHistory"
+                    t.column(name)
+                    t.column(dateTime)
+                    t.column(type)
+                    })
+                
+            }
+            catch
+            {
+                socketObj.socket.emit("logClient","IPHONE-LOG: error in creating callHistory table \(error)")
+                print("error in creating callHistory table")
+            }
+        
+}
+    
+    func saveCallHist(name1:String,dateTime1:String,type1:String)
+    {
+        // let contactObject=Expression<CNContact>("contactObj")
+        
+        let name = Expression<String>("name")
+        let dateTime = Expression<String>("dateTime")
+        let type = Expression<String>("type")
+        
+        var date22=NSDate()
+        var formatter = NSDateFormatter();
+        //formatter.dateFormat = "yyyy-MM-dd HH:mm:ss ZZZ";
+         formatter.dateFormat = "MM/dd, HH:mm";
+        formatter.timeZone = NSTimeZone.localTimeZone()
+        //formatter.dateStyle = .ShortStyle
+        //formatter.timeStyle = .ShortStyle
+        let defaultTimeZoneStr = formatter.stringFromDate(date22);
+        
+        
+        
+        
+        var tbl_callHist=sqliteDB.callHistory
+        
+        do {
+            let rowid = try db.run(tbl_callHist.insert(
+                name<-name1,
+                dateTime<-defaultTimeZoneStr,
+                type<-type1
+                ))
+            socketObj.socket.emit("logClient","IPHONE-LOG: Call History saved in sqliteDB")
+            print("inserted id callHist : \(rowid)")
+        } catch {
+            print("insertion failed: callHist \(error)")
+        }
+        
+        
+        
+    }
+    
+    
     func saveAllContacts(name1:String,phone1:String,kiboContact1:Bool)
     {
         // let contactObject=Expression<CNContact>("contactObj")
@@ -358,10 +427,11 @@ class DatabaseHandler:NSObject{
         {
             var date22=NSDate()
             var formatter = NSDateFormatter();
-            formatter.dateFormat = "yyyy-MM-dd HH:mm:ss ZZZ";
+            //formatter.dateFormat = "yyyy-MM-dd HH:mm:ss ZZZ";
+            formatter.dateFormat = "MM/dd, HH:mm";
             formatter.timeZone = NSTimeZone.localTimeZone()
-            formatter.dateStyle = .ShortStyle
-            formatter.timeStyle = .ShortStyle
+            //formatter.dateStyle = .ShortStyle
+            //formatter.timeStyle = .ShortStyle
             let defaultTimeZoneStr = formatter.stringFromDate(date22);
             
             mydate=defaultTimeZoneStr

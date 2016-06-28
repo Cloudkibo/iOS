@@ -180,215 +180,8 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
         }
     }
     
-    func fetchChatsFromServer()
-    {
-        
-        //%%%%%% fetch chat
-        
-        //dispatch_async(dispatch_get_global_queue(priority, 0)) {
-        //self.progressBarDisplayer("Setting Conversations", true)
-        print("\(username) is Fetching chat")
-        socketObj.socket.emit("logClient","\(username) is Fetching chat")
-        var fetchChatURL=Constants.MainUrl+Constants.fetchMyAllchats
-        //var getUserDataURL=userDataUrl
-        
-      //  dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND,0))
-        //    {
-        
-        /*
-        let queue2 = dispatch_queue_create("com.cnoon.manager-response-queue", DISPATCH_QUEUE_CONCURRENT)
-        
-        let request = Alamofire.request(.POST, "\(fetchChatURL)", parameters: ["user1":username!])
-        request.response(
-            queue: queue2,
-            responseSerializer: Request.JSONResponseSerializer(),
-            completionHandler: { response in
-                // You are now running on the concurrent `queue` you created earlier.
-                print("Parsing JSON on thread: \(NSThread.currentThread()) is main thread: \(NSThread.isMainThread())")
-                
-                // Validate your JSON response and convert into model objects if necessary
-                print(response)
-                print(response.result.value)
-                
-                
-                switch response.result {
-                case .Success:
-                    
-                    
-                    socketObj.socket.emit("logClient", "All chat fetched success")
-                    if let data1 = response.result.value {
-                        let UserchatJson = JSON(data1)
-                        // print("chat fetched JSON: \(json)")
-                        
-                        var tableUserChatSQLite=sqliteDB.userschats
-                        
-                        do{
-                            try sqliteDB.db.run(tableUserChatSQLite.delete())
-                        }catch{
-                            socketObj.socket.emit("logClient","sqlite chat table refreshed")
-                            print("chat table not deleted")
-                        }
-                        
-                        //Overwrite sqlite db
-                        //sqliteDB.deleteChat(self.selectedContact)
-                        
-                        socketObj.socket.emit("logClient","IPHONE-LOG: all chat messages count is \(UserchatJson["msg"].count)")
-                        for var i=0;i<UserchatJson["msg"].count
-                            ;i++
-                        {
-                            
-                            if(UserchatJson["msg"][i]["uniqueid"].isExists())
-                            {
-                                if(UserchatJson["msg"][i]["to"].string! == username! && UserchatJson["msg"][i]["status"].string!=="sent")
-                                {
-                                    var updatedStatus="delivered"
-                                    sqliteDB.SaveChat(UserchatJson["msg"][i]["to"].string!, from1: UserchatJson["msg"][i]["from"].string!,owneruser1:UserchatJson["msg"][i]["owneruser"].string! , fromFullName1: UserchatJson["msg"][i]["fromFullName"].string!, msg1: UserchatJson["msg"][i]["msg"].string!,date1:UserchatJson["msg"][i]["date"].string!,uniqueid1:UserchatJson["msg"][i]["uniqueid"].string!,status1: updatedStatus )
-                                    
-                                    //socketObj.socket.emit("messageStatusUpdate",["status":"","iniqueid":"","sender":""])
-                                    socketObj.socket.emitWithAck("messageStatusUpdate", ["status":updatedStatus,"uniqueid":UserchatJson["msg"][i]["uniqueid"].string!,"sender": UserchatJson["msg"][i]["from"].string!])(timeoutAfter: 0){data in
-                                        var chatmsg=JSON(data)
-                                        print(data[0])
-                                        print(chatmsg[0])
-                                        print("chat status emitted")
-                                        socketObj.socket.emit("logClient","\(username) chat status emitted")
-                                    }
-                                    
-                                    
-                                    
-                                }
-                                else
-                                {
-                                    
-                                    sqliteDB.SaveChat(UserchatJson["msg"][i]["to"].string!, from1: UserchatJson["msg"][i]["from"].string!,owneruser1:UserchatJson["msg"][i]["owneruser"].string! , fromFullName1: UserchatJson["msg"][i]["fromFullName"].string!, msg1: UserchatJson["msg"][i]["msg"].string!,date1:UserchatJson["msg"][i]["date"].string!,uniqueid1:UserchatJson["msg"][i]["uniqueid"].string!,status1: UserchatJson["msg"][i]["status"].string! )
-                                }
-                            }
-                            else
-                            {
-                                sqliteDB.SaveChat(UserchatJson["msg"][i]["to"].string!, from1: UserchatJson["msg"][i]["from"].string!,owneruser1:UserchatJson["msg"][i]["owneruser"].string! , fromFullName1: UserchatJson["msg"][i]["fromFullName"].string!, msg1: UserchatJson["msg"][i]["msg"].string!,date1:UserchatJson["msg"][i]["date"].string!,uniqueid1:"",status1: "" )
-                            }
-                            
-                            
-                        }
-                        
-                        
-                        /* dispatch_async(dispatch_get_main_queue()) {
-                        self.messageFrame2.removeFromSuperview()
-                        }
-                        */
-                        
-                        
-                    }
-                    /*dispatch_async(dispatch_get_main_queue()) {
-                    
-                    }*/
-                    
-                    return completion(result: true)
-                case .Failure:
-                    socketObj.socket.emit("logClient", "All chat fetched failed")
-                    print("all chat fetched failed")
-                }
-                // }
-           
-            
-                // To update anything on the main thread, just jump back on like so.
-              ///  dispatch_async(dispatch_get_main_queue()) {
-              ///      print("Am I back on the main thread: \(NSThread.isMainThread())")
-               /// }
-            }
-        )
-        */
-        
-       
-        
-        Alamofire.request(.POST,"\(fetchChatURL)",headers:header,parameters:["user1":username!]).validate(statusCode: 200..<300).responseJSON{response in
-           // print(response)
-           // print(response.result)
-           // print(response.result.value)
-            
-            switch response.result {
-            case .Success:
-                
-                
-                socketObj.socket.emit("logClient", "All chat fetched success")
-                if let data1 = response.result.value {
-                    let UserchatJson = JSON(data1)
-                    // print("chat fetched JSON: \(json)")
-                    
-                    var tableUserChatSQLite=sqliteDB.userschats
-                    
-                    do{
-                        try sqliteDB.db.run(tableUserChatSQLite.delete())
-                    }catch{
-                        socketObj.socket.emit("logClient","sqlite chat table refreshed")
-                        print("chat table not deleted")
-                    }
-                    
-                    //Overwrite sqlite db
-                    //sqliteDB.deleteChat(self.selectedContact)
-                    
-                    socketObj.socket.emit("logClient","IPHONE-LOG: all chat messages count is \(UserchatJson["msg"].count)")
-                    for var i=0;i<UserchatJson["msg"].count
-                        ;i++
-                    {
-                    
-                        if(UserchatJson["msg"][i]["uniqueid"].isExists())
-                        {
-                            if(UserchatJson["msg"][i]["to"].string! == username! && UserchatJson["msg"][i]["status"].string!=="sent")
-                            {
-                                var updatedStatus="delivered"
-                                sqliteDB.SaveChat(UserchatJson["msg"][i]["to"].string!, from1: UserchatJson["msg"][i]["from"].string!,owneruser1:UserchatJson["msg"][i]["owneruser"].string! , fromFullName1: UserchatJson["msg"][i]["fromFullName"].string!, msg1: UserchatJson["msg"][i]["msg"].string!,date1:UserchatJson["msg"][i]["date"].string!,uniqueid1:UserchatJson["msg"][i]["uniqueid"].string!,status1: updatedStatus )
-                                
-                                //socketObj.socket.emit("messageStatusUpdate",["status":"","iniqueid":"","sender":""])
-                                socketObj.socket.emitWithAck("messageStatusUpdate", ["status":updatedStatus,"uniqueid":UserchatJson["msg"][i]["uniqueid"].string!,"sender": UserchatJson["msg"][i]["from"].string!])(timeoutAfter: 0){data in
-                                    var chatmsg=JSON(data)
-                                    print(data[0])
-                                    print(chatmsg[0])
-                                    print("chat status emitted")
-                                    socketObj.socket.emit("logClient","\(username) chat status emitted")
-                               // if(socketObj.delegateChat != nil)
-                                   // {socketObj.delegateChat?.socketReceivedMessageChat("updateUI", data: nil)}
-                                //}
-                                }
-
-                                
-                            }
-                            else
-                            {
-                        
-                                sqliteDB.SaveChat(UserchatJson["msg"][i]["to"].string!, from1: UserchatJson["msg"][i]["from"].string!,owneruser1:UserchatJson["msg"][i]["owneruser"].string! , fromFullName1: UserchatJson["msg"][i]["fromFullName"].string!, msg1: UserchatJson["msg"][i]["msg"].string!,date1:UserchatJson["msg"][i]["date"].string!,uniqueid1:UserchatJson["msg"][i]["uniqueid"].string!,status1: UserchatJson["msg"][i]["status"].string! )
-                            }
-                        }
-                        else
-                        {
-                            sqliteDB.SaveChat(UserchatJson["msg"][i]["to"].string!, from1: UserchatJson["msg"][i]["from"].string!,owneruser1:UserchatJson["msg"][i]["owneruser"].string! , fromFullName1: UserchatJson["msg"][i]["fromFullName"].string!, msg1: UserchatJson["msg"][i]["msg"].string!,date1:UserchatJson["msg"][i]["date"].string!,uniqueid1:"",status1: "" )
-                        }
-                        
-                        
-                    }
-                    //return completion(result: true)
-                    
-                    /* dispatch_async(dispatch_get_main_queue()) {
-                    self.messageFrame2.removeFromSuperview()
-                    }
-                    */
-                    
-                    
-                }
-                /*dispatch_async(dispatch_get_main_queue()) {
-                
-                }*/
-                
-            case .Failure:
-                socketObj.socket.emit("logClient", "All chat fetched failed")
-                print("all chat fetched failed")
-            }
-       // }
-        }
-        // }
-        
-        
-        
-    }
+    //func fetchChatsFromServer()
+    
     
     @IBAction func addContactTapped(sender: UIBarButtonItem) {
         
@@ -2235,6 +2028,10 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
                 print("contact is offline")
                 socketObj.socket.emit("logClient","IPHONE-LOG: contact \(self.ContactUsernames[selectedRow]) is offline")
             }
+            else{
+                
+                 sqliteDB.saveCallHist(self.ContactUsernames[selectedRow], dateTime1: NSDate().debugDescription, type1: "Outgoing")
+                
             //socketObj.socket.emit("callthisperson",["room" : "globalchatroom","callee": self.ContactUsernames[selectedRow], "caller":username!])
             // &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&**************************
             username=KeychainWrapper.stringForKey("username")
@@ -2254,8 +2051,8 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
             
             self.presentViewController(next, animated: true, completion: {
             })
-            
-            
+        }
+        
             /*
             var next = self.storyboard?.instantiateViewControllerWithIdentifier("Main2") as! VideoViewController
             
@@ -2428,7 +2225,7 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
             print(message)
             iOSstartedCall=true
             //////*** newww may 2016
-            
+           
             callerName=KeychainWrapper.stringForKey("username")!
             //iamincallWith=msg[0]["callee"].string!
             socketObj.socket.emit("logClient","IPHONE-LOG: \(username!) othersideringing , callee is \(callerName)")
@@ -2519,6 +2316,10 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
                 //let secondViewController:CallRingingViewController = CallRingingViewController()
                 
                 socketObj.socket.emit("yesiamfreeforcall",["mycaller" : jdata[0]["caller"].string!, "me":username!])
+                
+                 sqliteDB.saveCallHist(iamincallWith, dateTime1: NSDate().debugDescription, type1: "Incoming")
+                
+                
                 
                 var next = self.storyboard?.instantiateViewControllerWithIdentifier("Main") as! CallRingingViewController
                 

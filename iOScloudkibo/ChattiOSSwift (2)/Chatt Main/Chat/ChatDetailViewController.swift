@@ -289,10 +289,10 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
             print(tblContacts[status])
             print("--------")
             
-                if(tblContacts[to]==selecteduser && (tblContacts[status]=="sent" || tblContacts[status]=="delivered"))
+                if(tblContacts[to]==selecteduser && (tblContacts[status]=="delivered"))
                 {
                     sqliteDB.UpdateChatStatus(tblContacts[uniqueid], newstatus: "seen")
-                    socketObj.socket.emitWithAck("messageStatusUpdate", ["status":tblContacts[status],"uniqueid":tblContacts[uniqueid],"sender": tblContacts[from]])(timeoutAfter: 15000){data in
+                    socketObj.socket.emitWithAck("messageStatusUpdate", ["status":"seen","uniqueid":tblContacts[uniqueid],"sender": tblContacts[from]])(timeoutAfter: 15000){data in
                         var chatmsg=JSON(data)
                         print(data[0])
                         print(chatmsg[0])
@@ -916,10 +916,10 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
         
         var date=NSDate()
         var formatter = NSDateFormatter();
-        formatter.dateFormat = "yyyy-MM-dd HH:mm:ss ZZZ";
+        formatter.dateFormat = "MM/dd, HH:mm";
         formatter.timeZone = NSTimeZone.localTimeZone()
-        formatter.dateStyle = .ShortStyle
-        formatter.timeStyle = .ShortStyle
+        //formatter.dateStyle = .ShortStyle
+        //formatter.timeStyle = .ShortStyle
         let defaultTimeZoneStr = formatter.stringFromDate(date);
         
         self.addMessage(txtFldMessage.text!+" (\(statusNow))", ofType: "2",date:defaultTimeZoneStr)
@@ -1005,7 +1005,7 @@ print("$$ \(message) is this \(msg)")
     }
     func socketReceivedMessageChat(message: String, data: AnyObject!) {
         
-        print("socketReceivedMessage inside im got", terminator: "")
+        //print("socketReceivedMessage inside im got", terminator: "")
                 switch(message)
         {
         case "im":
@@ -1022,10 +1022,11 @@ print("$$ \(message) is this \(msg)")
             
             var date22=NSDate()
             var formatter = NSDateFormatter();
-            formatter.dateFormat = "yyyy-MM-dd HH:mm:ss ZZZ";
+            //formatter.dateFormat = "yyyy-MM-dd HH:mm:ss ZZZ";
+            formatter.dateFormat = "MM/dd, HH:mm";
             formatter.timeZone = NSTimeZone.localTimeZone()
-            formatter.dateStyle = .ShortStyle
-            formatter.timeStyle = .ShortStyle
+           // formatter.dateStyle = .ShortStyle
+            //formatter.timeStyle = .ShortStyle
             let defaultTimeZoneStr = formatter.stringFromDate(date22);
             
             
