@@ -218,7 +218,7 @@ class DatabaseHandler:NSObject{
         let date = Expression<String>("date")
         let uniqueid = Expression<String>("uniqueid")
         let status = Expression<String>("status")
-        
+        let contactPhone = Expression<String>("contactPhone")
         
        // let dateFormatter = NSDateFormatter()
        // dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
@@ -242,6 +242,7 @@ class DatabaseHandler:NSObject{
                 t.column(from)
                 t.column(owneruser)
                 t.column(fromFullName)
+                t.column(contactPhone)
                 t.column(msg)
                 t.column(date, defaultValue:defaultTimeZoneStr)
                 t.column(status)
@@ -411,9 +412,19 @@ class DatabaseHandler:NSObject{
         let date = Expression<String>("date")
          let uniqueID = Expression<String>("uniqueid")
         let status = Expression<String>("status")
+        let contactPhone = Expression<String>("contactPhone")
         
         var tbl_userchats=sqliteDB.userschats
         
+        var contactPhone1=""
+        if(to1 != owneruser1)
+        {
+            contactPhone1=to1
+        }
+        else
+        {
+            contactPhone1=from1
+        }
         
         //////var tbl_userchats=sqliteDB.db["userschats"]
         
@@ -450,7 +461,8 @@ class DatabaseHandler:NSObject{
                 from<-from1,
                 date<-mydate,
                 uniqueID<-uniqueid1,
-                status<-status1
+                status<-status1,
+                contactPhone<-contactPhone1
 ))
             //////print("inserted id: \(rowid)")
         } catch {

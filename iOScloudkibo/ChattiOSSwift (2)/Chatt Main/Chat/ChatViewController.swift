@@ -374,6 +374,7 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
         */
     }
     
+    var ContactLastMessage:[String]=[]
     var ContactNames:[String]=[]
     var ContactUsernames:[String]=[]
     var ContactIDs:[String]=[]
@@ -1284,7 +1285,15 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
         let username = Expression<String>("username")
         let status = Expression<String>("status")
         
+        
+        let to = Expression<String>("to")
+        let from = Expression<String>("from")
+        let date = Expression<String>("date")
+        let msg = Expression<String>("msg")
+        let contactPhone = Expression<String>("contactPhone")
+        contactPhone
         //-========Remove old values=====================
+        self.ContactLastMessage.removeAll(keepCapacity: false)
         self.ContactIDs.removeAll(keepCapacity: false)
         self.ContactLastNAme.removeAll(keepCapacity: false)
         self.ContactNames.removeAll(keepCapacity: false)
@@ -1298,7 +1307,95 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
         self.ContactsPhone.removeAll(keepCapacity: false)
         self.ContactsEmail.removeAll(keepCapacity: false)
         
+        /*
+        let stmt = try db.prepare("SELECT id, email FROM users")
+        for row in stmt {
+        for (index, name) in stmt.columnNames.enumerate() {
+        print ("\(name)=\(row[index]!)")
+        // id: Optional(1), email: Optional("alice@mac.com")
+        }
+        }
+        
+         SELECT date, contact_phone, display_name, msg, contacts._id FROM userchat, contacts WHERE contacts.phone = userchat.contact_phone GROUP BY contact_phone ORDER BY date DESC
+        
+        SELECT firstname,to,lastname,username,contactid,status,email,phone from tbl_contactslists,tbl_userchats WHERE tbl_contactslists.phone==tbl_userchats.to GROUP BY to
+        
+        for row in stmt {
+        for (index, name) in stmt.columnNames.enumerate() {
+        print ("\(name)=\(row[index]!)")
+        // id: Optional(1), email: Optional("alice@mac.com")
+        }
+        }
+        
+        
+        
+        let query = prices.select(defindex, average(price))
+        .filter(quality == 5 && price_index != 0)
+        .group(defindex)
+        .order(average(price).desc)
+        let rows = Array(query)
+        
+        SELECT firstname,to,lastname,username,contactid,status,email,phone from tbl_contactslists,tbl_userchats WHERE tbl_contactslists.phone==tbl_userchats.to GROUP BY to
+        */
+         let tbl_userchats=sqliteDB.userschats
         let tbl_contactslists=sqliteDB.contactslists
+        
+        let myquery=tbl_userchats.join(tbl_contactslists, on: tbl_contactslists[phone] == tbl_userchats[contactPhone]).group(tbl_userchats[contactPhone]).order(date.desc)
+        
+        
+        do{for ccc in try sqliteDB.db.prepare(myquery) {
+            print(ccc[phone])
+            print(ccc[msg])
+            print(ccc[date])
+            print("*************")
+            ContactNames.append(ccc[firstname]+" "+ccc[lastname])
+            ContactUsernames.append(ccc[username])
+            print("ContactUsernames is \(ccc[username])")
+            // %%%%%%%%%%%%%%%%************ CHAT BUG ID %%%%%%%%%%%
+            ContactIDs.append(ccc[contactid])
+            // ContactIDs.append(tblContacts[userid])
+            ContactFirstname.append(ccc[firstname])
+            ContactLastNAme.append(ccc[lastname])
+            ContactStatus.append("Hey there! I am using Kibo App")
+            ContactsEmail.append(ccc[email])
+            ContactsPhone.append(ccc[phone])
+            ContactOnlineStatus.append(0)
+            ContactLastMessage.append(ccc[msg])
+            
+            
+            }
+              return completion(result:true)
+        }
+            catch
+            {
+                print("error here")
+            }
+        
+        
+        // %%% workingg "SELECT msg,phone from userschats,contactslists WHERE contactslists.phone!=userschats.owneruser GROUP BY contactslists.phone"
+        
+        
+       /*
+        print("user chat join query here:")
+        do{let stmt = try sqliteDB.db.prepare("SELECT msg,phone,fromFullName,userschats.owneruser from userschats,contactslists WHERE contactslists.phone!=userschats.owneruser GROUP BY userschats.fromFullName ORDER BY date DESC")
+        for row in stmt {
+            for (index, name) in stmt.columnNames.enumerate() {
+                print ("\(name)=\(row[index]!)")
+                                // id: Optional(1), email: Optional("alice@mac.com")
+            }
+            print(".......")
+
+        }
+        }
+        catch(let e)
+        {
+print("query join error 1337 \(e)")
+}
+*/
+        
+        //%%% PREVIOUS WORKING
+        /*
+        
         do{
             for tblContacts in try sqliteDB.db.prepare(tbl_contactslists){
                 print("queryy runned count is \(tbl_contactslists.count)")
@@ -1325,7 +1422,7 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
             print("query not runned contactlist")
             return completion(result:false)
         }
-        
+        */
         
     }
     
@@ -1585,7 +1682,7 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
         return tblForChat.dequeueReusableCellWithIdentifier("ChatPublicCell")as! UITableViewCell
         }
         */
-        let cellPublic=tblForChat.dequeueReusableCellWithIdentifier("ChatPublicCell") as! ContactsListCell
+        //let cellPublic=tblForChat.dequeueReusableCellWithIdentifier("ChatPublicCell") as! ContactsListCell
         
         let cell=tblForChat.dequeueReusableCellWithIdentifier("ChatPrivateCell") as! ContactsListCell
         
@@ -1606,6 +1703,7 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
         let phone = Expression<String>("phone")
         let usernameFromDb = Expression<String?>("username")
         let name = Expression<String?>("name")
+        cell.statusPrivate.text=ContactLastMessage[indexPath.row]
         
         do
         {allkiboContactsArray = Array(try sqliteDB.db.prepare(contactsKibo))
@@ -1630,6 +1728,7 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
                         cell.contactName?.text=all[phone]
                     }
                     contactFound=true
+                    
                     
                 }
                 
