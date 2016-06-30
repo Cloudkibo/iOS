@@ -1064,12 +1064,11 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
                     <navigationItem key="navigationItem" title="New Chat" id="DA8-is-YEu">
-                        <barButtonItem key="leftBarButtonItem" title="Back" id="fUz-SQ-vqC">
+                        <barButtonItem key="rightBarButtonItem" image="callIcon" id="dyH-8l-xxD" userLabel="Call">
                             <connections>
-                                <action selector="btnBackToChatsPressed:" destination="vqu-uk-8SN" id="WTr-4T-ZMS"/>
+                                <action selector="btnCallPressed:" destination="vqu-uk-8SN" id="1Nn-si-RcY"/>
                             </connections>
                         </barButtonItem>
-                        <barButtonItem key="rightBarButtonItem" image="callIcon" id="dyH-8l-xxD"/>
                     </navigationItem>
                     <connections>
                         <outlet property="NewChatNavigationTitle" destination="DA8-is-YEu" id="SDC-KV-Xfw"/>

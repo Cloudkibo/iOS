@@ -2328,7 +2328,8 @@ print("query join error 1337 \(e)")
                 destinationVC.selectedFirstName=ContactNames[selectedRow]
                 destinationVC.selectedLastName=ContactLastNAme[selectedRow]
                 destinationVC.selectedID=ContactIDs[selectedRow]
-                
+                destinationVC.ContactNames=ContactNames[selectedRow]
+                destinationVC.ContactOnlineStatus=ContactOnlineStatus[selectedRow]
                 //destinationVC.AuthToken = self.AuthToken
                 
                 //

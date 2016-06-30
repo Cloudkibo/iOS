@@ -14,6 +14,8 @@ import AVFoundation
 
 class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChatDelegate{
     
+    var ContactNames=""
+    var ContactOnlineStatus:Int!=0
     var delegateChat:UpdateChatDelegate!
     var delegate:SocketClientDelegate!
     //var socketEventID:NSUUID
@@ -49,7 +51,8 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
         // Custom initialization
     }
     
-    @IBAction func btnBackToChatsPressed(sender: AnyObject) {
+    
+   /* @IBAction func btnBackToChatsPressed(sender: AnyObject) {
         //backToChatPushSegue
         
         self.dismissViewControllerAnimated(true) { () -> Void in
@@ -94,6 +97,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
         
         
     }
+    */
     
 /*
     required init?(coder aDecoder: NSCoder) {
@@ -302,6 +306,57 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
         
         self.markChatAsRead()
     }*/
+    
+    
+    func showError(title:String,message:String,button1:String) {
+        
+        // create the alert
+        let alert = UIAlertController(title: title, message: message, preferredStyle: UIAlertControllerStyle.Alert)
+        
+        // add the actions (buttons)
+        alert.addAction(UIAlertAction(title: button1, style: UIAlertActionStyle.Default, handler: nil))
+        //alert.addAction(UIAlertAction(title: button2, style: UIAlertActionStyle.Cancel, handler: nil))
+        
+        // show the alert
+        self.presentViewController(alert, animated: true, completion: nil)
+    }
+    
+    @IBAction func btnCallPressed(sender: AnyObject) {
+        socketObj.socket.emit("logClient","IPHONE-LOG: \(username!) is trying to call \(selectedContact)")
+        if(self.ContactOnlineStatus==0)
+        {
+            self.showError("Info:", message: "Contact is offline. Please try again later.", button1: "Ok")
+            print("contact is offline")
+            socketObj.socket.emit("logClient","IPHONE-LOG: contact \(selectedContact) is offline")
+        }
+        else{
+            
+            sqliteDB.saveCallHist(ContactNames, dateTime1: NSDate().debugDescription, type1: "Outgoing")
+            
+            //socketObj.socket.emit("callthisperson",["room" : "globalchatroom","callee": self.ContactUsernames[selectedRow], "caller":username!])
+            // &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&**************************
+            username=KeychainWrapper.stringForKey("username")
+            socketObj.socket.emit("logClient","IPHONE-LOG: callthisperson,room:globalchatroom,callee: \(selectedContact), caller:\(username!)")
+            print("callthisperson,room : globalchatroom,callee: \(selectedContact), caller:\(username!)")
+            socketObj.socket.emit("callthisperson",["room" : "globalchatroom","callee": selectedContact, "caller":username!])
+            print("username is ... \(username!)")
+            
+            isInitiator=true
+            callerName=username!
+            iamincallWith=selectedContact
+            
+            iOSstartedCall=true
+            socketObj.socket.emit("logClient","IPHONE-LOG: \(username!) is going to videoViewController")
+            ////
+            var next = self.storyboard!.instantiateViewControllerWithIdentifier("MainV2") as! VideoViewController
+            
+            self.presentViewController(next, animated: true, completion: {
+            })
+        }
+        
+    }
+    
+    
     
     func retrieveChatFromSqlite(selecteduser:String)
     {
@@ -1150,7 +1205,8 @@ print("$$ \(message) is this \(msg)")
     override func prepareForSegue(segue: UIStoryboardSegue?, sender: AnyObject?) {
     // Get the new view controller using [segue destinationViewController].
     // Pass the selected object to the new view controller.
-        
+       
+        /*
         if segue!.identifier == "backToChatPushSegue" {
              if let destinationVC = segue!.destinationViewController as? ChatViewController{
             //destinationVC.tabBarController?.selectedIndex=0
@@ -1161,7 +1217,7 @@ print("$$ \(message) is this \(msg)")
                 })
             }
     }
-
+*/
     }
     override func viewWillDisappear(animated: Bool) {
         
