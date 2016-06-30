@@ -18,6 +18,8 @@ class DatabaseHandler:NSObject{
     var userschats:Table!
     var allcontacts:Table!
     var callHistory:Table!
+    var statusUpdate:Table!
+    
     init(dbName:String)
     {print("inside database handler class")
         
@@ -50,6 +52,7 @@ class DatabaseHandler:NSObject{
         ///////contactslists.drop()
         createContactListsTable()
         createUserChatTable()
+        createMessageSeenStatusTable()
         createCallHistoryTable()
         //createAllContactsTable()
         
@@ -314,6 +317,85 @@ class DatabaseHandler:NSObject{
             }
         
 }
+    
+    func createMessageSeenStatusTable()
+    {
+        
+        socketObj.socket.emit("logClient","IPHONE-LOG: creating messageSeen table")
+        
+        let status = Expression<String>("status")
+        let sender = Expression<String>("sender")
+        let uniqueid = Expression<String>("uniqueid")
+        
+        
+        self.statusUpdate = Table("statusUpdate")
+        do{
+            try db.run(statusUpdate.create(ifNotExists: true) { t in     // CREATE TABLE "callHistory"
+                t.column(status)
+                t.column(sender)
+                t.column(uniqueid)
+                })
+            
+        }
+        catch
+        {
+            socketObj.socket.emit("logClient","IPHONE-LOG: error in creating messageStatus table \(error)")
+            print("error in creating messageStatus table")
+        }
+        
+    }
+    
+    func saveMessageStatusSeen(status1:String,sender1:String,uniqueid1:String)
+    {
+        
+        let status = Expression<String>("status")
+        let sender = Expression<String>("sender")
+        let uniqueid = Expression<String>("uniqueid")
+        
+        var statusUpdate=sqliteDB.statusUpdate
+        
+        do {
+            let rowid = try db.run(statusUpdate.insert(
+                status<-status1,
+                sender<-sender1,
+                uniqueid<-uniqueid1
+                ))
+            socketObj.socket.emit("logClient","IPHONE-LOG: all messageStatus saved in sqliteDB")
+            print("inserted id messageStatus : \(rowid)")
+        } catch {
+            print("insertion failed: messageStatus \(error)")
+        }
+        
+        
+        
+    }
+    func removeMessageStatusSeen(uniqueid1:String)
+    {
+        
+        let status = Expression<String>("status")
+        let sender = Expression<String>("sender")
+        let uniqueid = Expression<String>("uniqueid")
+        
+        var statusUpdate=sqliteDB.statusUpdate
+        
+        do
+        {
+            try sqliteDB.db.run(statusUpdate.filter(uniqueid==uniqueid1).delete())
+            
+        }
+        catch(let error)
+        {
+            print("error in deleting messageStatus \(error)")
+            socketObj.socket.emit("logClient","IPHONE-LOG: error in deleting messageStatus from sqliteDB \(error)")
+            
+        }
+        
+
+        
+        
+    }
+    
+    
     
     func saveCallHist(name1:String,dateTime1:String,type1:String)
     {

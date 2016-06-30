@@ -49,6 +49,51 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
         // Custom initialization
     }
     
+    @IBAction func btnBackToChatsPressed(sender: AnyObject) {
+        //backToChatPushSegue
+        
+        self.dismissViewControllerAnimated(true) { () -> Void in
+            
+            
+        }
+        //self.tabBarController?.selectedIndex=1
+        //if self.rootViewController as? UITabBarController != nil {
+       // var tababarController = self.window!.rootViewController as UITabBarController
+        //    tababarController.selectedIndex = 1
+        //}
+        
+        /*
+        var next=self.storyboard?.instantiateViewControllerWithIdentifier("MainChatView") as! ChatViewController
+        self.navigationController?.presentViewController(next, animated: true, completion: { () -> Void in
+            
+            
+        })
+       */
+      /*
+        var myviewChat=ChatViewController.init(nibName: nil, bundle: nil)
+        var mynav=UINavigationController.init(rootViewController: myviewChat)
+        self.presentViewController(mynav, animated: true) { () -> Void in
+            
+            
+        }*/
+        
+       /* MyViewController *myViewController = [[MyViewController alloc] initWithNibName:nil bundle:nil];
+        UINavigationController *navigationController =
+            [[UINavigationController alloc] initWithRootViewController:myViewController];
+        
+        //now present this navigation controller modally
+        [self presentViewController:navigationController
+            animated:YES
+            completion:^{
+            
+            }];*/
+        /*
+        RootViewController *vController=[[RootViewController alloc] initWithNibName:@"RootViewController" bundle:nil];
+        [self.navigationController pushViewController:vController animated:YES];
+*/
+        
+        
+    }
     
 /*
     required init?(coder aDecoder: NSCoder) {
@@ -140,6 +185,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
         //%%%%%%%%%%%%%%%%%&&&&&&&&&&&&&&&&&&^^^^^^^^^
         //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%FetchChatServer()
         self.NewChatNavigationTitle.title=selectedFirstName
+        self.navigationItem.leftBarButtonItem = self.navigationItem.backBarButtonItem
         var receivedMsg=JSON("")
         
         //%%%%%%% workinggg commented
@@ -289,18 +335,24 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
             print(tblContacts[status])
             print("--------")
             
-                if(tblContacts[to]==selecteduser && (tblContacts[status]=="delivered"))
+                if(tblContacts[from]==selecteduser && (tblContacts[status]=="delivered"))
                 {
                     sqliteDB.UpdateChatStatus(tblContacts[uniqueid], newstatus: "seen")
+                    
+                    sqliteDB.saveMessageStatusSeen("seen", sender1: tblContacts[from], uniqueid1: tblContacts[uniqueid])
+
                     socketObj.socket.emitWithAck("messageStatusUpdate", ["status":"seen","uniqueid":tblContacts[uniqueid],"sender": tblContacts[from]])(timeoutAfter: 15000){data in
                         var chatmsg=JSON(data)
+                        
                         print(data[0])
-                        print(chatmsg[0])
+                        print(data[0]["uniqueid"]!!)
+                        print(data[0]["uniqueid"]!!.debugDescription!)
+                        print(chatmsg[0]["uniqueid"].string!)
+                        //print(data[0]["status"]!!.string!+" ... "+data[0]["uniqueid"]!!.string!)
                         print("chat status seen emitted")
+                        sqliteDB.removeMessageStatusSeen(data[0]["uniqueid"]!!.debugDescription!)
                         socketObj.socket.emit("logClient","\(username) chat status emitted")
-                        // if(socketObj.delegateChat != nil)
-                        // {socketObj.delegateChat?.socketReceivedMessageChat("updateUI", data: nil)}
-                        //}
+                        
                     }
                 }
                 
@@ -345,12 +397,14 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
     }
     
     func removeChatHistory(){
+        print("header is \(header) selectedContact is \(selectedContact)")
+
         //var loggedUsername=loggedUserObj["username"]
         print("inside mark funcc", terminator: "")
         var removeChatHistoryURL=Constants.MainUrl+Constants.removeChatHistory
         
         //Alamofire.request(.POST,"\(removeChatHistoryURL)",headers:header,parameters: ["username":"\(selectedContact)"]).validate(statusCode: 200..<300).response{
-        Alamofire.request(.POST,"\(removeChatHistoryURL)",headers:header,parameters: ["phone":"\(selectedContact)"]).validate(statusCode: 200..<300).response{
+        Alamofire.request(.POST,"\(removeChatHistoryURL)",headers:header,parameters: ["phone":selectedContact]).validate(statusCode: 200..<300).response{
             
                 request1, response1, data1, error1 in
                 
@@ -365,6 +419,13 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
                     //print(request1)
                     print(data1?.debugDescription)
                     
+                    sqliteDB.deleteChat(self.selectedContact.debugDescription)
+                    
+                    self.messages.removeAllObjects()
+                    dispatch_async(dispatch_get_main_queue())
+                        {
+                    self.tblForChats.reloadData()
+                        }
                 }
                 else
                 {print("chat history not deleted")
@@ -959,11 +1020,12 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
     
     
     @IBAction func btn_deleteChatHistoryPressed(sender: AnyObject) {
+        
         removeChatHistory()
-        sqliteDB.deleteChat(selectedContact.debugDescription)
+        /*sqliteDB.deleteChat(selectedContact.debugDescription)
         
         messages.removeAllObjects()
-        tblForChats.reloadData()
+        tblForChats.reloadData()*/
     }
     
     func socketReceivedMessage(message: String, data: AnyObject!) {
@@ -1081,19 +1143,26 @@ print("$$ \(message) is this \(msg)")
 */
     
     
-    /*
+    
     // #pragma mark - Navigation
     
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepareForSegue(segue: UIStoryboardSegue?, sender: AnyObject?) {
     // Get the new view controller using [segue destinationViewController].
     // Pass the selected object to the new view controller.
-    
-    
-    
+        
+        if segue!.identifier == "backToChatPushSegue" {
+             if let destinationVC = segue!.destinationViewController as? ChatViewController{
+            //destinationVC.tabBarController?.selectedIndex=0
+                //self.tabBarController?.selectedIndex=0
+                self.dismissViewControllerAnimated(true, completion: { () -> Void in
+                    
+                    
+                })
+            }
     }
-    */
-    
+
+    }
     override func viewWillDisappear(animated: Bool) {
         
         //socketObj.socket.off(socketEventID)

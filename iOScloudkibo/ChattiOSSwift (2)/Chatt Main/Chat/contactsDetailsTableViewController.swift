@@ -8,7 +8,7 @@
 
 import UIKit
 import Contacts
-
+import SQLite
 class contactsDetailsTableViewController: UITableViewController {
     var contactIndex:Int=1
     var isKiboContact=false
@@ -42,7 +42,28 @@ class contactsDetailsTableViewController: UITableViewController {
 
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        var currentContact=contacts[contactIndex]
+        
+        var allcontactslist1=sqliteDB.allcontacts
+        
+        
+        let phone = Expression<String>("phone")
+        let kibocontact = Expression<Bool>("kiboContact")
+        let name = Expression<String?>("name")
+        
+        //alladdressContactsArray = Array(try sqliteDB.db.prepare(allcontactslist1))
+        var alladdressContactsArray = Array<Row>()
+        
+        do
+        {alladdressContactsArray = Array(try sqliteDB.db.prepare(allcontactslist1))
+            
+        }
+        catch
+            {
+                print("errorr ... ")
+            }
+        
+        
+       // var currentContact=contacts[contactIndex]
         
         //if(indexPath.row==1)
         //{
@@ -55,8 +76,10 @@ class contactsDetailsTableViewController: UITableViewController {
         {
          cell = tableView.dequeueReusableCellWithIdentifier("Name_Cell", forIndexPath: indexPath) as! AllContactsCell
         
-        
-        cell.lbl_contactName.text=currentContact.givenName+" "+currentContact.familyName
+        alladdressContactsArray[contactIndex].get(name)
+        //cell.lbl_contactName.text=currentContact.givenName+" "+currentContact.familyName
+            cell.lbl_contactName.text=alladdressContactsArray[contactIndex].get(name)
+
             cell.hidden=false
         }
         //}
@@ -67,8 +90,13 @@ class contactsDetailsTableViewController: UITableViewController {
             cell.hidden=true
             
             
-            
-            if (contacts[contactIndex].isKeyAvailable(CNContactPhoneNumbersKey)) {
+            if(alladdressContactsArray[contactIndex].get(phone) != "")
+            {
+                cell.lbl_phone.text=alladdressContactsArray[contactIndex].get(phone)
+                cell.hidden=false
+                
+            }
+            /*if (contacts[contactIndex].isKeyAvailable(CNContactPhoneNumbersKey)) {
                 for phoneNumber:CNLabeledValue in contacts[contactIndex].phoneNumbers {
                      let a = phoneNumber.value as! CNPhoneNumber
                     //{
@@ -78,11 +106,11 @@ class contactsDetailsTableViewController: UITableViewController {
                    // }
                     
                 }
-            }
+            }*/
             
         }
-        
-        if(indexPath.row==2)
+        ////%%%%%%% needs work here
+       /* if(indexPath.row==2)
         {
              cell = tableView.dequeueReusableCellWithIdentifier("Email_Cell", forIndexPath: indexPath) as! AllContactsCell
         // Set the contact's home email address.
@@ -98,7 +126,7 @@ class contactsDetailsTableViewController: UITableViewController {
                 break
             }
         }
-        }
+        }*/
         if(indexPath.row==3 && isKiboContact==true)
         {
             cell = tableView.dequeueReusableCellWithIdentifier("Status_Cell", forIndexPath: indexPath) as! AllContactsCell

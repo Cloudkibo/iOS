@@ -373,7 +373,7 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
         self.presentViewController(actionSheetController, animated: true, completion: nil)
         */
     }
-    
+    var ContactsLastMsgDate:[String]=[]
     var ContactLastMessage:[String]=[]
     var ContactNames:[String]=[]
     var ContactUsernames:[String]=[]
@@ -474,7 +474,7 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
             self.accountKit = AKFAccountKit(responseType: AKFResponseType.AccessToken)
         }
         
-        
+       
         
         
         
@@ -706,8 +706,10 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
         
         
         self.navigationItem.titleView = viewForTitle
-        self.navigationItem.leftBarButtonItem = UIBarButtonItem(customView: btnForLogo)
+        /////self.navigationItem.leftBarButtonItem = UIBarButtonItem(customView: btnForLogo)
         //self.navigationItem.rightBarButtonItem = itemForSearch
+        
+        ///////self.navigationItem.leftBarButtonItem = editButtonItem()
         self.navigationItem.rightBarButtonItem = btnContactAdd
         self.tabBarController?.tabBar.tintColor = UIColor.greenColor()
         print("////////////////////// new class tokn \(AuthToken)", terminator: "")
@@ -1204,25 +1206,6 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
                 print("imparas are \(imParas)")
                 print(imParas, terminator: "")
                 print("", terminator: "")
-                ///=== code for sending chat here
-                ///=================
-                
-                //socketObj.socket.emit("logClient","IPHONE-LOG: \(username!) is sending chat message")
-                //////socketObj.socket.emit("im",["room":"globalchatroom","stanza":imParas])
-                // var statusNow=""
-                /* if(isSocketConnected==true)
-                {
-                statusNow="sent"
-                
-                }
-                else
-                {
-                statusNow="pending"
-                }
-                */
-                // statusNow="pending"
-                
-                //sqliteDB.SaveChat(pendingchats[to], from1:pendingchats[from],owneruser1: pendingchats[from], fromFullName1: pendingchats[fromFullName], msg1:pendingchats[msg],date1: nil,uniqueid1: pendingchats[uniqueid], status1: statusNow)
                 
                 
                 socketObj.socket.emitWithAck("im",["room":"globalchatroom","stanza":imParas])(timeoutAfter: 1500000)
@@ -1239,6 +1222,31 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
                 
                 
                 
+                
+            }
+            //var count=0
+            var tbl_messageStatus=sqliteDB.statusUpdate
+            let status = Expression<String>("status")
+            let sender = Expression<String>("sender")
+            let uniqueid = Expression<String>("uniqueid")
+            
+            for statusMessages in try sqliteDB.db.prepare(tbl_messageStatus)
+            {
+                
+                socketObj.socket.emitWithAck("messageStatusUpdate", ["status":statusMessages[status],"uniqueid":statusMessages[uniqueid],"sender": statusMessages[sender]])(timeoutAfter: 15000){data in
+                    var chatmsg=JSON(data)
+                    
+                    print(data[0])
+                    print(data[0]["uniqueid"]!!)
+                    print(data[0]["uniqueid"]!!.debugDescription!)
+                    print(chatmsg[0]["uniqueid"].string!)
+                    //print(data[0]["status"]!!.string!+" ... "+data[0]["uniqueid"]!!.string!)
+                    print("chat status seen emitted which were pending")
+                    sqliteDB.removeMessageStatusSeen(data[0]["uniqueid"]!!.debugDescription!)
+                    socketObj.socket.emit("logClient","\(username) pending seen statuses emitted")
+                    
+                }
+
                 
             }
             socketObj.socket.emit("logClient","IPHONE-LOG: \(username!) done sending pending chat messages")
@@ -1293,6 +1301,7 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
         let contactPhone = Expression<String>("contactPhone")
         contactPhone
         //-========Remove old values=====================
+        ContactsLastMsgDate.removeAll(keepCapacity: false)
         self.ContactLastMessage.removeAll(keepCapacity: false)
         self.ContactIDs.removeAll(keepCapacity: false)
         self.ContactLastNAme.removeAll(keepCapacity: false)
@@ -1340,7 +1349,7 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
          let tbl_userchats=sqliteDB.userschats
         let tbl_contactslists=sqliteDB.contactslists
         
-        let myquery=tbl_userchats.join(tbl_contactslists, on: tbl_contactslists[phone] == tbl_userchats[contactPhone]).group(tbl_userchats[contactPhone]).order(date.desc)
+        let myquery=tbl_contactslists.join(tbl_userchats, on: tbl_contactslists[phone] == tbl_userchats[contactPhone]).group(tbl_userchats[contactPhone]).order(date.desc)
         
         
         do{for ccc in try sqliteDB.db.prepare(myquery) {
@@ -1349,7 +1358,7 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
             print(ccc[date])
             print("*************")
             ContactNames.append(ccc[firstname]+" "+ccc[lastname])
-            ContactUsernames.append(ccc[username])
+            //ContactUsernames.append(ccc[username])
             print("ContactUsernames is \(ccc[username])")
             // %%%%%%%%%%%%%%%%************ CHAT BUG ID %%%%%%%%%%%
             ContactIDs.append(ccc[contactid])
@@ -1357,11 +1366,12 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
             ContactFirstname.append(ccc[firstname])
             ContactLastNAme.append(ccc[lastname])
             ContactStatus.append("Hey there! I am using Kibo App")
+            ContactUsernames.append(ccc[phone])
             ContactsEmail.append(ccc[email])
             ContactsPhone.append(ccc[phone])
             ContactOnlineStatus.append(0)
             ContactLastMessage.append(ccc[msg])
-            
+            ContactsLastMsgDate.append(ccc[date])
             
             }
               return completion(result:true)
@@ -1704,15 +1714,15 @@ print("query join error 1337 \(e)")
         let usernameFromDb = Expression<String?>("username")
         let name = Expression<String?>("name")
         cell.statusPrivate.text=ContactLastMessage[indexPath.row]
-        
-        do
-        {allkiboContactsArray = Array(try sqliteDB.db.prepare(contactsKibo))
+        cell.lbltimePrivate.text=ContactsLastMsgDate[indexPath.row]
+      //  do
+       //// {allkiboContactsArray = Array(try sqliteDB.db.prepare(contactsKibo))
             do{for all in try sqliteDB.db.prepare(allcontacts) {
                 //print("id: \(account[_id]), phone: \(account[phone]), firstname: \(account[firstname])")
                 // id: 1, email: alice@mac.com, name: Optional("Alice")
                 
                 //if(all[phone]==allkiboContactsArray[indexPath.row][username])
-                if(all[phone]==allkiboContactsArray[indexPath.row].get(usernameFromDb))
+                if(all[phone]==ContactUsernames[indexPath.row])
                     
                 {
                     //Matched phone number. Got contact
@@ -1746,12 +1756,12 @@ print("query join error 1337 \(e)")
             }
             
             
-        }
-        catch
-        {
-            socketObj.socket.emit("logClient","error in getching contactss and making one array")
-            print("error in getching contactss and making one array")
-        }
+       // }
+      //  catch
+        //{
+        //    socketObj.socket.emit("logClient","error in getching contactss and making one array")
+        //    print("error in getching contactss and making one array")
+        //}
         
         
         /*
@@ -1819,7 +1829,33 @@ print("query join error 1337 \(e)")
         
     }
     
+    override func setEditing(editing: Bool, animated: Bool) {
+        super.setEditing(editing, animated: animated)
+        tblForChat.reloadData()
+    }
+    
+    func tableView(tableView: UITableView, editingStyleForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCellEditingStyle {
+        return UITableViewCellEditingStyle.Delete
+    }
+     func tableView(tableView: UITableView, shouldIndentWhileEditingRowAtIndexPath indexPath: NSIndexPath) -> Bool {
+        return true
+    }
+    
     func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
+        
+        
+        if editingStyle == .Delete {
+            self.removeChatHistory(ContactUsernames[indexPath.row],indexPath: indexPath)
+            // Delete the row from the data source
+            
+          //  tblForChat.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Fade)
+        } else if editingStyle == .Insert {
+            print("iii")
+            // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
+        }
+        
+        
+        
         /*if editingStyle == .Delete {
         
         var selectedRow = indexPath.row
@@ -1911,10 +1947,14 @@ print("query join error 1337 \(e)")
         }*/
         
     }
+     func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
+        // Return false if you do not want the specified item to be editable.
+        return true
+    }
     
     
-    
-    
+    ///CALL WORKING BUTTON
+   /*
     func tableView(tableView: UITableView, editActionsForRowAtIndexPath indexPath: NSIndexPath) -> [AnyObject]?  {
         // 1
         /*var shareAction = UITableViewRowAction(style: UITableViewRowActionStyle.Default, title: "Delete" , handler: { (action:UITableViewRowAction, indexPath:NSIndexPath) -> Void in
@@ -2189,10 +2229,80 @@ print("query join error 1337 \(e)")
         
     }
     
+   */
     
     // #pragma mark - Navigation
     
     // In a storyboard-based application, you will often want to do a little preparation before navigation
+    
+    func removeChatHistory(selectedContact:String,indexPath:NSIndexPath)
+        {
+            print("header is \(header) selectedContact is \(selectedContact)")
+            
+            //var loggedUsername=loggedUserObj["username"]
+            print("inside mark funcc", terminator: "")
+            var removeChatHistoryURL=Constants.MainUrl+Constants.removeChatHistory
+            
+            //Alamofire.request(.POST,"\(removeChatHistoryURL)",headers:header,parameters: ["username":"\(selectedContact)"]).validate(statusCode: 200..<300).response{
+            Alamofire.request(.POST,"\(removeChatHistoryURL)",headers:header,parameters: ["phone":selectedContact]).validate(statusCode: 200..<300).response{
+                
+                request1, response1, data1, error1 in
+                
+                //===========INITIALISE SOCKETIOCLIENT=========
+                // dispatch_async(dispatch_get_main_queue(), {
+                
+                //self.dismissViewControllerAnimated(true, completion: nil);
+                /// self.performSegueWithIdentifier("loginSegue", sender: nil)
+                
+                if response1?.statusCode==200 {
+                    print("chat history deleted")
+                    self.ContactsLastMsgDate.removeAtIndex(indexPath.row)
+                    self.ContactLastMessage.removeAtIndex(indexPath.row)
+                    self.ContactIDs.removeAtIndex(indexPath.row)
+                    self.ContactLastNAme.removeAtIndex(indexPath.row)
+                    self.ContactNames.removeAtIndex(indexPath.row)
+                    self.ContactStatus.removeAtIndex(indexPath.row)
+                    self.ContactUsernames.removeAtIndex(indexPath.row)
+                    //self.ContactsObjectss.removeAtIndex(indexPath.row)
+                    ////////////////////////
+                    self.ContactFirstname.removeAtIndex(indexPath.row)
+                    ////////
+                    
+                    self.ContactsPhone.removeAtIndex(indexPath.row)
+                    self.ContactsEmail.removeAtIndex(indexPath.row)
+                    //print(request1)
+                    print(data1?.debugDescription)
+                    
+                    sqliteDB.deleteChat(selectedContact)
+                    
+                    //self.messages.removeAllObjects()
+                    self.tblForChat.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Fade)
+                    dispatch_async(dispatch_get_main_queue())
+                        {
+                            
+                            self.tblForChat.reloadData()
+                    }
+                }
+                else
+                {print("chat history not deleted")
+                    print(error1)
+                    print(data1)
+                }
+                if(response1?.statusCode==401)
+                {
+                    print("chat history not deleted token refresh needed")
+                    if(username==nil || password==nil)
+                    {
+                        self.performSegueWithIdentifier("loginSegue", sender: nil)
+                    }
+                    else{
+                        self.rt.refrToken()
+                    }
+                }
+            }
+            
+            
+        }
     
     override func prepareForSegue(segue: UIStoryboardSegue?, sender: AnyObject?) {
         //var newController=segue ?.destinationViewController
@@ -2248,6 +2358,14 @@ print("query join error 1337 \(e)")
                 //
             }
         }
+        if segue!.identifier == "newChat" {
+            
+            if let destinationVC = segue!.destinationViewController as? ChatMainViewController{
+                destinationVC.mytitle="New Chat"
+                destinationVC.navigationItem.leftBarButtonItem?.enabled=false
+                destinationVC.navigationItem.rightBarButtonItem?.image=nil
+                destinationVC.navigationItem.rightBarButtonItem?.enabled=false
+            }}
         
     }
     
@@ -2511,7 +2629,7 @@ print("query join error 1337 \(e)")
             {
                 for(var j=0;j<self.ContactUsernames.count;j++)
                 {
-                    if self.ContactIDs[j]==onlineUsers[i]["_id"].string!
+                    if self.ContactsPhone[j]==onlineUsers[i]["phone"].string!
                     {
                         //found online contact,s username
                         print("user found online2 \(self.ContactUsernames[j])")

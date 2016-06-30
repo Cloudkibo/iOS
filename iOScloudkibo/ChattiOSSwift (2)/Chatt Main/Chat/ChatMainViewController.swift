@@ -19,7 +19,7 @@ class ChatMainViewController:UIViewController,SocketConnecting
 {
     var accountKit: AKFAccountKit!
     var rt=NetworkingLibAlamofire()
-    
+    var mytitle="Favourites1"
     
     var messageFrame = UIView()
     var activityIndicator = UIActivityIndicatorView()
@@ -457,6 +457,7 @@ class ChatMainViewController:UIViewController,SocketConnecting
         
         
         self.navigationItem.titleView = viewForTitle
+        self.navigationItem.title = mytitle
         ////////////////////self.navigationItem.leftBarButtonItem = UIBarButtonItem(customView: btnForLogo)
         //self.navigationItem.rightBarButtonItem = itemForSearch
         //////////////////self.navigationItem.rightBarButtonItem = btnContactAdd
