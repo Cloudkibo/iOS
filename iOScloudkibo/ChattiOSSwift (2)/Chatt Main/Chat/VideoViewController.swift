@@ -675,9 +675,9 @@ self.remoteDisconnected()
         txtLabelUsername.text=displayname
         }
         
-        if(isConference==true){
+      //  if(isConference==true){
         webMeetingModel.delegateSendScreenshotDataChannel=self
-        }
+       // }
         if(socketObj.delegateWebRTC == nil)
         {
             socketObj.delegateWebRTC=self
@@ -3253,9 +3253,9 @@ self.remoteDisconnected()
            // socketObj.socket.emit("leave",["room":joinedRoomInCall,"id":currentID!])
         }
     
-    
+    socketObj.socket.close()
     socketObj.socket.disconnect()
-        socketObj.socket.connect()
+        //socketObj.socket.connect()
     //socketObj=nil
     
     //self.pc=nil

@@ -108,6 +108,7 @@
 		71C4018D1CF715C500D38126 /* endCall@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 71C401871CF715C500D38126 /* endCall@2x.png */; };
 		71C4018E1CF71ABB00D38126 /* SQLite.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 717403EA1CF7151900EA7ABF /* SQLite.framework */; };
 		71C4018F1CF71ABB00D38126 /* SQLite.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 717403EA1CF7151900EA7ABF /* SQLite.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		71DC15321D26655700E5BFC2 /* pushNotifications.md in Sources */ = {isa = PBXBuildFile; fileRef = 71DC15311D26655700E5BFC2 /* pushNotifications.md */; };
 		71E046A31D228AE700B67362 /* CallHistoryTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71E046A21D228AE700B67362 /* CallHistoryTableViewController.swift */; };
 		71E046A51D22920D00B67362 /* CallHistCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71E046A41D22920D00B67362 /* CallHistCell.swift */; };
 		71E20B9D1CF720DD0042EDAD /* avatar.png in Resources */ = {isa = PBXBuildFile; fileRef = 71E20B991CF720DD0042EDAD /* avatar.png */; };
@@ -340,6 +341,7 @@
 		71C401851CF715C500D38126 /* audioOn@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "audioOn@2x.png"; sourceTree = "<group>"; };
 		71C401861CF715C500D38126 /* endCall.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = endCall.png; sourceTree = "<group>"; };
 		71C401871CF715C500D38126 /* endCall@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "endCall@2x.png"; sourceTree = "<group>"; };
+		71DC15311D26655700E5BFC2 /* pushNotifications.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = pushNotifications.md; sourceTree = "<group>"; };
 		71E046A21D228AE700B67362 /* CallHistoryTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CallHistoryTableViewController.swift; sourceTree = "<group>"; };
 		71E046A41D22920D00B67362 /* CallHistCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CallHistCell.swift; sourceTree = "<group>"; };
 		71E20B991CF720DD0042EDAD /* avatar.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = avatar.png; sourceTree = "<group>"; };
@@ -483,6 +485,7 @@
 				710CB64D1D06EB030070CA3D /* contactsDetailsTableViewController.swift */,
 				7150119E1D12D0940091AD7B /* Reachability.swift */,
 				71E046A21D228AE700B67362 /* CallHistoryTableViewController.swift */,
+				71DC15311D26655700E5BFC2 /* pushNotifications.md */,
 			);
 			path = Chat;
 			sourceTree = "<group>";
@@ -886,6 +889,7 @@
 				713D51D11CC11896007E0B47 /* FileReceivedViewController.swift in Sources */,
 				713D51CE1CC11896007E0B47 /* ContactsListCell.swift in Sources */,
 				713D51E21CC11896007E0B47 /* notificationsMainClass.swift in Sources */,
+				71DC15321D26655700E5BFC2 /* pushNotifications.md in Sources */,
 				713D51E31CC11896007E0B47 /* Peer.swift in Sources */,
 				713D51D61CC11896007E0B47 /* KeychainWrapper.swift in Sources */,
 				713D51DA1CC11896007E0B47 /* MeetingRoomData.swift in Sources */,
