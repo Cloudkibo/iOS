@@ -2220,6 +2220,18 @@ print("query join error 1337 \(e)")
             //}
             
             */
+            
+            case "im":
+                dispatch_async(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0)) {
+                    // do some task start to show progress wheel
+                    self.fetchContacts({ (result) -> () in
+                        //self.fetchContactsFromServer()
+                        print("checkinnn")
+                        dispatch_async(dispatch_get_main_queue()) {
+                            self.tblForChat.reloadData()
+                        }
+                    })
+            }
         case "othersideringing":
             print(message)
             iOSstartedCall=true
