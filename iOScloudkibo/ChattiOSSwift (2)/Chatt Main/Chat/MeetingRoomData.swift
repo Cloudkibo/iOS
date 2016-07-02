@@ -284,7 +284,7 @@ class MeetingRoomData:NSObject,RTCPeerConnectionDelegate,RTCSessionDescriptionDe
         
     }
     func peerConnection(peerConnection: RTCPeerConnection!, didOpenDataChannel dataChannel: RTCDataChannel!) {
-        
+        print("opennnnn data channel")
         
     }
     func peerConnection(peerConnection: RTCPeerConnection!, didSetSessionDescriptionWithError error: NSError!) {
@@ -393,6 +393,7 @@ class MeetingRoomData:NSObject,RTCPeerConnectionDelegate,RTCSessionDescriptionDe
                 self.createPeerConnection()
             }
             //^^^^^^^^^^^^^^^^^^ check this for second call already have localstream
+            
             self.CreateAndAttachDataChannel()
             
             
@@ -639,6 +640,7 @@ class MeetingRoomData:NSObject,RTCPeerConnectionDelegate,RTCSessionDescriptionDe
         //rtcInit.isOrdered=true
         // rtcInit.maxRetransmits=30
         var rtcInit=RTCDataChannelInit.init()
+       
         rtcDataChannel=pc.createDataChannelWithLabel("channel", config: rtcInit)
         if(rtcDataChannel != nil)
         {

@@ -323,13 +323,13 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
     
     @IBAction func btnCallPressed(sender: AnyObject) {
         socketObj.socket.emit("logClient","IPHONE-LOG: \(username!) is trying to call \(selectedContact)")
-        if(self.ContactOnlineStatus==0)
+        /*if(self.ContactOnlineStatus==0)
         {
             self.showError("Info:", message: "Contact is offline. Please try again later.", button1: "Ok")
             print("contact is offline")
             socketObj.socket.emit("logClient","IPHONE-LOG: contact \(selectedContact) is offline")
-        }
-        else{
+        }*/
+       // else{
             
             sqliteDB.saveCallHist(ContactNames, dateTime1: NSDate().debugDescription, type1: "Outgoing")
             
@@ -352,7 +352,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
             
             self.presentViewController(next, animated: true, completion: {
             })
-        }
+      //  }
         
     }
     

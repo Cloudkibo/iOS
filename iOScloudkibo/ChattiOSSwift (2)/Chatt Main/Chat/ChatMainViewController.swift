@@ -19,7 +19,7 @@ class ChatMainViewController:UIViewController,SocketConnecting
 {
     var accountKit: AKFAccountKit!
     var rt=NetworkingLibAlamofire()
-    var mytitle="Favourites1"
+    var mytitle="Favourites"
     
     var messageFrame = UIView()
     var activityIndicator = UIActivityIndicatorView()

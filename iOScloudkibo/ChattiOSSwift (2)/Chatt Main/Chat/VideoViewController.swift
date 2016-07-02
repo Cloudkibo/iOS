@@ -1278,8 +1278,9 @@ self.remoteDisconnected()
     }
     func peerConnection(peerConnection: RTCPeerConnection!, didOpenDataChannel dataChannel: RTCDataChannel!) {
         print(".................. did open data channel")
+        
         print(dataChannel.description)
-    
+    self.rtcDataChannel=dataChannel
         dispatch_async(dispatch_get_main_queue()) { () -> Void in
             self.btncapture.enabled=true
        self.btnShareFile.enabled=true
@@ -1530,7 +1531,7 @@ self.remoteDisconnected()
                 self.createPeerConnectionObject()
             }
             //^^^^^^^^^^^^^^^^^^ check this for second call already have localstream
-            self.CreateAndAttachDataChannel()
+            ////self.CreateAndAttachDataChannel()
             self.addLocalMediaStreamToPeerConnection()
             
             
@@ -1627,7 +1628,7 @@ self.remoteDisconnected()
                 self.createPeerConnectionObject()
             }
             socketObj.socket.emit("logClient","IPHONE-LOG: \(username) is creating data channel for \(iamincallWith)")
-            self.CreateAndAttachDataChannel()
+            /////self.CreateAndAttachDataChannel()
             self.addLocalMediaStreamToPeerConnection()
             
             
@@ -1991,13 +1992,13 @@ self.remoteDisconnected()
         print("didReceiveMessageWithBuffer")
         //print(buffer.data.debugDescription)
         var channelJSON=JSON(buffer.data!)
-        print(channelJSON.debugDescription)
+        print(" hi hereee \(channelJSON.debugDescription)")
         //var bytes:[UInt8]
         var bytes=Array<UInt8>(count: buffer.data.length, repeatedValue: 0)
         
         // bytes.append(buffer.data.bytes)
         buffer.data.getBytes(&bytes, length: buffer.data.length)
-        print(bytes.debugDescription)
+        print(" hi hereee2 \(bytes.debugDescription)")
         
         NSUTF8StringEncoding
         
@@ -2021,7 +2022,7 @@ self.remoteDisconnected()
             
             do
             {jsonnnn = try NSJSONSerialization.JSONObjectWithData(jjj, options: NSJSONReadingOptions.MutableContainers) as! Dictionary<String, AnyObject>
-                print("jsonnn")
+                print("jsonnn...........")
                 print(jsonnnn)
             }catch
             {print("hi")
@@ -2254,15 +2255,19 @@ self.remoteDisconnected()
                                 print("chunk has been sent")
                                 
                             }
+                            print("here 555..")
                         }
+                        print("here 444..")
                         //requestchunk(chunknumber)
                         
                     }//if data chunk exists
+                    print("here 333..")
                     
                 }//end else
+                print("here 222")
                 
             }//if speaking!=nil
-            
+            print("here 111")
             
         }
             
@@ -2962,10 +2967,12 @@ self.remoteDisconnected()
     
     func channelDidChangeState(channel: RTCDataChannel!) {
         print("channelDidChangeState")
+        
         print(channel.debugDescription)
         kRTCDataChannelStateClosed
         if(channel.state == kRTCDataChannelStateOpen)
         {
+            ///self.rtcDataChannel=channel
           print("data channel opened now")
             dispatch_async(dispatch_get_main_queue()) { () -> Void in
                 self.btncapture.enabled=true
@@ -2973,12 +2980,20 @@ self.remoteDisconnected()
                 
             }
         }
-        
+        if(channel.state == kRTCDataChannelStateClosed)
+        {
+            print("data channel opened now")
+            dispatch_async(dispatch_get_main_queue()) { () -> Void in
+                self.btncapture.enabled=false
+                self.btnShareFile.enabled=false
+                
+            }
+        }
         
     }
     
     @IBAction func btnFilePressed(sender: AnyObject) {
-        
+        socketObj.socket.emit("logClient","\(username!) is sharing file with \(iamincallWith)")
         print(NSOpenStepRootDirectory())
         ///var UTIs=UTTypeCopyPreferredTagWithClass("public.image", kUTTypeImage)?.takeRetainedValue() as! [String]
         
@@ -2999,9 +3014,90 @@ self.remoteDisconnected()
         documentPicker.delegate = self
         presentViewController(documentPicker, animated: true, completion: nil)*/
     }
+    /*
+    func documentPicker(controller: UIDocumentPickerViewController, didPickDocumentAtURL url: NSURL) {
+        
+        print("picker url is \(url)")
+        
+        url.startAccessingSecurityScopedResource()
+        let coordinator = NSFileCoordinator()
+        var error:NSError? = nil
+        coordinator.coordinateReadingItemAtURL(url, options: [], error: &error) { (url) -> Void in
+            // do something with it
+            let fileData = NSData(contentsOfURL: url)
+            print(fileData?.description)
+            print("file gotttttt")
+            ///////////self.mdata.sharefile(url.URLString)
+            var furl=NSURL(string: url.URLString)
+            //ADDEDDDDD
+            //////furl=fileurl
+            /////////////////newwwwwvar furl=NSURL(fileURLWithPath: filePathImage)
+            
+            ///// var furl=NSURL(fileURLWithPath:"file:///private/var/mobile/Containers/Data/Application/F4137E3A-02E9-4A4D-8F20-089484823C88/tmp/iCloud.MyAppTemplates.cloudkibo-Inbox/regularExpressions.html")
+            
+            //METADATA FILE NAME,TYPE
+            print(furl!.pathExtension!)
+            print(furl!.URLByDeletingPathExtension?.lastPathComponent!)
+            var ftype=furl!.pathExtension!
+            var fname=furl!.URLByDeletingPathExtension?.lastPathComponent!
+            //var attributesError=nil
+            var fileAttributes:[String:AnyObject]=["":""]
+            do{
+                fileAttributes = try NSFileManager.defaultManager().attributesOfItemAtPath(furl!.path!)
+                
+            }catch
+            {print("error")
+                print(fileAttributes)
+            }
+            
+            let fileSizeNumber = fileAttributes[NSFileSize]! as! NSNumber
+            print(fileAttributes[NSFileType] as! String)
+            
+            self.mdata.fileSize=fileSizeNumber.integerValue
+            
+            //FILE METADATA size
+            print(self.mdata.fileSize)
+            urlLocalFile=url
+            /////let text2 = fm.contentsAtPath(filePath)
+            ////////print(text2)
+            /////////print(JSON(text2!))
+            ///mdata.fileContents=fm.contentsAtPath(filePathImage)!
+            self.mdata.fileContents=NSData(contentsOfURL: url)
+            self.mdata.filePathImage=url.URLString
+            var filecontentsJSON=JSON(NSData(contentsOfURL: url)!)
+            print(filecontentsJSON)
+            var mjson="{\"file_meta\":{\"name\":\"\(fname!)\",\"size\":\"\(self.mdata.fileSize.description)\",\"filetype\":\"\(ftype)\",\"browser\":\"firefox\",\"uname\":\"\(username!)\",\"fid\":\(self.mdata.myfid),\"senderid\":\(currentID!)}}"
+            var fmetadata="{\"eventName\":\"data_msg\",\"data\":\(mjson)}"
+            self.mdata.sendDataBuffer(fmetadata,isb: false)
+            socketObj.socket.emit("conference.chat", ["message":"You have received a file. Download and Save it.","username":username!])
+            
+            let alert = UIAlertController(title: "Success", message: "Your file has been successfully sent", preferredStyle: UIAlertControllerStyle.Alert)
+            alert.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.Default, handler: nil))
+            self.presentViewController(alert, animated: true, completion: nil)
+            
+        }
+        
+        
+        url.stopAccessingSecurityScopedResource()
+        //mdata.sharefile(url)
+    }
     
+    
+    
+    func documentMenu(documentMenu: UIDocumentMenuViewController, didPickDocumentPicker documentPicker: UIDocumentPickerViewController) {
+        
+        documentPicker.delegate = self
+        presentViewController(documentPicker, animated: true, completion: nil)
+        
+        
+    }
+    func documentMenuWasCancelled(documentMenu: UIDocumentMenuViewController) {
+        
+        
+    }*/
     
     func documentPicker(controller: UIDocumentPickerViewController, didPickDocumentAtURL url: NSURL) {
+        
         
         if (controller.documentPickerMode == UIDocumentPickerMode.Import) {
             NSLog("Opened ", url.path!);
@@ -3040,7 +3136,8 @@ self.remoteDisconnected()
                 
                 if let _attr = fileAttributes {
                    self.fileSize1 = _attr.fileSize();
-                    ////***april 2016 neww self.fileSize=(fileSize1 as! NSNumber).integerValue
+                    print("file size is \(self.fileSize1)")
+                    //// ***april 2016 neww self.fileSize=(fileSize1 as! NSNumber).integerValue
                 }
             } catch {
                 socketObj.socket.emit("logClient","IPHONE-LOG: error: \(error)")
@@ -3072,9 +3169,22 @@ self.remoteDisconnected()
             self.filePathImage=url.URLString
             //var filecontentsJSON=JSON(NSData(contentsOfURL: url)!)
             //print(filecontentsJSON)
+           print("file url is \(self.filePathImage) file type is \(ftype)")
+            
             var mjson="{\"file_meta\":{\"name\":\"\(fname!)\",\"size\":\"\(self.fileSize1.description)\",\"filetype\":\"\(ftype)\",\"browser\":\"firefox\",\"uname\":\"\(username!)\",\"fid\":\(self.myfid),\"senderid\":\(currentID!)}}"
             var fmetadata="{\"eventName\":\"data_msg\",\"data\":\(mjson)}"
+            
+            /*
+            var mjson="{\"file_meta\":{\"name\":\"\(fname!)\",\"size\":\"\(self.fileSize1.description)\",\"filetype\":\"\(ftype)\",\"browser\":\"firefox\",\"uname\":\"\(username!)\",\"fid\":\(self.myfid),\"senderid\":\(currentID!)}}"
+            var fmetadata="{\"eventName\":\"data_msg\",\"data\":\(mjson)}"*/
+            
+            
+            
             self.sendDataBuffer(fmetadata,isb: false)
+            
+            
+            
+            
             //%%%%%%%%%% socketObj.socket.emit("conference.chat", ["message":"You have received a file. Download and Save it.","username":username!])
             socketObj.socket.emit("conference.chat", ["message":"You have received a file. Download and Save it.","username":username!])
             
@@ -3099,12 +3209,13 @@ self.remoteDisconnected()
         
         
     }
+    
     func documentMenuWasCancelled(documentMenu: UIDocumentMenuViewController) {
         
         
     }
     
-    
+
 
     /*func didReceiveFileConference()
     {
@@ -3255,7 +3366,7 @@ self.remoteDisconnected()
     
     socketObj.socket.close()
     socketObj.socket.disconnect()
-        //socketObj.socket.connect()
+        socketObj.socket.connect()
     //socketObj=nil
     
     //self.pc=nil
@@ -3373,6 +3484,7 @@ self.remoteDisconnected()
     screenCaptureToggle=false
     ConferenceRoomName=""
     
+        
     //socketObj.socket.emit("logClient","IPHONE-LOG: \(username!) pressed end call. going back to contacts list")
     dispatch_async(dispatch_get_main_queue(), { () -> Void in
     //%%%%%%%% let next = self.storyboard!.instantiateViewControllerWithIdentifier("mainpage") as! LoginViewController
