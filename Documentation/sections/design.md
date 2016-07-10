@@ -1,4 +1,4 @@
-##CloudKibo (iOS) Design Document
+##Kibo App (iOS) Code Architecture
 ## Application Delegate
 This class is responsible for setting up tasks for launching application, terminating application, running application in background, bringing application in foreground. This class connects the application to socket.io . Also it makes sure that we close our socket.io service before the application is terminated.It is also responsible for retrieving any data stored in device Key chains. For example, user’s login credentials are retrieved(if saved) when application is launched.
 ## Database Handler
@@ -39,12 +39,12 @@ static let createNewUser="/api/users/"
 ## View Controllers
 Swift language works on Model View Controller(MVC) framework. Our application has View Controllers to show different screens of our application. Following diagram gives details of our main views:
 ￼
-![view controllers](viewcontrollers.png)
+![view controllers](images/viewcontrollers.png)
 
 ## Open Source External Libraries
 Our iOS application uses some of Open Source libraries. Details of those libraries are provided below:
 
-![view controllers](libraries.png)
+![view controllers](images/libraries.png)
 
 ## SwiftyJSON Library
 SwiftyJSON makes it easy to deal with JSON data in Swift.
@@ -52,7 +52,7 @@ SwiftyJSON makes it easy to deal with JSON data in Swift.
 ## KeyChainsWrapper Library
 This is an open source library for storing data at persistent place on device. Our application is using this library for storing user user,s login credentials, example: Authentication Token, username and password. Keychains are safe place to store such information. This API helps to retrieve data when application is re launched after termination. Thus, user will not have to login every time.
 
-![view controllers](auth.png)
+![view controllers](images/auth.png)
 ￼
 ## Alamofire Library
 Alamofire is an HTTP networking library written in Swift. Our application uses this library for making any network requests from Cloudkibo Server. All REST API requests use this library for GET or POST requests from server.
@@ -64,39 +64,7 @@ This is a type-safe, Swift-language layer over SQLite3. SQLite.swift provides co
 ##Kibo App 1-1 Call Logic:
 
 ##Comparison of current Cloudkibo model with Cloudkibo
-![Watsapp Model](watsapp.png)
-![Watsapp Model](cloudkibo.png)
+![Watsapp Model](images/watsapp.png)
+![Watsapp Model](images/cloudkibo.png)
 
 --------------
-
-
-**A Note About Multitasking in iOS**
-When app goes in background, socket connection is closed after few seconds.
-Previously, from iOS version 4.0 - 9.0 , there was a handler to keep socket alive in background: “setKeepAliveTimeout(_:handler:)” . 
-But this is depreciated now.
-
-**iOS 8 VoIP Notifications**
-
-In iOS 8 and later, you can use the Apple Push Notification service (APNs) and the APIs of the PushKit framework to create a VoIP app  in order to wake them up when receiving a call. 
-Relying on push notifications to enable VoIP functionality means that your app doesn’t have to maintain a persistent network connection to the associated service or configure a socket for VoIP usage. 
-When a VoIP push notification arrives, your app is given time to handle the notification, even if the app is currently terminated.
-For immplementing this, A VoIP Services certificate will be needed from Apple
-Will require changes on our server to handle these Notification
-
-
-**iOS Background Fetch**
-Can be used to fetch data from server when application is in background
-Background fetch is a mode introduced in iOS 7 that lets your app appear always up-to-date with the latest information while minimizing the impact on battery
-When enabled, the system uses usage patterns to determine when to best fire off a background fetch. 
-For example, if your user opens the app at 9 AM each morning, it is likely that a background fetch will be scheduled sometime before that time. 
-The system decides the best time to issue a background fetch and for this reason you should not use it to do critical updates.
-
-**Using the Reachability Interfaces to Improve the User Experience**
-
-Because VoIP apps rely heavily on the network, they should use the reachability interfaces of the System Configuration framework to track network availability and adjust their behavior accordingly. 
-The reachability interfaces allow an app to be notified whenever network conditions change. 
-For example, a VoIP app could close its network connections when the network becomes unavailable and recreate them when it becomes available again. 
-The app could also use those kinds of changes to keep the user apprised about the state of the VoIP connection.
-Adjusting your app’s behavior based on the availability of the network can also help improve the battery life of the underlying device. 
-
-

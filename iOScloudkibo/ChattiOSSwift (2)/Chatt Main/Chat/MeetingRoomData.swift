@@ -1166,7 +1166,7 @@ CGPDFDocumentRef pdf   = CGPDFDocumentCreateWithProvider(provider);
         
 
         //dispatch_async(dispatch_get_main_queue(), { () -> Void in
-        var buf=Double(rtcDataChannel.bufferedAmount).value
+      /////  var buf=Double(rtcDataChannel.bufferedAmount).value
         var buflimit:Int64=16000000
         
         //if(buf < buflimit.value)

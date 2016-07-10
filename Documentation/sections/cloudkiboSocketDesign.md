@@ -10,7 +10,7 @@ Case # 3 : Chat Case: User 1 and User 2 are online
 Case # 4 : Chat Case: User 1 and User 2 application is in background for less than 10 minutes 
 
 
-![Socket Design diagram](socketDesign1.jpg)
-![Socket Design diagram](socketDesign2.jpg)
-![Socket Design diagram](socketDesign3.jpg)
-![Socket Design diagram](socketDesign4.jpg)
+![Socket Design diagram](images/socketDesign1.jpg)
+![Socket Design diagram](images/socketDesign2.jpg)
+![Socket Design diagram](images/socketDesign3.jpg)
+![Socket Design diagram](images/socketDesign4.jpg)
