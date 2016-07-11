@@ -48,11 +48,7 @@ Our iOS application uses some of Open Source libraries. Details of those librari
 
 ## SwiftyJSON Library
 SwiftyJSON makes it easy to deal with JSON data in Swift.
-￼￼￼
-## KeyChainsWrapper Library
-This is an open source library for storing data at persistent place on device. Our application is using this library for storing user user,s login credentials, example: Authentication Token, username and password. Keychains are safe place to store such information. This API helps to retrieve data when application is re launched after termination. Thus, user will not have to login every time.
 
-![view controllers](images/auth.png)
 ￼
 ## Alamofire Library
 Alamofire is an HTTP networking library written in Swift. Our application uses this library for making any network requests from Cloudkibo Server. All REST API requests use this library for GET or POST requests from server.
@@ -61,10 +57,3 @@ Our iOS application uses a WebRTC library named “libjingle_peerconnection”.T
 ## SQLite Library
 This is a type-safe, Swift-language layer over SQLite3. SQLite.swift provides compile-time confidence in SQL statement syntax and intent. Our application uses this API for creating database connection, creating tables, adding and retireving data from SQLite database.
 
-##Kibo App 1-1 Call Logic:
-
-##Comparison of current Cloudkibo model with Cloudkibo
-![Watsapp Model](images/watsapp.png)
-![Watsapp Model](images/cloudkibo.png)
-
---------------
