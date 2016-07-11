@@ -1,21 +1,11 @@
 ##Kibo App (iOS) Code Architecture
 ## Application Delegate
-This class is responsible for setting up tasks for launching application, terminating application, running application in background, bringing application in foreground. This class connects the application to socket.io . Also it makes sure that we close our socket.io service before the application is terminated.It is also responsible for retrieving any data stored in device Key chains. For example, user’s login credentials are retrieved(if saved) when application is launched.
+This class is responsible for setting up tasks for launching application, terminating application, running application in background, bringing application in foreground. This class connects the application to socket.io . Also it takes care of tasks required when application goes in background or becomes active again.
 ## Database Handler
 We have this utility class which we use in all our application to store and retrieve data from local SQLite database of our application. It has separate functions to fetch data from each table. We also use functions to store data in table. We don’t deal with the database instance in all our application. We just create one database instance in this utility class and rest of the application invokes functions of this class to talk to database.
 ## Socket.io Component
 These is a separate component which handles sockets. It has socket handlers. It has details of what to listen on socket. It has a separate function for emitting message on socket. This
 function can be accessed throughout application for emitting socket messages to CloudKibo Server. Socket delegates are defined for handling socket messages. Delegates are responsible for notifying whenever a socket message is received. Notification is sent to the class which ha implemented socket delegates. That class then take the action required based on type of socket message received.
-## Delegates/Protocols
-Delegation is a design pattern that enables a class or structure to hand off (or delegate) some of its responsibilities to an instance of another type.
-Here is an example delegate used in our application. This sample delegate defines protocols for receiving different types of Socket messages for WebRTC call:
-protocol SocketClientDelegateWebRTC:class
-{
-func socketReceivedMSGWebRTC(message:String,data:AnyObject!);
-func socketReceivedOtherWebRTC(message:String,data:AnyObject!);
-func
-socketReceivedMessageWebRTC(message:String,data:AnyObject!);
-}
 
 ## Constants Class
 This class stores our REST API addresses values in constant variables which are accessible throughout application. These
