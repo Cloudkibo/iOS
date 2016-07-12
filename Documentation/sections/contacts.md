@@ -19,7 +19,7 @@ If you cannot see your friend in WhatsApp, please follow these steps:
 - Enter the number same as you would if you were to make a phone call to that person.
 
 
-- If this is an international phone number, do not use any exit codes or leading 0s. Start all international phone numbers with a + sign, followed by the country code. For specific examples and instructions, see this article.
+- If this is an international phone number, do not use any exit codes or leading 0s. Start all international phone numbers with a + sign, followed by the country code.
 
 3- Open KiboApp and open the Favorites list. It will show Contacts which are on KiboApp
 
@@ -31,30 +31,41 @@ If you still do not see your friend in your KiboApp list, it is possible that yo
 
 **Contacts in Database on Server**
 
- On server side, our data is stored in Mongodb database. At the time of installation, we use Facebook AccountKit to authenticate phone number using SMS. It asks user to select country code from a list, enter mobile number and display name. After verification, contact details are stored on server in "accounts" table. Here is an example:
+On server side, our data is stored in Mongodb database. At the time of installation, we use Facebook AccountKit to authenticate phone number using SMS. It asks user to select country code from a list, enter mobile number and display name. After verification, contact details are stored on server in "accounts" table. Here is an example:
 
-	"phone":"+14258909414"
-	"country_prefix":"1"
-	"national_number":"4258909414"
-	"display_name":"jawaid"
+"phone":"+14258909414"
+"country_prefix":"1"
+"national_number":"4258909414"
+"display_name":"jawaid"
 
- For contacts, we have a mongodb collection called contactslist. 
+For contacts, we have a mongodb collection called contactslist. 
 
 **Contacts in Kibo Application Database**
 
 Kibo application expose functions like :
 
-	Invite contact
-	Load contacts from server
-	Store/load contacts to and from sqlite database
-	Do proper synchronization to update data on both sides
+Invite contact
+Load contacts from server
+Store/load contacts to and from sqlite database
+Do proper synchronization to update data on both sides
 
 In sqlite database, we have the replica table of contactslist table of server. One other table that we have on iOS local database is to store contacts from user's address book (shown in Contacts tab). This table has following fields:
 
-	name
-	phone
-	kiboContact (Yes/No)
+name
+phone
+kiboContact (Yes/No)
 
 Here is a basic flow diagram for Contacts Management:
 
 ![Contacts Design diagram](images/contactsDesign.png)
+
+**Inviting new Contact**
+From our Addressbook, some of contacts might not be Kibo users i.e. they have not registered themselves on Kibo App. In order to communicate with them using Kibo App, they should register on Kibo App. There are two ways for inviting any contact to Kibo App:
+
+1- Inviting through Email
+2- Inviting through SMS
+
+*Inviting through Email*
+For each contact, we will store primary email address (if available) in local database. We will show the list of those users which are not on Kibo App and we have their email address saved in address book.
+
+User can select one or more contacts from the list and email invitations will be send to selected user. We will use a REST API of server to send email invitations.
