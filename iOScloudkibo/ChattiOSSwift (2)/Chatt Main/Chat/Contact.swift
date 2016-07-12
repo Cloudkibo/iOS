@@ -463,7 +463,11 @@ class iOSContact{
                 for var i=0;i<availableContactsPhones.count;i++
                 {
                     // self.notAvailableContacts[i]=NotavailableContactsEmails![i].rawString()!
+                    
+                    
                     availableEmailsList.append(availableContactsPhones[i].debugDescription)
+                    
+                    
                     // print("----------- \(self.notAvailableContacts[i].debugDescription)")
                 }
                 

@@ -732,8 +732,29 @@ class ChatMainViewController:UIViewController,SocketConnecting
         self.ContactsEmail.removeAll(keepCapacity: false)
         
         let tbl_contactslists=sqliteDB.contactslists
-        do{
-        for tblContacts in try sqliteDB.db.prepare(tbl_contactslists){
+        
+        
+        
+            
+            var allcontactslist1=sqliteDB.allcontacts
+            var alladdressContactsArray:Array<Row>
+            
+            //let phone = Expression<String>("phone")
+            let kibocontact = Expression<Bool>("kiboContact")
+            let name = Expression<String?>("name")
+            
+          //  alladdressContactsArray = Array(try sqliteDB.db.prepare(allcontactslist1))
+            //alladdressContactsArray[indexPath.row].get(name)
+            do{for ccc in try sqliteDB.db.prepare(allcontactslist1) {
+                
+                for tblContacts in try sqliteDB.db.prepare(tbl_contactslists){
+                    if(ccc[phone]==tblContacts[phone])
+                    {
+                        
+                    //}
+               // }
+              //  }
+        //for tblContacts in try sqliteDB.db.prepare(tbl_contactslists){
            print("queryy runned count is \(tbl_contactslists.count)")
             print(tblContacts[firstname]+" "+tblContacts[lastname])
             //ContactsObjectss.append(tblContacts[contactid])
@@ -748,6 +769,8 @@ class ChatMainViewController:UIViewController,SocketConnecting
             ContactsEmail.append(tblContacts[email])
             ContactsPhone.append(tblContacts[phone])
             ContactOnlineStatus.append(0)
+                    }
+                }
 
         }
             completion(result:true)
@@ -848,7 +871,24 @@ class ChatMainViewController:UIViewController,SocketConnecting
             }
             if(contactFound==false)
             {
-                cell.contactName?.text=ContactUsernames[indexPath.row]
+                cell.contactName?.text=ContactNames[indexPath.row]
+                
+               /* ContactUsernames.removeAtIndex(indexPath.row)
+                self.ContactIDs.removeAtIndex(indexPath.row)
+                self.ContactLastNAme.removeAtIndex(indexPath.row)
+                self.ContactNames.removeAtIndex(indexPath.row)
+                self.ContactStatus.removeAtIndex(indexPath.row)
+                self.ContactUsernames.removeAtIndex(indexPath.row)
+              ///  self.ContactsObjectss.removeAtIndex(indexPath.row)
+                ////////////////////////
+                self.ContactFirstname.removeAtIndex(indexPath.row)
+                ////////
+                
+                self.ContactsPhone.removeAtIndex(indexPath.row)
+                self.ContactsEmail.removeAtIndex(indexPath.row)
+                tblForChat.reloadData()
+ */
+                
             }
             
             

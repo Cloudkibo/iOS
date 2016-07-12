@@ -63,8 +63,9 @@ class LoginAPI{
                 let username1 = Expression<String>("username")
                 let status = Expression<String>("status")
                 let firstname = Expression<String>("firstname")
-                
-              
+            //country_prefix
+            //national_number
+            
                 
                 let tbl_accounts = sqliteDB.accounts
                 do{for account in try sqliteDB.db.prepare(tbl_accounts) {
