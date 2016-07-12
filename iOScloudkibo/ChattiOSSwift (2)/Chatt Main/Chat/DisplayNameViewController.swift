@@ -58,7 +58,9 @@ class DisplayNameViewController: UIViewController {
                     AuthToken=self.accountKit!.currentAccessToken!.tokenString
                     KeychainWrapper.setString(self.accountKit!.currentAccessToken!.tokenString, forKey: "access_token")
                     print("access token key chain sett as \(self.accountKit!.currentAccessToken!.tokenString)")
-                    
+                    KeychainWrapper.setString((account?.phoneNumber?.countryCode)!, forKey: "countrycode")
+                    countrycode=account?.phoneNumber?.countryCode
+                    //CountryCode=account?.phoneNumber?.countryCode
                     
                 }
                 
@@ -473,7 +475,8 @@ class DisplayNameViewController: UIViewController {
                         let date = Expression<String>("date")
                         let accountVerified = Expression<String>("accountVerified")
                         let role = Expression<String>("role")
-                        
+                    let country_prefix = Expression<String>("country_prefix")
+                    let nationalNumber = Expression<String>("national_number")
                         
                         // let insert = users.insert(email <- "alice@mac.com")
                         
@@ -484,6 +487,9 @@ class DisplayNameViewController: UIViewController {
                             let rowid = try sqliteDB.db.run(tbl_accounts.insert(_id<-json["_id"].string!,
                                 //firstname<-json["firstname"].string!,
                                 firstname<-json["display_name"].string!,
+                                country_prefix<-json["country_prefix"].string!,
+                                nationalNumber<-json["national_number"].string!,
+                                //country_prefix
                                 //lastname<-"",
                                 //lastname<-json["lastname"].string!,
                                 //email<-json["email"].string!,

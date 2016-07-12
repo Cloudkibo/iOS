@@ -72,7 +72,8 @@ class DatabaseHandler:NSObject{
         let date = Expression<String>("date")
         let accountVerified = Expression<String>("accountVerified")
         let role = Expression<String>("role")
-        
+        let country_prefix = Expression<String>("country_prefix")
+        let nationalNumber = Expression<String>("national_number")
         
         self.accounts = Table("accounts")
         do{
@@ -83,6 +84,8 @@ class DatabaseHandler:NSObject{
                 t.column(_id)
                 t.column(status)
                 t.column(username)
+                t.column(country_prefix)
+                t.column(nationalNumber)
                 ///t.column(username, unique: true)
                 t.column(phone, unique: true)
 

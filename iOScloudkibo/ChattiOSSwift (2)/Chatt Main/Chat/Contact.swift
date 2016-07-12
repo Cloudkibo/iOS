@@ -95,10 +95,14 @@ class iOSContact{
                     if (contacts[i].isKeyAvailable(CNContactPhoneNumbersKey)) {
                         for phoneNumber:CNLabeledValue in contacts[i].phoneNumbers {
                             let a = phoneNumber.value as! CNPhoneNumber
-                            //print("\()
-                            emails.append(a.valueForKey("digits") as! String)
+                            //////////////emails.append(a.valueForKey("digits") as! String)
                             var phoneDigits=a.valueForKey("digits") as! String
                             do{
+                               if(phoneDigits.characters.first != "+"){
+                                    phoneDigits = "+"+countrycode+phoneDigits
+                                    print("appended phone is \(phoneDigits)")
+                                }
+                                emails.append(phoneDigits)
                                 try sqliteDB.db.run(tbl_allcontacts.insert(name<-fullname,phone<-phoneDigits))
                         }
                             catch(let error)

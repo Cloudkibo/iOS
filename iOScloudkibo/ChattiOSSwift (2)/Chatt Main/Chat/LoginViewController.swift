@@ -29,6 +29,7 @@ class LoginViewController: UIViewController,SocketConnecting,AKFViewControllerDe
         
         if (accountKit.currentAccessToken != nil && firstTimeLogin==false) {
             header=["kibo-token":accountKit!.currentAccessToken!.tokenString]
+            
           print("login view will appear")
             self.dismissViewControllerAnimated(true, completion:{
                 socketObj.socket.emit("logClient", "login done fetch contacts and show contacts list now")
@@ -115,11 +116,25 @@ class LoginViewController: UIViewController,SocketConnecting,AKFViewControllerDe
     func viewController(viewController: UIViewController!, didCompleteLoginWithAccessToken accessToken: AKFAccessToken!, state: String!) {
         print("Login succcess with AccessToken \(accessToken.debugDescription)")
         dispatch_async(dispatch_get_main_queue(), {
-            
             header=["kibo-token":accountKit!.currentAccessToken!.tokenString]
-            self.performSegueWithIdentifier("displaynamesegue", sender: self)
+            accountKit = AKFAccountKit(responseType: AKFResponseType.AccessToken)
+            accountKit.requestAccount{
+                (account, error) -> Void in
+                
+                
+                
+                
+                //**********
+                
+                if(account != nil){
+                    KeychainWrapper.setString((account?.phoneNumber?.countryCode)!, forKey: "countrycode")
+                    countrycode=account?.phoneNumber?.countryCode
+                    
+                    self.performSegueWithIdentifier("displaynamesegue", sender: self)
+                }
+       
             
-        })
+            }})
         
     }
     func viewController(viewController: UIViewController!, didCompleteLoginWithAuthorizationCode code: String!, state: String!) {

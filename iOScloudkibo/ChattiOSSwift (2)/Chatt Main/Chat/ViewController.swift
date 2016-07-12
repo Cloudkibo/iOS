@@ -44,7 +44,8 @@ class ViewController: UIViewController{
                                     header=["kibo-token":(self.accountKit!.currentAccessToken!.tokenString)]
                                     
                                     print(header)
-                                    
+                                    KeychainWrapper.setString((account?.phoneNumber?.countryCode)!, forKey: "countrycode")
+                                    countrycode=account?.phoneNumber?.countryCode
 
                 Alamofire.request(.GET,"\(url)",headers:header).validate(statusCode: 200..<300)
                     .response { (request1, response1, data1, error1) in

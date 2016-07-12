@@ -165,8 +165,8 @@ class RegisterViewController: UIViewController,UITextFieldDelegate {
                             let date = Expression<String>("date")
                             let accountVerified = Expression<String>("accountVerified")
                             let role = Expression<String>("role")
-                            
-                            
+                            let country_prefix = Expression<String>("country_prefix")
+                             let nationalNumber = Expression<String>("nationalNumber")
                             // let insert = users.insert(email <- "alice@mac.com")
                             
                             
@@ -175,6 +175,8 @@ class RegisterViewController: UIViewController,UITextFieldDelegate {
                                 let rowid = try sqliteDB.db.run(tbl_accounts.insert(
                                     _id<-json["_id"].string!,
                                     firstname<-json["display_name"].string!,
+                                    country_prefix<-json["country_prefix"].string!,
+                                    nationalNumber<-json["national_number"].string!,
                                     //lastname<-json["lastname"].string!,
                                     //_id<-json["_id"].string!,
                                     username<-json["display_name"].string!,

@@ -305,7 +305,8 @@ class ChatMainViewController:UIViewController,SocketConnecting
                     AuthToken=self.accountKit!.currentAccessToken!.tokenString
                     KeychainWrapper.setString(self.accountKit!.currentAccessToken!.tokenString, forKey: "access_token")
                     print("access token key chain sett as \(self.accountKit!.currentAccessToken!.tokenString)")
-                    
+                    KeychainWrapper.setString((account?.phoneNumber?.countryCode)!, forKey: "countrycode")
+                    countrycode=account?.phoneNumber?.countryCode
                     
                 }}}
         //var lll=self.storyboard?.instantiateViewControllerWithIdentifier("mainpage") as! LoginViewController
@@ -758,7 +759,7 @@ class ChatMainViewController:UIViewController,SocketConnecting
            print("queryy runned count is \(tbl_contactslists.count)")
             print(tblContacts[firstname]+" "+tblContacts[lastname])
             //ContactsObjectss.append(tblContacts[contactid])
-            ContactNames.append(tblContacts[firstname]+" "+tblContacts[lastname])
+            ContactNames.append(ccc[name]!)
             ContactUsernames.append(tblContacts[username])
             // %%%%%%%%%%%%%%%%************ CHAT BUG ID %%%%%%%%%%%
             ContactIDs.append(tblContacts[contactid])
@@ -834,8 +835,8 @@ class ChatMainViewController:UIViewController,SocketConnecting
         let phone = Expression<String>("phone")
         let usernameFromDb = Expression<String?>("username")
         let name = Expression<String?>("name")
-        
-        do
+        cell.contactName?.text=ContactNames[indexPath.row]
+       /* do
         {//allkiboContactsArray = Array(try sqliteDB.db.prepare(contactsKibo))
             do{for all in try sqliteDB.db.prepare(allcontacts) {
                 for kiboCont in try sqliteDB.db.prepare(contactsKibo) {
@@ -874,7 +875,7 @@ class ChatMainViewController:UIViewController,SocketConnecting
             }
             if(contactFound==false)
             {
-                print("not found... \(ContactNames[indexPath.row]) ... kibo db \(ContactUsernames[indexPath.row])")
+                print("not found... \(ContactNames[indexPath.row]) ... kibo db \(ContactUsernames[])")
                 cell.contactName?.text=ContactNames[indexPath.row]
                 
                /* ContactUsernames.removeAtIndex(indexPath.row)
@@ -902,7 +903,7 @@ class ChatMainViewController:UIViewController,SocketConnecting
             socketObj.socket.emit("logClient","error in getching contactss and making one array")
             print("error in getching contactss and making one array")
         }
-        
+        */
         
         /*
         for(var i=0;i<contacts.count;i++)
