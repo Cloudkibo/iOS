@@ -26,7 +26,7 @@
 		713D51C91CC11896007E0B47 /* Contact.swift in Sources */ = {isa = PBXBuildFile; fileRef = 713D51951CC11896007E0B47 /* Contact.swift */; };
 		713D51CA1CC11896007E0B47 /* contactList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 713D51961CC11896007E0B47 /* contactList.swift */; };
 		713D51CB1CC11896007E0B47 /* Contacts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 713D51971CC11896007E0B47 /* Contacts.swift */; };
-		713D51CC1CC11896007E0B47 /* ContactsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 713D51981CC11896007E0B47 /* ContactsCell.swift */; };
+		713D51CC1CC11896007E0B47 /* ContactsInviteCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 713D51981CC11896007E0B47 /* ContactsInviteCell.swift */; };
 		713D51CD1CC11896007E0B47 /* ContactsInviteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 713D51991CC11896007E0B47 /* ContactsInviteViewController.swift */; };
 		713D51CE1CC11896007E0B47 /* ContactsListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 713D519A1CC11896007E0B47 /* ContactsListCell.swift */; };
 		713D51CF1CC11896007E0B47 /* DatabaseHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 713D519B1CC11896007E0B47 /* DatabaseHandler.swift */; };
@@ -260,7 +260,7 @@
 		713D51951CC11896007E0B47 /* Contact.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Contact.swift; sourceTree = "<group>"; };
 		713D51961CC11896007E0B47 /* contactList.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = contactList.swift; sourceTree = "<group>"; };
 		713D51971CC11896007E0B47 /* Contacts.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Contacts.swift; sourceTree = "<group>"; };
-		713D51981CC11896007E0B47 /* ContactsCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContactsCell.swift; sourceTree = "<group>"; };
+		713D51981CC11896007E0B47 /* ContactsInviteCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContactsInviteCell.swift; sourceTree = "<group>"; };
 		713D51991CC11896007E0B47 /* ContactsInviteViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContactsInviteViewController.swift; sourceTree = "<group>"; };
 		713D519A1CC11896007E0B47 /* ContactsListCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContactsListCell.swift; sourceTree = "<group>"; };
 		713D519B1CC11896007E0B47 /* DatabaseHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DatabaseHandler.swift; sourceTree = "<group>"; };
@@ -434,7 +434,7 @@
 				713D51951CC11896007E0B47 /* Contact.swift */,
 				713D51961CC11896007E0B47 /* contactList.swift */,
 				713D51971CC11896007E0B47 /* Contacts.swift */,
-				713D51981CC11896007E0B47 /* ContactsCell.swift */,
+				713D51981CC11896007E0B47 /* ContactsInviteCell.swift */,
 				713D51991CC11896007E0B47 /* ContactsInviteViewController.swift */,
 				713D519A1CC11896007E0B47 /* ContactsListCell.swift */,
 				71E046A41D22920D00B67362 /* CallHistCell.swift */,
@@ -884,7 +884,7 @@
 				713D51DC1CC11896007E0B47 /* MeetingRoomVideo.swift in Sources */,
 				718B8D911CC11A9B000B4AB2 /* SocketStringReader.swift in Sources */,
 				718B8D931CC11A9B000B4AB2 /* SwiftRegex.swift in Sources */,
-				713D51CC1CC11896007E0B47 /* ContactsCell.swift in Sources */,
+				713D51CC1CC11896007E0B47 /* ContactsInviteCell.swift in Sources */,
 				713D51CA1CC11896007E0B47 /* contactList.swift in Sources */,
 				713D51D11CC11896007E0B47 /* FileReceivedViewController.swift in Sources */,
 				713D51CE1CC11896007E0B47 /* ContactsListCell.swift in Sources */,

@@ -9,7 +9,9 @@
 import Foundation
 import UIKit
 
-class ContactsCell: UITableViewCell {
+class ContactsInviteCell: UITableViewCell {
     
+    @IBOutlet weak var contactName: UILabel!
 
+    @IBOutlet weak var contactEmail: UILabel!
 }

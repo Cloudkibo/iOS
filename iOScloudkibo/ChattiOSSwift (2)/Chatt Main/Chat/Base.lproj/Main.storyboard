@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9532" systemVersion="14F27" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" initialViewController="EQb-Ls-ePT">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10116" systemVersion="15F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" initialViewController="EQb-Ls-ePT">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9530"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
         <capability name="Navigation items with more than one left or right bar item" minToolsVersion="7.0"/>
     </dependencies>
     <scenes>
@@ -667,7 +667,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="baf-Z4-X2K" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="665" y="840"/>
+            <point key="canvasLocation" x="1565" y="1246"/>
         </scene>
         <!--Display Name View Controller-->
         <scene sceneID="7q2-f2-uOn">
@@ -910,7 +910,6 @@
                         <outlet property="tblForChat" destination="qPF-7P-jaS" id="UVa-gb-6sW"/>
                         <segue destination="519-eF-35I" kind="modal" identifier="loginSegue" animates="NO" id="Spe-dd-EXu"/>
                         <segue destination="vqu-uk-8SN" kind="push" identifier="contactChat" id="W8i-Cs-Z8T"/>
-                        <segue destination="tCr-3N-niL" kind="modal" identifier="inviteSegue" id="s9Z-xh-M0I"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="J0L-07-OPd" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -1569,7 +1568,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="URD-gR-s34" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1236" y="-1913"/>
+            <point key="canvasLocation" x="1231" y="-1929"/>
         </scene>
         <!--View Controller-->
         <scene sceneID="j1m-xl-Ml3">
@@ -1807,7 +1806,7 @@
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                 </view>
             </objects>
-            <point key="canvasLocation" x="859" y="957"/>
+            <point key="canvasLocation" x="791" y="1369"/>
         </scene>
         <!--Register View Controller-->
         <scene sceneID="ZCs-nV-U7K">
@@ -2064,27 +2063,38 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="66" sectionHeaderHeight="22" sectionFooterHeight="22" id="syR-45-CMF">
+                            <tableView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="78" sectionHeaderHeight="22" sectionFooterHeight="22" id="syR-45-CMF">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="504"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="ContactsInviteCell" editingAccessoryType="checkmark" textLabel="ZJQ-d3-fhQ" style="IBUITableViewCellStyleDefault" id="woi-iF-7Sx">
-                                        <rect key="frame" x="0.0" y="22" width="320" height="66"/>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="ContactsInviteCell" id="lU5-3E-N9k" customClass="ContactsInviteCell" customModule="Chat" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="86" width="320" height="78"/>
                                         <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="woi-iF-7Sx" id="zbH-XF-8av">
-                                            <rect key="frame" x="0.0" y="0.0" width="320" height="65.5"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="lU5-3E-N9k" id="ttq-aH-WWS">
+                                            <rect key="frame" x="0.0" y="0.0" width="320" height="77.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="ZJQ-d3-fhQ">
-                                                    <rect key="frame" x="15" y="0.0" width="290" height="65.5"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="NCg-oc-Qil">
+                                                    <rect key="frame" x="8" y="8" width="304" height="21"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="16"/>
-                                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="email" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="vzK-Zy-8lt">
+                                                    <rect key="frame" x="8" y="28" width="304" height="21"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <fontDescription key="fontDescription" style="UICTFontTextStyleSubhead"/>
+                                                    <color key="textColor" white="0.5" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                             </subviews>
                                         </tableViewCellContentView>
+                                        <connections>
+                                            <outlet property="contactEmail" destination="vzK-Zy-8lt" id="TmQ-V7-R5G"/>
+                                            <outlet property="contactName" destination="NCg-oc-Qil" id="1Qm-aJ-NUY"/>
+                                        </connections>
                                     </tableViewCell>
                                 </prototypes>
                             </tableView>
@@ -2136,7 +2146,7 @@
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                 </view>
             </objects>
-            <point key="canvasLocation" x="1201" y="-2641"/>
+            <point key="canvasLocation" x="1220" y="317"/>
         </scene>
         <!--File Received View Controller-->
         <scene sceneID="MfT-tg-MAc">
@@ -2229,7 +2239,7 @@
                         </view>
                         <prototypes>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="JC4-iV-Jwg">
-                                <rect key="frame" x="0.0" y="133" width="320" height="44"/>
+                                <rect key="frame" x="0.0" y="197" width="320" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="JC4-iV-Jwg" id="H6p-c1-bTR">
                                     <rect key="frame" x="0.0" y="0.0" width="320" height="43.5"/>
@@ -2965,7 +2975,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="pvc-OG-bzI" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="676" y="-2383"/>
+            <point key="canvasLocation" x="677" y="317"/>
         </scene>
         <!--Chats-->
         <scene sceneID="YJi-J4-sJL">
@@ -3112,7 +3122,7 @@
                     </view>
                     <toolbarItems/>
                     <navigationItem key="navigationItem" title="Favourites" id="BO5-xM-pGS">
-                        <barButtonItem key="rightBarButtonItem" enabled="NO" image="project_plus" id="5c1-H2-nNE">
+                        <barButtonItem key="rightBarButtonItem" image="project_plus" id="5c1-H2-nNE">
                             <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                             <connections>
                                 <action selector="addContactTapped:" destination="v28-cs-4pq" id="DEt-SW-vGi"/>
@@ -3125,6 +3135,7 @@
                         <outlet property="btnForLogo" destination="KXr-Gf-PHk" id="TAa-wn-0ru"/>
                         <outlet property="tblForChat" destination="K2C-Ei-zZY" id="zjL-KP-A8N"/>
                         <segue destination="vqu-uk-8SN" kind="push" identifier="favouritesChat" id="xLi-xx-esW"/>
+                        <segue destination="tCr-3N-niL" kind="modal" identifier="inviteSegue" id="QOc-Kg-WHZ"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="2jl-4s-gJf" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -3198,8 +3209,8 @@
         <segue reference="Spe-dd-EXu"/>
         <segue reference="W8i-Cs-Z8T"/>
         <segue reference="1jA-Zj-XHt"/>
-        <segue reference="3Qa-aS-eRu"/>
-        <segue reference="Cjg-Ar-cdZ"/>
+        <segue reference="8LM-cv-XXH"/>
+        <segue reference="X5X-Qt-8lc"/>
         <segue reference="Lsn-aA-q1J"/>
     </inferredMetricsTieBreakers>
     <color key="tintColor" red="0.054901960784313725" green="0.47843137254901963" blue="1" alpha="1" colorSpace="calibratedRGB"/>

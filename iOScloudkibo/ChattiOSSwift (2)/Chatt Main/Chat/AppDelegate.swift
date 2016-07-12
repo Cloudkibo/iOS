@@ -23,7 +23,7 @@ let manager = Alamofire.Manager(configuration: configuration1)
 var endedCall=false
 var accountKit:AKFAccountKit!
 var displayname=""
-var selectedEmails=[String]()
+////////var selectedEmails=[String]() // moved to contactsinviteviewcontroller
 var emailList=[String]()
 var nameList=[String]()
 var phonesList=[String]()

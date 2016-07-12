@@ -43,6 +43,8 @@ class iOSContact{
         
         var name=Expression<String>("name")
         var phone=Expression<String>("phone")
+        var email=Expression<String>("email")
+        
         
         socketObj.socket.emit("logClient","IPHONE-LOG: \(username) fetching contacts from iphone contactlist")
         var emails=[String]()
@@ -103,7 +105,18 @@ class iOSContact{
                                     print("appended phone is \(phoneDigits)")
                                 }
                                 emails.append(phoneDigits)
-                                try sqliteDB.db.run(tbl_allcontacts.insert(name<-fullname,phone<-phoneDigits))
+                                var emailAddress=""
+                                let em = try contacts[i].emailAddresses.first
+                                if(em != nil && em != "")
+                                {
+                                    print(em?.label)
+                                    print(em?.value)
+                                    emailAddress=(em?.value)! as! String
+                                    print("email adress value iss \(emailAddress)")
+                                    /////emails.append(em!.value as! String)
+                                }
+                                
+                                try sqliteDB.db.run(tbl_allcontacts.insert(name<-fullname,phone<-phoneDigits,email<-emailAddress))
                         }
                             catch(let error)
                             {
@@ -544,21 +557,30 @@ class iOSContact{
         }
         
     }
-    func sendInvite(var emails:[String])
+    func sendInvite(var emails:[String],completion: (result:String)->())
     {
         //emails.append("sumaira.syedsaeed@gmail.com")
         //emails.append("kibo@kibo.com")
         let inviteMultipleURL=Constants.MainUrl+Constants.invitebymultipleemail
-        Alamofire.request(.POST,inviteMultipleURL,headers:header,parameters:["emails":emails],encoding: .JSON).responseJSON { response in
+        Alamofire.request(.POST,inviteMultipleURL,headers:header,parameters:["emails":emails],encoding: .JSON).validate(statusCode: 200..<300).responseJSON { response in
             debugPrint(response.data)
             //print(response.request)
             //print(response.response)
             print(response.data)
             //print(response.e
-            
-            //print(response.result.value!)
             var res=JSON(response.result.value!)
+            print(res)
+
+            //print(response.result.value!)
+            switch response.result {
+            case .Success:
             print("invite sent")
+                return completion(result: res["msg"].string!)
+            case .Failure:
+                print("invite failed")
+                return completion(result: res["msg"].string!)
+            }
+            
         }
         
     }
