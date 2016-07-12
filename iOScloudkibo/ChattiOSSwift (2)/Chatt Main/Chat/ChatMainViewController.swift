@@ -829,20 +829,23 @@ class ChatMainViewController:UIViewController,SocketConnecting
         var contactFound=false
         var allcontacts=sqliteDB.allcontacts
         var contactsKibo=sqliteDB.contactslists
-        var allkiboContactsArray:Array<Row>
+        //var allkiboContactsArray:Array<Row>
         
         let phone = Expression<String>("phone")
         let usernameFromDb = Expression<String?>("username")
         let name = Expression<String?>("name")
         
         do
-        {allkiboContactsArray = Array(try sqliteDB.db.prepare(contactsKibo))
+        {//allkiboContactsArray = Array(try sqliteDB.db.prepare(contactsKibo))
             do{for all in try sqliteDB.db.prepare(allcontacts) {
+                for kiboCont in try sqliteDB.db.prepare(contactsKibo) {
                 //print("id: \(account[_id]), phone: \(account[phone]), firstname: \(account[firstname])")
                 // id: 1, email: alice@mac.com, name: Optional("Alice")
-                
+                print("[[[ all contacts\(all[phone]) .. kibo is \(kiboCont[usernameFromDb])")
                 //if(all[phone]==allkiboContactsArray[indexPath.row][username])
-                if(all[phone]==allkiboContactsArray[indexPath.row].get(usernameFromDb))
+                if(all[phone]==kiboCont[usernameFromDb])
+                    //all[phone]==allkiboContactsArray[indexPath.row].get(usernameFromDb))
+                    
                     
                 {
                     //Matched phone number. Got contact
@@ -860,7 +863,7 @@ class ChatMainViewController:UIViewController,SocketConnecting
                     contactFound=true
                     
                 }
-                
+                }
                 }
                 
             }
@@ -871,6 +874,7 @@ class ChatMainViewController:UIViewController,SocketConnecting
             }
             if(contactFound==false)
             {
+                print("not found... \(ContactNames[indexPath.row]) ... kibo db \(ContactUsernames[indexPath.row])")
                 cell.contactName?.text=ContactNames[indexPath.row]
                 
                /* ContactUsernames.removeAtIndex(indexPath.row)

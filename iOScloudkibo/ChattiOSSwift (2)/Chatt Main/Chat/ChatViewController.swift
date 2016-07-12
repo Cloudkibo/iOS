@@ -155,7 +155,7 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
                             status<-json["status"].string!,
                             phone<-json["phone"].string!))
                         //country_prefix
-                        //national_number
+                        //national_number"
                         print("inserted id: \(rowid)")
                         
                         return completion(result:true)
