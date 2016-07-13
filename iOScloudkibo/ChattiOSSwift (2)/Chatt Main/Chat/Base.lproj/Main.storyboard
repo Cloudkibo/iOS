@@ -3055,8 +3055,26 @@
                                             <outlet property="statusPublic" destination="Yrv-Xn-pxI" id="eGB-kt-C5q"/>
                                         </connections>
                                     </tableViewCell>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="ChatPrivateCell" id="qOR-yY-ieU" customClass="ContactsListCell" customModule="Chat">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="InviteToKiboAppCell" id="92g-U7-ELy" userLabel="InviteToKiboAppCell">
                                         <rect key="frame" x="0.0" y="88" width="320" height="66"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="92g-U7-ELy" id="Oqa-iL-6gt">
+                                            <rect key="frame" x="0.0" y="0.0" width="320" height="65.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="2z2-O9-hhc">
+                                                    <rect key="frame" x="8" y="18" width="304" height="30"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <state key="normal" title="Invite Friends to Kibo App"/>
+                                                    <connections>
+                                                        <segue destination="tCr-3N-niL" kind="modal" identifier="" id="r9V-zA-poa"/>
+                                                    </connections>
+                                                </button>
+                                            </subviews>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="ChatPrivateCell" id="qOR-yY-ieU" customClass="ContactsListCell" customModule="Chat">
+                                        <rect key="frame" x="0.0" y="154" width="320" height="66"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="qOR-yY-ieU" id="hep-nT-8xd">
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="65.5"/>
@@ -3207,8 +3225,9 @@
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="Spe-dd-EXu"/>
-        <segue reference="W8i-Cs-Z8T"/>
         <segue reference="1jA-Zj-XHt"/>
+        <segue reference="r9V-zA-poa"/>
+        <segue reference="xLi-xx-esW"/>
         <segue reference="8LM-cv-XXH"/>
         <segue reference="X5X-Qt-8lc"/>
         <segue reference="Lsn-aA-q1J"/>

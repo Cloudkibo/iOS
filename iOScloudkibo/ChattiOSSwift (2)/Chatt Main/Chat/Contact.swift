@@ -66,7 +66,9 @@ class iOSContact{
                 
             }
             
-            
+        }catch{
+            print("error 1..")
+        }
             print(contacts.first?.givenName)
             // dispatch_async(dispatch_get_main_queue(), { () -> Void in
             
@@ -98,9 +100,49 @@ class iOSContact{
                         for phoneNumber:CNLabeledValue in contacts[i].phoneNumbers {
                             let a = phoneNumber.value as! CNPhoneNumber
                             //////////////emails.append(a.valueForKey("digits") as! String)
+                            var zeroIndex = -1
                             var phoneDigits=a.valueForKey("digits") as! String
+                            //remove leading zeroes
+                           /* for index in phoneDigits.characters.indices {
+                                print(phoneDigits[index])
+                                if(phoneDigits[index]=="0")
+                                {
+                                    zeroIndex=index as! Int
+                                    //phoneDigits.characters.popFirst() as! String
+                                    print(".. droping zero \(phoneDigits) index \(zeroIndex)")
+                                }
+                                else
+                                {
+                                    if(zeroIndex != -1)
+                                    {
+                                    let rangeOfTLD = Range(start: phoneDigits.startIndex.advancedBy(zeroIndex),
+                                                           end: phoneDigits.endIndex)
+                                    phoneDigits = phoneDigits[rangeOfTLD] // "com"
+                                        print("range is \(phoneDigits)")
+                                    }
+                                    break
+                                }
+
+                            }*/
+                            for(var i=0;i<phoneDigits.characters.count;i++)
+                            {
+                                if(phoneDigits.characters.first=="0")
+                                {
+                                    phoneDigits.removeAtIndex(phoneDigits.startIndex)
+                                    //phoneDigits.characters.popFirst() as! String
+                                    print(".. droping zero \(phoneDigits)")
+                                }
+                                else
+                                {
+                                    break
+                                }
+                            }
                             do{
-                               if(phoneDigits.characters.first != "+"){
+                                if(countrycode=="1" && phoneDigits.characters.first=="1" && phoneDigits.characters.first != "+")
+                                {
+                                    phoneDigits = "+"+phoneDigits
+                                }
+                               else if(phoneDigits.characters.first != "+"){
                                     phoneDigits = "+"+countrycode+phoneDigits
                                     print("appended phone is \(phoneDigits)")
                                 }
@@ -184,13 +226,13 @@ class iOSContact{
             //return emails
             
             completion(result: emails)
-        }
+       /* }
         catch let error as NSError {
             print("errorrrrr ...")
             socketObj.socket.emit("logClient","IPHONE-LOG: error: fetching contacts from device \(error.description)")
             print(error.description, separator: "", terminator: "\n")
              print("... ... \(error.localizedFailureReason)")
-        }
+        }*/
         
         //return emails
         
@@ -299,11 +341,11 @@ class iOSContact{
             
             completion(result: emails)
         }
-        catch let error as NSError {
+        catch {
             print("errorrrrr ...")
-            socketObj.socket.emit("logClient","IPHONE-LOG: error: fetching contacts from device \(error.description)")
-            print(error.description, separator: "", terminator: "\n")
-            print("... ... \(error.localizedFailureReason)")
+            socketObj.socket.emit("logClient","IPHONE-LOG: error: fetching contacts from device")
+          //  print(error.description, separator: "", terminator: "\n")
+          //  print("... ... \(error.localizedFailureReason)")
             
         }
         

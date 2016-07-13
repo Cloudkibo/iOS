@@ -804,7 +804,7 @@ class ChatMainViewController:UIViewController,SocketConnecting
         //refreshControl.addTarget(self, action: Selector("fetchContacts"), forControlEvents: UIControlEvents.ValueChanged)
         
         print(ContactNames.count, terminator: "")
-        return ContactNames.count
+        return ContactNames.count+1
     }
     
     func numberOfSectionsInTableView(tableView: UITableView!) -> Int {
@@ -820,7 +820,8 @@ class ChatMainViewController:UIViewController,SocketConnecting
         }
         */
        
-        
+        if(indexPath.row < (ContactNames.count))
+        {
         let cellPublic=tblForChat.dequeueReusableCellWithIdentifier("ChatPublicCell") as! ContactsListCell
         
         let cell=tblForChat.dequeueReusableCellWithIdentifier("ChatPrivateCell") as! ContactsListCell
@@ -956,6 +957,11 @@ class ChatMainViewController:UIViewController,SocketConnecting
         
         
         return cell
+        }
+        else
+        {
+            return tblForChat.dequeueReusableCellWithIdentifier("InviteToKiboAppCell")! as! UITableViewCell
+        }
         
     }
     
@@ -963,14 +969,18 @@ class ChatMainViewController:UIViewController,SocketConnecting
         
         //let indexPath = tableView.indexPathForSelectedRow();
         //let currentCell = tableView.cellForRowAtIndexPath(indexPath!) as UITableViewCell!;
-        
+        if(indexPath.row < (ContactNames.count))
+        {
         print(ContactNames[indexPath.row], terminator: "")
         self.performSegueWithIdentifier("favouritesChat", sender: nil);
+        }
         //slideToChat
         
     }
     
     func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
+        if(indexPath.row < (ContactNames.count))
+        {
         if editingStyle == .Delete {
             
              var selectedRow = indexPath.row
@@ -1070,6 +1080,7 @@ class ChatMainViewController:UIViewController,SocketConnecting
         }
         
             }
+    }
     
     
     
