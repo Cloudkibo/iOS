@@ -136,11 +136,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Chat/NotesViewController.swift"
-            timestampString = "487384061.791716"
+            timestampString = "490213873.693064"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "39"
-            endingLineNumber = "39"
+            startingLineNumber = "45"
+            endingLineNumber = "45"
             landmarkName = "btnAddNewContact(_:)"
             landmarkType = "5">
          </BreakpointContent>

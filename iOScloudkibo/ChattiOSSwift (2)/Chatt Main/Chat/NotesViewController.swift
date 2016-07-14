@@ -9,8 +9,14 @@
 import UIKit
 import SQLite
 import Contacts
-class NotesViewController: UIViewController,InviteContactsDelegate,UITextFieldDelegate {
+class NotesViewController: UIViewController,InviteContactsDelegate,UITextFieldDelegate,UISearchBarDelegate,UISearchResultsUpdating {
 
+    
+    var filteredArray = Array<Row>()
+    
+    var shouldShowSearchResults = false
+
+    var searchController: UISearchController!
     var alladdressContactsArray=Array<Row>()
     var alert:UIAlertController!
     var delegate:InviteContactsDelegate!
@@ -133,6 +139,56 @@ class NotesViewController: UIViewController,InviteContactsDelegate,UITextFieldDe
         view.addSubview(messageFrame)
     }
     
+   
+    func configureSearchController() {
+        // Initialize and perform a minimum configuration to the search controller.
+        searchController = UISearchController(searchResultsController: nil)
+        searchController.searchResultsUpdater = self
+        searchController.dimsBackgroundDuringPresentation = false
+        searchController.searchBar.placeholder = "Search here..."
+        searchController.searchBar.delegate = self
+        searchController.searchBar.sizeToFit()
+        
+        // Place the search bar view to the tableview headerview.
+        tblForNotes.tableHeaderView = searchController.searchBar
+    }
+    
+    
+    func searchBarTextDidBeginEditing(searchBar: UISearchBar) {
+        shouldShowSearchResults = true
+        tblForNotes.reloadData()
+    }
+    
+    
+    func searchBarCancelButtonClicked(searchBar: UISearchBar) {
+        shouldShowSearchResults = false
+        tblForNotes.reloadData()
+    }
+   
+    func searchBarSearchButtonClicked(searchBar: UISearchBar) {
+        if !shouldShowSearchResults {
+            shouldShowSearchResults = true
+            tblForNotes.reloadData()
+        }
+        
+        searchController.searchBar.resignFirstResponder()
+    }
+    func updateSearchResultsForSearchController(searchController: UISearchController) {
+        let searchString = searchController.searchBar.text
+        let name = Expression<String?>("name")
+        // Filter the data array and get only those countries that match the search text.
+         filteredArray = alladdressContactsArray.filter({ (contactname) -> Bool in
+            let countryText: NSString = contactname.get(name)!
+            
+            return (countryText.rangeOfString(searchString!, options: NSStringCompareOptions.CaseInsensitiveSearch).location) != NSNotFound
+        })
+        
+        // Reload the tableview.
+        tblForNotes.reloadData()
+    }
+    
+    
+    
     override func viewWillAppear(animated: Bool) {
         
         tblForNotes.reloadData()
@@ -157,6 +213,7 @@ class NotesViewController: UIViewController,InviteContactsDelegate,UITextFieldDe
         //alladdressContactsArray = Array(try sqliteDB.db.prepare(allcontactslist1))
         
         
+        configureSearchController()
         do
         {alladdressContactsArray = Array(try sqliteDB.db.prepare(allcontactslist1))
             
@@ -214,7 +271,13 @@ class NotesViewController: UIViewController,InviteContactsDelegate,UITextFieldDe
     }
     
     func tableView(tableView: UITableView!, numberOfRowsInSection section: Int) -> Int {
+        if shouldShowSearchResults {
+            return filteredArray.count
+        }
+        else
+        {
         return alladdressContactsArray.count
+        }
     }
     
     func numberOfSectionsInTableView(tableView: UITableView!) -> Int {
@@ -254,14 +317,23 @@ class NotesViewController: UIViewController,InviteContactsDelegate,UITextFieldDe
         do
         {alladdressContactsArray = Array(try sqliteDB.db.prepare(allcontactslist1))
         
-            
+            if shouldShowSearchResults {
+                cellPrivate.labelNamePrivate.text=filteredArray[indexPath.row].get(name)
+                if(filteredArray[indexPath.row].get(kibocontact)==true)
+                {
+                    cellPrivate.labelStatusPrivate.hidden=false
+                }
+            }
+            else
+            {
             cellPrivate.labelNamePrivate.text=alladdressContactsArray[indexPath.row].get(name)
-            
+                if(alladdressContactsArray[indexPath.row].get(kibocontact)==true)
+                {
+                    cellPrivate.labelStatusPrivate.hidden=false
+                }
+            }
             //alladdressContactsArray[indexPath.row].
-        if(alladdressContactsArray[indexPath.row].get(kibocontact)==true)
-        {
-            cellPrivate.labelStatusPrivate.hidden=false
-        }
+       
         }
         catch{
             print("error 123")
