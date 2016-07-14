@@ -2108,7 +2108,7 @@
                                 <action selector="btn_BackPressed:" destination="BrB-JZ-hqZ" id="2gZ-C3-jW2"/>
                             </connections>
                         </barButtonItem>
-                        <barButtonItem key="rightBarButtonItem" title="Done" id="heh-dU-cKb">
+                        <barButtonItem key="rightBarButtonItem" title="Invite" id="heh-dU-cKb">
                             <connections>
                                 <action selector="btn_DoneInvite:" destination="BrB-JZ-hqZ" id="Sh5-C4-AVo"/>
                             </connections>
@@ -2975,7 +2975,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="pvc-OG-bzI" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="677" y="317"/>
+            <point key="canvasLocation" x="722" y="331"/>
         </scene>
         <!--Chats-->
         <scene sceneID="YJi-J4-sJL">
@@ -3067,7 +3067,7 @@
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <state key="normal" title="Invite Friends to Kibo App"/>
                                                     <connections>
-                                                        <segue destination="tCr-3N-niL" kind="modal" identifier="" id="r9V-zA-poa"/>
+                                                        <action selector="inviteFriendsButtonPressed:" destination="v28-cs-4pq" eventType="touchUpInside" id="EQf-N3-Xvd"/>
                                                     </connections>
                                                 </button>
                                             </subviews>
@@ -3226,7 +3226,6 @@
     <inferredMetricsTieBreakers>
         <segue reference="Spe-dd-EXu"/>
         <segue reference="1jA-Zj-XHt"/>
-        <segue reference="r9V-zA-poa"/>
         <segue reference="xLi-xx-esW"/>
         <segue reference="8LM-cv-XXH"/>
         <segue reference="X5X-Qt-8lc"/>

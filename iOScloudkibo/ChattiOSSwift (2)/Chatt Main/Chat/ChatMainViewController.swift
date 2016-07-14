@@ -17,6 +17,7 @@ import Contacts
 
 class ChatMainViewController:UIViewController,SocketConnecting
 {
+    var sendType=""
     var accountKit: AKFAccountKit!
     var rt=NetworkingLibAlamofire()
     var mytitle="Favourites"
@@ -1318,6 +1319,45 @@ class ChatMainViewController:UIViewController,SocketConnecting
 
     }
 
+    @IBAction func inviteFriendsButtonPressed(sender: AnyObject) {
+        let shareMenu = UIAlertController(title: nil, message: "Invite using", preferredStyle: .ActionSheet)
+        
+        let twitterAction = UIAlertAction(title: "Mail", style: UIAlertActionStyle.Default,handler: { (action) -> Void in
+            
+            self.sendType="Mail"
+            self.performSegueWithIdentifier("inviteSegue",sender: nil)
+            /*let mailComposeViewController = self.configuredMailComposeViewController()
+             if MFMailComposeViewController.canSendMail() {
+             self.presentViewController(mailComposeViewController, animated: true, completion: nil)
+             } else {
+             self.showSendMailErrorAlert()
+             }*/
+        })
+        let cancelAction = UIAlertAction(title: "Message", style: UIAlertActionStyle.Cancel, handler: { (action) -> Void in
+            
+            self.sendType="Message"
+            self.performSegueWithIdentifier("inviteSegue",sender: nil)
+            /*var messageVC = MFMessageComposeViewController()
+             
+             messageVC.body = "Enter a message";
+             messageVC.recipients = ["03201211991"]
+             messageVC.messageComposeDelegate = self;
+             
+             self.presentViewController(messageVC, animated: false, completion: nil)
+             */
+        })
+        
+        shareMenu.addAction(twitterAction)
+        shareMenu.addAction(cancelAction)
+        
+        
+        self.presentViewController(shareMenu, animated: true, completion: {
+            
+        })
+        
+    }
+    
+    
     
     // #pragma mark - Navigation
     
@@ -1376,8 +1416,18 @@ class ChatMainViewController:UIViewController,SocketConnecting
                 //
             }
         }
+        if segue!.identifier == "inviteSegue" {
+            let destinationNavigationController = segue!.destinationViewController as! UINavigationController
+            let destinationVC = destinationNavigationController.topViewController as? ContactsInviteViewController
+            
+            destinationVC?.sendType=self.sendType
+            
+
+        }
+        
         
     }
+    
     
     
     ///////////////////////////////
