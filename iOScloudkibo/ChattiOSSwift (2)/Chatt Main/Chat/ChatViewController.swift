@@ -20,6 +20,7 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
     
     
     
+    @IBOutlet weak var editButtonOutlet: UIBarButtonItem!
     var accountKit: AKFAccountKit!
     var rt=NetworkingLibAlamofire()
     var allkiboContactsArray=Array<Row>()
@@ -715,8 +716,9 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
         self.navigationItem.titleView = viewForTitle
         /////self.navigationItem.leftBarButtonItem = UIBarButtonItem(customView: btnForLogo)
         //self.navigationItem.rightBarButtonItem = itemForSearch
-        
-        ///////self.navigationItem.leftBarButtonItem = editButtonItem()
+        ////self.tblForChat.setEditing(true, animated: true)
+        /////self.navigationItem.leftBarButtonItem = editButtonItem()
+        ///////self.navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .Edit, target: self, action: "editItems:")
         self.navigationItem.rightBarButtonItem = btnContactAdd
         self.tabBarController?.tabBar.tintColor = UIColor.greenColor()
         print("////////////////////// new class tokn \(AuthToken)", terminator: "")
@@ -724,7 +726,16 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
         print(self.ContactNames.count.description, terminator: "")
         // self.tblForChat.reloadData()
         
-        
+        if(tblForChat.editing.boolValue==false)
+        {
+            editButtonOutlet.title="Edit"
+            self.navigationItem.leftBarButtonItem!.title = "Edit"
+        }
+        else
+        {
+            editButtonOutlet.title="Done"
+            self.navigationItem.leftBarButtonItem!.title = "Done"
+        }
         
         //========
         /*socketObj.socket.on("online")
@@ -826,6 +837,39 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
         
     }
     
+    
+    
+    @IBAction func editButtonPressed(sender: AnyObject) {
+        
+     
+         tblForChat.setEditing(!tblForChat.editing, animated: true)
+        self.setEditing(tblForChat.editing, animated: true)
+        print("editinggg1..\(tblForChat.editing.boolValue) .. \(tblForChat.editing)")
+        if(tblForChat.editing.boolValue==false)
+        {
+            editButtonOutlet.title="Edit"
+            self.navigationController?.navigationItem.leftBarButtonItem?.title="Edit"
+            self.navigationItem.leftBarButtonItem!.title = "Edit"
+        }
+        else
+        {
+            editButtonOutlet.title="Done"
+            self.navigationController?.navigationItem.leftBarButtonItem?.title="Done"
+            ///self.navigationItem.leftBarButtonItem!.title = "Done"
+        }
+        //self.navigationItem.leftBarButtonItem!.title = "Done"
+        //self.setEditing(!tblForChat.editing, animated: true)
+        
+        
+    }
+    
+    /*func editItems(sender: UIBarButtonItem) {
+        self.navigationItem.leftBarButtonItem?.title="Done"
+        //self.navigationItem.leftBarButtonItem!.title = tblForChat.editing ? "Done" : "Edit";
+        tblForChat.setEditing(!tblForChat.editing, animated: true)
+    }*/
+    
+
     
     func progressBarDisplayer(msg:String, _ indicator:Bool ) {
         print(msg)
@@ -1159,7 +1203,18 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
                 //}
                 //})
             }
-            
+            if(tblForChat.editing.boolValue==false)
+            {
+                editButtonOutlet.title="Edit"
+                self.navigationController?.navigationItem.leftBarButtonItem?.title="Edit"
+                self.navigationItem.leftBarButtonItem!.title = "Edit"
+            }
+            else
+            {
+                editButtonOutlet.title="Done"
+                self.navigationController?.navigationItem.leftBarButtonItem?.title="Done"
+                ///self.navigationItem.leftBarButtonItem!.title = "Done"
+            }
             
             //}
         }
@@ -1482,7 +1537,7 @@ print("query join error 1337 \(e)")
         //let cellPublic=tblForChat.dequeueReusableCellWithIdentifier("ChatPublicCell") as! ContactsListCell
         
         let cell=tblForChat.dequeueReusableCellWithIdentifier("ChatPrivateCell") as! ContactsListCell
-        
+      
         var contactFound=false
         ////%%%%%%%%%%%%%cell.contactName?.text=ContactNames[indexPath.row]
         
@@ -1618,19 +1673,69 @@ print("query join error 1337 \(e)")
     
     override func setEditing(editing: Bool, animated: Bool) {
         super.setEditing(editing, animated: animated)
+        tblForChat.setEditing(editing, animated: animated)
+        print("editingggg....2")
         tblForChat.reloadData()
     }
     
     func tableView(tableView: UITableView, editingStyleForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCellEditingStyle {
-        return UITableViewCellEditingStyle.Delete
+        if (tableView.editing) {
+            
+            
+            return UITableViewCellEditingStyle.Delete
+        }
+        return UITableViewCellEditingStyle.None
     }
      func tableView(tableView: UITableView, shouldIndentWhileEditingRowAtIndexPath indexPath: NSIndexPath) -> Bool {
         return true
     }
     
     func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
-        
-        
+        if editingStyle == .Delete {
+            let shareMenu = UIAlertController(title: nil, message: "Delete Chat with \(ContactNames[indexPath.row])", preferredStyle: .ActionSheet)
+            
+            let DeleteAction = UIAlertAction(title: "Delete", style: UIAlertActionStyle.Default,handler: { (action) -> Void in
+                self.removeChatHistory(self.ContactUsernames[indexPath.row],indexPath: indexPath)
+            })
+            let cancelAction = UIAlertAction(title: "Cancel", style: UIAlertActionStyle.Cancel, handler: { (action) -> Void in
+                
+                //self.sendType="Message"
+                //self.performSegueWithIdentifier("inviteSegue",sender: nil)
+                /*var messageVC = MFMessageComposeViewController()
+                 
+                 messageVC.body = "Enter a message";
+                 messageVC.recipients = ["03201211991"]
+                 messageVC.messageComposeDelegate = self;
+                 
+                 self.presentViewController(messageVC, animated: false, completion: nil)
+                 */
+            })
+            
+            shareMenu.addAction(DeleteAction)
+            shareMenu.addAction(cancelAction)
+            
+            
+            self.presentViewController(shareMenu, animated: true, completion: {
+                
+            })
+
+            
+            // Delete the row from the data source
+           /// self.removeChatHistory(ContactUsernames[indexPath.row],indexPath: indexPath)
+            // arr.removeAtIndex(indexPath.row)
+           //////////////// tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: UITableViewRowAnimation.Automatic)
+
+            ///tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Fade)
+        } else if editingStyle == .Insert {
+            // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
+        }
+       /* if (editingStyle == UITableViewCellEditingStyle.Delete) {
+            /////////////self.removeChatHistory(ContactUsernames[indexPath.row],indexPath: indexPath)
+           // arr.removeAtIndex(indexPath.row)
+            tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: UITableViewRowAnimation.Automatic)
+        }
+        */
+        /*
         if editingStyle == .Delete {
             self.removeChatHistory(ContactUsernames[indexPath.row],indexPath: indexPath)
             // Delete the row from the data source
@@ -1641,7 +1746,7 @@ print("query join error 1337 \(e)")
             // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
         }
         
-        
+        */
         
         /*if editingStyle == .Delete {
         
