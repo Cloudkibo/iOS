@@ -843,7 +843,7 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
         
      
          tblForChat.setEditing(!tblForChat.editing, animated: true)
-        self.setEditing(tblForChat.editing, animated: true)
+        //////////self.setEditing(tblForChat.editing, animated: true)
         print("editinggg1..\(tblForChat.editing.boolValue) .. \(tblForChat.editing)")
         if(tblForChat.editing.boolValue==false)
         {

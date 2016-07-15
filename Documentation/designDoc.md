@@ -15,7 +15,7 @@ Kibo App lets you invite your friend with a click of a button into a call. Donâ€
 
 **Kibo App Documentation**
 
-[Kibo App Code Architecture Design document](https://github.com/Cloudkibo/iOS/blob/master/Documentation/sections/design.md) discusses about internal code design of application. It discusses about how code is arranged, which internal and external libraries are being used. This document is more suitable and relevant for developers.
+[Kibo App Design document](https://github.com/Cloudkibo/iOS/blob/master/Documentation/sections/design.md) discusses about internal code design of application. It discusses about how code is arranged, which internal and external libraries are being used. This document is more suitable and relevant for developers.
 
 [Contacts Management Documentation](https://github.com/Cloudkibo/iOS/blob/master/Documentation/sections/contacts.md) contains discussion on how contacts/friends list is managed by Kibo App. It also states set of rules to follow when saving contacts in device address book. Further, it discusses how contacts are synchronised between client and server
 

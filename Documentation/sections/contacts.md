@@ -65,7 +65,28 @@ From our Addressbook, some of contacts might not be Kibo users i.e. they have no
 1- Inviting through Email
 2- Inviting through SMS
 
-*Inviting through Email*
+
+- Inviting through Email
+
+
 For each contact, we will store primary email address (if available) in local database. We will show the list of those users which are not on Kibo App and we have their email address saved in address book.
 
-User can select one or more contacts from the list and email invitations will be send to selected user. We will use a REST API of server to send email invitations.
+User can select one or more contacts from the list and email invitations will be send to selected user. User will be displayed a pre-written message:
+
+Hey,
+
+I just downloaded Kibo App on my iPhone. It is a smartphone messenger with added features. 
+
+It provides integrated and unified voice, video, and data communication.
+
+It is available for both Android and iPhone and there is no PIN or username to remember.
+
+
+
+User can modify and make changes to this message. There is a functionality for sending invites to multiple contacts in one go.
+
+- Inviting through SMS
+
+For each contact, we store phone number in our local database. We will show the list of those users which are not on Kibo App. We show a list with their Names and Phone numbers.
+
+User can select one or more contacts from the list and SMS invitations will be send to selected user. User will be displayed same pre-written message shown above. This message is editable.
