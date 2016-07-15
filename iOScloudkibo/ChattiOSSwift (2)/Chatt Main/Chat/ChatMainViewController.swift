@@ -805,7 +805,7 @@ class ChatMainViewController:UIViewController,SocketConnecting
         //refreshControl.addTarget(self, action: Selector("fetchContacts"), forControlEvents: UIControlEvents.ValueChanged)
         
         print(ContactNames.count, terminator: "")
-        return ContactNames.count+1
+        return ContactNames.count+2
     }
     
     func numberOfSectionsInTableView(tableView: UITableView!) -> Int {
@@ -820,7 +820,7 @@ class ChatMainViewController:UIViewController,SocketConnecting
         return tblForChat.dequeueReusableCellWithIdentifier("ChatPublicCell")as! UITableViewCell
         }
         */
-       
+         print("indexpath row number is \(indexPath.row)")
         if(indexPath.row < (ContactNames.count))
         {
         let cellPublic=tblForChat.dequeueReusableCellWithIdentifier("ChatPublicCell") as! ContactsListCell
@@ -959,11 +959,21 @@ class ChatMainViewController:UIViewController,SocketConnecting
         
         return cell
         }
+        else {if(indexPath.row == (ContactNames.count))
+        {print("here count is \(ContactNames.count)")
+            let cell = tblForChat.dequeueReusableCellWithIdentifier("InviteToKiboAppCell")! as UITableViewCell
+           
+            return cell
+        }
         else
         {
-            return tblForChat.dequeueReusableCellWithIdentifier("InviteToKiboAppCell")! as! UITableViewCell
+         // print("here2 count is \(ContactNames.count)")
+            let cell = tblForChat.dequeueReusableCellWithIdentifier("numberOfFavouritesCell") as! numberOfFavouritesCell
+            cell.lbl_numberOfFavourites.text = "\(ContactNames.count) Favourites"
+            return cell
         }
-        
+        }
+    
     }
     
     func tableView(tableView: UITableView!, didSelectRowAtIndexPath indexPath: NSIndexPath!){
@@ -1333,7 +1343,7 @@ class ChatMainViewController:UIViewController,SocketConnecting
              self.showSendMailErrorAlert()
              }*/
         })
-        let cancelAction = UIAlertAction(title: "Message", style: UIAlertActionStyle.Cancel, handler: { (action) -> Void in
+        let msgAction = UIAlertAction(title: "Message", style: UIAlertActionStyle.Default, handler: { (action) -> Void in
             
             self.sendType="Message"
             self.performSegueWithIdentifier("inviteSegue",sender: nil)
@@ -1346,9 +1356,11 @@ class ChatMainViewController:UIViewController,SocketConnecting
              self.presentViewController(messageVC, animated: false, completion: nil)
              */
         })
-        
+        let cancelAction = UIAlertAction(title: "Cancel", style: UIAlertActionStyle.Cancel, handler:nil)
         shareMenu.addAction(twitterAction)
+        shareMenu.addAction(msgAction)
         shareMenu.addAction(cancelAction)
+        
         
         
         self.presentViewController(shareMenu, animated: true, completion: {

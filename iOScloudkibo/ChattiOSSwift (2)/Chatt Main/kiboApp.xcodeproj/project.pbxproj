@@ -11,6 +11,7 @@
 		7108B9861D020E720031FC5A /* Alamofire.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7108B9851D020E720031FC5A /* Alamofire.framework */; };
 		710CB64E1D06EB030070CA3D /* contactsDetailsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 710CB64D1D06EB030070CA3D /* contactsDetailsTableViewController.swift */; };
 		710EF26C1C96B16500578739 /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 710EF26B1C96B16500578739 /* CloudKit.framework */; };
+		7127FF591D396A6A006375E8 /* numberOfFavouritesCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7127FF581D396A6A006375E8 /* numberOfFavouritesCell.swift */; };
 		713D51BD1CC11896007E0B47 /* Accounts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 713D51881CC11896007E0B47 /* Accounts.swift */; };
 		713D51BE1CC11896007E0B47 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 713D51891CC11896007E0B47 /* AppDelegate.swift */; };
 		713D51BF1CC11896007E0B47 /* CallRingingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 713D518A1CC11896007E0B47 /* CallRingingViewController.swift */; };
@@ -243,6 +244,7 @@
 		7108B9851D020E720031FC5A /* Alamofire.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Alamofire.framework; path = "Pods/../build/Debug-iphoneos/Alamofire.framework"; sourceTree = "<group>"; };
 		710CB64D1D06EB030070CA3D /* contactsDetailsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = contactsDetailsTableViewController.swift; sourceTree = "<group>"; };
 		710EF26B1C96B16500578739 /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = System/Library/Frameworks/CloudKit.framework; sourceTree = SDKROOT; };
+		7127FF581D396A6A006375E8 /* numberOfFavouritesCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = numberOfFavouritesCell.swift; sourceTree = "<group>"; };
 		713080541B825BB00037CB7E /* SwiftyJSON.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SwiftyJSON.xcodeproj; path = SwiftyJSON/SwiftyJSON.xcodeproj; sourceTree = "<group>"; };
 		713D51881CC11896007E0B47 /* Accounts.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Accounts.swift; sourceTree = "<group>"; };
 		713D51891CC11896007E0B47 /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -486,6 +488,7 @@
 				7150119E1D12D0940091AD7B /* Reachability.swift */,
 				71E046A21D228AE700B67362 /* CallHistoryTableViewController.swift */,
 				71DC15311D26655700E5BFC2 /* pushNotifications.md */,
+				7127FF581D396A6A006375E8 /* numberOfFavouritesCell.swift */,
 			);
 			path = Chat;
 			sourceTree = "<group>";
@@ -934,6 +937,7 @@
 				713D51E01CC11896007E0B47 /* NotesViewController.swift in Sources */,
 				713D51E91CC11896007E0B47 /* rtcViewController.swift in Sources */,
 				713D51E11CC11896007E0B47 /* notifications.swift in Sources */,
+				7127FF591D396A6A006375E8 /* numberOfFavouritesCell.swift in Sources */,
 				718B8D8E1CC11A9B000B4AB2 /* SocketLogger.swift in Sources */,
 				713D51DF1CC11896007E0B47 /* NetworkingLibAlamofire.swift in Sources */,
 			);

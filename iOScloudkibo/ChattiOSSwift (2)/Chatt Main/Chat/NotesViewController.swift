@@ -209,6 +209,7 @@ class NotesViewController: UIViewController,InviteContactsDelegate,UITextFieldDe
         let phone = Expression<String>("phone")
         let kibocontact = Expression<Bool>("kiboContact")
         let name = Expression<String?>("name")
+        let email = Expression<String?>("email")
         
         //alladdressContactsArray = Array(try sqliteDB.db.prepare(allcontactslist1))
         

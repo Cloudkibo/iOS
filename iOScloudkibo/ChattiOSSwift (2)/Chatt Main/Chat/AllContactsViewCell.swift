@@ -11,6 +11,7 @@ import UIKit
 
 class AllContactsCell:UITableViewCell {
 
+    @IBOutlet weak var inviteToCloudKibo: UIButton!
     @IBOutlet weak var labelNamePrivate: UILabel!
 
     @IBOutlet weak var labelStatusPrivate: UILabel!
