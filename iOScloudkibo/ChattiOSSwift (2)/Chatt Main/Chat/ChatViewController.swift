@@ -192,193 +192,9 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
     @IBAction func addContactTapped(sender: UIBarButtonItem) {
         
         self.performSegueWithIdentifier("inviteSegue",sender: nil)
-        
-        
-        
-        /* let alert = UIAlertView()
-        alert.title = "Alert"
-        alert.message = "Here's a message"
-        alert.addButtonWithTitle("Understod")
-        alert.show()
-        */
-        
-        
-        
-        /*
-        var tField: UITextField!
-        
-        //Create the AlertController
-        let actionSheetController: UIAlertController = UIAlertController(title: "Add Contact", message: "Please Enter Email/Username", preferredStyle: .Alert)
-        
-        //Add a text field
-        actionSheetController.addTextFieldWithConfigurationHandler { textField -> Void in
-        //TextField configuration
-        textField.textColor = UIColor.greenColor()
-        tField=textField
-        }
-        
-        //Create and add the Cancel action
-        let cancelAction: UIAlertAction = UIAlertAction(title: "Add by Email", style: UIAlertActionStyle.Cancel) { action -> Void in
-        
-        print(loggedUserObj)
-        var fname=["firstname":loggedUserObj["firstname"]]
-        var lname=["lastname":loggedUserObj["lastname"]]
-        var usern=["username":loggedUserObj["username"]]
-        var idd=["_id":loggedUserObj["_id"]]
-        var date=["date":loggedUserObj["date"]]
-        var email=["email":loggedUserObj["email"]]
-        var status=["status":loggedUserObj["stauts"]]
-        //var merge=fname.description+lname.description+String(usern)
-        
-        // var userID=["userid":"\(merge)"]
-        //loggedUserObj["accountVerified"]
-        //loggedUserObj["city"]
-        //sloggedUserObj["country"]
-        
-        socketObj.socket.emit("friendrequest",[
-        "room":"globalchatroom",
-        "userid":loggedUserObj.object,
-        "contact":"\(tField.text!)"]
-        )
-        
-        
-        //Do some stuff
-        
-        var addContactUsernameURL=Constants.MainUrl+Constants.addContactByEmail
-        
-        
-        Alamofire.request(.POST,"\(addContactUsernameURL)",headers:header,parameters: ["searchemail":"\(tField.text!)"])
-        .validate(statusCode: 200..<300)
-        .response { (request1, response1, data1, error1) in
-        
-        
-        print("success")
-        
-        var json=JSON(data1!)
-        //print(json)
-        if(json["msg"].string=="null")
-        {print("Invalid email")}
-        else
-        {
-        if(json["status"].string=="danger"){
-        print("contact already in your list")}
-        else
-        {print("friend request sent")}
-        print(error1)
-        
-        
-        }
-        if response1?.statusCode==401
-        {
-        print("REFRESH TOKEN Neededd Add Contact Username...")
-        
-        self.rt.refrToken()
-        }
-        
-        }
-        print("outttt of sucess parasssss", terminator: "")
-        }
-        
-        actionSheetController.addAction(cancelAction)
-        //Create and an option action
-        let nextAction: UIAlertAction = UIAlertAction(title: "Add by Username", style: UIAlertActionStyle.Default) { action -> Void in
-        
-        //var ContactEmail=self.ContactsObjectss[]
-        print(loggedUserObj)
-        var userid=""
-        socketObj.socket.emit("friendrequest",[
-        "room":"globalchatroom",
-        "userid":loggedUserObj.object,
-        "contact":"\(tField.text!)"]
-        )
-        
-        
-        //Do some other stuff
-        var addContactUsernameURL=Constants.MainUrl+Constants.addContactByUsername
-        Alamofire.request(.POST,"\(addContactUsernameURL)",headers:header,parameters: ["searchusername":"\(tField.text!)"]).validate(statusCode: 200..<300).responseJSON{response in
-        var response1=response.response
-        var request1=response.request
-        var data1=response.data
-        var error1=response.result.error                //searchemail  f@lkjlklkm.com
-        //====================
-        dispatch_async(dispatch_get_main_queue(), {
-        
-        self.dismissViewControllerAnimated(true, completion: nil);
-        /// self.performSegueWithIdentifier("loginSegue", sender: nil)
-        
-        if response1?.statusCode==200 {
-        print("success")
-        
-        var json=JSON(data1!)
-        //print(json)
-        if(json["msg"].string=="null")
-        {print("Invalid user")
-        let alert = UIAlertController(title: "Failed", message: "Invalid user", preferredStyle: UIAlertControllerStyle.Alert)
-        alert.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.Default, handler: nil))
-        self.presentViewController(alert, animated: true, completion: nil)}
-        else
-        {
-        if(json["status"].string=="danger"){
-        print("contact already in your list")
-        let alert = UIAlertController(title: "Failed", message: "Contact already in your list", preferredStyle: UIAlertControllerStyle.Alert)
-        alert.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.Default, handler: nil))
-        self.presentViewController(alert, animated: true, completion: nil)
-        }
-        else
-        {print("friend request sent")
-        let alert = UIAlertController(title: "Success", message: "Friend request sent", preferredStyle: UIAlertControllerStyle.Alert)
-        alert.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.Default, handler: nil))
-        self.presentViewController(alert, animated: true, completion: nil)}
-        }
-        }
-        else
-        {
-        print("error in sending friend request")
-        }
-        })
-        if response1?.statusCode==401
-        {
-        print(error1)
-        print("REFRESH TOKEN Neededd Add Contact Username...")
-        
-        self.rt.refrToken()
-        }
-        
-        
-        
-        
-        }
-        
-        }
-        actionSheetController.addAction(nextAction)
-        
-        ///////////////
-        //CONTACTS from Address Book
-        //////////////
-        var nextAction2: UIAlertAction = UIAlertAction(title: "Invite Contacts", style: UIAlertActionStyle.Default) { action -> Void in
-        ///////contactsList.fetch()
-        self.performSegueWithIdentifier("inviteSegue",sender: nil)
-        //var newContact=["fname":self.ContactFirstname[0],"lname":self.ContactLastNAme[0],"email":self.ContactsEmail[0],"phone":self.ContactsPhone[0]]
-        
-        //contactsList.saveToAddressBook(newContact)
-        /*
-        //var ContactEmail=self.ContactsObjectss[]
-        print(loggedUserObj)
-        var userid=""
-        
-        //Do some other stuff
-        var inviteContactEmailURL=Constants.MainUrl+Constants.inviteContactsByEmail+"?access_token=\(AuthToken!)"
-        Alamofire.request(.POST,"\(inviteContactEmailURL)",parameters: ["emails":""]).validate(statusCode: 200..<300).responseJSON{response in
-        var response1=response.response
-        }
-        */}
-        actionSheetController.addAction(nextAction2)
-        
-        
-        //Present the AlertController
-        self.presentViewController(actionSheetController, animated: true, completion: nil)
-        */
+
     }
+    var ContactMsgRead:[String]=[]
     var ContactsLastMsgDate:[String]=[]
     var ContactLastMessage:[String]=[]
     var ContactNames:[String]=[]
@@ -1378,7 +1194,7 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
         
         self.ContactsPhone.removeAll(keepCapacity: false)
         self.ContactsEmail.removeAll(keepCapacity: false)
-        
+        self.ContactMsgRead.removeAll(keepCapacity: false)
         /*
         let stmt = try db.prepare("SELECT id, email FROM users")
         for row in stmt {
@@ -1419,6 +1235,20 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
             print(ccc[phone])
             print(ccc[msg])
             print(ccc[date])
+            if(ccc[status] == "delivered")
+            {
+            if(ccc[from] == ccc[phone])
+            {
+              ContactMsgRead.append("show")
+            }
+                else
+                {
+                    ContactMsgRead.append("not show")
+                }
+            }
+            else{
+              ContactMsgRead.append("not show")
+            }
             print("*************")
             ContactNames.append(ccc[firstname]+" "+ccc[lastname])
             //ContactUsernames.append(ccc[username])
@@ -1539,6 +1369,7 @@ print("query join error 1337 \(e)")
         let cell=tblForChat.dequeueReusableCellWithIdentifier("ChatPrivateCell") as! ContactsListCell
       
         var contactFound=false
+        cell.newMsg.hidden=true
         ////%%%%%%%%%%%%%cell.contactName?.text=ContactNames[indexPath.row]
         
         /*
@@ -1585,7 +1416,10 @@ print("query join error 1337 \(e)")
                 }
                 
                 }
-                
+                if(ContactMsgRead[indexPath.row]=="show")
+                {
+                cell.newMsg.hidden=false
+                }
             }
             catch
             {
@@ -2148,6 +1982,7 @@ print("query join error 1337 \(e)")
                 
                 if response1?.statusCode==200 {
                     print("chat history deleted")
+                    self.ContactMsgRead.removeAtIndex(indexPath.row)
                     self.ContactsLastMsgDate.removeAtIndex(indexPath.row)
                     self.ContactLastMessage.removeAtIndex(indexPath.row)
                     self.ContactIDs.removeAtIndex(indexPath.row)

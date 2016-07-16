@@ -832,7 +832,7 @@
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                 </imageView>
                                                 <imageView hidden="YES" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="chat_lock" id="bQF-ZH-KHX">
-                                                    <rect key="frame" x="297" y="34" width="14" height="18"/>
+                                                    <rect key="frame" x="298" y="8" width="14" height="18"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                 </imageView>
                                                 <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="profile-pic1" id="6js-rY-tBV">
@@ -857,7 +857,7 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Hey there! I am using KiboApp" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="tck-7S-BAb">
-                                                    <rect key="frame" x="85" y="30" width="190" height="27"/>
+                                                    <rect key="frame" x="85" y="30" width="165" height="27"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="11"/>
                                                     <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
@@ -865,6 +865,15 @@
                                                 </label>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="kEv-HR-vyY">
                                                     <rect key="frame" x="4" y="28" width="10" height="10"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <color key="tintColor" red="0.0" green="0.7254902124" blue="0.41176474089999998" alpha="1" colorSpace="deviceRGB"/>
+                                                    <state key="normal" image="chat_user_small">
+                                                        <color key="titleColor" red="0.0" green="0.7254902124" blue="0.41176474089999998" alpha="1" colorSpace="deviceRGB"/>
+                                                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                                    </state>
+                                                </button>
+                                                <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="MS2-lN-LJO" userLabel="newmsg">
+                                                    <rect key="frame" x="263" y="32" width="23" height="24"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <color key="tintColor" red="0.0" green="0.7254902124" blue="0.41176474089999998" alpha="1" colorSpace="deviceRGB"/>
                                                     <state key="normal" image="chat_user_small">
@@ -880,6 +889,7 @@
                                             <outlet property="contactName" destination="axy-iu-7eC" id="Ze9-zw-TFc"/>
                                             <outlet property="imgChatLock" destination="bQF-ZH-KHX" id="De3-Cz-MS0"/>
                                             <outlet property="lbltimePrivate" destination="hsp-iF-OE7" id="0NM-Wt-WVq"/>
+                                            <outlet property="newMsg" destination="MS2-lN-LJO" id="q3F-gE-yiq"/>
                                             <outlet property="profilePic" destination="6js-rY-tBV" id="OVp-Bq-y0x"/>
                                             <outlet property="statusPrivate" destination="tck-7S-BAb" id="u5N-Ar-Via"/>
                                         </connections>
@@ -3262,8 +3272,8 @@
     <inferredMetricsTieBreakers>
         <segue reference="N5B-Ot-bcs"/>
         <segue reference="Spe-dd-EXu"/>
+        <segue reference="W8i-Cs-Z8T"/>
         <segue reference="1jA-Zj-XHt"/>
-        <segue reference="xLi-xx-esW"/>
         <segue reference="Lsn-aA-q1J"/>
         <segue reference="X5X-Qt-8lc"/>
         <segue reference="8LM-cv-XXH"/>

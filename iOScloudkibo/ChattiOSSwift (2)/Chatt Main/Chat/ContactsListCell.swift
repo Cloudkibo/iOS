@@ -28,6 +28,7 @@ class ContactsListCell:UITableViewCell {
     @IBOutlet weak var statusPublic: UILabel!
     
     @IBOutlet weak var lbltimePrivate: UILabel!
+    @IBOutlet weak var newMsg: UIButton!
     /* override func awakeFromNib() {
     @IBOutlet weak var contactNamePublic: UILabel!
         super.awakeFromNib()
