@@ -957,7 +957,8 @@ self.remoteDisconnected()
         self.pc=rtcFact.peerConnectionWithICEServers(rtcICEarray, constraints: self.rtcMediaConst, delegate:self)
         
         //Create Data channel
-        CreateAndAttachDataChannel()
+        //%%%%% new commented iOS to iOS ....
+        ///////CreateAndAttachDataChannel()
     }
     
     
@@ -1279,9 +1280,34 @@ self.remoteDisconnected()
     func peerConnection(peerConnection: RTCPeerConnection!, didOpenDataChannel dataChannel: RTCDataChannel!) {
         print(".................. did open data channel")
         
+        
+        
+        
+        var rtcInit=RTCDataChannelInit.init()
+        // rtcInit.isNegotiated=true
+        //rtcInit.isOrdered=true
+        // rtcInit.maxRetransmits=30
+        
+        rtcDataChannel=pc.createDataChannelWithLabel(dataChannel.label, config: rtcInit)
+        //if(rtcDataChannel != nil)
+        //{
+            socketObj.socket.emit("logClient","\(username!) data channel not nil")
+            print("datachannel not nil")
+            rtcDataChannel.delegate=self
+            
+            //////// var senttt=rtcDataChannel.sendData(RTCDataBuffer(data: NSData(base64EncodedString: "helloooo iphone sendind data through data channel", options: NSDataBase64DecodingOptions.IgnoreUnknownCharacters),isBinary: true))
+            /// print("datachannel message sent is \(senttt)")
+            ///var test="hellooo"
+            
+       // }
+
+        
+        
+        
+        //%%% old from here.....
         print(dataChannel.description)
-    self.rtcDataChannel=dataChannel
-        dispatch_async(dispatch_get_main_queue()) { () -> Void in
+        ////// %%%%% newww
+                dispatch_async(dispatch_get_main_queue()) { () -> Void in
             self.btncapture.enabled=true
        self.btnShareFile.enabled=true
             
@@ -1626,8 +1652,13 @@ self.remoteDisconnected()
             if(self.pc == nil) //^^^^^^^^^^^^^^^^^^newwww tryyy
             {
                 self.createPeerConnectionObject()
+                ///%%%% new iOS to iOS data channel
+                self.CreateAndAttachDataChannel()
             }
             socketObj.socket.emit("logClient","IPHONE-LOG: \(username) is creating data channel for \(iamincallWith)")
+            
+            
+            
             /////self.CreateAndAttachDataChannel()
             self.addLocalMediaStreamToPeerConnection()
             

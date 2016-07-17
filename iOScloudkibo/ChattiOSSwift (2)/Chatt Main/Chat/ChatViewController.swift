@@ -1176,6 +1176,12 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
         let from = Expression<String>("from")
         let date = Expression<String>("date")
         let msg = Expression<String>("msg")
+        let fromFullName = Expression<String>("fromFullName")
+       
+        
+        let uniqueid = Expression<String>("uniqueid")
+        
+        
         let contactPhone = Expression<String>("contactPhone")
         contactPhone
         //-========Remove old values=====================
@@ -1235,7 +1241,11 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
             print(ccc[phone])
             print(ccc[msg])
             print(ccc[date])
-            if(ccc[status] == "delivered")
+            print(ccc[uniqueid])
+            print(ccc[tbl_userchats[status]])
+            print(ccc[from])
+            print(ccc[fromFullName])
+            if(ccc[tbl_userchats[status]] == "delivered")
             {
             if(ccc[from] == ccc[phone])
             {
@@ -1429,6 +1439,10 @@ print("query join error 1337 \(e)")
             if(contactFound==false)
             {
                 cell.contactName?.text=ContactUsernames[indexPath.row]
+                if(ContactMsgRead[indexPath.row]=="show")
+                {
+                    cell.newMsg.hidden=false
+                }
             }
             
             

@@ -1131,6 +1131,7 @@ print("$$ \(message) is this \(msg)")
             print(message)
 
             print("chat sent to server.ack received 222 ")
+           
             var chatJson=JSON(data)
             print("chat received \(chatJson.debugDescription)")
             print(chatJson[0]["msg"])
@@ -1150,6 +1151,18 @@ print("$$ \(message) is this \(msg)")
             
             
             self.addMessage(receivedMsg.description, ofType: "1",date: defaultTimeZoneStr)
+            
+            self.retrieveChatFromSqlite(self.selectedContact)
+            if(self.messages.count>1)
+            {
+                var indexPath = NSIndexPath(forRow:self.messages.count-1, inSection: 0)
+                
+                self.tblForChats.scrollToRowAtIndexPath(indexPath, atScrollPosition: UITableViewScrollPosition.Bottom, animated: true)
+                    }
+
+                    //%%%%% OLD working logic.. changed coz of bubble unread
+            
+            /*
             self.tblForChats.reloadData()
             if(self.messages.count>1)
             {
@@ -1157,6 +1170,8 @@ print("$$ \(message) is this \(msg)")
                 
                 self.tblForChats.scrollToRowAtIndexPath(indexPath, atScrollPosition: UITableViewScrollPosition.Bottom, animated: true)
             }
+                     
+                     */
             case "updateUI":
               
                 print("$$ \(message)")
@@ -1169,6 +1184,7 @@ print("$$ \(message) is this \(msg)")
                     
                     self.tblForChats.scrollToRowAtIndexPath(indexPath, atScrollPosition: UITableViewScrollPosition.Bottom, animated: true)
                     }
+ 
            // dispatch_async(dispatch_get_main_queue())
               //  {
                //     self.tblForChats.reloadData()
