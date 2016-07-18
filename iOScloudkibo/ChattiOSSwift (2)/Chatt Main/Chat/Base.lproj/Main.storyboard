@@ -238,7 +238,7 @@
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="NotePrivateCell" id="xsw-ZS-qbh" customClass="AllContactsCell" customModule="Chat" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="86" width="320" height="66"/>
+                                        <rect key="frame" x="0.0" y="22" width="320" height="66"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="xsw-ZS-qbh" id="p9P-HJ-EFV">
                                             <rect key="frame" x="0.0" y="0.0" width="287" height="65.5"/>
@@ -278,7 +278,7 @@
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="NotePublicCell" id="MVy-RE-e1f">
-                                        <rect key="frame" x="0.0" y="152" width="320" height="66"/>
+                                        <rect key="frame" x="0.0" y="88" width="320" height="66"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="MVy-RE-e1f" id="vMV-aV-UBn">
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="65.5"/>
@@ -876,17 +876,22 @@
                                                     <rect key="frame" x="263" y="32" width="23" height="24"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <color key="tintColor" red="0.0" green="0.7254902124" blue="0.41176474089999998" alpha="1" colorSpace="deviceRGB"/>
-                                                    <state key="normal" image="chat_user_small">
-                                                        <color key="titleColor" red="0.0" green="0.7254902124" blue="0.41176474089999998" alpha="1" colorSpace="deviceRGB"/>
-                                                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                                    </state>
+                                                    <state key="normal" image="chat_user_small"/>
                                                 </button>
+                                                <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="1" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="8rJ-k3-qmq" userLabel="countNewmsg">
+                                                    <rect key="frame" x="266" y="33" width="17" height="21"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="10"/>
+                                                    <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
                                             </subviews>
                                         </tableViewCellContentView>
                                         <connections>
                                             <outlet property="ImgChatArrow" destination="u0s-LH-0EJ" id="gIq-Cl-hPL"/>
                                             <outlet property="btnGreenDot" destination="kEv-HR-vyY" id="6aX-Hs-ALV"/>
                                             <outlet property="contactName" destination="axy-iu-7eC" id="Ze9-zw-TFc"/>
+                                            <outlet property="countNewmsg" destination="8rJ-k3-qmq" id="Sno-Bv-cYA"/>
                                             <outlet property="imgChatLock" destination="bQF-ZH-KHX" id="De3-Cz-MS0"/>
                                             <outlet property="lbltimePrivate" destination="hsp-iF-OE7" id="0NM-Wt-WVq"/>
                                             <outlet property="newMsg" destination="MS2-lN-LJO" id="q3F-gE-yiq"/>
@@ -1123,7 +1128,7 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
                             <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="Name_Cell" id="xpZ-ud-79k" userLabel="Name Cell" customClass="AllContactsCell" customModule="Chat" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="92" width="320" height="60"/>
+                                <rect key="frame" x="0.0" y="28" width="320" height="60"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="xpZ-ud-79k" id="Dzb-5z-t2W">
                                     <rect key="frame" x="0.0" y="0.0" width="320" height="59.5"/>
@@ -1143,7 +1148,7 @@
                                 </connections>
                             </tableViewCell>
                             <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="Phone_Cell" rowHeight="102" id="m8D-D1-gOp" userLabel="Phone Cell" customClass="AllContactsCell" customModule="Chat" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="152" width="320" height="102"/>
+                                <rect key="frame" x="0.0" y="88" width="320" height="102"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="m8D-D1-gOp" id="793-xW-WFm">
                                     <rect key="frame" x="0.0" y="0.0" width="320" height="101.5"/>
@@ -1170,7 +1175,7 @@
                                 </connections>
                             </tableViewCell>
                             <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="Email_Cell" rowHeight="105" id="N0L-uW-dZw" userLabel="Email Cell" customClass="AllContactsCell" customModule="Chat" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="254" width="320" height="105"/>
+                                <rect key="frame" x="0.0" y="190" width="320" height="105"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="N0L-uW-dZw" id="aaz-jw-Pfy">
                                     <rect key="frame" x="0.0" y="0.0" width="320" height="104.5"/>
@@ -1197,7 +1202,7 @@
                                 </connections>
                             </tableViewCell>
                             <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="Status_Cell" rowHeight="89" id="Dta-ez-PMw" userLabel="Status Cell" customClass="AllContactsCell" customModule="Chat" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="359" width="320" height="89"/>
+                                <rect key="frame" x="0.0" y="295" width="320" height="89"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Dta-ez-PMw" id="Gj6-du-cGf">
                                     <rect key="frame" x="0.0" y="0.0" width="320" height="88.5"/>
@@ -1224,7 +1229,7 @@
                                 </connections>
                             </tableViewCell>
                             <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="invite_kibo_cell" rowHeight="122" id="O2y-mE-cVV" userLabel="Invite to Kibo Cell" customClass="AllContactsCell" customModule="Chat" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="448" width="320" height="122"/>
+                                <rect key="frame" x="0.0" y="384" width="320" height="122"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="O2y-mE-cVV" id="4uW-eh-3dc">
                                     <rect key="frame" x="0.0" y="0.0" width="320" height="121.5"/>
@@ -2095,7 +2100,7 @@
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="ContactsInviteCell" id="lU5-3E-N9k" customClass="ContactsInviteCell" customModule="Chat" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="86" width="320" height="78"/>
+                                        <rect key="frame" x="0.0" y="22" width="320" height="78"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="lU5-3E-N9k" id="ttq-aH-WWS">
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="77.5"/>
@@ -2105,7 +2110,7 @@
                                                     <rect key="frame" x="8" y="8" width="304" height="21"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="email" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="vzK-Zy-8lt">

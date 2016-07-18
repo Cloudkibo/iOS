@@ -209,6 +209,8 @@ class VideoViewController: UIViewController,RTCPeerConnectionDelegate,RTCSession
     {///tyrrr new april 2016
         if(rtcDataChannel == nil)
         {
+            print("\(username) is creating and attaching data channel")
+            socketObj.socket.emit("logClient","\(username) is creating and attaching data channel")
         var rtcInit=RTCDataChannelInit.init()
         // rtcInit.isNegotiated=true
         //rtcInit.isOrdered=true
@@ -934,7 +936,7 @@ self.remoteDisconnected()
     }
     
     
-    func createPeerConnectionObject()
+    func createPeerConnectionObject(completion:(result:Bool)->())
     {//Initialise Peer Connection Object
         socketObj.socket.emit("logClient","IPHONE-LOG: iphoneLog: \(username!) is trying to make peer connection")
         print("inside create peer conn object method")
@@ -955,7 +957,7 @@ self.remoteDisconnected()
         }
         ////////////////////////
         self.pc=rtcFact.peerConnectionWithICEServers(rtcICEarray, constraints: self.rtcMediaConst, delegate:self)
-        
+        return completion(result: true)
         //Create Data channel
         //%%%%% new commented iOS to iOS ....
         ///////CreateAndAttachDataChannel()
@@ -1281,28 +1283,30 @@ self.remoteDisconnected()
         print(".................. did open data channel")
         
         
-        
-        
+        print("\(username!) did open data channel received")
+        socketObj.socket.emit("logClient","\(username!) did open data channel received")
+        if(rtcDataChannel==nil)
+        {socketObj.socket.emit("logClient","\(username!) is setting data channel received")
+            print("\(username!) is setting data channel received")
+            self.rtcDataChannel=dataChannel
+            dataChannel.delegate=self
+            /*
         var rtcInit=RTCDataChannelInit.init()
         // rtcInit.isNegotiated=true
         //rtcInit.isOrdered=true
         // rtcInit.maxRetransmits=30
         
         rtcDataChannel=pc.createDataChannelWithLabel(dataChannel.label, config: rtcInit)
-        //if(rtcDataChannel != nil)
-        //{
-            socketObj.socket.emit("logClient","\(username!) data channel not nil")
-            print("datachannel not nil")
+       
             rtcDataChannel.delegate=self
             
-            //////// var senttt=rtcDataChannel.sendData(RTCDataBuffer(data: NSData(base64EncodedString: "helloooo iphone sendind data through data channel", options: NSDataBase64DecodingOptions.IgnoreUnknownCharacters),isBinary: true))
-            /// print("datachannel message sent is \(senttt)")
-            ///var test="hellooo"
-            
-       // }
+ */
+             var senttt=rtcDataChannel.sendData(RTCDataBuffer(data: NSData(base64EncodedString: "helloooo iphone sendind data through data channel", options: NSDataBase64DecodingOptions.IgnoreUnknownCharacters),isBinary: true))
+             print("datachannel message sent is \(senttt)")
+          
 
         
-        
+        }
         
         //%%% old from here.....
         print(dataChannel.description)
@@ -1554,7 +1558,10 @@ self.remoteDisconnected()
             
             if(self.pc == nil) //^^^^^^^^^^^^^^^^^^newwwww tryyy
             {
-                self.createPeerConnectionObject()
+                self.createPeerConnectionObject({(result) -> () in
+                    
+                    
+                    })
             }
             //^^^^^^^^^^^^^^^^^^ check this for second call already have localstream
             ////self.CreateAndAttachDataChannel()
@@ -1651,10 +1658,15 @@ self.remoteDisconnected()
             //////optional
             if(self.pc == nil) //^^^^^^^^^^^^^^^^^^newwww tryyy
             {
-                self.createPeerConnectionObject()
-                ///%%%% new iOS to iOS data channel
-                self.CreateAndAttachDataChannel()
+                self.createPeerConnectionObject({(result) -> () in
+                    if(result==true)
+                    {
+                        self.CreateAndAttachDataChannel()
+                    }
+                })
             }
+            //%%%%%%%% old commented newww
+            
             socketObj.socket.emit("logClient","IPHONE-LOG: \(username) is creating data channel for \(iamincallWith)")
             
             
@@ -1663,9 +1675,9 @@ self.remoteDisconnected()
             self.addLocalMediaStreamToPeerConnection()
             
             
-            //******* april 2016
+            //  ******* april 2016
            
-            //******** april 2016
+            //  ******** april 2016
             
             
             //^^^^^^^^^^^^^^^^^^newwwww self.pc.addStream(self.rtcLocalMediaStream)
@@ -1673,7 +1685,10 @@ self.remoteDisconnected()
             socketObj.socket.emit("logClient","IPHONE-LOG: \(username) attached stream")
             socketObj.socket.emit("logClient","IPHONE-LOG: \(username) is creating offer for \(iamincallWith)")
             self.pc.createOfferWithDelegate(self, constraints: self.rtcMediaConst!)
-        }
+        
+ 
+ 
+ }
         
     }
     
@@ -1984,7 +1999,7 @@ self.remoteDisconnected()
             isBinary: isb
         )
         var sentFile=self.rtcDataChannel.sendData(buffer)
-        socketObj.socket.emit("logClient","IPHONE-LOG: datachannel file METADATA sent is \(sentFile) OR image chunk size is sent \(sentFile)")
+        socketObj.socket.emit("logClient","IPHONE-LOG: \(username!) datachannel file METADATA sent is \(sentFile) OR image chunk size is sent \(sentFile)")
         print("datachannel file METADATA sent is \(sentFile) OR image chunk size is sent \(sentFile)")
         
         
@@ -2012,6 +2027,7 @@ self.remoteDisconnected()
     
     func channel(channel: RTCDataChannel!, didReceiveMessageWithBuffer buffer: RTCDataBuffer!) {
         print("didReceiveMessageWithBuffer")
+        
         print(buffer.data.debugDescription)
         //var channelJSON=JSON(buffer.data!)
         //print(channelJSON.debugDescription)
@@ -2023,6 +2039,7 @@ self.remoteDisconnected()
         print("didReceiveMessageWithBuffer")
         //print(buffer.data.debugDescription)
         var channelJSON=JSON(buffer.data!)
+        socketObj.socket.emit("logClient","IPHONE-LOG: \(username!) received message \(channelJSON) from datachannel")
         print(" hi hereee \(channelJSON.debugDescription)")
         //var bytes:[UInt8]
         var bytes=Array<UInt8>(count: buffer.data.length, repeatedValue: 0)
@@ -3000,7 +3017,12 @@ self.remoteDisconnected()
         print("channelDidChangeState")
         
         print(channel.debugDescription)
-        kRTCDataChannelStateClosed
+        //kRTCDataChannelStateClosed
+        if(channel.state == kRTCDataChannelStateConnecting)
+        {
+            print("data channel connecting now")
+        }
+
         if(channel.state == kRTCDataChannelStateOpen)
         {
             ///self.rtcDataChannel=channel
@@ -3013,7 +3035,7 @@ self.remoteDisconnected()
         }
         if(channel.state == kRTCDataChannelStateClosed)
         {
-            print("data channel opened now")
+            print("data channel closed now")
             dispatch_async(dispatch_get_main_queue()) { () -> Void in
                 self.btncapture.enabled=false
                 self.btnShareFile.enabled=false

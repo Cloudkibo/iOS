@@ -194,6 +194,7 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
         self.performSegueWithIdentifier("inviteSegue",sender: nil)
 
     }
+    var ContactCountMsgRead:[String]=[]
     var ContactMsgRead:[String]=[]
     var ContactsLastMsgDate:[String]=[]
     var ContactLastMessage:[String]=[]
@@ -1201,6 +1202,7 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
         self.ContactsPhone.removeAll(keepCapacity: false)
         self.ContactsEmail.removeAll(keepCapacity: false)
         self.ContactMsgRead.removeAll(keepCapacity: false)
+        self.ContactCountMsgRead.removeAll(keepCapacity: false)
         /*
         let stmt = try db.prepare("SELECT id, email FROM users")
         for row in stmt {
