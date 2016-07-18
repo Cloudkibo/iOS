@@ -247,6 +247,7 @@ println("iCloud create failed")
         let dirPaths = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)
         let docsDir1 = dirPaths[0]
         var documentDir=docsDir1 as NSString
+        print("\(username!) received file \(filejustreceivedname). trying to preview")
         var filePathImage2=documentDir.stringByAppendingPathComponent(filejustreceivedname!)
         
         fileURL=NSURL(fileURLWithPath: filePathImage2)

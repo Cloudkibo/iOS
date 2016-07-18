@@ -40,7 +40,7 @@ class VideoViewController: UIViewController,RTCPeerConnectionDelegate,RTCSession
     
     @IBOutlet weak var btnViewFile: UIBarButtonItem!
     var myfid=0
-    var fid:Int!
+    var fid:Int!=0
     var bytesarraytowrite:Array<UInt8>!
     var jsonnnn:Dictionary<String, AnyObject>!
     var numberOfChunksReceived:Int=0
@@ -2039,7 +2039,7 @@ self.remoteDisconnected()
         print("didReceiveMessageWithBuffer")
         //print(buffer.data.debugDescription)
         var channelJSON=JSON(buffer.data!)
-        socketObj.socket.emit("logClient","IPHONE-LOG: \(username!) received message \(channelJSON) from datachannel")
+        //socketObj.socket.emit("logClient","IPHONE-LOG: \(username!) received message \(channelJSON) from datachannel")
         print(" hi hereee \(channelJSON.debugDescription)")
         //var bytes:[UInt8]
         var bytes=Array<UInt8>(count: buffer.data.length, repeatedValue: 0)
@@ -2155,11 +2155,12 @@ self.remoteDisconnected()
                     
                     var sizeee=Int.init((jsonnnn["data"]!["file_meta"]!!["size"]!?.debugDescription)!)
                     fileSizeReceived=sizeee
-                    fid=Int.init((jsonnnn["data"]!["file_meta"]!!["fid"]!?.debugDescription)!)
-                    print("fid is \(fid)")
+                    //fid=Int.init((jsonnnn["data"]!["file_meta"]!!["fid"]!?.debugDescription)!)
+                    //print("fid is \(fid)")
                     
                     //////////filePathReceived=channelJSON["data"]["file_meta"]["name"].debugDescription
                     filePathReceived=jsonnnn["data"]!["file_meta"]!!["name"]!!.debugDescription
+                    socketObj.socket.emit("logClient","\(username!) received file name \(filePathReceived)")
                     ////fileSizeReceived=jsonnnn["data"]!["file_meta"]!!["size"]!! as! Int
                     print("file sizeeee jsonnnn is \(channelJSON["data"]["file_meta"]["size"].debugDescription)")
                     
@@ -2173,7 +2174,7 @@ self.remoteDisconnected()
                     
                     ///NEW ADDITION MAKE FILENAME GLOBAL
                     filejustreceivedname=filePathReceived!
-                    /////////
+                    
                     var x=Double(fileSizeReceived / fu.chunkSize)
                     numberOfChunksInFileToSave = ceil(x)
                     print("number of chunks to save in received file are \(numberOfChunksInFileToSave)")
@@ -2460,7 +2461,6 @@ self.remoteDisconnected()
                 
                
                 print("file writtennnnn \(s) \(filedata.debugDescription)")
-                socketObj.socket.emit("logClient","IPHONE-LOG: \(username!) file writtennnnn")
                 if(fileTransferCompleted==true)
                 {
                     isFileReceived=true
@@ -3181,8 +3181,8 @@ self.remoteDisconnected()
             print(furl!.URLByDeletingPathExtension?.lastPathComponent!)
             var ftype=furl!.pathExtension!
             var fname=furl!.URLByDeletingPathExtension?.lastPathComponent!
-            
-            //var attributesError=nil
+            ////var fname=furl!.URLByDeletingPathExtension?.URLString
+                        //var attributesError=nil
             var fileAttributes:[String:AnyObject]=["":""]
             do {
                 let fileAttributes : NSDictionary? = try NSFileManager.defaultManager().attributesOfItemAtPath(furl!.path!)
@@ -3223,8 +3223,10 @@ self.remoteDisconnected()
             //var filecontentsJSON=JSON(NSData(contentsOfURL: url)!)
             //print(filecontentsJSON)
            print("file url is \(self.filePathImage) file type is \(ftype)")
-            
-            var mjson="{\"file_meta\":{\"name\":\"\(fname!)\",\"size\":\"\(self.fileSize1.description)\",\"filetype\":\"\(ftype)\",\"browser\":\"firefox\",\"uname\":\"\(username!)\",\"fid\":\(self.myfid),\"senderid\":\(currentID!)}}"
+            var filename=fname!+"."+ftype
+            socketObj.socket.emit("logClient","\(username!) is sending file \(fname)")
+
+            var mjson="{\"file_meta\":{\"name\":\"\(filename)\",\"size\":\"\(self.fileSize1.description)\",\"filetype\":\"\(ftype)\",\"browser\":\"firefox\",\"uname\":\"\(username!)\",\"fid\":\(self.myfid),\"senderid\":\(currentID!)}}"
             var fmetadata="{\"eventName\":\"data_msg\",\"data\":\(mjson)}"
             
             /*
