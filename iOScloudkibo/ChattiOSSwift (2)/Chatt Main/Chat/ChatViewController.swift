@@ -1423,13 +1423,11 @@ print("query join error 1337 \(e)")
         let phone = Expression<String>("phone")
         let usernameFromDb = Expression<String?>("username")
         let name = Expression<String?>("name")
-              //  do
+        cell.statusPrivate.text=ContactLastMessage[indexPath.row]
+        cell.lbltimePrivate.text=ContactsLastMsgDate[indexPath.row]
+      //  do
        //// {allkiboContactsArray = Array(try sqliteDB.db.prepare(contactsKibo))
             do{for all in try sqliteDB.db.prepare(allcontacts) {
-                
-                cell.statusPrivate.text=ContactLastMessage[indexPath.row]
-                cell.lbltimePrivate.text=ContactsLastMsgDate[indexPath.row]
-                
                 //print("id: \(account[_id]), phone: \(account[phone]), firstname: \(account[firstname])")
                 // id: 1, email: alice@mac.com, name: Optional("Alice")
                 
@@ -1443,8 +1441,6 @@ print("query join error 1337 \(e)")
                         cell.contactName?.text=all[name]
                         print("name is \(all[name])")
                         ContactNames[indexPath.row]=all[name]!
-                        
-
                     }
                     else
                     {
