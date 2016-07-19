@@ -278,6 +278,8 @@ class LoginAPI{
             self.delegate?.socketReceivedMessage("calleeisbusy",data: data)
         }
         
+        
+        
         socketObj.socket.on("offline"){data,ack in
             print("offline ......")
             print(":::::::::::::::::::::::::::::::::::")
@@ -381,7 +383,7 @@ class LoginAPI{
         
         ///////////////
         
-        socketObj.socket.on("othersideringing"){data,ack in
+        /*socketObj.socket.on("othersideringing"){data,ack in
             
             
             //UIApplicationState state = [[UIApplication sharedApplication] applicationState];
@@ -392,7 +394,7 @@ class LoginAPI{
             print(msg.debugDescription)
             self.delegate?.socketReceivedMessage("othersideringing",data: data)
             
-        }
+        }*/
         
         socket.on("youareonline") {data,ack in
             //var contactsOnlineList=JSON(data)
@@ -405,6 +407,20 @@ class LoginAPI{
         socketObj.socket.on("message"){data,ack in
             print("received messageee")
             var msg=JSON(data)
+            print(msg.debugDescription)
+            if(msg[0]["type"].string! == "call")
+            {
+            if(msg[0]["status"].string! == "calleeisavailable")
+            {
+                print("otherside ringing")
+                print(":::::::::::::::::::::::::::::::::::")
+                let msg=JSON(data)
+                print(msg.debugDescription)
+                self.delegate?.socketReceivedMessage("othersideringing",data: data)
+
+            }
+                
+           // }
             var missedMsg=""
             var nameOfCaller=""
             print(msg.debugDescription)
@@ -455,13 +471,13 @@ class LoginAPI{
                 {
                     print("error in fetching all contacts from addressbook")
                 }
-            //}
+            }
                 
                 sqliteDB.saveCallHist(nameOfCaller, dateTime1: NSDate().debugDescription, type1: "Missed")
                 
-                let todoItem = NotificationItem(otherUserName: nameOfCaller, message: "you received a mised call", type: "missed call", UUID: "111", deadline: NSDate())
+                /*let todoItem = NotificationItem(otherUserName: nameOfCaller, message: "you received a mised call", type: "missed call", UUID: "111", deadline: NSDate())
                 notificationsMainClass.sharedInstance.addItem(todoItem) // schedule a local notification to persist this item
-                
+                */
             }
         
            /* if (end != nil) {

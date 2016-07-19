@@ -2317,9 +2317,9 @@ print("query join error 1337 \(e)")
                 //transition
                 
                 //let secondViewController:CallRingingViewController = CallRingingViewController()
-                var aa=JSON(["to":iamincallWith!,"msg":["callerphone":jdata[0]["callerphone"].string!,"calleephone":jdata[0]["calleephone"].string!,"status":"calleeisavailable"]])
+                var aa=JSON(["to":iamincallWith!,"msg":["callerphone":jdata[0]["callerphone"].string!,"calleephone":jdata[0]["calleephone"].string!,"status":"calleeisavailable","type":"call"]])
                 
-                print(aa.description)
+                //print(aa.description)
                 socketObj.socket.emit("logClient","IPHONE-LOG: \(aa.object)")
                 socketObj.socket.emit("message",aa.object)
                 
@@ -2369,9 +2369,9 @@ print("query join error 1337 \(e)")
             else{
                 socketObj.socket.emit("logClient","IPHONE-LOG: \(username!) is busy and not available")
                 
-                var aa=JSON(["to":iamincallWith!,"msg":["callerphone":jdata[0]["callerphone"].string!,"calleephone":jdata[0]["calleephone"].string!,"status":"calleeisbusy"]])
+                var aa=JSON(["to":iamincallWith!,"msg":["callerphone":jdata[0]["callerphone"].string!,"calleephone":jdata[0]["calleephone"].string!,"status":"calleeisbusy","type":"call"]])
                 
-                print(aa.description)
+                //print(aa.description)
                 socketObj.socket.emit("logClient","IPHONE-LOG: \(aa.object)")
                 socketObj.socket.emit("message",aa.object)
                 

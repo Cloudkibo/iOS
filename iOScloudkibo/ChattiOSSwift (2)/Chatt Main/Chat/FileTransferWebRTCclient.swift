@@ -103,7 +103,7 @@ class FileTransferWebRTCclient:NSObject,RTCPeerConnectionDelegate,RTCSessionDesc
                 
                 var aa=JSON(["msg":["type":"room_name","room":self.ConferenceRoomNameNew as String],"room":globalroom,"to":self.iaminmeetingWith!,"username":username!])
                 
-                print(aa.description)
+                //print(aa.description)
                 socketObj.socket.emit("logClient","IPHONE-LOG: \(aa.object)")
                 socketObj.socket.emit("message",aa.object)
                 

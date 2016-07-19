@@ -83,7 +83,13 @@ class CallRingingViewController: UIViewController//RTCPeerConnectionDelegate,RTC
        let next = self.storyboard?.instantiateViewControllerWithIdentifier("MainV2") as! VideoViewController
         
         self.presentViewController(next, animated: true, completion: {
-            socketObj.sendMessagesOfMessageType("Accept Call")
+            var aa=JSON(["to":iamincallWith!,"msg":["callerphone":iamincallWith,"calleephone":username!,"status":"callaccepted","type":"call"]])
+            
+            //print(aa.description)
+            socketObj.socket.emit("logClient","IPHONE-LOG: \(aa.object)")
+            socketObj.socket.emit("message",aa.object)
+            
+            /////socketObj.sendMessagesOfMessageType("Accept Call")
                     })
 
 
@@ -188,7 +194,7 @@ class CallRingingViewController: UIViewController//RTCPeerConnectionDelegate,RTC
         
         //on othersideringing var iamincall:Bool=false var othersideringing:Bool=false var callerName:String!
 
-        socketObj.socket.on("othersideringing"){data,ack in
+        /*socketObj.socket.on("othersideringing"){data,ack in
             print("otherside ringing")
             var msg=JSON(data)
             self.othersideringing=true;
@@ -197,7 +203,7 @@ class CallRingingViewController: UIViewController//RTCPeerConnectionDelegate,RTC
             iamincallWith=msg[0]["callee"].string!
             
             print("callee is \(self.callerName)")
-        }
+        }*/
         
     
         // Do any additional setup after loading the view.

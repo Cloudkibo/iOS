@@ -1782,7 +1782,7 @@ self.remoteDisconnected()
         var message=JSON(data)
         print(message.debugDescription)
         socketObj.socket.emit("logClient","webrtc message received \(message[0].debugDescription)")
-        if(message[0]["msg"]["type"]=="room_name")
+        if(message[0]["type"]=="room_name")
         {
             
             ////////////////////////////////////////////////////////////////
@@ -1793,7 +1793,7 @@ self.remoteDisconnected()
             //if(joinedRoomInCall=="")
            // {//newwwwwww tryyy isinitiator
                 isInitiator = false
-                var CurrentRoomName=message[0]["msg"]["type"].string!
+                var CurrentRoomName=message[0]["room_name"].string!
                 socketObj.socket.emit("logClient","IPHONE-LOG: \(username) got room name as \(CurrentRoomName)")
                 print("got room name as \(joinedRoomInCall)")
                 print("trying to join room")
@@ -1806,7 +1806,7 @@ self.remoteDisconnected()
                     print(a.debugDescription)
                     socketObj.socket.emit("logClient","\(username!) got room ack as \(a.debugDescription)")
                     currentID=a[1].int!
-                    joinedRoomInCall=message[0]["msg"]["type"].string!
+                    joinedRoomInCall=message[0]["room_name"].string!
                     print("current id is \(currentID)")
                     //}
              //   }}
@@ -1819,7 +1819,7 @@ self.remoteDisconnected()
             }*/
             }
         }
-        if(message[0]["msg"]["status"]=="callaccepted")
+        if(message[0]["status"]=="callaccepted")
         {
             
             socketObj.socket.emit("logClient","IPHONE-LOG: \(username!) accept call in video view")
@@ -1850,48 +1850,16 @@ self.remoteDisconnected()
                     
                     var aa=JSON(["to":iamincallWith!,"msg":["callerphone":username!,"calleephone":iamincallWith!,"type":"room_name","room_name":ConferenceRoomName as String]])
                     
-                    print(aa.description)
+                    //print(aa.description)
                     socketObj.socket.emit("logClient","IPHONE-LOG: \(aa.object)")
                     socketObj.socket.emit("message",aa.object)
                     
                 }
             }
             
-            
-            /*
-            
-            var roomname=""
-            if(joinedRoomInCall == "")
-            {
-                print("inside accept call")
-                /// roomname="test"
-                if(isConference == true)
-                {print("conference name is\(ConferenceRoomName)")
-                    roomname=ConferenceRoomName
-                }
-                else{
-                    roomname=self.randomStringWithLength(9) as String
-                }
-                //iamincallWith=username!
-                areYouFreeForCall=false
-                joinedRoomInCall=roomname as String
-                socketObj.socket.emitWithAck("init", ["room":joinedRoomInCall,"username":username!])(timeoutAfter: 1500000) {data in
-                    meetingStarted=true
-                    print("room joined by got ack")
-                    var a=JSON(data)
-                    print(a.debugDescription)
-                    currentID=a[1].int!
-                    print("current id is \(currentID)")
-                    var aa=JSON(["msg":["type":"room_name","room":roomname as String],"room":globalroom,"to":iamincallWith!,"username":username!])
-                    print(aa.description)
-                    socketObj.socket.emit("message",aa.object)
-                    
-                }//end data
-            }
-            */
-            
+          
         }
-        if(message[0]["msg"]["status"]=="callrejected")
+        if(message[0]["status"]=="callrejected")
         {
             socketObj.socket.emit("logClient","IPHONE-LOG: \(username!) is inside reject call ")
             print("inside reject call")
@@ -1906,9 +1874,29 @@ self.remoteDisconnected()
             
             
         }
-        
-        
-        /*if(msg[0]=="hangup")
+       // if(message[0]["type"].string! == "call")
+      //  {
+            if(message[0]["status"].string! == "calleeisavailable")
+            {
+                print("otherside ringing")
+                print(":::::::::::::::::::::::::::::::::::")
+                let msg=JSON(data)
+                print(msg.debugDescription)
+                txtLabelMainPage.text="Welcome to cloudkibo meeting. Waiting for other peer to Accept your call"
+                
+            }
+            if(message[0]["status"].string! == "calleeisbusy")
+            {
+                print("callee is busy")
+                print(":::::::::::::::::::::::::::::::::::")
+                let msg=JSON(data)
+                print(msg.debugDescription)
+                txtLabelMainPage.text="Welcome to cloudkibo meeting. Callee is busy on another call. Please try later"
+                
+            }
+            
+        //}
+            /*if(msg[0]=="hangup")
         {
             meetingStarted=false
             isConference=false
