@@ -1874,8 +1874,8 @@ self.remoteDisconnected()
             
             
         }
-       // if(message[0]["type"].string! == "call")
-      //  {
+        if(message[0]["type"] == "call")
+        {
             if(message[0]["status"].string! == "calleeisavailable")
             {
                 print("otherside ringing")
@@ -1885,7 +1885,7 @@ self.remoteDisconnected()
                 txtLabelMainPage.text="Welcome to cloudkibo meeting. Waiting for other peer to Accept your call"
                 
             }
-            if(message[0]["status"].string! == "calleeisbusy")
+            if(message[0]["status"] == "calleeisbusy")
             {
                 print("callee is busy")
                 print(":::::::::::::::::::::::::::::::::::")
@@ -1895,7 +1895,7 @@ self.remoteDisconnected()
                 
             }
             
-        //}
+        }
             /*if(msg[0]=="hangup")
         {
             meetingStarted=false
