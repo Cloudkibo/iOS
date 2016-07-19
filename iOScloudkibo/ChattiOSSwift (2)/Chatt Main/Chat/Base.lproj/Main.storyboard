@@ -1050,13 +1050,6 @@
                                         <rect key="frame" x="0.0" y="1" width="320" height="44"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     </imageView>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="Jkd-fn-jTj">
-                                        <rect key="frame" x="13" y="11" width="25" height="22"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <state key="normal" image="chat_camera">
-                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                        </state>
-                                    </button>
                                     <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" minimumFontSize="17" background="chat_input_textfield" id="4FE-aT-v0f">
                                         <rect key="frame" x="46" y="7" width="220" height="30"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -1075,6 +1068,16 @@
                                         </state>
                                         <connections>
                                             <action selector="postBtnTapped" destination="vqu-uk-8SN" eventType="touchUpInside" id="CGN-7E-69k"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="Jkd-fn-jTj" userLabel="fileAttachBtn">
+                                        <rect key="frame" x="13" y="11" width="25" height="22"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <state key="normal" image="chat_camera">
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="btnShareFileInChatPressed:" destination="vqu-uk-8SN" eventType="touchUpInside" id="a93-pZ-MYE"/>
                                         </connections>
                                     </button>
                                 </subviews>
@@ -1128,7 +1131,7 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
                             <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="Name_Cell" id="xpZ-ud-79k" userLabel="Name Cell" customClass="AllContactsCell" customModule="Chat" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="28" width="320" height="60"/>
+                                <rect key="frame" x="0.0" y="92" width="320" height="60"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="xpZ-ud-79k" id="Dzb-5z-t2W">
                                     <rect key="frame" x="0.0" y="0.0" width="320" height="59.5"/>
@@ -1148,7 +1151,7 @@
                                 </connections>
                             </tableViewCell>
                             <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="Phone_Cell" rowHeight="102" id="m8D-D1-gOp" userLabel="Phone Cell" customClass="AllContactsCell" customModule="Chat" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="88" width="320" height="102"/>
+                                <rect key="frame" x="0.0" y="152" width="320" height="102"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="m8D-D1-gOp" id="793-xW-WFm">
                                     <rect key="frame" x="0.0" y="0.0" width="320" height="101.5"/>
@@ -1175,7 +1178,7 @@
                                 </connections>
                             </tableViewCell>
                             <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="Email_Cell" rowHeight="105" id="N0L-uW-dZw" userLabel="Email Cell" customClass="AllContactsCell" customModule="Chat" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="190" width="320" height="105"/>
+                                <rect key="frame" x="0.0" y="254" width="320" height="105"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="N0L-uW-dZw" id="aaz-jw-Pfy">
                                     <rect key="frame" x="0.0" y="0.0" width="320" height="104.5"/>
@@ -1202,7 +1205,7 @@
                                 </connections>
                             </tableViewCell>
                             <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="Status_Cell" rowHeight="89" id="Dta-ez-PMw" userLabel="Status Cell" customClass="AllContactsCell" customModule="Chat" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="295" width="320" height="89"/>
+                                <rect key="frame" x="0.0" y="359" width="320" height="89"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Dta-ez-PMw" id="Gj6-du-cGf">
                                     <rect key="frame" x="0.0" y="0.0" width="320" height="88.5"/>
@@ -1229,7 +1232,7 @@
                                 </connections>
                             </tableViewCell>
                             <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="invite_kibo_cell" rowHeight="122" id="O2y-mE-cVV" userLabel="Invite to Kibo Cell" customClass="AllContactsCell" customModule="Chat" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="384" width="320" height="122"/>
+                                <rect key="frame" x="0.0" y="448" width="320" height="122"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="O2y-mE-cVV" id="4uW-eh-3dc">
                                     <rect key="frame" x="0.0" y="0.0" width="320" height="121.5"/>
@@ -3275,13 +3278,13 @@
         <image name="video_off" width="50" height="50"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="N5B-Ot-bcs"/>
         <segue reference="Spe-dd-EXu"/>
-        <segue reference="W8i-Cs-Z8T"/>
+        <segue reference="N5B-Ot-bcs"/>
         <segue reference="1jA-Zj-XHt"/>
+        <segue reference="W8i-Cs-Z8T"/>
+        <segue reference="Cjg-Ar-cdZ"/>
+        <segue reference="3Qa-aS-eRu"/>
         <segue reference="Lsn-aA-q1J"/>
-        <segue reference="X5X-Qt-8lc"/>
-        <segue reference="8LM-cv-XXH"/>
     </inferredMetricsTieBreakers>
     <color key="tintColor" red="0.054901960784313725" green="0.47843137254901963" blue="1" alpha="1" colorSpace="calibratedRGB"/>
 </document>

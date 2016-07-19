@@ -11,8 +11,10 @@ import SwiftyJSON
 import SQLite
 import Alamofire
 import AVFoundation
+import MobileCoreServices
+import Foundation
 
-class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChatDelegate{
+class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChatDelegate,UIDocumentPickerDelegate,UIDocumentMenuDelegate{
     
     var ContactNames=""
     var ContactOnlineStatus:Int!=0
@@ -943,6 +945,30 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
         return randomString
     }
 
+    @IBAction func btnShareFileInChatPressed(sender: AnyObject)
+        {
+            //socketObj.socket.emit("logClient","\(username!) is sharing file with \(iamincallWith)")
+            print(NSOpenStepRootDirectory())
+            ///var UTIs=UTTypeCopyPreferredTagWithClass("public.image", kUTTypeImage)?.takeRetainedValue() as! [String]
+            
+            let importMenu = UIDocumentMenuViewController(documentTypes: [kUTTypeText as NSString as String, kUTTypeImage as String,"com.adobe.pdf","public.jpeg","public.html","public.content","public.data","public.item",kUTTypeBundle as String],
+                                                          inMode: .Import)
+            ///////let importMenu = UIDocumentMenuViewController(documentTypes: UTIs, inMode: .Import)
+            importMenu.delegate = self
+            dispatch_async(dispatch_get_main_queue()) { () -> Void in
+                self.presentViewController(importMenu, animated: true, completion: nil)
+                
+                
+            }
+            
+            //////////mdata.sharefile()
+            
+            /*let documentPicker = UIDocumentPickerViewController(documentTypes: [kUTTypeText as NSString as String],
+             inMode: .Import)
+             documentPicker.delegate = self
+             presentViewController(documentPicker, animated: true, completion: nil)*/
+        
+    }
     @IBAction func postBtnTapped() {
         
         
@@ -1235,6 +1261,129 @@ print("$$ \(message) is this \(msg)")
     }
 */
     }
+    
+    func documentPicker(controller: UIDocumentPickerViewController, didPickDocumentAtURL url: NSURL) {
+        
+        /*
+        if (controller.documentPickerMode == UIDocumentPickerMode.Import) {
+            NSLog("Opened ", url.path!);
+            
+            
+            
+            print("picker url is \(url)")
+            
+            url.startAccessingSecurityScopedResource()
+            let coordinator = NSFileCoordinator()
+            var error:NSError? = nil
+            coordinator.coordinateReadingItemAtURL(url, options: [], error: &error) { (url) -> Void in
+                // do something with it
+                let fileData = NSData(contentsOfURL: url)
+                print(fileData?.description)
+                socketObj.socket.emit("logClient","IPHONE-LOG: \(username!) selected file ")
+                print("file gotttttt")
+                ///////////self.mdata.sharefile(url.URLString)
+                var furl=NSURL(string: url.URLString)
+                //ADDEDDDDD
+                //////furl=fileurl
+                /////////////////newwwwwvar furl=NSURL(fileURLWithPath: filePathImage)
+                
+                ///// var furl=NSURL(fileURLWithPath:"file:///private/var/mobile/Containers/Data/Application/F4137E3A-02E9-4A4D-8F20-089484823C88/tmp/iCloud.MyAppTemplates.cloudkibo-Inbox/regularExpressions.html")
+                
+                //METADATA FILE NAME,TYPE
+                print(furl!.pathExtension!)
+                print(furl!.URLByDeletingPathExtension?.lastPathComponent!)
+                var ftype=furl!.pathExtension!
+                var fname=furl!.URLByDeletingPathExtension?.lastPathComponent!
+                ////var fname=furl!.URLByDeletingPathExtension?.URLString
+                //var attributesError=nil
+                var fileAttributes:[String:AnyObject]=["":""]
+                do {
+                    let fileAttributes : NSDictionary? = try NSFileManager.defaultManager().attributesOfItemAtPath(furl!.path!)
+                    
+                    if let _attr = fileAttributes {
+                        self.fileSize1 = _attr.fileSize();
+                        print("file size is \(self.fileSize1)")
+                        //// ***april 2016 neww self.fileSize=(fileSize1 as! NSNumber).integerValue
+                    }
+                } catch {
+                    socketObj.socket.emit("logClient","IPHONE-LOG: error: \(error)")
+                    print("Error: \(error)")
+                }
+                /*do{
+                 /// fileAttributes = try NSFileManager.defaultManager().attributesOfItemAtPath(furl!.path!)
+                 fileAttributes = try NSFileManager.defaultManager().attributesOfItemAtPath(url.URLString)
+                 
+                 }catch
+                 {print("error")
+                 print(error)
+                 }
+                 */
+                /* NEW COMMENTED APRIL @)!^
+                 let fileSizeNumber = fileAttributes[NSFileSize]! as! NSNumber
+                 print(fileAttributes[NSFileType] as! String)
+                 
+                 self.fileSize=fileSizeNumber.integerValue
+                 */
+                //FILE METADATA size
+                //print(self.fileSize)
+                urlLocalFile=url
+                /////let text2 = fm.contentsAtPath(filePath)
+                ////////print(text2)
+                /////////print(JSON(text2!))
+                ///mdata.fileContents=fm.contentsAtPath(filePathImage)!
+                self.fileContents=NSData(contentsOfURL: url)
+                self.filePathImage=url.URLString
+                //var filecontentsJSON=JSON(NSData(contentsOfURL: url)!)
+                //print(filecontentsJSON)
+                print("file url is \(self.filePathImage) file type is \(ftype)")
+                var filename=fname!+"."+ftype
+                socketObj.socket.emit("logClient","\(username!) is sending file \(fname)")
+                
+                var mjson="{\"file_meta\":{\"name\":\"\(filename)\",\"size\":\"\(self.fileSize1.description)\",\"filetype\":\"\(ftype)\",\"browser\":\"firefox\",\"uname\":\"\(username!)\",\"fid\":\(self.myfid),\"senderid\":\(currentID!)}}"
+                var fmetadata="{\"eventName\":\"data_msg\",\"data\":\(mjson)}"
+                
+                /*
+                 var mjson="{\"file_meta\":{\"name\":\"\(fname!)\",\"size\":\"\(self.fileSize1.description)\",\"filetype\":\"\(ftype)\",\"browser\":\"firefox\",\"uname\":\"\(username!)\",\"fid\":\(self.myfid),\"senderid\":\(currentID!)}}"
+                 var fmetadata="{\"eventName\":\"data_msg\",\"data\":\(mjson)}"*/
+                
+                
+                
+                self.sendDataBuffer(fmetadata,isb: false)
+                
+                
+                
+                
+                //%%%%%%%%%% socketObj.socket.emit("conference.chat", ["message":"You have received a file. Download and Save it.","username":username!])
+                socketObj.socket.emit("conference.chat", ["message":"You have received a file. Download and Save it.","username":username!])
+                
+                let alert = UIAlertController(title: "Success", message: "Your file has been successfully sent", preferredStyle: UIAlertControllerStyle.Alert)
+                alert.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.Default, handler: nil))
+                self.presentViewController(alert, animated: true, completion: nil)
+                
+                
+            }
+            
+            url.stopAccessingSecurityScopedResource()
+            //mdata.sharefile(url)
+        }
+        */
+    }
+    
+    
+    
+    func documentMenu(documentMenu: UIDocumentMenuViewController, didPickDocumentPicker documentPicker: UIDocumentPickerViewController) {
+        
+        documentPicker.delegate = self
+        presentViewController(documentPicker, animated: true, completion: nil)
+        
+        
+    }
+    
+    func documentMenuWasCancelled(documentMenu: UIDocumentMenuViewController) {
+        
+        
+    }
+    
     override func viewWillDisappear(animated: Bool) {
         
         //socketObj.socket.off(socketEventID)
