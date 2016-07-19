@@ -1270,6 +1270,7 @@ self.remoteDisconnected()
             socketObj.socket.emit("logClient","IPHONE-LOG: iphone user received audio/video stream from \(iamincallWith)")
             dispatch_async(dispatch_get_main_queue(), {
             
+                ///self.didReceiveRemoteVideoTrack(remoteVideoTrack)
                 self.didReceiveRemoteVideoTrack(remoteVideoTrack)
             })
             
