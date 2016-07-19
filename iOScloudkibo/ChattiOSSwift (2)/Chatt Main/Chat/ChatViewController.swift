@@ -194,7 +194,7 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
         self.performSegueWithIdentifier("inviteSegue",sender: nil)
 
     }
-    var ContactCountMsgRead:[String]=[]
+    var ContactCountMsgRead:[Int]=[]
     var ContactMsgRead:[String]=[]
     var ContactsLastMsgDate:[String]=[]
     var ContactLastMessage:[String]=[]
@@ -1247,20 +1247,7 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
             print(ccc[tbl_userchats[status]])
             print(ccc[from])
             print(ccc[fromFullName])
-            if(ccc[tbl_userchats[status]] == "delivered")
-            {
-            if(ccc[from] == ccc[phone])
-            {
-              ContactMsgRead.append("show")
-            }
-                else
-                {
-                    ContactMsgRead.append("not show")
-                }
-            }
-            else{
-              ContactMsgRead.append("not show")
-            }
+      
             print("*************")
             ContactNames.append(ccc[firstname]+" "+ccc[lastname])
             //ContactUsernames.append(ccc[username])
@@ -1278,6 +1265,43 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
             ContactLastMessage.append(ccc[msg])
             ContactsLastMsgDate.append(ccc[date])
             
+            /*
+             String countQuery = "SELECT  * FROM " + UserChat.TABLE_USERCHAT + " WHERE status = 'delivered' AND contact_phone = '"+ contact_phone +"'";
+             SQLiteDatabase db = this.getReadableDatabase();
+             Cursor cursor = db.rawQuery(countQuery, null);
+             int rowCount = cursor.getCount();
+             db.close();
+             cursor.close();
+             
+             // return row count
+             return rowCount;
+             
+             let query = tbl_userchats.filter(contactPhone == ccc[phone] && status == "delivered")          // SELECT "email" FROM "users"
+             
+             
+             allkiboContactsArray = Array(try sqliteDB.db.prepare(query))
+             */
+            let query = tbl_userchats.filter(from == ccc[phone] && status == "delivered")          // SELECT "email" FROM "users"
+            
+            
+            allkiboContactsArray = Array(try sqliteDB.db.prepare(query))
+            ContactCountMsgRead.append(allkiboContactsArray.count)
+            /*
+             if(ccc[tbl_userchats[status]] == "delivered")
+            {
+                if(ccc[from] == ccc[phone])
+                {
+                    ContactMsgRead.append("show")
+                }
+                else
+                {
+                    ContactMsgRead.append("not show")
+                }
+            }
+            else{
+                ContactMsgRead.append("not show")
+            }
+            */
             }
               return completion(result:true)
         }
@@ -1382,6 +1406,7 @@ print("query join error 1337 \(e)")
       
         var contactFound=false
         cell.newMsg.hidden=true
+        cell.countNewmsg.hidden=true
         ////%%%%%%%%%%%%%cell.contactName?.text=ContactNames[indexPath.row]
         
         /*
@@ -1428,9 +1453,11 @@ print("query join error 1337 \(e)")
                 }
                 
                 }
-                if(ContactMsgRead[indexPath.row]=="show")
+                if(ContactCountMsgRead[indexPath.row]>0)
                 {
                 cell.newMsg.hidden=false
+                    cell.countNewmsg.text="\(ContactCountMsgRead[indexPath.row])"
+                    cell.countNewmsg.hidden=false
                 }
             }
             catch
@@ -1441,9 +1468,11 @@ print("query join error 1337 \(e)")
             if(contactFound==false)
             {
                 cell.contactName?.text=ContactUsernames[indexPath.row]
-                if(ContactMsgRead[indexPath.row]=="show")
+                if(ContactCountMsgRead[indexPath.row]>0)
                 {
                     cell.newMsg.hidden=false
+                    cell.countNewmsg.text="\(ContactCountMsgRead[indexPath.row])"
+                    cell.countNewmsg.hidden=false
                 }
             }
             

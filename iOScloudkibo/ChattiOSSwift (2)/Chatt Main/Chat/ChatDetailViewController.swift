@@ -1386,7 +1386,7 @@ print("$$ \(message) is this \(msg)")
     
     override func viewWillDisappear(animated: Bool) {
         
-        //socketObj.socket.off(socketEventID)
+        socketObj.delegateChat=nil
     }
     
 }
