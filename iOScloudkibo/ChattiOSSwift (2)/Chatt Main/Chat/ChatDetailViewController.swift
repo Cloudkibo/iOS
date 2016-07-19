@@ -338,14 +338,22 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
             //socketObj.socket.emit("callthisperson",["room" : "globalchatroom","callee": self.ContactUsernames[selectedRow], "caller":username!])
             // &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&**************************
             username=KeychainWrapper.stringForKey("username")
-            socketObj.socket.emit("logClient","IPHONE-LOG: callthisperson,room:globalchatroom,callee: \(selectedContact), caller:\(username!)")
+            socketObj.socket.emit("logClient","IPHONE-LOG: callthisperson,room:globalchatroom,calleephone: \(selectedContact),callerphone:\(username!)")
             print("callthisperson,room : globalchatroom,callee: \(selectedContact), caller:\(username!)")
-            socketObj.socket.emit("callthisperson",["room" : "globalchatroom","callee": selectedContact, "caller":username!])
+        
+        
+        socketObj.socket.emitWithAck("callthisperson",["room" : "globalchatroom","calleephone": selectedContact, "callerphone":username!])(timeoutAfter: 15000){data in
+            var chatmsg=JSON(data)
+            
+            print(data[0])
+            print(data[0]["calleephone"]!!)
+            print(data[0]["status"]!!.debugDescription!)
+          
             print("username is ... \(username!)")
             
             isInitiator=true
             callerName=username!
-            iamincallWith=selectedContact
+            iamincallWith=self.selectedContact
             
             iOSstartedCall=true
             socketObj.socket.emit("logClient","IPHONE-LOG: \(username!) is going to videoViewController")
@@ -354,6 +362,9 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
             
             self.presentViewController(next, animated: true, completion: {
             })
+
+        }
+        
       //  }
         
     }

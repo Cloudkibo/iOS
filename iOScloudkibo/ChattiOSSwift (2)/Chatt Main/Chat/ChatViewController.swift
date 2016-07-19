@@ -2309,16 +2309,22 @@ print("query join error 1337 \(e)")
             
             if(areYouFreeForCall==true)
             {   iOSstartedCall=false
-                print(jdata[0]["caller"].string!)
+                //print(jdata[0]["caller"].string!)
                 //print(self.currrentUsernameRetrieved, terminator: "")
-                iamincallWith=jdata[0]["caller"].string!
+                iamincallWith=jdata[0]["callerphone"].string!
                 isInitiator=false
                 //callerID=jdata[0]["sendersocket"].string!
                 //transition
                 
                 //let secondViewController:CallRingingViewController = CallRingingViewController()
+                var aa=JSON(["to":iamincallWith!,"msg":["callerphone":jdata[0]["callerphone"].string!,"calleephone":jdata[0]["calleephone"].string!,"status":"calleeisavailable"]])
                 
-                socketObj.socket.emit("yesiamfreeforcall",["mycaller" : jdata[0]["caller"].string!, "me":username!])
+                print(aa.description)
+                socketObj.socket.emit("logClient","IPHONE-LOG: \(aa.object)")
+                socketObj.socket.emit("message",aa.object)
+                
+                
+                //socketObj.socket.emit("yesiamfreeforcall",["mycaller" : jdata[0]["caller"].string!, "me":username!])
                 
                 /*
                 var allcontacts=sqliteDB.allcontacts
@@ -2354,16 +2360,22 @@ print("query join error 1337 \(e)")
                 
                 var next = self.storyboard?.instantiateViewControllerWithIdentifier("Main") as! CallRingingViewController
                 
-                self.presentViewController(next, animated: false, completion: {next.txtCallerName.text=jdata[0]["caller"].string!; next.currentusernameretrieved=self.currrentUsernameRetrieved; next.callerName=jdata[0]["caller"].string!
+                self.presentViewController(next, animated: false, completion: {next.txtCallerName.text=jdata[0]["callerphone"].string!; next.currentusernameretrieved=self.currrentUsernameRetrieved; next.callerName=jdata[0]["callerphone"].string!
                     isInitiator=false
                 })
                 
                 
             }
             else{
-                socketObj.socket.emit("logClient","IPHONE-LOG: \(username!) is busy on another call")
+                socketObj.socket.emit("logClient","IPHONE-LOG: \(username!) is busy and not available")
                 
-                socketObj.socket.emit("noiambusy",["mycaller" : jdata[0]["caller"].string!, "me":self.currrentUsernameRetrieved])
+                var aa=JSON(["to":iamincallWith!,"msg":["callerphone":jdata[0]["callerphone"].string!,"calleephone":jdata[0]["calleephone"].string!,"status":"calleeisbusy"]])
+                
+                print(aa.description)
+                socketObj.socket.emit("logClient","IPHONE-LOG: \(aa.object)")
+                socketObj.socket.emit("message",aa.object)
+                
+                //socketObj.socket.emit("noiambusy",["mycaller" : jdata[0]["caller"].string!, "me":self.currrentUsernameRetrieved])
                 /*
                 print("i am busyyy", terminator: "")
                 let alert = UIAlertView()

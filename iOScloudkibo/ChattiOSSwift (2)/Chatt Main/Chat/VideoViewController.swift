@@ -1779,10 +1779,10 @@ self.remoteDisconnected()
     
     func handleMessage(data:AnyObject!)
     {
-        var msg=JSON(data)
-        print(msg.debugDescription)
-        socketObj.socket.emit("logClient","webrtc message received \(msg[0].debugDescription)")
-        if(msg[0]["type"]=="room_name")
+        var message=JSON(data)
+        print(message.debugDescription)
+        socketObj.socket.emit("logClient","webrtc message received \(message[0].debugDescription)")
+        if(message[0]["msg"]["type"]=="room_name")
         {
             
             ////////////////////////////////////////////////////////////////
@@ -1793,7 +1793,7 @@ self.remoteDisconnected()
             //if(joinedRoomInCall=="")
            // {//newwwwwww tryyy isinitiator
                 isInitiator = false
-                var CurrentRoomName=msg[0]["room"].string!
+                var CurrentRoomName=message[0]["msg"]["type"].string!
                 socketObj.socket.emit("logClient","IPHONE-LOG: \(username) got room name as \(CurrentRoomName)")
                 print("got room name as \(joinedRoomInCall)")
                 print("trying to join room")
@@ -1806,7 +1806,7 @@ self.remoteDisconnected()
                     print(a.debugDescription)
                     socketObj.socket.emit("logClient","\(username!) got room ack as \(a.debugDescription)")
                     currentID=a[1].int!
-                    joinedRoomInCall=msg[0]["room"].string!
+                    joinedRoomInCall=message[0]["msg"]["type"].string!
                     print("current id is \(currentID)")
                     //}
              //   }}
@@ -1819,7 +1819,7 @@ self.remoteDisconnected()
             }*/
             }
         }
-        if(msg[0]=="Accept Call")
+        if(message[0]["msg"]["status"]=="callaccepted")
         {
             
             socketObj.socket.emit("logClient","IPHONE-LOG: \(username!) accept call in video view")
@@ -1848,7 +1848,7 @@ self.remoteDisconnected()
                     print("current id is \(currentID)")
                     //var aa=JSON(["msg":["type":"room_name","room":ConferenceRoomName as String],"room":globalroom,"to":iamincallWith!,"username":username!])
                     
-                    var aa=JSON(["msg":["type":"room_name","room":ConferenceRoomName as String],"room":globalroom,"to":iamincallWith!,"username":username!])
+                    var aa=JSON(["to":iamincallWith!,"msg":["callerphone":username!,"calleephone":iamincallWith!,"type":"room_name","room_name":ConferenceRoomName as String]])
                     
                     print(aa.description)
                     socketObj.socket.emit("logClient","IPHONE-LOG: \(aa.object)")
@@ -1891,7 +1891,7 @@ self.remoteDisconnected()
             */
             
         }
-        if(msg[0]=="Reject Call")
+        if(message[0]["msg"]["status"]=="callrejected")
         {
             socketObj.socket.emit("logClient","IPHONE-LOG: \(username!) is inside reject call ")
             print("inside reject call")
@@ -1908,7 +1908,7 @@ self.remoteDisconnected()
         }
         
         
-        if(msg[0]=="hangup")
+        /*if(msg[0]=="hangup")
         {
             meetingStarted=false
             isConference=false
@@ -1932,8 +1932,9 @@ self.remoteDisconnected()
             }
             
         }
+        */
         
-        if(msg[0]["type"]=="Missed")
+       /* if(msg[0]["type"]=="Missed")
         {
             socketObj.socket.emit("logClient","IPHONE-LOG: \(username!) has received a missed call from \(iamincallWith!)")
             
@@ -1943,8 +1944,9 @@ self.remoteDisconnected()
 
 // schedule a local notification to persist this item
             
-        }
-        if(msg[0]=="Conference Call")
+        }*/
+        
+       /* if(msg[0]=="Conference Call")
         {
             print("conference #1486")
             var roomname=""
@@ -1973,8 +1975,9 @@ self.remoteDisconnected()
                     socketObj.socket.emit("message",aa.object)
                 }}
             
+            
         }
-        
+        */
         
         
         

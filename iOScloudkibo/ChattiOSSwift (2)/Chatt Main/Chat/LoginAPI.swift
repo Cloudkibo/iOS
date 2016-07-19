@@ -485,19 +485,7 @@ class LoginAPI{
 
             print("handlers added")
         }
-        
-       /* socketObj.socket.on("message"){data,ack in
-            print("received messageee")
-            var msg=JSON(data)
-            print(msg.debugDescription)
-        if(msg[0]["type"]=="Missed")
-        {
-            let todoItem = NotificationItem(otherUserName: "\(iamincallWith!)", message: "You have received a missed call", type: "missed call", UUID: "111", deadline: NSDate())
-            notificationsMainClass.sharedInstance.addItem(todoItem) // schedule a local notification to persist this item
-            
-        }
-        
-        }*/
+    
     }
     
         
@@ -842,7 +830,7 @@ class LoginAPI{
                 
             }
             
-            
+            /* ////////////////
             socketObj.socket.on("message"){data,ack in
                 print("received messageee22")
                 var msg=JSON(data)
@@ -861,6 +849,8 @@ class LoginAPI{
                 
                 
             }
+            
+            */
             
             socketObj.socket.on("conference.chat"){data,ack in
                 print("chat received")
@@ -931,16 +921,7 @@ class LoginAPI{
            // self.delegateWebRTCVideo.socketReceivedOtherWebRTCVideo("peer.disconnected.new", data: data)
             
         }
-        
-        
-        socketObj.socket.on("message"){data,ack in
-            print("received messageee33")
-           // self.delegateWebRTCVideo.socketReceivedMessageWebRTCVideo("message",data: data)
-            
-            
-            
-        }
-        
+      
         //conference.streamVideo
     }
 
