@@ -83,7 +83,7 @@ class VideoViewController: UIViewController,RTCPeerConnectionDelegate,RTCSession
     
     var by:Int!
     var rtcStreamReceived:RTCMediaStream! = nil
-    var rtcVideoTrackReceived:RTCVideoTrack! = nil
+    weak var rtcVideoTrackReceived:RTCVideoTrack! = nil
     var rtcAudioTrackReceived:RTCAudioTrack! = nil
     // var rtcCaptureSession:AVCaptureSession!
     var rtcDataChannel:RTCDataChannel! = nil
@@ -1177,11 +1177,22 @@ self.remoteDisconnected()
                 print("Speaker errorrr4")
                 
             }
+           /*
+            self.rtcVideoTrackReceived=remoteVideoTrack
+            self.localViewOutlet.addSubview(self.remoteView)
+            self.rtcVideoTrackReceived.addRenderer(self.remoteView)
+            //if(remotevideoshared==false){
+              //  self.remoteView.hidden=true
             
-            
+            */
+             //old commented
             //%%%%%%%%%%%%%% neww added
             if((self.rtcVideoTrackReceived) != nil)
             {print("remove remotetrack renderer")
+                
+                self.remoteView.renderFrame(nil)
+                
+                
                 self.rtcVideoTrackReceived.removeRenderer(self.remoteView)
             }
             //%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -1194,6 +1205,9 @@ self.remoteDisconnected()
             
             self.localViewOutlet.addSubview(self.remoteView)
            ///// swapping it %%%%% newww  self.rtcVideoTrackReceived.addRenderer(self.remoteView)
+            
+            
+            
             if(remotevideoshared==false){
                 self.remoteView.hidden=true
 
@@ -1699,16 +1713,71 @@ self.remoteDisconnected()
     {
         print("received peer.disconnected obj from server")
         
+        var datajson=JSON(data!)
+        print(datajson.debugDescription)
+        
+        if(datajson[0]["id"].int == otherID)
+        {
+            webMeetingModel.messages.removeAllObjects()
+            if(self.pc != nil)
+            {
+                socketObj.socket.emit("logClient","iphone got info that \(iamincallWith) has disconnected")
+                print("peer disconnectedddd received \(datajson[0])")
+                if(screenCaptureToggle==true)
+                {
+                    screenCaptureToggle=false
+                }
+                //print("hangupppppp received \(datajson.debugDescription)")
+                self.remoteDisconnected()
+                
+                
+                
+                dispatch_async(dispatch_get_global_queue(Int(QOS_CLASS_USER_INITIATED.rawValue),0)){
+                    //************* newwww april 2016 commented
+                    /*if((self.rtcLocalVideoTrack) != nil)
+                     {print("remove localtrack renderer")
+                     self.rtcLocalVideoTrack.removeRenderer(self.localView)
+                     }*/
+                    
+                    if((self.rtcVideoTrackReceived) != nil)
+                        //if((self.rtcVideoTrackReceived) != nil && (self.videoAction==true || self.screenshared==true))
+                    {print("remove remotetrack renderer")
+                        self.rtcVideoTrackReceived.removeRenderer(self.remoteView)
+                    }
+                    print("out of removing remoterenderer")
+                    ////** neww april 2016self.rtcLocalVideoTrack=nil
+                    
+                    //////////////self.localView.renderFrame(nil)
+                    /////////////self.remoteView.renderFrame(nil)
+                    self.pc=nil
+                    joinedRoomInCall=""
+                    //iamincallWith=nil
+                    isInitiator=false
+                    // rtcFact=nil
+                    areYouFreeForCall=true
+                    otherID=nil
+                    self.rtcStreamReceived = nil//^^^^^^^^^^^^^^^^newwwww
+                    
+                    
+                    if(self.rtcDataChannel != nil){
+                        self.rtcDataChannel.close()
+                        ////////newwwwwww
+                        self.rtcDataChannel=nil
+                    }
+                }
+            }
+            
+        }
         //Both joined same room
         
-        var datajson=JSON(data!)
+      //////  var datajson=JSON(data!)
         print(datajson.debugDescription)
         
        ////// if(datajson[0]["id"].int == otherID)
         //{
             webMeetingModel.messages.removeAllObjects()
         self.endMeeting()
-           
+        
         //}
     }
     
@@ -3413,7 +3482,18 @@ self.remoteDisconnected()
     
     socketObj.socket.close()
     socketObj.socket.disconnect()
-        socketObj.socket.connect()
+        socketObj=nil
+        print("socket is nillll", terminator: "")
+        //dispatch_async(dispatch_get_main_queue())
+        //{
+        socketObj=LoginAPI(url:"\(Constants.MainUrl)")
+        ///socketObj.connect()
+        //            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND,0))
+        //{
+        socketObj.addHandlers()
+        socketObj.addWebRTCHandlers()
+        
+       /////////// socketObj.socket.connect()
     //socketObj=nil
     
     //self.pc=nil
@@ -3544,13 +3624,23 @@ self.remoteDisconnected()
                 
                 
         })
-   /*
-        let next = self.storyboard!.instantiateViewControllerWithIdentifier("MainChatView") as! ChatViewController
+        
+        //let storyboard : UIStoryboard = UIStoryboard(name: "AccountStoryboard", bundle: nil)
+       /* let vc : ChatViewController = self.storyboard!.instantiateViewControllerWithIdentifier("MainChatView") as! ChatViewController
+        //vc.teststring = "hello"
+        
+        let navigationController = UINavigationController(rootViewController: vc)
+        
+        self.presentViewController(navigationController, animated: true, completion: nil)
+        */
+        
+   
+      /*  let next = self.storyboard!.instantiateViewControllerWithIdentifier("MainChatView") as! ChatViewController
         self.presentViewController(next, animated: false, completion: { () -> Void in
     print("nexttttt viewwww")
     
     })
-        */
+ */
         //end present controller
     
     })//end dispatch_async

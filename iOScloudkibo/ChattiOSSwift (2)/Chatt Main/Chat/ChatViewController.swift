@@ -1401,8 +1401,10 @@ print("query join error 1337 \(e)")
         }
         */
         //let cellPublic=tblForChat.dequeueReusableCellWithIdentifier("ChatPublicCell") as! ContactsListCell
-        
         let cell=tblForChat.dequeueReusableCellWithIdentifier("ChatPrivateCell") as! ContactsListCell
+        if(ContactUsernames.count > 0)
+        {
+        
       
         var contactFound=false
         cell.newMsg.hidden=true
@@ -1534,7 +1536,7 @@ print("query join error 1337 \(e)")
             cell.btnGreenDot.hidden=false
         }
         
-        
+        }
         return cell
         
     }
@@ -2300,7 +2302,7 @@ print("query join error 1337 \(e)")
             print(data?.debugDescription, terminator: "")
             socketObj.socket.emit("logClient","IPHONE-LOG: \(username!) received message from other peer yesiamfreeforcall")
             
-        case "areyoufreeforcall":
+       /* case "areyoufreeforcall":
             
             var jdata=JSON(data!)
             socketObj.socket.emit("logClient","IPHONE-LOG: checking if \(username!) is free for call")
@@ -2385,7 +2387,7 @@ print("query join error 1337 \(e)")
                 alert.show()*/
                 
             }
-            
+            */
         case "youareonline":
             globalChatRoomJoined=true
             var contactsOnlineList=JSON(data)

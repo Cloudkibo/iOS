@@ -206,7 +206,85 @@ class LoginAPI{
             socketObj.socket.emit("logClient","\(username) received message areyoufreeforcall")
             print("areyoufreeforcall ........")
             print(":::::::::::::::::::::::::::::::::::")
-            var msg=JSON(data)
+            
+            var jdata=JSON(data)
+            socketObj.socket.emit("logClient","IPHONE-LOG: checking if \(username!) is free for call")
+            print("areyoufreeforcall ......", terminator: "")
+            print(jdata.debugDescription)
+            
+            if(areYouFreeForCall==true)
+            {   iOSstartedCall=false
+                //print(jdata[0]["caller"].string!)
+                //print(self.currrentUsernameRetrieved, terminator: "")
+                iamincallWith=jdata[0]["callerphone"].string!
+                isInitiator=false
+                //callerID=jdata[0]["sendersocket"].string!
+                //transition
+                
+                //let secondViewController:CallRingingViewController = CallRingingViewController()
+                var aa=JSON(["to":iamincallWith!,"msg":["callerphone":jdata[0]["callerphone"].string!,"calleephone":jdata[0]["calleephone"].string!,"status":"calleeisavailable","type":"call"]])
+                
+                //print(aa.description)
+                socketObj.socket.emit("logClient","IPHONE-LOG: \(aa.object)")
+                socketObj.socket.emit("message",aa.object)
+                
+                
+                //socketObj.socket.emit("yesiamfreeforcall",["mycaller" : jdata[0]["caller"].string!, "me":username!])
+                
+                /*
+                 var allcontacts=sqliteDB.allcontacts
+                 //var contactsKibo=sqliteDB.contactslists
+                 
+                 
+                 let phone = Expression<String>("phone")
+                 let usernameFromDb = Expression<String?>("username")
+                 let name = Expression<String?>("name")
+                 
+                 var nameOfCaller=iamincallWith
+                 //do
+                 //{allkiboContactsArray = Array(try sqliteDB.db.prepare(contactsKibo))
+                 do{
+                 for all in try sqliteDB.db.prepare(allcontacts) {
+                 if(all[phone]==iamincallWith) //if we found contact in our AddressBook
+                 
+                 {
+                 //Matched phone number. Got contact
+                 if(all[name] != "" || all[name] != nil)
+                 {
+                 nameOfCaller=all[name]!
+                 //cell.contactName?.text=all[name]
+                 }}}}
+                 catch
+                 {
+                 print("error here 111")
+                 }
+                 
+                 sqliteDB.saveCallHist(nameOfCaller, dateTime1: NSDate().debugDescription, type1: "Incoming")
+                 
+                 */
+                let storyboard : UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+
+                var next = storyboard.instantiateViewControllerWithIdentifier("Main") as! CallRingingViewController
+                
+                let navigationController = UIApplication.sharedApplication().windows[0].rootViewController as! UITabBarController
+                
+                let activeViewCont = navigationController.selectedViewController
+                
+                activeViewCont!.presentViewController(next, animated: true, completion: {next.txtCallerName.text=jdata[0]["callerphone"].string!; next.currentusernameretrieved=username!; next.callerName=jdata[0]["callerphone"].string!
+                    isInitiator=false
+                })
+
+                
+
+                
+                
+                /*self.presentViewController(next, animated: false, completion: {next.txtCallerName.text=jdata[0]["callerphone"].string!; next.currentusernameretrieved=self.currrentUsernameRetrieved; next.callerName=jdata[0]["callerphone"].string!
+                    isInitiator=false
+                })*/
+                
+            }
+            //OLD LOGIC only works on chatview as catched there only
+            /*var msg=JSON(data)
             print(msg.debugDescription)
             
             
@@ -260,6 +338,8 @@ class LoginAPI{
                 
             }*/
             self.delegate?.socketReceivedMessage("areyoufreeforcall",data: data)
+            
+            */
         }
         
         socketObj.socket.on("noiambusy"){data,ack in
