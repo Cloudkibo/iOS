@@ -403,6 +403,8 @@ class DatabaseHandler:NSObject{
     
     func saveCallHist(name1:String,dateTime1:String,type1:String)
     {
+        print("saving call history, call received from \(name1) type is \(type1) datetime is \(dateTime1)")
+        socketObj.socket.emit("\(username!) is saving call history, call received from \(name1) type is \(type1) datetime is \(dateTime1)")
         // let contactObject=Expression<CNContact>("contactObj")
         
         let name = Expression<String>("name")

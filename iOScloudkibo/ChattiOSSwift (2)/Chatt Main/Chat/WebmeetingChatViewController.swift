@@ -247,7 +247,7 @@ class WebmeetingChatViewController: UIViewController,WebMeetingChatDelegate,File
             
             //%%%%%% socketObj.socket.emit("conference.chat",["message":"\(txtFldMessage.text!)","username":username!])
             
-            socketObj.socket.emit("conference.chat",["message":"\(txtFldMessage.text!)","phone":username!])
+            socketObj.socket.emit("conference.chat",["message":"\(txtFldMessage.text!)","phone":iamincallWith!])
             
             //////
             

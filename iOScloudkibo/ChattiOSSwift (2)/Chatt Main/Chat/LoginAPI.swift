@@ -488,15 +488,15 @@ class LoginAPI{
             print("received messageee")
             var msg=JSON(data)
             print(msg.debugDescription)
-            if(msg[0]["type"].string! == "call")
+            if(msg[0]["type"] == "call")
             {
-            if(msg[0]["status"].string! == "calleeisavailable")
+            if(msg[0]["status"] == "calleeisavailable")
             {
                 print("otherside ringing")
-                print(":::::::::::::::::::::::::::::::::::")
+                print("--------")
                 let msg=JSON(data)
                 print(msg.debugDescription)
-                self.delegate?.socketReceivedMessage("othersideringing",data: data)
+                /////////self.delegate?.socketReceivedMessage("othersideringing",data: data)
 
             }
                 

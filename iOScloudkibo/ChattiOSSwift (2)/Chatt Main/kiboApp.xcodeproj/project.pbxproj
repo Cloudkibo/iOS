@@ -68,6 +68,7 @@
 		716175851C51BCDE00A72E83 /* Pods.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = BC0C99CB9F91896CEAE65024 /* Pods.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		716175A01C51C9B200A72E83 /* libsqlite3.0.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 716174971C5065BA00A72E83 /* libsqlite3.0.tbd */; };
 		716175A11C51C9B200A72E83 /* libsqlite3.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 716174981C5065BA00A72E83 /* libsqlite3.tbd */; };
+		718AB5801D3F8C9000D197D7 /* chatMessagesModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 718AB57F1D3F8C9000D197D7 /* chatMessagesModel.swift */; };
 		718B8D7F1CC11A9B000B4AB2 /* SocketAckEmitter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 718B8D691CC11A9B000B4AB2 /* SocketAckEmitter.swift */; };
 		718B8D801CC11A9B000B4AB2 /* SocketAckManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 718B8D6A1CC11A9B000B4AB2 /* SocketAckManager.swift */; };
 		718B8D811CC11A9B000B4AB2 /* SocketAnyEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 718B8D6B1CC11A9B000B4AB2 /* SocketAnyEvent.swift */; };
@@ -306,6 +307,7 @@
 		716174971C5065BA00A72E83 /* libsqlite3.0.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.0.tbd; path = usr/lib/libsqlite3.0.tbd; sourceTree = SDKROOT; };
 		716174981C5065BA00A72E83 /* libsqlite3.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.tbd; path = usr/lib/libsqlite3.tbd; sourceTree = SDKROOT; };
 		717403E21CF7151800EA7ABF /* SQLite.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SQLite.xcodeproj; path = "SQLite.swift-master 6/SQLite.xcodeproj"; sourceTree = "<group>"; };
+		718AB57F1D3F8C9000D197D7 /* chatMessagesModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = chatMessagesModel.swift; sourceTree = "<group>"; };
 		718B8D691CC11A9B000B4AB2 /* SocketAckEmitter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SocketAckEmitter.swift; sourceTree = "<group>"; };
 		718B8D6A1CC11A9B000B4AB2 /* SocketAckManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SocketAckManager.swift; sourceTree = "<group>"; };
 		718B8D6B1CC11A9B000B4AB2 /* SocketAnyEvent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SocketAnyEvent.swift; sourceTree = "<group>"; };
@@ -430,6 +432,7 @@
 				713D518E1CC11896007E0B47 /* ChatComposeViewController.swift */,
 				713D518F1CC11896007E0B47 /* ChatContactsCell.swift */,
 				713D51901CC11896007E0B47 /* ChatDetailViewController.swift */,
+				718AB57F1D3F8C9000D197D7 /* chatMessagesModel.swift */,
 				710D4E3D1D3D8F7600FBC352 /* FileTransferWebRTCclient.swift */,
 				713D51911CC11896007E0B47 /* ChatViewController.swift */,
 				713EC7041D0518B800495A43 /* ChatMainViewController.swift */,
@@ -928,6 +931,7 @@
 				713EC7051D0518B800495A43 /* ChatMainViewController.swift in Sources */,
 				718B8D801CC11A9B000B4AB2 /* SocketAckManager.swift in Sources */,
 				718B8D8F1CC11A9B000B4AB2 /* SocketPacket.swift in Sources */,
+				718AB5801D3F8C9000D197D7 /* chatMessagesModel.swift in Sources */,
 				718B8D7F1CC11A9B000B4AB2 /* SocketAckEmitter.swift in Sources */,
 				713D51C91CC11896007E0B47 /* Contact.swift in Sources */,
 				713D51D81CC11896007E0B47 /* LoginViewController.swift in Sources */,

@@ -16,6 +16,19 @@ import Foundation
 
 class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChatDelegate,UIDocumentPickerDelegate,UIDocumentMenuDelegate{
     
+    var myfid=0
+    var fid:Int!=0
+    var fileSize1:UInt64=0
+    var filePathImage:String!
+    ////** new commented april 2016var fileSize:Int!
+    var fileContents:NSData!
+    var chunknumbertorequest:Int=0
+    var numberOfChunksInFileToSave:Double=0
+    var filePathReceived:String!
+    var fileSizeReceived:Int!
+    var fileContentsReceived:NSData!
+    
+    
     var ContactNames=""
     var ContactOnlineStatus:Int!=0
     var delegateChat:UpdateChatDelegate!
@@ -168,6 +181,8 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
         super.viewDidLoad()
         NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("willShowKeyBoard:"), name:UIKeyboardWillShowNotification, object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("willHideKeyBoard:"), name:UIKeyboardWillHideNotification, object: nil)
+        
+        
         messages = NSMutableArray()
         
         
@@ -1275,12 +1290,9 @@ print("$$ \(message) is this \(msg)")
     
     func documentPicker(controller: UIDocumentPickerViewController, didPickDocumentAtURL url: NSURL) {
         
-        /*
+        
         if (controller.documentPickerMode == UIDocumentPickerMode.Import) {
             NSLog("Opened ", url.path!);
-            
-            
-            
             print("picker url is \(url)")
             
             url.startAccessingSecurityScopedResource()
@@ -1292,13 +1304,8 @@ print("$$ \(message) is this \(msg)")
                 print(fileData?.description)
                 socketObj.socket.emit("logClient","IPHONE-LOG: \(username!) selected file ")
                 print("file gotttttt")
-                ///////////self.mdata.sharefile(url.URLString)
                 var furl=NSURL(string: url.URLString)
-                //ADDEDDDDD
-                //////furl=fileurl
-                /////////////////newwwwwvar furl=NSURL(fileURLWithPath: filePathImage)
-                
-                ///// var furl=NSURL(fileURLWithPath:"file:///private/var/mobile/Containers/Data/Application/F4137E3A-02E9-4A4D-8F20-089484823C88/tmp/iCloud.MyAppTemplates.cloudkibo-Inbox/regularExpressions.html")
+               
                 
                 //METADATA FILE NAME,TYPE
                 print(furl!.pathExtension!)
@@ -1320,23 +1327,7 @@ print("$$ \(message) is this \(msg)")
                     socketObj.socket.emit("logClient","IPHONE-LOG: error: \(error)")
                     print("Error: \(error)")
                 }
-                /*do{
-                 /// fileAttributes = try NSFileManager.defaultManager().attributesOfItemAtPath(furl!.path!)
-                 fileAttributes = try NSFileManager.defaultManager().attributesOfItemAtPath(url.URLString)
-                 
-                 }catch
-                 {print("error")
-                 print(error)
-                 }
-                 */
-                /* NEW COMMENTED APRIL @)!^
-                 let fileSizeNumber = fileAttributes[NSFileSize]! as! NSNumber
-                 print(fileAttributes[NSFileType] as! String)
-                 
-                 self.fileSize=fileSizeNumber.integerValue
-                 */
-                //FILE METADATA size
-                //print(self.fileSize)
+         
                 urlLocalFile=url
                 /////let text2 = fm.contentsAtPath(filePath)
                 ////////print(text2)
@@ -1353,18 +1344,10 @@ print("$$ \(message) is this \(msg)")
                 var mjson="{\"file_meta\":{\"name\":\"\(filename)\",\"size\":\"\(self.fileSize1.description)\",\"filetype\":\"\(ftype)\",\"browser\":\"firefox\",\"uname\":\"\(username!)\",\"fid\":\(self.myfid),\"senderid\":\(currentID!)}}"
                 var fmetadata="{\"eventName\":\"data_msg\",\"data\":\(mjson)}"
                 
-                /*
-                 var mjson="{\"file_meta\":{\"name\":\"\(fname!)\",\"size\":\"\(self.fileSize1.description)\",\"filetype\":\"\(ftype)\",\"browser\":\"firefox\",\"uname\":\"\(username!)\",\"fid\":\(self.myfid),\"senderid\":\(currentID!)}}"
-                 var fmetadata="{\"eventName\":\"data_msg\",\"data\":\(mjson)}"*/
+        
+                //----------sendDataBuffer(fmetadata,isb: false)
                 
                 
-                
-                self.sendDataBuffer(fmetadata,isb: false)
-                
-                
-                
-                
-                //%%%%%%%%%% socketObj.socket.emit("conference.chat", ["message":"You have received a file. Download and Save it.","username":username!])
                 socketObj.socket.emit("conference.chat", ["message":"You have received a file. Download and Save it.","username":username!])
                 
                 let alert = UIAlertController(title: "Success", message: "Your file has been successfully sent", preferredStyle: UIAlertControllerStyle.Alert)
@@ -1377,7 +1360,7 @@ print("$$ \(message) is this \(msg)")
             url.stopAccessingSecurityScopedResource()
             //mdata.sharefile(url)
         }
-        */
+ 
     }
     
     

@@ -97,9 +97,16 @@ class CallRingingViewController: UIViewController//RTCPeerConnectionDelegate,RTC
            }
     @IBAction func btnRejectPressed(sender: AnyObject) {
         areYouFreeForCall=true
+        meetingStarted=false
         if(iamincallWith != nil && iamincallWith != "")
         {
-            socketObj.socket.emit("noiambusy",["mycaller" :iamincallWith!, "me":username!])
+           /// socketObj.socket.emit("noiambusy",["mycaller" :iamincallWith!, "me":username!])
+            
+            var aa=JSON(["to":iamincallWith!,"msg":["callerphone":iamincallWith!,"calleephone":username!,"status":"callrejected","type":"call"]])
+            
+            //print(aa.description)
+            socketObj.socket.emit("logClient","IPHONE-LOG: \(aa.object)")
+            socketObj.socket.emit("message",aa.object)
             
             var nameOfCaller=""
             var allcontacts=sqliteDB.allcontacts
@@ -137,6 +144,7 @@ class CallRingingViewController: UIViewController//RTCPeerConnectionDelegate,RTC
         
         dismissViewControllerAnimated(true, completion: {
         iamincallWith=""
+            areYouFreeForCall=true
             self.othersideringing=false
             if(joinedRoomInCall != "")
             {
@@ -156,6 +164,7 @@ class CallRingingViewController: UIViewController//RTCPeerConnectionDelegate,RTC
             
             self.dismissViewControllerAnimated(true, completion: { () -> Void in
                 endedCall=false
+                areYouFreeForCall=true
             })
             
             
@@ -167,10 +176,31 @@ class CallRingingViewController: UIViewController//RTCPeerConnectionDelegate,RTC
         
         socketObj.socket.on("message"){data,ack in
             print("received messageee")
-            var msg=JSON(data)
+            
+            
+            var message=JSON(data)
+            
+            if(message[0]["status"]=="missing")
+            {
+                self.dismissViewControllerAnimated(true, completion: {
+                    
+                    sqliteDB.saveCallHist(iamincallWith!, dateTime1: NSDate().debugDescription, type1: "Missed")
+                    
+                    iamincallWith=""
+                    areYouFreeForCall=true
+                    self.callerName=""
+                    joinedRoomInCall=""
+                    areYouFreeForCall=true
+                    isInitiator=false
+                    ConferenceRoomName=""
+                    
+                })
+            }
+            
+            /*
             var missedMsg=""
             var nameOfCaller=""
-            print(msg.debugDescription)
+            print(message.debugDescription)
             var mmm=msg[0].debugDescription
             let start = mmm.startIndex
             
@@ -190,6 +220,7 @@ class CallRingingViewController: UIViewController//RTCPeerConnectionDelegate,RTC
                 notificationsMainClass.sharedInstance.addItem(todoItem) // schedule a local notification to persist this item
                 
             }
+            */
         }
         
         //on othersideringing var iamincall:Bool=false var othersideringing:Bool=false var callerName:String!
