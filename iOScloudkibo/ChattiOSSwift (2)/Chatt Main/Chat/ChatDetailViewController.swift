@@ -911,14 +911,23 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
     func applicationWillBecomeActive(notification : NSNotification){
         self.view.endEditing(true)
        // NSNotificationCenter.defaultCenter().po postNotificationName(UIKeyboardWillHideNotification, object: nil)
-        self.viewDidLoad()
-        ///////////self.retrieveChatFromSqlite(selectedContact)
+        //self.viewDidLoad()
         self.tblForChats.setNeedsUpdateConstraints()
+        self.tblForChats.setNeedsLayout()
         self.tblForChats.setNeedsDisplay()
-        //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%------------ commented june 16 FetchChatServer()
+
+        self.retrieveChatFromSqlite(self.selectedContact)
+      tblForChats.reloadData()
+                //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%------------ commented june 16 FetchChatServer()
         print("calling retrieveChat from foreground function messages count is \(self.messages.count)")
-       tblForChats.reloadData()
-        print("calling retrieveChat from foreground function messages count is \(self.messages.count)")
+       
+        if(self.messages.count>1)
+        {
+            var indexPath = NSIndexPath(forRow:self.messages.count-1, inSection: 0)
+            
+            self.tblForChats.scrollToRowAtIndexPath(indexPath, atScrollPosition: UITableViewScrollPosition.Bottom, animated: true)
+        }
+        //print("calling retrieveChat from foreground function messages count is \(self.messages.count)")
     }
     func willShowKeyBoard(notification : NSNotification){
         
@@ -1395,5 +1404,8 @@ print("$$ \(message) is this \(msg)")
         
         socketObj.delegateChat=nil
     }
-    
+    override func viewDidLayoutSubviews() {
+        
+        super.viewDidLayoutSubviews()
+    }
 }
