@@ -15,7 +15,6 @@ import CloudKit
 import AccountKit
 
 
-
 var countrycode:String! = KeychainWrapper.stringForKey("countrycode")
 let configuration1 = NSURLSessionConfiguration.backgroundSessionConfigurationWithIdentifier("com.example.app.background")
 let manager = Alamofire.Manager(configuration: configuration1)
@@ -240,7 +239,7 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
     func applicationWillEnterForeground(application: UIApplication) {
         
         
-        NSNotificationCenter.defaultCenter().postNotificationName(applicationWillEnterForegroundN, object: self)
+        /////NSNotificationCenter.defaultCenter().postNotificationName(UIApplicationWillEnterForegroundNotification, object: self)
         //////NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("willShowKeyBoard:"), name:UIKeyboardWillShowNotification, object: nil)
 
         

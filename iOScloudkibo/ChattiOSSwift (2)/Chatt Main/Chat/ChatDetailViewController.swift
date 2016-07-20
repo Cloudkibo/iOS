@@ -180,7 +180,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
     override func viewDidLoad() {
         super.viewDidLoad()
         //UIApplicationWillEnterForegroundNotification
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("applicationWillEnterForeground:"), name:UIApplicationWillEnterForegroundNotification, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("applicationWillBecomeActive:"), name:UIApplicationDidBecomeActiveNotification, object: nil)
         
         NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("willShowKeyBoard:"), name:UIKeyboardWillShowNotification, object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("willHideKeyBoard:"), name:UIKeyboardWillHideNotification, object: nil)
@@ -908,8 +908,17 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
         return cell*/
     }
     
-    func applicationWillEnterForeground(notification : NSNotification){
-        tblForChats.reloadData()
+    func applicationWillBecomeActive(notification : NSNotification){
+        self.view.endEditing(true)
+       // NSNotificationCenter.defaultCenter().po postNotificationName(UIKeyboardWillHideNotification, object: nil)
+        self.viewDidLoad()
+        ///////////self.retrieveChatFromSqlite(selectedContact)
+        self.tblForChats.setNeedsUpdateConstraints()
+        self.tblForChats.setNeedsDisplay()
+        //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%------------ commented june 16 FetchChatServer()
+        print("calling retrieveChat from foreground function messages count is \(self.messages.count)")
+       tblForChats.reloadData()
+        print("calling retrieveChat from foreground function messages count is \(self.messages.count)")
     }
     func willShowKeyBoard(notification : NSNotification){
         
