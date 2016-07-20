@@ -238,6 +238,12 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
     }
     
     func applicationWillEnterForeground(application: UIApplication) {
+        
+        
+        NSNotificationCenter.defaultCenter().postNotificationName(applicationWillEnterForegroundN, object: self)
+        //////NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("willShowKeyBoard:"), name:UIKeyboardWillShowNotification, object: nil)
+
+        
         // Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
        
         /*

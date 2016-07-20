@@ -1402,8 +1402,8 @@ print("query join error 1337 \(e)")
         */
         //let cellPublic=tblForChat.dequeueReusableCellWithIdentifier("ChatPublicCell") as! ContactsListCell
         let cell=tblForChat.dequeueReusableCellWithIdentifier("ChatPrivateCell") as! ContactsListCell
-        if(ContactUsernames.count > 0)
-        {
+        //if(ContactUsernames.count > 0)
+        //{
         
       
         var contactFound=false
@@ -1455,11 +1455,14 @@ print("query join error 1337 \(e)")
                 }
                 
                 }
+                if(!ContactCountMsgRead.isEmpty)
+                {
                 if(ContactCountMsgRead[indexPath.row]>0)
                 {
                 cell.newMsg.hidden=false
                     cell.countNewmsg.text="\(ContactCountMsgRead[indexPath.row])"
                     cell.countNewmsg.hidden=false
+                }
                 }
             }
             catch
@@ -1470,11 +1473,14 @@ print("query join error 1337 \(e)")
             if(contactFound==false)
             {
                 cell.contactName?.text=ContactUsernames[indexPath.row]
+                if(!ContactCountMsgRead.isEmpty)
+                {
                 if(ContactCountMsgRead[indexPath.row]>0)
                 {
                     cell.newMsg.hidden=false
                     cell.countNewmsg.text="\(ContactCountMsgRead[indexPath.row])"
                     cell.countNewmsg.hidden=false
+                }
                 }
             }
             
@@ -1536,7 +1542,7 @@ print("query join error 1337 \(e)")
             cell.btnGreenDot.hidden=false
         }
         
-        }
+        //}
         return cell
         
     }

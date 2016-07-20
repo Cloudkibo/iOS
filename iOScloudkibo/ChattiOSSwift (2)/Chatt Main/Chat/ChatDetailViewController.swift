@@ -57,7 +57,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
     
     var tbl_userchats:Table!
     
-    var messages : NSMutableArray!
+    var messages = NSMutableArray()
     override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: NSBundle?)
     {
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
@@ -179,10 +179,11 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
     }
     override func viewDidLoad() {
         super.viewDidLoad()
+        //UIApplicationWillEnterForegroundNotification
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("applicationWillEnterForeground:"), name:UIApplicationWillEnterForegroundNotification, object: nil)
+        
         NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("willShowKeyBoard:"), name:UIKeyboardWillShowNotification, object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("willHideKeyBoard:"), name:UIKeyboardWillHideNotification, object: nil)
-        
-        
         messages = NSMutableArray()
         
         
@@ -907,6 +908,9 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
         return cell*/
     }
     
+    func applicationWillEnterForeground(notification : NSNotification){
+        tblForChats.reloadData()
+    }
     func willShowKeyBoard(notification : NSNotification){
         
         var userInfo: NSDictionary!

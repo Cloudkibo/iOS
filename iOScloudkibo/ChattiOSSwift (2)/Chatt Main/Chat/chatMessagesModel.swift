@@ -10,28 +10,28 @@ import Foundation
 
 class chatMessagesModel
 {
-    var delegateChatDetailMesage:WebMeetingChatDetailMessageDelegate!
+    /*
+    var delegateChatDetailMesage:ChatDetailMessageDelegate!
 var messages:NSMutableArray!
 init()
 {
     messages=NSMutableArray()
     
 }
-func addChatMsg(msg:String,usr:String)
-{//["message":message, "type":msgType]
-    if(usr != username!)
-    {//Message of other user not myself
-        messages.addObject(["message":msg,"type":"1","username":usr])
+func addMessage(message: String, ofType msgType:String, date:String)
+{
+        messages.addObject(["message":message, "type":msgType, "date":date])
+    self.delegateChatDetailMesage?.receivedChatMessageUpdateUI()
         /*if(self.delegateWebmeetingChat != nil)
         {
             self.delegateWebmeetingChat.receivedChatMessageUpdateUI(msg, username: usr)
         }*/
-    }
+    
 }
-   
+   */
 }
 
-protocol WebMeetingChatDetailMessageDelegate:class
+protocol ChatDetailMessageDelegate:class
 {
-    func receivedChatMessageUpdateUI(message:String,username:String);
+    func receivedChatMessageUpdateUI();
 }
