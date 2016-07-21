@@ -142,22 +142,31 @@ class CallRingingViewController: UIViewController//RTCPeerConnectionDelegate,RTC
             
         }
         
+        
         dismissViewControllerAnimated(true, completion: {
         iamincallWith=""
             areYouFreeForCall=true
             self.othersideringing=false
-            if(joinedRoomInCall != "")
+            iamincallWith=""
+            areYouFreeForCall=true
+            self.callerName=""
+            joinedRoomInCall=""
+            areYouFreeForCall=true
+            isInitiator=false
+            ConferenceRoomName=""
+            meetingStarted=false
+            /*if(joinedRoomInCall != "")
             {
             socketObj.socket.emit("message", ["msg":"hangup"])
-            }
+            }*/
         })
     }
     
     override func viewWillAppear(animated: Bool) {
         
-        if(endedCall==true)
-        {
-            socketObj.socket.emit("logClient","IPHONE-LOG: ended call, going back from call ringing view")
+        //if(endedCall==true)
+      //  {
+         /*   socketObj.socket.emit("logClient","IPHONE-LOG: ended call, going back from call ringing view")
         dispatch_async(dispatch_get_main_queue(), { () -> Void in
             
             
@@ -169,7 +178,8 @@ class CallRingingViewController: UIViewController//RTCPeerConnectionDelegate,RTC
             
             
         })
-        }
+        */
+       // }
     }
     override func viewDidLoad() {
         super.viewDidLoad()

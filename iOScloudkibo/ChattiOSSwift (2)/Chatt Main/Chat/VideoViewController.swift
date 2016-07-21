@@ -736,10 +736,10 @@ self.remoteDisconnected()
       //  if(isConference==true){
         webMeetingModel.delegateSendScreenshotDataChannel=self
        // }
-        if(socketObj.delegateWebRTC == nil)
-        {
+      ///////-------  if(socketObj.delegateWebRTC == nil)
+       // {
             socketObj.delegateWebRTC=self
-        }
+        //}
         
         
         socketObj.socket.on("disconnected") {data, ack in

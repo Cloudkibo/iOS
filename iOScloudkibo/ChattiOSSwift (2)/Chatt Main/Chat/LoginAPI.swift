@@ -222,7 +222,7 @@ class LoginAPI{
                 //transition
                 
                 //let secondViewController:CallRingingViewController = CallRingingViewController()
-                var aa=JSON(["to":iamincallWith!,"msg":["callerphone":jdata[0]["callerphone"].string!,"calleephone":jdata[0]["calleephone"].string!,"status":"calleeisavailable","type":"call"]])
+                var aa=JSON(["to":jdata[0]["callerphone"].string!,"msg":["callerphone":jdata[0]["callerphone"].string!,"calleephone":jdata[0]["calleephone"].string!,"status":"calleeisavailable","type":"call"]])
                 
                 //print(aa.description)
                 socketObj.socket.emit("logClient","IPHONE-LOG: \(aa.object)")
@@ -282,6 +282,23 @@ class LoginAPI{
                     isInitiator=false
                 })*/
                 
+            }
+            else{
+                print("callee is busyy.....")
+                iOSstartedCall=false
+                //print(jdata[0]["caller"].string!)
+                //print(self.currrentUsernameRetrieved, terminator: "")
+                //iamincallWith=jdata[0]["callerphone"].string!
+                isInitiator=false
+                //callerID=jdata[0]["sendersocket"].string!
+                //transition
+                
+                //let secondViewController:CallRingingViewController = CallRingingViewController()
+                var aa=JSON(["to":jdata[0]["callerphone"].string!,"msg":["callerphone":jdata[0]["callerphone"].string!,"calleephone":jdata[0]["calleephone"].string!,"status":"calleeisbusy","type":"call"]])
+                
+                //print(aa.description)
+                socketObj.socket.emit("logClient","IPHONE-LOG: \(aa.object)")
+                socketObj.socket.emit("message",aa.object)
             }
             //OLD LOGIC only works on chatview as catched there only
             /*var msg=JSON(data)
@@ -484,6 +501,7 @@ class LoginAPI{
             globalChatRoomJoined = true
             self.delegate?.socketReceivedMessage("youareonline",data: data)
         }
+        /*
         socketObj.socket.on("message"){data,ack in
             print("received messageee")
             var msg=JSON(data)
@@ -501,6 +519,8 @@ class LoginAPI{
             }
                 
            // }
+                
+                /*
             var missedMsg=""
             var nameOfCaller=""
             print(msg.debugDescription)
@@ -554,6 +574,7 @@ class LoginAPI{
             }
                 
                 sqliteDB.saveCallHist(nameOfCaller, dateTime1: NSDate().debugDescription, type1: "Missed")
+                */
                 
                 /*let todoItem = NotificationItem(otherUserName: nameOfCaller, message: "you received a mised call", type: "missed call", UUID: "111", deadline: NSDate())
                 notificationsMainClass.sharedInstance.addItem(todoItem) // schedule a local notification to persist this item
@@ -581,6 +602,7 @@ class LoginAPI{
 
             print("handlers added")
         }
+        */
     
     }
     
