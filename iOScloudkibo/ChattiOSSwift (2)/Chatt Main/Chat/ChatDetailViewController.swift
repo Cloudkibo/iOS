@@ -416,13 +416,14 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
             //for tblContacts in try sqliteDB.db.prepare(tbl_userchats.filter(owneruser==owneruser1)){
             //print("queryy runned count is \(tbl_contactslists.count)")
             for tblContacts in try sqliteDB.db.prepare(tbl_userchats.filter(to==selecteduser || from==selecteduser)){
-            print(tblContacts[to])
+            /*print(tblContacts[to])
             print(tblContacts[from])
             print(tblContacts[msg])
             print(tblContacts[date])
             print(tblContacts[status])
+                
             print("--------")
-            
+            */
                 if(tblContacts[from]==selecteduser && (tblContacts[status]=="delivered"))
                 {
                     sqliteDB.UpdateChatStatus(tblContacts[uniqueid], newstatus: "seen")
@@ -918,7 +919,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
         }
         return cell*/
     }
-    
+    /*
     override func encodeRestorableStateWithCoder(coder: NSCoder) {
         //1
         
@@ -935,10 +936,23 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
        messages = coder.decodeObjectForKey("messages") as! NSMutableArray
         
         super.decodeRestorableStateWithCoder(coder)
+        self.retrieveChatFromSqlite(selectedContact)
+        tblForChats.reloadData()
+    }*/
+    static func viewControllerWithRestorationIdentifierPath(identifierComponents: [AnyObject],
+                                                            coder: NSCoder) -> UIViewController? {
+        let viewController = ChatDetailViewController()
+        return viewController
+    }
+    
+    override func decodeRestorableStateWithCoder(coder: NSCoder) {
+       // someNumberYouNeedForRestoring = coder.decodeIntegerForKey("number")
+        super.decodeRestorableStateWithCoder(coder)
     }
     
     override func applicationFinishedRestoringState() {
         guard let messages = messages else { return }
+        self.retrieveChatFromSqlite(selectedContact)
         tblForChats.reloadData()
         //messages = MatchedPetsManager.sharedManager.petForId(petId)
     }
@@ -1459,11 +1473,11 @@ print("$$ \(message) is this \(msg)")
         super.viewDidLayoutSubviews()
     }
 }
-
+/*
 extension ChatDetailViewController: UIViewControllerRestoration {
     static func viewControllerWithRestorationIdentifierPath(identifierComponents: [AnyObject],
                                                             coder: NSCoder) -> UIViewController? {
         let vc = ChatDetailViewController()
         return vc
     }
-}
+}*/
