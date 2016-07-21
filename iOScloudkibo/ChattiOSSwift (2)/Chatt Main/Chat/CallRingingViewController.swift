@@ -193,7 +193,7 @@ class CallRingingViewController: UIViewController//RTCPeerConnectionDelegate,RTC
                     areYouFreeForCall=true
                     isInitiator=false
                     ConferenceRoomName=""
-                    
+                    meetingStarted=false
                 })
             }
             

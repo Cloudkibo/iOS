@@ -236,10 +236,18 @@ class VideoViewController: UIViewController,RTCPeerConnectionDelegate,RTCSession
     @IBAction func endCallBtnPressed(sender: AnyObject) {
         webMeetingModel.messages.removeAllObjects()
     
-      //  if(meetingStarted==true && self.pc != nil)
-       // {
+        if(meetingStarted==true && self.pc != nil)
+        {
         self.endMeeting()
-       // }
+        }
+        else
+        {
+            var aa=JSON(["to":iamincallWith!,"msg":["callerphone":username!,"calleephone":iamincallWith!,"status":"missing","type":"call"]])
+            socketObj.socket.emit("logClient","IPHONE-LOG: \(aa.object)")
+            socketObj.socket.emit("message",aa.object)
+            
+            self.endView()
+        }
         /*else{
             var aa=JSON(["to":iamincallWith!,"msg":["callerphone":username!,"calleephone":iamincallWith!,"status":"missing","type":"call"]])
             
@@ -1982,8 +1990,8 @@ self.remoteDisconnected()
             socketObj.socket.emit("logClient","IPHONE-LOG: \(username!) is inside reject call ")
             print("inside reject call")
             
-            
-            
+            self.endView()
+            /*
             if(self.pc != nil)
             {self.pc.close()}
             
@@ -1999,7 +2007,8 @@ self.remoteDisconnected()
             isInitiator=false
             ConferenceRoomName=""
             
-           })
+            
+           })*/
             //// self.endMeeting()
             
             /////self.dismissViewControllerAnimated(true, completion: nil)
@@ -2007,9 +2016,9 @@ self.remoteDisconnected()
             
         }
        
-        if(message[0]["type"] == "call")
-        {
-            if(message[0]["status"].string! == "calleeisavailable")
+        //if(message[0]["type"] == "call")
+        //{
+            if(message[0]["status"] == "calleeisavailable")
             {
                 print("otherside ringing")
                 print(":::::::::::::::::::::::::::::::::::")
@@ -2022,13 +2031,16 @@ self.remoteDisconnected()
             {   meetingStarted=false
                 print("callee is busy")
                 print(":::::::::::::::::::::::::::::::::::")
-                let msg=JSON(data)
+                
+                /*let msg=JSON(data)
                 print(msg.debugDescription)
+ */
                 txtLabelMainPage.text="\(iamincallWith!) is on another call."
+                //sleep()
                 
             }
             
-        }
+        //}
             /*if(msg[0]=="hangup")
         {
             meetingStarted=false
@@ -3248,6 +3260,193 @@ self.remoteDisconnected()
     
     }//end function
 
+    func endView()
+    {
+        print("ending meeting")
+        endedCall=true
+        meetingStarted=false
+        //// socketObj.socket.disconnect()
+        if(currentID != nil){
+            //socketObj.socket.emit("peer.disconnected", ["username":username!,"id":currentID!,"room":ConferenceRoomName])
+            socketObj.socket.emit("peer.disconnected", ["username":username!,"id":currentID!,"room":ConferenceRoomName])
+            
+            
+            //socketObj.socket.emit("message",["msg":"hangup","room":globalroom,"to":iamincallWith!,"username":username!, "id":currentID!])
+            
+            //socketObj.socket.emit("message",["msg":"hangup","room":globalroom,"to":iamincallWith!,"username":username!, "id":currentID!])
+            
+            // socketObj.socket.emit("leave",["room":joinedRoomInCall,"id":currentID!])
+        }
+        
+        //socketObj.socket.close()
+        //socketObj.socket.disconnect()
+        //socketObj=nil
+        print("socket is nillll", terminator: "")
+        //dispatch_async(dispatch_get_main_queue())
+        //{
+        //socketObj=LoginAPI(url:"\(Constants.MainUrl)")
+        ///socketObj.connect()
+        //            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND,0))
+        //{
+       // socketObj.addHandlers()
+        //socketObj.addWebRTCHandlers()
+        
+        /////////// socketObj.socket.connect()
+        //socketObj=nil
+        
+        //self.pc=nil
+        joinedRoomInCall=""
+        //iamincallWith=nil
+        isInitiator=false
+        //rtcFact=nil
+        areYouFreeForCall=true
+        currentID=nil
+        otherID=nil
+        self.rtcLocalMediaStream=nil
+        //self.rtcStreamReceived=nil
+        //self.pc.close()
+        
+        //self.pc=nil
+        //rtcFact=nil //**********important********
+        //iamincallWith=nil
+        
+        if((self.rtcDataChannel) != nil){
+            self.rtcDataChannel.close()
+            self.rtcDataChannel=nil
+            //newwwwwwww tryy
+            //rtcDataChannel.close()
+        }
+        
+        
+        //^^^^^^^^^^^newwwww self.disconnect()
+        //if((self.pc) != nil)
+        //{
+        
+        //%%%%%%%% neww june
+        
+        self.localView.renderFrame(nil)
+        //self.remoteView.renderFrame(nil)
+        self.localFull.renderFrame(nil)
+        if((self.rtcLocalVideoTrack) != nil)
+        {print("remove localtrack renderer")
+            
+            self.rtcLocalVideoTrack.removeRenderer(self.localView)
+            //////////////////////////////////////////////////////
+            self.rtcLocalVideoTrack=nil
+            self.localView.removeFromSuperview()
+            /////////////////////////////////////////////////////
+        }
+       
+        /*if((self.rtcVideoTrackReceived) != nil)
+        {print("remove remotetrack renderer")
+            self.rtcVideoTrackReceived.removeRenderer(self.remoteView)
+        }*/
+        print("out of removing remoterenderer")
+        ////self.rtcLocalVideoTrack=nil
+        ////self.rtcVideoTrackReceived=nil
+        //kjkljkljkkhkjhkj
+        
+        self.pc=nil
+        joinedRoomInCall=""
+        ConferenceRoomName=""
+        //iamincallWith=nil
+        isInitiator=false
+        rtcFact=nil
+        areYouFreeForCall=true
+        currentID=nil
+        otherID=nil
+        ////// self.remoteDisconnected()
+        
+        ////// socketObj.socket.emit("message",["msg":"hangup","room":globalroom,"to":iamincallWith!,"username":username!])
+        
+        
+        // iamincallWith=nil
+        //print("hangup emitted")
+        
+        
+        if(self.localFull.superview != nil)
+        {
+            print("localFull was a subview. remmoving")
+            self.localFull.removeFromSuperview()
+        }
+        
+        
+        if(self.localView.superview != nil)
+        {
+            print("localview was a subview. remmoving")
+            self.localView.removeFromSuperview()
+        }
+        
+        if(self.remoteView.superview != nil)
+        {
+            print("remoteview was a subview. remmoving")
+            
+            self.remoteView.removeFromSuperview()
+        }
+        
+        if(self.rtcLocalMediaStream != nil)
+        {
+            print("stopped local stream")
+            ///// rtcLocalMediaStream.videoTracks[0].stopRunning()
+            //rtcLocalMediaStream.audioTracks[0].stopRunning()
+        }
+        
+        /*if(self.rtcStreamReceived != nil)
+        {
+            print("stopped remote stream")
+            self.rtcStreamReceived.removeAudioTrack(self.rtcStreamReceived.audioTracks[0] as! RTCAudioTrack)
+            /////rtcStreamReceived.videoTracks[0].stopRunning()
+            //rtcStreamReceived.audioTracks[0].stopRunning()
+        }*/
+        
+        print("views removed from parent")
+        ///**** neww may 2016}
+        
+        joinedRoomInCall=""
+        iamincallWith=""
+        isInitiator=false
+        areYouFreeForCall=true
+        
+        self.rtcLocalMediaStream=nil //test and try-------------
+        self.rtcStreamReceived=nil
+        screenCaptureToggle=false
+        ConferenceRoomName=""
+        
+        
+        //socketObj.socket.emit("logClient","IPHONE-LOG: \(username!) pressed end call. going back to contacts list")
+        dispatch_async(dispatch_get_main_queue(), { () -> Void in
+            //%%%%%%%% let next = self.storyboard!.instantiateViewControllerWithIdentifier("mainpage") as! LoginViewController
+            
+            
+            //MainChatView
+            
+            print("views removed from parent")
+            self.dismissViewControllerAnimated(false, completion: { () -> Void in
+                
+                
+            })
+            
+            //let storyboard : UIStoryboard = UIStoryboard(name: "AccountStoryboard", bundle: nil)
+            /* let vc : ChatViewController = self.storyboard!.instantiateViewControllerWithIdentifier("MainChatView") as! ChatViewController
+             //vc.teststring = "hello"
+             
+             let navigationController = UINavigationController(rootViewController: vc)
+             
+             self.presentViewController(navigationController, animated: true, completion: nil)
+             */
+            
+            
+            /*  let next = self.storyboard!.instantiateViewControllerWithIdentifier("MainChatView") as! ChatViewController
+             self.presentViewController(next, animated: false, completion: { () -> Void in
+             print("nexttttt viewwww")
+             
+             })
+             */
+            //end present controller
+            
+        })//end dispatch_async
+        
+        }
 }
 
 protocol FileReceivedAlertDelegate:class
