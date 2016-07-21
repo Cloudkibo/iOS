@@ -564,7 +564,16 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
         socketObj.socket.emit("logClient","IPHONE-LOG: call notification received in background")
     }
     
-
+    func application(application: UIApplication, shouldSaveApplicationState coder: NSCoder) -> Bool {
+        return true
+    }
+    
+    func application(application: UIApplication, shouldRestoreApplicationState coder: NSCoder) -> Bool {
+        return true
+    }
+   /* func application(application: UIApplication, viewControllerWithRestorationIdentifierPath identifierComponents: [AnyObject], coder: NSCoder) -> UIViewController? {
+        return UIViewController
+    }*/
     
 }
 
