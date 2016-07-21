@@ -21,6 +21,8 @@ class CallHistoryTableViewController: UIViewController,UITableViewDelegate,UITab
 
         CallHist=NSMutableArray()
         
+        ///self.retrieveCallHistoryData()
+        /*
         var date22=NSDate()
         var formatter = NSDateFormatter();
         formatter.dateFormat = "MM/dd, HH:mm";
@@ -52,6 +54,7 @@ class CallHistoryTableViewController: UIViewController,UITableViewDelegate,UITab
         {
             print("error in call hist")
         }
+        */
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
 
@@ -59,6 +62,46 @@ class CallHistoryTableViewController: UIViewController,UITableViewDelegate,UITab
         // self.navigationItem.rightBarButtonItem = self.editButtonItem()
     }
 
+    override func viewWillAppear(animated: Bool) {
+    self.retrieveCallHistoryData()
+        
+    }
+    
+    func retrieveCallHistoryData()
+    {
+        var date22=NSDate()
+        var formatter = NSDateFormatter();
+        formatter.dateFormat = "MM/dd, HH:mm";
+        formatter.timeZone = NSTimeZone.localTimeZone()
+        ////formatter.dateStyle = .ShortStyle
+        //formatter.timeStyle = .ShortStyle
+        let defaultTimeZoneStr = formatter.stringFromDate(date22);
+        
+        
+        //self.addCallData("User 1", dateTime: defaultTimeZoneStr, type: "Outgoing")
+        //self.addCallData("User 2", dateTime: defaultTimeZoneStr, type: "Missed")
+        
+        let name = Expression<String>("name")
+        let dateTime = Expression<String>("dateTime")
+        let type = Expression<String>("type")
+        
+        
+        var tblcallHistory = sqliteDB.callHistory
+        
+        do{
+            for call in try sqliteDB.db.prepare(tblcallHistory) {
+                self.addCallData(call[name], dateTime: call[dateTime], type: call[type])
+                //  print("id: \(user[username]), email: \(user[email])")
+                
+            }
+            tblForCallsHistory.reloadData()
+        }
+        catch
+        {
+            print("error in call hist")
+        }
+
+    }
     
     func addCallData(name:String,dateTime:String,type:String)
     {

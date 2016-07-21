@@ -227,41 +227,7 @@ class LoginAPI{
                 //print(aa.description)
                 socketObj.socket.emit("logClient","IPHONE-LOG: \(aa.object)")
                 socketObj.socket.emit("message",aa.object)
-                
-                
-                //socketObj.socket.emit("yesiamfreeforcall",["mycaller" : jdata[0]["caller"].string!, "me":username!])
-                
-                /*
-                 var allcontacts=sqliteDB.allcontacts
-                 //var contactsKibo=sqliteDB.contactslists
-                 
-                 
-                 let phone = Expression<String>("phone")
-                 let usernameFromDb = Expression<String?>("username")
-                 let name = Expression<String?>("name")
-                 
-                 var nameOfCaller=iamincallWith
-                 //do
-                 //{allkiboContactsArray = Array(try sqliteDB.db.prepare(contactsKibo))
-                 do{
-                 for all in try sqliteDB.db.prepare(allcontacts) {
-                 if(all[phone]==iamincallWith) //if we found contact in our AddressBook
-                 
-                 {
-                 //Matched phone number. Got contact
-                 if(all[name] != "" || all[name] != nil)
-                 {
-                 nameOfCaller=all[name]!
-                 //cell.contactName?.text=all[name]
-                 }}}}
-                 catch
-                 {
-                 print("error here 111")
-                 }
-                 
-                 sqliteDB.saveCallHist(nameOfCaller, dateTime1: NSDate().debugDescription, type1: "Incoming")
-                 
-                 */
+               
                 let storyboard : UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
 
                 var next = storyboard.instantiateViewControllerWithIdentifier("Main") as! CallRingingViewController
@@ -269,9 +235,40 @@ class LoginAPI{
                 let navigationController = UIApplication.sharedApplication().windows[0].rootViewController as! UITabBarController
                 
                 let activeViewCont = navigationController.selectedViewController
+                var nameOfCaller=""
+                var allcontacts=sqliteDB.allcontacts
+                //var contactsKibo=sqliteDB.contactslists
+                
+                
+                let phone = Expression<String>("phone")
+                let usernameFromDb = Expression<String?>("username")
+                let name = Expression<String?>("name")
+                
+                nameOfCaller=jdata[0]["callerphone"].string!
+                //do
+                //{allkiboContactsArray = Array(try sqliteDB.db.prepare(contactsKibo))
+                do{
+                    for all in try sqliteDB.db.prepare(allcontacts) {
+                        if(all[phone]==iamincallWith) //if we found contact in our AddressBook
+                            
+                        {
+                            //Matched phone number. Got contact
+                            if(all[name] != "" || all[name] != nil)
+                            {
+                                nameOfCaller=all[name]!
+                                //cell.contactName?.text=all[name]
+                            }}}}
+                catch
+                {
+                    print("error here 111")
+                }
+            
                 
                 activeViewCont!.presentViewController(next, animated: true, completion: {next.txtCallerName.text=jdata[0]["callerphone"].string!; next.currentusernameretrieved=username!; next.callerName=jdata[0]["callerphone"].string!
                     isInitiator=false
+                    sqliteDB.saveCallHist(nameOfCaller, dateTime1: NSDate().debugDescription, type1: "Incoming")
+                    
+                    
                 })
 
                 

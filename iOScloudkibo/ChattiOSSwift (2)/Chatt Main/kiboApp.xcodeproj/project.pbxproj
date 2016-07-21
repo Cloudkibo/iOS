@@ -477,7 +477,6 @@
 				713D51B31CC11896007E0B47 /* RegisterViewController.swift */,
 				713D51B41CC11896007E0B47 /* RoomService.swift */,
 				713D51B51CC11896007E0B47 /* rtcViewController.swift */,
-				713D51B61CC11896007E0B47 /* SignupViewController.swift */,
 				5BF6362819A9F3D900ABD0BA /* Supporting Files */,
 				713D51B71CC11896007E0B47 /* SwiftKeychainWrapper.h */,
 				713D51B81CC11896007E0B47 /* test.m */,
@@ -503,6 +502,7 @@
 			isa = PBXGroup;
 			children = (
 				5BF6362919A9F3D900ABD0BA /* Info.plist */,
+				713D51B61CC11896007E0B47 /* SignupViewController.swift */,
 				719EFCFC1C9260FF000FD52F /* fileTestingDoc.swift */,
 			);
 			name = "Supporting Files";

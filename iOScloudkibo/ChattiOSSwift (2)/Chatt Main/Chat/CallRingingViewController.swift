@@ -78,7 +78,7 @@ class CallRingingViewController: UIViewController//RTCPeerConnectionDelegate,RTC
             print("error here 111")
         }
         
-        sqliteDB.saveCallHist(nameOfCaller, dateTime1: NSDate().debugDescription, type1: "Incoming")
+       // sqliteDB.saveCallHist(nameOfCaller, dateTime1: NSDate().debugDescription, type1: "Incoming")
         
         
         
@@ -138,7 +138,7 @@ class CallRingingViewController: UIViewController//RTCPeerConnectionDelegate,RTC
                 print("error here 111")
             }
             
-            sqliteDB.saveCallHist(nameOfCaller, dateTime1: NSDate().debugDescription, type1: "Incoming")
+            //sqliteDB.saveCallHist(nameOfCaller, dateTime1: NSDate().debugDescription, type1: "Incoming")
         
             
             
