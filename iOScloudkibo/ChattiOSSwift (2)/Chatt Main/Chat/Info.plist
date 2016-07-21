@@ -11,7 +11,7 @@
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
 	<key>CFBundleDisplayName</key>
-	<string>kibo</string>
+	<string>Kibo Chat</string>
 	<key>CFBundleDocumentTypes</key>
 	<array>
 		<dict>
@@ -112,11 +112,11 @@
 		<string>ak1452049518365321</string>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>1.70057</string>
+	<string>1.70060</string>
 	<key>FacebookAppID</key>
 	<string>1452049518365321</string>
 	<key>FacebookDisplayName</key>
-	<string>Kibo</string>
+	<string>Kibo Chat</string>
 	<key>LSApplicationCategoryType</key>
 	<string></string>
 	<key>LSRequiresIPhoneOS</key>

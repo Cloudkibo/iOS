@@ -11,6 +11,7 @@ import UIKit
 class FileReceivedViewController: UIViewController,UIDocumentInteractionControllerDelegate,FileReceivedAlertDelegate {
 
     
+    @IBOutlet weak var btnFilePreview: UIButton!
     var documentInteractionController:UIDocumentInteractionController!
     var delegateFileReceived:FileReceivedAlertDelegate!
     var fileURL:NSURL!
@@ -137,20 +138,29 @@ class FileReceivedViewController: UIViewController,UIDocumentInteractionControll
             //var newdest=dest!.URLByAppendingPathComponent("Documents", isDirectory: true)
             //print("newdest is \(newdest.debugDescription)")
             //var ans=try fileManager.setUbiquitous(true, itemAtURL: self.fileURL, destinationURL: newdest)
-               var ans = try filemgr.setUbiquitous(true, itemAtURL:documentURL ,
-                destinationURL: ubiquityURL! )
+            
+            var ans = try filemgr.copyItemAtURL(documentURL,toURL: ubiquityURL! )
+            
+               //var ans = try filemgr.setUbiquitous(true, itemAtURL:documentURL ,
+                //destinationURL: ubiquityURL! )
           print("ans is \(ans)")
             let alert = UIAlertController(title: "Success", message: "Your file has been successfully saved to iCloud", preferredStyle: UIAlertControllerStyle.Alert)
             alert.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.Default, handler: nil))
-            self.presentViewController(alert, animated: true, completion: nil)
-            
+            self.presentViewController(alert, animated: true, completion: {
+                
+                
+            })
+            //btnFilePreview
         }catch
         {
             //print("error anssss is \(ans)")
             print("error is \(error)")
             let alert = UIAlertController(title: "Cancel", message: "\(error)", preferredStyle: UIAlertControllerStyle.Alert)
             alert.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.Default, handler: nil))
-            self.presentViewController(alert, animated: true, completion: nil)
+            self.presentViewController(alert, animated: true, completion: {
+                
+                    
+            })
         }
         
         }

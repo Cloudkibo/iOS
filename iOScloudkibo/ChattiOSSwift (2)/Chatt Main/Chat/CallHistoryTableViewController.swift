@@ -95,12 +95,17 @@ class CallHistoryTableViewController: UIViewController,UITableViewDelegate,UITab
         cell.lblDateTime.text=dateTime
         if(callType == "Outgoing")
         {
+            cell.lblName.textColor=UIColor.blackColor()
             cell.imgCallOut.hidden=false
         }
         if(callType == "Missed")
         {
             cell.lblName.textColor=UIColor.redColor()
         }
+        if(callType == "Incoming")
+        {
+            cell.lblName.textColor=UIColor.blackColor()
+                    }
         // Configure the cell...
         
         return cell

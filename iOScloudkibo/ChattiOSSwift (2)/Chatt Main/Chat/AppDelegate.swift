@@ -15,6 +15,7 @@ import CloudKit
 import AccountKit
 
 
+var goBack=false
 var countrycode:String! = KeychainWrapper.stringForKey("countrycode")
 let configuration1 = NSURLSessionConfiguration.backgroundSessionConfigurationWithIdentifier("com.example.app.background")
 let manager = Alamofire.Manager(configuration: configuration1)

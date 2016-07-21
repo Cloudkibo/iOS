@@ -2238,6 +2238,9 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
+                    <connections>
+                        <outlet property="btnFilePreview" destination="iAt-Ty-od0" id="Nv3-rx-qmV"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="xbH-r1-Jr9" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

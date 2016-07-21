@@ -14,6 +14,7 @@ import SQLite
 class CallRingingViewController: UIViewController//RTCPeerConnectionDelegate,RTCSessionDescriptionDelegate
 {
 
+    
    // var rtcFact:RTCPeerConnectionFactory!
     //var pc:RTCPeerConnection!
     //var rtcFact:RTCPeerConnectionFactory
@@ -31,6 +32,7 @@ class CallRingingViewController: UIViewController//RTCPeerConnectionDelegate,RTC
     
     @IBAction func btnAcceptPressed(sender: AnyObject) {
         areYouFreeForCall=false
+        goBack=true
         iamincall=true
         isInitiator=false
       /////^^  iamincallWith=txtCallerName.text!
@@ -163,7 +165,22 @@ class CallRingingViewController: UIViewController//RTCPeerConnectionDelegate,RTC
     }
     
     override func viewWillAppear(animated: Bool) {
-        
+        if(goBack==true)
+        { socketObj.socket.emit("logClient","IPHONE-LOG: ended call, going back from call ringing view")
+        dispatch_async(dispatch_get_main_queue(), { () -> Void in
+            
+            
+            
+            self.dismissViewControllerAnimated(true, completion: { () -> Void in
+                endedCall=false
+                areYouFreeForCall=true
+                goBack=false
+            })
+            
+            
+        })
+
+}
         //if(endedCall==true)
       //  {
          /*   socketObj.socket.emit("logClient","IPHONE-LOG: ended call, going back from call ringing view")
@@ -187,14 +204,37 @@ class CallRingingViewController: UIViewController//RTCPeerConnectionDelegate,RTC
         socketObj.socket.on("message"){data,ack in
             print("received messageee")
             
+            var allcontacts=sqliteDB.allcontacts
+            //var contactsKibo=sqliteDB.contactslists
+            
+            
+            let phone = Expression<String>("phone")
+            let usernameFromDb = Expression<String?>("username")
+            let name = Expression<String?>("name")
             
             var message=JSON(data)
-            
+            var nameOfCaller=message[0]["callerphone"].string
             if(message[0]["status"]=="missing")
             {
                 self.dismissViewControllerAnimated(true, completion: {
                     
-                    sqliteDB.saveCallHist(iamincallWith!, dateTime1: NSDate().debugDescription, type1: "Missed")
+                    do{
+                        for all in try sqliteDB.db.prepare(allcontacts) {
+                            if(all[phone]==message[0]["callerphone"].string) //if we found contact in our AddressBook
+                                
+                            {
+                                //Matched phone number. Got contact
+                                if(all[name] != "" || all[name] != nil)
+                                {
+                                    nameOfCaller=all[name]
+                                    //cell.contactName?.text=all[name]
+                                }}}}
+                    catch
+                    {
+                        print("error here 111")
+                    }
+                    
+                    sqliteDB.saveCallHist(nameOfCaller!, dateTime1: NSDate().debugDescription, type1: "Missed")
                     
                     iamincallWith=""
                     areYouFreeForCall=true
@@ -373,4 +413,5 @@ return localStream;
     func peerConnection(peerConnection: RTCPeerConnection!, didSetSessionDescriptionWithError error: NSError!) {
         
     }*/
+    
 }

@@ -16,7 +16,7 @@ import MobileCoreServices
 
 class VideoViewController: UIViewController,RTCPeerConnectionDelegate,RTCSessionDescriptionDelegate,RTCEAGLVideoViewDelegate,SocketClientDelegateWebRTC,RTCDataChannelDelegate,UIDocumentPickerDelegate,UIDocumentMenuDelegate,DelegateSendScreenshotDelegate {
     
-    
+    var delegateCallRingingGo:CallRingingGoBackDelegate!
     let picker = UIImagePickerController()
     public var delegateFileReceived:FileReceivedAlertDelegate!
     
@@ -1122,9 +1122,11 @@ self.remoteDisconnected()
         {
             localFull.hidden=true
         }
+        if(rtcLocalVideoTrack != nil)
+        {
         self.rtcLocalVideoTrack.addRenderer(self.localFull)
         self.localViewOutlet.addSubview(self.localFull)
-        
+        }
         self.localViewOutlet.updateConstraintsIfNeeded()
         localFull.setNeedsDisplay()
         if(self.localView != nil){
@@ -1132,8 +1134,10 @@ self.remoteDisconnected()
         }
         self.localViewOutlet.setNeedsDisplay()
         
-        
+        //if(localVideoTrack != nil)
+       // {
         self.rtcLocalVideoTrack=localVideoTrack
+       // }
         //SMALL VIDEO
         /*self.rtcLocalVideoTrack.addRenderer(self.localView)
         self.localViewOutlet.addSubview(self.localView)
@@ -2039,7 +2043,21 @@ self.remoteDisconnected()
                 //sleep()
                 
             }
+        if(message[0]["status"] == "calleeoffline")
+        {   meetingStarted=false
+            print("callee is busy")
+            print(":::::::::::::::::::::::::::::::::::")
             
+            /*let msg=JSON(data)
+             print(msg.debugDescription)
+             */
+            //self.showError
+            txtLabelMainPage.text="\(iamincallWith!) is offline"
+            //sleep()
+            
+        }
+        //calleeoffline
+        
         //}
             /*if(msg[0]=="hangup")
         {
@@ -3453,4 +3471,7 @@ protocol FileReceivedAlertDelegate:class
 {
     func didReceiveFileConference();
 }
-
+protocol CallRingingGoBackDelegate:class
+{
+    func didEndMeetingSoGoBack();
+}
