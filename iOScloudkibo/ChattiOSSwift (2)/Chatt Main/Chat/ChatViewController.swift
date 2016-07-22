@@ -19,7 +19,7 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
 {
     
     
-    
+    var userObject:JSON!
     @IBOutlet weak var editButtonOutlet: UIBarButtonItem!
     var accountKit: AKFAccountKit!
     var rt=NetworkingLibAlamofire()
@@ -115,7 +115,7 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
                     socketObj.socket.emit("join global chatroom",["room": "globalchatroom", "user": json.object])
                     
                     print(json["_id"])
-                    
+                    self.userObject=json
                     
                     
                     let tbl_accounts = sqliteDB.accounts
@@ -296,12 +296,11 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
         if(self.accountKit == nil){
             self.accountKit = AKFAccountKit(responseType: AKFResponseType.AccessToken)
         }
+    
         
-       socketObj.socket.emit()
-        
-        
-        
-        
+      
+    
+    
         if(socketObj != nil)
         {
             socketObj.delegate=self
@@ -725,6 +724,12 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
     }
     
     override func viewWillAppear(animated: Bool) {
+        let _id = Expression<String>("_id")
+        let firstname = Expression<String?>("firstname")
+        let lastname = Expression<String?>("lastname")
+        let email = Expression<String>("email")
+        let phone = Expression<String>("phone")
+        
         print("appearrrrrr", terminator: "")
         
         if(socketObj != nil)
@@ -757,6 +762,19 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
                 self.fetchContacts({ (result) -> () in
                     //self.fetchContactsFromServer()
                     print("checkinnn")
+                    
+                    let tbl_accounts=sqliteDB.accounts
+                    do{for account in try sqliteDB.db.prepare(tbl_accounts) {
+                        ///print("id: \(account[_id]), phone: \(account[phone]), firstname: \(account[firstname])")
+                        
+                        var userr:JSON=["_id":account[_id],"display_name":account[firstname]!,"phone":account[phone]]
+                        socketObj.socket.emit("whozonline",
+                            ["room":"globalchatroom",
+                                "user":userr.object])
+                        }}
+                    catch{
+                        
+                    }
                     dispatch_async(dispatch_get_main_queue()) {
                         self.tblForChat.reloadData()
                     }
@@ -1158,6 +1176,7 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
     }
     
     func fetchContacts(completion:(result:Bool)->()){
+        
         socketObj.socket.emit("logClient","IPHONE-LOG: fetch contacts from sqlite database")
         let contactid = Expression<String>("contactid")
         let detailsshared = Expression<String>("detailsshared")
@@ -1171,7 +1190,7 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
         let phone = Expression<String>("phone")
         let username = Expression<String>("username")
         let status = Expression<String>("status")
-        
+          let _id = Expression<String>("_id")
         
         let to = Expression<String>("to")
         let from = Expression<String>("from")
@@ -1233,6 +1252,9 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
         
         SELECT firstname,to,lastname,username,contactid,status,email,phone from tbl_contactslists,tbl_userchats WHERE tbl_contactslists.phone==tbl_userchats.to GROUP BY to
         */
+        
+       
+        
          let tbl_userchats=sqliteDB.userschats
         let tbl_contactslists=sqliteDB.contactslists
         
@@ -2227,6 +2249,9 @@ print("query join error 1337 \(e)")
                     self.fetchContacts({ (result) -> () in
                         //self.fetchContactsFromServer()
                         print("checkinnn")
+                        
+                           
+                        
                         dispatch_async(dispatch_get_main_queue()) {
                             self.tblForChat.reloadData()
                         }
@@ -2281,7 +2306,7 @@ print("query join error 1337 \(e)")
         case "theseareonline":
             
             print("theseareonline status...", terminator: "")
-            var theseareonlineUsers=JSON(data!)
+            /*var theseareonlineUsers=JSON(data!)
             //print(theseareonlineUsers.object)
             //print(offlineUsers[0]["username"])
             print("contact user names count is \(self.ContactUsernames.count) and theseareonline users count is \(theseareonlineUsers[0].count) and self array of online users count is \(self.ContactOnlineStatus.count)")
@@ -2297,6 +2322,31 @@ print("query join error 1337 \(e)")
                         self.ContactOnlineStatus[j]=1
                         print("line # 1699")
                         // *** newwww self.tblForChat.reloadData()
+                    }
+                }
+            }*/
+            var onlinefound=false
+            print("online status...")
+            print(data)
+            var onlineUsers=JSON(data)
+            print(onlineUsers.debugDescription)
+            print(onlineUsers[0]["phone"])
+            //print(onlineUsers[0]["username"])
+            
+            for(var i=0;i<onlineUsers[0].count;i++)
+            {
+                for(var j=0;j<self.ContactUsernames.count;j++)
+                {
+                    if self.ContactsPhone[j]==onlineUsers[0][i]["phone"].string!
+                    {
+                        //found online contact,s username
+                        print("user found online2 \(self.ContactUsernames[j])")
+                        self.ContactOnlineStatus[j]=1
+                        onlinefound=true
+                        dispatch_async(dispatch_get_main_queue())
+                        {
+                            self.tblForChat.reloadData()
+                        }
                     }
                 }
             }

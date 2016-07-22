@@ -428,6 +428,7 @@ class DisplayNameViewController: UIViewController {
                     print("************************")
                     
                             do{
+                             //   try KeychainWrapper.setObject(json., forKey: "userobject")
                                 try KeychainWrapper.setString(json["phone"].string!, forKey: "username")
                                 /// try KeychainWrapper.setString(json["display_name"].string!, forKey: "username")
                                 try KeychainWrapper.setString(json["display_name"].string!, forKey: "loggedFullName")
