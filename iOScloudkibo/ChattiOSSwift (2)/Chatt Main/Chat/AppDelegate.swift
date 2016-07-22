@@ -503,6 +503,8 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
     {
 
 }
+    
+   
     func screenCapture() {
         atimer=NSTimer(timeInterval: 0.1, target: self, selector: "timerFiredScreenCapture", userInfo: nil, repeats: true)
         
@@ -519,6 +521,10 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
         
 
     
+    }
+    func application(application: UIApplication, willFinishLaunchingWithOptions launchOptions: [NSObject : AnyObject]?) -> Bool {
+        
+        return true
     }
     func timerFiredScreenCapture()
     {print("inside timerFiredScreenCapture")

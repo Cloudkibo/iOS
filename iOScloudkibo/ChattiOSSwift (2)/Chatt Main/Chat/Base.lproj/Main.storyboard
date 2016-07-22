@@ -745,7 +745,7 @@
         <!--Chats-->
         <scene sceneID="U0I-6f-Qcl">
             <objects>
-                <viewController restorationIdentifier="MainChatView" storyboardIdentifier="MainChatView" title="Chats" id="cJu-ld-BCz" customClass="ChatViewController" customModule="Chat" sceneMemberID="viewController">
+                <viewController restorationIdentifier="22" storyboardIdentifier="MainChatView" title="Chats" id="cJu-ld-BCz" customClass="ChatViewController" customModule="Chat" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="PNV-85-Adt">
                         <rect key="frame" x="0.0" y="64" width="320" height="504"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -951,7 +951,7 @@
         <!--New Chat-->
         <scene sceneID="1Ch-nI-fdZ">
             <objects>
-                <viewController useStoryboardIdentifierAsRestorationIdentifier="YES" id="vqu-uk-8SN" customClass="ChatDetailViewController" customModule="Chat" sceneMemberID="viewController">
+                <viewController restorationIdentifier="11" storyboardIdentifier="Main" id="vqu-uk-8SN" customClass="ChatDetailViewController" customModule="Chat" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="cqK-Ao-ix1">
                         <rect key="frame" x="0.0" y="64" width="320" height="504"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -1475,7 +1475,7 @@
         <!--Tab Bar Controller-->
         <scene sceneID="0E1-xn-DvL">
             <objects>
-                <tabBarController restorationIdentifier="Main3" storyboardIdentifier="Main3" id="EQb-Ls-ePT" sceneMemberID="viewController">
+                <tabBarController storyboardIdentifier="Main3" id="EQb-Ls-ePT" sceneMemberID="viewController">
                     <navigationItem key="navigationItem" id="6wX-iU-DG1"/>
                     <nil key="simulatedBottomBarMetrics"/>
                     <tabBar key="tabBar" contentMode="scaleToFill" translucent="NO" id="Oon-CG-WVV">
@@ -2031,7 +2031,7 @@
         <!--CallRingingViewController-->
         <scene sceneID="3ln-wu-NFV">
             <objects>
-                <viewController storyboardIdentifier="Main" title="CallRingingViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="pEh-DU-l9J" customClass="CallRingingViewController" customModule="Chat" sceneMemberID="viewController">
+                <viewController title="CallRingingViewController" id="pEh-DU-l9J" customClass="CallRingingViewController" customModule="Chat" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="NJJ-mo-TNZ">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>

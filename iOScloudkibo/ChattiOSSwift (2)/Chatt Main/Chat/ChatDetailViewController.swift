@@ -14,7 +14,7 @@ import AVFoundation
 import MobileCoreServices
 import Foundation
 
-class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChatDelegate,UIDocumentPickerDelegate,UIDocumentMenuDelegate{
+class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChatDelegate,UIDocumentPickerDelegate,UIDocumentMenuDelegate,UITableViewDataSource, UITextViewDelegate{
     
     
     var myfid=0
@@ -67,6 +67,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
         // Custom initialization
     }
     
+
     
    /* @IBAction func btnBackToChatsPressed(sender: AnyObject) {
         //backToChatPushSegue
@@ -180,11 +181,12 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
     }
     override func viewDidLoad() {
         super.viewDidLoad()
-        restorationIdentifier = "ChatDetailViewController"
+        self.restorationIdentifier = "11"
+        txtFldMessage.restorationIdentifier="txtFldMessageID"
         restorationClass = ChatDetailViewController.self
         
         //UIApplicationWillEnterForegroundNotification
-       /////////// NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("applicationWillBecomeActive:"), name:UIApplicationDidBecomeActiveNotification, object: nil)
+       NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("applicationWillBecomeActive:"), name:UIApplicationDidBecomeActiveNotification, object: nil)
         
         NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("willShowKeyBoard:"), name:UIKeyboardWillShowNotification, object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("willHideKeyBoard:"), name:UIKeyboardWillHideNotification, object: nil)
@@ -283,8 +285,8 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
         
         
         ////////////messages.addObject(["message":"helloo","hiiii":"tstingggg","type":"1"])
-        /*  self.addMessage("Its actually pretty good!", ofType: "1")
-        self.addMessage("What do you think of this tool!", ofType: "2")*/
+          self.addMessage("Its actually pretty good!", ofType: "1",date: NSDate().debugDescription)
+        self.addMessage("What do you think of this tool!", ofType: "2",date: NSDate().debugDescription)
     }
    
     /*func getUserObjectById()
@@ -592,7 +594,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
     }
     
     override func awakeFromNib() {
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("applicationWillBecomeActive:"), name:UIApplicationDidBecomeActiveNotification, object: nil)
+       //////// NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("applicationWillBecomeActive:"), name:UIApplicationDidBecomeActiveNotification, object: nil)
         
         
         
@@ -919,7 +921,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
         }
         return cell*/
     }
-    /*
+    
     override func encodeRestorableStateWithCoder(coder: NSCoder) {
         //1
         
@@ -927,28 +929,36 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
         if let messages = messages {
             coder.encodeObject(messages, forKey: "messages")
         }
+       // if let selectedContact = selectedContact {
+            coder.encodeObject(selectedContact, forKey: "selectedContact")
+        coder.encodeObject(txtFldMessage.text, forKey: "txtFldMessage")
+        coder.encodeObject(tblForChats.delegate, forKey: "tblForChatsDelegate")
+        coder.encodeObject(tblForChats.dataSource, forKey: "tblForChatsdataSource")
+       // }
+        
         
         //2
         super.encodeRestorableStateWithCoder(coder)
     }
     
+    
     override func decodeRestorableStateWithCoder(coder: NSCoder) {
        messages = coder.decodeObjectForKey("messages") as! NSMutableArray
+        selectedContact = coder.decodeObjectForKey("selectedContact") as! String
+        tblForChats.delegate = coder.decodeObjectForKey("tblForChatsDelegate") as! UITableViewDelegate
         
+        tblForChats.dataSource = coder.decodeObjectForKey("tblForChatsdataSource") as! UITableViewDataSource
+        txtFldMessage.text=coder.decodeObjectForKey("txtFldMessage") as! UITableViewDataSource as! String
         super.decodeRestorableStateWithCoder(coder)
-        self.retrieveChatFromSqlite(selectedContact)
-        tblForChats.reloadData()
-    }*/
-    static func viewControllerWithRestorationIdentifierPath(identifierComponents: [AnyObject],
+        //self.retrieveChatFromSqlite(selectedContact)
+        self.tblForChats.reloadData()
+    }
+    /*static func viewControllerWithRestorationIdentifierPath(identifierComponents: [AnyObject],
                                                             coder: NSCoder) -> UIViewController? {
         let viewController = ChatDetailViewController()
         return viewController
     }
-    
-    override func decodeRestorableStateWithCoder(coder: NSCoder) {
-       // someNumberYouNeedForRestoring = coder.decodeIntegerForKey("number")
-        super.decodeRestorableStateWithCoder(coder)
-    }
+    */
     
     override func applicationFinishedRestoringState() {
         guard let messages = messages else { return }
@@ -959,7 +969,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
     
     func applicationWillBecomeActive(notification : NSNotification){
         /////////self.view.endEditing(true)
-       
+       self.viewDidLayoutSubviews()
         
         // NSNotificationCenter.defaultCenter().po postNotificationName(UIKeyboardWillHideNotification, object: nil)
         //self.viewDidLoad()
@@ -968,7 +978,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
         self.tblForChats.setNeedsDisplay()
 */
         
-        self.retrieveChatFromSqlite(self.selectedContact)
+       /* self.retrieveChatFromSqlite(self.selectedContact)
         dispatch_async(dispatch_get_main_queue())
         {
             self.tblForChats.reloadData()
@@ -979,7 +989,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
             var indexPath = NSIndexPath(forRow:self.messages.count-1, inSection: 0)
             
             self.tblForChats.scrollToRowAtIndexPath(indexPath, atScrollPosition: UITableViewScrollPosition.Bottom, animated: true)
-        }
+        }*/
       /*tblForChats.reloadData()
                 //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%------------ commented june 16 FetchChatServer()
         print("calling retrieveChat from foreground function messages count is \(self.messages.count)")
@@ -993,6 +1003,8 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
  */
         //print("calling retrieveChat from foreground function messages count is \(self.messages.count)")
     }
+    
+    
     func willShowKeyBoard(notification : NSNotification){
         
         var userInfo: NSDictionary!
@@ -1471,13 +1483,20 @@ print("$$ \(message) is this \(msg)")
     override func viewDidLayoutSubviews() {
         
         super.viewDidLayoutSubviews()
+        
+        self.retrieveChatFromSqlite(selectedContact)
     }
 }
 /*
 extension ChatDetailViewController: UIViewControllerRestoration {
     static func viewControllerWithRestorationIdentifierPath(identifierComponents: [AnyObject],
                                                             coder: NSCoder) -> UIViewController? {
-        let vc = ChatDetailViewController()
+        
+        print("vcwithrip \(NSStringFromClass(self)) \(identifierComponents) \(coder)")
+        var vc : UIViewController? = ChatDetailViewController.init(nibName: "chatDetailRestoration", bundle: nil)
+       
+        //let vc = ChatDetailViewController()
         return vc
     }
-}*/
+}
+*/

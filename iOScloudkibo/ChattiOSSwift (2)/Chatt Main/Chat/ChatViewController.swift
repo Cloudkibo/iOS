@@ -297,7 +297,7 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
             self.accountKit = AKFAccountKit(responseType: AKFResponseType.AccessToken)
         }
         
-       
+       socketObj.socket.emit()
         
         
         
