@@ -196,7 +196,7 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
 
     }
     var ContactCountMsgRead:[Int]=[]
-    var ContactMsgRead:[String]=[]
+    //////var ContactMsgRead:[String]=[]
     var ContactsLastMsgDate:[String]=[]
     var ContactLastMessage:[String]=[]
     var ContactNames:[String]=[]
@@ -1206,7 +1206,7 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
         let contactPhone = Expression<String>("contactPhone")
         contactPhone
         //-========Remove old values=====================
-        ContactsLastMsgDate.removeAll(keepCapacity: false)
+        self.ContactsLastMsgDate.removeAll(keepCapacity: false)
         self.ContactLastMessage.removeAll(keepCapacity: false)
         self.ContactIDs.removeAll(keepCapacity: false)
         self.ContactLastNAme.removeAll(keepCapacity: false)
@@ -1221,7 +1221,7 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
         
         self.ContactsPhone.removeAll(keepCapacity: false)
         self.ContactsEmail.removeAll(keepCapacity: false)
-        self.ContactMsgRead.removeAll(keepCapacity: false)
+        //////self.ContactMsgRead.removeAll(keepCapacity: false)
         self.ContactCountMsgRead.removeAll(keepCapacity: false)
         /*
         let stmt = try db.prepare("SELECT id, email FROM users")
@@ -2058,7 +2058,15 @@ print("query join error 1337 \(e)")
                 
                 if response1?.statusCode==200 {
                     print("chat history deleted")
+                    if(!self.ContactCountMsgRead.isEmpty && self.ContactCountMsgRead.endIndex<=indexPath.row)
+                    {
+                    self.ContactCountMsgRead.removeAtIndex(indexPath.row)
+                    }
+                    /*if(!self.ContactMsgRead.isEmpty && self.ContactMsgRead.endIndex<=indexPath.row)
+                    {
+
                     self.ContactMsgRead.removeAtIndex(indexPath.row)
+                    }*/
                     self.ContactsLastMsgDate.removeAtIndex(indexPath.row)
                     self.ContactLastMessage.removeAtIndex(indexPath.row)
                     self.ContactIDs.removeAtIndex(indexPath.row)
