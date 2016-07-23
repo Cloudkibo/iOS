@@ -20,3 +20,8 @@ Kibo App lets you invite your friend with a click of a button into a call. Donâ€
 [Contacts Management Documentation](https://github.com/Cloudkibo/iOS/blob/master/Documentation/sections/contacts.md) contains discussion on how contacts/friends list is managed by Kibo App. It also states set of rules to follow when saving contacts in device address book. Further, it discusses how contacts are synchronised between client and server
 
 In our Kibo App, we keep track of which of our friends are currently online on app. Detailed design of how we maintain "Presence" feature is available [here](https://github.com/Cloudkibo/iOS/blob/master/Documentation/sections/PresenceOnlineOfflineDesign.md).
+
+
+
+
+[File Sharing/Receiving Design Document](https://github.com/Cloudkibo/iOS/blob/master/Documentation/sections/fileDesign.md) shows logic of receiving and sending file on Kibo Chat. It also has a comparison sheet for comparing features available in WatsApp Vs Kibo Chat.

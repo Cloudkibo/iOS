@@ -1484,19 +1484,19 @@ print("$$ \(message) is this \(msg)")
         
         super.viewDidLayoutSubviews()
         
-        self.retrieveChatFromSqlite(selectedContact)
+       //// self.retrieveChatFromSqlite(selectedContact)
     }
 }
-/*
+
 extension ChatDetailViewController: UIViewControllerRestoration {
     static func viewControllerWithRestorationIdentifierPath(identifierComponents: [AnyObject],
                                                             coder: NSCoder) -> UIViewController? {
-        
+       /*
         print("vcwithrip \(NSStringFromClass(self)) \(identifierComponents) \(coder)")
         var vc : UIViewController? = ChatDetailViewController.init(nibName: "chatDetailRestoration", bundle: nil)
        
-        //let vc = ChatDetailViewController()
+        //let vc = ChatDetailViewController()*/
+        let vc=ChatDetailViewController.init(nibName: "11", bundle: nil)
         return vc
     }
 }
-*/
