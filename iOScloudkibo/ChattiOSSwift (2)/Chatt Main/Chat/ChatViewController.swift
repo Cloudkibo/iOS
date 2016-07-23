@@ -19,6 +19,20 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
 {
     
     
+    let _id = Expression<String>("_id")
+    let firstname = Expression<String?>("firstname")
+    let lastname = Expression<String?>("lastname")
+    let email = Expression<String>("email")
+    let phone = Expression<String>("phone")
+    let username1 = Expression<String>("username")
+    let status = Expression<String>("status")
+    let date = Expression<String>("date")
+    let accountVerified = Expression<String>("accountVerified")
+    let role = Expression<String>("role")
+    let country_prefix = Expression<String>("country_prefix")
+    let nationalNumber = Expression<String>("nationalNumber")
+    
+
     var userObject:JSON!
     @IBOutlet weak var editButtonOutlet: UIBarButtonItem!
     var accountKit: AKFAccountKit!
@@ -127,37 +141,24 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
                         socketObj.socket.emit("logClient","accounts table not deleted")
                         print("accounts table not deleted")
                     }
-                    
-                    let _id = Expression<String>("_id")
-                    let firstname = Expression<String?>("firstname")
-                    let lastname = Expression<String?>("lastname")
-                    let email = Expression<String>("email")
-                    let phone = Expression<String>("phone")
-                    let username1 = Expression<String>("username")
-                    let status = Expression<String>("status")
-                    let date = Expression<String>("date")
-                    let accountVerified = Expression<String>("accountVerified")
-                    let role = Expression<String>("role")
-                    let country_prefix = Expression<String>("country_prefix")
-                    let nationalNumber = Expression<String>("nationalNumber")
-                    
+                  
                     // let insert = users.insert(email <- "alice@mac.com")
                     
                     
                     tbl_accounts.delete()
                     
                     do {
-                        let rowid = try sqliteDB.db.run(tbl_accounts.insert(_id<-json["_id"].string!,
+                        let rowid = try sqliteDB.db.run(tbl_accounts.insert(self._id<-json["_id"].string!,
                             //firstname<-json["firstname"].string!,
-                            firstname<-json["display_name"].string!,
-                            country_prefix<-json["country_prefix"].string!,
-                            nationalNumber<-json["national_number"].string!,
+                            self.firstname<-json["display_name"].string!,
+                            self.country_prefix<-json["country_prefix"].string!,
+                            self.nationalNumber<-json["national_number"].string!,
                             //lastname<-"",
                             //lastname<-json["lastname"].string!,
                             //email<-json["email"].string!,
-                            username1<-json["phone"].string!,
-                            status<-json["status"].string!,
-                            phone<-json["phone"].string!))
+                            self.username1<-json["phone"].string!,
+                            self.status<-json["status"].string!,
+                            self.phone<-json["phone"].string!))
                         //country_prefix
                         //national_number"
                         print("inserted id: \(rowid)")
@@ -170,7 +171,7 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
                     
                     
                     do{for account in try sqliteDB.db.prepare(tbl_accounts) {
-                        print("id: \(account[_id]), phone: \(account[phone]), firstname: \(account[firstname])")
+                        print("id: \(account[self._id]), phone: \(account[self.phone]), firstname: \(account[self.firstname])")
                         // id: 1, email: alice@mac.com, name: Optional("Alice")
                         }
                         
@@ -2249,8 +2250,18 @@ print("query join error 1337 \(e)")
                     self.fetchContacts({ (result) -> () in
                         //self.fetchContactsFromServer()
                         print("checkinnn")
-                        
-                           
+                        let tbl_accounts=sqliteDB.accounts
+                        do{for account in try sqliteDB.db.prepare(tbl_accounts) {
+                            ///print("id: \(account[_id]), phone: \(account[phone]), firstname: \(account[firstname])")
+                            
+                            var userr:JSON=["_id":account[self._id],"display_name":account[self.firstname]!,"phone":account[self.phone]]
+                            socketObj.socket.emit("whozonline",
+                                ["room":"globalchatroom",
+                                    "user":userr.object])
+                            }}
+                        catch{
+                            
+                        }
                         
                         dispatch_async(dispatch_get_main_queue()) {
                             self.tblForChat.reloadData()

@@ -255,6 +255,15 @@
                                                     <rect key="frame" x="297" y="34" width="14" height="18"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                 </imageView>
+                                                <button hidden="YES" opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="NkS-IV-3EY">
+                                                    <rect key="frame" x="8" y="15" width="10" height="10"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <color key="tintColor" red="0.0" green="0.7254902124" blue="0.41176474089999998" alpha="1" colorSpace="deviceRGB"/>
+                                                    <state key="normal" image="chat_user_small">
+                                                        <color key="titleColor" red="0.0" green="0.7254902124" blue="0.41176474089999998" alpha="1" colorSpace="deviceRGB"/>
+                                                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                                    </state>
+                                                </button>
                                                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Kibo Bot" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Cui-4B-FY0">
                                                     <rect key="frame" x="20" y="9" width="204" height="21"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -272,6 +281,7 @@
                                             </subviews>
                                         </tableViewCellContentView>
                                         <connections>
+                                            <outlet property="btnGreenDot" destination="NkS-IV-3EY" id="U1y-Iq-3I0"/>
                                             <outlet property="labelNamePrivate" destination="Cui-4B-FY0" id="0Fo-La-A6z"/>
                                             <outlet property="labelStatusPrivate" destination="qkw-eY-Ou5" id="3eI-2I-YEK"/>
                                             <segue destination="f95-J5-fN9" kind="push" identifier="contactDetailsSegue" id="tDO-ll-fdo"/>
@@ -2103,7 +2113,7 @@
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="ContactsInviteCell" id="lU5-3E-N9k" customClass="ContactsInviteCell" customModule="Chat" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="86" width="320" height="78"/>
+                                        <rect key="frame" x="0.0" y="22" width="320" height="78"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="lU5-3E-N9k" id="ttq-aH-WWS">
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="77.5"/>
@@ -2276,7 +2286,7 @@
                         </view>
                         <prototypes>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="JC4-iV-Jwg">
-                                <rect key="frame" x="0.0" y="197" width="320" height="44"/>
+                                <rect key="frame" x="0.0" y="133" width="320" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="JC4-iV-Jwg" id="H6p-c1-bTR">
                                     <rect key="frame" x="0.0" y="0.0" width="320" height="43.5"/>
@@ -3117,7 +3127,7 @@
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="65.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="OEz-wQ-8oH">
+                                                <button hidden="YES" opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="OEz-wQ-8oH">
                                                     <rect key="frame" x="10" y="28" width="10" height="10"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <color key="tintColor" red="0.0" green="0.7254902124" blue="0.41176474089999998" alpha="1" colorSpace="deviceRGB"/>
@@ -3238,6 +3248,15 @@
                     </subviews>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                 </view>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="Xdn-Sm-rJo">
+                    <rect key="frame" x="0.0" y="0.0" width="10" height="10"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <color key="tintColor" red="0.0" green="0.7254902124" blue="0.41176474089999998" alpha="1" colorSpace="deviceRGB"/>
+                    <state key="normal" image="chat_user_small">
+                        <color key="titleColor" red="0.0" green="0.7254902124" blue="0.41176474089999998" alpha="1" colorSpace="deviceRGB"/>
+                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                    </state>
+                </button>
             </objects>
             <point key="canvasLocation" x="245" y="259"/>
         </scene>
@@ -3281,12 +3300,12 @@
         <image name="video_off" width="50" height="50"/>
     </resources>
     <inferredMetricsTieBreakers>
+        <segue reference="W8i-Cs-Z8T"/>
         <segue reference="Spe-dd-EXu"/>
         <segue reference="1jA-Zj-XHt"/>
-        <segue reference="W8i-Cs-Z8T"/>
-        <segue reference="N5B-Ot-bcs"/>
-        <segue reference="3Qa-aS-eRu"/>
+        <segue reference="QOc-Kg-WHZ"/>
         <segue reference="Cjg-Ar-cdZ"/>
+        <segue reference="3Qa-aS-eRu"/>
         <segue reference="Lsn-aA-q1J"/>
     </inferredMetricsTieBreakers>
     <color key="tintColor" red="0.054901960784313725" green="0.47843137254901963" blue="1" alpha="1" colorSpace="calibratedRGB"/>
