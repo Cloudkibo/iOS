@@ -2,7 +2,7 @@
 
 
 The diagram below shows design logic for sending and receiving file:
-![File Sending Flow](fileSend.png)
+![File Sending Flow](images/fileTransfer.png)
 
 
 **File Management WatsApp Vs Kibo Chat**
