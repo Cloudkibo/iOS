@@ -8,7 +8,7 @@ The diagram below shows design logic for sending and receiving file:
 **File Management WatsApp Vs Kibo Chat**
 Here is a comparison sheet of File Management features provided by Kibo Chat and WatsApp. It covers features for both sending and receiving files:
 
-[File Management Comparison Sheet](https://drive.google.com/drive/u/1/folders/0ByXJY8WVZm-NZ3ZqUlhvT1pPTDg)
+[File Management Comparison Sheet](https://docs.google.com/a/cloudkibo.com/spreadsheets/d/1M9Ey_Er4PtVc-JO7XSSNTw-tuiaj4TbADFwIsA67dh8/edit?usp=sharing)
 
 
 **Design Discussion**
