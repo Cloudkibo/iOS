@@ -181,7 +181,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
     }
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.restorationIdentifier = "11"
+        ////////self.restorationIdentifier = "11"
         txtFldMessage.restorationIdentifier="txtFldMessageID"
         restorationClass = ChatDetailViewController.self
         

@@ -1449,7 +1449,10 @@ print("query join error 1337 \(e)")
         let usernameFromDb = Expression<String?>("username")
         let name = Expression<String?>("name")
         cell.statusPrivate.text=ContactLastMessage[indexPath.row]
+        if(!ContactsLastMsgDate[indexPath.row].isEmpty)
+        {
         cell.lbltimePrivate.text=ContactsLastMsgDate[indexPath.row]
+        }
       //  do
        //// {allkiboContactsArray = Array(try sqliteDB.db.prepare(contactsKibo))
             do{for all in try sqliteDB.db.prepare(allcontacts) {
@@ -2466,7 +2469,9 @@ print("query join error 1337 \(e)")
         case "youareonline":
             globalChatRoomJoined=true
             var contactsOnlineList=JSON(data)
-            print(contactsOnlineList.debugDescription)
+            
+            //%%%%%%%%%%%%%%%newwwwwwwwwwwwww-----------------------
+           /* print(contactsOnlineList.debugDescription)
             for(var i=0;i<contactsOnlineList[0].count;i++)
             {
                 for(var j=0;j<self.ContactUsernames.count;j++)
@@ -2483,7 +2488,7 @@ print("query join error 1337 \(e)")
                     }
                 }
             }
-            
+            */
             //  dispatch_async(dispatch_get_main_queue())
             // {
             

@@ -755,7 +755,7 @@
         <!--Chats-->
         <scene sceneID="U0I-6f-Qcl">
             <objects>
-                <viewController restorationIdentifier="22" storyboardIdentifier="MainChatView" title="Chats" id="cJu-ld-BCz" customClass="ChatViewController" customModule="Chat" sceneMemberID="viewController">
+                <viewController restorationIdentifier="MainChatView" storyboardIdentifier="MainChatView" title="Chats" id="cJu-ld-BCz" customClass="ChatViewController" customModule="Chat" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="PNV-85-Adt">
                         <rect key="frame" x="0.0" y="64" width="320" height="504"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -961,7 +961,7 @@
         <!--New Chat-->
         <scene sceneID="1Ch-nI-fdZ">
             <objects>
-                <viewController restorationIdentifier="11" storyboardIdentifier="Main" id="vqu-uk-8SN" customClass="ChatDetailViewController" customModule="Chat" sceneMemberID="viewController">
+                <viewController restorationIdentifier="11" id="vqu-uk-8SN" customClass="ChatDetailViewController" customModule="Chat" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="cqK-Ao-ix1">
                         <rect key="frame" x="0.0" y="64" width="320" height="504"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -2041,7 +2041,7 @@
         <!--CallRingingViewController-->
         <scene sceneID="3ln-wu-NFV">
             <objects>
-                <viewController title="CallRingingViewController" id="pEh-DU-l9J" customClass="CallRingingViewController" customModule="Chat" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="Main" title="CallRingingViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="pEh-DU-l9J" customClass="CallRingingViewController" customModule="Chat" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="NJJ-mo-TNZ">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -2113,7 +2113,7 @@
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="ContactsInviteCell" id="lU5-3E-N9k" customClass="ContactsInviteCell" customModule="Chat" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="22" width="320" height="78"/>
+                                        <rect key="frame" x="0.0" y="86" width="320" height="78"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="lU5-3E-N9k" id="ttq-aH-WWS">
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="77.5"/>
@@ -2286,7 +2286,7 @@
                         </view>
                         <prototypes>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="JC4-iV-Jwg">
-                                <rect key="frame" x="0.0" y="133" width="320" height="44"/>
+                                <rect key="frame" x="0.0" y="197" width="320" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="JC4-iV-Jwg" id="H6p-c1-bTR">
                                     <rect key="frame" x="0.0" y="0.0" width="320" height="43.5"/>
@@ -3027,7 +3027,7 @@
         <!--Chats-->
         <scene sceneID="YJi-J4-sJL">
             <objects>
-                <viewController restorationIdentifier="MainChats" storyboardIdentifier="MAinChats" title="Chats" id="v28-cs-4pq" customClass="ChatMainViewController" customModule="Chat" sceneMemberID="viewController">
+                <viewController restorationIdentifier="MainChats" storyboardIdentifier="MainChats" title="Chats" id="v28-cs-4pq" customClass="ChatMainViewController" customModule="Chat" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="myq-CV-swO">
                         <rect key="frame" x="0.0" y="64" width="320" height="504"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -3300,9 +3300,9 @@
         <image name="video_off" width="50" height="50"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="W8i-Cs-Z8T"/>
-        <segue reference="Spe-dd-EXu"/>
         <segue reference="1jA-Zj-XHt"/>
+        <segue reference="Spe-dd-EXu"/>
+        <segue reference="xLi-xx-esW"/>
         <segue reference="QOc-Kg-WHZ"/>
         <segue reference="Cjg-Ar-cdZ"/>
         <segue reference="3Qa-aS-eRu"/>
