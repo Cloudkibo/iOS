@@ -2327,7 +2327,12 @@ self.remoteDisconnected()
                     
                     
                     ///NEW ADDITION MAKE FILENAME GLOBAL
+                    
                     filejustreceivedname=filePathReceived!
+                    
+                    //will be used to save on iCloud and replaced if file already exists
+                    filejustreceivednameToSave=filejustreceivedname
+                    
                     
                     var x=Double(fileSizeReceived / fu.chunkSize)
                     numberOfChunksInFileToSave = ceil(x)

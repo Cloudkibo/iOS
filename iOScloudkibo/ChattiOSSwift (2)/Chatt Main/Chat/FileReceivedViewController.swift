@@ -54,20 +54,12 @@ class FileReceivedViewController: UIViewController,UIDocumentInteractionControll
         
         print("number 1 is \(ubiquityURL)")
         ubiquityURL=ubiquityURL!.URLByAppendingPathComponent("Documents", isDirectory: true)
-        //print("number 2 is \(ubiquityURL)")
-        ///ubiquityURL=ubiquityURL!.URLByAppendingPathComponent("cloudkibo2", isDirectory: true)
-        //print("number 3 is \(ubiquityURL)")
-        ubiquityURL=ubiquityURL!.URLByAppendingPathComponent("\(filejustreceivedname)")
+        ubiquityURL=ubiquityURL!.URLByAppendingPathComponent("\(filejustreceivednameToSave)")
         print("number 4 is \(ubiquityURL)")
         
         var documentURL=filejustreceivedPathURL //this is full path
         
-        
-            //var newdest=dest!.URLByAppendingPathComponent("Documents", isDirectory: true)
-    //print("newdest is \(newdest.debugDescription)")
-    //var ans=try fileManager.setUbiquitous(true, itemAtURL: self.fileURL, destinationURL: newdest)
-    
-    ///////   if let ubiquityURL = ubiquityURL {
+        ///////   if let ubiquityURL = ubiquityURL {
     var error:NSError?
     var isDir:ObjCBool = false
     if (filemgr.fileExistsAtPath(ubiquityURL!.path!, isDirectory: &isDir)) {
@@ -76,7 +68,7 @@ class FileReceivedViewController: UIViewController,UIDocumentInteractionControll
      print("error removing file")
      }*/
     dispatch_async(dispatch_get_main_queue(),{
-    var alert = UIAlertController(title: "Error", message: "\(error) Please enter new name of file" , preferredStyle: .Alert)
+    var alert = UIAlertController(title: "Error", message: "File with the name \(filejustreceivednameToSave) already exists. Please enter new name of file" , preferredStyle: .Alert)
     
     //2. Add the text field. You can configure it however you need.
     alert.addTextFieldWithConfigurationHandler({ (textField) -> Void in
@@ -87,14 +79,22 @@ class FileReceivedViewController: UIViewController,UIDocumentInteractionControll
     //3. Grab the value from the text field, and print it when the user clicks OK.
     alert.addAction(UIAlertAction(title: "OK", style: .Default, handler: { (action) -> Void in
     let textField = alert.textFields![0] as UITextField
-    username = textField.text!
     print("Text field: \(textField.text)")
-    
-    var indExt=filejustreceivedname.characters.indexOf(".")
-    var filetype=filejustreceivedname.substringFromIndex(indExt!)
-        filejustreceivedname=textField.text!+filetype
-    
-       print("newwwww file isss \(filejustreceivedname)")
+    var newfilenamegot=textField.text!
+        
+    var indExt=filejustreceivednameToSave.characters.indexOf(".")
+    var filetype=filejustreceivednameToSave.substringFromIndex(indExt!)
+        
+        var indExtNewName=newfilenamegot.characters.indexOf(".")
+        
+        if(newfilenamegot.characters.contains("."))
+        {
+        newfilenamegot=newfilenamegot.substringToIndex(indExtNewName!)
+        }
+        print("newfilenamegot is \(newfilenamegot)")
+        ////filejustreceivednameToSave=textField.text!+filetype
+        filejustreceivednameToSave=newfilenamegot+filetype
+       print("newwwww file isss \(filejustreceivednameToSave)")
         self.saveToiCloud()
     }))
     
@@ -115,7 +115,7 @@ class FileReceivedViewController: UIViewController,UIDocumentInteractionControll
     print("copying file to icloud")
     var ans=try filemgr.copyItemAtURL(documentURL!, toURL: ubiquityURL!)
         
-        let alert = UIAlertController(title: "Success", message: "Your file \(filejustreceivedname) has been successfully saved to iCloud Drive", preferredStyle: UIAlertControllerStyle.Alert)
+        let alert = UIAlertController(title: "Success", message: "Your file \(filejustreceivednameToSave) has been successfully saved to iCloud Drive", preferredStyle: UIAlertControllerStyle.Alert)
         alert.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.Default, handler: nil))
         self.presentViewController(alert, animated: true, completion: {
             

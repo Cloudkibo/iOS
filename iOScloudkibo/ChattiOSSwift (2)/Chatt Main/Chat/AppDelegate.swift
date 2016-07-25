@@ -75,6 +75,8 @@ var callerName=""
 var rtcICEarray:[RTCICEServer]=[]
 var rtcFact:RTCPeerConnectionFactory!
 var contactsList=iOSContact(keys: [CNContactGivenNameKey, CNContactFamilyNameKey, CNContactEmailAddressesKey, CNContactPhoneNumbersKey])
+
+var filejustreceivednameToSave:String!
 var filejustreceivedname:String!
 var filejustreceivedPathURL:NSURL!
 var urlLocalFile:NSURL!
