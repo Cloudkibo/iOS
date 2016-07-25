@@ -14,21 +14,7 @@ import AVFoundation
 import MobileCoreServices
 import Foundation
 
-class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChatDelegate,UIDocumentPickerDelegate,UIDocumentMenuDelegate,UITableViewDataSource{
-    
-    var cell : UITableViewCell!
-    var textLable:UILabel!
-    var chatImage:UIImageView!
-    var profileImage:UIImageView!
-    var timeLabel:UILabel!
-    
-    
-    var messageDic=[String : String]()
-    
-    var msgType:NSString=""
-    var msgChat:NSString=""
-    var date2:NSString=""
-    var sizeOFStr:String=""
+class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChatDelegate,UIDocumentPickerDelegate,UIDocumentMenuDelegate{
     
     
     var myfid=0
@@ -49,7 +35,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
     var delegateChat:UpdateChatDelegate!
     var delegate:SocketClientDelegate!
     //var socketEventID:NSUUID
-        var rt=NetworkingLibAlamofire()
+    var rt=NetworkingLibAlamofire()
     @IBOutlet weak var NewChatNavigationTitle: UINavigationItem!
     @IBOutlet weak var labelToName: UILabel!
     @IBOutlet var tblForChats : UITableView!
@@ -81,135 +67,124 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
         // Custom initialization
     }
     
-
     
-   /* @IBAction func btnBackToChatsPressed(sender: AnyObject) {
-        //backToChatPushSegue
-        
-        self.dismissViewControllerAnimated(true) { () -> Void in
-            
-            
-        }
-        //self.tabBarController?.selectedIndex=1
-        //if self.rootViewController as? UITabBarController != nil {
-       // var tababarController = self.window!.rootViewController as UITabBarController
-        //    tababarController.selectedIndex = 1
-        //}
-        
-        /*
-        var next=self.storyboard?.instantiateViewControllerWithIdentifier("MainChatView") as! ChatViewController
-        self.navigationController?.presentViewController(next, animated: true, completion: { () -> Void in
-            
-            
-        })
-       */
-      /*
-        var myviewChat=ChatViewController.init(nibName: nil, bundle: nil)
-        var mynav=UINavigationController.init(rootViewController: myviewChat)
-        self.presentViewController(mynav, animated: true) { () -> Void in
-            
-            
-        }*/
-        
-       /* MyViewController *myViewController = [[MyViewController alloc] initWithNibName:nil bundle:nil];
-        UINavigationController *navigationController =
-            [[UINavigationController alloc] initWithRootViewController:myViewController];
-        
-        //now present this navigation controller modally
-        [self presentViewController:navigationController
-            animated:YES
-            completion:^{
-            
-            }];*/
-        /*
-        RootViewController *vController=[[RootViewController alloc] initWithNibName:@"RootViewController" bundle:nil];
-        [self.navigationController pushViewController:vController animated:YES];
-*/
-        
-        
-    }
-    */
+    /* @IBAction func btnBackToChatsPressed(sender: AnyObject) {
+     //backToChatPushSegue
+     
+     self.dismissViewControllerAnimated(true) { () -> Void in
+     
+     
+     }
+     //self.tabBarController?.selectedIndex=1
+     //if self.rootViewController as? UITabBarController != nil {
+     // var tababarController = self.window!.rootViewController as UITabBarController
+     //    tababarController.selectedIndex = 1
+     //}
+     
+     /*
+     var next=self.storyboard?.instantiateViewControllerWithIdentifier("MainChatView") as! ChatViewController
+     self.navigationController?.presentViewController(next, animated: true, completion: { () -> Void in
+     
+     
+     })
+     */
+     /*
+     var myviewChat=ChatViewController.init(nibName: nil, bundle: nil)
+     var mynav=UINavigationController.init(rootViewController: myviewChat)
+     self.presentViewController(mynav, animated: true) { () -> Void in
+     
+     
+     }*/
+     
+     /* MyViewController *myViewController = [[MyViewController alloc] initWithNibName:nil bundle:nil];
+     UINavigationController *navigationController =
+     [[UINavigationController alloc] initWithRootViewController:myViewController];
+     
+     //now present this navigation controller modally
+     [self presentViewController:navigationController
+     animated:YES
+     completion:^{
+     
+     }];*/
+     /*
+     RootViewController *vController=[[RootViewController alloc] initWithNibName:@"RootViewController" bundle:nil];
+     [self.navigationController pushViewController:vController animated:YES];
+     */
+     
+     
+     }
+     */
     
-/*
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }*/
+    /*
+     required init?(coder aDecoder: NSCoder) {
+     fatalError("init(coder:) has not been implemented")
+     }*/
     required init?(coder aDecoder: NSCoder){
         super.init(coder: aDecoder)
         //print("hiiiiii22 \(self.AuthToken)")
         
-        
     }
     
-   
+    
     override func viewWillAppear(animated: Bool) {
         print("chat will appear")
         socketObj.socket.emit("logClient","IPHONE-LOG: chat page will appear")
         
-        self.viewDidLayoutSubviews()
+        
         //%%%%%%%%%%%%%% commented new socket connected again and again
         /*if(socketObj == nil)
-        {
-            print("socket is nillll", terminator: "")
-            
-            
-            socketObj=LoginAPI(url:"\(Constants.MainUrl)")
-            /////////// print("connected issssss \(socketObj.socket.connected)")
-            ///socketObj.connect()
-            socketObj.addHandlers()
-            socketObj.addWebRTCHandlers()
-        }*/
+         {
+         print("socket is nillll", terminator: "")
+         
+         
+         socketObj=LoginAPI(url:"\(Constants.MainUrl)")
+         /////////// print("connected issssss \(socketObj.socket.connected)")
+         ///socketObj.connect()
+         socketObj.addHandlers()
+         socketObj.addWebRTCHandlers()
+         }*/
         
         
-         self.retrieveChatFromSqlite(selectedContact)
+        self.retrieveChatFromSqlite(selectedContact)
         
         
         //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%------------ commented june 16 FetchChatServer()
         print("calling retrieveChat")
         
-       // if(appJustInstalled[self.selectedIndex] == true)
+        // if(appJustInstalled[self.selectedIndex] == true)
         //{
         
         //%%%%% new imp commented for testing ***** ******** ***** $$$$ $$$
         //--------------------------------
         //____+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
         /*
-            FetchChatServer(){ (result) -> () in
-                if(result==true)
-                {
-          //          appJustInstalled[self.selectedIndex] = false
-                    self.retrieveChatFromSqlite(self.selectedContact)
-                    
-                }
-            }
-// ****************__________________________
-*/
-
+         FetchChatServer(){ (result) -> () in
+         if(result==true)
+         {
+         //          appJustInstalled[self.selectedIndex] = false
+         self.retrieveChatFromSqlite(self.selectedContact)
+         
+         }
+         }
+         // ****************__________________________
+         */
+        
         //}
         //else
         //{
-            //self.retrieveChatFromSqlite(selectedContact)
+        //self.retrieveChatFromSqlite(selectedContact)
         //}
         ///////%%%%% self.retrieveChatFromSqlite(selectedContact)
         //sqliteDB.retrieveChat(username!)
         
     }
-    
-    func tableView(
-        tableView: UITableView,
-        estimatedHeightForRowAtIndexPath indexPath: NSIndexPath
-        ) -> CGFloat {
-        return 50
-    }
-    
     override func viewDidLoad() {
         super.viewDidLoad()
-        ////////self.restorationIdentifier = "11"
-        txtFldMessage.restorationIdentifier="txtFldMessageID"
+        restorationIdentifier = "ChatDetailViewController"
         restorationClass = ChatDetailViewController.self
         
         //UIApplicationWillEnterForegroundNotification
-       NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("applicationWillBecomeActive:"), name:UIApplicationDidBecomeActiveNotification, object: nil)
+        /////////// NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("applicationWillBecomeActive:"), name:UIApplicationDidBecomeActiveNotification, object: nil)
         
         NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("willShowKeyBoard:"), name:UIKeyboardWillShowNotification, object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("willHideKeyBoard:"), name:UIKeyboardWillHideNotification, object: nil)
@@ -223,8 +198,8 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
         socketObj.delegateChat=self
         
         dispatch_async(dispatch_get_main_queue())
-            {
-               self.tblForChats.reloadData()
+        {
+            self.tblForChats.reloadData()
         }
         
         if(self.messages.count>1)
@@ -241,131 +216,117 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
         
         //%%%%%%% workinggg commented
         /*socketEventID=socketObj.socket.on("im") {data,ack in
-            
-            print("chat sent to server.ack received 222 ")
-            var chatJson=JSON(data)
-            print("chat received \(chatJson.debugDescription)")
-            print(chatJson[0]["msg"])
-            receivedMsg=chatJson[0]["msg"]
-
-            self.addMessage(receivedMsg.description, ofType: "1",date: NSDate().debugDescription)
-            self.tblForChats.reloadData()
-            if(self.messages.count>1)
-            {
-                var indexPath = NSIndexPath(forRow:self.messages.count-1, inSection: 0)
-                
-                self.tblForChats.scrollToRowAtIndexPath(indexPath, atScrollPosition: UITableViewScrollPosition.Bottom, animated: true)
-            }
-            
-            // declared system sound here
-            //let systemSoundID: SystemSoundID = 1104
-            // create a sound ID, in this case its the tweet sound.
-            
-            /*let systemSoundID: SystemSoundID = 1016
-            
-            // to play sound
-            AudioServicesPlaySystemSound (systemSoundID)
-            //AudioServicesCre
-            // to play sound
-            //AudioServicesPlaySystemSound (systemSoundID)
-            
-            var chatJson=JSON(data)
-            print("chat received \(chatJson.debugDescription)")
-            print(chatJson[0]["msg"])
-            receivedMsg=chatJson[0]["msg"]
-            //var dateString=chatJson[0]["date"]
-            
-            
-            self.addMessage(receivedMsg.description, ofType: "1",date: NSDate().debugDescription)
-                        
-           
-            /*
-            if(self.messages.count>1)
-            {
-            var indexPath = NSIndexPath(forRow:self.messages.count-1, inSection: 0)
-            
-            self.tblForChats.scrollToRowAtIndexPath(indexPath, atScrollPosition: UITableViewScrollPosition.Bottom, animated: true)
-            }
-            */
-            
-            
-            sqliteDB.SaveChat(chatJson[0]["to"].string!, from1: chatJson[0]["from"].string!,owneruser1:chatJson[0]["to"].string!, fromFullName1: chatJson[0]["fromFullName"].string!, msg1: chatJson[0]["msg"].string!,date1:nil)
-            
-            
-            //sqliteDB.SaveChat(chatJson["msg"][0]["to"].string!, from1: chatJson["msg"][0]["from"].string!,owneruser1:chatJson["msg"][0]["owneruser"].string! , fromFullName1: chatJson["msg"][0]["fromFullName"].string!, msg1: UserchatJson["msg"][0]["msg"].string!)
-            
-            
-             self.tblForChats.reloadData()
-            if(self.messages.count>1)
-            {
-                var indexPath = NSIndexPath(forRow:self.messages.count-1, inSection: 0)
-                
-                self.tblForChats.scrollToRowAtIndexPath(indexPath, atScrollPosition: UITableViewScrollPosition.Bottom, animated: true)
-            }*/
-        }
-        */
+         
+         print("chat sent to server.ack received 222 ")
+         var chatJson=JSON(data)
+         print("chat received \(chatJson.debugDescription)")
+         print(chatJson[0]["msg"])
+         receivedMsg=chatJson[0]["msg"]
+         self.addMessage(receivedMsg.description, ofType: "1",date: NSDate().debugDescription)
+         self.tblForChats.reloadData()
+         if(self.messages.count>1)
+         {
+         var indexPath = NSIndexPath(forRow:self.messages.count-1, inSection: 0)
+         
+         self.tblForChats.scrollToRowAtIndexPath(indexPath, atScrollPosition: UITableViewScrollPosition.Bottom, animated: true)
+         }
+         
+         // declared system sound here
+         //let systemSoundID: SystemSoundID = 1104
+         // create a sound ID, in this case its the tweet sound.
+         
+         /*let systemSoundID: SystemSoundID = 1016
+         
+         // to play sound
+         AudioServicesPlaySystemSound (systemSoundID)
+         //AudioServicesCre
+         // to play sound
+         //AudioServicesPlaySystemSound (systemSoundID)
+         
+         var chatJson=JSON(data)
+         print("chat received \(chatJson.debugDescription)")
+         print(chatJson[0]["msg"])
+         receivedMsg=chatJson[0]["msg"]
+         //var dateString=chatJson[0]["date"]
+         
+         
+         self.addMessage(receivedMsg.description, ofType: "1",date: NSDate().debugDescription)
+         
+         
+         /*
+         if(self.messages.count>1)
+         {
+         var indexPath = NSIndexPath(forRow:self.messages.count-1, inSection: 0)
+         
+         self.tblForChats.scrollToRowAtIndexPath(indexPath, atScrollPosition: UITableViewScrollPosition.Bottom, animated: true)
+         }
+         */
+         
+         
+         sqliteDB.SaveChat(chatJson[0]["to"].string!, from1: chatJson[0]["from"].string!,owneruser1:chatJson[0]["to"].string!, fromFullName1: chatJson[0]["fromFullName"].string!, msg1: chatJson[0]["msg"].string!,date1:nil)
+         
+         
+         //sqliteDB.SaveChat(chatJson["msg"][0]["to"].string!, from1: chatJson["msg"][0]["from"].string!,owneruser1:chatJson["msg"][0]["owneruser"].string! , fromFullName1: chatJson["msg"][0]["fromFullName"].string!, msg1: UserchatJson["msg"][0]["msg"].string!)
+         
+         
+         self.tblForChats.reloadData()
+         if(self.messages.count>1)
+         {
+         var indexPath = NSIndexPath(forRow:self.messages.count-1, inSection: 0)
+         
+         self.tblForChats.scrollToRowAtIndexPath(indexPath, atScrollPosition: UITableViewScrollPosition.Bottom, animated: true)
+         }*/
+         }
+         */
         //________%%%%% workingggg
         
         
         ////////////messages.addObject(["message":"helloo","hiiii":"tstingggg","type":"1"])
-          self.addMessage("Its actually pretty good!", ofType: "1",date: NSDate().debugDescription)
-        self.addMessage("What do you think of this tool!", ofType: "2",date: NSDate().debugDescription)
-        
-        tblForChats.rowHeight = UITableViewAutomaticDimension
-        tblForChats.estimatedRowHeight = 140
-        self.tblForChats.layoutIfNeeded()
-        if(self.messages.count>1)
-        {
-            var indexPath = NSIndexPath(forRow:self.messages.count-1, inSection: 0)
-            
-            self.tblForChats.scrollToRowAtIndexPath(indexPath, atScrollPosition: UITableViewScrollPosition.Bottom, animated: true)
-        }
-        
-       // var myappdelegate=AppDelegate.
-        //myappdelegate.chatDetailView=self
+        /*  self.addMessage("Its actually pretty good!", ofType: "1")
+         self.addMessage("What do you think of this tool!", ofType: "2")*/
     }
-   
+    
     /*func getUserObjectById()
-    {
-        var tbl_contactList=sqliteDB.contactslists
-        ////var tbl_contactList=sqliteDB.db["contactslists"]
-        let username = Expression<String>("username")
-        let email = Expression<String>("email")
-        let _id = Expression<String>("_id")
-        //let detailsshared = Expression<String>("detailsshared")
-        //let unreadMessage = Expression<Bool>("unreadMessage")
-        let userid = Expression<String>("userid")
-        let firstname = Expression<String>("firstname")
-        let lastname = Expression<String>("lastname")
-        let phone = Expression<String>("phone")
-        let status = Expression<String>("status")
-        let contactid = Expression<String>("contactid")
-        
-        do{
-        for user in try sqliteDB.db.prepare(tbl_contactList) {
-            print("id: \(user[username]), email: \(user[email])")
-            // id: 1, name: Optional("Alice"), email: alice@mac.com
-            var userObj=JSON(["_id":"\(user[_id])","userid":"\(user[contactid])","firstname":"\(user[firstname])","lastname":"\(user[lastname])","email":"\(user[email])","phone":"\(user[phone])","status":"\(user[status])"])
-            
-            self.selectedUserObj=userObj
-            }}catch{
-            
-        }
-        
-        
-       /* for user in tbl_contactList.select(username, email,_id,contactid,firstname,lastname,phone,status).filter(username==selectedContact) {
-            print("id: \(user[username]), email: \(user[email])")
-            //^^^^var userObj=JSON(["_id":"\(user[_id])","userid":"\(user[userid])","firstname":"\(user[firstname])","lastname":"\(user[lastname])","email":"\(user[email])","phone":"\(user[phone])","status":"\(user[status])"])
-            var userObj=JSON(["_id":"\(user[_id])","userid":"\(user[contactid])","firstname":"\(user[firstname])","lastname":"\(user[lastname])","email":"\(user[email])","phone":"\(user[phone])","status":"\(user[status])"])
-            
-            self.selectedUserObj=userObj
-            // id: 1, email: alice@mac.com
-        }*/
-        
-        //removeChatHistory()
-        
-        self.markChatAsRead()
-    }*/
+     {
+     var tbl_contactList=sqliteDB.contactslists
+     ////var tbl_contactList=sqliteDB.db["contactslists"]
+     let username = Expression<String>("username")
+     let email = Expression<String>("email")
+     let _id = Expression<String>("_id")
+     //let detailsshared = Expression<String>("detailsshared")
+     //let unreadMessage = Expression<Bool>("unreadMessage")
+     let userid = Expression<String>("userid")
+     let firstname = Expression<String>("firstname")
+     let lastname = Expression<String>("lastname")
+     let phone = Expression<String>("phone")
+     let status = Expression<String>("status")
+     let contactid = Expression<String>("contactid")
+     
+     do{
+     for user in try sqliteDB.db.prepare(tbl_contactList) {
+     print("id: \(user[username]), email: \(user[email])")
+     // id: 1, name: Optional("Alice"), email: alice@mac.com
+     var userObj=JSON(["_id":"\(user[_id])","userid":"\(user[contactid])","firstname":"\(user[firstname])","lastname":"\(user[lastname])","email":"\(user[email])","phone":"\(user[phone])","status":"\(user[status])"])
+     
+     self.selectedUserObj=userObj
+     }}catch{
+     
+     }
+     
+     
+     /* for user in tbl_contactList.select(username, email,_id,contactid,firstname,lastname,phone,status).filter(username==selectedContact) {
+     print("id: \(user[username]), email: \(user[email])")
+     //^^^^var userObj=JSON(["_id":"\(user[_id])","userid":"\(user[userid])","firstname":"\(user[firstname])","lastname":"\(user[lastname])","email":"\(user[email])","phone":"\(user[phone])","status":"\(user[status])"])
+     var userObj=JSON(["_id":"\(user[_id])","userid":"\(user[contactid])","firstname":"\(user[firstname])","lastname":"\(user[lastname])","email":"\(user[email])","phone":"\(user[phone])","status":"\(user[status])"])
+     
+     self.selectedUserObj=userObj
+     // id: 1, email: alice@mac.com
+     }*/
+     
+     //removeChatHistory()
+     
+     self.markChatAsRead()
+     }*/
     
     
     func showError(title:String,message:String,button1:String) {
@@ -384,20 +345,20 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
     @IBAction func btnCallPressed(sender: AnyObject) {
         socketObj.socket.emit("logClient","IPHONE-LOG: \(username!) is trying to call \(selectedContact)")
         /*if(self.ContactOnlineStatus==0)
-        {
-            self.showError("Info:", message: "Contact is offline. Please try again later.", button1: "Ok")
-            print("contact is offline")
-            socketObj.socket.emit("logClient","IPHONE-LOG: contact \(selectedContact) is offline")
-        }*/
-       // else{
-            
-            sqliteDB.saveCallHist(ContactNames, dateTime1: NSDate().debugDescription, type1: "Outgoing")
-            
-            //socketObj.socket.emit("callthisperson",["room" : "globalchatroom","callee": self.ContactUsernames[selectedRow], "caller":username!])
-            // &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&**************************
-            username=KeychainWrapper.stringForKey("username")
-            socketObj.socket.emit("logClient","IPHONE-LOG: callthisperson,room:globalchatroom,calleephone: \(selectedContact),callerphone:\(username!)")
-            print("callthisperson,room : globalchatroom,callee: \(selectedContact), caller:\(username!)")
+         {
+         self.showError("Info:", message: "Contact is offline. Please try again later.", button1: "Ok")
+         print("contact is offline")
+         socketObj.socket.emit("logClient","IPHONE-LOG: contact \(selectedContact) is offline")
+         }*/
+        // else{
+        
+        sqliteDB.saveCallHist(ContactNames, dateTime1: NSDate().debugDescription, type1: "Outgoing")
+        
+        //socketObj.socket.emit("callthisperson",["room" : "globalchatroom","callee": self.ContactUsernames[selectedRow], "caller":username!])
+        // &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&**************************
+        username=KeychainWrapper.stringForKey("username")
+        socketObj.socket.emit("logClient","IPHONE-LOG: callthisperson,room:globalchatroom,calleephone: \(selectedContact),callerphone:\(username!)")
+        print("callthisperson,room : globalchatroom,callee: \(selectedContact), caller:\(username!)")
         
         
         socketObj.socket.emitWithAck("callthisperson",["room" : "globalchatroom","calleephone": selectedContact, "callerphone":username!])(timeoutAfter: 15000){data in
@@ -406,7 +367,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
             print(data[0])
             print(data[0]["calleephone"]!!)
             print(data[0]["status"]!!.debugDescription!)
-          
+            
             print("username is ... \(username!)")
             
             isInitiator=true
@@ -420,10 +381,10 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
             
             self.presentViewController(next, animated: true, completion: {
             })
-
+            
         }
         
-      //  }
+        //  }
         
     }
     
@@ -440,7 +401,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
         let date = Expression<String>("date")
         let status = Expression<String>("status")
         let uniqueid = Expression<String>("uniqueid")
-
+        
         
         
         var tbl_userchats=sqliteDB.userschats
@@ -454,20 +415,19 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
             //for tblContacts in try sqliteDB.db.prepare(tbl_userchats.filter(owneruser==owneruser1)){
             //print("queryy runned count is \(tbl_contactslists.count)")
             for tblContacts in try sqliteDB.db.prepare(tbl_userchats.filter(to==selecteduser || from==selecteduser)){
-            /*print(tblContacts[to])
-            print(tblContacts[from])
-            print(tblContacts[msg])
-            print(tblContacts[date])
-            print(tblContacts[status])
+                print(tblContacts[to])
+                print(tblContacts[from])
+                print(tblContacts[msg])
+                print(tblContacts[date])
+                print(tblContacts[status])
+                print("--------")
                 
-            print("--------")
-            */
                 if(tblContacts[from]==selecteduser && (tblContacts[status]=="delivered"))
                 {
                     sqliteDB.UpdateChatStatus(tblContacts[uniqueid], newstatus: "seen")
                     
                     sqliteDB.saveMessageStatusSeen("seen", sender1: tblContacts[from], uniqueid1: tblContacts[uniqueid])
-
+                    
                     socketObj.socket.emitWithAck("messageStatusUpdate", ["status":"seen","uniqueid":tblContacts[uniqueid],"sender": tblContacts[from]])(timeoutAfter: 15000){data in
                         var chatmsg=JSON(data)
                         
@@ -483,27 +443,27 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
                     }
                 }
                 
-            if (tblContacts[from]==username!)
-                
-            {//type1
-                print("statussss is \(tblContacts[status])")
-                self.addMessage(tblContacts[msg]+" (\(tblContacts[status])) ", ofType: "2",date: tblContacts[date])
-            }
-            else
-            {//type2
-                print("statussss is \(tblContacts[status])")
-                self.addMessage(tblContacts[msg], ofType: "1", date: tblContacts[date])
-                
-            }
-               /* if(self.messages.count>1)
-                {
-                    var indexPath = NSIndexPath(forRow:self.messages.count-1, inSection: 0)
+                if (tblContacts[from]==username!)
                     
-                    self.tblForChats.scrollToRowAtIndexPath(indexPath, atScrollPosition: UITableViewScrollPosition.Bottom, animated: false)
-                }*/
-
-            //self.tblForChats.reloadData()
-            
+                {//type1
+                    print("statussss is \(tblContacts[status])")
+                    self.addMessage(tblContacts[msg]+" (\(tblContacts[status])) ", ofType: "2",date: tblContacts[date])
+                }
+                else
+                {//type2
+                    print("statussss is \(tblContacts[status])")
+                    self.addMessage(tblContacts[msg], ofType: "1", date: tblContacts[date])
+                    
+                }
+                /* if(self.messages.count>1)
+                 {
+                 var indexPath = NSIndexPath(forRow:self.messages.count-1, inSection: 0)
+                 
+                 self.tblForChats.scrollToRowAtIndexPath(indexPath, atScrollPosition: UITableViewScrollPosition.Bottom, animated: false)
+                 }*/
+                
+                //self.tblForChats.reloadData()
+                
             }
             self.tblForChats.reloadData()
             
@@ -525,7 +485,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
     
     func removeChatHistory(){
         print("header is \(header) selectedContact is \(selectedContact)")
-
+        
         //var loggedUsername=loggedUserObj["username"]
         print("inside mark funcc", terminator: "")
         var removeChatHistoryURL=Constants.MainUrl+Constants.removeChatHistory
@@ -533,31 +493,31 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
         //Alamofire.request(.POST,"\(removeChatHistoryURL)",headers:header,parameters: ["username":"\(selectedContact)"]).validate(statusCode: 200..<300).response{
         Alamofire.request(.POST,"\(removeChatHistoryURL)",headers:header,parameters: ["phone":selectedContact]).validate(statusCode: 200..<300).response{
             
-                request1, response1, data1, error1 in
+            request1, response1, data1, error1 in
+            
+            //===========INITIALISE SOCKETIOCLIENT=========
+            // dispatch_async(dispatch_get_main_queue(), {
+            
+            //self.dismissViewControllerAnimated(true, completion: nil);
+            /// self.performSegueWithIdentifier("loginSegue", sender: nil)
+            
+            if response1?.statusCode==200 {
+                print("chat history deleted")
+                //print(request1)
+                print(data1?.debugDescription)
                 
-                //===========INITIALISE SOCKETIOCLIENT=========
-                // dispatch_async(dispatch_get_main_queue(), {
+                sqliteDB.deleteChat(self.selectedContact.debugDescription)
                 
-                //self.dismissViewControllerAnimated(true, completion: nil);
-                /// self.performSegueWithIdentifier("loginSegue", sender: nil)
-                
-                if response1?.statusCode==200 {
-                    print("chat history deleted")
-                    //print(request1)
-                    print(data1?.debugDescription)
-                    
-                    sqliteDB.deleteChat(self.selectedContact.debugDescription)
-                    
-                    self.messages.removeAllObjects()
-                    dispatch_async(dispatch_get_main_queue())
-                        {
+                self.messages.removeAllObjects()
+                dispatch_async(dispatch_get_main_queue())
+                {
                     self.tblForChats.reloadData()
-                        }
                 }
-                else
-                {print("chat history not deleted")
-                    print(error1)
-                    print(data1)
+            }
+            else
+            {print("chat history not deleted")
+                print(error1)
+                print(data1)
             }
             if(response1?.statusCode==401)
             {
@@ -567,12 +527,12 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
                     self.performSegueWithIdentifier("loginSegue", sender: nil)
                 }
                 else{
-                self.rt.refrToken()
+                    self.rt.refrToken()
                 }
             }
         }
         
-
+        
     }
     
     func markChatAsRead()
@@ -581,17 +541,17 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
         var markChatReadURL=Constants.MainUrl+Constants.markAsRead
         //print(["user1":"\(loggedUserObj)","user2":"\(selectedUserObj)"])
         print("**", terminator: "")
-       //^^^^^ var loggedID=loggedUserObj["_id"]
+        //^^^^^ var loggedID=loggedUserObj["_id"]
         var loggedID=_id
         //^^^^print(loggedID.description+" logged id")
         print(loggedID!+" logged id", terminator: "")
         print(self.selectedID+" selected id", terminator: "")
         Alamofire.request(.POST,"\(markChatReadURL)",headers:header,parameters: ["user1":"\(loggedID!)","user2":"\(self.selectedID)"]
             ).responseJSON{response in
-                    var response1=response.response
-                    var request1=response.request
-                    var data1=response.data
-                    var error1=response.result.error
+                var response1=response.response
+                var request1=response.request
+                var data1=response.data
+                var error1=response.result.error
                 
                 if(error1==nil)
                 {print("chat marked as read")}
@@ -605,33 +565,32 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
                 //self.dismissViewControllerAnimated(true, completion: nil);
                 /// self.performSegueWithIdentifier("loginSegue", sender: nil)
                 
-               //^^ if response1?.statusCode==200 {
-                    print("chat marked as read")
-                    print(response1)
-                    //print(data1?.debugDescription)
-                    //var UserchatJson=JSON(data1!)
+                //^^ if response1?.statusCode==200 {
+                print("chat marked as read")
+                print(response1)
+                //print(data1?.debugDescription)
+                //var UserchatJson=JSON(data1!)
                 //^^}
-               /*else
-                {print("chat marked as read but status code is not 200")
-                    print(error1)
-                     //print(response1?.statusCode)
-                    //print(data1)
-                }
-*/
+                /*else
+                 {print("chat marked as read but status code is not 200")
+                 print(error1)
+                 //print(response1?.statusCode)
+                 //print(data1)
+                 }
+                 */
                 /*if(response1?.statusCode==401)
-                {
-                    print("chat not marked as read refresh token needed")
-                    self.rt.refrToken()
-                }
-*/
+                 {
+                 print("chat not marked as read refresh token needed")
+                 self.rt.refrToken()
+                 }
+                 */
         }
         
         
     }
     
     override func awakeFromNib() {
-        super.awakeFromNib()
-       //////// NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("applicationWillBecomeActive:"), name:UIApplicationDidBecomeActiveNotification, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("applicationWillBecomeActive:"), name:UIApplicationDidBecomeActiveNotification, object: nil)
         
         
         
@@ -652,106 +611,106 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
     }
     //***** was working but not needed
     /*func FetchChatServer(completion:(result:Bool)->())
-    {
-        
-        print("[user1:\(username!),user2:\(selectedContact)]", terminator: "")
-        ///POST GET april 2016
-        var bringUserChatURL=Constants.MainUrl+Constants.bringUserChat
-        let configuration = NSURLSessionConfiguration.defaultSessionConfiguration()
-         let priority = DISPATCH_QUEUE_PRIORITY_DEFAULT
-        dispatch_async(dispatch_get_global_queue(priority, 0)) {
-        Alamofire.request(.POST,"\(bringUserChatURL)",headers:header,parameters: ["user1":"\(username!)","user2":"\(self.selectedContact)"]
-        ).validate(statusCode: 200..<300).responseJSON{response in
-        var response1=response.response
-        var request1=response.request
-        var data1=response.result.value
-        var error1=response.result.error
-        
-            
-        
-            /*.validate(statusCode: 200..<300)
-            .response { (request1, response1, data1, error1) in*/
-        
-        
-                //===========INITIALISE SOCKETIOCLIENT=========
-               // dispatch_async(dispatch_get_main_queue(), {
-                
-                //self.dismissViewControllerAnimated(true, completion: nil);
-                /// self.performSegueWithIdentifier("loginSegue", sender: nil)
-                
-                if response1?.statusCode==200 {
-                    print("chatttttttt:::::")
-                    print(response1)
-                     print(data1)
-                    var UserchatJson=JSON(data1!)
-                    print(UserchatJson)
-                    socketObj.socket.emit("logClient","user chat fetched \(UserchatJson)")
-                    print(":::::^^^&&&&&")
-                    //print(UserchatJson["msg"][0]["to"])
-                    
-                    //Overwrite sqlite db
-                    sqliteDB.deleteChat(self.selectedContact)
-                    
-                    socketObj.socket.emit("logClient","IPHONE-LOG: chat messages count is \(UserchatJson["msg"].count)")
-                    for var i=0;i<UserchatJson["msg"].count
-                        ;i++
-                    {
-                        
-                        
-                        sqliteDB.SaveChat(UserchatJson["msg"][i]["to"].string!, from1: UserchatJson["msg"][i]["from"].string!,owneruser1:UserchatJson["msg"][i]["owneruser"].string! , fromFullName1: UserchatJson["msg"][i]["fromFullName"].string!, msg1: UserchatJson["msg"][i]["msg"].string!,date1:UserchatJson["msg"][i]["date"].string!)
-                        
-                        //%%%%%%%%%%%%%%%%%%%%%%%%%
-                        //%%%%%%%%%%%%%%%%%%%%%%%%%%
-                        //_______________________________commenting june 2016 for testing--------
-                        
-                      
-                        /*if (UserchatJson["msg"][i]["from"].string==username!)
-                            
-                        {//type1
-                            self.addMessage(UserchatJson["msg"][i]["msg"].string!, ofType: "2")
-                        }
-                        else
-                        {//type2
-                            self.addMessage(UserchatJson["msg"][i]["msg"].string!, ofType: "1")
-                            
-                        }
-                        
-                        self.tblForChats.reloadData()
-                        if(self.messages.count>1)
-                        {
-                        var indexPath = NSIndexPath(forRow:self.messages.count-1, inSection: 0)
-                        self.tblForChats.scrollToRowAtIndexPath(indexPath, atScrollPosition: UITableViewScrollPosition.Bottom, animated: true)
-                        }
-                        */
-                        
-                    }
-                    dispatch_async(dispatch_get_main_queue()) {
-                        completion(result:true)
-                    }
-                }
-                else
-                {
-                    
-                    print("chatttttt faileddddddd")
-                    print(response1)
-                    print(error1)
-                    print(data1)
-                    completion(result:false)
-                }
-                
-               
-               // })
-                if(response1?.statusCode==401)
-                {
-                    socketObj.socket.emit("logClient","IPHONE-LOG: error in fetching chat status 401")
-                    print("chatttttt fetch faileddddddd token expired")
-                    self.rt.refrToken()
-                }
-        }
-        }
-        
-    
-    }*/
+     {
+     
+     print("[user1:\(username!),user2:\(selectedContact)]", terminator: "")
+     ///POST GET april 2016
+     var bringUserChatURL=Constants.MainUrl+Constants.bringUserChat
+     let configuration = NSURLSessionConfiguration.defaultSessionConfiguration()
+     let priority = DISPATCH_QUEUE_PRIORITY_DEFAULT
+     dispatch_async(dispatch_get_global_queue(priority, 0)) {
+     Alamofire.request(.POST,"\(bringUserChatURL)",headers:header,parameters: ["user1":"\(username!)","user2":"\(self.selectedContact)"]
+     ).validate(statusCode: 200..<300).responseJSON{response in
+     var response1=response.response
+     var request1=response.request
+     var data1=response.result.value
+     var error1=response.result.error
+     
+     
+     
+     /*.validate(statusCode: 200..<300)
+     .response { (request1, response1, data1, error1) in*/
+     
+     
+     //===========INITIALISE SOCKETIOCLIENT=========
+     // dispatch_async(dispatch_get_main_queue(), {
+     
+     //self.dismissViewControllerAnimated(true, completion: nil);
+     /// self.performSegueWithIdentifier("loginSegue", sender: nil)
+     
+     if response1?.statusCode==200 {
+     print("chatttttttt:::::")
+     print(response1)
+     print(data1)
+     var UserchatJson=JSON(data1!)
+     print(UserchatJson)
+     socketObj.socket.emit("logClient","user chat fetched \(UserchatJson)")
+     print(":::::^^^&&&&&")
+     //print(UserchatJson["msg"][0]["to"])
+     
+     //Overwrite sqlite db
+     sqliteDB.deleteChat(self.selectedContact)
+     
+     socketObj.socket.emit("logClient","IPHONE-LOG: chat messages count is \(UserchatJson["msg"].count)")
+     for var i=0;i<UserchatJson["msg"].count
+     ;i++
+     {
+     
+     
+     sqliteDB.SaveChat(UserchatJson["msg"][i]["to"].string!, from1: UserchatJson["msg"][i]["from"].string!,owneruser1:UserchatJson["msg"][i]["owneruser"].string! , fromFullName1: UserchatJson["msg"][i]["fromFullName"].string!, msg1: UserchatJson["msg"][i]["msg"].string!,date1:UserchatJson["msg"][i]["date"].string!)
+     
+     //%%%%%%%%%%%%%%%%%%%%%%%%%
+     //%%%%%%%%%%%%%%%%%%%%%%%%%%
+     //_______________________________commenting june 2016 for testing--------
+     
+     
+     /*if (UserchatJson["msg"][i]["from"].string==username!)
+     
+     {//type1
+     self.addMessage(UserchatJson["msg"][i]["msg"].string!, ofType: "2")
+     }
+     else
+     {//type2
+     self.addMessage(UserchatJson["msg"][i]["msg"].string!, ofType: "1")
+     
+     }
+     
+     self.tblForChats.reloadData()
+     if(self.messages.count>1)
+     {
+     var indexPath = NSIndexPath(forRow:self.messages.count-1, inSection: 0)
+     self.tblForChats.scrollToRowAtIndexPath(indexPath, atScrollPosition: UITableViewScrollPosition.Bottom, animated: true)
+     }
+     */
+     
+     }
+     dispatch_async(dispatch_get_main_queue()) {
+     completion(result:true)
+     }
+     }
+     else
+     {
+     
+     print("chatttttt faileddddddd")
+     print(response1)
+     print(error1)
+     print(data1)
+     completion(result:false)
+     }
+     
+     
+     // })
+     if(response1?.statusCode==401)
+     {
+     socketObj.socket.emit("logClient","IPHONE-LOG: error in fetching chat status 401")
+     print("chatttttt fetch faileddddddd token expired")
+     self.rt.refrToken()
+     }
+     }
+     }
+     
+     
+     }*/
     
     func tableView(tableView: UITableView!, numberOfRowsInSection section: Int) -> Int {
         return messages.count
@@ -762,115 +721,104 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
     }
     
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-       
+        
         var messageDic = messages.objectAtIndex(indexPath.row) as! [String : String];
         let msg = messageDic["message"] as NSString!
         let sizeOFStr = self.getSizeOfString(msg)
         
         return sizeOFStr.height + 70
         
-       /* var cell : UITableViewCell!
-        cell = tblForChats.dequeueReusableCellWithIdentifier("ChatSentCell")! as UITableViewCell
-        
-        /*
-        [self configureCell:self.prototypeCell forRowAtIndexPath:indexPath];
-        [self.prototypeCell layoutIfNeeded];
-        
-        CGSize size = [self.prototypeCell.contentView systemLayoutSizeFittingSize:UILayoutFittingCompressedSize];
-        return size.height+1;
-        */
-        
-        // height = [NSLayoutConstraint constraintWithItem:chatUserImage attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.f constant:25.0f];
-        
-        //var hhh = NSLayoutConstraint(item: txtFldMessage, attribute: .Height, relatedBy: .Equal, toItem: nil, attribute: .NotAnAttribute, multiplier: 1.0, constant: 25.0)
-        
-        var size:CGSize=cell.contentView.systemLayoutSizeFittingSize(UILayoutFittingCompressedSize);
-        
-        var messageDic = messages.objectAtIndex(indexPath.row) as! [String : String];
-        let msg = messageDic["message"] as NSString!
-        
-        let sizeOFStr = self.getSizeOfString(msg)
-        //var hh1 = msg.boundingRectWithSize(CGSizeMake(220.0,CGFloat.max), options: NSStringDrawingOptions.UsesLineFragmentOrigin, attributes: nil, context: nil).size
-        
-        return sizeOFStr.height + 70
-        //print("size old is \(sizeOFStr.height) and my height is \(size.height)")
-        //return size.height+1;
-        
-        */
+        /* var cell : UITableViewCell!
+         cell = tblForChats.dequeueReusableCellWithIdentifier("ChatSentCell")! as UITableViewCell
+         
+         /*
+         [self configureCell:self.prototypeCell forRowAtIndexPath:indexPath];
+         [self.prototypeCell layoutIfNeeded];
+         
+         CGSize size = [self.prototypeCell.contentView systemLayoutSizeFittingSize:UILayoutFittingCompressedSize];
+         return size.height+1;
+         */
+         
+         // height = [NSLayoutConstraint constraintWithItem:chatUserImage attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.f constant:25.0f];
+         
+         //var hhh = NSLayoutConstraint(item: txtFldMessage, attribute: .Height, relatedBy: .Equal, toItem: nil, attribute: .NotAnAttribute, multiplier: 1.0, constant: 25.0)
+         
+         var size:CGSize=cell.contentView.systemLayoutSizeFittingSize(UILayoutFittingCompressedSize);
+         
+         var messageDic = messages.objectAtIndex(indexPath.row) as! [String : String];
+         let msg = messageDic["message"] as NSString!
+         
+         let sizeOFStr = self.getSizeOfString(msg)
+         //var hh1 = msg.boundingRectWithSize(CGSizeMake(220.0,CGFloat.max), options: NSStringDrawingOptions.UsesLineFragmentOrigin, attributes: nil, context: nil).size
+         
+         return sizeOFStr.height + 70
+         //print("size old is \(sizeOFStr.height) and my height is \(size.height)")
+         //return size.height+1;
+         
+         */
     }
     
     func tableView(tableView: UITableView!, cellForRowAtIndexPath indexPath: NSIndexPath!) -> UITableViewCell! {
-        ////var cell : UITableViewCell!
+        var cell : UITableViewCell!
         
-        self.messageDic = messages.objectAtIndex(indexPath.row) as! [String : String];
+        var messageDic = messages.objectAtIndex(indexPath.row) as! [String : String];
         NSLog(messageDic["message"]!, 1)
-        self.msgType = self.messageDic["type"] as NSString!
-        self.msgChat = self.messageDic["message"] as NSString!
-        self.date2=self.messageDic["date"] as NSString!
-        let sizeOFStr = self.getSizeOfString(msgChat)
-         print("sizeOfstr is width \(sizeOFStr.width) and height is \(sizeOFStr.height)")
+        let msgType = messageDic["type"] as NSString!
+        let msg = messageDic["message"] as NSString!
+        let date2=messageDic["date"] as NSString!
+        let sizeOFStr = self.getSizeOfString(msg)
+        print("sizeOfstr is width \(sizeOFStr.width) and height is \(sizeOFStr.height)")
         
         //var sizeOFStr=msg.boundingRectWithSize(CGSizeMake(220.0,CGFloat.max), options: NSStringDrawingOptions.UsesLineFragmentOrigin, attributes: nil, context: nil).size
         /*
-        
-        Messagesize = [message.userMessage boundingRectWithSize:CGSizeMake(220.0f, CGFLOAT_MAX)
-        options:NSStringDrawingUsesLineFragmentOrigin
-        attributes:@{NSFontAttributeName:fontArray[1]}
-        context:nil].size;
-        
-        
-        Timesize = [@"Time" boundingRectWithSize:CGSizeMake(220.0f, CGFLOAT_MAX)
-        options:NSStringDrawingUsesLineFragmentOrigin
-        attributes:@{NSFontAttributeName:fontArray[2]}
-        context:nil].size;
-        
-        
-        size.height = Messagesize.height + Namesize.height + Timesize.height + 48.0f;
-*/
+         
+         Messagesize = [message.userMessage boundingRectWithSize:CGSizeMake(220.0f, CGFLOAT_MAX)
+         options:NSStringDrawingUsesLineFragmentOrigin
+         attributes:@{NSFontAttributeName:fontArray[1]}
+         context:nil].size;
+         
+         
+         Timesize = [@"Time" boundingRectWithSize:CGSizeMake(220.0f, CGFLOAT_MAX)
+         options:NSStringDrawingUsesLineFragmentOrigin
+         attributes:@{NSFontAttributeName:fontArray[2]}
+         context:nil].size;
+         
+         
+         size.height = Messagesize.height + Namesize.height + Timesize.height + 48.0f;
+         */
         
         if (msgType.isEqualToString("1")){
             cell = tblForChats.dequeueReusableCellWithIdentifier("ChatSentCell")! as UITableViewCell
-            
-            if (cell == nil) {
-                cell=UITableViewCell(style: UITableViewCellStyle.Default, reuseIdentifier: "ChatSentCell")
-              //  cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:"ChatSentCell"];
-            }
-            
-            self.textLable = cell.viewWithTag(12) as! UILabel
-            self.chatImage = cell.viewWithTag(1) as! UIImageView
-            self.profileImage = cell.viewWithTag(2) as! UIImageView
+            let textLable = cell.viewWithTag(12) as! UILabel
+            let chatImage = cell.viewWithTag(1) as! UIImageView
+            let profileImage = cell.viewWithTag(2) as! UIImageView
             let timeLabel = cell.viewWithTag(11) as! UILabel
             chatImage.frame = CGRectMake(chatImage.frame.origin.x, chatImage.frame.origin.y, ((sizeOFStr.width + 100)  > 200 ? (sizeOFStr.width + 100) : 200), sizeOFStr.height + 40)
             chatImage.image = UIImage(named: "chat_receive")?.stretchableImageWithLeftCapWidth(40,topCapHeight: 20);
             //******
             
-
+            
             textLable.frame = CGRectMake(textLable.frame.origin.x, textLable.frame.origin.y, textLable.frame.size.width, sizeOFStr.height)
-           ////// profileImage.center = CGPointMake(profileImage.center.x, textLable.frame.origin.y + textLable.frame.size.height - profileImage.frame.size.height/2 + 10)
+            ////// profileImage.center = CGPointMake(profileImage.center.x, textLable.frame.origin.y + textLable.frame.size.height - profileImage.frame.size.height/2 + 10)
             profileImage.center = CGPointMake(profileImage.center.x, textLable.frame.origin.y + textLable.frame.size.height - profileImage.frame.size.height/2+20)
-            textLable.text = "\(msgChat)"
+            textLable.text = "\(msg)"
             /*
-            
-            let dateFormatter = NSDateFormatter()
-            dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
-            let datens2 = dateFormatter.dateFromString(date2.debugDescription)
-            
-            
-            
-            let formatter = NSDateFormatter()
-            formatter.dateStyle = NSDateFormatterStyle.ShortStyle
-            formatter.timeStyle = .ShortStyle
-            
-            let dateString = formatter.stringFromDate(datens2!)
-            */
+             
+             let dateFormatter = NSDateFormatter()
+             dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
+             let datens2 = dateFormatter.dateFromString(date2.debugDescription)
+             
+             
+             
+             let formatter = NSDateFormatter()
+             formatter.dateStyle = NSDateFormatterStyle.ShortStyle
+             formatter.timeStyle = .ShortStyle
+             
+             let dateString = formatter.stringFromDate(datens2!)
+             */
             timeLabel.text=date2.debugDescription
         } else {
             cell = tblForChats.dequeueReusableCellWithIdentifier("ChatReceivedCell")! as UITableViewCell
-            if (cell == nil) {
-                cell=UITableViewCell(style: UITableViewCellStyle.Default, reuseIdentifier: "ChatReceivedCell")
-                //  cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:"ChatSentCell"];
-            }
-            
             let deliveredLabel = cell.viewWithTag(13) as! UILabel
             let textLable = cell.viewWithTag(12) as! UILabel
             let timeLabel = cell.viewWithTag(11) as! UILabel
@@ -887,87 +835,87 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
             
             timeLabel.frame = CGRectMake(36 + distanceFactor, timeLabel.frame.origin.y, timeLabel.frame.size.width, timeLabel.frame.size.height)
             deliveredLabel.frame = CGRectMake(deliveredLabel.frame.origin.x, textLable.frame.origin.y + textLable.frame.size.height + 15, deliveredLabel.frame.size.width, deliveredLabel.frame.size.height)
-            textLable.text = "\(msgChat)"
+            textLable.text = "\(msg)"
             //////////////////////deliveredLabel.text="Delivered"
             /*
-            let dateFormatter = NSDateFormatter()
-            dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
-            let datens2 = dateFormatter.dateFromString(date2.debugDescription)
-            
-            
-            
-            let formatter = NSDateFormatter()
-            formatter.dateStyle = NSDateFormatterStyle.ShortStyle
-            formatter.timeStyle = .ShortStyle
-            
-            let dateString = formatter.stringFromDate(datens2!)
-*/
+             let dateFormatter = NSDateFormatter()
+             dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
+             let datens2 = dateFormatter.dateFromString(date2.debugDescription)
+             
+             
+             
+             let formatter = NSDateFormatter()
+             formatter.dateStyle = NSDateFormatterStyle.ShortStyle
+             formatter.timeStyle = .ShortStyle
+             
+             let dateString = formatter.stringFromDate(datens2!)
+             */
             timeLabel.text=date2.debugDescription
             //timeLabel.text=date2.debugDescription
         }
         return cell
         /*if (msgType.isEqualToString("1")){
-            cell = tblForChats.dequeueReusableCellWithIdentifier("ChatSentCell")! as UITableViewCell
-            
-            let textLable = cell.viewWithTag(12) as! UILabel
-            let chatImage = cell.viewWithTag(1) as! UIImageView
-            let profileImage = cell.viewWithTag(2) as! UIImageView
-            //textLable.lineBreakMode = .ByWordWrapping // or NSLineBreakMode.ByWordWrapping
-            //textLable.numberOfLines = 0
-            
-            chatImage.frame = CGRectMake(chatImage.frame.origin.x, chatImage.frame.origin.y, ((sizeOFStr.width + 60)  > 100 ? (sizeOFStr.width + 60) : 100), sizeOFStr.height + 40)
-            //chatImage.image = UIImage(named: "chat_receive")?.stretchableImageWithLeftCapWidth(40,topCapHeight: 20);
-            //chatImage.frame = CGRectMake(chatImage.frame.origin.x, chatImage.frame.origin.y, ((sizeOFStr.width + 60)  > 100 ? (sizeOFStr.width + 60) : 100), cell.frame.height + 40)
-            //chatImage.image = UIImage(named: "chat_new_receive")?.stretchableImageWithLeftCapWidth(40,topCapHeight: 20);
-            chatImage.image=UIImage(named: "chat_receive")?.resizableImageWithCapInsets(UIEdgeInsetsMake(chatImage.frame.origin.x, chatImage.frame.origin.y, ((sizeOFStr.width + 60)  > 100 ? (sizeOFStr.width + 60) : 100), sizeOFStr.height + 40), resizingMode:.Stretch)
-            
-            textLable.frame = CGRectMake(textLable.frame.origin.x, textLable.frame.origin.y, textLable.frame.size.width, sizeOFStr.height)
-            /*var currentFrame = textLable.frame;
-            var max = CGSizeMake(textLable.frame.size.width, 500);
-            var expected=sizeOFStr
-            //var expected =  [myString sizeWithFont:textLable.font constrainedToSize:max lineBreakMode:myLabel.lineBreakMode];
-            currentFrame.size.height = expected.height;
-            textLable.frame = currentFrame;*/
-            
-            profileImage.center = CGPointMake(profileImage.center.x, textLable.frame.origin.y + textLable.frame.size.height - profileImage.frame.size.height/2 + 10)
-            textLable.text = "\(msg)"
-        } else {
-            cell = tblForChats.dequeueReusableCellWithIdentifier("ChatReceivedCell")! as UITableViewCell
-            let deliveredLabel = cell.viewWithTag(13) as! UILabel
-            let textLable = cell.viewWithTag(12) as! UILabel
-            let timeLabel = cell.viewWithTag(11) as! UILabel
-            let chatImage = cell.viewWithTag(1) as! UIImageView
-            let profileImage = cell.viewWithTag(2) as! UIImageView
-            let contentView = cell.viewWithTag(0) as!  UIView!
-            
-            /*
-            var newContentViewFrame = CGRectMake(contentView.frame.origin.x, contentView.frame.origin.y, contentView.frame.size.width, 60);
-            
-            contentView.frame = newContentViewFrame;
-            */
-            textLable.lineBreakMode = .ByWordWrapping // or NSLineBreakMode.ByWordWrapping
-            textLable.numberOfLines = 0
-            
-            let distanceFactor = (170.0 - sizeOFStr.width) < 130 ? (170.0 - sizeOFStr.width) : 130
-            chatImage.frame = CGRectMake(20 + distanceFactor, chatImage.frame.origin.y, ((sizeOFStr.width + 60)  > 100 ? (sizeOFStr.width + 60) : 100), sizeOFStr.height + 40)
-            chatImage.image = UIImage(named: "chat_send")?.stretchableImageWithLeftCapWidth(20,topCapHeight: 20);
-            
-            
-            //chatImage.frame = CGRectMake(20 + distanceFactor, chatImage.frame.origin.y, ((sizeOFStr.width + 60)  > 100 ? (sizeOFStr.width + 60) : 100), cell.frame.height + 40)
-            
-            //chatImage.image = UIImage(named: "chat_new_send")?.stretchableImageWithLeftCapWidth(20,topCapHeight: 20);
-            
-            //chatImage.image=UIImage(named: "chat_new_send")?.resizableImageWithCapInsets(UIEdgeInsetsMake(20 + distanceFactor, chatImage.frame.origin.y, ((sizeOFStr.width + 60)  > 100 ? (sizeOFStr.width + 60) : 100), sizeOFStr.height + 40), resizingMode:.Stretch)
-           // bubbleReadLeftImage = [[UIImage imageNamed:@"bubble_read_left"] resizableImageWithCapInsets:UIEdgeInsetsMake(20.0f, 9.0f, 27.0f, 4.0f) resizingMode:UIImageResizingModeStretch];
-            
-            textLable.frame = CGRectMake(36 + distanceFactor, textLable.frame.origin.y, textLable.frame.size.width, sizeOFStr.height)
-            profileImage.center = CGPointMake(profileImage.center.x, textLable.frame.origin.y + textLable.frame.size.height - profileImage.frame.size.height/2 + 10)
-            timeLabel.frame = CGRectMake(36 + distanceFactor, timeLabel.frame.origin.y, timeLabel.frame.size.width, timeLabel.frame.size.height)
-            deliveredLabel.frame = CGRectMake(deliveredLabel.frame.origin.x, textLable.frame.origin.y + textLable.frame.size.height + 20, deliveredLabel.frame.size.width, deliveredLabel.frame.size.height)
-            textLable.text = "\(msg)"
-            deliveredLabel.text="Delivered"
-        }
-        return cell*/
+         cell = tblForChats.dequeueReusableCellWithIdentifier("ChatSentCell")! as UITableViewCell
+         
+         let textLable = cell.viewWithTag(12) as! UILabel
+         let chatImage = cell.viewWithTag(1) as! UIImageView
+         let profileImage = cell.viewWithTag(2) as! UIImageView
+         //textLable.lineBreakMode = .ByWordWrapping // or NSLineBreakMode.ByWordWrapping
+         //textLable.numberOfLines = 0
+         
+         chatImage.frame = CGRectMake(chatImage.frame.origin.x, chatImage.frame.origin.y, ((sizeOFStr.width + 60)  > 100 ? (sizeOFStr.width + 60) : 100), sizeOFStr.height + 40)
+         //chatImage.image = UIImage(named: "chat_receive")?.stretchableImageWithLeftCapWidth(40,topCapHeight: 20);
+         //chatImage.frame = CGRectMake(chatImage.frame.origin.x, chatImage.frame.origin.y, ((sizeOFStr.width + 60)  > 100 ? (sizeOFStr.width + 60) : 100), cell.frame.height + 40)
+         //chatImage.image = UIImage(named: "chat_new_receive")?.stretchableImageWithLeftCapWidth(40,topCapHeight: 20);
+         chatImage.image=UIImage(named: "chat_receive")?.resizableImageWithCapInsets(UIEdgeInsetsMake(chatImage.frame.origin.x, chatImage.frame.origin.y, ((sizeOFStr.width + 60)  > 100 ? (sizeOFStr.width + 60) : 100), sizeOFStr.height + 40), resizingMode:.Stretch)
+         
+         textLable.frame = CGRectMake(textLable.frame.origin.x, textLable.frame.origin.y, textLable.frame.size.width, sizeOFStr.height)
+         /*var currentFrame = textLable.frame;
+         var max = CGSizeMake(textLable.frame.size.width, 500);
+         var expected=sizeOFStr
+         //var expected =  [myString sizeWithFont:textLable.font constrainedToSize:max lineBreakMode:myLabel.lineBreakMode];
+         currentFrame.size.height = expected.height;
+         textLable.frame = currentFrame;*/
+         
+         profileImage.center = CGPointMake(profileImage.center.x, textLable.frame.origin.y + textLable.frame.size.height - profileImage.frame.size.height/2 + 10)
+         textLable.text = "\(msg)"
+         } else {
+         cell = tblForChats.dequeueReusableCellWithIdentifier("ChatReceivedCell")! as UITableViewCell
+         let deliveredLabel = cell.viewWithTag(13) as! UILabel
+         let textLable = cell.viewWithTag(12) as! UILabel
+         let timeLabel = cell.viewWithTag(11) as! UILabel
+         let chatImage = cell.viewWithTag(1) as! UIImageView
+         let profileImage = cell.viewWithTag(2) as! UIImageView
+         let contentView = cell.viewWithTag(0) as!  UIView!
+         
+         /*
+         var newContentViewFrame = CGRectMake(contentView.frame.origin.x, contentView.frame.origin.y, contentView.frame.size.width, 60);
+         
+         contentView.frame = newContentViewFrame;
+         */
+         textLable.lineBreakMode = .ByWordWrapping // or NSLineBreakMode.ByWordWrapping
+         textLable.numberOfLines = 0
+         
+         let distanceFactor = (170.0 - sizeOFStr.width) < 130 ? (170.0 - sizeOFStr.width) : 130
+         chatImage.frame = CGRectMake(20 + distanceFactor, chatImage.frame.origin.y, ((sizeOFStr.width + 60)  > 100 ? (sizeOFStr.width + 60) : 100), sizeOFStr.height + 40)
+         chatImage.image = UIImage(named: "chat_send")?.stretchableImageWithLeftCapWidth(20,topCapHeight: 20);
+         
+         
+         //chatImage.frame = CGRectMake(20 + distanceFactor, chatImage.frame.origin.y, ((sizeOFStr.width + 60)  > 100 ? (sizeOFStr.width + 60) : 100), cell.frame.height + 40)
+         
+         //chatImage.image = UIImage(named: "chat_new_send")?.stretchableImageWithLeftCapWidth(20,topCapHeight: 20);
+         
+         //chatImage.image=UIImage(named: "chat_new_send")?.resizableImageWithCapInsets(UIEdgeInsetsMake(20 + distanceFactor, chatImage.frame.origin.y, ((sizeOFStr.width + 60)  > 100 ? (sizeOFStr.width + 60) : 100), sizeOFStr.height + 40), resizingMode:.Stretch)
+         // bubbleReadLeftImage = [[UIImage imageNamed:@"bubble_read_left"] resizableImageWithCapInsets:UIEdgeInsetsMake(20.0f, 9.0f, 27.0f, 4.0f) resizingMode:UIImageResizingModeStretch];
+         
+         textLable.frame = CGRectMake(36 + distanceFactor, textLable.frame.origin.y, textLable.frame.size.width, sizeOFStr.height)
+         profileImage.center = CGPointMake(profileImage.center.x, textLable.frame.origin.y + textLable.frame.size.height - profileImage.frame.size.height/2 + 10)
+         timeLabel.frame = CGRectMake(36 + distanceFactor, timeLabel.frame.origin.y, timeLabel.frame.size.width, timeLabel.frame.size.height)
+         deliveredLabel.frame = CGRectMake(deliveredLabel.frame.origin.x, textLable.frame.origin.y + textLable.frame.size.height + 20, deliveredLabel.frame.size.width, deliveredLabel.frame.size.height)
+         textLable.text = "\(msg)"
+         deliveredLabel.text="Delivered"
+         }
+         return cell*/
     }
     
     override func encodeRestorableStateWithCoder(coder: NSCoder) {
@@ -977,60 +925,35 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
         if let messages = messages {
             coder.encodeObject(messages, forKey: "messages")
         }
-       // if let selectedContact = selectedContact {
-            coder.encodeObject(selectedContact, forKey: "selectedContact")
-        coder.encodeObject(txtFldMessage.text, forKey: "txtFldMessage")
-        coder.encodeObject(tblForChats.delegate, forKey: "tblForChatsDelegate")
-        coder.encodeObject(tblForChats.dataSource, forKey: "tblForChatsdataSource")
-       // }
-        
         
         //2
         super.encodeRestorableStateWithCoder(coder)
     }
     
-    
     override func decodeRestorableStateWithCoder(coder: NSCoder) {
-       messages = coder.decodeObjectForKey("messages") as! NSMutableArray
-        selectedContact = coder.decodeObjectForKey("selectedContact") as! String
-        tblForChats.delegate = coder.decodeObjectForKey("tblForChatsDelegate") as! UITableViewDelegate
+        messages = coder.decodeObjectForKey("messages") as! NSMutableArray
         
-        tblForChats.dataSource = coder.decodeObjectForKey("tblForChatsdataSource") as! UITableViewDataSource
-        txtFldMessage.text=coder.decodeObjectForKey("txtFldMessage") as! UITableViewDataSource as! String
         super.decodeRestorableStateWithCoder(coder)
-        //self.retrieveChatFromSqlite(selectedContact)
-        self.tblForChats.reloadData()
     }
-    /*static func viewControllerWithRestorationIdentifierPath(identifierComponents: [AnyObject],
-                                                            coder: NSCoder) -> UIViewController? {
-        let viewController = ChatDetailViewController()
-        return viewController
-    }
-    */
     
     override func applicationFinishedRestoringState() {
         guard let messages = messages else { return }
-        self.viewDidLayoutSubviews()
-        self.retrieveChatFromSqlite(selectedContact)
-        
-        tblForChats.reloadData()
+        //tblForChats.reloadData()
         //messages = MatchedPetsManager.sharedManager.petForId(petId)
     }
     
     func applicationWillBecomeActive(notification : NSNotification){
         /////////self.view.endEditing(true)
-        print("become active here.....")
-        self.tblForChats.layoutIfNeeded()
-       self.viewDidLayoutSubviews()
-        self.tblForChats.layoutIfNeeded()
+        
+        
         // NSNotificationCenter.defaultCenter().po postNotificationName(UIKeyboardWillHideNotification, object: nil)
         //self.viewDidLoad()
-  /*      self.tblForChats.setNeedsUpdateConstraints()
-        self.tblForChats.setNeedsLayout()
-        self.tblForChats.setNeedsDisplay()
-*/
-        
-       /* self.retrieveChatFromSqlite(self.selectedContact)
+        /*      self.tblForChats.setNeedsUpdateConstraints()
+         self.tblForChats.setNeedsLayout()
+         self.tblForChats.setNeedsDisplay()
+         */
+       /*
+        self.retrieveChatFromSqlite(self.selectedContact)
         dispatch_async(dispatch_get_main_queue())
         {
             self.tblForChats.reloadData()
@@ -1042,21 +965,19 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
             
             self.tblForChats.scrollToRowAtIndexPath(indexPath, atScrollPosition: UITableViewScrollPosition.Bottom, animated: true)
         }*/
-      /*tblForChats.reloadData()
-                //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%------------ commented june 16 FetchChatServer()
-        print("calling retrieveChat from foreground function messages count is \(self.messages.count)")
-       
-        if(self.messages.count>1)
-        {
-            var indexPath = NSIndexPath(forRow:self.messages.count-1, inSection: 0)
-            
-            self.tblForChats.scrollToRowAtIndexPath(indexPath, atScrollPosition: UITableViewScrollPosition.Bottom, animated: true)
-        }
- */
+        /*tblForChats.reloadData()
+         //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%------------ commented june 16 FetchChatServer()
+         print("calling retrieveChat from foreground function messages count is \(self.messages.count)")
+         
+         if(self.messages.count>1)
+         {
+         var indexPath = NSIndexPath(forRow:self.messages.count-1, inSection: 0)
+         
+         self.tblForChats.scrollToRowAtIndexPath(indexPath, atScrollPosition: UITableViewScrollPosition.Bottom, animated: true)
+         }
+         */
         //print("calling retrieveChat from foreground function messages count is \(self.messages.count)")
     }
-    
-    
     func willShowKeyBoard(notification : NSNotification){
         
         var userInfo: NSDictionary!
@@ -1075,8 +996,8 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
             }, completion: nil)
         if(messages.count>1)
         {
-        let indexPath = NSIndexPath(forRow:messages.count-1, inSection: 0)
-        tblForChats.scrollToRowAtIndexPath(indexPath, atScrollPosition: UITableViewScrollPosition.Bottom, animated: true)
+            let indexPath = NSIndexPath(forRow:messages.count-1, inSection: 0)
+            tblForChats.scrollToRowAtIndexPath(indexPath, atScrollPosition: UITableViewScrollPosition.Bottom, animated: true)
         }
         
     }
@@ -1120,29 +1041,29 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
         
         return randomString
     }
-
+    
     @IBAction func btnShareFileInChatPressed(sender: AnyObject)
-        {
-            //socketObj.socket.emit("logClient","\(username!) is sharing file with \(iamincallWith)")
-            print(NSOpenStepRootDirectory())
-            ///var UTIs=UTTypeCopyPreferredTagWithClass("public.image", kUTTypeImage)?.takeRetainedValue() as! [String]
+    {
+        //socketObj.socket.emit("logClient","\(username!) is sharing file with \(iamincallWith)")
+        print(NSOpenStepRootDirectory())
+        ///var UTIs=UTTypeCopyPreferredTagWithClass("public.image", kUTTypeImage)?.takeRetainedValue() as! [String]
+        
+        let importMenu = UIDocumentMenuViewController(documentTypes: [kUTTypeText as NSString as String, kUTTypeImage as String,"com.adobe.pdf","public.jpeg","public.html","public.content","public.data","public.item",kUTTypeBundle as String],
+                                                      inMode: .Import)
+        ///////let importMenu = UIDocumentMenuViewController(documentTypes: UTIs, inMode: .Import)
+        importMenu.delegate = self
+        dispatch_async(dispatch_get_main_queue()) { () -> Void in
+            self.presentViewController(importMenu, animated: true, completion: nil)
             
-            let importMenu = UIDocumentMenuViewController(documentTypes: [kUTTypeText as NSString as String, kUTTypeImage as String,"com.adobe.pdf","public.jpeg","public.html","public.content","public.data","public.item",kUTTypeBundle as String],
-                                                          inMode: .Import)
-            ///////let importMenu = UIDocumentMenuViewController(documentTypes: UTIs, inMode: .Import)
-            importMenu.delegate = self
-            dispatch_async(dispatch_get_main_queue()) { () -> Void in
-                self.presentViewController(importMenu, animated: true, completion: nil)
-                
-                
-            }
             
-            //////////mdata.sharefile()
-            
-            /*let documentPicker = UIDocumentPickerViewController(documentTypes: [kUTTypeText as NSString as String],
-             inMode: .Import)
-             documentPicker.delegate = self
-             presentViewController(documentPicker, animated: true, completion: nil)*/
+        }
+        
+        //////////mdata.sharefile()
+        
+        /*let documentPicker = UIDocumentPickerViewController(documentTypes: [kUTTypeText as NSString as String],
+         inMode: .Import)
+         documentPicker.delegate = self
+         presentViewController(documentPicker, animated: true, completion: nil)*/
         
     }
     @IBAction func postBtnTapped() {
@@ -1152,21 +1073,21 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
         ///=================
         
         //^^^^var loggedid=loggedUserObj["_id"]
-       /* var uniqueid=self.randomStringWithLength(5)
-        let formatter = NSDateFormatter()
-        formatter.dateStyle = NSDateFormatterStyle.LongStyle
-        formatter.timeStyle = .ShortStyle
-        */
+        /* var uniqueid=self.randomStringWithLength(5)
+         let formatter = NSDateFormatter()
+         formatter.dateStyle = NSDateFormatterStyle.LongStyle
+         formatter.timeStyle = .ShortStyle
+         */
         //let dateString = formatter.stringFromDate(NSDate())
         let calendar = NSCalendar.currentCalendar()
         let comp = calendar.components([.Hour, .Minute], fromDate: NSDate())
-         let year = String(comp.year)
+        let year = String(comp.year)
         let month = String(comp.month)
         let day = String(comp.day)
         let hour = String(comp.hour)
         let minute = String(comp.minute)
         let second = String(comp.second)
-       
+        
         var randNum5=self.randomStringWithLength(5) as! String
         var uniqueID=randNum5+year+month+day+hour+minute+second
         //var uniqueID=randNum5+year
@@ -1187,21 +1108,21 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
         //////socketObj.socket.emit("im",["room":"globalchatroom","stanza":imParas])
         var statusNow=""
         /*if(isSocketConnected==true)
-        {
-            statusNow="sent"
-            
-        }
-        else
-        {
-*/
-            statusNow="pending"
+         {
+         statusNow="sent"
+         
+         }
+         else
+         {
+         */
+        statusNow="pending"
         //}
         
         sqliteDB.SaveChat("\(selectedContact)", from1: "\(username!)",owneruser1: "\(username!)", fromFullName1: "\(loggedFullName!)", msg1: "\(txtFldMessage.text!)",date1: nil,uniqueid1: uniqueID, status1: statusNow)
-
+        
         socketObj.socket.emitWithAck("im",["room":"globalchatroom","stanza":imParas])(timeoutAfter: 150000)
         {data in
-          
+            
             print("chat ack received  \(data)")
             statusNow="sent"
             var chatmsg=JSON(data)
@@ -1221,16 +1142,16 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
         
         
         /*insert(self.fromFullName<-"Sabach Channa",
-        self.msg<-"\(txtFldMessage.text)",
-        //self.owneruser<-"sabachanna",
-        self.to<-"sumi",
-        self.from<-"sabachanna"
-        )
-        if let rowid = insert.rowid {
-        print("inserted id: \(rowid)")
-        } else if insert.statement.failed {
-        print("insertion failed: \(insert.statement.reason)")
-        }*/
+         self.msg<-"\(txtFldMessage.text)",
+         //self.owneruser<-"sabachanna",
+         self.to<-"sumi",
+         self.from<-"sabachanna"
+         )
+         if let rowid = insert.rowid {
+         print("inserted id: \(rowid)")
+         } else if insert.statement.failed {
+         print("insertion failed: \(insert.statement.reason)")
+         }*/
         
         var date=NSDate()
         var formatter = NSDateFormatter();
@@ -1245,8 +1166,8 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
         tblForChats.reloadData()
         if(messages.count>1)
         {
-        var indexPath = NSIndexPath(forRow:messages.count-1, inSection: 0)
-        tblForChats.scrollToRowAtIndexPath(indexPath, atScrollPosition: UITableViewScrollPosition.Bottom, animated: true)
+            var indexPath = NSIndexPath(forRow:messages.count-1, inSection: 0)
+            tblForChats.scrollToRowAtIndexPath(indexPath, atScrollPosition: UITableViewScrollPosition.Bottom, animated: true)
             
         }
     }
@@ -1259,18 +1180,18 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
         
         //let constraintSize = CGSizeMake(220, CGFloat.max)
         
-       
+        
         
         /*let attributes = [NSFontAttributeName:UIFont.systemFontOfSize(11.0)]
-        let labelSize = postTitle.boundingRectWithSize(constraintSize,
-            options: NSStringDrawingOptions.UsesLineFragmentOrigin,
-            attributes: attributes,
-            context: nil)*/
+         let labelSize = postTitle.boundingRectWithSize(constraintSize,
+         options: NSStringDrawingOptions.UsesLineFragmentOrigin,
+         attributes: attributes,
+         context: nil)*/
         
         let labelSize = postTitle.boundingRectWithSize(constraintSize,
-            options: NSStringDrawingOptions.UsesLineFragmentOrigin,
-            attributes:[NSFontAttributeName : UIFont.systemFontOfSize(11.0)],
-            context: nil)
+                                                       options: NSStringDrawingOptions.UsesLineFragmentOrigin,
+                                                       attributes:[NSFontAttributeName : UIFont.systemFontOfSize(11.0)],
+                                                       context: nil)
         //print("size is width \(labelSize.width) and height is \(labelSize.height)")
         return labelSize.size
     }
@@ -1280,42 +1201,41 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
         
         removeChatHistory()
         /*sqliteDB.deleteChat(selectedContact.debugDescription)
-        
-        messages.removeAllObjects()
-        tblForChats.reloadData()*/
+         
+         messages.removeAllObjects()
+         tblForChats.reloadData()*/
     }
     
     func socketReceivedMessage(message: String, data: AnyObject!) {
-    /*
-        print("socketReceivedMessage inside im got", terminator: "")
-        var msg=JSON(data)
-print("$$ \(message) is this \(msg)")
-        print(message)
-        switch(message)
-        {
-        case "im":
-            print("chat sent to server.ack received 222 ")
-            var chatJson=JSON(data)
-            print("chat received \(chatJson.debugDescription)")
-            print(chatJson[0]["msg"])
-            var receivedMsg=chatJson[0]["msg"]
-            
-            self.addMessage(receivedMsg.description, ofType: "1",date: NSDate().debugDescription)
-            self.tblForChats.reloadData()
-            if(self.messages.count>1)
-            {
-                var indexPath = NSIndexPath(forRow:self.messages.count-1, inSection: 0)
-                
-                self.tblForChats.scrollToRowAtIndexPath(indexPath, atScrollPosition: UITableViewScrollPosition.Bottom, animated: true)
-            }
-            
-            
-        default:
-        print("error: wrong messgae received2 \(message)")
-
-            
-        }
-*/
+        /*
+         print("socketReceivedMessage inside im got", terminator: "")
+         var msg=JSON(data)
+         print("$$ \(message) is this \(msg)")
+         print(message)
+         switch(message)
+         {
+         case "im":
+         print("chat sent to server.ack received 222 ")
+         var chatJson=JSON(data)
+         print("chat received \(chatJson.debugDescription)")
+         print(chatJson[0]["msg"])
+         var receivedMsg=chatJson[0]["msg"]
+         
+         self.addMessage(receivedMsg.description, ofType: "1",date: NSDate().debugDescription)
+         self.tblForChats.reloadData()
+         if(self.messages.count>1)
+         {
+         var indexPath = NSIndexPath(forRow:self.messages.count-1, inSection: 0)
+         
+         self.tblForChats.scrollToRowAtIndexPath(indexPath, atScrollPosition: UITableViewScrollPosition.Bottom, animated: true)
+         }
+         
+         
+         default:
+         print("error: wrong messgae received2 \(message)")
+         
+         }
+         */
         
     }
     func socketReceivedSpecialMessage(message: String, params: JSON!) {
@@ -1325,15 +1245,15 @@ print("$$ \(message) is this \(msg)")
     func socketReceivedMessageChat(message: String, data: AnyObject!) {
         
         //print("socketReceivedMessage inside im got", terminator: "")
-                switch(message)
+        switch(message)
         {
         case "im":
             var msg=JSON(data)
             print("$$ \(message) is this \(msg)")
             print(message)
-
+            
             print("chat sent to server.ack received 222 ")
-           
+            
             var chatJson=JSON(data)
             print("chat received \(chatJson.debugDescription)")
             print(chatJson[0]["msg"])
@@ -1345,7 +1265,7 @@ print("$$ \(message) is this \(msg)")
             //formatter.dateFormat = "yyyy-MM-dd HH:mm:ss ZZZ";
             formatter.dateFormat = "MM/dd, HH:mm";
             formatter.timeZone = NSTimeZone.localTimeZone()
-           // formatter.dateStyle = .ShortStyle
+            // formatter.dateStyle = .ShortStyle
             //formatter.timeStyle = .ShortStyle
             let defaultTimeZoneStr = formatter.stringFromDate(date22);
             
@@ -1360,60 +1280,59 @@ print("$$ \(message) is this \(msg)")
                 var indexPath = NSIndexPath(forRow:self.messages.count-1, inSection: 0)
                 
                 self.tblForChats.scrollToRowAtIndexPath(indexPath, atScrollPosition: UITableViewScrollPosition.Bottom, animated: true)
-                    }
-
-                    //%%%%% OLD working logic.. changed coz of bubble unread
+            }
+            
+            //%%%%% OLD working logic.. changed coz of bubble unread
             
             /*
-            self.tblForChats.reloadData()
+             self.tblForChats.reloadData()
+             if(self.messages.count>1)
+             {
+             var indexPath = NSIndexPath(forRow:self.messages.count-1, inSection: 0)
+             
+             self.tblForChats.scrollToRowAtIndexPath(indexPath, atScrollPosition: UITableViewScrollPosition.Bottom, animated: true)
+             }
+             
+             */
+        case "updateUI":
+            
+            print("$$ \(message)")
+            print(message)
+            
+            self.retrieveChatFromSqlite(self.selectedContact)
             if(self.messages.count>1)
             {
                 var indexPath = NSIndexPath(forRow:self.messages.count-1, inSection: 0)
                 
                 self.tblForChats.scrollToRowAtIndexPath(indexPath, atScrollPosition: UITableViewScrollPosition.Bottom, animated: true)
             }
-                     
-                     */
-            case "updateUI":
-              
-                print("$$ \(message)")
-                print(message)
-
-                self.retrieveChatFromSqlite(self.selectedContact)
-                if(self.messages.count>1)
-                {
-                    var indexPath = NSIndexPath(forRow:self.messages.count-1, inSection: 0)
-                    
-                    self.tblForChats.scrollToRowAtIndexPath(indexPath, atScrollPosition: UITableViewScrollPosition.Bottom, animated: true)
-                    }
- 
-           // dispatch_async(dispatch_get_main_queue())
-              //  {
-               //     self.tblForChats.reloadData()
-               // }
+            
+            // dispatch_async(dispatch_get_main_queue())
+            //  {
+            //     self.tblForChats.reloadData()
+            // }
             
             
         default:
             print("error: wrong messgae received2 \(message)")
-
-        
+            
+            
+        }
     }
-    }
-
-  /*
-    // delete slider to delete individual row
-    // Override to support editing the table view.
-    func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
-    if editingStyle == .Delete {
-    messages.removeObjectAtIndex(indexPath.row)
-    // Delete the row from the data source
-    tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Fade)
-    } else if editingStyle == .Insert {
-    // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-    }
-    }
-
-*/
+    
+    /*
+     // delete slider to delete individual row
+     // Override to support editing the table view.
+     func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
+     if editingStyle == .Delete {
+     messages.removeObjectAtIndex(indexPath.row)
+     // Delete the row from the data source
+     tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Fade)
+     } else if editingStyle == .Insert {
+     // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
+     }
+     }
+     */
     
     
     
@@ -1421,21 +1340,21 @@ print("$$ \(message) is this \(msg)")
     
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepareForSegue(segue: UIStoryboardSegue?, sender: AnyObject?) {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-       
+        // Get the new view controller using [segue destinationViewController].
+        // Pass the selected object to the new view controller.
+        
         /*
-        if segue!.identifier == "backToChatPushSegue" {
-             if let destinationVC = segue!.destinationViewController as? ChatViewController{
-            //destinationVC.tabBarController?.selectedIndex=0
-                //self.tabBarController?.selectedIndex=0
-                self.dismissViewControllerAnimated(true, completion: { () -> Void in
-                    
-                    
-                })
-            }
-    }
-*/
+         if segue!.identifier == "backToChatPushSegue" {
+         if let destinationVC = segue!.destinationViewController as? ChatViewController{
+         //destinationVC.tabBarController?.selectedIndex=0
+         //self.tabBarController?.selectedIndex=0
+         self.dismissViewControllerAnimated(true, completion: { () -> Void in
+         
+         
+         })
+         }
+         }
+         */
     }
     
     func documentPicker(controller: UIDocumentPickerViewController, didPickDocumentAtURL url: NSURL) {
@@ -1455,7 +1374,7 @@ print("$$ \(message) is this \(msg)")
                 socketObj.socket.emit("logClient","IPHONE-LOG: \(username!) selected file ")
                 print("file gotttttt")
                 var furl=NSURL(string: url.URLString)
-               
+                
                 
                 //METADATA FILE NAME,TYPE
                 print(furl!.pathExtension!)
@@ -1477,7 +1396,7 @@ print("$$ \(message) is this \(msg)")
                     socketObj.socket.emit("logClient","IPHONE-LOG: error: \(error)")
                     print("Error: \(error)")
                 }
-         
+                
                 urlLocalFile=url
                 /////let text2 = fm.contentsAtPath(filePath)
                 ////////print(text2)
@@ -1494,7 +1413,7 @@ print("$$ \(message) is this \(msg)")
                 var mjson="{\"file_meta\":{\"name\":\"\(filename)\",\"size\":\"\(self.fileSize1.description)\",\"filetype\":\"\(ftype)\",\"browser\":\"firefox\",\"uname\":\"\(username!)\",\"fid\":\(self.myfid),\"senderid\":\(currentID!)}}"
                 var fmetadata="{\"eventName\":\"data_msg\",\"data\":\(mjson)}"
                 
-        
+                
                 //----------sendDataBuffer(fmetadata,isb: false)
                 
                 
@@ -1510,7 +1429,7 @@ print("$$ \(message) is this \(msg)")
             url.stopAccessingSecurityScopedResource()
             //mdata.sharefile(url)
         }
- 
+        
     }
     
     
@@ -1532,36 +1451,16 @@ print("$$ \(message) is this \(msg)")
         
         socketObj.delegateChat=nil
     }
-    override func viewDidLayoutSubviews() {
+   /* override func viewDidLayoutSubviews() {
         
         super.viewDidLayoutSubviews()
-        
-       //// self.retrieveChatFromSqlite(selectedContact)
-    }
-    override func viewWillLayoutSubviews() {
-        
-        print("[[[[[[[[[[[[[ subviews]]]]]]]]]]]]]")
-        super.viewWillLayoutSubviews()
-        if(self.view.subviews.count != 3)
-        {
-            print("{{{{{{ adding")
-            self.view.addSubview(tblForChats)
-        }
-        self.tblForChats.layoutIfNeeded()
-        self.view.bringSubviewToFront(self.tblForChats)
-        
-    }
+    }*/
 }
-
+/*
 extension ChatDetailViewController: UIViewControllerRestoration {
     static func viewControllerWithRestorationIdentifierPath(identifierComponents: [AnyObject],
                                                             coder: NSCoder) -> UIViewController? {
-       /*
-        print("vcwithrip \(NSStringFromClass(self)) \(identifierComponents) \(coder)")
-        var vc : UIViewController? = ChatDetailViewController.init(nibName: "chatDetailRestoration", bundle: nil)
-       
-        //let vc = ChatDetailViewController()*/
-        let vc=ChatDetailViewController.init(nibName: "11", bundle: nil)
+        let vc = ChatDetailViewController()
         return vc
     }
-}
+}*/

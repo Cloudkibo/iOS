@@ -1182,6 +1182,10 @@ class LoginAPI{
             {
             self.delegateChat?.socketReceivedMessageChat("updateUI", data: nil)
             }
+                if(self.delegate != nil)
+{
+                self.delegate?.socketReceivedMessage("updateUI", data: nil)
+}
             }
             print("all fetched chats saved in sqlite success")
         

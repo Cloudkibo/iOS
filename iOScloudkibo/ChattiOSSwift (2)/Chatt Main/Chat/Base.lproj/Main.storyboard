@@ -196,7 +196,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="FY7-zh-HkE" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-711" y="-1006"/>
+            <point key="canvasLocation" x="-1371" y="-1190"/>
         </scene>
         <!--All Contacts-->
         <scene sceneID="eio-Q2-iDF">
@@ -1080,7 +1080,7 @@
                                             <action selector="postBtnTapped" destination="vqu-uk-8SN" eventType="touchUpInside" id="CGN-7E-69k"/>
                                         </connections>
                                     </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="Jkd-fn-jTj" userLabel="fileAttachBtn">
+                                    <button opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="Jkd-fn-jTj" userLabel="fileAttachBtn">
                                         <rect key="frame" x="13" y="11" width="25" height="22"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <state key="normal" image="chat_camera">
@@ -1112,7 +1112,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="u05-OP-Jjm" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="976" y="-1072"/>
+            <point key="canvasLocation" x="808" y="-1084"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="Uqe-hH-AAS">
@@ -1504,7 +1504,7 @@
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="lJi-cD-Yjf" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-621" y="-51"/>
+            <point key="canvasLocation" x="-593" y="-1092"/>
         </scene>
         <!--Favourites-->
         <scene sceneID="KV5-4K-q77">

@@ -119,7 +119,8 @@ class FileReceivedViewController: UIViewController,UIDocumentInteractionControll
         }
         }
 
-*/
+        */
+                
         var ubiquityURL=filemgr.URLForUbiquityContainerIdentifier("iCloud.iCloud.MyAppTemplates.cloudkibo")
         
         print("number 1 is \(ubiquityURL)")
@@ -139,6 +140,88 @@ class FileReceivedViewController: UIViewController,UIDocumentInteractionControll
             //print("newdest is \(newdest.debugDescription)")
             //var ans=try fileManager.setUbiquitous(true, itemAtURL: self.fileURL, destinationURL: newdest)
             
+            
+            
+            
+            
+            
+            
+            
+            
+            if let ubiquityURL = ubiquityURL {
+                var error:NSError?
+                var isDir:ObjCBool = false
+                if (NSFileManager.defaultManager().fileExistsAtPath(ubiquityURL.path!, isDirectory: &isDir)) {
+                    do{try filemgr.removeItemAtURL(ubiquityURL)}
+                    catch{
+                        print("error removing file")
+                    }
+                }
+                
+                do{if (error == nil) {
+                     var ans=try NSFileManager.defaultManager().copyItemAtURL(documentURL, toURL: ubiquityURL)
+                    //print(error?.localizedDescription);
+                    
+                }
+                }
+                catch{
+                    dispatch_async(dispatch_get_main_queue(),{
+                        var alert = UIAlertController(title: "Error", message: "\(error) Please enter new name of file" , preferredStyle: .Alert)
+                        
+                        //2. Add the text field. You can configure it however you need.
+                        alert.addTextFieldWithConfigurationHandler({ (textField) -> Void in
+                            textField.text = ""
+                        })
+                        
+                        
+                        //3. Grab the value from the text field, and print it when the user clicks OK.
+                        alert.addAction(UIAlertAction(title: "OK", style: .Default, handler: { (action) -> Void in
+                            let textField = alert.textFields![0] as UITextField
+                            username = textField.text!
+                            print("Text field: \(textField.text)")
+                            
+                            
+                            ///username = "iphoneUser"
+                            //iamincallWith = "webConference"
+                            isInitiator = false
+                            isConference = true
+                          //  ConferenceRoomName = self.txtForRoomName.text!
+                            
+                            
+                            let next = self.storyboard!.instantiateViewControllerWithIdentifier("MainV2") as! VideoViewController
+                            
+                            self.presentViewController(next, animated: true, completion:nil)
+                            
+                            
+                        }))
+                        
+                        // 4. Present the alert.
+                        self.presentViewController(alert, animated: true, completion:
+                            {
+                                
+                                
+                            }
+                        )
+                        
+                    })
+
+                }
+            }
+            
+            
+            
+            
+            
+            print("file path in string is \(ubiquityURL!.absoluteString)")
+            if(filemgr.fileExistsAtPath((ubiquityURL!.absoluteString)))
+            {
+                //ubiquityURL=filemgr.URLForUbiquityContainerIdentifier("iCloud.iCloud.MyAppTemplates.cloudkibo")!.URLByAppendingPathComponent("\(filejustreceivedname)").
+                print("new path is \(ubiquityURL)")
+                
+            }else
+            {
+                
+                print("file dest path is \(ubiquityURL) and source path is \(documentURL)")
             var ans = try filemgr.copyItemAtURL(documentURL,toURL: ubiquityURL! )
             
                //var ans = try filemgr.setUbiquitous(true, itemAtURL:documentURL ,
@@ -150,6 +233,7 @@ class FileReceivedViewController: UIViewController,UIDocumentInteractionControll
                 
                 
             })
+            }
             //btnFilePreview
         }catch
         {

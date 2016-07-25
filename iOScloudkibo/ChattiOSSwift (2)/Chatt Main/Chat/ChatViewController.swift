@@ -2264,6 +2264,30 @@ print("query join error 1337 \(e)")
             //}
             
             */
+            case "updateUI":
+                dispatch_async(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0)) {
+                    // do some task start to show progress wheel
+                    self.fetchContacts({ (result) -> () in
+                        //self.fetchContactsFromServer()
+                        print("checkinnn")
+                        let tbl_accounts=sqliteDB.accounts
+                        do{for account in try sqliteDB.db.prepare(tbl_accounts) {
+                            ///print("id: \(account[_id]), phone: \(account[phone]), firstname: \(account[firstname])")
+                            
+                            var userr:JSON=["_id":account[self._id],"display_name":account[self.firstname]!,"phone":account[self.phone]]
+                            socketObj.socket.emit("whozonline",
+                                ["room":"globalchatroom",
+                                    "user":userr.object])
+                            }}
+                        catch{
+                            
+                        }
+                        
+                        dispatch_async(dispatch_get_main_queue()) {
+                            self.tblForChat.reloadData()
+                        }
+                    })
+            }
             
             case "im":
                 dispatch_async(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0)) {
