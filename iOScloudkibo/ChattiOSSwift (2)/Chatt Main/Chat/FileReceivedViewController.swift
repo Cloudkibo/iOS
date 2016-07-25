@@ -43,6 +43,104 @@ class FileReceivedViewController: UIViewController,UIDocumentInteractionControll
         }
     }
     
+    
+    func saveToiCloud()
+    
+    {
+        
+        
+           let filemgr = NSFileManager.init()
+        var ubiquityURL=filemgr.URLForUbiquityContainerIdentifier("iCloud.iCloud.MyAppTemplates.cloudkibo")
+        
+        print("number 1 is \(ubiquityURL)")
+        ubiquityURL=ubiquityURL!.URLByAppendingPathComponent("Documents", isDirectory: true)
+        //print("number 2 is \(ubiquityURL)")
+        ///ubiquityURL=ubiquityURL!.URLByAppendingPathComponent("cloudkibo2", isDirectory: true)
+        //print("number 3 is \(ubiquityURL)")
+        ubiquityURL=ubiquityURL!.URLByAppendingPathComponent("\(filejustreceivedname)")
+        print("number 4 is \(ubiquityURL)")
+        
+        var documentURL=filejustreceivedPathURL //this is full path
+        
+        
+            //var newdest=dest!.URLByAppendingPathComponent("Documents", isDirectory: true)
+    //print("newdest is \(newdest.debugDescription)")
+    //var ans=try fileManager.setUbiquitous(true, itemAtURL: self.fileURL, destinationURL: newdest)
+    
+    ///////   if let ubiquityURL = ubiquityURL {
+    var error:NSError?
+    var isDir:ObjCBool = false
+    if (filemgr.fileExistsAtPath(ubiquityURL!.path!, isDirectory: &isDir)) {
+    /*do{try filemgr.removeItemAtURL(ubiquityURL!)}
+     catch{
+     print("error removing file")
+     }*/
+    dispatch_async(dispatch_get_main_queue(),{
+    var alert = UIAlertController(title: "Error", message: "\(error) Please enter new name of file" , preferredStyle: .Alert)
+    
+    //2. Add the text field. You can configure it however you need.
+    alert.addTextFieldWithConfigurationHandler({ (textField) -> Void in
+    textField.text = ""
+    })
+    
+    
+    //3. Grab the value from the text field, and print it when the user clicks OK.
+    alert.addAction(UIAlertAction(title: "OK", style: .Default, handler: { (action) -> Void in
+    let textField = alert.textFields![0] as UITextField
+    username = textField.text!
+    print("Text field: \(textField.text)")
+    
+    var indExt=filejustreceivedname.characters.indexOf(".")
+    var filetype=filejustreceivedname.substringFromIndex(indExt!)
+        filejustreceivedname=textField.text!+filetype
+    
+       print("newwwww file isss \(filejustreceivedname)")
+        self.saveToiCloud()
+    }))
+    
+    // 4. Present the alert.
+    self.presentViewController(alert, animated: true, completion:
+    {
+    
+    
+    }
+    )
+    
+    })
+    
+    }
+    else{
+    
+    do{if (error == nil) {
+    print("copying file to icloud")
+    var ans=try filemgr.copyItemAtURL(documentURL!, toURL: ubiquityURL!)
+        
+        let alert = UIAlertController(title: "Success", message: "Your file \(filejustreceivedname) has been successfully saved to iCloud Drive", preferredStyle: UIAlertControllerStyle.Alert)
+        alert.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.Default, handler: nil))
+        self.presentViewController(alert, animated: true, completion: {
+            
+            
+        })
+
+    //print(error?.localizedDescription);
+    
+    }
+    }
+    catch{
+    //print("error anssss is \(ans)")
+    print("error is \(error)")
+    let alert = UIAlertController(title: "Cancel", message: "\(error)", preferredStyle: UIAlertControllerStyle.Alert)
+    alert.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.Default, handler: nil))
+    self.presentViewController(alert, animated: true, completion: {
+    
+    
+    })
+    }
+    
+    }
+    
+    }
+    
     func didReceiveFileConference()
     {
         //videoCont.btnViewFile.enabled=true
@@ -141,12 +239,12 @@ class FileReceivedViewController: UIViewController,UIDocumentInteractionControll
             //var ans=try fileManager.setUbiquitous(true, itemAtURL: self.fileURL, destinationURL: newdest)
             
             
+            self.saveToiCloud()
             
             
             
             
-            
-            
+            /*
             
          ///////   if let ubiquityURL = ubiquityURL {
                 var error:NSError?
@@ -218,7 +316,10 @@ class FileReceivedViewController: UIViewController,UIDocumentInteractionControll
                     }
                     
             }
+            
+            */
                 }
+                
                 
                /* do{if (error == nil) {
                     print("copying file to icloud")
