@@ -962,7 +962,7 @@
         <scene sceneID="1Ch-nI-fdZ">
             <objects>
                 <viewController restorationIdentifier="11" id="vqu-uk-8SN" customClass="ChatDetailViewController" customModule="Chat" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="cqK-Ao-ix1">
+                    <view key="view" autoresizesSubviews="NO" opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" id="cqK-Ao-ix1">
                         <rect key="frame" x="0.0" y="64" width="320" height="504"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>

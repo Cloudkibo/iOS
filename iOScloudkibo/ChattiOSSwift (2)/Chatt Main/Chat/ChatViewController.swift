@@ -1448,8 +1448,11 @@ print("query join error 1337 \(e)")
         let phone = Expression<String>("phone")
         let usernameFromDb = Expression<String?>("username")
         let name = Expression<String?>("name")
+        if(!ContactLastMessage[indexPath.row].isEmpty)
+        {
         cell.statusPrivate.text=ContactLastMessage[indexPath.row]
-        if(!ContactsLastMsgDate[indexPath.row].isEmpty)
+        }
+            if(!ContactsLastMsgDate[indexPath.row].isEmpty)
         {
         cell.lbltimePrivate.text=ContactsLastMsgDate[indexPath.row]
         }

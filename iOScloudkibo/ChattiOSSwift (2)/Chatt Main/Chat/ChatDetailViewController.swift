@@ -14,7 +14,7 @@ import AVFoundation
 import MobileCoreServices
 import Foundation
 
-class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChatDelegate,UIDocumentPickerDelegate,UIDocumentMenuDelegate,UITableViewDataSource, UITextViewDelegate{
+class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChatDelegate,UIDocumentPickerDelegate,UIDocumentMenuDelegate,UITableViewDataSource{
     
     var cell : UITableViewCell!
     var textLable:UILabel!
@@ -146,7 +146,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
         print("chat will appear")
         socketObj.socket.emit("logClient","IPHONE-LOG: chat page will appear")
         
-        
+        self.viewDidLayoutSubviews()
         //%%%%%%%%%%%%%% commented new socket connected again and again
         /*if(socketObj == nil)
         {
@@ -313,6 +313,13 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
         
         tblForChats.rowHeight = UITableViewAutomaticDimension
         tblForChats.estimatedRowHeight = 140
+        self.tblForChats.layoutIfNeeded()
+        if(self.messages.count>1)
+        {
+            var indexPath = NSIndexPath(forRow:self.messages.count-1, inSection: 0)
+            
+            self.tblForChats.scrollToRowAtIndexPath(indexPath, atScrollPosition: UITableViewScrollPosition.Bottom, animated: true)
+        }
         
        // var myappdelegate=AppDelegate.
         //myappdelegate.chatDetailView=self
@@ -1003,15 +1010,19 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
     
     override func applicationFinishedRestoringState() {
         guard let messages = messages else { return }
+        self.viewDidLayoutSubviews()
         self.retrieveChatFromSqlite(selectedContact)
+        
         tblForChats.reloadData()
         //messages = MatchedPetsManager.sharedManager.petForId(petId)
     }
     
     func applicationWillBecomeActive(notification : NSNotification){
         /////////self.view.endEditing(true)
+        print("become active here.....")
+        self.tblForChats.layoutIfNeeded()
        self.viewDidLayoutSubviews()
-        
+        self.tblForChats.layoutIfNeeded()
         // NSNotificationCenter.defaultCenter().po postNotificationName(UIKeyboardWillHideNotification, object: nil)
         //self.viewDidLoad()
   /*      self.tblForChats.setNeedsUpdateConstraints()
@@ -1526,6 +1537,19 @@ print("$$ \(message) is this \(msg)")
         super.viewDidLayoutSubviews()
         
        //// self.retrieveChatFromSqlite(selectedContact)
+    }
+    override func viewWillLayoutSubviews() {
+        
+        print("[[[[[[[[[[[[[ subviews]]]]]]]]]]]]]")
+        super.viewWillLayoutSubviews()
+        if(self.view.subviews.count != 3)
+        {
+            print("{{{{{{ adding")
+            self.view.addSubview(tblForChats)
+        }
+        self.tblForChats.layoutIfNeeded()
+        self.view.bringSubviewToFront(self.tblForChats)
+        
     }
 }
 
