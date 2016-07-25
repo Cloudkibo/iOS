@@ -16,6 +16,20 @@ import Foundation
 
 class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChatDelegate,UIDocumentPickerDelegate,UIDocumentMenuDelegate,UITableViewDataSource, UITextViewDelegate{
     
+    var cell : UITableViewCell!
+    var textLable:UILabel!
+    var chatImage:UIImageView!
+    var profileImage:UIImageView!
+    var timeLabel:UILabel!
+    
+    
+    var messageDic=[String : String]()
+    
+    var msgType:NSString=""
+    var msgChat:NSString=""
+    var date2:NSString=""
+    var sizeOFStr:String=""
+    
     
     var myfid=0
     var fid:Int!=0
@@ -124,9 +138,10 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
         super.init(coder: aDecoder)
         //print("hiiiiii22 \(self.AuthToken)")
         
+        
     }
     
-    
+   
     override func viewWillAppear(animated: Bool) {
         print("chat will appear")
         socketObj.socket.emit("logClient","IPHONE-LOG: chat page will appear")
@@ -179,6 +194,14 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
         //sqliteDB.retrieveChat(username!)
         
     }
+    
+    func tableView(
+        tableView: UITableView,
+        estimatedHeightForRowAtIndexPath indexPath: NSIndexPath
+        ) -> CGFloat {
+        return 50
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         ////////self.restorationIdentifier = "11"
@@ -287,6 +310,12 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
         ////////////messages.addObject(["message":"helloo","hiiii":"tstingggg","type":"1"])
           self.addMessage("Its actually pretty good!", ofType: "1",date: NSDate().debugDescription)
         self.addMessage("What do you think of this tool!", ofType: "2",date: NSDate().debugDescription)
+        
+        tblForChats.rowHeight = UITableViewAutomaticDimension
+        tblForChats.estimatedRowHeight = 140
+        
+       // var myappdelegate=AppDelegate.
+        //myappdelegate.chatDetailView=self
     }
    
     /*func getUserObjectById()
@@ -594,6 +623,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
     }
     
     override func awakeFromNib() {
+        super.awakeFromNib()
        //////// NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("applicationWillBecomeActive:"), name:UIApplicationDidBecomeActiveNotification, object: nil)
         
         
@@ -763,14 +793,14 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
     }
     
     func tableView(tableView: UITableView!, cellForRowAtIndexPath indexPath: NSIndexPath!) -> UITableViewCell! {
-        var cell : UITableViewCell!
+        ////var cell : UITableViewCell!
         
-        var messageDic = messages.objectAtIndex(indexPath.row) as! [String : String];
+        self.messageDic = messages.objectAtIndex(indexPath.row) as! [String : String];
         NSLog(messageDic["message"]!, 1)
-        let msgType = messageDic["type"] as NSString!
-        let msg = messageDic["message"] as NSString!
-        let date2=messageDic["date"] as NSString!
-        let sizeOFStr = self.getSizeOfString(msg)
+        self.msgType = self.messageDic["type"] as NSString!
+        self.msgChat = self.messageDic["message"] as NSString!
+        self.date2=self.messageDic["date"] as NSString!
+        let sizeOFStr = self.getSizeOfString(msgChat)
          print("sizeOfstr is width \(sizeOFStr.width) and height is \(sizeOFStr.height)")
         
         //var sizeOFStr=msg.boundingRectWithSize(CGSizeMake(220.0,CGFloat.max), options: NSStringDrawingOptions.UsesLineFragmentOrigin, attributes: nil, context: nil).size
@@ -793,9 +823,15 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
         
         if (msgType.isEqualToString("1")){
             cell = tblForChats.dequeueReusableCellWithIdentifier("ChatSentCell")! as UITableViewCell
-            let textLable = cell.viewWithTag(12) as! UILabel
-            let chatImage = cell.viewWithTag(1) as! UIImageView
-            let profileImage = cell.viewWithTag(2) as! UIImageView
+            
+            if (cell == nil) {
+                cell=UITableViewCell(style: UITableViewCellStyle.Default, reuseIdentifier: "ChatSentCell")
+              //  cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:"ChatSentCell"];
+            }
+            
+            self.textLable = cell.viewWithTag(12) as! UILabel
+            self.chatImage = cell.viewWithTag(1) as! UIImageView
+            self.profileImage = cell.viewWithTag(2) as! UIImageView
             let timeLabel = cell.viewWithTag(11) as! UILabel
             chatImage.frame = CGRectMake(chatImage.frame.origin.x, chatImage.frame.origin.y, ((sizeOFStr.width + 100)  > 200 ? (sizeOFStr.width + 100) : 200), sizeOFStr.height + 40)
             chatImage.image = UIImage(named: "chat_receive")?.stretchableImageWithLeftCapWidth(40,topCapHeight: 20);
@@ -805,7 +841,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
             textLable.frame = CGRectMake(textLable.frame.origin.x, textLable.frame.origin.y, textLable.frame.size.width, sizeOFStr.height)
            ////// profileImage.center = CGPointMake(profileImage.center.x, textLable.frame.origin.y + textLable.frame.size.height - profileImage.frame.size.height/2 + 10)
             profileImage.center = CGPointMake(profileImage.center.x, textLable.frame.origin.y + textLable.frame.size.height - profileImage.frame.size.height/2+20)
-            textLable.text = "\(msg)"
+            textLable.text = "\(msgChat)"
             /*
             
             let dateFormatter = NSDateFormatter()
@@ -823,6 +859,11 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
             timeLabel.text=date2.debugDescription
         } else {
             cell = tblForChats.dequeueReusableCellWithIdentifier("ChatReceivedCell")! as UITableViewCell
+            if (cell == nil) {
+                cell=UITableViewCell(style: UITableViewCellStyle.Default, reuseIdentifier: "ChatReceivedCell")
+                //  cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:"ChatSentCell"];
+            }
+            
             let deliveredLabel = cell.viewWithTag(13) as! UILabel
             let textLable = cell.viewWithTag(12) as! UILabel
             let timeLabel = cell.viewWithTag(11) as! UILabel
@@ -839,7 +880,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
             
             timeLabel.frame = CGRectMake(36 + distanceFactor, timeLabel.frame.origin.y, timeLabel.frame.size.width, timeLabel.frame.size.height)
             deliveredLabel.frame = CGRectMake(deliveredLabel.frame.origin.x, textLable.frame.origin.y + textLable.frame.size.height + 15, deliveredLabel.frame.size.width, deliveredLabel.frame.size.height)
-            textLable.text = "\(msg)"
+            textLable.text = "\(msgChat)"
             //////////////////////deliveredLabel.text="Delivered"
             /*
             let dateFormatter = NSDateFormatter()

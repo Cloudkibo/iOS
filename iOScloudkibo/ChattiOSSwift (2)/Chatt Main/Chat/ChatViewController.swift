@@ -1584,6 +1584,13 @@ print("query join error 1337 \(e)")
         
     }
     
+    func tableView(
+        tableView: UITableView,
+        estimatedHeightForRowAtIndexPath indexPath: NSIndexPath
+        ) -> CGFloat {
+        return 50
+    }
+    
     override func setEditing(editing: Bool, animated: Bool) {
         super.setEditing(editing, animated: animated)
         tblForChat.setEditing(editing, animated: animated)
