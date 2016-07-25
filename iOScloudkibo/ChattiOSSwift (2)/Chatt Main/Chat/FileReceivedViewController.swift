@@ -107,7 +107,7 @@ class FileReceivedViewController: UIViewController,UIDocumentInteractionControll
                 }
             }
         }
-
+        
         
         /*
         NSURL *rootDirectory = [[[NSFileManager defaultManager] URLForUbiquityContainerIdentifier:nil]URLByAppendingPathComponent:@"Documents"];
@@ -148,23 +148,88 @@ class FileReceivedViewController: UIViewController,UIDocumentInteractionControll
             
             
             
-            if let ubiquityURL = ubiquityURL {
+         ///////   if let ubiquityURL = ubiquityURL {
                 var error:NSError?
                 var isDir:ObjCBool = false
-                if (NSFileManager.defaultManager().fileExistsAtPath(ubiquityURL.path!, isDirectory: &isDir)) {
-                    do{try filemgr.removeItemAtURL(ubiquityURL)}
+                if (filemgr.fileExistsAtPath(ubiquityURL!.path!, isDirectory: &isDir)) {
+                    /*do{try filemgr.removeItemAtURL(ubiquityURL!)}
                     catch{
                         print("error removing file")
+                    }*/
+                    dispatch_async(dispatch_get_main_queue(),{
+                        var alert = UIAlertController(title: "Error", message: "\(error) Please enter new name of file" , preferredStyle: .Alert)
+                        
+                        //2. Add the text field. You can configure it however you need.
+                        alert.addTextFieldWithConfigurationHandler({ (textField) -> Void in
+                            textField.text = ""
+                        })
+                        
+                        
+                        //3. Grab the value from the text field, and print it when the user clicks OK.
+                        alert.addAction(UIAlertAction(title: "OK", style: .Default, handler: { (action) -> Void in
+                            let textField = alert.textFields![0] as UITextField
+                            username = textField.text!
+                            print("Text field: \(textField.text)")
+                            
+                            
+                            ///username = "iphoneUser"
+                            //iamincallWith = "webConference"
+                            isInitiator = false
+                            isConference = true
+                            //  ConferenceRoomName = self.txtForRoomName.text!
+                            
+                            
+                            // let next = self.storyboard!.instantiateViewControllerWithIdentifier("MainV2") as! VideoViewController
+                            
+                            // self.presentViewController(next, animated: true, completion:nil)
+                            
+                            
+                        }))
+                        
+                        // 4. Present the alert.
+                        self.presentViewController(alert, animated: true, completion:
+                            {
+                                
+                                
+                            }
+                        )
+                        
+                    })
+                    
+            }
+                else{
+                    
+                    do{if (error == nil) {
+                        print("copying file to icloud")
+                        var ans=try filemgr.copyItemAtURL(documentURL, toURL: ubiquityURL!)
+                        //print(error?.localizedDescription);
+                        
+                        }
                     }
+                    catch{
+                        //print("error anssss is \(ans)")
+                        print("error is \(error)")
+                        let alert = UIAlertController(title: "Cancel", message: "\(error)", preferredStyle: UIAlertControllerStyle.Alert)
+                        alert.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.Default, handler: nil))
+                        self.presentViewController(alert, animated: true, completion: {
+                            
+                            
+                        })
+                    }
+                    
+            }
                 }
                 
-                do{if (error == nil) {
-                     var ans=try NSFileManager.defaultManager().copyItemAtURL(documentURL, toURL: ubiquityURL)
+               /* do{if (error == nil) {
+                    print("copying file to icloud")
+                     var ans=try filemgr.copyItemAtURL(documentURL, toURL: ubiquityURL!)
                     //print(error?.localizedDescription);
                     
                 }
                 }
-                catch{
+                catch{*/
+                    
+                    /*
                     dispatch_async(dispatch_get_main_queue(),{
                         var alert = UIAlertController(title: "Error", message: "\(error) Please enter new name of file" , preferredStyle: .Alert)
                         
@@ -188,9 +253,9 @@ class FileReceivedViewController: UIViewController,UIDocumentInteractionControll
                           //  ConferenceRoomName = self.txtForRoomName.text!
                             
                             
-                            let next = self.storyboard!.instantiateViewControllerWithIdentifier("MainV2") as! VideoViewController
+                           // let next = self.storyboard!.instantiateViewControllerWithIdentifier("MainV2") as! VideoViewController
                             
-                            self.presentViewController(next, animated: true, completion:nil)
+                           // self.presentViewController(next, animated: true, completion:nil)
                             
                             
                         }))
@@ -204,15 +269,15 @@ class FileReceivedViewController: UIViewController,UIDocumentInteractionControll
                         )
                         
                     })
-
+*/
                 }
-            }
+       //////     }
             
             
+                }
             
             
-            
-            print("file path in string is \(ubiquityURL!.absoluteString)")
+           /* print("file path in string is \(ubiquityURL!.absoluteString)")
             if(filemgr.fileExistsAtPath((ubiquityURL!.absoluteString)))
             {
                 //ubiquityURL=filemgr.URLForUbiquityContainerIdentifier("iCloud.iCloud.MyAppTemplates.cloudkibo")!.URLByAppendingPathComponent("\(filejustreceivedname)").
@@ -245,9 +310,9 @@ class FileReceivedViewController: UIViewController,UIDocumentInteractionControll
                 
                     
             })
-        }
+        }*/
         
-        }
+      //  }
         
         
         /*if filemgr.setUbiquitous(true, itemAtURL: documentURL,
@@ -303,8 +368,8 @@ class FileReceivedViewController: UIViewController,UIDocumentInteractionControll
             })
             */
         
-    }
-    
+//}
+
     /*
     
     
