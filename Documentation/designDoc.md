@@ -259,3 +259,22 @@ As discussed above, the device would recieve the socket.io notification to know 
 
 
 
+
+## Design with Push Notifications ##
+-----------------------------------------
+
+Case # 1 : Call Case: User 1 and User 2 are online
+Case # 2 : Call Case: User 1 and User 2 application is in background
+Case # 3 : Call Case: User 1 and User 2 application is in background
+Case # 4 : Chat Case: User 1 and User 2 are online
+Case # 5 : Chat Case: User 1 and User 2 application is in background
+Case # 6 : Chat Case: User 1 and User 2 is without internet
+
+![APNS design diagram](sections/images/APNSdesign0.jpg)
+![APNS design diagram](sections/images/APNSdesign1.jpg)
+![APNS design diagram](sections/images/APNSdesign2.jpg)
+![APNS design diagram](sections/images/APNSdesign3.jpg)
+![APNS design diagram](sections/images/APNSdesign4.jpg)
+![APNS design diagram](sections/images/APNSdesign5.jpg)
+
+
