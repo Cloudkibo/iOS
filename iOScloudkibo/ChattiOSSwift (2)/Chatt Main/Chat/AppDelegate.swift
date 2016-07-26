@@ -13,6 +13,8 @@ import Alamofire
 import Contacts
 import CloudKit
 import AccountKit
+import Fabric
+import Crashlytics
 
 
 var chatDetailView:ChatDetailViewController!
@@ -102,6 +104,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate,AppDelegateScreenDelegate 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         // Override point for customization after application launch.
         
+        Fabric.with([Crashlytics.self])
+
         UIApplication.sharedApplication().setStatusBarHidden(true, withAnimation: UIStatusBarAnimation.Fade);
         
         UIApplication.sharedApplication().setStatusBarStyle(UIStatusBarStyle.LightContent, animated: false);

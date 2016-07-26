@@ -64,6 +64,8 @@
 		713D51EF1CC11896007E0B47 /* webmeetingMsgsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 713D51BC1CC11896007E0B47 /* webmeetingMsgsModel.swift */; };
 		713EC7051D0518B800495A43 /* ChatMainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 713EC7041D0518B800495A43 /* ChatMainViewController.swift */; };
 		7150119F1D12D0940091AD7B /* Reachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7150119E1D12D0940091AD7B /* Reachability.swift */; };
+		7152CB251D47DDC900DB8127 /* Fabric.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7152CB231D47DDC900DB8127 /* Fabric.framework */; };
+		7152CB261D47DDC900DB8127 /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7152CB241D47DDC900DB8127 /* Crashlytics.framework */; };
 		716175841C51BCDE00A72E83 /* Pods.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BC0C99CB9F91896CEAE65024 /* Pods.framework */; };
 		716175851C51BCDE00A72E83 /* Pods.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = BC0C99CB9F91896CEAE65024 /* Pods.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		716175A01C51C9B200A72E83 /* libsqlite3.0.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 716174971C5065BA00A72E83 /* libsqlite3.0.tbd */; };
@@ -304,6 +306,8 @@
 		714560551B904DAA00C8E0D2 /* Contacts.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Contacts.swift; sourceTree = "<group>"; };
 		7145605B1B90875D00C8E0D2 /* Accounts.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Accounts.swift; sourceTree = "<group>"; };
 		7150119E1D12D0940091AD7B /* Reachability.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Reachability.swift; sourceTree = "<group>"; };
+		7152CB231D47DDC900DB8127 /* Fabric.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Fabric.framework; sourceTree = "<group>"; };
+		7152CB241D47DDC900DB8127 /* Crashlytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Crashlytics.framework; sourceTree = "<group>"; };
 		716174971C5065BA00A72E83 /* libsqlite3.0.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.0.tbd; path = usr/lib/libsqlite3.0.tbd; sourceTree = SDKROOT; };
 		716174981C5065BA00A72E83 /* libsqlite3.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.tbd; path = usr/lib/libsqlite3.tbd; sourceTree = SDKROOT; };
 		717403E21CF7151800EA7ABF /* SQLite.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SQLite.xcodeproj; path = "SQLite.swift-master 6/SQLite.xcodeproj"; sourceTree = "<group>"; };
@@ -366,6 +370,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				7108B9861D020E720031FC5A /* Alamofire.framework in Frameworks */,
+				7152CB251D47DDC900DB8127 /* Fabric.framework in Frameworks */,
 				71C4018E1CF71ABB00D38126 /* SQLite.framework in Frameworks */,
 				710EF26C1C96B16500578739 /* CloudKit.framework in Frameworks */,
 				716175A01C51C9B200A72E83 /* libsqlite3.0.tbd in Frameworks */,
@@ -374,6 +379,7 @@
 				71BFD46F1CFD13CC004ACCBF /* AccountKit.framework in Frameworks */,
 				71A98F961C4D6434009D04D7 /* Foundation.framework in Frameworks */,
 				71A98F901C4D5D88009D04D7 /* SwiftyJSON.framework in Frameworks */,
+				7152CB261D47DDC900DB8127 /* Crashlytics.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -390,6 +396,8 @@
 		5BF6361C19A9F3D900ABD0BA = {
 			isa = PBXGroup;
 			children = (
+				7152CB231D47DDC900DB8127 /* Fabric.framework */,
+				7152CB241D47DDC900DB8127 /* Crashlytics.framework */,
 				71BFD4791CFD13D3004ACCBF /* AccountKitStrings.bundle */,
 				71BFD46E1CFD13CC004ACCBF /* AccountKit.framework */,
 				717403E21CF7151800EA7ABF /* SQLite.xcodeproj */,
@@ -607,6 +615,7 @@
 				CB2A35F703D689E521595418 /* Embed Pods Frameworks */,
 				1AC911DEC1B24B468BE453BD /* Copy Pods Resources */,
 				71A98F941C4D5D88009D04D7 /* Embed Frameworks */,
+				7152CB191D47DD6900DB8127 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -843,6 +852,19 @@
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
+		};
+		7152CB191D47DD6900DB8127 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "./Fabric.framework/run 3b282bf90cce24442d5c9291e267a78c0393f407 bccec9e7c5018c8e85fb7d2a81d60dac58a29e66171e11f758b6c21677e4783e";
 		};
 		CB2A35F703D689E521595418 /* Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
