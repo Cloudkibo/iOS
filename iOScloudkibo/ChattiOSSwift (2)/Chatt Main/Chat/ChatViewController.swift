@@ -1448,17 +1448,21 @@ print("query join error 1337 \(e)")
         let phone = Expression<String>("phone")
         let usernameFromDb = Expression<String?>("username")
         let name = Expression<String?>("name")
-        if(!ContactLastMessage[indexPath.row].isEmpty)
+        if(!ContactLastMessage.isEmpty)
         {
         cell.statusPrivate.text=ContactLastMessage[indexPath.row]
         }
-            if(!ContactsLastMsgDate[indexPath.row].isEmpty)
+            if(!ContactsLastMsgDate.isEmpty)
         {
         cell.lbltimePrivate.text=ContactsLastMsgDate[indexPath.row]
         }
       //  do
        //// {allkiboContactsArray = Array(try sqliteDB.db.prepare(contactsKibo))
-            do{for all in try sqliteDB.db.prepare(allcontacts) {
+            do{
+                if(!ContactUsernames.isEmpty)
+                {
+                
+                for all in try sqliteDB.db.prepare(allcontacts) {
                 //print("id: \(account[_id]), phone: \(account[phone]), firstname: \(account[firstname])")
                 // id: 1, email: alice@mac.com, name: Optional("Alice")
                 
@@ -1484,6 +1488,8 @@ print("query join error 1337 \(e)")
                 }
                 
                 }
+                
+        }//end isempty usernames
                 if(!ContactCountMsgRead.isEmpty)
                 {
                 if(ContactCountMsgRead[indexPath.row]>0)
@@ -1501,7 +1507,10 @@ print("query join error 1337 \(e)")
             }
             if(contactFound==false)
             {
+            if(!ContactUsernames.isEmpty)
+                {
                 cell.contactName?.text=ContactUsernames[indexPath.row]
+                }
                 if(!ContactCountMsgRead.isEmpty)
                 {
                 if(ContactCountMsgRead[indexPath.row]>0)
@@ -1561,7 +1570,9 @@ print("query join error 1337 \(e)")
         
         
         
-        
+        if(!ContactOnlineStatus.isEmpty)
+        {
+
         if ContactOnlineStatus[indexPath.row]==0
         {
             cell.btnGreenDot.hidden=true
@@ -1570,7 +1581,7 @@ print("query join error 1337 \(e)")
         {
             cell.btnGreenDot.hidden=false
         }
-        
+        }
         //}
         return cell
         
