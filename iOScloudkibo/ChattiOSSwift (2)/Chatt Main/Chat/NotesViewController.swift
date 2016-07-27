@@ -9,15 +9,17 @@
 import UIKit
 import SQLite
 import Contacts
-class NotesViewController: UIViewController,InviteContactsDelegate,UITextFieldDelegate,UISearchBarDelegate,UISearchResultsUpdating {
+class NotesViewController: UIViewController,InviteContactsDelegate,UITextFieldDelegate,UISearchBarDelegate {
 
     
     var filteredArray = Array<Row>()
     
+    @IBOutlet weak var searchbar1: UISearchBar!
     var shouldShowSearchResults = false
 
     var searchController: UISearchController!
     var alladdressContactsArray=Array<Row>()
+    
     var alert:UIAlertController!
     var delegate:InviteContactsDelegate!
     @IBOutlet var viewForTitle : UIView!
@@ -140,8 +142,9 @@ class NotesViewController: UIViewController,InviteContactsDelegate,UITextFieldDe
     }
     
    
-    func configureSearchController() {
+   /* func configureSearchController() {
         // Initialize and perform a minimum configuration to the search controller.
+        
         searchController = UISearchController(searchResultsController: nil)
         searchController.searchResultsUpdater = self
         searchController.dimsBackgroundDuringPresentation = false
@@ -150,30 +153,36 @@ class NotesViewController: UIViewController,InviteContactsDelegate,UITextFieldDe
         searchController.searchBar.sizeToFit()
         
         // Place the search bar view to the tableview headerview.
+        //self.view.addSubview(searchController.searchBar)
         tblForNotes.tableHeaderView = searchController.searchBar
-    }
+    }*/
     
+    func searchBarTextDidEndEditing(searchBar: UISearchBar) {
+        shouldShowSearchResults = false;
+    }
+
     
     func searchBarTextDidBeginEditing(searchBar: UISearchBar) {
-        shouldShowSearchResults = true
-        tblForNotes.reloadData()
+        shouldShowSearchResults = false
+        //tblForNotes.reloadData()
     }
     
     
     func searchBarCancelButtonClicked(searchBar: UISearchBar) {
         shouldShowSearchResults = false
-        tblForNotes.reloadData()
+        //tblForNotes.reloadData()
     }
    
     func searchBarSearchButtonClicked(searchBar: UISearchBar) {
-        if !shouldShowSearchResults {
+       /* if !shouldShowSearchResults {
             shouldShowSearchResults = true
             tblForNotes.reloadData()
-        }
-        
-        searchController.searchBar.resignFirstResponder()
+        }*/
+        shouldShowSearchResults=false
+        //searchController.searchBar.resignFirstResponder()
     }
-    func updateSearchResultsForSearchController(searchController: UISearchController) {
+    
+    /*func updateSearchResultsForSearchController(searchController: UISearchController) {
         let searchString = searchController.searchBar.text
         let name = Expression<String?>("name")
         // Filter the data array and get only those countries that match the search text.
@@ -186,8 +195,21 @@ class NotesViewController: UIViewController,InviteContactsDelegate,UITextFieldDe
         // Reload the tableview.
         tblForNotes.reloadData()
     }
-    
-    
+    */
+    func searchBar(searchBar: UISearchBar, textDidChange searchText: String) {
+        let name = Expression<String?>("name")
+        filteredArray = alladdressContactsArray.filter({ (text) -> Bool in
+            let tmp: NSString = text.get(name)!
+            let range = tmp.rangeOfString(searchText, options: NSStringCompareOptions.CaseInsensitiveSearch)
+            return range.location != NSNotFound
+        })
+        if(filteredArray.count == 0){
+            shouldShowSearchResults = false;
+        } else {
+            shouldShowSearchResults = true;
+        }
+        self.tblForNotes.reloadData()
+    }
     
     override func viewWillAppear(animated: Bool) {
         
@@ -214,7 +236,9 @@ class NotesViewController: UIViewController,InviteContactsDelegate,UITextFieldDe
         //alladdressContactsArray = Array(try sqliteDB.db.prepare(allcontactslist1))
         
         
-        configureSearchController()
+        ///configureSearchController()
+        searchbar1.delegate=self
+        
         do
         {alladdressContactsArray = Array(try sqliteDB.db.prepare(allcontactslist1))
             
@@ -426,6 +450,22 @@ class NotesViewController: UIViewController,InviteContactsDelegate,UITextFieldDe
             //let addItemViewController = navigationController?.topViewController as? AddItemViewController
             
             if let viewController = contactsDetailController {
+                
+                if(shouldShowSearchResults==true)
+                {
+                    contactsDetailController?.contactIndex=tblForNotes.indexPathForSelectedRow!.row
+                    var cell=tblForNotes.cellForRowAtIndexPath(tblForNotes.indexPathForSelectedRow!) as! AllContactsCell
+                    if(cell.labelStatusPrivate.hidden==false)
+                    {
+                        contactsDetailController?.isKiboContact = true
+                        //print("hidden falseeeeeee")
+                    }
+                    contactsDetailController?.alladdressContactsArray=filteredArray
+
+
+                }
+                else
+                {
                 contactsDetailController?.contactIndex=tblForNotes.indexPathForSelectedRow!.row
                 var cell=tblForNotes.cellForRowAtIndexPath(tblForNotes.indexPathForSelectedRow!) as! AllContactsCell
                 if(cell.labelStatusPrivate.hidden==false)
@@ -433,8 +473,9 @@ class NotesViewController: UIViewController,InviteContactsDelegate,UITextFieldDe
                     contactsDetailController?.isKiboContact = true
                     //print("hidden falseeeeeee")
                 }
-                
-                
+                    contactsDetailController?.alladdressContactsArray=self.alladdressContactsArray
+
+                }
             }
         }
         
