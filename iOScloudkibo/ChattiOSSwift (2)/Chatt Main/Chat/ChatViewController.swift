@@ -1308,7 +1308,13 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
             
             
             allkiboContactsArray = Array(try sqliteDB.db.prepare(query))
+            if(allkiboContactsArray.first==nil)
+            {
+                ContactCountMsgRead.append(0)
+            }
+            else{
             ContactCountMsgRead.append(allkiboContactsArray.count)
+}
             /*
              if(ccc[tbl_userchats[status]] == "delivered")
             {
@@ -2351,23 +2357,25 @@ print("query join error 1337 \(e)")
             var offlineUsers=JSON(data!)
             print(offlineUsers[0])
             //print(offlineUsers[0]["username"])
-            
+            dispatch_async(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0)) {
             for(var i=0;i<offlineUsers.count;i++)
             {
-                for(var j=0;j<self.ContactUsernames.count;j++)
+                for(var j=0;j<self.ContactOnlineStatus.count;j++)
                 {
-                    if self.ContactUsernames[j]==offlineUsers[i]["phone"].string!
+                    if self.ContactIDs[j]==offlineUsers[i]["_id"].string!
                     {
                         //found online contact,s username
-                        socketObj.socket.emit("logClient","IPHONE-LOG: user found offline \(self.ContactUsernames[j])")
-                        print("user found offlinee \(self.ContactUsernames[j])")
+                        socketObj.socket.emit("logClient","IPHONE-LOG: user found offline \(self.ContactIDs[j])")
+                       // print("user found offlinee \(self.ContactUsernames[j])")
                         self.ContactOnlineStatus[j]=0
-                        dispatch_async(dispatch_get_main_queue())
-                            {
-                                self.tblForChat.reloadData()
-                        }
+                        
                     }
                 }
+            }
+            dispatch_async(dispatch_get_main_queue())
+            {
+                self.tblForChat.reloadData()
+            }
             }
             
         case "theseareonline":
@@ -2399,26 +2407,29 @@ print("query join error 1337 \(e)")
             print(onlineUsers.debugDescription)
             print(onlineUsers[0]["phone"])
             //print(onlineUsers[0]["username"])
-            
+            dispatch_async(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0)) {
             for(var i=0;i<onlineUsers[0].count;i++)
             {
-                for(var j=0;j<self.ContactUsernames.count;j++)
+                for(var j=0;j<self.ContactOnlineStatus.count;j++)
                 {
-                    if self.ContactsPhone[j]==onlineUsers[0][i]["phone"].string!
+                    if self.ContactIDs[j]==onlineUsers[0][i]["_id"].string!
                     {
                         //found online contact,s username
-                        print("user found online2 \(self.ContactUsernames[j])")
+                        print("user found online2 \(self.ContactIDs[j])")
                         self.ContactOnlineStatus[j]=1
                         onlinefound=true
-                        dispatch_async(dispatch_get_main_queue())
+                        /*dispatch_async(dispatch_get_main_queue())
                         {
                             self.tblForChat.reloadData()
-                        }
+                        }*/
                     }
                 }
             }
-            
-            
+            dispatch_async(dispatch_get_main_queue())
+            {
+                self.tblForChat.reloadData()
+            }
+            }
         case "yesiamfreeforcall":
             var message=JSON(data!)
             print("other user is free", terminator: "")
@@ -2551,27 +2562,32 @@ print("query join error 1337 \(e)")
             print(onlineUsers.debugDescription)
             print(onlineUsers["phone"])
             //print(onlineUsers[0]["username"])
-            
+            dispatch_async(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0)) {
             for(var i=0;i<onlineUsers.count;i++)
             {
-                for(var j=0;j<self.ContactUsernames.count;j++)
+                for(var j=0;j<self.ContactOnlineStatus.count;j++)
                 {
-                    if self.ContactsPhone[j]==onlineUsers[i]["phone"].string!
+                    if self.ContactIDs[j]==onlineUsers[i]["_id"].string!
                     {
                         //found online contact,s username
-                        print("user found online2 \(self.ContactUsernames[j])")
+                        print("user found online2 \(self.ContactIDs[j])")
                         self.ContactOnlineStatus[j]=1
                         onlinefound=true
-                        dispatch_async(dispatch_get_main_queue())
+                      /*  dispatch_async(dispatch_get_main_queue())
                             {
                                 self.tblForChat.reloadData()
-                        }
+                        }*/
                     }
+                }
+            }
+                dispatch_async(dispatch_get_main_queue())
+                {
+                    self.tblForChat.reloadData()
                 }
             }
             
             // }
-        case "offline":
+      /*  case "offline":
             var offlinefound=false
             //{data,ack in
             
@@ -2582,9 +2598,9 @@ print("query join error 1337 \(e)")
             
             for(var i=0;i<offlineUsers.count;i++)
             {
-                for(var j=0;j<self.ContactUsernames.count;j++)
+                for(var j=0;j<self.ContactOnlineStatus.count;j++)
                 {
-                    if self.ContactUsernames[j]==offlineUsers[i]["phone"].string!
+                    if self.ContactIDs[j]==offlineUsers[i]["_id"].string!
                     {
                         //found online contact,s username
                         print("user found offlinee \(self.ContactUsernames[j])")
@@ -2596,7 +2612,7 @@ print("query join error 1337 \(e)")
                         }
                     }
                 }
-            }
+            }*/
             
             //}
             
