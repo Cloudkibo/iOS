@@ -758,7 +758,7 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
             print("emaillist is \(emailList.first)")
             print("emailList count is \(emailList.count)")
             
-            dispatch_async(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0)) {
+            dispatch_sync(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0)) {
                 // do some task start to show progress wheel
                 self.fetchContacts({ (result) -> () in
                     //self.fetchContactsFromServer()
@@ -2282,7 +2282,7 @@ print("query join error 1337 \(e)")
             
             */
             case "updateUI":
-                dispatch_async(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0)) {
+                dispatch_sync(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0)) {
                     // do some task start to show progress wheel
                     self.fetchContacts({ (result) -> () in
                         //self.fetchContactsFromServer()
@@ -2307,7 +2307,7 @@ print("query join error 1337 \(e)")
             }
             
             case "im":
-                dispatch_async(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0)) {
+                dispatch_sync(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0)) {
                     // do some task start to show progress wheel
                     self.fetchContacts({ (result) -> () in
                         //self.fetchContactsFromServer()
@@ -2357,7 +2357,7 @@ print("query join error 1337 \(e)")
             var offlineUsers=JSON(data!)
             print(offlineUsers[0])
             //print(offlineUsers[0]["username"])
-            dispatch_async(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0)) {
+            dispatch_sync(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0)) {
             for(var i=0;i<offlineUsers.count;i++)
             {
                 for(var j=0;j<self.ContactOnlineStatus.count;j++)
@@ -2407,7 +2407,7 @@ print("query join error 1337 \(e)")
             print(onlineUsers.debugDescription)
             print(onlineUsers[0]["phone"])
             //print(onlineUsers[0]["username"])
-            dispatch_async(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0)) {
+            dispatch_sync(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0)) {
             for(var i=0;i<onlineUsers[0].count;i++)
             {
                 for(var j=0;j<self.ContactOnlineStatus.count;j++)
@@ -2562,7 +2562,7 @@ print("query join error 1337 \(e)")
             print(onlineUsers.debugDescription)
             print(onlineUsers["phone"])
             //print(onlineUsers[0]["username"])
-            dispatch_async(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0)) {
+            dispatch_sync(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0)) {
             for(var i=0;i<onlineUsers.count;i++)
             {
                 for(var j=0;j<self.ContactOnlineStatus.count;j++)
