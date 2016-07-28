@@ -595,8 +595,14 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
     
     override func awakeFromNib() {
       //  NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("applicationWillBecomeActive:"), name:UIApplicationDidBecomeActiveNotification, object: nil)
+       print("awakeeeeeeeee")
+        /*NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("applicationWillResignActive:"), name:UIApplicationWillResignActiveNotification, object: nil)
         
+        //
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("applicationDidBecomeActive:"), name:UIApplicationWillEnterForegroundNotification, object: nil)
         
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("willShowKeyBoard:"), name:UIKeyboardWillShowNotification, object: nil)
+        */
         
     }
     override func didReceiveMemoryWarning() {
@@ -949,18 +955,21 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
     
     func applicationDidBecomeActive(notification : NSNotification)
     {
+       
         NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("applicationWillResignActive:"), name:UIApplicationWillResignActiveNotification, object: nil)
         
         //
         NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("applicationDidBecomeActive:"), name:UIApplicationDidBecomeActiveNotification, object: nil)
         
         NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("willShowKeyBoard:"), name:UIKeyboardWillShowNotification, object: nil)
+        
+ 
        //// NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("willHideKeyBoard:"), name:UIKeyboardWillHideNotification, object: nil)
     }
     func applicationWillResignActive(notification : NSNotification){
         /////////self.view.endEditing(true)
         
-         NSNotificationCenter.defaultCenter().removeObserver(self)
+         NSNotificationCenter.defaultCenter().removeObserver(self, name: UIKeyboardWillShowNotification, object: nil)
     //    NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("willShowKeyBoard:"), name:UIKeyboardWillShowNotification, object: nil)
      
         //self.viewDidLoad()
@@ -996,7 +1005,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
     }
     func willShowKeyBoard(notification : NSNotification){
        
-        
+        print("showkeyboardNotification============")
         var userInfo: NSDictionary!
         userInfo = notification.userInfo
         
@@ -1005,8 +1014,15 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
         duration = userInfo[UIKeyboardAnimationDurationUserInfoKey] as! NSTimeInterval
         let keyboardF:NSValue = userInfo.objectForKey(UIKeyboardFrameEndUserInfoKey) as! NSValue
         let keyboardFrame = keyboardF.CGRectValue()
+        
+        if(keyheight==nil)
+        {
         keyheight=keyboardFrame.size.height
+        }
+        if(keyFrame==nil)
+        {
         keyFrame=keyboardFrame
+        }
         /*
          UIView.animateWithDuration(duration, delay: 0, options:[], animations: {
          self.chatComposeView.frame = CGRectMake(self.chatComposeView.frame.origin.x, self.chatComposeView.frame.origin.y - keyboardFrame.size.height+self.chatComposeView.frame.size.height+3, self.chatComposeView.frame.size.width, self.chatComposeView.frame.size.height)
