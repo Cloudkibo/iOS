@@ -246,10 +246,10 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
     }
     
     func applicationWillEnterForeground(application: UIApplication) {
-        if(chatDetailView != nil)
+   /*     if(chatDetailView != nil)
 {
         chatDetailView.tblForChats.reloadData()
-}
+}*/
         /////NSNotificationCenter.defaultCenter().postNotificationName(UIApplicationWillEnterForegroundNotification, object: self)
         //////NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("willShowKeyBoard:"), name:UIKeyboardWillShowNotification, object: nil)
 
@@ -577,7 +577,7 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
     
     func application(application: UIApplication, didReceiveLocalNotification notification: UILocalNotification) {
         application.applicationIconBadgeNumber = 0
-        UIApplication.sharedApplication().presentLocalNotificationNow(notification)
+      //  UIApplication.sharedApplication().presentLocalNotificationNow(notification)
         socketObj.socket.emit("logClient","IPHONE-LOG: call notification received in background")
     }
     
