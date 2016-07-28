@@ -967,7 +967,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="80" sectionHeaderHeight="22" sectionFooterHeight="22" id="8ne-qn-KGp">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="407"/>
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="454"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
@@ -1053,8 +1053,8 @@
                                 </connections>
                             </tableView>
                             <view contentMode="scaleToFill" id="LxC-Tv-JZr">
-                                <rect key="frame" x="0.0" y="415" width="320" height="45"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <rect key="frame" x="0.0" y="423" width="320" height="45"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMinY="YES"/>
                                 <subviews>
                                     <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="chat_input_background" id="CjM-Kr-pp0">
                                         <rect key="frame" x="0.0" y="1" width="320" height="44"/>
@@ -2113,7 +2113,7 @@
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="ContactsInviteCell" id="lU5-3E-N9k" customClass="ContactsInviteCell" customModule="Chat" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="22" width="320" height="78"/>
+                                        <rect key="frame" x="0.0" y="86" width="320" height="78"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="lU5-3E-N9k" id="ttq-aH-WWS">
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="77.5"/>
@@ -2286,7 +2286,7 @@
                         </view>
                         <prototypes>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="JC4-iV-Jwg">
-                                <rect key="frame" x="0.0" y="133" width="320" height="44"/>
+                                <rect key="frame" x="0.0" y="197" width="320" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="JC4-iV-Jwg" id="H6p-c1-bTR">
                                     <rect key="frame" x="0.0" y="0.0" width="320" height="43.5"/>
@@ -3300,13 +3300,13 @@
         <image name="video_off" width="50" height="50"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="W8i-Cs-Z8T"/>
-        <segue reference="1jA-Zj-XHt"/>
-        <segue reference="Spe-dd-EXu"/>
-        <segue reference="QOc-Kg-WHZ"/>
         <segue reference="Cjg-Ar-cdZ"/>
         <segue reference="3Qa-aS-eRu"/>
+        <segue reference="1jA-Zj-XHt"/>
+        <segue reference="W8i-Cs-Z8T"/>
+        <segue reference="QOc-Kg-WHZ"/>
         <segue reference="Lsn-aA-q1J"/>
+        <segue reference="OaJ-Hk-2uB"/>
     </inferredMetricsTieBreakers>
     <color key="tintColor" red="0.054901960784313725" green="0.47843137254901963" blue="1" alpha="1" colorSpace="calibratedRGB"/>
 </document>

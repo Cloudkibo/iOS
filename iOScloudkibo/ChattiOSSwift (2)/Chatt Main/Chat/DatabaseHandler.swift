@@ -193,6 +193,7 @@ class DatabaseHandler:NSObject{
         let phone = Expression<String>("phone")
         let email = Expression<String>("email")
         let kiboContact = Expression<Bool>("kiboContact")
+        let profileimage = Expression<NSData>("profileimage")
         
         self.allcontacts = Table("allcontacts")
         do{
@@ -201,6 +202,7 @@ class DatabaseHandler:NSObject{
                 t.column(phone)
                 t.column(email)
                 t.column(kiboContact, defaultValue:false)
+                t.column(profileimage, defaultValue:NSData.init())
                 })
             
         }
@@ -258,9 +260,9 @@ class DatabaseHandler:NSObject{
                 t.column(date, defaultValue:defaultTimeZoneStr)
                 t.column(status)
                 t.column(uniqueid)
-                t.column(type)
-                t.column(file_type)
-                t.column(file_path)
+                t.column(type, defaultValue:"chat")
+                t.column(file_type, defaultValue:"")
+                t.column(file_path, defaultValue:"")
                 
                 //     "name" TEXT
                 })

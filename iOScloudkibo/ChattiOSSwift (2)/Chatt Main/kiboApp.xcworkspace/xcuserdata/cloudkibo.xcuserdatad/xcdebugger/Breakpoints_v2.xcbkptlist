@@ -40,11 +40,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Chat/DatabaseHandler.swift"
-            timestampString = "490013719.265345"
+            timestampString = "491376665.800205"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "199"
-            endingLineNumber = "199"
+            startingLineNumber = "200"
+            endingLineNumber = "200"
             landmarkName = "createAllContactsTable()"
             landmarkType = "5">
          </BreakpointContent>
@@ -56,11 +56,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Chat/Contact.swift"
-            timestampString = "490068027.573285"
+            timestampString = "491376665.800205"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "591"
-            endingLineNumber = "591"
+            startingLineNumber = "615"
+            endingLineNumber = "615"
             landmarkName = "saveToAddressBook(_:completion:)"
             landmarkType = "5">
          </BreakpointContent>
@@ -72,11 +72,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Chat/DatabaseHandler.swift"
-            timestampString = "490664567.282393"
+            timestampString = "491376665.800205"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "523"
-            endingLineNumber = "523"
+            startingLineNumber = "532"
+            endingLineNumber = "532"
             landmarkName = "SaveChat(_:from1:owneruser1:fromFullName1:msg1:date1:uniqueid1:status1:)"
             landmarkType = "5">
          </BreakpointContent>
@@ -104,11 +104,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Chat/Contact.swift"
-            timestampString = "490068027.573285"
+            timestampString = "491376665.800205"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "434"
-            endingLineNumber = "434"
+            startingLineNumber = "458"
+            endingLineNumber = "458"
             landmarkName = "searchContactsByEmail(_:completion:)"
             landmarkType = "5">
          </BreakpointContent>
@@ -180,15 +180,15 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Chat/DatabaseHandler.swift"
-            timestampString = "490664567.282393"
+            timestampString = "491376665.800205"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "485"
-            endingLineNumber = "485"
+            startingLineNumber = "494"
+            endingLineNumber = "494"
             landmarkName = "UpdateChatStatus(_:newstatus:)"
             landmarkType = "5">
          </BreakpointContent>
@@ -200,11 +200,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Chat/DatabaseHandler.swift"
-            timestampString = "490664567.282393"
+            timestampString = "491376665.800205"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "490"
-            endingLineNumber = "490"
+            startingLineNumber = "499"
+            endingLineNumber = "499"
             landmarkName = "UpdateChatStatus(_:newstatus:)"
             landmarkType = "5">
          </BreakpointContent>
@@ -312,11 +312,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Chat/Contact.swift"
-            timestampString = "490068027.573285"
+            timestampString = "491376665.800205"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "623"
-            endingLineNumber = "623"
+            startingLineNumber = "647"
+            endingLineNumber = "647"
             landmarkName = "sendInvite(_:completion:)"
             landmarkType = "5">
          </BreakpointContent>
@@ -328,11 +328,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Chat/Contact.swift"
-            timestampString = "490068027.573285"
+            timestampString = "491376665.800205"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "651"
-            endingLineNumber = "651">
+            startingLineNumber = "675"
+            endingLineNumber = "675">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -508,6 +508,38 @@
             startingLineNumber = "1226"
             endingLineNumber = "1226"
             landmarkName = "fetchContacts(_:)"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Chat/Contact.swift"
+            timestampString = "491375478.743963"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "182"
+            endingLineNumber = "182"
+            landmarkName = "fetch(_:)"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Chat/ChatDetailViewController.swift"
+            timestampString = "491399518.284594"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "1051"
+            endingLineNumber = "1051"
+            landmarkName = "willShowKeyBoard(_:)"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>

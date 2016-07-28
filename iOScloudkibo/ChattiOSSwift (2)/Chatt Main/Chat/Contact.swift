@@ -44,7 +44,7 @@ class iOSContact{
         var name=Expression<String>("name")
         var phone=Expression<String>("phone")
         var email=Expression<String>("email")
-        
+        var profileimage=Expression<NSData>("profileimage")
         
         socketObj.socket.emit("logClient","IPHONE-LOG: \(username) fetching contacts from iphone contactlist")
         var emails=[String]()
@@ -59,7 +59,7 @@ class iOSContact{
         print("inside fetchhhhh")
         let contactStore = CNContactStore()
         
-        keys = [CNContactGivenNameKey, CNContactFamilyNameKey, CNContactEmailAddressesKey, CNContactPhoneNumbersKey]
+        keys = [CNContactGivenNameKey, CNContactFamilyNameKey, CNContactEmailAddressesKey, CNContactPhoneNumbersKey, CNContactImageDataAvailableKey,CNContactThumbnailImageDataKey, CNContactImageDataKey]
         do {
             /////let contactStore = AppDelegate.getAppDelegate().contactStore
             try contactStore.enumerateContactsWithFetchRequest(CNContactFetchRequest(keysToFetch: keys)) { (contact, pointer) -> Void in
@@ -114,6 +114,7 @@ class iOSContact{
                 }
                 
                 do{
+                    var image=NSData()
                     var fullname=contacts[i].givenName+" "+contacts[i].familyName
                     if (contacts[i].isKeyAvailable(CNContactPhoneNumbersKey)) {
                         for phoneNumber:CNLabeledValue in contacts[i].phoneNumbers {
@@ -176,8 +177,12 @@ class iOSContact{
                                     print("email adress value iss \(emailAddress)")
                                     /////emails.append(em!.value as! String)
                                 }
+                                if(contacts[i].imageDataAvailable==true)
+                                {
+                                   image=contacts[i].imageData!
+                                }
                                 
-                                try sqliteDB.db.run(tbl_allcontacts.insert(name<-fullname,phone<-phoneDigits,email<-emailAddress))
+                                try sqliteDB.db.run(tbl_allcontacts.insert(name<-fullname,phone<-phoneDigits,email<-emailAddress,profileimage<-image))
                         }
                             catch(let error)
                             {

@@ -14,7 +14,7 @@ import AVFoundation
 import MobileCoreServices
 import Foundation
 
-class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChatDelegate,UIDocumentPickerDelegate,UIDocumentMenuDelegate{
+class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChatDelegate,UIDocumentPickerDelegate,UIDocumentMenuDelegate,UITextFieldDelegate{
     
     
     var myfid=0
@@ -184,14 +184,14 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
         restorationClass = ChatDetailViewController.self
         
         //UIApplicationWillEnterForegroundNotification
-        /////////// NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("applicationWillBecomeActive:"), name:UIApplicationDidBecomeActiveNotification, object: nil)
+         ///NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("applicationWillBecomeActive:"), name:UIApplicationDidBecomeActiveNotification, object: nil)
         
         NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("willShowKeyBoard:"), name:UIKeyboardWillShowNotification, object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("willHideKeyBoard:"), name:UIKeyboardWillHideNotification, object: nil)
+       NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("willHideKeyBoard:"), name:UIKeyboardWillHideNotification, object: nil)
         messages = NSMutableArray()
         
         
-        
+        txtFldMessage.delegate=self
         print("chat on load")
         socketObj.socket.emit("logClient","IPHONE-LOG: chat page loading")
         socketObj.delegate=self
@@ -980,7 +980,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
     }
     func willShowKeyBoard(notification : NSNotification){
         
-        var userInfo: NSDictionary!
+       /* var userInfo: NSDictionary!
         userInfo = notification.userInfo
         
         var duration : NSTimeInterval = 0
@@ -998,13 +998,128 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
         {
             let indexPath = NSIndexPath(forRow:messages.count-1, inSection: 0)
             tblForChats.scrollToRowAtIndexPath(indexPath, atScrollPosition: UITableViewScrollPosition.Bottom, animated: true)
+        }*/
+     /*   var userInfo: NSDictionary!
+        userInfo = notification.userInfo
+        //let userInfo: [NSObject : AnyObject] = notification.userInfo!
+        let keyboardSize: CGSize = userInfo[UIKeyboardFrameBeginUserInfoKey]!.CGRectValue.size
+        let offset: CGSize = userInfo[UIKeyboardFrameEndUserInfoKey]!.CGRectValue.size
+        
+        if keyboardSize.height == offset.height {
+            UIView.animateWithDuration(0.1, animations: { () -> Void in
+                self.view.frame.origin.y -= keyboardSize.height
+            })
+        } else {
+            UIView.animateWithDuration(0.1, animations: { () -> Void in
+                self.view.frame.origin.y += keyboardSize.height - offset.height
+            })
+        }*/
+        
+        let userInfo = notification.userInfo as NSDictionary!
+        let frameNew = (userInfo[UIKeyboardFrameEndUserInfoKey] as! NSValue).CGRectValue()
+        let insetNewBottom = tblForChats.convertRect(frameNew, fromView: nil).height
+        let insetOld = tblForChats.contentInset
+        let insetChange = insetNewBottom - insetOld.bottom
+        let overflow = tblForChats.contentSize.height - (tblForChats.frame.height-insetOld.top-insetOld.bottom)
+        
+
+        
+        
+        let duration = (userInfo[UIKeyboardAnimationDurationUserInfoKey] as! NSNumber).doubleValue
+        let animations: (() -> Void) = {
+            
+             self.chatComposeView.frame = CGRectMake(self.chatComposeView.frame.origin.x, self.chatComposeView.frame.origin.y - 200+self.chatComposeView.frame.size.height+3, self.chatComposeView.frame.size.width,self.chatComposeView.frame.size.height)
+ 
+            if !(self.tblForChats.tracking || self.tblForChats.decelerating) {
+                // Move content with keyboard
+                if overflow > 0 {                   // scrollable before
+                    self.tblForChats.contentOffset.y += insetChange
+                    if self.tblForChats.contentOffset.y < -insetOld.top {
+                        self.tblForChats.contentOffset.y = -insetOld.top
+                    }
+                } else if insetChange > -overflow { // scrollable after
+                    self.tblForChats.contentOffset.y += insetChange + overflow
+                }
+            }
+            
+           
+            
+            
+            if(self.messages.count>1)
+            {
+                let indexPath = NSIndexPath(forRow:self.messages.count-1, inSection: 0)
+                self.tblForChats.scrollToRowAtIndexPath(indexPath, atScrollPosition: UITableViewScrollPosition.Bottom, animated: true)
+            }
+        }
+        if duration > 0 {
+            let options = UIViewAnimationOptions(rawValue: UInt((userInfo[UIKeyboardAnimationCurveUserInfoKey] as! NSNumber).integerValue << 16)) // http://stackoverflow.com/a/18873820/242933
+            UIView.animateWithDuration(duration, delay: 0, options: options, animations: animations, completion: nil)
+        } else {
+            animations()
+        }
+    }
+    
+    // Lifting the view up
+    
+  /*  func textFieldDidBeginEditing(textField: UITextField) {
+        animateViewMoving(true, moveValue: 100)
+    }
+    
+    func textFieldDidEndEditing(textField: UITextField) {
+        animateViewMoving(false, moveValue: 100)
+    }
+    */
+    
+    func animatedTextField(textField: UITextField, up: Bool){
+        var animatedDistance : Int = 0
+        let moveUpValue : Int = Int(textField.frame.origin.y) + Int(textField.frame.size.height)
+        
+        switch UIDevice.currentDevice().orientation {
+        case .Portrait , .PortraitUpsideDown:
+            animatedDistance = 216 - (460 - moveUpValue - 5)
+        default:
+            animatedDistance = 162 - (320 - moveUpValue - 5)
+        }
+        
+        if (animatedDistance > 0 ){
+            
+            let movementDistance : Int = animatedDistance
+            let movementDuration : Float = 0.3
+            let movement = up ? -movementDistance : movementDistance
+            UIView.beginAnimations(nil, context: nil)
+            UIView.setAnimationBeginsFromCurrentState(true)
+            UIView.setAnimationDuration(NSTimeInterval(movementDuration))
+            self.view.frame = CGRectOffset(self.view.frame, 0, CGFloat(movement))
+            UIView.commitAnimations()
+            
         }
         
     }
     
+    func animateViewMoving (up:Bool, moveValue :CGFloat){
+        
+       
+        
+        
+        if(up==false){
+         self.chatComposeView.frame = CGRectMake(self.chatComposeView.frame.origin.x, self.chatComposeView.frame.origin.y + moveValue-self.chatComposeView.frame.size.height-3, self.chatComposeView.frame.size.width, self.chatComposeView.frame.size.height)
+        }
+        else{
+ self.chatComposeView.frame = CGRectMake(self.chatComposeView.frame.origin.x, self.chatComposeView.frame.origin.y+moveValue+self.chatComposeView.frame.size.height+3, self.chatComposeView.frame.size.width, self.chatComposeView.frame.size.height)
+}
+        
+        let movementDuration:NSTimeInterval = 0.3
+        let movement:CGFloat = ( up ? -moveValue : moveValue)
+        UIView.beginAnimations( "animateView", context: nil)
+        UIView.setAnimationBeginsFromCurrentState(true)
+        UIView.setAnimationDuration(movementDuration )
+        self.view.frame = CGRectOffset(self.view.frame, 0,  movement)
+        UIView.commitAnimations()
+    }
+    
     func willHideKeyBoard(notification : NSNotification){
         
-        var userInfo: NSDictionary!
+    /*    var userInfo: NSDictionary!
         userInfo = notification.userInfo
         
         var duration : NSTimeInterval = 0
@@ -1012,17 +1127,21 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
         duration = userInfo[UIKeyboardAnimationDurationUserInfoKey] as! NSTimeInterval
         let keyboardF:NSValue = userInfo.objectForKey(UIKeyboardFrameEndUserInfoKey) as! NSValue
         let keyboardFrame = keyboardF.CGRectValue()
-        
-        
+        */
+        /*
         UIView.animateWithDuration(duration, delay: 0, options:[], animations: {
             self.chatComposeView.frame = CGRectMake(self.chatComposeView.frame.origin.x, self.chatComposeView.frame.origin.y + keyboardFrame.size.height-self.chatComposeView.frame.size.height-3, self.chatComposeView.frame.size.width, self.chatComposeView.frame.size.height)
-            self.tblForChats.frame = CGRectMake(self.tblForChats.frame.origin.x, self.tblForChats.frame.origin.y, self.tblForChats.frame.size.width, self.tblForChats.frame.size.height + keyboardFrame.size.height-49);
+        }, completion: nil)
+ */
+         /*   self.tblForChats.frame = CGRectMake(self.tblForChats.frame.origin.x, self.tblForChats.frame.origin.y, self.tblForChats.frame.size.width, self.tblForChats.frame.size.height + keyboardFrame.size.height-49);
             }, completion: nil)
+        */
         
     }
-    
+  
     func textFieldShouldReturn (textField: UITextField!) -> Bool{
-        textField.resignFirstResponder()
+       // textField.resignFirstResponder()
+        self.view.endEditing(true)
         return true
     }
     
