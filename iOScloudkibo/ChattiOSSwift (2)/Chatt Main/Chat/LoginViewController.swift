@@ -445,7 +445,7 @@ class LoginViewController: UIViewController,SocketConnecting,AKFViewControllerDe
         
         let size = UIScreen.mainScreen().bounds.size
         viewForContent.contentSize = CGSizeMake(size.width, 568)
-        
+    
         NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("willShowKeyBoard:"), name:UIKeyboardWillShowNotification, object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("willHideKeyBoard:"), name:UIKeyboardWillHideNotification, object: nil)
         
