@@ -226,6 +226,10 @@ class DatabaseHandler:NSObject{
         let uniqueid = Expression<String>("uniqueid")
         let status = Expression<String>("status")
         let contactPhone = Expression<String>("contactPhone")
+        let type = Expression<String>("type")
+        let file_type = Expression<String>("file_type")
+        let file_path = Expression<String>("file_path")
+
         
        // let dateFormatter = NSDateFormatter()
        // dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
@@ -254,6 +258,9 @@ class DatabaseHandler:NSObject{
                 t.column(date, defaultValue:defaultTimeZoneStr)
                 t.column(status)
                 t.column(uniqueid)
+                t.column(type)
+                t.column(file_type)
+                t.column(file_path)
                 
                 //     "name" TEXT
                 })

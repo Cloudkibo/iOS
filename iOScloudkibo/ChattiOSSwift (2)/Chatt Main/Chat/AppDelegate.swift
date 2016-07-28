@@ -33,6 +33,7 @@ var phonesList=[String]()
 var notAvailableEmails=[String]()
 var contacts = [CNContact]()
 var availableEmailsList=[String]()
+var profileimageList=[NSData]()
 
 var isFileReceived=false
 var meetingStarted=false

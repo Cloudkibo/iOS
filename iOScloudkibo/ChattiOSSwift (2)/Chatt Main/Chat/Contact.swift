@@ -55,6 +55,7 @@ class iOSContact{
         notAvailableEmails.removeAll()
         notAvailableContacts.removeAll()
         notAvailableContacts.removeAll()
+        profileimageList.removeAll()
         print("inside fetchhhhh")
         let contactStore = CNContactStore()
         
@@ -92,7 +93,25 @@ class iOSContact{
                     socketObj.socket.emit("logClient", "error in fetching contact name: \(error)")
                 }
                 
-                
+                do{
+                    
+                    if(try contacts[i].imageDataAvailable == true)
+                    {
+                        profileimageList.append(contacts[i].imageData!)
+                        //nameList.append(contacts[i].givenName+" "+contacts[i].familyName)
+                        //print(contacts[i].givenName)
+                    }
+                    /*else
+                    {
+                        profileimageList.append(nil)
+                    }*/
+                    
+                }
+                catch(let error)
+                {
+                    print("error: \(error)")
+                    socketObj.socket.emit("logClient", "error in fetching contact name: \(error)")
+                }
                 
                 do{
                     var fullname=contacts[i].givenName+" "+contacts[i].familyName

@@ -28,7 +28,7 @@ class contactsDetailsTableViewController: UITableViewController,MFMailComposeVie
         //alladdressContactsArray = Array(try sqliteDB.db.prepare(allcontactslist1))
       
         
-       /* do
+        do
         {alladdressContactsArray = Array(try sqliteDB.db.prepare(allcontactslist1))
             
         }
@@ -36,7 +36,7 @@ class contactsDetailsTableViewController: UITableViewController,MFMailComposeVie
         {
             print("errorr ... ")
         }
-        */
+        
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
 
