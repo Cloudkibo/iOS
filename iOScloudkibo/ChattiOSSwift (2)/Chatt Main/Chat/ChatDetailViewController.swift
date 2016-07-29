@@ -13,9 +13,12 @@ import Alamofire
 import AVFoundation
 import MobileCoreServices
 import Foundation
+import AssetsLibrary
+import Photos
 
-class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChatDelegate,UIDocumentPickerDelegate,UIDocumentMenuDelegate{
+class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChatDelegate,UIDocumentPickerDelegate,UIDocumentMenuDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate{
     
+    var filename=""
     var showKeyboard=false
     var keyFrame:CGRect!
     var keyheight:CGFloat!
@@ -1164,6 +1167,28 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
                                                       inMode: .Import)
         ///////let importMenu = UIDocumentMenuViewController(documentTypes: UTIs, inMode: .Import)
         importMenu.delegate = self
+        if(UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.PhotoLibrary))
+        {
+        importMenu.addOptionWithTitle("Photots and Movies", image: nil, order: UIDocumentMenuOrder.First) {
+            var picker=UIImagePickerController.init()
+            picker.delegate=self
+            
+            picker.allowsEditing = true;
+           // if(UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.PhotoLibrary))
+          //  {
+                picker.sourceType = UIImagePickerControllerSourceType.PhotoLibrary
+            //}
+            
+            //[self presentViewController:picker animated:YES completion:NULL];
+            dispatch_async(dispatch_get_main_queue()) { () -> Void in
+                self.presentViewController(picker, animated: true, completion: nil)
+                
+                
+            }
+
+            
+        }
+    }
         dispatch_async(dispatch_get_main_queue()) { () -> Void in
             self.presentViewController(importMenu, animated: true, completion: nil)
             
@@ -1176,6 +1201,144 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
          inMode: .Import)
          documentPicker.delegate = self
          presentViewController(documentPicker, animated: true, completion: nil)*/
+        
+    }
+    
+    func imagePickerController(picker: UIImagePickerController, didFinishPickingImage image: UIImage, editingInfo: [String : AnyObject]?) {
+        
+        let imageUrl          = editingInfo![UIImagePickerControllerReferenceURL] as! NSURL
+        let imageName         = imageUrl.lastPathComponent
+        let documentDirectory = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true).first as String!
+        let photoURL          = NSURL(fileURLWithPath: documentDirectory)
+        let localPath         = photoURL.URLByAppendingPathComponent(imageName!)
+        let image             = editingInfo![UIImagePickerControllerOriginalImage]as! UIImage
+        let data              = UIImagePNGRepresentation(image)
+        
+       /* if let imageURL = editingInfo![UIImagePickerControllerReferenceURL] as? NSURL {
+            let result = PHAsset.fetchAssetsWithALAssetURLs([imageURL], options: nil)
+            filename = result.firstObject?.filename ?? ""
+        }*/
+        
+        if let imageURL = editingInfo![UIImagePickerControllerReferenceURL] as? NSURL {
+            let result = PHAsset.fetchAssetsWithALAssetURLs([imageURL], options: nil)
+           filename = result.firstObject?.filename ?? ""
+        }
+        
+        
+        
+        
+       // let fileData = NSData(contentsOfURL: localPath)
+      //  print(fileData?.description)
+        socketObj.socket.emit("logClient","IPHONE-LOG: \(username!) selected file ")
+        print("file gotttttt")
+        var furl=NSURL(string: localPath.URLString)
+        
+        print(furl!.pathExtension!)
+        print(furl!.URLByDeletingPathExtension?.lastPathComponent!)
+        var ftype=furl!.pathExtension!
+        var fname=furl!.URLByDeletingPathExtension?.lastPathComponent!
+        
+        
+        let dirPaths = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)
+        let docsDir1 = dirPaths[0]
+        var documentDir=docsDir1 as NSString
+        var filePathImage2=documentDir.stringByAppendingPathComponent(filename)
+        //filejustreceivedPathURL=NSURL(fileURLWithPath: filePathImage2)
+        //print("filejustreceivedPathURL is \(filejustreceivedPathURL)")
+        var fm=NSFileManager.defaultManager()
+        
+        //METADATA FILE NAME,TYPE
+        
+        ////var fname=furl!.URLByDeletingPathExtension?.URLString
+        //var attributesError=nil
+        var fileAttributes:[String:AnyObject]=["":""]
+        do {
+            let fileAttributes : NSDictionary? = try NSFileManager.defaultManager().attributesOfItemAtPath(furl!.path!)
+            
+            if let _attr = fileAttributes {
+                self.fileSize1 = _attr.fileSize();
+                print("file size is \(self.fileSize1)")
+                //// ***april 2016 neww self.fileSize=(fileSize1 as! NSNumber).integerValue
+            }
+        } catch {
+            socketObj.socket.emit("logClient","IPHONE-LOG: error: \(error)")
+            print("Error: \(error)")
+        }
+        
+        //urlLocalFile=localPath
+        /////let text2 = fm.contentsAtPath(filePath)
+        ////////print(text2)
+        /////////print(JSON(text2!))
+        ///mdata.fileContents=fm.contentsAtPath(filePathImage)!
+       /// self.fileContents=NSData(contentsOfURL: localPath)
+       //// self.filePathImage=localPath.URLString
+        //var filecontentsJSON=JSON(NSData(contentsOfURL: url)!)
+        //print(filecontentsJSON)
+        ///print("file url is \(self.filePathImage) file type is \(ftype)")
+        ////var filename=fname!+"."+ftype
+        
+        
+        //////////^^^^^^^newww tryy var filedata:NSData=fu.convert_byteArray_to_fileNSData(bytes)
+        /////var filedata:NSData=fu.convert_byteArray_to_fileNSData(bytesarraytowrite)
+        print("filename is \(filename) destination path is \(filePathImage2) image name \(imageName) imageurl \(imageUrl) photourl \(photoURL) localPath \(localPath).. \(localPath.absoluteString)")
+        var s=fm.createFileAtPath(filePathImage2, contents: nil, attributes: nil)
+        
+      //  var written=fileData!.writeToFile(filePathImage2, atomically: false)
+        
+        //filePathImage2
+        
+         data!.writeToFile(filePathImage2, atomically: true)
+      // data!.writeToFile(localPath.absoluteString, atomically: true)
+        
+        self.dismissViewControllerAnimated(true, completion: nil);
+        
+        
+        /*if (controller.documentPickerMode == UIDocumentPickerMode.Import) {
+            NSLog("Opened ", url.path!);
+            print("picker url is \(url)")
+            
+            
+            */
+        
+        
+                
+        
+                
+                urlLocalFile=localPath
+                /////let text2 = fm.contentsAtPath(filePath)
+                ////////print(text2)
+                /////////print(JSON(text2!))
+                ///mdata.fileContents=fm.contentsAtPath(filePathImage)!
+                self.fileContents=NSData(contentsOfURL: localPath)
+                self.filePathImage=localPath.URLString
+                //var filecontentsJSON=JSON(NSData(contentsOfURL: url)!)
+                //print(filecontentsJSON)
+               // print("file url is \(self.filePathImage) file type is \(ftype)")
+            //    var filename=fname!+"."+ftype
+                socketObj.socket.emit("logClient","\(username!) is sending file \(fname)")
+                
+                var mjson="{\"file_meta\":{\"name\":\"\(filename)\",\"size\":\"\(self.fileSize1.description)\",\"filetype\":\"\(ftype)\",\"browser\":\"firefox\",\"uname\":\"\(username!)\",\"fid\":\(self.myfid),\"senderid\":\(currentID!)}}"
+                var fmetadata="{\"eventName\":\"data_msg\",\"data\":\(mjson)}"
+                
+                
+                //----------sendDataBuffer(fmetadata,isb: false)
+                
+                
+                socketObj.socket.emit("conference.chat", ["message":"You have received a file. Download and Save it.","username":username!])
+                
+                let alert = UIAlertController(title: "Success", message: "Your file has been successfully sent", preferredStyle: UIAlertControllerStyle.Alert)
+                alert.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.Default, handler: nil))
+                self.presentViewController(alert, animated: true, completion: nil)
+                
+        
+            //mdata.sharefile(url)
+       // }
+        
+
+        
+    }
+    func imagePickerControllerDidCancel(picker: UIImagePickerController) {
+        
         
     }
     @IBAction func postBtnTapped() {
@@ -1476,6 +1639,8 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
             NSLog("Opened ", url.path!);
             print("picker url is \(url)")
             
+            
+            
             url.startAccessingSecurityScopedResource()
             let coordinator = NSFileCoordinator()
             var error:NSError? = nil
@@ -1553,6 +1718,8 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
         
         
     }
+    
+    
     
     func documentMenuWasCancelled(documentMenu: UIDocumentMenuViewController) {
         
