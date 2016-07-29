@@ -246,7 +246,7 @@ class ChatMainViewController:UIViewController,SocketConnecting
     //////////////////////////
     var ContactsEmail:[String]=[]
     var ContactsPhone:[String]=[]
-    
+    var ContactsProfilePic:[NSData]=[]
     //["Bus","Helicopter","Truck","Boat","Bicycle","Motorcycle","Plane","Train","Car","Scooter","Caravan"]
     required init?(coder aDecoder: NSCoder)
     {
@@ -732,6 +732,7 @@ class ChatMainViewController:UIViewController,SocketConnecting
         
         self.ContactsPhone.removeAll(keepCapacity: false)
         self.ContactsEmail.removeAll(keepCapacity: false)
+        self.ContactsProfilePic.removeAll(keepCapacity: false)
         
         let tbl_contactslists=sqliteDB.contactslists
         
@@ -744,7 +745,8 @@ class ChatMainViewController:UIViewController,SocketConnecting
             //let phone = Expression<String>("phone")
             let kibocontact = Expression<Bool>("kiboContact")
             let name = Expression<String?>("name")
-            
+            let contactProfileImage = Expression<NSData>("profileimage")
+        
           //  alladdressContactsArray = Array(try sqliteDB.db.prepare(allcontactslist1))
             //alladdressContactsArray[indexPath.row].get(name)
             do{for ccc in try sqliteDB.db.prepare(allcontactslist1) {
@@ -771,6 +773,34 @@ class ChatMainViewController:UIViewController,SocketConnecting
             ContactsEmail.append(tblContacts[email])
             ContactsPhone.append(tblContacts[phone])
             ContactOnlineStatus.append(0)
+                        
+                        let queryPic = allcontactslist1.filter(allcontactslist1[phone] == ccc[phone])          // SELECT "email" FROM "users"
+                        
+                        var picfound=false
+                        do{
+                            for picquery in try sqliteDB.db.prepare(queryPic) {
+                                // if(contactProfileImage != NSData.init())
+                                //{
+                                print("picquery found for \(ccc[phone])")
+                                ContactsProfilePic.append(picquery[contactProfileImage])
+                                picfound=true
+                                //}
+                                /*else
+                                 {
+                                 
+                                 }*/
+                            }
+                        }
+                        catch
+                        {
+                            print("error in fetching profile image")
+                        }
+                        
+                        if(picfound==false)
+                        {
+                            ContactsProfilePic.append(NSData.init())
+                        }
+                        
                     }
                 }
 
@@ -838,6 +868,30 @@ class ChatMainViewController:UIViewController,SocketConnecting
         let usernameFromDb = Expression<String?>("username")
         let name = Expression<String?>("name")
         cell.contactName?.text=ContactNames[indexPath.row]
+            if(!ContactsProfilePic.isEmpty && ContactsProfilePic[indexPath.row] != NSData.init())
+            {
+                
+                var img=UIImage(data:ContactsProfilePic[indexPath.row])
+                var w=img!.size.width
+                var h=img!.size.height
+                var wOld=cell.profilePic.bounds.width
+                var hOld=cell.profilePic.bounds.height
+                var scale:CGFloat=w/wOld
+                
+                ////self.ResizeImage(img!, targetSize: CGSizeMake(cell.profilePic.bounds.width,cell.profilePic.bounds.height))
+                
+                cell.profilePic.layer.borderWidth = 1.0
+                cell.profilePic.layer.masksToBounds = false
+                cell.profilePic.layer.borderColor = UIColor.whiteColor().CGColor
+                cell.profilePic.layer.cornerRadius = cell.profilePic.frame.size.width/2
+                cell.profilePic.clipsToBounds = true
+                
+                cell.profilePic.image=UIImage(data: ContactsProfilePic[indexPath.row], scale: scale)
+                ///cell.profilePic.image=UIImage(data:ContactsProfilePic[indexPath.row])
+                UIImage(data: ContactsProfilePic[indexPath.row], scale: scale)
+                print("image size is s \(UIImage(data:ContactsProfilePic[indexPath.row])?.size.width) and h \(UIImage(data:ContactsProfilePic[indexPath.row])?.size.height)")
+            }
+            
        /* do
         {//allkiboContactsArray = Array(try sqliteDB.db.prepare(contactsKibo))
             do{for all in try sqliteDB.db.prepare(allcontacts) {
@@ -990,6 +1044,7 @@ class ChatMainViewController:UIViewController,SocketConnecting
     }
     
     func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
+       /*
         if(indexPath.row < (ContactNames.count))
         {
         if editingStyle == .Delete {
@@ -1091,13 +1146,16 @@ class ChatMainViewController:UIViewController,SocketConnecting
         }
         
             }
+        */
     }
     
     
     
     
-    func tableView(tableView: UITableView, editActionsForRowAtIndexPath indexPath: NSIndexPath) -> [AnyObject]?  {
+   // func tableView(tableView: UITableView, editActionsForRowAtIndexPath indexPath: NSIndexPath) -> [AnyObject]?  {
         // 1
+        
+        /*
         var shareAction = UITableViewRowAction(style: UITableViewRowActionStyle.Default, title: "Delete" , handler: { (action:UITableViewRowAction, indexPath:NSIndexPath) -> Void in
             // 2
             
@@ -1326,8 +1384,8 @@ class ChatMainViewController:UIViewController,SocketConnecting
 
         // 5
         return [shareAction,rateAction]
-
-    }
+*/
+   // }
 
     @IBAction func inviteFriendsButtonPressed(sender: AnyObject) {
         let shareMenu = UIAlertController(title: nil, message: "Invite using", preferredStyle: .ActionSheet)

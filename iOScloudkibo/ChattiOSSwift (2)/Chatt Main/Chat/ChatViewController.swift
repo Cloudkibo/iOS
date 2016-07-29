@@ -2180,6 +2180,9 @@ print("query join error 1337 \(e)")
                     {
                     self.ContactCountMsgRead.removeAtIndex(indexPath.row)
                     }
+                    
+                    self.ContactsProfilePic.removeAtIndex(indexPath.row)
+                    
                     /*if(!self.ContactMsgRead.isEmpty && self.ContactMsgRead.endIndex<=indexPath.row)
                     {
 
