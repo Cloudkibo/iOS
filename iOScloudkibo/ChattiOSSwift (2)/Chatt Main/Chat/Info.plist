@@ -112,7 +112,7 @@
 		<string>ak1452049518365321</string>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>0.0727.3</string>
+	<string>0.0729.1</string>
 	<key>Fabric</key>
 	<dict>
 		<key>APIKey</key>
@@ -154,9 +154,7 @@
 	</dict>
 	<key>UIBackgroundModes</key>
 	<array>
-		<string>audio</string>
 		<string>fetch</string>
-		<string>remote-notification</string>
 	</array>
 	<key>UIFileSharingEnabled</key>
 	<true/>

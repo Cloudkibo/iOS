@@ -39,6 +39,8 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
     var rt=NetworkingLibAlamofire()
     var allkiboContactsArray=Array<Row>()
     
+    
+    
     var Q_serial1=dispatch_queue_create("Q_serial1",DISPATCH_QUEUE_SERIAL)
     var Q_serial2=dispatch_queue_create("Q_serial2",DISPATCH_QUEUE_SERIAL)
     var Q_serial3=dispatch_queue_create("Q_serial3",DISPATCH_QUEUE_SERIAL)
@@ -213,7 +215,7 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
     //////////////////////////
     var ContactsEmail:[String]=[]
     var ContactsPhone:[String]=[]
-    
+    var ContactsProfilePic:[NSData]=[]
     //["Bus","Helicopter","Truck","Boat","Bicycle","Motorcycle","Plane","Train","Car","Scooter","Caravan"]
     required init?(coder aDecoder: NSCoder)
     {
@@ -1204,7 +1206,9 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
         
         
         let contactPhone = Expression<String>("contactPhone")
-        contactPhone
+        let contactProfileImage = Expression<NSData>("profileimage")
+        
+        //contactPhone
         //-========Remove old values=====================
         self.ContactsLastMsgDate.removeAll(keepCapacity: false)
         self.ContactLastMessage.removeAll(keepCapacity: false)
@@ -1223,6 +1227,7 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
         self.ContactsEmail.removeAll(keepCapacity: false)
         //////self.ContactMsgRead.removeAll(keepCapacity: false)
         self.ContactCountMsgRead.removeAll(keepCapacity: false)
+        self.ContactsProfilePic.removeAll(keepCapacity: false)
         /*
         let stmt = try db.prepare("SELECT id, email FROM users")
         for row in stmt {
@@ -1258,6 +1263,7 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
         
          let tbl_userchats=sqliteDB.userschats
         let tbl_contactslists=sqliteDB.contactslists
+        let tbl_allcontacts=sqliteDB.allcontacts
         
         let myquery=tbl_contactslists.join(tbl_userchats, on: tbl_contactslists[phone] == tbl_userchats[contactPhone]).group(tbl_userchats[contactPhone]).order(date.desc)
         
@@ -1287,6 +1293,35 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
             ContactOnlineStatus.append(0)
             ContactLastMessage.append(ccc[msg])
             ContactsLastMsgDate.append(ccc[date])
+            
+            //do join query of allcontacts and contactslist table to get avatar
+            
+            let queryPic = tbl_allcontacts.filter(tbl_allcontacts[phone] == ccc[phone])          // SELECT "email" FROM "users"
+            
+            var picfound=false
+            do{
+                for picquery in try sqliteDB.db.prepare(queryPic) {
+                   // if(contactProfileImage != NSData.init())
+                    //{
+                    print("picquery found for \(ccc[phone])")
+                ContactsProfilePic.append(picquery[contactProfileImage])
+                picfound=true
+                    //}
+                    /*else
+                    {
+                        
+                    }*/
+                }
+            }
+            catch
+                {
+                    print("error in fetching profile image")
+            }
+            
+            if(picfound==false)
+            {
+                ContactsProfilePic.append(NSData.init())
+            }
             
             /*
              String countQuery = "SELECT  * FROM " + UserChat.TABLE_USERCHAT + " WHERE status = 'delivered' AND contact_phone = '"+ contact_phone +"'";
@@ -1489,7 +1524,29 @@ print("query join error 1337 \(e)")
                         cell.contactName?.text=all[phone]
                     }
                     contactFound=true
-                    
+                    if(!ContactsProfilePic.isEmpty && ContactsProfilePic[indexPath.row] != NSData.init())
+                    {
+                       
+                        var img=UIImage(data:ContactsProfilePic[indexPath.row])
+                        var w=img!.size.width
+                        var h=img!.size.height
+                        var wOld=cell.profilePic.bounds.width
+                        var hOld=cell.profilePic.bounds.height
+                        var scale:CGFloat=w/wOld
+                        
+                        ////self.ResizeImage(img!, targetSize: CGSizeMake(cell.profilePic.bounds.width,cell.profilePic.bounds.height))
+                        
+                        cell.profilePic.layer.borderWidth = 1.0
+                        cell.profilePic.layer.masksToBounds = false
+                        cell.profilePic.layer.borderColor = UIColor.whiteColor().CGColor
+                        cell.profilePic.layer.cornerRadius = cell.profilePic.frame.size.width/2
+                        cell.profilePic.clipsToBounds = true
+                        
+                        cell.profilePic.image=UIImage(data: ContactsProfilePic[indexPath.row], scale: scale)
+                        ///cell.profilePic.image=UIImage(data:ContactsProfilePic[indexPath.row])
+                        UIImage(data: ContactsProfilePic[indexPath.row], scale: scale)
+                        print("image size is s \(UIImage(data:ContactsProfilePic[indexPath.row])?.size.width) and h \(UIImage(data:ContactsProfilePic[indexPath.row])?.size.height)")
+                    }
                     
                 }
                 
@@ -1525,6 +1582,11 @@ print("query join error 1337 \(e)")
                     cell.countNewmsg.text="\(ContactCountMsgRead[indexPath.row])"
                     cell.countNewmsg.hidden=false
                 }
+                }
+                
+                if(!ContactsProfilePic.isEmpty  && ContactsProfilePic[indexPath.row] != NSData.init())
+                {
+                    cell.profilePic.image=UIImage(data:ContactsProfilePic[indexPath.row])
                 }
             }
             
@@ -1591,6 +1653,32 @@ print("query join error 1337 \(e)")
         //}
         return cell
         
+    }
+    
+    func ResizeImage(image: UIImage, targetSize: CGSize) -> UIImage {
+        let size = image.size
+        
+        let widthRatio  = targetSize.width  / image.size.width
+        let heightRatio = targetSize.height / image.size.height
+        
+        // Figure out what our orientation is, and use that to form the rectangle
+        var newSize: CGSize
+        if(widthRatio > heightRatio) {
+            newSize = CGSizeMake(size.width * heightRatio, size.height * heightRatio)
+        } else {
+            newSize = CGSizeMake(size.width * widthRatio,  size.height * widthRatio)
+        }
+        
+        // This is the rect that we've calculated out and this is what is actually used below
+        let rect = CGRectMake(0, 0, newSize.width, newSize.height)
+        
+        // Actually do the resizing to the rect using the ImageContext stuff
+        UIGraphicsBeginImageContextWithOptions(newSize, false, 1.0)
+        image.drawInRect(rect)
+        let newImage = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        
+        return newImage
     }
     
     func tableView(tableView: UITableView!, didSelectRowAtIndexPath indexPath: NSIndexPath!){

@@ -1097,7 +1097,7 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
                     <navigationItem key="navigationItem" title="New Chat" id="DA8-is-YEu">
-                        <barButtonItem key="rightBarButtonItem" image="callIcon" id="dyH-8l-xxD" userLabel="Call">
+                        <barButtonItem key="rightBarButtonItem" enabled="NO" image="callIcon" id="dyH-8l-xxD" userLabel="Call">
                             <connections>
                                 <action selector="btnCallPressed:" destination="vqu-uk-8SN" id="1Nn-si-RcY"/>
                             </connections>
@@ -3303,10 +3303,10 @@
         <segue reference="Cjg-Ar-cdZ"/>
         <segue reference="3Qa-aS-eRu"/>
         <segue reference="1jA-Zj-XHt"/>
+        <segue reference="Spe-dd-EXu"/>
         <segue reference="W8i-Cs-Z8T"/>
         <segue reference="QOc-Kg-WHZ"/>
         <segue reference="Lsn-aA-q1J"/>
-        <segue reference="OaJ-Hk-2uB"/>
     </inferredMetricsTieBreakers>
     <color key="tintColor" red="0.054901960784313725" green="0.47843137254901963" blue="1" alpha="1" colorSpace="calibratedRGB"/>
 </document>
