@@ -572,6 +572,7 @@ class DatabaseHandler:NSObject{
                     uniqueID<-uniqueid1,
                     status<-status1,
                     contactPhone<-contactPhone1,
+                    type<-"file",
                     file_type<-file_type1,
                     file_path<-file_path1
                     ))

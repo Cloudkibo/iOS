@@ -456,7 +456,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
         let date = Expression<String>("date")
         let status = Expression<String>("status")
         let uniqueid = Expression<String>("uniqueid")
-        
+        let type = Expression<String>("type")
         
         
         var tbl_userchats=sqliteDB.userschats
@@ -502,12 +502,28 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
                     
                 {//type1
                     print("statussss is \(tblContacts[status])")
+                    if(tblContacts[type]=="file")
+                    {
+                        self.addMessage(tblContacts[msg], ofType: "3",date: tblContacts[date])
+                        
+                    }
+                    else
+                    {
                     self.addMessage(tblContacts[msg]+" (\(tblContacts[status])) ", ofType: "2",date: tblContacts[date])
+                    }
                 }
                 else
                 {//type2
                     print("statussss is \(tblContacts[status])")
+                    if(tblContacts[type]=="file")
+                    {
+                        self.addMessage(tblContacts[msg] , ofType: "3",date: tblContacts[date])
+                        
+                    }
+                    else
+                    {
                     self.addMessage(tblContacts[msg], ofType: "1", date: tblContacts[date])
+                    }
                     
                 }
                 /* if(self.messages.count>1)
@@ -785,10 +801,18 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
         
         var messageDic = messages.objectAtIndex(indexPath.row) as! [String : String];
         let msg = messageDic["message"] as NSString!
+        let msgType = messageDic["type"]! as NSString
+        if(msgType.isEqualToString("3"))
+        {
+            return 120
+            
+        }
+        else
+        {
         let sizeOFStr = self.getSizeOfString(msg)
         
         return sizeOFStr.height + 70
-        
+        }
         /* var cell : UITableViewCell!
          cell = tblForChats.dequeueReusableCellWithIdentifier("ChatSentCell")! as UITableViewCell
          
@@ -892,7 +916,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
             //chatImage.frame = CGRectMake(20 + distanceFactor, chatImage.frame.origin.y, ((sizeOFStr.width + 100)  > 200 ? (sizeOFStr.width + 100) : 200), sizeOFStr.height + 40)
           
             
-            let documentDirectory = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true).first as String!
+          /*  let documentDirectory = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true).first as String!
             let photoURL          = NSURL(fileURLWithPath: documentDirectory)
             let imgPath         = photoURL.URLByAppendingPathComponent(self.filename)
             var imgNSData=NSFileManager.defaultManager().contentsAtPath(imgPath.path!)
@@ -901,18 +925,53 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
             chatImage.image = UIImage(data: imgNSData!)
                 chatImage.contentMode = .ScaleAspectFit
             }
-            
-            // chatImage.image = UIImage(named: "chat_send")?.stretchableImageWithLeftCapWidth(40,topCapHeight: 20);
+ */
+            print("here 905 msgtype is \(msgType)")
+            if(msgType.isEqualToString("3"))
+            {
+                 chatImage.frame = CGRectMake(80, chatImage.frame.origin.y, 220, 220)
+                
+                chatImage.contentMode = .ScaleAspectFit
+                let documentDirectory = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true).first as String!
+                let photoURL          = NSURL(fileURLWithPath: documentDirectory)
+                let imgPath         = photoURL.URLByAppendingPathComponent(msg as! String)
+                var imgNSData=NSFileManager.defaultManager().contentsAtPath(imgPath.path!)
+                print("hereee imgPath.path! is \(imgPath.path!)")
+                if(imgNSData != nil)
+                {
+                    chatImage.image = UIImage(data: imgNSData!)!.stretchableImageWithLeftCapWidth(40,topCapHeight: 20);
+                    chatImage.contentMode = .ScaleAspectFit
+                     print("file shownnnnnnnnn")
+                    textLable.hidden=true
+                }
+
+                
+               /* var imgNSURL = NSURL(fileURLWithPath: msg as String)
+                var imgNSData=NSFileManager.defaultManager().contentsAtPath(imgNSURL.path!)
+                if(imgNSData != nil)
+                {
+                chatImage.image = UIImage(contentsOfFile: msg as String)
+                print("file shownnnnnnnnn")
+                }
+                */
+            }
+            else{
+                textLable.hidden=false
+            chatImage.frame = CGRectMake(20 + distanceFactor, chatImage.frame.origin.y, ((sizeOFStr.width + 100)  > 200 ? (sizeOFStr.width + 100) : 200), sizeOFStr.height + 40)
+             chatImage.image = UIImage(named: "chat_send")?.stretchableImageWithLeftCapWidth(40,topCapHeight: 20);
             //*********
-            textLable.frame = CGRectMake(36 + distanceFactor, textLable.frame.origin.y, textLable.frame.size.width, sizeOFStr.height)
-            ////profileImage.center = CGPointMake(profileImage.center.x, textLable.frame.origin.y + textLable.frame.size.height - profileImage.frame.size.height/2 + 10)
-            
-            profileImage.center = CGPointMake(profileImage.center.x, textLable.frame.origin.y + textLable.frame.size.height - profileImage.frame.size.height/2+10)
-            
-            timeLabel.frame = CGRectMake(36 + distanceFactor, timeLabel.frame.origin.y, timeLabel.frame.size.width, timeLabel.frame.size.height)
-            deliveredLabel.frame = CGRectMake(deliveredLabel.frame.origin.x, textLable.frame.origin.y + textLable.frame.size.height + 15, deliveredLabel.frame.size.width, deliveredLabel.frame.size.height)
-            textLable.text = "\(msg)"
-          
+                textLable.text = "\(msg)"
+                textLable.frame = CGRectMake(36 + distanceFactor, textLable.frame.origin.y, textLable.frame.size.width, sizeOFStr.height)
+                ////profileImage.center = CGPointMake(profileImage.center.x, textLable.frame.origin.y + textLable.frame.size.height - profileImage.frame.size.height/2 + 10)
+                
+                profileImage.center = CGPointMake(profileImage.center.x, textLable.frame.origin.y + textLable.frame.size.height - profileImage.frame.size.height/2+10)
+                
+                timeLabel.frame = CGRectMake(36 + distanceFactor, timeLabel.frame.origin.y, timeLabel.frame.size.width, timeLabel.frame.size.height)
+                deliveredLabel.frame = CGRectMake(deliveredLabel.frame.origin.x, textLable.frame.origin.y + textLable.frame.size.height + 15, deliveredLabel.frame.size.width, deliveredLabel.frame.size.height)
+                
+                
+            }
+           
             //////////////////////deliveredLabel.text="Delivered"
             /*
              let dateFormatter = NSDateFormatter()
@@ -1073,7 +1132,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
         
     }
     
-     
+     tblForChats.reloadData()
         if(messages.count>1)
         {
             let indexPath = NSIndexPath(forRow:messages.count-1, inSection: 0)
@@ -1259,25 +1318,9 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
            // var myasset=result.firstObject as! PHAsset
             //print(myasset.mediaType)
             
-           
             
-            //print(result.firstObject?.keys)
-            //filename = result.firstObject?.fileSize.debugDescription
-           /* PHImageManager.defaultManager().requestImageDataForAsset(result.firstObject as! PHAsset, options: PHImageRequestOptions.init(), resultHandler: { (imageData, dataUTI, orientation, infoDict) in
-                infoDict?.keys.elements.forEach({ (infoKeys) in
-                    print("---+++---")
-                    print(dataUTI)
-                    //print(infoKeys.debugDescription)
-                })
-                
-                
-            })*/
-          // filename = result.firstObject?.
+            
         }
-        
-        
-    
-        
         socketObj.socket.emit("logClient","IPHONE-LOG: \(username!) selected file ")
         print("file gotttttt")
         var furl=NSURL(string: localPath.URLString)
@@ -1311,7 +1354,8 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
         
 
         print("filename is \(filename) destination path is \(filePathImage2) image name \(imageName) imageurl \(imageUrl) photourl \(photoURL) localPath \(localPath).. \(localPath.absoluteString)")
-        var s=fm.createFileAtPath(filePathImage2, contents: nil, attributes: nil)
+        
+            var s=fm.createFileAtPath(filePathImage2, contents: nil, attributes: nil)
         
       //  var written=fileData!.writeToFile(filePathImage2, atomically: false)
         
@@ -1319,6 +1363,50 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
         
          data!.writeToFile(filePathImage2, atomically: true)
       // data!.writeToFile(localPath.absoluteString, atomically: true)
+        
+            
+            let calendar = NSCalendar.currentCalendar()
+            let comp = calendar.components([.Hour, .Minute], fromDate: NSDate())
+            let year = String(comp.year)
+            let month = String(comp.month)
+            let day = String(comp.day)
+            let hour = String(comp.hour)
+            let minute = String(comp.minute)
+            let second = String(comp.second)
+            
+            
+            var randNum5=self.randomStringWithLength(5) as! String
+            var uniqueID=randNum5+year+month+day+hour+minute+second
+            //var uniqueID=randNum5+year
+            print("unique ID is \(uniqueID)")
+            
+            var loggedid=_id!
+            //^^var firstNameSelected=selectedUserObj["firstname"]
+            //^^^var lastNameSelected=selectedUserObj["lastname"]
+            //^^^var fullNameSelected=firstNameSelected.string!+" "+lastNameSelected.string!
+            var imParas=["from":"\(username!)","to":"\(selectedContact)","fromFullName":"\(displayname)","msg":"\(txtFldMessage.text!)","uniqueid":"\(uniqueID)"]
+            
+            
+            sqliteDB.saveChatImage(selectedContact, from1: username!, owneruser1: username!, fromFullName1: displayname, msg1: filename, date1: nil, uniqueid1: uniqueID, status1: "pending", file_type1: "JPG", file_path1: filePathImage2)
+        
+       /////// self.addMessage(filePathImage2, ofType: "3", date: nil)
+            //print(result.firstObject?.keys)
+            //filename = result.firstObject?.fileSize.debugDescription
+            /* PHImageManager.defaultManager().requestImageDataForAsset(result.firstObject as! PHAsset, options: PHImageRequestOptions.init(), resultHandler: { (imageData, dataUTI, orientation, infoDict) in
+             infoDict?.keys.elements.forEach({ (infoKeys) in
+             print("---+++---")
+             print(dataUTI)
+             //print(infoKeys.debugDescription)
+             })
+             
+             
+             })*/
+            // filename = result.firstObject?.
+        
+        
+        
+
+        
         
         self.dismissViewControllerAnimated(true, completion:{ ()-> Void in
         
@@ -1751,13 +1839,29 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
                 //----------sendDataBuffer(fmetadata,isb: false)
                 
                 
-                socketObj.socket.emit("conference.chat", ["message":"You have received a file. Download and Save it.","username":username!])
+                let calendar = NSCalendar.currentCalendar()
+                let comp = calendar.components([.Hour, .Minute], fromDate: NSDate())
+                let year = String(comp.year)
+                let month = String(comp.month)
+                let day = String(comp.day)
+                let hour = String(comp.hour)
+                let minute = String(comp.minute)
+                let second = String(comp.second)
                 
-                let alert = UIAlertController(title: "Success", message: "Your file has been successfully sent", preferredStyle: UIAlertControllerStyle.Alert)
+                
+                var randNum5=self.randomStringWithLength(5) as! String
+                var uniqueID=randNum5+year+month+day+hour+minute+second
+                
+                
+                 sqliteDB.SaveChat(self.selectedContact, from1: username!, owneruser1: username!, fromFullName1: displayname, msg1: filename, date1: nil, uniqueid1: uniqueID, status1: "pending")
+                
+                /////socketObj.socket.emit("conference.chat", ["message":"You have received a file. Download and Save it.","username":username!])
+                
+               /* let alert = UIAlertController(title: "Success", message: "Your file has been successfully sent", preferredStyle: UIAlertControllerStyle.Alert)
                 alert.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.Default, handler: nil))
                 self.presentViewController(alert, animated: true, completion: nil)
                 
-                
+                */
             }
             
             url.stopAccessingSecurityScopedResource()

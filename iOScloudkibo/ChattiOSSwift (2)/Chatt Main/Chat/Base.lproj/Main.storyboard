@@ -1158,9 +1158,7 @@
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="Jkd-fn-jTj" userLabel="fileAttachBtn">
                                         <rect key="frame" x="13" y="11" width="25" height="22"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <state key="normal" image="chat_camera">
-                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                        </state>
+                                        <state key="normal" image="chat_camera"/>
                                         <connections>
                                             <action selector="btnShareFileInChatPressed:" destination="vqu-uk-8SN" eventType="touchUpInside" id="a93-pZ-MYE"/>
                                         </connections>
