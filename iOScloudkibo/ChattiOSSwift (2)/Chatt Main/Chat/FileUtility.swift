@@ -18,6 +18,33 @@ class FileUtility{
     //credit:http://stackoverflow.com/questions/5712527/how-to-detect-total-available-free-disk-space-on-the-iphone-ipad-device
    
     
+    
+    class func exists (path: String) -> Bool {
+        return NSFileManager().fileExistsAtPath(path)
+    }
+    
+    class func read (path: String, encoding: NSStringEncoding = NSUTF8StringEncoding) -> NSData? {
+        if FileUtility.exists(path) {
+            return NSData(contentsOfFile: path)
+        }
+        
+        return nil
+    }
+    
+    class func write (path: String, content: NSData, encoding: NSStringEncoding = NSUTF8StringEncoding) -> Bool {
+        return content.writeToFile(path, atomically: true)
+    }
+
+
+////let read : NSData? = FileUtility.read("/path/to/file.txt")
+
+//print(read)
+
+///let write : Bool = FileUtility.write("/path/to/file2.txt", content: NSData(contentsOfFile: "This is a test String")!)
+
+//print(write)
+
+
     func getfreeDiskSpace()->UInt64
     {
         var dictionary:[String:AnyObject]=["":""]

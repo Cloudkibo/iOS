@@ -1358,19 +1358,7 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
         }
     
     override func prepareForSegue(segue: UIStoryboardSegue?, sender: AnyObject?) {
-        //var newController=segue ?.destinationViewController
-        // Get the new view controller using [segue destinationViewController].
-        // Pass the selected object to the new view controller.
-        // Get the new view controller using [segue destinationViewController].
-        // Pass the selected object to the new view controller.
-        
-        //if segue!.identifier == "chatSegue" {
-        /*if segue!.identifier == "inviteSegue"{
-        if let destinationVC = segue!.destinationViewController as? ContactsInviteViewController{
-        
-        //contactsList.searchContactsByEmail(contactsList.emails)
-        }
-        }*/
+       
         if segue!.identifier == "contactChat" {
             
             if let destinationVC = segue!.destinationViewController as? ChatDetailViewController{
@@ -1652,29 +1640,7 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
             globalChatRoomJoined=true
             var contactsOnlineList=JSON(data)
             
-            //%%%%%%%%%%%%%%%newwwwwwwwwwwwww-----------------------
-           /* print(contactsOnlineList.debugDescription)
-            for(var i=0;i<contactsOnlineList[0].count;i++)
-            {
-                for(var j=0;j<self.ContactUsernames.count;j++)
-                {
-                    if self.ContactIDs[j]==contactsOnlineList[0][i]["_id"].string!
-                    {
-                        //found online contact,s username
-                        print("user found onlineeeee \(self.ContactUsernames[j])")
-                        self.ContactOnlineStatus[j]=1
-                        dispatch_async(dispatch_get_main_queue())
-                            {
-                                self.tblForChat.reloadData()
-                        }
-                    }
-                }
-            }
-            */
-            //  dispatch_async(dispatch_get_main_queue())
-            // {
-            
-            //}
+     
         case "calleeisbusy":
             
             self.showError("Information", message: "User is busy. Please try again later", button1: "Ok")

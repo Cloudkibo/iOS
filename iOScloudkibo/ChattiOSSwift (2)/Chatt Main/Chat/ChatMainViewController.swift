@@ -1390,7 +1390,7 @@ class ChatMainViewController:UIViewController,SocketConnecting
     @IBAction func inviteFriendsButtonPressed(sender: AnyObject) {
         let shareMenu = UIAlertController(title: nil, message: "Invite using", preferredStyle: .ActionSheet)
         
-        let twitterAction = UIAlertAction(title: "Mail", style: UIAlertActionStyle.Default,handler: { (action) -> Void in
+        let mailAction = UIAlertAction(title: "Mail", style: UIAlertActionStyle.Default,handler: { (action) -> Void in
             
             self.sendType="Mail"
             self.performSegueWithIdentifier("inviteSegue",sender: nil)
@@ -1415,7 +1415,7 @@ class ChatMainViewController:UIViewController,SocketConnecting
              */
         })
         let cancelAction = UIAlertAction(title: "Cancel", style: UIAlertActionStyle.Cancel, handler:nil)
-        shareMenu.addAction(twitterAction)
+        shareMenu.addAction(mailAction)
         shareMenu.addAction(msgAction)
         shareMenu.addAction(cancelAction)
         

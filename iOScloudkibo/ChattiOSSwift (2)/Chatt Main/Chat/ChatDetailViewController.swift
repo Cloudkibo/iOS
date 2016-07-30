@@ -16,7 +16,7 @@ import Foundation
 import AssetsLibrary
 import Photos
 
-class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChatDelegate,UIDocumentPickerDelegate,UIDocumentMenuDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate{
+class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChatDelegate,UIDocumentPickerDelegate,UIDocumentMenuDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate,NSFileManagerDelegate{
     
     var filename=""
     var showKeyboard=false
@@ -124,6 +124,30 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
      required init?(coder aDecoder: NSCoder) {
      fatalError("init(coder:) has not been implemented")
      }*/
+    
+    
+   
+    func fileManager(fileManager: NSFileManager, shouldProceedAfterError error: NSError, copyingItemAtPath srcPath: String, toPath dstPath: String) -> Bool {
+        if error.code == NSFileWriteFileExistsError {
+            do {
+                //var new path=dstPath.re
+                try fileManager.removeItemAtPath(dstPath)
+                print("Existing file deleted.")
+            } catch {
+                print("Failed to delete existing file:\n\((error as NSError).description)")
+            }
+            do {
+                try fileManager.copyItemAtPath(srcPath, toPath: dstPath)
+                print("File saved.")
+            } catch {
+                print("File not saved:\n\((error as NSError).description)")
+            }
+            return true
+        } else {
+            return false
+        }
+    }
+    
     required init?(coder aDecoder: NSCoder){
         super.init(coder: aDecoder)
         //print("hiiiiii22 \(self.AuthToken)")
@@ -214,6 +238,8 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
         NSNotificationCenter.defaultCenter().removeObserver(self, name:UIKeyboardWillShowNotification, object: nil)
         
         NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("willShowKeyBoard:"), name:UIKeyboardWillShowNotification, object: nil)
+        
+        
         ///NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("willHideKeyBoard:"), name:UIKeyboardWillHideNotification, object: nil)
         
  
@@ -853,7 +879,10 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
              */
             timeLabel.text=date2.debugDescription
         } else {
-            cell = tblForChats.dequeueReusableCellWithIdentifier("ChatReceivedCell")! as UITableViewCell
+            cell = ///tblForChats.dequeueReusableCellWithIdentifier("ChatReceivedCell")! as UITableViewCell
+            
+            //FileImageReceivedCell
+            tblForChats.dequeueReusableCellWithIdentifier("FileImageReceivedCell")! as UITableViewCell
             let deliveredLabel = cell.viewWithTag(13) as! UILabel
             let textLable = cell.viewWithTag(12) as! UILabel
             let timeLabel = cell.viewWithTag(11) as! UILabel
@@ -861,7 +890,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
             let profileImage = cell.viewWithTag(2) as! UIImageView
             let distanceFactor = (170.0 - sizeOFStr.width) < 100 ? (170.0 - sizeOFStr.width) : 100
             chatImage.frame = CGRectMake(20 + distanceFactor, chatImage.frame.origin.y, ((sizeOFStr.width + 100)  > 200 ? (sizeOFStr.width + 100) : 200), sizeOFStr.height + 40)
-            chatImage.image = UIImage(named: "chat_send")?.stretchableImageWithLeftCapWidth(40,topCapHeight: 20);
+           //// chatImage.image = UIImage(named: "chat_send")?.stretchableImageWithLeftCapWidth(40,topCapHeight: 20);
             //*********
             textLable.frame = CGRectMake(36 + distanceFactor, textLable.frame.origin.y, textLable.frame.size.width, sizeOFStr.height)
             ////profileImage.center = CGPointMake(profileImage.center.x, textLable.frame.origin.y + textLable.frame.size.height - profileImage.frame.size.height/2 + 10)
@@ -995,38 +1024,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
         /////////self.view.endEditing(true)
         print("applicationWillResignActive=========")
          NSNotificationCenter.defaultCenter().removeObserver(self, name:UIKeyboardWillShowNotification, object: nil)
-    //    NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("willShowKeyBoard:"), name:UIKeyboardWillShowNotification, object: nil)
-     
-        //self.viewDidLoad()
-        /*      self.tblForChats.setNeedsUpdateConstraints()
-         self.tblForChats.setNeedsLayout()
-         self.tblForChats.setNeedsDisplay()
-         */
-        /*
-         self.retrieveChatFromSqlite(self.selectedContact)
-         dispatch_async(dispatch_get_main_queue())
-         {
-         self.tblForChats.reloadData()
-         }
-         
-         if(self.messages.count>1)
-         {
-         var indexPath = NSIndexPath(forRow:self.messages.count-1, inSection: 0)
-         
-         self.tblForChats.scrollToRowAtIndexPath(indexPath, atScrollPosition: UITableViewScrollPosition.Bottom, animated: true)
-         }*/
-        /*tblForChats.reloadData()
-         //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%------------ commented june 16 FetchChatServer()
-         print("calling retrieveChat from foreground function messages count is \(self.messages.count)")
-         
-         if(self.messages.count>1)
-         {
-         var indexPath = NSIndexPath(forRow:self.messages.count-1, inSection: 0)
-         
-         self.tblForChats.scrollToRowAtIndexPath(indexPath, atScrollPosition: UITableViewScrollPosition.Bottom, animated: true)
-         }
-         */
-        //print("calling retrieveChat from foreground function messages count is \(self.messages.count)")
+    
     }
     func willShowKeyBoard(notification : NSNotification){
        
@@ -1050,13 +1048,6 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
         {
         keyFrame=keyboardFrame
         }
-        /*
-         UIView.animateWithDuration(duration, delay: 0, options:[], animations: {
-         self.chatComposeView.frame = CGRectMake(self.chatComposeView.frame.origin.x, self.chatComposeView.frame.origin.y - keyboardFrame.size.height+self.chatComposeView.frame.size.height+3, self.chatComposeView.frame.size.width, self.chatComposeView.frame.size.height)
-         
-         self.tblForChats.frame = CGRectMake(self.tblForChats.frame.origin.x, self.tblForChats.frame.origin.y, self.tblForChats.frame.size.width, self.tblForChats.frame.size.height - keyboardFrame.size.height+49);
-         }, completion: nil)*/
-        
         
         
         UIView.animateWithDuration(duration, delay: 0, options:[], animations: {
@@ -1069,29 +1060,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
         
     }
     
-      /*  var userInfo: NSDictionary!
-        userInfo = notification.userInfo
-        
-        var duration : NSTimeInterval = 0
-        var curve = userInfo.objectForKey(UIKeyboardAnimationCurveUserInfoKey) as! UInt
-        duration = userInfo[UIKeyboardAnimationDurationUserInfoKey] as! NSTimeInterval
-        let keyboardF:NSValue = userInfo.objectForKey(UIKeyboardFrameEndUserInfoKey) as! NSValue
-        let keyboardFrame = keyboardF.CGRectValue()
-        
-        UIView.animateWithDuration(duration, delay: 0, options:[], animations: {
-            self.chatComposeView.frame = CGRectMake(self.chatComposeView.frame.origin.x, self.chatComposeView.frame.origin.y - keyboardFrame.size.height+self.chatComposeView.frame.size.height+3, self.chatComposeView.frame.size.width, self.chatComposeView.frame.size.height)
-            
-            self.tblForChats.frame = CGRectMake(self.tblForChats.frame.origin.x, self.tblForChats.frame.origin.y, self.tblForChats.frame.size.width, self.tblForChats.frame.size.height - keyboardFrame.size.height+49);
-            }, completion: nil)
-
-        */
-        /*
-        UIView.animateWithDuration(duration, delay: 0, options:[], animations: {
-            self.chatComposeView.frame = CGRectMake(self.chatComposeView.frame.origin.x, self.chatComposeView.frame.origin.y, self.chatComposeView.frame.size.width, self.chatComposeView.frame.size.height)
- 
-            self.tblForChats.frame = CGRectMake(self.tblForChats.frame.origin.x, self.tblForChats.frame.origin.y, self.tblForChats.frame.size.width, self.tblForChats.frame.size.height);
-            }, completion: nil)
-        */
+     
         if(messages.count>1)
         {
             let indexPath = NSIndexPath(forRow:messages.count-1, inSection: 0)
@@ -1126,11 +1095,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
        // userInfo = notification.userInfo
         
         var duration : NSTimeInterval = 0
-      //  var curve = userInfo.objectForKey(UIKeyboardAnimationCurveUserInfoKey) as! UInt
-        //duration = userInfo[UIKeyboardAnimationDurationUserInfoKey] as! NSTimeInterval
-        //let keyboardF:NSValue = userInfo.objectForKey(UIKeyboardFrameEndUserInfoKey) as! NSValue
-        //let keyboardFrame = keyboardF.CGRectValue()
-        /////// keyheight=keyboardFrame.size.height
+
         
         UIView.animateWithDuration(duration, delay: 0, options:[], animations: {
             self.chatComposeView.frame = CGRectMake(self.chatComposeView.frame.origin.x, self.chatComposeView.frame.origin.y + self.keyheight-self.chatComposeView.frame.size.height-3, self.chatComposeView.frame.size.width, self.chatComposeView.frame.size.height)
@@ -1159,6 +1124,74 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
     
     @IBAction func btnShareFileInChatPressed(sender: AnyObject)
     {
+        
+        
+        let shareMenu = UIAlertController(title: nil, message: nil, preferredStyle: .ActionSheet)
+        shareMenu.modalPresentationStyle=UIModalPresentationStyle.OverCurrentContext
+        let photoAction = UIAlertAction(title: "Photo/Video Library", style: UIAlertActionStyle.Default,handler: { (action) -> Void in
+            
+            var picker=UIImagePickerController.init()
+            picker.delegate=self
+            
+            picker.allowsEditing = true;
+            //picker.modalPresentationStyle = UIModalPresentationStyle.OverCurrentContext
+            // if(UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.PhotoLibrary))
+            //  {
+           
+            //savedPhotosAlbum
+            // picker.sourceType = UIImagePickerControllerSourceType.PhotoLibrary
+            //}
+            picker.sourceType = UIImagePickerControllerSourceType.PhotoLibrary
+            
+            //[self presentViewController:picker animated:YES completion:NULL];
+            dispatch_async(dispatch_get_main_queue())
+            { () -> Void in
+                
+                self.presentViewController(picker, animated: true, completion: nil)
+                
+            }
+            
+        
+        })
+        let documentAction = UIAlertAction(title: "Share Document", style: UIAlertActionStyle.Default, handler: { (action) -> Void in
+            
+            print(NSOpenStepRootDirectory())
+            ///var UTIs=UTTypeCopyPreferredTagWithClass("public.image", kUTTypeImage)?.takeRetainedValue() as! [String]
+            
+            let importMenu = UIDocumentMenuViewController(documentTypes: [kUTTypeText as NSString as String, kUTTypeImage as String,"com.adobe.pdf","public.jpeg","public.html","public.content","public.data","public.item",kUTTypeBundle as String],
+                inMode: .Import)
+            ///////let importMenu = UIDocumentMenuViewController(documentTypes: UTIs, inMode: .Import)
+            importMenu.delegate = self
+            
+            dispatch_async(dispatch_get_main_queue()) { () -> Void in
+                self.presentViewController(importMenu, animated: true, completion: nil)
+                
+                
+            }
+
+            
+        })
+        let cancelAction = UIAlertAction(title: "Cancel", style: UIAlertActionStyle.Cancel, handler:nil)
+        shareMenu.addAction(photoAction)
+        shareMenu.addAction(documentAction)
+        shareMenu.addAction(cancelAction)
+        
+        
+        
+        self.presentViewController(shareMenu, animated: true, completion: {
+            
+        })
+
+        
+        
+        
+        
+        
+        
+        
+        //................................
+        
+        /*
         //socketObj.socket.emit("logClient","\(username!) is sharing file with \(iamincallWith)")
         print(NSOpenStepRootDirectory())
         ///var UTIs=UTTypeCopyPreferredTagWithClass("public.image", kUTTypeImage)?.takeRetainedValue() as! [String]
@@ -1194,14 +1227,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
             
             
         }
-        
-        //////////mdata.sharefile()
-        
-        /*let documentPicker = UIDocumentPickerViewController(documentTypes: [kUTTypeText as NSString as String],
-         inMode: .Import)
-         documentPicker.delegate = self
-         presentViewController(documentPicker, animated: true, completion: nil)*/
-        
+        */
     }
     
     func imagePickerController(picker: UIImagePickerController, didFinishPickingImage image: UIImage, editingInfo: [String : AnyObject]?) {
@@ -1213,22 +1239,32 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
         let localPath         = photoURL.URLByAppendingPathComponent(imageName!)
         let image             = editingInfo![UIImagePickerControllerOriginalImage]as! UIImage
         let data              = UIImagePNGRepresentation(image)
-        
-       /* if let imageURL = editingInfo![UIImagePickerControllerReferenceURL] as? NSURL {
-            let result = PHAsset.fetchAssetsWithALAssetURLs([imageURL], options: nil)
-            filename = result.firstObject?.filename ?? ""
-        }*/
-        
+       
         if let imageURL = editingInfo![UIImagePickerControllerReferenceURL] as? NSURL {
             let result = PHAsset.fetchAssetsWithALAssetURLs([imageURL], options: nil)
            filename = result.firstObject?.filename ?? ""
+           // var myasset=result.firstObject as! PHAsset
+            //print(myasset.mediaType)
+            
+           
+            
+            //print(result.firstObject?.keys)
+            //filename = result.firstObject?.fileSize.debugDescription
+           /* PHImageManager.defaultManager().requestImageDataForAsset(result.firstObject as! PHAsset, options: PHImageRequestOptions.init(), resultHandler: { (imageData, dataUTI, orientation, infoDict) in
+                infoDict?.keys.elements.forEach({ (infoKeys) in
+                    print("---+++---")
+                    print(dataUTI)
+                    //print(infoKeys.debugDescription)
+                })
+                
+                
+            })*/
+          // filename = result.firstObject?.
         }
         
         
+    
         
-        
-       // let fileData = NSData(contentsOfURL: localPath)
-      //  print(fileData?.description)
         socketObj.socket.emit("logClient","IPHONE-LOG: \(username!) selected file ")
         print("file gotttttt")
         var furl=NSURL(string: localPath.URLString)
@@ -1243,17 +1279,12 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
         let docsDir1 = dirPaths[0]
         var documentDir=docsDir1 as NSString
         var filePathImage2=documentDir.stringByAppendingPathComponent(filename)
-        //filejustreceivedPathURL=NSURL(fileURLWithPath: filePathImage2)
-        //print("filejustreceivedPathURL is \(filejustreceivedPathURL)")
         var fm=NSFileManager.defaultManager()
-        
-        //METADATA FILE NAME,TYPE
-        
-        ////var fname=furl!.URLByDeletingPathExtension?.URLString
-        //var attributesError=nil
+       
         var fileAttributes:[String:AnyObject]=["":""]
         do {
-            let fileAttributes : NSDictionary? = try NSFileManager.defaultManager().attributesOfItemAtPath(furl!.path!)
+           /// let fileAttributes : NSDictionary? = try NSFileManager.defaultManager().attributesOfItemAtPath(furl!.path!)
+            let fileAttributes : NSDictionary? = try NSFileManager.defaultManager().attributesOfItemAtPath(imageUrl.path!)
             
             if let _attr = fileAttributes {
                 self.fileSize1 = _attr.fileSize();
@@ -1262,24 +1293,10 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
             }
         } catch {
             socketObj.socket.emit("logClient","IPHONE-LOG: error: \(error)")
-            print("Error: \(error)")
+            print("Error:+++ \(error)")
         }
         
-        //urlLocalFile=localPath
-        /////let text2 = fm.contentsAtPath(filePath)
-        ////////print(text2)
-        /////////print(JSON(text2!))
-        ///mdata.fileContents=fm.contentsAtPath(filePathImage)!
-       /// self.fileContents=NSData(contentsOfURL: localPath)
-       //// self.filePathImage=localPath.URLString
-        //var filecontentsJSON=JSON(NSData(contentsOfURL: url)!)
-        //print(filecontentsJSON)
-        ///print("file url is \(self.filePathImage) file type is \(ftype)")
-        ////var filename=fname!+"."+ftype
-        
-        
-        //////////^^^^^^^newww tryy var filedata:NSData=fu.convert_byteArray_to_fileNSData(bytes)
-        /////var filedata:NSData=fu.convert_byteArray_to_fileNSData(bytesarraytowrite)
+
         print("filename is \(filename) destination path is \(filePathImage2) image name \(imageName) imageurl \(imageUrl) photourl \(photoURL) localPath \(localPath).. \(localPath.absoluteString)")
         var s=fm.createFileAtPath(filePathImage2, contents: nil, attributes: nil)
         
@@ -1290,7 +1307,21 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
          data!.writeToFile(filePathImage2, atomically: true)
       // data!.writeToFile(localPath.absoluteString, atomically: true)
         
-        self.dismissViewControllerAnimated(true, completion: nil);
+        self.dismissViewControllerAnimated(true, completion:{ ()-> Void in
+        
+            if(self.showKeyboard==true)
+            {var duration : NSTimeInterval = 0
+                
+                
+                UIView.animateWithDuration(duration, delay: 0, options:[], animations: {
+                    self.chatComposeView.frame = CGRectMake(self.chatComposeView.frame.origin.x, self.chatComposeView.frame.origin.y + self.keyheight-self.chatComposeView.frame.size.height-3, self.chatComposeView.frame.size.width, self.chatComposeView.frame.size.height)
+                    self.tblForChats.frame = CGRectMake(self.tblForChats.frame.origin.x, self.tblForChats.frame.origin.y, self.tblForChats.frame.size.width, self.tblForChats.frame.size.height + self.keyFrame.size.height-49);
+                    }, completion: nil)
+                self.showKeyboard=false
+        
+            }});
+        
+     
         
         
         /*if (controller.documentPickerMode == UIDocumentPickerMode.Import) {
@@ -1326,9 +1357,9 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
                 
                 socketObj.socket.emit("conference.chat", ["message":"You have received a file. Download and Save it.","username":username!])
                 
-                let alert = UIAlertController(title: "Success", message: "Your file has been successfully sent", preferredStyle: UIAlertControllerStyle.Alert)
+              /*  let alert = UIAlertController(title: "Success", message: "Your file has been successfully sent", preferredStyle: UIAlertControllerStyle.Alert)
                 alert.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.Default, handler: nil))
-                self.presentViewController(alert, animated: true, completion: nil)
+                self.presentViewController(alert, animated: true, completion: nil)*/
                 
         
             //mdata.sharefile(url)
@@ -1338,8 +1369,21 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
         
     }
     func imagePickerControllerDidCancel(picker: UIImagePickerController) {
-        
-        
+        dispatch_async(dispatch_get_main_queue()) { () -> Void in
+            self.dismissViewControllerAnimated(true, completion: { ()-> Void in
+                
+                if(self.showKeyboard==true)
+                {var duration : NSTimeInterval = 0
+                    
+                    
+                    UIView.animateWithDuration(duration, delay: 0, options:[], animations: {
+                        self.chatComposeView.frame = CGRectMake(self.chatComposeView.frame.origin.x, self.chatComposeView.frame.origin.y + self.keyheight-self.chatComposeView.frame.size.height-3, self.chatComposeView.frame.size.width, self.chatComposeView.frame.size.height)
+                        self.tblForChats.frame = CGRectMake(self.tblForChats.frame.origin.x, self.tblForChats.frame.origin.y, self.tblForChats.frame.size.width, self.tblForChats.frame.size.height + self.keyFrame.size.height-49);
+                        }, completion: nil)
+                    self.showKeyboard=false
+                    
+                }});
+        }
     }
     @IBAction func postBtnTapped() {
         
@@ -1671,7 +1715,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
                     }
                 } catch {
                     socketObj.socket.emit("logClient","IPHONE-LOG: error: \(error)")
-                    print("Error: \(error)")
+                    print("Error:.... \(error)")
                 }
                 
                 urlLocalFile=url
@@ -1730,7 +1774,8 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
         print("disappearrrrrrrrr")
         super.viewWillDisappear(animated)
         socketObj.delegateChat=nil
-         NSNotificationCenter.defaultCenter().removeObserver(self, name:UIKeyboardWillShowNotification, object: nil)    }
+       /////  NSNotificationCenter.defaultCenter().removeObserver(self, name:UIKeyboardWillShowNotification, object: nil)    
+    }
     
     deinit {
         NSNotificationCenter.defaultCenter().removeObserver(self)
