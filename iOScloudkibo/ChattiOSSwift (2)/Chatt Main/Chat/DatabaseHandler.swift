@@ -498,6 +498,98 @@ class DatabaseHandler:NSObject{
             socketObj.socket.emit("logClient","\(username!) error in updating chat satatus")
         }
 }
+    
+    func saveChatImage(to1:String,from1:String,owneruser1:String,fromFullName1:String,msg1:String,date1:String!,uniqueid1:String!,status1:String,file_type1:String,file_path1:String)
+
+    {var chatType="image"
+    
+            //createUserChatTable()
+            
+            let to = Expression<String>("to")
+            let from = Expression<String>("from")
+            let owneruser = Expression<String>("owneruser")
+            let fromFullName = Expression<String>("fromFullName")
+            let msg = Expression<String>("msg")
+            let date = Expression<String>("date")
+            let uniqueID = Expression<String>("uniqueid")
+            let status = Expression<String>("status")
+            let contactPhone = Expression<String>("contactPhone")
+        let type = Expression<String>("type")
+        let file_type = Expression<String>("file_type")
+        let file_path = Expression<String>("file_path")
+        
+            var tbl_userchats=sqliteDB.userschats
+            
+            var contactPhone1=""
+            if(to1 != owneruser1)
+            {
+                contactPhone1=to1
+            }
+            else
+            {
+                contactPhone1=from1
+            }
+            
+            //////var tbl_userchats=sqliteDB.db["userschats"]
+            
+            /*let insert=tbl_userchats.insert(fromFullName<-fromFullName1,
+             msg<-msg1,
+             to<-to1,
+             from<-from1
+             )*/
+            var mydate:String!
+            if(date1 == nil)
+            {
+                var date22=NSDate()
+                var formatter = NSDateFormatter();
+                //formatter.dateFormat = "yyyy-MM-dd HH:mm:ss ZZZ";
+                formatter.dateFormat = "MM/dd, HH:mm";
+                formatter.timeZone = NSTimeZone.localTimeZone()
+                //formatter.dateStyle = .ShortStyle
+                //formatter.timeStyle = .ShortStyle
+                let defaultTimeZoneStr = formatter.stringFromDate(date22);
+                
+                mydate=defaultTimeZoneStr
+                
+            }
+            else
+            {
+                mydate=date1
+            }
+      /*
+        t.column(type, defaultValue:"chat")
+        t.column(file_type, defaultValue:"")
+        t.column(file_path, defaultValue:"")
+      */
+        
+            do {
+                let rowid = try db.run(tbl_userchats.insert(fromFullName<-fromFullName1,
+                    msg<-msg1,
+                    owneruser<-owneruser1,
+                    to<-to1,
+                    from<-from1,
+                    date<-mydate,
+                    uniqueID<-uniqueid1,
+                    status<-status1,
+                    contactPhone<-contactPhone1,
+                    file_type<-file_type1,
+                    file_path<-file_path1
+                    ))
+                //////print("inserted id: \(rowid)")
+            } catch {
+                print("insertion failed: \(error)")
+            }
+            
+            
+            /*if let rowid = insert.rowid {
+             print("inserted id: \(rowid)")
+             } else if insert.statement.failed {
+             print("insertion failed: \(insert.statement.reason)")
+             }*/
+            
+            
+        }
+    
     func SaveChat(to1:String,from1:String,owneruser1:String,fromFullName1:String,msg1:String,date1:String!,uniqueid1:String!,status1:String)
     {
         //createUserChatTable()
@@ -651,5 +743,4 @@ print("--------")
         
     
     }
-
 }

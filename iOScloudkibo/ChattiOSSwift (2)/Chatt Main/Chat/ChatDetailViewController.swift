@@ -889,8 +889,20 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
             let chatImage = cell.viewWithTag(1) as! UIImageView
             let profileImage = cell.viewWithTag(2) as! UIImageView
             let distanceFactor = (170.0 - sizeOFStr.width) < 100 ? (170.0 - sizeOFStr.width) : 100
-            chatImage.frame = CGRectMake(20 + distanceFactor, chatImage.frame.origin.y, ((sizeOFStr.width + 100)  > 200 ? (sizeOFStr.width + 100) : 200), sizeOFStr.height + 40)
-           //// chatImage.image = UIImage(named: "chat_send")?.stretchableImageWithLeftCapWidth(40,topCapHeight: 20);
+            //chatImage.frame = CGRectMake(20 + distanceFactor, chatImage.frame.origin.y, ((sizeOFStr.width + 100)  > 200 ? (sizeOFStr.width + 100) : 200), sizeOFStr.height + 40)
+          
+            
+            let documentDirectory = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true).first as String!
+            let photoURL          = NSURL(fileURLWithPath: documentDirectory)
+            let imgPath         = photoURL.URLByAppendingPathComponent(self.filename)
+            var imgNSData=NSFileManager.defaultManager().contentsAtPath(imgPath.path!)
+            if(imgNSData != nil)
+            {
+            chatImage.image = UIImage(data: imgNSData!)
+                chatImage.contentMode = .ScaleAspectFit
+            }
+            
+            // chatImage.image = UIImage(named: "chat_send")?.stretchableImageWithLeftCapWidth(40,topCapHeight: 20);
             //*********
             textLable.frame = CGRectMake(36 + distanceFactor, textLable.frame.origin.y, textLable.frame.size.width, sizeOFStr.height)
             ////profileImage.center = CGPointMake(profileImage.center.x, textLable.frame.origin.y + textLable.frame.size.height - profileImage.frame.size.height/2 + 10)
@@ -900,6 +912,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
             timeLabel.frame = CGRectMake(36 + distanceFactor, timeLabel.frame.origin.y, timeLabel.frame.size.width, timeLabel.frame.size.height)
             deliveredLabel.frame = CGRectMake(deliveredLabel.frame.origin.x, textLable.frame.origin.y + textLable.frame.size.height + 15, deliveredLabel.frame.size.width, deliveredLabel.frame.size.height)
             textLable.text = "\(msg)"
+          
             //////////////////////deliveredLabel.text="Delivered"
             /*
              let dateFormatter = NSDateFormatter()
