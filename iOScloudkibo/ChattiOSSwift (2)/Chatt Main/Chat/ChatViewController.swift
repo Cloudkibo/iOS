@@ -1028,35 +1028,39 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
                         cell.contactName?.text=all[phone]
                     }
                     contactFound=true
-                    if(!ContactsProfilePic.isEmpty && ContactsProfilePic[indexPath.row] != NSData.init())
-                    {
-                       
-                        var img=UIImage(data:ContactsProfilePic[indexPath.row])
-                        var w=img!.size.width
-                        var h=img!.size.height
-                        var wOld=cell.profilePic.bounds.width
-                        var hOld=cell.profilePic.bounds.height
-                        var scale:CGFloat=w/wOld
-                        
-                        ////self.ResizeImage(img!, targetSize: CGSizeMake(cell.profilePic.bounds.width,cell.profilePic.bounds.height))
-                        
-                        cell.profilePic.layer.borderWidth = 1.0
-                        cell.profilePic.layer.masksToBounds = false
-                        cell.profilePic.layer.borderColor = UIColor.whiteColor().CGColor
-                        cell.profilePic.layer.cornerRadius = cell.profilePic.frame.size.width/2
-                        cell.profilePic.clipsToBounds = true
-                        
-                        cell.profilePic.image=UIImage(data: ContactsProfilePic[indexPath.row], scale: scale)
-                        ///cell.profilePic.image=UIImage(data:ContactsProfilePic[indexPath.row])
-                        UIImage(data: ContactsProfilePic[indexPath.row], scale: scale)
-                        print("image size is s \(UIImage(data:ContactsProfilePic[indexPath.row])?.size.width) and h \(UIImage(data:ContactsProfilePic[indexPath.row])?.size.height)")
-                    }
                     
                 }
                 
                 }
                 
         }//end isempty usernames
+                
+                if(!ContactsProfilePic.isEmpty && ContactsProfilePic[indexPath.row] != NSData.init())
+                {
+                    
+                    var img=UIImage(data:ContactsProfilePic[indexPath.row])
+                    var w=img!.size.width
+                    var h=img!.size.height
+                    var wOld=cell.profilePic.bounds.width
+                    var hOld=cell.profilePic.bounds.height
+                    var scale:CGFloat=w/wOld
+                    
+                    ////self.ResizeImage(img!, targetSize: CGSizeMake(cell.profilePic.bounds.width,cell.profilePic.bounds.height))
+                    
+                    cell.profilePic.layer.borderWidth = 1.0
+                    cell.profilePic.layer.masksToBounds = false
+                    cell.profilePic.layer.borderColor = UIColor.whiteColor().CGColor
+                    cell.profilePic.layer.cornerRadius = cell.profilePic.frame.size.width/2
+                    cell.profilePic.clipsToBounds = true
+                    
+                    cell.profilePic.image=UIImage(data: ContactsProfilePic[indexPath.row], scale: scale)
+                    ///cell.profilePic.image=UIImage(data:ContactsProfilePic[indexPath.row])
+                    UIImage(data: ContactsProfilePic[indexPath.row], scale: scale)
+                    print("image size is s \(UIImage(data:ContactsProfilePic[indexPath.row])?.size.width) and h \(UIImage(data:ContactsProfilePic[indexPath.row])?.size.height)")
+                }
+                
+                
+                
                 if(!ContactCountMsgRead.isEmpty)
                 {
                 if(ContactCountMsgRead[indexPath.row]>0)

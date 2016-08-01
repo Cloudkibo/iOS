@@ -799,12 +799,22 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
     
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
         
+        var cell=tblForChats.dequeueReusableCellWithIdentifier("FileImageReceivedCell")! as UITableViewCell
+        let chatImage = cell.viewWithTag(1) as! UIImageView
+        
         var messageDic = messages.objectAtIndex(indexPath.row) as! [String : String];
         let msg = messageDic["message"] as NSString!
         let msgType = messageDic["type"]! as NSString
         if(msgType.isEqualToString("3"))
         {
-            return 120
+            if(chatImage.frame.height <= 200)
+            {
+            return chatImage.frame.height+20
+            }
+            else
+            {
+                return 200
+            }
             
         }
         else
@@ -932,13 +942,27 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
                  chatImage.frame = CGRectMake(80, chatImage.frame.origin.y, 220, 220)
                 
                 chatImage.contentMode = .ScaleAspectFit
-                let documentDirectory = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true).first as String!
+                /*let documentDirectory = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true).first as String!
                 let photoURL          = NSURL(fileURLWithPath: documentDirectory)
                 let imgPath         = photoURL.URLByAppendingPathComponent(msg as! String)
-                var imgNSData=NSFileManager.defaultManager().contentsAtPath(imgPath.path!)
-                print("hereee imgPath.path! is \(imgPath.path!)")
+                
+                */
+                
+                
+                let dirPaths = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)
+                let docsDir1 = dirPaths[0]
+                var documentDir=docsDir1 as NSString
+                var imgPath=documentDir.stringByAppendingPathComponent(msg as! String)
+                
+                var imgNSData=NSFileManager.defaultManager().contentsAtPath(imgPath)
+                //var imgNSData=NSFileManager.defaultManager().contentsAtPath(imgPath.path!)
+                print("hereee imgPath.path! is \(imgPath)")
+           
+                
+                
                 if(imgNSData != nil)
                 {
+                    
                     chatImage.image = UIImage(data: imgNSData!)!.stretchableImageWithLeftCapWidth(40,topCapHeight: 20);
                     chatImage.contentMode = .ScaleAspectFit
                      print("file shownnnnnnnnn")
