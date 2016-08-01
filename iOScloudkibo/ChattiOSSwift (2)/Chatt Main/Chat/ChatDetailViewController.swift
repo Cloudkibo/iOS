@@ -1280,7 +1280,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
             // picker.sourceType = UIImagePickerControllerSourceType.PhotoLibrary
             //}
             picker.sourceType = UIImagePickerControllerSourceType.PhotoLibrary
-            
+            ////picker.mediaTypes=[kUTTypeMovie as NSString as String,kUTTypeMovie as NSString as String]
             //[self presentViewController:picker animated:YES completion:NULL];
             dispatch_async(dispatch_get_main_queue())
             { () -> Void in
@@ -1371,10 +1371,6 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
     func imagePickerController(picker: UIImagePickerController, didFinishPickingImage image: UIImage, editingInfo: [String : AnyObject]?) {
         
         
-        let shareMenu = UIAlertController(title: nil, message: " \" \(filename) \" to \(selectedContact) ? ", preferredStyle: .ActionSheet)
-        shareMenu.modalPresentationStyle=UIModalPresentationStyle.OverCurrentContext
-        let confirm = UIAlertAction(title: "Yes", style: UIAlertActionStyle.Default,handler: { (action) -> Void in
-            
 
             
  
@@ -1389,6 +1385,8 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
        
         if let imageURL = editingInfo![UIImagePickerControllerReferenceURL] as? NSURL {
             let result = PHAsset.fetchAssetsWithALAssetURLs([imageURL], options: nil)
+            
+            
            self.filename = result.firstObject?.filename ?? ""
            // var myasset=result.firstObject as! PHAsset
             //print(myasset.mediaType)
@@ -1396,6 +1394,12 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
             
             
         }
+        
+        
+        let shareMenu = UIAlertController(title: nil, message: " Send \" \(filename) \" to \(selectedContact) ? ", preferredStyle: .ActionSheet)
+        shareMenu.modalPresentationStyle=UIModalPresentationStyle.OverCurrentContext
+        let confirm = UIAlertAction(title: "Yes", style: UIAlertActionStyle.Default,handler: { (action) -> Void in
+            
         socketObj.socket.emit("logClient","IPHONE-LOG: \(username!) selected file ")
         print("file gotttttt")
         var furl=NSURL(string: localPath.URLString)
@@ -1464,6 +1468,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
             
             sqliteDB.saveChatImage(self.selectedContact, from1: username!, owneruser1: username!, fromFullName1: displayname, msg1: self.filename, date1: nil, uniqueid1: uniqueID, status1: "pending", file_type1: "JPG", file_path1: filePathImage2)
         
+            self.retrieveChatFromSqlite(self.selectedContact)
        /////// self.addMessage(filePathImage2, ofType: "3", date: nil)
             //print(result.firstObject?.keys)
             //filename = result.firstObject?.fileSize.debugDescription
@@ -1496,12 +1501,12 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
                 self.showKeyboard=false
         
             }
-            self.tblForChats.reloadData()
+            
             if(self.messages.count>1)
             {
                 var indexPath = NSIndexPath(forRow:self.messages.count-1, inSection: 0)
-                self.tblForChats.scrollToRowAtIndexPath(indexPath, atScrollPosition: UITableViewScrollPosition.Bottom, animated: true)
                 
+                self.tblForChats.scrollToRowAtIndexPath(indexPath, atScrollPosition: UITableViewScrollPosition.Bottom, animated: true)
             }
 
         });
