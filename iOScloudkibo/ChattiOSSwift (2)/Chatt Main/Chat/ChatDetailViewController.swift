@@ -18,6 +18,7 @@ import Photos
 
 class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChatDelegate,UIDocumentPickerDelegate,UIDocumentMenuDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate,NSFileManagerDelegate{
     
+    var selectedImage:UIImage!
     var filename=""
     var showKeyboard=false
     var keyFrame:CGRect!
@@ -687,6 +688,8 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
         
         
     }
+    
+    
     //***** was working but not needed
     /*func FetchChatServer(completion:(result:Bool)->())
      {
@@ -811,7 +814,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
             let chatImage = cell.viewWithTag(1) as! UIImageView
       
             
-            if(chatImage.frame.height <= 200)
+            if(chatImage.frame.height <= 230)
             {
             return chatImage.frame.height+20
             }
@@ -939,6 +942,16 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
             print("here 905 msgtype is \(msgType)")
             if(msgType.isEqualToString("3"))
             {
+                cell = ///tblForChats.dequeueReusableCellWithIdentifier("ChatReceivedCell")! as UITableViewCell
+                    
+                    //FileImageReceivedCell
+                    tblForChats.dequeueReusableCellWithIdentifier("FileImageReceivedCell")! as UITableViewCell
+                let deliveredLabel = cell.viewWithTag(13) as! UILabel
+                let textLable = cell.viewWithTag(12) as! UILabel
+                let timeLabel = cell.viewWithTag(11) as! UILabel
+                let chatImage = cell.viewWithTag(1) as! UIImageView
+                let profileImage = cell.viewWithTag(2) as! UIImageView
+
                 
                 //////chatImage.contentMode = .Center
                 
@@ -963,6 +976,14 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
                 
                 if(imgNSData != nil)
                 {
+                    chatImage.userInteractionEnabled = true
+                    //now you need a tap gesture recognizer
+                    //note that target and action point to what happens when the action is recognized.
+                    let tapRecognizer = UITapGestureRecognizer(target: self, action: Selector("imageTapped:"))
+                    //Add the recognizer to your view.
+                    chatImage.addGestureRecognizer(tapRecognizer)
+                    
+                    
                     chatImage.frame = CGRectMake(chatImage.frame.origin.x, chatImage.frame.origin.y, 200, 200)
                     
                    chatImage.image = UIImage(data: imgNSData!)!
@@ -1112,6 +1133,17 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
         //messages = MatchedPetsManager.sharedManager.petForId(petId)
     }
     */
+    
+    
+    func imageTapped(gestureRecognizer: UITapGestureRecognizer) {
+        //tappedImageView will be the image view that was tapped.
+        //dismiss it, animate it off screen, whatever.
+        let tappedImageView = gestureRecognizer.view! as! UIImageView
+        selectedImage=tappedImageView.image
+         self.performSegueWithIdentifier("showFullImageSegue", sender: nil);
+        
+    }
+    
     
     func applicationDidBecomeActive(notification : NSNotification)
     {
@@ -1806,18 +1838,20 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
         // Get the new view controller using [segue destinationViewController].
         // Pass the selected object to the new view controller.
         
-        /*
-         if segue!.identifier == "backToChatPushSegue" {
-         if let destinationVC = segue!.destinationViewController as? ChatViewController{
+        
+         if segue!.identifier == "showFullImageSegue" {
+         if let destinationVC = segue!.destinationViewController as? ShowImageViewController{
          //destinationVC.tabBarController?.selectedIndex=0
          //self.tabBarController?.selectedIndex=0
-         self.dismissViewControllerAnimated(true, completion: { () -> Void in
+             destinationVC.newimage=self.selectedImage
+                    self.dismissViewControllerAnimated(true, completion: { () -> Void in
          
-         
+                       
+
          })
          }
          }
-         */
+ 
     }
     
     func documentPicker(controller: UIDocumentPickerViewController, didPickDocumentAtURL url: NSURL) {
