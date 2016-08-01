@@ -447,6 +447,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
     
     func retrieveChatFromSqlite(selecteduser:String)
     {
+        print("retrieveChatFromSqlite called---------")
         messages.removeAllObjects()
         let to = Expression<String>("to")
         let from = Expression<String>("from")
@@ -799,14 +800,17 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
     
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
         
-        var cell=tblForChats.dequeueReusableCellWithIdentifier("FileImageReceivedCell")! as UITableViewCell
-        let chatImage = cell.viewWithTag(1) as! UIImageView
         
         var messageDic = messages.objectAtIndex(indexPath.row) as! [String : String];
+        
         let msg = messageDic["message"] as NSString!
         let msgType = messageDic["type"]! as NSString
         if(msgType.isEqualToString("3"))
         {
+            var cell=tblForChats.dequeueReusableCellWithIdentifier("FileImageReceivedCell")! as UITableViewCell
+            let chatImage = cell.viewWithTag(1) as! UIImageView
+      
+            
             if(chatImage.frame.height <= 200)
             {
             return chatImage.frame.height+20
@@ -916,17 +920,13 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
             cell = ///tblForChats.dequeueReusableCellWithIdentifier("ChatReceivedCell")! as UITableViewCell
             
             //FileImageReceivedCell
-            tblForChats.dequeueReusableCellWithIdentifier("FileImageReceivedCell")! as UITableViewCell
+            tblForChats.dequeueReusableCellWithIdentifier("ChatReceivedCell")! as UITableViewCell
             let deliveredLabel = cell.viewWithTag(13) as! UILabel
             let textLable = cell.viewWithTag(12) as! UILabel
             let timeLabel = cell.viewWithTag(11) as! UILabel
             let chatImage = cell.viewWithTag(1) as! UIImageView
             let profileImage = cell.viewWithTag(2) as! UIImageView
-            let distanceFactor = (170.0 - sizeOFStr.width) < 100 ? (170.0 - sizeOFStr.width) : 100
-            //chatImage.frame = CGRectMake(20 + distanceFactor, chatImage.frame.origin.y, ((sizeOFStr.width + 100)  > 200 ? (sizeOFStr.width + 100) : 200), sizeOFStr.height + 40)
-          
-            
-          /*  let documentDirectory = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true).first as String!
+                     /*  let documentDirectory = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true).first as String!
             let photoURL          = NSURL(fileURLWithPath: documentDirectory)
             let imgPath         = photoURL.URLByAppendingPathComponent(self.filename)
             var imgNSData=NSFileManager.defaultManager().contentsAtPath(imgPath.path!)
@@ -939,9 +939,10 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
             print("here 905 msgtype is \(msgType)")
             if(msgType.isEqualToString("3"))
             {
-                 chatImage.frame = CGRectMake(80, chatImage.frame.origin.y, 220, 220)
                 
-                chatImage.contentMode = .ScaleAspectFit
+                //////chatImage.contentMode = .Center
+                
+                //chatImage.frame = CGRectMake(80, chatImage.frame.origin.y, 220, 220)
                 /*let documentDirectory = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true).first as String!
                 let photoURL          = NSURL(fileURLWithPath: documentDirectory)
                 let imgPath         = photoURL.URLByAppendingPathComponent(msg as! String)
@@ -962,9 +963,12 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
                 
                 if(imgNSData != nil)
                 {
+                    chatImage.frame = CGRectMake(chatImage.frame.origin.x, chatImage.frame.origin.y, 200, 200)
                     
-                    chatImage.image = UIImage(data: imgNSData!)!.stretchableImageWithLeftCapWidth(40,topCapHeight: 20);
-                    chatImage.contentMode = .ScaleAspectFit
+                   chatImage.image = UIImage(data: imgNSData!)!
+                    ///.stretchableImageWithLeftCapWidth(40,topCapHeight: 20);
+                    chatImage.contentMode = .ScaleAspectFill
+                    chatImage.setNeedsDisplay()
                      print("file shownnnnnnnnn")
                     textLable.hidden=true
                 }
@@ -980,8 +984,14 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
                 */
             }
             else{
+                
+                let distanceFactor = (170.0 - sizeOFStr.width) < 100 ? (170.0 - sizeOFStr.width) : 100
+                chatImage.frame = CGRectMake(20 + distanceFactor, chatImage.frame.origin.y, ((sizeOFStr.width + 100)  > 200 ? (sizeOFStr.width + 100) : 200), sizeOFStr.height + 40)
+                
+                
+
                 textLable.hidden=false
-            chatImage.frame = CGRectMake(20 + distanceFactor, chatImage.frame.origin.y, ((sizeOFStr.width + 100)  > 200 ? (sizeOFStr.width + 100) : 200), sizeOFStr.height + 40)
+            //chatImage.frame = CGRectMake(20 + distanceFactor, chatImage.frame.origin.y, ((sizeOFStr.width + 100)  > 200 ? (sizeOFStr.width + 100) : 200), sizeOFStr.height + 40)
              chatImage.image = UIImage(named: "chat_send")?.stretchableImageWithLeftCapWidth(40,topCapHeight: 20);
             //*********
                 textLable.text = "\(msg)"
@@ -1444,7 +1454,16 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
                     }, completion: nil)
                 self.showKeyboard=false
         
-            }});
+            }
+            self.tblForChats.reloadData()
+            if(self.messages.count>1)
+            {
+                var indexPath = NSIndexPath(forRow:self.messages.count-1, inSection: 0)
+                self.tblForChats.scrollToRowAtIndexPath(indexPath, atScrollPosition: UITableViewScrollPosition.Bottom, animated: true)
+                
+            }
+
+        });
         
      
         
@@ -1460,18 +1479,18 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
                 
         
                 
-                urlLocalFile=localPath
+            //    urlLocalFile=localPath
                 /////let text2 = fm.contentsAtPath(filePath)
                 ////////print(text2)
                 /////////print(JSON(text2!))
                 ///mdata.fileContents=fm.contentsAtPath(filePathImage)!
-                self.fileContents=NSData(contentsOfURL: localPath)
-                self.filePathImage=localPath.URLString
+            //    self.fileContents=NSData(contentsOfURL: localPath)
+             //   self.filePathImage=localPath.URLString
                 //var filecontentsJSON=JSON(NSData(contentsOfURL: url)!)
                 //print(filecontentsJSON)
                // print("file url is \(self.filePathImage) file type is \(ftype)")
             //    var filename=fname!+"."+ftype
-                socketObj.socket.emit("logClient","\(username!) is sending file \(fname)")
+               // socketObj.socket.emit("logClient","\(username!) is sending file \(fname)")
                 
                 var mjson="{\"file_meta\":{\"name\":\"\(filename)\",\"size\":\"\(self.fileSize1.description)\",\"filetype\":\"\(ftype)\",\"browser\":\"firefox\",\"uname\":\"\(username!)\",\"fid\":\(self.myfid),\"senderid\":\(currentID!)}}"
                 var fmetadata="{\"eventName\":\"data_msg\",\"data\":\(mjson)}"
@@ -1480,7 +1499,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
                 //----------sendDataBuffer(fmetadata,isb: false)
                 
                 
-                socketObj.socket.emit("conference.chat", ["message":"You have received a file. Download and Save it.","username":username!])
+              //  socketObj.socket.emit("conference.chat", ["message":"You have received a file. Download and Save it.","username":username!])
                 
               /*  let alert = UIAlertController(title: "Success", message: "Your file has been successfully sent", preferredStyle: UIAlertControllerStyle.Alert)
                 alert.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.Default, handler: nil))

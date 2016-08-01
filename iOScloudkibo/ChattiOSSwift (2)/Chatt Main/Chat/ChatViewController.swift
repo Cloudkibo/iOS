@@ -248,6 +248,7 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
     
     func synchroniseChatData()
     {
+        print("synchronise called")
         if (self.accountKit!.currentAccessToken != nil) {
             
             header=["kibo-token":self.accountKit!.currentAccessToken!.tokenString]
@@ -530,7 +531,7 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
         {
             header=["kibo-token":self.accountKit!.currentAccessToken!.tokenString]
             
-            socketObj.socket.emit("logClient", "fetching contacts from iphone")
+           // socketObj.socket.emit("logClient", "fetching contacts from iphone")
             
             
             //dont do on every appear. just do once
@@ -556,6 +557,7 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
                         
                     }
                     dispatch_async(dispatch_get_main_queue()) {
+                        print("here reloading tableeee")
                         self.tblForChat.reloadData()
                     }
                 })
@@ -735,6 +737,8 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
     
     func fetchContacts(completion:(result:Bool)->()){
         
+        
+         var picfound=false
         socketObj.socket.emit("logClient","IPHONE-LOG: fetch contacts from sqlite database")
         let contactid = Expression<String>("contactid")
         let detailsshared = Expression<String>("detailsshared")
@@ -822,8 +826,11 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
         
         let myquery=tbl_contactslists.join(tbl_userchats, on: tbl_contactslists[phone] == tbl_userchats[contactPhone]).group(tbl_userchats[contactPhone]).order(date.desc)
         
-        
+        var queryruncount=0
         do{for ccc in try sqliteDB.db.prepare(myquery) {
+            queryruncount=queryruncount+1
+            print("queryruncount is \(queryruncount)")
+             var picfound=false
             print(ccc[phone])
             print(ccc[msg])
             print(ccc[date])
@@ -853,14 +860,15 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
             
             let queryPic = tbl_allcontacts.filter(tbl_allcontacts[phone] == ccc[phone])          // SELECT "email" FROM "users"
             
-            var picfound=false
+           
             do{
                 for picquery in try sqliteDB.db.prepare(queryPic) {
                    // if(contactProfileImage != NSData.init())
                     //{
-                    print("picquery found for \(ccc[phone])")
+                    print("picquery found for \(ccc[phone]) and is \(picquery[contactProfileImage]) count is \(ContactsProfilePic.count) ... \(picquery[phone]) .... \(ccc[phone])")
                 ContactsProfilePic.append(picquery[contactProfileImage])
                 picfound=true
+                  print("profilepicarray count is \(ContactsProfilePic.count)")
                     //}
                     /*else
                     {
@@ -876,9 +884,9 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
             if(picfound==false)
             {
                 ContactsProfilePic.append(NSData.init())
+                print("picquery NOT found for \(ccc[phone]) and is \(NSData.init())")
             }
-            
-            /*
+             /*
              String countQuery = "SELECT  * FROM " + UserChat.TABLE_USERCHAT + " WHERE status = 'delivered' AND contact_phone = '"+ contact_phone +"'";
              SQLiteDatabase db = this.getReadableDatabase();
              Cursor cursor = db.rawQuery(countQuery, null);
@@ -922,6 +930,8 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
             }
             */
             }
+            print("picccc count is \(ContactsProfilePic.count)")
+            
               return completion(result:true)
         }
             catch
@@ -977,6 +987,8 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
         var contactFound=false
         cell.newMsg.hidden=true
         cell.countNewmsg.hidden=true
+        cell.profilePic.image=UIImage(named: "profile-pic1.png")
+        
         ////%%%%%%%%%%%%%cell.contactName?.text=ContactNames[indexPath.row]
         
         /*
@@ -1027,6 +1039,32 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
                         print("name is no name")
                         cell.contactName?.text=all[phone]
                     }
+                    
+                    if(!ContactsProfilePic.isEmpty && ContactsProfilePic[indexPath.row] != NSData.init())
+                    {
+                        print("seeting picc22 for \(ContactUsernames[indexPath.row])")
+                        
+                        var img=UIImage(data:ContactsProfilePic[indexPath.row])
+                        var w=img!.size.width
+                        var h=img!.size.height
+                        var wOld=cell.profilePic.bounds.width
+                        var hOld=cell.profilePic.bounds.height
+                        var scale:CGFloat=w/wOld
+                        
+                        ////self.ResizeImage(img!, targetSize: CGSizeMake(cell.profilePic.bounds.width,cell.profilePic.bounds.height))
+                        
+                        cell.profilePic.layer.borderWidth = 1.0
+                        cell.profilePic.layer.masksToBounds = false
+                        cell.profilePic.layer.borderColor = UIColor.whiteColor().CGColor
+                        cell.profilePic.layer.cornerRadius = cell.profilePic.frame.size.width/2
+                        cell.profilePic.clipsToBounds = true
+                        
+                        cell.profilePic.image=UIImage(data: ContactsProfilePic[indexPath.row], scale: scale)
+                        ///cell.profilePic.image=UIImage(data:ContactsProfilePic[indexPath.row])
+                        UIImage(data: ContactsProfilePic[indexPath.row], scale: scale)
+                        print("image size is s \(UIImage(data:ContactsProfilePic[indexPath.row])?.size.width) and h \(UIImage(data:ContactsProfilePic[indexPath.row])?.size.height)")
+                    }
+                    
                     contactFound=true
                     
                 }
@@ -1034,31 +1072,7 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
                 }
                 
         }//end isempty usernames
-                
-                if(!ContactsProfilePic.isEmpty && ContactsProfilePic[indexPath.row] != NSData.init())
-                {
-                    
-                    var img=UIImage(data:ContactsProfilePic[indexPath.row])
-                    var w=img!.size.width
-                    var h=img!.size.height
-                    var wOld=cell.profilePic.bounds.width
-                    var hOld=cell.profilePic.bounds.height
-                    var scale:CGFloat=w/wOld
-                    
-                    ////self.ResizeImage(img!, targetSize: CGSizeMake(cell.profilePic.bounds.width,cell.profilePic.bounds.height))
-                    
-                    cell.profilePic.layer.borderWidth = 1.0
-                    cell.profilePic.layer.masksToBounds = false
-                    cell.profilePic.layer.borderColor = UIColor.whiteColor().CGColor
-                    cell.profilePic.layer.cornerRadius = cell.profilePic.frame.size.width/2
-                    cell.profilePic.clipsToBounds = true
-                    
-                    cell.profilePic.image=UIImage(data: ContactsProfilePic[indexPath.row], scale: scale)
-                    ///cell.profilePic.image=UIImage(data:ContactsProfilePic[indexPath.row])
-                    UIImage(data: ContactsProfilePic[indexPath.row], scale: scale)
-                    print("image size is s \(UIImage(data:ContactsProfilePic[indexPath.row])?.size.width) and h \(UIImage(data:ContactsProfilePic[indexPath.row])?.size.height)")
-                }
-                
+             
                 
                 
                 if(!ContactCountMsgRead.isEmpty)
@@ -1094,6 +1108,7 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
                 
                 if(!ContactsProfilePic.isEmpty  && ContactsProfilePic[indexPath.row] != NSData.init())
                 {
+                    print("seeting picc for \(ContactUsernames[indexPath.row])")
                     cell.profilePic.image=UIImage(data:ContactsProfilePic[indexPath.row])
                 }
             }
@@ -1421,7 +1436,7 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
     ///////////////////////////////
     
     func socketReceivedMessage(message:String,data:AnyObject!)
-    {print("socketReceivedMessage inside", terminator: "")
+    {print("socketReceivedMessage inside \(message)", terminator: "")
         //var msg=JSON(params)
         socketObj.socket.emit("logClient","IPHONE-LOG: \(username!) received message \(message)")
         switch(message)

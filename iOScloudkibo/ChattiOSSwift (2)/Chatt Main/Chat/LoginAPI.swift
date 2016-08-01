@@ -1177,7 +1177,7 @@ class LoginAPI{
         
         
         }
-            dispatch_async(dispatch_get_main_queue()) {
+           //////// dispatch_async(dispatch_get_main_queue()) {
             if(self.delegateChat != nil)
             {
             self.delegateChat?.socketReceivedMessageChat("updateUI", data: nil)
@@ -1186,7 +1186,7 @@ class LoginAPI{
 {
                 self.delegate?.socketReceivedMessage("updateUI", data: nil)
 }
-            }
+           ///////// }
             print("all fetched chats saved in sqlite success")
         
         /* dispatch_async(dispatch_get_main_queue()) {
