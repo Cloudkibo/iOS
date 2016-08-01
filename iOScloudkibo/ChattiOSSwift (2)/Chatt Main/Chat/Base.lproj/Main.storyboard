@@ -1182,6 +1182,7 @@
                         <outlet property="tblForChats" destination="8ne-qn-KGp" id="IKm-bB-e2a"/>
                         <outlet property="txtFldMessage" destination="4FE-aT-v0f" id="ytJ-BX-lo5"/>
                         <segue destination="LME-ma-WZ9" kind="push" identifier="showFullImageSegue" id="Ite-sp-zyZ"/>
+                        <segue destination="TP2-6C-5JJ" kind="push" id="LYu-6R-l0u"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="u05-OP-Jjm" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -1211,6 +1212,31 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="fdj-J6-TBD" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1322" y="-1035"/>
+        </scene>
+        <!--View Controller-->
+        <scene sceneID="vTl-M7-9uG">
+            <objects>
+                <viewController id="TP2-6C-5JJ" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="PbJ-Bj-EmD">
+                        <rect key="frame" x="0.0" y="64" width="320" height="504"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" id="7Eo-pg-7AV">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <string key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</string>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                            </textView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="yt0-cE-7pp"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="YLH-zi-1y8" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1687" y="-1162"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="Uqe-hH-AAS">
