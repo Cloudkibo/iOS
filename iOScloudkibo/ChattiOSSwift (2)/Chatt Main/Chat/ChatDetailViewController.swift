@@ -1296,7 +1296,10 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
             print(NSOpenStepRootDirectory())
             ///var UTIs=UTTypeCopyPreferredTagWithClass("public.image", kUTTypeImage)?.takeRetainedValue() as! [String]
             
-            let importMenu = UIDocumentMenuViewController(documentTypes: [kUTTypeText as NSString as String, kUTTypeImage as String,"com.adobe.pdf","public.jpeg","public.html","public.content","public.data","public.item",kUTTypeBundle as String],
+            //let importMenu = UIDocumentMenuViewController(documentTypes: [kUTTypeText as NSString as String, kUTTypeImage as String,"com.adobe.pdf","public.jpeg","public.html","public.content","public.data","public.item",kUTTypeBundle as String],
+             //   inMode: .Import)
+            
+            let importMenu = UIDocumentMenuViewController(documentTypes: [kUTTypeText as NSString as String, kUTTypeImage as String,"com.adobe.pdf","public.html","public.content","public.data",kUTTypeBundle as String],
                 inMode: .Import)
             ///////let importMenu = UIDocumentMenuViewController(documentTypes: UTIs, inMode: .Import)
             importMenu.delegate = self
@@ -1914,9 +1917,9 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
         
         
         if (controller.documentPickerMode == UIDocumentPickerMode.Import) {
-            NSLog("Opened ", url.path!);
+          //  NSLog("Opened ", url.path!);
             print("picker url is \(url)")
-            
+            print("opened \(url.path!)")
             
             
             url.startAccessingSecurityScopedResource()
@@ -1962,12 +1965,54 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
                 //var filecontentsJSON=JSON(NSData(contentsOfURL: url)!)
                 //print(filecontentsJSON)
                 print("file url is \(self.filePathImage) file type is \(ftype)")
+                
+                
+                
+                
+                
+                let dirPaths = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)
+                let docsDir1 = dirPaths[0]
+                var documentDir=docsDir1 as NSString
+                var filePathImage2=documentDir.stringByAppendingPathComponent(fname!+"."+ftype)
+                var fm=NSFileManager.defaultManager()
+                
+                /*var fileAttributes:[String:AnyObject]=["":""]
+                do {
+                    /// let fileAttributes : NSDictionary? = try NSFileManager.defaultManager().attributesOfItemAtPath(furl!.path!)
+                    let fileAttributes : NSDictionary? = try NSFileManager.defaultManager().attributesOfItemAtPath(imageUrl.path!)
+                    
+                    if let _attr = fileAttributes {
+                        self.fileSize1 = _attr.fileSize();
+                        print("file size is \(self.fileSize1)")
+                        //// ***april 2016 neww self.fileSize=(fileSize1 as! NSNumber).integerValue
+                    }
+                } catch {
+                    socketObj.socket.emit("logClient","IPHONE-LOG: error: \(error)")
+                    print("Error:+++ \(error)")
+                }*/
+                
+                
+              //  print("filename is \(self.filename) destination path is \(filePathImage2) image name \(imageName) imageurl \(imageUrl) photourl \(photoURL) localPath \(localPath).. \(localPath.absoluteString)")
+                
+                var s=fm.createFileAtPath(filePathImage2, contents: nil, attributes: nil)
+                
+                //  var written=fileData!.writeToFile(filePathImage2, atomically: false)
+                
+                //filePathImage2
+                //var data=NSData(contentsOfFile: self.filePathImage)
+                fileData!.writeToFile(filePathImage2, atomically: true)
+                
+                
+                
+                
+                
+              /*
                 var filename=fname!+"."+ftype
                 socketObj.socket.emit("logClient","\(username!) is sending file \(fname)")
                 
                 var mjson="{\"file_meta\":{\"name\":\"\(filename)\",\"size\":\"\(self.fileSize1.description)\",\"filetype\":\"\(ftype)\",\"browser\":\"firefox\",\"uname\":\"\(username!)\",\"fid\":\(self.myfid),\"senderid\":\(currentID!)}}"
                 var fmetadata="{\"eventName\":\"data_msg\",\"data\":\(mjson)}"
-                
+                */
                 
                 //----------sendDataBuffer(fmetadata,isb: false)
                 
@@ -1986,7 +2031,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
                 var uniqueID=randNum5+year+month+day+hour+minute+second
                 
                 
-                 sqliteDB.SaveChat(self.selectedContact, from1: username!, owneruser1: username!, fromFullName1: displayname, msg1: filename, date1: nil, uniqueid1: uniqueID, status1: "pending")
+               ////  sqliteDB.SaveChat(self.selectedContact, from1: username!, owneruser1: username!, fromFullName1: displayname, msg1: filename, date1: nil, uniqueid1: uniqueID, status1: "pending")
                 
                 /////socketObj.socket.emit("conference.chat", ["message":"You have received a file. Download and Save it.","username":username!])
                 

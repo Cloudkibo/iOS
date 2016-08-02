@@ -13,6 +13,7 @@
 		710D4E3E1D3D8F7600FBC352 /* FileTransferWebRTCclient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 710D4E3D1D3D8F7600FBC352 /* FileTransferWebRTCclient.swift */; };
 		710EF26C1C96B16500578739 /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 710EF26B1C96B16500578739 /* CloudKit.framework */; };
 		7122F96C1D4FDFA400EBBCED /* ShowImageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7122F96B1D4FDFA400EBBCED /* ShowImageViewController.swift */; };
+		7122F96E1D500FFA00EBBCED /* textDocumentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7122F96D1D500FFA00EBBCED /* textDocumentViewController.swift */; };
 		7127FF591D396A6A006375E8 /* numberOfFavouritesCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7127FF581D396A6A006375E8 /* numberOfFavouritesCell.swift */; };
 		713D51BD1CC11896007E0B47 /* Accounts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 713D51881CC11896007E0B47 /* Accounts.swift */; };
 		713D51BE1CC11896007E0B47 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 713D51891CC11896007E0B47 /* AppDelegate.swift */; };
@@ -251,6 +252,7 @@
 		710D4E3D1D3D8F7600FBC352 /* FileTransferWebRTCclient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FileTransferWebRTCclient.swift; sourceTree = "<group>"; };
 		710EF26B1C96B16500578739 /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = System/Library/Frameworks/CloudKit.framework; sourceTree = SDKROOT; };
 		7122F96B1D4FDFA400EBBCED /* ShowImageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShowImageViewController.swift; sourceTree = "<group>"; };
+		7122F96D1D500FFA00EBBCED /* textDocumentViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = textDocumentViewController.swift; sourceTree = "<group>"; };
 		7127FF581D396A6A006375E8 /* numberOfFavouritesCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = numberOfFavouritesCell.swift; sourceTree = "<group>"; };
 		713080541B825BB00037CB7E /* SwiftyJSON.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SwiftyJSON.xcodeproj; path = SwiftyJSON/SwiftyJSON.xcodeproj; sourceTree = "<group>"; };
 		713D51881CC11896007E0B47 /* Accounts.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Accounts.swift; sourceTree = "<group>"; };
@@ -505,6 +507,7 @@
 				71E046A21D228AE700B67362 /* CallHistoryTableViewController.swift */,
 				71DC15311D26655700E5BFC2 /* pushNotifications.md */,
 				7127FF581D396A6A006375E8 /* numberOfFavouritesCell.swift */,
+				7122F96D1D500FFA00EBBCED /* textDocumentViewController.swift */,
 			);
 			path = Chat;
 			sourceTree = "<group>";
@@ -891,6 +894,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7122F96E1D500FFA00EBBCED /* textDocumentViewController.swift in Sources */,
 				713D51C61CC11896007E0B47 /* ConferenceCallViewController.swift in Sources */,
 				718B8D941CC11A9B000B4AB2 /* WebSocket.swift in Sources */,
 				7150119F1D12D0940091AD7B /* Reachability.swift in Sources */,
