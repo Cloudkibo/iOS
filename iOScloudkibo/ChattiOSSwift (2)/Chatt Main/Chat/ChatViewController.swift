@@ -961,7 +961,7 @@ return imgData
             ContactOnlineStatus.append(0)
             ContactLastMessage.append(ccc[msg])
             ContactsLastMsgDate.append(ccc[date])
-            if((searchForContactUsingPhoneNumber(ccc[actualphone])) == nil)
+          /*  if((searchForContactUsingPhoneNumber(ccc[actualphone])) == nil)
             {
                 ContactsProfilePic.append(NSData.init())
                 print("picquery NOT found for \(ccc[phone]) and is \(NSData.init())")
@@ -970,14 +970,16 @@ return imgData
             {
                 print("picquery found for \(ccc[phone])")
         ContactsProfilePic.append(searchForContactUsingPhoneNumber(ccc[phone]))
+ 
 }
+            */
             //do join query of allcontacts and contactslist table to get avatar
             
             
             
             
             
-           /* let queryPic = tbl_allcontacts.filter(tbl_allcontacts[phone] == ccc[phone])          // SELECT "email" FROM "users"
+           let queryPic = tbl_allcontacts.filter(tbl_allcontacts[phone] == ccc[phone])          // SELECT "email" FROM "users"
             
            
             do{
@@ -1006,7 +1008,7 @@ return imgData
                 print("picquery NOT found for \(ccc[phone]) and is \(NSData.init())")
             }
             
-            */
+            
              /*
              String countQuery = "SELECT  * FROM " + UserChat.TABLE_USERCHAT + " WHERE status = 'delivered' AND contact_phone = '"+ contact_phone +"'";
              SQLiteDatabase db = this.getReadableDatabase();

@@ -75,7 +75,7 @@ class textDocumentViewController: UIViewController {
             case "docx":
                 let webView = UIWebView(frame: CGRectMake(0,0,self.view.frame.size.width,self.view.frame.size.height))
                 var docxfile=NSData(contentsOfFile: newtext)
-                webView.loadData(docxfile!, MIMEType: "application/msword", textEncodingName:"", baseURL: NSURL(fileURLWithPath: newtext).URLByDeletingLastPathComponent!)
+                webView.loadData(docxfile!, MIMEType: "application/vnd.openxmlformats-officedocument.wordprocessingml.document", textEncodingName:"", baseURL: NSURL(fileURLWithPath: newtext).URLByDeletingLastPathComponent!)
                 self.view.addSubview(webView)
                 
             default:  attrString =
