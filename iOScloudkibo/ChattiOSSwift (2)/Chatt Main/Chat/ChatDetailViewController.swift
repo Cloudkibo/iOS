@@ -1085,6 +1085,10 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
                     
                    /// var imgNSData=NSFileManager.defaultManager().contentsAtPath(imgPath)
                     chatImage.userInteractionEnabled=true
+                    var filelabel=UILabel(frame: CGRect(x: 20 + distanceFactor, y: chatImage.frame.origin.y + sizeOFStr.height + 40,width: ((sizeOFStr.width + 100)  > 200 ? (sizeOFStr.width + 100) : 200), height: sizeOFStr.height + 40))
+                    filelabel.text="rtf   95kb 3:23am"
+                    chatImage.addSubview(filelabel)
+                   // UILabel(frame: 0,0,((sizeOFStr.width + 100)  > 200 ? (sizeOFStr.width + 100) : 200), sizeOFStr.height + 40)
                     let tapRecognizer = UITapGestureRecognizer(target: self, action: Selector("docTapped:"))
                     //Add the recognizer to your view.
                     chatImage.addGestureRecognizer(tapRecognizer)
