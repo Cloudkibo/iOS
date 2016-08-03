@@ -735,6 +735,111 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
         completion(result: true)
     }
     
+    func requestForAccess(completionHandler: (accessGranted: Bool) -> Void) {
+        // Get authorization
+        let authorizationStatus = CNContactStore.authorizationStatusForEntityType(CNEntityType.Contacts)
+        
+        // Find out what access level we have currently
+        switch authorizationStatus {
+        case .Authorized:
+            completionHandler(accessGranted: true)
+            
+        case .Denied, .NotDetermined:
+            CNContactStore().requestAccessForEntityType(CNEntityType.Contacts, completionHandler: { (access, accessError) -> Void in
+                if access {
+                    completionHandler(accessGranted: access)
+                }
+                else {
+                    if authorizationStatus == CNAuthorizationStatus.Denied {
+                        dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                            let message = "\(accessError!.localizedDescription)\n\nPlease allow the app to access your contacts through the Settings."
+                            self.showError("Information", message: message, button1: "Ok")
+                        })
+                    }
+                }
+            })
+            
+        default:
+            completionHandler(accessGranted: false)
+        }
+    }
+    
+    
+    func searchForContactUsingPhoneNumber(phoneNumber: String) -> NSData! {
+        var imgData:NSData!
+        dispatch_async(dispatch_get_global_queue(QOS_CLASS_USER_INTERACTIVE, 0), { () -> Void in
+            self.requestForAccess { (accessGranted) -> Void in
+                if accessGranted {
+                    let keys = [CNContactGivenNameKey, CNContactFamilyNameKey, CNContactImageDataKey, CNContactPhoneNumbersKey]
+                    var contacts = [CNContact]()
+                    var message: String!
+                    
+                    let contactsStore = CNContactStore()
+                    do {
+                        try contactsStore.enumerateContactsWithFetchRequest(CNContactFetchRequest(keysToFetch: keys)) {
+                            (contact, cursor) -> Void in
+                            if (!contact.phoneNumbers.isEmpty) {
+                                //let phoneNumberToCompareAgainst = phoneNumber.componentsSeparatedByCharactersInSet(NSCharacterSet.decimalDigitCharacterSet().invertedSet).joinWithSeparator("")
+                                for phoneNumber in contact.phoneNumbers {
+                                    if let phoneNumberStruct = phoneNumber.value as? CNPhoneNumber {
+                                        if((phoneNumberStruct.valueForKey("digits") as! String) == phoneNumber)
+                                        {
+                                            contacts.append(contact)
+                                       // let phoneNumberString = phoneNumberStruct.stringValue
+                                       /* let phoneNumberToCompare = phoneNumberString.componentsSeparatedByCharactersInSet(NSCharacterSet.decimalDigitCharacterSet().invertedSet).joinWithSeparator("")
+                                        if phoneNumberToCompare == phoneNumberToCompareAgainst {
+                                            contacts.append(contact)
+                                        }
+                                            */
+                                    }
+                                    }
+                            }
+                        }
+                        
+                        if contacts.count == 0 {
+                            message = "No contacts were found matching the given phone number."
+                        }
+                    }
+                    }
+                    catch {
+                        message = "Unable to fetch contacts."
+                    }
+                    
+                    if message != nil {
+                        dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                            self.showError("Information", message: message, button1: "Ok")
+                        })
+                    }
+                    else {
+                        // Success
+                        dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                            // Do someting with the contacts in the main queue, for example
+                            /*
+                             self.delegate.didFetchContacts(contacts) <= which extracts the required info and puts it in a tableview
+                             */
+                            print(contacts) // Will print all contact info for each contact (multiple line is, for example, there are multiple phone numbers or email addresses)
+                            let contact = contacts[0] // For just the first contact (if two contacts had the same phone number)
+                            print(contact.givenName) // Print the "first" name
+                            print(contact.familyName) // Print the "last" name
+                            if contact.isKeyAvailable(CNContactImageDataKey) {
+                                if let contactImageData = contact.imageData {
+                                    print(UIImage(data: contactImageData))
+                                    imgData=contactImageData
+                                  //  return contactImageData
+                                    // Print the image set on the contact
+                                }
+                            } else {
+                                // No Image available
+                                
+                            }
+                        })
+                    }
+                }
+            }
+        })
+return imgData
+    }
+    
     func fetchContacts(completion:(result:Bool)->()){
         
         
@@ -750,6 +855,7 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
         let lastname = Expression<String>("lastname")
         let email = Expression<String>("email")
         let phone = Expression<String>("phone")
+        let actualphone = Expression<String>("actualphone")
         let username = Expression<String>("username")
         let status = Expression<String>("status")
           let _id = Expression<String>("_id")
@@ -855,10 +961,23 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
             ContactOnlineStatus.append(0)
             ContactLastMessage.append(ccc[msg])
             ContactsLastMsgDate.append(ccc[date])
-            
+            if((searchForContactUsingPhoneNumber(ccc[actualphone])) == nil)
+            {
+                ContactsProfilePic.append(NSData.init())
+                print("picquery NOT found for \(ccc[phone]) and is \(NSData.init())")
+            }
+            else
+            {
+                print("picquery found for \(ccc[phone])")
+        ContactsProfilePic.append(searchForContactUsingPhoneNumber(ccc[phone]))
+}
             //do join query of allcontacts and contactslist table to get avatar
             
-            let queryPic = tbl_allcontacts.filter(tbl_allcontacts[phone] == ccc[phone])          // SELECT "email" FROM "users"
+            
+            
+            
+            
+           /* let queryPic = tbl_allcontacts.filter(tbl_allcontacts[phone] == ccc[phone])          // SELECT "email" FROM "users"
             
            
             do{
@@ -886,6 +1005,8 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
                 ContactsProfilePic.append(NSData.init())
                 print("picquery NOT found for \(ccc[phone]) and is \(NSData.init())")
             }
+            
+            */
              /*
              String countQuery = "SELECT  * FROM " + UserChat.TABLE_USERCHAT + " WHERE status = 'delivered' AND contact_phone = '"+ contact_phone +"'";
              SQLiteDatabase db = this.getReadableDatabase();

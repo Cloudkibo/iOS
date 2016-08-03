@@ -8,6 +8,8 @@
 
 import UIKit
 import Foundation
+import QuickLook
+
 
 class textDocumentViewController: UIViewController {
     @IBOutlet weak var textViewDoc: UITextView!
@@ -69,6 +71,12 @@ class textDocumentViewController: UIViewController {
                     var pdffile=NSData(contentsOfFile: newtext)
                     webView.loadData(pdffile!, MIMEType: "application/pdf", textEncodingName:"", baseURL: NSURL(fileURLWithPath: newtext).URLByDeletingLastPathComponent!)
                     self.view.addSubview(webView)
+                
+            case "docx":
+                let webView = UIWebView(frame: CGRectMake(0,0,self.view.frame.size.width,self.view.frame.size.height))
+                var docxfile=NSData(contentsOfFile: newtext)
+                webView.loadData(docxfile!, MIMEType: "application/msword", textEncodingName:"", baseURL: NSURL(fileURLWithPath: newtext).URLByDeletingLastPathComponent!)
+                self.view.addSubview(webView)
                 
             default:  attrString =
                 

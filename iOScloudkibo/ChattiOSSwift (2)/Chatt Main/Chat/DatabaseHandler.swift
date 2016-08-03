@@ -191,6 +191,7 @@ class DatabaseHandler:NSObject{
         //let kiboContact = Expression<Bool>("kiboContact")
         let name = Expression<String>("name")
         let phone = Expression<String>("phone")
+        let actualphone = Expression<String>("actualphone")
         let email = Expression<String>("email")
         let kiboContact = Expression<Bool>("kiboContact")
         let profileimage = Expression<NSData>("profileimage")
@@ -200,6 +201,7 @@ class DatabaseHandler:NSObject{
             try db.run(allcontacts.create(ifNotExists: true) { t in     // CREATE TABLE "accounts" (
                 t.column(name)
                 t.column(phone)
+                t.column(actualphone)
                 t.column(email)
                 t.column(kiboContact, defaultValue:false)
                 t.column(profileimage, defaultValue:NSData.init())
@@ -451,11 +453,12 @@ class DatabaseHandler:NSObject{
     }
     
     
-    func saveAllContacts(name1:String,phone1:String,kiboContact1:Bool,email1:String)
+    func saveAllContacts(name1:String,phone1:String,actualphone1:String,kiboContact1:Bool,email1:String)
     {
         // let contactObject=Expression<CNContact>("contactObj")
         let name = Expression<String>("name")
         let phone = Expression<String>("phone")
+        let actualphone = Expression<String>("actualphone")
         let email = Expression<String>("email")
 
         let kiboContact = Expression<Bool>("kiboContact")
@@ -467,6 +470,7 @@ class DatabaseHandler:NSObject{
                 name<-name1,
                 phone<-phone1,
                 email<-email1,
+                actualphone<-actualphone1,
                 kiboContact<-kiboContact1
                 ))
             socketObj.socket.emit("logClient","IPHONE-LOG: all contacts saved in sqliteDB")

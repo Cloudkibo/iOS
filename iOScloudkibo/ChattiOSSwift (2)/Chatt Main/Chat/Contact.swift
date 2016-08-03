@@ -43,6 +43,7 @@ class iOSContact{
         
         var name=Expression<String>("name")
         var phone=Expression<String>("phone")
+        var actualphone=Expression<String>("actualphone")
         var email=Expression<String>("email")
         var profileimage=Expression<NSData>("profileimage")
         
@@ -122,6 +123,7 @@ class iOSContact{
                             //////////////emails.append(a.valueForKey("digits") as! String)
                             var zeroIndex = -1
                             var phoneDigits=a.valueForKey("digits") as! String
+                            var actualphonedigits=a.valueForKey("digits") as! String
                             //remove leading zeroes
                            /* for index in phoneDigits.characters.indices {
                                 print(phoneDigits[index])
@@ -182,7 +184,7 @@ class iOSContact{
                                    image=contacts[i].imageData!
                                 }
                                 
-                                try sqliteDB.db.run(tbl_allcontacts.insert(name<-fullname,phone<-phoneDigits,email<-emailAddress,profileimage<-image))
+                                try sqliteDB.db.run(tbl_allcontacts.insert(name<-fullname,phone<-phoneDigits,actualphone<-actualphonedigits,email<-emailAddress,profileimage<-image))
                         }
                             catch(let error)
                             {
