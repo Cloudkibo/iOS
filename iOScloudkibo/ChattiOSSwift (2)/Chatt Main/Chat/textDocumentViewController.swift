@@ -27,11 +27,57 @@ class textDocumentViewController: UIViewController {
     }
     
     override func viewWillAppear(animated: Bool) {
+        var attrString:NSMutableAttributedString!=nil
         
-        do{  let attrString =
+        
+        do{
+            var furl=NSURL(fileURLWithPath: newtext)
+            var ftype=furl.pathExtension!
+            print("file type found is \(ftype)")
+            switch(ftype.lowercaseString)
+            {case "rtf":
             
+            
+                 attrString = try NSMutableAttributedString(URL: NSURL(fileURLWithPath: newtext), options: [NSDocumentTypeDocumentAttribute:NSRTFTextDocumentType], documentAttributes: nil)
+                
            
-            try NSMutableAttributedString(URL: NSURL(fileURLWithPath: newtext), options: [NSDocumentTypeDocumentAttribute:NSRTFTextDocumentType], documentAttributes: nil)
+                case "txt":
+                   
+                        attrString =
+                            
+                            
+                            try NSMutableAttributedString(URL: NSURL(fileURLWithPath: newtext), options: [NSDocumentTypeDocumentAttribute:NSPlainTextDocumentType], documentAttributes: nil)
+                        
+                
+                case "html":
+                    
+                        attrString =
+                            
+                            
+                            try NSMutableAttributedString(URL: NSURL(fileURLWithPath: newtext), options: [NSDocumentTypeDocumentAttribute:NSHTMLTextDocumentType], documentAttributes: nil)
+                
+                case "rtfd":
+                    
+                        attrString =
+                            
+                            
+                            try NSMutableAttributedString(URL: NSURL(fileURLWithPath: newtext), options: [NSDocumentTypeDocumentAttribute:NSRTFDTextDocumentType], documentAttributes: nil)
+                        
+                
+                case "pdf":
+                    let webView = UIWebView(frame: CGRectMake(0,0,self.view.frame.size.width,self.view.frame.size.height))
+                    var pdffile=NSData(contentsOfFile: newtext)
+                    webView.loadData(pdffile!, MIMEType: "application/pdf", textEncodingName:"", baseURL: NSURL(fileURLWithPath: newtext).URLByDeletingLastPathComponent!)
+                    self.view.addSubview(webView)
+                
+            default:  attrString =
+                
+                
+                try NSMutableAttributedString(URL: NSURL(fileURLWithPath: newtext), options: [NSDocumentTypeDocumentAttribute:NSDocumentTypeDocumentAttribute], documentAttributes: nil)
+            }
+            
+          
+           
             print("url text is \(newtext)")
             // textViewDoc.text = try NSString(contentsOfURL: NSURL(string: newtext)!, encoding: NSUTF8StringEncoding) as! String
             //var urlContents = NSString(contentsOfURL: docURL, encoding: NSUTF8StringEncoding, error: nil)
@@ -45,24 +91,7 @@ class textDocumentViewController: UIViewController {
         }
         catch{
             print("error in textdoc")
-            do{  let attrString =
-                
-                
-                try NSMutableAttributedString(URL: NSURL(fileURLWithPath: newtext), options: [NSDocumentTypeDocumentAttribute:NSPlainTextDocumentType], documentAttributes: nil)
-                print("url text is \(newtext)")
-                // textViewDoc.text = try NSString(contentsOfURL: NSURL(string: newtext)!, encoding: NSUTF8StringEncoding) as! String
-                //var urlContents = NSString(contentsOfURL: docURL, encoding: NSUTF8StringEncoding, error: nil)
-                var txtNSString = try NSString(contentsOfFile: newtext, encoding: NSUTF8StringEncoding)
-                /////textViewDoc.text = txtNSString as String
-                
-                //NSUTF8StringEncoding
-                textViewDoc.attributedText = attrString
-                
-                textViewDoc.editable = false
-            }
-            catch{
-                print("error in textdoc")
-            }
+           
         }
         
     }

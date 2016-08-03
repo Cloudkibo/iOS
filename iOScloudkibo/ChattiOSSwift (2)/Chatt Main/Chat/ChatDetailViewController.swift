@@ -1376,7 +1376,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
             //let importMenu = UIDocumentMenuViewController(documentTypes: [kUTTypeText as NSString as String, kUTTypeImage as String,"com.adobe.pdf","public.jpeg","public.html","public.content","public.data","public.item",kUTTypeBundle as String],
              //   inMode: .Import)
             
-            let importMenu = UIDocumentMenuViewController(documentTypes: [kUTTypeText as NSString as String,"com.adobe.pdf","public.html",/*"public.content",*/"public.text",/*kUTTypeBundle as String*/],
+            let importMenu = UIDocumentMenuViewController(documentTypes: [kUTTypeText as NSString as String,"com.adobe.pdf","public.html",/*"public.content",*/"public.text",/*kUTTypeBundle as String,"com.apple.rtfd"*/"com.adobe.pdf"],
                 inMode: .Import)
             ///////let importMenu = UIDocumentMenuViewController(documentTypes: UTIs, inMode: .Import)
             importMenu.delegate = self
@@ -1480,7 +1480,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
         shareMenu.modalPresentationStyle=UIModalPresentationStyle.OverCurrentContext
         let confirm = UIAlertAction(title: "Yes", style: UIAlertActionStyle.Default,handler: { (action) -> Void in
             
-        socketObj.socket.emit("logClient","IPHONE-LOG: \(username!) selected file ")
+        socketObj.socket.emit("logClient","IPHONE-LOG: \(username!) selected image ")
         print("file gotttttt")
         var furl=NSURL(string: localPath.URLString)
         
