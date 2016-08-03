@@ -1209,7 +1209,7 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
         //let indexPath = tableView.indexPathForSelectedRow();
         //let currentCell = tableView.cellForRowAtIndexPath(indexPath!) as UITableViewCell!;
         
-        print(ContactNames[indexPath.row], terminator: "")
+        ///print(ContactNames[indexPath.row], terminator: "")
         self.performSegueWithIdentifier("contactChat", sender: nil);
         //slideToChat
         
