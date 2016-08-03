@@ -18,6 +18,8 @@ import Photos
 
 class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChatDelegate,UIDocumentPickerDelegate,UIDocumentMenuDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate,NSFileManagerDelegate{
     
+    
+    var shareMenu = UIAlertController()
     var selectedImage:UIImage!
     var filename=""
     var showKeyboard=false
@@ -1474,7 +1476,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
         }
         
         
-        let shareMenu = UIAlertController(title: nil, message: " Send \" \(filename) \" to \(selectedContact) ? ", preferredStyle: .ActionSheet)
+        let shareMenu = UIAlertController(title: nil, message: " Send \" \(filename) \" to \(selectedFirstName) ? ", preferredStyle: .ActionSheet)
         shareMenu.modalPresentationStyle=UIModalPresentationStyle.OverCurrentContext
         let confirm = UIAlertAction(title: "Yes", style: UIAlertActionStyle.Default,handler: { (action) -> Void in
             
@@ -2003,6 +2005,30 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
     func documentPicker(controller: UIDocumentPickerViewController, didPickDocumentAtURL url: NSURL) {
         
         
+        
+        
+        
+        print("yess pickeddd document")
+        var furl=NSURL(string: url.URLString)
+        
+        
+        //METADATA FILE NAME,TYPE
+        print(furl!.pathExtension!)
+        print(furl!.URLByDeletingPathExtension?.lastPathComponent!)
+        var ftype=furl!.pathExtension!
+        var fname=furl!.URLByDeletingPathExtension?.lastPathComponent!
+        ////var fname=furl!.URLByDeletingPathExtension?.URLString
+        //var attributesError=nil
+        var fileAttributes:[String:AnyObject]=["":""]
+        
+         shareMenu = UIAlertController(title: nil, message: " Send \" \(fname!) .\(ftype)\" to \(selectedFirstName) ? ", preferredStyle: .ActionSheet)
+       // shareMenu.modalPresentationStyle=UIModalPresentationStyle.OverCurrentContext
+        let confirm = UIAlertAction(title: "Yes", style: UIAlertActionStyle.Default,handler: { (action) -> Void in
+            
+
+            
+        
+        
         if (controller.documentPickerMode == UIDocumentPickerMode.Import) {
           //  NSLog("Opened ", url.path!);
             print("picker url is \(url)")
@@ -2018,17 +2044,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
                 print(fileData?.description)
                 socketObj.socket.emit("logClient","IPHONE-LOG: \(username!) selected file ")
                 print("file gotttttt")
-                var furl=NSURL(string: url.URLString)
-                
-                
-                //METADATA FILE NAME,TYPE
-                print(furl!.pathExtension!)
-                print(furl!.URLByDeletingPathExtension?.lastPathComponent!)
-                var ftype=furl!.pathExtension!
-                var fname=furl!.URLByDeletingPathExtension?.lastPathComponent!
-                ////var fname=furl!.URLByDeletingPathExtension?.URLString
-                //var attributesError=nil
-                var fileAttributes:[String:AnyObject]=["":""]
+               
                 do {
                     let fileAttributes : NSDictionary? = try NSFileManager.defaultManager().attributesOfItemAtPath(furl!.path!)
                     
@@ -2136,6 +2152,21 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
             url.stopAccessingSecurityScopedResource()
             //mdata.sharefile(url)
         }
+        })
+        
+        
+        let notConfirm = UIAlertAction(title: "No", style: UIAlertActionStyle.Cancel, handler: { (action) -> Void in
+            
+        })
+        
+        shareMenu.addAction(confirm)
+        shareMenu.addAction(notConfirm)
+        
+        self.presentViewController(shareMenu, animated: true, completion: {
+            
+        })
+
+        
         
     }
     
