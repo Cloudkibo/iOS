@@ -501,7 +501,8 @@ class DatabaseHandler:NSObject{
     
     func saveChatImage(to1:String,from1:String,owneruser1:String,fromFullName1:String,msg1:String,date1:String!,uniqueid1:String!,status1:String,file_type1:String,file_path1:String)
 
-    {var chatType="image"
+    {
+        //var chatType="image"
     
             //createUserChatTable()
             
@@ -572,7 +573,7 @@ class DatabaseHandler:NSObject{
                     uniqueID<-uniqueid1,
                     status<-status1,
                     contactPhone<-contactPhone1,
-                    type<-"file",
+                    type<-file_type1,
                     file_type<-file_type1,
                     file_path<-file_path1
                     ))

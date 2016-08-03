@@ -1008,11 +1008,11 @@
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" verticalHuggingPriority="1000" selectionStyle="default" indentationWidth="10" reuseIdentifier="ChatReceivedCell" rowHeight="80" id="hSS-rS-ul1">
                                         <rect key="frame" x="0.0" y="102" width="320" height="80"/>
                                         <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" autoresizesSubviews="NO" opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" verticalHuggingPriority="1000" preservesSuperviewLayoutMargins="YES" tableViewCell="hSS-rS-ul1" id="I1R-We-iA6">
+                                        <tableViewCellContentView key="contentView" autoresizesSubviews="NO" opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" verticalHuggingPriority="1000" preservesSuperviewLayoutMargins="YES" tableViewCell="hSS-rS-ul1" id="I1R-We-iA6">
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="80"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <imageView opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="1" contentMode="redraw" verticalHuggingPriority="1000" preservesSuperviewLayoutMargins="YES" image="chat_send" id="8hW-tJ-jff">
+                                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" tag="1" contentMode="redraw" verticalHuggingPriority="1000" preservesSuperviewLayoutMargins="YES" image="chat_send" id="8hW-tJ-jff">
                                                     <rect key="frame" x="80" y="0.0" width="232" height="80"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                 </imageView>
@@ -1182,7 +1182,7 @@
                         <outlet property="tblForChats" destination="8ne-qn-KGp" id="IKm-bB-e2a"/>
                         <outlet property="txtFldMessage" destination="4FE-aT-v0f" id="ytJ-BX-lo5"/>
                         <segue destination="LME-ma-WZ9" kind="push" identifier="showFullImageSegue" id="Ite-sp-zyZ"/>
-                        <segue destination="TP2-6C-5JJ" kind="push" id="LYu-6R-l0u"/>
+                        <segue destination="TP2-6C-5JJ" kind="push" identifier="showFullDocSegue" id="LYu-6R-l0u"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="u05-OP-Jjm" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -1204,7 +1204,9 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
+                    <extendedEdge key="edgesForExtendedLayout" top="YES"/>
                     <navigationItem key="navigationItem" id="fof-c8-JwI"/>
+                    <nil key="simulatedBottomBarMetrics"/>
                     <connections>
                         <outlet property="fillImageView" destination="4Qx-f3-V4n" id="hai-9E-zlj"/>
                     </connections>
@@ -1213,10 +1215,10 @@
             </objects>
             <point key="canvasLocation" x="1322" y="-1035"/>
         </scene>
-        <!--View Controller-->
+        <!--Text Document View Controller-->
         <scene sceneID="vTl-M7-9uG">
             <objects>
-                <viewController id="TP2-6C-5JJ" sceneMemberID="viewController">
+                <viewController id="TP2-6C-5JJ" customClass="textDocumentViewController" customModule="Chat" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="PbJ-Bj-EmD">
                         <rect key="frame" x="0.0" y="64" width="320" height="504"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -1233,6 +1235,9 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
                     <navigationItem key="navigationItem" id="yt0-cE-7pp"/>
+                    <connections>
+                        <outlet property="textViewDoc" destination="7Eo-pg-7AV" id="L5W-dm-lRL"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="YLH-zi-1y8" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

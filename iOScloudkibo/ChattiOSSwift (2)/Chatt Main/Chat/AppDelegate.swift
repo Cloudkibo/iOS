@@ -17,6 +17,8 @@ import Fabric
 import Crashlytics
 
 
+
+var selectedText=""
 var chatDetailView:ChatDetailViewController!
 var goBack=false
 var countrycode:String! = KeychainWrapper.stringForKey("countrycode")

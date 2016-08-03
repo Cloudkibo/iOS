@@ -509,9 +509,16 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
                         self.addMessage(tblContacts[msg], ofType: "3",date: tblContacts[date])
                         
                     }
+                    else{
+                    if(tblContacts[type]=="doc")
+                    {
+                        self.addMessage(tblContacts[msg], ofType: "4",date: tblContacts[date])
+                        
+                    }
                     else
                     {
                     self.addMessage(tblContacts[msg]+" (\(tblContacts[status])) ", ofType: "2",date: tblContacts[date])
+                    }
                     }
                 }
                 else
@@ -523,8 +530,15 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
                         
                     }
                     else
+                    {if(tblContacts[type]=="doc")
+                    {
+                        self.addMessage(tblContacts[msg], ofType: "4",date: tblContacts[date])
+                        
+                    }
+                    else
                     {
                     self.addMessage(tblContacts[msg], ofType: "1", date: tblContacts[date])
+                    }
                     }
                     
                 }
@@ -1005,6 +1019,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
                 */
             }
             else{
+                print("not 3 ...")
                 
                 let distanceFactor = (170.0 - sizeOFStr.width) < 100 ? (170.0 - sizeOFStr.width) : 100
                 chatImage.frame = CGRectMake(20 + distanceFactor, chatImage.frame.origin.y, ((sizeOFStr.width + 100)  > 200 ? (sizeOFStr.width + 100) : 200), sizeOFStr.height + 40)
@@ -1023,6 +1038,56 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
                 
                 timeLabel.frame = CGRectMake(36 + distanceFactor, timeLabel.frame.origin.y, timeLabel.frame.size.width, timeLabel.frame.size.height)
                 deliveredLabel.frame = CGRectMake(deliveredLabel.frame.origin.x, textLable.frame.origin.y + textLable.frame.size.height + 15, deliveredLabel.frame.size.width, deliveredLabel.frame.size.height)
+                
+                if(msgType.isEqualToString("4"))
+                {
+                    print("type is 4 hereeeeeeeeeeee")
+                    cell = ///tblForChats.dequeueReusableCellWithIdentifier("ChatReceivedCell")! as UITableViewCell
+                        
+                        //FileImageReceivedCell
+                        tblForChats.dequeueReusableCellWithIdentifier("ChatReceivedCell")! as UITableViewCell
+                    let deliveredLabel = cell.viewWithTag(13) as! UILabel
+                    let textLable = cell.viewWithTag(12) as! UILabel
+                    let timeLabel = cell.viewWithTag(11) as! UILabel
+                    let chatImage = cell.viewWithTag(1) as! UIImageView
+                    let profileImage = cell.viewWithTag(2) as! UIImageView
+                    
+                    
+                    let distanceFactor = (170.0 - sizeOFStr.width) < 100 ? (170.0 - sizeOFStr.width) : 100
+                    chatImage.frame = CGRectMake(20 + distanceFactor, chatImage.frame.origin.y, ((sizeOFStr.width + 100)  > 200 ? (sizeOFStr.width + 100) : 200), sizeOFStr.height + 40)
+                    
+                    
+                    timeLabel.frame = CGRectMake(36 + distanceFactor, timeLabel.frame.origin.y, timeLabel.frame.size.width, timeLabel.frame.size.height)
+                    
+                    textLable.hidden=false
+                    //chatImage.frame = CGRectMake(20 + distanceFactor, chatImage.frame.origin.y, ((sizeOFStr.width + 100)  > 200 ? (sizeOFStr.width + 100) : 200), sizeOFStr.height + 40)
+                    chatImage.image = UIImage(named: "chat_send")?.stretchableImageWithLeftCapWidth(40,topCapHeight: 20);
+                    // *********
+                    textLable.text = "\(msg)"
+                    textLable.frame = CGRectMake(36 + distanceFactor, textLable.frame.origin.y, textLable.frame.size.width, sizeOFStr.height)
+ 
+                    //////chatImage.contentMode = .Center
+                    
+                    //chatImage.frame = CGRectMake(80, chatImage.frame.origin.y, 220, 220)
+                    /*let documentDirectory = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true).first as String!
+                     let photoURL          = NSURL(fileURLWithPath: documentDirectory)
+                     let imgPath         = photoURL.URLByAppendingPathComponent(msg as! String)
+                     
+                     */
+                    
+                    
+                    let dirPaths = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)
+                    let docsDir1 = dirPaths[0]
+                    var documentDir=docsDir1 as NSString
+                    ////var imgPath=documentDir.stringByAppendingPathComponent(msg as! String)
+                    
+                   /// var imgNSData=NSFileManager.defaultManager().contentsAtPath(imgPath)
+                    chatImage.userInteractionEnabled=true
+                    let tapRecognizer = UITapGestureRecognizer(target: self, action: Selector("docTapped:"))
+                    //Add the recognizer to your view.
+                    chatImage.addGestureRecognizer(tapRecognizer)
+                    
+                }
                 
                 
             }
@@ -1141,6 +1206,16 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
         let tappedImageView = gestureRecognizer.view! as! UIImageView
         selectedImage=tappedImageView.image
          self.performSegueWithIdentifier("showFullImageSegue", sender: nil);
+        
+    }
+    
+    func docTapped(gestureRecognizer: UITapGestureRecognizer) {
+        //tappedImageView will be the image view that was tapped.
+        //dismiss it, animate it off screen, whatever.
+        print("docTapped hereee")
+        let tappedImageView = gestureRecognizer.view! as! UIImageView
+        //selectedImage=tappedImageView.image
+        self.performSegueWithIdentifier("showFullDocSegue", sender: nil);
         
     }
     
@@ -1299,7 +1374,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
             //let importMenu = UIDocumentMenuViewController(documentTypes: [kUTTypeText as NSString as String, kUTTypeImage as String,"com.adobe.pdf","public.jpeg","public.html","public.content","public.data","public.item",kUTTypeBundle as String],
              //   inMode: .Import)
             
-            let importMenu = UIDocumentMenuViewController(documentTypes: [kUTTypeText as NSString as String, kUTTypeImage as String,"com.adobe.pdf","public.html","public.content","public.data",kUTTypeBundle as String],
+            let importMenu = UIDocumentMenuViewController(documentTypes: [kUTTypeText as NSString as String,"com.adobe.pdf","public.html",/*"public.content",*/"public.text",/*kUTTypeBundle as String*/],
                 inMode: .Import)
             ///////let importMenu = UIDocumentMenuViewController(documentTypes: UTIs, inMode: .Import)
             importMenu.delegate = self
@@ -1469,7 +1544,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
             var imParas=["from":"\(username!)","to":"\(self.selectedContact)","fromFullName":"\(displayname)","msg":"\(self.txtFldMessage.text!)","uniqueid":"\(uniqueID)"]
             
             
-            sqliteDB.saveChatImage(self.selectedContact, from1: username!, owneruser1: username!, fromFullName1: displayname, msg1: self.filename, date1: nil, uniqueid1: uniqueID, status1: "pending", file_type1: "JPG", file_path1: filePathImage2)
+            sqliteDB.saveChatImage(self.selectedContact, from1: username!, owneruser1: username!, fromFullName1: displayname, msg1: self.filename, date1: nil, uniqueid1: uniqueID, status1: "pending", file_type1: "file", file_path1: filePathImage2)
         
             self.retrieveChatFromSqlite(self.selectedContact)
        /////// self.addMessage(filePathImage2, ofType: "3", date: nil)
@@ -1910,6 +1985,18 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
          })
          }
          }
+        if segue!.identifier == "showFullDocSegue" {
+            if let destinationVC = segue!.destinationViewController as? textDocumentViewController{
+                //destinationVC.tabBarController?.selectedIndex=0
+                //self.tabBarController?.selectedIndex=0
+                destinationVC.newtext=selectedText
+                self.dismissViewControllerAnimated(true, completion: { () -> Void in
+                    
+                    
+                    
+                })
+            }
+        }
  
     }
     
@@ -2031,6 +2118,10 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
                 var uniqueID=randNum5+year+month+day+hour+minute+second
                 
                 
+                sqliteDB.saveChatImage(self.selectedContact, from1: username!, owneruser1: username!, fromFullName1: displayname, msg1: fname!+"."+ftype, date1: nil, uniqueid1: uniqueID, status1: "pending", file_type1: "doc", file_path1: filePathImage2)
+                selectedText = filePathImage2
+                
+                 self.retrieveChatFromSqlite(self.selectedContact)
                ////  sqliteDB.SaveChat(self.selectedContact, from1: username!, owneruser1: username!, fromFullName1: displayname, msg1: filename, date1: nil, uniqueid1: uniqueID, status1: "pending")
                 
                 /////socketObj.socket.emit("conference.chat", ["message":"You have received a file. Download and Save it.","username":username!])
