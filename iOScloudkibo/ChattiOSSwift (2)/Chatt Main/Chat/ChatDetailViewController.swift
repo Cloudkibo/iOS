@@ -1060,10 +1060,14 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
                     
                     
                     timeLabel.frame = CGRectMake(36 + distanceFactor, timeLabel.frame.origin.y, timeLabel.frame.size.width, timeLabel.frame.size.height)
-                    
+                  
                     textLable.hidden=false
                     //chatImage.frame = CGRectMake(20 + distanceFactor, chatImage.frame.origin.y, ((sizeOFStr.width + 100)  > 200 ? (sizeOFStr.width + 100) : 200), sizeOFStr.height + 40)
                     chatImage.image = UIImage(named: "chat_send")?.stretchableImageWithLeftCapWidth(40,topCapHeight: 20);
+                    
+                   // chatImage.layer.borderColor=UIColor.greenColor().CGColor
+                  //  chatImage.layer.borderWidth = 3.0;
+                   // chatImage.highlighted=true
                     // *********
                     textLable.text = "\(msg)"
                     textLable.frame = CGRectMake(36 + distanceFactor, textLable.frame.origin.y, textLable.frame.size.width, sizeOFStr.height)

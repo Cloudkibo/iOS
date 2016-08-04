@@ -70,20 +70,27 @@ class textDocumentViewController: UIViewController {
                     let webView = UIWebView(frame: CGRectMake(0,0,self.view.frame.size.width,self.view.frame.size.height))
                     var pdffile=NSData(contentsOfFile: newtext)
                     webView.loadData(pdffile!, MIMEType: "application/pdf", textEncodingName:"", baseURL: NSURL(fileURLWithPath: newtext).URLByDeletingLastPathComponent!)
-                    self.view.addSubview(webView)
+                    webView.contentMode = UIViewContentMode.ScaleAspectFit
+                    webView.scalesPageToFit = true
+                    webView.contentMode = UIViewContentMode.ScaleAspectFit
+                    textViewDoc.addSubview(webView)
                 
             case "docx":
-                let webView = UIWebView(frame: CGRectMake(0,0,self.view.frame.size.width,self.view.frame.size.height))
+                let webView = UIWebView(frame: CGRectMake(0,0,self.textViewDoc.frame.size.width,self.textViewDoc.frame.size.height-40))
                 var docxfile=NSData(contentsOfFile: newtext)
                 webView.loadData(docxfile!, MIMEType: "application/vnd.openxmlformats-officedocument.wordprocessingml.document", textEncodingName:"", baseURL: NSURL(fileURLWithPath: newtext).URLByDeletingLastPathComponent!)
-                self.view.addSubview(webView)
+                webView.scalesPageToFit = true
+                webView.contentMode = UIViewContentMode.ScaleAspectFit
+                textViewDoc.addSubview(webView)
                 
             case "doc":
-                let webView = UIWebView(frame: CGRectMake(0,0,self.view.frame.size.width,self.view.frame.size.height))
+                 let webView = UIWebView(frame: CGRectMake(0,0,self.view.frame.size.width,self.view.frame.size.height))
                 var docxfile=NSData(contentsOfFile: newtext)
                 webView.loadData(docxfile!, MIMEType: "application/msword", textEncodingName:"", baseURL: NSURL(fileURLWithPath: newtext).URLByDeletingLastPathComponent!)
-                self.view.addSubview(webView)
-                
+                 webView.scalesPageToFit = true
+                 webView.contentMode = UIViewContentMode.ScaleAspectFit
+                 textViewDoc.addSubview(webView)
+
 
                 
                 //application/msword
