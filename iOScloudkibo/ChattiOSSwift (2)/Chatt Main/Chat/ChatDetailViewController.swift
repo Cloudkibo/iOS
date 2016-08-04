@@ -1047,7 +1047,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
                     cell = ///tblForChats.dequeueReusableCellWithIdentifier("ChatReceivedCell")! as UITableViewCell
                         
                         //FileImageReceivedCell
-                        tblForChats.dequeueReusableCellWithIdentifier("ChatReceivedCell")! as UITableViewCell
+                        tblForChats.dequeueReusableCellWithIdentifier("DocReceivedCell")! as UITableViewCell
                     let deliveredLabel = cell.viewWithTag(13) as! UILabel
                     let textLable = cell.viewWithTag(12) as! UILabel
                     let timeLabel = cell.viewWithTag(11) as! UILabel
@@ -1056,11 +1056,12 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
                     
                     
                     let distanceFactor = (170.0 - sizeOFStr.width) < 100 ? (170.0 - sizeOFStr.width) : 100
+                    
+                    
+                    
                     chatImage.frame = CGRectMake(20 + distanceFactor, chatImage.frame.origin.y, ((sizeOFStr.width + 100)  > 200 ? (sizeOFStr.width + 100) : 200), sizeOFStr.height + 40)
                     
-                    
-                    timeLabel.frame = CGRectMake(36 + distanceFactor, timeLabel.frame.origin.y, timeLabel.frame.size.width, timeLabel.frame.size.height)
-                  
+                   
                     textLable.hidden=false
                     //chatImage.frame = CGRectMake(20 + distanceFactor, chatImage.frame.origin.y, ((sizeOFStr.width + 100)  > 200 ? (sizeOFStr.width + 100) : 200), sizeOFStr.height + 40)
                     chatImage.image = UIImage(named: "chat_send")?.stretchableImageWithLeftCapWidth(40,topCapHeight: 20);
@@ -1070,8 +1071,17 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
                    // chatImage.highlighted=true
                     // *********
                     textLable.text = "\(msg)"
-                    textLable.frame = CGRectMake(36 + distanceFactor, textLable.frame.origin.y, textLable.frame.size.width, sizeOFStr.height)
+                    //old was 36 in place of 60
+                    textLable.frame = CGRectMake(60 + distanceFactor, textLable.frame.origin.y, textLable.frame.size.width, sizeOFStr.height)
  
+                    
+                    profileImage.center = CGPointMake(45+distanceFactor, textLable.frame.origin.y + textLable.frame.size.height - profileImage.frame.size.height/2+10)
+                    
+                    profileImage.setNeedsDisplay()
+                    
+                    timeLabel.frame = CGRectMake(35 + distanceFactor, chatImage.frame.origin.y+sizeOFStr.height + 20, chatImage.frame.size.width-40, timeLabel.frame.size.height)
+                  
+                    
                     //////chatImage.contentMode = .Center
                     
                     //chatImage.frame = CGRectMake(80, chatImage.frame.origin.y, 220, 220)
