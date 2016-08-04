@@ -19,6 +19,7 @@ class DatabaseHandler:NSObject{
     var allcontacts:Table!
     var callHistory:Table!
     var statusUpdate:Table!
+    var files:Table!
     
     init(dbName:String)
     {print("inside database handler class")
@@ -54,6 +55,7 @@ class DatabaseHandler:NSObject{
         createUserChatTable()
         createMessageSeenStatusTable()
         createCallHistoryTable()
+        createFileTable()
         //createAllContactsTable()
         
     }
@@ -345,7 +347,7 @@ class DatabaseHandler:NSObject{
         
         self.statusUpdate = Table("statusUpdate")
         do{
-            try db.run(statusUpdate.create(ifNotExists: true) { t in     // CREATE TABLE "callHistory"
+            try db.run(statusUpdate.create(ifNotExists: true) { t in
                 t.column(status)
                 t.column(sender)
                 t.column(uniqueid)
@@ -359,6 +361,63 @@ class DatabaseHandler:NSObject{
         }
         
     }
+    
+    
+    
+    func createFileTable(){
+        
+        socketObj.socket.emit("logClient","IPHONE-LOG: creating chat table")
+        
+        let to = Expression<String>("to")
+        let from = Expression<String>("from")
+        let date = Expression<String>("date")
+        let uniqueid = Expression<String>("uniqueid")
+        let contactPhone = Expression<String>("contactPhone")
+        let file_name = Expression<String>("file_name")
+        let file_size = Expression<String>("file_size")
+        let file_type = Expression<String>("file_type")
+        let file_path = Expression<String>("file_path")
+        
+        
+        // let dateFormatter = NSDateFormatter()
+        // dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
+        // dateFormatter.
+        //let datens2 = dateFormatter.dateFromString(NSDate().debugDescription)
+        //print("defaultDate is \(datens2)")
+        self.files = Table("files")
+        
+        var date22=NSDate()
+        var formatter = NSDateFormatter();
+        //formatter.dateFormat = "yyyy-MM-dd HH:mm:ss ZZZ";
+        formatter.dateFormat = "MM/dd, HH:mm";
+        formatter.timeZone = NSTimeZone.localTimeZone()
+        //formatter.dateStyle = .ShortStyle
+        //formatter.timeStyle = .ShortStyle
+        let defaultTimeZoneStr = formatter.stringFromDate(date22);
+        
+        do{
+            try db.run(userschats.create(ifNotExists: true) { t in     // CREATE TABLE "accounts" (
+                t.column(to)//loggedin user id
+                t.column(from)
+                t.column(contactPhone)
+                t.column(date, defaultValue:defaultTimeZoneStr)
+                t.column(uniqueid)
+                t.column(file_name, defaultValue:"")
+                t.column(file_size, defaultValue:"")
+                t.column(file_type, defaultValue:"")
+                t.column(file_path, defaultValue:"")
+                
+                //     "name" TEXT
+                })
+            
+        }
+        catch(let error)
+        {
+            socketObj.socket.emit("logClient","IPHONE-LOG: error in creating chat table \(error)")
+            print("error in creating userschats table")
+        }
+    }
+    
     
     func saveMessageStatusSeen(status1:String,sender1:String,uniqueid1:String)
     {
@@ -674,6 +733,98 @@ class DatabaseHandler:NSObject{
         
         
     }
+    
+    func saveFile(to1:String,from1:String,owneruser1:String,file_name1:String,date1:String!,uniqueid1:String!,file_size1:String,file_type1:String,file_path1:String)
+        
+    {
+        //var chatType="image"
+        
+        //createUserChatTable()
+        let to = Expression<String>("to")
+        let from = Expression<String>("from")
+        let date = Expression<String>("date")
+        let uniqueid = Expression<String>("uniqueid")
+        let contactPhone = Expression<String>("contactPhone")
+        let file_name = Expression<String>("file_name")
+        let file_size = Expression<String>("file_size")
+        let file_type = Expression<String>("file_type")
+        let file_path = Expression<String>("file_path")
+        
+        
+        var tbl_userfiles=sqliteDB.files
+        
+        var contactPhone1=""
+        if(to1 != owneruser1)
+        {
+            contactPhone1=to1
+        }
+        else
+        {
+            contactPhone1=from1
+        }
+        
+        //////var tbl_userchats=sqliteDB.db["userschats"]
+        
+        /*let insert=tbl_userchats.insert(fromFullName<-fromFullName1,
+         msg<-msg1,
+         to<-to1,
+         from<-from1
+         )*/
+        var mydate:String!
+        if(date1 == nil)
+        {
+            var date22=NSDate()
+            var formatter = NSDateFormatter();
+            //formatter.dateFormat = "yyyy-MM-dd HH:mm:ss ZZZ";
+            formatter.dateFormat = "MM/dd, HH:mm";
+            formatter.timeZone = NSTimeZone.localTimeZone()
+            //formatter.dateStyle = .ShortStyle
+            //formatter.timeStyle = .ShortStyle
+            let defaultTimeZoneStr = formatter.stringFromDate(date22);
+            
+            mydate=defaultTimeZoneStr
+            
+        }
+        else
+        {
+            mydate=date1
+        }
+        /*
+         t.column(type, defaultValue:"chat")
+         t.column(file_type, defaultValue:"")
+         t.column(file_path, defaultValue:"")
+         */
+        
+        do {
+            let rowid = try db.run(tbl_userfiles.insert(
+                to<-to1,
+                from<-from1,
+                date<-mydate,
+                uniqueid<-uniqueid1,
+                contactPhone<-contactPhone1,
+                file_name<-file_name1,
+                file_size<-file_size1,
+                file_type<-file_type1,
+                file_path<-file_path1
+                ))
+            //////print("inserted id: \(rowid)")
+        } catch {
+            print("insertion failed: \(error)")
+        }
+        
+        
+        /*if let rowid = insert.rowid {
+         print("inserted id: \(rowid)")
+         } else if insert.statement.failed {
+         print("insertion failed: \(insert.statement.reason)")
+         }*/
+        
+        
+    }
+    
+
+    
+    
     func retrieveChat(owneruser1:String)
     {
         
