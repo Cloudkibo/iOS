@@ -396,7 +396,7 @@ class DatabaseHandler:NSObject{
         let defaultTimeZoneStr = formatter.stringFromDate(date22);
         
         do{
-            try db.run(userschats.create(ifNotExists: true) { t in     // CREATE TABLE "accounts" (
+            try db.run(files.create(ifNotExists: true) { t in     // CREATE TABLE "accounts" (
                 t.column(to)//loggedin user id
                 t.column(from)
                 t.column(contactPhone)
@@ -562,7 +562,7 @@ class DatabaseHandler:NSObject{
         }
 }
     
-    func saveChatImage(to1:String,from1:String,owneruser1:String,fromFullName1:String,msg1:String,date1:String!,uniqueid1:String!,status1:String,file_type1:String,file_path1:String)
+    func saveChatImage(to1:String,from1:String,owneruser1:String,fromFullName1:String,msg1:String,date1:String!,uniqueid1:String!,status1:String,type1:String,file_type1:String,file_path1:String)
 
     {
         //var chatType="image"
@@ -636,7 +636,7 @@ class DatabaseHandler:NSObject{
                     uniqueID<-uniqueid1,
                     status<-status1,
                     contactPhone<-contactPhone1,
-                    type<-file_type1,
+                    type<-type1,
                     file_type<-file_type1,
                     file_path<-file_path1
                     ))

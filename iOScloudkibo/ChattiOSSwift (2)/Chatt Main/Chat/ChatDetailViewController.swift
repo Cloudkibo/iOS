@@ -1561,10 +1561,10 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
             //^^var firstNameSelected=selectedUserObj["firstname"]
             //^^^var lastNameSelected=selectedUserObj["lastname"]
             //^^^var fullNameSelected=firstNameSelected.string!+" "+lastNameSelected.string!
-            var imParas=["from":"\(username!)","to":"\(self.selectedContact)","fromFullName":"\(displayname)","msg":"\(self.txtFldMessage.text!)","uniqueid":"\(uniqueID)"]
+            //var imParas=["from":"\(username!)","to":"\(self.selectedContact)","fromFullName":"\(displayname)","msg":"\(self.txtFldMessage.text!)","uniqueid":"\(uniqueID)"]
             
             
-            sqliteDB.saveChatImage(self.selectedContact, from1: username!, owneruser1: username!, fromFullName1: displayname, msg1: self.filename, date1: nil, uniqueid1: uniqueID, status1: "pending", file_type1: "file", file_path1: filePathImage2)
+            sqliteDB.saveChatImage(self.selectedContact, from1: username!, owneruser1: username!, fromFullName1: displayname, msg1: self.filename, date1: nil, uniqueid1: uniqueID, status1: "pending", type1: "document",file_type1: ftype, file_path1: filePathImage2)
         
             self.retrieveChatFromSqlite(self.selectedContact)
        /////// self.addMessage(filePathImage2, ofType: "3", date: nil)
@@ -2150,9 +2150,9 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
                 
                 var randNum5=self.randomStringWithLength(5) as! String
                 var uniqueID=randNum5+year+month+day+hour+minute+second
+                sqliteDB.saveChatImage(self.selectedContact, from1: username!, owneruser1: username!, fromFullName1: "fafa", msg1: fname!+"."+ftype, date1: nil, uniqueid1: uniqueID, status1: "pending", type1: "document", file_type1: ftype, file_path1: filePathImage2)
                 
-                
-                sqliteDB.saveChatImage(self.selectedContact, from1: username!, owneruser1: username!, fromFullName1: displayname, msg1: fname!+"."+ftype, date1: nil, uniqueid1: uniqueID, status1: "pending", file_type1: "doc", file_path1: filePathImage2)
+               //// sqliteDB.saveChatImage(self.selectedContact, from1: username!,fromFullName1: displayname, owneruser1:username!, msg1: fname!+"."+ftype, date1: nil, uniqueid1: uniqueID, status1: "pending", type1: "doc",file_type1: ftype, file_path1: filePathImage2)
                 selectedText = filePathImage2
                 
                  self.retrieveChatFromSqlite(self.selectedContact)
