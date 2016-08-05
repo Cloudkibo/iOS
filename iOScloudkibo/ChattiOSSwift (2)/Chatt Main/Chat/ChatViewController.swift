@@ -723,7 +723,7 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
     //=====================================
     //to fetch contacts from SQLite db
     
-    func saveAllChat(UserchatJson:JSON,completion: (result:Bool)->())
+    /*func saveAllChat(UserchatJson:JSON,completion: (result:Bool)->())
     {
         for var i=0;i<UserchatJson["msg"].count;i++
         {
@@ -734,7 +734,7 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
         }
         completion(result: true)
     }
-    
+    */
     func fetchContacts(completion:(result:Bool)->()){
         
         
