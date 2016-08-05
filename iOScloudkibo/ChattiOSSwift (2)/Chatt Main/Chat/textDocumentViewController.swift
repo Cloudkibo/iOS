@@ -33,9 +33,23 @@ class textDocumentViewController: UIViewController {
         
         
         do{
-            var furl=NSURL(fileURLWithPath: newtext)
+            print("newtext is \(newtext)")
+            let dirPaths = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)
+            let docsDir1 = dirPaths[0]
+            var documentDir=docsDir1 as NSString
+            var filePathImage2=documentDir.stringByAppendingPathComponent(newtext)
+            newtext=documentDir.stringByAppendingPathComponent(newtext)
+            //fname!+"."+ftype
+            
+            
+            var furl=NSURL(fileURLWithPath: filePathImage2)
+            var ftype=furl.pathExtension!
+            
+           /* var furl=NSURL(fileURLWithPath: newtext)
             var ftype=furl.pathExtension!
             print("file type found is \(ftype)")
+ 
+ */
             switch(ftype.lowercaseString)
             {case "rtf":
             

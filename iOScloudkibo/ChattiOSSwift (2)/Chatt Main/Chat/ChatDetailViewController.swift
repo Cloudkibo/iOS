@@ -1097,6 +1097,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
                     var documentDir=docsDir1 as NSString
                     ////var imgPath=documentDir.stringByAppendingPathComponent(msg as! String)
                     
+                    selectedText = msg as! String
                    /// var imgNSData=NSFileManager.defaultManager().contentsAtPath(imgPath)
                     chatImage.userInteractionEnabled=true
                     var filelabel=UILabel(frame: CGRect(x: 20 + distanceFactor, y: chatImage.frame.origin.y + sizeOFStr.height + 40,width: ((sizeOFStr.width + 100)  > 200 ? (sizeOFStr.width + 100) : 200), height: sizeOFStr.height + 40))
@@ -1565,7 +1566,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
             
             sqliteDB.SaveChat(self.selectedContact, from1: username!, owneruser1: username!, fromFullName1: displayname, msg1: self.filename, date1: nil, uniqueid1: uniqueID, status1: "pending", type1: "image", file_type1: ftype, file_path1: filePathImage2)
             
-            sqliteDB.saveFile(self.selectedContact, from1: username!, owneruser1: username!, file_name1: self.filename, date1: nil, uniqueid1: uniqueID, file_size1: "\(self.fileSize1)", file_type1: ftype, file_path1: filePathImage2)
+            sqliteDB.saveFile(self.selectedContact, from1: username!, owneruser1: username!, file_name1: self.filename, date1: nil, uniqueid1: uniqueID, file_size1: "\(self.fileSize1)", file_type1: ftype, file_path1: filePathImage2, type1: "image")
             
             ///sqliteDB.saveChatImage(self.selectedContact, from1: username!, owneruser1: username!, fromFullName1: displayname, msg1: self.filename, date1: nil, uniqueid1: uniqueID, status1: "pending", type1: "document",file_type1: ftype, file_path1: filePathImage2)
         
@@ -2157,7 +2158,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
                 
                 sqliteDB.SaveChat(self.selectedContact, from1: username!, owneruser1: username!, fromFullName1: displayname, msg1: fname!+"."+ftype, date1: nil, uniqueid1: uniqueID, status1: "pending", type1: "document", file_type1: ftype, file_path1: filePathImage2)
 
-                 sqliteDB.saveFile(self.selectedContact, from1: username!, owneruser1: username!, file_name1: fname!+"."+ftype, date1: nil, uniqueid1: uniqueID, file_size1: "\(self.fileSize1)", file_type1: ftype, file_path1: filePathImage2)
+                 sqliteDB.saveFile(self.selectedContact, from1: username!, owneruser1: username!, file_name1: fname!+"."+ftype, date1: nil, uniqueid1: uniqueID, file_size1: "\(self.fileSize1)", file_type1: ftype, file_path1: filePathImage2, type1: "document")
                 
               ////  sqliteDB.saveChatImage(self.selectedContact, from1: username!, owneruser1: username!, fromFullName1: "fafa", msg1: fname!+"."+ftype, date1: nil, uniqueid1: uniqueID, status1: "pending", type1: "document", file_type1: ftype, file_path1: filePathImage2)
                 

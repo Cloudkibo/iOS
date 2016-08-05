@@ -373,6 +373,7 @@ class DatabaseHandler:NSObject{
         let date = Expression<String>("date")
         let uniqueid = Expression<String>("uniqueid")
         let contactPhone = Expression<String>("contactPhone")
+        let type = Expression<String>("type")  //image or document
         let file_name = Expression<String>("file_name")
         let file_size = Expression<String>("file_size")
         let file_type = Expression<String>("file_type")
@@ -402,6 +403,7 @@ class DatabaseHandler:NSObject{
                 t.column(contactPhone)
                 t.column(date, defaultValue:defaultTimeZoneStr)
                 t.column(uniqueid)
+                t.column(type, defaultValue:"")
                 t.column(file_name, defaultValue:"")
                 t.column(file_size, defaultValue:"")
                 t.column(file_type, defaultValue:"")
@@ -740,7 +742,7 @@ class DatabaseHandler:NSObject{
         
     }
     
-    func saveFile(to1:String,from1:String,owneruser1:String,file_name1:String,date1:String!,uniqueid1:String!,file_size1:String,file_type1:String,file_path1:String)
+    func saveFile(to1:String,from1:String,owneruser1:String,file_name1:String,date1:String!,uniqueid1:String!,file_size1:String,file_type1:String,file_path1:String, type1:String)
         
     {
         //var chatType="image"
@@ -751,6 +753,7 @@ class DatabaseHandler:NSObject{
         let date = Expression<String>("date")
         let uniqueid = Expression<String>("uniqueid")
         let contactPhone = Expression<String>("contactPhone")
+        let type = Expression<String>("type")
         let file_name = Expression<String>("file_name")
         let file_size = Expression<String>("file_size")
         let file_type = Expression<String>("file_type")
@@ -808,6 +811,7 @@ class DatabaseHandler:NSObject{
                 date<-mydate,
                 uniqueid<-uniqueid1,
                 contactPhone<-contactPhone1,
+                type<-type1,  //image or document
                 file_name<-file_name1,
                 file_size<-file_size1,
                 file_type<-file_type1,

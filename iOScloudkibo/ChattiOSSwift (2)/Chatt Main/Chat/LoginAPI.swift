@@ -1074,6 +1074,12 @@ class LoginAPI{
     func fetchChatsFromServer()
     {
         
+        
+        let uniqueid = Expression<String>("uniqueid")
+        let file_name = Expression<String>("file_name")
+         let type = Expression<String>("type")
+        
+        
         //%%%%%% fetch chat
         
         //dispatch_async(dispatch_get_global_queue(priority, 0)) {
@@ -1127,6 +1133,10 @@ class LoginAPI{
         for var i=0;i<UserchatJson["msg"].count
         ;i++
         {
+            
+            var isFile=false
+            var chattype="chat"
+            
             //UserchatJson["msg"][i]["date"].string!
             
             
@@ -1147,37 +1157,43 @@ class LoginAPI{
         
         if(UserchatJson["msg"][i]["uniqueid"].isExists())
         {
+            
+            let tbl_files=sqliteDB.files;
+            do{
+                
+                
+                for tblFiles in try sqliteDB.db.prepare(tbl_files.filter(uniqueid==UserchatJson["msg"][i]["uniqueid"].string!)){
+                    isFile=true
+                    chattype=tblFiles[type]
+                    
+                    print("File exists in file table \(file_name)")
+                    socketObj.socket.emit("logClient","IPHONE LOG: \(username!) File exists in file table \(tblFiles[file_name])")
+
+
+                    /*print(tblContacts[to])
+                     print(tblContacts[from])
+                     print(tblContacts[msg])
+                     print(tblContacts[date])
+                     print(tblContacts[status])
+                     print("--------")
+                     */
+                    /*if(tblContacts[from]==selecteduser
+                     
+                     ){}*/
+                }
+            }
+            catch
+            {
+                print("error in checking files table")
+            }
+            
+            
         if(UserchatJson["msg"][i]["to"].string! == username! && UserchatJson["msg"][i]["status"].string!=="sent")
         {
         var updatedStatus="delivered"
             
-          
-         
-            
-            let tbl_files=sqliteDB.files;
-            do{
-            for tblFiles in try sqliteDB.db.prepare(tbl_files.filter(uniqueid==UserchatJson["msg"][i]["uniqueid"].string!)){
-                
-                //File exists to show file
-                
-                /*print(tblContacts[to])
-                 print(tblContacts[from])
-                 print(tblContacts[msg])
-                 print(tblContacts[date])
-                 print(tblContacts[status])
-                 print("--------")
-                 */
-                /*if(tblContacts[from]==selecteduser
-                 
-                 ){}*/
-            }
-            }
-            catch
-                {
-                    print()
-            }
-            
-        sqliteDB.SaveChat(UserchatJson["msg"][i]["to"].string!, from1: UserchatJson["msg"][i]["from"].string!,owneruser1:UserchatJson["msg"][i]["owneruser"].string! , fromFullName1: UserchatJson["msg"][i]["fromFullName"].string!, msg1: UserchatJson["msg"][i]["msg"].string!,date1:dateString,uniqueid1:UserchatJson["msg"][i]["uniqueid"].string!,status1: updatedStatus, type1: "chat", file_type1: "",file_path1: "" )
+           
+        sqliteDB.SaveChat(UserchatJson["msg"][i]["to"].string!, from1: UserchatJson["msg"][i]["from"].string!,owneruser1:UserchatJson["msg"][i]["owneruser"].string! , fromFullName1: UserchatJson["msg"][i]["fromFullName"].string!, msg1: UserchatJson["msg"][i]["msg"].string!,date1:dateString,uniqueid1:UserchatJson["msg"][i]["uniqueid"].string!,status1: updatedStatus, type1: chattype, file_type1: "",file_path1: "" )
         
         //socketObj.socket.emit("messageStatusUpdate",["status":"","iniqueid":"","sender":""])
         socketObj.socket.emitWithAck("messageStatusUpdate", ["status":updatedStatus,"uniqueid":UserchatJson["msg"][i]["uniqueid"].string!,"sender": UserchatJson["msg"][i]["from"].string!])(timeoutAfter: 0){data in
@@ -1195,13 +1211,13 @@ class LoginAPI{
         else
         {
         
-            sqliteDB.SaveChat(UserchatJson["msg"][i]["to"].string!, from1: UserchatJson["msg"][i]["from"].string!,owneruser1:UserchatJson["msg"][i]["owneruser"].string! , fromFullName1: UserchatJson["msg"][i]["fromFullName"].string!, msg1: UserchatJson["msg"][i]["msg"].string!,date1:dateString,uniqueid1:UserchatJson["msg"][i]["uniqueid"].string!,status1: UserchatJson["msg"][i]["status"].string!, type1: "chat", file_type1: "",file_path1: "" )
+            sqliteDB.SaveChat(UserchatJson["msg"][i]["to"].string!, from1: UserchatJson["msg"][i]["from"].string!,owneruser1:UserchatJson["msg"][i]["owneruser"].string! , fromFullName1: UserchatJson["msg"][i]["fromFullName"].string!, msg1: UserchatJson["msg"][i]["msg"].string!,date1:dateString,uniqueid1:UserchatJson["msg"][i]["uniqueid"].string!,status1: UserchatJson["msg"][i]["status"].string!, type1: chattype, file_type1: "",file_path1: "" )
 
         }
         }
         else
         {
-            sqliteDB.SaveChat(UserchatJson["msg"][i]["to"].string!, from1: UserchatJson["msg"][i]["from"].string!,owneruser1:UserchatJson["msg"][i]["owneruser"].string! , fromFullName1: UserchatJson["msg"][i]["fromFullName"].string!, msg1: UserchatJson["msg"][i]["msg"].string!,date1:dateString,uniqueid1:"",status1: "",type1: "chat", file_type1: "",file_path1: "" )
+            sqliteDB.SaveChat(UserchatJson["msg"][i]["to"].string!, from1: UserchatJson["msg"][i]["from"].string!,owneruser1:UserchatJson["msg"][i]["owneruser"].string! , fromFullName1: UserchatJson["msg"][i]["fromFullName"].string!, msg1: UserchatJson["msg"][i]["msg"].string!,date1:dateString,uniqueid1:"",status1: "",type1: chattype, file_type1: "",file_path1: "" )
 
         }
         
@@ -1218,17 +1234,11 @@ class LoginAPI{
 }
            ///////// }
             print("all fetched chats saved in sqlite success")
-        
-        /* dispatch_async(dispatch_get_main_queue()) {
-        self.messageFrame2.removeFromSuperview()
-        }
-        */
+   
         
         
         }
-        /*dispatch_async(dispatch_get_main_queue()) {
         
-        }*/
         
         /////return completion(result: true)
         case .Failure:
@@ -1245,98 +1255,9 @@ class LoginAPI{
         }
         )
 
-        
-       // let queue = dispatch_queue_create("com.cnoon.manager-response-queue", DISPATCH_QUEUE_PRIORITY_BACKGROUND)
-        
-        /*
-        let priority = DISPATCH_QUEUE_PRIORITY_BACKGROUND
-        dispatch_async(dispatch_get_global_queue(priority, 0)) {
-        Alamofire.request(.POST,"\(fetchChatURL)",headers:header,parameters:["user1":username!]).validate(statusCode: 200..<300).responseJSON{response in
-            // print(response)
-            // print(response.result)
-            // print(response.result.value)
-            
-            switch response.result {
-            case .Success:
-                
-                
-                socketObj.socket.emit("logClient", "All chat fetched success")
-                if let data1 = response.result.value {
-                    let UserchatJson = JSON(data1)
-                    // print("chat fetched JSON: \(json)")
-                    
-                    var tableUserChatSQLite=sqliteDB.userschats
-                    
-                    do{
-                        try sqliteDB.db.run(tableUserChatSQLite.delete())
-                    }catch{
-                        socketObj.socket.emit("logClient","sqlite chat table refreshed")
-                        print("chat table not deleted")
-                    }
-                    
-                    //Overwrite sqlite db
-                    //sqliteDB.deleteChat(self.selectedContact)
-                    
-                    socketObj.socket.emit("logClient","IPHONE-LOG: all chat messages count is \(UserchatJson["msg"].count)")
-                    for var i=0;i<UserchatJson["msg"].count
-                        ;i++
-                    {
-                        
-                        if(UserchatJson["msg"][i]["uniqueid"].isExists())
-                        {
-                            if(UserchatJson["msg"][i]["to"].string! == username! && UserchatJson["msg"][i]["status"].string!=="sent")
-                            {
-                                var updatedStatus="delivered"
-                                sqliteDB.SaveChat(UserchatJson["msg"][i]["to"].string!, from1: UserchatJson["msg"][i]["from"].string!,owneruser1:UserchatJson["msg"][i]["owneruser"].string! , fromFullName1: UserchatJson["msg"][i]["fromFullName"].string!, msg1: UserchatJson["msg"][i]["msg"].string!,date1:UserchatJson["msg"][i]["date"].string!,uniqueid1:UserchatJson["msg"][i]["uniqueid"].string!,status1: updatedStatus )
-                                
-                                //socketObj.socket.emit("messageStatusUpdate",["status":"","iniqueid":"","sender":""])
-                                socketObj.socket.emitWithAck("messageStatusUpdate", ["status":updatedStatus,"uniqueid":UserchatJson["msg"][i]["uniqueid"].string!,"sender": UserchatJson["msg"][i]["from"].string!])(timeoutAfter: 0){data in
-                                    var chatmsg=JSON(data)
-                                    print(data[0])
-                                    print(chatmsg[0])
-                                    print("chat status emitted")
-                                    socketObj.socket.emit("logClient","\(username) chat status emitted")
-                                }
-                                
-                                
-                                
-                            }
-                            else
-                            {
-                                
-                                sqliteDB.SaveChat(UserchatJson["msg"][i]["to"].string!, from1: UserchatJson["msg"][i]["from"].string!,owneruser1:UserchatJson["msg"][i]["owneruser"].string! , fromFullName1: UserchatJson["msg"][i]["fromFullName"].string!, msg1: UserchatJson["msg"][i]["msg"].string!,date1:UserchatJson["msg"][i]["date"].string!,uniqueid1:UserchatJson["msg"][i]["uniqueid"].string!,status1: UserchatJson["msg"][i]["status"].string! )
-                            }
-                        }
-                        else
-                        {
-                            sqliteDB.SaveChat(UserchatJson["msg"][i]["to"].string!, from1: UserchatJson["msg"][i]["from"].string!,owneruser1:UserchatJson["msg"][i]["owneruser"].string! , fromFullName1: UserchatJson["msg"][i]["fromFullName"].string!, msg1: UserchatJson["msg"][i]["msg"].string!,date1:UserchatJson["msg"][i]["date"].string!,uniqueid1:"",status1: "" )
-                        }
-                        
-                        
-                    }
-                    //return completion(result: true)
-                    
-                    /* dispatch_async(dispatch_get_main_queue()) {
-                    self.messageFrame2.removeFromSuperview()
-                    }
-                    */
-                    
-                    
-                }
-                /*dispatch_async(dispatch_get_main_queue()) {
-                
-                }*/
-                
-            case .Failure:
-                socketObj.socket.emit("logClient", "All chat fetched failed")
-                print("all chat fetched failed")
-            }
-        }
-    
-  }
-*/
 
     }
+    
     
     
     func sendPendingChatMessages(completion:(result:Bool)->())
