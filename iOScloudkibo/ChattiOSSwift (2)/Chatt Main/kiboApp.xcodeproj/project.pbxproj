@@ -14,6 +14,7 @@
 		710EF26C1C96B16500578739 /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 710EF26B1C96B16500578739 /* CloudKit.framework */; };
 		7122F96C1D4FDFA400EBBCED /* ShowImageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7122F96B1D4FDFA400EBBCED /* ShowImageViewController.swift */; };
 		7122F96E1D500FFA00EBBCED /* textDocumentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7122F96D1D500FFA00EBBCED /* textDocumentViewController.swift */; };
+		7122F9701D54B7FF00EBBCED /* NetworkingManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7122F96F1D54B7FF00EBBCED /* NetworkingManager.swift */; };
 		7127FF591D396A6A006375E8 /* numberOfFavouritesCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7127FF581D396A6A006375E8 /* numberOfFavouritesCell.swift */; };
 		713D51BD1CC11896007E0B47 /* Accounts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 713D51881CC11896007E0B47 /* Accounts.swift */; };
 		713D51BE1CC11896007E0B47 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 713D51891CC11896007E0B47 /* AppDelegate.swift */; };
@@ -253,6 +254,7 @@
 		710EF26B1C96B16500578739 /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = System/Library/Frameworks/CloudKit.framework; sourceTree = SDKROOT; };
 		7122F96B1D4FDFA400EBBCED /* ShowImageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShowImageViewController.swift; sourceTree = "<group>"; };
 		7122F96D1D500FFA00EBBCED /* textDocumentViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = textDocumentViewController.swift; sourceTree = "<group>"; };
+		7122F96F1D54B7FF00EBBCED /* NetworkingManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkingManager.swift; sourceTree = "<group>"; };
 		7127FF581D396A6A006375E8 /* numberOfFavouritesCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = numberOfFavouritesCell.swift; sourceTree = "<group>"; };
 		713080541B825BB00037CB7E /* SwiftyJSON.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SwiftyJSON.xcodeproj; path = SwiftyJSON/SwiftyJSON.xcodeproj; sourceTree = "<group>"; };
 		713D51881CC11896007E0B47 /* Accounts.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Accounts.swift; sourceTree = "<group>"; };
@@ -508,6 +510,7 @@
 				71DC15311D26655700E5BFC2 /* pushNotifications.md */,
 				7127FF581D396A6A006375E8 /* numberOfFavouritesCell.swift */,
 				7122F96D1D500FFA00EBBCED /* textDocumentViewController.swift */,
+				7122F96F1D54B7FF00EBBCED /* NetworkingManager.swift */,
 			);
 			path = Chat;
 			sourceTree = "<group>";
@@ -962,6 +965,7 @@
 				718B8D801CC11A9B000B4AB2 /* SocketAckManager.swift in Sources */,
 				718B8D8F1CC11A9B000B4AB2 /* SocketPacket.swift in Sources */,
 				718AB5801D3F8C9000D197D7 /* chatMessagesModel.swift in Sources */,
+				7122F9701D54B7FF00EBBCED /* NetworkingManager.swift in Sources */,
 				718B8D7F1CC11A9B000B4AB2 /* SocketAckEmitter.swift in Sources */,
 				713D51C91CC11896007E0B47 /* Contact.swift in Sources */,
 				713D51D81CC11896007E0B47 /* LoginViewController.swift in Sources */,

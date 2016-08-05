@@ -594,6 +594,11 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
         return UIViewController
     }*/
     
+    func application(application: UIApplication, handleEventsForBackgroundURLSession identifier: String, completionHandler: () -> Void) {
+        
+         NetworkingManager.sharedManager.backgroundCompletionHandler = completionHandler
+    }
+    
 }
 
 
