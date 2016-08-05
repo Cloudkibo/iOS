@@ -562,7 +562,7 @@ class DatabaseHandler:NSObject{
         }
 }
     
-    func saveChatImage(to1:String,from1:String,owneruser1:String,fromFullName1:String,msg1:String,date1:String!,uniqueid1:String!,status1:String,type1:String,file_type1:String,file_path1:String)
+   /* func saveChatImage(to1:String,from1:String,owneruser1:String,fromFullName1:String,msg1:String,date1:String!,uniqueid1:String!,status1:String,type1:String,file_type1:String,file_path1:String)
 
     {
         //var chatType="image"
@@ -653,9 +653,9 @@ class DatabaseHandler:NSObject{
              }*/
             
             
-        }
+        }*/
     
-    func SaveChat(to1:String,from1:String,owneruser1:String,fromFullName1:String,msg1:String,date1:String!,uniqueid1:String!,status1:String)
+    func SaveChat(to1:String,from1:String,owneruser1:String,fromFullName1:String,msg1:String,date1:String!,uniqueid1:String!,status1:String,type1:String,file_type1:String,file_path1:String)
     {
         //createUserChatTable()
         
@@ -668,6 +668,9 @@ class DatabaseHandler:NSObject{
          let uniqueID = Expression<String>("uniqueid")
         let status = Expression<String>("status")
         let contactPhone = Expression<String>("contactPhone")
+        let type = Expression<String>("type")
+        let file_type = Expression<String>("file_type")
+        let file_path = Expression<String>("file_path")
         
         var tbl_userchats=sqliteDB.userschats
         
@@ -717,7 +720,10 @@ class DatabaseHandler:NSObject{
                 date<-mydate,
                 uniqueID<-uniqueid1,
                 status<-status1,
-                contactPhone<-contactPhone1
+                contactPhone<-contactPhone1,
+                type<-type1,
+                file_type<-file_type1,
+                file_path<-file_path1
 ))
             //////print("inserted id: \(rowid)")
         } catch {
