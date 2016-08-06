@@ -454,11 +454,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Chat/ChatDetailViewController.swift"
-            timestampString = "492148946.95162"
+            timestampString = "492176129.808572"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "2173"
-            endingLineNumber = "2173"
+            startingLineNumber = "2175"
+            endingLineNumber = "2175"
             landmarkName = "documentPicker(_:didPickDocumentAtURL:)"
             landmarkType = "5">
          </BreakpointContent>
@@ -550,11 +550,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Chat/NetworkingManager.swift"
-            timestampString = "492148946.95162"
+            timestampString = "492175469.5285"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "52"
-            endingLineNumber = "52"
+            startingLineNumber = "169"
+            endingLineNumber = "169"
             landmarkName = "uploadFile(_:to1:from1:uniqueid1:file_name1:file_size1:file_type1:)"
             landmarkType = "5">
          </BreakpointContent>
@@ -582,13 +582,61 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Chat/NetworkingManager.swift"
-            timestampString = "492150960.258794"
+            timestampString = "492175469.5285"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "82"
-            endingLineNumber = "82"
+            startingLineNumber = "201"
+            endingLineNumber = "201"
             landmarkName = "uploadFile(_:to1:from1:uniqueid1:file_name1:file_size1:file_type1:)"
             landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Chat/NetworkingManager.swift"
+            timestampString = "492175469.5285"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "211"
+            endingLineNumber = "211"
+            landmarkName = "uploadFile(_:to1:from1:uniqueid1:file_name1:file_size1:file_type1:)"
+            landmarkType = "5">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Chat.NetworkingManager.(uploadFile (Swift.String, to1 : Swift.String, from1 : Swift.String, uniqueid1 : Swift.String, file_name1 : Swift.String, file_size1 : Swift.String, file_type1 : Swift.String) -&gt; ()).(closure #2)"
+                  moduleName = "Chat"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/cloudkibo/Documents/kiboChatTry/iOS/iOS/iOScloudkibo/ChattiOSSwift%20(2)/Chatt%20Main/Chat/NetworkingManager.swift"
+                  timestampString = "492152516.368017"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "93"
+                  endingLineNumber = "93"
+                  offsetFromSymbolStart = "348">
+               </Location>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Chat.NetworkingManager.(uploadFile (Swift.String, to1 : Swift.String, from1 : Swift.String, uniqueid1 : Swift.String, file_name1 : Swift.String, file_size1 : Swift.String, file_type1 : Swift.String) -&gt; ()).(closure #2).(closure #2)"
+                  moduleName = "Chat"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/cloudkibo/Documents/kiboChatTry/iOS/iOS/iOScloudkibo/ChattiOSSwift%20(2)/Chatt%20Main/Chat/NetworkingManager.swift"
+                  timestampString = "492152516.368279"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "93"
+                  endingLineNumber = "93"
+                  offsetFromSymbolStart = "636">
+               </Location>
+            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>
