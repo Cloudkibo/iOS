@@ -237,9 +237,37 @@ class NetworkingManager
         var checkPendingFiles=Constants.MainUrl+Constants.checkPendingFile
         
         //Alamofire.request(.POST,"\(removeChatHistoryURL)",headers:header,parameters: ["username":"\(selectedContact)"]).validate(statusCode: 200..<300).response{
-        Alamofire.request(.POST,"\(checkPendingFiles)",headers:header,parameters: ["phone":phone1]).validate(statusCode: 200..<300).response{
+        Alamofire.request(.POST,"\(checkPendingFiles)",headers:header,parameters: ["phone":phone1]).validate(statusCode: 200..<300).responseJSON{
+            response in
             
-            request1, response1, data1, error1 in
+            print(response.data!)
+            
+            switch response.result {
+            case .Success:
+                
+                //debugPrint(response)
+                print("checking pending files success")
+                print(response.result.value)
+                if(response.result.value != nil)
+                {print(JSON(response.result.value!)) // "status":"success"
+                    var jsonResult=JSON(response.result.value!)
+                    if(jsonResult["filepending"].isExists())
+                    {
+                    if(jsonResult["filepending"]["uniqueid"].isExists())
+                    {
+                        print("downloading file with id \(jsonResult["filepending"]["uniqueid"].string!)")
+                    self.downloadFile(jsonResult["filepending"]["uniqueid"].string!)
+                    }
+                    }
+                }
+                else{
+                    print("no pending files found")
+                }
+            
+            case .Failure(let error):
+                print("\(error) file check pending failed")
+            }
+            //request1, response1, data1, error1 in
             
             //===========INITIALISE SOCKETIOCLIENT=========
             // dispatch_async(dispatch_get_main_queue(), {
@@ -247,7 +275,7 @@ class NetworkingManager
             //self.dismissViewControllerAnimated(true, completion: nil);
             /// self.performSegueWithIdentifier("loginSegue", sender: nil)
             
-            if response1?.statusCode==200 {
+        /*if response1?.statusCode==200 {
                 print("checkPendingFiles success")
                 if(data1 != nil)
                 {
@@ -260,13 +288,30 @@ class NetworkingManager
             }
             else{
                 print("checkpendingfiles failed")
-            }
+            }*/
         }
     }
     
-    func downloadFile()
+    func downloadFile(uniqueid1:String/*,fileName1:String*/)
     {
-        
+        let path = NSFileManager.defaultManager().URLsForDirectory(.ApplicationSupportDirectory, inDomains: .UserDomainMask)[0] as NSURL
+        //print("path download is \(path)")
+       //////// let newPath = path.URLByAppendingPathComponent(fileName1)
+       /////// print("full path download file is \(newPath)")
+        let destination = Alamofire.Request.suggestedDownloadDestination(directory: .DocumentDirectory, domain: .UserDomainMask)
+      //  print("path download is \(destination.lowercaseString)")
+      //  Alamofire.download(.GET, "http://httpbin.org/stream/100", destination: destination)
+        var downloadURL=Constants.MainUrl+Constants.downloadFile
+        Alamofire.download(.GET, "\(downloadURL)", headers:header, parameters: ["uniqueid":uniqueid1], destination: destination)
+            .progress { (bytesRead, totalBytesRead, totalBytesExpectedToRead) in
+                print("writing bytes \(totalBytesRead)")
+            }
+            .response { (request, response, _, error) in
+                print(response)
+                print(request?.URLString)
+               // print(request?.)
+                
+        }
     }
     var backgroundCompletionHandler: (() -> Void)? {
         get {
