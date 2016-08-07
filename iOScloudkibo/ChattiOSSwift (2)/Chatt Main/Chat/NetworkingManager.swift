@@ -240,24 +240,32 @@ class NetworkingManager
         Alamofire.request(.POST,"\(checkPendingFiles)",headers:header,parameters: ["phone":phone1]).validate(statusCode: 200..<300).responseJSON{
             response in
             
-            print(response.data!)
+           ////// print(response.data!)
             
             switch response.result {
             case .Success:
                 
                 //debugPrint(response)
                 print("checking pending files success")
-                print(response.result.value)
+                ///////print(response.result.value)
                 if(response.result.value != nil)
                 {print(JSON(response.result.value!)) // "status":"success"
                     var jsonResult=JSON(response.result.value!)
+                    print("count jsonresult is \(jsonResult.count)")
+                    print("count jsonresult zeroth is \(jsonResult[0].count)")
+                    
                     if(jsonResult["filepending"].isExists())
-                    {
-                    if(jsonResult["filepending"]["uniqueid"].isExists())
-                    {
-                        print("downloading file with id \(jsonResult["filepending"]["uniqueid"].string!)")
-                    self.downloadFile(jsonResult["filepending"]["uniqueid"].string!)
-                    }
+                    {//print("count filepending is \(jsonResult["filepending"].count)")
+                        for(var i=0;i<jsonResult.count;i++)
+                        {
+                            if(jsonResult[i]["filepending"]["from"].isExists())
+                            {
+                                print("downloading file with id \(jsonResult[i]["filepending"]["from"])")
+                                ////self.downloadFile("\(jsonResult[i]["filepending"]["uniqueid"])")
+                            }
+                            
+                        }
+                   
                     }
                 }
                 else{
@@ -302,7 +310,7 @@ class NetworkingManager
       //  print("path download is \(destination.lowercaseString)")
       //  Alamofire.download(.GET, "http://httpbin.org/stream/100", destination: destination)
         var downloadURL=Constants.MainUrl+Constants.downloadFile
-        Alamofire.download(.GET, "\(downloadURL)", headers:header, parameters: ["uniqueid":uniqueid1], destination: destination)
+        Alamofire.download(.POST, "\(downloadURL)", headers:header, parameters: ["uniqueid":uniqueid1], destination: destination)
             .progress { (bytesRead, totalBytesRead, totalBytesExpectedToRead) in
                 print("writing bytes \(totalBytesRead)")
             }

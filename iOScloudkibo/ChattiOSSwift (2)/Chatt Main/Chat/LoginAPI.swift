@@ -1078,6 +1078,8 @@ class LoginAPI{
         let uniqueid = Expression<String>("uniqueid")
         let file_name = Expression<String>("file_name")
          let type = Expression<String>("type")
+        let from = Expression<String>("from")
+                 let phone = Expression<String>("phone")
         
         
         //%%%%%% fetch chat
@@ -1162,7 +1164,7 @@ class LoginAPI{
             do{
                 
                 
-                for tblFiles in try sqliteDB.db.prepare(tbl_files.filter(uniqueid==UserchatJson["msg"][i]["uniqueid"].string!)){
+                for tblFiles in try sqliteDB.db.prepare(tbl_files.filter(uniqueid==UserchatJson["msg"][i]["uniqueid"].string!/*,from==username!*/)){
                     isFile=true
                     chattype=tblFiles[type]
                     
@@ -1221,8 +1223,27 @@ class LoginAPI{
 
         }
         
-        managerFile.checkPendingFiles(username!)
-        }
+                }
+            
+            let tbl_userchats=sqliteDB.userschats
+            let tbl_contactslists=sqliteDB.contactslists
+            let tbl_allcontacts=sqliteDB.allcontacts
+            
+            let myquery=tbl_contactslists.join(tbl_userchats, on: tbl_contactslists[phone] == tbl_userchats[contactPhone]).group(tbl_userchats[contactPhone]).order(date.desc)
+            
+            var queryruncount=0
+            do{for ccc in try sqliteDB.db.prepare(myquery) {
+                
+                managerFile.checkPendingFiles(ccc[phone])
+                
+                
+                }
+            }
+            catch{
+                print("error 1232")
+            }
+           /////// managerFile.checkPendingFiles(username!)
+
            //////// dispatch_async(dispatch_get_main_queue()) {
             if(self.delegateChat != nil)
             {
