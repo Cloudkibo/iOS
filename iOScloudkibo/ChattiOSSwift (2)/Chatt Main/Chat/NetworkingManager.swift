@@ -232,7 +232,42 @@ class NetworkingManager
         
     }
     
+    func checkPendingFiles(phone1:String)
+    {
+        var checkPendingFiles=Constants.MainUrl+Constants.checkPendingFile
+        
+        //Alamofire.request(.POST,"\(removeChatHistoryURL)",headers:header,parameters: ["username":"\(selectedContact)"]).validate(statusCode: 200..<300).response{
+        Alamofire.request(.POST,"\(checkPendingFiles)",headers:header,parameters: ["phone":phone1]).validate(statusCode: 200..<300).response{
+            
+            request1, response1, data1, error1 in
+            
+            //===========INITIALISE SOCKETIOCLIENT=========
+            // dispatch_async(dispatch_get_main_queue(), {
+            
+            //self.dismissViewControllerAnimated(true, completion: nil);
+            /// self.performSegueWithIdentifier("loginSegue", sender: nil)
+            
+            if response1?.statusCode==200 {
+                print("checkPendingFiles success")
+                if(data1 != nil)
+                {
+                print(data1.debugDescription)
+                }
+                else{
+                    print("no pending file")
+                }
+                //print(JSON(data1!.debugDescription).debugDescription)
+            }
+            else{
+                print("checkpendingfiles failed")
+            }
+        }
+    }
     
+    func downloadFile()
+    {
+        
+    }
     var backgroundCompletionHandler: (() -> Void)? {
         get {
             return backgroundManager.backgroundCompletionHandler

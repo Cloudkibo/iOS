@@ -17,7 +17,7 @@ import Fabric
 import Crashlytics
 
 
-
+ var managerFile = NetworkingManager.sharedManager
 var selectedText=""
 var chatDetailView:ChatDetailViewController!
 var goBack=false
@@ -356,7 +356,7 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
     {let tbl_accounts = sqliteDB.accounts
         var url=Constants.MainUrl+Constants.authentictionUrl
         var param:[String:String]=["username": username,"password":password!]
-        Alamofire.request(.POST,"\(url)",parameters: param).response{
+        Alamofire.request(.POST,"\(url)",headers:header,parameters: param).response{
             request, response_, data, error in
             print(error)
             

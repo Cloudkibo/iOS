@@ -1221,7 +1221,7 @@ class LoginAPI{
 
         }
         
-        
+        managerFile.checkPendingFiles(username!)
         }
            //////// dispatch_async(dispatch_get_main_queue()) {
             if(self.delegateChat != nil)
@@ -1257,6 +1257,8 @@ class LoginAPI{
 
 
     }
+    
+    
     
     
     
