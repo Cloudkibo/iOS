@@ -281,7 +281,7 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
             //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
             // if(socketObj != nil)
             // {
-            
+            managerFile.checkPendingFiles(username!)
             self.sendPendingChatMessages({ (result) -> () in
                 print("checkin here pending messages sent")
                 print("checkin fetching chats")

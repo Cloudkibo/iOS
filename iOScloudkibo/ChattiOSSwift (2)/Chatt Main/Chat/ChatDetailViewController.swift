@@ -527,7 +527,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
                 else
                 {//type2
                     print("statussss is \(tblContacts[status])")
-                    if(tblContacts[type]=="imagr")
+                    if(tblContacts[type]=="image")
                     {
                         self.addMessage(tblContacts[msg] , ofType: "3",date: tblContacts[date])
                         

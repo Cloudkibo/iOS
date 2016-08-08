@@ -261,16 +261,38 @@ class NetworkingManager
                         //{
                           //  if(jsonResult[i]["filepending"]["from"].isExists())
                             //{
+                        
+                        /*
+ 
+                         "filepending" : {
+                         "from" : "+923201211991",
+                         "uniqueid" : "ovDA992233720368547758079223372036854775807922337203685477580713289223372036854775807",
+                         "_id" : "57a842cfc42c92dc695b162c",
+                         "__v" : 0,
+                         "file_type" : "JPG",
+                         "file_size" : 0,
+                         "file_name" : "IMG_0073.JPG",
+                         "date" : "2016-08-08T08:29:03.233Z",
+                         "path" : "\/f6fdf7ed82d2016884293.jpeg",
+                         "to" : "+923333864540"
+                         }
+ */
                                 print("downloading file with id \(jsonResult["filepending"]["uniqueid"])")
                                 print("downloading file from \(jsonResult["filepending"]["from"])")
                         if(jsonResult["filepending"]["from"] != nil)
                         {
                             print("downloading file with id \(jsonResult["filepending"]["uniqueid"])")
+                            
                             var fileuniqueid=jsonResult["filepending"]["uniqueid"].string!
                             var filePendingName=jsonResult["filepending"]["file_name"].string!
+                            var filefrom=jsonResult["filepending"]["from"].string!
+                            var filetype=jsonResult["filepending"]["file_type"].string!
+                            var filePendingSize="\(jsonResult["filepending"]["file_size"])"
+                            var filependingDate=jsonResult["filepending"]["date"].string!
+                            var filePendingTo=jsonResult["filepending"]["to"].string!
                             
                               //  self.downloadFile("\(jsonResult["filepending"]["uniqueid"])")
-                             self.downloadFile(fileuniqueid,filenamePending: filePendingName)
+                             self.downloadFile(fileuniqueid,filePendingName: filePendingName,filefrom: filefrom,filetype: filetype,filePendingSize: filePendingSize,filependingDate: filependingDate,filePendingTo: filePendingTo)
                         }
                             //}
                             
@@ -310,7 +332,7 @@ class NetworkingManager
         }
     }
     
-    func downloadFile(uniqueid1:String,filenamePending:String/*,fileName1:String*/)
+    func downloadFile(fileuniqueid:String,filePendingName:String,filefrom:String,filetype:String,filePendingSize:String,filependingDate:String,filePendingTo:String)
     {
         let path = NSFileManager.defaultManager().URLsForDirectory(.ApplicationSupportDirectory, inDomains: .UserDomainMask)[0] as NSURL
         //print("path download is \(path)")
@@ -327,7 +349,7 @@ class NetworkingManager
             if let directoryURL = NSFileManager.defaultManager().URLsForDirectory(.DocumentDirectory, inDomains: .UserDomainMask)[0] as? NSURL {
                //// var localImageURL = directoryURL.URLByAppendingPathComponent("\(response.suggestedFilename!)")
                 //filenamePending
-                var localImageURL = directoryURL.URLByAppendingPathComponent(filenamePending)
+                var localImageURL = directoryURL.URLByAppendingPathComponent(filePendingName)
                 print("localpathhhhhh \(localImageURL.debugDescription)")
                 return localImageURL
             }
@@ -336,8 +358,8 @@ class NetworkingManager
         }
 
         
-        print("downloading call unique id \(uniqueid1)")
-        Alamofire.download(.POST, "\(downloadURL)", headers:header, parameters: ["uniqueid":uniqueid1], destination: destination)
+        print("downloading call unique id \(fileuniqueid)")
+        Alamofire.download(.POST, "\(downloadURL)", headers:header, parameters: ["uniqueid":fileuniqueid], destination: destination)
             .progress { (bytesRead, totalBytesRead, totalBytesExpectedToRead) in
                 print("writing bytes \(totalBytesRead)")
             }
@@ -346,7 +368,18 @@ class NetworkingManager
                 print("1...... \(request?.URLString)")
                 print("2..... \(request?.URL.debugDescription)")
                 print("3.... \(response?.URL.debugDescription)")
-                self.confirmDownload(uniqueid1)
+                
+                
+                let dirPaths = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)
+                let docsDir1 = dirPaths[0]
+                var documentDir=docsDir1 as NSString
+                var filePendingPath=documentDir.stringByAppendingPathComponent(filePendingName)
+                
+                
+                //filePendingName
+                sqliteDB.saveFile(filePendingTo, from1: filefrom, owneruser1: username!, file_name1: filePendingName, date1: nil, uniqueid1: fileuniqueid, file_size1: filePendingSize, file_type1: filetype, file_path1: filePendingPath, type1: "image")
+                
+                self.confirmDownload(fileuniqueid)
                 print("confirminggggggg")
                 
                // print(request?.)

@@ -1228,7 +1228,9 @@ class LoginAPI{
         
                 }
             
-            let tbl_userchats=sqliteDB.userschats
+            
+            
+          /*  let tbl_userchats=sqliteDB.userschats
             let tbl_contactslists=sqliteDB.contactslists
             let tbl_allcontacts=sqliteDB.allcontacts
             
@@ -1245,10 +1247,17 @@ class LoginAPI{
             }
             catch{
                 print("error 1232")
-            }
+            }*/
            /////// managerFile.checkPendingFiles(username!)
 
            //////// dispatch_async(dispatch_get_main_queue()) {
+            
+            
+            
+            
+            //------CHECK IF ANY PENDING FILES--------
+            
+            
             if(self.delegateChat != nil)
             {
             self.delegateChat?.socketReceivedMessageChat("updateUI", data: nil)
