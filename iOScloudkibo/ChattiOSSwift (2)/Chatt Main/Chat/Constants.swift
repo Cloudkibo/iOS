@@ -38,8 +38,8 @@ class Constants{
     static let uploadFile="/api/filetransfers/upload"
     static let downloadFile="/api/filetransfers/download"
     static let checkPendingFile="/api/filetransfers/checkpendingfile"
-    static let downloadCompleted="/api/filetransfers/confirmdownload"
     
+    static let confirmDownload="/api/filetransfers/confirmdownload"
     /*
     private static String phoneContactsURL = "https://www.cloudkibo.com/api/users/searchaccountsbyphone/";
     private static String emailContactsURL = "https://www.cloudkibo.com/api/users/searchaccountsbyemail/";

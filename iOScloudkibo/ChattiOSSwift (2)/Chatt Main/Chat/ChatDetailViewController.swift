@@ -1472,7 +1472,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
         
         
 
-            
+          //  var filesizenew=""
  
         
         let imageUrl          = editingInfo![UIImagePickerControllerReferenceURL] as! NSURL
@@ -1488,6 +1488,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
             
             
            self.filename = result.firstObject?.filename ?? ""
+           
            // var myasset=result.firstObject as! PHAsset
             //print(myasset.mediaType)
             
@@ -1519,8 +1520,8 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
         var fileAttributes:[String:AnyObject]=["":""]
         do {
            /// let fileAttributes : NSDictionary? = try NSFileManager.defaultManager().attributesOfItemAtPath(furl!.path!)
-            let fileAttributes : NSDictionary? = try NSFileManager.defaultManager().attributesOfItemAtPath(imageUrl.path!)
-            
+        ///    let fileAttributes : NSDictionary? = try NSFileManager.defaultManager().attributesOfItemAtPath(imageUrl.path!)
+            let fileAttributes : NSDictionary? = try NSFileManager.defaultManager().attributesOfItemAtPath(filePathImage2)
             if let _attr = fileAttributes {
                 self.fileSize1 = _attr.fileSize();
                 print("file size is \(self.fileSize1)")

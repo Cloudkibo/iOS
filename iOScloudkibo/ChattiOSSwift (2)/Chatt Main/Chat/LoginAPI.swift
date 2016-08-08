@@ -1081,6 +1081,9 @@ class LoginAPI{
         let from = Expression<String>("from")
                  let phone = Expression<String>("phone")
         
+        let contactPhone = Expression<String>("contactPhone")
+         let date = Expression<NSDate>("date")
+        //contactPhone
         
         //%%%%%% fetch chat
         
@@ -1234,7 +1237,8 @@ class LoginAPI{
             var queryruncount=0
             do{for ccc in try sqliteDB.db.prepare(myquery) {
                 
-                managerFile.checkPendingFiles(ccc[phone])
+                print("checking pending files from \(ccc[contactPhone])")
+                managerFile.checkPendingFiles(ccc[contactPhone])
                 
                 
                 }

@@ -143,9 +143,9 @@ class NetworkingManager
             "to": to1,
             "from": from1,
             "uniqueid": uniqueid1,
-            "file_name": file_name1,
-            "file_size": file_size1,
-            "file_type": file_type1]
+            "filename": file_name1,
+            "filesize": file_size1,
+            "filetype": file_type1]
         
     
         /*var parameterJSON = JSON([
@@ -251,20 +251,30 @@ class NetworkingManager
                 if(response.result.value != nil)
                 {print(JSON(response.result.value!)) // "status":"success"
                     var jsonResult=JSON(response.result.value!)
-                    print("count jsonresult is \(jsonResult.count)")
-                    print("count jsonresult zeroth is \(jsonResult[0].count)")
-                    
-                    if(jsonResult["filepending"].isExists())
+                    //print("count jsonresult is \(jsonResult.count)")
+                   // print("count jsonresult zeroth is \(jsonResult[0].count)")
+                    print("count jsonresult filepending \(jsonResult["filepending"].count)")
+
+                    if(jsonResult["filepending"]["uniqueid"].isExists())
                     {//print("count filepending is \(jsonResult["filepending"].count)")
-                        for(var i=0;i<jsonResult.count;i++)
+                       // for(var i=0;i<jsonResult.count;i++)
+                        //{
+                          //  if(jsonResult[i]["filepending"]["from"].isExists())
+                            //{
+                                print("downloading file with id \(jsonResult["filepending"]["uniqueid"])")
+                                print("downloading file from \(jsonResult["filepending"]["from"])")
+                        if(jsonResult["filepending"]["from"] != nil)
                         {
-                            if(jsonResult[i]["filepending"]["from"].isExists())
-                            {
-                                print("downloading file with id \(jsonResult[i]["filepending"]["from"])")
-                                ////self.downloadFile("\(jsonResult[i]["filepending"]["uniqueid"])")
-                            }
+                            print("downloading file with id \(jsonResult["filepending"]["uniqueid"])")
+                            var fileuniqueid=jsonResult["filepending"]["uniqueid"].string!
+                            var filePendingName=jsonResult["filepending"]["file_name"].string!
                             
+                              //  self.downloadFile("\(jsonResult["filepending"]["uniqueid"])")
+                             self.downloadFile(fileuniqueid,filenamePending: filePendingName)
                         }
+                            //}
+                            
+                        //}
                    
                     }
                 }
@@ -300,27 +310,65 @@ class NetworkingManager
         }
     }
     
-    func downloadFile(uniqueid1:String/*,fileName1:String*/)
+    func downloadFile(uniqueid1:String,filenamePending:String/*,fileName1:String*/)
     {
         let path = NSFileManager.defaultManager().URLsForDirectory(.ApplicationSupportDirectory, inDomains: .UserDomainMask)[0] as NSURL
         //print("path download is \(path)")
        //////// let newPath = path.URLByAppendingPathComponent(fileName1)
        /////// print("full path download file is \(newPath)")
-        let destination = Alamofire.Request.suggestedDownloadDestination(directory: .DocumentDirectory, domain: .UserDomainMask)
-      //  print("path download is \(destination.lowercaseString)")
+      //////  let destination = Alamofire.Request.suggestedDownloadDestination(directory: .DocumentDirectory, domain: .UserDomainMask)
+              //  print("path download is \(destination.lowercaseString)")
       //  Alamofire.download(.GET, "http://httpbin.org/stream/100", destination: destination)
         var downloadURL=Constants.MainUrl+Constants.downloadFile
+        
+        let destination: (NSURL, NSHTTPURLResponse) -> (NSURL) = {
+            (temporaryURL, response) in
+            
+            if let directoryURL = NSFileManager.defaultManager().URLsForDirectory(.DocumentDirectory, inDomains: .UserDomainMask)[0] as? NSURL {
+               //// var localImageURL = directoryURL.URLByAppendingPathComponent("\(response.suggestedFilename!)")
+                //filenamePending
+                var localImageURL = directoryURL.URLByAppendingPathComponent(filenamePending)
+                print("localpathhhhhh \(localImageURL.debugDescription)")
+                return localImageURL
+            }
+            print("tempurl is \(temporaryURL.debugDescription)")
+            return temporaryURL
+        }
+
+        
+        print("downloading call unique id \(uniqueid1)")
         Alamofire.download(.POST, "\(downloadURL)", headers:header, parameters: ["uniqueid":uniqueid1], destination: destination)
             .progress { (bytesRead, totalBytesRead, totalBytesExpectedToRead) in
                 print("writing bytes \(totalBytesRead)")
             }
             .response { (request, response, _, error) in
                 print(response)
-                print(request?.URLString)
+                print("1...... \(request?.URLString)")
+                print("2..... \(request?.URL.debugDescription)")
+                print("3.... \(response?.URL.debugDescription)")
+                self.confirmDownload(uniqueid1)
+                print("confirminggggggg")
+                
                // print(request?.)
                 
         }
     }
+    
+    func confirmDownload(uniqueid1:String)
+    {
+        let confirmURL=Constants.MainUrl+Constants.confirmDownload
+        Alamofire.request(.POST,"\(confirmURL)",headers:header,parameters:["uniqueid":uniqueid1]).validate(statusCode: 200..<300).responseJSON{response in
+            
+            
+            switch response.result {
+            case .Success:
+                print("download confirm sent \(uniqueid1)")
+                
+            case .Failure(let error):
+                print("confirmation download failed")
+            }}
+    }
+    
     var backgroundCompletionHandler: (() -> Void)? {
         get {
             return backgroundManager.backgroundCompletionHandler
