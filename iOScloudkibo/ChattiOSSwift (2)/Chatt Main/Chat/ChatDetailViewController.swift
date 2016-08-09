@@ -1123,12 +1123,14 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
             
             
             
-            chatImage.frame = CGRectMake(20 + distanceFactor, chatImage.frame.origin.y, ((sizeOFStr.width + 100)  > 200 ? (sizeOFStr.width + 100) : 200), sizeOFStr.height + 40)
+             chatImage.frame = CGRectMake(chatImage.frame.origin.x, chatImage.frame.origin.y, 200, 200)
+            
+            ///chatImage.frame = CGRectMake(20 + distanceFactor, chatImage.frame.origin.y, ((sizeOFStr.width + 100)  > 200 ? (sizeOFStr.width + 100) : 200), sizeOFStr.height + 40)
             
             
             textLable.hidden=false
             //chatImage.frame = CGRectMake(20 + distanceFactor, chatImage.frame.origin.y, ((sizeOFStr.width + 100)  > 200 ? (sizeOFStr.width + 100) : 200), sizeOFStr.height + 40)
-            chatImage.image = UIImage(named: "chat_send")?.stretchableImageWithLeftCapWidth(40,topCapHeight: 20);
+            chatImage.image = UIImage(named: "chat_receive")?.stretchableImageWithLeftCapWidth(40,topCapHeight: 20);
             
             // chatImage.layer.borderColor=UIColor.greenColor().CGColor
             //  chatImage.layer.borderWidth = 3.0;
@@ -1136,7 +1138,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
             // *********
             textLable.text = "\(msg)"
             //old was 36 in place of 60
-            textLable.frame = CGRectMake(60 + distanceFactor, textLable.frame.origin.y, textLable.frame.size.width, sizeOFStr.height)
+            textLable.frame = CGRectMake(60 + textLable.frame.origin.x, textLable.frame.origin.y, textLable.frame.size.width, sizeOFStr.height)
             
             
             profileImage.center = CGPointMake(45+distanceFactor, textLable.frame.origin.y + textLable.frame.size.height - profileImage.frame.size.height/2+10)
@@ -1164,7 +1166,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
             selectedText = msg as! String
             /// var imgNSData=NSFileManager.defaultManager().contentsAtPath(imgPath)
             chatImage.userInteractionEnabled=true
-            var filelabel=UILabel(frame: CGRect(x: 20 + distanceFactor, y: chatImage.frame.origin.y + sizeOFStr.height + 40,width: ((sizeOFStr.width + 100)  > 200 ? (sizeOFStr.width + 100) : 200), height: sizeOFStr.height + 40))
+            var filelabel=UILabel(frame: CGRect(x: 20 + chatImage.frame.origin.x, y: chatImage.frame.origin.y + sizeOFStr.height + 40,width: ((sizeOFStr.width + 100)  > 200 ? (sizeOFStr.width + 100) : 200), height: sizeOFStr.height + 40))
             filelabel.text="rtf   95kb 3:23am"
             chatImage.addSubview(filelabel)
             // UILabel(frame: 0,0,((sizeOFStr.width + 100)  > 200 ? (sizeOFStr.width + 100) : 200), sizeOFStr.height + 40)
@@ -1190,13 +1192,14 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
             let distanceFactor = (170.0 - sizeOFStr.width) < 100 ? (170.0 - sizeOFStr.width) : 100
             
             
-            
+           
+           
             chatImage.frame = CGRectMake(20 + distanceFactor, chatImage.frame.origin.y, ((sizeOFStr.width + 100)  > 200 ? (sizeOFStr.width + 100) : 200), sizeOFStr.height + 40)
             
             
             textLable.hidden=false
             //chatImage.frame = CGRectMake(20 + distanceFactor, chatImage.frame.origin.y, ((sizeOFStr.width + 100)  > 200 ? (sizeOFStr.width + 100) : 200), sizeOFStr.height + 40)
-            chatImage.image = UIImage(named: "chat_received")?.stretchableImageWithLeftCapWidth(40,topCapHeight: 20);
+            chatImage.image = UIImage(named: "chat_send")?.stretchableImageWithLeftCapWidth(40,topCapHeight: 20);
             
             // chatImage.layer.borderColor=UIColor.greenColor().CGColor
             //  chatImage.layer.borderWidth = 3.0;
