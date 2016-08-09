@@ -877,6 +877,18 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
          */
     }
     
+     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+   
+        var messageDic = messages.objectAtIndex(indexPath.row) as! [String : String];
+        NSLog(messageDic["message"]!, 1)
+        let msgType = messageDic["type"] as NSString!
+        let msg = messageDic["message"] as NSString!
+        
+        if(msgType.isEqualToString("5")||msgType.isEqualToString("6")){
+        self.performSegueWithIdentifier("showFullDocSegue", sender: nil);
+        }
+    }
+
     func tableView(tableView: UITableView!, cellForRowAtIndexPath indexPath: NSIndexPath!) -> UITableViewCell! {
         var cell : UITableViewCell!
         
@@ -1132,6 +1144,8 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
             //chatImage.frame = CGRectMake(20 + distanceFactor, chatImage.frame.origin.y, ((sizeOFStr.width + 100)  > 200 ? (sizeOFStr.width + 100) : 200), sizeOFStr.height + 40)
             chatImage.image = UIImage(named: "chat_receive")?.stretchableImageWithLeftCapWidth(40,topCapHeight: 20);
             
+             chatImage.frame = CGRectMake(chatImage.frame.origin.x, chatImage.frame.origin.y, ((sizeOFStr.width + 100)  > 200 ? (sizeOFStr.width + 100) : 200), sizeOFStr.height + 40)
+            
             // chatImage.layer.borderColor=UIColor.greenColor().CGColor
             //  chatImage.layer.borderWidth = 3.0;
             // chatImage.highlighted=true
@@ -1166,13 +1180,16 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
             selectedText = msg as! String
             /// var imgNSData=NSFileManager.defaultManager().contentsAtPath(imgPath)
             chatImage.userInteractionEnabled=true
-            var filelabel=UILabel(frame: CGRect(x: 20 + chatImage.frame.origin.x, y: chatImage.frame.origin.y + sizeOFStr.height + 40,width: ((sizeOFStr.width + 100)  > 200 ? (sizeOFStr.width + 100) : 200), height: sizeOFStr.height + 40))
-            filelabel.text="rtf   95kb 3:23am"
-            chatImage.addSubview(filelabel)
+            //var filelabel=UILabel(frame: CGRect(x: 20 + chatImage.frame.origin.x, y: chatImage.frame.origin.y + sizeOFStr.height + 40,width: ((sizeOFStr.width + 100)  > 200 ? (sizeOFStr.width + 100) : 200), height: sizeOFStr.height + 40))
+            //filelabel.text="rtf   95kb 3:23am"
+            //chatImage.addSubview(filelabel)
             // UILabel(frame: 0,0,((sizeOFStr.width + 100)  > 200 ? (sizeOFStr.width + 100) : 200), sizeOFStr.height + 40)
-            let tapRecognizer = UITapGestureRecognizer(target: self, action: Selector("docTapped:"))
+           
+            //let tapRecognizer = UITapGestureRecognizer(target: self, action: Selector("docTapped:"))
             //Add the recognizer to your view.
-            chatImage.addGestureRecognizer(tapRecognizer)
+            
+            
+           //chatImage.addGestureRecognizer(tapRecognizer)
             timeLabel.text=date2.debugDescription
         }
         if(msgType.isEqualToString("6"))
@@ -1239,9 +1256,9 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
             filelabel.text="rtf   95kb 3:23am"
             chatImage.addSubview(filelabel)
             // UILabel(frame: 0,0,((sizeOFStr.width + 100)  > 200 ? (sizeOFStr.width + 100) : 200), sizeOFStr.height + 40)
-            let tapRecognizer = UITapGestureRecognizer(target: self, action: Selector("docTapped:"))
+           // let tapRecognizer = UITapGestureRecognizer(target: self, action: Selector("docTapped:"))
             //Add the recognizer to your view.
-            chatImage.addGestureRecognizer(tapRecognizer)
+            //chatImage.addGestureRecognizer(tapRecognizer)
             timeLabel.text=date2.debugDescription
         }
 
@@ -1542,6 +1559,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
         //tappedImageView will be the image view that was tapped.
         //dismiss it, animate it off screen, whatever.
         print("docTapped hereee")
+        
         let tappedImageView = gestureRecognizer.view! as! UIImageView
         //selectedImage=tappedImageView.image
         self.performSegueWithIdentifier("showFullDocSegue", sender: nil);
@@ -2324,6 +2342,11 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
          }
         if segue!.identifier == "showFullDocSegue" {
             if let destinationVC = segue!.destinationViewController as? textDocumentViewController{
+                let selectedRow = tblForChats.indexPathForSelectedRow!.row
+                var messageDic = messages.objectAtIndex(selectedRow) as! [String : String];
+                
+                let msg = messageDic["message"] as NSString!
+                selectedText=msg as String
                 //destinationVC.tabBarController?.selectedIndex=0
                 //self.tabBarController?.selectedIndex=0
                 destinationVC.newtext=selectedText
@@ -2468,7 +2491,60 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
                 var randNum5=self.randomStringWithLength(5) as! String
                 var uniqueID=randNum5+year+month+day+hour+minute+second
                 
-                sqliteDB.SaveChat(self.selectedContact, from1: username!, owneruser1: username!, fromFullName1: displayname, msg1: fname!+"."+ftype, date1: nil, uniqueid1: uniqueID, status1: "pending", type1: "document", file_type1: ftype, file_path1: filePathImage2)
+                
+                
+                //var uniqueID=randNum5+year
+                print("unique ID is \(uniqueID)")
+                
+                //^^var firstNameSelected=selectedUserObj["firstname"]
+                //^^^var lastNameSelected=selectedUserObj["lastname"]
+                //^^^var fullNameSelected=firstNameSelected.string!+" "+lastNameSelected.string!
+                var imParas=["from":"\(username!)","to":"\(self.selectedContact)","fromFullName":"\(displayname)","msg":fname!+"."+ftype,"uniqueid":uniqueID]
+                print("imparas are \(imParas)")
+                print(imParas, terminator: "")
+                print("", terminator: "")
+                ///=== code for sending chat here
+                ///=================
+                
+                //socketObj.socket.emit("logClient","IPHONE-LOG: \(username!) is sending chat message")
+                //////socketObj.socket.emit("im",["room":"globalchatroom","stanza":imParas])
+                var statusNow=""
+                /*if(isSocketConnected==true)
+                 {
+                 statusNow="sent"
+                 
+                 }
+                 else
+                 {
+                 */
+                statusNow="pending"
+                //}
+                
+                ////sqliteDB.SaveChat("\(selectedContact)", from1: username!, owneruser1: username!, fromFullName1: displayname!, msg1: fname!+"."+ftype, date1: nil, uniqueid1: uniqueID, status1: statusNow, type1: "chat", file_type1: "", file_path1: "")
+                // sqliteDB.SaveChat("\(selectedContact)", from1: "\(username!)",owneruser1: "\(username!)", fromFullName1: "\(loggedFullName!)", msg1: "\(txtFldMessage.text!)",date1: nil,uniqueid1: uniqueID, status1: statusNow)
+                
+            
+                
+                //------
+                sqliteDB.SaveChat(self.selectedContact, from1: username!, owneruser1: username!, fromFullName1: displayname, msg1: fname!+"."+ftype, date1: nil, uniqueid1: uniqueID, status1: statusNow, type1: "document", file_type1: ftype, file_path1: filePathImage2)
+                
+                socketObj.socket.emitWithAck("im",["room":"globalchatroom","stanza":imParas])(timeoutAfter: 150000)
+                {data in
+                    
+                    print("chat ack received  \(data)")
+                    statusNow="sent"
+                    var chatmsg=JSON(data)
+                    print(data[0])
+                    print(chatmsg[0])
+                    sqliteDB.UpdateChatStatus(chatmsg[0]["uniqueid"].string!, newstatus: chatmsg[0]["status"].string!)
+                    
+                    self.retrieveChatFromSqlite(self.selectedContact)
+                    //self.tblForChats.reloadData()
+                    
+                    
+                    
+                }
+                
 
                  sqliteDB.saveFile(self.selectedContact, from1: username!, owneruser1: username!, file_name1: fname!+"."+ftype, date1: nil, uniqueid1: uniqueID, file_size1: "\(self.fileSize1)", file_type1: ftype, file_path1: filePathImage2, type1: "document")
                 
