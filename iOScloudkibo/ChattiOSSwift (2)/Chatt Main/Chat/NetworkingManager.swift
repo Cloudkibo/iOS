@@ -403,7 +403,7 @@ class NetworkingManager
                 var documentDir=docsDir1 as NSString
                 var filePendingPath=documentDir.stringByAppendingPathComponent(filePendingName)
                 
-                if(self.imageExtensions.contains(filetype))
+                if(self.imageExtensions.contains(filetype.lowercaseString))
                 {
                 //filePendingName
                 sqliteDB.saveFile(filePendingTo, from1: filefrom, owneruser1: username!, file_name1: filePendingName, date1: nil, uniqueid1: fileuniqueid, file_size1: filePendingSize, file_type1: filetype, file_path1: filePendingPath, type1: "image")
