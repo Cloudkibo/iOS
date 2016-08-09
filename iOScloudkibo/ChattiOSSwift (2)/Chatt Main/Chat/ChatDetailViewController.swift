@@ -506,7 +506,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
                 if (tblContacts[from]==username!)
                     
                 {//type1
-                    print("statussss is \(tblContacts[status])")
+                    ///print("statussss is \(tblContacts[status])")
                     if(tblContacts[type]=="image")
                     {
                         self.addMessage(tblContacts[msg], ofType: "3",date: tblContacts[date])
@@ -526,7 +526,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
                 }
                 else
                 {//type2
-                    print("statussss is \(tblContacts[status])")
+                   //// print("statussss is \(tblContacts[status])")
                     if(tblContacts[type]=="image")
                     {
                         self.addMessage(tblContacts[msg] , ofType: "3",date: tblContacts[date])
@@ -1560,7 +1560,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
             //var uniqueID=randNum5+year
             print("unique ID is \(uniqueID)")
             
-            var loggedid=_id!
+            //var loggedid=_id!
             //^^var firstNameSelected=selectedUserObj["firstname"]
             //^^^var lastNameSelected=selectedUserObj["lastname"]
             //^^^var fullNameSelected=firstNameSelected.string!+" "+lastNameSelected.string!

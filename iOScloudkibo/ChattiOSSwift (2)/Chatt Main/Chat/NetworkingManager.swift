@@ -12,6 +12,21 @@ import SwiftyJSON
 class NetworkingManager
 {
     
+    let imageExtensions=[
+        "gif",
+        "jpeg",
+        "jpg",
+        "png",
+        "tif",
+        "tiff",
+        "wbmp",
+        "ico",
+        "jng",
+        "bmp",
+        "svg",
+        "svgz",
+        "webp"
+    ]
     internal let DEFAULT_MIME_TYPE = "application/octet-stream"
     
     internal let mimeTypes = [
@@ -350,6 +365,19 @@ class NetworkingManager
                //// var localImageURL = directoryURL.URLByAppendingPathComponent("\(response.suggestedFilename!)")
                 //filenamePending
                 var localImageURL = directoryURL.URLByAppendingPathComponent(filePendingName)
+                
+                /*let checkValidation = NSFileManager.defaultManager()
+                
+                if (checkValidation.fileExistsAtPath("\(localImageURL)"))
+                {
+                    print("FILE AVAILABLE")
+                }
+                else
+                {
+                    print("FILE NOT AVAILABLE")
+                }*/
+                
+                
                 print("localpathhhhhh \(localImageURL.debugDescription)")
                 return localImageURL
             }
@@ -375,9 +403,16 @@ class NetworkingManager
                 var documentDir=docsDir1 as NSString
                 var filePendingPath=documentDir.stringByAppendingPathComponent(filePendingName)
                 
-                
+                if(self.imageExtensions.contains(filetype))
+                {
                 //filePendingName
                 sqliteDB.saveFile(filePendingTo, from1: filefrom, owneruser1: username!, file_name1: filePendingName, date1: nil, uniqueid1: fileuniqueid, file_size1: filePendingSize, file_type1: filetype, file_path1: filePendingPath, type1: "image")
+                }
+                else
+                {
+                     sqliteDB.saveFile(filePendingTo, from1: filefrom, owneruser1: username!, file_name1: filePendingName, date1: nil, uniqueid1: fileuniqueid, file_size1: filePendingSize, file_type1: filetype, file_path1: filePendingPath, type1: "document")
+                    
+                }
                 
                 self.confirmDownload(fileuniqueid)
                 print("confirminggggggg")
