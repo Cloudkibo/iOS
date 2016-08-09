@@ -1040,7 +1040,8 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
                 chatImage.setNeedsDisplay()
                 print("file shownnnnnnnnn")
                 textLable.hidden=true
-                timeLabel.text=date2.debugDescription
+                
+                //timeLabel.text=date2.debugDescription
             }
             
             
@@ -1891,7 +1892,47 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
             //^^^var fullNameSelected=firstNameSelected.string!+" "+lastNameSelected.string!
             //var imParas=["from":"\(username!)","to":"\(self.selectedContact)","fromFullName":"\(displayname)","msg":"\(self.txtFldMessage.text!)","uniqueid":"\(uniqueID)"]
             
-            sqliteDB.SaveChat(self.selectedContact, from1: username!, owneruser1: username!, fromFullName1: displayname, msg1: self.filename, date1: nil, uniqueid1: uniqueID, status1: "pending", type1: "image", file_type1: ftype, file_path1: filePathImage2)
+            
+            
+            
+            
+            
+            
+            
+            var imParas=["from":"\(username!)","to":"\(self.selectedContact)","fromFullName":"\(displayname)","msg":self.filename,"uniqueid":uniqueID]
+            print("imparas are \(imParas)")
+            
+            
+            var statusNow="pending"
+            //}
+            
+            ////sqliteDB.SaveChat("\(selectedContact)", from1: username!, owneruser1: username!, fromFullName1: displayname!, msg1: fname!+"."+ftype, date1: nil, uniqueid1: uniqueID, status1: statusNow, type1: "chat", file_type1: "", file_path1: "")
+            // sqliteDB.SaveChat("\(selectedContact)", from1: "\(username!)",owneruser1: "\(username!)", fromFullName1: "\(loggedFullName!)", msg1: "\(txtFldMessage.text!)",date1: nil,uniqueid1: uniqueID, status1: statusNow)
+            
+            
+            
+            //------
+            sqliteDB.SaveChat(self.selectedContact, from1: username!, owneruser1: username!, fromFullName1: displayname, msg1: self.filename, date1: nil, uniqueid1: uniqueID, status1: statusNow, type1: "image", file_type1: ftype, file_path1: filePathImage2)
+            
+            socketObj.socket.emitWithAck("im",["room":"globalchatroom","stanza":imParas])(timeoutAfter: 150000)
+            {data in
+                
+                print("chat ack received  \(data)")
+                statusNow="sent"
+                var chatmsg=JSON(data)
+                print(data[0])
+                print(chatmsg[0])
+                sqliteDB.UpdateChatStatus(chatmsg[0]["uniqueid"].string!, newstatus: chatmsg[0]["status"].string!)
+                
+                self.retrieveChatFromSqlite(self.selectedContact)
+                //self.tblForChats.reloadData()
+                
+                
+                
+            }
+            
+            
+            //sqliteDB.SaveChat(self.selectedContact, from1: username!, owneruser1: username!, fromFullName1: displayname, msg1: self.filename, date1: nil, uniqueid1: uniqueID, status1: "pending", type1: "image", file_type1: ftype, file_path1: filePathImage2)
             
             sqliteDB.saveFile(self.selectedContact, from1: username!, owneruser1: username!, file_name1: self.filename, date1: nil, uniqueid1: uniqueID, file_size1: "\(self.fileSize1)", file_type1: ftype, file_path1: filePathImage2, type1: "image")
             
