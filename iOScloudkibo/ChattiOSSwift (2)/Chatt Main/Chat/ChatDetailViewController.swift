@@ -509,13 +509,13 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
                     ///print("statussss is \(tblContacts[status])")
                     if(tblContacts[type]=="image")
                     {
-                        self.addMessage(tblContacts[msg], ofType: "3",date: tblContacts[date])
+                        self.addMessage(tblContacts[msg], ofType: "4",date: tblContacts[date])
                         
                     }
                     else{
                     if(tblContacts[type]=="document")
                     {
-                        self.addMessage(tblContacts[msg], ofType: "4",date: tblContacts[date])
+                        self.addMessage(tblContacts[msg], ofType: "6",date: tblContacts[date])
                         
                     }
                     else
@@ -535,7 +535,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
                     else
                     {if(tblContacts[type]=="document")
                     {
-                        self.addMessage(tblContacts[msg], ofType: "4",date: tblContacts[date])
+                        self.addMessage(tblContacts[msg], ofType: "5",date: tblContacts[date])
                         
                     }
                     else
@@ -825,7 +825,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
         
         let msg = messageDic["message"] as NSString!
         let msgType = messageDic["type"]! as NSString
-        if(msgType.isEqualToString("3"))
+        if(msgType.isEqualToString("3")||msgType.isEqualToString("4"))
         {
             var cell=tblForChats.dequeueReusableCellWithIdentifier("FileImageReceivedCell")! as UITableViewCell
             let chatImage = cell.viewWithTag(1) as! UIImageView
@@ -936,27 +936,327 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
              let dateString = formatter.stringFromDate(datens2!)
              */
             timeLabel.text=date2.debugDescription
-        } else {
+        }
+        if (msgType.isEqualToString("2")){
             cell = ///tblForChats.dequeueReusableCellWithIdentifier("ChatReceivedCell")! as UITableViewCell
-            
-            //FileImageReceivedCell
-            tblForChats.dequeueReusableCellWithIdentifier("ChatReceivedCell")! as UITableViewCell
+                
+                //FileImageReceivedCell
+                tblForChats.dequeueReusableCellWithIdentifier("ChatReceivedCell")! as UITableViewCell
             let deliveredLabel = cell.viewWithTag(13) as! UILabel
             let textLable = cell.viewWithTag(12) as! UILabel
             let timeLabel = cell.viewWithTag(11) as! UILabel
             let chatImage = cell.viewWithTag(1) as! UIImageView
             let profileImage = cell.viewWithTag(2) as! UIImageView
-                     /*  let documentDirectory = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true).first as String!
-            let photoURL          = NSURL(fileURLWithPath: documentDirectory)
-            let imgPath         = photoURL.URLByAppendingPathComponent(self.filename)
-            var imgNSData=NSFileManager.defaultManager().contentsAtPath(imgPath.path!)
+            /*  let documentDirectory = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true).first as String!
+             let photoURL          = NSURL(fileURLWithPath: documentDirectory)
+             let imgPath         = photoURL.URLByAppendingPathComponent(self.filename)
+             var imgNSData=NSFileManager.defaultManager().contentsAtPath(imgPath.path!)
+             if(imgNSData != nil)
+             {
+             chatImage.image = UIImage(data: imgNSData!)
+             chatImage.contentMode = .ScaleAspectFit
+             }
+             */
+            print("here 905 msgtype is \(msgType)")
+            let distanceFactor = (170.0 - sizeOFStr.width) < 100 ? (170.0 - sizeOFStr.width) : 100
+            chatImage.frame = CGRectMake(20 + distanceFactor, chatImage.frame.origin.y, ((sizeOFStr.width + 100)  > 200 ? (sizeOFStr.width + 100) : 200), sizeOFStr.height + 40)
+            
+            
+            
+            textLable.hidden=false
+            //chatImage.frame = CGRectMake(20 + distanceFactor, chatImage.frame.origin.y, ((sizeOFStr.width + 100)  > 200 ? (sizeOFStr.width + 100) : 200), sizeOFStr.height + 40)
+            chatImage.image = UIImage(named: "chat_send")?.stretchableImageWithLeftCapWidth(40,topCapHeight: 20);
+            //*********
+            textLable.text = "\(msg)"
+            textLable.frame = CGRectMake(36 + distanceFactor, textLable.frame.origin.y, textLable.frame.size.width, sizeOFStr.height)
+            ////profileImage.center = CGPointMake(profileImage.center.x, textLable.frame.origin.y + textLable.frame.size.height - profileImage.frame.size.height/2 + 10)
+            
+            profileImage.center = CGPointMake(profileImage.center.x, textLable.frame.origin.y + textLable.frame.size.height - profileImage.frame.size.height/2+10)
+            
+            timeLabel.frame = CGRectMake(36 + distanceFactor, timeLabel.frame.origin.y, timeLabel.frame.size.width, timeLabel.frame.size.height)
+            deliveredLabel.frame = CGRectMake(deliveredLabel.frame.origin.x, textLable.frame.origin.y + textLable.frame.size.height + 15, deliveredLabel.frame.size.width, deliveredLabel.frame.size.height)
+            timeLabel.text=date2.debugDescription
+        }
+        if (msgType.isEqualToString("3")){
+            cell = ///tblForChats.dequeueReusableCellWithIdentifier("ChatReceivedCell")! as UITableViewCell
+                
+                //FileImageReceivedCell
+                tblForChats.dequeueReusableCellWithIdentifier("FileImageSentCell")! as UITableViewCell
+            let deliveredLabel = cell.viewWithTag(13) as! UILabel
+            let textLable = cell.viewWithTag(12) as! UILabel
+            let timeLabel = cell.viewWithTag(11) as! UILabel
+            let chatImage = cell.viewWithTag(1) as! UIImageView
+            let profileImage = cell.viewWithTag(2) as! UIImageView
+            
+            
+            //////chatImage.contentMode = .Center
+            
+            //chatImage.frame = CGRectMake(80, chatImage.frame.origin.y, 220, 220)
+            /*let documentDirectory = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true).first as String!
+             let photoURL          = NSURL(fileURLWithPath: documentDirectory)
+             let imgPath         = photoURL.URLByAppendingPathComponent(msg as! String)
+             
+             */
+            
+            
+            let dirPaths = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)
+            let docsDir1 = dirPaths[0]
+            var documentDir=docsDir1 as NSString
+            var imgPath=documentDir.stringByAppendingPathComponent(msg as! String)
+            
+            var imgNSData=NSFileManager.defaultManager().contentsAtPath(imgPath)
+            //var imgNSData=NSFileManager.defaultManager().contentsAtPath(imgPath.path!)
+            print("hereee imgPath.path! is \(imgPath)")
+            
+            
+            
             if(imgNSData != nil)
             {
-            chatImage.image = UIImage(data: imgNSData!)
-                chatImage.contentMode = .ScaleAspectFit
+                chatImage.userInteractionEnabled = true
+                //now you need a tap gesture recognizer
+                //note that target and action point to what happens when the action is recognized.
+                let tapRecognizer = UITapGestureRecognizer(target: self, action: Selector("imageTapped:"))
+                //Add the recognizer to your view.
+                chatImage.addGestureRecognizer(tapRecognizer)
+                
+                
+                chatImage.frame = CGRectMake(chatImage.frame.origin.x, chatImage.frame.origin.y, 200, 200)
+                
+                chatImage.image = UIImage(data: imgNSData!)!
+                ///.stretchableImageWithLeftCapWidth(40,topCapHeight: 20);
+                chatImage.contentMode = .ScaleAspectFill
+                chatImage.setNeedsDisplay()
+                print("file shownnnnnnnnn")
+                textLable.hidden=true
+                timeLabel.text=date2.debugDescription
             }
- */
-            print("here 905 msgtype is \(msgType)")
+            
+            
+            /* var imgNSURL = NSURL(fileURLWithPath: msg as String)
+             var imgNSData=NSFileManager.defaultManager().contentsAtPath(imgNSURL.path!)
+             if(imgNSData != nil)
+             {
+             chatImage.image = UIImage(contentsOfFile: msg as String)
+             print("file shownnnnnnnnn")
+             }
+             */
+        }
+        if (msgType.isEqualToString("4")){
+            cell = ///tblForChats.dequeueReusableCellWithIdentifier("ChatReceivedCell")! as UITableViewCell
+                
+                //FileImageReceivedCell
+                tblForChats.dequeueReusableCellWithIdentifier("FileImageReceivedCell")! as UITableViewCell
+            let deliveredLabel = cell.viewWithTag(13) as! UILabel
+            let textLable = cell.viewWithTag(12) as! UILabel
+            let timeLabel = cell.viewWithTag(11) as! UILabel
+            let chatImage = cell.viewWithTag(1) as! UIImageView
+            let profileImage = cell.viewWithTag(2) as! UIImageView
+            
+            
+            //////chatImage.contentMode = .Center
+            
+            //chatImage.frame = CGRectMake(80, chatImage.frame.origin.y, 220, 220)
+            /*let documentDirectory = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true).first as String!
+             let photoURL          = NSURL(fileURLWithPath: documentDirectory)
+             let imgPath         = photoURL.URLByAppendingPathComponent(msg as! String)
+             
+             */
+            
+            
+            let dirPaths = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)
+            let docsDir1 = dirPaths[0]
+            var documentDir=docsDir1 as NSString
+            var imgPath=documentDir.stringByAppendingPathComponent(msg as! String)
+            
+            var imgNSData=NSFileManager.defaultManager().contentsAtPath(imgPath)
+            //var imgNSData=NSFileManager.defaultManager().contentsAtPath(imgPath.path!)
+            print("hereee imgPath.path! is \(imgPath)")
+            
+            
+            
+            if(imgNSData != nil)
+            {
+                chatImage.userInteractionEnabled = true
+                //now you need a tap gesture recognizer
+                //note that target and action point to what happens when the action is recognized.
+                let tapRecognizer = UITapGestureRecognizer(target: self, action: Selector("imageTapped:"))
+                //Add the recognizer to your view.
+                chatImage.addGestureRecognizer(tapRecognizer)
+                
+                
+                chatImage.frame = CGRectMake(chatImage.frame.origin.x, chatImage.frame.origin.y, 200, 200)
+                
+                chatImage.image = UIImage(data: imgNSData!)!
+                ///.stretchableImageWithLeftCapWidth(40,topCapHeight: 20);
+                chatImage.contentMode = .ScaleAspectFill
+                chatImage.setNeedsDisplay()
+                print("file shownnnnnnnnn")
+                textLable.hidden=true
+                timeLabel.text=date2.debugDescription
+            }
+            
+            
+            /* var imgNSURL = NSURL(fileURLWithPath: msg as String)
+             var imgNSData=NSFileManager.defaultManager().contentsAtPath(imgNSURL.path!)
+             if(imgNSData != nil)
+             {
+             chatImage.image = UIImage(contentsOfFile: msg as String)
+             print("file shownnnnnnnnn")
+             }
+             */
+        }
+        if(msgType.isEqualToString("5"))
+        {
+            print("type is 5 hereeeeeeeeeeee")
+            cell = ///tblForChats.dequeueReusableCellWithIdentifier("ChatReceivedCell")! as UITableViewCell
+                
+                //FileImageReceivedCell
+                tblForChats.dequeueReusableCellWithIdentifier("DocSentCell")! as UITableViewCell
+            let deliveredLabel = cell.viewWithTag(13) as! UILabel
+            let textLable = cell.viewWithTag(12) as! UILabel
+            let timeLabel = cell.viewWithTag(11) as! UILabel
+            let chatImage = cell.viewWithTag(1) as! UIImageView
+            let profileImage = cell.viewWithTag(2) as! UIImageView
+            
+            
+            let distanceFactor = (170.0 - sizeOFStr.width) < 100 ? (170.0 - sizeOFStr.width) : 100
+            
+            
+            
+            chatImage.frame = CGRectMake(20 + distanceFactor, chatImage.frame.origin.y, ((sizeOFStr.width + 100)  > 200 ? (sizeOFStr.width + 100) : 200), sizeOFStr.height + 40)
+            
+            
+            textLable.hidden=false
+            //chatImage.frame = CGRectMake(20 + distanceFactor, chatImage.frame.origin.y, ((sizeOFStr.width + 100)  > 200 ? (sizeOFStr.width + 100) : 200), sizeOFStr.height + 40)
+            chatImage.image = UIImage(named: "chat_send")?.stretchableImageWithLeftCapWidth(40,topCapHeight: 20);
+            
+            // chatImage.layer.borderColor=UIColor.greenColor().CGColor
+            //  chatImage.layer.borderWidth = 3.0;
+            // chatImage.highlighted=true
+            // *********
+            textLable.text = "\(msg)"
+            //old was 36 in place of 60
+            textLable.frame = CGRectMake(60 + distanceFactor, textLable.frame.origin.y, textLable.frame.size.width, sizeOFStr.height)
+            
+            
+            profileImage.center = CGPointMake(45+distanceFactor, textLable.frame.origin.y + textLable.frame.size.height - profileImage.frame.size.height/2+10)
+            
+            profileImage.setNeedsDisplay()
+            
+            timeLabel.frame = CGRectMake(35 + distanceFactor, chatImage.frame.origin.y+sizeOFStr.height + 20, chatImage.frame.size.width-40, timeLabel.frame.size.height)
+            
+            
+            //////chatImage.contentMode = .Center
+            
+            //chatImage.frame = CGRectMake(80, chatImage.frame.origin.y, 220, 220)
+            /*let documentDirectory = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true).first as String!
+             let photoURL          = NSURL(fileURLWithPath: documentDirectory)
+             let imgPath         = photoURL.URLByAppendingPathComponent(msg as! String)
+             
+             */
+            
+            
+            let dirPaths = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)
+            let docsDir1 = dirPaths[0]
+            var documentDir=docsDir1 as NSString
+            ////var imgPath=documentDir.stringByAppendingPathComponent(msg as! String)
+            
+            selectedText = msg as! String
+            /// var imgNSData=NSFileManager.defaultManager().contentsAtPath(imgPath)
+            chatImage.userInteractionEnabled=true
+            var filelabel=UILabel(frame: CGRect(x: 20 + distanceFactor, y: chatImage.frame.origin.y + sizeOFStr.height + 40,width: ((sizeOFStr.width + 100)  > 200 ? (sizeOFStr.width + 100) : 200), height: sizeOFStr.height + 40))
+            filelabel.text="rtf   95kb 3:23am"
+            chatImage.addSubview(filelabel)
+            // UILabel(frame: 0,0,((sizeOFStr.width + 100)  > 200 ? (sizeOFStr.width + 100) : 200), sizeOFStr.height + 40)
+            let tapRecognizer = UITapGestureRecognizer(target: self, action: Selector("docTapped:"))
+            //Add the recognizer to your view.
+            chatImage.addGestureRecognizer(tapRecognizer)
+            timeLabel.text=date2.debugDescription
+        }
+        if(msgType.isEqualToString("6"))
+        {
+            print("type is 6 hereeeeeeeeeeee")
+            cell = ///tblForChats.dequeueReusableCellWithIdentifier("ChatReceivedCell")! as UITableViewCell
+                
+                //FileImageReceivedCell
+                tblForChats.dequeueReusableCellWithIdentifier("DocReceivedCell")! as UITableViewCell
+            let deliveredLabel = cell.viewWithTag(13) as! UILabel
+            let textLable = cell.viewWithTag(12) as! UILabel
+            let timeLabel = cell.viewWithTag(11) as! UILabel
+            let chatImage = cell.viewWithTag(1) as! UIImageView
+            let profileImage = cell.viewWithTag(2) as! UIImageView
+            
+            
+            let distanceFactor = (170.0 - sizeOFStr.width) < 100 ? (170.0 - sizeOFStr.width) : 100
+            
+            
+            
+            chatImage.frame = CGRectMake(20 + distanceFactor, chatImage.frame.origin.y, ((sizeOFStr.width + 100)  > 200 ? (sizeOFStr.width + 100) : 200), sizeOFStr.height + 40)
+            
+            
+            textLable.hidden=false
+            //chatImage.frame = CGRectMake(20 + distanceFactor, chatImage.frame.origin.y, ((sizeOFStr.width + 100)  > 200 ? (sizeOFStr.width + 100) : 200), sizeOFStr.height + 40)
+            chatImage.image = UIImage(named: "chat_received")?.stretchableImageWithLeftCapWidth(40,topCapHeight: 20);
+            
+            // chatImage.layer.borderColor=UIColor.greenColor().CGColor
+            //  chatImage.layer.borderWidth = 3.0;
+            // chatImage.highlighted=true
+            // *********
+            textLable.text = "\(msg)"
+            //old was 36 in place of 60
+            textLable.frame = CGRectMake(60 + distanceFactor, textLable.frame.origin.y, textLable.frame.size.width, sizeOFStr.height)
+            
+            
+            profileImage.center = CGPointMake(45+distanceFactor, textLable.frame.origin.y + textLable.frame.size.height - profileImage.frame.size.height/2+10)
+            
+            profileImage.setNeedsDisplay()
+            
+            timeLabel.frame = CGRectMake(35 + distanceFactor, chatImage.frame.origin.y+sizeOFStr.height + 20, chatImage.frame.size.width-40, timeLabel.frame.size.height)
+            
+            
+            //////chatImage.contentMode = .Center
+            
+            //chatImage.frame = CGRectMake(80, chatImage.frame.origin.y, 220, 220)
+            /*let documentDirectory = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true).first as String!
+             let photoURL          = NSURL(fileURLWithPath: documentDirectory)
+             let imgPath         = photoURL.URLByAppendingPathComponent(msg as! String)
+             
+             */
+            
+            
+            let dirPaths = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)
+            let docsDir1 = dirPaths[0]
+            var documentDir=docsDir1 as NSString
+            ////var imgPath=documentDir.stringByAppendingPathComponent(msg as! String)
+            
+            selectedText = msg as! String
+            /// var imgNSData=NSFileManager.defaultManager().contentsAtPath(imgPath)
+            chatImage.userInteractionEnabled=true
+            var filelabel=UILabel(frame: CGRect(x: 20 + distanceFactor, y: chatImage.frame.origin.y + sizeOFStr.height + 40,width: ((sizeOFStr.width + 100)  > 200 ? (sizeOFStr.width + 100) : 200), height: sizeOFStr.height + 40))
+            filelabel.text="rtf   95kb 3:23am"
+            chatImage.addSubview(filelabel)
+            // UILabel(frame: 0,0,((sizeOFStr.width + 100)  > 200 ? (sizeOFStr.width + 100) : 200), sizeOFStr.height + 40)
+            let tapRecognizer = UITapGestureRecognizer(target: self, action: Selector("docTapped:"))
+            //Add the recognizer to your view.
+            chatImage.addGestureRecognizer(tapRecognizer)
+            timeLabel.text=date2.debugDescription
+        }
+
+            
+
+        
+        
+        
+            
+            
+            
+            
+            //_____________________------------________
+        
+        
+            /*
+        else {
+       
             if(msgType.isEqualToString("3"))
             {
                 cell = ///tblForChats.dequeueReusableCellWithIdentifier("ChatReceivedCell")! as UITableViewCell
@@ -1032,7 +1332,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
                 textLable.hidden=false
             //chatImage.frame = CGRectMake(20 + distanceFactor, chatImage.frame.origin.y, ((sizeOFStr.width + 100)  > 200 ? (sizeOFStr.width + 100) : 200), sizeOFStr.height + 40)
              chatImage.image = UIImage(named: "chat_send")?.stretchableImageWithLeftCapWidth(40,topCapHeight: 20);
-            //*********
+            // *********
                 textLable.text = "\(msg)"
                 textLable.frame = CGRectMake(36 + distanceFactor, textLable.frame.origin.y, textLable.frame.size.width, sizeOFStr.height)
                 ////profileImage.center = CGPointMake(profileImage.center.x, textLable.frame.origin.y + textLable.frame.size.height - profileImage.frame.size.height/2 + 10)
@@ -1131,6 +1431,10 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
             timeLabel.text=date2.debugDescription
             //timeLabel.text=date2.debugDescription
         }
+        
+        
+        
+        */
         return cell
         /*if (msgType.isEqualToString("1")){
          cell = tblForChats.dequeueReusableCellWithIdentifier("ChatSentCell")! as UITableViewCell
