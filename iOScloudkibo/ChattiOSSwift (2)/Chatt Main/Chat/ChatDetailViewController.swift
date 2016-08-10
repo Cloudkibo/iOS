@@ -1132,7 +1132,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
             let timeLabel = cell.viewWithTag(11) as! UILabel
             let chatImage = cell.viewWithTag(1) as! UIImageView
             let profileImage = cell.viewWithTag(2) as! UIImageView
-             let progressView=cell.viewWithTag(0) as! KDCircularProgress
+             ///let progressView=cell.viewWithTag(0) as! KDCircularProgress
             
             let distanceFactor = (170.0 - sizeOFStr.width) < 100 ? (170.0 - sizeOFStr.width) : 100
             
@@ -1207,7 +1207,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
             let timeLabel = cell.viewWithTag(11) as! UILabel
             let chatImage = cell.viewWithTag(1) as! UIImageView
             let profileImage = cell.viewWithTag(2) as! UIImageView
-            let progressView=cell.viewWithTag(0) as! KDCircularProgress
+           /// let progressView=cell.viewWithTag(0) as! KDCircularProgress
             
             let distanceFactor = (170.0 - sizeOFStr.width) < 100 ? (170.0 - sizeOFStr.width) : 100
             
