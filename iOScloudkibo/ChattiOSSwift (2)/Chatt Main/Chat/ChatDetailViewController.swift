@@ -19,6 +19,7 @@ import Photos
 class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChatDelegate,UIDocumentPickerDelegate,UIDocumentMenuDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate,NSFileManagerDelegate{
     
    /// var manager = NetworkingManager.sharedManager
+    var uploadInfo:NSMutableArray!
     
     var shareMenu = UIAlertController()
     var selectedImage:UIImage!
@@ -248,7 +249,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
         
  
         messages = NSMutableArray()
-        
+        uploadInfo=NSMutableArray()
         
         
         print("chat on load")
@@ -698,6 +699,11 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
     
     func addMessage(message: String, ofType msgType:String, date:String) {
         messages.addObject(["message":message, "type":msgType, "date":date])
+    }
+    
+    func addUploadInfo(uniqueid1:String,rowindex:Int,uploadProgress:Double,isCompleted:Bool)
+    {
+        uploadInfo.addObject(["uniqueid":uniqueid1,"rowIndex":rowindex,"uploadProgress":uploadProgress,"isCompleted":isCompleted])
     }
     
     func fetchChatSQlite(){
@@ -1937,6 +1943,8 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
             //sqliteDB.SaveChat(self.selectedContact, from1: username!, owneruser1: username!, fromFullName1: displayname, msg1: self.filename, date1: nil, uniqueid1: uniqueID, status1: "pending", type1: "image", file_type1: ftype, file_path1: filePathImage2)
             
             sqliteDB.saveFile(self.selectedContact, from1: username!, owneruser1: username!, file_name1: self.filename, date1: nil, uniqueid1: uniqueID, file_size1: "\(self.fileSize1)", file_type1: ftype, file_path1: filePathImage2, type1: "image")
+            
+           // self.uploadInfo.addObject(["":""])
             
             managerFile.uploadFile(filePathImage2, to1: self.selectedContact, from1: username!, uniqueid1: uniqueID, file_name1: self.filename, file_size1: "\(self.fileSize1)", file_type1: ftype)
             print("alamofire upload calledddd")
