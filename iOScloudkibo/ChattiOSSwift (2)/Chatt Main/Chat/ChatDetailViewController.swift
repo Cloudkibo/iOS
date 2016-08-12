@@ -16,11 +16,11 @@ import Foundation
 import AssetsLibrary
 import Photos
 
-class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChatDelegate,UIDocumentPickerDelegate,UIDocumentMenuDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate,NSFileManagerDelegate{
+class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChatDelegate,UIDocumentPickerDelegate,UIDocumentMenuDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate,NSFileManagerDelegate,showUploadProgressDelegate{
     
    /// var manager = NetworkingManager.sharedManager
-    var uploadInfo:NSMutableArray!
     
+    var delegateProgressUpload:showUploadProgressDelegate!
     var shareMenu = UIAlertController()
     var selectedImage:UIImage!
     var filename=""
@@ -249,8 +249,8 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
         
  
         messages = NSMutableArray()
-        uploadInfo=NSMutableArray()
-        
+        //uploadInfo=NSMutableArray()
+        managerFile.delegateProgressUpload=self
         
         print("chat on load")
         socketObj.socket.emit("logClient","IPHONE-LOG: chat page loading")
@@ -701,16 +701,17 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
         messages.addObject(["message":message, "type":msgType, "date":date])
     }
     
-    func addUploadInfo(uniqueid1:String,rowindex:Int,uploadProgress:Double,isCompleted:Bool)
+    func updateUploadInfo()
     {
-        uploadInfo.addObject(["uniqueid":uniqueid1,"rowIndex":rowindex,"uploadProgress":uploadProgress,"isCompleted":isCompleted])
+        
     }
     
-    func fetchChatSQlite(){
-        
-        
-        
+    func addUploadInfo(selectedUser1:String,uniqueid1:String,rowindex:Int,uploadProgress:Float,isCompleted:Bool)
+    {
+        uploadInfo.addObject(["selectedUser":selectedUser1,"uniqueid":uniqueid1,"rowIndex":rowindex,"uploadProgress":uploadProgress,"isCompleted":isCompleted])
     }
+    
+   
     
     
     //***** was working but not needed
@@ -1261,9 +1262,9 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
             selectedText = msg as! String
             /// var imgNSData=NSFileManager.defaultManager().contentsAtPath(imgPath)
             chatImage.userInteractionEnabled=true
-            var filelabel=UILabel(frame: CGRect(x: 20 + distanceFactor, y: chatImage.frame.origin.y + sizeOFStr.height + 40,width: ((sizeOFStr.width + 100)  > 200 ? (sizeOFStr.width + 100) : 200), height: sizeOFStr.height + 40))
-            filelabel.text="rtf   95kb 3:23am"
-            chatImage.addSubview(filelabel)
+            //var filelabel=UILabel(frame: CGRect(x: 20 + distanceFactor, y: chatImage.frame.origin.y + sizeOFStr.height + 40,width: ((sizeOFStr.width + 100)  > 200 ? (sizeOFStr.width + 100) : 200), height: sizeOFStr.height + 40))
+            //filelabel.text="rtf   95kb 3:23am"
+            //chatImage.addSubview(filelabel)
             // UILabel(frame: 0,0,((sizeOFStr.width + 100)  > 200 ? (sizeOFStr.width + 100) : 200), sizeOFStr.height + 40)
            // let tapRecognizer = UITapGestureRecognizer(target: self, action: Selector("docTapped:"))
             //Add the recognizer to your view.
@@ -1944,7 +1945,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
             
             sqliteDB.saveFile(self.selectedContact, from1: username!, owneruser1: username!, file_name1: self.filename, date1: nil, uniqueid1: uniqueID, file_size1: "\(self.fileSize1)", file_type1: ftype, file_path1: filePathImage2, type1: "image")
             
-           // self.uploadInfo.addObject(["":""])
+            self.addUploadInfo(self.selectedContact,uniqueid1: uniqueID, rowindex: self.messages.count, uploadProgress: 0.0, isCompleted: false)
             
             managerFile.uploadFile(filePathImage2, to1: self.selectedContact, from1: username!, uniqueid1: uniqueID, file_name1: self.filename, file_size1: "\(self.fileSize1)", file_type1: ftype)
             print("alamofire upload calledddd")

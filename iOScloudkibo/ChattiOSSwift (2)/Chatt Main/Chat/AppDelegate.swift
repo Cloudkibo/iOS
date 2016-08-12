@@ -17,6 +17,7 @@ import Fabric
 import Crashlytics
 
 
+var uploadInfo:NSMutableArray!
  var managerFile = NetworkingManager.sharedManager
 var selectedText=""
 var chatDetailView:ChatDetailViewController!
@@ -107,6 +108,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate,AppDelegateScreenDelegate 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         // Override point for customization after application launch.
         
+        
+        
+        uploadInfo=NSMutableArray()
         Fabric.with([Crashlytics.self])
 
         UIApplication.sharedApplication().setStatusBarHidden(true, withAnimation: UIStatusBarAnimation.Fade);

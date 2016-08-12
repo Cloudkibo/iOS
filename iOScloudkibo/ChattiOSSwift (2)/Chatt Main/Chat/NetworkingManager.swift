@@ -11,7 +11,7 @@ import Alamofire
 import SwiftyJSON
 class NetworkingManager
 {
-    
+    var delegateProgressUpload:showUploadProgressDelegate!
     let imageExtensions=[
         "gif",
         "jpeg",
@@ -208,6 +208,12 @@ class NetworkingManager
                 dispatch_async(dispatch_get_main_queue()) {
                     let percent = (Float(totalBytesWritten) / Float(totalBytesExpectedToWrite))
                     /////progress(percent: percent)
+                    if(self.delegateProgressUpload != nil)
+                    {
+                       self.delegateProgressUpload.updateProgressUpload(percent,uniqueid1)
+                        
+                    }
+                    //Redraw specific table cell
                     print("percentage is \(percent)")
                 }
             }
@@ -445,5 +451,9 @@ class NetworkingManager
             backgroundManager.backgroundCompletionHandler = newValue
         }
     }
+}
+protocol showUploadProgressDelegate:class
+{
+    func updateProgressUpload(progress:Float,uniqueid:String);
 }
 
