@@ -510,18 +510,20 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
                     ///print("statussss is \(tblContacts[status])")
                     if(tblContacts[type]=="image")
                     {
-                        self.addMessage(tblContacts[msg], ofType: "4",date: tblContacts[date])
+                        self.addUploadInfo(selectedContact, uniqueid1: tblContacts[uniqueid], rowindex: messages.count, uploadProgress: 1, isCompleted: true)
+                        self.addMessage(tblContacts[msg], ofType: "4",date: tblContacts[date],uniqueid: tblContacts[uniqueid])
                         
                     }
                     else{
                     if(tblContacts[type]=="document")
                     {
-                        self.addMessage(tblContacts[msg], ofType: "6",date: tblContacts[date])
+                        self.addUploadInfo(selectedContact, uniqueid1: tblContacts[uniqueid], rowindex: messages.count, uploadProgress: 1, isCompleted: true)
+                        self.addMessage(tblContacts[msg], ofType: "6",date: tblContacts[date],uniqueid: tblContacts[uniqueid])
                         
                     }
                     else
                     {
-                    self.addMessage(tblContacts[msg]+" (\(tblContacts[status])) ", ofType: "2",date: tblContacts[date])
+                    self.addMessage(tblContacts[msg]+" (\(tblContacts[status])) ", ofType: "2",date: tblContacts[date],uniqueid: tblContacts[uniqueid])
                     }
                     }
                 }
@@ -530,18 +532,20 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
                    //// print("statussss is \(tblContacts[status])")
                     if(tblContacts[type]=="image")
                     {
-                        self.addMessage(tblContacts[msg] , ofType: "3",date: tblContacts[date])
+                        self.addUploadInfo(selectedContact, uniqueid1: tblContacts[uniqueid], rowindex: messages.count, uploadProgress: 1, isCompleted: true)
+                        self.addMessage(tblContacts[msg] , ofType: "3",date: tblContacts[date],uniqueid: tblContacts[uniqueid])
                         
                     }
                     else
                     {if(tblContacts[type]=="document")
                     {
-                        self.addMessage(tblContacts[msg], ofType: "5",date: tblContacts[date])
+                        self.addUploadInfo(selectedContact, uniqueid1: tblContacts[uniqueid], rowindex: messages.count, uploadProgress: 1, isCompleted: true)
+                        self.addMessage(tblContacts[msg], ofType: "5",date: tblContacts[date],uniqueid: tblContacts[uniqueid])
                         
                     }
                     else
                     {
-                    self.addMessage(tblContacts[msg], ofType: "1", date: tblContacts[date])
+                    self.addMessage(tblContacts[msg], ofType: "1", date: tblContacts[date],uniqueid: tblContacts[uniqueid])
                     }
                     }
                     
@@ -697,14 +701,55 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
         // Dispose of any resources that can be recreated.
     }
     
-    func addMessage(message: String, ofType msgType:String, date:String) {
-        messages.addObject(["message":message, "type":msgType, "date":date])
+    func addMessage(message: String, ofType msgType:String, date:String, uniqueid:String) {
+        messages.addObject(["message":message, "type":msgType, "date":date, "uniqueid":uniqueid])
+    }
+    
+    func updateProgressUpload(progress: Float, uniqueid: String) {
+        //uploadInfo.indexOfObject(<#T##anObject: AnyObject##AnyObject#>)
+       /* uploadInfo.filterUsingPredicate(NSPredicate(block: { ("uniqueid", uniqueid) -> Bool in
+            
+            
+        })*/
+        var predicate=NSPredicate(format: "uniqueid = %@", uniqueid)
+        var resultArray=uploadInfo.filteredArrayUsingPredicate(predicate)
+        resultArray.first
+        
+        var foundInd=uploadInfo.indexOfObject(resultArray.first!)
+         var foundMsgInd=messages.indexOfObject(messages.valueForKey("uniqueid") as! String==uniqueid)
+        //if(foundInd != NSNotFound)
+            if(resultArray.count>0){
+               // print("found uniqueID index as \(foundInd)")
+                var newuser=resultArray.first!.valueForKey("selectedUser")
+                var newuniqueid=resultArray.first!.valueForKey("uniqueid")
+                var newrowindex=foundMsgInd
+                var newuploadProgress=progress
+                var newIsCompleted=resultArray.first!.valueForKey("isCompleted")
+                var aaa:[String:AnyObject]=["selectedUser":newuser!,"uniqueid":newuniqueid!,"rowIndex":newrowindex,"uploadProgress":newuploadProgress,"isCompleted":newIsCompleted!]
+                
+               /////// uploadInfo.insertObject(aaa, atIndex: foundInd)
+                
+                
+                //let newObject=["selectedUser":newuser,"uniqueid":newuniqueid,"rowIndex":newrowindex,"uploadProgress":newuploadProgress,"isCompleted":newIsCompleted]
+                uploadInfo.replaceObjectAtIndex(foundInd, withObject: aaa)
+                /*
+ ["selectedUser":selectedUser1,"uniqueid":uniqueid1,"rowIndex":rowindex,"uploadProgress":uploadProgress,"isCompleted":isCompleted]
+ */
+                //=progress
+                var foundMsgInd=messages.indexOfObject(messages.valueForKey("uniqueid") as! String==uniqueid)
+                var indexPath = NSIndexPath(forRow: foundMsgInd, inSection: 0)
+                
+                tblForChats.reloadRowsAtIndexPaths([indexPath], withRowAnimation: UITableViewRowAnimation.None)
+                
+                
+            }
     }
     
     func updateUploadInfo()
     {
         
     }
+    
     
     func addUploadInfo(selectedUser1:String,uniqueid1:String,rowindex:Int,uploadProgress:Float,isCompleted:Bool)
     {
@@ -1139,7 +1184,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
             let timeLabel = cell.viewWithTag(11) as! UILabel
             let chatImage = cell.viewWithTag(1) as! UIImageView
             let profileImage = cell.viewWithTag(2) as! UIImageView
-             ///let progressView=cell.viewWithTag(0) as! KDCircularProgress
+             let progressView=cell.viewWithTag(14) as! KDCircularProgress
             
             let distanceFactor = (170.0 - sizeOFStr.width) < 100 ? (170.0 - sizeOFStr.width) : 100
             
@@ -2197,7 +2242,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
         //formatter.timeStyle = .ShortStyle
         let defaultTimeZoneStr = formatter.stringFromDate(date);
         
-        self.addMessage(txtFldMessage.text!+" (\(statusNow))", ofType: "2",date:defaultTimeZoneStr)
+        self.addMessage(txtFldMessage.text!+" (\(statusNow))", ofType: "2",date:defaultTimeZoneStr, uniqueid: uniqueID)
         txtFldMessage.text = "";
         tblForChats.reloadData()
         if(messages.count>1)
@@ -2305,10 +2350,10 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
             //formatter.timeStyle = .ShortStyle
             let defaultTimeZoneStr = formatter.stringFromDate(date22);
             
+             var uniqueid=chatJson[0]["uniqueid"].string!
             
             
-            
-            self.addMessage(receivedMsg.description, ofType: "1",date: defaultTimeZoneStr)
+            self.addMessage(receivedMsg.description, ofType: "1",date: defaultTimeZoneStr,uniqueid: uniqueid)
             
             self.retrieveChatFromSqlite(self.selectedContact)
             if(self.messages.count>1)

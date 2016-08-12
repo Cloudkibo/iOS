@@ -1009,7 +1009,7 @@
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <view contentMode="scaleToFill" id="Rbj-4a-EJB" customClass="KDCircularProgress" customModule="Chat" customModuleProvider="target">
+                                                <view tag="14" contentMode="scaleToFill" id="Rbj-4a-EJB" customClass="KDCircularProgress" customModule="Chat" customModuleProvider="target">
                                                     <rect key="frame" x="173" y="9" width="33" height="32"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -1082,7 +1082,7 @@
                                                     <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <view contentMode="scaleToFill" id="R54-Uv-1QE" customClass="KDCircularProgress" customModule="Chat" customModuleProvider="target">
+                                                <view tag="14" contentMode="scaleToFill" id="R54-Uv-1QE" customClass="KDCircularProgress" customModule="Chat" customModuleProvider="target">
                                                     <rect key="frame" x="246" y="8" width="33" height="32"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
                                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
