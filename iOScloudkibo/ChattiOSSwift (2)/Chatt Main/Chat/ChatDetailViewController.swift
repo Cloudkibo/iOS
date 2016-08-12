@@ -957,6 +957,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
         let msg = messageDic["message"] as NSString!
         let date2=messageDic["date"] as NSString!
         let sizeOFStr = self.getSizeOfString(msg)
+        let uniqueidDictValue=messageDic["uniqueid"] as NSString!
        //// print("sizeOfstr is width \(sizeOFStr.width) and height is \(sizeOFStr.height)")
         
         //var sizeOFStr=msg.boundingRectWithSize(CGSizeMake(220.0,CGFloat.max), options: NSStringDrawingOptions.UsesLineFragmentOrigin, attributes: nil, context: nil).size
@@ -1194,6 +1195,15 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
              let progressView=cell.viewWithTag(14) as! KDCircularProgress
             
             let distanceFactor = (170.0 - sizeOFStr.width) < 100 ? (170.0 - sizeOFStr.width) : 100
+            var predicate=NSPredicate(format: "uniqueid = %@", uniqueidDictValue)
+           
+            var uploading=uploadInfo.contains({ (predicate) -> Bool in
+             //   return ((predicate as? Int) == intValue)
+                print("yes uploading predicate satisfiedd")
+                var newAngleValue=270
+                progressView.animateToAngle(newAngleValue, duration: 0.5, completion: nil)
+                return true
+            })
             
             
             
@@ -1266,12 +1276,19 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
             let timeLabel = cell.viewWithTag(11) as! UILabel
             let chatImage = cell.viewWithTag(1) as! UIImageView
             let profileImage = cell.viewWithTag(2) as! UIImageView
-           /// let progressView=cell.viewWithTag(0) as! KDCircularProgress
+            let progressView=cell.viewWithTag(14) as! KDCircularProgress
             
             let distanceFactor = (170.0 - sizeOFStr.width) < 100 ? (170.0 - sizeOFStr.width) : 100
             
             
-           
+            var uploading=uploadInfo.contains({ (predicate) -> Bool in
+                //   return ((predicate as? Int) == intValue)
+                print(predicate.description)
+                print("yes uploading predicate satisfiedd")
+                var newAngleValue=280
+                progressView.animateToAngle(newAngleValue, duration: 0.5, completion: nil)
+                return true
+            })
            
             chatImage.frame = CGRectMake(20 + distanceFactor, chatImage.frame.origin.y, ((sizeOFStr.width + 100)  > 200 ? (sizeOFStr.width + 100) : 200), sizeOFStr.height + 40)
             
