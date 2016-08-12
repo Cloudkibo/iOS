@@ -1066,6 +1066,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
             let chatImage = cell.viewWithTag(1) as! UIImageView
             let profileImage = cell.viewWithTag(2) as! UIImageView
             
+            let progressView = cell.viewWithTag(14) as! KDCircularProgress!
             
             //////chatImage.contentMode = .Center
             
@@ -1091,6 +1092,24 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
             if(imgNSData != nil)
             {
                 chatImage.userInteractionEnabled = true
+                var predicate=NSPredicate(format: "uniqueid = %@", uniqueidDictValue)
+                var resultArray=uploadInfo.filteredArrayUsingPredicate(predicate)
+                if(resultArray.count>0)
+                {
+                    // progressView.hidden=false
+                    // print("yes uploading predicate satisfiedd")
+                    var bbb = resultArray.first!.valueForKey("uploadProgress") as! Float
+                    print("yes uploading predicate satisfiedd \(bbb)")
+                    var newAngleValue=(bbb*360) as NSNumber
+                    print("\(progressView.angle) to newangle is \(newAngleValue.integerValue)")
+                    if(progressView.angle<newAngleValue.integerValue)
+                    {
+                        progressView.animateFromAngle(progressView.angle, toAngle: newAngleValue.integerValue, duration: 0.5, completion: nil)
+                    }
+                    
+                    // progressView.animateToAngle(newAngleValue.integerValue, duration: 0.5, completion: nil)
+                    //return true
+                }
                 //now you need a tap gesture recognizer
                 //note that target and action point to what happens when the action is recognized.
                 let tapRecognizer = UITapGestureRecognizer(target: self, action: Selector("imageTapped:"))
@@ -1130,7 +1149,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
             let timeLabel = cell.viewWithTag(11) as! UILabel
             let chatImage = cell.viewWithTag(1) as! UIImageView
             let profileImage = cell.viewWithTag(2) as! UIImageView
-            
+            let progressView = cell.viewWithTag(14) as! KDCircularProgress!
             
             //////chatImage.contentMode = .Center
             
@@ -1160,6 +1179,24 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
                 //note that target and action point to what happens when the action is recognized.
                 let tapRecognizer = UITapGestureRecognizer(target: self, action: Selector("imageTapped:"))
                 //Add the recognizer to your view.
+                var predicate=NSPredicate(format: "uniqueid = %@", uniqueidDictValue)
+                var resultArray=uploadInfo.filteredArrayUsingPredicate(predicate)
+                if(resultArray.count>0)
+                {
+                    // progressView.hidden=false
+                    // print("yes uploading predicate satisfiedd")
+                    var bbb = resultArray.first!.valueForKey("uploadProgress") as! Float
+                    print("yes uploading predicate satisfiedd \(bbb)")
+                    var newAngleValue=(bbb*360) as NSNumber
+                    print("\(progressView.angle) to newangle is \(newAngleValue.integerValue)")
+                    if(progressView.angle<newAngleValue.integerValue)
+                    {
+                        progressView.animateFromAngle(progressView.angle, toAngle: newAngleValue.integerValue, duration: 0.5, completion: nil)
+                    }
+                    
+                    // progressView.animateToAngle(newAngleValue.integerValue, duration: 0.5, completion: nil)
+                    //return true
+                }
                 chatImage.addGestureRecognizer(tapRecognizer)
                 
                 
