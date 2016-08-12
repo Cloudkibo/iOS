@@ -720,7 +720,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
         })*/
         var predicate=NSPredicate(format: "uniqueid = %@", uniqueid)
         var resultArray=uploadInfo.filteredArrayUsingPredicate(predicate)
-        resultArray.first
+        //cfpresultArray.first
         
         var foundInd=uploadInfo.indexOfObject(resultArray.first!)
         var resultArrayMsgs=messages.filteredArrayUsingPredicate(predicate)
@@ -749,8 +749,9 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
                // var foundMsgInd=messages.indexOfObject(messages.valueForKey("uniqueid") as! String==uniqueid)
                 var indexPath = NSIndexPath(forRow: foundMsgInd, inSection: 0)
                 
-                tblForChats.reloadRowsAtIndexPaths([indexPath], withRowAnimation: UITableViewRowAnimation.None)
-                
+                dispatch_async(dispatch_get_main_queue())
+                {self.tblForChats.reloadRowsAtIndexPaths([indexPath], withRowAnimation: UITableViewRowAnimation.None)
+                }
                 
             }
     }
@@ -1196,15 +1197,24 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
             
             let distanceFactor = (170.0 - sizeOFStr.width) < 100 ? (170.0 - sizeOFStr.width) : 100
             var predicate=NSPredicate(format: "uniqueid = %@", uniqueidDictValue)
-           
-            var uploading=uploadInfo.contains({ (predicate) -> Bool in
+            var resultArray=uploadInfo.filteredArrayUsingPredicate(predicate)
+            if(resultArray.count>0)
+{
+    print("yes uploading predicate satisfiedd")
+   var bbb = resultArray.first!.valueForKey("uploadProgress") as! Float
+    print("yes uploading predicate satisfiedd")
+    var newAngleValue=(bbb*360) as NSNumber
+    progressView.animateToAngle(newAngleValue.integerValue, duration: 0.5, completion: nil)
+    //return true
+}
+          /*  var uploading=uploadInfo.contains({ (predicate) -> Bool in
              //   return ((predicate as? Int) == intValue)
                 print("yes uploading predicate satisfiedd")
                 var newAngleValue=270
                 progressView.animateToAngle(newAngleValue, duration: 0.5, completion: nil)
                 return true
             })
-            
+ */
             
             
            //  chatImage.frame = CGRectMake(chatImage.frame.origin.x, chatImage.frame.origin.y, 200, 200)
@@ -1237,11 +1247,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
             //////chatImage.contentMode = .Center
             
             //chatImage.frame = CGRectMake(80, chatImage.frame.origin.y, 220, 220)
-            /*let documentDirectory = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true).first as String!
-             let photoURL          = NSURL(fileURLWithPath: documentDirectory)
-             let imgPath         = photoURL.URLByAppendingPathComponent(msg as! String)
-             
-             */
+ 
             
             
             let dirPaths = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)
@@ -1280,15 +1286,25 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
             
             let distanceFactor = (170.0 - sizeOFStr.width) < 100 ? (170.0 - sizeOFStr.width) : 100
             
-            
-            var uploading=uploadInfo.contains({ (predicate) -> Bool in
-                //   return ((predicate as? Int) == intValue)
-                print(predicate.description)
+            var predicate=NSPredicate(format: "uniqueid = %@", uniqueidDictValue)
+            var resultArray=uploadInfo.filteredArrayUsingPredicate(predicate)
+            if(resultArray.count>0)
+            {
                 print("yes uploading predicate satisfiedd")
-                var newAngleValue=280
-                progressView.animateToAngle(newAngleValue, duration: 0.5, completion: nil)
+                var bbb = resultArray.first!.valueForKey("uploadProgress") as! Float
+                print("yes uploading predicate satisfiedd")
+                var newAngleValue=(bbb*360) as NSNumber
+                progressView.animateToAngle(newAngleValue.integerValue, duration: 0.5, completion: nil)
+               //return true
+            }
+            /*var uploading=uploadInfo.contains({ (predicate) -> Bool in
+                //   return ((predicate as? Int) == intValue)
+                print(predicate.uploadProgress)
+                print("yes uploading predicate satisfiedd")
+                var newAngleValue=predicate.
+               // progressView.animateToAngle(Int32(newAngleValue), duration: 0.5, completion: nil)
                 return true
-            })
+            })*/
            
             chatImage.frame = CGRectMake(20 + distanceFactor, chatImage.frame.origin.y, ((sizeOFStr.width + 100)  > 200 ? (sizeOFStr.width + 100) : 200), sizeOFStr.height + 40)
             
