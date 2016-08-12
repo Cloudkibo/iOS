@@ -751,6 +751,9 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
                 
                 dispatch_async(dispatch_get_main_queue())
                 {self.tblForChats.reloadRowsAtIndexPaths([indexPath], withRowAnimation: UITableViewRowAnimation.None)
+                    
+                    //var cell=self.tblForChats.dequeueReusableCellWithIdentifier("")! as UITableViewCell
+                    
                 }
                 
             }
@@ -1200,11 +1203,18 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
             var resultArray=uploadInfo.filteredArrayUsingPredicate(predicate)
             if(resultArray.count>0)
 {
-    print("yes uploading predicate satisfiedd")
+   // progressView.hidden=false
+   // print("yes uploading predicate satisfiedd")
    var bbb = resultArray.first!.valueForKey("uploadProgress") as! Float
-    print("yes uploading predicate satisfiedd")
+    print("yes uploading predicate satisfiedd \(bbb)")
     var newAngleValue=(bbb*360) as NSNumber
-    progressView.animateToAngle(newAngleValue.integerValue, duration: 0.5, completion: nil)
+    print("\(progressView.angle) to newangle is \(newAngleValue.integerValue)")
+    if(progressView.angle<newAngleValue.integerValue)
+    {
+        progressView.animateFromAngle(progressView.angle, toAngle: newAngleValue.integerValue, duration: 0.5, completion: nil)
+    }
+
+    //progressView.animateToAngle(newAngleValue.integerValue, duration: 0.5, completion: nil)
     //return true
 }
           /*  var uploading=uploadInfo.contains({ (predicate) -> Bool in
@@ -1290,11 +1300,18 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
             var resultArray=uploadInfo.filteredArrayUsingPredicate(predicate)
             if(resultArray.count>0)
             {
-                print("yes uploading predicate satisfiedd")
+                // progressView.hidden=false
+                // print("yes uploading predicate satisfiedd")
                 var bbb = resultArray.first!.valueForKey("uploadProgress") as! Float
-                print("yes uploading predicate satisfiedd")
+                print("yes uploading predicate satisfiedd \(bbb)")
                 var newAngleValue=(bbb*360) as NSNumber
-                progressView.animateToAngle(newAngleValue.integerValue, duration: 0.5, completion: nil)
+                print("\(progressView.angle) to newangle is \(newAngleValue.integerValue)")
+                if(progressView.angle<newAngleValue.integerValue)
+                {
+                progressView.animateFromAngle(progressView.angle, toAngle: newAngleValue.integerValue, duration: 0.5, completion: nil)
+                }
+                
+                // progressView.animateToAngle(newAngleValue.integerValue, duration: 0.5, completion: nil)
                //return true
             }
             /*var uploading=uploadInfo.contains({ (predicate) -> Bool in

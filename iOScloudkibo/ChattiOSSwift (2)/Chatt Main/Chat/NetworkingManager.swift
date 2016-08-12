@@ -396,6 +396,12 @@ class NetworkingManager
         Alamofire.download(.POST, "\(downloadURL)", headers:header, parameters: ["uniqueid":fileuniqueid], destination: destination)
             .progress { (bytesRead, totalBytesRead, totalBytesExpectedToRead) in
                 print("writing bytes \(totalBytesRead)")
+                var progressbytes=(Float(totalBytesRead)/Float(totalBytesExpectedToRead)) as Float
+                if(self.delegateProgressUpload != nil)
+                {
+                    self.delegateProgressUpload.updateProgressUpload(progressbytes,uniqueid: fileuniqueid)
+                    
+                }
             }
             .response { (request, response, _, error) in
                 print(response)
