@@ -734,8 +734,15 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
                 var newuniqueid=resultArray.first!.valueForKey("uniqueid")
                 var newrowindex=foundMsgInd
                 var newuploadProgress=progress
-                var newIsCompleted=resultArray.first!.valueForKey("isCompleted")
-                var aaa:[String:AnyObject]=["selectedUser":newuser!,"uniqueid":newuniqueid!,"rowIndex":newrowindex,"uploadProgress":newuploadProgress,"isCompleted":newIsCompleted!]
+                ///var newIsCompleted=resultArray.first!.valueForKey("isCompleted")
+                
+                var newIsCompleted=false
+                if(progress==1.0)
+                    {
+                        newIsCompleted=true
+                    }
+                
+                var aaa:[String:AnyObject]=["selectedUser":newuser!,"uniqueid":newuniqueid!,"rowIndex":newrowindex,"uploadProgress":newuploadProgress,"isCompleted":newIsCompleted]
                 
                /////// uploadInfo.insertObject(aaa, atIndex: foundInd)
                 
@@ -751,11 +758,23 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
                 
                 dispatch_async(dispatch_get_main_queue())
                 {
+                    
                     var newcell=self.tblForChats.cellForRowAtIndexPath(indexPath)
+                    
                     var newprogressview = newcell!.viewWithTag(14) as! KDCircularProgress!
                     var intangle=(progress*360) as NSNumber
                     print("from \(newprogressview.angle) to \(intangle.integerValue)")
+                    newprogressview.hidden=false
                     newprogressview.animateToAngle(intangle.integerValue, duration: 0.7, completion: { (Bool) in
+                        
+                        if(intangle.integerValue==360)
+                        {
+                            newprogressview.hidden=true
+                        }
+                        else
+                        {
+                            newprogressview.hidden=false
+                        }
                         //newprogressview.angle=intangle.integerValue
                         
                     })
@@ -966,6 +985,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
     func tableView(tableView: UITableView!, cellForRowAtIndexPath indexPath: NSIndexPath!) -> UITableViewCell! {
         var cell : UITableViewCell!
         
+        print("cellForRowAtIndexPath called \(indexPath)")
         var messageDic = messages.objectAtIndex(indexPath.row) as! [String : String];
         NSLog(messageDic["message"]!, 1)
         let msgType = messageDic["type"] as NSString!
@@ -1103,20 +1123,35 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
             if(imgNSData != nil)
             {
                 chatImage.userInteractionEnabled = true
-               /* var predicate=NSPredicate(format: "uniqueid = %@", uniqueidDictValue)
+                var predicate=NSPredicate(format: "uniqueid = %@", uniqueidDictValue)
                 var resultArray=uploadInfo.filteredArrayUsingPredicate(predicate)
                 if(resultArray.count>0)
                 {
+                    
+                    
+                    var uploadDone = resultArray.first!.valueForKey("isCompleted") as! Bool
+                    if(uploadDone==false)
+                    {
+                        progressView.hidden=false
+                    }
+                    else
+                    {
+                        progressView.hidden=true
+
+                    }
+                    
                     // progressView.hidden=false
                     // print("yes uploading predicate satisfiedd")
-                    var bbb = resultArray.first!.valueForKey("uploadProgress") as! Float
-                    print("yes uploading predicate satisfiedd \(bbb)")
+                  //  var bbb = resultArray.first!.valueForKey("uploadProgress") as! Float
+                    
+                    
+                    /*print("yes uploading predicate satisfiedd \(bbb)")
                     var newAngleValue=(bbb*360) as NSNumber
                     print("\(progressView.angle) to newangle is \(newAngleValue.integerValue)")
                     if(progressView.angle<newAngleValue.integerValue)
                     {
                         progressView.animateFromAngle(progressView.angle, toAngle: newAngleValue.integerValue, duration: 0.5, completion: nil)
-                    }
+                    }*/
  
                     
                     
@@ -1124,7 +1159,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
                     //return true
                 }
  
- */
+ 
                 //now you need a tap gesture recognizer
                 //note that target and action point to what happens when the action is recognized.
                 let tapRecognizer = UITapGestureRecognizer(target: self, action: Selector("imageTapped:"))
@@ -1196,7 +1231,24 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
                 //Add the recognizer to your view.
     
     
-    
+                var predicate=NSPredicate(format: "uniqueid = %@", uniqueidDictValue)
+                var resultArray=uploadInfo.filteredArrayUsingPredicate(predicate)
+                if(resultArray.count>0)
+                {
+                    
+                    
+                    var uploadDone = resultArray.first!.valueForKey("isCompleted") as! Bool
+                    if(uploadDone==false)
+                    {
+                        progressView.hidden=false
+                    }
+                    else
+                    {
+                        progressView.hidden=true
+                        
+                    }
+                    
+                }
     /*var predicate=NSPredicate(format: "uniqueid = %@", uniqueidDictValue)
                 var resultArray=uploadInfo.filteredArrayUsingPredicate(predicate)
                 if(resultArray.count>0)
@@ -1256,6 +1308,29 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
              let progressView=cell.viewWithTag(14) as! KDCircularProgress
             
             let distanceFactor = (170.0 - sizeOFStr.width) < 100 ? (170.0 - sizeOFStr.width) : 100
+            
+            
+            
+            var predicate=NSPredicate(format: "uniqueid = %@", uniqueidDictValue)
+            var resultArray=uploadInfo.filteredArrayUsingPredicate(predicate)
+            if(resultArray.count>0)
+            {
+                
+                
+                var uploadDone = resultArray.first!.valueForKey("isCompleted") as! Bool
+                if(uploadDone==false)
+                {
+                    progressView.hidden=false
+                }
+                else
+                {
+                    progressView.hidden=true
+                    
+                }
+                
+                
+            }
+            
             /*var predicate=NSPredicate(format: "uniqueid = %@", uniqueidDictValue)
             var resultArray=uploadInfo.filteredArrayUsingPredicate(predicate)
             if(resultArray.count>0)
@@ -1355,6 +1430,25 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
             
             let distanceFactor = (170.0 - sizeOFStr.width) < 100 ? (170.0 - sizeOFStr.width) : 100
     
+            var predicate=NSPredicate(format: "uniqueid = %@", uniqueidDictValue)
+            var resultArray=uploadInfo.filteredArrayUsingPredicate(predicate)
+            if(resultArray.count>0)
+            {
+                
+                
+                var uploadDone = resultArray.first!.valueForKey("isCompleted") as! Bool
+                if(uploadDone==false)
+                {
+                    progressView.hidden=false
+                }
+                else
+                {
+                    progressView.hidden=true
+                    
+                }
+                
+                
+            }
     
     /*
             var predicate=NSPredicate(format: "uniqueid = %@", uniqueidDictValue)
@@ -2616,7 +2710,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
             coordinator.coordinateReadingItemAtURL(url, options: [], error: &error) { (url) -> Void in
                 // do something with it
                 let fileData = NSData(contentsOfURL: url)
-                print(fileData?.description)
+                ///////////////////////print(fileData?.description)
                 socketObj.socket.emit("logClient","IPHONE-LOG: \(username!) selected file ")
                 print("file gotttttt")
                
