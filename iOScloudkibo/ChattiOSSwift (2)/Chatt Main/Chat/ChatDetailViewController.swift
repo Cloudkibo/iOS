@@ -760,9 +760,10 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
                 {
                     
                     var newcell=self.tblForChats.cellForRowAtIndexPath(indexPath)
-                    
-                    var newprogressview = newcell!.viewWithTag(14) as! KDCircularProgress!
+                    do{
+                    var newprogressview = try newcell!.viewWithTag(14) as! KDCircularProgress!
                     var intangle=(progress*360) as NSNumber
+                    
                     print("from \(newprogressview.angle) to \(intangle.integerValue)")
                     newprogressview.hidden=false
                     newprogressview.animateToAngle(intangle.integerValue, duration: 0.7, completion: { (Bool) in
@@ -781,7 +782,11 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
                     //self.tblForChats.reloadRowsAtIndexPaths([indexPath], withRowAnimation: UITableViewRowAnimation.None)
                     
                     //var cell=self.tblForChats.dequeueReusableCellWithIdentifier("")! as UITableViewCell
-                    
+                    }
+                    catch
+                    {
+                        print("errorrrrr 788")
+                    }
                 }
                 
             }
@@ -1123,7 +1128,9 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
             if(imgNSData != nil)
             {
                 chatImage.userInteractionEnabled = true
-                var predicate=NSPredicate(format: "uniqueid = %@", uniqueidDictValue)
+              
+                
+                /*var predicate=NSPredicate(format: "uniqueid = %@", uniqueidDictValue)
                 var resultArray=uploadInfo.filteredArrayUsingPredicate(predicate)
                 if(resultArray.count>0)
                 {
@@ -1159,7 +1166,8 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
                     //return true
                 }
  
- 
+ */
+                
                 //now you need a tap gesture recognizer
                 //note that target and action point to what happens when the action is recognized.
                 let tapRecognizer = UITapGestureRecognizer(target: self, action: Selector("imageTapped:"))
@@ -1310,7 +1318,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
             let distanceFactor = (170.0 - sizeOFStr.width) < 100 ? (170.0 - sizeOFStr.width) : 100
             
             
-            
+            /*
             var predicate=NSPredicate(format: "uniqueid = %@", uniqueidDictValue)
             var resultArray=uploadInfo.filteredArrayUsingPredicate(predicate)
             if(resultArray.count>0)
@@ -1330,7 +1338,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
                 
                 
             }
-            
+            */
             /*var predicate=NSPredicate(format: "uniqueid = %@", uniqueidDictValue)
             var resultArray=uploadInfo.filteredArrayUsingPredicate(predicate)
             if(resultArray.count>0)

@@ -1172,7 +1172,7 @@ class LoginAPI{
                     chattype=tblFiles[type]
                     
                     print("File exists in file table \(file_name)")
-                    socketObj.socket.emit("logClient","IPHONE LOG: \(username!) File exists in file table \(tblFiles[file_name])")
+                 /////   socketObj.socket.emit("logClient","IPHONE LOG: \(username!) File exists in file table \(tblFiles[file_name])")
 
 
                     /*print(tblContacts[to])

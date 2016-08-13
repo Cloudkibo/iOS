@@ -210,7 +210,10 @@ class NetworkingManager
                     /////progress(percent: percent)
                     if(self.delegateProgressUpload != nil)
                     {
+                        if(percent<1.0)
+                        {
                        self.delegateProgressUpload.updateProgressUpload(percent,uniqueid: uniqueid1)
+                        }   
                         
                     }
                     //Redraw specific table cell
