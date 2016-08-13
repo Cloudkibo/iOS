@@ -9,7 +9,7 @@
 import UIKit
 import SQLite
 import Contacts
-class NotesViewController: UIViewController,InviteContactsDelegate,UITextFieldDelegate,UISearchBarDelegate,UISearchResultsUpdating {
+class NotesViewController: UIViewController,InviteContactsDelegate,UITextFieldDelegate,UISearchBarDelegate,UISearchResultsUpdating,UIScrollViewDelegate {
     
     
     var filteredArray = Array<Row>()
@@ -33,6 +33,7 @@ class NotesViewController: UIViewController,InviteContactsDelegate,UITextFieldDe
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
         // Custom initialization
     }
+    
     
     
     
@@ -147,18 +148,83 @@ class NotesViewController: UIViewController,InviteContactsDelegate,UITextFieldDe
        // rect.origin.y = MIN(0, self.contentOffset.y);
         tblForNotes.tableHeaderView!.frame = rect;
     }*/
+    
+    /*func scrollViewDidScrollToTop(scrollView: UIScrollView) {
+        
+        print("scroll1 called")
+        let searchBar:UISearchBar = searchController.searchBar
+        var searchBarFrame:CGRect = searchBar.frame
+        if searchController.active {
+            searchBarFrame.origin.y = 10
+        }
+        else {
+            searchBarFrame.origin.y = max(0, scrollView.contentOffset.y + scrollView.contentInset.top)
+            
+        }
+        searchController.searchBar.frame = searchBarFrame
+        
+    }
+    */
+    func scrollViewDidScroll(scrollView: UIScrollView)
+    {/*
+     UISearchBar *searchBar = searchDisplayController.searchBar;
+     CGRect rect = searchBar.frame;
+     rect.origin.y = MIN(0, scrollView.contentOffset.y);
+     searchBar.frame = rect;*/
+     
+     
+        print("scroll2 called")
+        let searchBar:UISearchBar = searchController.searchBar
+        var rect = searchBar.frame;
+        rect.origin.y = 80;
+        searchBar.frame = rect;
+        
+        /*
+        var tableBounds:CGRect = self.tblForNotes.bounds;
+        var searchBarFrame:CGRect = searchBar.frame;
+        
+        // make sure the search bar stays at the table's original x and y as the content moves
+        searchBar.frame = CGRectMake(tblForNotes.frame.origin.x,
+                                          tblForNotes.frame.origin.y+50,
+                                          searchBarFrame.size.width,
+                                          searchBarFrame.size.height
+        );*/
+    }
+   /* let searchBar:UISearchBar = searchController.searchBar
+    var searchBarFrame:CGRect = searchBar.frame
+    if searchController.active {
+    searchBarFrame.origin.y = 50
+    }
+    else {
+    searchBarFrame.origin.y = max(0, scrollView.contentOffset.y + scrollView.contentInset.top)
+    
+    }
+    searchController.searchBar.frame = searchBarFrame*/
+
+
     func configureSearchController() {
         // Initialize and perform a minimum configuration to the search controller.
-        searchController = UISearchController(searchResultsController: nil)
+        
+        /*
+         
+         self.searchBar = [[UISearchBar alloc] initWithFrame:CGRectMake(0, topOffset, 320, 40)];
+         [self.view addSubview:self.searchBar];
+         
+         self.tableView.contentInset = UIEdgeInsetsMake(self.searchBar.frame.size.height, 0, 0, 0);
+         self.tableView.scrollIndicatorInsets = UIEdgeInsetsMake(self.searchBar.frame.size.height, 0, 0, 0);
+ */
+                searchController = UISearchController(searchResultsController: nil)
         searchController.searchResultsUpdater = self
         searchController.dimsBackgroundDuringPresentation = false
         searchController.searchBar.placeholder = "Search here..."
         searchController.searchBar.delegate = self
-        //searchController.searchBar.sizeToFit()
+        searchController.searchBar.sizeToFit()
         
         
         // Place the search bar view to the tableview headerview.
+       // self.navigationController?.navigationBar.addSubview(searchController.searchBar)
         tblForNotes.tableHeaderView = searchController.searchBar
+      
     }
     
     
