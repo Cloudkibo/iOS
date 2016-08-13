@@ -750,7 +750,16 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
                 var indexPath = NSIndexPath(forRow: foundMsgInd, inSection: 0)
                 
                 dispatch_async(dispatch_get_main_queue())
-                {self.tblForChats.reloadRowsAtIndexPaths([indexPath], withRowAnimation: UITableViewRowAnimation.None)
+                {
+                    var newcell=self.tblForChats.cellForRowAtIndexPath(indexPath)
+                    var newprogressview = newcell!.viewWithTag(14) as! KDCircularProgress!
+                    var intangle=(progress*360) as NSNumber
+                    print("from \(newprogressview.angle) to \(intangle.integerValue)")
+                    newprogressview.animateToAngle(intangle.integerValue, duration: 0.7, completion: { (Bool) in
+                        //newprogressview.angle=intangle.integerValue
+                        
+                    })
+                    //self.tblForChats.reloadRowsAtIndexPaths([indexPath], withRowAnimation: UITableViewRowAnimation.None)
                     
                     //var cell=self.tblForChats.dequeueReusableCellWithIdentifier("")! as UITableViewCell
                     
@@ -951,6 +960,8 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
         self.performSegueWithIdentifier("showFullDocSegue", sender: nil);
         }
     }
+    
+    
 
     func tableView(tableView: UITableView!, cellForRowAtIndexPath indexPath: NSIndexPath!) -> UITableViewCell! {
         var cell : UITableViewCell!
@@ -1092,7 +1103,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
             if(imgNSData != nil)
             {
                 chatImage.userInteractionEnabled = true
-                var predicate=NSPredicate(format: "uniqueid = %@", uniqueidDictValue)
+               /* var predicate=NSPredicate(format: "uniqueid = %@", uniqueidDictValue)
                 var resultArray=uploadInfo.filteredArrayUsingPredicate(predicate)
                 if(resultArray.count>0)
                 {
@@ -1106,10 +1117,14 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
                     {
                         progressView.animateFromAngle(progressView.angle, toAngle: newAngleValue.integerValue, duration: 0.5, completion: nil)
                     }
+ 
+                    
                     
                     // progressView.animateToAngle(newAngleValue.integerValue, duration: 0.5, completion: nil)
                     //return true
                 }
+ 
+ */
                 //now you need a tap gesture recognizer
                 //note that target and action point to what happens when the action is recognized.
                 let tapRecognizer = UITapGestureRecognizer(target: self, action: Selector("imageTapped:"))
@@ -1179,7 +1194,10 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
                 //note that target and action point to what happens when the action is recognized.
                 let tapRecognizer = UITapGestureRecognizer(target: self, action: Selector("imageTapped:"))
                 //Add the recognizer to your view.
-                var predicate=NSPredicate(format: "uniqueid = %@", uniqueidDictValue)
+    
+    
+    
+    /*var predicate=NSPredicate(format: "uniqueid = %@", uniqueidDictValue)
                 var resultArray=uploadInfo.filteredArrayUsingPredicate(predicate)
                 if(resultArray.count>0)
                 {
@@ -1193,10 +1211,12 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
                     {
                         progressView.animateFromAngle(progressView.angle, toAngle: newAngleValue.integerValue, duration: 0.5, completion: nil)
                     }
+ 
                     
                     // progressView.animateToAngle(newAngleValue.integerValue, duration: 0.5, completion: nil)
                     //return true
                 }
+ */
                 chatImage.addGestureRecognizer(tapRecognizer)
                 
                 
@@ -1236,7 +1256,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
              let progressView=cell.viewWithTag(14) as! KDCircularProgress
             
             let distanceFactor = (170.0 - sizeOFStr.width) < 100 ? (170.0 - sizeOFStr.width) : 100
-            var predicate=NSPredicate(format: "uniqueid = %@", uniqueidDictValue)
+            /*var predicate=NSPredicate(format: "uniqueid = %@", uniqueidDictValue)
             var resultArray=uploadInfo.filteredArrayUsingPredicate(predicate)
             if(resultArray.count>0)
 {
@@ -1254,6 +1274,8 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
     //progressView.animateToAngle(newAngleValue.integerValue, duration: 0.5, completion: nil)
     //return true
 }
+ 
+ */
           /*  var uploading=uploadInfo.contains({ (predicate) -> Bool in
              //   return ((predicate as? Int) == intValue)
                 print("yes uploading predicate satisfiedd")
@@ -1332,7 +1354,9 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
             let progressView=cell.viewWithTag(14) as! KDCircularProgress
             
             let distanceFactor = (170.0 - sizeOFStr.width) < 100 ? (170.0 - sizeOFStr.width) : 100
-            
+    
+    
+    /*
             var predicate=NSPredicate(format: "uniqueid = %@", uniqueidDictValue)
             var resultArray=uploadInfo.filteredArrayUsingPredicate(predicate)
             if(resultArray.count>0)
@@ -1347,10 +1371,12 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
                 {
                 progressView.animateFromAngle(progressView.angle, toAngle: newAngleValue.integerValue, duration: 0.5, completion: nil)
                 }
-                
-                // progressView.animateToAngle(newAngleValue.integerValue, duration: 0.5, completion: nil)
+                               // progressView.animateToAngle(newAngleValue.integerValue, duration: 0.5, completion: nil)
                //return true
             }
+    
+    
+    */
             /*var uploading=uploadInfo.contains({ (predicate) -> Bool in
                 //   return ((predicate as? Int) == intValue)
                 print(predicate.uploadProgress)

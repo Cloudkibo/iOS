@@ -225,6 +225,13 @@ class NetworkingManager
                 switch response.result {
                 case .Success:
                     
+                    
+                    if(self.delegateProgressUpload != nil)
+                    {
+                        self.delegateProgressUpload.updateProgressUpload(1.0,uniqueid: uniqueid1)
+                        
+                    }
+                    
                     //debugPrint(response)
                     print("file upload success")
                     print(response.result.value)
@@ -396,12 +403,12 @@ class NetworkingManager
         Alamofire.download(.POST, "\(downloadURL)", headers:header, parameters: ["uniqueid":fileuniqueid], destination: destination)
             .progress { (bytesRead, totalBytesRead, totalBytesExpectedToRead) in
                 print("writing bytes \(totalBytesRead)")
-                var progressbytes=(Float(totalBytesRead)/Float(totalBytesExpectedToRead)) as Float
-                if(self.delegateProgressUpload != nil)
-                {
+                var progressbytes=(Float(totalBytesRead)/Float(filePendingSize)!) as Float
+               /* if(self.delegateProgressUpload != nil)
+                {print("progress download value is \(progressbytes)")
                     self.delegateProgressUpload.updateProgressUpload(progressbytes,uniqueid: fileuniqueid)
                     
-                }
+                }*/
             }
             .response { (request, response, _, error) in
                 print(response)
