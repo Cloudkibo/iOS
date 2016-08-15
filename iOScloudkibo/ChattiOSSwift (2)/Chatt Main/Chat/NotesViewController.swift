@@ -165,7 +165,7 @@ class NotesViewController: UIViewController,InviteContactsDelegate,UITextFieldDe
         
     }
     */
-    func scrollViewDidScroll(scrollView: UIScrollView)
+    /*func scrollViewDidScroll(scrollView: UIScrollView)
     {/*
      UISearchBar *searchBar = searchDisplayController.searchBar;
      CGRect rect = searchBar.frame;
@@ -173,8 +173,19 @@ class NotesViewController: UIViewController,InviteContactsDelegate,UITextFieldDe
      searchBar.frame = rect;*/
      
        // UISearchBar *searchBar = searchDisplayController.searchBar;
-        var rect = self.searchDisplayController?.searchBar.frame;
-        rect!.origin.y = max(0, scrollView.contentOffset.y+200);
+        
+         var rect = self.searchDisplayController?.searchBar.frame;
+        if self.searchDisplayController!.active {
+            rect!.origin.y=scrollView.contentOffset.y
+            print("searchbar y value is \(scrollView.contentOffset.y)")
+        }
+        else
+        {
+             rect!.origin.y = max(0, scrollView.contentOffset.y);
+             print("searchbar y2 value is \(rect!.origin.y)")
+        }
+       
+       
         //rect!.origin.y = min(0, 200);
         self.searchDisplayController?.searchBar.frame = rect!;
         
@@ -196,7 +207,7 @@ class NotesViewController: UIViewController,InviteContactsDelegate,UITextFieldDe
                                           searchBarFrame.size.height
         );*/
     }
-    
+    */
     
    /* let searchBar:UISearchBar = searchController.searchBar
     var searchBarFrame:CGRect = searchBar.frame
@@ -301,7 +312,19 @@ class NotesViewController: UIViewController,InviteContactsDelegate,UITextFieldDe
         return true
     }
     
+    
+    /*
+    func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        return self.searchDisplayController!.searchBar
+    }
+    
+    func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return searchDisplayController!.searchBar.frame.height
+    }
+    */
+    
     override func viewWillAppear(animated: Bool) {
+        
         
         tblForNotes.reloadData()
     }
@@ -310,6 +333,21 @@ class NotesViewController: UIViewController,InviteContactsDelegate,UITextFieldDe
         super.viewDidLoad()
         contactsList.delegate=self
         self.navigationItem.titleView = viewForTitle
+        
+        self.searchDisplayController?.searchBar.tintColor=UIColor.blueColor()
+        ////self.searchDisplayController?.searchBar.barTintColor=UIColor.redColor()
+        
+         //self.searchDisplayController?.navigationItem?.title="Searchhh"
+      ///  self.searchDisplayController?.displaysSearchBarInNavigationBar=true
+        self.searchDisplayController!.searchBar.searchBarStyle = UISearchBarStyle.Default
+        
+        // Include the search bar within the navigation bar.
+       /// self.navigationItem.titleView = self.searchDisplayController!.searchBar;
+        
+        self.definesPresentationContext = true;
+        
+        
+        
         //self.navigationItem.leftBarButtonItem = UIBarButtonItem(customView: btnForLogo)
         //self.navigationItem.rightBarButtonItem = itemForSearch
         self.tabBarController?.tabBar.tintColor = UIColor.greenColor()
@@ -541,7 +579,9 @@ class NotesViewController: UIViewController,InviteContactsDelegate,UITextFieldDe
                 
                 
                 if self.searchDisplayController!.active {
+                    print("searchbar active")
                     let indexPath = self.searchDisplayController?.searchResultsTableView.indexPathForSelectedRow
+                    print("selected indexpath of search result is \(indexPath?.row)") //filtered array index
                     if indexPath != nil {
                         
                         var allcontactslist1=sqliteDB.allcontacts
@@ -552,23 +592,48 @@ class NotesViewController: UIViewController,InviteContactsDelegate,UITextFieldDe
                         let name = Expression<String?>("name")
                         
                         //alladdressContactsArray = Array(try sqliteDB.db.prepare(allcontactslist1))
-                        
+                        var newindexphone=0
                         
                         do
                         {alladdressContactsArray = Array(try sqliteDB.db.prepare(allcontactslist1))
+                      
                             var selectedphone=filteredArray[indexPath!.row].get(phone)
+                            var selectedname=filteredArray[indexPath!.row].get(name)
+                            print("selected phone is \(selectedphone)")
+                            print("selected phone is \(selectedname)")
                             
+                            for (var i=0;i<alladdressContactsArray.count;i++)
+                            {
+                                if(alladdressContactsArray[i].get(phone)==selectedphone)
+                                {
+                                    newindexphone=i
+                                }
+                                
+                            }
+                            /*
                             var predicate=NSPredicate(format: "phone = %@", selectedphone)
-                            var newindexphone=alladdressContactsArray.indexOf({ (predicate) -> Bool in
+                            var newarray=alladdressContactsArray.filter({_ in alladdressContactsArray[phone]==selectedphone})
+                            
+                            print("newarray is .. \(newarray.debugDescription)")
+                            var newindexphone=alladdressContactsArray.indexOf({ (newarray) -> Bool in
                                 
-                                
+                                print("predicate found")
                                 return true
                                 
                             })
-                            contactsDetailController?.contactIndex=newindexphone!
+                            
+                            */
+                           /* var newindexphone=alladdressContactsArray.indexOf({ (predicate) -> Bool in
+                                
+                                      print("predicate found")
+                                return true
+                                
+                            })*/
+                            print("new index is \(newindexphone)")
+                            contactsDetailController?.contactIndex=newindexphone
                             
                             
-                             contactsDetailController?.isKiboContact = alladdressContactsArray[newindexphone!].get(kibocontact)
+                             contactsDetailController?.isKiboContact = alladdressContactsArray[newindexphone].get(kibocontact)
                             
                            /* var cell=tblForNotes.cellForRowAtIndexPath(newindexphone!) as! AllContactsCell
                             if(cell.labelStatusPrivate.hidden==false)
@@ -596,7 +661,7 @@ class NotesViewController: UIViewController,InviteContactsDelegate,UITextFieldDe
                       
                 }
                     else{
-                    
+                    print("search bar not active")
                 contactsDetailController?.contactIndex=tblForNotes.indexPathForSelectedRow!.row
                 var cell=tblForNotes.cellForRowAtIndexPath(tblForNotes.indexPathForSelectedRow!) as! AllContactsCell
                 if(cell.labelStatusPrivate.hidden==false)
