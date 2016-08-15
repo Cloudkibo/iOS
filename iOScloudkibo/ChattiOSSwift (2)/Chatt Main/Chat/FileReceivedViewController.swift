@@ -49,8 +49,6 @@ class FileReceivedViewController: UIViewController,UIDocumentInteractionControll
     func saveToiCloud()
     
     {
-        
-        
            let filemgr = NSFileManager.init()
         var ubiquityURL=filemgr.URLForUbiquityContainerIdentifier("iCloud.iCloud.MyAppTemplates.cloudkibo")
         

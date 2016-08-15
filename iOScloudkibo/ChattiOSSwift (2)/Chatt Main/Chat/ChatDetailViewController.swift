@@ -149,6 +149,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
             }
             return true
         } else {
+            
             return false
         }
     }
@@ -2715,7 +2716,19 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
             url.startAccessingSecurityScopedResource()
             let coordinator = NSFileCoordinator()
             var error:NSError? = nil
+            //var downloadedalready=false
+            do{
+            var downloadkeyresult=try url.resourceValuesForKeys([NSURLUbiquitousItemDownloadingStatusKey])
+                print("... ... \(downloadkeyresult.localizedLowercaseString .debugDescription)")
+           //////var downloadedalready=try NSFileManager.defaultManager().startDownloadingUbiquitousItemAtURL(furl!)
+           
+           ////// print("downloadedalready is \(downloadedalready)")
+         //   if(downloadedalready != nil)
+//{
             coordinator.coordinateReadingItemAtURL(url, options: [], error: &error) { (url) -> Void in
+                
+                print("error is \(error)")
+
                 // do something with it
                 let fileData = NSData(contentsOfURL: url)
                 ///////////////////////print(fileData?.description)
@@ -2888,10 +2901,18 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
                 
                 */
             }
-            
+         //       }
             url.stopAccessingSecurityScopedResource()
             //mdata.sharefile(url)
         }
+            
+            
+            
+            catch
+            {
+               print("eeee \(error)")
+            }
+            }
         })
         
         
