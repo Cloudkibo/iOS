@@ -236,12 +236,20 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="66" sectionHeaderHeight="28" sectionFooterHeight="28" id="JA3-KT-r6M">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="519"/>
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="570"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <searchBar key="tableHeaderView" contentMode="redraw" id="MRx-YW-CPN">
+                                    <rect key="frame" x="0.0" y="64" width="320" height="44"/>
+                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                                    <textInputTraits key="textInputTraits"/>
+                                    <connections>
+                                        <outlet property="delegate" destination="Eg8-OD-8L6" id="mYb-7J-gQw"/>
+                                    </connections>
+                                </searchBar>
                                 <prototypes>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="NotePrivateCell" id="xsw-ZS-qbh" customClass="AllContactsCell" customModule="Chat" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="92" width="320" height="66"/>
+                                        <rect key="frame" x="0.0" y="136" width="320" height="66"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="xsw-ZS-qbh" id="p9P-HJ-EFV">
                                             <rect key="frame" x="0.0" y="0.0" width="287" height="65.5"/>
@@ -291,7 +299,7 @@
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="NotePublicCell" id="MVy-RE-e1f">
-                                        <rect key="frame" x="0.0" y="158" width="320" height="66"/>
+                                        <rect key="frame" x="0.0" y="202" width="320" height="66"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="MVy-RE-e1f" id="vMV-aV-UBn">
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="65.5"/>
@@ -362,10 +370,20 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="searchDisplayController" destination="KUG-Xn-nld" id="NI2-UU-Gej"/>
                         <outlet property="tblForNotes" destination="JA3-KT-r6M" id="rDH-A6-Bmi"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ECF-7i-oCj" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <searchDisplayController id="KUG-Xn-nld">
+                    <connections>
+                        <outlet property="delegate" destination="Eg8-OD-8L6" id="DPl-SZ-y43"/>
+                        <outlet property="searchBar" destination="MRx-YW-CPN" id="zW2-g3-vqe"/>
+                        <outlet property="searchContentsController" destination="Eg8-OD-8L6" id="a9Y-F7-bjs"/>
+                        <outlet property="searchResultsDataSource" destination="Eg8-OD-8L6" id="fmR-Dd-2qJ"/>
+                        <outlet property="searchResultsDelegate" destination="Eg8-OD-8L6" id="YVv-Xx-ScH"/>
+                    </connections>
+                </searchDisplayController>
             </objects>
             <point key="canvasLocation" x="261" y="-391"/>
         </scene>
