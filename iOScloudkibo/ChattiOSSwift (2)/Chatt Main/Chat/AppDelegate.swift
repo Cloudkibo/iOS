@@ -37,6 +37,7 @@ var notAvailableEmails=[String]()
 var contacts = [CNContact]()
 var availableEmailsList=[String]()
 var profileimageList=[NSData]()
+var uniqueidentifierList=[String]()
 
 var isFileReceived=false
 var meetingStarted=false

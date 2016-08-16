@@ -766,6 +766,7 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
         
         let contactPhone = Expression<String>("contactPhone")
         let contactProfileImage = Expression<NSData>("profileimage")
+        let uniqueidentifier = Expression<String>("uniqueidentifier")
         
         //contactPhone
         //-========Remove old values=====================
@@ -865,17 +866,46 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
             
             
             
+            /*
+             let keys = [CNContactGivenNameKey, CNContactFamilyNameKey, CNContactEmailAddressesKey, CNContactBirthdayKey, CNContactImageDataKey]
+             
+             do {
+             let contactRefetched = try AppDelegate.getAppDelegate().contactStore.unifiedContactWithIdentifier(contact.identifier, keysToFetch: keys)
+             self.contacts[indexPath.row] = contactRefetched
+             
+             dispatch_async(dispatch_get_main_queue(), { () -> Void in
+             self.tblContacts.reloadRowsAtIndexPaths([indexPath], withRowAnimation: UITableViewRowAnimation.Automatic)
+             })
+             }
+             catch {
+             print("Unable to refetch the contact: \(contact)", separator: "", terminator: "\n")
+             }
+ */
+            
+          
             
             let queryPic = tbl_allcontacts.filter(tbl_allcontacts[phone] == ccc[phone])          // SELECT "email" FROM "users"
             
            
             do{
                 for picquery in try sqliteDB.db.prepare(queryPic) {
+                    
+                    let contactStore = CNContactStore()
+                    
+                    var keys = [CNContactGivenNameKey, CNContactFamilyNameKey, CNContactEmailAddressesKey, CNContactPhoneNumbersKey, CNContactImageDataAvailableKey,CNContactThumbnailImageDataKey, CNContactImageDataKey]
+                    var foundcontact=try contactStore.unifiedContactWithIdentifier(picquery[uniqueidentifier], keysToFetch: keys)
+                    if(foundcontact.imageDataAvailable==true)
+                    {
+                    foundcontact.imageData
+                        ContactsProfilePic.append(foundcontact.imageData!)
+                        picfound=true
+                    }
+                    
                    // if(contactProfileImage != NSData.init())
                     //{
                   //  print("picquery found for \(ccc[phone]) and is \(picquery[contactProfileImage]) count is \(ContactsProfilePic.count) ... \(picquery[phone]) .... \(ccc[phone])")
-                ContactsProfilePic.append(picquery[contactProfileImage])
-                picfound=true
+                //////////^^^^^ContactsProfilePic.append(picquery[contactProfileImage])
+                //////////^^^^^^^^^picfound=true
                  // print("profilepicarray count is \(ContactsProfilePic.count)")
                     //}
                     /*else
@@ -887,7 +917,7 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
             catch
                 {
                     print("error in fetching profile image")
-            }
+                }
             
             if(picfound==false)
             {

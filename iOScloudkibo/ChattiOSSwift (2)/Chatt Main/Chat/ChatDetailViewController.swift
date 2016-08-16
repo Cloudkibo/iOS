@@ -15,6 +15,7 @@ import MobileCoreServices
 import Foundation
 import AssetsLibrary
 import Photos
+import Contacts
 
 class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChatDelegate,UIDocumentPickerDelegate,UIDocumentMenuDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate,NSFileManagerDelegate,showUploadProgressDelegate{
     
@@ -311,8 +312,67 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
         
         let phone = Expression<String>("phone")
         let contactProfileImage = Expression<NSData>("profileimage")
+        let uniqueidentifier = Expression<String>("uniqueidentifier")
+
         
-         do{
+        //--------------
+        
+        let queryPic = tbl_allcontacts.filter(tbl_allcontacts[phone] == selectedContact)          // SELECT "email" FROM "users"
+        
+        
+        do{
+            for picquery in try sqliteDB.db.prepare(queryPic) {
+                
+                let contactStore = CNContactStore()
+                
+                var keys = [CNContactGivenNameKey, CNContactFamilyNameKey, CNContactEmailAddressesKey, CNContactPhoneNumbersKey, CNContactImageDataAvailableKey,CNContactThumbnailImageDataKey, CNContactImageDataKey]
+                var foundcontact=try contactStore.unifiedContactWithIdentifier(picquery[uniqueidentifier], keysToFetch: keys)
+                if(foundcontact.imageDataAvailable==true)
+                {
+                    foundcontact.imageData
+                    var imageavatar1=UIImage.init(data:(foundcontact.imageData)!)
+                    //   imageavatar1=ResizeImage(imageavatar1!,targetSize: s)
+                    
+                    //var img=UIImage(data:ContactsProfilePic[indexPath.row])
+                    var w=imageavatar1!.size.width
+                    var h=imageavatar1!.size.height
+                    var wOld=(self.navigationController?.navigationBar.frame.height)!-5
+                    var hOld=(self.navigationController?.navigationBar.frame.width)!-5
+                    var scale:CGFloat=w/wOld
+                    
+                    
+                    ///var s=CGSizeMake((self.navigationController?.navigationBar.frame.height)!-5,(self.navigationController?.navigationBar.frame.height)!-5)
+                    
+                    var barAvatarImage=UIImageView.init(image: UIImage(data: (foundcontact.imageData)!,scale:scale))
+                    
+                    barAvatarImage.layer.borderWidth = 1.0
+                    barAvatarImage.layer.masksToBounds = false
+                    barAvatarImage.layer.borderColor = UIColor.whiteColor().CGColor
+                    barAvatarImage.layer.cornerRadius = barAvatarImage.frame.size.width/2
+                    barAvatarImage.clipsToBounds = true
+                    
+                    
+                    var avatarbutton=UIBarButtonItem.init(customView: barAvatarImage)
+                    self.navigationItem.rightBarButtonItems?.insert(avatarbutton, atIndex: 0)
+                    
+                    //ContactsProfilePic.append(foundcontact.imageData!)
+                    //picfound=true
+                }
+                
+             
+            }
+        }
+        catch
+        {
+            print("error in fetching profile image")
+        }
+        
+
+        
+        
+        
+        //-----------
+        /* do{
         let queryPic = tbl_allcontacts.filter(tbl_allcontacts[phone] == selectedContact)          // SELECT "email" FROM "users"
         
         var profilepic = Array(try sqliteDB.db.prepare(queryPic))
@@ -360,7 +420,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
         {
             print("error in fetching profile image")
         }
-        
+        */
     
         //var barAvatarImage=UIImageView.init(image: UIImage.init(named: "profile-pic1"))
         //var s=CGSizeMake(((self.navigationController?.navigationBar .frame.height)!-20),(self.navigationController?.navigationBar.frame.height)!-20)

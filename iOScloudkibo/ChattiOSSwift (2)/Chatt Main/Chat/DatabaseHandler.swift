@@ -197,10 +197,12 @@ class DatabaseHandler:NSObject{
         let email = Expression<String>("email")
         let kiboContact = Expression<Bool>("kiboContact")
         let profileimage = Expression<NSData>("profileimage")
-        
+        let uniqueidentifier = Expression<NSData>("uniqueidentifier")
+        //
         self.allcontacts = Table("allcontacts")
         do{
             try db.run(allcontacts.create(ifNotExists: true) { t in     // CREATE TABLE "accounts" (
+                t.column(uniqueidentifier)
                 t.column(name)
                 t.column(phone)
                 t.column(actualphone)
@@ -514,9 +516,10 @@ class DatabaseHandler:NSObject{
     }
     
     
-    func saveAllContacts(name1:String,phone1:String,actualphone1:String,kiboContact1:Bool,email1:String)
+    func saveAllContacts(uniqueidentifier1:String,name1:String,phone1:String,actualphone1:String,kiboContact1:Bool,email1:String)
     {
         // let contactObject=Expression<CNContact>("contactObj")
+        let uniqueidentifier = Expression<String>("uniqueidentifier")
         let name = Expression<String>("name")
         let phone = Expression<String>("phone")
         let actualphone = Expression<String>("actualphone")
@@ -528,6 +531,7 @@ class DatabaseHandler:NSObject{
         
         do {
             let rowid = try db.run(tbl_allcontacts.insert(
+                uniqueidentifier<-uniqueidentifier1,
                 name<-name1,
                 phone<-phone1,
                 email<-email1,

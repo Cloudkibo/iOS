@@ -95,7 +95,63 @@ class contactsDetailsTableViewController: UITableViewController,MFMailComposeVie
             let phone = Expression<String>("phone")
             let contactProfileImage = Expression<NSData>("profileimage")
             
+            //----------------
+            let uniqueidentifier = Expression<String>("uniqueidentifier")
+            
+            
+            //--------------
+            
+            let queryPic = tbl_allcontacts.filter(tbl_allcontacts[phone] == alladdressContactsArray[contactIndex].get(phone))          // SELECT "email" FROM "users"
+            
+            
             do{
+                for picquery in try sqliteDB.db.prepare(queryPic) {
+                    
+                    let contactStore = CNContactStore()
+                    
+                    var keys = [CNContactGivenNameKey, CNContactFamilyNameKey, CNContactEmailAddressesKey, CNContactPhoneNumbersKey, CNContactImageDataAvailableKey,CNContactThumbnailImageDataKey, CNContactImageDataKey]
+                    var foundcontact=try contactStore.unifiedContactWithIdentifier(picquery[uniqueidentifier], keysToFetch: keys)
+                    if(foundcontact.imageDataAvailable==true)
+                    {
+                        foundcontact.imageData
+                        var imageavatar1=UIImage.init(data:(foundcontact.imageData)!)
+                        //   imageavatar1=ResizeImage(imageavatar1!,targetSize: s)
+                        
+                        //var img=UIImage(data:ContactsProfilePic[indexPath.row])
+                        var w=imageavatar1!.size.width
+                        var h=imageavatar1!.size.height
+                        var wOld=cell.profileAvatar.frame.width
+                        var hOld=cell.profileAvatar.frame.height
+                        var scale:CGFloat=w/wOld
+                        
+                        
+                        ///var s=CGSizeMake((self.navigationController?.navigationBar.frame.height)!-5,(self.navigationController?.navigationBar.frame.height)!-5)
+                        
+                        cell.profileAvatar.image=UIImage(data: (foundcontact.imageData)!,scale:scale)
+                        
+                        cell.profileAvatar.layer.borderWidth = 1.0
+                        cell.profileAvatar.layer.masksToBounds = false
+                        cell.profileAvatar.layer.borderColor = UIColor.whiteColor().CGColor
+                        cell.profileAvatar.layer.cornerRadius = cell.profileAvatar.frame.size.width/2
+                        cell.profileAvatar.clipsToBounds = true
+                        
+                      
+                        //ContactsProfilePic.append(foundcontact.imageData!)
+                        //picfound=true
+                    }
+                    
+                    
+                }
+            }
+            catch
+            {
+                print("error in fetching profile image")
+            }
+            
+            
+            
+            //----------
+           /* do{
                 let queryPic = tbl_allcontacts.filter(tbl_allcontacts[phone] == alladdressContactsArray[contactIndex].get(phone))          // SELECT "email" FROM "users"
                 
                 var profilepic = Array(try sqliteDB.db.prepare(queryPic))
@@ -142,7 +198,7 @@ class contactsDetailsTableViewController: UITableViewController,MFMailComposeVie
             {
                 print("error in fetching profile image")
             }
-
+*/
         }
         //}
         if(indexPath.row==1)

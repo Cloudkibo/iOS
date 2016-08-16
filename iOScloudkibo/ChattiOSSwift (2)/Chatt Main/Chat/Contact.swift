@@ -46,6 +46,7 @@ class iOSContact{
         var actualphone=Expression<String>("actualphone")
         var email=Expression<String>("email")
         var profileimage=Expression<NSData>("profileimage")
+        let uniqueidentifier = Expression<String>("uniqueidentifier")
         
         socketObj.socket.emit("logClient","IPHONE-LOG: \(username) fetching contacts from iphone contactlist")
         var emails=[String]()
@@ -57,6 +58,8 @@ class iOSContact{
         notAvailableContacts.removeAll()
         notAvailableContacts.removeAll()
         profileimageList.removeAll()
+        uniqueidentifierList.removeAll()
+        
         print("inside fetchhhhh")
         let contactStore = CNContactStore()
         
@@ -79,11 +82,12 @@ class iOSContact{
                 
                 
                 do{
-                    
+                    uniqueidentifierList.append(contacts[i].identifier)
                     if(try contacts[i].givenName != "")
                     {
                         nameList.append(contacts[i].givenName+" "+contacts[i].familyName)
                         print(contacts[i].givenName)
+                        
                     }
                     
                     
@@ -115,6 +119,8 @@ class iOSContact{
                 }
                 
                 do{
+                    
+                    var uniqueidentifier1=contacts[i].identifier
                     var image=NSData()
                     var fullname=contacts[i].givenName+" "+contacts[i].familyName
                     if (contacts[i].isKeyAvailable(CNContactPhoneNumbersKey)) {
@@ -184,7 +190,7 @@ class iOSContact{
                                    image=contacts[i].imageData!
                                 }
                                 
-                                try sqliteDB.db.run(tbl_allcontacts.insert(name<-fullname,phone<-phoneDigits,actualphone<-actualphonedigits,email<-emailAddress,profileimage<-image))
+                                try sqliteDB.db.run(tbl_allcontacts.insert(name<-fullname,phone<-phoneDigits,actualphone<-actualphonedigits,email<-emailAddress,profileimage<-image,uniqueidentifier<-uniqueidentifier1))
                         }
                             catch(let error)
                             {
