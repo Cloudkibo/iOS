@@ -2726,6 +2726,13 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
            ////// print("downloadedalready is \(downloadedalready)")
          //   if(downloadedalready != nil)
 //{
+                
+                if(downloadkeyresult.count>0)
+{
+    var downloadedalready=try NSFileManager.defaultManager().startDownloadingUbiquitousItemAtURL(furl!)
+    
+
+}
             coordinator.coordinateReadingItemAtURL(url, options: [], error: &error) { (url) -> Void in
                 
                 print("error is \(error)")
@@ -2788,13 +2795,13 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
                 
               //  print("filename is \(self.filename) destination path is \(filePathImage2) image name \(imageName) imageurl \(imageUrl) photourl \(photoURL) localPath \(localPath).. \(localPath.absoluteString)")
                 
-                var s=try fm.createFileAtPath(filePathImage2, contents: nil, attributes: nil)
+                var s=fm.createFileAtPath(filePathImage2, contents: nil, attributes: nil)
                 
                 //  var written=fileData!.writeToFile(filePathImage2, atomically: false)
                 
                 //filePathImage2
                 //var data=NSData(contentsOfFile: self.filePathImage)
-                try fileData!.writeToFile(filePathImage2, atomically: true)
+                fileData!.writeToFile(filePathImage2, atomically: true)
                 
                 
                 
