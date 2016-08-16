@@ -278,11 +278,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Chat/contactsDetailsTableViewController.swift"
-            timestampString = "490308746.621441"
+            timestampString = "493038312.987289"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "202"
-            endingLineNumber = "202"
+            startingLineNumber = "257"
+            endingLineNumber = "257"
             landmarkName = "inviteTokiboButtonPressed(_:)"
             landmarkType = "5">
          </BreakpointContent>

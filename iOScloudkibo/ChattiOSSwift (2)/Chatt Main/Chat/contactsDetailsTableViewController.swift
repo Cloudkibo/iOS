@@ -83,11 +83,66 @@ class contactsDetailsTableViewController: UITableViewController,MFMailComposeVie
         {
          cell = tableView.dequeueReusableCellWithIdentifier("Name_Cell", forIndexPath: indexPath) as! AllContactsCell
         
-        alladdressContactsArray[contactIndex].get(name)
+       // alladdressContactsArray[contactIndex].get(name)
         //cell.lbl_contactName.text=currentContact.givenName+" "+currentContact.familyName
             cell.lbl_contactName.text=alladdressContactsArray[contactIndex].get(name)
-
+            
             cell.hidden=false
+            
+            let tbl_allcontacts=sqliteDB.allcontacts
+            
+            
+            let phone = Expression<String>("phone")
+            let contactProfileImage = Expression<NSData>("profileimage")
+            
+            do{
+                let queryPic = tbl_allcontacts.filter(tbl_allcontacts[phone] == alladdressContactsArray[contactIndex].get(phone))          // SELECT "email" FROM "users"
+                
+                var profilepic = Array(try sqliteDB.db.prepare(queryPic))
+                if(profilepic.first != nil)
+                {
+                    // match found of phone number , iskiboContact
+                    //now check if has avatarbutton
+                    
+                    if((profilepic.first?.get(contactProfileImage) != NSData.init()) && (profilepic.first?.get(contactProfileImage) != nil))
+                    {
+                        //has avatar
+                        //var imageavatar1=UIImage.init(named: "profile-pic1")
+                        var imageavatar1=UIImage.init(data:(profilepic.first?.get(contactProfileImage))!)
+                        //   imageavatar1=ResizeImage(imageavatar1!,targetSize: s)
+                        
+                        //var img=UIImage(data:ContactsProfilePic[indexPath.row])
+                        var w=imageavatar1!.size.width
+                        var h=imageavatar1!.size.height
+                        var wOld=cell.profileAvatar.frame.height
+                        var hOld=cell.profileAvatar.frame.width
+                        var scale:CGFloat=w/wOld
+                        
+                        
+                        ///var s=CGSizeMake((self.navigationController?.navigationBar.frame.height)!-5,(self.navigationController?.navigationBar.frame.height)!-5)
+                        cell.profileAvatar.image=UIImage(data: (profilepic.first?.get(contactProfileImage))!,scale:scale)
+                        //var barAvatarImage=UIImageView.init(image: UIImage(data: (profilepic.first?.get(contactProfileImage))!,scale:scale))
+                        
+                        cell.profileAvatar.layer.borderWidth = 1.0
+                        cell.profileAvatar.layer.masksToBounds = false
+                        cell.profileAvatar.layer.borderColor = UIColor.whiteColor().CGColor
+                        cell.profileAvatar.layer.cornerRadius = cell.profileAvatar.frame.size.width/2
+                        cell.profileAvatar.clipsToBounds = true
+                        
+                        
+                       
+                        
+                        
+                    }
+                    
+                }
+                
+            }
+            catch
+            {
+                print("error in fetching profile image")
+            }
+
         }
         //}
         if(indexPath.row==1)
