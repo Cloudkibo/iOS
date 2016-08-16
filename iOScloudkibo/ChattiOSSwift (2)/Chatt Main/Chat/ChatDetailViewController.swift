@@ -275,6 +275,15 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
         self.navigationItem.leftBarButtonItem = self.navigationItem.backBarButtonItem
         var receivedMsg=JSON("")
         
+        var barAvatarImage=UIImageView.init(image: UIImage.init(named: "profile-pic1"))
+        var avatarbutton=UIBarButtonItem.init(customView: barAvatarImage)
+        self.navigationItem.rightBarButtonItems?.insert(avatarbutton, atIndex: 0)        /*
+         UIImageView *image = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"star.png"]];
+         UIBarButtonItem *backBarButton = [[UIBarButtonItem alloc] initWithCustomView:image];
+         self.navigationItem.rightBarButtonItem = backBarButton;
+ 
+         */
+        
         //%%%%%%% workinggg commented
         /*socketEventID=socketObj.socket.on("im") {data,ack in
          
