@@ -304,12 +304,64 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
         var receivedMsg=JSON("")
         
         
-        var imageavatar1=UIImage.init(named: "profile-pic1")
-        var s=CGSizeMake((self.navigationController?.navigationBar.frame.height)!-10,(self.navigationController?.navigationBar.frame.height)!-10)
-        imageavatar1=ResizeImage(imageavatar1!,targetSize: s)
-        var barAvatarImage=UIImageView.init(image: imageavatar1)
-        var avatarbutton=UIBarButtonItem.init(customView: barAvatarImage)
-        self.navigationItem.rightBarButtonItems?.insert(avatarbutton, atIndex: 0)
+        //let tbl_userchats=sqliteDB.userschats
+       // let tbl_contactslists=sqliteDB.contactslists
+        let tbl_allcontacts=sqliteDB.allcontacts
+        
+        
+        let phone = Expression<String>("phone")
+        let contactProfileImage = Expression<NSData>("profileimage")
+        
+         do{
+        let queryPic = tbl_allcontacts.filter(tbl_allcontacts[phone] == selectedContact)          // SELECT "email" FROM "users"
+        
+        var profilepic = Array(try sqliteDB.db.prepare(queryPic))
+        if(profilepic.first != nil)
+        {
+            // match found of phone number , iskiboContact
+            //now check if has avatarbutton
+            
+            if((profilepic.first?.get(contactProfileImage) != NSData.init()) && (profilepic.first?.get(contactProfileImage) != nil))
+            {
+                //has avatar
+                //var imageavatar1=UIImage.init(named: "profile-pic1")
+                var imageavatar1=UIImage.init(data:(profilepic.first?.get(contactProfileImage))!)
+             //   imageavatar1=ResizeImage(imageavatar1!,targetSize: s)
+                
+                //var img=UIImage(data:ContactsProfilePic[indexPath.row])
+                var w=imageavatar1!.size.width
+                var h=imageavatar1!.size.height
+                var wOld=(self.navigationController?.navigationBar.frame.height)!-5
+                var hOld=(self.navigationController?.navigationBar.frame.width)!-5
+                var scale:CGFloat=w/wOld
+                
+                
+                ///var s=CGSizeMake((self.navigationController?.navigationBar.frame.height)!-5,(self.navigationController?.navigationBar.frame.height)!-5)
+                
+                var barAvatarImage=UIImageView.init(image: UIImage(data: (profilepic.first?.get(contactProfileImage))!,scale:scale))
+                
+                barAvatarImage.layer.borderWidth = 1.0
+                barAvatarImage.layer.masksToBounds = false
+                barAvatarImage.layer.borderColor = UIColor.whiteColor().CGColor
+                barAvatarImage.layer.cornerRadius = barAvatarImage.frame.size.width/2
+                barAvatarImage.clipsToBounds = true
+                
+                
+                var avatarbutton=UIBarButtonItem.init(customView: barAvatarImage)
+                self.navigationItem.rightBarButtonItems?.insert(avatarbutton, atIndex: 0)
+                
+
+            }
+            
+        }
+       
+        }
+        catch
+        {
+            print("error in fetching profile image")
+        }
+        
+    
         //var barAvatarImage=UIImageView.init(image: UIImage.init(named: "profile-pic1"))
         //var s=CGSizeMake(((self.navigationController?.navigationBar .frame.height)!-20),(self.navigationController?.navigationBar.frame.height)!-20)
        // var s=CGSizeMake(15,15)
