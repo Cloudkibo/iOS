@@ -2718,8 +2718,9 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
             var error:NSError? = nil
             //var downloadedalready=false
             do{
-            var downloadkeyresult=try url.resourceValuesForKeys([NSURLUbiquitousItemDownloadingStatusKey])
-                print("... ... \(downloadkeyresult.localizedLowercaseString .debugDescription)")
+                var downloadkeyresult=try furl!.resourceValuesForKeys([NSURLUbiquitousItemDownloadingStatusKey])
+           /// var downloadkeyresult=try url.resourceValuesForKeys([NSURLUbiquitousItemDownloadingStatusKey])
+                print("... ... \(downloadkeyresult.debugDescription)")
            //////var downloadedalready=try NSFileManager.defaultManager().startDownloadingUbiquitousItemAtURL(furl!)
            
            ////// print("downloadedalready is \(downloadedalready)")
@@ -2787,13 +2788,13 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
                 
               //  print("filename is \(self.filename) destination path is \(filePathImage2) image name \(imageName) imageurl \(imageUrl) photourl \(photoURL) localPath \(localPath).. \(localPath.absoluteString)")
                 
-                var s=fm.createFileAtPath(filePathImage2, contents: nil, attributes: nil)
+                var s=try fm.createFileAtPath(filePathImage2, contents: nil, attributes: nil)
                 
                 //  var written=fileData!.writeToFile(filePathImage2, atomically: false)
                 
                 //filePathImage2
                 //var data=NSData(contentsOfFile: self.filePathImage)
-                fileData!.writeToFile(filePathImage2, atomically: true)
+                try fileData!.writeToFile(filePathImage2, atomically: true)
                 
                 
                 
