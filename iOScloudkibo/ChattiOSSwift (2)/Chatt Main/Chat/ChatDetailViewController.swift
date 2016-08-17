@@ -2168,6 +2168,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
             //[self presentViewController:picker animated:YES completion:NULL];
             dispatch_async(dispatch_get_main_queue())
             { () -> Void in
+              //  picker.addChildViewController(UILabel("hiiiiiiiiiiiii"))
                 
                 self.presentViewController(picker, animated: true, completion: nil)
                 
