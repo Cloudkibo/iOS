@@ -1161,6 +1161,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
         let date2=messageDic["date"] as NSString!
         let sizeOFStr = self.getSizeOfString(msg)
         let uniqueidDictValue=messageDic["uniqueid"] as NSString!
+        print("sizeOFStr for \(msg) is \(sizeOFStr)")
        //// print("sizeOfstr is width \(sizeOFStr.width) and height is \(sizeOFStr.height)")
         
         //var sizeOFStr=msg.boundingRectWithSize(CGSizeMake(220.0,CGFloat.max), options: NSStringDrawingOptions.UsesLineFragmentOrigin, attributes: nil, context: nil).size
@@ -1235,9 +1236,11 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
              }
              */
             print("here 905 msgtype is \(msgType)")
-            let distanceFactor = (170.0 - sizeOFStr.width) < 100 ? (170.0 - sizeOFStr.width) : 100
-            chatImage.frame = CGRectMake(20 + distanceFactor, chatImage.frame.origin.y, ((sizeOFStr.width + 100)  > 200 ? (sizeOFStr.width + 100) : 200), sizeOFStr.height + 40)
+            let distanceFactor = (197.0 - sizeOFStr.width) < 107 ? (197.0 - sizeOFStr.width) : 107
+            print("distanceFactor for \(msg) is \(distanceFactor)")
             
+            chatImage.frame = CGRectMake(20 + distanceFactor, chatImage.frame.origin.y, ((sizeOFStr.width + 107)  > 207 ? (sizeOFStr.width + 107) : 200), sizeOFStr.height + 40)
+             print("chatImage.x for \(msg) is \(20 + distanceFactor) and chatimage.wdith is \(chatImage.frame.width)")
             
             
             textLable.hidden=false
@@ -1246,6 +1249,8 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
             //*********
             textLable.text = "\(msg)"
             textLable.frame = CGRectMake(36 + distanceFactor, textLable.frame.origin.y, textLable.frame.size.width, sizeOFStr.height)
+            print("textLable.x for \(msg) is \(textLable.frame.origin.x) and textLable.width is \(textLable.frame.width)")
+            
             ////profileImage.center = CGPointMake(profileImage.center.x, textLable.frame.origin.y + textLable.frame.size.height - profileImage.frame.size.height/2 + 10)
             
             profileImage.center = CGPointMake(profileImage.center.x, textLable.frame.origin.y + textLable.frame.size.height - profileImage.frame.size.height/2+10)
@@ -1443,7 +1448,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
                 chatImage.addGestureRecognizer(tapRecognizer)
                 
                 
-                chatImage.frame = CGRectMake(chatImage.frame.origin.x, chatImage.frame.origin.y, 200, 200)
+                chatImage.frame = CGRectMake(chatImage.frame.origin.x, chatImage.frame.origin.y, 218, 200)
                 
                 chatImage.image = UIImage(data: imgNSData!)!
                 ///.stretchableImageWithLeftCapWidth(40,topCapHeight: 20);
@@ -1598,9 +1603,20 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
             let chatImage = cell.viewWithTag(1) as! UIImageView
             let profileImage = cell.viewWithTag(2) as! UIImageView
             let progressView=cell.viewWithTag(14) as! KDCircularProgress
+           
             
-            let distanceFactor = (170.0 - sizeOFStr.width) < 100 ? (170.0 - sizeOFStr.width) : 100
+            
+           // let distanceFactor = (170.0 - sizeOFStr.width) < 100 ? (170.0 - sizeOFStr.width) : 100
     
+            
+            let distanceFactor = (197.0 - sizeOFStr.width) < 107 ? (197.0 - sizeOFStr.width) : 107
+            print("distanceFactor for \(msg) is \(distanceFactor)")
+            
+        /////    chatImage.frame = CGRectMake(20 + distanceFactor, chatImage.frame.origin.y, ((sizeOFStr.width + 107)  > 207 ? (sizeOFStr.width + 107) : 200), sizeOFStr.height + 40)
+          //  print("chatImage.x for \(msg) is \(20 + distanceFactor) and chatimage.wdith is \(chatImage.frame.width)")
+            
+
+            
             var predicate=NSPredicate(format: "uniqueid = %@", uniqueidDictValue)
             var resultArray=uploadInfo.filteredArrayUsingPredicate(predicate)
             if(resultArray.count>0)
@@ -1651,7 +1667,13 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
                 return true
             })*/
            
-            chatImage.frame = CGRectMake(20 + distanceFactor, chatImage.frame.origin.y, ((sizeOFStr.width + 100)  > 200 ? (sizeOFStr.width + 100) : 200), sizeOFStr.height + 40)
+           //^^^^^^ chatImage.frame = CGRectMake(20 + distanceFactor, chatImage.frame.origin.y, ((sizeOFStr.width + 100)  > 200 ? (sizeOFStr.width + 100) : 200), sizeOFStr.height + 40)
+            
+            
+            
+            chatImage.frame = CGRectMake(20 + distanceFactor, chatImage.frame.origin.y, ((sizeOFStr.width + 107)  > 207 ? (sizeOFStr.width + 107) : 200), sizeOFStr.height + 40)
+              print("chatImage.x for \(msg) is \(20 + distanceFactor) and chatimage.wdith is \(chatImage.frame.width)")
+            
             
             
             textLable.hidden=false
