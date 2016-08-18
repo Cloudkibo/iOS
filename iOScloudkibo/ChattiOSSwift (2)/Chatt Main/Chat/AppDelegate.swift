@@ -15,8 +15,9 @@ import CloudKit
 import AccountKit
 import Fabric
 import Crashlytics
+//import WindowsAzureMessaging
 
-
+var aaaaa:SBNotificationHub!
 var uploadInfo:NSMutableArray!
  var managerFile = NetworkingManager.sharedManager
 var selectedText=""
@@ -110,10 +111,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate,AppDelegateScreenDelegate 
         // Override point for customization after application launch.
         
         
-        
         uploadInfo=NSMutableArray()
         Fabric.with([Crashlytics.self])
-
+        
         UIApplication.sharedApplication().setStatusBarHidden(true, withAnimation: UIStatusBarAnimation.Fade);
         
         UIApplication.sharedApplication().setStatusBarStyle(UIStatusBarStyle.LightContent, animated: false);
@@ -140,13 +140,28 @@ class AppDelegate: UIResponder, UIApplicationDelegate,AppDelegateScreenDelegate 
         
         
         
+        /*
+         UIUserNotificationSettings *settings = [UIUserNotificationSettings settingsForTypes:UIUserNotificationTypeSound |
+         UIUserNotificationTypeAlert | UIUserNotificationTypeBadge categories:nil];
+         
+         [[UIApplication sharedApplication] registerUserNotificationSettings:settings];
+         [[UIApplication sharedApplication] registerForRemoteNotifications];
+ */
+        
+        
+        
         
         let notificationTypes: UIUserNotificationType = [UIUserNotificationType.Alert, UIUserNotificationType.Badge, UIUserNotificationType.Sound]
         let pushNotificationSettings = UIUserNotificationSettings(forTypes: notificationTypes, categories: nil)
         
-        /*
+        
+        
+        /////-------will be commented----
         application.registerUserNotificationSettings(pushNotificationSettings)
-        application.registerForRemoteNotifications()*/
+        application.registerForRemoteNotifications()
+        
+        
+        
         
         
         
@@ -501,7 +516,37 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
     }
     
     
-        
+    /*
+     SBNotificationHub* hub = [[SBNotificationHub alloc] initWithConnectionString:HUBLISTENACCESS
+     notificationHubPath:HUBNAME];
+     
+     [hub registerNativeWithDeviceToken:deviceToken tags:nil completion:^(NSError* error) {
+     if (error != nil) {
+     NSLog(@"Error registering for notifications: %@", error);
+     }
+     else {
+     [self MessageBox:@"Registration Status" message:@"Registered"];
+     }
+     }];
+ */
+    
+    /* ----commenting
+     func application(application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: NSData) {
+        var hub=SBNotificationHub(connectionString: "", notificationHubPath: "") //from constants file
+        hub.registerNativeWithDeviceToken(deviceToken, tags: username!) { (error) in
+            if(error != nil)
+            {
+                print("Registering for notifications")
+            }
+            else
+            {
+
+            }
+            
+        }
+    }
+ */
+    
     func application(application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: NSData) {
         let token=JSON(deviceToken)
         print("device tokennnnnnn...", terminator: "")
@@ -510,6 +555,8 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
         
         print("registered for notification", terminator: "")
     }
+    
+    
     func application(application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: NSError) {
         
         print("registered for notification error", terminator: "")

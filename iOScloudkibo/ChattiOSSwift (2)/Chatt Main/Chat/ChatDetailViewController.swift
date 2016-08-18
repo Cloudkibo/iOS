@@ -616,8 +616,8 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
     func retrieveChatFromSqlite(selecteduser:String)
     {
         print("retrieveChatFromSqlite called---------")
-        messages.removeAllObjects()
-        
+        ///^^messages.removeAllObjects()
+        var messages2=NSMutableArray()
         
         let to = Expression<String>("to")
         let from = Expression<String>("from")
@@ -678,7 +678,9 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
                       
                       //  self.addUploadInfo(selectedContact, uniqueid1: tblContacts[uniqueid], rowindex: messages.count, uploadProgress: 1, isCompleted: true)
                       
-                        self.addMessage(tblContacts[msg], ofType: "4",date: tblContacts[date],uniqueid: tblContacts[uniqueid])
+                        messages2.addObject(["message":tblContacts[msg], "type":"4", "date":tblContacts[date], "uniqueid":tblContacts[uniqueid]])
+                        
+                       //^^^ self.addMessage(tblContacts[msg], ofType: "4",date: tblContacts[date],uniqueid: tblContacts[uniqueid])
                         
                     }
                     else{
@@ -686,12 +688,18 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
                     {
 
                       ////  self.addUploadInfo(selectedContact, uniqueid1: tblContacts[uniqueid], rowindex: messages.count, uploadProgress: 1, isCompleted: true)
-                        self.addMessage(tblContacts[msg], ofType: "6",date: tblContacts[date],uniqueid: tblContacts[uniqueid])
+                       
+                        messages2.addObject(["message":tblContacts[msg], "type":"6", "date":tblContacts[date], "uniqueid":tblContacts[uniqueid]])
+                        
+                       //^^^^ self.addMessage(tblContacts[msg], ofType: "6",date: tblContacts[date],uniqueid: tblContacts[uniqueid])
                         
                     }
                     else
                     {
-                    self.addMessage(tblContacts[msg]+" (\(tblContacts[status])) ", ofType: "2",date: tblContacts[date],uniqueid: tblContacts[uniqueid])
+                        messages2.addObject(["message":tblContacts[msg]+" (\(tblContacts[status])) ", "type":"2", "date":tblContacts[date], "uniqueid":tblContacts[uniqueid]])
+                       
+                        
+                    //^^^^self.addMessage(tblContacts[msg]+" (\(tblContacts[status])) ", ofType: "2",date: tblContacts[date],uniqueid: tblContacts[uniqueid])
                     }
                     }
                 }
@@ -701,6 +709,9 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
                     if(tblContacts[type]=="image")
                     {
                       //  self.addUploadInfo(selectedContact, uniqueid1: tblContacts[uniqueid], rowindex: messages.count, uploadProgress: 1, isCompleted: true)
+                        messages2.addObject(["message":tblContacts[msg], "type":"3", "date":tblContacts[date], "uniqueid":tblContacts[uniqueid]])
+                       
+                        
                         self.addMessage(tblContacts[msg] , ofType: "3",date: tblContacts[date],uniqueid: tblContacts[uniqueid])
                         
                     }
@@ -708,12 +719,19 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
                     {if(tblContacts[type]=="document")
                     {
                        // self.addUploadInfo(selectedContact, uniqueid1: tblContacts[uniqueid], rowindex: messages.count, uploadProgress: 1, isCompleted: true)
-                        self.addMessage(tblContacts[msg], ofType: "5",date: tblContacts[date],uniqueid: tblContacts[uniqueid])
+                        messages2.addObject(["message":tblContacts[msg], "type":"5", "date":tblContacts[date], "uniqueid":tblContacts[uniqueid]])
+                       
+                        
+                       //^^^^ self.addMessage(tblContacts[msg], ofType: "5",date: tblContacts[date],uniqueid: tblContacts[uniqueid])
                         
                     }
                     else
                     {
-                    self.addMessage(tblContacts[msg], ofType: "1", date: tblContacts[date],uniqueid: tblContacts[uniqueid])
+                        
+                        messages2.addObject(["message":tblContacts[msg], "type":"1", "date":tblContacts[date], "uniqueid":tblContacts[uniqueid]])
+                       
+                        
+                   ///^^^ self.addMessage(tblContacts[msg], ofType: "1", date: tblContacts[date],uniqueid: tblContacts[uniqueid])
                     }
                     }
                     
@@ -728,6 +746,8 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
                 //self.tblForChats.reloadData()
                 
             }
+            self.messages.removeAllObjects()
+            self.messages.addObjectsFromArray(messages2 as [AnyObject])
             self.tblForChats.reloadData()
             
             if(self.messages.count>1)
@@ -872,6 +892,8 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
     func addMessage(message: String, ofType msgType:String, date:String, uniqueid:String) {
         messages.addObject(["message":message, "type":msgType, "date":date, "uniqueid":uniqueid])
     }
+    
+   
     
     func updateProgressUpload(progress: Float, uniqueid: String) {
         
