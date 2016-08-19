@@ -902,11 +902,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Chat/AppDelegate.swift"
-            timestampString = "493245826.764033"
+            timestampString = "493336640.184207"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "654"
-            endingLineNumber = "654"
+            startingLineNumber = "680"
+            endingLineNumber = "680"
             landmarkName = "AppDelegate"
             landmarkType = "3">
          </BreakpointContent>

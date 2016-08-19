@@ -530,23 +530,71 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
      }];
  */
     
-    /* ----commenting
+    // ----commenting
      func application(application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: NSData) {
-        var hub=SBNotificationHub(connectionString: "", notificationHubPath: "") //from constants file
-        hub.registerNativeWithDeviceToken(deviceToken, tags: username!) { (error) in
+        var hub=SBNotificationHub(connectionString: Constants.connectionstring, notificationHubPath: Constants.hubname) //from constants file
+        var tagarray=[String]()
+        tagarray.append(username!.substringFromIndex(username!.startIndex.successor()))
+        print(username!.substringFromIndex(username!.startIndex.successor()))
+       // var tagname=NSSet(object: username!.substringFromIndex(username!.startIndex))
+        var tagname=NSSet(array: tagarray)
+       // hub.registerNativeWithDeviceToken(deviceToken, tags: tagname as Set<NSObject>) { (error) in
+        hub.registerNativeWithDeviceToken(deviceToken, tags: tagname as Set<NSObject>) { (error) in
             if(error != nil)
             {
-                print("Registering for notifications")
+                print("Registering for notifications \(error)")
             }
             else
             {
+                print("Successfully registered for notifications")
 
             }
             
         }
     }
- */
     
+    
+    /*
+     received while the app is active:
+     
+     Copy
+     - (void)application:(UIApplication *)application didReceiveRemoteNotification: (NSDictionary *)userInfo {
+     NSLog(@"%@", userInfo);
+     [self MessageBox:@"Notification" message:[[userInfo objectForKey:@"aps"] valueForKey:@"alert"]];
+     }
+ */
+    func application(application: UIApplication, didReceiveRemoteNotification userInfo: [NSObject : AnyObject], fetchCompletionHandler completionHandler: (UIBackgroundFetchResult) -> Void) {
+        
+        print("remote notification received is \(userInfo)")
+        var notificationJSON=JSON(userInfo)
+        print("json converted is \(notificationJSON)")
+        print("json received is is \(notificationJSON["aps"])")
+        /*
+         json converted is {
+         "aps" : {
+         "data" : {
+         "msg" : "Hello +923201211991! You joined the room."
+         }
+         }
+         }
+         */
+        
+        
+        /*
+         var payload = {
+         +          type : im.stanza.type,
+         +          senderId : im.stanza.from,
+         +          uniqueId : im.stanza.uniqueid
+         +        };
+         +
+         +        sendPushNotification(im.stanza.to, payload);
+         +      }
+         */
+        print("json received is is \(notificationJSON["aps"])")
+    }
+    
+ 
+    /*
     func application(application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: NSData) {
         let token=JSON(deviceToken)
         print("device tokennnnnnn...", terminator: "")
@@ -555,7 +603,7 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
         
         print("registered for notification", terminator: "")
     }
-    
+    */
     
     func application(application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: NSError) {
         
