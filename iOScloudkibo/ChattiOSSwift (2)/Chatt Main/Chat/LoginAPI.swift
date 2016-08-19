@@ -435,6 +435,12 @@ class LoginAPI{
             }
             else
             {
+                
+                if(chatJson[0]["type"].string! == "file")
+                {
+                    managerFile.checkPendingFiles(username!)
+                }
+                
                 sqliteDB.SaveChat(chatJson[0]["to"].string!, from1: chatJson[0]["from"].string!,owneruser1:chatJson[0]["to"].string!, fromFullName1: chatJson[0]["fromFullName"].string!, msg1: chatJson[0]["msg"].string!,date1:nil,uniqueid1:chatJson[0]["uniqueid"].string!,status1: status,type1: chatJson[0]["type"].string!, file_type1: chatJson[0]["file_type"].string!,file_path1: "")
                 
 

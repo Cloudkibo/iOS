@@ -151,7 +151,7 @@ class NetworkingManager
         return Alamofire.Manager(configuration: NSURLSessionConfiguration.backgroundSessionConfigurationWithIdentifier(bundleIdentifier + ".background"))
     }()
     
-    func uploadFile(filePath1:String,to1:String,from1:String, uniqueid1:String,file_name1:String,file_size1:String,file_type1:String)
+    func uploadFile(filePath1:String,to1:String,from1:String, uniqueid1:String,file_name1:String,file_size1:String,file_type1:String,type1:String)
     {
         
         var parameters = [
@@ -228,6 +228,43 @@ class NetworkingManager
                 switch response.result {
                 case .Success:
                     
+                    
+                    var imParas=["from":from1,"to":to1,"fromFullName":"\(displayname)","msg":file_name1,"uniqueid":uniqueid1,"type":"file","file_type":type1]
+                    print("imparas are \(imParas)")
+                    
+                    
+                    var statusNow="pending"
+                 
+                    
+                    
+                    //------
+                  
+                    
+                    socketObj.socket.emitWithAck("im",["room":"globalchatroom","stanza":imParas])(timeoutAfter: 150000)
+                    {data in
+                        
+                        print("chat ack received  \(data)")
+                        statusNow="sent"
+                        var chatmsg=JSON(data)
+                        print(data[0])
+                        print(chatmsg[0])
+                        sqliteDB.UpdateChatStatus(chatmsg[0]["uniqueid"].string!, newstatus: chatmsg[0]["status"].string!)
+                        
+                        //^^^self.retrieveChatFromSqlite(self.selectedContact)
+                        //self.tblForChats.reloadData()
+                        
+                        
+                        
+                    }
+                    /*if(self.delegateChat != nil)
+                    {
+                        self.delegateChat?.socketReceivedMessageChat("updateUI", data: nil)
+                    }
+                    if(self.delegate != nil)
+                    {
+                        self.delegate?.socketReceivedMessage("updateUI", data: nil)
+                    }
+                    */
                     
                     if(self.delegateProgressUpload != nil)
                     {
@@ -406,7 +443,22 @@ class NetworkingManager
         Alamofire.download(.POST, "\(downloadURL)", headers:header, parameters: ["uniqueid":fileuniqueid], destination: destination)
             .progress { (bytesRead, totalBytesRead, totalBytesExpectedToRead) in
                 print("writing bytes \(totalBytesRead)")
-                var progressbytes=(Float(totalBytesRead)/Float(filePendingSize)!) as Float
+                print(" bytes1 \(bytesRead)")
+                print("totalBytesRead bytes \(totalBytesRead)")
+                var progressbytes=(Float(totalBytesRead)/Float(totalBytesExpectedToRead)) as Float
+                print("totalBytesExpectedToRead are \(totalBytesExpectedToRead)")
+                if(self.delegateProgressUpload != nil)
+                {
+                    if(progressbytes<1.0)
+                    {
+                        
+                        print("calling delegate progress bar.....")
+                        self.delegateProgressUpload.updateProgressUpload(progressbytes,uniqueid: fileuniqueid)
+                    }
+                    
+                }
+                
+                
                /* if(self.delegateProgressUpload != nil)
                 {print("progress download value is \(progressbytes)")
                     self.delegateProgressUpload.updateProgressUpload(progressbytes,uniqueid: fileuniqueid)
