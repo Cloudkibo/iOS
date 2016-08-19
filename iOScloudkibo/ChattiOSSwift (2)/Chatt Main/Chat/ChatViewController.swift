@@ -643,7 +643,8 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
         let date = Expression<String>("date")
         let status = Expression<String>("status")
         let uniqueid = Expression<String>("uniqueid")
-        
+         let type = Expression<String>("type")
+         let file_type = Expression<String>("file_type")
         
         
         var tbl_userchats=sqliteDB.userschats
@@ -658,7 +659,7 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
             {
                 print("pending chats count is \(count)")
                 count++
-                var imParas=["from":pendingchats[from],"to":pendingchats[to],"fromFullName":pendingchats[fromFullName],"msg":pendingchats[msg],"uniqueid":pendingchats[uniqueid]]
+                var imParas=["from":pendingchats[from],"to":pendingchats[to],"fromFullName":pendingchats[fromFullName],"msg":pendingchats[msg],"uniqueid":pendingchats[uniqueid],"type":pendingchats[type],"file_type":pendingchats[file_type]]
                 
                 print("imparas are \(imParas)")
                 print(imParas, terminator: "")

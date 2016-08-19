@@ -2607,7 +2607,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
         //^^var firstNameSelected=selectedUserObj["firstname"]
         //^^^var lastNameSelected=selectedUserObj["lastname"]
         //^^^var fullNameSelected=firstNameSelected.string!+" "+lastNameSelected.string!
-        var imParas=["from":"\(username!)","to":"\(selectedContact)","fromFullName":"\(displayname)","msg":"\(txtFldMessage.text!)","uniqueid":"\(uniqueID)"]
+        var imParas=["from":"\(username!)","to":"\(selectedContact)","fromFullName":"\(displayname)","msg":"\(txtFldMessage.text!)","uniqueid":"\(uniqueID)","type":"chat","file_type":""]
         print("imparas are \(imParas)")
         print(imParas, terminator: "")
         print("", terminator: "")
@@ -3046,7 +3046,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
                 //^^var firstNameSelected=selectedUserObj["firstname"]
                 //^^^var lastNameSelected=selectedUserObj["lastname"]
                 //^^^var fullNameSelected=firstNameSelected.string!+" "+lastNameSelected.string!
-                var imParas=["from":"\(username!)","to":"\(self.selectedContact)","fromFullName":"\(displayname)","msg":fname!+"."+ftype,"uniqueid":uniqueID,"type":"document","file_type":ftype.lowercaseString]
+                var imParas=["from":"\(username!)","to":"\(self.selectedContact)","fromFullName":"\(displayname)","msg":fname!+"."+ftype,"uniqueid":uniqueID,"type":"file","file_type":"document"]
                 print("imparas are \(imParas)")
                 print(imParas, terminator: "")
                 print("", terminator: "")

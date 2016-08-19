@@ -1151,9 +1151,9 @@ class LoginAPI{
         ;i++
         {
             
-            var isFile=false
+           // var isFile=false
             var chattype="chat"
-            
+            var file_type=""
             //UserchatJson["msg"][i]["date"].string!
             
             
@@ -1171,11 +1171,20 @@ class LoginAPI{
             
             let dateString = formatter.stringFromDate(datens2!)
             
+            if(UserchatJson["msg"][i]["type"].isExists())
+            {
+                chattype=UserchatJson["msg"][i]["type"].string!
+            }
+            
+            if(UserchatJson["msg"][i]["file_type"].isExists())
+            {
+                file_type=UserchatJson["msg"][i]["file_type"].string!
+            }
         
         if(UserchatJson["msg"][i]["uniqueid"].isExists())
         {
             
-            let tbl_files=sqliteDB.files;
+           /* let tbl_files=sqliteDB.files;
             do{
                 
                 
@@ -1203,14 +1212,14 @@ class LoginAPI{
             {
                 print("error in checking files table")
             }
-            
+            */
             
         if(UserchatJson["msg"][i]["to"].string! == username! && UserchatJson["msg"][i]["status"].string!=="sent")
         {
         var updatedStatus="delivered"
             
            
-        sqliteDB.SaveChat(UserchatJson["msg"][i]["to"].string!, from1: UserchatJson["msg"][i]["from"].string!,owneruser1:UserchatJson["msg"][i]["owneruser"].string! , fromFullName1: UserchatJson["msg"][i]["fromFullName"].string!, msg1: UserchatJson["msg"][i]["msg"].string!,date1:dateString,uniqueid1:UserchatJson["msg"][i]["uniqueid"].string!,status1: updatedStatus, type1: chattype, file_type1: "",file_path1: "" )
+        sqliteDB.SaveChat(UserchatJson["msg"][i]["to"].string!, from1: UserchatJson["msg"][i]["from"].string!,owneruser1:UserchatJson["msg"][i]["owneruser"].string! , fromFullName1: UserchatJson["msg"][i]["fromFullName"].string!, msg1: UserchatJson["msg"][i]["msg"].string!,date1:dateString,uniqueid1:UserchatJson["msg"][i]["uniqueid"].string!,status1: updatedStatus, type1: chattype, file_type1: file_type,file_path1: "" )
         
         //socketObj.socket.emit("messageStatusUpdate",["status":"","iniqueid":"","sender":""])
         socketObj.socket.emitWithAck("messageStatusUpdate", ["status":updatedStatus,"uniqueid":UserchatJson["msg"][i]["uniqueid"].string!,"sender": UserchatJson["msg"][i]["from"].string!])(timeoutAfter: 0){data in
@@ -1228,13 +1237,13 @@ class LoginAPI{
         else
         {
         
-            sqliteDB.SaveChat(UserchatJson["msg"][i]["to"].string!, from1: UserchatJson["msg"][i]["from"].string!,owneruser1:UserchatJson["msg"][i]["owneruser"].string! , fromFullName1: UserchatJson["msg"][i]["fromFullName"].string!, msg1: UserchatJson["msg"][i]["msg"].string!,date1:dateString,uniqueid1:UserchatJson["msg"][i]["uniqueid"].string!,status1: UserchatJson["msg"][i]["status"].string!, type1: chattype, file_type1: "",file_path1: "" )
+            sqliteDB.SaveChat(UserchatJson["msg"][i]["to"].string!, from1: UserchatJson["msg"][i]["from"].string!,owneruser1:UserchatJson["msg"][i]["owneruser"].string! , fromFullName1: UserchatJson["msg"][i]["fromFullName"].string!, msg1: UserchatJson["msg"][i]["msg"].string!,date1:dateString,uniqueid1:UserchatJson["msg"][i]["uniqueid"].string!,status1: UserchatJson["msg"][i]["status"].string!, type1: chattype, file_type1: file_type,file_path1: "" )
 
         }
         }
         else
         {
-            sqliteDB.SaveChat(UserchatJson["msg"][i]["to"].string!, from1: UserchatJson["msg"][i]["from"].string!,owneruser1:UserchatJson["msg"][i]["owneruser"].string! , fromFullName1: UserchatJson["msg"][i]["fromFullName"].string!, msg1: UserchatJson["msg"][i]["msg"].string!,date1:dateString,uniqueid1:"",status1: "",type1: chattype, file_type1: "",file_path1: "" )
+            sqliteDB.SaveChat(UserchatJson["msg"][i]["to"].string!, from1: UserchatJson["msg"][i]["from"].string!,owneruser1:UserchatJson["msg"][i]["owneruser"].string! , fromFullName1: UserchatJson["msg"][i]["fromFullName"].string!, msg1: UserchatJson["msg"][i]["msg"].string!,date1:dateString,uniqueid1:"",status1: "",type1: chattype, file_type1: file_type,file_path1: "" )
 
         }
         
@@ -1324,7 +1333,10 @@ class LoginAPI{
         let date = Expression<String>("date")
         let status = Expression<String>("status")
         let uniqueid = Expression<String>("uniqueid")
+        let type = Expression<String>("type")
+        let file_type = Expression<String>("file_type")
         
+
         
         
         var tbl_userchats=sqliteDB.userschats
@@ -1339,7 +1351,7 @@ class LoginAPI{
             {
                 print("pending chats count is \(count)")
                 count++
-                var imParas=["from":pendingchats[from],"to":pendingchats[to],"fromFullName":pendingchats[fromFullName],"msg":pendingchats[msg],"uniqueid":pendingchats[uniqueid]]
+                var imParas=["from":pendingchats[from],"to":pendingchats[to],"fromFullName":pendingchats[fromFullName],"msg":pendingchats[msg],"uniqueid":pendingchats[uniqueid],"type":pendingchats[type],"file_type":pendingchats[file_type]]
                 
                 print("imparas are \(imParas)")
                 print(imParas, terminator: "")
