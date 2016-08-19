@@ -628,7 +628,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
         let status = Expression<String>("status")
         let uniqueid = Expression<String>("uniqueid")
         let type = Expression<String>("type")
-        
+         let file_type = Expression<String>("file_type")
         
         var tbl_userchats=sqliteDB.userschats
         var res=tbl_userchats.filter(to==selecteduser || from==selecteduser)
@@ -673,7 +673,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
                     
                 {//type1
                     ///print("statussss is \(tblContacts[status])")
-                    if(tblContacts[type]=="image")
+                    if(tblContacts[file_type]=="image")
                     {
                       
                       //  self.addUploadInfo(selectedContact, uniqueid1: tblContacts[uniqueid], rowindex: messages.count, uploadProgress: 1, isCompleted: true)
@@ -684,7 +684,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
                         
                     }
                     else{
-                    if(tblContacts[type]=="document")
+                    if(tblContacts[file_type]=="document")
                     {
 
                       ////  self.addUploadInfo(selectedContact, uniqueid1: tblContacts[uniqueid], rowindex: messages.count, uploadProgress: 1, isCompleted: true)
@@ -706,17 +706,17 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
                 else
                 {//type2
                    //// print("statussss is \(tblContacts[status])")
-                    if(tblContacts[type]=="image")
+                    if(tblContacts[file_type]=="image")
                     {
                       //  self.addUploadInfo(selectedContact, uniqueid1: tblContacts[uniqueid], rowindex: messages.count, uploadProgress: 1, isCompleted: true)
                         messages2.addObject(["message":tblContacts[msg], "type":"3", "date":tblContacts[date], "uniqueid":tblContacts[uniqueid]])
                        
                         
-                        self.addMessage(tblContacts[msg] , ofType: "3",date: tblContacts[date],uniqueid: tblContacts[uniqueid])
+                      //^^^^  self.addMessage(tblContacts[msg] , ofType: "3",date: tblContacts[date],uniqueid: tblContacts[uniqueid])
                         
                     }
                     else
-                    {if(tblContacts[type]=="document")
+                    {if(tblContacts[file_type]=="document")
                     {
                        // self.addUploadInfo(selectedContact, uniqueid1: tblContacts[uniqueid], rowindex: messages.count, uploadProgress: 1, isCompleted: true)
                         messages2.addObject(["message":tblContacts[msg], "type":"5", "date":tblContacts[date], "uniqueid":tblContacts[uniqueid]])
@@ -2383,7 +2383,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
             
             
             
-            var imParas=["from":"\(username!)","to":"\(self.selectedContact)","fromFullName":"\(displayname)","msg":self.filename,"uniqueid":uniqueID]
+            var imParas=["from":"\(username!)","to":"\(self.selectedContact)","fromFullName":"\(displayname)","msg":self.filename,"uniqueid":uniqueID,"type":"file","file_type":"image"]
             print("imparas are \(imParas)")
             
             
@@ -2396,7 +2396,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
             
             
             //------
-            sqliteDB.SaveChat(self.selectedContact, from1: username!, owneruser1: username!, fromFullName1: displayname, msg1: self.filename, date1: nil, uniqueid1: uniqueID, status1: statusNow, type1: "image", file_type1: ftype, file_path1: filePathImage2)
+            sqliteDB.SaveChat(self.selectedContact, from1: username!, owneruser1: username!, fromFullName1: displayname, msg1: self.filename, date1: nil, uniqueid1: uniqueID, status1: statusNow, type1: "file", file_type1: "image", file_path1: filePathImage2)
             
             socketObj.socket.emitWithAck("im",["room":"globalchatroom","stanza":imParas])(timeoutAfter: 150000)
             {data in
@@ -2603,7 +2603,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
         //var uniqueID=randNum5+year
         print("unique ID is \(uniqueID)")
         
-        var loggedid=_id!
+      ///  var loggedid=_id!
         //^^var firstNameSelected=selectedUserObj["firstname"]
         //^^^var lastNameSelected=selectedUserObj["lastname"]
         //^^^var fullNameSelected=firstNameSelected.string!+" "+lastNameSelected.string!
@@ -3046,7 +3046,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
                 //^^var firstNameSelected=selectedUserObj["firstname"]
                 //^^^var lastNameSelected=selectedUserObj["lastname"]
                 //^^^var fullNameSelected=firstNameSelected.string!+" "+lastNameSelected.string!
-                var imParas=["from":"\(username!)","to":"\(self.selectedContact)","fromFullName":"\(displayname)","msg":fname!+"."+ftype,"uniqueid":uniqueID]
+                var imParas=["from":"\(username!)","to":"\(self.selectedContact)","fromFullName":"\(displayname)","msg":fname!+"."+ftype,"uniqueid":uniqueID,"type":"document","file_type":ftype.lowercaseString]
                 print("imparas are \(imParas)")
                 print(imParas, terminator: "")
                 print("", terminator: "")
@@ -3073,7 +3073,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
             
                 
                 //------
-                sqliteDB.SaveChat(self.selectedContact, from1: username!, owneruser1: username!, fromFullName1: displayname, msg1: fname!+"."+ftype, date1: nil, uniqueid1: uniqueID, status1: statusNow, type1: "document", file_type1: ftype, file_path1: filePathImage2)
+                sqliteDB.SaveChat(self.selectedContact, from1: username!, owneruser1: username!, fromFullName1: displayname, msg1: fname!+"."+ftype, date1: nil, uniqueid1: uniqueID, status1: statusNow, type1: "file", file_type1: "document", file_path1: filePathImage2)
                 
                 socketObj.socket.emitWithAck("im",["room":"globalchatroom","stanza":imParas])(timeoutAfter: 150000)
                 {data in
