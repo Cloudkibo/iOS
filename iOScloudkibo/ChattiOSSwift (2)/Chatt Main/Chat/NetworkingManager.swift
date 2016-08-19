@@ -447,7 +447,7 @@ class NetworkingManager
                 print("totalBytesRead bytes \(totalBytesRead)")
                 var progressbytes=(Float(totalBytesRead)/Float(totalBytesExpectedToRead)) as Float
                 print("totalBytesExpectedToRead are \(totalBytesExpectedToRead)")
-                if(self.delegateProgressUpload != nil)
+               /* if(self.delegateProgressUpload != nil)
                 {
                     if(progressbytes<1.0)
                     {
@@ -457,7 +457,7 @@ class NetworkingManager
                     }
                     
                 }
-                
+                */
                 
                /* if(self.delegateProgressUpload != nil)
                 {print("progress download value is \(progressbytes)")

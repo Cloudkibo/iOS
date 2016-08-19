@@ -283,10 +283,12 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
         managerFile.delegateProgressUpload=self
         
         print("chat on load")
+        if(socketObj != nil)
+        {
         socketObj.socket.emit("logClient","IPHONE-LOG: chat page loading")
         socketObj.delegate=self
         socketObj.delegateChat=self
-        
+        }
         dispatch_async(dispatch_get_main_queue())
         {
             self.tblForChats.reloadData()
@@ -2628,7 +2630,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
         statusNow="pending"
         //}
         
-        sqliteDB.SaveChat("\(selectedContact)", from1: username!, owneruser1: username!, fromFullName1: loggedFullName!, msg1: txtFldMessage.text!, date1: nil, uniqueid1: uniqueID, status1: statusNow, type1: "chat", file_type1: "", file_path1: "")
+        sqliteDB.SaveChat("\(selectedContact)", from1: username!, owneruser1: username!, fromFullName1: displayname, msg1: txtFldMessage.text!, date1: nil, uniqueid1: uniqueID, status1: statusNow, type1: "chat", file_type1: "", file_path1: "")
        // sqliteDB.SaveChat("\(selectedContact)", from1: "\(username!)",owneruser1: "\(username!)", fromFullName1: "\(loggedFullName!)", msg1: "\(txtFldMessage.text!)",date1: nil,uniqueid1: uniqueID, status1: statusNow)
         
         socketObj.socket.emitWithAck("im",["room":"globalchatroom","stanza":imParas])(timeoutAfter: 150000)

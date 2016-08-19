@@ -157,19 +157,21 @@ class AppDelegate: UIResponder, UIApplicationDelegate,AppDelegateScreenDelegate 
         
         
         /////-------will be commented----
-        application.registerUserNotificationSettings(pushNotificationSettings)
-        application.registerForRemoteNotifications()
+        //application.registerUserNotificationSettings(pushNotificationSettings)
+        //application.registerForRemoteNotifications()
+    UIApplication.sharedApplication().registerUserNotificationSettings(pushNotificationSettings)
+         UIApplication.sharedApplication().registerForRemoteNotifications()
         
         
         
         
-        
-        
+        ///old code
+        /*
         if(UIApplication.instancesRespondToSelector(Selector("registerUserNotificationSettings:"))) {
             
             UIApplication.sharedApplication().registerUserNotificationSettings(pushNotificationSettings)
             ///UIApplication.sharedApplication().registerUserNotificationSettings(UIUserNotificationSettings(forTypes: .Alert | .Badge, categories: nil))
-        }
+        }*/
         
        // return true
         
@@ -255,6 +257,11 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
         // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
         // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
         print("didenterbackground")
+        print("close socket")
+        if(socketObj != nil)
+        {socketObj.socket.disconnect()
+        socketObj=nil
+        }
        // application
         /*if(socketObj == nil)
         {
@@ -298,6 +305,21 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
             }
         }*/
         print("app will enter foreground")
+        if(socketObj == nil)
+        {
+            print("socket is nillll", terminator: "")
+            //dispatch_async(dispatch_get_main_queue())
+            //{
+            socketObj=LoginAPI(url:"\(Constants.MainUrl)")
+            ///socketObj.connect()
+            //            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND,0))
+            //{
+            socketObj.addHandlers()
+            socketObj.addWebRTCHandlers()
+            //}
+            //}
+        }
+
         /*if(socketObj == nil || isSocketConnected==false)
         {
             print("socket is nillll", terminator: "")

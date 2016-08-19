@@ -153,7 +153,7 @@ class LoginAPI{
         self.socket.on("disconnect") {data, ack in
             //NSLog("disconnected from socket")
             print("disconnected from socket")
-            socketObj.socket.emit("logClient","IPHONE-LOG: kibo disconnected from socket. conneted again")
+            /////socketObj.socket.emit("logClient","IPHONE-LOG: kibo disconnected from socket. conneted again")
             meetingStarted=false
             isSocketConnected=false
             globalChatRoomJoined=false
