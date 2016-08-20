@@ -138,6 +138,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate,AppDelegateScreenDelegate 
 //}
         }
         
+        if let remoteNotification = launchOptions?[UIApplicationLaunchOptionsRemoteNotificationKey] as? NSDictionary {
+            // ...do stuff...
+            print("received notification in background .... \(remoteNotification.description)")
+        }
+        
         
         
         /*
@@ -151,14 +156,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate,AppDelegateScreenDelegate 
         
         
         
-        let notificationTypes: UIUserNotificationType = [UIUserNotificationType.Alert, UIUserNotificationType.Badge, UIUserNotificationType.Sound]
+       // let notificationTypes: UIUserNotificationType = [UIUserNotificationType.Alert, UIUserNotificationType.Badge, UIUserNotificationType.Sound,UIUserNotificationType.None]
+        
+        let notificationTypes: UIUserNotificationType = [UIUserNotificationType.None]
+       
+        
         let pushNotificationSettings = UIUserNotificationSettings(forTypes: notificationTypes, categories: nil)
         
         
         
         /////-------will be commented----
-        //application.registerUserNotificationSettings(pushNotificationSettings)
-        //application.registerForRemoteNotifications()
+        application.registerUserNotificationSettings(pushNotificationSettings)
+        application.registerForRemoteNotifications()
     UIApplication.sharedApplication().registerUserNotificationSettings(pushNotificationSettings)
          UIApplication.sharedApplication().registerForRemoteNotifications()
         
@@ -257,11 +266,13 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
         // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
         // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
         print("didenterbackground")
-        print("close socket")
+        /*print("close socket")
         if(socketObj != nil)
-        {socketObj.socket.disconnect()
+        {    socketObj.socket.close()
+        socketObj.socket.disconnect()
         socketObj=nil
         }
+        */
        // application
         /*if(socketObj == nil)
         {
@@ -305,7 +316,7 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
             }
         }*/
         print("app will enter foreground")
-        if(socketObj == nil)
+        /*if(socketObj == nil)
         {
             print("socket is nillll", terminator: "")
             //dispatch_async(dispatch_get_main_queue())
@@ -318,7 +329,7 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
             socketObj.addWebRTCHandlers()
             //}
             //}
-        }
+        }*/
 
         /*if(socketObj == nil || isSocketConnected==false)
         {
@@ -365,6 +376,11 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
             }
         }*/
         print("app becomeActive")
+       // socketObj=LoginAPI(url:"\(Constants.MainUrl)")
+        //socketObj.addHandlers()
+        //socketObj.addWebRTCHandlers()
+        
+        
        /* if(socketObj == nil || isSocketConnected==false)
         {
             print("socket is nillll", terminator: "")
@@ -377,14 +393,14 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
            // socketObj.socket.reconnects=true
         }*/
         
-        /* if(socketObj == nil)
-        {
+         if(socketObj == nil)
+        {print("connecting socket in")
             print("socket is nillll", terminator: "")
             socketObj=LoginAPI(url:"\(Constants.MainUrl)")
             ///socketObj.connect()
             socketObj.addHandlers()
             socketObj.addWebRTCHandlers()
-        }*/
+        }
     }
     
     func applicationWillTerminate(application: UIApplication) {
@@ -562,7 +578,9 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
         var tagname=NSSet(array: tagarray)
        // hub.registerNativeWithDeviceToken(deviceToken, tags: tagname as Set<NSObject>) { (error) in
         hub.registerNativeWithDeviceToken(deviceToken, tags: tagname as Set<NSObject>) { (error) in
-            if(error != nil)
+        //hub.registerNativeWithDeviceToken(deviceToken, tags: nil) { (error) in
+            
+        if(error != nil)
             {
                 print("Registering for notifications \(error)")
             }
@@ -585,12 +603,17 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
      [self MessageBox:@"Notification" message:[[userInfo objectForKey:@"aps"] valueForKey:@"alert"]];
      }
  */
+    
+
+    
     func application(application: UIApplication, didReceiveRemoteNotification userInfo: [NSObject : AnyObject], fetchCompletionHandler completionHandler: (UIBackgroundFetchResult) -> Void) {
-        
+        NSLog("received remote notification \(userInfo)")
         print("remote notification received is \(userInfo)")
         var notificationJSON=JSON(userInfo)
         print("json converted is \(notificationJSON)")
         print("json received is is \(notificationJSON["aps"])")
+        completionHandler(UIBackgroundFetchResult.NewData)
+        NSNotificationCenter.defaultCenter().postNotificationName("ReceivedNotification", object:userInfo)
         /*
          json converted is {
          "aps" : {
@@ -614,7 +637,7 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
          */
         print("json received is is \(notificationJSON["aps"])")
     }
-    
+ 
  
     /*
     func application(application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: NSData) {
@@ -716,6 +739,11 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
         return UIViewController
     }*/
     
+    func application(application: UIApplication, performFetchWithCompletionHandler completionHandler: (UIBackgroundFetchResult) -> Void) {
+        
+        completionHandler(UIBackgroundFetchResult.NoData)
+        
+    }
     func application(application: UIApplication, handleEventsForBackgroundURLSession identifier: String, completionHandler: () -> Void) {
         
          NetworkingManager.sharedManager.backgroundCompletionHandler = completionHandler
