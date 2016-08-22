@@ -466,6 +466,20 @@ class LoginAPI{
                 socketObj.socket.emit("logClient","chat delegate not nil")
             self.delegateChat?.socketReceivedMessageChat("im",data: data)
             }
+            else
+            {
+                //show local notification in top bar
+                let notification = UILocalNotification()
+                notification.alertBody = chatJson[0]["msg"].string! // text that will be displayed in the notification
+                ///notification.alertAction = "open" // text that is displayed after "slide to..." on the lock screen - defaults to "slide to view"
+                notification.fireDate = NSDate() // todo item due date (when notification will be fired)
+                notification.soundName = UILocalNotificationDefaultSoundName // play default sound
+                notification.userInfo = ["title": chatJson[0]["from"].string!, "UUID": chatJson[0]["uniqueid"].string!] // assign a unique identifier to the notification so that we can retrieve it later
+                
+              //  UIApplication.sharedApplication().scheduleLocalNotification(notification)
+                UIApplication.sharedApplication().presentLocalNotificationNow(notification)
+                
+            }
             
             
             //print("chat received \(chatJson.debugDescription)")

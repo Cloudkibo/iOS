@@ -109,7 +109,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate,AppDelegateScreenDelegate 
     }*/
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         // Override point for customization after application launch.
-        
+        print("========launchhhhhhhhh=====")
         
         uploadInfo=NSMutableArray()
         Fabric.with([Crashlytics.self])
@@ -156,9 +156,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate,AppDelegateScreenDelegate 
         
         
         
-       // let notificationTypes: UIUserNotificationType = [UIUserNotificationType.Alert, UIUserNotificationType.Badge, UIUserNotificationType.Sound,UIUserNotificationType.None]
+        let notificationTypes: UIUserNotificationType = [UIUserNotificationType.Alert, UIUserNotificationType.Badge, UIUserNotificationType.Sound]
         
-        let notificationTypes: UIUserNotificationType = [UIUserNotificationType.None]
+        //let notificationTypes: UIUserNotificationType = [UIUserNotificationType.None]
        
         
         let pushNotificationSettings = UIUserNotificationSettings(forTypes: notificationTypes, categories: nil)
@@ -316,7 +316,7 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
             }
         }*/
         print("app will enter foreground")
-        /*if(socketObj == nil)
+             /*if(socketObj == nil)
         {
             print("socket is nillll", terminator: "")
             //dispatch_async(dispatch_get_main_queue())
@@ -376,6 +376,9 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
             }
         }*/
         print("app becomeActive")
+        UIApplication.sharedApplication().applicationIconBadgeNumber=1;
+        UIApplication.sharedApplication().applicationIconBadgeNumber=0;
+
        // socketObj=LoginAPI(url:"\(Constants.MainUrl)")
         //socketObj.addHandlers()
         //socketObj.addWebRTCHandlers()
