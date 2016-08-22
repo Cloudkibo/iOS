@@ -1055,9 +1055,9 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
       //  do
        //// {allkiboContactsArray = Array(try sqliteDB.db.prepare(contactsKibo))
             do{
-                if(!ContactUsernames.isEmpty)
+                if(!ContactUsernames.isEmpty && indexPath.row<=ContactUsernames.count)
                 {
-                
+                print("username count is \(ContactUsernames.count) and indexpath.row is \(indexPath.row)")
                 for all in try sqliteDB.db.prepare(allcontacts) {
                 //print("id: \(account[_id]), phone: \(account[phone]), firstname: \(account[firstname])")
                 // id: 1, email: alice@mac.com, name: Optional("Alice")
@@ -1131,7 +1131,7 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
             }
             if(contactFound==false)
             {
-            if(!ContactUsernames.isEmpty)
+            if(!ContactUsernames.isEmpty && indexPath.row <= ContactUsernames.count)
                 {
                 cell.contactName?.text=ContactUsernames[indexPath.row]
                 }
@@ -1200,7 +1200,7 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
         
         
         
-        if(!ContactOnlineStatus.isEmpty)
+        if(!ContactOnlineStatus.isEmpty && indexPath.row<=ContactOnlineStatus.count)
         {
 
         if ContactOnlineStatus[indexPath.row]==0

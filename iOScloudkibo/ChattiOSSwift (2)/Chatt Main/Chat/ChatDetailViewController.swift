@@ -748,8 +748,9 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
                 //self.tblForChats.reloadData()
                 
             }
-            self.messages.removeAllObjects()
-            self.messages.addObjectsFromArray(messages2 as [AnyObject])
+           ////////// self.messages.removeAllObjects()
+            messages.setArray(messages2 as [AnyObject])
+            ////////////self.messages.addObjectsFromArray(messages2 as [AnyObject])
             self.tblForChats.reloadData()
             
             if(self.messages.count>1)
@@ -1285,7 +1286,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
         }
         if (msgType.isEqualToString("3")){
             cell = ///tblForChats.dequeueReusableCellWithIdentifier("ChatReceivedCell")! as UITableViewCell
-                
+               
                 //FileImageReceivedCell
                 tblForChats.dequeueReusableCellWithIdentifier("FileImageSentCell")! as UITableViewCell
             let deliveredLabel = cell.viewWithTag(13) as! UILabel
@@ -2400,7 +2401,10 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
             //------
             sqliteDB.SaveChat(self.selectedContact, from1: username!, owneruser1: username!, fromFullName1: displayname, msg1: self.filename, date1: nil, uniqueid1: uniqueID, status1: statusNow, type1: "file", file_type1: "image", file_path1: filePathImage2)
             
-            socketObj.socket.emitWithAck("im",["room":"globalchatroom","stanza":imParas])(timeoutAfter: 150000)
+            
+            //do when upload finish
+            //think about pending file
+           /* socketObj.socket.emitWithAck("im",["room":"globalchatroom","stanza":imParas])(timeoutAfter: 150000)
             {data in
                 
                 print("chat ack received  \(data)")
@@ -2416,7 +2420,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
                 
                 
             }
-            
+            */
             
             //sqliteDB.SaveChat(self.selectedContact, from1: username!, owneruser1: username!, fromFullName1: displayname, msg1: self.filename, date1: nil, uniqueid1: uniqueID, status1: "pending", type1: "image", file_type1: ftype, file_path1: filePathImage2)
             
@@ -3077,7 +3081,12 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
                 //------
                 sqliteDB.SaveChat(self.selectedContact, from1: username!, owneruser1: username!, fromFullName1: displayname, msg1: fname!+"."+ftype, date1: nil, uniqueid1: uniqueID, status1: statusNow, type1: "file", file_type1: "document", file_path1: filePathImage2)
                 
-                socketObj.socket.emitWithAck("im",["room":"globalchatroom","stanza":imParas])(timeoutAfter: 150000)
+                
+                
+                
+                //emit when uploaded 
+                
+               /* socketObj.socket.emitWithAck("im",["room":"globalchatroom","stanza":imParas])(timeoutAfter: 150000)
                 {data in
                     
                     print("chat ack received  \(data)")
@@ -3092,7 +3101,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
                     
                     
                     
-                }
+                }*/
                 
 
                  sqliteDB.saveFile(self.selectedContact, from1: username!, owneruser1: username!, file_name1: fname!+"."+ftype, date1: nil, uniqueid1: uniqueID, file_size1: "\(self.fileSize1)", file_type1: ftype, file_path1: filePathImage2, type1: "document")

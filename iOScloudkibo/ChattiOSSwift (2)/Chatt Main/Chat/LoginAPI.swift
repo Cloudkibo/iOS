@@ -480,7 +480,7 @@ class LoginAPI{
             
             //UIApplicationState state = [[UIApplication sharedApplication] applicationState];
             
-            if (state == UIApplicationState.Background || state == UIApplicationState.Inactive)
+            /*if (state == UIApplicationState.Background || state == UIApplicationState.Inactive)
             {
                 //Do checking here.
             
@@ -490,7 +490,7 @@ class LoginAPI{
             AudioServicesPlaySystemSound (systemSoundID)
             let todoItem = NotificationItem(otherUserName: msg[0]["fromFullName"].string!, message:msg[0]["msg"].string! , type: "New Message", UUID: "111", deadline: NSDate(timeIntervalSinceNow: 0))
             notificationsMainClass.sharedInstance.addItem(todoItem) // schedule a local notification to persist this item
-            }
+            }*/
         }
         
         ///////////////
