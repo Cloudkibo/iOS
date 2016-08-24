@@ -15,6 +15,7 @@ import CloudKit
 import AccountKit
 import Fabric
 import Crashlytics
+//import UserNotifications
 //import WindowsAzureMessaging
 
 var aaaaa:SBNotificationHub!
@@ -111,6 +112,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate,AppDelegateScreenDelegate 
         // Override point for customization after application launch.
         print("========launchhhhhhhhh=====")
         
+        
+     /*   UserNotificationCenter.current().requestAuthorization([.alert, .sound, .badge]
+            { (granted, error) in
+               // ...
+            }
+     */
         uploadInfo=NSMutableArray()
         Fabric.with([Crashlytics.self])
         
@@ -166,8 +173,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate,AppDelegateScreenDelegate 
         
         
         /////-------will be commented----
-        application.registerUserNotificationSettings(pushNotificationSettings)
-        application.registerForRemoteNotifications()
+        //application.registerUserNotificationSettings(pushNotificationSettings)
+        //application.registerForRemoteNotifications()
     UIApplication.sharedApplication().registerUserNotificationSettings(pushNotificationSettings)
          UIApplication.sharedApplication().registerForRemoteNotifications()
         
