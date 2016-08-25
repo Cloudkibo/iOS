@@ -469,7 +469,7 @@ class LoginAPI{
             else
             {
                 //show local notification in top bar
-                let notification = UILocalNotification()
+             /*   let notification = UILocalNotification()
                 notification.alertBody = chatJson[0]["msg"].string! // text that will be displayed in the notification
                 ///notification.alertAction = "open" // text that is displayed after "slide to..." on the lock screen - defaults to "slide to view"
                 notification.fireDate = NSDate() // todo item due date (when notification will be fired)
@@ -478,6 +478,7 @@ class LoginAPI{
                 
               //  UIApplication.sharedApplication().scheduleLocalNotification(notification)
                 UIApplication.sharedApplication().presentLocalNotificationNow(notification)
+                */
                 
             }
             

@@ -297,6 +297,7 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
     override func viewDidLoad() {
         super.viewDidLoad()
         print("Chat ViewController is loadingggggg")
+        
         if(self.accountKit == nil){
             self.accountKit = AKFAccountKit(responseType: AKFResponseType.AccessToken)
         }

@@ -145,10 +145,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate,AppDelegateScreenDelegate 
 //}
         }
         
-        if let remoteNotification = launchOptions?[UIApplicationLaunchOptionsRemoteNotificationKey] as? NSDictionary {
-            // ...do stuff...
-            print("received notification in background .... \(remoteNotification.description)")
-        }
+     
         
         
         
@@ -175,12 +172,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate,AppDelegateScreenDelegate 
         /////-------will be commented----
         //application.registerUserNotificationSettings(pushNotificationSettings)
         //application.registerForRemoteNotifications()
-    UIApplication.sharedApplication().registerUserNotificationSettings(pushNotificationSettings)
-         UIApplication.sharedApplication().registerForRemoteNotifications()
+  UIApplication.sharedApplication().registerUserNotificationSettings(pushNotificationSettings)
+    
+        ///UIApplication.sharedApplication().registerForRemoteNotificationTypes(notificationTypes)
         
-        
-        
-        
+        /*if let remoteNotification = launchOptions?[UIApplicationLaunchOptionsRemoteNotificationKey] as? NSDictionary {
+            // ...do stuff...
+            print("received notification in background .... \(remoteNotification.description)")
+        }
+        */
         ///old code
         /*
         if(UIApplication.instancesRespondToSelector(Selector("registerUserNotificationSettings:"))) {
@@ -253,7 +253,14 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
     
     
     
-    
+    func application(application: UIApplication, didRegisterUserNotificationSettings notificationSettings: UIUserNotificationSettings) {
+        print("didRegisterUserNotificationSettings")
+        if(!UIApplication.sharedApplication().isRegisteredForRemoteNotifications())
+        {
+            UIApplication.sharedApplication().registerForRemoteNotifications()
+        }
+        
+    }
     func applicationWillResignActive(application: UIApplication) {
         // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
         // Use this method to pause ongoing tasks, disable timers, and throttle down OpenGL ES frame rates. Games should use this method to pause the game.
@@ -617,13 +624,14 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
 
     
     func application(application: UIApplication, didReceiveRemoteNotification userInfo: [NSObject : AnyObject], fetchCompletionHandler completionHandler: (UIBackgroundFetchResult) -> Void) {
-        NSLog("received remote notification \(userInfo)")
+       // NSLog("received remote notification \(userInfo)")
         print("remote notification received is \(userInfo)")
-        var notificationJSON=JSON(userInfo)
+        /*var notificationJSON=JSON(userInfo)
         print("json converted is \(notificationJSON)")
         print("json received is is \(notificationJSON["aps"])")
+        */
         completionHandler(UIBackgroundFetchResult.NewData)
-        NSNotificationCenter.defaultCenter().postNotificationName("ReceivedNotification", object:userInfo)
+        ///////NSNotificationCenter.defaultCenter().postNotificationName("ReceivedNotification", object:userInfo)
         /*
          json converted is {
          "aps" : {
@@ -645,7 +653,7 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
          +        sendPushNotification(im.stanza.to, payload);
          +      }
          */
-        print("json received is is \(notificationJSON["aps"])")
+       // print("json received is is \(notificationJSON["aps"])")
     }
  
  
@@ -732,11 +740,11 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
     //self.window?.rootViewController!.presentViewController(alert, animated: true, completion: nil)
     }
     
-    func application(application: UIApplication, didReceiveLocalNotification notification: UILocalNotification) {
+   /* func application(application: UIApplication, didReceiveLocalNotification notification: UILocalNotification) {
         application.applicationIconBadgeNumber = 0
       //  UIApplication.sharedApplication().presentLocalNotificationNow(notification)
         socketObj.socket.emit("logClient","IPHONE-LOG: call notification received in background")
-    }
+    }*/
     
     func application(application: UIApplication, shouldSaveApplicationState coder: NSCoder) -> Bool {
         return true
@@ -750,7 +758,7 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
     }*/
     
     func application(application: UIApplication, performFetchWithCompletionHandler completionHandler: (UIBackgroundFetchResult) -> Void) {
-        
+        print("background fetch resultttt...")
         completionHandler(UIBackgroundFetchResult.NoData)
         
     }
