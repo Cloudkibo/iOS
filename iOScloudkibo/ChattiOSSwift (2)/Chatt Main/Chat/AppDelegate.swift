@@ -255,16 +255,24 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
     
     func application(application: UIApplication, didRegisterUserNotificationSettings notificationSettings: UIUserNotificationSettings) {
         print("didRegisterUserNotificationSettings")
-        if(!UIApplication.sharedApplication().isRegisteredForRemoteNotifications())
-        {
+       // if(!UIApplication.sharedApplication().isRegisteredForRemoteNotifications())
+        //{
             UIApplication.sharedApplication().registerForRemoteNotifications()
-        }
+        //}
         
     }
     func applicationWillResignActive(application: UIApplication) {
         // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
         // Use this method to pause ongoing tasks, disable timers, and throttle down OpenGL ES frame rates. Games should use this method to pause the game.
-       /* if(socketObj == nil)
+       
+        
+        if(socketObj != nil)
+        {    socketObj.socket.close()
+            socketObj.socket.disconnect()
+            socketObj=nil
+        }
+        
+        /* if(socketObj == nil)
         {
             print("socket is nillll", terminator: "")
             socketObj=LoginAPI(url:"\(Constants.MainUrl)")
@@ -273,6 +281,7 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
             socketObj.addWebRTCHandlers()
         }
         */
+        
         print("appwillresignactive")
     }
     

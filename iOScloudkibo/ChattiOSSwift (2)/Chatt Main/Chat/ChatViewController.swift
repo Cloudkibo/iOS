@@ -1005,6 +1005,15 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
         // print(ContactNames.count, terminator: "")
         return ContactUsernames.count
     }
+    func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+      print("tableheader")
+        let cell = tblForChat.dequeueReusableCellWithIdentifier("NewGroupCell") as! ContactsListCell
+        return cell
+    }
+    func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        print("header height table")
+        return 70
+    }
     
     func numberOfSectionsInTableView(tableView: UITableView!) -> Int {
         return 1

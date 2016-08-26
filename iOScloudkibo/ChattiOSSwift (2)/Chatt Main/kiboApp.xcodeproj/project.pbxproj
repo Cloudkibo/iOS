@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		5BF6363219A9F3D900ABD0BA /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5BF6363119A9F3D900ABD0BA /* Images.xcassets */; };
 		7108B9861D020E720031FC5A /* Alamofire.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7108B9851D020E720031FC5A /* Alamofire.framework */; };
+		710947731D710A63008BC238 /* NewGroupSetDetails.swift in Sources */ = {isa = PBXBuildFile; fileRef = 710947721D710A63008BC238 /* NewGroupSetDetails.swift */; };
 		710CB64E1D06EB030070CA3D /* contactsDetailsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 710CB64D1D06EB030070CA3D /* contactsDetailsTableViewController.swift */; };
 		710D4E3E1D3D8F7600FBC352 /* FileTransferWebRTCclient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 710D4E3D1D3D8F7600FBC352 /* FileTransferWebRTCclient.swift */; };
 		710EF26C1C96B16500578739 /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 710EF26B1C96B16500578739 /* CloudKit.framework */; };
@@ -251,6 +252,7 @@
 		5BF6363119A9F3D900ABD0BA /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		5BF6363719A9F3D900ABD0BA /* ChatTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ChatTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		7108B9851D020E720031FC5A /* Alamofire.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Alamofire.framework; path = "Pods/../build/Debug-iphoneos/Alamofire.framework"; sourceTree = "<group>"; };
+		710947721D710A63008BC238 /* NewGroupSetDetails.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewGroupSetDetails.swift; sourceTree = "<group>"; };
 		710CB64D1D06EB030070CA3D /* contactsDetailsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = contactsDetailsTableViewController.swift; sourceTree = "<group>"; };
 		710D4E3D1D3D8F7600FBC352 /* FileTransferWebRTCclient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FileTransferWebRTCclient.swift; sourceTree = "<group>"; };
 		710EF26B1C96B16500578739 /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = System/Library/Frameworks/CloudKit.framework; sourceTree = SDKROOT; };
@@ -518,6 +520,7 @@
 				7122F96D1D500FFA00EBBCED /* textDocumentViewController.swift */,
 				7122F96F1D54B7FF00EBBCED /* NetworkingManager.swift */,
 				71E3EE481D5BAD8300310DB0 /* KDCircularProgress.swift */,
+				710947721D710A63008BC238 /* NewGroupSetDetails.swift */,
 			);
 			path = Chat;
 			sourceTree = "<group>";
@@ -965,6 +968,7 @@
 				713D51C41CC11896007E0B47 /* ChatDetailViewController.swift in Sources */,
 				710CB64E1D06EB030070CA3D /* contactsDetailsTableViewController.swift in Sources */,
 				713D51C31CC11896007E0B47 /* ChatContactsCell.swift in Sources */,
+				710947731D710A63008BC238 /* NewGroupSetDetails.swift in Sources */,
 				713D51C71CC11896007E0B47 /* ConferenceViewController.swift in Sources */,
 				718B8D891CC11A9B000B4AB2 /* SocketEventHandler.swift in Sources */,
 				713D51E41CC11896007E0B47 /* PendingFriendRequestsViewController.swift in Sources */,
@@ -1166,8 +1170,8 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Chat/Chat.entitlements;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (

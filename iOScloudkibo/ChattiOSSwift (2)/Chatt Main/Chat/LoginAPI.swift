@@ -454,7 +454,10 @@ class LoginAPI{
                 print(data[0])
                 print(chatmsg[0])
                 print("chat status emitted")
+                if(socketObj != nil)
+                {
                 socketObj.socket.emit("logClient","\(username) chat status emitted")
+                }
                 }
             
             
@@ -462,8 +465,10 @@ class LoginAPI{
             print(msg.debugDescription)
             self.delegate?.socketReceivedMessage("im",data: data)
             if(self.delegateChat != nil)
+            { if(socketObj != nil)
             {
                 socketObj.socket.emit("logClient","chat delegate not nil")
+                }
             self.delegateChat?.socketReceivedMessageChat("im",data: data)
             }
             else
