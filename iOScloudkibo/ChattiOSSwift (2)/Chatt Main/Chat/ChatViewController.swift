@@ -1028,6 +1028,9 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
     
     func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
       print("tableheader")
+        
+        var cellview=UIView.init()
+        
         let cell = tblForChat.dequeueReusableCellWithIdentifier("NewGroupCell") as! ContactsListCell
         btnNewGroup=cell.btnNewGroupOutlet
         
@@ -1046,7 +1049,9 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
          }
          }
  */
-        return cell
+        
+        cellview.addSubview(cell)
+        return cellview
     }
     
     
@@ -1360,7 +1365,7 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
             print("sectionnnnnnn")
             
         }
-        if (tableView.editing) {
+        if (tableView.editing && editButtonOutlet.title=="Edit") {
             
             
             return UITableViewCellEditingStyle.Delete
@@ -1378,6 +1383,7 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
        ////// &&& return UITableViewCellEditingStyle.None
     }
      func tableView(tableView: UITableView, shouldIndentWhileEditingRowAtIndexPath indexPath: NSIndexPath) -> Bool {
+        
         return true
     }
     
@@ -1389,6 +1395,7 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
             
             let DeleteAction = UIAlertAction(title: "Delete", style: UIAlertActionStyle.Default,handler: { (action) -> Void in
                 self.removeChatHistory(self.ContactUsernames[indexPath.row],indexPath: indexPath)
+                
             })
             let cancelAction = UIAlertAction(title: "Cancel", style: UIAlertActionStyle.Cancel, handler: { (action) -> Void in
                 
@@ -1529,27 +1536,93 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
         
 ////   if(tblForChat.cellForRowAtIndexPath(indexPath)?.editingStyle == UITableViewCellEditingStyle.init(rawValue: 1))
         //if(tblForChat.editing == false)
-        if(tblForChat.cellForRowAtIndexPath(indexPath)?.editingStyle == UITableViewCellEditingStyle.init(rawValue: 1) && tblForChat.editing==false)
+       // if(tblForChat.cellForRowAtIndexPath(indexPath)?.editingStyle == UITableViewCellEditingStyle.init(rawValue: 1) && tblForChat.editing.boolValue==true)
+//if(tblForChat.cellForRowAtIndexPath(indexPath)?.editingStyle != .Delete && tblForChat.editing.boolValue==true)
+        if(editButtonOutlet.title=="Edit")
 
-        {
+//UITableViewCellEditingStyle
+{
         let more = UITableViewRowAction(style: .Normal, title: "More") { action, index in
             print("more button tapped")
+            let shareMenu = UIAlertController(title: nil, message: nil, preferredStyle: .ActionSheet)
+            
+            let Mute = UIAlertAction(title: "Mute", style: UIAlertActionStyle.Default,handler: { (action) -> Void in
+               //// self.removeChatHistory(self.ContactUsernames[indexPath.row],indexPath: indexPath)
+                
+                //call Mute delegate or method
+            })
+            
+            let GroupInfo = UIAlertAction(title: "Group Info", style: UIAlertActionStyle.Default,handler: { (action) -> Void in
+                //// self.removeChatHistory(self.ContactUsernames[indexPath.row],indexPath: indexPath)
+                
+                //call Mute delegate or method
+            })
+            
+            let ExportChat = UIAlertAction(title: "Export Chat", style: UIAlertActionStyle.Default,handler: { (action) -> Void in
+                //// self.removeChatHistory(self.ContactUsernames[indexPath.row],indexPath: indexPath)
+                
+                //call Mute delegate or method
+            })
+            
+            let ClearChat = UIAlertAction(title: "Clear Chat", style: UIAlertActionStyle.Default,handler: { (action) -> Void in
+                //// self.removeChatHistory(self.ContactUsernames[indexPath.row],indexPath: indexPath)
+                
+                //call Mute delegate or method
+            })
+            let DeleteChat = UIAlertAction(title: "Delete Chat", style: UIAlertActionStyle.Default,handler: { (action) -> Void in
+                
+                //// self.removeChatHistory(self.ContactUsernames[indexPath.row],indexPath: indexPath)
+                
+                //call Mute delegate or method
+            })
+            let cancelAction = UIAlertAction(title: "Cancel", style: UIAlertActionStyle.Cancel, handler: { (action) -> Void in
+                
+                //self.sendType="Message"
+                //self.performSegueWithIdentifier("inviteSegue",sender: nil)
+                /*var messageVC = MFMessageComposeViewController()
+                 
+                 messageVC.body = "Enter a message";
+                 messageVC.recipients = ["03201211991"]
+                 messageVC.messageComposeDelegate = self;
+                 
+                 self.presentViewController(messageVC, animated: false, completion: nil)
+                 */
+            })
+            
+            shareMenu.addAction(Mute)
+            shareMenu.addAction(GroupInfo)
+            shareMenu.addAction(ExportChat)
+            shareMenu.addAction(ClearChat)
+            
+            shareMenu.addAction(DeleteChat)
+            shareMenu.addAction(cancelAction)
+            
+            
+            self.presentViewController(shareMenu, animated: true, completion: {
+                
+            })
+
+            
         }
         more.backgroundColor = UIColor.lightGrayColor()
         
         let Archive = UITableViewRowAction(style: .Normal, title: "Archive") { action, index in
             print("Archive button tapped")
+            
+            
+            
         }
-        Archive.backgroundColor = UIColor.orangeColor()
-        
+       Archive.backgroundColor = UIColor.blueColor()
+  //  Archive.set
+      //  Archive.backgroundColor = UIColor(patternImage: UIImage(named: "archive.png")!)
       /*  let share = UITableViewRowAction(style: .Normal, title: "Share") { action, index in
             print("share button tapped")
         }
         share.backgroundColor = UIColor.blueColor()
         */
-        return [more, Archive]
+        return [Archive,more]
         }
- else
+        else
         {
             return nil
         }
