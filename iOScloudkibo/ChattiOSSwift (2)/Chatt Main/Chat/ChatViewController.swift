@@ -1009,6 +1009,9 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
         // print(ContactNames.count, terminator: "")
         return ContactUsernames.count
     }
+    
+
+    
     func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
       print("tableheader")
         let cell = tblForChat.dequeueReusableCellWithIdentifier("NewGroupCell") as! ContactsListCell
@@ -1016,6 +1019,7 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
         
         cell.btnNewGroupOutlet.tag=section
         cell.btnNewGroupOutlet.addTarget(self, action: Selector("BtnnewGroupClicked:"), forControlEvents:.TouchUpInside)
+        cell.setEditing(true, animated: true)
         /*
          [cell.yourbutton addTarget:self action:@selector(yourButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
          3) Code actions based on index as below in ViewControler:
@@ -1336,11 +1340,25 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
     }
     
     func tableView(tableView: UITableView, editingStyleForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCellEditingStyle {
+        
+        if(indexPath.section == 0)
+        {
+            print("sectionnnnnnn")
+            
+        }
         if (tableView.editing) {
             
             
             return UITableViewCellEditingStyle.Delete
         }
+        
+        /*
+         let more = UITableViewRowAction(style: .Normal, title: "More") { action, index in
+         print("more button tapped")
+         }
+         more.backgroundColor = UIColor.lightGrayColor()
+
+ */
         return UITableViewCellEditingStyle.None
     }
      func tableView(tableView: UITableView, shouldIndentWhileEditingRowAtIndexPath indexPath: NSIndexPath) -> Bool {
@@ -1481,6 +1499,29 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
             
             
         }
+    
+    
+    
+    func tableView(tableView: UITableView, editActionsForRowAtIndexPath indexPath: NSIndexPath) -> [UITableViewRowAction]? {
+        let more = UITableViewRowAction(style: .Normal, title: "More") { action, index in
+            print("more button tapped")
+        }
+        more.backgroundColor = UIColor.lightGrayColor()
+        
+        let favorite = UITableViewRowAction(style: .Normal, title: "Favorite") { action, index in
+            print("favorite button tapped")
+        }
+        favorite.backgroundColor = UIColor.orangeColor()
+        
+        let share = UITableViewRowAction(style: .Normal, title: "Share") { action, index in
+            print("share button tapped")
+        }
+        share.backgroundColor = UIColor.blueColor()
+        
+        return [share, favorite, more]
+    }
+
+    
     
     override func prepareForSegue(segue: UIStoryboardSegue?, sender: AnyObject?) {
        
