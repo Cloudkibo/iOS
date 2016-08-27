@@ -10,6 +10,7 @@
 		5BF6363219A9F3D900ABD0BA /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5BF6363119A9F3D900ABD0BA /* Images.xcassets */; };
 		7108B9861D020E720031FC5A /* Alamofire.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7108B9851D020E720031FC5A /* Alamofire.framework */; };
 		710947731D710A63008BC238 /* NewGroupSetDetails.swift in Sources */ = {isa = PBXBuildFile; fileRef = 710947721D710A63008BC238 /* NewGroupSetDetails.swift */; };
+		710947751D71189E008BC238 /* ParticipantsCollectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 710947741D71189E008BC238 /* ParticipantsCollectionCell.swift */; };
 		710CB64E1D06EB030070CA3D /* contactsDetailsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 710CB64D1D06EB030070CA3D /* contactsDetailsTableViewController.swift */; };
 		710D4E3E1D3D8F7600FBC352 /* FileTransferWebRTCclient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 710D4E3D1D3D8F7600FBC352 /* FileTransferWebRTCclient.swift */; };
 		710EF26C1C96B16500578739 /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 710EF26B1C96B16500578739 /* CloudKit.framework */; };
@@ -253,6 +254,7 @@
 		5BF6363719A9F3D900ABD0BA /* ChatTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ChatTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		7108B9851D020E720031FC5A /* Alamofire.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Alamofire.framework; path = "Pods/../build/Debug-iphoneos/Alamofire.framework"; sourceTree = "<group>"; };
 		710947721D710A63008BC238 /* NewGroupSetDetails.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewGroupSetDetails.swift; sourceTree = "<group>"; };
+		710947741D71189E008BC238 /* ParticipantsCollectionCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ParticipantsCollectionCell.swift; sourceTree = "<group>"; };
 		710CB64D1D06EB030070CA3D /* contactsDetailsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = contactsDetailsTableViewController.swift; sourceTree = "<group>"; };
 		710D4E3D1D3D8F7600FBC352 /* FileTransferWebRTCclient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FileTransferWebRTCclient.swift; sourceTree = "<group>"; };
 		710EF26B1C96B16500578739 /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = System/Library/Frameworks/CloudKit.framework; sourceTree = SDKROOT; };
@@ -467,6 +469,7 @@
 				713D51981CC11896007E0B47 /* ContactsInviteCell.swift */,
 				713D51991CC11896007E0B47 /* ContactsInviteViewController.swift */,
 				713D519A1CC11896007E0B47 /* ContactsListCell.swift */,
+				710947741D71189E008BC238 /* ParticipantsCollectionCell.swift */,
 				71E046A41D22920D00B67362 /* CallHistCell.swift */,
 				713D519B1CC11896007E0B47 /* DatabaseHandler.swift */,
 				71E861C71D0066F4008BCC7C /* DisplayNameViewController.swift */,
@@ -989,6 +992,7 @@
 				713D51EB1CC11896007E0B47 /* test.m in Sources */,
 				719EFCFD1C9260FF000FD52F /* fileTestingDoc.swift in Sources */,
 				713D51E01CC11896007E0B47 /* NotesViewController.swift in Sources */,
+				710947751D71189E008BC238 /* ParticipantsCollectionCell.swift in Sources */,
 				713D51E91CC11896007E0B47 /* rtcViewController.swift in Sources */,
 				713D51E11CC11896007E0B47 /* notifications.swift in Sources */,
 				7127FF591D396A6A006375E8 /* numberOfFavouritesCell.swift in Sources */,

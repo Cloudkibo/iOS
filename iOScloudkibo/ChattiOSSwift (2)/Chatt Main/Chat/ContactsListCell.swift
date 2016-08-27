@@ -12,6 +12,7 @@ import UIKit
 class ContactsListCell:UITableViewCell {
     
     
+    @IBOutlet weak var participantsCollection: UICollectionView!
     @IBOutlet weak var statusPrivate: UILabel!
     @IBOutlet weak var contactName: UILabel!
     

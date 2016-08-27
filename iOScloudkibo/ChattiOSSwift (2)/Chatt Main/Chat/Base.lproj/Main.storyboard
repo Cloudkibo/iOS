@@ -1072,7 +1072,7 @@
                                                 <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                             </collectionViewFlowLayout>
                                             <cells>
-                                                <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="ParticipantsAvatarsCell" id="gsV-ie-YN5">
+                                                <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="ParticipantsAvatarsCell" id="gsV-ie-YN5" customClass="ParticipantsCollectionCell" customModule="Chat" customModuleProvider="target">
                                                     <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
@@ -1091,11 +1091,18 @@
                                                         </subviews>
                                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                     </view>
+                                                    <connections>
+                                                        <outlet property="deletePicButton" destination="IWc-zh-Pyk" id="2WZ-WZ-K5L"/>
+                                                        <outlet property="participantsProfilePic" destination="ge6-YL-2de" id="RP4-xo-iGE"/>
+                                                    </connections>
                                                 </collectionViewCell>
                                             </cells>
                                         </collectionView>
                                     </subviews>
                                 </tableViewCellContentView>
+                                <connections>
+                                    <outlet property="participantsCollection" destination="AuQ-o5-ENw" id="WKt-1p-j4b"/>
+                                </connections>
                             </tableViewCell>
                         </prototypes>
                         <connections>
