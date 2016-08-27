@@ -11,4 +11,5 @@ class ParticipantsCollectionCell:UICollectionViewCell{
     
     @IBOutlet weak var participantsProfilePic: UIImageView!
     @IBOutlet weak var deletePicButton: UIButton!
+    @IBOutlet weak var participantsName: UILabel!
 }

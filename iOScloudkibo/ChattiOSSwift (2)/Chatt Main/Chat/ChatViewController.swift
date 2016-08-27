@@ -14,11 +14,15 @@ import AVFoundation
 import Foundation
 import AccountKit
 import Contacts
+import ContactsUI
 
-class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
+class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,CNContactPickerDelegate
 {
     
     
+    var participantsSelected=[CNContact]()
+    var picker:CNContactPickerViewController!
+    var btnNewGroup:UIButton!
     let _id = Expression<String>("_id")
     let firstname = Expression<String?>("firstname")
     let lastname = Expression<String?>("lastname")
@@ -1008,8 +1012,61 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
     func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
       print("tableheader")
         let cell = tblForChat.dequeueReusableCellWithIdentifier("NewGroupCell") as! ContactsListCell
+        btnNewGroup=cell.btnNewGroupOutlet
+        
+        cell.btnNewGroupOutlet.tag=section
+        cell.btnNewGroupOutlet.addTarget(self, action: Selector("BtnnewGroupClicked:"), forControlEvents:.TouchUpInside)
+        /*
+         [cell.yourbutton addTarget:self action:@selector(yourButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
+         3) Code actions based on index as below in ViewControler:
+         
+         -(void)yourButtonClicked:(UIButton*)sender
+         {
+         if (sender.tag == 0)
+         {
+         // Your code here
+         }
+         }
+ */
         return cell
     }
+    
+    
+    
+    func BtnnewGroupClicked(sender:UIButton)
+    {
+        participantsSelected.removeAll()
+        print("BtnnewGroupClicked")
+        picker = CNContactPickerViewController();
+        picker.title="Add Participants"
+        picker.navigationItem.leftBarButtonItem=picker.navigationController?.navigationItem.backBarButtonItem
+        
+        picker.predicateForEnablingContact = NSPredicate.init(value: true) //.fromValue(true); // make everything selectable
+        
+        // Respond to selection
+        picker.delegate = self;
+        self.presentViewController(picker, animated: true, completion: nil)
+        // Display picker
+        
+       // UIApplication.sharedApplication().keyWindow!.rootViewController!.presentViewController(picker, animated: true, completion: nil);
+        
+    }
+    
+    func contactPicker(picker: CNContactPickerViewController, didSelectContacts contacts: [CNContact]) {
+        
+        print("didSelectContacts \(contacts)")
+        
+        //get seleced participants
+        participantsSelected.appendContentsOf(contacts)
+        self.performSegueWithIdentifier("newGroupDetailsSegue", sender: nil);
+        
+    }
+    
+    func contactPicker(picker: CNContactPickerViewController, didSelectContactProperties contactProperties: [CNContactProperty]) {
+        
+        print("didSelectContactProperties \(contactProperties)")
+    }
+
     func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         print("header height table")
         return 70
@@ -1427,6 +1484,16 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting
     
     override func prepareForSegue(segue: UIStoryboardSegue?, sender: AnyObject?) {
        
+        //newGroupDetailsSegue
+        
+        if segue!.identifier == "newGroupDetailsSegue" {
+            
+            if let destinationVC = segue!.destinationViewController as? NewGroupSetDetails{
+                destinationVC.participants.removeAll()
+                    destinationVC.participants=self.participantsSelected
+              //  let selectedRow = tblForChat.indexPathForSelectedRow!.row
+                
+            }}
         if segue!.identifier == "contactChat" {
             
             if let destinationVC = segue!.destinationViewController as? ChatDetailViewController{
