@@ -316,7 +316,10 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
         }
         socketObj.socket.on("connect") {data, ack in
             print("connected caught in chat view")
+            if(socketObj != nil)
+            {
             socketObj.delegate=self
+            }
             self.synchroniseChatData()
         }
         

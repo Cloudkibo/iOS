@@ -125,6 +125,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate,AppDelegateScreenDelegate 
         
         UIApplication.sharedApplication().setStatusBarStyle(UIStatusBarStyle.LightContent, animated: false);
         
+        //RESET TEMP
+     KeychainWrapper.removeObjectForKey("username")
+        
         UINavigationBar.appearance().titleTextAttributes = [NSForegroundColorAttributeName: UIColor.whiteColor()]
         //var socketObj=LoginAPI(url:"\(Constants.MainUrl)")
         webMeetingModel.delegateScreen=self
@@ -172,7 +175,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate,AppDelegateScreenDelegate 
         /////-------will be commented----
         //application.registerUserNotificationSettings(pushNotificationSettings)
         //application.registerForRemoteNotifications()
-  UIApplication.sharedApplication().registerUserNotificationSettings(pushNotificationSettings)
+  
+       //////// if(username != nil)
+       //////////// {
+        UIApplication.sharedApplication().registerUserNotificationSettings(pushNotificationSettings)
+        //////////}
     
         ///UIApplication.sharedApplication().registerForRemoteNotificationTypes(notificationTypes)
         
@@ -255,10 +262,11 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
     
     func application(application: UIApplication, didRegisterUserNotificationSettings notificationSettings: UIUserNotificationSettings) {
         print("didRegisterUserNotificationSettings")
-       // if(!UIApplication.sharedApplication().isRegisteredForRemoteNotifications())
-        //{
+       ///// if(!UIApplication.sharedApplication().isRegisteredForRemoteNotifications())
+       /////// {
             UIApplication.sharedApplication().registerForRemoteNotifications()
-        //}
+    
+       ////// }
         
     }
     func applicationWillResignActive(application: UIApplication) {
@@ -596,6 +604,8 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
     
     // ----commenting
      func application(application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: NSData) {
+        if(username != nil && username != ""){
+        print("inside didRegisterForRemoteNotificationsWithDeviceToken username is \(username!) ")
         var hub=SBNotificationHub(connectionString: Constants.connectionstring, notificationHubPath: Constants.hubname) //from constants file
         var tagarray=[String]()
         tagarray.append(username!.substringFromIndex(username!.startIndex.successor()))
@@ -617,6 +627,7 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
             }
             
         }
+       }
     }
     
     

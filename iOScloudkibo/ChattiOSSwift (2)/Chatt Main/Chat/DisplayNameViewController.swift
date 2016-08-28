@@ -716,6 +716,29 @@ class DisplayNameViewController: UIViewController {
                                                         dispatch_async(self.Q4_getUserData,
                                                             {
                                                                 self.getCurrentUserDetails({ (result) -> () in
+                                                                
+                                                                    
+                                                                    
+                                                                    
+                                                                    let notificationTypes: UIUserNotificationType = [UIUserNotificationType.Alert, UIUserNotificationType.Badge, UIUserNotificationType.Sound]
+                                                                    
+                                                                    //let notificationTypes: UIUserNotificationType = [UIUserNotificationType.None]
+                                                                    
+                                                                    
+                                                                    let pushNotificationSettings = UIUserNotificationSettings(forTypes: notificationTypes, categories: nil)
+                                                                    
+                                                                    
+                                                                    
+                                                                    /////-------will be commented----
+                                                                    //application.registerUserNotificationSettings(pushNotificationSettings)
+                                                                    //application.registerForRemoteNotifications()
+                                                                    
+                                                                    if(username != nil && username != "")
+                                                                    {
+                                                                        print("didRegisterForRemoteNotificationsWithDeviceToken in displaycontroller")
+                                                                        UIApplication.sharedApplication().registerUserNotificationSettings(pushNotificationSettings)
+                                                                    }
+                                                                    
                                                                     
                                                                 self.messageFrame.removeFromSuperview()
                                                                 self.progressBarDisplayer("Setting Conversations", true)
