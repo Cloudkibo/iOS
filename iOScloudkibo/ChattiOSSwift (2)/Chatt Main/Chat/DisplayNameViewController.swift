@@ -692,7 +692,8 @@ class DisplayNameViewController: UIViewController {
     }
     
     @IBAction func btnDonePressed(sender: AnyObject) {
-        var displayName=txtDisplayName.text!
+        var displayName="unknown"
+        displayName=txtDisplayName.text!
        // appJustInstalled=[true]
         if(accountKit!.currentAccessToken != nil)
         {

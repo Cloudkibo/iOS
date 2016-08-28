@@ -126,7 +126,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate,AppDelegateScreenDelegate 
         UIApplication.sharedApplication().setStatusBarStyle(UIStatusBarStyle.LightContent, animated: false);
         
         //RESET TEMP
-    ////////// KeychainWrapper.removeObjectForKey("username")
+  ///// KeychainWrapper.removeObjectForKey("username")
         
         UINavigationBar.appearance().titleTextAttributes = [NSForegroundColorAttributeName: UIColor.whiteColor()]
         //var socketObj=LoginAPI(url:"\(Constants.MainUrl)")
@@ -178,11 +178,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate,AppDelegateScreenDelegate 
   
         
         //^^^^^^^^^^^^^^^^^^^
-    /* if(username != nil)
+     if((username != nil && username != "") && displayname == "")
         {
         UIApplication.sharedApplication().registerUserNotificationSettings(pushNotificationSettings)
        }
-    */
+ 
         
         
         ///UIApplication.sharedApplication().registerForRemoteNotificationTypes(notificationTypes)
@@ -266,11 +266,13 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
     
     func application(application: UIApplication, didRegisterUserNotificationSettings notificationSettings: UIUserNotificationSettings) {
         print("didRegisterUserNotificationSettings")
-       ///// if(!UIApplication.sharedApplication().isRegisteredForRemoteNotifications())
-       /////// {
+       if(!UIApplication.sharedApplication().isRegisteredForRemoteNotifications())
+        {
+        print("didRegisterUserNotificationSettings... inside...")
+        
             UIApplication.sharedApplication().registerForRemoteNotifications()
     
-       ////// }
+     }
         
     }
     func applicationWillResignActive(application: UIApplication) {
@@ -608,6 +610,7 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
     
     // ----commenting
      func application(application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: NSData) {
+        print("trying to register device token")
         if(username != nil && username != ""){
         print("inside didRegisterForRemoteNotificationsWithDeviceToken username is \(username!) ")
         var hub=SBNotificationHub(connectionString: Constants.connectionstring, notificationHubPath: Constants.hubname) //from constants file
