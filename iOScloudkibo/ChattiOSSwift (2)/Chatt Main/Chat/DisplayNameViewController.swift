@@ -106,8 +106,6 @@ class DisplayNameViewController: UIViewController {
             var nn="{display_name:displayName}"
             //var getUserDataURL=userDataUrl
             
-            socketObj.socket.emit("logClient", "")
-            
             Alamofire.request(.POST,"\(urlToSendDisplayName)",headers:header,parameters:["display_name":displayName]).responseJSON{
                 response in
                 
@@ -125,8 +123,10 @@ class DisplayNameViewController: UIViewController {
                     case .Success:
                         print("display name sent to server")
                         firstTimeLogin=false
+                        if(socketObj != nil)
+                        {
                         socketObj.socket.emit("logClient", "display name \(displayName) sent to server successfully")
-                    
+                        }
                         return completion(result: true)
                         //////// %%%%%%%%%%%%%%***************self.performSegueWithIdentifier("fetchContactsSegue", sender: self)
                         //self.performSegueWithIdentifier("fetchaddressbooksegue", sender: self)
@@ -167,8 +167,10 @@ class DisplayNameViewController: UIViewController {
                         
                    case .Failure(let error):
                        print(error)
+                       if(socketObj != nil)
+                       {
                         socketObj.socket.emit("logClient","IPHONE-LOG: \(error)")
-                        
+                        }
                     
                     
                     
@@ -187,8 +189,10 @@ class DisplayNameViewController: UIViewController {
     {
                     contactsList.fetch(){ (result) -> () in
                         print("got contacts from device")
-                       
+                        if(socketObj != nil)
+                        {
                         socketObj.socket.emit("logClient", "done fetched contacts from iphone")
+                        }
                         for r in result
                         {
                             //get phones and append phones in list
@@ -204,7 +208,10 @@ class DisplayNameViewController: UIViewController {
     {
         contactsList.searchContactsByPhone(emailList)
             { (result2) -> () in
+                if(socketObj != nil)
+                {
                 socketObj.socket.emit("logClient", "received contacts from cloudkibo server")
+                }
                 for r2 in result2
                 {
                     notAvailableEmails.append(r2)
@@ -220,7 +227,10 @@ class DisplayNameViewController: UIViewController {
     
     func fetchContactsFromServer(completion:(result:Bool)->()){
         print("Server fetchingg contactss", terminator: "")
+        if(socketObj != nil)
+        {
         socketObj.socket.emit("logClient","IPHONE-LOG: fetch contacts from server")
+        }
         if(loggedUserObj == JSON("[]"))
         {
         }
@@ -247,7 +257,9 @@ class DisplayNameViewController: UIViewController {
                     
                     
                     print("success successfully received friends list from server")
-                    socketObj.socket.emit("logClient","IPHONE-LOG:  successfully received friends list from server")
+                    if(socketObj != nil)
+                    {socketObj.socket.emit("logClient","IPHONE-LOG:  successfully received friends list from server")
+                    }
                     if(globalChatRoomJoined == false)
                     {
                         //socketObj.addHandlers()
@@ -362,7 +374,10 @@ class DisplayNameViewController: UIViewController {
                     completion(result:false)
                     
                     print("error: \(error1!.localizedDescription)")
+                    if(socketObj != nil)
+                    {
                     socketObj.socket.emit("logClient", "error: \(error1!.localizedDescription)")
+                    }
                     print(error1)
                     print(response1?.statusCode)
                     print("FETCH CONTACTS FAILED")
@@ -371,7 +386,10 @@ class DisplayNameViewController: UIViewController {
                 }
                 if(response1?.statusCode==401)
                 {
+                    if(socketObj != nil)
+                    {
                     socketObj.socket.emit("logClient", "error: \(error1!.localizedDescription)")
+                    }
                     print("Refreshinggggggggggggggggggg token expired")
                     if(username==nil || password==nil)
                     {print("line # 1074")
@@ -392,8 +410,10 @@ class DisplayNameViewController: UIViewController {
 
     func getCurrentUserDetails(completion: (result:Bool)->())
     {
-        
+        if(socketObj != nil)
+        {
         socketObj.socket.emit("logClient","IPHONE-LOG: login success and AuthToken was not nil getting myself details from server")
+        }
         
         print("login success")
         
@@ -420,8 +440,11 @@ class DisplayNameViewController: UIViewController {
                     KeychainWrapper.setString(loggedUserObj.description, forKey:"loggedUserObjString")
                     var loggedobjstring=KeychainWrapper.stringForKey("loggedUserObjString")
                     
+                    if(socketObj != nil)
+                    {
                     socketObj.socket.emit("logClient","IPHONE-LOG: keychain of loggedUserObjString is \(loggedobjstring)")
-                    
+                    }
+                        
                     print(loggedUserObj.debugDescription)
                     print(loggedUserObj.object)
                     print("$$$$$$$$$$$$$$$$$$$$$$$$$")
@@ -448,10 +471,13 @@ class DisplayNameViewController: UIViewController {
                         
                         var jsonNew=JSON("{\"room\": \"globalchatroom\",\"user\": {\"username\":\"sabachanna\"}}")
                         //socketObj.socket.emit("join global chatroom", ["room": "globalchatroom", "user": ["username":"sabachanna"]]) WORKINGGG
-                        
+                    
+                    
+                    if(socketObj != nil)
+                    {
                         socketObj.socket.emit("logClient","IPHONE-LOG: \(username!) is joining room room:globalchatroom, user: \(json.object)")
                         socketObj.socket.emit("join global chatroom",["room": "globalchatroom", "user": json.object])
-                        
+                    }
                         print(json["_id"])
                         
                         
@@ -462,8 +488,11 @@ class DisplayNameViewController: UIViewController {
                             
                             try sqliteDB.db.run(tbl_accounts.delete())
                         }catch{
+                            if(socketObj != nil)
+                            {
                             socketObj.socket.emit("logClient","accounts table not deleted")
                             print("accounts table not deleted")
+                            }
                         }
                         
                         let _id = Expression<String>("_id")
@@ -518,7 +547,10 @@ class DisplayNameViewController: UIViewController {
                         }
                     }
             case .Failure:
+                if(socketObj != nil)
+                {
                 socketObj.socket.emit("logClient", "\(username!) failed to get its data")
+                }
             }
         }
     }
@@ -531,7 +563,10 @@ class DisplayNameViewController: UIViewController {
         
         //dispatch_async(dispatch_get_global_queue(priority, 0)) {
             //self.progressBarDisplayer("Setting Conversations", true)
+        if(socketObj != nil)
+        {
             socketObj.socket.emit("logClient","\(username) is Fetching chat")
+        }
             var fetchChatURL=Constants.MainUrl+Constants.fetchMyAllchats
             //var getUserDataURL=userDataUrl
         
@@ -542,8 +577,10 @@ class DisplayNameViewController: UIViewController {
                 switch response.result {
                 case .Success:
                     
-                    
+                    if(socketObj != nil)
+                    {
                     socketObj.socket.emit("logClient", "All chat fetched success")
+                    }
                     if let data1 = response.result.value {
                         let UserchatJson = JSON(data1)
                        // print("chat fetched JSON: \(json)")
@@ -553,14 +590,19 @@ class DisplayNameViewController: UIViewController {
                         do{
                             try sqliteDB.db.run(tableUserChatSQLite.delete())
                         }catch{
+                            if(socketObj != nil)
+                            {
                             socketObj.socket.emit("logClient","sqlite chat table refreshed")
+                            }
                             print("chat table not deleted")
                         }
                         
                         //Overwrite sqlite db
                         //sqliteDB.deleteChat(self.selectedContact)
-                        
+                        if(socketObj != nil)
+                        {
                         socketObj.socket.emit("logClient","IPHONE-LOG: all chat messages count is \(UserchatJson["msg"].count)")
+                        }
                         for var i=0;i<UserchatJson["msg"].count
                             ;i++
                         {
@@ -593,6 +635,8 @@ class DisplayNameViewController: UIViewController {
                                     sqliteDB.SaveChat(UserchatJson["msg"][i]["to"].string!, from1: UserchatJson["msg"][i]["from"].string!,owneruser1:UserchatJson["msg"][i]["owneruser"].string! , fromFullName1: UserchatJson["msg"][i]["fromFullName"].string!, msg1: UserchatJson["msg"][i]["msg"].string!,date1:dateString,uniqueid1:UserchatJson["msg"][i]["uniqueid"].string!,status1: updatedStatus, type1: "", file_type1: "",file_path1: "")
                                     
                                     //socketObj.socket.emit("messageStatusUpdate",["status":"","iniqueid":"","sender":""])
+                                    if(socketObj != nil)
+                                    {
                                     socketObj.socket.emitWithAck("messageStatusUpdate", ["status":updatedStatus,"uniqueid":UserchatJson["msg"][i]["uniqueid"].string!,"sender": UserchatJson["msg"][i]["from"].string!])(timeoutAfter: 0){data in
                                         var chatmsg=JSON(data)
                                         print(data[0])
@@ -600,7 +644,7 @@ class DisplayNameViewController: UIViewController {
                                         print("chat status emitted")
                                         socketObj.socket.emit("logClient","\(username) chat status emitted")
                                     }
-                                    
+                                    }
                                     
                                     
                                 }
@@ -631,7 +675,9 @@ class DisplayNameViewController: UIViewController {
                     }*/
                     
                 case .Failure:
-                    socketObj.socket.emit("logClient", "All chat fetched failed")
+                    if(socketObj != nil)
+                    { socketObj.socket.emit("logClient", "All chat fetched failed")
+                    }
                     print("all chat fetched failed")
                 }
             }

@@ -69,20 +69,30 @@ class LoginAPI{
                 
                 let tbl_accounts = sqliteDB.accounts
                 do{for account in try sqliteDB.db.prepare(tbl_accounts) {
-                    
+                    if(socketObj != nil)
+{
                     socketObj.socket.emit("logClient","IPHONE-LOG:username:\(account[phone]) _id: \(account[_id]) ,status: \(account[status]),display_name: \(account[firstname])")
-                    
+                    }
                     print("username:\(account[phone]) _id: \(account[_id]) ,status: \(account[status]),display_name: \(account[firstname])")
                     username=account[phone]
+                    if(socketObj != nil)
+                    {
                 socketObj.socket.emit("join global chatroom", ["room": "globalchatroom", "user":["username":"\(account[phone])","_id":"\(account[_id])","status":"\(account[status])","display_name":"\(account[firstname])","phone":"\(account[phone])"]])
                     //WORKINGGG
+                    }
                     globalChatRoomJoined=true
-                    
+                    if(socketObj != nil)
+                    {
                     self.socket.emit("logClient","IPHONE-LOG: \(username!) is joining room room:globalchatroom")
-                    }}
+                    }
+                    }
+                    }
                 catch
                 {
+                    if(socketObj != nil)
+                    {
                     self.socket.emit("logClient","IPHONE-LOG: no value in accounts table")
+                    }
                 }
                 
                 //self.socket.emit("join global chatroom",["room": "globalchatroom", "user": json.object])

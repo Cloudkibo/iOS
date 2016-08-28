@@ -126,7 +126,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate,AppDelegateScreenDelegate 
         UIApplication.sharedApplication().setStatusBarStyle(UIStatusBarStyle.LightContent, animated: false);
         
         //RESET TEMP
-     KeychainWrapper.removeObjectForKey("username")
+    ////////// KeychainWrapper.removeObjectForKey("username")
         
         UINavigationBar.appearance().titleTextAttributes = [NSForegroundColorAttributeName: UIColor.whiteColor()]
         //var socketObj=LoginAPI(url:"\(Constants.MainUrl)")
@@ -176,11 +176,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate,AppDelegateScreenDelegate 
         //application.registerUserNotificationSettings(pushNotificationSettings)
         //application.registerForRemoteNotifications()
   
-       //////// if(username != nil)
-       //////////// {
+        
+        //^^^^^^^^^^^^^^^^^^^
+    /* if(username != nil)
+        {
         UIApplication.sharedApplication().registerUserNotificationSettings(pushNotificationSettings)
-        //////////}
-    
+       }
+    */
+        
+        
         ///UIApplication.sharedApplication().registerForRemoteNotificationTypes(notificationTypes)
         
         /*if let remoteNotification = launchOptions?[UIApplicationLaunchOptionsRemoteNotificationKey] as? NSDictionary {

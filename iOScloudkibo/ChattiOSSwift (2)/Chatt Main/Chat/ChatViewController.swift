@@ -73,8 +73,9 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
     
     func getCurrentUserDetails(completion: (result:Bool)->())
     {
-        
+        if(socketObj != nil){
         socketObj.socket.emit("logClient","IPHONE-LOG: login success and AuthToken was not nil getting myself details from server")
+        }
         
         print("login success")
         
@@ -102,8 +103,9 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
                     loggedUserObj=json
                     KeychainWrapper.setString(loggedUserObj.description, forKey:"loggedUserObjString")
                     var loggedobjstring=KeychainWrapper.stringForKey("loggedUserObjString")
-                    
+                    if(socketObj != nil){
                     socketObj.socket.emit("logClient","IPHONE-LOG: keychain of loggedUserObjString is \(loggedobjstring)")
+                    }
                     
                     print(loggedUserObj.debugDescription)
                     print(loggedUserObj.object)
@@ -130,10 +132,10 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
                     
                     var jsonNew=JSON("{\"room\": \"globalchatroom\",\"user\": {\"username\":\"sabachanna\"}}")
                     //socketObj.socket.emit("join global chatroom", ["room": "globalchatroom", "user": ["username":"sabachanna"]]) WORKINGGG
-                    
+                    if(socketObj != nil){
                     socketObj.socket.emit("logClient","IPHONE-LOG: \(username!) is joining room room:globalchatroom, user: \(json.object)")
                     socketObj.socket.emit("join global chatroom",["room": "globalchatroom", "user": json.object])
-                    
+                    }
                     print(json["_id"])
                     self.userObject=json
                     
@@ -144,7 +146,9 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
                         
                         try sqliteDB.db.run(tbl_accounts.delete())
                     }catch{
+                        if(socketObj != nil){
                         socketObj.socket.emit("logClient","accounts table not deleted")
+                        }
                         print("accounts table not deleted")
                     }
                   
@@ -188,7 +192,9 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
                     }
                 }
             case .Failure:
+                if(socketObj != nil){
                 socketObj.socket.emit("logClient", "\(username!) failed to get its data")
+                }
             }
         }
     }
@@ -274,7 +280,9 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
             }
             catch
             {
+                if(socketObj != nil){
                 socketObj.socket.emit("error getting data from accounts table")
+                }
                 print("error in getting data from accounts table")
                 
             }
@@ -538,10 +546,11 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
         if(socketObj != nil)
         {
             socketObj.delegate=self
-        }
+        
         if(socketObj.delegateSocketConnected == nil && isSocketConnected==true)
         {
             socketObj.delegateSocketConnected=self
+        }
         }
         //%%%%%% new phone model add
         
@@ -571,10 +580,12 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
                         ///print("id: \(account[_id]), phone: \(account[phone]), firstname: \(account[firstname])")
                         
                         var userr:JSON=["_id":account[_id],"display_name":account[firstname]!,"phone":account[phone]]
+                        if(socketObj != nil){
                         socketObj.socket.emit("whozonline",
                             ["room":"globalchatroom",
                                 "user":userr.object])
                         }}
+                    }
                     catch{
                         
                     }
@@ -610,7 +621,9 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
                 }
                 catch
                 {
+                    if(socketObj != nil){
                     socketObj.socket.emit("error getting data from accounts table")
+                    }
                     print("error in getting data from accounts table")
                     
                 }
@@ -640,7 +653,9 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
         else
         {
             // *********%%%%%%%%%%%%% Not logged in
+            if(socketObj != nil){
             socketObj.socket.emit("logClient","IPHONE-LOG: access token is nil so go to login page")
+            }
             print("access token is nil so go to login page")
             self.performSegueWithIdentifier("loginSegue", sender: self)
         }
@@ -687,7 +702,7 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
                 print(imParas, terminator: "")
                 print("", terminator: "")
                 
-                
+                if(socketObj != nil){
                 socketObj.socket.emitWithAck("im",["room":"globalchatroom","stanza":imParas])(timeoutAfter: 1500000)
                     {data in
                         print("chat ack received \(data)")
@@ -698,7 +713,7 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
                         sqliteDB.UpdateChatStatus(chatmsg[0]["uniqueid"].string!, newstatus: chatmsg[0]["status"].string!)
                         
                 }
-                
+                }
                 
                 
                 
@@ -712,7 +727,7 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
             
             for statusMessages in try sqliteDB.db.prepare(tbl_messageStatus)
             {
-                
+                if(socketObj != nil){
                 socketObj.socket.emitWithAck("messageStatusUpdate", ["status":statusMessages[status],"uniqueid":statusMessages[uniqueid],"sender": statusMessages[sender]])(timeoutAfter: 15000){data in
                     var chatmsg=JSON(data)
                     
@@ -726,17 +741,22 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
                     socketObj.socket.emit("logClient","\(username) pending seen statuses emitted")
                     
                 }
-
+                }
                 
             }
+            if(socketObj != nil){
             socketObj.socket.emit("logClient","IPHONE-LOG: \(username!) done sending pending chat messages")
+            }
             return completion(result: true)
             //// return completion(result: true)
         }
         catch
         {
             print("error in pending chat fetching")
+            if(socketObj != nil){
             socketObj.socket.emit("logClient","IPHONE-LOG: \(username!) error in sending pending chat messages")
+            }
+            
             return completion(result: false)
         }
         
@@ -762,7 +782,9 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
         
         
          var picfound=false
+        if(socketObj != nil){
         socketObj.socket.emit("logClient","IPHONE-LOG: fetch contacts from sqlite database")
+        }
         let contactid = Expression<String>("contactid")
         let detailsshared = Expression<String>("detailsshared")
         
@@ -1219,7 +1241,9 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
             }
             catch
             {
+                if(socketObj != nil){
                 socketObj.socket.emit("logClient","error in fetching contacts from database..")
+                }
                 print("error in fetching contacts from database..")
             }
             if(contactFound==false)
@@ -1705,7 +1729,9 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
     func socketReceivedMessage(message:String,data:AnyObject!)
     {print("socketReceivedMessage inside \(message)", terminator: "")
         //var msg=JSON(params)
+        if(socketObj != nil){
         socketObj.socket.emit("logClient","IPHONE-LOG: \(username!) received message \(message)")
+        }
         switch(message)
         {
             
@@ -1777,10 +1803,11 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
                             ///print("id: \(account[_id]), phone: \(account[phone]), firstname: \(account[firstname])")
                             
                             var userr:JSON=["_id":account[self._id],"display_name":account[self.firstname]!,"phone":account[self.phone]]
+                            if(socketObj != nil){
                             socketObj.socket.emit("whozonline",
                                 ["room":"globalchatroom",
                                     "user":userr.object])
-                            }}
+                            }}}
                         catch{
                             
                         }
@@ -1802,10 +1829,11 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
                             ///print("id: \(account[_id]), phone: \(account[phone]), firstname: \(account[firstname])")
                             
                             var userr:JSON=["_id":account[self._id],"display_name":account[self.firstname]!,"phone":account[self.phone]]
+                            if(socketObj != nil){
                             socketObj.socket.emit("whozonline",
                                 ["room":"globalchatroom",
                                     "user":userr.object])
-                            }}
+                            }}}
                         catch{
                             
                         }
@@ -1822,7 +1850,9 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
             
             callerName=KeychainWrapper.stringForKey("username")!
             //iamincallWith=msg[0]["callee"].string!
+            if(socketObj != nil){
             socketObj.socket.emit("logClient","IPHONE-LOG: \(username!) othersideringing , callee is \(callerName)")
+            }
             print("callee is \(callerName)", terminator: "")
             
             /*
@@ -1850,7 +1880,9 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
                     if self.ContactIDs[j]==offlineUsers[i]["_id"].string!
                     {
                         //found online contact,s username
+                        if(socketObj != nil){
                         socketObj.socket.emit("logClient","IPHONE-LOG: user found offline \(self.ContactIDs[j])")
+                        }
                        // print("user found offlinee \(self.ContactUsernames[j])")
                         self.ContactOnlineStatus[j]=0
                         
@@ -1919,7 +1951,9 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
             var message=JSON(data!)
             print("other user is free", terminator: "")
             print(data?.debugDescription, terminator: "")
+            if(socketObj != nil){
             socketObj.socket.emit("logClient","IPHONE-LOG: \(username!) received message from other peer yesiamfreeforcall")
+            }
             
      
         case "youareonline":

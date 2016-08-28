@@ -32,7 +32,9 @@ class LoginViewController: UIViewController,SocketConnecting,AKFViewControllerDe
             
           print("login view will appear")
             self.dismissViewControllerAnimated(true, completion:{
+                if(socketObj != nil){
                 socketObj.socket.emit("logClient", "login done fetch contacts and show contacts list now")
+}
                 print("show contacts list now")
                 }
             )
@@ -322,7 +324,7 @@ class LoginViewController: UIViewController,SocketConnecting,AKFViewControllerDe
         isConference = true
         ConferenceRoomName = txtForRoomName.text!
         /////////socketObj.sendMessagesOfMessageType("Conference Call")
-        
+        if(socketObj != nil){
         socketObj.socket.emitWithAck("init.new", ["room":ConferenceRoomName,"username":username!])(timeoutAfter: 150000000) {data in
             print("room joined by got ack")
             var a=JSON(data)
@@ -331,6 +333,7 @@ class LoginViewController: UIViewController,SocketConnecting,AKFViewControllerDe
             print("current id is \(currentID)")
             print("room joined is\(ConferenceRoomName)")
             joinedRoomInCall=ConferenceRoomName
+        }
         }
         /// var mAudio=MeetingRoomAudio()
         ////mAudio.initAudio()
@@ -957,7 +960,9 @@ class LoginViewController: UIViewController,SocketConnecting,AKFViewControllerDe
         if(self.isViewLoaded() || (self.view.window != nil))
         {
             print("progress wheel stopping")
+            if(socketObj != nil){
             socketObj.delegateSocketConnected=self
+            }
             //if(progressWheel != nil){
             self.progressWheel.stopAnimating()
             self.progressWheel.hidden=true
@@ -1008,7 +1013,10 @@ class LoginViewController: UIViewController,SocketConnecting,AKFViewControllerDe
     
     override func viewWillDisappear(animated: Bool) {
         print("dismissed loginnnnn")
+        if(socketObj != nil)
+{
         socketObj.delegateSocketConnected=nil
+}
         //%%%%%%%% commented firsttimelogin
         //firstTimeLogin=true
         print("firsttimeloginn yesss")
