@@ -48,7 +48,7 @@ public class EPContactsPicker: UITableViewController, UISearchResultsUpdating, U
     override public func viewDidLoad() {
         super.viewDidLoad()
         self.title = EPGlobalConstants.Strings.contactsTitle
-
+        
         registerContactCell()
         inititlizeBarButtons()
         initializeSearchBar()
@@ -61,19 +61,52 @@ public class EPContactsPicker: UITableViewController, UISearchResultsUpdating, U
             controller.searchResultsUpdater = self
             controller.dimsBackgroundDuringPresentation = false
             controller.searchBar.sizeToFit()
+            
             controller.searchBar.delegate = self
             self.tableView.tableHeaderView = controller.searchBar
             return controller
         })()
     }
     
+    func hexStringToUIColor (hex:String) -> UIColor {
+        var cString:String = hex.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet() as NSCharacterSet).uppercaseString
+        
+        if (cString.hasPrefix("#")) {
+            cString = cString.substringFromIndex(cString.startIndex.advancedBy(1))
+        }
+        
+        if ((cString.characters.count) != 6) {
+            return UIColor.grayColor()
+        }
+        
+        var rgbValue:UInt32 = 0
+        NSScanner(string: cString).scanHexInt(&rgbValue)
+        
+        return UIColor(
+            red: CGFloat((rgbValue & 0xFF0000) >> 16) / 255.0,
+            green: CGFloat((rgbValue & 0x00FF00) >> 8) / 255.0,
+            blue: CGFloat(rgbValue & 0x0000FF) / 255.0,
+            alpha: CGFloat(1.0)
+        )
+    }
+    
     func inititlizeBarButtons() {
+        
+     //   self.navigationItem.titleView?.tintColor=UIColor.blackColor()
+        self.navigationController?.navigationBar.barTintColor=hexStringToUIColor("#1E9530")  //      self.navigationController?.navigationBar.30 149 48   #1E9530
+    //    UIColor(
+    
+        self.navigationItem.title="Add Participants"
+        self.navigationController?.navigationBar.tintColor=UIColor.whiteColor()
+       // self.navigationItem.titleView?.tintColor=UIColor.blackColor()
         let cancelButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Cancel, target: self, action: #selector(onTouchCancelButton))
         self.navigationItem.leftBarButtonItem = cancelButton
-        
         if multiSelectEnabled {
             let doneButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Done, target: self, action: #selector(onTouchDoneButton))
+            
             self.navigationItem.rightBarButtonItem = doneButton
+            self.navigationItem.rightBarButtonItem?.title="Create"
+            
             
         }
     }
