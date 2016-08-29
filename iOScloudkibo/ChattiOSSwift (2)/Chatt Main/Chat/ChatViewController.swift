@@ -324,7 +324,7 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
         }
         socketObj.socket.on("connect") {data, ack in
             print("connected caught in chat view")
-            if(socketObj != nil)
+           if(socketObj != nil)
             {
             socketObj.delegate=self
             }
@@ -702,7 +702,7 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
                 print(imParas, terminator: "")
                 print("", terminator: "")
                 
-                if(socketObj != nil){
+               //////// if(socketObj != nil){
                 socketObj.socket.emitWithAck("im",["room":"globalchatroom","stanza":imParas])(timeoutAfter: 1500000)
                     {data in
                         print("chat ack received \(data)")
@@ -713,7 +713,7 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
                         sqliteDB.UpdateChatStatus(chatmsg[0]["uniqueid"].string!, newstatus: chatmsg[0]["status"].string!)
                         
                 }
-                }
+              /////  }
                 
                 
                 
@@ -727,7 +727,7 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
             
             for statusMessages in try sqliteDB.db.prepare(tbl_messageStatus)
             {
-                if(socketObj != nil){
+                ////////if(socketObj != nil){
                 socketObj.socket.emitWithAck("messageStatusUpdate", ["status":statusMessages[status],"uniqueid":statusMessages[uniqueid],"sender": statusMessages[sender]])(timeoutAfter: 15000){data in
                     var chatmsg=JSON(data)
                     
@@ -741,7 +741,7 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
                     socketObj.socket.emit("logClient","\(username) pending seen statuses emitted")
                     
                 }
-                }
+               /////// }
                 
             }
             if(socketObj != nil){

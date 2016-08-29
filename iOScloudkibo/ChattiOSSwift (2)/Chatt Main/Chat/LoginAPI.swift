@@ -75,16 +75,16 @@ class LoginAPI{
                     }
                     print("username:\(account[phone]) _id: \(account[_id]) ,status: \(account[status]),display_name: \(account[firstname])")
                     username=account[phone]
-                    if(socketObj != nil)
-                    {
+                  //  if(socketObj != nil)
+                   // {
                 socketObj.socket.emit("join global chatroom", ["room": "globalchatroom", "user":["username":"\(account[phone])","_id":"\(account[_id])","status":"\(account[status])","display_name":"\(account[firstname])","phone":"\(account[phone])"]])
                     //WORKINGGG
-                    }
+                  //  }
                     globalChatRoomJoined=true
-                    if(socketObj != nil)
-                    {
+                  //  if(socketObj != nil)
+                   // {
                     self.socket.emit("logClient","IPHONE-LOG: \(username!) is joining room room:globalchatroom")
-                    }
+                    ////}
                     }
                     }
                 catch

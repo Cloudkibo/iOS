@@ -3177,7 +3177,10 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
     override func viewWillDisappear(animated: Bool) {
         print("disappearrrrrrrrr")
         super.viewWillDisappear(animated)
+        if(socketObj != nil)
+{
         socketObj.delegateChat=nil
+    }
        /////  NSNotificationCenter.defaultCenter().removeObserver(self, name:UIKeyboardWillShowNotification, object: nil)    
     }
     

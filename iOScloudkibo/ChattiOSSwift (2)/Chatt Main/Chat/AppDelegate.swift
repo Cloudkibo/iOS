@@ -126,7 +126,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate,AppDelegateScreenDelegate 
         UIApplication.sharedApplication().setStatusBarStyle(UIStatusBarStyle.LightContent, animated: false);
         
         //RESET TEMP
-/// KeychainWrapper.removeObjectForKey("username")
+ KeychainWrapper.removeObjectForKey("username")
         
         UINavigationBar.appearance().titleTextAttributes = [NSForegroundColorAttributeName: UIColor.whiteColor()]
         //var socketObj=LoginAPI(url:"\(Constants.MainUrl)")
@@ -178,10 +178,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate,AppDelegateScreenDelegate 
   
         
         //^^^^^^^^^^^^^^^^^^^
-     if((username != nil && username != "") && displayname == "")
-        {
+     ///if((username != nil && username != "") && displayname == "")
+        ///{
         UIApplication.sharedApplication().registerUserNotificationSettings(pushNotificationSettings)
-       }
+      /// }
  
         
         
@@ -281,9 +281,10 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
        
         
         if(socketObj != nil)
-        {    socketObj.socket.close()
+        {   //// socketObj.socket.close()
             socketObj.socket.disconnect()
-            socketObj=nil
+            socketObj.socket.close()
+          /////  socketObj=nil
         }
         
         /* if(socketObj == nil)
@@ -433,14 +434,18 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
            // socketObj.socket.reconnects=true
         }*/
         
-         if(socketObj == nil)
+        if(socketObj.socket.status == SocketIOClientStatus.Closed)
+        {
+            socketObj.socket.open()
+        }
+       /*  if(socketObj == nil)
         {print("connecting socket in")
             print("socket is nillll", terminator: "")
             socketObj=LoginAPI(url:"\(Constants.MainUrl)")
             ///socketObj.connect()
             socketObj.addHandlers()
             socketObj.addWebRTCHandlers()
-        }
+        }*/
     }
     
     func applicationWillTerminate(application: UIApplication) {
@@ -652,6 +657,10 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
     
     func application(application: UIApplication, didReceiveRemoteNotification userInfo: [NSObject : AnyObject], fetchCompletionHandler completionHandler: (UIBackgroundFetchResult) -> Void) {
        // NSLog("received remote notification \(userInfo)")
+        if(socketObj != nil)
+        {
+             socketObj.socket.emit("logClient","\(username) didReceiveRemoteNotification: \(userInfo.description)")
+        }
         print("remote notification received is \(userInfo)")
         /*var notificationJSON=JSON(userInfo)
         print("json converted is \(notificationJSON)")
