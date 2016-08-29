@@ -12,8 +12,8 @@ import Contacts
 class NewGroupSetDetails: UITableViewController{
 
     
-    var participants=[CNContact]()
-    
+   // var participants=[CNContact]()
+    var participants=[EPContact]()
        @IBOutlet var tblNewGroupDetails: UITableView!
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
@@ -103,17 +103,22 @@ extension NewGroupSetDetails: UICollectionViewDelegate, UICollectionViewDataSour
        // let cell = collectionview.participantsCollection.dequeueReusableCellWithReuseIdentifier("ParticipantsAvatarsCell", forIndexPath: indexPath)
         
         let cell = collectionView.dequeueReusableCellWithReuseIdentifier("ParticipantsAvatarsCell", forIndexPath: indexPath) as! ParticipantsCollectionCell
-       cell.participantsName.text=participants[indexPath.row].givenName
+       //cell.participantsName.text=participants[indexPath.row].givenName
+        cell.participantsName.text=participants[indexPath.row].displayName()
+        
                 let contactStore = CNContactStore()
         
         var keys = [CNContactGivenNameKey, CNContactFamilyNameKey, CNContactEmailAddressesKey, CNContactPhoneNumbersKey, CNContactImageDataAvailableKey,CNContactThumbnailImageDataKey, CNContactImageDataKey]
         
         do
-        {var foundcontact=try contactStore.unifiedContactWithIdentifier(participants[indexPath.row].identifier, keysToFetch: keys)
-        
+        {//var foundcontact=try contactStore.unifiedContactWithIdentifier(participants[indexPath.row].identifier, keysToFetch: keys)
+           // var foundcontact=try contactStore.unifiedContactWithIdentifier(participants[indexPath.row].identifier, keysToFetch: keys)
+            
+
         
        // var foundcontact=try contactStore.unifiedContactWithIdentifier(picquery[uniqueidentifier], keysToFetch: keys)
-        if(foundcontact.imageDataAvailable==true)
+        if(participants[indexPath.row].thumbnailProfileImage != nil)
+           // if(foundcontact.imageDataAvailable==true)
         {
             print("here image found")
          //   foundcontact.imageData
@@ -124,9 +129,9 @@ extension NewGroupSetDetails: UICollectionViewDelegate, UICollectionViewDataSour
             
             
             
-            
-            
-            var img=UIImage(data:foundcontact.imageData!)
+           /*
+            var img=participants[indexPath.row].thumbnailProfileImage
+           // var img=UIImage(data:foundcontact.imageData!)
             var w=img!.size.width
             var h=img!.size.height
             var wOld=cell.bounds.width-10
@@ -141,12 +146,18 @@ extension NewGroupSetDetails: UICollectionViewDelegate, UICollectionViewDataSour
            cell.participantsProfilePic.layer.cornerRadius = cell.participantsProfilePic.frame.size.width/2
             cell.participantsProfilePic.clipsToBounds = true
             
+            */
             
-            cell.participantsProfilePic.image=UIImage(data: foundcontact.imageData!, scale: scale)
+            cell.participantsProfilePic.layer.masksToBounds = true
+            cell.participantsProfilePic.layer.cornerRadius = cell.participantsProfilePic.frame.size.width/2
+           
             
+            
+            // cell.participantsProfilePic.image=UIImage(data: foundcontact.imageData!, scale: scale)
+           // cell.participantsProfilePic.image=UIImage(data: participants[indexPath.row].thumbnailProfileImage, scale: scale)
             //cell.participantsProfilePic=UIImageView(image: UIImage()
             
-            
+            cell.participantsProfilePic.image=participants[indexPath.row].thumbnailProfileImage
             
             
             

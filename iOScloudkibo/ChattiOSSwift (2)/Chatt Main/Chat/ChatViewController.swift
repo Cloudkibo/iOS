@@ -16,11 +16,12 @@ import AccountKit
 import Contacts
 import ContactsUI
 
-class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,CNContactPickerDelegate
+class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,CNContactPickerDelegate,
+    EPPickerDelegate
 {
     
-    
-    var participantsSelected=[CNContact]()
+    var participantsSelected=[EPContact]()
+   // var participantsSelected=[CNContact]()
     var picker:CNContactPickerViewController!
     var btnNewGroup:UIButton!
     let _id = Expression<String>("_id")
@@ -486,6 +487,7 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
         }
         //self.navigationItem.leftBarButtonItem!.title = "Done"
         //self.setEditing(!tblForChat.editing, animated: true)
+        
         
         
     }
@@ -1083,6 +1085,16 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
     
     func BtnnewGroupClicked(sender:UIButton)
     {
+        
+        
+        let contactPickerScene = EPContactsPicker(delegate: self, multiSelection:true, subtitleCellType: SubtitleCellValue.Email)
+        let navigationController = UINavigationController(rootViewController: contactPickerScene)
+        self.presentViewController(navigationController, animated: true, completion: nil)
+        
+
+        
+        
+        /*
         participantsSelected.removeAll()
         print("BtnnewGroupClicked")
         picker = CNContactPickerViewController();
@@ -1094,13 +1106,53 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
         // Respond to selection
         picker.delegate = self;
         self.presentViewController(picker, animated: true, completion: nil)
+ 
+ */
         // Display picker
         
        // UIApplication.sharedApplication().keyWindow!.rootViewController!.presentViewController(picker, animated: true, completion: nil);
         
     }
     
-    func contactPicker(picker: CNContactPickerViewController, didSelectContacts contacts: [CNContact]) {
+    
+    func epContactPicker(_: EPContactsPicker, didContactFetchFailed error : NSError)
+    {
+        print("Failed with error \(error.description)")
+    }
+    
+    func epContactPicker(_: EPContactsPicker, didSelectContact contact : EPContact)
+    {
+        print("Contact \(contact.displayName()) has been selected")
+    }
+    
+    func epContactPicker(_: EPContactsPicker, didCancel error : NSError)
+    {
+        print("User canceled the selection");
+    }
+    
+    
+    
+    func epContactPicker(_: EPContactsPicker, didSelectMultipleContacts contacts: [EPContact]) {
+        print("The following contacts are selected")
+        
+        
+        
+        print("didSelectContacts \(contacts)")
+        
+        //get seleced participants
+        participantsSelected.appendContentsOf(contacts)
+        self.performSegueWithIdentifier("newGroupDetailsSegue", sender: nil);
+        
+        
+        for contact in contacts {
+            print("\(contact.displayName())")
+        }
+    }
+    
+    
+    
+    
+    /*func contactPicker(picker: CNContactPickerViewController, didSelectContacts contacts: [CNContact]) {
         
         print("didSelectContacts \(contacts)")
         
@@ -1110,10 +1162,12 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
         
     }
     
+    */
+    /*
     func contactPicker(picker: CNContactPickerViewController, didSelectContactProperties contactProperties: [CNContactProperty]) {
         
         print("didSelectContactProperties \(contactProperties)")
-    }
+    }*/
 
     func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         print("header height table")
