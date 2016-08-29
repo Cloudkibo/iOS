@@ -297,10 +297,10 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
             self.sendPendingChatMessages({ (result) -> () in
                 print("checkin here pending messages sent")
                 print("checkin fetching chats")
-                if(socketObj != nil)
-                {
+               // if(socketObj != nil)
+                //{
                     socketObj.fetchChatsFromServer()
-                }
+                //}
                 
             })
         }
