@@ -48,10 +48,14 @@ class EPContactCell: UITableViewCell {
             self.contactImageView.hidden = false
             self.contactInitialLabel.hidden = true
         } else {
-            self.contactInitialLabel.text = contact.contactInitials()
-            updateInitialsColorForIndexPath(indexPath)
-            self.contactImageView.hidden = true
-            self.contactInitialLabel.hidden = false
+            
+            
+            //UNCOMMENT IF U WISH TO SHOW INITIALS IN ABSENCE OF AVTATAR
+            
+            ///////self.contactInitialLabel.text = contact.contactInitials()
+            ///////updateInitialsColorForIndexPath(indexPath)
+            /////self.contactImageView.hidden = true
+            /////self.contactInitialLabel.hidden = false
         }
     }
     

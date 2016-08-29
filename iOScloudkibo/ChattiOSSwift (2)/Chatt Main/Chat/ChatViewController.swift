@@ -1087,7 +1087,7 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
     {
         
         
-        let contactPickerScene = EPContactsPicker(delegate: self, multiSelection:true, subtitleCellType: SubtitleCellValue.Email)
+        let contactPickerScene = EPContactsPicker(delegate: self, multiSelection:true, subtitleCellType: SubtitleCellValue.PhoneNumber)
         let navigationController = UINavigationController(rootViewController: contactPickerScene)
         self.presentViewController(navigationController, animated: true, completion: nil)
         
