@@ -126,7 +126,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate,AppDelegateScreenDelegate 
         UIApplication.sharedApplication().setStatusBarStyle(UIStatusBarStyle.LightContent, animated: false);
         
         //RESET TEMP
- ////KeychainWrapper.removeObjectForKey("username")
+ KeychainWrapper.removeObjectForKey("username")
+        KeychainWrapper.removeObjectForKey("loggedFullName")
+        KeychainWrapper.removeObjectForKey("countrycode")
+      /////  KeychainWrapper.removeObjectForKey("username")
         
         UINavigationBar.appearance().titleTextAttributes = [NSForegroundColorAttributeName: UIColor.whiteColor()]
         //var socketObj=LoginAPI(url:"\(Constants.MainUrl)")

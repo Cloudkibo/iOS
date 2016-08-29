@@ -1639,9 +1639,33 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
             
             
         }
-       Archive.backgroundColor = UIColor.blueColor()
+    //////   Archive.backgroundColor = UIColor.blueColor()
   //  Archive.set
-      //  Archive.backgroundColor = UIColor(patternImage: UIImage(named: "archive.png")!)
+    
+    var imageavatar1=UIImage(named: "archive.png")!    //   imageavatar1=ResizeImage(imageavatar1!,targetSize: s)
+    
+    //var img=UIImage(data:ContactsProfilePic[indexPath.row])
+    var wImg=imageavatar1.size.width
+    var hImg=imageavatar1.size.height
+    ////var wOld=(self.navigationController?.navigationBar.frame.height)!-5
+    
+    var hRow=CGFloat.init(70.0)
+    var scale:CGFloat=wImg/tableView.cellForRowAtIndexPath(indexPath)!.bounds.width/5
+   print("height icon is \(hImg) widh is \(wImg) ... row  width\(tableView.cellForRowAtIndexPath(indexPath)!.bounds.width) and h is \(tableView.cellForRowAtIndexPath(indexPath)!.bounds.height)")
+   
+    
+    
+    
+    let rect: CGRect = CGRectMake(0, 0, tableView.cellForRowAtIndexPath(indexPath)!.bounds.width/5, hImg)
+    
+    // Create bitmap image from context using the rect
+   let imageRef: CGImageRef = CGImageCreateWithImageInRect(imageavatar1.CGImage, rect)!
+    let imggg=UIImage(CGImage: imageRef)
+    
+   // var resizeDimen=CGSizeMake(tableView.cellForRowAtIndexPath(indexPath)!.bounds.width/5,hImg)
+   // var newiconsized=ResizeImage(imageavatar1,targetSize: resizeDimen)
+    
+        Archive.backgroundColor = UIColor(patternImage: imggg)
       /*  let share = UITableViewRowAction(style: .Normal, title: "Share") { action, index in
             print("share button tapped")
         }
