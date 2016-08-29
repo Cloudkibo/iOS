@@ -33,6 +33,8 @@ class ContactsListCell:UITableViewCell {
     @IBOutlet weak var countNewmsg: UILabel!
     @IBOutlet weak var btnBroadcastLists: UIButton!
     @IBOutlet weak var btnNewGroupOutlet: UIButton!
+    @IBOutlet weak var lbl_participantsNumberFromOne: UITextView!
+    
     /* override func awakeFromNib() {
     @IBOutlet weak var contactNamePublic: UILabel!
         super.awakeFromNib()

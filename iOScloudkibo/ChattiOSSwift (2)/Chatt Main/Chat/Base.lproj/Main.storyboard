@@ -1081,12 +1081,12 @@
                                                         <rect key="frame" x="0.0" y="0.0" width="76" height="74"/>
                                                         <autoresizingMask key="autoresizingMask"/>
                                                         <subviews>
-                                                            <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="profile-pic1" id="ge6-YL-2de">
-                                                                <rect key="frame" x="-82" y="-39" width="240" height="128"/>
+                                                            <imageView opaque="NO" multipleTouchEnabled="YES" contentMode="scaleToFill" image="profile-pic1" id="ge6-YL-2de">
+                                                                <rect key="frame" x="10" y="2" width="57" height="57"/>
                                                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                             </imageView>
                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Sumaira" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="PlT-i7-5Zi">
-                                                                <rect key="frame" x="-114" y="0.0" width="304" height="128"/>
+                                                                <rect key="frame" x="-114" y="2" width="304" height="128"/>
                                                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                                 <fontDescription key="fontDescription" type="system" pointSize="13"/>
                                                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
@@ -1095,6 +1095,7 @@
                                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" id="IWc-zh-Pyk">
                                                                 <rect key="frame" x="52" y="0.0" width="24" height="24"/>
                                                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                                <color key="backgroundColor" red="0.81330886994949492" green="0.81330886994949492" blue="0.81330886994949492" alpha="1" colorSpace="calibratedRGB"/>
                                                                 <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                                                 <state key="normal" title="X"/>
                                                             </button>
@@ -1112,6 +1113,7 @@
                                     </subviews>
                                 </tableViewCellContentView>
                                 <connections>
+                                    <outlet property="lbl_participantsNumberFromOne" destination="fj2-3h-qbw" id="qVr-pr-TWc"/>
                                     <outlet property="participantsCollection" destination="AuQ-o5-ENw" id="WKt-1p-j4b"/>
                                 </connections>
                             </tableViewCell>
@@ -2813,7 +2815,7 @@
                         </view>
                         <prototypes>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="JC4-iV-Jwg">
-                                <rect key="frame" x="0.0" y="133" width="320" height="44"/>
+                                <rect key="frame" x="0.0" y="197" width="320" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="JC4-iV-Jwg" id="H6p-c1-bTR">
                                     <rect key="frame" x="0.0" y="0.0" width="320" height="43.5"/>

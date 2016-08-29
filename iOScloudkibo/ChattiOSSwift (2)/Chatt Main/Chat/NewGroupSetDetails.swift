@@ -29,6 +29,7 @@ class NewGroupSetDetails: UITableViewController{
         }
         else{
             let cell=tblNewGroupDetails.dequeueReusableCellWithIdentifier("NewGroupParticipantsCell") as! ContactsListCell
+            cell.lbl_participantsNumberFromOne.text="PARTICIPANTS \(participants.count) of 256"
             cell.participantsCollection.delegate=self
             cell.participantsCollection.dataSource=self
             
