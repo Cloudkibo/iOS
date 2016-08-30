@@ -9,9 +9,9 @@
 //import Cocoa
 import Contacts
 
-class NewGroupSetDetails: UITableViewController{
+class NewGroupSetDetails: UITableViewController,UINavigationControllerDelegate,UIImagePickerControllerDelegate{
 
-    
+    var imgdata=NSData.init()
    // var participants=[CNContact]()
     var participants=[EPContact]()
        @IBOutlet var tblNewGroupDetails: UITableView!
@@ -19,12 +19,76 @@ class NewGroupSetDetails: UITableViewController{
         
         return 2
     }
+    func ResizeImage(image: UIImage, targetSize: CGSize) -> UIImage {
+        let size = image.size
+        
+        let widthRatio  = targetSize.width  / image.size.width
+        let heightRatio = targetSize.height / image.size.height
+        
+        // Figure out what our orientation is, and use that to form the rectangle
+        var newSize: CGSize
+        if(widthRatio > heightRatio) {
+            newSize = CGSizeMake(size.width * heightRatio, size.height * heightRatio)
+        } else {
+            newSize = CGSizeMake(size.width * widthRatio,  size.height * widthRatio)
+        }
+        
+        // This is the rect that we've calculated out and this is what is actually used below
+        let rect = CGRectMake(0, 0, newSize.width, newSize.height)
+        
+        // Actually do the resizing to the rect using the ImageContext stuff
+        UIGraphicsBeginImageContextWithOptions(newSize, false, 1.0)
+        image.drawInRect(rect)
+        let newImage = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        
+        return newImage
+    }
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         if(indexPath.row==0)
         {
         let cell=tblNewGroupDetails.dequeueReusableCellWithIdentifier("NewGroupDetailsCell") as! ContactsListCell
         "NewGroupParticipantsCell"
+            if(imgdata != NSData.init())
+            {
+                var tempimg=UIImage(data: imgdata)
+              /* var s = CGSizeMake(cell.profilePicCameraOutlet.frame.width, cell.profilePicCameraOutlet.frame.height)
+                var newimg=ResizeImage(tempimg!, targetSize: s)
+                cell.profilePicCameraOutlet.layer.masksToBounds = true
+                cell.profilePicCameraOutlet.layer.cornerRadius = cell.profilePicCameraOutlet.frame.size.width/2
+                cell.profilePicCameraOutlet.image=newimg
+                
+                */
+                
+                /*
+                cell.profilePicCameraOutlet.layer.masksToBounds = true
+                cell.profilePicCameraOutlet.layer.cornerRadius = cell.profilePicCameraOutlet.frame.size.width/2
+                */
+                
+                
+                cell.profilePicCameraOutlet.layer.borderWidth = 1.0
+                cell.profilePicCameraOutlet.layer.masksToBounds = false
+                cell.profilePicCameraOutlet.layer.borderColor = UIColor.whiteColor().CGColor
+                cell.profilePicCameraOutlet.layer.cornerRadius = cell.profilePicCameraOutlet.frame.size.width/2
+                cell.profilePicCameraOutlet.clipsToBounds = true
+                
+                
+                var w=tempimg!.size.width
+                var h=tempimg!.size.height
+                var wOld=(cell.profilePicCameraOutlet.frame.width)
+                var hOld=(cell.profilePicCameraOutlet.frame.height)
+                var scale:CGFloat=w/wOld
+                
+                 cell.profilePicCameraOutlet.image=UIImage(data: imgdata,scale: scale)
+              //  cell.profilePicCameraOutlet.image=UIImage(data: imgdata)
+            }
+            let tapRecognizer = UITapGestureRecognizer(target: self, action: Selector("imageTapped:"))
+            //Add the recognizer to your view.
+           // chatImage.addGestureRecognizer(tapRecognizer)
+            
+            cell.profilePicCameraOutlet.addGestureRecognizer(tapRecognizer)
+            
         return cell
         }
         else{
@@ -36,6 +100,78 @@ class NewGroupSetDetails: UITableViewController{
             return cell
         }
         
+    }
+    
+    
+    func imageTapped(gestureRecognizer: UITapGestureRecognizer) {
+        //tappedImageView will be the image view that was tapped.
+        //dismiss it, animate it off screen, whatever.
+        let tappedImageView = gestureRecognizer.view! as! UIImageView
+        
+        var picker=UIImagePickerController.init()
+        picker.delegate=self
+        
+        picker.allowsEditing = true;
+        //picker.modalPresentationStyle = UIModalPresentationStyle.OverCurrentContext
+        // if(UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.PhotoLibrary))
+        //  {
+        
+        //savedPhotosAlbum
+        // picker.sourceType = UIImagePickerControllerSourceType.PhotoLibrary
+        //}
+        picker.sourceType = UIImagePickerControllerSourceType.PhotoLibrary
+        ////picker.mediaTypes=[kUTTypeMovie as NSString as String,kUTTypeMovie as NSString as String]
+        //[self presentViewController:picker animated:YES completion:NULL];
+        dispatch_async(dispatch_get_main_queue())
+        { () -> Void in
+            //  picker.addChildViewController(UILabel("hiiiiiiiiiiiii"))
+            
+            self.presentViewController(picker, animated: true, completion: nil)
+            
+        }
+        
+        //selectedImage=tappedImageView.image
+       // self.performSegueWithIdentifier("showFullImageSegue", sender: nil);
+        
+    }
+    
+    func imagePickerController(picker: UIImagePickerController, didFinishPickingImage image: UIImage, editingInfo: [String : AnyObject]?) {
+        
+        
+        
+        //  var filesizenew=""
+        
+        
+        let imageUrl          = editingInfo![UIImagePickerControllerReferenceURL] as! NSURL
+        let imageName         = imageUrl.lastPathComponent
+        let documentDirectory = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true).first as String!
+        let photoURL          = NSURL(fileURLWithPath: documentDirectory)
+        let localPath         = photoURL.URLByAppendingPathComponent(imageName!)
+        let image             = editingInfo![UIImagePickerControllerOriginalImage]as! UIImage
+         imgdata              = UIImagePNGRepresentation(image)!
+        
+       
+        
+        
+        self.dismissViewControllerAnimated(true, completion:{ ()-> Void in
+            
+            
+            self.tblNewGroupDetails.reloadData()
+        })
+        /* if let imageURL = editingInfo![UIImagePickerControllerReferenceURL] as? NSURL {
+            let result = PHAsset.fetchAssetsWithALAssetURLs([imageURL], options: nil)
+            
+            
+            self.filename = result.firstObject?.filename ?? ""
+            
+            // var myasset=result.firstObject as! PHAsset
+            //print(myasset.mediaType)
+            
+            
+            
+        }*/
+        
+
     }
     
     override func tableView(tableView: UITableView, willDisplayCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath) {
@@ -106,6 +242,8 @@ extension NewGroupSetDetails: UICollectionViewDelegate, UICollectionViewDataSour
         let cell = collectionView.dequeueReusableCellWithReuseIdentifier("ParticipantsAvatarsCell", forIndexPath: indexPath) as! ParticipantsCollectionCell
        //cell.participantsName.text=participants[indexPath.row].givenName
         cell.participantsName.text=participants[indexPath.row].displayName()
+        
+        
         
                 let contactStore = CNContactStore()
         
