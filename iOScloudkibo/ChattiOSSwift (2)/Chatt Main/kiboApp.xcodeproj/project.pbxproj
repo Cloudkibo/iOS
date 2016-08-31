@@ -112,6 +112,12 @@
 		71AEC9891D01D67300DF58BD /* AllContactsViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71AEC9881D01D67300DF58BD /* AllContactsViewCell.swift */; };
 		71BFD46F1CFD13CC004ACCBF /* AccountKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 71BFD46E1CFD13CC004ACCBF /* AccountKit.framework */; };
 		71BFD47A1CFD13D3004ACCBF /* AccountKitStrings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 71BFD4791CFD13D3004ACCBF /* AccountKitStrings.bundle */; };
+		71C1A2C41D767C0600FC5157 /* GroupChatDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71C1A2C31D767C0600FC5157 /* GroupChatDetailViewController.swift */; };
+		71C1A2CF1D768ABC00FC5157 /* GroupChatingDetailController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71C1A2CE1D768ABC00FC5157 /* GroupChatingDetailController.swift */; };
+		71C1A2D71D769B0900FC5157 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 71C1A2D11D769B0900FC5157 /* LaunchScreen.storyboard */; };
+		71C1A2D81D769B0900FC5157 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 71C1A2D31D769B0900FC5157 /* Main.storyboard */; };
+		71C1A2D91D769B0900FC5157 /* MyCustomCellTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71C1A2D51D769B0900FC5157 /* MyCustomCellTableViewCell.swift */; };
+		71C1A2DA1D769B0900FC5157 /* PKSwipeTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71C1A2D61D769B0900FC5157 /* PKSwipeTableViewCell.swift */; };
 		71C401741CF7159F00D38126 /* video-camera-icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 71C401701CF7159F00D38126 /* video-camera-icon.png */; };
 		71C401751CF7159F00D38126 /* video-camera-icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 71C401711CF7159F00D38126 /* video-camera-icon@2x.png */; };
 		71C401761CF7159F00D38126 /* videoOff.png in Resources */ = {isa = PBXBuildFile; fileRef = 71C401721CF7159F00D38126 /* videoOff.png */; };
@@ -365,6 +371,12 @@
 		71AEC9881D01D67300DF58BD /* AllContactsViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AllContactsViewCell.swift; sourceTree = "<group>"; };
 		71BFD46E1CFD13CC004ACCBF /* AccountKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = AccountKit.framework; sourceTree = "<group>"; };
 		71BFD4791CFD13D3004ACCBF /* AccountKitStrings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = AccountKitStrings.bundle; sourceTree = "<group>"; };
+		71C1A2C31D767C0600FC5157 /* GroupChatDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GroupChatDetailViewController.swift; sourceTree = "<group>"; };
+		71C1A2CE1D768ABC00FC5157 /* GroupChatingDetailController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GroupChatingDetailController.swift; sourceTree = "<group>"; };
+		71C1A2D21D769B0900FC5157 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
+		71C1A2D41D769B0900FC5157 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Main.storyboard; sourceTree = "<group>"; };
+		71C1A2D51D769B0900FC5157 /* MyCustomCellTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyCustomCellTableViewCell.swift; sourceTree = "<group>"; };
+		71C1A2D61D769B0900FC5157 /* PKSwipeTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PKSwipeTableViewCell.swift; sourceTree = "<group>"; };
 		71C401701CF7159F00D38126 /* video-camera-icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "video-camera-icon.png"; sourceTree = "<group>"; };
 		71C401711CF7159F00D38126 /* video-camera-icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "video-camera-icon@2x.png"; sourceTree = "<group>"; };
 		71C401721CF7159F00D38126 /* videoOff.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = videoOff.png; sourceTree = "<group>"; };
@@ -422,6 +434,9 @@
 		5BF6361C19A9F3D900ABD0BA = {
 			isa = PBXGroup;
 			children = (
+				71C1A2D01D769B0900FC5157 /* Base.lproj */,
+				71C1A2D51D769B0900FC5157 /* MyCustomCellTableViewCell.swift */,
+				71C1A2D61D769B0900FC5157 /* PKSwipeTableViewCell.swift */,
 				713F39731D7445A100F3A9C4 /* ContactPick */,
 				71232D5D1D65D8C5000DE13E /* WindowsAzureMessaging.framework */,
 				7152CB231D47DDC900DB8127 /* Fabric.framework */,
@@ -468,6 +483,7 @@
 				713D518E1CC11896007E0B47 /* ChatComposeViewController.swift */,
 				713D518F1CC11896007E0B47 /* ChatContactsCell.swift */,
 				713D51901CC11896007E0B47 /* ChatDetailViewController.swift */,
+				71C1A2C31D767C0600FC5157 /* GroupChatDetailViewController.swift */,
 				718AB57F1D3F8C9000D197D7 /* chatMessagesModel.swift */,
 				710D4E3D1D3D8F7600FBC352 /* FileTransferWebRTCclient.swift */,
 				713D51911CC11896007E0B47 /* ChatViewController.swift */,
@@ -536,6 +552,7 @@
 				7122F96F1D54B7FF00EBBCED /* NetworkingManager.swift */,
 				71E3EE481D5BAD8300310DB0 /* KDCircularProgress.swift */,
 				710947721D710A63008BC238 /* NewGroupSetDetails.swift */,
+				71C1A2CE1D768ABC00FC5157 /* GroupChatingDetailController.swift */,
 			);
 			path = Chat;
 			sourceTree = "<group>";
@@ -624,6 +641,15 @@
 				717403F01CF7151900EA7ABF /* SQLiteTests Mac.xctest */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		71C1A2D01D769B0900FC5157 /* Base.lproj */ = {
+			isa = PBXGroup;
+			children = (
+				71C1A2D11D769B0900FC5157 /* LaunchScreen.storyboard */,
+				71C1A2D31D769B0900FC5157 /* Main.storyboard */,
+			);
+			path = Base.lproj;
 			sourceTree = "<group>";
 		};
 		77C2A28BF631CEC856F6C341 /* Pods */ = {
@@ -839,6 +865,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				71C1A2D81D769B0900FC5157 /* Main.storyboard in Resources */,
 				71C4018A1CF715C500D38126 /* audioOn.png in Resources */,
 				71C401761CF7159F00D38126 /* videoOff.png in Resources */,
 				71C401751CF7159F00D38126 /* video-camera-icon@2x.png in Resources */,
@@ -852,6 +879,7 @@
 				71E20B9F1CF720DD0042EDAD /* avatarTwo.png in Resources */,
 				713F39701D74459600F3A9C4 /* EPContactCell.xib in Resources */,
 				71C4018B1CF715C500D38126 /* audioOn@2x.png in Resources */,
+				71C1A2D71D769B0900FC5157 /* LaunchScreen.storyboard in Resources */,
 				7191CC681BCF0D9400F0847F /* Main.storyboard in Resources */,
 				71C401891CF715C500D38126 /* audioOff@2x.png in Resources */,
 				71E20B9E1CF720DD0042EDAD /* avatarHalf.png in Resources */,
@@ -959,12 +987,14 @@
 				713D51E61CC11896007E0B47 /* ProjectsViewController.swift in Sources */,
 				71E861C81D0066F4008BCC7C /* DisplayNameViewController.swift in Sources */,
 				713F39721D74459600F3A9C4 /* EPExtensions.swift in Sources */,
+				71C1A2C41D767C0600FC5157 /* GroupChatDetailViewController.swift in Sources */,
 				713D51BF1CC11896007E0B47 /* CallRingingViewController.swift in Sources */,
 				71E046A31D228AE700B67362 /* CallHistoryTableViewController.swift in Sources */,
 				713D51EA1CC11896007E0B47 /* SignupViewController.swift in Sources */,
 				718B8D8A1CC11A9B000B4AB2 /* SocketFixUTF8.swift in Sources */,
 				718B8D871CC11A9B000B4AB2 /* SocketEngineSpec.swift in Sources */,
 				713D51DC1CC11896007E0B47 /* MeetingRoomVideo.swift in Sources */,
+				71C1A2D91D769B0900FC5157 /* MyCustomCellTableViewCell.swift in Sources */,
 				718B8D911CC11A9B000B4AB2 /* SocketStringReader.swift in Sources */,
 				718B8D931CC11A9B000B4AB2 /* SwiftRegex.swift in Sources */,
 				713D51CC1CC11896007E0B47 /* ContactsInviteCell.swift in Sources */,
@@ -992,6 +1022,8 @@
 				718B8D901CC11A9B000B4AB2 /* SocketParsable.swift in Sources */,
 				718B8D881CC11A9B000B4AB2 /* SocketEngineWebsocket.swift in Sources */,
 				718B8D861CC11A9B000B4AB2 /* SocketEnginePollable.swift in Sources */,
+				71C1A2CF1D768ABC00FC5157 /* GroupChatingDetailController.swift in Sources */,
+				71C1A2DA1D769B0900FC5157 /* PKSwipeTableViewCell.swift in Sources */,
 				718B8D831CC11A9B000B4AB2 /* SocketEngine.swift in Sources */,
 				713D51D51CC11896007E0B47 /* JSONStringify.swift in Sources */,
 				713D51E81CC11896007E0B47 /* RoomService.swift in Sources */,
@@ -1063,6 +1095,22 @@
 			isa = PBXVariantGroup;
 			children = (
 				7191CC671BCF0D9400F0847F /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		71C1A2D11D769B0900FC5157 /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				71C1A2D21D769B0900FC5157 /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+		71C1A2D31D769B0900FC5157 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				71C1A2D41D769B0900FC5157 /* Base */,
 			);
 			name = Main.storyboard;
 			sourceTree = "<group>";
