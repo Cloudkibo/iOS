@@ -353,6 +353,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
                     barAvatarImage.layer.cornerRadius = barAvatarImage.frame.size.width/2
                     barAvatarImage.clipsToBounds = true
                     
+                    print("bav avatar size is \(barAvatarImage.frame.width) .. \(barAvatarImage.frame.width)")
                     
                     var avatarbutton=UIBarButtonItem.init(customView: barAvatarImage)
                     self.navigationItem.rightBarButtonItems?.insert(avatarbutton, atIndex: 0)

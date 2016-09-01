@@ -17,32 +17,7 @@ class GroupInfo3ViewController: UIViewController {
         self.navigationItem.titleView = setTitle("Group Info", subtitle: "Sumaira")
         //self.navigationController?.navigationBar.tintColor=UIColor.whiteColor()
         
-        var imageavatar1=UIImage(named: "avatar.png")
-        //   imageavatar1=ResizeImage(imageavatar1!,targetSize: s)
-        
-        //var img=UIImage(data:ContactsProfilePic[indexPath.row])
-        var w=imageavatar1!.size.width
-        var h=imageavatar1!.size.height
-        var wOld=(self.navigationController?.navigationBar.frame.height)!-5
-        var hOld=(self.navigationController?.navigationBar.frame.width)!-5
-        var scale:CGFloat=w/wOld
-        
-        
-        ///var s=CGSizeMake((self.navigationController?.navigationBar.frame.height)!-5,(self.navigationController?.navigationBar.frame.height)!-5)
-        
-        
-        var barAvatarImage=UIImageView.init(image: UIImage(data: UIImagePNGRepresentation(UIImage(named: "avatar.png")!)!, scale: scale))
-        
-        barAvatarImage.layer.borderWidth = 1.0
-        barAvatarImage.layer.masksToBounds = false
-        barAvatarImage.layer.borderColor = UIColor.whiteColor().CGColor
-        barAvatarImage.layer.cornerRadius = barAvatarImage.frame.size.width/2
-        barAvatarImage.clipsToBounds = true
-        
-        
-        var avatarbutton=UIBarButtonItem.init(customView: barAvatarImage)
-        self.navigationController?.navigationItem.rightBarButtonItems?.insert(avatarbutton, atIndex: 0)
-
+    
        // self.navigationItem.title="Group Info"
         self.navigationController?.navigationBar.tintColor=UIColor.whiteColor()
 
@@ -143,7 +118,34 @@ class GroupInfo3ViewController: UIViewController {
         return titleView
     }
 
-    
+    override func viewWillAppear(animated: Bool) {
+               var imageavatar1=UIImage(named: "avatar.png")
+        //   imageavatar1=ResizeImage(imageavatar1!,targetSize: s)
+        
+        //var img=UIImage(data:ContactsProfilePic[indexPath.row])
+        var w=imageavatar1!.size.width
+        var h=imageavatar1!.size.height
+        var wOld=(self.navigationController?.navigationBar.frame.width)!-5
+        var hOld=(self.navigationController?.navigationBar.frame.height)!-5
+        var scale:CGFloat=h/hOld
+        
+        
+        ///var s=CGSizeMake((self.navigationController?.navigationBar.frame.height)!-5,(self.navigationController?.navigationBar.frame.height)!-5)
+        
+        
+        var barAvatarImage=UIImageView.init(image: UIImage(data: UIImagePNGRepresentation(UIImage(named: "avatar.png")!)!, scale: scale))
+        
+        barAvatarImage.layer.borderWidth = 1.0
+        barAvatarImage.layer.masksToBounds = false
+        barAvatarImage.layer.borderColor = UIColor.whiteColor().CGColor
+        barAvatarImage.layer.cornerRadius = barAvatarImage.frame.size.width/2
+        barAvatarImage.clipsToBounds = true
+        
+        print("bav avatar size is \(barAvatarImage.frame.width) .. \(barAvatarImage.frame.width)")
+        var avatarbutton=UIBarButtonItem.init(customView: barAvatarImage)
+        self.navigationItem.rightBarButtonItems?.insert(avatarbutton, atIndex: 0)
+
+    }
     /*
     // MARK: - Navigation
 

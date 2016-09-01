@@ -131,8 +131,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate,AppDelegateScreenDelegate 
  KeychainWrapper.removeObjectForKey("username")
         KeychainWrapper.removeObjectForKey("loggedFullName")
         KeychainWrapper.removeObjectForKey("countrycode")
-        
  */
+ 
       /////  KeychainWrapper.removeObjectForKey("username")
         
         UINavigationBar.appearance().titleTextAttributes = [NSForegroundColorAttributeName: UIColor.whiteColor()]
@@ -192,10 +192,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate,AppDelegateScreenDelegate 
   
         
         //^^^^^^^^^^^^^^^^^^^
-     ///if((username != nil && username != "") && displayname == "")
-        ///{
+     if(username != nil && username != "")
+        {
         UIApplication.sharedApplication().registerUserNotificationSettings(pushNotificationSettings)
-      /// }
+       }
  
         
         
@@ -684,7 +684,7 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
         print("json received is is \(notificationJSON["aps"])")
         */
         completionHandler(UIBackgroundFetchResult.NewData)
-        ///////NSNotificationCenter.defaultCenter().postNotificationName("ReceivedNotification", object:userInfo)
+        NSNotificationCenter.defaultCenter().postNotificationName("ReceivedNotification", object:userInfo)
         /*
          json converted is {
          "aps" : {
