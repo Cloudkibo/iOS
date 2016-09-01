@@ -125,15 +125,15 @@ class GroupInfo3ViewController: UIViewController {
         //var img=UIImage(data:ContactsProfilePic[indexPath.row])
         var w=imageavatar1!.size.width
         var h=imageavatar1!.size.height
-        var wOld=(self.navigationController?.navigationBar.frame.width)!-5
-        var hOld=(self.navigationController?.navigationBar.frame.height)!-5
+        //var wOld=(self.navigationController?.navigationBar.frame.width)!-5
+        var hOld=(self.navigationController?.navigationBar.frame.height)!-10
         var scale:CGFloat=h/hOld
         
         
         ///var s=CGSizeMake((self.navigationController?.navigationBar.frame.height)!-5,(self.navigationController?.navigationBar.frame.height)!-5)
         
         
-        var barAvatarImage=UIImageView.init(image: UIImage(data: UIImagePNGRepresentation(UIImage(named: "avatar.png")!)!, scale: scale))
+        var barAvatarImage=UIImageView.init(image: UIImage(data: UIImagePNGRepresentation(UIImage(named: "profile-pic1")!)!, scale: scale))
         
         barAvatarImage.layer.borderWidth = 1.0
         barAvatarImage.layer.masksToBounds = false
@@ -143,7 +143,7 @@ class GroupInfo3ViewController: UIViewController {
         
         print("bav avatar size is \(barAvatarImage.frame.width) .. \(barAvatarImage.frame.width)")
         var avatarbutton=UIBarButtonItem.init(customView: barAvatarImage)
-        self.navigationItem.rightBarButtonItems?.insert(avatarbutton, atIndex: 0)
+        self.navigationItem.rightBarButtonItem=avatarbutton
 
     }
     /*
