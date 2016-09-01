@@ -1425,6 +1425,8 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
         
     }
     
+
+    
     func tableView(
         tableView: UITableView,
         estimatedHeightForRowAtIndexPath indexPath: NSIndexPath

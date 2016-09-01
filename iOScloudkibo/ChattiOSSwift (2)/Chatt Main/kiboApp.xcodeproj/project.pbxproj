@@ -139,6 +139,7 @@
 		71E20BA01CF720DD0042EDAD /* avatarTwoHalf.png in Resources */ = {isa = PBXBuildFile; fileRef = 71E20B9C1CF720DD0042EDAD /* avatarTwoHalf.png */; };
 		71E3EE491D5BAD8300310DB0 /* KDCircularProgress.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71E3EE481D5BAD8300310DB0 /* KDCircularProgress.swift */; };
 		71E861C81D0066F4008BCC7C /* DisplayNameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71E861C71D0066F4008BCC7C /* DisplayNameViewController.swift */; };
+		71EA60711D77EC7800117B55 /* GroupInfo3ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71EA60701D77EC7800117B55 /* GroupInfo3ViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -396,6 +397,7 @@
 		71E20B9C1CF720DD0042EDAD /* avatarTwoHalf.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = avatarTwoHalf.png; sourceTree = "<group>"; };
 		71E3EE481D5BAD8300310DB0 /* KDCircularProgress.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KDCircularProgress.swift; sourceTree = "<group>"; };
 		71E861C71D0066F4008BCC7C /* DisplayNameViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DisplayNameViewController.swift; sourceTree = "<group>"; };
+		71EA60701D77EC7800117B55 /* GroupInfo3ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GroupInfo3ViewController.swift; sourceTree = "<group>"; };
 		96C3D9B6784B14EFEA3C9944 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 		BC0C99CB9F91896CEAE65024 /* Pods.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		CB378204D17188B74218CCD7 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
@@ -553,6 +555,7 @@
 				71E3EE481D5BAD8300310DB0 /* KDCircularProgress.swift */,
 				710947721D710A63008BC238 /* NewGroupSetDetails.swift */,
 				71C1A2CE1D768ABC00FC5157 /* GroupChatingDetailController.swift */,
+				71EA60701D77EC7800117B55 /* GroupInfo3ViewController.swift */,
 			);
 			path = Chat;
 			sourceTree = "<group>";
@@ -967,6 +970,7 @@
 				7122F96E1D500FFA00EBBCED /* textDocumentViewController.swift in Sources */,
 				713D51C61CC11896007E0B47 /* ConferenceCallViewController.swift in Sources */,
 				718B8D941CC11A9B000B4AB2 /* WebSocket.swift in Sources */,
+				71EA60711D77EC7800117B55 /* GroupInfo3ViewController.swift in Sources */,
 				7150119F1D12D0940091AD7B /* Reachability.swift in Sources */,
 				713D51EC1CC11896007E0B47 /* VideoViewController.swift in Sources */,
 				713D51CB1CC11896007E0B47 /* Contacts.swift in Sources */,

@@ -429,4 +429,9 @@ extension NewGroupSetDetails: UICollectionViewDelegate, UICollectionViewDataSour
         
         return cell
     }*/
+
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        
+        
+    }
 }
