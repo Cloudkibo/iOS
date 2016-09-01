@@ -9,7 +9,7 @@
 import Foundation
 import UIKit
 
-class ContactsListCell:UITableViewCell {
+class ContactsListCell:SWTableViewCell {
     
     
     @IBOutlet weak var participantsCollection: UICollectionView!
