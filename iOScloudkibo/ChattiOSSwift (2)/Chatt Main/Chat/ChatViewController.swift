@@ -17,7 +17,7 @@ import Contacts
 import ContactsUI
 
 class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,CNContactPickerDelegate,
-    EPPickerDelegate
+    EPPickerDelegate,SWTableViewCellDelegate
 {
     
     var participantsSelected=[EPContact]()
@@ -1209,7 +1209,11 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
     func getRightUtilityButtonsToCell()-> NSMutableArray{
         var utilityButtons: NSMutableArray = NSMutableArray()
         
-        utilityButtons.sw_addUtilityButtonWithColor(UIColor.redColor(), title: NSLocalizedString("ABC", comment: ""))
+        
+        utilityButtons.sw_addUtilityButtonWithColor(hexStringToUIColor("#DCDEE0"), icon: UIImage(named:"more.png"))
+        
+        //utilityButtons.sw_addUtilityButtonWithColor(UIColor.redColor(), title: NSLocalizedString("ABC", comment: ""))
+        //DCDEE0
         utilityButtons.sw_addUtilityButtonWithColor(hexStringToUIColor("#24669A"), icon: UIImage(named:"archive.png"))
         return utilityButtons
         //24669A
@@ -1228,7 +1232,7 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
         //if(ContactUsernames.count > 0)
         //{
         cell.rightUtilityButtons=self.getRightUtilityButtonsToCell() as [AnyObject]
-      
+        cell.delegate=self
         var contactFound=false
         cell.newMsg.hidden=true
         cell.countNewmsg.hidden=true
@@ -1651,7 +1655,7 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
     
     
     
-    func tableView(tableView: UITableView, editActionsForRowAtIndexPath indexPath: NSIndexPath) -> [UITableViewRowAction]? {
+   /* func tableView(tableView: UITableView, editActionsForRowAtIndexPath indexPath: NSIndexPath) -> [UITableViewRowAction]? {
         
         
 ////   if(tblForChat.cellForRowAtIndexPath(indexPath)?.editingStyle == UITableViewCellEditingStyle.init(rawValue: 1))
@@ -1772,7 +1776,7 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
         }
     }
 
-    
+    */
     
     override func prepareForSegue(segue: UIStoryboardSegue?, sender: AnyObject?) {
        
@@ -2121,6 +2125,14 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
         }//end switch
         
     }
+    
+    func swipeableTableViewCellShouldHideUtilityButtonsOnSwipe(cell: SWTableViewCell!) -> Bool {
+        
+        return true
+    }
+    
+    
+    
     func socketReceivedSpecialMessage(message:String,params:JSON!)
     {
         
