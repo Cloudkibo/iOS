@@ -45,7 +45,7 @@ class iOSContact{
         var phone=Expression<String>("phone")
         var actualphone=Expression<String>("actualphone")
         var email=Expression<String>("email")
-        var profileimage=Expression<NSData>("profileimage")
+        //////////////var profileimage=Expression<NSData>("profileimage")
         let uniqueidentifier = Expression<String>("uniqueidentifier")
         
         socketObj.socket.emit("logClient","IPHONE-LOG: \(username) fetching contacts from iphone contactlist")
@@ -190,7 +190,7 @@ class iOSContact{
                                    image=contacts[i].imageData!
                                 }
                                 
-                                try sqliteDB.db.run(tbl_allcontacts.insert(name<-fullname,phone<-phoneDigits,actualphone<-actualphonedigits,email<-emailAddress,profileimage<-image,uniqueidentifier<-uniqueidentifier1))
+                                try sqliteDB.db.run(tbl_allcontacts.insert(name<-fullname,phone<-phoneDigits,actualphone<-actualphonedigits,email<-emailAddress,uniqueidentifier<-uniqueidentifier1))
                         }
                             catch(let error)
                             {

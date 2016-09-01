@@ -126,9 +126,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate,AppDelegateScreenDelegate 
         UIApplication.sharedApplication().setStatusBarStyle(UIStatusBarStyle.LightContent, animated: false);
         
         //RESET TEMP
+        
+   /*
  KeychainWrapper.removeObjectForKey("username")
         KeychainWrapper.removeObjectForKey("loggedFullName")
         KeychainWrapper.removeObjectForKey("countrycode")
+        
+ */
       /////  KeychainWrapper.removeObjectForKey("username")
         
         UINavigationBar.appearance().titleTextAttributes = [NSForegroundColorAttributeName: UIColor.whiteColor()]
@@ -136,6 +140,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate,AppDelegateScreenDelegate 
         webMeetingModel.delegateScreen=self
         UIApplication.sharedApplication().networkActivityIndicatorVisible=true
         print("appdidFinishLaunching")
+        
+        
+        
+        
+        
+        
+        
         if(socketObj == nil)
         {
             print("socket is nillll", terminator: "")
@@ -269,13 +280,16 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
     
     func application(application: UIApplication, didRegisterUserNotificationSettings notificationSettings: UIUserNotificationSettings) {
         print("didRegisterUserNotificationSettings")
-       if(!UIApplication.sharedApplication().isRegisteredForRemoteNotifications())
-        {
+       //if(!UIApplication.sharedApplication().isRegisteredForRemoteNotifications())
+       // {
+        if(username != nil && username != "")
+{
         print("didRegisterUserNotificationSettings... inside...")
         
             UIApplication.sharedApplication().registerForRemoteNotifications()
+        }
     
-     }
+    // }
         
     }
     func applicationWillResignActive(application: UIApplication) {

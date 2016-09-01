@@ -329,7 +329,10 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
             {
             socketObj.delegate=self
             }
+            if(username != nil && username != "")
+            {
             self.synchroniseChatData()
+            }
         }
         
         
@@ -812,7 +815,7 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
         
         
         let contactPhone = Expression<String>("contactPhone")
-        let contactProfileImage = Expression<NSData>("profileimage")
+       /////////// let contactProfileImage = Expression<NSData>("profileimage")
         let uniqueidentifier = Expression<String>("uniqueidentifier")
         
         //contactPhone
@@ -1053,10 +1056,10 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
     
 
     
-    func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+    /*func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
       print("tableheader")
         
-        var cellview=UIView.init()
+       /* var cellview=UIView.init()
         
         let cell = tblForChat.dequeueReusableCellWithIdentifier("NewGroupCell") as! ContactsListCell
         btnNewGroup=cell.btnNewGroupOutlet
@@ -1078,10 +1081,11 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
  */
         
         cellview.addSubview(cell)
-        return cellview
+        return cellview*/
+        return nil
     }
-    
-    
+ 
+    */
     
     func BtnnewGroupClicked(sender:UIButton)
     {
@@ -1169,10 +1173,10 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
         print("didSelectContactProperties \(contactProperties)")
     }*/
 
-    func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+    /*func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         print("header height table")
         return 70
-    }
+    }*/
     
     func numberOfSectionsInTableView(tableView: UITableView!) -> Int {
         return 1

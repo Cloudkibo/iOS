@@ -745,7 +745,7 @@ class ChatMainViewController:UIViewController,SocketConnecting
             //let phone = Expression<String>("phone")
             let kibocontact = Expression<Bool>("kiboContact")
             let name = Expression<String?>("name")
-            let contactProfileImage = Expression<NSData>("profileimage")
+            /////////////let contactProfileImage = Expression<NSData>("profileimage")
             let uniqueidentifier = Expression<String>("uniqueidentifier")
         
         

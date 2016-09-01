@@ -206,7 +206,7 @@ class DatabaseHandler:NSObject{
         let actualphone = Expression<String>("actualphone")
         let email = Expression<String>("email")
         let kiboContact = Expression<Bool>("kiboContact")
-        let profileimage = Expression<NSData>("profileimage")
+        /////////////////////let profileimage = Expression<NSData>("profileimage")
         let uniqueidentifier = Expression<NSData>("uniqueidentifier")
         //
         self.allcontacts = Table("allcontacts")
@@ -218,7 +218,7 @@ class DatabaseHandler:NSObject{
                 t.column(actualphone)
                 t.column(email)
                 t.column(kiboContact, defaultValue:false)
-                t.column(profileimage, defaultValue:NSData.init())
+                //////////////t.column(profileimage, defaultValue:NSData.init())
                 })
             
         }

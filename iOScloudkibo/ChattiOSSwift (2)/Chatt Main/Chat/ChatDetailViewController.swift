@@ -313,7 +313,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
         
         
         let phone = Expression<String>("phone")
-        let contactProfileImage = Expression<NSData>("profileimage")
+       //////////// let contactProfileImage = Expression<NSData>("profileimage")
         let uniqueidentifier = Expression<String>("uniqueidentifier")
 
         
