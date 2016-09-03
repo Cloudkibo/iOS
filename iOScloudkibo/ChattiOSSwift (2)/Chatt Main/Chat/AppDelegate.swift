@@ -127,12 +127,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate,AppDelegateScreenDelegate 
         
         //RESET TEMP
         
-   /*
+   /*if(username != nil)
+{
  KeychainWrapper.removeObjectForKey("username")
         KeychainWrapper.removeObjectForKey("loggedFullName")
         KeychainWrapper.removeObjectForKey("countrycode")
+ }
  */
- 
       /////  KeychainWrapper.removeObjectForKey("username")
         
         UINavigationBar.appearance().titleTextAttributes = [NSForegroundColorAttributeName: UIColor.whiteColor()]

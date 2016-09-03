@@ -74,6 +74,7 @@
 		713F39701D74459600F3A9C4 /* EPContactCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 713F396A1D74459600F3A9C4 /* EPContactCell.xib */; };
 		713F39711D74459600F3A9C4 /* EPContactsPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 713F396B1D74459600F3A9C4 /* EPContactsPicker.swift */; };
 		713F39721D74459600F3A9C4 /* EPExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 713F396C1D74459600F3A9C4 /* EPExtensions.swift */; };
+		713F3DD71D7A88990072C9E9 /* ArchivedChatsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 713F3DD61D7A88990072C9E9 /* ArchivedChatsViewController.swift */; };
 		7150119F1D12D0940091AD7B /* Reachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7150119E1D12D0940091AD7B /* Reachability.swift */; };
 		7152CB251D47DDC900DB8127 /* Fabric.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7152CB231D47DDC900DB8127 /* Fabric.framework */; };
 		7152CB261D47DDC900DB8127 /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7152CB241D47DDC900DB8127 /* Crashlytics.framework */; };
@@ -340,6 +341,7 @@
 		713F396A1D74459600F3A9C4 /* EPContactCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EPContactCell.xib; sourceTree = "<group>"; };
 		713F396B1D74459600F3A9C4 /* EPContactsPicker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EPContactsPicker.swift; sourceTree = "<group>"; };
 		713F396C1D74459600F3A9C4 /* EPExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EPExtensions.swift; sourceTree = "<group>"; };
+		713F3DD61D7A88990072C9E9 /* ArchivedChatsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ArchivedChatsViewController.swift; sourceTree = "<group>"; };
 		714560551B904DAA00C8E0D2 /* Contacts.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Contacts.swift; sourceTree = "<group>"; };
 		7145605B1B90875D00C8E0D2 /* Accounts.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Accounts.swift; sourceTree = "<group>"; };
 		7150119E1D12D0940091AD7B /* Reachability.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Reachability.swift; sourceTree = "<group>"; };
@@ -575,6 +577,7 @@
 				710947721D710A63008BC238 /* NewGroupSetDetails.swift */,
 				71C1A2CE1D768ABC00FC5157 /* GroupChatingDetailController.swift */,
 				71EA60701D77EC7800117B55 /* GroupInfo3ViewController.swift */,
+				713F3DD61D7A88990072C9E9 /* ArchivedChatsViewController.swift */,
 			);
 			path = Chat;
 			sourceTree = "<group>";
@@ -1097,6 +1100,7 @@
 				713D51C21CC11896007E0B47 /* ChatComposeViewController.swift in Sources */,
 				718B8D8C1CC11A9B000B4AB2 /* SocketIOClientOption.swift in Sources */,
 				713D51BD1CC11896007E0B47 /* Accounts.swift in Sources */,
+				713F3DD71D7A88990072C9E9 /* ArchivedChatsViewController.swift in Sources */,
 				71E046A51D22920D00B67362 /* CallHistCell.swift in Sources */,
 				713D51EB1CC11896007E0B47 /* test.m in Sources */,
 				719EFCFD1C9260FF000FD52F /* fileTestingDoc.swift in Sources */,

@@ -1461,7 +1461,10 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
         //let currentCell = tableView.cellForRowAtIndexPath(indexPath!) as UITableViewCell!;
         
         ///print(ContactNames[indexPath.row], terminator: "")
+        if(tblForChat.editing.boolValue==false)
+        {
         self.performSegueWithIdentifier("contactChat", sender: nil);
+        }
         //slideToChat
         
     }
@@ -1482,7 +1485,7 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
         tblForChat.reloadData()
     }
     
-    func tableView(tableView: UITableView, editingStyleForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCellEditingStyle {
+    /*func tableView(tableView: UITableView, editingStyleForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCellEditingStyle {
         
         if(indexPath.section == 0)
         {
@@ -1506,15 +1509,18 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
         return UITableViewCellEditingStyle.init(rawValue: 1)!
        ////// &&& return UITableViewCellEditingStyle.None
     }
+    */
+    
      func tableView(tableView: UITableView, shouldIndentWhileEditingRowAtIndexPath indexPath: NSIndexPath) -> Bool {
         
-        return true
+        return false
     }
     
     func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
        
         
-        if editingStyle == .Delete {
+       //// if editingStyle == .Delete {
+        if(editingStyle == UITableViewCellEditingStyle.Delete){
             let shareMenu = UIAlertController(title: nil, message: "Delete Chat with \(ContactNames[indexPath.row])", preferredStyle: .ActionSheet)
             
             let DeleteAction = UIAlertAction(title: "Delete", style: UIAlertActionStyle.Default,handler: { (action) -> Void in
@@ -1550,13 +1556,13 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
            //////////////// tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: UITableViewRowAnimation.Automatic)
 
             ///tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Fade)
-        } else if editingStyle == .Insert {
+        } /*else if editingStyle == .Insert {
             // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
         }
         else
         {
             
-        }
+        }*/
         
     }
      func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
@@ -2125,6 +2131,83 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
         }//end switch
         
     }
+    
+    
+    //UNCOMMENT WHEN DEALINAG WITH GROUPS
+    
+   /* func swipeableTableViewCell(cell: SWTableViewCell!, didTriggerRightUtilityButtonWithIndex index: Int) {
+        
+       // if(index==0)
+       // {
+        print("RightUtilityButton index of more is \(index)")
+            if(editButtonOutlet.title=="Edit")
+                
+                //UITableViewCellEditingStyle
+            {
+                //let more = UITableViewRowAction(style: .Normal, title: "More") { action, index in
+                    print("more button tapped")
+                    let shareMenu = UIAlertController(title: nil, message: nil, preferredStyle: .ActionSheet)
+                    
+                    let Mute = UIAlertAction(title: "Mute", style: UIAlertActionStyle.Default,handler: { (action) -> Void in
+                        //// self.removeChatHistory(self.ContactUsernames[indexPath.row],indexPath: indexPath)
+                        
+                        //call Mute delegate or method
+                    })
+                    
+                    let GroupInfo = UIAlertAction(title: "Group Info", style: UIAlertActionStyle.Default,handler: { (action) -> Void in
+                        //// self.removeChatHistory(self.ContactUsernames[indexPath.row],indexPath: indexPath)
+                        
+                        //call Mute delegate or method
+                    })
+                    
+                    let ExportChat = UIAlertAction(title: "Export Chat", style: UIAlertActionStyle.Default,handler: { (action) -> Void in
+                        //// self.removeChatHistory(self.ContactUsernames[indexPath.row],indexPath: indexPath)
+                        
+                        //call Mute delegate or method
+                    })
+                    
+                    let ClearChat = UIAlertAction(title: "Clear Chat", style: UIAlertActionStyle.Default,handler: { (action) -> Void in
+                        //// self.removeChatHistory(self.ContactUsernames[indexPath.row],indexPath: indexPath)
+                        
+                        //call Mute delegate or method
+                    })
+                    let DeleteChat = UIAlertAction(title: "Delete Chat", style: UIAlertActionStyle.Default,handler: { (action) -> Void in
+                        
+                        //// self.removeChatHistory(self.ContactUsernames[indexPath.row],indexPath: indexPath)
+                        
+                        //call Mute delegate or method
+                    })
+                    let cancelAction = UIAlertAction(title: "Cancel", style: UIAlertActionStyle.Cancel, handler: { (action) -> Void in
+                        
+                        //self.sendType="Message"
+                        //self.performSegueWithIdentifier("inviteSegue",sender: nil)
+                        /*var messageVC = MFMessageComposeViewController()
+                         
+                         messageVC.body = "Enter a message";
+                         messageVC.recipients = ["03201211991"]
+                         messageVC.messageComposeDelegate = self;
+                         
+                         self.presentViewController(messageVC, animated: false, completion: nil)
+                         */
+                    })
+                    
+                    shareMenu.addAction(Mute)
+                    shareMenu.addAction(GroupInfo)
+                    shareMenu.addAction(ExportChat)
+                    shareMenu.addAction(ClearChat)
+                    
+                    shareMenu.addAction(DeleteChat)
+                    shareMenu.addAction(cancelAction)
+                    
+                   // shareMenu.show
+                    self.presentViewController(shareMenu, animated: true, completion: {
+                        
+                    })
+                //}
+            }
+      //  }
+    }
+    */
     
     func swipeableTableViewCellShouldHideUtilityButtonsOnSwipe(cell: SWTableViewCell!) -> Bool {
         

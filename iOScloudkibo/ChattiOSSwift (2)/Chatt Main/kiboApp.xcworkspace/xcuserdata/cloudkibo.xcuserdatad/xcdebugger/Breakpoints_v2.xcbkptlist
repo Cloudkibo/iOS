@@ -310,11 +310,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Chat/ChatViewController.swift"
-            timestampString = "494466036.207731"
+            timestampString = "494468043.146042"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1619"
-            endingLineNumber = "1619"
+            startingLineNumber = "1625"
+            endingLineNumber = "1625"
             landmarkName = "removeChatHistory(_:indexPath:)"
             landmarkType = "5">
          </BreakpointContent>
@@ -902,11 +902,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Chat/AppDelegate.swift"
-            timestampString = "494421434.63757"
+            timestampString = "494474523.380899"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "814"
-            endingLineNumber = "814"
+            startingLineNumber = "815"
+            endingLineNumber = "815"
             landmarkName = "application(_:performFetchWithCompletionHandler:)"
             landmarkType = "5">
          </BreakpointContent>
@@ -934,13 +934,13 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Chat/ChatViewController.swift"
-            timestampString = "494466036.207731"
+            timestampString = "494468043.146042"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1735"
-            endingLineNumber = "1735"
-            landmarkName = "tableView(_:editActionsForRowAtIndexPath:)"
-            landmarkType = "5">
+            startingLineNumber = "1741"
+            endingLineNumber = "1741"
+            landmarkName = "ChatViewController"
+            landmarkType = "3">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -950,11 +950,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Chat/AppDelegate.swift"
-            timestampString = "494421434.63757"
+            timestampString = "494474523.380899"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "638"
-            endingLineNumber = "638"
+            startingLineNumber = "639"
+            endingLineNumber = "639"
             landmarkName = "application(_:didRegisterForRemoteNotificationsWithDeviceToken:)"
             landmarkType = "5">
          </BreakpointContent>
@@ -966,11 +966,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Chat/AppDelegate.swift"
-            timestampString = "494421434.63757"
+            timestampString = "494474523.380899"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "637"
-            endingLineNumber = "637"
+            startingLineNumber = "638"
+            endingLineNumber = "638"
             landmarkName = "application(_:didRegisterForRemoteNotificationsWithDeviceToken:)"
             landmarkType = "5">
          </BreakpointContent>
@@ -998,11 +998,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Chat/AppDelegate.swift"
-            timestampString = "494419067.443546"
+            timestampString = "494474523.380899"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "153"
-            endingLineNumber = "153"
+            startingLineNumber = "154"
+            endingLineNumber = "154"
             landmarkName = "application(_:didFinishLaunchingWithOptions:)"
             landmarkType = "5">
          </BreakpointContent>
@@ -1014,11 +1014,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Chat/AppDelegate.swift"
-            timestampString = "494419067.443546"
+            timestampString = "494474523.380899"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "158"
-            endingLineNumber = "158"
+            startingLineNumber = "159"
+            endingLineNumber = "159"
             landmarkName = "application(_:didFinishLaunchingWithOptions:)"
             landmarkType = "5">
          </BreakpointContent>
@@ -1030,11 +1030,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Chat/AppDelegate.swift"
-            timestampString = "494410215.124083"
+            timestampString = "494474523.380899"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "138"
-            endingLineNumber = "138"
+            startingLineNumber = "139"
+            endingLineNumber = "139"
             landmarkName = "application(_:didFinishLaunchingWithOptions:)"
             landmarkType = "5">
          </BreakpointContent>
@@ -1078,11 +1078,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Chat/AppDelegate.swift"
-            timestampString = "494410215.124083"
+            timestampString = "494474523.380899"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "137"
-            endingLineNumber = "137"
+            startingLineNumber = "138"
+            endingLineNumber = "138"
             landmarkName = "application(_:didFinishLaunchingWithOptions:)"
             landmarkType = "5">
          </BreakpointContent>
@@ -1094,11 +1094,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Chat/AppDelegate.swift"
-            timestampString = "494419067.443546"
+            timestampString = "494474523.380899"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "262"
-            endingLineNumber = "262"
+            startingLineNumber = "263"
+            endingLineNumber = "263"
             landmarkName = "application(_:didFinishLaunchingWithOptions:)"
             landmarkType = "5">
          </BreakpointContent>
