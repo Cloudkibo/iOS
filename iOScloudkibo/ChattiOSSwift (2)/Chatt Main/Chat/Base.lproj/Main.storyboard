@@ -1006,6 +1006,7 @@
                         <segue destination="vqu-uk-8SN" kind="push" identifier="contactChat" id="W8i-Cs-Z8T"/>
                         <segue destination="YH8-pY-Wmo" kind="push" identifier="newGroupDetailsSegue" id="ADA-1C-gHV"/>
                         <segue destination="Kar-qX-hHJ" kind="push" id="NJ3-iQ-pOc"/>
+                        <segue destination="RIV-wT-i1E" kind="push" id="aux-nb-Pcb"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="J0L-07-OPd" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -4181,12 +4182,12 @@
             </objects>
             <point key="canvasLocation" x="1668" y="-1863"/>
         </scene>
-        <!--View Controller-->
+        <!--Message Info-->
         <scene sceneID="22m-Dn-2aG">
             <objects>
                 <viewController id="RIV-wT-i1E" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="nkB-oO-0n0">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <rect key="frame" x="0.0" y="64" width="320" height="504"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="Nsx-G1-7fc">
@@ -4328,6 +4329,9 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
+                    <navigationItem key="navigationItem" title="Message Info" id="ata-TC-bbT">
+                        <barButtonItem key="backBarButtonItem" title="Sample Group" id="4jK-iT-cuf"/>
+                    </navigationItem>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="peA-lW-Wx5" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -5108,9 +5112,9 @@
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="Spe-dd-EXu"/>
+        <segue reference="W8i-Cs-Z8T"/>
         <segue reference="Y9a-Vx-tcX"/>
         <segue reference="1jA-Zj-XHt"/>
-        <segue reference="xLi-xx-esW"/>
         <segue reference="QOc-Kg-WHZ"/>
         <segue reference="Cjg-Ar-cdZ"/>
         <segue reference="3Qa-aS-eRu"/>
