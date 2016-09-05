@@ -57,7 +57,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
     
     var selectedIndex:Int!
     var selectedContact="" //username
-    var selectedID=""
+    ///////var selectedID=""
     var selectedFirstName=""
     var selectedLastName=""
     var selectedUserObj=JSON("[]")
@@ -822,7 +822,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
         
     }
     
-    func markChatAsRead()
+    /*func markChatAsRead()
     {
         print("inside mark as read", terminator: "")
         var markChatReadURL=Constants.MainUrl+Constants.markAsRead
@@ -874,7 +874,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
         }
         
         
-    }
+    }*/
     
     override func awakeFromNib() {
       //  NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("applicationWillBecomeActive:"), name:UIApplicationDidBecomeActiveNotification, object: nil)

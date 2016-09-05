@@ -234,7 +234,7 @@ class ChatMainViewController:UIViewController,SocketConnecting
     
     var ContactNames:[String]=[]
     var ContactUsernames:[String]=[]
-    var ContactIDs:[String]=[]
+    //var ContactIDs:[String]=[]
     var ContactFirstname:[String]=[]
     var ContactLastNAme:[String]=[]
     var ContactStatus:[String]=[]
@@ -720,7 +720,7 @@ class ChatMainViewController:UIViewController,SocketConnecting
         let status = Expression<String>("status")
         
         //-========Remove old values=====================
-        self.ContactIDs.removeAll(keepCapacity: false)
+        //self.ContactIDs.removeAll(keepCapacity: false)
         self.ContactLastNAme.removeAll(keepCapacity: false)
         self.ContactNames.removeAll(keepCapacity: false)
         self.ContactStatus.removeAll(keepCapacity: false)
@@ -767,7 +767,7 @@ class ChatMainViewController:UIViewController,SocketConnecting
             ContactNames.append(ccc[name]!)
             ContactUsernames.append(tblContacts[username])
             // %%%%%%%%%%%%%%%%************ CHAT BUG ID %%%%%%%%%%%
-            ContactIDs.append(tblContacts[contactid])
+           // ContactIDs.append(tblContacts[contactid])
            // ContactIDs.append(tblContacts[userid])
             ContactFirstname.append(tblContacts[firstname])
             ContactLastNAme.append(tblContacts[lastname])
@@ -1502,7 +1502,7 @@ class ChatMainViewController:UIViewController,SocketConnecting
                 destinationVC.selectedContact = ContactUsernames[selectedRow]
                 destinationVC.selectedFirstName=ContactNames[selectedRow]
                 destinationVC.selectedLastName=ContactLastNAme[selectedRow]
-                destinationVC.selectedID=ContactIDs[selectedRow]
+               // destinationVC.selectedID=ContactIDs[selectedRow]
                 //destinationVC.AuthToken = self.AuthToken
                 
                 //

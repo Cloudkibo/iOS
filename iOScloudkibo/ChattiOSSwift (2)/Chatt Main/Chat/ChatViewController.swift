@@ -214,7 +214,7 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
     var ContactLastMessage:[String]=[]
     var ContactNames:[String]=[]
     var ContactUsernames:[String]=[]
-    var ContactIDs:[String]=[]
+    //var ContactIDs:[String]=[]
     var ContactFirstname:[String]=[]
     var ContactLastNAme:[String]=[]
     var ContactStatus:[String]=[]
@@ -224,7 +224,7 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
     ///////////////////////
     /////////NEW//////////////
     //////////////////////////
-    var ContactsEmail:[String]=[]
+   ///// var ContactsEmail:[String]=[]
     var ContactsPhone:[String]=[]
     var ContactsProfilePic:[NSData]=[]
     //["Bus","Helicopter","Truck","Boat","Bicycle","Motorcycle","Plane","Train","Car","Scooter","Caravan"]
@@ -822,7 +822,7 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
         //-========Remove old values=====================
         self.ContactsLastMsgDate.removeAll(keepCapacity: false)
         self.ContactLastMessage.removeAll(keepCapacity: false)
-        self.ContactIDs.removeAll(keepCapacity: false)
+        //self.ContactIDs.removeAll(keepCapacity: false)
         self.ContactLastNAme.removeAll(keepCapacity: false)
         self.ContactNames.removeAll(keepCapacity: false)
         self.ContactStatus.removeAll(keepCapacity: false)
@@ -834,7 +834,7 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
         ////////
         
         self.ContactsPhone.removeAll(keepCapacity: false)
-        self.ContactsEmail.removeAll(keepCapacity: false)
+        ////self.ContactsEmail.removeAll(keepCapacity: false)
         //////self.ContactMsgRead.removeAll(keepCapacity: false)
         self.ContactCountMsgRead.removeAll(keepCapacity: false)
         self.ContactsProfilePic.removeAll(keepCapacity: false)
@@ -875,38 +875,76 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
         let tbl_contactslists=sqliteDB.contactslists
         let tbl_allcontacts=sqliteDB.allcontacts
         
-        let myquery=tbl_contactslists.join(tbl_userchats, on: tbl_contactslists[phone] == tbl_userchats[contactPhone]).group(tbl_userchats[contactPhone]).order(date.desc)
+        
+       // let myquery=tbl_userchats.join(tbl_contactslists, on: tbl_contactslists[phone] == tbl_userchats[contactPhone]).group(tbl_userchats[contactPhone]).order(date.desc)
+        
+        let myquery=tbl_userchats.group(tbl_userchats[contactPhone]).order(date.desc)
         
         var queryruncount=0
         do{for ccc in try sqliteDB.db.prepare(myquery) {
             queryruncount=queryruncount+1
             print("queryruncount is \(queryruncount)")
              var picfound=false
-            print(ccc[phone])
+           // print(ccc[phone])
+            print(ccc[contactPhone])
             print(ccc[msg])
             print(ccc[date])
             print(ccc[uniqueid])
-            print(ccc[tbl_userchats[status]])
+            //////print(ccc[tbl_userchats[status]])
+            print(ccc[status])
             print(ccc[from])
             print(ccc[fromFullName])
       
             print("*************")
-            ContactNames.append(ccc[firstname]+" "+ccc[lastname])
+            ////////////ContactNames.append(ccc[firstname]+" "+ccc[lastname])
             //ContactUsernames.append(ccc[username])
-            print("ContactUsernames is \(ccc[username])")
+            //print("ContactUsernames is \(ccc[username])")
             // %%%%%%%%%%%%%%%%************ CHAT BUG ID %%%%%%%%%%%
-            ContactIDs.append(ccc[contactid])
+           // ContactIDs.append(ccc[contactid])
             // ContactIDs.append(tblContacts[userid])
-            ContactFirstname.append(ccc[firstname])
-            ContactLastNAme.append(ccc[lastname])
+            
+            
+            var nameFoundInAddressBook=false
+             let myquery1=tbl_userchats.join(tbl_contactslists, on: tbl_contactslists[phone] == ccc[contactPhone])//.group(tbl_userchats[contactPhone]).order(date.desc)
+        
+              //  var queryruncount=0
+        //do{
+            for ccc1 in try sqliteDB.db.prepare(myquery1) {
+            nameFoundInAddressBook=true
+                print("name found \(ccc1[firstname]+" "+ccc1[lastname])")
+               ContactNames.append(ccc1[firstname]+" "+ccc1[lastname])
+                ContactFirstname.append(ccc1[firstname])
+                ContactLastNAme.append(ccc1[lastname])
+                break
+
+            }
+            if(nameFoundInAddressBook==false)
+            {
+                let myquery3=tbl_userchats.filter(tbl_userchats[from] != username && tbl_userchats[contactPhone]==ccc[contactPhone])
+                
+                
+                for ccc3 in try sqliteDB.db.prepare(myquery3) {
+                    print("name not found \(ccc[fromFullName])")
+                    ContactNames.append(ccc3[fromFullName])
+                    ContactFirstname.append(ccc3[fromFullName])
+                    ContactLastNAme.append("")
+                    break
+                    
+                }
+                    //ccc[fromFullName]
+               
+
+            }
+            
             ContactStatus.append("Hey there! I am using Kibo App")
             
             ////////////// ContactUsernames.append(ccc[phone])
             
             
             ContactUsernames.append(ccc[contactPhone])
-            ContactsEmail.append(ccc[email])
-            ContactsPhone.append(ccc[phone])
+           ///// ContactsEmail.append(ccc[email])
+            /////ContactsPhone.append(ccc[phone])
+            ContactsPhone.append(ccc[contactPhone])
             ContactOnlineStatus.append(0)
             ContactLastMessage.append(ccc[msg])
             ContactsLastMsgDate.append(ccc[date])
@@ -934,8 +972,8 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
             
           
             
-            let queryPic = tbl_allcontacts.filter(tbl_allcontacts[phone] == ccc[phone])          // SELECT "email" FROM "users"
-            
+          ////  let queryPic = tbl_allcontacts.filter(tbl_allcontacts[phone] == ccc[phone])          // SELECT "email" FROM "users"
+            let queryPic = tbl_allcontacts.filter(tbl_allcontacts[phone] == ccc[contactPhone])
            
             do{
                 for picquery in try sqliteDB.db.prepare(queryPic) {
@@ -990,7 +1028,7 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
              
              allkiboContactsArray = Array(try sqliteDB.db.prepare(query))
              */
-            let query = tbl_userchats.filter(from == ccc[phone] && status == "delivered")          // SELECT "email" FROM "users"
+            let query = tbl_userchats.filter(from == ccc[contactPhone] && status == "delivered")          // SELECT "email" FROM "users"
             
             
             allkiboContactsArray = Array(try sqliteDB.db.prepare(query))
@@ -1055,8 +1093,8 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
     }
     
 
-    
-    func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+    //uncomment later
+   /* func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
       print("tableheader")
         
         var cellview=UIView.init()
@@ -1084,7 +1122,7 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
         return cellview
 //        return nil
     }
- 
+ */
  
     
     func BtnnewGroupClicked(sender:UIButton)
@@ -1173,10 +1211,12 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
         print("didSelectContactProperties \(contactProperties)")
     }*/
 
-    func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+    
+    //uncomment later
+    /*func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         print("header height table")
         return 70
-    }
+    }*/
     
     func numberOfSectionsInTableView(tableView: UITableView!) -> Int {
         return 1
@@ -1612,7 +1652,7 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
                     }*/
                     self.ContactsLastMsgDate.removeAtIndex(indexPath.row)
                     self.ContactLastMessage.removeAtIndex(indexPath.row)
-                    self.ContactIDs.removeAtIndex(indexPath.row)
+                   ////// self.ContactIDs.removeAtIndex(indexPath.row)
                     self.ContactLastNAme.removeAtIndex(indexPath.row)
                     self.ContactNames.removeAtIndex(indexPath.row)
                     self.ContactStatus.removeAtIndex(indexPath.row)
@@ -1624,7 +1664,7 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
                     ////////
                     
                     self.ContactsPhone.removeAtIndex(indexPath.row)
-                    self.ContactsEmail.removeAtIndex(indexPath.row)
+                    ////self.ContactsEmail.removeAtIndex(indexPath.row)
                     //print(request1)
                     print(data1?.debugDescription)
                     
@@ -1805,9 +1845,11 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
                 destinationVC.selectedContact = ContactUsernames[selectedRow]
                 destinationVC.selectedFirstName=ContactNames[selectedRow]
                 destinationVC.selectedLastName=ContactLastNAme[selectedRow]
-                destinationVC.selectedID=ContactIDs[selectedRow]
+                ///////////////////////////////////destinationVC.selectedID=ContactIDs[selectedRow]
                 destinationVC.ContactNames=ContactNames[selectedRow]
                 destinationVC.ContactOnlineStatus=ContactOnlineStatus[selectedRow]
+                print("destinationnnnnn....")
+                print("Selectedrow is \(selectedRow)... username is \(ContactUsernames[selectedRow]) firstname is \(ContactFirstname[selectedRow]) lastname is \(ContactLastNAme[selectedRow]) fullname is \(ContactNames)")
                 //destinationVC.AuthToken = self.AuthToken
                 
                 //
@@ -2004,11 +2046,14 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
             {
                 for(var j=0;j<self.ContactOnlineStatus.count;j++)
                 {
-                    if self.ContactIDs[j]==offlineUsers[i]["_id"].string!
+                   // if self.ContactIDs[j]==offlineUsers[i]["_id"].string!
+                    if self.ContactUsernames[j]==offlineUsers[i]["phone"].string!
+                        
                     {
+                        
                         //found online contact,s username
                         if(socketObj != nil){
-                        socketObj.socket.emit("logClient","IPHONE-LOG: user found offline \(self.ContactIDs[j])")
+                        socketObj.socket.emit("logClient","IPHONE-LOG: user found offline \(self.ContactUsernames[j])")
                         }
                        // print("user found offlinee \(self.ContactUsernames[j])")
                         self.ContactOnlineStatus[j]=0
@@ -2056,10 +2101,12 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
             {
                 for(var j=0;j<self.ContactOnlineStatus.count;j++)
                 {
-                    if self.ContactIDs[j]==onlineUsers[0][i]["_id"].string!
+                    ////if self.ContactIDs[j]==onlineUsers[0][i]["_id"].string!
+                    if self.ContactUsernames[j]==onlineUsers[0][i]["phone"].string!
                     {
                         //found online contact,s username
-                        print("user found online2 \(self.ContactIDs[j])")
+                        ///print("user found online2 \(self.ContactIDs[j])")
+                        print("user found online2 \(self.ContactUsernames[j])")
                         self.ContactOnlineStatus[j]=1
                         onlinefound=true
                         /*dispatch_async(dispatch_get_main_queue())
@@ -2106,10 +2153,15 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
             {
                 for(var j=0;j<self.ContactOnlineStatus.count;j++)
                 {
-                    if self.ContactIDs[j]==onlineUsers[i]["_id"].string!
+                    ///if self.ContactIDs[j]==onlineUsers[i]["_id"].string!
+                    if self.ContactUsernames[j]==onlineUsers[i]["phone"].string!
+                        
                     {
                         //found online contact,s username
-                        print("user found online2 \(self.ContactIDs[j])")
+                        ///print("user found online2 \(self.ContactIDs[j])")
+                        
+                        print("user found online2 \(self.ContactUsernames[j])")
+                        
                         self.ContactOnlineStatus[j]=1
                         onlinefound=true
                       /*  dispatch_async(dispatch_get_main_queue())
