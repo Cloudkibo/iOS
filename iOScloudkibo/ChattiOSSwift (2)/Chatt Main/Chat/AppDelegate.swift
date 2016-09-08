@@ -194,7 +194,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate,AppDelegateScreenDelegate 
         
         //^^^^^^^^^^^^^^^^^^^
         
-        print("username is \(username!)")
+      //  print("username is \(username!)")
      if(username != nil && username != "")
         {
         UIApplication.sharedApplication().registerUserNotificationSettings(pushNotificationSettings)

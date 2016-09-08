@@ -2074,12 +2074,38 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
          NSNotificationCenter.defaultCenter().removeObserver(self, name:UIKeyboardWillShowNotification, object: nil)
     
     }
+    @IBOutlet weak var viewForContent: UIScrollView!
     func willShowKeyBoard(notification : NSNotification){
        
         print("showkeyboardNotification============")
         
         if(showKeyboard==false)
-        {var userInfo: NSDictionary!
+        {
+                var userInfo: NSDictionary!
+                userInfo = notification.userInfo
+                
+                var duration : NSTimeInterval = 0
+                var curve = userInfo.objectForKey(UIKeyboardAnimationCurveUserInfoKey) as! UInt
+                duration = userInfo[UIKeyboardAnimationDurationUserInfoKey]as! NSTimeInterval
+                let keyboardF:NSValue = userInfo.objectForKey(UIKeyboardFrameEndUserInfoKey)as! NSValue
+                let keyboardFrame = keyboardF.CGRectValue()
+            
+            
+            if(keyheight==nil)
+            {
+                keyheight=keyboardFrame.size.height
+            }
+            if(keyFrame==nil)
+            {
+                keyFrame=keyboardFrame
+            }
+                UIView.animateWithDuration(duration, delay: 0, options:[], animations: {
+                    self.viewForContent.contentOffset = CGPointMake(0, keyboardFrame.size.height)
+                    
+                    }, completion: nil)
+                
+           
+            /*var userInfo: NSDictionary!
         userInfo = notification.userInfo
         
         var duration : NSTimeInterval = 0
@@ -2103,7 +2129,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
             
             self.tblForChats.frame = CGRectMake(self.tblForChats.frame.origin.x, self.tblForChats.frame.origin.y, self.tblForChats.frame.size.width, self.tblForChats.frame.size.height-self.keyFrame.size.height+49);
             }, completion: nil)
-        
+        */
         showKeyboard=true
         
     }
@@ -2117,9 +2143,27 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
  
         
     }
-    /*
+    
     func willHideKeyBoard(notification : NSNotification){
+       
         
+       /* var userInfo: NSDictionary!
+         userInfo = notification.userInfo
+         
+         var duration : NSTimeInterval = 0
+         var curve = userInfo.objectForKey(UIKeyboardAnimationCurveUserInfoKey) as! UInt
+         duration = userInfo[UIKeyboardAnimationDurationUserInfoKey]as! NSTimeInterval
+         let keyboardF:NSValue = userInfo.objectForKey(UIKeyboardFrameEndUserInfoKey) as! NSValue
+         var keyboardFrame = keyboardF.CGRectValue()
+         
+         UIView.animateWithDuration(duration, delay: 0, options:[], animations: {
+         self.viewForContent.contentOffset = CGPointMake(0, 0)
+         
+            }, completion:{ (true)-> Void in
+        self.showKeyboard=false
+        })
+ */
+        /*
         var userInfo: NSDictionary!
         userInfo = notification.userInfo
         
@@ -2134,23 +2178,52 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
             self.chatComposeView.frame = CGRectMake(self.chatComposeView.frame.origin.x, self.chatComposeView.frame.origin.y + self.keyheight-self.chatComposeView.frame.size.height-3, self.chatComposeView.frame.size.width, self.chatComposeView.frame.size.height)
             self.tblForChats.frame = CGRectMake(self.tblForChats.frame.origin.x, self.tblForChats.frame.origin.y, self.tblForChats.frame.size.width, self.tblForChats.frame.size.height + keyboardFrame.size.height-49);
             }, completion: nil)
-        
-    }*/
+        */
+    }
     
     func textFieldShouldReturn (textField: UITextField!) -> Bool{
         textField.resignFirstResponder()
       //  var userInfo: NSDictionary!
        // userInfo = notification.userInfo
         
+        /*
         var duration : NSTimeInterval = 0
 
+        
+        
+        
+        /*var userInfo: NSDictionary!
+        userInfo = notification.userInfo
+        
+        var duration : NSTimeInterval = 0
+        var curve = userInfo.objectForKey(UIKeyboardAnimationCurveUserInfoKey) as! UInt
+        duration = userInfo[UIKeyboardAnimationDurationUserInfoKey]as! NSTimeInterval
+        let keyboardF:NSValue = userInfo.objectForKey(UIKeyboardFrameEndUserInfoKey) as! NSValue
+        var keyboardFrame = keyboardF.CGRectValue()
+        
+        UIView.animateWithDuration(duration, delay: 0, options:[], animations: {
+            self.viewForContent.contentOffset = CGPointMake(0, 0)
+            
+            }, completion: nil)
+
+        */
         
         UIView.animateWithDuration(duration, delay: 0, options:[], animations: {
             self.chatComposeView.frame = CGRectMake(self.chatComposeView.frame.origin.x, self.chatComposeView.frame.origin.y + self.keyheight-self.chatComposeView.frame.size.height-3, self.chatComposeView.frame.size.width, self.chatComposeView.frame.size.height)
             self.tblForChats.frame = CGRectMake(self.tblForChats.frame.origin.x, self.tblForChats.frame.origin.y, self.tblForChats.frame.size.width, self.tblForChats.frame.size.height + self.keyFrame.size.height-49);
             }, completion: nil)
         showKeyboard=false
-
+*/
+        
+        var duration : NSTimeInterval = 0
+        
+        UIView.animateWithDuration(duration, delay: 0, options:[], animations: {
+            self.viewForContent.contentOffset = CGPointMake(0, 0)
+            
+            }, completion:{ (true)-> Void in
+                self.showKeyboard=false
+        })
+        
         return true
     }
     
