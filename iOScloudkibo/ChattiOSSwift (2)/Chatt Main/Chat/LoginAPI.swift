@@ -438,7 +438,13 @@ class LoginAPI{
             //self.addMessage(receivedMsg.description, ofType: "1",date: NSDate().debugDescription)
           
             
-            var status="delivered"
+            
+            
+            //======================
+            // Use Push Notification to receive Chat message. Logic moved to App Delegte ReceivedNotification
+            //========================
+            
+            /*var status="delivered"
             if(!chatJson[0]["type"].isExists())
             {//old chat message
                  sqliteDB.SaveChat(chatJson[0]["to"].string!, from1: chatJson[0]["from"].string!,owneruser1:chatJson[0]["to"].string!, fromFullName1: chatJson[0]["fromFullName"].string!, msg1: chatJson[0]["msg"].string!,date1:nil,uniqueid1:chatJson[0]["uniqueid"].string!,status1: status,type1: "", file_type1: "chat",file_path1: "")
@@ -456,7 +462,7 @@ class LoginAPI{
                 sqliteDB.SaveChat(chatJson[0]["to"].string!, from1: chatJson[0]["from"].string!,owneruser1:chatJson[0]["to"].string!, fromFullName1: chatJson[0]["fromFullName"].string!, msg1: chatJson[0]["msg"].string!,date1:nil,uniqueid1:chatJson[0]["uniqueid"].string!,status1: status,type1: chatJson[0]["type"].string!, file_type1: chatJson[0]["file_type"].string!,file_path1: "")
                 
 
-            }
+            }*/
             
             
             //{status : '<delivered or seen>', uniqueid : '<unique id of message>', sender : '<cell number of sender>'}

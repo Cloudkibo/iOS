@@ -881,8 +881,31 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
             switch response.result {
             case .Success:
                 if let data1 = response.result.value {
-                    let json = JSON(data1)
-                    print("JSON single chat: \(json)")
+                    let chatJson = JSON(data1)
+                    print("JSON single chat: \(chatJson)")
+                    
+                    var status="delivered"
+                    if(!chatJson[0]["type"].isExists())
+                    {//old chat message
+                        sqliteDB.SaveChat(chatJson[0]["to"].string!, from1: chatJson[0]["from"].string!,owneruser1:chatJson[0]["to"].string!, fromFullName1: chatJson[0]["fromFullName"].string!, msg1: chatJson[0]["msg"].string!,date1:nil,uniqueid1:chatJson[0]["uniqueid"].string!,status1: status,type1: "", file_type1: "chat",file_path1: "")
+                        
+                        
+                    }
+                    else
+                    {
+                        
+                        if(chatJson[0]["type"].string! == "file")
+                        {
+                            managerFile.checkPendingFiles(username!)
+                        }
+                        
+                        sqliteDB.SaveChat(chatJson[0]["to"].string!, from1: chatJson[0]["from"].string!,owneruser1:chatJson[0]["to"].string!, fromFullName1: chatJson[0]["fromFullName"].string!, msg1: chatJson[0]["msg"].string!,date1:nil,uniqueid1:chatJson[0]["uniqueid"].string!,status1: status,type1: chatJson[0]["type"].string!, file_type1: chatJson[0]["file_type"].string!,file_path1: "")
+                        
+                        
+                    }
+                    
+                    
+
                     //print(response.description)
                     // print(JSON(response.data!).description)
                     
