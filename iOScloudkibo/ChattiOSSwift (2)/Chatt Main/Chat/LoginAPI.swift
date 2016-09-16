@@ -418,10 +418,18 @@ class LoginAPI{
             print("im is reeived from server........................")
             var msg=JSON(data)
             
-            let systemSoundID: SystemSoundID = 1016
+           
+            //=========================================
+            //Sound will be received in payload through push notifications
+            //=========================================
+            
+            /* let systemSoundID: SystemSoundID = 1016
             
             // to play sound
             AudioServicesPlaySystemSound (systemSoundID)
+           
+            */
+            
             //AudioServicesCre
             // to play sound
             //AudioServicesPlaySystemSound (systemSoundID)
@@ -444,8 +452,9 @@ class LoginAPI{
             // Use Push Notification to receive Chat message. Logic moved to App Delegte ReceivedNotification
             //========================
             
-            /*var status="delivered"
-            if(!chatJson[0]["type"].isExists())
+            var status="delivered"
+            
+             /*if(!chatJson[0]["type"].isExists())
             {//old chat message
                  sqliteDB.SaveChat(chatJson[0]["to"].string!, from1: chatJson[0]["from"].string!,owneruser1:chatJson[0]["to"].string!, fromFullName1: chatJson[0]["fromFullName"].string!, msg1: chatJson[0]["msg"].string!,date1:nil,uniqueid1:chatJson[0]["uniqueid"].string!,status1: status,type1: "", file_type1: "chat",file_path1: "")
                 

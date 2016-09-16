@@ -903,7 +903,9 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
                         
                         
                     }
-                    
+                    if(socketObj == nil)
+                    {
+                    }
                     
 
                     //print(response.description)
