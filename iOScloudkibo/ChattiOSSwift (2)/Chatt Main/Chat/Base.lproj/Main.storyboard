@@ -2113,7 +2113,7 @@
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <subviews>
                                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" keyboardDismissMode="interactive" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="80" sectionHeaderHeight="22" sectionFooterHeight="22" id="8ne-qn-KGp">
-                                                <rect key="frame" x="0.0" y="0.0" width="320" height="454"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="320" height="460"/>
                                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                 <prototypes>
@@ -2492,9 +2492,9 @@
                                                     <outlet property="delegate" destination="vqu-uk-8SN" id="U1v-qa-4k9"/>
                                                 </connections>
                                             </tableView>
-                                            <view contentMode="redraw" id="LxC-Tv-JZr">
+                                            <view clipsSubviews="YES" contentMode="scaleAspectFit" id="LxC-Tv-JZr">
                                                 <rect key="frame" x="0.0" y="459" width="320" height="45"/>
-                                                <autoresizingMask key="autoresizingMask"/>
+                                                <autoresizingMask key="autoresizingMask" flexibleMinY="YES"/>
                                                 <subviews>
                                                     <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="chat_input_background" id="CjM-Kr-pp0">
                                                         <rect key="frame" x="0.0" y="1" width="320" height="44"/>
@@ -2539,7 +2539,6 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
-                    <extendedEdge key="edgesForExtendedLayout" bottom="YES"/>
                     <navigationItem key="navigationItem" title="New Chat" id="DA8-is-YEu">
                         <barButtonItem key="rightBarButtonItem" enabled="NO" image="callIcon" id="dyH-8l-xxD" userLabel="Call">
                             <connections>
@@ -5126,13 +5125,13 @@
         <image name="video_off" width="50" height="50"/>
     </resources>
     <inferredMetricsTieBreakers>
+        <segue reference="Spe-dd-EXu"/>
         <segue reference="Y9a-Vx-tcX"/>
         <segue reference="1jA-Zj-XHt"/>
-        <segue reference="Spe-dd-EXu"/>
+        <segue reference="W8i-Cs-Z8T"/>
         <segue reference="QOc-Kg-WHZ"/>
-        <segue reference="xLi-xx-esW"/>
-        <segue reference="Cjg-Ar-cdZ"/>
         <segue reference="3Qa-aS-eRu"/>
+        <segue reference="Cjg-Ar-cdZ"/>
         <segue reference="Lsn-aA-q1J"/>
     </inferredMetricsTieBreakers>
     <color key="tintColor" red="0.054901960784313725" green="0.47843137254901963" blue="1" alpha="1" colorSpace="calibratedRGB"/>

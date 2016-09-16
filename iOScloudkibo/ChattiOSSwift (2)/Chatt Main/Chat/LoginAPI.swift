@@ -12,6 +12,7 @@ import SwiftyJSON
 import UIKit
 import SQLite
 import AVFoundation
+import AccountKit
 
 enum ChatAppSocketChannelState:NSInteger{
     
@@ -432,6 +433,7 @@ class LoginAPI{
             var uniqueid=chatJson[0]["uniqueid"]
             //var dateString=chatJson[0]["date"]
             
+            self.fetchSingleChatMessage(chatJson[0]["uniqueid"].string!)
             
             //self.addMessage(receivedMsg.description, ofType: "1",date: NSDate().debugDescription)
           
@@ -1442,7 +1444,71 @@ class LoginAPI{
         
         
     }
-}
+    
+    
+    
+    
+    func fetchSingleChatMessage(uniqueid:String)
+    {
+        print("uniqueid of single chat is \(uniqueid)")
+        
+        //======GETTING REST API TO GET CURRENT USER=======================
+        
+        print("inside fetch single chat")
+        if(accountKit == nil){
+            accountKit = AKFAccountKit(responseType: AKFResponseType.AccessToken)
+        }
+        
+        if (accountKit!.currentAccessToken == nil) {
+            
+            print("inside etch single 1462")
+            //specify AKFResponseType.AccessToken
+            accountKit = AKFAccountKit(responseType: AKFResponseType.AccessToken)
+            accountKit.requestAccount{
+                (account, error) -> Void in
+                
+                
+                
+                
+                //**********
+                
+                if(account != nil){
+                    var url=Constants.MainUrl+Constants.getContactsList
+                    
+                    let header:[String:String]=["kibo-token":(accountKit!.currentAccessToken!.tokenString)]
+                    
+                    
+                }
+                
+                }
+            }
+        var fetchSingleMsgURL=Constants.MainUrl+Constants.fetchSingleChat
+        
+        
+        //var getUserDataURL=userDataUrl
+        
+        Alamofire.request(.POST,"\(fetchSingleMsgURL)",parameters: ["uniqueid":uniqueid],headers:header).validate(statusCode: 200..<300).responseJSON{response in
+            
+            
+            switch response.result {
+            case .Success:
+                if let data1 = response.result.value {
+                    let json = JSON(data1)
+                    print("JSON single chat: \(json)")
+                    //print(response.description)
+                   // print(JSON(response.data!).description)
+                    
+                }
+            case .Failure:
+                print("failed to get seingle chat message")
+            }
+        }
+
+        }
+    
+    
+    }//Unique Chat data sent to client
+
 protocol UpdateChatDelegate:class
 {
      func socketReceivedMessageChat(message:String,data:AnyObject!);

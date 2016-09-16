@@ -18,6 +18,9 @@ import Crashlytics
 //import UserNotifications
 //import WindowsAzureMessaging
 
+
+
+
 var aaaaa:SBNotificationHub!
 var uploadInfo:NSMutableArray!
  var managerFile = NetworkingManager.sharedManager
@@ -679,8 +682,17 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
        // NSLog("received remote notification \(userInfo)")
         if(socketObj != nil)
         {
-             socketObj.socket.emit("logClient","\(username) didReceiveRemoteNotification: \(userInfo.description)")
+             socketObj.socket.emit("logClient","\(username) didReceiveRemoteNotification: ..... \(userInfo["userInfo"]).....\(userInfo.description)")
+            print(userInfo["userInfo"])
+            
         }
+        if  let singleuniqueid = userInfo["uniqueId"] as? String {
+            // Printout of (userInfo["aps"])["type"]
+            print("\nFrom APS-dictionary with key \"singleuniqueid\":  \( singleuniqueid)")
+            
+            // Do your stuff?
+        }
+        
         print("remote notification received is \(userInfo)")
         /*var notificationJSON=JSON(userInfo)
         print("json converted is \(notificationJSON)")
@@ -802,6 +814,8 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
         socketObj.socket.emit("logClient","IPHONE-LOG: call notification received in background")
     }*/
     
+    
+  
     func application(application: UIApplication, shouldSaveApplicationState coder: NSCoder) -> Bool {
         return true
     }
@@ -822,6 +836,65 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
         
          NetworkingManager.sharedManager.backgroundCompletionHandler = completionHandler
     }
+    func fetchSingleChatMessage(uniqueid:String)
+    {
+        print("uniqueid of single chat is \(uniqueid)")
+        
+        //======GETTING REST API TO GET CURRENT USER=======================
+        
+        print("inside fetch single chat")
+        if(accountKit == nil){
+            accountKit = AKFAccountKit(responseType: AKFResponseType.AccessToken)
+        }
+        
+        if (accountKit!.currentAccessToken == nil) {
+            
+            print("inside etch single 1462")
+            //specify AKFResponseType.AccessToken
+            accountKit = AKFAccountKit(responseType: AKFResponseType.AccessToken)
+            accountKit.requestAccount{
+                (account, error) -> Void in
+                
+                
+                
+                
+                //**********
+                
+                if(account != nil){
+                    var url=Constants.MainUrl+Constants.getContactsList
+                    
+                    let header:[String:String]=["kibo-token":(accountKit!.currentAccessToken!.tokenString)]
+                    
+                    
+                }
+                
+            }
+        }
+        var fetchSingleMsgURL=Constants.MainUrl+Constants.fetchSingleChat
+        
+        
+        //var getUserDataURL=userDataUrl
+        
+        Alamofire.request(.POST,"\(fetchSingleMsgURL)",parameters: ["uniqueid":uniqueid],headers:header).validate(statusCode: 200..<300).responseJSON{response in
+            
+            
+            switch response.result {
+            case .Success:
+                if let data1 = response.result.value {
+                    let json = JSON(data1)
+                    print("JSON single chat: \(json)")
+                    //print(response.description)
+                    // print(JSON(response.data!).description)
+                    
+                }
+            case .Failure:
+                print("failed to get seingle chat message")
+            }
+        }
+        
+    }
+    
+
     
 }
 
