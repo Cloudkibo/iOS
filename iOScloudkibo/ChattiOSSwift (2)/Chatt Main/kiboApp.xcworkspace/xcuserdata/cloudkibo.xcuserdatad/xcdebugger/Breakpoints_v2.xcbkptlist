@@ -907,7 +907,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "828"
             endingLineNumber = "828"
-            landmarkName = "application(_:shouldRestoreApplicationState:)"
+            landmarkName = "timerFiredScreenCapture()"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -955,7 +955,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "649"
             endingLineNumber = "649"
-            landmarkName = "application(_:didRegisterForRemoteNotificationsWithDeviceToken:)"
+            landmarkName = "fetchNewToken()"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -971,7 +971,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "648"
             endingLineNumber = "648"
-            landmarkName = "application(_:didRegisterForRemoteNotificationsWithDeviceToken:)"
+            landmarkName = "fetchNewToken()"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>

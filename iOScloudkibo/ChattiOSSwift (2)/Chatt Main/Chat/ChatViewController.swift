@@ -550,6 +550,8 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
         
         print("appearrrrrr", terminator: "")
         
+        
+        delegateRefreshChat=self
         if(socketObj != nil)
         {
             socketObj.delegate=self
