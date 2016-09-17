@@ -15,6 +15,10 @@ import CloudKit
 import AccountKit
 import Fabric
 import Crashlytics
+import Foundation
+import SystemConfiguration
+import AVFoundation
+
 //import UserNotifications
 //import WindowsAzureMessaging
 
@@ -95,13 +99,14 @@ var urlLocalFile:NSURL!
 var iOSstartedCall=false
 var firstTimeLogin=false
 var header:[String:String]=["kibo-token":""]
+var delegateRefreshChat:UpdateChatViewsDelegate!
 //var appJustInstalled=[Bool]()
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate,AppDelegateScreenDelegate {
     
     var window: UIWindow?
-    
+    private var reachability:Reachability!;
     
     //  var window: UIWindow?
     
@@ -128,15 +133,22 @@ class AppDelegate: UIResponder, UIApplicationDelegate,AppDelegateScreenDelegate 
         
         UIApplication.sharedApplication().setStatusBarStyle(UIStatusBarStyle.LightContent, animated: false);
         
+        
+        do{self.reachability = try Reachability.reachabilityForInternetConnection()
+        try self.reachability.startNotifier();
+        }
+        catch{
+            print("error in reachability")
+        }
         //RESET TEMP
         
-   /*if(username != nil)
+/*   if(username != nil)
 {
  KeychainWrapper.removeObjectForKey("username")
         KeychainWrapper.removeObjectForKey("loggedFullName")
         KeychainWrapper.removeObjectForKey("countrycode")
- }
- */
+ }*/
+ 
       /////  KeychainWrapper.removeObjectForKey("username")
         
         UINavigationBar.appearance().titleTextAttributes = [NSForegroundColorAttributeName: UIColor.whiteColor()]
@@ -282,7 +294,33 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
         
     }
     
-    
+    func checkForReachability(notification:NSNotification)
+    {
+        print("checking internet")
+        // Remove the next two lines of code. You cannot instantiate the object
+        // you want to receive notifications from inside of the notification
+        // handler that is meant for the notifications it emits.
+        
+        //var networkReachability = Reachability.reachabilityForInternetConnection()
+        //networkReachability.startNotifier()
+        
+        let networkReachability = notification.object as! Reachability;
+        var remoteHostStatus = networkReachability.currentReachabilityStatus
+        
+        if (remoteHostStatus == Reachability.NetworkStatus.NotReachable)
+        {
+            print("Not Reachable")
+        }
+        else if (remoteHostStatus == Reachability.NetworkStatus.ReachableViaWiFi)
+        {
+            print("Reachable via Wifi")
+        }
+        else
+        {
+            print("Reachable")
+        }
+    }
+
     
     func application(application: UIApplication, didRegisterUserNotificationSettings notificationSettings: UIUserNotificationSettings) {
         print("didRegisterUserNotificationSettings")
@@ -648,7 +686,7 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
        // var tagname=NSSet(object: username!.substringFromIndex(username!.startIndex))
         var tagname=NSSet(array: tagarray)
        // hub.registerNativeWithDeviceToken(deviceToken, tags: tagname as Set<NSObject>) { (error) in
-        hub.registerNativeWithDeviceToken(deviceToken, tags: tagname as Set<NSObject>) { (error) in
+        hub.registerNativeWithDeviceToken(deviceToken, tags: tagname as! Set<NSObject>) { (error) in
         //hub.registerNativeWithDeviceToken(deviceToken, tags: nil) { (error) in
             
         if(error != nil)
@@ -908,6 +946,35 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
                     {
                     }
                     
+                    var state=UIApplication.sharedApplication().applicationState
+
+//UIApplicationState state = [[UIApplication sharedApplication] applicationState];
+
+                    if (state == UIApplicationState.Active )
+                    {
+                        
+                         let systemSoundID: SystemSoundID = 1016
+                         
+                         // to play sound
+                         AudioServicesPlaySystemSound (systemSoundID)
+                        if(delegateRefreshChat != nil)
+                        {
+                            delegateRefreshChat?.refreshChatsUI("updateUI", data: nil)
+                        }
+ 
+                        
+                        //AudioServicesCre
+                        // to play sound
+                        //AudioServicesPlaySystemSound (systemSoundID)
+
+                        
+                        //let navigationController = UIApplication.sharedApplication().windows[0].rootViewController
+                        //let activeViewCont = navigationController.visibleViewController
+                        
+                      //  activeViewCont?.loadView()
+    
+                    }
+ 
 
                     //print(response.description)
                     // print(JSON(response.data!).description)
@@ -922,6 +989,10 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
     
 
     
+}
+protocol UpdateChatViewsDelegate:class
+{
+    func refreshChatsUI(message:String,data:AnyObject!);
 }
 
 

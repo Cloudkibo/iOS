@@ -17,10 +17,11 @@ import AssetsLibrary
 import Photos
 import Contacts
 
-class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChatDelegate,UIDocumentPickerDelegate,UIDocumentMenuDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate,NSFileManagerDelegate,showUploadProgressDelegate{
+class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChatDelegate,UIDocumentPickerDelegate,UIDocumentMenuDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate,NSFileManagerDelegate,showUploadProgressDelegate,UpdateChatViewsDelegate{
     
    /// var manager = NetworkingManager.sharedManager
     
+    var delegateChatRefr:UpdateChatViewsDelegate!
     var delegateProgressUpload:showUploadProgressDelegate!
     var shareMenu = UIAlertController()
     var selectedImage:UIImage!
@@ -257,6 +258,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
         //UIApplicationWillEnterForegroundNotification
         
        
+        delegateRefreshChat=self
         NSNotificationCenter.defaultCenter().removeObserver(self, name:UIApplicationWillResignActiveNotification, object: nil)
         
         NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("applicationWillResignActive:"), name:UIApplicationWillResignActiveNotification, object: nil)
@@ -3248,6 +3250,19 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
         
     }
     
+    
+    
+    func refreshChatsUI(message: String, data: AnyObject!) {
+        self.retrieveChatFromSqlite(self.selectedContact)
+        if(self.messages.count>1)
+        {
+            var indexPath = NSIndexPath(forRow:self.messages.count-1, inSection: 0)
+            
+            self.tblForChats.scrollToRowAtIndexPath(indexPath, atScrollPosition: UITableViewScrollPosition.Bottom, animated: true)
+        }
+        
+    }
+    
     override func viewWillDisappear(animated: Bool) {
         print("disappearrrrrrrrr")
         super.viewWillDisappear(animated)
@@ -3255,6 +3270,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
 {
         socketObj.delegateChat=nil
     }
+        delegateRefreshChat=nil
        /////  NSNotificationCenter.defaultCenter().removeObserver(self, name:UIKeyboardWillShowNotification, object: nil)    
     }
     

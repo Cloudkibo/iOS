@@ -427,8 +427,8 @@ class LoginAPI{
             
             // to play sound
             AudioServicesPlaySystemSound (systemSoundID)
-           
-            */
+           */
+ 
             
             //AudioServicesCre
             // to play sound
@@ -490,14 +490,26 @@ class LoginAPI{
             
             
             print(msg.debugDescription)
+            
+            
             self.delegate?.socketReceivedMessage("im",data: data)
+            
+            
+            
+            
+            //===============
+            //Chat UI Update logic moved to App Delegate when push notifications are received
+            //===============
+            
             if(self.delegateChat != nil)
-            { if(socketObj != nil)
+            {/* if(socketObj != nil)
             {
                 socketObj.socket.emit("logClient","chat delegate not nil")
                 }
             self.delegateChat?.socketReceivedMessageChat("im",data: data)
+                */
             }
+                
             else
             {
                 //show local notification in top bar
@@ -1187,14 +1199,21 @@ class LoginAPI{
         let UserchatJson = JSON(data1)
         // print("chat fetched JSON: \(json)")
         
-        var tableUserChatSQLite=sqliteDB.userschats
+      
+        //===========
+        //delete table after sending pending chat messages
+        //============
+            
+            
+            
+        /*var tableUserChatSQLite=sqliteDB.userschats
         
         do{
         try sqliteDB.db.run(tableUserChatSQLite.delete())
         }catch{
         socketObj.socket.emit("logClient","sqlite chat table refreshed")
         print("chat table not deleted")
-        }
+        }*/
         
         //Overwrite sqlite db
         //sqliteDB.deleteChat(self.selectedContact)

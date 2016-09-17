@@ -17,9 +17,10 @@ import Contacts
 import ContactsUI
 
 class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,CNContactPickerDelegate,
-    EPPickerDelegate,SWTableViewCellDelegate
+    EPPickerDelegate,SWTableViewCellDelegate,UpdateChatViewsDelegate
 {
     
+    var delegateRefrChat:UpdateChatViewsDelegate!
     var participantsSelected=[EPContact]()
    // var participantsSelected=[CNContact]()
     var picker:CNContactPickerViewController!
@@ -315,6 +316,7 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
             self.accountKit = AKFAccountKit(responseType: AKFResponseType.AccessToken)
         }
     
+        delegateRefreshChat=self
         
       
     
@@ -2278,6 +2280,32 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
         //socketObj.delegate=nil
     }
     
-    
+    func refreshChatsUI(message: String, data: AnyObject!) {
+        dispatch_sync(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0)) {
+            // do some task start to show progress wheel
+            self.fetchContacts({ (result) -> () in
+                //self.fetchContactsFromServer()
+                print("checkinnn")
+                let tbl_accounts=sqliteDB.accounts
+                do{for account in try sqliteDB.db.prepare(tbl_accounts) {
+                    ///print("id: \(account[_id]), phone: \(account[phone]), firstname: \(account[firstname])")
+                    
+                    var userr:JSON=["_id":account[self._id],"display_name":account[self.firstname]!,"phone":account[self.phone]]
+                    if(socketObj != nil){
+                        socketObj.socket.emit("whozonline",
+                            ["room":"globalchatroom",
+                                "user":userr.object])
+                    }}}
+                catch{
+                    
+                }
+                
+                dispatch_async(dispatch_get_main_queue()) {
+                    self.tblForChat.reloadData()
+                }
+            })
+        }
+        
+    }
     
 }
