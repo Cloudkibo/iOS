@@ -752,6 +752,7 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
             if(socketObj != nil){
             socketObj.socket.emit("logClient","IPHONE-LOG: \(username!) done sending pending chat messages")
             }
+            
             return completion(result: true)
             //// return completion(result: true)
         }

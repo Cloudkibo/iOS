@@ -689,7 +689,7 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
         if  let singleuniqueid = userInfo["uniqueId"] as? String {
             // Printout of (userInfo["aps"])["type"]
             print("\nFrom APS-dictionary with key \"singleuniqueid\":  \( singleuniqueid)")
-            
+            fetchSingleChatMessage(singleuniqueid)
             // Do your stuff?
         }
         
@@ -881,9 +881,10 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
             switch response.result {
             case .Success:
                 if let data1 = response.result.value {
-                    let chatJson = JSON(data1)
+                    var chatJson = JSON(data1)
+                    chatJson=chatJson["msg"]
                     print("JSON single chat: \(chatJson)")
-                    
+                    print("JSON single chat to is: \(chatJson[0]["to"].string!)")
                     var status="delivered"
                     if(!chatJson[0]["type"].isExists())
                     {//old chat message

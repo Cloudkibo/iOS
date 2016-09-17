@@ -1510,6 +1510,10 @@ class LoginAPI{
                 if let data1 = response.result.value {
                     let json = JSON(data1)
                     print("JSON single chat: \(json)")
+                    print(";;;;")
+                    print("JSON single chat: \(json["msg"])")
+                    print("''''''")
+                    print("JSON single chat to is: \(json["msg"][0]["to"])")
                     //print(response.description)
                    // print(JSON(response.data!).description)
                     
