@@ -136,6 +136,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate,AppDelegateScreenDelegate 
         
         do{self.reachability = try Reachability.reachabilityForInternetConnection()
         try self.reachability.startNotifier();
+            NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("checkForReachability:"), name:ReachabilityChangedNotification, object: reachability)
         }
         catch{
             print("error in reachability")

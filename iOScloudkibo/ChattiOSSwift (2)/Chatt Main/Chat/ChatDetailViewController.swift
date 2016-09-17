@@ -1114,7 +1114,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
         let msgType = messageDic["type"]! as NSString
         if(msgType.isEqualToString("3")||msgType.isEqualToString("4"))
         {
-            var cell=tblForChats.dequeueReusableCellWithIdentifier("FileImageReceivedCell")! as UITableViewCell
+            var cell = tblForChats.dequeueReusableCellWithIdentifier("FileImageReceivedCell")! as UITableViewCell
             let chatImage = cell.viewWithTag(1) as! UIImageView
       
             
@@ -1126,6 +1126,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
             {
                 return 200
             }
+            
             
         }
         else
@@ -1263,12 +1264,12 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
              chatImage.contentMode = .ScaleAspectFit
              }
              */
-            print("here 905 msgtype is \(msgType)")
+           //// print("here 905 msgtype is \(msgType)")
             let distanceFactor = (197.0 - sizeOFStr.width) < 107 ? (197.0 - sizeOFStr.width) : 107
-            print("distanceFactor for \(msg) is \(distanceFactor)")
+           //// print("distanceFactor for \(msg) is \(distanceFactor)")
             
             chatImage.frame = CGRectMake(20 + distanceFactor, chatImage.frame.origin.y, ((sizeOFStr.width + 107)  > 207 ? (sizeOFStr.width + 107) : 200), sizeOFStr.height + 40)
-             print("chatImage.x for \(msg) is \(20 + distanceFactor) and chatimage.wdith is \(chatImage.frame.width)")
+         ////    print("chatImage.x for \(msg) is \(20 + distanceFactor) and chatimage.wdith is \(chatImage.frame.width)")
             
             
             textLable.hidden=false
@@ -1277,7 +1278,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
             //*********
             textLable.text = "\(msg)"
             textLable.frame = CGRectMake(36 + distanceFactor, textLable.frame.origin.y, textLable.frame.size.width, sizeOFStr.height)
-            print("textLable.x for \(msg) is \(textLable.frame.origin.x) and textLable.width is \(textLable.frame.width)")
+          ///  print("textLable.x for \(msg) is \(textLable.frame.origin.x) and textLable.width is \(textLable.frame.width)")
             
             ////profileImage.center = CGPointMake(profileImage.center.x, textLable.frame.origin.y + textLable.frame.size.height - profileImage.frame.size.height/2 + 10)
             

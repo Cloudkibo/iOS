@@ -331,6 +331,9 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
             {
             socketObj.delegate=self
             }
+           
+            
+            
             if(username != nil && username != "")
             {
             self.synchroniseChatData()
