@@ -442,7 +442,7 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
             socketObj.socket.reconnects=true
         }
         */
-        /*
+        
          if(socketObj == nil)
         {
             print("socket is nillll", terminator: "")
@@ -450,7 +450,7 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
             ///socketObj.connect()
             socketObj.addHandlers()
             socketObj.addWebRTCHandlers()
-        }*/
+        }
         
     }
     
@@ -675,6 +675,7 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
  */
     
     // ----commenting
+    
      func application(application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: NSData) {
         print("trying to register device token")
         if(username != nil && username != ""){
