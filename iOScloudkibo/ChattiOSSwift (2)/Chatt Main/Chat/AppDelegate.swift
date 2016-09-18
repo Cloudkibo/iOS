@@ -101,12 +101,14 @@ var firstTimeLogin=false
 var header:[String:String]=["kibo-token":""]
 var delegateRefreshChat:UpdateChatViewsDelegate!
 //var appJustInstalled=[Bool]()
+var reachability:Reachability!;
+
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate,AppDelegateScreenDelegate {
     
     var window: UIWindow?
-    private var reachability:Reachability!;
+   // private var reachability:Reachability!;
     
     //  var window: UIWindow?
     
@@ -134,13 +136,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate,AppDelegateScreenDelegate 
         UIApplication.sharedApplication().setStatusBarStyle(UIStatusBarStyle.LightContent, animated: false);
         
         
-        do{self.reachability = try Reachability.reachabilityForInternetConnection()
-        try self.reachability.startNotifier();
-            NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("checkForReachability:"), name:ReachabilityChangedNotification, object: reachability)
+       /* do{reachability = try Reachability.reachabilityForInternetConnection()
+        try reachability.startNotifier();
+          //  NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("checkForReachability:"), name:ReachabilityChangedNotification, object: reachability)
         }
         catch{
             print("error in reachability")
-        }
+        }*/
+        
+        
         //RESET TEMP
         
 /*   if(username != nil)
@@ -297,7 +301,7 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
     
     func checkForReachability(notification:NSNotification)
     {
-        print("checking internet")
+        print("checking internet...")
         // Remove the next two lines of code. You cannot instantiate the object
         // you want to receive notifications from inside of the notification
         // handler that is meant for the notifications it emits.
@@ -315,13 +319,177 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
         else if (remoteHostStatus == Reachability.NetworkStatus.ReachableViaWiFi)
         {
             print("Reachable via Wifi")
+            if(username != nil && username != "")
+            {
+                self.synchroniseChatData()
+            }
         }
         else
         {
             print("Reachable")
+            if(username != nil && username != "")
+            {
+                self.synchroniseChatData()
+            }
         }
     }
 
+    func synchroniseChatData()
+    {
+        print("synchronise called")
+        if(accountKit == nil){
+            accountKit = AKFAccountKit(responseType: AKFResponseType.AccessToken)
+        }
+        if (accountKit!.currentAccessToken != nil) {
+            
+            header=["kibo-token":accountKit!.currentAccessToken!.tokenString]
+            
+            let _id = Expression<String>("_id")
+            let phone = Expression<String>("phone")
+            let username1 = Expression<String>("username")
+            let status = Expression<String>("status")
+            let firstname = Expression<String>("firstname")
+            
+            
+            
+            let tbl_accounts = sqliteDB.accounts
+            do{for account in try sqliteDB.db.prepare(tbl_accounts) {
+                username=account[username1]
+                //displayname=account[firstname]
+                
+                }
+            }
+            catch
+            {
+                if(socketObj != nil){
+                    socketObj.socket.emit("error getting data from accounts table")
+                }
+                print("error in getting data from accounts table")
+                
+            }
+            
+            //  dispatch_async(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0)) {
+            
+            
+            //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+            // if(socketObj != nil)
+            // {
+            managerFile.checkPendingFiles(username!)
+            self.sendPendingChatMessages({ (result) -> () in
+                print("checkin here pending messages sent")
+                print("checkin fetching chats")
+                // if(socketObj != nil)
+                //{
+                socketObj.fetchChatsFromServer()
+                //}
+                
+            })
+        }
+    }
+    
+
+    func sendPendingChatMessages(completion:(result:Bool)->())
+    {
+        print("checkin here inside pending chat messages.....")
+        var userchats=sqliteDB.userschats
+        var userchatsArray:Array<Row>
+        
+        
+        
+        let to = Expression<String>("to")
+        let from = Expression<String>("from")
+        let owneruser = Expression<String>("owneruser")
+        let fromFullName = Expression<String>("fromFullName")
+        let msg = Expression<String>("msg")
+        let date = Expression<String>("date")
+        let status = Expression<String>("status")
+        let uniqueid = Expression<String>("uniqueid")
+        let type = Expression<String>("type")
+        let file_type = Expression<String>("file_type")
+        
+        
+        var tbl_userchats=sqliteDB.userschats
+        //var res=tbl_userchats.filter(to==selecteduser || from==selecteduser)
+        //to==selecteduser || from==selecteduser
+        //print("chat from sqlite is")
+        //print(res)
+        do
+        {
+            var count=0
+            for pendingchats in try sqliteDB.db.prepare(tbl_userchats.filter(status=="pending"))
+            {
+                print("pending chats count is \(count)")
+                count++
+                var imParas=["from":pendingchats[from],"to":pendingchats[to],"fromFullName":pendingchats[fromFullName],"msg":pendingchats[msg],"uniqueid":pendingchats[uniqueid],"type":pendingchats[type],"file_type":pendingchats[file_type]]
+                
+                print("imparas are \(imParas)")
+                print(imParas, terminator: "")
+                print("", terminator: "")
+                
+                //////// if(socketObj != nil){
+                socketObj.socket.emitWithAck("im",["room":"globalchatroom","stanza":imParas])(timeoutAfter: 1500000)
+                {data in
+                    print("chat ack received \(data)")
+                    // statusNow="sent"
+                    var chatmsg=JSON(data)
+                    print(data[0])
+                    print(chatmsg[0])
+                    sqliteDB.UpdateChatStatus(chatmsg[0]["uniqueid"].string!, newstatus: chatmsg[0]["status"].string!)
+                    
+                }
+                /////  }
+                
+                
+                
+                
+            }
+            //var count=0
+            var tbl_messageStatus=sqliteDB.statusUpdate
+            let status = Expression<String>("status")
+            let sender = Expression<String>("sender")
+            let uniqueid = Expression<String>("uniqueid")
+            
+            for statusMessages in try sqliteDB.db.prepare(tbl_messageStatus)
+            {
+             if(socketObj != nil){
+                socketObj.socket.emitWithAck("messageStatusUpdate", ["status":statusMessages[status],"uniqueid":statusMessages[uniqueid],"sender": statusMessages[sender]])(timeoutAfter: 15000){data in
+                    var chatmsg=JSON(data)
+                    
+                    print(data[0])
+                 //   print(data[0]["uniqueid"]!!)
+                  //  print(data[0]["uniqueid"]!!.debugDescription!)
+                    print(chatmsg[0]["uniqueid"].string!)
+                    //print(data[0]["status"]!!.string!+" ... "+data[0]["uniqueid"]!!.string!)
+                    print("chat status seen emitted which were pending")
+                    sqliteDB.removeMessageStatusSeen(data[0]["uniqueid"]!!.debugDescription!)
+                    socketObj.socket.emit("logClient","\(username) pending seen statuses emitted")
+                    
+                }
+              }
+                
+            }
+            if(socketObj != nil){
+                socketObj.socket.emit("logClient","IPHONE-LOG: \(username!) done sending pending chat messages")
+            }
+            
+            return completion(result: true)
+            //// return completion(result: true)
+        }
+        catch
+        {
+            print("error in pending chat fetching")
+            if(socketObj != nil){
+                socketObj.socket.emit("logClient","IPHONE-LOG: \(username!) error in sending pending chat messages")
+            }
+            
+            return completion(result: false)
+        }
+        
+        
+    }
+    
+
+    
     
     func application(application: UIApplication, didRegisterUserNotificationSettings notificationSettings: UIUserNotificationSettings) {
         print("didRegisterUserNotificationSettings")

@@ -261,7 +261,11 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
     func synchroniseChatData()
     {
         print("synchronise called")
-        if (self.accountKit!.currentAccessToken != nil) {
+        if(accountKit == nil){
+            accountKit = AKFAccountKit(responseType: AKFResponseType.AccessToken)
+        }
+        
+        if (accountKit!.currentAccessToken != nil) {
             
             header=["kibo-token":self.accountKit!.currentAccessToken!.tokenString]
             
@@ -311,7 +315,14 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
     override func viewDidLoad() {
         super.viewDidLoad()
         print("Chat ViewController is loadingggggg")
-        
+        do{reachability = try Reachability.reachabilityForInternetConnection()
+            try reachability.startNotifier();
+            //  NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("checkForReachability:"), name:ReachabilityChangedNotification, object: reachability)
+        }
+        catch{
+            print("error in reachability")
+        }
+          NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("checkForReachability:"), name:ReachabilityChangedNotification, object: reachability)
         if(self.accountKit == nil){
             self.accountKit = AKFAccountKit(responseType: AKFResponseType.AccessToken)
         }
@@ -332,12 +343,15 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
             socketObj.delegate=self
             }
            
-            
-            
+            //==========
+            //DO ON INTERNET CONNECTED
+            //===========
+            /*
             if(username != nil && username != "")
             {
             self.synchroniseChatData()
             }
+            */
         }
         
         
@@ -455,6 +469,42 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
         }
       
     }
+    func checkForReachability(notification:NSNotification)
+    {
+        print("checking internet")
+        // Remove the next two lines of code. You cannot instantiate the object
+        // you want to receive notifications from inside of the notification
+        // handler that is meant for the notifications it emits.
+        
+        //var networkReachability = Reachability.reachabilityForInternetConnection()
+        //networkReachability.startNotifier()
+        
+        let networkReachability = notification.object as! Reachability;
+        var remoteHostStatus = networkReachability.currentReachabilityStatus
+        
+        if (remoteHostStatus == Reachability.NetworkStatus.NotReachable)
+        {
+            print("Not Reachable")
+        }
+        else if (remoteHostStatus == Reachability.NetworkStatus.ReachableViaWiFi)
+        {
+            print("Reachable via Wifi")
+            if(username != nil && username != "")
+            {
+                self.synchroniseChatData()
+            }
+        }
+        else
+        {
+            print("Reachable")
+            if(username != nil && username != "")
+            {
+                self.synchroniseChatData()
+            }
+        }
+    }
+
+    
     
     func loginSegueMethod()
     {print("line # 564")
