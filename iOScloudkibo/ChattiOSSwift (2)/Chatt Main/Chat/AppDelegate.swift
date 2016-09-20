@@ -895,12 +895,26 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
             print(userInfo["userInfo"])
             
         }
+     
+        
         if  let singleuniqueid = userInfo["uniqueId"] as? String {
             // Printout of (userInfo["aps"])["type"]
             print("\nFrom APS-dictionary with key \"singleuniqueid\":  \( singleuniqueid)")
-            fetchSingleChatMessage(singleuniqueid)
+             if  let notifType = userInfo["type"] as? String {
+                if(notifType=="status")
+                {
+                    updateMessageStatus(singleuniqueid, status: (userInfo["status"] as? String)!)
+                }
+                else
+                {
+                    fetchSingleChatMessage(singleuniqueid)
+
+                }
+            }
+            
             // Do your stuff?
         }
+
         
         print("remote notification received is \(userInfo)")
         /*var notificationJSON=JSON(userInfo)
@@ -1196,6 +1210,58 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
             }
         }
         
+    }
+    
+    func updateMessageStatus(uniqueID:String,status:String)
+    {
+        print("messageStatusUpdate ......")
+        print(":::::::::::::::::::::::::::::::::::")
+        //var chatmsg=JSON(data)
+        //print(data[0])
+        //print(chatmsg[0])
+        sqliteDB.UpdateChatStatus(uniqueID, newstatus: status)
+        
+        
+        //get status and unique id from server delivered or seen
+        
+        var state=UIApplication.sharedApplication().applicationState
+        
+        //UIApplicationState state = [[UIApplication sharedApplication] applicationState];
+        
+        if (state == UIApplicationState.Active )
+        {
+            
+           /* let systemSoundID: SystemSoundID = 1016
+            
+            // to play sound
+            AudioServicesPlaySystemSound (systemSoundID)
+            */
+            if(delegateRefreshChat != nil)
+            {
+                delegateRefreshChat?.refreshChatsUI("updateUI", data: nil)
+            }
+            
+            
+            //AudioServicesCre
+            // to play sound
+            //AudioServicesPlaySystemSound (systemSoundID)
+            
+            
+            //let navigationController = UIApplication.sharedApplication().windows[0].rootViewController
+            //let activeViewCont = navigationController.visibleViewController
+            
+            //  activeViewCont?.loadView()
+            
+        }
+        
+
+        
+        /*
+        self.delegate?.socketReceivedMessage("messageStatusUpdate",data: data)
+        if(self.delegateChat != nil)
+        {
+            self.delegateChat?.socketReceivedMessageChat("updateUI", data: nil)
+        }*/
     }
     
 

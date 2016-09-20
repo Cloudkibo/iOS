@@ -394,7 +394,12 @@ class LoginAPI{
         }
         
         socketObj.socket.on("messageStatusUpdate"){data,ack in
-            print("messageStatusUpdate ......")
+          
+            //===
+            //moving to AppDelegate received notification
+            //===
+            
+           /* print("messageStatusUpdate ......")
             print(":::::::::::::::::::::::::::::::::::")
             var chatmsg=JSON(data)
             print(data[0])
@@ -409,7 +414,7 @@ class LoginAPI{
             if(self.delegateChat != nil)
             {
             self.delegateChat?.socketReceivedMessageChat("updateUI", data: nil)
-            }
+            }*/
         }
         
         //messageStatusUpdate
