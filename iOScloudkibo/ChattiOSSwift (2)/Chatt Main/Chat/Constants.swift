@@ -40,8 +40,12 @@ class Constants{
     static let checkPendingFile="/api/filetransfers/checkpendingfile"
     
     static let confirmDownload="/api/filetransfers/confirmdownload"
-    static let hubname="Cloudkibo"
-    static let connectionstring="Endpoint=sb://cloudkibo.servicebus.windows.net/;SharedAccessKeyName=DefaultListenSharedAccessSignature;SharedAccessKey=fs2RqnCIAJ+W5gc/iC82h5A0a+UuMHKNdQruSRxo/Hk="
+    
+    static let hubname="CloudKiboIOSPush"
+    //static let hubname="Cloudkibo"
+    static let connectionstring="Endpoint=sb://cloudkiboiospush.servicebus.windows.net/;SharedAccessKeyName=DefaultListenSharedAccessSignature;SharedAccessKey=2OXyVhx1SX6m34z1RT0pnrpj5MBdv0aAE+7v8W5kkIw="
+    
+   // static let connectionstring="Endpoint=sb://cloudkibo.servicebus.windows.net/;SharedAccessKeyName=DefaultListenSharedAccessSignature;SharedAccessKey=fs2RqnCIAJ+W5gc/iC82h5A0a+UuMHKNdQruSRxo/Hk="
     
     static let fetchSingleChat="/api/userchat/getsinglechat" //uniqueid:
     

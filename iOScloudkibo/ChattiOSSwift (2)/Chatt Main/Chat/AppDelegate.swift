@@ -121,7 +121,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate,AppDelegateScreenDelegate 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         // Override point for customization after application launch.
         print("========launchhhhhhhhh=====")
-        
+        print(NSDate())
         
      /*   UserNotificationCenter.current().requestAuthorization([.alert, .sound, .badge]
             { (granted, error) in
@@ -147,7 +147,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate,AppDelegateScreenDelegate 
         
         //RESET TEMP
         
-/*   if(username != nil)
+   /*if(username != nil)
 {
  KeychainWrapper.removeObjectForKey("username")
         KeychainWrapper.removeObjectForKey("loggedFullName")
@@ -830,6 +830,7 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
     
     
     /*
+     
      SBNotificationHub* hub = [[SBNotificationHub alloc] initWithConnectionString:HUBLISTENACCESS
      notificationHubPath:HUBNAME];
      
@@ -1096,7 +1097,27 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
                     var status="delivered"
                     if(!chatJson[0]["type"].isExists())
                     {//old chat message
-                        sqliteDB.SaveChat(chatJson[0]["to"].string!, from1: chatJson[0]["from"].string!,owneruser1:chatJson[0]["to"].string!, fromFullName1: chatJson[0]["fromFullName"].string!, msg1: chatJson[0]["msg"].string!,date1:nil,uniqueid1:chatJson[0]["uniqueid"].string!,status1: status,type1: "", file_type1: "chat",file_path1: "")
+                        
+                        
+                        //====
+                        
+                        //====
+                        
+                        let dateFormatter = NSDateFormatter()
+                        dateFormatter.timeZone=NSTimeZone.localTimeZone()
+                        dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
+                        //  let datens2 = dateFormatter.dateFromString(date2.debugDescription)
+                        //2016-09-18T19:13:00.588Z
+                        let datens2 = dateFormatter.dateFromString(chatJson[0]["date"].string!)
+                        
+                        let formatter = NSDateFormatter()
+                        formatter.dateStyle = NSDateFormatterStyle.ShortStyle
+                        formatter.timeStyle = .ShortStyle
+                        
+                        let dateString = formatter.stringFromDate(datens2!)
+                        print("dateeeeeee \(dateString)")
+                        
+                        sqliteDB.SaveChat(chatJson[0]["to"].string!, from1: chatJson[0]["from"].string!,owneruser1:chatJson[0]["to"].string!, fromFullName1: chatJson[0]["fromFullName"].string!, msg1: chatJson[0]["msg"].string!,date1:dateString,uniqueid1:chatJson[0]["uniqueid"].string!,status1: status,type1: "", file_type1: "chat",file_path1: "")
                         
                         
                     }
@@ -1108,7 +1129,27 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
                             managerFile.checkPendingFiles(username!)
                         }
                         
-                        sqliteDB.SaveChat(chatJson[0]["to"].string!, from1: chatJson[0]["from"].string!,owneruser1:chatJson[0]["to"].string!, fromFullName1: chatJson[0]["fromFullName"].string!, msg1: chatJson[0]["msg"].string!,date1:nil,uniqueid1:chatJson[0]["uniqueid"].string!,status1: status,type1: chatJson[0]["type"].string!, file_type1: chatJson[0]["file_type"].string!,file_path1: "")
+                        //===
+                        //===
+                        
+                        let dateFormatter = NSDateFormatter()
+                        dateFormatter.timeZone=NSTimeZone.localTimeZone()
+                        dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
+                        //  let datens2 = dateFormatter.dateFromString(date2.debugDescription)
+                        //2016-09-18T19:13:00.588Z
+                        let datens2 = dateFormatter.dateFromString(chatJson[0]["date"].string!)
+                        
+                        let formatter = NSDateFormatter()
+                        formatter.dateStyle = NSDateFormatterStyle.ShortStyle
+                        formatter.timeStyle = .ShortStyle
+                        
+                        let dateString = formatter.stringFromDate(datens2!)
+                        print("dateeeeeee \(dateString)")
+                        
+                        sqliteDB.SaveChat(chatJson[0]["to"].string!, from1: chatJson[0]["from"].string!,owneruser1:chatJson[0]["to"].string!, fromFullName1: chatJson[0]["fromFullName"].string!, msg1: chatJson[0]["msg"].string!,date1:dateString,uniqueid1:chatJson[0]["uniqueid"].string!,status1: status,type1: chatJson[0]["type"].string!, file_type1: chatJson[0]["file_type"].string!,file_path1: "")
+                        
+                        
+                     // === change date   sqliteDB.SaveChat(chatJson[0]["to"].string!, from1: chatJson[0]["from"].string!,owneruser1:chatJson[0]["to"].string!, fromFullName1: chatJson[0]["fromFullName"].string!, msg1: chatJson[0]["msg"].string!,date1:nil,uniqueid1:chatJson[0]["uniqueid"].string!,status1: status,type1: chatJson[0]["type"].string!, file_type1: chatJson[0]["file_type"].string!,file_path1: "")
                         
                         
                     }

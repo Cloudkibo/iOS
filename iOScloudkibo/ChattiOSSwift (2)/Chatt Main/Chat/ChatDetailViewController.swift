@@ -1228,20 +1228,21 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
             ////// profileImage.center = CGPointMake(profileImage.center.x, textLable.frame.origin.y + textLable.frame.size.height - profileImage.frame.size.height/2 + 10)
             profileImage.center = CGPointMake(profileImage.center.x, textLable.frame.origin.y + textLable.frame.size.height - profileImage.frame.size.height/2+20)
             textLable.text = "\(msg)"
-            /*
+            
              
              let dateFormatter = NSDateFormatter()
+            dateFormatter.timeZone=NSTimeZone.localTimeZone()
              dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
-             let datens2 = dateFormatter.dateFromString(date2.debugDescription)
-             
-             
+           //  let datens2 = dateFormatter.dateFromString(date2.debugDescription)
+            //2016-09-18T19:13:00.588Z
+             let datens2 = dateFormatter.dateFromString("2016-09-18T19:13:00.588Z")
              
              let formatter = NSDateFormatter()
              formatter.dateStyle = NSDateFormatterStyle.ShortStyle
              formatter.timeStyle = .ShortStyle
              
              let dateString = formatter.stringFromDate(datens2!)
-             */
+            print("dateeeeeee \(dateString)")
             timeLabel.text=date2.debugDescription
         }
         if (msgType.isEqualToString("2")){

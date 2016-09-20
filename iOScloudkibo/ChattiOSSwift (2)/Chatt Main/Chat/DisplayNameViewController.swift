@@ -632,6 +632,28 @@ class DisplayNameViewController: UIViewController {
                                     
                                     ///sqliteDB.SaveChat(<#T##to1: String##String#>, from1: <#T##String#>, owneruser1: <#T##String#>, fromFullName1: <#T##String#>, msg1: <#T##String#>, date1: <#T##String!#>, uniqueid1: <#T##String!#>, status1: <#T##String#>, type1: <#T##String#>, file_type1: <#T##String#>, file_path1: <#T##String#>)
                                     
+                                    
+                                    //===
+                                    
+                                    //====
+                                    
+                                    
+                                    let dateFormatter = NSDateFormatter()
+                                    dateFormatter.timeZone=NSTimeZone.localTimeZone()
+                                    dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
+                                    //  let datens2 = dateFormatter.dateFromString(date2.debugDescription)
+                                    //2016-09-18T19:13:00.588Z
+                                    let datens2 = dateFormatter.dateFromString(UserchatJson["msg"][i]["date"].string!)
+                                    //UserchatJson["msg"][i]["uniqueid"].string!
+                                    //chatJson[0]["from"].string!
+                                    let formatter = NSDateFormatter()
+                                    formatter.dateStyle = NSDateFormatterStyle.ShortStyle
+                                    formatter.timeStyle = .ShortStyle
+                                    
+                                    let dateString = formatter.stringFromDate(datens2!)
+                                    print("dateeeeeee \(dateString)")
+                                    
+                                    
                                     sqliteDB.SaveChat(UserchatJson["msg"][i]["to"].string!, from1: UserchatJson["msg"][i]["from"].string!,owneruser1:UserchatJson["msg"][i]["owneruser"].string! , fromFullName1: UserchatJson["msg"][i]["fromFullName"].string!, msg1: UserchatJson["msg"][i]["msg"].string!,date1:dateString,uniqueid1:UserchatJson["msg"][i]["uniqueid"].string!,status1: updatedStatus, type1: "", file_type1: "",file_path1: "")
                                     
                                     //socketObj.socket.emit("messageStatusUpdate",["status":"","iniqueid":"","sender":""])
