@@ -664,6 +664,7 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
            // socketObj.socket.reconnects=true
         }*/
         
+        print("socket status iss \(socketObj.socket.status)")
         if(socketObj.socket.status == SocketIOClientStatus.Closed)
         {
             socketObj.socket.open()
