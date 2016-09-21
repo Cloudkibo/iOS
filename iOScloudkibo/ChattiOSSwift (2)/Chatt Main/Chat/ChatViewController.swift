@@ -314,20 +314,14 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        delegateRefreshChat=self
         print("Chat ViewController is loadingggggg")
-        do{reachability = try Reachability.reachabilityForInternetConnection()
-            try reachability.startNotifier();
-            //  NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("checkForReachability:"), name:ReachabilityChangedNotification, object: reachability)
-        }
-        catch{
-            print("error in reachability")
-        }
-          NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("checkForReachability:"), name:ReachabilityChangedNotification, object: reachability)
+        
         if(self.accountKit == nil){
             self.accountKit = AKFAccountKit(responseType: AKFResponseType.AccessToken)
         }
     
-        delegateRefreshChat=self
         
       
     
@@ -355,6 +349,14 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
         }
         
         
+        do{reachability = try Reachability.reachabilityForInternetConnection()
+            try reachability.startNotifier();
+            //  NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("checkForReachability:"), name:ReachabilityChangedNotification, object: reachability)
+        }
+        catch{
+            print("error in reachability")
+        }
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("checkForReachability:"), name:ReachabilityChangedNotification, object: reachability)
         
         if (self.accountKit!.currentAccessToken == nil) {
             

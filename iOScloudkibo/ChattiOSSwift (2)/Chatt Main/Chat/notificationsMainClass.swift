@@ -6,7 +6,7 @@
 //  Copyright (c) 2015 MyAppTemplates. All rights reserved.
 //
 
-import Foundation
+/*import Foundation
 
 class notificationsMainClass {
     class var sharedInstance : notificationsMainClass {
@@ -37,3 +37,4 @@ class notificationsMainClass {
         //UIApplication.sharedApplication().scheduleLocalNotification(notification)
     }
 }
+*/

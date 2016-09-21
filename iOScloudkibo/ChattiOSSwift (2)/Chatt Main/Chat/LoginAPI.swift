@@ -446,7 +446,7 @@ class LoginAPI{
             var uniqueid=chatJson[0]["uniqueid"]
             //var dateString=chatJson[0]["date"]
             
-            self.fetchSingleChatMessage(chatJson[0]["uniqueid"].string!)
+            //////self.fetchSingleChatMessage(chatJson[0]["uniqueid"].string!)
             
             //self.addMessage(receivedMsg.description, ofType: "1",date: NSDate().debugDescription)
           

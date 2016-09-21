@@ -167,6 +167,10 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
         print("chat will appear")
         socketObj.socket.emit("logClient","IPHONE-LOG: chat page will appear")
         
+        
+        delegateRefreshChat=self
+        
+        
        /* NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("applicationWillResignActive:"), name:UIApplicationWillResignActiveNotification, object: nil)
         
         //

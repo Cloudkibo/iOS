@@ -902,15 +902,26 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
             // Printout of (userInfo["aps"])["type"]
             print("\nFrom APS-dictionary with key \"singleuniqueid\":  \( singleuniqueid)")
              if  let notifType = userInfo["type"] as? String {
+                print("payload of satus or iOS chat")
                 if(notifType=="status")
                 {
                     updateMessageStatus(singleuniqueid, status: (userInfo["status"] as? String)!)
                 }
                 else
                 {
+                    print("payload of iOS chat")
                     fetchSingleChatMessage(singleuniqueid)
 
                 }
+            }
+            else
+             {
+                print("payload of Android message")
+                //==
+                // this is from android
+                //==
+                fetchSingleChatMessage(singleuniqueid)
+                
             }
             
             // Do your stuff?
@@ -1126,8 +1137,9 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
                         let datens2 = dateFormatter.dateFromString(chatJson[0]["date"].string!)
                         
                         let formatter = NSDateFormatter()
-                        formatter.dateStyle = NSDateFormatterStyle.ShortStyle
-                        formatter.timeStyle = .ShortStyle
+                        formatter.dateFormat = "MM/dd, HH:mm"
+                       /////// formatter.dateStyle = NSDateFormatterStyle.ShortStyle
+                        //////formatter.timeStyle = .ShortStyle
                         
                         let dateString = formatter.stringFromDate(datens2!)
                         print("dateeeeeee \(dateString)")
@@ -1176,7 +1188,7 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
 
 //UIApplicationState state = [[UIApplication sharedApplication] applicationState];
 
-                    if (state == UIApplicationState.Active )
+                    if (state == UIApplicationState.Active || state == UIApplicationState.Inactive)
                     {
                         
                          let systemSoundID: SystemSoundID = 1016
@@ -1199,6 +1211,17 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
                         
                       //  activeViewCont?.loadView()
     
+                    }
+                    
+                    //UIApplicationState state = [[UIApplication sharedApplication] applicationState];
+                    
+                    if (state == UIApplicationState.Background )
+                    {
+                        if(delegateRefreshChat != nil)
+                        {
+                            delegateRefreshChat?.refreshChatsUI("updateUI", data: nil)
+                        }
+   
                     }
  
 

@@ -804,9 +804,9 @@ class MeetingRoomAudio:NSObject,SocketClientDelegateWebRTC,RTCPeerConnectionDele
         if(msg[0]["type"]=="Missed")
         {
             
-            let todoItem = NotificationItem(otherUserName: "\(iamincallWith!)", message: "You have received a missed call", type: "missed call", UUID: "111", deadline: NSDate())
+           /*let todoItem = NotificationItem(otherUserName: "\(iamincallWith!)", message: "You have received a missed call", type: "missed call", UUID: "111", deadline: NSDate())
             notificationsMainClass.sharedInstance.addItem(todoItem) // schedule a local notification to persist this item
-            
+        */
         }
         if(msg[0]=="Conference Call")
         {
