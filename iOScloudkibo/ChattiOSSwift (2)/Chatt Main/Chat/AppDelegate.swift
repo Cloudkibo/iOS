@@ -889,6 +889,11 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
 
     
     func application(application: UIApplication, didReceiveRemoteNotification userInfo: [NSObject : AnyObject], fetchCompletionHandler completionHandler: (UIBackgroundFetchResult) -> Void) {
+        
+        print("receivednotification method called")
+        
+        
+        if (application.applicationState != UIApplicationState.Background) {
        // NSLog("received remote notification \(userInfo)")
         if(socketObj != nil)
         {
@@ -958,7 +963,7 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
          */
        // print("json received is is \(notificationJSON["aps"])")
     }
- 
+    }
  
     /*
     func application(application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: NSData) {
