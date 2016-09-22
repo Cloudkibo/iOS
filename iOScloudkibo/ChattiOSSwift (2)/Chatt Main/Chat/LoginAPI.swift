@@ -1161,6 +1161,8 @@ class LoginAPI{
         let file_name = Expression<String>("file_name")
          let type = Expression<String>("type")
         let from = Expression<String>("from")
+        let to = Expression<String>("to")
+
                  let phone = Expression<String>("phone")
         
         let contactPhone = Expression<String>("contactPhone")
@@ -1173,7 +1175,17 @@ class LoginAPI{
         //self.progressBarDisplayer("Setting Conversations", true)
         print("\(username) is Fetching chat")
         socketObj.socket.emit("logClient","\(username) is Fetching chat")
-        var fetchChatURL=Constants.MainUrl+Constants.fetchMyAllchats
+        
+        //===
+        
+        //===
+        
+        //var fetchChatURL=Constants.MainUrl+Constants.fetchMyAllchats
+        
+        var fetchChatURL=Constants.MainUrl+Constants.partialSync
+        
+        
+        
         //var getUserDataURL=userDataUrl
         
         //  dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND,0))
@@ -1209,7 +1221,15 @@ class LoginAPI{
         //delete table after sending pending chat messages
         //============
             
+         
+            var tableUserChatSQLite=sqliteDB.userschats
             
+            do{
+                try sqliteDB.db.run(tableUserChatSQLite.filter(tableUserChatSQLite[to] != username!).delete())
+            }catch{
+                socketObj.socket.emit("logClient","sqlite chat table refreshed")
+                print("chat table not deleted")
+            }
             
         /*var tableUserChatSQLite=sqliteDB.userschats
         

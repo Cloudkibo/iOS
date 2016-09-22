@@ -49,6 +49,8 @@ class Constants{
     
     static let fetchSingleChat="/api/userchat/getsinglechat" //uniqueid:
     
+    static let partialSync="/api/userchat/partialchatsync"
+    
    // static let connectionstring="Endpoint=sb://cloudkibo.servicebus.windows.net/;SharedAccessKeyName=DefaultFullSharedAccessSignature;SharedAccessKey=arTrXZQGBUeuLYLcwTTzCVqFDN1P3a6VrxA15yvpnqE="
     /*
     private static String phoneContactsURL = "https://www.cloudkibo.com/api/users/searchaccountsbyphone/";

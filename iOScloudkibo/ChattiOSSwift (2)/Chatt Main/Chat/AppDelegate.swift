@@ -147,7 +147,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate,AppDelegateScreenDelegate 
         
         //RESET TEMP
         
-   /*if(username != nil)
+ /*  if(username != nil)
 {
  KeychainWrapper.removeObjectForKey("username")
         KeychainWrapper.removeObjectForKey("loggedFullName")
@@ -220,6 +220,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate,AppDelegateScreenDelegate 
         UIApplication.sharedApplication().registerUserNotificationSettings(pushNotificationSettings)
        }
  
+        if(username != nil && username != "")
+        {
+            print("calling synchronise chat from App Delegate")
+            self.synchroniseChatData()
+        }
+        
         
         
         ///UIApplication.sharedApplication().registerForRemoteNotificationTypes(notificationTypes)

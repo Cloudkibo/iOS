@@ -567,12 +567,26 @@ class DisplayNameViewController: UIViewController {
         {
             socketObj.socket.emit("logClient","\(username) is Fetching chat")
         }
-            var fetchChatURL=Constants.MainUrl+Constants.fetchMyAllchats
+        
+        //var fetchChatURL=Constants.MainUrl+Constants.partialSync
+
+        
+        //===
+        //changing sync logic
+        //===
+        
+           var fetchChatURL=Constants.MainUrl+Constants.fetchMyAllchats
             //var getUserDataURL=userDataUrl
         
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) {
             Alamofire.request(.POST,"\(fetchChatURL)",headers:header,parameters:["user1":username!]).validate(statusCode: 200..<300).responseJSON{response in
                 
+                
+                
+                let to = Expression<String>("to")
+                let from = Expression<Bool>("from")
+                let name = Expression<String?>("name")
+
                 
                 switch response.result {
                 case .Success:
