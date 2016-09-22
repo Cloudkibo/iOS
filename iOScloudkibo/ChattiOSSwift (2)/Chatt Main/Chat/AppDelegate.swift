@@ -1184,6 +1184,7 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
                         let dateString = formatter.stringFromDate(datens2!)
                         print("dateeeeeee \(dateString)")
                         
+                        
                         sqliteDB.SaveChat(chatJson[0]["to"].string!, from1: chatJson[0]["from"].string!,owneruser1:chatJson[0]["to"].string!, fromFullName1: chatJson[0]["fromFullName"].string!, msg1: chatJson[0]["msg"].string!,date1:dateString,uniqueid1:chatJson[0]["uniqueid"].string!,status1: status,type1: chatJson[0]["type"].string!, file_type1: chatJson[0]["file_type"].string!,file_path1: "")
                         
                         
@@ -1265,6 +1266,7 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
         
         if (state == UIApplicationState.Active )
         {
+            print("updating message status when app is avtive")
             
            /* let systemSoundID: SystemSoundID = 1016
             
@@ -1273,6 +1275,7 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
             */
             if(delegateRefreshChat != nil)
             {
+                print("informing UI to repfresh status")
                 delegateRefreshChat?.refreshChatsUI("updateUI", data: nil)
             }
             

@@ -1212,24 +1212,26 @@ class LoginAPI{
         
         print("All chat fetched success")
         socketObj.socket.emit("logClient", "All chat fetched success")
+        print("response data \(response.data)")
         if let data1 = response.result.value {
+            print("data \(data1)")
         let UserchatJson = JSON(data1)
          print("chat fetched JSON: \(UserchatJson)")
         
       
         //===========
-        //delete table after sending pending chat messages
+        //DONT DELETE ANYTHING
         //============
             
          
-            var tableUserChatSQLite=sqliteDB.userschats
+           /* var tableUserChatSQLite=sqliteDB.userschats
             
             do{
                 try sqliteDB.db.run(tableUserChatSQLite.filter(from != username!).delete())
             }catch{
                 socketObj.socket.emit("logClient","sqlite chat table refreshed")
                 print("chat table not deleted")
-            }
+            }*/
             
         /*var tableUserChatSQLite=sqliteDB.userschats
         
