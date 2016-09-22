@@ -1214,7 +1214,7 @@ class LoginAPI{
         socketObj.socket.emit("logClient", "All chat fetched success")
         if let data1 = response.result.value {
         let UserchatJson = JSON(data1)
-        // print("chat fetched JSON: \(json)")
+         print("chat fetched JSON: \(UserchatJson)")
         
       
         //===========
@@ -1225,7 +1225,7 @@ class LoginAPI{
             var tableUserChatSQLite=sqliteDB.userschats
             
             do{
-                try sqliteDB.db.run(tableUserChatSQLite.filter(tableUserChatSQLite[to] != username!).delete())
+                try sqliteDB.db.run(tableUserChatSQLite.filter(from != username!).delete())
             }catch{
                 socketObj.socket.emit("logClient","sqlite chat table refreshed")
                 print("chat table not deleted")
