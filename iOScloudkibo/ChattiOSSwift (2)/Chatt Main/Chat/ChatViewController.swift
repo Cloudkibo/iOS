@@ -340,12 +340,12 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
             //==========
             //DO ON INTERNET CONNECTED
             //===========
-            /*
+            
             if(username != nil && username != "")
             {
             self.synchroniseChatData()
             }
-            */
+            
         }
         
         

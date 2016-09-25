@@ -761,6 +761,15 @@ class DatabaseHandler:NSObject{
         }
         
         do {
+            
+            var alreadyexists=false
+            for res in try sqliteDB.db.prepare(tbl_userchats.filter(uniqueID == uniqueid1))
+            {
+                alreadyexists=true
+            }
+            
+            if(alreadyexists==false)
+{
             let rowid = try db.run(tbl_userchats.insert(fromFullName<-fromFullName1,
                 msg<-msg1,
                 owneruser<-owneruser1,
@@ -774,6 +783,11 @@ class DatabaseHandler:NSObject{
                 file_type<-file_type1,
                 file_path<-file_path1
 ))
+            }
+            else
+            {
+                print("chat data already available, avoid duplicates")
+            }
             //////print("inserted id: \(rowid)")
         } catch {
             print("insertion failed: \(error)")

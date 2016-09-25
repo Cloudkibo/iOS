@@ -220,12 +220,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate,AppDelegateScreenDelegate 
         UIApplication.sharedApplication().registerUserNotificationSettings(pushNotificationSettings)
        }
  
+        
+        //Moving to on-connect
+        
+        /*
         if(username != nil && username != "")
         {
             print("calling synchronise chat from App Delegate")
             self.synchroniseChatData()
         }
-        
+        */
         
         
         ///UIApplication.sharedApplication().registerForRemoteNotificationTypes(notificationTypes)
@@ -897,9 +901,14 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
     func application(application: UIApplication, didReceiveRemoteNotification userInfo: [NSObject : AnyObject], fetchCompletionHandler completionHandler: (UIBackgroundFetchResult) -> Void) {
         
         print("receivednotification method called")
+        print("app state application is \(UIApplication.sharedApplication().applicationState.rawValue)")
+        print("app state is \(application.applicationState.rawValue)")
+        print("app state value background is \(UIApplicationState.Background.rawValue)")
+        print("app state value inactive is \(UIApplicationState.Inactive.rawValue)")
+        print("app state value active is \(UIApplicationState.Active.rawValue)")
+       
         
-        
-        if (application.applicationState != UIApplicationState.Background) {
+      ////////  if (application.applicationState != UIApplicationState.Background) {
        // NSLog("received remote notification \(userInfo)")
         if(socketObj != nil)
         {
@@ -968,7 +977,7 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
          +      }
          */
        // print("json received is is \(notificationJSON["aps"])")
-    }
+ ///////   }
     }
  
     /*
@@ -1107,7 +1116,7 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
                 //**********
                 
                 if(account != nil){
-                    var url=Constants.MainUrl+Constants.getContactsList
+                  //  var url=Constants.MainUrl+Constants.getContactsList
                     
                     let header:[String:String]=["kibo-token":(accountKit!.currentAccessToken!.tokenString)]
                     
@@ -1178,12 +1187,12 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
                         let datens2 = dateFormatter.dateFromString(chatJson[0]["date"].string!)
                         
                         let formatter = NSDateFormatter()
-                        formatter.dateStyle = NSDateFormatterStyle.ShortStyle
-                        formatter.timeStyle = .ShortStyle
+                        formatter.dateFormat = "MM/dd, HH:mm"
+                        /////// formatter.dateStyle = NSDateFormatterStyle.ShortStyle
+                        //////formatter.timeStyle = .ShortStyle
                         
                         let dateString = formatter.stringFromDate(datens2!)
                         print("dateeeeeee \(dateString)")
-                        
                         
                         sqliteDB.SaveChat(chatJson[0]["to"].string!, from1: chatJson[0]["from"].string!,owneruser1:chatJson[0]["to"].string!, fromFullName1: chatJson[0]["fromFullName"].string!, msg1: chatJson[0]["msg"].string!,date1:dateString,uniqueid1:chatJson[0]["uniqueid"].string!,status1: status,type1: chatJson[0]["type"].string!, file_type1: chatJson[0]["file_type"].string!,file_path1: "")
                         
