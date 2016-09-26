@@ -677,8 +677,23 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
         print("socket status iss \(socketObj.socket.status)")
         if(socketObj.socket.status == SocketIOClientStatus.Closed)
         {
-            socketObj.socket.open()
+            print("opening socket")
+            socketObj=nil
+            socketObj=LoginAPI(url:"\(Constants.MainUrl)")
+            ///socketObj.connect()
+            socketObj.addHandlers()
+            socketObj.addWebRTCHandlers()
+            
+          //  socketObj.socket.connect()
+           // socketObj.socket.open()
         }
+        
+        if(socketObj == nil)
+        {
+          print("rsign active when socket for nil")
+        }
+        
+       
        /*  if(socketObj == nil)
         {print("connecting socket in")
             print("socket is nillll", terminator: "")
