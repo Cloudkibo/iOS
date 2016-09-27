@@ -649,7 +649,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
             
             //for tblContacts in try sqliteDB.db.prepare(tbl_userchats.filter(owneruser==owneruser1)){
             //print("queryy runned count is \(tbl_contactslists.count)")
-            for tblContacts in try sqliteDB.db.prepare(tbl_userchats.filter(to==selecteduser || from==selecteduser)){
+            for tblContacts in try sqliteDB.db.prepare(tbl_userchats.filter(to==selecteduser || from==selecteduser).order(date.asc)){
                 /*print(tblContacts[to])
                 print(tblContacts[from])
                 print(tblContacts[msg])
