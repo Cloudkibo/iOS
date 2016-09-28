@@ -123,6 +123,19 @@ class AppDelegate: UIResponder, UIApplicationDelegate,AppDelegateScreenDelegate 
         print("========launchhhhhhhhh=====")
         print(NSDate())
         
+        print("notifications ... \(launchOptions?.debugDescription)")
+        
+        /*
+         // Handle launching from a notification
+         UILocalNotification *locationNotification = [launchOptions objectForKey:UIApplicationLaunchOptionsLocalNotificationKey];
+         if (locationNotification) {
+         // Set icon badge number to zero
+         application.applicationIconBadgeNumber = 0;
+         }
+ 
+         */
+        
+        
      /*   UserNotificationCenter.current().requestAuthorization([.alert, .sound, .badge]
             { (granted, error) in
                // ...
@@ -219,6 +232,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate,AppDelegateScreenDelegate 
         {
         UIApplication.sharedApplication().registerUserNotificationSettings(pushNotificationSettings)
        }
+        
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("contactChanged:"), name: CNContactStoreDidChangeNotification, object: nil)
+
+        /*[[NSNotificationCenter defaultCenter] addObserver:self
+            selector:@selector(aWindowBecameMain:)
+        name:NSWindowDidBecomeMainNotification object:nil];*/
  
         
         //Moving to on-connect
@@ -342,6 +361,16 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
                 self.synchroniseChatData()
             }
         }
+    }
+    
+    func contactChanged(notification : NSNotification)
+    {
+        print("contact changed notification received")
+        var userInfo: NSDictionary!
+        userInfo = notification.userInfo
+        print(userInfo.allKeys.debugDescription)
+        
+        
     }
 
     func synchroniseChatData()
@@ -1078,11 +1107,12 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
     //self.window?.rootViewController!.presentViewController(alert, animated: true, completion: nil)
     }
     
-   /* func application(application: UIApplication, didReceiveLocalNotification notification: UILocalNotification) {
-        application.applicationIconBadgeNumber = 0
+    func application(application: UIApplication, didReceiveLocalNotification notification: UILocalNotification) {
+        ///application.applicationIconBadgeNumber = 0
       //  UIApplication.sharedApplication().presentLocalNotificationNow(notification)
+        print("got local notification")
         socketObj.socket.emit("logClient","IPHONE-LOG: call notification received in background")
-    }*/
+    }
     
     
   
