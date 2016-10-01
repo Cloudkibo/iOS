@@ -233,7 +233,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate,AppDelegateScreenDelegate 
         UIApplication.sharedApplication().registerUserNotificationSettings(pushNotificationSettings)
        }
         
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("contactChanged:"), name: CNContactStoreDidChangeNotification, object: nil)
+        /////NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("contactChanged:"), name: CNContactStoreDidChangeNotification, object: nil)
 
         /*[[NSNotificationCenter defaultCenter] addObserver:self
             selector:@selector(aWindowBecameMain:)
@@ -363,15 +363,17 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
         }
     }
     
-    func contactChanged(notification : NSNotification)
+   /* func contactChanged(notification : NSNotification)
     {
         print("contact changed notification received")
         var userInfo: NSDictionary!
         userInfo = notification.userInfo
         print(userInfo.allKeys.debugDescription)
+        var sync=syncContactService.init()
+        sync.startContactsRefresh()
         
         
-    }
+    }*/
 
     func synchroniseChatData()
     {
@@ -549,14 +551,15 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
         // Use this method to pause ongoing tasks, disable timers, and throttle down OpenGL ES frame rates. Games should use this method to pause the game.
        
         
-        if(socketObj != nil)
+       /* --------- if(socketObj != nil)
         {   //// socketObj.socket.close()
             socketObj.socket.disconnect()
             socketObj.socket.close()
           /////  socketObj=nil
         }
-        
-        /* if(socketObj == nil)
+ 
+ */
+ /* if(socketObj == nil)
         {
             print("socket is nillll", terminator: "")
             socketObj=LoginAPI(url:"\(Constants.MainUrl)")
@@ -589,6 +592,14 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
             socketObj.addHandlers()
             socketObj.addWebRTCHandlers()
         }*/
+        
+        
+        if(socketObj != nil)
+        {   //// socketObj.socket.close()
+            socketObj.socket.disconnect()
+            socketObj.socket.close()
+            /////  socketObj=nil
+        }
         
     }
     

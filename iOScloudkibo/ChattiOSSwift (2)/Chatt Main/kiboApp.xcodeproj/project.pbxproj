@@ -18,6 +18,7 @@
 		7122F96E1D500FFA00EBBCED /* textDocumentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7122F96D1D500FFA00EBBCED /* textDocumentViewController.swift */; };
 		7122F9701D54B7FF00EBBCED /* NetworkingManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7122F96F1D54B7FF00EBBCED /* NetworkingManager.swift */; };
 		71232D5E1D65D8C5000DE13E /* WindowsAzureMessaging.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 71232D5D1D65D8C5000DE13E /* WindowsAzureMessaging.framework */; };
+		7127CC911D9D0C800047683B /* syncContactService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7127CC901D9D0C800047683B /* syncContactService.swift */; };
 		7127FF591D396A6A006375E8 /* numberOfFavouritesCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7127FF581D396A6A006375E8 /* numberOfFavouritesCell.swift */; };
 		713D51BD1CC11896007E0B47 /* Accounts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 713D51881CC11896007E0B47 /* Accounts.swift */; };
 		713D51BE1CC11896007E0B47 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 713D51891CC11896007E0B47 /* AppDelegate.swift */; };
@@ -281,6 +282,7 @@
 		7122F96D1D500FFA00EBBCED /* textDocumentViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = textDocumentViewController.swift; sourceTree = "<group>"; };
 		7122F96F1D54B7FF00EBBCED /* NetworkingManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkingManager.swift; sourceTree = "<group>"; };
 		71232D5D1D65D8C5000DE13E /* WindowsAzureMessaging.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = WindowsAzureMessaging.framework; sourceTree = "<group>"; };
+		7127CC901D9D0C800047683B /* syncContactService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = syncContactService.swift; sourceTree = "<group>"; };
 		7127FF581D396A6A006375E8 /* numberOfFavouritesCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = numberOfFavouritesCell.swift; sourceTree = "<group>"; };
 		713080541B825BB00037CB7E /* SwiftyJSON.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SwiftyJSON.xcodeproj; path = SwiftyJSON/SwiftyJSON.xcodeproj; sourceTree = "<group>"; };
 		713D51881CC11896007E0B47 /* Accounts.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Accounts.swift; sourceTree = "<group>"; };
@@ -578,6 +580,7 @@
 				71C1A2CE1D768ABC00FC5157 /* GroupChatingDetailController.swift */,
 				71EA60701D77EC7800117B55 /* GroupInfo3ViewController.swift */,
 				713F3DD61D7A88990072C9E9 /* ArchivedChatsViewController.swift */,
+				7127CC901D9D0C800047683B /* syncContactService.swift */,
 			);
 			path = Chat;
 			sourceTree = "<group>";
@@ -1044,6 +1047,7 @@
 				718B8D911CC11A9B000B4AB2 /* SocketStringReader.swift in Sources */,
 				718B8D931CC11A9B000B4AB2 /* SwiftRegex.swift in Sources */,
 				713D51CC1CC11896007E0B47 /* ContactsInviteCell.swift in Sources */,
+				7127CC911D9D0C800047683B /* syncContactService.swift in Sources */,
 				713D51CA1CC11896007E0B47 /* contactList.swift in Sources */,
 				713F39711D74459600F3A9C4 /* EPContactsPicker.swift in Sources */,
 				713F396E1D74459600F3A9C4 /* EPContact.swift in Sources */,
@@ -1291,7 +1295,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = iCloud.MyAppTemplates.cloudkibo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "691b786d-f744-4d0c-b19e-200399569759";
+				PROVISIONING_PROFILE = "90c37bb4-c956-40e5-a21c-b5b8428703d9";
 				SCAN_ALL_SOURCE_FILES_FOR_INCLUDES = NO;
 				SDKROOT = iphoneos;
 				SWIFT_OBJC_BRIDGING_HEADER = "Chat/Chat-Bridging-Header.h";
@@ -1340,7 +1344,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = iCloud.MyAppTemplates.cloudkibo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "691b786d-f744-4d0c-b19e-200399569759";
+				PROVISIONING_PROFILE = "90c37bb4-c956-40e5-a21c-b5b8428703d9";
 				SCAN_ALL_SOURCE_FILES_FOR_INCLUDES = NO;
 				SDKROOT = iphoneos;
 				SWIFT_OBJC_BRIDGING_HEADER = "Chat/Chat-Bridging-Header.h";

@@ -358,6 +358,13 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
         }
         NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("checkForReachability:"), name:ReachabilityChangedNotification, object: reachability)
         
+        
+        
+        
+        
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("contactChanged:"), name: CNContactStoreDidChangeNotification, object: nil)
+        
+
         if (self.accountKit!.currentAccessToken == nil) {
             
             //specify AKFResponseType.AccessToken
@@ -506,6 +513,18 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
         }
     }
 
+    
+    func contactChanged(notification : NSNotification)
+    {
+        print("contact changed notification received")
+        var userInfo: NSDictionary!
+        userInfo = notification.userInfo
+        print(userInfo.allKeys.debugDescription)
+      ////  var sync=syncContactService.init()
+        ////sync.startContactsRefresh()
+        
+        
+    }
     
     
     func loginSegueMethod()

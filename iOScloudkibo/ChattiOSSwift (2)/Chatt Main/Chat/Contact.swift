@@ -32,7 +32,9 @@ class iOSContact{
         //deleting all records
         do
         {
+            print("deleting records")
             try sqliteDB.db.run(tbl_allcontacts.delete())
+print("now count is \(tbl_allcontacts.count)")
         }
         catch
             {
@@ -61,12 +63,20 @@ class iOSContact{
         uniqueidentifierList.removeAll()
         
         print("inside fetchhhhh")
+        
+        //////===new sync contacts
+        
+        
+        contacts.removeAll()
+        contacts = [CNContact]()
         let contactStore = CNContactStore()
         
         keys = [CNContactGivenNameKey, CNContactFamilyNameKey, CNContactEmailAddressesKey, CNContactPhoneNumbersKey, CNContactImageDataAvailableKey,CNContactThumbnailImageDataKey, CNContactImageDataKey]
         do {
             /////let contactStore = AppDelegate.getAppDelegate().contactStore
             try contactStore.enumerateContactsWithFetchRequest(CNContactFetchRequest(keysToFetch: keys)) { (contact, pointer) -> Void in
+                
+                print("appending to contacts")
                 contacts.append(contact)
                 
             }
@@ -80,7 +90,7 @@ class iOSContact{
             socketObj.socket.emit("logClient","IPHONE-LOG: \(username) received \(contacts.count) contacts from iphone contactlist")
             for(var i=0;i<contacts.count;i++){
                 
-                
+                print("inside contacts filling for loop count is \(contacts.count)")
                 do{
                     uniqueidentifierList.append(contacts[i].identifier)
                     if(try contacts[i].givenName != "")
@@ -567,7 +577,10 @@ class iOSContact{
                 print("**************** \(self.notAvailableContacts)")
                 completion(result: self.notAvailableContacts)
                 
+                if(self.delegate != nil)
+{
                 self.delegate?.receivedContactsUpdateUI()
+}
             }
             else
             {
