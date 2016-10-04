@@ -480,8 +480,10 @@ class LoginAPI{
             
             
             //{status : '<delivered or seen>', uniqueid : '<unique id of message>', sender : '<cell number of sender>'}
+           
             
-            socketObj.socket.emitWithAck("messageStatusUpdate", ["status":status,"uniqueid":chatJson[0]["uniqueid"].string!,"sender": chatJson[0]["from"].string!])(timeoutAfter: 0){data in
+            //old socket logic will do in received notifications method fetch chat
+         /*   socketObj.socket.emitWithAck("messageStatusUpdate", ["status":status,"uniqueid":chatJson[0]["uniqueid"].string!,"sender": chatJson[0]["from"].string!])(timeoutAfter: 0){data in
                 var chatmsg=JSON(data)
                 print(data[0])
                 print(chatmsg[0])
@@ -491,6 +493,7 @@ class LoginAPI{
                 socketObj.socket.emit("logClient","\(username) chat status emitted")
                 }
                 }
+            */
             
             
             
@@ -1482,7 +1485,9 @@ class LoginAPI{
                 //sqliteDB.SaveChat(pendingchats[to], from1:pendingchats[from],owneruser1: pendingchats[from], fromFullName1: pendingchats[fromFullName], msg1:pendingchats[msg],date1: nil,uniqueid1: pendingchats[uniqueid], status1: statusNow)
                 
                 
-                socketObj.socket.emitWithAck("im",["room":"globalchatroom","stanza":imParas])(timeoutAfter: 1500000)
+                managerFile.sendChatMessage(imParas)
+                //OLD SOCKET LOGIC
+                /*socketObj.socket.emitWithAck("im",["room":"globalchatroom","stanza":imParas])(timeoutAfter: 1500000)
                     {data in
                         print("chat ack received \(data)")
                         // statusNow="sent"
@@ -1491,7 +1496,7 @@ class LoginAPI{
                         print(chatmsg[0])
                         sqliteDB.UpdateChatStatus(chatmsg[0]["uniqueid"].string!, newstatus: chatmsg[0]["status"].string!)
                         
-                }
+                }*/
                 
                 
                 
