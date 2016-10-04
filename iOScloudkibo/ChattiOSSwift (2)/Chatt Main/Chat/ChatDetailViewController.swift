@@ -663,6 +663,8 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
                     
                     sqliteDB.saveMessageStatusSeen("seen", sender1: tblContacts[from], uniqueid1: tblContacts[uniqueid])
                     
+                    
+                    //OLD SOCKET LOGIC OF SENDING CHAT STATUS
                     socketObj.socket.emitWithAck("messageStatusUpdate", ["status":"seen","uniqueid":tblContacts[uniqueid],"sender": tblContacts[from]])(timeoutAfter: 15000){data in
                         var chatmsg=JSON(data)
                         
@@ -2664,6 +2666,60 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
                 }});
         }
     }
+    
+    
+    
+    func sendChatMessage(chatstanza:[String:String])
+    {
+        
+        let queue = dispatch_queue_create("com.kibochat.manager-response-queue", DISPATCH_QUEUE_CONCURRENT)
+        
+        var url=Constants.MainUrl+Constants.sendChatURL
+        let request = Alamofire.request(.POST, "\(url)", parameters: chatstanza,headers:header)
+        request.response(
+            queue: queue,
+            responseSerializer: Request.JSONResponseSerializer(options: .AllowFragments),
+            completionHandler: { response in
+                // You are now running on the concurrent `queue` you created earlier.
+                print("Parsing JSON on thread: \(NSThread.currentThread()) is main thread: \(NSThread.isMainThread())")
+                
+                // Validate your JSON response and convert into model objects if necessary
+                print(response.result.value) //status, uniqueid
+                
+                // To update anything on the main thread, just jump back on like so.
+                
+                if(response.response?.statusCode==200)
+                {
+                
+                print("chat ack received")
+                var statusNow="sent"
+                ///var chatmsg=JSON(data)
+               /// print(data[0])
+                ///print(chatmsg[0])
+                    print("chat sent unikque id \(chatstanza["uniqueid"])")
+                    
+                sqliteDB.UpdateChatStatus(chatstanza["uniqueid"]!, newstatus: "sent")
+                
+        
+                    
+                
+                
+                
+                dispatch_async(dispatch_get_main_queue()) {
+                    print("Am I back on the main thread: \(NSThread.isMainThread())")
+                    
+                    
+                    self.retrieveChatFromSqlite(self.selectedContact)
+
+                    
+            
+                    
+                }
+                }
+            }
+        )
+    }
+    
     @IBAction func postBtnTapped() {
         
         
@@ -2719,6 +2775,11 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
         sqliteDB.SaveChat("\(selectedContact)", from1: username!, owneruser1: username!, fromFullName1: displayname, msg1: txtFldMessage.text!, date1: nil, uniqueid1: uniqueID, status1: statusNow, type1: "chat", file_type1: "", file_path1: "")
        // sqliteDB.SaveChat("\(selectedContact)", from1: "\(username!)",owneruser1: "\(username!)", fromFullName1: "\(loggedFullName!)", msg1: "\(txtFldMessage.text!)",date1: nil,uniqueid1: uniqueID, status1: statusNow)
         
+       
+        self.sendChatMessage(imParas)
+        
+        //OLD SOCKET LOGIC OF SENDING MESSAGES
+        /*
         socketObj.socket.emitWithAck("im",["room":"globalchatroom","stanza":imParas])(timeoutAfter: 150000)
         {data in
             
@@ -2735,7 +2796,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
             
             
         }
-        
+        */
         
         //////
         

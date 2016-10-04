@@ -57,4 +57,17 @@ class Constants{
     private static String emailContactsURL = "https://www.cloudkibo.com/api/users/searchaccountsbyemail/";
     private static String inviteContactsURL = "https://www.cloudkibo.com/api/users/invitebymultipleemail/";
     */
+    
+    
+
+    static let sendChatURL="/api/userchat/save2" //chat stanza
+    static let sendChatStatusURL="/api/userchat/updateStatus" //uniqueid,sender,status
+    
+    
+    
+    
+    
+    
+    
+    
 }

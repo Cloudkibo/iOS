@@ -19,6 +19,11 @@ class NetworkingLibAlamofire{
     {
         
     }
+    
+    
+    
+   
+    
     func sendRequestGetWithoutParameters(method:String,url:String)->JSON
     {
         print(url)

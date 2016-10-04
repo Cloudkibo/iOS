@@ -38,11 +38,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Chat/NetworkingLibAlamofire.swift"
-            timestampString = "467051634.533289"
+            timestampString = "497271911.164403"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "87"
-            endingLineNumber = "87"
+            startingLineNumber = "92"
+            endingLineNumber = "92"
             landmarkName = "sendRequestPOST(_:url:parameters1:)"
             landmarkType = "5">
          </BreakpointContent>

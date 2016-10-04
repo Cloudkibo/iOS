@@ -751,7 +751,10 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
         //socketObj.socket.disconnect(fast: true)
         //socketObj.socket.close(fast: true)
     }
-    func fetchNewToken()
+    
+    
+    
+    /*func fetchNewToken()
     {let tbl_accounts = sqliteDB.accounts
         var url=Constants.MainUrl+Constants.authentictionUrl
         var param:[String:String]=["username": username,"password":password!]
@@ -894,7 +897,7 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
         
     }
     
-    
+    */
     /*
      
      SBNotificationHub* hub = [[SBNotificationHub alloc] initWithConnectionString:HUBLISTENACCESS
