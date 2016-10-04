@@ -429,6 +429,9 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
     }
     
 
+    
+    
+    
     func sendPendingChatMessages(completion:(result:Bool)->())
     {
         print("checkin here inside pending chat messages.....")
@@ -468,7 +471,13 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
                 print("", terminator: "")
                 
                 //////// if(socketObj != nil){
-                socketObj.socket.emitWithAck("im",["room":"globalchatroom","stanza":imParas])(timeoutAfter: 1500000)
+                
+                managerFile.sendChatMessage(imParas)
+               //OLD SOCKET  LOGIC OF SENDING PENDING MESSAGES
+                
+                
+                
+                /*socketObj.socket.emitWithAck("im",["room":"globalchatroom","stanza":imParas])(timeoutAfter: 1500000)
                 {data in
                     print("chat ack received \(data)")
                     // statusNow="sent"
@@ -478,6 +487,8 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
                     sqliteDB.UpdateChatStatus(chatmsg[0]["uniqueid"].string!, newstatus: chatmsg[0]["status"].string!)
                     
                 }
+ 
+ */
                 /////  }
                 
                 
@@ -492,8 +503,13 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
             
             for statusMessages in try sqliteDB.db.prepare(tbl_messageStatus)
             {
-             if(socketObj != nil){
-                socketObj.socket.emitWithAck("messageStatusUpdate", ["status":statusMessages[status],"uniqueid":statusMessages[uniqueid],"sender": statusMessages[sender]])(timeoutAfter: 15000){data in
+            // if(socketObj != nil){
+                
+                
+                managerFile.sendChatStatusUpdateMessage(statusMessages[uniqueid],status: statusMessages[status],sender: statusMessages[sender])
+                
+                //OLD LOGIC OF SOCKET MESSAGE STATUS UPDATES
+                /*socketObj.socket.emitWithAck("messageStatusUpdate", ["status":statusMessages[status],"uniqueid":statusMessages[uniqueid],"sender": statusMessages[sender]])(timeoutAfter: 15000){data in
                     var chatmsg=JSON(data)
                     
                     print(data[0])
@@ -506,7 +522,8 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
                     socketObj.socket.emit("logClient","\(username) pending seen statuses emitted")
                     
                 }
-              }
+                */
+              //}
                 
             }
             if(socketObj != nil){
@@ -1323,6 +1340,9 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
         //var chatmsg=JSON(data)
         //print(data[0])
         //print(chatmsg[0])
+       
+        
+        
         sqliteDB.UpdateChatStatus(uniqueID, newstatus: status)
         
         

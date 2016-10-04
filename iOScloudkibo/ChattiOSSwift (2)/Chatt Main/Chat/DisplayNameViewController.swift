@@ -671,15 +671,22 @@ class DisplayNameViewController: UIViewController {
                                     sqliteDB.SaveChat(UserchatJson["msg"][i]["to"].string!, from1: UserchatJson["msg"][i]["from"].string!,owneruser1:UserchatJson["msg"][i]["owneruser"].string! , fromFullName1: UserchatJson["msg"][i]["fromFullName"].string!, msg1: UserchatJson["msg"][i]["msg"].string!,date1:dateString,uniqueid1:UserchatJson["msg"][i]["uniqueid"].string!,status1: updatedStatus, type1: "", file_type1: "",file_path1: "")
                                     
                                     //socketObj.socket.emit("messageStatusUpdate",["status":"","iniqueid":"","sender":""])
-                                    if(socketObj != nil)
-                                    {
+                                   // if(socketObj != nil)
+                                    //{
+                                    
+                                    
+                                    managerFile.sendChatStatusUpdateMessage(UserchatJson["msg"][i]["uniqueid"].string!, status: updatedStatus, sender: UserchatJson["msg"][i]["from"].string!)
+                                    //OLD SOCKET LOGIC, NO UPDATE CHANGED COZ TABLE IS NEW
+                                    /*
                                     socketObj.socket.emitWithAck("messageStatusUpdate", ["status":updatedStatus,"uniqueid":UserchatJson["msg"][i]["uniqueid"].string!,"sender": UserchatJson["msg"][i]["from"].string!])(timeoutAfter: 0){data in
                                         var chatmsg=JSON(data)
                                         print(data[0])
                                         print(chatmsg[0])
                                         print("chat status emitted")
                                         socketObj.socket.emit("logClient","\(username) chat status emitted")
-                                    }
+ 
+ *?
+                                    //}
                                     }
                                     
                                     

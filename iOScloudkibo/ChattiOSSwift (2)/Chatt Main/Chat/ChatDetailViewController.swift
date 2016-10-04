@@ -663,9 +663,9 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
                     
                     sqliteDB.saveMessageStatusSeen("seen", sender1: tblContacts[from], uniqueid1: tblContacts[uniqueid])
                     
-                    
+                    sendChatStatusUpdateMessage(tblContacts[uniqueid],status: "seen",sender: tblContacts[from])
                     //OLD SOCKET LOGIC OF SENDING CHAT STATUS
-                    socketObj.socket.emitWithAck("messageStatusUpdate", ["status":"seen","uniqueid":tblContacts[uniqueid],"sender": tblContacts[from]])(timeoutAfter: 15000){data in
+                  /*  socketObj.socket.emitWithAck("messageStatusUpdate", ["status":"seen","uniqueid":tblContacts[uniqueid],"sender": tblContacts[from]])(timeoutAfter: 15000){data in
                         var chatmsg=JSON(data)
                         
                         print(data[0])
@@ -678,6 +678,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
                         socketObj.socket.emit("logClient","\(username) chat status emitted")
                         
                     }
+                    */
                 }
                 
                 if (tblContacts[from]==username!)
@@ -2720,6 +2721,54 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
         )
     }
     
+    
+    
+    func sendChatStatusUpdateMessage(uniqueid:String,status:String,sender:String)
+    {
+        
+        let queue = dispatch_queue_create("com.kibochat.manager-response-queue", DISPATCH_QUEUE_CONCURRENT)
+        
+        var url=Constants.MainUrl+Constants.sendChatStatusURL
+        let request = Alamofire.request(.POST, "\(url)", parameters: ["uniqueid":uniqueid,"sender":sender,"status":status],headers:header)
+        request.response(
+            queue: queue,
+            responseSerializer: Request.JSONResponseSerializer(options: .AllowFragments),
+            completionHandler: { response in
+                // You are now running on the concurrent `queue` you created earlier.
+                print("Parsing JSON on thread: \(NSThread.currentThread()) is main thread: \(NSThread.isMainThread())")
+                
+                // Validate your JSON response and convert into model objects if necessary
+                print(response.result.value!) //status, uniqueid
+                
+                
+                // To update anything on the main thread, just jump back on like so.
+                
+                if(response.response?.statusCode==200)
+                {
+                    var resJSON=JSON(response.result.value!)
+                    print("json is \(resJSON)")
+                    
+                    
+                    dispatch_async(dispatch_get_main_queue()) {
+                        print("Am I back on the main thread: \(NSThread.isMainThread())")
+                        print("uniqueid is \(resJSON["uniqueid"].string!)")
+                        sqliteDB.removeMessageStatusSeen(resJSON["uniqueid"].string!)
+                        print("chat message status ack received")
+                        
+                        //print(data[0]["status"]!!.string!+" ... "+data[0]["uniqueid"]!!.string!)
+                        print("chat status seen emitted")
+                        
+                        socketObj.socket.emit("logClient","\(username) chat status emitted")
+                        
+                        
+
+                        
+                        
+                    }
+                }
+            }
+        )
+    }
     @IBAction func postBtnTapped() {
         
         
