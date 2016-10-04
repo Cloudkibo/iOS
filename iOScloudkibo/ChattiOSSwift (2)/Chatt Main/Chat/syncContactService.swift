@@ -93,12 +93,19 @@ class syncContactService
     print("error 123")
     }
     
-    })})})})})})
+    })})})})})
+    
+    })
+            
+            addressbookChangedNotifReceived=false
         }
         else
         {
             print("error: accountkit not initialised yet in sync contacts")
         }
+        
+        
+        
     }
     
     
@@ -195,7 +202,13 @@ class syncContactService
     
     func fetchContactsFromDevice(completion: (result:Bool)->())
     {
+        
+       /// var newcontactsList=iOSContact(keys: [CNContactGivenNameKey, CNContactFamilyNameKey, CNContactEmailAddressesKey, CNContactPhoneNumbersKey])
+        
         contactsList.fetch(){ (result) -> () in
+            
+            emailList.removeAll()
+            
             print("got contacts from device")
             if(socketObj != nil)
             {
@@ -216,6 +229,8 @@ class syncContactService
     {
         contactsList.searchContactsByPhone(emailList)
         { (result2) -> () in
+            
+            notAvailableEmails.removeAll()
             if(socketObj != nil)
             {
                 socketObj.socket.emit("logClient", "received contacts from cloudkibo server")

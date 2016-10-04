@@ -24,7 +24,7 @@ import AVFoundation
 
 
 
-
+var addressbookChangedNotifReceived=false
 var aaaaa:SBNotificationHub!
 var uploadInfo:NSMutableArray!
  var managerFile = NetworkingManager.sharedManager

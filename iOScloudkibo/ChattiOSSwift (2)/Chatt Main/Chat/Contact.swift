@@ -67,8 +67,8 @@ print("now count is \(tbl_allcontacts.count)")
         //////===new sync contacts
         
         
-        contacts.removeAll()
-        contacts = [CNContact]()
+        //contacts.removeAll()
+        ///contacts = [CNContact]()
         let contactStore = CNContactStore()
         
         keys = [CNContactGivenNameKey, CNContactFamilyNameKey, CNContactEmailAddressesKey, CNContactPhoneNumbersKey, CNContactImageDataAvailableKey,CNContactThumbnailImageDataKey, CNContactImageDataKey]
@@ -300,9 +300,78 @@ print("now count is \(tbl_allcontacts.count)")
             try contactStore.enumerateContactsWithFetchRequest(CNContactFetchRequest(keysToFetch: keys)) { (contact, pointer) -> Void in
                 contacts.append(contact)
                 
+                    
+                    
+                    do{
+                        
+                        if(try contact.givenName != "")
+                        {
+                            nameList.append(contact.givenName)
+                            print(contact.givenName)
+                        }
+                        
+                        
+                    }
+                    catch(let error)
+                    {
+                        print("error: \(error)")
+                        socketObj.socket.emit("logClient", "error in fetching contact name: \(error)")
+                    }
+                    
+                    
+                    
+                    do{
+                        if let phone = try contact.phoneNumbers.first?.value as! CNPhoneNumber!
+                        {
+                            
+                        }
+                        
+                    }
+                    catch(let error)
+                    {
+                        print("error: \(error)")
+                        socketObj.socket.emit("logClient", "error in fetching phone: \(error)")
+                    }
+                    
+                    
+                    /*if( phone != ""  && phone != nil)
+                     {
+                     phonesList.append(phone.stringValue)
+                     print(phone.stringValue)
+                     }*/
+                    
+                    do{
+                        let em = try contact.emailAddresses.first
+                        if(em != nil && em != "")
+                        {
+                            print(em?.label)
+                            print(em?.value)
+                            emails.append(em!.value as! String)
+                        }
+                        
+                        
+                    }
+                    catch(let error)
+                    {
+                        print("error: \(error)")
+                        socketObj.socket.emit("logClient", "error in fetching email address: \(error)")
+                    }
+                    
+                    
+                    //print(self.contacts[i].emailAddresses.first!.value)
+                    ////self.emails.append(phone.stringValue)
+                    // print(self.emails[i])
+                
+                completion(result: emails)
+            }
+        }
+            catch(let error)
+            {
+                print("error: \(error)")
+                socketObj.socket.emit("logClient", "error in fetching email address: \(error)")
             }
             
-            
+           /*
             print(contacts.first?.givenName)
             // dispatch_async(dispatch_get_main_queue(), { () -> Void in
             
@@ -390,7 +459,7 @@ print("now count is \(tbl_allcontacts.count)")
           //  print("... ... \(error.localizedFailureReason)")
             
         }
-        
+        */
         //return emails
         
     }

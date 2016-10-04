@@ -517,11 +517,18 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
     func contactChanged(notification : NSNotification)
     {
         print("contact changed notification received")
+        if(addressbookChangedNotifReceived==false)
+{
+    
+    addressbookChangedNotifReceived=true
         var userInfo: NSDictionary!
         userInfo = notification.userInfo
+    print(userInfo)
         print(userInfo.allKeys.debugDescription)
-      ////  var sync=syncContactService.init()
-        ////sync.startContactsRefresh()
+        var sync=syncContactService.init()
+        sync.startContactsRefresh()
+
+}
         
         
     }
