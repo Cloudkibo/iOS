@@ -527,6 +527,7 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
         print(userInfo.allKeys.debugDescription)
         var sync=syncContactService.init()
         sync.startContactsRefresh()
+    tblForChat.reloadData()
 
 }
         

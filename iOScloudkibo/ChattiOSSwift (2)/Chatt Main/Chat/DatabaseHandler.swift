@@ -212,7 +212,7 @@ class DatabaseHandler:NSObject{
         self.allcontacts = Table("allcontacts")
         do{
             try db.run(allcontacts.create(ifNotExists: true) { t in     // CREATE TABLE "accounts" (
-                t.column(uniqueidentifier)
+                t.column(uniqueidentifier, unique:true)
                 t.column(name)
                 t.column(phone)
                 t.column(actualphone)

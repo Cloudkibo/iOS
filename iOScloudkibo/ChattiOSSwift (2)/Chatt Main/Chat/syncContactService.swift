@@ -98,6 +98,8 @@ class syncContactService
     })
             
             addressbookChangedNotifReceived=false
+            
+           // socketObj.delegateChat.socketReceivedMessageChat("updateUI", data: nil)
         }
         else
         {
