@@ -657,6 +657,11 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
                 print(tblContacts[status])
                 print("--------")
                 */
+                
+             
+                
+                
+                
                 if(tblContacts[from]==selecteduser && (tblContacts[status]=="delivered"))
                 {
                     sqliteDB.UpdateChatStatus(tblContacts[uniqueid], newstatus: "seen")
@@ -1236,21 +1241,39 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
             profileImage.center = CGPointMake(profileImage.center.x, textLable.frame.origin.y + textLable.frame.size.height - profileImage.frame.size.height/2+20)
             textLable.text = "\(msg)"
             
-             
+             /*
              let dateFormatter = NSDateFormatter()
             dateFormatter.timeZone=NSTimeZone.localTimeZone()
-             dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
+             dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSS"
            //  let datens2 = dateFormatter.dateFromString(date2.debugDescription)
             //2016-09-18T19:13:00.588Z
-             let datens2 = dateFormatter.dateFromString("2016-09-18T19:13:00.588Z")
+             let datens2 = dateFormatter.dateFromString("2016-09-18T19:13:00.588")
+             print(".... \(datens2)")
+            */
+             //let formatter2 = NSDateFormatter()
+             //formatter2.dateStyle = NSDateFormatterStyle.ShortStyle
+             //formatter2.timeStyle = .ShortStyle
              
-             let formatter = NSDateFormatter()
-             formatter.dateStyle = NSDateFormatterStyle.ShortStyle
-             formatter.timeStyle = .ShortStyle
-             
-             let dateString = formatter.stringFromDate(datens2!)
-            print("dateeeeeee \(dateString)")
-            timeLabel.text=date2.debugDescription
+             //let dateString = formatter.stringFromDate(datens2!)
+           // print("dateeeeeee \(dateString)")
+            
+            print("date received in chat is \(date2.debugDescription)")
+            var formatter = NSDateFormatter();
+            formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSS";
+            //formatter.dateFormat = "MM/dd, HH:mm";
+            formatter.timeZone = NSTimeZone.localTimeZone()
+            var defaultTimeZoneStr = formatter.dateFromString(date2.debugDescription)
+            print("defaultTimeZoneStr \(defaultTimeZoneStr)")
+            
+            var formatter2 = NSDateFormatter();
+            formatter2.timeZone=NSTimeZone.localTimeZone()
+            formatter2.dateFormat = "MM/dd, HH:mm";
+            var displaydate=formatter2.stringFromDate(defaultTimeZoneStr!)
+            //formatter.dateFormat = "MM/dd, HH:mm";
+            
+            print("displaydate is \(displaydate)")
+            timeLabel.text=displaydate
+            //timeLabel.text=date2.debugDescription
         }
         if (msgType.isEqualToString("2")){
             cell = ///tblForChats.dequeueReusableCellWithIdentifier("ChatReceivedCell")! as UITableViewCell
@@ -1294,7 +1317,37 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
             
             timeLabel.frame = CGRectMake(36 + distanceFactor, timeLabel.frame.origin.y, timeLabel.frame.size.width, timeLabel.frame.size.height)
             deliveredLabel.frame = CGRectMake(deliveredLabel.frame.origin.x, textLable.frame.origin.y + textLable.frame.size.height + 15, deliveredLabel.frame.size.width, deliveredLabel.frame.size.height)
-            timeLabel.text=date2.debugDescription
+            
+            
+            
+            
+            print("date received in chat post 2 is \(date2.debugDescription)")
+           // print("date received in chat is \(date2.debugDescription)")
+            var formatter = NSDateFormatter();
+            formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSS";
+            //formatter.dateFormat = "MM/dd, HH:mm";
+            formatter.timeZone = NSTimeZone.localTimeZone()
+            var defaultTimeZoneStr = formatter.dateFromString(date2.debugDescription)
+            print("defaultTimeZoneStr \(defaultTimeZoneStr)")
+            
+            if(defaultTimeZoneStr == nil)
+            {
+                timeLabel.text=date2.debugDescription
+
+            }
+            else
+            {
+            var formatter2 = NSDateFormatter();
+            formatter2.timeZone=NSTimeZone.localTimeZone()
+            formatter2.dateFormat = "MM/dd, HH:mm";
+            var displaydate=formatter2.stringFromDate(defaultTimeZoneStr!)
+            //formatter.dateFormat = "MM/dd, HH:mm";
+            
+            timeLabel.text=displaydate
+            }
+            
+            //local date already shortened then added to dictionary when post button is pressed
+           //timeLabel.text=date2.debugDescription
         }
         if (msgType.isEqualToString("3")){
             cell = ///tblForChats.dequeueReusableCellWithIdentifier("ChatReceivedCell")! as UITableViewCell
@@ -1493,7 +1546,23 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
                 chatImage.setNeedsDisplay()
                 print("file shownnnnnnnnn")
                 textLable.hidden=true
-                timeLabel.text=date2.debugDescription
+                
+                
+                print("date received in chat is \(date2.debugDescription)")
+                var formatter = NSDateFormatter();
+                formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSS";
+                //formatter.dateFormat = "MM/dd, HH:mm";
+                formatter.timeZone = NSTimeZone.localTimeZone()
+                var defaultTimeZoneStr = formatter.dateFromString(date2.debugDescription)
+                print("defaultTimeZoneStr \(defaultTimeZoneStr)")
+                
+                var formatter2 = NSDateFormatter();
+                formatter2.timeZone=NSTimeZone.localTimeZone()
+                formatter2.dateFormat = "MM/dd, HH:mm";
+                var displaydate=formatter2.stringFromDate(defaultTimeZoneStr!)
+                
+                 timeLabel.text=displaydate
+               // timeLabel.text=date2.debugDescription
             }
             
             
@@ -1625,7 +1694,22 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
             
             
            //chatImage.addGestureRecognizer(tapRecognizer)
-            timeLabel.text=date2.debugDescription
+            
+            print("date received in chat is \(date2.debugDescription)")
+            var formatter = NSDateFormatter();
+            formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSS";
+            //formatter.dateFormat = "MM/dd, HH:mm";
+            formatter.timeZone = NSTimeZone.localTimeZone()
+            var defaultTimeZoneStr = formatter.dateFromString(date2.debugDescription)
+            print("defaultTimeZoneStr \(defaultTimeZoneStr)")
+            
+            var formatter2 = NSDateFormatter();
+            formatter2.timeZone=NSTimeZone.localTimeZone()
+            formatter2.dateFormat = "MM/dd, HH:mm";
+            var displaydate=formatter2.stringFromDate(defaultTimeZoneStr!)
+            
+            timeLabel.text=displaydate
+            //timeLabel.text=date2.debugDescription
         }
         if(msgType.isEqualToString("6"))
         {
@@ -1758,7 +1842,23 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
            // let tapRecognizer = UITapGestureRecognizer(target: self, action: Selector("docTapped:"))
             //Add the recognizer to your view.
             //chatImage.addGestureRecognizer(tapRecognizer)
-            timeLabel.text=date2.debugDescription
+            
+            print("date received in chat is \(date2.debugDescription)")
+            var formatter = NSDateFormatter();
+            formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSS";
+            //formatter.dateFormat = "MM/dd, HH:mm";
+            formatter.timeZone = NSTimeZone.localTimeZone()
+            var defaultTimeZoneStr = formatter.dateFromString(date2.debugDescription)
+            print("defaultTimeZoneStr \(defaultTimeZoneStr)")
+            
+            var formatter2 = NSDateFormatter();
+            formatter2.timeZone=NSTimeZone.localTimeZone()
+            formatter2.dateFormat = "MM/dd, HH:mm";
+            var displaydate=formatter2.stringFromDate(defaultTimeZoneStr!)
+            
+            timeLabel.text=displaydate
+
+           // timeLabel.text=date2.debugDescription
         }
 
             
@@ -2843,30 +2943,35 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
         }
         */
         
-        //////
-        
-        
-        /*insert(self.fromFullName<-"Sabach Channa",
-         self.msg<-"\(txtFldMessage.text)",
-         //self.owneruser<-"sabachanna",
-         self.to<-"sumi",
-         self.from<-"sabachanna"
-         )
-         if let rowid = insert.rowid {
-         print("inserted id: \(rowid)")
-         } else if insert.statement.failed {
-         print("insertion failed: \(insert.statement.reason)")
-         }*/
+        /*
+        var date22=NSDate()
+        var formatter = NSDateFormatter();
+        formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ";
+        //formatter.dateFormat = "MM/dd, HH:mm";
+        ////////////formatter.timeZone = NSTimeZone.localTimeZone()
+        //formatter.dateStyle = .ShortStyle
+        //formatter.timeStyle = .ShortStyle
+        let defaultTimeZoneStr2 = formatter.stringFromDate(date22);
+        var defaultTimeZoneStr = formatter.dateFromString(defaultTimeZoneStr2)
+        print("default db got in post date is \(defaultTimeZoneStr2)")
+
+        print("post btn format in string in dict is \(defaultTimeZoneStr)")
+        */
         
         var date=NSDate()
         var formatter = NSDateFormatter();
-        formatter.dateFormat = "MM/dd, HH:mm";
+        
         formatter.timeZone = NSTimeZone.localTimeZone()
+        formatter.dateFormat = "MM/dd, HH:mm";
         //formatter.dateStyle = .ShortStyle
         //formatter.timeStyle = .ShortStyle
         let defaultTimeZoneStr = formatter.stringFromDate(date);
-        
+        let defaultTimeZoneStr2=formatter.dateFromString(defaultTimeZoneStr)
+        print("string is \(defaultTimeZoneStr)")
+        print("date is \(defaultTimeZoneStr2)")
         self.addMessage(txtFldMessage.text!+" (\(statusNow))", ofType: "2",date:defaultTimeZoneStr, uniqueid: uniqueID)
+        
+        
         txtFldMessage.text = "";
         tblForChats.reloadData()
         if(messages.count>1)

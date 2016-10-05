@@ -2670,6 +2670,19 @@ class GroupChatDetailViewController: UIViewController,SocketClientDelegate,Updat
          print("insertion failed: \(insert.statement.reason)")
          }*/
         
+        
+        
+        var date22=NSDate()
+        var formatter = NSDateFormatter();
+        formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ";
+        //formatter.dateFormat = "MM/dd, HH:mm";
+        formatter.timeZone = NSTimeZone.localTimeZone()
+        //formatter.dateStyle = .ShortStyle
+        //formatter.timeStyle = .ShortStyle
+        let defaultTimeZoneStr = formatter.stringFromDate(date22);
+        
+        
+        /*
         var date=NSDate()
         var formatter = NSDateFormatter();
         formatter.dateFormat = "MM/dd, HH:mm";
@@ -2677,7 +2690,7 @@ class GroupChatDetailViewController: UIViewController,SocketClientDelegate,Updat
         //formatter.dateStyle = .ShortStyle
         //formatter.timeStyle = .ShortStyle
         let defaultTimeZoneStr = formatter.stringFromDate(date);
-        
+        */
         self.addMessage(txtFldMessage.text!+" (\(statusNow))", ofType: "2",date:defaultTimeZoneStr, uniqueid: uniqueID)
         txtFldMessage.text = "";
         tblForChats.reloadData()

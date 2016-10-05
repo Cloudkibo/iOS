@@ -328,7 +328,7 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
         
     }
     
-    func checkForReachability(notification:NSNotification)
+   /* func checkForReachability(notification:NSNotification)
     {
         print("checking internet...")
         // Remove the next two lines of code. You cannot instantiate the object
@@ -361,7 +361,7 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
                 self.synchroniseChatData()
             }
         }
-    }
+    }*/
     
    /* func contactChanged(notification : NSNotification)
     {
@@ -375,7 +375,7 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
         
     }*/
 
-    func synchroniseChatData()
+ /*   func synchroniseChatData()
     {
         print("synchronise called")
         if(accountKit == nil){
@@ -426,7 +426,7 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
                 
             })
         }
-    }
+    }*/
     
 
     
@@ -1232,15 +1232,16 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
                         //2016-09-18T19:13:00.588Z
                         let datens2 = dateFormatter.dateFromString(chatJson[0]["date"].string!)
                         
-                        let formatter = NSDateFormatter()
+                      /*  let formatter = NSDateFormatter()
                         formatter.dateFormat = "MM/dd, HH:mm"
                        /////// formatter.dateStyle = NSDateFormatterStyle.ShortStyle
                         //////formatter.timeStyle = .ShortStyle
                         
                         let dateString = formatter.stringFromDate(datens2!)
                         print("dateeeeeee \(dateString)")
+                        */
                         
-                        sqliteDB.SaveChat(chatJson[0]["to"].string!, from1: chatJson[0]["from"].string!,owneruser1:chatJson[0]["to"].string!, fromFullName1: chatJson[0]["fromFullName"].string!, msg1: chatJson[0]["msg"].string!,date1:dateString,uniqueid1:chatJson[0]["uniqueid"].string!,status1: status,type1: "", file_type1: "chat",file_path1: "")
+                        sqliteDB.SaveChat(chatJson[0]["to"].string!, from1: chatJson[0]["from"].string!,owneruser1:chatJson[0]["to"].string!, fromFullName1: chatJson[0]["fromFullName"].string!, msg1: chatJson[0]["msg"].string!,date1:datens2,uniqueid1:chatJson[0]["uniqueid"].string!,status1: status,type1: "", file_type1: "chat",file_path1: "")
                         
                         managerFile.sendChatStatusUpdateMessage(chatJson[0]["uniqueid"].string!, status: status, sender: chatJson[0]["from"].string!)
                         
@@ -1264,15 +1265,17 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
                         //2016-09-18T19:13:00.588Z
                         let datens2 = dateFormatter.dateFromString(chatJson[0]["date"].string!)
                         
-                        let formatter = NSDateFormatter()
+                       /* let formatter = NSDateFormatter()
                         formatter.dateFormat = "MM/dd, HH:mm"
                         /////// formatter.dateStyle = NSDateFormatterStyle.ShortStyle
                         //////formatter.timeStyle = .ShortStyle
                         
                         let dateString = formatter.stringFromDate(datens2!)
                         print("dateeeeeee \(dateString)")
+                        */
                         
-                        sqliteDB.SaveChat(chatJson[0]["to"].string!, from1: chatJson[0]["from"].string!,owneruser1:chatJson[0]["to"].string!, fromFullName1: chatJson[0]["fromFullName"].string!, msg1: chatJson[0]["msg"].string!,date1:dateString,uniqueid1:chatJson[0]["uniqueid"].string!,status1: status,type1: chatJson[0]["type"].string!, file_type1: chatJson[0]["file_type"].string!,file_path1: "")
+                        
+                        sqliteDB.SaveChat(chatJson[0]["to"].string!, from1: chatJson[0]["from"].string!,owneruser1:chatJson[0]["to"].string!, fromFullName1: chatJson[0]["fromFullName"].string!, msg1: chatJson[0]["msg"].string!,date1:datens2,uniqueid1:chatJson[0]["uniqueid"].string!,status1: status,type1: chatJson[0]["type"].string!, file_type1: chatJson[0]["file_type"].string!,file_path1: "")
                         
                         managerFile.sendChatStatusUpdateMessage(chatJson[0]["uniqueid"].string!, status: status, sender: chatJson[0]["from"].string!)
                      // === change date   sqliteDB.SaveChat(chatJson[0]["to"].string!, from1: chatJson[0]["from"].string!,owneruser1:chatJson[0]["to"].string!, fromFullName1: chatJson[0]["fromFullName"].string!, msg1: chatJson[0]["msg"].string!,date1:nil,uniqueid1:chatJson[0]["uniqueid"].string!,status1: status,type1: chatJson[0]["type"].string!, file_type1: chatJson[0]["file_type"].string!,file_path1: "")

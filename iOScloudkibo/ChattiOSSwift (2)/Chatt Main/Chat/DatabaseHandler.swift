@@ -246,7 +246,7 @@ class DatabaseHandler:NSObject{
         let fromFullName = Expression<String>("fromFullName")
         let msg = Expression<String>("msg")
         let owneruser = Expression<String>("owneruser")
-        let date = Expression<String>("date")
+        let date = Expression<NSDate>("date")
         let uniqueid = Expression<String>("uniqueid")
         let status = Expression<String>("status")
         let contactPhone = Expression<String>("contactPhone")
@@ -264,13 +264,14 @@ class DatabaseHandler:NSObject{
         
         var date22=NSDate()
         var formatter = NSDateFormatter();
-        //formatter.dateFormat = "yyyy-MM-dd HH:mm:ss ZZZ";
-        formatter.dateFormat = "MM/dd, HH:mm";
+        formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ";
+        //formatter.dateFormat = "MM/dd, HH:mm";
         formatter.timeZone = NSTimeZone.localTimeZone()
         //formatter.dateStyle = .ShortStyle
         //formatter.timeStyle = .ShortStyle
-        let defaultTimeZoneStr = formatter.stringFromDate(date22);
-        
+        let defaultTimeZoneStr2 = formatter.stringFromDate(date22);
+        var defaultTimeZoneStr = formatter.dateFromString(defaultTimeZoneStr2)
+        print("default db date is \(defaultTimeZoneStr)")
         do{
             try db.run(userschats.create(ifNotExists: true) { t in     // CREATE TABLE "accounts" (
                 t.column(to)//loggedin user id
@@ -279,7 +280,7 @@ class DatabaseHandler:NSObject{
                 t.column(fromFullName)
                 t.column(contactPhone)
                 t.column(msg)
-                t.column(date, defaultValue:defaultTimeZoneStr)
+                t.column(date, defaultValue:defaultTimeZoneStr!)
                 t.column(status)
                 t.column(uniqueid)
                 t.column(type, defaultValue:"chat")
@@ -400,7 +401,7 @@ class DatabaseHandler:NSObject{
         }
         let to = Expression<String>("to")
         let from = Expression<String>("from")
-        let date = Expression<String>("date")
+        let date = Expression<NSDate>("date")
         let uniqueid = Expression<String>("uniqueid")
         let contactPhone = Expression<String>("contactPhone")
         let type = Expression<String>("type")  //image or document
@@ -417,21 +418,31 @@ class DatabaseHandler:NSObject{
         //print("defaultDate is \(datens2)")
         self.files = Table("files")
         
-        var date22=NSDate()
+        /*var date22=NSDate()
         var formatter = NSDateFormatter();
         //formatter.dateFormat = "yyyy-MM-dd HH:mm:ss ZZZ";
         formatter.dateFormat = "MM/dd, HH:mm";
         formatter.timeZone = NSTimeZone.localTimeZone()
         //formatter.dateStyle = .ShortStyle
         //formatter.timeStyle = .ShortStyle
-        let defaultTimeZoneStr = formatter.stringFromDate(date22);
+        let defaultTimeZoneStr = formatter.stringFromDate(date22);*/
+        var date22=NSDate()
+        var formatter = NSDateFormatter();
+        formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ";
+        //formatter.dateFormat = "MM/dd, HH:mm";
+        formatter.timeZone = NSTimeZone.localTimeZone()
+        //formatter.dateStyle = .ShortStyle
+        //formatter.timeStyle = .ShortStyle
+        let defaultTimeZoneStr2 = formatter.stringFromDate(date22);
+        var defaultTimeZoneStr = formatter.dateFromString(defaultTimeZoneStr2)
+        print("default db date is \(defaultTimeZoneStr)")
         
         do{
             try db.run(files.create(ifNotExists: true) { t in     // CREATE TABLE "accounts" (
                 t.column(to)//loggedin user id
                 t.column(from)
                 t.column(contactPhone)
-                t.column(date, defaultValue:defaultTimeZoneStr)
+                t.column(date, defaultValue:defaultTimeZoneStr!)
                 t.column(uniqueid)
                 t.column(type, defaultValue:"")
                 t.column(file_name, defaultValue:"")
@@ -704,7 +715,7 @@ class DatabaseHandler:NSObject{
             
         }*/
     
-    func SaveChat(to1:String,from1:String,owneruser1:String,fromFullName1:String,msg1:String,date1:String!,uniqueid1:String!,status1:String,type1:String,file_type1:String,file_path1:String)
+    func SaveChat(to1:String,from1:String,owneruser1:String,fromFullName1:String,msg1:String,date1:NSDate!,uniqueid1:String!,status1:String,type1:String,file_type1:String,file_path1:String)
     {
         //createUserChatTable()
         
@@ -713,7 +724,7 @@ class DatabaseHandler:NSObject{
         let owneruser = Expression<String>("owneruser")
         let fromFullName = Expression<String>("fromFullName")
         let msg = Expression<String>("msg")
-        let date = Expression<String>("date")
+        let date = Expression<NSDate>("date")
          let uniqueID = Expression<String>("uniqueid")
         let status = Expression<String>("status")
         let contactPhone = Expression<String>("contactPhone")
@@ -724,6 +735,8 @@ class DatabaseHandler:NSObject{
         var tbl_userchats=sqliteDB.userschats
         
         var contactPhone1=""
+        
+        print("date received is \(date1)")
         if(to1 != owneruser1)
         {
             contactPhone1=to1
@@ -740,10 +753,10 @@ class DatabaseHandler:NSObject{
             to<-to1,
             from<-from1
         )*/
-        var mydate:String!
+        var mydate:NSDate!
         if(date1 == nil)
         {
-            var date22=NSDate()
+           /* var date22=NSDate()
             var formatter = NSDateFormatter();
             //formatter.dateFormat = "yyyy-MM-dd HH:mm:ss ZZZ";
             formatter.dateFormat = "MM/dd, HH:mm";
@@ -751,13 +764,40 @@ class DatabaseHandler:NSObject{
             //formatter.dateStyle = .ShortStyle
             //formatter.timeStyle = .ShortStyle
             let defaultTimeZoneStr = formatter.stringFromDate(date22);
+            */
             
-            mydate=defaultTimeZoneStr
+            var date22=NSDate()
+            var formatter = NSDateFormatter();
+            formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ";
+            //formatter.dateFormat = "MM/dd, HH:mm";
+            formatter.timeZone = NSTimeZone.localTimeZone()
+            //formatter.dateStyle = .ShortStyle
+            //formatter.timeStyle = .ShortStyle
+            let defaultTimeZoneStr2 = formatter.stringFromDate(date22);
+            var defaultTimeZoneStr = formatter.dateFromString(defaultTimeZoneStr2)
+            print("default db date is \(defaultTimeZoneStr!)")
+            
+            mydate=defaultTimeZoneStr!
             
             }
         else
         {
-            mydate=date1
+            //var date22=NSDate()
+            var formatter = NSDateFormatter();
+            formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ";
+            //formatter.dateFormat = "MM/dd, HH:mm";
+            formatter.timeZone = NSTimeZone.localTimeZone()
+            
+            let defaultTimeZoneStr2 = formatter.stringFromDate(date1);
+            var defaultTimeZoneStr = formatter.dateFromString(defaultTimeZoneStr2)
+            
+           ////var defaultTimeZoneStr = formatter.dateFromString(date1)
+            print("default db date from server is \(defaultTimeZoneStr!)")
+            
+
+            
+            
+            mydate=defaultTimeZoneStr!
         }
         
         do {
@@ -811,7 +851,7 @@ class DatabaseHandler:NSObject{
         //createUserChatTable()
         let to = Expression<String>("to")
         let from = Expression<String>("from")
-        let date = Expression<String>("date")
+        let date = Expression<NSDate>("date")
         let uniqueid = Expression<String>("uniqueid")
         let contactPhone = Expression<String>("contactPhone")
         let type = Expression<String>("type")
@@ -840,24 +880,37 @@ class DatabaseHandler:NSObject{
          to<-to1,
          from<-from1
          )*/
-        var mydate:String!
+        var mydate:NSDate!
         if(date1 == nil)
         {
             var date22=NSDate()
             var formatter = NSDateFormatter();
-            //formatter.dateFormat = "yyyy-MM-dd HH:mm:ss ZZZ";
-            formatter.dateFormat = "MM/dd, HH:mm";
+            formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ";
+            //formatter.dateFormat = "MM/dd, HH:mm";
             formatter.timeZone = NSTimeZone.localTimeZone()
             //formatter.dateStyle = .ShortStyle
             //formatter.timeStyle = .ShortStyle
-            let defaultTimeZoneStr = formatter.stringFromDate(date22);
+            let defaultTimeZoneStr2 = formatter.stringFromDate(date22);
+            var defaultTimeZoneStr = formatter.dateFromString(defaultTimeZoneStr2)
+            print("default db date is \(defaultTimeZoneStr)")
             
             mydate=defaultTimeZoneStr
+
             
         }
         else
         {
-            mydate=date1
+            
+            //var date22=NSDate()
+            var formatter = NSDateFormatter();
+            formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ";
+            //formatter.dateFormat = "MM/dd, HH:mm";
+            formatter.timeZone = NSTimeZone.localTimeZone()
+            var defaultTimeZoneStr = formatter.dateFromString(date1)
+            print("default db date from server is \(defaultTimeZoneStr)")
+            
+
+            mydate=defaultTimeZoneStr
         }
         /*
          t.column(type, defaultValue:"chat")
@@ -904,7 +957,7 @@ class DatabaseHandler:NSObject{
         let owneruser = Expression<String>("owneruser")
         let fromFullName = Expression<String>("fromFullName")
         let msg = Expression<String>("msg")
-        let date = Expression<String>("date")
+        let date = Expression<NSDate>("date")
         
         var tbl_userchats=sqliteDB.userschats
         var res=tbl_userchats.filter(owneruser==owneruser1)
