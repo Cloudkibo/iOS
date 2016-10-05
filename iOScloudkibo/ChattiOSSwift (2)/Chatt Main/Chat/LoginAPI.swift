@@ -1156,7 +1156,7 @@ class LoginAPI{
         
     }
     
-    func fetchChatsFromServer()
+   /* func fetchChatsFromServer()
     {
         
         
@@ -1427,7 +1427,7 @@ class LoginAPI{
         )
 
 
-    }
+    }*/
     
     
     
