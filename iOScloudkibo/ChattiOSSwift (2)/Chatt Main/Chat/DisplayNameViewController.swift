@@ -659,6 +659,14 @@ class DisplayNameViewController: UIViewController {
                                     //  let datens2 = dateFormatter.dateFromString(date2.debugDescription)
                                     //2016-09-18T19:13:00.588Z
                                     let datens2 = dateFormatter.dateFromString(UserchatJson["msg"][i]["date"].string!)
+                                    
+                                    
+                                    
+                                    print("===fetch chat inside displayname full fetch chat got date as \(UserchatJson["msg"][i]["date"].string!) .. date .... converted NSDate is \(datens2!)")
+                                    
+
+                                    
+                                    
                                     //UserchatJson["msg"][i]["uniqueid"].string!
                                     //chatJson[0]["from"].string!
                                     

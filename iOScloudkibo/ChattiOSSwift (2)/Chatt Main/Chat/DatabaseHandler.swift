@@ -770,14 +770,23 @@ class DatabaseHandler:NSObject{
             var formatter = NSDateFormatter();
             formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ";
             //formatter.dateFormat = "MM/dd, HH:mm";
-            formatter.timeZone = NSTimeZone.localTimeZone()
+            ////////////////==formatter.timeZone = NSTimeZone.defaultTimeZone()
             //formatter.dateStyle = .ShortStyle
             //formatter.timeStyle = .ShortStyle
             let defaultTimeZoneStr2 = formatter.stringFromDate(date22);
-            var defaultTimeZoneStr = formatter.dateFromString(defaultTimeZoneStr2)
+            
+            
+            var formatter2 = NSDateFormatter();
+            formatter2.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ";
+            
+            //////formatter.timeZone = NSTimeZone.localTimeZone()
+            var defaultTimeZoneStr = formatter2.dateFromString(defaultTimeZoneStr2)
             print("default db date is \(defaultTimeZoneStr!)")
             
-            mydate=defaultTimeZoneStr!
+            print("===fetch chat inside database handler string \(defaultTimeZoneStr2) .. converted NSDate is \(defaultTimeZoneStr!)... now date 22 is \(date22)")
+            
+            mydate=date22
+            ////mydate=defaultTimeZoneStr!
             
             }
         else
@@ -794,6 +803,7 @@ class DatabaseHandler:NSObject{
            ////var defaultTimeZoneStr = formatter.dateFromString(date1)
             print("default db date from server is \(defaultTimeZoneStr!)")
             
+              print("===fetch chat inside database handler got date as \(date1) .. date string is \(defaultTimeZoneStr2) ...converted NSDate is \(defaultTimeZoneStr!)  ... date1 got is \(date1)")
 
             
             

@@ -1232,6 +1232,8 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
                         //2016-09-18T19:13:00.588Z
                         let datens2 = dateFormatter.dateFromString(chatJson[0]["date"].string!)
                         
+                        print("===single fetch chat date in app delegate \(datens2)")
+                        
                       /*  let formatter = NSDateFormatter()
                         formatter.dateFormat = "MM/dd, HH:mm"
                        /////// formatter.dateStyle = NSDateFormatterStyle.ShortStyle

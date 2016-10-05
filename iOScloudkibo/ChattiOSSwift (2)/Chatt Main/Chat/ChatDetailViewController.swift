@@ -650,6 +650,25 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
             //for tblContacts in try sqliteDB.db.prepare(tbl_userchats.filter(owneruser==owneruser1)){
             //print("queryy runned count is \(tbl_contactslists.count)")
             for tblContacts in try sqliteDB.db.prepare(tbl_userchats.filter(to==selecteduser || from==selecteduser).order(date.asc)){
+                
+                print("===fetch date from database is tblContacts[date] \(tblContacts[date])")
+                
+                var formatter = NSDateFormatter();
+                formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSS";
+                //formatter.dateFormat = "MM/dd, HH:mm";
+                formatter.timeZone = NSTimeZone(name: "UTC")
+                // formatter.timeZone = NSTimeZone.localTimeZone()
+                var defaultTimeZoneStr = formatter.dateFromString(tblContacts[date])
+                var defaultTimeZoneStr2 = formatter.stringFromDate(defaultTimeZoneStr!)
+                
+                
+                var formatter2 = NSDateFormatter();
+                formatter2.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSS"
+                formatter2.timeZone = NSTimeZone.localTimeZone()
+                var defaultTimeeee = formatter2.stringFromDate(defaultTimeZoneStr!)
+                
+                print("===fetch date from database is tblContacts[date] ... date converted is \(defaultTimeZoneStr)... string is \(defaultTimeZoneStr2)... defaultTimeeee \(defaultTimeeee)")
+                
                 /*print(tblContacts[to])
                 print(tblContacts[from])
                 print(tblContacts[msg])
@@ -695,7 +714,10 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
                       
                       //  self.addUploadInfo(selectedContact, uniqueid1: tblContacts[uniqueid], rowindex: messages.count, uploadProgress: 1, isCompleted: true)
                       
-                        messages2.addObject(["message":tblContacts[msg], "type":"4", "date":tblContacts[date], "uniqueid":tblContacts[uniqueid]])
+                        messages2.addObject(["message":tblContacts[msg], "type":"4", "date":defaultTimeeee, "uniqueid":tblContacts[uniqueid]])
+                        
+                        
+                        //messages2.addObject(["message":tblContacts[msg], "type":"4", "date":tblContacts[date], "uniqueid":tblContacts[uniqueid]])
                         
                        //^^^ self.addMessage(tblContacts[msg], ofType: "4",date: tblContacts[date],uniqueid: tblContacts[uniqueid])
                         
@@ -706,14 +728,14 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
 
                       ////  self.addUploadInfo(selectedContact, uniqueid1: tblContacts[uniqueid], rowindex: messages.count, uploadProgress: 1, isCompleted: true)
                        
-                        messages2.addObject(["message":tblContacts[msg], "type":"6", "date":tblContacts[date], "uniqueid":tblContacts[uniqueid]])
+                        messages2.addObject(["message":tblContacts[msg], "type":"6", "date":defaultTimeeee, "uniqueid":tblContacts[uniqueid]])
                         
                        //^^^^ self.addMessage(tblContacts[msg], ofType: "6",date: tblContacts[date],uniqueid: tblContacts[uniqueid])
                         
                     }
                     else
                     {
-                        messages2.addObject(["message":tblContacts[msg]+" (\(tblContacts[status])) ", "type":"2", "date":tblContacts[date], "uniqueid":tblContacts[uniqueid]])
+                        messages2.addObject(["message":tblContacts[msg]+" (\(tblContacts[status])) ", "type":"2", "date":defaultTimeeee, "uniqueid":tblContacts[uniqueid]])
                        
                         
                     //^^^^self.addMessage(tblContacts[msg]+" (\(tblContacts[status])) ", ofType: "2",date: tblContacts[date],uniqueid: tblContacts[uniqueid])
@@ -726,7 +748,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
                     if(tblContacts[file_type]=="image")
                     {
                       //  self.addUploadInfo(selectedContact, uniqueid1: tblContacts[uniqueid], rowindex: messages.count, uploadProgress: 1, isCompleted: true)
-                        messages2.addObject(["message":tblContacts[msg], "type":"3", "date":tblContacts[date], "uniqueid":tblContacts[uniqueid]])
+                        messages2.addObject(["message":tblContacts[msg], "type":"3", "date":defaultTimeeee, "uniqueid":tblContacts[uniqueid]])
                        
                         
                       //^^^^  self.addMessage(tblContacts[msg] , ofType: "3",date: tblContacts[date],uniqueid: tblContacts[uniqueid])
@@ -736,7 +758,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
                     {if(tblContacts[file_type]=="document")
                     {
                        // self.addUploadInfo(selectedContact, uniqueid1: tblContacts[uniqueid], rowindex: messages.count, uploadProgress: 1, isCompleted: true)
-                        messages2.addObject(["message":tblContacts[msg], "type":"5", "date":tblContacts[date], "uniqueid":tblContacts[uniqueid]])
+                        messages2.addObject(["message":tblContacts[msg], "type":"5", "date":defaultTimeeee, "uniqueid":tblContacts[uniqueid]])
                        
                         
                        //^^^^ self.addMessage(tblContacts[msg], ofType: "5",date: tblContacts[date],uniqueid: tblContacts[uniqueid])
@@ -745,7 +767,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
                     else
                     {
                         
-                        messages2.addObject(["message":tblContacts[msg], "type":"1", "date":tblContacts[date], "uniqueid":tblContacts[uniqueid]])
+                        messages2.addObject(["message":tblContacts[msg], "type":"1", "date":defaultTimeeee, "uniqueid":tblContacts[uniqueid]])
                        
                         
                    ///^^^ self.addMessage(tblContacts[msg], ofType: "1", date: tblContacts[date],uniqueid: tblContacts[uniqueid])

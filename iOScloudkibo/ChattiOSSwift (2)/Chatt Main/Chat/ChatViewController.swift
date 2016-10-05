@@ -426,6 +426,10 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
                             let datens2 = dateFormatter.dateFromString(UserchatJson["msg"][i]["date"].string!)
                             
                             print("fetch date from server got is \(UserchatJson["msg"][i]["date"].string!)... converted is \(datens2.debugDescription)")
+                            
+                            
+                             print("===fetch chat date raw from server in chatview is \(UserchatJson["msg"][i]["date"].string!)")
+                            
                             /*
                              let formatter = NSDateFormatter()
                              formatter.dateFormat = "MM/dd, HH:mm";
@@ -1264,6 +1268,23 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
             print(ccc[fromFullName])
       
             print("date received in chat view is \(ccc[date])")
+            
+            var formatter = NSDateFormatter();
+            formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSS";
+            //formatter.dateFormat = "MM/dd, HH:mm";
+            formatter.timeZone = NSTimeZone(name: "UTC")
+            // formatter.timeZone = NSTimeZone.localTimeZone()
+            var defaultTimeZoneStr = formatter.dateFromString(ccc[date])
+            var defaultTimeZoneStr2 = formatter.stringFromDate(defaultTimeZoneStr!)
+            
+            
+            var formatter2 = NSDateFormatter();
+            formatter2.dateFormat = "MM/dd, HH:mm"
+            formatter2.timeZone = NSTimeZone.localTimeZone()
+            var defaultTimeeee = formatter2.stringFromDate(defaultTimeZoneStr!)
+            
+            print("===fetch date from database is tblContacts[date] ... date converted is \(defaultTimeZoneStr)... string is \(defaultTimeZoneStr2)... defaultTimeeee \(defaultTimeeee)")
+            /*
             var formatter = NSDateFormatter();
             formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSS";
             //formatter.dateFormat = "MM/dd, HH:mm";
@@ -1275,7 +1296,7 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
             formatter2.timeZone=NSTimeZone.localTimeZone()
             formatter2.dateFormat = "MM/dd, HH:mm";
             var displaydate=formatter2.stringFromDate(defaultTimeZoneStr!)
-            
+ */
            // timeLabel.text=displaydate
 
             
@@ -1361,7 +1382,7 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
             print("date of chat view page is to be converted \(ccc[date])")
             
             
-            ContactsLastMsgDate.append(displaydate)
+            ContactsLastMsgDate.append(defaultTimeeee)
             ///////==========ContactsLastMsgDate.append(ccc[date])
             
             //do join query of allcontacts and contactslist table to get avatar
