@@ -551,7 +551,10 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
                         
                         
                         //------CHECK IF ANY PENDING FILES--------
-                        
+                        if(delegateRefreshChat != nil)
+                        {
+                            delegateRefreshChat?.refreshChatsUI("updateUI", data: nil)
+                        }
                         
                         if(socketObj.delegateChat != nil)
                         {
@@ -1178,7 +1181,7 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
         
         let to = Expression<String>("to")
         let from = Expression<String>("from")
-        let date = Expression<String>("date")
+        let date = Expression<NSDate>("date")
         let msg = Expression<String>("msg")
         let fromFullName = Expression<String>("fromFullName")
        
@@ -1266,24 +1269,7 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
             print(ccc[status])
             print(ccc[from])
             print(ccc[fromFullName])
-      
-            print("date received in chat view is \(ccc[date])")
-            
-            var formatter = NSDateFormatter();
-            formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSS";
-            //formatter.dateFormat = "MM/dd, HH:mm";
-            formatter.timeZone = NSTimeZone(name: "UTC")
-            // formatter.timeZone = NSTimeZone.localTimeZone()
-            var defaultTimeZoneStr = formatter.dateFromString(ccc[date])
-            var defaultTimeZoneStr2 = formatter.stringFromDate(defaultTimeZoneStr!)
-            
-            
-            var formatter2 = NSDateFormatter();
-            formatter2.dateFormat = "MM/dd, HH:mm"
-            formatter2.timeZone = NSTimeZone.localTimeZone()
-            var defaultTimeeee = formatter2.stringFromDate(defaultTimeZoneStr!)
-            
-            print("===fetch date from database is tblContacts[date] ... date converted is \(defaultTimeZoneStr)... string is \(defaultTimeZoneStr2)... defaultTimeeee \(defaultTimeeee)")
+       //   print("===fetch date from database is tblContacts[date] ... date converted is \(defaultTimeZoneStr)... string is \(defaultTimeZoneStr2)... defaultTimeeee \(defaultTimeeee)")
             /*
             var formatter = NSDateFormatter();
             formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSS";
@@ -1377,12 +1363,49 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
             /////ContactsPhone.append(ccc[phone])
             ContactsPhone.append(ccc[contactPhone])
             ContactOnlineStatus.append(0)
-            ContactLastMessage.append(ccc[msg])
+            
+            
+            
+            let myquerylastmsg=tbl_userchats.filter(to==ccc[contactPhone] || from==ccc[contactPhone]).order(date.desc)
+            
+            var queryruncount=0
+            
+           
+            
+            
+            do{for ccclastmsg in try sqliteDB.db.prepare(myquerylastmsg) {
+                print("date received in chat view is \(ccclastmsg[date])")
+                
+                var formatter = NSDateFormatter();
+                formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSS";
+                //formatter.dateFormat = "MM/dd, HH:mm";
+                formatter.timeZone = NSTimeZone(name: "UTC")
+                // formatter.timeZone = NSTimeZone.localTimeZone()
+                ////////////==========var defaultTimeZoneStr = formatter.dateFromString(ccc[date])
+                /////////////====== var defaultTimeZoneStr2 = formatter.stringFromDate(defaultTimeZoneStr!)
+                
+                
+                var formatter2 = NSDateFormatter();
+                formatter2.dateFormat = "MM/dd, HH:mm"
+                formatter2.timeZone = NSTimeZone.localTimeZone()
+                ///////////////==========var defaultTimeeee = formatter2.stringFromDate(defaultTimeZoneStr!)
+                var defaultTimeeee = formatter2.stringFromDate(ccclastmsg[date])
+                print("===fetch date from database is ccclastmsg[date] \(ccclastmsg[date])... defaultTimeeee \(defaultTimeeee)")
+        
+                
+                print("last msg is \(ccclastmsg[msg])")
+                ContactsLastMsgDate.append(defaultTimeeee)
+                ContactLastMessage.append(ccclastmsg[msg])
+                break
+                }}catch{
+                    print("error in fetching last msg")
+                }
+            //////ContactLastMessage.append(ccc[msg])
             
             print("date of chat view page is to be converted \(ccc[date])")
             
             
-            ContactsLastMsgDate.append(defaultTimeeee)
+           /// ContactsLastMsgDate.append(defaultTimeeee)
             ///////==========ContactsLastMsgDate.append(ccc[date])
             
             //do join query of allcontacts and contactslist table to get avatar

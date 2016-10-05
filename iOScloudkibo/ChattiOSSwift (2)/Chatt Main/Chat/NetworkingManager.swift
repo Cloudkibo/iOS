@@ -190,8 +190,8 @@ class NetworkingManager
                     
                     
                     
-                    dispatch_async(dispatch_get_main_queue()) {
-                        print("Am I back on the main thread: \(NSThread.isMainThread())")
+                   // dispatch_async(dispatch_get_main_queue()) {
+                       // print("Am I back on the main thread: \(NSThread.isMainThread())")
                         
                         
                         //////self.retrieveChatFromSqlite(self.selectedContact)
@@ -199,7 +199,7 @@ class NetworkingManager
                         
                         
                         
-                    }
+                    //}
                 }
             }
         
@@ -598,6 +598,12 @@ class NetworkingManager
                     socketObj.delegateChat.socketReceivedMessageChat("updateUI", data: nil)
                 }
                 
+                
+                //===
+                if(delegateRefreshChat != nil)
+                {
+                    delegateRefreshChat?.refreshChatsUI("updateUI", data: nil)
+                }
                 //filedownloaded’ to with parameters ‘senderoffile’, ‘receiveroffile’
                 
                 self.confirmDownload(fileuniqueid)

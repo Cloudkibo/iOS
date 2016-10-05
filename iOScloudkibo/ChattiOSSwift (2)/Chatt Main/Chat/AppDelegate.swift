@@ -375,7 +375,7 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
         
     }*/
 
- /*   func synchroniseChatData()
+    func synchroniseChatData()
     {
         print("synchronise called")
         if(accountKit == nil){
@@ -421,15 +421,292 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
                 print("checkin fetching chats")
                 // if(socketObj != nil)
                 //{
-                socketObj.fetchChatsFromServer()
+                self.fetchChatsFromServer()
                 //}
                 
             })
         }
-    }*/
+    }
     
 
+    func fetchChatsFromServer()
+    {
+        
+        
+        let uniqueid = Expression<String>("uniqueid")
+        let file_name = Expression<String>("file_name")
+        let type = Expression<String>("type")
+        let from = Expression<String>("from")
+        let to = Expression<String>("to")
+        
+        let phone = Expression<String>("phone")
+        
+        let contactPhone = Expression<String>("contactPhone")
+        let date = Expression<NSDate>("date")
+        //contactPhone
+        
+        //%%%%%% fetch chat
+        
+        //dispatch_async(dispatch_get_global_queue(priority, 0)) {
+        //self.progressBarDisplayer("Setting Conversations", true)
+        print("\(username) is Fetching chat")
+        socketObj.socket.emit("logClient","\(username) is Fetching chat")
+        
+        //===
+        
+        //===
+        
+        //var fetchChatURL=Constants.MainUrl+Constants.fetchMyAllchats
+        
+        var fetchChatURL=Constants.MainUrl+Constants.partialSync
+        
+        
+        
+        //var getUserDataURL=userDataUrl
+        
+        //  dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND,0))
+        //    {
+        
+        //QOS_CLASS_USER_INTERACTIVE
+        let queue2 = dispatch_queue_create("com.cnoon.manager-response-queue", DISPATCH_QUEUE_CONCURRENT)
+        let qqq=dispatch_get_global_queue(QOS_CLASS_BACKGROUND, 0)
+        let request = Alamofire.request(.POST, "\(fetchChatURL)", parameters: ["user1":username!], headers:header)
+        request.response(
+            queue: queue2,
+            responseSerializer: Request.JSONResponseSerializer(),
+            completionHandler: { response in
+                // You are now running on the concurrent `queue` you created earlier.
+                print("Parsing JSON on thread: \(NSThread.currentThread()) is main thread: \(NSThread.isMainThread())")
+                
+                // Validate your JSON response and convert into model objects if necessary
+                //print(response)
+                //print(response.result.value)
+                
+                
+                switch response.result {
+                case .Success:
+                    
+                    print("All chat fetched success")
+                    socketObj.socket.emit("logClient", "All chat fetched success")
+                    print("response data \(response.data)")
+                    
+                    if let data1 = response.result.value {
+                        print("data \(data1)")
+                        let UserchatJson = JSON(data1)
+                        print("chat fetched JSON: \(UserchatJson)")
+                        
+                        
+                        //===========
+                        //DONT DELETE ANYTHING
+                        //============
+                        
+                        
+                        /* var tableUserChatSQLite=sqliteDB.userschats
+                         
+                         do{
+                         try sqliteDB.db.run(tableUserChatSQLite.filter(from != username!).delete())
+                         }catch{
+                         socketObj.socket.emit("logClient","sqlite chat table refreshed")
+                         print("chat table not deleted")
+                         }*/
+                        
+                        /*var tableUserChatSQLite=sqliteDB.userschats
+                         
+                         do{
+                         try sqliteDB.db.run(tableUserChatSQLite.delete())
+                         }catch{
+                         socketObj.socket.emit("logClient","sqlite chat table refreshed")
+                         print("chat table not deleted")
+                         }*/
+                        
+                        //Overwrite sqlite db
+                        //sqliteDB.deleteChat(self.selectedContact)
+                        
+                        socketObj.socket.emit("logClient","IPHONE-LOG: all chat messages count is \(UserchatJson["msg"].count)")
+                        for var i=0;i<UserchatJson["msg"].count
+                            ;i++
+                        {
+                            
+                            // var isFile=false
+                            var chattype="chat"
+                            var file_type=""
+                            //UserchatJson["msg"][i]["date"].string!
+                            
+                            
+                            
+                            let dateFormatter = NSDateFormatter()
+                            dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
+                            let datens2 = dateFormatter.dateFromString(UserchatJson["msg"][i]["date"].string!)
+                            
+                            print("fetch date from server got is \(UserchatJson["msg"][i]["date"].string!)... converted is \(datens2.debugDescription)")
+                            
+                            
+                            print("===fetch chat date raw from server in chatview is \(UserchatJson["msg"][i]["date"].string!)")
+                            
+                            /*
+                             let formatter = NSDateFormatter()
+                             formatter.dateFormat = "MM/dd, HH:mm";
+                             // formatter.dateStyle = NSDateFormatterStyle.ShortStyle
+                             //formatter.timeStyle = .ShortStyle
+                             
+                             let dateString = formatter.stringFromDate(datens2!)
+                             */
+                            
+                            if(UserchatJson["msg"][i]["type"].isExists())
+                            {
+                                chattype=UserchatJson["msg"][i]["type"].string!
+                            }
+                            
+                            if(UserchatJson["msg"][i]["file_type"].isExists())
+                            {
+                                file_type=UserchatJson["msg"][i]["file_type"].string!
+                            }
+                            
+                            if(UserchatJson["msg"][i]["uniqueid"].isExists())
+                            {
+                                
+                                /* let tbl_files=sqliteDB.files;
+                                 do{
+                                 
+                                 
+                                 for tblFiles in try sqliteDB.db.prepare(tbl_files.filter(uniqueid==UserchatJson["msg"][i]["uniqueid"].string!/*,from==username!*/)){
+                                 isFile=true
+                                 chattype=tblFiles[type]
+                                 
+                                 print("File exists in file table \(file_name)")
+                                 /////   socketObj.socket.emit("logClient","IPHONE LOG: \(username!) File exists in file table \(tblFiles[file_name])")
+                                 
+                                 
+                                 /*print(tblContacts[to])
+                                 print(tblContacts[from])
+                                 print(tblContacts[msg])
+                                 print(tblContacts[date])
+                                 print(tblContacts[status])
+                                 print("--------")
+                                 */
+                                 /*if(tblContacts[from]==selecteduser
+                                 
+                                 ){}*/
+                                 }
+                                 }
+                                 catch
+                                 {
+                                 print("error in checking files table")
+                                 }
+                                 */
+                                
+                                if(UserchatJson["msg"][i]["to"].string! == username! && UserchatJson["msg"][i]["status"].string!=="sent")
+                                {
+                                    var updatedStatus="delivered"
+                                    
+                                    
+                                    sqliteDB.SaveChat(UserchatJson["msg"][i]["to"].string!, from1: UserchatJson["msg"][i]["from"].string!,owneruser1:UserchatJson["msg"][i]["owneruser"].string! , fromFullName1: UserchatJson["msg"][i]["fromFullName"].string!, msg1: UserchatJson["msg"][i]["msg"].string!,date1:datens2,uniqueid1:UserchatJson["msg"][i]["uniqueid"].string!,status1: updatedStatus, type1: chattype, file_type1: file_type,file_path1: "" )
+                                    
+                                    //socketObj.socket.emit("messageStatusUpdate",["status":"","iniqueid":"","sender":""])
+                                    
+                                    
+                                    managerFile.sendChatStatusUpdateMessage(UserchatJson["msg"][i]["uniqueid"].string!, status: updatedStatus, sender: UserchatJson["msg"][i]["from"].string!)
+                                    
+                                    
+                                    //OLD SOCKET LOGIC
+                                    /* socketObj.socket.emitWithAck("messageStatusUpdate", ["status":updatedStatus,"uniqueid":UserchatJson["msg"][i]["uniqueid"].string!,"sender": UserchatJson["msg"][i]["from"].string!])(timeoutAfter: 0){data in
+                                     var chatmsg=JSON(data)
+                                     print(data[0])
+                                     print(chatmsg[0])
+                                     print("chat status emitted")
+                                     socketObj.socket.emit("logClient","\(username) chat status emitted")
+                                     
+                                     }*/
+                                    
+                                    
+                                    
+                                }
+                                else
+                                {
+                                    
+                                    sqliteDB.SaveChat(UserchatJson["msg"][i]["to"].string!, from1: UserchatJson["msg"][i]["from"].string!,owneruser1:UserchatJson["msg"][i]["owneruser"].string! , fromFullName1: UserchatJson["msg"][i]["fromFullName"].string!, msg1: UserchatJson["msg"][i]["msg"].string!,date1:datens2,uniqueid1:UserchatJson["msg"][i]["uniqueid"].string!,status1: UserchatJson["msg"][i]["status"].string!, type1: chattype, file_type1: file_type,file_path1: "" )
+                                    
+                                }
+                            }
+                            else
+                            {
+                                sqliteDB.SaveChat(UserchatJson["msg"][i]["to"].string!, from1: UserchatJson["msg"][i]["from"].string!,owneruser1:UserchatJson["msg"][i]["owneruser"].string! , fromFullName1: UserchatJson["msg"][i]["fromFullName"].string!, msg1: UserchatJson["msg"][i]["msg"].string!,date1:datens2,uniqueid1:"",status1: "",type1: chattype, file_type1: file_type,file_path1: "" )
+                                
+                            }
+                            
+                        }
+                        
+                        
+                        
+                        /*  let tbl_userchats=sqliteDB.userschats
+                         let tbl_contactslists=sqliteDB.contactslists
+                         let tbl_allcontacts=sqliteDB.allcontacts
+                         
+                         let myquery=tbl_contactslists.join(tbl_userchats, on: tbl_contactslists[phone] == tbl_userchats[contactPhone]).group(tbl_userchats[contactPhone]).order(date.desc)
+                         
+                         var queryruncount=0
+                         do{for ccc in try sqliteDB.db.prepare(myquery) {
+                         
+                         print("checking pending files from \(ccc[contactPhone])")
+                         managerFile.checkPendingFiles(ccc[contactPhone])
+                         
+                         
+                         }
+                         }
+                         catch{
+                         print("error 1232")
+                         }*/
+                        /////// managerFile.checkPendingFiles(username!)
+                        
+                        //////// dispatch_async(dispatch_get_main_queue()) {
+                        
+                        
+                        
+                        
+                        //------CHECK IF ANY PENDING FILES--------
+                        
+                        if(delegateRefreshChat != nil)
+                        {
+                            print("informing UI to repfresh status")
+                            delegateRefreshChat?.refreshChatsUI("updateUI", data: nil)
+                        }
+                        if(socketObj.delegateChat != nil)
+                        {
+                            socketObj.delegateChat?.socketReceivedMessageChat("updateUI", data: nil)
+                        }
+                        if(socketObj.delegate != nil)
+                        {
+                            socketObj.delegate?.socketReceivedMessage("updateUI", data: nil)
+                        }
+                        ///////// }
+                        
+                        
+                        print("all fetched chats saved in sqlite success")
+                        
+                        
+                        
+                    }
+                    
+                    
+                /////return completion(result: true)
+                case .Failure:
+                    socketObj.socket.emit("logClient", "All chat fetched failed")
+                    print("all chat fetched failed")
+                }
+                // }
+                
+                
+                // To update anything on the main thread, just jump back on like so.
+                ///  dispatch_async(dispatch_get_main_queue()) {
+                ///      print("Am I back on the main thread: \(NSThread.isMainThread())")
+                /// }
+            }
+        )
+        
+        
+    }
     
+
     
     
     func sendPendingChatMessages(completion:(result:Bool)->())
@@ -735,6 +1012,12 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
         if(socketObj.socket.status == SocketIOClientStatus.Closed)
         {
             print("opening socket")
+            
+            if(username != nil && username != "")
+            {
+                self.synchroniseChatData()
+            }
+            
             socketObj=nil
             socketObj=LoginAPI(url:"\(Constants.MainUrl)")
             ///socketObj.connect()
@@ -972,8 +1255,19 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
  */
     
 
-    
+    /*func application(application: UIApplication, didReceiveRemoteNotification userInfo: [NSObject : AnyObject]) {
+        
+        let systemSoundID: SystemSoundID = 1016
+        
+        // to play sound
+        AudioServicesPlaySystemSound (systemSoundID)
+        print("hereeeeeeeeeeee")
+    }*/
     func application(application: UIApplication, didReceiveRemoteNotification userInfo: [NSObject : AnyObject], fetchCompletionHandler completionHandler: (UIBackgroundFetchResult) -> Void) {
+        
+        
+     
+        
         
         print("receivednotification method called")
         print("app state application is \(UIApplication.sharedApplication().applicationState.rawValue)")
@@ -1295,15 +1589,11 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
                     if (state == UIApplicationState.Active || state == UIApplicationState.Inactive)
                     {
                         
-                         let systemSoundID: SystemSoundID = 1016
+                       //  let systemSoundID: SystemSoundID = 1016
                          
                          // to play sound
-                         AudioServicesPlaySystemSound (systemSoundID)
-                        if(delegateRefreshChat != nil)
-                        {
-                            delegateRefreshChat?.refreshChatsUI("updateUI", data: nil)
-                        }
- 
+                       //  AudioServicesPlaySystemSound (systemSoundID)
+                     
                         
                         //AudioServicesCre
                         // to play sound
@@ -1316,17 +1606,26 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
                       //  activeViewCont?.loadView()
     
                     }
+                    if(delegateRefreshChat != nil)
+                    {
+                        let systemSoundID: SystemSoundID = 1016
+                        
+                        // to play sound
+                        AudioServicesPlaySystemSound (systemSoundID)
+                        delegateRefreshChat?.refreshChatsUI("updateUI", data: nil)
+                    }
+                    
                     
                     //UIApplicationState state = [[UIApplication sharedApplication] applicationState];
                     
-                    if (state == UIApplicationState.Background )
+                   /* if (state == UIApplicationState.Background )
                     {
                         if(delegateRefreshChat != nil)
                         {
                             delegateRefreshChat?.refreshChatsUI("updateUI", data: nil)
                         }
    
-                    }
+                    }*/
  
 
                     //print(response.description)

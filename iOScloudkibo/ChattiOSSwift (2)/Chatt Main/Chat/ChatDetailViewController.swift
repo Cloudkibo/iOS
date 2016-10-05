@@ -74,7 +74,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
     override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: NSBundle?)
     {
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
-        print(NSBundle.debugDescription())
+        //print(NSBundle.debugDescription())
         
         // Custom initialization
     }
@@ -139,15 +139,15 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
             do {
                 //var new path=dstPath.re
                 try fileManager.removeItemAtPath(dstPath)
-                print("Existing file deleted.")
+                //print("Existing file deleted.")
             } catch {
-                print("Failed to delete existing file:\n\((error as NSError).description)")
+                //print("Failed to delete existing file:\n\((error as NSError).description)")
             }
             do {
                 try fileManager.copyItemAtPath(srcPath, toPath: dstPath)
-                print("File saved.")
+                //print("File saved.")
             } catch {
-                print("File not saved:\n\((error as NSError).description)")
+                //print("File not saved:\n\((error as NSError).description)")
             }
             return true
         } else {
@@ -158,13 +158,13 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
     
     required init?(coder aDecoder: NSCoder){
         super.init(coder: aDecoder)
-        //print("hiiiiii22 \(self.AuthToken)")
+        ////print("hiiiiii22 \(self.AuthToken)")
         
     }
     
     
     override func viewWillAppear(animated: Bool) {
-        print("chat will appear")
+        //print("chat will appear")
         socketObj.socket.emit("logClient","IPHONE-LOG: chat page will appear")
         
         
@@ -182,11 +182,11 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
         //%%%%%%%%%%%%%% commented new socket connected again and again
         /*if(socketObj == nil)
          {
-         print("socket is nillll", terminator: "")
+         //print("socket is nillll", terminator: "")
          
          
          socketObj=LoginAPI(url:"\(Constants.MainUrl)")
-         /////////// print("connected issssss \(socketObj.socket.connected)")
+         /////////// //print("connected issssss \(socketObj.socket.connected)")
          ///socketObj.connect()
          socketObj.addHandlers()
          socketObj.addWebRTCHandlers()
@@ -197,7 +197,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
         
         
         //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%------------ commented june 16 FetchChatServer()
-        print("calling retrieveChat")
+        //print("calling retrieveChat")
         
         // if(appJustInstalled[self.selectedIndex] == true)
         //{
@@ -288,7 +288,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
         //uploadInfo=NSMutableArray()
         managerFile.delegateProgressUpload=self
         
-        print("chat on load")
+        //print("chat on load")
         if(socketObj != nil)
         {
         socketObj.socket.emit("logClient","IPHONE-LOG: chat page loading")
@@ -359,7 +359,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
                     barAvatarImage.layer.cornerRadius = barAvatarImage.frame.size.width/2
                     barAvatarImage.clipsToBounds = true
                     
-                    print("bav avatar size is \(barAvatarImage.frame.width) .. \(barAvatarImage.frame.width)")
+                    //print("bav avatar size is \(barAvatarImage.frame.width) .. \(barAvatarImage.frame.width)")
                     
                     var avatarbutton=UIBarButtonItem.init(customView: barAvatarImage)
                     self.navigationItem.rightBarButtonItems?.insert(avatarbutton, atIndex: 0)
@@ -373,7 +373,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
         }
         catch
         {
-            print("error in fetching profile image")
+            //print("error in fetching profile image")
         }
         
 
@@ -427,7 +427,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
         }
         catch
         {
-            print("error in fetching profile image")
+            //print("error in fetching profile image")
         }
         */
     
@@ -449,10 +449,10 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
         //%%%%%%% workinggg commented
         /*socketEventID=socketObj.socket.on("im") {data,ack in
          
-         print("chat sent to server.ack received 222 ")
+         //print("chat sent to server.ack received 222 ")
          var chatJson=JSON(data)
-         print("chat received \(chatJson.debugDescription)")
-         print(chatJson[0]["msg"])
+         //print("chat received \(chatJson.debugDescription)")
+         //print(chatJson[0]["msg"])
          receivedMsg=chatJson[0]["msg"]
          self.addMessage(receivedMsg.description, ofType: "1",date: NSDate().debugDescription)
          self.tblForChats.reloadData()
@@ -476,8 +476,8 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
          //AudioServicesPlaySystemSound (systemSoundID)
          
          var chatJson=JSON(data)
-         print("chat received \(chatJson.debugDescription)")
-         print(chatJson[0]["msg"])
+         //print("chat received \(chatJson.debugDescription)")
+         //print(chatJson[0]["msg"])
          receivedMsg=chatJson[0]["msg"]
          //var dateString=chatJson[0]["date"]
          
@@ -536,7 +536,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
      
      do{
      for user in try sqliteDB.db.prepare(tbl_contactList) {
-     print("id: \(user[username]), email: \(user[email])")
+     //print("id: \(user[username]), email: \(user[email])")
      // id: 1, name: Optional("Alice"), email: alice@mac.com
      var userObj=JSON(["_id":"\(user[_id])","userid":"\(user[contactid])","firstname":"\(user[firstname])","lastname":"\(user[lastname])","email":"\(user[email])","phone":"\(user[phone])","status":"\(user[status])"])
      
@@ -547,7 +547,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
      
      
      /* for user in tbl_contactList.select(username, email,_id,contactid,firstname,lastname,phone,status).filter(username==selectedContact) {
-     print("id: \(user[username]), email: \(user[email])")
+     //print("id: \(user[username]), email: \(user[email])")
      //^^^^var userObj=JSON(["_id":"\(user[_id])","userid":"\(user[userid])","firstname":"\(user[firstname])","lastname":"\(user[lastname])","email":"\(user[email])","phone":"\(user[phone])","status":"\(user[status])"])
      var userObj=JSON(["_id":"\(user[_id])","userid":"\(user[contactid])","firstname":"\(user[firstname])","lastname":"\(user[lastname])","email":"\(user[email])","phone":"\(user[phone])","status":"\(user[status])"])
      
@@ -579,7 +579,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
         /*if(self.ContactOnlineStatus==0)
          {
          self.showError("Info:", message: "Contact is offline. Please try again later.", button1: "Ok")
-         print("contact is offline")
+         //print("contact is offline")
          socketObj.socket.emit("logClient","IPHONE-LOG: contact \(selectedContact) is offline")
          }*/
         // else{
@@ -590,17 +590,17 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
         // &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&**************************
         username=KeychainWrapper.stringForKey("username")
         socketObj.socket.emit("logClient","IPHONE-LOG: callthisperson,room:globalchatroom,calleephone: \(selectedContact),callerphone:\(username!)")
-        print("callthisperson,room : globalchatroom,callee: \(selectedContact), caller:\(username!)")
+        //print("callthisperson,room : globalchatroom,callee: \(selectedContact), caller:\(username!)")
         
         
         socketObj.socket.emitWithAck("callthisperson",["room" : "globalchatroom","calleephone": selectedContact, "callerphone":username!])(timeoutAfter: 15000){data in
             var chatmsg=JSON(data)
             
-            print(data[0])
-            print(data[0]["calleephone"]!!)
-            print(data[0]["status"]!!.debugDescription!)
+            //print(data[0])
+            //print(data[0]["calleephone"]!!)
+            //print(data[0]["status"]!!.debugDescription!)
             
-            print("username is ... \(username!)")
+            //print("username is ... \(username!)")
             
             isInitiator=true
             callerName=username!
@@ -624,7 +624,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
     
     func retrieveChatFromSqlite(selecteduser:String)
     {
-        print("retrieveChatFromSqlite called---------")
+        //print("retrieveChatFromSqlite called---------")
         ///^^messages.removeAllObjects()
         var messages2=NSMutableArray()
         
@@ -633,7 +633,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
         let owneruser = Expression<String>("owneruser")
         let fromFullName = Expression<String>("fromFullName")
         let msg = Expression<String>("msg")
-        let date = Expression<String>("date")
+        let date = Expression<NSDate>("date")
         let status = Expression<String>("status")
         let uniqueid = Expression<String>("uniqueid")
         let type = Expression<String>("type")
@@ -642,39 +642,39 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
         var tbl_userchats=sqliteDB.userschats
         var res=tbl_userchats.filter(to==selecteduser || from==selecteduser)
         //to==selecteduser || from==selecteduser
-        print("chat from sqlite is")
-        print(res)
+        //print("chat from sqlite is")
+        //print(res)
         do
         {
             
             //for tblContacts in try sqliteDB.db.prepare(tbl_userchats.filter(owneruser==owneruser1)){
-            //print("queryy runned count is \(tbl_contactslists.count)")
+            ////print("queryy runned count is \(tbl_contactslists.count)")
             for tblContacts in try sqliteDB.db.prepare(tbl_userchats.filter(to==selecteduser || from==selecteduser).order(date.asc)){
                 
-                print("===fetch date from database is tblContacts[date] \(tblContacts[date])")
+                //print("===fetch date from database is tblContacts[date] \(tblContacts[date])")
                 
                 var formatter = NSDateFormatter();
                 formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSS";
                 //formatter.dateFormat = "MM/dd, HH:mm";
                 formatter.timeZone = NSTimeZone(name: "UTC")
                 // formatter.timeZone = NSTimeZone.localTimeZone()
-                var defaultTimeZoneStr = formatter.dateFromString(tblContacts[date])
-                var defaultTimeZoneStr2 = formatter.stringFromDate(defaultTimeZoneStr!)
+               // var defaultTimeZoneStr = formatter.dateFromString(tblContacts[date])
+               // var defaultTimeZoneStr2 = formatter.stringFromDate(defaultTimeZoneStr!)
                 
                 
                 var formatter2 = NSDateFormatter();
                 formatter2.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSS"
                 formatter2.timeZone = NSTimeZone.localTimeZone()
-                var defaultTimeeee = formatter2.stringFromDate(defaultTimeZoneStr!)
+                var defaultTimeeee = formatter2.stringFromDate(tblContacts[date])
                 
-                print("===fetch date from database is tblContacts[date] ... date converted is \(defaultTimeZoneStr)... string is \(defaultTimeZoneStr2)... defaultTimeeee \(defaultTimeeee)")
+                //print("===fetch date from database is tblContacts[date] ... date converted is \(defaultTimeZoneStr)... string is \(defaultTimeZoneStr2)... defaultTimeeee \(defaultTimeeee)")
                 
-                /*print(tblContacts[to])
-                print(tblContacts[from])
-                print(tblContacts[msg])
-                print(tblContacts[date])
-                print(tblContacts[status])
-                print("--------")
+                /*//print(tblContacts[to])
+                //print(tblContacts[from])
+                //print(tblContacts[msg])
+                //print(tblContacts[date])
+                //print(tblContacts[status])
+                //print("--------")
                 */
                 
              
@@ -692,12 +692,12 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
                   /*  socketObj.socket.emitWithAck("messageStatusUpdate", ["status":"seen","uniqueid":tblContacts[uniqueid],"sender": tblContacts[from]])(timeoutAfter: 15000){data in
                         var chatmsg=JSON(data)
                         
-                        print(data[0])
-                        print(data[0]["uniqueid"]!!)
-                        print(data[0]["uniqueid"]!!.debugDescription!)
-                        print(chatmsg[0]["uniqueid"].string!)
-                        //print(data[0]["status"]!!.string!+" ... "+data[0]["uniqueid"]!!.string!)
-                        print("chat status seen emitted")
+                        //print(data[0])
+                        //print(data[0]["uniqueid"]!!)
+                        //print(data[0]["uniqueid"]!!.debugDescription!)
+                        //print(chatmsg[0]["uniqueid"].string!)
+                        ////print(data[0]["status"]!!.string!+" ... "+data[0]["uniqueid"]!!.string!)
+                        //print("chat status seen emitted")
                         sqliteDB.removeMessageStatusSeen(data[0]["uniqueid"]!!.debugDescription!)
                         socketObj.socket.emit("logClient","\(username) chat status emitted")
                         
@@ -708,7 +708,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
                 if (tblContacts[from]==username!)
                     
                 {//type1
-                    ///print("statussss is \(tblContacts[status])")
+                    /////print("statussss is \(tblContacts[status])")
                     if(tblContacts[file_type]=="image")
                     {
                       
@@ -744,7 +744,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
                 }
                 else
                 {//type2
-                   //// print("statussss is \(tblContacts[status])")
+                   //// //print("statussss is \(tblContacts[status])")
                     if(tblContacts[file_type]=="image")
                     {
                       //  self.addUploadInfo(selectedContact, uniqueid1: tblContacts[uniqueid], rowindex: messages.count, uploadProgress: 1, isCompleted: true)
@@ -800,17 +800,17 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
         }
         catch(let error)
         {
-            print(error)
+            //print(error)
         }
         /////var tbl_userchats=sqliteDB.db["userschats"]
         
     }
     
     func removeChatHistory(){
-        print("header is \(header) selectedContact is \(selectedContact)")
+        //print("header is \(header) selectedContact is \(selectedContact)")
         
         //var loggedUsername=loggedUserObj["username"]
-        print("inside mark funcc", terminator: "")
+        //print("inside mark funcc", terminator: "")
         var removeChatHistoryURL=Constants.MainUrl+Constants.removeChatHistory
         
         //Alamofire.request(.POST,"\(removeChatHistoryURL)",headers:header,parameters: ["username":"\(selectedContact)"]).validate(statusCode: 200..<300).response{
@@ -825,9 +825,9 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
             /// self.performSegueWithIdentifier("loginSegue", sender: nil)
             
             if response1?.statusCode==200 {
-                print("chat history deleted")
-                //print(request1)
-                print(data1?.debugDescription)
+                //print("chat history deleted")
+                ////print(request1)
+                //print(data1?.debugDescription)
                 
                 sqliteDB.deleteChat(self.selectedContact.debugDescription)
                 
@@ -838,13 +838,13 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
                 }
             }
             else
-            {print("chat history not deleted")
-                print(error1)
-                print(data1)
+            {//print("chat history not deleted")
+                //print(error1)
+                //print(data1)
             }
             if(response1?.statusCode==401)
             {
-                print("chat history not deleted token refresh needed")
+                //print("chat history not deleted token refresh needed")
                 if(username==nil || password==nil)
                 {
                     self.performSegueWithIdentifier("loginSegue", sender: nil)
@@ -860,15 +860,15 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
     
     /*func markChatAsRead()
     {
-        print("inside mark as read", terminator: "")
+        //print("inside mark as read", terminator: "")
         var markChatReadURL=Constants.MainUrl+Constants.markAsRead
-        //print(["user1":"\(loggedUserObj)","user2":"\(selectedUserObj)"])
-        print("**", terminator: "")
+        ////print(["user1":"\(loggedUserObj)","user2":"\(selectedUserObj)"])
+        //print("**", terminator: "")
         //^^^^^ var loggedID=loggedUserObj["_id"]
         var loggedID=_id
-        //^^^^print(loggedID.description+" logged id")
-        print(loggedID!+" logged id", terminator: "")
-        print(self.selectedID+" selected id", terminator: "")
+        //^^^^//print(loggedID.description+" logged id")
+        //print(loggedID!+" logged id", terminator: "")
+        //print(self.selectedID+" selected id", terminator: "")
         Alamofire.request(.POST,"\(markChatReadURL)",headers:header,parameters: ["user1":"\(loggedID!)","user2":"\(self.selectedID)"]
             ).responseJSON{response in
                 var response1=response.response
@@ -877,7 +877,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
                 var error1=response.result.error
                 
                 if(error1==nil)
-                {print("chat marked as read")}
+                {//print("chat marked as read")}
                 else
                 {
                     self.rt.refrToken()
@@ -889,21 +889,21 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
                 /// self.performSegueWithIdentifier("loginSegue", sender: nil)
                 
                 //^^ if response1?.statusCode==200 {
-                print("chat marked as read")
-                print(response1)
-                //print(data1?.debugDescription)
+                //print("chat marked as read")
+                //print(response1)
+                ////print(data1?.debugDescription)
                 //var UserchatJson=JSON(data1!)
                 //^^}
                 /*else
-                 {print("chat marked as read but status code is not 200")
-                 print(error1)
-                 //print(response1?.statusCode)
-                 //print(data1)
+                 {//print("chat marked as read but status code is not 200")
+                 //print(error1)
+                 ////print(response1?.statusCode)
+                 ////print(data1)
                  }
                  */
                 /*if(response1?.statusCode==401)
                  {
-                 print("chat not marked as read refresh token needed")
+                 //print("chat not marked as read refresh token needed")
                  self.rt.refrToken()
                  }
                  */
@@ -914,7 +914,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
     
     override func awakeFromNib() {
       //  NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("applicationWillBecomeActive:"), name:UIApplicationDidBecomeActiveNotification, object: nil)
-       print("awakeeeeeeeee")
+       //print("awakeeeeeeeee")
         /*NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("applicationWillResignActive:"), name:UIApplicationWillResignActiveNotification, object: nil)
         
         //
@@ -937,7 +937,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
     
     func updateProgressUpload(progress: Float, uniqueid: String) {
         
-        print("progress delegate called \(progress) .. uniqueid is \(uniqueid)")
+        //print("progress delegate called \(progress) .. uniqueid is \(uniqueid)")
         //uploadInfo.indexOfObject(<#T##anObject: AnyObject##AnyObject#>)
        /* uploadInfo.filterUsingPredicate(NSPredicate(block: { ("uniqueid", uniqueid) -> Bool in
             
@@ -954,7 +954,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
          var foundMsgInd=messages.indexOfObject(resultArrayMsgs.first!)
         //if(foundInd != NSNotFound)
             if(resultArray.count>0){
-               // print("found uniqueID index as \(foundInd)")
+               // //print("found uniqueID index as \(foundInd)")
                 var newuser=resultArray.first!.valueForKey("selectedUser")
                 var newuniqueid=resultArray.first!.valueForKey("uniqueid")
                 var newrowindex=foundMsgInd
@@ -989,7 +989,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
                     var newprogressview = try newcell!.viewWithTag(14) as! KDCircularProgress!
                     var intangle=(progress*360) as NSNumber
                     
-                    print("from \(newprogressview.angle) to \(intangle.integerValue)")
+                    //print("from \(newprogressview.angle) to \(intangle.integerValue)")
                     newprogressview.hidden=false
                     newprogressview.animateToAngle(intangle.integerValue, duration: 0.7, completion: { (Bool) in
                         
@@ -1010,7 +1010,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
                     }
                     catch
                     {
-                        print("errorrrrr 788")
+                        //print("errorrrrr 788")
                     }
                 }
                 
@@ -1032,7 +1032,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
     /*func FetchChatServer(completion:(result:Bool)->())
      {
      
-     print("[user1:\(username!),user2:\(selectedContact)]", terminator: "")
+     //print("[user1:\(username!),user2:\(selectedContact)]", terminator: "")
      ///POST GET april 2016
      var bringUserChatURL=Constants.MainUrl+Constants.bringUserChat
      let configuration = NSURLSessionConfiguration.defaultSessionConfiguration()
@@ -1058,14 +1058,14 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
      /// self.performSegueWithIdentifier("loginSegue", sender: nil)
      
      if response1?.statusCode==200 {
-     print("chatttttttt:::::")
-     print(response1)
-     print(data1)
+     //print("chatttttttt:::::")
+     //print(response1)
+     //print(data1)
      var UserchatJson=JSON(data1!)
-     print(UserchatJson)
+     //print(UserchatJson)
      socketObj.socket.emit("logClient","user chat fetched \(UserchatJson)")
-     print(":::::^^^&&&&&")
-     //print(UserchatJson["msg"][0]["to"])
+     //print(":::::^^^&&&&&")
+     ////print(UserchatJson["msg"][0]["to"])
      
      //Overwrite sqlite db
      sqliteDB.deleteChat(self.selectedContact)
@@ -1110,10 +1110,10 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
      else
      {
      
-     print("chatttttt faileddddddd")
-     print(response1)
-     print(error1)
-     print(data1)
+     //print("chatttttt faileddddddd")
+     //print(response1)
+     //print(error1)
+     //print(data1)
      completion(result:false)
      }
      
@@ -1122,7 +1122,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
      if(response1?.statusCode==401)
      {
      socketObj.socket.emit("logClient","IPHONE-LOG: error in fetching chat status 401")
-     print("chatttttt fetch faileddddddd token expired")
+     //print("chatttttt fetch faileddddddd token expired")
      self.rt.refrToken()
      }
      }
@@ -1193,7 +1193,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
          //var hh1 = msg.boundingRectWithSize(CGSizeMake(220.0,CGFloat.max), options: NSStringDrawingOptions.UsesLineFragmentOrigin, attributes: nil, context: nil).size
          
          return sizeOFStr.height + 70
-         //print("size old is \(sizeOFStr.height) and my height is \(size.height)")
+         ////print("size old is \(sizeOFStr.height) and my height is \(size.height)")
          //return size.height+1;
          
          */
@@ -1216,7 +1216,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
     func tableView(tableView: UITableView!, cellForRowAtIndexPath indexPath: NSIndexPath!) -> UITableViewCell! {
         var cell : UITableViewCell!
         
-        print("cellForRowAtIndexPath called \(indexPath)")
+        //print("cellForRowAtIndexPath called \(indexPath)")
         var messageDic = messages.objectAtIndex(indexPath.row) as! [String : String];
         NSLog(messageDic["message"]!, 1)
         let msgType = messageDic["type"] as NSString!
@@ -1224,8 +1224,8 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
         let date2=messageDic["date"] as NSString!
         let sizeOFStr = self.getSizeOfString(msg)
         let uniqueidDictValue=messageDic["uniqueid"] as NSString!
-        print("sizeOFStr for \(msg) is \(sizeOFStr)")
-       //// print("sizeOfstr is width \(sizeOFStr.width) and height is \(sizeOFStr.height)")
+        //print("sizeOFStr for \(msg) is \(sizeOFStr)")
+       //// //print("sizeOfstr is width \(sizeOFStr.width) and height is \(sizeOFStr.height)")
         
         //var sizeOFStr=msg.boundingRectWithSize(CGSizeMake(220.0,CGFloat.max), options: NSStringDrawingOptions.UsesLineFragmentOrigin, attributes: nil, context: nil).size
         /*
@@ -1270,22 +1270,22 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
            //  let datens2 = dateFormatter.dateFromString(date2.debugDescription)
             //2016-09-18T19:13:00.588Z
              let datens2 = dateFormatter.dateFromString("2016-09-18T19:13:00.588")
-             print(".... \(datens2)")
+             //print(".... \(datens2)")
             */
              //let formatter2 = NSDateFormatter()
              //formatter2.dateStyle = NSDateFormatterStyle.ShortStyle
              //formatter2.timeStyle = .ShortStyle
              
              //let dateString = formatter.stringFromDate(datens2!)
-           // print("dateeeeeee \(dateString)")
+           // //print("dateeeeeee \(dateString)")
             
-            print("date received in chat is \(date2.debugDescription)")
+            //print("date received in chat is \(date2.debugDescription)")
             var formatter = NSDateFormatter();
             formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSS";
             //formatter.dateFormat = "MM/dd, HH:mm";
             formatter.timeZone = NSTimeZone.localTimeZone()
             var defaultTimeZoneStr = formatter.dateFromString(date2.debugDescription)
-            print("defaultTimeZoneStr \(defaultTimeZoneStr)")
+            //print("defaultTimeZoneStr \(defaultTimeZoneStr)")
             
             var formatter2 = NSDateFormatter();
             formatter2.timeZone=NSTimeZone.localTimeZone()
@@ -1293,7 +1293,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
             var displaydate=formatter2.stringFromDate(defaultTimeZoneStr!)
             //formatter.dateFormat = "MM/dd, HH:mm";
             
-            print("displaydate is \(displaydate)")
+            //print("displaydate is \(displaydate)")
             timeLabel.text=displaydate
             //timeLabel.text=date2.debugDescription
         }
@@ -1317,12 +1317,12 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
              chatImage.contentMode = .ScaleAspectFit
              }
              */
-           //// print("here 905 msgtype is \(msgType)")
+           //// //print("here 905 msgtype is \(msgType)")
             let distanceFactor = (197.0 - sizeOFStr.width) < 107 ? (197.0 - sizeOFStr.width) : 107
-           //// print("distanceFactor for \(msg) is \(distanceFactor)")
+           //// //print("distanceFactor for \(msg) is \(distanceFactor)")
             
             chatImage.frame = CGRectMake(20 + distanceFactor, chatImage.frame.origin.y, ((sizeOFStr.width + 107)  > 207 ? (sizeOFStr.width + 107) : 200), sizeOFStr.height + 40)
-         ////    print("chatImage.x for \(msg) is \(20 + distanceFactor) and chatimage.wdith is \(chatImage.frame.width)")
+         ////    //print("chatImage.x for \(msg) is \(20 + distanceFactor) and chatimage.wdith is \(chatImage.frame.width)")
             
             
             textLable.hidden=false
@@ -1331,7 +1331,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
             //*********
             textLable.text = "\(msg)"
             textLable.frame = CGRectMake(36 + distanceFactor, textLable.frame.origin.y, textLable.frame.size.width, sizeOFStr.height)
-          ///  print("textLable.x for \(msg) is \(textLable.frame.origin.x) and textLable.width is \(textLable.frame.width)")
+          ///  //print("textLable.x for \(msg) is \(textLable.frame.origin.x) and textLable.width is \(textLable.frame.width)")
             
             ////profileImage.center = CGPointMake(profileImage.center.x, textLable.frame.origin.y + textLable.frame.size.height - profileImage.frame.size.height/2 + 10)
             
@@ -1343,14 +1343,14 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
             
             
             
-            print("date received in chat post 2 is \(date2.debugDescription)")
-           // print("date received in chat is \(date2.debugDescription)")
+            //print("date received in chat post 2 is \(date2.debugDescription)")
+           // //print("date received in chat is \(date2.debugDescription)")
             var formatter = NSDateFormatter();
             formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSS";
             //formatter.dateFormat = "MM/dd, HH:mm";
             formatter.timeZone = NSTimeZone.localTimeZone()
             var defaultTimeZoneStr = formatter.dateFromString(date2.debugDescription)
-            print("defaultTimeZoneStr \(defaultTimeZoneStr)")
+            //print("defaultTimeZoneStr \(defaultTimeZoneStr)")
             
             if(defaultTimeZoneStr == nil)
             {
@@ -1401,7 +1401,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
             
             var imgNSData=NSFileManager.defaultManager().contentsAtPath(imgPath)
             //var imgNSData=NSFileManager.defaultManager().contentsAtPath(imgPath.path!)
-            print("hereee imgPath.path! is \(imgPath)")
+            //print("hereee imgPath.path! is \(imgPath)")
             
             
             
@@ -1428,13 +1428,13 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
                     }
                     
                     // progressView.hidden=false
-                    // print("yes uploading predicate satisfiedd")
+                    // //print("yes uploading predicate satisfiedd")
                   //  var bbb = resultArray.first!.valueForKey("uploadProgress") as! Float
                     
                     
-                    /*print("yes uploading predicate satisfiedd \(bbb)")
+                    /*//print("yes uploading predicate satisfiedd \(bbb)")
                     var newAngleValue=(bbb*360) as NSNumber
-                    print("\(progressView.angle) to newangle is \(newAngleValue.integerValue)")
+                    //print("\(progressView.angle) to newangle is \(newAngleValue.integerValue)")
                     if(progressView.angle<newAngleValue.integerValue)
                     {
                         progressView.animateFromAngle(progressView.angle, toAngle: newAngleValue.integerValue, duration: 0.5, completion: nil)
@@ -1461,7 +1461,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
                 ///.stretchableImageWithLeftCapWidth(40,topCapHeight: 20);
                 chatImage.contentMode = .ScaleAspectFill
                 chatImage.setNeedsDisplay()
-                print("file shownnnnnnnnn")
+                //print("file shownnnnnnnnn")
                 textLable.hidden=true
                 
                 //timeLabel.text=date2.debugDescription
@@ -1473,7 +1473,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
              if(imgNSData != nil)
              {
              chatImage.image = UIImage(contentsOfFile: msg as String)
-             print("file shownnnnnnnnn")
+             //print("file shownnnnnnnnn")
              }
              */
         }
@@ -1506,7 +1506,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
             
             var imgNSData=NSFileManager.defaultManager().contentsAtPath(imgPath)
             //var imgNSData=NSFileManager.defaultManager().contentsAtPath(imgPath.path!)
-            print("hereee imgPath.path! is \(imgPath)")
+            //print("hereee imgPath.path! is \(imgPath)")
             
             
             
@@ -1542,11 +1542,11 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
                 if(resultArray.count>0)
                 {
                     // progressView.hidden=false
-                    // print("yes uploading predicate satisfiedd")
+                    // //print("yes uploading predicate satisfiedd")
                     var bbb = resultArray.first!.valueForKey("uploadProgress") as! Float
-                    print("yes uploading predicate satisfiedd \(bbb)")
+                    //print("yes uploading predicate satisfiedd \(bbb)")
                     var newAngleValue=(bbb*360) as NSNumber
-                    print("\(progressView.angle) to newangle is \(newAngleValue.integerValue)")
+                    //print("\(progressView.angle) to newangle is \(newAngleValue.integerValue)")
                     if(progressView.angle<newAngleValue.integerValue)
                     {
                         progressView.animateFromAngle(progressView.angle, toAngle: newAngleValue.integerValue, duration: 0.5, completion: nil)
@@ -1566,17 +1566,17 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
                 ///.stretchableImageWithLeftCapWidth(40,topCapHeight: 20);
                 chatImage.contentMode = .ScaleAspectFill
                 chatImage.setNeedsDisplay()
-                print("file shownnnnnnnnn")
+                //print("file shownnnnnnnnn")
                 textLable.hidden=true
                 
                 
-                print("date received in chat is \(date2.debugDescription)")
+                //print("date received in chat is \(date2.debugDescription)")
                 var formatter = NSDateFormatter();
                 formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSS";
                 //formatter.dateFormat = "MM/dd, HH:mm";
                 formatter.timeZone = NSTimeZone.localTimeZone()
                 var defaultTimeZoneStr = formatter.dateFromString(date2.debugDescription)
-                print("defaultTimeZoneStr \(defaultTimeZoneStr)")
+                //print("defaultTimeZoneStr \(defaultTimeZoneStr)")
                 
                 var formatter2 = NSDateFormatter();
                 formatter2.timeZone=NSTimeZone.localTimeZone()
@@ -1593,13 +1593,13 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
              if(imgNSData != nil)
              {
              chatImage.image = UIImage(contentsOfFile: msg as String)
-             print("file shownnnnnnnnn")
+             //print("file shownnnnnnnnn")
              }
              */
         }
         if(msgType.isEqualToString("5"))
         {
-            print("type is 5 hereeeeeeeeeeee")
+            //print("type is 5 hereeeeeeeeeeee")
             cell = ///tblForChats.dequeueReusableCellWithIdentifier("ChatReceivedCell")! as UITableViewCell
                 
                 //FileImageReceivedCell
@@ -1640,11 +1640,11 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
             if(resultArray.count>0)
 {
    // progressView.hidden=false
-   // print("yes uploading predicate satisfiedd")
+   // //print("yes uploading predicate satisfiedd")
    var bbb = resultArray.first!.valueForKey("uploadProgress") as! Float
-    print("yes uploading predicate satisfiedd \(bbb)")
+    //print("yes uploading predicate satisfiedd \(bbb)")
     var newAngleValue=(bbb*360) as NSNumber
-    print("\(progressView.angle) to newangle is \(newAngleValue.integerValue)")
+    //print("\(progressView.angle) to newangle is \(newAngleValue.integerValue)")
     if(progressView.angle<newAngleValue.integerValue)
     {
         progressView.animateFromAngle(progressView.angle, toAngle: newAngleValue.integerValue, duration: 0.5, completion: nil)
@@ -1657,7 +1657,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
  */
           /*  var uploading=uploadInfo.contains({ (predicate) -> Bool in
              //   return ((predicate as? Int) == intValue)
-                print("yes uploading predicate satisfiedd")
+                //print("yes uploading predicate satisfiedd")
                 var newAngleValue=270
                 progressView.animateToAngle(newAngleValue, duration: 0.5, completion: nil)
                 return true
@@ -1717,13 +1717,13 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
             
            //chatImage.addGestureRecognizer(tapRecognizer)
             
-            print("date received in chat is \(date2.debugDescription)")
+            //print("date received in chat is \(date2.debugDescription)")
             var formatter = NSDateFormatter();
             formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSS";
             //formatter.dateFormat = "MM/dd, HH:mm";
             formatter.timeZone = NSTimeZone.localTimeZone()
             var defaultTimeZoneStr = formatter.dateFromString(date2.debugDescription)
-            print("defaultTimeZoneStr \(defaultTimeZoneStr)")
+            //print("defaultTimeZoneStr \(defaultTimeZoneStr)")
             
             var formatter2 = NSDateFormatter();
             formatter2.timeZone=NSTimeZone.localTimeZone()
@@ -1735,7 +1735,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
         }
         if(msgType.isEqualToString("6"))
         {
-            print("type is 6 hereeeeeeeeeeee")
+            //print("type is 6 hereeeeeeeeeeee")
             cell = ///tblForChats.dequeueReusableCellWithIdentifier("ChatReceivedCell")! as UITableViewCell
                 
                 //FileImageReceivedCell
@@ -1753,10 +1753,10 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
     
             
             let distanceFactor = (197.0 - sizeOFStr.width) < 107 ? (197.0 - sizeOFStr.width) : 107
-            print("distanceFactor for \(msg) is \(distanceFactor)")
+            //print("distanceFactor for \(msg) is \(distanceFactor)")
             
         /////    chatImage.frame = CGRectMake(20 + distanceFactor, chatImage.frame.origin.y, ((sizeOFStr.width + 107)  > 207 ? (sizeOFStr.width + 107) : 200), sizeOFStr.height + 40)
-          //  print("chatImage.x for \(msg) is \(20 + distanceFactor) and chatimage.wdith is \(chatImage.frame.width)")
+          //  //print("chatImage.x for \(msg) is \(20 + distanceFactor) and chatimage.wdith is \(chatImage.frame.width)")
             
 
             
@@ -1786,11 +1786,11 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
             if(resultArray.count>0)
             {
                 // progressView.hidden=false
-                // print("yes uploading predicate satisfiedd")
+                // //print("yes uploading predicate satisfiedd")
                 var bbb = resultArray.first!.valueForKey("uploadProgress") as! Float
-                print("yes uploading predicate satisfiedd \(bbb)")
+                //print("yes uploading predicate satisfiedd \(bbb)")
                 var newAngleValue=(bbb*360) as NSNumber
-                print("\(progressView.angle) to newangle is \(newAngleValue.integerValue)")
+                //print("\(progressView.angle) to newangle is \(newAngleValue.integerValue)")
                 if(progressView.angle<newAngleValue.integerValue)
                 {
                 progressView.animateFromAngle(progressView.angle, toAngle: newAngleValue.integerValue, duration: 0.5, completion: nil)
@@ -1803,8 +1803,8 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
     */
             /*var uploading=uploadInfo.contains({ (predicate) -> Bool in
                 //   return ((predicate as? Int) == intValue)
-                print(predicate.uploadProgress)
-                print("yes uploading predicate satisfiedd")
+                //print(predicate.uploadProgress)
+                //print("yes uploading predicate satisfiedd")
                 var newAngleValue=predicate.
                // progressView.animateToAngle(Int32(newAngleValue), duration: 0.5, completion: nil)
                 return true
@@ -1815,7 +1815,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
             
             
             chatImage.frame = CGRectMake(20 + distanceFactor, chatImage.frame.origin.y, ((sizeOFStr.width + 107)  > 207 ? (sizeOFStr.width + 107) : 200), sizeOFStr.height + 40)
-              print("chatImage.x for \(msg) is \(20 + distanceFactor) and chatimage.wdith is \(chatImage.frame.width)")
+              //print("chatImage.x for \(msg) is \(20 + distanceFactor) and chatimage.wdith is \(chatImage.frame.width)")
             
             
             
@@ -1865,13 +1865,13 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
             //Add the recognizer to your view.
             //chatImage.addGestureRecognizer(tapRecognizer)
             
-            print("date received in chat is \(date2.debugDescription)")
+            //print("date received in chat is \(date2.debugDescription)")
             var formatter = NSDateFormatter();
             formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSS";
             //formatter.dateFormat = "MM/dd, HH:mm";
             formatter.timeZone = NSTimeZone.localTimeZone()
             var defaultTimeZoneStr = formatter.dateFromString(date2.debugDescription)
-            print("defaultTimeZoneStr \(defaultTimeZoneStr)")
+            //print("defaultTimeZoneStr \(defaultTimeZoneStr)")
             
             var formatter2 = NSDateFormatter();
             formatter2.timeZone=NSTimeZone.localTimeZone()
@@ -1928,7 +1928,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
                 
                 var imgNSData=NSFileManager.defaultManager().contentsAtPath(imgPath)
                 //var imgNSData=NSFileManager.defaultManager().contentsAtPath(imgPath.path!)
-                print("hereee imgPath.path! is \(imgPath)")
+                //print("hereee imgPath.path! is \(imgPath)")
            
                 
                 
@@ -1948,7 +1948,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
                     ///.stretchableImageWithLeftCapWidth(40,topCapHeight: 20);
                     chatImage.contentMode = .ScaleAspectFill
                     chatImage.setNeedsDisplay()
-                     print("file shownnnnnnnnn")
+                     //print("file shownnnnnnnnn")
                     textLable.hidden=true
                 }
 
@@ -1958,12 +1958,12 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
                 if(imgNSData != nil)
                 {
                 chatImage.image = UIImage(contentsOfFile: msg as String)
-                print("file shownnnnnnnnn")
+                //print("file shownnnnnnnnn")
                 }
                 */
             }
             else{
-                print("not 3 ...")
+                //print("not 3 ...")
                 
                 let distanceFactor = (170.0 - sizeOFStr.width) < 100 ? (170.0 - sizeOFStr.width) : 100
                 chatImage.frame = CGRectMake(20 + distanceFactor, chatImage.frame.origin.y, ((sizeOFStr.width + 100)  > 200 ? (sizeOFStr.width + 100) : 200), sizeOFStr.height + 40)
@@ -1985,7 +1985,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
                 
                 if(msgType.isEqualToString("4"))
                 {
-                    print("type is 4 hereeeeeeeeeeee")
+                    //print("type is 4 hereeeeeeeeeeee")
                     cell = ///tblForChats.dequeueReusableCellWithIdentifier("ChatReceivedCell")! as UITableViewCell
                         
                         //FileImageReceivedCell
@@ -2179,7 +2179,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
     func docTapped(gestureRecognizer: UITapGestureRecognizer) {
         //tappedImageView will be the image view that was tapped.
         //dismiss it, animate it off screen, whatever.
-        print("docTapped hereee")
+        //print("docTapped hereee")
         
         let tappedImageView = gestureRecognizer.view! as! UIImageView
         //selectedImage=tappedImageView.image
@@ -2190,7 +2190,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
     
     func applicationDidBecomeActive(notification : NSNotification)
     {
-       print("didbecomeactivenotification=========")
+       //print("didbecomeactivenotification=========")
       //  NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("applicationWillResignActive:"), name:UIApplicationWillResignActiveNotification, object: nil)
         
         //
@@ -2203,14 +2203,14 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
     }
     func applicationWillResignActive(notification : NSNotification){
         /////////self.view.endEditing(true)
-        print("applicationWillResignActive=========")
+        //print("applicationWillResignActive=========")
          NSNotificationCenter.defaultCenter().removeObserver(self, name:UIKeyboardWillShowNotification, object: nil)
     
     }
     @IBOutlet weak var viewForContent: UIScrollView!
     func willShowKeyBoard(notification : NSNotification){
        
-        print("showkeyboardNotification============")
+        //print("showkeyboardNotification============")
         
         if(showKeyboard==false)
         {
@@ -2410,7 +2410,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
         })
         let documentAction = UIAlertAction(title: "Share Document", style: UIAlertActionStyle.Default, handler: { (action) -> Void in
             
-            print(NSOpenStepRootDirectory())
+            //print(NSOpenStepRootDirectory())
             ///var UTIs=UTTypeCopyPreferredTagWithClass("public.image", kUTTypeImage)?.takeRetainedValue() as! [String]
             
             //let importMenu = UIDocumentMenuViewController(documentTypes: [kUTTypeText as NSString as String, kUTTypeImage as String,"com.adobe.pdf","public.jpeg","public.html","public.content","public.data","public.item",kUTTypeBundle as String],
@@ -2451,7 +2451,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
         
         /*
         //socketObj.socket.emit("logClient","\(username!) is sharing file with \(iamincallWith)")
-        print(NSOpenStepRootDirectory())
+        //print(NSOpenStepRootDirectory())
         ///var UTIs=UTTypeCopyPreferredTagWithClass("public.image", kUTTypeImage)?.takeRetainedValue() as! [String]
         
         let importMenu = UIDocumentMenuViewController(documentTypes: [kUTTypeText as NSString as String, kUTTypeImage as String,"com.adobe.pdf","public.jpeg","public.html","public.content","public.data","public.item",kUTTypeBundle as String],
@@ -2510,7 +2510,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
            self.filename = result.firstObject?.filename ?? ""
            
            // var myasset=result.firstObject as! PHAsset
-            //print(myasset.mediaType)
+            ////print(myasset.mediaType)
             
             
             
@@ -2522,11 +2522,11 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
         let confirm = UIAlertAction(title: "Yes", style: UIAlertActionStyle.Default,handler: { (action) -> Void in
             
         socketObj.socket.emit("logClient","IPHONE-LOG: \(username!) selected image ")
-        print("file gotttttt")
+        //print("file gotttttt")
         var furl=NSURL(string: localPath.URLString)
         
-        print(furl!.pathExtension!)
-        print(furl!.URLByDeletingPathExtension?.lastPathComponent!)
+        //print(furl!.pathExtension!)
+        //print(furl!.URLByDeletingPathExtension?.lastPathComponent!)
         var ftype=furl!.pathExtension!
         var fname=furl!.URLByDeletingPathExtension?.lastPathComponent!
         
@@ -2544,16 +2544,16 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
             let fileAttributes : NSDictionary? = try NSFileManager.defaultManager().attributesOfItemAtPath(filePathImage2)
             if let _attr = fileAttributes {
                 self.fileSize1 = _attr.fileSize();
-                print("file size is \(self.fileSize1)")
+                //print("file size is \(self.fileSize1)")
                 //// ***april 2016 neww self.fileSize=(fileSize1 as! NSNumber).integerValue
             }
         } catch {
             socketObj.socket.emit("logClient","IPHONE-LOG: error: \(error)")
-            print("Error:+++ \(error)")
+            //print("Error:+++ \(error)")
         }
         
 
-        print("filename is \(self.filename) destination path is \(filePathImage2) image name \(imageName) imageurl \(imageUrl) photourl \(photoURL) localPath \(localPath).. \(localPath.absoluteString)")
+        //print("filename is \(self.filename) destination path is \(filePathImage2) image name \(imageName) imageurl \(imageUrl) photourl \(photoURL) localPath \(localPath).. \(localPath.absoluteString)")
         
             var s=fm.createFileAtPath(filePathImage2, contents: nil, attributes: nil)
         
@@ -2578,7 +2578,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
             var randNum5=self.randomStringWithLength(5) as! String
             var uniqueID=randNum5+year+month+day+hour+minute+second
             //var uniqueID=randNum5+year
-            print("unique ID is \(uniqueID)")
+            //print("unique ID is \(uniqueID)")
             
             //var loggedid=_id!
             //^^var firstNameSelected=selectedUserObj["firstname"]
@@ -2594,7 +2594,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
             
             
             var imParas=["from":"\(username!)","to":"\(self.selectedContact)","fromFullName":"\(displayname)","msg":self.filename,"uniqueid":uniqueID,"type":"file","file_type":"image"]
-            print("imparas are \(imParas)")
+            //print("imparas are \(imParas)")
             
             
             var statusNow="pending"
@@ -2614,11 +2614,11 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
            /* socketObj.socket.emitWithAck("im",["room":"globalchatroom","stanza":imParas])(timeoutAfter: 150000)
             {data in
                 
-                print("chat ack received  \(data)")
+                //print("chat ack received  \(data)")
                 statusNow="sent"
                 var chatmsg=JSON(data)
-                print(data[0])
-                print(chatmsg[0])
+                //print(data[0])
+                //print(chatmsg[0])
                 sqliteDB.UpdateChatStatus(chatmsg[0]["uniqueid"].string!, newstatus: chatmsg[0]["status"].string!)
                 
                 self.retrieveChatFromSqlite(self.selectedContact)
@@ -2636,19 +2636,19 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
             self.addUploadInfo(self.selectedContact,uniqueid1: uniqueID, rowindex: self.messages.count, uploadProgress: 0.0, isCompleted: false)
             
             managerFile.uploadFile(filePathImage2, to1: self.selectedContact, from1: username!, uniqueid1: uniqueID, file_name1: self.filename, file_size1: "\(self.fileSize1)", file_type1: ftype,type1:"image")
-            print("alamofire upload calledddd")
+            //print("alamofire upload calledddd")
             
             ///sqliteDB.saveChatImage(self.selectedContact, from1: username!, owneruser1: username!, fromFullName1: displayname, msg1: self.filename, date1: nil, uniqueid1: uniqueID, status1: "pending", type1: "document",file_type1: ftype, file_path1: filePathImage2)
         
             self.retrieveChatFromSqlite(self.selectedContact)
        /////// self.addMessage(filePathImage2, ofType: "3", date: nil)
-            //print(result.firstObject?.keys)
+            ////print(result.firstObject?.keys)
             //filename = result.firstObject?.fileSize.debugDescription
             /* PHImageManager.defaultManager().requestImageDataForAsset(result.firstObject as! PHAsset, options: PHImageRequestOptions.init(), resultHandler: { (imageData, dataUTI, orientation, infoDict) in
              infoDict?.keys.elements.forEach({ (infoKeys) in
-             print("---+++---")
-             print(dataUTI)
-             //print(infoKeys.debugDescription)
+             //print("---+++---")
+             //print(dataUTI)
+             ////print(infoKeys.debugDescription)
              })
              
              
@@ -2688,7 +2688,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
         
         /*if (controller.documentPickerMode == UIDocumentPickerMode.Import) {
             NSLog("Opened ", url.path!);
-            print("picker url is \(url)")
+            //print("picker url is \(url)")
             
             
             */
@@ -2699,14 +2699,14 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
                 
             //    urlLocalFile=localPath
                 /////let text2 = fm.contentsAtPath(filePath)
-                ////////print(text2)
-                /////////print(JSON(text2!))
+                //////////print(text2)
+                ///////////print(JSON(text2!))
                 ///mdata.fileContents=fm.contentsAtPath(filePathImage)!
             //    self.fileContents=NSData(contentsOfURL: localPath)
              //   self.filePathImage=localPath.URLString
                 //var filecontentsJSON=JSON(NSData(contentsOfURL: url)!)
-                //print(filecontentsJSON)
-               // print("file url is \(self.filePathImage) file type is \(ftype)")
+                ////print(filecontentsJSON)
+               // //print("file url is \(self.filePathImage) file type is \(ftype)")
             //    var filename=fname!+"."+ftype
                // socketObj.socket.emit("logClient","\(username!) is sending file \(fname)")
                 
@@ -2792,30 +2792,34 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
     
     
     
-    func sendChatMessage(chatstanza:[String:String])
+    func sendChatMessage(chatstanza:[String:String],completion:(result:Bool)->())
     {
         
         let queue = dispatch_queue_create("com.kibochat.manager-response-queue", DISPATCH_QUEUE_CONCURRENT)
-        
-        var url=Constants.MainUrl+Constants.sendChatURL
-        let request = Alamofire.request(.POST, "\(url)", parameters: chatstanza,headers:header).responseJSON { response in
+          var url=Constants.MainUrl+Constants.sendChatURL
+        let request = Alamofire.request(.POST, "\(url)", parameters: chatstanza,headers:header)
+        request.response(
+            queue: queue,
+            responseSerializer: Request.JSONResponseSerializer(options: .AllowFragments),
+            completionHandler: { response in
+        /////let request = Alamofire.request(.POST, "\(url)", parameters: chatstanza,headers:header).responseJSON { response in
             // You are now running on the concurrent `queue` you created earlier.
-          print("Parsing JSON on thread: \(NSThread.currentThread()) is main thread: \(NSThread.isMainThread())")
+          //print("Parsing JSON on thread: \(NSThread.currentThread()) is main thread: \(NSThread.isMainThread())")
                 
                 // Validate your JSON response and convert into model objects if necessary
-                print(response.result.value) //status, uniqueid
+                //print(response.result.value) //status, uniqueid
                 
                 // To update anything on the main thread, just jump back on like so.
                 
                 if(response.response?.statusCode==200)
                 {
                 
-                print("chat ack received")
+                //print("chat ack received")
                 var statusNow="sent"
                 ///var chatmsg=JSON(data)
-               /// print(data[0])
-                ///print(chatmsg[0])
-                    print("chat sent unikque id \(chatstanza["uniqueid"])")
+               /// //print(data[0])
+                /////print(chatmsg[0])
+                    //print("chat sent unikque id \(chatstanza["uniqueid"])")
                     
                 sqliteDB.UpdateChatStatus(chatstanza["uniqueid"]!, newstatus: "sent")
                 
@@ -2824,18 +2828,19 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
                 
                 
                 
-               // dispatch_async(dispatch_get_main_queue()) {
-                    print("Am I back on the main thread: \(NSThread.isMainThread())")
+               dispatch_async(dispatch_get_main_queue()) {
+                    //print("Am I back on the main thread: \(NSThread.isMainThread())")
                     
-                    
-                    self.retrieveChatFromSqlite(self.selectedContact)
+                    print("MAINNNNNNNNNNNN")
+                completion(result: true)
+                    //self.retrieveChatFromSqlite(self.selectedContact)
 
                     
             
                     
-               // }
-                }
             }
+                }
+            })
         
     }
     
@@ -2844,7 +2849,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
     func sendChatStatusUpdateMessage(uniqueid:String,status:String,sender:String)
     {
         
-        let queue = dispatch_queue_create("com.kibochat.manager-response-queue", DISPATCH_QUEUE_CONCURRENT)
+        let queue = dispatch_queue_create("com.kibochat.manager-response-queue1", DISPATCH_QUEUE_CONCURRENT)
         
         var url=Constants.MainUrl+Constants.sendChatStatusURL
         let request = Alamofire.request(.POST, "\(url)", parameters: ["uniqueid":uniqueid,"sender":sender,"status":status],headers:header)
@@ -2853,10 +2858,10 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
             responseSerializer: Request.JSONResponseSerializer(options: .AllowFragments),
             completionHandler: { response in
                 // You are now running on the concurrent `queue` you created earlier.
-                print("Parsing JSON on thread: \(NSThread.currentThread()) is main thread: \(NSThread.isMainThread())")
+                //print("Parsing JSON on thread: \(NSThread.currentThread()) is main thread: \(NSThread.isMainThread())")
                 
                 // Validate your JSON response and convert into model objects if necessary
-             //   print(response.result.value!) //status, uniqueid
+             //   //print(response.result.value!) //status, uniqueid
                 
                 
                 // To update anything on the main thread, just jump back on like so.
@@ -2864,17 +2869,17 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
                 if(response.response?.statusCode==200)
                 {
                     var resJSON=JSON(response.result.value!)
-                    print("json is \(resJSON)")
+                    //print("json is \(resJSON)")
                     
                     
                     dispatch_async(dispatch_get_main_queue()) {
-                        print("Am I back on the main thread: \(NSThread.isMainThread())")
-                        print("uniqueid is \(resJSON["uniqueid"].string!)")
+                        //print("Am I back on the main thread: \(NSThread.isMainThread())")
+                        //print("uniqueid is \(resJSON["uniqueid"].string!)")
                         sqliteDB.removeMessageStatusSeen(resJSON["uniqueid"].string!)
-                        print("chat message status ack received")
+                        //print("chat message status ack received")
                         
-                        //print(data[0]["status"]!!.string!+" ... "+data[0]["uniqueid"]!!.string!)
-                        print("chat status seen emitted")
+                        ////print(data[0]["status"]!!.string!+" ... "+data[0]["uniqueid"]!!.string!)
+                        //print("chat status seen emitted")
                         
                         socketObj.socket.emit("logClient","\(username) chat status emitted")
                         
@@ -2912,16 +2917,16 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
         var randNum5=self.randomStringWithLength(5) as! String
         var uniqueID=randNum5+year+month+day+hour+minute+second
         //var uniqueID=randNum5+year
-        print("unique ID is \(uniqueID)")
+        //print("unique ID is \(uniqueID)")
         
       ///  var loggedid=_id!
         //^^var firstNameSelected=selectedUserObj["firstname"]
         //^^^var lastNameSelected=selectedUserObj["lastname"]
         //^^^var fullNameSelected=firstNameSelected.string!+" "+lastNameSelected.string!
         var imParas=["from":"\(username!)","to":"\(selectedContact)","fromFullName":"\(displayname)","msg":"\(txtFldMessage.text!)","uniqueid":"\(uniqueID)","type":"chat","file_type":""]
-        print("imparas are \(imParas)")
-        print(imParas, terminator: "")
-        print("", terminator: "")
+        //print("imparas are \(imParas)")
+        //print(imParas, terminator: "")
+        //print("", terminator: "")
         ///=== code for sending chat here
         ///=================
         
@@ -2942,19 +2947,26 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
         sqliteDB.SaveChat("\(selectedContact)", from1: username!, owneruser1: username!, fromFullName1: displayname, msg1: txtFldMessage.text!, date1: nil, uniqueid1: uniqueID, status1: statusNow, type1: "chat", file_type1: "", file_path1: "")
        // sqliteDB.SaveChat("\(selectedContact)", from1: "\(username!)",owneruser1: "\(username!)", fromFullName1: "\(loggedFullName!)", msg1: "\(txtFldMessage.text!)",date1: nil,uniqueid1: uniqueID, status1: statusNow)
         
-       
-        self.sendChatMessage(imParas)
+      // dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND,0))
+//{
+        self.sendChatMessage(imParas){ (result) -> () in
+     
+            
+            self.retrieveChatFromSqlite(self.selectedContact)
+            
+    }
+       // }
         
         //OLD SOCKET LOGIC OF SENDING MESSAGES
         /*
         socketObj.socket.emitWithAck("im",["room":"globalchatroom","stanza":imParas])(timeoutAfter: 150000)
         {data in
             
-            print("chat ack received  \(data)")
+            //print("chat ack received  \(data)")
             statusNow="sent"
             var chatmsg=JSON(data)
-            print(data[0])
-            print(chatmsg[0])
+            //print(data[0])
+            //print(chatmsg[0])
             sqliteDB.UpdateChatStatus(chatmsg[0]["uniqueid"].string!, newstatus: chatmsg[0]["status"].string!)
             
             self.retrieveChatFromSqlite(self.selectedContact)
@@ -2975,9 +2987,9 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
         //formatter.timeStyle = .ShortStyle
         let defaultTimeZoneStr2 = formatter.stringFromDate(date22);
         var defaultTimeZoneStr = formatter.dateFromString(defaultTimeZoneStr2)
-        print("default db got in post date is \(defaultTimeZoneStr2)")
+        //print("default db got in post date is \(defaultTimeZoneStr2)")
 
-        print("post btn format in string in dict is \(defaultTimeZoneStr)")
+        //print("post btn format in string in dict is \(defaultTimeZoneStr)")
         */
         
         var date=NSDate()
@@ -2989,8 +3001,8 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
         //formatter.timeStyle = .ShortStyle
         let defaultTimeZoneStr = formatter.stringFromDate(date);
         let defaultTimeZoneStr2=formatter.dateFromString(defaultTimeZoneStr)
-        print("string is \(defaultTimeZoneStr)")
-        print("date is \(defaultTimeZoneStr2)")
+        //print("string is \(defaultTimeZoneStr)")
+        //print("date is \(defaultTimeZoneStr2)")
         self.addMessage(txtFldMessage.text!+" (\(statusNow))", ofType: "2",date:defaultTimeZoneStr, uniqueid: uniqueID)
         
         
@@ -3024,7 +3036,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
                                                        options: NSStringDrawingOptions.UsesLineFragmentOrigin,
                                                        attributes:[NSFontAttributeName : UIFont.systemFontOfSize(11.0)],
                                                        context: nil)
-        //print("size is width \(labelSize.width) and height is \(labelSize.height)")
+        ////print("size is width \(labelSize.width) and height is \(labelSize.height)")
         return labelSize.size
     }
     
@@ -3040,17 +3052,17 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
     
     func socketReceivedMessage(message: String, data: AnyObject!) {
         /*
-         print("socketReceivedMessage inside im got", terminator: "")
+         //print("socketReceivedMessage inside im got", terminator: "")
          var msg=JSON(data)
-         print("$$ \(message) is this \(msg)")
-         print(message)
+         //print("$$ \(message) is this \(msg)")
+         //print(message)
          switch(message)
          {
          case "im":
-         print("chat sent to server.ack received 222 ")
+         //print("chat sent to server.ack received 222 ")
          var chatJson=JSON(data)
-         print("chat received \(chatJson.debugDescription)")
-         print(chatJson[0]["msg"])
+         //print("chat received \(chatJson.debugDescription)")
+         //print(chatJson[0]["msg"])
          var receivedMsg=chatJson[0]["msg"]
          
          self.addMessage(receivedMsg.description, ofType: "1",date: NSDate().debugDescription)
@@ -3064,7 +3076,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
          
          
          default:
-         print("error: wrong messgae received2 \(message)")
+         //print("error: wrong messgae received2 \(message)")
          
          }
          */
@@ -3076,19 +3088,19 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
     }
     func socketReceivedMessageChat(message: String, data: AnyObject!) {
         
-        //print("socketReceivedMessage inside im got", terminator: "")
+        ////print("socketReceivedMessage inside im got", terminator: "")
         switch(message)
         {
         case "im":
             var msg=JSON(data)
-            print("$$ \(message) is this \(msg)")
-            print(message)
+            //print("$$ \(message) is this \(msg)")
+            //print(message)
             
-            print("chat sent to server.ack received 222 ")
+            //print("chat sent to server.ack received 222 ")
             
             var chatJson=JSON(data)
-            print("chat received \(chatJson.debugDescription)")
-            print(chatJson[0]["msg"])
+            //print("chat received \(chatJson.debugDescription)")
+            //print(chatJson[0]["msg"])
             var receivedMsg=chatJson[0]["msg"]
             
             
@@ -3128,8 +3140,8 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
              */
         case "updateUI":
             
-            print("$$ \(message)")
-            print(message)
+            //print("$$ \(message)")
+            //print(message)
             
             self.retrieveChatFromSqlite(self.selectedContact)
             if(self.messages.count>1)
@@ -3214,13 +3226,13 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
         
         
         
-        print("yess pickeddd document")
+        //print("yess pickeddd document")
         var furl=NSURL(string: url.URLString)
         
         
         //METADATA FILE NAME,TYPE
-        print(furl!.pathExtension!)
-        print(furl!.URLByDeletingPathExtension?.lastPathComponent!)
+        //print(furl!.pathExtension!)
+        //print(furl!.URLByDeletingPathExtension?.lastPathComponent!)
         var ftype=furl!.pathExtension!
         var fname=furl!.URLByDeletingPathExtension?.lastPathComponent!
         ////var fname=furl!.URLByDeletingPathExtension?.URLString
@@ -3237,8 +3249,8 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
         
         if (controller.documentPickerMode == UIDocumentPickerMode.Import) {
           //  NSLog("Opened ", url.path!);
-            print("picker url is \(url)")
-            print("opened \(url.path!)")
+            //print("picker url is \(url)")
+            //print("opened \(url.path!)")
             
             
             url.startAccessingSecurityScopedResource()
@@ -3248,10 +3260,10 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
             do{
                 var downloadkeyresult=try furl!.resourceValuesForKeys([NSURLUbiquitousItemDownloadingStatusKey])
            /// var downloadkeyresult=try url.resourceValuesForKeys([NSURLUbiquitousItemDownloadingStatusKey])
-                print("... ... \(downloadkeyresult.debugDescription)")
+                //print("... ... \(downloadkeyresult.debugDescription)")
            //////var downloadedalready=try NSFileManager.defaultManager().startDownloadingUbiquitousItemAtURL(furl!)
            
-           ////// print("downloadedalready is \(downloadedalready)")
+           ////// //print("downloadedalready is \(downloadedalready)")
          //   if(downloadedalready != nil)
 //{
                 
@@ -3263,37 +3275,37 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
 }
             coordinator.coordinateReadingItemAtURL(url, options: [], error: &error) { (url) -> Void in
                 
-                print("error is \(error)")
+                //print("error is \(error)")
 
                 // do something with it
                 let fileData = NSData(contentsOfURL: url)
-                ///////////////////////print(fileData?.description)
+                /////////////////////////print(fileData?.description)
                 socketObj.socket.emit("logClient","IPHONE-LOG: \(username!) selected file ")
-                print("file gotttttt")
+                //print("file gotttttt")
                
                 do {
                     let fileAttributes : NSDictionary? = try NSFileManager.defaultManager().attributesOfItemAtPath(furl!.path!)
                     
                     if let _attr = fileAttributes {
                         self.fileSize1 = _attr.fileSize();
-                        print("file size is \(self.fileSize1)")
+                        //print("file size is \(self.fileSize1)")
                         //// ***april 2016 neww self.fileSize=(fileSize1 as! NSNumber).integerValue
                     }
                 } catch {
                     socketObj.socket.emit("logClient","IPHONE-LOG: error: \(error)")
-                    print("Error:.... \(error)")
+                    //print("Error:.... \(error)")
                 }
                 
                 urlLocalFile=url
                 /////let text2 = fm.contentsAtPath(filePath)
-                ////////print(text2)
-                /////////print(JSON(text2!))
+                //////////print(text2)
+                ///////////print(JSON(text2!))
                 ///mdata.fileContents=fm.contentsAtPath(filePathImage)!
                 self.fileContents=NSData(contentsOfURL: url)
                 self.filePathImage=url.URLString
                 //var filecontentsJSON=JSON(NSData(contentsOfURL: url)!)
-                //print(filecontentsJSON)
-                print("file url is \(self.filePathImage) file type is \(ftype)")
+                ////print(filecontentsJSON)
+                //print("file url is \(self.filePathImage) file type is \(ftype)")
                 
                 
                 
@@ -3312,16 +3324,16 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
                     
                     if let _attr = fileAttributes {
                         self.fileSize1 = _attr.fileSize();
-                        print("file size is \(self.fileSize1)")
+                        //print("file size is \(self.fileSize1)")
                         //// ***april 2016 neww self.fileSize=(fileSize1 as! NSNumber).integerValue
                     }
                 } catch {
                     socketObj.socket.emit("logClient","IPHONE-LOG: error: \(error)")
-                    print("Error:+++ \(error)")
+                    //print("Error:+++ \(error)")
                 }*/
                 
                 
-              //  print("filename is \(self.filename) destination path is \(filePathImage2) image name \(imageName) imageurl \(imageUrl) photourl \(photoURL) localPath \(localPath).. \(localPath.absoluteString)")
+              //  //print("filename is \(self.filename) destination path is \(filePathImage2) image name \(imageName) imageurl \(imageUrl) photourl \(photoURL) localPath \(localPath).. \(localPath.absoluteString)")
                 
                 var s=fm.createFileAtPath(filePathImage2, contents: nil, attributes: nil)
                 
@@ -3362,15 +3374,15 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
                 
                 
                 //var uniqueID=randNum5+year
-                print("unique ID is \(uniqueID)")
+                //print("unique ID is \(uniqueID)")
                 
                 //^^var firstNameSelected=selectedUserObj["firstname"]
                 //^^^var lastNameSelected=selectedUserObj["lastname"]
                 //^^^var fullNameSelected=firstNameSelected.string!+" "+lastNameSelected.string!
                 var imParas=["from":"\(username!)","to":"\(self.selectedContact)","fromFullName":"\(displayname)","msg":fname!+"."+ftype,"uniqueid":uniqueID,"type":"file","file_type":"document"]
-                print("imparas are \(imParas)")
-                print(imParas, terminator: "")
-                print("", terminator: "")
+                //print("imparas are \(imParas)")
+                //print(imParas, terminator: "")
+                //print("", terminator: "")
                 ///=== code for sending chat here
                 ///=================
                 
@@ -3404,11 +3416,11 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
                /* socketObj.socket.emitWithAck("im",["room":"globalchatroom","stanza":imParas])(timeoutAfter: 150000)
                 {data in
                     
-                    print("chat ack received  \(data)")
+                    //print("chat ack received  \(data)")
                     statusNow="sent"
                     var chatmsg=JSON(data)
-                    print(data[0])
-                    print(chatmsg[0])
+                    //print(data[0])
+                    //print(chatmsg[0])
                     sqliteDB.UpdateChatStatus(chatmsg[0]["uniqueid"].string!, newstatus: chatmsg[0]["status"].string!)
                     
                     self.retrieveChatFromSqlite(self.selectedContact)
@@ -3451,7 +3463,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
             
             catch
             {
-               print("eeee \(error)")
+               //print("eeee \(error)")
             }
             }
         })
@@ -3503,7 +3515,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
     }
     
     override func viewWillDisappear(animated: Bool) {
-        print("disappearrrrrrrrr")
+        //print("disappearrrrrrrrr")
         super.viewWillDisappear(animated)
         if(socketObj != nil)
 {
