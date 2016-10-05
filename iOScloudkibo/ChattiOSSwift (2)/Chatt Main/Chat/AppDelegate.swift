@@ -981,8 +981,8 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
         print("app state value background is \(UIApplicationState.Background.rawValue)")
         print("app state value inactive is \(UIApplicationState.Inactive.rawValue)")
         print("app state value active is \(UIApplicationState.Active.rawValue)")
-       
-        
+       print("......")
+        print(userInfo.description)
       ////////  if (application.applicationState != UIApplicationState.Background) {
        // NSLog("received remote notification \(userInfo)")
         if(socketObj != nil)
@@ -1160,7 +1160,7 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
     
     func application(application: UIApplication, performFetchWithCompletionHandler completionHandler: (UIBackgroundFetchResult) -> Void) {
         print("background fetch resultttt...")
-        completionHandler(UIBackgroundFetchResult.NoData)
+        completionHandler(UIBackgroundFetchResult.NewData)
         
     }
     func application(application: UIApplication, handleEventsForBackgroundURLSession identifier: String, completionHandler: () -> Void) {

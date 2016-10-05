@@ -796,6 +796,7 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
                //////// if(socketObj != nil){
                 
                  managerFile.sendChatMessage(imParas)
+                
                 //SOCKET OLD LOGIC
                 /*socketObj.socket.emitWithAck("im",["room":"globalchatroom","stanza":imParas])(timeoutAfter: 1500000)
                     {data in
