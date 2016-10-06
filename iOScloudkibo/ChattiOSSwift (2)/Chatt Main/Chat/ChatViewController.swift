@@ -19,7 +19,7 @@ import ContactsUI
 class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,CNContactPickerDelegate,
     EPPickerDelegate,SWTableViewCellDelegate,UpdateChatViewsDelegate
 {
-    
+    var pendingchatsarray=[[String:String]]()
     var delegateRefrChat:UpdateChatViewsDelegate!
     var participantsSelected=[EPContact]()
    // var participantsSelected=[CNContact]()
@@ -301,6 +301,8 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
             // {
             managerFile.checkPendingFiles(username!)
             self.sendPendingChatMessages({ (result) -> () in
+                
+                self.getData({ (result) -> () in
                 print("checkin here pending messages sent")
                 print("checkin fetching chats")
                // if(socketObj != nil)
@@ -309,7 +311,7 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
                 /////======CHANGE IT==================
                     self.fetchChatsFromServer()
                 //}
-                
+                })
             })
         }
     }
@@ -1054,6 +1056,60 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
         
     }
     
+    var index=0
+    var pendingcount=0
+    
+    func getData(completion:(result:Bool)->()) {
+        var x = [[String: AnyObject]]()
+        var url=Constants.MainUrl+Constants.sendChatURL
+        /*
+         let request = Alamofire.request(.POST, "\(url)", parameters: chatstanza,headers:header)
+         request.response(
+         queue: queue,
+         responseSerializer: Request.JSONResponseSerializer(options: .AllowFragments),
+         completionHandler: { response in
+         
+         */
+        
+        if(pendingchatsarray.count>index)
+        {
+        let request = Alamofire.request(.POST, "\(url)", parameters: pendingchatsarray[index],headers:header).responseJSON { response in
+            switch response.result {
+            case .Success(let JSON):
+                //x[self.index] = JSON as! [String : AnyObject] // saving data
+                var statusNow="sent"
+                ///var chatmsg=JSON(data)
+                /// print(data[0])
+                ///print(chatmsg[0])
+              //  print("chat sent msg \(chatstanza)")
+                
+                sqliteDB.UpdateChatStatus(self.pendingchatsarray[self.index]["uniqueid"]!, newstatus: "sent")
+                completion(result:true)
+
+                
+                self.index = self.index + 1
+                if self.index < self.pendingchatsarray.count {
+                    self.getData({ (result) -> () in})
+                }else {
+                    completion(result: true)
+                    /////////self.collectionView.reloadData()
+                }
+            case .Failure(let error):
+                print("the error for \(self.pendingchatsarray[self.index]) is \(error) ")
+                if self.index < self.pendingchatsarray.count {
+                    self.getData({ (result) -> () in})
+                }else {
+                       completion(result: true)                /////////// self.collectionView.reloadData()
+                }
+            }
+        }
+        }
+        else{
+            completion(result: false)
+
+        }
+    }
+    
     func sendPendingChatMessages(completion:(result:Bool)->())
     {
         print("checkin here inside pending chat messages.....")
@@ -1079,20 +1135,25 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
         //to==selecteduser || from==selecteduser
         //print("chat from sqlite is")
         //print(res)
+        
+     //  dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND,0))
+       // {
         do
-        {
+        {print("pending chats in background")
             var count=0
+           // var pendingMessagesArray=Array(try sqliteDB.db.prepare(tbl_userchats.filter(status=="pending").order(date.asc)))
+          //  pendingchatsarray.append(pendingMessagesArray as [String:String])
             for pendingchats in try sqliteDB.db.prepare(tbl_userchats.filter(status=="pending").order(date.asc))
             {
-                
-                
-                
                 
                 print("pending chats count date desc is \(count)")
                 count++
                 var imParas=["from":pendingchats[from],"to":pendingchats[to],"fromFullName":pendingchats[fromFullName],"msg":pendingchats[msg],"uniqueid":pendingchats[uniqueid],"type":pendingchats[type],"file_type":pendingchats[file_type]]
                 
                
+                
+                self.pendingchatsarray.append(imParas)
+                
                 
                 /*
  
@@ -1127,11 +1188,11 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
                //////// if(socketObj != nil){
                // dispatch_sync(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED,0))
                // {
-                managerFile.sendChatMessage(imParas){ (result) -> () in
+               /////////// managerFile.sendChatMessage(imParas){ (result) -> () in
                     
                     
                // }
-                }
+              /////  }
                 //SOCKET OLD LOGIC
                 /*socketObj.socket.emitWithAck("im",["room":"globalchatroom","stanza":imParas])(timeoutAfter: 1500000)
                     {data in
@@ -1150,6 +1211,7 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
                 
             }
             
+           
             //refreshUI now
             
             
@@ -1187,7 +1249,12 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
             socketObj.socket.emit("logClient","IPHONE-LOG: \(username!) done sending pending chat messages")
             }
             
+           dispatch_async(dispatch_get_main_queue())
+           {
             return completion(result: true)
+            }
+       
+    
             //// return completion(result: true)
         }
         catch
@@ -1197,9 +1264,13 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
             socketObj.socket.emit("logClient","IPHONE-LOG: \(username!) error in sending pending chat messages")
             }
             
+            dispatch_async(dispatch_get_main_queue())
+            {
             return completion(result: false)
+            }
+           
         }
-        
+      // }
         
     }
     

@@ -713,7 +713,7 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
     {
         print("checkin here inside pending chat messages.....")
         var userchats=sqliteDB.userschats
-        var userchatsArray:Array<Row>
+      //  var userchatsArray:Array<Row>
         
         
         
@@ -739,6 +739,7 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
             var count=0
             for pendingchats in try sqliteDB.db.prepare(tbl_userchats.filter(status=="pending"))
             {
+                print("inside for loop")
                 print("pending chats count in app delegate is \(count)")
                 count++
                 var imParas=["from":pendingchats[from],"to":pendingchats[to],"fromFullName":pendingchats[fromFullName],"msg":pendingchats[msg],"uniqueid":pendingchats[uniqueid],"type":pendingchats[type],"file_type":pendingchats[file_type]]

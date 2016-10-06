@@ -182,9 +182,9 @@ class NetworkingManager
                // print(response.result.value) //status, uniqueid
                 
                 // To update anything on the main thread, just jump back on like so.
-                
+                print("sending pending msg.... \(chatstanza["msg"])")
                 if(response.response?.statusCode==200)
-                {
+                {print("got response pending msg.... \(chatstanza["msg"])")
                     
                     print("chat ack received")
                     var statusNow="sent"

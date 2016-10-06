@@ -2803,7 +2803,9 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
             queue: queue,
             responseSerializer: Request.JSONResponseSerializer(options: .AllowFragments),
             completionHandler: { response in
-        /////let request = Alamofire.request(.POST, "\(url)", parameters: chatstanza,headers:header).responseJSON { response in
+        
+                
+                /////let request = Alamofire.request(.POST, "\(url)", parameters: chatstanza,headers:header).responseJSON { response in
             // You are now running on the concurrent `queue` you created earlier.
           //print("Parsing JSON on thread: \(NSThread.currentThread()) is main thread: \(NSThread.isMainThread())")
                 
