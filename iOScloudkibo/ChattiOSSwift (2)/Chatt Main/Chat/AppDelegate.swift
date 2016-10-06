@@ -125,6 +125,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate,AppDelegateScreenDelegate 
         
         print("notifications ... \(launchOptions?.debugDescription)")
         
+        
+        var sync=syncContactService.init()
+        
+             
         /*
          // Handle launching from a notification
          UILocalNotification *locationNotification = [launchOptions objectForKey:UIApplicationLaunchOptionsLocalNotificationKey];
@@ -371,7 +375,7 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
         print(userInfo.allKeys.debugDescription)
         var sync=syncContactService.init()
         sync.startContactsRefresh()
-        
+    
         
     }*/
 

@@ -22,6 +22,9 @@ class syncContactService
     var Q4_getUserData=dispatch_queue_create("getUserData",DISPATCH_QUEUE_SERIAL)
     var Q5_fetchAllChats=dispatch_queue_create("fetchAllChats",DISPATCH_QUEUE_SERIAL)
     
+    
+    var contactsListSync=[CNContact]()
+    //var PhoneList=[String]() make in activity
     var accountKit: AKFAccountKit!
    
      init()
@@ -29,7 +32,215 @@ class syncContactService
         if(accountKit == nil){
             accountKit = AKFAccountKit(responseType: AKFResponseType.AccessToken)
         }
+        
+        
+        if (accountKit!.currentAccessToken != nil) {
+            
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0)) {
+            print("synccccc fetching contacts in background")
+            self.SyncfetchContacts{ (result) in
+                print("synccccc fetch contacts donee")
+                
+            }
+            
+        }
+        }
      
+        
+    }
+    
+    func SyncfetchContacts(completion:(result:Bool)->())
+    {
+        let contactStore = CNContactStore()
+        
+        var keys = [CNContactGivenNameKey, CNContactFamilyNameKey, CNContactEmailAddressesKey, CNContactPhoneNumbersKey, CNContactImageDataAvailableKey,CNContactThumbnailImageDataKey, CNContactImageDataKey]
+        do {
+            /////let contactStore = AppDelegate.getAppDelegate().contactStore
+            try contactStore.enumerateContactsWithFetchRequest(CNContactFetchRequest(keysToFetch: keys)) { (contact, pointer) -> Void in
+                
+                print("appending to contacts")
+                self.contactsListSync.append(contact)
+                
+                print("contactsListSync appended count is \(self.contactsListSync.count)")
+                print("inside contacts filling for loop count is \(self.contactsListSync.count)")
+                do{
+                    uniqueidentifierList.append(contact.identifier)
+                    if(try contact.givenName != "")
+                    {
+                        nameList.append(contact.givenName+" "+contact.familyName)
+                        print(contact.givenName)
+                        
+                    }
+                    
+                    
+                }
+                catch(let error)
+                {
+                    print("error: \(error)")
+                    socketObj.socket.emit("logClient", "error in fetching contact name: \(error)")
+                }
+                
+                do{
+                    
+                    if(try contact.imageDataAvailable == true)
+                    {
+                        profileimageList.append(contact.imageData!)
+                        //nameList.append(contacts[i].givenName+" "+contacts[i].familyName)
+                        //print(contacts[i].givenName)
+                    }
+                    /*else
+                     {
+                     profileimageList.append(nil)
+                     }*/
+                    
+                }
+                catch(let error)
+                {
+                    print("error: \(error)")
+                    socketObj.socket.emit("logClient", "error in fetching contact name: \(error)")
+                }
+                
+                do{
+                    
+                    var uniqueidentifier1=contact.identifier
+                    var image=NSData()
+                    var fullname=contact.givenName+" "+contact.familyName
+                    if (contact.isKeyAvailable(CNContactPhoneNumbersKey)) {
+                        for phoneNumber:CNLabeledValue in contact.phoneNumbers {
+                            let a = phoneNumber.value as! CNPhoneNumber
+                            //////////////emails.append(a.valueForKey("digits") as! String)
+                            var zeroIndex = -1
+                            var phoneDigits=a.valueForKey("digits") as! String
+                            var actualphonedigits=a.valueForKey("digits") as! String
+                            //remove leading zeroes
+                            /* for index in phoneDigits.characters.indices {
+                             print(phoneDigits[index])
+                             if(phoneDigits[index]=="0")
+                             {
+                             zeroIndex=index as! Int
+                             //phoneDigits.characters.popFirst() as! String
+                             print(".. droping zero \(phoneDigits) index \(zeroIndex)")
+                             }
+                             else
+                             {
+                             if(zeroIndex != -1)
+                             {
+                             let rangeOfTLD = Range(start: phoneDigits.startIndex.advancedBy(zeroIndex),
+                             end: phoneDigits.endIndex)
+                             phoneDigits = phoneDigits[rangeOfTLD] // "com"
+                             print("range is \(phoneDigits)")
+                             }
+                             break
+                             }
+                             
+                             }*/
+                            for(var i=0;i<phoneDigits.characters.count;i++)
+                            {
+                                if(phoneDigits.characters.first=="0")
+                                {
+                                    phoneDigits.removeAtIndex(phoneDigits.startIndex)
+                                    //phoneDigits.characters.popFirst() as! String
+                                    print(".. droping zero \(phoneDigits)")
+                                }
+                                else
+                                {
+                                    break
+                                }
+                            }
+                            do{
+                                if(countrycode=="1" && phoneDigits.characters.first=="1" && phoneDigits.characters.first != "+")
+                                {
+                                    phoneDigits = "+"+phoneDigits
+                                }
+                                else if(phoneDigits.characters.first != "+"){
+                                    phoneDigits = "+"+countrycode+phoneDigits
+                                    print("appended phone is \(phoneDigits)")
+                                }
+                                //////=========== 
+                               // =============emails.append(phoneDigits)
+                                var emailAddress=""
+                                let em = try contact.emailAddresses.first
+                                if(em != nil && em != "")
+                                {
+                                    print(em?.label)
+                                    print(em?.value)
+                                    emailAddress=(em?.value)! as! String
+                                    print("email adress value iss \(emailAddress)")
+                                    /////emails.append(em!.value as! String)
+                                }
+                                if(contact.imageDataAvailable==true)
+                                {
+                                    image=contact.imageData!
+                                }
+                                
+                               ///////====== FILL DB AFTERWARDS
+                                
+                                //try sqliteDB.db.run(tbl_allcontacts.insert(name<-fullname,phone<-phoneDigits,actualphone<-actualphonedigits,email<-emailAddress,uniqueidentifier<-uniqueidentifier1))
+                            }
+                            catch(let error)
+                            {
+                                print("error in name : \(error)")
+                                socketObj.socket.emit("logClient","IPHONE-LOG: iphoneLog: error is getting name \(error)")
+                            }
+                        }
+                    }
+                    
+                    
+                    /*if let phone = try contacts[i].phoneNumbers.first?.value as! CNPhoneNumber!
+                     {
+                     if( phone != "")
+                     {
+                     emails.append(phone.stringValue)
+                     print(phone.stringValue)
+                     }
+                     }*/
+                    
+                }
+                catch(let error)
+                {
+                    print("error: \(error)")
+                    socketObj.socket.emit("logClient", "error in fetching phone: \(error)")
+                }
+                
+                
+                /*if( phone != ""  && phone != nil)
+                 {
+                 phonesList.append(phone.stringValue)
+                 print(phone.stringValue)
+                 }*/
+                
+                do{
+                    let em = try contact.emailAddresses.first
+                    if(em != nil && em != "")
+                    {
+                        print(em?.label)
+                        print(em?.value)
+                        /////emails.append(em!.value as! String)
+                    }
+                    
+                    
+                }
+                catch(let error)
+                {
+                    print("error: \(error)")
+                    socketObj.socket.emit("logClient", "error in fetching email address: \(error)")
+                }
+                
+                
+                //print(self.contacts[i].emailAddresses.first!.value)
+                ////self.emails.append(phone.stringValue)
+                // print(self.emails[i])
+                
+                ///////
+                
+            }
+            
+            
+            completion(result: true)
+            
+        }catch{
+            print("error 1..")
+        }
         
     }
     
