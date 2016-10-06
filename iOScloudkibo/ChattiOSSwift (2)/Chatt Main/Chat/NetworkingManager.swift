@@ -158,7 +158,7 @@ class NetworkingManager
     
     
     
-    func sendChatMessage(chatstanza:[String:String])
+    func sendChatMessage(chatstanza:[String:String],completion:(result:Bool)->())
     {
         
         let queue = dispatch_queue_create("com.kibochat.manager-response-queue", DISPATCH_QUEUE_SERIAL)
@@ -192,13 +192,13 @@ class NetworkingManager
                     print("chat sent msg \(chatstanza)")
                     
                     sqliteDB.UpdateChatStatus(chatstanza["uniqueid"]!, newstatus: "sent")
+                     completion(result:true)
                     
                     
                     
                     
-                    
-                    
-                    dispatch_async(dispatch_get_main_queue()) {
+                    //happens when synch finishes after server chat is fetched
+                   /* dispatch_async(dispatch_get_main_queue()) {
                        // print("Am I back on the main thread: \(NSThread.isMainThread())")
                         
                         
@@ -207,10 +207,12 @@ class NetworkingManager
                         if(delegateRefreshChat != nil)
                         {delegateRefreshChat?.refreshChatsUI("updateUI", data: nil)
                         }
+                       
                         
-                        
-                    }
+                    }*/
                 }
+                
+                 completion(result:false)
             })
         
     }

@@ -548,8 +548,8 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
                         //////// dispatch_async(dispatch_get_main_queue()) {
                         
                         
-                        
-                        
+                        //IF NO CHAT WAS THERE TO FETCH
+                        /*
                         //------CHECK IF ANY PENDING FILES--------
                         if(delegateRefreshChat != nil)
                         {
@@ -567,12 +567,31 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
                         ///////// }
                         
                         
-                        print("all fetched chats saved in sqlite success")
+                        print("all fetched chats saved in sqlite success")*/
                         
                         
                         
                     }
                     
+                    dispatch_async(dispatch_get_main_queue()) {
+                    if(delegateRefreshChat != nil)
+                    {print("updating UI now ...")
+                        delegateRefreshChat?.refreshChatsUI("updateUI", data: nil)
+                    }
+                    
+                    if(socketObj.delegateChat != nil)
+                    {
+                        socketObj.delegateChat?.socketReceivedMessageChat("updateUI", data: nil)
+                    }
+                    if(self.delegate != nil)
+                    {
+                        self.delegate?.socketReceivedMessage("updateUI", data: nil)
+                    }
+                    ///////// }
+                    
+                    
+                    print("all fetched chats saved in sqlite success")
+                    }
                     
                 /////return completion(result: true)
                 case .Failure:
@@ -1070,12 +1089,14 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
                 var imParas=["from":pendingchats[from],"to":pendingchats[to],"fromFullName":pendingchats[fromFullName],"msg":pendingchats[msg],"uniqueid":pendingchats[uniqueid],"type":pendingchats[type],"file_type":pendingchats[file_type]]
                 
                 print("imparas are \(imParas)")
-                print(imParas, terminator: "")
-                print("", terminator: "")
+               // print(imParas, terminator: "")
+                //print("", terminator: "")
                 
                //////// if(socketObj != nil){
                 
-                 managerFile.sendChatMessage(imParas)
+                managerFile.sendChatMessage(imParas){ (result) -> () in
+                    
+                }
                 
                 //SOCKET OLD LOGIC
                 /*socketObj.socket.emitWithAck("im",["room":"globalchatroom","stanza":imParas])(timeoutAfter: 1500000)
@@ -1094,6 +1115,11 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
                 
                 
             }
+            
+            //refreshUI now
+            
+            
+            
             //var count=0
             var tbl_messageStatus=sqliteDB.statusUpdate
             let status = Expression<String>("status")

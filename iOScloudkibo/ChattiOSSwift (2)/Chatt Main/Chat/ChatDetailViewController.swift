@@ -2189,7 +2189,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
     
     
     func applicationDidBecomeActive(notification : NSNotification)
-    {
+    {print("app active chat details view")
        //print("didbecomeactivenotification=========")
       //  NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("applicationWillResignActive:"), name:UIApplicationWillResignActiveNotification, object: nil)
         
@@ -2199,6 +2199,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
         NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("willShowKeyBoard:"), name:UIKeyboardWillShowNotification, object: nil)
         
  
+        delegateRefreshChat=self
        //// NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("willHideKeyBoard:"), name:UIKeyboardWillHideNotification, object: nil)
     }
     func applicationWillResignActive(notification : NSNotification){
@@ -3506,6 +3507,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
     
     
     func refreshChatsUI(message: String, data: AnyObject!) {
+        print("refreshing chats details UI now")
         self.retrieveChatFromSqlite(self.selectedContact)
         if(self.messages.count>1)
         {

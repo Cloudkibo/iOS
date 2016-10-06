@@ -749,7 +749,9 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
                 
                 //////// if(socketObj != nil){
                 
-                managerFile.sendChatMessage(imParas)
+                managerFile.sendChatMessage(imParas){ (result) -> () in
+                    
+                }
                //OLD SOCKET  LOGIC OF SENDING PENDING MESSAGES
                 
                 
