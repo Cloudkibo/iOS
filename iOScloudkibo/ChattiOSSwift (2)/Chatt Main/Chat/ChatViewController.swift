@@ -1084,20 +1084,54 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
             var count=0
             for pendingchats in try sqliteDB.db.prepare(tbl_userchats.filter(status=="pending").order(date.asc))
             {
+                
+                
+                
+                
                 print("pending chats count date desc is \(count)")
                 count++
                 var imParas=["from":pendingchats[from],"to":pendingchats[to],"fromFullName":pendingchats[fromFullName],"msg":pendingchats[msg],"uniqueid":pendingchats[uniqueid],"type":pendingchats[type],"file_type":pendingchats[file_type]]
                 
+               
+                
+                /*
+ 
+                 func getData() {
+                 var x = [[String: AnyObject]]()
+                 Alamofire.request(.GET, bookmarks[index]).responseJSON { response in
+                 switch response.result {
+                 case .Success(let JSON):
+                 x[self.index] = JSON as! [String : AnyObject] // saving data
+                 self.index = self.index + 1
+                 if self.index < self.bookmarks.count {
+                 self.getData()
+                 }else {
+                 self.collectionView.reloadData()
+                 }
+                 case .Failure(let error):
+                 print("the error for \(self.bookmarks[self.index]) is \(error) ")
+                 if self.index < self.bookmarks.count {
+                 self.getData()
+                 }else {
+                 self.collectionView.reloadData()
+                 }
+                 }
+                 }
+                 
+                 }
+ */
                 print("imparas are \(imParas)")
                // print(imParas, terminator: "")
                 //print("", terminator: "")
                 
                //////// if(socketObj != nil){
-                
+               // dispatch_sync(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED,0))
+               // {
                 managerFile.sendChatMessage(imParas){ (result) -> () in
                     
+                    
+               // }
                 }
-                
                 //SOCKET OLD LOGIC
                 /*socketObj.socket.emitWithAck("im",["room":"globalchatroom","stanza":imParas])(timeoutAfter: 1500000)
                     {data in
@@ -1130,7 +1164,7 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
             {
                 ////////if(socketObj != nil){
                 
-                managerFile.sendChatStatusUpdateMessage(statusMessages[uniqueid], status: statusMessages[status], sender: statusMessages[sender])
+            managerFile.sendChatStatusUpdateMessage(statusMessages[uniqueid], status: statusMessages[status], sender: statusMessages[sender])
                 
                 // OLD SOCKET LOGIC
                 /*socketObj.socket.emitWithAck("messageStatusUpdate", ["status":statusMessages[status],"uniqueid":statusMessages[uniqueid],"sender": statusMessages[sender]])(timeoutAfter: 15000){data in

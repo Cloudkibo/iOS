@@ -164,16 +164,18 @@ class NetworkingManager
         let queue = dispatch_queue_create("com.kibochat.manager-response-queue", DISPATCH_QUEUE_SERIAL)
         
         var url=Constants.MainUrl+Constants.sendChatURL
-       
+      /*
         let request = Alamofire.request(.POST, "\(url)", parameters: chatstanza,headers:header)
         request.response(
             queue: queue,
             responseSerializer: Request.JSONResponseSerializer(options: .AllowFragments),
-            completionHandler: { response in
-        /*let request = Alamofire.request(.POST, "\(url)", parameters: chatstanza,headers:header).responseJSON { response in
+          completionHandler: { response in
+ 
+ */
+        let request = Alamofire.request(.POST, "\(url)", parameters: chatstanza,headers:header).responseJSON { response in
                 // You are now running on the concurrent `queue` you created earlier.
                
- */
+
  print("Parsing JSON on thread: \(NSThread.currentThread()) is main thread: \(NSThread.isMainThread())")
                 
                 // Validate your JSON response and convert into model objects if necessary
@@ -213,7 +215,9 @@ class NetworkingManager
                 }
                 
                  completion(result:false)
-            })
+            }
+   
+        //)
         
     }
     
