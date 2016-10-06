@@ -2792,10 +2792,10 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
     
     
     
-    func sendChatMessage(chatstanza:[String:String],completion:(result:Bool)->())
+   func sendChatMessage(chatstanza:[String:String],completion:(result:Bool)->())
     {
         
-        let queue = dispatch_queue_create("com.kibochat.manager-response-queue", DISPATCH_QUEUE_CONCURRENT)
+        let queue = dispatch_queue_create("com.kibochat.manager-response-queue", DISPATCH_QUEUE_SERIAL)
           var url=Constants.MainUrl+Constants.sendChatURL
         let request = Alamofire.request(.POST, "\(url)", parameters: chatstanza,headers:header)
         request.response(
@@ -2810,7 +2810,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
                 //print(response.result.value) //status, uniqueid
                 
                 // To update anything on the main thread, just jump back on like so.
-                
+                print("\(chatstanza) ..  \(response)")
                 if(response.response?.statusCode==200)
                 {
                 
@@ -2949,12 +2949,14 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
         
       // dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND,0))
 //{
-        self.sendChatMessage(imParas){ (result) -> () in
+       self.sendChatMessage(imParas){ (result) -> () in
      
             
             self.retrieveChatFromSqlite(self.selectedContact)
             
     }
+        
+        //managerFile.sendChatMessage(imParas)
        // }
         
         //OLD SOCKET LOGIC OF SENDING MESSAGES

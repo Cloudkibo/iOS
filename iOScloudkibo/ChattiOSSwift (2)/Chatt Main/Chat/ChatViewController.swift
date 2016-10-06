@@ -621,10 +621,10 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
             //DO ON INTERNET CONNECTED
             //===========
             
-            if(username != nil && username != "")
+           /* if(username != nil && username != "")
             {
             self.synchroniseChatData()
-            }
+            }*/
             
         }
         
@@ -1048,7 +1048,7 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
         let owneruser = Expression<String>("owneruser")
         let fromFullName = Expression<String>("fromFullName")
         let msg = Expression<String>("msg")
-        let date = Expression<String>("date")
+        let date = Expression<NSDate>("date")
         let status = Expression<String>("status")
         let uniqueid = Expression<String>("uniqueid")
          let type = Expression<String>("type")
@@ -1063,9 +1063,9 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
         do
         {
             var count=0
-            for pendingchats in try sqliteDB.db.prepare(tbl_userchats.filter(status=="pending"))
+            for pendingchats in try sqliteDB.db.prepare(tbl_userchats.filter(status=="pending").order(date.asc))
             {
-                print("pending chats count is \(count)")
+                print("pending chats count date desc is \(count)")
                 count++
                 var imParas=["from":pendingchats[from],"to":pendingchats[to],"fromFullName":pendingchats[fromFullName],"msg":pendingchats[msg],"uniqueid":pendingchats[uniqueid],"type":pendingchats[type],"file_type":pendingchats[file_type]]
                 

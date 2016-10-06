@@ -1433,7 +1433,7 @@ class LoginAPI{
     
     
     
-    func sendPendingChatMessages(completion:(result:Bool)->())
+   /* func sendPendingChatMessages(completion:(result:Bool)->())
     {
         print("checkin here inside pending chat messages.....")
         var userchats=sqliteDB.userschats
@@ -1525,7 +1525,7 @@ class LoginAPI{
         
     }
     
-    
+    */
     
     
     func fetchSingleChatMessage(uniqueid:String)

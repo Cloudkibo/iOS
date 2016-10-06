@@ -739,7 +739,7 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
             var count=0
             for pendingchats in try sqliteDB.db.prepare(tbl_userchats.filter(status=="pending"))
             {
-                print("pending chats count is \(count)")
+                print("pending chats count in app delegate is \(count)")
                 count++
                 var imParas=["from":pendingchats[from],"to":pendingchats[to],"fromFullName":pendingchats[fromFullName],"msg":pendingchats[msg],"uniqueid":pendingchats[uniqueid],"type":pendingchats[type],"file_type":pendingchats[file_type]]
                 
@@ -1263,6 +1263,7 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
         AudioServicesPlaySystemSound (systemSoundID)
         print("hereeeeeeeeeeee")
     }*/
+   
     func application(application: UIApplication, didReceiveRemoteNotification userInfo: [NSObject : AnyObject], fetchCompletionHandler completionHandler: (UIBackgroundFetchResult) -> Void) {
         
         
