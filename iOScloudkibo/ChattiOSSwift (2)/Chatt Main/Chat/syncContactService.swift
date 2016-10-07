@@ -56,47 +56,15 @@ class syncContactService
                  print("synccccc sending phone numbers to server...")
                 self.SyncSendPhoneNumbersToServer(self.syncPhonesList, completion: { (result) in
                     print("synccccc sent phone numbers to server done ")
+                    print("synccccc filling local database with contacts ")
                     self.SyncFillContactsTableWithRecords({ (result) in
-                        
-                        /*
-                         var allcontactslist1=sqliteDB.allcontacts
-                         var alladdressContactsArray:Array<Row>
-                         
-                         let phone = Expression<String>("phone")
-                         let kibocontact = Expression<Bool>("kiboContact")
-                         let name = Expression<String?>("name")
-                         
-                         //alladdressContactsArray = Array(try sqliteDB.db.prepare(allcontactslist1))
-                         
-                         do{for ccc in try sqliteDB.db.prepare(allcontactslist1) {
-                         
-                         for var i=0;i<availableEmailsList.count;i++
-                         {print(":::email .......  : \(availableEmailsList[i])")
-                         if(ccc[phone]==availableEmailsList[i])
-                         { print(":::::::: \(ccc[phone])  and emaillist : \(availableEmailsList[i])")
-                         //ccc[kibocontact]
-                         
-                         let query = allcontactslist1.select(kibocontact)           // SELECT "email" FROM "users"
-                         .filter(phone == ccc[phone])     // WHERE "name" IS NOT NULL
-                         
-                         try sqliteDB.db.run(query.update(kibocontact <- true))
-                         // for kk in try sqliteDB.db.prepare(query) {
-                         //  try sqliteDB.db.run(query.update(kk[kibocontact] <- true))
-                         //}
-                         //try sqliteDB.db.run(allcontactslist1.update(query[kibocontact] <- true))
-                         
-                         // try sqliteDB.db.run(allcontactslist1.update(ccc[kibocontact] <- true))
-                         }
-                         
-                         }
-                         
-                         }
-                         }
-                         catch{
-                         print("error 123")
-                         }
+                        print("synccccc filled local database with contacts done")
+                        print("synccccc setting kibocontact boolean")
+                        self.syncSetKiboContactsBoolean({ (result) in
+                            print("synccccc setting kibocontact boolean done")
 
- */
+                        })
+                
                     })
                     
                 })
@@ -687,6 +655,55 @@ do{
       //  }
     }
         completion(result:true)
+    }
+    
+    
+    
+    func syncSetKiboContactsBoolean(completion:(result:Bool)->())
+    {
+        
+         var allcontactslist1=sqliteDB.allcontacts
+         var alladdressContactsArray:Array<Row>
+         
+         let phone = Expression<String>("phone")
+         let kibocontact = Expression<Bool>("kiboContact")
+         let name = Expression<String?>("name")
+         
+         //alladdressContactsArray = Array(try sqliteDB.db.prepare(allcontactslist1))
+         
+         do{for ccc in try sqliteDB.db.prepare(allcontactslist1) {
+         
+         for var i=0;i<syncAvailablePhonesList.count;i++
+         {print(":::email .......  : \(syncAvailablePhonesList[i])")
+         if(ccc[phone]==syncAvailablePhonesList[i])
+         { print(":::::::: \(ccc[phone])  and emaillist : \(syncAvailablePhonesList[i])")
+         //ccc[kibocontact]
+         
+         let query = allcontactslist1.select(kibocontact)           // SELECT "email" FROM "users"
+         .filter(phone == ccc[phone])     // WHERE "name" IS NOT NULL
+         
+         try sqliteDB.db.run(query.update(kibocontact <- true))
+            
+            
+         // for kk in try sqliteDB.db.prepare(query) {
+         //  try sqliteDB.db.run(query.update(kk[kibocontact] <- true))
+         //}
+         //try sqliteDB.db.run(allcontactslist1.update(query[kibocontact] <- true))
+         
+         // try sqliteDB.db.run(allcontactslist1.update(ccc[kibocontact] <- true))
+         }
+         
+         }
+         
+         }
+            completion(result:true)
+         }
+         catch{
+         print("error 123")
+            completion(result:false)
+         }
+         
+ 
     }
  
  
