@@ -15,8 +15,10 @@ import Foundation
 import AccountKit
 import Contacts
 
-class ChatMainViewController:UIViewController,SocketConnecting
+class ChatMainViewController:UIViewController,SocketConnecting,RefreshContactsList
 {
+    
+    var delegateRefreshContacts:RefreshContactsList!
     var sendType=""
     var accountKit: AKFAccountKit!
     var rt=NetworkingLibAlamofire()
@@ -268,6 +270,7 @@ class ChatMainViewController:UIViewController,SocketConnecting
     override func viewDidLoad() {
         super.viewDidLoad()
         print("Chat ViewController is loadingggggg")
+        syncServiceContacts.delegateRefreshContactsList=self
         if(self.accountKit == nil){
         self.accountKit = AKFAccountKit(responseType: AKFResponseType.AccessToken)
 }
@@ -1741,6 +1744,10 @@ class ChatMainViewController:UIViewController,SocketConnecting
         //socketObj.delegate=nil
     }
 
+    func refreshContactsList(message: String) {
+        
+        tblForChat.reloadData()
+    }
 
 }
 

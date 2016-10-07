@@ -17,8 +17,10 @@ import Contacts
 import ContactsUI
 
 class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,CNContactPickerDelegate,
-    EPPickerDelegate,SWTableViewCellDelegate,UpdateChatViewsDelegate
+    EPPickerDelegate,SWTableViewCellDelegate,UpdateChatViewsDelegate,RefreshContactsList
 {
+    
+    var delegateContctsList:RefreshContactsList!
     var pendingchatsarray=[[String:String]]()
     var delegateRefrChat:UpdateChatViewsDelegate!
     var participantsSelected=[EPContact]()
@@ -616,6 +618,7 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        syncServiceContacts.delegateRefreshContactsList=self
         delegateRefreshChat=self
         print("Chat ViewController is loadingggggg")
         
@@ -826,9 +829,12 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
         userInfo = notification.userInfo
     print(userInfo)
         print(userInfo.allKeys.debugDescription)
-        var sync=syncContactService.init()
+        syncServiceContacts.startSyncService()
+    
+    /*var sync=syncContactService.init()
         sync.startContactsRefresh()
     tblForChat.reloadData()
+ */
 
 }
         
@@ -2868,6 +2874,34 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
     }
     
     func refreshChatsUI(message: String, data: AnyObject!) {
+        dispatch_sync(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0)) {
+            // do some task start to show progress wheel
+            self.fetchContacts({ (result) -> () in
+                //self.fetchContactsFromServer()
+                print("checkinnn")
+                let tbl_accounts=sqliteDB.accounts
+                do{for account in try sqliteDB.db.prepare(tbl_accounts) {
+                    ///print("id: \(account[_id]), phone: \(account[phone]), firstname: \(account[firstname])")
+                    
+                    var userr:JSON=["_id":account[self._id],"display_name":account[self.firstname]!,"phone":account[self.phone]]
+                    if(socketObj != nil){
+                        socketObj.socket.emit("whozonline",
+                            ["room":"globalchatroom",
+                                "user":userr.object])
+                    }}}
+                catch{
+                    
+                }
+                
+                dispatch_async(dispatch_get_main_queue()) {
+                    self.tblForChat.reloadData()
+                }
+            })
+        }
+        
+    }
+    
+    func refreshContactsList(message: String) {
         dispatch_sync(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0)) {
             // do some task start to show progress wheel
             self.fetchContacts({ (result) -> () in

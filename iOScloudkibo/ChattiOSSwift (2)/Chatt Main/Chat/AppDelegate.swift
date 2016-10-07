@@ -23,7 +23,7 @@ import AVFoundation
 //import WindowsAzureMessaging
 
 
-
+var syncServiceContacts:syncContactService!
 var addressbookChangedNotifReceived=false
 var aaaaa:SBNotificationHub!
 var uploadInfo:NSMutableArray!
@@ -126,7 +126,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate,AppDelegateScreenDelegate 
         print("notifications ... \(launchOptions?.debugDescription)")
         
         
-        var sync=syncContactService.init()
+        syncServiceContacts=syncContactService.init()
         
              
         /*

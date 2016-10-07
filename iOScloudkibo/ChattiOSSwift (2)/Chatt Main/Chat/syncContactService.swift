@@ -15,6 +15,10 @@ import SwiftyJSON
 
 class syncContactService
 {
+    
+    
+    var delegateRefreshContactsList:RefreshContactsList!
+    
     var Q0_sendDisplayName=dispatch_queue_create("Q0_sendDisplayName",DISPATCH_QUEUE_SERIAL)
     var Q1_fetchFromDevice=dispatch_queue_create("fetchFromDevice",DISPATCH_QUEUE_SERIAL)
     var Q2_sendPhonesToServer=dispatch_queue_create("sendPhonesToServer",DISPATCH_QUEUE_SERIAL)
@@ -38,7 +42,15 @@ class syncContactService
     //////////////var profileimage=Expression<NSData>("profileimage")
     let uniqueidentifier = Expression<String>("uniqueidentifier")
     
-     init()
+    
+    
+    init()
+    {
+        
+        
+        
+    }
+     func startSyncService()
     {
         if(accountKit == nil){
             accountKit = AKFAccountKit(responseType: AKFResponseType.AccessToken)
@@ -62,6 +74,16 @@ class syncContactService
                         print("synccccc setting kibocontact boolean")
                         self.syncSetKiboContactsBoolean({ (result) in
                             print("synccccc setting kibocontact boolean done")
+                            print("synccccc getting friends/contactslist from server")
+                            self.fetchContactsFromServer({ (result) in
+                                
+                                print("synccccc got friends/contactslist from server done")
+                                if(self.delegateRefreshContactsList != nil)
+                                {
+                                self.delegateRefreshContactsList?.refreshContactsList("refreshContactsUI")
+                                }
+                                addressbookChangedNotifReceived=false
+                            })
 
                         })
                 
@@ -1106,4 +1128,9 @@ do{
         
         
     }
+}
+
+protocol RefreshContactsList:class
+{
+    func refreshContactsList(message:String);
 }

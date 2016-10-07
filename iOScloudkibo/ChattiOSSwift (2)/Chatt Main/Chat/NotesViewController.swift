@@ -9,8 +9,10 @@
 import UIKit
 import SQLite
 import Contacts
-class NotesViewController: UIViewController,InviteContactsDelegate,UITextFieldDelegate,UISearchBarDelegate,UISearchDisplayDelegate/*,UISearchResultsUpdating*/,UIScrollViewDelegate {
+class NotesViewController: UIViewController,InviteContactsDelegate,UITextFieldDelegate,UISearchBarDelegate,UISearchDisplayDelegate/*,UISearchResultsUpdating*/,UIScrollViewDelegate,RefreshContactsList {
     
+    
+    var delegateContctsList:RefreshContactsList!
     
     var filteredArray = Array<Row>()
     
@@ -682,5 +684,10 @@ class NotesViewController: UIViewController,InviteContactsDelegate,UITextFieldDe
     func receivedContactsUpdateUI() {
         
         tblForNotes.reloadData()
+    }
+    
+    func refreshContactsList(message: String) {
+        tblForNotes.reloadData()
+        
     }
 }

@@ -1278,11 +1278,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Chat/syncContactService.swift"
-            timestampString = "497493539.791206"
+            timestampString = "497493939.096207"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "91"
-            endingLineNumber = "91"
+            startingLineNumber = "96"
+            endingLineNumber = "96"
             landmarkName = "SyncfetchContacts(_:)"
             landmarkType = "5">
          </BreakpointContent>
