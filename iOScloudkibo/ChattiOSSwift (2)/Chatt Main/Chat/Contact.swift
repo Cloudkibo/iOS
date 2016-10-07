@@ -25,6 +25,9 @@ class iOSContact{
         //fetch()
     }
     
+    
+    
+    
     func fetch(completion: (result:[String])->()){
         
         let tbl_allcontacts=sqliteDB.allcontacts
