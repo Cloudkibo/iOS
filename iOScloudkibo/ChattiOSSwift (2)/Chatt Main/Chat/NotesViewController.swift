@@ -327,6 +327,26 @@ class NotesViewController: UIViewController,InviteContactsDelegate,UITextFieldDe
     
     override func viewWillAppear(animated: Bool) {
         
+        var allcontactslist1=sqliteDB.allcontacts
+        
+        
+        let phone = Expression<String>("phone")
+        let kibocontact = Expression<Bool>("kiboContact")
+        let name = Expression<String?>("name")
+        let email = Expression<String?>("email")
+        
+        //alladdressContactsArray = Array(try sqliteDB.db.prepare(allcontactslist1))
+        
+        
+        //////configureSearchController()
+        do
+        {alladdressContactsArray = Array(try sqliteDB.db.prepare(allcontactslist1))
+            
+        }
+        catch
+        {
+            
+        }
         
         tblForNotes.reloadData()
     }
@@ -355,26 +375,7 @@ class NotesViewController: UIViewController,InviteContactsDelegate,UITextFieldDe
         self.tabBarController?.tabBar.tintColor = UIColor.greenColor()
         
         
-        var allcontactslist1=sqliteDB.allcontacts
-        
-        
-        let phone = Expression<String>("phone")
-        let kibocontact = Expression<Bool>("kiboContact")
-        let name = Expression<String?>("name")
-        let email = Expression<String?>("email")
-        
-        //alladdressContactsArray = Array(try sqliteDB.db.prepare(allcontactslist1))
-        
-        
-        //////configureSearchController()
-        do
-        {alladdressContactsArray = Array(try sqliteDB.db.prepare(allcontactslist1))
-            
-        }
-        catch
-        {
-            
-        }
+    
         
         /*
          progressBarDisplayer("Fetching Contacts", true)
