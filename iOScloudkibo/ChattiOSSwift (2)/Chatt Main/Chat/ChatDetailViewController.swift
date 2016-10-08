@@ -193,9 +193,16 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
          }*/
         
         
-        self.retrieveChatFromSqlite(selectedContact)
-        
-        
+        self.retrieveChatFromSqlite(selectedContact,completion:{(result)-> () in
+            self.tblForChats.reloadData()
+            
+            if(self.messages.count>1)
+            {
+                var indexPath = NSIndexPath(forRow:self.messages.count-1, inSection: 0)
+                
+                self.tblForChats.scrollToRowAtIndexPath(indexPath, atScrollPosition: UITableViewScrollPosition.Bottom, animated: true)
+            }
+        })
         //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%------------ commented june 16 FetchChatServer()
         //print("calling retrieveChat")
         
@@ -622,7 +629,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
     
     
     
-    func retrieveChatFromSqlite(selecteduser:String)
+    func retrieveChatFromSqlite(selecteduser:String,completion:(result:Bool)->())
     {
         //print("retrieveChatFromSqlite called---------")
         ///^^messages.removeAllObjects()
@@ -788,6 +795,10 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
            ////////// self.messages.removeAllObjects()
             messages.setArray(messages2 as [AnyObject])
             ////////////self.messages.addObjectsFromArray(messages2 as [AnyObject])
+            
+            
+            completion(result:true)
+            /*
             self.tblForChats.reloadData()
             
             if(self.messages.count>1)
@@ -795,7 +806,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
                 var indexPath = NSIndexPath(forRow:self.messages.count-1, inSection: 0)
                 
                 self.tblForChats.scrollToRowAtIndexPath(indexPath, atScrollPosition: UITableViewScrollPosition.Bottom, animated: true)
-            }
+            }*/
             
         }
         catch(let error)
@@ -2641,7 +2652,17 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
             
             ///sqliteDB.saveChatImage(self.selectedContact, from1: username!, owneruser1: username!, fromFullName1: displayname, msg1: self.filename, date1: nil, uniqueid1: uniqueID, status1: "pending", type1: "document",file_type1: ftype, file_path1: filePathImage2)
         
-            self.retrieveChatFromSqlite(self.selectedContact)
+            self.retrieveChatFromSqlite(self.selectedContact,completion:{(result)-> () in
+                self.tblForChats.reloadData()
+                
+                if(self.messages.count>1)
+                {
+                    var indexPath = NSIndexPath(forRow:self.messages.count-1, inSection: 0)
+                    
+                    self.tblForChats.scrollToRowAtIndexPath(indexPath, atScrollPosition: UITableViewScrollPosition.Bottom, animated: true)
+                }
+            })
+            
        /////// self.addMessage(filePathImage2, ofType: "3", date: nil)
             ////print(result.firstObject?.keys)
             //filename = result.firstObject?.fileSize.debugDescription
@@ -2804,6 +2825,8 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
             responseSerializer: Request.JSONResponseSerializer(options: .AllowFragments),
             completionHandler: { response in
         */
+        
+    
                 
               let request = Alamofire.request(.POST, "\(url)", parameters: chatstanza,headers:header).responseJSON { response in
             // You are now running on the concurrent `queue` you created earlier.
@@ -2831,7 +2854,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
                 
                 
                 
-             // dispatch_async(dispatch_get_main_queue()) {
+              dispatch_async(dispatch_get_main_queue()) {
                     //print("Am I back on the main thread: \(NSThread.isMainThread())")
                     
                     print("MAINNNNNNNNNNNN")
@@ -2841,7 +2864,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
                     
             
            
-        // }
+         }
                 }
             }//)
         
@@ -2952,14 +2975,8 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
         
       // dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND,0))
 //{
-       self.sendChatMessage(imParas){ (result) -> () in
-     
-         //   dispatch_async(dispatch_get_main_queue())
-           // {
-            self.retrieveChatFromSqlite(self.selectedContact)
-      //  }
         
-    }
+    
         
         //managerFile.sendChatMessage(imParas)
        // }
@@ -3019,6 +3036,31 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
         {
             var indexPath = NSIndexPath(forRow:messages.count-1, inSection: 0)
             tblForChats.scrollToRowAtIndexPath(indexPath, atScrollPosition: UITableViewScrollPosition.Bottom, animated: true)
+            
+        }
+        
+        dispatch_async(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED,0))
+        {
+            self.sendChatMessage(imParas){ (result) -> () in
+                
+                //   dispatch_async(dispatch_get_main_queue())
+                // {
+                self.retrieveChatFromSqlite(self.selectedContact,completion:{(result)-> () in
+                    
+                    dispatch_async(dispatch_get_main_queue())
+                    {
+                        self.tblForChats.reloadData()
+                        
+                        if(self.messages.count>1)
+                        {
+                            var indexPath = NSIndexPath(forRow:self.messages.count-1, inSection: 0)
+                            
+                            self.tblForChats.scrollToRowAtIndexPath(indexPath, atScrollPosition: UITableViewScrollPosition.Bottom, animated: true)
+                        }
+                    }
+                })
+            }
+            //  }
             
         }
     }
@@ -3098,7 +3140,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
         ////print("socketReceivedMessage inside im got", terminator: "")
         switch(message)
         {
-        case "im":
+        /*case "im":
             var msg=JSON(data)
             //print("$$ \(message) is this \(msg)")
             //print(message)
@@ -3132,6 +3174,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
                 
                 self.tblForChats.scrollToRowAtIndexPath(indexPath, atScrollPosition: UITableViewScrollPosition.Bottom, animated: true)
             }
+            */
             
             //%%%%% OLD working logic.. changed coz of bubble unread
             
@@ -3150,13 +3193,23 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
             //print("$$ \(message)")
             //print(message)
             
-            self.retrieveChatFromSqlite(self.selectedContact)
+           /* self.retrieveChatFromSqlite(self.selectedContact)
             if(self.messages.count>1)
             {
                 var indexPath = NSIndexPath(forRow:self.messages.count-1, inSection: 0)
                 
                 self.tblForChats.scrollToRowAtIndexPath(indexPath, atScrollPosition: UITableViewScrollPosition.Bottom, animated: true)
-            }
+            }*/
+            self.retrieveChatFromSqlite(selectedContact,completion:{(result)-> () in
+                self.tblForChats.reloadData()
+                
+                if(self.messages.count>1)
+                {
+                    var indexPath = NSIndexPath(forRow:self.messages.count-1, inSection: 0)
+                    
+                    self.tblForChats.scrollToRowAtIndexPath(indexPath, atScrollPosition: UITableViewScrollPosition.Bottom, animated: true)
+                }
+            })
             
             // dispatch_async(dispatch_get_main_queue())
             //  {
@@ -3450,8 +3503,19 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
                //// sqliteDB.saveChatImage(self.selectedContact, from1: username!,fromFullName1: displayname, owneruser1:username!, msg1: fname!+"."+ftype, date1: nil, uniqueid1: uniqueID, status1: "pending", type1: "doc",file_type1: ftype, file_path1: filePathImage2)
                 selectedText = filePathImage2
                 
-                 self.retrieveChatFromSqlite(self.selectedContact)
-               ////  sqliteDB.SaveChat(self.selectedContact, from1: username!, owneruser1: username!, fromFullName1: displayname, msg1: filename, date1: nil, uniqueid1: uniqueID, status1: "pending")
+               ////  self.retrieveChatFromSqlite(self.selectedContact)
+                self.retrieveChatFromSqlite(self.selectedContact,completion:{(result)-> () in
+                    self.tblForChats.reloadData()
+                    
+                    if(self.messages.count>1)
+                    {
+                        var indexPath = NSIndexPath(forRow:self.messages.count-1, inSection: 0)
+                        
+                        self.tblForChats.scrollToRowAtIndexPath(indexPath, atScrollPosition: UITableViewScrollPosition.Bottom, animated: true)
+                    }
+                })
+                
+                ////  sqliteDB.SaveChat(self.selectedContact, from1: username!, owneruser1: username!, fromFullName1: displayname, msg1: filename, date1: nil, uniqueid1: uniqueID, status1: "pending")
                 
                 /////socketObj.socket.emit("conference.chat", ["message":"You have received a file. Download and Save it.","username":username!])
                 
@@ -3512,13 +3576,23 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
     
     func refreshChatsUI(message: String, data: AnyObject!) {
         print("refreshing chats details UI now")
-        self.retrieveChatFromSqlite(self.selectedContact)
+        self.retrieveChatFromSqlite(selectedContact,completion:{(result)-> () in
+            self.tblForChats.reloadData()
+            
+            if(self.messages.count>1)
+            {
+                var indexPath = NSIndexPath(forRow:self.messages.count-1, inSection: 0)
+                
+                self.tblForChats.scrollToRowAtIndexPath(indexPath, atScrollPosition: UITableViewScrollPosition.Bottom, animated: true)
+            }
+        })
+       /* self.retrieveChatFromSqlite(self.selectedContact)
         if(self.messages.count>1)
         {
             var indexPath = NSIndexPath(forRow:self.messages.count-1, inSection: 0)
             
             self.tblForChats.scrollToRowAtIndexPath(indexPath, atScrollPosition: UITableViewScrollPosition.Bottom, animated: true)
-        }
+        }*/
         
     }
     
