@@ -669,6 +669,8 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
                         
                         //------CHECK IF ANY PENDING FILES--------
                         
+                        dispatch_async(dispatch_get_main_queue())
+                        {
                         if(delegateRefreshChat != nil)
                         {
                             print("informing UI to repfresh status")
@@ -684,7 +686,7 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
                         }
                         ///////// }
                         
-                        
+                        }
                         print("all fetched chats saved in sqlite success")
                         
                         

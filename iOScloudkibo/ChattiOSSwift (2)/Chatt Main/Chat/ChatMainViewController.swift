@@ -15,10 +15,12 @@ import Foundation
 import AccountKit
 import Contacts
 
+
+
+var delegateRefreshContacts:RefreshContactsList!
 class ChatMainViewController:UIViewController,SocketConnecting,RefreshContactsList
 {
     
-    var delegateRefreshContacts:RefreshContactsList!
     var sendType=""
     var accountKit: AKFAccountKit!
     var rt=NetworkingLibAlamofire()
@@ -252,6 +254,7 @@ class ChatMainViewController:UIViewController,SocketConnecting,RefreshContactsLi
     //["Bus","Helicopter","Truck","Boat","Bicycle","Motorcycle","Plane","Train","Car","Scooter","Caravan"]
     required init?(coder aDecoder: NSCoder)
     {
+        
         super.init(coder: aDecoder)
         //print(AuthToken!)
         
@@ -285,6 +288,10 @@ class ChatMainViewController:UIViewController,SocketConnecting,RefreshContactsLi
             
         }
         */
+        
+        
+      //  NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("applicationDidBecomeActive:"), name:UIApplicationDidBecomeActiveNotification, object: nil)
+        
         
         
         if (self.accountKit!.currentAccessToken == nil) {
@@ -1746,7 +1753,15 @@ class ChatMainViewController:UIViewController,SocketConnecting,RefreshContactsLi
 
     func refreshContactsList(message: String) {
         
-        tblForChat.reloadData()
+        dispatch_sync(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0)) {
+            // do some task start to show progress wheel
+            self.fetchContacts({ (result) -> () in
+                //self.fetchContactsFromServer()
+                //dispatch_async(dispatch_get_main_queue()) {
+                self.tblForChat.reloadData()
+                //}
+            })
+        }
     }
 
 }

@@ -249,7 +249,7 @@ class NetworkingManager
                     print("json is \(resJSON)")
                     
                     
-                    dispatch_async(dispatch_get_main_queue()) {
+                   ///// dispatch_async(dispatch_get_main_queue()) {
                         print("Am I back on the main thread: \(NSThread.isMainThread())")
                         print("uniqueid is \(resJSON["uniqueid"].string!)")
                         sqliteDB.removeMessageStatusSeen(resJSON["uniqueid"].string!)
@@ -264,7 +264,7 @@ class NetworkingManager
                         
                         
                         
-                    }
+                    ////////}
                 }
             }
         )

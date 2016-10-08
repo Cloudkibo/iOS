@@ -683,11 +683,30 @@ class NotesViewController: UIViewController,InviteContactsDelegate,UITextFieldDe
     
     
     func receivedContactsUpdateUI() {
+         var allcontactslist1=sqliteDB.allcontacts
+        do
+        {alladdressContactsArray = Array(try sqliteDB.db.prepare(allcontactslist1))
+            
+        }
+        catch
+        {
+            
+        }
         
         tblForNotes.reloadData()
     }
     
     func refreshContactsList(message: String) {
+         var allcontactslist1=sqliteDB.allcontacts
+        do
+        {alladdressContactsArray = Array(try sqliteDB.db.prepare(allcontactslist1))
+            
+        }
+        catch
+        {
+            
+        }
+        
         tblForNotes.reloadData()
         
     }

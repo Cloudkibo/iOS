@@ -2796,16 +2796,16 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
    func sendChatMessage(chatstanza:[String:String],completion:(result:Bool)->())
     {
         
-        let queue = dispatch_queue_create("com.kibochat.manager-response-queue", DISPATCH_QUEUE_SERIAL)
+        let queue = dispatch_queue_create("com.kibochat.manager-response-queue", DISPATCH_QUEUE_CONCURRENT)
           var url=Constants.MainUrl+Constants.sendChatURL
-        let request = Alamofire.request(.POST, "\(url)", parameters: chatstanza,headers:header)
+        /*let request = Alamofire.request(.POST, "\(url)", parameters: chatstanza,headers:header)
         request.response(
             queue: queue,
             responseSerializer: Request.JSONResponseSerializer(options: .AllowFragments),
             completionHandler: { response in
-        
+        */
                 
-                /////let request = Alamofire.request(.POST, "\(url)", parameters: chatstanza,headers:header).responseJSON { response in
+              let request = Alamofire.request(.POST, "\(url)", parameters: chatstanza,headers:header).responseJSON { response in
             // You are now running on the concurrent `queue` you created earlier.
           //print("Parsing JSON on thread: \(NSThread.currentThread()) is main thread: \(NSThread.isMainThread())")
                 
@@ -2831,7 +2831,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
                 
                 
                 
-               dispatch_async(dispatch_get_main_queue()) {
+             // dispatch_async(dispatch_get_main_queue()) {
                     //print("Am I back on the main thread: \(NSThread.isMainThread())")
                     
                     print("MAINNNNNNNNNNNN")
@@ -2840,10 +2840,10 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
 
                     
             
-                    
-            }
+           
+        // }
                 }
-            })
+            }//)
         
     }
     
@@ -2954,9 +2954,11 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
 //{
        self.sendChatMessage(imParas){ (result) -> () in
      
-            
+         //   dispatch_async(dispatch_get_main_queue())
+           // {
             self.retrieveChatFromSqlite(self.selectedContact)
-            
+      //  }
+        
     }
         
         //managerFile.sendChatMessage(imParas)

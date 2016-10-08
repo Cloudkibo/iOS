@@ -309,7 +309,11 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
                 print("checkin fetching chats")
                // if(socketObj != nil)
                 //{
-                
+                if(delegateRefreshChat != nil)
+                {
+                    print("refresh UI after pending msgs are sent")
+                    delegateRefreshChat?.refreshChatsUI("updateUI", data: nil)
+                }
                 /////======CHANGE IT==================
                     self.fetchChatsFromServer()
                 //}
@@ -573,29 +577,31 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
                         
                         print("all fetched chats saved in sqlite success")*/
                         
+                        if(UserchatJson["msg"].count > 0)
+                        {
+                            dispatch_async(dispatch_get_main_queue()) {
+                                if(delegateRefreshChat != nil)
+                                {print("updating UI now ...")
+                                    delegateRefreshChat?.refreshChatsUI("updateUI", data: nil)
+                                }
+                                
+                                if(socketObj.delegateChat != nil)
+                                {
+                                    socketObj.delegateChat?.socketReceivedMessageChat("updateUI", data: nil)
+                                }
+                                if(self.delegate != nil)
+                                {
+                                    self.delegate?.socketReceivedMessage("updateUI", data: nil)
+                                }
+                                ///////// }
+                                
+                            }
+                            print("all fetched chats saved in sqlite success")
+                        }
                         
                         
                     }
-                    
-                    dispatch_async(dispatch_get_main_queue()) {
-                    if(delegateRefreshChat != nil)
-                    {print("updating UI now ...")
-                        delegateRefreshChat?.refreshChatsUI("updateUI", data: nil)
-                    }
-                    
-                    if(socketObj.delegateChat != nil)
-                    {
-                        socketObj.delegateChat?.socketReceivedMessageChat("updateUI", data: nil)
-                    }
-                    if(self.delegate != nil)
-                    {
-                        self.delegate?.socketReceivedMessage("updateUI", data: nil)
-                    }
-                    ///////// }
-                    
-                    
-                    print("all fetched chats saved in sqlite success")
-                    }
+                 
                     
                 /////return completion(result: true)
                 case .Failure:
