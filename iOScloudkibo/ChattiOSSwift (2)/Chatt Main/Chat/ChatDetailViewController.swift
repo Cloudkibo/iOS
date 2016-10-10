@@ -17,11 +17,14 @@ import AssetsLibrary
 import Photos
 import Contacts
 
+
+var delegateChatRefr:UpdateChatViewsDelegate!
+
 class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChatDelegate,UIDocumentPickerDelegate,UIDocumentMenuDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate,NSFileManagerDelegate,showUploadProgressDelegate,UpdateChatViewsDelegate{
     
    /// var manager = NetworkingManager.sharedManager
     
-    var delegateChatRefr:UpdateChatViewsDelegate!
+    
     var delegateProgressUpload:showUploadProgressDelegate!
     var shareMenu = UIAlertController()
     var selectedImage:UIImage!
@@ -659,11 +662,12 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
             for tblContacts in try sqliteDB.db.prepare(tbl_userchats.filter(to==selecteduser || from==selecteduser).order(date.asc)){
                 
                 //print("===fetch date from database is tblContacts[date] \(tblContacts[date])")
-                
+                /*
                 var formatter = NSDateFormatter();
                 formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSS";
                 //formatter.dateFormat = "MM/dd, HH:mm";
                 formatter.timeZone = NSTimeZone(name: "UTC")
+                */
                 // formatter.timeZone = NSTimeZone.localTimeZone()
                // var defaultTimeZoneStr = formatter.dateFromString(tblContacts[date])
                // var defaultTimeZoneStr2 = formatter.stringFromDate(defaultTimeZoneStr!)
@@ -3189,6 +3193,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
              
              */
         case "updateUI":
+            print("received updateUI from socket")
             
             //print("$$ \(message)")
             //print(message)
@@ -3200,7 +3205,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
                 
                 self.tblForChats.scrollToRowAtIndexPath(indexPath, atScrollPosition: UITableViewScrollPosition.Bottom, animated: true)
             }*/
-            self.retrieveChatFromSqlite(selectedContact,completion:{(result)-> () in
+           /* self.retrieveChatFromSqlite(selectedContact,completion:{(result)-> () in
                 self.tblForChats.reloadData()
                 
                 if(self.messages.count>1)
@@ -3210,7 +3215,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
                     self.tblForChats.scrollToRowAtIndexPath(indexPath, atScrollPosition: UITableViewScrollPosition.Bottom, animated: true)
                 }
             })
-            
+            */
             // dispatch_async(dispatch_get_main_queue())
             //  {
             //     self.tblForChats.reloadData()

@@ -23,6 +23,8 @@ import AVFoundation
 //import WindowsAzureMessaging
 
 
+var retainOldDatabase=true
+
 var syncServiceContacts:syncContactService!
 var addressbookChangedNotifReceived=false
 var aaaaa:SBNotificationHub!
@@ -378,9 +380,78 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
     
         
     }*/
+    var pendingchatsarray=[[String:String]]()
 
     func synchroniseChatData()
     {
+        print("synchronise called")
+        if(accountKit == nil){
+            accountKit = AKFAccountKit(responseType: AKFResponseType.AccessToken)
+        }
+        
+        if (accountKit!.currentAccessToken != nil) {
+            
+            header=["kibo-token":accountKit!.currentAccessToken!.tokenString]
+            
+            let _id = Expression<String>("_id")
+            let phone = Expression<String>("phone")
+            let username1 = Expression<String>("username")
+            let status = Expression<String>("status")
+            let firstname = Expression<String>("firstname")
+            
+            
+            
+            let tbl_accounts = sqliteDB.accounts
+            do{for account in try sqliteDB.db.prepare(tbl_accounts) {
+                username=account[username1]
+                //displayname=account[firstname]
+                
+                }
+            }
+            catch
+            {
+                if(socketObj != nil){
+                    socketObj.socket.emit("error getting data from accounts table")
+                }
+                print("error in getting data from accounts table")
+                
+            }
+            
+            //  dispatch_async(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0)) {
+            
+            
+            //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+            // if(socketObj != nil)
+            // {
+            managerFile.checkPendingFiles(username!)
+         
+            self.sendPendingChatMessages({ (result) -> () in
+                
+                self.getData({ (result) -> () in
+                    self.index=0
+                       self.pendingchatsarray.removeAll()
+                    Alamofire.request(.POST,"\(Constants.MainUrl+Constants.urllog)",headers:header,parameters: ["data":"IPHONE_LOG: checkin here pending messages sent"]).response{
+                        request, response_, data, error in
+                        print(error)
+                    }
+                    
+                    // print("checkin here pending messages sent")
+                    
+                    // if(socketObj != nil)
+                    //{
+                    if(delegateRefreshChat != nil)
+                    {
+                        print("refresh UI after pending msgs are sent")
+                        delegateRefreshChat?.refreshChatsUI("updateUI", data: nil)
+                    }
+                    /////======CHANGE IT==================
+                    self.fetchChatsFromServer()
+                    //}
+                })
+            })
+        }
+    }
+    /*{
         print("synchronise called")
         if(accountKit == nil){
             accountKit = AKFAccountKit(responseType: AKFResponseType.AccessToken)
@@ -421,6 +492,12 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
             // {
             managerFile.checkPendingFiles(username!)
             self.sendPendingChatMessages({ (result) -> () in
+                
+                Alamofire.request(.POST,"\(Constants.MainUrl+Constants.urllog)",headers:header,parameters: ["data":"IPHONE_LOG: \(username!) received push notification as \(userInfo.description)"]).response{
+                    request, response_, data, error in
+                    print(error)
+                }
+                
                 print("checkin here pending messages sent")
                 print("checkin fetching chats")
                 // if(socketObj != nil)
@@ -431,8 +508,63 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
             })
         }
     }
-    
+    */
 
+    
+    var index=0
+    // var pendingcount=0
+    
+    func getData(completion:(result:Bool)->()) {
+        var x = [[String: AnyObject]]()
+        var url=Constants.MainUrl+Constants.sendChatURL
+        /*
+         let request = Alamofire.request(.POST, "\(url)", parameters: chatstanza,headers:header)
+         request.response(
+         queue: queue,
+         responseSerializer: Request.JSONResponseSerializer(options: .AllowFragments),
+         completionHandler: { response in
+         
+         */
+        
+        if(pendingchatsarray.count>index)
+        {
+            let request = Alamofire.request(.POST, "\(url)", parameters: pendingchatsarray[index],headers:header).responseJSON { response in
+                switch response.result {
+                case .Success(let JSON):
+                    //x[self.index] = JSON as! [String : AnyObject] // saving data
+                    var statusNow="sent"
+                    ///var chatmsg=JSON(data)
+                    /// print(data[0])
+                    ///print(chatmsg[0])
+                    //  print("chat sent msg \(chatstanza)")
+                    
+                    sqliteDB.UpdateChatStatus(self.pendingchatsarray[self.index]["uniqueid"]!, newstatus: "sent")
+                    completion(result:true)
+                    
+                    
+                    self.index = self.index + 1
+                    if self.index < self.pendingchatsarray.count {
+                        self.getData({ (result) -> () in})
+                    }else {
+                        completion(result: true)
+                        /////////self.collectionView.reloadData()
+                    }
+                case .Failure(let error):
+                    print("the error for \(self.pendingchatsarray[self.index]) is \(error) ")
+                    if self.index < self.pendingchatsarray.count {
+                        self.getData({ (result) -> () in})
+                    }else {
+                        completion(result: true)                /////////// self.collectionView.reloadData()
+                    }
+                }
+            }
+        }
+        else{
+            completion(result: false)
+            
+        }
+    }
+    
     func fetchChatsFromServer()
     {
         
@@ -1287,6 +1419,12 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
         print("app state value active is \(UIApplicationState.Active.rawValue)")
        print("......")
         print(userInfo.description)
+        Alamofire.request(.POST,"\(Constants.MainUrl+Constants.urllog)",headers:header,parameters: ["data":"IPHONE_LOG: \(username!) received push notification as \(userInfo.description)"]).response{
+            request, response_, data, error in
+            print(error)
+        }
+        
+
       ////////  if (application.applicationState != UIApplicationState.Background) {
        // NSLog("received remote notification \(userInfo)")
         if(socketObj != nil)

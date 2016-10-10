@@ -302,11 +302,18 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
             // if(socketObj != nil)
             // {
             managerFile.checkPendingFiles(username!)
+           
             self.sendPendingChatMessages({ (result) -> () in
                 
                 self.getData({ (result) -> () in
-                print("checkin here pending messages sent")
-                print("checkin fetching chats")
+                    
+                    Alamofire.request(.POST,"\(Constants.MainUrl+Constants.urllog)",headers:header,parameters: ["data":"IPHONE_LOG: checkin here pending messages sent"]).response{
+                        request, response_, data, error in
+                        print(error)
+                    }
+                    
+               // print("checkin here pending messages sent")
+                    
                // if(socketObj != nil)
                 //{
                 if(delegateRefreshChat != nil)
@@ -345,8 +352,12 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
         //dispatch_async(dispatch_get_global_queue(priority, 0)) {
         //self.progressBarDisplayer("Setting Conversations", true)
         print("\(username) is Fetching chat")
-        socketObj.socket.emit("logClient","\(username) is Fetching chat")
-        
+      //  socketObj.socket.emit("logClient","\(username) is Fetching chat")
+        Alamofire.request(.POST,"\(Constants.MainUrl+Constants.urllog)",headers:header,parameters: ["data":"IPHONE_LOG: \(username) is Fetching chat"]).response{
+            request, response_, data, error in
+            print(error)
+        }
+
         //===
         
         //===
@@ -627,6 +638,11 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
         syncServiceContacts.delegateRefreshContactsList=self
         delegateRefreshChat=self
         print("Chat ViewController is loadingggggg")
+        
+        if(retainOldDatabase==false)
+        {
+            accountKit.logOut()
+        }
         
         if(self.accountKit == nil){
             self.accountKit = AKFAccountKit(responseType: AKFResponseType.AccessToken)
@@ -962,6 +978,13 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
         //////////// *******  if(AuthToken != nil)
         
         //already logged in
+        
+        if(retainOldDatabase==false)
+        {
+            accountKit.logOut()
+        }
+        else
+        {
         if(accountKit.currentAccessToken != nil)
         {
             header=["kibo-token":self.accountKit!.currentAccessToken!.tokenString]
@@ -1064,12 +1087,12 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
             self.performSegueWithIdentifier("loginSegue", sender: self)
         }
         
-        
-        
+    }
+    
     }
     
     var index=0
-    var pendingcount=0
+   // var pendingcount=0
     
     func getData(completion:(result:Bool)->()) {
         var x = [[String: AnyObject]]()
@@ -1407,6 +1430,11 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
             print(ccc[contactPhone])
             print(ccc[msg])
             print(ccc[date])
+            
+            Alamofire.request(.POST,"\(Constants.MainUrl+Constants.urllog)",headers:header,parameters: ["data":"IPHONE_LOG: database date is \(ccc[date])"]).response{
+                request, response_, data, error in
+                print(error)
+            }
             print(ccc[uniqueid])
             //////print(ccc[tbl_userchats[status]])
             print(ccc[status])
@@ -1518,11 +1546,15 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
             
             do{for ccclastmsg in try sqliteDB.db.prepare(myquerylastmsg) {
                 print("date received in chat view is \(ccclastmsg[date])")
+                Alamofire.request(.POST,"\(Constants.MainUrl+Constants.urllog)",headers:header,parameters: ["data":"IPHONE-LOG: date received in chat view is \(ccclastmsg[date])"]).response{
+                    request, response_, data, error in
+                    print(error)
+                }
                 
-                var formatter = NSDateFormatter();
-                formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSS";
+                // var formatter = NSDateFormatter();
+                //formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSS";
                 //formatter.dateFormat = "MM/dd, HH:mm";
-                formatter.timeZone = NSTimeZone(name: "UTC")
+                //formatter.timeZone = NSTimeZone(name: "UTC")
                 // formatter.timeZone = NSTimeZone.localTimeZone()
                 ////////////==========var defaultTimeZoneStr = formatter.dateFromString(ccc[date])
                 /////////////====== var defaultTimeZoneStr2 = formatter.stringFromDate(defaultTimeZoneStr!)
@@ -1535,6 +1567,13 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
                 var defaultTimeeee = formatter2.stringFromDate(ccclastmsg[date])
                 print("===fetch date from database is ccclastmsg[date] \(ccclastmsg[date])... defaultTimeeee \(defaultTimeeee)")
         
+               // socketObj.socket.emit("logClient","IPHONE_LOG: ===fetch date from database is ccclastmsg[date] \(ccclastmsg[date])... defaultTimeeee \(defaultTimeeee)")
+                
+                Alamofire.request(.POST,"\(Constants.MainUrl+Constants.urllog)",headers:header,parameters: ["data":"IPHONE_LOG: ===fetch date from database is ccclastmsg[date] \(ccclastmsg[date])... defaultTimeeee \(defaultTimeeee)"]).response{
+                    request, response_, data, error in
+                    print(error)
+                }
+                
                 
                 print("last msg is \(ccclastmsg[msg])")
                 ContactsLastMsgDate.append(defaultTimeeee)
@@ -1545,7 +1584,7 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
                 }
             //////ContactLastMessage.append(ccc[msg])
             
-            print("date of chat view page is to be converted \(ccc[date])")
+           // print("date of chat view page is to be converted \(ccc[date])")
             
             
            /// ContactsLastMsgDate.append(defaultTimeeee)
@@ -1606,7 +1645,13 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
             }
             catch
                 {
-                    print("error in fetching profile image")
+                    Alamofire.request(.POST,"\(Constants.MainUrl+Constants.urllog)",headers:header,parameters: ["data":"IPHONE_LOG: error in fetching profile image"]).response{
+                        request, response_, data, error in
+                        print(error)
+                    }
+                    
+                    
+                   // print("error in fetching profile image")
                 }
             
             if(picfound==false)

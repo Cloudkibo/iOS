@@ -80,7 +80,7 @@ class DatabaseHandler:NSObject{
         
         self.accounts = Table("accounts")
         do{
-            try db.run(accounts.create(ifNotExists: true) { t in     // CREATE TABLE "accounts" (
+            try db.run(accounts.create(ifNotExists: retainOldDatabase) { t in     // CREATE TABLE "accounts" (
                 //t.column(email,check: email.like("%@%"))
                 t.column(firstname)
                 //t.column(lastname)
@@ -143,7 +143,7 @@ class DatabaseHandler:NSObject{
         
         self.contactslists = Table("contactslists")
         do{
-        try db.run(contactslists.create(ifNotExists: true){ t in     // CREATE TABLE "users" (
+        try db.run(contactslists.create(ifNotExists: retainOldDatabase){ t in     // CREATE TABLE "users" (
             t.column(contactid)//loggedin user id
             t.column(detailsshared)
             
@@ -211,7 +211,7 @@ class DatabaseHandler:NSObject{
         //
         self.allcontacts = Table("allcontacts")
         do{
-            try db.run(allcontacts.create(ifNotExists: true) { t in     // CREATE TABLE "accounts" (
+            try db.run(allcontacts.create(ifNotExists: retainOldDatabase) { t in     // CREATE TABLE "accounts" (
                 t.column(uniqueidentifier, unique:true)
                 t.column(name)
                 t.column(phone)
@@ -273,7 +273,7 @@ class DatabaseHandler:NSObject{
         var defaultTimeZoneStr = formatter.dateFromString(defaultTimeZoneStr2)
         print("default db date is \(defaultTimeZoneStr)")
         do{
-            try db.run(userschats.create(ifNotExists: true) { t in     // CREATE TABLE "accounts" (
+            try db.run(userschats.create(ifNotExists: retainOldDatabase) { t in     // CREATE TABLE "accounts" (
                 t.column(to)//loggedin user id
                 t.column(from)
                 t.column(owneruser)
@@ -344,7 +344,7 @@ class DatabaseHandler:NSObject{
             
             self.callHistory = Table("callHistory")
             do{
-                try db.run(callHistory.create(ifNotExists: true) { t in     // CREATE TABLE "callHistory"
+                try db.run(callHistory.create(ifNotExists: retainOldDatabase) { t in     // CREATE TABLE "callHistory"
                     t.column(name)
                     t.column(dateTime)
                     t.column(type)
@@ -377,7 +377,7 @@ class DatabaseHandler:NSObject{
         
         self.statusUpdate = Table("statusUpdate")
         do{
-            try db.run(statusUpdate.create(ifNotExists: true) { t in
+            try db.run(statusUpdate.create(ifNotExists: retainOldDatabase) { t in
                 t.column(status)
                 t.column(sender)
                 t.column(uniqueid)
@@ -438,7 +438,7 @@ class DatabaseHandler:NSObject{
         print("default db date is \(defaultTimeZoneStr)")
         
         do{
-            try db.run(files.create(ifNotExists: true) { t in     // CREATE TABLE "accounts" (
+            try db.run(files.create(ifNotExists: retainOldDatabase) { t in     // CREATE TABLE "accounts" (
                 t.column(to)//loggedin user id
                 t.column(from)
                 t.column(contactPhone)
