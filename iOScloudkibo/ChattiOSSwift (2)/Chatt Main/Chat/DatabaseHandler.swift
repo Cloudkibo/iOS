@@ -9,6 +9,7 @@
 import Foundation
 import SQLite
 import Contacts
+import AccountKit
 class DatabaseHandler:NSObject{
     var db:Connection!
     //var db:Database
@@ -33,7 +34,65 @@ class DatabaseHandler:NSObject{
                 do {
             self.db = try Connection(dbPath)
                     print(db.description)
-
+                    
+                   /* if(KeychainWrapper.stringForKey("retainOldDatabase")==nil)
+                        {
+                            KeychainWrapper.setString("false", forKey: "retainOldDatabase")
+                        }
+                    else
+                    {
+                        if((KeychainWrapper.stringForKey("versionNumber")!  as! Double) < 0.3)
+                        {
+                             KeychainWrapper.setString("false", forKey: "retainOldDatabase")
+                        }
+                        else
+                        {
+                            KeychainWrapper.setString("true", forKey: "retainOldDatabase")
+                            
+                        }
+                    }
+*/
+                    if((KeychainWrapper.stringForKey("retainOldDatabase")?.isEmpty)!)
+                    {
+                        KeychainWrapper.setString("false",forKey: "retainOldDatabase")
+                        KeychainWrapper.setString("0.3",forKey: "versionNumber")
+                        retainOldDatabase=false
+                        if(accountKit == nil){
+                            accountKit = AKFAccountKit(responseType: AKFResponseType.AccessToken)
+                        }
+                        accountKit.logOut()
+                    }
+                        
+                    else
+                    {
+                        if((KeychainWrapper.stringForKey("versionNumber")?.isEmpty)!)
+                        {
+                            KeychainWrapper.setString("false",forKey: "retainOldDatabase")
+                            KeychainWrapper.setString("0.3",forKey: "versionNumber")
+                            retainOldDatabase=false;
+                            if(accountKit == nil){
+                                accountKit = AKFAccountKit(responseType: AKFResponseType.AccessToken)
+                            }
+                            accountKit.logOut()
+   
+                        }
+                        else{
+                        if(KeychainWrapper.stringForKey("versionNumber") != "0.3")
+                        {
+                            KeychainWrapper.setString("false",forKey: "retainOldDatabase")
+                            KeychainWrapper.setString("0.3",forKey: "versionNumber")
+                            retainOldDatabase=false;
+                            if(accountKit == nil){
+                                accountKit = AKFAccountKit(responseType: AKFResponseType.AccessToken)
+                            }
+                            accountKit.logOut()
+                        }
+                        else
+                        {
+                           retainOldDatabase=true
+}
+                    }
+                    }
         }
         catch{
             print("Database Connection failed")

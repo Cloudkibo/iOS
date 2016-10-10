@@ -23,8 +23,11 @@ import AVFoundation
 //import WindowsAzureMessaging
 
 
-var retainOldDatabase:Bool! = KeychainWrapper.stringForKey("retainOldDatabase")
-var versionNumber:Int! = KeychainWrapper.stringForKey("versionNumber")
+var retainOldDatabase:Bool! = nil
+var versionNumber:Double! = nil
+
+//KeychainWrapper.stringForKey("retainOldDatabase") as! Bool
+//var versionNumber:Double! = KeychainWrapper.stringForKey("versionNumber") as! Double
 
 var syncServiceContacts:syncContactService!
 var addressbookChangedNotifReceived=false
@@ -111,20 +114,7 @@ var reachability:Reachability!;
 class AppDelegate: UIResponder, UIApplicationDelegate,AppDelegateScreenDelegate {
     
     var window: UIWindow?
-    
-    if(self.versionNumber == nil)
-    {
-    KeyChainWrapper.setString(false,forKey: "retainOldDatabase")
-    KeyChainWrapper.setString(0.3,forKey: "versionNumber")
-
-    }
-    else
-    {
-    if(KeyChainWrapper.stringForKey("versionNumber") < 0.3)
-    {
-    
-    }
-    }
+ 
 
 
     
@@ -147,7 +137,30 @@ class AppDelegate: UIResponder, UIApplicationDelegate,AppDelegateScreenDelegate 
         print("========launchhhhhhhhh=====")
         print(NSDate())
         
-        print("notifications ... \(launchOptions?.debugDescription)")
+        if(!(KeychainWrapper.stringForKey("retainOldDatabase")?.isEmpty)!)
+        {
+            KeychainWrapper.setString("false",forKey: "retainOldDatabase")
+            KeychainWrapper.setString("0.3",forKey: "versionNumber")
+            if(accountKit == nil){
+                accountKit = AKFAccountKit(responseType: AKFResponseType.AccessToken)
+            }
+            accountKit.logOut()
+        }       
+       
+        else
+        {
+            if((KeychainWrapper.stringForKey("versionNumber") as! Double) < 0.3)
+            {
+                KeychainWrapper.setString("false",forKey: "retainOldDatabase")
+                KeychainWrapper.setString("0.3",forKey: "versionNumber")
+                if(accountKit == nil){
+                    accountKit = AKFAccountKit(responseType: AKFResponseType.AccessToken)
+                }
+                accountKit.logOut()
+            }
+        }
+        
+       // print("notifications ... \(launchOptions?.debugDescription)")
         
         
         syncServiceContacts=syncContactService.init()

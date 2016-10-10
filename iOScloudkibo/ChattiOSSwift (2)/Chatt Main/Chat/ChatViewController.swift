@@ -639,10 +639,11 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
         delegateRefreshChat=self
         print("Chat ViewController is loadingggggg")
         
-        if(retainOldDatabase==false)
+       /* if(retainOldDatabase != nil
+            ==false)
         {
             accountKit.logOut()
-        }
+        }*/
         
         if(self.accountKit == nil){
             self.accountKit = AKFAccountKit(responseType: AKFResponseType.AccessToken)
@@ -978,13 +979,13 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
         //////////// *******  if(AuthToken != nil)
         
         //already logged in
-        
+        /*
         if(retainOldDatabase==false)
         {
             accountKit.logOut()
         }
         else
-        {
+        {*/
         if(accountKit.currentAccessToken != nil)
         {
             header=["kibo-token":self.accountKit!.currentAccessToken!.tokenString]
@@ -1087,7 +1088,7 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
             self.performSegueWithIdentifier("loginSegue", sender: self)
         }
         
-    }
+  //  }
     
     }
     
