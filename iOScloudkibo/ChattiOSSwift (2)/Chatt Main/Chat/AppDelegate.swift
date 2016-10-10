@@ -23,7 +23,8 @@ import AVFoundation
 //import WindowsAzureMessaging
 
 
-var retainOldDatabase=true
+var retainOldDatabase:Bool! = KeychainWrapper.stringForKey("retainOldDatabase")
+var versionNumber:Int! = KeychainWrapper.stringForKey("versionNumber")
 
 var syncServiceContacts:syncContactService!
 var addressbookChangedNotifReceived=false
@@ -110,6 +111,27 @@ var reachability:Reachability!;
 class AppDelegate: UIResponder, UIApplicationDelegate,AppDelegateScreenDelegate {
     
     var window: UIWindow?
+    
+    if(self.versionNumber == nil)
+    {
+    KeyChainWrapper.setString(false,forKey: "retainOldDatabase")
+    KeyChainWrapper.setString(0.3,forKey: "versionNumber")
+
+    }
+    else
+    {
+    if(KeyChainWrapper.stringForKey("versionNumber") < 0.3)
+    {
+    
+    }
+    }
+
+
+    
+    /*if(self.retainOldDatabase==false )
+    {
+    accountKit.logOut()
+    }*/
    // private var reachability:Reachability!;
     
     //  var window: UIWindow?
