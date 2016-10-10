@@ -55,7 +55,7 @@ class DatabaseHandler:NSObject{
                     if((KeychainWrapper.stringForKey("retainOldDatabase")?.isEmpty)!)
                     {
                         KeychainWrapper.setString("false",forKey: "retainOldDatabase")
-                        KeychainWrapper.setString("0.3",forKey: "versionNumber")
+                        KeychainWrapper.setString(versionNumber,forKey: "versionNumber")
                         retainOldDatabase=false
                         if(accountKit == nil){
                             accountKit = AKFAccountKit(responseType: AKFResponseType.AccessToken)
@@ -68,7 +68,7 @@ class DatabaseHandler:NSObject{
                         if((KeychainWrapper.stringForKey("versionNumber")?.isEmpty)!)
                         {
                             KeychainWrapper.setString("false",forKey: "retainOldDatabase")
-                            KeychainWrapper.setString("0.3",forKey: "versionNumber")
+                            KeychainWrapper.setString(versionNumber,forKey: "versionNumber")
                             retainOldDatabase=false;
                             if(accountKit == nil){
                                 accountKit = AKFAccountKit(responseType: AKFResponseType.AccessToken)
@@ -77,10 +77,10 @@ class DatabaseHandler:NSObject{
    
                         }
                         else{
-                        if(KeychainWrapper.stringForKey("versionNumber") != "0.3")
+                        if(KeychainWrapper.stringForKey("versionNumber") != versionNumber)
                         {
                             KeychainWrapper.setString("false",forKey: "retainOldDatabase")
-                            KeychainWrapper.setString("0.3",forKey: "versionNumber")
+                            KeychainWrapper.setString(versionNumber,forKey: "versionNumber")
                             retainOldDatabase=false;
                             if(accountKit == nil){
                                 accountKit = AKFAccountKit(responseType: AKFResponseType.AccessToken)

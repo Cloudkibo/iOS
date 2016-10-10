@@ -24,7 +24,7 @@ import AVFoundation
 
 
 var retainOldDatabase:Bool! = nil
-var versionNumber:Double! = nil
+var versionNumber:String! = "0.4"
 
 //KeychainWrapper.stringForKey("retainOldDatabase") as! Bool
 //var versionNumber:Double! = KeychainWrapper.stringForKey("versionNumber") as! Double
@@ -140,7 +140,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate,AppDelegateScreenDelegate 
         if(!(KeychainWrapper.stringForKey("retainOldDatabase")?.isEmpty)!)
         {
             KeychainWrapper.setString("false",forKey: "retainOldDatabase")
-            KeychainWrapper.setString("0.3",forKey: "versionNumber")
+            KeychainWrapper.setString("\(versionNumber)",forKey: "versionNumber")
             if(accountKit == nil){
                 accountKit = AKFAccountKit(responseType: AKFResponseType.AccessToken)
             }
@@ -149,10 +149,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate,AppDelegateScreenDelegate 
        
         else
         {
-            if((KeychainWrapper.stringForKey("versionNumber") as! Double) < 0.3)
+            if(KeychainWrapper.stringForKey("versionNumber") != versionNumber)
             {
                 KeychainWrapper.setString("false",forKey: "retainOldDatabase")
-                KeychainWrapper.setString("0.3",forKey: "versionNumber")
+                KeychainWrapper.setString(versionNumber,forKey: "versionNumber")
                 if(accountKit == nil){
                     accountKit = AKFAccountKit(responseType: AKFResponseType.AccessToken)
                 }
