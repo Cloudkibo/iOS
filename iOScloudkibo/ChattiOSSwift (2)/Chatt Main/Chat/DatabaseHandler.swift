@@ -53,7 +53,7 @@ class DatabaseHandler:NSObject{
                     }
 */
                     if((KeychainWrapper.stringForKey("retainOldDatabase")?.isEmpty)!)
-                    {
+                    {print("retainolddatabase is empty")
                         KeychainWrapper.setString("false",forKey: "retainOldDatabase")
                         KeychainWrapper.setString(versionNumber,forKey: "versionNumber")
                         retainOldDatabase=false
@@ -66,7 +66,7 @@ class DatabaseHandler:NSObject{
                     else
                     {
                         if((KeychainWrapper.stringForKey("versionNumber")?.isEmpty)!)
-                        {
+                        {print("versionnumber is empty")
                             KeychainWrapper.setString("false",forKey: "retainOldDatabase")
                             KeychainWrapper.setString(versionNumber,forKey: "versionNumber")
                             retainOldDatabase=false;
@@ -78,7 +78,7 @@ class DatabaseHandler:NSObject{
                         }
                         else{
                         if(KeychainWrapper.stringForKey("versionNumber") != versionNumber)
-                        {
+                        {print("retainolddatabase is lesser")
                             KeychainWrapper.setString("false",forKey: "retainOldDatabase")
                             KeychainWrapper.setString(versionNumber,forKey: "versionNumber")
                             retainOldDatabase=false;
@@ -320,7 +320,7 @@ class DatabaseHandler:NSObject{
         //let datens2 = dateFormatter.dateFromString(NSDate().debugDescription)
        //print("defaultDate is \(datens2)")
         self.userschats = Table("userschats")
-        
+        /*
         var date22=NSDate()
         var formatter = NSDateFormatter();
         formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ";
@@ -330,7 +330,8 @@ class DatabaseHandler:NSObject{
         //formatter.timeStyle = .ShortStyle
         let defaultTimeZoneStr2 = formatter.stringFromDate(date22);
         var defaultTimeZoneStr = formatter.dateFromString(defaultTimeZoneStr2)
-        print("default db date is \(defaultTimeZoneStr)")
+        */
+       // print("default db date is \(defaultTimeZoneStr)")
         do{
             try db.run(userschats.create(ifNotExists: retainOldDatabase) { t in     // CREATE TABLE "accounts" (
                 t.column(to)//loggedin user id
@@ -339,7 +340,7 @@ class DatabaseHandler:NSObject{
                 t.column(fromFullName)
                 t.column(contactPhone)
                 t.column(msg)
-                t.column(date, defaultValue:defaultTimeZoneStr!)
+                t.column(date)
                 t.column(status)
                 t.column(uniqueid)
                 t.column(type, defaultValue:"chat")
@@ -501,7 +502,7 @@ class DatabaseHandler:NSObject{
                 t.column(to)//loggedin user id
                 t.column(from)
                 t.column(contactPhone)
-                t.column(date, defaultValue:defaultTimeZoneStr!)
+                t.column(date)
                 t.column(uniqueid)
                 t.column(type, defaultValue:"")
                 t.column(file_name, defaultValue:"")
@@ -815,6 +816,7 @@ class DatabaseHandler:NSObject{
         var mydate:NSDate!
         if(date1 == nil)
         {
+            print("date got is null to put current date/time")
            /* var date22=NSDate()
             var formatter = NSDateFormatter();
             //formatter.dateFormat = "yyyy-MM-dd HH:mm:ss ZZZ";
@@ -828,6 +830,11 @@ class DatabaseHandler:NSObject{
             var date22=NSDate()
             var formatter = NSDateFormatter();
             formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ";
+            ///newwwwwwww
+             formatter.timeZone = NSTimeZone.localTimeZone()
+           
+            
+            
             //formatter.dateFormat = "MM/dd, HH:mm";
             ////////////////==formatter.timeZone = NSTimeZone.defaultTimeZone()
             //formatter.dateStyle = .ShortStyle
@@ -850,6 +857,9 @@ class DatabaseHandler:NSObject{
             }
         else
         {
+            
+            
+              print("date got is not null. converting")
             //var date22=NSDate()
             var formatter = NSDateFormatter();
             formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ";

@@ -2946,14 +2946,22 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
         
         var randNum5=self.randomStringWithLength(5) as! String
         var uniqueID=randNum5+year+month+day+hour+minute+second
-        //var uniqueID=randNum5+year
-        //print("unique ID is \(uniqueID)")
         
-      ///  var loggedid=_id!
-        //^^var firstNameSelected=selectedUserObj["firstname"]
-        //^^^var lastNameSelected=selectedUserObj["lastname"]
-        //^^^var fullNameSelected=firstNameSelected.string!+" "+lastNameSelected.string!
-        var imParas=["from":"\(username!)","to":"\(selectedContact)","fromFullName":"\(displayname)","msg":"\(txtFldMessage.text!)","uniqueid":"\(uniqueID)","type":"chat","file_type":""]
+        var date=NSDate()
+        var formatterDateSend = NSDateFormatter();
+        formatterDateSend.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ";
+        ///newwwwwwww
+        ////formatterDateSend.timeZone = NSTimeZone.localTimeZone()
+        let dateSentString = formatterDateSend.stringFromDate(date);
+        
+        
+        var formatterDateSendtoDateType = NSDateFormatter();
+        formatterDateSendtoDateType.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ";
+        var dateSentDateType = formatterDateSendtoDateType.dateFromString(dateSentString)
+        
+
+     
+        var imParas=["from":"\(username!)","to":"\(selectedContact)","fromFullName":"\(displayname)","msg":"\(txtFldMessage.text!)","uniqueid":"\(uniqueID)","type":"chat","file_type":"","date":"\(dateSentDateType!)"]
         //print("imparas are \(imParas)")
         //print(imParas, terminator: "")
         //print("", terminator: "")
@@ -2974,7 +2982,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
         statusNow="pending"
         //}
         
-        sqliteDB.SaveChat("\(selectedContact)", from1: username!, owneruser1: username!, fromFullName1: displayname, msg1: txtFldMessage.text!, date1: nil, uniqueid1: uniqueID, status1: statusNow, type1: "chat", file_type1: "", file_path1: "")
+        sqliteDB.SaveChat("\(selectedContact)", from1: username!, owneruser1: username!, fromFullName1: displayname, msg1: txtFldMessage.text!, date1: dateSentDateType, uniqueid1: uniqueID, status1: statusNow, type1: "chat", file_type1: "", file_path1: "")
        // sqliteDB.SaveChat("\(selectedContact)", from1: "\(username!)",owneruser1: "\(username!)", fromFullName1: "\(loggedFullName!)", msg1: "\(txtFldMessage.text!)",date1: nil,uniqueid1: uniqueID, status1: statusNow)
         
       // dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND,0))
@@ -3020,7 +3028,11 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
         //print("post btn format in string in dict is \(defaultTimeZoneStr)")
         */
         
-        var date=NSDate()
+        
+        
+        
+        
+       // var date=NSDate()
         var formatter = NSDateFormatter();
         
         formatter.timeZone = NSTimeZone.localTimeZone()

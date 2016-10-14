@@ -597,7 +597,7 @@ class DisplayNameViewController: UIViewController {
                     }
                     if let data1 = response.result.value {
                         let UserchatJson = JSON(data1)
-                       // print("chat fetched JSON: \(json)")
+                        print("chat fetched JSON: \(UserchatJson)")
                         
                         var tableUserChatSQLite=sqliteDB.userschats
                         

@@ -137,6 +137,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate,AppDelegateScreenDelegate 
         print("========launchhhhhhhhh=====")
         print(NSDate())
         
+        
+        let nsObject: AnyObject? = NSBundle.mainBundle().infoDictionary!["CFBundleShortVersionString"]
+        if let text = NSBundle.mainBundle().infoDictionary?["CFBundleVersion"] as? String {
+            print("... \(text)") //build number
+        }
+        print(",,,,, \(nsObject!.description)") //version number
+        
         if(!(KeychainWrapper.stringForKey("retainOldDatabase")?.isEmpty)!)
         {
             KeychainWrapper.setString("false",forKey: "retainOldDatabase")
@@ -914,8 +921,23 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
             {
                 print("inside for loop")
                 print("pending chats count in app delegate is \(count)")
+                
+                var date=NSDate()
+                var formatterDateSend = NSDateFormatter();
+                formatterDateSend.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ";
+                ///newwwwwwww
+                ////formatterDateSend.timeZone = NSTimeZone.localTimeZone()
+                let dateSentString = formatterDateSend.stringFromDate(date);
+                
+                
+                var formatterDateSendtoDateType = NSDateFormatter();
+                formatterDateSendtoDateType.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ";
+                var dateSentDateType = formatterDateSendtoDateType.dateFromString(dateSentString)
+                
+
+                
                 count++
-                var imParas=["from":pendingchats[from],"to":pendingchats[to],"fromFullName":pendingchats[fromFullName],"msg":pendingchats[msg],"uniqueid":pendingchats[uniqueid],"type":pendingchats[type],"file_type":pendingchats[file_type]]
+                var imParas=["from":pendingchats[from],"to":pendingchats[to],"fromFullName":pendingchats[fromFullName],"msg":pendingchats[msg],"uniqueid":pendingchats[uniqueid],"type":pendingchats[type],"file_type":pendingchats[file_type],"date":"\(dateSentDateType!)"]
                 
                 print("imparas are \(imParas)")
                 print(imParas, terminator: "")
