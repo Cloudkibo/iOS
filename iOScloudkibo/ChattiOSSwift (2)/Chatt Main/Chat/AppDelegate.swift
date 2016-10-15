@@ -1502,11 +1502,19 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
                 if(notifType=="status")
                 {
                     updateMessageStatus(singleuniqueid, status: (userInfo["status"] as? String)!)
+                    print("calling completion handler for status update now")
+                    completionHandler(UIBackgroundFetchResult.NewData)
+                    NSNotificationCenter.defaultCenter().postNotificationName("ReceivedNotification", object:userInfo)
+                    
                 }
                 else
                 {
                     print("payload of iOS chat")
                     fetchSingleChatMessage(singleuniqueid)
+                     print("calling completion handler for fetch chat now")
+                    completionHandler(UIBackgroundFetchResult.NewData)
+                    NSNotificationCenter.defaultCenter().postNotificationName("ReceivedNotification", object:userInfo)
+                    
 
                 }
             }
@@ -1517,6 +1525,9 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
                 // this is from android
                 //==
                 fetchSingleChatMessage(singleuniqueid)
+                completionHandler(UIBackgroundFetchResult.NewData)
+                NSNotificationCenter.defaultCenter().postNotificationName("ReceivedNotification", object:userInfo)
+                
                 
             }
             
@@ -1529,8 +1540,8 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
         print("json converted is \(notificationJSON)")
         print("json received is is \(notificationJSON["aps"])")
         */
-        completionHandler(UIBackgroundFetchResult.NewData)
-        NSNotificationCenter.defaultCenter().postNotificationName("ReceivedNotification", object:userInfo)
+      /////////////--------  completionHandler(UIBackgroundFetchResult.NewData)
+      ////////////////----------------  NSNotificationCenter.defaultCenter().postNotificationName("ReceivedNotification", object:userInfo)
         /*
          json converted is {
          "aps" : {
