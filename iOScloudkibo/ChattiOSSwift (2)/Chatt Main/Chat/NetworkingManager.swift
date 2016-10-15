@@ -161,7 +161,7 @@ class NetworkingManager
     func sendChatMessage(chatstanza:[String:String],completion:(result:Bool)->())
     {
         
-        let queue = dispatch_queue_create("com.kibochat.manager-response-queue", DISPATCH_QUEUE_SERIAL)
+       // let queue = dispatch_queue_create("com.kibochat.manager-response-queue", DISPATCH_QUEUE_SERIAL)
         
         var url=Constants.MainUrl+Constants.sendChatURL
       /*
@@ -226,19 +226,23 @@ class NetworkingManager
     func sendChatStatusUpdateMessage(uniqueid:String,status:String,sender:String)
     {
         
-        let queue = dispatch_queue_create("com.kibochat.manager-response-queue", DISPATCH_QUEUE_CONCURRENT)
+      //  let queue = dispatch_queue_create("com.kibochat.manager-response-queue", DISPATCH_QUEUE_CONCURRENT)
         
         var url=Constants.MainUrl+Constants.sendChatStatusURL
-        let request = Alamofire.request(.POST, "\(url)", parameters: ["uniqueid":uniqueid,"sender":sender,"status":status],headers:header)
+        /*let request = Alamofire.request(.POST, "\(url)", parameters: ["uniqueid":uniqueid,"sender":sender,"status":status],headers:header)
         request.response(
             queue: queue,
             responseSerializer: Request.JSONResponseSerializer(options: .AllowFragments),
             completionHandler: { response in
+               
+                */
+        
+        let request = Alamofire.request(.POST, "\(url)", parameters: ["uniqueid":uniqueid,"sender":sender,"status":status],headers:header).responseJSON { response in
                 // You are now running on the concurrent `queue` you created earlier.
                 print("Parsing JSON on thread: \(NSThread.currentThread()) is main thread: \(NSThread.isMainThread())")
                 
                 // Validate your JSON response and convert into model objects if necessary
-                print(response.result.value!) //status, uniqueid
+               /////// print(response.result.value!) //status, uniqueid
                 
                 
                 // To update anything on the main thread, just jump back on like so.
@@ -267,7 +271,7 @@ class NetworkingManager
                     ////////}
                 }
             }
-        )
+       // )
     }
     
 
@@ -618,7 +622,7 @@ class NetworkingManager
                 //===
                 if(delegateRefreshChat != nil)
                 {
-                    delegateRefreshChat?.refreshChatsUI("updateUI", data: nil)
+                    delegateRefreshChat?.refreshChatsUI("",uniqueid:fileuniqueid,from:filefrom,date1:NSDate(), type:"chat")
                 }
                 //filedownloaded’ to with parameters ‘senderoffile’, ‘receiveroffile’
                 

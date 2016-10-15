@@ -319,7 +319,7 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
                 if(delegateRefreshChat != nil)
                 {
                     print("refresh UI after pending msgs are sent")
-                    delegateRefreshChat?.refreshChatsUI("updateUI", data: nil)
+                    delegateRefreshChat?.refreshChatsUI(nil, uniqueid:nil, from:nil, date1:nil, type:"status")
                 }
                 /////======CHANGE IT==================
                     self.fetchChatsFromServer()
@@ -593,7 +593,7 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
                             dispatch_async(dispatch_get_main_queue()) {
                                 if(delegateRefreshChat != nil)
                                 {print("updating UI now ...")
-                                    delegateRefreshChat?.refreshChatsUI("updateUI", data: nil)
+                                    delegateRefreshChat?.refreshChatsUI(nil, uniqueid:nil, from:nil, date1:nil, type:"status")
                                 }
                                 
                                 if(socketObj.delegateChat != nil)
@@ -2925,7 +2925,7 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
         //socketObj.delegate=nil
     }
     
-    func refreshChatsUI(message: String, data: AnyObject!) {
+    func refreshChatsUI(message:String!, uniqueid:String!, from:String!, date1:NSDate!, type:String!) {
         dispatch_sync(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0)) {
             // do some task start to show progress wheel
             self.fetchContacts({ (result) -> () in

@@ -486,7 +486,7 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
                     if(delegateRefreshChat != nil)
                     {
                         print("refresh UI after pending msgs are sent")
-                        delegateRefreshChat?.refreshChatsUI("updateUI", data: nil)
+                        delegateRefreshChat?.refreshChatsUI(nil, uniqueid:nil, from:nil, date1:nil, type:"status")
                     }
                     /////======CHANGE IT==================
                     self.fetchChatsFromServer()
@@ -850,7 +850,7 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
                         if(delegateRefreshChat != nil)
                         {
                             print("informing UI to repfresh status")
-                            delegateRefreshChat?.refreshChatsUI("updateUI", data: nil)
+                            delegateRefreshChat?.refreshChatsUI(nil, uniqueid:nil, from:nil, date1:nil, type:"status")
                         }
                         if(socketObj.delegateChat != nil)
                         {
@@ -1535,7 +1535,7 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
         }
 
         
-        print("remote notification received is \(userInfo)")
+       /////// print("remote notification received is \(userInfo)")
         /*var notificationJSON=JSON(userInfo)
         print("json converted is \(notificationJSON)")
         print("json received is is \(notificationJSON["aps"])")
@@ -1724,11 +1724,23 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
             switch response.result {
             case .Success:
                 if let data1 = response.result.value {
+                    
+                    
                     var chatJson = JSON(data1)
                     chatJson=chatJson["msg"]
                     print("JSON single chat: \(chatJson)")
                     print("JSON single chat to is: \(chatJson[0]["to"].string!)")
                     var status="delivered"
+                    
+                    let dateFormatter = NSDateFormatter()
+                    dateFormatter.timeZone=NSTimeZone.localTimeZone()
+                    dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
+                    //  let datens2 = dateFormatter.dateFromString(date2.debugDescription)
+                    //2016-09-18T19:13:00.588Z
+                    let datens2 = dateFormatter.dateFromString(chatJson[0]["date"].string!)
+                    
+                    
+                    
                     if(!chatJson[0]["type"].isExists())
                     {//old chat message
                         
@@ -1737,13 +1749,13 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
                         
                         //====
                         
-                        let dateFormatter = NSDateFormatter()
+                       /* let dateFormatter = NSDateFormatter()
                         dateFormatter.timeZone=NSTimeZone.localTimeZone()
                         dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
                         //  let datens2 = dateFormatter.dateFromString(date2.debugDescription)
                         //2016-09-18T19:13:00.588Z
                         let datens2 = dateFormatter.dateFromString(chatJson[0]["date"].string!)
-                        
+                        */
                         print("===single fetch chat date in app delegate \(datens2)")
                         
                       /*  let formatter = NSDateFormatter()
@@ -1772,14 +1784,7 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
                         //===
                         //===
                         
-                        let dateFormatter = NSDateFormatter()
-                        dateFormatter.timeZone=NSTimeZone.localTimeZone()
-                        dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
-                        //  let datens2 = dateFormatter.dateFromString(date2.debugDescription)
-                        //2016-09-18T19:13:00.588Z
-                        let datens2 = dateFormatter.dateFromString(chatJson[0]["date"].string!)
-                        
-                       /* let formatter = NSDateFormatter()
+                     /* let formatter = NSDateFormatter()
                         formatter.dateFormat = "MM/dd, HH:mm"
                         /////// formatter.dateStyle = NSDateFormatterStyle.ShortStyle
                         //////formatter.timeStyle = .ShortStyle
@@ -1830,7 +1835,7 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
                         
                         // to play sound
                         AudioServicesPlaySystemSound (systemSoundID)
-                        delegateRefreshChat?.refreshChatsUI("updateUI", data: nil)
+                        delegateRefreshChat?.refreshChatsUI(chatJson[0]["msg"].string!, uniqueid:chatJson[0]["uniqueid"].string!, from:chatJson[0]["from"].string!, date1:datens2, type:"chat")
                     }
                     
                     
@@ -1888,7 +1893,10 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
             if(delegateRefreshChat != nil)
             {
                 print("informing UI to repfresh status")
-                delegateRefreshChat?.refreshChatsUI("updateUI", data: nil)
+                dispatch_async(dispatch_get_main_queue())
+                {
+                delegateRefreshChat?.refreshChatsUI(nil, uniqueid:nil, from:nil, date1:nil, type:"status")
+                }
             }
             
             
@@ -2139,7 +2147,7 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
 }
 protocol UpdateChatViewsDelegate:class
 {
-    func refreshChatsUI(message:String,data:AnyObject!);
+    func refreshChatsUI(message: String!, uniqueid:String!, from:String!, date1:NSDate!, type:String!);
 }
 
 

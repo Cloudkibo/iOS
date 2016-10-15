@@ -659,7 +659,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
             
             //for tblContacts in try sqliteDB.db.prepare(tbl_userchats.filter(owneruser==owneruser1)){
             ////print("queryy runned count is \(tbl_contactslists.count)")
-            for tblContacts in try sqliteDB.db.prepare(tbl_userchats.filter(to==selecteduser || from==selecteduser).order(date.asc)){
+            for tblContacts in try sqliteDB.db.prepare(tbl_userchats.filter(to==selecteduser || from==selecteduser)/*.order(date.asc)*/){
                 
                 //print("===fetch date from database is tblContacts[date] \(tblContacts[date])")
                 /*
@@ -2822,15 +2822,16 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
    func sendChatMessage(chatstanza:[String:String],completion:(result:Bool)->())
     {
        // let queue=dispatch_get_global_queue(QOS_CLASS_USER_INITIATED,0)
-    let queue = dispatch_queue_create("com.kibochat.manager-response-queue", DISPATCH_QUEUE_CONCURRENT)
+   // let queue = dispatch_queue_create("com.kibochat.manager-response-queue", DISPATCH_QUEUE_CONCURRENT)
           var url=Constants.MainUrl+Constants.sendChatURL
-       let request = Alamofire.request(.POST, "\(url)", parameters: chatstanza,headers:header)
+     /*  let request = Alamofire.request(.POST, "\(url)", parameters: chatstanza,headers:header)
         request.response(
             queue: queue,
             responseSerializer: Request.JSONResponseSerializer(options: .AllowFragments),
             completionHandler: { response in
-                
-             ///////////// let request = Alamofire.request(.POST, "\(url)", parameters: chatstanza,headers:header).responseJSON { response in
+                */
+        
+        let request = Alamofire.request(.POST, "\(url)", parameters: chatstanza,headers:header).responseJSON { response in
             // You are now running on the concurrent `queue` you created earlier.
           //print("Parsing JSON on thread: \(NSThread.currentThread()) is main thread: \(NSThread.isMainThread())")
                 
@@ -2868,7 +2869,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
            
         /////// }
                 }
-            })
+            }//)
         
     }
     
@@ -2878,14 +2879,23 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
     {
         print("sending chat status update")
         
-        let queue = dispatch_queue_create("com.kibochat.manager-response-queue1", DISPATCH_QUEUE_CONCURRENT)
+        ///let queue = dispatch_queue_create("com.kibochat.manager-response-queue1", DISPATCH_QUEUE_CONCURRENT)
         
         var url=Constants.MainUrl+Constants.sendChatStatusURL
-        let request = Alamofire.request(.POST, "\(url)", parameters: ["uniqueid":uniqueid,"sender":sender,"status":status],headers:header)
+        
+        
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT,0))
+        {
+         let request = Alamofire.request(.POST, "\(url)", parameters: ["uniqueid":uniqueid,"sender":sender,"status":status],headers:header).responseJSON { response in
+            
+            
+        /*let request = Alamofire.request(.POST, "\(url)", parameters: ["uniqueid":uniqueid,"sender":sender,"status":status],headers:header)
         request.response(
             queue: queue,
             responseSerializer: Request.JSONResponseSerializer(options: .AllowFragments),
             completionHandler: { response in
+                
+                */
                 // You are now running on the concurrent `queue` you created earlier.
                 //print("Parsing JSON on thread: \(NSThread.currentThread()) is main thread: \(NSThread.isMainThread())")
                 
@@ -2923,8 +2933,12 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
                     /////}
                 }
             }
-        )
+        }
+       // )
     }
+    
+    
+    
     @IBAction func postBtnTapped() {
         
         
@@ -3061,7 +3075,9 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
        /////// dispatch_async(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED,0))
        ////// {
         
-        print("messages count before sending msg is \(messages.count)")
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT,0))
+        {
+        print("messages count before sending msg is \(self.messages.count)")
             self.sendChatMessage(imParas){ (result) -> () in
                 
                 //   dispatch_async(dispatch_get_main_queue())
@@ -3072,7 +3088,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
        
                     
                     dispatch_async(dispatch_get_main_queue())
-                    {
+                   {
                         self.tblForChats.reloadData()
                         print("messages count is \(self.messages.count)")
                         if(self.messages.count>1)
@@ -3084,6 +3100,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
                     }
                 })
             }
+        }
             //  }
             
         ///////}
@@ -3599,11 +3616,62 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
     
     
     
-    func refreshChatsUI(message: String, data: AnyObject!) {
+    func refreshChatsUI(message: String!, uniqueid:String!, from:String!, date1:NSDate!, type:String!) {
+        
+      //  var chatJSON=JSON(data!)
+   // var uniqueid=chatJSON["un"]
+        
+        if(type! == "chat")
+        {
+            
+            //update status seen in table
+            //save status seen in sync table
+            //http send status seen
+            sqliteDB.UpdateChatStatus(uniqueid, newstatus: "seen")
+            
+            sqliteDB.saveMessageStatusSeen("seen", sender1: from, uniqueid1: uniqueid)
+            
+            sendChatStatusUpdateMessage(uniqueid,status: "seen",sender:from)
+
+            
+            
+            if(from! == selectedContact)
+            {
+            //check if on correct chat window where new message is received
+        var formatter = NSDateFormatter();
+        
+        formatter.timeZone = NSTimeZone.localTimeZone()
+        formatter.dateFormat = "MM/dd, HH:mm";
+        //formatter.dateStyle = .ShortStyle
+        //formatter.timeStyle = .ShortStyle
+        let defaultTimeZoneStr = formatter.stringFromDate(date1);
+      //  let defaultTimeZoneStr2=formatter.dateFromString(defaultTimeZoneStr)
+        
+        
+        //print("date is \(defaultTimeZoneStr2)")
+        self.addMessage(message+" (seen)", ofType: "1",date:defaultTimeZoneStr, uniqueid: uniqueid)
+        
+        
+        txtFldMessage.text = "";
+        tblForChats.reloadData()
+        if(messages.count>1)
+        {
+            var indexPath = NSIndexPath(forRow:messages.count-1, inSection: 0)
+            tblForChats.scrollToRowAtIndexPath(indexPath, atScrollPosition: UITableViewScrollPosition.Bottom, animated: true)
+            
+        }
+               
+        }
+    }
+        else{
+        
+        //received status
         print("refreshing chats details UI now")
         self.retrieveChatFromSqlite(selectedContact,completion:{(result)-> () in
            ///// dispatch_async(dispatch_get_main_queue())
            ///// {
+          
+            
             self.tblForChats.reloadData()
             
             if(self.messages.count>1)
@@ -3621,6 +3689,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
             
             self.tblForChats.scrollToRowAtIndexPath(indexPath, atScrollPosition: UITableViewScrollPosition.Bottom, animated: true)
         }*/
+        }
         
     }
     
