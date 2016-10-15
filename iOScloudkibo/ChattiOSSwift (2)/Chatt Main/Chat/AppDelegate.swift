@@ -1489,8 +1489,8 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
         if(socketObj != nil)
         {
              socketObj.socket.emit("logClient","\(username) didReceiveRemoteNotification: ..... \(userInfo["userInfo"]).....\(userInfo.description)")
-            print(userInfo["userInfo"])
-            
+         //   print(userInfo["userInfo"])
+         
         }
      
         
@@ -1848,7 +1848,7 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
     
     func updateMessageStatus(uniqueID:String,status:String)
     {
-        print("messageStatusUpdate ......")
+        print("messageStatusUpdate ...... :\(uniqueID) and : \(status)")
         print(":::::::::::::::::::::::::::::::::::")
         //var chatmsg=JSON(data)
         //print(data[0])
@@ -1865,9 +1865,9 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
         
         //UIApplicationState state = [[UIApplication sharedApplication] applicationState];
         
-        if (state == UIApplicationState.Active )
-        {
-            print("updating message status when app is avtive")
+       ///// if (state == UIApplicationState.Active )
+       /////// {
+            print("updating message status...")
             
            /* let systemSoundID: SystemSoundID = 1016
             
@@ -1891,7 +1891,7 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
             
             //  activeViewCont?.loadView()
             
-        }
+      //////  }
         
 
         

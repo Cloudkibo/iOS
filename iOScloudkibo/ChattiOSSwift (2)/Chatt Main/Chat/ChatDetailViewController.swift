@@ -699,6 +699,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
                     sqliteDB.saveMessageStatusSeen("seen", sender1: tblContacts[from], uniqueid1: tblContacts[uniqueid])
                     
                     sendChatStatusUpdateMessage(tblContacts[uniqueid],status: "seen",sender: tblContacts[from])
+                   
                     //OLD SOCKET LOGIC OF SENDING CHAT STATUS
                   /*  socketObj.socket.emitWithAck("messageStatusUpdate", ["status":"seen","uniqueid":tblContacts[uniqueid],"sender": tblContacts[from]])(timeoutAfter: 15000){data in
                         var chatmsg=JSON(data)
@@ -2878,6 +2879,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
     
     func sendChatStatusUpdateMessage(uniqueid:String,status:String,sender:String)
     {
+        print("sending chat status update")
         
         let queue = dispatch_queue_create("com.kibochat.manager-response-queue1", DISPATCH_QUEUE_CONCURRENT)
         
@@ -2902,11 +2904,15 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
                     //print("json is \(resJSON)")
                     
                     
-                    dispatch_async(dispatch_get_main_queue()) {
+                  ////  dispatch_async(dispatch_get_main_queue()) {
                         //print("Am I back on the main thread: \(NSThread.isMainThread())")
                         //print("uniqueid is \(resJSON["uniqueid"].string!)")
-                        sqliteDB.removeMessageStatusSeen(resJSON["uniqueid"].string!)
-                        //print("chat message status ack received")
+                    
+                    
+                    sqliteDB.removeMessageStatusSeen(resJSON["uniqueid"].string!)
+                    
+                    
+                    //print("chat message status ack received")
                         
                         ////print(data[0]["status"]!!.string!+" ... "+data[0]["uniqueid"]!!.string!)
                         //print("chat status seen emitted")
@@ -2917,7 +2923,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
 
                         
                         
-                    }
+                    /////}
                 }
             }
         )
@@ -3594,6 +3600,8 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
     func refreshChatsUI(message: String, data: AnyObject!) {
         print("refreshing chats details UI now")
         self.retrieveChatFromSqlite(selectedContact,completion:{(result)-> () in
+            dispatch_async(dispatch_get_main_queue())
+            {
             self.tblForChats.reloadData()
             
             if(self.messages.count>1)
@@ -3601,6 +3609,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
                 var indexPath = NSIndexPath(forRow:self.messages.count-1, inSection: 0)
                 
                 self.tblForChats.scrollToRowAtIndexPath(indexPath, atScrollPosition: UITableViewScrollPosition.Bottom, animated: true)
+            }
             }
         })
        /* self.retrieveChatFromSqlite(self.selectedContact)
