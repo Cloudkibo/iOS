@@ -23,7 +23,7 @@ import AVFoundation
 //import WindowsAzureMessaging
 
 
-var retainOldDatabase:Bool! = nil
+var retainOldDatabase:Bool! = true
 var versionNumber:String! = "0.4"
 
 //KeychainWrapper.stringForKey("retainOldDatabase") as! Bool
@@ -62,7 +62,7 @@ var screenCaptureToggle:Bool=false
 var webMeetingModel=webmeetingMsgsModel()
 //let socketObj=LoginAPI(url:"\(Constants.MainUrl)")
 var socketObj:LoginAPI!=nil
-let sqliteDB=DatabaseHandler(dbName:"cloudkibo.sqlite3")
+var sqliteDB=DatabaseHandler(dbName:"cloudkibo.sqlite3")
 ////let sqliteDB=DatabaseHandler(dbName: "")
 //%%%%%%%%%%%%var AuthToken=KeychainWrapper.stringForKey("access_token")
 var AuthToken:String!=nil
@@ -137,6 +137,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate,AppDelegateScreenDelegate 
         print("========launchhhhhhhhh=====")
         print(NSDate())
         
+        self.checkFirstRun()
+        
         
         let nsObject: AnyObject? = NSBundle.mainBundle().infoDictionary!["CFBundleShortVersionString"]
         if let text = NSBundle.mainBundle().infoDictionary?["CFBundleVersion"] as? String {
@@ -144,7 +146,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate,AppDelegateScreenDelegate 
         }
         print(",,,,, \(nsObject!.description)") //version number
         
-        if(!(KeychainWrapper.stringForKey("retainOldDatabase")?.isEmpty)!)
+       /* if(!(KeychainWrapper.stringForKey("retainOldDatabase")==nil))
         {
             KeychainWrapper.setString("false",forKey: "retainOldDatabase")
             KeychainWrapper.setString("\(versionNumber)",forKey: "versionNumber")
@@ -165,7 +167,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate,AppDelegateScreenDelegate 
                 }
                 accountKit.logOut()
             }
-        }
+        }*/
         
        // print("notifications ... \(launchOptions?.debugDescription)")
         
@@ -1901,8 +1903,223 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
         }*/
     }
     
+    func checkFirstRun() {
+    
+    var PREFS_NAME = "MyPrefsFile";
+    var PREF_VERSION_CODE_KEY = "version_code";
+    var DOESNT_EXIST = -1.0;
+    
+    
+    // Get current version code
+    var currentVersionCode = 0.0;
+        
+            let nsObject: AnyObject? = NSBundle.mainBundle().infoDictionary!["CFBundleShortVersionString"]
+        currentVersionCode = (nsObject as! NSString).doubleValue
+
+
+ 
+    // Get saved version code
+        let preferences = NSUserDefaults.standardUserDefaults()
+        
+        
+        if preferences.objectForKey(PREF_VERSION_CODE_KEY) == nil {
+            //  Doesn't exist
+            setupForNewInstall();
+        } else {
+            let savedVersionCode = preferences.doubleForKey(PREF_VERSION_CODE_KEY)
+            if (currentVersionCode == savedVersionCode) {
+                
+                print("This is normal run : version \(currentVersionCode)")
+                
+              //  logMessage("This is normal run : version "+ currentVersionCode);
+                
+                doFinish();
+                
+                return;
+                
+            }
+            else if (savedVersionCode == DOESNT_EXIST) {
+                
+                setupForNewInstall();
+                
+            }
+            else if (currentVersionCode > savedVersionCode) {
+                
+                // TODO This is an upgrade
+                
+                print("This is an upgrade to next version : old version \(savedVersionCode)")
+                
+                doFinish();
+                
+            }
+            
+            let preferences = NSUserDefaults.standardUserDefaults()
+            
+           
+            let currentLevel = preferences.setDouble(currentVersionCode, forKey: PREF_VERSION_CODE_KEY)
+            
+            //  Save to disk
+            let didSave = preferences.synchronize()
+            
+            if !didSave {
+                //  Couldn't save (I've never seen this happen in real world testing)
+            }
+        }
+        
+   // SharedPreferences prefs = getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
+   // int savedVersionCode = prefs.getInt(PREF_VERSION_CODE_KEY, DOESNT_EXIST);
+    
+    // Check for first run or upgrade
+   
+    
+    // Update the shared preferences with the current version code
+   //// prefs.edit().putInt(PREF_VERSION_CODE_KEY, currentVersionCode).commit();
+    
+    }
 
     
+    func setupForNewInstall()
+    {
+               print("This is a new install");
+        
+       // UserFunctions fn = new UserFunctions();
+        retainOldDatabase=false
+        sqliteDB.resetTables()
+        sqliteDB=DatabaseHandler(dbName:"cloudkibo.sqlite3")
+        
+        /*if(fn.isUserLoggedIn(getApplicationContext())){
+            Toast.makeText(
+                this,
+                "Old data is found from previous install. Removing it.",
+                Toast.LENGTH_LONG)
+                .show();
+            
+            logMessage("Old data is found from previous install. Removing it.");
+            
+            DatabaseHandler db = new DatabaseHandler(getApplicationContext());
+            db.resetChatsTable();
+            db = new DatabaseHandler(getApplicationContext());
+            db.resetTables();
+            db = new DatabaseHandler(getApplicationContext());
+            db.resetContactsTable();
+            db = new DatabaseHandler(getApplicationContext());
+            db.resetChatHistorySync();
+            db = new DatabaseHandler(getApplicationContext());
+            db.resetCallHistoryTable();*/
+            
+            print("Old data removed from tables. Checking old facebook auth token.");
+        if(accountKit == nil){
+            accountKit = AKFAccountKit(responseType: AKFResponseType.AccessToken)
+        }
+        
+         if (accountKit!.currentAccessToken != nil)
+         {
+            print("Facebook old auth token was there. Removing it now.");
+            accountKit.logOut();
+        }
+
+       /* if (accountKit!.currentAccessToken == nil) {
+            
+            //specify AKFResponseType.AccessToken
+            accountKit = AKFAccountKit(responseType: AKFResponseType.AccessToken)
+            accountKit.requestAccount{
+                (account, error) -> Void in
+                
+                
+                
+                
+                 if(account != nil){
+                    var url=Constants.MainUrl+Constants.getContactsList
+                    
+                    let header:[String:String]=["kibo-token":(self.accountKit!.currentAccessToken!.tokenString)]
+                    
+                    print(header)
+                    print("in chat got token as \(self.accountKit!.currentAccessToken!.tokenString)")
+                    AuthToken=self.accountKit!.currentAccessToken!.tokenString
+                    KeychainWrapper.setString(self.accountKit!.currentAccessToken!.tokenString, forKey: "access_token")
+                    print("access token key chain sett as \(self.accountKit!.currentAccessToken!.tokenString)")
+                    KeychainWrapper.setString((account?.phoneNumber?.countryCode)!, forKey: "countrycode")
+                    countrycode=account?.phoneNumber?.countryCode
+                    
+                    
+                }
+                
+            }}*/
+        else
+        {
+             print("Facebook old auth token was not there.");
+            
+        }
+        doFinish()
+    
+        
+        
+    }
+
+    func doFinish()
+    {
+    
+   // if (isRunning)
+   // {
+    //isRunning = false;
+    
+        if(accountKit == nil){
+            accountKit = AKFAccountKit(responseType: AKFResponseType.AccessToken)
+        }
+        
+        if (accountKit!.currentAccessToken != nil)
+        {
+            print("Facebook old auth token was there. Removing it now.");
+            accountKit.logOut();
+        }
+        else{
+            //do login segue
+            print("do login")
+        }
+    
+    /*
+    if (accessToken != null) {
+				//Handle Returning User
+				if(isDevelopment) {
+    socket.disconnect();
+    socket.close();
+    Intent i = new Intent(this, DisplayNameReg.class);
+    i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+    i.putExtra("authtoken", accessToken.getToken());
+    startActivity(i);
+    finish();
+				} else {
+    UserFunctions fn = new UserFunctions();
+    if(fn.isUserLoggedIn(getApplicationContext())){
+    socket.disconnect();
+    socket.close();
+    Intent i = new Intent(this, MainActivity.class);
+    i.putExtra("authtoken", accessToken.getToken());
+    i.putExtra("sync", true);
+    i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+    startActivity(i);
+    finish();
+    } else {
+    socket.disconnect();
+    socket.close();
+    Intent i = new Intent(this, DisplayNameReg.class);
+    i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+    i.putExtra("authtoken", accessToken.getToken());
+    startActivity(i);
+    finish();
+    }
+    
+				}
+    } else {
+				onLoginPhone();
+    }
+
+    
+    //}
+    }
+    */
+    }
+
 }
 protocol UpdateChatViewsDelegate:class
 {

@@ -35,6 +35,17 @@ class DatabaseHandler:NSObject{
             self.db = try Connection(dbPath)
                     print(db.description)
                     
+                    /*let preferences = NSUserDefaults.standardUserDefaults()
+                    
+                    let currentLevelKey = "currentLevel"
+                    
+                    if preferences.objectForKey(currentLevelKey) == nil {
+                        //  Doesn't exist
+                    } else {
+                        let currentLevel = preferences.integerForKey(currentLevelKey)
+                    }
+                    */
+                    
                    /* if(KeychainWrapper.stringForKey("retainOldDatabase")==nil)
                         {
                             KeychainWrapper.setString("false", forKey: "retainOldDatabase")
@@ -52,7 +63,9 @@ class DatabaseHandler:NSObject{
                         }
                     }
 */
-                    if((KeychainWrapper.stringForKey("retainOldDatabase")?.isEmpty)!)
+                    
+                    //////
+                   /* if((KeychainWrapper.stringForKey("retainOldDatabase")==nil))
                     {print("retainolddatabase is empty")
                         KeychainWrapper.setString("false",forKey: "retainOldDatabase")
                         KeychainWrapper.setString(versionNumber,forKey: "versionNumber")
@@ -65,7 +78,7 @@ class DatabaseHandler:NSObject{
                         
                     else
                     {
-                        if((KeychainWrapper.stringForKey("versionNumber")?.isEmpty)!)
+                        if((KeychainWrapper.stringForKey("versionNumber")==nil))
                         {print("versionnumber is empty")
                             KeychainWrapper.setString("false",forKey: "retainOldDatabase")
                             KeychainWrapper.setString(versionNumber,forKey: "versionNumber")
@@ -92,7 +105,7 @@ class DatabaseHandler:NSObject{
                            retainOldDatabase=true
 }
                     }
-                    }
+                    }*/
         }
         catch{
             print("Database Connection failed")
@@ -117,6 +130,67 @@ class DatabaseHandler:NSObject{
         createFileTable()
         //createAllContactsTable()
         
+    }
+    func resetTables()
+    {
+        self.accounts = Table("accounts")
+        do{try db.run(self.accounts.drop(ifExists: true))
+        }
+        catch
+        {
+            print("error in dropping accounts table \(error)")
+        }
+        
+        self.allcontacts = Table("allcontacts")
+        do{try db.run(self.allcontacts.drop(ifExists: true))
+        }
+        catch
+        {
+            print("error in dropping allcontacts table \(error)")
+        }
+        
+        self.contactslists = Table("contactslists")
+        do{try db.run(self.contactslists.drop(ifExists: true))
+        }
+        catch
+        {
+            print("error in dropping contactslists table \(error)")
+        }
+        
+        self.userschats = Table("userschats")
+        do{try db.run(self.userschats.drop(ifExists: true))
+        }
+        catch
+        {
+            print("error in dropping userschats table \(error)")
+        }
+        
+        
+        
+        self.statusUpdate = Table("statusUpdate")
+        do{try db.run(self.statusUpdate.drop(ifExists: true))
+        }
+        catch
+        {
+            print("error in dropping statusUpdate table \(error)")
+        }
+        
+        
+        self.callHistory = Table("callHistory")
+        do{try db.run(self.callHistory.drop(ifExists: true))
+        }
+        catch
+        {
+            print("error in dropping callHistory table \(error)")
+        }
+        
+        self.files = Table("files")
+        do{try db.run(self.files.drop(ifExists: true))
+        }
+        catch
+        {
+            print("error in dropping files table \(error)")
+        }
     }
     
     func createAccountsTable()
@@ -161,7 +235,7 @@ class DatabaseHandler:NSObject{
             if(socketObj != nil){
             socketObj.socket.emit("logClient","IPHONE-LOG: error in creating accounts table \(error)")
             }
-            print("error in creating accounts table")
+            print("error in creating accounts table \(error)")
                 
         }
         
