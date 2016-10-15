@@ -1950,7 +1950,11 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
                 
                 print("This is an upgrade to next version : old version \(savedVersionCode)")
                 
-                doFinish();
+                //
+                //if db change so uncomment this
+                setupForNewInstall()
+                //and comment this
+               // doFinish();
                 
             }
         }
@@ -2063,8 +2067,8 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
    // if (isRunning)
    // {
     //isRunning = false;
-    
-        if(accountKit == nil){
+    print("going to main activity now")
+      /*  if(accountKit == nil){
             accountKit = AKFAccountKit(responseType: AKFResponseType.AccessToken)
         }
         
@@ -2076,7 +2080,7 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
         else{
             //do login segue
             print("do login")
-        }
+        }*/
     
     /*
     if (accessToken != null) {
