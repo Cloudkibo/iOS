@@ -1907,7 +1907,7 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
     
     var PREFS_NAME = "MyPrefsFile";
     var PREF_VERSION_CODE_KEY = "version_code";
-    var DOESNT_EXIST = -1.0;
+    var DOESNT_EXIST = 0.0;
     
     
     // Get current version code
@@ -1915,15 +1915,16 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
         
             let nsObject: AnyObject? = NSBundle.mainBundle().infoDictionary!["CFBundleShortVersionString"]
         currentVersionCode = (nsObject as! NSString).doubleValue
-
-
- 
-    // Get saved version code
+        print("current version code is \(currentVersionCode)")
+           // Get saved version code
         let preferences = NSUserDefaults.standardUserDefaults()
+        print("preferences.doubleForKey PREF_VERSION_CODE_KEY \(preferences.doubleForKey(PREF_VERSION_CODE_KEY))")
+            
+
         
-        
-        if preferences.objectForKey(PREF_VERSION_CODE_KEY) == nil {
+        if (preferences.doubleForKey(PREF_VERSION_CODE_KEY) == 0.0) {
             //  Doesn't exist
+            print("PREF_VERSION_CODE_KEY object not found")
             setupForNewInstall();
         } else {
             let savedVersionCode = preferences.doubleForKey(PREF_VERSION_CODE_KEY)
@@ -1939,7 +1940,7 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
                 
             }
             else if (savedVersionCode == DOESNT_EXIST) {
-                
+                print("savedVersionCode doesnot exist")
                 setupForNewInstall();
                 
             }
@@ -1952,8 +1953,8 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
                 doFinish();
                 
             }
-            
-            let preferences = NSUserDefaults.standardUserDefaults()
+        }
+          //  let preferences = NSUserDefaults.standardUserDefaults()
             
            
             let currentLevel = preferences.setDouble(currentVersionCode, forKey: PREF_VERSION_CODE_KEY)
@@ -1964,7 +1965,7 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
             if !didSave {
                 //  Couldn't save (I've never seen this happen in real world testing)
             }
-        }
+        
         
    // SharedPreferences prefs = getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
    // int savedVersionCode = prefs.getInt(PREF_VERSION_CODE_KEY, DOESNT_EXIST);
