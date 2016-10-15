@@ -18,13 +18,13 @@ import Photos
 import Contacts
 
 
-var delegateChatRefr:UpdateChatViewsDelegate!
 
 class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChatDelegate,UIDocumentPickerDelegate,UIDocumentMenuDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate,NSFileManagerDelegate,showUploadProgressDelegate,UpdateChatViewsDelegate{
     
    /// var manager = NetworkingManager.sharedManager
     
-    
+    var delegateChatRefr:UpdateChatViewsDelegate!
+
     var delegateProgressUpload:showUploadProgressDelegate!
     var shareMenu = UIAlertController()
     var selectedImage:UIImage!
@@ -2821,19 +2821,16 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
     
    func sendChatMessage(chatstanza:[String:String],completion:(result:Bool)->())
     {
-        
-        let queue = dispatch_queue_create("com.kibochat.manager-response-queue", DISPATCH_QUEUE_CONCURRENT)
+       // let queue=dispatch_get_global_queue(QOS_CLASS_USER_INITIATED,0)
+    let queue = dispatch_queue_create("com.kibochat.manager-response-queue", DISPATCH_QUEUE_CONCURRENT)
           var url=Constants.MainUrl+Constants.sendChatURL
-        /*let request = Alamofire.request(.POST, "\(url)", parameters: chatstanza,headers:header)
+       let request = Alamofire.request(.POST, "\(url)", parameters: chatstanza,headers:header)
         request.response(
             queue: queue,
             responseSerializer: Request.JSONResponseSerializer(options: .AllowFragments),
             completionHandler: { response in
-        */
-        
-    
                 
-              let request = Alamofire.request(.POST, "\(url)", parameters: chatstanza,headers:header).responseJSON { response in
+             ///////////// let request = Alamofire.request(.POST, "\(url)", parameters: chatstanza,headers:header).responseJSON { response in
             // You are now running on the concurrent `queue` you created earlier.
           //print("Parsing JSON on thread: \(NSThread.currentThread()) is main thread: \(NSThread.isMainThread())")
                 
@@ -2859,7 +2856,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
                 
                 
                 
-              dispatch_async(dispatch_get_main_queue()) {
+          /////    dispatch_async(dispatch_get_main_queue()) {
                     //print("Am I back on the main thread: \(NSThread.isMainThread())")
                     
                     print("MAINNNNNNNNNNNN")
@@ -2869,9 +2866,9 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
                     
             
            
-         }
+        /////// }
                 }
-            }//)
+            })
         
     }
     
@@ -3061,18 +3058,23 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
             
         }
         
-        dispatch_async(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED,0))
-        {
+       /////// dispatch_async(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED,0))
+       ////// {
+        
+        print("messages count before sending msg is \(messages.count)")
             self.sendChatMessage(imParas){ (result) -> () in
                 
                 //   dispatch_async(dispatch_get_main_queue())
                 // {
                 self.retrieveChatFromSqlite(self.selectedContact,completion:{(result)-> () in
                     
+                    print("messages count after setting array is \(self.messages.count)")
+       
+                    
                     dispatch_async(dispatch_get_main_queue())
                     {
                         self.tblForChats.reloadData()
-                        
+                        print("messages count is \(self.messages.count)")
                         if(self.messages.count>1)
                         {
                             var indexPath = NSIndexPath(forRow:self.messages.count-1, inSection: 0)
@@ -3084,7 +3086,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
             }
             //  }
             
-        }
+        ///////}
     }
     
     func getSizeOfString(postTitle: NSString) -> CGSize {
@@ -3600,8 +3602,8 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
     func refreshChatsUI(message: String, data: AnyObject!) {
         print("refreshing chats details UI now")
         self.retrieveChatFromSqlite(selectedContact,completion:{(result)-> () in
-            dispatch_async(dispatch_get_main_queue())
-            {
+           ///// dispatch_async(dispatch_get_main_queue())
+           ///// {
             self.tblForChats.reloadData()
             
             if(self.messages.count>1)
@@ -3610,7 +3612,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
                 
                 self.tblForChats.scrollToRowAtIndexPath(indexPath, atScrollPosition: UITableViewScrollPosition.Bottom, animated: true)
             }
-            }
+          //////  }
         })
        /* self.retrieveChatFromSqlite(self.selectedContact)
         if(self.messages.count>1)
