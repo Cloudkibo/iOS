@@ -3627,16 +3627,20 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
             //update status seen in table
             //save status seen in sync table
             //http send status seen
-            sqliteDB.UpdateChatStatus(uniqueid, newstatus: "seen")
-            
-            sqliteDB.saveMessageStatusSeen("seen", sender1: from, uniqueid1: uniqueid)
-            
-            sendChatStatusUpdateMessage(uniqueid,status: "seen",sender:from)
-
+                       //managerFile.sendChatStatusUpdateMessage(chatJson[0]["uniqueid"].string!, status: status, sender: chatJson[0]["from"].string!)
             
             
             if(from! == selectedContact)
             {
+                
+                sqliteDB.UpdateChatStatus(uniqueid, newstatus: "seen")
+                
+                sqliteDB.saveMessageStatusSeen("seen", sender1: from, uniqueid1: uniqueid)
+                
+                sendChatStatusUpdateMessage(uniqueid,status: "seen",sender:from)
+                
+  
+                
             //check if on correct chat window where new message is received
         /*var formatter = NSDateFormatter();
         
