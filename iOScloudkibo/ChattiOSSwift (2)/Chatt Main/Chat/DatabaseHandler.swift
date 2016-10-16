@@ -21,6 +21,11 @@ class DatabaseHandler:NSObject{
     var callHistory:Table!
     var statusUpdate:Table!
     var files:Table!
+    var groups:Table!
+    var group_member:Table!
+    var group_chat:Table!
+    var group_chat_status:Table!
+    
     
     init(dbName:String)
     {print("inside database handler class")
@@ -1178,5 +1183,168 @@ print("--------")
         deleteChat(user)
         
     
+    }
+    
+    
+    func createGroupsTable()
+    {
+        if(socketObj != nil)
+        {socketObj.socket.emit("logClient","IPHONE-LOG: creating groups table")}
+        
+        let group_name = Expression<String>("group_name")
+        let group_icon = Expression<NSData>("group_icon")
+        let date_creation = Expression<NSDate>("date_creation")
+        let unique_id = Expression<String>("unique_id")
+        let isMute = Expression<Bool>("isMute")
+       
+        self.groups = Table("groups")
+        do{
+            try db.run(groups.create(ifNotExists: retainOldDatabase) { t in
+                t.column(group_name)
+                t.column(group_icon)
+                t.column(date_creation)
+                t.column(unique_id)
+                t.column(isMute, defaultValue:true)
+                
+                //     "name" TEXT
+                })
+            
+        }
+        catch
+        {
+            if(socketObj != nil){
+                socketObj.socket.emit("logClient","IPHONE-LOG: error in creating groups table \(error)")
+            }
+            print("error in creating groups table \(error)")
+            
+        }
+      
+    }
+    
+    func createGroupsMembersTable()
+    {
+        /*
+         group_unique_id
+         member_phone
+         isAdmin
+         membership_status (left or joined)
+         date_joined
+         date_left
+         */
+        if(socketObj != nil)
+        {socketObj.socket.emit("logClient","IPHONE-LOG: creating group_member table")}
+        
+        let group_unique_id = Expression<String>("group_unique_id")
+        let member_phone = Expression<String>("member_phone")
+        let isAdmin = Expression<Bool>("isAdmin")
+        let membership_status = Expression<String>("membership_status")
+        let date_joined = Expression<NSDate>("date_joined")
+        let date_left = Expression<NSDate>("date_left")
+        
+        self.group_member = Table("group_member")
+        do{
+            try db.run(group_member.create(ifNotExists: retainOldDatabase) { t in
+                t.column(group_unique_id)
+                t.column(member_phone)
+                t.column(isAdmin)
+                t.column(membership_status)
+                t.column(date_joined)
+                t.column(date_left)
+                //     "name" TEXT
+                })
+            
+        }
+        catch
+        {
+            if(socketObj != nil){
+                socketObj.socket.emit("logClient","IPHONE-LOG: error in creating group_member table \(error)")
+            }
+            print("error in creating group_member table \(error)")
+            
+        }
+        
+    }
+    
+    func createGroupsChatTable()
+    {
+        /*
+         from
+         group_unique_id
+         type (log or chat)
+         msg
+         from_fullname
+         date
+         unique_id
+
+         */
+        if(socketObj != nil)
+        {socketObj.socket.emit("logClient","IPHONE-LOG: creating group chats table")}
+        
+        let from = Expression<String>("from")
+        let group_unique_id = Expression<String>("group_unique_id")
+        let type = Expression<String>("type")
+        let msg = Expression<String>("msg")
+        let from_fullname = Expression<String>("from_fullname")
+        let date = Expression<NSDate>("date")
+        let unique_id = Expression<String>("unique_id")
+        
+        self.group_chat = Table("group_chat")
+        do{
+            try db.run(group_chat.create(ifNotExists: retainOldDatabase) { t in
+                t.column(from)
+                t.column(group_unique_id)
+                t.column(type)
+                t.column(msg)
+                t.column(from_fullname)
+                t.column(date)
+                t.column(unique_id)
+                //     "name" TEXT
+                })
+            
+        }
+        catch
+        {
+            if(socketObj != nil){
+                socketObj.socket.emit("logClient","IPHONE-LOG: error in creating group chats table \(error)")
+            }
+            print("error in creating group chats table \(error)")
+            
+        }
+        
+    }
+    
+    func createGroupsChatStatusTable()
+    {
+        /*
+         msg_unique_id
+         Status (‘pending’, ‘sent’, ‘delivered’, ‘seen’, ‘deleted’)
+         user_phone
+         
+         */
+        if(socketObj != nil)
+        {socketObj.socket.emit("logClient","IPHONE-LOG: creating group chats status table")}
+        
+        let msg_unique_id = Expression<String>("msg_unique_id")
+        let Status = Expression<String>("Status")
+        let user_phone = Expression<String>("user_phone")
+        
+        self.group_chat_status = Table("group_chat_status")
+        do{
+            try db.run(group_chat_status.create(ifNotExists: retainOldDatabase) { t in
+                t.column(msg_unique_id)
+                t.column(Status)
+                t.column(user_phone)
+                })
+            
+        }
+        catch
+        {
+            if(socketObj != nil){
+                socketObj.socket.emit("logClient","IPHONE-LOG: error in creating group chats status table \(error)")
+            }
+            print("error in creating group chats status table \(error)")
+            
+        }
+        
     }
 }
