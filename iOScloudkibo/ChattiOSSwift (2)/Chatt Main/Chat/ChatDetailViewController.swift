@@ -3638,18 +3638,27 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
             if(from! == selectedContact)
             {
             //check if on correct chat window where new message is received
-        var formatter = NSDateFormatter();
+        /*var formatter = NSDateFormatter();
         
         formatter.timeZone = NSTimeZone.localTimeZone()
         formatter.dateFormat = "MM/dd, HH:mm";
         //formatter.dateStyle = .ShortStyle
         //formatter.timeStyle = .ShortStyle
         let defaultTimeZoneStr = formatter.stringFromDate(date1);
+                */
+                
+                
+                
+                
+                var formatter2 = NSDateFormatter();
+                formatter2.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSS"
+                formatter2.timeZone = NSTimeZone.localTimeZone()
+                var defaultTimeeee = formatter2.stringFromDate(date1)
       //  let defaultTimeZoneStr2=formatter.dateFromString(defaultTimeZoneStr)
         
         
         //print("date is \(defaultTimeZoneStr2)")
-        self.addMessage(message+" (seen)", ofType: "1",date:defaultTimeZoneStr, uniqueid: uniqueid)
+        self.addMessage(message, ofType: "1",date:defaultTimeeee, uniqueid: uniqueid)
         
         
         txtFldMessage.text = "";
