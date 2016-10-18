@@ -48,11 +48,16 @@ public class EPContactsPicker: UITableViewController, UISearchResultsUpdating, U
     override public func viewDidLoad() {
         super.viewDidLoad()
         self.title = EPGlobalConstants.Strings.contactsTitle
-        
+        print("loading group contacts")
         registerContactCell()
         inititlizeBarButtons()
         initializeSearchBar()
         reloadContacts()
+    }
+    
+    public override func viewWillAppear(animated: Bool) {
+        
+        print("group contacts will appear")
     }
     
     func initializeSearchBar() {

@@ -1742,7 +1742,7 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
     
 
     //uncomment later
-   /* func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+    func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
       print("tableheader")
         
         var cellview=UIView.init()
@@ -1770,8 +1770,9 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
         return cellview
 //        return nil
     }
- */
+
  
+    
     
     func BtnnewGroupClicked(sender:UIButton)
     {
@@ -1782,25 +1783,25 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
         self.presentViewController(navigationController, animated: true, completion: nil)
         
 
-        
-        
-        /*
+      
         participantsSelected.removeAll()
         print("BtnnewGroupClicked")
         picker = CNContactPickerViewController();
         picker.title="Add Participants"
         picker.navigationItem.leftBarButtonItem=picker.navigationController?.navigationItem.backBarButtonItem
-        
+    
         picker.predicateForEnablingContact = NSPredicate.init(value: true) //.fromValue(true); // make everything selectable
         
         // Respond to selection
         picker.delegate = self;
         self.presentViewController(picker, animated: true, completion: nil)
  
- */
+ 
+        
         // Display picker
         
        // UIApplication.sharedApplication().keyWindow!.rootViewController!.presentViewController(picker, animated: true, completion: nil);
+        
         
     }
     
@@ -1861,10 +1862,10 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
 
     
     //uncomment later
-    /*func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+    func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         print("header height table")
         return 70
-    }*/
+    }
     
     func numberOfSectionsInTableView(tableView: UITableView!) -> Int {
         return 1

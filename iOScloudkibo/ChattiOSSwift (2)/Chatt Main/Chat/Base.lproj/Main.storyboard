@@ -827,11 +827,11 @@
                                             <outlet property="btnNewGroupOutlet" destination="MPq-UO-Sjf" id="Tse-Xm-S3R"/>
                                         </connections>
                                     </tableViewCell>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="ChatPublicCell" rowHeight="111" id="6uW-l6-pkc" customClass="ContactsListCell" customModule="Chat">
-                                        <rect key="frame" x="0.0" y="88" width="320" height="111"/>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="ChatPublicCell" rowHeight="81" id="6uW-l6-pkc" customClass="ContactsListCell" customModule="Chat">
+                                        <rect key="frame" x="0.0" y="88" width="320" height="81"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="6uW-l6-pkc" id="QuV-Vv-z7g">
-                                            <rect key="frame" x="0.0" y="0.0" width="320" height="110.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="320" height="80.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="x1D-oy-CWd">
@@ -893,7 +893,7 @@
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="ChatPrivateCell" id="CNq-vA-UCi" customClass="ContactsListCell" customModule="Chat">
-                                        <rect key="frame" x="0.0" y="199" width="320" height="66"/>
+                                        <rect key="frame" x="0.0" y="169" width="320" height="66"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="CNq-vA-UCi" id="a2v-wa-jnG">
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="65.5"/>
@@ -1150,6 +1150,7 @@
                                     </subviews>
                                 </tableViewCellContentView>
                                 <connections>
+                                    <outlet property="groupNameFieldOutlet" destination="6Ww-uK-Hvx" id="BR1-EZ-c9n"/>
                                     <outlet property="profilePicCameraOutlet" destination="x1s-O2-fqr" id="Wjd-eY-3fv"/>
                                 </connections>
                             </tableViewCell>
@@ -1230,7 +1231,11 @@
                     </tableView>
                     <navigationItem key="navigationItem" title="New Group" id="oUa-VY-LAE">
                         <barButtonItem key="backBarButtonItem" title="Back" id="l2l-4J-XNy"/>
-                        <barButtonItem key="rightBarButtonItem" title="Create" id="rnm-1a-DAV"/>
+                        <barButtonItem key="rightBarButtonItem" title="Create" id="rnm-1a-DAV">
+                            <connections>
+                                <action selector="btnCreateGroupDone:" destination="YH8-pY-Wmo" id="TPX-hg-GA2"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                     <connections>
                         <outlet property="tblNewGroupDetails" destination="fel-tA-dNj" id="in5-DH-FyH"/>

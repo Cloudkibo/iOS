@@ -11,6 +11,9 @@ import Contacts
 
 class NewGroupSetDetails: UITableViewController,UINavigationControllerDelegate,UIImagePickerControllerDelegate{
 
+    
+    var groupname=""
+   /// @IBOutlet weak var txtFieldGroupName: UITextField!
     var imgdata=NSData.init()
    // var participants=[CNContact]()
     var participants=[EPContact]()
@@ -19,6 +22,47 @@ class NewGroupSetDetails: UITableViewController,UINavigationControllerDelegate,U
         
         return 2
     }
+    
+    
+    @IBAction func btnCreateGroupDone(sender: AnyObject) {
+        //create group
+        //save data in sqlite
+        
+        var uid=randomStringWithLength(7)
+        
+        var date=NSDate()
+        var calendar = NSCalendar.currentCalendar()
+        var year=calendar.components(NSCalendarUnit.Year,fromDate: date).year
+        var month=calendar.components(NSCalendarUnit.Month,fromDate: date).month
+        var day=calendar.components(.Day,fromDate: date).day
+        var hr=calendar.components(NSCalendarUnit.Hour,fromDate: date).hour
+        var min=calendar.components(NSCalendarUnit.Minute,fromDate: date).minute
+        var sec=calendar.components(NSCalendarUnit.Second,fromDate: date).second
+        print("\(year) \(month) \(day) \(hr) \(min) \(sec)")
+        var uniqueid="\(uid)\(year)\(month)\(day)\(hr)\(min)\(sec)"
+        
+
+        print("saving in database")
+        sqliteDB.storeGroups(groupname, groupicon1: nil, datecreation1: NSDate(), uniqueid1: uid as String)
+        
+        
+    }
+    
+    func randomStringWithLength (len : Int) -> NSString {
+        
+        let letters : NSString = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
+        
+        let randomString : NSMutableString = NSMutableString(capacity: len)
+        
+        for (var i=0; i < len; i++){
+            let length = UInt32 (letters.length)
+            let rand = arc4random_uniform(length)
+            randomString.appendFormat("%C", letters.characterAtIndex(Int(rand)))
+        }
+        
+        return randomString
+    }
+    
     func ResizeImage(image: UIImage, targetSize: CGSize) -> UIImage {
         let size = image.size
         
@@ -50,6 +94,8 @@ class NewGroupSetDetails: UITableViewController,UINavigationControllerDelegate,U
         {
         let cell=tblNewGroupDetails.dequeueReusableCellWithIdentifier("NewGroupDetailsCell") as! ContactsListCell
         "NewGroupParticipantsCell"
+            
+            groupname=cell.groupNameFieldOutlet.text!
             if(imgdata != NSData.init())
             {
                 var tempimg=UIImage(data: imgdata)
@@ -82,6 +128,7 @@ class NewGroupSetDetails: UITableViewController,UINavigationControllerDelegate,U
                 
                  cell.profilePicCameraOutlet.image=UIImage(data: imgdata,scale: scale)
               //  cell.profilePicCameraOutlet.image=UIImage(data: imgdata)
+            
             }
             let tapRecognizer = UITapGestureRecognizer(target: self, action: Selector("imageTapped:"))
             //Add the recognizer to your view.
@@ -173,6 +220,9 @@ class NewGroupSetDetails: UITableViewController,UINavigationControllerDelegate,U
         
 
     }
+    
+    
+    
     
     override func tableView(tableView: UITableView, willDisplayCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath) {
         

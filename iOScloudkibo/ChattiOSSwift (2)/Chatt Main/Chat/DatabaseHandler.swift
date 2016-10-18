@@ -133,6 +133,10 @@ class DatabaseHandler:NSObject{
         createMessageSeenStatusTable()
         createCallHistoryTable()
         createFileTable()
+        createGroupsTable()
+        createGroupsMembersTable()
+        createGroupsChatTable()
+        createGroupsChatStatusTable()
         //createAllContactsTable()
         
     }
@@ -1201,10 +1205,10 @@ print("--------")
         do{
             try db.run(groups.create(ifNotExists: retainOldDatabase) { t in
                 t.column(group_name)
-                t.column(group_icon)
+                t.column(group_icon, defaultValue:NSData.init())
                 t.column(date_creation)
                 t.column(unique_id)
-                t.column(isMute, defaultValue:true)
+                t.column(isMute, defaultValue:false)
                 
                 //     "name" TEXT
                 })
@@ -1346,5 +1350,38 @@ print("--------")
             
         }
         
+    }
+    
+    func storeGroups(groupname1:String,groupicon1:NSData!,datecreation1:NSDate,uniqueid1:String)
+    {
+        
+        let group_name = Expression<String>("group_name")
+        let group_icon = Expression<NSData>("group_icon")
+        let date_creation = Expression<NSDate>("date_creation")
+        let unique_id = Expression<String>("unique_id")
+        let isMute = Expression<Bool>("isMute")
+        
+        self.groups = Table("groups")
+        
+        do {
+            let rowid = try db.run(groups.insert(
+                group_name<-groupname1,
+                group_icon<-groupicon1,
+                date_creation<-datecreation1,
+                unique_id<-uniqueid1
+                
+                ))
+            
+            if(socketObj != nil)
+            {
+                socketObj.socket.emit("logClient","IPHONE-LOG: all messageStatus saved in sqliteDB")
+            }
+            print("inserted id messageStatus : \(rowid)")
+        } catch {
+            print("insertion failed: messageStatus \(error)")
+        }
+        
+        
+
     }
 }
