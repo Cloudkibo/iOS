@@ -63,7 +63,9 @@ static let connectionstring="Endpoint=sb://cloudkibo.servicebus.windows.net/;Sha
     static let sendChatURL="/api/userchat/save2" //chat stanza
     static let sendChatStatusURL="/api/userchat/updateStatus" //uniqueid,sender,status
     
-    static let urllog="/api/users/log"
+    static let urllog="/api/users/log"//papertrail
+     static let createGroupUrl="/api/groupmessaging/"
+    static let addGroupMembersUrl="/api/groupmessaginguser/"
     
     
     

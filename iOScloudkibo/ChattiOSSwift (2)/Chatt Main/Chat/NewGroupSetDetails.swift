@@ -8,6 +8,7 @@
 
 //import Cocoa
 import Contacts
+import Alamofire
 
 class NewGroupSetDetails: UITableViewController,UINavigationControllerDelegate,UIImagePickerControllerDelegate{
 
@@ -43,8 +44,58 @@ class NewGroupSetDetails: UITableViewController,UINavigationControllerDelegate,U
         
 
         print("saving in database")
-        sqliteDB.storeGroups(groupname, groupicon1: nil, datecreation1: NSDate(), uniqueid1: uid as String)
+        var members=[String]()
+        for(var i=0;i<participants.count;i++)
+        {
+            members.append(participants[i].getPhoneNumber())
+        }
         
+        print("members are \(members.debugDescription)")
+        
+        sqliteDB.storeGroups(groupname, groupicon1: imgdata, datecreation1: NSDate(), uniqueid1: uid as String)
+        createGroupAPI(groupname,members: members,uniqueid: uid as String)
+        //send to server
+        
+        //segue to chat page
+        
+    }
+    
+    func createGroupAPI(groupname:String,members:[String],uniqueid:String)
+    {
+        var url=Constants.MainUrl+Constants.createGroupUrl
+        Alamofire.request(.POST,"\(url)",parameters:["group_name":groupname,"members":members, "unique_id":uniqueid],headers:header,encoding: .JSON).validate().responseJSON { response in
+            
+            /* print(response)
+             print(".......")
+             print(response.data!)
+             print(".......")
+             print(response.result.value!)*/
+            
+            /*
+             
+             "__v" = 0;
+             "_id" = 57c69e61dfff9e5223a8fcb2;
+             activeStatus = Yes;
+             companyid = cd89f71715f2014725163952;
+             createdby = 554896ca78aed92f4e6db296;
+             creationdate = "2016-08-31T09:07:45.236Z";
+             groupid = 57c69e61dfff9e5223a8fcb1;
+             "msg_channel_description" = "This channel is for general discussions";
+             "msg_channel_name" = General;
+             
+             
+             */
+            print("Create Group API called")
+            if(response.result.isSuccess)
+            {
+                print(response.result.debugDescription)
+            }
+            else{
+                 print(response.result.debugDescription)
+                print("error in create group endpoint")
+            
+            }
+        }
         
     }
     
