@@ -1253,7 +1253,7 @@ print("--------")
                 t.column(isAdmin)
                 t.column(membership_status)
                 t.column(date_joined)
-                t.column(date_left)
+                t.column(date_left, defaultValue:NSDate.init())
                 //     "name" TEXT
                 })
             
@@ -1383,5 +1383,40 @@ print("--------")
         
         
 
+    }
+    
+    func storeMembers(group_uniqueid1:String,member_phone1:String,isAdmin1:Bool,membershipStatus1:String,date_joined1:NSDate)
+    {
+        let group_unique_id = Expression<String>("group_unique_id")
+        let member_phone = Expression<String>("member_phone")
+        let isAdmin = Expression<Bool>("isAdmin")
+        let membership_status = Expression<String>("membership_status")//joined or left
+        let date_joined = Expression<NSDate>("date_joined")
+        let date_left = Expression<NSDate>("date_left")
+        
+        self.group_member = Table("group_member")
+        
+        do {
+            let rowid = try db.run(group_member.insert(
+                group_unique_id<-group_uniqueid1,
+                member_phone<-member_phone1,
+                isAdmin<-isAdmin1,
+                membership_status<-membershipStatus1,
+                date_joined<-date_joined1,
+                date_left<-NSDate.init()
+                
+                ))
+            
+            if(socketObj != nil)
+            {
+                socketObj.socket.emit("logClient","IPHONE-LOG: all messageStatus saved in sqliteDB")
+            }
+            print("inserted id messageStatus : \(rowid)")
+        } catch {
+            print("insertion failed: messageStatus \(error)")
+        }
+        
+
+        
     }
 }

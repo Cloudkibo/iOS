@@ -24,6 +24,9 @@ class NewGroupSetDetails: UITableViewController,UINavigationControllerDelegate,U
         return 2
     }
     
+   /* func textFieldShouldReturn (textField: UITextField!) -> Bool{
+        
+    }*/
     
     @IBAction func btnCreateGroupDone(sender: AnyObject) {
         //create group
@@ -53,7 +56,20 @@ class NewGroupSetDetails: UITableViewController,UINavigationControllerDelegate,U
         print("members are \(members.debugDescription)")
         
         sqliteDB.storeGroups(groupname, groupicon1: imgdata, datecreation1: NSDate(), uniqueid1: uid as String)
-        createGroupAPI(groupname,members: members,uniqueid: uid as String)
+        for(var i=0;i<members.count;i++)
+        {
+            var isAdmin=false
+            
+            
+            if(members[i] == username)
+            {
+               // isAdmin
+            }
+            sqliteDB.storeMembers(uniqueid, member_phone1: members[i], isAdmin1: false, membershipStatus1: "joined", date_joined1: NSDate.init())
+            
+        }
+        
+        createGroupAPI(groupname,members: members,uniqueid: uniqueid)
         //send to server
         
         //segue to chat page
@@ -63,7 +79,7 @@ class NewGroupSetDetails: UITableViewController,UINavigationControllerDelegate,U
     func createGroupAPI(groupname:String,members:[String],uniqueid:String)
     {
         var url=Constants.MainUrl+Constants.createGroupUrl
-        Alamofire.request(.POST,"\(url)",parameters:["group_name":groupname,"members":members, "unique_id":uniqueid],headers:header,encoding: .JSON).validate().responseJSON { response in
+        Alamofire.request(.POST,"\(url)",parameters:["group_name":groupname,"members":members, "unique_id":uniqueid],headers:header).validate().responseJSON { response in
             
             /* print(response)
              print(".......")
