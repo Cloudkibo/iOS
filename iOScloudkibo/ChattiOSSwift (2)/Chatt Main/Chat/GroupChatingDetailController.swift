@@ -11,6 +11,12 @@ import UIKit
 class GroupChatingDetailController: UITableViewController {
     
     @IBOutlet var tblForGroupChat: UITableView!
+    
+    override func viewDidLoad() {
+        
+        
+    }
+    
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return 4
     }
@@ -72,6 +78,11 @@ class GroupChatingDetailController: UITableViewController {
             msgLabel.text="Yes. I am done"
             return cell
         }
+        
+    }
+    
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        
         
     }
 

@@ -47,12 +47,20 @@ class NewGroupSetDetails: UITableViewController,UINavigationControllerDelegate,U
         
 
         print("saving in database")
+        
+        
+       // let cell=tblNewGroupDetails.dequeueReusableCellWithIdentifier("NewGroupDetailsCell") as! ContactsListCell
+      //  "NewGroupParticipantsCell"
+        var cell=tblNewGroupDetails.cellForRowAtIndexPath(NSIndexPath(forRow: 0, inSection: 0)) as! ContactsListCell
+        
+        groupname=cell.groupNameFieldOutlet.text!
+        
         var members=[String]()
         for(var i=0;i<participants.count;i++)
         {
             members.append(participants[i].getPhoneNumber())
         }
-        
+        print("group_name is \(groupname)")
         print("members are \(members.debugDescription)")
         
         sqliteDB.storeGroups(groupname, groupicon1: imgdata, datecreation1: NSDate(), uniqueid1: uid as String)
@@ -105,6 +113,10 @@ class NewGroupSetDetails: UITableViewController,UINavigationControllerDelegate,U
             if(response.result.isSuccess)
             {
                 print(response.result.debugDescription)
+                self.dismissViewControllerAnimated(true, completion: { 
+                    
+                    
+                })
             }
             else{
                  print(response.result.debugDescription)
@@ -289,7 +301,9 @@ class NewGroupSetDetails: UITableViewController,UINavigationControllerDelegate,U
     }
     
     
-    
+    override func viewDidLoad() {
+          //sqliteDB.db. groups.delete()
+    }
     
     override func tableView(tableView: UITableView, willDisplayCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath) {
         

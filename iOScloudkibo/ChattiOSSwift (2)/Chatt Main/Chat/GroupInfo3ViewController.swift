@@ -16,7 +16,7 @@ class GroupInfo3ViewController: UIViewController {
 
         self.navigationItem.titleView = setTitle("Group Info", subtitle: "Sumaira")
         //self.navigationController?.navigationBar.tintColor=UIColor.whiteColor()
-        
+      
     
        // self.navigationItem.title="Group Info"
         self.navigationController?.navigationBar.tintColor=UIColor.whiteColor()

@@ -1419,4 +1419,53 @@ print("--------")
 
         
     }
+    func getGroupDetails()->[[String:AnyObject]]
+    {
+        let group_name = Expression<String>("group_name")
+        let group_icon = Expression<NSData>("group_icon")
+        let date_creation = Expression<NSDate>("date_creation")
+        let unique_id = Expression<String>("unique_id")
+        let isMute = Expression<Bool>("isMute")
+        
+        
+        var groupsList=[[String:AnyObject]]()
+        
+        /* let _id = Expression<String>("_id")
+         let deptname = Expression<String>("deptname")
+         let deptdescription = Expression<String>("deptdescription")
+         let companyid = Expression<String>("companyid")
+         let createdby = Expression<String>("createdby")
+         let creationdate = Expression<String>("creationdate")
+         let deleteStatus = Expression<String>("deleteStatus")
+         */
+        
+        
+        do
+        {for groupDetails in try self.db.prepare(self.groups){
+           // print("channel name for deptid \(deptid) is \(channelNames.get(msg_channel_name))")
+            var newEntry: [String: AnyObject] = [:]
+            newEntry["group_name"]=groupDetails.get(group_name)
+            newEntry["group_icon"]=groupDetails.get(group_icon)
+            newEntry["date_creation"]=groupDetails.get(date_creation)
+            /*newEntry["msg_channel_description"]=channelNames.get(msg_channel_description)
+            newEntry["companyid"]=channelNames.get(companyid)
+            newEntry["groupid"]=channelNames.get(groupid)
+            newEntry["createdby"]=channelNames.get(createdby)
+            newEntry["creationdate"]=channelNames.get(creationdate)
+            newEntry["deleteStatus"]=channelNames.get(deleteStatus)
+                */
+            groupsList.append(newEntry)
+            
+            
+            }
+        }
+        catch{
+            print("failed to get groupsList")
+        }
+        print("groupsList count is \(groupsList.count)")
+        return groupsList
+
+        
+        
+    }
 }

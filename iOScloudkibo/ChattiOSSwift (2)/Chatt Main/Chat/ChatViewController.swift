@@ -1356,6 +1356,7 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
         let uniqueid = Expression<String>("uniqueid")
         
         
+        
         let contactPhone = Expression<String>("contactPhone")
        /////////// let contactProfileImage = Expression<NSData>("profileimage")
         let uniqueidentifier = Expression<String>("uniqueidentifier")
@@ -1380,6 +1381,47 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
         //////self.ContactMsgRead.removeAll(keepCapacity: false)
         self.ContactCountMsgRead.removeAll(keepCapacity: false)
         self.ContactsProfilePic.removeAll(keepCapacity: false)
+        
+        
+        
+        var groupsObjectList=sqliteDB.getGroupDetails()
+        for(var i=0;i<groupsObjectList.count;i++)
+        {
+            
+            print("group name is \(groupsObjectList[i]["group_name"] as! String)")
+        ContactNames.append(groupsObjectList[i]["group_name"] as! String)
+            ContactFirstname.append(groupsObjectList[i]["group_name"] as! String)
+            ContactLastNAme.append("")
+            
+            var formatter2 = NSDateFormatter();
+            formatter2.dateFormat = "MM/dd, HH:mm"
+            formatter2.timeZone = NSTimeZone.localTimeZone()
+            ///////////////==========var defaultTimeeee = formatter2.stringFromDate(defaultTimeZoneStr!)
+            var defaultTimeeee = formatter2.stringFromDate(groupsObjectList[i]["date_creation"] as! NSDate)
+            
+            
+            self.ContactsLastMsgDate.append(defaultTimeeee)
+            self.ContactLastMessage.append("You created this group")            //self.ContactIDs.removeAll(keepCapacity: false)
+            //self.ContactLastNAme.removeAll(keepCapacity: false)
+            //self.ContactNames.removeAll(keepCapacity: false)
+            self.ContactStatus.append("")
+            self.ContactUsernames.append(groupsObjectList[i]["group_name"] as! String)
+            //self.ContactsObjectss.removeAll(keepCapacity: false)
+            ContactOnlineStatus.append(0)
+            ////////////////////////
+           // self.ContactFirstname.removeAll(keepCapacity: false)
+            ////////
+            
+            self.ContactsPhone.append("Group Admin")
+            ////self.ContactsEmail.removeAll(keepCapacity: false)
+            //////self.ContactMsgRead.removeAll(keepCapacity: false)
+            self.ContactCountMsgRead.append(0)
+            self.ContactsProfilePic.append(groupsObjectList[i]["group_icon"] as! NSData)
+        }
+        
+       // ContactNames.append(ccc1[firstname]+" "+ccc1[lastname])
+        
+        
         /*
         let stmt = try db.prepare("SELECT id, email FROM users")
         for row in stmt {

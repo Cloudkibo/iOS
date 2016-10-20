@@ -48,12 +48,12 @@ class GroupChatDetailViewController: UIViewController,SocketClientDelegate,Updat
     //var socketEventID:NSUUID
     var rt=NetworkingLibAlamofire()
     @IBOutlet weak var NewChatNavigationTitle: UINavigationItem!
-    @IBOutlet weak var labelToName: UILabel!
+   // @IBOutlet weak var labelToName: UILabel!
     @IBOutlet var tblForChats : UITableView!
     @IBOutlet var chatComposeView : UIView!
     @IBOutlet var txtFldMessage : UITextField!
     
-    @IBOutlet weak var btn_chatDeleteHistory: UIBarButtonItem!
+  //  @IBOutlet weak var btn_chatDeleteHistory: UIBarButtonItem!
     
     var selectedIndex:Int!
     var selectedContact="+923333864540" //username
