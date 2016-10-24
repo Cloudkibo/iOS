@@ -24,9 +24,14 @@ class NewGroupSetDetails: UITableViewController,UINavigationControllerDelegate,U
         return 2
     }
     
-   /* func textFieldShouldReturn (textField: UITextField!) -> Bool{
+    func textFieldShouldReturn (textField: UITextField!) -> Bool{
         
-    }*/
+        var cell=tblNewGroupDetails.cellForRowAtIndexPath(NSIndexPath(forRow: 0, inSection: 0)) as! ContactsListCell
+        
+        cell.groupNameFieldOutlet.resignFirstResponder()
+        return true
+
+    }
     
     @IBAction func btnCreateGroupDone(sender: AnyObject) {
         //create group
@@ -64,6 +69,9 @@ class NewGroupSetDetails: UITableViewController,UINavigationControllerDelegate,U
         print("members are \(members.debugDescription)")
         
         sqliteDB.storeGroups(groupname, groupicon1: imgdata, datecreation1: NSDate(), uniqueid1: uid as String)
+        
+        sqliteDB.storeMembers(uniqueid, member_phone1: username!, isAdmin1: true, membershipStatus1: "joined", date_joined1: NSDate.init())
+        
         for(var i=0;i<members.count;i++)
         {
             var isAdmin=false
@@ -72,8 +80,11 @@ class NewGroupSetDetails: UITableViewController,UINavigationControllerDelegate,U
             if(members[i] == username)
             {
                // isAdmin
+                
             }
-            sqliteDB.storeMembers(uniqueid, member_phone1: members[i], isAdmin1: false, membershipStatus1: "joined", date_joined1: NSDate.init())
+            else{
+            sqliteDB.storeMembers(uniqueid, member_phone1: members[i], isAdmin1: true, membershipStatus1: "joined", date_joined1: NSDate.init())
+            }
             
         }
         
@@ -87,7 +98,7 @@ class NewGroupSetDetails: UITableViewController,UINavigationControllerDelegate,U
     func createGroupAPI(groupname:String,members:[String],uniqueid:String)
     {
         var url=Constants.MainUrl+Constants.createGroupUrl
-        Alamofire.request(.POST,"\(url)",parameters:["group_name":groupname,"members":members, "unique_id":uniqueid],headers:header).validate().responseJSON { response in
+        Alamofire.request(.POST,"\(url)",parameters:["group_name":groupname,"members":members, "unique_id":uniqueid],headers:header,encoding:.JSON).validate().responseJSON { response in
             
             /* print(response)
              print(".......")

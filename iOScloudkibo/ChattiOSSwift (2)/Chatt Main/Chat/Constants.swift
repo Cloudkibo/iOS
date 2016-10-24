@@ -41,31 +41,36 @@ class Constants{
     
     static let confirmDownload="/api/filetransfers/confirmdownload"
     
-///static let hubname="CloudKiboIOSPush" //testing
-static let hubname="Cloudkibo" //production
-/////static let connectionstring="Endpoint=sb://cloudkiboiospush.servicebus.windows.net/;SharedAccessKeyName=DefaultListenSharedAccessSignature;SharedAccessKey=2OXyVhx1SX6m34z1RT0pnrpj5MBdv0aAE+7v8W5kkIw="  //testing
+static let hubname="CloudKiboIOSPush" //testing
+/////static let hubname="Cloudkibo" //production
+static let connectionstring="Endpoint=sb://cloudkiboiospush.servicebus.windows.net/;SharedAccessKeyName=DefaultListenSharedAccessSignature;SharedAccessKey=2OXyVhx1SX6m34z1RT0pnrpj5MBdv0aAE+7v8W5kkIw="  //testing
     
-static let connectionstring="Endpoint=sb://cloudkibo.servicebus.windows.net/;SharedAccessKeyName=DefaultListenSharedAccessSignature;SharedAccessKey=fs2RqnCIAJ+W5gc/iC82h5A0a+UuMHKNdQruSRxo/Hk="    //production
+///////static let connectionstring="Endpoint=sb://cloudkibo.servicebus.windows.net/;SharedAccessKeyName=DefaultListenSharedAccessSignature;SharedAccessKey=fs2RqnCIAJ+W5gc/iC82h5A0a+UuMHKNdQruSRxo/Hk="    //production
     
     static let fetchSingleChat="/api/userchat/getsinglechat" //uniqueid:
     
     static let partialSync="/api/userchat/partialchatsync"
     
    // static let connectionstring="Endpoint=sb://cloudkibo.servicebus.windows.net/;SharedAccessKeyName=DefaultFullSharedAccessSignature;SharedAccessKey=arTrXZQGBUeuLYLcwTTzCVqFDN1P3a6VrxA15yvpnqE="
-    /*
-    private static String phoneContactsURL = "https://www.cloudkibo.com/api/users/searchaccountsbyphone/";
-    private static String emailContactsURL = "https://www.cloudkibo.com/api/users/searchaccountsbyemail/";
-    private static String inviteContactsURL = "https://www.cloudkibo.com/api/users/invitebymultipleemail/";
-    */
-    
-    
-
-    static let sendChatURL="/api/userchat/save2" //chat stanza
+   
+    static let sendChatURL="/api/userchat/save2" //send chat stanza
     static let sendChatStatusURL="/api/userchat/updateStatus" //uniqueid,sender,status
     
     static let urllog="/api/users/log"//papertrail
      static let createGroupUrl="/api/groupmessaging/"
     static let addGroupMembersUrl="/api/groupmessaginguser/"
+     static var sendGroupChat="/api/groupchat/"
+    static var fetchSingleGroupChat="/api/groupchat/fetchSingleChat"
+    
+    static var getMyGroups="/api/groupmessaginguser/mygroups"
+    /*
+     private static String phoneContactsURL = "https://www.cloudkibo.com/api/users/searchaccountsbyphone/";
+     private static String emailContactsURL = "https://www.cloudkibo.com/api/users/searchaccountsbyemail/";
+     private static String inviteContactsURL = "https://www.cloudkibo.com/api/users/invitebymultipleemail/";
+     */
+    
+    
+
     
     
     

@@ -1492,8 +1492,9 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
          //   print(userInfo["userInfo"])
          
         }
-     
         
+  
+ 
         if  let singleuniqueid = userInfo["uniqueId"] as? String {
             // Printout of (userInfo["aps"])["type"]
             print("\nFrom APS-dictionary with key \"singleuniqueid\":  \( singleuniqueid)")
@@ -1508,23 +1509,56 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
                     
                 }
                 else
-                {
-                    print("payload of iOS chat")
+                {/*
+ group:you_are_added
+ */
+                    
+                    if(notifType=="chat" || notifType=="file")
+                   
+                    {print("payload of iOS chat")
                     fetchSingleChatMessage(singleuniqueid)
                      print("calling completion handler for fetch chat now")
                     completionHandler(UIBackgroundFetchResult.NewData)
                     NSNotificationCenter.defaultCenter().postNotificationName("ReceivedNotification", object:userInfo)
-                    
-
+                    }
                 }
-            }
+                
+                   /* else
+                    {
+                        if(notifType=="group:you_are_added")
+                        {
+                            
+                            //you are added to group
+                         /*   Body: group_unique_id = <group_unique_id>, members = [‘+9233232900920’, ‘+9432233919233’, ....]
+                            Push notification will be sent to other members of group:
+                            var payload = {
+                                type : 'group:you_are_added',
+                                senderId : ‘<admin phone number>’,
+                                groupId : ‘<unique id of group>’,
+                                isAdmin: 'No',
+                                membership_status : 'joined',
+                                group_name: ‘<name of the group>’,
+                                badge : <ignore this field>
+                            };
+*/
+                        }
+                    }
+
+                }*/
+            
+             }
+        
             else
              {
-                print("payload of Android message")
+                print("rwong payload without type field")
+                
+                /*
                 //==
                 // this is from android
                 //==
                 fetchSingleChatMessage(singleuniqueid)
+                
+                */
                 completionHandler(UIBackgroundFetchResult.NewData)
                 NSNotificationCenter.defaultCenter().postNotificationName("ReceivedNotification", object:userInfo)
                 
@@ -1532,9 +1566,55 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
             }
             
             // Do your stuff?
-        }
-
         
+
+        }
+        
+        else
+        {
+            //handle Group Push here
+            //you are added to group
+            /* Body: group_unique_id = <group_unique_id>, members = [‘+9233232900920’, ‘+9432233919233’, ....]
+             Push notification will be sent to other members of group:
+             var payload = {
+             type : 'group:you_are_added',
+             senderId : ‘<admin phone number>’,
+             groupId : ‘<unique id of group>’,
+             isAdmin: 'No',
+             membership_status : 'joined',
+             group_name: ‘<name of the group>’,
+             badge : <ignore this field>
+             };
+             *?
+             }
+             }
+             
+             }*/
+            if  let type = userInfo["type"] as? String {
+                print(userInfo)
+                // Printout of (userInfo["aps"])["type"]
+                print("group push unique_id is \( type)")
+               // if  let notifType = userInfo["type"] as? String {
+                    
+                    if(type=="group:you_are_added")
+                    {
+                        var senderid = userInfo["senderId"] as? String
+                        var groupId = userInfo["groupId"] as? String
+                        var isAdmin = userInfo["isAdmin"] as? String
+                        var membership_status = userInfo["membership_status"] as? String
+                        var group_name = userInfo["group_name"] as? String
+                        
+                        //Fetch Group Info
+                        //Save Group Info in Database - Group and -members table
+                       getGroupInfo({ (result, error) in
+                        
+                        print("fetched group info")
+                       })
+                    }
+                //}
+            }
+            
+        }
        /////// print("remote notification received is \(userInfo)")
         /*var notificationJSON=JSON(userInfo)
         print("json converted is \(notificationJSON)")
@@ -1578,6 +1658,7 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
     }
     */
     
+   
     func application(application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: NSError) {
         
         print("registered for notification error", terminator: "")
