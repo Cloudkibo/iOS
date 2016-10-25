@@ -1606,10 +1606,12 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
                         
                         //Fetch Group Info
                         //Save Group Info in Database - Group and -members table
-                       getGroupInfo({ (result, error) in
+                      
+                        //uncomment later
+                        /*getGroupInfo({ (result, error) in
                         
                         print("fetched group info")
-                       })
+                       })*/
                     }
                 //}
             }

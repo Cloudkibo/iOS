@@ -93,10 +93,12 @@ class NewGroupSetDetails: UITableViewController,UINavigationControllerDelegate,U
         
         //segue to chat page
         
+        
     }
     
     func createGroupAPI(groupname:String,members:[String],uniqueid:String)
     {
+        //show progress wheen somewhere
         var url=Constants.MainUrl+Constants.createGroupUrl
         Alamofire.request(.POST,"\(url)",parameters:["group_name":groupname,"members":members, "unique_id":uniqueid],headers:header,encoding:.JSON).validate().responseJSON { response in
             
@@ -124,10 +126,12 @@ class NewGroupSetDetails: UITableViewController,UINavigationControllerDelegate,U
             if(response.result.isSuccess)
             {
                 print(response.result.debugDescription)
-                self.dismissViewControllerAnimated(true, completion: { 
+                print("showing group chats page now")
+                self.performSegueWithIdentifier("groupChatStartSegue", sender: nil)
+              /*  self.dismissViewControllerAnimated(true, completion: {
                     
                     
-                })
+                })*/
             }
             else{
                  print(response.result.debugDescription)

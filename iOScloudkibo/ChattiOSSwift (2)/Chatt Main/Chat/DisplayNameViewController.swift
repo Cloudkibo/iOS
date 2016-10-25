@@ -22,6 +22,8 @@ class DisplayNameViewController: UIViewController {
     var Q3_getContactsFromServer=dispatch_queue_create("getContactsFromServer",DISPATCH_QUEUE_SERIAL)
     var Q4_getUserData=dispatch_queue_create("getUserData",DISPATCH_QUEUE_SERIAL)
     var Q5_fetchAllChats=dispatch_queue_create("fetchAllChats",DISPATCH_QUEUE_SERIAL)
+    var Q5_fetchAllGroupsDatas=dispatch_queue_create("fetchAllGroupsData",DISPATCH_QUEUE_SERIAL)
+    
     
     var accountKit: AKFAccountKit!
     @IBOutlet weak var txtDisplayName: UITextField!

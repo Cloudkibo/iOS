@@ -1242,6 +1242,7 @@
                     </navigationItem>
                     <connections>
                         <outlet property="tblNewGroupDetails" destination="fel-tA-dNj" id="in5-DH-FyH"/>
+                        <segue destination="7pi-BX-Z2j" kind="push" identifier="groupChatStartSegue" id="rKK-kO-piT"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="7Wl-ft-857" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -1251,9 +1252,9 @@
         <!--New Group-->
         <scene sceneID="ZCg-wh-q0b">
             <objects>
-                <tableViewController id="7pi-BX-Z2j" customClass="GroupChatingDetailController" customModule="Chat" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController hidesBottomBarWhenPushed="YES" id="7pi-BX-Z2j" customClass="GroupChatingDetailController" customModule="Chat" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="Nvh-iu-3wn">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <rect key="frame" x="0.0" y="64" width="320" height="504"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
@@ -1640,6 +1641,7 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" title="New Group" id="3w4-ek-sav"/>
+                    <nil key="simulatedBottomBarMetrics"/>
                     <connections>
                         <outlet property="tblForGroupChat" destination="Nvh-iu-3wn" id="G4U-bN-pRi"/>
                     </connections>
@@ -1651,7 +1653,7 @@
         <!--New Chat-->
         <scene sceneID="DAO-yB-sUK">
             <objects>
-                <viewController id="Yvw-Fw-Qsr" customClass="GroupChatDetailViewController" customModule="Chat" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController hidesBottomBarWhenPushed="YES" id="Yvw-Fw-Qsr" customClass="GroupChatDetailViewController" customModule="Chat" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="YFT-Al-49q">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -2092,6 +2094,7 @@
                             </connections>
                         </barButtonItem>
                     </navigationItem>
+                    <nil key="simulatedBottomBarMetrics"/>
                     <connections>
                         <outlet property="NewChatNavigationTitle" destination="ckh-qo-Nce" id="2nQ-3X-IXv"/>
                         <outlet property="chatComposeView" destination="4nr-N6-IuP" id="4yZ-HT-WxF"/>
@@ -3625,7 +3628,7 @@
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="ContactsInviteCell" id="lU5-3E-N9k" customClass="ContactsInviteCell" customModule="Chat" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="86" width="320" height="78"/>
+                                        <rect key="frame" x="0.0" y="22" width="320" height="78"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="lU5-3E-N9k" id="ttq-aH-WWS">
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="77.5"/>
@@ -3798,7 +3801,7 @@
                         </view>
                         <prototypes>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="JC4-iV-Jwg">
-                                <rect key="frame" x="0.0" y="197" width="320" height="44"/>
+                                <rect key="frame" x="0.0" y="133" width="320" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="JC4-iV-Jwg" id="H6p-c1-bTR">
                                     <rect key="frame" x="0.0" y="0.0" width="320" height="43.5"/>
