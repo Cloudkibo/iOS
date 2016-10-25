@@ -1215,7 +1215,7 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
             
             if(username != nil && username != "")
             {
-                self.synchroniseChatData()
+               ///////// self.synchroniseChatData()
             }
             
             socketObj=nil
@@ -1478,7 +1478,7 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
         print("app state value active is \(UIApplicationState.Active.rawValue)")
        print("......")
         print(userInfo.description)
-        Alamofire.request(.POST,"\(Constants.MainUrl+Constants.urllog)",headers:header,parameters: ["data":"IPHONE_LOG: \(username!) received push notification as \(userInfo.description)"]).response{
+        Alamofire.request(.POST,"https://api.cloudkibo.com/api/users/log",headers:header,parameters: ["data":"IPHONE_LOG: \(username!) received push notification as \(userInfo.description)"]).response{
             request, response_, data, error in
             print(error)
         }
@@ -1486,12 +1486,12 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
 
       ////////  if (application.applicationState != UIApplicationState.Background) {
        // NSLog("received remote notification \(userInfo)")
-        if(socketObj != nil)
+       /* if(socketObj != nil)
         {
              socketObj.socket.emit("logClient","\(username) didReceiveRemoteNotification: ..... \(userInfo["userInfo"]).....\(userInfo.description)")
          //   print(userInfo["userInfo"])
          
-        }
+        }*/
         
   
  
@@ -1755,6 +1755,7 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
     
     func application(application: UIApplication, performFetchWithCompletionHandler completionHandler: (UIBackgroundFetchResult) -> Void) {
         print("background fetch resultttt...")
+        UtilityFunctions.init().log_papertrail("IPHONE-LOG \(username!) inside fetch complete handler")
         completionHandler(UIBackgroundFetchResult.NewData)
         
     }
@@ -1849,7 +1850,7 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
                         let dateString = formatter.stringFromDate(datens2!)
                         print("dateeeeeee \(dateString)")
                         */
-                        
+                        UtilityFunctions.init().log_papertrail("IPHONE-LOG: \(username!) got chat saving in databse now sqliteDB is \(sqliteDB.debugDescription)")
                         sqliteDB.SaveChat(chatJson[0]["to"].string!, from1: chatJson[0]["from"].string!,owneruser1:chatJson[0]["to"].string!, fromFullName1: chatJson[0]["fromFullName"].string!, msg1: chatJson[0]["msg"].string!,date1:datens2,uniqueid1:chatJson[0]["uniqueid"].string!,status1: status,type1: "", file_type1: "chat",file_path1: "")
                         
                         managerFile.sendChatStatusUpdateMessage(chatJson[0]["uniqueid"].string!, status: status, sender: chatJson[0]["from"].string!)
@@ -1876,6 +1877,7 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
                         print("dateeeeeee \(dateString)")
                         */
                         
+                         UtilityFunctions.init().log_papertrail("IPHONE-log: \(username!) got chat saving in databse now sqliteDB is \(sqliteDB.debugDescription)")
                         
                         sqliteDB.SaveChat(chatJson[0]["to"].string!, from1: chatJson[0]["from"].string!,owneruser1:chatJson[0]["to"].string!, fromFullName1: chatJson[0]["fromFullName"].string!, msg1: chatJson[0]["msg"].string!,date1:datens2,uniqueid1:chatJson[0]["uniqueid"].string!,status1: status,type1: chatJson[0]["type"].string!, file_type1: chatJson[0]["file_type"].string!,file_path1: "")
                         
@@ -1953,7 +1955,8 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
         //print(data[0])
         //print(chatmsg[0])
        
-        
+        var log=UtilityFunctions.init()
+        log.log_papertrail("IPHONE: \(username!) updating chat status id \(uniqueID) and status \(status)")
         
         sqliteDB.UpdateChatStatus(uniqueID, newstatus: status)
         
@@ -1976,11 +1979,20 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
             if(delegateRefreshChat != nil)
             {
                 print("informing UI to repfresh status")
+                var log=UtilityFunctions.init()
+                log.log_papertrail("informing UI to repfresh status \(uniqueID) and status \(status)")
+                
                 dispatch_async(dispatch_get_main_queue())
                 {
                 delegateRefreshChat?.refreshChatsUI(nil, uniqueid:nil, from:nil, date1:nil, type:"status")
                 }
             }
+        else
+            {
+                var log=UtilityFunctions.init()
+                log.log_papertrail("app is in background. cannot update UI")
+                
+        }
             
             
             //AudioServicesCre

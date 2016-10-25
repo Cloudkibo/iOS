@@ -22,7 +22,7 @@ class DisplayNameViewController: UIViewController {
     var Q3_getContactsFromServer=dispatch_queue_create("getContactsFromServer",DISPATCH_QUEUE_SERIAL)
     var Q4_getUserData=dispatch_queue_create("getUserData",DISPATCH_QUEUE_SERIAL)
     var Q5_fetchAllChats=dispatch_queue_create("fetchAllChats",DISPATCH_QUEUE_SERIAL)
-    var Q5_fetchAllGroupsDatas=dispatch_queue_create("fetchAllGroupsData",DISPATCH_QUEUE_SERIAL)
+    var Q5_fetchAllGroupsData=dispatch_queue_create("fetchAllGroupsData",DISPATCH_QUEUE_SERIAL)
     
     
     var accountKit: AKFAccountKit!
@@ -852,13 +852,24 @@ class DisplayNameViewController: UIViewController {
                                                                     dispatch_async(dispatch_get_main_queue())
                                                                         {
                                                                             self.messageFrame.removeFromSuperview()
+                                                                            self.progressBarDisplayer("Setting Groups", true)
+                                                                            dispatch_async(self.Q5_fetchAllGroupsData,
+                                                                                {
+                                                                                    var syncGroupsObj=syncGroupService.init()
+                                                                                    syncGroupsObj.startSyncGroupsService({ (result) -> () in
+                                                                                    //result
+                                                                                    dispatch_async(dispatch_get_main_queue())
+                                                                                    {
+                                                                                        self.messageFrame.removeFromSuperview()
                                                                             self.dismissViewControllerAnimated(false, completion: { () -> Void in
                                                                                 
                                                                                 print("logged in going to contactlist")
                                                                             })
 
                                                                     }
-                                                                    
+                                                                                    })
+                                                                            })
+                                                                    }
                                                                 })
                                                         })
                                                     })

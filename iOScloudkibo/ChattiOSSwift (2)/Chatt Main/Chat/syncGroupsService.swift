@@ -19,7 +19,7 @@ class syncGroupService
         
         
     }
-    func startSyncGroupsService()
+    func startSyncGroupsService(completion:(result:Bool,error:String!)->())
     {
         if(accountKit == nil){
             accountKit = AKFAccountKit(responseType: AKFResponseType.AccessToken)
@@ -38,6 +38,13 @@ class syncGroupService
                         
                         self.fullRefreshMembersInfo(groupinfo){ (result,error) in
                             print("sync groups data done")
+                            if(result == true)
+                            {
+                                return completion(result: true, error: nil)
+                            }
+                            else{
+                                return completion(result: false, error: error)
+                            }
                         }
                     }
                 }

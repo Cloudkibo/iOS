@@ -307,11 +307,11 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
                 
                 self.getData({ (result) -> () in
                     
-                    Alamofire.request(.POST,"\(Constants.MainUrl+Constants.urllog)",headers:header,parameters: ["data":"IPHONE_LOG: checkin here pending messages sent"]).response{
+                   /* Alamofire.request(.POST,"\(Constants.MainUrl+Constants.urllog)",headers:header,parameters: ["data":"IPHONE_LOG: checkin here pending messages sent"]).response{
                         request, response_, data, error in
                         print(error)
                     }
-                    
+                    */
                // print("checkin here pending messages sent")
                     
                // if(socketObj != nil)
@@ -1474,10 +1474,10 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
             print(ccc[msg])
             print(ccc[date])
             
-            Alamofire.request(.POST,"\(Constants.MainUrl+Constants.urllog)",headers:header,parameters: ["data":"IPHONE_LOG: database date is \(ccc[date])"]).response{
+            /*Alamofire.request(.POST,"\(Constants.MainUrl+Constants.urllog)",headers:header,parameters: ["data":"IPHONE_LOG: database date is \(ccc[date])"]).response{
                 request, response_, data, error in
                 print(error)
-            }
+            }*/
             print(ccc[uniqueid])
             //////print(ccc[tbl_userchats[status]])
             print(ccc[status])
@@ -1589,10 +1589,10 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
             
             do{for ccclastmsg in try sqliteDB.db.prepare(myquerylastmsg) {
                 print("date received in chat view is \(ccclastmsg[date])")
-                Alamofire.request(.POST,"\(Constants.MainUrl+Constants.urllog)",headers:header,parameters: ["data":"IPHONE-LOG: date received in chat view is \(ccclastmsg[date])"]).response{
+               /* Alamofire.request(.POST,"\(Constants.MainUrl+Constants.urllog)",headers:header,parameters: ["data":"IPHONE-LOG: date received in chat view is \(ccclastmsg[date])"]).response{
                     request, response_, data, error in
                     print(error)
-                }
+                }*/
                 
                 // var formatter = NSDateFormatter();
                 //formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSS";
@@ -1612,10 +1612,10 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
         
                // socketObj.socket.emit("logClient","IPHONE_LOG: ===fetch date from database is ccclastmsg[date] \(ccclastmsg[date])... defaultTimeeee \(defaultTimeeee)")
                 
-                Alamofire.request(.POST,"\(Constants.MainUrl+Constants.urllog)",headers:header,parameters: ["data":"IPHONE_LOG: ===fetch date from database is ccclastmsg[date] \(ccclastmsg[date])... defaultTimeeee \(defaultTimeeee)"]).response{
+               /* Alamofire.request(.POST,"\(Constants.MainUrl+Constants.urllog)",headers:header,parameters: ["data":"IPHONE_LOG: ===fetch date from database is ccclastmsg[date] \(ccclastmsg[date])... defaultTimeeee \(defaultTimeeee)"]).response{
                     request, response_, data, error in
                     print(error)
-                }
+                }*/
                 
                 
                 print("last msg is \(ccclastmsg[msg])")

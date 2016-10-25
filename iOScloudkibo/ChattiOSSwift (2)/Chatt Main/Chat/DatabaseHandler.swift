@@ -799,6 +799,7 @@ class DatabaseHandler:NSObject{
     }
     func UpdateChatStatus(uniqueid1:String,newstatus:String)
     {
+         UtilityFunctions.init().log_papertrail("IPHONE: \(username!) inside database function to update chat status")
         
         let uniqueid = Expression<String>("uniqueid")
         let status = Expression<String>("status")
@@ -916,6 +917,7 @@ class DatabaseHandler:NSObject{
     func SaveChat(to1:String,from1:String,owneruser1:String,fromFullName1:String,msg1:String,date1:NSDate!,uniqueid1:String!,status1:String,type1:String,file_type1:String,file_path1:String)
     {
         //createUserChatTable()
+     UtilityFunctions.init().log_papertrail("IPHONE:\(username!) inside database function to SAVE chat")
         
         let to = Expression<String>("to")
         let from = Expression<String>("from")
@@ -1040,6 +1042,8 @@ class DatabaseHandler:NSObject{
                 file_type<-file_type1,
                 file_path<-file_path1
 ))
+    
+    UtilityFunctions.init().log_papertrail("IPHONE_LOG: \(username!) saving chat in db \(rowid)")
             }
             else
             {
@@ -1047,6 +1051,8 @@ class DatabaseHandler:NSObject{
             }
             //////print("inserted id: \(rowid)")
         } catch {
+            UtilityFunctions.init().log_papertrail("IPHONE_LOG: \(username!) error: failed to save chat")
+            
             print("insertion failed: \(error)")
         }
         
