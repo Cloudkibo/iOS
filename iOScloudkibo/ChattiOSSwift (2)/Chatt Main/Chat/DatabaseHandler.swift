@@ -799,7 +799,7 @@ class DatabaseHandler:NSObject{
     }
     func UpdateChatStatus(uniqueid1:String,newstatus:String)
     {
-         UtilityFunctions.init().log_papertrail("IPHONE: \(username!) inside database function to update chat status")
+       //  UtilityFunctions.init().log_papertrail("IPHONE: \(username!) inside database function to update chat status")
         
         let uniqueid = Expression<String>("uniqueid")
         let status = Expression<String>("status")
@@ -917,7 +917,7 @@ class DatabaseHandler:NSObject{
     func SaveChat(to1:String,from1:String,owneruser1:String,fromFullName1:String,msg1:String,date1:NSDate!,uniqueid1:String!,status1:String,type1:String,file_type1:String,file_path1:String)
     {
         //createUserChatTable()
-     UtilityFunctions.init().log_papertrail("IPHONE:\(username!) inside database function to SAVE chat")
+    // UtilityFunctions.init().log_papertrail("IPHONE:\(username!) inside database function to SAVE chat")
         
         let to = Expression<String>("to")
         let from = Expression<String>("from")
@@ -1043,7 +1043,7 @@ class DatabaseHandler:NSObject{
                 file_path<-file_path1
 ))
     
-    UtilityFunctions.init().log_papertrail("IPHONE_LOG: \(username!) saving chat in db \(rowid)")
+   // UtilityFunctions.init().log_papertrail("IPHONE_LOG: \(username!) saving chat in db \(rowid)")
             }
             else
             {
@@ -1051,7 +1051,7 @@ class DatabaseHandler:NSObject{
             }
             //////print("inserted id: \(rowid)")
         } catch {
-            UtilityFunctions.init().log_papertrail("IPHONE_LOG: \(username!) error: failed to save chat")
+          //  UtilityFunctions.init().log_papertrail("IPHONE_LOG: \(username!) error: failed to save chat")
             
             print("insertion failed: \(error)")
         }
@@ -1301,7 +1301,7 @@ print("--------")
         
         let group_unique_id = Expression<String>("group_unique_id")
         let member_phone = Expression<String>("member_phone")
-        let isAdmin = Expression<Bool>("isAdmin")
+        let isAdmin = Expression<String>("isAdmin")
         let membership_status = Expression<String>("membership_status")
         let date_joined = Expression<NSDate>("date_joined")
         let date_left = Expression<NSDate>("date_left")
@@ -1464,11 +1464,11 @@ print("--------")
         
     }
     
-    func storeMembers(group_uniqueid1:String,member_phone1:String,isAdmin1:Bool,membershipStatus1:String,date_joined1:NSDate)
+    func storeMembers(group_uniqueid1:String,member_phone1:String,isAdmin1:String,membershipStatus1:String,date_joined1:NSDate)
     {
         let group_unique_id = Expression<String>("group_unique_id")
         let member_phone = Expression<String>("member_phone")
-        let isAdmin = Expression<Bool>("isAdmin")
+        let isAdmin = Expression<String>("isAdmin")
         let membership_status = Expression<String>("membership_status")//joined or left
         let date_joined = Expression<NSDate>("date_joined")
         let date_left = Expression<NSDate>("date_left")

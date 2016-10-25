@@ -70,11 +70,11 @@ class NewGroupSetDetails: UITableViewController,UINavigationControllerDelegate,U
         
         sqliteDB.storeGroups(groupname, groupicon1: imgdata, datecreation1: NSDate(), uniqueid1: uid as String)
         
-        sqliteDB.storeMembers(uniqueid, member_phone1: username!, isAdmin1: true, membershipStatus1: "joined", date_joined1: NSDate.init())
+        sqliteDB.storeMembers(uniqueid, member_phone1: username!, isAdmin1: "Yes", membershipStatus1: "joined", date_joined1: NSDate.init())
         
         for(var i=0;i<members.count;i++)
         {
-            var isAdmin=false
+            var isAdmin="Yes"
             
             
             if(members[i] == username)
@@ -83,7 +83,7 @@ class NewGroupSetDetails: UITableViewController,UINavigationControllerDelegate,U
                 
             }
             else{
-            sqliteDB.storeMembers(uniqueid, member_phone1: members[i], isAdmin1: true, membershipStatus1: "joined", date_joined1: NSDate.init())
+            sqliteDB.storeMembers(uniqueid, member_phone1: members[i], isAdmin1: "Yes", membershipStatus1: "joined", date_joined1: NSDate.init())
             }
             
         }

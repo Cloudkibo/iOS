@@ -33,7 +33,8 @@ class syncGroupService
             dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0)) {
                 print("synccccc fetching contacts in background...")
                 self.SyncGroupsAPI{ (result,error,groupinfo) in
-                   
+                   if(groupinfo != nil)
+                   {
                     self.fullRefreshGroupsInfo(groupinfo){ (result,error) in
                         
                         self.fullRefreshMembersInfo(groupinfo){ (result,error) in
@@ -46,6 +47,11 @@ class syncGroupService
                                 return completion(result: false, error: error)
                             }
                         }
+                    
+                    }}
+                    else
+                   {
+                    return completion(result: true, error: nil)
                     }
                 }
             }
@@ -57,7 +63,7 @@ class syncGroupService
         
         //  let isMute = Expression<Bool>("isMute")
 
-        
+        var jsongroupinfo:JSON!=nil
         print("inside group info function")
         var url=Constants.MainUrl+Constants.getMyGroups
         print(url.debugDescription)
@@ -71,12 +77,20 @@ class syncGroupService
         print(header.description)
         Alamofire.request(.GET,"\(url)",headers:header).validate().responseJSON { response in
             print(response)
+            if(response.result.isSuccess)
+            {
             print(response.result.value)
-            var jsongroupinfo=JSON(response.result.value!)
+            jsongroupinfo=JSON(response.result.value!)
             return completion(result:true,error: nil,groupinfo: jsongroupinfo)
+                
+            }
+            else{
+                return completion(result:true,error: "API synch groups failed",groupinfo: jsongroupinfo)
+                
+            }
         }
         
-        return completion(result:true,error: "Fetch group info API failed",groupinfo: nil)
+        return completion(result:true,error: "Fetch group info API failed",groupinfo: jsongroupinfo)
     }
     
     func fullRefreshGroupsInfo(groupInfo:JSON,completion:(result:Bool,error:String!)->())
@@ -92,7 +106,7 @@ class syncGroupService
             {
                 //groupInfo[i]["group_unique_id"]
                 var unique_id=groupInfo[i]["group_unique_id"]["unique_id"].string!
-                var groupname=groupInfo[i]["group_unique_id"]["groupname"].string!
+                var group_name=groupInfo[i]["group_unique_id"]["group_name"].string!
                 var date_creation=groupInfo[i]["group_unique_id"]["date_creation"].string!
                 var group_icon=NSData()
                 if(groupInfo[i]["group_unique_id"]["group_icon"] != nil)
@@ -108,7 +122,7 @@ class syncGroupService
                 let datens2 = dateFormatter.dateFromString(date_creation)
                 
                 
-                sqliteDB.storeGroups(groupname, groupicon1: group_icon, datecreation1: datens2!, uniqueid1: unique_id)
+                sqliteDB.storeGroups(group_name, groupicon1: group_icon, datecreation1: datens2!, uniqueid1: unique_id)
             }
         }
         catch{
@@ -148,7 +162,7 @@ class syncGroupService
                 var _id=groupInfo[i]["_id"].string!
                 var group_id=groupInfo[i]["group_unique_id"]["unique_id"].string
                 var date_join=groupInfo[i]["date_join"].string!
-                var isAdmin=groupInfo[i]["isAdmin"] as! Bool
+                var isAdmin=groupInfo[i]["isAdmin"].string
                 var member_phone=groupInfo[i]["member_phone"].string!
                 var membership_status=groupInfo[i]["membership_status"].string!
                 
@@ -162,7 +176,7 @@ class syncGroupService
                 let datens2 = dateFormatter.dateFromString(date_join)
                 
                 
-                sqliteDB.storeMembers(group_id!, member_phone1: member_phone, isAdmin1: isAdmin, membershipStatus1: membership_status, date_joined1: datens2!)
+                sqliteDB.storeMembers(group_id!, member_phone1: member_phone, isAdmin1: isAdmin!, membershipStatus1: membership_status, date_joined1: datens2!)
             }
         }
         catch{
