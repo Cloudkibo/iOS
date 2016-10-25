@@ -1242,7 +1242,7 @@
                     </navigationItem>
                     <connections>
                         <outlet property="tblNewGroupDetails" destination="fel-tA-dNj" id="in5-DH-FyH"/>
-                        <segue destination="7pi-BX-Z2j" kind="push" identifier="groupChatStartSegue" id="rKK-kO-piT"/>
+                        <segue destination="Yvw-Fw-Qsr" kind="push" identifier="groupChatStartSegue" id="0xH-LE-leu"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="7Wl-ft-857" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -1252,9 +1252,9 @@
         <!--New Group-->
         <scene sceneID="ZCg-wh-q0b">
             <objects>
-                <tableViewController hidesBottomBarWhenPushed="YES" id="7pi-BX-Z2j" customClass="GroupChatingDetailController" customModule="Chat" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController hidesBottomBarWhenPushed="YES" id="7pi-BX-Z2j" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="Nvh-iu-3wn">
-                        <rect key="frame" x="0.0" y="64" width="320" height="504"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
@@ -1635,16 +1635,9 @@
                                 </tableViewCellContentView>
                             </tableViewCell>
                         </prototypes>
-                        <connections>
-                            <outlet property="dataSource" destination="7pi-BX-Z2j" id="YPF-5s-n04"/>
-                            <outlet property="delegate" destination="7pi-BX-Z2j" id="cXN-CL-rSm"/>
-                        </connections>
                     </tableView>
                     <navigationItem key="navigationItem" title="New Group" id="3w4-ek-sav"/>
                     <nil key="simulatedBottomBarMetrics"/>
-                    <connections>
-                        <outlet property="tblForGroupChat" destination="Nvh-iu-3wn" id="G4U-bN-pRi"/>
-                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="5B2-zn-Er0" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -1653,28 +1646,28 @@
         <!--New Chat-->
         <scene sceneID="DAO-yB-sUK">
             <objects>
-                <viewController hidesBottomBarWhenPushed="YES" id="Yvw-Fw-Qsr" customClass="GroupChatDetailViewController" customModule="Chat" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController hidesBottomBarWhenPushed="YES" id="Yvw-Fw-Qsr" customClass="GroupChatingDetailController" customModule="Chat" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="YFT-Al-49q">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <rect key="frame" x="0.0" y="64" width="320" height="504"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" keyboardDismissMode="interactive" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="80" sectionHeaderHeight="22" sectionFooterHeight="22" id="2jk-DK-hmx">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="454"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="MKE-Oa-T8a">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="451"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" verticalHuggingPriority="1000" selectionStyle="default" indentationWidth="10" reuseIdentifier="DocSentCell" rowHeight="80" id="ek1-g0-iXr" userLabel="DocSentCell">
-                                        <rect key="frame" x="0.0" y="22" width="320" height="80"/>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" verticalHuggingPriority="1000" selectionStyle="default" indentationWidth="10" reuseIdentifier="DocSentCell" rowHeight="80" id="TAB-pu-93s" userLabel="DocSentCell">
+                                        <rect key="frame" x="0.0" y="28" width="320" height="80"/>
                                         <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" autoresizesSubviews="NO" opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" verticalHuggingPriority="1000" preservesSuperviewLayoutMargins="YES" tableViewCell="ek1-g0-iXr" id="Gdh-cc-Bf1">
-                                            <rect key="frame" x="0.0" y="0.0" width="320" height="80"/>
+                                        <tableViewCellContentView key="contentView" autoresizesSubviews="NO" opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" verticalHuggingPriority="1000" preservesSuperviewLayoutMargins="YES" tableViewCell="TAB-pu-93s" id="PkI-3y-E7T">
+                                            <rect key="frame" x="0.0" y="0.0" width="320" height="79.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <imageView opaque="NO" clipsSubviews="YES" tag="1" contentMode="redraw" verticalHuggingPriority="1000" preservesSuperviewLayoutMargins="YES" image="chat_receive" highlighted="YES" id="qAg-3L-ITR">
+                                                <imageView opaque="NO" clipsSubviews="YES" tag="1" contentMode="redraw" verticalHuggingPriority="1000" preservesSuperviewLayoutMargins="YES" image="chat_receive" highlighted="YES" id="wBh-bV-AVG">
                                                     <rect key="frame" x="8" y="0.0" width="232" height="80"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                 </imageView>
-                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="11" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="justified" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="ZOL-jQ-SQG">
+                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="11" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="justified" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="XAB-BP-Xg0">
                                                     <rect key="frame" x="37" y="36" width="165" height="17"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
@@ -1682,18 +1675,18 @@
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <label hidden="YES" opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="13" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Delivered" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" enabled="NO" adjustsFontSizeToFit="NO" id="Ccp-Ah-W7Z">
+                                                <label hidden="YES" opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="13" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Delivered" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" enabled="NO" adjustsFontSizeToFit="NO" id="cBn-Hy-X2u">
                                                     <rect key="frame" x="173" y="32" width="67" height="21"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                                     <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <imageView opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="2" contentMode="top" image="notes" id="DBJ-pe-f0R">
+                                                <imageView opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="2" contentMode="top" image="notes" id="GM2-oP-1cN">
                                                     <rect key="frame" x="37" y="9" width="22" height="31"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                 </imageView>
-                                                <label hidden="YES" opaque="NO" userInteractionEnabled="NO" tag="12" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="1000" preservesSuperviewLayoutMargins="YES" text="Downloading document.." lineBreakMode="wordWrap" numberOfLines="50" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="v7g-Yy-XSf">
+                                                <label hidden="YES" opaque="NO" userInteractionEnabled="NO" tag="12" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="1000" preservesSuperviewLayoutMargins="YES" text="Downloading document.." lineBreakMode="wordWrap" numberOfLines="50" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="MzZ-Gf-Arh">
                                                     <rect key="frame" x="67" y="-16" width="170" height="80"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
@@ -1701,7 +1694,7 @@
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <view hidden="YES" tag="14" contentMode="scaleToFill" id="9Uu-uZ-prx" customClass="KDCircularProgress" customModule="Chat" customModuleProvider="target">
+                                                <view hidden="YES" tag="14" contentMode="scaleToFill" id="0gh-7B-r2t" customClass="KDCircularProgress" customModule="Chat" customModuleProvider="target">
                                                     <rect key="frame" x="204" y="9" width="33" height="32"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -1736,18 +1729,18 @@
                                             </subviews>
                                         </tableViewCellContentView>
                                     </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" verticalHuggingPriority="1000" selectionStyle="default" indentationWidth="10" reuseIdentifier="DocReceivedCell" rowHeight="80" id="X0w-mt-giL">
-                                        <rect key="frame" x="0.0" y="102" width="320" height="80"/>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" verticalHuggingPriority="1000" selectionStyle="default" indentationWidth="10" reuseIdentifier="DocReceivedCell" rowHeight="80" id="qqd-0w-ptx">
+                                        <rect key="frame" x="0.0" y="108" width="320" height="80"/>
                                         <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" autoresizesSubviews="NO" opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" verticalHuggingPriority="1000" preservesSuperviewLayoutMargins="YES" tableViewCell="X0w-mt-giL" id="m3u-cy-JWf">
-                                            <rect key="frame" x="0.0" y="0.0" width="320" height="80"/>
+                                        <tableViewCellContentView key="contentView" autoresizesSubviews="NO" opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" verticalHuggingPriority="1000" preservesSuperviewLayoutMargins="YES" tableViewCell="qqd-0w-ptx" id="rlD-Vz-h2X">
+                                            <rect key="frame" x="0.0" y="0.0" width="320" height="79.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <imageView opaque="NO" clipsSubviews="YES" tag="1" contentMode="redraw" verticalHuggingPriority="1000" preservesSuperviewLayoutMargins="YES" image="chat_send" highlighted="YES" id="rHq-NU-WJK">
+                                                <imageView opaque="NO" clipsSubviews="YES" tag="1" contentMode="redraw" verticalHuggingPriority="1000" preservesSuperviewLayoutMargins="YES" image="chat_send" highlighted="YES" id="ptW-Pz-phY">
                                                     <rect key="frame" x="80" y="0.0" width="232" height="80"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                 </imageView>
-                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="11" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="rtf - 2 KB                 8:07 AM" textAlignment="justified" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="314-Hh-FqI">
+                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="11" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="rtf - 2 KB                 8:07 AM" textAlignment="justified" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Cyu-rO-LM1">
                                                     <rect key="frame" x="114" y="46" width="165" height="17"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
@@ -1755,18 +1748,18 @@
                                                     <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <label hidden="YES" opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="13" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Delivered" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" enabled="NO" adjustsFontSizeToFit="NO" id="Sak-nW-Sd9">
+                                                <label hidden="YES" opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="13" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Delivered" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" enabled="NO" adjustsFontSizeToFit="NO" id="Zqd-ck-BlT">
                                                     <rect key="frame" x="245" y="59" width="67" height="21"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                                     <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <imageView opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="2" contentMode="top" image="notes" id="qTo-qF-fvX">
+                                                <imageView opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="2" contentMode="top" image="notes" id="Uxk-Px-WW4">
                                                     <rect key="frame" x="86" y="38" width="22" height="31"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                 </imageView>
-                                                <label hidden="YES" opaque="NO" userInteractionEnabled="NO" tag="12" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="1000" preservesSuperviewLayoutMargins="YES" text="What do you think of this tool!" lineBreakMode="wordWrap" numberOfLines="50" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Zow-WJ-Gp6">
+                                                <label hidden="YES" opaque="NO" userInteractionEnabled="NO" tag="12" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="1000" preservesSuperviewLayoutMargins="YES" text="What do you think of this tool!" lineBreakMode="wordWrap" numberOfLines="50" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="yhn-Js-mGs">
                                                     <rect key="frame" x="111" y="14" width="170" height="80"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
@@ -1774,7 +1767,7 @@
                                                     <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <view hidden="YES" opaque="NO" clearsContextBeforeDrawing="NO" tag="14" contentMode="scaleToFill" id="TRH-bx-2y1" customClass="KDCircularProgress" customModule="Chat" customModuleProvider="target">
+                                                <view hidden="YES" opaque="NO" clearsContextBeforeDrawing="NO" tag="14" contentMode="scaleToFill" id="ApX-GI-95N" customClass="KDCircularProgress" customModule="Chat" customModuleProvider="target">
                                                     <rect key="frame" x="237" y="14" width="33" height="32"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -1809,37 +1802,33 @@
                                             </subviews>
                                         </tableViewCellContentView>
                                     </tableViewCell>
-                                    <tableViewCell userInteractionEnabled="NO" contentMode="scaleToFill" verticalHuggingPriority="1000" selectionStyle="blue" indentationWidth="10" reuseIdentifier="ChatSentCell" id="Sl7-mx-5QW">
-                                        <rect key="frame" x="0.0" y="182" width="320" height="80"/>
+                                    <tableViewCell userInteractionEnabled="NO" contentMode="scaleToFill" verticalHuggingPriority="1000" selectionStyle="blue" indentationWidth="10" reuseIdentifier="ChatSentCell" rowHeight="53" id="Ls0-l2-Xo7">
+                                        <rect key="frame" x="0.0" y="188" width="320" height="53"/>
                                         <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" autoresizesSubviews="NO" opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" verticalHuggingPriority="1000" preservesSuperviewLayoutMargins="YES" tableViewCell="Sl7-mx-5QW" id="JFB-Yt-irk">
-                                            <rect key="frame" x="0.0" y="0.0" width="320" height="80"/>
+                                        <tableViewCellContentView key="contentView" autoresizesSubviews="NO" opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" verticalHuggingPriority="1000" preservesSuperviewLayoutMargins="YES" tableViewCell="Ls0-l2-Xo7" id="NDo-qz-ba3">
+                                            <rect key="frame" x="0.0" y="0.0" width="320" height="52.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <imageView opaque="NO" userInteractionEnabled="NO" tag="1" contentMode="redraw" verticalHuggingPriority="1000" preservesSuperviewLayoutMargins="YES" image="chat_receive" id="fKJ-6d-oad">
-                                                    <rect key="frame" x="8" y="0.0" width="232" height="80"/>
+                                                <imageView opaque="NO" userInteractionEnabled="NO" tag="1" contentMode="redraw" verticalHuggingPriority="1000" preservesSuperviewLayoutMargins="YES" image="chat_receive" id="OGU-T5-h5s">
+                                                    <rect key="frame" x="8" y="0.0" width="232" height="52"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                 </imageView>
-                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="11" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="12:45 PM" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="HFI-bk-J7k">
-                                                    <rect key="frame" x="30" y="55" width="197" height="17"/>
+                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="11" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="12:45 PM" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="cGC-Np-cCi">
+                                                    <rect key="frame" x="30" y="32" width="197" height="17"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="11"/>
                                                     <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <imageView hidden="YES" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" tag="2" contentMode="top" image="profile-pic1" id="LJd-bf-94I">
-                                                    <rect key="frame" x="8" y="0.0" width="52" height="52"/>
-                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                </imageView>
-                                                <label opaque="NO" userInteractionEnabled="NO" tag="15" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Wog-9b-8d7">
+                                                <label opaque="NO" userInteractionEnabled="NO" tag="15" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Sojharo" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="6uH-gG-Xdy">
                                                     <rect key="frame" x="43" y="0.0" width="170" height="21"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                                                    <color key="textColor" red="0.5" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <label opaque="NO" tag="12" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="1000" preservesSuperviewLayoutMargins="YES" text="Its actually pretty good!" lineBreakMode="wordWrap" numberOfLines="50" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="vSN-h0-t4G">
+                                                <label opaque="NO" tag="12" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="1000" preservesSuperviewLayoutMargins="YES" text="Salaam. How are you?" lineBreakMode="wordWrap" numberOfLines="50" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="1WK-Tw-IdJ">
                                                     <rect key="frame" x="43" y="14" width="170" height="23"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
@@ -1847,63 +1836,67 @@
                                                     <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
+                                                <imageView hidden="YES" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" tag="2" contentMode="top" image="profile-pic1" id="2Qc-Ih-y1E">
+                                                    <rect key="frame" x="8" y="0.0" width="52" height="52"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                </imageView>
                                             </subviews>
                                         </tableViewCellContentView>
                                     </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" verticalHuggingPriority="1000" selectionStyle="default" indentationWidth="10" reuseIdentifier="ChatReceivedCell" rowHeight="80" id="kC7-gw-eK2">
-                                        <rect key="frame" x="0.0" y="262" width="320" height="80"/>
+                                    <tableViewCell clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" verticalHuggingPriority="1000" selectionStyle="default" indentationWidth="10" reuseIdentifier="ChatReceivedCell" rowHeight="80" id="aKL-oz-5gE">
+                                        <rect key="frame" x="0.0" y="241" width="320" height="80"/>
                                         <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" autoresizesSubviews="NO" opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" verticalHuggingPriority="1000" preservesSuperviewLayoutMargins="YES" tableViewCell="kC7-gw-eK2" id="Y5S-XZ-4U3">
-                                            <rect key="frame" x="0.0" y="0.0" width="320" height="80"/>
+                                        <tableViewCellContentView key="contentView" autoresizesSubviews="NO" opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" verticalHuggingPriority="1000" preservesSuperviewLayoutMargins="YES" tableViewCell="aKL-oz-5gE" id="Qqq-Ep-eod">
+                                            <rect key="frame" x="0.0" y="0.0" width="320" height="79.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <imageView opaque="NO" clipsSubviews="YES" tag="1" contentMode="redraw" verticalHuggingPriority="1000" preservesSuperviewLayoutMargins="YES" image="chat_send" highlighted="YES" id="q5T-Z2-y4I">
-                                                    <rect key="frame" x="80" y="0.0" width="232" height="80"/>
+                                                <imageView opaque="NO" clipsSubviews="YES" tag="1" contentMode="redraw" verticalHuggingPriority="1000" preservesSuperviewLayoutMargins="YES" image="chat_send" highlighted="YES" id="Zoi-4M-dHk">
+                                                    <rect key="frame" x="80" y="0.0" width="232" height="52"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                 </imageView>
-                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="11" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="12:45 PM" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="3L6-Us-T8z">
-                                                    <rect key="frame" x="96" y="4" width="165" height="17"/>
+                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="11" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="12:45 PM" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="sy4-3F-zjJ">
+                                                    <rect key="frame" x="96" y="28" width="165" height="17"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="11"/>
                                                     <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <label opaque="NO" userInteractionEnabled="NO" tag="12" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="1000" preservesSuperviewLayoutMargins="YES" text="What do you think of this tool!" lineBreakMode="wordWrap" numberOfLines="50" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="bxo-CH-tu5">
-                                                    <rect key="frame" x="96" y="25" width="170" height="80"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" tag="12" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="1000" preservesSuperviewLayoutMargins="YES" text="What do you think of this tool!" lineBreakMode="wordWrap" numberOfLines="50" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="VfJ-31-PNn">
+                                                    <rect key="frame" x="96" y="-24" width="170" height="80"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                     <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="11"/>
                                                     <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <label hidden="YES" opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="13" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Delivered" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="lSN-ga-s4Q">
+                                                <label hidden="YES" opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="13" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Delivered" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="osX-vQ-yYD">
                                                     <rect key="frame" x="245" y="59" width="67" height="21"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                                     <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <imageView hidden="YES" opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="2" contentMode="top" image="profile-pic4" id="Qda-fm-8PL">
+                                                <imageView hidden="YES" opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="2" contentMode="top" image="profile-pic4" id="Say-Ts-aUv">
                                                     <rect key="frame" x="260" y="0.0" width="52" height="52"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                 </imageView>
                                             </subviews>
                                         </tableViewCellContentView>
                                     </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" verticalHuggingPriority="1000" selectionStyle="default" indentationWidth="10" reuseIdentifier="FileImageReceivedCell" rowHeight="200" id="DFi-xq-8Ck" userLabel="FileImageReceivedCell">
-                                        <rect key="frame" x="0.0" y="342" width="320" height="200"/>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" verticalHuggingPriority="1000" selectionStyle="default" indentationWidth="10" reuseIdentifier="FileImageReceivedCell" rowHeight="200" id="Hjl-HG-BeW" userLabel="FileImageReceivedCell">
+                                        <rect key="frame" x="0.0" y="321" width="320" height="200"/>
                                         <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" autoresizesSubviews="NO" opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" verticalHuggingPriority="1000" preservesSuperviewLayoutMargins="YES" tableViewCell="DFi-xq-8Ck" id="JUG-tT-MZN">
-                                            <rect key="frame" x="0.0" y="0.0" width="320" height="200"/>
+                                        <tableViewCellContentView key="contentView" autoresizesSubviews="NO" opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" verticalHuggingPriority="1000" preservesSuperviewLayoutMargins="YES" tableViewCell="Hjl-HG-BeW" id="jdN-oe-4uB">
+                                            <rect key="frame" x="0.0" y="0.0" width="320" height="199.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" tag="1" contentMode="redraw" verticalHuggingPriority="1000" preservesSuperviewLayoutMargins="YES" id="7qU-Cb-HsH">
+                                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" tag="1" contentMode="redraw" verticalHuggingPriority="1000" preservesSuperviewLayoutMargins="YES" id="qoq-aN-fue">
                                                     <rect key="frame" x="80" y="0.0" width="228" height="200"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <color key="backgroundColor" red="0.0" green="0.7254902124" blue="0.41176474089999998" alpha="1" colorSpace="deviceRGB"/>
                                                 </imageView>
-                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="11" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="12:45 PM" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Na4-Rg-ezV">
+                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="11" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="12:45 PM" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="gTZ-pQ-l6j">
                                                     <rect key="frame" x="96" y="4" width="165" height="17"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
@@ -1911,18 +1904,18 @@
                                                     <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <label hidden="YES" opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="13" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Delivered" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="bLu-sz-7sl">
+                                                <label hidden="YES" opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="13" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Delivered" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="daX-KL-LVH">
                                                     <rect key="frame" x="245" y="59" width="67" height="21"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                                     <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <imageView hidden="YES" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" tag="2" contentMode="top" image="profile-pic4" id="mF5-sS-KAE">
+                                                <imageView hidden="YES" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" tag="2" contentMode="top" image="profile-pic4" id="PJN-a9-ry6">
                                                     <rect key="frame" x="260" y="0.0" width="52" height="52"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                 </imageView>
-                                                <label opaque="NO" tag="12" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="1000" preservesSuperviewLayoutMargins="YES" text="What do you think of this tool!" lineBreakMode="wordWrap" numberOfLines="50" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="24T-oc-yNk">
+                                                <label opaque="NO" tag="12" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="1000" preservesSuperviewLayoutMargins="YES" text="What do you think of this tool!" lineBreakMode="wordWrap" numberOfLines="50" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="E7k-bo-dkN">
                                                     <rect key="frame" x="96" y="29" width="170" height="80"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
@@ -1930,7 +1923,7 @@
                                                     <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <view hidden="YES" opaque="NO" clearsContextBeforeDrawing="NO" userInteractionEnabled="NO" alpha="0.5" tag="14" contentMode="scaleToFill" id="X6P-kv-H8c" customClass="KDCircularProgress" customModule="Chat" customModuleProvider="target">
+                                                <view hidden="YES" opaque="NO" clearsContextBeforeDrawing="NO" userInteractionEnabled="NO" alpha="0.5" tag="14" contentMode="scaleToFill" id="ehQ-u9-RJN" customClass="KDCircularProgress" customModule="Chat" customModuleProvider="target">
                                                     <rect key="frame" x="164" y="84" width="33" height="32"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -1965,19 +1958,19 @@
                                             </subviews>
                                         </tableViewCellContentView>
                                     </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" verticalHuggingPriority="1000" selectionStyle="default" indentationWidth="10" reuseIdentifier="FileImageSentCell" rowHeight="200" id="y2x-Cs-oB2" userLabel="FileImageSentCell">
-                                        <rect key="frame" x="0.0" y="542" width="320" height="200"/>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" verticalHuggingPriority="1000" selectionStyle="default" indentationWidth="10" reuseIdentifier="FileImageSentCell" rowHeight="200" id="rFl-1P-TAw" userLabel="FileImageSentCell">
+                                        <rect key="frame" x="0.0" y="521" width="320" height="200"/>
                                         <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" autoresizesSubviews="NO" opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" verticalHuggingPriority="1000" preservesSuperviewLayoutMargins="YES" tableViewCell="y2x-Cs-oB2" id="ObQ-9b-6UL">
-                                            <rect key="frame" x="0.0" y="0.0" width="320" height="200"/>
+                                        <tableViewCellContentView key="contentView" autoresizesSubviews="NO" opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" verticalHuggingPriority="1000" preservesSuperviewLayoutMargins="YES" tableViewCell="rFl-1P-TAw" id="N7V-eh-LK4">
+                                            <rect key="frame" x="0.0" y="0.0" width="320" height="199.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" tag="1" contentMode="redraw" verticalHuggingPriority="1000" preservesSuperviewLayoutMargins="YES" id="6PD-hK-eq5">
+                                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" tag="1" contentMode="redraw" verticalHuggingPriority="1000" preservesSuperviewLayoutMargins="YES" id="9wO-cx-HZO">
                                                     <rect key="frame" x="21" y="0.0" width="208" height="200"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <color key="backgroundColor" red="0.0" green="0.7254902124" blue="0.41176474089999998" alpha="1" colorSpace="deviceRGB"/>
                                                 </imageView>
-                                                <label hidden="YES" opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="11" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="12:45 PM" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="j7G-MI-oX6">
+                                                <label hidden="YES" opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="11" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="12:45 PM" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="dAf-EX-S1G">
                                                     <rect key="frame" x="24" y="4" width="165" height="17"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
@@ -1985,18 +1978,18 @@
                                                     <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <label hidden="YES" opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="13" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Delivered" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Ryq-UN-ca3">
+                                                <label hidden="YES" opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="13" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Delivered" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="P0c-mc-ubU">
                                                     <rect key="frame" x="173" y="59" width="67" height="21"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                                     <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <imageView hidden="YES" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" tag="2" contentMode="top" image="profile-pic4" id="KKN-5I-8JG">
+                                                <imageView hidden="YES" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" tag="2" contentMode="top" image="profile-pic4" id="jNC-J5-Ame">
                                                     <rect key="frame" x="188" y="0.0" width="52" height="52"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                 </imageView>
-                                                <view hidden="YES" tag="14" contentMode="scaleToFill" id="YEi-VE-MHQ" customClass="KDCircularProgress" customModule="Chat" customModuleProvider="target">
+                                                <view hidden="YES" tag="14" contentMode="scaleToFill" id="YHt-eM-fCq" customClass="KDCircularProgress" customModule="Chat" customModuleProvider="target">
                                                     <rect key="frame" x="81" y="84" width="33" height="32"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -2028,7 +2021,7 @@
                                                         </userDefinedRuntimeAttribute>
                                                     </userDefinedRuntimeAttributes>
                                                 </view>
-                                                <label opaque="NO" tag="12" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="1000" preservesSuperviewLayoutMargins="YES" text="Downloading Image..." textAlignment="center" lineBreakMode="wordWrap" numberOfLines="50" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="3VZ-5q-oB7">
+                                                <label opaque="NO" tag="12" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="1000" preservesSuperviewLayoutMargins="YES" text="Downloading Image..." textAlignment="center" lineBreakMode="wordWrap" numberOfLines="50" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="aZw-F4-wz5">
                                                     <rect key="frame" x="40" y="36" width="170" height="80"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
@@ -2041,8 +2034,8 @@
                                     </tableViewCell>
                                 </prototypes>
                                 <connections>
-                                    <outlet property="dataSource" destination="vqu-uk-8SN" id="LSi-2o-Jhv"/>
-                                    <outlet property="delegate" destination="vqu-uk-8SN" id="Hqu-fE-4fg"/>
+                                    <outlet property="dataSource" destination="Yvw-Fw-Qsr" id="haS-Up-uhl"/>
+                                    <outlet property="delegate" destination="Yvw-Fw-Qsr" id="Jt9-1i-C4K"/>
                                 </connections>
                             </tableView>
                             <view contentMode="scaleToFill" id="4nr-N6-IuP" userLabel="ComposeView">
@@ -2059,7 +2052,7 @@
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits"/>
                                         <connections>
-                                            <outlet property="delegate" destination="vqu-uk-8SN" id="ebB-ES-dxl"/>
+                                            <outlet property="delegate" destination="Yvw-Fw-Qsr" id="tFY-cM-Exb"/>
                                         </connections>
                                     </textField>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="j3V-YI-88C">
@@ -2070,16 +2063,13 @@
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
                                         <connections>
-                                            <action selector="postBtnTapped" destination="vqu-uk-8SN" eventType="touchUpInside" id="0Cd-tJ-sXD"/>
+                                            <action selector="btnSendTapped:" destination="Yvw-Fw-Qsr" eventType="touchUpInside" id="6SG-sy-7es"/>
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="56Q-kp-A1r" userLabel="fileAttachBtn">
                                         <rect key="frame" x="8" y="8" width="30" height="29"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <state key="normal" image="fileupload"/>
-                                        <connections>
-                                            <action selector="btnShareFileInChatPressed:" destination="vqu-uk-8SN" eventType="touchUpInside" id="Adl-PM-KKt"/>
-                                        </connections>
                                     </button>
                                 </subviews>
                                 <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
@@ -2088,18 +2078,12 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
                     <navigationItem key="navigationItem" title="New Chat" id="ckh-qo-Nce" userLabel="New Chat Navigation Item">
-                        <barButtonItem key="rightBarButtonItem" enabled="NO" image="callIcon" id="UrQ-8d-sOQ" userLabel="Call">
-                            <connections>
-                                <action selector="btnCallPressed:" destination="vqu-uk-8SN" id="TTD-bw-u5k"/>
-                            </connections>
-                        </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" enabled="NO" image="callIcon" id="UrQ-8d-sOQ" userLabel="Call"/>
                     </navigationItem>
                     <nil key="simulatedBottomBarMetrics"/>
                     <connections>
-                        <outlet property="NewChatNavigationTitle" destination="ckh-qo-Nce" id="2nQ-3X-IXv"/>
-                        <outlet property="chatComposeView" destination="4nr-N6-IuP" id="4yZ-HT-WxF"/>
-                        <outlet property="tblForChats" destination="2jk-DK-hmx" id="cgq-YW-K4H"/>
-                        <outlet property="txtFldMessage" destination="7GT-bG-Zes" id="N19-NW-iXP"/>
+                        <outlet property="tblForGroupChat" destination="MKE-Oa-T8a" id="Bwx-xi-7Xg"/>
+                        <outlet property="txtFieldMessage" destination="7GT-bG-Zes" id="wV6-oH-Liy"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="wjA-fP-LCO" userLabel="First Responder" sceneMemberID="firstResponder"/>

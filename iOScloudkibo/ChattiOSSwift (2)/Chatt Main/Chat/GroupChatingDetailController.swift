@@ -8,28 +8,35 @@
 
 import UIKit
 
-class GroupChatingDetailController: UITableViewController {
+class GroupChatingDetailController: UIViewController {
     
     @IBOutlet var tblForGroupChat: UITableView!
+    
+    @IBOutlet weak var txtFieldMessage: UITextField!
+   
+
+    @IBAction func btnSendTapped(sender: AnyObject){
+    
+    }
     
     override func viewDidLoad() {
         
         
     }
     
-    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return 4
     }
-    override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
         
         return 60
     }
-    override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         
         return 1
     }
     
-    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         
         if(indexPath.row==0)
         {

@@ -25,7 +25,7 @@ class DatabaseHandler:NSObject{
     var group_member:Table!
     var group_chat:Table!
     var group_chat_status:Table!
-    
+    var group_muteSettings:Table!
     
     init(dbName:String)
     {print("inside database handler class")
@@ -137,6 +137,7 @@ class DatabaseHandler:NSObject{
         createGroupsMembersTable()
         createGroupsChatTable()
         createGroupsChatStatusTable()
+        createMuteGroupSettingsTable()
         //createAllContactsTable()
         
     }
@@ -536,6 +537,60 @@ class DatabaseHandler:NSObject{
         
     }
     
+    func createMuteGroupSettingsTable()
+    {
+        let groupid = Expression<String>("groupid")
+        let isMute = Expression<Bool>("isMute")
+        let muteTime = Expression<NSDate>("muteTime")
+        let unMuteTime = Expression<NSDate>("unMuteTime")
+
+        
+        
+        self.group_muteSettings = Table("group_muteSettings")
+        do{
+            try db.run(statusUpdate.create(ifNotExists: retainOldDatabase) { t in
+                t.column(groupid)
+                t.column(isMute)
+                t.column(muteTime)
+                 t.column(unMuteTime)
+                })
+            
+        }
+        catch
+        {
+             print("error in creating group_muteSettings table")
+       
+        
+    }
+    }
+    
+    
+    
+        func storeMuteGroupSettingsTable(groupid1:String,isMute1:Bool,muteTime1:NSDate,unMuteTime1:NSDate)
+        {
+            let groupid = Expression<String>("groupid")
+            let isMute = Expression<Bool>("isMute")
+            let muteTime = Expression<NSDate>("muteTime")
+            let unMuteTime = Expression<NSDate>("unMuteTime")
+            
+            
+            var group_muteSettings=sqliteDB.group_muteSettings
+            
+            do {
+                let rowid = try db.run(group_muteSettings.insert(
+                    groupid<-groupid1,
+                    isMute<-isMute1,
+                    muteTime<-muteTime1,
+                    unMuteTime<-unMuteTime1
+                    ))
+                
+               
+                print("inserted id group_muteSettings : \(rowid)")
+            } catch {
+                print("insertion failed: group_muteSettings \(error)")
+            }
+            
+        }
     
     
     func createFileTable(){
@@ -1383,6 +1438,24 @@ print("--------")
         
         
 
+    }
+    
+    func UpdateMuteGroupStatus(unique_id1:String,isMute1:Bool)
+    {
+       let unique_id = Expression<String>("unique_id")
+        let isMute = Expression<Bool>("isMute")
+        
+        self.groups = Table("groups")
+        let query = groups.select(unique_id)           // SELECT "email" FROM "users"
+            .filter(unique_id == unique_id1)     // WHERE "name" IS NOT NULL
+        
+        do
+        {try sqliteDB.db.run(query.update(isMute <- isMute1))}
+        catch
+        {
+            print("error: cannot update isMute status")
+        }
+        
     }
     
     func storeMembers(group_uniqueid1:String,member_phone1:String,isAdmin1:Bool,membershipStatus1:String,date_joined1:NSDate)
