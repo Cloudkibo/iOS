@@ -30,6 +30,7 @@ class GroupChatingDetailController: UIViewController {
         //save chat
         sqliteDB.storeGroupsChat(username!, group_unique_id1: groupid1, type1: "chat", msg1: txtFieldMessage.text!, from_fullname1: username!, date1: NSDate(), unique_id1: uniqueid_chat)
         
+        var chatmsg=txtFieldMessage.text!
         txtFieldMessage.text = "";
         tblForGroupChat.reloadData()
         if(messages.count>1)
@@ -45,7 +46,7 @@ class GroupChatingDetailController: UIViewController {
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT,0))
         {
             print("messages count before sending msg is \(self.messages.count)")
-            self.sendChatMessage(self.groupid1, from: username!, type: "chat", msg: self.txtFieldMessage.text!, fromFullname: username!, uniqueidChat: uniqueid_chat, completion: { (result) in
+            self.sendChatMessage(self.groupid1, from: username!, type: "chat", msg: chatmsg, fromFullname: username!, uniqueidChat: uniqueid_chat, completion: { (result) in
                 
                 print("chat sent")
             })
@@ -58,7 +59,6 @@ class GroupChatingDetailController: UIViewController {
     {
         // let queue=dispatch_get_global_queue(QOS_CLASS_USER_INITIATED,0)
         // let queue = dispatch_queue_create("com.kibochat.manager-response-queue", DISPATCH_QUEUE_CONCURRENT)
-        var url=Constants.MainUrl+Constants.sendChatURL
         /*  let request = Alamofire.request(.POST, "\(url)", parameters: chatstanza,headers:header)
          request.response(
          queue: queue,
@@ -68,7 +68,10 @@ class GroupChatingDetailController: UIViewController {
         
         //group_unique_id = <group_unique_id>, from, type, msg, from_fullname, unique_id
         
-        let request = Alamofire.request(.POST, "\(url)", parameters: ["group_id":group_id,"from":from,"type":type,"msg":msg,"fromFullname":fromFullname,"uniqueidChat":uniqueidChat],headers:header).responseJSON { response in
+        var url=Constants.MainUrl+Constants.sendGroupChat
+        print(url)
+        print("..")
+        let request = Alamofire.request(.POST, "\(url)", parameters: ["group_unique_id":group_id,"from":from,"type":type,"msg":msg,"from_fullname":fromFullname,"unique_id":uniqueidChat],headers:header).responseJSON { response in
             // You are now running on the concurrent `queue` you created earlier.
             //print("Parsing JSON on thread: \(NSThread.currentThread()) is main thread: \(NSThread.isMainThread())")
             
@@ -77,7 +80,10 @@ class GroupChatingDetailController: UIViewController {
             
             // To update anything on the main thread, just jump back on like so.
             //print("\(chatstanza) ..  \(response)")
-            if(response.response?.statusCode==200)
+            print("status code is \(response.response?.statusCode)")
+            print(response)
+            print(response.result.error)
+            if(response.response?.statusCode==200 || response.response?.statusCode==201)
             {
                 
                 //print("chat ack received")
@@ -106,6 +112,10 @@ class GroupChatingDetailController: UIViewController {
                 
                 /////// }
             }
+            else{
+                completion(result: false)
+                
+                }
         }//)
         
     }
@@ -114,6 +124,18 @@ class GroupChatingDetailController: UIViewController {
     
     override func viewWillAppear(animated: Bool) {
         self.navigationController?.title=mytitle
+        self.retrieveChatFromSqlite { (result) in
+            
+            
+                self.tblForGroupChat.reloadData()
+            
+            if(self.messages.count>1)
+            {
+                var indexPath = NSIndexPath(forRow:self.messages.count-1, inSection: 0)
+                
+                self.tblForGroupChat.scrollToRowAtIndexPath(indexPath, atScrollPosition: UITableViewScrollPosition.Bottom, animated: true)
+            }
+        }
         
     }
     
@@ -132,7 +154,7 @@ class GroupChatingDetailController: UIViewController {
     }
     
     
-    func retrieveChatFromSqlite(selecteduser:String,completion:(result:Bool)->())
+    func retrieveChatFromSqlite(completion:(result:Bool)->())
     {
         //print("retrieveChatFromSqlite called---------")
         ///^^messages.removeAllObjects()
@@ -349,7 +371,7 @@ class GroupChatingDetailController: UIViewController {
      func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         
         var messageDic = messages.objectAtIndex(indexPath.row) as! [String : String];
-        NSLog(messageDic["message"]!, 1)
+       // NSLog(messageDic["message"]!, 1)
         let msgType = messageDic["type"] as NSString!
         let msg = messageDic["msg"] as NSString!
         let date2=messageDic["date"] as NSString!

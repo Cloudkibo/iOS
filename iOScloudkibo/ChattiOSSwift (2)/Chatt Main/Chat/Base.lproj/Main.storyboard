@@ -1006,6 +1006,7 @@
                         <segue destination="YH8-pY-Wmo" kind="push" identifier="newGroupDetailsSegue" id="ADA-1C-gHV"/>
                         <segue destination="Kar-qX-hHJ" kind="push" id="NJ3-iQ-pOc"/>
                         <segue destination="RIV-wT-i1E" kind="push" id="aux-nb-Pcb"/>
+                        <segue destination="Yvw-Fw-Qsr" kind="push" identifier="startGroupChatSegue" id="BY8-e2-RyW"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="J0L-07-OPd" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -3612,7 +3613,7 @@
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="ContactsInviteCell" id="lU5-3E-N9k" customClass="ContactsInviteCell" customModule="Chat" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="22" width="320" height="78"/>
+                                        <rect key="frame" x="0.0" y="86" width="320" height="78"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="lU5-3E-N9k" id="ttq-aH-WWS">
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="77.5"/>
@@ -5120,14 +5121,15 @@
         <image name="video_off" width="50" height="50"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="Spe-dd-EXu"/>
-        <segue reference="1jA-Zj-XHt"/>
         <segue reference="W8i-Cs-Z8T"/>
+        <segue reference="1jA-Zj-XHt"/>
+        <segue reference="BY8-e2-RyW"/>
+        <segue reference="Spe-dd-EXu"/>
         <segue reference="Y9a-Vx-tcX"/>
         <segue reference="QOc-Kg-WHZ"/>
-        <segue reference="Lsn-aA-q1J"/>
         <segue reference="Cjg-Ar-cdZ"/>
         <segue reference="3Qa-aS-eRu"/>
+        <segue reference="Lsn-aA-q1J"/>
     </inferredMetricsTieBreakers>
     <color key="tintColor" red="0.054901960784313725" green="0.47843137254901963" blue="1" alpha="1" colorSpace="calibratedRGB"/>
 </document>

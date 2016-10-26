@@ -230,6 +230,8 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
    ///// var ContactsEmail:[String]=[]
     var ContactsPhone:[String]=[]
     var ContactsProfilePic:[NSData]=[]
+    var ChatType:[String]=[] //group OR single
+    
     //["Bus","Helicopter","Truck","Boat","Bicycle","Motorcycle","Plane","Train","Car","Scooter","Caravan"]
     required init?(coder aDecoder: NSCoder)
     {
@@ -1381,13 +1383,13 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
         //////self.ContactMsgRead.removeAll(keepCapacity: false)
         self.ContactCountMsgRead.removeAll(keepCapacity: false)
         self.ContactsProfilePic.removeAll(keepCapacity: false)
-        
+        self.ChatType.removeAll(keepCapacity: false)
         
         
         var groupsObjectList=sqliteDB.getGroupDetails()
         for(var i=0;i<groupsObjectList.count;i++)
         {
-            
+            ChatType.append("group")
             print("group name is \(groupsObjectList[i]["group_name"] as! String)")
         ContactNames.append(groupsObjectList[i]["group_name"] as! String)
             ContactFirstname.append(groupsObjectList[i]["group_name"] as! String)
@@ -1400,23 +1402,88 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
             var defaultTimeeee = formatter2.stringFromDate(groupsObjectList[i]["date_creation"] as! NSDate)
             
             
-            self.ContactsLastMsgDate.append(defaultTimeeee)
-            self.ContactLastMessage.append("You created this group")            //self.ContactIDs.removeAll(keepCapacity: false)
-            //self.ContactLastNAme.removeAll(keepCapacity: false)
-            //self.ContactNames.removeAll(keepCapacity: false)
+            //self.ContactsLastMsgDate.append(defaultTimeeee)
+            //self.ContactLastMessage.append("You created this group") 
+           
             self.ContactStatus.append("")
-            self.ContactUsernames.append(groupsObjectList[i]["group_name"] as! String)
+            self.ContactUsernames.append(groupsObjectList[i]["unique_id"] as! String)
             //self.ContactsObjectss.removeAll(keepCapacity: false)
             ContactOnlineStatus.append(0)
             ////////////////////////
            // self.ContactFirstname.removeAll(keepCapacity: false)
             ////////
             
-            self.ContactsPhone.append("Group Admin")
+            self.ContactsPhone.append(groupsObjectList[i]["unique_id"] as! String)
             ////self.ContactsEmail.removeAll(keepCapacity: false)
             //////self.ContactMsgRead.removeAll(keepCapacity: false)
             self.ContactCountMsgRead.append(0)
             self.ContactsProfilePic.append(groupsObjectList[i]["group_icon"] as! NSData)
+            
+            
+            let from = Expression<String>("from")
+            let group_unique_id = Expression<String>("group_unique_id")
+            let type = Expression<String>("type")
+            let msg = Expression<String>("msg")
+            let from_fullname = Expression<String>("from_fullname")
+            let date = Expression<NSDate>("date")
+            let unique_id = Expression<String>("unique_id")
+            
+            
+            var tbl_groupchats=sqliteDB.group_chat
+            
+            let myquerylastmsg=tbl_groupchats.filter(group_unique_id==(groupsObjectList[i]["unique_id"] as! String)).order(date.desc)
+            
+            var queryruncount=0
+            
+            var chatexists=false
+            
+            
+            do{for ccclastmsg in try sqliteDB.db.prepare(myquerylastmsg) {
+                print("date received in chat view is \(ccclastmsg[date])")
+                /* Alamofire.request(.POST,"\(Constants.MainUrl+Constants.urllog)",headers:header,parameters: ["data":"IPHONE-LOG: date received in chat view is \(ccclastmsg[date])"]).response{
+                 request, response_, data, error in
+                 print(error)
+                 }*/
+                
+                // var formatter = NSDateFormatter();
+                //formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSS";
+                //formatter.dateFormat = "MM/dd, HH:mm";
+                //formatter.timeZone = NSTimeZone(name: "UTC")
+                // formatter.timeZone = NSTimeZone.localTimeZone()
+                ////////////==========var defaultTimeZoneStr = formatter.dateFromString(ccc[date])
+                /////////////====== var defaultTimeZoneStr2 = formatter.stringFromDate(defaultTimeZoneStr!)
+                
+                
+                var formatter2 = NSDateFormatter();
+                formatter2.dateFormat = "MM/dd, HH:mm"
+                formatter2.timeZone = NSTimeZone.localTimeZone()
+                ///////////////==========var defaultTimeeee = formatter2.stringFromDate(defaultTimeZoneStr!)
+                var defaultTimeeee = formatter2.stringFromDate(ccclastmsg[date])
+                print("===fetch date from database is ccclastmsg[date] \(ccclastmsg[date])... defaultTimeeee \(defaultTimeeee)")
+                
+                // socketObj.socket.emit("logClient","IPHONE_LOG: ===fetch date from database is ccclastmsg[date] \(ccclastmsg[date])... defaultTimeeee \(defaultTimeeee)")
+                
+                /* Alamofire.request(.POST,"\(Constants.MainUrl+Constants.urllog)",headers:header,parameters: ["data":"IPHONE_LOG: ===fetch date from database is ccclastmsg[date] \(ccclastmsg[date])... defaultTimeeee \(defaultTimeeee)"]).response{
+                 request, response_, data, error in
+                 print(error)
+                 }*/
+                
+                
+                print("last msg is \(ccclastmsg[msg])")
+                ContactsLastMsgDate.append(defaultTimeeee)
+                ContactLastMessage.append(ccclastmsg[msg])
+                
+                chatexists=true
+                break
+                }}catch{
+                    print("error in fetching last msg")
+            }
+            if(chatexists==false)
+{
+    self.ContactsLastMsgDate.append(defaultTimeeee)
+    self.ContactLastMessage.append("You created this group")
+}
+        
         }
         
        // ContactNames.append(ccc1[firstname]+" "+ccc1[lastname])
@@ -1578,6 +1645,7 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
             ContactsPhone.append(ccc[contactPhone])
             ContactOnlineStatus.append(0)
             
+            ChatType.append("single")
             
             
             let myquerylastmsg=tbl_userchats.filter(to==ccc[contactPhone] || from==ccc[contactPhone]).order(date.desc)
@@ -1995,6 +2063,12 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
         }
       //  do
        //// {allkiboContactsArray = Array(try sqliteDB.db.prepare(contactsKibo))
+        
+        
+        
+        
+        if(ChatType[indexPath.row] == "single")
+        {
             do{
                 if(!ContactUsernames.isEmpty && indexPath.row<=ContactUsernames.count)
                 {
@@ -2094,7 +2168,14 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
                     cell.profilePic.image=UIImage(data:ContactsProfilePic[indexPath.row])
                 }
             }
-            
+        
+    //if end
+        }
+        else
+        {
+            cell.contactName?.text=ContactNames[indexPath.row]
+        }
+    
             
        // }
       //  catch
@@ -2194,7 +2275,15 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
         ///print(ContactNames[indexPath.row], terminator: "")
         if(tblForChat.editing.boolValue==false)
         {
+            if(ChatType[indexPath.row] == "single")
+            {
         self.performSegueWithIdentifier("contactChat", sender: nil);
+            }
+            else{
+
+                self.performSegueWithIdentifier("startGroupChatSegue", sender: nil);
+                
+            }
         }
         //slideToChat
         
@@ -2355,6 +2444,8 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
                     ////////
                     
                     self.ContactsPhone.removeAtIndex(indexPath.row)
+                    self.ChatType.removeAtIndex(indexPath.row)
+                    
                     ////self.ContactsEmail.removeAtIndex(indexPath.row)
                     //print(request1)
                     print(data1?.debugDescription)
@@ -2577,6 +2668,16 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
                 destinationVC.navigationItem.leftBarButtonItem?.enabled=false
                 destinationVC.navigationItem.rightBarButtonItem?.image=nil
                 destinationVC.navigationItem.rightBarButtonItem?.enabled=false
+            }}
+        //startGroupChatSegue
+        if segue!.identifier == "startGroupChatSegue" {
+            
+            if let destinationVC = segue!.destinationViewController as? GroupChatingDetailController{
+                let selectedRow = tblForChat.indexPathForSelectedRow!.row
+                
+                print("going to groups chat, title is \(ContactNames[selectedRow]) and groupid is \(ContactUsernames[selectedRow])")
+                destinationVC.mytitle=ContactNames[selectedRow]
+               destinationVC.groupid1=ContactUsernames[selectedRow]
             }}
         
     }

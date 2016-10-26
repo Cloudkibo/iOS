@@ -1731,8 +1731,9 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
                          unique_id
  */
                         
+                        print(data1)
                         var chatJson = JSON(data1)
-                        chatJson=chatJson["msg"]
+                        //chatJson=chatJson["msg"]
                         print("JSON single chat: \(chatJson)")
                        // print("JSON single chat to is: \(chatJson[0]["to"].string!)")
                        // var status="delivered"
@@ -1742,24 +1743,27 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
                         dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
                         //  let datens2 = dateFormatter.dateFromString(date2.debugDescription)
                         //2016-09-18T19:13:00.588Z
-                        let datens2 = dateFormatter.dateFromString(chatJson[0]["date"].string!)
+                        let datens2 = dateFormatter.dateFromString(chatJson["date"].string!)
                         
-                        var from=chatJson[0]["from"].string!
-                        var group_unique_id=chatJson[0]["group_unique_id"].string!
-                        var type=chatJson[0]["type"].string!
-                        var msg=chatJson[0]["msg"].string!
-                        var from_fullname=chatJson[0]["from_fullname"].string!
-                        var date=chatJson[0]["date"] as! NSDate
-                        var unique_id=chatJson[0]["unique_id"].string!
+                        var from=chatJson["from"].string!
+                        var group_unique_id=chatJson["group_unique_id"].string!
+                        var type=chatJson["type"].string!
+                        var msg=chatJson["msg"].string!
+                        var from_fullname=chatJson["from_fullname"].string!
+                        var date=chatJson["date"] as! NSDate
+                        var unique_id=chatJson["unique_id"].string!
                         
                         sqliteDB.storeGroupsChat(from, group_unique_id1: group_unique_id, type1: type, msg1: msg, from_fullname1: from_fullname, date1: date, unique_id1: unique_id)
                         
                     }
+                    
+                default: print("failed errorr")
+                    
                 }
                 
-                default: print("doneeee...")
+                
         
-        
+      //default: print("doneeee...")
     }
     }
     func application(application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: NSError) {
