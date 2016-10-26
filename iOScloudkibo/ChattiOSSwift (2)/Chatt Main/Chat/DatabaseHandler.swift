@@ -1305,11 +1305,14 @@ print("--------")
         let membership_status = Expression<String>("membership_status")
         let date_joined = Expression<NSDate>("date_joined")
         let date_left = Expression<NSDate>("date_left")
+        let group_member_displayname = Expression<String>("group_member_displayname")
+        
         
         self.group_member = Table("group_member")
         do{
             try db.run(group_member.create(ifNotExists: retainOldDatabase) { t in
                 t.column(group_unique_id)
+                t.column(group_member_displayname)
                 t.column(member_phone)
                 t.column(isAdmin)
                 t.column(membership_status)
@@ -1498,9 +1501,10 @@ print("--------")
         
     }
     
-    func storeMembers(group_uniqueid1:String,member_phone1:String,isAdmin1:String,membershipStatus1:String,date_joined1:NSDate)
+    func storeMembers(group_uniqueid1:String,member_displayname1:String,member_phone1:String,isAdmin1:String,membershipStatus1:String,date_joined1:NSDate)
     {
         let group_unique_id = Expression<String>("group_unique_id")
+        let group_member_displayname = Expression<String>("group_member_displayname")
         let member_phone = Expression<String>("member_phone")
         let isAdmin = Expression<String>("isAdmin")
         let membership_status = Expression<String>("membership_status")//joined or left

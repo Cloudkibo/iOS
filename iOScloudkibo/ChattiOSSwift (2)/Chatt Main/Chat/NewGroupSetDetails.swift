@@ -9,7 +9,7 @@
 //import Cocoa
 import Contacts
 import Alamofire
-
+import SQLite
 class NewGroupSetDetails: UITableViewController,UINavigationControllerDelegate,UIImagePickerControllerDelegate{
 
     var uniqueid=""
@@ -69,6 +69,26 @@ class NewGroupSetDetails: UITableViewController,UINavigationControllerDelegate,U
         print("members are \(members.debugDescription)")
         
         sqliteDB.storeGroups(groupname, groupicon1: imgdata, datecreation1: NSDate(), uniqueid1: uid as String)
+        
+        let firstname = Expression<String>("firstname")
+        
+        
+        
+        let tbl_accounts = sqliteDB.accounts
+        do{for account in try sqliteDB.db.prepare(tbl_accounts) {
+            username=account[username1]
+            //displayname=account[firstname]
+            
+            }
+        }
+        catch
+        {
+            if(socketObj != nil){
+                socketObj.socket.emit("error getting data from accounts table")
+            }
+            print("error in getting data from accounts table")
+            
+        }
         
         sqliteDB.storeMembers(uniqueid, member_phone1: username!, isAdmin1: "Yes", membershipStatus1: "joined", date_joined1: NSDate.init())
         

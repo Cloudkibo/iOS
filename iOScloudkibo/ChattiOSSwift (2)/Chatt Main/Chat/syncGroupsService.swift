@@ -36,8 +36,12 @@ class syncGroupService
                    if(groupinfo != nil)
                    {
                     self.fullRefreshGroupsInfo(groupinfo){ (result,error) in
+                       
                         
-                        self.fullRefreshMembersInfo(groupinfo){ (result,error) in
+                        self.SyncGroupMembersAPI(){(result,error,groupinfo) in
+                            print("...")
+                        }
+                       /* self.fullRefreshMembersInfo(groupinfo){ (result,error) in
                             print("sync groups data done")
                             if(result == true)
                             {
@@ -46,7 +50,7 @@ class syncGroupService
                             else{
                                 return completion(result: false, error: error)
                             }
-                        }
+                        }*/
                     
                     }}
                     else
@@ -132,8 +136,82 @@ class syncGroupService
         return completion(result: true, error: nil)
     }
     
-    func fullRefreshMembersInfo(groupInfo:JSON,completion:(result:Bool,error:String!)->())
+    func SyncGroupMembersAPI(completion:(result:Bool,error:String!,groupinfo:JSON!)->())
     {
+        
+        //  let isMute = Expression<Bool>("isMute")
+        
+        var jsongroupinfo:JSON!=nil
+        print("inside group info function")
+        var url=Constants.MainUrl+Constants.fetchmygroupmembers
+        print(url.debugDescription)
+        /*
+         'kibo-app-id' : '5wdqvvi8jyvfhxrxmu73dxun9za8x5u6n59',
+         'kibo-app-secret': 'jcmhec567tllydwhhy2z692l79j8bkxmaa98do1bjer16cdu5h79xvx',
+         'kibo-client-id': 'cd89f71715f2014725163952',
+         */
+        //var header:[String:String]=["kibo-app-id":DatabaseObjectInitialiser.getInstance().appid,"kibo-app-secret":DatabaseObjectInitialiser.getInstance().secretid,"kibo-client-id":DatabaseObjectInitialiser.getInstance().clientid]
+        var hhh=["headers":"\(header)"]
+        print(header.description)
+        Alamofire.request(.GET,"\(url)",headers:header).validate().responseJSON { response in
+            print(response)
+            if(response.result.isSuccess)
+            {
+                print("group members got success")
+                print(response.result.value)
+                jsongroupinfo=JSON(response.result.value!)
+                print(jsongroupinfo)
+                
+                for(var i=0;i<jsongroupinfo.count;i++)
+                {
+                    /*
+                     "__v" = 0;
+                     "_id" = 58109ac9bd172a020ab9180b;
+                     "date_join" = "2016-10-26T12:00:09.309Z";
+                     "display_name" = sumaira;
+                     "group_unique_id" = 58109ac9bd172a020ab9180a;
+                     isAdmin = Yes;
+                     "member_phone" = "+923333864540";
+                     "membership_status" = joined;
+                     */
+                    
+                    //groupInfo[i]["group_unique_id"]
+                    var _id=jsongroupinfo[i]["_id"].string!
+                    var group_id=jsongroupinfo[i]["group_unique_id"]["unique_id"].string
+                    var date_join=jsongroupinfo[i]["date_join"].string!
+                    var isAdmin=jsongroupinfo[i]["isAdmin"].string
+                    var member_phone=jsongroupinfo[i]["member_phone"].string!
+                    var membership_status=jsongroupinfo[i]["membership_status"].string!
+                    
+                    
+                    
+                    let dateFormatter = NSDateFormatter()
+                    dateFormatter.timeZone=NSTimeZone.localTimeZone()
+                    dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
+                    //  let datens2 = dateFormatter.dateFromString(date2.debugDescription)
+                    //2016-09-18T19:13:00.588Z
+                    let datens2 = dateFormatter.dateFromString(date_join)
+                    
+                    
+                    sqliteDB.storeMembers(group_id!, member_phone1: member_phone, isAdmin1: isAdmin!, membershipStatus1: membership_status, date_joined1: datens2!)
+                }
+               
+                return completion(result:true,error: nil,groupinfo: jsongroupinfo)
+                
+            }
+            else{
+                return completion(result:true,error: "API synch groups failed",groupinfo: jsongroupinfo)
+                
+            }
+        }
+        
+        return completion(result:true,error: "Fetch group info API failed",groupinfo: jsongroupinfo)
+    }
+    
+   /* func fullRefreshMembersInfo(groupInfo:JSON,completion:(result:Bool,error:String!)->())
+    {
+        
+        
         var tbl_Groups_Members=sqliteDB.group_member
         
         
@@ -188,7 +266,7 @@ class syncGroupService
 
         
     }
-    
+    */
     
     
     

@@ -373,7 +373,6 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
      
         
         
-        
         return true
         
     }
