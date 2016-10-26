@@ -1611,6 +1611,7 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
                         
                         print("fetched group info")
                        })*/
+                        //fetch members of group
                     }
                 if(type=="group:chat_received")
                 {
@@ -1749,10 +1750,10 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
                         var type=chatJson["type"].string!
                         var msg=chatJson["msg"].string!
                         var from_fullname=chatJson["from_fullname"].string!
-                        var date=chatJson["date"] as! NSDate
+                       // var date=chatJson["date"] as! NSDate
                         var unique_id=chatJson["unique_id"].string!
                         
-                        sqliteDB.storeGroupsChat(from, group_unique_id1: group_unique_id, type1: type, msg1: msg, from_fullname1: from_fullname, date1: date, unique_id1: unique_id)
+                        sqliteDB.storeGroupsChat(from, group_unique_id1: group_unique_id, type1: type, msg1: msg, from_fullname1: from_fullname, date1: datens2!, unique_id1: unique_id)
                         
                     }
                     

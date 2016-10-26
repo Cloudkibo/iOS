@@ -1516,6 +1516,7 @@ print("--------")
         do {
             let rowid = try db.run(group_member.insert(
                 group_unique_id<-group_uniqueid1,
+                group_member_displayname<-member_displayname1,
                 member_phone<-member_phone1,
                 isAdmin<-isAdmin1,
                 membership_status<-membershipStatus1,

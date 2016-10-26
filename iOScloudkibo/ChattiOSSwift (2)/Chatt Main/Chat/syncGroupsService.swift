@@ -10,6 +10,7 @@ import Foundation
 import AccountKit
 import SwiftyJSON
 import Alamofire
+import SQLite
 class syncGroupService
 {
     
@@ -177,7 +178,9 @@ class syncGroupService
                     
                     //groupInfo[i]["group_unique_id"]
                     var _id=jsongroupinfo[i]["_id"].string!
-                    var group_id=jsongroupinfo[i]["group_unique_id"]["unique_id"].string
+                    var group_id=jsongroupinfo[i]["group_unique_id"].string
+                    var membername=jsongroupinfo[i]["display_name"].string
+                   
                     var date_join=jsongroupinfo[i]["date_join"].string!
                     var isAdmin=jsongroupinfo[i]["isAdmin"].string
                     var member_phone=jsongroupinfo[i]["member_phone"].string!
@@ -191,9 +194,28 @@ class syncGroupService
                     //  let datens2 = dateFormatter.dateFromString(date2.debugDescription)
                     //2016-09-18T19:13:00.588Z
                     let datens2 = dateFormatter.dateFromString(date_join)
+                    /*let firstname = Expression<String>("firstname")
                     
+                    var myname=""
+                    let tbl_accounts = sqliteDB.accounts
+                    do{for account in try sqliteDB.db.prepare(tbl_accounts) {
+                        myname=account[firstname]
+                        //displayname=account[firstname]
+                        
+                        }
+                    }
+                    catch
+                    {
+                        if(socketObj != nil){
+                            socketObj.socket.emit("error getting data from accounts table")
+                        }
+                        print("error in getting data from accounts table")
+                        
+                    }
+                    */
+
                     
-                    sqliteDB.storeMembers(group_id!, member_phone1: member_phone, isAdmin1: isAdmin!, membershipStatus1: membership_status, date_joined1: datens2!)
+                    sqliteDB.storeMembers(group_id!,member_displayname1: membername!, member_phone1: member_phone, isAdmin1: isAdmin!, membershipStatus1: membership_status, date_joined1: datens2!)
                 }
                
                 return completion(result:true,error: nil,groupinfo: jsongroupinfo)

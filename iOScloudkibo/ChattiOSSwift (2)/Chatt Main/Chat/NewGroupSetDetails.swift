@@ -72,11 +72,10 @@ class NewGroupSetDetails: UITableViewController,UINavigationControllerDelegate,U
         
         let firstname = Expression<String>("firstname")
         
-        
-        
+        var myname=""
         let tbl_accounts = sqliteDB.accounts
         do{for account in try sqliteDB.db.prepare(tbl_accounts) {
-            username=account[username1]
+            myname=account[firstname]
             //displayname=account[firstname]
             
             }
@@ -90,7 +89,7 @@ class NewGroupSetDetails: UITableViewController,UINavigationControllerDelegate,U
             
         }
         
-        sqliteDB.storeMembers(uniqueid, member_phone1: username!, isAdmin1: "Yes", membershipStatus1: "joined", date_joined1: NSDate.init())
+        sqliteDB.storeMembers(uniqueid,member_displayname1: myname,member_phone1: username!, isAdmin1: "Yes", membershipStatus1: "joined", date_joined1: NSDate.init())
         
         for(var i=0;i<members.count;i++)
         {
@@ -103,7 +102,8 @@ class NewGroupSetDetails: UITableViewController,UINavigationControllerDelegate,U
                 
             }
             else{
-            sqliteDB.storeMembers(uniqueid, member_phone1: members[i], isAdmin1: "Yes", membershipStatus1: "joined", date_joined1: NSDate.init())
+                
+            sqliteDB.storeMembers(uniqueid,member_displayname1: myname, member_phone1: members[i], isAdmin1: "Yes", membershipStatus1: "joined", date_joined1: NSDate.init())
             }
             
         }

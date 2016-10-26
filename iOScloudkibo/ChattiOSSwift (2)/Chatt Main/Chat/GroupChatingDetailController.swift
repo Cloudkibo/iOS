@@ -180,6 +180,7 @@ class GroupChatingDetailController: UIViewController {
             ////print("queryy runned count is \(tbl_contactslists.count)")
             for tblContacts in try sqliteDB.db.prepare(tbl_userchats.filter(group_unique_id==groupid1).order(date.asc)){
                 
+                print("data of group table chat got is \(tblContacts)")
                 //print("===fetch date from database is tblContacts[date] \(tblContacts[date])")
                 /*
                  var formatter = NSDateFormatter();
@@ -268,7 +269,7 @@ class GroupChatingDetailController: UIViewController {
                         }
                         else
                         {*/
-                            messages2.addObject(["message":tblContacts[msg], "type":"2", "fromFullName":tblContacts[from_fullname],"date":defaultTimeeee, "uniqueid":tblContacts[unique_id]])
+                            messages2.addObject(["msg":tblContacts[msg], "type":"2", "fromFullName":tblContacts[from_fullname],"date":defaultTimeeee, "uniqueid":tblContacts[unique_id]])
                             
                             
                             //^^^^self.addMessage(tblContacts[msg]+" (\(tblContacts[status])) ", ofType: "2",date: tblContacts[date],uniqueid: tblContacts[uniqueid])
@@ -300,7 +301,7 @@ class GroupChatingDetailController: UIViewController {
                     else
                     {*/
                         
-                    messages2.addObject(["message":tblContacts[msg], "type":"1", "fromFullName":tblContacts[from_fullname],"date":defaultTimeeee, "uniqueid":tblContacts[unique_id]])
+                    messages2.addObject(["msg":tblContacts[msg], "type":"1", "fromFullName":tblContacts[from_fullname],"date":defaultTimeeee, "uniqueid":tblContacts[unique_id]])
                     
                     
                     
@@ -382,6 +383,7 @@ class GroupChatingDetailController: UIViewController {
         
         if(msgType.isEqual("2"))
         {
+            print("my msg \(msg)")
             //i am sender
             var cell = tblForGroupChat.dequeueReusableCellWithIdentifier("ChatReceivedCell")! as UITableViewCell
             let msgLabel = cell.viewWithTag(12) as! UILabel
@@ -392,6 +394,8 @@ class GroupChatingDetailController: UIViewController {
         //if(msgType.isEqual("1"))
         
         else{
+
+            print("got sender msg \(msg)")
             var cell = tblForGroupChat.dequeueReusableCellWithIdentifier("ChatSentCell")! as UITableViewCell
             let nameLabel = cell.viewWithTag(15) as! UILabel
             nameLabel.textColor=UIColor.blueColor()
