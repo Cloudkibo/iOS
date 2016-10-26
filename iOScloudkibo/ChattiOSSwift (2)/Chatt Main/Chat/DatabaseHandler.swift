@@ -1413,6 +1413,40 @@ print("--------")
         
     }
     
+    func storeGroupsChat(from1:String,group_unique_id1:String,type1:String,msg1:String,from_fullname1:String,date1:NSDate,unique_id1:String)
+    {
+        let from = Expression<String>("from")
+        let group_unique_id = Expression<String>("group_unique_id")
+        let type = Expression<String>("type")
+        let msg = Expression<String>("msg")
+        let from_fullname = Expression<String>("from_fullname")
+        let date = Expression<NSDate>("date")
+        let unique_id = Expression<String>("unique_id")
+        
+        self.group_chat = Table("group_chat")
+        
+        do {
+            let rowid = try db.run(group_chat.insert(
+                from<-from1,
+                group_unique_id<-group_unique_id1,
+                type<-type1,
+                msg<-msg1,
+                from_fullname<-from_fullname1,
+                date<-date1,
+                unique_id<-unique_id1
+                
+                ))
+            
+            if(socketObj != nil)
+            {
+                socketObj.socket.emit("logClient","IPHONE-LOG: group chat saved in sqliteDB")
+            }
+            print("inserted id groupchat : \(rowid)")
+        } catch {
+            print("insertion failed: groupchat \(error)")
+        }
+    }
+    
     func storeGroups(groupname1:String,groupicon1:NSData!,datecreation1:NSDate,uniqueid1:String)
     {
         

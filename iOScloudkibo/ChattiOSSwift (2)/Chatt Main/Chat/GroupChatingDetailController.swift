@@ -12,8 +12,8 @@ import SQLite
 
 class GroupChatingDetailController: UIViewController {
     
-    
-    
+    var mytitle=""
+    var groupid1=""
     var messages:NSMutableArray!
     @IBOutlet var tblForGroupChat: UITableView!
     
@@ -22,12 +22,113 @@ class GroupChatingDetailController: UIViewController {
 
     @IBAction func btnSendTapped(sender: AnyObject){
         
+        var uniqueid_chat=generateUniqueid()
+        var date=getDateString(NSDate())
+        messages.addObject(["msg":txtFieldMessage.text!, "type":"2", "fromFullName":"","date":date,"uniqueid":uniqueid_chat])
+        
+        
+        //save chat
+        sqliteDB.storeGroupsChat(username!, group_unique_id1: groupid1, type1: "chat", msg1: txtFieldMessage.text!, from_fullname1: username!, date1: NSDate(), unique_id1: uniqueid_chat)
+        
+        txtFieldMessage.text = "";
+        tblForGroupChat.reloadData()
+        if(messages.count>1)
+        {
+            var indexPath = NSIndexPath(forRow:messages.count-1, inSection: 0)
+            tblForGroupChat.scrollToRowAtIndexPath(indexPath, atScrollPosition: UITableViewScrollPosition.Bottom, animated: true)
+            
+        }
+        
+        /////// dispatch_async(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED,0))
+        ////// {
+        
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT,0))
+        {
+            print("messages count before sending msg is \(self.messages.count)")
+            self.sendChatMessage(self.groupid1, from: username!, type: "chat", msg: self.txtFieldMessage.text!, fromFullname: username!, uniqueidChat: uniqueid_chat, completion: { (result) in
+                
+                print("chat sent")
+            })
+        }
+        
     
+    }
+    
+    func sendChatMessage(group_id:String,from:String,type:String,msg:String,fromFullname:String,uniqueidChat:String,completion:(result:Bool)->())
+    {
+        // let queue=dispatch_get_global_queue(QOS_CLASS_USER_INITIATED,0)
+        // let queue = dispatch_queue_create("com.kibochat.manager-response-queue", DISPATCH_QUEUE_CONCURRENT)
+        var url=Constants.MainUrl+Constants.sendChatURL
+        /*  let request = Alamofire.request(.POST, "\(url)", parameters: chatstanza,headers:header)
+         request.response(
+         queue: queue,
+         responseSerializer: Request.JSONResponseSerializer(options: .AllowFragments),
+         completionHandler: { response in
+         */
+        
+        //group_unique_id = <group_unique_id>, from, type, msg, from_fullname, unique_id
+        
+        let request = Alamofire.request(.POST, "\(url)", parameters: ["group_id":group_id,"from":from,"type":type,"msg":msg,"fromFullname":fromFullname,"uniqueidChat":uniqueidChat],headers:header).responseJSON { response in
+            // You are now running on the concurrent `queue` you created earlier.
+            //print("Parsing JSON on thread: \(NSThread.currentThread()) is main thread: \(NSThread.isMainThread())")
+            
+            // Validate your JSON response and convert into model objects if necessary
+            //print(response.result.value) //status, uniqueid
+            
+            // To update anything on the main thread, just jump back on like so.
+            //print("\(chatstanza) ..  \(response)")
+            if(response.response?.statusCode==200)
+            {
+                
+                //print("chat ack received")
+                var statusNow="sent"
+                ///var chatmsg=JSON(data)
+                /// //print(data[0])
+                /////print(chatmsg[0])
+                //print("chat sent unikque id \(chatstanza["uniqueid"])")
+                
+              //  sqliteDB.UpdateChatStatus(chatstanza["uniqueid"]!, newstatus: "sent")
+                
+                
+                
+                
+                
+                
+                /////    dispatch_async(dispatch_get_main_queue()) {
+                //print("Am I back on the main thread: \(NSThread.isMainThread())")
+                
+                print("MAINNNNNNNNNNNN")
+                completion(result: true)
+                //self.retrieveChatFromSqlite(self.selectedContact)
+                
+                
+                
+                
+                /////// }
+            }
+        }//)
+        
+    }
+    
+
+    
+    override func viewWillAppear(animated: Bool) {
+        self.navigationController?.title=mytitle
+        
     }
     
     override func viewDidLoad() {
         messages=NSMutableArray()
         
+    }
+    
+    func getDateString(datetime:NSDate)->String
+    {
+        var formatter2 = NSDateFormatter();
+        formatter2.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSS"
+        formatter2.timeZone = NSTimeZone.localTimeZone()
+        var defaultTimeeee = formatter2.stringFromDate(datetime)
+        return defaultTimeeee
     }
     
     
@@ -37,19 +138,16 @@ class GroupChatingDetailController: UIViewController {
         ///^^messages.removeAllObjects()
         var messages2=NSMutableArray()
         
-        let to = Expression<String>("to")
         let from = Expression<String>("from")
-        let owneruser = Expression<String>("owneruser")
-        let fromFullName = Expression<String>("fromFullName")
-        let msg = Expression<String>("msg")
-        let date = Expression<NSDate>("date")
-        let status = Expression<String>("status")
-        let uniqueid = Expression<String>("uniqueid")
+        let group_unique_id = Expression<String>("group_unique_id")
         let type = Expression<String>("type")
-        let file_type = Expression<String>("file_type")
+        let msg = Expression<String>("msg")
+        let from_fullname = Expression<String>("from_fullname")
+        let date = Expression<NSDate>("date")
+        let unique_id = Expression<String>("unique_id")
         
-        var tbl_userchats=sqliteDB.userschats
-        var res=tbl_userchats.filter(to==selecteduser || from==selecteduser)
+        var tbl_userchats=sqliteDB.group_chat
+        var res=tbl_userchats.filter(group_unique_id==groupid1)
         //to==selecteduser || from==selecteduser
         //print("chat from sqlite is")
         //print(res)
@@ -58,7 +156,7 @@ class GroupChatingDetailController: UIViewController {
             
             //for tblContacts in try sqliteDB.db.prepare(tbl_userchats.filter(owneruser==owneruser1)){
             ////print("queryy runned count is \(tbl_contactslists.count)")
-            for tblContacts in try sqliteDB.db.prepare(tbl_userchats.filter(to==selecteduser || from==selecteduser).order(date.asc)){
+            for tblContacts in try sqliteDB.db.prepare(tbl_userchats.filter(group_unique_id==groupid1).order(date.asc)){
                 
                 //print("===fetch date from database is tblContacts[date] \(tblContacts[date])")
                 /*
@@ -122,7 +220,7 @@ class GroupChatingDetailController: UIViewController {
                     
                 {//type1
                     /////print("statussss is \(tblContacts[status])")
-                    if(tblContacts[file_type]=="image")
+                   /* if(tblContacts[file_type]=="image")
                     {
                         
                         //  self.addUploadInfo(selectedContact, uniqueid1: tblContacts[uniqueid], rowindex: messages.count, uploadProgress: 1, isCompleted: true)
@@ -147,18 +245,18 @@ class GroupChatingDetailController: UIViewController {
                             
                         }
                         else
-                        {
-                            messages2.addObject(["message":tblContacts[msg]+" (\(tblContacts[status])) ", "type":"2", "date":defaultTimeeee, "uniqueid":tblContacts[uniqueid]])
+                        {*/
+                            messages2.addObject(["message":tblContacts[msg], "type":"2", "fromFullName":tblContacts[from_fullname],"date":defaultTimeeee, "uniqueid":tblContacts[unique_id]])
                             
                             
                             //^^^^self.addMessage(tblContacts[msg]+" (\(tblContacts[status])) ", ofType: "2",date: tblContacts[date],uniqueid: tblContacts[uniqueid])
-                        }
-                    }
+                       // }
+                    //}
                 }
                 else
                 {//type2
                     //// //print("statussss is \(tblContacts[status])")
-                    if(tblContacts[file_type]=="image")
+                    /*if(tblContacts[file_type]=="image")
                     {
                         //  self.addUploadInfo(selectedContact, uniqueid1: tblContacts[uniqueid], rowindex: messages.count, uploadProgress: 1, isCompleted: true)
                         messages2.addObject(["message":tblContacts[msg], "type":"3", "date":defaultTimeeee, "uniqueid":tblContacts[uniqueid]])
@@ -178,14 +276,16 @@ class GroupChatingDetailController: UIViewController {
                         
                     }
                     else
-                    {
+                    {*/
                         
-                        messages2.addObject(["message":tblContacts[msg], "type":"1", "date":defaultTimeeee, "uniqueid":tblContacts[uniqueid]])
-                        
+                    messages2.addObject(["message":tblContacts[msg], "type":"1", "fromFullName":tblContacts[from_fullname],"date":defaultTimeeee, "uniqueid":tblContacts[unique_id]])
+                    
+                    
+                    
                         
                         ///^^^ self.addMessage(tblContacts[msg], ofType: "1", date: tblContacts[date],uniqueid: tblContacts[uniqueid])
-                        }
-                    }
+                      //  }
+                    //}
                     
                 }
                 /* if(self.messages.count>1)
@@ -235,7 +335,7 @@ class GroupChatingDetailController: UIViewController {
     
     }
      func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 4
+        return messages.count
     }
      func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
         
@@ -248,22 +348,40 @@ class GroupChatingDetailController: UIViewController {
     
      func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         
-        if(indexPath.row==0)
+        var messageDic = messages.objectAtIndex(indexPath.row) as! [String : String];
+        NSLog(messageDic["message"]!, 1)
+        let msgType = messageDic["type"] as NSString!
+        let msg = messageDic["msg"] as NSString!
+        let date2=messageDic["date"] as NSString!
+        let fullname=messageDic["fromFullName"] as NSString!
+        //let sizeOFStr = self.getSizeOfString(msg)
+        let uniqueidDictValue=messageDic["uniqueid"] as NSString!
+        
+        
+        if(msgType.isEqual("2"))
         {
-        var cell = tblForGroupChat.dequeueReusableCellWithIdentifier("ChatSentCell")! as UITableViewCell
-            let nameLabel = cell.viewWithTag(15) as! UILabel
-            nameLabel.text="Sojharo"
-        return cell
-        }
-        if(indexPath.row==1)
-        {
+            //i am sender
             var cell = tblForGroupChat.dequeueReusableCellWithIdentifier("ChatReceivedCell")! as UITableViewCell
             let msgLabel = cell.viewWithTag(12) as! UILabel
-            msgLabel.text="Hello people!"
+            msgLabel.text=msg as! String
+            return cell
+        
+        }
+        //if(msgType.isEqual("1"))
+        
+        else{
+            var cell = tblForGroupChat.dequeueReusableCellWithIdentifier("ChatSentCell")! as UITableViewCell
+            let nameLabel = cell.viewWithTag(15) as! UILabel
+            nameLabel.textColor=UIColor.blueColor()
+            nameLabel.text=fullname as! String
+            let msgLabel = cell.viewWithTag(12) as! UILabel
+            msgLabel.text=msg as! String
+            
             return cell
 
+
         }
-        if(indexPath.row==2)
+       /* if(indexPath.row==2)
         {
             var cell = tblForGroupChat.dequeueReusableCellWithIdentifier("ChatSentCell")! as UITableViewCell
             let nameLabel = cell.viewWithTag(15) as! UILabel
@@ -294,10 +412,46 @@ class GroupChatingDetailController: UIViewController {
             let msgLabel = cell.viewWithTag(12) as! UILabel
             msgLabel.text="Yes. I am done"
             return cell
-        }
+        }*/
         
     }
     
+    func randomStringWithLength (len : Int) -> NSString {
+        
+        let letters : NSString = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
+        
+        let randomString : NSMutableString = NSMutableString(capacity: len)
+        
+        for (var i=0; i < len; i++){
+            let length = UInt32 (letters.length)
+            let rand = arc4random_uniform(length)
+            randomString.appendFormat("%C", letters.characterAtIndex(Int(rand)))
+        }
+        
+        return randomString
+    }
+
+    
+    func generateUniqueid()->String
+    {
+        
+        var uid=randomStringWithLength(7)
+        
+        var date=NSDate()
+        var calendar = NSCalendar.currentCalendar()
+        var year=calendar.components(NSCalendarUnit.Year,fromDate: date).year
+        var month=calendar.components(NSCalendarUnit.Month,fromDate: date).month
+        var day=calendar.components(.Day,fromDate: date).day
+        var hr=calendar.components(NSCalendarUnit.Hour,fromDate: date).hour
+        var min=calendar.components(NSCalendarUnit.Minute,fromDate: date).minute
+        var sec=calendar.components(NSCalendarUnit.Second,fromDate: date).second
+        print("\(year) \(month) \(day) \(hr) \(min) \(sec)")
+        var uniqueid="\(uid)\(year)\(month)\(day)\(hr)\(min)\(sec)"
+        
+        return uniqueid
+        
+
+    }
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         
         

@@ -12,7 +12,7 @@ import Alamofire
 
 class NewGroupSetDetails: UITableViewController,UINavigationControllerDelegate,UIImagePickerControllerDelegate{
 
-    
+    var uniqueid=""
     var groupname=""
    /// @IBOutlet weak var txtFieldGroupName: UITextField!
     var imgdata=NSData.init()
@@ -48,7 +48,7 @@ class NewGroupSetDetails: UITableViewController,UINavigationControllerDelegate,U
         var min=calendar.components(NSCalendarUnit.Minute,fromDate: date).minute
         var sec=calendar.components(NSCalendarUnit.Second,fromDate: date).second
         print("\(year) \(month) \(day) \(hr) \(min) \(sec)")
-        var uniqueid="\(uid)\(year)\(month)\(day)\(hr)\(min)\(sec)"
+        uniqueid="\(uid)\(year)\(month)\(day)\(hr)\(min)\(sec)"
         
 
         print("saving in database")
@@ -579,5 +579,15 @@ extension NewGroupSetDetails: UICollectionViewDelegate, UICollectionViewDataSour
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         
         
+        //groupChatStartSegue
+        if segue.identifier == "groupChatStartSegue" {
+            
+            if let destinationVC = segue.destinationViewController as? GroupChatingDetailController{
+                destinationVC.mytitle=groupname
+                destinationVC.groupid1=uniqueid
+                //destinationVC.navigationItem.leftBarButtonItem?.enabled=false
+                //destinationVC.navigationItem.rightBarButtonItem?.image=nil
+                //destinationVC.navigationItem.rightBarButtonItem?.enabled=false
+            }}
     }
 }

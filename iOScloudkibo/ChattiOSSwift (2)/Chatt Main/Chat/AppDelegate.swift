@@ -1613,6 +1613,21 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
                         print("fetched group info")
                        })*/
                     }
+                if(type=="group:chat_received")
+                {
+                    
+                  
+                     var senderId=userInfo["senderId"] as? String  //from
+                     var groupId=userInfo["groupId"] as? String
+                     var msg_type=userInfo["msg_type"] as? String
+                     var unique_id=userInfo["unique_id"] as? String
+                    
+                    self.fetchSingleGroupChatMessage(unique_id!)
+                    
+                   
+                    
+
+                }
                 //}
             }
             
@@ -1661,6 +1676,92 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
     */
     
    
+    func fetchSingleGroupChatMessage(uniqueidMsg:String)
+    {
+           print("uniqueid of group single chat is \(uniqueidMsg)")
+            
+            //======GETTING REST API TO GET CURRENT USER=======================
+            
+            print("inside fetch single chat")
+            if(accountKit == nil){
+                accountKit = AKFAccountKit(responseType: AKFResponseType.AccessToken)
+            }
+            
+            if (accountKit!.currentAccessToken == nil) {
+                
+                print("inside etch single 1462")
+                //specify AKFResponseType.AccessToken
+                accountKit = AKFAccountKit(responseType: AKFResponseType.AccessToken)
+                accountKit.requestAccount{
+                    (account, error) -> Void in
+                    
+                    
+                    
+                    
+                    //**********
+                    
+                    if(account != nil){
+                        //  var url=Constants.MainUrl+Constants.getContactsList
+                        
+                        let header:[String:String]=["kibo-token":(accountKit!.currentAccessToken!.tokenString)]
+                        
+                        
+                    }
+                    
+                }
+            }
+            var fetchSingleMsgURL=Constants.MainUrl+Constants.fetchSingleGroupChat
+            
+            
+            //var getUserDataURL=userDataUrl
+            
+            Alamofire.request(.POST,"\(fetchSingleMsgURL)",parameters: ["unique_id":uniqueidMsg],headers:header).validate(statusCode: 200..<300).responseJSON{response in
+                
+                
+                switch response.result {
+                case .Success:
+                    if let data1 = response.result.value {
+                        /*
+                         from
+                         group_unique_id
+                         type (log or chat)
+                         msg
+                         from_fullname
+                         date
+                         unique_id
+ */
+                        
+                        var chatJson = JSON(data1)
+                        chatJson=chatJson["msg"]
+                        print("JSON single chat: \(chatJson)")
+                       // print("JSON single chat to is: \(chatJson[0]["to"].string!)")
+                       // var status="delivered"
+                        
+                        let dateFormatter = NSDateFormatter()
+                        dateFormatter.timeZone=NSTimeZone.localTimeZone()
+                        dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
+                        //  let datens2 = dateFormatter.dateFromString(date2.debugDescription)
+                        //2016-09-18T19:13:00.588Z
+                        let datens2 = dateFormatter.dateFromString(chatJson[0]["date"].string!)
+                        
+                        var from=chatJson[0]["from"].string!
+                        var group_unique_id=chatJson[0]["group_unique_id"].string!
+                        var type=chatJson[0]["type"].string!
+                        var msg=chatJson[0]["msg"].string!
+                        var from_fullname=chatJson[0]["from_fullname"].string!
+                        var date=chatJson[0]["date"] as! NSDate
+                        var unique_id=chatJson[0]["unique_id"].string!
+                        
+                        sqliteDB.storeGroupsChat(from, group_unique_id1: group_unique_id, type1: type, msg1: msg, from_fullname1: from_fullname, date1: date, unique_id1: unique_id)
+                        
+                    }
+                }
+                
+                default: print("doneeee...")
+        
+        
+    }
+    }
     func application(application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: NSError) {
         
         print("registered for notification error", terminator: "")
