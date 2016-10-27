@@ -5116,7 +5116,7 @@
                     <connections>
                         <outlet property="tblGroupInfo" destination="LP1-sz-qZs" id="CsZ-ge-aew"/>
                         <outlet property="view" destination="LP1-sz-qZs" id="s8y-eb-0IG"/>
-                        <segue destination="YH8-pY-Wmo" kind="push" identifier="newGroupDetailsSegue2" id="Aba-99-G71"/>
+                        <segue destination="YH8-pY-Wmo" kind="push" identifier="" id="Aba-99-G71"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="623-Tf-xJ9" userLabel="First Responder" sceneMemberID="firstResponder"/>

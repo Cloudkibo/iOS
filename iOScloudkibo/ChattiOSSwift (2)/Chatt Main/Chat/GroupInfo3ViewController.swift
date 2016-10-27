@@ -19,7 +19,7 @@ var btnNewGroup:UIButton!
 class GroupInfo3ViewController: UIViewController,CNContactPickerDelegate,
 EPPickerDelegate,SWTableViewCellDelegate {
 
-    var uniqueid=""
+    //var uniqueid=""
     var singleGroupInfo=[String:AnyObject!]()
     var messages:NSMutableArray!
    // var membersnames=[String]()
@@ -45,7 +45,7 @@ EPPickerDelegate,SWTableViewCellDelegate {
     
     func retrieveChatFromSqlite(completion:(result:Bool)->())
     {
-        //print("retrieveChatFromSqlite called---------")
+       print("retrieveChatFromSqlite called---------")
         ///^^messages.removeAllObjects()
         var messages2=NSMutableArray()
         
@@ -161,7 +161,7 @@ EPPickerDelegate,SWTableViewCellDelegate {
         //create group
         //save data in sqlite
         
-        var uid=randomStringWithLength(7)
+        /*var uid=randomStringWithLength(7)
         
         var date=NSDate()
         var calendar = NSCalendar.currentCalendar()
@@ -173,7 +173,7 @@ EPPickerDelegate,SWTableViewCellDelegate {
         var sec=calendar.components(NSCalendarUnit.Second,fromDate: date).second
         print("\(year) \(month) \(day) \(hr) \(min) \(sec)")
         uniqueid="\(uid)\(year)\(month)\(day)\(hr)\(min)\(sec)"
-        
+        */
         
         print("saving in database")
         
@@ -242,7 +242,7 @@ EPPickerDelegate,SWTableViewCellDelegate {
         {
             memberphones.append(participantsSelected[i].getPhoneNumber())
         }
-        addGroupMembersAPI(memberphones,uniqueid: uniqueid)
+        addGroupMembersAPI(memberphones,uniqueid: groupid)
         //send to server
         
         //segue to chat page

@@ -1758,17 +1758,26 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
             switch response.result {
             case .Success:
                 if let data1 = response.result.value {
+                    print("fetch single group \(response.result.value)")
                     print(data1)
                     print(JSON(data1))
                     var groupSingleInfo=JSON(data1)
-                    
-                    var unique_id=groupSingleInfo["group_unique_id"]["unique_id"].string!
-                    var group_name=groupSingleInfo["group_unique_id"]["group_name"].string!
-                    var date_creation=groupSingleInfo["group_unique_id"]["date_creation"].string!
+                    /*
+                     {
+                     "date_creation" : "2016-10-27T13:28:35.824Z",
+                     "__v" : 0,
+                     "_id" : "5812010383bb76fd433ef983",
+                     "group_name" : "group B",
+                     "unique_id" : "nIjWWER20161027182834"
+                     }
+                     */
+                    var unique_id=groupSingleInfo[0]["unique_id"].string!
+                    var group_name=groupSingleInfo[0]["group_name"].string!
+                    var date_creation=groupSingleInfo[0]["date_creation"].string!
                     var group_icon=NSData()
-                    if(groupSingleInfo["group_unique_id"]["group_icon"] != nil)
+                    if(groupSingleInfo[0]["group_icon"] != nil)
                     {
-                        group_icon=groupSingleInfo["group_unique_id"]["group_icon"] as! NSData
+                        group_icon=groupSingleInfo[0]["group_icon"] as! NSData
                     }
                     
                     let dateFormatter = NSDateFormatter()
