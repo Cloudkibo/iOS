@@ -15,10 +15,11 @@ import Alamofire
 var participantsSelected=[EPContact]()
 var picker:CNContactPickerViewController!
 var btnNewGroup:UIButton!
-
+var btnRetryAddMember:UIButton!
 class GroupInfo3ViewController: UIViewController,CNContactPickerDelegate,
 EPPickerDelegate,SWTableViewCellDelegate {
 
+    var addmemberfailed=false
     //var uniqueid=""
     var singleGroupInfo=[String:AnyObject!]()
     var messages:NSMutableArray!
@@ -88,7 +89,11 @@ EPPickerDelegate,SWTableViewCellDelegate {
     }
     
     
-    
+    func BtnTryAgainTapped(sender:UIButton)
+    {
+        print("inside groupaddmember try again func")
+    addToGroup()
+    }
     func BtnnewGroupClicked(sender:UIButton)
     {
         
@@ -109,6 +114,8 @@ EPPickerDelegate,SWTableViewCellDelegate {
         
         // Respond to selection
         picker.delegate = self;
+        
+           addmemberfailed=true
         self.presentViewController(picker, animated: true, completion: nil)
         
         
@@ -142,7 +149,7 @@ EPPickerDelegate,SWTableViewCellDelegate {
         print("The following contacts are selected")
         
         
-        
+     
         print("didSelectContacts \(contacts)")
         
         //get seleced participants
@@ -155,6 +162,7 @@ EPPickerDelegate,SWTableViewCellDelegate {
             print("\(contact.displayName())")
         }
     }
+    
     
     func addToGroup()
     {
@@ -237,12 +245,17 @@ EPPickerDelegate,SWTableViewCellDelegate {
             
         }*/
         var memberphones=[String]()
-        
+        var membersnames=[String]()
         for(var i=0;i<participantsSelected.count;i++)
         {
             memberphones.append(participantsSelected[i].getPhoneNumber())
+             membersnames.append(participantsSelected[i].displayName())
+            self.messages.addObject(["name":membersnames[i],"isAdmin":"No","newmember":"Yes"])
+           
+            //tblGroupInfo.reloadData()
+
         }
-        addGroupMembersAPI(memberphones,uniqueid: groupid)
+                 addGroupMembersAPI(memberphones,uniqueid: groupid)
         //send to server
         
         //segue to chat page
@@ -334,7 +347,7 @@ EPPickerDelegate,SWTableViewCellDelegate {
                         else{
                             
                             sqliteDB.storeMembers(uniqueid,member_displayname1: membersnames[i], member_phone1: memberphones[i], isAdmin1: isAdmin, membershipStatus1: "joined", date_joined1: NSDate.init())
-                            self.messages.addObject(["name":membersnames[i],"isAdmin":"No"])
+                           
                         }
                         
                     }
@@ -348,7 +361,7 @@ EPPickerDelegate,SWTableViewCellDelegate {
                     
                     
                     //self.performSegueWithIdentifier("groupChatStartSegue", sender: nil)
-                    
+                    self.addmemberfailed=false
                     self.dismissViewControllerAnimated(true, completion:{ ()-> Void in
                         
                         
@@ -362,8 +375,20 @@ EPPickerDelegate,SWTableViewCellDelegate {
                      })*/
                 }
                 else{
+                    self.addmemberfailed=true
                     print(response.result.debugDescription)
                     print("error in create group endpoint")
+                    var arrayIndexPaths=[NSIndexPath]()
+                    arrayIndexPaths.append((NSIndexPath.init(index: self.messages.count+1)))
+                    arrayIndexPaths.append((NSIndexPath.init(index: self.messages.count+2)))
+                    
+                    
+                //    self.dismissViewControllerAnimated(true, completion:{ ()-> Void in
+                       // self.tblGroupInfo.reloadRowsAtIndexPaths(arrayIndexPaths, withRowAnimation: UITableViewRowAnimation.Automatic)                       
+                       self.tblGroupInfo.reloadData()
+                        
+                 //   })
+
                     
                 }
             }
@@ -416,6 +441,24 @@ EPPickerDelegate,SWTableViewCellDelegate {
         return messages.count+4
     }
 
+    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        
+        var messageDic = messages.objectAtIndex(indexPath.row+2) as! [String : String];
+       // NSLog(messageDic["message"]!, 1)
+       // let msgType = messageDic["type"] as NSString!
+        if let msg = messageDic["newmember"] as NSString?
+        {
+             self.addToGroup()
+        }
+        
+      /*  if(msgType.isEqualToString("5")||msgType.isEqualToString("6")){
+            //self.performSegueWithIdentifier("showFullDocSegue", sender: nil);
+            self.addToGroup()
+
+        
+        }*/
+    }
+    
      func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         //GroupNamePicInfoCell
         if(indexPath.row==0)
@@ -476,13 +519,43 @@ EPPickerDelegate,SWTableViewCellDelegate {
                 // NSLog(messageDic["message"]!, 1)
                 let name = messageDic["name"] as NSString!
                 let isAdmin = messageDic["isAdmin"] as NSString!
-                
+              
+                //newmember
                 if(isAdmin=="Yes")
                 {
                    cell.lbl_groupAdmin.hidden=false
+                    
                 }
-                
-                cell.lbl_participant_name.text=name as! String
+                else{
+                 /*   if(addmemberfailed==true)
+{
+    cell.lbl_groupAdmin.text="(!)"
+cell.lbl_groupAdmin.hidden=false
+}*/
+                    if let neww=messageDic["newmember"] as NSString!
+                    {
+                        cell.lbl_groupAdmin.text="(!)"
+                        cell.lbl_groupAdmin.hidden=false
+                        cell.lbl_participant_status.text="Failed to add member. Tap here to retry."
+                        messages.removeObjectAtIndex(indexPath.row-3)
+                       
+                        /*var tempUIView=UIButton()
+                        tempUIView=cell.lbl_participant_status.targetForAction(Selector("BtnTryAgainTapped:"), withSender: nil) as! UIButton
+                        tempUIView.addTarget(self, action: Selector("BtnTryAgainTapped:"), forControlEvents:.TouchUpInside)
+                        
+                        
+
+                        */
+                        //addTarget(self, action: , forControlEvents:.TouchUpInside)
+                        
+
+                        
+                    }
+                    
+                    }
+                    cell.lbl_participant_name.text=name as! String
+                    
+               
 
                 return cell
                 }
@@ -502,6 +575,8 @@ EPPickerDelegate,SWTableViewCellDelegate {
         }
         }
     }
+    
+
     
     func setTitle(title:String, subtitle:String) -> UIView {
         //Create a label programmatically and give it its property's
@@ -568,7 +643,9 @@ EPPickerDelegate,SWTableViewCellDelegate {
         print("bav avatar size is \(barAvatarImage.frame.width) .. \(barAvatarImage.frame.width)")
         var avatarbutton=UIBarButtonItem.init(customView: barAvatarImage)
         self.navigationItem.rightBarButtonItem=avatarbutton
-       
+       print("messages count is \(messages.count)")
+        if(self.addmemberfailed==false)
+{
         self.retrieveChatFromSqlite { (result) in
             self.tblGroupInfo.reloadData()
            // if(self.messages.count>1)
@@ -579,7 +656,7 @@ EPPickerDelegate,SWTableViewCellDelegate {
            // }
             
         }
-       
+       }
 
 
     }
