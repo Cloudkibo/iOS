@@ -22,4 +22,7 @@ class GroupInfoCell:SWTableViewCell {
     @IBOutlet weak var lbl_groupAdmin: UILabel!
     @IBOutlet weak var btn_exitGroup: UIButton!
     @IBOutlet weak var btnClearChat: UIButton!
+    @IBOutlet weak var profilePic_group: UIImageView!
+    @IBOutlet weak var lbl_groupName: UILabel!
+
 }

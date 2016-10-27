@@ -679,7 +679,7 @@ class DatabaseHandler:NSObject{
             
             if(socketObj != nil)
             {
-            socketObj.socket.emit("logClient","IPHONE-LOG: all messageStatus saved in sqliteDB")
+           // socketObj.socket.emit("logClient","IPHONE-LOG: all messageStatus saved in sqliteDB")
             }
             print("inserted id messageStatus : \(rowid)")
         } catch {
@@ -1472,7 +1472,7 @@ print("--------")
             
             if(socketObj != nil)
             {
-                socketObj.socket.emit("logClient","IPHONE-LOG: all messageStatus saved in sqliteDB")
+          //      socketObj.socket.emit("logClient","IPHONE-LOG: all messageStatus saved in sqliteDB")
             }
             print("inserted id messageStatus : \(rowid)")
         } catch {
@@ -1527,7 +1527,7 @@ print("--------")
             
             if(socketObj != nil)
             {
-                socketObj.socket.emit("logClient","IPHONE-LOG: all messageStatus saved in sqliteDB")
+             //   socketObj.socket.emit("logClient","IPHONE-LOG: all messageStatus saved in sqliteDB")
             }
             print("inserted id messageStatus : \(rowid)")
         } catch {
@@ -1586,6 +1586,39 @@ print("--------")
         return groupsList
 
         
+        
+    }
+    func getSingleGroupInfo(groupid:String)->[String: AnyObject]
+    {
+        // var groupsList=[String:AnyObject]()
+        var newEntry: [String: AnyObject] = [:]
+        
+        let group_name = Expression<String>("group_name")
+        let group_icon = Expression<NSData>("group_icon")
+        let date_creation = Expression<NSDate>("date_creation")
+        let unique_id = Expression<String>("unique_id")
+        let isMute = Expression<Bool>("isMute")
+        
+        
+        
+        self.groups = Table("groups")
+        do
+        {for groupsinfo in try self.db.prepare(self.groups.filter(unique_id == groupid)){
+            
+            newEntry["group_name"]=groupsinfo.get(group_name)
+            newEntry["group_icon"]=groupsinfo.get(group_icon)
+            newEntry["date_creation"]=groupsinfo.get(date_creation)
+            newEntry["unique_id"]=groupsinfo.get(unique_id)
+            newEntry["isMute"]=groupsinfo.get(isMute)
+            //groupsList.append(newEntry)
+            
+            
+            }
+        }
+        catch{
+            print("failed to get teams single object data")
+        }
+        return newEntry
         
     }
 }

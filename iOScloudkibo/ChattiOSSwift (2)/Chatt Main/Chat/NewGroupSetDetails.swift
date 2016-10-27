@@ -122,12 +122,6 @@ class NewGroupSetDetails: UITableViewController,UINavigationControllerDelegate,U
         var url=Constants.MainUrl+Constants.createGroupUrl
         Alamofire.request(.POST,"\(url)",parameters:["group_name":groupname,"members":members, "unique_id":uniqueid],headers:header,encoding:.JSON).validate().responseJSON { response in
             
-            /* print(response)
-             print(".......")
-             print(response.data!)
-             print(".......")
-             print(response.result.value!)*/
-            
             /*
              
              "__v" = 0;
@@ -153,7 +147,7 @@ class NewGroupSetDetails: UITableViewController,UINavigationControllerDelegate,U
                     print("...")
                      self.performSegueWithIdentifier("groupChatStartSegue", sender: nil)
                 }
-                //self.performSegueWithIdentifier("groupChatStartSegue", sender: nil)
+                self.performSegueWithIdentifier("groupChatStartSegue", sender: nil)
               /*  self.dismissViewControllerAnimated(true, completion: {
                     
                     

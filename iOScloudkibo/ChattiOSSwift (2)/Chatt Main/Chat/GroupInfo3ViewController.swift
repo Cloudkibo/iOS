@@ -10,6 +10,7 @@ import UIKit
 import SQLite
 class GroupInfo3ViewController: UIViewController {
 
+    var singleGroupInfo=[String:AnyObject!]()
     var messages:NSMutableArray!
     var membersnames=[String]()
     var groupid=""
@@ -18,7 +19,9 @@ class GroupInfo3ViewController: UIViewController {
         super.viewDidLoad()
 
         messages=NSMutableArray()
-        self.navigationItem.titleView = setTitle("Group Info", subtitle: "Sumaira")
+        singleGroupInfo=sqliteDB.getSingleGroupInfo(groupid)
+        
+        self.navigationItem.titleView = setTitle(singleGroupInfo["group_name"] as! String, subtitle: "Sumaira")
         //self.navigationController?.navigationBar.tintColor=UIColor.whiteColor()
       
     
@@ -75,12 +78,21 @@ class GroupInfo3ViewController: UIViewController {
     }
     
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-        if(indexPath.row != (messages.count+1))
+        if(((indexPath.row > 2)  && ((indexPath.row<(messages.count)+2) || messages.count<1)) || indexPath.row==0 || indexPath.row==1 || indexPath.row==2)
+        {
+            return 73
+         
+        }
+       else
+        {
+            return 228
+        }
+        /*if(indexPath.row != (messages.count+1))
         {return 73}
         else{
         
         return 228
-        }
+        }*/
     }
 
     override func didReceiveMemoryWarning() {
@@ -92,13 +104,20 @@ class GroupInfo3ViewController: UIViewController {
         return 1
     }
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return messages.count+3
+        return messages.count+4
     }
 
      func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        
-       
+        //GroupNamePicInfoCell
         if(indexPath.row==0)
+        {
+            var cell=tblGroupInfo.dequeueReusableCellWithIdentifier("GroupNamePicInfoCell")! as! GroupInfoCell
+            cell.lbl_groupName.text=singleGroupInfo["group_name"] as! String
+            
+            return cell
+            
+        }
+        if(indexPath.row==1)
         {
              var cell=tblGroupInfo.dequeueReusableCellWithIdentifier("AddParticipants1Cell")! as UITableViewCell
             
@@ -113,7 +132,7 @@ class GroupInfo3ViewController: UIViewController {
             
         }*/
         else
-        {if(indexPath.row==1)
+        {if(indexPath.row==2)
         {
             print("export chat")
              var cell=tblGroupInfo.dequeueReusableCellWithIdentifier("ExportChatsCell")! as! UITableViewCell
@@ -123,7 +142,8 @@ class GroupInfo3ViewController: UIViewController {
         }
         else
         {
-            if(indexPath.row==(messages.count+1))
+            if(indexPath.row==3 && (messages.count==0))
+           // if(indexPath.row==2 && (messages.count+1))
             {
                 print("exit/clear chat")
              var cell=tblGroupInfo.dequeueReusableCellWithIdentifier("ExitClearChatCell")! as UITableViewCell
@@ -132,11 +152,13 @@ class GroupInfo3ViewController: UIViewController {
             }
             else
             {
+                if(indexPath.row<(messages.count+3))
+                {
                 print("inside show participants")
                 var cell=tableView.dequeueReusableCellWithIdentifier("ParticipantsInfoCell")! as! GroupInfoCell
                 cell.lbl_groupAdmin.hidden=true
 
-                var messageDic = messages.objectAtIndex(indexPath.row-1) as! [String : String];
+                var messageDic = messages.objectAtIndex(indexPath.row-3) as! [String : String];
                 // NSLog(messageDic["message"]!, 1)
                 let name = messageDic["name"] as NSString!
                 let isAdmin = messageDic["isAdmin"] as NSString!
@@ -149,6 +171,15 @@ class GroupInfo3ViewController: UIViewController {
                 cell.lbl_participant_name.text=name as! String
 
                 return cell
+                }
+                else
+                {
+                    //last cell
+                    print("exit/clear chat")
+                    var cell=tblGroupInfo.dequeueReusableCellWithIdentifier("ExitClearChatCell")! as UITableViewCell
+                    
+                    return cell
+                }
                 
                 
 
@@ -226,12 +257,12 @@ class GroupInfo3ViewController: UIViewController {
        
         self.retrieveChatFromSqlite { (result) in
             self.tblGroupInfo.reloadData()
-            if(self.messages.count>1)
-            {
-                var indexPath = NSIndexPath(forRow:self.messages.count+1, inSection: 0)
+           // if(self.messages.count>1)
+            //{
+               /* var indexPath = NSIndexPath(forRow:self.messages.count+2, inSection: 0)
                 self.tblGroupInfo.scrollToRowAtIndexPath(indexPath, atScrollPosition: UITableViewScrollPosition.Bottom, animated: true)
-                
-            }
+                */
+           // }
             
         }
        

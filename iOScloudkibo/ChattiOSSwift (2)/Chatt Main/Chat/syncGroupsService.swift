@@ -139,6 +139,7 @@ class syncGroupService
     
     func SyncGroupMembersAPI(completion:(result:Bool,error:String!,groupinfo:JSON!)->())
     {
+        print("sync members")
         
         //  let isMute = Expression<Bool>("isMute")
         
@@ -184,7 +185,7 @@ print("error delete members")
                     
                     //groupInfo[i]["group_unique_id"]
                     var _id=jsongroupinfo[i]["_id"].string!
-                    var group_id=jsongroupinfo[i]["group_unique_id"].string
+                    var group_id=jsongroupinfo[i]["group_unique_id"]["unique_id"].string
                     var membername=jsongroupinfo[i]["display_name"].string
                    
                     var date_join=jsongroupinfo[i]["date_join"].string!

@@ -1602,7 +1602,19 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
                         var isAdmin = userInfo["isAdmin"] as? String
                         var membership_status = userInfo["membership_status"] as? String
                         var group_name = userInfo["group_name"] as? String
-                        
+                        /*dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0)) {
+                            print("synccccc fetching contacts in background...")
+                            {
+                        self.fetchSingleGroup(groupId, completion: { (result, error) in
+                            
+                            print("group fetched now fetch members")
+                           /* self.fetchMyGroupMembers(groupId, completion: { (result, error) in
+                            
+                            print("my group members fetched")
+                                })
+                            
+                        })
+                            }*/
                         //Fetch Group Info
                         //Save Group Info in Database - Group and -members table
                       
@@ -1612,7 +1624,11 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
                         print("fetched group info")
                        })*/
                         //fetch members of group
+                            
+                        })
                     }
+                        }*/
+                }
                 if(type=="group:chat_received")
                 {
                     
@@ -1676,10 +1692,84 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
     */
     
    
+    func fetchSingleGroup(unique_id:String,completion:(result:Bool,error:String!)->())
+    {
+        print("uniqueid of single new group is \(unique_id)")
+        
+        //======GETTING REST API TO GET SPECIFIC GROUP==================
+        
+        print("inside fetch single chat")
+        if(accountKit == nil){
+            accountKit = AKFAccountKit(responseType: AKFResponseType.AccessToken)
+        }
+        
+        if (accountKit!.currentAccessToken == nil) {
+            
+         
+            accountKit = AKFAccountKit(responseType: AKFResponseType.AccessToken)
+            accountKit.requestAccount{
+                (account, error) -> Void in
+                
+                
+                if(account != nil){
+                    //  var url=Constants.MainUrl+Constants.getContactsList
+                    
+                    let header:[String:String]=["kibo-token":(accountKit!.currentAccessToken!.tokenString)]
+       
+                }
+                
+            }
+        }
+        var fetchSingleMsgURL=Constants.MainUrl+Constants.fetchSingleGroupChat
+        
+        
+        //var getUserDataURL=userDataUrl
+        
+        Alamofire.request(.POST,"\(fetchSingleMsgURL)",parameters: ["unique_id":unique_id],headers:header).validate(statusCode: 200..<300).responseJSON{response in
+            
+            
+            switch response.result {
+            case .Success:
+                if let data1 = response.result.value {
+                    print(data1)
+                    print(JSON(data1))
+                    var groupSingleInfo=JSON(data1)
+                    
+                    var unique_id=groupSingleInfo["group_unique_id"]["unique_id"].string!
+                    var group_name=groupSingleInfo["group_unique_id"]["group_name"].string!
+                    var date_creation=groupSingleInfo["group_unique_id"]["date_creation"].string!
+                    var group_icon=NSData()
+                    if(groupSingleInfo["group_unique_id"]["group_icon"] != nil)
+                    {
+                        group_icon=groupSingleInfo["group_unique_id"]["group_icon"] as! NSData
+                    }
+                    
+                    let dateFormatter = NSDateFormatter()
+                    dateFormatter.timeZone=NSTimeZone.localTimeZone()
+                    dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
+                    //  let datens2 = dateFormatter.dateFromString(date2.debugDescription)
+                    //2016-09-18T19:13:00.588Z
+                    let datens2 = dateFormatter.dateFromString(date_creation)
+                    
+                    
+                    sqliteDB.storeGroups(group_name, groupicon1: group_icon, datecreation1: datens2!, uniqueid1: unique_id)
+
+                    
+                    return completion(result:true,error:nil)
+                    
+                }
+            case .Failure:
+                return completion(result:false,error:"fetch single group failed")
+            default: print("fetch single group failed")
+            return completion(result:false,error:"fetch single group failed")
+
+            }
+        }
+    }
     func fetchSingleGroupChatMessage(uniqueidMsg:String)
     {
            print("uniqueid of group single chat is \(uniqueidMsg)")
-            
+        
             //======GETTING REST API TO GET CURRENT USER=======================
             
             print("inside fetch single chat")
