@@ -5116,6 +5116,7 @@
                     <connections>
                         <outlet property="tblGroupInfo" destination="LP1-sz-qZs" id="CsZ-ge-aew"/>
                         <outlet property="view" destination="LP1-sz-qZs" id="s8y-eb-0IG"/>
+                        <segue destination="YH8-pY-Wmo" kind="push" identifier="newGroupDetailsSegue2" id="Aba-99-G71"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="623-Tf-xJ9" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -5170,6 +5171,7 @@
         <segue reference="Y9a-Vx-tcX"/>
         <segue reference="QOc-Kg-WHZ"/>
         <segue reference="xLi-xx-esW"/>
+        <segue reference="Aba-99-G71"/>
         <segue reference="0xH-LE-leu"/>
         <segue reference="Cjg-Ar-cdZ"/>
         <segue reference="3Qa-aS-eRu"/>

@@ -1602,32 +1602,21 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
                         var isAdmin = userInfo["isAdmin"] as? String
                         var membership_status = userInfo["membership_status"] as? String
                         var group_name = userInfo["group_name"] as? String
-                        /*dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0)) {
+                       dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0)) {
+                        self.fetchSingleGroup(groupId!, completion: { (result, error) in
+                            
+                            
+                        })
+                        }
+                        /* dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0)) {
                             print("synccccc fetching contacts in background...")
                             {
                         self.fetchSingleGroup(groupId, completion: { (result, error) in
                             
                             print("group fetched now fetch members")
-                           /* self.fetchMyGroupMembers(groupId, completion: { (result, error) in
-                            
-                            print("my group members fetched")
-                                })
-                            
-                        })
-                            }*/
-                        //Fetch Group Info
-                        //Save Group Info in Database - Group and -members table
-                      
-                        //uncomment later
-                        /*getGroupInfo({ (result, error) in
                         
-                        print("fetched group info")
-                       })*/
-                        //fetch members of group
-                            
-                        })
-                    }
-                        }*/
+                        })}}*/
+                           
                 }
                 if(type=="group:chat_received")
                 {
@@ -1691,6 +1680,44 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
     }
     */
     
+    func fetchSingleMember(unique_id:String,completion:(result:Bool,error:String!)->())
+    {
+        print("uniqueid of single new group is \(unique_id)")
+        
+        //======GETTING REST API TO GET SPECIFIC GROUP==================
+        
+        // print("inside fetch single chat")
+        if(accountKit == nil){
+            accountKit = AKFAccountKit(responseType: AKFResponseType.AccessToken)
+        }
+        
+        if (accountKit!.currentAccessToken == nil) {
+            
+            
+            accountKit = AKFAccountKit(responseType: AKFResponseType.AccessToken)
+            accountKit.requestAccount{
+                (account, error) -> Void in
+                
+                
+                if(account != nil){
+                    //  var url=Constants.MainUrl+Constants.getContactsList
+                    
+                    let header:[String:String]=["kibo-token":(accountKit!.currentAccessToken!.tokenString)]
+                    
+                }
+                
+            }
+        }
+        var fetchSingleMsgURL=Constants.MainUrl+Constants.fetchSingleGroupMember
+        
+        
+        //var getUserDataURL=userDataUrl
+        
+        Alamofire.request(.POST,"\(fetchSingleMsgURL)",parameters: ["unique_id":unique_id],headers:header).validate(statusCode: 200..<300).responseJSON{response in
+            
+        }
+    }
+    
    
     func fetchSingleGroup(unique_id:String,completion:(result:Bool,error:String!)->())
     {
@@ -1698,7 +1725,7 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
         
         //======GETTING REST API TO GET SPECIFIC GROUP==================
         
-        print("inside fetch single chat")
+       // print("inside fetch single chat")
         if(accountKit == nil){
             accountKit = AKFAccountKit(responseType: AKFResponseType.AccessToken)
         }
@@ -1720,7 +1747,7 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
                 
             }
         }
-        var fetchSingleMsgURL=Constants.MainUrl+Constants.fetchSingleGroupChat
+        var fetchSingleMsgURL=Constants.MainUrl+Constants.fetchSingleGroup
         
         
         //var getUserDataURL=userDataUrl

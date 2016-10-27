@@ -742,7 +742,7 @@
                   moduleName = "Chat"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/cloudkibo/Documents/kiboChatTry/iOS/iOS/iOScloudkibo/ChattiOSSwift%20(2)/Chatt%20Main/Chat/ChatDetailViewController.swift"
-                  timestampString = "499159494.640378"
+                  timestampString = "499260137.232209"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "199"
@@ -757,7 +757,7 @@
                   moduleName = "Chat"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/cloudkibo/Documents/kiboChatTry/iOS/iOS/iOScloudkibo/ChattiOSSwift%20(2)/Chatt%20Main/Chat/ChatDetailViewController.swift"
-                  timestampString = "499159494.64051"
+                  timestampString = "499260137.23236"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "200"
@@ -902,7 +902,7 @@
                   moduleName = "Chat"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/cloudkibo/Documents/kiboChatTry/iOS/iOS/iOScloudkibo/ChattiOSSwift%20(2)/Chatt%20Main/Chat/ChatDetailViewController.swift"
-                  timestampString = "499159494.642518"
+                  timestampString = "499260137.236409"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "3338"
@@ -917,7 +917,7 @@
                   moduleName = "Chat"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/cloudkibo/Documents/kiboChatTry/iOS/iOS/iOScloudkibo/ChattiOSSwift%20(2)/Chatt%20Main/Chat/ChatDetailViewController.swift"
-                  timestampString = "499159494.64263"
+                  timestampString = "499260137.236569"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "3338"
@@ -932,7 +932,7 @@
                   moduleName = "Chat"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/cloudkibo/Documents/kiboChatTry/iOS/iOS/iOScloudkibo/ChattiOSSwift%20(2)/Chatt%20Main/Chat/ChatDetailViewController.swift"
-                  timestampString = "499159494.642727"
+                  timestampString = "499260137.236708"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "3338"
@@ -965,11 +965,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Chat/AppDelegate.swift"
-            timestampString = "499250781.872926"
+            timestampString = "499262906.265485"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1906"
-            endingLineNumber = "1906"
+            startingLineNumber = "1933"
+            endingLineNumber = "1933"
             landmarkName = "timerFiredScreenCapture()"
             landmarkType = "5">
          </BreakpointContent>
@@ -1421,11 +1421,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Chat/AppDelegate.swift"
-            timestampString = "499250781.872926"
+            timestampString = "499262906.265485"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "2238"
-            endingLineNumber = "2238"
+            startingLineNumber = "2265"
+            endingLineNumber = "2265"
             landmarkName = "checkFirstRun()"
             landmarkType = "5">
          </BreakpointContent>
@@ -1437,11 +1437,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Chat/AppDelegate.swift"
-            timestampString = "499250781.872926"
+            timestampString = "499260135.632111"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1652"
-            endingLineNumber = "1652"
+            startingLineNumber = "1641"
+            endingLineNumber = "1641"
             landmarkName = "application(_:didReceiveRemoteNotification:fetchCompletionHandler:)"
             landmarkType = "5">
          </BreakpointContent>
@@ -1491,6 +1491,22 @@
             startingLineNumber = "65"
             endingLineNumber = "65"
             landmarkName = "btnSendTapped(_:)"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Chat/AppDelegate.swift"
+            timestampString = "499260109.109557"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "1606"
+            endingLineNumber = "1606"
+            landmarkName = "application(_:didReceiveRemoteNotification:fetchCompletionHandler:)"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>

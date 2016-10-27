@@ -8,11 +8,21 @@
 
 import UIKit
 import SQLite
-class GroupInfo3ViewController: UIViewController {
+import ContactsUI
+import Alamofire
 
+
+var participantsSelected=[EPContact]()
+var picker:CNContactPickerViewController!
+var btnNewGroup:UIButton!
+
+class GroupInfo3ViewController: UIViewController,CNContactPickerDelegate,
+EPPickerDelegate,SWTableViewCellDelegate {
+
+    var uniqueid=""
     var singleGroupInfo=[String:AnyObject!]()
     var messages:NSMutableArray!
-    var membersnames=[String]()
+   // var membersnames=[String]()
     var groupid=""
     @IBOutlet weak var tblGroupInfo: UITableView!
     override func viewDidLoad() {
@@ -77,6 +87,305 @@ class GroupInfo3ViewController: UIViewController {
 
     }
     
+    
+    
+    func BtnnewGroupClicked(sender:UIButton)
+    {
+        
+        
+        let contactPickerScene = EPContactsPicker(delegate: self, multiSelection:true, subtitleCellType: SubtitleCellValue.PhoneNumber)
+        let navigationController = UINavigationController(rootViewController: contactPickerScene)
+        self.presentViewController(navigationController, animated: true, completion: nil)
+        
+        
+        
+        participantsSelected.removeAll()
+        print("BtnnewGroupClicked")
+        picker = CNContactPickerViewController();
+        picker.title="Add Participants"
+        picker.navigationItem.leftBarButtonItem=picker.navigationController?.navigationItem.backBarButtonItem
+        
+        picker.predicateForEnablingContact = NSPredicate.init(value: true) //.fromValue(true); // make everything selectable
+        
+        // Respond to selection
+        picker.delegate = self;
+        self.presentViewController(picker, animated: true, completion: nil)
+        
+        
+        
+        // Display picker
+        
+        // UIApplication.sharedApplication().keyWindow!.rootViewController!.presentViewController(picker, animated: true, completion: nil);
+        
+        
+    }
+    
+    
+    func epContactPicker(_: EPContactsPicker, didContactFetchFailed error : NSError)
+    {
+        print("Failed with error \(error.description)")
+    }
+    
+    func epContactPicker(_: EPContactsPicker, didSelectContact contact : EPContact)
+    {
+        print("Contact \(contact.displayName()) has been selected")
+    }
+    
+    func epContactPicker(_: EPContactsPicker, didCancel error : NSError)
+    {
+        print("User canceled the selection");
+    }
+    
+    
+    
+    func epContactPicker(_: EPContactsPicker, didSelectMultipleContacts contacts: [EPContact]) {
+        print("The following contacts are selected")
+        
+        
+        
+        print("didSelectContacts \(contacts)")
+        
+        //get seleced participants
+        participantsSelected.appendContentsOf(contacts)
+        addToGroup()
+       ///// self.performSegueWithIdentifier("newGroupDetailsSegue2", sender: nil);
+        
+        
+        for contact in contacts {
+            print("\(contact.displayName())")
+        }
+    }
+    
+    func addToGroup()
+    {
+        //create group
+        //save data in sqlite
+        
+        var uid=randomStringWithLength(7)
+        
+        var date=NSDate()
+        var calendar = NSCalendar.currentCalendar()
+        var year=calendar.components(NSCalendarUnit.Year,fromDate: date).year
+        var month=calendar.components(NSCalendarUnit.Month,fromDate: date).month
+        var day=calendar.components(.Day,fromDate: date).day
+        var hr=calendar.components(NSCalendarUnit.Hour,fromDate: date).hour
+        var min=calendar.components(NSCalendarUnit.Minute,fromDate: date).minute
+        var sec=calendar.components(NSCalendarUnit.Second,fromDate: date).second
+        print("\(year) \(month) \(day) \(hr) \(min) \(sec)")
+        uniqueid="\(uid)\(year)\(month)\(day)\(hr)\(min)\(sec)"
+        
+        
+        print("saving in database")
+        
+        
+        // let cell=tblNewGroupDetails.dequeueReusableCellWithIdentifier("NewGroupDetailsCell") as! ContactsListCell
+        //  "NewGroupParticipantsCell"
+       // var cell=tblNewGroupDetails.cellForRowAtIndexPath(NSIndexPath(forRow: 0, inSection: 0)) as! ContactsListCell
+        
+     /*   groupname=singleGroupInfo["group_name"] as! String
+        var memberphones=[String]()
+        var membersnames=[String]()
+        for(var i=0;i<participants.count;i++)
+        {
+            memberphones.append(participants[i].getPhoneNumber())
+            membersnames.append(participants[i].displayName())
+        }
+        print("group_name is \(groupname)")
+        print("memberphones are \(memberphones.debugDescription)")
+        
+        sqliteDB.storeGroups(groupname, groupicon1: imgdata, datecreation1: NSDate(), uniqueid1: uniqueid)
+        
+        let firstname = Expression<String>("firstname")
+        let phone = Expression<String>("phone")
+        
+        var myname=""
+        let tbl_accounts = sqliteDB.accounts
+        do{for account in try sqliteDB.db.prepare(tbl_accounts) {
+            myname=account[firstname]
+            username=account[phone]
+            
+            }
+        }
+        catch
+        {
+            if(socketObj != nil){
+                socketObj.socket.emit("error getting data from accounts table")
+            }
+            print("error in getting data from accounts table")
+            
+        }
+        
+        //sqliteDB.storeMembers(uniqueid,member_displayname1: myname,member_phone1: username!, isAdmin1: "Yes", membershipStatus1: "joined", date_joined1: NSDate.init())
+        sqliteDB.storeMembers(uniqueid,member_displayname1: myname, member_phone1: username!, isAdmin1: "Yes", membershipStatus1: "joined", date_joined1: NSDate.init())
+        
+        for(var i=0;i<memberphones.count;i++)
+        {
+            var isAdmin="No"
+            
+            print("members phone comparison \(memberphones[i]) \(username)")
+            if(memberphones[i] == username)
+            {
+                print("adding group admin")
+                isAdmin="Yes"
+                sqliteDB.storeMembers(uniqueid,member_displayname1: myname, member_phone1: memberphones[i], isAdmin1: isAdmin, membershipStatus1: "joined", date_joined1: NSDate.init())
+                
+            }
+            else{
+                
+                sqliteDB.storeMembers(uniqueid,member_displayname1: membersnames[i], member_phone1: memberphones[i], isAdmin1: isAdmin, membershipStatus1: "joined", date_joined1: NSDate.init())
+            }
+            
+        }*/
+        var memberphones=[String]()
+        
+        for(var i=0;i<participantsSelected.count;i++)
+        {
+            memberphones.append(participantsSelected[i].getPhoneNumber())
+        }
+        addGroupMembersAPI(memberphones,uniqueid: uniqueid)
+        //send to server
+        
+        //segue to chat page
+        
+        
+        }
+        
+        func addGroupMembersAPI(members:[String],uniqueid:String)
+        {
+            //show progress wheen somewhere
+            
+            var url=Constants.MainUrl+Constants.addGroupMembersUrl
+            Alamofire.request(.POST,"\(url)",parameters:["members":members, "group_unique_id":uniqueid],headers:header,encoding:.JSON).validate().responseJSON { response in
+                
+                /*
+                 
+                 "__v" = 0;
+                 "_id" = 57c69e61dfff9e5223a8fcb2;
+                 activeStatus = Yes;
+                 companyid = cd89f71715f2014725163952;
+                 createdby = 554896ca78aed92f4e6db296;
+                 creationdate = "2016-08-31T09:07:45.236Z";
+                 groupid = 57c69e61dfff9e5223a8fcb1;
+                 "msg_channel_description" = "This channel is for general discussions";
+                 "msg_channel_name" = General;
+                 
+                 
+                 */
+                print("Add Members API called")
+                if(response.result.isSuccess)
+                {
+                    print(response.result.debugDescription)
+                    print("save in database")
+                    print("saving in database")
+                    
+                    
+                    // let cell=tblNewGroupDetails.dequeueReusableCellWithIdentifier("NewGroupDetailsCell") as! ContactsListCell
+                    //  "NewGroupParticipantsCell"
+                    // var cell=tblNewGroupDetails.cellForRowAtIndexPath(NSIndexPath(forRow: 0, inSection: 0)) as! ContactsListCell
+                    
+                    //groupname=singleGroupInfo["group_name"] as! String
+                    var memberphones=[String]()
+                    var membersnames=[String]()
+                    for(var i=0;i<participantsSelected.count;i++)
+                    {
+                        memberphones.append(participantsSelected[i].getPhoneNumber())
+                        membersnames.append(participantsSelected[i].displayName())
+                    }
+                   // print("group_name is \(groupname)")
+                    print("memberphones are \(memberphones.debugDescription)")
+                    
+                   // sqliteDB.storeGroups(groupname, groupicon1: imgdata, datecreation1: NSDate(), uniqueid1: uniqueid)
+                    
+                    let firstname = Expression<String>("firstname")
+                    let phone = Expression<String>("phone")
+                    
+                    var myname=""
+                    let tbl_accounts = sqliteDB.accounts
+                    do{for account in try sqliteDB.db.prepare(tbl_accounts) {
+                        myname=account[firstname]
+                        username=account[phone]
+                        
+                        }
+                    }
+                    catch
+                    {
+                        if(socketObj != nil){
+                            socketObj.socket.emit("error getting data from accounts table")
+                        }
+                        print("error in getting data from accounts table")
+                        
+                    }
+                    
+                    //sqliteDB.storeMembers(uniqueid,member_displayname1: myname,member_phone1: username!, isAdmin1: "Yes", membershipStatus1: "joined", date_joined1: NSDate.init())
+                    //sqliteDB.storeMembers(uniqueid,member_displayname1: myname, member_phone1: username!, isAdmin1: "Yes", membershipStatus1: "joined", date_joined1: NSDate.init())
+                    
+                    for(var i=0;i<memberphones.count;i++)
+                    {
+                        var isAdmin="No"
+                        
+                        print("members phone comparison \(memberphones[i]) \(username)")
+                        if(memberphones[i] == username)
+                        {
+                            print("adding admin not allowed")
+                           // isAdmin="Yes"
+                           // sqliteDB.storeMembers(uniqueid,member_displayname1: myname, member_phone1: memberphones[i], isAdmin1: isAdmin, membershipStatus1: "joined", date_joined1: NSDate.init())
+                            
+                        }
+                        else{
+                            
+                            sqliteDB.storeMembers(uniqueid,member_displayname1: membersnames[i], member_phone1: memberphones[i], isAdmin1: isAdmin, membershipStatus1: "joined", date_joined1: NSDate.init())
+                            self.messages.addObject(["name":membersnames[i],"isAdmin":"No"])
+                        }
+                        
+                    }
+
+                    
+                    /* var syncMembers=syncGroupService.init()
+                     syncMembers.SyncGroupMembersAPI(){(result,error,groupinfo) in
+                     print("...")
+                     self.performSegueWithIdentifier("groupChatStartSegue", sender: nil)
+                     }*/
+                    
+                    
+                    //self.performSegueWithIdentifier("groupChatStartSegue", sender: nil)
+                    
+                    self.dismissViewControllerAnimated(true, completion:{ ()-> Void in
+                        
+                        
+                        self.tblGroupInfo.reloadData()
+                        
+                    })
+                    
+                    /*  self.dismissViewControllerAnimated(true, completion: {
+                     
+                     
+                     })*/
+                }
+                else{
+                    print(response.result.debugDescription)
+                    print("error in create group endpoint")
+                    
+                }
+            }
+            
+        }
+        
+        func randomStringWithLength (len : Int) -> NSString {
+            
+            let letters : NSString = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
+            
+            let randomString : NSMutableString = NSMutableString(capacity: len)
+            
+            for (var i=0; i < len; i++){
+                let length = UInt32 (letters.length)
+                let rand = arc4random_uniform(length)
+                randomString.appendFormat("%C", letters.characterAtIndex(Int(rand)))
+            }
+            
+            return randomString
+        }
+        
+    
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
         if(((indexPath.row > 2)  && ((indexPath.row<(messages.count)+2) || messages.count<1)) || indexPath.row==0 || indexPath.row==1 || indexPath.row==2)
         {
@@ -119,8 +428,13 @@ class GroupInfo3ViewController: UIViewController {
         }
         if(indexPath.row==1)
         {
-             var cell=tblGroupInfo.dequeueReusableCellWithIdentifier("AddParticipants1Cell")! as UITableViewCell
+             var cell=tblGroupInfo.dequeueReusableCellWithIdentifier("AddParticipants1Cell")! as! GroupInfoCell
+            btnNewGroup=cell.btnAddPatricipants
+            //btnNewGroup=cell.btnNewGroupOutlet
             
+            //cell.btnAddPatricipants.tag=section
+            cell.btnAddPatricipants.addTarget(self, action: Selector("BtnnewGroupClicked:"), forControlEvents:.TouchUpInside)
+
             return cell
             
         }

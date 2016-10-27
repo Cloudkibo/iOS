@@ -67,6 +67,7 @@ static let connectionstring="Endpoint=sb://cloudkiboiospush.servicebus.windows.n
     static var sendChat="/api/groupchat/"
     static var fetchmygroupmembers="/api/groupmessaginguser/mygroupsmembers"
     static var fetchSingleGroup="/api/groupmessaging/specificGroup"
+    static var fetchSingleGroupMember="/api/groupmessaginguser/myspecificgroupsmembers"
     
   //  static var fetchSingleGroupChat="/api/groupchat/fetchSingleChat"
     /*

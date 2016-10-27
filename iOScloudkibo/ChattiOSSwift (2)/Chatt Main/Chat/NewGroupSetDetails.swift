@@ -59,24 +59,26 @@ class NewGroupSetDetails: UITableViewController,UINavigationControllerDelegate,U
         var cell=tblNewGroupDetails.cellForRowAtIndexPath(NSIndexPath(forRow: 0, inSection: 0)) as! ContactsListCell
         
         groupname=cell.groupNameFieldOutlet.text!
-        
-        var members=[String]()
+        var memberphones=[String]()
+        var membersnames=[String]()
         for(var i=0;i<participants.count;i++)
         {
-            members.append(participants[i].getPhoneNumber())
+            memberphones.append(participants[i].getPhoneNumber())
+            membersnames.append(participants[i].displayName())
         }
         print("group_name is \(groupname)")
-        print("members are \(members.debugDescription)")
+        print("memberphones are \(memberphones.debugDescription)")
         
         sqliteDB.storeGroups(groupname, groupicon1: imgdata, datecreation1: NSDate(), uniqueid1: uniqueid)
         
         let firstname = Expression<String>("firstname")
+        let phone = Expression<String>("phone")
         
         var myname=""
         let tbl_accounts = sqliteDB.accounts
         do{for account in try sqliteDB.db.prepare(tbl_accounts) {
             myname=account[firstname]
-            //displayname=account[firstname]
+            username=account[phone]
             
             }
         }
@@ -90,25 +92,28 @@ class NewGroupSetDetails: UITableViewController,UINavigationControllerDelegate,U
         }
         
         //sqliteDB.storeMembers(uniqueid,member_displayname1: myname,member_phone1: username!, isAdmin1: "Yes", membershipStatus1: "joined", date_joined1: NSDate.init())
+        sqliteDB.storeMembers(uniqueid,member_displayname1: myname, member_phone1: username!, isAdmin1: "Yes", membershipStatus1: "joined", date_joined1: NSDate.init())
         
-        for(var i=0;i<members.count;i++)
+        for(var i=0;i<memberphones.count;i++)
         {
             var isAdmin="No"
             
-            
-            if(members[i] == username)
+            print("members phone comparison \(memberphones[i]) \(username)")
+            if(memberphones[i] == username)
             {
+                print("adding group admin")
                isAdmin="Yes"
+                 sqliteDB.storeMembers(uniqueid,member_displayname1: myname, member_phone1: memberphones[i], isAdmin1: isAdmin, membershipStatus1: "joined", date_joined1: NSDate.init())
                 
             }
             else{
                 
-           // sqliteDB.storeMembers(uniqueid,member_displayname1: myname, member_phone1: members[i], isAdmin1: isAdmin, membershipStatus1: "joined", date_joined1: NSDate.init())
+            sqliteDB.storeMembers(uniqueid,member_displayname1: membersnames[i], member_phone1: memberphones[i], isAdmin1: isAdmin, membershipStatus1: "joined", date_joined1: NSDate.init())
             }
             
         }
         
-        createGroupAPI(groupname,members: members,uniqueid: uniqueid)
+        createGroupAPI(groupname,members: memberphones,uniqueid: uniqueid)
         //send to server
         
         //segue to chat page
@@ -119,6 +124,7 @@ class NewGroupSetDetails: UITableViewController,UINavigationControllerDelegate,U
     func createGroupAPI(groupname:String,members:[String],uniqueid:String)
     {
         //show progress wheen somewhere
+       
         var url=Constants.MainUrl+Constants.createGroupUrl
         Alamofire.request(.POST,"\(url)",parameters:["group_name":groupname,"members":members, "unique_id":uniqueid],headers:header,encoding:.JSON).validate().responseJSON { response in
             
@@ -142,11 +148,11 @@ class NewGroupSetDetails: UITableViewController,UINavigationControllerDelegate,U
                 print(response.result.debugDescription)
                 print("showing group chats page now")
                 
-                var syncMembers=syncGroupService.init()
+               /* var syncMembers=syncGroupService.init()
                 syncMembers.SyncGroupMembersAPI(){(result,error,groupinfo) in
                     print("...")
                      self.performSegueWithIdentifier("groupChatStartSegue", sender: nil)
-                }
+                }*/
                 self.performSegueWithIdentifier("groupChatStartSegue", sender: nil)
               /*  self.dismissViewControllerAnimated(true, completion: {
                     
