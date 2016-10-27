@@ -78,6 +78,7 @@
 		713F3DD71D7A88990072C9E9 /* ArchivedChatsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 713F3DD61D7A88990072C9E9 /* ArchivedChatsViewController.swift */; };
 		7142EC8C1DBE33560070826F /* syncGroupsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7142EC8B1DBE33560070826F /* syncGroupsService.swift */; };
 		7142EC971DBF51DC0070826F /* UtilityFunctions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7142EC961DBF51DC0070826F /* UtilityFunctions.swift */; };
+		7142EC991DC196DB0070826F /* GroupInfoCells.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7142EC981DC196DB0070826F /* GroupInfoCells.swift */; };
 		7150119F1D12D0940091AD7B /* Reachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7150119E1D12D0940091AD7B /* Reachability.swift */; };
 		7152CB251D47DDC900DB8127 /* Fabric.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7152CB231D47DDC900DB8127 /* Fabric.framework */; };
 		7152CB261D47DDC900DB8127 /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7152CB241D47DDC900DB8127 /* Crashlytics.framework */; };
@@ -348,6 +349,7 @@
 		713F3DD61D7A88990072C9E9 /* ArchivedChatsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ArchivedChatsViewController.swift; sourceTree = "<group>"; };
 		7142EC8B1DBE33560070826F /* syncGroupsService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = syncGroupsService.swift; sourceTree = "<group>"; };
 		7142EC961DBF51DC0070826F /* UtilityFunctions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UtilityFunctions.swift; sourceTree = "<group>"; };
+		7142EC981DC196DB0070826F /* GroupInfoCells.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GroupInfoCells.swift; sourceTree = "<group>"; };
 		714560551B904DAA00C8E0D2 /* Contacts.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Contacts.swift; sourceTree = "<group>"; };
 		7145605B1B90875D00C8E0D2 /* Accounts.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Accounts.swift; sourceTree = "<group>"; };
 		7150119E1D12D0940091AD7B /* Reachability.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Reachability.swift; sourceTree = "<group>"; };
@@ -583,6 +585,7 @@
 				710947721D710A63008BC238 /* NewGroupSetDetails.swift */,
 				71C1A2CE1D768ABC00FC5157 /* GroupChatingDetailController.swift */,
 				71EA60701D77EC7800117B55 /* GroupInfo3ViewController.swift */,
+				7142EC981DC196DB0070826F /* GroupInfoCells.swift */,
 				713F3DD61D7A88990072C9E9 /* ArchivedChatsViewController.swift */,
 				7127CC901D9D0C800047683B /* syncContactService.swift */,
 				7142EC8B1DBE33560070826F /* syncGroupsService.swift */,
@@ -1020,6 +1023,7 @@
 				7122F96E1D500FFA00EBBCED /* textDocumentViewController.swift in Sources */,
 				713D51C61CC11896007E0B47 /* ConferenceCallViewController.swift in Sources */,
 				718B8D941CC11A9B000B4AB2 /* WebSocket.swift in Sources */,
+				7142EC991DC196DB0070826F /* GroupInfoCells.swift in Sources */,
 				71EA60711D77EC7800117B55 /* GroupInfo3ViewController.swift in Sources */,
 				7150119F1D12D0940091AD7B /* Reachability.swift in Sources */,
 				713D51EC1CC11896007E0B47 /* VideoViewController.swift in Sources */,

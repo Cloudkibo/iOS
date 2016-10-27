@@ -162,6 +162,12 @@ class syncGroupService
                 print(response.result.value)
                 jsongroupinfo=JSON(response.result.value!)
                 print(jsongroupinfo)
+                do{
+                    var tbl_Groups_Members=sqliteDB.group_member
+                try sqliteDB.db.run(tbl_Groups_Members.delete())
+                }catch{
+print("error delete members")
+                }
                 
                 for(var i=0;i<jsongroupinfo.count;i++)
                 {

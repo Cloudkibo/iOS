@@ -808,7 +808,7 @@
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <state key="normal" title="Broadcast lists"/>
                                                     <connections>
-                                                        <segue destination="0KM-xl-Gv5" kind="push" id="jtR-j8-qvo"/>
+                                                        <segue destination="0KM-xl-Gv5" kind="push" identifier="groupInfoSegue" id="jtR-j8-qvo"/>
                                                     </connections>
                                                 </button>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="q63-Hq-0xE">
@@ -4936,7 +4936,7 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="AddParticipants1Cell" rowHeight="48" id="LzT-GJ-BwC">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="AddParticipants1Cell" rowHeight="48" id="LzT-GJ-BwC" customClass="GroupInfoCell" customModule="Chat" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="28" width="320" height="48"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="LzT-GJ-BwC" id="7v5-Vr-TEl">
@@ -4950,8 +4950,11 @@
                                                 </button>
                                             </subviews>
                                         </tableViewCellContentView>
+                                        <connections>
+                                            <outlet property="btnAddPatricipants" destination="b2d-XF-Fbf" id="Cck-jj-HKT"/>
+                                        </connections>
                                     </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="ExportChatsCell" rowHeight="76" id="bDn-HU-NpU">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="ExportChatsCell" rowHeight="76" id="bDn-HU-NpU" customClass="GroupInfoCell" customModule="Chat" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="76" width="320" height="76"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="bDn-HU-NpU" id="vYz-Ue-05P">
@@ -4965,8 +4968,11 @@
                                                 </button>
                                             </subviews>
                                         </tableViewCellContentView>
+                                        <connections>
+                                            <outlet property="btnExportChat" destination="Xan-6Q-9tn" id="R8B-JV-fpG"/>
+                                        </connections>
                                     </tableViewCell>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="ChatPrivateCell" rowHeight="73" id="4BQ-3I-iEW">
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="ParticipantsInfoCell" rowHeight="73" id="4BQ-3I-iEW" customClass="GroupInfoCell" customModule="Chat" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="152" width="320" height="73"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="4BQ-3I-iEW" id="rfS-YZ-MMd">
@@ -5003,8 +5009,14 @@
                                                 </label>
                                             </subviews>
                                         </tableViewCellContentView>
+                                        <connections>
+                                            <outlet property="lbl_groupAdmin" destination="Bft-42-FWJ" id="anV-lF-0WV"/>
+                                            <outlet property="lbl_participant_name" destination="8W0-s8-E42" id="yAk-m0-GIb"/>
+                                            <outlet property="lbl_participant_status" destination="4YO-te-Ucr" id="IoN-cc-WX1"/>
+                                            <outlet property="profilePicParticipants" destination="3Sp-em-Kau" id="BLt-7d-VPW"/>
+                                        </connections>
                                     </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="ExitClearChatCell" rowHeight="228" id="KRY-Tp-RgT">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="ExitClearChatCell" rowHeight="228" id="KRY-Tp-RgT" customClass="GroupInfoCell" customModule="Chat" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="225" width="320" height="228"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KRY-Tp-RgT" id="nKf-aM-QST">
@@ -5019,13 +5031,6 @@
                                                     <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                                     <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                                                 </textView>
-                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="3ag-Xi-p0z">
-                                                    <rect key="frame" x="8" y="73" width="304" height="30"/>
-                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                    <state key="normal" title="Exit Group">
-                                                        <color key="titleColor" red="0.92941176470588238" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                                    </state>
-                                                </button>
                                                 <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" id="7Ma-fW-ySt">
                                                     <rect key="frame" x="0.0" y="101" width="320" height="76"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -5049,14 +5054,25 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="QUK-t3-X78">
-                                                    <rect key="frame" x="8" y="41" width="304" height="30"/>
+                                                    <rect key="frame" x="8" y="46" width="304" height="30"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <state key="normal" title="Clear Chat">
                                                         <color key="titleColor" red="0.92941176469999998" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     </state>
                                                 </button>
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="3ag-Xi-p0z">
+                                                    <rect key="frame" x="8" y="71" width="304" height="30"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <state key="normal" title="Exit Group">
+                                                        <color key="titleColor" red="0.92941176470588238" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                                    </state>
+                                                </button>
                                             </subviews>
                                         </tableViewCellContentView>
+                                        <connections>
+                                            <outlet property="btnClearChat" destination="QUK-t3-X78" id="RKC-f4-fhc"/>
+                                            <outlet property="btn_exitGroup" destination="3ag-Xi-p0z" id="RuR-z6-l6D"/>
+                                        </connections>
                                     </tableViewCell>
                                 </prototypes>
                                 <sections/>
@@ -5121,12 +5137,12 @@
         <image name="video_off" width="50" height="50"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="W8i-Cs-Z8T"/>
         <segue reference="1jA-Zj-XHt"/>
-        <segue reference="BY8-e2-RyW"/>
         <segue reference="Spe-dd-EXu"/>
         <segue reference="Y9a-Vx-tcX"/>
         <segue reference="QOc-Kg-WHZ"/>
+        <segue reference="xLi-xx-esW"/>
+        <segue reference="0xH-LE-leu"/>
         <segue reference="Cjg-Ar-cdZ"/>
         <segue reference="3Qa-aS-eRu"/>
         <segue reference="Lsn-aA-q1J"/>

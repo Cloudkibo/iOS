@@ -1746,7 +1746,7 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
                         let datens2 = dateFormatter.dateFromString(chatJson["date"].string!)
                         
                         var from=chatJson["from"].string!
-                        var group_unique_id=chatJson["group_unique_id"].string!
+                        var group_unique_id=chatJson["group_unique_id"]["unique_id"].string!
                         var type=chatJson["type"].string!
                         var msg=chatJson["msg"].string!
                         var from_fullname=chatJson["from_fullname"].string!

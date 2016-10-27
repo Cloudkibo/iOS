@@ -19,7 +19,7 @@ import ContactsUI
 class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,CNContactPickerDelegate,
     EPPickerDelegate,SWTableViewCellDelegate,UpdateChatViewsDelegate,RefreshContactsList
 {
-    
+    var swipeindexRow:Int!
     var delegateContctsList:RefreshContactsList!
     var pendingchatsarray=[[String:String]]()
     var delegateRefrChat:UpdateChatViewsDelegate!
@@ -2679,7 +2679,17 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
                 destinationVC.mytitle=ContactNames[selectedRow]
                destinationVC.groupid1=ContactUsernames[selectedRow]
             }}
-        
+        //groupInfoSegue
+        if segue!.identifier == "groupInfoSegue" {
+            
+            if let destinationVC = segue!.destinationViewController as? GroupInfo3ViewController{
+                let selectedRow = swipeindexRow
+                
+                print("going to groupsinfo  groupid is \(ContactUsernames[selectedRow])")
+              //  destinationVC.mytitle=ContactNames[selectedRow]
+                destinationVC.groupid=ContactUsernames[selectedRow]
+            }}
+
     }
     
     
@@ -2979,10 +2989,12 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
     
     //UNCOMMENT WHEN DEALINAG WITH GROUPS
     
-   /* func swipeableTableViewCell(cell: SWTableViewCell!, didTriggerRightUtilityButtonWithIndex index: Int) {
-        
+   func swipeableTableViewCell(cell: SWTableViewCell!, didTriggerRightUtilityButtonWithIndex index: Int) {
+    
+    swipeindexRow=tblForChat.indexPathForCell(cell)!.row
        // if(index==0)
        // {
+    
         print("RightUtilityButton index of more is \(index)")
             if(editButtonOutlet.title=="Edit")
                 
@@ -2999,6 +3011,9 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
                     })
                     
                     let GroupInfo = UIAlertAction(title: "Group Info", style: UIAlertActionStyle.Default,handler: { (action) -> Void in
+                        
+                       // swipeindex=index
+                        self.performSegueWithIdentifier("groupInfoSegue", sender: nil)
                         //// self.removeChatHistory(self.ContactUsernames[indexPath.row],indexPath: indexPath)
                         
                         //call Mute delegate or method
@@ -3051,7 +3066,7 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
             }
       //  }
     }
-    */
+    
     
     func swipeableTableViewCellShouldHideUtilityButtonsOnSwipe(cell: SWTableViewCell!) -> Bool {
         

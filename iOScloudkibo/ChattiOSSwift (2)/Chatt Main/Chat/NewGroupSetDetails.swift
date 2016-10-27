@@ -68,7 +68,7 @@ class NewGroupSetDetails: UITableViewController,UINavigationControllerDelegate,U
         print("group_name is \(groupname)")
         print("members are \(members.debugDescription)")
         
-        sqliteDB.storeGroups(groupname, groupicon1: imgdata, datecreation1: NSDate(), uniqueid1: uid as String)
+        sqliteDB.storeGroups(groupname, groupicon1: imgdata, datecreation1: NSDate(), uniqueid1: uniqueid)
         
         let firstname = Expression<String>("firstname")
         
@@ -89,21 +89,21 @@ class NewGroupSetDetails: UITableViewController,UINavigationControllerDelegate,U
             
         }
         
-        sqliteDB.storeMembers(uniqueid,member_displayname1: myname,member_phone1: username!, isAdmin1: "Yes", membershipStatus1: "joined", date_joined1: NSDate.init())
+        //sqliteDB.storeMembers(uniqueid,member_displayname1: myname,member_phone1: username!, isAdmin1: "Yes", membershipStatus1: "joined", date_joined1: NSDate.init())
         
         for(var i=0;i<members.count;i++)
         {
-            var isAdmin="Yes"
+            var isAdmin="No"
             
             
             if(members[i] == username)
             {
-               // isAdmin
+               isAdmin="Yes"
                 
             }
             else{
                 
-            sqliteDB.storeMembers(uniqueid,member_displayname1: myname, member_phone1: members[i], isAdmin1: "Yes", membershipStatus1: "joined", date_joined1: NSDate.init())
+           // sqliteDB.storeMembers(uniqueid,member_displayname1: myname, member_phone1: members[i], isAdmin1: isAdmin, membershipStatus1: "joined", date_joined1: NSDate.init())
             }
             
         }
@@ -147,7 +147,13 @@ class NewGroupSetDetails: UITableViewController,UINavigationControllerDelegate,U
             {
                 print(response.result.debugDescription)
                 print("showing group chats page now")
-                self.performSegueWithIdentifier("groupChatStartSegue", sender: nil)
+                
+                var syncMembers=syncGroupService.init()
+                syncMembers.SyncGroupMembersAPI(){(result,error,groupinfo) in
+                    print("...")
+                     self.performSegueWithIdentifier("groupChatStartSegue", sender: nil)
+                }
+                //self.performSegueWithIdentifier("groupChatStartSegue", sender: nil)
               /*  self.dismissViewControllerAnimated(true, completion: {
                     
                     
