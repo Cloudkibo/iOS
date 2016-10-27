@@ -250,7 +250,7 @@ EPPickerDelegate,SWTableViewCellDelegate {
         {
             memberphones.append(participantsSelected[i].getPhoneNumber())
              membersnames.append(participantsSelected[i].displayName())
-            self.messages.addObject(["name":membersnames[i],"isAdmin":"No","newmember":"Yes"])
+            self.messages.addObject(["name":membersnames[i],"isAdmin":"No"])
            
             //tblGroupInfo.reloadData()
 
@@ -303,7 +303,13 @@ EPPickerDelegate,SWTableViewCellDelegate {
                     {
                         memberphones.append(participantsSelected[i].getPhoneNumber())
                         membersnames.append(participantsSelected[i].displayName())
+                        
+                        /*if(self.addmemberfailed==true)
+                        {
+                        self.messages.removeObjectAtIndex(self.messages.count-1)
+                        }*/
                     }
+                    
                    // print("group_name is \(groupname)")
                     print("memberphones are \(memberphones.debugDescription)")
                     
@@ -362,12 +368,13 @@ EPPickerDelegate,SWTableViewCellDelegate {
                     
                     //self.performSegueWithIdentifier("groupChatStartSegue", sender: nil)
                     self.addmemberfailed=false
-                    self.dismissViewControllerAnimated(true, completion:{ ()-> Void in
+                    
+                    //self.dismissViewControllerAnimated(true, completion:{ ()-> Void in
                         
                         
                         self.tblGroupInfo.reloadData()
                         
-                    })
+                   // })
                     
                     /*  self.dismissViewControllerAnimated(true, completion: {
                      
@@ -376,6 +383,23 @@ EPPickerDelegate,SWTableViewCellDelegate {
                 }
                 else{
                     self.addmemberfailed=true
+                    var memberphones=[String]()
+                    var membersnames=[String]()
+                    for(var i=0;i<participantsSelected.count;i++)
+                    {
+                        memberphones.append(participantsSelected[i].getPhoneNumber())
+                        membersnames.append(participantsSelected[i].displayName())
+                       
+                        var isAdmin="No"
+                        self.messages.removeObjectAtIndex(self.messages.count-1)
+                      
+                    }
+                    for(var i=0;i<memberphones.count;i++)
+                    {
+                        var isAdmin="No"
+                        self.messages.addObject(["name":membersnames[i],"isAdmin":"No","newmember":"Yes"])
+                        
+                    }
                     print(response.result.debugDescription)
                     print("error in create group endpoint")
                     var arrayIndexPaths=[NSIndexPath]()
@@ -446,7 +470,7 @@ EPPickerDelegate,SWTableViewCellDelegate {
         var messageDic = messages.objectAtIndex(indexPath.row-3) as! [String : String];
        // NSLog(messageDic["message"]!, 1)
        // let msgType = messageDic["type"] as NSString!
-        if let msg = messageDic["newmember"] as NSString?
+        if(messageDic["newmember"] != nil)
         {
             messages.removeObjectAtIndex(indexPath.row-3)
             
@@ -534,7 +558,7 @@ EPPickerDelegate,SWTableViewCellDelegate {
     cell.lbl_groupAdmin.text="(!)"
 cell.lbl_groupAdmin.hidden=false
 }*/
-                    if let neww=messageDic["newmember"] as NSString!
+                    if(messageDic["newmember"] != nil)
                     {
                         cell.lbl_groupAdmin.text="(!)"
                         cell.lbl_groupAdmin.hidden=false
