@@ -443,11 +443,13 @@ EPPickerDelegate,SWTableViewCellDelegate {
 
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         
-        var messageDic = messages.objectAtIndex(indexPath.row+2) as! [String : String];
+        var messageDic = messages.objectAtIndex(indexPath.row-3) as! [String : String];
        // NSLog(messageDic["message"]!, 1)
        // let msgType = messageDic["type"] as NSString!
         if let msg = messageDic["newmember"] as NSString?
         {
+            messages.removeObjectAtIndex(indexPath.row-3)
+            
              self.addToGroup()
         }
         
@@ -537,7 +539,6 @@ cell.lbl_groupAdmin.hidden=false
                         cell.lbl_groupAdmin.text="(!)"
                         cell.lbl_groupAdmin.hidden=false
                         cell.lbl_participant_status.text="Failed to add member. Tap here to retry."
-                        messages.removeObjectAtIndex(indexPath.row-3)
                        
                         /*var tempUIView=UIButton()
                         tempUIView=cell.lbl_participant_status.targetForAction(Selector("BtnTryAgainTapped:"), withSender: nil) as! UIButton
@@ -550,6 +551,14 @@ cell.lbl_groupAdmin.hidden=false
                         
 
                         
+                    }
+                    else
+                    {
+                        //cell.lbl_groupAdmin.text="(!)"
+                        cell.lbl_groupAdmin.hidden=true
+                        cell.lbl_participant_status.text="Hey there! I am using Kibo Chat"
+                        
+
                     }
                     
                     }
