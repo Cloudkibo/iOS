@@ -1604,7 +1604,8 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
                         var group_name = userInfo["group_name"] as? String
                        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0)) {
                         self.fetchSingleGroup(groupId!, completion: { (result, error) in
-                            
+                            self.fetchGroupMembersSpecificGroup(groupId!,completion: { (result, error) in
+                            })
                             
                         })
                         }
@@ -1680,9 +1681,9 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
     }
     */
     
-    func fetchSingleMember(unique_id:String,completion:(result:Bool,error:String!)->())
+    func fetchGroupMembersSpecificGroup(unique_id:String,completion:(result:Bool,error:String!)->())
     {
-        print("uniqueid of single new group is \(unique_id)")
+        print("uniqueid of grup fetching member is \(unique_id)")
         
         //======GETTING REST API TO GET SPECIFIC GROUP==================
         
@@ -1708,12 +1709,55 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
                 
             }
         }
-        var fetchSingleMsgURL=Constants.MainUrl+Constants.fetchSingleGroupMember
+        var fetchSingleMsgURL=Constants.MainUrl+Constants.fetchGroupMembersSpecificGroup
         
         
         //var getUserDataURL=userDataUrl
         
         Alamofire.request(.POST,"\(fetchSingleMsgURL)",parameters: ["unique_id":unique_id],headers:header).validate(statusCode: 200..<300).responseJSON{response in
+            
+            print("members fetched response \(response.description)")
+            print("members fetched response result\(response.result)")
+            var membersdata=JSON(response.result.description)
+            print("members result value count is \(membersdata.count)")
+            var membersdata2=JSON(response.data!)
+            print("members data count is \(membersdata2.count)")
+            for(var i=0;i<membersdata2.count;i++)
+            {
+                var groupid=membersdata2[i]["group_unique_id"]["unique_id"] as? String
+                var displaynameMember=membersdata2[i]["display_name"] as? String
+                var member_phone1=membersdata2[i]["member_phone"] as? String
+                var isAdmin=membersdata2[i]["isAdmin"] as? String
+                var membership_status=membersdata2[i]["membership_status"] as? String
+                var date_join=membersdata2[i]["date_join"] as? String
+                
+                let dateFormatter = NSDateFormatter()
+                dateFormatter.timeZone=NSTimeZone.localTimeZone()
+                dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
+                //  let datens2 = dateFormatter.dateFromString(date2.debugDescription)
+                //2016-09-18T19:13:00.588Z
+                let datens2 = dateFormatter.dateFromString(date_join!)
+                
+                
+                
+                sqliteDB.storeMembers(groupid!, member_displayname1: displaynameMember!, member_phone1: member_phone1!, isAdmin1: isAdmin!, membershipStatus1: membership_status!, date_joined1: datens2!)
+            /*
+     "__v" = 0;
+     "_id" = 58137f5f44c231c85fb37e14;
+     "date_join" = "2016-10-28T16:39:59.791Z";
+     "display_name" = sumaira2;
+     "group_unique_id" =         {
+     "__v" = 0;
+     "_id" = 58137f2144c231c85fb37e11;
+     "date_creation" = "2016-10-28T16:38:57.272Z";
+     "group_name" = testt222;
+     "unique_id" = feWCKzC20161028213854;
+     };
+     isAdmin = No;
+     "member_phone" = "+923201211991";
+     "membership_status" = joined;
+     */
+            }
             
         }
     }
@@ -1787,7 +1831,7 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
                     //2016-09-18T19:13:00.588Z
                     let datens2 = dateFormatter.dateFromString(date_creation)
                     
-                    
+                    print("saving group single \(unique_id)")
                     sqliteDB.storeGroups(group_name, groupicon1: group_icon, datecreation1: datens2!, uniqueid1: unique_id)
 
                     

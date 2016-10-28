@@ -59,22 +59,27 @@ EPPickerDelegate,SWTableViewCellDelegate {
         let group_member_displayname = Expression<String>("group_member_displayname")
         
         
-        
+        print("groupid segue is \(groupid) && group id is \(group_unique_id)")
         var tbl_groupmembers=sqliteDB.group_member
-        var res=tbl_groupmembers.filter(group_unique_id==groupid)
+       // var res=tbl_groupmembers.filter((singleGroupInfo["group_unique_id"] as! String) = groupid)
         //to==selecteduser || from==selecteduser
         //print("chat from sqlite is")
         //print(res)
         do
         {
-           
+           var membersArrayOfGroup=sqliteDB.getGroupMembersOfGroup(groupid)
+            for(var i=0;i<membersArrayOfGroup.count;i++)
+            {
+                print("found matched idss")
+                messages2.addObject(["name":membersArrayOfGroup[i]["group_member_displayname"] as! String,"isAdmin":membersArrayOfGroup[i]["isAdmin"] as! String])
+            }
             //for tblContacts in try sqliteDB.db.prepare(tbl_userchats.filter(owneruser==owneruser1)){
             ////print("queryy runned count is \(tbl_contactslists.count)")
-            for members in try sqliteDB.db.prepare(tbl_groupmembers.filter(group_unique_id==groupid)){
+            /*for members in try sqliteDB.db.prepare(tbl_groupmembers.filter(tbl_groupmembers[group_unique_id]==groupid)){
                 
                  print("found matched idss")
                 messages2.addObject(["name":members[group_member_displayname],"isAdmin":members[isAdmin]])
-            }
+            }*/
         }
         catch
         {

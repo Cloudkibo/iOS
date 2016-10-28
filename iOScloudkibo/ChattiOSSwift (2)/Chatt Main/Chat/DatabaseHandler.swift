@@ -1268,7 +1268,7 @@ print("--------")
                 t.column(group_name)
                 t.column(group_icon, defaultValue:NSData.init())
                 t.column(date_creation)
-                t.column(unique_id)
+                t.column(unique_id, unique:true)
                 t.column(isMute, defaultValue:false)
                 
                 //     "name" TEXT
@@ -1556,7 +1556,7 @@ print("--------")
          let creationdate = Expression<String>("creationdate")
          let deleteStatus = Expression<String>("deleteStatus")
          */
-        
+        self.groups = Table("groups")
         
         do
         {for groupDetails in try self.db.prepare(self.groups){
@@ -1601,10 +1601,11 @@ print("--------")
         
         
         
-        self.groups = Table("groups")
+        var tblGroups = Table("groups")
         do
-        {for groupsinfo in try self.db.prepare(self.groups.filter(unique_id == groupid)){
+        {for groupsinfo in try self.db.prepare(tblGroups.filter(unique_id == groupid)){
             
+            print("inside finding group found in db")
             newEntry["group_name"]=groupsinfo.get(group_name)
             newEntry["group_icon"]=groupsinfo.get(group_icon)
             newEntry["date_creation"]=groupsinfo.get(date_creation)
@@ -1619,6 +1620,64 @@ print("--------")
             print("failed to get teams single object data")
         }
         return newEntry
+        
+    }
+    
+    func getGroupMembersOfGroup(groupid1:String)->[[String:AnyObject]]
+    {
+        let group_unique_id = Expression<String>("group_unique_id")
+        let member_phone = Expression<String>("member_phone")
+        let isAdmin = Expression<String>("isAdmin")
+        let membership_status = Expression<String>("membership_status")
+        let date_joined = Expression<NSDate>("date_joined")
+        let date_left = Expression<NSDate>("date_left")
+        let group_member_displayname = Expression<String>("group_member_displayname")
+        
+        var groupsList=[[String:AnyObject]]()
+        
+        /* let _id = Expression<String>("_id")
+         let deptname = Expression<String>("deptname")
+         let deptdescription = Expression<String>("deptdescription")
+         let companyid = Expression<String>("companyid")
+         let createdby = Expression<String>("createdby")
+         let creationdate = Expression<String>("creationdate")
+         let deleteStatus = Expression<String>("deleteStatus")
+         */
+        var tblGroupmember = Table("group_member")
+        
+        do
+        {for groupDetails in try self.db.prepare(tblGroupmember.filter(group_unique_id==groupid1)){
+            // print("channel name for deptid \(deptid) is \(channelNames.get(msg_channel_name))")
+            var newEntry: [String: AnyObject] = [:]
+            newEntry["group_unique_id"]=groupDetails.get(group_unique_id)
+            newEntry["member_phone"]=groupDetails.get(member_phone)
+            newEntry["isAdmin"]=groupDetails.get(isAdmin)
+            newEntry["membership_status"]=groupDetails.get(membership_status)
+            
+            newEntry["date_joined"]=groupDetails.get(date_joined)
+            
+            newEntry["date_left"]=groupDetails.get(date_left)
+            
+            newEntry["group_member_displayname"]=groupDetails.get(group_member_displayname)
+            /*newEntry["msg_channel_description"]=channelNames.get(msg_channel_description)
+             newEntry["companyid"]=channelNames.get(companyid)
+             newEntry["groupid"]=channelNames.get(groupid)
+             newEntry["createdby"]=channelNames.get(createdby)
+             newEntry["creationdate"]=channelNames.get(creationdate)
+             newEntry["deleteStatus"]=channelNames.get(deleteStatus)
+             */
+            groupsList.append(newEntry)
+            
+            
+            }
+        }
+        catch{
+            print("failed to get groupsList")
+        }
+        print("groupsList count is \(groupsList.count)")
+        return groupsList
+        
+        
         
     }
 }
