@@ -69,6 +69,8 @@ static let connectionstring="Endpoint=sb://cloudkiboiospush.servicebus.windows.n
     static var fetchSingleGroup="/api/groupmessaging/specificGroup"
     static var fetchGroupMembersSpecificGroup="/api/groupmessaginguser/myspecificgroupsmembers"
     
+    static var leaveGroup="/api/groupmessaginguser/leaveGroup" //group_unique_id
+    
   //  static var fetchSingleGroupChat="/api/groupchat/fetchSingleChat"
     /*
      private static String phoneContactsURL = "https://www.cloudkibo.com/api/users/searchaccountsbyphone/";

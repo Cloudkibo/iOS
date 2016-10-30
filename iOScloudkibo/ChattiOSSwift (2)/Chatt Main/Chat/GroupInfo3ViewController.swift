@@ -99,6 +99,12 @@ EPPickerDelegate,SWTableViewCellDelegate {
         print("inside groupaddmember try again func")
     addToGroup()
     }
+    func BtnExitGroupClicked(sender:UIButton)
+    {
+        print("inside exit group func")
+        
+        exitGroup()
+    }
     func BtnnewGroupClicked(sender:UIButton)
     {
         
@@ -267,6 +273,39 @@ EPPickerDelegate,SWTableViewCellDelegate {
         
         
         }
+    
+    func exitGroup()
+    {
+        let shareMenu = UIAlertController(title: nil, message: "Are you sure you want to leave this group?", preferredStyle: .ActionSheet)
+        
+        let yes = UIAlertAction(title: "Yes", style: UIAlertActionStyle.Default,handler: { (action) -> Void in
+            
+            var url=Constants.MainUrl+Constants.leaveGroup
+            Alamofire.request(.POST,"\(url)",parameters:["group_unique_id":self.groupid],headers:header,encoding:.JSON).validate().responseJSON { response in
+                
+                
+                print("exit group response \(response.description)")
+                if(response.result.isSuccess)
+                {
+                    print("left group")
+                    print(response.result.value)
+                }
+            }
+            
+
+            
+        })
+        let no = UIAlertAction(title: "No", style: UIAlertActionStyle.Default,handler: { (action) -> Void in
+            
+            })
+            shareMenu.addAction(yes)
+            shareMenu.addAction(no)
+        
+        self.presentViewController(shareMenu, animated: true) { 
+            
+            
+        }
+           }
         
         func addGroupMembersAPI(members:[String],uniqueid:String)
         {
@@ -601,7 +640,15 @@ cell.lbl_groupAdmin.hidden=false
                 {
                     //last cell
                     print("exit/clear chat")
-                    var cell=tblGroupInfo.dequeueReusableCellWithIdentifier("ExitClearChatCell")! as UITableViewCell
+                    var cell=tblGroupInfo.dequeueReusableCellWithIdentifier("ExitClearChatCell")! as! GroupInfoCell
+                    
+                    
+                    btnNewGroup=cell.btn_exitGroup
+                    //btnNewGroup=cell.btnNewGroupOutlet
+                    
+                    //cell.btnAddPatricipants.tag=section
+                    cell.btn_exitGroup.addTarget(self, action: Selector("BtnExitGroupClicked:"), forControlEvents:.TouchUpInside)
+
                     
                     return cell
                 }
