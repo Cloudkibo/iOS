@@ -274,6 +274,46 @@ EPPickerDelegate,SWTableViewCellDelegate {
         
         }
     
+    
+    
+    func adminRemovesMember(memberPhone:String)
+    {
+        let shareMenu = UIAlertController(title: nil, message: "Are you sure you want to remove \(memberPhone)?", preferredStyle: .ActionSheet)
+        
+        let yes = UIAlertAction(title: "Yes", style: UIAlertActionStyle.Default,handler: { (action) -> Void in
+            
+            var url=Constants.MainUrl+Constants.removeMemberFromGroup
+            Alamofire.request(.POST,"\(url)",parameters:["group_unique_id":self.groupid,"phone":memberPhone],headers:header,encoding:.JSON).validate().responseJSON { response in
+                
+                
+                print("exit group response \(response.description)")
+                if(response.result.isSuccess)
+                {
+                    print("removed member from group")
+                    print(response.result.value)
+                    var uniqueidMsg=self.generateUniqueid()
+                    // var dateString=self.getDateString(NSDate())
+                    
+                    sqliteDB.storeGroupsChat(username!, group_unique_id1: self.groupid, type1: "log_leftGroup", msg1: "You have left this group", from_fullname1: "", date1:NSDate() , unique_id1: uniqueidMsg)
+                    
+                    self.tblGroupInfo.reloadData()
+                }
+            }
+            
+            
+            
+        })
+        let no = UIAlertAction(title: "No", style: UIAlertActionStyle.Default,handler: { (action) -> Void in
+            
+        })
+        shareMenu.addAction(yes)
+        shareMenu.addAction(no)
+        
+        self.presentViewController(shareMenu, animated: true) {
+            
+            
+        }
+    }
     func exitGroup()
     {
         let shareMenu = UIAlertController(title: nil, message: "Are you sure you want to leave this group?", preferredStyle: .ActionSheet)
@@ -557,6 +597,51 @@ EPPickerDelegate,SWTableViewCellDelegate {
             messages.removeObjectAtIndex(indexPath.row-3)
             
              self.addToGroup()
+        }
+        else
+        {
+            //show actions for removing group
+            let shareMenu = UIAlertController(title: nil, message: nil, preferredStyle: .ActionSheet)
+            
+            let makeAdmin = UIAlertAction(title: "Make Group Admin", style: UIAlertActionStyle.Default,handler: { (action) -> Void in
+                
+               /* var url=Constants.MainUrl+Constants.removeMemberFromGroup
+                Alamofire.request(.POST,"\(url)",parameters:["group_unique_id":self.groupid,"phone":memberPhone],headers:header,encoding:.JSON).validate().responseJSON { response in
+                    
+                    
+                    print("exit group response \(response.description)")
+                    if(response.result.isSuccess)
+                    {
+                        print("removed member from group")
+                        print(response.result.value)
+                        var uniqueidMsg=self.generateUniqueid()
+                        // var dateString=self.getDateString(NSDate())
+                        
+                        sqliteDB.storeGroupsChat(username!, group_unique_id1: self.groupid, type1: "log_leftGroup", msg1: "You have left this group", from_fullname1: "", date1:NSDate() , unique_id1: uniqueidMsg)
+                        
+                        self.tblGroupInfo.reloadData()
+                    }
+                }
+                */
+                
+                
+            })
+            let removeMember = UIAlertAction(title: "Remove \(memberSelectedName) ?", style: UIAlertActionStyle.Default,handler: { (action) -> Void in
+                
+            })
+            let cancel = UIAlertAction(title: "No", style: UIAlertActionStyle.Default,handler: { (action) -> Void in
+                
+            })
+            shareMenu.addAction(makeAdmin)
+            shareMenu.addAction(removeMember)
+             shareMenu.addAction(cancel)
+            
+            self.presentViewController(shareMenu, animated: true) {
+                
+                
+            }
+
+            
         }
         
       /*  if(msgType.isEqualToString("5")||msgType.isEqualToString("6")){

@@ -70,6 +70,7 @@ static let connectionstring="Endpoint=sb://cloudkiboiospush.servicebus.windows.n
     static var fetchGroupMembersSpecificGroup="/api/groupmessaginguser/myspecificgroupsmembers"
     
     static var leaveGroup="/api/groupmessaginguser/leaveGroup" //group_unique_id
+    static var  removeMemberFromGroup="/api/groupmessaginguser/removeFromGroup" //group_unique_id , phone
     
   //  static var fetchSingleGroupChat="/api/groupchat/fetchSingleChat"
     /*
