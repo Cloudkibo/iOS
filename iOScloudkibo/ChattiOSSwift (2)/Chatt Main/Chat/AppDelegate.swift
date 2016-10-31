@@ -1634,6 +1634,26 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
                     
 
                 }
+                
+                if(type=="group:member_left_group")
+                {
+                    var senderId=userInfo["senderId"] as? String  //from
+                    var groupId=userInfo["groupId"] as? String
+                    var isAdmin=userInfo["isAdmin"] as? String
+                    var membership_status=userInfo["membership_status"] as? String
+           
+                  sqliteDB.removeMember(groupId!,member_phone1: senderId!)
+                    if(delegateRefreshChat != nil)
+                    {
+                        print("refresh UI after member leaves")
+                        delegateRefreshChat?.refreshChatsUI(nil, uniqueid:nil, from:nil, date1:nil, type:"status")
+                    }
+
+                    //updateUI
+                    
+                }
+                
+                
                 //}
             }
             

@@ -1680,4 +1680,30 @@ print("--------")
         
         
     }
+    
+    func removeMember(groupid1:String,member_phone1:String)
+        {
+            let group_unique_id = Expression<String>("group_unique_id")
+            let member_phone = Expression<String>("member_phone")
+            let isAdmin = Expression<String>("isAdmin")
+            let membership_status = Expression<String>("membership_status")
+            let date_joined = Expression<NSDate>("date_joined")
+            let date_left = Expression<NSDate>("date_left")
+            let group_member_displayname = Expression<String>("group_member_displayname")
+            
+        do
+        {
+        try sqliteDB.db.run(group_member.filter(member_phone==member_phone1 && group_unique_id==groupid1).delete())
+        
+        }
+        catch(let error)
+        {
+        print("error in deleting group member \(error)")
+        if(socketObj != nil)
+        {
+        socketObj.socket.emit("logClient","IPHONE-LOG: error in deleting group member \(member_phone1) from sqliteDB \(error)")
+        }
+        
+        }
+        }
 }
