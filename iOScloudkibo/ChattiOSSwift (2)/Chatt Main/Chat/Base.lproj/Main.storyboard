@@ -2083,6 +2083,7 @@
                     </navigationItem>
                     <nil key="simulatedBottomBarMetrics"/>
                     <connections>
+                        <outlet property="chatComposeView" destination="4nr-N6-IuP" id="EuT-mD-aQZ"/>
                         <outlet property="tblForGroupChat" destination="MKE-Oa-T8a" id="Bwx-xi-7Xg"/>
                         <outlet property="txtFieldMessage" destination="7GT-bG-Zes" id="wV6-oH-Liy"/>
                     </connections>

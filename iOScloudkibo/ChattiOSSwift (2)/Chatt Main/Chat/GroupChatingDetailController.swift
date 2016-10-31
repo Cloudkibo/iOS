@@ -19,6 +19,7 @@ class GroupChatingDetailController: UIViewController {
     
     @IBOutlet weak var txtFieldMessage: UITextField!
    
+    @IBOutlet weak var chatComposeView: UIView!
     
     func setTitle(title:String, subtitle:String) -> UIView {
         //Create a label programmatically and give it its property's
@@ -278,6 +279,11 @@ class GroupChatingDetailController: UIViewController {
                 }
                 */
                 
+                if(tblContacts[type]=="log_leftGroup")
+                {
+                    self.txtFieldMessage.text="You left the group"
+                    self.chatComposeView.userInteractionEnabled=false
+                }
                 
                 if (tblContacts[from]==username!)
                     

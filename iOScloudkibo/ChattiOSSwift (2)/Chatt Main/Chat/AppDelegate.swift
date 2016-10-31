@@ -1716,31 +1716,43 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
         
         Alamofire.request(.POST,"\(fetchSingleMsgURL)",parameters: ["unique_id":unique_id],headers:header).validate(statusCode: 200..<300).responseJSON{response in
             
-            print("members fetched response \(response.description)")
-            print("members fetched response result\(response.result)")
-            var membersdata=JSON(response.result.description)
-            print("members result value count is \(membersdata.count)")
-            var membersdata2=JSON(response.data!)
-            print("members data count is \(membersdata2.count)")
-            for(var i=0;i<membersdata2.count;i++)
+            //print("members fetched response \(response.description)")
+            //var membersDataNew=JSON(response.response!.description)
+           // print("membersDataNew count is \(membersDataNew.count) and JSON data is : \(membersDataNew)")
+            print("response code is \(response.response?.statusCode)")
+
+            print("members fetched response.. \(response.result)")
+             print("members fetched response result.. \(response.result.value!)")
+            print("members fetched response data.. \(response.data!)")
+            
+            print("members fetched response JSON.. \(JSON(response.result.debugDescription))")
+            print("members fetched response result JSON.. \(JSON(response.result.value!))")
+            print("members fetched response data JSON.. \(JSON(response.data!))")
+            
+            print("members fetched response COUNT.. \(JSON(response.result.debugDescription).count)")
+            print("members fetched response result COUNT.. \(JSON(response.result.value!).count)")
+            print("members fetched response data COUNT.. \(JSON(response.data!).count)")
+            
+            var membersDataNew=JSON(response.result.value!)
+            for(var i=0;i<membersDataNew.count;i++)
             {
-                var groupid=membersdata2[i]["group_unique_id"]["unique_id"] as? String
-                var displaynameMember=membersdata2[i]["display_name"] as? String
-                var member_phone1=membersdata2[i]["member_phone"] as? String
-                var isAdmin=membersdata2[i]["isAdmin"] as? String
-                var membership_status=membersdata2[i]["membership_status"] as? String
-                var date_join=membersdata2[i]["date_join"] as? String
+                var groupid=membersDataNew[i]["group_unique_id"]["unique_id"].string!
+                var displaynameMember=membersDataNew[i]["display_name"].string!
+                var member_phone1=membersDataNew[i]["member_phone"].string!
+                var isAdmin=membersDataNew[i]["isAdmin"].string!
+                var membership_status=membersDataNew[i]["membership_status"].string!
+                var date_join=membersDataNew[i]["date_join"].string!
                 
                 let dateFormatter = NSDateFormatter()
                 dateFormatter.timeZone=NSTimeZone.localTimeZone()
                 dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
                 //  let datens2 = dateFormatter.dateFromString(date2.debugDescription)
                 //2016-09-18T19:13:00.588Z
-                let datens2 = dateFormatter.dateFromString(date_join!)
+                let datens2 = dateFormatter.dateFromString(date_join)
                 
                 
                 
-                sqliteDB.storeMembers(groupid!, member_displayname1: displaynameMember!, member_phone1: member_phone1!, isAdmin1: isAdmin!, membershipStatus1: membership_status!, date_joined1: datens2!)
+                sqliteDB.storeMembers(groupid, member_displayname1: displaynameMember, member_phone1: member_phone1, isAdmin1: isAdmin, membershipStatus1: membership_status, date_joined1: datens2!)
             /*
      "__v" = 0;
      "_id" = 58137f5f44c231c85fb37e14;
@@ -1758,6 +1770,7 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
      "membership_status" = joined;
      */
             }
+            
             
         }
     }

@@ -289,6 +289,12 @@ EPPickerDelegate,SWTableViewCellDelegate {
                 {
                     print("left group")
                     print(response.result.value)
+                    var uniqueidMsg=self.generateUniqueid()
+                   // var dateString=self.getDateString(NSDate())
+                    
+                    sqliteDB.storeGroupsChat(username!, group_unique_id1: self.groupid, type1: "log_leftGroup", msg1: "You have left this group", from_fullname1: "", date1:NSDate() , unique_id1: uniqueidMsg)
+                    
+                    self.tblGroupInfo.reloadData()
                 }
             }
             
@@ -306,7 +312,39 @@ EPPickerDelegate,SWTableViewCellDelegate {
             
         }
            }
+    
+    
+    
+    func getDateString(datetime:NSDate)->String
+    {
+        var formatter2 = NSDateFormatter();
+        formatter2.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSS"
+        formatter2.timeZone = NSTimeZone.localTimeZone()
+        var defaultTimeeee = formatter2.stringFromDate(datetime)
+        return defaultTimeeee
+    }
+
+    
+    func generateUniqueid()->String
+    {
         
+        var uid=randomStringWithLength(7)
+        
+        var date=NSDate()
+        var calendar = NSCalendar.currentCalendar()
+        var year=calendar.components(NSCalendarUnit.Year,fromDate: date).year
+        var month=calendar.components(NSCalendarUnit.Month,fromDate: date).month
+        var day=calendar.components(.Day,fromDate: date).day
+        var hr=calendar.components(NSCalendarUnit.Hour,fromDate: date).hour
+        var min=calendar.components(NSCalendarUnit.Minute,fromDate: date).minute
+        var sec=calendar.components(NSCalendarUnit.Second,fromDate: date).second
+        print("\(year) \(month) \(day) \(hr) \(min) \(sec)")
+        var uniqueid="\(uid)\(year)\(month)\(day)\(hr)\(min)\(sec)"
+        
+        return uniqueid
+        
+        
+    }
         func addGroupMembersAPI(members:[String],uniqueid:String)
         {
             //show progress wheen somewhere
