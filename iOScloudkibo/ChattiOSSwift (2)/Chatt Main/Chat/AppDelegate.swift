@@ -1214,7 +1214,7 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
             
             if(username != nil && username != "")
             {
-               ///////// self.synchroniseChatData()
+               self.synchroniseChatData()
             }
             
             socketObj=nil
