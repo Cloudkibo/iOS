@@ -158,6 +158,9 @@ class NewGroupSetDetails: UITableViewController,UINavigationControllerDelegate,U
                 {
                     print("profile image is selected")
                     print("call API to upload image")
+                   
+                    uploadProfileImage(groupuniqueid: uniqueid)
+                    
                 }
                 self.performSegueWithIdentifier("groupChatStartSegue", sender: nil)
               /*  self.dismissViewControllerAnimated(true, completion: {
@@ -172,6 +175,77 @@ class NewGroupSetDetails: UITableViewController,UINavigationControllerDelegate,U
             }
         }
         
+    }
+    
+    func uploadProfileImage(groupUniqueID:String,completion:(result:Bool,error:String!)->())
+    {
+        var url=Constants.MainUrl+Constants.uploadProfileImage
+        Alamofire.request(.POST,"\(url)",parameters:["unique_id":uniqueid],headers:header,encoding:.JSON).validate().responseJSON { response in
+            
+            
+            var urlupload=Constants.MainUrl+Constants.uploadFile
+            Alamofire.upload(
+                .POST,
+                urlupload,
+                headers: header,
+                multipartFormData: { multipartFormData in
+                    multipartFormData.appendBodyPart(data: imageData!, name: "file"
+                        ,fileName: file_name1, mimeType: self.MimeType(file_type1))
+                    //,fileName: file_name1, mimeType: "image/\(file_type1)")
+                    for (key, value) in parameters {
+                        multipartFormData.appendBodyPart(data: value.dataUsingEncoding(NSUTF8StringEncoding)!, name: key)
+                    }
+                    ///multipartFormData.appendBodyPart(data: jsonParameterData!, name: "goesIntoForm")
+                    
+                },
+                encodingCompletion: { encodingResult in
+                    switch encodingResult {
+                    case .Success(let upload, _, _):
+                        upload.progress { bytesWritten, totalBytesWritten, totalBytesExpectedToWrite in
+                            dispatch_async(dispatch_get_main_queue()) {
+                                let percent = (Float(totalBytesWritten) / Float(totalBytesExpectedToWrite))
+                                /////progress(percent: percent)
+                                if(self.delegateProgressUpload != nil)
+                                {
+                                    if(percent<1.0)
+                                    {
+                                        self.delegateProgressUpload.updateProgressUpload(percent,uniqueid: uniqueid1)
+                                    }
+                                    
+                                }
+                                //Redraw specific table cell
+                                print("percentage is \(percent)")
+                            }
+                        }
+                        upload.validate()
+                        upload.responseJSON { response in
+                            print(response.response?.statusCode)
+                            print(response.data!)
+                            
+                            switch response.result {
+                            case .Success:
+                                
+                            }
+            /*
+             
+             "__v" = 0;
+             "_id" = 57c69e61dfff9e5223a8fcb2;
+             activeStatus = Yes;
+             companyid = cd89f71715f2014725163952;
+             createdby = 554896ca78aed92f4e6db296;
+             creationdate = "2016-08-31T09:07:45.236Z";
+             groupid = 57c69e61dfff9e5223a8fcb1;
+             "msg_channel_description" = "This channel is for general discussions";
+             "msg_channel_name" = General;
+             
+             
+             */
+            print("Add profile pic called")
+            if(response.result.isSuccess)
+            {
+                print("success uploading image profile")
+            }
+        }
     }
     
     func randomStringWithLength (len : Int) -> NSString {
@@ -221,6 +295,8 @@ class NewGroupSetDetails: UITableViewController,UINavigationControllerDelegate,U
         let cell=tblNewGroupDetails.dequeueReusableCellWithIdentifier("NewGroupDetailsCell") as! ContactsListCell
         "NewGroupParticipantsCell"
             
+            
+            cell.btn_edit_profilePic.hidden=true
             groupname=cell.groupNameFieldOutlet.text!
             if(imgdata != NSData.init())
             {
@@ -326,7 +402,7 @@ class NewGroupSetDetails: UITableViewController,UINavigationControllerDelegate,U
         
         let SelectImage = UIAlertAction(title: "Select Image", style: UIAlertActionStyle.Default,handler: { (action) -> Void in
             
-            self.selectImage()
+            self.selectImage(gestureRecognizer)
             
             // swipeindex=index
             //self.performSegueWithIdentifier("groupInfoSegue", sender: nil)
@@ -358,10 +434,10 @@ class NewGroupSetDetails: UITableViewController,UINavigationControllerDelegate,U
         
     }
     
-    func selectImage()
+    func selectImage(gestureRecognizer: UITapGestureRecognizer)
     {
         
-       // let tappedImageView = gestureRecognizer.view! as! UIImageView
+       let tappedImageView = gestureRecognizer.view
         
         var picker=UIImagePickerController.init()
         picker.delegate=self
@@ -381,8 +457,11 @@ class NewGroupSetDetails: UITableViewController,UINavigationControllerDelegate,U
         { () -> Void in
             //  picker.addChildViewController(UILabel("hiiiiiiiiiiiii"))
             
-            self.presentViewController(picker, animated: true, completion: nil)
-            
+            self.presentViewController(picker, animated: true,completion: {
+                print("done choosing image")
+
+            tappedImageView!.removeGestureRecognizer(gestureRecognizer)
+            })
         }
 
     }
@@ -414,6 +493,7 @@ class NewGroupSetDetails: UITableViewController,UINavigationControllerDelegate,U
             self.presentViewController(picker, animated: true, completion: { 
                 
                 //new
+                print("removing gesture")
                 tappedImageView.removeGestureRecognizer(gestureRecognizer)
             })
             
@@ -424,6 +504,17 @@ class NewGroupSetDetails: UITableViewController,UINavigationControllerDelegate,U
         
     }
     
+    func imagePickerControllerDidCancel(picker: UIImagePickerController) {
+        
+        
+        self.dismissViewControllerAnimated(true, completion:{ ()-> Void in
+            print("cancelled and dismissing image picker")
+           // imgdata=NSData.init()
+            self.tblNewGroupDetails.reloadData()
+        })
+        
+        
+    }
     func imagePickerController(picker: UIImagePickerController, didFinishPickingImage image: UIImage, editingInfo: [String : AnyObject]?) {
         
         
@@ -437,14 +528,16 @@ class NewGroupSetDetails: UITableViewController,UINavigationControllerDelegate,U
         let photoURL          = NSURL(fileURLWithPath: documentDirectory)
         let localPath         = photoURL.URLByAppendingPathComponent(imageName!)
         let image             = editingInfo![UIImagePickerControllerOriginalImage]as! UIImage
+        
+        
          imgdata              = UIImagePNGRepresentation(image)!
         
        
         
         
         self.dismissViewControllerAnimated(true, completion:{ ()-> Void in
-            
-            
+            print("dismissing image picker")
+            print("selected image is \(image)")
             self.tblNewGroupDetails.reloadData()
         })
         /* if let imageURL = editingInfo![UIImagePickerControllerReferenceURL] as? NSURL {
@@ -592,84 +685,7 @@ extension NewGroupSetDetails: UICollectionViewDelegate, UICollectionViewDataSour
             
             cell.participantsProfilePic.image=participants[indexPath.row].thumbnailProfileImage
             
-            
-            
-            
-            
-          /*  var imageavatar1=UIImage.init(data:(foundcontact.imageData)!)
-            //   imageavatar1=ResizeImage(imageavatar1!,targetSize: s)
-            
-            //var img=UIImage(data:ContactsProfilePic[indexPath.row])
-            var w=imageavatar1!.size.width
-            var h=imageavatar1!.size.height
-            var wOld=(cell.frame.width)-5
-            var hOld=(cell.frame.height)-15
-            var scale:CGFloat=w/wOld
-            
-            
-            ///var s=CGSizeMake((self.navigationController?.navigationBar.frame.height)!-5,(self.navigationController?.navigationBar.frame.height)!-5)
-            
-            var avatarimage1=UIImageView.init(image: UIImage(data: (foundcontact.imageData)!,scale:scale))
-            
-            avatarimage1.layer.borderWidth = 1.0
-            avatarimage1.layer.masksToBounds = false
-            avatarimage1.layer.borderColor = UIColor.whiteColor().CGColor
-            avatarimage1.layer.cornerRadius = avatarimage1.frame.size.width/2
-            avatarimage1.clipsToBounds = true
-            
-            
-            cell.participantsProfilePic.image=avatarimage1.image
-*/
-            /////cell.participantsProfilePic.image=avatarimage.image
-            
-            
-            //workingg
-            /*avatarimage=UIImageView.init(image: UIImage(data: (foundcontact.imageData)!,scale:scale))
-            
-            avatarimage.layer.borderWidth = 1.0
-            avatarimage.layer.masksToBounds = false
-            avatarimage.layer.borderColor = UIColor.whiteColor().CGColor
-            avatarimage.layer.cornerRadius = avatarimage.frame.size.width/2
-            avatarimage.clipsToBounds = true
-            
-            cell.participantsProfilePic.image=avatarimage.image
-            
-            
-            */
-            
-            
-            /*
-             var imageavatar1=UIImage.init(data:(foundcontact.imageData)!)
-             //   imageavatar1=ResizeImage(imageavatar1!,targetSize: s)
-             
-             //var img=UIImage(data:ContactsProfilePic[indexPath.row])
-             var w=imageavatar1!.size.width
-             var h=imageavatar1!.size.height
-             var wOld=(self.navigationController?.navigationBar.frame.height)!-5
-             var hOld=(self.navigationController?.navigationBar.frame.width)!-5
-             var scale:CGFloat=w/wOld
-             
-             
-             ///var s=CGSizeMake((self.navigationController?.navigationBar.frame.height)!-5,(self.navigationController?.navigationBar.frame.height)!-5)
-             
-             var barAvatarImage=UIImageView.init(image: UIImage(data: (foundcontact.imageData)!,scale:scale))
-             
-             barAvatarImage.layer.borderWidth = 1.0
-             barAvatarImage.layer.masksToBounds = false
-             barAvatarImage.layer.borderColor = UIColor.whiteColor().CGColor
-             barAvatarImage.layer.cornerRadius = barAvatarImage.frame.size.width/2
-             barAvatarImage.clipsToBounds = true
-             
-             
-             var avatarbutton=UIBarButtonItem.init(customView: barAvatarImage)
-             self.navigationItem.rightBarButtonItems?.insert(avatarbutton, atIndex: 0)
-             
- */
-            //////var avatarbutton=UIBarButtonItem.init(customView: barAvatarImage)
-           ///////self.navigationItem.rightBarButtonItems?.insert(avatarbutton, atIndex: 0)
-            
-            //ContactsProfilePic.append(foundcontact.imageData!)
-            //picfound=true
+      
 
         }
         }
