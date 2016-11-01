@@ -71,7 +71,7 @@ EPPickerDelegate,SWTableViewCellDelegate {
             for(var i=0;i<membersArrayOfGroup.count;i++)
             {
                 print("found matched idss")
-                messages2.addObject(["name":membersArrayOfGroup[i]["group_member_displayname"] as! String,"isAdmin":membersArrayOfGroup[i]["isAdmin"] as! String])
+                messages2.addObject(["member_phone":membersArrayOfGroup[i]["member_phone"] as! String,"name":membersArrayOfGroup[i]["group_member_displayname"] as! String,"isAdmin":membersArrayOfGroup[i]["isAdmin"] as! String])
             }
             //for tblContacts in try sqliteDB.db.prepare(tbl_userchats.filter(owneruser==owneruser1)){
             ////print("queryy runned count is \(tbl_contactslists.count)")
@@ -261,7 +261,7 @@ EPPickerDelegate,SWTableViewCellDelegate {
         {
             memberphones.append(participantsSelected[i].getPhoneNumber())
              membersnames.append(participantsSelected[i].displayName())
-            self.messages.addObject(["name":membersnames[i],"isAdmin":"No"])
+            self.messages.addObject(["member_phone":memberphones[i]["member_phone"] as! String,"name":membersnames[i],"isAdmin":"No"])
            
             //tblGroupInfo.reloadData()
 
@@ -519,7 +519,7 @@ EPPickerDelegate,SWTableViewCellDelegate {
                     for(var i=0;i<memberphones.count;i++)
                     {
                         var isAdmin="No"
-                        self.messages.addObject(["name":membersnames[i],"isAdmin":"No","newmember":"Yes"])
+                        self.messages.addObject(["member_phone":memberphones[i] as! String,"name":membersnames[i],"isAdmin":"No","newmember":"Yes"])
                         
                     }
                     print(response.result.debugDescription)
@@ -600,6 +600,12 @@ EPPickerDelegate,SWTableViewCellDelegate {
         }
         else
         {
+            var selectedMemberPhone=messageDic["member_phone"]
+            var selectedMemberName=messageDic["name"]
+            var selectedMemberIsAdmin=messageDic["isAdmin"]
+            if(selectedMemberIsAdmin == "No")
+            {
+            
             //show actions for removing group
             let shareMenu = UIAlertController(title: nil, message: nil, preferredStyle: .ActionSheet)
             
@@ -626,7 +632,9 @@ EPPickerDelegate,SWTableViewCellDelegate {
                 
                 
             })
-            let removeMember = UIAlertAction(title: "Remove \(memberSelectedName) ?", style: UIAlertActionStyle.Default,handler: { (action) -> Void in
+            let removeMember = UIAlertAction(title: "Remove \(selectedMemberName) ?", style: UIAlertActionStyle.Default,handler: { (action) -> Void in
+                
+                self.adminRemovesMember(selectedMemberPhone!)
                 
             })
             let cancel = UIAlertAction(title: "No", style: UIAlertActionStyle.Default,handler: { (action) -> Void in
@@ -640,7 +648,7 @@ EPPickerDelegate,SWTableViewCellDelegate {
                 
                 
             }
-
+        }//end of not Admin
             
         }
         
