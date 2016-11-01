@@ -270,7 +270,7 @@ EPPickerDelegate,SWTableViewCellDelegate {
             //tblGroupInfo.reloadData()
 
         }
-                 addGroupMembersAPI(memberphones,uniqueid: groupid)
+        addGroupMembersAPI(singleGroupInfo["group_name"] as! String,members: memberphones,uniqueid: groupid)
         //send to server
         
         //segue to chat page
@@ -301,7 +301,7 @@ EPPickerDelegate,SWTableViewCellDelegate {
                    
                     sqliteDB.updateMembershipStatus(memberPhone, membership_status1: "left")
                     
-                    sqliteDB.storeGroupsChat(username!, group_unique_id1: self.groupid, type1: "log", msg1: "You have left this group", from_fullname1: "", date1:NSDate() , unique_id1: uniqueidMsg)
+                    sqliteDB.storeGroupsChat("Log:", group_unique_id1: self.groupid, type1: "log", msg1: "You have left this group", from_fullname1: "", date1:NSDate() , unique_id1: uniqueidMsg)
                     
                    /// sqliteDB.storeGroupsChat(username!, group_unique_id1: self.groupid, type1: "log_leftGroup", msg1: "You have left this group", from_fullname1: "", date1:NSDate() , unique_id1: uniqueidMsg)
                     
@@ -341,8 +341,8 @@ EPPickerDelegate,SWTableViewCellDelegate {
                     var uniqueidMsg=self.generateUniqueid()
                    // var dateString=self.getDateString(NSDate())
                     
-                    sqliteDB.updateMembershipStatus(username!,"left")
-                    sqliteDB.storeGroupsChat(username!, group_unique_id1: self.groupid, type1: "log", msg1: "You have left this group", from_fullname1: "", date1:NSDate() , unique_id1: uniqueidMsg)
+                    sqliteDB.updateMembershipStatus(username!,membership_status1: "left")
+                    sqliteDB.storeGroupsChat("Log:", group_unique_id1: self.groupid, type1: "log", msg1: "You have left this group", from_fullname1: "", date1:NSDate() , unique_id1: uniqueidMsg)
                     
                     self.tblGroupInfo.reloadData()
                 }
@@ -395,12 +395,12 @@ EPPickerDelegate,SWTableViewCellDelegate {
         
         
     }
-        func addGroupMembersAPI(members:[String],uniqueid:String)
+    func addGroupMembersAPI(groupname:String,members:[String],uniqueid:String)
         {
             //show progress wheen somewhere
             
             var url=Constants.MainUrl+Constants.addGroupMembersUrl
-            Alamofire.request(.POST,"\(url)",parameters:["members":members, "group_unique_id":uniqueid],headers:header,encoding:.JSON).validate().responseJSON { response in
+            Alamofire.request(.POST,"\(url)",parameters:["group_name":groupname,"members":members, "group_unique_id":uniqueid],headers:header,encoding:.JSON).validate().responseJSON { response in
                 
                 /*
                  

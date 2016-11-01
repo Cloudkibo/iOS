@@ -1656,15 +1656,15 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
                 
                 if(type=="group:member_left_group")
                 {
-                    var senderId=userInfo["senderId"] as? String  //from
-                    var groupId=userInfo["groupId"] as? String
-                    var isAdmin=userInfo["isAdmin"] as? String
-                    var membership_status=userInfo["membership_status"] as? String
+                    var senderId=userInfo["senderId"] as! String  //from
+                    var groupId=userInfo["groupId"] as! String
+                    var isAdmin=userInfo["isAdmin"] as! String
+                    var membership_status=userInfo["membership_status"] as! String
            
                     var uniqueid1=UtilityFunctions.init().generateUniqueid()
                     
-                    sqliteDB.updateMembershipStatus(senderId!, membership_status1: "left")
-                    sqliteDB.storeGroupsChat(senderId!, group_unique_id1: groupId!, type1: "log", msg1: "\(senderId) has left this group", from_fullname1: "", date1: NSDate(), unique_id1: uniqueid1)
+                    sqliteDB.updateMembershipStatus(senderId, membership_status1: "left")
+                    sqliteDB.storeGroupsChat("Log:", group_unique_id1: groupId, type1: "log", msg1: "\(senderId) has left this group", from_fullname1: "", date1: NSDate(), unique_id1: uniqueid1)
                     ///////  sqliteDB.removeMember(groupId!,member_phone1: senderId!)
                     if(delegateRefreshChat != nil)
                     {
@@ -1683,7 +1683,35 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
                 //removed_from_group
                 if(type=="group:removed_from_group")
                 {
+                    var senderId=userInfo["senderId"] as! String
+                    var isAdmin=userInfo["isAdmin"] as! String
+                    var membership_status=userInfo["membership_status"] as! String
+                    var personRemoved=userInfo["personRemoved"] as! String
+                    var groupId=userInfo["groupId"] as! String
                     
+                    var uniqueid1=UtilityFunctions.init().generateUniqueid()
+                    
+                    sqliteDB.updateMembershipStatus(senderId, membership_status1: "left")
+                    sqliteDB.storeGroupsChat("Log:", group_unique_id1: groupId, type1: "log", msg1: "\(senderId) is remved from this group", from_fullname1: "", date1: NSDate(), unique_id1: uniqueid1)
+                    ///////  sqliteDB.removeMember(groupId!,member_phone1: senderId!)
+                    if(delegateRefreshChat != nil)
+                    {
+                        print("refresh UI after member leaves")
+                        delegateRefreshChat?.refreshChatsUI(nil, uniqueid:nil, from:nil, date1:nil, type:"status")
+                    }
+                    UIDelegates.getInstance().UpdateMainPageChatsDelegateCall()
+                    UIDelegates.getInstance().UpdateGroupInfoDetailsDelegateCall()
+                    UIDelegates.getInstance().UpdateGroupChatDetailsDelegateCall()
+                    
+                    completionHandler(UIBackgroundFetchResult.NewData)
+                    
+                    /*
+                     [senderId: +923201211991, badge: 0, aps: {
+                     }, isAdmin: No, membership_status: left, type: group:removed_from_group, personRemoved: +923323800399, groupId: cFBhfRu201611116656]
+                     [senderId: +923201211991, badge: 0, aps: {
+                     }, isAdmin: No, membership_status: left, type: group:removed_from_group, personRemoved: +923323800399, groupId: cFBhfRu201611116656]
+
+ */
                 }
                 
                 //}
