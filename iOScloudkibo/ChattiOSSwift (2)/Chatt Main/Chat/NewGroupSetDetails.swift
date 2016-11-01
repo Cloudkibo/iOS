@@ -271,7 +271,7 @@ class NewGroupSetDetails: UITableViewController,UINavigationControllerDelegate,U
             }
             else
             {
-                var tempimg=UIImage(named: "chat_camera")
+                var tempimg=UIImage(named:"chat_camera")
                 imgdata=UIImagePNGRepresentation(tempimg!)!
                 cell.profilePicCameraOutlet.layer.borderWidth = 1.0
                 cell.profilePicCameraOutlet.layer.masksToBounds = false
@@ -284,7 +284,7 @@ class NewGroupSetDetails: UITableViewController,UINavigationControllerDelegate,U
                 var h=tempimg!.size.height
                 var wOld=(cell.profilePicCameraOutlet.frame.width)
                 var hOld=(cell.profilePicCameraOutlet.frame.height)
-                var scale:CGFloat=w/wOld
+                var scale:CGFloat=wOld/w
                 
                 cell.profilePicCameraOutlet.image=UIImage(data: imgdata,scale: scale)
                 
