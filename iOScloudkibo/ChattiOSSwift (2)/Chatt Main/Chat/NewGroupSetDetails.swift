@@ -255,15 +255,39 @@ class NewGroupSetDetails: UITableViewController,UINavigationControllerDelegate,U
                 
                  cell.profilePicCameraOutlet.image=UIImage(data: imgdata,scale: scale)
               //  cell.profilePicCameraOutlet.image=UIImage(data: imgdata)
-                let tapRecognizer = UITapGestureRecognizer(target: self, action: Selector("imageEditTapped:"))
-                //Add the recognizer to your view.
+                 //Add the recognizer to your view.
                 // chatImage.addGestureRecognizer(tapRecognizer)
                 
+               /* let tapRecognizerOld = UITapGestureRecognizer(target: self, action: Selector("imageTapped:"))
+                
+                cell.profilePicCameraOutlet.removeGestureRecognizer(tapRecognizerOld)
+                */
+                let tapRecognizer = UITapGestureRecognizer(target: self, action: Selector("imageEditTapped:"))
+                
                 cell.profilePicCameraOutlet.addGestureRecognizer(tapRecognizer)
-                cell.btn_edit_profilePic.addGestureRecognizer(tapRecognizer)
+               
+                let tapRecognizer2 = UITapGestureRecognizer(target: self, action: Selector("imageEditTapped:"))
+                cell.btn_edit_profilePic.addGestureRecognizer(tapRecognizer2)
             }
             else
             {
+                var tempimg=UIImage(named: "chat_camera")
+                imgdata=UIImagePNGRepresentation(tempimg!)!
+                cell.profilePicCameraOutlet.layer.borderWidth = 1.0
+                cell.profilePicCameraOutlet.layer.masksToBounds = false
+                cell.profilePicCameraOutlet.layer.borderColor = UIColor.whiteColor().CGColor
+                cell.profilePicCameraOutlet.layer.cornerRadius = cell.profilePicCameraOutlet.frame.size.width/2
+                cell.profilePicCameraOutlet.clipsToBounds = true
+                
+                
+                var w=tempimg!.size.width
+                var h=tempimg!.size.height
+                var wOld=(cell.profilePicCameraOutlet.frame.width)
+                var hOld=(cell.profilePicCameraOutlet.frame.height)
+                var scale:CGFloat=w/wOld
+                
+                cell.profilePicCameraOutlet.image=UIImage(data: imgdata,scale: scale)
+                
             let tapRecognizer = UITapGestureRecognizer(target: self, action: Selector("imageTapped:"))
             //Add the recognizer to your view.
            // chatImage.addGestureRecognizer(tapRecognizer)
@@ -289,15 +313,21 @@ class NewGroupSetDetails: UITableViewController,UINavigationControllerDelegate,U
         //dismiss it, animate it off screen, whatever.
         let shareMenu = UIAlertController(title: nil, message: nil, preferredStyle: .ActionSheet)
         
-        let Mute = UIAlertAction(title: "Mute", style: UIAlertActionStyle.Default,handler: { (action) -> Void in
+        let resetImage = UIAlertAction(title: "Reset Image", style: UIAlertActionStyle.Default,handler: { (action) -> Void in
+            
+            self.imgdata=NSData.init()
+            gestureRecognizer.view?.removeGestureRecognizer(gestureRecognizer)
+            self.tblNewGroupDetails.reloadData()
+            
             //// self.removeChatHistory(self.ContactUsernames[indexPath.row],indexPath: indexPath)
             
             //call Mute delegate or method
         })
         
-        let GroupInfo = UIAlertAction(title: "Group Info", style: UIAlertActionStyle.Default,handler: { (action) -> Void in
+        let SelectImage = UIAlertAction(title: "Select Image", style: UIAlertActionStyle.Default,handler: { (action) -> Void in
             
             self.selectImage()
+            
             // swipeindex=index
             //self.performSegueWithIdentifier("groupInfoSegue", sender: nil)
             //// self.removeChatHistory(self.ContactUsernames[indexPath.row],indexPath: indexPath)
@@ -305,8 +335,18 @@ class NewGroupSetDetails: UITableViewController,UINavigationControllerDelegate,U
             //call Mute delegate or method
         })
         
-    shareMenu.addAction(Mute)
-    shareMenu.addAction(GroupInfo)
+        let cancel = UIAlertAction(title: "Cancel", style: UIAlertActionStyle.Cancel, handler: { (action) -> Void in
+            
+            // swipeindex=index
+            //self.performSegueWithIdentifier("groupInfoSegue", sender: nil)
+            //// self.removeChatHistory(self.ContactUsernames[indexPath.row],indexPath: indexPath)
+            
+            //call Mute delegate or method
+        })
+    shareMenu.addAction(resetImage)
+    shareMenu.addAction(SelectImage)
+        shareMenu.addAction(cancel)
+        
         self.presentViewController(shareMenu, animated: true) { 
             
             
@@ -371,7 +411,11 @@ class NewGroupSetDetails: UITableViewController,UINavigationControllerDelegate,U
         { () -> Void in
             //  picker.addChildViewController(UILabel("hiiiiiiiiiiiii"))
             
-            self.presentViewController(picker, animated: true, completion: nil)
+            self.presentViewController(picker, animated: true, completion: { 
+                
+                //new
+                tappedImageView.removeGestureRecognizer(gestureRecognizer)
+            })
             
         }
         
