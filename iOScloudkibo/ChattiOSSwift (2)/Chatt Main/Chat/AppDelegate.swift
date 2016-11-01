@@ -1097,6 +1097,9 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
     }
     
     func applicationWillEnterForeground(application: UIApplication) {
+        
+        
+        
    /*     if(chatDetailView != nil)
 {
         chatDetailView.tblForChats.reloadData()
@@ -1477,6 +1480,12 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
         print("app state value active is \(UIApplicationState.Active.rawValue)")
        print("......")
         print(userInfo.description)
+        
+        
+        //avoid calling twice, inactive when transitions by tapping on notification bar
+        if(UIApplication.sharedApplication().applicationState.rawValue != UIApplicationState.Inactive.rawValue)
+        {
+            
         Alamofire.request(.POST,"https://api.cloudkibo.com/api/users/log",headers:header,parameters: ["data":"IPHONE_LOG: \(username!) received push notification as \(userInfo.description)"]).response{
             request, response_, data, error in
             print(error)
@@ -1503,6 +1512,7 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
                 {
                     updateMessageStatus(singleuniqueid, status: (userInfo["status"] as? String)!)
                     print("calling completion handler for status update now")
+                    
                     completionHandler(UIBackgroundFetchResult.NewData)
                     NSNotificationCenter.defaultCenter().postNotificationName("ReceivedNotification", object:userInfo)
                     
@@ -1605,6 +1615,11 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
                        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0)) {
                         self.fetchSingleGroup(groupId!, completion: { (result, error) in
                             self.fetchGroupMembersSpecificGroup(groupId!,completion: { (result, error) in
+                                
+                                UIDelegates.getInstance().UpdateMainPageChatsDelegateCall()
+                                UIDelegates.getInstance().UpdateGroupInfoDetailsDelegateCall()
+                                
+                              completionHandler(UIBackgroundFetchResult.NewData)
                             })
                             
                         })
@@ -1628,8 +1643,12 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
                      var msg_type=userInfo["msg_type"] as? String
                      var unique_id=userInfo["unique_id"] as? String
                     
-                    self.fetchSingleGroupChatMessage(unique_id!)
-                    
+                    self.fetchSingleGroupChatMessage(unique_id!,completion: {(result,error) in
+                        
+                        UIDelegates.getInstance().UpdateGroupChatDetailsDelegateCall()
+                         completionHandler(UIBackgroundFetchResult.NewData)
+                    })
+                   
                    
                     
 
@@ -1642,22 +1661,36 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
                     var isAdmin=userInfo["isAdmin"] as? String
                     var membership_status=userInfo["membership_status"] as? String
            
-                  sqliteDB.removeMember(groupId!,member_phone1: senderId!)
+                    var uniqueid1=UtilityFunctions.init().generateUniqueid()
+                    
+                    sqliteDB.updateMembershipStatus(senderId!, membership_status1: "left")
+                    sqliteDB.storeGroupsChat(senderId!, group_unique_id1: groupId!, type1: "log", msg1: "\(senderId) has left this group", from_fullname1: "", date1: NSDate(), unique_id1: uniqueid1)
+                    ///////  sqliteDB.removeMember(groupId!,member_phone1: senderId!)
                     if(delegateRefreshChat != nil)
                     {
                         print("refresh UI after member leaves")
                         delegateRefreshChat?.refreshChatsUI(nil, uniqueid:nil, from:nil, date1:nil, type:"status")
                     }
+                    UIDelegates.getInstance().UpdateMainPageChatsDelegateCall()
+                     UIDelegates.getInstance().UpdateGroupInfoDetailsDelegateCall()
+                    UIDelegates.getInstance().UpdateGroupChatDetailsDelegateCall()
+                    
+                    completionHandler(UIBackgroundFetchResult.NewData)
 
                     //updateUI
                     
                 }
-                
+                //removed_from_group
+                if(type=="group:removed_from_group")
+                {
+                    
+                }
                 
                 //}
             }
             
         }
+    }
        /////// print("remote notification received is \(userInfo)")
         /*var notificationJSON=JSON(userInfo)
         print("json converted is \(notificationJSON)")
@@ -1701,6 +1734,14 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
     }
     */
     
+  
+    func updateAllUIScreensForGroupChat()
+    {
+        UIDelegates.getInstance().UpdateMainPageChatsDelegateCall()
+        UIDelegates.getInstance().UpdateGroupChatDetailsDelegateCall()
+        UIDelegates.getInstance().UpdateGroupInfoDetailsDelegateCall()
+        
+    }
     func fetchGroupMembersSpecificGroup(unique_id:String,completion:(result:Bool,error:String!)->())
     {
         print("uniqueid of grup fetching member is \(unique_id)")
@@ -1879,13 +1920,13 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
             }
         }
     }
-    func fetchSingleGroupChatMessage(uniqueidMsg:String)
+    func fetchSingleGroupChatMessage(uniqueidMsg:String,completion:(result:Bool,error:String!)->())
     {
            print("uniqueid of group single chat is \(uniqueidMsg)")
         
             //======GETTING REST API TO GET CURRENT USER=======================
             
-            print("inside fetch single chat")
+            print("inside fetch single group chat")
             if(accountKit == nil){
                 accountKit = AKFAccountKit(responseType: AKFResponseType.AccessToken)
             }
@@ -1958,9 +1999,11 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
                         
                         sqliteDB.storeGroupsChat(from, group_unique_id1: group_unique_id, type1: type, msg1: msg, from_fullname1: from_fullname, date1: datens2!, unique_id1: unique_id)
                         
+                        completion(result: true, error: nil)
                     }
                     
                 default: print("failed errorr")
+                    completion(result: false, error: "cannot fetch group chat message")
                     
                 }
                 

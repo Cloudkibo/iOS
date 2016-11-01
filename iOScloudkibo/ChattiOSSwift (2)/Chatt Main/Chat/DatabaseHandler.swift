@@ -1706,4 +1706,31 @@ print("--------")
         
         }
         }
+    
+    func updateMembershipStatus(memberphone1:String,membership_status1:String)
+    {
+        let group_unique_id = Expression<String>("group_unique_id")
+        let member_phone = Expression<String>("member_phone")
+        let isAdmin = Expression<String>("isAdmin")
+        let membership_status = Expression<String>("membership_status")
+        let date_joined = Expression<NSDate>("date_joined")
+        let date_left = Expression<NSDate>("date_left")
+        let group_member_displayname = Expression<String>("group_member_displayname")
+        
+        
+        self.group_member = Table("group_member")
+        
+        let query = self.group_member.select(membership_status).filter(member_phone == memberphone1)
+        do
+        {try sqliteDB.db.run(query.update(membership_status <- membership_status1))}
+        catch
+        {
+            print("error in updating membership status")
+            if(socketObj != nil){
+                socketObj.socket.emit("logClient","\(username!) error in updating membership satatus of \(memberphone1)")
+            }
+        }
+
+
+    }
 }

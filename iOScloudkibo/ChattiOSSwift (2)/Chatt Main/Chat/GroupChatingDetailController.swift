@@ -10,8 +10,9 @@ import UIKit
 import Alamofire
 import SQLite
 
-class GroupChatingDetailController: UIViewController {
+class GroupChatingDetailController: UIViewController,UpdateGroupChatDetailsDelegate {
     
+    var delegateReload:UpdateGroupChatDetailsDelegate!
     var mytitle=""
     var groupid1=""
     var messages:NSMutableArray!
@@ -164,6 +165,9 @@ class GroupChatingDetailController: UIViewController {
     
     override func viewWillAppear(animated: Bool) {
         self.navigationController?.title=mytitle
+        
+        UIDelegates.getInstance().delegateGroupChatDetails1=self
+        
         self.retrieveChatFromSqlite { (result) in
             
             
@@ -219,9 +223,9 @@ class GroupChatingDetailController: UIViewController {
             
             //for tblContacts in try sqliteDB.db.prepare(tbl_userchats.filter(owneruser==owneruser1)){
             ////print("queryy runned count is \(tbl_contactslists.count)")
-            for tblContacts in try sqliteDB.db.prepare(tbl_userchats.filter(group_unique_id==groupid1).order(date.asc)){
+            for tblUserChats in try sqliteDB.db.prepare(tbl_userchats.filter(group_unique_id==groupid1).order(date.asc)){
                 
-                print("data of group table chat got is \(tblContacts)")
+                print("data of group table chat got is \(tblUserChats)")
                 //print("===fetch date from database is tblContacts[date] \(tblContacts[date])")
                 /*
                  var formatter = NSDateFormatter();
@@ -237,7 +241,7 @@ class GroupChatingDetailController: UIViewController {
                 var formatter2 = NSDateFormatter();
                 formatter2.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSS"
                 formatter2.timeZone = NSTimeZone.localTimeZone()
-                var defaultTimeeee = formatter2.stringFromDate(tblContacts[date])
+                var defaultTimeeee = formatter2.stringFromDate(tblUserChats[date])
                 
                 //print("===fetch date from database is tblContacts[date] ... date converted is \(defaultTimeZoneStr)... string is \(defaultTimeZoneStr2)... defaultTimeeee \(defaultTimeeee)")
                 
@@ -279,92 +283,23 @@ class GroupChatingDetailController: UIViewController {
                 }
                 */
                 
-                if(tblContacts[type]=="log_leftGroup")
+                if(tblUserChats[type]=="log_leftGroup")
                 {
                     self.txtFieldMessage.text="You left the group"
                     self.chatComposeView.userInteractionEnabled=false
                 }
                 
-                if (tblContacts[from]==username!)
-                    
-                {//type1
-                    /////print("statussss is \(tblContacts[status])")
-                   /* if(tblContacts[file_type]=="image")
-                    {
-                        
-                        //  self.addUploadInfo(selectedContact, uniqueid1: tblContacts[uniqueid], rowindex: messages.count, uploadProgress: 1, isCompleted: true)
-                        
-                        messages2.addObject(["message":tblContacts[msg], "type":"4", "date":defaultTimeeee, "uniqueid":tblContacts[uniqueid]])
-                        
-                        
-                        //messages2.addObject(["message":tblContacts[msg], "type":"4", "date":tblContacts[date], "uniqueid":tblContacts[uniqueid]])
-                        
-                        //^^^ self.addMessage(tblContacts[msg], ofType: "4",date: tblContacts[date],uniqueid: tblContacts[uniqueid])
-                        
-                    }
-                    else{
-                        if(tblContacts[file_type]=="document")
-                        {
-                            
-                            ////  self.addUploadInfo(selectedContact, uniqueid1: tblContacts[uniqueid], rowindex: messages.count, uploadProgress: 1, isCompleted: true)
-                            
-                            messages2.addObject(["message":tblContacts[msg], "type":"6", "date":defaultTimeeee, "uniqueid":tblContacts[uniqueid]])
-                            
-                            //^^^^ self.addMessage(tblContacts[msg], ofType: "6",date: tblContacts[date],uniqueid: tblContacts[uniqueid])
-                            
-                        }
-                        else
-                        {*/
-                            messages2.addObject(["msg":tblContacts[msg], "type":"2", "fromFullName":tblContacts[from_fullname],"date":defaultTimeeee, "uniqueid":tblContacts[unique_id]])
-                            
-                            
-                            //^^^^self.addMessage(tblContacts[msg]+" (\(tblContacts[status])) ", ofType: "2",date: tblContacts[date],uniqueid: tblContacts[uniqueid])
-                       // }
-                    //}
+                if (tblUserChats[from]==username!)
+                {
+                            messages2.addObject(["msg":tblUserChats[msg], "type":"2", "fromFullName":tblUserChats[from_fullname],"date":defaultTimeeee, "uniqueid":tblUserChats[unique_id]])
                 }
                 else
-                {//type2
-                    //// //print("statussss is \(tblContacts[status])")
-                    /*if(tblContacts[file_type]=="image")
-                    {
-                        //  self.addUploadInfo(selectedContact, uniqueid1: tblContacts[uniqueid], rowindex: messages.count, uploadProgress: 1, isCompleted: true)
-                        messages2.addObject(["message":tblContacts[msg], "type":"3", "date":defaultTimeeee, "uniqueid":tblContacts[uniqueid]])
+                {
                         
-                        
-                        //^^^^  self.addMessage(tblContacts[msg] , ofType: "3",date: tblContacts[date],uniqueid: tblContacts[uniqueid])
-                        
-                    }
-                    else
-                    {if(tblContacts[file_type]=="document")
-                    {
-                        // self.addUploadInfo(selectedContact, uniqueid1: tblContacts[uniqueid], rowindex: messages.count, uploadProgress: 1, isCompleted: true)
-                        messages2.addObject(["message":tblContacts[msg], "type":"5", "date":defaultTimeeee, "uniqueid":tblContacts[uniqueid]])
-                        
-                        
-                        //^^^^ self.addMessage(tblContacts[msg], ofType: "5",date: tblContacts[date],uniqueid: tblContacts[uniqueid])
-                        
-                    }
-                    else
-                    {*/
-                        
-                    messages2.addObject(["msg":tblContacts[msg], "type":"1", "fromFullName":tblContacts[from_fullname],"date":defaultTimeeee, "uniqueid":tblContacts[unique_id]])
-                    
-                    
-                    
-                        
-                        ///^^^ self.addMessage(tblContacts[msg], ofType: "1", date: tblContacts[date],uniqueid: tblContacts[uniqueid])
-                      //  }
-                    //}
-                    
+                    messages2.addObject(["msg":tblUserChats[msg], "type":"1", "fromFullName":tblUserChats[from_fullname],"date":defaultTimeeee, "uniqueid":tblUserChats[unique_id]])
+             
                 }
-                /* if(self.messages.count>1)
-                 {
-                 var indexPath = NSIndexPath(forRow:self.messages.count-1, inSection: 0)
-                 
-                 self.tblForChats.scrollToRowAtIndexPath(indexPath, atScrollPosition: UITableViewScrollPosition.Bottom, animated: false)
-                 }*/
                 
-                //self.tblForChats.reloadData()
                 
             }
             ////////// self.messages.removeAllObjects()
@@ -393,7 +328,8 @@ class GroupChatingDetailController: UIViewController {
     }
     
     
-    func addMessage(message: String, ofType msgType:String, date:String, uniqueid:String) {
+    func addMessage(message: String, ofType msgType:String, date:String, uniqueid:String)
+    {
         messages.addObject(["message":message, "type":msgType, "date":date, "uniqueid":uniqueid])
     }
     
@@ -403,14 +339,19 @@ class GroupChatingDetailController: UIViewController {
         return true
     
     }
-     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    
+    
+    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return messages.count
     }
-     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+    
+    
+    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
         
         return 60
     }
-     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    
+    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         
         return 1
     }
@@ -453,38 +394,7 @@ class GroupChatingDetailController: UIViewController {
 
 
         }
-       /* if(indexPath.row==2)
-        {
-            var cell = tblForGroupChat.dequeueReusableCellWithIdentifier("ChatSentCell")! as UITableViewCell
-            let nameLabel = cell.viewWithTag(15) as! UILabel
-            nameLabel.textColor=UIColor.blueColor()
-            nameLabel.text="Sumaira"
-            let msgLabel = cell.viewWithTag(12) as! UILabel
-            msgLabel.text="Wsalaam. I am fine"
-            
-            return cell
-        }
-       /* if(indexPath.row==3)
-        {
-            var cell = tblForGroupChat.dequeueReusableCellWithIdentifier("ChatReceivedCell")! as UITableViewCell
-            
-            return cell
-        }*/
-        if(indexPath.row==3)
-        {
-            var cell = tblForGroupChat.dequeueReusableCellWithIdentifier("ChatSentCell")! as UITableViewCell
-            let nameLabel = cell.viewWithTag(15) as! UILabel
-            nameLabel.text="Sojharo"
-            let msgLabel = cell.viewWithTag(12) as! UILabel
-            msgLabel.text="Done with tasks?"
-            return cell
-        }
-        else{
-            var cell = tblForGroupChat.dequeueReusableCellWithIdentifier("ChatReceivedCell")! as UITableViewCell
-            let msgLabel = cell.viewWithTag(12) as! UILabel
-            msgLabel.text="Yes. I am done"
-            return cell
-        }*/
+  
         
     }
     
@@ -527,6 +437,25 @@ class GroupChatingDetailController: UIViewController {
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         
         
+    }
+    
+    func refreshUI(message: String, data: AnyObject!) {
+        
+        self.retrieveChatFromSqlite { (result) in
+            
+            
+            //dispatch_async(dispatch_get_main_queue())
+           // {
+            self.tblForGroupChat.reloadData()
+            
+            if(self.messages.count>1)
+            {
+                var indexPath = NSIndexPath(forRow:self.messages.count-1, inSection: 0)
+                
+                self.tblForGroupChat.scrollToRowAtIndexPath(indexPath, atScrollPosition: UITableViewScrollPosition.Bottom, animated: true)
+            }
+           // }
+        }
     }
 
 }

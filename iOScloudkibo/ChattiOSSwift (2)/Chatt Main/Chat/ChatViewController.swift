@@ -17,8 +17,10 @@ import Contacts
 import ContactsUI
 
 class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,CNContactPickerDelegate,
-    EPPickerDelegate,SWTableViewCellDelegate,UpdateChatViewsDelegate,RefreshContactsList
+    EPPickerDelegate,SWTableViewCellDelegate,UpdateChatViewsDelegate,RefreshContactsList,UpdateMainPageChatsDelegate
 {
+    
+    var delegateUpdateUI:UpdateMainPageChatsDelegate!
     var swipeindexRow:Int!
     var delegateContctsList:RefreshContactsList!
     var pendingchatsarray=[[String:String]]()
@@ -964,7 +966,7 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
         
         print("appearrrrrr", terminator: "")
         
-        
+        UIDelegates.getInstance().delegateMainPageChats1=self
         delegateRefreshChat=self
         if(socketObj != nil)
         {
@@ -1094,6 +1096,120 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
     
     }
     
+    
+    func reloadThisPage()
+    {
+        print("inside reload func")
+        
+        let _id = Expression<String>("_id")
+        let firstname = Expression<String?>("firstname")
+        let lastname = Expression<String?>("lastname")
+        let email = Expression<String>("email")
+        let phone = Expression<String>("phone")
+        
+        
+        if(accountKit.currentAccessToken != nil)
+        {
+            header=["kibo-token":self.accountKit!.currentAccessToken!.tokenString]
+            
+            // socketObj.socket.emit("logClient", "fetching contacts from iphone")
+            
+            
+            //dont do on every appear. just do once
+            print("emaillist is \(emailList.first)")
+            print("emailList count is \(emailList.count)")
+            
+            dispatch_sync(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0)) {
+                // do some task start to show progress wheel
+                self.fetchContacts({ (result) -> () in
+                    //self.fetchContactsFromServer()
+                    print("checkinnn")
+                    
+                    let tbl_accounts=sqliteDB.accounts
+                    do{for account in try sqliteDB.db.prepare(tbl_accounts) {
+                        ///print("id: \(account[_id]), phone: \(account[phone]), firstname: \(account[firstname])")
+                        
+                        var userr:JSON=["_id":account[_id],"display_name":account[firstname]!,"phone":account[phone]]
+                        if(socketObj != nil){
+                            socketObj.socket.emit("whozonline",
+                                ["room":"globalchatroom",
+                                    "user":userr.object])
+                        }}
+                    }
+                    catch{
+                        
+                    }
+                    dispatch_async(dispatch_get_main_queue()) {
+                        print("here reloading tableeee")
+                        self.tblForChat.reloadData()
+                    }
+                })
+            }
+            
+            
+            
+            
+            if(displayname=="")
+            {
+                
+                
+                
+                let _id = Expression<String>("_id")
+                let phone = Expression<String>("phone")
+                let username1 = Expression<String>("username")
+                let status = Expression<String>("status")
+                let firstname = Expression<String>("firstname")
+                
+                
+                
+                let tbl_accounts = sqliteDB.accounts
+                do{for account in try sqliteDB.db.prepare(tbl_accounts) {
+                    username=account[username1]
+                    displayname=account[firstname]
+                    
+                    }
+                }
+                catch
+                {
+                    if(socketObj != nil){
+                        socketObj.socket.emit("error getting data from accounts table")
+                    }
+                    print("error in getting data from accounts table")
+                    
+                }
+                
+                
+                
+                
+                var dispatch_group_t = dispatch_group_create();
+            }
+            if(tblForChat.editing.boolValue==false)
+            {
+                editButtonOutlet.title="Edit"
+                self.navigationController?.navigationItem.leftBarButtonItem?.title="Edit"
+                self.navigationItem.leftBarButtonItem!.title = "Edit"
+            }
+            else
+            {
+                editButtonOutlet.title="Done"
+                self.navigationController?.navigationItem.leftBarButtonItem?.title="Done"
+                ///self.navigationItem.leftBarButtonItem!.title = "Done"
+            }
+            
+            //}
+        }
+            
+            // ******************%%%%%%%%% addition new
+        else
+        {
+            // *********%%%%%%%%%%%%% Not logged in
+            if(socketObj != nil){
+                socketObj.socket.emit("logClient","IPHONE-LOG: access token is nil so go to login page")
+            }
+            print("access token is nil so go to login page")
+            self.performSegueWithIdentifier("loginSegue", sender: self)
+        }
+    }
     var index=0
    // var pendingcount=0
     
@@ -3138,6 +3254,11 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
             })
         }
         
+    }
+    
+    func refreshUI(message: String, data: AnyObject!) {
+        
+        self.reloadThisPage()
     }
     
 }

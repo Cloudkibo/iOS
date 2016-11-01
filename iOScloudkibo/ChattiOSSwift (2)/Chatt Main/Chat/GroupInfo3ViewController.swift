@@ -61,6 +61,7 @@ EPPickerDelegate,SWTableViewCellDelegate {
         
         print("groupid segue is \(groupid) && group id is \(group_unique_id)")
         var tbl_groupmembers=sqliteDB.group_member
+        
        // var res=tbl_groupmembers.filter((singleGroupInfo["group_unique_id"] as! String) = groupid)
         //to==selecteduser || from==selecteduser
         //print("chat from sqlite is")
@@ -71,7 +72,10 @@ EPPickerDelegate,SWTableViewCellDelegate {
             for(var i=0;i<membersArrayOfGroup.count;i++)
             {
                 print("found matched idss")
+                if((membersArrayOfGroup[i]["membership_status"] as! String) == "joined")
+                {
                 messages2.addObject(["member_phone":membersArrayOfGroup[i]["member_phone"] as! String,"name":membersArrayOfGroup[i]["group_member_displayname"] as! String,"isAdmin":membersArrayOfGroup[i]["isAdmin"] as! String])
+                }
             }
             //for tblContacts in try sqliteDB.db.prepare(tbl_userchats.filter(owneruser==owneruser1)){
             ////print("queryy runned count is \(tbl_contactslists.count)")
@@ -261,7 +265,7 @@ EPPickerDelegate,SWTableViewCellDelegate {
         {
             memberphones.append(participantsSelected[i].getPhoneNumber())
              membersnames.append(participantsSelected[i].displayName())
-            self.messages.addObject(["member_phone":memberphones[i]["member_phone"] as! String,"name":membersnames[i],"isAdmin":"No"])
+            self.messages.addObject(["member_phone":memberphones[i],"name":membersnames[i],"isAdmin":"No"])
            
             //tblGroupInfo.reloadData()
 
@@ -282,6 +286,7 @@ EPPickerDelegate,SWTableViewCellDelegate {
         
         let yes = UIAlertAction(title: "Yes", style: UIAlertActionStyle.Default,handler: { (action) -> Void in
             
+            
             var url=Constants.MainUrl+Constants.removeMemberFromGroup
             Alamofire.request(.POST,"\(url)",parameters:["group_unique_id":self.groupid,"phone":memberPhone],headers:header,encoding:.JSON).validate().responseJSON { response in
                 
@@ -293,13 +298,17 @@ EPPickerDelegate,SWTableViewCellDelegate {
                     print(response.result.value)
                     var uniqueidMsg=self.generateUniqueid()
                     // var dateString=self.getDateString(NSDate())
+                   
+                    sqliteDB.updateMembershipStatus(memberPhone, membership_status1: "left")
                     
-                    sqliteDB.storeGroupsChat(username!, group_unique_id1: self.groupid, type1: "log_leftGroup", msg1: "You have left this group", from_fullname1: "", date1:NSDate() , unique_id1: uniqueidMsg)
+                    sqliteDB.storeGroupsChat(username!, group_unique_id1: self.groupid, type1: "log", msg1: "You have left this group", from_fullname1: "", date1:NSDate() , unique_id1: uniqueidMsg)
+                    
+                   /// sqliteDB.storeGroupsChat(username!, group_unique_id1: self.groupid, type1: "log_leftGroup", msg1: "You have left this group", from_fullname1: "", date1:NSDate() , unique_id1: uniqueidMsg)
                     
                     self.tblGroupInfo.reloadData()
                 }
             }
-            
+ 
             
             
         })
@@ -332,7 +341,8 @@ EPPickerDelegate,SWTableViewCellDelegate {
                     var uniqueidMsg=self.generateUniqueid()
                    // var dateString=self.getDateString(NSDate())
                     
-                    sqliteDB.storeGroupsChat(username!, group_unique_id1: self.groupid, type1: "log_leftGroup", msg1: "You have left this group", from_fullname1: "", date1:NSDate() , unique_id1: uniqueidMsg)
+                    sqliteDB.updateMembershipStatus(username!,"left")
+                    sqliteDB.storeGroupsChat(username!, group_unique_id1: self.groupid, type1: "log", msg1: "You have left this group", from_fullname1: "", date1:NSDate() , unique_id1: uniqueidMsg)
                     
                     self.tblGroupInfo.reloadData()
                 }
@@ -523,7 +533,7 @@ EPPickerDelegate,SWTableViewCellDelegate {
                         
                     }
                     print(response.result.debugDescription)
-                    print("error in create group endpoint")
+                    print("error in add group members endpoint")
                     var arrayIndexPaths=[NSIndexPath]()
                     arrayIndexPaths.append((NSIndexPath.init(index: self.messages.count+1)))
                     arrayIndexPaths.append((NSIndexPath.init(index: self.messages.count+2)))

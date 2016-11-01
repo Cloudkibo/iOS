@@ -82,6 +82,7 @@
 		7150119F1D12D0940091AD7B /* Reachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7150119E1D12D0940091AD7B /* Reachability.swift */; };
 		7152CB251D47DDC900DB8127 /* Fabric.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7152CB231D47DDC900DB8127 /* Fabric.framework */; };
 		7152CB261D47DDC900DB8127 /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7152CB241D47DDC900DB8127 /* Crashlytics.framework */; };
+		71585F021DC8A4030067CD4A /* UIDelegates.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71585F011DC8A4030067CD4A /* UIDelegates.swift */; };
 		716175841C51BCDE00A72E83 /* Pods.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BC0C99CB9F91896CEAE65024 /* Pods.framework */; };
 		716175851C51BCDE00A72E83 /* Pods.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = BC0C99CB9F91896CEAE65024 /* Pods.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		716175A01C51C9B200A72E83 /* libsqlite3.0.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 716174971C5065BA00A72E83 /* libsqlite3.0.tbd */; };
@@ -355,6 +356,7 @@
 		7150119E1D12D0940091AD7B /* Reachability.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Reachability.swift; sourceTree = "<group>"; };
 		7152CB231D47DDC900DB8127 /* Fabric.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Fabric.framework; sourceTree = "<group>"; };
 		7152CB241D47DDC900DB8127 /* Crashlytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Crashlytics.framework; sourceTree = "<group>"; };
+		71585F011DC8A4030067CD4A /* UIDelegates.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIDelegates.swift; sourceTree = "<group>"; };
 		716174971C5065BA00A72E83 /* libsqlite3.0.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.0.tbd; path = usr/lib/libsqlite3.0.tbd; sourceTree = SDKROOT; };
 		716174981C5065BA00A72E83 /* libsqlite3.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.tbd; path = usr/lib/libsqlite3.tbd; sourceTree = SDKROOT; };
 		717403E21CF7151800EA7ABF /* SQLite.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SQLite.xcodeproj; path = "SQLite.swift-master 6/SQLite.xcodeproj"; sourceTree = "<group>"; };
@@ -498,6 +500,7 @@
 			isa = PBXGroup;
 			children = (
 				713D51881CC11896007E0B47 /* Accounts.swift */,
+				71585F011DC8A4030067CD4A /* UIDelegates.swift */,
 				713D51891CC11896007E0B47 /* AppDelegate.swift */,
 				71C401821CF715C500D38126 /* audioOff.png */,
 				71C401831CF715C500D38126 /* audioOff@2x.png */,
@@ -1043,6 +1046,7 @@
 				71AEC9891D01D67300DF58BD /* AllContactsViewCell.swift in Sources */,
 				713D51DD1CC11896007E0B47 /* MeetingVideo.swift in Sources */,
 				713D51E61CC11896007E0B47 /* ProjectsViewController.swift in Sources */,
+				71585F021DC8A4030067CD4A /* UIDelegates.swift in Sources */,
 				71E861C81D0066F4008BCC7C /* DisplayNameViewController.swift in Sources */,
 				713F39721D74459600F3A9C4 /* EPExtensions.swift in Sources */,
 				71C1A2C41D767C0600FC5157 /* GroupChatDetailViewController.swift in Sources */,
