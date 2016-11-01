@@ -280,14 +280,14 @@ class NetworkingManager
     func uploadFile(filePath1:String,to1:String,from1:String, uniqueid1:String,file_name1:String,file_size1:String,file_type1:String,type1:String)
     {
         
-        var parameters = [
+       var parameters = [
             "to": to1,
             "from": from1,
             "uniqueid": uniqueid1,
             "filename": file_name1,
             "filesize": file_size1,
             "filetype": file_type1]
-        
+ 
     
         /*var parameterJSON = JSON([
             "to": to1,

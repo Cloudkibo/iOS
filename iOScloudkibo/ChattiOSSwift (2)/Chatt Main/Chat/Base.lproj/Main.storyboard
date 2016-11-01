@@ -1134,6 +1134,12 @@
                                             <rect key="frame" x="27" y="8" width="52" height="52"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         </imageView>
+                                        <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="nUM-h9-Ofp">
+                                            <rect key="frame" x="30" y="45" width="46" height="30"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                            <state key="normal" title="edit"/>
+                                        </button>
                                         <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Group Subject" textAlignment="natural" minimumFontSize="17" id="6Ww-uK-Hvx">
                                             <rect key="frame" x="87" y="19" width="225" height="30"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -1154,6 +1160,7 @@
                                     </subviews>
                                 </tableViewCellContentView>
                                 <connections>
+                                    <outlet property="btn_edit_profilePic" destination="nUM-h9-Ofp" id="z7y-Wy-rNi"/>
                                     <outlet property="groupNameFieldOutlet" destination="6Ww-uK-Hvx" id="BR1-EZ-c9n"/>
                                     <outlet property="profilePicCameraOutlet" destination="x1s-O2-fqr" id="Wjd-eY-3fv"/>
                                 </connections>
@@ -3787,7 +3794,7 @@
                         </view>
                         <prototypes>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="JC4-iV-Jwg">
-                                <rect key="frame" x="0.0" y="197" width="320" height="44"/>
+                                <rect key="frame" x="0.0" y="133" width="320" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="JC4-iV-Jwg" id="H6p-c1-bTR">
                                     <rect key="frame" x="0.0" y="0.0" width="320" height="43.5"/>
@@ -5167,16 +5174,16 @@
         <image name="video_off" width="50" height="50"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="3Qa-aS-eRu"/>
-        <segue reference="Cjg-Ar-cdZ"/>
-        <segue reference="BY8-e2-RyW"/>
-        <segue reference="Spe-dd-EXu"/>
+        <segue reference="QOc-Kg-WHZ"/>
         <segue reference="1jA-Zj-XHt"/>
+        <segue reference="Spe-dd-EXu"/>
         <segue reference="Y9a-Vx-tcX"/>
         <segue reference="W8i-Cs-Z8T"/>
         <segue reference="Aba-99-G71"/>
-        <segue reference="QOc-Kg-WHZ"/>
+        <segue reference="0xH-LE-leu"/>
         <segue reference="Lsn-aA-q1J"/>
+        <segue reference="Cjg-Ar-cdZ"/>
+        <segue reference="3Qa-aS-eRu"/>
     </inferredMetricsTieBreakers>
     <color key="tintColor" red="0.054901960784313725" green="0.47843137254901963" blue="1" alpha="1" colorSpace="calibratedRGB"/>
 </document>

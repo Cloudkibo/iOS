@@ -37,6 +37,10 @@ class ContactsListCell:SWTableViewCell {
     
     @IBOutlet weak var groupNameFieldOutlet: UITextField!
     @IBOutlet weak var profilePicCameraOutlet: UIImageView!
+    
+    
+    @IBOutlet weak var btn_edit_profilePic: UIButton!
+    
     /* override func awakeFromNib() {
     @IBOutlet weak var contactNamePublic: UILabel!
         super.awakeFromNib()

@@ -153,6 +153,12 @@ class NewGroupSetDetails: UITableViewController,UINavigationControllerDelegate,U
                     print("...")
                      self.performSegueWithIdentifier("groupChatStartSegue", sender: nil)
                 }*/
+                
+                if(self.imgdata != NSData.init())
+                {
+                    print("profile image is selected")
+                    print("call API to upload image")
+                }
                 self.performSegueWithIdentifier("groupChatStartSegue", sender: nil)
               /*  self.dismissViewControllerAnimated(true, completion: {
                     
@@ -218,6 +224,7 @@ class NewGroupSetDetails: UITableViewController,UINavigationControllerDelegate,U
             groupname=cell.groupNameFieldOutlet.text!
             if(imgdata != NSData.init())
             {
+                cell.btn_edit_profilePic.hidden=false
                 var tempimg=UIImage(data: imgdata)
               /* var s = CGSizeMake(cell.profilePicCameraOutlet.frame.width, cell.profilePicCameraOutlet.frame.height)
                 var newimg=ResizeImage(tempimg!, targetSize: s)
@@ -248,13 +255,21 @@ class NewGroupSetDetails: UITableViewController,UINavigationControllerDelegate,U
                 
                  cell.profilePicCameraOutlet.image=UIImage(data: imgdata,scale: scale)
               //  cell.profilePicCameraOutlet.image=UIImage(data: imgdata)
-            
+                let tapRecognizer = UITapGestureRecognizer(target: self, action: Selector("imageEditTapped:"))
+                //Add the recognizer to your view.
+                // chatImage.addGestureRecognizer(tapRecognizer)
+                
+                cell.profilePicCameraOutlet.addGestureRecognizer(tapRecognizer)
+                cell.btn_edit_profilePic.addGestureRecognizer(tapRecognizer)
             }
+            else
+            {
             let tapRecognizer = UITapGestureRecognizer(target: self, action: Selector("imageTapped:"))
             //Add the recognizer to your view.
            // chatImage.addGestureRecognizer(tapRecognizer)
             
             cell.profilePicCameraOutlet.addGestureRecognizer(tapRecognizer)
+            }
             
         return cell
         }
@@ -267,6 +282,69 @@ class NewGroupSetDetails: UITableViewController,UINavigationControllerDelegate,U
             return cell
         }
         
+    }
+    
+    func imageEditTapped(gestureRecognizer: UITapGestureRecognizer) {
+        //tappedImageView will be the image view that was tapped.
+        //dismiss it, animate it off screen, whatever.
+        let shareMenu = UIAlertController(title: nil, message: nil, preferredStyle: .ActionSheet)
+        
+        let Mute = UIAlertAction(title: "Mute", style: UIAlertActionStyle.Default,handler: { (action) -> Void in
+            //// self.removeChatHistory(self.ContactUsernames[indexPath.row],indexPath: indexPath)
+            
+            //call Mute delegate or method
+        })
+        
+        let GroupInfo = UIAlertAction(title: "Group Info", style: UIAlertActionStyle.Default,handler: { (action) -> Void in
+            
+            self.selectImage()
+            // swipeindex=index
+            //self.performSegueWithIdentifier("groupInfoSegue", sender: nil)
+            //// self.removeChatHistory(self.ContactUsernames[indexPath.row],indexPath: indexPath)
+            
+            //call Mute delegate or method
+        })
+        
+    shareMenu.addAction(Mute)
+    shareMenu.addAction(GroupInfo)
+        self.presentViewController(shareMenu, animated: true) { 
+            
+            
+        }
+    
+        
+        //selectedImage=tappedImageView.image
+        // self.performSegueWithIdentifier("showFullImageSegue", sender: nil);
+        
+    }
+    
+    func selectImage()
+    {
+        
+       // let tappedImageView = gestureRecognizer.view! as! UIImageView
+        
+        var picker=UIImagePickerController.init()
+        picker.delegate=self
+        
+        picker.allowsEditing = true;
+        //picker.modalPresentationStyle = UIModalPresentationStyle.OverCurrentContext
+        // if(UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.PhotoLibrary))
+        //  {
+        
+        //savedPhotosAlbum
+        // picker.sourceType = UIImagePickerControllerSourceType.PhotoLibrary
+        //}
+        picker.sourceType = UIImagePickerControllerSourceType.PhotoLibrary
+        ////picker.mediaTypes=[kUTTypeMovie as NSString as String,kUTTypeMovie as NSString as String]
+        //[self presentViewController:picker animated:YES completion:NULL];
+        dispatch_async(dispatch_get_main_queue())
+        { () -> Void in
+            //  picker.addChildViewController(UILabel("hiiiiiiiiiiiii"))
+            
+            self.presentViewController(picker, animated: true, completion: nil)
+            
+        }
+
     }
     
     
