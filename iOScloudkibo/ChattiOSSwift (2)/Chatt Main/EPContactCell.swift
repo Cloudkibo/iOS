@@ -39,9 +39,26 @@ class EPContactCell: UITableViewCell {
     }
  
     func updateContactsinUI(contact: EPContact, indexPath: NSIndexPath, subtitleType: SubtitleCellValue) {
-        self.contact = contact
+        
+          self.contact = contact
+       /* if(contact.isKiboContact())
+        {
+            
+            self.userInteractionEnabled=false
+            self.contactDetailTextLabel.textColor=UIColor.grayColor()
+            self.contactDetailTextLabel.text="Not a kibo contact"
+        }*/
+        //else{
+            self.contactTextLabel?.text = contact.displayName()
+           
+        //}
+        
+      
+        
+        
+        
+        
         //Update all UI in the cell here
-        self.contactTextLabel?.text = contact.displayName()
         updateSubtitleBasedonType(subtitleType, contact: contact)
         if contact.thumbnailProfileImage != nil {
             self.contactImageView?.image = contact.thumbnailProfileImage
@@ -60,17 +77,32 @@ class EPContactCell: UITableViewCell {
     }
     
     func updateSubtitleBasedonType(subtitleType: SubtitleCellValue , contact: EPContact) {
-        
+        self.userInteractionEnabled=true
         switch subtitleType {
             
         case SubtitleCellValue.PhoneNumber:
             let phoneNumberCount = contact.phoneNumbers.count
-            
             if phoneNumberCount == 1  {
+                
+                if !contact.isKiboContact(){
+                    self.contactDetailTextLabel.text = "Not a kibo contact"
+                    self.userInteractionEnabled=false
+                }
+                else
+                {
                 self.contactDetailTextLabel.text = "\(contact.phoneNumbers[0].phoneNumber)"
+                }
             }
             else if phoneNumberCount > 1 {
+                
+                if !contact.isKiboContact(){
+                    self.contactDetailTextLabel.text = "Not a kibo contact"
+                    self.userInteractionEnabled=false
+                }
+                else
+                {
                 self.contactDetailTextLabel.text = "\(contact.phoneNumbers[0].phoneNumber) and \(contact.phoneNumbers.count-1) more"
+                }
             }
             else {
                 self.contactDetailTextLabel.text = EPGlobalConstants.Strings.phoneNumberNotAvaialable

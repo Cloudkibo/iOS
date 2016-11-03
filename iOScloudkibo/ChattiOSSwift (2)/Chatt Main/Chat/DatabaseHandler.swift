@@ -201,6 +201,44 @@ class DatabaseHandler:NSObject{
         {
             print("error in dropping files table \(error)")
         }
+        //
+        self.groups = Table("groups")
+        do{try db.run(self.groups.drop(ifExists: true))
+        }
+        catch
+        {
+            print("error in dropping groups table \(error)")
+        }
+        /////
+        self.group_member = Table("group_member")
+        do{try db.run(self.group_member.drop(ifExists: true))
+        }
+        catch
+        {
+            print("error in dropping group_member table \(error)")
+        }
+        ///////////////
+        self.group_chat = Table("group_chat")
+        do{try db.run(self.group_chat.drop(ifExists: true))
+        }
+        catch
+        {
+            print("error in dropping files table \(error)")
+        }
+        self.group_chat_status = Table("group_chat_status")
+        do{try db.run(self.group_chat_status.drop(ifExists: true))
+        }
+        catch
+        {
+            print("error in dropping group_chat_status table \(error)")
+        }
+        self.group_muteSettings = Table("group_muteSettings")
+        do{try db.run(self.group_muteSettings.drop(ifExists: true))
+        }
+        catch
+        {
+            print("error in dropping group_muteSettings table \(error)")
+        }
     }
     
     func createAccountsTable()
@@ -1733,4 +1771,34 @@ print("--------")
 
 
     }
+    
+    func getGroupAdmin(id:String)->String{
+    
+    let group_unique_id = Expression<String>("group_unique_id")
+    let member_phone = Expression<String>("member_phone")
+    let isAdmin = Expression<String>("isAdmin")
+    let membership_status = Expression<String>("membership_status")
+    let date_joined = Expression<NSDate>("date_joined")
+    let date_left = Expression<NSDate>("date_left")
+    let group_member_displayname = Expression<String>("group_member_displayname")
+    
+    var groupsList=[[String:AnyObject]]()
+    
+    /* let _id = Expression<String>("_id")
+     let deptname = Expression<String>("deptname")
+     let deptdescription = Expression<String>("deptdescription")
+     let companyid = Expression<String>("companyid")
+     let createdby = Expression<String>("createdby")
+     let creationdate = Expression<String>("creationdate")
+     let deleteStatus = Expression<String>("deleteStatus")
+     */
+    var tblGroupmember = Table("group_member")
+    
+    do
+    {for groupDetails in try self.db.prepare(tblGroupmember.filter(group_unique_id==id && isAdmin.lowercaseString=="yes")){
+        return groupDetails[member_phone]
+        }}catch{
+            
+        }
+     return "error"}
 }

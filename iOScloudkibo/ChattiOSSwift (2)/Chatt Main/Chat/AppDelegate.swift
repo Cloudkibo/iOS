@@ -1607,15 +1607,17 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
                     
                     if(type=="group:you_are_added")
                     {
-                        var senderid = userInfo["senderId"] as? String
+                        var senderid = userInfo["senderId"] as! String
                         var groupId = userInfo["groupId"] as? String
-                        var isAdmin = userInfo["isAdmin"] as? String
-                        var membership_status = userInfo["membership_status"] as? String
-                        var group_name = userInfo["group_name"] as? String
+                        var isAdmin = userInfo["isAdmin"] as! String
+                        var membership_status = userInfo["membership_status"] as! String
+                        var group_name = userInfo["group_name"] as! String
                        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0)) {
                         self.fetchSingleGroup(groupId!, completion: { (result, error) in
+                            
                             self.fetchGroupMembersSpecificGroup(groupId!,completion: { (result, error) in
                                 
+                                sqliteDB.storeGroupsChat("Log:", group_unique_id1: groupId!, type1: "log", msg1: "You are added by \(senderid)", from_fullname1: "", date1: NSDate(), unique_id1:UtilityFunctions.init().generateUniqueid())
                                 UIDelegates.getInstance().UpdateMainPageChatsDelegateCall()
                                 UIDelegates.getInstance().UpdateGroupInfoDetailsDelegateCall()
                                 
@@ -1810,6 +1812,8 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
            // print("membersDataNew count is \(membersDataNew.count) and JSON data is : \(membersDataNew)")
             print("response code is \(response.response?.statusCode)")
 
+            if(response.result.isSuccess)
+            {
             print("members fetched response.. \(response.result)")
              print("members fetched response result.. \(response.result.value!)")
             print("members fetched response data.. \(response.data!)")
@@ -1860,7 +1864,12 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
      */
             }
             
-            
+            return completion(result: true, error: nil)
+            }
+            else
+            {
+                return completion(result: false, error: nil)
+            }
         }
     }
     
@@ -2002,6 +2011,11 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
                          date
                          unique_id
  */
+                        //play sound
+                        let systemSoundID: SystemSoundID = 1016
+                        
+                        // to play sound
+                        AudioServicesPlaySystemSound (systemSoundID)
                         
                         print(data1)
                         var chatJson = JSON(data1)

@@ -29,7 +29,7 @@ class NetworkingManager
     ]
     internal let DEFAULT_MIME_TYPE = "application/octet-stream"
     
-    internal let mimeTypes = [
+     let mimeTypes = [
         "html": "text/html",
         "htm": "text/html",
         "shtml": "text/html",

@@ -672,6 +672,8 @@ EPPickerDelegate,SWTableViewCellDelegate {
     
      func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         //GroupNamePicInfoCell
+        
+        
         if(indexPath.row==0)
         {
             var cell=tblGroupInfo.dequeueReusableCellWithIdentifier("GroupNamePicInfoCell")! as! GroupInfoCell
@@ -685,10 +687,30 @@ EPPickerDelegate,SWTableViewCellDelegate {
              var cell=tblGroupInfo.dequeueReusableCellWithIdentifier("AddParticipants1Cell")! as! GroupInfoCell
             btnNewGroup=cell.btnAddPatricipants
             //btnNewGroup=cell.btnNewGroupOutlet
-            
+            if(sqliteDB.getGroupAdmin(groupid)==username!)
+            {
             //cell.btnAddPatricipants.tag=section
             cell.btnAddPatricipants.addTarget(self, action: Selector("BtnnewGroupClicked:"), forControlEvents:.TouchUpInside)
-
+            }
+            else
+            {
+                //btnNewGroup=cell.btnAddPatricipants
+                //btnNewGroup.titleLabel?.textColor=UIColor.grayColor()
+                //btnNewGroup.titleLabel?.text="You are a group member in this group and cannot add participants"
+               
+                print("disabled")
+                //cell.btnAddPatricipants.titlt
+                //cell.btnAddPatricipants.titleLabel?.enabled=false
+                //UIColor.grayColor()
+                       cell.userInteractionEnabled=false
+                cell.btnAddPatricipants.enabled=false
+               // cell.btnAddPatricipants.setTitle("You are a group member", forState: UIControlState.Disabled)
+                    //="You are a group member in this group and cannot add participants"
+                //cell.btnAddPatricipants.currentTitleColor=UIColor.grayColor()
+                //cell.btnAddPatricipants.titleLabel?.text="You are a group member in this group and cannot add participants"
+         
+                
+            }
             return cell
             
         }
@@ -722,15 +744,15 @@ EPPickerDelegate,SWTableViewCellDelegate {
             {
                 if(indexPath.row<(messages.count+3))
                 {
+                    var messageDic = messages.objectAtIndex(indexPath.row-3) as! [String : String];
+                    // NSLog(messageDic["message"]!, 1)
+                    let name = messageDic["name"] as NSString!
+                    let isAdmin = messageDic["isAdmin"] as NSString!
                 print("inside show participants")
                 var cell=tableView.dequeueReusableCellWithIdentifier("ParticipantsInfoCell")! as! GroupInfoCell
                 cell.lbl_groupAdmin.hidden=true
 
-                var messageDic = messages.objectAtIndex(indexPath.row-3) as! [String : String];
-                // NSLog(messageDic["message"]!, 1)
-                let name = messageDic["name"] as NSString!
-                let isAdmin = messageDic["isAdmin"] as NSString!
-              
+                
                 //newmember
                 if(isAdmin=="Yes")
                 {

@@ -8,7 +8,7 @@
 
 import UIKit
 import Contacts
-
+import SQLite
 
 @objc public protocol EPPickerDelegate {
     optional    func epContactPicker(_: EPContactsPicker, didContactFetchFailed error: NSError)
@@ -219,6 +219,31 @@ public class EPContactsPicker: UITableViewController, UISearchResultsUpdating, U
                 do {
                     try contactsStore?.enumerateContactsWithFetchRequest(contactFetchRequest, usingBlock: { (contact, stop) -> Void in
                         //Ordering contacts based on alphabets in firstname
+                        //check in database  contact.identifier
+                        
+                        var allcontactslist1=sqliteDB.allcontacts
+                        var alladdressContactsArray:Array<Row>
+                        
+                        //let phone = Expression<String>("phone")
+                        let kibocontact = Expression<Bool>("kiboContact")
+                        let name = Expression<String?>("name")
+                        /////////////let contactProfileImage = Expression<NSData>("profileimage")
+                        let uniqueidentifier = Expression<String>("uniqueidentifier")
+                        
+                        
+                        //  alladdressContactsArray = Array(try sqliteDB.db.prepare(allcontactslist1))
+                        //alladdressContactsArray[indexPath.row].get(name)
+                        do{for ccc in try sqliteDB.db.prepare(allcontactslist1) {
+                            if(ccc[uniqueidentifier] == contact.identifier)
+                            {
+                                
+                            }
+                            
+                            
+                            
+                            }
+                        }catch{}
+                        
                         contactsArray.append(contact)
                         var key: String = "#"
                         //If ordering has to be happening via family name change it here.
@@ -290,6 +315,13 @@ public class EPContactsPicker: UITableViewController, UISearchResultsUpdating, U
         if resultSearchController.active {
             contact = EPContact(contact: filteredContacts[indexPath.row])
             
+            /*if(contact.isKiboContact())
+            {
+                cell.userInteractionEnabled=false
+                cell.contactDetailTextLabel.textColor=UIColor.grayColor()
+                cell.contactDetailTextLabel.text="Not a kibo contact"
+            }*/
+            
         } else {
             if let contactsForSection = orderedContacts[sortedContactKeys[indexPath.section]] {
                 contact =  EPContact(contact: contactsForSection[indexPath.row])
@@ -300,6 +332,12 @@ public class EPContactsPicker: UITableViewController, UISearchResultsUpdating, U
         }
         cell.updateContactsinUI(contact, indexPath: indexPath, subtitleType: subtitleCellValue)
         return cell
+    }
+    
+    func checkIfKiboContact(identifier1:String)
+    {
+        //pick phone using identifier in allcontacts table
+        //join with contactlist to match phone number
     }
     
     override public func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
@@ -375,6 +413,7 @@ public class EPContactsPicker: UITableViewController, UISearchResultsUpdating, U
             do {
                 filteredContacts = try store.unifiedContactsMatchingPredicate(predicate,
                     keysToFetch: allowedContactKeys())
+                
                 //print("\(filteredContacts.count) count")
                 
                 self.tableView.reloadData()

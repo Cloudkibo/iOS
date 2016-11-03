@@ -8,7 +8,7 @@
 
 import UIKit
 import Contacts
-
+import SQLite
 public class EPContact: NSObject {
     
     public var firstName: NSString!
@@ -104,6 +104,28 @@ public class EPContact: NSObject {
     public func getPhoneNumber()->String
     {
        return (phoneNumbers.first?.phoneNumber)!
+    }
+    
+    func isKiboContact()->Bool
+    {
+        var allcontactslist1=sqliteDB.allcontacts
+        var alladdressContactsArray:Array<Row>
+        
+        let phone = Expression<String>("phone")
+        let kibocontact = Expression<Bool>("kiboContact")
+        let name =
+            Expression<String?>("name")
+      // if(self.getPhoneNumber() != nil)
+       //{
+        do{for found in try sqliteDB.db.prepare(allcontactslist1.filter(phone==self.getPhoneNumber() && kibocontact==true))
+        {
+            print("found contact \(self.getPhoneNumber())")
+            return true
+        }
+    }catch{}
+       // }
+return false
+
     }
     
     public func displayName() -> String {

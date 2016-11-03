@@ -12,6 +12,8 @@ import Alamofire
 import SQLite
 class NewGroupSetDetails: UITableViewController,UINavigationControllerDelegate,UIImagePickerControllerDelegate{
 
+    
+    var file_name1=""
     var uniqueid=""
     var groupname=""
    /// @IBOutlet weak var txtFieldGroupName: UITextField!
@@ -158,9 +160,14 @@ class NewGroupSetDetails: UITableViewController,UINavigationControllerDelegate,U
                 {
                     print("profile image is selected")
                     print("call API to upload image")
-                   
-                    uploadProfileImage(groupuniqueid: uniqueid)
                     
+                    //save filename
+                   
+                    var filetype="png"
+                    self.uploadProfileImage(uniqueid,filename: self.file_name1,fileType: filetype,completion: {(result,error) in
+                    
+                    })
+ 
                 }
                 self.performSegueWithIdentifier("groupChatStartSegue", sender: nil)
               /*  self.dismissViewControllerAnimated(true, completion: {
@@ -177,10 +184,19 @@ class NewGroupSetDetails: UITableViewController,UINavigationControllerDelegate,U
         
     }
     
-    func uploadProfileImage(groupUniqueID:String,completion:(result:Bool,error:String!)->())
+    func uploadProfileImage(groupUniqueID:String,filename:String,fileType:String,completion:(result:Bool,error:String!)->())
     {
         var url=Constants.MainUrl+Constants.uploadProfileImage
-        Alamofire.request(.POST,"\(url)",parameters:["unique_id":uniqueid],headers:header,encoding:.JSON).validate().responseJSON { response in
+        var parameters = [
+            "unique_id": groupUniqueID]
+           /* "from": from1,
+            "uniqueid": uniqueid1,
+            "filename": file_name1,
+            "filesize": file_size1,
+            "filetype": file_type1]
+ */
+
+       //// Alamofire.request(.POST,"\(url)",parameters:["unique_id":uniqueid],headers:header,encoding:.JSON).validate().responseJSON { response in
             
             
             var urlupload=Constants.MainUrl+Constants.uploadFile
@@ -189,8 +205,8 @@ class NewGroupSetDetails: UITableViewController,UINavigationControllerDelegate,U
                 urlupload,
                 headers: header,
                 multipartFormData: { multipartFormData in
-                    multipartFormData.appendBodyPart(data: imageData!, name: "file"
-                        ,fileName: file_name1, mimeType: self.MimeType(file_type1))
+                    multipartFormData.appendBodyPart(data: self.imgdata, name: "file"
+                        ,fileName: filename, mimeType: managerFile.MimeType(fileType))
                     //,fileName: file_name1, mimeType: "image/\(file_type1)")
                     for (key, value) in parameters {
                         multipartFormData.appendBodyPart(data: value.dataUsingEncoding(NSUTF8StringEncoding)!, name: key)
@@ -205,14 +221,16 @@ class NewGroupSetDetails: UITableViewController,UINavigationControllerDelegate,U
                             dispatch_async(dispatch_get_main_queue()) {
                                 let percent = (Float(totalBytesWritten) / Float(totalBytesExpectedToWrite))
                                 /////progress(percent: percent)
-                                if(self.delegateProgressUpload != nil)
+                              
+                                //uncomment later
+                                /*  if(self.delegateProgressUpload != nil)
                                 {
                                     if(percent<1.0)
                                     {
                                         self.delegateProgressUpload.updateProgressUpload(percent,uniqueid: uniqueid1)
                                     }
                                     
-                                }
+                                }*/
                                 //Redraw specific table cell
                                 print("percentage is \(percent)")
                             }
@@ -223,9 +241,15 @@ class NewGroupSetDetails: UITableViewController,UINavigationControllerDelegate,U
                             print(response.data!)
                             
                             switch response.result {
-                            case .Success:
+                            case .Success:print("file uploaded successss")
+                              
                                 
+                            case .Failure(let error):
+                                print("file upload failure")
                             }
+                            
+                            
+                            
             /*
              
              "__v" = 0;
@@ -245,8 +269,14 @@ class NewGroupSetDetails: UITableViewController,UINavigationControllerDelegate,U
             {
                 print("success uploading image profile")
             }
+                      
+
         }
+        case .Failure(let error):
+                        print("file upload failure")
+                    }})
     }
+    
     
     func randomStringWithLength (len : Int) -> NSString {
         
