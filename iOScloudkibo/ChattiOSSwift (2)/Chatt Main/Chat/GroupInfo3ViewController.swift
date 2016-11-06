@@ -299,13 +299,25 @@ EPPickerDelegate,SWTableViewCellDelegate {
                     var uniqueidMsg=self.generateUniqueid()
                     // var dateString=self.getDateString(NSDate())
                    
-                    sqliteDB.updateMembershipStatus(memberPhone, membership_status1: "left")
+                    sqliteDB.updateMembershipStatus(self.groupid,memberphone1: memberPhone, membership_status1: "left")
                     
-                    sqliteDB.storeGroupsChat("Log:", group_unique_id1: self.groupid, type1: "log", msg1: "You have left this group", from_fullname1: "", date1:NSDate() , unique_id1: uniqueidMsg)
+                    sqliteDB.storeGroupsChat("Log:", group_unique_id1: self.groupid, type1: "log", msg1: "\(memberPhone) is removed", from_fullname1: "", date1:NSDate() , unique_id1: uniqueidMsg)
                     
                    /// sqliteDB.storeGroupsChat(username!, group_unique_id1: self.groupid, type1: "log_leftGroup", msg1: "You have left this group", from_fullname1: "", date1:NSDate() , unique_id1: uniqueidMsg)
                     
-                    self.tblGroupInfo.reloadData()
+                    
+                    self.retrieveChatFromSqlite { (result) in
+                        self.tblGroupInfo.reloadData()
+                        // if(self.messages.count>1)
+                        //{
+                        /* var indexPath = NSIndexPath(forRow:self.messages.count+2, inSection: 0)
+                         self.tblGroupInfo.scrollToRowAtIndexPath(indexPath, atScrollPosition: UITableViewScrollPosition.Bottom, animated: true)
+                         */
+                        // }
+                        
+                    }
+
+                    
                 }
             }
  
@@ -323,6 +335,51 @@ EPPickerDelegate,SWTableViewCellDelegate {
             
         }
     }
+    
+    
+    func changeRole(member:String,isAdmin:String)
+    {
+       // let shareMenu = UIAlertController(title: nil, message: "Are you sure you want to remove \(memberPhone)?", preferredStyle: .ActionSheet)
+        
+      //  let yes = UIAlertAction(title: "Yes", style: UIAlertActionStyle.Default,handler: { (action) -> Void in
+            
+            
+            var url=Constants.MainUrl+Constants.changeRole
+            Alamofire.request(.POST,"\(url)",parameters:["group_unique_id":self.groupid,"member_phone":member,"makeAdmin":isAdmin],headers:header,encoding:.JSON).validate().responseJSON { response in
+                
+                
+                print("change member role response \(response.description)")
+                if(response.result.isSuccess)
+                {
+                    print("change member role  success")
+                    print(response.result.value)
+                    var uniqueidMsg=self.generateUniqueid()
+                    // var dateString=self.getDateString(NSDate())
+                    
+                    //change role in database 
+                    
+                    
+                    
+                    sqliteDB.changeRole(self.groupid, member1: member, isAdmin1: isAdmin)
+                    
+                    //sqliteDB.updateMembershipStatus(memberPhone, membership_status1: "left")
+                    
+                    //sqliteDB.storeGroupsChat("Log:", group_unique_id1: self.groupid, type1: "log", msg1: "You have left this group", from_fullname1: "", date1:NSDate() , unique_id1: uniqueidMsg)
+                    
+                    /// sqliteDB.storeGroupsChat(username!, group_unique_id1: self.groupid, type1: "log_leftGroup", msg1: "You have left this group", from_fullname1: "", date1:NSDate() , unique_id1: uniqueidMsg)
+                    
+                    self.tblGroupInfo.reloadData()
+                }
+                else
+                {
+                    print("failed to update role")
+                }
+            }
+        
+       
+        }
+        
+        
     func exitGroup()
     {
         let shareMenu = UIAlertController(title: nil, message: "Are you sure you want to leave this group?", preferredStyle: .ActionSheet)
@@ -341,7 +398,7 @@ EPPickerDelegate,SWTableViewCellDelegate {
                     var uniqueidMsg=self.generateUniqueid()
                    // var dateString=self.getDateString(NSDate())
                     
-                    sqliteDB.updateMembershipStatus(username!,membership_status1: "left")
+                    sqliteDB.updateMembershipStatus(self.groupid,memberphone1: username!,membership_status1: "left")
                     sqliteDB.storeGroupsChat("Log:", group_unique_id1: self.groupid, type1: "log", msg1: "You have left this group", from_fullname1: "", date1:NSDate() , unique_id1: uniqueidMsg)
                     
                     self.tblGroupInfo.reloadData()
@@ -613,14 +670,19 @@ EPPickerDelegate,SWTableViewCellDelegate {
             var selectedMemberPhone=messageDic["member_phone"]
             var selectedMemberName=messageDic["name"]
             var selectedMemberIsAdmin=messageDic["isAdmin"]
-            if(selectedMemberIsAdmin == "No")
+            
+            if(selectedMemberPhone!.lowercaseString != username!)
             {
+                
+            
             
             //show actions for removing group
             let shareMenu = UIAlertController(title: nil, message: nil, preferredStyle: .ActionSheet)
             
             let makeAdmin = UIAlertAction(title: "Make Group Admin", style: UIAlertActionStyle.Default,handler: { (action) -> Void in
                 
+                
+                self.changeRole(selectedMemberPhone!,isAdmin: "Yes")
                /* var url=Constants.MainUrl+Constants.removeMemberFromGroup
                 Alamofire.request(.POST,"\(url)",parameters:["group_unique_id":self.groupid,"phone":memberPhone],headers:header,encoding:.JSON).validate().responseJSON { response in
                     
@@ -642,7 +704,7 @@ EPPickerDelegate,SWTableViewCellDelegate {
                 
                 
             })
-            let removeMember = UIAlertAction(title: "Remove \(selectedMemberName) ?", style: UIAlertActionStyle.Default,handler: { (action) -> Void in
+            let removeMember = UIAlertAction(title: "Remove \(selectedMemberName!) ?", style: UIAlertActionStyle.Default,handler: { (action) -> Void in
                 
                 self.adminRemovesMember(selectedMemberPhone!)
                 
@@ -650,16 +712,23 @@ EPPickerDelegate,SWTableViewCellDelegate {
             let cancel = UIAlertAction(title: "No", style: UIAlertActionStyle.Default,handler: { (action) -> Void in
                 
             })
-            shareMenu.addAction(makeAdmin)
-            shareMenu.addAction(removeMember)
-             shareMenu.addAction(cancel)
+                
+                if(selectedMemberIsAdmin!.lowercaseString == "no")
+                {
+                    shareMenu.addAction(makeAdmin)
+                   }//end of not Admin
+                
+                shareMenu.addAction(removeMember)
+                shareMenu.addAction(cancel)
             
-            self.presentViewController(shareMenu, animated: true) {
+                self.presentViewController(shareMenu, animated: true) {
                 
                 
             }
-        }//end of not Admin
+     
             
+            
+        }//end of mee
         }
         
       /*  if(msgType.isEqualToString("5")||msgType.isEqualToString("6")){
@@ -754,7 +823,7 @@ EPPickerDelegate,SWTableViewCellDelegate {
 
                 
                 //newmember
-                if(isAdmin=="Yes")
+                if(isAdmin.lowercaseString == "yes")
                 {
                    cell.lbl_groupAdmin.hidden=false
                     

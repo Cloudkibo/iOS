@@ -1745,7 +1745,7 @@ print("--------")
         }
         }
     
-    func updateMembershipStatus(memberphone1:String,membership_status1:String)
+    func updateMembershipStatus(groupid1:String,memberphone1:String,membership_status1:String)
     {
         let group_unique_id = Expression<String>("group_unique_id")
         let member_phone = Expression<String>("member_phone")
@@ -1758,7 +1758,7 @@ print("--------")
         
         self.group_member = Table("group_member")
         
-        let query = self.group_member.select(membership_status).filter(member_phone == memberphone1)
+        let query = self.group_member.select(membership_status).filter(member_phone == memberphone1 && group_unique_id==groupid1)
         do
         {try sqliteDB.db.run(query.update(membership_status <- membership_status1))}
         catch
@@ -1801,4 +1801,23 @@ print("--------")
             
         }
      return "error"}
+    
+    func changeRole(groupid1:String,member1:String,isAdmin1:String)
+    {
+        let group_unique_id = Expression<String>("group_unique_id")
+        let member_phone = Expression<String>("member_phone")
+        let isAdmin = Expression<String>("isAdmin")
+        
+        self.group_member = Table("group_member")
+        
+        let query = self.group_member.select(member_phone).filter(member_phone == member1 && group_unique_id==groupid1)
+        do
+        {try sqliteDB.db.run(query.update(isAdmin <- isAdmin1))}
+        catch
+        {
+            print("error in updating member role")
+           
+        }
+
+    }
 }

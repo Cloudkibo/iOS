@@ -12,6 +12,7 @@ import SwiftyJSON
 class NetworkingManager
 {
     var delegateProgressUpload:showUploadProgressDelegate!
+   
     let imageExtensions=[
         "gif",
         "jpeg",

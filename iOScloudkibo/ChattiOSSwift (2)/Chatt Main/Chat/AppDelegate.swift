@@ -1665,7 +1665,7 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
            
                     var uniqueid1=UtilityFunctions.init().generateUniqueid()
                     
-                    sqliteDB.updateMembershipStatus(senderId, membership_status1: "left")
+                    sqliteDB.updateMembershipStatus(groupId,memberphone1: senderId, membership_status1: "left")
                     sqliteDB.storeGroupsChat("Log:", group_unique_id1: groupId, type1: "log", msg1: "\(senderId) has left this group", from_fullname1: "", date1: NSDate(), unique_id1: uniqueid1)
                     ///////  sqliteDB.removeMember(groupId!,member_phone1: senderId!)
                     if(delegateRefreshChat != nil)
@@ -1693,8 +1693,15 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
                     
                     var uniqueid1=UtilityFunctions.init().generateUniqueid()
                     
-                    sqliteDB.updateMembershipStatus(senderId, membership_status1: "left")
-                    sqliteDB.storeGroupsChat("Log:", group_unique_id1: groupId, type1: "log", msg1: "\(senderId) is remved from this group", from_fullname1: "", date1: NSDate(), unique_id1: uniqueid1)
+                    sqliteDB.updateMembershipStatus(groupId,memberphone1: personRemoved, membership_status1: "left")
+                    
+                    if(personRemoved == username!)
+{
+   sqliteDB.storeGroupsChat("Log:", group_unique_id1: groupId, type1: "log", msg1: "\(senderId) removed you", from_fullname1: "", date1: NSDate(), unique_id1: uniqueid1)
+}
+else{
+                    sqliteDB.storeGroupsChat("Log:", group_unique_id1: groupId, type1: "log", msg1: "\(personRemoved) is removed from this group", from_fullname1: "", date1: NSDate(), unique_id1: uniqueid1)
+                    }
                     ///////  sqliteDB.removeMember(groupId!,member_phone1: senderId!)
                     if(delegateRefreshChat != nil)
                     {

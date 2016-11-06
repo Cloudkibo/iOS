@@ -73,6 +73,14 @@ static let connectionstring="Endpoint=sb://cloudkibo.servicebus.windows.net/;Sha
     static var removeMemberFromGroup="/api/groupmessaginguser/removeFromGroup" //group_unique_id , phone
     
     static var  uploadProfileImage="/api/groupmessaging/uploadIcon"
+    static var  changeRole="/api/groupmessaginguser/updateRole"
+    
+    
+    
+    
+    
+    
+    
   //  static var fetchSingleGroupChat="/api/groupchat/fetchSingleChat"
     /*
      private static String phoneContactsURL = "https://www.cloudkibo.com/api/users/searchaccountsbyphone/";
