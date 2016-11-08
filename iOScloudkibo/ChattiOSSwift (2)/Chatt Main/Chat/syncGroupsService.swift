@@ -80,7 +80,7 @@ class syncGroupService
                 self.partialSyncGroupsChat{ (result,error,groupinfo) in
                     if(groupinfo != nil)
                     {
-                        syncGroupChatStatuses()
+                        self.syncGroupChatStatuses()
                         
                         UIDelegates.getInstance().UpdateMainPageChatsDelegateCall()
                         UIDelegates.getInstance().UpdateGroupInfoDetailsDelegateCall()
@@ -395,15 +395,39 @@ class syncGroupService
         
         var url=Constants.MainUrl+Constants.checkGroupMsgStatus
         print(url.debugDescription)
-        
+        print("status list is \(statusNotSentList)")
         var hhh=["headers":"\(header)"]
         print(header.description)
-        Alamofire.request(.POST,"\(url)",parameters:["unique_ids":statusNotSentList],headers:header).validate().responseJSON { response in
+        Alamofire.request(.POST,"\(url)",parameters:["unique_ids":statusNotSentList],headers:header, encoding: .JSON).validate().responseJSON { response in
             print(response)
             print(response.response?.statusCode)
             if(response.result.isSuccess)
             {
+             print("yes success")
+                print(JSON(response.result.value!).count)
+                var jsongroupinfo=JSON(response.result.value!)
+                for(var i=0;i<jsongroupinfo.count;i++)
+                {
+                    var uniqueid1=jsongroupinfo[i]["chat_unique_id"].string!
+                    var user_phone1=jsongroupinfo[i]["user_phone"].string!
+                    var status1=jsongroupinfo[i]["status"].string!
+                    
+                    sqliteDB.updateGroupChatStatus(uniqueid1, memberphone1: user_phone1, status1: status1)
+                    
+                }
                 
+                /*
+                 {
+                 "__v" = 0;
+                 "_id" = 5821ea870138a8054212a2ba;
+                 "chat_unique_id" = yU5bS8l201611820854;
+                 "delivered_date" = "2016-11-08T15:08:56.437Z";
+                 "msg_unique_id" = 5821ea870138a8054212a2b9;
+                 "read_date" = "2016-11-08T15:08:55.242Z";
+                 status = delivered;
+                 "user_phone" = "+923333864540";
+                 }
+                 */
             }
             
         }

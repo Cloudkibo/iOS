@@ -328,10 +328,14 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
                 /////======CHANGE IT==================
                     self.fetchChatsFromServer()
                     
-                    // partial sync groups
                     var syncGroupsObj=syncGroupService.init()
-                    print("calling partial sync groups chat")
-                    syncGroupsObj.startPartialGroupsChatSyncService()
+                    
+                    syncGroupsObj.startSyncGroupsService({ (result) -> () in
+                        
+                        // partial sync groups
+                        print("calling partial sync groups chat")
+                        syncGroupsObj.startPartialGroupsChatSyncService()
+                    })
                     
                 //}
                 })
