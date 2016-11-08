@@ -80,6 +80,8 @@ class syncGroupService
                 self.partialSyncGroupsChat{ (result,error,groupinfo) in
                     if(groupinfo != nil)
                     {
+                        syncGroupChatStatuses()
+                        
                         UIDelegates.getInstance().UpdateMainPageChatsDelegateCall()
                         UIDelegates.getInstance().UpdateGroupInfoDetailsDelegateCall()
                         UIDelegates.getInstance().UpdateGroupChatDetailsDelegateCall()
@@ -363,7 +365,10 @@ class syncGroupService
                         
                         sqliteDB.storeGroupsChat(from!, group_unique_id1: group_unique_id!, type1: type!, msg1: msg!, from_fullname1: from_fullname!, date1: datens2!, unique_id1: uniqueid!)
                         
-                        //== sqliteDB.storeGRoupsChatStatus(uniqueid, status1: status, memberphone1: <#T##String#>)
+                        
+                       
+                        
+                        //== only for which i sent so no need sqliteDB.storeGRoupsChatStatus(uniqueid, status1: status, memberphone1: <#T##String#>)
                     }
  
                     
@@ -383,7 +388,26 @@ class syncGroupService
     }
     
     
-    
+    func syncGroupChatStatuses()
+    {print("sync statuses")
+        var statusNotSentList=sqliteDB.getGroupsChatStatusUniqueIDsListNotSeen()
+        var jsongroupinfo:JSON!=nil
+        
+        var url=Constants.MainUrl+Constants.checkGroupMsgStatus
+        print(url.debugDescription)
+        
+        var hhh=["headers":"\(header)"]
+        print(header.description)
+        Alamofire.request(.POST,"\(url)",parameters:["unique_ids":statusNotSentList],headers:header).validate().responseJSON { response in
+            print(response)
+            print(response.response?.statusCode)
+            if(response.result.isSuccess)
+            {
+                
+            }
+            
+        }
+    }
     
     
     

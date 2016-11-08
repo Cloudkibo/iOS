@@ -1922,6 +1922,27 @@ print("--------")
         return status
     }
     
+    func getGroupsChatStatusUniqueIDsListNotSeen()->[String]
+    {
+        let msg_unique_id = Expression<String>("msg_unique_id")
+        let Status = Expression<String>("Status")
+        let user_phone = Expression<String>("user_phone")
+        
+        // var tblGroupmember = Table("group_member")
+        var uniqueid=[String]()
+        do
+        {for groupChatStatus in try self.db.prepare(group_chat_status.filter(Status.lowercaseString != "seen")){
+            print("found status NOT SEEN")
+            
+            uniqueid.append(groupChatStatus[msg_unique_id])
+            
+            }
+        }catch{
+          print("error in NOT SEEN status query")
+        }
+        return uniqueid
+    }
+
     
     
     

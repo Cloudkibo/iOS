@@ -78,8 +78,18 @@ class GroupChatingDetailController: UIViewController,UpdateGroupChatDetailsDeleg
         //get members and store status as pending
         for(var i=0;i<membersList.count;i++)
         {
-        sqliteDB.storeGRoupsChatStatus(uniqueid_chat, status1: "pending", memberphone1: username!)
+            /*
+             let member_phone = Expression<String>("member_phone")
+             let isAdmin = Expression<String>("isAdmin")
+             let membership_status
+ */
+            if((membersList[i]["member_phone"] as! String) != username! && (membersList[i]["membership_status"] as! String) != "left")
+            {
+                print("adding group chat status for \(membersList[i]["member_phone"])")
+                sqliteDB.storeGRoupsChatStatus(uniqueid_chat, status1: "pending", memberphone1: membersList[i]["member_phone"]! as! String)
+            }
         }
+        
         var chatmsg=txtFieldMessage.text!
         txtFieldMessage.text = "";
         tblForGroupChat.reloadData()
