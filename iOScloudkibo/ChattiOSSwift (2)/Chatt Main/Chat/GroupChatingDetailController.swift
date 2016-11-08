@@ -12,6 +12,8 @@ import SQLite
 
 class GroupChatingDetailController: UIViewController,UpdateGroupChatDetailsDelegate {
     
+    
+    var membersList=[[String:AnyObject]]()
     var delegateReload:UpdateGroupChatDetailsDelegate!
     var mytitle=""
     var groupid1=""
@@ -65,14 +67,19 @@ class GroupChatingDetailController: UIViewController,UpdateGroupChatDetailsDeleg
         
         var uniqueid_chat=generateUniqueid()
         var date=getDateString(NSDate())
-        messages.addObject(["msg":txtFieldMessage.text!, "type":"2", "fromFullName":"","date":date,"uniqueid":uniqueid_chat])
+        var status="pending"
+        messages.addObject(["msg":txtFieldMessage.text!+"(\(status))", "type":"2", "fromFullName":"","date":date,"uniqueid":uniqueid_chat])
         
         
         //save chat
         sqliteDB.storeGroupsChat(username!, group_unique_id1: groupid1, type1: "chat", msg1: txtFieldMessage.text!, from_fullname1: username!, date1: NSDate(), unique_id1: uniqueid_chat)
         
-        sqliteDB.storeGRoupsChatStatus(uniqueid_chat, status1: "pending", memberphone1: username!)
         
+        //get members and store status as pending
+        for(var i=0;i<membersList.count;i++)
+        {
+        sqliteDB.storeGRoupsChatStatus(uniqueid_chat, status1: "pending", memberphone1: username!)
+        }
         var chatmsg=txtFieldMessage.text!
         txtFieldMessage.text = "";
         tblForGroupChat.reloadData()
@@ -94,7 +101,9 @@ class GroupChatingDetailController: UIViewController,UpdateGroupChatDetailsDeleg
                 print("chat sent")
                 if(result==true)
                 {
-                    sqliteDB.storeGRoupsChatStatus(uniqueid_chat, status1: "sent", memberphone1: username!)
+                    sqliteDB.updateGroupChatStatus(uniqueid_chat, memberphone1: username!,status1: "sent")
+                    
+                    UIDelegates.getInstance().UpdateGroupChatDetailsDelegateCall()
                 }
             })
         }
@@ -174,6 +183,7 @@ class GroupChatingDetailController: UIViewController,UpdateGroupChatDetailsDeleg
         self.navigationController?.title=mytitle
         
         UIDelegates.getInstance().delegateGroupChatDetails1=self
+        membersList=sqliteDB.getGroupMembersOfGroup(self.groupid1)
         
         self.retrieveChatFromSqlite { (result) in
             
@@ -297,14 +307,19 @@ class GroupChatingDetailController: UIViewController,UpdateGroupChatDetailsDeleg
                 
                 if(tblUserChats[type].lowercaseString=="log")//check left
                 {
-                    sqliteDB.getMemberShipStatus(self.groupid1, memberphone: username!)
+                    
+                    
+                    var memStatus=sqliteDB.getMemberShipStatus(self.groupid1, memberphone: username!)
+                   if(memStatus == "left")
+                   {
                     self.txtFieldMessage.text="You left the group"
                     self.chatComposeView.userInteractionEnabled=false
+                    }
                 }
                 
                 if (tblUserChats[from]==username!)
                 {
-                            messages2.addObject(["msg":tblUserChats[msg], "type":"2", "fromFullName":tblUserChats[from_fullname],"date":defaultTimeeee, "uniqueid":tblUserChats[unique_id]])
+                            messages2.addObject(["msg":tblUserChats[msg]+"(\(sqliteDB.getGroupsChatStatusSingle(tblUserChats[unique_id], user_phone1: username!)))", "type":"2", "fromFullName":tblUserChats[from_fullname],"date":defaultTimeeee, "uniqueid":tblUserChats[unique_id]])
                 }
                 else
                 {

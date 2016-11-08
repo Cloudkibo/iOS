@@ -6,7 +6,7 @@
 //  Copyright (c) 2014 My App Templates. All rights reserved.
 //
 
-import UIKit
+/*import UIKit
 import SwiftyJSON
 import SQLite
 import Alamofire
@@ -3206,6 +3206,8 @@ class GroupChatDetailViewController: UIViewController,SocketClientDelegate,Updat
      super.viewDidLayoutSubviews()
      }*/
 }
+ 
+ */
 /*
  extension ChatDetailViewController: UIViewControllerRestoration {
  static func viewControllerWithRestorationIdentifierPath(identifierComponents: [AnyObject],
@@ -3213,4 +3215,4 @@ class GroupChatDetailViewController: UIViewController,SocketClientDelegate,Updat
  let vc = ChatDetailViewController()
  return vc
  }
- }*/
+ }*/*/*/*/*/

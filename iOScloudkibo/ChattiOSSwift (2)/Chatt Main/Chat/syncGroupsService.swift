@@ -291,11 +291,12 @@ class syncGroupService
         
             var url=Constants.MainUrl+Constants.syncGetPartialGroupChats
             print(url.debugDescription)
-            
+        
             var hhh=["headers":"\(header)"]
             print(header.description)
             Alamofire.request(.GET,"\(url)",headers:header).validate().responseJSON { response in
                 print(response)
+                 print(response.response?.statusCode)
                 if(response.result.isSuccess)
                 {
                     print("group chat partial got success")
@@ -303,7 +304,7 @@ class syncGroupService
                     jsongroupinfo=JSON(response.result.value!)
                     print(jsongroupinfo)
                     
-                    
+                    print("jsongroupinfo.count is \(jsongroupinfo.count)")
                     /*
                      "__v" = 0;
                      "_id" = 58214c1acf342a4837076bbb;
@@ -335,6 +336,7 @@ class syncGroupService
                     
                     for(var i=0;i<jsongroupinfo.count;i++)
                     {
+                        print("partial sync group chats storing info \(i)")
                         
                        // var _id=jsongroupinfo[i]["_id"].string!
                         var uniqueid=jsongroupinfo[i]["msg_unique_id"]["unique_id"].string
@@ -347,9 +349,9 @@ class syncGroupService
                         
                         var msg=jsongroupinfo[i]["msg_unique_id"]["msg"].string
                         
-                        var group_unique_id=jsongroupinfo[i]["msg_unique_id"]["group_unique_id"].string
+                        var group_unique_id=jsongroupinfo[i]["msg_unique_id"]["group_unique_id"]["unique_id"].string
                         var type=jsongroupinfo[i]["msg_unique_id"]["type"].string
-                        var status=jsongroupinfo[i]["msg_unique_id"]["status"].string
+                        var status=jsongroupinfo[i]["status"].string
                         
                         
                         let dateFormatter = NSDateFormatter()
@@ -369,6 +371,7 @@ class syncGroupService
                     
                 }
                 else{
+                    print("error in partial group chat sync \(response.result)")
                     return completion(result:true,error: "API synch group chats partial failed",groupinfo: jsongroupinfo)
                     
                 }

@@ -1533,6 +1533,30 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
                     completionHandler(UIBackgroundFetchResult.NewData)
                     NSNotificationCenter.defaultCenter().postNotificationName("ReceivedNotification", object:userInfo)
                     }
+                    
+                    else
+                    {
+                        if(notifType=="group:msg_status_changed")
+                            
+                        {print("inside here updating status")
+                            //change message status
+                            //status : 'delivered',
+                            //uniqueId : req.body.unique_id
+                            var uniqueId=userInfo["uniqueId"] as! String
+                            var status=userInfo["status"] as! String
+                            var user_phone=userInfo["user_phone"] as? String
+                            
+                            if(user_phone == nil)
+                            {
+                            user_phone=""
+                            }
+                            sqliteDB.updateGroupChatStatus(uniqueId,memberphone1: user_phone!,status1: status)
+                            UIDelegates.getInstance().UpdateMainPageChatsDelegateCall()
+                            UIDelegates.getInstance().UpdateGroupChatDetailsDelegateCall()
+                            
+                        }
+                        
+                    }
                 }
                 
                    /* else
@@ -1668,6 +1692,8 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
                     var uniqueId=userInfo["uniqueId"] as! String
                     var status=userInfo["status"] as! String
                     var user_phone=userInfo["user_phone"] as! String
+                    
+                    print("inside here 222 updating status")
                     
                     sqliteDB.updateGroupChatStatus(uniqueId,memberphone1: user_phone,status1: status)
                     UIDelegates.getInstance().UpdateMainPageChatsDelegateCall()

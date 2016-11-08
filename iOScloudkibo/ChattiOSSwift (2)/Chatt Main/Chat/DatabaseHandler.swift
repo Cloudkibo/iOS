@@ -1865,7 +1865,9 @@ print("--------")
 
         let query = self.group_chat_status.select(Status).filter(msg_unique_id == uniqueid1 && user_phone == memberphone1)
         do
-        {try sqliteDB.db.run(query.update(Status <- status1))}
+        {var row=try sqliteDB.db.run(query.update(Status <- status1))
+        print("status updated of group chat \(row)")
+        }
         catch
         {
             print("error in updating group chat status")
@@ -1881,6 +1883,21 @@ print("--------")
         let Status = Expression<String>("Status")
         let user_phone = Expression<String>("user_phone")
         
+       // var group_muteSettings=sqliteDB.group_muteSettings
+        
+        do {
+            let rowid = try db.run(group_chat_status.insert(
+                msg_unique_id<-uniqueid1,
+                Status<-status1,
+                user_phone<-memberphone1
+                ))
+            
+            
+            print("inserted group_chat_status : \(rowid)")
+        } catch {
+            print("insertion failed: group_chat_status \(error)")
+        }
+        
     }
     
     
@@ -1891,15 +1908,18 @@ print("--------")
         let user_phone = Expression<String>("user_phone")
         
        // var tblGroupmember = Table("group_member")
-        
+        var status=""
         do
         {for groupChatStatus in try self.db.prepare(group_chat_status.filter(msg_unique_id==uniqueid1 && user_phone==user_phone1)){
-            return groupChatStatus[Status]
+            print("found status matchedddd")
+            
+            status=groupChatStatus[Status]
+            
             }
         }catch{
                 
         }
-        return "error"
+        return status
     }
     
     
