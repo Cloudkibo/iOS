@@ -1820,4 +1820,91 @@ print("--------")
         }
 
     }
+    
+    func getMemberShipStatus(groupid1:String,memberphone:String)->String
+    {
+            let group_unique_id = Expression<String>("group_unique_id")
+            let member_phone = Expression<String>("member_phone")
+            let isAdmin = Expression<String>("isAdmin")
+            let membership_status = Expression<String>("membership_status")
+            let date_joined = Expression<NSDate>("date_joined")
+            let date_left = Expression<NSDate>("date_left")
+            let group_member_displayname = Expression<String>("group_member_displayname")
+            
+            var groupsList=[[String:AnyObject]]()
+            
+            /* let _id = Expression<String>("_id")
+             let deptname = Expression<String>("deptname")
+             let deptdescription = Expression<String>("deptdescription")
+             let companyid = Expression<String>("companyid")
+             let createdby = Expression<String>("createdby")
+             let creationdate = Expression<String>("creationdate")
+             let deleteStatus = Expression<String>("deleteStatus")
+             */
+            var tblGroupmember = Table("group_member")
+            
+            do
+            {for groupDetails in try self.db.prepare(tblGroupmember.filter(group_unique_id==groupid1 && member_phone==memberphone)){
+                
+                return groupDetails[membership_status]
+                
+                }}catch{
+                    
+            }
+            return "error"
+
+    }
+    
+    func updateGroupChatStatus(uniqueid1:String,memberphone1:String,status1:String)
+    {
+        let msg_unique_id = Expression<String>("msg_unique_id")
+        let Status = Expression<String>("Status")
+        let user_phone = Expression<String>("user_phone")
+        
+        self.group_chat_status = Table("group_chat_status")
+
+        let query = self.group_chat_status.select(Status).filter(msg_unique_id == uniqueid1 && user_phone == memberphone1)
+        do
+        {try sqliteDB.db.run(query.update(Status <- status1))}
+        catch
+        {
+            print("error in updating group chat status")
+            
+        }
+
+
+    }
+    
+    func storeGRoupsChatStatus(uniqueid1:String,status1:String,memberphone1:String)
+    {
+        let msg_unique_id = Expression<String>("msg_unique_id")
+        let Status = Expression<String>("Status")
+        let user_phone = Expression<String>("user_phone")
+        
+    }
+    
+    
+    func getGroupsChatStatusSingle(uniqueid1:String,user_phone1:String)->String
+    {
+        let msg_unique_id = Expression<String>("msg_unique_id")
+        let Status = Expression<String>("Status")
+        let user_phone = Expression<String>("user_phone")
+        
+       // var tblGroupmember = Table("group_member")
+        
+        do
+        {for groupChatStatus in try self.db.prepare(group_chat_status.filter(msg_unique_id==uniqueid1 && user_phone==user_phone1)){
+            return groupChatStatus[Status]
+            }
+        }catch{
+                
+        }
+        return "error"
+    }
+    
+    
+    
+    
+    
+    
 }

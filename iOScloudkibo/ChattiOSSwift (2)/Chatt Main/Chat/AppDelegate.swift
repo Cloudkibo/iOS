@@ -489,6 +489,9 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
                     }
                     /////======CHANGE IT==================
                     self.fetchChatsFromServer()
+                    
+                    
+                    
                     //}
                 })
             })
@@ -1656,6 +1659,22 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
 
                 }
                 
+                
+                if(type=="group:msg_status_changed")
+                {
+                    //change message status
+                    //status : 'delivered',
+                    //uniqueId : req.body.unique_id
+                    var uniqueId=userInfo["uniqueId"] as! String
+                    var status=userInfo["status"] as! String
+                    var user_phone=userInfo["user_phone"] as! String
+                    
+                    sqliteDB.updateGroupChatStatus(uniqueId,memberphone1: user_phone,status1: status)
+                    UIDelegates.getInstance().UpdateMainPageChatsDelegateCall()
+                    UIDelegates.getInstance().UpdateGroupChatDetailsDelegateCall()
+                    
+                }
+                
                 if(type=="group:member_left_group")
                 {
                     var senderId=userInfo["senderId"] as! String  //from
@@ -1674,7 +1693,7 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
                         delegateRefreshChat?.refreshChatsUI(nil, uniqueid:nil, from:nil, date1:nil, type:"status")
                     }
                     UIDelegates.getInstance().UpdateMainPageChatsDelegateCall()
-                     UIDelegates.getInstance().UpdateGroupInfoDetailsDelegateCall()
+                    UIDelegates.getInstance().UpdateGroupInfoDetailsDelegateCall()
                     UIDelegates.getInstance().UpdateGroupChatDetailsDelegateCall()
                     
                     completionHandler(UIBackgroundFetchResult.NewData)
@@ -2047,6 +2066,8 @@ else{
                         var unique_id=chatJson["unique_id"].string!
                         
                         sqliteDB.storeGroupsChat(from, group_unique_id1: group_unique_id, type1: type, msg1: msg, from_fullname1: from_fullname, date1: datens2!, unique_id1: unique_id)
+                        
+                      
                         
                         completion(result: true, error: nil)
                     }
