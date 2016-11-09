@@ -1305,7 +1305,7 @@ print("--------")
             try db.run(groups.create(ifNotExists: retainOldDatabase) { t in
                 t.column(group_name)
                 t.column(group_icon, defaultValue:NSData.init())
-                t.column(date_creation)
+                t.column(date_creation, defaultValue:UtilityFunctions.init().minimumDate())
                 t.column(unique_id, unique:true)
                 t.column(isMute, defaultValue:false)
                 

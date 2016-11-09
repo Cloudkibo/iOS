@@ -1515,7 +1515,15 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
         var groupsObjectList=sqliteDB.getGroupDetails()
         for(var i=0;i<groupsObjectList.count;i++)
         {
+            if(groupsObjectList[i]["date_creation"] == UtilityFunctions.init().minimumDate())
+            {
+                
+                ChatType.append("group_failed")
+            }
+            else
+            {
             ChatType.append("group")
+            }
             print("group name is \(groupsObjectList[i]["group_name"] as! String)")
         ContactNames.append(groupsObjectList[i]["group_name"] as! String)
             ContactFirstname.append(groupsObjectList[i]["group_name"] as! String)
@@ -2401,6 +2409,10 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
         ///print(ContactNames[indexPath.row], terminator: "")
         if(tblForChat.editing.boolValue==false)
         {
+            if(ChatType[indexPath.row] == "group_failed")
+            {
+                
+            }
             if(ChatType[indexPath.row] == "single")
             {
         self.performSegueWithIdentifier("contactChat", sender: nil);

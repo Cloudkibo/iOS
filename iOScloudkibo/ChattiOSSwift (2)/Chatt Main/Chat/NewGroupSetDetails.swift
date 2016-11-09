@@ -233,6 +233,75 @@ class NewGroupSetDetails: UITableViewController,UINavigationControllerDelegate,U
             else{
                  print(response.result.debugDescription)
                 print("error in create group endpoint")
+                let firstname = Expression<String>("firstname")
+                let phone = Expression<String>("phone")
+                
+                var myname=""
+                let tbl_accounts = sqliteDB.accounts
+                do{for account in try sqliteDB.db.prepare(tbl_accounts) {
+                    myname=account[firstname]
+                    username=account[phone]
+                    
+                    }
+                }
+                catch
+                {
+                    
+                    print("error in getting data from accounts table")
+                    
+                }
+                
+
+                
+                sqliteDB.storeGroups(groupname, groupicon1: self.imgdata, datecreation1: UtilityFunctions.init().minimumDate(), uniqueid1: uniqueid)
+               
+                
+                sqliteDB.storeGroupsChat("Log:", group_unique_id1: uniqueid, type1: "log", msg1: "Failed to create group. Tap to try again", from_fullname1: "log", date1: NSDate(), unique_id1: UtilityFunctions.init().generateUniqueid())
+                
+                sqliteDB.storeMembers(uniqueid,member_displayname1: myname, member_phone1: username!, isAdmin1: "Yes", membershipStatus1: "temp", date_joined1: NSDate.init())
+                
+                
+                
+                for(var i=0;i<members.count;i++)
+                {
+                    var isAdmin="No"
+                    
+                    print("members phone comparison \(members[i]) \(username)")
+                    if(members[i] == username)
+                    {
+                        print("adding group admin")
+                        isAdmin="Yes"
+                        sqliteDB.storeMembers(uniqueid,member_displayname1: myname, member_phone1: members[i], isAdmin1: isAdmin, membershipStatus1: "temp", date_joined1: NSDate.init())
+                        
+                    }
+                    else{
+                        
+                        sqliteDB.storeMembers(uniqueid,member_displayname1: membersnames[i], member_phone1: members[i], isAdmin1: isAdmin, membershipStatus1: "temp", date_joined1: NSDate.init())
+                    }
+                    
+                }
+                
+                if(self.imgdata != NSData.init())
+                {
+                    print("profile image is selected")
+                    print("call API to upload image")
+                    
+                    //save filename
+                    
+                    var filetype="png"
+                    self.uploadProfileImage(uniqueid,filename: self.file_name1,fileType: filetype,completion: {(result,error) in
+                        
+                    })
+                    
+                }
+
+                
+                
+                self.dismissViewControllerAnimated(true, completion: { 
+                    
+                    UIDelegates.getInstance().UpdateMainPageChatsDelegateCall()
+                })
+                //self.performSegueWithIdentifier("backToMainChatSegue", sender: nil)
             
             }
         }
