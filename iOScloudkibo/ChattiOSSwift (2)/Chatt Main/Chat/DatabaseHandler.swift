@@ -1488,7 +1488,7 @@ print("--------")
         }
     }
     
-    func storeGroups(groupname1:String,groupicon1:NSData!,datecreation1:NSDate,uniqueid1:String)
+    func storeGroups(groupname1:String,groupicon1:NSData!,datecreation1:NSDate!,uniqueid1:String)
     {
         
         let group_name = Expression<String>("group_name")
@@ -1500,20 +1500,28 @@ print("--------")
         self.groups = Table("groups")
         
         do {
-            let rowid = try db.run(groups.insert(
-                group_name<-groupname1,
-                group_icon<-groupicon1,
-                date_creation<-datecreation1,
-                unique_id<-uniqueid1
-                
-                ))
-            
-            if(socketObj != nil)
+            if(datecreation1 == nil)
             {
-          //      socketObj.socket.emit("logClient","IPHONE-LOG: all messageStatus saved in sqliteDB")
+                let rowid = try db.run(groups.insert(
+                    group_name<-groupname1,
+                    group_icon<-groupicon1,
+                    unique_id<-uniqueid1
+                    
+                    ))
             }
-            print("inserted id messageStatus : \(rowid)")
-        } catch {
+            else{
+                let rowid = try db.run(groups.insert(
+                    group_name<-groupname1,
+                    group_icon<-groupicon1,
+                    date_creation<-datecreation1,
+                    unique_id<-uniqueid1
+                    
+                    ))
+            }
+        
+        }
+     //   }
+    catch {
             print("insertion failed: messageStatus \(error)")
         }
         

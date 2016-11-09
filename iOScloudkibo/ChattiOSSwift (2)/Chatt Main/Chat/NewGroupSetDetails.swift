@@ -71,7 +71,7 @@ class NewGroupSetDetails: UITableViewController,UINavigationControllerDelegate,U
         print("group_name is \(groupname)")
         print("memberphones are \(memberphones.debugDescription)")
         
-        sqliteDB.storeGroups(groupname, groupicon1: imgdata, datecreation1: NSDate(), uniqueid1: uniqueid)
+        //==========sqliteDB.storeGroups(groupname, groupicon1: imgdata, datecreation1: NSDate(), uniqueid1: uniqueid)
         
         let firstname = Expression<String>("firstname")
         let phone = Expression<String>("phone")
@@ -94,7 +94,10 @@ class NewGroupSetDetails: UITableViewController,UINavigationControllerDelegate,U
         }
         
         //sqliteDB.storeMembers(uniqueid,member_displayname1: myname,member_phone1: username!, isAdmin1: "Yes", membershipStatus1: "joined", date_joined1: NSDate.init())
-        sqliteDB.storeMembers(uniqueid,member_displayname1: myname, member_phone1: username!, isAdmin1: "Yes", membershipStatus1: "joined", date_joined1: NSDate.init())
+       
+        
+        //might uncomment.. moved in next function for test and sync
+        /*sqliteDB.storeMembers(uniqueid,member_displayname1: myname, member_phone1: username!, isAdmin1: "Yes", membershipStatus1: "joined", date_joined1: NSDate.init())
         
         for(var i=0;i<memberphones.count;i++)
         {
@@ -113,7 +116,7 @@ class NewGroupSetDetails: UITableViewController,UINavigationControllerDelegate,U
             sqliteDB.storeMembers(uniqueid,member_displayname1: membersnames[i], member_phone1: memberphones[i], isAdmin1: isAdmin, membershipStatus1: "joined", date_joined1: NSDate.init())
             }
             
-        }
+        }*/
         
         createGroupAPI(groupname,members: memberphones,uniqueid: uniqueid)
         //send to server
@@ -127,6 +130,14 @@ class NewGroupSetDetails: UITableViewController,UINavigationControllerDelegate,U
     {
         //show progress wheen somewhere
        
+       // var memberphones=[String]()
+        var membersnames=[String]()
+        for(var i=0;i<participants.count;i++)
+        {
+          //  memberphones.append(participants[i].getPhoneNumber())
+            membersnames.append(participants[i].displayName())
+        }
+        
         var url=Constants.MainUrl+Constants.createGroupUrl
         Alamofire.request(.POST,"\(url)",parameters:["group_name":groupname,"members":members, "unique_id":uniqueid],headers:header,encoding:.JSON).validate().responseJSON { response in
             
@@ -147,14 +158,58 @@ class NewGroupSetDetails: UITableViewController,UINavigationControllerDelegate,U
             print("Create Group API called")
             if(response.result.isSuccess)
             {
+                
                 print(response.result.debugDescription)
                 print("showing group chats page now")
                 
+                let firstname = Expression<String>("firstname")
+                let phone = Expression<String>("phone")
+                
+                var myname=""
+                let tbl_accounts = sqliteDB.accounts
+                do{for account in try sqliteDB.db.prepare(tbl_accounts) {
+                    myname=account[firstname]
+                    username=account[phone]
+                    
+                    }
+                }
+                catch
+                {
+                   
+                    print("error in getting data from accounts table")
+                    
+                }
+                
+
                /* var syncMembers=syncGroupService.init()
                 syncMembers.SyncGroupMembersAPI(){(result,error,groupinfo) in
                     print("...")
                      self.performSegueWithIdentifier("groupChatStartSegue", sender: nil)
                 }*/
+                sqliteDB.storeGroups(groupname, groupicon1: self.imgdata, datecreation1: NSDate(), uniqueid1: uniqueid)
+                
+                sqliteDB.storeMembers(uniqueid,member_displayname1: myname, member_phone1: username!, isAdmin1: "Yes", membershipStatus1: "joined", date_joined1: NSDate.init())
+              
+                
+                
+                for(var i=0;i<members.count;i++)
+                {
+                    var isAdmin="No"
+                    
+                    print("members phone comparison \(members[i]) \(username)")
+                    if(members[i] == username)
+                    {
+                        print("adding group admin")
+                        isAdmin="Yes"
+                        sqliteDB.storeMembers(uniqueid,member_displayname1: myname, member_phone1: members[i], isAdmin1: isAdmin, membershipStatus1: "joined", date_joined1: NSDate.init())
+                        
+                    }
+                    else{
+                        
+                        sqliteDB.storeMembers(uniqueid,member_displayname1: membersnames[i], member_phone1: members[i], isAdmin1: isAdmin, membershipStatus1: "joined", date_joined1: NSDate.init())
+                    }
+                    
+                }
                 
                 if(self.imgdata != NSData.init())
                 {
