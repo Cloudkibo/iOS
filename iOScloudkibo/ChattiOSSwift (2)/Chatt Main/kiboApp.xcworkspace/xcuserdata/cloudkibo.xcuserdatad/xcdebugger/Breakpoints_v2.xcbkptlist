@@ -1529,11 +1529,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Chat/GroupInfo3ViewController.swift"
-            timestampString = "499681494.544212"
+            timestampString = "500422468.371057"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "65"
-            endingLineNumber = "65"
+            startingLineNumber = "118"
+            endingLineNumber = "118"
             landmarkName = "retrieveChatFromSqlite(_:)"
             landmarkType = "5">
          </BreakpointContent>

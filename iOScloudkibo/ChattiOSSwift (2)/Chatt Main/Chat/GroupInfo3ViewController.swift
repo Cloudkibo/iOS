@@ -12,6 +12,8 @@ import ContactsUI
 import Alamofire
 
 
+
+var internetAvailable=false
 var participantsSelected=[EPContact]()
 var picker:CNContactPickerViewController!
 var btnNewGroup:UIButton!
@@ -29,6 +31,19 @@ EPPickerDelegate,SWTableViewCellDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        
+        do{reachability = try Reachability.reachabilityForInternetConnection()
+            try reachability.startNotifier();
+            //  NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("checkForReachability:"), name:ReachabilityChangedNotification, object: reachability)
+        }
+        catch{
+            print("error in reachability")
+        }
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("checkForReachability:"), name:ReachabilityChangedNotification, object: reachability)
+        
+        
+        
+        
         messages=NSMutableArray()
         singleGroupInfo=sqliteDB.getSingleGroupInfo(groupid)
         
@@ -42,13 +57,51 @@ EPPickerDelegate,SWTableViewCellDelegate {
         
         // Do any additional setup after loading the view.
     }
+    func checkForReachability(notification:NSNotification)
+    {
+        print("checking internet")
+        // Remove the next two lines of code. You cannot instantiate the object
+        // you want to receive notifications from inside of the notification
+        // handler that is meant for the notifications it emits.
+        
+        //var networkReachability = Reachability.reachabilityForInternetConnection()
+        //networkReachability.startNotifier()
+        
+        let networkReachability = notification.object as! Reachability;
+        var remoteHostStatus = networkReachability.currentReachabilityStatus
+        
+        if (remoteHostStatus == Reachability.NetworkStatus.NotReachable)
+        {
+            print("Not Reachable")
+            internetAvailable = false
+        }
+        else if (remoteHostStatus == Reachability.NetworkStatus.ReachableViaWiFi)
+        {
+            print("Reachable via Wifi")
+            if(username != nil && username != "")
+            {
+                //self.synchroniseChatData()
+                internetAvailable=true
+            }
+        }
+        else
+        {
+            print("Reachable")
+            if(username != nil && username != "")
+            {
+                //self.synchroniseChatData()
+                internetAvailable=true
+            }
+        }
+    }
     
+   
     
     func retrieveChatFromSqlite(completion:(result:Bool)->())
     {
        print("retrieveChatFromSqlite called---------")
         ///^^messages.removeAllObjects()
-        var messages2=NSMutableArray()
+        let messages2=NSMutableArray()
         
         let group_unique_id = Expression<String>("group_unique_id")
         let member_phone = Expression<String>("member_phone")
@@ -106,9 +159,22 @@ EPPickerDelegate,SWTableViewCellDelegate {
     func BtnExitGroupClicked(sender:UIButton)
     {
         print("inside exit group func")
-        
+        if(internetAvailable==true)
+{
         exitGroup()
+}
+else{
+
+            let shareMenu = UIAlertController(title: nil, message: "Internet connectivity is required to exit this group", preferredStyle: .ActionSheet)
+        
+        let yes = UIAlertAction(title: "OK", style: UIAlertActionStyle.Default,handler: { (action) -> Void in
+            
+            })
+            shareMenu.addAction(yes)
+            self.presentViewController(shareMenu, animated: true, completion:nil)
+        }
     }
+    
     func BtnnewGroupClicked(sender:UIButton)
     {
         
@@ -705,9 +771,19 @@ EPPickerDelegate,SWTableViewCellDelegate {
                 
             })
             let removeMember = UIAlertAction(title: "Remove \(selectedMemberName!) ?", style: UIAlertActionStyle.Default,handler: { (action) -> Void in
-                
+                if(internetAvailable==true)
+{
                 self.adminRemovesMember(selectedMemberPhone!)
+                }
+else{
+                let shareMenu = UIAlertController(title: nil, message: "Internet connectivity is required to remove any member", preferredStyle: .ActionSheet)
                 
+                let yes = UIAlertAction(title: "OK", style: UIAlertActionStyle.Default,handler: { (action) -> Void in
+                    
+                })
+                shareMenu.addAction(yes)
+                self.presentViewController(shareMenu, animated: true, completion:nil)
+                }
             })
             let cancel = UIAlertAction(title: "No", style: UIAlertActionStyle.Default,handler: { (action) -> Void in
                 
