@@ -186,7 +186,7 @@ class NewGroupSetDetails: UITableViewController,UINavigationControllerDelegate,U
                     print("...")
                      self.performSegueWithIdentifier("groupChatStartSegue", sender: nil)
                 }*/
-                sqliteDB.storeGroups(groupname, groupicon1: self.imgdata, datecreation1: NSDate(), uniqueid1: uniqueid)
+                sqliteDB.storeGroups(groupname, groupicon1: self.imgdata, datecreation1: NSDate(), uniqueid1: uniqueid, status1: "new")
                 
                 sqliteDB.storeMembers(uniqueid,member_displayname1: myname, member_phone1: username!, isAdmin1: "Yes", membershipStatus1: "joined", date_joined1: NSDate.init())
               
@@ -250,10 +250,9 @@ class NewGroupSetDetails: UITableViewController,UINavigationControllerDelegate,U
                     print("error in getting data from accounts table")
                     
                 }
+                .
                 
-
-                
-                sqliteDB.storeGroups(groupname, groupicon1: self.imgdata, datecreation1: nil, uniqueid1: uniqueid)
+                    sqliteDB.storeGroups(groupname, groupicon1: self.imgdata, datecreation1: NSDate(), uniqueid1: uniqueid, status1:"temp")
                
                 
                 sqliteDB.storeGroupsChat("Log:", group_unique_id1: uniqueid, type1: "log", msg1: "Failed to create group. Tap to try again", from_fullname1: "log", date1: NSDate(), unique_id1: UtilityFunctions.init().generateUniqueid())

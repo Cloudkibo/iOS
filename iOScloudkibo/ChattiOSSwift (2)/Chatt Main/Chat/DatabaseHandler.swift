@@ -1296,18 +1296,20 @@ print("--------")
         
         let group_name = Expression<String>("group_name")
         let group_icon = Expression<NSData>("group_icon")
-        let date_creation = Expression<NSDate?>("date_creation")
+        let date_creation = Expression<NSDate>("date_creation")
         let unique_id = Expression<String>("unique_id")
         let isMute = Expression<Bool>("isMute")
-       
-        self.groups = Table("groups")
+        let status = Expression<Bool>("status")
+        
+         self.groups = Table("groups")
         do{
             try db.run(groups.create(ifNotExists: retainOldDatabase) { t in
                 t.column(group_name)
                 t.column(group_icon, defaultValue:NSData.init())
-                t.column(date_creation, defaultValue:nil)
+                t.column(date_creation, defaultValue:NSDate())
                 t.column(unique_id, unique:true)
                 t.column(isMute, defaultValue:false)
+                t.column(status)
                 
                 //     "name" TEXT
                 })
@@ -1488,37 +1490,41 @@ print("--------")
         }
     }
     
-    func storeGroups(groupname1:String,groupicon1:NSData!,datecreation1:NSDate?,uniqueid1:String)
+    func storeGroups(groupname1:String,groupicon1:NSData!,datecreation1:NSDate,uniqueid1:String,status1:String)
     {
         
         let group_name = Expression<String>("group_name")
         let group_icon = Expression<NSData>("group_icon")
-        let date_creation = Expression<NSDate?>("date_creation")
+        let date_creation = Expression<NSDate>("date_creation")
         let unique_id = Expression<String>("unique_id")
         let isMute = Expression<Bool>("isMute")
+        let status = Expression<String>("status") //temp or new
         
         self.groups = Table("groups")
         
         do {
-          if(datecreation1 == nil)
+         /* if(datecreation1 == nil)
             {
+                print("saving date as nil")
                 let rowid = try db.run(groups.insert(
                     group_name<-groupname1,
                     group_icon<-groupicon1,
-                    unique_id<-uniqueid1
+                    unique_id<-uniqueid1,
+                    date_creation<-date_creation.bindings.
                     
                     ))
             }else{
-                let rowid = try db.run(groups.insert(
+              */  let rowid = try db.run(groups.insert(
                     group_name<-groupname1,
                     group_icon<-groupicon1,
                     date_creation<-datecreation1,
-                    unique_id<-uniqueid1
+                    unique_id<-uniqueid1,
+                    status<-status1
                     
                     ))
            // }
         
-        }
+        
         }
      //   }
     catch {
@@ -1590,6 +1596,7 @@ print("--------")
         let date_creation = Expression<NSDate>("date_creation")
         let unique_id = Expression<String>("unique_id")
         let isMute = Expression<Bool>("isMute")
+        let status = Expression<String>("status")
         
         
         var groupsList=[[String:AnyObject]]()
@@ -1613,6 +1620,9 @@ print("--------")
             newEntry["date_creation"]=groupDetails.get(date_creation)
             newEntry["unique_id"]=groupDetails.get(unique_id)
             newEntry["isMute"]=groupDetails.get(isMute)
+            newEntry["status"]=groupDetails.get(status)
+            
+            
             /*newEntry["msg_channel_description"]=channelNames.get(msg_channel_description)
             newEntry["companyid"]=channelNames.get(companyid)
             newEntry["groupid"]=channelNames.get(groupid)

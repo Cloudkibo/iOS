@@ -1521,7 +1521,7 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
            // if((groupsObjectList[i]["date_creation"] as! NSDate) == (UtilityFunctions.init().minimumDate()) as! NSDate)
      //   if((groupsObjectList[i]["date_creation"] as! NSDate) == "0001-12-31 19:31:48 +0000")
            // if((groupsObjectList[i]["date_creation"] as! NSDate) == NSDateFormatter.init().dateFromString("0001-12-31 19:32:48 +0000"))
-            if((groupsObjectList[i]["date_creation"]) == nil)
+            if((groupsObjectList[i]["status"]) == "temp")
             {
                 print("group_failed called")
                 
