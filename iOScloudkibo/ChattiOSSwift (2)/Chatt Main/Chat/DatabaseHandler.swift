@@ -1503,28 +1503,13 @@ print("--------")
         self.groups = Table("groups")
         
         do {
-         /* if(datecreation1 == nil)
-            {
-                print("saving date as nil")
-                let rowid = try db.run(groups.insert(
-                    group_name<-groupname1,
-                    group_icon<-groupicon1,
-                    unique_id<-uniqueid1,
-                    date_creation<-date_creation.bindings.
-                    
-                    ))
-            }else{
-              */  let rowid = try db.run(groups.insert(
+       let rowid = try db.run(groups.insert(
                     group_name<-groupname1,
                     group_icon<-groupicon1,
                     date_creation<-datecreation1,
                     unique_id<-uniqueid1,
                     status<-status1
-                    
                     ))
-           // }
-        
-        
         }
      //   }
     catch {

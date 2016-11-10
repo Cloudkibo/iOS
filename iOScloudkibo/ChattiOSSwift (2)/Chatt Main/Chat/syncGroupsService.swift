@@ -148,8 +148,7 @@ class syncGroupService
                 //2016-09-18T19:13:00.588Z
                 let datens2 = dateFormatter.dateFromString(date_creation)
                 
-                
-                sqliteDB.storeGroups(group_name, groupicon1: group_icon, datecreation1: datens2!, uniqueid1: unique_id)
+                sqliteDB.storeGroups(group_name, groupicon1: group_icon, datecreation1: datens2!, uniqueid1: unique_id, status1: "new")
             }
         }
         catch{

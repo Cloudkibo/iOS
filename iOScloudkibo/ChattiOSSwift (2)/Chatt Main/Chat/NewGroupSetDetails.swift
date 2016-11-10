@@ -250,9 +250,8 @@ class NewGroupSetDetails: UITableViewController,UINavigationControllerDelegate,U
                     print("error in getting data from accounts table")
                     
                 }
-                .
                 
-                    sqliteDB.storeGroups(groupname, groupicon1: self.imgdata, datecreation1: NSDate(), uniqueid1: uniqueid, status1:"temp")
+                sqliteDB.storeGroups(groupname, groupicon1: self.imgdata, datecreation1: NSDate(), uniqueid1: uniqueid, status1: "temp")
                
                 
                 sqliteDB.storeGroupsChat("Log:", group_unique_id1: uniqueid, type1: "log", msg1: "Failed to create group. Tap to try again", from_fullname1: "log", date1: NSDate(), unique_id1: UtilityFunctions.init().generateUniqueid())

@@ -1995,7 +1995,7 @@ else{
                     let datens2 = dateFormatter.dateFromString(date_creation)
                     
                     print("saving group single \(unique_id)")
-                    sqliteDB.storeGroups(group_name, groupicon1: group_icon, datecreation1: datens2!, uniqueid1: unique_id)
+                    sqliteDB.storeGroups(group_name, groupicon1: group_icon, datecreation1: datens2!, uniqueid1: unique_id, status1: "new")
 
                     
                     return completion(result:true,error:nil)

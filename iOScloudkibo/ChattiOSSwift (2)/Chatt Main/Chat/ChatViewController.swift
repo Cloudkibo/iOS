@@ -1518,10 +1518,7 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
         for(var i=0;i<groupsObjectList.count;i++)
         {print("date is \(groupsObjectList[i]["date_creation"] as! NSDate)")
             
-           // if((groupsObjectList[i]["date_creation"] as! NSDate) == (UtilityFunctions.init().minimumDate()) as! NSDate)
-     //   if((groupsObjectList[i]["date_creation"] as! NSDate) == "0001-12-31 19:31:48 +0000")
-           // if((groupsObjectList[i]["date_creation"] as! NSDate) == NSDateFormatter.init().dateFromString("0001-12-31 19:32:48 +0000"))
-            if((groupsObjectList[i]["status"]) == "temp")
+        if((groupsObjectList[i]["status"] as! String) == "temp")
             {
                 print("group_failed called")
                 
@@ -2428,8 +2425,11 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
                  }
                 
                 print("re-try create group id \(ContactUsernames[indexPath.row] as! String) name is \(groupsObjectList[indexPath.row]["group_name"] as! String) and members are \(membersList)")
+                
               UtilityFunctions.init().createGroupAPI(groupsObjectList[indexPath.row]["group_name"] as! String, members: membersList, uniqueid: ContactUsernames[indexPath.row] as! String)
             }
+            else
+            {
             if(ChatType[indexPath.row] == "single")
             {
         self.performSegueWithIdentifier("contactChat", sender: nil);
@@ -2439,6 +2439,7 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
                 self.performSegueWithIdentifier("startGroupChatSegue", sender: nil);
                 
             }
+        }
         }
         //slideToChat
         
