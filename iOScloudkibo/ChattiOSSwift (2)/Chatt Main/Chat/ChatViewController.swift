@@ -20,6 +20,8 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
     EPPickerDelegate,SWTableViewCellDelegate,UpdateChatViewsDelegate,RefreshContactsList,UpdateMainPageChatsDelegate
 {
     
+    
+    var groupsObjectList=[[String:AnyObject]]()
     var delegateUpdateUI:UpdateMainPageChatsDelegate!
     var swipeindexRow:Int!
     var delegateContctsList:RefreshContactsList!
@@ -1512,10 +1514,11 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
         self.ChatType.removeAll(keepCapacity: false)
         
         
-        var groupsObjectList=sqliteDB.getGroupDetails()
+        groupsObjectList=sqliteDB.getGroupDetails()
         for(var i=0;i<groupsObjectList.count;i++)
-        {
-            if(groupsObjectList[i]["date_creation"] == UtilityFunctions.init().minimumDate())
+        {print("date is \(groupsObjectList[i]["date_creation"] as! NSDate) and minimum is \(UtilityFunctions.init().minimumDate)")
+            
+            if((groupsObjectList[i]["date_creation"] as! NSDate) == UtilityFunctions.init().minimumDate())
             {
                 
                 ChatType.append("group_failed")
@@ -2411,7 +2414,17 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
         {
             if(ChatType[indexPath.row] == "group_failed")
             {
+                print("clicked group_failed")
+                var membersCompleteList=sqliteDB.getGroupMembersOfGroup(groupsObjectList[indexPath.row]["unique_id"] as! String)
                 
+                var membersList=[String]()
+                for(var i=0;i<membersCompleteList.count;i++)
+                {
+                    membersList.append(membersCompleteList[i]["member_phone"] as! String)
+                 }
+                
+                print("re-try create group id \(ContactUsernames[indexPath.row] as! String) name is \(groupsObjectList[indexPath.row]["group_name"] as! String) and members are \(membersList)")
+              UtilityFunctions.init().createGroupAPI(groupsObjectList[indexPath.row]["group_name"] as! String, members: membersList, uniqueid: ContactUsernames[indexPath.row] as! String)
             }
             if(ChatType[indexPath.row] == "single")
             {

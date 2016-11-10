@@ -178,5 +178,58 @@ class UtilityFunctions{
         return calendar.dateWithEra(1, year: 1, month: 1, day: 1, hour: 0, minute: 0, second: 0, nanosecond: 0)!
     
 }
+    
+    
+    func createGroupAPI(groupname:String,members:[String],uniqueid:String)
+    {
+        //show progress wheen somewhere
+        
+        // var memberphones=[String]()
+        /*var membersnames=[String]()
+        for(var i=0;i<participants.count;i++)
+        {
+            //  memberphones.append(participants[i].getPhoneNumber())
+            membersnames.append(participants[i].displayName())
+        }
+        */
+        var url=Constants.MainUrl+Constants.createGroupUrl
+        Alamofire.request(.POST,"\(url)",parameters:["group_name":groupname,"members":members, "unique_id":uniqueid],headers:header,encoding:.JSON).validate().responseJSON { response in
+            
+            /*
+             
+             "__v" = 0;
+             "_id" = 57c69e61dfff9e5223a8fcb2;
+             activeStatus = Yes;
+             companyid = cd89f71715f2014725163952;
+             createdby = 554896ca78aed92f4e6db296;
+             creationdate = "2016-08-31T09:07:45.236Z";
+             groupid = 57c69e61dfff9e5223a8fcb1;
+             "msg_channel_description" = "This channel is for general discussions";
+             "msg_channel_name" = General;
+             
+             
+             */
+            print("Create Group API called")
+            if(response.result.isSuccess)
+            {
+                print("success group created")
+                //update group date
+                sqliteDB.updateGroupCreationDate(uniqueid, date1: NSDate())
+                //update membership status
+                for(var i=0;i<members.count;i++)
+                {
+                     sqliteDB.updateMembershipStatus(uniqueid, memberphone1: members[i] as! String, membership_status1: "joined")
+                }
+                sqliteDB.updateGroupChatMessage(uniqueid, msg1: "You created this group")
+                UIDelegates.getInstance().UpdateMainPageChatsDelegateCall()
+            }
+            else
+            {
+                print("failed group creation")
+                UIDelegates.getInstance().UpdateMainPageChatsDelegateCall()
+            }
+        }
+    }
+    
  
 }

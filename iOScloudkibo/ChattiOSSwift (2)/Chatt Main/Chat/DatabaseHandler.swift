@@ -1951,6 +1951,57 @@ print("--------")
         return uniqueid
     }
 
+    func updateGroupCreationDate(uniqueid1:String,date1:NSDate)
+    {
+        let date_creation = Expression<NSDate>("date_creation")
+        let unique_id = Expression<String>("unique_id")
+        
+        let query = self.groups.select(unique_id,date_creation)           // SELECT "email" FROM "users"
+            .filter(unique_id == uniqueid1)     // WHERE "name" IS NOT NULL
+        
+        do
+        {try sqliteDB.db.run(query.update(date_creation <- date1))}
+        catch
+        {
+            print("error in updating date of group creation")
+            if(socketObj != nil){
+                socketObj.socket.emit("logClient","\(username!) error in updatingdate of group creation")
+            }
+        }
+
+       // self.statusUpdate = Table("statusUpdate")
+       
+    }
+    
+    func updateGroupChatMessage(group_unique_id1:String,msg1:String)
+    {
+        
+        let from = Expression<String>("from")
+        let group_unique_id = Expression<String>("group_unique_id")
+        let type = Expression<String>("type")
+        let msg = Expression<String>("msg")
+        let from_fullname = Expression<String>("from_fullname")
+        let date = Expression<NSDate>("date")
+        let unique_id = Expression<String>("unique_id")
+        
+        
+        let query = self.group_chat.select(unique_id,msg,date)           // SELECT "email" FROM "users"
+            .filter(group_unique_id == group_unique_id1)     // WHERE "name" IS NOT NULL
+        
+        do
+        {try sqliteDB.db.run(query.update(date <- NSDate(),msg <- msg1))}
+        catch
+        {
+            print("error in updating date of group creation")
+            if(socketObj != nil){
+                socketObj.socket.emit("logClient","\(username!) error in updatingdate of group creation")
+            }
+        }
+        
+
+        
+        
+    }
     
     
     
