@@ -111,6 +111,7 @@
 		718B8D931CC11A9B000B4AB2 /* SwiftRegex.swift in Sources */ = {isa = PBXBuildFile; fileRef = 718B8D7D1CC11A9B000B4AB2 /* SwiftRegex.swift */; };
 		718B8D941CC11A9B000B4AB2 /* WebSocket.swift in Sources */ = {isa = PBXBuildFile; fileRef = 718B8D7E1CC11A9B000B4AB2 /* WebSocket.swift */; };
 		7191CC681BCF0D9400F0847F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7191CC661BCF0D9400F0847F /* Main.storyboard */; };
+		719A0CE41DD5237800977C0B /* GroupMessageStatusViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 719A0CE31DD5237800977C0B /* GroupMessageStatusViewController.swift */; };
 		719EFCFD1C9260FF000FD52F /* fileTestingDoc.swift in Sources */ = {isa = PBXBuildFile; fileRef = 719EFCFC1C9260FF000FD52F /* fileTestingDoc.swift */; };
 		71A98F901C4D5D88009D04D7 /* SwiftyJSON.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7130805C1B825BB00037CB7E /* SwiftyJSON.framework */; };
 		71A98F911C4D5D88009D04D7 /* SwiftyJSON.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 7130805C1B825BB00037CB7E /* SwiftyJSON.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -385,6 +386,7 @@
 		718B8D7E1CC11A9B000B4AB2 /* WebSocket.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WebSocket.swift; sourceTree = "<group>"; };
 		7191CC601BCDB4D800F0847F /* TableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TableViewController.swift; sourceTree = "<group>"; };
 		7191CC671BCF0D9400F0847F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		719A0CE31DD5237800977C0B /* GroupMessageStatusViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GroupMessageStatusViewController.swift; sourceTree = "<group>"; };
 		719EFCFC1C9260FF000FD52F /* fileTestingDoc.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = fileTestingDoc.swift; sourceTree = "<group>"; };
 		71A98F951C4D6434009D04D7 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		71AEC9881D01D67300DF58BD /* AllContactsViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AllContactsViewCell.swift; sourceTree = "<group>"; };
@@ -589,6 +591,7 @@
 				71C1A2CE1D768ABC00FC5157 /* GroupChatingDetailController.swift */,
 				71EA60701D77EC7800117B55 /* GroupInfo3ViewController.swift */,
 				7142EC981DC196DB0070826F /* GroupInfoCells.swift */,
+				719A0CE31DD5237800977C0B /* GroupMessageStatusViewController.swift */,
 				713F3DD61D7A88990072C9E9 /* ArchivedChatsViewController.swift */,
 				7127CC901D9D0C800047683B /* syncContactService.swift */,
 				7142EC8B1DBE33560070826F /* syncGroupsService.swift */,
@@ -1077,6 +1080,7 @@
 				713D51DA1CC11896007E0B47 /* MeetingRoomData.swift in Sources */,
 				713D51CF1CC11896007E0B47 /* DatabaseHandler.swift in Sources */,
 				713D51DE1CC11896007E0B47 /* MoreTableViewController.swift in Sources */,
+				719A0CE41DD5237800977C0B /* GroupMessageStatusViewController.swift in Sources */,
 				713D51CD1CC11896007E0B47 /* ContactsInviteViewController.swift in Sources */,
 				713D51D01CC11896007E0B47 /* File.swift in Sources */,
 				718B8D851CC11A9B000B4AB2 /* SocketEnginePacketType.swift in Sources */,

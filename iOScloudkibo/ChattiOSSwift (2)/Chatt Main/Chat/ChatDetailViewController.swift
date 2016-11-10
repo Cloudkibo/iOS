@@ -1147,6 +1147,8 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
      
      }*/
     
+
+    
     func tableView(tableView: UITableView!, numberOfRowsInSection section: Int) -> Int {
         return messages.count
     }
@@ -1154,6 +1156,8 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
     func numberOfSectionsInTableView(tableView: UITableView!) -> Int {
         return 1
     }
+    
+    
     
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
         
