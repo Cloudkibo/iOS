@@ -1296,7 +1296,7 @@ print("--------")
         
         let group_name = Expression<String>("group_name")
         let group_icon = Expression<NSData>("group_icon")
-        let date_creation = Expression<NSDate>("date_creation")
+        let date_creation = Expression<NSDate?>("date_creation")
         let unique_id = Expression<String>("unique_id")
         let isMute = Expression<Bool>("isMute")
        
@@ -1305,7 +1305,7 @@ print("--------")
             try db.run(groups.create(ifNotExists: retainOldDatabase) { t in
                 t.column(group_name)
                 t.column(group_icon, defaultValue:NSData.init())
-                t.column(date_creation, defaultValue:UtilityFunctions.init().minimumDate())
+                t.column(date_creation, defaultValue:nil)
                 t.column(unique_id, unique:true)
                 t.column(isMute, defaultValue:false)
                 
@@ -1488,19 +1488,19 @@ print("--------")
         }
     }
     
-    func storeGroups(groupname1:String,groupicon1:NSData!,datecreation1:NSDate,uniqueid1:String)
+    func storeGroups(groupname1:String,groupicon1:NSData!,datecreation1:NSDate?,uniqueid1:String)
     {
         
         let group_name = Expression<String>("group_name")
         let group_icon = Expression<NSData>("group_icon")
-        let date_creation = Expression<NSDate>("date_creation")
+        let date_creation = Expression<NSDate?>("date_creation")
         let unique_id = Expression<String>("unique_id")
         let isMute = Expression<Bool>("isMute")
         
         self.groups = Table("groups")
         
         do {
-            /*if(datecreation1 == nil)
+          if(datecreation1 == nil)
             {
                 let rowid = try db.run(groups.insert(
                     group_name<-groupname1,
@@ -1508,8 +1508,7 @@ print("--------")
                     unique_id<-uniqueid1
                     
                     ))
-            }*/
-            //else{
+            }else{
                 let rowid = try db.run(groups.insert(
                     group_name<-groupname1,
                     group_icon<-groupicon1,
@@ -1520,9 +1519,10 @@ print("--------")
            // }
         
         }
+        }
      //   }
     catch {
-            print("insertion failed: messageStatus \(error)")
+            print("insertion failed: saving group \(error)")
         }
         
         

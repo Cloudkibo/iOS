@@ -386,7 +386,35 @@ class GroupChatingDetailController: UIViewController,UpdateGroupChatDetailsDeleg
     
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
         
-        return 60
+        ////======return 60
+        
+        var messageDic = messages.objectAtIndex(indexPath.row) as! [String : String];
+        
+        let msg = messageDic["msg"] as NSString!
+        let msgType = messageDic["type"]! as NSString
+        if(msgType.isEqualToString("3")||msgType.isEqualToString("4"))
+        {
+            var cell = tblForGroupChat.dequeueReusableCellWithIdentifier("FileImageReceivedCell")! as UITableViewCell
+            let chatImage = cell.viewWithTag(1) as! UIImageView
+            
+            
+            if(chatImage.frame.height <= 230)
+            {
+                return chatImage.frame.height+20
+            }
+            else
+            {
+                return 200
+            }
+            
+            
+        }
+        else
+        {
+            let sizeOFStr = self.getSizeOfString(msg)
+            
+            return sizeOFStr.height + 70
+        }
     }
     
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
@@ -434,6 +462,30 @@ class GroupChatingDetailController: UIViewController,UpdateGroupChatDetailsDeleg
         }
   
         
+    }
+    
+    func getSizeOfString(postTitle: NSString) -> CGSize {
+        
+        
+        // Get the height of the font
+        let constraintSize = CGSizeMake(170, CGFloat.max)
+        
+        //let constraintSize = CGSizeMake(220, CGFloat.max)
+        
+        
+        
+        /*let attributes = [NSFontAttributeName:UIFont.systemFontOfSize(11.0)]
+         let labelSize = postTitle.boundingRectWithSize(constraintSize,
+         options: NSStringDrawingOptions.UsesLineFragmentOrigin,
+         attributes: attributes,
+         context: nil)*/
+        
+        let labelSize = postTitle.boundingRectWithSize(constraintSize,
+                                                       options: NSStringDrawingOptions.UsesLineFragmentOrigin,
+                                                       attributes:[NSFontAttributeName : UIFont.systemFontOfSize(11.0)],
+                                                       context: nil)
+        ////print("size is width \(labelSize.width) and height is \(labelSize.height)")
+        return labelSize.size
     }
     
     func randomStringWithLength (len : Int) -> NSString {

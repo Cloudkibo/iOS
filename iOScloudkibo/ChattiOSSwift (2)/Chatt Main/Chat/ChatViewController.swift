@@ -1516,11 +1516,13 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
         
         groupsObjectList=sqliteDB.getGroupDetails()
         for(var i=0;i<groupsObjectList.count;i++)
-        {print("date is \(groupsObjectList[i]["date_creation"] as! NSDate) and minimum is \((UtilityFunctions.init().minimumDate()) as! NSDate)")
+        {print("date is \(groupsObjectList[i]["date_creation"] as! NSDate) and minimum is \(UtilityFunctions.init().minimumDate())")
             
            // if((groupsObjectList[i]["date_creation"] as! NSDate) == (UtilityFunctions.init().minimumDate()) as! NSDate)
-        if((groupsObjectList[i]["date_creation"] as! NSDate) == "0001-12-31 19:31:48 +0000")
-        {
+     //   if((groupsObjectList[i]["date_creation"] as! NSDate) == "0001-12-31 19:31:48 +0000")
+            if((groupsObjectList[i]["date_creation"] as! NSDate) == NSDateFormatter.init().dateFromString("0001-12-31 19:32:48 +0000"))
+            {
+                print("group_failed called")
                 
                 ChatType.append("group_failed")
             }
@@ -2413,7 +2415,7 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
         ///print(ContactNames[indexPath.row], terminator: "")
         if(tblForChat.editing.boolValue==false)
         {
-            if(ChatType[indexPath.row] == "group_failed")
+            if((ChatType[indexPath.row] as! String) == "group_failed")
             {
                 print("clicked group_failed")
                 var membersCompleteList=sqliteDB.getGroupMembersOfGroup(groupsObjectList[indexPath.row]["unique_id"] as! String)

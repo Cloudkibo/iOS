@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import UIKit
 import Alamofire
 class UtilityFunctions{
     
@@ -172,14 +173,20 @@ class UtilityFunctions{
         
     }
     
-    func minimumDate() -> NSDate
+ /*   func minimumDate() -> NSDate
     {
-        let calendar = NSCalendar(calendarIdentifier: NSGregorianCalendar)!
-        return calendar.dateWithEra(1, year: 1, month: 1, day: 1, hour: 0, minute: 0, second: 0, nanosecond: 0)!
+        
+        let formatter = NSDateFormatter()
+        formatter.dateFormat = "yyyy/MM/dd HH:mm"
+        let someDateTime = formatter.dateFromString("0001/01/01 00:01")
+        
+        return someDateTime!
+        /*let calendar = NSCalendar(calendarIdentifier: NSGregorianCalendar)!
+        return calendar.dateWithEra(1, year: 1, month: 1, day: 1, hour: 0, minute: 0, second: 0, nanosecond: 0)!*/
     
 }
     
-    
+    */
     func createGroupAPI(groupname:String,members:[String],uniqueid:String)
     {
         //show progress wheen somewhere
