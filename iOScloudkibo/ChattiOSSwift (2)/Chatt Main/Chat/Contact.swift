@@ -49,7 +49,7 @@ print("now count is \(tbl_allcontacts.count)")
         var name=Expression<String>("name")
         var phone=Expression<String>("phone")
         var actualphone=Expression<String>("actualphone")
-        var email=Expression<String>("email")
+        let email=Expression<String>("email")
         //////////////var profileimage=Expression<NSData>("profileimage")
         let uniqueidentifier = Expression<String>("uniqueidentifier")
         
