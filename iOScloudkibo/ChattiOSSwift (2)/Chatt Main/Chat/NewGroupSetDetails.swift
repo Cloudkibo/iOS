@@ -253,7 +253,7 @@ class NewGroupSetDetails: UITableViewController,UINavigationControllerDelegate,U
                 
 
                 
-                sqliteDB.storeGroups(groupname, groupicon1: self.imgdata, datecreation1: UtilityFunctions.init().minimumDate(), uniqueid1: uniqueid)
+                sqliteDB.storeGroups(groupname, groupicon1: self.imgdata, datecreation1: (UtilityFunctions.init().minimumDate()) as! NSDate, uniqueid1: uniqueid)
                
                 
                 sqliteDB.storeGroupsChat("Log:", group_unique_id1: uniqueid, type1: "log", msg1: "Failed to create group. Tap to try again", from_fullname1: "log", date1: NSDate(), unique_id1: UtilityFunctions.init().generateUniqueid())

@@ -1516,10 +1516,11 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
         
         groupsObjectList=sqliteDB.getGroupDetails()
         for(var i=0;i<groupsObjectList.count;i++)
-        {print("date is \(groupsObjectList[i]["date_creation"] as! NSDate) and minimum is \(UtilityFunctions.init().minimumDate)")
+        {print("date is \(groupsObjectList[i]["date_creation"] as! NSDate) and minimum is \((UtilityFunctions.init().minimumDate()) as! NSDate)")
             
-            if((groupsObjectList[i]["date_creation"] as! NSDate) == UtilityFunctions.init().minimumDate())
-            {
+           // if((groupsObjectList[i]["date_creation"] as! NSDate) == (UtilityFunctions.init().minimumDate()) as! NSDate)
+        if((groupsObjectList[i]["date_creation"] as! NSDate) == "0001-12-31 19:31:48 +0000")
+        {
                 
                 ChatType.append("group_failed")
             }

@@ -1488,7 +1488,7 @@ print("--------")
         }
     }
     
-    func storeGroups(groupname1:String,groupicon1:NSData!,datecreation1:NSDate!,uniqueid1:String)
+    func storeGroups(groupname1:String,groupicon1:NSData!,datecreation1:NSDate,uniqueid1:String)
     {
         
         let group_name = Expression<String>("group_name")
@@ -1500,7 +1500,7 @@ print("--------")
         self.groups = Table("groups")
         
         do {
-            if(datecreation1 == nil)
+            /*if(datecreation1 == nil)
             {
                 let rowid = try db.run(groups.insert(
                     group_name<-groupname1,
@@ -1508,8 +1508,8 @@ print("--------")
                     unique_id<-uniqueid1
                     
                     ))
-            }
-            else{
+            }*/
+            //else{
                 let rowid = try db.run(groups.insert(
                     group_name<-groupname1,
                     group_icon<-groupicon1,
@@ -1517,7 +1517,7 @@ print("--------")
                     unique_id<-uniqueid1
                     
                     ))
-            }
+           // }
         
         }
      //   }
