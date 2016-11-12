@@ -13,9 +13,10 @@ import Foundation
 class GroupMessageStatusViewController: UIViewController {
 
     
-    var readBy=[[String]]()
-    var deliveredTo=[[String]]()
-    
+    var readBy=[[String:AnyObject]]()
+    var deliveredTo=[[String:AnyObject]]()
+    var message_unique_id=""
+    var messages:NSMutableArray!
     @IBOutlet weak var logDate_btn: UIButton!
     @IBOutlet weak var tblMessageInfo: UITableView!
     @IBOutlet weak var chatImage: UIImageView!
@@ -24,14 +25,34 @@ class GroupMessageStatusViewController: UIViewController {
     
     
     override func viewDidLoad() {
-        
+        messages=NSMutableArray()
         
     }
     
-    override func viewWillAppear(animated: Bool) {
-        
-        
+    override func viewWillAppear(animated: Bool)
+    {
+        self.readBy=sqliteDB.getGroupsChatReadStatusList(message_unique_id)
+        self.deliveredTo=sqliteDB.getGroupsChatDeliveredStatusList(message_unique_id)
     }
+    
+   /* func retrieveChatFromSqlite(completion:(result:Bool)->())
+    {
+        print("retrieveChatFromSqlite called---------")
+        ///^^messages.removeAllObjects()
+        let messages2=NSMutableArray()
+        var statusObjectsList=sqliteDB.getGroupsChatStatusObjectList(message_ubique_id)
+        
+        for(var i=0;i<statusObjectsList.count;i++)
+        {
+            messages2.addObject(["msg_unique_id":statusObjectsList[i]["msg_unique_id"] as! String, "Status":statusObjectsList[i]["Status"] as! String, "user_phone":statusObjectsList[i]["user_phone"] as! String,"read_date":statusObjectsList[i]["read_date"] as! NSDate, "delivered_date":statusObjectsList[i]["delivered_date"] as! NSDate])
+        }
+        
+        messages.setArray(messages2 as [AnyObject])
+        completion(result:true)
+        
+    }*/
+    
+    //getGroupsChatStatusObjectList
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
        
         if(section==0)
@@ -53,6 +74,19 @@ class GroupMessageStatusViewController: UIViewController {
     func numberOfSectionsInTableView(tableView: UITableView) -> Int
     {
         return 2
+    }
+    
+    func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        if(section==0)
+        {
+            return "DELIVERED TO"
+        }
+        else
+        {
+            return "READ BY"
+        }
+       
+        
     }
     
     

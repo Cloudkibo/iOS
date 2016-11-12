@@ -1619,7 +1619,7 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
             if(chatexists==false)
 {
     self.ContactsLastMsgDate.append(defaultTimeeee)
-    self.ContactLastMessage.append("You created this group")
+    self.ContactLastMessage.append("Welcome to the group")
 }
         
         }

@@ -1545,12 +1545,21 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
                             var uniqueId=userInfo["uniqueId"] as! String
                             var status=userInfo["status"] as! String
                             var user_phone=userInfo["user_phone"] as? String
+                            var read_dateString=userInfo["read_date"] as! String
+                            var delivered_dateString=userInfo["delivered_date"] as! String
+                            
+                            let dateFormatter = NSDateFormatter()
+                            dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
+                            
+                            let delivered_date = dateFormatter.dateFromString(delivered_dateString)
+                            let read_date = dateFormatter.dateFromString(read_dateString)
+                    
                             
                             if(user_phone == nil)
                             {
                             user_phone=""
                             }
-                            sqliteDB.updateGroupChatStatus(uniqueId,memberphone1: user_phone!,status1: status)
+                            sqliteDB.updateGroupChatStatus(uniqueId,memberphone1: user_phone!,status1: status, delivereddate1: delivered_date, readDate1: read_date)
                             UIDelegates.getInstance().UpdateMainPageChatsDelegateCall()
                             UIDelegates.getInstance().UpdateGroupChatDetailsDelegateCall()
                             
@@ -1692,10 +1701,21 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
                     var uniqueId=userInfo["uniqueId"] as! String
                     var status=userInfo["status"] as! String
                     var user_phone=userInfo["user_phone"] as! String
+                    var read_dateString=userInfo["read_date"] as! String
+                    var delivered_dateString=userInfo["delivered_date"] as! String
+                    
+                    
+                    let dateFormatter = NSDateFormatter()
+                    dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
+                    
+                    let delivered_date = dateFormatter.dateFromString(delivered_dateString)
+                    let read_date = dateFormatter.dateFromString(read_dateString)
+                    
+
                     
                     print("inside here 222 updating status")
                     
-                    sqliteDB.updateGroupChatStatus(uniqueId,memberphone1: user_phone,status1: status)
+                    sqliteDB.updateGroupChatStatus(uniqueId,memberphone1: user_phone,status1: status, delivereddate1: delivered_date, readDate1: read_date)
                     UIDelegates.getInstance().UpdateMainPageChatsDelegateCall()
                     UIDelegates.getInstance().UpdateGroupChatDetailsDelegateCall()
                     

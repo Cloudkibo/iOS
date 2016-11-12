@@ -173,7 +173,7 @@ class UtilityFunctions{
         
     }
     
- /*   func minimumDate() -> NSDate
+    func minimumDate() -> NSDate
     {
         
         let formatter = NSDateFormatter()
@@ -186,7 +186,7 @@ class UtilityFunctions{
     
 }
     
-    */
+ 
     func createGroupAPI(groupname:String,members:[String],uniqueid:String)
     {
         //show progress wheen somewhere
@@ -237,6 +237,117 @@ class UtilityFunctions{
             }
         }
     }
+    
+    func downloadProfileImage(uniqueid1:String)
+    {
+        //581b26d7583658844e9003d7
+        let path = NSFileManager.defaultManager().URLsForDirectory(.ApplicationSupportDirectory, inDomains: .UserDomainMask)[0] as NSURL
+        //print("path download is \(path)")
+        //////// let newPath = path.URLByAppendingPathComponent(fileName1)
+        /////// print("full path download file is \(newPath)")
+        //////  let destination = Alamofire.Request.suggestedDownloadDestination(directory: .DocumentDirectory, domain: .UserDomainMask)
+        //  print("path download is \(destination.lowercaseString)")
+        //  Alamofire.download(.GET, "http://httpbin.org/stream/100", destination: destination)
+        var downloadURL=Constants.MainUrl+Constants.downloadGroupIcon
+        
+        let destination: (NSURL, NSHTTPURLResponse) -> (NSURL) = {
+            (temporaryURL, response) in
+            
+            if let directoryURL = NSFileManager.defaultManager().URLsForDirectory(.DocumentDirectory, inDomains: .UserDomainMask)[0] as? NSURL {
+                //// var localImageURL = directoryURL.URLByAppendingPathComponent("\(response.suggestedFilename!)")
+                //filenamePending
+              ///===  var localImageURL = directoryURL.URLByAppendingPathComponent(filePendingName)
+                var localImageURL = directoryURL.URLByAppendingPathComponent(uniqueid1)
+                
+                /*let checkValidation = NSFileManager.defaultManager()
+                 
+                 if (checkValidation.fileExistsAtPath("\(localImageURL)"))
+                 {
+                 print("FILE AVAILABLE")
+                 }
+                 else
+                 {
+                 print("FILE NOT AVAILABLE")
+                 }*/
+                
+                
+                print("localpathhhhhh \(localImageURL.debugDescription)")
+                return localImageURL
+            }
+            print("tempurl is \(temporaryURL.debugDescription)")
+            return temporaryURL
+        }
+        
+        
+       // print("downloading call unique id \(fileuniqueid)")
+        Alamofire.download(.POST, "\(downloadURL)", headers:header, parameters: ["unique_id":uniqueid1], destination: destination)
+            .progress { (bytesRead, totalBytesRead, totalBytesExpectedToRead) in
+                print("writing bytes \(totalBytesRead)")
+                print(" bytes1 \(bytesRead)")
+                print("totalBytesRead bytes \(totalBytesRead)")
+                var progressbytes=(Float(totalBytesRead)/Float(totalBytesExpectedToRead)) as Float
+                print("totalBytesExpectedToRead are \(totalBytesExpectedToRead)")
+                /* if(self.delegateProgressUpload != nil)
+                 {
+                 if(progressbytes<1.0)
+                 {
+                 
+                 print("calling delegate progress bar.....")
+                 self.delegateProgressUpload.updateProgressUpload(progressbytes,uniqueid: fileuniqueid)
+                 }
+                 
+                 }
+                 */
+                
+                /* if(self.delegateProgressUpload != nil)
+                 {print("progress download value is \(progressbytes)")
+                 self.delegateProgressUpload.updateProgressUpload(progressbytes,uniqueid: fileuniqueid)
+                 
+                 }*/
+            }
+            .response { (request, response, _, error) in
+                print(response)
+                print("1...... \(request?.URLString)")
+                print("2..... \(request?.URL.debugDescription)")
+                print("3.... \(response?.URL.debugDescription)")
+                
+                
+                let dirPaths = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)
+                let docsDir1 = dirPaths[0]
+                var documentDir=docsDir1 as NSString
+                var filePendingPath=documentDir.stringByAppendingPathComponent(uniqueid1)
+                
+              //  if(self.imageExtensions.contains(filetype.lowercaseString))
+               // {
+                    //filePendingName
+                    //====uncomment later sqliteDB.saveFile(filePendingTo, from1: filefrom, owneruser1: username!, file_name1: filePendingName, date1: nil, uniqueid1: fileuniqueid, file_size1: filePendingSize, file_type1: filetype, file_path1: filePendingPath, type1: "image")
+                //}
+                /*else
+                {
+                    sqliteDB.saveFile(filePendingTo, from1: filefrom, owneruser1: username!, file_name1: filePendingName, date1: nil, uniqueid1: fileuniqueid, file_size1: filePendingSize, file_type1: filetype, file_path1: filePendingPath, type1: "document")
+                    
+                }
+                if(socketObj.delegateChat != nil)
+                {
+                    socketObj.delegateChat.socketReceivedMessageChat("updateUI", data: nil)
+                }
+                */
+                
+                //===
+               /* if(delegateRefreshChat != nil)
+                {
+                    delegateRefreshChat?.refreshChatsUI("",uniqueid:fileuniqueid,from:filefrom,date1:NSDate(), type:"chat")
+                }*/
+                //filedownloaded’ to with parameters ‘senderoffile’, ‘receiveroffile’
+                
+                //self.confirmDownload(fileuniqueid)
+                print("confirminggggggg")
+                
+                // print(request?.)
+                
+        }
+    }
+
     
  
 }

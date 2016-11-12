@@ -188,6 +188,8 @@ class NewGroupSetDetails: UITableViewController,UINavigationControllerDelegate,U
                 }*/
                 sqliteDB.storeGroups(groupname, groupicon1: self.imgdata, datecreation1: NSDate(), uniqueid1: uniqueid, status1: "new")
                 
+                sqliteDB.storeGroupsChat(username!, group_unique_id1: uniqueid, type1: "log", msg1: "You created this group", from_fullname1: username!, date1: NSDate(), unique_id1: UtilityFunctions.init().generateUniqueid())
+                
                 sqliteDB.storeMembers(uniqueid,member_displayname1: myname, member_phone1: username!, isAdmin1: "Yes", membershipStatus1: "joined", date_joined1: NSDate.init())
               
                 
@@ -224,8 +226,10 @@ class NewGroupSetDetails: UITableViewController,UINavigationControllerDelegate,U
                     })
  
                 }
-                self.performSegueWithIdentifier("groupChatStartSegue", sender: nil)
-              /*  self.dismissViewControllerAnimated(true, completion: {
+                //---uncomment later --- self.performSegueWithIdentifier("groupChatStartSegue", sender: nil)
+            self.performSegueWithIdentifier("backToChatsSegue", sender: nil)
+                
+                  /*self.dismissViewControllerAnimated(true, completion: {
                     
                     
                 })*/

@@ -635,10 +635,10 @@ class DatabaseHandler:NSObject{
         if(socketObj != nil){
         socketObj.socket.emit("logClient","IPHONE-LOG: creating chat table")
         }
-        let to = Expression<String>("to")
+        let to = Expression<String>("to") //user phone or group id
         let from = Expression<String>("from")
         let date = Expression<NSDate>("date")
-        let uniqueid = Expression<String>("uniqueid")
+        let uniqueid = Expression<String>("uniqueid") //chat uniqueid OR group image id
         let contactPhone = Expression<String>("contactPhone")
         let type = Expression<String>("type")  //image or document
         let file_name = Expression<String>("file_name")
@@ -1435,6 +1435,8 @@ print("--------")
         let msg_unique_id = Expression<String>("msg_unique_id")
         let Status = Expression<String>("Status")
         let user_phone = Expression<String>("user_phone")
+        let read_date = Expression<NSDate>("read_date")
+        let delivered_date = Expression<NSDate>("delivered_date")
         
         self.group_chat_status = Table("group_chat_status")
         do{
@@ -1442,6 +1444,10 @@ print("--------")
                 t.column(msg_unique_id)
                 t.column(Status)
                 t.column(user_phone)
+                
+                t.column(read_date,defaultValue:UtilityFunctions.init().minimumDate())
+                
+                t.column(delivered_date,defaultValue:UtilityFunctions.init().minimumDate())
                 })
             
         }
@@ -1858,11 +1864,16 @@ print("--------")
 
     }
     
-    func updateGroupChatStatus(uniqueid1:String,memberphone1:String,status1:String)
+    func updateGroupChatStatus(uniqueid1:String,memberphone1:String,status1:String,delivereddate1:NSDate!,readDate1:NSDate!)
     {
         let msg_unique_id = Expression<String>("msg_unique_id")
         let Status = Expression<String>("Status")
         let user_phone = Expression<String>("user_phone")
+        
+        let read_date = Expression<NSDate>("read_date")
+        let delivered_date = Expression<NSDate>("delivered_date")
+        
+        
         
         self.group_chat_status = Table("group_chat_status")
 
@@ -1870,23 +1881,68 @@ print("--------")
         do
         {var row=try sqliteDB.db.run(query.update(Status <- status1))
         print("status updated of group chat \(row)")
+            if(delivereddate1 != nil)
+            {
+            var row=try sqliteDB.db.run(query.update(delivered_date <- delivereddate1))
+            }
+            if(readDate1 != nil)
+            {
+                var row=try sqliteDB.db.run(query.update(read_date <- readDate1))
+            }
         }
         catch
         {
-            print("error in updating group chat status")
+            print("error in updating group chat status \(error)")
             
         }
 
 
     }
     
-    func storeGRoupsChatStatus(uniqueid1:String,status1:String,memberphone1:String)
+    func storeGRoupsChatStatus(uniqueid1:String,status1:String,memberphone1:String,delivereddate1:NSDate!,readDate1:NSDate!)
     {
         let msg_unique_id = Expression<String>("msg_unique_id")
         let Status = Expression<String>("Status")
         let user_phone = Expression<String>("user_phone")
+        let read_date = Expression<NSDate>("read_date")
+        let delivered_date = Expression<NSDate>("delivered_date")
         
        // var group_muteSettings=sqliteDB.group_muteSettings
+        if(status1.lowercaseString == "seen")
+        {
+            do {
+                let rowid = try db.run(group_chat_status.insert(
+                    msg_unique_id<-uniqueid1,
+                    Status<-status1,
+                    user_phone<-memberphone1,
+                    read_date<-readDate1,
+                    delivered_date<-delivereddate1
+                    ))
+                
+                
+                print("inserted group_chat_status : \(rowid)")
+            } catch {
+                print("insertion failed: group_chat_status \(error)")
+            }
+            
+        }
+        if(status1.lowercaseString == "delivered")
+        {
+            do {
+                let rowid = try db.run(group_chat_status.insert(
+                    msg_unique_id<-uniqueid1,
+                    Status<-status1,
+                    user_phone<-memberphone1,
+                    delivered_date<-delivereddate1
+                    ))
+                
+                
+                print("inserted group_chat_status : \(rowid)")
+            } catch {
+                print("insertion failed: group_chat_status \(error)")
+            }
+        }
+        else{
         
         do {
             let rowid = try db.run(group_chat_status.insert(
@@ -1900,7 +1956,8 @@ print("--------")
         } catch {
             print("insertion failed: group_chat_status \(error)")
         }
-        
+    }
+    
     }
     
     
@@ -1909,6 +1966,8 @@ print("--------")
         let msg_unique_id = Expression<String>("msg_unique_id")
         let Status = Expression<String>("Status")
         let user_phone = Expression<String>("user_phone")
+        let read_date = Expression<NSDate>("read_date")
+        let delivered_date = Expression<NSDate>("delivered_date")
         
        // var tblGroupmember = Table("group_member")
         var status=""
@@ -1930,6 +1989,8 @@ print("--------")
         let msg_unique_id = Expression<String>("msg_unique_id")
         let Status = Expression<String>("Status")
         let user_phone = Expression<String>("user_phone")
+        let read_date = Expression<NSDate>("read_date")
+        let delivered_date = Expression<NSDate>("delivered_date")
         
         // var tblGroupmember = Table("group_member")
         var uniqueid=[String]()
@@ -1997,6 +2058,144 @@ print("--------")
         
         
     }
+    
+    func getNameFromAddressbook(phone1:String!)->String!
+    {
+        let name = Expression<String>("name")
+        let phone = Expression<String>("phone")
+        
+       
+        do
+        { for res in try sqliteDB.db.prepare(self.allcontacts.filter(phone == phone1))
+        {
+            return res[name]
+        }
+        }
+        catch
+        {
+            print("error in getting name from allcontacts")
+        }
+        return nil
+        
+    }
+    
+    func getNameGroupMemberNameFromMembersTable(phone1:String)->String!
+    {
+        let member_phone = Expression<String>("member_phone")
+        let group_member_displayname = Expression<String>("group_member_displayname")
+        
+        
+        do
+        { for res in try sqliteDB.db.prepare(self.group_member.filter(member_phone == phone1))
+        {
+            return res[group_member_displayname]
+            }
+        }
+        catch
+        {
+            print("error in getting name from allcontacts")
+        }
+        return nil
+
+    }
+    
+    func getGroupsChatReadStatusList(msguniqueid1:String)->[[String:AnyObject]]
+    {
+        let msg_unique_id = Expression<String>("msg_unique_id")
+        let Status = Expression<String>("Status")
+        let user_phone = Expression<String>("user_phone")
+        let read_date = Expression<NSDate>("read_date")
+        let delivered_date = Expression<NSDate>("delivered_date")
+        
+        var statusObjectList=[[String:AnyObject]]()
+        // var tblGroupmember = Table("group_member")
+       // var uniqueid=[String]()
+        do
+        {for groupChatStatus in try self.db.prepare(group_chat_status.filter(msg_unique_id == msguniqueid1 && Status.lowercaseString=="seen")){
+            print("found status..")
+            
+            var statusObj=[String:AnyObject]()
+            statusObj["msg_unique_id"]=groupChatStatus[msg_unique_id]
+            statusObj["Status"]=groupChatStatus[Status]
+            statusObj["user_phone"]=groupChatStatus[user_phone]
+            statusObj["read_date"]=groupChatStatus[read_date]
+            statusObj["delivered_date"]=groupChatStatus[delivered_date]
+            
+           statusObjectList.append(statusObj)
+            //return groupChatStatus[read_date]
+            //uniqueid.append(groupChatStatus[msg_unique_id])
+            
+            }
+        }catch{
+            print("error in readdate status query")
+        }
+        return statusObjectList
+    }
+    
+    
+    func getGroupsChatDeliveredStatusList(msguniqueid1:String)->[[String:AnyObject]]
+    {
+        let msg_unique_id = Expression<String>("msg_unique_id")
+        let Status = Expression<String>("Status")
+        let user_phone = Expression<String>("user_phone")
+        let read_date = Expression<NSDate>("read_date")
+        let delivered_date = Expression<NSDate>("delivered_date")
+        
+        var statusObjectList=[[String:AnyObject]]()
+        // var tblGroupmember = Table("group_member")
+        // var uniqueid=[String]()
+        do
+        {for groupChatStatus in try self.db.prepare(group_chat_status.filter(msg_unique_id == msguniqueid1 && Status.lowercaseString=="delivered")){
+            print("found status..")
+            
+            var statusObj=[String:AnyObject]()
+            statusObj["msg_unique_id"]=groupChatStatus[msg_unique_id]
+            statusObj["Status"]=groupChatStatus[Status]
+            statusObj["user_phone"]=groupChatStatus[user_phone]
+            statusObj["read_date"]=groupChatStatus[read_date]
+            statusObj["delivered_date"]=groupChatStatus[delivered_date]
+            statusObjectList.append(statusObj)
+            
+            //return groupChatStatus[delivered_date]
+            //uniqueid.append(groupChatStatus[msg_unique_id])
+            
+            }
+        }catch{
+            print("error in delivered_date status query")
+        }
+        return statusObjectList
+    }
+
+    
+    func getGroupsChatStatusObjectList(msguniqueid1:String)->[[String:AnyObject]]
+    {
+        let msg_unique_id = Expression<String>("msg_unique_id")
+        let Status = Expression<String>("Status")
+        let user_phone = Expression<String>("user_phone")
+        let read_date = Expression<NSDate>("read_date")
+        let delivered_date = Expression<NSDate>("delivered_date")
+        
+        // var tblGroupmember = Table("group_member")
+        var statusObjectList=[[String:AnyObject]]()
+        do
+        {for groupChatStatus in try self.db.prepare(group_chat_status.filter(msg_unique_id==msguniqueid1)){
+            var statusObj=[String:AnyObject]()
+            print("found status object matchedddd")
+            
+            statusObj["msg_unique_id"]=groupChatStatus[msg_unique_id]
+            statusObj["Status"]=groupChatStatus[Status]
+            statusObj["user_phone"]=groupChatStatus[user_phone]
+            statusObj["read_date"]=groupChatStatus[read_date]
+            statusObj["delivered_date"]=groupChatStatus[delivered_date]
+            
+            statusObjectList.append(statusObj)
+            }
+        }catch{
+            
+        }
+        return statusObjectList
+    }
+
     
     
     

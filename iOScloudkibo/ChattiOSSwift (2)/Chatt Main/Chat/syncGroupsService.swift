@@ -41,6 +41,8 @@ class syncGroupService
                         
                         self.SyncGroupMembersAPI(){(result,error,groupinfo) in
                             print("...")
+                            
+                            UtilityFunctions.init().downloadProfileImage("581b26d7583658844e9003d7")
                         }
                        /* self.fullRefreshMembersInfo(groupinfo){ (result,error) in
                             print("sync groups data done")
@@ -409,9 +411,18 @@ class syncGroupService
                 {
                     var uniqueid1=jsongroupinfo[i]["chat_unique_id"].string!
                     var user_phone1=jsongroupinfo[i]["user_phone"].string!
+                    var read_dateString=jsongroupinfo[i]["read_date"].string!
+
+                    var delivered_dateString=jsongroupinfo[i]["delivered_date"].string!
                     var status1=jsongroupinfo[i]["status"].string!
                     
-                    sqliteDB.updateGroupChatStatus(uniqueid1, memberphone1: user_phone1, status1: status1)
+                     let dateFormatter = NSDateFormatter()
+                     dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
+                
+                    let delivered_date = dateFormatter.dateFromString(delivered_dateString)
+                    let read_date = dateFormatter.dateFromString(read_dateString)
+                    
+                    sqliteDB.updateGroupChatStatus(uniqueid1, memberphone1: user_phone1, status1: status1, delivereddate1: delivered_date, readDate1: read_date)
                     
                 }
                 
