@@ -658,6 +658,95 @@ class NetworkingManager
             backgroundManager.backgroundCompletionHandler = newValue
         }
     }
+    
+    func uploadProfileImage(groupUniqueID:String,filePath1:String,filename:String,fileType:String,completion:(result:Bool,error:String!)->())
+    {
+        var url=Constants.MainUrl+Constants.uploadProfileImage
+        var parameters:[String:String] = [
+            "unique_id": groupUniqueID]
+        
+        
+        //// Alamofire.request(.POST,"\(url)",parameters:["unique_id":uniqueid],headers:header,encoding:.JSON).validate().responseJSON { response in
+        
+        var imageData=NSData(contentsOfFile: filePath1)
+        // var urlupload=Constants.MainUrl+Constants.uploadFile
+        print("uploading file image data is \(imageData)")
+        Alamofire.upload(
+            .POST,
+            url,
+            headers: header,
+            multipartFormData: { multipartFormData in
+                multipartFormData.appendBodyPart(data: imageData!, name: "file"
+                    ,fileName: filename, mimeType: UtilityFunctions.init().MimeType(fileType))
+                //,fileName: file_name1, mimeType: "image/\(file_type1)")
+                for (key, value) in parameters {
+                    multipartFormData.appendBodyPart(data: value.dataUsingEncoding(NSUTF8StringEncoding)!, name: key)
+                }
+                ///multipartFormData.appendBodyPart(data: jsonParameterData!, name: "goesIntoForm")
+                
+            },
+            encodingCompletion: { encodingResult in
+                switch encodingResult {
+                case .Success(let upload, _, _):
+                    upload.progress { bytesWritten, totalBytesWritten, totalBytesExpectedToWrite in
+                        dispatch_async(dispatch_get_main_queue()) {
+                            let percent = (Float(totalBytesWritten) / Float(totalBytesExpectedToWrite))
+                            /////progress(percent: percent)
+                            /* if(self.delegateProgressUpload != nil)
+                             {
+                             if(percent<1.0)
+                             {
+                             self.delegateProgressUpload.updateProgressUpload(percent,uniqueid: uniqueid1)
+                             }
+                             
+                             }*/
+                            //Redraw specific table cell
+                            print("percentage is \(percent)")
+                        }
+                    }
+                    upload.validate()
+                    upload.responseJSON { response in
+                        print(response.response?.statusCode)
+                        print(response.data!)
+                        print(JSON(response.data!))
+                        switch response.result {
+                        case .Success:print("file uploaded successss")
+                            
+                            
+                        case .Failure(let error):
+                            print("file upload failure \(error)")
+                        }
+                        
+                        
+                        
+                        /*
+                         
+                         "__v" = 0;
+                         "_id" = 57c69e61dfff9e5223a8fcb2;
+                         activeStatus = Yes;
+                         companyid = cd89f71715f2014725163952;
+                         createdby = 554896ca78aed92f4e6db296;
+                         creationdate = "2016-08-31T09:07:45.236Z";
+                         groupid = 57c69e61dfff9e5223a8fcb1;
+                         "msg_channel_description" = "This channel is for general discussions";
+                         "msg_channel_name" = General;
+                         
+                         
+                         */
+                        print("Add profile pic called")
+                        if(response.result.isSuccess)
+                        {
+                            print("success uploading image profile")
+                        }
+                        
+                        
+                    }
+                case .Failure(let error):
+                    print("file upload failure")
+                }})
+    }
+    
+
 }
 protocol showUploadProgressDelegate:class
 {

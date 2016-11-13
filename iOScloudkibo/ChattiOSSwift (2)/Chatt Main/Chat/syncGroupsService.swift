@@ -42,7 +42,7 @@ class syncGroupService
                         self.SyncGroupMembersAPI(){(result,error,groupinfo) in
                             print("...")
                             
-                            UtilityFunctions.init().downloadProfileImage("581b26d7583658844e9003d7")
+                           // UtilityFunctions.init().downloadProfileImage("9Mm0S3b201611817744")
                         }
                        /* self.fullRefreshMembersInfo(groupinfo){ (result,error) in
                             print("sync groups data done")
@@ -140,7 +140,7 @@ class syncGroupService
                 var group_icon=NSData()
                 if(groupInfo[i]["group_unique_id"]["group_icon"] != nil)
                 {
-                    group_icon=groupInfo[i]["group_unique_id"]["group_icon"] as! NSData
+                   //==uncomment later group_icon=groupInfo[i]["group_unique_id"]["group_icon"] as NSData
                 }
                 
                 let dateFormatter = NSDateFormatter()

@@ -1564,8 +1564,7 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
                             UIDelegates.getInstance().UpdateGroupChatDetailsDelegateCall()
                             
                         }
-                        
-                    }
+                                           }
                 }
                 
                    /* else
@@ -1788,6 +1787,15 @@ else{
  */
                 }
                 
+                if(type=="group:icon_update")
+                {
+                    print("group icon is changed")
+                    var groupId=userInfo["groupId"] as! String
+                    UtilityFunctions.init().downloadProfileImage(groupId)
+                }
+                
+
+                
                 //}
             }
             
@@ -2004,7 +2012,7 @@ else{
                     var group_icon=NSData()
                     if(groupSingleInfo[0]["group_icon"] != nil)
                     {
-                        group_icon=groupSingleInfo[0]["group_icon"] as! NSData
+                       // group_icon=groupSingleInfo[0]["group_icon"] as! NSData
                     }
                     
                     let dateFormatter = NSDateFormatter()

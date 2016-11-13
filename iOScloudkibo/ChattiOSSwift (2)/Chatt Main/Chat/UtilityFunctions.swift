@@ -120,6 +120,16 @@ class UtilityFunctions{
         "wmv": "video/x-ms-wmv",
         "avi": "video/x-msvideo"
     ]
+    
+    func getFileExtension(mime:String)->String
+    {
+        print("taking out extension")
+        
+        var ext=mimeTypes.keys[mimeTypes.values.indexOf(mime)!]
+        print("extension is \(ext)")
+        return ext
+    }
+    
     let DEFAULT_MIME_TYPE = "application/octet-stream"
     
 
@@ -252,12 +262,15 @@ class UtilityFunctions{
         
         let destination: (NSURL, NSHTTPURLResponse) -> (NSURL) = {
             (temporaryURL, response) in
-            
+            print("response file name is \(response.suggestedFilename!)")
+print("tempURL is \(temporaryURL) and response is \(response.allHeaderFields)")
             if let directoryURL = NSFileManager.defaultManager().URLsForDirectory(.DocumentDirectory, inDomains: .UserDomainMask)[0] as? NSURL {
                 //// var localImageURL = directoryURL.URLByAppendingPathComponent("\(response.suggestedFilename!)")
                 //filenamePending
               ///===  var localImageURL = directoryURL.URLByAppendingPathComponent(filePendingName)
-                var localImageURL = directoryURL.URLByAppendingPathComponent(uniqueid1)
+                
+                var filetype=self.getFileExtension(response.MIMEType!)
+                var localImageURL = directoryURL.URLByAppendingPathComponent(uniqueid1+"."+filetype)
                 
                 /*let checkValidation = NSFileManager.defaultManager()
                  
@@ -272,6 +285,7 @@ class UtilityFunctions{
                 
                 
                 print("localpathhhhhh \(localImageURL.debugDescription)")
+                ///sqliteDB.saveFile(uniqueid1, from1: from1, owneruser1: from1, file_name1: filename1, date1: NSDate().description, uniqueid1: UtilityFunctions.init().generateUniqueid(), file_size1: <#T##String#>, file_type1: <#T##String#>, file_path1: <#T##String#>, type1: "groupIcon")
                 return localImageURL
             }
             print("tempurl is \(temporaryURL.debugDescription)")
@@ -310,12 +324,21 @@ class UtilityFunctions{
                 print("1...... \(request?.URLString)")
                 print("2..... \(request?.URL.debugDescription)")
                 print("3.... \(response?.URL.debugDescription)")
+                print("error: \(error)")
+                
                 
                 
                 let dirPaths = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)
                 let docsDir1 = dirPaths[0]
                 var documentDir=docsDir1 as NSString
-                var filePendingPath=documentDir.stringByAppendingPathComponent(uniqueid1)
+                
+                
+                var filetype=self.getFileExtension(response!.MIMEType!)
+                
+                var filePendingPath=documentDir.stringByAppendingPathComponent(uniqueid1+"."+filetype)
+                
+                print("filePendingPath is \(filePendingPath)")
+                //var filePendingPath=documentDir.stringByAppendingPathComponent(uniqueid1)
                 
               //  if(self.imageExtensions.contains(filetype.lowercaseString))
                // {

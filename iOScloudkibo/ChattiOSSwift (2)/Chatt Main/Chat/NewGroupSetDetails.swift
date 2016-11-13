@@ -10,8 +10,17 @@
 import Contacts
 import Alamofire
 import SQLite
+import Photos
+import AssetsLibrary
+
 class NewGroupSetDetails: UITableViewController,UINavigationControllerDelegate,UIImagePickerControllerDelegate{
 
+    var filePathImage2=""
+    var ftype=""
+    var fileSize1:UInt64=0
+    var filePathImage:String!
+    ////** new commented april 2016var fileSize:Int!
+    var fileContents:NSData!
     
     var file_name1=""
     var uniqueid=""
@@ -220,14 +229,14 @@ class NewGroupSetDetails: UITableViewController,UINavigationControllerDelegate,U
                     
                     //save filename
                    
-                    var filetype="png"
-                    self.uploadProfileImage(uniqueid,filename: self.file_name1,fileType: filetype,completion: {(result,error) in
+                    /////var filetype="png"
+                    managerFile.uploadProfileImage(uniqueid,filePath1: self.filePathImage2,filename: self.file_name1,fileType: self.ftype,completion: {(result,error) in
                     
                     })
  
                 }
                 //---uncomment later --- self.performSegueWithIdentifier("groupChatStartSegue", sender: nil)
-            self.performSegueWithIdentifier("backToChatsSegue", sender: nil)
+          self.performSegueWithIdentifier("backToChatsSegue", sender: nil)
                 
                   /*self.dismissViewControllerAnimated(true, completion: {
                     
@@ -290,8 +299,8 @@ class NewGroupSetDetails: UITableViewController,UINavigationControllerDelegate,U
                     
                     //save filename
                     
-                    var filetype="png"
-                    self.uploadProfileImage(uniqueid,filename: self.file_name1,fileType: filetype,completion: {(result,error) in
+                    //var filetype="png"
+                    managerFile.uploadProfileImage(uniqueid,filePath1: self.filePathImage2,filename: self.file_name1,fileType: self.ftype,completion: {(result,error) in
                         
                     })
                     
@@ -310,100 +319,7 @@ class NewGroupSetDetails: UITableViewController,UINavigationControllerDelegate,U
         
     }
     
-    func uploadProfileImage(groupUniqueID:String,filename:String,fileType:String,completion:(result:Bool,error:String!)->())
-    {
-        var url=Constants.MainUrl+Constants.uploadProfileImage
-        var parameters = [
-            "unique_id": groupUniqueID]
-           /* "from": from1,
-            "uniqueid": uniqueid1,
-            "filename": file_name1,
-            "filesize": file_size1,
-            "filetype": file_type1]
- */
-
-       //// Alamofire.request(.POST,"\(url)",parameters:["unique_id":uniqueid],headers:header,encoding:.JSON).validate().responseJSON { response in
-            
-            
-            var urlupload=Constants.MainUrl+Constants.uploadFile
-            Alamofire.upload(
-                .POST,
-                urlupload,
-                headers: header,
-                multipartFormData: { multipartFormData in
-                    multipartFormData.appendBodyPart(data: self.imgdata, name: "file"
-                        ,fileName: filename, mimeType: managerFile.MimeType(fileType))
-                    //,fileName: file_name1, mimeType: "image/\(file_type1)")
-                    for (key, value) in parameters {
-                        multipartFormData.appendBodyPart(data: value.dataUsingEncoding(NSUTF8StringEncoding)!, name: key)
-                    }
-                    ///multipartFormData.appendBodyPart(data: jsonParameterData!, name: "goesIntoForm")
-                    
-                },
-                encodingCompletion: { encodingResult in
-                    switch encodingResult {
-                    case .Success(let upload, _, _):
-                        upload.progress { bytesWritten, totalBytesWritten, totalBytesExpectedToWrite in
-                            dispatch_async(dispatch_get_main_queue()) {
-                                let percent = (Float(totalBytesWritten) / Float(totalBytesExpectedToWrite))
-                                /////progress(percent: percent)
-                              
-                                //uncomment later
-                                /*  if(self.delegateProgressUpload != nil)
-                                {
-                                    if(percent<1.0)
-                                    {
-                                        self.delegateProgressUpload.updateProgressUpload(percent,uniqueid: uniqueid1)
-                                    }
-                                    
-                                }*/
-                                //Redraw specific table cell
-                                print("percentage is \(percent)")
-                            }
-                        }
-                        upload.validate()
-                        upload.responseJSON { response in
-                            print(response.response?.statusCode)
-                            print(response.data!)
-                            
-                            switch response.result {
-                            case .Success:print("file uploaded successss")
-                              
-                                
-                            case .Failure(let error):
-                                print("file upload failure")
-                            }
-                            
-                            
-                            
-            /*
-             
-             "__v" = 0;
-             "_id" = 57c69e61dfff9e5223a8fcb2;
-             activeStatus = Yes;
-             companyid = cd89f71715f2014725163952;
-             createdby = 554896ca78aed92f4e6db296;
-             creationdate = "2016-08-31T09:07:45.236Z";
-             groupid = 57c69e61dfff9e5223a8fcb1;
-             "msg_channel_description" = "This channel is for general discussions";
-             "msg_channel_name" = General;
-             
-             
-             */
-            print("Add profile pic called")
-            if(response.result.isSuccess)
-            {
-                print("success uploading image profile")
-            }
-                      
-
-        }
-        case .Failure(let error):
-                        print("file upload failure")
-                    }})
-    }
-    
-    
+       
     func randomStringWithLength (len : Int) -> NSString {
         
         let letters : NSString = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
@@ -684,12 +600,67 @@ class NewGroupSetDetails: UITableViewController,UINavigationControllerDelegate,U
         let photoURL          = NSURL(fileURLWithPath: documentDirectory)
         let localPath         = photoURL.URLByAppendingPathComponent(imageName!)
         let image             = editingInfo![UIImagePickerControllerOriginalImage]as! UIImage
+        let data              = UIImagePNGRepresentation(image)
         
         
          imgdata              = UIImagePNGRepresentation(image)!
         
        
         
+        if let imageURL = editingInfo![UIImagePickerControllerReferenceURL] as? NSURL {
+            let result = PHAsset.fetchAssetsWithALAssetURLs([imageURL], options: nil)
+            
+            
+            self.file_name1 = result.firstObject?.filename ?? ""
+            
+            // var myasset=result.firstObject as! PHAsset
+            ////print(myasset.mediaType)
+            
+            
+            
+        }
+        
+        ///
+        
+        var furl=NSURL(string: localPath.URLString)
+        
+        //print(furl!.pathExtension!)
+        //print(furl!.URLByDeletingPathExtension?.lastPathComponent!)
+        ftype=furl!.pathExtension!
+        var fname=furl!.URLByDeletingPathExtension?.lastPathComponent!
+        
+        
+        let dirPaths = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)
+        let docsDir1 = dirPaths[0]
+        var documentDir=docsDir1 as NSString
+        filePathImage2=documentDir.stringByAppendingPathComponent(self.file_name1)
+        var fm=NSFileManager.defaultManager()
+        
+        var fileAttributes:[String:AnyObject]=["":""]
+        do {
+            /// let fileAttributes : NSDictionary? = try NSFileManager.defaultManager().attributesOfItemAtPath(furl!.path!)
+            ///    let fileAttributes : NSDictionary? = try NSFileManager.defaultManager().attributesOfItemAtPath(imageUrl.path!)
+            let fileAttributes : NSDictionary? = try NSFileManager.defaultManager().attributesOfItemAtPath(filePathImage2)
+            if let _attr = fileAttributes {
+                self.fileSize1 = _attr.fileSize();
+                   }
+        } catch {
+          //  socketObj.socket.emit("logClient","IPHONE-LOG: error: \(error)")
+            //print("Error:+++ \(error)")
+        }
+        
+        
+        //print("filename is \(self.filename) destination path is \(filePathImage2) image name \(imageName) imageurl \(imageUrl) photourl \(photoURL) localPath \(localPath).. \(localPath.absoluteString)")
+        
+        var s=fm.createFileAtPath(filePathImage2, contents: nil, attributes: nil)
+        
+        //  var written=fileData!.writeToFile(filePathImage2, atomically: false)
+        
+        //filePathImage2
+        print("before reloading, filePathImage2 is \(filePathImage2)")
+        data!.writeToFile(filePathImage2, atomically: true)
+        
+        ///
         
         self.dismissViewControllerAnimated(true, completion:{ ()-> Void in
             print("dismissing image picker")
