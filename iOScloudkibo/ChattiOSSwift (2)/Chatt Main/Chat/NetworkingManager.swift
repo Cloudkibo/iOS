@@ -711,6 +711,7 @@ class NetworkingManager
                         print(JSON(response.data!))
                         switch response.result {
                         case .Success:print("file uploaded successss")
+                             sqliteDB.saveFile(groupUniqueID, from1: "", owneruser1: "", file_name1: filename, date1: nil, uniqueid1: groupUniqueID, file_size1: "1", file_type1: fileType, file_path1: filePath1, type1: "groupIcon")
                             
                             
                         case .Failure(let error):

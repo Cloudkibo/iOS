@@ -2197,6 +2197,47 @@ print("--------")
     }
 
     
+    func getFilesData(uniqueid1:String)->[String:AnyObject]
+    {
+        let to = Expression<String>("to")
+        let from = Expression<String>("from")
+        let date = Expression<NSDate>("date")
+        let uniqueid = Expression<String>("uniqueid")
+        let contactPhone = Expression<String>("contactPhone")
+        let type = Expression<String>("type")
+        let file_name = Expression<String>("file_name")
+        let file_size = Expression<String>("file_size")
+        let file_type = Expression<String>("file_type")
+        let file_path = Expression<String>("file_path")
+        
+        var fileObj=[String:AnyObject]()
+        
+      //  var filesObjectList=[[String:AnyObject]]()
+        do
+        {for filesData in try self.db.prepare(files.filter(uniqueid==uniqueid1)){
+            // print("found status object matchedddd")
+            
+            fileObj["to"]=filesData[to]
+            fileObj["from"]=filesData[from]
+            fileObj["date"]=filesData[date]
+            fileObj["uniqueid"]=filesData[uniqueid]
+            fileObj["contactPhone"]=filesData[contactPhone]
+            fileObj["type"]=filesData[type]
+            fileObj["file_name"]=filesData[file_name]
+            fileObj["file_size"]=filesData[file_size]
+            fileObj["file_type"]=filesData[file_type]
+            fileObj["file_path"]=filesData[file_path]
+            
+            break
+            }
+        }catch{
+            
+        }
+        return fileObj
+
+    }
+    
+    
     
     
     

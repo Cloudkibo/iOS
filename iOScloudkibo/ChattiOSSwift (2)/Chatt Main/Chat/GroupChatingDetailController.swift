@@ -253,9 +253,57 @@ class GroupChatingDetailController: UIViewController,UpdateGroupChatDetailsDeleg
         NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("keyboardWillShow:"), name: UIKeyboardWillShowNotification, object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("keyboardWillHide:"), name: UIKeyboardWillHideNotification, object: nil)
         
-        
+        var filedata=sqliteDB.getFilesData(groupid1)
+        if(filedata.count>0)
+        {
+            print("found group icon")
+            print("actual path is \(filedata["file_path"])")
+            //======
+            
+            //=======
+            let dirPaths = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)
+            let docsDir1 = dirPaths[0]
+            var documentDir=docsDir1 as NSString
+            var imgPath=documentDir.stringByAppendingPathComponent(filedata["file_name"] as! String)
+            
+            var imgNSData=NSFileManager.defaultManager().contentsAtPath(imgPath)
+
+            //==
+            var imageavatar1=UIImage.init(data:(imgNSData)!)
+            //   imageavatar1=ResizeImage(imageavatar1!,targetSize: s)
+            
+            //var img=UIImage(data:ContactsProfilePic[indexPath.row])
+            var w=imageavatar1!.size.width
+            var h=imageavatar1!.size.height
+            var wOld=(self.navigationController?.navigationBar.frame.height)!-5
+            var hOld=(self.navigationController?.navigationBar.frame.width)!-5
+            var scale:CGFloat=w/wOld
+            
+            
+            ///var s=CGSizeMake((self.navigationController?.navigationBar.frame.height)!-5,(self.navigationController?.navigationBar.frame.height)!-5)
+            
+            var barAvatarImage=UIImageView.init(image: UIImage(data: (imgNSData)!,scale:scale))
+            
+            barAvatarImage.layer.borderWidth = 1.0
+            barAvatarImage.layer.masksToBounds = false
+            barAvatarImage.layer.borderColor = UIColor.whiteColor().CGColor
+            barAvatarImage.layer.cornerRadius = barAvatarImage.frame.size.width/2
+            barAvatarImage.clipsToBounds = true
+            
+            //print("bav avatar size is \(barAvatarImage.frame.width) .. \(barAvatarImage.frame.width)")
+            
+            var avatarbutton=UIBarButtonItem.init(customView: barAvatarImage)
+            self.navigationItem.rightBarButtonItems?.insert(avatarbutton, atIndex: 0)
+            
+            //ContactsProfilePic.append(foundcontact.imageData!)
+            //picfound=true
+        }
+  
+
+
+
     }
-    
+
     func getDateString(datetime:NSDate)->String
     {
         var formatter2 = NSDateFormatter();

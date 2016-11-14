@@ -343,7 +343,7 @@ print("tempURL is \(temporaryURL) and response is \(response.allHeaderFields)")
               //  if(self.imageExtensions.contains(filetype.lowercaseString))
                // {
                     //filePendingName
-                    //====uncomment later sqliteDB.saveFile(filePendingTo, from1: filefrom, owneruser1: username!, file_name1: filePendingName, date1: nil, uniqueid1: fileuniqueid, file_size1: filePendingSize, file_type1: filetype, file_path1: filePendingPath, type1: "image")
+                    sqliteDB.saveFile(uniqueid1, from1: "", owneruser1: "", file_name1: uniqueid1+"."+filetype, date1: nil, uniqueid1: uniqueid1, file_size1: "1", file_type1: filetype, file_path1: filePendingPath, type1: "groupIcon")
                 //}
                 /*else
                 {
@@ -365,6 +365,10 @@ print("tempURL is \(temporaryURL) and response is \(response.allHeaderFields)")
                 
                 //self.confirmDownload(fileuniqueid)
                 print("confirminggggggg")
+                
+                UIDelegates.getInstance().UpdateMainPageChatsDelegateCall()
+                UIDelegates.getInstance().UpdateGroupChatDetailsDelegateCall()
+                UIDelegates.getInstance().UpdateGroupInfoDetailsDelegateCall()
                 
                 // print(request?.)
                 

@@ -140,6 +140,7 @@ class syncGroupService
                 var group_icon=NSData()
                 if(groupInfo[i]["group_unique_id"]["group_icon"] != nil)
                 {
+                   //=== UtilityFunctions.init().downloadProfileImage(<#T##uniqueid1: String##String#>)
                    //==uncomment later group_icon=groupInfo[i]["group_unique_id"]["group_icon"] as NSData
                 }
                 

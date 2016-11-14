@@ -1555,7 +1555,36 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
             ////self.ContactsEmail.removeAll(keepCapacity: false)
             //////self.ContactMsgRead.removeAll(keepCapacity: false)
             self.ContactCountMsgRead.append(0)
-            self.ContactsProfilePic.append(groupsObjectList[i]["group_icon"] as! NSData)
+            
+            
+            //check file table and get path
+            //NSData at contents at path
+            
+            var filedata=sqliteDB.getFilesData(groupsObjectList[i]["unique_id"] as! String)
+            if(filedata.count>0)
+            {
+                print("found group icon")
+                print("actual path is \(filedata["file_path"])")
+                //======
+             
+                //=======
+                let dirPaths = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)
+                let docsDir1 = dirPaths[0]
+                var documentDir=docsDir1 as NSString
+                var imgPath=documentDir.stringByAppendingPathComponent(filedata["file_name"] as! String)
+                
+                var imgNSData=NSFileManager.defaultManager().contentsAtPath(imgPath)
+                
+               // print("found path is \(imgNSData)")
+                
+               self.ContactsProfilePic.append(imgNSData!)
+            }
+            else
+            {
+                 print("didnot find group icon")
+                self.ContactsProfilePic.append(NSData.init())
+            }
+            //self.ContactsProfilePic.append(groupsObjectList[i]["group_icon"] as! NSData)
             
             
             let from = Expression<String>("from")
@@ -2312,9 +2341,34 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
         else
         {
             cell.contactName?.text=ContactNames[indexPath.row]
+            if(!ContactsProfilePic.isEmpty && ContactsProfilePic[indexPath.row] != NSData.init())
+            {
+                print("seeting picc22 for \(ContactUsernames[indexPath.row])")
+                
+                var img=UIImage(data:ContactsProfilePic[indexPath.row])
+                var w=img!.size.width
+                var h=img!.size.height
+                var wOld=cell.profilePic.bounds.width
+                var hOld=cell.profilePic.bounds.height
+                var scale:CGFloat=w/wOld
+                
+                ////self.ResizeImage(img!, targetSize: CGSizeMake(cell.profilePic.bounds.width,cell.profilePic.bounds.height))
+                
+                cell.profilePic.layer.borderWidth = 1.0
+                cell.profilePic.layer.masksToBounds = false
+                cell.profilePic.layer.borderColor = UIColor.whiteColor().CGColor
+                cell.profilePic.layer.cornerRadius = cell.profilePic.frame.size.width/2
+                cell.profilePic.clipsToBounds = true
+                
+                cell.profilePic.image=UIImage(data: ContactsProfilePic[indexPath.row], scale: scale)
+                ///cell.profilePic.image=UIImage(data:ContactsProfilePic[indexPath.row])
+                UIImage(data: ContactsProfilePic[indexPath.row], scale: scale)
+                print("image size is s \(UIImage(data:ContactsProfilePic[indexPath.row])?.size.width) and h \(UIImage(data:ContactsProfilePic[indexPath.row])?.size.height)")
+            }
+
         }
     
-            
+    
        // }
       //  catch
         //{
