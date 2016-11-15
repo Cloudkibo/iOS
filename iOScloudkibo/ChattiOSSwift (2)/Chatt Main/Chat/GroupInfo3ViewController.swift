@@ -10,17 +10,29 @@ import UIKit
 import SQLite
 import ContactsUI
 import Alamofire
-
-
+import AssetsLibrary
+import Photos
 
 var internetAvailable=false
 var participantsSelected=[EPContact]()
 var picker:CNContactPickerViewController!
 var btnNewGroup:UIButton!
 var btnRetryAddMember:UIButton!
-class GroupInfo3ViewController: UIViewController,CNContactPickerDelegate,
-EPPickerDelegate,SWTableViewCellDelegate {
+class GroupInfo3ViewController: UIViewController,UINavigationControllerDelegate,CNContactPickerDelegate,
+EPPickerDelegate,SWTableViewCellDelegate,UIImagePickerControllerDelegate {
 
+    
+    var filePathImage2=""
+    var ftype=""
+    var fileSize1:UInt64=0
+    var filePathImage:String!
+    ////** new commented april 2016var fileSize:Int!
+    var fileContents:NSData!
+    
+    var file_name1=""
+
+    
+    var imgdata=NSData.init()
     var addmemberfailed=false
     //var uniqueid=""
     var singleGroupInfo=[String:AnyObject!]()
@@ -823,6 +835,85 @@ else{
         {
             var cell=tblGroupInfo.dequeueReusableCellWithIdentifier("GroupNamePicInfoCell")! as! GroupInfoCell
             cell.lbl_groupName.text=singleGroupInfo["group_name"] as! String
+         
+                
+                cell.btnEditProfilePicOutlet.hidden=true
+               // groupname=cell.groupNameFieldOutlet.text!
+                if(imgdata != NSData.init())
+                {
+                    cell.btnEditProfilePicOutlet.hidden=false
+                    var tempimg=UIImage(data: imgdata)
+                    /* var s = CGSizeMake(cell.profilePicCameraOutlet.frame.width, cell.profilePicCameraOutlet.frame.height)
+                     var newimg=ResizeImage(tempimg!, targetSize: s)
+                     cell.profilePicCameraOutlet.layer.masksToBounds = true
+                     cell.profilePicCameraOutlet.layer.cornerRadius = cell.profilePicCameraOutlet.frame.size.width/2
+                     cell.profilePicCameraOutlet.image=newimg
+                     
+                     */
+                    
+                    /*
+                     cell.profilePicCameraOutlet.layer.masksToBounds = true
+                     cell.profilePicCameraOutlet.layer.cornerRadius = cell.profilePicCameraOutlet.frame.size.width/2
+                     */
+                    
+                    
+                    cell.cameraProfilePicOutlet.layer.borderWidth = 1.0
+                    cell.cameraProfilePicOutlet.layer.masksToBounds = false
+                    cell.cameraProfilePicOutlet.layer.borderColor = UIColor.whiteColor().CGColor
+                    cell.cameraProfilePicOutlet.layer.cornerRadius = cell.cameraProfilePicOutlet.frame.size.width/2
+                    cell.cameraProfilePicOutlet.clipsToBounds = true
+                    
+                    
+                    var w=tempimg!.size.width
+                    var h=tempimg!.size.height
+                    var wOld=(cell.cameraProfilePicOutlet.frame.width)
+                    var hOld=(cell.cameraProfilePicOutlet.frame.height)
+                    var scale:CGFloat=w/wOld
+                    
+                    cell.cameraProfilePicOutlet.image=UIImage(data: imgdata,scale: scale)
+                    //  cell.profilePicCameraOutlet.image=UIImage(data: imgdata)
+                    //Add the recognizer to your view.
+                    // chatImage.addGestureRecognizer(tapRecognizer)
+                    
+                    /* let tapRecognizerOld = UITapGestureRecognizer(target: self, action: Selector("imageTapped:"))
+                     
+                     cell.profilePicCameraOutlet.removeGestureRecognizer(tapRecognizerOld)
+                     */
+                    let tapRecognizer = UITapGestureRecognizer(target: self, action: Selector("imageEditTapped:"))
+                    
+                    cell.cameraProfilePicOutlet.addGestureRecognizer(tapRecognizer)
+                    
+                    let tapRecognizer2 = UITapGestureRecognizer(target: self, action: Selector("imageEditTapped:"))
+                    cell.btnEditProfilePicOutlet.addGestureRecognizer(tapRecognizer2)
+                }
+                else
+                {
+                    var tempimg=UIImage(named:"chat_camera")
+                    imgdata=UIImagePNGRepresentation(tempimg!)!
+                    cell.cameraProfilePicOutlet.layer.borderWidth = 1.0
+                    cell.cameraProfilePicOutlet.layer.masksToBounds = false
+                    cell.cameraProfilePicOutlet.layer.borderColor = UIColor.whiteColor().CGColor
+                    cell.cameraProfilePicOutlet.layer.cornerRadius = cell.cameraProfilePicOutlet.frame.size.width/2
+                    cell.cameraProfilePicOutlet.clipsToBounds = true
+                    
+                    
+                    var w=tempimg!.size.width
+                    var h=tempimg!.size.height
+                    var wOld=(cell.cameraProfilePicOutlet.frame.width)
+                    var hOld=(cell.cameraProfilePicOutlet.frame.height)
+                    var scale:CGFloat=wOld/w
+                    
+                    cell.cameraProfilePicOutlet.image=UIImage(data: imgdata,scale: scale)
+                    
+                    let tapRecognizer = UITapGestureRecognizer(target: self, action: Selector("imageTapped:"))
+                    //Add the recognizer to your view.
+                    // chatImage.addGestureRecognizer(tapRecognizer)
+                    
+                    cell.cameraProfilePicOutlet.addGestureRecognizer(tapRecognizer)
+                }
+                
+              //  return cell
+            
             
             return cell
             
@@ -968,6 +1059,250 @@ cell.lbl_groupAdmin.hidden=false
         }
         }
     }
+    
+
+    func imageEditTapped(gestureRecognizer: UITapGestureRecognizer) {
+        //tappedImageView will be the image view that was tapped.
+        //dismiss it, animate it off screen, whatever.
+        let shareMenu = UIAlertController(title: nil, message: nil, preferredStyle: .ActionSheet)
+        
+        let resetImage = UIAlertAction(title: "Reset Image", style: UIAlertActionStyle.Default,handler: { (action) -> Void in
+            
+            self.imgdata=NSData.init()
+            gestureRecognizer.view?.removeGestureRecognizer(gestureRecognizer)
+            self.tblGroupInfo.reloadData()
+            
+            //// self.removeChatHistory(self.ContactUsernames[indexPath.row],indexPath: indexPath)
+            
+            //call Mute delegate or method
+        })
+        
+        let SelectImage = UIAlertAction(title: "Select Image", style: UIAlertActionStyle.Default,handler: { (action) -> Void in
+            
+            self.selectImage(gestureRecognizer)
+            
+            // swipeindex=index
+            //self.performSegueWithIdentifier("groupInfoSegue", sender: nil)
+            //// self.removeChatHistory(self.ContactUsernames[indexPath.row],indexPath: indexPath)
+            
+            //call Mute delegate or method
+        })
+        
+        let cancel = UIAlertAction(title: "Cancel", style: UIAlertActionStyle.Cancel, handler: { (action) -> Void in
+            
+            // swipeindex=index
+            //self.performSegueWithIdentifier("groupInfoSegue", sender: nil)
+            //// self.removeChatHistory(self.ContactUsernames[indexPath.row],indexPath: indexPath)
+            
+            //call Mute delegate or method
+        })
+        shareMenu.addAction(resetImage)
+        shareMenu.addAction(SelectImage)
+        shareMenu.addAction(cancel)
+        
+        self.presentViewController(shareMenu, animated: true) {
+            
+            
+        }
+        
+        
+        //selectedImage=tappedImageView.image
+        // self.performSegueWithIdentifier("showFullImageSegue", sender: nil);
+        
+    }
+    
+    func selectImage(gestureRecognizer: UITapGestureRecognizer)
+    {
+        
+        let tappedImageView = gestureRecognizer.view
+        
+        var picker=UIImagePickerController.init()
+        picker.delegate=self
+        
+        picker.allowsEditing = true;
+        //picker.modalPresentationStyle = UIModalPresentationStyle.OverCurrentContext
+        // if(UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.PhotoLibrary))
+        //  {
+        
+        //savedPhotosAlbum
+        // picker.sourceType = UIImagePickerControllerSourceType.PhotoLibrary
+        //}
+        picker.sourceType = UIImagePickerControllerSourceType.PhotoLibrary
+        ////picker.mediaTypes=[kUTTypeMovie as NSString as String,kUTTypeMovie as NSString as String]
+        //[self presentViewController:picker animated:YES completion:NULL];
+        dispatch_async(dispatch_get_main_queue())
+        { () -> Void in
+            //  picker.addChildViewController(UILabel("hiiiiiiiiiiiii"))
+            
+            self.presentViewController(picker, animated: true,completion: {
+                print("done choosing image")
+                
+                tappedImageView!.removeGestureRecognizer(gestureRecognizer)
+            })
+        }
+        
+    }
+    
+    func imageTapped(gestureRecognizer: UITapGestureRecognizer) {
+        //tappedImageView will be the image view that was tapped.
+        //dismiss it, animate it off screen, whatever.
+        let tappedImageView = gestureRecognizer.view! as! UIImageView
+        
+        var picker=UIImagePickerController.init()
+        picker.delegate=self
+        
+        picker.allowsEditing = true;
+        //picker.modalPresentationStyle = UIModalPresentationStyle.OverCurrentContext
+        // if(UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.PhotoLibrary))
+        //  {
+        
+        //savedPhotosAlbum
+        // picker.sourceType = UIImagePickerControllerSourceType.PhotoLibrary
+        //}
+        picker.sourceType = UIImagePickerControllerSourceType.PhotoLibrary
+        ////picker.mediaTypes=[kUTTypeMovie as NSString as String,kUTTypeMovie as NSString as String]
+        //[self presentViewController:picker animated:YES completion:NULL];
+        dispatch_async(dispatch_get_main_queue())
+        { () -> Void in
+            //  picker.addChildViewController(UILabel("hiiiiiiiiiiiii"))
+            
+            self.presentViewController(picker, animated: true, completion: {
+                
+                //new
+                print("removing gesture")
+                tappedImageView.removeGestureRecognizer(gestureRecognizer)
+            })
+            
+        }
+        
+        //selectedImage=tappedImageView.image
+        // self.performSegueWithIdentifier("showFullImageSegue", sender: nil);
+        
+    }
+    
+    func imagePickerControllerDidCancel(picker: UIImagePickerController) {
+        
+        
+        self.dismissViewControllerAnimated(true, completion:{ ()-> Void in
+            print("cancelled and dismissing image picker")
+            // imgdata=NSData.init()
+            self.tblGroupInfo.reloadData()
+        })
+        
+        
+    }
+    func imagePickerController(picker: UIImagePickerController, didFinishPickingImage image: UIImage, editingInfo: [String : AnyObject]?) {
+        
+        
+        
+        //  var filesizenew=""
+        
+        
+        let imageUrl          = editingInfo![UIImagePickerControllerReferenceURL] as! NSURL
+        let imageName         = imageUrl.lastPathComponent
+        let documentDirectory = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true).first as String!
+        let photoURL          = NSURL(fileURLWithPath: documentDirectory)
+        let localPath         = photoURL.URLByAppendingPathComponent(imageName!)
+        let image             = editingInfo![UIImagePickerControllerOriginalImage]as! UIImage
+        let data              = UIImagePNGRepresentation(image)
+        
+        
+        imgdata              = UIImagePNGRepresentation(image)!
+        
+        
+        
+        if let imageURL = editingInfo![UIImagePickerControllerReferenceURL] as? NSURL {
+            let result = PHAsset.fetchAssetsWithALAssetURLs([imageURL], options: nil)
+            
+            
+            self.file_name1 = result.firstObject?.filename ?? ""
+            
+            // var myasset=result.firstObject as! PHAsset
+            ////print(myasset.mediaType)
+            
+            
+            
+        }
+        
+        ///
+        
+        var furl=NSURL(string: localPath.URLString)
+        
+        //print(furl!.pathExtension!)
+        //print(furl!.URLByDeletingPathExtension?.lastPathComponent!)
+        ftype=furl!.pathExtension!
+        var fname=furl!.URLByDeletingPathExtension?.lastPathComponent!
+        
+        
+        let dirPaths = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)
+        let docsDir1 = dirPaths[0]
+        var documentDir=docsDir1 as NSString
+        filePathImage2=documentDir.stringByAppendingPathComponent(self.file_name1)
+        var fm=NSFileManager.defaultManager()
+        
+        var fileAttributes:[String:AnyObject]=["":""]
+        do {
+            /// let fileAttributes : NSDictionary? = try NSFileManager.defaultManager().attributesOfItemAtPath(furl!.path!)
+            ///    let fileAttributes : NSDictionary? = try NSFileManager.defaultManager().attributesOfItemAtPath(imageUrl.path!)
+            let fileAttributes : NSDictionary? = try NSFileManager.defaultManager().attributesOfItemAtPath(filePathImage2)
+            if let _attr = fileAttributes {
+                self.fileSize1 = _attr.fileSize();
+            }
+        } catch {
+            //  socketObj.socket.emit("logClient","IPHONE-LOG: error: \(error)")
+            //print("Error:+++ \(error)")
+        }
+        
+        
+        //print("filename is \(self.filename) destination path is \(filePathImage2) image name \(imageName) imageurl \(imageUrl) photourl \(photoURL) localPath \(localPath).. \(localPath.absoluteString)")
+        
+        var s=fm.createFileAtPath(filePathImage2, contents: nil, attributes: nil)
+        
+        //  var written=fileData!.writeToFile(filePathImage2, atomically: false)
+        
+        //filePathImage2
+        print("before reloading, filePathImage2 is \(filePathImage2)")
+        data!.writeToFile(filePathImage2, atomically: true)
+        
+        
+        //====================================UPLOAD HERE===============================
+        if(self.imgdata != NSData.init())
+        {
+            print("profile image is selected")
+            print("call API to upload image")
+            
+            //save filename
+            
+            /////var filetype="png"
+            managerFile.uploadProfileImage(groupid,filePath1: self.filePathImage2,filename: self.file_name1,fileType: self.ftype,completion: {(result,error) in
+                
+            })
+            
+        }
+        
+        ///
+        
+        self.dismissViewControllerAnimated(true, completion:{ ()-> Void in
+            print("dismissing image picker")
+            print("selected image is \(image)")
+            self.tblGroupInfo.reloadData()
+        })
+        /* if let imageURL = editingInfo![UIImagePickerControllerReferenceURL] as? NSURL {
+         let result = PHAsset.fetchAssetsWithALAssetURLs([imageURL], options: nil)
+         
+         
+         self.filename = result.firstObject?.filename ?? ""
+         
+         // var myasset=result.firstObject as! PHAsset
+         //print(myasset.mediaType)
+         
+         
+         
+         }*/
+        
+        
+    }
+    
     
 
     

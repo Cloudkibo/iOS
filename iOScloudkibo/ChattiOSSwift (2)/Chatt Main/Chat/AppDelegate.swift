@@ -261,7 +261,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate,AppDelegateScreenDelegate 
         
         
         
-        let notificationTypes: UIUserNotificationType = [UIUserNotificationType.Alert, UIUserNotificationType.Badge, UIUserNotificationType.Sound]
+        let notificationTypes: UIUserNotificationType = [/*UIUserNotificationType.Alert, */UIUserNotificationType.Badge, UIUserNotificationType.Sound]
         
         //let notificationTypes: UIUserNotificationType = [UIUserNotificationType.None]
        

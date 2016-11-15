@@ -24,5 +24,8 @@ class GroupInfoCell:SWTableViewCell {
     @IBOutlet weak var btnClearChat: UIButton!
     @IBOutlet weak var profilePic_group: UIImageView!
     @IBOutlet weak var lbl_groupName: UILabel!
+    
+    @IBOutlet weak var cameraProfilePicOutlet: UIImageView!
 
+    @IBOutlet weak var btnEditProfilePicOutlet: UIButton!
 }
