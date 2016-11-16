@@ -3215,6 +3215,10 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
                     let shareMenu = UIAlertController(title: nil, message: nil, preferredStyle: .ActionSheet)
                     
                     let Mute = UIAlertAction(title: "Mute", style: UIAlertActionStyle.Default,handler: { (action) -> Void in
+                        
+                        var groupid=self.ContactUsernames[self.swipeindexRow]
+                        sqliteDB.UpdateMuteGroupStatus(groupid, isMute1: true)
+                        
                         //// self.removeChatHistory(self.ContactUsernames[indexPath.row],indexPath: indexPath)
                         
                         //call Mute delegate or method

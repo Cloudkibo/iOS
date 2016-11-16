@@ -152,6 +152,10 @@ class syncGroupService
                 let datens2 = dateFormatter.dateFromString(date_creation)
                 
                 sqliteDB.storeGroups(group_name, groupicon1: group_icon, datecreation1: datens2!, uniqueid1: unique_id, status1: "new")
+                
+                //=====MUTE GROUP====
+                sqliteDB.storeMuteGroupSettingsTable(unique_id, isMute1: false, muteTime1: NSDate(), unMuteTime1: NSDate())
+                
             }
         }
         catch{

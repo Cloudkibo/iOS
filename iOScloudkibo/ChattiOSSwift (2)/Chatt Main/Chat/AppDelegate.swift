@@ -2026,6 +2026,8 @@ else{
                     print("saving group single \(unique_id)")
                     sqliteDB.storeGroups(group_name, groupicon1: group_icon, datecreation1: datens2!, uniqueid1: unique_id, status1: "new")
 
+                    //=====MUTE GROUP====
+                    sqliteDB.storeMuteGroupSettingsTable(unique_id, isMute1: false, muteTime1: NSDate(), unMuteTime1: NSDate())
                     
                     return completion(result:true,error:nil)
                     
