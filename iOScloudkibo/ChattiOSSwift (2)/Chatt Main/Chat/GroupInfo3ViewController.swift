@@ -1323,7 +1323,12 @@ cell.lbl_groupAdmin.hidden=false
         
         subtitleLabel.font = UIFont.systemFontOfSize(12)
         subtitleLabel.text = subtitle
-        subtitleLabel.sizeToFit()
+      
+        subtitleLabel.adjustsFontSizeToFitWidth=false
+        subtitleLabel.lineBreakMode=NSLineBreakMode.ByTruncatingTail
+        
+        
+       //===== subtitleLabel.sizeToFit()
         
         // Create a view and add titleLabel and subtitleLabel as subviews setting
         let titleView = UIView(frame: CGRectMake(0, 0, max(titleLabel.frame.size.width, subtitleLabel.frame.size.width), 30))
@@ -1333,6 +1338,7 @@ cell.lbl_groupAdmin.hidden=false
             var adjustment = subtitleLabel.frame
             adjustment.origin.x = titleView.frame.origin.x + (titleView.frame.width/2) - (subtitleLabel.frame.width/2)
             subtitleLabel.frame = adjustment
+           
         } else {
             var adjustment = titleLabel.frame
             adjustment.origin.x = titleView.frame.origin.x + (titleView.frame.width/2) - (titleLabel.frame.width/2)

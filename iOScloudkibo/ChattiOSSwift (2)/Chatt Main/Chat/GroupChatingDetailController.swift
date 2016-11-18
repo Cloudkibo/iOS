@@ -44,6 +44,25 @@ class GroupChatingDetailController: UIViewController,UpdateGroupChatDetailsDeleg
         subtitleLabel.text = subtitle
         subtitleLabel.sizeToFit()
         
+        //===
+        let titleView = UIView(frame: CGRectMake(0, 0, max(titleLabel.frame.size.width, subtitleLabel.frame.size.width), 30))
+        titleView.addSubview(titleLabel)
+        titleView.addSubview(subtitleLabel)
+        
+        let widthDiff = subtitleLabel.frame.size.width - titleLabel.frame.size.width
+        
+        if widthDiff > 0 {
+            var frame = titleLabel.frame
+            frame.origin.x = widthDiff / 2
+            titleLabel.frame = CGRectIntegral(frame)
+        } else {
+            var frame = subtitleLabel.frame
+            frame.origin.x = abs(widthDiff) / 2
+            titleLabel.frame = CGRectIntegral(frame)
+        }
+
+        ///===
+        /*
         // Create a view and add titleLabel and subtitleLabel as subviews setting
         let titleView = UIView(frame: CGRectMake(0, 0, max(titleLabel.frame.size.width, subtitleLabel.frame.size.width), 30))
         
@@ -60,7 +79,7 @@ class GroupChatingDetailController: UIViewController,UpdateGroupChatDetailsDeleg
         
         titleView.addSubview(titleLabel)
         titleView.addSubview(subtitleLabel)
-        
+        */
         return titleView
     }
 
@@ -112,7 +131,15 @@ class GroupChatingDetailController: UIViewController,UpdateGroupChatDetailsDeleg
                 print("chat sent")
                 if(result==true)
                 {
-                    sqliteDB.updateGroupChatStatus(uniqueid_chat, memberphone1: username!,status1: "sent", delivereddate1: UtilityFunctions.init().minimumDate(), readDate1: UtilityFunctions.init().minimumDate())
+                    for(var i=0;i<self.membersList.count;i++)
+                    {
+                    if((self.membersList[i]["member_phone"] as! String) != username! && (self.membersList[i]["membership_status"] as! String) != "left")
+                    {
+                         sqliteDB.storeGRoupsChatStatus(uniqueid_chat, status1: "sent", memberphone1: self.membersList[i]["member_phone"]! as! String, delivereddate1: UtilityFunctions.init().minimumDate(), readDate1: UtilityFunctions.init().minimumDate())
+                    }
+                    }
+
+                   //==== sqliteDB.updateGroupChatStatus(uniqueid_chat, memberphone1: username!,status1: "sent", delivereddate1: UtilityFunctions.init().minimumDate(), readDate1: UtilityFunctions.init().minimumDate())
                     
                     UIDelegates.getInstance().UpdateGroupChatDetailsDelegateCall()
                 }
@@ -194,11 +221,11 @@ class GroupChatingDetailController: UIViewController,UpdateGroupChatDetailsDeleg
         self.navigationController?.title=mytitle
         
         
-        let swipeRecognizer = UISwipeGestureRecognizer(target: self, action: Selector("chatSwipped:"))
+       /* let swipeRecognizer = UISwipeGestureRecognizer(target: self, action: Selector("chatSwipped:"))
         //Add the recognizer to your view.
         swipeRecognizer.direction = .Left
         tblForGroupChat.addGestureRecognizer(swipeRecognizer)
-        
+        */
         UIDelegates.getInstance().delegateGroupChatDetails1=self
         membersList=sqliteDB.getGroupMembersOfGroup(self.groupid1)
         
@@ -224,9 +251,9 @@ class GroupChatingDetailController: UIViewController,UpdateGroupChatDetailsDeleg
             }
         }
         var subtitleMembers=namesList.joinWithSeparator(",")
-        self.navigationItem.titleView = setTitle(mytitle, subtitle: subtitleMembers)
-        
-
+      self.navigationItem.titleView = setTitle(mytitle, subtitle: subtitleMembers)
+       // self.navigationItem.title = mytitle
+       // self.navigationItem.prompt=subtitleMembers
         
         self.retrieveChatFromSqlite { (result) in
             
@@ -528,15 +555,17 @@ class GroupChatingDetailController: UIViewController,UpdateGroupChatDetailsDeleg
     }
     
     
-    func chatSwipped(sender:UISwipeGestureRecognizer)
+   /* func chatSwipped(sender:UISwipeGestureRecognizer)
     {
         let gesture:UISwipeGestureRecognizer = sender as! UISwipeGestureRecognizer
         if(gesture.direction == .Left)
         {
             
             var location = gesture.locationInView(tblForGroupChat)
+            print("swipe location is \(location)")
             var swipedIndexPath = tblForGroupChat.indexPathForRowAtPoint(location)
             swipedRow=swipedIndexPath!.row
+            print("swiped row is \(swipedRow)")
            var swipedCell  = tblForGroupChat.cellForRowAtIndexPath(swipedIndexPath!)
 
             
@@ -549,7 +578,7 @@ class GroupChatingDetailController: UIViewController,UpdateGroupChatDetailsDeleg
         }
        
         
-    }
+    }*/
     
      func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         
@@ -570,6 +599,7 @@ class GroupChatingDetailController: UIViewController,UpdateGroupChatDetailsDeleg
             var cell = tblForGroupChat.dequeueReusableCellWithIdentifier("ChatReceivedCell")! as UITableViewCell
             let msgLabel = cell.viewWithTag(12) as! UILabel
             let chatImage = cell.viewWithTag(1) as! UIImageView
+            let timeLabel = cell.viewWithTag(11) as! UILabel
             
             
             
@@ -589,8 +619,32 @@ class GroupChatingDetailController: UIViewController,UpdateGroupChatDetailsDeleg
             
             msgLabel.frame = CGRectMake(36 + distanceFactor, msgLabel.frame.origin.y, msgLabel.frame.size.width, sizeOFStr.height)
             
+            // //print("date received in chat is \(date2.debugDescription)")
+            var formatter = NSDateFormatter();
+            formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSS";
+            //formatter.dateFormat = "MM/dd, HH:mm";
+            formatter.timeZone = NSTimeZone.localTimeZone()
+            var defaultTimeZoneStr = formatter.dateFromString(date2.debugDescription)
+            //print("defaultTimeZoneStr \(defaultTimeZoneStr)")
             
-            
+            if(defaultTimeZoneStr == nil)
+            {
+                timeLabel.text=date2.debugDescription
+                
+            }
+            else
+            {
+                var formatter2 = NSDateFormatter();
+                formatter2.timeZone=NSTimeZone.localTimeZone()
+                formatter2.dateFormat = "MM/dd, HH:mm";
+                var displaydate=formatter2.stringFromDate(defaultTimeZoneStr!)
+                //formatter.dateFormat = "MM/dd, HH:mm";
+                
+                timeLabel.frame = CGRectMake(36 + distanceFactor, timeLabel.frame.origin.y, timeLabel.frame.size.width, timeLabel.frame.size.height)
+                
+                timeLabel.text=displaydate
+
+            }
             
             msgLabel.text=msg as! String
             return cell
@@ -609,8 +663,11 @@ class GroupChatingDetailController: UIViewController,UpdateGroupChatDetailsDeleg
             let msgLabel = cell.viewWithTag(12) as! UILabel
             
             let chatImage = cell.viewWithTag(1) as! UIImageView
+            let nameLabel = cell.viewWithTag(15) as! UILabel
+           
+            let timeLabel = cell.viewWithTag(11) as! UILabel
             
-            chatImage.frame = CGRectMake(chatImage.frame.origin.x, chatImage.frame.origin.y, ((sizeOFStr.width + 100)  > 200 ? (sizeOFStr.width + 100) : 200), sizeOFStr.height + 40)
+            chatImage.frame = CGRectMake(chatImage.frame.origin.x, chatImage.frame.origin.y, ((sizeOFStr.width + 100)  > 200 ? (sizeOFStr.width + 100) : 200), sizeOFStr.height + 60)
             chatImage.image = UIImage(named: "chat_receive")?.stretchableImageWithLeftCapWidth(40,topCapHeight: 20);
             //******
             
@@ -618,7 +675,20 @@ class GroupChatingDetailController: UIViewController,UpdateGroupChatDetailsDeleg
             msgLabel.frame = CGRectMake(msgLabel.frame.origin.x, msgLabel.frame.origin.y, msgLabel.frame.size.width, sizeOFStr.height)
             
             
-            let nameLabel = cell.viewWithTag(15) as! UILabel
+            
+            var formatter = NSDateFormatter();
+            formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSS";
+            //formatter.dateFormat = "MM/dd, HH:mm";
+            formatter.timeZone = NSTimeZone.localTimeZone()
+            var defaultTimeZoneStr = formatter.dateFromString(date2.debugDescription)
+            //print("defaultTimeZoneStr \(defaultTimeZoneStr)")
+            
+            var formatter2 = NSDateFormatter();
+            formatter2.timeZone=NSTimeZone.localTimeZone()
+            formatter2.dateFormat = "MM/dd, HH:mm";
+            var displaydate=formatter2.stringFromDate(defaultTimeZoneStr!)
+            
+            timeLabel.text = displaydate
             nameLabel.textColor=UIColor.blueColor()
             nameLabel.text=fullname as! String
             msgLabel.text=msg as! String

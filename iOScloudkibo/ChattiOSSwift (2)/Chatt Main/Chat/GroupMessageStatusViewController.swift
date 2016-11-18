@@ -31,26 +31,24 @@ class GroupMessageStatusViewController: UIViewController {
     
     override func viewWillAppear(animated: Bool)
     {
+        
+        /*
+    
+         let msg_unique_id = Expression<String>("msg_unique_id")
+         let Status = Expression<String>("Status")
+         
+         let user_phone = Expression<String>("user_phone")
+         
+         let read_date = Expression<NSDate>("read_date")
+         let delivered_date = Expression<NSDate>("delivered_date")
+        
+         */
+        
+        print("here inside groupmessagestatus view unique id is \(message_unique_id)")
         self.readBy=sqliteDB.getGroupsChatReadStatusList(message_unique_id)
         self.deliveredTo=sqliteDB.getGroupsChatDeliveredStatusList(message_unique_id)
-    }
     
-   /* func retrieveChatFromSqlite(completion:(result:Bool)->())
-    {
-        print("retrieveChatFromSqlite called---------")
-        ///^^messages.removeAllObjects()
-        let messages2=NSMutableArray()
-        var statusObjectsList=sqliteDB.getGroupsChatStatusObjectList(message_ubique_id)
-        
-        for(var i=0;i<statusObjectsList.count;i++)
-        {
-            messages2.addObject(["msg_unique_id":statusObjectsList[i]["msg_unique_id"] as! String, "Status":statusObjectsList[i]["Status"] as! String, "user_phone":statusObjectsList[i]["user_phone"] as! String,"read_date":statusObjectsList[i]["read_date"] as! NSDate, "delivered_date":statusObjectsList[i]["delivered_date"] as! NSDate])
-        }
-        
-        messages.setArray(messages2 as [AnyObject])
-        completion(result:true)
-        
-    }*/
+    }
     
     //getGroupsChatStatusObjectList
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -68,7 +66,7 @@ class GroupMessageStatusViewController: UIViewController {
     
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat
     {
-        return 60
+        return 200
     }
     
     func numberOfSectionsInTableView(tableView: UITableView) -> Int
@@ -88,6 +86,21 @@ class GroupMessageStatusViewController: UIViewController {
        
         
     }
+    
+    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+        
+        let cell = tblMessageInfo.dequeueReusableCellWithIdentifier("messageInfoCell")! as UITableViewCell
+        var name=cell.viewWithTag(1) as! UILabel
+        if(indexPath.row<readBy.count)
+        {
+        name.text=sqliteDB.getNameGroupMemberNameFromMembersTable(readBy[indexPath.row]["user_phone"] as! String)
+        }
+        
+        return cell
+        
+        
+    }
+    
     
     
     

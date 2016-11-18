@@ -2842,33 +2842,7 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
                 destinationVC.ContactOnlineStatus=ContactOnlineStatus[selectedRow]
                 print("destinationnnnnn....")
                 print("Selectedrow is \(selectedRow)... username is \(ContactUsernames[selectedRow]) firstname is \(ContactFirstname[selectedRow]) lastname is \(ContactLastNAme[selectedRow]) fullname is \(ContactNames)")
-                //destinationVC.AuthToken = self.AuthToken
-                
-                //
-                /* var getUserbByIdURL=Constants.MainUrl+Constants.getSingleUserByID+ContactIDs[selectedRow]+"?access_token="+AuthToken
-                print(getUserbByIdURL.debugDescription+"..........")
-                Alamofire.request(.GET,"\(getUserbByIdURL)").response{
-                request, response, data, error in
-                print(error)
-                
-                if response?.statusCode==200
-                
-                {
-                print("got userrrrrrr")
-                print(data?.debugDescription)
-                print(":::::::::")
-                destinationVC.selectedUserObj=JSON(data!)
-                }
-                else
-                {
-                print("didnt get userrrrr")
-                print(error)
-                print(data)
-                print(response)
-                }
-                }*/
-                
-                //
+            
             }
         }
         if segue!.identifier == "newChat" {
@@ -2899,7 +2873,63 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
               //  destinationVC.mytitle=ContactNames[selectedRow]
                 destinationVC.groupid=ContactUsernames[selectedRow]
             }}
+        
+        if segue!.identifier == "contactDetailsFromChatSegue" {
+            print("contactDetailsFromChatSegue")
+            
+            let contactsDetailController = segue!.destinationViewController as? contactsDetailsTableViewController
+            
+            if let viewController = contactsDetailController {
+                let selectedRow = swipeindexRow
+                
+                var indexnew=getAddressBookIndex(ContactUsernames[selectedRow])
+                contactsDetailController?.contactIndex=indexnew
+                //contactsDetailController?.contactIndex=tblForNotes.indexPathForSelectedRow!.row
+                //var cell=tblForNotes.cellForRowAtIndexPath(tblForNotes.indexPathForSelectedRow!) as! AllContactsCell
+                
 
+                if(ContactStatus[selectedRow] != "")
+                {
+                    contactsDetailController?.isKiboContact = true
+                    //print("hidden falseeeeeee")
+                }
+                
+    
+            }}
+    }
+    
+    func getAddressBookIndex(phone1:String)->Int
+    {
+        var allcontactslist1=sqliteDB.allcontacts
+        
+        
+        let phone = Expression<String>("phone")
+        let kibocontact = Expression<Bool>("kiboContact")
+        let name = Expression<String?>("name")
+        let email = Expression<String?>("email")
+        
+        //alladdressContactsArray = Array(try sqliteDB.db.prepare(allcontactslist1))
+        
+        var alladdressContactsArray=Array<Row>()
+        //////configureSearchController()
+        var newindexphone = -1
+        do
+        { alladdressContactsArray = Array(try sqliteDB.db.prepare(allcontactslist1))
+            for (var i=0;i<alladdressContactsArray.count;i++)
+            {
+                if(alladdressContactsArray[i].get(phone)==phone1)
+                {
+                    newindexphone=i
+                }
+                
+            }
+        }
+        catch
+        {
+            print("error in finding index in addressbook")
+        }
+        
+        return newindexphone
     }
     
     
@@ -3207,9 +3237,9 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
     
         print("RightUtilityButton index of more is \(index)")
             if(editButtonOutlet.title=="Edit")
-                
-                //UITableViewCellEditingStyle
-            {
+            {//UITableViewCellEditingStyle
+             if(ChatType[swipeindexRow] != "single")
+                {
                 //let more = UITableViewRowAction(style: .Normal, title: "More") { action, index in
                     print("more button tapped")
                     let shareMenu = UIAlertController(title: nil, message: nil, preferredStyle: .ActionSheet)
@@ -3237,6 +3267,7 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
                         //// self.removeChatHistory(self.ContactUsernames[indexPath.row],indexPath: indexPath)
                         
                         //call Mute delegate or method
+                        
                     })
                     
                     let ClearChat = UIAlertAction(title: "Clear Chat", style: UIAlertActionStyle.Default,handler: { (action) -> Void in
@@ -3278,8 +3309,41 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
                     })
                 //}
             }
-      //  }
+            else
+            {
+                //if single chat
+                //if exists in addressbook
+                var newindex=getAddressBookIndex(self.ContactUsernames[swipeindexRow])
+                if(newindex != -1)
+                {
+                    
+                    let shareMenu = UIAlertController(title: nil, message: nil, preferredStyle: .ActionSheet)
+                
+                    let contactinfo = UIAlertAction(title: "Contact Info", style: UIAlertActionStyle.Default,handler: { (action) -> Void in
+                    //segue to contact info page
+                    //contactDetailsSegue
+                    
+                    self.performSegueWithIdentifier("contactDetailsFromChatSegue", sender: nil)
+                   })
+                    
+                    let cancelAction = UIAlertAction(title: "Cancel", style: UIAlertActionStyle.Cancel, handler: { (action) -> Void in
+                        
+                    
+                    })
+    
+                    shareMenu.addAction(contactinfo)
+                    shareMenu.addAction(cancelAction)
+
+                    self.presentViewController(shareMenu, animated: true, completion: {
+                        
+                    })
+                }
+                
+                }
+    } // if edit
+    
     }
+    
     
     
     func swipeableTableViewCellShouldHideUtilityButtonsOnSwipe(cell: SWTableViewCell!) -> Bool {
