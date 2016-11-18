@@ -467,7 +467,7 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
                             
                             /*
                              let formatter = NSDateFormatter()
-                             formatter.dateFormat = "MM/dd, HH:mm";
+                             formatter.dateFormat = "MM/dd HH:mm";
                              // formatter.dateStyle = NSDateFormatterStyle.ShortStyle
                              //formatter.timeStyle = .ShortStyle
                              
@@ -1534,7 +1534,7 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
             ContactLastNAme.append("")
             
             var formatter2 = NSDateFormatter();
-            formatter2.dateFormat = "MM/dd, HH:mm"
+            formatter2.dateFormat = "MM/dd HH:mm"
             formatter2.timeZone = NSTimeZone.localTimeZone()
             ///////////////==========var defaultTimeeee = formatter2.stringFromDate(defaultTimeZoneStr!)
             var defaultTimeeee = formatter2.stringFromDate(groupsObjectList[i]["date_creation"] as! NSDate)
@@ -1614,7 +1614,7 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
                 
                 // var formatter = NSDateFormatter();
                 //formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSS";
-                //formatter.dateFormat = "MM/dd, HH:mm";
+                //formatter.dateFormat = "MM/dd HH:mm";
                 //formatter.timeZone = NSTimeZone(name: "UTC")
                 // formatter.timeZone = NSTimeZone.localTimeZone()
                 ////////////==========var defaultTimeZoneStr = formatter.dateFromString(ccc[date])
@@ -1622,7 +1622,7 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
                 
                 
                 var formatter2 = NSDateFormatter();
-                formatter2.dateFormat = "MM/dd, HH:mm"
+                formatter2.dateFormat = "MM/dd HH:mm"
                 formatter2.timeZone = NSTimeZone.localTimeZone()
                 ///////////////==========var defaultTimeeee = formatter2.stringFromDate(defaultTimeZoneStr!)
                 var defaultTimeeee = formatter2.stringFromDate(ccclastmsg[date])
@@ -1721,14 +1721,14 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
             /*
             var formatter = NSDateFormatter();
             formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSS";
-            //formatter.dateFormat = "MM/dd, HH:mm";
+            //formatter.dateFormat = "MM/dd HH:mm";
             formatter.timeZone = NSTimeZone.localTimeZone()
             var defaultTimeZoneStr = formatter.dateFromString(ccc[date])
             print("defaultTimeZoneStr \(defaultTimeZoneStr)")
             
             var formatter2 = NSDateFormatter();
             formatter2.timeZone=NSTimeZone.localTimeZone()
-            formatter2.dateFormat = "MM/dd, HH:mm";
+            formatter2.dateFormat = "MM/dd HH:mm";
             var displaydate=formatter2.stringFromDate(defaultTimeZoneStr!)
  */
            // timeLabel.text=displaydate
@@ -1739,7 +1739,7 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
             var formatter = NSDateFormatter();
           //  formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ";
             formatter.dateFormat = "yyyy-MM-dd HH:mm:ss ZZZ"
-            //formatter.dateFormat = "MM/dd, HH:mm";
+            //formatter.dateFormat = "MM/dd HH:mm";
             formatter.timeZone = NSTimeZone.localTimeZone()
             //formatter.dateStyle = .ShortStyle
             //formatter.timeStyle = .ShortStyle
@@ -1752,7 +1752,7 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
             
            // var date22=NSDate()
             let formatter2 = NSDateFormatter()
-            formatter2.dateFormat = "MM/dd, HH:mm"
+            formatter2.dateFormat = "MM/dd HH:mm"
             /////// formatter.dateStyle = NSDateFormatterStyle.ShortStyle
             //////formatter.timeStyle = .ShortStyle
             
@@ -1831,7 +1831,7 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
                 
                 // var formatter = NSDateFormatter();
                 //formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSS";
-                //formatter.dateFormat = "MM/dd, HH:mm";
+                //formatter.dateFormat = "MM/dd HH:mm";
                 //formatter.timeZone = NSTimeZone(name: "UTC")
                 // formatter.timeZone = NSTimeZone.localTimeZone()
                 ////////////==========var defaultTimeZoneStr = formatter.dateFromString(ccc[date])
@@ -1839,7 +1839,7 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
                 
                 
                 var formatter2 = NSDateFormatter();
-                formatter2.dateFormat = "MM/dd, HH:mm"
+                formatter2.dateFormat = "MM/dd HH:mm"
                 formatter2.timeZone = NSTimeZone.localTimeZone()
                 ///////////////==========var defaultTimeeee = formatter2.stringFromDate(defaultTimeZoneStr!)
                 var defaultTimeeee = formatter2.stringFromDate(ccclastmsg[date])

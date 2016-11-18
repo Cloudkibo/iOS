@@ -25,7 +25,7 @@ class CallHistoryTableViewController: UIViewController,UITableViewDelegate,UITab
         /*
         var date22=NSDate()
         var formatter = NSDateFormatter();
-        formatter.dateFormat = "MM/dd, HH:mm";
+        formatter.dateFormat = "MM/dd HH:mm";
         formatter.timeZone = NSTimeZone.localTimeZone()
         ////formatter.dateStyle = .ShortStyle
         //formatter.timeStyle = .ShortStyle
@@ -71,7 +71,7 @@ class CallHistoryTableViewController: UIViewController,UITableViewDelegate,UITab
     {
         var date22=NSDate()
         var formatter = NSDateFormatter();
-        formatter.dateFormat = "MM/dd, HH:mm";
+        formatter.dateFormat = "MM/dd HH:mm";
         formatter.timeZone = NSTimeZone.localTimeZone()
         ////formatter.dateStyle = .ShortStyle
         //formatter.timeStyle = .ShortStyle

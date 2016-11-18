@@ -1269,7 +1269,7 @@ class LoginAPI{
             
             /*
             let formatter = NSDateFormatter()
-            formatter.dateFormat = "MM/dd, HH:mm";
+            formatter.dateFormat = "MM/dd HH:mm";
            // formatter.dateStyle = NSDateFormatterStyle.ShortStyle
             //formatter.timeStyle = .ShortStyle
             

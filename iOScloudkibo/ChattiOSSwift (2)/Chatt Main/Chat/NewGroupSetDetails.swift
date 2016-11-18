@@ -13,8 +13,11 @@ import SQLite
 import Photos
 import AssetsLibrary
 
-class NewGroupSetDetails: UITableViewController,UINavigationControllerDelegate,UIImagePickerControllerDelegate{
+class NewGroupSetDetails: UITableViewController,UINavigationControllerDelegate,UIImagePickerControllerDelegate,UITextFieldDelegate{
 
+    
+    var activeTextField = UITextField()
+    @IBOutlet weak var btnCreateGroupOutlet: UIBarButtonItem!
     var filePathImage2=""
     var ftype=""
     var fileSize1:UInt64=0
@@ -44,6 +47,24 @@ class NewGroupSetDetails: UITableViewController,UINavigationControllerDelegate,U
 
     }
     
+   
+    func textFieldDidChange(textField: UITextField) {
+        print("textfield editing")
+    //var cell=tblNewGroupDetails.cellForRowAtIndexPath(NSIndexPath(forRow: 0, inSection: 0)) as! ContactsListCell
+       // let cell=tblNewGroupDetails.dequeueReusableCellWithIdentifier("NewGroupDetailsCell") as! ContactsListCell
+        
+    if(!textField.text!.isEmpty)
+    {
+        
+    btnCreateGroupOutlet.enabled = true
+    
+    }
+    else
+    {
+    btnCreateGroupOutlet.enabled = false
+    }
+}
+    
     @IBAction func btnCreateGroupDone(sender: AnyObject) {
         //create group
         //save data in sqlite
@@ -70,6 +91,7 @@ class NewGroupSetDetails: UITableViewController,UINavigationControllerDelegate,U
         var cell=tblNewGroupDetails.cellForRowAtIndexPath(NSIndexPath(forRow: 0, inSection: 0)) as! ContactsListCell
         
         groupname=cell.groupNameFieldOutlet.text!
+        
         var memberphones=[String]()
         var membersnames=[String]()
         for(var i=0;i<participants.count;i++)
@@ -374,7 +396,8 @@ class NewGroupSetDetails: UITableViewController,UINavigationControllerDelegate,U
         let cell=tblNewGroupDetails.dequeueReusableCellWithIdentifier("NewGroupDetailsCell") as! ContactsListCell
         "NewGroupParticipantsCell"
             
-            
+            cell.groupNameFieldOutlet.delegate=self
+            cell.groupNameFieldOutlet.addTarget(self, action: "textFieldDidChange:", forControlEvents: UIControlEvents.EditingChanged)
             cell.btn_edit_profilePic.hidden=true
             groupname=cell.groupNameFieldOutlet.text!
             if(imgdata != NSData.init())
@@ -689,11 +712,22 @@ class NewGroupSetDetails: UITableViewController,UINavigationControllerDelegate,U
         
 
     }
-    
+    override func viewWillAppear(animated: Bool) {
+        let cell=tblNewGroupDetails.dequeueReusableCellWithIdentifier("NewGroupDetailsCell") as! ContactsListCell
+        //cell=tblNewGroupDetails.cellForRowAtIndexPath(NSIndexPath(forRow: 0, inSection: 0)) as! ContactsListCell
+        cell.groupNameFieldOutlet.delegate=self
+
+      //  btnCreateGroupOutlet.enabled=false
+       
+    }
     
     override func viewDidLoad() {
           //sqliteDB.db. groups.delete()
+        btnCreateGroupOutlet.enabled=false
+        
     }
+    
+    
     
     override func tableView(tableView: UITableView, willDisplayCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath) {
         

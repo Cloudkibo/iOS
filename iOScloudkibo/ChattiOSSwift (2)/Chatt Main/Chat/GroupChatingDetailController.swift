@@ -277,9 +277,30 @@ class GroupChatingDetailController: UIViewController,UpdateGroupChatDetailsDeleg
        //   self.navigationItem.titleView = setTitle(mytitle, subtitle: "Sumaira,xyz,abc")
         messages=NSMutableArray()
         
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("keyboardWillShow:"), name: UIKeyboardWillShowNotification, object: nil)
+        
+        NSNotificationCenter.defaultCenter().removeObserver(self, name:UIApplicationWillResignActiveNotification, object: nil)
+        
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("applicationWillResignActive:"), name:UIApplicationWillResignActiveNotification, object: nil)
+        
+        //
+        
+        NSNotificationCenter.defaultCenter().removeObserver(self, name:UIKeyboardWillShowNotification, object: nil)
+        
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("applicationDidBecomeActive:"), name:UIApplicationDidBecomeActiveNotification, object: nil)
+        
+        
+        
+        
+        NSNotificationCenter.defaultCenter().removeObserver(self, name:UIKeyboardWillShowNotification, object: nil)
+        
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("keyboardWillShow:"), name:UIKeyboardWillShowNotification, object: nil)
+        
         NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("keyboardWillHide:"), name: UIKeyboardWillHideNotification, object: nil)
         
+
+       /* NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("keyboardWillShow:"), name: UIKeyboardWillShowNotification, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("keyboardWillHide:"), name: UIKeyboardWillHideNotification, object: nil)
+        */
         var filedata=sqliteDB.getFilesData(groupid1)
         if(filedata.count>0)
         {
@@ -330,6 +351,28 @@ class GroupChatingDetailController: UIViewController,UpdateGroupChatDetailsDeleg
 
 
     }
+    
+    func applicationDidBecomeActive(notification : NSNotification)
+    {print("app active chat details view")
+        //print("didbecomeactivenotification=========")
+        //  NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("applicationWillResignActive:"), name:UIApplicationWillResignActiveNotification, object: nil)
+        
+        //
+        //   NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("applicationDidBecomeActive:"), name:UIApplicationDidBecomeActiveNotification, object: nil)
+        NSNotificationCenter.defaultCenter().removeObserver(self, name:UIKeyboardWillShowNotification, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("keyboardWillShow:"), name:UIKeyboardWillShowNotification, object: nil)
+        
+        
+        UIDelegates.getInstance().delegateGroupChatDetails1=self
+        //// NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("willHideKeyBoard:"), name:UIKeyboardWillHideNotification, object: nil)
+    }
+    func applicationWillResignActive(notification : NSNotification){
+        /////////self.view.endEditing(true)
+        //print("applicationWillResignActive=========")
+        NSNotificationCenter.defaultCenter().removeObserver(self, name:UIKeyboardWillShowNotification, object: nil)
+        
+    }
+    
 
     func getDateString(datetime:NSDate)->String
     {
@@ -372,7 +415,7 @@ class GroupChatingDetailController: UIViewController,UpdateGroupChatDetailsDeleg
                 /*
                  var formatter = NSDateFormatter();
                  formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSS";
-                 //formatter.dateFormat = "MM/dd, HH:mm";
+                 //formatter.dateFormat = "MM/dd HH:mm";
                  formatter.timeZone = NSTimeZone(name: "UTC")
                  */
                 // formatter.timeZone = NSTimeZone.localTimeZone()
@@ -622,10 +665,11 @@ class GroupChatingDetailController: UIViewController,UpdateGroupChatDetailsDeleg
             // //print("date received in chat is \(date2.debugDescription)")
             var formatter = NSDateFormatter();
             formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSS";
-            //formatter.dateFormat = "MM/dd, HH:mm";
+            //formatter.dateFormat = "MM/dd HH:mm";
             formatter.timeZone = NSTimeZone.localTimeZone()
             var defaultTimeZoneStr = formatter.dateFromString(date2.debugDescription)
             //print("defaultTimeZoneStr \(defaultTimeZoneStr)")
+            timeLabel.frame = CGRectMake(36 + distanceFactor, msgLabel.frame.origin.y+msgLabel.frame.height+10, chatImage.frame.size.width-46, timeLabel.frame.size.height)
             
             if(defaultTimeZoneStr == nil)
             {
@@ -636,11 +680,13 @@ class GroupChatingDetailController: UIViewController,UpdateGroupChatDetailsDeleg
             {
                 var formatter2 = NSDateFormatter();
                 formatter2.timeZone=NSTimeZone.localTimeZone()
-                formatter2.dateFormat = "MM/dd, HH:mm";
+                formatter2.dateFormat = "MM/dd HH:mm";
                 var displaydate=formatter2.stringFromDate(defaultTimeZoneStr!)
-                //formatter.dateFormat = "MM/dd, HH:mm";
+                //formatter.dateFormat = "MM/dd HH:mm";
                 
-                timeLabel.frame = CGRectMake(36 + distanceFactor, timeLabel.frame.origin.y, timeLabel.frame.size.width, timeLabel.frame.size.height)
+                
+                
+               //== uncomment later timeLabel.frame = CGRectMake(36 + distanceFactor, timeLabel.frame.origin.y, timeLabel.frame.size.width, timeLabel.frame.size.height)
                 
                 timeLabel.text=displaydate
 
@@ -678,15 +724,16 @@ class GroupChatingDetailController: UIViewController,UpdateGroupChatDetailsDeleg
             
             var formatter = NSDateFormatter();
             formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSS";
-            //formatter.dateFormat = "MM/dd, HH:mm";
+            //formatter.dateFormat = "MM/dd HH:mm";
             formatter.timeZone = NSTimeZone.localTimeZone()
             var defaultTimeZoneStr = formatter.dateFromString(date2.debugDescription)
             //print("defaultTimeZoneStr \(defaultTimeZoneStr)")
             
             var formatter2 = NSDateFormatter();
             formatter2.timeZone=NSTimeZone.localTimeZone()
-            formatter2.dateFormat = "MM/dd, HH:mm";
+            formatter2.dateFormat = "MM/dd HH:mm";
             var displaydate=formatter2.stringFromDate(defaultTimeZoneStr!)
+            timeLabel.frame = CGRectMake(msgLabel.frame.origin.x, msgLabel.frame.origin.y+msgLabel.frame.height+10, chatImage.frame.size.width-46, timeLabel.frame.size.height)
             
             timeLabel.text = displaydate
             nameLabel.textColor=UIColor.blueColor()

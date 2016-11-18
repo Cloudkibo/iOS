@@ -633,7 +633,7 @@ class DisplayNameViewController: UIViewController {
                             print("fetch all date from server in installation got is \(UserchatJson["msg"][i]["date"].string!)... converted is \(datens2.debugDescription)")
                             
                             /*let formatter = NSDateFormatter()
-                            formatter.dateFormat = "MM/dd, HH:mm";
+                            formatter.dateFormat = "MM/dd HH:mm";
                             //formatter.dateStyle = NSDateFormatterStyle.ShortStyle
                             //formatter.timeStyle = .ShortStyle
                             
