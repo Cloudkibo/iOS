@@ -733,7 +733,7 @@ class GroupChatingDetailController: UIViewController,UpdateGroupChatDetailsDeleg
             formatter2.timeZone=NSTimeZone.localTimeZone()
             formatter2.dateFormat = "MM/dd HH:mm";
             var displaydate=formatter2.stringFromDate(defaultTimeZoneStr!)
-            timeLabel.frame = CGRectMake(msgLabel.frame.origin.x, msgLabel.frame.origin.y+msgLabel.frame.height+10, chatImage.frame.size.width-46, timeLabel.frame.size.height)
+            timeLabel.frame = CGRectMake(msgLabel.frame.origin.x, msgLabel.frame.origin.y+msgLabel.frame.height+5, chatImage.frame.size.width-46, timeLabel.frame.size.height)
             
             timeLabel.text = displaydate
             nameLabel.textColor=UIColor.blueColor()

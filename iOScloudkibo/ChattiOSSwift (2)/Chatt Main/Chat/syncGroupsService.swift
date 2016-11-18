@@ -65,6 +65,51 @@ class syncGroupService
         }
     }
     
+    func startSyncGroupsServiceOnLaunch(completion:(result:Bool,error:String!)->())
+    {
+        if(accountKit == nil){
+            accountKit = AKFAccountKit(responseType: AKFResponseType.AccessToken)
+        }
+        
+        
+        if (accountKit!.currentAccessToken != nil) {
+            
+            
+            var Q5_fetchAllGroupsData=dispatch_queue_create("fetchAllGroupsData",DISPATCH_QUEUE_SERIAL)
+            dispatch_async(Q5_fetchAllGroupsData,{
+                print("synccccc fetching contacts in background on launch...")
+                self.SyncGroupsAPI{ (result,error,groupinfo) in
+                    if(groupinfo != nil)
+                    {
+                        self.fullRefreshGroupsInfo(groupinfo){ (result,error) in
+                            
+                            
+                            self.SyncGroupMembersAPI(){(result,error,groupinfo) in
+                                print("...")
+                                
+                                // UtilityFunctions.init().downloadProfileImage("9Mm0S3b201611817744")
+                            }
+                            /* self.fullRefreshMembersInfo(groupinfo){ (result,error) in
+                             print("sync groups data done")
+                             if(result == true)
+                             {
+                             return completion(result: true, error: nil)
+                             }
+                             else{
+                             return completion(result: false, error: error)
+                             }
+                             }*/
+                            
+                        }}
+                    else
+                    {
+                        return completion(result: true, error: nil)
+                    }
+                }
+            })
+        }
+    }
+    
     func startPartialGroupsChatSyncService()
     {
         

@@ -849,14 +849,16 @@ class DisplayNameViewController: UIViewController {
                                                                 {
                                                                 self.fetchChatsFromServer({ (result) -> () in
                                                                     
-                                                                    dispatch_async(dispatch_get_main_queue())
-                                                                        {
+                                                                   // dispatch_async(dispatch_get_main_queue())
+                                                                       // {
                                                                             self.messageFrame.removeFromSuperview()
                                                                             self.progressBarDisplayer("Setting Groups", true)
                                                                             dispatch_async(self.Q5_fetchAllGroupsData,
                                                                                 {
                                                                                     var syncGroupsObj=syncGroupService.init()
-                                                                                    syncGroupsObj.startSyncGroupsService({ (result) -> () in
+                                                                                    //==uncomment latersyncGroupsObj.startSyncGroupsService({ (result) -> () in
+                                                                                    
+                                                                                    syncGroupsObj.startSyncGroupsServiceOnLaunch({ (result) -> () in
                                                                                     //result
                                                                                     dispatch_async(dispatch_get_main_queue())
                                                                                     {
@@ -869,7 +871,7 @@ class DisplayNameViewController: UIViewController {
                                                                     }
                                                                                     })
                                                                             })
-                                                                    }
+                                                                   // }
                                                                 })
                                                         })
                                                     })

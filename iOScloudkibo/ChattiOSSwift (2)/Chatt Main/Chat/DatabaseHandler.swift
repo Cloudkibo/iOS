@@ -1062,11 +1062,13 @@ class DatabaseHandler:NSObject{
             var alreadyexists=false
             for res in try sqliteDB.db.prepare(tbl_userchats.filter(uniqueID == uniqueid1))
             {
+               // print("chat already exists")
                 alreadyexists=true
             }
             
             if(alreadyexists==false)
 {
+    print("adding chat \(file_type1) .. \(msg1) .. type \(type1)")
             let rowid = try db.run(tbl_userchats.insert(fromFullName<-fromFullName1,
                 msg<-msg1,
                 owneruser<-owneruser1,
