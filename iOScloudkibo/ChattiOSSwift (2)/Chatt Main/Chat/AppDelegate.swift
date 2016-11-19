@@ -2412,7 +2412,7 @@ else{
                         
                         // to play sound
                         AudioServicesPlaySystemSound (systemSoundID)
-                        delegateRefreshChat?.refreshChatsUI(chatJson[0]["msg"].string!, uniqueid:chatJson[0]["uniqueid"].string!, from:chatJson[0]["from"].string!, date1:datens2, type:"chat")
+                        delegateRefreshChat?.refreshChatsUI(chatJson[0]["msg"].string!, uniqueid:chatJson[0]["uniqueid"].string!, from:chatJson[0]["from"].string!, date1:datens2, type:chatJson[0]["type"].string!)
                     }
                     
                     

@@ -2239,7 +2239,93 @@ print("--------")
 
     }
     
+    func checkGroupMessageisAllDelevered(msg_unique_id1:String,members_phones1:[[String:AnyObject]])->Bool
+    {
+        let msg_unique_id = Expression<String>("msg_unique_id")
+        let Status = Expression<String>("Status")
+        let user_phone = Expression<String>("user_phone")
+        let read_date = Expression<NSDate>("read_date")
+        let delivered_date = Expression<NSDate>("delivered_date")
+        var result=true
+        for(var i=0;i<members_phones1.count;i++)
+        {
+        do
+        {for groupChatStatus in try self.db.prepare(group_chat_status.filter(msg_unique_id==msg_unique_id1 && user_phone==members_phones1[i]["member_phone"] as! String)){
+            if(Status.lowercaseString != "delivered")
+            {
+                result=false
+            }
+        }
+        }
+        
+            catch
+            {
+                result=false
+            }
+        }
+      return result
+        
+    }
     
+    func checkGroupMessageisAnySent(msg_unique_id1:String,members_phones1:[[String:AnyObject]])->Bool
+    {
+        let msg_unique_id = Expression<String>("msg_unique_id")
+        let Status = Expression<String>("Status")
+        let user_phone = Expression<String>("user_phone")
+        let read_date = Expression<NSDate>("read_date")
+        let delivered_date = Expression<NSDate>("delivered_date")
+        var result=true
+        for(var i=0;i<members_phones1.count;i++)
+        {
+            do
+            {for groupChatStatus in try self.db.prepare(group_chat_status.filter(msg_unique_id==msg_unique_id1 && user_phone==members_phones1[i])){
+                if(Status.lowercaseString == "sent")
+                {
+                    result=true
+                    break
+                }
+            else{
+            result=false
+                }
+                }
+            }
+                
+            catch
+            {
+                result=false
+            }
+        }
+        return result
+    }
+    
+    func checkGroupMessageisAllSeen(msg_unique_id1:String,members_phones1:[[String:AnyObject]])->Bool
+    {
+        let msg_unique_id = Expression<String>("msg_unique_id")
+        let Status = Expression<String>("Status")
+        let user_phone = Expression<String>("user_phone")
+        let read_date = Expression<NSDate>("read_date")
+        let delivered_date = Expression<NSDate>("delivered_date")
+        var result=true
+        for(var i=0;i<members_phones1.count;i++)
+        {
+            do
+            {for groupChatStatus in try self.db.prepare(group_chat_status.filter(msg_unique_id==msg_unique_id1 && user_phone==members_phones1[i])){
+                if(Status.lowercaseString != "seen")
+                {
+                    result=false
+                }
+                }
+            }
+                
+            catch
+            {
+                result=false
+            }
+        }
+        return result
+        
+        
+    }
     
     
     

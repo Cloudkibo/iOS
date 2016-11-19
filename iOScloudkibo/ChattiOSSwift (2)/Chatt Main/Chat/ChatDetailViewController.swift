@@ -1707,7 +1707,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
             //  chatImage.layer.borderWidth = 3.0;
             // chatImage.highlighted=true
             // *********
-            textLable.text = "\(msg)"
+            
             //old was 36 in place of 60
             ///textLable.frame = CGRectMake(60 + textLable.frame.origin.x, textLable.frame.origin.y, textLable.frame.size.width, sizeOFStr.height)
             
@@ -1728,9 +1728,21 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
             let dirPaths = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)
             let docsDir1 = dirPaths[0]
             var documentDir=docsDir1 as NSString
-            ////var imgPath=documentDir.stringByAppendingPathComponent(msg as! String)
+            var docPath=documentDir.stringByAppendingPathComponent(msg as! String)
+            
+            
+            
+            var docData=NSFileManager.defaultManager().contentsAtPath(docPath)
+            if(docData != nil)
+            {
+            textLable.text = "\(msg)"
+            }
+            else{
+                textLable.text = "Downloading..."
+            }
             
             selectedText = msg as! String
+            
             /// var imgNSData=NSFileManager.defaultManager().contentsAtPath(imgPath)
             chatImage.userInteractionEnabled=true
             //var filelabel=UILabel(frame: CGRect(x: 20 + chatImage.frame.origin.x, y: chatImage.frame.origin.y + sizeOFStr.height + 40,width: ((sizeOFStr.width + 100)  > 200 ? (sizeOFStr.width + 100) : 200), height: sizeOFStr.height + 40))
