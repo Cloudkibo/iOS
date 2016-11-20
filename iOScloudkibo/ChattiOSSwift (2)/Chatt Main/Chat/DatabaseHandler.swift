@@ -2167,6 +2167,52 @@ print("--------")
         }
         return statusObjectList
     }
+    
+    func getGroupsUnreadMessagesCount(groupid1:String)->Int    {
+        
+        
+        let msg_unique_id = Expression<String>("msg_unique_id")
+        let Status = Expression<String>("Status")
+        let user_phone = Expression<String>("user_phone")
+        let read_date = Expression<NSDate>("read_date")
+        let delivered_date = Expression<NSDate>("delivered_date")
+        
+        let from = Expression<String>("from")
+        let group_unique_id = Expression<String>("group_unique_id")
+        let type = Expression<String>("type")
+        let msg = Expression<String>("msg")
+        let from_fullname = Expression<String>("from_fullname")
+        let date = Expression<NSDate>("date")
+        let unique_id = Expression<String>("unique_id")
+        
+        var tblgroupchat=sqliteDB.group_chat
+        var res=tblgroupchat.filter(group_unique_id==groupid1)
+        //to==selecteduser || from==selecteduser
+        //print("chat from sqlite is")
+        //print(res)
+       
+        var countunread=0
+        do
+        {//for tblContacts in try sqliteDB.db.prepare(tbl_userchats.filter(owneruser==owneruser1)){
+            ////print("queryy runned count is \(tbl_contactslists.count)")
+            for groupsChat in try sqliteDB.db.prepare(tblgroupchat.filter(group_unique_id==groupid1)){
+                
+                var statusObjectList=[[String:AnyObject]]()
+                // var tblGroupmember = Table("group_member")
+                // var uniqueid=[String]()
+                for groupChatStatus in try self.db.prepare(group_chat_status.filter(msg_unique_id == groupsChat[unique_id] && Status.lowercaseString=="delivered")){
+                    print("found unread message..")
+                    countunread++
+                    
+                    }
+              
+                
+            }
+        }catch{
+                print("error in delivered_date status query")
+            }
+              return countunread
+    }
 
     
     func getGroupsChatStatusObjectList(msguniqueid1:String)->[[String:AnyObject]]

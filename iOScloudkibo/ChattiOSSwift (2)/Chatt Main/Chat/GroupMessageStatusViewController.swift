@@ -46,6 +46,8 @@ class GroupMessageStatusViewController: UIViewController {
         
         print("here inside groupmessagestatus view unique id is \(message_unique_id)")
         self.readBy=sqliteDB.getGroupsChatReadStatusList(message_unique_id)
+        self.deliveredTo=sqliteDB.getGroupsChatDeliveredStatusList(message_unique_id)
+
         if(readBy.count>0)
         {
             for(var i=0;i<readBy.count;i++)
@@ -53,8 +55,7 @@ class GroupMessageStatusViewController: UIViewController {
             self.deliveredTo.append(self.readBy[i])
             }
         }
-        self.deliveredTo=sqliteDB.getGroupsChatDeliveredStatusList(message_unique_id)
-    
+        
     }
     
     //getGroupsChatStatusObjectList

@@ -25,6 +25,12 @@ class GroupChatingDetailController: UIViewController,UpdateGroupChatDetailsDeleg
    
     @IBOutlet weak var chatComposeView: UIView!
     
+    @IBAction func backBtnPressed(sender: AnyObject) {
+        self.dismissViewControllerAnimated(true) { 
+            
+            
+        }
+    }
     func setTitle(title:String, subtitle:String) -> UIView {
         //Create a label programmatically and give it its property's
         let titleLabel = UILabel(frame: CGRectMake(0, 0, 0, 0)) //x, y, width, height where y is to offset from the view center

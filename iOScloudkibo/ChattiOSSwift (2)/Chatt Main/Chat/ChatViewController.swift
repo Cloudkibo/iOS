@@ -1558,9 +1558,9 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
             
             
             //check unread for group
-            
+         var unreadcount=sqliteDB.getGroupsUnreadMessagesCount(groupsObjectList[i]["unique_id"] as! String)
           //===================================
-            self.ContactCountMsgRead.append(0)
+            self.ContactCountMsgRead.append(unreadcount)
             
             
             //check file table and get path
@@ -2370,6 +2370,12 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
                 ///cell.profilePic.image=UIImage(data:ContactsProfilePic[indexPath.row])
                 UIImage(data: ContactsProfilePic[indexPath.row], scale: scale)
                 print("image size is s \(UIImage(data:ContactsProfilePic[indexPath.row])?.size.width) and h \(UIImage(data:ContactsProfilePic[indexPath.row])?.size.height)")
+            }
+            if(ContactCountMsgRead[indexPath.row] > 0)
+            {
+            cell.newMsg.hidden=false
+            cell.countNewmsg.text="\(ContactCountMsgRead[indexPath.row])"
+            cell.countNewmsg.hidden=false
             }
 
         }
