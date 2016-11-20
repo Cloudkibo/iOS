@@ -1552,7 +1552,10 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
                             dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
                             var delivered_date=NSDate()
                             var read_date=NSDate()
-                            if(status == "delivered")
+                           
+                            
+                            
+                            /* if(status == "delivered")
                             {
                                 var delivered_dateString=userInfo["delivered_date"] as! String
                                delivered_date = dateFormatter.dateFromString(delivered_dateString)!
@@ -1567,15 +1570,16 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
 
                             }
                             
-                            
+                            */
                             
                             if(user_phone == nil)
                             {
                             user_phone=""
                             }
                             sqliteDB.updateGroupChatStatus(uniqueId,memberphone1: user_phone!,status1: status, delivereddate1: delivered_date, readDate1: read_date)
-                            UIDelegates.getInstance().UpdateMainPageChatsDelegateCall()
+                            //UIDelegates.getInstance().UpdateMainPageChatsDelegateCall()
                             UIDelegates.getInstance().UpdateGroupChatDetailsDelegateCall()
+                            UIDelegates.getInstance().UpdateGroupInfoDetailsDelegateCall()
                             
                         }
                                            }
@@ -1706,33 +1710,7 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
                 }
                 
                 
-                if(type=="group:msg_status_changed")
-                {
-                    //change message status
-                    //status : 'delivered',
-                    //uniqueId : req.body.unique_id
-                    var uniqueId=userInfo["uniqueId"] as! String
-                    var status=userInfo["status"] as! String
-                    var user_phone=userInfo["user_phone"] as! String
-                    var read_dateString=userInfo["read_date"] as! String
-                    var delivered_dateString=userInfo["delivered_date"] as! String
-                    
-                    
-                    let dateFormatter = NSDateFormatter()
-                    dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
-                    
-                    let delivered_date = dateFormatter.dateFromString(delivered_dateString)
-                    let read_date = dateFormatter.dateFromString(read_dateString)
-                    
-
-                    
-                    print("inside here 222 updating status")
-                    
-                    sqliteDB.updateGroupChatStatus(uniqueId,memberphone1: user_phone,status1: status, delivereddate1: delivered_date, readDate1: read_date)
-                    UIDelegates.getInstance().UpdateMainPageChatsDelegateCall()
-                    UIDelegates.getInstance().UpdateGroupChatDetailsDelegateCall()
-                    
-                }
+              
                 
                 if(type=="group:member_left_group")
                 {
@@ -2137,7 +2115,8 @@ else{
                         var unique_id=chatJson["unique_id"].string!
                         
                         sqliteDB.storeGroupsChat(from, group_unique_id1: group_unique_id, type1: type, msg1: msg, from_fullname1: from_fullname, date1: datens2!, unique_id1: unique_id)
-                        
+                        //store status update delivered
+                        sqliteDB.storeGRoupsChatStatus(unique_id, status1: "delivered", memberphone1: username!, delivereddate1: NSDate(), readDate1: NSDate())
                       
                         
                         completion(result: true, error: nil)
@@ -2558,7 +2537,12 @@ else{
                 
                 //
                 //if db change so uncomment this
-                setupForNewInstall()
+                
+                doFinish();
+                //uncomment later setupForNewInstall()
+                
+                
+                
                 //and comment this
                // doFinish();
                 

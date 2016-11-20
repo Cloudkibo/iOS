@@ -586,7 +586,7 @@ class DatabaseHandler:NSObject{
         
         self.group_muteSettings = Table("group_muteSettings")
         do{
-            try db.run(statusUpdate.create(ifNotExists: retainOldDatabase) { t in
+            try db.run(group_muteSettings.create(ifNotExists: retainOldDatabase) { t in
                 t.column(groupid)
                 t.column(isMute)
                 t.column(muteTime)
@@ -1883,11 +1883,11 @@ print("--------")
         do
         {var row=try sqliteDB.db.run(query.update(Status <- status1))
         print("status updated of group chat \(row)")
-            if(delivereddate1 != nil)
+            if(status1.lowercaseString == "delivered")
             {
             var row=try sqliteDB.db.run(query.update(delivered_date <- delivereddate1))
             }
-            if(readDate1 != nil)
+            else
             {
                 var row=try sqliteDB.db.run(query.update(read_date <- readDate1))
             }
@@ -2251,7 +2251,7 @@ print("--------")
         {
         do
         {for groupChatStatus in try self.db.prepare(group_chat_status.filter(msg_unique_id==msg_unique_id1 && user_phone==members_phones1[i]["member_phone"] as! String)){
-            if(Status.lowercaseString != "delivered")
+            if(groupChatStatus[Status].lowercaseString != "delivered")
             {
                 result=false
             }
@@ -2278,8 +2278,8 @@ print("--------")
         for(var i=0;i<members_phones1.count;i++)
         {
             do
-            {for groupChatStatus in try self.db.prepare(group_chat_status.filter(msg_unique_id==msg_unique_id1 && user_phone==members_phones1[i])){
-                if(Status.lowercaseString == "sent")
+            {for groupChatStatus in try self.db.prepare(group_chat_status.filter(msg_unique_id==msg_unique_id1 && user_phone==members_phones1[i]["member_phone"] as! String)){
+                if(groupChatStatus[Status].lowercaseString == "sent")
                 {
                     result=true
                     break
@@ -2309,8 +2309,8 @@ print("--------")
         for(var i=0;i<members_phones1.count;i++)
         {
             do
-            {for groupChatStatus in try self.db.prepare(group_chat_status.filter(msg_unique_id==msg_unique_id1 && user_phone==members_phones1[i])){
-                if(Status.lowercaseString != "seen")
+            {for groupChatStatus in try self.db.prepare(group_chat_status.filter(msg_unique_id==msg_unique_id1 && user_phone==members_phones1[i]["member_phone"] as! String)){
+                if(groupChatStatus[Status].lowercaseString != "seen")
                 {
                     result=false
                 }

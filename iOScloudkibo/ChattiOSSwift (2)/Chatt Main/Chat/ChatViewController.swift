@@ -1554,6 +1554,12 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
             self.ContactsPhone.append(groupsObjectList[i]["unique_id"] as! String)
             ////self.ContactsEmail.removeAll(keepCapacity: false)
             //////self.ContactMsgRead.removeAll(keepCapacity: false)
+            
+            
+            
+            //check unread for group
+            
+          //===================================
             self.ContactCountMsgRead.append(0)
             
             

@@ -46,6 +46,13 @@ class GroupMessageStatusViewController: UIViewController {
         
         print("here inside groupmessagestatus view unique id is \(message_unique_id)")
         self.readBy=sqliteDB.getGroupsChatReadStatusList(message_unique_id)
+        if(readBy.count>0)
+        {
+            for(var i=0;i<readBy.count;i++)
+            {
+            self.deliveredTo.append(self.readBy[i])
+            }
+        }
         self.deliveredTo=sqliteDB.getGroupsChatDeliveredStatusList(message_unique_id)
     
     }
@@ -66,7 +73,7 @@ class GroupMessageStatusViewController: UIViewController {
     
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat
     {
-        return 200
+        return 120
     }
     
     func numberOfSectionsInTableView(tableView: UITableView) -> Int
@@ -91,9 +98,14 @@ class GroupMessageStatusViewController: UIViewController {
         
         let cell = tblMessageInfo.dequeueReusableCellWithIdentifier("messageInfoCell")! as UITableViewCell
         var name=cell.viewWithTag(1) as! UILabel
-        if(indexPath.row<readBy.count)
+        if(indexPath.row<deliveredTo.count)
         {
-        name.text=sqliteDB.getNameGroupMemberNameFromMembersTable(readBy[indexPath.row]["user_phone"] as! String)
+        name.text=sqliteDB.getNameGroupMemberNameFromMembersTable(deliveredTo[indexPath.row]["user_phone"] as! String)
+        }
+        else
+        {
+            name.text=sqliteDB.getNameGroupMemberNameFromMembersTable(readBy[indexPath.row - deliveredTo.count]["user_phone"] as! String)
+            
         }
         
         return cell

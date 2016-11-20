@@ -42,10 +42,10 @@ class Constants{
     static let confirmDownload="/api/filetransfers/confirmdownload"
     
 static let hubname="CloudKiboIOSPush" //testing
-//==static let hubname="Cloudkibo" //production
+//=========static let hubname="Cloudkibo" //production
 static let connectionstring="Endpoint=sb://cloudkiboiospush.servicebus.windows.net/;SharedAccessKeyName=DefaultListenSharedAccessSignature;SharedAccessKey=2OXyVhx1SX6m34z1RT0pnrpj5MBdv0aAE+7v8W5kkIw="  //testing
     
- //===static let connectionstring="Endpoint=sb://cloudkibo.servicebus.windows.net/;SharedAccessKeyName=DefaultListenSharedAccessSignature;SharedAccessKey=fs2RqnCIAJ+W5gc/iC82h5A0a+UuMHKNdQruSRxo/Hk="    //production
+//========static let connectionstring="Endpoint=sb://cloudkibo.servicebus.windows.net/;SharedAccessKeyName=DefaultListenSharedAccessSignature;SharedAccessKey=fs2RqnCIAJ+W5gc/iC82h5A0a+UuMHKNdQruSRxo/Hk="    //production
     
     static let fetchSingleChat="/api/userchat/getsinglechat" //uniqueid:
     
@@ -76,7 +76,7 @@ static let connectionstring="Endpoint=sb://cloudkiboiospush.servicebus.windows.n
     static var  changeRole="/api/groupmessaginguser/updateRole"
     
     static var checkGroupMsgStatus="/api/groupchatstatus/checkStatus"
-    static var  updateGroupChatStatus="/api/groupchatstatus/updateStatus"
+    static var  updateGroupChatStatusAPI = "/api/groupchatstatus/updateStatus"
     static var  syncGetPartialGroupChats="/api/groupchatstatus/"
     
     static var downloadGroupIcon="/api/groupmessaging/downloadIcon"

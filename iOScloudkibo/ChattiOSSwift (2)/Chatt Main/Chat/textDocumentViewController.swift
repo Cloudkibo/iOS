@@ -83,10 +83,14 @@ class textDocumentViewController: UIViewController {
                 case "pdf":
                     let webView = UIWebView(frame: CGRectMake(0,0,self.view.frame.size.width,self.view.frame.size.height))
                     var pdffile=NSData(contentsOfFile: newtext)
+                    if(pdffile != nil)
+                    {
+                        //error handling. file found
                     webView.loadData(pdffile!, MIMEType: "application/pdf", textEncodingName:"", baseURL: NSURL(fileURLWithPath: newtext).URLByDeletingLastPathComponent!)
                     webView.contentMode = UIViewContentMode.ScaleAspectFit
                     webView.scalesPageToFit = true
                     webView.contentMode = UIViewContentMode.ScaleAspectFit
+                    }
                     textViewDoc.addSubview(webView)
                 
             case "docx":

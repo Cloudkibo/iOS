@@ -9,7 +9,7 @@
 import UIKit
 import Alamofire
 import SQLite
-
+import SwiftyJSON
 class GroupChatingDetailController: UIViewController,UpdateGroupChatDetailsDelegate {
     
     var swipedRow:Int!
@@ -135,7 +135,9 @@ class GroupChatingDetailController: UIViewController,UpdateGroupChatDetailsDeleg
                     {
                     if((self.membersList[i]["member_phone"] as! String) != username! && (self.membersList[i]["membership_status"] as! String) != "left")
                     {
-                         sqliteDB.storeGRoupsChatStatus(uniqueid_chat, status1: "sent", memberphone1: self.membersList[i]["member_phone"]! as! String, delivereddate1: UtilityFunctions.init().minimumDate(), readDate1: UtilityFunctions.init().minimumDate())
+                        sqliteDB.updateGroupChatStatus(uniqueid_chat, memberphone1: self.membersList[i]["member_phone"]! as! String, status1: "sent", delivereddate1: NSDate(), readDate1: NSDate())
+                        
+                         // === wrong sqliteDB.storeGRoupsChatStatus(uniqueid_chat, status1: "sent", memberphone1: self.membersList[i]["member_phone"]! as! String, delivereddate1: UtilityFunctions.init().minimumDate(), readDate1: UtilityFunctions.init().minimumDate())
                     }
                     }
 
@@ -221,11 +223,11 @@ class GroupChatingDetailController: UIViewController,UpdateGroupChatDetailsDeleg
         self.navigationController?.title=mytitle
         
         
-       /* let swipeRecognizer = UISwipeGestureRecognizer(target: self, action: Selector("chatSwipped:"))
+        let swipeRecognizer = UISwipeGestureRecognizer(target: self, action: Selector("chatSwipped:"))
         //Add the recognizer to your view.
         swipeRecognizer.direction = .Left
         tblForGroupChat.addGestureRecognizer(swipeRecognizer)
-        */
+ 
         UIDelegates.getInstance().delegateGroupChatDetails1=self
         membersList=sqliteDB.getGroupMembersOfGroup(self.groupid1)
         
@@ -459,16 +461,48 @@ class GroupChatingDetailController: UIViewController,UpdateGroupChatDetailsDeleg
                 
                 
                 //uncomment later
-                /*if(tblUserChats[from] != selecteduser && (sqliteDB.getGroupsChatStatusSingle(tblUserChats[unique_id], user_phone1: username!)=="delivered"))
+                if(tblUserChats[from] != username!)
+                    
+                    //&& (sqliteDB.getGroupsChatStatusSingle(tblUserChats[unique_id], user_phone1: username!)=="delivered"))
                 {
-                    sqliteDB.updateGroupChatStatus(tblUserChats[unique_id], memberphone1: username!, status1: "seen")
+                    var singleStatus=sqliteDB.getGroupsChatStatusSingle(tblUserChats[unique_id], user_phone1: username!)
+                   
+                    if(singleStatus == "delivered")
+                    {print("yes it is delivered")
+                     self.sendGroupChatStatus(tblUserChats[unique_id],status1: "seen")
+                    }
+
+                  /*  for(var i=0;i<membersList.count;i++)
+                    {
+                        /*
+                         let member_phone = Expression<String>("member_phone")
+                         let isAdmin = Expression<String>("isAdmin")
+                         let membership_status
+                         */
+                        
+                        if((membersList[i]["member_phone"] as! String) != username! && (membersList[i]["membership_status"] as! String) != "left")
+                        {
+                            //unique_id
+                           var singleStatusObject=sqliteDB.getGroupsChatStatusSingle(tblUserChats[unique_id], user_phone1: membersList[i]["member_phone"] as! String)
+                            if(singleStatusObject["Status"] == "delivered")
+                            {
+                                sqliteDB.updateGroupChatStatus(tblContacts[uniqueid],status: "seen",sender: tblContacts[from], delivereddate1: NSDate(), readDate1:NSDate())
+                                self.sendGroupChatStatus(tblContacts[uniqueid],"seen")
+                                
+                            }
+                        }
+                        
+                    }
+                    
+                    */
+                    //sqliteDB.updateGroupChatStatus(tblUserChats[unique_id], memberphone1: username!, status1: "seen")
                     
                     //==done sqliteDB.UpdateChatStatus(tblContacts[uniqueid], newstatus: "seen")
                     
                     
-                    sqliteDB.saveMessageStatusSeen("seen", sender1: tblContacts[from], uniqueid1: tblContacts[uniqueid])
+                    //== do later saving temprarily === sqliteDB.saveMessageStatusSeen("seen", sender1: tblContacts[from], uniqueid1: tblContacts[uniqueid])
                     
-                    sendChatStatusUpdateMessage(tblContacts[uniqueid],status: "seen",sender: tblContacts[from])
+                    //===sendChatStatusUpdateMessage(tblContacts[uniqueid],status: "seen",sender: tblContacts[from])
                     
                     //OLD SOCKET LOGIC OF SENDING CHAT STATUS
                     /*  socketObj.socket.emitWithAck("messageStatusUpdate", ["status":"seen","uniqueid":tblContacts[uniqueid],"sender": tblContacts[from]])(timeoutAfter: 15000){data in
@@ -487,9 +521,7 @@ class GroupChatingDetailController: UIViewController,UpdateGroupChatDetailsDeleg
                      */
                 }
  
-                
-                */
-                
+ 
                 if(tblUserChats[type].lowercaseString=="log")//check left
                 {
                     
@@ -504,7 +536,29 @@ class GroupChatingDetailController: UIViewController,UpdateGroupChatDetailsDeleg
                 
                 if (tblUserChats[from]==username!)
                 {
-                            messages2.addObject(["msg":tblUserChats[msg], "type":"2", "fromFullName":fullname,"date":defaultTimeeee, "uniqueid":tblUserChats[unique_id]])
+                    var status="pending"
+                    
+                    var allseen=sqliteDB.checkGroupMessageisAllSeen(tblUserChats[unique_id], members_phones1: membersList)
+                    if(allseen==true)
+                    {
+                        status="seen"
+                    }
+                    else
+                    {
+                        var alldelivered=sqliteDB.checkGroupMessageisAllDelevered(tblUserChats[unique_id], members_phones1: membersList)
+                        if(alldelivered==true)
+                        {
+                            status="delivered"
+                        }
+                        else{
+                            var allsent=sqliteDB.checkGroupMessageisAnySent(tblUserChats[unique_id], members_phones1: membersList)
+                            if(allsent==true)
+                            {
+                                status="sent"
+                            }
+                        }
+                    }
+                            messages2.addObject(["msg":tblUserChats[msg]+" (\(status))", "type":"2", "fromFullName":fullname,"date":defaultTimeeee, "uniqueid":tblUserChats[unique_id]])
                 }
                 else
                 {
@@ -598,7 +652,7 @@ class GroupChatingDetailController: UIViewController,UpdateGroupChatDetailsDeleg
     }
     
     
-   /* func chatSwipped(sender:UISwipeGestureRecognizer)
+    func chatSwipped(sender:UISwipeGestureRecognizer)
     {
         let gesture:UISwipeGestureRecognizer = sender as! UISwipeGestureRecognizer
         if(gesture.direction == .Left)
@@ -621,7 +675,7 @@ class GroupChatingDetailController: UIViewController,UpdateGroupChatDetailsDeleg
         }
        
         
-    }*/
+    }
     
      func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         
@@ -804,11 +858,47 @@ class GroupChatingDetailController: UIViewController,UpdateGroupChatDetailsDeleg
     }
 
     
+    func sendGroupChatStatus(chat_uniqueid:String,status1:String)
+    {
+    
+    var url=Constants.MainUrl+Constants.updateGroupChatStatusAPI
+    
+    
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT,0))
+    {
+    let request = Alamofire.request(.POST, "\(url)", parameters: ["chat_unique_id":chat_uniqueid,"status":status1],headers:header).responseJSON { response in
+    
+    
+    /*let request = Alamofire.request(.POST, "\(url)", parameters: ["uniqueid":uniqueid,"sender":sender,"status":status],headers:header)
+     request.response(
+     queue: queue,
+     responseSerializer: Request.JSONResponseSerializer(options: .AllowFragments),
+     completionHandler: { response in
+     
+     */
+    // You are now running on the concurrent `queue` you created earlier.
+    //print("Parsing JSON on thread: \(NSThread.currentThread()) is main thread: \(NSThread.isMainThread())")
+    
+    // Validate your JSON response and convert into model objects if necessary
+    //   //print(response.result.value!) //status, uniqueid
+    
+    
+    // To update anything on the main thread, just jump back on like so.
+    
+    if(response.response?.statusCode==200)
+    {
+    var resJSON=JSON(response.result.value!)
+    print("status seen sent response \(resJSON)")
+    }
+    }
+    }
+}
+
     func generateUniqueid()->String
     {
-        
+    
         var uid=randomStringWithLength(7)
-        
+    
         var date=NSDate()
         var calendar = NSCalendar.currentCalendar()
         var year=calendar.components(NSCalendarUnit.Year,fromDate: date).year
@@ -859,5 +949,7 @@ class GroupChatingDetailController: UIViewController,UpdateGroupChatDetailsDeleg
            // }
         }
     }
+    
+    
 
 }
