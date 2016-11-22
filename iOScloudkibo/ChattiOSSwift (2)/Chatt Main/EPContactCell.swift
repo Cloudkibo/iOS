@@ -81,6 +81,13 @@ class EPContactCell: UITableViewCell {
         
         if(isalreadyselected==true)
         {
+            ///////////////////
+           // self.setSelected(true, animated: true)
+          ////  self.backgroundColor=UIColor.grayColor()
+            self.contactDetailTextLabel.font=UIFont.boldSystemFontOfSize(contactDetailTextLabel.font.pointSize)
+             self.contactTextLabel.font=UIFont.boldSystemFontOfSize(contactTextLabel.font.pointSize)
+            self.contactDetailTextLabel.font=UIFont.italicSystemFontOfSize(contactDetailTextLabel.font.pointSize)
+            
             self.contactDetailTextLabel.text = "Already added"
             self.userInteractionEnabled=false
         }

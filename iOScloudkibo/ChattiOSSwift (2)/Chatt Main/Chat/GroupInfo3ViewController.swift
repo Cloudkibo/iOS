@@ -1364,6 +1364,7 @@ cell.lbl_groupAdmin.hidden=false
     }
 
     override func viewWillAppear(animated: Bool) {
+        
                var imageavatar1=UIImage(named: "avatar.png")
         //   imageavatar1=ResizeImage(imageavatar1!,targetSize: s)
         
