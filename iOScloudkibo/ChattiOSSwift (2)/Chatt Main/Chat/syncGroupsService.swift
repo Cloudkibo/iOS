@@ -127,11 +127,15 @@ class syncGroupService
                 self.partialSyncGroupsChat{ (result,error,groupinfo) in
                     if(groupinfo != nil)
                     {
+                        print("updating UI now...")
                         self.syncGroupChatStatuses()
                         
+                        dispatch_async(dispatch_get_main_queue())
+{
                         UIDelegates.getInstance().UpdateMainPageChatsDelegateCall()
                         UIDelegates.getInstance().UpdateGroupInfoDetailsDelegateCall()
                         UIDelegates.getInstance().UpdateGroupChatDetailsDelegateCall()
+}
                     }
                 }
             }}

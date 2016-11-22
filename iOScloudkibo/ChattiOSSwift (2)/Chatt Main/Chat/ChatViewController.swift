@@ -843,6 +843,8 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
             print("Reachable via Wifi")
             if(username != nil && username != "")
             {
+                var syncGroupsObj=syncGroupService.init()
+                syncGroupsObj.startPartialGroupsChatSyncService()
                 self.synchroniseChatData()
             }
         }
@@ -851,6 +853,8 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
             print("Reachable")
             if(username != nil && username != "")
             {
+                var syncGroupsObj=syncGroupService.init()
+                syncGroupsObj.startPartialGroupsChatSyncService()
                 self.synchroniseChatData()
             }
         }
@@ -3275,7 +3279,7 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
                         //call Mute delegate or method
                     })
                     
-                    let ExportChat = UIAlertAction(title: "Export Chat", style: UIAlertActionStyle.Default,handler: { (action) -> Void in
+                   /* let ExportChat = UIAlertAction(title: "Export Chat", style: UIAlertActionStyle.Default,handler: { (action) -> Void in
                         //// self.removeChatHistory(self.ContactUsernames[indexPath.row],indexPath: indexPath)
                         
                         //call Mute delegate or method
@@ -3293,6 +3297,7 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
                         
                         //call Mute delegate or method
                     })
+ */
                     let cancelAction = UIAlertAction(title: "Cancel", style: UIAlertActionStyle.Cancel, handler: { (action) -> Void in
                         
                         //self.sendType="Message"
@@ -3309,10 +3314,10 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
                     
                     shareMenu.addAction(Mute)
                     shareMenu.addAction(GroupInfo)
-                    shareMenu.addAction(ExportChat)
+                    /*shareMenu.addAction(ExportChat)
                     shareMenu.addAction(ClearChat)
                     
-                    shareMenu.addAction(DeleteChat)
+                    shareMenu.addAction(DeleteChat)*/
                     shareMenu.addAction(cancelAction)
                     
                    // shareMenu.show

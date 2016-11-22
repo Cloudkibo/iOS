@@ -153,6 +153,7 @@
 		71EA60821D78DDAA00117B55 /* SWTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 71EA607A1D78DDAA00117B55 /* SWTableViewCell.m */; };
 		71EA60831D78DDAA00117B55 /* SWUtilityButtonTapGestureRecognizer.m in Sources */ = {isa = PBXBuildFile; fileRef = 71EA607C1D78DDAA00117B55 /* SWUtilityButtonTapGestureRecognizer.m */; };
 		71EA60841D78DDAA00117B55 /* SWUtilityButtonView.m in Sources */ = {isa = PBXBuildFile; fileRef = 71EA607E1D78DDAA00117B55 /* SWUtilityButtonView.m */; };
+		71F6233E1DE4262E00AC6370 /* String-Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71F6233D1DE4262E00AC6370 /* String-Extension.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -430,6 +431,7 @@
 		71EA607C1D78DDAA00117B55 /* SWUtilityButtonTapGestureRecognizer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SWUtilityButtonTapGestureRecognizer.m; sourceTree = "<group>"; };
 		71EA607D1D78DDAA00117B55 /* SWUtilityButtonView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SWUtilityButtonView.h; sourceTree = "<group>"; };
 		71EA607E1D78DDAA00117B55 /* SWUtilityButtonView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SWUtilityButtonView.m; sourceTree = "<group>"; };
+		71F6233D1DE4262E00AC6370 /* String-Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String-Extension.swift"; sourceTree = "<group>"; };
 		96C3D9B6784B14EFEA3C9944 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 		BC0C99CB9F91896CEAE65024 /* Pods.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		CB378204D17188B74218CCD7 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
@@ -468,6 +470,7 @@
 		5BF6361C19A9F3D900ABD0BA = {
 			isa = PBXGroup;
 			children = (
+				71F6233D1DE4262E00AC6370 /* String-Extension.swift */,
 				71EA60721D78DD7100117B55 /* SwipeCellsSourceFiles */,
 				71C1A2D01D769B0900FC5157 /* Base.lproj */,
 				71C1A2D51D769B0900FC5157 /* MyCustomCellTableViewCell.swift */,
@@ -1082,6 +1085,7 @@
 				713D51DE1CC11896007E0B47 /* MoreTableViewController.swift in Sources */,
 				719A0CE41DD5237800977C0B /* GroupMessageStatusViewController.swift in Sources */,
 				713D51CD1CC11896007E0B47 /* ContactsInviteViewController.swift in Sources */,
+				71F6233E1DE4262E00AC6370 /* String-Extension.swift in Sources */,
 				713D51D01CC11896007E0B47 /* File.swift in Sources */,
 				718B8D851CC11A9B000B4AB2 /* SocketEnginePacketType.swift in Sources */,
 				713D51D31CC11896007E0B47 /* FileUtility.swift in Sources */,
@@ -1315,7 +1319,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = iCloud.MyAppTemplates.cloudkibo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "90c37bb4-c956-40e5-a21c-b5b8428703d9";
+				PROVISIONING_PROFILE = "691b786d-f744-4d0c-b19e-200399569759";
 				SCAN_ALL_SOURCE_FILES_FOR_INCLUDES = NO;
 				SDKROOT = iphoneos;
 				SWIFT_OBJC_BRIDGING_HEADER = "Chat/Chat-Bridging-Header.h";
@@ -1364,7 +1368,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = iCloud.MyAppTemplates.cloudkibo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "90c37bb4-c956-40e5-a21c-b5b8428703d9";
+				PROVISIONING_PROFILE = "691b786d-f744-4d0c-b19e-200399569759";
 				SCAN_ALL_SOURCE_FILES_FOR_INCLUDES = NO;
 				SDKROOT = iphoneos;
 				SWIFT_OBJC_BRIDGING_HEADER = "Chat/Chat-Bridging-Header.h";

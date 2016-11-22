@@ -703,9 +703,9 @@ else{
         
     
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-        if(((indexPath.row > 2)  && ((indexPath.row<(messages.count)+2) || messages.count<1)) || indexPath.row==0 || indexPath.row==1 || indexPath.row==2)
+        if(((indexPath.row > 2)  && ((indexPath.row<=(messages.count)+2) || messages.count<1)) || indexPath.row==0 || indexPath.row==1 || indexPath.row==2)
         {
-            return 73
+            return 65
          
         }
        else
@@ -888,6 +888,7 @@ else{
                 }
                 else
                 {
+                    print("displaying camera pic programatically")
                     var tempimg=UIImage(named:"chat_camera")
                     imgdata=UIImagePNGRepresentation(tempimg!)!
                     cell.cameraProfilePicOutlet.layer.borderWidth = 1.0
@@ -960,9 +961,9 @@ else{
         else
         {if(indexPath.row==2)
         {
-            print("export chat")
-             var cell=tblGroupInfo.dequeueReusableCellWithIdentifier("ExportChatsCell")! as! UITableViewCell
-            
+            print("Mute group chat cell")
+             var cell=tblGroupInfo.dequeueReusableCellWithIdentifier("MuteChatsCell")! as! UITableViewCell
+            cell.userInteractionEnabled=false
             return cell
             
         }

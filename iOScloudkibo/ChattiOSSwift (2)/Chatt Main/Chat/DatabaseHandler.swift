@@ -1476,7 +1476,19 @@ print("--------")
         
         self.group_chat = Table("group_chat")
         
+        
         do {
+            
+            var alreadyexists=false
+            for res in try sqliteDB.db.prepare(group_chat.filter(unique_id == unique_id1))
+            {
+                // print("chat already exists")
+                alreadyexists=true
+            }
+            
+            if(alreadyexists==false)
+            {
+       // do {
             let rowid = try db.run(group_chat.insert(
                 from<-from1,
                 group_unique_id<-group_unique_id1,
@@ -1493,7 +1505,13 @@ print("--------")
                 socketObj.socket.emit("logClient","IPHONE-LOG: group chat saved in sqliteDB")
             }
             print("inserted id groupchat : \(rowid)")
-        } catch {
+        }
+            else
+            {
+                print("avoid adding duplicate group chats")
+            }
+        }
+            catch {
             print("insertion failed: groupchat \(error)")
         }
     }
@@ -2200,7 +2218,7 @@ print("--------")
                 var statusObjectList=[[String:AnyObject]]()
                 // var tblGroupmember = Table("group_member")
                 // var uniqueid=[String]()
-                for groupChatStatus in try self.db.prepare(group_chat_status.filter(msg_unique_id == groupsChat[unique_id] && Status.lowercaseString=="delivered")){
+                for groupChatStatus in try self.db.prepare(group_chat_status.filter(msg_unique_id == groupsChat[unique_id] && (Status.lowercaseString=="delivered" || Status.lowercaseString=="sent") && user_phone==username!)){
                     print("found unread message..")
                     countunread++
                     

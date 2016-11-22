@@ -1222,7 +1222,11 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
             
             if(username != nil && username != "")
             {
+                var syncGroupsObj=syncGroupService.init()
+                syncGroupsObj.startPartialGroupsChatSyncService()
                self.synchroniseChatData()
+                print("getting group messages which are not on device")
+                
             }
             
             socketObj=nil
@@ -1577,7 +1581,7 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
                             user_phone=""
                             }
                             sqliteDB.updateGroupChatStatus(uniqueId,memberphone1: user_phone!,status1: status, delivereddate1: delivered_date, readDate1: read_date)
-                            //UIDelegates.getInstance().UpdateMainPageChatsDelegateCall()
+                            UIDelegates.getInstance().UpdateMainPageChatsDelegateCall()
                             UIDelegates.getInstance().UpdateGroupChatDetailsDelegateCall()
                             UIDelegates.getInstance().UpdateGroupInfoDetailsDelegateCall()
                             
@@ -1701,6 +1705,8 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
                     self.fetchSingleGroupChatMessage(unique_id!,completion: {(result,error) in
                         
                         UIDelegates.getInstance().UpdateGroupChatDetailsDelegateCall()
+                        UIDelegates.getInstance().UpdateMainPageChatsDelegateCall()
+                        UIDelegates.getInstance().UpdateGroupInfoDetailsDelegateCall()
                          completionHandler(UIBackgroundFetchResult.NewData)
                     })
                    
@@ -2115,6 +2121,7 @@ else{
                         var unique_id=chatJson["unique_id"].string!
                         
                         sqliteDB.storeGroupsChat(from, group_unique_id1: group_unique_id, type1: type, msg1: msg, from_fullname1: from_fullname, date1: datens2!, unique_id1: unique_id)
+                        
                         //store status update delivered
                         sqliteDB.storeGRoupsChatStatus(unique_id, status1: "delivered", memberphone1: username!, delivereddate1: NSDate(), readDate1: NSDate())
                       

@@ -567,6 +567,8 @@ class NetworkingManager
 
         
         print("downloading call unique id \(fileuniqueid)")
+       
+        //uncomment change later
         Alamofire.download(.POST, "\(downloadURL)", headers:header, parameters: ["uniqueid":fileuniqueid], destination: destination)
             .progress { (bytesRead, totalBytesRead, totalBytesExpectedToRead) in
                 print("writing bytes \(totalBytesRead)")

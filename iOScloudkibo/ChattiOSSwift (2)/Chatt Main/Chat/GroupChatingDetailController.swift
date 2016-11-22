@@ -94,7 +94,7 @@ class GroupChatingDetailController: UIViewController,UpdateGroupChatDetailsDeleg
         var uniqueid_chat=generateUniqueid()
         var date=getDateString(NSDate())
         var status="pending"
-        messages.addObject(["msg":txtFieldMessage.text!, "type":"2", "fromFullName":"","date":date,"uniqueid":uniqueid_chat])
+        messages.addObject(["msg":txtFieldMessage.text!+" (pending)", "type":"2", "fromFullName":"","date":date,"uniqueid":uniqueid_chat])
         
         
         //save chat
@@ -226,14 +226,16 @@ class GroupChatingDetailController: UIViewController,UpdateGroupChatDetailsDeleg
 
     
     override func viewWillAppear(animated: Bool) {
-        self.navigationController?.title=mytitle
         
         
-        let swipeRecognizer = UISwipeGestureRecognizer(target: self, action: Selector("chatSwipped:"))
+        //======== self.navigationController?.title=mytitle
+        
+        
+     /*   let swipeRecognizer = UISwipeGestureRecognizer(target: self, action: Selector("chatSwipped:"))
         //Add the recognizer to your view.
         swipeRecognizer.direction = .Left
         tblForGroupChat.addGestureRecognizer(swipeRecognizer)
- 
+ */
         UIDelegates.getInstance().delegateGroupChatDetails1=self
         membersList=sqliteDB.getGroupMembersOfGroup(self.groupid1)
         
@@ -258,7 +260,7 @@ class GroupChatingDetailController: UIViewController,UpdateGroupChatDetailsDeleg
                 }
             }
         }
-        var subtitleMembers=namesList.joinWithSeparator(",")
+        var subtitleMembers=namesList.joinWithSeparator(",").trunc(30)
       self.navigationItem.titleView = setTitle(mytitle, subtitle: subtitleMembers)
        // self.navigationItem.title = mytitle
        // self.navigationItem.prompt=subtitleMembers
@@ -658,7 +660,7 @@ class GroupChatingDetailController: UIViewController,UpdateGroupChatDetailsDeleg
     }
     
     
-    func chatSwipped(sender:UISwipeGestureRecognizer)
+   /* func chatSwipped(sender:UISwipeGestureRecognizer)
     {
         let gesture:UISwipeGestureRecognizer = sender as! UISwipeGestureRecognizer
         if(gesture.direction == .Left)
@@ -681,7 +683,7 @@ class GroupChatingDetailController: UIViewController,UpdateGroupChatDetailsDeleg
         }
        
         
-    }
+    }*/
     
      func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         
@@ -870,8 +872,8 @@ class GroupChatingDetailController: UIViewController,UpdateGroupChatDetailsDeleg
     var url=Constants.MainUrl+Constants.updateGroupChatStatusAPI
     
     
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT,0))
-    {
+   //--- dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT,0))
+    //{
     let request = Alamofire.request(.POST, "\(url)", parameters: ["chat_unique_id":chat_uniqueid,"status":status1],headers:header).responseJSON { response in
     
     
@@ -895,9 +897,12 @@ class GroupChatingDetailController: UIViewController,UpdateGroupChatDetailsDeleg
     {
     var resJSON=JSON(response.result.value!)
     print("status seen sent response \(resJSON)")
+        //update locally
+        //moving it out of function. if seen offline so remove chat bubble unread count
+        sqliteDB.updateGroupChatStatus(chat_uniqueid, memberphone1: username!, status1: status1, delivereddate1: NSDate(), readDate1: NSDate())
     }
     }
-    }
+  //===  }
 }
 
     func generateUniqueid()->String
@@ -956,6 +961,9 @@ class GroupChatingDetailController: UIViewController,UpdateGroupChatDetailsDeleg
         }
     }
     
-    
+    override func viewWillDisappear(animated: Bool) {
+        
+        UIDelegates.getInstance().delegateGroupChatDetails1=nil
+    }
 
 }
