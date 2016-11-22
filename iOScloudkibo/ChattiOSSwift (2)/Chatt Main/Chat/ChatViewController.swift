@@ -307,7 +307,9 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
             //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
             // if(socketObj != nil)
             // {
-            managerFile.checkPendingFiles(username!)
+            
+            
+            //commenting it managerFile.checkPendingFiles(username!)
            
             self.sendPendingChatMessages({ (result) -> () in
                 
@@ -527,6 +529,12 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
                                     //socketObj.socket.emit("messageStatusUpdate",["status":"","iniqueid":"","sender":""])
                                     
                                     
+                                    if(UserchatJson["msg"][i]["type"].string! == "file")
+                                    {
+                                        managerFile.checkPendingFiles(UserchatJson["msg"][i]["uniqueid"].string!)
+                                        
+                                    }
+                                    
                                     managerFile.sendChatStatusUpdateMessage(UserchatJson["msg"][i]["uniqueid"].string!, status: updatedStatus, sender: UserchatJson["msg"][i]["from"].string!)
                                     
                                     
@@ -545,6 +553,12 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
                                 }
                                 else
                                 {
+                                    
+                                    if(UserchatJson["msg"][i]["type"].string! == "file")
+                                    {
+                                        managerFile.checkPendingFiles(UserchatJson["msg"][i]["uniqueid"].string!)
+                                        
+                                    }
                                     
                                     sqliteDB.SaveChat(UserchatJson["msg"][i]["to"].string!, from1: UserchatJson["msg"][i]["from"].string!,owneruser1:UserchatJson["msg"][i]["owneruser"].string! , fromFullName1: UserchatJson["msg"][i]["fromFullName"].string!, msg1: UserchatJson["msg"][i]["msg"].string!,date1:datens2,uniqueid1:UserchatJson["msg"][i]["uniqueid"].string!,status1: UserchatJson["msg"][i]["status"].string!, type1: chattype, file_type1: file_type,file_path1: "" )
                                     

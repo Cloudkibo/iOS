@@ -546,8 +546,9 @@ class NetworkingManager
             if let directoryURL = NSFileManager.defaultManager().URLsForDirectory(.DocumentDirectory, inDomains: .UserDomainMask)[0] as? NSURL {
                //// var localImageURL = directoryURL.URLByAppendingPathComponent("\(response.suggestedFilename!)")
                 //filenamePending
+                print("filePendingName is \(filePendingName)")
                 var localImageURL = directoryURL.URLByAppendingPathComponent(filePendingName)
-                
+                print("response.suggestedFilename! is \(response.suggestedFilename!)")
                 /*let checkValidation = NSFileManager.defaultManager()
                 
                 if (checkValidation.fileExistsAtPath("\(localImageURL)"))

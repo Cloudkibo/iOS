@@ -1236,6 +1236,8 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
     func tableView(tableView: UITableView!, cellForRowAtIndexPath indexPath: NSIndexPath!) -> UITableViewCell! {
         var cell : UITableViewCell!
         
+        cell.tag = indexPath.row
+        
         //print("cellForRowAtIndexPath called \(indexPath)")
         var messageDic = messages.objectAtIndex(indexPath.row) as! [String : String];
         NSLog(messageDic["message"]!, 1)
@@ -1426,13 +1428,18 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
             var documentDir=docsDir1 as NSString
             var imgPath=documentDir.stringByAppendingPathComponent(msg as! String)
             
+            
+            print("uniqueid image is \(uniqueidDictValue) msg is \(msg) imgPath is \(imgPath) ")
+            
             var imgNSData=NSFileManager.defaultManager().contentsAtPath(imgPath)
+            
+       //===     print("imgNSData is \(imgNSData)")
             //var imgNSData=NSFileManager.defaultManager().contentsAtPath(imgPath.path!)
             //print("hereee imgPath.path! is \(imgPath)")
             
             
             
-            if(imgNSData != nil)
+            if(imgNSData != nil && (cell.tag == indexPath.row))
             {
                 chatImage.userInteractionEnabled = true
               
@@ -1487,7 +1494,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
                 chatImage.image = UIImage(data: imgNSData!)!
                 ///.stretchableImageWithLeftCapWidth(40,topCapHeight: 20);
                 chatImage.contentMode = .ScaleAspectFill
-                chatImage.setNeedsDisplay()
+                //===== uncomment later chatImage.setNeedsDisplay()
                 //print("file shownnnnnnnnn")
                 textLable.hidden=true
                 
@@ -1529,15 +1536,20 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
             let dirPaths = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)
             let docsDir1 = dirPaths[0]
             var documentDir=docsDir1 as NSString
+            
             var imgPath=documentDir.stringByAppendingPathComponent(msg as! String)
+            print("uniqueid image is \(uniqueidDictValue) msg is \(msg) imgPath is \(imgPath)")
             
             var imgNSData=NSFileManager.defaultManager().contentsAtPath(imgPath)
+            
+        //====     print("imgNSData is \(imgNSData)")
+            
             //var imgNSData=NSFileManager.defaultManager().contentsAtPath(imgPath.path!)
             //print("hereee imgPath.path! is \(imgPath)")
             
             
             
-            if(imgNSData != nil)
+            if(imgNSData != nil && (cell.tag == indexPath.row))
             {
                 chatImage.userInteractionEnabled = true
                 //now you need a tap gesture recognizer
@@ -1592,7 +1604,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
                 chatImage.image = UIImage(data: imgNSData!)!
                 ///.stretchableImageWithLeftCapWidth(40,topCapHeight: 20);
                 chatImage.contentMode = .ScaleAspectFill
-                chatImage.setNeedsDisplay()
+                //======= uncomment later chatImage.setNeedsDisplay()
                 //print("file shownnnnnnnnn")
                 textLable.hidden=true
                 
@@ -1873,7 +1885,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
             
             profileImage.center = CGPointMake(45+distanceFactor, textLable.frame.origin.y + textLable.frame.size.height - profileImage.frame.size.height/2+10)
             
-            profileImage.setNeedsDisplay()
+           //==== uncomment later profileImage.setNeedsDisplay()
             
             timeLabel.frame = CGRectMake(35 + distanceFactor, chatImage.frame.origin.y+sizeOFStr.height + 20, chatImage.frame.size.width-40, timeLabel.frame.size.height)
             
