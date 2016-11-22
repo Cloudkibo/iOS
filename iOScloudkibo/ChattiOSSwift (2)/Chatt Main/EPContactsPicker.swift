@@ -31,6 +31,7 @@ public class EPContactsPicker: UITableViewController, UISearchResultsUpdating, U
     
     // MARK: - Properties
     
+    var alreadySelectedContactsIdentifiers=[String]() // already selected so disable
     public var contactDelegate: EPPickerDelegate?
     var contactsStore: CNContactStore?
     var resultSearchController = UISearchController()
@@ -161,6 +162,13 @@ public class EPContactsPicker: UITableViewController, UISearchResultsUpdating, U
         subtitleCellValue = subtitleCellType
     }
     
+    convenience public init(delegate: EPPickerDelegate?, multiSelection : Bool, subtitleCellType: SubtitleCellValue,alreadySelectedContactsIdentifiers:[String]) {
+        self.init(style: .Plain)
+        self.multiSelectEnabled = multiSelection
+        contactDelegate = delegate
+        subtitleCellValue = subtitleCellType
+        self.alreadySelectedContactsIdentifiers=alreadySelectedContactsIdentifiers
+    }
     
     // MARK: - Contact Operations
   
@@ -306,14 +314,31 @@ public class EPContactsPicker: UITableViewController, UISearchResultsUpdating, U
 
     // MARK: - Table View Delegates
 
+    func checkIfAlreadySelected(newcontact:CNContact)->Bool
+    {
+        var alreadyselected=false
+        //match identifier
+        for(var i=0;i<alreadySelectedContactsIdentifiers.count;i++)
+        {
+            if(newcontact.identifier == alreadySelectedContactsIdentifiers[i])
+            {
+                alreadyselected=true
+                break
+            }
+            
+        }
+        return alreadyselected
+    }
+    
     override public func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("Cell", forIndexPath: indexPath) as! EPContactCell
         cell.accessoryType = UITableViewCellAccessoryType.None
         //Convert CNContact to EPContact
         var contact = EPContact()
-        
+        var alreadyselected=false
         if resultSearchController.active {
             contact = EPContact(contact: filteredContacts[indexPath.row])
+            alreadyselected=checkIfAlreadySelected(filteredContacts[indexPath.row])
             
             /*if(contact.isKiboContact())
             {
@@ -325,12 +350,13 @@ public class EPContactsPicker: UITableViewController, UISearchResultsUpdating, U
         } else {
             if let contactsForSection = orderedContacts[sortedContactKeys[indexPath.section]] {
                 contact =  EPContact(contact: contactsForSection[indexPath.row])
+                alreadyselected=checkIfAlreadySelected(contactsForSection[indexPath.row])
             }
         }
         if multiSelectEnabled  && selectedContacts.contains({ $0.contactId == contact.contactId }) {
             cell.accessoryType = UITableViewCellAccessoryType.Checkmark
         }
-        cell.updateContactsinUI(contact, indexPath: indexPath, subtitleType: subtitleCellValue)
+        cell.updateContactsinUI(contact, indexPath: indexPath, subtitleType: subtitleCellValue, isalreadyselected: alreadyselected)
         return cell
     }
     

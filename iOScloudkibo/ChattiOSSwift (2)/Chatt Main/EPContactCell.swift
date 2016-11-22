@@ -38,7 +38,7 @@ class EPContactCell: UITableViewCell {
         contactInitialLabel.backgroundColor = colorArray[randomValue]
     }
  
-    func updateContactsinUI(contact: EPContact, indexPath: NSIndexPath, subtitleType: SubtitleCellValue) {
+    func updateContactsinUI(contact: EPContact, indexPath: NSIndexPath, subtitleType: SubtitleCellValue,isalreadyselected:Bool) {
         
           self.contact = contact
        /* if(contact.isKiboContact())
@@ -59,7 +59,7 @@ class EPContactCell: UITableViewCell {
         
         
         //Update all UI in the cell here
-        updateSubtitleBasedonType(subtitleType, contact: contact)
+        updateSubtitleBasedonType(subtitleType, contact: contact,isalreadyselected: isalreadyselected)
         if contact.thumbnailProfileImage != nil {
             self.contactImageView?.image = contact.thumbnailProfileImage
             self.contactImageView.hidden = false
@@ -76,8 +76,16 @@ class EPContactCell: UITableViewCell {
         }
     }
     
-    func updateSubtitleBasedonType(subtitleType: SubtitleCellValue , contact: EPContact) {
+    func updateSubtitleBasedonType(subtitleType: SubtitleCellValue , contact: EPContact,isalreadyselected:Bool) {
         self.userInteractionEnabled=true
+        
+        if(isalreadyselected==true)
+        {
+            self.contactDetailTextLabel.text = "Already added"
+            self.userInteractionEnabled=false
+        }
+        else
+        {
         switch subtitleType {
             
         case SubtitleCellValue.PhoneNumber:
@@ -124,5 +132,6 @@ class EPContactCell: UITableViewCell {
         case SubtitleCellValue.Organization:
             self.contactDetailTextLabel.text = contact.company! as String
         }
+    }//end else
     }
 }

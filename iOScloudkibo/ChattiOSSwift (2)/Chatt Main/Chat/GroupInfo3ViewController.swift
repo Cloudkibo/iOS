@@ -22,6 +22,8 @@ class GroupInfo3ViewController: UIViewController,UINavigationControllerDelegate,
 EPPickerDelegate,SWTableViewCellDelegate,UIImagePickerControllerDelegate {
 
     
+    
+    var membersArrayOfGroup=[[String:AnyObject]]()
     var filePathImage2=""
     var ftype=""
     var fileSize1:UInt64=0
@@ -133,7 +135,7 @@ EPPickerDelegate,SWTableViewCellDelegate,UIImagePickerControllerDelegate {
         //print(res)
         do
         {
-           var membersArrayOfGroup=sqliteDB.getGroupMembersOfGroup(groupid)
+           membersArrayOfGroup=sqliteDB.getGroupMembersOfGroup(groupid)
             for(var i=0;i<membersArrayOfGroup.count;i++)
             {
                 print("found matched idss")
@@ -189,9 +191,18 @@ else{
     
     func BtnnewGroupClicked(sender:UIButton)
     {
-        
-        
-        let contactPickerScene = EPContactsPicker(delegate: self, multiSelection:true, subtitleCellType: SubtitleCellValue.PhoneNumber)
+        //add participants clicked
+        var identifiersarray=[String]()
+for(var i=0;i<membersArrayOfGroup.count;i++)
+{
+var identifier=sqliteDB.getIdentifierFRomPhone(membersArrayOfGroup[i]["member_phone"] as! String)
+if(identifier != "")
+{
+identifiersarray.append(identifier)
+}
+}
+                
+        let contactPickerScene = EPContactsPicker(delegate: self, multiSelection:true, subtitleCellType: SubtitleCellValue.PhoneNumber, alreadySelectedContactsIdentifiers:identifiersarray)
         let navigationController = UINavigationController(rootViewController: contactPickerScene)
         self.presentViewController(navigationController, animated: true, completion: nil)
         

@@ -2416,5 +2416,27 @@ print("--------")
     }
     
     
+    func getIdentifierFRomPhone(phone1:String)->String
+    {
+        let phone = Expression<String>("phone")
+        let uniqueidentifier = Expression<String>("uniqueidentifier")
+        //
+        self.allcontacts = Table("allcontacts")
+        var identifier=""
+        do
+        {for identifierinfo in try self.db.prepare(allcontacts.filter(phone == phone1)){
+            print("found identifier")
+            identifier=identifierinfo[uniqueidentifier]
+            break
+            }
+        }
+        catch
+        {
+            print("error in filee")
+        }
+        
+        return identifier
+    }
+    
     
 }
