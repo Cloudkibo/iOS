@@ -1550,7 +1550,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "45"
             endingLineNumber = "45"
-            landmarkName = "hubname"
+            landmarkName = "connectionstring"
             landmarkType = "19">
             <Locations>
                <Location

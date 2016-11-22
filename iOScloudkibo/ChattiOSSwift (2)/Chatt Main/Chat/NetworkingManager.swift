@@ -427,13 +427,15 @@ class NetworkingManager
         
     }
     
-    func checkPendingFiles(phone1:String)
+    func checkPendingFiles(uniqueid1:String)
     {
         var checkPendingFiles=Constants.MainUrl+Constants.checkPendingFile
         
         //Alamofire.request(.POST,"\(removeChatHistoryURL)",headers:header,parameters: ["username":"\(selectedContact)"]).validate(statusCode: 200..<300).response{
-        Alamofire.request(.POST,"\(checkPendingFiles)",headers:header,parameters: ["phone":phone1]).validate(statusCode: 200..<300).responseJSON{
-            response in
+        //====Alamofire.request(.POST,"\(checkPendingFiles)",headers:header,parameters: ["phone":phone1]).validate(statusCode: 200..<300).responseJSON{
+        Alamofire.request(.POST,"\(checkPendingFiles)",headers:header,parameters: ["uniqueid":uniqueid1]).validate(statusCode: 200..<300).responseJSON{
+            
+        response in
             
            ////// print(response.data!)
             

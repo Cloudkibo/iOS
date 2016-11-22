@@ -468,7 +468,10 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
             //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
             // if(socketObj != nil)
             // {
-            managerFile.checkPendingFiles(username!)
+           
+            
+            
+            //======== uncommenting. will be handled in chat part below managerFile.checkPendingFiles(username!)
          
             self.sendPendingChatMessages({ (result) -> () in
                 
@@ -749,6 +752,8 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
                             if(UserchatJson["msg"][i]["uniqueid"].isExists())
                             {
                                 
+                            
+                                
                                 /* let tbl_files=sqliteDB.files;
                                  do{
                                  
@@ -784,10 +789,20 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
                                     var updatedStatus="delivered"
                                     
                                     
+                                   
+                                    
                                     sqliteDB.SaveChat(UserchatJson["msg"][i]["to"].string!, from1: UserchatJson["msg"][i]["from"].string!,owneruser1:UserchatJson["msg"][i]["owneruser"].string! , fromFullName1: UserchatJson["msg"][i]["fromFullName"].string!, msg1: UserchatJson["msg"][i]["msg"].string!,date1:datens2,uniqueid1:UserchatJson["msg"][i]["uniqueid"].string!,status1: updatedStatus, type1: chattype, file_type1: file_type,file_path1: "" )
                                     
                                     //socketObj.socket.emit("messageStatusUpdate",["status":"","iniqueid":"","sender":""])
                                     
+                                    
+                                    
+                                    //new added for file transfer
+                                    if(UserchatJson["msg"][i]["type"].string! == "file")
+                                    {
+                                        managerFile.checkPendingFiles(UserchatJson["msg"][i]["uniqueid"].string!)
+
+                                    }
                                     
                                     managerFile.sendChatStatusUpdateMessage(UserchatJson["msg"][i]["uniqueid"].string!, status: updatedStatus, sender: UserchatJson["msg"][i]["from"].string!)
                                     
@@ -809,6 +824,12 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
                                 {
                                     
                                     sqliteDB.SaveChat(UserchatJson["msg"][i]["to"].string!, from1: UserchatJson["msg"][i]["from"].string!,owneruser1:UserchatJson["msg"][i]["owneruser"].string! , fromFullName1: UserchatJson["msg"][i]["fromFullName"].string!, msg1: UserchatJson["msg"][i]["msg"].string!,date1:datens2,uniqueid1:UserchatJson["msg"][i]["uniqueid"].string!,status1: UserchatJson["msg"][i]["status"].string!, type1: chattype, file_type1: file_type,file_path1: "" )
+                                    
+                                    if(UserchatJson["msg"][i]["type"].string! == "file")
+                                    {
+                                        managerFile.checkPendingFiles(UserchatJson["msg"][i]["uniqueid"].string!)
+                                        
+                                    }
                                     
                                 }
                             }
@@ -2340,7 +2361,8 @@ else{
                         
                         if(chatJson[0]["type"].string! == "file")
                         {
-                            managerFile.checkPendingFiles(username!)
+                          //change logic uncomment  managerFile.checkPendingFiles(username!)
+                            managerFile.checkPendingFiles(chatJson[0]["uniqueid"].string!)
                         }
                         
                         //===
