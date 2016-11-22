@@ -428,7 +428,7 @@ class NetworkingManager
     }
     
     func checkPendingFiles(uniqueid1:String)
-    {
+    {print("inside checkpending")
         var checkPendingFiles=Constants.MainUrl+Constants.checkPendingFile
         
         //Alamofire.request(.POST,"\(removeChatHistoryURL)",headers:header,parameters: ["username":"\(selectedContact)"]).validate(statusCode: 200..<300).response{

@@ -723,7 +723,13 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
                     /////print("statussss is \(tblContacts[status])")
                     if(tblContacts[file_type]=="image")
                     {
+                        var filedownloaded=sqliteDB.checkIfFileExists(tblContacts[uniqueid])
                       
+                        /*if(filedownloaded==false)
+{
+//checkpendingfiles
+    managerFile.checkPendingFiles(tblContacts[uniqueid])
+}*/
                       //  self.addUploadInfo(selectedContact, uniqueid1: tblContacts[uniqueid], rowindex: messages.count, uploadProgress: 1, isCompleted: true)
                       
                         messages2.addObject(["message":tblContacts[msg], "type":"4", "date":defaultTimeeee, "uniqueid":tblContacts[uniqueid]])
@@ -737,7 +743,13 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
                     else{
                     if(tblContacts[file_type]=="document")
                     {
-
+                        var filedownloaded=sqliteDB.checkIfFileExists(tblContacts[uniqueid])
+                        
+                       /* if(filedownloaded==false)
+                        {
+                            //checkpendingfiles
+                            managerFile.checkPendingFiles(tblContacts[uniqueid])
+                        }*/
                       ////  self.addUploadInfo(selectedContact, uniqueid1: tblContacts[uniqueid], rowindex: messages.count, uploadProgress: 1, isCompleted: true)
                        
                         messages2.addObject(["message":tblContacts[msg], "type":"6", "date":defaultTimeeee, "uniqueid":tblContacts[uniqueid]])
@@ -759,6 +771,14 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
                    //// //print("statussss is \(tblContacts[status])")
                     if(tblContacts[file_type]=="image")
                     {
+                        var filedownloaded=sqliteDB.checkIfFileExists(tblContacts[uniqueid])
+                        
+                        if(filedownloaded==false)
+                        {
+                            //checkpendingfiles
+                            managerFile.checkPendingFiles(tblContacts[uniqueid])
+                        }
+
                       //  self.addUploadInfo(selectedContact, uniqueid1: tblContacts[uniqueid], rowindex: messages.count, uploadProgress: 1, isCompleted: true)
                         messages2.addObject(["message":tblContacts[msg], "type":"3", "date":defaultTimeeee, "uniqueid":tblContacts[uniqueid]])
                        
@@ -769,6 +789,14 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
                     else
                     {if(tblContacts[file_type]=="document")
                     {
+                        var filedownloaded=sqliteDB.checkIfFileExists(tblContacts[uniqueid])
+                        
+                        if(filedownloaded==false)
+                        {
+                            //checkpendingfiles
+                            managerFile.checkPendingFiles(tblContacts[uniqueid])
+                        }
+
                        // self.addUploadInfo(selectedContact, uniqueid1: tblContacts[uniqueid], rowindex: messages.count, uploadProgress: 1, isCompleted: true)
                         messages2.addObject(["message":tblContacts[msg], "type":"5", "date":defaultTimeeee, "uniqueid":tblContacts[uniqueid]])
                        
@@ -1235,8 +1263,8 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
 
     func tableView(tableView: UITableView!, cellForRowAtIndexPath indexPath: NSIndexPath!) -> UITableViewCell! {
         var cell : UITableViewCell!
-        
-        cell.tag = indexPath.row
+        print("reloading of cellsssssssss......------------===========++++++")
+       
         
         //print("cellForRowAtIndexPath called \(indexPath)")
         var messageDic = messages.objectAtIndex(indexPath.row) as! [String : String];
@@ -1246,6 +1274,10 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
         let date2=messageDic["date"] as NSString!
         let sizeOFStr = self.getSizeOfString(msg)
         let uniqueidDictValue=messageDic["uniqueid"] as NSString!
+        
+       // cell = tblForChats.dequeueReusableCellWithIdentifier("ChatSentCell")! as UITableViewCell
+
+        //cell.tag=indexPath.row
         //print("sizeOFStr for \(msg) is \(sizeOFStr)")
        //// //print("sizeOfstr is width \(sizeOFStr.width) and height is \(sizeOFStr.height)")
         
@@ -1405,6 +1437,9 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
                
                 //FileImageReceivedCell
                 tblForChats.dequeueReusableCellWithIdentifier("FileImageSentCell")! as UITableViewCell
+            
+          //=== uncomment   cell.tag = indexPath.row
+            
             let deliveredLabel = cell.viewWithTag(13) as! UILabel
             let textLable = cell.viewWithTag(12) as! UILabel
             let timeLabel = cell.viewWithTag(11) as! UILabel
@@ -1439,7 +1474,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
             
             
             
-            if(imgNSData != nil && (cell.tag == indexPath.row))
+            if(imgNSData != nil/* && (cell.tag == indexPath.row)*/)
             {
                 chatImage.userInteractionEnabled = true
               
@@ -1482,6 +1517,8 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
  
  */
                 
+                chatImage.image = UIImage(data: imgNSData!)!
+                
                 //now you need a tap gesture recognizer
                 //note that target and action point to what happens when the action is recognized.
                 let tapRecognizer = UITapGestureRecognizer(target: self, action: Selector("imageTapped:"))
@@ -1516,6 +1553,9 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
                 
                 //FileImageReceivedCell
                 tblForChats.dequeueReusableCellWithIdentifier("FileImageReceivedCell")! as UITableViewCell
+            
+             //=====cell.tag = indexPath.row
+            
             let deliveredLabel = cell.viewWithTag(13) as! UILabel
             let textLable = cell.viewWithTag(12) as! UILabel
             let timeLabel = cell.viewWithTag(11) as! UILabel
@@ -1549,7 +1589,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
             
             
             
-            if(imgNSData != nil && (cell.tag == indexPath.row))
+            if(imgNSData != nil /*&& (cell.tag == indexPath.row)*/)
             {
                 chatImage.userInteractionEnabled = true
                 //now you need a tap gesture recognizer

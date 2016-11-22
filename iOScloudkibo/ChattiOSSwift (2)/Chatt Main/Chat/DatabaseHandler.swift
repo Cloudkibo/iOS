@@ -2391,6 +2391,29 @@ print("--------")
         
     }
     
+    func checkIfFileExists(uniqueid1:String)->Bool
+    {
+        print("ckecking file exists \(uniqueid1)")
+        let uniqueid = Expression<String>("uniqueid")
+        
+        
+        var tbl_userfiles=sqliteDB.files
+        var fileexists=false
+        
+        do
+        {for groupsinfo in try self.db.prepare(tbl_userfiles.filter(uniqueid == uniqueid1)){
+            print("found pending file")
+            fileexists=true
+            
+            }
+        }
+        catch
+        {
+            print("error in filee")
+        }
+        return fileexists
+            
+    }
     
     
     
