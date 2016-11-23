@@ -2485,7 +2485,32 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
     }
     
     func textFieldShouldReturn (textField: UITextField!) -> Bool{
+        
         textField.resignFirstResponder()
+        var duration : NSTimeInterval = 0
+        var keyboardFrame = keyFrame
+        
+       
+        if(cellY>(keyboardFrame.origin.y+20))
+        {
+            UIView.animateWithDuration(duration, delay: 0, options:[], animations: {
+                self.viewForContent.contentOffset = CGPointMake(0, 0)
+                
+                }, completion:{ (true)-> Void in
+                    self.showKeyboard=false
+            })
+        }else{
+            UIView.animateWithDuration(duration, delay: 0, options:[], animations: {
+                var newY=self.chatComposeView.frame.origin.y+keyboardFrame.size.height
+                self.chatComposeView.frame=CGRectMake(self.chatComposeView.frame.origin.x,newY,self.chatComposeView.frame.width,self.chatComposeView.frame.height)
+                
+                //== self.viewForContent.contentOffset = CGPointMake(0, keyboardFrame.size.height)
+                
+                },completion:{ (true)-> Void in
+                    self.showKeyboard=false
+            })
+        }
+        
       //  var userInfo: NSDictionary!
        // userInfo = notification.userInfo
         
@@ -2518,6 +2543,10 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
         showKeyboard=false
 */
         
+        
+        
+        //uncomment later if needed
+        /*
         var duration : NSTimeInterval = 0
         
         UIView.animateWithDuration(duration, delay: 0, options:[], animations: {
@@ -2526,7 +2555,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
             }, completion:{ (true)-> Void in
                 self.showKeyboard=false
         })
-        
+        */
         return true
         
         
