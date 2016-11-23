@@ -22,7 +22,7 @@ import Contacts
 class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChatDelegate,UIDocumentPickerDelegate,UIDocumentMenuDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate,NSFileManagerDelegate,showUploadProgressDelegate,UpdateChatViewsDelegate{
     
    /// var manager = NetworkingManager.sharedManager
-    
+    var cellY:CGFloat=0
     var delegateChatRefr:UpdateChatViewsDelegate!
 
     var delegateProgressUpload:showUploadProgressDelegate!
@@ -2316,7 +2316,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
         print("Y of Cell is: \(rectOfCellInSuperview.origin.y%viewForContent.frame.height)")
         print("content offset is \(tblForChats.contentOffset.y)")
         
-        var cellY=(tblForChats.visibleCells.last?.frame.origin.y)!+(tblForChats.visibleCells.last?.frame.height)!
+        cellY=(tblForChats.visibleCells.last?.frame.origin.y)!+(tblForChats.visibleCells.last?.frame.height)!
         print("cellY is \(cellY)")
         
         /*let info = notification.userInfo as! [String: AnyObject],
@@ -2370,7 +2370,8 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
                 UIView.animateWithDuration(duration, delay: 0, options:[], animations: {
                     var newY=self.chatComposeView.frame.origin.y-keyboardFrame.size.height
                     self.chatComposeView.frame=CGRectMake(self.chatComposeView.frame.origin.x,newY,self.chatComposeView.frame.width,self.chatComposeView.frame.height)
-                   //== self.viewForContent.contentOffset = CGPointMake(0, keyboardFrame.size.height)
+                   
+                    //== self.viewForContent.contentOffset = CGPointMake(0, keyboardFrame.size.height)
                     
                     }, completion: nil)
 
@@ -2431,13 +2432,39 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
          duration = userInfo[UIKeyboardAnimationDurationUserInfoKey]as! NSTimeInterval
          let keyboardF:NSValue = userInfo.objectForKey(UIKeyboardFrameEndUserInfoKey) as! NSValue
          var keyboardFrame = keyboardF.CGRectValue()
-         
-         UIView.animateWithDuration(duration, delay: 0, options:[], animations: {
+        
+        
+        
+        
+        if(cellY>(keyboardFrame.origin.y+20))
+        {
+            UIView.animateWithDuration(duration, delay: 0, options:[], animations: {
+                self.viewForContent.contentOffset = CGPointMake(0, 0)
+                
+                }, completion:{ (true)-> Void in
+                    self.showKeyboard=false
+            })
+        }else{
+            UIView.animateWithDuration(duration, delay: 0, options:[], animations: {
+                var newY=self.chatComposeView.frame.origin.y+keyboardFrame.size.height
+                self.chatComposeView.frame=CGRectMake(self.chatComposeView.frame.origin.x,newY,self.chatComposeView.frame.width,self.chatComposeView.frame.height)
+                
+                //== self.viewForContent.contentOffset = CGPointMake(0, keyboardFrame.size.height)
+                
+                },completion:{ (true)-> Void in
+                    self.showKeyboard=false
+                })
+        }
+
+            
+            
+          //uncomment
+        /* UIView.animateWithDuration(duration, delay: 0, options:[], animations: {
          self.viewForContent.contentOffset = CGPointMake(0, 0)
          
             }, completion:{ (true)-> Void in
         self.showKeyboard=false
-        })
+        })*/
  
         /*
         var userInfo: NSDictionary!
