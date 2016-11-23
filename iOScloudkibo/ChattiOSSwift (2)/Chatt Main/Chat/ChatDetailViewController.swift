@@ -2625,6 +2625,9 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
             importMenu.delegate = self
             
             dispatch_async(dispatch_get_main_queue()) { () -> Void in
+                if(self.showKeyboard==true)
+                {self.textFieldShouldReturn(self.txtFldMessage)
+                }
                 self.presentViewController(importMenu, animated: true, completion: nil)
                 
                 
