@@ -12,8 +12,21 @@ import SQLite
 import SwiftyJSON
 class GroupChatingDetailController: UIViewController,UpdateGroupChatDetailsDelegate {
     
+    
+    
+    
+    var cellY:CGFloat=0
+    var showKeyboard=false
+    var keyFrame:CGRect!
+    var keyheight:CGFloat!
+    /////
+    
+    
+    
+    @IBOutlet weak var viewForContent: UIScrollView!
+    
     var swipedRow:Int!
-    @IBOutlet weak var viewForTableAndTextfield: UIView!
+    ///@IBOutlet weak var viewForTableAndTextfield: UIView!
     var membersList=[[String:AnyObject]]()
     var delegateReload:UpdateGroupChatDetailsDelegate!
     var mytitle=""
@@ -308,7 +321,7 @@ class GroupChatingDetailController: UIViewController,UpdateGroupChatDetailsDeleg
         
         NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("keyboardWillShow:"), name:UIKeyboardWillShowNotification, object: nil)
         
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("keyboardWillHide:"), name: UIKeyboardWillHideNotification, object: nil)
+       //uncomment later NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("keyboardWillHide:"), name: UIKeyboardWillHideNotification, object: nil)
         
 
        /* NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("keyboardWillShow:"), name: UIKeyboardWillShowNotification, object: nil)
@@ -611,12 +624,12 @@ class GroupChatingDetailController: UIViewController,UpdateGroupChatDetailsDeleg
         messages.addObject(["message":message, "type":msgType, "date":date, "uniqueid":uniqueid])
     }
     
-    
-    func textFieldShouldReturn (textField: UITextField!) -> Bool{
+    //uncomment later
+    /*func textFieldShouldReturn (textField: UITextField!) -> Bool{
         txtFieldMessage.resignFirstResponder()
         return true
     
-    }
+    }*/
     
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -813,21 +826,208 @@ class GroupChatingDetailController: UIViewController,UpdateGroupChatDetailsDeleg
         
     }
     
-    func keyboardWillShow(notification: NSNotification) {
+    func textFieldShouldReturn (textField: UITextField!) -> Bool{
         
-        if let keyboardSize = (notification.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.CGRectValue() {
-            self.viewForTableAndTextfield.frame.origin.y -= keyboardSize.height
-            // self.view.frame.origin.y -= keyboardSize.height
+        textField.resignFirstResponder()
+        var duration : NSTimeInterval = 0
+        var keyboardFrame = keyFrame
+        
+        
+        if(cellY>(keyboardFrame.origin.y+20))
+        {
+            UIView.animateWithDuration(duration, delay: 0, options:[], animations: {
+                self.viewForContent.contentOffset = CGPointMake(0, 0)
+                
+                }, completion:{ (true)-> Void in
+                    self.showKeyboard=false
+            })
+        }else{
+            UIView.animateWithDuration(duration, delay: 0, options:[], animations: {
+                var newY=self.chatComposeView.frame.origin.y+keyboardFrame.size.height
+                self.chatComposeView.frame=CGRectMake(self.chatComposeView.frame.origin.x,newY,self.chatComposeView.frame.width,self.chatComposeView.frame.height)
+                
+                //== self.viewForContent.contentOffset = CGPointMake(0, keyboardFrame.size.height)
+                
+                },completion:{ (true)-> Void in
+                    self.showKeyboard=false
+            })
         }
+        
+        //  var userInfo: NSDictionary!
+        // userInfo = notification.userInfo
+        
+        /*
+         var duration : NSTimeInterval = 0
+         
+         
+         
+         
+         /*var userInfo: NSDictionary!
+         userInfo = notification.userInfo
+         
+         var duration : NSTimeInterval = 0
+         var curve = userInfo.objectForKey(UIKeyboardAnimationCurveUserInfoKey) as! UInt
+         duration = userInfo[UIKeyboardAnimationDurationUserInfoKey]as! NSTimeInterval
+         let keyboardF:NSValue = userInfo.objectForKey(UIKeyboardFrameEndUserInfoKey) as! NSValue
+         var keyboardFrame = keyboardF.CGRectValue()
+         
+         UIView.animateWithDuration(duration, delay: 0, options:[], animations: {
+         self.viewForContent.contentOffset = CGPointMake(0, 0)
+         
+         }, completion: nil)
+         
+         */
+         
+         UIView.animateWithDuration(duration, delay: 0, options:[], animations: {
+         self.chatComposeView.frame = CGRectMake(self.chatComposeView.frame.origin.x, self.chatComposeView.frame.origin.y + self.keyheight-self.chatComposeView.frame.size.height-3, self.chatComposeView.frame.size.width, self.chatComposeView.frame.size.height)
+         self.tblForChats.frame = CGRectMake(self.tblForChats.frame.origin.x, self.tblForChats.frame.origin.y, self.tblForChats.frame.size.width, self.tblForChats.frame.size.height + self.keyFrame.size.height-49);
+         }, completion: nil)
+         showKeyboard=false
+         */
+        
+        
+        
+        //uncomment later if needed
+        /*
+         var duration : NSTimeInterval = 0
+         
+         UIView.animateWithDuration(duration, delay: 0, options:[], animations: {
+         self.viewForContent.contentOffset = CGPointMake(0, 0)
+         
+         }, completion:{ (true)-> Void in
+         self.showKeyboard=false
+         })
+         */
+        return true
+        
         
     }
     
-    func keyboardWillHide(notification: NSNotification) {
+    func keyboardWillShow(notification: NSNotification) {
+        
+        func willShowKeyBoard(notification : NSNotification){
+            
+            var lastind=NSIndexPath.init(index: self.messages.count)
+            let rectOfCellInTableView = tblForGroupChat.rectForRowAtIndexPath(lastind)
+            let rectOfCellInSuperview = tblForGroupChat.convertRect(rectOfCellInTableView, toView: nil)
+            print("last cell pos y is \(tblForGroupChat.visibleCells.last?.frame.origin.y)")
+            
+            print("Y of Cell is: \(rectOfCellInSuperview.origin.y%viewForContent.frame.height)")
+            print("content offset is \(tblForGroupChat.contentOffset.y)")
+            
+            cellY=(tblForGroupChat.visibleCells.last?.frame.origin.y)!+(tblForGroupChat.visibleCells.last?.frame.height)!
+            print("cellY is \(cellY)")
+            
+            /*let info = notification.userInfo as! [String: AnyObject],
+             kbSize = (info[UIKeyboardFrameBeginUserInfoKey] as! NSValue).CGRectValue().size,
+             contentInsets = UIEdgeInsets(top: 0, left: 0, bottom: kbSize.height, right: 0)
+             
+             self.tblForChats.contentInset = contentInsets
+             self.tblForChats.scrollIndicatorInsets = contentInsets
+             
+             // If active text field is hidden by keyboard, scroll it so it's visible
+             // Your app might not need or want this behavior.
+             var aRect = self.view.frame
+             aRect.size.height -= kbSize.height
+             
+             if !CGRectContainsPoint(aRect, chatComposeView!.frame.origin) {
+             self.tblForChats.scrollRectToVisible(chatComposeView!.frame, animated: true)
+             }
+             */
+            //print("showkeyboardNotification============")
+            
+            if(showKeyboard==false)
+            {
+                var userInfo: NSDictionary!
+                userInfo = notification.userInfo
+                
+                var duration : NSTimeInterval = 0
+                var curve = userInfo.objectForKey(UIKeyboardAnimationCurveUserInfoKey) as! UInt
+                duration = userInfo[UIKeyboardAnimationDurationUserInfoKey]as! NSTimeInterval
+                let keyboardF:NSValue = userInfo.objectForKey(UIKeyboardFrameEndUserInfoKey)as! NSValue
+                let keyboardFrame = keyboardF.CGRectValue()
+                print("keyboard y is \(keyboardFrame.origin.y)")
+                
+                if(keyheight==nil)
+                {
+                    keyheight=keyboardFrame.size.height
+                }
+                if(keyFrame==nil)
+                {
+                    keyFrame=keyboardFrame
+                }
+                
+                print("keyboard height is \(keyheight)")
+                
+                if(cellY>(keyboardFrame.origin.y+20))
+                {
+                    UIView.animateWithDuration(duration, delay: 0, options:[], animations: {
+                        self.viewForContent.contentOffset = CGPointMake(0, keyboardFrame.size.height)
+                        
+                        }, completion: nil)
+                }else{
+                    UIView.animateWithDuration(duration, delay: 0, options:[], animations: {
+                        var newY=self.chatComposeView.frame.origin.y-keyboardFrame.size.height
+                        self.chatComposeView.frame=CGRectMake(self.chatComposeView.frame.origin.x,newY,self.chatComposeView.frame.width,self.chatComposeView.frame.height)
+                        
+                        //== self.viewForContent.contentOffset = CGPointMake(0, keyboardFrame.size.height)
+                        
+                        }, completion: nil)
+                    
+                }
+                
+                /*var userInfo: NSDictionary!
+                 userInfo = notification.userInfo
+                 
+                 var duration : NSTimeInterval = 0
+                 var curve = userInfo.objectForKey(UIKeyboardAnimationCurveUserInfoKey) as! UInt
+                 duration = userInfo[UIKeyboardAnimationDurationUserInfoKey] as! NSTimeInterval
+                 let keyboardF:NSValue = userInfo.objectForKey(UIKeyboardFrameEndUserInfoKey) as! NSValue
+                 let keyboardFrame = keyboardF.CGRectValue()
+                 
+                 if(keyheight==nil)
+                 {
+                 keyheight=keyboardFrame.size.height
+                 }
+                 if(keyFrame==nil)
+                 {
+                 keyFrame=keyboardFrame
+                 }
+                 
+                 
+                 UIView.animateWithDuration(duration, delay: 0, options:[], animations: {
+                 self.chatComposeView.frame = CGRectMake(self.chatComposeView.frame.origin.x, self.chatComposeView.frame.origin.y - self.keyheight+self.chatComposeView.frame.size.height+3, self.chatComposeView.frame.size.width, self.chatComposeView.frame.size.height)
+                 
+                 self.tblForChats.frame = CGRectMake(self.tblForChats.frame.origin.x, self.tblForChats.frame.origin.y, self.tblForChats.frame.size.width, self.tblForChats.frame.size.height-self.keyFrame.size.height+49);
+                 }, completion: nil)
+                 */
+                showKeyboard=true
+                
+            }
+            
+            tblForGroupChat.reloadData()
+            if(messages.count>1)
+            {
+                let indexPath = NSIndexPath(forRow:messages.count-1, inSection: 0)
+                tblForGroupChat.scrollToRowAtIndexPath(indexPath, atScrollPosition: UITableViewScrollPosition.Bottom, animated: true)
+            }
+            
+            
+        }
+        
+        /*if let keyboardSize = (notification.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.CGRectValue() {
+            self.viewForTableAndTextfield.frame.origin.y -= keyboardSize.height
+            // self.view.frame.origin.y -= keyboardSize.height
+        }
+        */
+    }
+    //uncomment
+   /* func keyboardWillHide(notification: NSNotification) {
         if let keyboardSize = (notification.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.CGRectValue() {
-            self.viewForTableAndTextfield.frame.origin.y += keyboardSize.height
+            self.viewForContent.frame.origin.y += keyboardSize.height
             //self.view.frame.origin.y += keyboardSize.height
         }
-    }
+    }*/
     
     func getSizeOfString(postTitle: NSString) -> CGSize {
         

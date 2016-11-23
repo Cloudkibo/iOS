@@ -1661,12 +1661,12 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" id="OkC-i6-IE8">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="504"/>
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" id="KiZ-C9-jPm">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="523"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <subviews>
                                     <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="MKE-Oa-T8a">
-                                        <rect key="frame" x="0.0" y="0.0" width="320" height="451"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="320" height="470"/>
                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <prototypes>
@@ -2045,7 +2045,7 @@
                                         </connections>
                                     </tableView>
                                     <view contentMode="scaleToFill" id="4nr-N6-IuP" userLabel="ComposeView">
-                                        <rect key="frame" x="0.0" y="459" width="320" height="45"/>
+                                        <rect key="frame" x="0.0" y="478" width="320" height="45"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <subviews>
                                             <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="chat_input_background" id="wax-lm-de7">
@@ -2080,33 +2080,20 @@
                                         </subviews>
                                         <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                     </view>
-                                    <navigationBar hidden="YES" contentMode="scaleToFill" id="bjh-yn-4qA">
-                                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
-                                        <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
-                                        <items>
-                                            <navigationItem title="Group Chat" id="dcQ-fC-vBj">
-                                                <barButtonItem key="leftBarButtonItem" title="Back" id="nTG-EV-Uvx">
-                                                    <connections>
-                                                        <action selector="backBtnPressed:" destination="Yvw-Fw-Qsr" id="NEp-ge-yU2"/>
-                                                    </connections>
-                                                </barButtonItem>
-                                            </navigationItem>
-                                        </items>
-                                    </navigationBar>
                                 </subviews>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                            </view>
+                            </scrollView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
                     <toolbarItems/>
                     <navigationItem key="navigationItem" title="New Chat" id="ckh-qo-Nce" userLabel="New Chat Navigation Item"/>
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
+                    <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
                     <connections>
                         <outlet property="chatComposeView" destination="4nr-N6-IuP" id="EuT-mD-aQZ"/>
                         <outlet property="tblForGroupChat" destination="MKE-Oa-T8a" id="Bwx-xi-7Xg"/>
                         <outlet property="txtFieldMessage" destination="7GT-bG-Zes" id="wV6-oH-Liy"/>
-                        <outlet property="viewForTableAndTextfield" destination="OkC-i6-IE8" id="zl4-Yw-mm7"/>
+                        <outlet property="viewForContent" destination="KiZ-C9-jPm" id="idO-B1-1OL"/>
                         <segue destination="RIV-wT-i1E" kind="push" identifier="groupMessageInfoSegue" id="9K8-4X-4lF"/>
                     </connections>
                 </viewController>
