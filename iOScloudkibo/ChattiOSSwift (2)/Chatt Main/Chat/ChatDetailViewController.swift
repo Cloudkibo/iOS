@@ -264,8 +264,14 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
         return newImage
     }
     
+    
+    override func viewDidAppear(animated: Bool) {
+        print("last cell pos y is \(tblForChats.visibleCells.last?.frame.origin.y)")
+    }
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        
         //restorationIdentifier = "ChatDetailViewController"
         //restorationClass = ChatDetailViewController.self
         
@@ -2305,9 +2311,14 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
         var lastind=NSIndexPath.init(index: self.messages.count)
         let rectOfCellInTableView = tblForChats.rectForRowAtIndexPath(lastind)
         let rectOfCellInSuperview = tblForChats.convertRect(rectOfCellInTableView, toView: nil)
+        print("last cell pos y is \(tblForChats.visibleCells.last?.frame.origin.y)")
         
-        print("Y of Cell is: \(rectOfCellInSuperview.origin.y)")
+        print("Y of Cell is: \(rectOfCellInSuperview.origin.y%viewForContent.frame.height)")
         print("content offset is \(tblForChats.contentOffset.y)")
+        
+        var cellY=(tblForChats.visibleCells.last?.frame.origin.y)!+(tblForChats.visibleCells.last?.frame.height)!
+        print("cellY is \(cellY)")
+        
         /*let info = notification.userInfo as! [String: AnyObject],
         kbSize = (info[UIKeyboardFrameBeginUserInfoKey] as! NSValue).CGRectValue().size,
         contentInsets = UIEdgeInsets(top: 0, left: 0, bottom: kbSize.height, right: 0)
@@ -2336,7 +2347,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
                 duration = userInfo[UIKeyboardAnimationDurationUserInfoKey]as! NSTimeInterval
                 let keyboardF:NSValue = userInfo.objectForKey(UIKeyboardFrameEndUserInfoKey)as! NSValue
                 let keyboardFrame = keyboardF.CGRectValue()
-            
+             print("keyboard y is \(keyboardFrame.origin.y)")
             
             if(keyheight==nil)
             {
@@ -2348,11 +2359,22 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
             }
             
             print("keyboard height is \(keyheight)")
-                UIView.animateWithDuration(duration, delay: 0, options:[], animations: {
+            
+            if(cellY>(keyboardFrame.origin.y+20))
+            {
+            UIView.animateWithDuration(duration, delay: 0, options:[], animations: {
                     self.viewForContent.contentOffset = CGPointMake(0, keyboardFrame.size.height)
                     
                     }, completion: nil)
-                
+            }else{
+                UIView.animateWithDuration(duration, delay: 0, options:[], animations: {
+                    var newY=self.chatComposeView.frame.origin.y-keyboardFrame.size.height
+                    self.chatComposeView.frame=CGRectMake(self.chatComposeView.frame.origin.x,newY,self.chatComposeView.frame.width,self.chatComposeView.frame.height)
+                   //== self.viewForContent.contentOffset = CGPointMake(0, keyboardFrame.size.height)
+                    
+                    }, completion: nil)
+
+}
            
             /*var userInfo: NSDictionary!
         userInfo = notification.userInfo
