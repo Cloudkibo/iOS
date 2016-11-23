@@ -57,7 +57,10 @@ class GroupChatingDetailController: UIViewController,UpdateGroupChatDetailsDeleg
         
         let widthDiff = subtitleLabel.frame.size.width - titleLabel.frame.size.width
         
-        if widthDiff > 0 {
+        var frame = titleLabel.frame
+        frame.origin.x = widthDiff / 2
+        titleLabel.frame = CGRectIntegral(frame)
+        /*if widthDiff > 0 {
             var frame = titleLabel.frame
             frame.origin.x = widthDiff / 2
             titleLabel.frame = CGRectIntegral(frame)
@@ -65,7 +68,7 @@ class GroupChatingDetailController: UIViewController,UpdateGroupChatDetailsDeleg
             var frame = subtitleLabel.frame
             frame.origin.x = abs(widthDiff) / 2
             titleLabel.frame = CGRectIntegral(frame)
-        }
+        }*/
 
         ///===
         /*

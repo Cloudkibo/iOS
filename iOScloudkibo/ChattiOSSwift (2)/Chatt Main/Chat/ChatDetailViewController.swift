@@ -2587,7 +2587,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
             
             var picker=UIImagePickerController.init()
             picker.delegate=self
-            
+           
             picker.allowsEditing = true;
             //picker.modalPresentationStyle = UIModalPresentationStyle.OverCurrentContext
             // if(UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.PhotoLibrary))
@@ -2602,7 +2602,9 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
             dispatch_async(dispatch_get_main_queue())
             { () -> Void in
               //  picker.addChildViewController(UILabel("hiiiiiiiiiiiii"))
-                
+                if(self.showKeyboard==true)
+                {self.textFieldShouldReturn(self.txtFldMessage)
+                }
                 self.presentViewController(picker, animated: true, completion: nil)
                 
             }
@@ -2874,7 +2876,10 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
         self.dismissViewControllerAnimated(true, completion:{ ()-> Void in
         
             if(self.showKeyboard==true)
-            {var duration : NSTimeInterval = 0
+            {
+                 self.textFieldShouldReturn(self.txtFldMessage)
+                //uncomment later
+                /*var duration : NSTimeInterval = 0
                 
                 
                 UIView.animateWithDuration(duration, delay: 0, options:[], animations: {
@@ -2882,7 +2887,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
                     self.tblForChats.frame = CGRectMake(self.tblForChats.frame.origin.x, self.tblForChats.frame.origin.y, self.tblForChats.frame.size.width, self.tblForChats.frame.size.height + self.keyFrame.size.height-49);
                     }, completion: nil)
                 self.showKeyboard=false
-        
+        */
             }
             
             if(self.messages.count>1)
@@ -2950,14 +2955,17 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
         self.dismissViewControllerAnimated(true, completion:{ ()-> Void in
             
             if(self.showKeyboard==true)
-            {var duration : NSTimeInterval = 0
+            {
+                self.textFieldShouldReturn(self.txtFldMessage)
+                //uncomment later
+                /*var duration : NSTimeInterval = 0
                 
                 
                 UIView.animateWithDuration(duration, delay: 0, options:[], animations: {
                     self.chatComposeView.frame = CGRectMake(self.chatComposeView.frame.origin.x, self.chatComposeView.frame.origin.y + self.keyheight-self.chatComposeView.frame.size.height-3, self.chatComposeView.frame.size.width, self.chatComposeView.frame.size.height)
                     self.tblForChats.frame = CGRectMake(self.tblForChats.frame.origin.x, self.tblForChats.frame.origin.y, self.tblForChats.frame.size.width, self.tblForChats.frame.size.height + self.keyFrame.size.height-49);
                     }, completion: nil)
-                self.showKeyboard=false
+                self.showKeyboard=false*/
                 
             }
             self.tblForChats.reloadData()
@@ -2988,7 +2996,11 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
             self.dismissViewControllerAnimated(true, completion: { ()-> Void in
                 
                 if(self.showKeyboard==true)
-                {var duration : NSTimeInterval = 0
+                {
+                    print("hidinggg keyboard")
+                    self.textFieldShouldReturn(self.txtFldMessage)
+                   // uncomment later
+                    /*var duration : NSTimeInterval = 0
                     
                     
                     UIView.animateWithDuration(duration, delay: 0, options:[], animations: {
@@ -2997,8 +3009,11 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
                         }, completion: nil)
                     self.showKeyboard=false
                     
+                     
+                }*/
                 }});
         }
+        
     }
     
     
