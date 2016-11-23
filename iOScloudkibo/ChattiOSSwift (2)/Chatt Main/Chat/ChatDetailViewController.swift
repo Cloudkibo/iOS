@@ -2302,6 +2302,28 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
     @IBOutlet weak var viewForContent: UIScrollView!
     func willShowKeyBoard(notification : NSNotification){
        
+        var lastind=NSIndexPath.init(index: self.messages.count)
+        let rectOfCellInTableView = tblForChats.rectForRowAtIndexPath(lastind)
+        let rectOfCellInSuperview = tblForChats.convertRect(rectOfCellInTableView, toView: nil)
+        
+        print("Y of Cell is: \(rectOfCellInSuperview.origin.y)")
+        print("content offset is \(tblForChats.contentOffset.y)")
+        /*let info = notification.userInfo as! [String: AnyObject],
+        kbSize = (info[UIKeyboardFrameBeginUserInfoKey] as! NSValue).CGRectValue().size,
+        contentInsets = UIEdgeInsets(top: 0, left: 0, bottom: kbSize.height, right: 0)
+        
+        self.tblForChats.contentInset = contentInsets
+        self.tblForChats.scrollIndicatorInsets = contentInsets
+        
+        // If active text field is hidden by keyboard, scroll it so it's visible
+        // Your app might not need or want this behavior.
+        var aRect = self.view.frame
+        aRect.size.height -= kbSize.height
+        
+        if !CGRectContainsPoint(aRect, chatComposeView!.frame.origin) {
+            self.tblForChats.scrollRectToVisible(chatComposeView!.frame, animated: true)
+        }
+        */
         //print("showkeyboardNotification============")
         
         if(showKeyboard==false)
@@ -2324,6 +2346,8 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
             {
                 keyFrame=keyboardFrame
             }
+            
+            print("keyboard height is \(keyheight)")
                 UIView.animateWithDuration(duration, delay: 0, options:[], animations: {
                     self.viewForContent.contentOffset = CGPointMake(0, keyboardFrame.size.height)
                     
@@ -2371,8 +2395,13 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
     
     func willHideKeyBoard(notification : NSNotification){
        
+       /*
+        let contentInsets = UIEdgeInsetsZero
+        self.tblForChats.contentInset = contentInsets
+        self.tblForChats.scrollIndicatorInsets = contentInsets
+        */
         
-       /* var userInfo: NSDictionary!
+       var userInfo: NSDictionary!
          userInfo = notification.userInfo
          
          var duration : NSTimeInterval = 0
@@ -2387,7 +2416,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
             }, completion:{ (true)-> Void in
         self.showKeyboard=false
         })
- */
+ 
         /*
         var userInfo: NSDictionary!
         userInfo = notification.userInfo
@@ -2450,6 +2479,8 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
         })
         
         return true
+        
+        
     }
     
     
