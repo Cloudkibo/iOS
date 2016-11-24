@@ -531,6 +531,71 @@ class NetworkingManager
     
     func downloadFile(fileuniqueid:String,filePendingName:String,filefrom:String,filetype:String,filePendingSize:String,filependingDate:String,filePendingTo:String)
     {
+        
+        
+        var downloadURL=Constants.MainUrl+Constants.downloadFile
+        
+        
+        if(Int.init(filePendingSize)<1000000)
+        {
+        let queue2 = dispatch_queue_create("com.kibochat.manager-response-queue-file", DISPATCH_QUEUE_CONCURRENT)
+        let qqq=dispatch_get_global_queue(QOS_CLASS_BACKGROUND, 0)
+        let request = Alamofire.request(.POST, "\(downloadURL)", parameters: ["uniqueid":fileuniqueid], headers:header).response{
+            request, response_, data, error in
+           print("file download \(response_!.statusCode)")
+            print("data file is \(data)")
+            
+         
+                
+                
+                let dirPaths = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)
+                let docsDir1 = dirPaths[0]
+                var documentDir=docsDir1 as NSString
+                var filePendingPath=documentDir.stringByAppendingPathComponent(filePendingName)
+            
+            
+            if((data?.writeToFile(filePendingPath, atomically: true)) != nil){
+                if(self.imageExtensions.contains(filetype.lowercaseString))
+                {
+                    //filePendingName
+                    sqliteDB.saveFile(filePendingTo, from1: filefrom, owneruser1: username!, file_name1: filePendingName, date1: nil, uniqueid1: fileuniqueid, file_size1: filePendingSize, file_type1: filetype, file_path1: filePendingPath, type1: "image")
+                }
+                else
+                {
+                    sqliteDB.saveFile(filePendingTo, from1: filefrom, owneruser1: username!, file_name1: filePendingName, date1: nil, uniqueid1: fileuniqueid, file_size1: filePendingSize, file_type1: filetype, file_path1: filePendingPath, type1: "document")
+                    
+                }
+            print("file written...")
+                self.confirmDownload(fileuniqueid)
+                print("confirminggggggg")
+        }
+            else{
+                print("error in writing file")
+            }
+                if(socketObj.delegateChat != nil)
+                {
+                    socketObj.delegateChat.socketReceivedMessageChat("updateUI", data: nil)
+                }
+                
+                
+                //===
+                if(delegateRefreshChat != nil)
+                {
+                    delegateRefreshChat?.refreshChatsUI("",uniqueid:fileuniqueid,from:filefrom,date1:NSDate(), type:"file")
+                    
+                    //===uncomment later  delegateRefreshChat?.refreshChatsUI("",uniqueid:fileuniqueid,from:filefrom,date1:NSDate(), type:"chat")
+                }
+                //filedownloaded’ to with parameters ‘senderoffile’, ‘receiveroffile’
+                
+            
+                
+            //print(error)
+        }
+        
+        }else{ 
+        //uncomment
+      
+       
         let path = NSFileManager.defaultManager().URLsForDirectory(.ApplicationSupportDirectory, inDomains: .UserDomainMask)[0] as NSURL
         //print("path download is \(path)")
        //////// let newPath = path.URLByAppendingPathComponent(fileName1)
@@ -639,6 +704,8 @@ class NetworkingManager
                 
                // print(request?.)
                 
+        }
+        
         }
     }
     

@@ -141,6 +141,8 @@ class GroupChatingDetailController: UIViewController,UpdateGroupChatDetailsDeleg
         {
             var indexPath = NSIndexPath(forRow:messages.count-1, inSection: 0)
             tblForGroupChat.scrollToRowAtIndexPath(indexPath, atScrollPosition: UITableViewScrollPosition.Bottom, animated: true)
+  
+        
             
         }
         
@@ -705,19 +707,7 @@ class GroupChatingDetailController: UIViewController,UpdateGroupChatDetailsDeleg
     
      func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         
-        if(indexPath.row == messages.count-1)
-        {
-            var lastind=NSIndexPath.init(index: self.messages.count)
-            let rectOfCellInTableView = tblForGroupChat.rectForRowAtIndexPath(lastind)
-            let rectOfCellInSuperview = tblForGroupChat.convertRect(rectOfCellInTableView, toView: nil)
-            print("last cell pos y is \(tblForGroupChat.visibleCells.last?.frame.origin.y)")
-            
-            print("Y of Cell is: \(rectOfCellInSuperview.origin.y%viewForContent.frame.height)")
-            print("content offset is \(tblForGroupChat.contentOffset.y)")
-            
-            cellY=(tblForGroupChat.visibleCells.last?.frame.origin.y)!+(tblForGroupChat.visibleCells.last?.frame.height)!
-            print("cellY is \(cellY)")
-        }
+      
         
         var messageDic = messages.objectAtIndex(indexPath.row) as! [String : String];
        // NSLog(messageDic["message"]!, 1)

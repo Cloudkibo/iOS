@@ -1271,19 +1271,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
         var cell : UITableViewCell!
         print("reloading of cellsssssssss......------------===========++++++")
        
-        if(indexPath.row == messages.count-1)
-        {
-            var lastind=NSIndexPath.init(index: self.messages.count)
-            let rectOfCellInTableView = tblForChats.rectForRowAtIndexPath(lastind)
-            let rectOfCellInSuperview = tblForChats.convertRect(rectOfCellInTableView, toView: nil)
-            print("last cell pos y is \(tblForChats.visibleCells.last?.frame.origin.y)")
-            
-            print("Y of Cell is: \(rectOfCellInSuperview.origin.y%viewForContent.frame.height)")
-            print("content offset is \(tblForChats.contentOffset.y)")
-            
-            cellY=(tblForChats.visibleCells.last?.frame.origin.y)!+(tblForChats.visibleCells.last?.frame.height)!
-        }
-        //print("cellForRowAtIndexPath called \(indexPath)")
+               //print("cellForRowAtIndexPath called \(indexPath)")
         var messageDic = messages.objectAtIndex(indexPath.row) as! [String : String];
         NSLog(messageDic["message"]!, 1)
         let msgType = messageDic["type"] as NSString!
@@ -3294,6 +3282,8 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
         {
             var indexPath = NSIndexPath(forRow:messages.count-1, inSection: 0)
             tblForChats.scrollToRowAtIndexPath(indexPath, atScrollPosition: UITableViewScrollPosition.Bottom, animated: true)
+            
+      
             
         }
         
