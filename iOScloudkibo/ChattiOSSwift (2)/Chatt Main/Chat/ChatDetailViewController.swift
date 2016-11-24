@@ -1271,7 +1271,18 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
         var cell : UITableViewCell!
         print("reloading of cellsssssssss......------------===========++++++")
        
-        
+        if(indexPath.row == messages.count-1)
+        {
+            var lastind=NSIndexPath.init(index: self.messages.count)
+            let rectOfCellInTableView = tblForChats.rectForRowAtIndexPath(lastind)
+            let rectOfCellInSuperview = tblForChats.convertRect(rectOfCellInTableView, toView: nil)
+            print("last cell pos y is \(tblForChats.visibleCells.last?.frame.origin.y)")
+            
+            print("Y of Cell is: \(rectOfCellInSuperview.origin.y%viewForContent.frame.height)")
+            print("content offset is \(tblForChats.contentOffset.y)")
+            
+            cellY=(tblForChats.visibleCells.last?.frame.origin.y)!+(tblForChats.visibleCells.last?.frame.height)!
+        }
         //print("cellForRowAtIndexPath called \(indexPath)")
         var messageDic = messages.objectAtIndex(indexPath.row) as! [String : String];
         NSLog(messageDic["message"]!, 1)
@@ -3273,6 +3284,8 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
         //print("string is \(defaultTimeZoneStr)")
         //print("date is \(defaultTimeZoneStr2)")
         self.addMessage(txtFldMessage.text!+" (\(statusNow))", ofType: "2",date:defaultTimeZoneStr, uniqueid: uniqueID)
+        
+        
         
         
         txtFldMessage.text = "";

@@ -113,6 +113,8 @@ class GroupChatingDetailController: UIViewController,UpdateGroupChatDetailsDeleg
         messages.addObject(["msg":txtFieldMessage.text!+" (pending)", "type":"2", "fromFullName":"","date":date,"uniqueid":uniqueid_chat])
         
         
+  
+        
         //save chat
         sqliteDB.storeGroupsChat(username!, group_unique_id1: groupid1, type1: "chat", msg1: txtFieldMessage.text!, from_fullname1: username!, date1: NSDate(), unique_id1: uniqueid_chat)
         
@@ -703,6 +705,20 @@ class GroupChatingDetailController: UIViewController,UpdateGroupChatDetailsDeleg
     
      func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         
+        if(indexPath.row == messages.count-1)
+        {
+            var lastind=NSIndexPath.init(index: self.messages.count)
+            let rectOfCellInTableView = tblForGroupChat.rectForRowAtIndexPath(lastind)
+            let rectOfCellInSuperview = tblForGroupChat.convertRect(rectOfCellInTableView, toView: nil)
+            print("last cell pos y is \(tblForGroupChat.visibleCells.last?.frame.origin.y)")
+            
+            print("Y of Cell is: \(rectOfCellInSuperview.origin.y%viewForContent.frame.height)")
+            print("content offset is \(tblForGroupChat.contentOffset.y)")
+            
+            cellY=(tblForGroupChat.visibleCells.last?.frame.origin.y)!+(tblForGroupChat.visibleCells.last?.frame.height)!
+            print("cellY is \(cellY)")
+        }
+        
         var messageDic = messages.objectAtIndex(indexPath.row) as! [String : String];
        // NSLog(messageDic["message"]!, 1)
         let msgType = messageDic["type"] as NSString!
@@ -977,6 +993,7 @@ class GroupChatingDetailController: UIViewController,UpdateGroupChatDetailsDeleg
             }
                 if(cellY>(keyboardFrame.origin.y-20))
                 {
+                    
                     UIView.animateWithDuration(duration, delay: 0, options:[], animations: {
                         self.viewForContent.contentOffset = CGPointMake(0, keyboardFrame.size.height)
                         
