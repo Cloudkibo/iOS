@@ -536,7 +536,7 @@ class NetworkingManager
         var downloadURL=Constants.MainUrl+Constants.downloadFile
         
         
-        if(Int.init(filePendingSize)<1000000)
+        if(Int.init(filePendingSize)<10000000)
         {
         let queue2 = dispatch_queue_create("com.kibochat.manager-response-queue-file", DISPATCH_QUEUE_CONCURRENT)
         let qqq=dispatch_get_global_queue(QOS_CLASS_BACKGROUND, 0)
@@ -566,12 +566,6 @@ class NetworkingManager
                     
                 }
             print("file written...")
-                self.confirmDownload(fileuniqueid)
-                print("confirminggggggg")
-        }
-            else{
-                print("error in writing file")
-            }
                 if(socketObj.delegateChat != nil)
                 {
                     socketObj.delegateChat.socketReceivedMessageChat("updateUI", data: nil)
@@ -585,6 +579,13 @@ class NetworkingManager
                     
                     //===uncomment later  delegateRefreshChat?.refreshChatsUI("",uniqueid:fileuniqueid,from:filefrom,date1:NSDate(), type:"chat")
                 }
+                self.confirmDownload(fileuniqueid)
+                print("confirminggggggg")
+        }
+            else{
+                print("error in writing file")
+            }
+            
                 //filedownloaded’ to with parameters ‘senderoffile’, ‘receiveroffile’
                 
             
@@ -592,7 +593,7 @@ class NetworkingManager
             //print(error)
         }
         
-        }else{ 
+        }else{
         //uncomment
       
        
