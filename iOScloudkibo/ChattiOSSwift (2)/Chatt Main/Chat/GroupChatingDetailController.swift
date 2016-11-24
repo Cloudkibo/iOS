@@ -827,20 +827,13 @@ class GroupChatingDetailController: UIViewController,UpdateGroupChatDetailsDeleg
     }
     
     func textFieldShouldReturn (textField: UITextField!) -> Bool{
-        
         textField.resignFirstResponder()
         var duration : NSTimeInterval = 0
         var keyboardFrame = keyFrame
         
         
-        
-        
-       /// var offsetDiff=cellY-(self.viewForContent.frame.height-keyboardFrame.origin.y)
         if(cellY>(keyboardFrame.origin.y-20))
         {
-            
-       //uncomment if(cellY>(keyboardFrame.origin.y+20))
-       // {
             UIView.animateWithDuration(duration, delay: 0, options:[], animations: {
                 self.viewForContent.contentOffset = CGPointMake(0, 0)
                 
@@ -858,7 +851,6 @@ class GroupChatingDetailController: UIViewController,UpdateGroupChatDetailsDeleg
                     self.showKeyboard=false
             })
         }
-        
         //  var userInfo: NSDictionary!
         // userInfo = notification.userInfo
         
@@ -944,51 +936,49 @@ class GroupChatingDetailController: UIViewController,UpdateGroupChatDetailsDeleg
              */
             //print("showkeyboardNotification============")
             
-            if(showKeyboard==false)
+        if(showKeyboard==false)
+        {
+            
+            var userInfo: NSDictionary!
+            userInfo = notification.userInfo
+            
+            var duration : NSTimeInterval = 0
+            var curve = userInfo.objectForKey(UIKeyboardAnimationCurveUserInfoKey) as! UInt
+            duration = userInfo[UIKeyboardAnimationDurationUserInfoKey]as! NSTimeInterval
+            let keyboardF:NSValue = userInfo.objectForKey(UIKeyboardFrameEndUserInfoKey)as! NSValue
+            let keyboardFrame = keyboardF.CGRectValue()
+            print("keyboard y is \(keyboardFrame.origin.y)")
+            
+            if(keyheight==nil)
             {
-                
-                if(messages.count>0)
-{
- var lastind=NSIndexPath.init(forRow: self.messages.count, inSection: 0)
-            let rectOfCellInTableView = tblForGroupChat.rectForRowAtIndexPath(lastind)
-            let rectOfCellInSuperview = tblForGroupChat.convertRect(rectOfCellInTableView, toView: nil)
-            print("last cell pos y is \(tblForGroupChat.visibleCells.last?.frame.origin.y)")
+                keyheight=keyboardFrame.size.height
+            }
+            if(keyFrame==nil)
+            {
+                keyFrame=keyboardFrame
+            }
             
-            print("Y of Cell is: \(rectOfCellInSuperview.origin.y%viewForContent.frame.height)")
-            print("content offset is \(tblForGroupChat.contentOffset.y)")
+            print("keyboard height is \(keyheight)")
             
-            cellY=(tblForGroupChat.visibleCells.last?.frame.origin.y)!+(tblForGroupChat.visibleCells.last?.frame.height)!
-            print("cellY is \(cellY)")
-}
-                var userInfo: NSDictionary!
-                userInfo = notification.userInfo
+            
+            
+            if(messages.count>0)
+            {
+                var lastind=NSIndexPath.init(index: self.messages.count)
+                let rectOfCellInTableView = tblForGroupChat.rectForRowAtIndexPath(lastind)
+                let rectOfCellInSuperview = tblForGroupChat.convertRect(rectOfCellInTableView, toView: nil)
+                print("last cell pos y is \(tblForGroupChat.visibleCells.last?.frame.origin.y)")
                 
-                var duration : NSTimeInterval = 0
-                var curve = userInfo.objectForKey(UIKeyboardAnimationCurveUserInfoKey) as! UInt
-                duration = userInfo[UIKeyboardAnimationDurationUserInfoKey]as! NSTimeInterval
-                let keyboardF:NSValue = userInfo.objectForKey(UIKeyboardFrameEndUserInfoKey)as! NSValue
-                let keyboardFrame = keyboardF.CGRectValue()
-                print("keyboard y is \(keyboardFrame.origin.y)")
+                print("Y of Cell is: \(rectOfCellInSuperview.origin.y%viewForContent.frame.height)")
+                print("content offset is \(tblForGroupChat.contentOffset.y)")
                 
-                if(keyheight==nil)
-                {
-                    keyheight=keyboardFrame.size.height
-                }
-                if(keyFrame==nil)
-                {
-                    keyFrame=keyboardFrame
-                }
-                
-                //print("keyboard height is \(keyheight)")
-               //uncomment var offsetDiff=keyboardFrame.origin.y-cellY
-                var offsetDiff=cellY-(keyboardFrame.origin.y-20)
-                
-                print("--- cellY is \(cellY) totalheight is \(self.viewForContent.frame.height) keyboardorigin is \(keyboardFrame.origin.y) offset is \(offsetDiff)")
+                cellY=(tblForGroupChat.visibleCells.last?.frame.origin.y)!+(tblForGroupChat.visibleCells.last?.frame.height)!
+                print("cellY is \(cellY)")
+            }
                 if(cellY>(keyboardFrame.origin.y-20))
                 {
                     UIView.animateWithDuration(duration, delay: 0, options:[], animations: {
-                        //uncomment self.viewForContent.contentOffset = CGPointMake(0, keyboardFrame.size.height)
-                        self.viewForContent.contentOffset = CGPointMake(0, offsetDiff)
+                        self.viewForContent.contentOffset = CGPointMake(0, keyboardFrame.size.height)
                         
                         }, completion: nil)
                 }else{
@@ -1001,8 +991,8 @@ class GroupChatingDetailController: UIViewController,UpdateGroupChatDetailsDeleg
                         }, completion: nil)
                     
                 }
-                
-                /*var userInfo: NSDictionary!
+           
+            /*var userInfo: NSDictionary!
                  userInfo = notification.userInfo
                  
                  var duration : NSTimeInterval = 0
