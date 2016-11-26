@@ -430,7 +430,7 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
         
     }*/
     var pendingchatsarray=[[String:String]]()
-
+    var pendinggroupchatsarray=[[String:AnyObject]]()
     func synchroniseChatData()
     {
         print("synchronise called")
@@ -486,6 +486,18 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
                         request, response_, data, error in
                         print(error)
                     }
+                    
+                    
+                   /* self.sendPendingGroupChatMessages({ (result) -> () in
+                        
+                        self.getData({ (result) -> () in
+                            self.index2=0
+                            self.pendinggroupchatsarray.removeAll()
+                            Alamofire.request(.POST,"\(Constants.MainUrl+Constants.urllog)",headers:header,parameters: ["data":"IPHONE_LOG: sending pending group chat messages"]).response{
+                                request, response_, data, error in
+                                print(error)
+                            }
+                        })})*/
                     
                     // print("checkin here pending messages sent")
                     
@@ -613,6 +625,70 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
                     }
                 }
             }
+        }
+        else{
+            completion(result: false)
+            
+        }
+    }
+    
+    
+    
+    
+    var index2=0
+    // var pendingcount=0
+    
+    func getGroupsData(completion:(result:Bool)->()) {
+        var x = [[String: AnyObject]]()
+       // var url=Constants.MainUrl+Constants.sendChatURL
+        /*
+         let request = Alamofire.request(.POST, "\(url)", parameters: chatstanza,headers:header)
+         request.response(
+         queue: queue,
+         responseSerializer: Request.JSONResponseSerializer(options: .AllowFragments),
+         completionHandler: { response in
+         
+         */
+        
+        if(pendinggroupchatsarray.count>index2)
+        {
+            sendGroupChatMessage(pendinggroupchatsarray[self.index2]["group_unique_id"] as! String, from: pendinggroupchatsarray[self.index2]["from"] as! String, type: pendinggroupchatsarray[self.index2]["type"] as! String, msg: pendinggroupchatsarray[self.index2]["msg"] as! String, fromFullname: pendinggroupchatsarray[self.index2]["from_fullname"] as! String, uniqueidChat: pendinggroupchatsarray[self.index2]["unique_id"] as! String, completion: { (result) in
+                
+                print("chat sent")
+                if(result==true)
+                {
+                
+                /*case .Success(let JSON):
+                    //x[self.index] = JSON as! [String : AnyObject] // saving data
+                    var statusNow="sent"
+                    ///var chatmsg=JSON(data)
+                    /// print(data[0])
+                    ///print(chatmsg[0])
+                    //  print("chat sent msg \(chatstanza)")
+                    
+                    sqliteDB.UpdateChatStatus(self.pendingchatsarray[self.index2]["uniqueid"]!, newstatus: "sent")
+                 
+                    
+                    */
+                completion(result:true)
+                    self.index2 = self.index2 + 1
+                    if self.index2 < self.pendinggroupchatsarray.count {
+                        self.getGroupsData({ (result) -> () in})
+                    }else {
+                        completion(result: true)
+                        /////////self.collectionView.reloadData()
+                    }
+                }
+                //case .Failure(let error):
+                else{
+                    print("the error for \(self.pendinggroupchatsarray[self.index2]) ")
+                    if self.index2 < self.pendinggroupchatsarray.count {
+                        self.getGroupsData({ (result) -> () in})
+                    }else {
+                        completion(result: true)                /////////// self.collectionView.reloadData()
+                    }
+                }
+            })
         }
         else{
             completion(result: false)
@@ -1053,7 +1129,7 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
     }
     
     
-    func sendChatMessage(group_id:String,from:String,type:String,msg:String,fromFullname:String,uniqueidChat:String,completion:(result:Bool)->())
+    func sendGroupChatMessage(group_id:String,from:String,type:String,msg:String,fromFullname:String,uniqueidChat:String,completion:(result:Bool)->())
     {
         // let queue=dispatch_get_global_queue(QOS_CLASS_USER_INITIATED,0)
         // let queue = dispatch_queue_create("com.kibochat.manager-response-queue", DISPATCH_QUEUE_CONCURRENT)
@@ -1066,6 +1142,8 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
         
         //group_unique_id = <group_unique_id>, from, type, msg, from_fullname, unique_id
         
+        
+     ////   print("sending groups chat \(group_id) , \(from) , \(type) \(msg), \(fromFullname) , \(uniqueidChat)")
         var url=Constants.MainUrl+Constants.sendGroupChat
         print(url)
         print("..")
@@ -1120,9 +1198,9 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
     }
     
     
-    func sendPendingChatMessages(completion:(result:Bool)->())
+    func sendPendingGroupChatMessages(completion:(result:Bool)->())
     {
-        print("checkin here inside pending chat messages.....")
+        print("inside sending pending group chat messages.....")
         var userchats=sqliteDB.userschats
         //  var userchatsArray:Array<Row>
         
@@ -1147,18 +1225,20 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
             var count=0
         for(var i=0;i<pendingMSGs.count;i++)
             {
-               
+               var membersList=sqliteDB.getGroupMembersOfGroup(pendingMSGs[i]["group_unique_id"] as! String)
                 
-                self.sendChatMessage(pendingMSGs[i]["group_unique_id"] as! String, from: pendingMSGs[i]["from"] as! String, type: pendingMSGs[i]["type"] as! String, msg: pendingMSGs[i]["msg"] as! String, fromFullname: pendingMSGs[i]["from_fullname"] as! String, uniqueidChat: pendingMSGs[i]["unique_id"] as! String, completion: { (result) in
+                pendinggroupchatsarray.append(pendingMSGs[i])
+                
+              /*  self.sendGroupChatMessage(pendingMSGs[i]["group_unique_id"] as! String, from: pendingMSGs[i]["from"] as! String, type: pendingMSGs[i]["type"] as! String, msg: pendingMSGs[i]["msg"] as! String, fromFullname: pendingMSGs[i]["from_fullname"] as! String, uniqueidChat: pendingMSGs[i]["unique_id"] as! String, completion: { (result) in
                     
                     print("chat sent")
                     if(result==true)
                     {
-                        for(var i=0;i<self.membersList.count;i++)
+                        for(var i=0;i<membersList.count;i++)
                         {
-                            if((self.membersList[i]["member_phone"] as! String) != username! && (self.membersList[i]["membership_status"] as! String) != "left")
+                            if((membersList[i]["member_phone"] as! String) != username! && (membersList[i]["membership_status"] as! String) != "left")
                             {
-                                sqliteDB.updateGroupChatStatus(uniqueid_chat, memberphone1: self.membersList[i]["member_phone"]! as! String, status1: "sent", delivereddate1: NSDate(), readDate1: NSDate())
+                                sqliteDB.updateGroupChatStatus(pendingMSGs[i]["unique_id"] as! String, memberphone1: membersList[i]["member_phone"]! as! String, status1: "sent", delivereddate1: NSDate(), readDate1: NSDate())
                                 
                                 // === wrong sqliteDB.storeGRoupsChatStatus(uniqueid_chat, status1: "sent", memberphone1: self.membersList[i]["member_phone"]! as! String, delivereddate1: UtilityFunctions.init().minimumDate(), readDate1: UtilityFunctions.init().minimumDate())
                             }
@@ -1167,11 +1247,14 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
                         //==== sqliteDB.updateGroupChatStatus(uniqueid_chat, memberphone1: username!,status1: "sent", delivereddate1: UtilityFunctions.init().minimumDate(), readDate1: UtilityFunctions.init().minimumDate())
                         
                         UIDelegates.getInstance().UpdateGroupChatDetailsDelegateCall()
+                        
                     }
-                })
+                })*/
             }
-                    
-                }
+        
+        completion(result: true)
+        
+    }
                 //OLD SOCKET  LOGIC OF SENDING PENDING MESSAGES
                 
                 
@@ -1191,12 +1274,12 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
                 /////  }
                 
                 
-                
-                
+/*}
+
             }
             
             
-        }
+        }*/
     
 
     

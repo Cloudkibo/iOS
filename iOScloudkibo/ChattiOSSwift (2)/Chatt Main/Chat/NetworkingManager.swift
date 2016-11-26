@@ -335,14 +335,14 @@ class NetworkingManager
                 dispatch_async(dispatch_get_main_queue()) {
                     let percent = (Float(totalBytesWritten) / Float(totalBytesExpectedToWrite))
                     /////progress(percent: percent)
-                    if(self.delegateProgressUpload != nil)
+                    /*if(self.delegateProgressUpload != nil)
                     {
                         if(percent<1.0)
                         {
                        self.delegateProgressUpload.updateProgressUpload(percent,uniqueid: uniqueid1)
                         }   
                         
-                    }
+                    }*/
                     //Redraw specific table cell
                     print("percentage is \(percent)")
                 }
