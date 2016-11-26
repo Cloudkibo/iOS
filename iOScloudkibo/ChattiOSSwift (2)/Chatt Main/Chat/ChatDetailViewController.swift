@@ -782,6 +782,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
                         if(filedownloaded==false)
                         {
                             //checkpendingfiles
+                          
                             managerFile.checkPendingFiles(tblContacts[uniqueid])
                         }
 

@@ -540,14 +540,23 @@ class NetworkingManager
         {
         let queue2 = dispatch_queue_create("com.kibochat.manager-response-queue-file", DISPATCH_QUEUE_CONCURRENT)
         let qqq=dispatch_get_global_queue(QOS_CLASS_BACKGROUND, 0)
-        let request = Alamofire.request(.POST, "\(downloadURL)", parameters: ["uniqueid":fileuniqueid], headers:header).response{
+            let request = Alamofire.request(.POST, "\(downloadURL)", parameters: ["uniqueid":fileuniqueid], headers:header)
+            request.response(
+                queue: queue2,
+                responseSerializer: Request.dataResponseSerializer(),
+                completionHandler: { response in
+            
+            
+          /*  .response{
             request, response_, data, error in
            print("file download \(response_!.statusCode)")
             print("data file is \(data)")
             
-         
-                
-                
+         */
+                if(response.result.isSuccess)
+                {
+                var data=response.data
+                    
                 let dirPaths = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)
                 let docsDir1 = dirPaths[0]
                 var documentDir=docsDir1 as NSString
@@ -566,6 +575,9 @@ class NetworkingManager
                     
                 }
             print("file written...")
+        
+                self.confirmDownload(fileuniqueid)
+                print("confirminggggggg")
                 if(socketObj.delegateChat != nil)
                 {
                     socketObj.delegateChat.socketReceivedMessageChat("updateUI", data: nil)
@@ -579,19 +591,17 @@ class NetworkingManager
                     
                     //===uncomment later  delegateRefreshChat?.refreshChatsUI("",uniqueid:fileuniqueid,from:filefrom,date1:NSDate(), type:"chat")
                 }
-                self.confirmDownload(fileuniqueid)
-                print("confirminggggggg")
         }
             else{
                 print("error in writing file")
             }
-            
+                    }
                 //filedownloaded’ to with parameters ‘senderoffile’, ‘receiveroffile’
                 
             
                 
             //print(error)
-        }
+        })
         
         }else{
         //uncomment
@@ -820,6 +830,8 @@ class NetworkingManager
                 case .Failure(let error):
                     print("file upload failure")
                 }})
+        
+        
     }
     
 

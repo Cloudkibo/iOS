@@ -2438,5 +2438,62 @@ print("--------")
         return identifier
     }
     
+    func findGroupChatPendingMsgDetails()->[[String:AnyObject]]
+    {
+        let msg_unique_id = Expression<String>("msg_unique_id")
+        let Status = Expression<String>("Status")
+        let user_phone = Expression<String>("user_phone")
+        
+        self.group_chat_status = Table("group_chat_status")
+        
+        var groupsList=[[String:AnyObject]]()
+        
+        let from = Expression<String>("from")
+        let group_unique_id = Expression<String>("group_unique_id")
+        let type = Expression<String>("type")
+        let msg = Expression<String>("msg")
+        let from_fullname = Expression<String>("from_fullname")
+        let date = Expression<NSDate>("date")
+        let unique_id = Expression<String>("unique_id")
+        
+        
+        
+        let query = self.group_chat_status.select(Status).filter(Status.lowercaseString == "pending")
+        do
+        {for pendingchats in try self.db.prepare(query)
+        {
+            var idPendingMsg=pendingchats[msg_unique_id]
+            var tblgroupchat=sqliteDB.group_chat
+            
+            do
+            {for pendingchatsGroupDetail in try self.db.prepare(tblgroupchat.select(unique_id).filter(unique_id.lowercaseString==idPendingMsg))
+            {
+                var newEntry=[String:AnyObject]()
+                newEntry["from"]=pendingchatsGroupDetail.get(from)
+                newEntry["group_unique_id"]=pendingchatsGroupDetail.get(group_unique_id)
+                newEntry["type"]=pendingchatsGroupDetail.get(type)
+                newEntry["msg"]=pendingchatsGroupDetail.get(msg)
+                newEntry["from_fullname"]=pendingchatsGroupDetail.get(from_fullname)
+                newEntry["date"]=pendingchatsGroupDetail.get(date)
+                newEntry["unique_id"]=pendingchatsGroupDetail.get(unique_id)
+                groupsList.append(newEntry)
+            }
+                
+            }
+            catch
+            {
+
+}
+            
+        }
+        }
+        catch
+        {
+            
+        }
+        
+        return groupsList
+    }
+    
     
 }

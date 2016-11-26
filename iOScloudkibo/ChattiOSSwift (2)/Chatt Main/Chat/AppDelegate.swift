@@ -285,6 +285,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate,AppDelegateScreenDelegate 
         UIApplication.sharedApplication().registerUserNotificationSettings(pushNotificationSettings)
        }
         
+        
+        //background
+        UIApplication.sharedApplication().setMinimumBackgroundFetchInterval(UIApplicationBackgroundFetchIntervalMinimum)
+        
         /////NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("contactChanged:"), name: CNContactStoreDidChangeNotification, object: nil)
 
         /*[[NSNotificationCenter defaultCenter] addObserver:self
@@ -1047,6 +1051,152 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
         
         
     }
+    
+    
+    func sendChatMessage(group_id:String,from:String,type:String,msg:String,fromFullname:String,uniqueidChat:String,completion:(result:Bool)->())
+    {
+        // let queue=dispatch_get_global_queue(QOS_CLASS_USER_INITIATED,0)
+        // let queue = dispatch_queue_create("com.kibochat.manager-response-queue", DISPATCH_QUEUE_CONCURRENT)
+        /*  let request = Alamofire.request(.POST, "\(url)", parameters: chatstanza,headers:header)
+         request.response(
+         queue: queue,
+         responseSerializer: Request.JSONResponseSerializer(options: .AllowFragments),
+         completionHandler: { response in
+         */
+        
+        //group_unique_id = <group_unique_id>, from, type, msg, from_fullname, unique_id
+        
+        var url=Constants.MainUrl+Constants.sendGroupChat
+        print(url)
+        print("..")
+        let request = Alamofire.request(.POST, "\(url)", parameters: ["group_unique_id":group_id,"from":from,"type":type,"msg":msg,"from_fullname":fromFullname,"unique_id":uniqueidChat],headers:header).responseJSON { response in
+            // You are now running on the concurrent `queue` you created earlier.
+            //print("Parsing JSON on thread: \(NSThread.currentThread()) is main thread: \(NSThread.isMainThread())")
+            
+            // Validate your JSON response and convert into model objects if necessary
+            //print(response.result.value) //status, uniqueid
+            
+            // To update anything on the main thread, just jump back on like so.
+            //print("\(chatstanza) ..  \(response)")
+            print("status code is \(response.response?.statusCode)")
+            print(response)
+            print(response.result.error)
+            if(response.response?.statusCode==200 || response.response?.statusCode==201)
+            {
+                
+                //print("chat ack received")
+                var statusNow="sent"
+                ///var chatmsg=JSON(data)
+                /// //print(data[0])
+                /////print(chatmsg[0])
+                //print("chat sent unikque id \(chatstanza["uniqueid"])")
+                
+                //  sqliteDB.UpdateChatStatus(chatstanza["uniqueid"]!, newstatus: "sent")
+                
+                
+                
+                
+                
+                
+                
+                /////    dispatch_async(dispatch_get_main_queue()) {
+                //print("Am I back on the main thread: \(NSThread.isMainThread())")
+                
+                print("MAINNNNNNNNNNNN")
+                completion(result: true)
+                //self.retrieveChatFromSqlite(self.selectedContact)
+                
+                
+                
+                
+                /////// }
+            }
+            else{
+                completion(result: false)
+                
+            }
+        }//)
+        
+    }
+    
+    
+    func sendPendingChatMessages(completion:(result:Bool)->())
+    {
+        print("checkin here inside pending chat messages.....")
+        var userchats=sqliteDB.userschats
+        //  var userchatsArray:Array<Row>
+        
+        
+        
+        let from = Expression<String>("from")
+        let group_unique_id = Expression<String>("group_unique_id")
+        let type = Expression<String>("type")
+        let msg = Expression<String>("msg")
+        let from_fullname = Expression<String>("from_fullname")
+        let date = Expression<NSDate>("date")
+        let unique_id = Expression<String>("unique_id")
+        
+
+        
+        var pendingMSGs=sqliteDB.findGroupChatPendingMsgDetails()
+        //var res=tbl_userchats.filter(to==selecteduser || from==selecteduser)
+        //to==selecteduser || from==selecteduser
+        //print("chat from sqlite is")
+        //print(res)
+        
+            var count=0
+        for(var i=0;i<pendingMSGs.count;i++)
+            {
+               
+                
+                self.sendChatMessage(pendingMSGs[i]["group_unique_id"] as! String, from: pendingMSGs[i]["from"] as! String, type: pendingMSGs[i]["type"] as! String, msg: pendingMSGs[i]["msg"] as! String, fromFullname: pendingMSGs[i]["from_fullname"] as! String, uniqueidChat: pendingMSGs[i]["unique_id"] as! String, completion: { (result) in
+                    
+                    print("chat sent")
+                    if(result==true)
+                    {
+                        for(var i=0;i<self.membersList.count;i++)
+                        {
+                            if((self.membersList[i]["member_phone"] as! String) != username! && (self.membersList[i]["membership_status"] as! String) != "left")
+                            {
+                                sqliteDB.updateGroupChatStatus(uniqueid_chat, memberphone1: self.membersList[i]["member_phone"]! as! String, status1: "sent", delivereddate1: NSDate(), readDate1: NSDate())
+                                
+                                // === wrong sqliteDB.storeGRoupsChatStatus(uniqueid_chat, status1: "sent", memberphone1: self.membersList[i]["member_phone"]! as! String, delivereddate1: UtilityFunctions.init().minimumDate(), readDate1: UtilityFunctions.init().minimumDate())
+                            }
+                        }
+                        
+                        //==== sqliteDB.updateGroupChatStatus(uniqueid_chat, memberphone1: username!,status1: "sent", delivereddate1: UtilityFunctions.init().minimumDate(), readDate1: UtilityFunctions.init().minimumDate())
+                        
+                        UIDelegates.getInstance().UpdateGroupChatDetailsDelegateCall()
+                    }
+                })
+            }
+                    
+                }
+                //OLD SOCKET  LOGIC OF SENDING PENDING MESSAGES
+                
+                
+                
+                /*socketObj.socket.emitWithAck("im",["room":"globalchatroom","stanza":imParas])(timeoutAfter: 1500000)
+                 {data in
+                 print("chat ack received \(data)")
+                 // statusNow="sent"
+                 var chatmsg=JSON(data)
+                 print(data[0])
+                 print(chatmsg[0])
+                 sqliteDB.UpdateChatStatus(chatmsg[0]["uniqueid"].string!, newstatus: chatmsg[0]["status"].string!)
+                 
+                 }
+                 
+                 */
+                /////  }
+                
+                
+                
+                
+            }
+            
+            
+        }
     
 
     
@@ -2252,12 +2402,22 @@ else{
         return UIViewController
     }*/
     
-    func application(application: UIApplication, performFetchWithCompletionHandler completionHandler: (UIBackgroundFetchResult) -> Void) {
-        print("background fetch resultttt...")
-        UtilityFunctions.init().log_papertrail("IPHONE-LOG \(username!) inside fetch complete handler")
-        completionHandler(UIBackgroundFetchResult.NewData)
-        
+    /*func application(_ application: UIApplication, performFetchWithCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
+        if let tabBarController = window?.rootViewController as? UITabBarController,
+            let viewControllers = tabBarController.viewControllers
+        {
+            for viewController in viewControllers {
+                if let fetchViewController = viewController as? FetchViewController {
+                    fetchViewController.fetch {
+                        fetchViewController.updateUI()
+                        completionHandler(.newData)
+                    }
+                }
+            }
+        }
     }
+    
+    */
     func application(application: UIApplication, handleEventsForBackgroundURLSession identifier: String, completionHandler: () -> Void) {
         
          NetworkingManager.sharedManager.backgroundCompletionHandler = completionHandler
