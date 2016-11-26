@@ -42,6 +42,7 @@ class syncGroupService
                         self.SyncGroupMembersAPI(){(result,error,groupinfo) in
                             print("...")
                             
+                            return completion(result: true, error: nil)
                            // UtilityFunctions.init().downloadProfileImage("9Mm0S3b201611817744")
                         }
                        /* self.fullRefreshMembersInfo(groupinfo){ (result,error) in
@@ -122,21 +123,24 @@ class syncGroupService
             
             
             
-            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0)) {
+            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0)) {
                 print("sync partial groups chat in background...")
                 self.partialSyncGroupsChat{ (result,error,groupinfo) in
-                    if(groupinfo != nil)
-                    {
+                   /// if(groupinfo != nil)
+                    //{
                         print("updating UI now...")
-                        self.syncGroupChatStatuses()
-                        
+                        self.syncGroupChatStatuses{(result,error) in
+                        if(result==true)
+                        {
                         dispatch_async(dispatch_get_main_queue())
-{
+                        {
                         UIDelegates.getInstance().UpdateMainPageChatsDelegateCall()
                         UIDelegates.getInstance().UpdateGroupInfoDetailsDelegateCall()
                         UIDelegates.getInstance().UpdateGroupChatDetailsDelegateCall()
-}
-                    }
+                        }
+                        }
+                        }
+                    ////}
                 }
             }}
     }
@@ -153,7 +157,22 @@ class syncGroupService
      
         var hhh=["headers":"\(header)"]
         print(header.description)
-        Alamofire.request(.GET,"\(url)",headers:header).validate().responseJSON { response in
+        
+        var queue2=dispatch_queue_attr_make_with_qos_class(DISPATCH_QUEUE_CONCURRENT, QOS_CLASS_BACKGROUND, 0);
+        
+        //let queue2 = dispatch_queue_create("com.kibochat.manager-response-queue-file", DISPATCH_QUEUE_CONCURRENT)
+        let qqq=dispatch_queue_create("com.kibochat.queue.getmembers",queue2)
+        
+        var request=Alamofire.request(.GET,"\(url)",headers:header)
+        request.response(
+            queue: qqq,
+            responseSerializer: Request.JSONResponseSerializer(),
+            completionHandler: { response in
+                
+
+        
+        
+        //.validate().responseJSON { response in
             print(response)
             if(response.result.isSuccess)
             {
@@ -166,8 +185,8 @@ class syncGroupService
                 return completion(result:true,error: "API synch groups failed",groupinfo: jsongroupinfo)
                 
             }
-        }
-        
+        })
+    
         return completion(result:true,error: "Fetch group info API failed",groupinfo: jsongroupinfo)
     }
     
@@ -224,10 +243,22 @@ class syncGroupService
         print("inside group info function")
         var url=Constants.MainUrl+Constants.fetchmygroupmembers
         print(url.debugDescription)
-      
+        var queue2=dispatch_queue_attr_make_with_qos_class(DISPATCH_QUEUE_CONCURRENT, QOS_CLASS_BACKGROUND, 0);
+        
+        //let queue2 = dispatch_queue_create("com.kibochat.manager-response-queue-file", DISPATCH_QUEUE_CONCURRENT)
+        let qqq=dispatch_queue_create("com.kibochat.queue.getmembers",queue2)
+        
+        
         var hhh=["headers":"\(header)"]
         print(header.description)
-        Alamofire.request(.GET,"\(url)",headers:header).validate().responseJSON { response in
+        var request=Alamofire.request(.GET,"\(url)",headers:header)
+        request.response(
+            queue: qqq,
+            responseSerializer: Request.JSONResponseSerializer(),
+            completionHandler: { response in
+            
+            
+            //.validate().responseJSON { response in
             print(response)
             if(response.result.isSuccess)
             {
@@ -273,7 +304,7 @@ class syncGroupService
                 return completion(result:true,error: "API synch groups failed",groupinfo: jsongroupinfo)
                 
             }
-        }
+        })
         
         return completion(result:true,error: "Fetch group info API failed",groupinfo: jsongroupinfo)
     }
@@ -443,7 +474,7 @@ class syncGroupService
     }
     
     
-    func syncGroupChatStatuses()
+    func syncGroupChatStatuses(completion:(result:Bool,error:String!)->())
     {print("sync statuses")
         var statusNotSentList=sqliteDB.getGroupsChatStatusUniqueIDsListNotSeen()
         var jsongroupinfo:JSON!=nil
@@ -476,9 +507,12 @@ class syncGroupService
                     let delivered_date = dateFormatter.dateFromString(delivered_dateString)
                     let read_date = dateFormatter.dateFromString(read_dateString)
                     
+                    print("updating status ......... \(i)")
                     sqliteDB.updateGroupChatStatus(uniqueid1, memberphone1: user_phone1, status1: status1, delivereddate1: delivered_date, readDate1: read_date)
                     
                 }
+                
+                return completion(result: true, error: nil)
                 
                 /*
                  {
@@ -492,6 +526,10 @@ class syncGroupService
                  "user_phone" = "+923333864540";
                  }
                  */
+            }
+            else
+            {
+                return completion(result:false,error: "Unable to fetch data")
             }
             
         }

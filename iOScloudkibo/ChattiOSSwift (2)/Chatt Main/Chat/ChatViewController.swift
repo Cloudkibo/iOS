@@ -20,7 +20,7 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
     EPPickerDelegate,SWTableViewCellDelegate,UpdateChatViewsDelegate,RefreshContactsList,UpdateMainPageChatsDelegate
 {
     
-    
+    var pendinggroupchatsarray=[[String:AnyObject]]()
     var groupsObjectList=[[String:AnyObject]]()
     var delegateUpdateUI:UpdateMainPageChatsDelegate!
     var swipeindexRow:Int!
@@ -315,6 +315,11 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
                 
                 self.getData({ (result) -> () in
                     
+                    self.sendPendingGroupChatMessages({ (result) -> () in
+                        
+                        self.getGroupsData({ (result) -> () in
+                            
+                            
                    /* Alamofire.request(.POST,"\(Constants.MainUrl+Constants.urllog)",headers:header,parameters: ["data":"IPHONE_LOG: checkin here pending messages sent"]).response{
                         request, response_, data, error in
                         print(error)
@@ -324,6 +329,11 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
                     
                // if(socketObj != nil)
                 //{
+                     
+                            
+                UIDelegates.getInstance().UpdateGroupChatDetailsDelegateCall()
+                UIDelegates.getInstance().UpdateMainPageChatsDelegateCall()
+                            
                 if(delegateRefreshChat != nil)
                 {
                     print("refresh UI after pending msgs are sent")
@@ -341,6 +351,8 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
                         syncGroupsObj.startPartialGroupsChatSyncService()
                     })
                     
+                })
+                })
                 //}
                 })
             })
@@ -1294,6 +1306,69 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
         }
     }
     
+    var index2=0
+    // var pendingcount=0
+    
+    func getGroupsData(completion:(result:Bool)->()) {
+        var x = [[String: AnyObject]]()
+        // var url=Constants.MainUrl+Constants.sendChatURL
+        /*
+         let request = Alamofire.request(.POST, "\(url)", parameters: chatstanza,headers:header)
+         request.response(
+         queue: queue,
+         responseSerializer: Request.JSONResponseSerializer(options: .AllowFragments),
+         completionHandler: { response in
+         
+         */
+        
+        if(pendinggroupchatsarray.count>index2)
+        {
+            sendGroupChatMessage(pendinggroupchatsarray[self.index2]["group_unique_id"] as! String, from: pendinggroupchatsarray[self.index2]["from"] as! String, type: pendinggroupchatsarray[self.index2]["type"] as! String, msg: pendinggroupchatsarray[self.index2]["msg"] as! String, fromFullname: pendinggroupchatsarray[self.index2]["from_fullname"] as! String, uniqueidChat: pendinggroupchatsarray[self.index2]["unique_id"] as! String, completion: { (result) in
+                
+                print("chat sent")
+                if(result==true)
+                {
+                    
+                    /*case .Success(let JSON):
+                     //x[self.index] = JSON as! [String : AnyObject] // saving data
+                     var statusNow="sent"
+                     ///var chatmsg=JSON(data)
+                     /// print(data[0])
+                     ///print(chatmsg[0])
+                     //  print("chat sent msg \(chatstanza)")
+                     
+                     sqliteDB.UpdateChatStatus(self.pendingchatsarray[self.index2]["uniqueid"]!, newstatus: "sent")
+                     
+                     
+                     */
+                    completion(result:true)
+                    self.index2 = self.index2 + 1
+                    if self.index2 < self.pendinggroupchatsarray.count {
+                        self.getGroupsData({ (result) -> () in})
+                    }else {
+                        completion(result: true)
+                        /////////self.collectionView.reloadData()
+                    }
+                }
+                    //case .Failure(let error):
+                else{
+                    print("the error for \(self.pendinggroupchatsarray[self.index2]) ")
+                    if self.index2 < self.pendinggroupchatsarray.count {
+                        self.getGroupsData({ (result) -> () in})
+                    }else {
+                        completion(result: true)                /////////// self.collectionView.reloadData()
+                    }
+                }
+            })
+        }
+        else{
+            completion(result: false)
+            
+        }
+    }
+    
+
+    
     func sendPendingChatMessages(completion:(result:Bool)->())
     {
         print("checkin here inside pending chat messages.....")
@@ -1327,6 +1402,8 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
             var count=0
            // var pendingMessagesArray=Array(try sqliteDB.db.prepare(tbl_userchats.filter(status=="pending").order(date.asc)))
           //  pendingchatsarray.append(pendingMessagesArray as [String:String])
+            print("initially pending chats count is \(pendingchatsarray.count)")
+            
             for pendingchats in try sqliteDB.db.prepare(tbl_userchats.filter(status=="pending").order(date.asc))
             {
                 
@@ -1458,6 +1535,66 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
         
     }
     
+    
+    func sendPendingGroupChatMessages(completion:(result:Bool)->())
+    {
+        print("inside sending pending group chat messages.....")
+        var userchats=sqliteDB.userschats
+        //  var userchatsArray:Array<Row>
+        
+        
+        
+        let from = Expression<String>("from")
+        let group_unique_id = Expression<String>("group_unique_id")
+        let type = Expression<String>("type")
+        let msg = Expression<String>("msg")
+        let from_fullname = Expression<String>("from_fullname")
+        let date = Expression<NSDate>("date")
+        let unique_id = Expression<String>("unique_id")
+        
+        
+        
+        var pendingMSGs=sqliteDB.findGroupChatPendingMsgDetails()
+        //var res=tbl_userchats.filter(to==selecteduser || from==selecteduser)
+        //to==selecteduser || from==selecteduser
+        //print("chat from sqlite is")
+        //print(res)
+        
+        var count=0
+        for(var i=0;i<pendingMSGs.count;i++)
+        {
+            var membersList=sqliteDB.getGroupMembersOfGroup(pendingMSGs[i]["group_unique_id"] as! String)
+            
+            pendinggroupchatsarray.append(pendingMSGs[i])
+            
+            /*  self.sendGroupChatMessage(pendingMSGs[i]["group_unique_id"] as! String, from: pendingMSGs[i]["from"] as! String, type: pendingMSGs[i]["type"] as! String, msg: pendingMSGs[i]["msg"] as! String, fromFullname: pendingMSGs[i]["from_fullname"] as! String, uniqueidChat: pendingMSGs[i]["unique_id"] as! String, completion: { (result) in
+             
+             print("chat sent")
+             if(result==true)
+             {
+             for(var i=0;i<membersList.count;i++)
+             {
+             if((membersList[i]["member_phone"] as! String) != username! && (membersList[i]["membership_status"] as! String) != "left")
+             {
+             sqliteDB.updateGroupChatStatus(pendingMSGs[i]["unique_id"] as! String, memberphone1: membersList[i]["member_phone"]! as! String, status1: "sent", delivereddate1: NSDate(), readDate1: NSDate())
+             
+             // === wrong sqliteDB.storeGRoupsChatStatus(uniqueid_chat, status1: "sent", memberphone1: self.membersList[i]["member_phone"]! as! String, delivereddate1: UtilityFunctions.init().minimumDate(), readDate1: UtilityFunctions.init().minimumDate())
+             }
+             }
+             
+             //==== sqliteDB.updateGroupChatStatus(uniqueid_chat, memberphone1: username!,status1: "sent", delivereddate1: UtilityFunctions.init().minimumDate(), readDate1: UtilityFunctions.init().minimumDate())
+             
+             UIDelegates.getInstance().UpdateGroupChatDetailsDelegateCall()
+             
+             }
+             })*/
+        }
+        
+        completion(result: true)
+        
+    }
+
+    
     //=====================================
     //to fetch contacts from SQLite db
     
@@ -1473,6 +1610,77 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
         completion(result: true)
     }
     */
+    
+    
+    func sendGroupChatMessage(group_id:String,from:String,type:String,msg:String,fromFullname:String,uniqueidChat:String,completion:(result:Bool)->())
+    {
+        // let queue=dispatch_get_global_queue(QOS_CLASS_USER_INITIATED,0)
+        // let queue = dispatch_queue_create("com.kibochat.manager-response-queue", DISPATCH_QUEUE_CONCURRENT)
+        /*  let request = Alamofire.request(.POST, "\(url)", parameters: chatstanza,headers:header)
+         request.response(
+         queue: queue,
+         responseSerializer: Request.JSONResponseSerializer(options: .AllowFragments),
+         completionHandler: { response in
+         */
+        
+        //group_unique_id = <group_unique_id>, from, type, msg, from_fullname, unique_id
+        
+        
+        print("sending groups chat \(group_id) , \(from) , \(type) \(msg), \(fromFullname) , \(uniqueidChat)")
+        
+        var url=Constants.MainUrl+Constants.sendGroupChat
+        print(url)
+        print("..")
+        let request = Alamofire.request(.POST, "\(url)", parameters: ["group_unique_id":group_id,"from":from,"type":type,"msg":msg,"from_fullname":fromFullname,"unique_id":uniqueidChat],headers:header).responseJSON { response in
+            // You are now running on the concurrent `queue` you created earlier.
+            //print("Parsing JSON on thread: \(NSThread.currentThread()) is main thread: \(NSThread.isMainThread())")
+            
+            // Validate your JSON response and convert into model objects if necessary
+            //print(response.result.value) //status, uniqueid
+            
+            // To update anything on the main thread, just jump back on like so.
+            //print("\(chatstanza) ..  \(response)")
+            print("status code is \(response.response?.statusCode)")
+            print(response)
+            print(response.result.error)
+            if(response.response?.statusCode==200 || response.response?.statusCode==201)
+            {
+                
+                //print("chat ack received")
+                var statusNow="sent"
+                ///var chatmsg=JSON(data)
+                /// //print(data[0])
+                /////print(chatmsg[0])
+                //print("chat sent unikque id \(chatstanza["uniqueid"])")
+                
+                //  sqliteDB.UpdateChatStatus(chatstanza["uniqueid"]!, newstatus: "sent")
+                
+                
+                
+                
+                
+                
+                
+                /////    dispatch_async(dispatch_get_main_queue()) {
+                //print("Am I back on the main thread: \(NSThread.isMainThread())")
+                
+                print("MAINNNNNNNNNNNN")
+                completion(result: true)
+                //self.retrieveChatFromSqlite(self.selectedContact)
+                
+                
+                
+                
+                /////// }
+            }
+            else{
+                completion(result: false)
+                
+            }
+        }//)
+        
+    }
+    
     func fetchContacts(completion:(result:Bool)->()){
         
         
@@ -3038,7 +3246,7 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
                     // do some task start to show progress wheel
                     self.fetchContacts({ (result) -> () in
                         //self.fetchContactsFromServer()
-                        print("checkinnn")
+                        print("checkinnn ... 3042")
                         let tbl_accounts=sqliteDB.accounts
                         do{for account in try sqliteDB.db.prepare(tbl_accounts) {
                             ///print("id: \(account[_id]), phone: \(account[phone]), firstname: \(account[firstname])")
@@ -3064,7 +3272,7 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
                     // do some task start to show progress wheel
                     self.fetchContacts({ (result) -> () in
                         //self.fetchContactsFromServer()
-                        print("checkinnn")
+                        print("checkinnn im 3067")
                         let tbl_accounts=sqliteDB.accounts
                         do{for account in try sqliteDB.db.prepare(tbl_accounts) {
                             ///print("id: \(account[_id]), phone: \(account[phone]), firstname: \(account[firstname])")
@@ -3109,7 +3317,7 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
         case "offline":
             
             
-            print("offline status...", terminator: "")
+            print("offline status... 3112", terminator: "")
             var offlineUsers=JSON(data!)
             print(offlineUsers[0])
             //print(offlineUsers[0]["username"])

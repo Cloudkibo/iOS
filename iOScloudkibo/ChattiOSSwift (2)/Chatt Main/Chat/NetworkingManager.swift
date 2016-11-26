@@ -310,7 +310,10 @@ class NetworkingManager
         // JSON stringify
        // let parameterString = parameterJSON.rawString(NSUTF8StringEncoding, options: NSJSONWritingOptions.PrettyPrinted )
        // let jsonParameterData = parameterString!.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: true)
-        var imageData=NSData(contentsOfFile: filePath1)
+        var imageData=UIImageJPEGRepresentation(UIImage(contentsOfFile: filePath1)!,0.9)
+        var imageData2=NSData(contentsOfFile: filePath1)
+        print("ols upload image size is \(imageData2!.length)")
+        print("new upload image size is \(imageData!.length)")
         print("mimetype is \(MimeType(file_type1))")
         
         var urlupload=Constants.MainUrl+Constants.uploadFile
@@ -335,14 +338,14 @@ class NetworkingManager
                 dispatch_async(dispatch_get_main_queue()) {
                     let percent = (Float(totalBytesWritten) / Float(totalBytesExpectedToWrite))
                     /////progress(percent: percent)
-                    if(self.delegateProgressUpload != nil)
+                    /*if(self.delegateProgressUpload != nil)
                     {
                         if(percent<1.0)
                         {
                        self.delegateProgressUpload.updateProgressUpload(percent,uniqueid: uniqueid1)
                         }   
                         
-                    }
+                    }*/
                     //Redraw specific table cell
                     print("percentage is \(percent)")
                 }
@@ -576,9 +579,7 @@ class NetworkingManager
                 }
             print("file written...")
         
-                self.confirmDownload(fileuniqueid)
-                print("confirminggggggg")
-                if(socketObj.delegateChat != nil)
+                                if(socketObj.delegateChat != nil)
                 {
                     socketObj.delegateChat.socketReceivedMessageChat("updateUI", data: nil)
                 }
@@ -591,7 +592,11 @@ class NetworkingManager
                     
                     //===uncomment later  delegateRefreshChat?.refreshChatsUI("",uniqueid:fileuniqueid,from:filefrom,date1:NSDate(), type:"chat")
                 }
-        }
+                
+                self.confirmDownload(fileuniqueid)
+                print("confirminggggggg")
+
+            }
             else{
                 print("error in writing file")
             }

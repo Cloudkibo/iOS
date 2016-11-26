@@ -2458,15 +2458,16 @@ print("--------")
         
         
         
-        let query = self.group_chat_status.select(Status).filter(Status.lowercaseString == "pending")
+        let query = self.group_chat_status.select(Status,msg_unique_id).filter(Status.lowercaseString == "pending")
         do
         {for pendingchats in try self.db.prepare(query)
         {
+            print()
             var idPendingMsg=pendingchats[msg_unique_id]
             var tblgroupchat=sqliteDB.group_chat
             
             do
-            {for pendingchatsGroupDetail in try self.db.prepare(tblgroupchat.select(unique_id).filter(unique_id.lowercaseString==idPendingMsg))
+            {for pendingchatsGroupDetail in try self.db.prepare(tblgroupchat.filter(unique_id == idPendingMsg))
             {
                 var newEntry=[String:AnyObject]()
                 newEntry["from"]=pendingchatsGroupDetail.get(from)

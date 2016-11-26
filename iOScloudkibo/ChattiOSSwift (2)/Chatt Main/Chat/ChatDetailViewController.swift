@@ -1203,9 +1203,27 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
         let msgType = messageDic["type"]! as NSString
         if(msgType.isEqualToString("3")||msgType.isEqualToString("4"))
         {
+            if(msgType.isEqualToString("3"))
+            {
+            //FileImageSentCell
+            var cell = tblForChats.dequeueReusableCellWithIdentifier("FileImageSentCell")! as UITableViewCell
+                let chatImage = cell.viewWithTag(1) as! UIImageView
+                
+                
+                if(chatImage.frame.height <= 230)
+                {
+                    return chatImage.frame.height+20
+                }
+                else
+                {
+                    return 200
+                }
+            }
+            else
+            {
             var cell = tblForChats.dequeueReusableCellWithIdentifier("FileImageReceivedCell")! as UITableViewCell
             let chatImage = cell.viewWithTag(1) as! UIImageView
-      
+            
             
             if(chatImage.frame.height <= 230)
             {
@@ -1213,10 +1231,12 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
             }
             else
             {
-                return 200
+            return 200
             }
-            
-            
+
+            }
+        
+        
         }
         else
         {
