@@ -310,10 +310,21 @@ class NetworkingManager
         // JSON stringify
        // let parameterString = parameterJSON.rawString(NSUTF8StringEncoding, options: NSJSONWritingOptions.PrettyPrinted )
        // let jsonParameterData = parameterString!.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: true)
-        var imageData=UIImageJPEGRepresentation(UIImage(contentsOfFile: filePath1)!,0.9)
-        var imageData2=NSData(contentsOfFile: filePath1)
-        print("ols upload image size is \(imageData2!.length)")
-        print("new upload image size is \(imageData!.length)")
+        
+        var imageData:NSData?
+        if(self.imageExtensions.contains(file_type1.lowercaseString))
+        {
+            imageData=UIImageJPEGRepresentation(UIImage(contentsOfFile: filePath1)!,0.9)
+            print("new upload image size is \(imageData!.length)")
+        }
+        else{
+            imageData=NSData(contentsOfFile: filePath1)
+            print("old upload image size is \(imageData!.length)")
+        }
+       // var imageData=UIImageJPEGRepresentation(UIImage(contentsOfFile: filePath1)!,0.9)
+       
+       // print("ols upload image size is \(imageData2!.length)")
+        
         print("mimetype is \(MimeType(file_type1))")
         
         var urlupload=Constants.MainUrl+Constants.uploadFile
@@ -537,9 +548,9 @@ class NetworkingManager
         
         
         var downloadURL=Constants.MainUrl+Constants.downloadFile
-        
-        
-        if(Int.init(filePendingSize)<10000000)
+        print("start download")
+        print(NSDate())
+        if(Int.init(filePendingSize)<15000000)
         {
         let queue2 = dispatch_queue_create("com.kibochat.manager-response-queue-file", DISPATCH_QUEUE_CONCURRENT)
         let qqq=dispatch_get_global_queue(QOS_CLASS_BACKGROUND, 0)
@@ -592,7 +603,8 @@ class NetworkingManager
                     
                     //===uncomment later  delegateRefreshChat?.refreshChatsUI("",uniqueid:fileuniqueid,from:filefrom,date1:NSDate(), type:"chat")
                 }
-                
+                print("download done")
+                print(NSDate())
                 self.confirmDownload(fileuniqueid)
                 print("confirminggggggg")
 
@@ -715,6 +727,8 @@ class NetworkingManager
                 }
                 //filedownloaded’ to with parameters ‘senderoffile’, ‘receiveroffile’
                 
+                print("download done long")
+                print(NSDate())
                 self.confirmDownload(fileuniqueid)
                 print("confirminggggggg")
                 

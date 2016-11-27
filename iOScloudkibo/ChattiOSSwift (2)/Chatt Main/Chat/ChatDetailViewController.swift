@@ -1336,10 +1336,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
             chatImage.frame = CGRectMake(chatImage.frame.origin.x, chatImage.frame.origin.y, ((sizeOFStr.width + 100)  > 200 ? (sizeOFStr.width + 100) : 200), sizeOFStr.height + 40)
             chatImage.image = UIImage(named: "chat_receive")?.stretchableImageWithLeftCapWidth(40,topCapHeight: 20);
             //******
-            
-            
-         textLable.frame = CGRectMake(textLable.frame.origin.x, textLable.frame.origin.y, textLable.frame.size.width, sizeOFStr.height)
-            
+        
             
             ////// profileImage.center = CGPointMake(profileImage.center.x, textLable.frame.origin.y + textLable.frame.size.height - profileImage.frame.size.height/2 + 10)
             profileImage.center = CGPointMake(profileImage.center.x, textLable.frame.origin.y + textLable.frame.size.height - profileImage.frame.size.height/2+20)
@@ -1375,7 +1372,9 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
             var displaydate=formatter2.stringFromDate(defaultTimeZoneStr!)
             //formatter.dateFormat = "MM/dd HH:mm";
             
-            timeLabel.frame = CGRectMake(textLable.frame.origin.x, textLable.frame.origin.y+textLable.frame.height+10, chatImage.frame.size.width-46, timeLabel.frame.size.height)
+            textLable.frame = CGRectMake(textLable.frame.origin.x, chatImage.frame.origin.y+10, chatImage.frame.size.width-16, sizeOFStr.height)
+            
+           //===neww timeLabel.frame = CGRectMake(textLable.frame.origin.x, textLable.frame.origin.y+textLable.frame.height+10, chatImage.frame.size.width-46, timeLabel.frame.size.height)
             
             
             //print("displaydate is \(displaydate)")
@@ -1415,7 +1414,10 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
             chatImage.image = UIImage(named: "chat_send")?.stretchableImageWithLeftCapWidth(40,topCapHeight: 20);
             //*********
             textLable.text = "\(msg)"
-            textLable.frame = CGRectMake(36 + distanceFactor, textLable.frame.origin.y, textLable.frame.size.width, sizeOFStr.height)
+            
+            
+            textLable.frame = CGRectMake(16 + chatImage.frame.origin.x, chatImage.frame.origin.y+16, chatImage.frame.size.width-32, sizeOFStr.height)
+            //==== new=== textLable.frame = CGRectMake(36 + distanceFactor, textLable.frame.origin.y, textLable.frame.size.width, sizeOFStr.height)
           ///  //print("textLable.x for \(msg) is \(textLable.frame.origin.x) and textLable.width is \(textLable.frame.width)")
             
             ////profileImage.center = CGPointMake(profileImage.center.x, textLable.frame.origin.y + textLable.frame.size.height - profileImage.frame.size.height/2 + 10)
