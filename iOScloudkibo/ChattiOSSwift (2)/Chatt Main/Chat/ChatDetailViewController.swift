@@ -276,7 +276,8 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
     }
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        self.tblForChats.estimatedRowHeight = 100.0;
+        self.tblForChats.rowHeight = UITableViewAutomaticDimension;
         /*
         let nib1 = UINib(nibName: "ChatSentCell", bundle: nil)
         let nib2 = UINib(nibName: "ChatReceivedCell", bundle: nil)
@@ -1227,10 +1228,11 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
         let msg = messageDic["message"] as NSString!
         let msgType = messageDic["type"]! as NSString
         
-        var textLable = UILabel(frame: CGRectMake(0, 0, getSizeOfStringHeight(msg).width, 15))
+        var textLable = UILabel(frame: CGRectMake(0, 0, 170, 15))
         textLable.numberOfLines=0
         textLable.font=textLable.font.fontWithSize(11)
         textLable.textAlignment = NSTextAlignment.Left
+        textLable.contentMode = .TopLeft
         textLable.text = "\(msg)"
         textLable.lineBreakMode = .ByWordWrapping
         
@@ -1274,7 +1276,15 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
             }
             }//end 4
                else{
+                if(tblForChats.cellForRowAtIndexPath(indexPath) != nil)
+{
+    let cell=tblForChats.cellForRowAtIndexPath(indexPath)
+    let chatImage = cell!.viewWithTag(1) as! UIImageView
+     return chatImage.frame.height+5
+
+}else{
                 return correctheight+25
+}
                 /*if(msgType.isEqualToString("1"))
                  {
                     var cell = tblForChats.dequeueReusableCellWithIdentifier("ChatSentCell")! as UITableViewCell
