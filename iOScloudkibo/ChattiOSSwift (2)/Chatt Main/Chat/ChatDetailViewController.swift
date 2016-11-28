@@ -195,17 +195,22 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
          socketObj.addWebRTCHandlers()
          }*/
         
-        
-        self.retrieveChatFromSqlite(selectedContact,completion:{(result)-> () in
+        dispatch_async(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED,0))
+{
+        self.retrieveChatFromSqlite(self.selectedContact,completion:{(result)-> () in
             self.tblForChats.reloadData()
             
+            dispatch_async(dispatch_get_main_queue())
+            {
             if(self.messages.count>1)
             {
                 var indexPath = NSIndexPath(forRow:self.messages.count-1, inSection: 0)
                 
                 self.tblForChats.scrollToRowAtIndexPath(indexPath, atScrollPosition: UITableViewScrollPosition.Bottom, animated: true)
             }
+            }
         })
+        }
         //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%------------ commented june 16 FetchChatServer()
         //print("calling retrieveChat")
         
@@ -671,7 +676,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
                 /*
                 var formatter = NSDateFormatter();
                 formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSS";
-                //formatter.dateFormat = "MM/dd HH:mm";
+                //formatter.dateFormat = "MM/dd HH:mm a";
                 formatter.timeZone = NSTimeZone(name: "UTC")
                 */
                 // formatter.timeZone = NSTimeZone.localTimeZone()
@@ -729,7 +734,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
                     /////print("statussss is \(tblContacts[status])")
                     if(tblContacts[file_type]=="image")
                     {
-                        var filedownloaded=sqliteDB.checkIfFileExists(tblContacts[uniqueid])
+                       // var filedownloaded=sqliteDB.checkIfFileExists(tblContacts[uniqueid])
                       
                         /*if(filedownloaded==false)
 {
@@ -749,7 +754,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
                     else{
                     if(tblContacts[file_type]=="document")
                     {
-                        var filedownloaded=sqliteDB.checkIfFileExists(tblContacts[uniqueid])
+                      //  var filedownloaded=sqliteDB.checkIfFileExists(tblContacts[uniqueid])
                         
                        /* if(filedownloaded==false)
                         {
@@ -1201,8 +1206,23 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
         
         let msg = messageDic["message"] as NSString!
         let msgType = messageDic["type"]! as NSString
-        if(msgType.isEqualToString("3")||msgType.isEqualToString("4"))
+       if(msgType.isEqualToString("3")||msgType.isEqualToString("4"))
         {
+            
+            var cell = tblForChats.cellForRowAtIndexPath(indexPath)
+            let chatImage = cell!.viewWithTag(1) as! UIImageView
+            
+            
+            if(chatImage.frame.height <= 230)
+            {
+                return chatImage.frame.height+20
+            }
+            else
+            {
+                return 200
+            }
+            /*
+            
             if(msgType.isEqualToString("3"))
             {
             //FileImageSentCell
@@ -1219,7 +1239,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
                     return 200
                 }
             }
-            else
+           else
             {
             var cell = tblForChats.dequeueReusableCellWithIdentifier("FileImageReceivedCell")! as UITableViewCell
             let chatImage = cell.viewWithTag(1) as! UIImageView
@@ -1235,14 +1255,25 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
             }
 
             }
-        
+        */
         
         }
         else
         {
-        let sizeOFStr = self.getSizeOfString(msg)
+        let sizeOFStr = self.getSizeOfStringHeight("\(msg)")
+           // if(msgType.isEqualToString("2"))
+           // {
+            
+           //(
+           /* var cell = tblForChats.cellForRowAtIndexPath(indexPath)
+                
+                let chatImage = cell!.viewWithTag(1) as! UIImageView
+                return chatImage.frame.height+10
+          */
+            
         
-        return sizeOFStr.height + 70
+        return sizeOFStr.height + 25
+          ///  return 100
         }
         /* var cell : UITableViewCell!
          cell = tblForChats.dequeueReusableCellWithIdentifier("ChatSentCell")! as UITableViewCell
@@ -1336,7 +1367,10 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
             chatImage.frame = CGRectMake(chatImage.frame.origin.x, chatImage.frame.origin.y, ((sizeOFStr.width + 100)  > 200 ? (sizeOFStr.width + 100) : 200), sizeOFStr.height + 40)
             chatImage.image = UIImage(named: "chat_receive")?.stretchableImageWithLeftCapWidth(40,topCapHeight: 20);
             //******
-        
+            
+            
+         textLable.frame = CGRectMake(textLable.frame.origin.x, textLable.frame.origin.y, textLable.frame.size.width, sizeOFStr.height)
+            
             
             ////// profileImage.center = CGPointMake(profileImage.center.x, textLable.frame.origin.y + textLable.frame.size.height - profileImage.frame.size.height/2 + 10)
             profileImage.center = CGPointMake(profileImage.center.x, textLable.frame.origin.y + textLable.frame.size.height - profileImage.frame.size.height/2+20)
@@ -1361,20 +1395,18 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
             //print("date received in chat is \(date2.debugDescription)")
             var formatter = NSDateFormatter();
             formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSS";
-            //formatter.dateFormat = "MM/dd HH:mm";
+            //formatter.dateFormat = "MM/dd HH:mm a";
             formatter.timeZone = NSTimeZone.localTimeZone()
             var defaultTimeZoneStr = formatter.dateFromString(date2.debugDescription)
             //print("defaultTimeZoneStr \(defaultTimeZoneStr)")
             
             var formatter2 = NSDateFormatter();
             formatter2.timeZone=NSTimeZone.localTimeZone()
-            formatter2.dateFormat = "MM/dd HH:mm";
+            formatter2.dateFormat = "MM/dd HH:mm a";
             var displaydate=formatter2.stringFromDate(defaultTimeZoneStr!)
-            //formatter.dateFormat = "MM/dd HH:mm";
+            //formatter.dateFormat = "MM/dd HH:mm a";
             
-            textLable.frame = CGRectMake(textLable.frame.origin.x, chatImage.frame.origin.y+10, chatImage.frame.size.width-16, sizeOFStr.height)
-            
-           //===neww timeLabel.frame = CGRectMake(textLable.frame.origin.x, textLable.frame.origin.y+textLable.frame.height+10, chatImage.frame.size.width-46, timeLabel.frame.size.height)
+            timeLabel.frame = CGRectMake(textLable.frame.origin.x, textLable.frame.origin.y+textLable.frame.height+10, chatImage.frame.size.width-46, timeLabel.frame.size.height)
             
             
             //print("displaydate is \(displaydate)")
@@ -1405,19 +1437,35 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
             let distanceFactor = (197.0 - sizeOFStr.width) < 107 ? (197.0 - sizeOFStr.width) : 107
            //// //print("distanceFactor for \(msg) is \(distanceFactor)")
             
-            chatImage.frame = CGRectMake(20 + distanceFactor, chatImage.frame.origin.y, ((sizeOFStr.width + 107)  > 207 ? (sizeOFStr.width + 107) : 200), sizeOFStr.height + 40)
+           
          ////    //print("chatImage.x for \(msg) is \(20 + distanceFactor) and chatimage.wdith is \(chatImage.frame.width)")
             
             
             textLable.hidden=false
+            textLable.text = "\(msg)"
+            textLable.lineBreakMode = .ByWordWrapping
+            textLable.numberOfLines=0
+            textLable.sizeToFit()
+            print("previous height is \(textLable.frame.height) msg is \(msg)")
+            var correctheight=textLable.frame.height
+            
+            
+            chatImage.frame = CGRectMake(20 + distanceFactor, chatImage.frame.origin.y, ((sizeOFStr.width + 107)  > 207 ? (sizeOFStr.width + 107) : 200), correctheight + 30)
+            
+           //==== newwww chatImage.frame = CGRectMake(20 + distanceFactor, chatImage.frame.origin.y, ((sizeOFStr.width + 107)  > 207 ? (sizeOFStr.width + 107) : 200), sizeOFStr.height + 40)
             //chatImage.frame = CGRectMake(20 + distanceFactor, chatImage.frame.origin.y, ((sizeOFStr.width + 100)  > 200 ? (sizeOFStr.width + 100) : 200), sizeOFStr.height + 40)
             chatImage.image = UIImage(named: "chat_send")?.stretchableImageWithLeftCapWidth(40,topCapHeight: 20);
             //*********
-            textLable.text = "\(msg)"
+           
+            //getSizeOfStringHeight(msg).height
+            
+            textLable.frame = CGRectMake(26 + distanceFactor, textLable.frame.origin.y, chatImage.frame.width-36, correctheight)
             
             
-            textLable.frame = CGRectMake(16 + chatImage.frame.origin.x, chatImage.frame.origin.y+16, chatImage.frame.size.width-32, sizeOFStr.height)
-            //==== new=== textLable.frame = CGRectMake(36 + distanceFactor, textLable.frame.origin.y, textLable.frame.size.width, sizeOFStr.height)
+           // newwwwwwwwww textLable.frame = CGRectMake(26 + distanceFactor, textLable.frame.origin.y, chatImage.frame.width-36, getSizeOfStringHeight(msg).height)
+            print("new height is \(textLable.frame.height) msg is \(msg)")
+           //=====newwwwwww  textLable.frame = CGRectMake(26 + distanceFactor, textLable.frame.origin.y, chatImage.frame.width-36, sizeOFStr.height)
+             //==== new textLable.frame = CGRectMake(36 + distanceFactor, textLable.frame.origin.y, textLable.frame.size.width, sizeOFStr.height)
           ///  //print("textLable.x for \(msg) is \(textLable.frame.origin.x) and textLable.width is \(textLable.frame.width)")
             
             ////profileImage.center = CGPointMake(profileImage.center.x, textLable.frame.origin.y + textLable.frame.size.height - profileImage.frame.size.height/2 + 10)
@@ -1436,7 +1484,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
            // //print("date received in chat is \(date2.debugDescription)")
             var formatter = NSDateFormatter();
             formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSS";
-            //formatter.dateFormat = "MM/dd HH:mm";
+            //formatter.dateFormat = "MM/dd HH:mm a";
             formatter.timeZone = NSTimeZone.localTimeZone()
             var defaultTimeZoneStr = formatter.dateFromString(date2.debugDescription)
             //print("defaultTimeZoneStr \(defaultTimeZoneStr)")
@@ -1450,9 +1498,9 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
             {
             var formatter2 = NSDateFormatter();
             formatter2.timeZone=NSTimeZone.localTimeZone()
-            formatter2.dateFormat = "MM/dd HH:mm";
+            formatter2.dateFormat = "MM/dd HH:mm a";
             var displaydate=formatter2.stringFromDate(defaultTimeZoneStr!)
-            //formatter.dateFormat = "MM/dd HH:mm";
+            //formatter.dateFormat = "MM/dd HH:mm a";
             
             timeLabel.text=displaydate
             }
@@ -1680,14 +1728,14 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
                 //print("date received in chat is \(date2.debugDescription)")
                 var formatter = NSDateFormatter();
                 formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSS";
-                //formatter.dateFormat = "MM/dd HH:mm";
+                //formatter.dateFormat = "MM/dd HH:mm a";
                 formatter.timeZone = NSTimeZone.localTimeZone()
                 var defaultTimeZoneStr = formatter.dateFromString(date2.debugDescription)
                 //print("defaultTimeZoneStr \(defaultTimeZoneStr)")
                 
                 var formatter2 = NSDateFormatter();
                 formatter2.timeZone=NSTimeZone.localTimeZone()
-                formatter2.dateFormat = "MM/dd HH:mm";
+                formatter2.dateFormat = "MM/dd HH:mm a";
                 var displaydate=formatter2.stringFromDate(defaultTimeZoneStr!)
                 
                  timeLabel.text=displaydate
@@ -1839,14 +1887,14 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
             //print("date received in chat is \(date2.debugDescription)")
             var formatter = NSDateFormatter();
             formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSS";
-            //formatter.dateFormat = "MM/dd HH:mm";
+            //formatter.dateFormat = "MM/dd HH:mm a";
             formatter.timeZone = NSTimeZone.localTimeZone()
             var defaultTimeZoneStr = formatter.dateFromString(date2.debugDescription)
             //print("defaultTimeZoneStr \(defaultTimeZoneStr)")
             
             var formatter2 = NSDateFormatter();
             formatter2.timeZone=NSTimeZone.localTimeZone()
-            formatter2.dateFormat = "MM/dd HH:mm";
+            formatter2.dateFormat = "MM/dd HH:mm a";
             var displaydate=formatter2.stringFromDate(defaultTimeZoneStr!)
             
             timeLabel.text=displaydate
@@ -1987,14 +2035,14 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
             //print("date received in chat is \(date2.debugDescription)")
             var formatter = NSDateFormatter();
             formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSS";
-            //formatter.dateFormat = "MM/dd HH:mm";
+            //formatter.dateFormat = "MM/dd HH:mm a";
             formatter.timeZone = NSTimeZone.localTimeZone()
             var defaultTimeZoneStr = formatter.dateFromString(date2.debugDescription)
             //print("defaultTimeZoneStr \(defaultTimeZoneStr)")
             
             var formatter2 = NSDateFormatter();
             formatter2.timeZone=NSTimeZone.localTimeZone()
-            formatter2.dateFormat = "MM/dd HH:mm";
+            formatter2.dateFormat = "MM/dd HH:mm a";
             var displaydate=formatter2.stringFromDate(defaultTimeZoneStr!)
             
             timeLabel.text=displaydate
@@ -3268,7 +3316,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
         var date22=NSDate()
         var formatter = NSDateFormatter();
         formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ";
-        //formatter.dateFormat = "MM/dd HH:mm";
+        //formatter.dateFormat = "MM/dd HH:mm a";
         ////////////formatter.timeZone = NSTimeZone.localTimeZone()
         //formatter.dateStyle = .ShortStyle
         //formatter.timeStyle = .ShortStyle
@@ -3287,7 +3335,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
         var formatter = NSDateFormatter();
         
         formatter.timeZone = NSTimeZone.localTimeZone()
-        formatter.dateFormat = "MM/dd HH:mm";
+        formatter.dateFormat = "MM/dd HH:mm a";
         //formatter.dateStyle = .ShortStyle
         //formatter.timeStyle = .ShortStyle
         let defaultTimeZoneStr = formatter.stringFromDate(date);
@@ -3367,7 +3415,29 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
         ////print("size is width \(labelSize.width) and height is \(labelSize.height)")
         return labelSize.size
     }
-    
+    func getSizeOfStringHeight(postTitle: NSString) -> CGSize {
+        
+        
+        // Get the height of the font
+        let constraintSize = CGSizeMake(270, CGFloat.max)
+        
+        //let constraintSize = CGSizeMake(220, CGFloat.max)
+        
+        
+        
+        /*let attributes = [NSFontAttributeName:UIFont.systemFontOfSize(11.0)]
+         let labelSize = postTitle.boundingRectWithSize(constraintSize,
+         options: NSStringDrawingOptions.UsesLineFragmentOrigin,
+         attributes: attributes,
+         context: nil)*/
+        
+        let labelSize = postTitle.boundingRectWithSize(constraintSize,
+                                                       options: NSStringDrawingOptions.UsesLineFragmentOrigin,
+                                                       attributes:[NSFontAttributeName : UIFont.systemFontOfSize(11.0)],
+                                                       context: nil)
+        ////print("size is width \(labelSize.width) and height is \(labelSize.height)")
+        return labelSize.size
+    }
     
     @IBAction func btn_deleteChatHistoryPressed(sender: AnyObject) {
         
@@ -3435,7 +3505,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
             var date22=NSDate()
             var formatter = NSDateFormatter();
             //formatter.dateFormat = "yyyy-MM-dd HH:mm:ss ZZZ";
-            formatter.dateFormat = "MM/dd HH:mm";
+            formatter.dateFormat = "MM/dd HH:mm a";
             formatter.timeZone = NSTimeZone.localTimeZone()
             // formatter.dateStyle = .ShortStyle
             //formatter.timeStyle = .ShortStyle
@@ -3883,7 +3953,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
         /*var formatter = NSDateFormatter();
         
         formatter.timeZone = NSTimeZone.localTimeZone()
-        formatter.dateFormat = "MM/dd HH:mm";
+        formatter.dateFormat = "MM/dd HH:mm a";
         //formatter.dateStyle = .ShortStyle
         //formatter.timeStyle = .ShortStyle
         let defaultTimeZoneStr = formatter.stringFromDate(date1);

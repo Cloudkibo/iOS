@@ -466,7 +466,7 @@ class NetworkingManager
                    // print("count jsonresult zeroth is \(jsonResult[0].count)")
                     print("count jsonresult filepending \(jsonResult["filepending"].count)")
 
-                    if(jsonResult["filepending"]["uniqueid"].isExists())
+                    if(jsonResult["filepending"].count>0)
                     {//print("count filepending is \(jsonResult["filepending"].count)")
                        // for(var i=0;i<jsonResult.count;i++)
                         //{

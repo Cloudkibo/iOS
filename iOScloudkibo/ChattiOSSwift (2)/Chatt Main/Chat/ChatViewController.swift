@@ -3079,7 +3079,7 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
                 destinationVC.ContactNames=ContactNames[selectedRow]
                 destinationVC.ContactOnlineStatus=ContactOnlineStatus[selectedRow]
                 print("destinationnnnnn....")
-                print("Selectedrow is \(selectedRow)... username is \(ContactUsernames[selectedRow]) firstname is \(ContactFirstname[selectedRow]) lastname is \(ContactLastNAme[selectedRow]) fullname is \(ContactNames)")
+                //////print("Selectedrow is \(selectedRow)... username is \(ContactUsernames[selectedRow]) firstname is \(ContactFirstname[selectedRow]) lastname is \(ContactLastNAme[selectedRow]) fullname is \(ContactNames)")
             
             }
         }
