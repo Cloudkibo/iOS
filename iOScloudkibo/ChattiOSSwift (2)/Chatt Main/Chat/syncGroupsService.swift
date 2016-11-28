@@ -190,8 +190,8 @@ class syncGroupService
         return completion(result:true,error: "Fetch group info API failed",groupinfo: jsongroupinfo)
     }
     
-    func fullRefreshGroupsInfo(groupInfo:JSON,completion:(result:Bool,error:String!)->())
-    {
+    func fullRefreshGroupsInfo(groupInfo:JSON!,completion:(result:Bool,error:String!)->())
+    {print("inside full refresh groups")
         //_id:String,groupname:String,date_creation:String,group_icon:NSData
         var tbl_Groups=sqliteDB.groups
         

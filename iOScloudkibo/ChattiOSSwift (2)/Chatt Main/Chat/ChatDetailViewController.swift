@@ -195,13 +195,14 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
          socketObj.addWebRTCHandlers()
          }*/
         
-        dispatch_async(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED,0))
-{
+      //  dispatch_async(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED,0))
+//{
         self.retrieveChatFromSqlite(self.selectedContact,completion:{(result)-> () in
             self.tblForChats.reloadData()
             
             dispatch_async(dispatch_get_main_queue())
             {
+            self.tblForChats.reloadData()
             if(self.messages.count>1)
             {
                 var indexPath = NSIndexPath(forRow:self.messages.count-1, inSection: 0)
@@ -209,8 +210,8 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
                 self.tblForChats.scrollToRowAtIndexPath(indexPath, atScrollPosition: UITableViewScrollPosition.Bottom, animated: true)
             }
             }
+       // })
         })
-        }
         //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%------------ commented june 16 FetchChatServer()
         //print("calling retrieveChat")
         
@@ -276,7 +277,20 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        
+        /*
+        let nib1 = UINib(nibName: "ChatSentCell", bundle: nil)
+        let nib2 = UINib(nibName: "ChatReceivedCell", bundle: nil)
+        let nib3 = UINib(nibName: "FileImageSentCell", bundle: nil)
+        let nib4 = UINib(nibName: "FileImageReceivedCell", bundle: nil)
+        let nib5 = UINib(nibName: "DocSentCell", bundle: nil)
+        let nib6 = UINib(nibName: "DocReceivedCell", bundle: nil)
+        self.tblForChats.registerNib(nib1, forCellReuseIdentifier:"ChatSentCell")
+        self.tblForChats.registerNib(nib2, forCellReuseIdentifier:"ChatReceivedCell")
+        self.tblForChats.registerNib(nib3, forCellReuseIdentifier:"FileImageSentCell")
+        self.tblForChats.registerNib(nib4, forCellReuseIdentifier:"FileImageReceivedCell")
+        self.tblForChats.registerNib(nib5, forCellReuseIdentifier:"DocSentCell")
+        self.tblForChats.registerNib(nib6, forCellReuseIdentifier:"DocReceivedCell")
+        */
         //restorationIdentifier = "ChatDetailViewController"
         //restorationClass = ChatDetailViewController.self
         
@@ -1196,16 +1210,34 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
     func numberOfSectionsInTableView(tableView: UITableView!) -> Int {
         return 1
     }
+    /*func tableView(tableView: UITableView, heightForFooterInSection section: NSInteger) -> CGFloat
+    {
+     return 10
+    }*/
     
-    
-    
+
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+        
+       
+       // label.text = "This is a Label"
         
         
         var messageDic = messages.objectAtIndex(indexPath.row) as! [String : String];
         
         let msg = messageDic["message"] as NSString!
         let msgType = messageDic["type"]! as NSString
+        
+        var textLable = UILabel(frame: CGRectMake(0, 0, getSizeOfStringHeight(msg).width, 15))
+        textLable.numberOfLines=0
+        textLable.font=textLable.font.fontWithSize(11)
+        textLable.textAlignment = NSTextAlignment.Left
+        textLable.text = "\(msg)"
+        textLable.lineBreakMode = .ByWordWrapping
+        
+        textLable.sizeToFit()
+        print("previous height is \(textLable.frame.height) msg is \(msg)")
+        var correctheight=textLable.frame.height
+        
       // if(msgType.isEqualToString("3")||msgType.isEqualToString("4"))
         //{
             if(msgType.isEqualToString("3"))
@@ -1242,7 +1274,8 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
             }
             }//end 4
                else{
-                 if(msgType.isEqualToString("1"))
+                return correctheight+25
+                /*if(msgType.isEqualToString("1"))
                  {
                     var cell = tblForChats.dequeueReusableCellWithIdentifier("ChatSentCell")! as UITableViewCell
                     let chatImage = cell.viewWithTag(1) as! UIImageView
@@ -1280,9 +1313,9 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
 }
                     }
                 }
-                }
+                }*/
             }
-        
+        }
         
       /*  }
         else
@@ -1400,7 +1433,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
             var correctheight=textLable.frame.height
             
             
-            chatImage.frame = CGRectMake(chatImage.frame.origin.x, chatImage.frame.origin.y,((sizeOFStr.width + 107)  > 207 ? (sizeOFStr.width + 107) : 200), correctheight + 30)
+            chatImage.frame = CGRectMake(chatImage.frame.origin.x, chatImage.frame.origin.y,((sizeOFStr.width + 107)  > 207 ? (sizeOFStr.width + 107) : 200), correctheight + 20)
             //====new  chatImage.frame = CGRectMake(chatImage.frame.origin.x, chatImage.frame.origin.y, ((sizeOFStr.width + 100)  > 200 ? (sizeOFStr.width + 100) : 200), sizeOFStr.height + 40)
             chatImage.image = UIImage(named: "chat_receive")?.stretchableImageWithLeftCapWidth(40,topCapHeight: 20);
             //******
@@ -1445,7 +1478,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
             //formatter.dateFormat = "MM/dd HH:mm a";
             
             
-            timeLabel.frame = CGRectMake(textLable.frame.origin.x, textLable.frame.origin.y+textLable.frame.height+10, chatImage.frame.size.width-46, timeLabel.frame.size.height)
+            timeLabel.frame = CGRectMake(textLable.frame.origin.x, textLable.frame.origin.y+textLable.frame.height, chatImage.frame.size.width-46, timeLabel.frame.size.height)
             
             
            //===new   timeLabel.frame = CGRectMake(textLable.frame.origin.x, textLable.frame.origin.y+textLable.frame.height+10, chatImage.frame.size.width-46, timeLabel.frame.size.height)
@@ -1492,7 +1525,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
             var correctheight=textLable.frame.height
             
             
-            chatImage.frame = CGRectMake(20 + distanceFactor, chatImage.frame.origin.y, ((sizeOFStr.width + 107)  > 207 ? (sizeOFStr.width + 107) : 200), correctheight + 30)
+            chatImage.frame = CGRectMake(20 + distanceFactor, chatImage.frame.origin.y, ((sizeOFStr.width + 107)  > 207 ? (sizeOFStr.width + 107) : 200), correctheight + 20)
             
            //==== newwww chatImage.frame = CGRectMake(20 + distanceFactor, chatImage.frame.origin.y, ((sizeOFStr.width + 107)  > 207 ? (sizeOFStr.width + 107) : 200), sizeOFStr.height + 40)
             //chatImage.frame = CGRectMake(20 + distanceFactor, chatImage.frame.origin.y, ((sizeOFStr.width + 100)  > 200 ? (sizeOFStr.width + 100) : 200), sizeOFStr.height + 40)
@@ -1516,7 +1549,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
             
             //==uncomment if needed timeLabel.frame = CGRectMake(36 + distanceFactor, timeLabel.frame.origin.y, timeLabel.frame.size.width, timeLabel.frame.size.height)
             
-            timeLabel.frame = CGRectMake(36 + distanceFactor, textLable.frame.origin.y+textLable.frame.height+10, chatImage.frame.size.width-46, timeLabel.frame.size.height)
+            timeLabel.frame = CGRectMake(36 + distanceFactor, textLable.frame.origin.y+textLable.frame.height, chatImage.frame.size.width-46, timeLabel.frame.size.height)
                 
             deliveredLabel.frame = CGRectMake(deliveredLabel.frame.origin.x, textLable.frame.origin.y + textLable.frame.size.height + 15, deliveredLabel.frame.size.width, deliveredLabel.frame.size.height)
             
@@ -1961,8 +1994,9 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
             
            // let distanceFactor = (170.0 - sizeOFStr.width) < 100 ? (170.0 - sizeOFStr.width) : 100
     
-            
             let distanceFactor = (197.0 - sizeOFStr.width) < 107 ? (197.0 - sizeOFStr.width) : 107
+            
+            //===== neww  let distanceFactor = (197.0 - sizeOFStr.width) < 107 ? (197.0 - sizeOFStr.width) : 107
             //print("distanceFactor for \(msg) is \(distanceFactor)")
             
         /////    chatImage.frame = CGRectMake(20 + distanceFactor, chatImage.frame.origin.y, ((sizeOFStr.width + 107)  > 207 ? (sizeOFStr.width + 107) : 200), sizeOFStr.height + 40)
@@ -2024,14 +2058,53 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
             
             
             
+            textLable.hidden=false
+            textLable.text = "\(msg)"
+            textLable.lineBreakMode = .ByWordWrapping
+            textLable.numberOfLines=0
+            textLable.sizeToFit()
+            print("previous height is \(textLable.frame.height) msg is \(msg)")
+            var correctheight=textLable.frame.height
+            
+            
+            chatImage.frame = CGRectMake(20 + distanceFactor, chatImage.frame.origin.y, ((sizeOFStr.width + 107)  > 207 ? (sizeOFStr.width + 107) : 200), correctheight + 20)
+            chatImage.image = UIImage(named: "chat_send")?.stretchableImageWithLeftCapWidth(40,topCapHeight: 20);
+            //*********
+            
+            //getSizeOfStringHeight(msg).height
+            
+            textLable.frame = CGRectMake(60 + distanceFactor, textLable.frame.origin.y, chatImage.frame.width-70, correctheight)
+            
+            
+            // newwwwwwwwww textLable.frame = CGRectMake(26 + distanceFactor, textLable.frame.origin.y, chatImage.frame.width-36, getSizeOfStringHeight(msg).height)
+            print("new height is \(textLable.frame.height) msg is \(msg)")
+            //=====newwwwwww  textLable.frame = CGRectMake(26 + distanceFactor, 
+            
+            
+            timeLabel.frame = CGRectMake(36 + distanceFactor, textLable.frame.origin.y+textLable.frame.height, chatImage.frame.size.width-46, timeLabel.frame.size.height)
+            
+            profileImage.center = CGPointMake(45+distanceFactor, chatImage.frame.origin.y + (profileImage.frame.size.height)/2+5)
+           
+            
+           //==== ==== ==== commented profileImage.center = CGPointMake(45+distanceFactor, textLable.frame.origin.y + textLable.frame.size.height - profileImage.frame.size.height/2+10)
+            
+            //newwwwww===== comment
+            /*deliveredLabel.frame = CGRectMake(deliveredLabel.frame.origin.x, textLable.frame.origin.y + textLable.frame.size.height + 15, deliveredLabel.frame.size.width, deliveredLabel.frame.size.height)
+            
+            /////
+            
             chatImage.frame = CGRectMake(20 + distanceFactor, chatImage.frame.origin.y, ((sizeOFStr.width + 107)  > 207 ? (sizeOFStr.width + 107) : 200), sizeOFStr.height + 40)
+            */
+            
               //print("chatImage.x for \(msg) is \(20 + distanceFactor) and chatimage.wdith is \(chatImage.frame.width)")
             
             
             
             textLable.hidden=false
             //chatImage.frame = CGRectMake(20 + distanceFactor, chatImage.frame.origin.y, ((sizeOFStr.width + 100)  > 200 ? (sizeOFStr.width + 100) : 200), sizeOFStr.height + 40)
-            chatImage.image = UIImage(named: "chat_send")?.stretchableImageWithLeftCapWidth(40,topCapHeight: 20);
+           
+            //newwww ===== ===== =====
+            /* chatImage.image = UIImage(named: "chat_send")?.stretchableImageWithLeftCapWidth(40,topCapHeight: 20);
             
             // chatImage.layer.borderColor=UIColor.greenColor().CGColor
             //  chatImage.layer.borderWidth = 3.0;
@@ -2040,13 +2113,12 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
             textLable.text = "\(msg)"
             //old was 36 in place of 60
             textLable.frame = CGRectMake(60 + distanceFactor, textLable.frame.origin.y, textLable.frame.size.width, sizeOFStr.height)
+            */
             
-            
-            profileImage.center = CGPointMake(45+distanceFactor, textLable.frame.origin.y + textLable.frame.size.height - profileImage.frame.size.height/2+10)
             
            //==== uncomment later profileImage.setNeedsDisplay()
             
-            timeLabel.frame = CGRectMake(35 + distanceFactor, chatImage.frame.origin.y+sizeOFStr.height + 20, chatImage.frame.size.width-40, timeLabel.frame.size.height)
+            //=== ==== ==== new comment    timeLabel.frame = CGRectMake(35 + distanceFactor, chatImage.frame.origin.y+sizeOFStr.height + 20, chatImage.frame.size.width-40, timeLabel.frame.size.height)
             
             
             //////chatImage.contentMode = .Center
