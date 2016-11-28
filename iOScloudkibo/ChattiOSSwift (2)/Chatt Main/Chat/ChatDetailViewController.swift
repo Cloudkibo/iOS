@@ -16,7 +16,7 @@ import Foundation
 import AssetsLibrary
 import Photos
 import Contacts
-
+import Compression
 
 
 class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChatDelegate,UIDocumentPickerDelegate,UIDocumentMenuDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate,NSFileManagerDelegate,showUploadProgressDelegate,UpdateChatViewsDelegate{
@@ -1209,19 +1209,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
        if(msgType.isEqualToString("3")||msgType.isEqualToString("4"))
         {
             
-            var cell = tblForChats.cellForRowAtIndexPath(indexPath)
-            let chatImage = cell!.viewWithTag(1) as! UIImageView
-            
-            
-            if(chatImage.frame.height <= 230)
-            {
-                return chatImage.frame.height+20
-            }
-            else
-            {
-                return 200
-            }
-            /*
+           
             
             if(msgType.isEqualToString("3"))
             {
@@ -1255,7 +1243,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
             }
 
             }
-        */
+        
         
         }
         else
@@ -1364,12 +1352,23 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
             let timeLabel = cell.viewWithTag(11) as! UILabel
            
             
-            chatImage.frame = CGRectMake(chatImage.frame.origin.x, chatImage.frame.origin.y, ((sizeOFStr.width + 100)  > 200 ? (sizeOFStr.width + 100) : 200), sizeOFStr.height + 40)
+            
+            textLable.text = "\(msg)"
+            textLable.lineBreakMode = .ByWordWrapping
+            textLable.numberOfLines=0
+            textLable.sizeToFit()
+            print("previous height is \(textLable.frame.height) msg is \(msg)")
+            var correctheight=textLable.frame.height
+            
+            
+            chatImage.frame = CGRectMake(chatImage.frame.origin.x, chatImage.frame.origin.y,((sizeOFStr.width + 107)  > 207 ? (sizeOFStr.width + 107) : 200), correctheight + 30)
+            //====new  chatImage.frame = CGRectMake(chatImage.frame.origin.x, chatImage.frame.origin.y, ((sizeOFStr.width + 100)  > 200 ? (sizeOFStr.width + 100) : 200), sizeOFStr.height + 40)
             chatImage.image = UIImage(named: "chat_receive")?.stretchableImageWithLeftCapWidth(40,topCapHeight: 20);
             //******
             
+             textLable.frame = CGRectMake(textLable.frame.origin.x, textLable.frame.origin.y, chatImage.frame.width-36, correctheight)
             
-         textLable.frame = CGRectMake(textLable.frame.origin.x, textLable.frame.origin.y, textLable.frame.size.width, sizeOFStr.height)
+         //==new  textLable.frame = CGRectMake(textLable.frame.origin.x, textLable.frame.origin.y, textLable.frame.size.width, sizeOFStr.height)
             
             
             ////// profileImage.center = CGPointMake(profileImage.center.x, textLable.frame.origin.y + textLable.frame.size.height - profileImage.frame.size.height/2 + 10)
@@ -1406,7 +1405,11 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
             var displaydate=formatter2.stringFromDate(defaultTimeZoneStr!)
             //formatter.dateFormat = "MM/dd HH:mm a";
             
+            
             timeLabel.frame = CGRectMake(textLable.frame.origin.x, textLable.frame.origin.y+textLable.frame.height+10, chatImage.frame.size.width-46, timeLabel.frame.size.height)
+            
+            
+           //===new   timeLabel.frame = CGRectMake(textLable.frame.origin.x, textLable.frame.origin.y+textLable.frame.height+10, chatImage.frame.size.width-46, timeLabel.frame.size.height)
             
             
             //print("displaydate is \(displaydate)")
@@ -1473,6 +1476,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
             profileImage.center = CGPointMake(profileImage.center.x, textLable.frame.origin.y + textLable.frame.size.height - profileImage.frame.size.height/2+10)
             
             //==uncomment if needed timeLabel.frame = CGRectMake(36 + distanceFactor, timeLabel.frame.origin.y, timeLabel.frame.size.width, timeLabel.frame.size.height)
+            
             timeLabel.frame = CGRectMake(36 + distanceFactor, textLable.frame.origin.y+textLable.frame.height+10, chatImage.frame.size.width-46, timeLabel.frame.size.height)
                 
             deliveredLabel.frame = CGRectMake(deliveredLabel.frame.origin.x, textLable.frame.origin.y + textLable.frame.size.height + 15, deliveredLabel.frame.size.width, deliveredLabel.frame.size.height)

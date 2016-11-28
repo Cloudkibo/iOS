@@ -319,7 +319,10 @@ class NetworkingManager
         }
         else{
             imageData=NSData(contentsOfFile: filePath1)
-            print("old upload image size is \(imageData!.length)")
+             print("old upload image size is \(imageData!.length)")
+            var imageData2=imageData!.compressedDataUsingCompression(Compression.ZLIB)
+            print("imageData2 is \(imageData2)")
+            print("old upload image compressed size is \(imageData2!.length)")
         }
        // var imageData=UIImageJPEGRepresentation(UIImage(contentsOfFile: filePath1)!,0.9)
        
@@ -575,7 +578,10 @@ class NetworkingManager
                 let docsDir1 = dirPaths[0]
                 var documentDir=docsDir1 as NSString
                 var filePendingPath=documentDir.stringByAppendingPathComponent(filePendingName)
-            
+                if(!self.imageExtensions.contains(filetype.lowercaseString))
+                {
+                    data=data?.uncompressedDataUsingCompression(Compression.ZLIB)
+                }
             
             if((data?.writeToFile(filePendingPath, atomically: true)) != nil){
                 if(self.imageExtensions.contains(filetype.lowercaseString))

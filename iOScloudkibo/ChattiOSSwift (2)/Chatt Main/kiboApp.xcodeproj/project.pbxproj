@@ -137,6 +137,10 @@
 		71C4018D1CF715C500D38126 /* endCall@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 71C401871CF715C500D38126 /* endCall@2x.png */; };
 		71C4018E1CF71ABB00D38126 /* SQLite.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 717403EA1CF7151900EA7ABF /* SQLite.framework */; };
 		71C4018F1CF71ABB00D38126 /* SQLite.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 717403EA1CF7151900EA7ABF /* SQLite.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		71D74E831DEBCC2900D44D59 /* Alamofire.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 71D74E821DEBCC2900D44D59 /* Alamofire.framework */; };
+		71D74E841DEBCC2900D44D59 /* Alamofire.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 71D74E821DEBCC2900D44D59 /* Alamofire.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		71D74E8F1DEBD8E400D44D59 /* NSData_Compression.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71D74E8E1DEBD8E400D44D59 /* NSData_Compression.swift */; };
+		71D74E911DEBDC2300D44D59 /* libcompression.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 71D74E901DEBDC2300D44D59 /* libcompression.tbd */; };
 		71DC15321D26655700E5BFC2 /* pushNotifications.md in Sources */ = {isa = PBXBuildFile; fileRef = 71DC15311D26655700E5BFC2 /* pushNotifications.md */; };
 		71E046A31D228AE700B67362 /* CallHistoryTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71E046A21D228AE700B67362 /* CallHistoryTableViewController.swift */; };
 		71E046A51D22920D00B67362 /* CallHistCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71E046A41D22920D00B67362 /* CallHistCell.swift */; };
@@ -267,6 +271,7 @@
 				716175851C51BCDE00A72E83 /* Pods.framework in Embed Frameworks */,
 				71A98F911C4D5D88009D04D7 /* SwiftyJSON.framework in Embed Frameworks */,
 				71C4018F1CF71ABB00D38126 /* SQLite.framework in Embed Frameworks */,
+				71D74E841DEBCC2900D44D59 /* Alamofire.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -409,6 +414,9 @@
 		71C401851CF715C500D38126 /* audioOn@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "audioOn@2x.png"; sourceTree = "<group>"; };
 		71C401861CF715C500D38126 /* endCall.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = endCall.png; sourceTree = "<group>"; };
 		71C401871CF715C500D38126 /* endCall@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "endCall@2x.png"; sourceTree = "<group>"; };
+		71D74E821DEBCC2900D44D59 /* Alamofire.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; name = Alamofire.framework; path = "/Users/cloudkibo/Library/Developer/Xcode/DerivedData/kiboApp-ckwegrnpnjdryqfinanunrzashgm/Build/Products/Debug-iphoneos/Alamofire.framework"; sourceTree = "<absolute>"; };
+		71D74E8E1DEBD8E400D44D59 /* NSData_Compression.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NSData_Compression.swift; sourceTree = "<group>"; };
+		71D74E901DEBDC2300D44D59 /* libcompression.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libcompression.tbd; path = usr/lib/libcompression.tbd; sourceTree = SDKROOT; };
 		71DC15311D26655700E5BFC2 /* pushNotifications.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = pushNotifications.md; sourceTree = "<group>"; };
 		71E046A21D228AE700B67362 /* CallHistoryTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CallHistoryTableViewController.swift; sourceTree = "<group>"; };
 		71E046A41D22920D00B67362 /* CallHistCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CallHistCell.swift; sourceTree = "<group>"; };
@@ -442,8 +450,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				71D74E911DEBDC2300D44D59 /* libcompression.tbd in Frameworks */,
 				7108B9861D020E720031FC5A /* Alamofire.framework in Frameworks */,
 				7152CB251D47DDC900DB8127 /* Fabric.framework in Frameworks */,
+				71D74E831DEBCC2900D44D59 /* Alamofire.framework in Frameworks */,
 				71C4018E1CF71ABB00D38126 /* SQLite.framework in Frameworks */,
 				710EF26C1C96B16500578739 /* CloudKit.framework in Frameworks */,
 				716175A01C51C9B200A72E83 /* libsqlite3.0.tbd in Frameworks */,
@@ -470,6 +480,7 @@
 		5BF6361C19A9F3D900ABD0BA = {
 			isa = PBXGroup;
 			children = (
+				71D74E821DEBCC2900D44D59 /* Alamofire.framework */,
 				71F6233D1DE4262E00AC6370 /* String-Extension.swift */,
 				71EA60721D78DD7100117B55 /* SwipeCellsSourceFiles */,
 				71C1A2D01D769B0900FC5157 /* Base.lproj */,
@@ -599,6 +610,7 @@
 				7127CC901D9D0C800047683B /* syncContactService.swift */,
 				7142EC8B1DBE33560070826F /* syncGroupsService.swift */,
 				7142EC961DBF51DC0070826F /* UtilityFunctions.swift */,
+				71D74E8E1DEBD8E400D44D59 /* NSData_Compression.swift */,
 			);
 			path = Chat;
 			sourceTree = "<group>";
@@ -729,6 +741,7 @@
 		FB1C3696C1C732596BCC879C /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				71D74E901DEBDC2300D44D59 /* libcompression.tbd */,
 				7108B9851D020E720031FC5A /* Alamofire.framework */,
 				710EF26B1C96B16500578739 /* CloudKit.framework */,
 				716174971C5065BA00A72E83 /* libsqlite3.0.tbd */,
@@ -1060,6 +1073,7 @@
 				71E046A31D228AE700B67362 /* CallHistoryTableViewController.swift in Sources */,
 				713D51EA1CC11896007E0B47 /* SignupViewController.swift in Sources */,
 				718B8D8A1CC11A9B000B4AB2 /* SocketFixUTF8.swift in Sources */,
+				71D74E8F1DEBD8E400D44D59 /* NSData_Compression.swift in Sources */,
 				71EA60821D78DDAA00117B55 /* SWTableViewCell.m in Sources */,
 				718B8D871CC11A9B000B4AB2 /* SocketEngineSpec.swift in Sources */,
 				713D51DC1CC11896007E0B47 /* MeetingRoomVideo.swift in Sources */,
