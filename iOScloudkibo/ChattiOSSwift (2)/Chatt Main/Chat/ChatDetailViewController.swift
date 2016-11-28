@@ -1206,11 +1206,8 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
         
         let msg = messageDic["message"] as NSString!
         let msgType = messageDic["type"]! as NSString
-       if(msgType.isEqualToString("3")||msgType.isEqualToString("4"))
-        {
-            
-           
-            
+      // if(msgType.isEqualToString("3")||msgType.isEqualToString("4"))
+        //{
             if(msgType.isEqualToString("3"))
             {
             //FileImageSentCell
@@ -1229,6 +1226,8 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
             }
            else
             {
+               if(msgType.isEqualToString("4"))
+               {
             var cell = tblForChats.dequeueReusableCellWithIdentifier("FileImageReceivedCell")! as UITableViewCell
             let chatImage = cell.viewWithTag(1) as! UIImageView
             
@@ -1241,11 +1240,51 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
             {
             return 200
             }
-
+            }//end 4
+               else{
+                 if(msgType.isEqualToString("1"))
+                 {
+                    var cell = tblForChats.dequeueReusableCellWithIdentifier("ChatSentCell")! as UITableViewCell
+                    let chatImage = cell.viewWithTag(1) as! UIImageView
+                   return self.getSizeOfStringHeight(msg).height+20
+                    //return chatImage.frame.height+10
+                    
+                }//end 1
+                else
+                 {
+                    if(msgType.isEqualToString("2"))
+                    {
+                        var cell = tblForChats.dequeueReusableCellWithIdentifier("ChatReceivedCell")! as UITableViewCell
+                        let chatImage = cell.viewWithTag(1) as! UIImageView
+                        return self.getSizeOfStringHeight(msg).height+30
+                        //return chatImage.frame.height+10
+                    }//end 2
+                    else
+                    {
+                        if(msgType.isEqualToString("5"))
+                        {
+                            var cell = tblForChats.dequeueReusableCellWithIdentifier("DocSentCell")! as UITableViewCell
+                            let chatImage = cell.viewWithTag(1) as! UIImageView
+                            return self.getSizeOfStringHeight(msg).height+20
+                            //return chatImage.frame.height+10
+                        }//end 5
+                        else
+                        {
+                            //6
+                            var cell = tblForChats.dequeueReusableCellWithIdentifier("DocReceivedCell")! as UITableViewCell
+                            
+                            let chatImage = cell.viewWithTag(1) as! UIImageView
+                            return self.getSizeOfStringHeight(msg).height+20
+                            //return chatImage.frame.height+10
+                                
+}
+                    }
+                }
+                }
             }
         
         
-        }
+      /*  }
         else
         {
         let sizeOFStr = self.getSizeOfStringHeight("\(msg)")
@@ -1262,7 +1301,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
         
         return sizeOFStr.height + 25
           ///  return 100
-        }
+        }*/
         /* var cell : UITableViewCell!
          cell = tblForChats.dequeueReusableCellWithIdentifier("ChatSentCell")! as UITableViewCell
          
