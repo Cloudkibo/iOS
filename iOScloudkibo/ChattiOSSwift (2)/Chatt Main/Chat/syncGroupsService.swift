@@ -208,6 +208,41 @@ class syncGroupService
                 var group_icon=NSData()
                 if(groupInfo[i]["group_unique_id"]["group_icon"] != nil)
                 {
+                    
+                    
+                    var filedata=sqliteDB.getFilesData(unique_id)
+                    if(filedata.count>0)
+                    {
+                        print("found group icon")
+                        print("actual path is \(filedata["file_path"])")
+                        //======
+                        
+                        //=======
+                        let dirPaths = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)
+                        let docsDir1 = dirPaths[0]
+                        var documentDir=docsDir1 as NSString
+                        var imgPath=documentDir.stringByAppendingPathComponent(filedata["file_name"] as! String)
+                        
+                        var imgNSData=NSFileManager.defaultManager().contentsAtPath(imgPath)
+                        
+                        // print("found path is \(imgNSData)")
+                        if(imgNSData != nil)
+                        {
+                            //update UI
+                        }
+                        else
+                        {
+                            print("didnot find group icon")
+                           UtilityFunctions.init().downloadProfileImage(unique_id)
+                        }
+                        
+                    }
+                    else
+                    {
+                          UtilityFunctions.init().downloadProfileImage(unique_id)
+                    }
+                    
+                    
                    //=== UtilityFunctions.init().downloadProfileImage(<#T##uniqueid1: String##String#>)
                    //==uncomment later group_icon=groupInfo[i]["group_unique_id"]["group_icon"] as NSData
                 }

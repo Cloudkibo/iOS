@@ -1727,6 +1727,19 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
                 //print("file shownnnnnnnnn")
                 textLable.hidden=true
                 
+                var formatter = NSDateFormatter();
+                formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSS";
+                //formatter.dateFormat = "MM/dd HH:mm a";
+                formatter.timeZone = NSTimeZone.localTimeZone()
+                var defaultTimeZoneStr = formatter.dateFromString(date2.debugDescription)
+                //print("defaultTimeZoneStr \(defaultTimeZoneStr)")
+                
+                var formatter2 = NSDateFormatter();
+                formatter2.timeZone=NSTimeZone.localTimeZone()
+                formatter2.dateFormat = "MM/dd HH:mm a";
+                var displaydate=formatter2.stringFromDate(defaultTimeZoneStr!)
+                
+                timeLabel.text=displaydate+".. (\(messageDic["status"]))"
                 //timeLabel.text=date2.debugDescription
             }
             
@@ -1854,7 +1867,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
                 formatter2.dateFormat = "MM/dd HH:mm a";
                 var displaydate=formatter2.stringFromDate(defaultTimeZoneStr!)
                 
-                 timeLabel.text=displaydate
+                 timeLabel.text=".. (\(messageDic["status"]))"
                // timeLabel.text=date2.debugDescription
             }
             
@@ -1939,13 +1952,30 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
            //  chatImage.frame = CGRectMake(chatImage.frame.origin.x, chatImage.frame.origin.y, 200, 200)
             
             ///chatImage.frame = CGRectMake(20 + distanceFactor, chatImage.frame.origin.y, ((sizeOFStr.width + 100)  > 200 ? (sizeOFStr.width + 100) : 200), sizeOFStr.height + 40)
-            
+            var correctheight=getSizeOfStringHeight(msg).height
             
             textLable.hidden=false
             //chatImage.frame = CGRectMake(20 + distanceFactor, chatImage.frame.origin.y, ((sizeOFStr.width + 100)  > 200 ? (sizeOFStr.width + 100) : 200), sizeOFStr.height + 40)
             chatImage.image = UIImage(named: "chat_receive")?.stretchableImageWithLeftCapWidth(40,topCapHeight: 20);
             
-             chatImage.frame = CGRectMake(chatImage.frame.origin.x, chatImage.frame.origin.y, ((sizeOFStr.width + 100)  > 200 ? (sizeOFStr.width + 100) : 200), sizeOFStr.height + 40)
+             chatImage.frame = CGRectMake(chatImage.frame.origin.x, chatImage.frame.origin.y, ((sizeOFStr.width + 100)  > 200 ? (sizeOFStr.width + 100) : 200), correctheight + 20)
+            
+            
+            
+            
+            textLable.frame = CGRectMake(60, textLable.frame.origin.y, chatImage.frame.width-70, correctheight)
+            
+            
+            // newwwwwwwwww textLable.frame = CGRectMake(26 + distanceFactor, textLable.frame.origin.y, chatImage.frame.width-36, getSizeOfStringHeight(msg).height)
+            print("new height is \(textLable.frame.height) msg is \(msg)")
+            //=====newwwwwww  textLable.frame = CGRectMake(26 + distanceFactor,
+            
+            
+            timeLabel.frame = CGRectMake(35, textLable.frame.origin.y+textLable.frame.height, chatImage.frame.size.width-46, timeLabel.frame.size.height)
+            
+            profileImage.center = CGPointMake(45, chatImage.frame.origin.y + (profileImage.frame.size.height)/2+5)
+            
+            
             
             // chatImage.layer.borderColor=UIColor.greenColor().CGColor
             //  chatImage.layer.borderWidth = 3.0;

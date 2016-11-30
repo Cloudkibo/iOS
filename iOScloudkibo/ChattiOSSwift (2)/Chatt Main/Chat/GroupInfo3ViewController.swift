@@ -734,7 +734,11 @@ identifiersarray.append(identifier)
         
     
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-        if(((indexPath.row > 2)  && ((indexPath.row<=(messages.count)+2) || messages.count<1)) || indexPath.row==0 || indexPath.row==1 || indexPath.row==2)
+        if(indexPath.row == 0)
+        {
+return 95
+}
+        if(((indexPath.row > 2)  && ((indexPath.row<=(messages.count)+2) || messages.count<1)) || indexPath.row==1 || indexPath.row==2)
         {
             return 65
          
@@ -764,7 +768,8 @@ identifiersarray.append(identifier)
     }
 
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        
+        if(indexPath.row>=3){
+            print("here....")
         var messageDic = messages.objectAtIndex(indexPath.row-3) as! [String : String];
        // NSLog(messageDic["message"]!, 1)
        // let msgType = messageDic["type"] as NSString!
@@ -849,7 +854,8 @@ else{
             
         }//end of mee
         }
-        
+    }
+    
       /*  if(msgType.isEqualToString("5")||msgType.isEqualToString("6")){
             //self.performSegueWithIdentifier("showFullDocSegue", sender: nil);
             self.addToGroup()
@@ -866,13 +872,13 @@ else{
         {
             var cell=tblGroupInfo.dequeueReusableCellWithIdentifier("GroupNamePicInfoCell")! as! GroupInfoCell
             cell.lbl_groupName.text=singleGroupInfo["group_name"] as! String
-         
+         cell.userInteractionEnabled=false
                 
                 cell.btnEditProfilePicOutlet.hidden=true
                // groupname=cell.groupNameFieldOutlet.text!
                 if(imgdata != NSData.init())
                 {
-                    cell.btnEditProfilePicOutlet.hidden=false
+                   // cell.btnEditProfilePicOutlet.hidden=false
                     var tempimg=UIImage(data: imgdata)
                     /* var s = CGSizeMake(cell.profilePicCameraOutlet.frame.width, cell.profilePicCameraOutlet.frame.height)
                      var newimg=ResizeImage(tempimg!, targetSize: s)
@@ -1096,6 +1102,7 @@ cell.lbl_groupAdmin.hidden=false
     func imageEditTapped(gestureRecognizer: UITapGestureRecognizer) {
         //tappedImageView will be the image view that was tapped.
         //dismiss it, animate it off screen, whatever.
+        print("image edit tapped")
         let shareMenu = UIAlertController(title: nil, message: nil, preferredStyle: .ActionSheet)
         
         let resetImage = UIAlertAction(title: "Reset Image", style: UIAlertActionStyle.Default,handler: { (action) -> Void in
@@ -1178,6 +1185,7 @@ cell.lbl_groupAdmin.hidden=false
     func imageTapped(gestureRecognizer: UITapGestureRecognizer) {
         //tappedImageView will be the image view that was tapped.
         //dismiss it, animate it off screen, whatever.
+        print("image tapped")
         let tappedImageView = gestureRecognizer.view! as! UIImageView
         
         var picker=UIImagePickerController.init()
@@ -1385,7 +1393,7 @@ cell.lbl_groupAdmin.hidden=false
 
     override func viewWillAppear(animated: Bool) {
         
-               var imageavatar1=UIImage(named: "avatar.png")
+              /* var imageavatar1=UIImage(named: "avatar.png")
         //   imageavatar1=ResizeImage(imageavatar1!,targetSize: s)
         
         //var img=UIImage(data:ContactsProfilePic[indexPath.row])
@@ -1410,6 +1418,8 @@ cell.lbl_groupAdmin.hidden=false
         print("bav avatar size is \(barAvatarImage.frame.width) .. \(barAvatarImage.frame.width)")
         var avatarbutton=UIBarButtonItem.init(customView: barAvatarImage)
         self.navigationItem.rightBarButtonItem=avatarbutton
+        */
+        
        print("messages count is \(messages.count)")
         if(self.addmemberfailed==false)
 {
