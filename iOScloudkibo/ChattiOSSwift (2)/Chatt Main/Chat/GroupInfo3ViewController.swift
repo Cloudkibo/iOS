@@ -60,6 +60,26 @@ EPPickerDelegate,SWTableViewCellDelegate,UIImagePickerControllerDelegate {
         
         messages=NSMutableArray()
         singleGroupInfo=sqliteDB.getSingleGroupInfo(groupid)
+        var filedata=sqliteDB.getFilesData(groupid)
+        if(filedata.count>0)
+        {
+            print("found group icon")
+            print("actual path is \(filedata["file_path"])")
+            //======
+            
+            //=======
+            let dirPaths = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)
+            let docsDir1 = dirPaths[0]
+            var documentDir=docsDir1 as NSString
+            var imgPath=documentDir.stringByAppendingPathComponent(filedata["file_name"] as! String)
+            
+            imgdata=NSFileManager.defaultManager().contentsAtPath(imgPath)!
+            
+            // print("found path is \(imgNSData)")
+            
+          //  self.ContactsProfilePic.append(imgNSData!)
+        }
+        
         
         self.navigationItem.titleView = setTitle(singleGroupInfo["group_name"] as! String, subtitle: "Sumaira")
         //self.navigationController?.navigationBar.tintColor=UIColor.whiteColor()

@@ -718,15 +718,7 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
         }
         
         
-        do{reachability = try Reachability.reachabilityForInternetConnection()
-            try reachability.startNotifier();
-            //  NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("checkForReachability:"), name:ReachabilityChangedNotification, object: reachability)
-        }
-        catch{
-            print("error in reachability")
-        }
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("checkForReachability:"), name:ReachabilityChangedNotification, object: reachability)
-        
+       
         
         
         
@@ -798,6 +790,14 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
         print("loadddddd", terminator: "")
         
         
+        do{reachability = try Reachability.reachabilityForInternetConnection()
+            try reachability.startNotifier();
+            //  NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("checkForReachability:"), name:ReachabilityChangedNotification, object: reachability)
+        }
+        catch{
+            print("error in reachability")
+        }
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("checkForReachability:"), name:ReachabilityChangedNotification, object: reachability)
         
         self.navigationItem.titleView = viewForTitle
         /////self.navigationItem.leftBarButtonItem = UIBarButtonItem(customView: btnForLogo)
@@ -1032,6 +1032,9 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
         }
         else
         {*/
+        if(accountKit == nil){
+            accountKit = AKFAccountKit(responseType: AKFResponseType.AccessToken)
+        }
         if(accountKit.currentAccessToken != nil)
         {
             header=["kibo-token":self.accountKit!.currentAccessToken!.tokenString]
@@ -1149,7 +1152,9 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
         let email = Expression<String>("email")
         let phone = Expression<String>("phone")
         
-        
+        if(accountKit == nil){
+            accountKit = AKFAccountKit(responseType: AKFResponseType.AccessToken)
+        }
         if(accountKit.currentAccessToken != nil)
         {
             header=["kibo-token":self.accountKit!.currentAccessToken!.tokenString]
@@ -1808,8 +1813,15 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
                 var imgNSData=NSFileManager.defaultManager().contentsAtPath(imgPath)
                 
                // print("found path is \(imgNSData)")
-                
+                if(imgNSData != nil)
+                {
                self.ContactsProfilePic.append(imgNSData!)
+                }
+                else
+                {
+                    print("didnot find group icon")
+                    self.ContactsProfilePic.append(NSData.init())
+                }
             }
             else
             {
@@ -3482,7 +3494,7 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
                     print("more button tapped")
                     let shareMenu = UIAlertController(title: nil, message: nil, preferredStyle: .ActionSheet)
                     
-                    let Mute = UIAlertAction(title: "Mute", style: UIAlertActionStyle.Default,handler: { (action) -> Void in
+                    /*let Mute = UIAlertAction(title: "Mute", style: UIAlertActionStyle.Default,handler: { (action) -> Void in
                         
                         var groupid=self.ContactUsernames[self.swipeindexRow]
                         sqliteDB.UpdateMuteGroupStatus(groupid, isMute1: true)
@@ -3490,7 +3502,7 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
                         //// self.removeChatHistory(self.ContactUsernames[indexPath.row],indexPath: indexPath)
                         
                         //call Mute delegate or method
-                    })
+                    })*/
                     
                     let GroupInfo = UIAlertAction(title: "Group Info", style: UIAlertActionStyle.Default,handler: { (action) -> Void in
                         
@@ -3534,7 +3546,7 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
                          */
                     })
                     
-                    shareMenu.addAction(Mute)
+                    // commented shareMenu.addAction(Mute)
                     shareMenu.addAction(GroupInfo)
                     /*shareMenu.addAction(ExportChat)
                     shareMenu.addAction(ClearChat)

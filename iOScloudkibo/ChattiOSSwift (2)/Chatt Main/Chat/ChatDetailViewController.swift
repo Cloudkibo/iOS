@@ -197,21 +197,36 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
         
       //  dispatch_async(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED,0))
 //{
+      
+        
+        
+        
+        
+        
+        
         self.retrieveChatFromSqlite(self.selectedContact,completion:{(result)-> () in
             self.tblForChats.reloadData()
             
-            dispatch_async(dispatch_get_main_queue())
-            {
-            self.tblForChats.reloadData()
+        //    dispatch_async(dispatch_get_main_queue())
+          //  {
+           // self.tblForChats.reloadData()
             if(self.messages.count>1)
             {
                 var indexPath = NSIndexPath(forRow:self.messages.count-1, inSection: 0)
                 
                 self.tblForChats.scrollToRowAtIndexPath(indexPath, atScrollPosition: UITableViewScrollPosition.Bottom, animated: true)
             }
-            }
+            //}
        // })
         })
+ 
+        
+        
+        
+        
+        
+        
+        
         //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%------------ commented june 16 FetchChatServer()
         //print("calling retrieveChat")
         
@@ -273,10 +288,18 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
     
     override func viewDidAppear(animated: Bool) {
         print("last cell pos y is \(tblForChats.visibleCells.last?.frame.origin.y)")
+       
+      
+        if(self.messages.count>1)
+        {
+            var indexPath = NSIndexPath(forRow:self.messages.count-1, inSection: 0)
+            
+            self.tblForChats.scrollToRowAtIndexPath(indexPath, atScrollPosition: UITableViewScrollPosition.Bottom, animated: false)
+        }
     }
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.tblForChats.estimatedRowHeight = 100.0;
+        self.tblForChats.estimatedRowHeight = 10.0;
         self.tblForChats.rowHeight = UITableViewAutomaticDimension;
         /*
         let nib1 = UINib(nibName: "ChatSentCell", bundle: nil)
@@ -336,12 +359,12 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
             self.tblForChats.reloadData()
         }
         
-       /* if(self.messages.count>1)
+       if(self.messages.count>1)
         {
             var indexPath = NSIndexPath(forRow:self.messages.count-1, inSection: 0)
             
             self.tblForChats.scrollToRowAtIndexPath(indexPath, atScrollPosition: UITableViewScrollPosition.Bottom, animated: true)
-        }*/
+        }
         //%%%%%%%%%%%%%%%%%&&&&&&&&&&&&&&&&&&^^^^^^^^^
         //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%FetchChatServer()
         self.NewChatNavigationTitle.title=selectedFirstName
@@ -758,7 +781,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
 }*/
                       //  self.addUploadInfo(selectedContact, uniqueid1: tblContacts[uniqueid], rowindex: messages.count, uploadProgress: 1, isCompleted: true)
                       
-                        messages2.addObject(["message":tblContacts[msg], "type":"4", "date":defaultTimeeee, "uniqueid":tblContacts[uniqueid]])
+                        messages2.addObject(["message":tblContacts[msg]+" (\(tblContacts[status])","filename":tblContacts[msg],"type":"4", "date":defaultTimeeee, "uniqueid":tblContacts[uniqueid]])
                         
                         
                         //messages2.addObject(["message":tblContacts[msg], "type":"4", "date":tblContacts[date], "uniqueid":tblContacts[uniqueid]])
@@ -778,14 +801,14 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
                         }*/
                       ////  self.addUploadInfo(selectedContact, uniqueid1: tblContacts[uniqueid], rowindex: messages.count, uploadProgress: 1, isCompleted: true)
                        
-                        messages2.addObject(["message":tblContacts[msg], "type":"6", "date":defaultTimeeee, "uniqueid":tblContacts[uniqueid]])
+                        messages2.addObject(["message":tblContacts[msg]+" (\(tblContacts[status])","filename":tblContacts[msg], "type":"6", "date":defaultTimeeee, "uniqueid":tblContacts[uniqueid]])
                         
                        //^^^^ self.addMessage(tblContacts[msg], ofType: "6",date: tblContacts[date],uniqueid: tblContacts[uniqueid])
                         
                     }
                     else
                     {
-                        messages2.addObject(["message":tblContacts[msg]+" (\(tblContacts[status])) ", "type":"2", "date":defaultTimeeee, "uniqueid":tblContacts[uniqueid]])
+                        messages2.addObject(["message":tblContacts[msg]+" (\(tblContacts[status])) ","status":tblContacts[status], "type":"2", "date":defaultTimeeee, "uniqueid":tblContacts[uniqueid]])
                        
                         
                     //^^^^self.addMessage(tblContacts[msg]+" (\(tblContacts[status])) ", ofType: "2",date: tblContacts[date],uniqueid: tblContacts[uniqueid])
@@ -807,7 +830,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
                         }
 
                       //  self.addUploadInfo(selectedContact, uniqueid1: tblContacts[uniqueid], rowindex: messages.count, uploadProgress: 1, isCompleted: true)
-                        messages2.addObject(["message":tblContacts[msg], "type":"3", "date":defaultTimeeee, "uniqueid":tblContacts[uniqueid]])
+                        messages2.addObject(["message":tblContacts[msg],"filename":tblContacts[msg],"status":tblContacts[status], "type":"3", "date":defaultTimeeee, "uniqueid":tblContacts[uniqueid]])
                        
                         
                       //^^^^  self.addMessage(tblContacts[msg] , ofType: "3",date: tblContacts[date],uniqueid: tblContacts[uniqueid])
@@ -825,7 +848,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
                         }
 
                        // self.addUploadInfo(selectedContact, uniqueid1: tblContacts[uniqueid], rowindex: messages.count, uploadProgress: 1, isCompleted: true)
-                        messages2.addObject(["message":tblContacts[msg], "type":"5", "date":defaultTimeeee, "uniqueid":tblContacts[uniqueid]])
+                        messages2.addObject(["message":tblContacts[msg],"filename":tblContacts[msg],"status":tblContacts[status], "type":"5", "date":defaultTimeeee, "uniqueid":tblContacts[uniqueid]])
                        
                         
                        //^^^^ self.addMessage(tblContacts[msg], ofType: "5",date: tblContacts[date],uniqueid: tblContacts[uniqueid])
@@ -834,7 +857,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
                     else
                     {
                         
-                        messages2.addObject(["message":tblContacts[msg], "type":"1", "date":defaultTimeeee, "uniqueid":tblContacts[uniqueid]])
+                        messages2.addObject(["message":tblContacts[msg],"status":tblContacts[status], "type":"1", "date":defaultTimeeee, "uniqueid":tblContacts[uniqueid]])
                        
                         
                    ///^^^ self.addMessage(tblContacts[msg], ofType: "1", date: tblContacts[date],uniqueid: tblContacts[uniqueid])
@@ -1000,8 +1023,8 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
         // Dispose of any resources that can be recreated.
     }
     
-    func addMessage(message: String, ofType msgType:String, date:String, uniqueid:String) {
-        messages.addObject(["message":message, "type":msgType, "date":date, "uniqueid":uniqueid])
+    func addMessage(message: String,status:String, ofType msgType:String, date:String, uniqueid:String) {
+        messages.addObject(["message":message,"status":status, "type":msgType, "date":date, "uniqueid":uniqueid])
     }
     
    
@@ -1056,7 +1079,8 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
                 {
                     
                     var newcell=self.tblForChats.cellForRowAtIndexPath(indexPath)
-                    do{
+                    if(newcell != nil)
+                    {do{
                     var newprogressview = try newcell!.viewWithTag(14) as! KDCircularProgress!
                     var intangle=(progress*360) as NSNumber
                     
@@ -1079,10 +1103,12 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
                     
                     //var cell=self.tblForChats.dequeueReusableCellWithIdentifier("")! as UITableViewCell
                     }
+                    
                     catch
                     {
                         //print("errorrrrr 788")
                     }
+                }
                 }
                 
             }
@@ -1228,7 +1254,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
         let msg = messageDic["message"] as NSString!
         let msgType = messageDic["type"]! as NSString
         
-        var textLable = UILabel(frame: CGRectMake(0, 0, 170, 15))
+        /*var textLable = UILabel(frame: CGRectMake(0, 0, 170, 15))
         textLable.numberOfLines=0
         textLable.font=textLable.font.fontWithSize(11)
         textLable.textAlignment = NSTextAlignment.Left
@@ -1239,7 +1265,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
         textLable.sizeToFit()
         print("previous height is \(textLable.frame.height) msg is \(msg)")
         var correctheight=textLable.frame.height
-        
+        */
       // if(msgType.isEqualToString("3")||msgType.isEqualToString("4"))
         //{
             if(msgType.isEqualToString("3"))
@@ -1283,7 +1309,8 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
      return chatImage.frame.height+5
 
 }else{
-                return correctheight+25
+                    return getSizeOfStringHeight(msg).height+25
+                //=== ==== --return correctheight+25
 }
                 /*if(msgType.isEqualToString("1"))
                  {
@@ -1436,19 +1463,20 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
             
             
             textLable.text = "\(msg)"
-            textLable.lineBreakMode = .ByWordWrapping
+            /*textLable.lineBreakMode = .ByWordWrapping
             textLable.numberOfLines=0
             textLable.sizeToFit()
             print("previous height is \(textLable.frame.height) msg is \(msg)")
             var correctheight=textLable.frame.height
-            
+            */
+            var correctheight=getSizeOfStringHeight(msg).height
             
             chatImage.frame = CGRectMake(chatImage.frame.origin.x, chatImage.frame.origin.y,((sizeOFStr.width + 107)  > 207 ? (sizeOFStr.width + 107) : 200), correctheight + 20)
             //====new  chatImage.frame = CGRectMake(chatImage.frame.origin.x, chatImage.frame.origin.y, ((sizeOFStr.width + 100)  > 200 ? (sizeOFStr.width + 100) : 200), sizeOFStr.height + 40)
             chatImage.image = UIImage(named: "chat_receive")?.stretchableImageWithLeftCapWidth(40,topCapHeight: 20);
             //******
             
-             textLable.frame = CGRectMake(textLable.frame.origin.x, textLable.frame.origin.y, chatImage.frame.width-36, correctheight)
+          textLable.frame = CGRectMake(textLable.frame.origin.x, textLable.frame.origin.y, chatImage.frame.width-36, correctheight)
             
          //==new  textLable.frame = CGRectMake(textLable.frame.origin.x, textLable.frame.origin.y, textLable.frame.size.width, sizeOFStr.height)
             
@@ -1528,13 +1556,13 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
             
             textLable.hidden=false
             textLable.text = "\(msg)"
-            textLable.lineBreakMode = .ByWordWrapping
+            /*textLable.lineBreakMode = .ByWordWrapping
             textLable.numberOfLines=0
             textLable.sizeToFit()
             print("previous height is \(textLable.frame.height) msg is \(msg)")
             var correctheight=textLable.frame.height
-            
-            
+            */
+            var correctheight=getSizeOfStringHeight(msg).height
             chatImage.frame = CGRectMake(20 + distanceFactor, chatImage.frame.origin.y, ((sizeOFStr.width + 107)  > 207 ? (sizeOFStr.width + 107) : 200), correctheight + 20)
             
            //==== newwww chatImage.frame = CGRectMake(20 + distanceFactor, chatImage.frame.origin.y, ((sizeOFStr.width + 107)  > 207 ? (sizeOFStr.width + 107) : 200), sizeOFStr.height + 40)
@@ -1544,7 +1572,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
            
             //getSizeOfStringHeight(msg).height
             
-            textLable.frame = CGRectMake(26 + distanceFactor, textLable.frame.origin.y, chatImage.frame.width-36, correctheight)
+           textLable.frame = CGRectMake(26 + distanceFactor, textLable.frame.origin.y, chatImage.frame.width-36, correctheight)
             
             
            // newwwwwwwwww textLable.frame = CGRectMake(26 + distanceFactor, textLable.frame.origin.y, chatImage.frame.width-36, getSizeOfStringHeight(msg).height)
@@ -1619,14 +1647,16 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
              
              */
             
-            
+            var filename=messageDic["filename"] as NSString!
             let dirPaths = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)
             let docsDir1 = dirPaths[0]
             var documentDir=docsDir1 as NSString
-            var imgPath=documentDir.stringByAppendingPathComponent(msg as! String)
+            //==== --var imgPath=documentDir.stringByAppendingPathComponent(msg as! String)
+            var imgPath=documentDir.stringByAppendingPathComponent(filename as! String)
             
-            
-            print("uniqueid image is \(uniqueidDictValue) msg is \(msg) imgPath is \(imgPath) ")
+
+            //filename
+            print("uniqueid image is \(uniqueidDictValue) filename is \(filename) imgPath is \(imgPath) ")
             
             var imgNSData=NSFileManager.defaultManager().contentsAtPath(imgPath)
             
@@ -1734,13 +1764,13 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
              
              */
             
-            
+            var filename=messageDic["filename"] as! NSString
             let dirPaths = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)
             let docsDir1 = dirPaths[0]
             var documentDir=docsDir1 as NSString
             
-            var imgPath=documentDir.stringByAppendingPathComponent(msg as! String)
-            print("uniqueid image is \(uniqueidDictValue) msg is \(msg) imgPath is \(imgPath)")
+            var imgPath=documentDir.stringByAppendingPathComponent(filename as! String)
+            print("uniqueid image is \(uniqueidDictValue) filename is \(filename) imgPath is \(imgPath)")
             
             var imgNSData=NSFileManager.defaultManager().contentsAtPath(imgPath)
             
@@ -1938,11 +1968,11 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
             //chatImage.frame = CGRectMake(80, chatImage.frame.origin.y, 220, 220)
  
             
-            
+            var filename=messageDic["filename"] as! NSString
             let dirPaths = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)
             let docsDir1 = dirPaths[0]
             var documentDir=docsDir1 as NSString
-            var docPath=documentDir.stringByAppendingPathComponent(msg as! String)
+            var docPath=documentDir.stringByAppendingPathComponent(filename as! String)
             
             
             
@@ -1955,7 +1985,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
                 textLable.text = "Downloading..."
             }
             
-            selectedText = msg as! String
+            selectedText = filename as! String
             
             /// var imgNSData=NSFileManager.defaultManager().contentsAtPath(imgPath)
             chatImage.userInteractionEnabled=true
@@ -2070,12 +2100,13 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
             
             textLable.hidden=false
             textLable.text = "\(msg)"
-            textLable.lineBreakMode = .ByWordWrapping
+            /*textLable.lineBreakMode = .ByWordWrapping
             textLable.numberOfLines=0
             textLable.sizeToFit()
             print("previous height is \(textLable.frame.height) msg is \(msg)")
             var correctheight=textLable.frame.height
-            
+            */
+            var correctheight=getSizeOfStringHeight(msg).height
             
             chatImage.frame = CGRectMake(20 + distanceFactor, chatImage.frame.origin.y, ((sizeOFStr.width + 107)  > 207 ? (sizeOFStr.width + 107) : 200), correctheight + 20)
             chatImage.image = UIImage(named: "chat_send")?.stretchableImageWithLeftCapWidth(40,topCapHeight: 20);
@@ -2141,12 +2172,13 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
              */
             
             
+            var filename=messageDic["filename"] as! NSString
             let dirPaths = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)
             let docsDir1 = dirPaths[0]
             var documentDir=docsDir1 as NSString
             ////var imgPath=documentDir.stringByAppendingPathComponent(msg as! String)
             
-            selectedText = msg as! String
+            selectedText = filename as! String
             /// var imgNSData=NSFileManager.defaultManager().contentsAtPath(imgPath)
             chatImage.userInteractionEnabled=true
             //var filelabel=UILabel(frame: CGRect(x: 20 + distanceFactor, y: chatImage.frame.origin.y + sizeOFStr.height + 40,width: ((sizeOFStr.width + 100)  > 200 ? (sizeOFStr.width + 100) : 200), height: sizeOFStr.height + 40))
@@ -2564,7 +2596,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
             }
             print("cellY is \(cellY)")
             
-                     if(cellY>(keyboardFrame.origin.y+20))
+                     if(cellY>(keyboardFrame.origin.y/*+20*/))
             {
             UIView.animateWithDuration(duration, delay: 0, options:[], animations: {
                     self.viewForContent.contentOffset = CGPointMake(0, keyboardFrame.size.height)
@@ -2611,13 +2643,13 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
         
     }
     
-     tblForChats.reloadData()
+   /*  tblForChats.reloadData()
         if(messages.count>1)
         {
             let indexPath = NSIndexPath(forRow:messages.count-1, inSection: 0)
             tblForChats.scrollToRowAtIndexPath(indexPath, atScrollPosition: UITableViewScrollPosition.Bottom, animated: true)
         }
- 
+ */
         
     }
     
@@ -2641,7 +2673,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
         
         
         
-        if(cellY>(keyboardFrame.origin.y+20))
+        if(cellY>(keyboardFrame.origin.y/*+20*/))
         {
             UIView.animateWithDuration(duration, delay: 0, options:[], animations: {
                 self.viewForContent.contentOffset = CGPointMake(0, 0)
@@ -2696,7 +2728,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
         var keyboardFrame = keyFrame
         
        
-        if(cellY>(keyboardFrame.origin.y+20))
+        if(cellY>(keyboardFrame.origin.y/*+20*/))
         {
             UIView.animateWithDuration(duration, delay: 0, options:[], animations: {
                 self.viewForContent.contentOffset = CGPointMake(0, 0)
@@ -3467,17 +3499,22 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
         let defaultTimeZoneStr2=formatter.dateFromString(defaultTimeZoneStr)
         //print("string is \(defaultTimeZoneStr)")
         //print("date is \(defaultTimeZoneStr2)")
-        self.addMessage(txtFldMessage.text!+" (\(statusNow))", ofType: "2",date:defaultTimeZoneStr, uniqueid: uniqueID)
+        self.addMessage(txtFldMessage.text!+" (\(statusNow))",status:statusNow,ofType: "2",date:defaultTimeZoneStr, uniqueid: uniqueID)
         
         
         
         
         txtFldMessage.text = "";
         tblForChats.reloadData()
+        /*tblForChats.beginUpdates()
+        var indexPath = NSIndexPath(forRow: messages.count-1, inSection: 0)
+       self.tblForChats.insertRowsAtIndexPaths([indexPath], withRowAnimation: UITableViewRowAnimation.None)
+        //.reloadRowsAtIndexPaths([indexPath], withRowAnimation: UITableViewRowAnimation.Top)
+        tblForChats.endUpdates()*/
         if(messages.count>1)
         {
             var indexPath = NSIndexPath(forRow:messages.count-1, inSection: 0)
-            tblForChats.scrollToRowAtIndexPath(indexPath, atScrollPosition: UITableViewScrollPosition.Bottom, animated: true)
+            tblForChats.scrollToRowAtIndexPath(indexPath, atScrollPosition: UITableViewScrollPosition.Bottom, animated: false)
             
       
             
@@ -3500,13 +3537,14 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
                     
                     dispatch_async(dispatch_get_main_queue())
                    {
-                        self.tblForChats.reloadData()
+                      self.tblForChats.reloadData()
                         print("messages count is \(self.messages.count)")
+                    
                         if(self.messages.count>1)
                         {
                             var indexPath = NSIndexPath(forRow:self.messages.count-1, inSection: 0)
                             
-                            self.tblForChats.scrollToRowAtIndexPath(indexPath, atScrollPosition: UITableViewScrollPosition.Bottom, animated: true)
+                            self.tblForChats.scrollToRowAtIndexPath(indexPath, atScrollPosition: UITableViewScrollPosition.Bottom, animated: false)
                         }
                     }
                 })
@@ -3533,9 +3571,12 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
          attributes: attributes,
          context: nil)*/
         
+        
+        let style = NSMutableParagraphStyle()
+        style.lineBreakMode = .ByWordWrapping
         let labelSize = postTitle.boundingRectWithSize(constraintSize,
                                                        options: NSStringDrawingOptions.UsesLineFragmentOrigin,
-                                                       attributes:[NSFontAttributeName : UIFont.systemFontOfSize(11.0)],
+                                                       attributes:[NSFontAttributeName : UIFont.systemFontOfSize(11.0),NSParagraphStyleAttributeName: style],
                                                        context: nil)
         ////print("size is width \(labelSize.width) and height is \(labelSize.height)")
         return labelSize.size
@@ -3556,9 +3597,12 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
          attributes: attributes,
          context: nil)*/
         
+        
+        let style = NSMutableParagraphStyle()
+        style.lineBreakMode = .ByWordWrapping
         let labelSize = postTitle.boundingRectWithSize(constraintSize,
                                                        options: NSStringDrawingOptions.UsesLineFragmentOrigin,
-                                                       attributes:[NSFontAttributeName : UIFont.systemFontOfSize(11.0)],
+                                                       attributes:[NSFontAttributeName : UIFont.systemFontOfSize(11.0),NSParagraphStyleAttributeName: style],
                                                        context: nil)
         ////print("size is width \(labelSize.width) and height is \(labelSize.height)")
         return labelSize.size
@@ -3740,8 +3784,8 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
                 let selectedRow = tblForChats.indexPathForSelectedRow!.row
                 var messageDic = messages.objectAtIndex(selectedRow) as! [String : String];
                 
-                let msg = messageDic["message"] as NSString!
-                selectedText=msg as String
+                let filename = messageDic["filename"] as NSString!
+                selectedText=filename as String
                 //destinationVC.tabBarController?.selectedIndex=0
                 //self.tabBarController?.selectedIndex=0
                 destinationVC.newtext=selectedText
@@ -4095,7 +4139,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
         
         
         //print("date is \(defaultTimeZoneStr2)")
-        self.addMessage(message, ofType: "1",date:defaultTimeeee, uniqueid: uniqueid)
+        self.addMessage(message,status: "sent", ofType: "1",date:defaultTimeeee, uniqueid: uniqueid)
         
         
         txtFldMessage.text = "";
