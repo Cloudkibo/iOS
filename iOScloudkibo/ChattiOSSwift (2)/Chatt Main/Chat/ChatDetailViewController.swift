@@ -781,7 +781,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
 }*/
                       //  self.addUploadInfo(selectedContact, uniqueid1: tblContacts[uniqueid], rowindex: messages.count, uploadProgress: 1, isCompleted: true)
                       
-                        messages2.addObject(["message":tblContacts[msg]+" (\(tblContacts[status])","filename":tblContacts[msg],"type":"4", "date":defaultTimeeee, "uniqueid":tblContacts[uniqueid]])
+                        messages2.addObject(["message":tblContacts[msg]+" (\(tblContacts[status]))","filename":tblContacts[msg],"type":"4", "date":defaultTimeeee, "uniqueid":tblContacts[uniqueid]])
                         
                         
                         //messages2.addObject(["message":tblContacts[msg], "type":"4", "date":tblContacts[date], "uniqueid":tblContacts[uniqueid]])
@@ -801,7 +801,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
                         }*/
                       ////  self.addUploadInfo(selectedContact, uniqueid1: tblContacts[uniqueid], rowindex: messages.count, uploadProgress: 1, isCompleted: true)
                        
-                        messages2.addObject(["message":tblContacts[msg]+" (\(tblContacts[status])","filename":tblContacts[msg], "type":"6", "date":defaultTimeeee, "uniqueid":tblContacts[uniqueid]])
+                        messages2.addObject(["message":tblContacts[msg]+" (\(tblContacts[status]))","filename":tblContacts[msg], "type":"6", "date":defaultTimeeee, "uniqueid":tblContacts[uniqueid]])
                         
                        //^^^^ self.addMessage(tblContacts[msg], ofType: "6",date: tblContacts[date],uniqueid: tblContacts[uniqueid])
                         
@@ -1646,6 +1646,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
              let imgPath         = photoURL.URLByAppendingPathComponent(msg as! String)
              
              */
+            var status=messageDic["status"] as NSString!
             
             var filename=messageDic["filename"] as NSString!
             let dirPaths = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)
@@ -1665,6 +1666,17 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
             //print("hereee imgPath.path! is \(imgPath)")
             
             
+            var formatter = NSDateFormatter();
+            formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSS";
+            //formatter.dateFormat = "MM/dd HH:mm a";
+            formatter.timeZone = NSTimeZone.localTimeZone()
+            var defaultTimeZoneStr = formatter.dateFromString(date2.debugDescription)
+            //print("defaultTimeZoneStr \(defaultTimeZoneStr)")
+            
+            var formatter2 = NSDateFormatter();
+            formatter2.timeZone=NSTimeZone.localTimeZone()
+            formatter2.dateFormat = "MM/dd HH:mm a";
+            var displaydate=formatter2.stringFromDate(defaultTimeZoneStr!)
             
             if(imgNSData != nil/* && (cell.tag == indexPath.row)*/)
             {
@@ -1727,24 +1739,12 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
                 //print("file shownnnnnnnnn")
                 textLable.hidden=true
                 
-                var formatter = NSDateFormatter();
-                formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSS";
-                //formatter.dateFormat = "MM/dd HH:mm a";
-                formatter.timeZone = NSTimeZone.localTimeZone()
-                var defaultTimeZoneStr = formatter.dateFromString(date2.debugDescription)
-                //print("defaultTimeZoneStr \(defaultTimeZoneStr)")
-                
-                var formatter2 = NSDateFormatter();
-                formatter2.timeZone=NSTimeZone.localTimeZone()
-                formatter2.dateFormat = "MM/dd HH:mm a";
-                var displaydate=formatter2.stringFromDate(defaultTimeZoneStr!)
-                
-                timeLabel.text=displaydate+".. (\(messageDic["status"]))"
+             
+                timeLabel.text="\(displaydate) (\(status))"
                 //timeLabel.text=date2.debugDescription
             }
             
-            
-            /* var imgNSURL = NSURL(fileURLWithPath: msg as String)
+            timeLabel.text="\(displaydate) (\(status))" /* var imgNSURL = NSURL(fileURLWithPath: msg as String)
              var imgNSData=NSFileManager.defaultManager().contentsAtPath(imgNSURL.path!)
              if(imgNSData != nil)
              {
@@ -1777,7 +1777,11 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
              
              */
             
+           // var status=messageDic["status"] as! NSString
+            
             var filename=messageDic["filename"] as! NSString
+            var status=(msg as! String).stringByReplacingOccurrencesOfString(filename as! String, withString: "", options: NSStringCompareOptions.LiteralSearch, range: nil)
+            
             let dirPaths = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)
             let docsDir1 = dirPaths[0]
             var documentDir=docsDir1 as NSString
@@ -1792,7 +1796,20 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
             //var imgNSData=NSFileManager.defaultManager().contentsAtPath(imgPath.path!)
             //print("hereee imgPath.path! is \(imgPath)")
             
+            timeLabel.frame = CGRectMake(chatImage.frame.origin.x, chatImage.frame.origin.y+180, chatImage.frame.width,  timeLabel.frame.height)
             
+
+            var formatter = NSDateFormatter();
+            formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSS";
+            //formatter.dateFormat = "MM/dd HH:mm a";
+            formatter.timeZone = NSTimeZone.localTimeZone()
+            var defaultTimeZoneStr = formatter.dateFromString(date2.debugDescription)
+            //print("defaultTimeZoneStr \(defaultTimeZoneStr)")
+            
+            var formatter2 = NSDateFormatter();
+            formatter2.timeZone=NSTimeZone.localTimeZone()
+            formatter2.dateFormat = "MM/dd HH:mm a";
+            var displaydate=formatter2.stringFromDate(defaultTimeZoneStr!)
             
             if(imgNSData != nil /*&& (cell.tag == indexPath.row)*/)
             {
@@ -1855,22 +1872,11 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
                 
                 
                 //print("date received in chat is \(date2.debugDescription)")
-                var formatter = NSDateFormatter();
-                formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSS";
-                //formatter.dateFormat = "MM/dd HH:mm a";
-                formatter.timeZone = NSTimeZone.localTimeZone()
-                var defaultTimeZoneStr = formatter.dateFromString(date2.debugDescription)
-                //print("defaultTimeZoneStr \(defaultTimeZoneStr)")
-                
-                var formatter2 = NSDateFormatter();
-                formatter2.timeZone=NSTimeZone.localTimeZone()
-                formatter2.dateFormat = "MM/dd HH:mm a";
-                var displaydate=formatter2.stringFromDate(defaultTimeZoneStr!)
-                
-                 timeLabel.text=".. (\(messageDic["status"]))"
+              
+                  timeLabel.text="\(displaydate) \(status)"
                // timeLabel.text=date2.debugDescription
             }
-            
+             timeLabel.text="\(displaydate) \(status)"
             
             /* var imgNSURL = NSURL(fileURLWithPath: msg as String)
              var imgNSData=NSFileManager.defaultManager().contentsAtPath(imgNSURL.path!)

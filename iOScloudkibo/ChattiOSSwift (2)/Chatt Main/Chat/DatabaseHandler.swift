@@ -26,6 +26,7 @@ class DatabaseHandler:NSObject{
     var group_chat:Table!
     var group_chat_status:Table!
     var group_muteSettings:Table!
+    var broadcastlisttable:Table!
     
     init(dbName:String)
     {print("inside database handler class")
@@ -602,6 +603,63 @@ class DatabaseHandler:NSObject{
     }
     }
     
+    func createBroadcastListTable(){
+        
+        //let contactObject=Expression<CNContact>("contactObj")
+        //let kiboContact = Expression<Bool>("kiboContact")
+        let uniqueid = Expression<String>("uniqueid")
+        let listname = Expression<String>("listname")
+        //
+        self.broadcastlisttable = Table("broadcastlisttable")
+        do{
+            try db.run(broadcastlisttable.create(ifNotExists: retainOldDatabase) { t in     // CREATE TABLE "accounts" (
+                t.column(uniqueid, unique:true)
+                t.column(listname)
+                //////////////t.column(profileimage, defaultValue:NSData.init())
+                })
+            
+        }
+        catch(let error)
+        {
+            if(socketObj != nil)
+            {
+                socketObj.socket.emit("logClient","IPHONE-LOG: error in creating broadcastlist table \(error)")
+            }
+                print("error in creating broadcastlist table")
+          
+        }
+    }
+    
+    
+        func createBroadcastListMembersTable(){
+            
+            if(socketObj != nil)
+            {socketObj.socket.emit("logClient","IPHONE-LOG: creating allcontacts table")}
+            //let contactObject=Expression<CNContact>("contactObj")
+            //let kiboContact = Expression<Bool>("kiboContact")
+            let uniqueid = Expression<String>("uniqueid")
+            let memberphone = Expression<String>("memberphone")
+            //
+            self.broadcastlisttable = Table("broadcastlisttable")
+            do{
+                try db.run(broadcastlisttable.create(ifNotExists: retainOldDatabase) { t in     // CREATE TABLE "accounts" (
+                    t.column(uniqueid, unique:true)
+                    t.column(memberphone)
+                    //////////////t.column(profileimage, defaultValue:NSData.init())
+                    })
+                
+            }
+            catch(let error)
+            {
+                if(socketObj != nil)
+                {
+                    socketObj.socket.emit("logClient","IPHONE-LOG: error in creating broadcastlist members table \(error)")
+                    print("error in creating broadcastlist members table")
+                    
+                }
+            }
+            
+    }
     
     
         func storeMuteGroupSettingsTable(groupid1:String,isMute1:Bool,muteTime1:NSDate,unMuteTime1:NSDate)
@@ -2494,6 +2552,55 @@ print("--------")
         }
         
         return groupsList
+    }
+            
+    func getBroadcastList(uniqueid1:String)->[String:AnyObject]
+    {
+        var newEntry=[String:AnyObject]()
+        
+                let uniqueid = Expression<String>("uniqueid")
+                let memberphone = Expression<String>("memberphone")
+                //
+                self.broadcastlisttable = Table("broadcastlisttable")
+        let query = self.broadcastlisttable.select(uniqueid,memberphone).filter(uniqueid == uniqueid1)
+        
+        do
+        {for list in try self.db.prepare(query)
+        {
+            newEntry["uniqueid"]=list.get(uniqueid)
+            newEntry["memberphone"]=list.get(memberphone)
+            
+            }
+        }
+        catch
+        {
+            
+        }
+  return newEntry
+    }
+    
+    func getbroadcastlistmembers(uniqueid1:String)->[String:AnyObject]
+    {
+        var newEntry=[String:AnyObject]()
+        
+        let uniqueid = Expression<String>("uniqueid")
+        let listname = Expression<String>("listname")
+        //
+        self.broadcastlisttable = Table("broadcastlisttable")
+        let query = self.broadcastlisttable.select(uniqueid,listname).filter(uniqueid == uniqueid1)
+        do
+        {for list in try self.db.prepare(query)
+        {   newEntry["uniqueid"]=list.get(uniqueid)
+            newEntry["listname"]=list.get(listname)
+            
+        
+            }
+        }
+        catch
+        {
+            
+        }
+       return newEntry
     }
     
     

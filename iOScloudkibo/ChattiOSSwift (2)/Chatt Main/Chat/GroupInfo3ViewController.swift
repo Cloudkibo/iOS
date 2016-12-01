@@ -872,7 +872,8 @@ else{
         {
             var cell=tblGroupInfo.dequeueReusableCellWithIdentifier("GroupNamePicInfoCell")! as! GroupInfoCell
             cell.lbl_groupName.text=singleGroupInfo["group_name"] as! String
-         cell.userInteractionEnabled=false
+         
+            //cell.userInteractionEnabled=false
                 
                 cell.btnEditProfilePicOutlet.hidden=true
                // groupname=cell.groupNameFieldOutlet.text!
@@ -1107,10 +1108,23 @@ cell.lbl_groupAdmin.hidden=false
         
         let resetImage = UIAlertAction(title: "Reset Image", style: UIAlertActionStyle.Default,handler: { (action) -> Void in
             
+            if(internetAvailable==true)
+{
             self.imgdata=NSData.init()
             gestureRecognizer.view?.removeGestureRecognizer(gestureRecognizer)
             self.tblGroupInfo.reloadData()
             
+}
+else{
+                let shareMenu = UIAlertController(title: nil, message: "Internet connectivity is required to exit this group", preferredStyle: .ActionSheet)
+                
+                let yes = UIAlertAction(title: "OK", style: UIAlertActionStyle.Default,handler: { (action) -> Void in
+                    
+                })
+                shareMenu.addAction(yes)
+                self.presentViewController(shareMenu, animated: true, completion:nil)
+                
+            }
             //// self.removeChatHistory(self.ContactUsernames[indexPath.row],indexPath: indexPath)
             
             //call Mute delegate or method
@@ -1118,8 +1132,22 @@ cell.lbl_groupAdmin.hidden=false
         
         let SelectImage = UIAlertAction(title: "Select Image", style: UIAlertActionStyle.Default,handler: { (action) -> Void in
             
+            if(internetAvailable==true)
+{
             self.selectImage(gestureRecognizer)
             
+}
+else{
+                let shareMenu = UIAlertController(title: nil, message: "Internet connectivity is required to exit this group", preferredStyle: .ActionSheet)
+                
+                let yes = UIAlertAction(title: "OK", style: UIAlertActionStyle.Default,handler: { (action) -> Void in
+                    
+                })
+                shareMenu.addAction(yes)
+                self.presentViewController(shareMenu, animated: true, completion:nil)
+            }
+            
+
             // swipeindex=index
             //self.performSegueWithIdentifier("groupInfoSegue", sender: nil)
             //// self.removeChatHistory(self.ContactUsernames[indexPath.row],indexPath: indexPath)
@@ -1314,9 +1342,24 @@ cell.lbl_groupAdmin.hidden=false
             //save filename
             
             /////var filetype="png"
+            
+            if(internetAvailable==true)
+{
             managerFile.uploadProfileImage(groupid,filePath1: self.filePathImage2,filename: self.file_name1,fileType: self.ftype,completion: {(result,error) in
                 
             })
+}
+else
+            {
+                let shareMenu = UIAlertController(title: nil, message: "Internet connectivity is required to exit this group", preferredStyle: .ActionSheet)
+                
+                let yes = UIAlertAction(title: "OK", style: UIAlertActionStyle.Default,handler: { (action) -> Void in
+                    
+                })
+                shareMenu.addAction(yes)
+                self.presentViewController(shareMenu, animated: true, completion:nil)
+            }
+            
             
         }
         

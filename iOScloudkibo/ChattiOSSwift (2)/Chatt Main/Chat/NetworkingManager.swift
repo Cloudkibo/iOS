@@ -278,8 +278,7 @@ class NetworkingManager
 
     
     
-    func uploadFile(filePath1:String,to1:String,from1:String, uniqueid1:String,file_name1:String,file_size1:String,file_type1:String,type1:String)
-    {
+    func uploadFile(filePath1:String,to1:String,from1:String, uniqueid1:String,file_name1:String,file_size1:String,file_type1:String,type1:String){
         
        var parameters = [
             "to": to1,

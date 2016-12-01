@@ -137,6 +137,8 @@
 		71C4018D1CF715C500D38126 /* endCall@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 71C401871CF715C500D38126 /* endCall@2x.png */; };
 		71C4018E1CF71ABB00D38126 /* SQLite.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 717403EA1CF7151900EA7ABF /* SQLite.framework */; };
 		71C4018F1CF71ABB00D38126 /* SQLite.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 717403EA1CF7151900EA7ABF /* SQLite.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		71CE4C271DEFF758001637DA /* BroadcastItemCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71CE4C261DEFF758001637DA /* BroadcastItemCell.swift */; };
+		71CE4C2B1DEFF7E9001637DA /* BroadcastListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71CE4C2A1DEFF7E9001637DA /* BroadcastListViewController.swift */; };
 		71D74E831DEBCC2900D44D59 /* Alamofire.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 71D74E821DEBCC2900D44D59 /* Alamofire.framework */; };
 		71D74E841DEBCC2900D44D59 /* Alamofire.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 71D74E821DEBCC2900D44D59 /* Alamofire.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		71D74E8F1DEBD8E400D44D59 /* NSData_Compression.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71D74E8E1DEBD8E400D44D59 /* NSData_Compression.swift */; };
@@ -414,6 +416,8 @@
 		71C401851CF715C500D38126 /* audioOn@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "audioOn@2x.png"; sourceTree = "<group>"; };
 		71C401861CF715C500D38126 /* endCall.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = endCall.png; sourceTree = "<group>"; };
 		71C401871CF715C500D38126 /* endCall@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "endCall@2x.png"; sourceTree = "<group>"; };
+		71CE4C261DEFF758001637DA /* BroadcastItemCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BroadcastItemCell.swift; sourceTree = "<group>"; };
+		71CE4C2A1DEFF7E9001637DA /* BroadcastListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BroadcastListViewController.swift; sourceTree = "<group>"; };
 		71D74E821DEBCC2900D44D59 /* Alamofire.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; name = Alamofire.framework; path = "/Users/cloudkibo/Library/Developer/Xcode/DerivedData/kiboApp-ckwegrnpnjdryqfinanunrzashgm/Build/Products/Debug-iphoneos/Alamofire.framework"; sourceTree = "<absolute>"; };
 		71D74E8E1DEBD8E400D44D59 /* NSData_Compression.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NSData_Compression.swift; sourceTree = "<group>"; };
 		71D74E901DEBDC2300D44D59 /* libcompression.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libcompression.tbd; path = usr/lib/libcompression.tbd; sourceTree = SDKROOT; };
@@ -611,6 +615,8 @@
 				7142EC8B1DBE33560070826F /* syncGroupsService.swift */,
 				7142EC961DBF51DC0070826F /* UtilityFunctions.swift */,
 				71D74E8E1DEBD8E400D44D59 /* NSData_Compression.swift */,
+				71CE4C261DEFF758001637DA /* BroadcastItemCell.swift */,
+				71CE4C2A1DEFF7E9001637DA /* BroadcastListViewController.swift */,
 			);
 			path = Chat;
 			sourceTree = "<group>";
@@ -1051,6 +1057,7 @@
 				713D51EC1CC11896007E0B47 /* VideoViewController.swift in Sources */,
 				713D51CB1CC11896007E0B47 /* Contacts.swift in Sources */,
 				718B8D811CC11A9B000B4AB2 /* SocketAnyEvent.swift in Sources */,
+				71CE4C271DEFF758001637DA /* BroadcastItemCell.swift in Sources */,
 				718B8D921CC11A9B000B4AB2 /* SocketTypes.swift in Sources */,
 				713D51C81CC11896007E0B47 /* Constants.swift in Sources */,
 				713D51DB1CC11896007E0B47 /* MeetingRoomScreen.swift in Sources */,
@@ -1099,6 +1106,7 @@
 				713D51DE1CC11896007E0B47 /* MoreTableViewController.swift in Sources */,
 				719A0CE41DD5237800977C0B /* GroupMessageStatusViewController.swift in Sources */,
 				713D51CD1CC11896007E0B47 /* ContactsInviteViewController.swift in Sources */,
+				71CE4C2B1DEFF7E9001637DA /* BroadcastListViewController.swift in Sources */,
 				71F6233E1DE4262E00AC6370 /* String-Extension.swift in Sources */,
 				713D51D01CC11896007E0B47 /* File.swift in Sources */,
 				718B8D851CC11A9B000B4AB2 /* SocketEnginePacketType.swift in Sources */,
