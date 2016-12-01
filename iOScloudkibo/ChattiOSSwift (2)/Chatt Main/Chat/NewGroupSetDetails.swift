@@ -248,7 +248,7 @@ class NewGroupSetDetails: UITableViewController,UINavigationControllerDelegate,U
                     
                 }
                 
-                if(self.imgdata != NSData.init())
+                if(self.imgdata != NSData.init() && self.filePathImage2 != "")
                 {
                     print("profile image is selected")
                     print("call API to upload image")
@@ -321,7 +321,7 @@ class NewGroupSetDetails: UITableViewController,UINavigationControllerDelegate,U
                     
                 }
                 
-                if(self.imgdata != NSData.init())
+                if(self.imgdata != NSData.init() && self.filePathImage2 != "")
                 {
                     print("profile image is selected")
                     print("call API to upload image")
@@ -688,15 +688,20 @@ class NewGroupSetDetails: UITableViewController,UINavigationControllerDelegate,U
         
         //filePathImage2
         print("before reloading, filePathImage2 is \(filePathImage2)")
-        data!.writeToFile(filePathImage2, atomically: true)
+        var written=data!.writeToFile(filePathImage2, atomically: true)
         
         ///
-        
+        if(written==true)
+{
         self.dismissViewControllerAnimated(true, completion:{ ()-> Void in
             print("dismissing image picker")
             print("selected image is \(image)")
             self.tblNewGroupDetails.reloadData()
         })
+}
+        else{
+            print("failed to write profile pic file")
+        }
         /* if let imageURL = editingInfo![UIImagePickerControllerReferenceURL] as? NSURL {
             let result = PHAsset.fetchAssetsWithALAssetURLs([imageURL], options: nil)
             

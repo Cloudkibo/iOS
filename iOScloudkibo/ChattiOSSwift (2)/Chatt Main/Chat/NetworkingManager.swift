@@ -618,7 +618,8 @@ class NetworkingManager
                 print("error in writing file")
             }
                     }
-                //filedownloaded’ to with parameters ‘senderoffile’, ‘receiveroffile’
+                
+                    //filedownloaded’ to with parameters ‘senderoffile’, ‘receiveroffile’
                 
             
                 
@@ -778,6 +779,7 @@ class NetworkingManager
         //// Alamofire.request(.POST,"\(url)",parameters:["unique_id":uniqueid],headers:header,encoding:.JSON).validate().responseJSON { response in
         
         var imageData=NSData(contentsOfFile: filePath1)
+        
         // var urlupload=Constants.MainUrl+Constants.uploadFile
         print("uploading file image data is \(imageData)")
         Alamofire.upload(

@@ -8,13 +8,16 @@
 
 import Foundation
 import UIKit
-class BroadcastListViewController: UIViewController {
+class BroadcastListViewController: UIViewController,UINavigationControllerDelegate {
     
     
+    @IBOutlet weak var navigationitem1: UINavigationItem!
     @IBOutlet weak var veiwForContent: UIScrollView!
     @IBOutlet weak var tblBroadcastList: UITableView!
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.navigationItem.leftBarButtonItem?.title="<"
+        self.navigationitem1.title="Broadcast Lists"
        // self.navigationItem.titleView = "Broadcast Lists"
     }
     

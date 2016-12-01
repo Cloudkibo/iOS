@@ -803,7 +803,7 @@
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <state key="normal" title="New Group"/>
                                                 </button>
-                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="cqd-QN-sAJ">
+                                                <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="cqd-QN-sAJ">
                                                     <rect key="frame" x="8" y="18" width="107" height="30"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <state key="normal" title="Broadcast lists"/>
@@ -4336,7 +4336,7 @@
         <!--Broadcast List View Controller-->
         <scene sceneID="23A-km-eMu">
             <objects>
-                <viewController id="Rgk-Rk-lne" customClass="BroadcastListViewController" customModule="Chat" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController hidesBottomBarWhenPushed="YES" id="Rgk-Rk-lne" customClass="BroadcastListViewController" customModule="Chat" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="0y3-sA-Lsl">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -4346,7 +4346,7 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <subviews>
                                     <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="95" sectionHeaderHeight="28" sectionFooterHeight="28" id="czo-fS-jnP">
-                                        <rect key="frame" x="0.0" y="-6" width="320" height="574"/>
+                                        <rect key="frame" x="0.0" y="-6" width="320" height="488"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <prototypes>
@@ -4391,14 +4391,23 @@
                                             <outlet property="delegate" destination="Rgk-Rk-lne" id="PUj-yC-leL"/>
                                         </connections>
                                     </tableView>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="Bae-IK-pT7">
+                                        <rect key="frame" x="0.0" y="490" width="320" height="30"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <color key="backgroundColor" red="0.94750236742424243" green="0.94750236742424243" blue="0.94750236742424243" alpha="1" colorSpace="calibratedRGB"/>
+                                        <state key="normal" title="New List"/>
+                                    </button>
                                 </subviews>
                             </scrollView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
-                    <navigationItem key="navigationItem" id="ORh-8o-3y5"/>
-                    <nil key="simulatedTopBarMetrics"/>
+                    <navigationItem key="navigationItem" id="ORh-8o-3y5">
+                        <barButtonItem key="rightBarButtonItem" title="Edit" id="Xeq-br-M4H"/>
+                    </navigationItem>
+                    <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
+                        <outlet property="navigationitem1" destination="ORh-8o-3y5" id="K4a-Cm-baV"/>
                         <outlet property="tblBroadcastList" destination="czo-fS-jnP" id="G7T-2q-7Hc"/>
                         <outlet property="veiwForContent" destination="uM7-X0-w22" id="hJF-w7-GJx"/>
                     </connections>
@@ -5237,7 +5246,7 @@
         <segue reference="X5X-Qt-8lc"/>
         <segue reference="ThT-lo-Acr"/>
         <segue reference="0Ba-7e-jXB"/>
-        <segue reference="Aba-99-G71"/>
+        <segue reference="ADA-1C-gHV"/>
         <segue reference="Spe-dd-EXu"/>
         <segue reference="BY8-e2-RyW"/>
         <segue reference="W8i-Cs-Z8T"/>
