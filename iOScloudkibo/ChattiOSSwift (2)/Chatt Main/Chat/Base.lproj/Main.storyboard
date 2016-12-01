@@ -803,7 +803,7 @@
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <state key="normal" title="New Group"/>
                                                 </button>
-                                                <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="cqd-QN-sAJ">
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="cqd-QN-sAJ">
                                                     <rect key="frame" x="8" y="18" width="107" height="30"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <state key="normal" title="Broadcast lists"/>
@@ -4396,6 +4396,9 @@
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <color key="backgroundColor" red="0.94750236742424243" green="0.94750236742424243" blue="0.94750236742424243" alpha="1" colorSpace="calibratedRGB"/>
                                         <state key="normal" title="New List"/>
+                                        <connections>
+                                            <action selector="btnNewBroadcastListClicked:" destination="Rgk-Rk-lne" eventType="touchUpInside" id="dwp-BD-NWV"/>
+                                        </connections>
                                     </button>
                                 </subviews>
                             </scrollView>

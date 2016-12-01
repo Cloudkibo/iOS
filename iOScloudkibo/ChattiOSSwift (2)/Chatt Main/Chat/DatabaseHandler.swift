@@ -2553,10 +2553,52 @@ print("--------")
         
         return groupsList
     }
-            
-    func getBroadcastList(uniqueid1:String)->[String:AnyObject]
+    
+    func storeBroadcastList(broadcastlistID1:String,ListName1:String)
     {
-        var newEntry=[String:AnyObject]()
+        let uniqueid = Expression<String>("uniqueid")
+        let listname = Expression<String>("listname")
+        //
+        self.broadcastlisttable = Table("broadcastlisttable")
+        do {
+            let rowid = try db.run(broadcastlisttable.insert(
+                uniqueid<-broadcastlistID1,
+                listname<-ListName1
+                ))
+            
+            
+            print("inserted id broadcastlist : \(rowid)")
+        } catch {
+            print("insertion failed: broadcastlist \(error)")
+        }
+        
+    }
+    func storeBroadcastListMembers(broadcastlistID1:String,memberphones:[String])
+    {
+        let uniqueid = Expression<String>("uniqueid")
+        let memberphone = Expression<String>("memberphone")
+        //
+        self.broadcastlisttable = Table("broadcastlisttable")
+        do {
+            for(var i=0;i<memberphones.count;i++)
+            {
+            let rowid = try db.run(broadcastlisttable.insert(
+                uniqueid<-broadcastlistID1,
+                memberphone<-memberphones[i]
+                ))
+            
+            
+            print("inserted id broadcastlistmember : \(rowid)")
+            }
+        } catch {
+            print("insertion failed: broadcastlistmember \(error)")
+        }
+        
+    }
+    
+    func getBroadcastListMembers(uniqueid1:String)->[String]
+    {
+        var newEntry=[String]()
         
                 let uniqueid = Expression<String>("uniqueid")
                 let memberphone = Expression<String>("memberphone")
@@ -2567,8 +2609,8 @@ print("--------")
         do
         {for list in try self.db.prepare(query)
         {
-            newEntry["uniqueid"]=list.get(uniqueid)
-            newEntry["memberphone"]=list.get(memberphone)
+           // newEntry["uniqueid"]=list.get(uniqueid)
+            newEntry.append(list.get(memberphone))
             
             }
         }
@@ -2576,10 +2618,11 @@ print("--------")
         {
             
         }
-  return newEntry
+        return newEntry
     }
     
-    func getbroadcastlistmembers(uniqueid1:String)->[String:AnyObject]
+    
+    func getSinglebroadcastlist(uniqueid1:String)->[String:AnyObject]
     {
         var newEntry=[String:AnyObject]()
         
@@ -2603,5 +2646,56 @@ print("--------")
        return newEntry
     }
     
+    func getSinglebroadcastlist()->[[String:AnyObject]]
+    {
+        var broadcastlist=[[String:AnyObject]]()
+        
+        let uniqueid = Expression<String>("uniqueid")
+        let listname = Expression<String>("listname")
+        //
+        self.broadcastlisttable = Table("broadcastlisttable")
+       
+        do
+        {for list in try self.db.prepare(self.broadcastlisttable)
+        { var newEntry=[String:AnyObject]()
+            
+            newEntry["uniqueid"]=list.get(uniqueid)
+            newEntry["listname"]=list.get(listname)
+            broadcastlist.append(newEntry)
+            
+            }
+        }
+        catch
+        {
+            
+        }
+        return broadcastlist
+    }
+    
+    func getBroadcastListDataForController()->[[String:AnyObject]]
+    {
+        var listDataController=[[String:AnyObject]]()
+        
+        let uniqueid = Expression<String>("uniqueid")
+        let listname = Expression<String>("listname")
+        
+        var listdata = getSinglebroadcastlist()
+        for(var i=0;i<listdata.count;i++)
+        {
+            var listDetailSingle=[String:String]()
+            
+            var membersarray=getBroadcastListMembers(listdata[i]["uniqueid"] as! String)
+            var memberslistnames=[String]()
+            for(var j=0;j<membersarray.count;j++)
+            {
+            memberslistnames.append(getNameFromAddressbook(membersarray[j] as! String))
+            }
+            listDetailSingle["listname"]=listdata[i]["listname"] as! String
+            listDetailSingle["membersnames"]=memberslistnames.joinWithSeparator(",")
+            listDataController.append(listDetailSingle)
+        }
+        print("listDataController is \(listDataController)")
+        return listDataController
+    }
     
 }

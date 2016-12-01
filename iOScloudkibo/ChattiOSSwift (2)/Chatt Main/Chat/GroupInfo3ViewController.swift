@@ -278,8 +278,11 @@ identifiersarray.append(identifier)
         
         //get seleced participants
         participantsSelected.appendContentsOf(contacts)
+       
         addToGroup()
-       ///// self.performSegueWithIdentifier("newGroupDetailsSegue2", sender: nil);
+       
+        
+        ///// self.performSegueWithIdentifier("newGroupDetailsSegue2", sender: nil);
         
         
         for contact in contacts {

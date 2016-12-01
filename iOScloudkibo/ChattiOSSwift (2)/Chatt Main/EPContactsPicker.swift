@@ -172,7 +172,7 @@ public class EPContactsPicker: UITableViewController, UISearchResultsUpdating, U
     
     // MARK: - Contact Operations
   
-      public func reloadContacts() {
+    public func reloadContacts() {
         getContacts( {(contacts, error) in
             if (error == nil) {
                 dispatch_async(dispatch_get_main_queue(), {
