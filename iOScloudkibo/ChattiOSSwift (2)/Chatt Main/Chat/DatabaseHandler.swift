@@ -27,6 +27,7 @@ class DatabaseHandler:NSObject{
     var group_chat_status:Table!
     var group_muteSettings:Table!
     var broadcastlisttable:Table!
+    var broadcastlistmembers:Table!
     
     init(dbName:String)
     {print("inside database handler class")
@@ -139,6 +140,8 @@ class DatabaseHandler:NSObject{
         createGroupsChatTable()
         createGroupsChatStatusTable()
         createMuteGroupSettingsTable()
+        createBroadcastListTable()
+        createBroadcastListMembersTable()
         //createAllContactsTable()
         
     }
@@ -640,9 +643,9 @@ class DatabaseHandler:NSObject{
             let uniqueid = Expression<String>("uniqueid")
             let memberphone = Expression<String>("memberphone")
             //
-            self.broadcastlisttable = Table("broadcastlisttable")
+            self.broadcastlistmembers = Table("broadcastlistmembers")
             do{
-                try db.run(broadcastlisttable.create(ifNotExists: retainOldDatabase) { t in     // CREATE TABLE "accounts" (
+                try db.run(broadcastlistmembers.create(ifNotExists: retainOldDatabase) { t in     // CREATE TABLE "accounts" (
                     t.column(uniqueid, unique:true)
                     t.column(memberphone)
                     //////////////t.column(profileimage, defaultValue:NSData.init())
@@ -2578,11 +2581,11 @@ print("--------")
         let uniqueid = Expression<String>("uniqueid")
         let memberphone = Expression<String>("memberphone")
         //
-        self.broadcastlisttable = Table("broadcastlisttable")
+        self.broadcastlistmembers = Table("broadcastlistmembers")
         do {
             for(var i=0;i<memberphones.count;i++)
             {
-            let rowid = try db.run(broadcastlisttable.insert(
+            let rowid = try db.run(broadcastlistmembers.insert(
                 uniqueid<-broadcastlistID1,
                 memberphone<-memberphones[i]
                 ))
@@ -2603,8 +2606,8 @@ print("--------")
                 let uniqueid = Expression<String>("uniqueid")
                 let memberphone = Expression<String>("memberphone")
                 //
-                self.broadcastlisttable = Table("broadcastlisttable")
-        let query = self.broadcastlisttable.select(uniqueid,memberphone).filter(uniqueid == uniqueid1)
+                self.broadcastlistmembers = Table("broadcastlisttable")
+        let query = self.broadcastlistmembers.select(uniqueid,memberphone).filter(uniqueid == uniqueid1)
         
         do
         {for list in try self.db.prepare(query)
