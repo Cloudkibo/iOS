@@ -210,11 +210,16 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
         //    dispatch_async(dispatch_get_main_queue())
           //  {
            // self.tblForChats.reloadData()
+            
+            //commenting newwwwwwww -===-===-=
+            dispatch_async(dispatch_get_main_queue())
+{
             if(self.messages.count>1)
             {
                 var indexPath = NSIndexPath(forRow:self.messages.count-1, inSection: 0)
                 
-                self.tblForChats.scrollToRowAtIndexPath(indexPath, atScrollPosition: UITableViewScrollPosition.Bottom, animated: true)
+                self.tblForChats.scrollToRowAtIndexPath(indexPath, atScrollPosition: UITableViewScrollPosition.Bottom, animated: false)
+            }
             }
             //}
        // })
@@ -290,12 +295,12 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
         print("last cell pos y is \(tblForChats.visibleCells.last?.frame.origin.y)")
        
       
-        if(self.messages.count>1)
+        /*if(self.messages.count>1)
         {
             var indexPath = NSIndexPath(forRow:self.messages.count-1, inSection: 0)
             
             self.tblForChats.scrollToRowAtIndexPath(indexPath, atScrollPosition: UITableViewScrollPosition.Bottom, animated: false)
-        }
+        }*/
     }
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -358,13 +363,13 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
         {
             self.tblForChats.reloadData()
         }
-        
-       if(self.messages.count>1)
+        //commenting newwww --====----====-----====
+      /* if(self.messages.count>1)
         {
             var indexPath = NSIndexPath(forRow:self.messages.count-1, inSection: 0)
             
             self.tblForChats.scrollToRowAtIndexPath(indexPath, atScrollPosition: UITableViewScrollPosition.Bottom, animated: true)
-        }
+        }*/
         //%%%%%%%%%%%%%%%%%&&&&&&&&&&&&&&&&&&^^^^^^^^^
         //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%FetchChatServer()
         self.NewChatNavigationTitle.title=selectedFirstName
