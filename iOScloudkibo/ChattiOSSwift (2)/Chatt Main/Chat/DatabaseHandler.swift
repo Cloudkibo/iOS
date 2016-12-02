@@ -608,6 +608,8 @@ class DatabaseHandler:NSObject{
     
     func createBroadcastListTable(){
         
+        self.broadcastlisttable = Table("broadcastlistmembers")
+        self.broadcastlisttable.drop()
         //let contactObject=Expression<CNContact>("contactObj")
         //let kiboContact = Expression<Bool>("kiboContact")
         let uniqueid = Expression<String>("uniqueid")
@@ -635,7 +637,9 @@ class DatabaseHandler:NSObject{
     
     
         func createBroadcastListMembersTable(){
-            
+            print("creatinggg")
+            self.broadcastlistmembers = Table("broadcastlistmembers")
+            self.broadcastlistmembers.drop()
             if(socketObj != nil)
             {socketObj.socket.emit("logClient","IPHONE-LOG: creating allcontacts table")}
             //let contactObject=Expression<CNContact>("contactObj")
@@ -646,7 +650,7 @@ class DatabaseHandler:NSObject{
             self.broadcastlistmembers = Table("broadcastlistmembers")
             do{
                 try db.run(broadcastlistmembers.create(ifNotExists: retainOldDatabase) { t in     // CREATE TABLE "accounts" (
-                    t.column(uniqueid, unique:true)
+                    t.column(uniqueid)
                     t.column(memberphone)
                     //////////////t.column(profileimage, defaultValue:NSData.init())
                     })
