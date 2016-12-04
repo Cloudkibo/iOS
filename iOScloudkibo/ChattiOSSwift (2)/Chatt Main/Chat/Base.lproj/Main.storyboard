@@ -4365,7 +4365,7 @@
                                                             <nil key="highlightedColor"/>
                                                         </label>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Sojharo4909, Sumaira1991" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="FqE-W2-XNR">
-                                                            <rect key="frame" x="8" y="37" width="254" height="21"/>
+                                                            <rect key="frame" x="8" y="37" width="304" height="21"/>
                                                             <autoresizingMask key="autoresizingMask" flexibleMaxY="YES"/>
                                                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                             <color key="textColor" red="0.64908854166666674" green="0.64908854166666674" blue="0.64908854166666674" alpha="1" colorSpace="calibratedRGB"/>

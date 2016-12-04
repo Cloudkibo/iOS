@@ -139,7 +139,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate,AppDelegateScreenDelegate 
         print("========launchhhhhhhhh=====")
         print(NSDate())
         
-        self.checkFirstRun()
+        //============= commenting   ---   self.checkFirstRun()
         
         
         let nsObject: AnyObject? = NSBundle.mainBundle().infoDictionary!["CFBundleShortVersionString"]
@@ -462,7 +462,7 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
                 if(socketObj != nil){
                     socketObj.socket.emit("error getting data from accounts table")
                 }
-                print("error in getting data from accounts table")
+                print("error in getting data from accounts table \(error)")
                 
             }
             
@@ -2851,10 +2851,26 @@ else{
                print("This is a new install");
         
        // UserFunctions fn = new UserFunctions();
-        retainOldDatabase=false
-        sqliteDB.resetTables()
+        //retainOldDatabase=false
+        //============================= commentingggggg     ----  sqliteDB.resetTables()
         sqliteDB=DatabaseHandler(dbName:"cloudkibo.sqlite3")
         
+        /*sqliteDB.createAccountsTable()
+        sqliteDB.createAllContactsTable()
+        ///////contactslists.drop()
+        sqliteDB.createContactListsTable()
+        sqliteDB.createUserChatTable()
+        sqliteDB.createMessageSeenStatusTable()
+        sqliteDB.createCallHistoryTable()
+        sqliteDB.createFileTable()
+        sqliteDB.createGroupsTable()
+        sqliteDB.createGroupsMembersTable()
+        sqliteDB.createGroupsChatTable()
+        sqliteDB.createGroupsChatStatusTable()
+        sqliteDB.createMuteGroupSettingsTable()
+        sqliteDB.createBroadcastListTable()
+        sqliteDB.createBroadcastListMembersTable()
+        */
         /*if(fn.isUserLoggedIn(getApplicationContext())){
             Toast.makeText(
                 this,

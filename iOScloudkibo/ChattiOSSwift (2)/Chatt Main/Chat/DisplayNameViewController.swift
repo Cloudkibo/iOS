@@ -493,7 +493,7 @@ class DisplayNameViewController: UIViewController {
                             if(socketObj != nil)
                             {
                             socketObj.socket.emit("logClient","accounts table not deleted")
-                            print("accounts table not deleted")
+                            print("accounts table not deleted \(error)")
                             }
                         }
                         
@@ -513,7 +513,7 @@ class DisplayNameViewController: UIViewController {
                         // let insert = users.insert(email <- "alice@mac.com")
                         
                         
-                        tbl_accounts.delete()
+                       //=== uncomment later tbl_accounts.delete()
                         
                         do {
                             let rowid = try sqliteDB.db.run(tbl_accounts.insert(_id<-json["_id"].string!,
@@ -545,7 +545,7 @@ class DisplayNameViewController: UIViewController {
                         }
                         catch
                         {
-                            
+                           print("error \(error)")
                         }
                     }
             case .Failure:

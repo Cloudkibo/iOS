@@ -1318,6 +1318,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer: Jawaid Ekram (S6L9EK8V4A)";
 				"CODE_SIGN_IDENTITY[sdk=*]" = "iPhone Developer: Jawaid Ekram (S6L9EK8V4A)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEBUG_INFORMATION_FORMAT = dwarf;
 				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -1363,6 +1364,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=*]" = "iPhone Developer: Jawaid Ekram (S6L9EK8V4A)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Jawaid Ekram (S6L9EK8V4A)";
+				DEBUG_INFORMATION_FORMAT = dwarf;
 				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (

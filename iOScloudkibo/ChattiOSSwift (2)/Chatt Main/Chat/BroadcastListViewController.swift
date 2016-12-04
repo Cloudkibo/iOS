@@ -24,13 +24,15 @@ class BroadcastListViewController: UIViewController,UINavigationControllerDelega
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.tblBroadcastList.estimatedRowHeight = 95.0;
+        self.tblBroadcastList.estimatedRowHeight = 125.0;
         self.tblBroadcastList.rowHeight = UITableViewAutomaticDimension;
         
         self.navigationItem.leftBarButtonItem?.title="<"
         self.navigationitem1.title="Broadcast Lists"
         
         broadcastlistmessages=NSMutableArray()
+        retrieveBroadCastLists()
+        tblBroadcastList.reloadData()
        // self.navigationItem.titleView = "Broadcast Lists"
     }
     
@@ -38,6 +40,7 @@ class BroadcastListViewController: UIViewController,UINavigationControllerDelega
         
         super.init(coder: aDecoder)
     }
+    
     
     func retrieveBroadCastLists()
     {
@@ -171,6 +174,12 @@ class BroadcastListViewController: UIViewController,UINavigationControllerDelega
     func numberOfSectionsInTableView(tableView: UITableView!) -> Int {
         return 1
     }
+    
+    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+        
+        return 90
+    }
+
     
     func tableView(tableView: UITableView!, cellForRowAtIndexPath indexPath: NSIndexPath!) -> UITableViewCell! {
         //if (indexPath.row%2 == 0){

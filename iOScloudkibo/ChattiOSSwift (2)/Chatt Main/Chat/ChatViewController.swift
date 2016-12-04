@@ -297,7 +297,7 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
                 if(socketObj != nil){
                 socketObj.socket.emit("error getting data from accounts table")
                 }
-                print("error in getting data from accounts table")
+                print("error in getting data from accounts table \(error)")
                 
             }
             
@@ -1101,7 +1101,7 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
                     if(socketObj != nil){
                     socketObj.socket.emit("error getting data from accounts table")
                     }
-                    print("error in getting data from accounts table")
+                    print("error in getting data from accounts table \(error)")
                     
                 }
                 
@@ -1221,7 +1221,7 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
                     if(socketObj != nil){
                         socketObj.socket.emit("error getting data from accounts table")
                     }
-                    print("error in getting data from accounts table")
+                    print("error in getting data from accounts table \(error)")
                     
                 }
                 

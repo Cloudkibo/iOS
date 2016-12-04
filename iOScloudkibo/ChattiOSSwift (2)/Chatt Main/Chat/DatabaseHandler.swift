@@ -127,6 +127,7 @@ class DatabaseHandler:NSObject{
         username: "sum",
         status: "testing table")*/
         
+        
         createAccountsTable()
         createAllContactsTable()
         ///////contactslists.drop()
@@ -142,11 +143,13 @@ class DatabaseHandler:NSObject{
         createMuteGroupSettingsTable()
         createBroadcastListTable()
         createBroadcastListMembersTable()
+    
         //createAllContactsTable()
         
     }
     func resetTables()
     {
+        print("resetting tables")
         self.accounts = Table("accounts")
         do{try db.run(self.accounts.drop(ifExists: true))
         }
@@ -243,10 +246,28 @@ class DatabaseHandler:NSObject{
         {
             print("error in dropping group_muteSettings table \(error)")
         }
+        self.broadcastlisttable = Table("broadcastlisttable")
+        do{try db.run(self.broadcastlisttable.drop(ifExists: true))
+        }
+        catch
+        {
+            print("error in dropping broadcastlisttable table \(error)")
+        }
+        
+        self.broadcastlistmembers = Table("broadcastlistmembers")
+        do{try db.run(self.broadcastlistmembers.drop(ifExists: true))
+        }
+        catch
+        {
+            print("error in dropping broadcastlistmembers table \(error)")
+        }
+       
+        //var broadcastlistmembers:Table!
     }
     
     func createAccountsTable()
     {
+        print("creating accounts table")
         if(socketObj != nil)
         {socketObj.socket.emit("logClient","IPHONE-LOG: creating accounts table")}
         
@@ -263,8 +284,13 @@ class DatabaseHandler:NSObject{
         let country_prefix = Expression<String>("country_prefix")
         let nationalNumber = Expression<String>("national_number")
         
+        
+        
+        
+        
         self.accounts = Table("accounts")
         do{
+            print("creating accounts table ifnotexist is \(retainOldDatabase)")
             try db.run(accounts.create(ifNotExists: retainOldDatabase) { t in     // CREATE TABLE "accounts" (
                 //t.column(email,check: email.like("%@%"))
                 t.column(firstname)
@@ -349,7 +375,7 @@ class DatabaseHandler:NSObject{
         {
             if(socketObj != nil){
             socketObj.socket.emit("logClient","IPHONE-LOG: error in creating contacts table \(error)")
-            print("error in creating contactslists table")
+            print("error in creating contactslists table \(error)")
             }
         }
         // )
@@ -609,7 +635,7 @@ class DatabaseHandler:NSObject{
     func createBroadcastListTable(){
         
         self.broadcastlisttable = Table("broadcastlistmembers")
-        self.broadcastlisttable.drop()
+        //self.broadcastlisttable.drop()
         //let contactObject=Expression<CNContact>("contactObj")
         //let kiboContact = Expression<Bool>("kiboContact")
         let uniqueid = Expression<String>("uniqueid")
@@ -638,10 +664,10 @@ class DatabaseHandler:NSObject{
     
         func createBroadcastListMembersTable(){
             print("creatinggg")
+            
             self.broadcastlistmembers = Table("broadcastlistmembers")
-            self.broadcastlistmembers.drop()
             if(socketObj != nil)
-            {socketObj.socket.emit("logClient","IPHONE-LOG: creating allcontacts table")}
+            {socketObj.socket.emit("logClient","IPHONE-LOG: creating broadcastlistmembers table")}
             //let contactObject=Expression<CNContact>("contactObj")
             //let kiboContact = Expression<Bool>("kiboContact")
             let uniqueid = Expression<String>("uniqueid")
@@ -2603,6 +2629,37 @@ print("--------")
         
     }
     
+    func UpdateBroadcastlistMembers(uniqueid1:String,members:[String])
+    {
+        //  UtilityFunctions.init().log_papertrail("IPHONE: \(username!) inside database function to update chat status")
+        
+        let uniqueid = Expression<String>("uniqueid")
+        let memberphone = Expression<String>("memberphone")
+        
+        
+        var broadcastlistmembers=sqliteDB.broadcastlistmembers
+        
+        let query = broadcastlistmembers.select(uniqueid)           // SELECT "email" FROM "users"
+            .filter(uniqueid == uniqueid1)     // WHERE "name" IS NOT NULL
+        
+        do
+        {
+            
+            for(var i=0;i<members.count;i++)
+            {try sqliteDB.db.run(query.delete())
+                let rowid = try db.run(broadcastlistmembers.insert(
+                    uniqueid<-uniqueid1,
+                    memberphone<-members[i]
+                    ))
+                
+        }
+        }
+        catch
+        {
+           print("error here updatinggg")
+        }
+    }
+    
     func getBroadcastListMembers(uniqueid1:String)->[String]
     {
         var newEntry=[String]()
@@ -2610,7 +2667,7 @@ print("--------")
                 let uniqueid = Expression<String>("uniqueid")
                 let memberphone = Expression<String>("memberphone")
                 //
-                self.broadcastlistmembers = Table("broadcastlisttable")
+                self.broadcastlistmembers = Table("broadcastlistmembers")
         let query = self.broadcastlistmembers.select(uniqueid,memberphone).filter(uniqueid == uniqueid1)
         
         do
@@ -2695,6 +2752,7 @@ print("--------")
             var memberslistnames=[String]()
             for(var j=0;j<membersarray.count;j++)
             {
+                print(membersarray[j] as! String)
             memberslistnames.append(getNameFromAddressbook(membersarray[j] as! String))
             }
             listDetailSingle["listname"]=listdata[i]["listname"] as! String
