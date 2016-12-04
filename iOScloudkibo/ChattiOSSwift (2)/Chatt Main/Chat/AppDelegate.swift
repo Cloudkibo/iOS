@@ -481,7 +481,7 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
                 
                 self.getData({ (result) -> () in
                     self.index=0
-                       self.pendingchatsarray.removeAll()
+                    
                     Alamofire.request(.POST,"\(Constants.MainUrl+Constants.urllog)",headers:header,parameters: ["data":"IPHONE_LOG: checkin here pending messages sent"]).response{
                         request, response_, data, error in
                         print(error)
@@ -503,10 +503,14 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
                     
                     // if(socketObj != nil)
                     //{
+                    if(self.pendingchatsarray.count>0)
+                    {
                     if(delegateRefreshChat != nil)
                     {
                         print("refresh UI after pending msgs are sent")
                         delegateRefreshChat?.refreshChatsUI(nil, uniqueid:nil, from:nil, date1:nil, type:"status")
+                    }
+                    self.pendingchatsarray.removeAll()
                     }
                     /////======CHANGE IT==================
                     self.fetchChatsFromServer()

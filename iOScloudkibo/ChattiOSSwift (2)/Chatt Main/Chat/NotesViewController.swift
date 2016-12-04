@@ -342,13 +342,13 @@ class NotesViewController: UIViewController,InviteContactsDelegate,UITextFieldDe
         do
         {alladdressContactsArray = Array(try sqliteDB.db.prepare(allcontactslist1))
             
+            tblForNotes.reloadData()
         }
         catch
         {
             
         }
         
-        tblForNotes.reloadData()
     }
     
     override func viewDidLoad() {
@@ -446,7 +446,7 @@ class NotesViewController: UIViewController,InviteContactsDelegate,UITextFieldDe
         
         
         
-        let tbl_contactslist = sqliteDB.contactslists
+       // let tbl_contactslist = sqliteDB.contactslists
         var cellPrivate = tblForNotes.dequeueReusableCellWithIdentifier("NotePrivateCell")! as! AllContactsCell
         print("namelist count is \(nameList.count)")
         //cellPrivate.labelNamePrivate.text=nameList[indexPath.row]
@@ -458,8 +458,13 @@ class NotesViewController: UIViewController,InviteContactsDelegate,UITextFieldDe
         // %%%%%%%%%%%%%%%%%%%%%%%%%_------------------------- need to show names also ------
         
         
-        var allcontactslist1=sqliteDB.allcontacts
+       /* var allcontactslist1=sqliteDB.allcontacts
         var alladdressContactsArray:Array<Row>
+        
+        let phone = Expression<String>("phone")
+        let kibocontact = Expression<Bool>("kiboContact")
+        let name = Expression<String?>("name")
+        */
         
         let phone = Expression<String>("phone")
         let kibocontact = Expression<Bool>("kiboContact")
@@ -468,8 +473,8 @@ class NotesViewController: UIViewController,InviteContactsDelegate,UITextFieldDe
         //alladdressContactsArray = Array(try sqliteDB.db.prepare(allcontactslist1))
         
         
-        do
-        {alladdressContactsArray = Array(try sqliteDB.db.prepare(allcontactslist1))
+       // do
+       // {alladdressContactsArray = Array(try sqliteDB.db.prepare(allcontactslist1))
             
             if tableView == self.searchDisplayController!.searchResultsTableView {
             //if shouldShowSearchResults {
@@ -489,10 +494,10 @@ class NotesViewController: UIViewController,InviteContactsDelegate,UITextFieldDe
             }
             //alladdressContactsArray[indexPath.row].
             
-        }
-        catch{
-            print("error 123")
-        }
+       // }
+       // catch{
+       //     print("error 123")
+        //}
         /*
          
          if (contacts[indexPath.row].isKeyAvailable(CNContactPhoneNumbersKey)) {
@@ -700,14 +705,14 @@ class NotesViewController: UIViewController,InviteContactsDelegate,UITextFieldDe
          var allcontactslist1=sqliteDB.allcontacts
         do
         {alladdressContactsArray = Array(try sqliteDB.db.prepare(allcontactslist1))
-            
+             tblForNotes.reloadData()
         }
         catch
         {
             
         }
         
-        tblForNotes.reloadData()
+       
         
     }
 }

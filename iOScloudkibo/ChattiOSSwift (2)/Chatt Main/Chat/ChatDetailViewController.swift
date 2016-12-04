@@ -4209,7 +4209,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
             {
                 var indexPath = NSIndexPath(forRow:self.messages.count-1, inSection: 0)
                 
-                self.tblForChats.scrollToRowAtIndexPath(indexPath, atScrollPosition: UITableViewScrollPosition.Bottom, animated: true)
+                self.tblForChats.scrollToRowAtIndexPath(indexPath, atScrollPosition: UITableViewScrollPosition.Bottom, animated: false)
             }
           //////  }
         })

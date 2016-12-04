@@ -748,6 +748,7 @@ class DisplayNameViewController: UIViewController {
     }
     
     @IBAction func btnDonePressed(sender: AnyObject) {
+        print("button done pressed start time \(NSDate())")
         var displayName="unknown"
         displayName=txtDisplayName.text!
        // appJustInstalled=[true]
@@ -765,6 +766,7 @@ class DisplayNameViewController: UIViewController {
                     
                 }*/
                     self.messageFrame.removeFromSuperview()
+                    print("setting contacts start time \(NSDate())")
                     self.progressBarDisplayer("Setting Contacts", true)
                     dispatch_async(self.Q1_fetchFromDevice,
                         {
@@ -842,7 +844,7 @@ class DisplayNameViewController: UIViewController {
                                                                         UIApplication.sharedApplication().registerUserNotificationSettings(pushNotificationSettings)
                                                                     }
                                                                     
-                                                                    
+                                                                    print("setting contacts finish time \(NSDate())")
                                                                 self.messageFrame.removeFromSuperview()
                                                                 self.progressBarDisplayer("Setting Conversations", true)
                                                                 dispatch_async(self.Q5_fetchAllChats,
@@ -863,6 +865,7 @@ class DisplayNameViewController: UIViewController {
                                                                                     dispatch_async(dispatch_get_main_queue())
                                                                                     {
                                                                                         self.messageFrame.removeFromSuperview()
+                                                                                        print("completed done time \(NSDate())")
                                                                             self.dismissViewControllerAnimated(false, completion: { () -> Void in
                                                                                 
                                                                                 print("logged in going to contactlist")
