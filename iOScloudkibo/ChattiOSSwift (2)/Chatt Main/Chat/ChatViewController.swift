@@ -722,7 +722,9 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
         
         
         
+        //print()
         
+        CNContactStore.authorizationStatusForEntityType(.Contacts)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("contactChanged:"), name: CNContactStoreDidChangeNotification, object: nil)
         
 
@@ -889,15 +891,22 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
     
     func contactChanged(notification : NSNotification)
     {
+        let now=NSDate()
         print("contact changed notification received")
-        if(addressbookChangedNotifReceived==false)
-{
+         guard addressbookChangedNotifReceivedDateTime==nil || now.timeIntervalSinceDate(addressbookChangedNotifReceivedDateTime!)>1 else{
+            print("returning")
+            return}
+        addressbookChangedNotifReceivedDateTime=now
+        
+       // if(addressbookChangedNotifReceived==false)
+//{
     
     addressbookChangedNotifReceived=true
         var userInfo: NSDictionary!
         userInfo = notification.userInfo
     print(userInfo)
         print(userInfo.allKeys.debugDescription)
+        print("contacts changed sync now starting")
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND,0))
     {
          syncServiceContacts.startSyncService()
@@ -909,7 +918,7 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
     tblForChat.reloadData()
  */
 
-}
+//}
         
         
     }

@@ -374,6 +374,16 @@ print("tempURL is \(temporaryURL) and response is \(response.allHeaderFields)")
                 
         }
     }
+    
+    func convertStringToDate(dateString:String,dateformat:String)->NSDate
+    {
+        let dateFormatter = NSDateFormatter()
+        dateFormatter.dateFormat = dateformat
+        
+        let datens2 = dateFormatter.dateFromString(dateString)
+        return datens2!
+        
+    }
 
     
  

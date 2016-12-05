@@ -502,7 +502,7 @@ class syncContactService
         {
             print("synccccc deleting records of contacts table")
             try sqliteDB.db.run(tbl_allcontacts.delete())
-            print("now count is \(tbl_allcontacts.count)")
+            print("now count is \(sqliteDB.db.scalar(tbl_allcontacts.count))")
         }
         catch
         {

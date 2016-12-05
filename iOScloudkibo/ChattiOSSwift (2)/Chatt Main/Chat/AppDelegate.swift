@@ -32,6 +32,7 @@ var versionNumber:String! = "0.4"
 //var versionNumber:Double! = KeychainWrapper.stringForKey("versionNumber") as! Double
 
 var syncServiceContacts:syncContactService!
+var addressbookChangedNotifReceivedDateTime:NSDate?
 var addressbookChangedNotifReceived=false
 var aaaaa:SBNotificationHub!
 var uploadInfo:NSMutableArray!
@@ -807,6 +808,7 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
                             
                             let dateFormatter = NSDateFormatter()
                             dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
+                            
                             let datens2 = dateFormatter.dateFromString(UserchatJson["msg"][i]["date"].string!)
                             
                             print("fetch date from server got is \(UserchatJson["msg"][i]["date"].string!)... converted is \(datens2.debugDescription)")

@@ -17,6 +17,7 @@ class contactsDetailsTableViewController: UITableViewController,MFMailComposeVie
     var contactIndex:Int=1
     var isKiboContact=false
       var alladdressContactsArray = Array<Row>()
+    let name = Expression<String?>("name")
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -29,7 +30,7 @@ class contactsDetailsTableViewController: UITableViewController,MFMailComposeVie
       
         
         do
-        {alladdressContactsArray = Array(try sqliteDB.db.prepare(allcontactslist1))
+        {alladdressContactsArray = Array(try sqliteDB.db.prepare(allcontactslist1.order(name.asc)))
             
         }
         catch

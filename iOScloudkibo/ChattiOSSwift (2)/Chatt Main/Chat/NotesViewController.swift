@@ -340,7 +340,7 @@ class NotesViewController: UIViewController,InviteContactsDelegate,UITextFieldDe
         
         //////configureSearchController()
         do
-        {alladdressContactsArray = Array(try sqliteDB.db.prepare(allcontactslist1))
+        {alladdressContactsArray = Array(try sqliteDB.db.prepare(allcontactslist1.order(name.asc)))
             
             tblForNotes.reloadData()
         }
@@ -373,6 +373,7 @@ class NotesViewController: UIViewController,InviteContactsDelegate,UITextFieldDe
         //self.navigationItem.leftBarButtonItem = UIBarButtonItem(customView: btnForLogo)
         //self.navigationItem.rightBarButtonItem = itemForSearch
         self.tabBarController?.tabBar.tintColor = UIColor.greenColor()
+        syncServiceContacts.delegateRefreshContactsList=self
         
         
     
@@ -603,7 +604,7 @@ class NotesViewController: UIViewController,InviteContactsDelegate,UITextFieldDe
                         var newindexphone=0
                         
                         do
-                        {alladdressContactsArray = Array(try sqliteDB.db.prepare(allcontactslist1))
+                        {alladdressContactsArray = Array(try sqliteDB.db.prepare(allcontactslist1.order(name.asc)))
                       
                             var selectedphone=filteredArray[indexPath!.row].get(phone)
                             var selectedname=filteredArray[indexPath!.row].get(name)
@@ -685,12 +686,12 @@ class NotesViewController: UIViewController,InviteContactsDelegate,UITextFieldDe
         // Get the new view controller using [segue destinationViewController].
         // Pass the selected object to the new view controller.
     }
-    
+    let name = Expression<String?>("name")
     
     func receivedContactsUpdateUI() {
          var allcontactslist1=sqliteDB.allcontacts
         do
-        {alladdressContactsArray = Array(try sqliteDB.db.prepare(allcontactslist1))
+        {alladdressContactsArray = Array(try sqliteDB.db.prepare(allcontactslist1.order(name.asc)))
             
         }
         catch
@@ -708,7 +709,7 @@ class NotesViewController: UIViewController,InviteContactsDelegate,UITextFieldDe
         do
         {
            
-            self.alladdressContactsArray = Array(try sqliteDB.db.prepare(allcontactslist1))
+            self.alladdressContactsArray = Array(try sqliteDB.db.prepare(allcontactslist1.order(self.name.asc)))
             
             
             dispatch_async(dispatch_get_main_queue())
