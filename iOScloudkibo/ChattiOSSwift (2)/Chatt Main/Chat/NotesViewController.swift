@@ -703,13 +703,26 @@ class NotesViewController: UIViewController,InviteContactsDelegate,UITextFieldDe
     
     func refreshContactsList(message: String) {
          var allcontactslist1=sqliteDB.allcontacts
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND,0))
+        {
         do
-        {alladdressContactsArray = Array(try sqliteDB.db.prepare(allcontactslist1))
-             tblForNotes.reloadData()
+        {
+           
+            self.alladdressContactsArray = Array(try sqliteDB.db.prepare(allcontactslist1))
+            
+            
+            dispatch_async(dispatch_get_main_queue())
+            {
+                
+            self.tblForNotes.reloadData()
+                
+            }
+            
         }
         catch
         {
             
+        }
         }
         
        

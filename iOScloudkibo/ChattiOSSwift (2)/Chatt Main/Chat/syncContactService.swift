@@ -66,37 +66,49 @@ class syncContactService
             self.SyncfetchContacts{ (result) in
                 print("synccccc fetch contacts donee")
                  print("synccccc sending phone numbers to server...")
+                
+                dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0)) {
                 self.SyncSendPhoneNumbersToServer(self.syncPhonesList, completion: { (result) in
                     print("synccccc sent phone numbers to server done ")
                     print("synccccc filling local database with contacts ")
+                    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0)) {
                     self.SyncFillContactsTableWithRecords({ (result) in
                         print("synccccc filled local database with contacts done")
                         print("synccccc setting kibocontact boolean")
+                        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0)) {
                         self.syncSetKiboContactsBoolean({ (result) in
                             print("synccccc setting kibocontact boolean done")
                             print("synccccc getting friends/contactslist from server")
+                            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0)) {
                             self.fetchContactsFromServer({ (result) in
                                 
                                 print("synccccc got friends/contactslist from server done")
+                                //dispatch_async(dispatch_get_main_queue())
+                                //{
                                 if(self.delegateRefreshContactsList != nil)
                                 {
                                 self.delegateRefreshContactsList?.refreshContactsList("refreshContactsUI")
                                 }
                                 addressbookChangedNotifReceived=false
+                                //}
                             })
-
+                            }
+                            })
+                        }
                         })
+
+                        }
                 
                     })
-                    
-                })
+                }
+                }
             }
             
         }
         }
      
         
-    }
+    
     
     func SyncfetchContacts(completion:(result:Bool)->())
     {
@@ -366,12 +378,17 @@ class syncContactService
                 */
             }
             
-            
+            dispatch_async(dispatch_get_main_queue())
+            {
             completion(result: true)
-            
+            }
             
         }catch{
+            dispatch_async(dispatch_get_main_queue())
+            {
             print("error 1..")
+                completion(result: false)
+            }
         }
         
     }
@@ -447,7 +464,11 @@ class syncContactService
                 
                 //print(NotavailableContactsEmails!)
              //////   print("**************** \(self.notAvailableContacts)")
+                
+                dispatch_async(dispatch_get_main_queue())
+                {
                 completion(result: true)
+                }
                 
                /* if(self.delegate != nil)
                 {
@@ -456,7 +477,11 @@ class syncContactService
             }
             else
             {
+                dispatch_async(dispatch_get_main_queue())
+                {
                 socketObj.socket.emit("logClient","IPHONE-LOG: error: \(response.debugDescription)")
+                    completion(result: false)
+                }
             }
             
         }
@@ -505,9 +530,8 @@ do{
  socketObj.socket.emit("logClient", "error in fetching contact name: \(error)")
  }
  
- do{
  
- if(try syncContactsList[i].imageDataAvailable == true)
+ /*if(try syncContactsList[i].imageDataAvailable == true)
  {
  ///////// profileimageList.append(contact.imageData!)
  //nameList.append(contacts[i].givenName+" "+contacts[i].familyName)
@@ -524,7 +548,7 @@ do{
  print("error: \(error)")
  socketObj.socket.emit("logClient", "error in fetching contact name: \(error)")
  }
- 
+ */
  do{
  
  var uniqueidentifier1=syncContactsList[i].identifier
@@ -637,11 +661,6 @@ do{
  }*/
  
  }
- catch(let error)
- {
- print("error: \(error)")
- socketObj.socket.emit("logClient", "error in fetching phone: \(error)")
- }
  
  
  /*if( phone != ""  && phone != nil)
@@ -650,24 +669,7 @@ do{
  print(phone.stringValue)
  }*/
  
- do{
- let em = try syncContactsList[i].emailAddresses.first
- if(em != nil && em != "")
- {
- print(em?.label)
- print(em?.value)
- /////emails.append(em!.value as! String)
- }
- 
- 
- }
- catch(let error)
- {
- print("error: \(error)")
- socketObj.socket.emit("logClient", "error in fetching email address: \(error)")
- }
- 
- 
+  
  //print(self.contacts[i].emailAddresses.first!.value)
  ////self.emails.append(phone.stringValue)
  // print(self.emails[i])
@@ -675,8 +677,13 @@ do{
  ///////
  
       //  }
-    }
+   
+        }
+        
+        dispatch_async(dispatch_get_main_queue())
+{
         completion(result:true)
+        }
     }
     
     
@@ -718,11 +725,17 @@ do{
          }
          
          }
+            dispatch_async(dispatch_get_main_queue())
+            {
             completion(result:true)
+            }
          }
          catch{
          print("error 123")
+            dispatch_async(dispatch_get_main_queue())
+            {
             completion(result:false)
+            }
          }
          
  
@@ -902,7 +915,8 @@ do{
     {
         
        /// var newcontactsList=iOSContact(keys: [CNContactGivenNameKey, CNContactFamilyNameKey, CNContactEmailAddressesKey, CNContactPhoneNumbersKey])
-        
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND,0))
+        {
         contactsList.fetch(){ (result) -> () in
             
             emailList.removeAll()
@@ -917,14 +931,20 @@ do{
                 //get phones and append phones in list
                 emailList.append(r)
             }
+            dispatch_async(dispatch_get_main_queue())
+{
             completion(result: true)
+            }
         }
+    }
     }
     
     
     
     func sendPhoneNumbersToServer(completion: (result:Bool)->())
     {
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND,0))
+        {
         contactsList.searchContactsByPhone(emailList)
         { (result2) -> () in
             
@@ -938,8 +958,11 @@ do{
                 notAvailableEmails.append(r2)
                 
             }
-            
+            dispatch_async(dispatch_get_main_queue())
+            {
             completion(result: true)
+            }
+        }
         }
         
     }
@@ -1087,12 +1110,16 @@ do{
                     
                     print("contacts fetchedddddddddddddd sucecess")
                     
-                    
+                    dispatch_async(dispatch_get_main_queue())
+                    {
                     completion(result:true)
+                    }
                     
                 }else{
-                    
+                    dispatch_async(dispatch_get_main_queue())
+                    {
                     completion(result:false)
+                    }
                     
                     print("error: \(error1!.localizedDescription)")
                     if(socketObj != nil)

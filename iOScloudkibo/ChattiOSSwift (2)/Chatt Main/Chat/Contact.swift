@@ -752,7 +752,7 @@ print("now count is \(tbl_allcontacts.count)")
             print("**************** \(self.notAvailableContacts)")
             completion(result: self.notAvailableContacts)
                 
-                self.delegate?.receivedContactsUpdateUI()
+               //============ self.delegate?.receivedContactsUpdateUI()
         }
             else
             {
@@ -837,10 +837,10 @@ print("now count is \(tbl_allcontacts.count)")
                 print("**************** \(self.notAvailableContacts)")
                 completion(result: self.notAvailableContacts)
                 
-                if(self.delegate != nil)
+               /* if(self.delegate != nil)
 {
                 self.delegate?.receivedContactsUpdateUI()
-}
+}*/
             }
             else
             {

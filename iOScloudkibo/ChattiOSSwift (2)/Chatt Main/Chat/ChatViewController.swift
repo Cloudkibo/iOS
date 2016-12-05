@@ -898,7 +898,11 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
         userInfo = notification.userInfo
     print(userInfo)
         print(userInfo.allKeys.debugDescription)
-        syncServiceContacts.startSyncService()
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND,0))
+    {
+         syncServiceContacts.startSyncService()
+    }
+    
     
     /*var sync=syncContactService.init()
         sync.startContactsRefresh()
