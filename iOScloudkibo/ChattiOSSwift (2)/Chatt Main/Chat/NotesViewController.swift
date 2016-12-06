@@ -36,8 +36,7 @@ class NotesViewController: UIViewController,InviteContactsDelegate,UITextFieldDe
         // Custom initialization
     }
     
-    
-    
+
     
     @IBAction func btnAddNewContact(sender: AnyObject) {
         var contactdata:[String:String]!

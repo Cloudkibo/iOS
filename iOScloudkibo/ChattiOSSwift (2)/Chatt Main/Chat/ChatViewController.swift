@@ -356,6 +356,8 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
                 //}
                 })
             })
+            
+            ///
         }
     }
     
@@ -481,7 +483,7 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
                             
                             /*
                              let formatter = NSDateFormatter()
-                             formatter.dateFormat = "MM/dd HH:mm";
+                             formatter.dateFormat = "MM/dd hh:mm a"";
                              // formatter.dateStyle = NSDateFormatterStyle.ShortStyle
                              //formatter.timeStyle = .ShortStyle
                              
@@ -1059,13 +1061,16 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
             print("emaillist is \(emailList.first)")
             print("emailList count is \(emailList.count)")
             
-            dispatch_sync(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0)) {
+            //== new test
+            dispatch_sync(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0)) {
                 // do some task start to show progress wheel
                 self.fetchContacts({ (result) -> () in
                     //self.fetchContactsFromServer()
                     print("checkinnn")
                     
-                    let tbl_accounts=sqliteDB.accounts
+                    
+                    //uncomment later
+                    /*let tbl_accounts=sqliteDB.accounts
                     do{for account in try sqliteDB.db.prepare(tbl_accounts) {
                         ///print("id: \(account[_id]), phone: \(account[phone]), firstname: \(account[firstname])")
                         
@@ -1078,7 +1083,7 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
                     }
                     catch{
                         
-                    }
+                    }*/
                     dispatch_async(dispatch_get_main_queue()) {
                         print("here reloading tableeee")
                         self.tblForChat.reloadData()
@@ -1178,8 +1183,8 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
             //dont do on every appear. just do once
             print("emaillist is \(emailList.first)")
             print("emailList count is \(emailList.count)")
-            
-            dispatch_sync(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0)) {
+            //QOS_CLASS_USER_INITIATED
+            dispatch_sync(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0)) {
                 // do some task start to show progress wheel
                 self.fetchContacts({ (result) -> () in
                     //self.fetchContactsFromServer()
@@ -1778,7 +1783,7 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
             ContactLastNAme.append("")
             
             var formatter2 = NSDateFormatter();
-            formatter2.dateFormat = "MM/dd HH:mm"
+            formatter2.dateFormat = "MM/dd hh:mm a"
             formatter2.timeZone = NSTimeZone.localTimeZone()
             ///////////////==========var defaultTimeeee = formatter2.stringFromDate(defaultTimeZoneStr!)
             var defaultTimeeee = formatter2.stringFromDate(groupsObjectList[i]["date_creation"] as! NSDate)
@@ -1871,7 +1876,7 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
                 
                 // var formatter = NSDateFormatter();
                 //formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSS";
-                //formatter.dateFormat = "MM/dd HH:mm";
+                //formatter.dateFormat = "MM/dd hh:mm a"";
                 //formatter.timeZone = NSTimeZone(name: "UTC")
                 // formatter.timeZone = NSTimeZone.localTimeZone()
                 ////////////==========var defaultTimeZoneStr = formatter.dateFromString(ccc[date])
@@ -1879,7 +1884,7 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
                 
                 
                 var formatter2 = NSDateFormatter();
-                formatter2.dateFormat = "MM/dd HH:mm"
+                formatter2.dateFormat = "MM/dd hh:mm a"
                 formatter2.timeZone = NSTimeZone.localTimeZone()
                 ///////////////==========var defaultTimeeee = formatter2.stringFromDate(defaultTimeZoneStr!)
                 var defaultTimeeee = formatter2.stringFromDate(ccclastmsg[date])
@@ -1978,14 +1983,14 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
             /*
             var formatter = NSDateFormatter();
             formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSS";
-            //formatter.dateFormat = "MM/dd HH:mm";
+            //formatter.dateFormat = "MM/dd hh:mm a"";
             formatter.timeZone = NSTimeZone.localTimeZone()
             var defaultTimeZoneStr = formatter.dateFromString(ccc[date])
             print("defaultTimeZoneStr \(defaultTimeZoneStr)")
             
             var formatter2 = NSDateFormatter();
             formatter2.timeZone=NSTimeZone.localTimeZone()
-            formatter2.dateFormat = "MM/dd HH:mm";
+            formatter2.dateFormat = "MM/dd hh:mm a"";
             var displaydate=formatter2.stringFromDate(defaultTimeZoneStr!)
  */
            // timeLabel.text=displaydate
@@ -1996,7 +2001,7 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
             var formatter = NSDateFormatter();
           //  formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ";
             formatter.dateFormat = "yyyy-MM-dd HH:mm:ss ZZZ"
-            //formatter.dateFormat = "MM/dd HH:mm";
+            //formatter.dateFormat = "MM/dd hh:mm a"";
             formatter.timeZone = NSTimeZone.localTimeZone()
             //formatter.dateStyle = .ShortStyle
             //formatter.timeStyle = .ShortStyle
@@ -2009,7 +2014,7 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
             
            // var date22=NSDate()
             let formatter2 = NSDateFormatter()
-            formatter2.dateFormat = "MM/dd HH:mm"
+            formatter2.dateFormat = "MM/dd hh:mm a""
             /////// formatter.dateStyle = NSDateFormatterStyle.ShortStyle
             //////formatter.timeStyle = .ShortStyle
             
@@ -2088,7 +2093,7 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
                 
                 // var formatter = NSDateFormatter();
                 //formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSS";
-                //formatter.dateFormat = "MM/dd HH:mm";
+                //formatter.dateFormat = "MM/dd hh:mm a"";
                 //formatter.timeZone = NSTimeZone(name: "UTC")
                 // formatter.timeZone = NSTimeZone.localTimeZone()
                 ////////////==========var defaultTimeZoneStr = formatter.dateFromString(ccc[date])
@@ -2096,7 +2101,7 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
                 
                 
                 var formatter2 = NSDateFormatter();
-                formatter2.dateFormat = "MM/dd HH:mm"
+                formatter2.dateFormat = "MM/dd hh:mm a"
                 formatter2.timeZone = NSTimeZone.localTimeZone()
                 ///////////////==========var defaultTimeeee = formatter2.stringFromDate(defaultTimeZoneStr!)
                 var defaultTimeeee = formatter2.stringFromDate(ccclastmsg[date])
@@ -3267,7 +3272,7 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
             
             */
             case "updateUI":
-                dispatch_sync(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0)) {
+                dispatch_sync(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0)) {
                     // do some task start to show progress wheel
                     self.fetchContacts({ (result) -> () in
                         //self.fetchContactsFromServer()
@@ -3293,7 +3298,7 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
             }
             
             case "im":
-                dispatch_sync(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0)) {
+                dispatch_sync(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0)) {
                     // do some task start to show progress wheel
                     self.fetchContacts({ (result) -> () in
                         //self.fetchContactsFromServer()
@@ -3627,7 +3632,7 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
     }
     
     func refreshChatsUI(message:String!, uniqueid:String!, from:String!, date1:NSDate!, type:String!) {
-        dispatch_sync(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0)) {
+        dispatch_sync(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0)) {
             // do some task start to show progress wheel
             self.fetchContacts({ (result) -> () in
                 //self.fetchContactsFromServer()
@@ -3655,7 +3660,7 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
     }
     
     func refreshContactsList(message: String) {
-        dispatch_sync(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0)) {
+        dispatch_sync(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0)) {
             // do some task start to show progress wheel
             self.fetchContacts({ (result) -> () in
                 //self.fetchContactsFromServer()

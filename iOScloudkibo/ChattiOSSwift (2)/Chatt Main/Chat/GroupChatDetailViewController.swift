@@ -2675,7 +2675,7 @@ class GroupChatDetailViewController: UIViewController,SocketClientDelegate,Updat
         var date22=NSDate()
         var formatter = NSDateFormatter();
         formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ";
-        //formatter.dateFormat = "MM/dd HH:mm";
+        //formatter.dateFormat = "MM/dd hh:mm a"";
         formatter.timeZone = NSTimeZone.localTimeZone()
         //formatter.dateStyle = .ShortStyle
         //formatter.timeStyle = .ShortStyle
@@ -2685,7 +2685,7 @@ class GroupChatDetailViewController: UIViewController,SocketClientDelegate,Updat
         /*
         var date=NSDate()
         var formatter = NSDateFormatter();
-        formatter.dateFormat = "MM/dd HH:mm";
+        formatter.dateFormat = "MM/dd hh:mm a"";
         formatter.timeZone = NSTimeZone.localTimeZone()
         //formatter.dateStyle = .ShortStyle
         //formatter.timeStyle = .ShortStyle
@@ -2793,7 +2793,7 @@ class GroupChatDetailViewController: UIViewController,SocketClientDelegate,Updat
             var date22=NSDate()
             var formatter = NSDateFormatter();
             //formatter.dateFormat = "yyyy-MM-dd HH:mm:ss ZZZ";
-            formatter.dateFormat = "MM/dd HH:mm";
+            formatter.dateFormat = "MM/dd hh:mm a"";
             formatter.timeZone = NSTimeZone.localTimeZone()
             // formatter.dateStyle = .ShortStyle
             //formatter.timeStyle = .ShortStyle

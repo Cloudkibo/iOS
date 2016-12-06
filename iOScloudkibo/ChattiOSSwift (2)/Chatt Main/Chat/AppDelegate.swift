@@ -818,7 +818,7 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
                             
                             /*
                              let formatter = NSDateFormatter()
-                             formatter.dateFormat = "MM/dd HH:mm";
+                             formatter.dateFormat = "MM/dd hh:mm a"";
                              // formatter.dateStyle = NSDateFormatterStyle.ShortStyle
                              //formatter.timeStyle = .ShortStyle
                              
@@ -2591,7 +2591,7 @@ else{
                         print("===single fetch chat date in app delegate \(datens2)")
                         
                       /*  let formatter = NSDateFormatter()
-                        formatter.dateFormat = "MM/dd HH:mm"
+                        formatter.dateFormat = "MM/dd hh:mm a""
                        /////// formatter.dateStyle = NSDateFormatterStyle.ShortStyle
                         //////formatter.timeStyle = .ShortStyle
                         
@@ -2619,7 +2619,7 @@ else{
                         //===
                         
                      /* let formatter = NSDateFormatter()
-                        formatter.dateFormat = "MM/dd HH:mm"
+                        formatter.dateFormat = "MM/dd hh:mm a""
                         /////// formatter.dateStyle = NSDateFormatterStyle.ShortStyle
                         //////formatter.timeStyle = .ShortStyle
                         

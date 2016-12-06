@@ -445,7 +445,7 @@ class GroupChatingDetailController: UIViewController,UpdateGroupChatDetailsDeleg
                 /*
                  var formatter = NSDateFormatter();
                  formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSS";
-                 //formatter.dateFormat = "MM/dd HH:mm";
+                 //formatter.dateFormat = "MM/dd hh:mm a"";
                  formatter.timeZone = NSTimeZone(name: "UTC")
                  */
                 // formatter.timeZone = NSTimeZone.localTimeZone()
@@ -749,7 +749,7 @@ class GroupChatingDetailController: UIViewController,UpdateGroupChatDetailsDeleg
             // //print("date received in chat is \(date2.debugDescription)")
             var formatter = NSDateFormatter();
             formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSS";
-            //formatter.dateFormat = "MM/dd HH:mm";
+            //formatter.dateFormat = "MM/dd hh:mm a"";
             formatter.timeZone = NSTimeZone.localTimeZone()
             var defaultTimeZoneStr = formatter.dateFromString(date2.debugDescription)
             //print("defaultTimeZoneStr \(defaultTimeZoneStr)")
@@ -764,9 +764,9 @@ class GroupChatingDetailController: UIViewController,UpdateGroupChatDetailsDeleg
             {
                 var formatter2 = NSDateFormatter();
                 formatter2.timeZone=NSTimeZone.localTimeZone()
-                formatter2.dateFormat = "MM/dd HH:mm";
+                formatter2.dateFormat = "MM/dd hh:mm a";
                 var displaydate=formatter2.stringFromDate(defaultTimeZoneStr!)
-                //formatter.dateFormat = "MM/dd HH:mm";
+                //formatter.dateFormat = "MM/dd hh:mm a"";
                 
                 
                 
@@ -808,14 +808,14 @@ class GroupChatingDetailController: UIViewController,UpdateGroupChatDetailsDeleg
             
             var formatter = NSDateFormatter();
             formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSS";
-            //formatter.dateFormat = "MM/dd HH:mm";
+            //formatter.dateFormat = "MM/dd hh:mm a"";
             formatter.timeZone = NSTimeZone.localTimeZone()
             var defaultTimeZoneStr = formatter.dateFromString(date2.debugDescription)
             //print("defaultTimeZoneStr \(defaultTimeZoneStr)")
             
             var formatter2 = NSDateFormatter();
             formatter2.timeZone=NSTimeZone.localTimeZone()
-            formatter2.dateFormat = "MM/dd HH:mm";
+            formatter2.dateFormat = "MM/dd hh:mm a";
             var displaydate=formatter2.stringFromDate(defaultTimeZoneStr!)
             timeLabel.frame = CGRectMake(msgLabel.frame.origin.x, msgLabel.frame.origin.y+msgLabel.frame.height+5, chatImage.frame.size.width-46, timeLabel.frame.size.height)
             

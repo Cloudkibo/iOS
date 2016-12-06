@@ -476,7 +476,7 @@ class DatabaseHandler:NSObject{
         var date22=NSDate()
         var formatter = NSDateFormatter();
         formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ";
-        //formatter.dateFormat = "MM/dd HH:mm";
+        //formatter.dateFormat = "MM/dd hh:mm a"";
         formatter.timeZone = NSTimeZone.localTimeZone()
         //formatter.dateStyle = .ShortStyle
         //formatter.timeStyle = .ShortStyle
@@ -748,7 +748,7 @@ class DatabaseHandler:NSObject{
         /*var date22=NSDate()
         var formatter = NSDateFormatter();
         //formatter.dateFormat = "yyyy-MM-dd HH:mm:ss ZZZ";
-        formatter.dateFormat = "MM/dd HH:mm";
+        formatter.dateFormat = "MM/dd hh:mm a"";
         formatter.timeZone = NSTimeZone.localTimeZone()
         //formatter.dateStyle = .ShortStyle
         //formatter.timeStyle = .ShortStyle
@@ -756,7 +756,7 @@ class DatabaseHandler:NSObject{
         var date22=NSDate()
         var formatter = NSDateFormatter();
         formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ";
-        //formatter.dateFormat = "MM/dd HH:mm";
+        //formatter.dateFormat = "MM/dd hh:mm a"";
         formatter.timeZone = NSTimeZone.localTimeZone()
         //formatter.dateStyle = .ShortStyle
         //formatter.timeStyle = .ShortStyle
@@ -864,7 +864,7 @@ class DatabaseHandler:NSObject{
         var date22=NSDate()
         var formatter = NSDateFormatter();
         //formatter.dateFormat = "yyyy-MM-dd HH:mm:ss ZZZ";
-         formatter.dateFormat = "MM/dd HH:mm";
+         formatter.dateFormat = "MM/dd hh:mm a";
         formatter.timeZone = NSTimeZone.localTimeZone()
         //formatter.dateStyle = .ShortStyle
         //formatter.timeStyle = .ShortStyle
@@ -995,7 +995,7 @@ class DatabaseHandler:NSObject{
                 var date22=NSDate()
                 var formatter = NSDateFormatter();
                 //formatter.dateFormat = "yyyy-MM-dd HH:mm:ss ZZZ";
-                formatter.dateFormat = "MM/dd HH:mm";
+                formatter.dateFormat = "MM/dd hh:mm a"";
                 formatter.timeZone = NSTimeZone.localTimeZone()
                 //formatter.dateStyle = .ShortStyle
                 //formatter.timeStyle = .ShortStyle
@@ -1089,7 +1089,7 @@ class DatabaseHandler:NSObject{
            /* var date22=NSDate()
             var formatter = NSDateFormatter();
             //formatter.dateFormat = "yyyy-MM-dd HH:mm:ss ZZZ";
-            formatter.dateFormat = "MM/dd HH:mm";
+            formatter.dateFormat = "MM/dd hh:mm a"";
             formatter.timeZone = NSTimeZone.localTimeZone()
             //formatter.dateStyle = .ShortStyle
             //formatter.timeStyle = .ShortStyle
@@ -1104,7 +1104,7 @@ class DatabaseHandler:NSObject{
            
             
             
-            //formatter.dateFormat = "MM/dd HH:mm";
+            //formatter.dateFormat = "MM/dd hh:mm a"";
             ////////////////==formatter.timeZone = NSTimeZone.defaultTimeZone()
             //formatter.dateStyle = .ShortStyle
             //formatter.timeStyle = .ShortStyle
@@ -1132,7 +1132,7 @@ class DatabaseHandler:NSObject{
             //var date22=NSDate()
             var formatter = NSDateFormatter();
             formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ";
-            //formatter.dateFormat = "MM/dd HH:mm";
+            //formatter.dateFormat = "MM/dd hh:mm a"";
             formatter.timeZone = NSTimeZone.localTimeZone()
             
             let defaultTimeZoneStr2 = formatter.stringFromDate(date1);
@@ -1240,7 +1240,7 @@ class DatabaseHandler:NSObject{
             var date22=NSDate()
             var formatter = NSDateFormatter();
             formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ";
-            //formatter.dateFormat = "MM/dd HH:mm";
+            //formatter.dateFormat = "MM/dd hh:mm a"";
             formatter.timeZone = NSTimeZone.localTimeZone()
             //formatter.dateStyle = .ShortStyle
             //formatter.timeStyle = .ShortStyle
@@ -1258,7 +1258,7 @@ class DatabaseHandler:NSObject{
             //var date22=NSDate()
             var formatter = NSDateFormatter();
             formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ";
-            //formatter.dateFormat = "MM/dd HH:mm";
+            //formatter.dateFormat = "MM/dd hh:mm a"";
             formatter.timeZone = NSTimeZone.localTimeZone()
             var defaultTimeZoneStr = formatter.dateFromString(date1)
             print("default db date from server is \(defaultTimeZoneStr)")

@@ -477,7 +477,7 @@ class ChatMainViewController:UIViewController,SocketConnecting,RefreshContactsLi
         print("////////////////////// new class tokn \(AuthToken)", terminator: "")
         // fetchContacts(AuthToken)
         print(self.ContactNames.count.description, terminator: "")
-        // self.tblForChat.reloadData()
+         self.tblForChat.reloadData()
         
         
         /////////////----------------------================================++++++++++

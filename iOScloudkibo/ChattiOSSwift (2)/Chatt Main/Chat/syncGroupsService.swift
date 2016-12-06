@@ -129,6 +129,8 @@ class syncGroupService
                    /// if(groupinfo != nil)
                     //{
                         print("updating UI now...")
+                    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0)) {
+                        
                         self.syncGroupChatStatuses{(result,error) in
                         if(result==true)
                         {
@@ -140,6 +142,7 @@ class syncGroupService
                         }
                         }
                         }
+                    }
                     ////}
                 }
             }}
@@ -492,9 +495,10 @@ class syncGroupService
                         //== only for which i sent so no need sqliteDB.storeGRoupsChatStatus(uniqueid, status1: status, memberphone1: <#T##String#>)
                     }
  
-                    
+                    dispatch_async(dispatch_get_main_queue())
+                    {
                     return completion(result:true,error: nil,groupinfo: jsongroupinfo)
-                    
+                    }
                 }
                 else{
                     print("error in partial group chat sync \(response.result)")
@@ -546,9 +550,10 @@ class syncGroupService
                     sqliteDB.updateGroupChatStatus(uniqueid1, memberphone1: user_phone1, status1: status1, delivereddate1: delivered_date, readDate1: read_date)
                     
                 }
-                
+                dispatch_async(dispatch_get_main_queue())
+                {
                 return completion(result: true, error: nil)
-                
+                }
                 /*
                  {
                  "__v" = 0;
@@ -564,7 +569,10 @@ class syncGroupService
             }
             else
             {
+                dispatch_async(dispatch_get_main_queue())
+                {
                 return completion(result:false,error: "Unable to fetch data")
+                }
             }
             
         }

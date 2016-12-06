@@ -501,190 +501,212 @@ class syncContactService
         do
         {
             print("synccccc deleting records of contacts table")
+          // --==== newww  try sqliteDB.db.run(tbl_allcontacts.delete())
+           // =====---- newww print("now count is \(sqliteDB.db.scalar(tbl_allcontacts.count))")
+            var contactsdata=[[String:String]]()
+            for(var i=0;i<syncContactsList.count;i++)
+            {
+                
+                do{
+                    /////// uniqueidentifierList.append(contact.identifier)
+                    if(try syncContactsList[i].givenName != "")
+                    {
+                        /////////nameList.append(contact.givenName+" "+contact.familyName)
+                        print(syncContactsList[i].givenName)
+                        
+                    }
+                    
+                    
+                }
+                catch(let error)
+                {
+                    print("error: \(error)")
+                    socketObj.socket.emit("logClient", "error in fetching contact name: \(error)")
+                }
+                do{
+                    
+                    var uniqueidentifier1=syncContactsList[i].identifier
+                    var image=NSData()
+                    var fullname=syncContactsList[i].givenName+" "+syncContactsList[i].familyName
+                    if (syncContactsList[i].isKeyAvailable(CNContactPhoneNumbersKey)) {
+                        for phoneNumber:CNLabeledValue in syncContactsList[i].phoneNumbers {
+                            let a = phoneNumber.value as! CNPhoneNumber
+                            //////////////emails.append(a.valueForKey("digits") as! String)
+                            var zeroIndex = -1
+                            var phoneDigits=a.valueForKey("digits") as! String
+                            var actualphonedigits=a.valueForKey("digits") as! String
+                            //remove leading zeroes
+                            /* for index in phoneDigits.characters.indices {
+                             print(phoneDigits[index])
+                             if(phoneDigits[index]=="0")
+                             {
+                             zeroIndex=index as! Int
+                             //phoneDigits.characters.popFirst() as! String
+                             print(".. droping zero \(phoneDigits) index \(zeroIndex)")
+                             }
+                             else
+                             {
+                             if(zeroIndex != -1)
+                             {
+                             let rangeOfTLD = Range(start: phoneDigits.startIndex.advancedBy(zeroIndex),
+                             end: phoneDigits.endIndex)
+                             phoneDigits = phoneDigits[rangeOfTLD] // "com"
+                             print("range is \(phoneDigits)")
+                             }
+                             break
+                             }
+                             
+                             }*/
+                            for(var i=0;i<phoneDigits.characters.count;i++)
+                            {
+                                if(phoneDigits.characters.first=="0")
+                                {
+                                    phoneDigits.removeAtIndex(phoneDigits.startIndex)
+                                    //phoneDigits.characters.popFirst() as! String
+                                    print(".. droping zero \(phoneDigits)")
+                                }
+                                else
+                                {
+                                    break
+                                }
+                            }
+                            do{
+                                
+                                
+                                //get countrycode from db
+                                
+                                let country_prefix = Expression<String>("country_prefix")
+                                
+                                
+                                if(countrycode == nil)
+                                {
+                                    let tbl_accounts = sqliteDB.accounts
+                                    do{for account in try sqliteDB.db.prepare(tbl_accounts) {
+                                        countrycode=account[country_prefix]
+                                        //displayname=account[firstname]
+                                        
+                                        }
+                                    }
+                                }
+                                if(countrycode=="1" && phoneDigits.characters.first=="1" && phoneDigits.characters.first != "+")
+                                {
+                                    phoneDigits = "+"+phoneDigits
+                                }
+                                else if(phoneDigits.characters.first != "+"){
+                                    phoneDigits = "+"+countrycode+phoneDigits
+                                    print("appended phone is \(phoneDigits)")
+                                }
+                                
+                                //////===========
+                                // =============emails.append(phoneDigits)
+                                var emailAddress=""
+                                let em = try syncContactsList[i].emailAddresses.first
+                                if(em != nil && em != "")
+                                {
+                                    print(em?.label)
+                                    print(em?.value)
+                                    emailAddress=(em?.value)! as! String
+                                    print("email adress value iss \(emailAddress)")
+                                    /////emails.append(em!.value as! String)
+                                }
+                                if(syncContactsList[i].imageDataAvailable==true)
+                                {
+                                    image=syncContactsList[i].imageData!
+                                }
+                                print("trying to save \(fullname) and uniqueidentifier is \(uniqueidentifier1)")
+                                
+                                var data=[String:String]()
+                                data["name"]=fullname
+                                data["phone"]=phoneDigits
+                                data["actualphone"]=actualphonedigits
+                                data["email"]=emailAddress
+                                data["uniqueidentifier"]=uniqueidentifier1
+                                
+                                
+                                contactsdata.append(data)
+                               //==== --- new commented moved down try sqliteDB.db.run(tbl_allcontacts.insert(name<-fullname,phone<-phoneDigits,actualphone<-actualphonedigits,email<-emailAddress,uniqueidentifier<-uniqueidentifier1))
+                            }
+                            catch(let error)
+                            {
+                                print("errorr in reading in name : \(error)")
+                               
+                                ///////socketObj.socket.emit("logClient","IPHONE-LOG: iphoneLog: error is getting name \(error)")
+                            }
+                        }
+                    }
+                    
+                    
+                    /*if let phone = try contacts[i].phoneNumbers.first?.value as! CNPhoneNumber!
+                     {
+                     if( phone != "")
+                     {
+                     emails.append(phone.stringValue)
+                     print(phone.stringValue)
+                     }
+                     }*/
+                    
+                }
+                
+                
+                /*if( phone != ""  && phone != nil)
+                 {
+                 phonesList.append(phone.stringValue)
+                 print(phone.stringValue)
+                 }*/
+                
+                
+                //print(self.contacts[i].emailAddresses.first!.value)
+                ////self.emails.append(phone.stringValue)
+                // print(self.emails[i])
+                
+                ///////
+                
+                //  }
+                
+            }
+            
+            //delete table data====
+            do{
             try sqliteDB.db.run(tbl_allcontacts.delete())
-            print("now count is \(sqliteDB.db.scalar(tbl_allcontacts.count))")
-        }
+            // print("now count is \(sqliteDB.db.scalar(tbl_allcontacts.count))")
+            
+            for(var j=0;j<contactsdata.count;j++)
+            {
+                do{
+                try sqliteDB.db.run(tbl_allcontacts.insert(name<-contactsdata[j]["name"]!,phone<-contactsdata[j]["phone"]!,actualphone<-contactsdata[j]["actualphone"]!,email<-contactsdata[j]["email"]!,uniqueidentifier<-contactsdata[j]["uniqueidentifier"]!))
+                }
+                catch(let error)
+                {
+                    print("error in inserting contact : \(error)")
+                    ///////socketObj.socket.emit("logClient","IPHONE-LOG: iphoneLog: error is getting name \(error)")
+                }
+            }
+                dispatch_async(dispatch_get_main_queue())
+                {
+                    completion(result:true)
+                }
+            }
+            catch(let error)
+            {
+                print("error in deleting data of contacts table")
+                 ///////socketObj.socket.emit("logClient","IPHONE-LOG: iphoneLog: error is getting name \(error)")
+            }
+            
+            
+            }
         catch
         {
             print("synccccc error in deleting allcontacts table")
             socketObj.socket.emit("logClient","IPHONE-LOG: iphoneLog: error in deleting allcontacts data \(error)")
         }
-        
-        
-        for(var i=0;i<syncContactsList.count;i++){
-
-do{
- /////// uniqueidentifierList.append(contact.identifier)
- if(try syncContactsList[i].givenName != "")
- {
- /////////nameList.append(contact.givenName+" "+contact.familyName)
- print(syncContactsList[i].givenName)
- 
- }
- 
- 
- }
- catch(let error)
- {
- print("error: \(error)")
- socketObj.socket.emit("logClient", "error in fetching contact name: \(error)")
- }
- 
- 
- /*if(try syncContactsList[i].imageDataAvailable == true)
- {
- ///////// profileimageList.append(contact.imageData!)
- //nameList.append(contacts[i].givenName+" "+contacts[i].familyName)
- //print(contacts[i].givenName)
- }
- /*else
- {
- profileimageList.append(nil)
- }*/
- 
- }
- catch(let error)
- {
- print("error: \(error)")
- socketObj.socket.emit("logClient", "error in fetching contact name: \(error)")
- }
- */
- do{
- 
- var uniqueidentifier1=syncContactsList[i].identifier
- var image=NSData()
- var fullname=syncContactsList[i].givenName+" "+syncContactsList[i].familyName
- if (syncContactsList[i].isKeyAvailable(CNContactPhoneNumbersKey)) {
- for phoneNumber:CNLabeledValue in syncContactsList[i].phoneNumbers {
- let a = phoneNumber.value as! CNPhoneNumber
- //////////////emails.append(a.valueForKey("digits") as! String)
- var zeroIndex = -1
- var phoneDigits=a.valueForKey("digits") as! String
- var actualphonedigits=a.valueForKey("digits") as! String
- //remove leading zeroes
- /* for index in phoneDigits.characters.indices {
- print(phoneDigits[index])
- if(phoneDigits[index]=="0")
- {
- zeroIndex=index as! Int
- //phoneDigits.characters.popFirst() as! String
- print(".. droping zero \(phoneDigits) index \(zeroIndex)")
- }
- else
- {
- if(zeroIndex != -1)
- {
- let rangeOfTLD = Range(start: phoneDigits.startIndex.advancedBy(zeroIndex),
- end: phoneDigits.endIndex)
- phoneDigits = phoneDigits[rangeOfTLD] // "com"
- print("range is \(phoneDigits)")
- }
- break
- }
- 
- }*/
- for(var i=0;i<phoneDigits.characters.count;i++)
- {
- if(phoneDigits.characters.first=="0")
- {
- phoneDigits.removeAtIndex(phoneDigits.startIndex)
- //phoneDigits.characters.popFirst() as! String
- print(".. droping zero \(phoneDigits)")
- }
- else
- {
- break
- }
- }
- do{
-    
-    
-    //get countrycode from db
-    
-    let country_prefix = Expression<String>("country_prefix")
-    
-    
-    if(countrycode == nil)
-    {
-    let tbl_accounts = sqliteDB.accounts
-    do{for account in try sqliteDB.db.prepare(tbl_accounts) {
-        countrycode=account[country_prefix]
-        //displayname=account[firstname]
-        
-        }
-    }
-    }
- if(countrycode=="1" && phoneDigits.characters.first=="1" && phoneDigits.characters.first != "+")
- {
- phoneDigits = "+"+phoneDigits
- }
- else if(phoneDigits.characters.first != "+"){
- phoneDigits = "+"+countrycode+phoneDigits
- print("appended phone is \(phoneDigits)")
- }
-    
- //////===========
- // =============emails.append(phoneDigits)
- var emailAddress=""
- let em = try syncContactsList[i].emailAddresses.first
- if(em != nil && em != "")
- {
- print(em?.label)
- print(em?.value)
- emailAddress=(em?.value)! as! String
- print("email adress value iss \(emailAddress)")
- /////emails.append(em!.value as! String)
- }
- if(syncContactsList[i].imageDataAvailable==true)
- {
- image=syncContactsList[i].imageData!
- }
- 
- try sqliteDB.db.run(tbl_allcontacts.insert(name<-fullname,phone<-phoneDigits,actualphone<-actualphonedigits,email<-emailAddress,uniqueidentifier<-uniqueidentifier1))
- }
- catch(let error)
- {
- print("error in name : \(error)")
- socketObj.socket.emit("logClient","IPHONE-LOG: iphoneLog: error is getting name \(error)")
- }
- }
- }
- 
- 
- /*if let phone = try contacts[i].phoneNumbers.first?.value as! CNPhoneNumber!
- {
- if( phone != "")
- {
- emails.append(phone.stringValue)
- print(phone.stringValue)
- }
- }*/
- 
- }
- 
- 
- /*if( phone != ""  && phone != nil)
- {
- phonesList.append(phone.stringValue)
- print(phone.stringValue)
- }*/
- 
-  
- //print(self.contacts[i].emailAddresses.first!.value)
- ////self.emails.append(phone.stringValue)
- // print(self.emails[i])
- 
- ///////
- 
-      //  }
-   
-        }
-        
         dispatch_async(dispatch_get_main_queue())
-{
-        completion(result:true)
+        {
+            completion(result:true)
         }
-    }
+        }
+    
+        
+        
     
     
     
