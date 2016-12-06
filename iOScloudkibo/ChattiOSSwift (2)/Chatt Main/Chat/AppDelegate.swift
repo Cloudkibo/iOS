@@ -25,6 +25,8 @@ import AVFoundation
 //import WindowsAzureMessaging
 
 
+
+var applaunch=false
 var retainOldDatabase:Bool! = true
 var versionNumber:String! = "0.4"
 
@@ -139,6 +141,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate,AppDelegateScreenDelegate 
         // Override point for customization after application launch.
         print("========launchhhhhhhhh=====")
         print(NSDate())
+        
         
         //============= commenting   ---   self.checkFirstRun()
         
@@ -379,7 +382,7 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
 
      
         
-        
+        print("on launch app state is \(UIApplication.sharedApplication().applicationState.rawValue)")
         return true
         
     }
@@ -1364,7 +1367,7 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
     func applicationWillEnterForeground(application: UIApplication) {
         
         
-        
+        print("on willenterforeground app state is \(UIApplication.sharedApplication().applicationState.rawValue)")
    /*     if(chatDetailView != nil)
 {
         chatDetailView.tblForChats.reloadData()
@@ -1437,6 +1440,14 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
     func applicationDidBecomeActive(application: UIApplication) {
         // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
        
+        
+        
+        print("did become active app state is \(UIApplication.sharedApplication().applicationState.rawValue)")
+        
+        print("app launch variable is \(applaunch)")
+        applaunch=true
+        
+        
        /* if(socketObj == nil)
         {
             print("socket is nillll", terminator: "")
@@ -1482,10 +1493,12 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
             
             if(username != nil && username != "")
             {
-                var syncGroupsObj=syncGroupService.init()
+                //commenting for testing
+                /*var syncGroupsObj=syncGroupService.init()
                 syncGroupsObj.startPartialGroupsChatSyncService()
                self.synchroniseChatData()
                 print("getting group messages which are not on device")
+ */
                 
             }
             

@@ -52,6 +52,17 @@ class syncContactService
     }
      func startSyncService()
     {
+        
+       /* let dispatch_queue_attr = dispatch_queue_attr_make_with_qos_class(DISPATCH_QUEUE_SERIAL, QOS_CLASS_BACKGROUND, 0)
+        var queue = dispatch_queue_create("DataStoreControllerSerialQueue", dispatch_queue_attr)
+        
+        dispatch_async(queue) {
+            
+            
+            
+            
+        }*/
+    
         if(accountKit == nil){
             accountKit = AKFAccountKit(responseType: AKFResponseType.AccessToken)
         }
@@ -61,36 +72,50 @@ class syncContactService
             
             
             
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0)) {
+      //  dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0)) {
+            let dispatch_queue_attr = dispatch_queue_attr_make_with_qos_class(DISPATCH_QUEUE_SERIAL, QOS_CLASS_BACKGROUND, 0)
+            var queue1 = dispatch_queue_create("1", dispatch_queue_attr)
+            var queue2 = dispatch_queue_create("2", dispatch_queue_attr)
+            var queue3 = dispatch_queue_create("3", dispatch_queue_attr)
+            var queue4 = dispatch_queue_create("4", dispatch_queue_attr)
+            var queue5 = dispatch_queue_create("5", dispatch_queue_attr)
+            
+            dispatch_async(queue1) {
             print("synccccc fetching contacts in background...")
             self.SyncfetchContacts{ (result) in
                 print("synccccc fetch contacts donee")
                  print("synccccc sending phone numbers to server...")
                 
-                dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0)) {
+                //dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0)) {
+                dispatch_async(queue2) {
                 self.SyncSendPhoneNumbersToServer(self.syncPhonesList, completion: { (result) in
                     print("synccccc sent phone numbers to server done ")
                     print("synccccc filling local database with contacts ")
-                    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0)) {
-                    self.SyncFillContactsTableWithRecords({ (result) in
+                   // dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0)) {
+                    dispatch_async(queue3) {
+                        self.SyncFillContactsTableWithRecords({ (result) in
                         print("synccccc filled local database with contacts done")
                         print("synccccc setting kibocontact boolean")
-                        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0)) {
-                        self.syncSetKiboContactsBoolean({ (result) in
+                        //dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0)) {
+                        dispatch_async(queue4) {
+                            self.syncSetKiboContactsBoolean({ (result) in
                             print("synccccc setting kibocontact boolean done")
                             print("synccccc getting friends/contactslist from server")
-                            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0)) {
-                            self.fetchContactsFromServer({ (result) in
+                           // dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0)) {
+                            
+                                
+                                dispatch_async(queue5) {
+                                    self.fetchContactsFromServer({ (result) in
                                 
                                 print("synccccc got friends/contactslist from server done")
-                                //dispatch_async(dispatch_get_main_queue())
-                                //{
+                                dispatch_async(dispatch_get_main_queue())
+                                {
                                 if(self.delegateRefreshContactsList != nil)
                                 {
                                 self.delegateRefreshContactsList?.refreshContactsList("refreshContactsUI")
                                 }
                                 addressbookChangedNotifReceived=false
-                                //}
+                                }
                             })
                             }
                             })

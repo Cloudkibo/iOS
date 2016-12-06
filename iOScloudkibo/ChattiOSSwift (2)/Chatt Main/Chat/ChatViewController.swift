@@ -20,6 +20,8 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
     EPPickerDelegate,SWTableViewCellDelegate,UpdateChatViewsDelegate,RefreshContactsList,UpdateMainPageChatsDelegate
 {
     
+    
+    var messages:NSMutableArray!
     var pendinggroupchatsarray=[[String:AnyObject]]()
     var groupsObjectList=[[String:AnyObject]]()
     var delegateUpdateUI:UpdateMainPageChatsDelegate!
@@ -356,8 +358,6 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
                 //}
                 })
             })
-            
-            ///
         }
     }
     
@@ -679,6 +679,8 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        
+        messages=NSMutableArray()
         syncServiceContacts.delegateRefreshContactsList=self
         delegateRefreshChat=self
         print("Chat ViewController is loadingggggg")
@@ -873,19 +875,21 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
             print("Reachable via Wifi")
             if(username != nil && username != "")
             {
-                var syncGroupsObj=syncGroupService.init()
+                print("commenting")
+                //commentingg
+               /* var syncGroupsObj=syncGroupService.init()
                 syncGroupsObj.startPartialGroupsChatSyncService()
-                self.synchroniseChatData()
+                self.synchroniseChatData()*/
             }
         }
         else
         {
             print("Reachable")
             if(username != nil && username != "")
-            {
-                var syncGroupsObj=syncGroupService.init()
+            {//commentingg
+               /* var syncGroupsObj=syncGroupService.init()
                 syncGroupsObj.startPartialGroupsChatSyncService()
-                self.synchroniseChatData()
+                self.synchroniseChatData()*/
             }
         }
     }
@@ -893,6 +897,8 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
     
     func contactChanged(notification : NSNotification)
     {
+        if(notification.name==CNContactStoreDidChangeNotification)
+        {
         let now=NSDate()
         print("contact changed notification received")
          guard addressbookChangedNotifReceivedDateTime==nil || now.timeIntervalSinceDate(addressbookChangedNotifReceivedDateTime!)>1 else{
@@ -913,7 +919,11 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
     {
          syncServiceContacts.startSyncService()
     }
-    
+        }
+        else
+        {
+            print("some other notification received")
+        }
     
     /*var sync=syncContactService.init()
         sync.startContactsRefresh()
@@ -1061,16 +1071,13 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
             print("emaillist is \(emailList.first)")
             print("emailList count is \(emailList.count)")
             
-            //== new test
-            dispatch_sync(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0)) {
+            dispatch_sync(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0)) {
                 // do some task start to show progress wheel
                 self.fetchContacts({ (result) -> () in
                     //self.fetchContactsFromServer()
                     print("checkinnn")
                     
-                    
-                    //uncomment later
-                    /*let tbl_accounts=sqliteDB.accounts
+                    let tbl_accounts=sqliteDB.accounts
                     do{for account in try sqliteDB.db.prepare(tbl_accounts) {
                         ///print("id: \(account[_id]), phone: \(account[phone]), firstname: \(account[firstname])")
                         
@@ -1083,7 +1090,7 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
                     }
                     catch{
                         
-                    }*/
+                    }
                     dispatch_async(dispatch_get_main_queue()) {
                         print("here reloading tableeee")
                         self.tblForChat.reloadData()
@@ -1183,8 +1190,8 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
             //dont do on every appear. just do once
             print("emaillist is \(emailList.first)")
             print("emailList count is \(emailList.count)")
-            //QOS_CLASS_USER_INITIATED
-            dispatch_sync(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0)) {
+            
+            dispatch_sync(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0)) {
                 // do some task start to show progress wheel
                 self.fetchContacts({ (result) -> () in
                     //self.fetchContactsFromServer()
@@ -1702,6 +1709,168 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
             }
         }//)
         
+    }
+    
+    
+    func retrieveSingleChatsAndGroupsChatData()
+    {
+        var ContactsLastMsgDate=""
+        var ContactLastMessage=""
+        //self.ContactIDs.removeAll(keepCapacity: false)
+        var ContactLastNAme=""
+        var ContactNames=""
+        var ContactStatus=""
+        var ContactUsernames=""
+        var ContactOnlineStatus=0
+        ////////////////////////
+        var ContactFirstname=""
+        ////////
+        
+        var ContactsPhone=""
+        ////self.ContactsEmail.removeAll(keepCapacity: false)
+        //////self.ContactMsgRead.removeAll(keepCapacity: false)
+        var ContactCountMsgRead=""
+        var ContactsProfilePic=NSData.init()
+        var ChatType=""
+        
+        
+        groupsObjectList=sqliteDB.getGroupDetails()
+        
+        for(var i=0;i<groupsObjectList.count;i++)
+        {print("date is \(groupsObjectList[i]["date_creation"] as! NSDate)")
+            
+            if((groupsObjectList[i]["status"] as! String) == "temp")
+            {
+                print("group_failed called")
+                ChatType="group_failed"
+                
+                //ChatType.append("group_failed")
+            }
+            else
+            {
+                ChatType="group"
+                //ChatType.append("group")
+            }
+            print("group name is \(groupsObjectList[i]["group_name"] as! String)")
+             ContactNames=groupsObjectList[i]["group_name"] as! String
+            ContactFirstname=groupsObjectList[i]["group_name"] as! String
+            ContactLastNAme=""
+           
+            // ContactNames.append(groupsObjectList[i]["group_name"] as! String)
+            //ContactFirstname.append(groupsObjectList[i]["group_name"] as! String)
+            //ContactLastNAme.append("")
+            
+            var formatter2 = NSDateFormatter();
+            formatter2.dateFormat = "MM/dd hh:mm a"
+            formatter2.timeZone = NSTimeZone.localTimeZone()
+            ///////////////==========var defaultTimeeee = formatter2.stringFromDate(defaultTimeZoneStr!)
+            var defaultTimeeee = formatter2.stringFromDate(groupsObjectList[i]["date_creation"] as! NSDate)
+            
+            
+            
+            ContactStatus=""
+            ContactUsernames=groupsObjectList[i]["unique_id"] as! String
+            ContactOnlineStatus=0
+            
+            ContactsPhone=groupsObjectList[i]["unique_id"] as! String
+           
+            
+            /*
+            self.ContactStatus.append("")
+            self.ContactUsernames.append(groupsObjectList[i]["unique_id"] as! String)
+            ContactOnlineStatus.append(0)
+            
+            self.ContactsPhone.append(groupsObjectList[i]["unique_id"] as! String)
+            */
+            
+            
+            //check unread for group
+            var unreadcount=sqliteDB.getGroupsUnreadMessagesCount(groupsObjectList[i]["unique_id"] as! String)
+            //===================================
+            self.ContactCountMsgRead.append(unreadcount)
+            
+            
+            //check file table and get path
+            //NSData at contents at path
+            
+            var filedata=sqliteDB.getFilesData(groupsObjectList[i]["unique_id"] as! String)
+            if(filedata.count>0)
+            {
+                print("found group icon")
+                print("actual path is \(filedata["file_path"])")
+                //======
+                
+                //=======
+                let dirPaths = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)
+                let docsDir1 = dirPaths[0]
+                var documentDir=docsDir1 as NSString
+                var imgPath=documentDir.stringByAppendingPathComponent(filedata["file_name"] as! String)
+                
+                var imgNSData=NSFileManager.defaultManager().contentsAtPath(imgPath)
+                
+                // print("found path is \(imgNSData)")
+                if(imgNSData != nil)
+                {
+                    self.ContactsProfilePic.append(imgNSData!)
+                }
+                else
+                {
+                    print("didnot find group icon")
+                    self.ContactsProfilePic.append(NSData.init())
+                }
+            }
+            else
+            {
+                print("didnot find group icon")
+                self.ContactsProfilePic.append(NSData.init())
+            }
+          
+            
+            let from = Expression<String>("from")
+            let group_unique_id = Expression<String>("group_unique_id")
+            let type = Expression<String>("type")
+            let msg = Expression<String>("msg")
+            let from_fullname = Expression<String>("from_fullname")
+            let date = Expression<NSDate>("date")
+            let unique_id = Expression<String>("unique_id")
+            
+            
+            var tbl_groupchats=sqliteDB.group_chat
+            
+            let myquerylastmsg=tbl_groupchats.filter(group_unique_id==(groupsObjectList[i]["unique_id"] as! String)).order(date.desc)
+            
+            var queryruncount=0
+            
+            var chatexists=false
+            
+            
+            do{for ccclastmsg in try sqliteDB.db.prepare(myquerylastmsg) {
+                print("date received in chat view is \(ccclastmsg[date])")
+            
+                var formatter2 = NSDateFormatter();
+                formatter2.dateFormat = "MM/dd hh:mm a"
+                formatter2.timeZone = NSTimeZone.localTimeZone()
+                ///////////////==========var defaultTimeeee = formatter2.stringFromDate(defaultTimeZoneStr!)
+                var defaultTimeeee = formatter2.stringFromDate(ccclastmsg[date])
+                print("===fetch date from database is ccclastmsg[date] \(ccclastmsg[date])... defaultTimeeee \(defaultTimeeee)")
+             
+                
+                print("last msg is \(ccclastmsg[msg])")
+                ContactsLastMsgDate.append(defaultTimeeee)
+                ContactLastMessage.append(ccclastmsg[msg])
+                
+                chatexists=true
+                break
+                }}catch{
+                    print("error in fetching last msg")
+            }
+            if(chatexists==false)
+            {
+                self.ContactsLastMsgDate.append(defaultTimeeee)
+                self.ContactLastMessage.append("Welcome to the group")
+            }
+            
+        }
     }
     
     func fetchContacts(completion:(result:Bool)->()){
@@ -2475,8 +2644,8 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
         select * from contacts
         
         */
-        var allcontacts=sqliteDB.allcontacts
-        var contactsKibo=sqliteDB.contactslists
+      //  var allcontacts=sqliteDB.allcontacts
+        //var contactsKibo=sqliteDB.contactslists
         
         
         let phone = Expression<String>("phone")
@@ -2502,7 +2671,7 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
                 if(!ContactUsernames.isEmpty && indexPath.row<=ContactUsernames.count)
                 {
                 print("username count is \(ContactUsernames.count) and indexpath.row is \(indexPath.row)")
-                for all in try sqliteDB.db.prepare(allcontacts) {
+              //=====  for all in try sqliteDB.db.prepare(allcontacts) {
                 //print("id: \(account[_id]), phone: \(account[phone]), firstname: \(account[firstname])")
                 // id: 1, email: alice@mac.com, name: Optional("Alice")
                 
@@ -2552,7 +2721,7 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
                     
                 }
                 
-                }
+              //====  }
                 
         }//end isempty usernames
              
@@ -3272,7 +3441,7 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
             
             */
             case "updateUI":
-                dispatch_sync(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0)) {
+                dispatch_sync(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0)) {
                     // do some task start to show progress wheel
                     self.fetchContacts({ (result) -> () in
                         //self.fetchContactsFromServer()
@@ -3298,7 +3467,7 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
             }
             
             case "im":
-                dispatch_sync(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0)) {
+                dispatch_sync(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0)) {
                     // do some task start to show progress wheel
                     self.fetchContacts({ (result) -> () in
                         //self.fetchContactsFromServer()
@@ -3632,7 +3801,7 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
     }
     
     func refreshChatsUI(message:String!, uniqueid:String!, from:String!, date1:NSDate!, type:String!) {
-        dispatch_sync(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0)) {
+        dispatch_sync(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0)) {
             // do some task start to show progress wheel
             self.fetchContacts({ (result) -> () in
                 //self.fetchContactsFromServer()
@@ -3660,13 +3829,13 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
     }
     
     func refreshContactsList(message: String) {
-        dispatch_sync(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0)) {
+        dispatch_sync(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0)) {
             // do some task start to show progress wheel
             self.fetchContacts({ (result) -> () in
                 //self.fetchContactsFromServer()
                 print("checkinnn")
                 let tbl_accounts=sqliteDB.accounts
-                do{for account in try sqliteDB.db.prepare(tbl_accounts) {
+                /*do{for account in try sqliteDB.db.prepare(tbl_accounts) {
                     ///print("id: \(account[_id]), phone: \(account[phone]), firstname: \(account[firstname])")
                     
                     var userr:JSON=["_id":account[self._id],"display_name":account[self.firstname]!,"phone":account[self.phone]]
@@ -3677,7 +3846,7 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
                     }}}
                 catch{
                     
-                }
+                }*/
                 
                 dispatch_async(dispatch_get_main_queue()) {
                     self.tblForChat.reloadData()

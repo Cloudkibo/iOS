@@ -77,7 +77,7 @@ public class EPContact: NSObject {
                     }
                 }
                 
-             
+                if(countrycode != nil){
                     if(countrycode=="1" && phoneDigits.characters.first=="1" && phoneDigits.characters.first != "+")
                     {
                         phoneDigits = "+"+phoneDigits
@@ -88,7 +88,7 @@ public class EPContact: NSObject {
                     }
 
                
-             
+                }
                 
                 
            // phoneNumbers.append((phone.stringValue,phoneNumber.label))
