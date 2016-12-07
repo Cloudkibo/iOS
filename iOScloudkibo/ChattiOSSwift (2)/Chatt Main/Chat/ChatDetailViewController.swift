@@ -3457,8 +3457,11 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
         var dateSentDateType = formatterDateSendtoDateType.dateFromString(dateSentString)
         
 
-     
-        var imParas=["from":"\(username!)","to":"\(selectedContact)","fromFullName":"\(displayname)","msg":"\(txtFldMessage.text!)","uniqueid":"\(uniqueID)","type":"chat","file_type":"","date":"\(dateSentDateType!)"]
+     //2016-10-15T22:18:16.000
+    var imParas=["from":"\(username!)","to":"\(selectedContact)","fromFullName":"\(displayname)","msg":"\(txtFldMessage.text!)","uniqueid":"\(uniqueID)","type":"chat","file_type":"","date":"\(dateSentDateType!)"]
+        
+       // var imParas=["from":"\(username!)","to":"\(selectedContact)","fromFullName":"\(displayname)","msg":"\(txtFldMessage.text!)","uniqueid":"\(uniqueID)","type":"chat","file_type":"","date":"2016-12-05 01:10:48.000Z"]
+        
         //print("imparas are \(imParas)")
         //print(imParas, terminator: "")
         //print("", terminator: "")

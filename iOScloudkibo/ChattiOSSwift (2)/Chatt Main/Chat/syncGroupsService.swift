@@ -21,7 +21,7 @@ class syncGroupService
         
     }
     func startSyncGroupsService(completion:(result:Bool,error:String!)->())
-    {
+    {print("start sync groups service after install")
         if(accountKit == nil){
             accountKit = AKFAccountKit(responseType: AKFResponseType.AccessToken)
         }
@@ -64,10 +64,11 @@ class syncGroupService
                 }
             }
         }
+        print("stop sync groups service after install")
     }
     
     func startSyncGroupsServiceOnLaunch(completion:(result:Bool,error:String!)->())
-    {
+    {print("group sync on launch start")
         if(accountKit == nil){
             accountKit = AKFAccountKit(responseType: AKFResponseType.AccessToken)
         }
@@ -76,8 +77,8 @@ class syncGroupService
         if (accountKit!.currentAccessToken != nil) {
             
             
-            var Q5_fetchAllGroupsData=dispatch_queue_create("fetchAllGroupsData",DISPATCH_QUEUE_SERIAL)
-            dispatch_async(Q5_fetchAllGroupsData,{
+          //  var Q5_fetchAllGroupsData=dispatch_queue_create("fetchAllGroupsData",DISPATCH_QUEUE_SERIAL)
+           // dispatch_async(Q5_fetchAllGroupsData,{
                 print("synccccc fetching contacts in background on launch...")
                 self.SyncGroupsAPI{ (result,error,groupinfo) in
                     if(groupinfo != nil)
@@ -107,8 +108,9 @@ class syncGroupService
                         return completion(result: true, error: nil)
                     }
                 }
-            })
+         //   })
         }
+        print("group sync on launch stop")
     }
     
     func startPartialGroupsChatSyncService()

@@ -580,7 +580,7 @@ class DisplayNameViewController: UIViewController {
            var fetchChatURL=Constants.MainUrl+Constants.fetchMyAllchats
             //var getUserDataURL=userDataUrl
         
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) {
+       // dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) {
             Alamofire.request(.POST,"\(fetchChatURL)",headers:header,parameters:["user1":username!]).validate(statusCode: 200..<300).responseJSON{response in
                 
                 
@@ -717,8 +717,9 @@ class DisplayNameViewController: UIViewController {
                             
                             
                         }
+                        //dispatch_async(dispatch_get_main_queue()) {
                         return completion(result: true)
-                        
+                        //}
                         /* dispatch_async(dispatch_get_main_queue()) {
                         self.messageFrame2.removeFromSuperview()
                         }
@@ -737,7 +738,7 @@ class DisplayNameViewController: UIViewController {
                     print("all chat fetched failed")
                 }
             }
-        }
+      //  }
        // }
         
     }
