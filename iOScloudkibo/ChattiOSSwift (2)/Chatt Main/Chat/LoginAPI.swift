@@ -104,7 +104,7 @@ class LoginAPI{
                 
                 
             //}
-            self.delegateSocketConnected?.socketConnected()
+           //====== uncomment self.delegateSocketConnected?.socketConnected()
             
         }
         //self.socket.reconnects=true
@@ -500,7 +500,7 @@ class LoginAPI{
             print(msg.debugDescription)
             
             
-            self.delegate?.socketReceivedMessage("im",data: data)
+            //=====self.delegate?.socketReceivedMessage("im",data: data)
             
             
             

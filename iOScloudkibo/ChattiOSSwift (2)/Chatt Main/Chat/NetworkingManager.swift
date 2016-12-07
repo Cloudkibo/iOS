@@ -725,12 +725,19 @@ class NetworkingManager
                 
                 
                 //===
+                //refresh UI file download commented==--- uncomment later ====================================----------
+                /*
                 if(delegateRefreshChat != nil)
                 {
                     delegateRefreshChat?.refreshChatsUI("",uniqueid:fileuniqueid,from:filefrom,date1:NSDate(), type:"file")
                     
                    //===uncomment later  delegateRefreshChat?.refreshChatsUI("",uniqueid:fileuniqueid,from:filefrom,date1:NSDate(), type:"chat")
-                }
+                }*/
+                
+                
+                
+                
+                
                 //filedownloaded’ to with parameters ‘senderoffile’, ‘receiveroffile’
                 
                 print("download done long")

@@ -24,6 +24,9 @@ class DisplayNameViewController: UIViewController {
     var Q5_fetchAllChats=dispatch_queue_create("fetchAllChats",DISPATCH_QUEUE_SERIAL)
     var Q5_fetchAllGroupsData=dispatch_queue_create("fetchAllGroupsData",DISPATCH_QUEUE_SERIAL)
     
+    var syncPhonesList=[String]()
+    var syncContactsList=[CNContact]()
+    
     
     var accountKit: AKFAccountKit!
     @IBOutlet weak var txtDisplayName: UITextField!
@@ -78,10 +81,10 @@ class DisplayNameViewController: UIViewController {
     }
     func progressBarDisplayer(msg:String, _ indicator:Bool ) {
         print(msg)
-        strLabel = UILabel(frame: CGRect(x: 50, y: 0, width: 250, height: 50))
+        strLabel = UILabel(frame: CGRect(x: 50, y: 0, width: 270, height: 50))
         strLabel.text = msg
         strLabel.textColor = UIColor.whiteColor()
-        messageFrame = UIView(frame: CGRect(x: view.frame.midX - 110, y: view.frame.midY - 25 , width: 230, height: 50))
+        messageFrame = UIView(frame: CGRect(x: view.frame.midX - 110, y: view.frame.midY - 25 , width: 250, height: 50))
         messageFrame.layer.cornerRadius = 15
         messageFrame.backgroundColor = UIColor(white: 0, alpha: 0.7)
         if indicator {
@@ -186,9 +189,121 @@ class DisplayNameViewController: UIViewController {
     }
        // }
     }
+    func SyncfetchContacts(completion:(result:Bool)->())
+    {
+        let contactStore = CNContactStore()
+        
+        var keys = [CNContactGivenNameKey, CNContactFamilyNameKey, CNContactEmailAddressesKey, CNContactPhoneNumbersKey, CNContactImageDataAvailableKey,CNContactThumbnailImageDataKey, CNContactImageDataKey]
+        do {
+            /////let contactStore = AppDelegate.getAppDelegate().contactStore
+            try contactStore.enumerateContactsWithFetchRequest(CNContactFetchRequest(keysToFetch: keys)) { (contact, pointer) -> Void in
+                
+                print("appending to contacts")
+                self.syncContactsList.append(contact)
+                
+                print("contactsListSync appended count is \(self.syncContactsList.count)")
+                print("inside contacts filling for loop count is \(self.syncContactsList.count)")
+                
+                if (contact.isKeyAvailable(CNContactPhoneNumbersKey)) {
+                    for phoneNumber:CNLabeledValue in contact.phoneNumbers {
+                        let a = phoneNumber.value as! CNPhoneNumber
+                        //////////////emails.append(a.valueForKey("digits") as! String)
+                        var zeroIndex = -1
+                        var phoneDigits=a.valueForKey("digits") as! String
+                        var actualphonedigits=a.valueForKey("digits") as! String
+                        //remove leading zeroes
+                        /* for index in phoneDigits.characters.indices {
+                         print(phoneDigits[index])
+                         if(phoneDigits[index]=="0")
+                         {
+                         zeroIndex=index as! Int
+                         //phoneDigits.characters.popFirst() as! String
+                         print(".. droping zero \(phoneDigits) index \(zeroIndex)")
+                         }
+                         else
+                         {
+                         if(zeroIndex != -1)
+                         {
+                         let rangeOfTLD = Range(start: phoneDigits.startIndex.advancedBy(zeroIndex),
+                         end: phoneDigits.endIndex)
+                         phoneDigits = phoneDigits[rangeOfTLD] // "com"
+                         print("range is \(phoneDigits)")
+                         }
+                         break
+                         }
+                         
+                         }*/
+                        for(var i=0;i<phoneDigits.characters.count;i++)
+                        {
+                            if(phoneDigits.characters.first=="0")
+                            {
+                                phoneDigits.removeAtIndex(phoneDigits.startIndex)
+                                //phoneDigits.characters.popFirst() as! String
+                                print(".. droping zero \(phoneDigits)")
+                            }
+                            else
+                            {
+                                break
+                            }
+                        }
+                        do{
+                            
+                            
+                            //get countrycode from db
+                            
+                            let country_prefix = Expression<String>("country_prefix")
+                            
+                            
+                            if(countrycode == nil)
+                            {
+                                let tbl_accounts = sqliteDB.accounts
+                                do{for account in try sqliteDB.db.prepare(tbl_accounts) {
+                                    countrycode=account[country_prefix]
+                                    //displayname=account[firstname]
+                                    
+                                    }
+                                }
+                            }
+                            if(countrycode=="1" && phoneDigits.characters.first=="1" && phoneDigits.characters.first != "+")
+                            {
+                                phoneDigits = "+"+phoneDigits
+                            }
+                            else if(phoneDigits.characters.first != "+"){
+                                phoneDigits = "+"+countrycode+phoneDigits
+                                print("appended phone is \(phoneDigits)")
+                            }
+                            
+                            self.syncPhonesList.append(phoneDigits)
+                        }
+                        catch{
+                            print("error..")
+                            //////   completion(result:false)
+                        }
+                        
+                        /////// completion(result:true)
+                    }
+                }
+    
+            }
+            
+            dispatch_async(dispatch_get_main_queue())
+            {
+                completion(result: true)
+            }
+            
+        }catch{
+            dispatch_async(dispatch_get_main_queue())
+            {
+                print("error 1..")
+                completion(result: false)
+            }
+        }
+        
+    }
     
     func fetchContactsFromDevice(completion: (result:Bool)->())
     {
+       // self.strLabel.text="Setting Contacts Step 1/4"
                     contactsList.fetch(){ (result) -> () in
                         print("got contacts from device")
                         if(socketObj != nil)
@@ -228,6 +343,7 @@ class DisplayNameViewController: UIViewController {
     
     
     func fetchContactsFromServer(completion:(result:Bool)->()){
+     //   self.strLabel.text="Setting Contacts Step 3/4"
         print("Server fetchingg contactss", terminator: "")
         if(socketObj != nil)
         {
@@ -411,7 +527,7 @@ class DisplayNameViewController: UIViewController {
     }
 
     func getCurrentUserDetails(completion: (result:Bool)->())
-    {
+    { //self.strLabel.text="Setting Contacts Step 4/4"
         if(socketObj != nil)
         {
         socketObj.socket.emit("logClient","IPHONE-LOG: login success and AuthToken was not nil getting myself details from server")
@@ -624,8 +740,8 @@ class DisplayNameViewController: UIViewController {
                         {
                             //UserchatJson["msg"][i]["date"].string!
                             
-                            var labelll=self.messageFrame.subviews.first as! UILabel
-                            labelll.text="Setting Chats \(UserchatJson["msg"].count/i)% ..."
+                           // var labelll=self.messageFrame.subviews.first as! UILabel
+                            //self.strLabel.text="Setting Chats \(UserchatJson["msg"].count/i*100)% ..."
                             let dateFormatter = NSDateFormatter()
                             dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
                             let datens2 = dateFormatter.dateFromString(UserchatJson["msg"][i]["date"].string!)
@@ -768,16 +884,24 @@ class DisplayNameViewController: UIViewController {
                 }*/
                     self.messageFrame.removeFromSuperview()
                     print("setting contacts start time \(NSDate())")
-                    self.progressBarDisplayer("Setting Contacts", true)
-                    dispatch_async(self.Q1_fetchFromDevice,
-                        {
-                            self.fetchContactsFromDevice({ (result) -> () in
+                    self.progressBarDisplayer("Setting Contacts Step 1/4", true)
+                    dispatch_sync(self.Q1_fetchFromDevice,
+                        {//self.strLabel.text="Setting Contacts Step 2/4"
+                            //self.fetchContactsFromDevice({ (result) -> () in
+                              //SyncfetchContacts
+                            self.SyncfetchContacts({ (result) -> () in
                                 
-                                dispatch_async(self.Q2_sendPhonesToServer,
-                                    {
+                                self.messageFrame.removeFromSuperview()
+                                print("setting contacts start time \(NSDate())")
+                                self.progressBarDisplayer("Setting Contacts Step 2/4", true)
+                                dispatch_sync(self.Q2_sendPhonesToServer,
+                                    {//self.strLabel.text="Setting Contacts Step 2/4"
                                         self.sendPhoneNumbersToServer({ (result) -> () in
                                             
-                                            dispatch_async(self.Q3_getContactsFromServer,
+                                            self.messageFrame.removeFromSuperview()
+                                            print("setting contacts start time \(NSDate())")
+                                            self.progressBarDisplayer("Setting Contacts Step 3/4", true)
+                                            dispatch_sync(self.Q3_getContactsFromServer,
                                                 {
                                                     self.fetchContactsFromServer({ (result) -> () in
                                                         
@@ -819,8 +943,11 @@ class DisplayNameViewController: UIViewController {
                                                             print("error 123")
                                                         }
                                                         
-                                                        dispatch_async(self.Q4_getUserData,
+                                                        dispatch_sync(self.Q4_getUserData,
                                                             {
+                                                                self.messageFrame.removeFromSuperview()
+                                                                print("setting contacts start time \(NSDate())")
+                                                                self.progressBarDisplayer("Setting Contacts Step 4/4", true)
                                                                 self.getCurrentUserDetails({ (result) -> () in
                                                                 
                                                                     
@@ -848,7 +975,7 @@ class DisplayNameViewController: UIViewController {
                                                                     print("setting contacts finish time \(NSDate())")
                                                                 self.messageFrame.removeFromSuperview()
                                                                 self.progressBarDisplayer("Setting Chats", true)
-                                                                dispatch_async(self.Q5_fetchAllChats,
+                                                                dispatch_sync(self.Q5_fetchAllChats,
                                                                 {
                                                                 self.fetchChatsFromServer({ (result) -> () in
                                                                     
@@ -856,7 +983,7 @@ class DisplayNameViewController: UIViewController {
                                                                        // {
                                                                             self.messageFrame.removeFromSuperview()
                                                                             self.progressBarDisplayer("Setting Groups", true)
-                                                                            dispatch_async(self.Q5_fetchAllGroupsData,
+                                                                            dispatch_sync(self.Q5_fetchAllGroupsData,
                                                                                 {
                                                                                     var syncGroupsObj=syncGroupService.init()
                                                                                     //==uncomment latersyncGroupsObj.startSyncGroupsService({ (result) -> () in
@@ -864,8 +991,8 @@ class DisplayNameViewController: UIViewController {
                                                                                     syncGroupsObj.startSyncGroupsServiceOnLaunch({ (result) -> () in
                                                                                     //result
                                                                                         print("sync on installation is completed. going to chat screen")
-                                                                                    dispatch_async(dispatch_get_main_queue())
-                                                                                    {
+                                                                                    //dispatch_async(dispatch_get_main_queue())
+                                                                                    //{
                                                                                         self.messageFrame.removeFromSuperview()
                                                                                         print("completed done time \(NSDate())")
                                                                             self.dismissViewControllerAnimated(false, completion: { () -> Void in
@@ -873,7 +1000,7 @@ class DisplayNameViewController: UIViewController {
                                                                                 print("logged in going to contactlist")
                                                                             })
 
-                                                                    }
+                                                                    //}
                                                                                     })
                                                                             })
                                                                    // }

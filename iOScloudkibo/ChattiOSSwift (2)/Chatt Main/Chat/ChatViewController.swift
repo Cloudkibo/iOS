@@ -338,15 +338,17 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
                // if(socketObj != nil)
                 //{
                      
+                 
                             
-                UIDelegates.getInstance().UpdateGroupChatDetailsDelegateCall()
+                            //commenting new uncomment
+               /* UIDelegates.getInstance().UpdateGroupChatDetailsDelegateCall()
                 UIDelegates.getInstance().UpdateMainPageChatsDelegateCall()
                             
                 if(delegateRefreshChat != nil)
                 {
                     print("refresh UI after pending msgs are sent")
                     delegateRefreshChat?.refreshChatsUI(nil, uniqueid:nil, from:nil, date1:nil, type:"status")
-                }
+                }*/
                             
                 /////======CHANGE IT==================
                     self.fetchChatsFromServer()
@@ -1120,9 +1122,9 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
             print("emaillist is \(emailList.first)")
             print("emailList count is \(emailList.count)")
             
-            
+            print("here refreshing UI in chats view line # 1123")
             self.retrieveSingleChatsAndGroupsChatData({(result)-> () in
-                self.tblForChat.reloadData()
+                
                 
                 //    dispatch_async(dispatch_get_main_queue())
                 //  {
@@ -1131,6 +1133,7 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
                 //commenting newwwwwwww -===-===-=
                 dispatch_async(dispatch_get_main_queue())
                 {
+                    self.tblForChat.reloadData()
                     if(self.messages.count>1)
                     {
                         var indexPath = NSIndexPath(forRow:self.messages.count-1, inSection: 0)
@@ -3894,8 +3897,9 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
             
             */
             case "updateUI":
+                print("here refreshing UI in chats view line # 3898")
                 self.retrieveSingleChatsAndGroupsChatData({(result)-> () in
-                    self.tblForChat.reloadData()
+                    
                     
                     //    dispatch_async(dispatch_get_main_queue())
                     //  {
@@ -3904,6 +3908,7 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
                     //commenting newwwwwwww -===-===-=
                     dispatch_async(dispatch_get_main_queue())
                     {
+                        self.tblForChat.reloadData()
                         if(self.messages.count>1)
                         {
                             var indexPath = NSIndexPath(forRow:self.messages.count-1, inSection: 0)
@@ -4288,8 +4293,9 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
     }
     
     func refreshChatsUI(message:String!, uniqueid:String!, from:String!, date1:NSDate!, type:String!) {
+        print("here refreshing UI in chats view line # 4291")
         self.retrieveSingleChatsAndGroupsChatData({(result)-> () in
-            self.tblForChat.reloadData()
+           
             
             //    dispatch_async(dispatch_get_main_queue())
             //  {
@@ -4298,6 +4304,7 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
             //commenting newwwwwwww -===-===-=
             dispatch_async(dispatch_get_main_queue())
             {
+                self.tblForChat.reloadData()
                 if(self.messages.count>1)
                 {
                     var indexPath = NSIndexPath(forRow:self.messages.count-1, inSection: 0)
@@ -4337,9 +4344,9 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
     }
     
     func refreshContactsList(message: String) {
+        print("here refreshing UI in chats view line # 4341")
         self.retrieveSingleChatsAndGroupsChatData({(result)-> () in
-            self.tblForChat.reloadData()
-            
+           
             //    dispatch_async(dispatch_get_main_queue())
             //  {
             // self.tblForChats.reloadData()
@@ -4347,6 +4354,7 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
             //commenting newwwwwwww -===-===-=
             dispatch_async(dispatch_get_main_queue())
             {
+                self.tblForChat.reloadData()
                 if(self.messages.count>1)
                 {
                     var indexPath = NSIndexPath(forRow:self.messages.count-1, inSection: 0)
@@ -4385,8 +4393,8 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
     }
     
     func refreshUI(message: String, data: AnyObject!) {
-        self.retrieveSingleChatsAndGroupsChatData({(result)-> () in
-            self.tblForChat.reloadData()
+        print("here refreshing UI in chats view line # 4390")
+        /*self.retrieveSingleChatsAndGroupsChatData({(result)-> () in
             
             //    dispatch_async(dispatch_get_main_queue())
             //  {
@@ -4395,6 +4403,7 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
             //commenting newwwwwwww -===-===-=
             dispatch_async(dispatch_get_main_queue())
             {
+                self.tblForChat.reloadData()
                 if(self.messages.count>1)
                 {
                     var indexPath = NSIndexPath(forRow:self.messages.count-1, inSection: 0)
@@ -4404,7 +4413,7 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
             }
             //}
             // })
-        })
+        })*/
        //==-- self.reloadThisPage()
     }
     

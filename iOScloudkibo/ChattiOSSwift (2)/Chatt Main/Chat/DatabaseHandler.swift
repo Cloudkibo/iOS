@@ -1086,15 +1086,7 @@ class DatabaseHandler:NSObject{
         if(date1 == nil)
         {
             print("date got is null to put current date/time")
-           /* var date22=NSDate()
-            var formatter = NSDateFormatter();
-            //formatter.dateFormat = "yyyy-MM-dd HH:mm:ss ZZZ";
-            formatter.dateFormat = "MM/dd hh:mm a"";
-            formatter.timeZone = NSTimeZone.localTimeZone()
-            //formatter.dateStyle = .ShortStyle
-            //formatter.timeStyle = .ShortStyle
-            let defaultTimeZoneStr = formatter.stringFromDate(date22);
-            */
+          
             
             var date22=NSDate()
             var formatter = NSDateFormatter();
