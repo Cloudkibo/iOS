@@ -624,8 +624,8 @@ class DisplayNameViewController: UIViewController {
                         {
                             //UserchatJson["msg"][i]["date"].string!
                             
-                            
-                            
+                            var labelll=self.messageFrame.subviews.first as! UILabel
+                            labelll.text="Setting Chats \(UserchatJson["msg"].count/i)% ..."
                             let dateFormatter = NSDateFormatter()
                             dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
                             let datens2 = dateFormatter.dateFromString(UserchatJson["msg"][i]["date"].string!)
@@ -847,7 +847,7 @@ class DisplayNameViewController: UIViewController {
                                                                     
                                                                     print("setting contacts finish time \(NSDate())")
                                                                 self.messageFrame.removeFromSuperview()
-                                                                self.progressBarDisplayer("Setting Conversations", true)
+                                                                self.progressBarDisplayer("Setting Chats", true)
                                                                 dispatch_async(self.Q5_fetchAllChats,
                                                                 {
                                                                 self.fetchChatsFromServer({ (result) -> () in
@@ -863,6 +863,7 @@ class DisplayNameViewController: UIViewController {
                                                                                     
                                                                                     syncGroupsObj.startSyncGroupsServiceOnLaunch({ (result) -> () in
                                                                                     //result
+                                                                                        print("sync on installation is completed. going to chat screen")
                                                                                     dispatch_async(dispatch_get_main_queue())
                                                                                     {
                                                                                         self.messageFrame.removeFromSuperview()

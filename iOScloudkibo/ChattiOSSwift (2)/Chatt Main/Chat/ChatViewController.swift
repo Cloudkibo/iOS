@@ -347,6 +347,7 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
                     print("refresh UI after pending msgs are sent")
                     delegateRefreshChat?.refreshChatsUI(nil, uniqueid:nil, from:nil, date1:nil, type:"status")
                 }
+                            
                 /////======CHANGE IT==================
                     self.fetchChatsFromServer()
                     
