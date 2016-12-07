@@ -2674,6 +2674,7 @@ print("--------")
         {for list in try self.db.prepare(query)
         {
            // newEntry["uniqueid"]=list.get(uniqueid)
+            print("broadcast list member is \(list.get(memberphone))")
             newEntry.append(list.get(memberphone))
             
             }
@@ -2756,6 +2757,8 @@ print("--------")
             memberslistnames.append(getNameFromAddressbook(membersarray[j] as! String))
             }
             listDetailSingle["listname"]=listdata[i]["listname"] as! String
+            listDetailSingle["uniqueid"]=listdata[i]["uniqueid"] as! String
+            
             listDetailSingle["membersnames"]=memberslistnames.joinWithSeparator(",")
             listDataController.append(listDetailSingle)
         }

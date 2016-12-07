@@ -1494,11 +1494,11 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
             if(username != nil && username != "")
             {
                 //commenting for testing
-                /*var syncGroupsObj=syncGroupService.init()
+                var syncGroupsObj=syncGroupService.init()
                 syncGroupsObj.startPartialGroupsChatSyncService()
                self.synchroniseChatData()
                 print("getting group messages which are not on device")
- */
+ 
                 
             }
             

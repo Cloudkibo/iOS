@@ -264,6 +264,7 @@ identifiersarray.append(identifier)
     
     func epContactPicker(_: EPContactsPicker, didCancel error : NSError)
     {
+        participantsSelected.removeAll()
         print("User canceled the selection");
     }
     
@@ -374,7 +375,7 @@ identifiersarray.append(identifier)
         var memberphones=[String]()
         var membersnames=[String]()
         for(var i=0;i<participantsSelected.count;i++)
-        {
+        {print()
             memberphones.append(participantsSelected[i].getPhoneNumber())
              membersnames.append(participantsSelected[i].displayName())
             self.messages.addObject(["member_phone":memberphones[i],"name":membersnames[i],"isAdmin":"No"])

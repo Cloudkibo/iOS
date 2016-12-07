@@ -141,6 +141,7 @@
 		71D74E8F1DEBD8E400D44D59 /* NSData_Compression.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71D74E8E1DEBD8E400D44D59 /* NSData_Compression.swift */; };
 		71D74E911DEBDC2300D44D59 /* libcompression.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 71D74E901DEBDC2300D44D59 /* libcompression.tbd */; };
 		71DA13351DF42FD2002C0583 /* Alamofire.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 71DA13341DF42FD2002C0583 /* Alamofire.framework */; };
+		71DA13371DF7CBBC002C0583 /* BroadcastListDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71DA13361DF7CBBC002C0583 /* BroadcastListDetailsViewController.swift */; };
 		71DC15321D26655700E5BFC2 /* pushNotifications.md in Sources */ = {isa = PBXBuildFile; fileRef = 71DC15311D26655700E5BFC2 /* pushNotifications.md */; };
 		71E046A31D228AE700B67362 /* CallHistoryTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71E046A21D228AE700B67362 /* CallHistoryTableViewController.swift */; };
 		71E046A51D22920D00B67362 /* CallHistCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71E046A41D22920D00B67362 /* CallHistCell.swift */; };
@@ -417,6 +418,7 @@
 		71D74E8E1DEBD8E400D44D59 /* NSData_Compression.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NSData_Compression.swift; sourceTree = "<group>"; };
 		71D74E901DEBDC2300D44D59 /* libcompression.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libcompression.tbd; path = usr/lib/libcompression.tbd; sourceTree = SDKROOT; };
 		71DA13341DF42FD2002C0583 /* Alamofire.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Alamofire.framework; path = "../../../../../../../Library/Developer/Xcode/DerivedData/kiboApp-ckwegrnpnjdryqfinanunrzashgm/Build/Products/Debug-iphoneos/Alamofire.framework"; sourceTree = "<group>"; };
+		71DA13361DF7CBBC002C0583 /* BroadcastListDetailsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BroadcastListDetailsViewController.swift; sourceTree = "<group>"; };
 		71DC15311D26655700E5BFC2 /* pushNotifications.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = pushNotifications.md; sourceTree = "<group>"; };
 		71E046A21D228AE700B67362 /* CallHistoryTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CallHistoryTableViewController.swift; sourceTree = "<group>"; };
 		71E046A41D22920D00B67362 /* CallHistCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CallHistCell.swift; sourceTree = "<group>"; };
@@ -611,6 +613,7 @@
 				71D74E8E1DEBD8E400D44D59 /* NSData_Compression.swift */,
 				71CE4C261DEFF758001637DA /* BroadcastItemCell.swift */,
 				71CE4C2A1DEFF7E9001637DA /* BroadcastListViewController.swift */,
+				71DA13361DF7CBBC002C0583 /* BroadcastListDetailsViewController.swift */,
 			);
 			path = Chat;
 			sourceTree = "<group>";
@@ -1101,6 +1104,7 @@
 				719A0CE41DD5237800977C0B /* GroupMessageStatusViewController.swift in Sources */,
 				713D51CD1CC11896007E0B47 /* ContactsInviteViewController.swift in Sources */,
 				71CE4C2B1DEFF7E9001637DA /* BroadcastListViewController.swift in Sources */,
+				71DA13371DF7CBBC002C0583 /* BroadcastListDetailsViewController.swift in Sources */,
 				71F6233E1DE4262E00AC6370 /* String-Extension.swift in Sources */,
 				713D51D01CC11896007E0B47 /* File.swift in Sources */,
 				718B8D851CC11A9B000B4AB2 /* SocketEnginePacketType.swift in Sources */,

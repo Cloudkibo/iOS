@@ -47,10 +47,11 @@ class BroadcastListViewController: UIViewController,UINavigationControllerDelega
       //listname string
       //membersnames string
        var broadcastlistmessages2=NSMutableArray()
+        //uniqueid
         var aaa = sqliteDB.getBroadcastListDataForController()
         for(var i=0;i<aaa.count;i++)
         {
-        broadcastlistmessages2.addObject(["listname":aaa[i]["listname"] as! String,"membersnames":aaa[i]["membersnames"] as! String])
+        broadcastlistmessages2.addObject(["listname":aaa[i]["listname"] as! String,"membersnames":aaa[i]["membersnames"] as! String,"uniqueid":aaa[i]["uniqueid"] as! String])
         }
         
         broadcastlistmessages.setArray(broadcastlistmessages2 as [AnyObject])
@@ -115,6 +116,7 @@ class BroadcastListViewController: UIViewController,UINavigationControllerDelega
     
     func epContactPicker(_: EPContactsPicker, didCancel error : NSError)
     {
+        participantsSelected.removeAll()
         print("User canceled the selection");
     }
     
@@ -147,7 +149,7 @@ class BroadcastListViewController: UIViewController,UINavigationControllerDelega
         var memberphones=[String]()
         var membersnames=[String]()
         for(var i=0;i<participantsSelected.count;i++)
-        {
+        {print("appending memberphone now of participantselected \(participantsSelected[i].getPhoneNumber())")
             memberphones.append(participantsSelected[i].getPhoneNumber())
             membersnames.append(participantsSelected[i].displayName())
             //self.messages.addObject(["member_phone":memberphones[i],"name":membersnames[i],"isAdmin":"No"])
@@ -186,6 +188,8 @@ class BroadcastListViewController: UIViewController,UINavigationControllerDelega
         //var cellPrivate = tblForNotes.dequeueReusableCellWithIdentifier("NotePrivateCell")! as UITableViewCell
         var messageDic = broadcastlistmessages.objectAtIndex(indexPath.row) as! [String : String];
         var listname=messageDic["listname"] as! NSString
+        var uniqueid=messageDic["uniqueid"] as! NSString
+        
         var membersnames=messageDic["membersnames"] as! NSString
         
         var cell = tblBroadcastList.dequeueReusableCellWithIdentifier("BroadcastListCell")! as! BroadcastItemCell
@@ -202,5 +206,47 @@ class BroadcastListViewController: UIViewController,UINavigationControllerDelega
         
         return cell
     }
+    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        
+       
+       // if(msgType.isEqualToString("5")||msgType.isEqualToString("6")){
+            self.performSegueWithIdentifier("showSingleBroadcastListCellSegue", sender: nil);
+        //}
+    }
+    
+    
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        
+        if segue.identifier == "showSingleBroadcastListCellSegue" {
+            if let destinationVC = segue.destinationViewController as? BroadcastListDetailsViewController{
+                let selectedRow = tblBroadcastList.indexPathForSelectedRow!.row
+                var messageDic = broadcastlistmessages.objectAtIndex(selectedRow) as! [String : String];
+                
+                let uniqueid = messageDic["uniqueid"] as NSString!
+                //selectedText=filename as String
+                //destinationVC.tabBarController?.selectedIndex=0
+                //self.tabBarController?.selectedIndex=0
+                print("broadcastlistID is \(uniqueid)")
+                destinationVC.broadcastlistID=uniqueid as String
+                /*self.dismissViewControllerAnimated(true, completion: { () -> Void in
+                    
+                    
+              
+                    })*/
+            }
+        }
+        //groupChatStartSegue
+       /* if segue.identifier == "groupChatStartSegue" {
+            
+            if let destinationVC = segue.destinationViewController as? BroadcastListDetailsViewController{
+               // destinationVC.mytitle=groupname
+                destinationVC.broadcastlistID=uniqueid
+                //destinationVC.navigationItem.leftBarButtonItem?.enabled=false
+                //destinationVC.navigationItem.rightBarButtonItem?.image=nil
+                //destinationVC.navigationItem.rightBarButtonItem?.enabled=false
+            }}*/
+    }
+
+    //broadcastlistID
     
 }
