@@ -80,14 +80,21 @@ class syncGroupService
           //  var Q5_fetchAllGroupsData=dispatch_queue_create("fetchAllGroupsData",DISPATCH_QUEUE_SERIAL)
            // dispatch_async(Q5_fetchAllGroupsData,{
                 print("synccccc fetching contacts in background on launch...")
-                self.SyncGroupsAPI{ (result,error,groupinfo) in
+            dispatch_sync(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT,0))
+            {
+                self.SyncGroupsAPIonLaunch{ (result,error,groupinfo) in
                     if(groupinfo != nil)
                     {
-                        self.fullRefreshGroupsInfo(groupinfo){ (result,error) in
+                        self.fullRefreshGroupsInfoOnLaunch(groupinfo){ (result,error) in
                             
                             
-                            self.SyncGroupMembersAPI(){(result,error,groupinfo) in
+                            self.SyncGroupMembersAPIonLaunch(){(result,error,groupinfo) in
                                 print("...")
+                                
+                                dispatch_async(dispatch_get_main_queue())
+                                {
+                                return completion(result: true, error: nil)
+                                }
                                 
                                 // UtilityFunctions.init().downloadProfileImage("9Mm0S3b201611817744")
                             }
@@ -104,10 +111,13 @@ class syncGroupService
                             
                         }}
                     else
+                    { dispatch_async(dispatch_get_main_queue())
                     {
                         return completion(result: true, error: nil)
+                        }
                     }
                 }
+            }
          //   })
         }
         print("group sync on launch stop")
@@ -148,6 +158,60 @@ class syncGroupService
                     ////}
                 }
             }}
+    }
+    func SyncGroupsAPIonLaunch(completion:(result:Bool,error:String!,groupinfo:JSON!)->())
+    {
+        
+        //  let isMute = Expression<Bool>("isMute")
+        
+        var jsongroupinfo:JSON!=nil
+        print("inside group info function")
+        var url=Constants.MainUrl+Constants.getMyGroups
+        print(url.debugDescription)
+        
+        var hhh=["headers":"\(header)"]
+        print(header.description)
+        
+       // var queue2=dispatch_queue_attr_make_with_qos_class(DISPATCH_QUEUE_SERIAL, QOS_CLASS_BACKGROUND, 0);
+        
+        //let queue2 = dispatch_queue_create("com.kibochat.manager-response-queue-file", DISPATCH_QUEUE_CONCURRENT)
+       // let qqq=dispatch_queue_create("com.kibochat.queue.getmembers",queue2)
+        
+        dispatch_sync(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT,0))
+        {
+        var request=Alamofire.request(.GET,"\(url)",headers:header).responseJSON { response in
+        /*
+        request.response(
+            queue: qqq,
+            responseSerializer: Request.JSONResponseSerializer(),
+            completionHandler: { response in
+                */
+                
+                
+                
+                //.validate().responseJSON { response in
+                print(response)
+                if(response.result.isSuccess)
+                {
+                    print(response.result.value)
+                    jsongroupinfo=JSON(response.result.value!)
+                    dispatch_async(dispatch_get_main_queue())
+                    {
+                    return completion(result:true,error: nil,groupinfo: jsongroupinfo)
+                    }
+                    
+                }
+                else{
+                    dispatch_async(dispatch_get_main_queue())
+                    {
+                    return completion(result:true,error: "API synch groups failed",groupinfo: jsongroupinfo)
+                    }
+                    
+                }
+        }
+        }
+        
+        return completion(result:true,error: "Fetch group info API failed",groupinfo: jsongroupinfo)
     }
 
     func SyncGroupsAPI(completion:(result:Bool,error:String!,groupinfo:JSON!)->())
@@ -193,6 +257,117 @@ class syncGroupService
         })
     
         return completion(result:true,error: "Fetch group info API failed",groupinfo: jsongroupinfo)
+    }
+    
+    
+    //dispatch_sync(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT,0))
+    
+    func fullRefreshGroupsInfoOnLaunch(groupInfo:JSON!,completion:(result:Bool,error:String!)->())
+    {print("inside full refresh groups")
+        //_id:String,groupname:String,date_creation:String,group_icon:NSData
+        var tbl_Groups=sqliteDB.groups
+        
+        
+        //==-- down do{
+           //==---- down try sqliteDB.db.run(tbl_Groups.delete())
+            var groupsList=[[String:AnyObject]]()
+        dispatch_sync(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT,0))
+        {
+            for(var i=0;i<groupInfo.count;i++)
+            {
+                //groupInfo[i]["group_unique_id"]
+                var unique_id=groupInfo[i]["group_unique_id"]["unique_id"].string!
+                var group_name=groupInfo[i]["group_unique_id"]["group_name"].string!
+                var date_creation=groupInfo[i]["group_unique_id"]["date_creation"].string!
+                var group_icon=NSData()
+                if(groupInfo[i]["group_unique_id"]["group_icon"] != nil)
+                {
+                    
+                    
+                    var filedata=sqliteDB.getFilesData(unique_id)
+                    if(filedata.count>0)
+                    {
+                        print("found group icon")
+                        print("actual path is \(filedata["file_path"])")
+                        //======
+                        
+                        //=======
+                        let dirPaths = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)
+                        let docsDir1 = dirPaths[0]
+                        var documentDir=docsDir1 as NSString
+                        var imgPath=documentDir.stringByAppendingPathComponent(filedata["file_name"] as! String)
+                        
+                        var imgNSData=NSFileManager.defaultManager().contentsAtPath(imgPath)
+                        
+                        // print("found path is \(imgNSData)")
+                        if(imgNSData != nil)
+                        {
+                            //update UI
+                        }
+                        else
+                        {
+                            print("didnot find group icon")
+                          //===----  UtilityFunctions.init().downloadProfileImageOnLaunch(unique_id)
+                        }
+                        
+                    }
+                    else
+                    {
+                       //=====----- UtilityFunctions.init().downloadProfileImageOnLaunch(unique_id)
+                    }
+                    
+                    
+                    //=== UtilityFunctions.init().downloadProfileImage(<#T##uniqueid1: String##String#>)
+                    //==uncomment later group_icon=groupInfo[i]["group_unique_id"]["group_icon"] as NSData
+                }
+                
+                let dateFormatter = NSDateFormatter()
+                dateFormatter.timeZone=NSTimeZone.localTimeZone()
+                dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
+                //  let datens2 = dateFormatter.dateFromString(date2.debugDescription)
+                //2016-09-18T19:13:00.588Z
+                let datens2 = dateFormatter.dateFromString(date_creation)
+                var data=[String:AnyObject]()
+                data["group_name"]=group_name
+                data["groupicon1"]=group_icon
+                data["datecreation1"]=datens2
+                data["uniqueid1"]=unique_id
+                data["status1"]="new"
+                groupsList.append(data)
+                
+               //==-- move down sqliteDB.storeGroups(group_name, groupicon1: group_icon, datecreation1: datens2!, uniqueid1: unique_id, status1: "new")
+                
+                //=====MUTE GROUP====
+               //==---- down sqliteDB.storeMuteGroupSettingsTable(unique_id, isMute1: false, muteTime1: NSDate(), unMuteTime1: NSDate())
+                
+            }
+            
+            //delete and add
+        do{
+            try sqliteDB.db.run(tbl_Groups.delete())
+            
+            for(var i=0;i<groupsList.count;i++)
+            {
+            sqliteDB.storeGroups(groupsList[i]["group_name"] as! String, groupicon1: groupsList[i]["groupicon1"] as! NSData, datecreation1: groupsList[i]["datecreation1"] as! NSDate , uniqueid1: groupsList[i]["uniqueid1"] as! String, status1: groupsList[i]["status1"] as! String)
+            sqliteDB.storeMuteGroupSettingsTable(groupsList[i]["uniqueid1"] as! String, isMute1: false, muteTime1: NSDate(), unMuteTime1: NSDate())
+            }
+            
+            dispatch_async(dispatch_get_main_queue())
+            {
+                return completion(result: true, error: nil)
+            }
+        }
+            
+        catch{
+            print("cannot delete groups data")
+        }
+            dispatch_async(dispatch_get_main_queue())
+            {
+                
+                return completion(result: true, error: nil)
+            }
+        }
+        
     }
     
     func fullRefreshGroupsInfo(groupInfo:JSON!,completion:(result:Bool,error:String!)->())
@@ -271,6 +446,89 @@ class syncGroupService
         }
         
         return completion(result: true, error: nil)
+    }
+    
+    
+    func SyncGroupMembersAPIonLaunch(completion:(result:Bool,error:String!,groupinfo:JSON!)->())
+    {
+        print("sync members")
+        
+        //  let isMute = Expression<Bool>("isMute")
+        
+        var jsongroupinfo:JSON!=nil
+        print("inside group info function")
+        var url=Constants.MainUrl+Constants.fetchmygroupmembers
+        print(url.debugDescription)
+        //var queue2=dispatch_queue_attr_make_with_qos_class(DISPATCH_QUEUE_CONCURRENT, QOS_CLASS_BACKGROUND, 0);
+        
+        //let queue2 = dispatch_queue_create("com.kibochat.manager-response-queue-file", DISPATCH_QUEUE_CONCURRENT)
+       // let qqq=dispatch_queue_create("com.kibochat.queue.getmembers",queue2)
+        
+        
+        var hhh=["headers":"\(header)"]
+        print(header.description)
+       dispatch_sync(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT,0))
+       {
+        
+        var request=Alamofire.request(.GET,"\(url)",headers:header).validate().responseJSON{ response in
+            /*queue: qqq,
+            responseSerializer: Request.JSONResponseSerializer(),
+            completionHandler: { response in
+              */
+                
+                //.validate().responseJSON { response in
+                print(response)
+                if(response.result.isSuccess)
+                {
+                    print("group members got success")
+                    print(response.result.value)
+                    jsongroupinfo=JSON(response.result.value!)
+                    print(jsongroupinfo)
+                    do{
+                        var tbl_Groups_Members=sqliteDB.group_member
+                        try sqliteDB.db.run(tbl_Groups_Members.delete())
+                    }catch{
+                        print("error delete members")
+                    }
+                    
+                    for(var i=0;i<jsongroupinfo.count;i++)
+                    {
+                        
+                        var _id=jsongroupinfo[i]["_id"].string!
+                        var group_id=jsongroupinfo[i]["group_unique_id"]["unique_id"].string
+                        var membername=jsongroupinfo[i]["display_name"].string
+                        
+                        var date_join=jsongroupinfo[i]["date_join"].string!
+                        var isAdmin=jsongroupinfo[i]["isAdmin"].string
+                        var member_phone=jsongroupinfo[i]["member_phone"].string!
+                        var membership_status=jsongroupinfo[i]["membership_status"].string!
+                        
+                        
+                        
+                        let dateFormatter = NSDateFormatter()
+                        dateFormatter.timeZone=NSTimeZone.localTimeZone()
+                        dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
+                        
+                        let datens2 = dateFormatter.dateFromString(date_join)
+                        
+                        
+                        sqliteDB.storeMembers(group_id!,member_displayname1: membername!, member_phone1: member_phone, isAdmin1: isAdmin!, membershipStatus1: membership_status, date_joined1: datens2!)
+                    }
+                    
+                    dispatch_async(dispatch_get_main_queue())
+                    {
+                    return completion(result:true,error: nil,groupinfo: jsongroupinfo)
+                    }
+                    
+                }
+                else{
+                    return completion(result:true,error: "API synch groups failed",groupinfo: jsongroupinfo)
+                    
+                }
+        }
+        //)
+        }
+        return completion(result:true,error: "Fetch group info API failed",groupinfo: jsongroupinfo)
     }
     
     func SyncGroupMembersAPI(completion:(result:Bool,error:String!,groupinfo:JSON!)->())

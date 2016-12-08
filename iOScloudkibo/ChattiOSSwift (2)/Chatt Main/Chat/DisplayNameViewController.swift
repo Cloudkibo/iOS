@@ -24,7 +24,7 @@ class DisplayNameViewController: UIViewController {
     var Q5_fetchAllChats=dispatch_queue_create("fetchAllChats",DISPATCH_QUEUE_SERIAL)
     var Q5_fetchAllGroupsData=dispatch_queue_create("fetchAllGroupsData",DISPATCH_QUEUE_SERIAL)
     var Q6_updateIsKiboStatus=dispatch_queue_create("updateIsKiboStatus",DISPATCH_QUEUE_SERIAL)
-
+    var newserialqueue=dispatch_queue_create("newserialqueue",DISPATCH_QUEUE_SERIAL)
     
     var syncPhonesList=[String]()
     var syncContactsList=[CNContact]()
@@ -207,7 +207,7 @@ class DisplayNameViewController: UIViewController {
         let contactStore = CNContactStore()
         
         var keys = [CNContactGivenNameKey, CNContactFamilyNameKey, CNContactEmailAddressesKey, CNContactPhoneNumbersKey, CNContactImageDataAvailableKey,CNContactThumbnailImageDataKey, CNContactImageDataKey]
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT,0)){
+        dispatch_sync(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT,0)){
             
         do {
             /////let contactStore = AppDelegate.getAppDelegate().contactStore
@@ -330,7 +330,7 @@ class DisplayNameViewController: UIViewController {
             // --==== newww  try sqliteDB.db.run(tbl_allcontacts.delete())
             // =====---- newww print("now count is \(sqliteDB.db.scalar(tbl_allcontacts.count))")
             var contactsdata=[[String:String]]()
-            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT,0)){
+            dispatch_sync(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT,0)){
                 
             for(var i=0;i<self.syncContactsList.count;i++)
             {
@@ -591,7 +591,7 @@ class DisplayNameViewController: UIViewController {
             if(response.response?.statusCode==200)
             {socketObj.socket.emit("logClient","IPHONE-LOG: success in getting available and not available contacts")
                 
-                dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT,0))
+                dispatch_sync(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT,0))
                 {
                 debugPrint(response.data)
                 //print(response.request)
@@ -1210,7 +1210,7 @@ class DisplayNameViewController: UIViewController {
         }
         displayname=displayName
         progressBarDisplayer("Contacting Server", true)
-        dispatch_async(Q0_sendDisplayName,
+        dispatch_sync(Q0_sendDisplayName,
             {
                 self.sendNameToServer(displayName){ (result) -> () in
                 /*dispatch_async(dispatch_get_main_queue())
@@ -1238,7 +1238,7 @@ class DisplayNameViewController: UIViewController {
                                             self.progressBarDisplayer("Setting Contacts Step 3/4", true)
                                             dispatch_sync(self.Q3_getContactsFromServer,
                                                 {
-                                                    self.fetchContactsFromServer({ (result) -> () in
+                                                    self.SyncFillContactsTableWithRecords({ (result) in
                                                         
                                                         dispatch_sync(self.Q6_updateIsKiboStatus,
                                                             {
@@ -1322,24 +1322,28 @@ class DisplayNameViewController: UIViewController {
                                                                        // {
                                                                             self.messageFrame.removeFromSuperview()
                                                                             self.progressBarDisplayer("Setting Groups", true)
-                                                                            dispatch_sync(self.Q5_fetchAllGroupsData,
+                                                                            dispatch_sync(self.newserialqueue,
                                                                                 {
                                                                                     var syncGroupsObj=syncGroupService.init()
                                                                                     //==uncomment latersyncGroupsObj.startSyncGroupsService({ (result) -> () in
-                                                                                    
+                                                                                    dispatch_sync(self.Q5_fetchAllGroupsData,
+                                                                                        {
                                                                                     syncGroupsObj.startSyncGroupsServiceOnLaunch({ (result) -> () in
                                                                                     //result
                                                                                         print("sync on installation is completed. going to chat screen")
-                                                                                    //dispatch_async(dispatch_get_main_queue())
-                                                                                    //{
+                                                                                    dispatch_async(dispatch_get_main_queue())
+                                                                                    {
                                                                                         self.messageFrame.removeFromSuperview()
                                                                                         print("completed done time \(NSDate())")
                                                                             self.dismissViewControllerAnimated(false, completion: { () -> Void in
                                                                                 
                                                                                 print("logged in going to contactlist")
                                                                             })
-
+                                                                                        
+                                                                                        }
+                                                                                        
                                                                     //}
+                                                                                    })
                                                                                     })
                                                                             })
                                                                    // }
@@ -1448,7 +1452,7 @@ class DisplayNameViewController: UIViewController {
         
         //alladdressContactsArray = Array(try sqliteDB.db.prepare(allcontactslist1))
         
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT,0))
+        dispatch_sync(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT,0))
         {
             var joinrows=self.leftJoinContactsTables()
             

@@ -248,6 +248,141 @@ class UtilityFunctions{
         }
     }
     
+    
+    
+    func downloadProfileImageOnLaunch(uniqueid1:String)
+    {
+        //581b26d7583658844e9003d7
+        let path = NSFileManager.defaultManager().URLsForDirectory(.ApplicationSupportDirectory, inDomains: .UserDomainMask)[0] as NSURL
+        //print("path download is \(path)")
+        //////// let newPath = path.URLByAppendingPathComponent(fileName1)
+        /////// print("full path download file is \(newPath)")
+        //////  let destination = Alamofire.Request.suggestedDownloadDestination(directory: .DocumentDirectory, domain: .UserDomainMask)
+        //  print("path download is \(destination.lowercaseString)")
+        //  Alamofire.download(.GET, "http://httpbin.org/stream/100", destination: destination)
+        var downloadURL=Constants.MainUrl+Constants.downloadGroupIcon
+        
+        let destination: (NSURL, NSHTTPURLResponse) -> (NSURL) = {
+            (temporaryURL, response) in
+            print("response file name is \(response.suggestedFilename!)")
+            print("tempURL is \(temporaryURL) and response is \(response.allHeaderFields)")
+            if let directoryURL = NSFileManager.defaultManager().URLsForDirectory(.DocumentDirectory, inDomains: .UserDomainMask)[0] as? NSURL {
+                //// var localImageURL = directoryURL.URLByAppendingPathComponent("\(response.suggestedFilename!)")
+                //filenamePending
+                ///===  var localImageURL = directoryURL.URLByAppendingPathComponent(filePendingName)
+                
+                var filetype=self.getFileExtension(response.MIMEType!)
+                var localImageURL = directoryURL.URLByAppendingPathComponent(uniqueid1+"."+filetype)
+                
+                /*let checkValidation = NSFileManager.defaultManager()
+                 
+                 if (checkValidation.fileExistsAtPath("\(localImageURL)"))
+                 {
+                 print("FILE AVAILABLE")
+                 }
+                 else
+                 {
+                 print("FILE NOT AVAILABLE")
+                 }*/
+                
+                
+                print("localpathhhhhh \(localImageURL.debugDescription)")
+                ///sqliteDB.saveFile(uniqueid1, from1: from1, owneruser1: from1, file_name1: filename1, date1: NSDate().description, uniqueid1: UtilityFunctions.init().generateUniqueid(), file_size1: <#T##String#>, file_type1: <#T##String#>, file_path1: <#T##String#>, type1: "groupIcon")
+                return localImageURL
+            }
+            print("tempurl is \(temporaryURL.debugDescription)")
+            return temporaryURL
+        }
+        
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT,0))
+        {
+        // print("downloading call unique id \(fileuniqueid)")
+        Alamofire.download(.POST, "\(downloadURL)", headers:header, parameters: ["unique_id":uniqueid1], destination: destination)
+            .progress { (bytesRead, totalBytesRead, totalBytesExpectedToRead) in
+                print("writing bytes \(totalBytesRead)")
+                print(" bytes1 \(bytesRead)")
+                print("totalBytesRead bytes \(totalBytesRead)")
+                var progressbytes=(Float(totalBytesRead)/Float(totalBytesExpectedToRead)) as Float
+                print("totalBytesExpectedToRead are \(totalBytesExpectedToRead)")
+                /* if(self.delegateProgressUpload != nil)
+                 {
+                 if(progressbytes<1.0)
+                 {
+                 
+                 print("calling delegate progress bar.....")
+                 self.delegateProgressUpload.updateProgressUpload(progressbytes,uniqueid: fileuniqueid)
+                 }
+                 
+                 }
+                 */
+                
+                /* if(self.delegateProgressUpload != nil)
+                 {print("progress download value is \(progressbytes)")
+                 self.delegateProgressUpload.updateProgressUpload(progressbytes,uniqueid: fileuniqueid)
+                 
+                 }*/
+            }
+            .response { (request, response, _, error) in
+                print(response)
+                print("1...... \(request?.URLString)")
+                print("2..... \(request?.URL.debugDescription)")
+                print("3.... \(response?.URL.debugDescription)")
+                print("error: \(error)")
+                
+                
+                
+                let dirPaths = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)
+                let docsDir1 = dirPaths[0]
+                var documentDir=docsDir1 as NSString
+                
+                
+                var filetype=self.getFileExtension(response!.MIMEType!)
+                
+                var filePendingPath=documentDir.stringByAppendingPathComponent(uniqueid1+"."+filetype)
+                
+                print("filePendingPath is \(filePendingPath)")
+                //var filePendingPath=documentDir.stringByAppendingPathComponent(uniqueid1)
+                
+                //  if(self.imageExtensions.contains(filetype.lowercaseString))
+                // {
+                //filePendingName
+                sqliteDB.saveFile(uniqueid1, from1: "", owneruser1: "", file_name1: uniqueid1+"."+filetype, date1: nil, uniqueid1: uniqueid1, file_size1: "1", file_type1: filetype, file_path1: filePendingPath, type1: "groupIcon")
+                //}
+                /*else
+                 {
+                 sqliteDB.saveFile(filePendingTo, from1: filefrom, owneruser1: username!, file_name1: filePendingName, date1: nil, uniqueid1: fileuniqueid, file_size1: filePendingSize, file_type1: filetype, file_path1: filePendingPath, type1: "document")
+                 
+                 }
+                 if(socketObj.delegateChat != nil)
+                 {
+                 socketObj.delegateChat.socketReceivedMessageChat("updateUI", data: nil)
+                 }
+                 */
+                
+                //===
+                /* if(delegateRefreshChat != nil)
+                 {
+                 delegateRefreshChat?.refreshChatsUI("",uniqueid:fileuniqueid,from:filefrom,date1:NSDate(), type:"chat")
+                 }*/
+                //filedownloaded’ to with parameters ‘senderoffile’, ‘receiveroffile’
+                
+                //self.confirmDownload(fileuniqueid)
+                print("confirminggggggg")
+                
+                dispatch_async(dispatch_get_main_queue())
+                {
+                UIDelegates.getInstance().UpdateMainPageChatsDelegateCall()
+                UIDelegates.getInstance().UpdateGroupChatDetailsDelegateCall()
+                UIDelegates.getInstance().UpdateGroupInfoDetailsDelegateCall()
+                }
+                // print(request?.)
+                
+        }
+        }
+    }
+    
+    
+    
     func downloadProfileImage(uniqueid1:String)
     {
         //581b26d7583658844e9003d7
