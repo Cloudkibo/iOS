@@ -25,6 +25,8 @@ class DisplayNameViewController: UIViewController {
     var Q5_fetchAllGroupsData=dispatch_queue_create("fetchAllGroupsData",DISPATCH_QUEUE_SERIAL)
     var Q6_updateIsKiboStatus=dispatch_queue_create("updateIsKiboStatus",DISPATCH_QUEUE_SERIAL)
     var newserialqueue=dispatch_queue_create("newserialqueue",DISPATCH_QUEUE_SERIAL)
+    var Q_fetchAllfriends=dispatch_queue_create("fetchAllFriends",DISPATCH_QUEUE_SERIAL)
+    
     
     var syncPhonesList=[String]()
     var syncContactsList=[CNContact]()
@@ -1242,7 +1244,10 @@ class DisplayNameViewController: UIViewController {
                                                         
                                                         dispatch_sync(self.Q6_updateIsKiboStatus,
                                                             {
-                                                        self.updateKiboContactsStatus({ (result) in
+                                                                self.syncSetKiboContactsBoolean({ (result) in
+                                                                    
+                                                                    
+                                                                //===self.updateKiboContactsStatus({ (result) in
                                                             
                                                             
                                                         /*var allcontactslist1=sqliteDB.allcontacts
@@ -1312,6 +1317,10 @@ class DisplayNameViewController: UIViewController {
                                                                     }
                                                                     
                                                                     print("setting contacts finish time \(NSDate())")
+                                                                    dispatch_sync(self.Q_fetchAllfriends,
+                                                                        {
+                                                                    self.fetchContactsFromServer({ (result) in
+
                                                                 self.messageFrame.removeFromSuperview()
                                                                 self.progressBarDisplayer("Setting Chats", true)
                                                                 dispatch_sync(self.Q5_fetchAllChats,
@@ -1349,6 +1358,8 @@ class DisplayNameViewController: UIViewController {
                                                                    // }
                                                                 })
                                                         })
+                                                                    })
+                                                                    })
                                                     })
                                                         
                                                 })
@@ -1394,6 +1405,64 @@ class DisplayNameViewController: UIViewController {
             })*/
      
 }
+    
+    
+    
+    
+    func syncSetKiboContactsBoolean(completion:(result:Bool)->())
+    {
+        
+        var allcontactslist1=sqliteDB.allcontacts
+        var alladdressContactsArray:Array<Row>
+        
+        let phone = Expression<String>("phone")
+        let kibocontact = Expression<Bool>("kiboContact")
+        let name = Expression<String?>("name")
+        
+        //alladdressContactsArray = Array(try sqliteDB.db.prepare(allcontactslist1))
+        dispatch_sync(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT,0))
+        {
+        do{for ccc in try sqliteDB.db.prepare(allcontactslist1) {
+            
+            for var i=0;i<self.syncAvailablePhonesList.count;i++
+            {print(":::email .......  : \(self.syncAvailablePhonesList[i])")
+                if(ccc[phone]==self.syncAvailablePhonesList[i])
+                { print(":::::::: \(ccc[phone])  and emaillist : \(self.syncAvailablePhonesList[i])")
+                    //ccc[kibocontact]
+                    
+                    let query = allcontactslist1.select(kibocontact)           // SELECT "email" FROM "users"
+                        .filter(phone == ccc[phone])     // WHERE "name" IS NOT NULL
+                    
+                    try sqliteDB.db.run(query.update(kibocontact <- true))
+                    
+                    
+                    // for kk in try sqliteDB.db.prepare(query) {
+                    //  try sqliteDB.db.run(query.update(kk[kibocontact] <- true))
+                    //}
+                    //try sqliteDB.db.run(allcontactslist1.update(query[kibocontact] <- true))
+                    
+                    // try sqliteDB.db.run(allcontactslist1.update(ccc[kibocontact] <- true))
+                }
+                
+            }
+            
+            }
+            dispatch_async(dispatch_get_main_queue())
+            {
+                completion(result:true)
+            }
+        }
+        catch{
+            print("error 123")
+            dispatch_async(dispatch_get_main_queue())
+            {
+                completion(result:false)
+            }
+        }
+        
+        
+    }
+    }
     
     
     func leftJoinContactsTables()->Array<Row>

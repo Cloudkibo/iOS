@@ -4235,6 +4235,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
         socketObj.delegateChat=nil
     }
         delegateRefreshChat=nil
+        delegateChatRefr=nil
        /////  NSNotificationCenter.defaultCenter().removeObserver(self, name:UIKeyboardWillShowNotification, object: nil)    
     }
     

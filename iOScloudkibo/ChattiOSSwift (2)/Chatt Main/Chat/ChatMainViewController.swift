@@ -272,6 +272,8 @@ class ChatMainViewController:UIViewController,SocketConnecting,RefreshContactsLi
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        
         print("Chat ViewController is loadingggggg")
         syncServiceContacts.delegateRefreshContactsList=self
         if(self.accountKit == nil){
@@ -477,7 +479,15 @@ class ChatMainViewController:UIViewController,SocketConnecting,RefreshContactsLi
         print("////////////////////// new class tokn \(AuthToken)", terminator: "")
         // fetchContacts(AuthToken)
         print(self.ContactNames.count.description, terminator: "")
-         self.tblForChat.reloadData()
+       
+        
+        self.fetchContacts({ (result) -> () in
+            //self.fetchContactsFromServer()
+            dispatch_async(dispatch_get_main_queue()) {
+                self.tblForChat.reloadData()
+            }
+        })
+        
         
         
         /////////////----------------------================================++++++++++
@@ -696,15 +706,15 @@ class ChatMainViewController:UIViewController,SocketConnecting,RefreshContactsLi
         }
         //%%%%%% new phone model add
         
-        dispatch_sync(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0)) {
+     //   dispatch_async(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0)) {
             // do some task start to show progress wheel
-            self.fetchContacts({ (result) -> () in
+            /*self.fetchContacts({ (result) -> () in
                 //self.fetchContactsFromServer()
-                //dispatch_async(dispatch_get_main_queue()) {
+                dispatch_async(dispatch_get_main_queue()) {
                 self.tblForChat.reloadData()
-                //}
-            })
-        }
+                }
+            })*/
+        //}
 
         
       
@@ -716,6 +726,9 @@ class ChatMainViewController:UIViewController,SocketConnecting,RefreshContactsLi
     
     func fetchContacts(completion:(result:Bool)->()){
         socketObj.socket.emit("logClient","IPHONE-LOG: fetch contacts from sqlite database")
+        dispatch_async(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0)) {
+            
+            
         let contactid = Expression<String>("contactid")
         let detailsshared = Expression<String>("detailsshared")
         
@@ -744,6 +757,8 @@ class ChatMainViewController:UIViewController,SocketConnecting,RefreshContactsLi
         self.ContactsEmail.removeAll(keepCapacity: false)
         self.ContactsProfilePic.removeAll(keepCapacity: false)
         
+        
+        
         let tbl_contactslists=sqliteDB.contactslists
         
         
@@ -762,10 +777,13 @@ class ChatMainViewController:UIViewController,SocketConnecting,RefreshContactsLi
           //  alladdressContactsArray = Array(try sqliteDB.db.prepare(allcontactslist1))
             //alladdressContactsArray[indexPath.row].get(name)
             do{for ccc in try sqliteDB.db.prepare(allcontactslist1) {
-                
+                print("in main found ccc")
                 for tblContacts in try sqliteDB.db.prepare(tbl_contactslists){
+                    print("in main found tblContacts")
                     if(ccc[phone]==tblContacts[phone])
                     {
+                        print("in main found phone")
+                        
                         
                     //}
                // }
@@ -774,17 +792,17 @@ class ChatMainViewController:UIViewController,SocketConnecting,RefreshContactsLi
            print("queryy runned count is \(tbl_contactslists.count)")
             print(tblContacts[firstname]+" "+tblContacts[lastname])
             //ContactsObjectss.append(tblContacts[contactid])
-            ContactNames.append(ccc[name]!)
-            ContactUsernames.append(tblContacts[username])
+            self.ContactNames.append(ccc[name]!)
+            self.ContactUsernames.append(tblContacts[username])
             // %%%%%%%%%%%%%%%%************ CHAT BUG ID %%%%%%%%%%%
            // ContactIDs.append(tblContacts[contactid])
            // ContactIDs.append(tblContacts[userid])
-            ContactFirstname.append(tblContacts[firstname])
-            ContactLastNAme.append(tblContacts[lastname])
-            ContactStatus.append(tblContacts[status])
-            ContactsEmail.append(tblContacts[email])
-            ContactsPhone.append(tblContacts[phone])
-            ContactOnlineStatus.append(0)
+            self.ContactFirstname.append(tblContacts[firstname])
+            self.ContactLastNAme.append(tblContacts[lastname])
+            self.ContactStatus.append(tblContacts[status])
+            self.ContactsEmail.append(tblContacts[email])
+            self.ContactsPhone.append(tblContacts[phone])
+            self.ContactOnlineStatus.append(0)
                         
                         //let queryPic = allcontactslist1.filter(allcontactslist1[phone] == ccc[phone])          // SELECT "email" FROM "users"
                         
@@ -804,7 +822,7 @@ class ChatMainViewController:UIViewController,SocketConnecting,RefreshContactsLi
                                 if(foundcontact.imageDataAvailable==true)
                                 {
                                     foundcontact.imageData
-                                    ContactsProfilePic.append(foundcontact.imageData!)
+                                    self.ContactsProfilePic.append(foundcontact.imageData!)
                                     picfound=true
                                 }
                                 
@@ -854,19 +872,30 @@ class ChatMainViewController:UIViewController,SocketConnecting,RefreshContactsLi
                         
                         if(picfound==false)
                         {
-                            ContactsProfilePic.append(NSData.init())
+                            self.ContactsProfilePic.append(NSData.init())
                         }
                         
+                    }
+                    else
+                    {
+                        print("phone not found")
                     }
                 }
 
         }
-            completion(result:true)
-        }catch
+                dispatch_async(dispatch_get_main_queue())
+                {
+            return completion(result:true)
+        }
+            }catch
         {
             print("query not runned contactlist")
+            dispatch_async(dispatch_get_main_queue())
+            {
+                return completion(result:true)
+            }
         }
-        
+        }
     
     }
     
@@ -1749,11 +1778,12 @@ class ChatMainViewController:UIViewController,SocketConnecting,RefreshContactsLi
     override func viewWillDisappear(animated: Bool) {
         print("dismissed chatttttttt")
         //socketObj.delegate=nil
+        syncServiceContacts.delegateRefreshContactsList=nil
     }
 
     func refreshContactsList(message: String) {
         
-        dispatch_sync(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0)) {
+        dispatch_async(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0)) {
             // do some task start to show progress wheel
             self.fetchContacts({ (result) -> () in
                 //self.fetchContactsFromServer()

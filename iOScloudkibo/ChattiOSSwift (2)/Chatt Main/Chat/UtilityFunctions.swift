@@ -252,6 +252,7 @@ class UtilityFunctions{
     
     func downloadProfileImageOnLaunch(uniqueid1:String)
     {
+        print("inside download group icon on launch")
         //581b26d7583658844e9003d7
         let path = NSFileManager.defaultManager().URLsForDirectory(.ApplicationSupportDirectory, inDomains: .UserDomainMask)[0] as NSURL
         //print("path download is \(path)")
