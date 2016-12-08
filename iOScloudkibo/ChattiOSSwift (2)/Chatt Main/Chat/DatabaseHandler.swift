@@ -418,7 +418,7 @@ class DatabaseHandler:NSObject{
         let email = Expression<String>("email")
         let kiboContact = Expression<Bool>("kiboContact")
         /////////////////////let profileimage = Expression<NSData>("profileimage")
-        let uniqueidentifier = Expression<NSData>("uniqueidentifier")
+        let uniqueidentifier = Expression<String>("uniqueidentifier")
         //
         self.allcontacts = Table("allcontacts")
         do{

@@ -695,7 +695,7 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
         let email = Expression<String>("email")
         let kiboContact = Expression<Bool>("kiboContact")
         /////////////////////let profileimage = Expression<NSData>("profileimage")
-        let uniqueidentifier = Expression<NSData>("uniqueidentifier")
+        let uniqueidentifier = Expression<String>("uniqueidentifier")
         //
         var allcontacts = sqliteDB.allcontacts
         //========================================================
@@ -2110,6 +2110,7 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
             
           
             var joinrows=self.leftJoinContactsTables(ccc[contactPhone])
+           
             if(joinrows.count>0)
             {print(joinrows.debugDescription)
                 print("found uniqueidentifier from join is \(joinrows[0].get(uniqueidentifier))")

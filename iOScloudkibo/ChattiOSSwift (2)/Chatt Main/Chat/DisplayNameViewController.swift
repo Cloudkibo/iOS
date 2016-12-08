@@ -23,12 +23,25 @@ class DisplayNameViewController: UIViewController {
     var Q4_getUserData=dispatch_queue_create("getUserData",DISPATCH_QUEUE_SERIAL)
     var Q5_fetchAllChats=dispatch_queue_create("fetchAllChats",DISPATCH_QUEUE_SERIAL)
     var Q5_fetchAllGroupsData=dispatch_queue_create("fetchAllGroupsData",DISPATCH_QUEUE_SERIAL)
+    var Q6_updateIsKiboStatus=dispatch_queue_create("updateIsKiboStatus",DISPATCH_QUEUE_SERIAL)
+
     
     var syncPhonesList=[String]()
     var syncContactsList=[CNContact]()
-    
+    var syncAvailablePhonesList=[String]()
+    var syncNotAvailablePhonesList=[String]()
     
     var accountKit: AKFAccountKit!
+    
+    var name=Expression<String>("name")
+    var phone=Expression<String>("phone")
+    var actualphone=Expression<String>("actualphone")
+    var email=Expression<String>("email")
+    //////////////var profileimage=Expression<NSData>("profileimage")
+    let uniqueidentifier = Expression<String>("uniqueidentifier")
+    
+    
+    
     @IBOutlet weak var txtDisplayName: UITextField!
     var messageFrame = UIView()
     var activityIndicator = UIActivityIndicatorView()
@@ -194,9 +207,12 @@ class DisplayNameViewController: UIViewController {
         let contactStore = CNContactStore()
         
         var keys = [CNContactGivenNameKey, CNContactFamilyNameKey, CNContactEmailAddressesKey, CNContactPhoneNumbersKey, CNContactImageDataAvailableKey,CNContactThumbnailImageDataKey, CNContactImageDataKey]
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT,0)){
+            
         do {
             /////let contactStore = AppDelegate.getAppDelegate().contactStore
-            try contactStore.enumerateContactsWithFetchRequest(CNContactFetchRequest(keysToFetch: keys)) { (contact, pointer) -> Void in
+            
+             try contactStore.enumerateContactsWithFetchRequest(CNContactFetchRequest(keysToFetch: keys)) { (contact, pointer) -> Void in
                 
                 print("appending to contacts")
                 self.syncContactsList.append(contact)
@@ -298,8 +314,226 @@ class DisplayNameViewController: UIViewController {
                 completion(result: false)
             }
         }
-        
+        }
     }
+    
+    func SyncFillContactsTableWithRecords(completion:(result:Bool)->())
+    {
+        
+        
+        let tbl_allcontacts=sqliteDB.allcontacts
+        
+        //deleting all records
+        do
+        {
+            print("synccccc deleting records of contacts table")
+            // --==== newww  try sqliteDB.db.run(tbl_allcontacts.delete())
+            // =====---- newww print("now count is \(sqliteDB.db.scalar(tbl_allcontacts.count))")
+            var contactsdata=[[String:String]]()
+            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT,0)){
+                
+            for(var i=0;i<self.syncContactsList.count;i++)
+            {
+                
+                do{
+                    /////// uniqueidentifierList.append(contact.identifier)
+                    if(try self.syncContactsList[i].givenName != "")
+                    {
+                        /////////nameList.append(contact.givenName+" "+contact.familyName)
+                        print(self.syncContactsList[i].givenName)
+                        
+                    }
+                    
+                    
+                }
+                catch(let error)
+                {
+                    print("error: \(error)")
+                    socketObj.socket.emit("logClient", "error in fetching contact name: \(error)")
+                }
+                do{
+                    
+                    var uniqueidentifier1=self.syncContactsList[i].identifier
+                    var image=NSData()
+                    var fullname=self.syncContactsList[i].givenName+" "+self.syncContactsList[i].familyName
+                    if (self.syncContactsList[i].isKeyAvailable(CNContactPhoneNumbersKey)) {
+                        for phoneNumber:CNLabeledValue in self.syncContactsList[i].phoneNumbers {
+                            let a = phoneNumber.value as! CNPhoneNumber
+                            //////////////emails.append(a.valueForKey("digits") as! String)
+                            var zeroIndex = -1
+                            var phoneDigits=a.valueForKey("digits") as! String
+                            var actualphonedigits=a.valueForKey("digits") as! String
+                            //remove leading zeroes
+                            /* for index in phoneDigits.characters.indices {
+                             print(phoneDigits[index])
+                             if(phoneDigits[index]=="0")
+                             {
+                             zeroIndex=index as! Int
+                             //phoneDigits.characters.popFirst() as! String
+                             print(".. droping zero \(phoneDigits) index \(zeroIndex)")
+                             }
+                             else
+                             {
+                             if(zeroIndex != -1)
+                             {
+                             let rangeOfTLD = Range(start: phoneDigits.startIndex.advancedBy(zeroIndex),
+                             end: phoneDigits.endIndex)
+                             phoneDigits = phoneDigits[rangeOfTLD] // "com"
+                             print("range is \(phoneDigits)")
+                             }
+                             break
+                             }
+                             
+                             }*/
+                            for(var i=0;i<phoneDigits.characters.count;i++)
+                            {
+                                if(phoneDigits.characters.first=="0")
+                                {
+                                    phoneDigits.removeAtIndex(phoneDigits.startIndex)
+                                    //phoneDigits.characters.popFirst() as! String
+                                    print(".. droping zero \(phoneDigits)")
+                                }
+                                else
+                                {
+                                    break
+                                }
+                            }
+                            do{
+                                
+                                
+                                //get countrycode from db
+                                
+                                let country_prefix = Expression<String>("country_prefix")
+                                
+                                
+                                if(countrycode == nil)
+                                {
+                                    let tbl_accounts = sqliteDB.accounts
+                                    do{for account in try sqliteDB.db.prepare(tbl_accounts) {
+                                        countrycode=account[country_prefix]
+                                        //displayname=account[firstname]
+                                        
+                                        }
+                                    }
+                                }
+                                if(countrycode=="1" && phoneDigits.characters.first=="1" && phoneDigits.characters.first != "+")
+                                {
+                                    phoneDigits = "+"+phoneDigits
+                                }
+                                else if(phoneDigits.characters.first != "+"){
+                                    phoneDigits = "+"+countrycode+phoneDigits
+                                    print("appended phone is \(phoneDigits)")
+                                }
+                                
+                                //////===========
+                                // =============emails.append(phoneDigits)
+                                var emailAddress=""
+                                let em = try self.syncContactsList[i].emailAddresses.first
+                                if(em != nil && em != "")
+                                {
+                                    print(em?.label)
+                                    print(em?.value)
+                                    emailAddress=(em?.value)! as! String
+                                    print("email adress value iss \(emailAddress)")
+                                    /////emails.append(em!.value as! String)
+                                }
+                                if(self.syncContactsList[i].imageDataAvailable==true)
+                                {
+                                    image=self.syncContactsList[i].imageData!
+                                }
+                                print("trying to save \(fullname) and uniqueidentifier is \(uniqueidentifier1)")
+                                
+                                var data=[String:String]()
+                                data["name"]=fullname
+                                data["phone"]=phoneDigits
+                                data["actualphone"]=actualphonedigits
+                                data["email"]=emailAddress
+                                data["uniqueidentifier"]=uniqueidentifier1
+                                
+                                
+                                contactsdata.append(data)
+                                //==== --- new commented moved down try sqliteDB.db.run(tbl_allcontacts.insert(name<-fullname,phone<-phoneDigits,actualphone<-actualphonedigits,email<-emailAddress,uniqueidentifier<-uniqueidentifier1))
+                            }
+                            catch(let error)
+                            {
+                                print("errorr in reading in name : \(error)")
+                                
+                                ///////socketObj.socket.emit("logClient","IPHONE-LOG: iphoneLog: error is getting name \(error)")
+                            }
+                        }
+                    }
+                    
+                    
+                    /*if let phone = try contacts[i].phoneNumbers.first?.value as! CNPhoneNumber!
+                     {
+                     if( phone != "")
+                     {
+                     emails.append(phone.stringValue)
+                     print(phone.stringValue)
+                     }
+                     }*/
+                    
+                }
+                
+                
+                /*if( phone != ""  && phone != nil)
+                 {
+                 phonesList.append(phone.stringValue)
+                 print(phone.stringValue)
+                 }*/
+                
+                
+                //print(self.contacts[i].emailAddresses.first!.value)
+                ////self.emails.append(phone.stringValue)
+                // print(self.emails[i])
+                
+                ///////
+                
+                //  }
+                
+            }
+            
+            //delete table data====
+            do{
+                try sqliteDB.db.run(tbl_allcontacts.delete())
+                // print("now count is \(sqliteDB.db.scalar(tbl_allcontacts.count))")
+                
+                for(var j=0;j<contactsdata.count;j++)
+                {
+                    do{
+                        try sqliteDB.db.run(tbl_allcontacts.insert(self.name<-contactsdata[j]["name"]!,self.phone<-contactsdata[j]["phone"]!,self.actualphone<-contactsdata[j]["actualphone"]!,self.email<-contactsdata[j]["email"]!,self.uniqueidentifier<-contactsdata[j]["uniqueidentifier"]!))
+                    }
+                    catch(let error)
+                    {
+                        print("error in inserting contact : \(error)")
+                        ///////socketObj.socket.emit("logClient","IPHONE-LOG: iphoneLog: error is getting name \(error)")
+                    }
+                }
+                dispatch_async(dispatch_get_main_queue())
+                {
+                    completion(result:true)
+                }
+            }
+            catch(let error)
+            {
+                print("error in deleting data of contacts table")
+                ///////socketObj.socket.emit("logClient","IPHONE-LOG: iphoneLog: error is getting name \(error)")
+            }
+            }
+            
+        }
+        catch
+        {
+            print("synccccc error in deleting allcontacts table")
+            socketObj.socket.emit("logClient","IPHONE-LOG: iphoneLog: error in deleting allcontacts data \(error)")
+        }
+        dispatch_async(dispatch_get_main_queue())
+        {
+            completion(result:true)
+        }
+    }
+    
+    
     
     func fetchContactsFromDevice(completion: (result:Bool)->())
     {
@@ -319,6 +553,107 @@ class DisplayNameViewController: UIViewController {
             }
     }
     
+    
+    
+    func SyncSendPhoneNumbersToServer(phones:[String],completion: (result:Bool)->())
+    {
+        // phones=phones.description.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
+        
+        print("phones are are \(phones)")
+        socketObj.socket.emit("logClient","IPHONE-LOG: sending phone numbers to server")
+        // %%%%%%%%%%%%%%%%%% new phone model change
+        let searchContactsByPhones=Constants.MainUrl+Constants.searchContactsByPhone
+        //let searchContactsByEmail=Constants.MainUrl+Constants.searchContactsByEmail+"?access_token="+AuthToken!
+        //var s:[String]!
+        //var ss:String="["
+        for e in phones{
+            //ss.appendContentsOf(e)
+            print("phones sending to server are \(e)")
+            
+        }
+        
+        //var ssss=phones.debugDescription.stringByReplacingOccurrencesOfString("\\", withString: " ")
+        //var phonesCorrentFormat=phones.debugDescription.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
+        //var phonesCorrentFormat=phones.debugDescription.stringByReplacingOccurrencesOfString(" ", withString: "")
+        var phonesCorrentFormat=phones.debugDescription.stringByReplacingOccurrencesOfString(" ", withString: "")
+        
+        print(phonesCorrentFormat)
+        // print(ssss)
+        //ss.appendContentsOf("]")
+        //emails.description.propertyList()
+        //var emailParas=JSON(emails).object
+        //dispatch_async(dispatch_get_main_queue(), { () -> Void in
+        
+        //%%%%%%%%%%%%%%% new phone model change
+        //Alamofire.request(.POST,searchContactsByEmail,parameters:["emails":emails],encoding: .JSON).responseJSON { response in
+        Alamofire.request(.POST,searchContactsByPhones,headers:header,parameters:["phonenumbers":phones],encoding: .JSON).responseJSON { response in
+            
+            if(response.response?.statusCode==200)
+            {socketObj.socket.emit("logClient","IPHONE-LOG: success in getting available and not available contacts")
+                
+                dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT,0))
+                {
+                debugPrint(response.data)
+                //print(response.request)
+                //print(response.response)
+                print(response.data)
+                //print(response.e
+                
+                //************* error here...........................
+                print(response.result.value!)
+                var res=JSON(response.result.value!)
+                //print(res)
+                ////////////////var availableContactsEmails=res["available"].object
+                var availableContactsPhones=res["available"]
+                print("available contacts are \(availableContactsPhones.debugDescription)")
+                var notAvailablePhonesArrayReturned=res["notAvailable"].array
+                for var i=0;i<notAvailablePhonesArrayReturned!.count;i++
+                {
+                    // self.notAvailableContacts[i]=NotavailableContactsEmails![i].rawString()!
+                    self.syncNotAvailablePhonesList.append(notAvailablePhonesArrayReturned![i].debugDescription)
+                    ////////// print("----------- \(self.notAvailableContacts[i].debugDescription)")
+                }
+                
+                for var i=0;i<availableContactsPhones.count;i++
+                {
+                    // self.notAvailableContacts[i]=NotavailableContactsEmails![i].rawString()!
+                    
+                    
+                    self.syncAvailablePhonesList.append(availableContactsPhones[i].debugDescription)
+                    
+                    
+                    // print("----------- \(self.notAvailableContacts[i].debugDescription)")
+                }
+                
+                
+                //print(NotavailableContactsEmails!)
+                //////   print("**************** \(self.notAvailableContacts)")
+                
+                dispatch_async(dispatch_get_main_queue())
+                {
+                    completion(result: true)
+                }
+                
+                /* if(self.delegate != nil)
+                 {
+                 self.delegate?.receivedContactsUpdateUI()
+                 }*/
+                }
+            }
+            else
+            {
+                dispatch_async(dispatch_get_main_queue())
+                {
+                    socketObj.socket.emit("logClient","IPHONE-LOG: error: \(response.debugDescription)")
+                    completion(result: false)
+                }
+            }
+            
+        }
+        
+        
+        // })
+    }
     
     
     func sendPhoneNumbersToServer(completion: (result:Bool)->())
@@ -896,8 +1231,8 @@ class DisplayNameViewController: UIViewController {
                                 self.progressBarDisplayer("Setting Contacts Step 2/4", true)
                                 dispatch_sync(self.Q2_sendPhonesToServer,
                                     {//self.strLabel.text="Setting Contacts Step 2/4"
-                                        self.sendPhoneNumbersToServer({ (result) -> () in
-                                            
+                                       //====----- self.sendPhoneNumbersToServer({ (result) -> () in
+                                            self.SyncSendPhoneNumbersToServer(self.syncPhonesList, completion: { (result) in
                                             self.messageFrame.removeFromSuperview()
                                             print("setting contacts start time \(NSDate())")
                                             self.progressBarDisplayer("Setting Contacts Step 3/4", true)
@@ -905,8 +1240,12 @@ class DisplayNameViewController: UIViewController {
                                                 {
                                                     self.fetchContactsFromServer({ (result) -> () in
                                                         
-                                                        
-                                                        var allcontactslist1=sqliteDB.allcontacts
+                                                        dispatch_sync(self.Q6_updateIsKiboStatus,
+                                                            {
+                                                        self.updateKiboContactsStatus({ (result) in
+                                                            
+                                                            
+                                                        /*var allcontactslist1=sqliteDB.allcontacts
                                                         var alladdressContactsArray:Array<Row>
                                                         
                                                         let phone = Expression<String>("phone")
@@ -941,7 +1280,7 @@ class DisplayNameViewController: UIViewController {
                                                         }
                                                         catch{
                                                             print("error 123")
-                                                        }
+                                                        }*/
                                                         
                                                         dispatch_sync(self.Q4_getUserData,
                                                             {
@@ -1009,8 +1348,9 @@ class DisplayNameViewController: UIViewController {
                                                     })
                                                         
                                                 })
-                                                    
-                                            })
+                                                 //
+                                                    })
+                                                        })})
                                             
                                         })
                                 })
@@ -1050,6 +1390,111 @@ class DisplayNameViewController: UIViewController {
             })*/
      
 }
+    
+    
+    func leftJoinContactsTables()->Array<Row>
+    {
+        
+        var resultrow=Array<Row>()
+        let name = Expression<String>("name")
+        let phone = Expression<String>("phone")
+        let actualphone = Expression<String>("actualphone")
+        let email = Expression<String>("email")
+        let kiboContact = Expression<Bool>("kiboContact")
+        /////////////////////let profileimage = Expression<NSData>("profileimage")
+        let uniqueidentifier = Expression<String>("uniqueidentifier")
+        //
+        var allcontacts = sqliteDB.allcontacts
+        //========================================================
+        let contactid = Expression<String>("contactid")
+        let detailsshared = Expression<String>("detailsshared")
+        let unreadMessage = Expression<Bool>("unreadMessage")
+        
+        let userid = Expression<String>("userid")
+        let firstname = Expression<String>("firstname")
+        let lastname = Expression<String>("lastname")
+        //---let email = Expression<String>("email")
+        //--- let phone = Expression<String>("phone")
+        let username = Expression<String>("username")
+        let status = Expression<String>("status")
+        
+        var contactslists = sqliteDB.contactslists
+        //=================================================
+        var joinquery=allcontacts.join(.LeftOuter, contactslists, on: contactslists[phone] == allcontacts[phone])
+        
+        do{for joinresult in try sqliteDB.db.prepare(joinquery) {
+            if(joinresult[uniqueidentifier].isEmpty){}
+            else{
+                resultrow.append(joinresult)
+            }
+            }
+        }
+        catch{
+            print("error in join query \(error)")
+        }
+        return resultrow
+        
+    }
+    
+    func updateKiboContactsStatus(completion: (result:Bool)->())
+    {
+        
+        var allcontactslist1=sqliteDB.allcontacts
+        var alladdressContactsArray:Array<Row>
+        
+        let phone = Expression<String>("phone")
+        let kibocontact = Expression<Bool>("kiboContact")
+        let name = Expression<String?>("name")
+        
+        //alladdressContactsArray = Array(try sqliteDB.db.prepare(allcontactslist1))
+        
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT,0))
+        {
+            var joinrows=self.leftJoinContactsTables()
+            
+            do{
+                for ccc in joinrows {
+                    
+                    for var i=0;i<availableEmailsList.count;i++
+                    {print(":::email .......  : \(availableEmailsList[i])")
+                        
+                        if(ccc.get(allcontactslist1[phone])==availableEmailsList[i])
+                        { print(":::::::: \(ccc.get(allcontactslist1[phone]))  and emaillist : \(availableEmailsList[i])")
+                            //ccc[kibocontact]
+                            
+                            let query = allcontactslist1.select(kibocontact)           // SELECT "email" FROM "users"
+                                .filter(phone == ccc.get(allcontactslist1[phone]))     // WHERE "name" IS NOT NULL
+                            
+                            do{try sqliteDB.db.run(query.update(kibocontact <- true))}
+                            catch{
+                                print("error in join query \(error)")
+                            }
+                            
+                            // for kk in try sqliteDB.db.prepare(query) {
+                            //  try sqliteDB.db.run(query.update(kk[kibocontact] <- true))
+                            //}
+                            //try sqliteDB.db.run(allcontactslist1.update(query[kibocontact] <- true))
+                            
+                            // try sqliteDB.db.run(allcontactslist1.update(ccc[kibocontact] <- true))
+                        }
+                        
+                    }
+                    
+                }
+                
+                dispatch_async(dispatch_get_main_queue())
+                {
+                    return completion(result:true)
+                }
+                
+                
+            }
+            catch{
+                print("error updating kibo status")
+            }
+        }
+    }
+
 }
 
 protocol initialSettingsProtocol:class
@@ -1057,7 +1502,6 @@ protocol initialSettingsProtocol:class
     func didLoginFirstTime();
 
 }
-
     /*
     func sendNameToServer(var displayName:String)
     {
