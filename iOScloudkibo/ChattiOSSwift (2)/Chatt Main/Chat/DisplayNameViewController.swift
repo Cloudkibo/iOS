@@ -15,6 +15,7 @@ import SQLite
 
 class DisplayNameViewController: UIViewController {
     
+    @IBOutlet weak var lbl_progress: UILabel!
     
     var Q0_sendDisplayName=dispatch_queue_create("Q0_sendDisplayName",DISPATCH_QUEUE_SERIAL)
     var Q1_fetchFromDevice=dispatch_queue_create("fetchFromDevice",DISPATCH_QUEUE_SERIAL)
@@ -213,15 +214,24 @@ class DisplayNameViewController: UIViewController {
             
         do {
             /////let contactStore = AppDelegate.getAppDelegate().contactStore
-            
+            var counter=1
              try contactStore.enumerateContactsWithFetchRequest(CNContactFetchRequest(keysToFetch: keys)) { (contact, pointer) -> Void in
+                
+                
                 
                 print("appending to contacts")
                 self.syncContactsList.append(contact)
                 
                 print("contactsListSync appended count is \(self.syncContactsList.count)")
+                self.lbl_progress.text="Setting Contact \(self.syncContactsList.count)"
                 print("inside contacts filling for loop count is \(self.syncContactsList.count)")
-                
+               // dispatch_async(dispatch_get_main_queue())
+                //{
+                    
+                  //  self.messageFrame.removeFromSuperview()
+                   // print("setting contacts start time \(NSDate())")
+                   // self.progressBarDisplayer("Setting Contacts \(counter)", true)
+                //}
                 if (contact.isKeyAvailable(CNContactPhoneNumbersKey)) {
                     for phoneNumber:CNLabeledValue in contact.phoneNumbers {
                         let a = phoneNumber.value as! CNPhoneNumber
@@ -301,7 +311,7 @@ class DisplayNameViewController: UIViewController {
                         /////// completion(result:true)
                     }
                 }
-    
+    counter=counter+1
             }
             
             dispatch_async(dispatch_get_main_queue())
@@ -1211,7 +1221,8 @@ class DisplayNameViewController: UIViewController {
         header=["kibo-token":accountKit!.currentAccessToken!.tokenString]
         }
         displayname=displayName
-        progressBarDisplayer("Contacting Server", true)
+        //=--progressBarDisplayer("Contacting Server", true)
+        self.lbl_progress.text="Contacting Server..."
         dispatch_sync(Q0_sendDisplayName,
             {
                 self.sendNameToServer(displayName){ (result) -> () in
@@ -1219,28 +1230,37 @@ class DisplayNameViewController: UIViewController {
                     {
                     
                 }*/
-                    self.messageFrame.removeFromSuperview()
+                    /*self.messageFrame.removeFromSuperview()
                     print("setting contacts start time \(NSDate())")
                     self.progressBarDisplayer("Setting Contacts Step 1/4", true)
+                    */
+                    
+                    self.lbl_progress.text="Setting Contacts..."
                     dispatch_sync(self.Q1_fetchFromDevice,
                         {//self.strLabel.text="Setting Contacts Step 2/4"
                             //self.fetchContactsFromDevice({ (result) -> () in
                               //SyncfetchContacts
                             self.SyncfetchContacts({ (result) -> () in
                                 
-                                self.messageFrame.removeFromSuperview()
-                                print("setting contacts start time \(NSDate())")
-                                self.progressBarDisplayer("Setting Contacts Step 2/4", true)
+                                //self.messageFrame.removeFromSuperview()
+                                //print("Sending network request..")
+                               // self.progressBarDisplayer("Sending network request..", true)
+                                self.lbl_progress.text="Waiting for Server response.."
                                 dispatch_sync(self.Q2_sendPhonesToServer,
                                     {//self.strLabel.text="Setting Contacts Step 2/4"
                                        //====----- self.sendPhoneNumbersToServer({ (result) -> () in
                                             self.SyncSendPhoneNumbersToServer(self.syncPhonesList, completion: { (result) in
-                                            self.messageFrame.removeFromSuperview()
-                                            print("setting contacts start time \(NSDate())")
-                                            self.progressBarDisplayer("Setting Contacts Step 3/4", true)
+                                            //self.messageFrame.removeFromSuperview()
+                                            //print("updating local database \(NSDate())")
+                                           // self.progressBarDisplayer("Updating local database", true)
+                                                self.lbl_progress.text="Updating local database.."
                                             dispatch_sync(self.Q3_getContactsFromServer,
                                                 {
+                                                    
+                                                    //.......
+                                                    //....
                                                     self.SyncFillContactsTableWithRecords({ (result) in
+                                                        
                                                         
                                                         dispatch_sync(self.Q6_updateIsKiboStatus,
                                                             {
@@ -1287,11 +1307,15 @@ class DisplayNameViewController: UIViewController {
                                                             print("error 123")
                                                         }*/
                                                         
+                                                                 //   self.messageFrame.//removeFromSuperview()
+                                                                    print("setting contacts start time \(NSDate())")
+                                                                    //self.progressBarDisplayer("Waiting for server response", true)
+                                                                    
                                                         dispatch_sync(self.Q4_getUserData,
                                                             {
-                                                                self.messageFrame.removeFromSuperview()
-                                                                print("setting contacts start time \(NSDate())")
-                                                                self.progressBarDisplayer("Setting Contacts Step 4/4", true)
+                                                                //self.messageFrame.removeFromSuperview()
+                                                                //print("setting contacts start time \(NSDate())")
+                                                                //self.progressBarDisplayer("Setting Contacts Step 4/4", true)
                                                                 self.getCurrentUserDetails({ (result) -> () in
                                                                 
                                                                     
@@ -1317,21 +1341,28 @@ class DisplayNameViewController: UIViewController {
                                                                     }
                                                                     
                                                                     print("setting contacts finish time \(NSDate())")
+                                                                    
+                                                                    self.lbl_progress.text="Getting details from server.."
                                                                     dispatch_sync(self.Q_fetchAllfriends,
                                                                         {
+                                                                            
                                                                     self.fetchContactsFromServer({ (result) in
 
-                                                                self.messageFrame.removeFromSuperview()
-                                                                self.progressBarDisplayer("Setting Chats", true)
+                                                                        
+                                                                        self.lbl_progress.text="Setting Chats.."
+                                                                //self.messageFrame.removeFromSuperview()
+                                                                //self.progressBarDisplayer("Setting Chats", true)
                                                                 dispatch_sync(self.Q5_fetchAllChats,
                                                                 {
                                                                 self.fetchChatsFromServer({ (result) -> () in
                                                                     
                                                                    // dispatch_async(dispatch_get_main_queue())
                                                                        // {
-                                                                            self.messageFrame.removeFromSuperview()
-                                                                            self.progressBarDisplayer("Setting Groups", true)
-                                                                            dispatch_sync(self.newserialqueue,
+                                                                   //         self.messageFrame.removeFromSuperview()
+                                                                            //self.progressBarDisplayer("Setting Groups", true)
+                                                                  self.lbl_progress.text="Setting Groups.."
+                                                                    
+                                                                    dispatch_sync(self.newserialqueue,
                                                                                 {
                                                                                     var syncGroupsObj=syncGroupService.init()
                                                                                     //==uncomment latersyncGroupsObj.startSyncGroupsService({ (result) -> () in
@@ -1340,9 +1371,11 @@ class DisplayNameViewController: UIViewController {
                                                                                     syncGroupsObj.startSyncGroupsServiceOnLaunch({ (result) -> () in
                                                                                     //result
                                                                                         print("sync on installation is completed. going to chat screen")
-                                                                                    dispatch_async(dispatch_get_main_queue())
+                                                                     
+                                                                                        self.lbl_progress.text="Completed.."
+                                                                                        dispatch_async(dispatch_get_main_queue())
                                                                                     {
-                                                                                        self.messageFrame.removeFromSuperview()
+                                                                                        //self.messageFrame.removeFromSuperview()
                                                                                         print("completed done time \(NSDate())")
                                                                             self.dismissViewControllerAnimated(false, completion: { () -> Void in
                                                                                 

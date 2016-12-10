@@ -15,6 +15,7 @@ import Foundation
 import AccountKit
 import Contacts
 import ContactsUI
+import Haneke
 
 class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,CNContactPickerDelegate,
     EPPickerDelegate,SWTableViewCellDelegate,UpdateChatViewsDelegate,RefreshContactsList,UpdateMainPageChatsDelegate
@@ -47,7 +48,7 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
     let nationalNumber = Expression<String>("nationalNumber")
     
 
-    var userObject:JSON!
+    var userObject:SwiftyJSON.JSON!
     @IBOutlet weak var editButtonOutlet: UIBarButtonItem!
     var accountKit: AKFAccountKit!
     var rt=NetworkingLibAlamofire()
@@ -2815,7 +2816,9 @@ dispatch_async(dispatch_get_main_queue())
       
         participantsSelected.removeAll()
         print("BtnnewGroupClicked")
-        picker = CNContactPickerViewController();
+        
+        
+        /*picker = CNContactPickerViewController();
         picker.title="Add Participants"
         picker.navigationItem.leftBarButtonItem=picker.navigationController?.navigationItem.backBarButtonItem
     
@@ -2824,7 +2827,7 @@ dispatch_async(dispatch_get_main_queue())
         // Respond to selection
         picker.delegate = self;
         self.presentViewController(picker, animated: true, completion: nil)
- 
+ */
  
         
         // Display picker
@@ -2989,7 +2992,8 @@ dispatch_async(dispatch_get_main_queue())
         var contactFound=false
         cell.newMsg.hidden=true
         cell.countNewmsg.hidden=true
-        cell.profilePic.image=UIImage(named: "profile-pic1.png")
+        cell.profilePic.hnk_setImage(UIImage(named: "profile-pic1.png")!, key: "profile-pic1")
+        //==--cell.profilePic.image=UIImage(named: "profile-pic1.png")
         
         ////%%%%%%%%%%%%%cell.contactName?.text=ContactNames[indexPath.row]
         
@@ -3089,9 +3093,13 @@ dispatch_async(dispatch_get_main_queue())
                         cell.profilePic.layer.borderColor = UIColor.whiteColor().CGColor
                         cell.profilePic.layer.cornerRadius = cell.profilePic.frame.size.width/2
                         cell.profilePic.clipsToBounds = true
-                        cell.profilePic.image=UIImage(data:ContactsProfilePic, scale: scale)
+                        //cell.profilePic.hnk_format=Format<UIImage>
+                        var scaledimage=ImageResizer(size: CGSize(width: cell.profilePic.bounds.width,height: cell.profilePic.bounds.height), scaleMode: .AspectFill, allowUpscaling: true, compressionQuality: 0.5)
+                        var resizedimage=scaledimage.resizeImage(UIImage(data:ContactsProfilePic)!)
+                        cell.profilePic.hnk_setImage(resizedimage, key: ContactUsernames)
+                        //=====-------cell.profilePic.image=UIImage(data:ContactsProfilePic, scale: scale)
                         ///cell.profilePic.image=UIImage(data:ContactsProfilePic[indexPath.row])
-                        UIImage(data: NSData(data: ContactsProfilePic) , scale: scale)
+                        //UIImage(data: NSData(data: ContactsProfilePic) , scale: scale)
                         print("image size is s \(UIImage(data:ContactsProfilePic)?.size.width) and h \(UIImage(data:ContactsProfilePic)?.size.height)")
                    }
                     
@@ -3142,7 +3150,11 @@ dispatch_async(dispatch_get_main_queue())
                 if(/*!ContactsProfilePic.isEmpty  &&*/ ContactsProfilePic != NSData.init())
                 {
                     print("seeting picc for \(ContactUsernames)")
-                    cell.profilePic.image=UIImage(data:ContactsProfilePic)
+                    var scaledimage=ImageResizer(size: CGSize(width: cell.profilePic.bounds.width,height: cell.profilePic.bounds.height), scaleMode: .AspectFill, allowUpscaling: true, compressionQuality: 0.5)
+                    var resizedimage=scaledimage.resizeImage(UIImage(data:ContactsProfilePic)!)
+                    cell.profilePic.hnk_setImage(resizedimage, key: ContactUsernames)
+                    
+                    //==----cell.profilePic.image=UIImage(data:ContactsProfilePic)
                 }
             }
         
@@ -3168,7 +3180,13 @@ dispatch_async(dispatch_get_main_queue())
                 cell.profilePic.layer.cornerRadius = cell.profilePic.frame.size.width/2
                 cell.profilePic.clipsToBounds = true
                 
-                cell.profilePic.image=UIImage(data: ContactsProfilePic, scale: scale)
+                
+                var scaledimage=ImageResizer(size: CGSize(width: cell.profilePic.bounds.width,height: cell.profilePic.bounds.height), scaleMode: .AspectFill, allowUpscaling: true, compressionQuality: 0.5)
+                var resizedimage=scaledimage.resizeImage(UIImage(data:ContactsProfilePic)!)
+                cell.profilePic.hnk_setImage(resizedimage, key: ContactUsernames)
+                
+                
+                //==----cell.profilePic.image=UIImage(data: ContactsProfilePic, scale: scale)
                 ///cell.profilePic.image=UIImage(data:ContactsProfilePic[indexPath.row])
                 UIImage(data: ContactsProfilePic, scale: scale)
                 print("image size is s \(UIImage(data:ContactsProfilePic)?.size.width) and h \(UIImage(data:ContactsProfilePic)?.size.height)")
@@ -4291,7 +4309,7 @@ dispatch_async(dispatch_get_main_queue())
     
     
     
-    func socketReceivedSpecialMessage(message:String,params:JSON!)
+    func socketReceivedSpecialMessage(message:String,params:SwiftyJSON.JSON!)
     {
         
     }
@@ -4304,120 +4322,38 @@ dispatch_async(dispatch_get_main_queue())
         print("here refreshing UI in chats view line # 4291")
         self.retrieveSingleChatsAndGroupsChatData({(result)-> () in
            
-            
-            //    dispatch_async(dispatch_get_main_queue())
-            //  {
-            // self.tblForChats.reloadData()
-            
             //commenting newwwwwwww -===-===-=
             dispatch_async(dispatch_get_main_queue())
             {
                 self.tblForChat.reloadData()
-                /*if(self.messages.count>1)
-                {
-                    var indexPath = NSIndexPath(forRow:self.messages.count-1, inSection: 0)
-                    
-                    self.tblForChat.scrollToRowAtIndexPath(indexPath, atScrollPosition: UITableViewScrollPosition.Bottom, animated: false)
-                }*/
             }
-            //}
-            // })
+         
         })
-        
-        /*dispatch_sync(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0)) {
-            // do some task start to show progress wheel
-            self.fetchContacts({ (result) -> () in
-                //self.fetchContactsFromServer()
-                print("checkinnn")
-                let tbl_accounts=sqliteDB.accounts
-                do{for account in try sqliteDB.db.prepare(tbl_accounts) {
-                    ///print("id: \(account[_id]), phone: \(account[phone]), firstname: \(account[firstname])")
-                    
-                    var userr:JSON=["_id":account[self._id],"display_name":account[self.firstname]!,"phone":account[self.phone]]
-                    if(socketObj != nil){
-                        socketObj.socket.emit("whozonline",
-                            ["room":"globalchatroom",
-                                "user":userr.object])
-                    }}}
-                catch{
-                    
-                }
-                
-                dispatch_async(dispatch_get_main_queue()) {
-                    self.tblForChat.reloadData()
-                }
-            })
-        }*/
-        
+ 
     }
     
     func refreshContactsList(message: String) {
         print("here refreshing UI in chats view line # 4341")
         self.retrieveSingleChatsAndGroupsChatData({(result)-> () in
-           
-            //    dispatch_async(dispatch_get_main_queue())
-            //  {
-            // self.tblForChats.reloadData()
-            
-            //commenting newwwwwwww -===-===-=
+        
             dispatch_async(dispatch_get_main_queue())
             {
                 self.tblForChat.reloadData()
-                /*if(self.messages.count>1)
-                {
-                    var indexPath = NSIndexPath(forRow:self.messages.count-1, inSection: 0)
-                    
-                    self.tblForChat.scrollToRowAtIndexPath(indexPath, atScrollPosition: UITableViewScrollPosition.Bottom, animated: false)
-                }*/
+              
             }
-            //}
-            // })
         })
-        /*dispatch_sync(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0)) {
-            // do some task start to show progress wheel
-            self.fetchContacts({ (result) -> () in
-                //self.fetchContactsFromServer()
-                print("checkinnn")
-                let tbl_accounts=sqliteDB.accounts
-                /*do{for account in try sqliteDB.db.prepare(tbl_accounts) {
-                    ///print("id: \(account[_id]), phone: \(account[phone]), firstname: \(account[firstname])")
-                    
-                    var userr:JSON=["_id":account[self._id],"display_name":account[self.firstname]!,"phone":account[self.phone]]
-                    if(socketObj != nil){
-                        socketObj.socket.emit("whozonline",
-                            ["room":"globalchatroom",
-                                "user":userr.object])
-                    }}}
-                catch{
-                    
-                }*/
-                
-                dispatch_async(dispatch_get_main_queue()) {
-                    self.tblForChat.reloadData()
-                }
-            })
-        }*/
+
         
     }
     
     func refreshUI(message: String, data: AnyObject!) {
         print("here refreshing UI in chats view line # 4390")
         self.retrieveSingleChatsAndGroupsChatData({(result)-> () in
-            
-            //    dispatch_async(dispatch_get_main_queue())
-            //  {
-            // self.tblForChats.reloadData()
-            
-            //commenting newwwwwwww -===-===-=
+         
             dispatch_async(dispatch_get_main_queue())
             {
                 self.tblForChat.reloadData()
-               /* if(self.messages.count>1)
-                {
-                    var indexPath = NSIndexPath(forRow:self.messages.count-1, inSection: 0)
-                    
-                    self.tblForChat.scrollToRowAtIndexPath(indexPath, atScrollPosition: UITableViewScrollPosition.Bottom, animated: false)
-                }*/
+              
             }
             //}
             // })

@@ -307,7 +307,7 @@ class syncGroupService
                         else
                         {
                             print("didnot find group icon")
-                          UtilityFunctions.init().downloadProfileImageOnLaunch(unique_id)
+                         UtilityFunctions.init().downloadProfileImageOnLaunch(unique_id)
                         }
                         
                     }

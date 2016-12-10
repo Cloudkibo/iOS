@@ -9,7 +9,17 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
-		<key>Pods.xcscheme</key>
+		<key>EPContactsPicker.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
+		<key>HanekeSwift.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
+		<key>Pods-Chat.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
@@ -17,37 +27,22 @@
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
-		<key>432ECC54282C84882B482CCB4CF227FC</key>
+		<key>185DA42DAF6E003C0401083C832F2373</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>B2361AB364D052E005DD728A8651DB04</key>
+		<key>2C2B1953A91633859BF7AD238FF567A0</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>B602EE86DD6A48AF3BA8C5C705680301</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>E1E729A06485FDC54572754CAB191516</key>
+		<key>79C040AFDDCE1BCBF6D8B5EB0B85887F</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
 		<key>E9903909B3E1EC90079D8EACF6F89DC0</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>E9AD967CAA74F482799165449970707E</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>F1152599501DEE10C4CC949794737CC4</key>
 		<dict>
 			<key>primary</key>
 			<true/>

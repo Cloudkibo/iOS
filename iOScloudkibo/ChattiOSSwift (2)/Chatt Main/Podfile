@@ -1,9 +1,12 @@
 platform :ios, ‘9.2’
 source 'https://github.com/CocoaPods/Specs.git'
 
+target ‘Chat’ do
 pod 'EPContactsPicker'
 use_frameworks!
 
+pod 'HanekeSwift'
 pod 'Alamofire', '~> 3.0'
 
 pod "libjingle_peerconnection"
+end
