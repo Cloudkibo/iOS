@@ -223,7 +223,10 @@ class DisplayNameViewController: UIViewController {
                 self.syncContactsList.append(contact)
                 
                 print("contactsListSync appended count is \(self.syncContactsList.count)")
+                dispatch_async(dispatch_get_main_queue())
+{
                 self.lbl_progress.text="Setting Contact \(self.syncContactsList.count)"
+}
                 print("inside contacts filling for loop count is \(self.syncContactsList.count)")
                // dispatch_async(dispatch_get_main_queue())
                 //{
@@ -348,6 +351,7 @@ class DisplayNameViewController: UIViewController {
                 
             for(var i=0;i<self.syncContactsList.count;i++)
             {
+                self.lbl_progress.text="Updating Contact \(i)"
                 
                 do{
                     /////// uniqueidentifierList.append(contact.identifier)

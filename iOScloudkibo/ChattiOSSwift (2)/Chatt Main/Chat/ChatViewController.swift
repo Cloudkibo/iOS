@@ -354,14 +354,18 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
                 /////======CHANGE IT==================
                     self.fetchChatsFromServer()
                     
-                    var syncGroupsObj=syncGroupService.init()
                     
-                    syncGroupsObj.startSyncGroupsService({ (result) -> () in
+                    
+                            
+                            //commenting ===---
+                            var syncGroupsObj=syncGroupService.init()
+                    /*syncGroupsObj.startSyncGroupsService({ (result) -> () in
                         
                         // partial sync groups
                         print("calling partial sync groups chat")
                         syncGroupsObj.startPartialGroupsChatSyncService()
                     })
+                            */
                     
                 })
                 })
@@ -1146,12 +1150,13 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
                             
                             print("doenloading pendingGroupIcons images")
                             UtilityFunctions.init().downloadGroupIconsService(self.pendingGroupIcons, completion: { (result, error) in
-                                
-                                dispatch_async(dispatch_get_main_queue())
-                                {print("pendingGroupIcons refreshing page")
-                                    self.tblForChat.reloadData()
-                                }
-                                
+                                self.retrieveSingleChatsAndGroupsChatData({(result)-> () in
+                                    
+                                    dispatch_async(dispatch_get_main_queue())
+                                    {print("pendingGroupIcons refreshing page")
+                                        self.tblForChat.reloadData()
+                                    }
+                                })
                             })
                             
                         }
@@ -3038,15 +3043,22 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
         }
         */
         //let cellPublic=tblForChat.dequeueReusableCellWithIdentifier("ChatPublicCell") as! ContactsListCell
-        let cell=tblForChat.dequeueReusableCellWithIdentifier("ChatPrivateCell") as! ContactsListCell
+        
+        
+        var cell=tableView.dequeueReusableCellWithIdentifier("ChatPrivateCell") as? ContactsListCell
+        
+        if(cell == nil)
+{
+         cell=tblForChat.dequeueReusableCellWithIdentifier("ChatPrivateCell") as! ContactsListCell
+}
         //if(ContactUsernames.count > 0)
         //{
-        cell.rightUtilityButtons=self.getRightUtilityButtonsToCell() as [AnyObject]
-        cell.delegate=self
+        cell!.rightUtilityButtons=self.getRightUtilityButtonsToCell() as [AnyObject]
+        cell!.delegate=self
         var contactFound=false
-        cell.newMsg.hidden=true
-        cell.countNewmsg.hidden=true
-        cell.profilePic.hnk_setImage(UIImage(named: "profile-pic1.png")!, key: "profile-pic1")
+        cell!.newMsg.hidden=true
+        cell!.countNewmsg.hidden=true
+        cell!.profilePic.hnk_setImage(UIImage(named: "profile-pic1.png")!, key: "profile-pic1")
         //==--cell.profilePic.image=UIImage(named: "profile-pic1.png")
         
         ////%%%%%%%%%%%%%cell.contactName?.text=ContactNames[indexPath.row]
@@ -3067,8 +3079,8 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
         let name = Expression<String?>("name")
         
         
-        cell.statusPrivate.text=ContactLastMessage as! String
-        cell.lbltimePrivate.text=ContactsLastMsgDate as! String
+        cell!.statusPrivate.text=ContactLastMessage as! String
+        cell!.lbltimePrivate.text=ContactsLastMsgDate as! String
     
         
         //cell.statusPrivate.text=ContactLastMessage[indexPath.row]
@@ -3118,7 +3130,7 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
                     }*/
                     if(matched[0][name] != "" || matched[0].get(name) != nil)
                     {
-                        cell.contactName?.text=matched[0].get(name)
+                        cell!.contactName?.text=matched[0].get(name)
                         print("name is \(matched[0].get(name))")
                         ContactNames=matched[0].get(name)!
                     }
@@ -3126,7 +3138,7 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
                     {
                         print("name is no name")
                         //===---cell.contactName?.text=all[phone]
-                        cell.contactName?.text=ContactUsernames as! String
+                        cell!.contactName?.text=ContactUsernames as! String
                     }
                     
                    if(ContactsProfilePic != NSData.init())
@@ -3136,21 +3148,21 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
                         var img=UIImage(data:ContactsProfilePic)
                         var w=img!.size.width
                         var h=img!.size.height
-                        var wOld=cell.profilePic.bounds.width
-                        var hOld=cell.profilePic.bounds.height
+                        var wOld=cell!.profilePic.bounds.width
+                        var hOld=cell!.profilePic.bounds.height
                         var scale:CGFloat=w/wOld
                         
                         ////self.ResizeImage(img!, targetSize: CGSizeMake(cell.profilePic.bounds.width,cell.profilePic.bounds.height))
                         
-                        cell.profilePic.layer.borderWidth = 1.0
-                        cell.profilePic.layer.masksToBounds = false
-                        cell.profilePic.layer.borderColor = UIColor.whiteColor().CGColor
-                        cell.profilePic.layer.cornerRadius = cell.profilePic.frame.size.width/2
-                        cell.profilePic.clipsToBounds = true
+                        cell!.profilePic.layer.borderWidth = 1.0
+                        cell!.profilePic.layer.masksToBounds = false
+                        cell!.profilePic.layer.borderColor = UIColor.whiteColor().CGColor
+                        cell!.profilePic.layer.cornerRadius = cell!.profilePic.frame.size.width/2
+                        cell!.profilePic.clipsToBounds = true
                         //cell.profilePic.hnk_format=Format<UIImage>
-                        var scaledimage=ImageResizer(size: CGSize(width: cell.profilePic.bounds.width,height: cell.profilePic.bounds.height), scaleMode: .AspectFill, allowUpscaling: true, compressionQuality: 0.5)
+                        var scaledimage=ImageResizer(size: CGSize(width: cell!.profilePic.bounds.width,height: cell!.profilePic.bounds.height), scaleMode: .AspectFill, allowUpscaling: true, compressionQuality: 0.5)
                         //var resizedimage=scaledimage.resizeImage(UIImage(data:ContactsProfilePic)!)
-                        cell.profilePic.hnk_setImage(scaledimage.resizeImage(UIImage(data:ContactsProfilePic)!), key: ContactUsernames)
+                        cell!.profilePic.hnk_setImage(scaledimage.resizeImage(UIImage(data:ContactsProfilePic)!), key: ContactUsernames)
                         //=====-------cell.profilePic.image=UIImage(data:ContactsProfilePic, scale: scale)
                         ///cell.profilePic.image=UIImage(data:ContactsProfilePic[indexPath.row])
                         //UIImage(data: NSData(data: ContactsProfilePic) , scale: scale)
@@ -3171,9 +3183,9 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
                 //{
                 if(Int(ContactCountMsgRead)>0)
                 {
-                cell.newMsg.hidden=false
-                    cell.countNewmsg.text="\(ContactCountMsgRead)"
-                    cell.countNewmsg.hidden=false
+                cell!.newMsg.hidden=false
+                    cell!.countNewmsg.text="\(ContactCountMsgRead)"
+                    cell!.countNewmsg.hidden=false
                 }
                // }
             }
@@ -3188,25 +3200,25 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
             {
             //if(!ContactUsernames.isEmpty && indexPath.row <= ContactUsernames.count)
                // {
-                cell.contactName?.text=ContactUsernames
+                cell!.contactName?.text=ContactUsernames
               //  }
               //  if(!ContactCountMsgRead.isEmpty)
                 //{
                 if(ContactCountMsgRead>0)
                 {
                 //{
-                    cell.newMsg.hidden=false
-                    cell.countNewmsg.text="\(ContactCountMsgRead)"
-                    cell.countNewmsg.hidden=false
+                    cell!.newMsg.hidden=false
+                    cell!.countNewmsg.text="\(ContactCountMsgRead)"
+                    cell!.countNewmsg.hidden=false
                 }
                 }
                 
                 if(/*!ContactsProfilePic.isEmpty  &&*/ ContactsProfilePic != NSData.init())
                 {
                     print("seeting picc for \(ContactUsernames)")
-                    var scaledimage=ImageResizer(size: CGSize(width: cell.profilePic.bounds.width,height: cell.profilePic.bounds.height), scaleMode: .AspectFill, allowUpscaling: true, compressionQuality: 0.5)
+                    var scaledimage=ImageResizer(size: CGSize(width: cell!.profilePic.bounds.width,height: cell!.profilePic.bounds.height), scaleMode: .AspectFill, allowUpscaling: true, compressionQuality: 0.5)
                     //var resizedimage=scaledimage.resizeImage(UIImage(data:ContactsProfilePic)!)
-                    cell.profilePic.hnk_setImage(scaledimage.resizeImage(UIImage(data:ContactsProfilePic)!), key: ContactUsernames)
+                    cell!.profilePic.hnk_setImage(scaledimage.resizeImage(UIImage(data:ContactsProfilePic)!), key: ContactUsernames)
                     
                     //==----cell.profilePic.image=UIImage(data:ContactsProfilePic)
                 }
@@ -3214,7 +3226,7 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
         
         else
         {
-            cell.contactName?.text=ContactNames
+            cell!.contactName?.text=ContactNames
             if(ContactsProfilePic != NSData.init())
             {
                 print("seeting picc22 for \(ContactUsernames)")
@@ -3222,22 +3234,22 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
                 var img=UIImage(data:ContactsProfilePic)
                 var w=img!.size.width
                 var h=img!.size.height
-                var wOld=cell.profilePic.bounds.width
-                var hOld=cell.profilePic.bounds.height
+                var wOld=cell!.profilePic.bounds.width
+                var hOld=cell!.profilePic.bounds.height
                 var scale:CGFloat=w/wOld
                 
                 ////self.ResizeImage(img!, targetSize: CGSizeMake(cell.profilePic.bounds.width,cell.profilePic.bounds.height))
                 
-                cell.profilePic.layer.borderWidth = 1.0
-                cell.profilePic.layer.masksToBounds = false
-                cell.profilePic.layer.borderColor = UIColor.whiteColor().CGColor
-                cell.profilePic.layer.cornerRadius = cell.profilePic.frame.size.width/2
-                cell.profilePic.clipsToBounds = true
+                cell!.profilePic.layer.borderWidth = 1.0
+                cell!.profilePic.layer.masksToBounds = false
+                cell!.profilePic.layer.borderColor = UIColor.whiteColor().CGColor
+                cell!.profilePic.layer.cornerRadius = cell!.profilePic.frame.size.width/2
+                cell!.profilePic.clipsToBounds = true
                 
                 
-                var scaledimage=ImageResizer(size: CGSize(width: cell.profilePic.bounds.width,height: cell.profilePic.bounds.height), scaleMode: .AspectFill, allowUpscaling: true, compressionQuality: 0.5)
+                var scaledimage=ImageResizer(size: CGSize(width: cell!.profilePic.bounds.width,height: cell!.profilePic.bounds.height), scaleMode: .AspectFill, allowUpscaling: true, compressionQuality: 0.5)
                 //var resizedimage=scaledimage.resizeImage(UIImage(data:ContactsProfilePic)!)
-                cell.profilePic.hnk_setImage(scaledimage.resizeImage(UIImage(data:ContactsProfilePic)!), key: ContactUsernames)
+                cell!.profilePic.hnk_setImage(scaledimage.resizeImage(UIImage(data:ContactsProfilePic)!), key: ContactUsernames)
                 
                 
                 //==----cell.profilePic.image=UIImage(data: ContactsProfilePic, scale: scale)
@@ -3247,9 +3259,9 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
             }
             if(ContactCountMsgRead > 0)
             {
-            cell.newMsg.hidden=false
-            cell.countNewmsg.text="\(ContactCountMsgRead)"
-            cell.countNewmsg.hidden=false
+            cell!.newMsg.hidden=false
+            cell!.countNewmsg.text="\(ContactCountMsgRead)"
+            cell!.countNewmsg.hidden=false
             }
 
         }
@@ -3301,11 +3313,11 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
  
         if (ContactOnlineStatus==0)
         {
-            cell.btnGreenDot.hidden=true
+            cell!.btnGreenDot.hidden=true
         }
         else
         {
-            cell.btnGreenDot.hidden=false
+            cell!.btnGreenDot.hidden=false
         }
         
         //}
@@ -4394,11 +4406,13 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
                         
                         print("doenloading pendingGroupIcons images")
                         UtilityFunctions.init().downloadGroupIconsService(self.pendingGroupIcons, completion: { (result, error) in
-                            
-                            dispatch_async(dispatch_get_main_queue())
-                            {print("pendingGroupIcons refreshing page")
-                                self.tblForChat.reloadData()
-                            }
+                            self.retrieveSingleChatsAndGroupsChatData({(result)-> () in
+                                
+                                dispatch_async(dispatch_get_main_queue())
+                                {print("pendingGroupIcons refreshing page")
+                                    self.tblForChat.reloadData()
+                                }
+                            })
                             
                         })
                         
@@ -4429,11 +4443,13 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
                         
                         print("doenloading pendingGroupIcons images")
                         UtilityFunctions.init().downloadGroupIconsService(self.pendingGroupIcons, completion: { (result, error) in
-                            
-                            dispatch_async(dispatch_get_main_queue())
-                            {print("pendingGroupIcons refreshing page")
-                                self.tblForChat.reloadData()
-                            }
+                            self.retrieveSingleChatsAndGroupsChatData({(result)-> () in
+                                
+                                dispatch_async(dispatch_get_main_queue())
+                                {print("pendingGroupIcons refreshing page")
+                                    self.tblForChat.reloadData()
+                                }
+                            })
                      
                         })
                        
@@ -4466,11 +4482,13 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
                     
                     print("doenloading pendingGroupIcons images")
                     UtilityFunctions.init().downloadGroupIconsService(self.pendingGroupIcons, completion: { (result, error) in
-                        
-                        dispatch_async(dispatch_get_main_queue())
+                        self.retrieveSingleChatsAndGroupsChatData({(result)-> () in
+                            
+                            dispatch_async(dispatch_get_main_queue())
                         {print("pendingGroupIcons refreshing page")
                             self.tblForChat.reloadData()
                         }
+                        })
                         /*for(var i=0;i<messages.count;i++)
                         {
                         var messageDic = messages.objectAtIndex(i) as! [String : AnyObject];
