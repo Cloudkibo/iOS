@@ -211,7 +211,7 @@ class syncGroupService
         }
         }
         
-        return completion(result:true,error: "Fetch group info API failed",groupinfo: jsongroupinfo)
+        //====----return completion(result:true,error: "Fetch group info API failed",groupinfo: jsongroupinfo)
     }
 
     func SyncGroupsAPI(completion:(result:Bool,error:String!,groupinfo:JSON!)->())
@@ -282,7 +282,9 @@ class syncGroupService
                 var group_icon=NSData()
                 if(groupInfo[i]["group_unique_id"]["group_icon"] != nil)
                 {
-                    
+                    //group_icon=(groupInfo[i]["group_unique_id"]["group_icon"] as! String).dataUsingEncoding(NSUTF8StringEncoding)!
+                    print("group icon existssss")
+                    group_icon="exists".dataUsingEncoding(NSUTF8StringEncoding)!
                     
                     var filedata=sqliteDB.getFilesData(unique_id)
                     if(filedata.count>0)
@@ -303,6 +305,7 @@ class syncGroupService
                         if(imgNSData != nil)
                         {
                             //update UI
+                            
                         }
                         else
                         {
@@ -389,7 +392,8 @@ class syncGroupService
                 if(groupInfo[i]["group_unique_id"]["group_icon"] != nil)
                 {
                     
-                    
+                    //group_icon=(groupInfo[i]["group_unique_id"]["group_icon"] as! String).dataUsingEncoding(NSUTF8StringEncoding)!
+                    group_icon="exists".dataUsingEncoding(NSUTF8StringEncoding)!
                     var filedata=sqliteDB.getFilesData(unique_id)
                     if(filedata.count>0)
                     {
@@ -528,7 +532,7 @@ class syncGroupService
         }
         //)
         }
-        return completion(result:true,error: "Fetch group info API failed",groupinfo: jsongroupinfo)
+        //===---return completion(result:true,error: "Fetch group info API failed",groupinfo: jsongroupinfo)
     }
     
     func SyncGroupMembersAPI(completion:(result:Bool,error:String!,groupinfo:JSON!)->())

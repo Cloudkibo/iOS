@@ -1137,6 +1137,25 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
                 dispatch_async(dispatch_get_main_queue())
                 {
                     self.tblForChat.reloadData()
+                    print("pendingGroupIcons count is \(self.pendingGroupIcons.count)")
+                    if(self.pendingGroupIcons.count>0)
+                    {
+                        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT,0))
+                        {
+                            //download group icons service
+                            
+                            print("doenloading pendingGroupIcons images")
+                            UtilityFunctions.init().downloadGroupIconsService(self.pendingGroupIcons, completion: { (result, error) in
+                                
+                                dispatch_async(dispatch_get_main_queue())
+                                {print("pendingGroupIcons refreshing page")
+                                    self.tblForChat.reloadData()
+                                }
+                                
+                            })
+                            
+                        }
+                    }
                     /*if(self.messages.count>1)
                     {
                         var indexPath = NSIndexPath(forRow:self.messages.count-1, inSection: 0)
@@ -1909,14 +1928,23 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
                     ContactsProfilePic=NSData.init()
                 }
             }
-                //file not downloaded yet
-            else
+                else
+                {
+                    //file not downloaded yet
+                    print("didnot find group icon.......")
+                    pendingGroupIcons2.append(self.groupsObjectList[i]["unique_id"] as! String)
+                    
+                    ContactsProfilePic=NSData.init()
+                }
+            //=--}
+                
+           /* else
             {
                 //UtilityFunctions.init().downloadProfileImageOnLaunch(unique_id)
                 print("group icon not downloaded yet")
                 pendingGroupIcons2.append(self.groupsObjectList[i]["unique_id"] as! String)
                 ContactsProfilePic=NSData.init()
-            }
+            }*/
         }
         
             let from = Expression<String>("from")
@@ -2196,7 +2224,10 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
     //{
         self.messages.setArray(messages2 as [AnyObject])
         self.pendingGroupIcons.removeAll()
-        self.pendingGroupIcons=pendingGroupIcons2
+        for(var i=0;i<pendingGroupIcons2.count;i++)
+        {
+        self.pendingGroupIcons.append(pendingGroupIcons2[i])
+        }
         return completion(result:true)
     }
    // }
@@ -4348,6 +4379,25 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
             dispatch_async(dispatch_get_main_queue())
             {
                 self.tblForChat.reloadData()
+                print("pendingGroupIcons count is \(self.pendingGroupIcons.count)")
+                if(self.pendingGroupIcons.count>0)
+                {
+                    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT,0))
+                    {
+                        //download group icons service
+                        
+                        print("doenloading pendingGroupIcons images")
+                        UtilityFunctions.init().downloadGroupIconsService(self.pendingGroupIcons, completion: { (result, error) in
+                            
+                            dispatch_async(dispatch_get_main_queue())
+                            {print("pendingGroupIcons refreshing page")
+                                self.tblForChat.reloadData()
+                            }
+                            
+                        })
+                        
+                    }
+                }
             }
          
         })
@@ -4364,6 +4414,26 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
             dispatch_async(dispatch_get_main_queue())
             {
                 self.tblForChat.reloadData()
+                print("pendingGroupIcons count is \(self.pendingGroupIcons.count)")
+                if(self.pendingGroupIcons.count>0)
+                {
+                    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT,0))
+                    {
+                        //download group icons service
+                        
+                        print("doenloading pendingGroupIcons images")
+                        UtilityFunctions.init().downloadGroupIconsService(self.pendingGroupIcons, completion: { (result, error) in
+                            
+                            dispatch_async(dispatch_get_main_queue())
+                            {print("pendingGroupIcons refreshing page")
+                                self.tblForChat.reloadData()
+                            }
+                     
+                        })
+                       
+                    }
+                }
+                
               
             }
         })
@@ -4381,7 +4451,7 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
             {
                 self.tblForChat.reloadData()
                 
-                print("pendingGroupIcons count is \(pendingGroupIcons.count)")
+                print("pendingGroupIcons count is \(self.pendingGroupIcons.count)")
                 if(self.pendingGroupIcons.count>0)
                 {
                 dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT,0))

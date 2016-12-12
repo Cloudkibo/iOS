@@ -1063,6 +1063,9 @@ class DisplayNameViewController: UIViewController {
                     socketObj.socket.emit("logClient", "All chat fetched success")
                     }
                     if let data1 = response.result.value {
+                        
+                        dispatch_sync(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) {
+                            
                         let UserchatJson = JSON(data1)
                         print("chat fetched JSON: \(UserchatJson)")
                         
@@ -1182,15 +1185,15 @@ class DisplayNameViewController: UIViewController {
                             
                             
                         }
-                       // dispatch_async(dispatch_get_main_queue()) {
+                        dispatch_async(dispatch_get_main_queue()) {
                         return completion(result: true)
-                       // }
+                            }
                         /* dispatch_async(dispatch_get_main_queue()) {
                         self.messageFrame2.removeFromSuperview()
                         }
                         */
-                        
-                        
+                    }
+                    
                     }
                     /*dispatch_async(dispatch_get_main_queue()) {
                     

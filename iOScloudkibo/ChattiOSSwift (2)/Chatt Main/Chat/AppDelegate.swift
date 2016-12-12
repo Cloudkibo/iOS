@@ -2283,6 +2283,8 @@ else{
                     var group_icon=NSData()
                     if(groupSingleInfo[0]["group_icon"] != nil)
                     {
+                       // group_icon=(groupSingleInfo[0]["group_icon"] as! String).dataUsingEncoding(NSUTF8StringEncoding)!
+                        group_icon="exists".dataUsingEncoding(NSUTF8StringEncoding)!
                         UtilityFunctions.init().downloadProfileImage(unique_id)
                        // group_icon=groupSingleInfo[0]["group_icon"] as! NSData
                     }
