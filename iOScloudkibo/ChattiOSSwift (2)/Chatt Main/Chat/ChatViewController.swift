@@ -1839,7 +1839,9 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
         self.groupsObjectList=sqliteDB.getGroupDetails()
         
         for(var i=0;i<self.groupsObjectList.count;i++)
-        {print("date is \(self.groupsObjectList[i]["date_creation"] as! NSDate)")
+        {
+            ContactsProfilePic=NSData.init()
+            print("date is \(self.groupsObjectList[i]["date_creation"] as! NSDate)")
             
             if((self.groupsObjectList[i]["status"] as! String) == "temp")
             {
@@ -1946,6 +1948,10 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
                 ContactsProfilePic=NSData.init()
             }*/
         }
+            else
+            {
+                
+            }
         
             let from = Expression<String>("from")
             let group_unique_id = Expression<String>("group_unique_id")
