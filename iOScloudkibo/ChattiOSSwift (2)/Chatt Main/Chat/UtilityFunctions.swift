@@ -250,7 +250,7 @@ class UtilityFunctions{
     
     
     
-    func downloadProfileImageOnLaunch(uniqueid1:String)
+    func downloadProfileImageOnLaunch(uniqueid1:String,completion:(result:Bool,error:String!)->())
     {
         print("inside download group icon on launch")
         //581b26d7583658844e9003d7
@@ -330,8 +330,8 @@ class UtilityFunctions{
                 print("3.... \(response?.URL.debugDescription)")
                 print("error: \(error)")
                 
-                
-                
+                if(response?.statusCode==200 || response?.statusCode==201)
+                {
                 let dirPaths = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)
                 let docsDir1 = dirPaths[0]
                 var documentDir=docsDir1 as NSString
@@ -372,10 +372,19 @@ class UtilityFunctions{
                 
                 dispatch_async(dispatch_get_main_queue())
                 {
-                UIDelegates.getInstance().UpdateMainPageChatsDelegateCall()
+                    return completion(result: true, error: nil)
+                /*UIDelegates.getInstance().UpdateMainPageChatsDelegateCall()
                 UIDelegates.getInstance().UpdateGroupChatDetailsDelegateCall()
                 UIDelegates.getInstance().UpdateGroupInfoDetailsDelegateCall()
+ */
                 }
+            }
+            else{
+                dispatch_async(dispatch_get_main_queue())
+                {
+                    return completion(result: false, error: "Error in downloading profile picture")
+                }
+            }
                 // print(request?.)
                 
         }
@@ -509,6 +518,67 @@ print("tempURL is \(temporaryURL) and response is \(response.allHeaderFields)")
                 // print(request?.)
                 
         }
+    }
+    
+    func downloadGroupIconsService(uniqueidArray:[String],completion:(result:Bool,error:String!/*,groupiconinfo:[String:NSData]*/)->())
+    {           var storedError: NSError!
+        //var iconinfolist=[String:NSData]()
+        var downloadGroup = dispatch_group_create()
+        
+        for address in uniqueidArray
+        {
+            //let url = NSURL(string: address)
+            dispatch_group_enter(downloadGroup)
+            self.downloadProfileImageOnLaunch(address, completion: { (result, error) in
+                print("done downloading pendingGroupIcons \(address)")
+                 dispatch_group_leave(downloadGroup)
+            })
+            /*
+            let photo = DownloadPhoto(url: url!) {
+                image, error in
+                if let error = error {
+                    storedError = error
+                }
+                dispatch_group_leave(downloadGroup)
+            }*/
+            
+            //PhotoManager.sharedManager.addPhoto(photo)
+            //update cell
+            /*var filedata=sqliteDB.getFilesData(address)
+            //file exists locally
+            if(filedata.count>0)
+            {
+                print("found group icon")
+                print("actual path is \(filedata["file_path"])")
+                //======
+                
+                //=======
+                let dirPaths = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)
+                let docsDir1 = dirPaths[0]
+                var documentDir=docsDir1 as NSString
+                var imgPath=documentDir.stringByAppendingPathComponent(filedata["file_name"] as! String)
+                
+                var imgNSData=NSFileManager.defaultManager().contentsAtPath(imgPath)
+                    if(imgNSData != nil)
+                    {
+                        //uniqueid is key
+                        //e.g. [dsfsadfmsafdasdfasf]=[image]
+                iconinfolist[address]=imgNSData
+                }
+            }
+            else{
+                iconinfolist[address]=NSData.init()
+            }
+            */
+
+        }
+        
+        dispatch_group_notify(downloadGroup, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0)) { // 2
+           print("pendingGroupIcons done all downloads")
+            //if let completion = completion {
+                               completion(result: true, error: nil/*, groupiconinfo: iconinfolist*/)
+           // }
+        }        
     }
     
     func convertStringToDate(dateString:String,dateformat:String)->NSDate

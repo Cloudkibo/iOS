@@ -21,7 +21,7 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
     EPPickerDelegate,SWTableViewCellDelegate,UpdateChatViewsDelegate,RefreshContactsList,UpdateMainPageChatsDelegate
 {
     
-    
+    var pendingGroupIcons=[String]()
     var messages:NSMutableArray!
     var pendinggroupchatsarray=[[String:AnyObject]]()
     var groupsObjectList=[[String:AnyObject]]()
@@ -1124,6 +1124,8 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
             print("emailList count is \(emailList.count)")
             
             print("here refreshing UI in chats view line # 1123")
+            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT,0))
+            {
             self.retrieveSingleChatsAndGroupsChatData({(result)-> () in
                 
                 
@@ -1145,7 +1147,7 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
                 //}
                 // })
             })
-            
+            }
             
             //==--new commenting
            /* dispatch_sync(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0)) {
@@ -1792,7 +1794,7 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
     
     func retrieveSingleChatsAndGroupsChatData(completion:(result:Bool)->())
     {
-        
+        var pendingGroupIcons2=[String]()
         var messages2=NSMutableArray()
         var ContactsLastMsgDate=""
         var ContactLastMessage=""
@@ -1813,8 +1815,8 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
         var ContactsProfilePic=NSData.init()
         var ChatType=""
         
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT,0))
-        {
+        ///==dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT,0))
+       
         self.groupsObjectList=sqliteDB.getGroupDetails()
         
         for(var i=0;i<self.groupsObjectList.count;i++)
@@ -1873,8 +1875,13 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
             
             //check file table and get path
             //NSData at contents at path
+            //group_icon
             
+            //group icon exists on server
+            if((self.groupsObjectList[i]["group_icon"] as! NSData) != NSData.init())
+            {
             var filedata=sqliteDB.getFilesData(self.groupsObjectList[i]["unique_id"] as! String)
+                //file exists locally
             if(filedata.count>0)
             {
                 print("found group icon")
@@ -1897,16 +1904,21 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
                 else
                 {
                     print("didnot find group icon")
+                    pendingGroupIcons2.append(self.groupsObjectList[i]["unique_id"] as! String)
+                    
                     ContactsProfilePic=NSData.init()
                 }
             }
+                //file not downloaded yet
             else
             {
-                print("didnot find group icon")
+                //UtilityFunctions.init().downloadProfileImageOnLaunch(unique_id)
+                print("group icon not downloaded yet")
+                pendingGroupIcons2.append(self.groupsObjectList[i]["unique_id"] as! String)
                 ContactsProfilePic=NSData.init()
             }
-          
-            
+        }
+        
             let from = Expression<String>("from")
             let group_unique_id = Expression<String>("group_unique_id")
             let type = Expression<String>("type")
@@ -1971,6 +1983,8 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
              var ChatType=""
  */
             messages2.addObject(["ContactsLastMsgDate":ContactsLastMsgDate,"ContactLastMessage":ContactLastMessage,"ContactLastNAme":ContactLastNAme,"ContactNames":ContactNames,"ContactStatus":ContactStatus,"ContactUsernames":ContactUsernames,"ContactOnlineStatus":ContactOnlineStatus,"ContactFirstname":ContactFirstname,"ContactsPhone":ContactsPhone,"ContactCountMsgRead":ContactCountMsgRead,"ContactsProfilePic":ContactsProfilePic,"ChatType":ChatType])
+            
+            
             
         }
         //=============================-----------------------------
@@ -2178,13 +2192,16 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
         }
     
     
-dispatch_async(dispatch_get_main_queue())
-    {
+//dispatch_async(dispatch_get_main_queue())
+    //{
         self.messages.setArray(messages2 as [AnyObject])
+        self.pendingGroupIcons.removeAll()
+        self.pendingGroupIcons=pendingGroupIcons2
         return completion(result:true)
     }
-}
-    }
+   // }
+//}
+    //}
 
    /* func fetchContacts(completion:(result:Bool)->()){
         
@@ -3095,8 +3112,8 @@ dispatch_async(dispatch_get_main_queue())
                         cell.profilePic.clipsToBounds = true
                         //cell.profilePic.hnk_format=Format<UIImage>
                         var scaledimage=ImageResizer(size: CGSize(width: cell.profilePic.bounds.width,height: cell.profilePic.bounds.height), scaleMode: .AspectFill, allowUpscaling: true, compressionQuality: 0.5)
-                        var resizedimage=scaledimage.resizeImage(UIImage(data:ContactsProfilePic)!)
-                        cell.profilePic.hnk_setImage(resizedimage, key: ContactUsernames)
+                        //var resizedimage=scaledimage.resizeImage(UIImage(data:ContactsProfilePic)!)
+                        cell.profilePic.hnk_setImage(scaledimage.resizeImage(UIImage(data:ContactsProfilePic)!), key: ContactUsernames)
                         //=====-------cell.profilePic.image=UIImage(data:ContactsProfilePic, scale: scale)
                         ///cell.profilePic.image=UIImage(data:ContactsProfilePic[indexPath.row])
                         //UIImage(data: NSData(data: ContactsProfilePic) , scale: scale)
@@ -3151,8 +3168,8 @@ dispatch_async(dispatch_get_main_queue())
                 {
                     print("seeting picc for \(ContactUsernames)")
                     var scaledimage=ImageResizer(size: CGSize(width: cell.profilePic.bounds.width,height: cell.profilePic.bounds.height), scaleMode: .AspectFill, allowUpscaling: true, compressionQuality: 0.5)
-                    var resizedimage=scaledimage.resizeImage(UIImage(data:ContactsProfilePic)!)
-                    cell.profilePic.hnk_setImage(resizedimage, key: ContactUsernames)
+                    //var resizedimage=scaledimage.resizeImage(UIImage(data:ContactsProfilePic)!)
+                    cell.profilePic.hnk_setImage(scaledimage.resizeImage(UIImage(data:ContactsProfilePic)!), key: ContactUsernames)
                     
                     //==----cell.profilePic.image=UIImage(data:ContactsProfilePic)
                 }
@@ -3182,13 +3199,13 @@ dispatch_async(dispatch_get_main_queue())
                 
                 
                 var scaledimage=ImageResizer(size: CGSize(width: cell.profilePic.bounds.width,height: cell.profilePic.bounds.height), scaleMode: .AspectFill, allowUpscaling: true, compressionQuality: 0.5)
-                var resizedimage=scaledimage.resizeImage(UIImage(data:ContactsProfilePic)!)
-                cell.profilePic.hnk_setImage(resizedimage, key: ContactUsernames)
+                //var resizedimage=scaledimage.resizeImage(UIImage(data:ContactsProfilePic)!)
+                cell.profilePic.hnk_setImage(scaledimage.resizeImage(UIImage(data:ContactsProfilePic)!), key: ContactUsernames)
                 
                 
                 //==----cell.profilePic.image=UIImage(data: ContactsProfilePic, scale: scale)
                 ///cell.profilePic.image=UIImage(data:ContactsProfilePic[indexPath.row])
-                UIImage(data: ContactsProfilePic, scale: scale)
+                //UIImage(data: ContactsProfilePic, scale: scale)
                 print("image size is s \(UIImage(data:ContactsProfilePic)?.size.width) and h \(UIImage(data:ContactsProfilePic)?.size.height)")
             }
             if(ContactCountMsgRead > 0)
@@ -3924,6 +3941,8 @@ dispatch_async(dispatch_get_main_queue())
             */
             case "updateUI":
                 print("here refreshing UI in chats view line # 3898")
+                dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT,0))
+                {
                 self.retrieveSingleChatsAndGroupsChatData({(result)-> () in
                     
                     
@@ -3945,6 +3964,7 @@ dispatch_async(dispatch_get_main_queue())
                     //}
                     // })
                 })
+            }
                 /*dispatch_sync(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0)) {
                     // do some task start to show progress wheel
                     self.fetchContacts({ (result) -> () in
@@ -4320,6 +4340,8 @@ dispatch_async(dispatch_get_main_queue())
     
     func refreshChatsUI(message:String!, uniqueid:String!, from:String!, date1:NSDate!, type:String!) {
         print("here refreshing UI in chats view line # 4291")
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT,0))
+        {
         self.retrieveSingleChatsAndGroupsChatData({(result)-> () in
            
             //commenting newwwwwwww -===-===-=
@@ -4329,12 +4351,15 @@ dispatch_async(dispatch_get_main_queue())
             }
          
         })
+        }
  
     }
     
     func refreshContactsList(message: String) {
         print("here refreshing UI in chats view line # 4341")
-        self.retrieveSingleChatsAndGroupsChatData({(result)-> () in
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT,0))
+        {
+            self.retrieveSingleChatsAndGroupsChatData({(result)-> () in
         
             dispatch_async(dispatch_get_main_queue())
             {
@@ -4342,22 +4367,71 @@ dispatch_async(dispatch_get_main_queue())
               
             }
         })
-
+        }
         
     }
     
     func refreshUI(message: String, data: AnyObject!) {
         print("here refreshing UI in chats view line # 4390")
-        self.retrieveSingleChatsAndGroupsChatData({(result)-> () in
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT,0))
+        {
+            self.retrieveSingleChatsAndGroupsChatData({(result)-> () in
          
             dispatch_async(dispatch_get_main_queue())
             {
                 self.tblForChat.reloadData()
+                
+                print("pendingGroupIcons count is \(pendingGroupIcons.count)")
+                if(self.pendingGroupIcons.count>0)
+                {
+                dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT,0))
+                {
+                 //download group icons service
+                    
+                    print("doenloading pendingGroupIcons images")
+                    UtilityFunctions.init().downloadGroupIconsService(self.pendingGroupIcons, completion: { (result, error) in
+                        
+                        dispatch_async(dispatch_get_main_queue())
+                        {print("pendingGroupIcons refreshing page")
+                            self.tblForChat.reloadData()
+                        }
+                        /*for(var i=0;i<messages.count;i++)
+                        {
+                        var messageDic = messages.objectAtIndex(i) as! [String : AnyObject];
+                        
+                        let ContactsLastMsgDate = messageDic["ContactsLastMsgDate"] as! String
+                        let ContactLastMessage = messageDic["ContactLastMessage"] as! String
+                        let ContactLastNAme=messageDic["ContactLastNAme"] as! String
+                        var ContactNames=messageDic["ContactNames"] as! String
+                        let ContactStatus=messageDic["ContactStatus"] as! String
+                        let ContactUsernames=messageDic["ContactUsernames"] as! String
+                        let ContactOnlineStatus=messageDic["ContactOnlineStatus"] as! Int
+                        let ContactFirstname=messageDic["ContactFirstname"] as! String
+                        let ContactsPhone=messageDic["ContactsPhone"] as! String
+                        let ContactCountMsgRead=messageDic["ContactCountMsgRead"] as! Int
+                        let ContactsProfilePic=messageDic["ContactsProfilePic"] as! NSData
+                        let ChatType=messageDic["ChatType"] as! NSString
+
+                        if()
+                        }*/
+                        
+                    })
+                   /* downloadGroupIconsService({(result) -> () in
+
+                    dispatch_async(dispatch_get_main_queue())
+                    {
+                        self.tblForChat.reloadData()
+                    }
+                    })*/
+                    }
+                }
+                
               
             }
             //}
             // })
         })
+    }
        //==-- self.reloadThisPage()
     }
     
