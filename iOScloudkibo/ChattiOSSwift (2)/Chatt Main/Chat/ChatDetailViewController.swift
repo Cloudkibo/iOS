@@ -885,20 +885,11 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
             ////////////self.messages.addObjectsFromArray(messages2 as [AnyObject])
             
             
-            completion(result:true)
-            /*
-            self.tblForChats.reloadData()
-            
-            if(self.messages.count>1)
-            {
-                var indexPath = NSIndexPath(forRow:self.messages.count-1, inSection: 0)
-                
-                self.tblForChats.scrollToRowAtIndexPath(indexPath, atScrollPosition: UITableViewScrollPosition.Bottom, animated: false)
-            }*/
-            
-        }
+            return completion(result:true)
+                  }
         catch(let error)
         {
+            return completion(result:false)
             //print(error)
         }
         /////var tbl_userchats=sqliteDB.db["userschats"]
@@ -3545,10 +3536,12 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
         //print("date is \(defaultTimeZoneStr2)")
         self.addMessage(txtFldMessage.text!+" (\(statusNow))",status:statusNow,ofType: "2",date:defaultTimeZoneStr, uniqueid: uniqueID)
         var lastrowindexpath = NSIndexPath(forRow:messages.count-1, inSection: 0)
+        tblForChats.beginUpdates()
         tblForChats.insertRowsAtIndexPaths([lastrowindexpath], withRowAnimation: .None)
-        dispatch_async(dispatch_get_main_queue())
+        tblForChats.endUpdates()
+        /*dispatch_async(dispatch_get_main_queue())
         {
-        self.tblForChats.reloadRowsAtIndexPaths([lastrowindexpath], withRowAnimation: .None)
+        //==--self.tblForChats.reloadRowsAtIndexPaths([lastrowindexpath], withRowAnimation: .None)
             if(self.messages.count>1)
             {
                 let indexPath = NSIndexPath(forRow:self.messages.count-1, inSection: 0)
@@ -3557,7 +3550,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
                 
                 
             }
-        }
+        }*/
         
         txtFldMessage.text = "";
         
@@ -3585,7 +3578,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
        /////// dispatch_async(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED,0))
        ////// {
         
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT,0))
+       /* dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT,0))
         {
         print("messages count before sending msg is \(self.messages.count)")
             self.sendChatMessage(imParas){ (result) -> () in
@@ -3611,7 +3604,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
                     }
                 })
             }
-        }
+        }*/
             //  }
             
         ///////}
@@ -4205,13 +4198,16 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
         
         
         txtFldMessage.text = "";
-        tblForChats.reloadData()
-        if(messages.count>1)
+                dispatch_async(dispatch_get_main_queue())
+                {
+        self.tblForChats.reloadData()
+        if(self.messages.count>1)
         {
-            var indexPath = NSIndexPath(forRow:messages.count-1, inSection: 0)
-            tblForChats.scrollToRowAtIndexPath(indexPath, atScrollPosition: UITableViewScrollPosition.Bottom, animated: false)
+            let indexPath = NSIndexPath(forRow:self.messages.count-1, inSection: 0)
+            self.tblForChats.scrollToRowAtIndexPath(indexPath, atScrollPosition: UITableViewScrollPosition.Bottom, animated: false)
             
         }
+                }
                
         }
     }
@@ -4219,21 +4215,26 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
         
         //received status
         print("refreshing chats details UI now")
-        self.retrieveChatFromSqlite(selectedContact,completion:{(result)-> () in
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT,0))
+        {
+            self.retrieveChatFromSqlite(self.selectedContact,completion:{(result)-> () in
            ///// dispatch_async(dispatch_get_main_queue())
            ///// {
-          
-            
-            self.tblForChats.reloadData()
-            
+                
+            dispatch_async(dispatch_get_main_queue())
+            {
+                self.tblForChats.reloadData()
+                
             if(self.messages.count>1)
             {
                 var indexPath = NSIndexPath(forRow:self.messages.count-1, inSection: 0)
                 
                 self.tblForChats.scrollToRowAtIndexPath(indexPath, atScrollPosition: UITableViewScrollPosition.Bottom, animated: false)
             }
+            }
           //////  }
         })
+            }
        /* self.retrieveChatFromSqlite(self.selectedContact)
         if(self.messages.count>1)
         {

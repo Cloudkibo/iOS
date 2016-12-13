@@ -2751,10 +2751,10 @@ else{
                 var log=UtilityFunctions.init()
                 log.log_papertrail("informing UI to repfresh status \(uniqueID) and status \(status)")
                 
-                dispatch_async(dispatch_get_main_queue())
-                {
+                //===---dispatch_async(dispatch_get_main_queue())
+                //--{
                 delegateRefreshChat?.refreshChatsUI(nil, uniqueid:nil, from:nil, date1:nil, type:"status")
-                }
+                //==---}
             }
         else
             {
