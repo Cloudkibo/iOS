@@ -368,7 +368,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
         {
             var indexPath = NSIndexPath(forRow:self.messages.count-1, inSection: 0)
             
-            self.tblForChats.scrollToRowAtIndexPath(indexPath, atScrollPosition: UITableViewScrollPosition.Bottom, animated: true)
+            self.tblForChats.scrollToRowAtIndexPath(indexPath, atScrollPosition: UITableViewScrollPosition.Bottom, animated: false)
         }*/
         //%%%%%%%%%%%%%%%%%&&&&&&&&&&&&&&&&&&^^^^^^^^^
         //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%FetchChatServer()
@@ -524,7 +524,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
          {
          var indexPath = NSIndexPath(forRow:self.messages.count-1, inSection: 0)
          
-         self.tblForChats.scrollToRowAtIndexPath(indexPath, atScrollPosition: UITableViewScrollPosition.Bottom, animated: true)
+         self.tblForChats.scrollToRowAtIndexPath(indexPath, atScrollPosition: UITableViewScrollPosition.Bottom, animated: false)
          }
          
          // declared system sound here
@@ -554,7 +554,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
          {
          var indexPath = NSIndexPath(forRow:self.messages.count-1, inSection: 0)
          
-         self.tblForChats.scrollToRowAtIndexPath(indexPath, atScrollPosition: UITableViewScrollPosition.Bottom, animated: true)
+         self.tblForChats.scrollToRowAtIndexPath(indexPath, atScrollPosition: UITableViewScrollPosition.Bottom, animated: false)
          }
          */
          
@@ -570,7 +570,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
          {
          var indexPath = NSIndexPath(forRow:self.messages.count-1, inSection: 0)
          
-         self.tblForChats.scrollToRowAtIndexPath(indexPath, atScrollPosition: UITableViewScrollPosition.Bottom, animated: true)
+         self.tblForChats.scrollToRowAtIndexPath(indexPath, atScrollPosition: UITableViewScrollPosition.Bottom, animated: false)
          }*/
          }
          */
@@ -893,7 +893,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
             {
                 var indexPath = NSIndexPath(forRow:self.messages.count-1, inSection: 0)
                 
-                self.tblForChats.scrollToRowAtIndexPath(indexPath, atScrollPosition: UITableViewScrollPosition.Bottom, animated: true)
+                self.tblForChats.scrollToRowAtIndexPath(indexPath, atScrollPosition: UITableViewScrollPosition.Bottom, animated: false)
             }*/
             
         }
@@ -1200,7 +1200,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
      if(self.messages.count>1)
      {
      var indexPath = NSIndexPath(forRow:self.messages.count-1, inSection: 0)
-     self.tblForChats.scrollToRowAtIndexPath(indexPath, atScrollPosition: UITableViewScrollPosition.Bottom, animated: true)
+     self.tblForChats.scrollToRowAtIndexPath(indexPath, atScrollPosition: UITableViewScrollPosition.Bottom, animated: false)
      }
      */
      
@@ -2688,7 +2688,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
         if(messages.count>1)
         {
             let indexPath = NSIndexPath(forRow:messages.count-1, inSection: 0)
-            tblForChats.scrollToRowAtIndexPath(indexPath, atScrollPosition: UITableViewScrollPosition.Bottom, animated: true)
+            tblForChats.scrollToRowAtIndexPath(indexPath, atScrollPosition: UITableViewScrollPosition.Bottom, animated: false)
         }
  */
         
@@ -3131,7 +3131,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
                 {
                     var indexPath = NSIndexPath(forRow:self.messages.count-1, inSection: 0)
                     
-                    self.tblForChats.scrollToRowAtIndexPath(indexPath, atScrollPosition: UITableViewScrollPosition.Bottom, animated: true)
+                    self.tblForChats.scrollToRowAtIndexPath(indexPath, atScrollPosition: UITableViewScrollPosition.Bottom, animated: false)
                 }
             })
             
@@ -3175,7 +3175,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
             {
                 var indexPath = NSIndexPath(forRow:self.messages.count-1, inSection: 0)
                 
-                self.tblForChats.scrollToRowAtIndexPath(indexPath, atScrollPosition: UITableViewScrollPosition.Bottom, animated: true)
+                self.tblForChats.scrollToRowAtIndexPath(indexPath, atScrollPosition: UITableViewScrollPosition.Bottom, animated: false)
             }
 
         });
@@ -3253,7 +3253,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
             if(self.messages.count>1)
             {
                 var indexPath = NSIndexPath(forRow:self.messages.count-1, inSection: 0)
-                self.tblForChats.scrollToRowAtIndexPath(indexPath, atScrollPosition: UITableViewScrollPosition.Bottom, animated: true)
+                self.tblForChats.scrollToRowAtIndexPath(indexPath, atScrollPosition: UITableViewScrollPosition.Bottom, animated: false)
                 
             }
             
@@ -3544,17 +3544,35 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
         //print("string is \(defaultTimeZoneStr)")
         //print("date is \(defaultTimeZoneStr2)")
         self.addMessage(txtFldMessage.text!+" (\(statusNow))",status:statusNow,ofType: "2",date:defaultTimeZoneStr, uniqueid: uniqueID)
-        
-        
-        
+        var lastrowindexpath = NSIndexPath(forRow:messages.count-1, inSection: 0)
+        tblForChats.insertRowsAtIndexPaths([lastrowindexpath], withRowAnimation: .None)
+        dispatch_async(dispatch_get_main_queue())
+        {
+        self.tblForChats.reloadRowsAtIndexPaths([lastrowindexpath], withRowAnimation: .None)
+            if(self.messages.count>1)
+            {
+                let indexPath = NSIndexPath(forRow:self.messages.count-1, inSection: 0)
+                self.tblForChats.scrollToRowAtIndexPath(indexPath, atScrollPosition: UITableViewScrollPosition.Bottom, animated: false)
+                
+                
+                
+            }
+        }
         
         txtFldMessage.text = "";
-        tblForChats.reloadData()
+        
+        
+        
+        
+        //commenting ==--- for testing
+        /*tblForChats.reloadData()
+        
         /*tblForChats.beginUpdates()
         var indexPath = NSIndexPath(forRow: messages.count-1, inSection: 0)
        self.tblForChats.insertRowsAtIndexPaths([indexPath], withRowAnimation: UITableViewRowAnimation.None)
         //.reloadRowsAtIndexPaths([indexPath], withRowAnimation: UITableViewRowAnimation.Top)
         tblForChats.endUpdates()*/
+        
         if(messages.count>1)
         {
             var indexPath = NSIndexPath(forRow:messages.count-1, inSection: 0)
@@ -3562,7 +3580,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
             
       
             
-        }
+        }*/
         
        /////// dispatch_async(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED,0))
        ////// {
@@ -3682,7 +3700,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
          {
          var indexPath = NSIndexPath(forRow:self.messages.count-1, inSection: 0)
          
-         self.tblForChats.scrollToRowAtIndexPath(indexPath, atScrollPosition: UITableViewScrollPosition.Bottom, animated: true)
+         self.tblForChats.scrollToRowAtIndexPath(indexPath, atScrollPosition: UITableViewScrollPosition.Bottom, animated: false)
          }
          
          
@@ -3734,7 +3752,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
             {
                 var indexPath = NSIndexPath(forRow:self.messages.count-1, inSection: 0)
                 
-                self.tblForChats.scrollToRowAtIndexPath(indexPath, atScrollPosition: UITableViewScrollPosition.Bottom, animated: true)
+                self.tblForChats.scrollToRowAtIndexPath(indexPath, atScrollPosition: UITableViewScrollPosition.Bottom, animated: false)
             }
             */
             
@@ -3746,7 +3764,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
              {
              var indexPath = NSIndexPath(forRow:self.messages.count-1, inSection: 0)
              
-             self.tblForChats.scrollToRowAtIndexPath(indexPath, atScrollPosition: UITableViewScrollPosition.Bottom, animated: true)
+             self.tblForChats.scrollToRowAtIndexPath(indexPath, atScrollPosition: UITableViewScrollPosition.Bottom, animated: false)
              }
              
              */
@@ -3761,7 +3779,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
             {
                 var indexPath = NSIndexPath(forRow:self.messages.count-1, inSection: 0)
                 
-                self.tblForChats.scrollToRowAtIndexPath(indexPath, atScrollPosition: UITableViewScrollPosition.Bottom, animated: true)
+                self.tblForChats.scrollToRowAtIndexPath(indexPath, atScrollPosition: UITableViewScrollPosition.Bottom, animated: false)
             }*/
            /* self.retrieveChatFromSqlite(selectedContact,completion:{(result)-> () in
                 self.tblForChats.reloadData()
@@ -3770,7 +3788,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
                 {
                     var indexPath = NSIndexPath(forRow:self.messages.count-1, inSection: 0)
                     
-                    self.tblForChats.scrollToRowAtIndexPath(indexPath, atScrollPosition: UITableViewScrollPosition.Bottom, animated: true)
+                    self.tblForChats.scrollToRowAtIndexPath(indexPath, atScrollPosition: UITableViewScrollPosition.Bottom, animated: false)
                 }
             })
             */
@@ -4074,7 +4092,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
                     {
                         var indexPath = NSIndexPath(forRow:self.messages.count-1, inSection: 0)
                         
-                        self.tblForChats.scrollToRowAtIndexPath(indexPath, atScrollPosition: UITableViewScrollPosition.Bottom, animated: true)
+                        self.tblForChats.scrollToRowAtIndexPath(indexPath, atScrollPosition: UITableViewScrollPosition.Bottom, animated: false)
                     }
                 })
                 
@@ -4191,7 +4209,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
         if(messages.count>1)
         {
             var indexPath = NSIndexPath(forRow:messages.count-1, inSection: 0)
-            tblForChats.scrollToRowAtIndexPath(indexPath, atScrollPosition: UITableViewScrollPosition.Bottom, animated: true)
+            tblForChats.scrollToRowAtIndexPath(indexPath, atScrollPosition: UITableViewScrollPosition.Bottom, animated: false)
             
         }
                
@@ -4221,7 +4239,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
         {
             var indexPath = NSIndexPath(forRow:self.messages.count-1, inSection: 0)
             
-            self.tblForChats.scrollToRowAtIndexPath(indexPath, atScrollPosition: UITableViewScrollPosition.Bottom, animated: true)
+            self.tblForChats.scrollToRowAtIndexPath(indexPath, atScrollPosition: UITableViewScrollPosition.Bottom, animated: false)
         }*/
         }
         

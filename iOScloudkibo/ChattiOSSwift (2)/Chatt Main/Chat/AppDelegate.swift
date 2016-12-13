@@ -707,7 +707,11 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
     func fetchChatsFromServer()
     {
         
-        
+        if(socketObj != nil)
+        {
+            socketObj.socket.emit("logClient","IPHONE LOG: \(username!) Fetching partial sync Chat")
+        }
+
         let uniqueid = Expression<String>("uniqueid")
         let file_name = Expression<String>("file_name")
         let type = Expression<String>("type")

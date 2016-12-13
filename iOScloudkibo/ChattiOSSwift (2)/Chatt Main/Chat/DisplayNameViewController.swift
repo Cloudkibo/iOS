@@ -223,10 +223,10 @@ class DisplayNameViewController: UIViewController {
                 self.syncContactsList.append(contact)
                 
                 print("contactsListSync appended count is \(self.syncContactsList.count)")
-                dispatch_async(dispatch_get_main_queue())
-{
+              //  dispatch_async(dispatch_get_main_queue())
+//{
                 self.lbl_progress.text="Setting Contact \(self.syncContactsList.count)"
-}
+//}
                 print("inside contacts filling for loop count is \(self.syncContactsList.count)")
                // dispatch_async(dispatch_get_main_queue())
                 //{
@@ -1228,6 +1228,10 @@ class DisplayNameViewController: UIViewController {
     
     @IBAction func btnDonePressed(sender: AnyObject) {
         print("button done pressed start time \(NSDate())")
+        if(socketObj != nil)
+{
+socketObj.socket.emit("logClient","button done pressed start time \(NSDate())")
+}
         var displayName="unknown"
         displayName=txtDisplayName.text!
        // appJustInstalled=[true]
@@ -1251,12 +1255,21 @@ class DisplayNameViewController: UIViewController {
                     */
                     
                     self.lbl_progress.text="Setting Contacts..."
+                    if(socketObj != nil)
+                    {
+                        socketObj.socket.emit("logClient","IPHONE LOG: setting contacts start time \(NSDate())")
+                    }
+
                     dispatch_sync(self.Q1_fetchFromDevice,
                         {//self.strLabel.text="Setting Contacts Step 2/4"
                             //self.fetchContactsFromDevice({ (result) -> () in
                               //SyncfetchContacts
                             self.SyncfetchContacts({ (result) -> () in
                                 
+                                if(socketObj != nil)
+                                {
+                                    socketObj.socket.emit("logClient","IPHONE LOG:Done reading addressbook time \(NSDate())")
+                                }
                                 //self.messageFrame.removeFromSuperview()
                                 //print("Sending network request..")
                                // self.progressBarDisplayer("Sending network request..", true)
@@ -1268,6 +1281,11 @@ class DisplayNameViewController: UIViewController {
                                             //self.messageFrame.removeFromSuperview()
                                             //print("updating local database \(NSDate())")
                                            // self.progressBarDisplayer("Updating local database", true)
+                                                if(socketObj != nil)
+                                                {
+                                                    socketObj.socket.emit("logClient","IPHONE LOG:got server response time \(NSDate())")
+                                                }
+
                                                 self.lbl_progress.text="Updating local database.."
                                             dispatch_sync(self.Q3_getContactsFromServer,
                                                 {
@@ -1282,6 +1300,11 @@ class DisplayNameViewController: UIViewController {
                                                                 self.syncSetKiboContactsBoolean({ (result) in
                                                                     
                                                                     
+                                                                    if(socketObj != nil)
+                                                                    {
+                                                                        socketObj.socket.emit("logClient","IPHONE LOG:Done updating database time \(NSDate())")
+                                                                    }
+
                                                                 //===self.updateKiboContactsStatus({ (result) in
                                                             
                                                             
@@ -1363,14 +1386,28 @@ class DisplayNameViewController: UIViewController {
                                                                             
                                                                     self.fetchContactsFromServer({ (result) in
 
-                                                                        
+                                                                        if(socketObj != nil)
+                                                                        {
+                                                                            socketObj.socket.emit("logClient","IPHONE LOG:Done setting contacts time \(NSDate())")
+                                                                        }
+
                                                                         self.lbl_progress.text="Setting Chats.."
                                                                 //self.messageFrame.removeFromSuperview()
                                                                 //self.progressBarDisplayer("Setting Chats", true)
                                                                 dispatch_sync(self.Q5_fetchAllChats,
                                                                 {
+                                                                    if(socketObj != nil)
+                                                                    {
+                                                                        socketObj.socket.emit("logClient","IPHONE LOG: fetch chat start time \(NSDate())")
+                                                                    }
+
                                                                 self.fetchChatsFromServer({ (result) -> () in
                                                                     
+                                                                    if(socketObj != nil)
+                                                                    {
+                                                                        socketObj.socket.emit("logClient","IPHONE LOG:Done fetching chat time \(NSDate())")
+                                                                    }
+
                                                                    // dispatch_async(dispatch_get_main_queue())
                                                                        // {
                                                                    //         self.messageFrame.removeFromSuperview()
@@ -1381,7 +1418,12 @@ class DisplayNameViewController: UIViewController {
                                                                                 {
                                                                                     var syncGroupsObj=syncGroupService.init()
                                                                                     //==uncomment latersyncGroupsObj.startSyncGroupsService({ (result) -> () in
-                                                                                    dispatch_sync(self.Q5_fetchAllGroupsData,
+                                                                                    
+                                                                                    if(socketObj != nil)
+                                                                                    {
+                                                                                        socketObj.socket.emit("logClient","IPHONE LOG:setting groups time \(NSDate())")
+                                                                                    }
+dispatch_sync(self.Q5_fetchAllGroupsData,
                                                                                         {
                                                                                     syncGroupsObj.startSyncGroupsServiceOnLaunch({ (result) -> () in
                                                                                     //result
@@ -1390,6 +1432,11 @@ class DisplayNameViewController: UIViewController {
                                                                                         self.lbl_progress.text="Completed.."
                                                                                         dispatch_async(dispatch_get_main_queue())
                                                                                     {
+                                                                                        if(socketObj != nil)
+                                                                                        {
+                                                                                            socketObj.socket.emit("logClient","IPHONE LOG: Completed\(username!) \(NSDate())")
+                                                                                        }
+
                                                                                         //self.messageFrame.removeFromSuperview()
                                                                                         print("completed done time \(NSDate())")
                                                                             self.dismissViewControllerAnimated(false, completion: { () -> Void in
