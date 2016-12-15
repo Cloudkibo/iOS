@@ -964,7 +964,8 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
                         
                         
                         //------CHECK IF ANY PENDING FILES--------
-                        
+                        if(UserchatJson["msg"].count > 0)
+                        {
                         dispatch_async(dispatch_get_main_queue())
                         {
                         if(delegateRefreshChat != nil)
@@ -983,6 +984,7 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
                         ///////// }
                         
                         }
+}
                         print("all fetched chats saved in sqlite success")
                         
                         
@@ -2534,6 +2536,12 @@ else{
     }
     func fetchSingleChatMessage(uniqueid:String)
     {
+        
+        Alamofire.request(.POST,"\(Constants.MainUrl+Constants.urllog)",headers:header,parameters: ["data":"IPHONE_LOG: fetch single chat \(uniqueid)"]).response{
+            request, response_, data, error in
+            print(error)
+        }
+        
         if(socketObj != nil)
         {
             socketObj.socket.emit("logClient","fetch single chat \(uniqueid)")
@@ -2582,6 +2590,10 @@ else{
             case .Success:
                 if let data1 = response.result.value {
                     
+                    Alamofire.request(.POST,"\(Constants.MainUrl+Constants.urllog)",headers:header,parameters: ["data":"IPHONE_LOG: fetch single chat \(uniqueid)"]).response{
+                        request, response_, data, error in
+                        print(error)
+                    }
                     
                     if(socketObj != nil)
                     {
