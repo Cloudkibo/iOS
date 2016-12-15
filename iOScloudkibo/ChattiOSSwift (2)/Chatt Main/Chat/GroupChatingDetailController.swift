@@ -1165,7 +1165,7 @@ class GroupChatingDetailController: UIViewController,UpdateGroupChatDetailsDeleg
         }
     }
     
-    func refreshUI(message: String, data: AnyObject!) {
+    func refreshGroupChatDetailUI(message: String, data: AnyObject!) {
         
         self.retrieveChatFromSqlite { (result) in
             
@@ -1183,6 +1183,8 @@ class GroupChatingDetailController: UIViewController,UpdateGroupChatDetailsDeleg
            // }
         }
     }
+    
+    
     
     override func viewWillDisappear(animated: Bool) {
         

@@ -113,7 +113,7 @@ var header:[String:String]=["kibo-token":""]
 var delegateRefreshChat:UpdateChatViewsDelegate!
 //var appJustInstalled=[Bool]()
 var reachability:Reachability!;
-
+var contactsarray=[CNContact]?()
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate,AppDelegateScreenDelegate {

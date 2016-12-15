@@ -812,7 +812,8 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
                     print("access token key chain sett as \(self.accountKit!.currentAccessToken!.tokenString)")
                     KeychainWrapper.setString((account?.phoneNumber?.countryCode)!, forKey: "countrycode")
                     countrycode=account?.phoneNumber?.countryCode
-                    
+                   
+                  
                     
                 }
                 
@@ -1122,6 +1123,12 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
             
            // socketObj.socket.emit("logClient", "fetching contacts from iphone")
             
+            
+            UtilityFunctions.init().findContactsOnBackgroundThread({ (contact) in
+                
+                contactsarray=contact
+                
+            })
             
             //dont do on every appear. just do once
             print("emaillist is \(emailList.first)")
@@ -2234,6 +2241,7 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
 //dispatch_async(dispatch_get_main_queue())
     //{
         self.messages.setArray(messages2 as [AnyObject])
+        
         self.pendingGroupIcons.removeAll()
         for(var i=0;i<pendingGroupIcons2.count;i++)
         {
@@ -2245,6 +2253,8 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
 //}
     //}
 
+    
+    
    /* func fetchContacts(completion:(result:Bool)->()){
         
         
@@ -4463,7 +4473,7 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
         
     }
     
-    func refreshUI(message: String, data: AnyObject!) {
+    func refreshMainChatViewUI(message: String, data: AnyObject!) {
         print("here refreshing UI in chats view line # 4390")
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT,0))
         {

@@ -9,6 +9,8 @@
 import UIKit
 import SQLite
 import MessageUI
+import ContactsUI
+import Haneke
 
 class ContactsInviteViewController: UIViewController,UITableViewDelegate,UITableViewDataSource,MFMailComposeViewControllerDelegate,MFMessageComposeViewControllerDelegate {
     
@@ -24,7 +26,7 @@ class ContactsInviteViewController: UIViewController,UITableViewDelegate,UITable
     var inviteContactsNames=[String]()
     var inviteContactsEmails=[String]()
     var inviteContactsPhones=[String]()
-    
+    var inviteContactsAvatars=[NSData]()
     override func viewWillAppear(animated: Bool) {
        /* contactsList.fetch(){ (result) -> () in
             emailList = result
@@ -45,17 +47,26 @@ class ContactsInviteViewController: UIViewController,UITableViewDelegate,UITable
             }*/
         
     }
+    
+    //var uniqueidentifier=
+         let uniqueidentifier = Expression<String>("uniqueidentifier")
+    
     override func viewDidLoad() {
         tbl_inviteContacts.delegate=self
         tbl_inviteContacts.dataSource=self
         
         super.viewDidLoad()
+        /*contactsSingletonClass.getInstance().findContactsOnBackgroundThread({ (contacts) -> Void in
+            
+            var contactsarray=contacts
+            //return contacts!
+        })*/
         print("fetch contacts from address book")
         
        // if(firstTimeLogin==true){
        
         let tbl_contactslists=sqliteDB.contactslists
-        
+        let tbl_allcontacts=sqliteDB.allcontacts
         
         
         inviteContactsNames.removeAll(keepCapacity: false)
@@ -79,11 +90,55 @@ class ContactsInviteViewController: UIViewController,UITableViewDelegate,UITable
             let query = allcontactslist1.select(kibocontact,name,email,phone)           // SELECT "email" FROM "users"
                 .filter(kibocontact == false)//.filter(email != "")     // WHERE "kiboContact" IS false
             for ccc in try sqliteDB.db.prepare(query.filter(email != "")) {
-                
+                var picfound=false
                 print("invite contact is \(ccc[name]) .. \(ccc[email])")
                 inviteContactsNames.append(ccc[name]!)
                 inviteContactsEmails.append(ccc[email])
                 inviteContactsPhones.append(ccc[phone]!)
+                /*var joinrows=self.leftJoinContactsTables(ccc[phone]!)
+                
+                if(joinrows.count>0)
+                {print(joinrows.debugDescription)
+                    print("found uniqueidentifier from join is \(joinrows[0].get(uniqueidentifier))")
+ */
+                    //let queryPic = tbl_allcontacts.filter(tbl_allcontacts[phone] == ccc[contactPhone])
+                    let queryPic = tbl_allcontacts.filter(tbl_allcontacts[phone] == ccc[phone])
+                    do{
+                    for picquery in try sqliteDB.db.prepare(queryPic) {
+                    
+                    /*let contactStore = CNContactStore()
+                    
+                    var keys = [CNContactGivenNameKey, CNContactFamilyNameKey, CNContactEmailAddressesKey, CNContactPhoneNumbersKey, CNContactImageDataAvailableKey,CNContactThumbnailImageDataKey, CNContactImageDataKey]
+                    //--- var foundcontact=try contactStore.unifiedContactWithIdentifier(picquery[uniqueidentifier], keysToFetch: keys)
+                    var foundcontact=try contactStore.unifiedContactWithIdentifier(joinrows[0].get(uniqueidentifier), keysToFetch: keys)
+                    */
+                 //   for ccc in contactsarray!
+//{
+    var keys = [CNContactGivenNameKey, CNContactFamilyNameKey, CNContactEmailAddressesKey, CNContactPhoneNumbersKey, CNContactImageDataAvailableKey,CNContactThumbnailImageDataKey, CNContactImageDataKey]
+   // if(ccc.identifier==joinrows[0].get(uniqueidentifier) && ccc.imageDataAvailable==true)
+    if(ccc.identifier== picquery[uniqueidentifier] && ccc.imageDataAvailable==true)
+    
+                       
+        {
+    //if(foundcontact.imageDataAvailable==true)
+    //{
+        //foundcontact.imageData
+    //    inviteContactsAvatars.append(foundcontact.thumbnailImageData!)
+       inviteContactsAvatars.append(ccc.thumbnailImageData!)
+        picfound=true
+        break
+    //}
+    }
+}
+                    
+                    
+                }
+                if(picfound==false)
+                {
+                    inviteContactsAvatars.append(NSData.init())
+                    // print("picquery NOT found for \(ccc[phone]) and is \(NSData.init())")
+                }
+
             //try sqliteDB.db.run(query.update(kibocontact <- true))
             }
             }
@@ -137,6 +192,50 @@ class ContactsInviteViewController: UIViewController,UITableViewDelegate,UITable
         // Do any additional setup after loading the view.
     }
 
+    
+    func leftJoinContactsTables(phone1:String)->Array<Row>
+    {
+        
+        var resultrow=Array<Row>()
+        let name = Expression<String>("name")
+        let phone = Expression<String>("phone")
+        let actualphone = Expression<String>("actualphone")
+        let email = Expression<String>("email")
+        let kiboContact = Expression<Bool>("kiboContact")
+        /////////////////////let profileimage = Expression<NSData>("profileimage")
+        let uniqueidentifier = Expression<String>("uniqueidentifier")
+        //
+        var allcontacts = sqliteDB.allcontacts
+        //========================================================
+        let contactid = Expression<String>("contactid")
+        let detailsshared = Expression<String>("detailsshared")
+        let unreadMessage = Expression<Bool>("unreadMessage")
+        
+        let userid = Expression<String>("userid")
+        let firstname = Expression<String>("firstname")
+        let lastname = Expression<String>("lastname")
+        //---let email = Expression<String>("email")
+        //--- let phone = Expression<String>("phone")
+        let username = Expression<String>("username")
+        let status = Expression<String>("status")
+        
+        var contactslists = sqliteDB.contactslists
+        //=================================================
+        var joinquery=allcontacts.join(.LeftOuter, contactslists, on: contactslists[phone] == allcontacts[phone]).filter(allcontacts[phone]==phone1)
+        
+        do{for joinresult in try sqliteDB.db.prepare(joinquery) {
+            
+            resultrow.append(joinresult)
+            }
+        }
+        catch{
+            print("error in join query \(error)")
+        }
+        return resultrow
+        
+    }
+    
+    
     @IBAction func btn_BackPressed(sender: AnyObject) {
         
         //Go to contacts list
@@ -184,6 +283,19 @@ class ContactsInviteViewController: UIViewController,UITableViewDelegate,UITable
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         
         let cell=tbl_inviteContacts.dequeueReusableCellWithIdentifier("ContactsInviteCell")! as! ContactsInviteCell
+        cell.contactAvatar.image=UIImage(named: "profile-pic1")
+        if(inviteContactsAvatars[indexPath.row] != NSData.init())
+        {
+        cell.contactAvatar.layer.cornerRadius = cell.contactAvatar.frame.size.width/2
+        cell.contactAvatar.clipsToBounds = true
+        //cell.profilePic.hnk_format=Format<UIImage>
+        var scaledimage=ImageResizer(size: CGSize(width: cell.contactAvatar.bounds.width,height: cell.contactAvatar.bounds.height), scaleMode: .AspectFill, allowUpscaling: true, compressionQuality: 0.5)
+        //var resizedimage=scaledimage.resizeImage(UIImage(data:ContactsProfilePic)!)
+        cell.contactAvatar.hnk_setImage(scaledimage.resizeImage(UIImage(data:self.inviteContactsAvatars[indexPath.row])!), key: inviteContactsPhones[indexPath.row])
+            /*
+ cell.contactAvatar
+ */
+        }
         
             cell.contactName.text=inviteContactsNames[indexPath.row]
         if(sendType=="Mail")

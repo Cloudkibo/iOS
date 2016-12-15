@@ -49,6 +49,7 @@ class BroadcastListViewController: UIViewController,UINavigationControllerDelega
        var broadcastlistmessages2=NSMutableArray()
         //uniqueid
         var aaa = sqliteDB.getBroadcastListDataForController()
+        
         for(var i=0;i<aaa.count;i++)
         {
         broadcastlistmessages2.addObject(["listname":aaa[i]["listname"] as! String,"membersnames":aaa[i]["membersnames"] as! String,"uniqueid":aaa[i]["uniqueid"] as! String])
@@ -74,15 +75,18 @@ class BroadcastListViewController: UIViewController,UINavigationControllerDelega
             }
         }*/
         
+        //commenting for testing
         let contactPickerScene = EPContactsPicker(delegate: self, multiSelection:true, subtitleCellType: SubtitleCellValue.PhoneNumber)
         let navigationController = UINavigationController(rootViewController: contactPickerScene)
         self.presentViewController(navigationController, animated: true, completion: nil)
-        
+ 
         
         
         participantsSelected.removeAll()
         print("BtnnewBroadcastListClicked")
         picker = CNContactPickerViewController();
+        picker.displayedPropertyKeys=[CNContactGivenNameKey, CNContactFamilyNameKey, CNContactEmailAddressesKey, CNContactPhoneNumbersKey, CNContactImageDataAvailableKey,CNContactThumbnailImageDataKey, CNContactImageDataKey]
+        
         picker.title="Recipients"
         picker.navigationItem.leftBarButtonItem=picker.navigationController?.navigationItem.backBarButtonItem
         

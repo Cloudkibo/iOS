@@ -9,6 +9,7 @@
 import Foundation
 import UIKit
 import Alamofire
+import Contacts
 class UtilityFunctions{
     
     init()
@@ -591,6 +592,47 @@ print("tempURL is \(temporaryURL) and response is \(response.allHeaderFields)")
         
     }
 
+    func findContactsOnBackgroundThread (completion:(contact:[CNContact]?)->())/*->([CNContact]))*/ {
+        print("inside findContactsOnBackgroundThread")
+        dispatch_async(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0), { () -> Void in
+            
+            //let keysToFetch = [CNContactFormatter.descriptorForRequiredKeysForStyle(.FullName),CNContactPhoneNumbersKey] //CNContactIdentifierKey
+            
+             let keysToFetch = [CNContactGivenNameKey, CNContactFamilyNameKey, CNContactEmailAddressesKey, CNContactPhoneNumbersKey, CNContactImageDataAvailableKey,CNContactThumbnailImageDataKey, CNContactImageDataKey]
+            let fetchRequest = CNContactFetchRequest( keysToFetch: keysToFetch)
+            var contacts = [CNContact]()
+            CNContact.localizedStringForKey(CNLabelPhoneNumberiPhone)
+            
+            fetchRequest.mutableObjects = false
+            fetchRequest.unifyResults = true
+            fetchRequest.sortOrder = .UserDefault
+            
+            let contactStoreID = CNContactStore().defaultContainerIdentifier()
+            print("\(contactStoreID)")
+            
+            
+            do {
+                
+                try CNContactStore().enumerateContactsWithFetchRequest(fetchRequest) { (contact, stop) -> Void in
+                    //do something with contact
+                    if contact.phoneNumbers.count > 0 {
+                        print("inside contactsarray class \(contact.givenName)")
+                        contacts.append(contact)
+                    }
+                    
+                }
+            } catch let e as NSError {
+                print(e.localizedDescription)
+            }
+            
+            dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                return completion(contact: contacts)
+                
+            })
+        })
+    }
+
+    
     
  
 }

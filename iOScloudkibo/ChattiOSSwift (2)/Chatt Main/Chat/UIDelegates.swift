@@ -13,7 +13,7 @@ class UIDelegates
     var delegateGroupChatDetails1:UpdateGroupChatDetailsDelegate!
     var delegateGroupInfoDetails1:UpdateGroupInfoDetailsDelegate!
     var delegateMainPageChats1:UpdateMainPageChatsDelegate!
-    
+    var delegateSingleChatDetails1:UpdateSingleChatDetailDelegate!
     
    // var delegateChannelsDetails1:UpdateChannelsDetailsDelegate!
    // var delegateTeamsDetails1:UpdateTeamsDetailsDelegate!
@@ -35,21 +35,28 @@ class UIDelegates
     {
         if(delegateGroupChatDetails1 != nil)
         {
-            delegateGroupChatDetails1?.refreshUI("updateUI", data: nil)
+            delegateGroupChatDetails1?.refreshGroupChatDetailUI("updateUI", data: nil)
         }
     }
     func UpdateGroupInfoDetailsDelegateCall()
     {
         if(delegateGroupInfoDetails1 != nil)
         {
-            delegateGroupInfoDetails1?.refreshUI("updateUI", data: nil)
+            delegateGroupInfoDetails1?.refreshGroupInfoUI("updateUI", data: nil)
         }
     }
     func UpdateMainPageChatsDelegateCall()
     {
         if(delegateMainPageChats1 != nil)
         {
-            delegateMainPageChats1?.refreshUI("updateUI", data: nil)
+            delegateMainPageChats1?.refreshMainChatViewUI("updateUI", data: nil)
+        }
+    }
+    func UpdateSingleChatDetailDelegateCall()
+    {
+        if(delegateSingleChatDetails1 != nil)
+        {
+            delegateSingleChatDetails1?.refreshSingleChatDetailUI("updateUI", data: nil)
         }
     }
     
@@ -57,15 +64,19 @@ class UIDelegates
 }
 protocol UpdateGroupChatDetailsDelegate:class
 {
-    func refreshUI(message:String,data:AnyObject!);
+    func refreshGroupChatDetailUI(message:String,data:AnyObject!);
 }
 protocol UpdateGroupInfoDetailsDelegate:class
 {
-    func refreshUI(message:String,data:AnyObject!);
+    func refreshGroupInfoUI(message:String,data:AnyObject!);
 }
 protocol UpdateMainPageChatsDelegate:class
 {
-    func refreshUI(message:String,data:AnyObject!);
+    func refreshMainChatViewUI(message:String,data:AnyObject!);
+}
+protocol UpdateSingleChatDetailDelegate:class
+{
+    func refreshSingleChatDetailUI(message:String,data:AnyObject!);
 }
 /*
 protocol UpdateChannelsDetailsDelegate:class

@@ -195,7 +195,9 @@ class NetworkingManager
                     print("chat sent msg \(chatstanza)")
                     
                     sqliteDB.UpdateChatStatus(chatstanza["uniqueid"]!, newstatus: "sent")
-                     completion(result:true)
+                    
+                    
+                    completion(result:true)
                     
                     
                     

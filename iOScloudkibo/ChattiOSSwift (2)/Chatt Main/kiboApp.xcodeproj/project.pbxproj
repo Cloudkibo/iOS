@@ -68,6 +68,7 @@
 		713D51EC1CC11896007E0B47 /* VideoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 713D51B91CC11896007E0B47 /* VideoViewController.swift */; };
 		713D51EE1CC11896007E0B47 /* WebmeetingChatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 713D51BB1CC11896007E0B47 /* WebmeetingChatViewController.swift */; };
 		713D51EF1CC11896007E0B47 /* webmeetingMsgsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 713D51BC1CC11896007E0B47 /* webmeetingMsgsModel.swift */; };
+		713E7E321E020EB800C7285A /* contactsSingletonClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 713E7E311E020EB800C7285A /* contactsSingletonClass.swift */; };
 		713EC7051D0518B800495A43 /* ChatMainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 713EC7041D0518B800495A43 /* ChatMainViewController.swift */; };
 		713F396D1D74459600F3A9C4 /* EPConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 713F39671D74459600F3A9C4 /* EPConstants.swift */; };
 		713F396E1D74459600F3A9C4 /* EPContact.swift in Sources */ = {isa = PBXBuildFile; fileRef = 713F39681D74459600F3A9C4 /* EPContact.swift */; };
@@ -346,6 +347,7 @@
 		713D51BA1CC11896007E0B47 /* ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		713D51BB1CC11896007E0B47 /* WebmeetingChatViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WebmeetingChatViewController.swift; sourceTree = "<group>"; };
 		713D51BC1CC11896007E0B47 /* webmeetingMsgsModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = webmeetingMsgsModel.swift; sourceTree = "<group>"; };
+		713E7E311E020EB800C7285A /* contactsSingletonClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = contactsSingletonClass.swift; sourceTree = "<group>"; };
 		713EC7041D0518B800495A43 /* ChatMainViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatMainViewController.swift; sourceTree = "<group>"; };
 		713F39671D74459600F3A9C4 /* EPConstants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EPConstants.swift; sourceTree = "<group>"; };
 		713F39681D74459600F3A9C4 /* EPContact.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EPContact.swift; sourceTree = "<group>"; };
@@ -610,6 +612,7 @@
 				7127CC901D9D0C800047683B /* syncContactService.swift */,
 				7142EC8B1DBE33560070826F /* syncGroupsService.swift */,
 				7142EC961DBF51DC0070826F /* UtilityFunctions.swift */,
+				713E7E311E020EB800C7285A /* contactsSingletonClass.swift */,
 				71D74E8E1DEBD8E400D44D59 /* NSData_Compression.swift */,
 				71CE4C261DEFF758001637DA /* BroadcastItemCell.swift */,
 				71CE4C2A1DEFF7E9001637DA /* BroadcastListViewController.swift */,
@@ -1118,6 +1121,7 @@
 				718B8D901CC11A9B000B4AB2 /* SocketParsable.swift in Sources */,
 				718B8D881CC11A9B000B4AB2 /* SocketEngineWebsocket.swift in Sources */,
 				718B8D861CC11A9B000B4AB2 /* SocketEnginePollable.swift in Sources */,
+				713E7E321E020EB800C7285A /* contactsSingletonClass.swift in Sources */,
 				71C1A2CF1D768ABC00FC5157 /* GroupChatingDetailController.swift in Sources */,
 				71C1A2DA1D769B0900FC5157 /* PKSwipeTableViewCell.swift in Sources */,
 				718B8D831CC11A9B000B4AB2 /* SocketEngine.swift in Sources */,

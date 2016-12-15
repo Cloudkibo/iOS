@@ -14,4 +14,5 @@ class ContactsInviteCell: UITableViewCell {
     @IBOutlet weak var contactName: UILabel!
 
     @IBOutlet weak var contactEmail: UILabel!
+    @IBOutlet weak var contactAvatar: UIImageView!
 }

@@ -204,23 +204,24 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
         
         
         
-        self.retrieveChatFromSqlite(self.selectedContact,completion:{(result)-> () in
-            self.tblForChats.reloadData()
+        self.retrieveChatFromSqliteOnAppear(self.selectedContact,completion:{(result)-> () in
             
         //    dispatch_async(dispatch_get_main_queue())
           //  {
            // self.tblForChats.reloadData()
             
             //commenting newwwwwwww -===-===-=
-            dispatch_async(dispatch_get_main_queue())
-{
+         //   dispatch_async(dispatch_get_main_queue())
+//{
+    self.tblForChats.reloadData()
+
             if(self.messages.count>1)
             {
-                var indexPath = NSIndexPath(forRow:self.messages.count-1, inSection: 0)
-                
+                //var indexPath = NSIndexPath(forRow:self.messages.count-1, inSection: 0)
+                let indexPath = NSIndexPath(forRow:self.tblForChats.numberOfRowsInSection(0)-1, inSection: 0)
                 self.tblForChats.scrollToRowAtIndexPath(indexPath, atScrollPosition: UITableViewScrollPosition.Bottom, animated: false)
             }
-            }
+            //}
             //}
        // })
         })
@@ -359,10 +360,12 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
         socketObj.delegate=self
         socketObj.delegateChat=self
         }
-        dispatch_async(dispatch_get_main_queue())
+        
+        
+        /*dispatch_async(dispatch_get_main_queue())
         {
             self.tblForChats.reloadData()
-        }
+        }*/
         //commenting newwww --====----====-----====
       /* if(self.messages.count>1)
         {
@@ -686,10 +689,13 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
     
     
     
-    func retrieveChatFromSqlite(selecteduser:String,completion:(result:Bool)->())
+    func retrieveChatFromSqliteOnAppear(selecteduser:String,completion:(result:Bool)->())
     {
         //print("retrieveChatFromSqlite called---------")
         ///^^messages.removeAllObjects()
+        
+       dispatch_async(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED,0))
+    {
         var messages2=NSMutableArray()
         
         let to = Expression<String>("to")
@@ -752,7 +758,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
                     
                     sqliteDB.saveMessageStatusSeen("seen", sender1: tblContacts[from], uniqueid1: tblContacts[uniqueid])
                     
-                    sendChatStatusUpdateMessage(tblContacts[uniqueid],status: "seen",sender: tblContacts[from])
+                    self.sendChatStatusUpdateMessage(tblContacts[uniqueid],status: "seen",sender: tblContacts[from])
                    
                     //OLD SOCKET LOGIC OF SENDING CHAT STATUS
                   /*  socketObj.socket.emitWithAck("messageStatusUpdate", ["status":"seen","uniqueid":tblContacts[uniqueid],"sender": tblContacts[from]])(timeoutAfter: 15000){data in
@@ -881,21 +887,246 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
                 
             }
            ////////// self.messages.removeAllObjects()
-            messages.setArray(messages2 as [AnyObject])
+           
             ////////////self.messages.addObjectsFromArray(messages2 as [AnyObject])
             
-            
+   dispatch_async(dispatch_get_main_queue())
+   {
+     self.messages.setArray(messages2 as [AnyObject])
             return completion(result:true)
-                  }
+            }
+           }
         catch(let error)
         {
-            return completion(result:false)
-            //print(error)
+            dispatch_async(dispatch_get_main_queue())
+            {
+                return completion(result:false)
+            }
+                      //print(error)
         }
         /////var tbl_userchats=sqliteDB.db["userschats"]
-        
+        }
     }
     
+    
+    func retrieveChatFromSqlite(selecteduser:String,completion:(result:Bool)->())
+    {
+        //print("retrieveChatFromSqlite called---------")
+        ///^^messages.removeAllObjects()
+        
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT,0))
+        {
+            var messages2=NSMutableArray()
+            
+            let to = Expression<String>("to")
+            let from = Expression<String>("from")
+            let owneruser = Expression<String>("owneruser")
+            let fromFullName = Expression<String>("fromFullName")
+            let msg = Expression<String>("msg")
+            let date = Expression<NSDate>("date")
+            let status = Expression<String>("status")
+            let uniqueid = Expression<String>("uniqueid")
+            let type = Expression<String>("type")
+            let file_type = Expression<String>("file_type")
+            
+            var tbl_userchats=sqliteDB.userschats
+            var res=tbl_userchats.filter(to==selecteduser || from==selecteduser)
+            //to==selecteduser || from==selecteduser
+            //print("chat from sqlite is")
+            //print(res)
+            do
+            {
+                
+                //for tblContacts in try sqliteDB.db.prepare(tbl_userchats.filter(owneruser==owneruser1)){
+                ////print("queryy runned count is \(tbl_contactslists.count)")
+                for tblContacts in try sqliteDB.db.prepare(tbl_userchats.filter(to==selecteduser || from==selecteduser).order(date.asc)){
+                    
+                    //print("===fetch date from database is tblContacts[date] \(tblContacts[date])")
+                    /*
+                     var formatter = NSDateFormatter();
+                     formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSS";
+                     //formatter.dateFormat = "MM/dd hh:mm a";
+                     formatter.timeZone = NSTimeZone(name: "UTC")
+                     */
+                    // formatter.timeZone = NSTimeZone.localTimeZone()
+                    // var defaultTimeZoneStr = formatter.dateFromString(tblContacts[date])
+                    // var defaultTimeZoneStr2 = formatter.stringFromDate(defaultTimeZoneStr!)
+                    
+                    
+                    var formatter2 = NSDateFormatter();
+                    formatter2.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSS"
+                    formatter2.timeZone = NSTimeZone.localTimeZone()
+                    var defaultTimeeee = formatter2.stringFromDate(tblContacts[date])
+                    
+                    //print("===fetch date from database is tblContacts[date] ... date converted is \(defaultTimeZoneStr)... string is \(defaultTimeZoneStr2)... defaultTimeeee \(defaultTimeeee)")
+                    
+                    /*//print(tblContacts[to])
+                     //print(tblContacts[from])
+                     //print(tblContacts[msg])
+                     //print(tblContacts[date])
+                     //print(tblContacts[status])
+                     //print("--------")
+                     */
+                    
+                    
+                    
+                    
+                    
+                    if(tblContacts[from]==selecteduser && (tblContacts[status]=="delivered"))
+                    {
+                        sqliteDB.UpdateChatStatus(tblContacts[uniqueid], newstatus: "seen")
+                        
+                        sqliteDB.saveMessageStatusSeen("seen", sender1: tblContacts[from], uniqueid1: tblContacts[uniqueid])
+                        
+                        self.sendChatStatusUpdateMessage(tblContacts[uniqueid],status: "seen",sender: tblContacts[from])
+                        
+                        //OLD SOCKET LOGIC OF SENDING CHAT STATUS
+                        /*  socketObj.socket.emitWithAck("messageStatusUpdate", ["status":"seen","uniqueid":tblContacts[uniqueid],"sender": tblContacts[from]])(timeoutAfter: 15000){data in
+                         var chatmsg=JSON(data)
+                         
+                         //print(data[0])
+                         //print(data[0]["uniqueid"]!!)
+                         //print(data[0]["uniqueid"]!!.debugDescription!)
+                         //print(chatmsg[0]["uniqueid"].string!)
+                         ////print(data[0]["status"]!!.string!+" ... "+data[0]["uniqueid"]!!.string!)
+                         //print("chat status seen emitted")
+                         sqliteDB.removeMessageStatusSeen(data[0]["uniqueid"]!!.debugDescription!)
+                         socketObj.socket.emit("logClient","\(username) chat status emitted")
+                         
+                         }
+                         */
+                    }
+                    
+                    if (tblContacts[from]==username!)
+                        
+                    {//type1
+                        /////print("statussss is \(tblContacts[status])")
+                        if(tblContacts[file_type]=="image")
+                        {
+                            // var filedownloaded=sqliteDB.checkIfFileExists(tblContacts[uniqueid])
+                            
+                            /*if(filedownloaded==false)
+                             {
+                             //checkpendingfiles
+                             managerFile.checkPendingFiles(tblContacts[uniqueid])
+                             }*/
+                            //  self.addUploadInfo(selectedContact, uniqueid1: tblContacts[uniqueid], rowindex: messages.count, uploadProgress: 1, isCompleted: true)
+                            
+                            messages2.addObject(["message":tblContacts[msg]+" (\(tblContacts[status]))","filename":tblContacts[msg],"type":"4", "date":defaultTimeeee, "uniqueid":tblContacts[uniqueid]])
+                            
+                            
+                            //messages2.addObject(["message":tblContacts[msg], "type":"4", "date":tblContacts[date], "uniqueid":tblContacts[uniqueid]])
+                            
+                            //^^^ self.addMessage(tblContacts[msg], ofType: "4",date: tblContacts[date],uniqueid: tblContacts[uniqueid])
+                            
+                        }
+                        else{
+                            if(tblContacts[file_type]=="document")
+                            {
+                                //  var filedownloaded=sqliteDB.checkIfFileExists(tblContacts[uniqueid])
+                                
+                                /* if(filedownloaded==false)
+                                 {
+                                 //checkpendingfiles
+                                 managerFile.checkPendingFiles(tblContacts[uniqueid])
+                                 }*/
+                                ////  self.addUploadInfo(selectedContact, uniqueid1: tblContacts[uniqueid], rowindex: messages.count, uploadProgress: 1, isCompleted: true)
+                                
+                                messages2.addObject(["message":tblContacts[msg]+" (\(tblContacts[status]))","filename":tblContacts[msg], "type":"6", "date":defaultTimeeee, "uniqueid":tblContacts[uniqueid]])
+                                
+                                //^^^^ self.addMessage(tblContacts[msg], ofType: "6",date: tblContacts[date],uniqueid: tblContacts[uniqueid])
+                                
+                            }
+                            else
+                            {
+                                messages2.addObject(["message":tblContacts[msg]+" (\(tblContacts[status])) ","status":tblContacts[status], "type":"2", "date":defaultTimeeee, "uniqueid":tblContacts[uniqueid]])
+                                
+                                
+                                //^^^^self.addMessage(tblContacts[msg]+" (\(tblContacts[status])) ", ofType: "2",date: tblContacts[date],uniqueid: tblContacts[uniqueid])
+                            }
+                        }
+                    }
+                    else
+                    {//type2
+                        //// //print("statussss is \(tblContacts[status])")
+                        if(tblContacts[file_type]=="image")
+                        {
+                            var filedownloaded=sqliteDB.checkIfFileExists(tblContacts[uniqueid])
+                            
+                            if(filedownloaded==false)
+                            {
+                                //checkpendingfiles
+                                
+                                managerFile.checkPendingFiles(tblContacts[uniqueid])
+                            }
+                            
+                            //  self.addUploadInfo(selectedContact, uniqueid1: tblContacts[uniqueid], rowindex: messages.count, uploadProgress: 1, isCompleted: true)
+                            messages2.addObject(["message":tblContacts[msg],"filename":tblContacts[msg],"status":tblContacts[status], "type":"3", "date":defaultTimeeee, "uniqueid":tblContacts[uniqueid]])
+                            
+                            
+                            //^^^^  self.addMessage(tblContacts[msg] , ofType: "3",date: tblContacts[date],uniqueid: tblContacts[uniqueid])
+                            
+                        }
+                        else
+                        {if(tblContacts[file_type]=="document")
+                        {
+                            var filedownloaded=sqliteDB.checkIfFileExists(tblContacts[uniqueid])
+                            
+                            if(filedownloaded==false)
+                            {
+                                //checkpendingfiles
+                                managerFile.checkPendingFiles(tblContacts[uniqueid])
+                            }
+                            
+                            // self.addUploadInfo(selectedContact, uniqueid1: tblContacts[uniqueid], rowindex: messages.count, uploadProgress: 1, isCompleted: true)
+                            messages2.addObject(["message":tblContacts[msg],"filename":tblContacts[msg],"status":tblContacts[status], "type":"5", "date":defaultTimeeee, "uniqueid":tblContacts[uniqueid]])
+                            
+                            
+                            //^^^^ self.addMessage(tblContacts[msg], ofType: "5",date: tblContacts[date],uniqueid: tblContacts[uniqueid])
+                            
+                        }
+                        else
+                        {
+                            
+                            messages2.addObject(["message":tblContacts[msg],"status":tblContacts[status], "type":"1", "date":defaultTimeeee, "uniqueid":tblContacts[uniqueid]])
+                            
+                            
+                            ///^^^ self.addMessage(tblContacts[msg], ofType: "1", date: tblContacts[date],uniqueid: tblContacts[uniqueid])
+                            }
+                        }
+                        
+                    }
+                    /* if(self.messages.count>1)
+                     {
+                     var indexPath = NSIndexPath(forRow:self.messages.count-1, inSection: 0)
+                     
+                     self.tblForChats.scrollToRowAtIndexPath(indexPath, atScrollPosition: UITableViewScrollPosition.Bottom, animated: false)
+                     }*/
+                    
+                    //self.tblForChats.reloadData()
+                    
+                }
+                ////////// self.messages.removeAllObjects()
+                
+                ////////////self.messages.addObjectsFromArray(messages2 as [AnyObject])
+                
+                dispatch_async(dispatch_get_main_queue())
+                {
+                    self.messages.setArray(messages2 as [AnyObject])
+                    return completion(result:true)
+                }
+            }
+            catch(let error)
+            {
+                dispatch_async(dispatch_get_main_queue())
+                {
+                    return completion(result:false)
+                }            //print(error)
+            }
+            /////var tbl_userchats=sqliteDB.db["userschats"]
+        }
+    }
+
     func removeChatHistory(){
         //print("header is \(header) selectedContact is \(selectedContact)")
         
@@ -1244,7 +1475,8 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
        
        // label.text = "This is a Label"
         
-        
+        if(messages.count > 0 && messages.count > indexPath.row)
+        {
         var messageDic = messages.objectAtIndex(indexPath.row) as! [String : String];
         
         let msg = messageDic["message"] as NSString!
@@ -1349,6 +1581,11 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
                 }*/
             }
         }
+        }
+        else
+        {
+            return 0
+        }
         
       /*  }
         else
@@ -1399,7 +1636,8 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
     }
     
      func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-   
+        if(messages.count > 0 && messages.count > indexPath.row)
+        {
         var messageDic = messages.objectAtIndex(indexPath.row) as! [String : String];
         NSLog(messageDic["message"]!, 1)
         let msgType = messageDic["type"] as NSString!
@@ -1408,6 +1646,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
         if(msgType.isEqualToString("5")||msgType.isEqualToString("6")){
         self.performSegueWithIdentifier("showFullDocSegue", sender: nil);
         }
+        }
     }
     
     
@@ -1415,8 +1654,11 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
     func tableView(tableView: UITableView!, cellForRowAtIndexPath indexPath: NSIndexPath!) -> UITableViewCell! {
         var cell : UITableViewCell!
         print("reloading of cellsssssssss......------------===========++++++")
-       
+        cell = tblForChats.dequeueReusableCellWithIdentifier("ChatSentCell")! as UITableViewCell
+        
                //print("cellForRowAtIndexPath called \(indexPath)")
+       // if(messages.count > 0 && messages.count > indexPath.row)
+        //{
         var messageDic = messages.objectAtIndex(indexPath.row) as! [String : String];
         NSLog(messageDic["message"]!, 1)
         let msgType = messageDic["type"] as NSString!
@@ -1450,8 +1692,11 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
          */
         
         if (msgType.isEqualToString("1")){
+            if(cell==nil)
+{
             cell = tblForChats.dequeueReusableCellWithIdentifier("ChatSentCell")! as UITableViewCell
-            let textLable = cell.viewWithTag(12) as! UILabel
+}
+let textLable = cell.viewWithTag(12) as! UILabel
             let chatImage = cell.viewWithTag(1) as! UIImageView
             let profileImage = cell.viewWithTag(2) as! UIImageView
             let timeLabel = cell.viewWithTag(11) as! UILabel
@@ -1523,10 +1768,11 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
             //timeLabel.text=date2.debugDescription
         }
         if (msgType.isEqualToString("2")){
-            cell = ///tblForChats.dequeueReusableCellWithIdentifier("ChatReceivedCell")! as UITableViewCell
-                
-                //FileImageReceivedCell
-                tblForChats.dequeueReusableCellWithIdentifier("ChatReceivedCell")! as UITableViewCell
+            cell=tableView.dequeueReusableCellWithIdentifier("ChatReceivedCell")
+            if(cell==nil)
+{
+            cell = tblForChats.dequeueReusableCellWithIdentifier("ChatReceivedCell")! as UITableViewCell
+}
             let deliveredLabel = cell.viewWithTag(13) as! UILabel
             let textLable = cell.viewWithTag(12) as! UILabel
             let timeLabel = cell.viewWithTag(11) as! UILabel
@@ -2495,6 +2741,8 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
          deliveredLabel.text="Delivered"
          }
          return cell*/
+    //}
+      //  else {return cell}
     }
     
    /* override func encodeRestorableStateWithCoder(coder: NSCoder) {
@@ -3116,13 +3364,16 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
             ///sqliteDB.saveChatImage(self.selectedContact, from1: username!, owneruser1: username!, fromFullName1: displayname, msg1: self.filename, date1: nil, uniqueid1: uniqueID, status1: "pending", type1: "document",file_type1: ftype, file_path1: filePathImage2)
         
             self.retrieveChatFromSqlite(self.selectedContact,completion:{(result)-> () in
+               dispatch_async(dispatch_get_main_queue())
+{
                 self.tblForChats.reloadData()
                 
                 if(self.messages.count>1)
                 {
-                    var indexPath = NSIndexPath(forRow:self.messages.count-1, inSection: 0)
-                    
+                    //var indexPath = NSIndexPath(forRow:self.messages.count-1, inSection: 0)
+                    let indexPath = NSIndexPath(forRow:self.tblForChats.numberOfRowsInSection(0)-1, inSection: 0)
                     self.tblForChats.scrollToRowAtIndexPath(indexPath, atScrollPosition: UITableViewScrollPosition.Bottom, animated: false)
+                }
                 }
             })
             
@@ -3164,8 +3415,8 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
             
             if(self.messages.count>1)
             {
-                var indexPath = NSIndexPath(forRow:self.messages.count-1, inSection: 0)
-                
+                //var indexPath = NSIndexPath(forRow:self.messages.count-1, inSection: 0)
+                let indexPath = NSIndexPath(forRow:self.tblForChats.numberOfRowsInSection(0)-1, inSection: 0)
                 self.tblForChats.scrollToRowAtIndexPath(indexPath, atScrollPosition: UITableViewScrollPosition.Bottom, animated: false)
             }
 
@@ -3243,7 +3494,9 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
             self.tblForChats.reloadData()
             if(self.messages.count>1)
             {
-                var indexPath = NSIndexPath(forRow:self.messages.count-1, inSection: 0)
+               // var indexPath = NSIndexPath(forRow:self.messages.count-1, inSection: 0)
+                
+                let indexPath = NSIndexPath(forRow:self.tblForChats.numberOfRowsInSection(0)-1, inSection: 0)
                 self.tblForChats.scrollToRowAtIndexPath(indexPath, atScrollPosition: UITableViewScrollPosition.Bottom, animated: false)
                 
             }
@@ -3290,7 +3543,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
     
     
     
-   func sendChatMessage(chatstanza:[String:String],completion:(result:Bool)->())
+    func sendChatMessage(chatstanza:[String:String],completion:(uniqueid:String!,result:Bool)->())
     {
        // let queue=dispatch_get_global_queue(QOS_CLASS_USER_INITIATED,0)
    // let queue = dispatch_queue_create("com.kibochat.manager-response-queue", DISPATCH_QUEUE_CONCURRENT)
@@ -3301,7 +3554,8 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
             responseSerializer: Request.JSONResponseSerializer(options: .AllowFragments),
             completionHandler: { response in
                 */
-        
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT,0))
+{
         let request = Alamofire.request(.POST, "\(url)", parameters: chatstanza,headers:header).responseJSON { response in
             // You are now running on the concurrent `queue` you created earlier.
           //print("Parsing JSON on thread: \(NSThread.currentThread()) is main thread: \(NSThread.isMainThread())")
@@ -3313,7 +3567,8 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
                 print("\(chatstanza) ..  \(response)")
                 if(response.response?.statusCode==200)
                 {
-                
+                  //  dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT,0))
+                     //{
                 //print("chat ack received")
                 var statusNow="sent"
                 ///var chatmsg=JSON(data)
@@ -3328,19 +3583,30 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
                 
                 
                 
-          /////    dispatch_async(dispatch_get_main_queue()) {
+            // dispatch_async(dispatch_get_main_queue()) {
                     //print("Am I back on the main thread: \(NSThread.isMainThread())")
                     
-                    print("MAINNNNNNNNNNNN")
-                completion(result: true)
+                    print("main thread of send chat")
+                    dispatch_async(dispatch_get_main_queue()) {
+
+                return completion(uniqueid: chatstanza["uniqueid"]!,result: true)
+                    }
                     //self.retrieveChatFromSqlite(self.selectedContact)
 
                     
             
            
-        /////// }
-                }
+        // }
+               // }
+            }//if success
+            else{
+                    dispatch_async(dispatch_get_main_queue()) {
+
+                        return completion(uniqueid:nil, result:false)
+                    }
+}
             }//)
+        }
         
     }
     
@@ -3451,80 +3717,12 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
      //2016-10-15T22:18:16.000
     var imParas=["from":"\(username!)","to":"\(selectedContact)","fromFullName":"\(displayname)","msg":"\(txtFldMessage.text!)","uniqueid":"\(uniqueID)","type":"chat","file_type":"","date":"\(dateSentDateType!)"]
         
-       // var imParas=["from":"\(username!)","to":"\(selectedContact)","fromFullName":"\(displayname)","msg":"\(txtFldMessage.text!)","uniqueid":"\(uniqueID)","type":"chat","file_type":"","date":"2016-12-05 01:10:48.000Z"]
-        
-        //print("imparas are \(imParas)")
-        //print(imParas, terminator: "")
-        //print("", terminator: "")
-        ///=== code for sending chat here
-        ///=================
-        
-        //socketObj.socket.emit("logClient","IPHONE-LOG: \(username!) is sending chat message")
-        //////socketObj.socket.emit("im",["room":"globalchatroom","stanza":imParas])
+       
         var statusNow=""
-        /*if(isSocketConnected==true)
-         {
-         statusNow="sent"
-         
-         }
-         else
-         {
-         */
-        statusNow="pending"
-        //}
+               statusNow="pending"
         
         sqliteDB.SaveChat("\(selectedContact)", from1: username!, owneruser1: username!, fromFullName1: displayname, msg1: txtFldMessage.text!, date1: dateSentDateType, uniqueid1: uniqueID, status1: statusNow, type1: "chat", file_type1: "", file_path1: "")
-       // sqliteDB.SaveChat("\(selectedContact)", from1: "\(username!)",owneruser1: "\(username!)", fromFullName1: "\(loggedFullName!)", msg1: "\(txtFldMessage.text!)",date1: nil,uniqueid1: uniqueID, status1: statusNow)
-        
-      // dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND,0))
-//{
-        
-    
-        
-        //managerFile.sendChatMessage(imParas)
-       // }
-        
-        //OLD SOCKET LOGIC OF SENDING MESSAGES
-        /*
-        socketObj.socket.emitWithAck("im",["room":"globalchatroom","stanza":imParas])(timeoutAfter: 150000)
-        {data in
-            
-            //print("chat ack received  \(data)")
-            statusNow="sent"
-            var chatmsg=JSON(data)
-            //print(data[0])
-            //print(chatmsg[0])
-            sqliteDB.UpdateChatStatus(chatmsg[0]["uniqueid"].string!, newstatus: chatmsg[0]["status"].string!)
-            
-            self.retrieveChatFromSqlite(self.selectedContact)
-            //self.tblForChats.reloadData()
-            
-            
-            
-        }
-        */
-        
-        /*
-        var date22=NSDate()
-        var formatter = NSDateFormatter();
-        formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ";
-        //formatter.dateFormat = "MM/dd hh:mm a";
-        ////////////formatter.timeZone = NSTimeZone.localTimeZone()
-        //formatter.dateStyle = .ShortStyle
-        //formatter.timeStyle = .ShortStyle
-        let defaultTimeZoneStr2 = formatter.stringFromDate(date22);
-        var defaultTimeZoneStr = formatter.dateFromString(defaultTimeZoneStr2)
-        //print("default db got in post date is \(defaultTimeZoneStr2)")
-
-        //print("post btn format in string in dict is \(defaultTimeZoneStr)")
-        */
-        
-        
-        
-        
-        
-       // var date=NSDate()
-        var formatter = NSDateFormatter();
+              var formatter = NSDateFormatter();
         
         formatter.timeZone = NSTimeZone.localTimeZone()
         formatter.dateFormat = "MM/dd hh:mm a";
@@ -3532,25 +3730,57 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
         //formatter.timeStyle = .ShortStyle
         let defaultTimeZoneStr = formatter.stringFromDate(date);
         let defaultTimeZoneStr2=formatter.dateFromString(defaultTimeZoneStr)
-        //print("string is \(defaultTimeZoneStr)")
-        //print("date is \(defaultTimeZoneStr2)")
-        self.addMessage(txtFldMessage.text!+" (\(statusNow))",status:statusNow,ofType: "2",date:defaultTimeZoneStr, uniqueid: uniqueID)
-        var lastrowindexpath = NSIndexPath(forRow:messages.count-1, inSection: 0)
+       
+       
+        /*var lastrowindexpath = NSIndexPath(forRow:messages.count-1, inSection: 0)
         tblForChats.beginUpdates()
         tblForChats.insertRowsAtIndexPaths([lastrowindexpath], withRowAnimation: .None)
         tblForChats.endUpdates()
-        /*dispatch_async(dispatch_get_main_queue())
+        */
+        
+        var msggg=txtFldMessage.text!
+        dispatch_async(dispatch_get_main_queue())
         {
         //==--self.tblForChats.reloadRowsAtIndexPaths([lastrowindexpath], withRowAnimation: .None)
+            self.addMessage(msggg+" (\(statusNow))",status:statusNow,ofType: "2",date:defaultTimeZoneStr, uniqueid: uniqueID)
+            self.tblForChats.reloadData()
             if(self.messages.count>1)
             {
-                let indexPath = NSIndexPath(forRow:self.messages.count-1, inSection: 0)
+               // let indexPath = NSIndexPath(forRow:self.messages.count-1, inSection: 0)
+                let indexPath = NSIndexPath(forRow:self.tblForChats.numberOfRowsInSection(0)-1, inSection: 0)
                 self.tblForChats.scrollToRowAtIndexPath(indexPath, atScrollPosition: UITableViewScrollPosition.Bottom, animated: false)
                 
                 
                 
             }
-        }*/
+        }
+            print("messages count before sending msg is \(self.messages.count)")
+            self.sendChatMessage(imParas){ (uniqueid,result) -> () in
+                
+                //dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT,0))
+                //  {
+                self.retrieveChatFromSqlite(self.selectedContact,completion:{(result)-> () in
+                    
+                    print("messages count after setting array is \(self.messages.count)")
+                    
+                    
+                    dispatch_async(dispatch_get_main_queue())
+                    {
+                        self.tblForChats.reloadData()
+                        print("messages count is \(self.messages.count)")
+                        
+                        if(self.messages.count>1)
+                        {
+                            //var indexPath = NSIndexPath(forRow:self.messages.count-1, inSection: 0)
+                            let indexPath = NSIndexPath(forRow:self.tblForChats.numberOfRowsInSection(0)-1, inSection: 0)
+                            self.tblForChats.scrollToRowAtIndexPath(indexPath, atScrollPosition: UITableViewScrollPosition.Bottom, animated: false)
+                        }
+                    }
+                })
+                
+                // }
+            }
+        
         
         txtFldMessage.text = "";
         
@@ -3578,13 +3808,13 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
        /////// dispatch_async(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED,0))
        ////// {
         
-       /* dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT,0))
-        {
-        print("messages count before sending msg is \(self.messages.count)")
+       // dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT,0))
+       // {
+       /* print("messages count before sending msg is \(self.messages.count)")
             self.sendChatMessage(imParas){ (result) -> () in
                 
-                //   dispatch_async(dispatch_get_main_queue())
-                // {
+                //dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT,0))
+              //  {
                 self.retrieveChatFromSqlite(self.selectedContact,completion:{(result)-> () in
                     
                     print("messages count after setting array is \(self.messages.count)")
@@ -3597,14 +3827,16 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
                     
                         if(self.messages.count>1)
                         {
-                            var indexPath = NSIndexPath(forRow:self.messages.count-1, inSection: 0)
-                            
+                            //var indexPath = NSIndexPath(forRow:self.messages.count-1, inSection: 0)
+                            let indexPath = NSIndexPath(forRow:self.tblForChats.numberOfRowsInSection(0)-1, inSection: 0)
                             self.tblForChats.scrollToRowAtIndexPath(indexPath, atScrollPosition: UITableViewScrollPosition.Bottom, animated: false)
                         }
                     }
                 })
-            }
-        }*/
+                
+       // }
+            }*/
+       // }
             //  }
             
         ///////}
@@ -4079,13 +4311,18 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
                 
                ////  self.retrieveChatFromSqlite(self.selectedContact)
                 self.retrieveChatFromSqlite(self.selectedContact,completion:{(result)-> () in
+                    //==---
+                    
+                    dispatch_async(dispatch_get_main_queue())
+{
                     self.tblForChats.reloadData()
                     
                     if(self.messages.count>1)
                     {
-                        var indexPath = NSIndexPath(forRow:self.messages.count-1, inSection: 0)
-                        
+                      //  var indexPath = NSIndexPath(forRow:self.messages.count-1, inSection: 0)
+                        let indexPath = NSIndexPath(forRow:self.tblForChats.numberOfRowsInSection(0)-1, inSection: 0)
                         self.tblForChats.scrollToRowAtIndexPath(indexPath, atScrollPosition: UITableViewScrollPosition.Bottom, animated: false)
+                    }
                     }
                 })
                 
@@ -4203,7 +4440,8 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
         self.tblForChats.reloadData()
         if(self.messages.count>1)
         {
-            let indexPath = NSIndexPath(forRow:self.messages.count-1, inSection: 0)
+           // let indexPath = NSIndexPath(forRow:self.messages.count-1, inSection: 0)
+            let indexPath = NSIndexPath(forRow:self.tblForChats.numberOfRowsInSection(0)-1, inSection: 0)
             self.tblForChats.scrollToRowAtIndexPath(indexPath, atScrollPosition: UITableViewScrollPosition.Bottom, animated: false)
             
         }
@@ -4215,8 +4453,8 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
         
         //received status
         print("refreshing chats details UI now")
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT,0))
-        {
+        //dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT,0))
+        //{
             self.retrieveChatFromSqlite(self.selectedContact,completion:{(result)-> () in
            ///// dispatch_async(dispatch_get_main_queue())
            ///// {
@@ -4227,14 +4465,16 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
                 
             if(self.messages.count>1)
             {
-                var indexPath = NSIndexPath(forRow:self.messages.count-1, inSection: 0)
+                
+                //var indexPath = NSIndexPath(forRow:self.messages.count-1, inSection: 0)
+                let indexPath = NSIndexPath(forRow:self.tblForChats.numberOfRowsInSection(0)-1, inSection: 0)
                 
                 self.tblForChats.scrollToRowAtIndexPath(indexPath, atScrollPosition: UITableViewScrollPosition.Bottom, animated: false)
             }
             }
           //////  }
         })
-            }
+         //   }
        /* self.retrieveChatFromSqlite(self.selectedContact)
         if(self.messages.count>1)
         {
