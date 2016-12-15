@@ -9,9 +9,13 @@
 import UIKit
 import SQLite
 import Contacts
-class AddParticipantsViewController: UIViewController,InviteContactsDelegate,UITextFieldDelegate,UISearchBarDelegate,UISearchDisplayDelegate/*,UISearchResultsUpdating*/,UIScrollViewDelegate,RefreshContactsList {
+import ContactsUI
+import Haneke
+
+class AddParticipantsViewController: UIViewController,InviteContactsDelegate,UITextFieldDelegate,UISearchBarDelegate,UISearchDisplayDelegate/*,UISearchResultsUpdating*/,UIScrollViewDelegate,RefreshContactsList,UITableViewDelegate,UITableViewDataSource {
     
-    
+    var participantsSelected=[EPContact]()
+    var selectedcontacts=[CNContact]()
     var delegateContctsList:RefreshContactsList!
     
     var filteredArray = Array<Row>()
@@ -41,7 +45,19 @@ class AddParticipantsViewController: UIViewController,InviteContactsDelegate,UIT
     @IBAction func btnAddNewContact(sender: AnyObject) {
         var contactdata:[String:String]!
         
-        dispatch_async(dispatch_get_main_queue(),{
+        
+         //participantsSelected.appendContentsOf(selectedcontacts)
+         self.performSegueWithIdentifier("newGroupDetailsSegue1", sender: nil);
+         
+         
+        /* for contact in contacts {
+         print("\(contact.displayName())")
+         }*/
+         
+ 
+        
+        
+      /*  dispatch_async(dispatch_get_main_queue(),{
             self.alert = UIAlertController(title: "Add new contact", message: "Please Fill details", preferredStyle: .Alert)
             
             //2. Add the text field. You can configure it however you need.
@@ -111,6 +127,7 @@ class AddParticipantsViewController: UIViewController,InviteContactsDelegate,UIT
             
             
         })
+        */
     }
     
     /* func textChanged(textField: UITextField) {
@@ -324,22 +341,24 @@ class AddParticipantsViewController: UIViewController,InviteContactsDelegate,UIT
     }
     */
     
+    let phone = Expression<String>("phone")
+    let kibocontact = Expression<Bool>("kiboContact")
+    let name = Expression<String?>("name")
+    let email = Expression<String?>("email")
+    let uniqueidentifier = Expression<String?>("uniqueidentifier")
+    
+    
     override func viewWillAppear(animated: Bool) {
         
         var allcontactslist1=sqliteDB.allcontacts
         
-        
-        let phone = Expression<String>("phone")
-        let kibocontact = Expression<Bool>("kiboContact")
-        let name = Expression<String?>("name")
-        let email = Expression<String?>("email")
-        
+       
         //alladdressContactsArray = Array(try sqliteDB.db.prepare(allcontactslist1))
         
         
         //////configureSearchController()
         do
-        {alladdressContactsArray = Array(try sqliteDB.db.prepare(allcontactslist1.order(name.asc)))
+        {alladdressContactsArray = Array(try sqliteDB.db.prepare(allcontactslist1.filter(kibocontact==true).order(name.asc)))
             
             tblForNotes.reloadData()
         }
@@ -353,7 +372,7 @@ class AddParticipantsViewController: UIViewController,InviteContactsDelegate,UIT
     override func viewDidLoad() {
         super.viewDidLoad()
         contactsList.delegate=self
-        self.navigationItem.titleView = viewForTitle
+      //  self.navigationItem.titleView. = "Add Participants"
         
         self.searchDisplayController?.searchBar.tintColor=UIColor.blueColor()
         ////self.searchDisplayController?.searchBar.barTintColor=UIColor.redColor()
@@ -482,6 +501,7 @@ class AddParticipantsViewController: UIViewController,InviteContactsDelegate,UIT
                 if(filteredArray[indexPath.row].get(kibocontact)==true)
                 {
                     cellPrivate.lbl_new_subtitle.hidden=false
+                    
                     // @IBOutlet weak var lbl_new_name: UILabel!
                    // @IBOutlet weak var lbl_new_subtitle: UILabel!
                 }
@@ -492,6 +512,33 @@ class AddParticipantsViewController: UIViewController,InviteContactsDelegate,UIT
                 if(alladdressContactsArray[indexPath.row].get(kibocontact)==true)
                 {
                     cellPrivate.lbl_new_subtitle.hidden=false
+                    var found=UtilityFunctions.init().findContact(alladdressContactsArray[indexPath.row].get(uniqueidentifier)!).first!
+                    if(found.imageDataAvailable==true)
+                    {
+                        //foundcontact.imageData
+                        cellPrivate.img_avatar.layer.cornerRadius = cellPrivate.img_avatar.frame.size.width/2
+                        cellPrivate.img_avatar.clipsToBounds = true
+                        //cell.profilePic.hnk_format=Format<UIImage>
+                        var scaledimage=ImageResizer(size: CGSize(width: cellPrivate.img_avatar.bounds.width,height: cellPrivate.img_avatar.bounds.height), scaleMode: .AspectFill, allowUpscaling: true, compressionQuality: 0.5)
+                        //var resizedimage=scaledimage.resizeImage(UIImage(data:ContactsProfilePic)!)
+                         //cellPrivate.img_avatar.hnk_setImage(scaledimage.resizeImage(UIImage(data:found.imageData!)!))
+                        
+                        cellPrivate.img_avatar.hnk_setImage(scaledimage.resizeImage(UIImage(data:found.imageData!)!), key: alladdressContactsArray[indexPath.row].get(phone))
+                        
+                       
+
+                       // memberavatars.append(foundcontact.imageData!)
+                        // ContactsProfilePic=foundcontact.imageData!
+                        //picfound=true
+                    }
+                    else{
+                         cellPrivate.img_avatar.hnk_setImage(UIImage(imageLiteral: "profile-pic1"), key: alladdressContactsArray[indexPath.row].get(phone))
+                     //   memberavatars.append(NSData.init())
+                    }
+
+                    
+                   
+                    
                 }
             }
             //alladdressContactsArray[indexPath.row].
@@ -555,6 +602,40 @@ class AddParticipantsViewController: UIViewController,InviteContactsDelegate,UIT
          }*/
     }
     
+    func getAddressBookIndex(phone1:String)->Int
+    {
+        var allcontactslist1=sqliteDB.allcontacts
+        
+        
+        let phone = Expression<String>("phone")
+        let kibocontact = Expression<Bool>("kiboContact")
+        let name = Expression<String?>("name")
+        let email = Expression<String?>("email")
+        
+        //alladdressContactsArray = Array(try sqliteDB.db.prepare(allcontactslist1))
+        
+        var alladdressContactsArray=Array<Row>()
+        //////configureSearchController()
+        var newindexphone = -1
+        do
+        { alladdressContactsArray = Array(try sqliteDB.db.prepare(allcontactslist1))
+            for (var i=0;i<alladdressContactsArray.count;i++)
+            {
+                if(alladdressContactsArray[i].get(phone)==phone1)
+                {
+                    newindexphone=i
+                }
+                
+            }
+        }
+        catch
+        {
+            print("error in finding index in addressbook")
+        }
+        
+        return newindexphone
+    }
+
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath)
     {
         
@@ -564,10 +645,19 @@ class AddParticipantsViewController: UIViewController,InviteContactsDelegate,UIT
         //let selectedCell=tbl_inviteContacts.cellForRowAtIndexPath(indexPath)
         //cell.textLabel?.text = "hiii"
         
-        
-        if selectedCell.accessoryType == UITableViewCellAccessoryType.None
+       if selectedCell.accessoryType == UITableViewCellAccessoryType.None
         {
             selectedCell.accessoryType = UITableViewCellAccessoryType.Checkmark
+            
+            //self.getAddressBookIndex(selectedCell.phone)
+            var found=UtilityFunctions.init().findContact(alladdressContactsArray[indexPath.row].get(uniqueidentifier)!)
+            
+            print("index above is \(indexPath.row)")
+            print("selected is \(found.first?.givenName)")
+            participantsSelected.append(EPContact(contact:(found.first!)))
+            //===selectedcontacts.append(UtilityFunctions.init().findContact(alladdressContactsArray[newindex].get(uniqueidentifier)))
+           // participantsSelected.append(EPContact(contact: UtilityFunctions.init().findContact(alladdressContactsArray[indexPath.row].get(uniqueidentifier)!)).first!)
+            
            /* if(sendType=="Mail")
             {
                 selectedEmails.append(inviteContactsEmails[indexPath.row])
@@ -581,8 +671,12 @@ class AddParticipantsViewController: UIViewController,InviteContactsDelegate,UIT
         }
         else
         {
-            
-           // selectedCell.accessoryType = UITableViewCellAccessoryType.None
+            print("index below is \(indexPath.row)")
+            var found=UtilityFunctions.init().findContact(alladdressContactsArray[indexPath.row].get(uniqueidentifier)!)
+            selectedCell.accessoryType = UITableViewCellAccessoryType.None
+            var ind=participantsSelected.indexOf(EPContact(contact:(found.first!)))
+           participantsSelected.removeAtIndex(ind!)
+            //participantsSelected.removeAtIndex(indexPath.row)
            // var ind=selectedEmails.indexOf(selectedCell.contactEmail.text!)
             // selectedEmails.removeAtIndex(ind!)
         }
@@ -591,6 +685,7 @@ class AddParticipantsViewController: UIViewController,InviteContactsDelegate,UIT
         
     }
     
+   
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -616,6 +711,18 @@ class AddParticipantsViewController: UIViewController,InviteContactsDelegate,UIT
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepareForSegue(segue: UIStoryboardSegue?, sender: AnyObject?) {
         
+        
+        if segue!.identifier == "newGroupDetailsSegue1" {
+            
+        
+        if let destinationVC = segue!.destinationViewController as? NewGroupSetDetails{
+            destinationVC.participants.removeAll()
+            destinationVC.participants=self.participantsSelected
+            //  let selectedRow = tblForChat.indexPathForSelectedRow!.row
+            
+        }}
+    
+    
         if segue!.identifier == "contactDetailsSegue" {
             print("contactDetailsSegue")
             let contactsDetailController = segue!.destinationViewController as? contactsDetailsTableViewController
@@ -720,10 +827,12 @@ class AddParticipantsViewController: UIViewController,InviteContactsDelegate,UIT
             }
         }
         
+      
+        
         // Get the new view controller using [segue destinationViewController].
         // Pass the selected object to the new view controller.
     }
-    let name = Expression<String?>("name")
+    //let name = Expression<String?>("name")
     
     func receivedContactsUpdateUI() {
          var allcontactslist1=sqliteDB.allcontacts

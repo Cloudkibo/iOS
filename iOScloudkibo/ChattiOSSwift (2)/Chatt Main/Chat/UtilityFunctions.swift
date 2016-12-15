@@ -632,11 +632,21 @@ print("tempURL is \(temporaryURL) and response is \(response.allHeaderFields)")
         })
     }
 
-    func findContact(identifiers:[String])->[CNContact]
+    func findContact(identifiers:String)->[CNContact]
     {var contacts = [CNContact]()
         let store = CNContactStore()
         do{
-     contacts = try store.unifiedContactsMatchingPredicate(CNContact.predicateForContactsWithIdentifiers(identifiers), keysToFetch:[CNContactGivenNameKey, CNContactFamilyNameKey, CNContactEmailAddressesKey, CNContactPhoneNumbersKey, CNContactImageDataAvailableKey,CNContactThumbnailImageDataKey, CNContactImageDataKey])
+            contacts = try store.unifiedContactsMatchingPredicate(CNContact.predicateForContactsWithIdentifiers([identifiers]), keysToFetch:[CNContactNamePrefixKey,
+                CNContactGivenNameKey,
+                CNContactFamilyNameKey,
+                CNContactOrganizationNameKey,
+                CNContactBirthdayKey,
+                CNContactImageDataKey,
+                CNContactThumbnailImageDataKey,
+                CNContactImageDataAvailableKey,
+                CNContactPhoneNumbersKey,
+                CNContactEmailAddressesKey,
+                ])
 
             return contacts
     }

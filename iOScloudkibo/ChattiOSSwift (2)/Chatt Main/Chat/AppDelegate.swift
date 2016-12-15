@@ -517,6 +517,8 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
                     self.pendingchatsarray.removeAll()
                     }
                     /////======CHANGE IT==================
+                    
+                    
                     self.fetchChatsFromServer()
                     
                     
@@ -2532,6 +2534,10 @@ else{
     }
     func fetchSingleChatMessage(uniqueid:String)
     {
+        if(socketObj != nil)
+        {
+            socketObj.socket.emit("logClient","fetch single chat \(uniqueid)")
+        }
         print("uniqueid of single chat is \(uniqueid)")
         
         //======GETTING REST API TO GET CURRENT USER=======================
@@ -2576,6 +2582,11 @@ else{
             case .Success:
                 if let data1 = response.result.value {
                     
+                    
+                    if(socketObj != nil)
+                    {
+                        socketObj.socket.emit("logClient","fetched success single chat \(uniqueid)")
+                    }
                     
                     var chatJson = JSON(data1)
                     chatJson=chatJson["msg"]

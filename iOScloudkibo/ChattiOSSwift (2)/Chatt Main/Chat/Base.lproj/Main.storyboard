@@ -5370,16 +5370,16 @@
                                     <outlet property="delegate" destination="Xlj-pb-Vmy" id="WIb-XA-AEk"/>
                                 </connections>
                             </searchBar>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="66" sectionHeaderHeight="28" sectionFooterHeight="28" id="c2b-VZ-Yb6">
+                            <tableView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="66" sectionHeaderHeight="28" sectionFooterHeight="28" id="c2b-VZ-Yb6">
                                 <rect key="frame" x="0.0" y="44" width="320" height="468"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="NotePrivateCell1" id="g5C-MP-wa6" customClass="AllContactsCell" customModule="Chat">
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="NotePrivateCell1" id="g5C-MP-wa6" customClass="AllContactsCell" customModule="Chat">
                                         <rect key="frame" x="0.0" y="28" width="320" height="66"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="g5C-MP-wa6" id="HH3-Ye-TKX">
-                                            <rect key="frame" x="0.0" y="0.0" width="287" height="65.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="320" height="65.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label hidden="YES" opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="12:45 PM @jayL" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="8fN-4X-KOI">
@@ -5493,7 +5493,7 @@
                     <tabBarItem key="tabBarItem" title="" image="tabbar_note" id="tdz-WL-pPe">
                         <inset key="imageInsets" minX="0.0" minY="5" maxX="0.0" maxY="-5"/>
                     </tabBarItem>
-                    <navigationItem key="navigationItem" title="All Contacts" id="FJq-Os-zoD">
+                    <navigationItem key="navigationItem" title="Add Participants" id="FJq-Os-zoD">
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="Dot-Hs-Z8l">
                             <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                             <connections>
@@ -5505,6 +5505,7 @@
                     <connections>
                         <outlet property="searchDisplayController" destination="0gE-Oo-ux3" id="bZO-vR-Ql7"/>
                         <outlet property="tblForNotes" destination="c2b-VZ-Yb6" id="VAj-Ow-1u9"/>
+                        <segue destination="YH8-pY-Wmo" kind="push" identifier="newGroupDetailsSegue1" id="ogf-EO-Swc"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="UoE-Ur-5gv" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -5567,7 +5568,7 @@
         <segue reference="QOc-Kg-WHZ"/>
         <segue reference="1jA-Zj-XHt"/>
         <segue reference="0Ba-7e-jXB"/>
-        <segue reference="ADA-1C-gHV"/>
+        <segue reference="ogf-EO-Swc"/>
         <segue reference="Y9a-Vx-tcX"/>
         <segue reference="W8i-Cs-Z8T"/>
         <segue reference="Spe-dd-EXu"/>
