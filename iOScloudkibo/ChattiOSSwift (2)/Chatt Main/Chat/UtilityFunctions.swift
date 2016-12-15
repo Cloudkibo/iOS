@@ -616,7 +616,7 @@ print("tempURL is \(temporaryURL) and response is \(response.allHeaderFields)")
                 try CNContactStore().enumerateContactsWithFetchRequest(fetchRequest) { (contact, stop) -> Void in
                     //do something with contact
                     if contact.phoneNumbers.count > 0 {
-                        print("inside contactsarray class \(contact.givenName)")
+                        print("inside contactsarray class \(contact.phoneNumbers)")
                         contacts.append(contact)
                     }
                     
@@ -632,7 +632,19 @@ print("tempURL is \(temporaryURL) and response is \(response.allHeaderFields)")
         })
     }
 
+    func findContact(identifiers:[String])->[CNContact]
+    {var contacts = [CNContact]()
+        let store = CNContactStore()
+        do{
+     contacts = try store.unifiedContactsMatchingPredicate(CNContact.predicateForContactsWithIdentifiers(identifiers), keysToFetch:[CNContactGivenNameKey, CNContactFamilyNameKey, CNContactEmailAddressesKey, CNContactPhoneNumbersKey, CNContactImageDataAvailableKey,CNContactThumbnailImageDataKey, CNContactImageDataKey])
+
+            return contacts
+    }
     
-    
+    catch
+    {
+    return contacts
+    }
+    }
  
 }

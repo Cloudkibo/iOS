@@ -25,4 +25,9 @@ class AllContactsCell:UITableViewCell {
 
     @IBOutlet weak var lbl_phone: UILabel!
     @IBOutlet weak var lbl_email: UILabel!
+    @IBOutlet weak var img_avatar: UIImageView!
+    
+    
+    @IBOutlet weak var lbl_new_name: UILabel!
+    @IBOutlet weak var lbl_new_subtitle: UILabel!
 }

@@ -2876,17 +2876,17 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
     func BtnnewGroupClicked(sender:UIButton)
     {
         
-        
+        /*
         let contactPickerScene = EPContactsPicker(delegate: self, multiSelection:true, subtitleCellType: SubtitleCellValue.PhoneNumber)
         let navigationController = UINavigationController(rootViewController: contactPickerScene)
         self.presentViewController(navigationController, animated: true, completion: nil)
+        */
         
-
       
         participantsSelected.removeAll()
         print("BtnnewGroupClicked")
         
-        
+        self.performSegueWithIdentifier("addParticipantsSegue", sender: self)
         /*picker = CNContactPickerViewController();
         picker.title="Add Participants"
         picker.navigationItem.leftBarButtonItem=picker.navigationController?.navigationItem.backBarButtonItem
