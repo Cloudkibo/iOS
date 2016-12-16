@@ -56,7 +56,6 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
     
     
     
-    var Q_serial1=dispatch_queue_create("Q_serial1",DISPATCH_QUEUE_SERIAL)
     var Q_serial2=dispatch_queue_create("Q_serial2",DISPATCH_QUEUE_SERIAL)
     var Q_serial3=dispatch_queue_create("Q_serial3",DISPATCH_QUEUE_SERIAL)
     

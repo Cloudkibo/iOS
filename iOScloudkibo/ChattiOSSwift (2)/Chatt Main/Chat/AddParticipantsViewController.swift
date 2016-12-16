@@ -12,9 +12,10 @@ import Contacts
 import ContactsUI
 import Haneke
 
+
 class AddParticipantsViewController: UIViewController,InviteContactsDelegate,UITextFieldDelegate,UISearchBarDelegate,UISearchDisplayDelegate/*,UISearchResultsUpdating*/,UIScrollViewDelegate,RefreshContactsList,UITableViewDelegate,UITableViewDataSource {
     
-    var participantsSelected=[EPContact]()
+    var participantsSelected1=[EPContact]()
     var selectedcontacts=[CNContact]()
     var delegateContctsList:RefreshContactsList!
     
@@ -654,7 +655,7 @@ class AddParticipantsViewController: UIViewController,InviteContactsDelegate,UIT
             
             print("index above is \(indexPath.row)")
             print("selected is \(found.first?.givenName)")
-            participantsSelected.append(EPContact(contact:(found.first!)))
+            participantsSelected1.append(EPContact(contact:(found.first!)))
             //===selectedcontacts.append(UtilityFunctions.init().findContact(alladdressContactsArray[newindex].get(uniqueidentifier)))
            // participantsSelected.append(EPContact(contact: UtilityFunctions.init().findContact(alladdressContactsArray[indexPath.row].get(uniqueidentifier)!)).first!)
             
@@ -674,8 +675,32 @@ class AddParticipantsViewController: UIViewController,InviteContactsDelegate,UIT
             print("index below is \(indexPath.row)")
             var found=UtilityFunctions.init().findContact(alladdressContactsArray[indexPath.row].get(uniqueidentifier)!)
             selectedCell.accessoryType = UITableViewCellAccessoryType.None
-            var ind=participantsSelected.indexOf(EPContact(contact:(found.first!)))
-           participantsSelected.removeAtIndex(ind!)
+            
+           // participantsSelected
+            var foundid=alladdressContactsArray[indexPath.row].get(uniqueidentifier)!
+            var count=0
+            for eachh in participantsSelected1
+            {
+                if(eachh.contactId==alladdressContactsArray[indexPath.row].get(uniqueidentifier)!)
+                {
+                    participantsSelected1.removeAtIndex(count)
+                    
+                break
+                }
+                count++
+            }
+           //////-- var searchformat=NSPredicate(format: "contactId = %@",foundid)
+            
+            //var resultArray=participantsSelected1.filteredArrayUsingPredicate(searchformat)
+            //cfpresultArray.first
+            
+            ///---var foundInd=participantsSelected1.filter
+        
+            
+            
+            //participantsSelected1.
+          //  var ind=participantsSelected1.indexOf(EPContact(contact:(found.first!)))
+          //---=== participantsSelected1.removeAtIndex(foundInd)
             //participantsSelected.removeAtIndex(indexPath.row)
            // var ind=selectedEmails.indexOf(selectedCell.contactEmail.text!)
             // selectedEmails.removeAtIndex(ind!)
@@ -717,7 +742,7 @@ class AddParticipantsViewController: UIViewController,InviteContactsDelegate,UIT
         
         if let destinationVC = segue!.destinationViewController as? NewGroupSetDetails{
             destinationVC.participants.removeAll()
-            destinationVC.participants=self.participantsSelected
+            destinationVC.participants=participantsSelected1
             //  let selectedRow = tblForChat.indexPathForSelectedRow!.row
             
         }}
