@@ -4479,6 +4479,7 @@
                         <outlet property="tblBroadcastList" destination="czo-fS-jnP" id="G7T-2q-7Hc"/>
                         <outlet property="veiwForContent" destination="uM7-X0-w22" id="hJF-w7-GJx"/>
                         <segue destination="LaF-Wn-rQI" kind="push" identifier="showSingleBroadcastListCellSegue" id="ouG-8Z-fyo"/>
+                        <segue destination="Xlj-pb-Vmy" kind="push" identifier="addParticipantsSegue" id="ye7-7r-hp1"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="cHM-sF-9pp" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -5569,6 +5570,7 @@
         <segue reference="1jA-Zj-XHt"/>
         <segue reference="0Ba-7e-jXB"/>
         <segue reference="ogf-EO-Swc"/>
+        <segue reference="ye7-7r-hp1"/>
         <segue reference="Y9a-Vx-tcX"/>
         <segue reference="W8i-Cs-Z8T"/>
         <segue reference="Spe-dd-EXu"/>

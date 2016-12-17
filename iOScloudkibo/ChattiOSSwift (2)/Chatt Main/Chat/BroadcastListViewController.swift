@@ -76,7 +76,12 @@ class BroadcastListViewController: UIViewController,UINavigationControllerDelega
         }*/
         
         //commenting for testing
-        let contactPickerScene = EPContactsPicker(delegate: self, multiSelection:true, subtitleCellType: SubtitleCellValue.PhoneNumber)
+       
+        
+        
+        self.performSegueWithIdentifier("addParticipantsSegue", sender: self)
+        
+        /*let contactPickerScene = EPContactsPicker(delegate: self, multiSelection:true, subtitleCellType: SubtitleCellValue.PhoneNumber)
         let navigationController = UINavigationController(rootViewController: contactPickerScene)
         self.presentViewController(navigationController, animated: true, completion: nil)
  
@@ -97,7 +102,7 @@ class BroadcastListViewController: UIViewController,UINavigationControllerDelega
         
         //=====addmemberfailed=true
         self.presentViewController(picker, animated: true, completion: nil)
-        
+        */
         
         
         // Display picker
@@ -220,6 +225,19 @@ class BroadcastListViewController: UIViewController,UINavigationControllerDelega
     
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        
+        
+        
+        if segue.identifier == "addParticipantsSegue" {
+            
+            if let destinationVC = segue.destinationViewController as? AddParticipantsViewController{
+                //destinationVC.participants.removeAll()
+                destinationVC.prevScreen="newBroadcastList"
+                //destinationVC.participants=self.participantsSelected
+                //  let selectedRow = tblForChat.indexPathForSelectedRow!.row
+                
+            }}
+        
         
         if segue.identifier == "showSingleBroadcastListCellSegue" {
             if let destinationVC = segue.destinationViewController as? BroadcastListDetailsViewController{

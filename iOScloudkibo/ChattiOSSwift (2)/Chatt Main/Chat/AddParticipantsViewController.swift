@@ -15,6 +15,8 @@ import Haneke
 
 class AddParticipantsViewController: UIViewController,InviteContactsDelegate,UITextFieldDelegate,UISearchBarDelegate,UISearchDisplayDelegate/*,UISearchResultsUpdating*/,UIScrollViewDelegate,RefreshContactsList,UITableViewDelegate,UITableViewDataSource {
     
+    
+    var prevScreen=""
     var participantsSelected1=[EPContact]()
     var selectedcontacts=[CNContact]()
     var delegateContctsList:RefreshContactsList!
@@ -42,14 +44,46 @@ class AddParticipantsViewController: UIViewController,InviteContactsDelegate,UIT
     }
     
 
+    func addToBroadcastList()
+    {
+        
+        var memberphones=[String]()
+        var membersnames=[String]()
+        for(var i=0;i<participantsSelected.count;i++)
+        {print("appending memberphone now of participantselected \(participantsSelected[i].getPhoneNumber())")
+            memberphones.append(participantsSelected[i].getPhoneNumber())
+            membersnames.append(participantsSelected[i].displayName())
+            //self.messages.addObject(["member_phone":memberphones[i],"name":membersnames[i],"isAdmin":"No"])
+            
+            //tblGroupInfo.reloadData()
+            
+        }
+        
+        var broadcastlistID=UtilityFunctions.init().generateUniqueid()
+        sqliteDB.storeBroadcastList(broadcastlistID, ListName1: "")
+        sqliteDB.storeBroadcastListMembers(broadcastlistID, memberphones: memberphones)
+        self.dismissViewControllerAnimated(true, completion: nil);
+        //retrieveBroadCastLists()
+        //===----tblBroadcastList.reloadData()
+        
+        
+    }
     
     @IBAction func btnAddNewContact(sender: AnyObject) {
         var contactdata:[String:String]!
         
         
+        if(prevScreen=="newGroup")
+        {
          //participantsSelected.appendContentsOf(selectedcontacts)
          self.performSegueWithIdentifier("newGroupDetailsSegue1", sender: nil);
-         
+        }
+        if(prevScreen=="newBroadcastList")
+        {
+            addToBroadcastList()
+           // self.dismissViewControllerAnimated(true, completion: nil);
+        }
+        
          
         /* for contact in contacts {
          print("\(contact.displayName())")
@@ -499,6 +533,7 @@ class AddParticipantsViewController: UIViewController,InviteContactsDelegate,UIT
             if tableView == self.searchDisplayController!.searchResultsTableView {
             //if shouldShowSearchResults {
                 cellPrivate.lbl_new_name.text=filteredArray[indexPath.row].get(name)
+                cellPrivate.lbl_new_subtitle.text=filteredArray[indexPath.row].get(phone)
                 if(filteredArray[indexPath.row].get(kibocontact)==true)
                 {
                     cellPrivate.lbl_new_subtitle.hidden=false
@@ -510,6 +545,7 @@ class AddParticipantsViewController: UIViewController,InviteContactsDelegate,UIT
             else
             {
                 cellPrivate.lbl_new_name.text=alladdressContactsArray[indexPath.row].get(name)
+                cellPrivate.lbl_new_subtitle.text=alladdressContactsArray[indexPath.row].get(phone)
                 if(alladdressContactsArray[indexPath.row].get(kibocontact)==true)
                 {
                     cellPrivate.lbl_new_subtitle.hidden=false

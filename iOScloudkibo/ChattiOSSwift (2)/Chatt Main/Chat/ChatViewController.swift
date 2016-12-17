@@ -645,8 +645,8 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
                         
                         print("all fetched chats saved in sqlite success")*/
                         
-                        if(UserchatJson["msg"].count > 0)
-                        {
+                       // if(UserchatJson["msg"].count > 0)
+                        //{
                             dispatch_async(dispatch_get_main_queue()) {
                                 if(delegateRefreshChat != nil)
                                 {print("updating UI now ...")
@@ -665,7 +665,7 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
                                 
                             }
                             print("all fetched chats saved in sqlite success")
-                        }
+                        //}
                         
                         
                     }
@@ -2239,6 +2239,10 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
     
 //dispatch_async(dispatch_get_main_queue())
     //{
+        /*
+        var descriptor: NSSortDescriptor = NSSortDescriptor(key: "ContactsLastMsgDate", ascending: true)
+        var sortedResults: NSArray = messages2.sortedArrayUsingDescriptors([descriptor])
+        */
         self.messages.setArray(messages2 as [AnyObject])
         
         self.pendingGroupIcons.removeAll()
@@ -3767,6 +3771,17 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
     override func prepareForSegue(segue: UIStoryboardSegue?, sender: AnyObject?) {
         
         //newGroupDetailsSegue
+        //addParticipantsSegue
+        
+        if segue!.identifier == "addParticipantsSegue" {
+            
+            if let destinationVC = segue!.destinationViewController as? AddParticipantsViewController{
+                //destinationVC.participants.removeAll()
+                destinationVC.prevScreen="newGroup"
+                //destinationVC.participants=self.participantsSelected
+                //  let selectedRow = tblForChat.indexPathForSelectedRow!.row
+                
+            }}
         
         if segue!.identifier == "newGroupDetailsSegue" {
             

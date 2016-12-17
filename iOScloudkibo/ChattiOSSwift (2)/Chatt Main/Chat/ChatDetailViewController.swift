@@ -3755,7 +3755,7 @@ let textLable = cell.viewWithTag(12) as! UILabel
         
         ///self.addMessage(msggg+" (\(statusNow))",status:statusNow,ofType: "2",date:defaultTimeZoneStr, uniqueid: uniqueID)
    
-           txtFldMessage.text = "";
+        
         
    
         
@@ -3783,6 +3783,7 @@ let textLable = cell.viewWithTag(12) as! UILabel
                 
             }
         }
+        txtFldMessage.text = "";
         
         //dispatch_async(dispatch_get_main_queue())
        // {
@@ -3807,7 +3808,9 @@ let textLable = cell.viewWithTag(12) as! UILabel
             }
         })*/
         //}
-            print("messages count before sending msg is \(self.messages.count)")
+        
+        
+        print("messages count before sending msg is \(self.messages.count)")
         print("sending msg \(msggg)")
             self.sendChatMessage(imParas){ (uniqueid,result) -> () in
                 
@@ -3819,8 +3822,9 @@ let textLable = cell.viewWithTag(12) as! UILabel
                 var ind=self.messages.indexOfObject(resultArray.first!)
                 //cfpresultArray.first
                 //resultArray.first
-                var aa=self.messages!.objectAtIndex(ind) as! [String:AnyObject]
-    var actualmsg="\(self.messages![ind]["message"]!)".removeCharsFromEnd(10)
+                var aa=self.messages.objectAtIndex(ind) as! [String:AnyObject]
+    var actualmsg=aa["message"] as! String
+    actualmsg=actualmsg.removeCharsFromEnd(10)
     //var actualmsg=newmsg
                 aa["message"]="\(actualmsg) (sent)"
                 self.messages.replaceObjectAtIndex(ind, withObject: aa)
@@ -3863,6 +3867,7 @@ let textLable = cell.viewWithTag(12) as! UILabel
                 // }
             }
         }
+        
         
         
  
@@ -4596,6 +4601,7 @@ let textLable = cell.viewWithTag(12) as! UILabel
 extension String {
     
     func removeCharsFromEnd(count_:Int) -> String {
+        print("...... inside removeCharsFromEnd \(self)")
         let stringLength = self.characters.count
         
         let substringIndex = (stringLength < count_) ? 0 : stringLength - count_
