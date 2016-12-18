@@ -1503,7 +1503,7 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
             {
                 //commenting for testing
                 var syncGroupsObj=syncGroupService.init()
-                syncGroupsObj.startPartialGroupsChatSyncService()
+                //=====---- commenting     syncGroupsObj.startPartialGroupsChatSyncService()
                self.synchroniseChatData()
                 print("getting group messages which are not on device")
  
@@ -2070,6 +2070,7 @@ else{
                 {
                     print("group icon is changed")
                     var groupId=userInfo["groupId"] as! String
+                    "exists".dataUsingEncoding(NSUTF8StringEncoding)!
                     UtilityFunctions.init().downloadProfileImage(groupId)
                 }
                 
@@ -2293,8 +2294,12 @@ else{
                     {
                        // group_icon=(groupSingleInfo[0]["group_icon"] as! String).dataUsingEncoding(NSUTF8StringEncoding)!
                         group_icon="exists".dataUsingEncoding(NSUTF8StringEncoding)!
-                        UtilityFunctions.init().downloadProfileImage(unique_id)
-                       // group_icon=groupSingleInfo[0]["group_icon"] as! NSData
+                        
+                        
+                        //===----- commented UtilityFunctions.init().downloadProfileImage(unique_id)
+                       
+                        
+                        // group_icon=groupSingleInfo[0]["group_icon"] as! NSData
                     }
                     
                     let dateFormatter = NSDateFormatter()

@@ -934,7 +934,7 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
                 print("commenting")
                 //commentingg
                 var syncGroupsObj=syncGroupService.init()
-                syncGroupsObj.startPartialGroupsChatSyncService()
+               //==---commenting  syncGroupsObj.startPartialGroupsChatSyncService()
                 self.synchroniseChatData()
             }
         }
@@ -944,7 +944,7 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
             if(username != nil && username != "")
             {//commentingg
                 var syncGroupsObj=syncGroupService.init()
-                syncGroupsObj.startPartialGroupsChatSyncService()
+              //==----- commenting   syncGroupsObj.startPartialGroupsChatSyncService()
                 self.synchroniseChatData()
             }
         }
@@ -952,7 +952,7 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
 
     
     func contactChanged(notification : NSNotification)
-    {
+    {/*
         if(notification.name==CNContactStoreDidChangeNotification)
         {
         let now=NSDate()
@@ -980,7 +980,7 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
         {
             print("some other notification received")
         }
-    
+    */
     /*var sync=syncContactService.init()
         sync.startContactsRefresh()
     tblForChat.reloadData()
@@ -1123,11 +1123,11 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
            // socketObj.socket.emit("logClient", "fetching contacts from iphone")
             
             
-            UtilityFunctions.init().findContactsOnBackgroundThread({ (contact) in
+            /*(UtilityFunctions.init().findContactsOnBackgroundThread({ (contact) in
                 
                 contactsarray=contact
                 
-            })
+            })*/
             
             //dont do on every appear. just do once
             print("emaillist is \(emailList.first)")
@@ -1910,7 +1910,7 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
             //group_icon
             
             //group icon exists on server
-            if((self.groupsObjectList[i]["group_icon"] as! NSData) != NSData.init())
+            if((self.groupsObjectList[i]["group_icon"] as! NSData).isEqualToData("exists".dataUsingEncoding(NSUTF8StringEncoding)!))
             {
             var filedata=sqliteDB.getFilesData(self.groupsObjectList[i]["unique_id"] as! String)
                 //file exists locally
@@ -2095,7 +2095,7 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
                 ContactNames=ccc1[self.firstname]!+" "+ccc1[self.lastname]!
                 ContactFirstname=ccc1[self.firstname]!
                 ContactLastNAme=ccc1[self.lastname]!
-                break
+               break
                 
             }
             if(nameFoundInAddressBook==false)
@@ -2173,7 +2173,9 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
             var joinrows=self.leftJoinContactsTables(ccc[contactPhone])
            
             if(joinrows.count>0)
-            {print(joinrows.debugDescription)
+            {
+                for(var ii=0;ii<joinrows.count;ii++){
+                print(joinrows.debugDescription)
                 print("found uniqueidentifier from join is \(joinrows[0].get(uniqueidentifier))")
                 //==========----------let queryPic = tbl_allcontacts.filter(tbl_allcontacts[phone] == ccc[contactPhone])
                 
@@ -2184,19 +2186,23 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
                 
                 var keys = [CNContactGivenNameKey, CNContactFamilyNameKey, CNContactEmailAddressesKey, CNContactPhoneNumbersKey, CNContactImageDataAvailableKey,CNContactThumbnailImageDataKey, CNContactImageDataKey]
                 //--- var foundcontact=try contactStore.unifiedContactWithIdentifier(picquery[uniqueidentifier], keysToFetch: keys)
-                var foundcontact=try contactStore.unifiedContactWithIdentifier(joinrows[0].get(uniqueidentifier), keysToFetch: keys)
+                var foundcontact=try contactStore.unifiedContactWithIdentifier(joinrows[ii].get(uniqueidentifier), keysToFetch: keys)
+                
+            
                 
                 if(foundcontact.imageDataAvailable==true)
                 {
                     foundcontact.imageData
                     ContactsProfilePic=foundcontact.imageData!
                     picfound=true
+break
                 }
-                
-                
+            }
+            
             }
             if(picfound==false)
             {
+                print("no pic found for \(ContactUsernames)")
                 ContactsProfilePic=NSData.init()
                 // print("picquery NOT found for \(ccc[phone]) and is \(NSData.init())")
             }

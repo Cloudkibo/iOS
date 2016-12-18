@@ -1412,7 +1412,10 @@ socketObj.socket.emit("logClient","button done pressed start time \(NSDate())")
                                                                        // {
                                                                    //         self.messageFrame.removeFromSuperview()
                                                                             //self.progressBarDisplayer("Setting Groups", true)
-                                                                  self.lbl_progress.text="Setting Groups.."
+                                                                  
+                                                                    
+                                                                    //==============COMMENTED===========
+                                                                   /* self.lbl_progress.text="Setting Groups.."
                                                                     
                                                                     dispatch_sync(self.newserialqueue,
                                                                                 {
@@ -1426,6 +1429,8 @@ socketObj.socket.emit("logClient","button done pressed start time \(NSDate())")
 dispatch_sync(self.Q5_fetchAllGroupsData,
                                                                                         {
                                                                                     syncGroupsObj.startSyncGroupsServiceOnLaunch({ (result) -> () in
+ 
+ */
                                                                                     //result
                                                                                         print("sync on installation is completed. going to chat screen")
                                                                      
@@ -1447,9 +1452,9 @@ dispatch_sync(self.Q5_fetchAllGroupsData,
                                                                                         }
                                                                                         
                                                                     //}
-                                                                                    })
-                                                                                    })
-                                                                            })
+                                                                                   //==---- })
+                                                                                 //===----   })
+                                                                           //==---- })
                                                                    // }
                                                                 })
                                                         })

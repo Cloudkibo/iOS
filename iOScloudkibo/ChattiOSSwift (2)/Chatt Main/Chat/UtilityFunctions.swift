@@ -522,7 +522,10 @@ print("tempURL is \(temporaryURL) and response is \(response.allHeaderFields)")
     }
     
     func downloadGroupIconsService(uniqueidArray:[String],completion:(result:Bool,error:String!/*,groupiconinfo:[String:NSData]*/)->())
-    {           var storedError: NSError!
+    {
+        
+        print("group icons array to be downloaded \(uniqueidArray)")
+        var storedError: NSError!
         //var iconinfolist=[String:NSData]()
         var downloadGroup = dispatch_group_create()
         

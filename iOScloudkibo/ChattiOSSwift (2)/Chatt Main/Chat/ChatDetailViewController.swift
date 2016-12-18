@@ -1479,7 +1479,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
 
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
         
-       print("cal height for row \(indexPath.row) and dixt object count is \(messages.count)")
+      // print("cal height for row \(indexPath.row) and dixt object count is \(messages.count)")
        // label.text = "This is a Label"
         
         if(messages.count > 0 && (messages.count > indexPath.row))
@@ -1660,13 +1660,13 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
 
     func tableView(tableView: UITableView!, cellForRowAtIndexPath indexPath: NSIndexPath!) -> UITableViewCell! {
         var cell : UITableViewCell!
-        print("reloading of cellsssssssss......------------===========++++++")
+       // print("reloading of cellsssssssss......------------===========++++++")
         cell = tblForChats.dequeueReusableCellWithIdentifier("ChatSentCell")! as UITableViewCell
         
                //print("cellForRowAtIndexPath called \(indexPath)")
        // if(messages.count > 0 && messages.count > indexPath.row)
         //{
-        print("inside cellforrow updating row \(indexPath.row) and messages count is \(messages.count)")
+        //print("inside cellforrow updating row \(indexPath.row) and messages count is \(messages.count)")
         var messageDic = messages.objectAtIndex(indexPath.row) as! [String : String];
         NSLog(messageDic["message"]!, 1)
         let msgType = messageDic["type"] as NSString!
@@ -1826,7 +1826,7 @@ let textLable = cell.viewWithTag(12) as! UILabel
             
             
            // newwwwwwwwww textLable.frame = CGRectMake(26 + distanceFactor, textLable.frame.origin.y, chatImage.frame.width-36, getSizeOfStringHeight(msg).height)
-            print("new height is \(textLable.frame.height) msg is \(msg)")
+          //  print("new height is \(textLable.frame.height) msg is \(msg)")
            //=====newwwwwww  textLable.frame = CGRectMake(26 + distanceFactor, textLable.frame.origin.y, chatImage.frame.width-36, sizeOFStr.height)
              //==== new textLable.frame = CGRectMake(36 + distanceFactor, textLable.frame.origin.y, textLable.frame.size.width, sizeOFStr.height)
           ///  //print("textLable.x for \(msg) is \(textLable.frame.origin.x) and textLable.width is \(textLable.frame.width)")
@@ -1907,7 +1907,7 @@ let textLable = cell.viewWithTag(12) as! UILabel
             
 
             //filename
-            print("uniqueid image is \(uniqueidDictValue) filename is \(filename) imgPath is \(imgPath) ")
+          //  print("uniqueid image is \(uniqueidDictValue) filename is \(filename) imgPath is \(imgPath) ")
             
             var imgNSData=NSFileManager.defaultManager().contentsAtPath(imgPath)
             
@@ -2037,7 +2037,7 @@ let textLable = cell.viewWithTag(12) as! UILabel
             var documentDir=docsDir1 as NSString
             
             var imgPath=documentDir.stringByAppendingPathComponent(filename as! String)
-            print("uniqueid image is \(uniqueidDictValue) filename is \(filename) imgPath is \(imgPath)")
+          //  print("uniqueid image is \(uniqueidDictValue) filename is \(filename) imgPath is \(imgPath)")
             
             var imgNSData=NSFileManager.defaultManager().contentsAtPath(imgPath)
             
@@ -2223,7 +2223,7 @@ let textLable = cell.viewWithTag(12) as! UILabel
             
             
             // newwwwwwwwww textLable.frame = CGRectMake(26 + distanceFactor, textLable.frame.origin.y, chatImage.frame.width-36, getSizeOfStringHeight(msg).height)
-            print("new height is \(textLable.frame.height) msg is \(msg)")
+            //print("new height is \(textLable.frame.height) msg is \(msg)")
             //=====newwwwwww  textLable.frame = CGRectMake(26 + distanceFactor,
             
             
@@ -2404,7 +2404,7 @@ let textLable = cell.viewWithTag(12) as! UILabel
             
             
             // newwwwwwwwww textLable.frame = CGRectMake(26 + distanceFactor, textLable.frame.origin.y, chatImage.frame.width-36, getSizeOfStringHeight(msg).height)
-            print("new height is \(textLable.frame.height) msg is \(msg)")
+           // print("new height is \(textLable.frame.height) msg is \(msg)")
             //=====newwwwwww  textLable.frame = CGRectMake(26 + distanceFactor, 
             
             
@@ -3767,12 +3767,30 @@ let textLable = cell.viewWithTag(12) as! UILabel
       //  }
        
         
-        dispatch_async(dispatch_get_main_queue())
+      /*  dispatch_async(dispatch_get_main_queue())
         {
               print("adding msg \(msggg)")
             //==--self.tblForChats.reloadRowsAtIndexPaths([lastrowindexpath], withRowAnimation: .None)
             self.addMessage(msggg+" (\(statusNow))",status:statusNow,ofType: "2",date:defaultTimeZoneStr, uniqueid: uniqueID)
+            
+            
+             let hh=(self.tblForChats.visibleCells.last?.frame.origin.y)!+(self.tblForChats.visibleCells.last?.frame.height)!
+
+print("self.tblForChats.contentSize.height \(self.tblForChats.contentSize.height)")
+print("self.tblForChats.frame.size.height \(self.tblForChats.frame.size.height)")
+print("hh \(hh)")
+            //if (self.tblForChats.contentSize.height > self.tblForChats.frame.size.height)
+         //   if (self.tblForChats.contentSize.height > hh)
+                
+            //{
+              //  var offset = CGPointMake(0, self.tblForChats.contentSize.height - self.tblForChats.frame.size.height);
+               /* var offset = CGPointMake(0, hh -  self.tblForChats.frame.size.height);
+                
+                self.tblForChats.setContentOffset(offset, animated: true)
+              //  [self.messagesTableView setContentOffset:offset animated:YES];
+           // }
             self.tblForChats.reloadData()
+            */
             if(self.messages.count>1)
             {
                 // let indexPath = NSIndexPath(forRow:self.messages.count-1, inSection: 0)
@@ -3782,19 +3800,22 @@ let textLable = cell.viewWithTag(12) as! UILabel
                 
                 
             }
-        }
+        
+        }*/
+        
         txtFldMessage.text = "";
         
-        //dispatch_async(dispatch_get_main_queue())
-       // {
+        dispatch_async(dispatch_get_main_queue())
+        {print("adding msg \(msggg)")
+
         //==--self.tblForChats.reloadRowsAtIndexPaths([lastrowindexpath], withRowAnimation: .None)
-       /*     self.addMessage(msggg+" (\(statusNow))",status:statusNow,ofType: "2",date:defaultTimeZoneStr, uniqueid: uniqueID)
-            self.retrieveChatFromSqlite(self.selectedContact,completion:{(result)-> () in
+            self.addMessage(msggg+" (\(statusNow))",status:statusNow,ofType: "2",date:defaultTimeZoneStr, uniqueid: uniqueID)
+           // self.retrieveChatFromSqlite(self.selectedContact,completion:{(result)-> () in
                 
-                print("messages count after setting array is \(self.messages.count)")
+              //  print("messages count after setting array is \(self.messages.count)")
                 
-                dispatch_async(dispatch_get_main_queue())
-                {
+              ///  dispatch_async(dispatch_get_main_queue())
+              //  {
             self.tblForChats.reloadData()
             if(self.messages.count>1)
             {
@@ -3805,9 +3826,9 @@ let textLable = cell.viewWithTag(12) as! UILabel
                 
                 
             }
-            }
-        })*/
-        //}
+           // }
+       // })
+        }
         
         
         print("messages count before sending msg is \(self.messages.count)")
@@ -3835,12 +3856,12 @@ let textLable = cell.viewWithTag(12) as! UILabel
                     self.tblForChats.reloadData()
                     print("messages count is \(self.messages.count)")
                     
-                    if(self.messages.count>1)
+                   /* if(self.messages.count>1)
                     {
                         //var indexPath = NSIndexPath(forRow:self.messages.count-1, inSection: 0)
                         let indexPath = NSIndexPath(forRow:self.tblForChats.numberOfRowsInSection(0)-1, inSection: 0)
                         self.tblForChats.scrollToRowAtIndexPath(indexPath, atScrollPosition: UITableViewScrollPosition.Bottom, animated: false)
-                    }
+                    }*/
                 //self.tblForChats.reloadRowsAtIndexPaths([indexp], withRowAnimation: .None)
                 }
                 //dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT,0))

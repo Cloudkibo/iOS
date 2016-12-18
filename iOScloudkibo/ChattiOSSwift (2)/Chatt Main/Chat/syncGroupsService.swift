@@ -134,8 +134,8 @@ class syncGroupService
         if (accountKit!.currentAccessToken != nil) {
             
             
-            
-            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0)) {
+           //commented for testing
+         /*   dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0)) {
                 print("sync partial groups chat in background...")
                 self.partialSyncGroupsChat{ (result,error,groupinfo) in
                    /// if(groupinfo != nil)
@@ -157,7 +157,7 @@ class syncGroupService
                     }
                     ////}
                 }
-            }}
+            }*/}
     }
     func SyncGroupsAPIonLaunch(completion:(result:Bool,error:String!,groupinfo:JSON!)->())
     {
