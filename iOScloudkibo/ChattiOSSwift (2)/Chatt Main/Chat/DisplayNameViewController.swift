@@ -17,6 +17,7 @@ class DisplayNameViewController: UIViewController {
     
     @IBOutlet weak var lbl_progress: UILabel!
     
+    @IBOutlet weak var lbl_version: UILabel!
     var Q0_sendDisplayName=dispatch_queue_create("Q0_sendDisplayName",DISPATCH_QUEUE_SERIAL)
     var Q1_fetchFromDevice=dispatch_queue_create("fetchFromDevice",DISPATCH_QUEUE_SERIAL)
     var Q2_sendPhonesToServer=dispatch_queue_create("sendPhonesToServer",DISPATCH_QUEUE_SERIAL)
@@ -53,6 +54,14 @@ class DisplayNameViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        print("appearrrrrr", terminator: "")
+        let nsObject: AnyObject? = NSBundle.mainBundle().infoDictionary!["CFBundleShortVersionString"]
+        if let text = NSBundle.mainBundle().infoDictionary?["CFBundleVersion"] as? String {
+            print("... \(text)") //build number
+        }
+        print(",,,,, \(nsObject!.description)") //version number
+        
+        self.lbl_version.text="\(nsObject!.description)"
         if(self.accountKit == nil){
             self.accountKit = AKFAccountKit(responseType: AKFResponseType.AccessToken)
         }
@@ -1228,6 +1237,7 @@ class DisplayNameViewController: UIViewController {
     
     @IBAction func btnDonePressed(sender: AnyObject) {
         print("button done pressed start time \(NSDate())")
+        (sender as! UIBarButtonItem).enabled=false
         if(socketObj != nil)
 {
 socketObj.socket.emit("logClient","button done pressed start time \(NSDate())")
@@ -1415,7 +1425,7 @@ socketObj.socket.emit("logClient","button done pressed start time \(NSDate())")
                                                                   
                                                                     
                                                                     //==============COMMENTED===========
-                                                                   /* self.lbl_progress.text="Setting Groups.."
+                                                                    self.lbl_progress.text="Setting Groups.."
                                                                     
                                                                     dispatch_sync(self.newserialqueue,
                                                                                 {
@@ -1424,13 +1434,17 @@ socketObj.socket.emit("logClient","button done pressed start time \(NSDate())")
                                                                                     
                                                                                     if(socketObj != nil)
                                                                                     {
-                                                                                        socketObj.socket.emit("logClient","IPHONE LOG:setting groups time \(NSDate())")
+                                                                                        socketObj.socket.emit("logClient","IPHONE LOG:setting groups \(username!) time \(NSDate())")
                                                                                     }
-dispatch_sync(self.Q5_fetchAllGroupsData,
+                                                                                    dispatch_sync(self.Q5_fetchAllGroupsData,
                                                                                         {
                                                                                     syncGroupsObj.startSyncGroupsServiceOnLaunch({ (result) -> () in
+                                                                                        Alamofire.request(.POST,"\(Constants.MainUrl+Constants.urllog)",headers:header,parameters: ["data":"IPHONE_LOG: sync on installation is completed. going to chat screen \(username!)"]).response{
+                                                                                            request, response_, data, error in
+                                                                                            print(error)
+                                                                                        }
+
  
- */
                                                                                     //result
                                                                                         print("sync on installation is completed. going to chat screen")
                                                                      
@@ -1452,9 +1466,9 @@ dispatch_sync(self.Q5_fetchAllGroupsData,
                                                                                         }
                                                                                         
                                                                     //}
-                                                                                   //==---- })
-                                                                                 //===----   })
-                                                                           //==---- })
+                                                                                  })
+                                                                                })
+                                                                        })
                                                                    // }
                                                                 })
                                                         })

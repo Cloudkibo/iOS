@@ -76,6 +76,11 @@ class syncGroupService
         
         if (accountKit!.currentAccessToken != nil) {
             
+            Alamofire.request(.POST,"\(Constants.MainUrl+Constants.urllog)",headers:header,parameters: ["data":"IPHONE_LOG: group sync on install start \(username!)"]).response{
+                request, response_, data, error in
+                print(error)
+            }
+
             
           //  var Q5_fetchAllGroupsData=dispatch_queue_create("fetchAllGroupsData",DISPATCH_QUEUE_SERIAL)
            // dispatch_async(Q5_fetchAllGroupsData,{
@@ -133,21 +138,44 @@ class syncGroupService
         
         if (accountKit!.currentAccessToken != nil) {
             
+            Alamofire.request(.POST,"\(Constants.MainUrl+Constants.urllog)",headers:header,parameters: ["data":"IPHONE_LOG: Starting partial groups chat sync \(username!)"]).response{
+                request, response_, data, error in
+                print(error)
+            }
             
            //commented for testing
-         /*   dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0)) {
+          dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0)) {
                 print("sync partial groups chat in background...")
+            Alamofire.request(.POST,"\(Constants.MainUrl+Constants.urllog)",headers:header,parameters: ["data":"IPHONE_LOG: sync partial groups chat in background... \(username!)"]).response{
+                request, response_, data, error in
+                print(error)
+            }
                 self.partialSyncGroupsChat{ (result,error,groupinfo) in
                    /// if(groupinfo != nil)
                     //{
                         print("updating UI now...")
                     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0)) {
-                        
+                        Alamofire.request(.POST,"\(Constants.MainUrl+Constants.urllog)",headers:header,parameters: ["data":"IPHONE_LOG: sync group chat statuses in background... \(username!)"]).response{
+                            request, response_, data, error in
+                            print(error)
+                        }
                         self.syncGroupChatStatuses{(result,error) in
+                            
+                            Alamofire.request(.POST,"\(Constants.MainUrl+Constants.urllog)",headers:header,parameters: ["data":"IPHONE_LOG: Done group chat statuses in background... \(username!)"]).response{
+                                request, response_, data, error in
+                                print(error)
+                            }
+                            
                         if(result==true)
                         {
+                            
                         dispatch_async(dispatch_get_main_queue())
                         {
+                            Alamofire.request(.POST,"\(Constants.MainUrl+Constants.urllog)",headers:header,parameters: ["data":"IPHONE_LOG: updating all UI screens \(username!)"]).response{
+                                request, response_, data, error in
+                                print(error)
+                            }
+
                         UIDelegates.getInstance().UpdateMainPageChatsDelegateCall()
                         UIDelegates.getInstance().UpdateGroupInfoDetailsDelegateCall()
                         UIDelegates.getInstance().UpdateGroupChatDetailsDelegateCall()
@@ -157,8 +185,9 @@ class syncGroupService
                     }
                     ////}
                 }
-            }*/}
+            }}
     }
+    
     func SyncGroupsAPIonLaunch(completion:(result:Bool,error:String!,groupinfo:JSON!)->())
     {
         
@@ -263,7 +292,14 @@ class syncGroupService
     //dispatch_sync(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT,0))
     
     func fullRefreshGroupsInfoOnLaunch(groupInfo:JSON!,completion:(result:Bool,error:String!)->())
-    {print("inside full refresh groups")
+    {
+        Alamofire.request(.POST,"\(Constants.MainUrl+Constants.urllog)",headers:header,parameters: ["data":"IPHONE_LOG: update database on install with gruop info \(username!)"]).response{
+            request, response_, data, error in
+            print(error)
+        }
+
+        
+        print("inside full refresh groups")
         //_id:String,groupname:String,date_creation:String,group_icon:NSData
         var tbl_Groups=sqliteDB.groups
         
@@ -484,6 +520,12 @@ class syncGroupService
                 print(response)
                 if(response.result.isSuccess)
                 {
+                    Alamofire.request(.POST,"\(Constants.MainUrl+Constants.urllog)",headers:header,parameters: ["data":"IPHONE_LOG: got group members on install \(username!)"]).response{
+                        request, response_, data, error in
+                        print(error)
+                    }
+
+                    
                     print("group members got success")
                     print(response.result.value)
                     jsongroupinfo=JSON(response.result.value!)
@@ -689,6 +731,10 @@ class syncGroupService
                  print(response.response?.statusCode)
                 if(response.result.isSuccess)
                 {
+                    Alamofire.request(.POST,"\(Constants.MainUrl+Constants.urllog)",headers:header,parameters: ["data":"IPHONE_LOG: group chat partial got success \(username!)"]).response{
+                        request, response_, data, error in
+                        print(error)
+                    }
                     print("group chat partial got success")
                     print(response.result.value)
                     jsongroupinfo=JSON(response.result.value!)
@@ -792,6 +838,11 @@ class syncGroupService
             print(response.response?.statusCode)
             if(response.result.isSuccess)
             {
+                Alamofire.request(.POST,"\(Constants.MainUrl+Constants.urllog)",headers:header,parameters: ["data":"IPHONE_LOG: partial sync group chat statuses success \(username!)"]).response{
+                    request, response_, data, error in
+                    print(error)
+                }
+                
              print("yes success")
                 print(JSON(response.result.value!).count)
                 var jsongroupinfo=JSON(response.result.value!)
@@ -833,6 +884,11 @@ class syncGroupService
             }
             else
             {
+                Alamofire.request(.POST,"\(Constants.MainUrl+Constants.urllog)",headers:header,parameters: ["data":"IPHONE_LOG: partial sync group chat statuses failed \(username!)"]).response{
+                    request, response_, data, error in
+                    print(error)
+                }
+
                 dispatch_async(dispatch_get_main_queue())
                 {
                 return completion(result:false,error: "Unable to fetch data")

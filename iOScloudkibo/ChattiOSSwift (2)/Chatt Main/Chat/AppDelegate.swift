@@ -25,6 +25,9 @@ import AVFoundation
 //import WindowsAzureMessaging
 
 
+var messageFrame = UIView()
+var activityIndicator = UIActivityIndicatorView()
+var strLabel = UILabel()
 
 var applaunch=false
 var retainOldDatabase:Bool! = true
@@ -151,6 +154,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate,AppDelegateScreenDelegate 
             print("... \(text)") //build number
         }
         print(",,,,, \(nsObject!.description)") //version number
+        
+        //  self.messageFrame.removeFromSuperview()
+        // print("setting contacts start time \(NSDate())")
+        //self.progressBarDisplayer("App version \( (nsObject!.description))", true)
+        
         
        /* if(!(KeychainWrapper.stringForKey("retainOldDatabase")==nil))
         {
@@ -435,9 +443,10 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
     }*/
     var pendingchatsarray=[[String:String]]()
     var pendinggroupchatsarray=[[String:AnyObject]]()
+    
     func synchroniseChatData()
     {
-        print("synchronise called")
+                print("synchronise called")
         if(accountKit == nil){
             accountKit = AKFAccountKit(responseType: AKFResponseType.AccessToken)
         }
@@ -470,6 +479,12 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
                 
             }
             
+            Alamofire.request(.POST,"\(Constants.MainUrl+Constants.urllog)",headers:header,parameters: ["data":"IPHONE_LOG: partial sync chat \(username!)"]).response{
+                request, response_, data, error in
+                print(error)
+            }
+
+            
             //  dispatch_async(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0)) {
             
             
@@ -486,7 +501,7 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
                 self.getData({ (result) -> () in
                     self.index=0
                     
-                    Alamofire.request(.POST,"\(Constants.MainUrl+Constants.urllog)",headers:header,parameters: ["data":"IPHONE_LOG: checkin here pending messages sent"]).response{
+                    Alamofire.request(.POST,"\(Constants.MainUrl+Constants.urllog)",headers:header,parameters: ["data":"IPHONE_LOG: checkin here pending chat messages sent"]).response{
                         request, response_, data, error in
                         print(error)
                     }
@@ -1011,7 +1026,7 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
     }
     
 
-    
+  
     
     func sendPendingChatMessages(completion:(result:Bool)->())
     {
@@ -1450,6 +1465,7 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
        
         
         
+      //  self.messageFrame.removeFromSuperview()
         print("did become active app state is \(UIApplication.sharedApplication().applicationState.rawValue)")
         
         print("app launch variable is \(applaunch)")
@@ -1502,9 +1518,10 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
             if(username != nil && username != "")
             {
                 //commenting for testing
+                
                 var syncGroupsObj=syncGroupService.init()
-                //=====---- commenting     syncGroupsObj.startPartialGroupsChatSyncService()
-               self.synchroniseChatData()
+                syncGroupsObj.startPartialGroupsChatSyncService()
+                self.synchroniseChatData()
                 print("getting group messages which are not on device")
  
                 
@@ -2070,7 +2087,7 @@ else{
                 {
                     print("group icon is changed")
                     var groupId=userInfo["groupId"] as! String
-                    "exists".dataUsingEncoding(NSUTF8StringEncoding)!
+                    //"exists".dataUsingEncoding(NSUTF8StringEncoding)!
                     UtilityFunctions.init().downloadProfileImage(groupId)
                 }
                 
@@ -2296,7 +2313,7 @@ else{
                         group_icon="exists".dataUsingEncoding(NSUTF8StringEncoding)!
                         
                         
-                        //===----- commented UtilityFunctions.init().downloadProfileImage(unique_id)
+                        UtilityFunctions.init().downloadProfileImage(unique_id)
                        
                         
                         // group_icon=groupSingleInfo[0]["group_icon"] as! NSData

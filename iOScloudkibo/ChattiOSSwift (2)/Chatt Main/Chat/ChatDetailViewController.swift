@@ -3805,8 +3805,9 @@ print("hh \(hh)")
         
         txtFldMessage.text = "";
         
-        dispatch_async(dispatch_get_main_queue())
-        {print("adding msg \(msggg)")
+        //dispatch_async(dispatch_get_main_queue())
+        //{
+            print("adding msg \(msggg)")
 
         //==--self.tblForChats.reloadRowsAtIndexPaths([lastrowindexpath], withRowAnimation: .None)
             self.addMessage(msggg+" (\(statusNow))",status:statusNow,ofType: "2",date:defaultTimeZoneStr, uniqueid: uniqueID)
@@ -3816,6 +3817,31 @@ print("hh \(hh)")
                 
               ///  dispatch_async(dispatch_get_main_queue())
               //  {
+            
+           ///// self.tblForChats.beginUpdates()
+           /* self.tblForChats.insertRowsAtIndexPaths([
+                NSIndexPath(forRow: self.tblForChats.numberOfRowsInSection(0)-1, inSection: 0)
+                ], withRowAnimation: .None)
+            if(self.messages.count>1)
+            {
+                // let indexPath = NSIndexPath(forRow:self.messages.count-1, inSection: 0)
+                let indexPath = NSIndexPath(forRow:self.tblForChats.numberOfRowsInSection(0)-1, inSection: 0)
+                self.tblForChats.scrollToRowAtIndexPath(indexPath, atScrollPosition: UITableViewScrollPosition.Bottom, animated: false)
+                
+                
+                
+            }*/
+        /*  self.tblForChats.endUpdates()
+           if(self.messages.count>1)
+            {
+                // let indexPath = NSIndexPath(forRow:self.messages.count-1, inSection: 0)
+                let indexPath = NSIndexPath(forRow:self.tblForChats.numberOfRowsInSection(0)-1, inSection: 0)
+                self.tblForChats.scrollToRowAtIndexPath(indexPath, atScrollPosition: UITableViewScrollPosition.Bottom, animated: false)
+                
+                
+                
+            }
+            */
             self.tblForChats.reloadData()
             if(self.messages.count>1)
             {
@@ -3828,9 +3854,9 @@ print("hh \(hh)")
             }
            // }
        // })
-        }
+      //  }
         
-        
+
         print("messages count before sending msg is \(self.messages.count)")
         print("sending msg \(msggg)")
             self.sendChatMessage(imParas){ (uniqueid,result) -> () in
@@ -3891,7 +3917,6 @@ print("hh \(hh)")
         
         
         
- 
         
         
         

@@ -533,6 +533,11 @@ print("tempURL is \(temporaryURL) and response is \(response.allHeaderFields)")
         {
             //let url = NSURL(string: address)
             dispatch_group_enter(downloadGroup)
+            Alamofire.request(.POST,"\(Constants.MainUrl+Constants.urllog)",headers:header,parameters: ["data":"IPHONE_LOG: \(username!) downloading group icons \(uniqueidArray.description)"]).response{
+                request, response_, data, error in
+                print(error)
+            }
+            
             self.downloadProfileImageOnLaunch(address, completion: { (result, error) in
                 print("done downloading pendingGroupIcons \(address)")
                  dispatch_group_leave(downloadGroup)
@@ -579,10 +584,15 @@ print("tempURL is \(temporaryURL) and response is \(response.allHeaderFields)")
         
         dispatch_group_notify(downloadGroup, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0)) { // 2
            print("pendingGroupIcons done all downloads")
+            Alamofire.request(.POST,"\(Constants.MainUrl+Constants.urllog)",headers:header,parameters: ["data":"IPHONE_LOG: pendingGroupIcons done all downloads \(username!)"]).response{
+                request, response_, data, error in
+                print(error)
+            }
+            
             //if let completion = completion {
                                completion(result: true, error: nil/*, groupiconinfo: iconinfolist*/)
            // }
-        }        
+        }
     }
     
     func convertStringToDate(dateString:String,dateformat:String)->NSDate

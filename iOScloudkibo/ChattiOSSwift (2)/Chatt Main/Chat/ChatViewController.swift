@@ -56,6 +56,7 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
     
     
     
+   // @IBOutlet weak var lbl_version: UILabel!
     var Q_serial2=dispatch_queue_create("Q_serial2",DISPATCH_QUEUE_SERIAL)
     var Q_serial3=dispatch_queue_create("Q_serial3",DISPATCH_QUEUE_SERIAL)
     
@@ -320,11 +321,11 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
             //commenting it managerFile.checkPendingFiles(username!)
            
             self.sendPendingChatMessages({ (result) -> () in
-                
+                self.index=0
                 self.getData({ (result) -> () in
                     
                     self.sendPendingGroupChatMessages({ (result) -> () in
-                        
+                        self.index2=0
                         self.getGroupsData({ (result) -> () in
                             
                             
@@ -734,7 +735,7 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        
+
         messages=NSMutableArray()
         syncServiceContacts.delegateRefreshContactsList=self
         delegateRefreshChat=self
@@ -819,7 +820,7 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
             }}
         else
         {
-            
+           
             
         }
         
@@ -931,10 +932,16 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
             print("Reachable via Wifi")
             if(username != nil && username != "")
             {
+                Alamofire.request(.POST,"\(Constants.MainUrl+Constants.urllog)",headers:header,parameters: ["data":"IPHONE_LOG: Reachable via wifi \(username!)"]).response{
+                    request, response_, data, error in
+                    print(error)
+                }
+
+                
                 print("commenting")
                 //commentingg
                 var syncGroupsObj=syncGroupService.init()
-               //==---commenting  syncGroupsObj.startPartialGroupsChatSyncService()
+                syncGroupsObj.startPartialGroupsChatSyncService()
                 self.synchroniseChatData()
             }
         }
@@ -943,8 +950,12 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
             print("Reachable")
             if(username != nil && username != "")
             {//commentingg
+                Alamofire.request(.POST,"\(Constants.MainUrl+Constants.urllog)",headers:header,parameters: ["data":"IPHONE_LOG: internet Reachable \(username!)"]).response{
+                    request, response_, data, error in
+                    print(error)
+                }
                 var syncGroupsObj=syncGroupService.init()
-              //==----- commenting   syncGroupsObj.startPartialGroupsChatSyncService()
+                syncGroupsObj.startPartialGroupsChatSyncService()
                 self.synchroniseChatData()
             }
         }
@@ -952,7 +963,13 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
 
     
     func contactChanged(notification : NSNotification)
-    {/*
+    {
+        Alamofire.request(.POST,"\(Constants.MainUrl+Constants.urllog)",headers:header,parameters: ["data":"IPHONE_LOG: Device phonebook opened notification \(username!)"]).response{
+            request, response_, data, error in
+            print(error)
+        }
+        
+      /*
         if(notification.name==CNContactStoreDidChangeNotification)
         {
         let now=NSDate()
@@ -980,14 +997,14 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
         {
             print("some other notification received")
         }
-    */
+    
     /*var sync=syncContactService.init()
         sync.startContactsRefresh()
     tblForChat.reloadData()
  */
 
 //}
-        
+     */
         
     }
     
@@ -1087,7 +1104,19 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
         let email = Expression<String>("email")
         let phone = Expression<String>("phone")
         
+        
         print("appearrrrrr", terminator: "")
+        let nsObject: AnyObject? = NSBundle.mainBundle().infoDictionary!["CFBundleShortVersionString"]
+        if let text = NSBundle.mainBundle().infoDictionary?["CFBundleVersion"] as? String {
+            print("... \(text)") //build number
+        }
+        print(",,,,, \(nsObject!.description)") //version number
+        
+       // lbl_version.text="\(nsObject!.description)"
+        //  self.messageFrame.removeFromSuperview()
+        // print("setting contacts start time \(NSDate())")
+      //  self.progressBarDisplayer("App version \( (nsObject!.description))", true)
+        
         
         UIDelegates.getInstance().delegateMainPageChats1=self
         delegateRefreshChat=self
@@ -1145,7 +1174,7 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
                 
                 //commenting newwwwwwww -===-===-=
                 dispatch_async(dispatch_get_main_queue())
-                {
+                { self.messageFrame.removeFromSuperview()
                     self.tblForChat.reloadData()
                     print("pendingGroupIcons count is \(self.pendingGroupIcons.count)")
                     if(self.pendingGroupIcons.count>0)
@@ -1158,8 +1187,12 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
                             UtilityFunctions.init().downloadGroupIconsService(self.pendingGroupIcons, completion: { (result, error) in
                                 self.retrieveSingleChatsAndGroupsChatData({(result)-> () in
                                     
+                                    
+                                    
                                     dispatch_async(dispatch_get_main_queue())
                                     {print("pendingGroupIcons refreshing page")
+                                        
+
                                         self.tblForChat.reloadData()
                                     }
                                 })
@@ -1511,6 +1544,9 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
     
     func sendPendingChatMessages(completion:(result:Bool)->())
     {
+        
+        self.pendingchatsarray.removeAll()
+        
         print("checkin here inside pending chat messages.....")
         var userchats=sqliteDB.userschats
         var userchatsArray:Array<Row>
@@ -1678,6 +1714,7 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
     
     func sendPendingGroupChatMessages(completion:(result:Bool)->())
     {
+        self.pendinggroupchatsarray.removeAll()
         print("inside sending pending group chat messages.....")
         var userchats=sqliteDB.userschats
         //  var userchatsArray:Array<Row>
@@ -2250,7 +2287,7 @@ break
         var sortedResults: NSArray = messages2.sortedArrayUsingDescriptors([descriptor])
         */
         self.messages.setArray(messages2 as [AnyObject])
-        
+         self.messageFrame.removeFromSuperview()
         self.pendingGroupIcons.removeAll()
         for(var i=0;i<pendingGroupIcons2.count;i++)
         {
@@ -2857,10 +2894,20 @@ break
         
         let cell = tblForChat.dequeueReusableCellWithIdentifier("NewGroupCell") as! ContactsListCell
         btnNewGroup=cell.btnNewGroupOutlet
-        
+    
         cell.btnNewGroupOutlet.tag=section
         cell.btnNewGroupOutlet.addTarget(self, action: Selector("BtnnewGroupClicked:"), forControlEvents:.TouchUpInside)
-       // cell.setEditing(true, animated: true)
+       
+        
+        print("appearrrrrr", terminator: "")
+        let nsObject: AnyObject? = NSBundle.mainBundle().infoDictionary!["CFBundleShortVersionString"]
+        if let text = NSBundle.mainBundle().infoDictionary?["CFBundleVersion"] as? String {
+            print("... \(text)") //build number
+        }
+        print(",,,,, \(nsObject!.description)") //version number
+        
+        cell.lbl_version.text="\(nsObject!.description)"
+        // cell.setEditing(true, animated: true)
         /*
          [cell.yourbutton addTarget:self action:@selector(yourButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
          3) Code actions based on index as below in ViewControler:
@@ -4558,5 +4605,6 @@ break
     }
        //==-- self.reloadThisPage()
     }
+ 
     
 }

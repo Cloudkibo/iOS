@@ -39,6 +39,7 @@ class ContactsListCell:SWTableViewCell {
     @IBOutlet weak var profilePicCameraOutlet: UIImageView!
     
     
+    @IBOutlet weak var lbl_version: UILabel!
     @IBOutlet weak var btn_edit_profilePic: UIButton!
     
     /* override func awakeFromNib() {
