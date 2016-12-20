@@ -49,7 +49,7 @@ class BroadcastListViewController: UIViewController,UINavigationControllerDelega
        var broadcastlistmessages2=NSMutableArray()
         //uniqueid
         var aaa = sqliteDB.getBroadcastListDataForController()
-        
+        print("aaa is \(aaa.description)")
         for(var i=0;i<aaa.count;i++)
         {
         broadcastlistmessages2.addObject(["listname":aaa[i]["listname"] as! String,"membersnames":aaa[i]["membersnames"] as! String,"uniqueid":aaa[i]["uniqueid"] as! String])

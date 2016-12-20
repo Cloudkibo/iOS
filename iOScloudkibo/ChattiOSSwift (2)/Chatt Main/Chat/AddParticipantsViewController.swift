@@ -49,10 +49,10 @@ class AddParticipantsViewController: UIViewController,InviteContactsDelegate,UIT
         
         var memberphones=[String]()
         var membersnames=[String]()
-        for(var i=0;i<participantsSelected.count;i++)
-        {print("appending memberphone now of participantselected \(participantsSelected[i].getPhoneNumber())")
-            memberphones.append(participantsSelected[i].getPhoneNumber())
-            membersnames.append(participantsSelected[i].displayName())
+        for(var i=0;i<participantsSelected1.count;i++)
+        {print("appending memberphone now of participantselected \(participantsSelected1[i].getPhoneNumber())")
+            memberphones.append(participantsSelected1[i].getPhoneNumber())
+            membersnames.append(participantsSelected1[i].displayName())
             //self.messages.addObject(["member_phone":memberphones[i],"name":membersnames[i],"isAdmin":"No"])
             
             //tblGroupInfo.reloadData()
@@ -62,7 +62,10 @@ class AddParticipantsViewController: UIViewController,InviteContactsDelegate,UIT
         var broadcastlistID=UtilityFunctions.init().generateUniqueid()
         sqliteDB.storeBroadcastList(broadcastlistID, ListName1: "")
         sqliteDB.storeBroadcastListMembers(broadcastlistID, memberphones: memberphones)
-        self.dismissViewControllerAnimated(true, completion: nil);
+        //GoToBroadCastSegueGoToBroadCastSegue
+        self.performSegueWithIdentifier("GoToBroadCastSegue", sender: nil);
+        
+        //self.dismissViewControllerAnimated(true, completion: nil);
         //retrieveBroadCastLists()
         //===----tblBroadcastList.reloadData()
         

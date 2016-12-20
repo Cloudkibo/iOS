@@ -819,12 +819,12 @@
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <state key="normal" title="New Group"/>
                                                 </button>
-                                                <button hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="cqd-QN-sAJ">
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="cqd-QN-sAJ">
                                                     <rect key="frame" x="8" y="18" width="107" height="30"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <state key="normal" title="Broadcast lists"/>
                                                     <connections>
-                                                        <segue destination="Rgk-Rk-lne" kind="push" id="cEg-U8-UBa"/>
+                                                        <segue destination="Rgk-Rk-lne" kind="push" identifier="" id="cEg-U8-UBa"/>
                                                     </connections>
                                                 </button>
                                                 <button hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="q63-Hq-0xE">
@@ -5523,6 +5523,7 @@
                         <outlet property="searchDisplayController" destination="0gE-Oo-ux3" id="bZO-vR-Ql7"/>
                         <outlet property="tblForNotes" destination="c2b-VZ-Yb6" id="VAj-Ow-1u9"/>
                         <segue destination="YH8-pY-Wmo" kind="push" identifier="newGroupDetailsSegue1" id="ogf-EO-Swc"/>
+                        <segue destination="Rgk-Rk-lne" kind="push" identifier="GoToBroadCastSegue" id="6oI-GI-9iA"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="UoE-Ur-5gv" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -5536,7 +5537,7 @@
                     </connections>
                 </searchDisplayController>
             </objects>
-            <point key="canvasLocation" x="931" y="-1063"/>
+            <point key="canvasLocation" x="914" y="-1072"/>
         </scene>
     </scenes>
     <resources>
@@ -5581,19 +5582,20 @@
         <image name="video_off" width="50" height="50"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="Spe-dd-EXu"/>
         <segue reference="0Ba-7e-jXB"/>
-        <segue reference="ADA-1C-gHV"/>
-        <segue reference="W8i-Cs-Z8T"/>
-        <segue reference="Y9a-Vx-tcX"/>
-        <segue reference="ThT-lo-Acr"/>
+        <segue reference="ogf-EO-Swc"/>
+        <segue reference="ye7-7r-hp1"/>
+        <segue reference="6oI-GI-9iA"/>
         <segue reference="BY8-e2-RyW"/>
+        <segue reference="ThT-lo-Acr"/>
+        <segue reference="Spe-dd-EXu"/>
+        <segue reference="Y9a-Vx-tcX"/>
         <segue reference="1jA-Zj-XHt"/>
-        <segue reference="Sdy-kO-WHf"/>
+        <segue reference="W8i-Cs-Z8T"/>
         <segue reference="QOc-Kg-WHZ"/>
-        <segue reference="Lsn-aA-q1J"/>
         <segue reference="8LM-cv-XXH"/>
         <segue reference="X5X-Qt-8lc"/>
+        <segue reference="Lsn-aA-q1J"/>
     </inferredMetricsTieBreakers>
     <color key="tintColor" red="0.054901960784313725" green="0.47843137254901963" blue="1" alpha="1" colorSpace="calibratedRGB"/>
 </document>
