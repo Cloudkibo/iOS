@@ -824,7 +824,7 @@
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <state key="normal" title="Broadcast lists"/>
                                                     <connections>
-                                                        <segue destination="Rgk-Rk-lne" kind="push" identifier="" id="cEg-U8-UBa"/>
+                                                        <segue destination="Rgk-Rk-lne" kind="push" identifier="chatToBroadcast" id="cEg-U8-UBa"/>
                                                     </connections>
                                                 </button>
                                                 <button hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="q63-Hq-0xE">
@@ -3697,7 +3697,7 @@
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="ContactsInviteCell" id="lU5-3E-N9k" customClass="ContactsInviteCell" customModule="Chat" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="22" width="320" height="78"/>
+                                        <rect key="frame" x="0.0" y="86" width="320" height="78"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="lU5-3E-N9k" id="ttq-aH-WWS">
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="77.5"/>
@@ -4417,7 +4417,7 @@
         <!--Broadcast List View Controller-->
         <scene sceneID="23A-km-eMu">
             <objects>
-                <viewController hidesBottomBarWhenPushed="YES" id="Rgk-Rk-lne" customClass="BroadcastListViewController" customModule="Chat" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="BroadcastListView" hidesBottomBarWhenPushed="YES" id="Rgk-Rk-lne" customClass="BroadcastListViewController" customModule="Chat" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="0y3-sA-Lsl">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -4487,6 +4487,12 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
                     <navigationItem key="navigationItem" id="ORh-8o-3y5">
+                        <barButtonItem key="leftBarButtonItem" title="Item" id="POA-c0-IEH">
+                            <connections>
+                                <action selector="backButtonPressed:" destination="Rgk-Rk-lne" id="qJ4-sg-ARP"/>
+                                <segue destination="IOA-gw-9Wh" kind="unwind" unwindAction="unwindFromBroadcastList:" id="tTu-Hq-VxK"/>
+                            </connections>
+                        </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" title="Edit" id="Xeq-br-M4H"/>
                     </navigationItem>
                     <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
@@ -4496,9 +4502,11 @@
                         <outlet property="veiwForContent" destination="uM7-X0-w22" id="hJF-w7-GJx"/>
                         <segue destination="LaF-Wn-rQI" kind="push" identifier="showSingleBroadcastListCellSegue" id="ouG-8Z-fyo"/>
                         <segue destination="Xlj-pb-Vmy" kind="push" identifier="addParticipantsSegue" id="ye7-7r-hp1"/>
+                        <segue destination="cJu-ld-BCz" kind="push" identifier="FromBroadCastToChatTabSegue" id="NgD-BM-wgZ"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="cHM-sF-9pp" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <exit id="IOA-gw-9Wh" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
             <point key="canvasLocation" x="1687" y="-1814"/>
         </scene>
@@ -4922,7 +4930,7 @@
             <objects>
                 <viewController restorationIdentifier="MainChats" storyboardIdentifier="MainChats" title="Chats" id="v28-cs-4pq" customClass="ChatMainViewController" customModule="Chat" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="myq-CV-swO">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <rect key="frame" x="0.0" y="64" width="320" height="504"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="66" sectionHeaderHeight="22" sectionFooterHeight="22" id="K2C-Ei-zZY">
@@ -5582,16 +5590,16 @@
         <image name="video_off" width="50" height="50"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="0Ba-7e-jXB"/>
-        <segue reference="ogf-EO-Swc"/>
+        <segue reference="NgD-BM-wgZ"/>
+        <segue reference="cEg-U8-UBa"/>
         <segue reference="ye7-7r-hp1"/>
-        <segue reference="6oI-GI-9iA"/>
         <segue reference="BY8-e2-RyW"/>
         <segue reference="ThT-lo-Acr"/>
         <segue reference="Spe-dd-EXu"/>
         <segue reference="Y9a-Vx-tcX"/>
         <segue reference="1jA-Zj-XHt"/>
         <segue reference="W8i-Cs-Z8T"/>
+        <segue reference="ADA-1C-gHV"/>
         <segue reference="QOc-Kg-WHZ"/>
         <segue reference="8LM-cv-XXH"/>
         <segue reference="X5X-Qt-8lc"/>

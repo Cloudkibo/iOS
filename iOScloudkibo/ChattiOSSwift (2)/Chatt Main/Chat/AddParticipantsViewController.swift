@@ -63,7 +63,16 @@ class AddParticipantsViewController: UIViewController,InviteContactsDelegate,UIT
         sqliteDB.storeBroadcastList(broadcastlistID, ListName1: "")
         sqliteDB.storeBroadcastListMembers(broadcastlistID, memberphones: memberphones)
         //GoToBroadCastSegueGoToBroadCastSegue
-        self.performSegueWithIdentifier("GoToBroadCastSegue", sender: nil);
+       // let next = self.storyboard?.instantiateViewControllerWithIdentifier("BroadcastListView") as! BroadcastListViewController
+      //  self.dismissViewControllerAnimated(true, completion: nil);
+        
+        
+       /* self.presentViewController(next, animated: true, completion: {
+         
+            })*/
+        
+        
+       self.performSegueWithIdentifier("GoToBroadCastSegue", sender: nil);
         
         //self.dismissViewControllerAnimated(true, completion: nil);
         //retrieveBroadCastLists()
@@ -475,6 +484,18 @@ class AddParticipantsViewController: UIViewController,InviteContactsDelegate,UIT
         
         super.init(coder: aDecoder)
     }
+    
+    //      self.performSegueWithIdentifier("GoToBroadCastSegue", sender: nil);
+    
+  /*  @IBAction func prepareForUnwind(segue: UIStoryboardSegue){
+        
+        print("unwind ...")
+        if(prevScreen=="newBroadcastList")
+        {
+        self.performSegueWithIdentifier("GoToBroadCastSegue", sender: nil);
+        }
+
+    }*/
     
     @IBAction func unwindToChat (segueSelected : UIStoryboardSegue) {
         

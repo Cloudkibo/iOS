@@ -112,7 +112,21 @@ class BroadcastListViewController: UIViewController,UINavigationControllerDelega
         
     }
     
+ 
+    @IBAction func backButtonPressed(sender: AnyObject) {
+        print("unwind broadcast list")
+        self.performSegueWithIdentifier("FromBroadCastToChatTabSegue", sender: nil);
+    }
+   
     
+    /*@IBAction func prepareForUnwind(segue: UIStoryboardSegue){
+       // if(prevScreen=="newBroadcastList")
+        //{
+        print("unwind broadcast list")
+            self.performSegueWithIdentifier("GoToBroadCastSegue", sender: nil);
+        //}
+        
+    }*/
     func epContactPicker(_: EPContactsPicker, didContactFetchFailed error : NSError)
     {
         print("Failed with error \(error.description)")

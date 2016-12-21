@@ -154,6 +154,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate,AppDelegateScreenDelegate 
             print("... \(text)") //build number
         }
         print(",,,,, \(nsObject!.description)") //version number
+        var log=UtilityFunctions.init()
+        log.log_papertrail("IPHONE: \(username!) has version number \(nsObject!.description)")
+        
         
         //  self.messageFrame.removeFromSuperview()
         // print("setting contacts start time \(NSDate())")
@@ -2098,6 +2101,14 @@ else{
             
         }
     }
+        else
+        {
+            
+            Alamofire.request(.POST,"https://api.cloudkibo.com/api/users/log",headers:header,parameters: ["data":"IPHONE_LOG: \(username!) received push notification when in inactive mode so nothing will be processed \(userInfo.description)"]).response{
+                request, response_, data, error in
+                print(error)
+            }
+        }
        /////// print("remote notification received is \(userInfo)")
         /*var notificationJSON=JSON(userInfo)
         print("json converted is \(notificationJSON)")
@@ -2253,6 +2264,11 @@ else{
    
     func fetchSingleGroup(unique_id:String,completion:(result:Bool,error:String!)->())
     {
+        Alamofire.request(.POST,"https://api.cloudkibo.com/api/users/log",headers:header,parameters: ["data":"IPHONE_LOG: \(username!) fetching group chat message. uniqueid of single new group is \(unique_id)"]).response{
+            request, response_, data, error in
+            print(error)
+        }
+        
         print("uniqueid of single new group is \(unique_id)")
         
         //======GETTING REST API TO GET SPECIFIC GROUP==================
@@ -2289,11 +2305,19 @@ else{
             
             switch response.result {
             case .Success:
+              /*  Alamofire.request(.POST,"https://api.cloudkibo.com/api/users/log",headers:header,parameters: ["data":"IPHONE_LOG: \(username!) fetching group chat message. uniqueid of single new group is \(unique_id)"]).response{
+                    request, response_, data, error in
+                    print(error)
+                }*/
                 if let data1 = response.result.value {
                     print("fetch single group \(response.result.value)")
                     print(data1)
                     print(JSON(data1))
                     var groupSingleInfo=JSON(data1)
+                    Alamofire.request(.POST,"https://api.cloudkibo.com/api/users/log",headers:header,parameters: ["data":"IPHONE_LOG: \(username!) fetching group chat message success \(unique_id)"]).response{
+                        request, response_, data, error in
+                        print(error)
+                    }
                     /*
                      {
                      "date_creation" : "2016-10-27T13:28:35.824Z",
@@ -2327,6 +2351,9 @@ else{
                     let datens2 = dateFormatter.dateFromString(date_creation)
                     
                     print("saving group single \(unique_id)")
+                    
+                    Alamofire.request(.POST,"https://api.cloudkibo.com/api/users/log",headers:header,parameters: ["data":"IPHONE_LOG: \(username!) storing groups chat \(unique_id)"])
+                    
                     sqliteDB.storeGroups(group_name, groupicon1: group_icon, datecreation1: datens2!, uniqueid1: unique_id, status1: "new")
 
                     //=====MUTE GROUP====
@@ -2559,7 +2586,7 @@ else{
     func fetchSingleChatMessage(uniqueid:String)
     {
         
-        Alamofire.request(.POST,"\(Constants.MainUrl+Constants.urllog)",headers:header,parameters: ["data":"IPHONE_LOG: fetch single chat \(uniqueid)"]).response{
+        Alamofire.request(.POST,"\(Constants.MainUrl+Constants.urllog)",headers:header,parameters: ["data":"IPHONE_LOG: inside function fetch single chat \(uniqueid)"]).response{
             request, response_, data, error in
             print(error)
         }
@@ -2612,7 +2639,7 @@ else{
             case .Success:
                 if let data1 = response.result.value {
                     
-                    Alamofire.request(.POST,"\(Constants.MainUrl+Constants.urllog)",headers:header,parameters: ["data":"IPHONE_LOG: fetch single chat \(uniqueid)"]).response{
+                    Alamofire.request(.POST,"\(Constants.MainUrl+Constants.urllog)",headers:header,parameters: ["data":"IPHONE_LOG: fetch single chat success \(uniqueid)"]).response{
                         request, response_, data, error in
                         print(error)
                     }
@@ -2754,7 +2781,18 @@ else{
                     // print(JSON(response.data!).description)
                     
                 }
+                else
+                {
+                     Alamofire.request(.POST,"\(Constants.MainUrl+Constants.urllog)",headers:header,parameters: ["data":"IPHONE_LOG: fetch single chat success BUT response returned is invalid \(uniqueid)"]).response{
+                        request, response_, data, error in
+                        print(error)
+                    }
+                }
             case .Failure:
+                Alamofire.request(.POST,"\(Constants.MainUrl+Constants.urllog)",headers:header,parameters: ["data":"IPHONE_LOG: fetch single chat FAILED \(uniqueid)"]).response{
+                    request, response_, data, error in
+                    print(error)
+                }
                 print("failed to get seingle chat message")
             }
         }

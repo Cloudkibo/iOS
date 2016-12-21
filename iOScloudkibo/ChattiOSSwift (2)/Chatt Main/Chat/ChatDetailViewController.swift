@@ -911,6 +911,17 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
         }
     }
     
+    func sorterfunc(obj1:AnyObject!,obj2:AnyObject!) -> NSComparisonResult
+    {
+        var datestr1=obj1[""] as! NSString
+        var datestr2=obj1[""] as! NSString
+        let dateFormatter = NSDateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
+        let date1 = dateFormatter.dateFromString(datestr1 as String)
+        let date2 = dateFormatter.dateFromString(datestr2 as String)
+        return date2!.compare(date1!)
+        
+    }
     
     func retrieveChatFromSqlite(selecteduser:String,completion:(result:Bool)->())
     {
@@ -1116,7 +1127,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
                 ////////// self.messages.removeAllObjects()
                 
                 ////////////self.messages.addObjectsFromArray(messages2 as [AnyObject])
-                
+               // messages2.sortUsingComparator(self.sorterfunc)
                 dispatch_async(dispatch_get_main_queue())
                 {
                     self.messages.setArray(messages2 as [AnyObject])

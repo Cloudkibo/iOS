@@ -925,6 +925,7 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
         
         if (remoteHostStatus == Reachability.NetworkStatus.NotReachable)
         {
+            
             print("Not Reachable")
         }
         else if (remoteHostStatus == Reachability.NetworkStatus.ReachableViaWiFi)
@@ -1858,6 +1859,17 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
         
     }
     
+   /* func sorterfunc(obj1:AnyObject!,obj2:AnyObject!) -> Bool
+    {
+        var datestr1=obj1["ContactsLastMsgDate"] as! String
+        var datestr2=obj1["ContactsLastMsgDate"] as! String
+        let dateFormatter = NSDateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
+        let date1 = dateFormatter.dateFromString(datestr1 as String)
+        let date2 = dateFormatter.dateFromString(datestr2 as String)
+        return date2<date1
+        
+    }*/
     
     func retrieveSingleChatsAndGroupsChatData(completion:(result:Bool)->())
     {
@@ -2286,6 +2298,45 @@ break
         var descriptor: NSSortDescriptor = NSSortDescriptor(key: "ContactsLastMsgDate", ascending: true)
         var sortedResults: NSArray = messages2.sortedArrayUsingDescriptors([descriptor])
         */
+        //messages2.sortUsingComparator(self.sorterfunc(messages2, obj2: messages2))
+        
+        //var sortedmessages=sorted(messages2,sorterfunc)
+        /*var sortedmessages=messages2.sortedArrayUsingComparator()
+            {
+                (obj1:AnyObject!,obj2:AnyObject!) -> NSComparisonResult in
+                
+                    var datestr1=obj1["ContactsLastMsgDate"] as! String
+                    var datestr2=obj1["ContactsLastMsgDate"] as! String
+                    let dateFormatter = NSDateFormatter()
+                    dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
+                    let date1 = dateFormatter.dateFromString(datestr1 as String)
+                    let date2 = dateFormatter.dateFromString(datestr2 as String)
+                    return date2!.compare(date1!)
+        }*/
+        
+        messages2.sortUsingComparator{
+            let obj1 = $0 as! [String:AnyObject]
+            let obj2 = $1 as! [String:AnyObject]
+            var datestr1=obj1["ContactsLastMsgDate"] as! String
+            var datestr2=obj2["ContactsLastMsgDate"] as! String
+            let dateFormatter = NSDateFormatter()
+            dateFormatter.dateFormat = "MM/dd hh:mm a"
+            let date1 = dateFormatter.dateFromString(datestr1 as String)
+            let date2 = dateFormatter.dateFromString(datestr2 as String)
+            let result=date1!.compare(date2!)
+            print("date1comparator is \(date1) date2comparator is \(date2)")
+            if(result == NSComparisonResult.OrderedAscending)
+            {
+                return .OrderedDescending
+            }
+            if(result == NSComparisonResult.OrderedSame)
+            {
+                return .OrderedSame
+            }
+            return NSComparisonResult.OrderedAscending
+        }
+        //self.messages.setArray(sortedmessages as [AnyObject])
+       
         self.messages.setArray(messages2 as [AnyObject])
          self.messageFrame.removeFromSuperview()
         self.pendingGroupIcons.removeAll()
@@ -2875,6 +2926,15 @@ break
     
     @IBAction func unwindToChat (segueSelected : UIStoryboardSegue) {
         print("unwind chat", terminator: "")
+        
+    }
+    
+    @IBAction func unwindFromBroadcastList(segue: UIStoryboardSegue){
+        // if(prevScreen=="newBroadcastList")
+        //{
+        print("unwind broadcast list")
+        //==--self.performSegueWithIdentifier("FromBroadCastToChatTabSegue", sender: nil);
+        //}
         
     }
     
