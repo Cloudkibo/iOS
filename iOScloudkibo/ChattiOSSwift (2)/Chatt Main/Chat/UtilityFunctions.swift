@@ -10,6 +10,7 @@ import Foundation
 import UIKit
 import Alamofire
 import Contacts
+import SQLite
 class UtilityFunctions{
     
     init()
@@ -670,4 +671,145 @@ print("tempURL is \(temporaryURL) and response is \(response.allHeaderFields)")
     }
     }
  
+    
+    func AddtoAddressBook(contact1:CNContact,completion:(result:Bool)->())
+    {
+        print("AddtoAddressBook called")
+        var name=Expression<String>("name")
+        var phone=Expression<String>("phone")
+        var actualphone=Expression<String>("actualphone")
+        var email=Expression<String>("email")
+        //////////////var profileimage=Expression<NSData>("profileimage")
+        let uniqueidentifier = Expression<String>("uniqueidentifier")
+        
+        var fullname=""
+  
+        let tbl_allcontacts=sqliteDB.allcontacts
+        var contactsdata=[[String:String]]()
+    do{
+    
+    var uniqueidentifier1=contact1.identifier
+    var image=NSData()
+        if(contact1.isKeyAvailable(CNContactGivenNameKey))
+        {
+    fullname=contact1.givenName
+            if(contact1.isKeyAvailable(CNContactFamilyNameKey))
+            {
+                fullname=fullname+" "+contact1.familyName
+
+            }
+        }
+    if (contact1.isKeyAvailable(CNContactPhoneNumbersKey)) {
+    for phoneNumber:CNLabeledValue in contact1.phoneNumbers {print("phones are there")
+    let a = phoneNumber.value as! CNPhoneNumber
+    //////////////emails.append(a.valueForKey("digits") as! String)
+    var zeroIndex = -1
+    var phoneDigits=a.valueForKey("digits") as! String
+    var actualphonedigits=a.valueForKey("digits") as! String
+ 
+    for(var i=0;i<phoneDigits.characters.count;i++)
+    {
+    if(phoneDigits.characters.first=="0")
+    {
+    phoneDigits.removeAtIndex(phoneDigits.startIndex)
+    //phoneDigits.characters.popFirst() as! String
+    print(".. droping zero \(phoneDigits)")
+    }
+    else
+    {
+    break
+    }
+    }
+    do{
+    
+    
+    //get countrycode from db
+    
+    let country_prefix = Expression<String>("country_prefix")
+    
+    
+    if(countrycode == nil)
+    {
+    let tbl_accounts = sqliteDB.accounts
+    do{for account in try sqliteDB.db.prepare(tbl_accounts) {
+    countrycode=account[country_prefix]
+    //displayname=account[firstname]
+    
+    }
+    }
+    }
+    if(countrycode=="1" && phoneDigits.characters.first=="1" && phoneDigits.characters.first != "+")
+    {
+    phoneDigits = "+"+phoneDigits
+    }
+    else if(phoneDigits.characters.first != "+"){
+    phoneDigits = "+"+countrycode+phoneDigits
+    print("appended phone is \(phoneDigits)")
+    }
+    
+    //////===========
+    // =============emails.append(phoneDigits)
+    var emailAddress=""
+    let em = try contact1.emailAddresses.first
+    if(em != nil && em != "")
+    {
+    print(em?.label)
+    print(em?.value)
+    emailAddress=(em?.value)! as! String
+    print("email adress value iss \(emailAddress)")
+    /////emails.append(em!.value as! String)
+    }
+    if(contact1.imageDataAvailable==true)
+    {
+    image=contact1.imageData!
+    }
+    print("trying to save \(fullname) and uniqueidentifier is \(uniqueidentifier1)")
+    
+    var data=[String:String]()
+    data["name"]=fullname
+    data["phone"]=phoneDigits
+    data["actualphone"]=actualphonedigits
+    data["email"]=emailAddress
+    data["uniqueidentifier"]=uniqueidentifier1
+    
+    
+    contactsdata.append(data)
+    //==== --- new commented moved down try sqliteDB.db.run(tbl_allcontacts.insert(name<-fullname,phone<-phoneDigits,actualphone<-actualphonedigits,email<-emailAddress,uniqueidentifier<-uniqueidentifier1))
+    }
+    catch(let error)
+    {
+    print("errorr in reading in name : \(error)")
+    
+    ///////socketObj.socket.emit("logClient","IPHONE-LOG: iphoneLog: error is getting name \(error)")
+    }
+
+    }
+        }
+        }
+    catch{
+        
+        }
+       
+           //==-- try sqliteDB.db.run(tbl_allcontacts.delete())
+            // print("now count is \(sqliteDB.db.scalar(tbl_allcontacts.count))")
+            
+            for(var j=0;j<contactsdata.count;j++)
+            {
+                do{
+                    try sqliteDB.db.run(tbl_allcontacts.insert(name<-contactsdata[j]["name"]!,phone<-contactsdata[j]["phone"]!,actualphone<-contactsdata[j]["actualphone"]!,email<-contactsdata[j]["email"]!,uniqueidentifier<-contactsdata[j]["uniqueidentifier"]!))
+                    
+                    return completion(result: true)
+                }
+                catch(let error)
+                {
+                    print("error in inserting contact : \(error)")
+                    ///////socketObj.socket.emit("logClient","IPHONE-LOG: iphoneLog: error is getting name \(error)")
+                }
+            }
+            
+        
+       
+         return completion(result: false)
+    
+    }
 }

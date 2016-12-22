@@ -147,6 +147,24 @@ class DatabaseHandler:NSObject{
         //createAllContactsTable()
         
     }
+    
+    func alterTable(version:Double)
+    {
+        if(version < 0.1274)
+        {
+            let broadcastlistID = Expression<String>("broadcastlistID")
+            let isBroadcastMessage = Expression<Bool>("isBroadcastMessage")
+            
+            do{
+            try db.run(self.userschats.addColumn(broadcastlistID, defaultValue: ""))
+            try db.run(self.userschats.addColumn(isBroadcastMessage, defaultValue: false))
+            }
+            catch{
+
+            }
+        }
+    }
+    
     func resetTables()
     {
         print("resetting tables")
@@ -464,7 +482,9 @@ class DatabaseHandler:NSObject{
         let type = Expression<String>("type")
         let file_type = Expression<String>("file_type")
         let file_path = Expression<String>("file_path")
-
+        let broadcastlistID = Expression<String>("broadcastlistID")
+        let isBroadcastMessage = Expression<Bool>("isBroadcastMessage")
+        
         
        // let dateFormatter = NSDateFormatter()
        // dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
@@ -498,6 +518,9 @@ class DatabaseHandler:NSObject{
                 t.column(type, defaultValue:"chat")
                 t.column(file_type, defaultValue:"")
                 t.column(file_path, defaultValue:"")
+                t.column(broadcastlistID, defaultValue:"")
+                t.column(isBroadcastMessage, defaultValue:false)
+                //t.column(file_path, defaultValue:"")
                 
                 //     "name" TEXT
                 })
@@ -508,7 +531,7 @@ class DatabaseHandler:NSObject{
             if(socketObj != nil)
             {
             socketObj.socket.emit("logClient","IPHONE-LOG: error in creating chat table \(error)")
-            print("error in creating userschats table")
+            print("error in creating userschats table \(error)")
             }
         }
         
@@ -1044,6 +1067,158 @@ class DatabaseHandler:NSObject{
         }*/
     
     func SaveChat(to1:String,from1:String,owneruser1:String,fromFullName1:String,msg1:String,date1:NSDate!,uniqueid1:String!,status1:String,type1:String,file_type1:String,file_path1:String)
+    {
+        //createUserChatTable()
+        // UtilityFunctions.init().log_papertrail("IPHONE:\(username!) inside database function to SAVE chat")
+        
+        let to = Expression<String>("to")
+        let from = Expression<String>("from")
+        let owneruser = Expression<String>("owneruser")
+        let fromFullName = Expression<String>("fromFullName")
+        let msg = Expression<String>("msg")
+        let date = Expression<NSDate>("date")
+        let uniqueID = Expression<String>("uniqueid")
+        let status = Expression<String>("status")
+        let contactPhone = Expression<String>("contactPhone")
+        let type = Expression<String>("type")
+        let file_type = Expression<String>("file_type")
+        let file_path = Expression<String>("file_path")
+        
+        let broadcastlistID = Expression<String>("broadcastlistID")
+        let isBroadcastMessage = Expression<Bool>("isBroadcastMessage")
+        
+        
+        var tbl_userchats=sqliteDB.userschats
+        
+        var contactPhone1=""
+        
+        print("date received is \(date1)")
+        if(to1 != owneruser1)
+        {
+            contactPhone1=to1
+        }
+        else
+        {
+            contactPhone1=from1
+        }
+        
+        //////var tbl_userchats=sqliteDB.db["userschats"]
+        
+        /*let insert=tbl_userchats.insert(fromFullName<-fromFullName1,
+         msg<-msg1,
+         to<-to1,
+         from<-from1
+         )*/
+        var mydate:NSDate!
+        if(date1 == nil)
+        {
+            print("date got is null to put current date/time")
+            
+            
+            var date22=NSDate()
+            var formatter = NSDateFormatter();
+            formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ";
+            ///newwwwwwww
+            formatter.timeZone = NSTimeZone.localTimeZone()
+            
+            
+            
+            //formatter.dateFormat = "MM/dd hh:mm a"";
+            ////////////////==formatter.timeZone = NSTimeZone.defaultTimeZone()
+            //formatter.dateStyle = .ShortStyle
+            //formatter.timeStyle = .ShortStyle
+            let defaultTimeZoneStr2 = formatter.stringFromDate(date22);
+            
+            
+            var formatter2 = NSDateFormatter();
+            formatter2.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ";
+            
+            //////formatter.timeZone = NSTimeZone.localTimeZone()
+            var defaultTimeZoneStr = formatter2.dateFromString(defaultTimeZoneStr2)
+            print("default db date is \(defaultTimeZoneStr!)")
+            
+            print("===fetch chat inside database handler string \(defaultTimeZoneStr2) .. converted NSDate is \(defaultTimeZoneStr!)... now date 22 is \(date22)")
+            
+            mydate=date22
+            ////mydate=defaultTimeZoneStr!
+            
+        }
+        else
+        {
+            
+            
+            print("date got is not null. converting")
+            //var date22=NSDate()
+            var formatter = NSDateFormatter();
+            formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ";
+            //formatter.dateFormat = "MM/dd hh:mm a"";
+            formatter.timeZone = NSTimeZone.localTimeZone()
+            
+            let defaultTimeZoneStr2 = formatter.stringFromDate(date1);
+            var defaultTimeZoneStr = formatter.dateFromString(defaultTimeZoneStr2)
+            
+            ////var defaultTimeZoneStr = formatter.dateFromString(date1)
+            print("default db date from server is \(defaultTimeZoneStr!)")
+            
+            print("===fetch chat inside database handler got date as \(date1) .. date string is \(defaultTimeZoneStr2) ...converted NSDate is \(defaultTimeZoneStr!)  ... date1 got is \(date1)")
+            
+            
+            
+            mydate=defaultTimeZoneStr!
+        }
+        
+        do {
+            
+            var alreadyexists=false
+            for res in try sqliteDB.db.prepare(tbl_userchats.filter(uniqueID == uniqueid1))
+            {
+                // print("chat already exists")
+                alreadyexists=true
+            }
+            
+            if(alreadyexists==false)
+            {
+                print("adding chat \(file_type1) .. \(msg1) .. type \(type1)")
+                let rowid = try db.run(tbl_userchats.insert(fromFullName<-fromFullName1,
+                    msg<-msg1,
+                    owneruser<-owneruser1,
+                    to<-to1,
+                    from<-from1,
+                    date<-mydate,
+                    uniqueID<-uniqueid1,
+                    status<-status1,
+                    contactPhone<-contactPhone1,
+                    type<-type1,
+                    file_type<-file_type1,
+                    file_path<-file_path1
+                    ))
+                
+                // UtilityFunctions.init().log_papertrail("IPHONE_LOG: \(username!) saving chat in db \(rowid)")
+            }
+            else
+            {
+                print("chat data already available, avoid duplicates")
+            }
+            //////print("inserted id: \(rowid)")
+        } catch {
+            //  UtilityFunctions.init().log_papertrail("IPHONE_LOG: \(username!) error: failed to save chat")
+            
+            print("insertion failed: \(error)")
+        }
+        
+        
+        /*if let rowid = insert.rowid {
+         print("inserted id: \(rowid)")
+         } else if insert.statement.failed {
+         print("insertion failed: \(insert.statement.reason)")
+         }*/
+        
+        
+    }
+    
+
+    
+    func SaveBroadcastChat(to1:String,from1:String,owneruser1:String,fromFullName1:String,msg1:String,date1:NSDate!,uniqueid1:String!,status1:String,type1:String,file_type1:String,file_path1:String)
     {
         //createUserChatTable()
     // UtilityFunctions.init().log_papertrail("IPHONE:\(username!) inside database function to SAVE chat")

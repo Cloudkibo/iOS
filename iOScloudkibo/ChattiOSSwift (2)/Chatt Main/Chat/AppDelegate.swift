@@ -2473,6 +2473,7 @@ else{
     }
     func application(application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: NSError) {
         
+        UIApplication.sharedApplication().registerForRemoteNotifications()
         print("registered for notification error", terminator: "")
         NSLog("Error in registration. Error: \(error)")
     }
@@ -2897,7 +2898,11 @@ else{
             if (currentVersionCode == savedVersionCode) {
                 
                 print("This is normal run : version \(currentVersionCode)")
-                
+                if(savedVersionCode < 0.1274)
+                {
+                    //alter user chat table, add fields for broadcast list
+                    sqliteDB.alterTable(savedVersionCode)
+                }
               //  logMessage("This is normal run : version "+ currentVersionCode);
                 
                 doFinish();
@@ -2916,6 +2921,7 @@ else{
                 
                 print("This is an upgrade to next version : old version \(savedVersionCode)")
                 
+                //try db.run(users.addColumn(suffix, defaultValue: "SR"))
                 //
                 //if db change so uncomment this
                 

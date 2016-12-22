@@ -10,6 +10,7 @@ import UIKit
 import Alamofire
 import SQLite
 import SwiftyJSON
+import Haneke
 class GroupChatingDetailController: UIViewController,UpdateGroupChatDetailsDelegate {
     
     
@@ -31,6 +32,7 @@ class GroupChatingDetailController: UIViewController,UpdateGroupChatDetailsDeleg
     var delegateReload:UpdateGroupChatDetailsDelegate!
     var mytitle=""
     var groupid1=""
+    var groupimage:NSData!=nil
     var messages:NSMutableArray!
     @IBOutlet var tblForGroupChat: UITableView!
     
@@ -259,6 +261,7 @@ class GroupChatingDetailController: UIViewController,UpdateGroupChatDetailsDeleg
         UIDelegates.getInstance().delegateGroupChatDetails1=self
         membersList=sqliteDB.getGroupMembersOfGroup(self.groupid1)
         
+   
         
         var namesList=[String]()
         for(var i=0;i<membersList.count;i++)
@@ -280,11 +283,11 @@ class GroupChatingDetailController: UIViewController,UpdateGroupChatDetailsDeleg
                 }
             }
         }
-        var subtitleMembers=namesList.joinWithSeparator(",").trunc(30)
+        var subtitleMembers=namesList.joinWithSeparator(",").trunc(20)
       self.navigationItem.titleView = setTitle(mytitle, subtitle: subtitleMembers)
        // self.navigationItem.title = mytitle
        // self.navigationItem.prompt=subtitleMembers
-        
+  
         self.retrieveChatFromSqlite { (result) in
             
             
@@ -331,7 +334,49 @@ class GroupChatingDetailController: UIViewController,UpdateGroupChatDetailsDeleg
        /* NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("keyboardWillShow:"), name: UIKeyboardWillShowNotification, object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("keyboardWillHide:"), name: UIKeyboardWillHideNotification, object: nil)
         */
-        var filedata=sqliteDB.getFilesData(groupid1)
+        
+        
+        if(groupimage != nil)
+        {
+            print("found group icon avatar \(self.navigationItem.rightBarButtonItems?.count)")
+            
+            /*
+             //var w=imageavatar1!.size.width
+             //  var h=imageavatar1!.size.height
+             var wOld=(self.navigationController?.navigationBar.frame.height)!-5
+             var hOld=(self.navigationController?.navigationBar.frame.width)!-5
+             //var scale:CGFloat=w/wOld
+             
+             cell!.profilePic.layer.cornerRadius = cell!.profilePic.frame.size.width/2
+             cell!.profilePic.clipsToBounds = true
+             */
+            //cell.profilePic.hnk_format=Format<UIImage>
+            var scaledimage=ImageResizer(size: CGSize(width: (self.navigationController?.navigationBar.frame.height)!,height: (self.navigationController?.navigationBar.frame.height)!), scaleMode: .AspectFit, allowUpscaling: true, compressionQuality: 0.5)
+            //var resizedimage=scaledimage.resizeImage(UIImage(data:ContactsProfilePic)!)
+            //==---cell!.profilePic.hnk_setImage(scaledimage.resizeImage(UIImage(data:ContactsProfilePic)!), key: groupid1)
+            
+            
+            ///var s=CGSizeMake((self.navigationController?.navigationBar.frame.height)!-5,(self.navigationController?.navigationBar.frame.height)!-5)
+            var groupiconimage=scaledimage.resizeImage(UIImage(data:groupimage)!)
+            var barAvatarImage=UIImageView.init(image: groupiconimage)
+            
+            barAvatarImage.layer.borderWidth = 1.0
+            //==--barAvatarImage.layer.masksToBounds = false
+            barAvatarImage.layer.borderColor = UIColor.whiteColor().CGColor
+            //==---barAvatarImage.layer.cornerRadius = barAvatarImage.frame.size.width/2
+            //==--- barAvatarImage.clipsToBounds = true
+            
+            //print("bav avatar size is \(barAvatarImage.frame.width) .. \(barAvatarImage.frame.width)")
+            
+            
+            var avatarbutton=UIBarButtonItem.init(customView: barAvatarImage)
+            self.navigationItem.rightBarButtonItems?.first?.customView = avatarbutton.customView
+            
+            //==---self.navigationItem.leftBarButtonItems?.insert(avatarbutton, atIndex: 1)
+            
+        }
+        
+        /*var filedata=sqliteDB.getFilesData(groupid1)
         if(filedata.count>0)
         {
             print("found group icon")
@@ -375,7 +420,7 @@ class GroupChatingDetailController: UIViewController,UpdateGroupChatDetailsDeleg
             
             //ContactsProfilePic.append(foundcontact.imageData!)
             //picfound=true
-        }
+        }*/
   
 
 

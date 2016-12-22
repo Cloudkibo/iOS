@@ -18,7 +18,7 @@ import ContactsUI
 import Haneke
 
 class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,CNContactPickerDelegate,
-    EPPickerDelegate,SWTableViewCellDelegate,UpdateChatViewsDelegate,RefreshContactsList,UpdateMainPageChatsDelegate
+EPPickerDelegate,SWTableViewCellDelegate,UpdateChatViewsDelegate,RefreshContactsList,UpdateMainPageChatsDelegate,CNContactViewControllerDelegate
 {
     
     var pendingGroupIcons=[String]()
@@ -3756,6 +3756,17 @@ break
             
         }
     
+    func contactViewController(viewController: CNContactViewController, didCompleteWithContact contact: CNContact?) {
+        
+        viewController.displayedPropertyKeys=[CNContactGivenNameKey]
+        UtilityFunctions.init().AddtoAddressBook(contact!) { (result) in
+            
+            if(result==true)
+            {
+                self.refreshContactsList("")
+            }
+        }
+    }
     
     
    /* func tableView(tableView: UITableView, editActionsForRowAtIndexPath indexPath: NSIndexPath) -> [UITableViewRowAction]? {
@@ -3956,6 +3967,10 @@ break
                 print("going to groups chat, title is \(ContactNames) and groupid is \(ContactUsernames)")
                 destinationVC.mytitle=ContactNames
                destinationVC.groupid1=ContactUsernames
+                if(ContactsProfilePic != NSData.init())
+                {
+                    destinationVC.groupimage=ContactsProfilePic
+                }
             }}
         //groupInfoSegue
         if segue!.identifier == "groupInfoSegue" {
@@ -4475,11 +4490,13 @@ break
             {
                 //if single chat
                 //if exists in addressbook
+                 let shareMenu = UIAlertController(title: nil, message: nil, preferredStyle: .ActionSheet)
+                
                 var newindex=getAddressBookIndex(ContactUsernames)
                 if(newindex != -1)
                 {
                     
-                    let shareMenu = UIAlertController(title: nil, message: nil, preferredStyle: .ActionSheet)
+                   
                 
                     let contactinfo = UIAlertAction(title: "Contact Info", style: UIAlertActionStyle.Default,handler: { (action) -> Void in
                     //segue to contact info page
@@ -4488,19 +4505,56 @@ break
                     self.performSegueWithIdentifier("contactDetailsFromChatSegue", sender: nil)
                    })
                     
-                    let cancelAction = UIAlertAction(title: "Cancel", style: UIAlertActionStyle.Cancel, handler: { (action) -> Void in
-                        
                     
-                    })
-    
+                    
                     shareMenu.addAction(contactinfo)
-                    shareMenu.addAction(cancelAction)
+                    
 
-                    self.presentViewController(shareMenu, animated: true, completion: {
-                        
-                    })
+                  
                 }
-                
+                else
+                {
+                    let addcontact = UIAlertAction(title: "Add to Contacts", style: UIAlertActionStyle.Default,handler: { (action) -> Void in
+                        //segue to contact info page
+                        //contactDetailsSegue
+                        
+                        //show contact view
+                        
+                        
+                        // Creating a mutable object to add to the contact
+                        let contact = CNMutableContact()
+                        
+                        /*contact.imageData = NSData() // The profile picture as a NSData object
+                        
+                        contact.givenName = "John"
+                        contact.familyName = "Appleseed"
+                        
+                        let homeEmail = CNLabeledValue(label:CNLabelHome, value:"john@example.com")
+                        let workEmail = CNLabeledValue(label:CNLabelWork, value:"j.appleseed@icloud.com")
+                        contact.emailAddresses = [homeEmail, workEmail]
+                        */
+                        contact.phoneNumbers = [CNLabeledValue(
+                            label:CNLabelPhoneNumberiPhone,
+                            value:CNPhoneNumber(stringValue:ContactUsernames))]
+                        let contactViewController = CNContactViewController(forNewContact: contact)
+                        contactViewController.delegate=self
+                        //var contactDetailShow=CNContactViewControllr.init(contact)
+                        self.navigationController!.pushViewController(contactViewController,animated: false)
+                        
+                       //=--self.presentViewController(contactViewController, animated: true, completion: nil)
+                      //==---  self.performSegueWithIdentifier("contactDetailsFromChatSegue", sender: nil)
+                    })
+                    
+                    shareMenu.addAction(addcontact)
+                }
+                let cancelAction = UIAlertAction(title: "Cancel", style: UIAlertActionStyle.Cancel, handler: { (action) -> Void in
+                    
+                    
+                })
+shareMenu.addAction(cancelAction)
+                self.presentViewController(shareMenu, animated: true, completion: {
+                    
+                })
                 }
     } // if edit
     

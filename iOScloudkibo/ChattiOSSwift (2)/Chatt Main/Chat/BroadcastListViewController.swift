@@ -233,7 +233,11 @@ class BroadcastListViewController: UIViewController,UINavigationControllerDelega
         
        
        // if(msgType.isEqualToString("5")||msgType.isEqualToString("6")){
-            self.performSegueWithIdentifier("showSingleBroadcastListCellSegue", sender: nil);
+        
+        
+        //broadcastChatSegue
+        self.performSegueWithIdentifier("broadcastChatSegue", sender: nil);
+        //===--self.performSegueWithIdentifier("showSingleBroadcastListCellSegue", sender: nil);
         //}
     }
     
@@ -251,7 +255,17 @@ class BroadcastListViewController: UIViewController,UINavigationControllerDelega
                 //  let selectedRow = tblForChat.indexPathForSelectedRow!.row
                 
             }}
-        
+        //broadcastChatSegue
+        if segue.identifier == "broadcastChatSegue" {
+            
+            if let destinationVC = segue.destinationViewController as? ChatDetailViewController{
+                
+                //destinationVC.participants.removeAll()
+                //==destinationVC.prevScreen="newBroadcastList"
+                //destinationVC.participants=self.participantsSelected
+                //  let selectedRow = tblForChat.indexPathForSelectedRow!.row
+                
+            }}
         
         if segue.identifier == "showSingleBroadcastListCellSegue" {
             if let destinationVC = segue.destinationViewController as? BroadcastListDetailsViewController{
