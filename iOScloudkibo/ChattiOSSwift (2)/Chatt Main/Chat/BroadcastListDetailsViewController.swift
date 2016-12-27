@@ -15,6 +15,7 @@ import Haneke
 class BroadcastListDetailsViewController: UIViewController,UINavigationControllerDelegate,UITextFieldDelegate {
 
     
+    var broadcastlistinfo=[String:AnyObject]()
     var broadcastmembers=[String]()
     var broadcastlistID=""
     var membersnames=[String]()
@@ -43,8 +44,10 @@ class BroadcastListDetailsViewController: UIViewController,UINavigationControlle
     let uniqueidentifier = Expression<String>("uniqueidentifier")
 
     override func viewWillAppear(animated: Bool) {
-       broadcastmembers=sqliteDB.getBroadcastListMembers(broadcastlistID)
         
+        broadcastlistinfo=sqliteDB.getSinglebroadcastlist(self.broadcastlistID)
+       broadcastmembers=sqliteDB.getBroadcastListMembers(broadcastlistID)
+        membersnames.removeAll()
         for(var i=0;i<broadcastmembers.count;i++)
         {
             membersnames.append(sqliteDB.getNameFromAddressbook(broadcastmembers[i]))
@@ -180,6 +183,10 @@ class BroadcastListDetailsViewController: UIViewController,UINavigationControlle
     
     
     func textFieldShouldReturn (textField: UITextField!) -> Bool{
+        
+        textField.resignFirstResponder()
+        print("textfield text is \(textField.text!)")
+        sqliteDB.updateBroadcastlistName(self.broadcastlistID, listname1: textField.text!)
         var cell = tblForBroadcastList.dequeueReusableCellWithIdentifier("ListNameCell")
         
         if(cell != nil)
@@ -200,12 +207,16 @@ class BroadcastListDetailsViewController: UIViewController,UINavigationControlle
         //var listname=messageDic["listname"] as! NSString
         //var membersnames=messageDic["membersnames"] as! NSString
         
+        let uniqueid = Expression<String>("uniqueid")
+        let listname = Expression<String>("listname")
+        
         var cell = tblForBroadcastList.dequeueReusableCellWithIdentifier("ListNameCell")! as! UITableViewCell
         
         if(indexPath.section==0)
         {
             cell = tblForBroadcastList.dequeueReusableCellWithIdentifier("ListNameCell")! as! UITableViewCell
             var txtfld=cell.viewWithTag(1) as! UITextField
+            txtfld.text=self.broadcastlistinfo["listname"] as! String
             txtfld.delegate=self
             
             
@@ -255,14 +266,74 @@ class BroadcastListDetailsViewController: UIViewController,UINavigationControlle
         return cell
     }
 
-    /*
+    
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         // Get the new view controller using segue.destinationViewController.
         // Pass the selected object to the new view controller.
+        
+        
+       /* let phone = Expression<String>("phone")
+        let kibocontact = Expression<Bool>("kiboContact")
+        let name = Expression<String?>("name")
+        let email = Expression<String?>("email")
+        let uniqueidentifier = Expression<String?>("uniqueidentifier")
+    
+        
+        var allcontactslist1=sqliteDB.allcontacts
+        
+        
+        var alladdressContactsArray=Array<Row>()
+        
+        //alladdressContactsArray = Array(try sqliteDB.db.prepare(allcontactslist1))
+        
+        
+        //////configureSearchController()
+        do
+        {alladdressContactsArray = Array(try sqliteDB.db.prepare(allcontactslist1.filter(kibocontact==true).order(name.asc)))
+            
+                   }
+        catch
+        {
+            
+        }*/
+
+        //editbroadcastlistSegue
+        if segue.identifier == "editbroadcastlistSegue" {
+            
+            
+            if let destinationVC = segue.destinationViewController as? AddParticipantsViewController{
+                
+                destinationVC.prevScreen="editbroadcastlist"
+                var identifierslist=[String]()
+                destinationVC.editbroadcastlistID=broadcastlistID
+                for(var i=0;i<broadcastmembers.count;i++)
+                {
+                    identifierslist.append(sqliteDB.getIdentifierFRomPhone(broadcastmembers[i]))
+                    var found=UtilityFunctions.init().findContact(sqliteDB.getIdentifierFRomPhone(broadcastmembers[i]))
+                    destinationVC.participantsSelected1.append(EPContact(contact:(found.first!)))
+                    
+                }
+                print("from edit, current list has \(destinationVC.participantsSelected1.count) selectedparticipants")
+                
+                //==--destinationVC.participants.removeAll()
+                
+                //  let selectedRow = tblForChat.indexPathForSelectedRow!.row
+                
+            }}
+    
+       
+        
+       //==-- var found=UtilityFunctions.init().findContact(alladdressContactsArray[indexPath.row].get(uniqueidentifier)!)
+        
+        ////print("index above is \(indexPath.row)")
+        //print("selected is \(found.first?.givenName)")
+        
+        
+        
     }
-    */
+ 
 
 }

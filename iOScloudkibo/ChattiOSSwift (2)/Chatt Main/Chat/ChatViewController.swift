@@ -563,7 +563,7 @@ EPPickerDelegate,SWTableViewCellDelegate,UpdateChatViewsDelegate,RefreshContacts
                                         
                                     }
                                     
-                                    managerFile.sendChatStatusUpdateMessage(UserchatJson["msg"][i]["uniqueid"].string!, status: updatedStatus, sender: UserchatJson["msg"][i]["from"].string!)
+                                   //==-- new change  managerFile.sendChatStatusUpdateMessage(UserchatJson["msg"][i]["uniqueid"].string!, status: updatedStatus, sender: UserchatJson["msg"][i]["from"].string!)
                                     
                                     
                                     //OLD SOCKET LOGIC
@@ -3759,7 +3759,7 @@ break
     func contactViewController(viewController: CNContactViewController, didCompleteWithContact contact: CNContact?) {
         
         viewController.displayedPropertyKeys=[CNContactGivenNameKey]
-        UtilityFunctions.init().AddtoAddressBook(contact!) { (result) in
+        UtilityFunctions.init().AddtoAddressBook(contact!,isKibo: true) { (result) in
             
             if(result==true)
             {

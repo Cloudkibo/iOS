@@ -522,17 +522,68 @@ class LoginViewController: UIViewController,SocketConnecting,AKFViewControllerDe
         
         
     }
-    
+    /*func showError(title:String,message:String,button1:String) {
+        
+        // create the alert
+        let alert = UIAlertController(title: title, message: message, preferredStyle: UIAlertControllerStyle.Alert)
+        
+        // add the actions (buttons)
+        alert.addAction(UIAlertAction(title: button1, style: UIAlertActionStyle.Default, handler: nil))
+        //alert.addAction(UIAlertAction(title: button2, style: UIAlertActionStyle.Cancel, handler: nil))
+        
+        //==--let tabBarController = window?.rootViewController as? UITabBarController
+        
+        //  let navigationController = UIApplication.sharedApplication().windows[0].rootViewController as! UINavigationController
+        
+        // show the alert
+        //=-- let activeViewCont = navigationController.visibleViewController
+        
+        self.presentViewController(alert, animated: true, completion: nil)
+        
+        
+        //=--tabBarController!.presentViewController(alert, animated: true, completion: nil)
+    }*/
     @IBAction func loginBtnTapped() {
+        
+        
+        
+        
         //login with Phone
         //%%%%%%%%%%%%%%%%%%%% new firsttimelogin ...
-        firstTimeLogin=true
+       
+        /*print("...sfsfsf\(UIApplication.sharedApplication().isRegisteredForRemoteNotifications())")
+    
+        let notificationTypes: UIUserNotificationType = [/*UIUserNotificationType.Alert, */UIUserNotificationType.Badge, UIUserNotificationType.Sound]
+        
+        
+        let pushNotificationSettings = UIUserNotificationSettings(forTypes: notificationTypes, categories: nil)
+        
+        UIApplication.sharedApplication().registerUserNotificationSettings(pushNotificationSettings)
+        */
+    //   if(UIApplication.sharedApplication().isRegisteredForRemoteNotifications())
+    // {
+           firstTimeLogin=true
+            print("okkk")
         let inputState: String = NSUUID().UUIDString
         let viewController:AKFViewController = accountKit.viewControllerForPhoneLoginWithPhoneNumber(nil, state: inputState)  as! AKFViewController
         viewController.enableSendToFacebook = true
         self.prepareLoginViewController(viewController)
         self.presentViewController(viewController as! UIViewController, animated: true, completion: nil)
+       /* }
+        else{
+            
+            
+            let notificationTypes: UIUserNotificationType = [/*UIUserNotificationType.Alert, */UIUserNotificationType.Badge, UIUserNotificationType.Sound]
         
+            
+            let pushNotificationSettings = UIUserNotificationSettings(forTypes: notificationTypes, categories: nil)
+            
+            UIApplication.sharedApplication().registerUserNotificationSettings(pushNotificationSettings)
+            
+           //==--- self.showError("Error",message: "You must allow Remote notifications to continue",button1: "Ok")
+            
+            
+}*/
         
         
         //============================ Authenticate User ================

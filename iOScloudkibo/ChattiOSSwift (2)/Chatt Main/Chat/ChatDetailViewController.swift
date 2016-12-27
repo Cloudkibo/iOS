@@ -23,6 +23,9 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
     
     var Q_serial1=dispatch_queue_create("Q_serial1",DISPATCH_QUEUE_SERIAL)
     
+    var broadcastlistID1=""
+    var broadcastlistmessages:NSMutableArray!
+    var broadcastMembersPhones=[String]()
    /// var manager = NetworkingManager.sharedManager
     var cellY:CGFloat=0
     var delegateChatRefr:UpdateChatViewsDelegate!
@@ -204,7 +207,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
         
         
         
-        
+        broadcastMembersPhones = sqliteDB.getBroadcastListMembers(broadcastlistID1)
         
         self.retrieveChatFromSqliteOnAppear(self.selectedContact,completion:{(result)-> () in
             
@@ -394,6 +397,8 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
         
         //--------------
         
+        
+        if(selectedContact != ""){
         let queryPic = tbl_allcontacts.filter(tbl_allcontacts[phone] == selectedContact)          // SELECT "email" FROM "users"
         
         
@@ -444,9 +449,9 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
         {
             //print("error in fetching profile image")
         }
-        
+    }
 
-        
+    
         
         
         //-----------
@@ -712,17 +717,40 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
         let type = Expression<String>("type")
          let file_type = Expression<String>("file_type")
         
-        var tbl_userchats=sqliteDB.userschats
+        let broadcastlistID = Expression<String>("broadcastlistID")
+        //broadcastlistID
+        
+        if(self.selectedContact != "")
+        {var tbl_userchats=sqliteDB.userschats
         var res=tbl_userchats.filter(to==selecteduser || from==selecteduser)
         //to==selecteduser || from==selecteduser
         //print("chat from sqlite is")
         //print(res)
-        do
-        {
+            
+            
+            do
+            {
+                
+                //for tblContacts in try sqliteDB.db.prepare(tbl_userchats.filter(owneruser==owneruser1)){
+                ////print("queryy runned count is \(tbl_contactslists.count)")
+                
+                var query:Table
+                if(self.selectedContact != "")
+                {
+                    query=tbl_userchats.filter(to==selecteduser || from==selecteduser).order(date.asc)
+                }
+                else{
+                    
+                    query=tbl_userchats.filter(broadcastlistID == self.broadcastlistID1 && from == username!)/*.group(uniqueid).order(date.desc)*/
+                }
+                
+
+            
+            
             
             //for tblContacts in try sqliteDB.db.prepare(tbl_userchats.filter(owneruser==owneruser1)){
             ////print("queryy runned count is \(tbl_contactslists.count)")
-            for tblContacts in try sqliteDB.db.prepare(tbl_userchats.filter(to==selecteduser || from==selecteduser).order(date.asc)){
+            for tblContacts in try sqliteDB.db.prepare(query){
                 
                 //print("===fetch date from database is tblContacts[date] \(tblContacts[date])")
                 /*
@@ -892,7 +920,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
            ////////// self.messages.removeAllObjects()
            
             ////////////self.messages.addObjectsFromArray(messages2 as [AnyObject])
-            
+        
    dispatch_async(dispatch_get_main_queue())
    {
      self.messages.setArray(messages2 as [AnyObject])
@@ -905,7 +933,206 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
             {
                 return completion(result:false)
             }
-                      //print(error)
+                       //print(error)
+        }
+        }
+        else
+        {var tbl_userchats=sqliteDB.userschats
+            var res=tbl_userchats.filter(broadcastlistID==self.broadcastlistID1 && from==username!).group(uniqueid)
+            //to==selecteduser || from==selecteduser
+            //print("chat from sqlite is")
+            //print(res)
+            do
+            {
+                print("here in appear")
+                
+                //for tblContacts in try sqliteDB.db.prepare(tbl_userchats.filter(owneruser==owneruser1)){
+                ////print("queryy runned count is \(tbl_contactslists.count)")
+                for tblContacts in try sqliteDB.db.prepare(res){
+                    
+                    //print("===fetch date from database is tblContacts[date] \(tblContacts[date])")
+                    /*
+                     var formatter = NSDateFormatter();
+                     formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSS";
+                     //formatter.dateFormat = "MM/dd hh:mm a";
+                     formatter.timeZone = NSTimeZone(name: "UTC")
+                     */
+                    // formatter.timeZone = NSTimeZone.localTimeZone()
+                    // var defaultTimeZoneStr = formatter.dateFromString(tblContacts[date])
+                    // var defaultTimeZoneStr2 = formatter.stringFromDate(defaultTimeZoneStr!)
+                    
+                    
+                    var formatter2 = NSDateFormatter();
+                    formatter2.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSS"
+                    formatter2.timeZone = NSTimeZone.localTimeZone()
+                    var defaultTimeeee = formatter2.stringFromDate(tblContacts[date])
+                    
+                    //print("===fetch date from database is tblContacts[date] ... date converted is \(defaultTimeZoneStr)... string is \(defaultTimeZoneStr2)... defaultTimeeee \(defaultTimeeee)")
+                    
+                    /*//print(tblContacts[to])
+                     //print(tblContacts[from])
+                     //print(tblContacts[msg])
+                     //print(tblContacts[date])
+                     //print(tblContacts[status])
+                     //print("--------")
+                     */
+                    
+                    
+                    
+                    
+                    
+                    if(tblContacts[from]==selecteduser && (tblContacts[status]=="delivered"))
+                    {
+                        sqliteDB.UpdateChatStatus(tblContacts[uniqueid], newstatus: "seen")
+                        
+                        sqliteDB.saveMessageStatusSeen("seen", sender1: tblContacts[from], uniqueid1: tblContacts[uniqueid])
+                        
+                        self.sendChatStatusUpdateMessage(tblContacts[uniqueid],status: "seen",sender: tblContacts[from])
+                        
+                        //OLD SOCKET LOGIC OF SENDING CHAT STATUS
+                        /*  socketObj.socket.emitWithAck("messageStatusUpdate", ["status":"seen","uniqueid":tblContacts[uniqueid],"sender": tblContacts[from]])(timeoutAfter: 15000){data in
+                         var chatmsg=JSON(data)
+                         
+                         //print(data[0])
+                         //print(data[0]["uniqueid"]!!)
+                         //print(data[0]["uniqueid"]!!.debugDescription!)
+                         //print(chatmsg[0]["uniqueid"].string!)
+                         ////print(data[0]["status"]!!.string!+" ... "+data[0]["uniqueid"]!!.string!)
+                         //print("chat status seen emitted")
+                         sqliteDB.removeMessageStatusSeen(data[0]["uniqueid"]!!.debugDescription!)
+                         socketObj.socket.emit("logClient","\(username) chat status emitted")
+                         
+                         }
+                         */
+                    }
+                    
+                    if (tblContacts[from]==username!)
+                        
+                    {//type1
+                        /////print("statussss is \(tblContacts[status])")
+                        if(tblContacts[file_type]=="image")
+                        {
+                            // var filedownloaded=sqliteDB.checkIfFileExists(tblContacts[uniqueid])
+                            
+                            /*if(filedownloaded==false)
+                             {
+                             //checkpendingfiles
+                             managerFile.checkPendingFiles(tblContacts[uniqueid])
+                             }*/
+                            //  self.addUploadInfo(selectedContact, uniqueid1: tblContacts[uniqueid], rowindex: messages.count, uploadProgress: 1, isCompleted: true)
+                            
+                            messages2.addObject(["message":tblContacts[msg]+" (\(tblContacts[status]))","filename":tblContacts[msg],"type":"4", "date":defaultTimeeee, "uniqueid":tblContacts[uniqueid]])
+                            
+                            
+                            //messages2.addObject(["message":tblContacts[msg], "type":"4", "date":tblContacts[date], "uniqueid":tblContacts[uniqueid]])
+                            
+                            //^^^ self.addMessage(tblContacts[msg], ofType: "4",date: tblContacts[date],uniqueid: tblContacts[uniqueid])
+                            
+                        }
+                        else{
+                            if(tblContacts[file_type]=="document")
+                            {
+                                //  var filedownloaded=sqliteDB.checkIfFileExists(tblContacts[uniqueid])
+                                
+                                /* if(filedownloaded==false)
+                                 {
+                                 //checkpendingfiles
+                                 managerFile.checkPendingFiles(tblContacts[uniqueid])
+                                 }*/
+                                ////  self.addUploadInfo(selectedContact, uniqueid1: tblContacts[uniqueid], rowindex: messages.count, uploadProgress: 1, isCompleted: true)
+                                
+                                messages2.addObject(["message":tblContacts[msg]+" (\(tblContacts[status]))","filename":tblContacts[msg], "type":"6", "date":defaultTimeeee, "uniqueid":tblContacts[uniqueid]])
+                                
+                                //^^^^ self.addMessage(tblContacts[msg], ofType: "6",date: tblContacts[date],uniqueid: tblContacts[uniqueid])
+                                
+                            }
+                            else
+                            {
+                                messages2.addObject(["message":tblContacts[msg]+" (\(tblContacts[status])) ","status":tblContacts[status], "type":"2", "date":defaultTimeeee, "uniqueid":tblContacts[uniqueid]])
+                                
+                                
+                                //^^^^self.addMessage(tblContacts[msg]+" (\(tblContacts[status])) ", ofType: "2",date: tblContacts[date],uniqueid: tblContacts[uniqueid])
+                            }
+                        }
+                    }
+                    else
+                    {//type2
+                        //// //print("statussss is \(tblContacts[status])")
+                        if(tblContacts[file_type]=="image")
+                        {
+                            var filedownloaded=sqliteDB.checkIfFileExists(tblContacts[uniqueid])
+                            
+                            if(filedownloaded==false)
+                            {
+                                //checkpendingfiles
+                                
+                                managerFile.checkPendingFiles(tblContacts[uniqueid])
+                            }
+                            
+                            //  self.addUploadInfo(selectedContact, uniqueid1: tblContacts[uniqueid], rowindex: messages.count, uploadProgress: 1, isCompleted: true)
+                            messages2.addObject(["message":tblContacts[msg],"filename":tblContacts[msg],"status":tblContacts[status], "type":"3", "date":defaultTimeeee, "uniqueid":tblContacts[uniqueid]])
+                            
+                            
+                            //^^^^  self.addMessage(tblContacts[msg] , ofType: "3",date: tblContacts[date],uniqueid: tblContacts[uniqueid])
+                            
+                        }
+                        else
+                        {if(tblContacts[file_type]=="document")
+                        {
+                            var filedownloaded=sqliteDB.checkIfFileExists(tblContacts[uniqueid])
+                            
+                            if(filedownloaded==false)
+                            {
+                                //checkpendingfiles
+                                managerFile.checkPendingFiles(tblContacts[uniqueid])
+                            }
+                            
+                            // self.addUploadInfo(selectedContact, uniqueid1: tblContacts[uniqueid], rowindex: messages.count, uploadProgress: 1, isCompleted: true)
+                            messages2.addObject(["message":tblContacts[msg],"filename":tblContacts[msg],"status":tblContacts[status], "type":"5", "date":defaultTimeeee, "uniqueid":tblContacts[uniqueid]])
+                            
+                            
+                            //^^^^ self.addMessage(tblContacts[msg], ofType: "5",date: tblContacts[date],uniqueid: tblContacts[uniqueid])
+                            
+                        }
+                        else
+                        {
+                            
+                            messages2.addObject(["message":tblContacts[msg],"status":tblContacts[status], "type":"1", "date":defaultTimeeee, "uniqueid":tblContacts[uniqueid]])
+                            
+                            
+                            ///^^^ self.addMessage(tblContacts[msg], ofType: "1", date: tblContacts[date],uniqueid: tblContacts[uniqueid])
+                            }
+                        }
+                        
+                    }
+                    /* if(self.messages.count>1)
+                     {
+                     var indexPath = NSIndexPath(forRow:self.messages.count-1, inSection: 0)
+                     
+                     self.tblForChats.scrollToRowAtIndexPath(indexPath, atScrollPosition: UITableViewScrollPosition.Bottom, animated: false)
+                     }*/
+                    
+                    //self.tblForChats.reloadData()
+                    
+                }
+                ////////// self.messages.removeAllObjects()
+                
+                ////////////self.messages.addObjectsFromArray(messages2 as [AnyObject])
+                
+                dispatch_async(dispatch_get_main_queue())
+                {
+                    self.messages.setArray(messages2 as [AnyObject])
+                    return completion(result:true)
+                }
+            }
+            catch(let error)
+            {
+                dispatch_async(dispatch_get_main_queue())
+                {
+                    return completion(result:false)
+                }
+                //print(error)
+            }
         }
         /////var tbl_userchats=sqliteDB.db["userschats"]
         }
@@ -946,9 +1173,9 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
             let uniqueid = Expression<String>("uniqueid")
             let type = Expression<String>("type")
             let file_type = Expression<String>("file_type")
-            
+            let broadcastlistID = Expression<String>("broadcastlistID")
             var tbl_userchats=sqliteDB.userschats
-            var res=tbl_userchats.filter(to==selecteduser || from==selecteduser)
+           var res=tbl_userchats.filter(to==selecteduser || from==selecteduser)
             //to==selecteduser || from==selecteduser
             //print("chat from sqlite is")
             //print(res)
@@ -957,8 +1184,24 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
                 
                 //for tblContacts in try sqliteDB.db.prepare(tbl_userchats.filter(owneruser==owneruser1)){
                 ////print("queryy runned count is \(tbl_contactslists.count)")
-                for tblContacts in try sqliteDB.db.prepare(tbl_userchats.filter(to==selecteduser || from==selecteduser).order(date.asc)){
-                    
+                
+                var query:Table
+                if(self.selectedContact != "")
+                {
+                query=tbl_userchats.filter(to==selecteduser || from==selecteduser).order(date.asc)
+                }
+                else{
+                
+                    query=tbl_userchats.filter(broadcastlistID == self.broadcastlistID1 && from == username!).group(uniqueid).order(date.asc)
+/*.group(uniqueid).order(date.desc)*/
+}
+        
+       /* var queryruncount=0
+        do{for ccc in try sqliteDB.db.prepare(myquery) {
+
+}*/
+                for tblContacts in try sqliteDB.db.prepare(query){
+                    print("found data \(tblContacts.get(to))")
                     //print("===fetch date from database is tblContacts[date] \(tblContacts[date])")
                     /*
                      var formatter = NSDateFormatter();
@@ -3734,15 +3977,34 @@ let textLable = cell.viewWithTag(12) as! UILabel
         
 
      //2016-10-15T22:18:16.000
-    var imParas=["from":"\(username!)","to":"\(selectedContact)","fromFullName":"\(displayname)","msg":"\(txtFldMessage.text!)","uniqueid":"\(uniqueID)","type":"chat","file_type":"","date":"\(dateSentDateType!)"]
-        
+        var imParas=[String:String]()
+         var imParas2=[[String:String]]()
        
         var statusNow=""
                statusNow="pending"
         
-        sqliteDB.SaveChat("\(selectedContact)", from1: username!, owneruser1: username!, fromFullName1: displayname, msg1: txtFldMessage.text!, date1: dateSentDateType, uniqueid1: uniqueID, status1: statusNow, type1: "chat", file_type1: "", file_path1: "")
-              var formatter = NSDateFormatter();
         
+        if(selectedContact != "")
+        {
+            imParas=["from":"\(username!)","to":"\(selectedContact)","fromFullName":"\(displayname)","msg":"\(txtFldMessage.text!)","uniqueid":"\(uniqueID)","type":"chat","file_type":"","date":"\(dateSentDateType!)"]
+            
+
+            
+        sqliteDB.SaveChat("\(selectedContact)", from1: username!, owneruser1: username!, fromFullName1: displayname, msg1: txtFldMessage.text!, date1: dateSentDateType, uniqueid1: uniqueID, status1: statusNow, type1: "chat", file_type1: "", file_path1: "")
+            
+        }
+        else{
+        //save as broadcast message
+            for(var i=0;i<broadcastMembersPhones.count;i++)
+            {
+                imParas2.append(["from":"\(username!)","to":"\(broadcastMembersPhones[i])","fromFullName":"\(displayname)","msg":"\(txtFldMessage.text!)","uniqueid":"\(uniqueID)","type":"chat","file_type":"","date":"\(dateSentDateType!)"])
+                
+
+                sqliteDB.SaveBroadcastChat("\(broadcastMembersPhones[i])", from1: username!, owneruser1: username!, fromFullName1: displayname, msg1: txtFldMessage.text!, date1: dateSentDateType, uniqueid1: uniqueID, status1: statusNow, type1: "chat", file_type1: "", file_path1: "", broadcastlistID1: broadcastlistID1)
+                //broadcastMembersPhones[i]
+            }
+        }
+         var formatter = NSDateFormatter();
         formatter.timeZone = NSTimeZone.localTimeZone()
         formatter.dateFormat = "MM/dd hh:mm a";
         //formatter.dateStyle = .ShortStyle
@@ -3870,6 +4132,7 @@ print("hh \(hh)")
 
         print("messages count before sending msg is \(self.messages.count)")
         print("sending msg \(msggg)")
+        if(selectedContact != ""){
             self.sendChatMessage(imParas){ (uniqueid,result) -> () in
                 
                 if(result==true)
@@ -3925,8 +4188,42 @@ print("hh \(hh)")
                 // }
             }
         }
-        
-        
+    }
+    else{
+            
+            var result1=false
+            var uniqueid1=""
+var count=0
+            for(var i=0;i<imParas2.count;i++)
+            {
+            self.sendChatMessage(imParas2[i]){ (uniqueid,result) -> () in
+                count++
+                if(result==true && count==1){
+                    var searchformat=NSPredicate(format: "uniqueid = %@",uniqueid)
+                    
+                    var resultArray=self.messages.filteredArrayUsingPredicate(searchformat)
+                    var ind=self.messages.indexOfObject(resultArray.first!)
+                    //cfpresultArray.first
+                    //resultArray.first
+                    var aa=self.messages.objectAtIndex(ind) as! [String:AnyObject]
+                    var actualmsg=aa["message"] as! String
+                    actualmsg=actualmsg.removeCharsFromEnd(10)
+                    //var actualmsg=newmsg
+                    aa["message"]="\(actualmsg) (sent)"
+                    self.messages.replaceObjectAtIndex(ind, withObject: aa)
+                    //  self.messages.objectAtIndex(ind).message="\(self.messages[ind]["message"]) (sent)"
+                    var indexp=NSIndexPath(forRow:ind, inSection:0)
+                    dispatch_async(dispatch_get_main_queue())
+                    {
+                        self.tblForChats.reloadData()
+                        print("messages count is \(self.messages.count)")
+                    }
+                }
+}}
+                      /*  }
+    }*/
+        }
+    
         
         
         

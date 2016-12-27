@@ -16,6 +16,8 @@ import Haneke
 class AddParticipantsViewController: UIViewController,InviteContactsDelegate,UITextFieldDelegate,UISearchBarDelegate,UISearchDisplayDelegate/*,UISearchResultsUpdating*/,UIScrollViewDelegate,RefreshContactsList,UITableViewDelegate,UITableViewDataSource {
     
     
+    
+    var editbroadcastlistID=""
     var prevScreen=""
     var participantsSelected1=[EPContact]()
     var selectedcontacts=[CNContact]()
@@ -80,6 +82,42 @@ class AddParticipantsViewController: UIViewController,InviteContactsDelegate,UIT
         
         
     }
+    func updateBroadcastList()
+    {
+        
+        var memberphones=[String]()
+        var membersnames=[String]()
+        for(var i=0;i<participantsSelected1.count;i++)
+        {print("appending memberphone now of participantselected \(participantsSelected1[i].getPhoneNumber())")
+            memberphones.append(participantsSelected1[i].getPhoneNumber())
+            membersnames.append(participantsSelected1[i].displayName())
+            //self.messages.addObject(["member_phone":memberphones[i],"name":membersnames[i],"isAdmin":"No"])
+            
+            //tblGroupInfo.reloadData()
+            
+        }
+        
+        //==----var broadcastlistID=UtilityFunctions.init().generateUniqueid()
+        //==----sqliteDB.storeBroadcastList(broadcastlistID, ListName1: "")
+        sqliteDB.UpdateBroadcastlistMembers(self.editbroadcastlistID, members: memberphones)
+        //GoToBroadCastSegueGoToBroadCastSegue
+        // let next = self.storyboard?.instantiateViewControllerWithIdentifier("BroadcastListView") as! BroadcastListViewController
+        //  self.dismissViewControllerAnimated(true, completion: nil);
+        
+        
+        /* self.presentViewController(next, animated: true, completion: {
+         
+         })*/
+        
+        
+        self.performSegueWithIdentifier("GoToBroadCastSegue", sender: nil);
+        
+        //self.dismissViewControllerAnimated(true, completion: nil);
+        //retrieveBroadCastLists()
+        //===----tblBroadcastList.reloadData()
+        
+        
+    }
     
     @IBAction func btnAddNewContact(sender: AnyObject) {
         var contactdata:[String:String]!
@@ -95,6 +133,12 @@ class AddParticipantsViewController: UIViewController,InviteContactsDelegate,UIT
             addToBroadcastList()
            // self.dismissViewControllerAnimated(true, completion: nil);
         }
+        if(prevScreen=="editbroadcastlist")
+        {
+            self.updateBroadcastList()
+            // self.dismissViewControllerAnimated(true, completion: nil);
+        }
+      
         
          
         /* for contact in contacts {
@@ -402,7 +446,19 @@ class AddParticipantsViewController: UIViewController,InviteContactsDelegate,UIT
        
         //alladdressContactsArray = Array(try sqliteDB.db.prepare(allcontactslist1))
         
-        
+        if(prevScreen=="newBroadcastList")
+            
+        {
+            if(participantsSelected1.count<2)
+            {
+                navigationItem.rightBarButtonItem?.enabled=false
+            }
+            else
+            {
+                navigationItem.rightBarButtonItem?.enabled=true
+                
+            }
+        }
         //////configureSearchController()
         do
         {alladdressContactsArray = Array(try sqliteDB.db.prepare(allcontactslist1.filter(kibocontact==true).order(name.asc)))
@@ -530,7 +586,7 @@ class AddParticipantsViewController: UIViewController,InviteContactsDelegate,UIT
         //cellPrivate.labelNamePrivate.text=nameList[indexPath.row]
         
         cellPrivate.lbl_new_subtitle.hidden=true
-        
+        cellPrivate.accessoryType = UITableViewCellAccessoryType.None
         /////////////%%%'5 cellPrivate.labelNamePrivate.text=contacts[indexPath.row].givenName+" "+contacts[indexPath.row].familyName
         
         // %%%%%%%%%%%%%%%%%%%%%%%%%_------------------------- need to show names also ------
@@ -574,6 +630,45 @@ class AddParticipantsViewController: UIViewController,InviteContactsDelegate,UIT
                 {
                     cellPrivate.lbl_new_subtitle.hidden=false
                     var found=UtilityFunctions.init().findContact(alladdressContactsArray[indexPath.row].get(uniqueidentifier)!).first!
+                    
+                    
+                    var foundid=alladdressContactsArray[indexPath.row].get(uniqueidentifier)!
+                    var count=0
+                    for eachh in participantsSelected1
+                    {
+                        if(eachh.contactId==alladdressContactsArray[indexPath.row].get(uniqueidentifier)!)
+                        {
+                            //found selected contact
+                            cellPrivate.accessoryType = UITableViewCellAccessoryType.Checkmark
+                           //==-- participantsSelected1.removeAtIndex(count)
+                            
+                           //==--- break
+                        }
+                        count++
+                    }
+                    
+                    
+                    /*print("index below is \(indexPath.row)")
+                    var found=UtilityFunctions.init().findContact(alladdressContactsArray[indexPath.row].get(uniqueidentifier)!)
+                    selectedCell.accessoryType = UITableViewCellAccessoryType.None
+                    
+                    // participantsSelected
+                    var foundid=alladdressContactsArray[indexPath.row].get(uniqueidentifier)!
+                    var count=0
+                    for eachh in participantsSelected1
+                    {
+                        if(eachh.contactId==alladdressContactsArray[indexPath.row].get(uniqueidentifier)!)
+                        {
+                            participantsSelected1.removeAtIndex(count)
+                            
+                            break
+                        }
+                        count++
+                    }*/
+                    
+                    
+                    
+                    
                     if(found.imageDataAvailable==true)
                     {
                         //foundcontact.imageData
@@ -764,6 +859,19 @@ class AddParticipantsViewController: UIViewController,InviteContactsDelegate,UIT
             //participantsSelected.removeAtIndex(indexPath.row)
            // var ind=selectedEmails.indexOf(selectedCell.contactEmail.text!)
             // selectedEmails.removeAtIndex(ind!)
+        }
+        if(prevScreen=="newBroadcastList")
+        
+        {
+          if(participantsSelected1.count<2)
+          {
+            navigationItem.rightBarButtonItem?.enabled=false
+            }
+            else
+          {
+            navigationItem.rightBarButtonItem?.enabled=true
+            
+            }
         }
        // print(selectedEmails.description)
         

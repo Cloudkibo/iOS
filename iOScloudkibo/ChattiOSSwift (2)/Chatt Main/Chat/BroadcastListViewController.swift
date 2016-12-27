@@ -16,6 +16,10 @@ import Photos
 class BroadcastListViewController: UIViewController,UINavigationControllerDelegate,CNContactPickerDelegate,EPPickerDelegate,SWTableViewCellDelegate,UIImagePickerControllerDelegate {
     
     
+    var indexForInfo = -1
+    
+    @IBOutlet weak var editButtonOutlet: UIBarButtonItem!
+    
     @IBOutlet weak var navigationitem1: UINavigationItem!
     @IBOutlet weak var veiwForContent: UIScrollView!
     @IBOutlet weak var tblBroadcastList: UITableView!
@@ -23,6 +27,20 @@ class BroadcastListViewController: UIViewController,UINavigationControllerDelega
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        
+        self.navigationItem.rightBarButtonItem = self.editButtonItem();
+        //==--editButtonOutlet=self.editButtonOutlet
+        /*if(tblBroadcastList.editing.boolValue==false)
+        {
+            editButtonOutlet.title="Edit"
+            self.navigationItem.leftBarButtonItem!.title = "Edit"
+        }
+        else
+        {
+            editButtonOutlet.title="Done"
+            self.navigationItem.leftBarButtonItem!.title = "Done"
+        }*/
         
         self.tblBroadcastList.estimatedRowHeight = 125.0;
         self.tblBroadcastList.rowHeight = UITableViewAutomaticDimension;
@@ -36,11 +54,57 @@ class BroadcastListViewController: UIViewController,UINavigationControllerDelega
        // self.navigationItem.titleView = "Broadcast Lists"
     }
     
+    override func setEditing(editing: Bool, animated: Bool) {
+        super.setEditing(editing, animated: animated)
+        tblBroadcastList.setEditing(editing, animated: animated)
+        print("editingggg....2")
+        
+        tblBroadcastList.reloadData()
+    }
+    
     required init?(coder aDecoder: NSCoder){
         
         super.init(coder: aDecoder)
     }
     
+    
+    
+   /* @IBAction func btneditBroadcastItemClicked(sender: AnyObject) {
+        
+        tblBroadcastList.setEditing(true, animated: true)
+    }
+    */
+    
+    
+    
+    
+    
+    func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
+        
+        var messageDic = broadcastlistmessages.objectAtIndex(indexPath.row) as! [String : AnyObject];
+        
+        //// if editingStyle == .Delete {
+        if(editingStyle == UITableViewCellEditingStyle.Delete){
+            
+            var messageDic = broadcastlistmessages.objectAtIndex(indexPath.row) as! [String : String];
+            var listname=messageDic["listname"] as! NSString
+            var uniqueid=messageDic["uniqueid"] as! NSString
+            
+            var membersnames=messageDic["membersnames"] as! NSString
+            
+            sqliteDB.deleteBroadcastList(uniqueid as String)
+            retrieveBroadCastLists()
+            tblBroadcastList.reloadData()
+            
+            
+    //delete
+            
+        }
+    }
+    func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
+        // Return false if you do not want the specified item to be editable.
+        return true
+    }
     
     func retrieveBroadCastLists()
     {
@@ -223,28 +287,34 @@ class BroadcastListViewController: UIViewController,UINavigationControllerDelega
         else{
             cell.lbl_recipents_count.text=listname as! String
         }
+        
         cell.lbl_recipentsName.text=membersnames as String
+        cell.broadcastlist_info.addTarget(self, action: Selector("BtnBroadcastInfoClicked:"), forControlEvents:.TouchUpInside)
         
         //cell.lbl_recipentsName.text="Sojharo,Sumaira991"
         
         return cell
     }
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        
-       
+    
+    
        // if(msgType.isEqualToString("5")||msgType.isEqualToString("6")){
         
         
         //broadcastChatSegue
-        self.performSegueWithIdentifier("broadcastChatSegue", sender: nil);
+       // self.performSegueWithIdentifier("broadcastChatSegue", sender: nil);
         //===--self.performSegueWithIdentifier("showSingleBroadcastListCellSegue", sender: nil);
         //}
-    }
+   // }
     
+    
+    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath)
+    {
+        self.performSegueWithIdentifier("broadcastChatSegue", sender: nil);
+    }
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         
-        
+        //editlistsegue
         
         if segue.identifier == "addParticipantsSegue" {
             
@@ -260,6 +330,13 @@ class BroadcastListViewController: UIViewController,UINavigationControllerDelega
             
             if let destinationVC = segue.destinationViewController as? ChatDetailViewController{
                 
+                let selectedRow = tblBroadcastList.indexPathForSelectedRow!.row
+                var messageDic = broadcastlistmessages.objectAtIndex(selectedRow) as! [String : String];
+                
+                let uniqueid = messageDic["uniqueid"] as NSString!
+                
+                destinationVC.broadcastlistmessages=broadcastlistmessages
+                destinationVC.broadcastlistID1=uniqueid as String
                 //destinationVC.participants.removeAll()
                 //==destinationVC.prevScreen="newBroadcastList"
                 //destinationVC.participants=self.participantsSelected
@@ -269,7 +346,10 @@ class BroadcastListViewController: UIViewController,UINavigationControllerDelega
         
         if segue.identifier == "showSingleBroadcastListCellSegue" {
             if let destinationVC = segue.destinationViewController as? BroadcastListDetailsViewController{
-                let selectedRow = tblBroadcastList.indexPathForSelectedRow!.row
+               // let selectedRow = tblBroadcastList.indexPathForSelectedRow!.row
+                
+                    let selectedRow = indexForInfo
+                
                 var messageDic = broadcastlistmessages.objectAtIndex(selectedRow) as! [String : String];
                 
                 let uniqueid = messageDic["uniqueid"] as NSString!
@@ -278,6 +358,7 @@ class BroadcastListViewController: UIViewController,UINavigationControllerDelega
                 //self.tabBarController?.selectedIndex=0
                 print("broadcastlistID is \(uniqueid)")
                 destinationVC.broadcastlistID=uniqueid as String
+                
                 /*self.dismissViewControllerAnimated(true, completion: { () -> Void in
                     
                     
@@ -295,6 +376,14 @@ class BroadcastListViewController: UIViewController,UINavigationControllerDelega
                 //destinationVC.navigationItem.rightBarButtonItem?.image=nil
                 //destinationVC.navigationItem.rightBarButtonItem?.enabled=false
             }}*/
+    }
+    
+    func BtnBroadcastInfoClicked(sender:AnyObject!)
+    { var buttonPosition = sender.convertPoint(CGPointZero, toView: tblBroadcastList)
+        var indexPath = self.tblBroadcastList.indexPathForRowAtPoint(buttonPosition)!
+        self.indexForInfo=indexPath.row
+self.performSegueWithIdentifier("showSingleBroadcastListCellSegue", sender: nil);
+        
     }
 
     //broadcastlistID

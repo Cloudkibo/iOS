@@ -14,4 +14,6 @@ class BroadcastItemCell:UITableViewCell
     @IBOutlet weak var lbl_recipents_count: UILabel!
     @IBOutlet weak var lbl_recipentsName: UILabel!
     
+    @IBOutlet weak var broadcastlist_info: UIButton!
+   
 }

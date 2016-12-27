@@ -672,9 +672,11 @@ print("tempURL is \(temporaryURL) and response is \(response.allHeaderFields)")
     }
  
     
-    func AddtoAddressBook(contact1:CNContact,completion:(result:Bool)->())
+    func AddtoAddressBook(contact1:CNContact,isKibo:Bool,completion:(result:Bool)->())
     {
         print("AddtoAddressBook called")
+        var kiboContact=Expression<Bool>("kiboContact")
+
         var name=Expression<String>("name")
         var phone=Expression<String>("phone")
         var actualphone=Expression<String>("actualphone")
@@ -796,7 +798,7 @@ print("tempURL is \(temporaryURL) and response is \(response.allHeaderFields)")
             for(var j=0;j<contactsdata.count;j++)
             {
                 do{
-                    try sqliteDB.db.run(tbl_allcontacts.insert(name<-contactsdata[j]["name"]!,phone<-contactsdata[j]["phone"]!,actualphone<-contactsdata[j]["actualphone"]!,email<-contactsdata[j]["email"]!,uniqueidentifier<-contactsdata[j]["uniqueidentifier"]!))
+                    try sqliteDB.db.run(tbl_allcontacts.insert(name<-contactsdata[j]["name"]!,phone<-contactsdata[j]["phone"]!,actualphone<-contactsdata[j]["actualphone"]!,email<-contactsdata[j]["email"]!,uniqueidentifier<-contactsdata[j]["uniqueidentifier"]!,kiboContact<-isKibo))
                     
                     return completion(result: true)
                 }
@@ -812,4 +814,46 @@ print("tempURL is \(temporaryURL) and response is \(response.allHeaderFields)")
          return completion(result: false)
     
     }
+    
+    func requestForAccess(completionHandler: (accessGranted: Bool) -> Void) {
+         let contactStore = CNContactStore()
+        let authorizationStatus = CNContactStore.authorizationStatusForEntityType(CNEntityType.Contacts)
+        
+        switch authorizationStatus {
+        case .Authorized:
+            completionHandler(accessGranted: true)
+            
+        case .Denied, .NotDetermined:
+            contactStore.requestAccessForEntityType(CNEntityType.Contacts, completionHandler: { (access, accessError) -> Void in
+                if access {
+                    completionHandler(accessGranted: access)
+                }
+                else {
+                    if authorizationStatus == CNAuthorizationStatus.Denied {
+                        dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                            let message = "\(accessError!.localizedDescription)\n\nPlease allow the app to access your contacts through the Settings."
+                            completionHandler(accessGranted: false)
+                            //==--self.showMessage(message)
+                        })
+                    }
+                }
+            })
+            
+        default:
+            completionHandler(accessGranted: false)
+        }
+    }
+    
+   /* func showError(title:String,message:String,button1:String) {
+        
+        // create the alert
+        let alert = UIAlertController(title: title, message: message, preferredStyle: UIAlertControllerStyle.Alert)
+        
+        // add the actions (buttons)
+        alert.addAction(UIAlertAction(title: button1, style: UIAlertActionStyle.Default, handler: nil))
+        //alert.addAction(UIAlertAction(title: button2, style: UIAlertActionStyle.Cancel, handler: nil))
+        
+        // show the alert
+        self.presentViewController(alert, animated: true, completion: nil)
+    }*/
 }

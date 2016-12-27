@@ -55,6 +55,8 @@ class DisplayNameViewController: UIViewController {
         super.viewDidLoad()
         
         print("appearrrrrr", terminator: "")
+        
+      
         let nsObject: AnyObject? = NSBundle.mainBundle().infoDictionary!["CFBundleShortVersionString"]
         if let text = NSBundle.mainBundle().infoDictionary?["CFBundleVersion"] as? String {
             print("... \(text)") //build number
@@ -1385,6 +1387,7 @@ socketObj.socket.emit("logClient","button done pressed start time \(NSDate())")
                                                                     if(username != nil && username != "")
                                                                     {
                                                                         print("didRegisterForRemoteNotificationsWithDeviceToken in displaycontroller")
+                                                                        
                                                                         UIApplication.sharedApplication().registerUserNotificationSettings(pushNotificationSettings)
                                                                     }
                                                                     

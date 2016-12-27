@@ -146,7 +146,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate,AppDelegateScreenDelegate 
         print(NSDate())
         
         
-        //============= commenting   ---   self.checkFirstRun()
+       //==--self.checkFirstRun()
         
         
         let nsObject: AnyObject? = NSBundle.mainBundle().infoDictionary!["CFBundleShortVersionString"]
@@ -154,6 +154,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate,AppDelegateScreenDelegate 
             print("... \(text)") //build number
         }
         print(",,,,, \(nsObject!.description)") //version number
+        
         var log=UtilityFunctions.init()
         log.log_papertrail("IPHONE: \(username!) has version number \(nsObject!.description)")
         
@@ -278,7 +279,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate,AppDelegateScreenDelegate 
         
         
         
-        let notificationTypes: UIUserNotificationType = [/*UIUserNotificationType.Alert, */UIUserNotificationType.Badge, UIUserNotificationType.Sound]
+        let notificationTypes: UIUserNotificationType = [UIUserNotificationType.Alert, UIUserNotificationType.Badge, UIUserNotificationType.Sound]
         
         //let notificationTypes: UIUserNotificationType = [UIUserNotificationType.None]
        
@@ -295,10 +296,24 @@ class AppDelegate: UIResponder, UIApplicationDelegate,AppDelegateScreenDelegate 
         //^^^^^^^^^^^^^^^^^^^
         
       //  print("username is \(username!)")
-     if(username != nil && username != "")
+    if(username != nil && username != "")
         {
+        
+       /* let username1 = Expression<String>("username")
+        let tbl_accounts = sqliteDB.accounts
+        do{for account in try sqliteDB.db.prepare(tbl_accounts) {
+            username=account[username1]
+
+          */  print(" check permission for remote notifications \(UIApplication.sharedApplication().isRegisteredForRemoteNotifications())")
         UIApplication.sharedApplication().registerUserNotificationSettings(pushNotificationSettings)
+       
+            /*}
+        }
+        catch{
+            
+}*/
        }
+        
         
         
         //background
@@ -917,7 +932,8 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
 
                                     }
                                     
-                                    managerFile.sendChatStatusUpdateMessage(UserchatJson["msg"][i]["uniqueid"].string!, status: updatedStatus, sender: UserchatJson["msg"][i]["from"].string!)
+                                   
+                                    //==-- neww change managerFile.sendChatStatusUpdateMessage(UserchatJson["msg"][i]["uniqueid"].string!, status: updatedStatus, sender: UserchatJson["msg"][i]["from"].string!)
                                     
                                     
                                     //OLD SOCKET LOGIC
@@ -1317,10 +1333,67 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
         }*/
     
 
-    
+    func showError(title:String,message:String,button1:String) {
+        
+        // create the alert
+        let alert = UIAlertController(title: title, message: message, preferredStyle: UIAlertControllerStyle.Alert)
+        
+        // add the actions (buttons)
+        alert.addAction(UIAlertAction(title: button1, style: UIAlertActionStyle.Default, handler: nil))
+        //alert.addAction(UIAlertAction(title: button2, style: UIAlertActionStyle.Cancel, handler: nil))
+        
+     let tabBarController = window?.rootViewController as? UITabBarController
+        
+      //  let navigationController = UIApplication.sharedApplication().windows[0].rootViewController as! UINavigationController
+        
+        // show the alert
+        //=-- let activeViewCont = navigationController.visibleViewController
+        
+        self.window?.rootViewController?.presentViewController(alert, animated: true, completion: nil)
+        
+        
+        //=--tabBarController!.presentViewController(alert, animated: true, completion: nil)
+    }
     
     func application(application: UIApplication, didRegisterUserNotificationSettings notificationSettings: UIUserNotificationSettings) {
         print("didRegisterUserNotificationSettings")
+        print("....234234  \(notificationSettings)")
+        
+     /*   let notificationTypes: UIUserNotificationType = [/*UIUserNotificationType.Alert, */UIUserNotificationType.Badge, UIUserNotificationType.Sound]
+        
+        //let notificationTypes: UIUserNotificationType = [UIUserNotificationType.None]
+        
+        
+        let pushNotificationSettings = UIUserNotificationSettings(forTypes: notificationTypes, categories: nil)
+        
+         UIApplication.sharedApplication().registerUserNotificationSettings(pushNotificationSettings)
+        */
+     /*  if(UIApplication.sharedApplication().isRegisteredForRemoteNotifications())
+        {
+         let username1 = Expression<String>("username")
+        let tbl_accounts = sqliteDB.accounts
+        do{for account in try sqliteDB.db.prepare(tbl_accounts) {
+            username=account[username1]
+            //displayname=account[firstname]
+            print("didRegisterUserNotificationSettings... inside...")
+            
+            UIApplication.sharedApplication().registerForRemoteNotifications()
+            }
+        }
+        catch
+        {
+            if(socketObj != nil){
+                socketObj.socket.emit("error getting data from accounts table in appdelegate")
+            }
+            print("error in getting data from accounts table.... \(error)")
+            
+        }
+
+        }
+        else
+        {
+           //==--self.showError("Error",message: "You must allow Remote notifications to continue",button1: "Ok")
+}*/
        //if(!UIApplication.sharedApplication().isRegisteredForRemoteNotifications())
        // {
         if(username != nil && username != "")
@@ -1329,6 +1402,8 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
         
             UIApplication.sharedApplication().registerForRemoteNotifications()
         }
+ 
+        
     
     // }
         
@@ -1729,7 +1804,13 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
     
      func application(application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: NSData) {
         print("trying to register device token")
-        if(username != nil && username != ""){
+        
+       /* let username1 = Expression<String>("username")
+        let tbl_accounts = sqliteDB.accounts
+        do{for account in try sqliteDB.db.prepare(tbl_accounts) {
+           */
+            
+     if(username != nil && username != ""){
         print("inside didRegisterForRemoteNotificationsWithDeviceToken username is \(username!) ")
         var hub=SBNotificationHub(connectionString: Constants.connectionstring, notificationHubPath: Constants.hubname) //from constants file
         var tagarray=[String]()
@@ -1744,15 +1825,24 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
         if(error != nil)
             {
                 print("Registering for notifications \(error)")
+                UtilityFunctions.init().log_papertrail("Registering for notifications \(error)")
+                //retry
+                UIApplication.sharedApplication().registerForRemoteNotifications()
+                //==--UIApplication.sharedApplication().registerUserNotificationSettings(pushNotificationSettings)
+
             }
             else
-            {
+            {UtilityFunctions.init().log_papertrail("Successfully registered for notifications")
                 print("Successfully registered for notifications")
 
             }
             
         }
        }
+        /*}
+        catch{
+            
+        }*/
     }
     
     
@@ -2475,7 +2565,12 @@ else{
         
         UIApplication.sharedApplication().registerForRemoteNotifications()
         print("registered for notification error", terminator: "")
+        UtilityFunctions.init().log_papertrail("Error in registration. Error: \(error)")
         NSLog("Error in registration. Error: \(error)")
+        //retry
+        UIApplication.sharedApplication().registerForRemoteNotifications()
+        //==--UIApplication.sharedApplication().registerUserNotificationSettings(pushNotificationSettings)
+
     }
     
     func iCloudAccountAvailabilityChanged(sender:NSNotification)
@@ -2668,28 +2763,10 @@ else{
                     if(!chatJson[0]["type"].isExists())
                     {//old chat message
                         
-                        
-                        //====
-                        
-                        //====
-                        
-                       /* let dateFormatter = NSDateFormatter()
-                        dateFormatter.timeZone=NSTimeZone.localTimeZone()
-                        dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
-                        //  let datens2 = dateFormatter.dateFromString(date2.debugDescription)
-                        //2016-09-18T19:13:00.588Z
-                        let datens2 = dateFormatter.dateFromString(chatJson[0]["date"].string!)
-                        */
+                      
                         print("===single fetch chat date in app delegate \(datens2)")
                         
-                      /*  let formatter = NSDateFormatter()
-                        formatter.dateFormat = "MM/dd hh:mm a""
-                       /////// formatter.dateStyle = NSDateFormatterStyle.ShortStyle
-                        //////formatter.timeStyle = .ShortStyle
-                        
-                        let dateString = formatter.stringFromDate(datens2!)
-                        print("dateeeeeee \(dateString)")
-                        */
+                     
                         UtilityFunctions.init().log_papertrail("IPHONE-LOG: \(username!) got chat saving in databse now sqliteDB is \(sqliteDB.debugDescription)")
                         
                         sqliteDB.SaveChat(chatJson[0]["to"].string!, from1: chatJson[0]["from"].string!,owneruser1:chatJson[0]["to"].string!, fromFullName1: chatJson[0]["fromFullName"].string!, msg1: chatJson[0]["msg"].string!,date1:datens2,uniqueid1:chatJson[0]["uniqueid"].string!,status1: status,type1: "", file_type1: "chat",file_path1: "")
@@ -2710,22 +2787,13 @@ else{
                         //===
                         //===
                         
-                     /* let formatter = NSDateFormatter()
-                        formatter.dateFormat = "MM/dd hh:mm a""
-                        /////// formatter.dateStyle = NSDateFormatterStyle.ShortStyle
-                        //////formatter.timeStyle = .ShortStyle
-                        
-                        let dateString = formatter.stringFromDate(datens2!)
-                        print("dateeeeeee \(dateString)")
-                        */
-                        
+                     
                          UtilityFunctions.init().log_papertrail("IPHONE-log: \(username!) got chat saving in databse now sqliteDB is \(sqliteDB.debugDescription)")
                         
                         sqliteDB.SaveChat(chatJson[0]["to"].string!, from1: chatJson[0]["from"].string!,owneruser1:chatJson[0]["to"].string!, fromFullName1: chatJson[0]["fromFullName"].string!, msg1: chatJson[0]["msg"].string!,date1:datens2,uniqueid1:chatJson[0]["uniqueid"].string!,status1: status,type1: chatJson[0]["type"].string!, file_type1: chatJson[0]["file_type"].string!,file_path1: "")
                         
                         managerFile.sendChatStatusUpdateMessage(chatJson[0]["uniqueid"].string!, status: status, sender: chatJson[0]["from"].string!)
-                     // === change date   sqliteDB.SaveChat(chatJson[0]["to"].string!, from1: chatJson[0]["from"].string!,owneruser1:chatJson[0]["to"].string!, fromFullName1: chatJson[0]["fromFullName"].string!, msg1: chatJson[0]["msg"].string!,date1:nil,uniqueid1:chatJson[0]["uniqueid"].string!,status1: status,type1: chatJson[0]["type"].string!, file_type1: chatJson[0]["file_type"].string!,file_path1: "")
-                        
+                       
                         
                     }
                     if(socketObj == nil)
@@ -2810,6 +2878,7 @@ else{
        
         var log=UtilityFunctions.init()
         log.log_papertrail("IPHONE: \(username!) updating chat status id \(uniqueID) and status \(status)")
+        
         
         sqliteDB.UpdateChatStatus(uniqueID, newstatus: status)
         

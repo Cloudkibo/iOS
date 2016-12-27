@@ -149,9 +149,10 @@ class DatabaseHandler:NSObject{
     }
     
     func alterTable(version:Double)
-    {
+    {print("alter table")
         if(version < 0.1274)
         {
+print("alter table needed")
             let broadcastlistID = Expression<String>("broadcastlistID")
             let isBroadcastMessage = Expression<Bool>("isBroadcastMessage")
             
@@ -160,7 +161,7 @@ class DatabaseHandler:NSObject{
             try db.run(self.userschats.addColumn(isBroadcastMessage, defaultValue: false))
             }
             catch{
-
+    print("unable to alter \(error)")
             }
         }
     }
@@ -808,7 +809,7 @@ class DatabaseHandler:NSObject{
         {if(socketObj != nil){
             socketObj.socket.emit("logClient","IPHONE-LOG: error in creating chat table \(error)")
             }
-            print("error in creating userschats table")
+            print("error in creating file table")
         }
     }
     
@@ -1218,7 +1219,7 @@ class DatabaseHandler:NSObject{
     
 
     
-    func SaveBroadcastChat(to1:String,from1:String,owneruser1:String,fromFullName1:String,msg1:String,date1:NSDate!,uniqueid1:String!,status1:String,type1:String,file_type1:String,file_path1:String)
+    func SaveBroadcastChat(to1:String,from1:String,owneruser1:String,fromFullName1:String,msg1:String,date1:NSDate!,uniqueid1:String!,status1:String,type1:String,file_type1:String,file_path1:String,broadcastlistID1:String)
     {
         //createUserChatTable()
     // UtilityFunctions.init().log_papertrail("IPHONE:\(username!) inside database function to SAVE chat")
@@ -1235,6 +1236,8 @@ class DatabaseHandler:NSObject{
         let type = Expression<String>("type")
         let file_type = Expression<String>("file_type")
         let file_path = Expression<String>("file_path")
+        let broadcastlistID = Expression<String>("broadcastlistID")
+        let isBroadcastMessage = Expression<Bool>("isBroadcastMessage")
         
         var tbl_userchats=sqliteDB.userschats
         
@@ -1315,7 +1318,7 @@ class DatabaseHandler:NSObject{
             mydate=defaultTimeZoneStr!
         }
         
-        do {
+     /*   do {
             
             var alreadyexists=false
             for res in try sqliteDB.db.prepare(tbl_userchats.filter(uniqueID == uniqueid1))
@@ -1325,8 +1328,8 @@ class DatabaseHandler:NSObject{
             }
             
             if(alreadyexists==false)
-{
-    print("adding chat \(file_type1) .. \(msg1) .. type \(type1)")
+{*/
+        do{print("adding chat \(file_type1) .. \(msg1) .. type \(type1)")
             let rowid = try db.run(tbl_userchats.insert(fromFullName<-fromFullName1,
                 msg<-msg1,
                 owneruser<-owneruser1,
@@ -1338,21 +1341,28 @@ class DatabaseHandler:NSObject{
                 contactPhone<-contactPhone1,
                 type<-type1,
                 file_type<-file_type1,
-                file_path<-file_path1
-))
+                file_path<-file_path1,
+                broadcastlistID<-broadcastlistID1,
+                isBroadcastMessage<-true
+                ))}
+        catch{
+            
+        }
+    }
     
    // UtilityFunctions.init().log_papertrail("IPHONE_LOG: \(username!) saving chat in db \(rowid)")
-            }
+          /*  }
             else
             {
                 print("chat data already available, avoid duplicates")
-            }
+            }*/
             //////print("inserted id: \(rowid)")
-        } catch {
+        //}
+    //catch {
           //  UtilityFunctions.init().log_papertrail("IPHONE_LOG: \(username!) error: failed to save chat")
             
-            print("insertion failed: \(error)")
-        }
+           // print("insertion failed: \(error)")
+      //  }
         
         
         /*if let rowid = insert.rowid {
@@ -1362,7 +1372,7 @@ class DatabaseHandler:NSObject{
         }*/
         
         
-    }
+    
     
     func saveFile(to1:String,from1:String,owneruser1:String,file_name1:String,date1:String!,uniqueid1:String!,file_size1:String,file_type1:String,file_path1:String, type1:String)
         
@@ -2754,6 +2764,11 @@ print("--------")
         return groupsList
     }
     
+  /*  func getBroadcastListChatMessages(broadcastID1:String)
+    {
+        
+        
+    }*/
     func storeBroadcastList(broadcastlistID1:String,ListName1:String)
     {
         let uniqueid = Expression<String>("uniqueid")
@@ -2796,6 +2811,7 @@ print("--------")
         
     }
     
+       
     func UpdateBroadcastlistMembers(uniqueid1:String,members:[String])
     {
         //  UtilityFunctions.init().log_papertrail("IPHONE: \(username!) inside database function to update chat status")
@@ -2811,9 +2827,9 @@ print("--------")
         
         do
         {
-            
+            try sqliteDB.db.run(query.delete())
             for(var i=0;i<members.count;i++)
-            {try sqliteDB.db.run(query.delete())
+            {
                 let rowid = try db.run(broadcastlistmembers.insert(
                     uniqueid<-uniqueid1,
                     memberphone<-members[i]
@@ -2825,6 +2841,22 @@ print("--------")
         {
            print("error here updatinggg")
         }
+    }
+    
+    func updateBroadcastlistName(uniqueid1:String,listname1:String)
+    {
+        let uniqueid = Expression<String>("uniqueid")
+        let listname = Expression<String>("listname")
+        
+        self.broadcastlisttable = Table("broadcastlisttable")
+        
+        do{
+            try self.db.run(broadcastlisttable.filter(uniqueid==uniqueid1).update(listname<-listname1))
+        }
+        catch{
+
+}
+        
     }
     
     func getBroadcastListMembers(uniqueid1:String)->[String]
@@ -2931,6 +2963,26 @@ print("--------")
         }
         print("listDataController is \(listDataController)")
         return listDataController
+    }
+    
+    func deleteBroadcastList(id:String)
+    {
+        let uniqueid = Expression<String>("uniqueid")
+        let listname = Expression<String>("listname")
+        //
+        self.broadcastlisttable = Table("broadcastlisttable")
+        self.broadcastlistmembers = Table("broadcastlistmembers")
+        do{
+            try self.db.run(self.broadcastlisttable.filter(uniqueid==id).delete())
+            try self.db.run(self.broadcastlistmembers.filter(uniqueid==id).delete())
+            
+
+
+        }
+        catch{
+            
+        }
+        
     }
     
 }

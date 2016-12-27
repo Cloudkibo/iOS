@@ -799,7 +799,7 @@
             <objects>
                 <viewController restorationIdentifier="MainChatView" storyboardIdentifier="MainChatView" title="Chats" id="cJu-ld-BCz" customClass="ChatViewController" customModule="Chat" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="PNV-85-Adt">
-                        <rect key="frame" x="0.0" y="64" width="320" height="504"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" rowHeight="66" sectionHeaderHeight="22" sectionFooterHeight="22" id="qPF-7P-jaS">
@@ -1055,7 +1055,7 @@
             <objects>
                 <viewController id="Kar-qX-hHJ" customClass="ArchivedChatsViewController" customModule="Chat" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="HWV-OH-irZ">
-                        <rect key="frame" x="0.0" y="64" width="320" height="504"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="103" sectionHeaderHeight="28" sectionFooterHeight="28" id="WQb-Qp-b3G">
@@ -1145,7 +1145,7 @@
             <objects>
                 <tableViewController id="YH8-pY-Wmo" customClass="NewGroupSetDetails" customModule="Chat" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="fel-tA-dNj" userLabel="tblNewGroupDetails">
-                        <rect key="frame" x="0.0" y="64" width="320" height="504"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
@@ -1735,7 +1735,7 @@
             <objects>
                 <viewController hidesBottomBarWhenPushed="YES" id="Yvw-Fw-Qsr" customClass="GroupChatingDetailController" customModule="Chat" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="YFT-Al-49q">
-                        <rect key="frame" x="0.0" y="64" width="320" height="504"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" id="KiZ-C9-jPm">
@@ -2184,7 +2184,7 @@
             <objects>
                 <viewController restorationIdentifier="11" hidesBottomBarWhenPushed="YES" id="vqu-uk-8SN" customClass="ChatDetailViewController" customModule="Chat" sceneMemberID="viewController">
                     <view key="view" autoresizesSubviews="NO" opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" id="cqK-Ao-ix1">
-                        <rect key="frame" x="0.0" y="64" width="320" height="504"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" id="AhY-Jg-R2a">
@@ -2407,7 +2407,7 @@
                                                                     <rect key="frame" x="8" y="14" width="52" height="52"/>
                                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                                 </imageView>
-                                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="11" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="12:45 PM" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="uPA-u7-rCi">
+                                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="11" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="📢" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="uPA-u7-rCi">
                                                                     <rect key="frame" x="96" y="14" width="170" height="16"/>
                                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
@@ -2646,7 +2646,7 @@
             <objects>
                 <viewController id="LME-ma-WZ9" customClass="ShowImageViewController" customModule="Chat" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="1Nw-EA-4dG">
-                        <rect key="frame" x="0.0" y="64" width="320" height="504"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="avatarTwo.png" id="4Qx-f3-V4n">
@@ -2672,7 +2672,7 @@
             <objects>
                 <viewController id="TP2-6C-5JJ" customClass="textDocumentViewController" customModule="Chat" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="PbJ-Bj-EmD">
-                        <rect key="frame" x="0.0" y="64" width="320" height="504"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" text="Invalid File Format. Please Try again" textAlignment="center" id="7Eo-pg-7AV">
@@ -2716,7 +2716,7 @@
             <objects>
                 <tableViewController id="f95-J5-fN9" customClass="contactsDetailsTableViewController" customModule="Chat" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="60" sectionHeaderHeight="28" sectionFooterHeight="28" id="ysj-dd-SVD">
-                        <rect key="frame" x="0.0" y="64" width="320" height="504"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
@@ -3698,7 +3698,7 @@
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="ContactsInviteCell" id="lU5-3E-N9k" customClass="ContactsInviteCell" customModule="Chat" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="86" width="320" height="78"/>
+                                        <rect key="frame" x="0.0" y="22" width="320" height="78"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="lU5-3E-N9k" id="ttq-aH-WWS">
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="77.5"/>
@@ -3876,7 +3876,7 @@
                         </view>
                         <prototypes>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="JC4-iV-Jwg">
-                                <rect key="frame" x="0.0" y="197" width="320" height="44"/>
+                                <rect key="frame" x="0.0" y="133" width="320" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="JC4-iV-Jwg" id="H6p-c1-bTR">
                                     <rect key="frame" x="0.0" y="0.0" width="320" height="43.5"/>
@@ -4287,7 +4287,7 @@
             <objects>
                 <viewController id="RIV-wT-i1E" customClass="GroupMessageStatusViewController" customModule="Chat" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="nkB-oO-0n0">
-                        <rect key="frame" x="0.0" y="64" width="320" height="504"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="Nsx-G1-7fc">
@@ -4420,7 +4420,7 @@
             <objects>
                 <viewController storyboardIdentifier="BroadcastListView" hidesBottomBarWhenPushed="YES" id="Rgk-Rk-lne" customClass="BroadcastListViewController" customModule="Chat" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="0y3-sA-Lsl">
-                        <rect key="frame" x="0.0" y="64" width="320" height="504"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" id="uM7-X0-w22">
@@ -4453,16 +4453,18 @@
                                                             <color key="textColor" red="0.64908854166666674" green="0.64908854166666674" blue="0.64908854166666674" alpha="1" colorSpace="calibratedRGB"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
-                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="( i )" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="10c-ei-Q5m">
-                                                            <rect key="frame" x="284" y="37" width="28" height="21"/>
-                                                            <autoresizingMask key="autoresizingMask"/>
+                                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="gXO-MY-0cb">
+                                                            <rect key="frame" x="272" y="28" width="40" height="40"/>
+                                                            <autoresizingMask key="autoresizingMask" flexibleMaxY="YES"/>
                                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                            <color key="textColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                                            <nil key="highlightedColor"/>
-                                                        </label>
+                                                            <state key="normal" title="( i )">
+                                                                <color key="titleColor" red="1" green="0.0" blue="0.064798492680551156" alpha="1" colorSpace="calibratedRGB"/>
+                                                            </state>
+                                                        </button>
                                                     </subviews>
                                                 </tableViewCellContentView>
                                                 <connections>
+                                                    <outlet property="broadcastlist_info" destination="gXO-MY-0cb" id="jHl-Es-bpq"/>
                                                     <outlet property="lbl_recipentsName" destination="FqE-W2-XNR" id="uRZ-rN-LRz"/>
                                                     <outlet property="lbl_recipents_count" destination="JrU-Vh-xSF" id="web-pO-CdM"/>
                                                 </connections>
@@ -4494,10 +4496,15 @@
                                 <segue destination="IOA-gw-9Wh" kind="unwind" unwindAction="unwindFromBroadcastList:" id="tTu-Hq-VxK"/>
                             </connections>
                         </barButtonItem>
-                        <barButtonItem key="rightBarButtonItem" title="Edit" id="Xeq-br-M4H"/>
+                        <barButtonItem key="rightBarButtonItem" title="Edit" id="Xeq-br-M4H">
+                            <connections>
+                                <action selector="btneditBroadcastItemClicked:" destination="Rgk-Rk-lne" id="2jo-9p-C9Q"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                     <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
+                        <outlet property="editButtonOutlet" destination="Xeq-br-M4H" id="zjj-7z-Iam"/>
                         <outlet property="navigationitem1" destination="ORh-8o-3y5" id="K4a-Cm-baV"/>
                         <outlet property="tblBroadcastList" destination="czo-fS-jnP" id="G7T-2q-7Hc"/>
                         <outlet property="veiwForContent" destination="uM7-X0-w22" id="hJF-w7-GJx"/>
@@ -4517,7 +4524,7 @@
             <objects>
                 <viewController id="LaF-Wn-rQI" customClass="BroadcastListDetailsViewController" customModule="Chat" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="OHM-pL-quI">
-                        <rect key="frame" x="0.0" y="64" width="320" height="504"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="FsE-cg-xNn">
@@ -4573,6 +4580,9 @@
                                                     <rect key="frame" x="8" y="8" width="304" height="30"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <state key="normal" title="Edit List.."/>
+                                                    <connections>
+                                                        <segue destination="Xlj-pb-Vmy" kind="push" identifier="editbroadcastlistSegue" id="0Ht-ya-fbc"/>
+                                                    </connections>
                                                 </button>
                                             </subviews>
                                         </tableViewCellContentView>
@@ -4932,7 +4942,7 @@
             <objects>
                 <viewController restorationIdentifier="MainChats" storyboardIdentifier="MainChats" title="Chats" id="v28-cs-4pq" customClass="ChatMainViewController" customModule="Chat" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="myq-CV-swO">
-                        <rect key="frame" x="0.0" y="64" width="320" height="504"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="66" sectionHeaderHeight="22" sectionFooterHeight="22" id="K2C-Ei-zZY">
@@ -6052,20 +6062,20 @@
         <image name="video_off" width="50" height="50"/>
     </resources>
     <inferredMetricsTieBreakers>
+        <segue reference="ThT-lo-Acr"/>
         <segue reference="NgD-BM-wgZ"/>
         <segue reference="cEg-U8-UBa"/>
         <segue reference="7Lx-es-nco"/>
-        <segue reference="ye7-7r-hp1"/>
-        <segue reference="BY8-e2-RyW"/>
-        <segue reference="ThT-lo-Acr"/>
-        <segue reference="Spe-dd-EXu"/>
+        <segue reference="0Ht-ya-fbc"/>
         <segue reference="Y9a-Vx-tcX"/>
-        <segue reference="1jA-Zj-XHt"/>
         <segue reference="ADA-1C-gHV"/>
+        <segue reference="Spe-dd-EXu"/>
+        <segue reference="1jA-Zj-XHt"/>
+        <segue reference="BY8-e2-RyW"/>
         <segue reference="QOc-Kg-WHZ"/>
+        <segue reference="Lsn-aA-q1J"/>
         <segue reference="8LM-cv-XXH"/>
         <segue reference="X5X-Qt-8lc"/>
-        <segue reference="Lsn-aA-q1J"/>
     </inferredMetricsTieBreakers>
     <color key="tintColor" red="0.054901960784313725" green="0.47843137254901963" blue="1" alpha="1" colorSpace="calibratedRGB"/>
 </document>
