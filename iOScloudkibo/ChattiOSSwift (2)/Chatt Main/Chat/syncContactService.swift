@@ -87,24 +87,24 @@ class syncContactService
                  print("synccccc sending phone numbers to server...")
                 
                 //dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0)) {
-                dispatch_async(queue2) {
+                dispatch_async(queue1) {
                 self.SyncSendPhoneNumbersToServer(self.syncPhonesList, completion: { (result) in
                     print("synccccc sent phone numbers to server done ")
                     print("synccccc filling local database with contacts ")
                    // dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0)) {
-                    dispatch_async(queue3) {
+                    dispatch_async(queue1) {
                         self.SyncFillContactsTableWithRecords({ (result) in
                         print("synccccc filled local database with contacts done")
                         print("synccccc setting kibocontact boolean")
                         //dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0)) {
-                        dispatch_async(queue4) {
+                        dispatch_async(queue1) {
                             self.syncSetKiboContactsBoolean({ (result) in
                             print("synccccc setting kibocontact boolean done")
                             print("synccccc getting friends/contactslist from server")
                            // dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0)) {
                             
                                 
-                                dispatch_async(queue5) {
+                                dispatch_async(queue1) {
                                     self.fetchContactsFromServer({ (result) in
                                 
                                 print("synccccc got friends/contactslist from server done")
@@ -138,7 +138,8 @@ class syncContactService
     func SyncfetchContacts(completion:(result:Bool)->())
     {
         let contactStore = CNContactStore()
-        
+        //---==== neww//==----
+        syncContactsList.removeAll()
         var keys = [CNContactGivenNameKey, CNContactFamilyNameKey, CNContactEmailAddressesKey, CNContactPhoneNumbersKey, CNContactImageDataAvailableKey,CNContactThumbnailImageDataKey, CNContactImageDataKey]
         do {
             /////let contactStore = AppDelegate.getAppDelegate().contactStore
