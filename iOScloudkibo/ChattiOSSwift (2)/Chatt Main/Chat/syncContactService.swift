@@ -560,28 +560,7 @@ class syncContactService
                             var zeroIndex = -1
                             var phoneDigits=a.valueForKey("digits") as! String
                             var actualphonedigits=a.valueForKey("digits") as! String
-                            //remove leading zeroes
-                            /* for index in phoneDigits.characters.indices {
-                             print(phoneDigits[index])
-                             if(phoneDigits[index]=="0")
-                             {
-                             zeroIndex=index as! Int
-                             //phoneDigits.characters.popFirst() as! String
-                             print(".. droping zero \(phoneDigits) index \(zeroIndex)")
-                             }
-                             else
-                             {
-                             if(zeroIndex != -1)
-                             {
-                             let rangeOfTLD = Range(start: phoneDigits.startIndex.advancedBy(zeroIndex),
-                             end: phoneDigits.endIndex)
-                             phoneDigits = phoneDigits[rangeOfTLD] // "com"
-                             print("range is \(phoneDigits)")
-                             }
-                             break
-                             }
-                             
-                             }*/
+                        
                             for(var i=0;i<phoneDigits.characters.count;i++)
                             {
                                 if(phoneDigits.characters.first=="0")
@@ -692,8 +671,15 @@ class syncContactService
             
             //delete table data====
             do{
+                print("deleting table allcontacts")
             try sqliteDB.db.run(tbl_allcontacts.delete())
             // print("now count is \(sqliteDB.db.scalar(tbl_allcontacts.count))")
+            }
+            catch(let error)
+            {
+                print("error in deleting data of contacts table")
+                ///////socketObj.socket.emit("logClient","IPHONE-LOG: iphoneLog: error is getting name \(error)")
+            }
             
             for(var j=0;j<contactsdata.count;j++)
             {
@@ -706,16 +692,12 @@ class syncContactService
                     ///////socketObj.socket.emit("logClient","IPHONE-LOG: iphoneLog: error is getting name \(error)")
                 }
             }
-                dispatch_async(dispatch_get_main_queue())
-                {
+                //dispatch_async(dispatch_get_main_queue())
+                //{
                     completion(result:true)
-                }
-            }
-            catch(let error)
-            {
-                print("error in deleting data of contacts table")
-                 ///////socketObj.socket.emit("logClient","IPHONE-LOG: iphoneLog: error is getting name \(error)")
-            }
+                //}
+           
+          
             
             
             }
@@ -724,10 +706,10 @@ class syncContactService
             print("synccccc error in deleting allcontacts table")
             socketObj.socket.emit("logClient","IPHONE-LOG: iphoneLog: error in deleting allcontacts data \(error)")
         }
-        dispatch_async(dispatch_get_main_queue())
-        {
+        //dispatch_async(dispatch_get_main_queue())
+        //{
             completion(result:true)
-        }
+        //}
         }
     
         
@@ -824,7 +806,7 @@ class syncContactService
     do{for ccc in try sqliteDB.db.prepare(allcontactslist1) {
  
     for var i=0;i<availableEmailsList.count;i++
-    {print(":::email .......  : \(availableEmailsList[i])")
+    {print(":::email11 .......  : \(availableEmailsList[i])")
     if(ccc[phone]==availableEmailsList[i])
     { print(":::::::: \(ccc[phone])  and emaillist : \(availableEmailsList[i])")
     //ccc[kibocontact]
@@ -1092,7 +1074,7 @@ class syncContactService
                     print(sqliteDB.contactslists.count)
                     
                     
-                    
+                    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT,0)){
                     //////
                     for var i=0;i<contactsJsonObj.count;i++
                     {
@@ -1161,7 +1143,8 @@ class syncContactService
                     {
                     completion(result:true)
                     }
-                    
+                }
+                
                 }else{
                     dispatch_async(dispatch_get_main_queue())
                     {

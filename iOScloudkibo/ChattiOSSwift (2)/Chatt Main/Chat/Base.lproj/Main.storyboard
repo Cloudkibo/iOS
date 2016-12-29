@@ -367,6 +367,11 @@
                         <inset key="imageInsets" minX="0.0" minY="5" maxX="0.0" maxY="-5"/>
                     </tabBarItem>
                     <navigationItem key="navigationItem" title="All Contacts" id="RSp-lL-SlV">
+                        <barButtonItem key="leftBarButtonItem" systemItem="refresh" id="zIw-Lp-tQX">
+                            <connections>
+                                <action selector="btnRefreshContacts:" destination="Eg8-OD-8L6" id="89c-ej-DuV"/>
+                            </connections>
+                        </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="aEd-66-kGj">
                             <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                             <connections>
@@ -3876,7 +3881,7 @@
                         </view>
                         <prototypes>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="JC4-iV-Jwg">
-                                <rect key="frame" x="0.0" y="197" width="320" height="44"/>
+                                <rect key="frame" x="0.0" y="133" width="320" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="JC4-iV-Jwg" id="H6p-c1-bTR">
                                     <rect key="frame" x="0.0" y="0.0" width="320" height="43.5"/>
@@ -6062,11 +6067,11 @@
         <image name="video_off" width="50" height="50"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="ThT-lo-Acr"/>
+        <segue reference="tDO-ll-fdo"/>
+        <segue reference="W8i-Cs-Z8T"/>
         <segue reference="NgD-BM-wgZ"/>
         <segue reference="cEg-U8-UBa"/>
         <segue reference="Y9a-Vx-tcX"/>
-        <segue reference="W8i-Cs-Z8T"/>
         <segue reference="ADA-1C-gHV"/>
         <segue reference="Spe-dd-EXu"/>
         <segue reference="1jA-Zj-XHt"/>

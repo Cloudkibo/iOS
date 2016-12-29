@@ -319,7 +319,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate,AppDelegateScreenDelegate 
         //background
         UIApplication.sharedApplication().setMinimumBackgroundFetchInterval(UIApplicationBackgroundFetchIntervalMinimum)
         
-        /////NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("contactChanged:"), name: CNContactStoreDidChangeNotification, object: nil)
+      NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("contactChanged:"), name: CNContactStoreDidChangeNotification, object: nil)
 
         /*[[NSNotificationCenter defaultCenter] addObserver:self
             selector:@selector(aWindowBecameMain:)
@@ -447,6 +447,58 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
             }
         }
     }*/
+    
+    
+    
+    func contactChanged(notification : NSNotification)
+    {
+        print("phonebood opened notification name \(notification.name)")
+        /*Alamofire.request(.POST,"\(Constants.MainUrl+Constants.urllog)",headers:header,parameters: ["data":"IPHONE_LOG: Device phonebook opened notification \(username!)"]).response{
+         request, response_, data, error in
+         print(error)
+         //   }
+         
+         */
+        if(notification.name==CNContactStoreDidChangeNotification)
+        {
+            let now=NSDate()
+            print("contact changed notification received")
+            guard addressbookChangedNotifReceivedDateTime==nil || now.timeIntervalSinceDate(addressbookChangedNotifReceivedDateTime!)>2 else{
+                print("returning")
+                return}
+            addressbookChangedNotifReceivedDateTime=now
+            
+            if(addressbookChangedNotifReceived==false)
+            {
+                
+                addressbookChangedNotifReceived=true
+                var userInfo: NSDictionary!
+                userInfo = notification.userInfo
+                print(userInfo)
+                print(userInfo.allKeys.debugDescription)
+                print("contacts changed sync now starting")
+                
+                //====-------
+                dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND,0))
+                {
+                    syncServiceContacts.startSyncService()
+                }
+            }
+            else
+            {
+                print("some other notification received")
+            }
+            
+            //===-----
+            /*var sync=syncContactService.init()
+             sync.startContactsRefresh()
+             tblForChat.reloadData()
+             
+             
+             }
+             */
+        }
+    }
     
    /* func contactChanged(notification : NSNotification)
     {
@@ -1588,10 +1640,10 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
            // socketObj.socket.reconnects=true
         }*/
         
-        print("socket status iss \(socketObj.socket.status)")
+       // print("socket status iss \(socketObj.socket.status)")
         if(socketObj.socket.status == SocketIOClientStatus.Closed)
         {
-            print("opening socket")
+         //   print("opening socket")
             
             if(username != nil && username != "")
             {
@@ -1617,7 +1669,7 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
         
         if(socketObj == nil)
         {
-          print("rsign active when socket for nil")
+          print("resign active when socket for nil")
         }
         
        
@@ -1873,13 +1925,13 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
         
         
         print("receivednotification method called")
-        print("app state application is \(UIApplication.sharedApplication().applicationState.rawValue)")
+        /*print("app state application is \(UIApplication.sharedApplication().applicationState.rawValue)")
         print("app state is \(application.applicationState.rawValue)")
         print("app state value background is \(UIApplicationState.Background.rawValue)")
         print("app state value inactive is \(UIApplicationState.Inactive.rawValue)")
         print("app state value active is \(UIApplicationState.Active.rawValue)")
-       print("......")
-        print(userInfo.description)
+       print("......")*/
+        //print(userInfo.description)
         
         
         //avoid calling twice, inactive when transitions by tapping on notification bar

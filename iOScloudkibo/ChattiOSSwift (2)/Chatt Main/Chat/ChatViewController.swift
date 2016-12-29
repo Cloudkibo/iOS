@@ -790,11 +790,11 @@ EPPickerDelegate,SWTableViewCellDelegate,UpdateChatViewsDelegate,RefreshContacts
         
         
         //print()
-        /*
+        
         print("adding observer for contactchanged")
-        CNContactStore.authorizationStatusForEntityType(.Contacts)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("contactChanged:"), name: CNContactStoreDidChangeNotification, object: nil)
-       */
+        /////CNContactStore.authorizationStatusForEntityType(.Contacts)
+        //////NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("contactChanged:"), name: CNContactStoreDidChangeNotification, object: nil)
+       
 
         if (self.accountKit!.currentAccessToken == nil) {
             
@@ -971,26 +971,26 @@ EPPickerDelegate,SWTableViewCellDelegate,UpdateChatViewsDelegate,RefreshContacts
     }
 
     
-    func contactChanged(notification : NSNotification)
+   /* func contactChanged(notification : NSNotification)
     {
-       /* print("phonebood opened notification name \(notification.name)")
-        Alamofire.request(.POST,"\(Constants.MainUrl+Constants.urllog)",headers:header,parameters: ["data":"IPHONE_LOG: Device phonebook opened notification \(username!)"]).response{
+        print("phonebood opened notification name \(notification.name)")
+        /*Alamofire.request(.POST,"\(Constants.MainUrl+Constants.urllog)",headers:header,parameters: ["data":"IPHONE_LOG: Device phonebook opened notification \(username!)"]).response{
             request, response_, data, error in
             print(error)
-        }
+     //   }
         
-      
+      */
         if(notification.name==CNContactStoreDidChangeNotification)
         {
         let now=NSDate()
         print("contact changed notification received")
-         guard addressbookChangedNotifReceivedDateTime==nil || now.timeIntervalSinceDate(addressbookChangedNotifReceivedDateTime!)>1 else{
+         guard addressbookChangedNotifReceivedDateTime==nil || now.timeIntervalSinceDate(addressbookChangedNotifReceivedDateTime!)>2 else{
             print("returning")
             return}
         addressbookChangedNotifReceivedDateTime=now
         
-       // if(addressbookChangedNotifReceived==false)
-//{
+        if(addressbookChangedNotifReceived==false)
+{
     
     addressbookChangedNotifReceived=true
         var userInfo: NSDictionary!
@@ -1008,19 +1008,19 @@ EPPickerDelegate,SWTableViewCellDelegate,UpdateChatViewsDelegate,RefreshContacts
         else
         {
             print("some other notification received")
-        }*/
+        }
     
             //===-----
     /*var sync=syncContactService.init()
         sync.startContactsRefresh()
     tblForChat.reloadData()
- */
+ 
 
-//}
-     
-        //}
+}
+     */
+        }
     }
-    
+    */
     
     func loginSegueMethod()
     {print("line # 564")
@@ -3770,6 +3770,7 @@ break
     
     func contactViewController(viewController: CNContactViewController, didCompleteWithContact contact: CNContact?) {
         
+        print("inside cncontatc didcomplete....")
         viewController.displayedPropertyKeys=[CNContactGivenNameKey]
         UtilityFunctions.init().AddtoAddressBook(contact!,isKibo: true) { (result) in
             
@@ -4730,6 +4731,11 @@ shareMenu.addAction(cancelAction)
         })
     }
        //==-- self.reloadThisPage()
+    }
+    
+    deinit {
+        print("deinit chat view controller")
+        NSNotificationCenter.defaultCenter().removeObserver(self)
     }
  
     

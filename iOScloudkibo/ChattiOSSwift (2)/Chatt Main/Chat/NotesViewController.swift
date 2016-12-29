@@ -113,6 +113,15 @@ class NotesViewController: UIViewController,InviteContactsDelegate,UITextFieldDe
         })
     }
     
+    
+    @IBAction func btnRefreshContacts(sender: AnyObject) {
+        
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND,0))
+        {
+            syncServiceContacts.startSyncService()
+        }
+    }
+    
     /* func textChanged(textField: UITextField) {
      //TODO: Text changed handler
      //if(sender.text != "")
