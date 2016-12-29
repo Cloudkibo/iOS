@@ -1542,7 +1542,7 @@ socketObj.socket.emit("logClient","button done pressed start time \(NSDate())")
         do{for ccc in try sqliteDB.db.prepare(allcontactslist1) {
             
             for var i=0;i<self.syncAvailablePhonesList.count;i++
-            {print(":::email .......  : \(self.syncAvailablePhonesList[i])")
+            {//print(":::email .......  : \(self.syncAvailablePhonesList[i])")
                 if(ccc[phone]==self.syncAvailablePhonesList[i])
                 { print(":::::::: \(ccc[phone])  and emaillist : \(self.syncAvailablePhonesList[i])")
                     //ccc[kibocontact]

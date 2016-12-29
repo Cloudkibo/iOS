@@ -734,8 +734,15 @@ EPPickerDelegate,SWTableViewCellDelegate,UpdateChatViewsDelegate,RefreshContacts
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        /*
+        let manager = NetworkReachabilityManager(host: "www.apple.com")
         
-
+        manager?.listener = { status in
+            print("Network Status Changed: \(status)")
+        }
+        
+        manager?.startListening()
+*/
         messages=NSMutableArray()
         syncServiceContacts.delegateRefreshContactsList=self
         delegateRefreshChat=self
@@ -783,10 +790,11 @@ EPPickerDelegate,SWTableViewCellDelegate,UpdateChatViewsDelegate,RefreshContacts
         
         
         //print()
-        
+        /*
+        print("adding observer for contactchanged")
         CNContactStore.authorizationStatusForEntityType(.Contacts)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("contactChanged:"), name: CNContactStoreDidChangeNotification, object: nil)
-        
+       */
 
         if (self.accountKit!.currentAccessToken == nil) {
             
@@ -965,12 +973,13 @@ EPPickerDelegate,SWTableViewCellDelegate,UpdateChatViewsDelegate,RefreshContacts
     
     func contactChanged(notification : NSNotification)
     {
+       /* print("phonebood opened notification name \(notification.name)")
         Alamofire.request(.POST,"\(Constants.MainUrl+Constants.urllog)",headers:header,parameters: ["data":"IPHONE_LOG: Device phonebook opened notification \(username!)"]).response{
             request, response_, data, error in
             print(error)
         }
         
-      /*
+      
         if(notification.name==CNContactStoreDidChangeNotification)
         {
         let now=NSDate()
@@ -989,7 +998,9 @@ EPPickerDelegate,SWTableViewCellDelegate,UpdateChatViewsDelegate,RefreshContacts
     print(userInfo)
         print(userInfo.allKeys.debugDescription)
         print("contacts changed sync now starting")
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND,0))
+   
+            //====-------
+             dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND,0))
     {
          syncServiceContacts.startSyncService()
     }
@@ -997,16 +1008,17 @@ EPPickerDelegate,SWTableViewCellDelegate,UpdateChatViewsDelegate,RefreshContacts
         else
         {
             print("some other notification received")
-        }
+        }*/
     
+            //===-----
     /*var sync=syncContactService.init()
         sync.startContactsRefresh()
     tblForChat.reloadData()
  */
 
 //}
-     */
-        
+     
+        //}
     }
     
     
@@ -1160,8 +1172,8 @@ EPPickerDelegate,SWTableViewCellDelegate,UpdateChatViewsDelegate,RefreshContacts
             })*/
             
             //dont do on every appear. just do once
-            print("emaillist is \(emailList.first)")
-            print("emailList count is \(emailList.count)")
+            //==--print("emaillist is \(emailList.first)")
+            //==---print("emailList count is \(emailList.count)")
             
             print("here refreshing UI in chats view line # 1123")
             dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT,0))
@@ -1499,7 +1511,7 @@ EPPickerDelegate,SWTableViewCellDelegate,UpdateChatViewsDelegate,RefreshContacts
         {
             sendGroupChatMessage(pendinggroupchatsarray[self.index2]["group_unique_id"] as! String, from: pendinggroupchatsarray[self.index2]["from"] as! String, type: pendinggroupchatsarray[self.index2]["type"] as! String, msg: pendinggroupchatsarray[self.index2]["msg"] as! String, fromFullname: pendinggroupchatsarray[self.index2]["from_fullname"] as! String, uniqueidChat: pendinggroupchatsarray[self.index2]["unique_id"] as! String, completion: { (result) in
                 
-                print("chat sent")
+                //print("chat sent")
                 if(result==true)
                 {
                     
@@ -1584,7 +1596,7 @@ EPPickerDelegate,SWTableViewCellDelegate,UpdateChatViewsDelegate,RefreshContacts
             for pendingchats in try sqliteDB.db.prepare(tbl_userchats.filter(status=="pending").order(date.asc))
             {
                 
-                print("pending chats count date desc is \(count)")
+               // print("pending chats count date desc is \(count)")
                 count++
                 var imParas=["from":pendingchats[from],"to":pendingchats[to],"fromFullName":pendingchats[fromFullName],"msg":pendingchats[msg],"uniqueid":pendingchats[uniqueid],"type":pendingchats[type],"file_type":pendingchats[file_type]]
                 
@@ -1901,7 +1913,7 @@ EPPickerDelegate,SWTableViewCellDelegate,UpdateChatViewsDelegate,RefreshContacts
         for(var i=0;i<self.groupsObjectList.count;i++)
         {
             ContactsProfilePic=NSData.init()
-            print("date is \(self.groupsObjectList[i]["date_creation"] as! NSDate)")
+            //print("date is \(self.groupsObjectList[i]["date_creation"] as! NSDate)")
             
             if((self.groupsObjectList[i]["status"] as! String) == "temp")
             {
@@ -1915,7 +1927,7 @@ EPPickerDelegate,SWTableViewCellDelegate,UpdateChatViewsDelegate,RefreshContacts
                 ChatType="group"
                 //ChatType.append("group")
             }
-            print("group name is \(self.groupsObjectList[i]["group_name"] as! String)")
+            //print("group name is \(self.groupsObjectList[i]["group_name"] as! String)")
              ContactNames=self.groupsObjectList[i]["group_name"] as! String
             ContactFirstname=self.groupsObjectList[i]["group_name"] as! String
             ContactLastNAme=""
@@ -1965,8 +1977,8 @@ EPPickerDelegate,SWTableViewCellDelegate,UpdateChatViewsDelegate,RefreshContacts
                 //file exists locally
             if(filedata.count>0)
             {
-                print("found group icon")
-                print("actual path is \(filedata["file_path"])")
+               // print("found group icon")
+               // print("actual path is \(filedata["file_path"])")
                 //======
                 
                 //=======
@@ -1984,7 +1996,7 @@ EPPickerDelegate,SWTableViewCellDelegate,UpdateChatViewsDelegate,RefreshContacts
                 }
                 else
                 {
-                    print("didnot find group icon")
+                   // print("didnot find group icon")
                     pendingGroupIcons2.append(self.groupsObjectList[i]["unique_id"] as! String)
                     
                     ContactsProfilePic=NSData.init()
@@ -1993,7 +2005,7 @@ EPPickerDelegate,SWTableViewCellDelegate,UpdateChatViewsDelegate,RefreshContacts
                 else
                 {
                     //file not downloaded yet
-                    print("didnot find group icon.......")
+                    //print("didnot find group icon.......")
                     pendingGroupIcons2.append(self.groupsObjectList[i]["unique_id"] as! String)
                     
                     ContactsProfilePic=NSData.init()
@@ -2032,17 +2044,17 @@ EPPickerDelegate,SWTableViewCellDelegate,UpdateChatViewsDelegate,RefreshContacts
             
             
             do{for ccclastmsg in try sqliteDB.db.prepare(myquerylastmsg) {
-                print("date received in chat view is \(ccclastmsg[date])")
+                //print("date received in chat view is \(ccclastmsg[date])")
             
                 var formatter2 = NSDateFormatter();
                 formatter2.dateFormat = "MM/dd hh:mm a"
                 formatter2.timeZone = NSTimeZone.localTimeZone()
                 ///////////////==========var defaultTimeeee = formatter2.stringFromDate(defaultTimeZoneStr!)
                 var defaultTimeeee = formatter2.stringFromDate(ccclastmsg[date])
-                print("===fetch date from database is ccclastmsg[date] \(ccclastmsg[date])... defaultTimeeee \(defaultTimeeee)")
+                //print("===fetch date from database is ccclastmsg[date] \(ccclastmsg[date])... defaultTimeeee \(defaultTimeeee)")
              
                 
-                print("last msg is \(ccclastmsg[msg])")
+               // print("last msg is \(ccclastmsg[msg])")
                 ContactsLastMsgDate=defaultTimeeee
                 ContactLastMessage=ccclastmsg[msg]
                 
@@ -2107,24 +2119,24 @@ EPPickerDelegate,SWTableViewCellDelegate,UpdateChatViewsDelegate,RefreshContacts
         var queryruncount=0
         do{for ccc in try sqliteDB.db.prepare(myquery) {
             queryruncount=queryruncount+1
-            print("queryruncount is \(queryruncount)")
+            //print("queryruncount is \(queryruncount)")
             var picfound=false
             // print(ccc[phone])
-            print(ccc[contactPhone])
-            print(ccc[msg])
-            print(ccc[date])
+            //print(ccc[contactPhone])
+            //print(ccc[msg])
+            //print(ccc[date])
             
             /*Alamofire.request(.POST,"\(Constants.MainUrl+Constants.urllog)",headers:header,parameters: ["data":"IPHONE_LOG: database date is \(ccc[date])"]).response{
              request, response_, data, error in
              print(error)
              }*/
-            print(ccc[uniqueid])
+            //print(ccc[uniqueid])
             //////print(ccc[tbl_userchats[status]])
-            print(ccc[self.status])
-            print(ccc[from])
-            print(ccc[fromFullName])
+            //print(ccc[self.status])
+            //print(ccc[from])
+            //print(ccc[fromFullName])
            
-            print("*************")
+            //print("*************")
             ////////////ContactNames.append(ccc[firstname]+" "+ccc[lastname])
             //ContactUsernames.append(ccc[username])
             //print("ContactUsernames is \(ccc[username])")
@@ -2187,7 +2199,7 @@ EPPickerDelegate,SWTableViewCellDelegate,UpdateChatViewsDelegate,RefreshContacts
             
             
             do{for ccclastmsg in try sqliteDB.db.prepare(myquerylastmsg) {
-                print("date received in chat view is \(ccclastmsg[date])")
+              //  print("date received in chat view is \(ccclastmsg[date])")
              
                 
                 var formatter2 = NSDateFormatter();
@@ -2195,11 +2207,11 @@ EPPickerDelegate,SWTableViewCellDelegate,UpdateChatViewsDelegate,RefreshContacts
                 formatter2.timeZone = NSTimeZone.localTimeZone()
                 ///////////////==========var defaultTimeeee = formatter2.stringFromDate(defaultTimeZoneStr!)
                 var defaultTimeeee = formatter2.stringFromDate(ccclastmsg[date])
-                print("===fetch date from database is ccclastmsg[date] \(ccclastmsg[date])... defaultTimeeee \(defaultTimeeee)")
+               // print("===fetch date from database is ccclastmsg[date] \(ccclastmsg[date])... defaultTimeeee \(defaultTimeeee)")
                 
            
                 
-                print("last msg is \(ccclastmsg[msg])")
+                //print("last msg is \(ccclastmsg[msg])")
                 ContactsLastMsgDate=defaultTimeeee
                 ContactLastMessage=ccclastmsg[msg]
                 break
@@ -2224,8 +2236,8 @@ EPPickerDelegate,SWTableViewCellDelegate,UpdateChatViewsDelegate,RefreshContacts
             if(joinrows.count>0)
             {
                 for(var ii=0;ii<joinrows.count;ii++){
-                print(joinrows.debugDescription)
-                print("found uniqueidentifier from join is \(joinrows[0].get(uniqueidentifier))")
+                //print(joinrows.debugDescription)
+                //print("found uniqueidentifier from joinnn is \(joinrows[0].get(uniqueidentifier))")
                 //==========----------let queryPic = tbl_allcontacts.filter(tbl_allcontacts[phone] == ccc[contactPhone])
                 
                 //do{
@@ -2251,7 +2263,7 @@ break
             }
             if(picfound==false)
             {
-                print("no pic found for \(ContactUsernames)")
+                //print("no pic found for \(ContactUsernames)")
                 ContactsProfilePic=NSData.init()
                 // print("picquery NOT found for \(ccc[phone]) and is \(NSData.init())")
             }
@@ -2324,7 +2336,7 @@ break
             let date1 = dateFormatter.dateFromString(datestr1 as String)
             let date2 = dateFormatter.dateFromString(datestr2 as String)
             let result=date1!.compare(date2!)
-            print("date1comparator is \(date1) date2comparator is \(date2)")
+           // print("date1comparator is \(date1) date2comparator is \(date2)")
             if(result == NSComparisonResult.OrderedAscending)
             {
                 return .OrderedDescending
@@ -3080,7 +3092,7 @@ break
     
     //uncomment later
     func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        print("header height table")
+        //print("header height table")
         return 70
     }
     
@@ -3237,7 +3249,7 @@ break
             do{
                // if(!ContactUsernames.isEmpty && indexPath.row<=ContactUsernames.count)
                // {
-                print("username count is \(messages.count) and indexpath.row is \(indexPath.row)")
+                //print("username count is \(messages.count) and indexpath.row is \(indexPath.row)")
               //=====  for all in try sqliteDB.db.prepare(allcontacts) {
                 //print("id: \(account[_id]), phone: \(account[phone]), firstname: \(account[firstname])")
                 // id: 1, email: alice@mac.com, name: Optional("Alice")
@@ -3257,19 +3269,19 @@ break
                     if(matched[0][name] != "" || matched[0].get(name) != nil)
                     {
                         cell!.contactName?.text=matched[0].get(name)
-                        print("name is \(matched[0].get(name))")
+                     //   print("name is \(matched[0].get(name))")
                         ContactNames=matched[0].get(name)!
                     }
                     else
                     {
-                        print("name is no name")
+                       // print("name is no name")
                         //===---cell.contactName?.text=all[phone]
                         cell!.contactName?.text=ContactUsernames as! String
                     }
                     
                    if(ContactsProfilePic != NSData.init())
                     {
-                        print("seeting picc22 for \(ContactUsernames)")
+                        //print("seeting picc22 for \(ContactUsernames)")
                         
                         var img=UIImage(data:ContactsProfilePic)
                         var w=img!.size.width
@@ -3292,7 +3304,7 @@ break
                         //=====-------cell.profilePic.image=UIImage(data:ContactsProfilePic, scale: scale)
                         ///cell.profilePic.image=UIImage(data:ContactsProfilePic[indexPath.row])
                         //UIImage(data: NSData(data: ContactsProfilePic) , scale: scale)
-                        print("image size is s \(UIImage(data:ContactsProfilePic)?.size.width) and h \(UIImage(data:ContactsProfilePic)?.size.height)")
+                        //print("image size is s \(UIImage(data:ContactsProfilePic)?.size.width) and h \(UIImage(data:ContactsProfilePic)?.size.height)")
                    }
                     
                     contactFound=true
@@ -3341,7 +3353,7 @@ break
                 
                 if(/*!ContactsProfilePic.isEmpty  &&*/ ContactsProfilePic != NSData.init())
                 {
-                    print("seeting picc for \(ContactUsernames)")
+                    //print("seeting picc for \(ContactUsernames)")
                     var scaledimage=ImageResizer(size: CGSize(width: cell!.profilePic.bounds.width,height: cell!.profilePic.bounds.height), scaleMode: .AspectFill, allowUpscaling: true, compressionQuality: 0.5)
                     //var resizedimage=scaledimage.resizeImage(UIImage(data:ContactsProfilePic)!)
                     cell!.profilePic.hnk_setImage(scaledimage.resizeImage(UIImage(data:ContactsProfilePic)!), key: ContactUsernames)
@@ -3355,7 +3367,7 @@ break
             cell!.contactName?.text=ContactNames
             if(ContactsProfilePic != NSData.init())
             {
-                print("seeting picc22 for \(ContactUsernames)")
+               // print("seeting picc22 for \(ContactUsernames)")
                 
                 var img=UIImage(data:ContactsProfilePic)
                 var w=img!.size.width
@@ -3381,7 +3393,7 @@ break
                 //==----cell.profilePic.image=UIImage(data: ContactsProfilePic, scale: scale)
                 ///cell.profilePic.image=UIImage(data:ContactsProfilePic[indexPath.row])
                 //UIImage(data: ContactsProfilePic, scale: scale)
-                print("image size is s \(UIImage(data:ContactsProfilePic)?.size.width) and h \(UIImage(data:ContactsProfilePic)?.size.height)")
+                //print("image size is s \(UIImage(data:ContactsProfilePic)?.size.width) and h \(UIImage(data:ContactsProfilePic)?.size.height)")
             }
             if(ContactCountMsgRead > 0)
             {

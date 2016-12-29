@@ -814,7 +814,7 @@
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="65.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <button hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" contentHorizontalAlignment="right" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="MPq-UO-Sjf">
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="right" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="MPq-UO-Sjf">
                                                     <rect key="frame" x="192" y="18" width="120" height="30"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <state key="normal" title="New Group"/>
@@ -3876,7 +3876,7 @@
                         </view>
                         <prototypes>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="JC4-iV-Jwg">
-                                <rect key="frame" x="0.0" y="133" width="320" height="44"/>
+                                <rect key="frame" x="0.0" y="197" width="320" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="JC4-iV-Jwg" id="H6p-c1-bTR">
                                     <rect key="frame" x="0.0" y="0.0" width="320" height="43.5"/>
@@ -6065,13 +6065,13 @@
         <segue reference="ThT-lo-Acr"/>
         <segue reference="NgD-BM-wgZ"/>
         <segue reference="cEg-U8-UBa"/>
-        <segue reference="7Lx-es-nco"/>
-        <segue reference="0Ht-ya-fbc"/>
         <segue reference="Y9a-Vx-tcX"/>
+        <segue reference="W8i-Cs-Z8T"/>
         <segue reference="ADA-1C-gHV"/>
         <segue reference="Spe-dd-EXu"/>
         <segue reference="1jA-Zj-XHt"/>
         <segue reference="BY8-e2-RyW"/>
+        <segue reference="Sdy-kO-WHf"/>
         <segue reference="QOc-Kg-WHZ"/>
         <segue reference="Lsn-aA-q1J"/>
         <segue reference="8LM-cv-XXH"/>

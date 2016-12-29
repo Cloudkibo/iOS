@@ -1120,7 +1120,7 @@ cell.lbl_groupAdmin.hidden=false
             
 }
 else{
-                let shareMenu = UIAlertController(title: nil, message: "Internet connectivity is required to exit this group", preferredStyle: .ActionSheet)
+                let shareMenu = UIAlertController(title: nil, message: "Internet connectivity is required to change group icon", preferredStyle: .ActionSheet)
                 
                 let yes = UIAlertAction(title: "OK", style: UIAlertActionStyle.Default,handler: { (action) -> Void in
                     
@@ -1142,7 +1142,7 @@ else{
             
 }
 else{
-                let shareMenu = UIAlertController(title: nil, message: "Internet connectivity is required to exit this group", preferredStyle: .ActionSheet)
+                let shareMenu = UIAlertController(title: nil, message: "Internet connectivity is required to change group icon", preferredStyle: .ActionSheet)
                 
                 let yes = UIAlertAction(title: "OK", style: UIAlertActionStyle.Default,handler: { (action) -> Void in
                     
@@ -1355,7 +1355,7 @@ else{
 }
 else
             {
-                let shareMenu = UIAlertController(title: nil, message: "Internet connectivity is required to exit this group", preferredStyle: .ActionSheet)
+                let shareMenu = UIAlertController(title: nil, message: "Internet connectivity is required to upload group icon", preferredStyle: .ActionSheet)
                 
                 let yes = UIAlertAction(title: "OK", style: UIAlertActionStyle.Default,handler: { (action) -> Void in
                     
