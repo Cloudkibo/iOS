@@ -577,9 +577,10 @@ class AddParticipantsViewController: UIViewController,InviteContactsDelegate,UIT
         let email = Expression<String>("email")
         
         
-        
        // let tbl_contactslist = sqliteDB.contactslists
         var cellPrivate = tblForNotes.dequeueReusableCellWithIdentifier("NotePrivateCell1")! as! AllContactsCell
+        cellPrivate.userInteractionEnabled=true
+        
         print("namelist count is \(nameList.count)")
         //cellPrivate.labelNamePrivate.text=nameList[indexPath.row]
         
