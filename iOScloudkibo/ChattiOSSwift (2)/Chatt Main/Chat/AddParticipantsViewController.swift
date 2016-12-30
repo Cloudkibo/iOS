@@ -16,7 +16,8 @@ import Haneke
 class AddParticipantsViewController: UIViewController,InviteContactsDelegate,UITextFieldDelegate,UISearchBarDelegate,UISearchDisplayDelegate/*,UISearchResultsUpdating*/,UIScrollViewDelegate,RefreshContactsList,UITableViewDelegate,UITableViewDataSource {
     
     
-    
+    var groupid=""
+    var identifiersarrayAlreadySelected=[String]()
     var editbroadcastlistID=""
     var prevScreen=""
     var participantsSelected1=[EPContact]()
@@ -46,6 +47,8 @@ class AddParticipantsViewController: UIViewController,InviteContactsDelegate,UIT
     }
     
 
+    
+   
     func addToBroadcastList()
     {
         
@@ -64,7 +67,6 @@ class AddParticipantsViewController: UIViewController,InviteContactsDelegate,UIT
         var broadcastlistID=UtilityFunctions.init().generateUniqueid()
         sqliteDB.storeBroadcastList(broadcastlistID, ListName1: "")
         sqliteDB.storeBroadcastListMembers(broadcastlistID, memberphones: memberphones)
-        //GoToBroadCastSegueGoToBroadCastSegue
        // let next = self.storyboard?.instantiateViewControllerWithIdentifier("BroadcastListView") as! BroadcastListViewController
       //  self.dismissViewControllerAnimated(true, completion: nil);
         
@@ -100,7 +102,6 @@ class AddParticipantsViewController: UIViewController,InviteContactsDelegate,UIT
         //==----var broadcastlistID=UtilityFunctions.init().generateUniqueid()
         //==----sqliteDB.storeBroadcastList(broadcastlistID, ListName1: "")
         sqliteDB.UpdateBroadcastlistMembers(self.editbroadcastlistID, members: memberphones)
-        //GoToBroadCastSegueGoToBroadCastSegue
         // let next = self.storyboard?.instantiateViewControllerWithIdentifier("BroadcastListView") as! BroadcastListViewController
         //  self.dismissViewControllerAnimated(true, completion: nil);
         
@@ -136,6 +137,13 @@ class AddParticipantsViewController: UIViewController,InviteContactsDelegate,UIT
         if(prevScreen=="editbroadcastlist")
         {
             self.updateBroadcastList()
+            // self.dismissViewControllerAnimated(true, completion: nil);
+        }
+        //Groupinfo
+        if(prevScreen=="Groupinfo")
+        {
+            self.performSegueWithIdentifier("gobackToGroupInfoSegue",sender: nil)
+            //self.updateBroadcastList()
             // self.dismissViewControllerAnimated(true, completion: nil);
         }
       
@@ -541,17 +549,7 @@ class AddParticipantsViewController: UIViewController,InviteContactsDelegate,UIT
         super.init(coder: aDecoder)
     }
     
-    //      self.performSegueWithIdentifier("GoToBroadCastSegue", sender: nil);
     
-  /*  @IBAction func prepareForUnwind(segue: UIStoryboardSegue){
-        
-        print("unwind ...")
-        if(prevScreen=="newBroadcastList")
-        {
-        self.performSegueWithIdentifier("GoToBroadCastSegue", sender: nil);
-        }
-
-    }*/
     
     @IBAction func unwindToChat (segueSelected : UIStoryboardSegue) {
         
@@ -625,10 +623,31 @@ class AddParticipantsViewController: UIViewController,InviteContactsDelegate,UIT
             else
             {
                 cellPrivate.lbl_new_name.text=alladdressContactsArray[indexPath.row].get(name)
+               
                 cellPrivate.lbl_new_subtitle.text=alladdressContactsArray[indexPath.row].get(phone)
+                
+                //if already a member
                 if(alladdressContactsArray[indexPath.row].get(kibocontact)==true)
                 {
                     cellPrivate.lbl_new_subtitle.hidden=false
+                    
+                    if(prevScreen=="Groupinfo" && identifiersarrayAlreadySelected.count>0)
+                    {
+                        print("identifiersarrayAlreadySelected is \(identifiersarrayAlreadySelected)")
+                        for eachh in identifiersarrayAlreadySelected
+                        {
+                            if(alladdressContactsArray[indexPath.row].get(uniqueidentifier)! == eachh)
+                            {
+                                print("alrady member")
+                               cellPrivate.lbl_new_subtitle.text="Already a member"
+                                cellPrivate.userInteractionEnabled=false
+                            }
+                            
+                        }
+                    }
+                    
+                    
+                    
                     var found=UtilityFunctions.init().findContact(alladdressContactsArray[indexPath.row].get(uniqueidentifier)!).first!
                     
                     
@@ -904,6 +923,41 @@ class AddParticipantsViewController: UIViewController,InviteContactsDelegate,UIT
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepareForSegue(segue: UIStoryboardSegue?, sender: AnyObject?) {
         
+        
+        //gobackToGroupInfoSegue
+        if segue!.identifier == "gobackToGroupInfoSegue" {
+            
+            
+            if let destinationVC = segue!.destinationViewController as? GroupInfo3ViewController{
+                //==---destinationVC.participants.removeAll()
+                
+                //==----destinationVC.addmemberfailed=true
+                participantsSelected.removeAll()
+                
+               // var memberphones=[String]()
+                //var membersnames=[String]()
+                for(var i=0;i<participantsSelected1.count;i++)
+                {print()
+                    
+                    //groupinfo participants adding
+                    participantsSelected.append(participantsSelected1[i])
+                    
+                    
+                  /*  memberphones.append(participantsSelected1[i].getPhoneNumber())
+                    membersnames.append(participantsSelected1[i].displayName())
+                    destinationVC.messages.addObject(["member_phone":memberphones[i],"name":membersnames[i],"isAdmin":"No"])
+                    */
+                    
+                    //tblGroupInfo.reloadData()
+                    
+                }
+                
+                destinationVC.seguemsg="gobackToGroupInfoSegue"
+                destinationVC.groupid=groupid
+                //participantsSelected=participantsSelected1
+                //  let selectedRow = tblForChat.indexPathForSelectedRow!.row
+                
+            }}
         
         if segue!.identifier == "newGroupDetailsSegue1" {
             

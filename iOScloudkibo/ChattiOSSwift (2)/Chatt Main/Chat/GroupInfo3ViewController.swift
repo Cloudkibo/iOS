@@ -22,7 +22,8 @@ class GroupInfo3ViewController: UIViewController,UINavigationControllerDelegate,
 EPPickerDelegate,SWTableViewCellDelegate,UIImagePickerControllerDelegate {
 
     
-    
+    var seguemsg=""
+     var identifiersarray=[String]()
     var membersArrayOfGroup=[[String:AnyObject]]()
     var filePathImage2=""
     var ftype=""
@@ -209,10 +210,24 @@ else{
         }
     }
     
-    func BtnnewGroupClicked(sender:UIButton)
+    
+    
+    @IBAction func btnBackPressed(sender: AnyObject) {
+      //  groupinfotochatstabsegue
+        self.performSegueWithIdentifier("groupinfotochatstabsegue", sender: nil)
+    }
+    
+    
+    
+    
+    
+    
+    
+    func BtnAddParticipantsClicked(sender:UIButton)
     {
         //add participants clicked
-        var identifiersarray=[String]()
+       
+        identifiersarray.removeAll()
 for(var i=0;i<membersArrayOfGroup.count;i++)
 {
 var identifier=sqliteDB.getIdentifierFRomPhone(membersArrayOfGroup[i]["member_phone"] as! String)
@@ -221,15 +236,17 @@ if(identifier != "")
 identifiersarray.append(identifier)
 }
 }
-                
-        let contactPickerScene = EPContactsPicker(delegate: self, multiSelection:true, subtitleCellType: SubtitleCellValue.PhoneNumber, alreadySelectedContactsIdentifiers:identifiersarray)
+        
+        addmemberfailed=true
+        
+        participantsSelected.removeAll()
+       /* let contactPickerScene = EPContactsPicker(delegate: self, multiSelection:true, subtitleCellType: SubtitleCellValue.PhoneNumber, alreadySelectedContactsIdentifiers:identifiersarray)
         let navigationController = UINavigationController(rootViewController: contactPickerScene)
         self.presentViewController(navigationController, animated: true, completion: nil)
         
         
         
-        participantsSelected.removeAll()
-        print("BtnnewGroupClicked")
+        print("BtnAddParticipantsClicked")
         picker = CNContactPickerViewController();
         picker.title="Add Participants"
         picker.navigationItem.leftBarButtonItem=picker.navigationController?.navigationItem.backBarButtonItem
@@ -239,9 +256,9 @@ identifiersarray.append(identifier)
         // Respond to selection
         picker.delegate = self;
         
-           addmemberfailed=true
         self.presentViewController(picker, animated: true, completion: nil)
-        
+        */
+        self.performSegueWithIdentifier("addparticipantstogroupsegue", sender: nil)
         
         
         // Display picker
@@ -294,85 +311,9 @@ identifiersarray.append(identifier)
     
     func addToGroup()
     {
-        //create group
-        //save data in sqlite
-        
-        /*var uid=randomStringWithLength(7)
-        
-        var date=NSDate()
-        var calendar = NSCalendar.currentCalendar()
-        var year=calendar.components(NSCalendarUnit.Year,fromDate: date).year
-        var month=calendar.components(NSCalendarUnit.Month,fromDate: date).month
-        var day=calendar.components(.Day,fromDate: date).day
-        var hr=calendar.components(NSCalendarUnit.Hour,fromDate: date).hour
-        var min=calendar.components(NSCalendarUnit.Minute,fromDate: date).minute
-        var sec=calendar.components(NSCalendarUnit.Second,fromDate: date).second
-        print("\(year) \(month) \(day) \(hr) \(min) \(sec)")
-        uniqueid="\(uid)\(year)\(month)\(day)\(hr)\(min)\(sec)"
-        */
-        
         print("saving in database")
         
-        
-        // let cell=tblNewGroupDetails.dequeueReusableCellWithIdentifier("NewGroupDetailsCell") as! ContactsListCell
-        //  "NewGroupParticipantsCell"
-       // var cell=tblNewGroupDetails.cellForRowAtIndexPath(NSIndexPath(forRow: 0, inSection: 0)) as! ContactsListCell
-        
-     /*   groupname=singleGroupInfo["group_name"] as! String
-        var memberphones=[String]()
-        var membersnames=[String]()
-        for(var i=0;i<participants.count;i++)
-        {
-            memberphones.append(participants[i].getPhoneNumber())
-            membersnames.append(participants[i].displayName())
-        }
-        print("group_name is \(groupname)")
-        print("memberphones are \(memberphones.debugDescription)")
-        
-        sqliteDB.storeGroups(groupname, groupicon1: imgdata, datecreation1: NSDate(), uniqueid1: uniqueid)
-        
-        let firstname = Expression<String>("firstname")
-        let phone = Expression<String>("phone")
-        
-        var myname=""
-        let tbl_accounts = sqliteDB.accounts
-        do{for account in try sqliteDB.db.prepare(tbl_accounts) {
-            myname=account[firstname]
-            username=account[phone]
-            
-            }
-        }
-        catch
-        {
-            if(socketObj != nil){
-                socketObj.socket.emit("error getting data from accounts table")
-            }
-            print("error in getting data from accounts table")
-            
-        }
-        
-        //sqliteDB.storeMembers(uniqueid,member_displayname1: myname,member_phone1: username!, isAdmin1: "Yes", membershipStatus1: "joined", date_joined1: NSDate.init())
-        sqliteDB.storeMembers(uniqueid,member_displayname1: myname, member_phone1: username!, isAdmin1: "Yes", membershipStatus1: "joined", date_joined1: NSDate.init())
-        
-        for(var i=0;i<memberphones.count;i++)
-        {
-            var isAdmin="No"
-            
-            print("members phone comparison \(memberphones[i]) \(username)")
-            if(memberphones[i] == username)
-            {
-                print("adding group admin")
-                isAdmin="Yes"
-                sqliteDB.storeMembers(uniqueid,member_displayname1: myname, member_phone1: memberphones[i], isAdmin1: isAdmin, membershipStatus1: "joined", date_joined1: NSDate.init())
-                
-            }
-            else{
-                
-                sqliteDB.storeMembers(uniqueid,member_displayname1: membersnames[i], member_phone1: memberphones[i], isAdmin1: isAdmin, membershipStatus1: "joined", date_joined1: NSDate.init())
-            }
-            
-        }*/
-        var memberphones=[String]()
+                var memberphones=[String]()
         var membersnames=[String]()
         for(var i=0;i<participantsSelected.count;i++)
         {print()
@@ -383,6 +324,8 @@ identifiersarray.append(identifier)
             //tblGroupInfo.reloadData()
 
         }
+        
+        
         addGroupMembersAPI(singleGroupInfo["group_name"] as! String,members: memberphones,uniqueid: groupid)
         //send to server
         
@@ -785,6 +728,8 @@ return 95
         }
         else
         {
+            if(sqliteDB.getGroupAdmin(groupid)==username!)
+            {
             var selectedMemberPhone=messageDic["member_phone"]
             var selectedMemberName=messageDic["name"]
             var selectedMemberIsAdmin=messageDic["isAdmin"]
@@ -858,6 +803,7 @@ else{
             
         }//end of mee
         }
+            }
     }
     
       /*  if(msgType.isEqualToString("5")||msgType.isEqualToString("6")){
@@ -969,7 +915,7 @@ else{
             if(sqliteDB.getGroupAdmin(groupid)==username!)
             {
             //cell.btnAddPatricipants.tag=section
-            cell.btnAddPatricipants.addTarget(self, action: Selector("BtnnewGroupClicked:"), forControlEvents:.TouchUpInside)
+            cell.btnAddPatricipants.addTarget(self, action: Selector("BtnAddParticipantsClicked:"), forControlEvents:.TouchUpInside)
             }
             else
             {
@@ -1468,6 +1414,8 @@ else
         */
         
        print("messages count is \(messages.count)")
+        
+    
         if(self.addmemberfailed==false)
 {
         self.retrieveChatFromSqlite { (result) in
@@ -1481,17 +1429,35 @@ else
             
         }
        }
-
+        if(seguemsg=="gobackToGroupInfoSegue")
+        {
+            
+            addToGroup()
+        }
 
     }
-    /*
+    
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         // Get the new view controller using segue.destinationViewController.
         // Pass the selected object to the new view controller.
+        
+        
+        //identifiersarrayAlreadySelected
+        if segue.identifier == "addparticipantstogroupsegue" {
+            
+            
+            if let destinationVC = segue.destinationViewController as? AddParticipantsViewController{
+                destinationVC.prevScreen="Groupinfo"
+                destinationVC.identifiersarrayAlreadySelected.removeAll()
+                destinationVC.identifiersarrayAlreadySelected=identifiersarray
+                destinationVC.groupid=groupid
+                //  let selectedRow = tblForChat.indexPathForSelectedRow!.row
+                
+            }}
     }
-    */
+ 
 
 }

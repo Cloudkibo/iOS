@@ -571,10 +571,10 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
                 self.getData({ (result) -> () in
                     self.index=0
                     
-                    Alamofire.request(.POST,"\(Constants.MainUrl+Constants.urllog)",headers:header,parameters: ["data":"IPHONE_LOG: checkin here pending chat messages sent"]).response{
+                    /*Alamofire.request(.POST,"\(Constants.MainUrl+Constants.urllog)",headers:header,parameters: ["data":"IPHONE_LOG: checkin here pending chat messages sent"]).response{
                         request, response_, data, error in
                         print(error)
-                    }
+                    }*/
                     
                     
                    /* self.sendPendingGroupChatMessages({ (result) -> () in
@@ -796,7 +796,7 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
         
         if(socketObj != nil)
         {
-            socketObj.socket.emit("logClient","IPHONE LOG: \(username!) Fetching partial sync Chat")
+          //==--  socketObj.socket.emit("logClient","IPHONE LOG: \(username!) Fetching partial sync Chat")
         }
 
         let uniqueid = Expression<String>("uniqueid")
@@ -1212,7 +1212,7 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
                 
             }
             if(socketObj != nil){
-                socketObj.socket.emit("logClient","IPHONE-LOG: \(username!) done sending pending chat messages")
+                //==--socketObj.socket.emit("logClient","IPHONE-LOG: \(username!) done sending pending chat messages")
             }
             
             return completion(result: true)
@@ -1854,6 +1854,8 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
     
     // ----commenting
     
+    
+     var retrycount=0
      func application(application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: NSData) {
         print("trying to register device token")
         
@@ -1877,14 +1879,14 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
         if(error != nil)
             {
                 print("Registering for notifications \(error)")
-                UtilityFunctions.init().log_papertrail("Registering for notifications \(error)")
+                ///UtilityFunctions.init().log_papertrail("Registering for notifications \(error)")
                 //retry
                 UIApplication.sharedApplication().registerForRemoteNotifications()
                 //==--UIApplication.sharedApplication().registerUserNotificationSettings(pushNotificationSettings)
 
             }
             else
-            {UtilityFunctions.init().log_papertrail("Successfully registered for notifications")
+            {///UtilityFunctions.init().log_papertrail("Successfully registered for notifications")
                 print("Successfully registered for notifications")
 
             }
@@ -2246,10 +2248,10 @@ else{
         else
         {
             
-            Alamofire.request(.POST,"https://api.cloudkibo.com/api/users/log",headers:header,parameters: ["data":"IPHONE_LOG: \(username!) received push notification when in inactive mode so nothing will be processed \(userInfo.description)"]).response{
+          /*  Alamofire.request(.POST,"https://api.cloudkibo.com/api/users/log",headers:header,parameters: ["data":"IPHONE_LOG: \(username!) received push notification when in inactive mode so nothing will be processed \(userInfo.description)"]).response{
                 request, response_, data, error in
                 print(error)
-            }
+            }*/
         }
        /////// print("remote notification received is \(userInfo)")
         /*var notificationJSON=JSON(userInfo)
@@ -2617,7 +2619,7 @@ else{
         
         UIApplication.sharedApplication().registerForRemoteNotifications()
         print("registered for notification error", terminator: "")
-        UtilityFunctions.init().log_papertrail("Error in registration. Error: \(error)")
+        ////UtilityFunctions.init().log_papertrail("Error in registration. Error: \(error)")
         NSLog("Error in registration. Error: \(error)")
         //retry
         UIApplication.sharedApplication().registerForRemoteNotifications()
@@ -2819,7 +2821,7 @@ else{
                         print("===single fetch chat date in app delegate \(datens2)")
                         
                      
-                        UtilityFunctions.init().log_papertrail("IPHONE-LOG: \(username!) got chat saving in databse now sqliteDB is \(sqliteDB.debugDescription)")
+                       //// UtilityFunctions.init().log_papertrail("IPHONE-LOG: \(username!) got chat saving in databse now sqliteDB is \(sqliteDB.debugDescription)")
                         
                         sqliteDB.SaveChat(chatJson[0]["to"].string!, from1: chatJson[0]["from"].string!,owneruser1:chatJson[0]["to"].string!, fromFullName1: chatJson[0]["fromFullName"].string!, msg1: chatJson[0]["msg"].string!,date1:datens2,uniqueid1:chatJson[0]["uniqueid"].string!,status1: status,type1: "", file_type1: "chat",file_path1: "")
                         
@@ -2840,7 +2842,7 @@ else{
                         //===
                         
                      
-                         UtilityFunctions.init().log_papertrail("IPHONE-log: \(username!) got chat saving in databse now sqliteDB is \(sqliteDB.debugDescription)")
+                      ////   UtilityFunctions.init().log_papertrail("IPHONE-log: \(username!) got chat saving in databse now sqliteDB is \(sqliteDB.debugDescription)")
                         
                         sqliteDB.SaveChat(chatJson[0]["to"].string!, from1: chatJson[0]["from"].string!,owneruser1:chatJson[0]["to"].string!, fromFullName1: chatJson[0]["fromFullName"].string!, msg1: chatJson[0]["msg"].string!,date1:datens2,uniqueid1:chatJson[0]["uniqueid"].string!,status1: status,type1: chatJson[0]["type"].string!, file_type1: chatJson[0]["file_type"].string!,file_path1: "")
                         

@@ -3703,7 +3703,7 @@
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="ContactsInviteCell" id="lU5-3E-N9k" customClass="ContactsInviteCell" customModule="Chat" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="22" width="320" height="78"/>
+                                        <rect key="frame" x="0.0" y="86" width="320" height="78"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="lU5-3E-N9k" id="ttq-aH-WWS">
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="77.5"/>
@@ -3881,7 +3881,7 @@
                         </view>
                         <prototypes>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="JC4-iV-Jwg">
-                                <rect key="frame" x="0.0" y="133" width="320" height="44"/>
+                                <rect key="frame" x="0.0" y="197" width="320" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="JC4-iV-Jwg" id="H6p-c1-bTR">
                                     <rect key="frame" x="0.0" y="0.0" width="320" height="43.5"/>
@@ -5382,11 +5382,19 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
-                    <navigationItem key="navigationItem" id="yGF-dl-FA6"/>
+                    <navigationItem key="navigationItem" id="yGF-dl-FA6">
+                        <barButtonItem key="leftBarButtonItem" title="Back" id="hdV-cN-hOE">
+                            <connections>
+                                <action selector="btnBackPressed:" destination="0KM-xl-Gv5" id="Zzm-J7-Fst"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
                         <outlet property="tblGroupInfo" destination="LP1-sz-qZs" id="CsZ-ge-aew"/>
                         <outlet property="view" destination="LP1-sz-qZs" id="s8y-eb-0IG"/>
                         <segue destination="YH8-pY-Wmo" kind="push" identifier="" id="Aba-99-G71"/>
+                        <segue destination="Xlj-pb-Vmy" kind="push" identifier="addparticipantstogroupsegue" id="Jjq-iC-ovb"/>
+                        <segue destination="cJu-ld-BCz" kind="push" identifier="groupinfotochatstabsegue" id="YLQ-j7-Vcj"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="623-Tf-xJ9" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -5549,6 +5557,7 @@
                         <outlet property="tblForNotes" destination="c2b-VZ-Yb6" id="VAj-Ow-1u9"/>
                         <segue destination="YH8-pY-Wmo" kind="push" identifier="newGroupDetailsSegue1" id="ogf-EO-Swc"/>
                         <segue destination="Rgk-Rk-lne" kind="push" identifier="GoToBroadCastSegue" id="6oI-GI-9iA"/>
+                        <segue destination="0KM-xl-Gv5" kind="push" identifier="gobackToGroupInfoSegue" id="TN9-Au-PUW"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="UoE-Ur-5gv" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -6067,17 +6076,18 @@
         <image name="video_off" width="50" height="50"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="tDO-ll-fdo"/>
-        <segue reference="W8i-Cs-Z8T"/>
-        <segue reference="NgD-BM-wgZ"/>
-        <segue reference="cEg-U8-UBa"/>
+        <segue reference="6oI-GI-9iA"/>
+        <segue reference="Jjq-iC-ovb"/>
+        <segue reference="TN9-Au-PUW"/>
+        <segue reference="YLQ-j7-Vcj"/>
+        <segue reference="Aba-99-G71"/>
         <segue reference="Y9a-Vx-tcX"/>
-        <segue reference="ADA-1C-gHV"/>
         <segue reference="Spe-dd-EXu"/>
         <segue reference="1jA-Zj-XHt"/>
         <segue reference="BY8-e2-RyW"/>
-        <segue reference="Sdy-kO-WHf"/>
         <segue reference="QOc-Kg-WHZ"/>
+        <segue reference="7Lx-es-nco"/>
+        <segue reference="tDO-ll-fdo"/>
         <segue reference="Lsn-aA-q1J"/>
         <segue reference="8LM-cv-XXH"/>
         <segue reference="X5X-Qt-8lc"/>

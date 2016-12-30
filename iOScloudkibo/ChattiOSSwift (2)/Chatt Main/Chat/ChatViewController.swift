@@ -359,13 +359,13 @@ EPPickerDelegate,SWTableViewCellDelegate,UpdateChatViewsDelegate,RefreshContacts
                             
                             //commenting ===---
                             var syncGroupsObj=syncGroupService.init()
-                    /*syncGroupsObj.startSyncGroupsService({ (result) -> () in
+                  /*  syncGroupsObj.startSyncGroupsService({ (result) -> () in
                         
                         // partial sync groups
                         print("calling partial sync groups chat")
-                        syncGroupsObj.startPartialGroupsChatSyncService()
-                    })
-                            */
+                       //==-- syncGroupsObj.startPartialGroupsChatSyncService()
+                    })*/
+ 
                     
                 })
                 })
