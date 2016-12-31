@@ -350,7 +350,7 @@ class NotesViewController: UIViewController,InviteContactsDelegate,UITextFieldDe
         do
         {alladdressContactsArray = Array(try sqliteDB.db.prepare(allcontactslist1.order(name.asc)))
             
-            tblForNotes.reloadData()
+            ////===-------tblForNotes.reloadData()
         }
         catch
         {

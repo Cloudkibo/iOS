@@ -364,7 +364,7 @@ class ChatMainViewController:UIViewController,SocketConnecting,RefreshContactsLi
            /* if(socketObj != nil){
                 socketObj.delegate=self
             }*/
-        if(loggedUserObj == JSON("[]"))
+       /* if(loggedUserObj == JSON("[]"))
         {
             var lusername=KeychainWrapper.stringForKey("username")
             
@@ -409,7 +409,7 @@ class ChatMainViewController:UIViewController,SocketConnecting,RefreshContactsLi
             ///////////////////////not supported}
             
         }
-        
+        */
         }//end if username definned
         
         print("loadddddd", terminator: "")
@@ -724,6 +724,48 @@ class ChatMainViewController:UIViewController,SocketConnecting,RefreshContactsLi
     //=====================================
     //to fetch contacts from SQLite db
     
+    
+    func fetchcontactsnew()
+    {
+        
+        var ContactsProfilePic=NSData.init()
+        var ContactNames=""
+        var ContactStatus=""
+        var ContactUsernames=""
+        var ContactsPhone=""
+        
+        let uniqueidentifier = Expression<String>("uniqueidentifier")
+        
+        var picfound=false
+        var joinrows=self.leftJoinContactsTables()
+        
+        do{
+            for ccc in joinrows {
+              
+                
+                let contactStore = CNContactStore()
+                
+                var keys = [CNContactGivenNameKey, CNContactFamilyNameKey, CNContactEmailAddressesKey, CNContactPhoneNumbersKey, CNContactImageDataAvailableKey,CNContactThumbnailImageDataKey, CNContactImageDataKey]
+                //--- var foundcontact=try contactStore.unifiedContactWithIdentifier(picquery[uniqueidentifier], keysToFetch: keys)
+                var foundcontact=try contactStore.unifiedContactWithIdentifier(ccc.get(uniqueidentifier), keysToFetch: keys)
+                
+                
+                
+                if(foundcontact.imageDataAvailable==true)
+                {
+                    foundcontact.imageData
+                    ContactsProfilePic=foundcontact.imageData!
+                    picfound=true
+                    break
+                }
+            
+            }
+        }
+        catch{
+            
+        }
+    }
+    
     func fetchContacts(completion:(result:Bool)->()){
         socketObj.socket.emit("logClient","IPHONE-LOG: fetch contacts from sqlite database")
         dispatch_async(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0)) {
@@ -905,6 +947,49 @@ class ChatMainViewController:UIViewController,SocketConnecting,RefreshContactsLi
     
 
     
+    func leftJoinContactsTables()->Array<Row>
+    {
+        
+        var resultrow=Array<Row>()
+        let name = Expression<String>("name")
+        let phone = Expression<String>("phone")
+        let actualphone = Expression<String>("actualphone")
+        let email = Expression<String>("email")
+        let kiboContact = Expression<Bool>("kiboContact")
+        /////////////////////let profileimage = Expression<NSData>("profileimage")
+        let uniqueidentifier = Expression<String>("uniqueidentifier")
+        //
+        var allcontacts = sqliteDB.allcontacts
+        //========================================================
+        let contactid = Expression<String>("contactid")
+        let detailsshared = Expression<String>("detailsshared")
+        let unreadMessage = Expression<Bool>("unreadMessage")
+        
+        let userid = Expression<String>("userid")
+        let firstname = Expression<String>("firstname")
+        let lastname = Expression<String>("lastname")
+        //---let email = Expression<String>("email")
+        //--- let phone = Expression<String>("phone")
+        let username = Expression<String>("username")
+        let status = Expression<String>("status")
+        
+        var contactslists = sqliteDB.contactslists
+        //=================================================
+        var joinquery=allcontacts.join(.LeftOuter, contactslists, on: contactslists[phone] == allcontacts[phone])
+        
+        do{for joinresult in try sqliteDB.db.prepare(joinquery) {
+            if(joinresult[uniqueidentifier].isEmpty){}
+            else{
+                resultrow.append(joinresult)
+            }
+            }
+        }
+        catch{
+            print("error in join query \(error)")
+        }
+        return resultrow
+        
+    }
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()

@@ -230,11 +230,14 @@ else{
         identifiersarray.removeAll()
 for(var i=0;i<membersArrayOfGroup.count;i++)
 {
+   if((membersArrayOfGroup[i]["membership_status"] as! String) == "joined")
+    {
 var identifier=sqliteDB.getIdentifierFRomPhone(membersArrayOfGroup[i]["member_phone"] as! String)
 if(identifier != "")
 {
 identifiersarray.append(identifier)
 }
+    }
 }
         
         addmemberfailed=true
