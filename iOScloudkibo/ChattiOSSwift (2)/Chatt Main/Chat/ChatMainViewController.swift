@@ -21,6 +21,7 @@ var delegateRefreshContacts:RefreshContactsList!
 class ChatMainViewController:UIViewController,SocketConnecting,RefreshContactsList
 {
     
+    var messages:NSMutableArray!
     var sendType=""
     var accountKit: AKFAccountKit!
     var rt=NetworkingLibAlamofire()
@@ -236,7 +237,7 @@ class ChatMainViewController:UIViewController,SocketConnecting,RefreshContactsLi
         */
     }
     
-    var ContactNames:[String]=[]
+    /*var ContactNames:[String]=[]
     var ContactUsernames:[String]=[]
     //var ContactIDs:[String]=[]
     var ContactFirstname:[String]=[]
@@ -251,6 +252,7 @@ class ChatMainViewController:UIViewController,SocketConnecting,RefreshContactsLi
     var ContactsEmail:[String]=[]
     var ContactsPhone:[String]=[]
     var ContactsProfilePic:[NSData]=[]
+    */
     //["Bus","Helicopter","Truck","Boat","Bicycle","Motorcycle","Plane","Train","Car","Scooter","Caravan"]
     required init?(coder aDecoder: NSCoder)
     {
@@ -280,6 +282,7 @@ class ChatMainViewController:UIViewController,SocketConnecting,RefreshContactsLi
         self.accountKit = AKFAccountKit(responseType: AKFResponseType.AccessToken)
 }
 
+        messages=NSMutableArray()
         /*if(socketObj != nil)
         {
             socketObj.delegate=self
@@ -348,7 +351,7 @@ class ChatMainViewController:UIViewController,SocketConnecting,RefreshContactsLi
         {print("dont know why dismiss was there")
             /////self.dismissViewControllerAnimated(true,completion: nil)
         }
-        var retrievedToken=KeychainWrapper.stringForKey("access_token")
+       /* var retrievedToken=KeychainWrapper.stringForKey("access_token")
         print("retrieved token === \(retrievedToken)")
         print("khul raha hai2", terminator: "")
         print(loggedUserObj.object)
@@ -360,59 +363,12 @@ class ChatMainViewController:UIViewController,SocketConnecting,RefreshContactsLi
         if(KeychainWrapper.stringForKey("username") != nil)
         {print("delegate added in chat")
             currrentUsernameRetrieved=KeychainWrapper.stringForKey("username")!
-            //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-           /* if(socketObj != nil){
-                socketObj.delegate=self
-            }*/
-       /* if(loggedUserObj == JSON("[]"))
-        {
-            var lusername=KeychainWrapper.stringForKey("username")
-            
-            var lid=KeychainWrapper.stringForKey("_id")
-            
-            var lobj=["_id" : lid!, "username" : lusername!]
-            ///////////////////not supported ^^^^^^^^^^^newwwif let dataFromString = jsonString.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false) {
-                let json11 = JSON(lobj.debugDescription)
-                
-                var lllooo = json11
-                loggedUserObj=json11
-                loggedUserObj.object=json11.object
-                print(lllooo.object)
-                
-                
-                
-                
-                
-                //var jsonNew=JSON("{\"room\": \"globalchatroom\",\"user\": {\"username\":\"sabachanna\"}}")
-                //socketObj.socket.emit("join global chatroom", ["room": "globalchatroom", "user": ["username":"sabachanna"]]) WORKINGGG
-                
-                
-                /*
-                
-                var logonjuser=KeychainWrapper.stringForKey("loggedUserObjString")
-                var newloggedUserObj=logonjuser!.stringByResolvingSymlinksInPath
-                print("newloggeduserobj string")
-                print(newloggedUserObj)
-                if let dataFromString = jsonString.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false) {
-                let json11 = JSON(newloggedUserObj)
-                
-                print("json11 object")
-                print(json11.object)
-                
-                loggedUserObj=json11
-                
-                
-                print("joining rooon \(json11.object)")
-                socketObj.socket.emit("join global chatroom",["room": "globalchatroom", "user": json11.object])
-                
-                }*/
-            ///////////////////////not supported}
-            
-        }
-        */
+          
         }//end if username definned
         
         print("loadddddd", terminator: "")
+        
+        */
         //%%%%%%%%%%%% commented socket connect again and again
         /*
         if(socketObj == nil)
@@ -478,88 +434,42 @@ class ChatMainViewController:UIViewController,SocketConnecting,RefreshContactsLi
         self.tabBarController?.tabBar.tintColor = UIColor.greenColor()
         print("////////////////////// new class tokn \(AuthToken)", terminator: "")
         // fetchContacts(AuthToken)
-        print(self.ContactNames.count.description, terminator: "")
+       // print(self.ContactNames.count.description, terminator: "")
        
         
-        self.fetchContacts({ (result) -> () in
+        
+        
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT,0))
+        {
+            self.fetchcontactsnew({(result)-> () in
+                
+                
+                //    dispatch_async(dispatch_get_main_queue())
+                //  {
+                // self.tblForChats.reloadData()
+                
+                //commenting newwwwwwww -===-===-=
+                if(result==true)
+{
+                dispatch_async(dispatch_get_main_queue())
+                {
+                    self.tblForChat.reloadData()
+                    
+                    
+                }
+}
+                }
+            )}
+        /*self.fetchContacts({ (result) -> () in
             //self.fetchContactsFromServer()
             dispatch_async(dispatch_get_main_queue()) {
                 self.tblForChat.reloadData()
             }
         })
+        */
         
-        
-        
-        /////////////----------------------================================++++++++++
-       
         
 
-        //((((((((()))))))___________++++++++++++__________++++++++++++((((((((((()))))))))
-    
-        
-
-        
-        
-        
-        
-        
-        //========
-    /*    socketObj.socket.on("online")
-            {data,ack in
-                    
-                    print("online status...")
-                    var onlineUsers=JSON(data)
-                    print(onlineUsers[0])
-                socketObj.socket.emit("logClient","IPHONE-LOG: online users \(onlineUsers)")
-                    //print(onlineUsers[0]["username"])
-                
-                for(var i=0;i<onlineUsers.count;i++)
-                {
-                    for(var j=0;j<self.ContactUsernames.count;j++)
-                    {
-                       //%%% if self.ContactUsernames[j]==onlineUsers[i]["username"].string!
-                        if self.ContactUsernames[j]==onlineUsers[i]["phone"].string!
-                        {
-                            //found online contact,s username
-                            print("user found onlineeeee \(self.ContactUsernames[j])")
-                            self.ContactOnlineStatus[j]=1
-                            self.tblForChat.reloadData()
-                        }
-                    }
-                }
-                
-                }*/
-        
-       
-
-     
-        
-    /*    //======Offline users=========
-        socketObj.socket.on("offline")
-            {data,ack in
-                
-                print("offline status...")
-                var offlineUsers=JSON(data)
-                print(offlineUsers[0])
-                //print(offlineUsers[0]["username"])
-                
-                for(var i=0;i<offlineUsers.count;i++)
-                {
-                    for(var j=0;j<self.ContactUsernames.count;j++)
-                    {
-                        //%%%%%%%if self.ContactUsernames[j]==offlineUsers[i]["username"].string!
-                        if self.ContactUsernames[j]==offlineUsers[i]["phone"].string!
-                        {
-                            //found online contact,s username
-                            print("user found offlinee \(self.ContactUsernames[j])")
-                            self.ContactOnlineStatus[j]=0
-                            self.tblForChat.reloadData()
-                        }
-                    }
-                }
-                
-        }*/
-        
         
        
         //refreshControl.addTarget(self, action: Selector("fetchContacts"), forControlEvents: UIControlEvents.ValueChanged)
@@ -567,98 +477,7 @@ class ChatMainViewController:UIViewController,SocketConnecting,RefreshContactsLi
         
         
         let username = Expression<String?>("username")
-        //if sqliteDB.db["accounts"].count(username)<1
-        //if AuthToken==""
-        
-        //everytime new login
-        // %%%%%%%%%% removing this. keep loginned new phone model
-        //%% KeychainWrapper.removeObjectForKey("access_token")
-        //%% AuthToken=""
-        ///////////////if(sqliteDB.db != nil)
-        
-        
-        
-        //%%%%%%%%%% removing this. keep loginned new phone model
-        /*if(sqliteDB.accounts != nil && sqliteDB.contactslists != nil && sqliteDB.userschats != nil)
-        {
-        var tbl_contactslists=sqliteDB.contactslists
-        var tbl_accounts=sqliteDB.accounts
-        let tbl_userchats=sqliteDB.userschats
-        
-        
-        ///try db.run(users.delete())
-            do{
-        try sqliteDB.db.run(tbl_contactslists.delete())
-        try sqliteDB.db.run(tbl_accounts.delete())
-        try sqliteDB.db.run(tbl_userchats.delete())
-            }catch{
-                print("cannot delete tables")
-            }
-        
-            print("deletinggggg tablessss")
-        /*tbl_contactslists.delete()
-        tbl_accounts.delete()
-        tbl_userchats.delete()*/
-        }
-        
-        
-        KeychainWrapper.removeObjectForKey("access_token")
-        KeychainWrapper.removeObjectForKey("username")
-        KeychainWrapper.removeObjectForKey("password")
-        KeychainWrapper.removeObjectForKey("loggedFullName")
-        KeychainWrapper.removeObjectForKey("loggedPhone")
-        KeychainWrapper.removeObjectForKey("loggedEmail")
-        KeychainWrapper.removeObjectForKey("_id")
-        loggedUserObj=JSON("[]")
-        
-        //let dbSQLite=DatabaseHandler(dbName: "/cloudKibo.sqlite3")
-        print("loggedout", terminator: "")
-*/
-        
-        
-        /////////COMMENTING APRIL @)!^ CONFLICTING WITH ABOVE 
-        
-        //// **********************************%%%%%%%%%%%%%%% newww commented
-        /*retrievedToken=KeychainWrapper.stringForKey("access_token")
-        if (retrievedToken==nil)
-        {print("line #524")
-           
-            self.performSelector("loginSegueMethod", withObject: nil, afterDelay: 0.0)
-            //////////neww socket delay commented april 2016 performSegueWithIdentifier("loginSegue", sender: nil)
-        
-        }
-        else
-        {print("rrrrrrrrr \(retrievedToken)", terminator: "")
-            refreshControl.addTarget(self, action: Selector("fetchContacts"), forControlEvents: UIControlEvents.ValueChanged)
-            
-            /*^^^^^^newwww socketObj.socket.on("othersideringing"){data,ack in
-                print("otherside ringing")
-                var msg=JSON(data)
-                //self.othersideringing=true;
-                print(msg.debugDescription)
-                callerName=KeychainWrapper.stringForKey("username")!
-                //iamincallWith=msg[0]["callee"].string!
-                
-                print("callee is \(callerName)")
-                
-                var next = self.storyboard?.instantiateViewControllerWithIdentifier("Main2") as! VideoViewController
-                
-                self.presentViewController(next, animated: true, completion: {
-                })
-                
-            }
-            */
-            //fetchContacts()
-            self.tblForChat.reloadData()
-            //performSegueWithIdentifier("loginSegue", sender: nil)
-        }
-        
-        */
-        
-        
-        // Do any additional setup after loading the view.
-        
-        
+       
     }
     
     func loginSegueMethod()
@@ -716,6 +535,27 @@ class ChatMainViewController:UIViewController,SocketConnecting,RefreshContactsLi
             })*/
         //}
 
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT,0))
+        {
+            self.fetchcontactsnew({(result)-> () in
+                
+                
+                //    dispatch_async(dispatch_get_main_queue())
+                //  {
+                // self.tblForChats.reloadData()
+                
+                //commenting newwwwwwww -===-===-=
+                if(result==true)
+                {
+                    dispatch_async(dispatch_get_main_queue())
+                    {
+                        self.tblForChat.reloadData()
+                        
+                        
+                    }
+                }
+                }
+            )}
         
       
         
@@ -725,24 +565,45 @@ class ChatMainViewController:UIViewController,SocketConnecting,RefreshContactsLi
     //to fetch contacts from SQLite db
     
     
-    func fetchcontactsnew()
+    func fetchcontactsnew(completion:(result:Bool)->())
     {
         
-        var ContactsProfilePic=NSData.init()
+        var messages2=NSMutableArray()
+        
+        let name = Expression<String>("name")
+        let phone = Expression<String>("phone")
+        let actualphone = Expression<String>("actualphone")
+        let email = Expression<String>("email")
+        let lastname = Expression<String>("lastname")
+        
+        var allcontacts = sqliteDB.allcontacts
         var ContactNames=""
-        var ContactStatus=""
         var ContactUsernames=""
         var ContactsPhone=""
         
+        var ContactFirstname=""
+        var ContactLastNAme=""
+        //var ContactsObjectss:[JSON]=[]
+        
+        var ContactOnlineStatus=0
+        var ContactsEmail=""
+           var ContactStatus=""
+        var ContactsProfilePic=NSData.init()
+        
         let uniqueidentifier = Expression<String>("uniqueidentifier")
         
-        var picfound=false
+        
         var joinrows=self.leftJoinContactsTables()
         
         do{
             for ccc in joinrows {
               
-                
+                var picfound=false
+                ContactNames=ccc.get(name)
+                ContactUsernames=ccc.get(allcontacts[phone])
+                ContactsPhone=ccc.get(allcontacts[phone])
+                ContactsEmail=ccc.get(allcontacts[email])
+                //ContactLastNAme=ccc.get(allcontacts[lastname])
                 let contactStore = CNContactStore()
                 
                 var keys = [CNContactGivenNameKey, CNContactFamilyNameKey, CNContactEmailAddressesKey, CNContactPhoneNumbersKey, CNContactImageDataAvailableKey,CNContactThumbnailImageDataKey, CNContactImageDataKey]
@@ -756,17 +617,35 @@ class ChatMainViewController:UIViewController,SocketConnecting,RefreshContactsLi
                     foundcontact.imageData
                     ContactsProfilePic=foundcontact.imageData!
                     picfound=true
-                    break
+                    //===---break
                 }
+                if(picfound==false)
+                {
+                    //print("no pic found for \(ContactUsernames)")
+                    ContactsProfilePic=NSData.init()
+                    // print("picquery NOT found for \(ccc[phone]) and is \(NSData.init())")
+                }
+                
+                print("favourites tab \(ContactNames) .. \(ContactsPhone)")
+                messages2.addObject(["ContactNames":ContactNames,"ContactUsernames":ContactUsernames,"ContactsPhone":ContactsPhone,"ContactsEmail":ContactsEmail,"ContactStatus":ContactStatus,"ContactsProfilePic":ContactsProfilePic])
+
             
             }
+            
+            
+            
         }
         catch{
             
         }
+        
+        self.messages.setArray(messages2 as [AnyObject])
+        
+        return completion(result:true)
+        
     }
     
-    func fetchContacts(completion:(result:Bool)->()){
+   /* func fetchContacts(completion:(result:Bool)->()){
         socketObj.socket.emit("logClient","IPHONE-LOG: fetch contacts from sqlite database")
         dispatch_async(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0)) {
             
@@ -940,7 +819,7 @@ class ChatMainViewController:UIViewController,SocketConnecting,RefreshContactsLi
         }
     
     }
-    
+    */
     
     //======================================
     //to fetch contacts from server
@@ -975,10 +854,11 @@ class ChatMainViewController:UIViewController,SocketConnecting,RefreshContactsLi
         
         var contactslists = sqliteDB.contactslists
         //=================================================
-        var joinquery=allcontacts.join(.LeftOuter, contactslists, on: contactslists[phone] == allcontacts[phone])
+        var joinquery=contactslists.join(.Cross, allcontacts, on: allcontacts[phone] == contactslists[phone])
         
         do{for joinresult in try sqliteDB.db.prepare(joinquery) {
-            if(joinresult[uniqueidentifier].isEmpty){}
+            
+            if(joinresult[uniqueidentifier] == ""){}
             else{
                 resultrow.append(joinresult)
             }
@@ -1004,8 +884,9 @@ class ChatMainViewController:UIViewController,SocketConnecting,RefreshContactsLi
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         //refreshControl.addTarget(self, action: Selector("fetchContacts"), forControlEvents: UIControlEvents.ValueChanged)
         
-        print(ContactNames.count, terminator: "")
-        return ContactNames.count+2
+        //==--print(ContactNames.count, terminator: "")
+       // return ContactNames.count+2
+        return messages.count+2
     }
     
     func numberOfSectionsInTableView(tableView: UITableView!) -> Int {
@@ -1014,6 +895,10 @@ class ChatMainViewController:UIViewController,SocketConnecting,RefreshContactsLi
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath!) -> UITableViewCell! {
         
+        
+        
+        
+        
         /* if (indexPath.row%2 == 0){
         return tblForChat.dequeueReusableCellWithIdentifier("ChatPrivateCell") as! UITableViewCell
         } else {
@@ -1021,9 +906,19 @@ class ChatMainViewController:UIViewController,SocketConnecting,RefreshContactsLi
         }
         */
          print("indexpath row number is \(indexPath.row)")
-        if(indexPath.row < (ContactNames.count))
+        if(indexPath.row < (messages.count))
         {
-        let cellPublic=tblForChat.dequeueReusableCellWithIdentifier("ChatPublicCell") as! ContactsListCell
+            var messageDic = messages.objectAtIndex(indexPath.row) as! [String : AnyObject];
+            
+            //let ContactLastNAme=messageDic["ContactLastNAme"] as! String
+            var ContactNames=messageDic["ContactNames"] as! String
+            let ContactStatus=messageDic["ContactStatus"] as! String
+            let ContactUsernames=messageDic["ContactUsernames"] as! String
+            //let ContactFirstname=messageDic["ContactFirstname"] as! String
+            let ContactsPhone=messageDic["ContactsPhone"] as! String
+            let ContactsProfilePic=messageDic["ContactsProfilePic"] as! NSData
+            
+      //==---  let cellPublic=tblForChat.dequeueReusableCellWithIdentifier("ChatPublicCell") as! ContactsListCell
         
         let cell=tblForChat.dequeueReusableCellWithIdentifier("ChatPrivateCell") as! ContactsListCell
         
@@ -1037,11 +932,16 @@ class ChatMainViewController:UIViewController,SocketConnecting,RefreshContactsLi
         let phone = Expression<String>("phone")
         let usernameFromDb = Expression<String?>("username")
         let name = Expression<String?>("name")
-        cell.contactName?.text=ContactNames[indexPath.row]
-            if(!ContactsProfilePic.isEmpty && ContactsProfilePic[indexPath.row] != NSData.init())
+        cell.contactName?.text=ContactNames
+            cell.profilePic.image=UIImage(named: "profile-pic1")
+
+            //if(!ContactsProfilePic.isEmpty && ContactsProfilePic[indexPath.row] != NSData.init())
+            if(ContactsProfilePic != NSData.init())
             {
                 
-                var img=UIImage(data:ContactsProfilePic[indexPath.row])
+                   print("ound avatar in favourites")
+                
+                var img=UIImage(data:ContactsProfilePic)
                 var w=img!.size.width
                 var h=img!.size.height
                 var wOld=cell.profilePic.bounds.width
@@ -1056,135 +956,33 @@ class ChatMainViewController:UIViewController,SocketConnecting,RefreshContactsLi
                 cell.profilePic.layer.cornerRadius = cell.profilePic.frame.size.width/2
                 cell.profilePic.clipsToBounds = true
                 
-                cell.profilePic.image=UIImage(data: ContactsProfilePic[indexPath.row], scale: scale)
+                cell.profilePic.image=UIImage(data: ContactsProfilePic, scale: scale)
                 ///cell.profilePic.image=UIImage(data:ContactsProfilePic[indexPath.row])
-                UIImage(data: ContactsProfilePic[indexPath.row], scale: scale)
-                print("image size is s \(UIImage(data:ContactsProfilePic[indexPath.row])?.size.width) and h \(UIImage(data:ContactsProfilePic[indexPath.row])?.size.height)")
+                UIImage(data: ContactsProfilePic, scale: scale)
+                print("image size is s \(UIImage(data:ContactsProfilePic)?.size.width) and h \(UIImage(data:ContactsProfilePic)?.size.height)")
             }
-            
-       /* do
-        {//allkiboContactsArray = Array(try sqliteDB.db.prepare(contactsKibo))
-            do{for all in try sqliteDB.db.prepare(allcontacts) {
-                for kiboCont in try sqliteDB.db.prepare(contactsKibo) {
-                //print("id: \(account[_id]), phone: \(account[phone]), firstname: \(account[firstname])")
-                // id: 1, email: alice@mac.com, name: Optional("Alice")
-                print("[[[ all contacts\(all[phone]) .. kibo is \(kiboCont[usernameFromDb])")
-                //if(all[phone]==allkiboContactsArray[indexPath.row][username])
-                if(all[phone]==kiboCont[usernameFromDb])
-                    //all[phone]==allkiboContactsArray[indexPath.row].get(usernameFromDb))
-                    
-                    
-                {
-                    //Matched phone number. Got contact
-                    if(all[name] != "" || all[name] != nil)
-                    {
-                        cell.contactName?.text=all[name]
-                        print("name is \(all[name])")
-                        ContactNames[indexPath.row]=all[name]!
-                    }
-                    else
-                    {
-                        print("name is no name")
-                        cell.contactName?.text=all[phone]
-                    }
-                    contactFound=true
-                    
-                }
-                }
-                }
-                
-            }
-            catch
+            else
             {
-                socketObj.socket.emit("logClient","error in fetching contacts from database..")
-                print("error in fetching contacts from database..")
-            }
-            if(contactFound==false)
-            {
-                print("not found... \(ContactNames[indexPath.row]) ... kibo db \(ContactUsernames[])")
-                cell.contactName?.text=ContactNames[indexPath.row]
-                
-               /* ContactUsernames.removeAtIndex(indexPath.row)
-                self.ContactIDs.removeAtIndex(indexPath.row)
-                self.ContactLastNAme.removeAtIndex(indexPath.row)
-                self.ContactNames.removeAtIndex(indexPath.row)
-                self.ContactStatus.removeAtIndex(indexPath.row)
-                self.ContactUsernames.removeAtIndex(indexPath.row)
-              ///  self.ContactsObjectss.removeAtIndex(indexPath.row)
-                ////////////////////////
-                self.ContactFirstname.removeAtIndex(indexPath.row)
-                ////////
-                
-                self.ContactsPhone.removeAtIndex(indexPath.row)
-                self.ContactsEmail.removeAtIndex(indexPath.row)
-                tblForChat.reloadData()
- */
+                print("not found avatar in favourites")
+                cell.profilePic.image=UIImage(named: "profile-pic1")
                 
             }
             
             
-        }
-        catch
-        {
-            socketObj.socket.emit("logClient","error in getching contactss and making one array")
-            print("error in getching contactss and making one array")
-        }
-        */
-        
-        /*
-        for(var i=0;i<contacts.count;i++)
-        {
-        if(contacts[i].isKeyAvailable(CNContactPhoneNumbersKey)) {
-        for phoneNumber:CNLabeledValue in contacts[i].phoneNumbers {
-        let a = phoneNumber.value as! CNPhoneNumber
-        //print("\()
-        var phone=a.valueForKey("digits") as! String
-        if(phone==ContactUsernames[indexPath.row])
-        {
-        //Matched phone number. Got contact
-        if(contacts[i].givenName != "" || contacts[i].familyName != "")
-        {
-        cell.contactName?.text=contacts[i].givenName+" "+contacts[i].familyName
-        print("name is \(contacts[i].givenName+" "+contacts[i].familyName)")
-        ContactNames[indexPath.row]=contacts[i].givenName+" "+contacts[i].familyName
-        }
-        else
-        {
-        print("name is no name")
-        cell.contactName?.text=phone
-        }
-        contactFound=true
-        
-        }
-        }
-        }
-        if(contactFound==false)
-        {
-        cell.contactName?.text=ContactUsernames[indexPath.row]
-        }
-        }*/
-        
-        
-        // %%%%%%%%%%%%%%%%%%%%%%%%%_------------------------- need to show names also ------
-        
-        
-        
-        
-        
-        if ContactOnlineStatus[indexPath.row]==0
+        /*if ContactOnlineStatus==0
         {
             cell.btnGreenDot.hidden=true
         }
         else
         {
             cell.btnGreenDot.hidden=false
-        }
+        }*/
         
         
         return cell
         }
-        else {if(indexPath.row == (ContactNames.count))
-        {print("here count is \(ContactNames.count)")
+        else {if(indexPath.row == (messages.count))
+        {print("here count is \(messages.count)")
             let cell = tblForChat.dequeueReusableCellWithIdentifier("InviteToKiboAppCell")! as UITableViewCell
            
             return cell
@@ -1193,7 +991,7 @@ class ChatMainViewController:UIViewController,SocketConnecting,RefreshContactsLi
         {
          // print("here2 count is \(ContactNames.count)")
             let cell = tblForChat.dequeueReusableCellWithIdentifier("numberOfFavouritesCell") as! numberOfFavouritesCell
-            cell.lbl_numberOfFavourites.text = "\(ContactNames.count) Favourites"
+           cell.lbl_numberOfFavourites.text = "\(messages.count) Favourites"
             return cell
         }
         }
@@ -1204,11 +1002,11 @@ class ChatMainViewController:UIViewController,SocketConnecting,RefreshContactsLi
         
         //let indexPath = tableView.indexPathForSelectedRow();
         //let currentCell = tableView.cellForRowAtIndexPath(indexPath!) as UITableViewCell!;
-        if(indexPath.row < (ContactNames.count))
-        {
-        print(ContactNames[indexPath.row], terminator: "")
+        //if(indexPath.row < (ContactNames.count))
+        //{
+        //print(ContactNames[indexPath.row], terminator: "")
         self.performSegueWithIdentifier("favouritesChat", sender: nil);
-        }
+        //}
         //slideToChat
         
     }
@@ -1622,10 +1420,14 @@ class ChatMainViewController:UIViewController,SocketConnecting,RefreshContactsLi
             if let destinationVC = segue!.destinationViewController as? ChatDetailViewController{
                 
                 let selectedRow = tblForChat.indexPathForSelectedRow!.row
+                
+                var messageDic = messages.objectAtIndex(selectedRow) as! [String : AnyObject];
+        
+                
                 //destinationVC.selectedContact = ContactNames[selectedRow]
-                destinationVC.selectedContact = ContactUsernames[selectedRow]
-                destinationVC.selectedFirstName=ContactNames[selectedRow]
-                destinationVC.selectedLastName=ContactLastNAme[selectedRow]
+                destinationVC.selectedContact = messageDic["ContactUsernames"] as! String
+                destinationVC.selectedFirstName=messageDic["ContactNames"] as! String
+                destinationVC.selectedLastName=""
                // destinationVC.selectedID=ContactIDs[selectedRow]
                 //destinationVC.AuthToken = self.AuthToken
                 
@@ -1870,7 +1672,7 @@ class ChatMainViewController:UIViewController,SocketConnecting,RefreshContactsLi
         
         dispatch_async(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0)) {
             // do some task start to show progress wheel
-            self.fetchContacts({ (result) -> () in
+            self.fetchcontactsnew({ (result) -> () in
                 //self.fetchContactsFromServer()
                 //dispatch_async(dispatch_get_main_queue()) {
                 self.tblForChat.reloadData()
