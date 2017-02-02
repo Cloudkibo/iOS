@@ -46,7 +46,7 @@
             startingLineNumber = "444"
             endingLineNumber = "444"
             landmarkName = "createAllContactsTable()"
-            landmarkType = "5">
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -109,8 +109,8 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "967"
             endingLineNumber = "967"
-            landmarkName = "UpdateChatStatus(_:newstatus:)"
-            landmarkType = "5">
+            landmarkName = "UpdateChatStatus(uniqueid1:newstatus:)"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -125,8 +125,8 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "974"
             endingLineNumber = "974"
-            landmarkName = "UpdateChatStatus(_:newstatus:)"
-            landmarkType = "5">
+            landmarkName = "UpdateChatStatus(uniqueid1:newstatus:)"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -411,8 +411,8 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "3047"
             endingLineNumber = "3047"
-            landmarkName = "docTapped(_:)"
-            landmarkType = "5">
+            landmarkName = "docTapped(gestureRecognizer:)"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -427,8 +427,8 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "4709"
             endingLineNumber = "4709"
-            landmarkName = "documentPicker(_:didPickDocumentAtURL:)"
-            landmarkType = "5">
+            landmarkName = "documentPicker(controller:didPickDocumentAtURL:)"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -475,8 +475,8 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "2735"
             endingLineNumber = "2735"
-            landmarkName = "tableView(_:cellForRowAtIndexPath:)"
-            landmarkType = "5">
+            landmarkName = "tableView(tableView:cellForRowAtIndexPath:)"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -539,8 +539,8 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "3585"
             endingLineNumber = "3585"
-            landmarkName = "imagePickerController(_:didFinishPickingImage:editingInfo:)"
-            landmarkType = "5">
+            landmarkName = "imagePickerController(picker:didFinishPickingImage:editingInfo:)"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -635,8 +635,8 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "2491"
             endingLineNumber = "2491"
-            landmarkName = "tableView(_:cellForRowAtIndexPath:)"
-            landmarkType = "5">
+            landmarkName = "tableView(tableView:cellForRowAtIndexPath:)"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -667,8 +667,8 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "3586"
             endingLineNumber = "3586"
-            landmarkName = "imagePickerController(_:didFinishPickingImage:editingInfo:)"
-            landmarkType = "5">
+            landmarkName = "imagePickerController(picker:didFinishPickingImage:editingInfo:)"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -683,8 +683,8 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "709"
             endingLineNumber = "709"
-            landmarkName = "retrieveChatFromSqliteOnAppear(_:completion:)"
-            landmarkType = "5">
+            landmarkName = "retrieveChatFromSqliteOnAppear(selecteduser:completion:)"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -699,8 +699,8 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "789"
             endingLineNumber = "789"
-            landmarkName = "retrieveChatFromSqliteOnAppear(_:completion:)"
-            landmarkType = "5">
+            landmarkName = "retrieveChatFromSqliteOnAppear(selecteduser:completion:)"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -715,8 +715,8 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "196"
             endingLineNumber = "196"
-            landmarkName = "viewWillAppear(_:)"
-            landmarkType = "5">
+            landmarkName = "viewWillAppear(animated:)"
+            landmarkType = "7">
             <Locations>
                <Location
                   shouldBeEnabled = "No"
@@ -763,8 +763,8 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "694"
             endingLineNumber = "694"
-            landmarkName = "btnCallPressed(_:)"
-            landmarkType = "5">
+            landmarkName = "btnCallPressed(sender:)"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -811,8 +811,8 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "4729"
             endingLineNumber = "4729"
-            landmarkName = "documentPicker(_:didPickDocumentAtURL:)"
-            landmarkType = "5">
+            landmarkName = "documentPicker(controller:didPickDocumentAtURL:)"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -827,8 +827,8 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "4534"
             endingLineNumber = "4534"
-            landmarkName = "documentPicker(_:didPickDocumentAtURL:)"
-            landmarkType = "5">
+            landmarkName = "documentPicker(controller:didPickDocumentAtURL:)"
+            landmarkType = "7">
             <Locations>
                <Location
                   shouldBeEnabled = "No"
@@ -875,8 +875,8 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "4533"
             endingLineNumber = "4533"
-            landmarkName = "documentPicker(_:didPickDocumentAtURL:)"
-            landmarkType = "5">
+            landmarkName = "documentPicker(controller:didPickDocumentAtURL:)"
+            landmarkType = "7">
             <Locations>
                <Location
                   shouldBeEnabled = "Yes"
@@ -939,7 +939,7 @@
             startingLineNumber = "459"
             endingLineNumber = "459"
             landmarkName = "viewDidLoad()"
-            landmarkType = "5">
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -955,7 +955,7 @@
             startingLineNumber = "2671"
             endingLineNumber = "2671"
             landmarkName = "timerFiredScreenCapture()"
-            landmarkType = "5">
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -1081,8 +1081,8 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "214"
             endingLineNumber = "214"
-            landmarkName = "application(_:didFinishLaunchingWithOptions:)"
-            landmarkType = "5">
+            landmarkName = "application(application:didFinishLaunchingWithOptions:)"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -1097,8 +1097,8 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "248"
             endingLineNumber = "248"
-            landmarkName = "application(_:didFinishLaunchingWithOptions:)"
-            landmarkType = "5">
+            landmarkName = "application(application:didFinishLaunchingWithOptions:)"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -1113,8 +1113,8 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "253"
             endingLineNumber = "253"
-            landmarkName = "application(_:didFinishLaunchingWithOptions:)"
-            landmarkType = "5">
+            landmarkName = "application(application:didFinishLaunchingWithOptions:)"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -1129,8 +1129,8 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "233"
             endingLineNumber = "233"
-            landmarkName = "application(_:didFinishLaunchingWithOptions:)"
-            landmarkType = "5">
+            landmarkName = "application(application:didFinishLaunchingWithOptions:)"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -1173,8 +1173,8 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "232"
             endingLineNumber = "232"
-            landmarkName = "application(_:didFinishLaunchingWithOptions:)"
-            landmarkType = "5">
+            landmarkName = "application(application:didFinishLaunchingWithOptions:)"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -1189,8 +1189,8 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "389"
             endingLineNumber = "389"
-            landmarkName = "application(_:didFinishLaunchingWithOptions:)"
-            landmarkType = "5">
+            landmarkName = "application(application:didFinishLaunchingWithOptions:)"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -1221,8 +1221,8 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "231"
             endingLineNumber = "231"
-            landmarkName = "application(_:didFinishLaunchingWithOptions:)"
-            landmarkType = "5">
+            landmarkName = "application(application:didFinishLaunchingWithOptions:)"
+            landmarkType = "7">
             <Actions>
                <BreakpointActionProxy
                   ActionExtensionID = "Xcode.BreakpointAction.DebuggerCommand">
@@ -1245,8 +1245,8 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "237"
             endingLineNumber = "237"
-            landmarkName = "application(_:didFinishLaunchingWithOptions:)"
-            landmarkType = "5">
+            landmarkName = "application(application:didFinishLaunchingWithOptions:)"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -1261,8 +1261,8 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "238"
             endingLineNumber = "238"
-            landmarkName = "application(_:didFinishLaunchingWithOptions:)"
-            landmarkType = "5">
+            landmarkName = "application(application:didFinishLaunchingWithOptions:)"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -1325,8 +1325,8 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "3848"
             endingLineNumber = "3848"
-            landmarkName = "sendChatMessage(_:completion:)"
-            landmarkType = "5">
+            landmarkName = "sendChatMessage(chatstanza:completion:)"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -1421,8 +1421,8 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "167"
             endingLineNumber = "167"
-            landmarkName = "application(_:didFinishLaunchingWithOptions:)"
-            landmarkType = "5">
+            landmarkName = "application(application:didFinishLaunchingWithOptions:)"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -1454,7 +1454,7 @@
             startingLineNumber = "3019"
             endingLineNumber = "3019"
             landmarkName = "checkFirstRun()"
-            landmarkType = "5">
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -1469,8 +1469,8 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "2257"
             endingLineNumber = "2257"
-            landmarkName = "application(_:didReceiveRemoteNotification:fetchCompletionHandler:)"
-            landmarkType = "5">
+            landmarkName = "application(application:didReceiveRemoteNotification:fetchCompletionHandler:)"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -1485,8 +1485,8 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "2016"
             endingLineNumber = "2016"
-            landmarkName = "tableView(_:cellForRowAtIndexPath:)"
-            landmarkType = "5">
+            landmarkName = "tableView(tableView:cellForRowAtIndexPath:)"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -1502,7 +1502,7 @@
             startingLineNumber = "1630"
             endingLineNumber = "1630"
             landmarkName = "createGroupsMembersTable()"
-            landmarkType = "5">
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -1533,8 +1533,8 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "2118"
             endingLineNumber = "2118"
-            landmarkName = "application(_:didReceiveRemoteNotification:fetchCompletionHandler:)"
-            landmarkType = "5">
+            landmarkName = "application(application:didReceiveRemoteNotification:fetchCompletionHandler:)"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -1549,8 +1549,8 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "2380"
             endingLineNumber = "2380"
-            landmarkName = "fetchGroupMembersSpecificGroup(_:completion:)"
-            landmarkType = "5">
+            landmarkName = "fetchGroupMembersSpecificGroup(unique_id:completion:)"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -1582,7 +1582,7 @@
             startingLineNumber = "45"
             endingLineNumber = "45"
             landmarkName = "hubname"
-            landmarkType = "19">
+            landmarkType = "24">
             <Locations>
                <Location
                   shouldBeEnabled = "Yes"
@@ -1644,8 +1644,8 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "282"
             endingLineNumber = "282"
-            landmarkName = "application(_:didFinishLaunchingWithOptions:)"
-            landmarkType = "5">
+            landmarkName = "application(application:didFinishLaunchingWithOptions:)"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -1708,8 +1708,8 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "1749"
             endingLineNumber = "1749"
-            landmarkName = "tableView(_:heightForRowAtIndexPath:)"
-            landmarkType = "5">
+            landmarkName = "tableView(tableView:heightForRowAtIndexPath:)"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -1725,7 +1725,7 @@
             startingLineNumber = "4234"
             endingLineNumber = "4234"
             landmarkName = "postBtnTapped()"
-            landmarkType = "5">
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -1853,7 +1853,7 @@
             startingLineNumber = "4114"
             endingLineNumber = "4114"
             landmarkName = "postBtnTapped()"
-            landmarkType = "5">
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -1869,7 +1869,7 @@
             startingLineNumber = "599"
             endingLineNumber = "599"
             landmarkName = "synchroniseChatData()"
-            landmarkType = "5">
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -1885,7 +1885,7 @@
             startingLineNumber = "1059"
             endingLineNumber = "1059"
             landmarkName = "fetchChatsFromServer()"
-            landmarkType = "5">
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -1900,8 +1900,8 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "2180"
             endingLineNumber = "2180"
-            landmarkName = "application(_:didReceiveRemoteNotification:fetchCompletionHandler:)"
-            landmarkType = "5">
+            landmarkName = "application(application:didReceiveRemoteNotification:fetchCompletionHandler:)"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -1916,8 +1916,8 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "2215"
             endingLineNumber = "2215"
-            landmarkName = "application(_:didReceiveRemoteNotification:fetchCompletionHandler:)"
-            landmarkType = "5">
+            landmarkName = "application(application:didReceiveRemoteNotification:fetchCompletionHandler:)"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -1932,8 +1932,8 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "2887"
             endingLineNumber = "2887"
-            landmarkName = "fetchSingleChatMessage(_:)"
-            landmarkType = "5">
+            landmarkName = "fetchSingleChatMessage(uniqueid:)"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -1948,8 +1948,8 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "2963"
             endingLineNumber = "2963"
-            landmarkName = "updateMessageStatus(_:status:)"
-            landmarkType = "5">
+            landmarkName = "updateMessageStatus(uniqueID:status:)"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -2012,8 +2012,8 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "4832"
             endingLineNumber = "4832"
-            landmarkName = "refreshChatsUI(_:uniqueid:from:date1:type:)"
-            landmarkType = "5">
+            landmarkName = "refreshChatsUI(message:uniqueid:from:date1:type:)"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -2028,8 +2028,8 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "4841"
             endingLineNumber = "4841"
-            landmarkName = "refreshChatsUI(_:uniqueid:from:date1:type:)"
-            landmarkType = "5">
+            landmarkName = "refreshChatsUI(message:uniqueid:from:date1:type:)"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -2044,8 +2044,8 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "4896"
             endingLineNumber = "4896"
-            landmarkName = "refreshChatsUI(_:uniqueid:from:date1:type:)"
-            landmarkType = "5">
+            landmarkName = "refreshChatsUI(message:uniqueid:from:date1:type:)"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -2060,8 +2060,8 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "4892"
             endingLineNumber = "4892"
-            landmarkName = "refreshChatsUI(_:uniqueid:from:date1:type:)"
-            landmarkType = "5">
+            landmarkName = "refreshChatsUI(message:uniqueid:from:date1:type:)"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -2108,8 +2108,8 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "4880"
             endingLineNumber = "4880"
-            landmarkName = "refreshChatsUI(_:uniqueid:from:date1:type:)"
-            landmarkType = "5">
+            landmarkName = "refreshChatsUI(message:uniqueid:from:date1:type:)"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -2125,7 +2125,7 @@
             startingLineNumber = "4080"
             endingLineNumber = "4080"
             landmarkName = "postBtnTapped()"
-            landmarkType = "5">
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -2140,8 +2140,8 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "3808"
             endingLineNumber = "3808"
-            landmarkName = "sendChatMessage(_:completion:)"
-            landmarkType = "5">
+            landmarkName = "sendChatMessage(chatstanza:completion:)"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -2205,7 +2205,7 @@
             startingLineNumber = "4116"
             endingLineNumber = "4116"
             landmarkName = "postBtnTapped()"
-            landmarkType = "5">
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -2268,8 +2268,8 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "2739"
             endingLineNumber = "2739"
-            landmarkName = "fetchSingleChatMessage(_:)"
-            landmarkType = "5">
+            landmarkName = "fetchSingleChatMessage(uniqueid:)"
+            landmarkType = "7">
             <Locations>
                <Location
                   shouldBeEnabled = "No"
@@ -2316,8 +2316,8 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "2785"
             endingLineNumber = "2785"
-            landmarkName = "fetchSingleChatMessage(_:)"
-            landmarkType = "5">
+            landmarkName = "fetchSingleChatMessage(uniqueid:)"
+            landmarkType = "7">
             <Locations>
                <Location
                   shouldBeEnabled = "Yes"
@@ -2364,8 +2364,8 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "2788"
             endingLineNumber = "2788"
-            landmarkName = "fetchSingleChatMessage(_:)"
-            landmarkType = "5">
+            landmarkName = "fetchSingleChatMessage(uniqueid:)"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -2380,8 +2380,8 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "2792"
             endingLineNumber = "2792"
-            landmarkName = "fetchSingleChatMessage(_:)"
-            landmarkType = "5">
+            landmarkName = "fetchSingleChatMessage(uniqueid:)"
+            landmarkType = "7">
             <Locations>
                <Location
                   shouldBeEnabled = "Yes"
@@ -2428,8 +2428,8 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "2803"
             endingLineNumber = "2803"
-            landmarkName = "fetchSingleChatMessage(_:)"
-            landmarkType = "5">
+            landmarkName = "fetchSingleChatMessage(uniqueid:)"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -2444,8 +2444,8 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "2808"
             endingLineNumber = "2808"
-            landmarkName = "fetchSingleChatMessage(_:)"
-            landmarkType = "5">
+            landmarkName = "fetchSingleChatMessage(uniqueid:)"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -2460,8 +2460,8 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "2789"
             endingLineNumber = "2789"
-            landmarkName = "fetchSingleChatMessage(_:)"
-            landmarkType = "5">
+            landmarkName = "fetchSingleChatMessage(uniqueid:)"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -2476,8 +2476,8 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "1447"
             endingLineNumber = "1447"
-            landmarkName = "application(_:didRegisterUserNotificationSettings:)"
-            landmarkType = "5">
+            landmarkName = "application(application:didRegisterUserNotificationSettings:)"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
