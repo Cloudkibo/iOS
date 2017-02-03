@@ -6,7 +6,7 @@ pod 'EPContactsPicker'
 use_frameworks!
 
 pod 'HanekeSwift'
-pod 'Alamofire', '~> 3.0'
+pod 'Alamofire', '~> 4.3’
 
 pod "libjingle_peerconnection"
 end
