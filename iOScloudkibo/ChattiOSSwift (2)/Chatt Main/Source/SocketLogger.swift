@@ -44,7 +44,7 @@ public extension SocketLogger {
         abstractLog("ERROR", message: message, type: type, args: args)
     }
     
-    private func abstractLog(_ logType: String, message: String, type: String, args: [Any]) {
+    fileprivate func abstractLog(_ logType: String, message: String, type: String, args: [Any]) {
         guard log else { return }
         
         let newArgs = args.map({arg -> CVarArg in String(describing: arg)})

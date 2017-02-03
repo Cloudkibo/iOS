@@ -21,7 +21,7 @@ class contactsDetailsTableViewController: UITableViewController,MFMailComposeVie
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        var allcontactslist1=sqliteDB.allcontacts
+        let allcontactslist1=sqliteDB.allcontacts
         
         
         
@@ -30,7 +30,7 @@ class contactsDetailsTableViewController: UITableViewController,MFMailComposeVie
       
         
         do
-        {alladdressContactsArray = Array(try sqliteDB.db.prepare(allcontactslist1.order(name.asc)))
+        {alladdressContactsArray = Array(try sqliteDB.db.prepare((allcontactslist1?.order(name.asc))!))
             
         }
         catch
@@ -52,18 +52,18 @@ class contactsDetailsTableViewController: UITableViewController,MFMailComposeVie
 
     // MARK: - Table view data source
 
-    override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    override func numberOfSections(in tableView: UITableView) -> Int {
         // #warning Incomplete implementation, return the number of sections
         return 1
     }
 
-    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
         return 6
     }
 
     
-    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         
         
@@ -75,26 +75,26 @@ class contactsDetailsTableViewController: UITableViewController,MFMailComposeVie
         
         //if(indexPath.row==1)
         //{
-        var cell = tableView.dequeueReusableCellWithIdentifier("Name_Cell", forIndexPath: indexPath) as! AllContactsCell
+        var cell = tableView.dequeueReusableCell(withIdentifier: "Name_Cell", for: indexPath) as! AllContactsCell
         
         
        // cell.lbl_contactName.text=currentContact.givenName+currentContact.familyName
-        cell.hidden=true
+        cell.isHidden=true
         if(indexPath.row==0)
         {
-         cell = tableView.dequeueReusableCellWithIdentifier("Name_Cell", forIndexPath: indexPath) as! AllContactsCell
+         cell = tableView.dequeueReusableCell(withIdentifier: "Name_Cell", for: indexPath) as! AllContactsCell
         
        // alladdressContactsArray[contactIndex].get(name)
         //cell.lbl_contactName.text=currentContact.givenName+" "+currentContact.familyName
             cell.lbl_contactName.text=alladdressContactsArray[contactIndex].get(name)
             
-            cell.hidden=false
+            cell.isHidden=false
             
             let tbl_allcontacts=sqliteDB.allcontacts
             
             
             let phone = Expression<String>("phone")
-            let contactProfileImage = Expression<NSData>("profileimage")
+            let contactProfileImage = Expression<Data>("profileimage")
             
             //----------------
             let uniqueidentifier = Expression<String>("uniqueidentifier")
@@ -102,28 +102,28 @@ class contactsDetailsTableViewController: UITableViewController,MFMailComposeVie
             
             //--------------
             
-            let queryPic = tbl_allcontacts.filter(tbl_allcontacts[phone] == alladdressContactsArray[contactIndex].get(phone))          // SELECT "email" FROM "users"
+            let queryPic = tbl_allcontacts?.filter((tbl_allcontacts?[phone])! == alladdressContactsArray[contactIndex].get(phone))          // SELECT "email" FROM "users"
             
             
             do{
-                for picquery in try sqliteDB.db.prepare(queryPic) {
+                for picquery in try sqliteDB.db.prepare(queryPic!) {
                     
                     let contactStore = CNContactStore()
                     
-                    var keys = [CNContactGivenNameKey, CNContactFamilyNameKey, CNContactEmailAddressesKey, CNContactPhoneNumbersKey, CNContactImageDataAvailableKey,CNContactThumbnailImageDataKey, CNContactImageDataKey]
-                    var foundcontact=try contactStore.unifiedContactWithIdentifier(picquery[uniqueidentifier], keysToFetch: keys)
+                    let keys = [CNContactGivenNameKey, CNContactFamilyNameKey, CNContactEmailAddressesKey, CNContactPhoneNumbersKey, CNContactImageDataAvailableKey,CNContactThumbnailImageDataKey, CNContactImageDataKey]
+                    let foundcontact=try contactStore.unifiedContact(withIdentifier: picquery[uniqueidentifier], keysToFetch: keys as [CNKeyDescriptor])
                     if(foundcontact.imageDataAvailable==true)
                     {
                         foundcontact.imageData
-                        var imageavatar1=UIImage.init(data:(foundcontact.imageData)!)
+                        let imageavatar1=UIImage.init(data:(foundcontact.imageData)!)
                         //   imageavatar1=ResizeImage(imageavatar1!,targetSize: s)
                         
                         //var img=UIImage(data:ContactsProfilePic[indexPath.row])
-                        var w=imageavatar1!.size.width
+                        let w=imageavatar1!.size.width
                         var h=imageavatar1!.size.height
-                        var wOld=cell.profileAvatar.frame.width
+                        let wOld=cell.profileAvatar.frame.width
                         var hOld=cell.profileAvatar.frame.height
-                        var scale:CGFloat=w/wOld
+                        let scale:CGFloat=w/wOld
                         
                         
                         ///var s=CGSizeMake((self.navigationController?.navigationBar.frame.height)!-5,(self.navigationController?.navigationBar.frame.height)!-5)
@@ -132,7 +132,7 @@ class contactsDetailsTableViewController: UITableViewController,MFMailComposeVie
                         
                         cell.profileAvatar.layer.borderWidth = 1.0
                         cell.profileAvatar.layer.masksToBounds = false
-                        cell.profileAvatar.layer.borderColor = UIColor.whiteColor().CGColor
+                        cell.profileAvatar.layer.borderColor = UIColor.white.cgColor
                         cell.profileAvatar.layer.cornerRadius = cell.profileAvatar.frame.size.width/2
                         cell.profileAvatar.clipsToBounds = true
                         
@@ -204,15 +204,15 @@ class contactsDetailsTableViewController: UITableViewController,MFMailComposeVie
         //}
         if(indexPath.row==1)
         {
-             cell = tableView.dequeueReusableCellWithIdentifier("Phone_Cell", forIndexPath: indexPath) as! AllContactsCell
+             cell = tableView.dequeueReusableCell(withIdentifier: "Phone_Cell", for: indexPath) as! AllContactsCell
             // Set the contact's home email address.
-            cell.hidden=true
+            cell.isHidden=true
             
             
             if(alladdressContactsArray[contactIndex].get(phone) != "")
             {
                 cell.lbl_phone.text=alladdressContactsArray[contactIndex].get(phone)
-                cell.hidden=false
+                cell.isHidden=false
                 
             }
             /*if (contacts[contactIndex].isKeyAvailable(CNContactPhoneNumbersKey)) {
@@ -231,10 +231,10 @@ class contactsDetailsTableViewController: UITableViewController,MFMailComposeVie
         ////%%%%%%% needs work here
         if(indexPath.row==2)
         {
-             cell = tableView.dequeueReusableCellWithIdentifier("Email_Cell", forIndexPath: indexPath) as! AllContactsCell
+             cell = tableView.dequeueReusableCell(withIdentifier: "Email_Cell", for: indexPath) as! AllContactsCell
         // Set the contact's home email address.
         
-            cell.hidden=true
+            cell.isHidden=true
             
             
             if(alladdressContactsArray[contactIndex].get(email) != "")
@@ -242,7 +242,7 @@ class contactsDetailsTableViewController: UITableViewController,MFMailComposeVie
                 cell.lbl_email.text=alladdressContactsArray[contactIndex].get(email)
                // cell.lbl_email.text=emailAddress.value as! String
                 //homeEmailAddress = emailAddress.value as! String
-                cell.hidden=false
+                cell.isHidden=false
                 
             }
             
@@ -259,16 +259,16 @@ class contactsDetailsTableViewController: UITableViewController,MFMailComposeVie
         }
         if(indexPath.row==3 && isKiboContact==true)
         {
-            cell = tableView.dequeueReusableCellWithIdentifier("Status_Cell", forIndexPath: indexPath) as! AllContactsCell
-            cell.hidden=false
+            cell = tableView.dequeueReusableCell(withIdentifier: "Status_Cell", for: indexPath) as! AllContactsCell
+            cell.isHidden=false
             cell.lbl_status.text="Hey there! I am using KiboApp"
             
         }
         if(indexPath.row==4 && isKiboContact==false)
         {
-            cell = tableView.dequeueReusableCellWithIdentifier("invite_kibo_cell", forIndexPath: indexPath) as! AllContactsCell
+            cell = tableView.dequeueReusableCell(withIdentifier: "invite_kibo_cell", for: indexPath) as! AllContactsCell
             
-            cell.hidden=false
+            cell.isHidden=false
         }
         
         //cell.lbl_phone
@@ -278,17 +278,17 @@ class contactsDetailsTableViewController: UITableViewController,MFMailComposeVie
     }
 
 
-    @IBAction func inviteTokiboButtonPressed(sender: AnyObject) {
+    @IBAction func inviteTokiboButtonPressed(_ sender: AnyObject) {
         
-            let shareMenu = UIAlertController(title: nil, message: "Invite using", preferredStyle: .ActionSheet)
+            let shareMenu = UIAlertController(title: nil, message: "Invite using", preferredStyle: .actionSheet)
         
         let phone = Expression<String>("phone")
          let email = Expression<String>("email")
-            let twitterAction = UIAlertAction(title: "email \(self.alladdressContactsArray[self.contactIndex].get(email))", style: UIAlertActionStyle.Default,handler: { (action) -> Void in
+            let twitterAction = UIAlertAction(title: "email \(self.alladdressContactsArray[self.contactIndex].get(email))", style: UIAlertActionStyle.default,handler: { (action) -> Void in
                 
                 let mailComposeViewController = self.configuredMailComposeViewController()
                 if MFMailComposeViewController.canSendMail() {
-                    self.presentViewController(mailComposeViewController, animated: true, completion: nil)
+                    self.present(mailComposeViewController, animated: true, completion: nil)
                 } else {
                     self.showSendMailErrorAlert()
                 }
@@ -301,10 +301,10 @@ class contactsDetailsTableViewController: UITableViewController,MFMailComposeVie
                  self.showSendMailErrorAlert()
                  }*/
             })
-            let msgAction = UIAlertAction(title: "mobile \(self.alladdressContactsArray[self.contactIndex].get(phone))", style: UIAlertActionStyle.Default, handler: { (action) -> Void in
+            let msgAction = UIAlertAction(title: "mobile \(self.alladdressContactsArray[self.contactIndex].get(phone))", style: UIAlertActionStyle.default, handler: { (action) -> Void in
                 
                 
-                var messageVC = MFMessageComposeViewController()
+                let messageVC = MFMessageComposeViewController()
                 
                 messageVC.body = "Hey, \n \n I just downloaded Kibo App on my iPhone. \n \n It is a smartphone messenger with added features. It provides integrated and unified voice, video, and data communication. \n \n It is available for both Android and iPhone and there is no PIN or username to remember. \n \n Get it now from https://itunes.apple.com/us/app/kibo-chat/id1099977984?ls=1&mt=8 and say good-bye to SMS!";
                 
@@ -315,7 +315,7 @@ class contactsDetailsTableViewController: UITableViewController,MFMailComposeVie
                 
                 messageVC.messageComposeDelegate = self;
                 
-                self.presentViewController(messageVC, animated: false, completion: nil)
+                self.present(messageVC, animated: false, completion: nil)
 
                 //////self.sendType="Message"
                 ///////self.performSegueWithIdentifier("inviteSegueContacts",sender: nil)
@@ -328,13 +328,13 @@ class contactsDetailsTableViewController: UITableViewController,MFMailComposeVie
                  self.presentViewController(messageVC, animated: false, completion: nil)
                  */
             })
-        let cancelAction = UIAlertAction(title: "Cancel", style: UIAlertActionStyle.Cancel, handler:nil)
+        let cancelAction = UIAlertAction(title: "Cancel", style: UIAlertActionStyle.cancel, handler:nil)
         shareMenu.addAction(msgAction)
         shareMenu.addAction(twitterAction)
             shareMenu.addAction(cancelAction)
             
             
-            self.presentViewController(shareMenu, animated: true, completion: {
+            self.present(shareMenu, animated: true, completion: {
                 
             })
             
@@ -342,17 +342,17 @@ class contactsDetailsTableViewController: UITableViewController,MFMailComposeVie
     }
     
     
-    func messageComposeViewController(controller: MFMessageComposeViewController!, didFinishWithResult result: MessageComposeResult) {
+    func messageComposeViewController(_ controller: MFMessageComposeViewController!, didFinishWith result: MessageComposeResult) {
         switch (result) {
         case MessageComposeResultCancelled:
             print("Message was cancelled")
-            self.dismissViewControllerAnimated(true, completion: nil)
+            self.dismiss(animated: true, completion: nil)
         case MessageComposeResultFailed:
             print("Message failed")
-            self.dismissViewControllerAnimated(true, completion: nil)
+            self.dismiss(animated: true, completion: nil)
         case MessageComposeResultSent:
             print("Message was sent")
-            self.dismissViewControllerAnimated(true, completion: nil)
+            self.dismiss(animated: true, completion: nil)
         default:
             break;
         }
@@ -380,8 +380,8 @@ class contactsDetailsTableViewController: UITableViewController,MFMailComposeVie
     }
     
     // MARK: MFMailComposeViewControllerDelegate Method
-    func mailComposeController(controller: MFMailComposeViewController!, didFinishWithResult result: MFMailComposeResult, error: NSError!) {
-        controller.dismissViewControllerAnimated(true, completion: nil)
+    func mailComposeController(_ controller: MFMailComposeViewController!, didFinishWith result: MFMailComposeResult, error: Error!) {
+        controller.dismiss(animated: true, completion: nil)
     }
     
 
@@ -424,10 +424,10 @@ class contactsDetailsTableViewController: UITableViewController,MFMailComposeVie
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue?, sender: AnyObject?) {
+    override func prepare(for segue: UIStoryboardSegue?, sender: Any?) {
         
         if segue!.identifier == "inviteSegueContacts" {
-            let destinationNavigationController = segue!.destinationViewController as! UINavigationController
+            let destinationNavigationController = segue!.destination as! UINavigationController
             let destinationVC = destinationNavigationController.topViewController as? ContactsInviteViewController
             
             destinationVC?.sendType=self.sendType

@@ -7,7 +7,7 @@
 //
 
 protocol PKSwipeCellDelegateProtocol {
-    func swipeBeginInCell(cell:PKSwipeTableViewCell)
+    func swipeBeginInCell(_ cell:PKSwipeTableViewCell)
     func swipeDoneOnPreviousCell()->PKSwipeTableViewCell?
 }
 
@@ -20,8 +20,8 @@ class PKSwipeTableViewCell: UITableViewCell , PKSwipeCellDelegateProtocol {
     internal var delegate:AnyObject?
     //set the view of right Side
     internal var isPanEnabled = true
-    private var viewRightAccessory = UIView()
-    private var backview:UIView = UIView()
+    fileprivate var viewRightAccessory = UIView()
+    fileprivate var backview:UIView = UIView()
     
     
     //MARK: Cell Methods
@@ -30,7 +30,7 @@ class PKSwipeTableViewCell: UITableViewCell , PKSwipeCellDelegateProtocol {
         // Initialization code
     }
     
-    override func setSelected(selected: Bool, animated: Bool) {
+    override func setSelected(_ selected: Bool, animated: Bool) {
         resetCellState()
         super.setSelected(selected, animated: animated)
         // Configure the view for the selected state
@@ -51,9 +51,9 @@ class PKSwipeTableViewCell: UITableViewCell , PKSwipeCellDelegateProtocol {
     }
     
     //MARK: Gesture Method
-    override func gestureRecognizerShouldBegin(gestureRecognizer: UIGestureRecognizer) -> Bool {
-        if gestureRecognizer.isKindOfClass(UIPanGestureRecognizer.classForCoder()) {
-            let point =  (gestureRecognizer as! UIPanGestureRecognizer).translationInView(self.superview)
+    override func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
+        if gestureRecognizer.isKind(of: UIPanGestureRecognizer.classForCoder()) {
+            let point =  (gestureRecognizer as! UIPanGestureRecognizer).translation(in: self.superview)
             return ((fabs(point.x) / fabs(point.y))) > 1 ? true : false
         }
         return false
@@ -64,18 +64,18 @@ class PKSwipeTableViewCell: UITableViewCell , PKSwipeCellDelegateProtocol {
     This Method is used to initialize the cell with pan gesture and back views.
     
     */
-    private func initializeCell() {
-        let panGesture = UIPanGestureRecognizer(target: self, action: "handlePanGesture:")
+    fileprivate func initializeCell() {
+        let panGesture = UIPanGestureRecognizer(target: self, action: #selector(PKSwipeTableViewCell.handlePanGesture(_:)))
         self.addGestureRecognizer(panGesture)
         panGesture.delegate = self
-        let cellFrame = CGRectMake(0, 0,self.screenBoundsFixedToPortraitOrientation().height, self.frame.size.height)
+        let cellFrame = CGRect(x: 0, y: 0,width: self.screenBoundsFixedToPortraitOrientation().height, height: self.frame.size.height)
         let viewBackground = UIView(frame: cellFrame)
         self.backgroundView = viewBackground
         self.backview =  UIView(frame:cellFrame)
-        self.backview.autoresizingMask = UIViewAutoresizing.FlexibleHeight
-        self.exclusiveTouch = true
-        self.contentView.exclusiveTouch = true
-        self.backview.exclusiveTouch = true
+        self.backview.autoresizingMask = UIViewAutoresizing.flexibleHeight
+        self.isExclusiveTouch = true
+        self.contentView.isExclusiveTouch = true
+        self.backview.isExclusiveTouch = true
     }
     
     /**
@@ -84,9 +84,9 @@ class PKSwipeTableViewCell: UITableViewCell , PKSwipeCellDelegateProtocol {
      - returns: frame of screen
      */
     func screenBoundsFixedToPortraitOrientation()->CGRect {
-        let screen = UIScreen.mainScreen()
-        if screen.respondsToSelector("fixedCoordinateSpace") {
-            return screen.coordinateSpace.convertRect(screen.bounds, toCoordinateSpace: screen.fixedCoordinateSpace)
+        let screen = UIScreen.main
+        if screen.responds(to: #selector(getter: UIScreen.fixedCoordinateSpace)) {
+            return screen.coordinateSpace.convert(screen.bounds, to: screen.fixedCoordinateSpace)
         }
         return screen.bounds
     }
@@ -96,31 +96,31 @@ class PKSwipeTableViewCell: UITableViewCell , PKSwipeCellDelegateProtocol {
     
     - parameter panGestureRecognizer: panGesture Object
     */
-    func handlePanGesture(panGestureRecognizer : UIPanGestureRecognizer) {
+    func handlePanGesture(_ panGestureRecognizer : UIPanGestureRecognizer) {
         if isPanEnabled == false{
             return
         }
-        if  ((self.delegate?.respondsToSelector(Selector.init(stringLiteral: "swipeDoneOnPreviousCell"))) != nil) {
+        if  ((self.delegate?.responds(to: #selector(PKSwipeTableViewCell.swipeDoneOnPreviousCell))) != nil) {
             let cell = self.delegate?.swipeDoneOnPreviousCell()
             if cell != self && cell != nil {
                 cell?.resetCellState()
             }
         }
-        if  ((self.delegate?.respondsToSelector(Selector.init(stringLiteral: "swipeBeginInCell"))) != nil) {
+        if  ((self.delegate?.responds(to: Selector.init(stringLiteral: "swipeBeginInCell"))) != nil) {
             self.delegate?.swipeBeginInCell(self)
         }
-        let translation =  panGestureRecognizer.translationInView(panGestureRecognizer.view)
-        let velocity = panGestureRecognizer .velocityInView(panGestureRecognizer.view)
+        let translation =  panGestureRecognizer.translation(in: panGestureRecognizer.view)
+        let velocity = panGestureRecognizer .velocity(in: panGestureRecognizer.view)
         let panOffset = translation.x
-        let actualTranslation = CGPointMake(panOffset, translation.y)
+        let actualTranslation = CGPoint(x: panOffset, y: translation.y)
         
-        if panGestureRecognizer.state == UIGestureRecognizerState.Began && panGestureRecognizer.numberOfTouches() > 0 {
+        if panGestureRecognizer.state == UIGestureRecognizerState.began && panGestureRecognizer.numberOfTouches > 0 {
             //start swipe
             self.backgroundView!.addSubview(backview)
-            self.backgroundView?.bringSubviewToFront(self.backview)
-            self.backview.autoresizingMask = [UIViewAutoresizing.FlexibleHeight ,UIViewAutoresizing.FlexibleWidth]
+            self.backgroundView?.bringSubview(toFront: self.backview)
+            self.backview.autoresizingMask = [UIViewAutoresizing.flexibleHeight ,UIViewAutoresizing.flexibleWidth]
             animateContentViewForPoint(actualTranslation, velocity: velocity)
-        } else if(panGestureRecognizer.state == UIGestureRecognizerState.Changed && panGestureRecognizer.numberOfTouches() > 0) {
+        } else if(panGestureRecognizer.state == UIGestureRecognizerState.changed && panGestureRecognizer.numberOfTouches > 0) {
             //animate
             animateContentViewForPoint(actualTranslation, velocity: velocity)
         } else {
@@ -135,16 +135,16 @@ class PKSwipeTableViewCell: UITableViewCell , PKSwipeCellDelegateProtocol {
     - parameter point:    point of panning
     - parameter velocity: velocity of panning
     */
-    private func animateContentViewForPoint(point:CGPoint, velocity:CGPoint) {
+    fileprivate func animateContentViewForPoint(_ point:CGPoint, velocity:CGPoint) {
         if (point.x < 0) {
-            self.contentView.frame = CGRectOffset(self.contentView.bounds, point.x, 0)
-            self.viewRightAccessory.frame = CGRectMake(max(CGRectGetMaxX(self.frame)-CGRectGetWidth(self.viewRightAccessory.frame),CGRectGetMaxX(self.contentView.frame)), CGRectGetMinY(self.viewRightAccessory.frame), CGRectGetWidth(self.viewRightAccessory.frame), CGRectGetHeight(self.viewRightAccessory.frame))
+            self.contentView.frame = self.contentView.bounds.offsetBy(dx: point.x, dy: 0)
+            self.viewRightAccessory.frame = CGRect(x: max(self.frame.maxX-self.viewRightAccessory.frame.width,self.contentView.frame.maxX), y: self.viewRightAccessory.frame.minY, width: self.viewRightAccessory.frame.width, height: self.viewRightAccessory.frame.height)
         } else {
-            UIView.animateWithDuration(0.5, animations: { () -> Void in
-                self.contentView.frame = CGRectOffset(self.contentView.bounds, 0, 0);
+            UIView.animate(withDuration: 0.5, animations: { () -> Void in
+                self.contentView.frame = self.contentView.bounds.offsetBy(dx: 0, dy: 0);
                 self.resetCellState()
-                }) { (Bool) -> Void in
-            }
+                }, completion: { (Bool) -> Void in
+            }) 
         }
     }
     
@@ -154,37 +154,37 @@ class PKSwipeTableViewCell: UITableViewCell , PKSwipeCellDelegateProtocol {
     - parameter point:    point of panning
     - parameter velocity: velocity of panning
     */
-    private func resetCellFromPoint(point:CGPoint, withVelocity velocity:CGPoint) {
-        if (point.x > 0 && point.x <= CGRectGetHeight(self.frame)) {
-            UIView.animateWithDuration(0.5, animations: { () -> Void in
-                self.contentView.frame = CGRectOffset(self.contentView.bounds, 0, 0);
-                self.viewRightAccessory.frame = CGRectMake(CGRectGetMaxX(self.contentView.frame), 0, CGRectGetWidth(self.viewRightAccessory.frame), CGRectGetHeight(self.frame))
-                }) { (Bool) -> Void in
-            }
+    fileprivate func resetCellFromPoint(_ point:CGPoint, withVelocity velocity:CGPoint) {
+        if (point.x > 0 && point.x <= self.frame.height) {
+            UIView.animate(withDuration: 0.5, animations: { () -> Void in
+                self.contentView.frame = self.contentView.bounds.offsetBy(dx: 0, dy: 0);
+                self.viewRightAccessory.frame = CGRect(x: self.contentView.frame.maxX, y: 0, width: self.viewRightAccessory.frame.width, height: self.frame.height)
+                }, completion: { (Bool) -> Void in
+            }) 
         } else if point.x < 0 {
-            if (point.x < -CGRectGetWidth(self.viewRightAccessory.frame)) {
+            if (point.x < -self.viewRightAccessory.frame.width) {
                 // SCROLL MORE THAN VIEW ACCESSORY
-                UIView.animateWithDuration(0.5, animations: { () -> Void in
-                    self.contentView.frame = CGRectOffset(self.contentView.bounds, -CGRectGetWidth(self.viewRightAccessory.frame), 0);
-                    }) { (Bool) -> Void in
-                }
-            } else if -point.x < CGRectGetWidth(self.viewRightAccessory.frame) {
+                UIView.animate(withDuration: 0.5, animations: { () -> Void in
+                    self.contentView.frame = self.contentView.bounds.offsetBy(dx: -self.viewRightAccessory.frame.width, dy: 0);
+                    }, completion: { (Bool) -> Void in
+                }) 
+            } else if -point.x < self.viewRightAccessory.frame.width {
                 // IF SCROLL MORE THAN 50% THEN MAKE THE OPTIONS VISIBLE
                 if -point.x > self.viewRightAccessory.frame.size.width / 2.0 {
-                    UIView.animateWithDuration(0.5, animations: { () -> Void in
-                        self.contentView.frame = CGRectOffset(self.contentView.bounds, -CGRectGetWidth(self.viewRightAccessory.frame), 0)
-                        self.viewRightAccessory.frame = CGRectMake(UIScreen.mainScreen().bounds.size.width - CGRectGetWidth(self.viewRightAccessory.frame), 0, CGRectGetWidth(self.viewRightAccessory.frame), CGRectGetHeight(self.frame))
+                    UIView.animate(withDuration: 0.5, animations: { () -> Void in
+                        self.contentView.frame = self.contentView.bounds.offsetBy(dx: -self.viewRightAccessory.frame.width, dy: 0)
+                        self.viewRightAccessory.frame = CGRect(x: UIScreen.main.bounds.size.width - self.viewRightAccessory.frame.width, y: 0, width: self.viewRightAccessory.frame.width, height: self.frame.height)
                         
                         
-                        }) { (Bool) -> Void in
-                    }
+                        }, completion: { (Bool) -> Void in
+                    }) 
                     
                 }else {  // IF SCROLL LESS THEN MOVE TO ORIGINAL STATE
-                    UIView.animateWithDuration(0.5, animations: { () -> Void in
-                        self.contentView.frame = CGRectOffset(self.contentView.bounds, 0, 0);
-                        self.viewRightAccessory.frame = CGRectMake(CGRectGetMaxX(self.contentView.frame), 0, CGRectGetWidth(self.viewRightAccessory.frame), CGRectGetHeight(self.frame))
-                        }) { (Bool) -> Void in
-                    }
+                    UIView.animate(withDuration: 0.5, animations: { () -> Void in
+                        self.contentView.frame = self.contentView.bounds.offsetBy(dx: 0, dy: 0);
+                        self.viewRightAccessory.frame = CGRect(x: self.contentView.frame.maxX, y: 0, width: self.viewRightAccessory.frame.width, height: self.frame.height)
+                        }, completion: { (Bool) -> Void in
+                    }) 
                 }
             }
         }
@@ -196,10 +196,10 @@ class PKSwipeTableViewCell: UITableViewCell , PKSwipeCellDelegateProtocol {
     
     - parameter view: view to be displayed on the right hsnd side of the cell
     */
-    internal func addRightOptionsView(view:UIView) {
+    internal func addRightOptionsView(_ view:UIView) {
         viewRightAccessory.removeFromSuperview()
         viewRightAccessory = view
-        viewRightAccessory.autoresizingMask = UIViewAutoresizing.FlexibleLeftMargin
+        viewRightAccessory.autoresizingMask = UIViewAutoresizing.flexibleLeftMargin
         self.backview.addSubview(viewRightAccessory)
     }
     
@@ -207,14 +207,14 @@ class PKSwipeTableViewCell: UITableViewCell , PKSwipeCellDelegateProtocol {
     This function is used to reset the cell state back to original position to hide the right view options.
     */
     func resetCellState() {
-        UIView.animateWithDuration(0.5, animations: { () -> Void in
-            self.contentView.frame = CGRectOffset(self.contentView.bounds, 0, 0);
-            self.viewRightAccessory.frame = CGRectMake(CGRectGetMaxX(self.contentView.frame), 0, CGRectGetWidth(self.viewRightAccessory.frame), CGRectGetHeight(self.frame))
-            }) { (Bool) -> Void in
-        }
+        UIView.animate(withDuration: 0.5, animations: { () -> Void in
+            self.contentView.frame = self.contentView.bounds.offsetBy(dx: 0, dy: 0);
+            self.viewRightAccessory.frame = CGRect(x: self.contentView.frame.maxX, y: 0, width: self.viewRightAccessory.frame.width, height: self.frame.height)
+            }, completion: { (Bool) -> Void in
+        }) 
     }
     
-    func swipeBeginInCell(cell: PKSwipeTableViewCell) {
+    func swipeBeginInCell(_ cell: PKSwipeTableViewCell) {
     }
     
     func swipeDoneOnPreviousCell() -> PKSwipeTableViewCell? {

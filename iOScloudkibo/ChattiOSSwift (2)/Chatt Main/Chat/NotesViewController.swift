@@ -31,35 +31,35 @@ class NotesViewController: UIViewController,InviteContactsDelegate,UITextFieldDe
     var activityIndicator = UIActivityIndicatorView()
     var strLabel = UILabel()
     var currentIndex:Int!
-    override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: NSBundle?) {
+    override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
         // Custom initialization
     }
     
 
     
-    @IBAction func btnAddNewContact(sender: AnyObject) {
+    @IBAction func btnAddNewContact(_ sender: AnyObject) {
         var contactdata:[String:String]!
         
-        dispatch_async(dispatch_get_main_queue(),{
-            self.alert = UIAlertController(title: "Add new contact", message: "Please Fill details", preferredStyle: .Alert)
+        DispatchQueue.main.async(execute: {
+            self.alert = UIAlertController(title: "Add new contact", message: "Please Fill details", preferredStyle: .alert)
             
             //2. Add the text field. You can configure it however you need.
-            self.alert.addTextFieldWithConfigurationHandler({(textField: UITextField!) in
+            self.alert.addTextField(configurationHandler: {(textField: UITextField!) in
                 textField.placeholder = "First Name"
-                textField.secureTextEntry = false
+                textField.isSecureTextEntry = false
                 // textField.addTarget(self, action: "textChanged", forControlEvents: .EditingChanged)
             })
             
-            self.alert.addTextFieldWithConfigurationHandler({(textField: UITextField!) in
+            self.alert.addTextField(configurationHandler: {(textField: UITextField!) in
                 textField.placeholder = "Last Name"
-                textField.secureTextEntry = false
+                textField.isSecureTextEntry = false
                 // textField.addTarget(self, action: "textChanged", forControlEvents: .EditingChanged)
             })
             
-            self.alert.addTextFieldWithConfigurationHandler({(textField: UITextField!) in
+            self.alert.addTextField(configurationHandler: {(textField: UITextField!) in
                 textField.placeholder = "Phone Number"
-                textField.secureTextEntry = false
+                textField.isSecureTextEntry = false
                 //textField.addTarget(self, action: "textChanged", forControlEvents: .EditingChanged)
             })
             
@@ -67,14 +67,14 @@ class NotesViewController: UIViewController,InviteContactsDelegate,UITextFieldDe
              textField.text = ""
              })*/
             
-            var cancelAction=UIAlertAction(title: "Cancel", style: .Cancel, handler: { (action) -> Void in
+            var cancelAction=UIAlertAction(title: "Cancel", style: .cancel, handler: { (action) -> Void in
                 
                 
                 
             })
             
             //3. Grab the value from the text field, and print it when the user clicks OK.
-            var okAction=UIAlertAction(title: "Ok", style: .Default, handler: { (action) -> Void in
+            var okAction=UIAlertAction(title: "Ok", style: .default, handler: { (action) -> Void in
                 
                 let textFieldFname = self.alert.textFields![0] as UITextField
                 let textFieldLname = self.alert.textFields![1] as UITextField
@@ -86,7 +86,7 @@ class NotesViewController: UIViewController,InviteContactsDelegate,UITextFieldDe
                 contactsList.saveToAddressBook(contactdata){(result) -> () in
                     if(result==true)
                     {
-                        var alert = UIAlertController(title: "Add new contact", message: "Please Fill details", preferredStyle: .Alert)
+                        var alert = UIAlertController(title: "Add new contact", message: "Please Fill details", preferredStyle: .alert)
                         
                     }
                     
@@ -98,7 +98,7 @@ class NotesViewController: UIViewController,InviteContactsDelegate,UITextFieldDe
             self.alert.addAction(okAction)
             // self.alert.actions[1].enabled=false
             
-            self.presentViewController(self.alert, animated: true, completion:
+            self.present(self.alert, animated: true, completion:
                 {
                     
                     
@@ -114,9 +114,9 @@ class NotesViewController: UIViewController,InviteContactsDelegate,UITextFieldDe
     }
     
     
-    @IBAction func btnRefreshContacts(sender: AnyObject) {
+    @IBAction func btnRefreshContacts(_ sender: AnyObject) {
         
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND,0))
+        DispatchQueue.global(priority: DispatchQueue.GlobalQueuePriority.background).async
         {
             syncServiceContacts.startSyncService()
         }
@@ -133,16 +133,16 @@ class NotesViewController: UIViewController,InviteContactsDelegate,UITextFieldDe
      //}
      }*/
     
-    func progressBarDisplayer(msg:String, _ indicator:Bool ) {
+    func progressBarDisplayer(_ msg:String, _ indicator:Bool ) {
         print(msg)
         strLabel = UILabel(frame: CGRect(x: 50, y: 0, width: 250, height: 50))
         strLabel.text = msg
-        strLabel.textColor = UIColor.whiteColor()
+        strLabel.textColor = UIColor.white
         messageFrame = UIView(frame: CGRect(x: view.frame.midX - 110, y: view.frame.midY - 25 , width: 230, height: 50))
         messageFrame.layer.cornerRadius = 15
         messageFrame.backgroundColor = UIColor(white: 0, alpha: 0.7)
         if indicator {
-            activityIndicator = UIActivityIndicatorView(activityIndicatorStyle: UIActivityIndicatorViewStyle.White)
+            activityIndicator = UIActivityIndicatorView(activityIndicatorStyle: UIActivityIndicatorViewStyle.white)
             activityIndicator.frame = CGRect(x: 0, y: 0, width: 50, height: 50)
             activityIndicator.startAnimating()
             messageFrame.addSubview(activityIndicator)
@@ -293,7 +293,7 @@ class NotesViewController: UIViewController,InviteContactsDelegate,UITextFieldDe
     
     
     
-    func filterContentForSearchText(searchText: String) {
+    func filterContentForSearchText(_ searchText: String) {
         // Filter the array using the filter method
         
         
@@ -305,9 +305,9 @@ class NotesViewController: UIViewController,InviteContactsDelegate,UITextFieldDe
         let name = Expression<String?>("name")
         // Filter the data array and get only those countries that match the search text.
         filteredArray = alladdressContactsArray.filter({ (contactname) -> Bool in
-            let countryText: NSString = contactname.get(name)!
+            let countryText: NSString = contactname.get(name)! as NSString
             
-            return (countryText.rangeOfString(searchText, options: NSStringCompareOptions.CaseInsensitiveSearch).location) != NSNotFound
+            return (countryText.rangeOfString(searchText, options: NSString.CompareOptions.CaseInsensitiveSearch).location) != NSNotFound
         })
         
       tblForNotes.reloadData()
@@ -317,7 +317,7 @@ class NotesViewController: UIViewController,InviteContactsDelegate,UITextFieldDe
         })*/
     }
     
-    func searchDisplayController(controller: UISearchDisplayController!, shouldReloadTableForSearchString searchString: String!) -> Bool {
+    func searchDisplayController(_ controller: UISearchDisplayController!, shouldReloadTableForSearch searchString: String!) -> Bool {
         self.filterContentForSearchText(searchString)
         return true
     }
@@ -333,9 +333,9 @@ class NotesViewController: UIViewController,InviteContactsDelegate,UITextFieldDe
     }
     */
     
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         
-        var allcontactslist1=sqliteDB.allcontacts
+        let allcontactslist1=sqliteDB.allcontacts
         
         
         let phone = Expression<String>("phone")
@@ -348,7 +348,7 @@ class NotesViewController: UIViewController,InviteContactsDelegate,UITextFieldDe
         
         //////configureSearchController()
         do
-        {alladdressContactsArray = Array(try sqliteDB.db.prepare(allcontactslist1.order(name.asc)))
+        {alladdressContactsArray = Array(try sqliteDB.db.prepare((allcontactslist1?.order(name.asc))!))
             
             ////===-------tblForNotes.reloadData()
         }
@@ -364,12 +364,12 @@ class NotesViewController: UIViewController,InviteContactsDelegate,UITextFieldDe
         contactsList.delegate=self
         self.navigationItem.titleView = viewForTitle
         
-        self.searchDisplayController?.searchBar.tintColor=UIColor.blueColor()
+        self.searchDisplayController?.searchBar.tintColor=UIColor.blue
         ////self.searchDisplayController?.searchBar.barTintColor=UIColor.redColor()
         
          //self.searchDisplayController?.navigationItem?.title="Searchhh"
       ///  self.searchDisplayController?.displaysSearchBarInNavigationBar=true
-        self.searchDisplayController!.searchBar.searchBarStyle = UISearchBarStyle.Default
+        self.searchDisplayController!.searchBar.searchBarStyle = UISearchBarStyle.default
         
         // Include the search bar within the navigation bar.
        /// self.navigationItem.titleView = self.searchDisplayController!.searchBar;
@@ -380,7 +380,7 @@ class NotesViewController: UIViewController,InviteContactsDelegate,UITextFieldDe
         
         //self.navigationItem.leftBarButtonItem = UIBarButtonItem(customView: btnForLogo)
         //self.navigationItem.rightBarButtonItem = itemForSearch
-        self.tabBarController?.tabBar.tintColor = UIColor.greenColor()
+        self.tabBarController?.tabBar.tintColor = UIColor.green
         syncServiceContacts.delegateRefreshContactsList=self
         
         
@@ -428,11 +428,11 @@ class NotesViewController: UIViewController,InviteContactsDelegate,UITextFieldDe
         super.init(coder: aDecoder)
     }
     
-    @IBAction func unwindToChat (segueSelected : UIStoryboardSegue) {
+    @IBAction func unwindToChat (_ segueSelected : UIStoryboardSegue) {
         
     }
     
-    func tableView(tableView: UITableView!, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView!, numberOfRowsInSection section: Int) -> Int {
          if tableView == self.searchDisplayController!.searchResultsTableView {
         //if shouldShowSearchResults {
             return filteredArray.count
@@ -443,11 +443,11 @@ class NotesViewController: UIViewController,InviteContactsDelegate,UITextFieldDe
         }
     }
     
-    func numberOfSectionsInTableView(tableView: UITableView!) -> Int {
+    func numberOfSectionsInTableView(_ tableView: UITableView!) -> Int {
         return 1
     }
     
-    func tableView(tableView: UITableView!, cellForRowAtIndexPath indexPath: NSIndexPath!) -> UITableViewCell! {
+    func tableView(_ tableView: UITableView!, cellForRowAtIndexPath indexPath: IndexPath!) -> UITableViewCell! {
         //if (indexPath.row%2 == 0){
         //var cellPrivate = tblForNotes.dequeueReusableCellWithIdentifier("NotePrivateCell")! as UITableViewCell
         
@@ -456,11 +456,11 @@ class NotesViewController: UIViewController,InviteContactsDelegate,UITextFieldDe
         
         
        // let tbl_contactslist = sqliteDB.contactslists
-        var cellPrivate = tblForNotes.dequeueReusableCellWithIdentifier("NotePrivateCell")! as! AllContactsCell
+        let cellPrivate = tblForNotes.dequeueReusableCell(withIdentifier: "NotePrivateCell")! as! AllContactsCell
         print("namelist count is \(nameList.count)")
         //cellPrivate.labelNamePrivate.text=nameList[indexPath.row]
         
-        cellPrivate.labelStatusPrivate.hidden=true
+        cellPrivate.labelStatusPrivate.isHidden=true
         
         /////////////%%%'5 cellPrivate.labelNamePrivate.text=contacts[indexPath.row].givenName+" "+contacts[indexPath.row].familyName
         
@@ -490,7 +490,7 @@ class NotesViewController: UIViewController,InviteContactsDelegate,UITextFieldDe
                 cellPrivate.labelNamePrivate.text=filteredArray[indexPath.row].get(name)
                 if(filteredArray[indexPath.row].get(kibocontact)==true)
                 {
-                    cellPrivate.labelStatusPrivate.hidden=false
+                    cellPrivate.labelStatusPrivate.isHidden=false
                 }
             }
             else
@@ -498,7 +498,7 @@ class NotesViewController: UIViewController,InviteContactsDelegate,UITextFieldDe
                 cellPrivate.labelNamePrivate.text=alladdressContactsArray[indexPath.row].get(name)
                 if(alladdressContactsArray[indexPath.row].get(kibocontact)==true)
                 {
-                    cellPrivate.labelStatusPrivate.hidden=false
+                    cellPrivate.labelStatusPrivate.isHidden=false
                 }
             }
             //alladdressContactsArray[indexPath.row].
@@ -585,17 +585,17 @@ class NotesViewController: UIViewController,InviteContactsDelegate,UITextFieldDe
     // #pragma mark - Navigation
     
     // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue?, sender: AnyObject?) {
+    override func prepare(for segue: UIStoryboardSegue?, sender: Any?) {
         
         if segue!.identifier == "contactDetailsSegue" {
             print("contactDetailsSegue")
-            let contactsDetailController = segue!.destinationViewController as? contactsDetailsTableViewController
+            let contactsDetailController = segue!.destination as? contactsDetailsTableViewController
             //let addItemViewController = navigationController?.topViewController as? AddItemViewController
             
             if let viewController = contactsDetailController {
                 
                 
-                if self.searchDisplayController!.active {
+                if self.searchDisplayController!.isActive {
                     print("searchbar active")
                     let indexPath = self.searchDisplayController?.searchResultsTableView.indexPathForSelectedRow
                     print("selected indexpath of search result is \(indexPath?.row)") //filtered array index
@@ -612,14 +612,14 @@ class NotesViewController: UIViewController,InviteContactsDelegate,UITextFieldDe
                         var newindexphone=0
                         
                         do
-                        {alladdressContactsArray = Array(try sqliteDB.db.prepare(allcontactslist1.order(name.asc)))
+                        {alladdressContactsArray = Array(try sqliteDB.db.prepare((allcontactslist1?.order(name.asc))!))
                       
                             var selectedphone=filteredArray[indexPath!.row].get(phone)
                             var selectedname=filteredArray[indexPath!.row].get(name)
                             print("selected phone is \(selectedphone)")
                             print("selected phone is \(selectedname)")
                             
-                            for (var i=0;i<alladdressContactsArray.count;i++)
+                            for (i in 0 ..< alladdressContactsArray.count)
                             {
                                 if(alladdressContactsArray[i].get(phone)==selectedphone)
                                 {
@@ -680,8 +680,8 @@ class NotesViewController: UIViewController,InviteContactsDelegate,UITextFieldDe
                     else{
                     print("search bar not active")
                 contactsDetailController?.contactIndex=tblForNotes.indexPathForSelectedRow!.row
-                var cell=tblForNotes.cellForRowAtIndexPath(tblForNotes.indexPathForSelectedRow!) as! AllContactsCell
-                if(cell.labelStatusPrivate.hidden==false)
+                var cell=tblForNotes.cellForRow(at: tblForNotes.indexPathForSelectedRow!) as! AllContactsCell
+                if(cell.labelStatusPrivate.isHidden==false)
                 {
                     contactsDetailController?.isKiboContact = true
                     //print("hidden falseeeeeee")
@@ -697,9 +697,9 @@ class NotesViewController: UIViewController,InviteContactsDelegate,UITextFieldDe
     let name = Expression<String?>("name")
     
     func receivedContactsUpdateUI() {
-         var allcontactslist1=sqliteDB.allcontacts
+         let allcontactslist1=sqliteDB.allcontacts
         do
-        {alladdressContactsArray = Array(try sqliteDB.db.prepare(allcontactslist1.order(name.asc)))
+        {alladdressContactsArray = Array(try sqliteDB.db.prepare((allcontactslist1?.order(name.asc))!))
             
         }
         catch
@@ -710,17 +710,17 @@ class NotesViewController: UIViewController,InviteContactsDelegate,UITextFieldDe
         tblForNotes.reloadData()
     }
     
-    func refreshContactsList(message: String) {
-         var allcontactslist1=sqliteDB.allcontacts
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND,0))
+    func refreshContactsList(_ message: String) {
+         let allcontactslist1=sqliteDB.allcontacts
+        DispatchQueue.global(priority: DispatchQueue.GlobalQueuePriority.background).async
         {
         do
         {
            
-            self.alladdressContactsArray = Array(try sqliteDB.db.prepare(allcontactslist1.order(self.name.asc)))
+            self.alladdressContactsArray = Array(try sqliteDB.db.prepare((allcontactslist1?.order(self.name.asc))!))
             
             
-            dispatch_async(dispatch_get_main_queue())
+            DispatchQueue.main.async
             {
                 
             self.tblForNotes.reloadData()

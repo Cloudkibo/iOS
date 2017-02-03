@@ -13,7 +13,7 @@ class ChatComposeViewController: UIViewController {
     @IBOutlet var recepientTextField : UITextField!
     @IBOutlet var chatComposeView : UIView!
 
-    override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: NSBundle?) {
+    override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
         // Custom initialization
     }
@@ -29,24 +29,24 @@ class ChatComposeViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("willShowKeyBoard:"), name:UIKeyboardWillShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(ChatComposeViewController.willShowKeyBoard(_:)), name:NSNotification.Name.UIKeyboardWillShow, object: nil)
         recepientTextField.becomeFirstResponder()
         // Do any additional setup after loading the view.
     }
     
-    func willShowKeyBoard(notification : NSNotification){
+    func willShowKeyBoard(_ notification : Notification){
         
         var userInfo: NSDictionary!
-        userInfo = notification.userInfo
+        userInfo = notification.userInfo as NSDictionary!
         
-        var duration : NSTimeInterval = 0
-        var curve = userInfo.objectForKey(UIKeyboardAnimationCurveUserInfoKey) as! UInt
-        duration = userInfo[UIKeyboardAnimationDurationUserInfoKey]as! NSTimeInterval
-        let keyboardF:NSValue = userInfo.objectForKey(UIKeyboardFrameEndUserInfoKey)as! NSValue
-        let keyboardFrame = keyboardF.CGRectValue()
+        var duration : TimeInterval = 0
+        var curve = userInfo.object(forKey: UIKeyboardAnimationCurveUserInfoKey) as! UInt
+        duration = userInfo[UIKeyboardAnimationDurationUserInfoKey]as! TimeInterval
+        let keyboardF:NSValue = userInfo.object(forKey: UIKeyboardFrameEndUserInfoKey)as! NSValue
+        let keyboardFrame = keyboardF.cgRectValue
         
-        UIView.animateWithDuration(duration, delay: 0, options:[], animations: {
-            self.chatComposeView.frame = CGRectMake(self.chatComposeView.frame.origin.x, self.chatComposeView.frame.origin.y - keyboardFrame.size.height, self.chatComposeView.frame.size.width, self.chatComposeView.frame.size.height)
+        UIView.animate(withDuration: duration, delay: 0, options:[], animations: {
+            self.chatComposeView.frame = CGRect(x: self.chatComposeView.frame.origin.x, y: self.chatComposeView.frame.origin.y - keyboardFrame.size.height, width: self.chatComposeView.frame.size.width, height: self.chatComposeView.frame.size.height)
             }, completion: nil)
         
     }
@@ -58,11 +58,11 @@ class ChatComposeViewController: UIViewController {
     }
     
     @IBAction func canceBtnTapped(){
-        self.dismissViewControllerAnimated(true, completion: nil)
+        self.dismiss(animated: true, completion: nil)
     }
     
     @IBAction func postBtnTapped(){
-        self.dismissViewControllerAnimated(true, completion: nil)
+        self.dismiss(animated: true, completion: nil)
     }
     /*
     // #pragma mark - Navigation

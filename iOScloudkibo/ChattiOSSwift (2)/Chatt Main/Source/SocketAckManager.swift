@@ -50,7 +50,7 @@ private func ==(lhs: SocketAck, rhs: SocketAck) -> Bool {
 }
 
 struct SocketAckManager {
-    private var acks = Set<SocketAck>(minimumCapacity: 1)
+    fileprivate var acks = Set<SocketAck>(minimumCapacity: 1)
     
     mutating func addAck(_ ack: Int, callback: @escaping AckCallback) {
         acks.insert(SocketAck(ack: ack, callback: callback))

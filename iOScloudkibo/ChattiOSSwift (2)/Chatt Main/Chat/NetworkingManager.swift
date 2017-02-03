@@ -9,6 +9,19 @@
 import Foundation
 import Alamofire
 import SwiftyJSON
+// FIXME: comparison operators with optionals were removed from the Swift Standard Libary.
+// Consider refactoring the code to use the non-optional operators.
+fileprivate func < <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l < r
+  case (nil, _?):
+    return true
+  default:
+    return false
+  }
+}
+
 class NetworkingManager
 {
     var delegateProgressUpload:showUploadProgressDelegate!
@@ -136,9 +149,9 @@ class NetworkingManager
         "avi": "video/x-msvideo"
     ]
     
-    internal func MimeType(ext: String?) -> String {
-        if ext != nil && mimeTypes.contains({ $0.0 == ext!.lowercaseString }) {
-            return mimeTypes[ext!.lowercaseString]!
+    internal func MimeType(_ ext: String?) -> String {
+        if ext != nil && mimeTypes.contains(where: { $0.0 == ext!.lowercased() }) {
+            return mimeTypes[ext!.lowercased()]!
         }
         return DEFAULT_MIME_TYPE
     }
@@ -147,7 +160,7 @@ class NetworkingManager
     static let sharedManager = NetworkingManager()
 
     
-    private lazy var backgroundManager: Alamofire.Manager = {
+    fileprivate lazy var backgroundManager: Alamofire.Manager = {
         let bundleIdentifier = "kiboChat"
         return Alamofire.Manager(configuration: NSURLSessionConfiguration.backgroundSessionConfigurationWithIdentifier(bundleIdentifier + ".background"))
     }()
@@ -159,7 +172,7 @@ class NetworkingManager
     
     
     
-    func sendChatMessage(chatstanza:[String:String],completion:(result:Bool)->())
+    func sendChatMessage(_ chatstanza:[String:String],completion:@escaping (_ result:Bool)->())
     {
         
        // let queue = dispatch_queue_create("com.kibochat.manager-response-queue", DISPATCH_QUEUE_SERIAL)
@@ -226,7 +239,7 @@ class NetworkingManager
     
     
     
-    func sendChatStatusUpdateMessage(uniqueid:String,status:String,sender:String)
+    func sendChatStatusUpdateMessage(_ uniqueid:String,status:String,sender:String)
     {
         
       //  let queue = dispatch_queue_create("com.kibochat.manager-response-queue", DISPATCH_QUEUE_CONCURRENT)
@@ -280,7 +293,7 @@ class NetworkingManager
 
     
     
-    func uploadFile(filePath1:String,to1:String,from1:String, uniqueid1:String,file_name1:String,file_size1:String,file_type1:String,type1:String){
+    func uploadFile(_ filePath1:String,to1:String,from1:String, uniqueid1:String,file_name1:String,file_size1:String,file_type1:String,type1:String){
         
        var parameters = [
             "to": to1,
@@ -312,18 +325,18 @@ class NetworkingManager
        // let parameterString = parameterJSON.rawString(NSUTF8StringEncoding, options: NSJSONWritingOptions.PrettyPrinted )
        // let jsonParameterData = parameterString!.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: true)
         
-        var imageData:NSData?
-        if(self.imageExtensions.contains(file_type1.lowercaseString))
+        var imageData:Data?
+        if(self.imageExtensions.contains(file_type1.lowercased()))
         {
             imageData=UIImageJPEGRepresentation(UIImage(contentsOfFile: filePath1)!,0.9)
-            print("new upload image size is \(imageData!.length)")
+            print("new upload image size is \(imageData!.count)")
         }
         else{
-            imageData=NSData(contentsOfFile: filePath1)
-             print("old upload image size is \(imageData!.length)")
-            var imageData2=imageData!.compressedDataUsingCompression(Compression.ZLIB)
+            imageData=try? Data(contentsOf: URL(fileURLWithPath: filePath1))
+             print("old upload image size is \(imageData!.count)")
+            var imageData2=imageData!.compressedDataUsingCompression(Compression.zlib)
             print("imageData2 is \(imageData2)")
-            print("old upload image compressed size is \(imageData2!.length)")
+            print("old upload image compressed size is \(imageData2!.count)")
         }
        // var imageData=UIImageJPEGRepresentation(UIImage(contentsOfFile: filePath1)!,0.9)
        
@@ -445,7 +458,7 @@ class NetworkingManager
         
     }
     
-    func checkPendingFiles(uniqueid1:String)
+    func checkPendingFiles(_ uniqueid1:String)
     {print("inside checkpending")
         var checkPendingFiles=Constants.MainUrl+Constants.checkPendingFile
         
@@ -547,17 +560,17 @@ class NetworkingManager
         }
     }
     
-    func downloadFile(fileuniqueid:String,filePendingName:String,filefrom:String,filetype:String,filePendingSize:String,filependingDate:String,filePendingTo:String)
+    func downloadFile(_ fileuniqueid:String,filePendingName:String,filefrom:String,filetype:String,filePendingSize:String,filependingDate:String,filePendingTo:String)
     {
         
         
         var downloadURL=Constants.MainUrl+Constants.downloadFile
         print("start download")
-        print(NSDate())
+        print(Date())
         if(Int.init(filePendingSize)<15000000)
         {
-        let queue2 = dispatch_queue_create("com.kibochat.manager-response-queue-file", DISPATCH_QUEUE_CONCURRENT)
-        let qqq=dispatch_get_global_queue(QOS_CLASS_BACKGROUND, 0)
+        let queue2 = DispatchQueue(label: "com.kibochat.manager-response-queue-file", attributes: DispatchQueue.Attributes.concurrent)
+        let qqq=DispatchQueue.global(qos: DispatchQoS.QoSClass.background)
             let request = Alamofire.request(.POST, "\(downloadURL)", parameters: ["uniqueid":fileuniqueid], headers:header)
             request.response(
                 queue: queue2,
@@ -632,7 +645,7 @@ class NetworkingManager
         //uncomment
       
        
-        let path = NSFileManager.defaultManager().URLsForDirectory(.ApplicationSupportDirectory, inDomains: .UserDomainMask)[0] as NSURL
+        let path = FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask)[0] as URL
         //print("path download is \(path)")
        //////// let newPath = path.URLByAppendingPathComponent(fileName1)
        /////// print("full path download file is \(newPath)")
@@ -641,14 +654,14 @@ class NetworkingManager
       //  Alamofire.download(.GET, "http://httpbin.org/stream/100", destination: destination)
         var downloadURL=Constants.MainUrl+Constants.downloadFile
         
-        let destination: (NSURL, NSHTTPURLResponse) -> (NSURL) = {
+        let destination: (URL, HTTPURLResponse) -> (URL) = {
             (temporaryURL, response) in
             
-            if let directoryURL = NSFileManager.defaultManager().URLsForDirectory(.DocumentDirectory, inDomains: .UserDomainMask)[0] as? NSURL {
+            if let directoryURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0] as? URL {
                //// var localImageURL = directoryURL.URLByAppendingPathComponent("\(response.suggestedFilename!)")
                 //filenamePending
                 print("filePendingName is \(filePendingName)")
-                var localImageURL = directoryURL.URLByAppendingPathComponent(filePendingName)
+                var localImageURL = directoryURL.appendingPathComponent(filePendingName)
                 print("response.suggestedFilename! is \(response.suggestedFilename!)")
                 /*let checkValidation = NSFileManager.defaultManager()
                 
@@ -754,7 +767,7 @@ class NetworkingManager
         }
     }
     
-    func confirmDownload(uniqueid1:String)
+    func confirmDownload(_ uniqueid1:String)
     {
         let confirmURL=Constants.MainUrl+Constants.confirmDownload
         Alamofire.request(.POST,"\(confirmURL)",headers:header,parameters:["uniqueid":uniqueid1]).validate(statusCode: 200..<300).responseJSON{response in
@@ -778,7 +791,7 @@ class NetworkingManager
         }
     }
     
-    func uploadProfileImage(groupUniqueID:String,filePath1:String,filename:String,fileType:String,completion:(result:Bool,error:String!)->())
+    func uploadProfileImage(_ groupUniqueID:String,filePath1:String,filename:String,fileType:String,completion:(_ result:Bool,_ error:String?)->())
     {
         var url=Constants.MainUrl+Constants.uploadProfileImage
         var parameters:[String:String] = [
@@ -787,7 +800,7 @@ class NetworkingManager
         
         //// Alamofire.request(.POST,"\(url)",parameters:["unique_id":uniqueid],headers:header,encoding:.JSON).validate().responseJSON { response in
         
-        var imageData=NSData(contentsOfFile: filePath1)
+        var imageData=try? Data(contentsOf: URL(fileURLWithPath: filePath1))
         
         // var urlupload=Constants.MainUrl+Constants.uploadFile
         print("uploading file image data is \(imageData)")
@@ -873,6 +886,6 @@ class NetworkingManager
 }
 protocol showUploadProgressDelegate:class
 {
-    func updateProgressUpload(progress:Float,uniqueid:String);
+    func updateProgressUpload(_ progress:Float,uniqueid:String);
 }
 

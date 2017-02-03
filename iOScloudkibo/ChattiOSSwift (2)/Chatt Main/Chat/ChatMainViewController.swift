@@ -45,9 +45,9 @@ class ChatMainViewController:UIViewController,SocketConnecting,RefreshContactsLi
     ////////let delegateController=LoginAPI(url: "sdfsfes")
     
     
-    @IBAction func addContactTapped(sender: UIBarButtonItem) {
+    @IBAction func addContactTapped(_ sender: UIBarButtonItem) {
         
-        self.performSegueWithIdentifier("inviteSegue",sender: nil)
+        self.performSegue(withIdentifier: "inviteSegue",sender: nil)
       
         
         
@@ -262,7 +262,7 @@ class ChatMainViewController:UIViewController,SocketConnecting,RefreshContactsLi
         
     }
     
-    override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: NSBundle?) {
+    override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
         // Custom initialization
         
@@ -279,7 +279,7 @@ class ChatMainViewController:UIViewController,SocketConnecting,RefreshContactsLi
         print("Chat ViewController is loadingggggg")
         syncServiceContacts.delegateRefreshContactsList=self
         if(self.accountKit == nil){
-        self.accountKit = AKFAccountKit(responseType: AKFResponseType.AccessToken)
+        self.accountKit = AKFAccountKit(responseType: AKFResponseType.accessToken)
 }
 
         messages=NSMutableArray()
@@ -302,7 +302,7 @@ class ChatMainViewController:UIViewController,SocketConnecting,RefreshContactsLi
         if (self.accountKit!.currentAccessToken == nil) {
             
             //specify AKFResponseType.AccessToken
-            self.accountKit = AKFAccountKit(responseType: AKFResponseType.AccessToken)
+            self.accountKit = AKFAccountKit(responseType: AKFResponseType.accessToken)
             accountKit.requestAccount{
                 (account, error) -> Void in
                 
@@ -431,7 +431,7 @@ class ChatMainViewController:UIViewController,SocketConnecting,RefreshContactsLi
         ////////////////////self.navigationItem.leftBarButtonItem = UIBarButtonItem(customView: btnForLogo)
         //self.navigationItem.rightBarButtonItem = itemForSearch
         //////////////////self.navigationItem.rightBarButtonItem = btnContactAdd
-        self.tabBarController?.tabBar.tintColor = UIColor.greenColor()
+        self.tabBarController?.tabBar.tintColor = UIColor.green
         print("////////////////////// new class tokn \(AuthToken)", terminator: "")
         // fetchContacts(AuthToken)
        // print(self.ContactNames.count.description, terminator: "")
@@ -439,7 +439,7 @@ class ChatMainViewController:UIViewController,SocketConnecting,RefreshContactsLi
         
         
         
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT,0))
+        DispatchQueue.global(priority: DispatchQueue.GlobalQueuePriority.default).async
         {
             self.fetchcontactsnew({(result)-> () in
                 
@@ -451,7 +451,7 @@ class ChatMainViewController:UIViewController,SocketConnecting,RefreshContactsLi
                 //commenting newwwwwwww -===-===-=
                 if(result==true)
 {
-                dispatch_async(dispatch_get_main_queue())
+                DispatchQueue.main.async
                 {
                     self.tblForChat.reloadData()
                     
@@ -482,10 +482,10 @@ class ChatMainViewController:UIViewController,SocketConnecting,RefreshContactsLi
     
     func loginSegueMethod()
     {print("line # 564")
-        self.performSegueWithIdentifier("loginSegue", sender: nil)
+        self.performSegue(withIdentifier: "loginSegue", sender: nil)
     }
     func socketConnected() {
-        if((self.view.window != nil) && self.isViewLoaded()){
+        if((self.view.window != nil) && self.isViewLoaded){
        /* var lll=self.storyboard?.instantiateViewControllerWithIdentifier("mainpage") as! LoginViewController
         
         lll.progressWheel.stopAnimating()
@@ -498,16 +498,16 @@ class ChatMainViewController:UIViewController,SocketConnecting,RefreshContactsLi
     }
 
     
-    func progressBarDisplayer(msg:String, _ indicator:Bool ) {
+    func progressBarDisplayer(_ msg:String, _ indicator:Bool ) {
         print(msg)
         strLabel = UILabel(frame: CGRect(x: 50, y: 0, width: 250, height: 50))
         strLabel.text = msg
-        strLabel.textColor = UIColor.whiteColor()
+        strLabel.textColor = UIColor.white
         messageFrame = UIView(frame: CGRect(x: view.frame.midX - 110, y: view.frame.midY - 25 , width: 230, height: 50))
         messageFrame.layer.cornerRadius = 15
         messageFrame.backgroundColor = UIColor(white: 0, alpha: 0.7)
         if indicator {
-            activityIndicator = UIActivityIndicatorView(activityIndicatorStyle: UIActivityIndicatorViewStyle.White)
+            activityIndicator = UIActivityIndicatorView(activityIndicatorStyle: UIActivityIndicatorViewStyle.white)
             activityIndicator.frame = CGRect(x: 0, y: 0, width: 50, height: 50)
             activityIndicator.startAnimating()
             messageFrame.addSubview(activityIndicator)
@@ -517,7 +517,7 @@ class ChatMainViewController:UIViewController,SocketConnecting,RefreshContactsLi
     }
     
     
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         print("appearrrrrr", terminator: "")
         if(socketObj.delegateSocketConnected == nil && isSocketConnected==true)
         {
@@ -535,7 +535,7 @@ class ChatMainViewController:UIViewController,SocketConnecting,RefreshContactsLi
             })*/
         //}
 
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT,0))
+        DispatchQueue.global(priority: DispatchQueue.GlobalQueuePriority.default).async
         {
             self.fetchcontactsnew({(result)-> () in
                 
@@ -547,7 +547,7 @@ class ChatMainViewController:UIViewController,SocketConnecting,RefreshContactsLi
                 //commenting newwwwwwww -===-===-=
                 if(result==true)
                 {
-                    dispatch_async(dispatch_get_main_queue())
+                    DispatchQueue.main.async
                     {
                         self.tblForChat.reloadData()
                         
@@ -565,10 +565,10 @@ class ChatMainViewController:UIViewController,SocketConnecting,RefreshContactsLi
     //to fetch contacts from SQLite db
     
     
-    func fetchcontactsnew(completion:(result:Bool)->())
+    func fetchcontactsnew(_ completion:(_ result:Bool)->())
     {
         
-        var messages2=NSMutableArray()
+        let messages2=NSMutableArray()
         
         let name = Expression<String>("name")
         let phone = Expression<String>("phone")
@@ -576,7 +576,7 @@ class ChatMainViewController:UIViewController,SocketConnecting,RefreshContactsLi
         let email = Expression<String>("email")
         let lastname = Expression<String>("lastname")
         
-        var allcontacts = sqliteDB.allcontacts
+        let allcontacts = sqliteDB.allcontacts
         var ContactNames=""
         var ContactUsernames=""
         var ContactsPhone=""
@@ -587,28 +587,28 @@ class ChatMainViewController:UIViewController,SocketConnecting,RefreshContactsLi
         
         var ContactOnlineStatus=0
         var ContactsEmail=""
-           var ContactStatus=""
-        var ContactsProfilePic=NSData.init()
+           let ContactStatus=""
+        var ContactsProfilePic=Data.init()
         
         let uniqueidentifier = Expression<String>("uniqueidentifier")
         
         
-        var joinrows=self.leftJoinContactsTables()
+        let joinrows=self.leftJoinContactsTables()
         
         do{
             for ccc in joinrows {
               
                 var picfound=false
                 ContactNames=ccc.get(name)
-                ContactUsernames=ccc.get(allcontacts[phone])
-                ContactsPhone=ccc.get(allcontacts[phone])
-                ContactsEmail=ccc.get(allcontacts[email])
+                ContactUsernames=ccc.get((allcontacts?[phone])!)
+                ContactsPhone=ccc.get((allcontacts?[phone])!)
+                ContactsEmail=ccc.get((allcontacts?[email])!)
                 //ContactLastNAme=ccc.get(allcontacts[lastname])
                 let contactStore = CNContactStore()
                 
-                var keys = [CNContactGivenNameKey, CNContactFamilyNameKey, CNContactEmailAddressesKey, CNContactPhoneNumbersKey, CNContactImageDataAvailableKey,CNContactThumbnailImageDataKey, CNContactImageDataKey]
+                let keys = [CNContactGivenNameKey, CNContactFamilyNameKey, CNContactEmailAddressesKey, CNContactPhoneNumbersKey, CNContactImageDataAvailableKey,CNContactThumbnailImageDataKey, CNContactImageDataKey]
                 //--- var foundcontact=try contactStore.unifiedContactWithIdentifier(picquery[uniqueidentifier], keysToFetch: keys)
-                var foundcontact=try contactStore.unifiedContactWithIdentifier(ccc.get(uniqueidentifier), keysToFetch: keys)
+                let foundcontact=try contactStore.unifiedContact(withIdentifier: ccc.get(uniqueidentifier), keysToFetch: keys as [CNKeyDescriptor])
                 
                 
                 
@@ -622,12 +622,12 @@ class ChatMainViewController:UIViewController,SocketConnecting,RefreshContactsLi
                 if(picfound==false)
                 {
                     //print("no pic found for \(ContactUsernames)")
-                    ContactsProfilePic=NSData.init()
+                    ContactsProfilePic=NSData.init() as Data
                     // print("picquery NOT found for \(ccc[phone]) and is \(NSData.init())")
                 }
                 
                 print("favourites tab \(ContactNames) .. \(ContactsPhone)")
-                messages2.addObject(["ContactNames":ContactNames,"ContactUsernames":ContactUsernames,"ContactsPhone":ContactsPhone,"ContactsEmail":ContactsEmail,"ContactStatus":ContactStatus,"ContactsProfilePic":ContactsProfilePic])
+                messages2.add(["ContactNames":ContactNames,"ContactUsernames":ContactUsernames,"ContactsPhone":ContactsPhone,"ContactsEmail":ContactsEmail,"ContactStatus":ContactStatus,"ContactsProfilePic":ContactsProfilePic])
 
             
             }
@@ -641,7 +641,7 @@ class ChatMainViewController:UIViewController,SocketConnecting,RefreshContactsLi
         
         self.messages.setArray(messages2 as [AnyObject])
         
-        return completion(result:true)
+        return completion(true)
         
     }
     
@@ -854,7 +854,7 @@ class ChatMainViewController:UIViewController,SocketConnecting,RefreshContactsLi
         
         var contactslists = sqliteDB.contactslists
         //=================================================
-        var joinquery=contactslists.join(.Cross, allcontacts, on: allcontacts[phone] == contactslists[phone])
+        var joinquery=contactslists.join(.Cross, allcontacts!, on: (allcontacts?[phone])! == (contactslists?[phone])!)
         
         do{for joinresult in try sqliteDB.db.prepare(joinquery) {
             
@@ -876,12 +876,12 @@ class ChatMainViewController:UIViewController,SocketConnecting,RefreshContactsLi
         // Dispose of any resources that can be recreated.
     }
     
-    @IBAction func unwindToChat (segueSelected : UIStoryboardSegue) {
+    @IBAction func unwindToChat (_ segueSelected : UIStoryboardSegue) {
         print("unwind chat", terminator: "")
       
     }
     
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         //refreshControl.addTarget(self, action: Selector("fetchContacts"), forControlEvents: UIControlEvents.ValueChanged)
         
         //==--print(ContactNames.count, terminator: "")
@@ -889,11 +889,11 @@ class ChatMainViewController:UIViewController,SocketConnecting,RefreshContactsLi
         return messages.count+2
     }
     
-    func numberOfSectionsInTableView(tableView: UITableView!) -> Int {
+    func numberOfSectionsInTableView(_ tableView: UITableView!) -> Int {
         return 1
     }
     
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath!) -> UITableViewCell! {
+    func tableView(_ tableView: UITableView, cellForRowAtIndexPath indexPath: IndexPath!) -> UITableViewCell! {
         
         
         
@@ -908,19 +908,19 @@ class ChatMainViewController:UIViewController,SocketConnecting,RefreshContactsLi
          print("indexpath row number is \(indexPath.row)")
         if(indexPath.row < (messages.count))
         {
-            var messageDic = messages.objectAtIndex(indexPath.row) as! [String : AnyObject];
+            var messageDic = messages.object(at: indexPath.row) as! [String : AnyObject];
             
             //let ContactLastNAme=messageDic["ContactLastNAme"] as! String
-            var ContactNames=messageDic["ContactNames"] as! String
+            let ContactNames=messageDic["ContactNames"] as! String
             let ContactStatus=messageDic["ContactStatus"] as! String
             let ContactUsernames=messageDic["ContactUsernames"] as! String
             //let ContactFirstname=messageDic["ContactFirstname"] as! String
             let ContactsPhone=messageDic["ContactsPhone"] as! String
-            let ContactsProfilePic=messageDic["ContactsProfilePic"] as! NSData
+            let ContactsProfilePic=messageDic["ContactsProfilePic"] as! Data
             
       //==---  let cellPublic=tblForChat.dequeueReusableCellWithIdentifier("ChatPublicCell") as! ContactsListCell
         
-        let cell=tblForChat.dequeueReusableCellWithIdentifier("ChatPrivateCell") as! ContactsListCell
+        let cell=tblForChat.dequeueReusableCell(withIdentifier: "ChatPrivateCell") as! ContactsListCell
         
         //%%%%%%%%%%%%%%%%cell.contactName?.text=ContactNames[indexPath.row]
         
@@ -936,23 +936,23 @@ class ChatMainViewController:UIViewController,SocketConnecting,RefreshContactsLi
             cell.profilePic.image=UIImage(named: "profile-pic1")
 
             //if(!ContactsProfilePic.isEmpty && ContactsProfilePic[indexPath.row] != NSData.init())
-            if(ContactsProfilePic != NSData.init())
+            if(ContactsProfilePic != Data.init())
             {
                 
                    print("ound avatar in favourites")
                 
-                var img=UIImage(data:ContactsProfilePic)
-                var w=img!.size.width
+                let img=UIImage(data:ContactsProfilePic)
+                let w=img!.size.width
                 var h=img!.size.height
-                var wOld=cell.profilePic.bounds.width
+                let wOld=cell.profilePic.bounds.width
                 var hOld=cell.profilePic.bounds.height
-                var scale:CGFloat=w/wOld
+                let scale:CGFloat=w/wOld
                 
                 ////self.ResizeImage(img!, targetSize: CGSizeMake(cell.profilePic.bounds.width,cell.profilePic.bounds.height))
                 
                 cell.profilePic.layer.borderWidth = 1.0
                 cell.profilePic.layer.masksToBounds = false
-                cell.profilePic.layer.borderColor = UIColor.whiteColor().CGColor
+                cell.profilePic.layer.borderColor = UIColor.white.cgColor
                 cell.profilePic.layer.cornerRadius = cell.profilePic.frame.size.width/2
                 cell.profilePic.clipsToBounds = true
                 
@@ -983,14 +983,14 @@ class ChatMainViewController:UIViewController,SocketConnecting,RefreshContactsLi
         }
         else {if(indexPath.row == (messages.count))
         {print("here count is \(messages.count)")
-            let cell = tblForChat.dequeueReusableCellWithIdentifier("InviteToKiboAppCell")! as UITableViewCell
+            let cell = tblForChat.dequeueReusableCell(withIdentifier: "InviteToKiboAppCell")! as UITableViewCell
            
             return cell
         }
         else
         {
          // print("here2 count is \(ContactNames.count)")
-            let cell = tblForChat.dequeueReusableCellWithIdentifier("numberOfFavouritesCell") as! numberOfFavouritesCell
+            let cell = tblForChat.dequeueReusableCell(withIdentifier: "numberOfFavouritesCell") as! numberOfFavouritesCell
            cell.lbl_numberOfFavourites.text = "\(messages.count) Favourites"
             return cell
         }
@@ -998,20 +998,20 @@ class ChatMainViewController:UIViewController,SocketConnecting,RefreshContactsLi
     
     }
     
-    func tableView(tableView: UITableView!, didSelectRowAtIndexPath indexPath: NSIndexPath!){
+    func tableView(_ tableView: UITableView!, didSelectRowAtIndexPath indexPath: IndexPath!){
         
         //let indexPath = tableView.indexPathForSelectedRow();
         //let currentCell = tableView.cellForRowAtIndexPath(indexPath!) as UITableViewCell!;
         //if(indexPath.row < (ContactNames.count))
         //{
         //print(ContactNames[indexPath.row], terminator: "")
-        self.performSegueWithIdentifier("favouritesChat", sender: nil);
+        self.performSegue(withIdentifier: "favouritesChat", sender: nil);
         //}
         //slideToChat
         
     }
     
-    func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
+    func tableView(_ tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: IndexPath) {
        /*
         if(indexPath.row < (ContactNames.count))
         {
@@ -1355,13 +1355,13 @@ class ChatMainViewController:UIViewController,SocketConnecting,RefreshContactsLi
 */
    // }
 
-    @IBAction func inviteFriendsButtonPressed(sender: AnyObject) {
-        let shareMenu = UIAlertController(title: nil, message: "Invite using", preferredStyle: .ActionSheet)
+    @IBAction func inviteFriendsButtonPressed(_ sender: AnyObject) {
+        let shareMenu = UIAlertController(title: nil, message: "Invite using", preferredStyle: .actionSheet)
         
-        let mailAction = UIAlertAction(title: "Mail", style: UIAlertActionStyle.Default,handler: { (action) -> Void in
+        let mailAction = UIAlertAction(title: "Mail", style: UIAlertActionStyle.default,handler: { (action) -> Void in
             
             self.sendType="Mail"
-            self.performSegueWithIdentifier("inviteSegue",sender: nil)
+            self.performSegue(withIdentifier: "inviteSegue",sender: nil)
             /*let mailComposeViewController = self.configuredMailComposeViewController()
              if MFMailComposeViewController.canSendMail() {
              self.presentViewController(mailComposeViewController, animated: true, completion: nil)
@@ -1369,10 +1369,10 @@ class ChatMainViewController:UIViewController,SocketConnecting,RefreshContactsLi
              self.showSendMailErrorAlert()
              }*/
         })
-        let msgAction = UIAlertAction(title: "Message", style: UIAlertActionStyle.Default, handler: { (action) -> Void in
+        let msgAction = UIAlertAction(title: "Message", style: UIAlertActionStyle.default, handler: { (action) -> Void in
             
             self.sendType="Message"
-            self.performSegueWithIdentifier("inviteSegue",sender: nil)
+            self.performSegue(withIdentifier: "inviteSegue",sender: nil)
             /*var messageVC = MFMessageComposeViewController()
              
              messageVC.body = "Enter a message";
@@ -1382,14 +1382,14 @@ class ChatMainViewController:UIViewController,SocketConnecting,RefreshContactsLi
              self.presentViewController(messageVC, animated: false, completion: nil)
              */
         })
-        let cancelAction = UIAlertAction(title: "Cancel", style: UIAlertActionStyle.Cancel, handler:nil)
+        let cancelAction = UIAlertAction(title: "Cancel", style: UIAlertActionStyle.cancel, handler:nil)
         shareMenu.addAction(mailAction)
         shareMenu.addAction(msgAction)
         shareMenu.addAction(cancelAction)
         
         
         
-        self.presentViewController(shareMenu, animated: true, completion: {
+        self.present(shareMenu, animated: true, completion: {
             
         })
         
@@ -1401,7 +1401,7 @@ class ChatMainViewController:UIViewController,SocketConnecting,RefreshContactsLi
     
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     
-    override func prepareForSegue(segue: UIStoryboardSegue?, sender: AnyObject?) {
+    override func prepare(for segue: UIStoryboardSegue?, sender: Any?) {
         //var newController=segue ?.destinationViewController
         // Get the new view controller using [segue destinationViewController].
         // Pass the selected object to the new view controller.
@@ -1417,11 +1417,11 @@ class ChatMainViewController:UIViewController,SocketConnecting,RefreshContactsLi
         }*/
         if segue!.identifier == "favouritesChat" {
             
-            if let destinationVC = segue!.destinationViewController as? ChatDetailViewController{
+            if let destinationVC = segue!.destination as? ChatDetailViewController{
                 
                 let selectedRow = tblForChat.indexPathForSelectedRow!.row
                 
-                var messageDic = messages.objectAtIndex(selectedRow) as! [String : AnyObject];
+                var messageDic = messages.object(at: selectedRow) as! [String : AnyObject];
         
                 
                 //destinationVC.selectedContact = ContactNames[selectedRow]
@@ -1459,7 +1459,7 @@ class ChatMainViewController:UIViewController,SocketConnecting,RefreshContactsLi
             }
         }
         if segue!.identifier == "inviteSegue" {
-            let destinationNavigationController = segue!.destinationViewController as! UINavigationController
+            let destinationNavigationController = segue!.destination as! UINavigationController
             let destinationVC = destinationNavigationController.topViewController as? ContactsInviteViewController
             
             destinationVC?.sendType=self.sendType
@@ -1662,15 +1662,15 @@ class ChatMainViewController:UIViewController,SocketConnecting,RefreshContactsLi
     }
     
     */*/
-    override func viewWillDisappear(animated: Bool) {
+    override func viewWillDisappear(_ animated: Bool) {
         print("dismissed chatttttttt")
         //socketObj.delegate=nil
         syncServiceContacts.delegateRefreshContactsList=nil
     }
 
-    func refreshContactsList(message: String) {
+    func refreshContactsList(_ message: String) {
         
-        dispatch_async(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0)) {
+        DispatchQueue.global(qos: DispatchQoS.QoSClass.userInitiated).async {
             // do some task start to show progress wheel
             self.fetchcontactsnew({ (result) -> () in
                 //self.fetchContactsFromServer()

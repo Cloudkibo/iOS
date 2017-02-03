@@ -32,10 +32,10 @@ class DatabaseHandler:NSObject{
     init(dbName:String)
     {print("inside database handler class")
         
-        let fileManager = NSFileManager.defaultManager()
-        let dirPaths = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)
+        let fileManager = FileManager.default
+        let dirPaths = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)
         let docsDir1 = dirPaths[0] 
-        self.dbPath = (docsDir1 as NSString).stringByAppendingPathComponent("cloudKiboDatabase2.sqlite3")
+        self.dbPath = (docsDir1 as NSString).appendingPathComponent("cloudKiboDatabase2.sqlite3")
         
         ////////self.db = Database(dbPath)
                 do {
@@ -148,7 +148,7 @@ class DatabaseHandler:NSObject{
         
     }
     
-    func alterTable(version:Double)
+    func alterTable(_ version:Double)
     {print("alter table")
         if(version < 0.1274)
         {
@@ -476,7 +476,7 @@ print("alter table needed")
         let fromFullName = Expression<String>("fromFullName")
         let msg = Expression<String>("msg")
         let owneruser = Expression<String>("owneruser")
-        let date = Expression<NSDate>("date")
+        let date = Expression<Date>("date")
         let uniqueid = Expression<String>("uniqueid")
         let status = Expression<String>("status")
         let contactPhone = Expression<String>("contactPhone")
@@ -633,8 +633,8 @@ print("alter table needed")
     {
         let groupid = Expression<String>("groupid")
         let isMute = Expression<Bool>("isMute")
-        let muteTime = Expression<NSDate>("muteTime")
-        let unMuteTime = Expression<NSDate>("unMuteTime")
+        let muteTime = Expression<Date>("muteTime")
+        let unMuteTime = Expression<Date>("unMuteTime")
 
         
         
@@ -719,23 +719,23 @@ print("alter table needed")
     }
     
     
-        func storeMuteGroupSettingsTable(groupid1:String,isMute1:Bool,muteTime1:NSDate,unMuteTime1:NSDate)
+        func storeMuteGroupSettingsTable(_ groupid1:String,isMute1:Bool,muteTime1:Date,unMuteTime1:Date)
         {
             let groupid = Expression<String>("groupid")
             let isMute = Expression<Bool>("isMute")
-            let muteTime = Expression<NSDate>("muteTime")
-            let unMuteTime = Expression<NSDate>("unMuteTime")
+            let muteTime = Expression<Date>("muteTime")
+            let unMuteTime = Expression<Date>("unMuteTime")
             
             
-            var group_muteSettings=sqliteDB.group_muteSettings
+            let group_muteSettings=sqliteDB.group_muteSettings
             
             do {
-                let rowid = try db.run(group_muteSettings.insert(
+                let rowid = try db.run((group_muteSettings?.insert(
                     groupid<-groupid1,
                     isMute<-isMute1,
                     muteTime<-muteTime1,
                     unMuteTime<-unMuteTime1
-                    ))
+                    ))!)
                 
                
                 print("inserted id group_muteSettings : \(rowid)")
@@ -752,7 +752,7 @@ print("alter table needed")
         }
         let to = Expression<String>("to") //user phone or group id
         let from = Expression<String>("from")
-        let date = Expression<NSDate>("date")
+        let date = Expression<Date>("date")
         let uniqueid = Expression<String>("uniqueid") //chat uniqueid OR group image id
         let contactPhone = Expression<String>("contactPhone")
         let type = Expression<String>("type")  //image or document
@@ -777,15 +777,15 @@ print("alter table needed")
         //formatter.dateStyle = .ShortStyle
         //formatter.timeStyle = .ShortStyle
         let defaultTimeZoneStr = formatter.stringFromDate(date22);*/
-        var date22=NSDate()
-        var formatter = NSDateFormatter();
+        let date22=Date()
+        let formatter = DateFormatter();
         formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ";
         //formatter.dateFormat = "MM/dd hh:mm a"";
-        formatter.timeZone = NSTimeZone.localTimeZone()
+        formatter.timeZone = TimeZone.autoupdatingCurrent
         //formatter.dateStyle = .ShortStyle
         //formatter.timeStyle = .ShortStyle
-        let defaultTimeZoneStr2 = formatter.stringFromDate(date22);
-        var defaultTimeZoneStr = formatter.dateFromString(defaultTimeZoneStr2)
+        let defaultTimeZoneStr2 = formatter.string(from: date22);
+        let defaultTimeZoneStr = formatter.date(from: defaultTimeZoneStr2)
         print("default db date is \(defaultTimeZoneStr)")
         
         do{
@@ -814,21 +814,21 @@ print("alter table needed")
     }
     
     
-    func saveMessageStatusSeen(status1:String,sender1:String,uniqueid1:String)
+    func saveMessageStatusSeen(_ status1:String,sender1:String,uniqueid1:String)
     {
         
         let status = Expression<String>("status")
         let sender = Expression<String>("sender")
         let uniqueid = Expression<String>("uniqueid")
         
-        var statusUpdate=sqliteDB.statusUpdate
+        let statusUpdate=sqliteDB.statusUpdate
         
         do {
-            let rowid = try db.run(statusUpdate.insert(
+            let rowid = try db.run((statusUpdate?.insert(
                 status<-status1,
                 sender<-sender1,
                 uniqueid<-uniqueid1
-                ))
+                ))!)
             
             if(socketObj != nil)
             {
@@ -842,18 +842,18 @@ print("alter table needed")
         
         
     }
-    func removeMessageStatusSeen(uniqueid1:String)
+    func removeMessageStatusSeen(_ uniqueid1:String)
     {
         
         let status = Expression<String>("status")
         let sender = Expression<String>("sender")
         let uniqueid = Expression<String>("uniqueid")
         
-        var statusUpdate=sqliteDB.statusUpdate
+        let statusUpdate=sqliteDB.statusUpdate
         
         do
         {
-            try sqliteDB.db.run(statusUpdate.filter(uniqueid==uniqueid1).delete())
+            try sqliteDB.db.run((statusUpdate?.filter(uniqueid==uniqueid1).delete())!)
             
         }
         catch(let error)
@@ -873,7 +873,7 @@ print("alter table needed")
     
     
     
-    func saveCallHist(name1:String,dateTime1:String,type1:String)
+    func saveCallHist(_ name1:String,dateTime1:String,type1:String)
     {
         print("saving call history, call received from \(name1) type is \(type1) datetime is \(dateTime1)")
         if(socketObj != nil)
@@ -885,26 +885,26 @@ print("alter table needed")
         let dateTime = Expression<String>("dateTime")
         let type = Expression<String>("type")
         
-        var date22=NSDate()
-        var formatter = NSDateFormatter();
+        let date22=Date()
+        let formatter = DateFormatter();
         //formatter.dateFormat = "yyyy-MM-dd HH:mm:ss ZZZ";
          formatter.dateFormat = "MM/dd hh:mm a";
-        formatter.timeZone = NSTimeZone.localTimeZone()
+        formatter.timeZone = TimeZone.autoupdatingCurrent
         //formatter.dateStyle = .ShortStyle
         //formatter.timeStyle = .ShortStyle
-        let defaultTimeZoneStr = formatter.stringFromDate(date22);
+        let defaultTimeZoneStr = formatter.string(from: date22);
         
         
         
         
-        var tbl_callHist=sqliteDB.callHistory
+        let tbl_callHist=sqliteDB.callHistory
         
         do {
-            let rowid = try db.run(tbl_callHist.insert(
+            let rowid = try db.run((tbl_callHist?.insert(
                 name<-name1,
                 dateTime<-defaultTimeZoneStr,
                 type<-type1
-                ))
+                ))!)
            if(socketObj != nil)
            {socketObj.socket.emit("logClient","IPHONE-LOG: Call History saved in sqliteDB")}
             print("inserted id callHist : \(rowid)")
@@ -917,7 +917,7 @@ print("alter table needed")
     }
     
     
-    func saveAllContacts(uniqueidentifier1:String,name1:String,phone1:String,actualphone1:String,kiboContact1:Bool,email1:String)
+    func saveAllContacts(_ uniqueidentifier1:String,name1:String,phone1:String,actualphone1:String,kiboContact1:Bool,email1:String)
     {
         // let contactObject=Expression<CNContact>("contactObj")
         let uniqueidentifier = Expression<String>("uniqueidentifier")
@@ -928,17 +928,17 @@ print("alter table needed")
 
         let kiboContact = Expression<Bool>("kiboContact")
         
-        var tbl_allcontacts=sqliteDB.allcontacts
+        let tbl_allcontacts=sqliteDB.allcontacts
         
         do {
-            let rowid = try db.run(tbl_allcontacts.insert(
+            let rowid = try db.run((tbl_allcontacts?.insert(
                 uniqueidentifier<-uniqueidentifier1,
                 name<-name1,
                 phone<-phone1,
                 email<-email1,
                 actualphone<-actualphone1,
                 kiboContact<-kiboContact1
-                ))
+                ))!)
             if(socketObj != nil){
             socketObj.socket.emit("logClient","IPHONE-LOG: all contacts saved in sqliteDB")
             }
@@ -950,7 +950,7 @@ print("alter table needed")
 
 
     }
-    func UpdateChatStatus(uniqueid1:String,newstatus:String)
+    func UpdateChatStatus(_ uniqueid1:String,newstatus:String)
     {
        //  UtilityFunctions.init().log_papertrail("IPHONE: \(username!) inside database function to update chat status")
         
@@ -958,13 +958,13 @@ print("alter table needed")
         let status = Expression<String>("status")
 
         
-        var tbl_userchats=sqliteDB.userschats
+        let tbl_userchats=sqliteDB.userschats
         
-        let query = tbl_userchats.select(status)           // SELECT "email" FROM "users"
+        let query = tbl_userchats?.select(status)           // SELECT "email" FROM "users"
             .filter(uniqueid == uniqueid1)     // WHERE "name" IS NOT NULL
         
         do
-        {try sqliteDB.db.run(query.update(status <- newstatus))}
+        {try sqliteDB.db.run((query?.update(status <- newstatus))!)}
         catch
         {
             print("error in updating chat")
@@ -1067,7 +1067,7 @@ print("alter table needed")
             
         }*/
     
-    func SaveChat(to1:String,from1:String,owneruser1:String,fromFullName1:String,msg1:String,date1:NSDate!,uniqueid1:String!,status1:String,type1:String,file_type1:String,file_path1:String)
+    func SaveChat(_ to1:String,from1:String,owneruser1:String,fromFullName1:String,msg1:String,date1:Date!,uniqueid1:String!,status1:String,type1:String,file_type1:String,file_path1:String)
     {
         //createUserChatTable()
         // UtilityFunctions.init().log_papertrail("IPHONE:\(username!) inside database function to SAVE chat")
@@ -1077,7 +1077,7 @@ print("alter table needed")
         let owneruser = Expression<String>("owneruser")
         let fromFullName = Expression<String>("fromFullName")
         let msg = Expression<String>("msg")
-        let date = Expression<NSDate>("date")
+        let date = Expression<Date>("date")
         let uniqueID = Expression<String>("uniqueid")
         let status = Expression<String>("status")
         let contactPhone = Expression<String>("contactPhone")
@@ -1089,7 +1089,7 @@ print("alter table needed")
         let isBroadcastMessage = Expression<Bool>("isBroadcastMessage")
         
         
-        var tbl_userchats=sqliteDB.userschats
+        let tbl_userchats=sqliteDB.userschats
         
         var contactPhone1=""
         
@@ -1110,17 +1110,17 @@ print("alter table needed")
          to<-to1,
          from<-from1
          )*/
-        var mydate:NSDate!
+        var mydate:Date!
         if(date1 == nil)
         {
             print("date got is null to put current date/time")
             
             
-            var date22=NSDate()
-            var formatter = NSDateFormatter();
+            let date22=Date()
+            let formatter = DateFormatter();
             formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ";
             ///newwwwwwww
-            formatter.timeZone = NSTimeZone.localTimeZone()
+            formatter.timeZone = TimeZone.autoupdatingCurrent
             
             
             
@@ -1128,14 +1128,14 @@ print("alter table needed")
             ////////////////==formatter.timeZone = NSTimeZone.defaultTimeZone()
             //formatter.dateStyle = .ShortStyle
             //formatter.timeStyle = .ShortStyle
-            let defaultTimeZoneStr2 = formatter.stringFromDate(date22);
+            let defaultTimeZoneStr2 = formatter.string(from: date22);
             
             
-            var formatter2 = NSDateFormatter();
+            let formatter2 = DateFormatter();
             formatter2.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ";
             
             //////formatter.timeZone = NSTimeZone.localTimeZone()
-            var defaultTimeZoneStr = formatter2.dateFromString(defaultTimeZoneStr2)
+            let defaultTimeZoneStr = formatter2.date(from: defaultTimeZoneStr2)
             print("default db date is \(defaultTimeZoneStr!)")
             
             print("===fetch chat inside database handler string \(defaultTimeZoneStr2) .. converted NSDate is \(defaultTimeZoneStr!)... now date 22 is \(date22)")
@@ -1150,13 +1150,13 @@ print("alter table needed")
             
             print("date got is not null. converting")
             //var date22=NSDate()
-            var formatter = NSDateFormatter();
+            let formatter = DateFormatter();
             formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ";
             //formatter.dateFormat = "MM/dd hh:mm a"";
-            formatter.timeZone = NSTimeZone.localTimeZone()
+            formatter.timeZone = TimeZone.autoupdatingCurrent
             
-            let defaultTimeZoneStr2 = formatter.stringFromDate(date1);
-            var defaultTimeZoneStr = formatter.dateFromString(defaultTimeZoneStr2)
+            let defaultTimeZoneStr2 = formatter.string(from: date1);
+            let defaultTimeZoneStr = formatter.date(from: defaultTimeZoneStr2)
             
             ////var defaultTimeZoneStr = formatter.dateFromString(date1)
             print("default db date from server is \(defaultTimeZoneStr!)")
@@ -1171,7 +1171,7 @@ print("alter table needed")
         do {
             
             var alreadyexists=false
-            for res in try sqliteDB.db.prepare(tbl_userchats.filter(uniqueID == uniqueid1))
+            for res in try sqliteDB.db.prepare((tbl_userchats?.filter(uniqueID == uniqueid1))!)
             {
                 // print("chat already exists")
                 alreadyexists=true
@@ -1180,7 +1180,7 @@ print("alter table needed")
             if(alreadyexists==false)
             {
                 print("adding chat \(file_type1) .. \(msg1) .. type \(type1)")
-                let rowid = try db.run(tbl_userchats.insert(fromFullName<-fromFullName1,
+                let rowid = try db.run((tbl_userchats?.insert(fromFullName<-fromFullName1,
                     msg<-msg1,
                     owneruser<-owneruser1,
                     to<-to1,
@@ -1192,7 +1192,7 @@ print("alter table needed")
                     type<-type1,
                     file_type<-file_type1,
                     file_path<-file_path1
-                    ))
+                    ))!)
                 
                 // UtilityFunctions.init().log_papertrail("IPHONE_LOG: \(username!) saving chat in db \(rowid)")
             }
@@ -1219,7 +1219,7 @@ print("alter table needed")
     
 
     
-    func SaveBroadcastChat(to1:String,from1:String,owneruser1:String,fromFullName1:String,msg1:String,date1:NSDate!,uniqueid1:String!,status1:String,type1:String,file_type1:String,file_path1:String,broadcastlistID1:String)
+    func SaveBroadcastChat(_ to1:String,from1:String,owneruser1:String,fromFullName1:String,msg1:String,date1:Date!,uniqueid1:String!,status1:String,type1:String,file_type1:String,file_path1:String,broadcastlistID1:String)
     {
         //createUserChatTable()
     // UtilityFunctions.init().log_papertrail("IPHONE:\(username!) inside database function to SAVE chat")
@@ -1229,7 +1229,7 @@ print("alter table needed")
         let owneruser = Expression<String>("owneruser")
         let fromFullName = Expression<String>("fromFullName")
         let msg = Expression<String>("msg")
-        let date = Expression<NSDate>("date")
+        let date = Expression<Date>("date")
          let uniqueID = Expression<String>("uniqueid")
         let status = Expression<String>("status")
         let contactPhone = Expression<String>("contactPhone")
@@ -1239,7 +1239,7 @@ print("alter table needed")
         let broadcastlistID = Expression<String>("broadcastlistID")
         let isBroadcastMessage = Expression<Bool>("isBroadcastMessage")
         
-        var tbl_userchats=sqliteDB.userschats
+        let tbl_userchats=sqliteDB.userschats
         
         var contactPhone1=""
         
@@ -1260,17 +1260,17 @@ print("alter table needed")
             to<-to1,
             from<-from1
         )*/
-        var mydate:NSDate!
+        var mydate:Date!
         if(date1 == nil)
         {
             print("date got is null to put current date/time")
           
             
-            var date22=NSDate()
-            var formatter = NSDateFormatter();
+            let date22=Date()
+            let formatter = DateFormatter();
             formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ";
             ///newwwwwwww
-             formatter.timeZone = NSTimeZone.localTimeZone()
+             formatter.timeZone = TimeZone.autoupdatingCurrent
            
             
             
@@ -1278,14 +1278,14 @@ print("alter table needed")
             ////////////////==formatter.timeZone = NSTimeZone.defaultTimeZone()
             //formatter.dateStyle = .ShortStyle
             //formatter.timeStyle = .ShortStyle
-            let defaultTimeZoneStr2 = formatter.stringFromDate(date22);
+            let defaultTimeZoneStr2 = formatter.string(from: date22);
             
             
-            var formatter2 = NSDateFormatter();
+            let formatter2 = DateFormatter();
             formatter2.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ";
             
             //////formatter.timeZone = NSTimeZone.localTimeZone()
-            var defaultTimeZoneStr = formatter2.dateFromString(defaultTimeZoneStr2)
+            let defaultTimeZoneStr = formatter2.date(from: defaultTimeZoneStr2)
             print("default db date is \(defaultTimeZoneStr!)")
             
             print("===fetch chat inside database handler string \(defaultTimeZoneStr2) .. converted NSDate is \(defaultTimeZoneStr!)... now date 22 is \(date22)")
@@ -1300,13 +1300,13 @@ print("alter table needed")
             
               print("date got is not null. converting")
             //var date22=NSDate()
-            var formatter = NSDateFormatter();
+            let formatter = DateFormatter();
             formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ";
             //formatter.dateFormat = "MM/dd hh:mm a"";
-            formatter.timeZone = NSTimeZone.localTimeZone()
+            formatter.timeZone = TimeZone.autoupdatingCurrent
             
-            let defaultTimeZoneStr2 = formatter.stringFromDate(date1);
-            var defaultTimeZoneStr = formatter.dateFromString(defaultTimeZoneStr2)
+            let defaultTimeZoneStr2 = formatter.string(from: date1);
+            let defaultTimeZoneStr = formatter.date(from: defaultTimeZoneStr2)
             
            ////var defaultTimeZoneStr = formatter.dateFromString(date1)
             print("default db date from server is \(defaultTimeZoneStr!)")
@@ -1330,7 +1330,7 @@ print("alter table needed")
             if(alreadyexists==false)
 {*/
         do{print("adding chat \(file_type1) .. \(msg1) .. type \(type1)")
-            let rowid = try db.run(tbl_userchats.insert(fromFullName<-fromFullName1,
+            let rowid = try db.run((tbl_userchats?.insert(fromFullName<-fromFullName1,
                 msg<-msg1,
                 owneruser<-owneruser1,
                 to<-to1,
@@ -1344,7 +1344,7 @@ print("alter table needed")
                 file_path<-file_path1,
                 broadcastlistID<-broadcastlistID1,
                 isBroadcastMessage<-true
-                ))}
+                ))!)}
         catch{
             
         }
@@ -1374,7 +1374,7 @@ print("alter table needed")
         
     
     
-    func saveFile(to1:String,from1:String,owneruser1:String,file_name1:String,date1:String!,uniqueid1:String!,file_size1:String,file_type1:String,file_path1:String, type1:String)
+    func saveFile(_ to1:String,from1:String,owneruser1:String,file_name1:String,date1:String!,uniqueid1:String!,file_size1:String,file_type1:String,file_path1:String, type1:String)
         
     {
         //var chatType="image"
@@ -1382,7 +1382,7 @@ print("alter table needed")
         //createUserChatTable()
         let to = Expression<String>("to")
         let from = Expression<String>("from")
-        let date = Expression<NSDate>("date")
+        let date = Expression<Date>("date")
         let uniqueid = Expression<String>("uniqueid")
         let contactPhone = Expression<String>("contactPhone")
         let type = Expression<String>("type")
@@ -1392,7 +1392,7 @@ print("alter table needed")
         let file_path = Expression<String>("file_path")
         
         
-        var tbl_userfiles=sqliteDB.files
+        let tbl_userfiles=sqliteDB.files
         
         var contactPhone1=""
         if(to1 != owneruser1)
@@ -1411,18 +1411,18 @@ print("alter table needed")
          to<-to1,
          from<-from1
          )*/
-        var mydate:NSDate!
+        var mydate:Date!
         if(date1 == nil)
         {
-            var date22=NSDate()
-            var formatter = NSDateFormatter();
+            let date22=Date()
+            let formatter = DateFormatter();
             formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ";
             //formatter.dateFormat = "MM/dd hh:mm a"";
-            formatter.timeZone = NSTimeZone.localTimeZone()
+            formatter.timeZone = TimeZone.autoupdatingCurrent
             //formatter.dateStyle = .ShortStyle
             //formatter.timeStyle = .ShortStyle
-            let defaultTimeZoneStr2 = formatter.stringFromDate(date22);
-            var defaultTimeZoneStr = formatter.dateFromString(defaultTimeZoneStr2)
+            let defaultTimeZoneStr2 = formatter.string(from: date22);
+            let defaultTimeZoneStr = formatter.date(from: defaultTimeZoneStr2)
             print("default db date is \(defaultTimeZoneStr)")
             
             mydate=defaultTimeZoneStr
@@ -1433,11 +1433,11 @@ print("alter table needed")
         {
             
             //var date22=NSDate()
-            var formatter = NSDateFormatter();
+            let formatter = DateFormatter();
             formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ";
             //formatter.dateFormat = "MM/dd hh:mm a"";
-            formatter.timeZone = NSTimeZone.localTimeZone()
-            var defaultTimeZoneStr = formatter.dateFromString(date1)
+            formatter.timeZone = TimeZone.autoupdatingCurrent
+            let defaultTimeZoneStr = formatter.date(from: date1)
             print("default db date from server is \(defaultTimeZoneStr)")
             
 
@@ -1450,7 +1450,7 @@ print("alter table needed")
          */
         
         do {
-            let rowid = try db.run(tbl_userfiles.insert(
+            let rowid = try db.run((tbl_userfiles?.insert(
                 to<-to1,
                 from<-from1,
                 date<-mydate,
@@ -1461,7 +1461,7 @@ print("alter table needed")
                 file_size<-file_size1,
                 file_type<-file_type1,
                 file_path<-file_path1
-                ))
+                ))!)
             //////print("inserted id: \(rowid)")
         } catch {
             print("insertion failed: \(error)")
@@ -1480,7 +1480,7 @@ print("alter table needed")
 
     
     
-    func retrieveChat(owneruser1:String)
+    func retrieveChat(_ owneruser1:String)
     {
         
         let to = Expression<String>("to")
@@ -1488,15 +1488,15 @@ print("alter table needed")
         let owneruser = Expression<String>("owneruser")
         let fromFullName = Expression<String>("fromFullName")
         let msg = Expression<String>("msg")
-        let date = Expression<NSDate>("date")
+        let date = Expression<Date>("date")
         
-        var tbl_userchats=sqliteDB.userschats
-        var res=tbl_userchats.filter(owneruser==owneruser1)
+        let tbl_userchats=sqliteDB.userschats
+        let res=tbl_userchats?.filter(owneruser==owneruser1)
         
             print("chat from sqlite is")
             print(res)
         do
-        {for tblContacts in try sqliteDB.db.prepare(tbl_userchats.filter(owneruser==owneruser1)){
+        {for tblContacts in try sqliteDB.db.prepare((tbl_userchats?.filter(owneruser==owneruser1))!){
             //print("queryy runned count is \(tbl_contactslists.count)")
             print(tblContacts[to])
             print(tblContacts[from])
@@ -1512,12 +1512,12 @@ print("--------")
         /////var tbl_userchats=sqliteDB.db["userschats"]
 
     }
-    func deleteChat(userTo:String)
+    func deleteChat(_ userTo:String)
     {
         let to = Expression<String>("to")
         let from = Expression<String>("from")
         
-        var tbl_userchats=sqliteDB.userschats
+        let tbl_userchats=sqliteDB.userschats
         
         //%%%%%%%%%%%%%%%% new running delete chat from sqlite database june 2016 %%%%%%%%%%%%%%%%
         //-----------------____________
@@ -1526,8 +1526,8 @@ print("--------")
         //tbl_userchats.filter(from==userTo).delete()
         do
         {
-        try sqliteDB.db.run(tbl_userchats.filter(to==userTo).delete())
-        try sqliteDB.db.run(tbl_userchats.filter(from==userTo).delete())
+        try sqliteDB.db.run((tbl_userchats?.filter(to==userTo).delete())!)
+        try sqliteDB.db.run((tbl_userchats?.filter(from==userTo).delete())!)
             
         }
         catch(let error)
@@ -1547,7 +1547,7 @@ print("--------")
         
     }
 
-    func deleteFriend(user:String)
+    func deleteFriend(_ user:String)
     {
     let username = Expression<String>("username")
        // print("sqlitedb queryyy"+self.contactslists.filter(username==user).description)
@@ -1565,8 +1565,8 @@ print("--------")
         {socketObj.socket.emit("logClient","IPHONE-LOG: creating groups table")}
         
         let group_name = Expression<String>("group_name")
-        let group_icon = Expression<NSData>("group_icon")
-        let date_creation = Expression<NSDate>("date_creation")
+        let group_icon = Expression<Data>("group_icon")
+        let date_creation = Expression<Date>("date_creation")
         let unique_id = Expression<String>("unique_id")
         let isMute = Expression<Bool>("isMute")
         let status = Expression<Bool>("status")
@@ -1575,8 +1575,8 @@ print("--------")
         do{
             try db.run(groups.create(ifNotExists: retainOldDatabase) { t in
                 t.column(group_name)
-                t.column(group_icon, defaultValue:NSData.init())
-                t.column(date_creation, defaultValue:NSDate())
+                t.column(group_icon, defaultValue:NSData.init() as Data)
+                t.column(date_creation, defaultValue:NSDate() as Date)
                 t.column(unique_id, unique:true)
                 t.column(isMute, defaultValue:false)
                 t.column(status)
@@ -1613,8 +1613,8 @@ print("--------")
         let member_phone = Expression<String>("member_phone")
         let isAdmin = Expression<String>("isAdmin")
         let membership_status = Expression<String>("membership_status")
-        let date_joined = Expression<NSDate>("date_joined")
-        let date_left = Expression<NSDate>("date_left")
+        let date_joined = Expression<Date>("date_joined")
+        let date_left = Expression<Date>("date_left")
         let group_member_displayname = Expression<String>("group_member_displayname")
         
         
@@ -1627,7 +1627,7 @@ print("--------")
                 t.column(isAdmin)
                 t.column(membership_status)
                 t.column(date_joined)
-                t.column(date_left, defaultValue:NSDate.init())
+                t.column(date_left, defaultValue:NSDate.init() as Date)
                 //     "name" TEXT
                 })
             
@@ -1663,7 +1663,7 @@ print("--------")
         let type = Expression<String>("type")
         let msg = Expression<String>("msg")
         let from_fullname = Expression<String>("from_fullname")
-        let date = Expression<NSDate>("date")
+        let date = Expression<Date>("date")
         let unique_id = Expression<String>("unique_id")
         
         self.group_chat = Table("group_chat")
@@ -1705,8 +1705,8 @@ print("--------")
         let msg_unique_id = Expression<String>("msg_unique_id")
         let Status = Expression<String>("Status")
         let user_phone = Expression<String>("user_phone")
-        let read_date = Expression<NSDate>("read_date")
-        let delivered_date = Expression<NSDate>("delivered_date")
+        let read_date = Expression<Date>("read_date")
+        let delivered_date = Expression<Date>("delivered_date")
         
         self.group_chat_status = Table("group_chat_status")
         do{
@@ -1715,9 +1715,9 @@ print("--------")
                 t.column(Status)
                 t.column(user_phone)
                 
-                t.column(read_date,defaultValue:UtilityFunctions.init().minimumDate())
+                t.column(read_date,defaultValue:UtilityFunctions.init().minimumDate() as Date)
                 
-                t.column(delivered_date,defaultValue:UtilityFunctions.init().minimumDate())
+                t.column(delivered_date,defaultValue:UtilityFunctions.init().minimumDate() as Date)
                 })
             
         }
@@ -1732,14 +1732,14 @@ print("--------")
         
     }
     
-    func storeGroupsChat(from1:String,group_unique_id1:String,type1:String,msg1:String,from_fullname1:String,date1:NSDate,unique_id1:String)
+    func storeGroupsChat(_ from1:String,group_unique_id1:String,type1:String,msg1:String,from_fullname1:String,date1:Date,unique_id1:String)
     {
         let from = Expression<String>("from")
         let group_unique_id = Expression<String>("group_unique_id")
         let type = Expression<String>("type")
         let msg = Expression<String>("msg")
         let from_fullname = Expression<String>("from_fullname")
-        let date = Expression<NSDate>("date")
+        let date = Expression<Date>("date")
         let unique_id = Expression<String>("unique_id")
         
         self.group_chat = Table("group_chat")
@@ -1784,12 +1784,12 @@ print("--------")
         }
     }
     
-    func storeGroups(groupname1:String,groupicon1:NSData!,datecreation1:NSDate,uniqueid1:String,status1:String)
+    func storeGroups(_ groupname1:String,groupicon1:Data!,datecreation1:Date,uniqueid1:String,status1:String)
     {
         
         let group_name = Expression<String>("group_name")
-        let group_icon = Expression<NSData>("group_icon")
-        let date_creation = Expression<NSDate>("date_creation")
+        let group_icon = Expression<Data>("group_icon")
+        let date_creation = Expression<Date>("date_creation")
         let unique_id = Expression<String>("unique_id")
         let isMute = Expression<Bool>("isMute")
         let status = Expression<String>("status") //temp or new
@@ -1814,7 +1814,7 @@ print("--------")
 
     }
     
-    func UpdateMuteGroupStatus(unique_id1:String,isMute1:Bool)
+    func UpdateMuteGroupStatus(_ unique_id1:String,isMute1:Bool)
     {
        let unique_id = Expression<String>("unique_id")
         let isMute = Expression<Bool>("isMute")
@@ -1832,15 +1832,15 @@ print("--------")
         
     }
     
-    func storeMembers(group_uniqueid1:String,member_displayname1:String,member_phone1:String,isAdmin1:String,membershipStatus1:String,date_joined1:NSDate)
+    func storeMembers(_ group_uniqueid1:String,member_displayname1:String,member_phone1:String,isAdmin1:String,membershipStatus1:String,date_joined1:Date)
     {
         let group_unique_id = Expression<String>("group_unique_id")
         let group_member_displayname = Expression<String>("group_member_displayname")
         let member_phone = Expression<String>("member_phone")
         let isAdmin = Expression<String>("isAdmin")
         let membership_status = Expression<String>("membership_status")//joined or left
-        let date_joined = Expression<NSDate>("date_joined")
-        let date_left = Expression<NSDate>("date_left")
+        let date_joined = Expression<Date>("date_joined")
+        let date_left = Expression<Date>("date_left")
         
         self.group_member = Table("group_member")
         
@@ -1852,7 +1852,7 @@ print("--------")
                 isAdmin<-isAdmin1,
                 membership_status<-membershipStatus1,
                 date_joined<-date_joined1,
-                date_left<-NSDate.init()
+                date_left<-Date.init()
                 
                 ))
             
@@ -1871,8 +1871,8 @@ print("--------")
     func getGroupDetails()->[[String:AnyObject]]
     {
         let group_name = Expression<String>("group_name")
-        let group_icon = Expression<NSData>("group_icon")
-        let date_creation = Expression<NSDate>("date_creation")
+        let group_icon = Expression<Data>("group_icon")
+        let date_creation = Expression<Date>("date_creation")
         let unique_id = Expression<String>("unique_id")
         let isMute = Expression<Bool>("isMute")
         let status = Expression<String>("status")
@@ -1923,14 +1923,14 @@ print("--------")
         
         
     }
-    func getSingleGroupInfo(groupid:String)->[String: AnyObject]
+    func getSingleGroupInfo(_ groupid:String)->[String: AnyObject]
     {
         // var groupsList=[String:AnyObject]()
         var newEntry: [String: AnyObject] = [:]
         
         let group_name = Expression<String>("group_name")
-        let group_icon = Expression<NSData>("group_icon")
-        let date_creation = Expression<NSDate>("date_creation")
+        let group_icon = Expression<Data>("group_icon")
+        let date_creation = Expression<Date>("date_creation")
         let unique_id = Expression<String>("unique_id")
         let isMute = Expression<Bool>("isMute")
         
@@ -1958,14 +1958,14 @@ print("--------")
         
     }
     
-    func getGroupMembersOfGroup(groupid1:String)->[[String:AnyObject]]
+    func getGroupMembersOfGroup(_ groupid1:String)->[[String:AnyObject]]
     {
         let group_unique_id = Expression<String>("group_unique_id")
         let member_phone = Expression<String>("member_phone")
         let isAdmin = Expression<String>("isAdmin")
         let membership_status = Expression<String>("membership_status")
-        let date_joined = Expression<NSDate>("date_joined")
-        let date_left = Expression<NSDate>("date_left")
+        let date_joined = Expression<Date>("date_joined")
+        let date_left = Expression<Date>("date_left")
         let group_member_displayname = Expression<String>("group_member_displayname")
         
         var groupsList=[[String:AnyObject]]()
@@ -2016,14 +2016,14 @@ print("--------")
         
     }
     
-    func removeMember(groupid1:String,member_phone1:String)
+    func removeMember(_ groupid1:String,member_phone1:String)
         {
             let group_unique_id = Expression<String>("group_unique_id")
             let member_phone = Expression<String>("member_phone")
             let isAdmin = Expression<String>("isAdmin")
             let membership_status = Expression<String>("membership_status")
-            let date_joined = Expression<NSDate>("date_joined")
-            let date_left = Expression<NSDate>("date_left")
+            let date_joined = Expression<Date>("date_joined")
+            let date_left = Expression<Date>("date_left")
             let group_member_displayname = Expression<String>("group_member_displayname")
             
         do
@@ -2042,14 +2042,14 @@ print("--------")
         }
         }
     
-    func updateMembershipStatus(groupid1:String,memberphone1:String,membership_status1:String)
+    func updateMembershipStatus(_ groupid1:String,memberphone1:String,membership_status1:String)
     {
         let group_unique_id = Expression<String>("group_unique_id")
         let member_phone = Expression<String>("member_phone")
         let isAdmin = Expression<String>("isAdmin")
         let membership_status = Expression<String>("membership_status")
-        let date_joined = Expression<NSDate>("date_joined")
-        let date_left = Expression<NSDate>("date_left")
+        let date_joined = Expression<Date>("date_joined")
+        let date_left = Expression<Date>("date_left")
         let group_member_displayname = Expression<String>("group_member_displayname")
         
         
@@ -2069,14 +2069,14 @@ print("--------")
 
     }
     
-    func getGroupAdmin(id:String)->String{
+    func getGroupAdmin(_ id:String)->String{
     
     let group_unique_id = Expression<String>("group_unique_id")
     let member_phone = Expression<String>("member_phone")
     let isAdmin = Expression<String>("isAdmin")
     let membership_status = Expression<String>("membership_status")
-    let date_joined = Expression<NSDate>("date_joined")
-    let date_left = Expression<NSDate>("date_left")
+    let date_joined = Expression<Date>("date_joined")
+    let date_left = Expression<Date>("date_left")
     let group_member_displayname = Expression<String>("group_member_displayname")
     
     var groupsList=[[String:AnyObject]]()
@@ -2089,7 +2089,7 @@ print("--------")
      let creationdate = Expression<String>("creationdate")
      let deleteStatus = Expression<String>("deleteStatus")
      */
-    var tblGroupmember = Table("group_member")
+    let tblGroupmember = Table("group_member")
     
     do
     {for groupDetails in try self.db.prepare(tblGroupmember.filter(group_unique_id==id && isAdmin.lowercaseString=="yes")){
@@ -2099,7 +2099,7 @@ print("--------")
         }
      return "error"}
     
-    func changeRole(groupid1:String,member1:String,isAdmin1:String)
+    func changeRole(_ groupid1:String,member1:String,isAdmin1:String)
     {
         let group_unique_id = Expression<String>("group_unique_id")
         let member_phone = Expression<String>("member_phone")
@@ -2118,14 +2118,14 @@ print("--------")
 
     }
     
-    func getMemberShipStatus(groupid1:String,memberphone:String)->String
+    func getMemberShipStatus(_ groupid1:String,memberphone:String)->String
     {
             let group_unique_id = Expression<String>("group_unique_id")
             let member_phone = Expression<String>("member_phone")
             let isAdmin = Expression<String>("isAdmin")
             let membership_status = Expression<String>("membership_status")
-            let date_joined = Expression<NSDate>("date_joined")
-            let date_left = Expression<NSDate>("date_left")
+            let date_joined = Expression<Date>("date_joined")
+            let date_left = Expression<Date>("date_left")
             let group_member_displayname = Expression<String>("group_member_displayname")
             
             var groupsList=[[String:AnyObject]]()
@@ -2138,7 +2138,7 @@ print("--------")
              let creationdate = Expression<String>("creationdate")
              let deleteStatus = Expression<String>("deleteStatus")
              */
-            var tblGroupmember = Table("group_member")
+            let tblGroupmember = Table("group_member")
             
             do
             {for groupDetails in try self.db.prepare(tblGroupmember.filter(group_unique_id==groupid1 && member_phone==memberphone)){
@@ -2152,14 +2152,14 @@ print("--------")
 
     }
     
-    func updateGroupChatStatus(uniqueid1:String,memberphone1:String,status1:String,delivereddate1:NSDate!,readDate1:NSDate!)
+    func updateGroupChatStatus(_ uniqueid1:String,memberphone1:String,status1:String,delivereddate1:Date!,readDate1:Date!)
     {
         let msg_unique_id = Expression<String>("msg_unique_id")
         let Status = Expression<String>("Status")
         let user_phone = Expression<String>("user_phone")
         
-        let read_date = Expression<NSDate>("read_date")
-        let delivered_date = Expression<NSDate>("delivered_date")
+        let read_date = Expression<Date>("read_date")
+        let delivered_date = Expression<Date>("delivered_date")
         
         
         
@@ -2167,9 +2167,9 @@ print("--------")
 
         let query = self.group_chat_status.select(Status).filter(msg_unique_id == uniqueid1 && user_phone == memberphone1)
         do
-        {var row=try sqliteDB.db.run(query.update(Status <- status1))
+        {let row=try sqliteDB.db.run(query.update(Status <- status1))
         print("status updated of group chat \(row)")
-            if(status1.lowercaseString == "delivered")
+            if(status1.lowercased() == "delivered")
             {
             var row=try sqliteDB.db.run(query.update(delivered_date <- delivereddate1))
             }
@@ -2187,16 +2187,16 @@ print("--------")
 
     }
     
-    func storeGRoupsChatStatus(uniqueid1:String,status1:String,memberphone1:String,delivereddate1:NSDate!,readDate1:NSDate!)
+    func storeGRoupsChatStatus(_ uniqueid1:String,status1:String,memberphone1:String,delivereddate1:Date!,readDate1:Date!)
     {
         let msg_unique_id = Expression<String>("msg_unique_id")
         let Status = Expression<String>("Status")
         let user_phone = Expression<String>("user_phone")
-        let read_date = Expression<NSDate>("read_date")
-        let delivered_date = Expression<NSDate>("delivered_date")
+        let read_date = Expression<Date>("read_date")
+        let delivered_date = Expression<Date>("delivered_date")
         
        // var group_muteSettings=sqliteDB.group_muteSettings
-        if(status1.lowercaseString == "seen")
+        if(status1.lowercased() == "seen")
         {
             do {
                 let rowid = try db.run(group_chat_status.insert(
@@ -2214,7 +2214,7 @@ print("--------")
             }
             
         }
-        if(status1.lowercaseString == "delivered")
+        if(status1.lowercased() == "delivered")
         {
             do {
                 let rowid = try db.run(group_chat_status.insert(
@@ -2249,13 +2249,13 @@ print("--------")
     }
     
     
-    func getGroupsChatStatusSingle(uniqueid1:String,user_phone1:String)->String
+    func getGroupsChatStatusSingle(_ uniqueid1:String,user_phone1:String)->String
     {
         let msg_unique_id = Expression<String>("msg_unique_id")
         let Status = Expression<String>("Status")
         let user_phone = Expression<String>("user_phone")
-        let read_date = Expression<NSDate>("read_date")
-        let delivered_date = Expression<NSDate>("delivered_date")
+        let read_date = Expression<Date>("read_date")
+        let delivered_date = Expression<Date>("delivered_date")
         
        // var tblGroupmember = Table("group_member")
         var status=""
@@ -2277,8 +2277,8 @@ print("--------")
         let msg_unique_id = Expression<String>("msg_unique_id")
         let Status = Expression<String>("Status")
         let user_phone = Expression<String>("user_phone")
-        let read_date = Expression<NSDate>("read_date")
-        let delivered_date = Expression<NSDate>("delivered_date")
+        let read_date = Expression<Date>("read_date")
+        let delivered_date = Expression<Date>("delivered_date")
         
         // var tblGroupmember = Table("group_member")
         var uniqueid=[String]()
@@ -2295,9 +2295,9 @@ print("--------")
         return uniqueid
     }
 
-    func updateGroupCreationDate(uniqueid1:String,date1:NSDate)
+    func updateGroupCreationDate(_ uniqueid1:String,date1:Date)
     {
-        let date_creation = Expression<NSDate>("date_creation")
+        let date_creation = Expression<Date>("date_creation")
         let unique_id = Expression<String>("unique_id")
         
         let query = self.groups.select(unique_id,date_creation)           // SELECT "email" FROM "users"
@@ -2317,7 +2317,7 @@ print("--------")
        
     }
     
-    func updateGroupChatMessage(group_unique_id1:String,msg1:String)
+    func updateGroupChatMessage(_ group_unique_id1:String,msg1:String)
     {
         
         let from = Expression<String>("from")
@@ -2325,7 +2325,7 @@ print("--------")
         let type = Expression<String>("type")
         let msg = Expression<String>("msg")
         let from_fullname = Expression<String>("from_fullname")
-        let date = Expression<NSDate>("date")
+        let date = Expression<Date>("date")
         let unique_id = Expression<String>("unique_id")
         
         
@@ -2333,7 +2333,7 @@ print("--------")
             .filter(group_unique_id == group_unique_id1)     // WHERE "name" IS NOT NULL
         
         do
-        {try sqliteDB.db.run(query.update(date <- NSDate(),msg <- msg1))}
+        {try sqliteDB.db.run(query.update(date <- Date(),msg <- msg1))}
         catch
         {
             print("error in updating date of group creation")
@@ -2347,7 +2347,7 @@ print("--------")
         
     }
     
-    func getNameFromAddressbook(phone1:String!)->String!
+    func getNameFromAddressbook(_ phone1:String!)->String!
     {
         let name = Expression<String>("name")
         let phone = Expression<String>("phone")
@@ -2367,7 +2367,7 @@ print("--------")
         
     }
     
-    func getNameGroupMemberNameFromMembersTable(phone1:String)->String!
+    func getNameGroupMemberNameFromMembersTable(_ phone1:String)->String!
     {
         let member_phone = Expression<String>("member_phone")
         let group_member_displayname = Expression<String>("group_member_displayname")
@@ -2387,13 +2387,13 @@ print("--------")
 
     }
     
-    func getGroupsChatReadStatusList(msguniqueid1:String)->[[String:AnyObject]]
+    func getGroupsChatReadStatusList(_ msguniqueid1:String)->[[String:AnyObject]]
     {
         let msg_unique_id = Expression<String>("msg_unique_id")
         let Status = Expression<String>("Status")
         let user_phone = Expression<String>("user_phone")
-        let read_date = Expression<NSDate>("read_date")
-        let delivered_date = Expression<NSDate>("delivered_date")
+        let read_date = Expression<Date>("read_date")
+        let delivered_date = Expression<Date>("delivered_date")
         
         var statusObjectList=[[String:AnyObject]]()
         // var tblGroupmember = Table("group_member")
@@ -2403,11 +2403,11 @@ print("--------")
             print("found status..")
             
             var statusObj=[String:AnyObject]()
-            statusObj["msg_unique_id"]=groupChatStatus[msg_unique_id]
-            statusObj["Status"]=groupChatStatus[Status]
-            statusObj["user_phone"]=groupChatStatus[user_phone]
-            statusObj["read_date"]=groupChatStatus[read_date]
-            statusObj["delivered_date"]=groupChatStatus[delivered_date]
+            statusObj["msg_unique_id"]=groupChatStatus[msg_unique_id] as AnyObject?
+            statusObj["Status"]=groupChatStatus[Status] as AnyObject?
+            statusObj["user_phone"]=groupChatStatus[user_phone] as AnyObject?
+            statusObj["read_date"]=groupChatStatus[read_date] as AnyObject?
+            statusObj["delivered_date"]=groupChatStatus[delivered_date] as AnyObject?
             
            statusObjectList.append(statusObj)
             //return groupChatStatus[read_date]
@@ -2421,13 +2421,13 @@ print("--------")
     }
     
     
-    func getGroupsChatDeliveredStatusList(msguniqueid1:String)->[[String:AnyObject]]
+    func getGroupsChatDeliveredStatusList(_ msguniqueid1:String)->[[String:AnyObject]]
     {
         let msg_unique_id = Expression<String>("msg_unique_id")
         let Status = Expression<String>("Status")
         let user_phone = Expression<String>("user_phone")
-        let read_date = Expression<NSDate>("read_date")
-        let delivered_date = Expression<NSDate>("delivered_date")
+        let read_date = Expression<Date>("read_date")
+        let delivered_date = Expression<Date>("delivered_date")
         
         var statusObjectList=[[String:AnyObject]]()
         // var tblGroupmember = Table("group_member")
@@ -2437,11 +2437,11 @@ print("--------")
             print("found status..")
             
             var statusObj=[String:AnyObject]()
-            statusObj["msg_unique_id"]=groupChatStatus[msg_unique_id]
-            statusObj["Status"]=groupChatStatus[Status]
-            statusObj["user_phone"]=groupChatStatus[user_phone]
-            statusObj["read_date"]=groupChatStatus[read_date]
-            statusObj["delivered_date"]=groupChatStatus[delivered_date]
+            statusObj["msg_unique_id"]=groupChatStatus[msg_unique_id] as AnyObject?
+            statusObj["Status"]=groupChatStatus[Status] as AnyObject?
+            statusObj["user_phone"]=groupChatStatus[user_phone] as AnyObject?
+            statusObj["read_date"]=groupChatStatus[read_date] as AnyObject?
+            statusObj["delivered_date"]=groupChatStatus[delivered_date] as AnyObject?
             statusObjectList.append(statusObj)
             
             //return groupChatStatus[delivered_date]
@@ -2454,25 +2454,25 @@ print("--------")
         return statusObjectList
     }
     
-    func getGroupsUnreadMessagesCount(groupid1:String)->Int    {
+    func getGroupsUnreadMessagesCount(_ groupid1:String)->Int    {
         
         
         let msg_unique_id = Expression<String>("msg_unique_id")
         let Status = Expression<String>("Status")
         let user_phone = Expression<String>("user_phone")
-        let read_date = Expression<NSDate>("read_date")
-        let delivered_date = Expression<NSDate>("delivered_date")
+        let read_date = Expression<Date>("read_date")
+        let delivered_date = Expression<Date>("delivered_date")
         
         let from = Expression<String>("from")
         let group_unique_id = Expression<String>("group_unique_id")
         let type = Expression<String>("type")
         let msg = Expression<String>("msg")
         let from_fullname = Expression<String>("from_fullname")
-        let date = Expression<NSDate>("date")
+        let date = Expression<Date>("date")
         let unique_id = Expression<String>("unique_id")
         
-        var tblgroupchat=sqliteDB.group_chat
-        var res=tblgroupchat.filter(group_unique_id==groupid1)
+        let tblgroupchat=sqliteDB.group_chat
+        var res=tblgroupchat?.filter(group_unique_id==groupid1)
         //to==selecteduser || from==selecteduser
         //print("chat from sqlite is")
         //print(res)
@@ -2481,14 +2481,14 @@ print("--------")
         do
         {//for tblContacts in try sqliteDB.db.prepare(tbl_userchats.filter(owneruser==owneruser1)){
             ////print("queryy runned count is \(tbl_contactslists.count)")
-            for groupsChat in try sqliteDB.db.prepare(tblgroupchat.filter(group_unique_id==groupid1)){
+            for groupsChat in try sqliteDB.db.prepare((tblgroupchat?.filter(group_unique_id==groupid1))!){
                 
                 var statusObjectList=[[String:AnyObject]]()
                 // var tblGroupmember = Table("group_member")
                 // var uniqueid=[String]()
                 for groupChatStatus in try self.db.prepare(group_chat_status.filter(msg_unique_id == groupsChat[unique_id] && (Status.lowercaseString=="delivered" || Status.lowercaseString=="sent") && user_phone==username!)){
                     print("found unread message..")
-                    countunread++
+                    countunread += 1
                     
                     }
               
@@ -2501,13 +2501,13 @@ print("--------")
     }
 
     
-    func getGroupsChatStatusObjectList(msguniqueid1:String)->[[String:AnyObject]]
+    func getGroupsChatStatusObjectList(_ msguniqueid1:String)->[[String:AnyObject]]
     {
         let msg_unique_id = Expression<String>("msg_unique_id")
         let Status = Expression<String>("Status")
         let user_phone = Expression<String>("user_phone")
-        let read_date = Expression<NSDate>("read_date")
-        let delivered_date = Expression<NSDate>("delivered_date")
+        let read_date = Expression<Date>("read_date")
+        let delivered_date = Expression<Date>("delivered_date")
         
         // var tblGroupmember = Table("group_member")
         var statusObjectList=[[String:AnyObject]]()
@@ -2516,11 +2516,11 @@ print("--------")
             var statusObj=[String:AnyObject]()
             print("found status object matchedddd")
             
-            statusObj["msg_unique_id"]=groupChatStatus[msg_unique_id]
-            statusObj["Status"]=groupChatStatus[Status]
-            statusObj["user_phone"]=groupChatStatus[user_phone]
-            statusObj["read_date"]=groupChatStatus[read_date]
-            statusObj["delivered_date"]=groupChatStatus[delivered_date]
+            statusObj["msg_unique_id"]=groupChatStatus[msg_unique_id] as AnyObject?
+            statusObj["Status"]=groupChatStatus[Status] as AnyObject?
+            statusObj["user_phone"]=groupChatStatus[user_phone] as AnyObject?
+            statusObj["read_date"]=groupChatStatus[read_date] as AnyObject?
+            statusObj["delivered_date"]=groupChatStatus[delivered_date] as AnyObject?
             
             statusObjectList.append(statusObj)
             }
@@ -2531,11 +2531,11 @@ print("--------")
     }
 
     
-    func getFilesData(uniqueid1:String)->[String:AnyObject]
+    func getFilesData(_ uniqueid1:String)->[String:AnyObject]
     {
         let to = Expression<String>("to")
         let from = Expression<String>("from")
-        let date = Expression<NSDate>("date")
+        let date = Expression<Date>("date")
         let uniqueid = Expression<String>("uniqueid")
         let contactPhone = Expression<String>("contactPhone")
         let type = Expression<String>("type")
@@ -2551,16 +2551,16 @@ print("--------")
         {for filesData in try self.db.prepare(files.filter(uniqueid==uniqueid1)){
             // print("found status object matchedddd")
             
-            fileObj["to"]=filesData[to]
-            fileObj["from"]=filesData[from]
-            fileObj["date"]=filesData[date]
-            fileObj["uniqueid"]=filesData[uniqueid]
-            fileObj["contactPhone"]=filesData[contactPhone]
-            fileObj["type"]=filesData[type]
-            fileObj["file_name"]=filesData[file_name]
-            fileObj["file_size"]=filesData[file_size]
-            fileObj["file_type"]=filesData[file_type]
-            fileObj["file_path"]=filesData[file_path]
+            fileObj["to"]=filesData[to] as AnyObject?
+            fileObj["from"]=filesData[from] as AnyObject?
+            fileObj["date"]=filesData[date] as AnyObject?
+            fileObj["uniqueid"]=filesData[uniqueid] as AnyObject?
+            fileObj["contactPhone"]=filesData[contactPhone] as AnyObject?
+            fileObj["type"]=filesData[type] as AnyObject?
+            fileObj["file_name"]=filesData[file_name] as AnyObject?
+            fileObj["file_size"]=filesData[file_size] as AnyObject?
+            fileObj["file_type"]=filesData[file_type] as AnyObject?
+            fileObj["file_path"]=filesData[file_path] as AnyObject?
             
             break
             }
@@ -2571,19 +2571,19 @@ print("--------")
 
     }
     
-    func checkGroupMessageisAllDelevered(msg_unique_id1:String,members_phones1:[[String:AnyObject]])->Bool
+    func checkGroupMessageisAllDelevered(_ msg_unique_id1:String,members_phones1:[[String:AnyObject]])->Bool
     {
         let msg_unique_id = Expression<String>("msg_unique_id")
         let Status = Expression<String>("Status")
         let user_phone = Expression<String>("user_phone")
-        let read_date = Expression<NSDate>("read_date")
-        let delivered_date = Expression<NSDate>("delivered_date")
+        let read_date = Expression<Date>("read_date")
+        let delivered_date = Expression<Date>("delivered_date")
         var result=true
-        for(var i=0;i<members_phones1.count;i++)
+        for(i in 0 ..< members_phones1.count)
         {
         do
         {for groupChatStatus in try self.db.prepare(group_chat_status.filter(msg_unique_id==msg_unique_id1 && user_phone==members_phones1[i]["member_phone"] as! String)){
-            if(groupChatStatus[Status].lowercaseString != "delivered")
+            if(groupChatStatus[Status].lowercased() != "delivered")
             {
                 result=false
             }
@@ -2599,19 +2599,19 @@ print("--------")
         
     }
     
-    func checkGroupMessageisAnySent(msg_unique_id1:String,members_phones1:[[String:AnyObject]])->Bool
+    func checkGroupMessageisAnySent(_ msg_unique_id1:String,members_phones1:[[String:AnyObject]])->Bool
     {
         let msg_unique_id = Expression<String>("msg_unique_id")
         let Status = Expression<String>("Status")
         let user_phone = Expression<String>("user_phone")
-        let read_date = Expression<NSDate>("read_date")
-        let delivered_date = Expression<NSDate>("delivered_date")
+        let read_date = Expression<Date>("read_date")
+        let delivered_date = Expression<Date>("delivered_date")
         var result=true
-        for(var i=0;i<members_phones1.count;i++)
+        for(i in 0 ..< members_phones1.count)
         {
             do
             {for groupChatStatus in try self.db.prepare(group_chat_status.filter(msg_unique_id==msg_unique_id1 && user_phone==members_phones1[i]["member_phone"] as! String)){
-                if(groupChatStatus[Status].lowercaseString == "sent")
+                if(groupChatStatus[Status].lowercased() == "sent")
                 {
                     result=true
                     break
@@ -2630,19 +2630,19 @@ print("--------")
         return result
     }
     
-    func checkGroupMessageisAllSeen(msg_unique_id1:String,members_phones1:[[String:AnyObject]])->Bool
+    func checkGroupMessageisAllSeen(_ msg_unique_id1:String,members_phones1:[[String:AnyObject]])->Bool
     {
         let msg_unique_id = Expression<String>("msg_unique_id")
         let Status = Expression<String>("Status")
         let user_phone = Expression<String>("user_phone")
-        let read_date = Expression<NSDate>("read_date")
-        let delivered_date = Expression<NSDate>("delivered_date")
+        let read_date = Expression<Date>("read_date")
+        let delivered_date = Expression<Date>("delivered_date")
         var result=true
-        for(var i=0;i<members_phones1.count;i++)
+        for(i in 0 ..< members_phones1.count)
         {
             do
             {for groupChatStatus in try self.db.prepare(group_chat_status.filter(msg_unique_id==msg_unique_id1 && user_phone==members_phones1[i]["member_phone"] as! String)){
-                if(groupChatStatus[Status].lowercaseString != "seen")
+                if(groupChatStatus[Status].lowercased() != "seen")
                 {
                     result=false
                 }
@@ -2659,17 +2659,17 @@ print("--------")
         
     }
     
-    func checkIfFileExists(uniqueid1:String)->Bool
+    func checkIfFileExists(_ uniqueid1:String)->Bool
     {
         print("ckecking file exists \(uniqueid1)")
         let uniqueid = Expression<String>("uniqueid")
         
         
-        var tbl_userfiles=sqliteDB.files
+        let tbl_userfiles=sqliteDB.files
         var fileexists=false
         
         do
-        {for groupsinfo in try self.db.prepare(tbl_userfiles.filter(uniqueid == uniqueid1)){
+        {for groupsinfo in try self.db.prepare((tbl_userfiles?.filter(uniqueid == uniqueid1))!){
             print("found pending file")
             fileexists=true
             
@@ -2684,7 +2684,7 @@ print("--------")
     }
     
     
-    func getIdentifierFRomPhone(phone1:String)->String
+    func getIdentifierFRomPhone(_ phone1:String)->String
     {
         let phone = Expression<String>("phone")
         let uniqueidentifier = Expression<String>("uniqueidentifier")
@@ -2721,7 +2721,7 @@ print("--------")
         let type = Expression<String>("type")
         let msg = Expression<String>("msg")
         let from_fullname = Expression<String>("from_fullname")
-        let date = Expression<NSDate>("date")
+        let date = Expression<Date>("date")
         let unique_id = Expression<String>("unique_id")
         
         
@@ -2735,7 +2735,7 @@ print("--------")
             var tblgroupchat=sqliteDB.group_chat
             
             do
-            {for pendingchatsGroupDetail in try self.db.prepare(tblgroupchat.filter(unique_id == idPendingMsg))
+            {for pendingchatsGroupDetail in try self.db.prepare((tblgroupchat?.filter(unique_id == idPendingMsg))!)
             {
                 var newEntry=[String:AnyObject]()
                 newEntry["from"]=pendingchatsGroupDetail.get(from)
@@ -2769,7 +2769,7 @@ print("--------")
         
         
     }*/
-    func storeBroadcastList(broadcastlistID1:String,ListName1:String)
+    func storeBroadcastList(_ broadcastlistID1:String,ListName1:String)
     {
         let uniqueid = Expression<String>("uniqueid")
         let listname = Expression<String>("listname")
@@ -2788,14 +2788,14 @@ print("--------")
         }
         
     }
-    func storeBroadcastListMembers(broadcastlistID1:String,memberphones:[String])
+    func storeBroadcastListMembers(_ broadcastlistID1:String,memberphones:[String])
     {
         let uniqueid = Expression<String>("uniqueid")
         let memberphone = Expression<String>("memberphone")
         //
         self.broadcastlistmembers = Table("broadcastlistmembers")
         do {
-            for(var i=0;i<memberphones.count;i++)
+            for(i in 0 ..< memberphones.count)
             {
             let rowid = try db.run(broadcastlistmembers.insert(
                 uniqueid<-broadcastlistID1,
@@ -2812,7 +2812,7 @@ print("--------")
     }
     
        
-    func UpdateBroadcastlistMembers(uniqueid1:String,members:[String])
+    func UpdateBroadcastlistMembers(_ uniqueid1:String,members:[String])
     {
         //  UtilityFunctions.init().log_papertrail("IPHONE: \(username!) inside database function to update chat status")
         
@@ -2822,15 +2822,15 @@ print("--------")
         
         var broadcastlistmembers=sqliteDB.broadcastlistmembers
         
-        let query = broadcastlistmembers.select(uniqueid)           // SELECT "email" FROM "users"
+        let query = broadcastlistmembers?.select(uniqueid)           // SELECT "email" FROM "users"
             .filter(uniqueid == uniqueid1)     // WHERE "name" IS NOT NULL
         
         do
         {
-            try sqliteDB.db.run(query.delete())
-            for(var i=0;i<members.count;i++)
+            try sqliteDB.db.run((query?.delete())!)
+            for(i in 0 ..< members.count)
             {
-                let rowid = try db.run(broadcastlistmembers.insert(
+                let rowid = try db.run(broadcastlistmembers?.insert(
                     uniqueid<-uniqueid1,
                     memberphone<-members[i]
                     ))
@@ -2843,7 +2843,7 @@ print("--------")
         }
     }
     
-    func updateBroadcastlistName(uniqueid1:String,listname1:String)
+    func updateBroadcastlistName(_ uniqueid1:String,listname1:String)
     {
         let uniqueid = Expression<String>("uniqueid")
         let listname = Expression<String>("listname")
@@ -2859,7 +2859,7 @@ print("--------")
         
     }
     
-    func getBroadcastListMembers(uniqueid1:String)->[String]
+    func getBroadcastListMembers(_ uniqueid1:String)->[String]
     {
         var newEntry=[String]()
         
@@ -2886,7 +2886,7 @@ print("--------")
     }
     
     
-    func getSinglebroadcastlist(uniqueid1:String)->[String:AnyObject]
+    func getSinglebroadcastlist(_ uniqueid1:String)->[String:AnyObject]
     {
         var newEntry=[String:AnyObject]()
         
@@ -2944,28 +2944,28 @@ print("--------")
         let listname = Expression<String>("listname")
         
         var listdata = getSinglebroadcastlist()
-        for(var i=0;i<listdata.count;i++)
+        for(i in 0 ..< listdata.count)
         {
             var listDetailSingle=[String:String]()
             
             var membersarray=getBroadcastListMembers(listdata[i]["uniqueid"] as! String)
             var memberslistnames=[String]()
-            for(var j=0;j<membersarray.count;j++)
+            for(j in 0 ..< membersarray.count)
             {
-                print(membersarray[j] as! String)
-            memberslistnames.append(getNameFromAddressbook(membersarray[j] as! String))
+                print(membersarray[j] )
+            memberslistnames.append(getNameFromAddressbook(membersarray[j] ))
             }
             listDetailSingle["listname"]=listdata[i]["listname"] as! String
             listDetailSingle["uniqueid"]=listdata[i]["uniqueid"] as! String
             
-            listDetailSingle["membersnames"]=memberslistnames.joinWithSeparator(",")
-            listDataController.append(listDetailSingle)
+            listDetailSingle["membersnames"]=memberslistnames.joined(separator: ",")
+            listDataController.append(listDetailSingle as [String : AnyObject])
         }
         print("listDataController is \(listDataController)")
         return listDataController
     }
     
-    func deleteBroadcastList(id:String)
+    func deleteBroadcastList(_ id:String)
     {
         let uniqueid = Expression<String>("uniqueid")
         let listname = Expression<String>("listname")

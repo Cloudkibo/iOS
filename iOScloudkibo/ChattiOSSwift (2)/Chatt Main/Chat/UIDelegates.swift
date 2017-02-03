@@ -29,7 +29,7 @@ class UIDelegates
     }
     
     
-    private init() {}
+    fileprivate init() {}
     
     func UpdateGroupChatDetailsDelegateCall()
     {
@@ -64,19 +64,19 @@ class UIDelegates
 }
 protocol UpdateGroupChatDetailsDelegate:class
 {
-    func refreshGroupChatDetailUI(message:String,data:AnyObject!);
+    func refreshGroupChatDetailUI(_ message:String,data:AnyObject!);
 }
 protocol UpdateGroupInfoDetailsDelegate:class
 {
-    func refreshGroupInfoUI(message:String,data:AnyObject!);
+    func refreshGroupInfoUI(_ message:String,data:AnyObject!);
 }
 protocol UpdateMainPageChatsDelegate:class
 {
-    func refreshMainChatViewUI(message:String,data:AnyObject!);
+    func refreshMainChatViewUI(_ message:String,data:AnyObject!);
 }
 protocol UpdateSingleChatDetailDelegate:class
 {
-    func refreshSingleChatDetailUI(message:String,data:AnyObject!);
+    func refreshSingleChatDetailUI(_ message:String,data:AnyObject!);
 }
 /*
 protocol UpdateChannelsDetailsDelegate:class

@@ -52,9 +52,9 @@ public final class SocketAckEmitter : NSObject {
 }
 
 public final class OnAckCallback : NSObject {
-    private let ackNumber: Int
-    private let items: [Any]
-    private weak var socket: SocketIOClient?
+    fileprivate let ackNumber: Int
+    fileprivate let items: [Any]
+    fileprivate weak var socket: SocketIOClient?
     
     init(ackNumber: Int, items: [Any], socket: SocketIOClient) {
         self.ackNumber = ackNumber

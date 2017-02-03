@@ -28,7 +28,7 @@ class iOSContact{
     
     
     
-    func fetch(completion: (result:[String])->()){
+    func fetch(_ completion: (_ result:[String])->()){
         
         let tbl_allcontacts=sqliteDB.allcontacts
         
@@ -36,8 +36,8 @@ class iOSContact{
         do
         {
             print("deleting records")
-            try sqliteDB.db.run(tbl_allcontacts.delete())
-print("now count is \(tbl_allcontacts.count)")
+            try sqliteDB.db.run((tbl_allcontacts?.delete())!)
+print("now count is \(tbl_allcontacts?.count)")
         }
         catch
             {
@@ -77,7 +77,7 @@ print("now count is \(tbl_allcontacts.count)")
         keys = [CNContactGivenNameKey, CNContactFamilyNameKey, CNContactEmailAddressesKey, CNContactPhoneNumbersKey, CNContactImageDataAvailableKey,CNContactThumbnailImageDataKey, CNContactImageDataKey]
         do {
             /////let contactStore = AppDelegate.getAppDelegate().contactStore
-            try contactStore.enumerateContactsWithFetchRequest(CNContactFetchRequest(keysToFetch: keys)) { (contact, pointer) -> Void in
+            try contactStore.enumerateContacts(with: CNContactFetchRequest(keysToFetch: keys as [CNKeyDescriptor])) { (contact, pointer) -> Void in
                 
                 print("appending to contacts")
                 contacts.append(contact)
@@ -124,15 +124,15 @@ print("now count is \(tbl_allcontacts.count)")
                     do{
                         
                         var uniqueidentifier1=contact.identifier
-                        var image=NSData()
+                        var image=Data()
                         var fullname=contact.givenName+" "+contact.familyName
                         if (contact.isKeyAvailable(CNContactPhoneNumbersKey)) {
                             for phoneNumber:CNLabeledValue in contact.phoneNumbers {
-                                let a = phoneNumber.value as! CNPhoneNumber
+                                let a = phoneNumber.value 
                                 //////////////emails.append(a.valueForKey("digits") as! String)
                                 var zeroIndex = -1
-                                var phoneDigits=a.valueForKey("digits") as! String
-                                var actualphonedigits=a.valueForKey("digits") as! String
+                                var phoneDigits=a.value(forKey: "digits") as! String
+                                var actualphonedigits=a.value(forKey: "digits") as! String
                                 //remove leading zeroes
                                 /* for index in phoneDigits.characters.indices {
                                  print(phoneDigits[index])
@@ -155,11 +155,11 @@ print("now count is \(tbl_allcontacts.count)")
                                  }
                                  
                                  }*/
-                                for(var i=0;i<phoneDigits.characters.count;i++)
+                                for(i in 0 ..< phoneDigits.characters.count)
                                 {
                                     if(phoneDigits.characters.first=="0")
                                     {
-                                        phoneDigits.removeAtIndex(phoneDigits.startIndex)
+                                        phoneDigits.remove(at: phoneDigits.startIndex)
                                         //phoneDigits.characters.popFirst() as! String
                                         print(".. droping zero \(phoneDigits)")
                                     }
@@ -184,7 +184,7 @@ print("now count is \(tbl_allcontacts.count)")
                                     {
                                         print(em?.label)
                                         print(em?.value)
-                                        emailAddress=(em?.value)! as! String
+                                        emailAddress=(em?.value)! as String
                                         print("email adress value iss \(emailAddress)")
                                         /////emails.append(em!.value as! String)
                                     }
@@ -193,7 +193,7 @@ print("now count is \(tbl_allcontacts.count)")
                                         image=contact.imageData!
                                     }
                                     
-                                    try sqliteDB.db.run(tbl_allcontacts.insert(name<-fullname,phone<-phoneDigits,actualphone<-actualphonedigits,email<-emailAddress,uniqueidentifier<-uniqueidentifier1))
+                                    try sqliteDB.db.run((tbl_allcontacts?.insert(name<-fullname,phone<-phoneDigits,actualphone<-actualphonedigits,email<-emailAddress,uniqueidentifier<-uniqueidentifier1))!)
                                 }
                                 catch(let error)
                                 {
@@ -254,7 +254,7 @@ print("now count is \(tbl_allcontacts.count)")
             }
             
             
-            completion(result: emails)
+            completion(emails)
             
         }catch{
             print("error 1..")
@@ -454,7 +454,7 @@ print("now count is \(tbl_allcontacts.count)")
         
         */
             
-            completion(result: emails)
+            completion(emails)
        
         
         
@@ -472,7 +472,7 @@ print("now count is \(tbl_allcontacts.count)")
     }
     
     
-    func fetchContactsByEmails(completion: (result:[String])->()){
+    func fetchContactsByEmails(_ completion: @escaping (_ result:[String])->()){
         socketObj.socket.emit("logClient","IPHONE-LOG: \(username) fetching contacts from iphone contactlist")
         var emails=[String]()
         contacts.removeAll()
@@ -488,7 +488,7 @@ print("now count is \(tbl_allcontacts.count)")
         keys = [CNContactGivenNameKey, CNContactFamilyNameKey, CNContactEmailAddressesKey, CNContactPhoneNumbersKey]
         do {
             /////let contactStore = AppDelegate.getAppDelegate().contactStore
-            try contactStore.enumerateContactsWithFetchRequest(CNContactFetchRequest(keysToFetch: keys)) { (contact, pointer) -> Void in
+            try contactStore.enumerateContacts(with: CNContactFetchRequest(keysToFetch: keys as [CNKeyDescriptor])) { (contact, pointer) -> Void in
                 contacts.append(contact)
                 
                     
@@ -512,7 +512,7 @@ print("now count is \(tbl_allcontacts.count)")
                     
                     
                     do{
-                        if let phone = try contact.phoneNumbers.first?.value as! CNPhoneNumber!
+                        if let phone = try contact.phoneNumbers.first?.value as CNPhoneNumber!
                         {
                             
                         }
@@ -537,7 +537,7 @@ print("now count is \(tbl_allcontacts.count)")
                         {
                             print(em?.label)
                             print(em?.value)
-                            emails.append(em!.value as! String)
+                            emails.append(em!.value as String)
                         }
                         
                         
@@ -553,7 +553,7 @@ print("now count is \(tbl_allcontacts.count)")
                     ////self.emails.append(phone.stringValue)
                     // print(self.emails[i])
                 
-                completion(result: emails)
+                completion(emails)
             }
         }
             catch(let error)
@@ -654,7 +654,7 @@ print("now count is \(tbl_allcontacts.count)")
         //return emails
         
     }
-    func searchContactsByEmail(emails:[String],completion: (result:[String])->())
+    func searchContactsByEmail(_ emails:[String],completion: @escaping (_ result:[String])->())
     {
         print("emails are \(emails)")
         socketObj.socket.emit("logClient","IPHONE-LOG: sending emails to server")
@@ -669,7 +669,7 @@ print("now count is \(tbl_allcontacts.count)")
             
         }
         
-        var ssss=emails.debugDescription.stringByReplacingOccurrencesOfString("\\", withString: " ")
+        var ssss=emails.debugDescription.replacingOccurrences(of: "\\", with: " ")
         //ss.appendContentsOf("]")
         //emails.description.propertyList()
         //var emailParas=JSON(emails).object
@@ -765,7 +765,7 @@ print("now count is \(tbl_allcontacts.count)")
         // })
     }
     
-    func searchContactsByPhone(phones:[String],completion: (result:[String])->())
+    func searchContactsByPhone(_ phones:[String],completion: @escaping (_ result:[String])->())
     {
        // phones=phones.description.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
         
@@ -785,7 +785,7 @@ print("now count is \(tbl_allcontacts.count)")
         //var ssss=phones.debugDescription.stringByReplacingOccurrencesOfString("\\", withString: " ")
         //var phonesCorrentFormat=phones.debugDescription.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
         //var phonesCorrentFormat=phones.debugDescription.stringByReplacingOccurrencesOfString(" ", withString: "")
-        var phonesCorrentFormat=phones.debugDescription.stringByReplacingOccurrencesOfString(" ", withString: "")
+        var phonesCorrentFormat=phones.debugDescription.replacingOccurrences(of: " ", with: "")
         
         print(phonesCorrentFormat)
        // print(ssss)
@@ -853,10 +853,10 @@ print("now count is \(tbl_allcontacts.count)")
         // })
     }
 
-    func saveToAddressBook(newcontact:[String:String],completion: (result:Bool)->()){
+    func saveToAddressBook(_ newcontact:[String:String],completion: (_ result:Bool)->()){
         let contactTemp = CNMutableContact()
         
-        contactTemp.imageData = NSData() // The profile picture as a NSData object
+        contactTemp.imageData = Data() // The profile picture as a NSData object
         
         contactTemp.givenName = newcontact["fname"]!
         contactTemp.familyName = newcontact["lname"]!
@@ -889,23 +889,24 @@ print("now count is \(tbl_allcontacts.count)")
         // Saving the newly created contact
         let store = CNContactStore()
         let saveRequest = CNSaveRequest()
-        saveRequest.addContact(contactTemp, toContainerWithIdentifier:nil)
+        saveRequest.add(contactTemp, toContainerWithIdentifier:nil)
         do{
             
-             try store.executeSaveRequest(saveRequest)
+             try store.execute(saveRequest)
             
-                completion(result:true)
+                completion(true)
             
         
         }
         catch{
-            completion(result:false)
+            completion(false)
             print("cannot save contact to address book. Try again with correct values")
         }
         
     }
-    func sendInvite(var emails:[String],completion: (result:String)->())
+    func sendInvite(_ emails:[String],completion: @escaping (_ result:String)->())
     {
+        var emails = emails
         //emails.append("sumaira.syedsaeed@gmail.com")
         //emails.append("kibo@kibo.com")
         let inviteMultipleURL=Constants.MainUrl+Constants.invitebymultipleemail

@@ -19,12 +19,12 @@ class syncContactService
     
     var delegateRefreshContactsList:RefreshContactsList!
     
-    var Q0_sendDisplayName=dispatch_queue_create("Q0_sendDisplayName",DISPATCH_QUEUE_SERIAL)
-    var Q1_fetchFromDevice=dispatch_queue_create("fetchFromDevice",DISPATCH_QUEUE_SERIAL)
-    var Q2_sendPhonesToServer=dispatch_queue_create("sendPhonesToServer",DISPATCH_QUEUE_SERIAL)
-    var Q3_getContactsFromServer=dispatch_queue_create("getContactsFromServer",DISPATCH_QUEUE_SERIAL)
-    var Q4_getUserData=dispatch_queue_create("getUserData",DISPATCH_QUEUE_SERIAL)
-    var Q5_fetchAllChats=dispatch_queue_create("fetchAllChats",DISPATCH_QUEUE_SERIAL)
+    var Q0_sendDisplayName=DispatchQueue(label: "Q0_sendDisplayName",attributes: [])
+    var Q1_fetchFromDevice=DispatchQueue(label: "fetchFromDevice",attributes: [])
+    var Q2_sendPhonesToServer=DispatchQueue(label: "sendPhonesToServer",attributes: [])
+    var Q3_getContactsFromServer=DispatchQueue(label: "getContactsFromServer",attributes: [])
+    var Q4_getUserData=DispatchQueue(label: "getUserData",attributes: [])
+    var Q5_fetchAllChats=DispatchQueue(label: "fetchAllChats",attributes: [])
     
     
     var syncPhonesList=[String]()
@@ -64,7 +64,7 @@ class syncContactService
         }*/
     
         if(accountKit == nil){
-            accountKit = AKFAccountKit(responseType: AKFResponseType.AccessToken)
+            accountKit = AKFAccountKit(responseType: AKFResponseType.accessToken)
         }
         
         
@@ -73,42 +73,42 @@ class syncContactService
             
             
       //  dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0)) {
-            let dispatch_queue_attr = dispatch_queue_attr_make_with_qos_class(DISPATCH_QUEUE_SERIAL, QOS_CLASS_BACKGROUND, 0)
-            var queue1 = dispatch_queue_create("1", dispatch_queue_attr)
-            var queue2 = dispatch_queue_create("2", dispatch_queue_attr)
-            var queue3 = dispatch_queue_create("3", dispatch_queue_attr)
-            var queue4 = dispatch_queue_create("4", dispatch_queue_attr)
-            var queue5 = dispatch_queue_create("5", dispatch_queue_attr)
+            let dispatch_queue_attr = DispatchQoS(_FIXME_useThisWhenCreatingTheQueueAndRemoveFromThisCall: DispatchQueue.Attributes(), qosClass: DispatchQoS.QoSClass.background, relativePriority: 0)
+            var queue1 = DispatchQueue(label: "1", attributes: dispatch_queue_attr)
+            var queue2 = DispatchQueue(label: "2", attributes: dispatch_queue_attr)
+            var queue3 = DispatchQueue(label: "3", attributes: dispatch_queue_attr)
+            var queue4 = DispatchQueue(label: "4", attributes: dispatch_queue_attr)
+            var queue5 = DispatchQueue(label: "5", attributes: dispatch_queue_attr)
             
-            dispatch_async(queue1) {
+            queue1.async {
             print("synccccc fetching contacts in background...")
             self.SyncfetchContacts{ (result) in
                 print("synccccc fetch contacts donee")
                  print("synccccc sending phone numbers to server...")
                 
                 //dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0)) {
-                dispatch_async(queue1) {
+                queue1.async {
                 self.SyncSendPhoneNumbersToServer(self.syncPhonesList, completion: { (result) in
                     print("synccccc sent phone numbers to server done ")
                     print("synccccc filling local database with contacts ")
                    // dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0)) {
-                    dispatch_async(queue1) {
+                    queue1.async {
                         self.SyncFillContactsTableWithRecords({ (result) in
                         print("synccccc filled local database with contacts done")
                         print("synccccc setting kibocontact boolean")
                         //dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0)) {
-                        dispatch_async(queue1) {
+                        queue1.async {
                             self.syncSetKiboContactsBoolean({ (result) in
                             print("synccccc setting kibocontact boolean done")
                             print("synccccc getting friends/contactslist from server")
                            // dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0)) {
                             
                                 
-                                dispatch_async(queue1) {
+                                queue1.async {
                                     self.fetchContactsFromServer({ (result) in
                                 
                                 print("synccccc got friends/contactslist from server done")
-                                dispatch_async(dispatch_get_main_queue())
+                                DispatchQueue.main.async
                                 {
                                 if(self.delegateRefreshContactsList != nil)
                                 {
@@ -135,7 +135,7 @@ class syncContactService
         
     
     
-    func SyncfetchContacts(completion:(result:Bool)->())
+    func SyncfetchContacts(_ completion:@escaping (_ result:Bool)->())
     {
         let contactStore = CNContactStore()
         //---==== neww//==----
@@ -143,7 +143,7 @@ class syncContactService
         var keys = [CNContactGivenNameKey, CNContactFamilyNameKey, CNContactEmailAddressesKey, CNContactPhoneNumbersKey, CNContactImageDataAvailableKey,CNContactThumbnailImageDataKey, CNContactImageDataKey]
         do {
             /////let contactStore = AppDelegate.getAppDelegate().contactStore
-            try contactStore.enumerateContactsWithFetchRequest(CNContactFetchRequest(keysToFetch: keys)) { (contact, pointer) -> Void in
+            try contactStore.enumerateContacts(with: CNContactFetchRequest(keysToFetch: keys as [CNKeyDescriptor])) { (contact, pointer) -> Void in
                 
                 print("appending to contacts")
                 self.syncContactsList.append(contact)
@@ -153,11 +153,11 @@ class syncContactService
                 
                 if (contact.isKeyAvailable(CNContactPhoneNumbersKey)) {
                     for phoneNumber:CNLabeledValue in contact.phoneNumbers {
-                        let a = phoneNumber.value as! CNPhoneNumber
+                        let a = phoneNumber.value 
                         //////////////emails.append(a.valueForKey("digits") as! String)
                         var zeroIndex = -1
-                        var phoneDigits=a.valueForKey("digits") as! String
-                        var actualphonedigits=a.valueForKey("digits") as! String
+                        var phoneDigits=a.value(forKey: "digits") as! String
+                        var actualphonedigits=a.value(forKey: "digits") as! String
                         //remove leading zeroes
                         /* for index in phoneDigits.characters.indices {
                          print(phoneDigits[index])
@@ -180,11 +180,11 @@ class syncContactService
                          }
                          
                          }*/
-                        for(var i=0;i<phoneDigits.characters.count;i++)
+                        for(i in 0 ..< phoneDigits.characters.count)
                         {
                             if(phoneDigits.characters.first=="0")
                             {
-                                phoneDigits.removeAtIndex(phoneDigits.startIndex)
+                                phoneDigits.remove(at: phoneDigits.startIndex)
                                 //phoneDigits.characters.popFirst() as! String
                                 print(".. droping zero \(phoneDigits)")
                             }
@@ -204,7 +204,7 @@ class syncContactService
                             if(countrycode == nil)
                             {
                                 let tbl_accounts = sqliteDB.accounts
-                                do{for account in try sqliteDB.db.prepare(tbl_accounts) {
+                                do{for account in try sqliteDB.db.prepare(tbl_accounts!) {
                                     countrycode=account[country_prefix]
                                     //displayname=account[firstname]
                                     
@@ -404,23 +404,23 @@ class syncContactService
                 */
             }
             
-            dispatch_async(dispatch_get_main_queue())
+            DispatchQueue.main.async
             {
-            completion(result: true)
+            completion(true)
             }
             
         }catch{
-            dispatch_async(dispatch_get_main_queue())
+            DispatchQueue.main.async
             {
             print("error 1..")
-                completion(result: false)
+                completion(false)
             }
         }
         
     }
     
     
-    func SyncSendPhoneNumbersToServer(phones:[String],completion: (result:Bool)->())
+    func SyncSendPhoneNumbersToServer(_ phones:[String],completion: @escaping (_ result:Bool)->())
     {
         // phones=phones.description.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
         
@@ -440,7 +440,7 @@ class syncContactService
         //var ssss=phones.debugDescription.stringByReplacingOccurrencesOfString("\\", withString: " ")
         //var phonesCorrentFormat=phones.debugDescription.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
         //var phonesCorrentFormat=phones.debugDescription.stringByReplacingOccurrencesOfString(" ", withString: "")
-        var phonesCorrentFormat=phones.debugDescription.stringByReplacingOccurrencesOfString(" ", withString: "")
+        var phonesCorrentFormat=phones.debugDescription.replacingOccurrences(of: " ", with: "")
         
         print(phonesCorrentFormat)
         // print(ssss)
@@ -517,7 +517,7 @@ class syncContactService
     }
     
     
-    func SyncFillContactsTableWithRecords(completion:(result:Bool)->())
+    func SyncFillContactsTableWithRecords(_ completion:(_ result:Bool)->())
     {
         
         
@@ -530,7 +530,7 @@ class syncContactService
           // --==== newww  try sqliteDB.db.run(tbl_allcontacts.delete())
            // =====---- newww print("now count is \(sqliteDB.db.scalar(tbl_allcontacts.count))")
             var contactsdata=[[String:String]]()
-            for(var i=0;i<syncContactsList.count;i++)
+            for(i in 0 ..< syncContactsList.count)
             {
                 
                 do{
@@ -552,21 +552,21 @@ class syncContactService
                 do{
                     
                     var uniqueidentifier1=syncContactsList[i].identifier
-                    var image=NSData()
+                    var image=Data()
                     var fullname=syncContactsList[i].givenName+" "+syncContactsList[i].familyName
                     if (syncContactsList[i].isKeyAvailable(CNContactPhoneNumbersKey)) {
                         for phoneNumber:CNLabeledValue in syncContactsList[i].phoneNumbers {
-                            let a = phoneNumber.value as! CNPhoneNumber
+                            let a = phoneNumber.value 
                             //////////////emails.append(a.valueForKey("digits") as! String)
                             var zeroIndex = -1
-                            var phoneDigits=a.valueForKey("digits") as! String
-                            var actualphonedigits=a.valueForKey("digits") as! String
+                            var phoneDigits=a.value(forKey: "digits") as! String
+                            var actualphonedigits=a.value(forKey: "digits") as! String
                         
-                            for(var i=0;i<phoneDigits.characters.count;i++)
+                            for(i in 0 ..< phoneDigits.characters.count)
                             {
                                 if(phoneDigits.characters.first=="0")
                                 {
-                                    phoneDigits.removeAtIndex(phoneDigits.startIndex)
+                                    phoneDigits.remove(at: phoneDigits.startIndex)
                                     //phoneDigits.characters.popFirst() as! String
                                     print(".. droping zero \(phoneDigits)")
                                 }
@@ -586,7 +586,7 @@ class syncContactService
                                 if(countrycode == nil)
                                 {
                                     let tbl_accounts = sqliteDB.accounts
-                                    do{for account in try sqliteDB.db.prepare(tbl_accounts) {
+                                    do{for account in try sqliteDB.db.prepare(tbl_accounts!) {
                                         countrycode=account[country_prefix]
                                         //displayname=account[firstname]
                                         
@@ -610,7 +610,7 @@ class syncContactService
                                 {
                                     print(em?.label)
                                     print(em?.value)
-                                    emailAddress=(em?.value)! as! String
+                                    emailAddress=(em?.value)! as String
                                     print("email adress value iss \(emailAddress)")
                                     /////emails.append(em!.value as! String)
                                 }
@@ -673,7 +673,7 @@ class syncContactService
             //delete table data====
             do{
                 print("deleting table allcontacts")
-            try sqliteDB.db.run(tbl_allcontacts.delete())
+            try sqliteDB.db.run((tbl_allcontacts?.delete())!)
             // print("now count is \(sqliteDB.db.scalar(tbl_allcontacts.count))")
             }
             catch(let error)
@@ -682,10 +682,10 @@ class syncContactService
                 ///////socketObj.socket.emit("logClient","IPHONE-LOG: iphoneLog: error is getting name \(error)")
             }
             
-            for(var j=0;j<contactsdata.count;j++)
+            for(j in 0 ..< contactsdata.count)
             {
                 do{
-                try sqliteDB.db.run(tbl_allcontacts.insert(name<-contactsdata[j]["name"]!,phone<-contactsdata[j]["phone"]!,actualphone<-contactsdata[j]["actualphone"]!,email<-contactsdata[j]["email"]!,uniqueidentifier<-contactsdata[j]["uniqueidentifier"]!))
+                try sqliteDB.db.run(tbl_allcontacts?.insert(name<-contactsdata[j]["name"]!,phone<-contactsdata[j]["phone"]!,actualphone<-contactsdata[j]["actualphone"]!,email<-contactsdata[j]["email"]!,uniqueidentifier<-contactsdata[j]["uniqueidentifier"]!))
                 }
                 catch(let error)
                 {
@@ -695,7 +695,7 @@ class syncContactService
             }
                 //dispatch_async(dispatch_get_main_queue())
                 //{
-                    completion(result:true)
+                    completion(true)
                 //}
            
           
@@ -709,7 +709,7 @@ class syncContactService
         }
         //dispatch_async(dispatch_get_main_queue())
         //{
-            completion(result:true)
+            completion(true)
         //}
         }
     
@@ -718,10 +718,10 @@ class syncContactService
     
     
     
-    func syncSetKiboContactsBoolean(completion:(result:Bool)->())
+    func syncSetKiboContactsBoolean(_ completion:@escaping (_ result:Bool)->())
     {
         
-         var allcontactslist1=sqliteDB.allcontacts
+         let allcontactslist1=sqliteDB.allcontacts
          var alladdressContactsArray:Array<Row>
          
          let phone = Expression<String>("phone")
@@ -730,18 +730,18 @@ class syncContactService
          
          //alladdressContactsArray = Array(try sqliteDB.db.prepare(allcontactslist1))
          
-         do{for ccc in try sqliteDB.db.prepare(allcontactslist1) {
+         do{for ccc in try sqliteDB.db.prepare(allcontactslist1!) {
          
-         for var i=0;i<syncAvailablePhonesList.count;i++
+         for i in 0 ..< syncAvailablePhonesList.count
          {print(":::email .......  : \(syncAvailablePhonesList[i])")
          if(ccc[phone]==syncAvailablePhonesList[i])
          { print(":::::::: \(ccc[phone])  and emaillist : \(syncAvailablePhonesList[i])")
          //ccc[kibocontact]
          
-         let query = allcontactslist1.select(kibocontact)           // SELECT "email" FROM "users"
+         let query = allcontactslist1?.select(kibocontact)           // SELECT "email" FROM "users"
          .filter(phone == ccc[phone])     // WHERE "name" IS NOT NULL
          
-         try sqliteDB.db.run(query.update(kibocontact <- true))
+         try sqliteDB.db.run((query?.update(kibocontact <- true))!)
             
             
          // for kk in try sqliteDB.db.prepare(query) {
@@ -755,16 +755,16 @@ class syncContactService
          }
          
          }
-            dispatch_async(dispatch_get_main_queue())
+            DispatchQueue.main.async
             {
-            completion(result:true)
+            completion(true)
             }
          }
          catch{
          print("error 123")
-            dispatch_async(dispatch_get_main_queue())
+            DispatchQueue.main.async
             {
-            completion(result:false)
+            completion(false)
             }
          }
          
@@ -778,24 +778,21 @@ class syncContactService
  
  
         print("sync fetching from devie")
-    dispatch_async(self.Q1_fetchFromDevice,
-    {
+    self.Q1_fetchFromDevice.async(execute: {
     self.fetchContactsFromDevice({ (result) -> () in
  
-    dispatch_async(self.Q2_sendPhonesToServer,
-    {
+    self.Q2_sendPhonesToServer.async(execute: {
  
         print("sync sending numbers to server")
     self.sendPhoneNumbersToServer({ (result) -> () in
  
-    dispatch_async(self.Q3_getContactsFromServer,
-    {
+    self.Q3_getContactsFromServer.async(execute: {
  
         print("sync fetching contacts from server")
     self.fetchContactsFromServer({ (result) -> () in
  
  
-    var allcontactslist1=sqliteDB.allcontacts
+    let allcontactslist1=sqliteDB.allcontacts
     var alladdressContactsArray:Array<Row>
  
     let phone = Expression<String>("phone")
@@ -804,18 +801,18 @@ class syncContactService
  
     //alladdressContactsArray = Array(try sqliteDB.db.prepare(allcontactslist1))
  
-    do{for ccc in try sqliteDB.db.prepare(allcontactslist1) {
+    do{for ccc in try sqliteDB.db.prepare(allcontactslist1!) {
  
-    for var i=0;i<availableEmailsList.count;i++
+    for i in 0 ..< availableEmailsList.count
     {print(":::email11 .......  : \(availableEmailsList[i])")
     if(ccc[phone]==availableEmailsList[i])
     { print(":::::::: \(ccc[phone])  and emaillist : \(availableEmailsList[i])")
     //ccc[kibocontact]
  
-    let query = allcontactslist1.select(kibocontact)           // SELECT "email" FROM "users"
+    let query = allcontactslist1?.select(kibocontact)           // SELECT "email" FROM "users"
     .filter(phone == ccc[phone])     // WHERE "name" IS NOT NULL
  
-    try sqliteDB.db.run(query.update(kibocontact <- true))
+    try sqliteDB.db.run((query?.update(kibocontact <- true))!)
     // for kk in try sqliteDB.db.prepare(query) {
     //  try sqliteDB.db.run(query.update(kk[kibocontact] <- true))
     //}
@@ -850,8 +847,9 @@ class syncContactService
     }
  
  
-    func sendNameToServer(var displayName:String,completion:(result:Bool)->())
+    func sendNameToServer(_ displayName:String,completion:@escaping (_ result:Bool)->())
     {
+        var displayName = displayName
         // progressBarDisplayer("Contacting Server", true)
         //let priority = DISPATCH_QUEUE_PRIORITY_DEFAULT
  
@@ -941,11 +939,11 @@ class syncContactService
         // }
     }
     
-    func fetchContactsFromDevice(completion: (result:Bool)->())
+    func fetchContactsFromDevice(_ completion: @escaping (_ result:Bool)->())
     {
         
        /// var newcontactsList=iOSContact(keys: [CNContactGivenNameKey, CNContactFamilyNameKey, CNContactEmailAddressesKey, CNContactPhoneNumbersKey])
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND,0))
+        DispatchQueue.global(priority: DispatchQueue.GlobalQueuePriority.background).async
         {
         contactsList.fetch(){ (result) -> () in
             
@@ -961,9 +959,9 @@ class syncContactService
                 //get phones and append phones in list
                 emailList.append(r)
             }
-            dispatch_async(dispatch_get_main_queue())
+            DispatchQueue.main.async
 {
-            completion(result: true)
+            completion(true)
             }
         }
     }
@@ -971,9 +969,9 @@ class syncContactService
     
     
     
-    func sendPhoneNumbersToServer(completion: (result:Bool)->())
+    func sendPhoneNumbersToServer(_ completion: @escaping (_ result:Bool)->())
     {
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND,0))
+        DispatchQueue.global(priority: DispatchQueue.GlobalQueuePriority.background).async
         {
         contactsList.searchContactsByPhone(emailList)
         { (result2) -> () in
@@ -988,7 +986,7 @@ class syncContactService
                 notAvailableEmails.append(r2)
                 
             }
-            dispatch_async(dispatch_get_main_queue())
+            DispatchQueue.main.async
             {
             completion(result: true)
             }
@@ -999,7 +997,7 @@ class syncContactService
     
     
     
-    func fetchContactsFromServer(completion:(result:Bool)->()){
+    func fetchContactsFromServer(_ completion:@escaping (_ result:Bool)->()){
         print("Server fetchingg contactss", terminator: "")
         if(socketObj != nil)
         {
@@ -1190,5 +1188,5 @@ class syncContactService
 
 protocol RefreshContactsList:class
 {
-    func refreshContactsList(message:String);
+    func refreshContactsList(_ message:String);
 }

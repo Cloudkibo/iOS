@@ -18,16 +18,16 @@ class DisplayNameViewController: UIViewController {
     @IBOutlet weak var lbl_progress: UILabel!
     
     @IBOutlet weak var lbl_version: UILabel!
-    var Q0_sendDisplayName=dispatch_queue_create("Q0_sendDisplayName",DISPATCH_QUEUE_SERIAL)
-    var Q1_fetchFromDevice=dispatch_queue_create("fetchFromDevice",DISPATCH_QUEUE_SERIAL)
-    var Q2_sendPhonesToServer=dispatch_queue_create("sendPhonesToServer",DISPATCH_QUEUE_SERIAL)
-    var Q3_getContactsFromServer=dispatch_queue_create("getContactsFromServer",DISPATCH_QUEUE_SERIAL)
-    var Q4_getUserData=dispatch_queue_create("getUserData",DISPATCH_QUEUE_SERIAL)
-    var Q5_fetchAllChats=dispatch_queue_create("fetchAllChats",DISPATCH_QUEUE_SERIAL)
-    var Q5_fetchAllGroupsData=dispatch_queue_create("fetchAllGroupsData",DISPATCH_QUEUE_SERIAL)
-    var Q6_updateIsKiboStatus=dispatch_queue_create("updateIsKiboStatus",DISPATCH_QUEUE_SERIAL)
-    var newserialqueue=dispatch_queue_create("newserialqueue",DISPATCH_QUEUE_SERIAL)
-    var Q_fetchAllfriends=dispatch_queue_create("fetchAllFriends",DISPATCH_QUEUE_SERIAL)
+    var Q0_sendDisplayName=DispatchQueue(label: "Q0_sendDisplayName",attributes: [])
+    var Q1_fetchFromDevice=DispatchQueue(label: "fetchFromDevice",attributes: [])
+    var Q2_sendPhonesToServer=DispatchQueue(label: "sendPhonesToServer",attributes: [])
+    var Q3_getContactsFromServer=DispatchQueue(label: "getContactsFromServer",attributes: [])
+    var Q4_getUserData=DispatchQueue(label: "getUserData",attributes: [])
+    var Q5_fetchAllChats=DispatchQueue(label: "fetchAllChats",attributes: [])
+    var Q5_fetchAllGroupsData=DispatchQueue(label: "fetchAllGroupsData",attributes: [])
+    var Q6_updateIsKiboStatus=DispatchQueue(label: "updateIsKiboStatus",attributes: [])
+    var newserialqueue=DispatchQueue(label: "newserialqueue",attributes: [])
+    var Q_fetchAllfriends=DispatchQueue(label: "fetchAllFriends",attributes: [])
     
     
     var syncPhonesList=[String]()
@@ -57,21 +57,21 @@ class DisplayNameViewController: UIViewController {
         print("appearrrrrr", terminator: "")
         
       
-        let nsObject: AnyObject? = NSBundle.mainBundle().infoDictionary!["CFBundleShortVersionString"]
-        if let text = NSBundle.mainBundle().infoDictionary?["CFBundleVersion"] as? String {
+        let nsObject: AnyObject? = Bundle.main.infoDictionary!["CFBundleShortVersionString"] as AnyObject?
+        if let text = Bundle.main.infoDictionary?["CFBundleVersion"] as? String {
             print("... \(text)") //build number
         }
         print(",,,,, \(nsObject!.description)") //version number
         
         self.lbl_version.text="\(nsObject!.description)"
         if(self.accountKit == nil){
-            self.accountKit = AKFAccountKit(responseType: AKFResponseType.AccessToken)
+            self.accountKit = AKFAccountKit(responseType: AKFResponseType.accessToken)
         }
         
         if (self.accountKit!.currentAccessToken == nil) {
             
             //specify AKFResponseType.AccessToken
-            self.accountKit = AKFAccountKit(responseType: AKFResponseType.AccessToken)
+            self.accountKit = AKFAccountKit(responseType: AKFResponseType.accessToken)
             accountKit.requestAccount{
                 (account, error) -> Void in
                 
@@ -106,16 +106,16 @@ class DisplayNameViewController: UIViewController {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-    func progressBarDisplayer(msg:String, _ indicator:Bool ) {
+    func progressBarDisplayer(_ msg:String, _ indicator:Bool ) {
         print(msg)
         strLabel = UILabel(frame: CGRect(x: 50, y: 0, width: 270, height: 50))
         strLabel.text = msg
-        strLabel.textColor = UIColor.whiteColor()
+        strLabel.textColor = UIColor.white
         messageFrame = UIView(frame: CGRect(x: view.frame.midX - 110, y: view.frame.midY - 25 , width: 250, height: 50))
         messageFrame.layer.cornerRadius = 15
         messageFrame.backgroundColor = UIColor(white: 0, alpha: 0.7)
         if indicator {
-            activityIndicator = UIActivityIndicatorView(activityIndicatorStyle: UIActivityIndicatorViewStyle.White)
+            activityIndicator = UIActivityIndicatorView(activityIndicatorStyle: UIActivityIndicatorViewStyle.white)
             activityIndicator.frame = CGRect(x: 0, y: 0, width: 50, height: 50)
             activityIndicator.startAnimating()
             messageFrame.addSubview(activityIndicator)
@@ -126,8 +126,9 @@ class DisplayNameViewController: UIViewController {
     
     
     
-    func sendNameToServer(var displayName:String,completion:(result:Bool)->())
+    func sendNameToServer(_ displayName:String,completion:@escaping (_ result:Bool)->())
     {
+        var displayName = displayName
        // progressBarDisplayer("Contacting Server", true)
         //let priority = DISPATCH_QUEUE_PRIORITY_DEFAULT
         
@@ -216,17 +217,17 @@ class DisplayNameViewController: UIViewController {
     }
        // }
     }
-    func SyncfetchContacts(completion:(result:Bool)->())
+    func SyncfetchContacts(_ completion:@escaping (_ result:Bool)->())
     {
         let contactStore = CNContactStore()
         
         var keys = [CNContactGivenNameKey, CNContactFamilyNameKey, CNContactEmailAddressesKey, CNContactPhoneNumbersKey, CNContactImageDataAvailableKey,CNContactThumbnailImageDataKey, CNContactImageDataKey]
-        dispatch_sync(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT,0)){
+        DispatchQueue.global(priority: DispatchQueue.GlobalQueuePriority.default).sync{
             
         do {
             /////let contactStore = AppDelegate.getAppDelegate().contactStore
             var counter=1
-             try contactStore.enumerateContactsWithFetchRequest(CNContactFetchRequest(keysToFetch: keys)) { (contact, pointer) -> Void in
+             try contactStore.enumerateContacts(with: CNContactFetchRequest(keysToFetch: keys as [CNKeyDescriptor])) { (contact, pointer) -> Void in
                 
                 
                 
@@ -248,11 +249,11 @@ class DisplayNameViewController: UIViewController {
                 //}
                 if (contact.isKeyAvailable(CNContactPhoneNumbersKey)) {
                     for phoneNumber:CNLabeledValue in contact.phoneNumbers {
-                        let a = phoneNumber.value as! CNPhoneNumber
+                        let a = phoneNumber.value 
                         //////////////emails.append(a.valueForKey("digits") as! String)
                         var zeroIndex = -1
-                        var phoneDigits=a.valueForKey("digits") as! String
-                        var actualphonedigits=a.valueForKey("digits") as! String
+                        var phoneDigits=a.value(forKey: "digits") as! String
+                        var actualphonedigits=a.value(forKey: "digits") as! String
                         //remove leading zeroes
                         /* for index in phoneDigits.characters.indices {
                          print(phoneDigits[index])
@@ -275,11 +276,11 @@ class DisplayNameViewController: UIViewController {
                          }
                          
                          }*/
-                        for(var i=0;i<phoneDigits.characters.count;i++)
+                        for(i in 0 ..< phoneDigits.characters.count)
                         {
                             if(phoneDigits.characters.first=="0")
                             {
-                                phoneDigits.removeAtIndex(phoneDigits.startIndex)
+                                phoneDigits.remove(at: phoneDigits.startIndex)
                                 //phoneDigits.characters.popFirst() as! String
                                 print(".. droping zero \(phoneDigits)")
                             }
@@ -299,7 +300,7 @@ class DisplayNameViewController: UIViewController {
                             if(countrycode == nil)
                             {
                                 let tbl_accounts = sqliteDB.accounts
-                                do{for account in try sqliteDB.db.prepare(tbl_accounts) {
+                                do{for account in try sqliteDB.db.prepare(tbl_accounts!) {
                                     countrycode=account[country_prefix]
                                     //displayname=account[firstname]
                                     
@@ -329,23 +330,23 @@ class DisplayNameViewController: UIViewController {
                 print("still working on contactsss...")
             }
             
-            dispatch_async(dispatch_get_main_queue())
+            DispatchQueue.main.async
             {
                 print("moving out...")
-                completion(result: true)
+                completion(true)
             }
             
         }catch{
-            dispatch_async(dispatch_get_main_queue())
+            DispatchQueue.main.async
             {
                 print("error 1..")
-                completion(result: false)
+                completion(false)
             }
         }
         }
     }
     
-    func SyncFillContactsTableWithRecords(completion:(result:Bool)->())
+    func SyncFillContactsTableWithRecords(_ completion:@escaping (_ result:Bool)->())
     {
         
         
@@ -358,9 +359,9 @@ class DisplayNameViewController: UIViewController {
             // --==== newww  try sqliteDB.db.run(tbl_allcontacts.delete())
             // =====---- newww print("now count is \(sqliteDB.db.scalar(tbl_allcontacts.count))")
             var contactsdata=[[String:String]]()
-            dispatch_sync(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT,0)){
+            DispatchQueue.global(priority: DispatchQueue.GlobalQueuePriority.default).sync{
                 
-            for(var i=0;i<self.syncContactsList.count;i++)
+            for(i in 0 ..< self.syncContactsList.count)
             {
                 self.lbl_progress.text="Updating Contact \(i)"
                 
@@ -383,15 +384,15 @@ class DisplayNameViewController: UIViewController {
                 do{
                     
                     var uniqueidentifier1=self.syncContactsList[i].identifier
-                    var image=NSData()
+                    var image=Data()
                     var fullname=self.syncContactsList[i].givenName+" "+self.syncContactsList[i].familyName
                     if (self.syncContactsList[i].isKeyAvailable(CNContactPhoneNumbersKey)) {
                         for phoneNumber:CNLabeledValue in self.syncContactsList[i].phoneNumbers {
-                            let a = phoneNumber.value as! CNPhoneNumber
+                            let a = phoneNumber.value 
                             //////////////emails.append(a.valueForKey("digits") as! String)
                             var zeroIndex = -1
-                            var phoneDigits=a.valueForKey("digits") as! String
-                            var actualphonedigits=a.valueForKey("digits") as! String
+                            var phoneDigits=a.value(forKey: "digits") as! String
+                            var actualphonedigits=a.value(forKey: "digits") as! String
                             //remove leading zeroes
                             /* for index in phoneDigits.characters.indices {
                              print(phoneDigits[index])
@@ -414,11 +415,11 @@ class DisplayNameViewController: UIViewController {
                              }
                              
                              }*/
-                            for(var i=0;i<phoneDigits.characters.count;i++)
+                            for(i in 0 ..< phoneDigits.characters.count)
                             {
                                 if(phoneDigits.characters.first=="0")
                                 {
-                                    phoneDigits.removeAtIndex(phoneDigits.startIndex)
+                                    phoneDigits.remove(at: phoneDigits.startIndex)
                                     //phoneDigits.characters.popFirst() as! String
                                     print(".. droping zero \(phoneDigits)")
                                 }
@@ -438,7 +439,7 @@ class DisplayNameViewController: UIViewController {
                                 if(countrycode == nil)
                                 {
                                     let tbl_accounts = sqliteDB.accounts
-                                    do{for account in try sqliteDB.db.prepare(tbl_accounts) {
+                                    do{for account in try sqliteDB.db.prepare(tbl_accounts!) {
                                         countrycode=account[country_prefix]
                                         //displayname=account[firstname]
                                         
@@ -462,7 +463,7 @@ class DisplayNameViewController: UIViewController {
                                 {
                                     print(em?.label)
                                     print(em?.value)
-                                    emailAddress=(em?.value)! as! String
+                                    emailAddress=(em?.value)! as String
                                     print("email adress value iss \(emailAddress)")
                                     /////emails.append(em!.value as! String)
                                 }
@@ -524,13 +525,13 @@ class DisplayNameViewController: UIViewController {
             
             //delete table data====
             do{
-                try sqliteDB.db.run(tbl_allcontacts.delete())
+                try sqliteDB.db.run((tbl_allcontacts?.delete())!)
                 // print("now count is \(sqliteDB.db.scalar(tbl_allcontacts.count))")
                 
-                for(var j=0;j<contactsdata.count;j++)
+                for(j in 0 ..< contactsdata.count)
                 {
                     do{
-                        try sqliteDB.db.run(tbl_allcontacts.insert(self.name<-contactsdata[j]["name"]!,self.phone<-contactsdata[j]["phone"]!,self.actualphone<-contactsdata[j]["actualphone"]!,self.email<-contactsdata[j]["email"]!,self.uniqueidentifier<-contactsdata[j]["uniqueidentifier"]!))
+                        try sqliteDB.db.run(tbl_allcontacts?.insert(self.name<-contactsdata[j]["name"]!,self.phone<-contactsdata[j]["phone"]!,self.actualphone<-contactsdata[j]["actualphone"]!,self.email<-contactsdata[j]["email"]!,self.uniqueidentifier<-contactsdata[j]["uniqueidentifier"]!))
                     }
                     catch(let error)
                     {
@@ -538,9 +539,9 @@ class DisplayNameViewController: UIViewController {
                         ///////socketObj.socket.emit("logClient","IPHONE-LOG: iphoneLog: error is getting name \(error)")
                     }
                 }
-                dispatch_async(dispatch_get_main_queue())
+                DispatchQueue.main.async
                 {
-                    completion(result:true)
+                    completion(true)
                 }
             }
             catch(let error)
@@ -556,15 +557,15 @@ class DisplayNameViewController: UIViewController {
             print("synccccc error in deleting allcontacts table")
             socketObj.socket.emit("logClient","IPHONE-LOG: iphoneLog: error in deleting allcontacts data \(error)")
         }
-        dispatch_async(dispatch_get_main_queue())
+        DispatchQueue.main.async
         {
-            completion(result:true)
+            completion(true)
         }
     }
     
     
     
-    func fetchContactsFromDevice(completion: (result:Bool)->())
+    func fetchContactsFromDevice(_ completion: (_ result:Bool)->())
     {
        // self.strLabel.text="Setting Contacts Step 1/4"
                     contactsList.fetch(){ (result) -> () in
@@ -578,13 +579,13 @@ class DisplayNameViewController: UIViewController {
                             //get phones and append phones in list
                             emailList.append(r)
                         }
-                        completion(result: true)
+                        completion(true)
             }
     }
     
     
     
-    func SyncSendPhoneNumbersToServer(phones:[String],completion: (result:Bool)->())
+    func SyncSendPhoneNumbersToServer(_ phones:[String],completion: @escaping (_ result:Bool)->())
     {
         // phones=phones.description.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
         
@@ -604,7 +605,7 @@ class DisplayNameViewController: UIViewController {
         //var ssss=phones.debugDescription.stringByReplacingOccurrencesOfString("\\", withString: " ")
         //var phonesCorrentFormat=phones.debugDescription.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
         //var phonesCorrentFormat=phones.debugDescription.stringByReplacingOccurrencesOfString(" ", withString: "")
-        var phonesCorrentFormat=phones.debugDescription.stringByReplacingOccurrencesOfString(" ", withString: "")
+        var phonesCorrentFormat=phones.debugDescription.replacingOccurrences(of: " ", with: "")
         
         print(phonesCorrentFormat)
         // print(ssss)
@@ -685,7 +686,7 @@ class DisplayNameViewController: UIViewController {
     }
     
     
-    func sendPhoneNumbersToServer(completion: (result:Bool)->())
+    func sendPhoneNumbersToServer(_ completion: @escaping (_ result:Bool)->())
     {
         contactsList.searchContactsByPhone(emailList)
             { (result2) -> () in
@@ -706,7 +707,7 @@ class DisplayNameViewController: UIViewController {
     
     
     
-    func fetchContactsFromServer(completion:(result:Bool)->()){
+    func fetchContactsFromServer(_ completion:@escaping (_ result:Bool)->()){
      //   self.strLabel.text="Setting Contacts Step 3/4"
         print("Server fetchingg contactss", terminator: "")
         if(socketObj != nil)
@@ -890,7 +891,7 @@ class DisplayNameViewController: UIViewController {
         
     }
 
-    func getCurrentUserDetails(completion: (result:Bool)->())
+    func getCurrentUserDetails(_ completion: @escaping (_ result:Bool)->())
     { //self.strLabel.text="Setting Contacts Step 4/4"
         if(socketObj != nil)
         {
@@ -1038,7 +1039,7 @@ class DisplayNameViewController: UIViewController {
     }
     
     
-    func fetchChatsFromServer(completion: (result:Bool)->())
+    func fetchChatsFromServer(_ completion: @escaping (_ result:Bool)->())
     {
         
         //%%%%%% fetch chat
@@ -1232,17 +1233,17 @@ class DisplayNameViewController: UIViewController {
         
     }
    
-    func goToContactsPage(completion: (result:Bool)->())
+    func goToContactsPage(_ completion: (_ result:Bool)->())
     {
         
     }
     
-    @IBAction func btnDonePressed(sender: AnyObject) {
-        print("button done pressed start time \(NSDate())")
-        (sender as! UIBarButtonItem).enabled=false
+    @IBAction func btnDonePressed(_ sender: AnyObject) {
+        print("button done pressed start time \(Date())")
+        (sender as! UIBarButtonItem).isEnabled=false
         if(socketObj != nil)
 {
-socketObj.socket.emit("logClient","button done pressed start time \(NSDate())")
+socketObj.socket.emit("logClient","button done pressed start time \(Date())")
 }
         var displayName="unknown"
         displayName=txtDisplayName.text!
@@ -1254,8 +1255,7 @@ socketObj.socket.emit("logClient","button done pressed start time \(NSDate())")
         displayname=displayName
         //=--progressBarDisplayer("Contacting Server", true)
         self.lbl_progress.text="Contacting Server..."
-        dispatch_sync(Q0_sendDisplayName,
-            {
+        Q0_sendDisplayName.sync(execute: {
                 self.sendNameToServer(displayName){ (result) -> () in
                 /*dispatch_async(dispatch_get_main_queue())
                     {
@@ -1269,25 +1269,23 @@ socketObj.socket.emit("logClient","button done pressed start time \(NSDate())")
                     self.lbl_progress.text="Setting Contacts..."
                     if(socketObj != nil)
                     {
-                        socketObj.socket.emit("logClient","IPHONE LOG: setting contacts start time \(NSDate())")
+                        socketObj.socket.emit("logClient","IPHONE LOG: setting contacts start time \(Date())")
                     }
 
-                    dispatch_sync(self.Q1_fetchFromDevice,
-                        {//self.strLabel.text="Setting Contacts Step 2/4"
+                    self.Q1_fetchFromDevice.sync(execute: {//self.strLabel.text="Setting Contacts Step 2/4"
                             //self.fetchContactsFromDevice({ (result) -> () in
                               //SyncfetchContacts
                             self.SyncfetchContacts({ (result) -> () in
                                 
                                 if(socketObj != nil)
                                 {
-                                    socketObj.socket.emit("logClient","IPHONE LOG:Done reading addressbook time \(NSDate())")
+                                    socketObj.socket.emit("logClient","IPHONE LOG:Done reading addressbook time \(Date())")
                                 }
                                 //self.messageFrame.removeFromSuperview()
                                 //print("Sending network request..")
                                // self.progressBarDisplayer("Sending network request..", true)
                                 self.lbl_progress.text="Waiting for Server response.."
-                                dispatch_sync(self.Q2_sendPhonesToServer,
-                                    {//self.strLabel.text="Setting Contacts Step 2/4"
+                                self.Q2_sendPhonesToServer.sync(execute: {//self.strLabel.text="Setting Contacts Step 2/4"
                                        //====----- self.sendPhoneNumbersToServer({ (result) -> () in
                                             self.SyncSendPhoneNumbersToServer(self.syncPhonesList, completion: { (result) in
                                             //self.messageFrame.removeFromSuperview()
@@ -1295,26 +1293,24 @@ socketObj.socket.emit("logClient","button done pressed start time \(NSDate())")
                                            // self.progressBarDisplayer("Updating local database", true)
                                                 if(socketObj != nil)
                                                 {
-                                                    socketObj.socket.emit("logClient","IPHONE LOG:got server response time \(NSDate())")
+                                                    socketObj.socket.emit("logClient","IPHONE LOG:got server response time \(Date())")
                                                 }
 
                                                 self.lbl_progress.text="Updating local database.."
-                                            dispatch_sync(self.Q3_getContactsFromServer,
-                                                {
+                                            self.Q3_getContactsFromServer.sync(execute: {
                                                     
                                                     //.......
                                                     //....
                                                     self.SyncFillContactsTableWithRecords({ (result) in
                                                         
                                                         
-                                                        dispatch_sync(self.Q6_updateIsKiboStatus,
-                                                            {
+                                                        self.Q6_updateIsKiboStatus.sync(execute: {
                                                                 self.syncSetKiboContactsBoolean({ (result) in
                                                                     
                                                                     
                                                                     if(socketObj != nil)
                                                                     {
-                                                                        socketObj.socket.emit("logClient","IPHONE LOG:Done updating database time \(NSDate())")
+                                                                        socketObj.socket.emit("logClient","IPHONE LOG:Done updating database time \(Date())")
                                                                     }
 
                                                                 //===self.updateKiboContactsStatus({ (result) in
@@ -1358,11 +1354,10 @@ socketObj.socket.emit("logClient","button done pressed start time \(NSDate())")
                                                         }*/
                                                         
                                                                  //   self.messageFrame.//removeFromSuperview()
-                                                                    print("setting contacts start time \(NSDate())")
+                                                                    print("setting contacts start time \(Date())")
                                                                     //self.progressBarDisplayer("Waiting for server response", true)
                                                                     
-                                                        dispatch_sync(self.Q4_getUserData,
-                                                            {
+                                                        self.Q4_getUserData.sync(execute: {
                                                                 //self.messageFrame.removeFromSuperview()
                                                                 //print("setting contacts start time \(NSDate())")
                                                                 //self.progressBarDisplayer("Setting Contacts Step 4/4", true)
@@ -1371,12 +1366,12 @@ socketObj.socket.emit("logClient","button done pressed start time \(NSDate())")
                                                                     
                                                                     
                                                                     
-                                                                    let notificationTypes: UIUserNotificationType = [UIUserNotificationType.Alert, UIUserNotificationType.Badge, UIUserNotificationType.Sound]
+                                                                    let notificationTypes: UIUserNotificationType = [UIUserNotificationType.alert, UIUserNotificationType.badge, UIUserNotificationType.sound]
                                                                     
                                                                     //let notificationTypes: UIUserNotificationType = [UIUserNotificationType.None]
                                                                     
                                                                     
-                                                                    let pushNotificationSettings = UIUserNotificationSettings(forTypes: notificationTypes, categories: nil)
+                                                                    let pushNotificationSettings = UIUserNotificationSettings(types: notificationTypes, categories: nil)
                                                                     
                                                                     
                                                                     
@@ -1388,37 +1383,35 @@ socketObj.socket.emit("logClient","button done pressed start time \(NSDate())")
                                                                     {
                                                                         print("didRegisterForRemoteNotificationsWithDeviceToken in displaycontroller")
                                                                         
-                                                                        UIApplication.sharedApplication().registerUserNotificationSettings(pushNotificationSettings)
+                                                                        UIApplication.shared.registerUserNotificationSettings(pushNotificationSettings)
                                                                     }
                                                                     
-                                                                    print("setting contacts finish time \(NSDate())")
+                                                                    print("setting contacts finish time \(Date())")
                                                                     
                                                                     self.lbl_progress.text="Getting details from server.."
-                                                                    dispatch_sync(self.Q_fetchAllfriends,
-                                                                        {
+                                                                    self.Q_fetchAllfriends.sync(execute: {
                                                                             
                                                                     self.fetchContactsFromServer({ (result) in
 
                                                                         if(socketObj != nil)
                                                                         {
-                                                                            socketObj.socket.emit("logClient","IPHONE LOG:Done setting contacts time \(NSDate())")
+                                                                            socketObj.socket.emit("logClient","IPHONE LOG:Done setting contacts time \(Date())")
                                                                         }
 
                                                                         self.lbl_progress.text="Setting Chats.."
                                                                 //self.messageFrame.removeFromSuperview()
                                                                 //self.progressBarDisplayer("Setting Chats", true)
-                                                                dispatch_sync(self.Q5_fetchAllChats,
-                                                                {
+                                                                self.Q5_fetchAllChats.sync(execute: {
                                                                     if(socketObj != nil)
                                                                     {
-                                                                        socketObj.socket.emit("logClient","IPHONE LOG: fetch chat start time \(NSDate())")
+                                                                        socketObj.socket.emit("logClient","IPHONE LOG: fetch chat start time \(Date())")
                                                                     }
 
                                                                 self.fetchChatsFromServer({ (result) -> () in
                                                                     
                                                                     if(socketObj != nil)
                                                                     {
-                                                                        socketObj.socket.emit("logClient","IPHONE LOG:Done fetching chat time \(NSDate())")
+                                                                        socketObj.socket.emit("logClient","IPHONE LOG:Done fetching chat time \(Date())")
                                                                     }
 
                                                                    // dispatch_async(dispatch_get_main_queue())
@@ -1430,17 +1423,15 @@ socketObj.socket.emit("logClient","button done pressed start time \(NSDate())")
                                                                     //==============COMMENTED===========
                                                                     self.lbl_progress.text="Setting Groups.."
                                                                     
-                                                                    dispatch_sync(self.newserialqueue,
-                                                                                {
+                                                                    self.newserialqueue.sync(execute: {
                                                                                     var syncGroupsObj=syncGroupService.init()
                                                                                     //==uncomment latersyncGroupsObj.startSyncGroupsService({ (result) -> () in
                                                                                     
                                                                                     if(socketObj != nil)
                                                                                     {
-                                                                                        socketObj.socket.emit("logClient","IPHONE LOG:setting groups \(username!) time \(NSDate())")
+                                                                                        socketObj.socket.emit("logClient","IPHONE LOG:setting groups \(username!) time \(Date())")
                                                                                     }
-                                                                                    dispatch_sync(self.Q5_fetchAllGroupsData,
-                                                                                        {
+                                                                                    self.Q5_fetchAllGroupsData.sync(execute: {
                                                                                     syncGroupsObj.startSyncGroupsServiceOnLaunch({ (result) -> () in
                                                                                         Alamofire.request(.POST,"\(Constants.MainUrl+Constants.urllog)",headers:header,parameters: ["data":"IPHONE_LOG: sync on installation is completed. going to chat screen \(username!)"]).response{
                                                                                             request, response_, data, error in
@@ -1452,16 +1443,16 @@ socketObj.socket.emit("logClient","button done pressed start time \(NSDate())")
                                                                                         print("sync on installation is completed. going to chat screen")
                                                                      
                                                                                         self.lbl_progress.text="Completed.."
-                                                                                        dispatch_async(dispatch_get_main_queue())
+                                                                                        DispatchQueue.main.async
                                                                                     {
                                                                                         if(socketObj != nil)
                                                                                         {
-                                                                                            socketObj.socket.emit("logClient","IPHONE LOG: Completed\(username!) \(NSDate())")
+                                                                                            socketObj.socket.emit("logClient","IPHONE LOG: Completed\(username!) \(Date())")
                                                                                         }
 
                                                                                         //self.messageFrame.removeFromSuperview()
-                                                                                        print("completed done time \(NSDate())")
-                                                                            self.dismissViewControllerAnimated(false, completion: { () -> Void in
+                                                                                        print("completed done time \(Date())")
+                                                                            self.dismiss(animated: false, completion: { () -> Void in
                                                                                 
                                                                                 print("logged in going to contactlist")
                                                                             })
@@ -1526,10 +1517,10 @@ socketObj.socket.emit("logClient","button done pressed start time \(NSDate())")
     
     
     
-    func syncSetKiboContactsBoolean(completion:(result:Bool)->())
+    func syncSetKiboContactsBoolean(_ completion:@escaping (_ result:Bool)->())
     {
         
-        var allcontactslist1=sqliteDB.allcontacts
+        let allcontactslist1=sqliteDB.allcontacts
         var alladdressContactsArray:Array<Row>
         
         let phone = Expression<String>("phone")
@@ -1537,20 +1528,20 @@ socketObj.socket.emit("logClient","button done pressed start time \(NSDate())")
         let name = Expression<String?>("name")
         
         //alladdressContactsArray = Array(try sqliteDB.db.prepare(allcontactslist1))
-        dispatch_sync(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT,0))
+        DispatchQueue.global(priority: DispatchQueue.GlobalQueuePriority.default).sync
         {
-        do{for ccc in try sqliteDB.db.prepare(allcontactslist1) {
+        do{for ccc in try sqliteDB.db.prepare(allcontactslist1!) {
             
-            for var i=0;i<self.syncAvailablePhonesList.count;i++
+            for i in 0 ..< self.syncAvailablePhonesList.count
             {//print(":::email .......  : \(self.syncAvailablePhonesList[i])")
                 if(ccc[phone]==self.syncAvailablePhonesList[i])
                 { print(":::::::: \(ccc[phone])  and emaillist : \(self.syncAvailablePhonesList[i])")
                     //ccc[kibocontact]
                     
-                    let query = allcontactslist1.select(kibocontact)           // SELECT "email" FROM "users"
+                    let query = allcontactslist1?.select(kibocontact)           // SELECT "email" FROM "users"
                         .filter(phone == ccc[phone])     // WHERE "name" IS NOT NULL
                     
-                    try sqliteDB.db.run(query.update(kibocontact <- true))
+                    try sqliteDB.db.run((query?.update(kibocontact <- true))!)
                     
                     
                     // for kk in try sqliteDB.db.prepare(query) {
@@ -1564,16 +1555,16 @@ socketObj.socket.emit("logClient","button done pressed start time \(NSDate())")
             }
             
             }
-            dispatch_async(dispatch_get_main_queue())
+            DispatchQueue.main.async
             {
-                completion(result:true)
+                completion(true)
             }
         }
         catch{
             print("error 123")
-            dispatch_async(dispatch_get_main_queue())
+            DispatchQueue.main.async
             {
-                completion(result:false)
+                completion(false)
             }
         }
         
@@ -1610,7 +1601,7 @@ socketObj.socket.emit("logClient","button done pressed start time \(NSDate())")
         
         var contactslists = sqliteDB.contactslists
         //=================================================
-        var joinquery=allcontacts.join(.LeftOuter, contactslists, on: contactslists[phone] == allcontacts[phone])
+        var joinquery=allcontacts.join(.LeftOuter, contactslists!, on: (contactslists?[phone])! == (allcontacts?[phone])!)
         
         do{for joinresult in try sqliteDB.db.prepare(joinquery) {
             if(joinresult[uniqueidentifier].isEmpty){}
@@ -1626,10 +1617,10 @@ socketObj.socket.emit("logClient","button done pressed start time \(NSDate())")
         
     }
     
-    func updateKiboContactsStatus(completion: (result:Bool)->())
+    func updateKiboContactsStatus(_ completion: @escaping (_ result:Bool)->())
     {
         
-        var allcontactslist1=sqliteDB.allcontacts
+        let allcontactslist1=sqliteDB.allcontacts
         var alladdressContactsArray:Array<Row>
         
         let phone = Expression<String>("phone")
@@ -1638,24 +1629,24 @@ socketObj.socket.emit("logClient","button done pressed start time \(NSDate())")
         
         //alladdressContactsArray = Array(try sqliteDB.db.prepare(allcontactslist1))
         
-        dispatch_sync(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT,0))
+        DispatchQueue.global(priority: DispatchQueue.GlobalQueuePriority.default).sync
         {
-            var joinrows=self.leftJoinContactsTables()
+            let joinrows=self.leftJoinContactsTables()
             
             do{
                 for ccc in joinrows {
                     
-                    for var i=0;i<availableEmailsList.count;i++
+                    for i in 0 ..< availableEmailsList.count
                     {print(":::email .......  : \(availableEmailsList[i])")
                         
-                        if(ccc.get(allcontactslist1[phone])==availableEmailsList[i])
-                        { print(":::::::: \(ccc.get(allcontactslist1[phone]))  and emaillist : \(availableEmailsList[i])")
+                        if(ccc.get((allcontactslist1?[phone])!)==availableEmailsList[i])
+                        { print(":::::::: \(ccc.get((allcontactslist1?[phone])!))  and emaillist : \(availableEmailsList[i])")
                             //ccc[kibocontact]
                             
-                            let query = allcontactslist1.select(kibocontact)           // SELECT "email" FROM "users"
-                                .filter(phone == ccc.get(allcontactslist1[phone]))     // WHERE "name" IS NOT NULL
+                            let query = allcontactslist1?.select(kibocontact)           // SELECT "email" FROM "users"
+                                .filter(phone == ccc.get((allcontactslist1?[phone])!))     // WHERE "name" IS NOT NULL
                             
-                            do{try sqliteDB.db.run(query.update(kibocontact <- true))}
+                            do{try sqliteDB.db.run((query?.update(kibocontact <- true))!)}
                             catch{
                                 print("error in join query \(error)")
                             }
@@ -1672,9 +1663,9 @@ socketObj.socket.emit("logClient","button done pressed start time \(NSDate())")
                     
                 }
                 
-                dispatch_async(dispatch_get_main_queue())
+                DispatchQueue.main.async
                 {
-                    return completion(result:true)
+                    return completion(true)
                 }
                 
                 

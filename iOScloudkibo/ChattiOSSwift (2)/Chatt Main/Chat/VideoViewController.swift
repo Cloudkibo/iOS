@@ -18,7 +18,7 @@ class VideoViewController: UIViewController,RTCPeerConnectionDelegate,RTCSession
     
     var delegateCallRingingGo:CallRingingGoBackDelegate!
     let picker = UIImagePickerController()
-    public var delegateFileReceived:FileReceivedAlertDelegate!
+    open var delegateFileReceived:FileReceivedAlertDelegate!
     
     @IBOutlet var btnShareFile: UIBarButtonItem!
     
@@ -30,7 +30,7 @@ class VideoViewController: UIViewController,RTCPeerConnectionDelegate,RTCSession
     @IBOutlet weak var txtLabelUsername: UILabel!
     @IBOutlet weak var txtLabelMainPage: UITextView!
     var fileSize1:UInt64=0
-    public var delegateSendScreenDatachannel:DelegateSendScreenshotDelegate!
+    open var delegateSendScreenDatachannel:DelegateSendScreenshotDelegate!
     //////var screenCaptureToggle=false
     var newjson:JSON!
     var myJSONdata:JSON!
@@ -49,12 +49,12 @@ class VideoViewController: UIViewController,RTCPeerConnectionDelegate,RTCSession
     var fu=FileUtility()
     var filePathImage:String!
     ////** new commented april 2016var fileSize:Int!
-    var fileContents:NSData!
+    var fileContents:Data!
     var chunknumbertorequest:Int=0
     var numberOfChunksInFileToSave:Double=0
     var filePathReceived:String!
     var fileSizeReceived:Int!
-    var fileContentsReceived:NSData!
+    var fileContentsReceived:Data!
 
     @IBOutlet var btncapture: UIBarButtonItem!
     //------
@@ -95,7 +95,7 @@ class VideoViewController: UIViewController,RTCPeerConnectionDelegate,RTCSession
     
     
     
-    @IBAction func btnCapturePressed(sender: UIBarButtonItem) {
+    @IBAction func btnCapturePressed(_ sender: UIBarButtonItem) {
         
         
         screenCaptureToggle = !screenCaptureToggle
@@ -142,30 +142,30 @@ class VideoViewController: UIViewController,RTCPeerConnectionDelegate,RTCSession
         
     }
    
-    func sendImageFromDataChannel(screenshot: UIImage!) {
+    func sendImageFromDataChannel(_ screenshot: UIImage!) {
         var chunkLength=64000
-        var imageData:NSData = UIImageJPEGRepresentation(screenshot, 1.0)!
+        var imageData:Data = UIImageJPEGRepresentation(screenshot, 1.0)!
         var numchunks=0
-        var len=imageData.length
+        var len=imageData.count
         print("length is\(len)")
         numchunks=len/chunkLength
         print("numchunks are \(numchunks)")
         
-        var test="\(imageData.length)"
+        var test="\(imageData.count)"
         
         self.sendDataBuffer(test, isb: false)
         
-        for(var j=0;j<numchunks;j++)
+        for j in 0 .. numchunks
         {
             var start=j*chunkLength
             var end=(j+1)*chunkLength
-            self.sendImage(imageData.subdataWithRange(NSMakeRange(start,len-start)))
+            self.sendImage(imageData.subdata(in: NSMakeRange(start,len-start)))
             
         }
         if((len%chunkLength) > 0)
         {
             //imageData.getBytes(&imageData, length: numchunks*chunkLength)
-            self.sendImage(imageData.subdataWithRange(NSMakeRange(numchunks*chunkLength, len%chunkLength)))
+            self.sendImage(imageData.subdata(in: NSMakeRange(numchunks*chunkLength, len%chunkLength)))
             
         }
         
@@ -174,16 +174,16 @@ class VideoViewController: UIViewController,RTCPeerConnectionDelegate,RTCSession
  
     
     
-    func randomStringWithLength (len : Int) -> NSString {
+    func randomStringWithLength (_ len : Int) -> NSString {
         
         let letters : NSString = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
         
         let randomString : NSMutableString = NSMutableString(capacity: len)
         
-        for (var i=0; i < len; i++){
+        for i in 0 .. len{
             let length = UInt32 (letters.length)
             let rand = arc4random_uniform(length)
-            randomString.appendFormat("%C", letters.characterAtIndex(Int(rand)))
+            randomString.appendFormat("%C", letters.character(at: Int(rand)))
         }
         
         return randomString
@@ -194,12 +194,12 @@ class VideoViewController: UIViewController,RTCPeerConnectionDelegate,RTCSession
         
         if(self.rtcLocalMediaStream != nil)
         {
-            self.pc.addStream(self.rtcLocalMediaStream)
+            self.pc.add(self.rtcLocalMediaStream)
         }
         else
         {
             self.rtcLocalMediaStream=self.getLocalMediaStream()
-            self.pc.addStream(self.rtcLocalMediaStream)
+            self.pc.add(self.rtcLocalMediaStream)
             
             
             ///////////////self.pc.addStream(self.getLocalMediaStream())
@@ -213,12 +213,12 @@ class VideoViewController: UIViewController,RTCPeerConnectionDelegate,RTCSession
         {
             print("\(username) is creating and attaching data channel")
             socketObj.socket.emit("logClient","\(username) is creating and attaching data channel")
-        var rtcInit=RTCDataChannelInit.init()
+        let rtcInit=RTCDataChannelInit.init()
         // rtcInit.isNegotiated=true
         //rtcInit.isOrdered=true
         // rtcInit.maxRetransmits=30
         
-        rtcDataChannel=pc.createDataChannelWithLabel("channel", config: rtcInit)
+        rtcDataChannel=pc.createDataChannel(withLabel: "channel", config: rtcInit)
         if(rtcDataChannel != nil)
         {
             socketObj.socket.emit("logClient","\(username!) data channel not nil")
@@ -233,7 +233,7 @@ class VideoViewController: UIViewController,RTCPeerConnectionDelegate,RTCSession
         }
     }
     
-    @IBAction func endCallBtnPressed(sender: AnyObject) {
+    @IBAction func endCallBtnPressed(_ sender: AnyObject) {
         webMeetingModel.messages.removeAllObjects()
     
         if(meetingStarted==true && self.pc != nil)
@@ -476,23 +476,23 @@ self.remoteDisconnected()
     }
     
     
-    @IBAction func toggleVideoBtnPressed(sender: AnyObject) {
-        videoAction = !videoAction.boolValue
-        localvideoshared=videoAction.boolValue
+    @IBAction func toggleVideoBtnPressed(_ sender: AnyObject) {
+        videoAction = !videoAction
+        localvideoshared=videoAction
         var w=localViewOutlet.bounds.width-(localViewOutlet.bounds.width*0.23)
         var h=localViewOutlet.bounds.height-(localViewOutlet.bounds.height*0.27)
         if(localvideoshared==false)
         {socketObj.socket.emit("logClient","IPHONE-LOG: \(username!) is sharing video")
-            localFull.hidden=true
-            localView.hidden=true
-            btnVideo.setImage(UIImage(named: "video_off"), forState: .Normal)
+            localFull.isHidden=true
+            localView.isHidden=true
+            btnVideo.setImage(UIImage(named: "video_off"), for: UIControlState())
         }
         else{
             socketObj.socket.emit("logClient","IPHONE-LOG: \(username!) is hiding video")
-            btnVideo.setImage(UIImage(named: "video_on"), forState: .Normal)
+            btnVideo.setImage(UIImage(named: "video_on"), for: UIControlState())
             if(remotevideoshared==true){
                 //////self.rtcLocalVideoTrack.removeRenderer(self.localFull)
-                self.rtcLocalVideoTrack.addRenderer(self.localView)
+                self.rtcLocalVideoTrack.add(self.localView)
                 self.localViewOutlet.addSubview(self.localView)
                 
                 self.localViewOutlet.updateConstraintsIfNeeded()
@@ -501,18 +501,18 @@ self.remoteDisconnected()
                 self.localViewOutlet.setNeedsDisplay()
                 
                 
-                localFull.hidden=true
-                localView.hidden=false}
+                localFull.isHidden=true
+                localView.isHidden=false}
             else{
                 /////self.rtcLocalVideoTrack.removeRenderer(self.localView)
-                localFull.hidden=false
-                localView.hidden=true
+                localFull.isHidden=false
+                localView.isHidden=true
             }
         }
         if(socketObj != nil){
         //socketObj.socket.emit("conference.stream", ["username":username!,"id":currentID!,"type":"video","action":videoAction.boolValue])
        
-            socketObj.socket.emit("conference.stream", ["username":username!,"id":currentID!,"type":"video","action":videoAction.boolValue])
+            socketObj.socket.emit("conference.stream", ["username":username!,"id":currentID!,"type":"video","action":videoAction])
             
         }
        /* if(remotevideoshared==true && localvideoshared==true)
@@ -543,19 +543,19 @@ self.remoteDisconnected()
         
     }
     
-    @IBAction func toggleAudioPressed(sender: AnyObject) {
-        audioAction = !audioAction.boolValue
+    @IBAction func toggleAudioPressed(_ sender: AnyObject) {
+        audioAction = !audioAction
         if(audioAction==true)
         {
             socketObj.socket.emit("logClient","IPHONE-LOG: \(username!) is unmuted")
-            btnAudio.setImage(UIImage(named: "audio_on"), forState: .Normal)
+            btnAudio.setImage(UIImage(named: "audio_on"), for: UIControlState())
         }
         else
         {
             socketObj.socket.emit("logClient","IPHONE-LOG: \(username!) is mute")
-             btnAudio.setImage(UIImage(named: "audio_off"), forState: .Normal)
+             btnAudio.setImage(UIImage(named: "audio_off"), for: UIControlState())
         }
-        self.rtcLocalMediaStream!.audioTracks[0].setEnabled(audioAction)
+        (self.rtcLocalMediaStream!.audioTracks[0] as AnyObject).setEnabled(audioAction)
     }
     
     func disconnect()
@@ -563,16 +563,16 @@ self.remoteDisconnected()
         print("inside disconnect")
         if((self.pc) != nil)
         {
-            dispatch_async(dispatch_get_global_queue(Int(QOS_CLASS_USER_INITIATED.rawValue),0)){
+            DispatchQueue.global(priority: Int(DispatchQoS.QoSClass.userInitiated.rawValue)).async{
                 
                 if((self.rtcLocalVideoTrack) != nil)
                 {print("remove localtrack renderer")
-                    self.rtcLocalVideoTrack.removeRenderer(self.localView)
+                    self.rtcLocalVideoTrack.remove(self.localView)
                 }
                 if((self.rtcVideoTrackReceived) != nil)
                 //if((self.rtcVideoTrackReceived) != nil && (self.videoAction==true || self.screenshared==true))
                 {print("remove remotetrack renderer")
-                    self.rtcVideoTrackReceived.removeRenderer(self.remoteView)
+                    self.rtcVideoTrackReceived.remove(self.remoteView)
                 }
                 print("out of removing remoterenderer")
                 self.rtcLocalVideoTrack=nil
@@ -614,11 +614,11 @@ self.remoteDisconnected()
                     endedCall=true
                     socketObj.socket.emit("logClient","IPHONE-LOG: inside end call, isConference is true")
                     
-                    dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                    DispatchQueue.main.async(execute: { () -> Void in
                         
                         
                         
-                        self.dismissViewControllerAnimated(true, completion: { () -> Void in
+                        self.dismiss(animated: true, completion: { () -> Void in
                             
                         })
                         
@@ -643,11 +643,11 @@ self.remoteDisconnected()
                     
                     socketObj.socket.emit("logClient","IPHONE-LOG: inside end call, isConference is false")
                     endedCall=true
-                dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                DispatchQueue.main.async(execute: { () -> Void in
                     
                     
                     
-                    self.dismissViewControllerAnimated(true, completion: { () -> Void in
+                    self.dismiss(animated: true, completion: { () -> Void in
                         areYouFreeForCall=true
                     })
                     
@@ -663,11 +663,11 @@ self.remoteDisconnected()
             {
                 endedCall=true
                 socketObj.socket.emit("logClient","IPHONE-LOG: inside end call, isConference is true and pc is nil")
-                dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                DispatchQueue.main.async(execute: { () -> Void in
                     
                     
                     
-                    self.dismissViewControllerAnimated(true, completion: { () -> Void in
+                    self.dismiss(animated: true, completion: { () -> Void in
                         areYouFreeForCall=true
                     })
                     
@@ -690,11 +690,11 @@ self.remoteDisconnected()
             {
                 socketObj.socket.emit("logClient","IPHONE-LOG: inside end call, isConference is false, pc is nil")
                 endedCall=true
-                dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                DispatchQueue.main.async(execute: { () -> Void in
                     
                     
                     
-                    self.dismissViewControllerAnimated(true, completion: { () -> Void in
+                    self.dismiss(animated: true, completion: { () -> Void in
                         areYouFreeForCall=true
                     })
                     
@@ -714,7 +714,7 @@ self.remoteDisconnected()
         //print(AuthToken!)
         
     }
-    override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: NSBundle?) {
+    override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
         
       super.init(nibName: nibNameOrNil,bundle: nibBundleOrNil)
     }
@@ -819,38 +819,38 @@ self.remoteDisconnected()
         //Dimensions to show large video
         
         self.localFull=RTCEAGLVideoView(frame: CGRect(x: 0, y: localViewOutlet.bounds.height*0.08, width: localViewOutlet.bounds.width, height: (localViewOutlet.bounds.height*0.80)))
-        self.localFull.drawRect(CGRect(x: 0, y: localViewOutlet.bounds.height*0.08, width: localViewOutlet.bounds.width, height: (localViewOutlet.bounds.height*0.80)))
+        self.localFull.draw(CGRect(x: 0, y: localViewOutlet.bounds.height*0.08, width: localViewOutlet.bounds.width, height: (localViewOutlet.bounds.height*0.80)))
         
         
         
         //Dimensions to show small video
         self.localView=RTCEAGLVideoView(frame: CGRect(x: w, y: h, width: 90, height: 85))
-        self.localView.drawRect(CGRect(x: w, y: h, width: 90, height: 85))
+        self.localView.draw(CGRect(x: w, y: h, width: 90, height: 85))
         
         //Dimensions to show small remote video
         //self.remoteView=RTCEAGLVideoView(frame: CGRect(x: 0, y: 50, width: 400, height: 370))
         //self.remoteView.drawRect(CGRect(x: 0, y: 50, width: 400, height: 370))
 
         self.remoteView=RTCEAGLVideoView(frame: CGRect(x: 0, y: localViewOutlet.bounds.height*0.08, width: localViewOutlet.bounds.width, height: (localViewOutlet.bounds.height*0.80)))
-        self.remoteView.drawRect(CGRect(x: 0, y: localViewOutlet.bounds.height*0.08, width: localViewOutlet.bounds.width, height: (localViewOutlet.bounds.height*0.80)))
+        self.remoteView.draw(CGRect(x: 0, y: localViewOutlet.bounds.height*0.08, width: localViewOutlet.bounds.width, height: (localViewOutlet.bounds.height*0.80)))
         
         
         self.remoteScreenView=RTCEAGLVideoView(frame: CGRect(x: 0, y: 50, width: 400, height: 370))
-        self.remoteScreenView.drawRect(CGRect(x: 0, y: 50, width: 400, height: 370))
+        self.remoteScreenView.draw(CGRect(x: 0, y: 50, width: 400, height: 370))
 
         
         
-        var mainICEServerURL:NSURL=NSURL(fileURLWithPath: Constants.MainUrl)
+        var mainICEServerURL:URL=URL(fileURLWithPath: Constants.MainUrl)
         
         
-        rtcICEarray.append(RTCICEServer(URI: NSURL(string:"turn:45.55.232.65:3478?transport=udp"), username: "cloudkibo", password: "cloudkibo"))
-        rtcICEarray.append(RTCICEServer(URI: NSURL(string:"turn:45.55.232.65:3478?transport=tcp"), username: "cloudkibo", password: "cloudkibo"))
-        rtcICEarray.append(RTCICEServer(URI: NSURL(string:"stun:stun.l.google.com:19302"), username: "", password: ""))
-        rtcICEarray.append(RTCICEServer(URI: NSURL(string:"stun:23.21.150.121"), username: "", password: ""))
-        rtcICEarray.append(RTCICEServer(URI: NSURL(string:"stun:stun.anyfirewall.com:3478"), username: "", password: ""))
-        rtcICEarray.append(RTCICEServer(URI: NSURL(string:"turn:turn.bistri.com:80?transport=udp"), username: "homeo", password: "homeo"))
-        rtcICEarray.append(RTCICEServer(URI: NSURL(string:"turn:turn.bistri.com:80?transport=tcp"), username: "homeo", password: "homeo"))
-        rtcICEarray.append(RTCICEServer(URI: NSURL(string:"turn:turn.anyfirewall.com:443?transport=tcp"), username: "webrtc", password: "webrtc"))
+        rtcICEarray.append(RTCICEServer(uri: URL(string:"turn:45.55.232.65:3478?transport=udp"), username: "cloudkibo", password: "cloudkibo"))
+        rtcICEarray.append(RTCICEServer(uri: URL(string:"turn:45.55.232.65:3478?transport=tcp"), username: "cloudkibo", password: "cloudkibo"))
+        rtcICEarray.append(RTCICEServer(uri: URL(string:"stun:stun.l.google.com:19302"), username: "", password: ""))
+        rtcICEarray.append(RTCICEServer(uri: URL(string:"stun:23.21.150.121"), username: "", password: ""))
+        rtcICEarray.append(RTCICEServer(uri: URL(string:"stun:stun.anyfirewall.com:3478"), username: "", password: ""))
+        rtcICEarray.append(RTCICEServer(uri: URL(string:"turn:turn.bistri.com:80?transport=udp"), username: "homeo", password: "homeo"))
+        rtcICEarray.append(RTCICEServer(uri: URL(string:"turn:turn.bistri.com:80?transport=tcp"), username: "homeo", password: "homeo"))
+        rtcICEarray.append(RTCICEServer(uri: URL(string:"turn:turn.anyfirewall.com:443?transport=tcp"), username: "webrtc", password: "webrtc"))
         
         /*
         {"url":"stun:turn01.uswest.xirsys.com"},
@@ -930,15 +930,15 @@ self.remoteDisconnected()
         print("waiting now")
     }
     
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         
         
         //%%******* later instantiate remoteview and localview here also for socond time call
-        txtLabelMainPage.font=UIFont.boldSystemFontOfSize(20)
+        txtLabelMainPage.font=UIFont.boldSystemFont(ofSize: 20)
         if(isFileReceived==true){
             print("here1")
-            dispatch_async(dispatch_get_main_queue()) { () -> Void in
-            self.btnViewFile.enabled=true
+            DispatchQueue.main.async { () -> Void in
+            self.btnViewFile.isEnabled=true
             }
         }
         if(rtcFact != nil){
@@ -963,17 +963,17 @@ self.remoteDisconnected()
         print("inside remote disconnected")
         if((self.rtcVideoTrackReceived) != nil)
         {
-            self.rtcVideoTrackReceived.removeRenderer(self.remoteView)
+            self.rtcVideoTrackReceived.remove(self.remoteView)
         }
         self.rtcVideoTrackReceived=nil
         if((remoteView) != nil)
         {self.remoteView.renderFrame(nil)}
         remotevideoshared=false
-        remoteView.hidden=true
-        localView.hidden=true
+        remoteView.isHidden=true
+        localView.isHidden=true
         print("remote disconnected")
         
-        txtLabelMainPage.font=UIFont.boldSystemFontOfSize(20)
+        txtLabelMainPage.font=UIFont.boldSystemFont(ofSize: 20)
         txtLabelMainPage.text="Welcome to cloudkibo meeting. Waiting for other peer to connect"
     }
     
@@ -992,7 +992,7 @@ self.remoteDisconnected()
     }
     
     
-    func createPeerConnectionObject(completion:(result:Bool)->())
+    func createPeerConnectionObject(_ completion:(_ result:Bool)->())
     {//Initialise Peer Connection Object
         socketObj.socket.emit("logClient","IPHONE-LOG: iphoneLog: \(username!) is trying to make peer connection")
         print("inside create peer conn object method")
@@ -1012,8 +1012,8 @@ self.remoteDisconnected()
             rtcFact=RTCPeerConnectionFactory()
         }
         ////////////////////////
-        self.pc=rtcFact.peerConnectionWithICEServers(rtcICEarray, constraints: self.rtcMediaConst, delegate:self)
-        return completion(result: true)
+        self.pc=rtcFact.peerConnection(withICEServers: rtcICEarray, constraints: self.rtcMediaConst, delegate:self)
+        return completion(true)
         //Create Data channel
         //%%%%% new commented iOS to iOS ....
         ///////CreateAndAttachDataChannel()
@@ -1027,7 +1027,7 @@ self.remoteDisconnected()
         
         var localStream:RTCMediaStream!
         
-        localStream=rtcFact.mediaStreamWithLabel("ARDAMS")
+        localStream=rtcFact.mediaStream(withLabel: "ARDAMS")
         /////////////************^^^
         ///////var localVideoTrack=createLocalVideoTrack()
         
@@ -1038,14 +1038,14 @@ self.remoteDisconnected()
             
             print("video stream \(addedVideo)")
             ////++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-            dispatch_async(dispatch_get_main_queue(), {
+            DispatchQueue.main.async(execute: {
                 //////self.didReceiveLocalVideoTrack(localVideoTrack)
                 self.didReceiveLocalVideoTrack(self.rtcLocalVideoTrack)
             })
             
         }
-        let audioTrack=rtcFact.audioTrackWithID("ARDAMSa0")
-        audioTrack.setEnabled(true)
+        let audioTrack=rtcFact.audioTrack(withID: "ARDAMSa0")
+        audioTrack?.setEnabled(true)
         let addedAudioStream=localStream.addAudioTrack(audioTrack)
         
         print("audio stream \(addedAudioStream)")
@@ -1061,13 +1061,13 @@ self.remoteDisconnected()
     func createLocalVideoTrack()->RTCVideoTrack{
         //var localVideoTrack:RTCVideoTrack
         var cameraID:NSString!
-        for aaa in AVCaptureDevice.devicesWithMediaType(AVMediaTypeVideo)
+        for aaa in AVCaptureDevice.devices(withMediaType: AVMediaTypeVideo)
         {
             //self.rtcCaptureSession=aaa.captureSession
-            if aaa.position==AVCaptureDevicePosition.Front
+            if (aaa as AnyObject).position==AVCaptureDevicePosition.front
             {
-                print(aaa.localizedName!)
-                cameraID=aaa.localizedName!!
+                print((aaa as AnyObject).localizedName!)
+                cameraID=(aaa as AnyObject).localizedName! as NSString!
                 print("got front cameraaa as id \(cameraID)")
                 break
             }
@@ -1082,13 +1082,13 @@ self.remoteDisconnected()
         else{
         let capturer=RTCVideoCapturer(deviceName: cameraID! as String)
         
-        print(capturer.description)
+        print(capturer?.description)
         
         var VideoSource:RTCVideoSource
         
-        VideoSource=rtcFact.videoSourceWithCapturer(capturer, constraints: nil)
+        VideoSource=rtcFact.videoSource(with: capturer, constraints: nil)
         self.rtcLocalVideoTrack=nil
-        self.rtcLocalVideoTrack=rtcFact.videoTrackWithID("ARDAMSv0", source: VideoSource)
+        self.rtcLocalVideoTrack=rtcFact.videoTrack(withID: "ARDAMSv0", source: VideoSource)
         print("sending localVideoTrack")
         
         }
@@ -1098,14 +1098,14 @@ self.remoteDisconnected()
     
     
     
-    func didReceiveLocalVideoTrack(localVideoTrack:RTCVideoTrack)
+    func didReceiveLocalVideoTrack(_ localVideoTrack:RTCVideoTrack)
     {
         socketObj.socket.emit("logClient","IPHONE-LOG: iphone user \(username!) captured audio/video stream")
         
-        var session: AVAudioSession = AVAudioSession.sharedInstance()
+        let session: AVAudioSession = AVAudioSession.sharedInstance()
         var e:NSError!
         do{
-            let res=try session.overrideOutputAudioPort(AVAudioSessionPortOverride.Speaker)
+            let res=try session.overrideOutputAudioPort(AVAudioSessionPortOverride.speaker)
             print("speaker got correctly")
             socketObj.socket.emit("logClient","IPHONE-LOG: success speaker iphone is ON")
         }
@@ -1120,11 +1120,11 @@ self.remoteDisconnected()
         //FULL VIDEO
         if(localvideoshared==false)
         {
-            localFull.hidden=true
+            localFull.isHidden=true
         }
         if(rtcLocalVideoTrack != nil)
         {
-        self.rtcLocalVideoTrack.addRenderer(self.localFull)
+        self.rtcLocalVideoTrack.add(self.localFull)
         self.localViewOutlet.addSubview(self.localFull)
         }
         self.localViewOutlet.updateConstraintsIfNeeded()
@@ -1201,7 +1201,7 @@ self.remoteDisconnected()
     
     
     
-    func didReceiveRemoteVideoTrack(remoteVideoTrack:RTCVideoTrack)
+    func didReceiveRemoteVideoTrack(_ remoteVideoTrack:RTCVideoTrack)
     {
         print("didreceiveremotevideotrack")
        
@@ -1209,9 +1209,9 @@ self.remoteDisconnected()
             print("showw screen")
             self.rtcScreenTrackReceived=remoteVideoTrack
             ////self.rtcScreenTrackReceived=remoteVideoTrack
-            self.rtcScreenTrackReceived.addRenderer(self.remoteScreenView)
-            self.remoteView.hidden=true
-            self.remoteScreenView.hidden=false
+            self.rtcScreenTrackReceived.add(self.remoteScreenView)
+            self.remoteView.isHidden=true
+            self.remoteScreenView.isHidden=false
             self.localViewOutlet.addSubview(self.remoteScreenView)
             self.localViewOutlet.updateConstraintsIfNeeded()
             self.remoteView.updateConstraintsIfNeeded()
@@ -1224,10 +1224,10 @@ self.remoteDisconnected()
         {
             print("showw videoo")
             
-            var session: AVAudioSession = AVAudioSession.sharedInstance()
+            let session: AVAudioSession = AVAudioSession.sharedInstance()
             var e:NSError!
             do{
-                let res=try session.overrideOutputAudioPort(AVAudioSessionPortOverride.Speaker)
+                let res=try session.overrideOutputAudioPort(AVAudioSessionPortOverride.speaker)
                 print("speaker got correctly")
                 socketObj.socket.emit("logClient","IPHONE-LOG: success speaker iphone is ON")
             }
@@ -1253,7 +1253,7 @@ self.remoteDisconnected()
                 self.remoteView.renderFrame(nil)
                 
                 
-                self.rtcVideoTrackReceived.removeRenderer(self.remoteView)
+                self.rtcVideoTrackReceived.remove(self.remoteView)
             }
             //%%%%%%%%%%%%%%%%%%%%%%%%%%
             
@@ -1261,7 +1261,7 @@ self.remoteDisconnected()
             
             
             // %%%%%% newly brought here
-            self.rtcVideoTrackReceived.addRenderer(self.remoteView)
+            self.rtcVideoTrackReceived.add(self.remoteView)
             
             self.localViewOutlet.addSubview(self.remoteView)
            ///// swapping it %%%%% newww  self.rtcVideoTrackReceived.addRenderer(self.remoteView)
@@ -1269,18 +1269,18 @@ self.remoteDisconnected()
             
             
             if(remotevideoshared==false){
-                self.remoteView.hidden=true
+                self.remoteView.isHidden=true
 
             }else{
-                self.remoteView.hidden=true
+                self.remoteView.isHidden=true
                 if(localvideoshared==true)
                 {
-                    localView.hidden=false
+                    localView.isHidden=false
                     self.localViewOutlet.addSubview(self.localView)
                 }
 
             }
-                        self.remoteScreenView.hidden=true
+                        self.remoteScreenView.isHidden=true
             
             
             //self.rtcLocalVideoTrack.addRenderer(self.localFull)
@@ -1316,12 +1316,12 @@ self.remoteDisconnected()
     
     
     
-    func peerConnection(peerConnection: RTCPeerConnection!, addedStream stream: RTCMediaStream!) {
+    func peerConnection(_ peerConnection: RTCPeerConnection!, addedStream stream: RTCMediaStream!) {
         print("added stream \(stream.debugDescription)")
-        var session: AVAudioSession = AVAudioSession.sharedInstance()
+        let session: AVAudioSession = AVAudioSession.sharedInstance()
         var e:NSError!
         do{
-            let res=try session.overrideOutputAudioPort(AVAudioSessionPortOverride.Speaker)
+            let res=try session.overrideOutputAudioPort(AVAudioSessionPortOverride.speaker)
             print("speaker got correctly")
             socketObj.socket.emit("logClient","IPHONE-LOG: success speaker iphone is ON")
         }
@@ -1342,7 +1342,7 @@ self.remoteDisconnected()
             let remoteVideoTrack=stream.videoTracks[0] as! RTCVideoTrack
             //^^^^^^newwwww self.rtcVideoTrackReceived=stream.videoTracks[0] as! RTCVideoTrack
             socketObj.socket.emit("logClient","IPHONE-LOG: iphone user received audio/video stream from \(iamincallWith)")
-            dispatch_async(dispatch_get_main_queue(), {
+            DispatchQueue.main.async(execute: {
             
                 ///self.didReceiveRemoteVideoTrack(remoteVideoTrack)
                 self.didReceiveRemoteVideoTrack(remoteVideoTrack)
@@ -1354,7 +1354,7 @@ self.remoteDisconnected()
         
         
     }
-    func peerConnection(peerConnection: RTCPeerConnection!, didOpenDataChannel dataChannel: RTCDataChannel!) {
+    func peerConnection(_ peerConnection: RTCPeerConnection!, didOpen dataChannel: RTCDataChannel!) {
         print(".................. did open data channel")
         
         
@@ -1376,7 +1376,7 @@ self.remoteDisconnected()
             rtcDataChannel.delegate=self
             
  */
-             var senttt=rtcDataChannel.sendData(RTCDataBuffer(data: NSData(base64EncodedString: "helloooo iphone sendind data through data channel", options: NSDataBase64DecodingOptions.IgnoreUnknownCharacters),isBinary: true))
+             let senttt=rtcDataChannel.sendData(RTCDataBuffer(data: Data(base64Encoded: "helloooo iphone sendind data through data channel", options: NSData.Base64DecodingOptions.ignoreUnknownCharacters),isBinary: true))
              print("datachannel message sent is \(senttt)")
           
 
@@ -1386,15 +1386,15 @@ self.remoteDisconnected()
         //%%% old from here.....
         print(dataChannel.description)
         ////// %%%%% newww
-                dispatch_async(dispatch_get_main_queue()) { () -> Void in
-            self.btncapture.enabled=true
-       self.btnShareFile.enabled=true
+                DispatchQueue.main.async { () -> Void in
+            self.btncapture.isEnabled=true
+       self.btnShareFile.isEnabled=true
             
         }
        
         
     }
-    func peerConnection(peerConnection: RTCPeerConnection!, gotICECandidate candidate: RTCICECandidate!) {
+    func peerConnection(_ peerConnection: RTCPeerConnection!, gotICECandidate candidate: RTCICECandidate!) {
         ////////print("got ice candidate")
         
         //// dispatch_async(dispatch_get_main_queue(), {
@@ -1410,28 +1410,28 @@ self.remoteDisconnected()
         
         //// })
     }
-    func peerConnection(peerConnection: RTCPeerConnection!, iceConnectionChanged newState: RTCICEConnectionState) {
+    func peerConnection(_ peerConnection: RTCPeerConnection!, iceConnectionChanged newState: RTCICEConnectionState) {
         ////////print("............... ice connection changed new state is \(newState.value.description)")
         
     }
-    func peerConnection(peerConnection: RTCPeerConnection!, iceGatheringChanged newState: RTCICEGatheringState) {
+    func peerConnection(_ peerConnection: RTCPeerConnection!, iceGatheringChanged newState: RTCICEGatheringState) {
         ///////// print("............... ice gathering changed \(newState.value.description)")
     }
-    func peerConnection(peerConnection: RTCPeerConnection!, removedStream stream: RTCMediaStream!) {
+    func peerConnection(_ peerConnection: RTCPeerConnection!, removedStream stream: RTCMediaStream!) {
         print("...............removed stream")
         
     }
-    func peerConnection(peerConnection: RTCPeerConnection!, signalingStateChanged stateChanged: RTCSignalingState) {
+    func peerConnection(_ peerConnection: RTCPeerConnection!, signalingStateChanged stateChanged: RTCSignalingState) {
         //////// print("................signalling state changed")
         ////////print(stateChanged.value)
         
     }
-    func peerConnectionOnRenegotiationNeeded(peerConnection: RTCPeerConnection!) {
+    func peerConnection(onRenegotiationNeeded peerConnection: RTCPeerConnection!) {
         ///////////print("............... on negotiation needed")
         
     }
     
-    func peerConnection(peerConnection: RTCPeerConnection!, didCreateSessionDescription sdp: RTCSessionDescription!, error: NSError!) {
+    func peerConnection(_ peerConnection: RTCPeerConnection!, didCreateSessionDescription sdp: RTCSessionDescription!, error: NSError!) {
         
         print("did create offer/answer session description success")
         //^^^^^^^^^^^^^^^^^^^newwwww
@@ -1446,7 +1446,7 @@ self.remoteDisconnected()
                 print(sdp.debugDescription)
                 let sessionDescription=RTCSessionDescription(type: sdp.type!, sdp: sdp.description)
                 
-                self.pc.setLocalDescriptionWithDelegate(self, sessionDescription: sessionDescription)
+                self.pc.setLocalDescriptionWith(self, sessionDescription: sessionDescription)
                 
                 //print(["by":currentID!,"to":otherID,"sdp":["type":sdp.type!,"sdp":sdp.description],"type":sdp.type!,"username":username!])
                 
@@ -1465,7 +1465,7 @@ self.remoteDisconnected()
                 print(sdp.debugDescription)
                 let sessionDescription=RTCSessionDescription(type: sdp.type!, sdp: sdp.description)
                 
-                self.pc.setLocalDescriptionWithDelegate(self, sessionDescription: sessionDescription)
+                self.pc.setLocalDescriptionWith(self, sessionDescription: sessionDescription)
                 
                 ////print(["by":currentID!,"to":otherID,"sdp":["type":sdp.type!,"sdp":sdp.description],"type":sdp.type!,"username":username!])
                 
@@ -1487,7 +1487,7 @@ self.remoteDisconnected()
         //// })
         
     }
-    func peerConnection(peerConnection: RTCPeerConnection!, didSetSessionDescriptionWithError error: NSError!) {
+    func peerConnection(_ peerConnection: RTCPeerConnection!, didSetSessionDescriptionWithError error: NSError!) {
         //print(error.localizedDescription)
         
         // If we are acting as the callee then generate an answer to the offer.
@@ -1503,7 +1503,7 @@ self.remoteDisconnected()
                     print("creating answer")
                     socketObj.socket.emit("logClient","IPHONE-LOG: \(username!) is creating answer")
                     //^^^^^^^^^ new self.pc.addStream(self.rtcMediaStream)
-                    self.pc.createAnswerWithDelegate(self, constraints: self.rtcMediaConst)
+                    self.pc.createAnswer(with: self, constraints: self.rtcMediaConst)
             }
             else
             {
@@ -1521,14 +1521,14 @@ self.remoteDisconnected()
         
     }
     
-    func videoView(videoView: RTCEAGLVideoView!, didChangeVideoSize size: CGSize) {
+    func videoView(_ videoView: RTCEAGLVideoView!, didChangeVideoSize size: CGSize) {
         
         print("video size has changed")
         
     }
     
 
-    func socketReceivedMSGWebRTC(message:String,data:AnyObject!)
+    func socketReceivedMSGWebRTC(_ message:String,data:AnyObject!)
     {print("socketReceivedMSGWebRTC inside")
         switch(message){
         case "msg":
@@ -1540,7 +1540,7 @@ self.remoteDisconnected()
         }
     }
     
-    func socketReceivedOtherWebRTC(message:String,data:AnyObject!)
+    func socketReceivedOtherWebRTC(_ message:String,data:AnyObject!)
     {
         var msg=JSON(data)
         socketObj.socket.emit("logClient","IPHONE-LOG: \(username!) received message \(msg)")
@@ -1587,14 +1587,14 @@ self.remoteDisconnected()
         
     }
     
-    func receivedChatMessage(message:String,username:String)
+    func receivedChatMessage(_ message:String,username:String)
     {
         socketObj.socket.emit("logClient","IPHONE-LOG: received chat message \(message) from \(username)")
         webMeetingModel.addChatMsg(message, usr: username)
         
     }
     
-    func socketReceivedMessageWebRTC(message:String,data:AnyObject!)
+    func socketReceivedMessageWebRTC(_ message:String,data:AnyObject!)
     {print("socketReceivedMessageWebRTC inside")
         var msg=JSON(data!)
         socketObj.socket.emit("logClient","IPHONE-LOG: \(username!) received socketReceivedMessageWebRTC  \(msg)")
@@ -1611,7 +1611,7 @@ self.remoteDisconnected()
     
     
     
-    func handlemsg(data:AnyObject!)
+    func handlemsg(_ data:AnyObject!)
     {
         print("msg reeived.. check if offer answer or ice")
         var msg=JSON(data)
@@ -1654,7 +1654,7 @@ self.remoteDisconnected()
             
             if(msg[0]["username"].description != username! && self.pc.remoteDescription == nil){
                 
-                txtLabelMainPage.font=UIFont.boldSystemFontOfSize(20)
+                txtLabelMainPage.font=UIFont.boldSystemFont(ofSize: 20)
                 txtLabelMainPage.text="You are now connected in call with \(iamincallWith)"
                 var sessionDescription=RTCSessionDescription(type: msg[0]["type"].description, sdp: msg[0]["sdp"]["sdp"].description)
                 socketObj.socket.emit("logClient","IPHONE-LOG: \(username) is setting remote sdp")
@@ -1706,7 +1706,7 @@ self.remoteDisconnected()
         
     }
     
-    func handlePeerConnected(data:AnyObject!)
+    func handlePeerConnected(_ data:AnyObject!)
     {
        // print("received peer.connected obj from server")
         
@@ -1726,7 +1726,7 @@ self.remoteDisconnected()
             //iamincallWith = datajson[0]["phone"].description
             //txtLabelMainPage.font
             
-            txtLabelMainPage.font=UIFont.boldSystemFontOfSize(20)
+            txtLabelMainPage.font=UIFont.boldSystemFont(ofSize: 20)
             txtLabelMainPage.text="You are now connected in call with \(iamincallWith)"
             
             print("socketObj value new is \(socketObj)")
@@ -1759,7 +1759,7 @@ self.remoteDisconnected()
             print("peer attached stream")
             socketObj.socket.emit("logClient","IPHONE-LOG: \(username) attached stream")
             socketObj.socket.emit("logClient","IPHONE-LOG: \(username) is creating offer for \(iamincallWith)")
-            self.pc.createOfferWithDelegate(self, constraints: self.rtcMediaConst!)
+            self.pc.createOffer(with: self, constraints: self.rtcMediaConst!)
         
  
  
@@ -1769,7 +1769,7 @@ self.remoteDisconnected()
     
     
     
-    func handlePeerDisconnected(data:AnyObject!)
+    func handlePeerDisconnected(_ data:AnyObject!)
     {
         print("received peer.disconnected obj from server")
         
@@ -1792,7 +1792,7 @@ self.remoteDisconnected()
                 
                 
                 
-                dispatch_async(dispatch_get_global_queue(Int(QOS_CLASS_USER_INITIATED.rawValue),0)){
+                DispatchQueue.global(priority: Int(DispatchQoS.QoSClass.userInitiated.rawValue)).async{
                     //************* newwww april 2016 commented
                     /*if((self.rtcLocalVideoTrack) != nil)
                      {print("remove localtrack renderer")
@@ -1802,7 +1802,7 @@ self.remoteDisconnected()
                     if((self.rtcVideoTrackReceived) != nil)
                         //if((self.rtcVideoTrackReceived) != nil && (self.videoAction==true || self.screenshared==true))
                     {print("remove remotetrack renderer")
-                        self.rtcVideoTrackReceived.removeRenderer(self.remoteView)
+                        self.rtcVideoTrackReceived.remove(self.remoteView)
                     }
                     print("out of removing remoterenderer")
                     ////** neww april 2016self.rtcLocalVideoTrack=nil
@@ -1841,7 +1841,7 @@ self.remoteDisconnected()
         //}
     }
     
-    func handleConferenceStream(data:AnyObject!)
+    func handleConferenceStream(_ data:AnyObject!)
     {
         print("received conference.stream obj from server")
         var datajson=JSON(data!)
@@ -1851,22 +1851,22 @@ self.remoteDisconnected()
         if(datajson[0]["username"].debugDescription != username! && datajson[0]["type"].debugDescription == "screen" && datajson[0]["action"].boolValue==true )
         {socketObj.socket.emit("logClient","IPHONE-LOG: \(iamincallWith) is sharing screen")
             self.screenshared=true
-            remoteScreenView.hidden=false//***
-            remoteView.hidden=true
+            remoteScreenView.isHidden=false//***
+            remoteView.isHidden=true
             //Handle Screen sharing
             print("handle screen sharing")
-            self.pc.createOfferWithDelegate(self, constraints: self.rtcMediaConst)
+            self.pc.createOffer(with: self, constraints: self.rtcMediaConst)
         }
         
         if(datajson[0]["username"].debugDescription != username! && datajson[0]["type"].debugDescription == "screen" && datajson[0]["action"].boolValue==false )
         {
             socketObj.socket.emit("logClient","IPHONE-LOG: \(iamincallWith) is hiding screen")
            self.screenshared=false
-           remoteScreenView.hidden=true
+           remoteScreenView.isHidden=true
             if(remotevideoshared==true)
-            {remoteView.hidden=false}
+            {remoteView.isHidden=false}
             else
-            {remoteView.hidden=true}
+            {remoteView.isHidden=true}
         }
         
         if(datajson[0]["username"].debugDescription != username! && datajson[0]["type"].debugDescription == "video" && (self.rtcVideoTrackReceived != nil || rtcStreamReceived != nil))
@@ -1878,26 +1878,26 @@ self.remoteDisconnected()
                 socketObj.socket.emit("logClient","IPHONE-LOG: \(iamincallWith) is hiding video")
                 remotevideoshared=false
                 ///self.localView.hidden=false
-                self.remoteView.hidden=true
-                localFull.hidden=false
-                localView.hidden=true
+                self.remoteView.isHidden=true
+                localFull.isHidden=false
+                localView.isHidden=true
                 //remoteScreenView.hidden=true
             }
             if(datajson[0]["action"].boolValue == true)
             {socketObj.socket.emit("logClient","IPHONE-LOG: \(iamincallWith) is sharing video")
                 //self.rtcVideoTrackReceived.addRenderer(self.remoteView)
                 remotevideoshared=true
-                localFull.hidden=true
+                localFull.isHidden=true
                 //self.localView.hidden=true
-                self.remoteView.hidden=false
+                self.remoteView.isHidden=false
                 if(localvideoshared==true)
                 {
-                    localView.hidden=false
-                    self.rtcLocalVideoTrack.addRenderer(self.localView)
+                    localView.isHidden=false
+                    self.rtcLocalVideoTrack.add(self.localView)
                     localViewOutlet.addSubview(localView)
                 }
                 
-                remoteScreenView.hidden=true
+                remoteScreenView.isHidden=true
                 
                 self.localViewOutlet.updateConstraintsIfNeeded()
                 localFull.setNeedsDisplay()
@@ -1907,7 +1907,7 @@ self.remoteDisconnected()
         }
     }
     
-    func handleMessage(data:AnyObject!)
+    func handleMessage(_ data:AnyObject!)
     {
         var message=JSON(data)
         print(message.debugDescription)
@@ -2137,7 +2137,7 @@ self.remoteDisconnected()
     }
     
     
-    func sendDataBuffer(message:String,isb:Bool)
+    func sendDataBuffer(_ message:String,isb:Bool)
     {
         //var my="{\"eventName\":\"data_msg\",\"data\":{\"file_meta\":{}}}"
         //let buffer2 = RTCDataBuffer(
@@ -2149,10 +2149,10 @@ self.remoteDisconnected()
         
         
         let buffer = RTCDataBuffer(
-            data: (message.dataUsingEncoding(NSUTF8StringEncoding))!,
+            data: (message.data(using: String.Encoding.utf8))!,
             isBinary: isb
         )
-        var sentFile=self.rtcDataChannel.sendData(buffer)
+        let sentFile=self.rtcDataChannel.sendData(buffer)
         socketObj.socket.emit("logClient","IPHONE-LOG: \(username!) datachannel file METADATA sent is \(sentFile) OR image chunk size is sent \(sentFile)")
         print("datachannel file METADATA sent is \(sentFile) OR image chunk size is sent \(sentFile)")
         
@@ -2173,13 +2173,13 @@ self.remoteDisconnected()
     }
 
 
-    func channel(channel: RTCDataChannel!, didChangeBufferedAmount amount: UInt) {
+    func channel(_ channel: RTCDataChannel!, didChangeBufferedAmount amount: UInt) {
         print("didChangeBufferedAmount \(amount)")
         
     }
     
     
-    func channel(channel: RTCDataChannel!, didReceiveMessageWithBuffer buffer: RTCDataBuffer!) {
+    func channel(_ channel: RTCDataChannel!, didReceiveMessageWith buffer: RTCDataBuffer!) {
         print("didReceiveMessageWithBuffer")
         
         print(buffer.data.debugDescription)
@@ -2196,17 +2196,17 @@ self.remoteDisconnected()
         //socketObj.socket.emit("logClient","IPHONE-LOG: \(username!) received message \(channelJSON) from datachannel")
         print(" hi hereee \(channelJSON.debugDescription)")
         //var bytes:[UInt8]
-        var bytes=Array<UInt8>(count: buffer.data.length, repeatedValue: 0)
+        var bytes=Array<UInt8>(repeating: 0, count: buffer.data.count)
         
         // bytes.append(buffer.data.bytes)
-        buffer.data.getBytes(&bytes, length: buffer.data.length)
+        buffer.data.copyBytes(to: &bytes, count: buffer.data.count)
         print(" hi hereee2 \(bytes.debugDescription)")
         
-        NSUTF8StringEncoding
+        String.Encoding.utf8
         
         
-        var sssss=NSString(bytes: &bytes, length: buffer.data.length, encoding: NSUTF8StringEncoding)
-        sssss=sssss?.stringByReplacingOccurrencesOfString("\\", withString: "")
+        var sssss=NSString(bytes: &bytes, length: buffer.data.count, encoding: String.Encoding.utf8.rawValue)
+        sssss=sssss?.replacingOccurrences(of: "\\", with: "") as NSString?
         print(sssss?.description)
         
         
@@ -2215,15 +2215,15 @@ self.remoteDisconnected()
         
         
         //buffer.data.
-        var tryyyyy=NSData(bytes: &bytes , length: buffer.data.length)
+        var tryyyyy=Data(bytes: UnsafePointer<UInt8>(&bytes) , count: buffer.data.count)
         var mytryyJSON=JSON(tryyyyy)
         
         if(sssss != nil){
             
-            var jjj:NSData = (sssss?.dataUsingEncoding(NSUTF8StringEncoding))!
+            var jjj:Data = (sssss?.data(using: String.Encoding.utf8.rawValue))!
             
             do
-            {jsonnnn = try NSJSONSerialization.JSONObjectWithData(jjj, options: NSJSONReadingOptions.MutableContainers) as! Dictionary<String, AnyObject>
+            {jsonnnn = try JSONSerialization.jsonObject(with: jjj, options: JSONSerialization.ReadingOptions.mutableContainers) as! Dictionary<String, AnyObject>
                 print("jsonnn...........")
                 print(jsonnnn)
             }catch
@@ -2234,8 +2234,8 @@ self.remoteDisconnected()
             
             myJSONdata=JSON(sssss!)
             print("myjsondata is \(myJSONdata)")
-            var oldjsombrackets=myJSONdata.description.stringByReplacingOccurrencesOfString("{", withString: "[")
-            new=oldjsombrackets.stringByReplacingOccurrencesOfString("}", withString: "]")
+            var oldjsombrackets=myJSONdata.description.replacingOccurrences(of: "{", with: "[")
+            new=oldjsombrackets.replacingOccurrences(of: "}", with: "]")
             print("new is \(new)")
             
             newjson=JSON(rawValue: new)!
@@ -2243,14 +2243,14 @@ self.remoteDisconnected()
             /////  var dddd:[String:AnyObject]=newjson.debugDescription as! [String:AnyObject]
             //////print("ddddddddd is \(dddd)")
             
-            let count = buffer.data.length
+            let count = buffer.data.count
             var doubles: [Double] = []
             ///let data = NSData(bytes: doubles, length: count)
-            var result = [UInt8](count: count, repeatedValue: 0)
-            buffer.data.getBytes(&result, length: count)
+            var result = [UInt8](repeating: 0, count: count)
+            buffer.data.copyBytes(to: &result, count: count)
             //////   print(result.debugDescription)
             
-            strData=String(bytes)
+            strData=String(describing: bytes)
             print("strdata")
             print(strData)
             var jsonStrData=JSON(strData)
@@ -2411,24 +2411,24 @@ self.remoteDisconnected()
                         ////////FU utility
                         if(chunknumber % fu.chunks_per_ack == 0)
                         {
-                            for(var i=0;i<fu.chunks_per_ack;i++)
+                            for(i in 0 ..< fu.chunks_per_ack)
                             {
                                 if(Int(fileSize1) < fu.chunkSize)
                                 {
                                     var bytebuffer=fu.convert_file_to_byteArray(filePathImage)
-                                    var byteToNSstring=NSString(bytes: &bytebuffer, length: bytebuffer.count, encoding: NSUTF8StringEncoding)
-                                    var bytestringfile:NSData!
+                                    var byteToNSstring=NSString(bytes: &bytebuffer, length: bytebuffer.count, encoding: String.Encoding.utf8)
+                                    var bytestringfile:Data!
                                     do{
                                         
-                                    bytestringfile=try NSData(contentsOfFile: byteToNSstring as! String)
+                                    bytestringfile=try Data(contentsOf: URL(fileURLWithPath: byteToNSstring as! String))
                                     }catch
                                     {
-                                       bytestringfile=NSData(contentsOfURL: urlLocalFile)
+                                       bytestringfile=try? Data(contentsOf: urlLocalFile as URL)
                                     }
                                     print("file size smaller than chunk")
                                     if(bytestringfile==nil)
                                     {
-                                        bytestringfile=NSData(contentsOfURL: urlLocalFile)
+                                        bytestringfile=try? Data(contentsOf: urlLocalFile as URL)
                                     }
                                     var check=self.rtcDataChannel.sendData(RTCDataBuffer(data: bytestringfile,isBinary: true))
                                     print("chunk has been sent \(check)")
@@ -2436,29 +2436,29 @@ self.remoteDisconnected()
                                     
                                 }
                                 print("file size is \(fileSize1)")
-                                var x=CGFloat(fileContents.length/fu.chunkSize)
+                                var x=CGFloat(fileContents.count/fu.chunkSize)
                                 if(CGFloat(chunknumber+i) >= ceil(x))
                                 {
                                     print("file size came in math ceiling condition")
                                 }
                                 var upperlimit=(chunknumber+i+1)*fu.chunkSize
-                                if(upperlimit > fileContents.length)
+                                if(upperlimit > fileContents.count)
                                 {
-                                    upperlimit = fileContents.length-1
+                                    upperlimit = fileContents.count-1
                                 }
                                 var lowerlimit=(chunknumber+i)*fu.chunkSize
                                 print("lowerlimit \(lowerlimit) upper limit \(upperlimit)")
                                 if(lowerlimit > upperlimit)
                                 {break}
                                 
-                                var bytestringfile=NSFileManager.defaultManager().contentsAtPath(filePathImage)
+                                var bytestringfile=FileManager.default.contents(atPath: filePathImage)
                                 if(bytestringfile==nil)
                                 {
-                                    bytestringfile=NSData(contentsOfURL: urlLocalFile)
+                                    bytestringfile=try? Data(contentsOf: urlLocalFile as URL)
                                 }
                                 /// var bytestringfile=NSData(contentsOfFile: bytebuffer)
-                                var newbuffer=Array<UInt8>(count: upperlimit-lowerlimit, repeatedValue: 0)
-                                bytestringfile?.getBytes(&newbuffer, range: NSRange(location: lowerlimit,length: upperlimit-lowerlimit))
+                                var newbuffer=Array<UInt8>(repeating: 0, count: upperlimit-lowerlimit)
+                                (bytestringfile as NSData?)?.getBytes(&newbuffer, range: NSRange(location: lowerlimit,length: upperlimit-lowerlimit))
                                 self.rtcDataChannel.sendData(RTCDataBuffer(data: bytestringfile,isBinary: true))
                                 print("chunk has been sent")
                                 
@@ -2516,7 +2516,7 @@ self.remoteDisconnected()
        
                 }
             }
-            numberOfChunksReceived++
+            numberOfChunksReceived += 1
             /*
             if(buffer.binary){
             
@@ -2558,25 +2558,25 @@ self.remoteDisconnected()
             
             */
             //let fm = NSFileManager.defaultManager()
-            let dirPaths = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)
+            let dirPaths = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)
             let docsDir1 = dirPaths[0]
             var documentDir=docsDir1 as NSString
-            var filePathImage2=documentDir.stringByAppendingPathComponent(filejustreceivedname!)
-            filejustreceivedPathURL=NSURL(fileURLWithPath: filePathImage2)
+            var filePathImage2=documentDir.appendingPathComponent(filejustreceivedname!)
+            filejustreceivedPathURL=URL(fileURLWithPath: filePathImage2)
             print("filejustreceivedPathURL is \(filejustreceivedPathURL)")
-            var fm=NSFileManager.defaultManager()
+            var fm=FileManager.default
             
             
             //////////^^^^^^^newww tryy var filedata:NSData=fu.convert_byteArray_to_fileNSData(bytes)
-            var filedata:NSData=fu.convert_byteArray_to_fileNSData(bytesarraytowrite)
+            var filedata:Data=fu.convert_byteArray_to_fileNSData(bytesarraytowrite)
             
-            var s=fm.createFileAtPath(filePathImage2, contents: nil, attributes: nil)
+            var s=fm.createFile(atPath: filePathImage2, contents: nil, attributes: nil)
             
-            var written=filedata.writeToFile(filePathImage2, atomically: false)
+            var written=(try? filedata.write(to: URL(fileURLWithPath: filePathImage2), options: [])) != nil
             
             if(written==true)
             {
-                var furl2=NSURL(fileURLWithPath: filePathImage2)
+                var furl2=URL(fileURLWithPath: filePathImage2)
                 print("local furl2 is\(furl2)")
                 
                 //documentInteractionController = UIDocumentInteractionController(URL: fileURL)
@@ -2628,16 +2628,16 @@ self.remoteDisconnected()
                     numberOfChunksInFileToSave=0
                     
                     // **** neww may 2016
-                    dispatch_async(dispatch_get_main_queue()) { () -> Void in
-                        self.btnViewFile.enabled=true
+                    DispatchQueue.main.async { () -> Void in
+                        self.btnViewFile.isEnabled=true
                     }
                     // **
                     
-                    let alert = UIAlertController(title: "Success", message: "You have received a new file. Click on \"View\" button at top to View and Save it.", preferredStyle: UIAlertControllerStyle.Alert)
-                    alert.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.Default, handler: nil))
+                    let alert = UIAlertController(title: "Success", message: "You have received a new file. Click on \"View\" button at top to View and Save it.", preferredStyle: UIAlertControllerStyle.alert)
+                    alert.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.default, handler: nil))
                     //UIApplication.sharedApplication().keyWindow?.rootViewController!.presentViewController(alert, animated: true, completion: nil)
                     //if(UIApplication.sharedApplication().keyWindow?.rootViewController.present)
-                    self.presentViewController(alert, animated: true, completion: nil)
+                    self.present(alert, animated: true, completion: nil)
                     //delegateFileReceived.didReceiveFileConference()
 
                     self.delegateFileReceived?.didReceiveFileConference()
@@ -2698,7 +2698,7 @@ self.remoteDisconnected()
     
     
     
-       func channelDidChangeState(channel: RTCDataChannel!) {
+       func channelDidChangeState(_ channel: RTCDataChannel!) {
         print("channelDidChangeState")
         
         print(channel.debugDescription)
@@ -2712,35 +2712,35 @@ self.remoteDisconnected()
         {
             ///self.rtcDataChannel=channel
           print("data channel opened now")
-            dispatch_async(dispatch_get_main_queue()) { () -> Void in
-                self.btncapture.enabled=true
-                self.btnShareFile.enabled=true
+            DispatchQueue.main.async { () -> Void in
+                self.btncapture.isEnabled=true
+                self.btnShareFile.isEnabled=true
                 
             }
         }
         if(channel.state == kRTCDataChannelStateClosed)
         {
             print("data channel closed now")
-            dispatch_async(dispatch_get_main_queue()) { () -> Void in
-                self.btncapture.enabled=false
-                self.btnShareFile.enabled=false
+            DispatchQueue.main.async { () -> Void in
+                self.btncapture.isEnabled=false
+                self.btnShareFile.isEnabled=false
                 
             }
         }
         
     }
     
-    @IBAction func btnFilePressed(sender: AnyObject) {
+    @IBAction func btnFilePressed(_ sender: AnyObject) {
         socketObj.socket.emit("logClient","\(username!) is sharing file with \(iamincallWith)")
         print(NSOpenStepRootDirectory())
         ///var UTIs=UTTypeCopyPreferredTagWithClass("public.image", kUTTypeImage)?.takeRetainedValue() as! [String]
         
         let importMenu = UIDocumentMenuViewController(documentTypes: [kUTTypeText as NSString as String, kUTTypeImage as String,"com.adobe.pdf","public.jpeg","public.html","public.content","public.data","public.item",kUTTypeBundle as String],
-            inMode: .Import)
+            in: .import)
         ///////let importMenu = UIDocumentMenuViewController(documentTypes: UTIs, inMode: .Import)
         importMenu.delegate = self
-        dispatch_async(dispatch_get_main_queue()) { () -> Void in
-            self.presentViewController(importMenu, animated: true, completion: nil)
+        DispatchQueue.main.async { () -> Void in
+            self.present(importMenu, animated: true, completion: nil)
             
             
         }
@@ -2834,11 +2834,11 @@ self.remoteDisconnected()
         
     }*/
     
-    func documentPicker(controller: UIDocumentPickerViewController, didPickDocumentAtURL url: NSURL) {
+    func documentPicker(_ controller: UIDocumentPickerViewController, didPickDocumentAt url: URL) {
         
         
-        if (controller.documentPickerMode == UIDocumentPickerMode.Import) {
-            NSLog("Opened ", url.path!);
+        if (controller.documentPickerMode == UIDocumentPickerMode.import) {
+            NSLog("Opened ", url.path);
         
 
         
@@ -2847,14 +2847,14 @@ self.remoteDisconnected()
         url.startAccessingSecurityScopedResource()
         let coordinator = NSFileCoordinator()
         var error:NSError? = nil
-        coordinator.coordinateReadingItemAtURL(url, options: [], error: &error) { (url) -> Void in
+        coordinator.coordinate(readingItemAt: url, options: [], error: &error) { (url) -> Void in
             // do something with it
-            let fileData = NSData(contentsOfURL: url)
+            let fileData = try? Data(contentsOf: url)
             print(fileData?.description)
             socketObj.socket.emit("logClient","IPHONE-LOG: \(username!) selected file ")
             print("file gotttttt")
             ///////////self.mdata.sharefile(url.URLString)
-            var furl=NSURL(string: url.URLString)
+            var furl=URL(string: url.URLString)
             //ADDEDDDDD
             //////furl=fileurl
             /////////////////newwwwwvar furl=NSURL(fileURLWithPath: filePathImage)
@@ -2868,9 +2868,9 @@ self.remoteDisconnected()
             var fname=furl!.URLByDeletingPathExtension?.lastPathComponent!
             ////var fname=furl!.URLByDeletingPathExtension?.URLString
                         //var attributesError=nil
-            var fileAttributes:[String:AnyObject]=["":""]
+            var fileAttributes:[String:AnyObject]=["":"" as AnyObject]
             do {
-                let fileAttributes : NSDictionary? = try NSFileManager.defaultManager().attributesOfItemAtPath(furl!.path!)
+                let fileAttributes : NSDictionary? = try FileManager.defaultManager().attributesOfItemAtPath(furl!.path!)
                 
                 if let _attr = fileAttributes {
                    self.fileSize1 = _attr.fileSize();
@@ -2903,7 +2903,7 @@ self.remoteDisconnected()
             ////////print(text2)
             /////////print(JSON(text2!))
             ///mdata.fileContents=fm.contentsAtPath(filePathImage)!
-            self.fileContents=NSData(contentsOfURL: url)
+            self.fileContents=try? Data(contentsOf: url)
             self.filePathImage=url.URLString
             //var filecontentsJSON=JSON(NSData(contentsOfURL: url)!)
             //print(filecontentsJSON)
@@ -2928,9 +2928,9 @@ self.remoteDisconnected()
             //%%%%%%%%%% socketObj.socket.emit("conference.chat", ["message":"You have received a file. Download and Save it.","username":username!])
             socketObj.socket.emit("conference.chat", ["message":"You have received a file. Download and Save it.","username":username!])
             
-            let alert = UIAlertController(title: "Success", message: "Your file has been successfully sent", preferredStyle: UIAlertControllerStyle.Alert)
-            alert.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.Default, handler: nil))
-            self.presentViewController(alert, animated: true, completion: nil)
+            let alert = UIAlertController(title: "Success", message: "Your file has been successfully sent", preferredStyle: UIAlertControllerStyle.alert)
+            alert.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.default, handler: nil))
+            self.present(alert, animated: true, completion: nil)
 
             
         }
@@ -2942,15 +2942,15 @@ self.remoteDisconnected()
     
     
     
-    func documentMenu(documentMenu: UIDocumentMenuViewController, didPickDocumentPicker documentPicker: UIDocumentPickerViewController) {
+    func documentMenu(_ documentMenu: UIDocumentMenuViewController, didPickDocumentPicker documentPicker: UIDocumentPickerViewController) {
         
         documentPicker.delegate = self
-        presentViewController(documentPicker, animated: true, completion: nil)
+        present(documentPicker, animated: true, completion: nil)
         
         
     }
     
-    func documentMenuWasCancelled(documentMenu: UIDocumentMenuViewController) {
+    func documentMenuWasCancelled(_ documentMenu: UIDocumentMenuViewController) {
         
         
     }
@@ -2981,7 +2981,7 @@ self.remoteDisconnected()
         delegateFileReceived.didReceiveFileConference()
     }
     */
-    public func sendImage(imageData:NSData)
+    open func sendImage(_ imageData:Data)
     {
         
         //var test="{length:\(imageData.length)}"
@@ -3026,7 +3026,7 @@ self.remoteDisconnected()
         var imageSent=self.rtcDataChannel.sendData(RTCDataBuffer(data: imageWithHeader, isBinary: false))
         
         */
-        var imageSent=self.rtcDataChannel.sendData(RTCDataBuffer(data: imageData, isBinary: true))
+        let imageSent=self.rtcDataChannel.sendData(RTCDataBuffer(data: imageData, isBinary: true))
         ////var imageSent=self.rtcDataChannel.sendData(RTCDataBuffer(data: imageWithHeaderBinary, isBinary: false))
         socketObj.socket.emit("logClient","IPHONE-LOG: \(username) image senttttt \(imageSent)")
         print("image senttttt \(imageSent)")
@@ -3037,10 +3037,10 @@ self.remoteDisconnected()
     }
     
     
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "chatConferenceSegue" {
             print("segueee chattt")
-            let conferenceChatView = segue.destinationViewController as? WebmeetingChatViewController
+            let conferenceChatView = segue.destination as? WebmeetingChatViewController
             //let addItemViewController = navigationController?.topViewController as? AddItemViewController
             
             if let viewController = conferenceChatView {
@@ -3049,7 +3049,7 @@ self.remoteDisconnected()
         }
         if segue.identifier == "filePreviewSegue" {
             print("segueee chattt")
-            let filePreviewView = segue.destinationViewController as? FileReceivedViewController
+            let filePreviewView = segue.destination as? FileReceivedViewController
             //let addItemViewController = navigationController?.topViewController as? AddItemViewController
             
             if let viewController = filePreviewView {
@@ -3061,9 +3061,9 @@ self.remoteDisconnected()
     
     override func viewDidLayoutSubviews() {
         
-        txtLabelMainPage.font=UIFont.boldSystemFontOfSize(20)
+        txtLabelMainPage.font=UIFont.boldSystemFont(ofSize: 20)
     }
-    override func viewDidDisappear(animated: Bool) {
+    override func viewDidDisappear(_ animated: Bool) {
     /*
         print("videoviewcontroller will dismissed ")
         
@@ -3168,7 +3168,7 @@ self.remoteDisconnected()
     if((self.rtcLocalVideoTrack) != nil)
     {print("remove localtrack renderer")
     
-    self.rtcLocalVideoTrack.removeRenderer(self.localView)
+    self.rtcLocalVideoTrack.remove(self.localView)
     //////////////////////////////////////////////////////
     self.rtcLocalVideoTrack=nil
     self.localView.removeFromSuperview()
@@ -3176,7 +3176,7 @@ self.remoteDisconnected()
     }
     if((self.rtcVideoTrackReceived) != nil)
     {print("remove remotetrack renderer")
-    self.rtcVideoTrackReceived.removeRenderer(self.remoteView)
+    self.rtcVideoTrackReceived.remove(self.remoteView)
     }
     print("out of removing remoterenderer")
     ////self.rtcLocalVideoTrack=nil
@@ -3249,14 +3249,14 @@ self.remoteDisconnected()
     
         
     //socketObj.socket.emit("logClient","IPHONE-LOG: \(username!) pressed end call. going back to contacts list")
-    dispatch_async(dispatch_get_main_queue(), { () -> Void in
+    DispatchQueue.main.async(execute: { () -> Void in
     //%%%%%%%% let next = self.storyboard!.instantiateViewControllerWithIdentifier("mainpage") as! LoginViewController
     
     
     //MainChatView
         
                print("views removed from parent")
-        self.dismissViewControllerAnimated(false, completion: { () -> Void in
+        self.dismiss(animated: false, completion: { () -> Void in
                 
                 
         })
@@ -3353,7 +3353,7 @@ self.remoteDisconnected()
         if((self.rtcLocalVideoTrack) != nil)
         {print("remove localtrack renderer")
             
-            self.rtcLocalVideoTrack.removeRenderer(self.localView)
+            self.rtcLocalVideoTrack.remove(self.localView)
             //////////////////////////////////////////////////////
             self.rtcLocalVideoTrack=nil
             self.localView.removeFromSuperview()
@@ -3437,14 +3437,14 @@ self.remoteDisconnected()
         
         
         //socketObj.socket.emit("logClient","IPHONE-LOG: \(username!) pressed end call. going back to contacts list")
-        dispatch_async(dispatch_get_main_queue(), { () -> Void in
+        DispatchQueue.main.async(execute: { () -> Void in
             //%%%%%%%% let next = self.storyboard!.instantiateViewControllerWithIdentifier("mainpage") as! LoginViewController
             
             
             //MainChatView
             
             print("views removed from parent")
-            self.dismissViewControllerAnimated(false, completion: { () -> Void in
+            self.dismiss(animated: false, completion: { () -> Void in
                 
                 
             })

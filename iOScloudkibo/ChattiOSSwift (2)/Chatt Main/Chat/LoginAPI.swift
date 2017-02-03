@@ -69,7 +69,7 @@ class LoginAPI{
             
                 
                 let tbl_accounts = sqliteDB.accounts
-                do{for account in try sqliteDB.db.prepare(tbl_accounts) {
+                do{for account in try sqliteDB.db.prepare(tbl_accounts!) {
                     if(socketObj != nil)
 {
                     socketObj.socket.emit("logClient","IPHONE-LOG:username:\(account[phone]) _id: \(account[_id]) ,status: \(account[status]),display_name: \(account[firstname])")
@@ -186,14 +186,14 @@ class LoginAPI{
             print(":::::::::::::::::::::::::::::::::::")
             var msg=JSON(data)
             print(msg.debugDescription)
-            self.delegate?.socketReceivedMessage("theseareonline",data: data)
+            self.delegate?.socketReceivedMessage("theseareonline",data: data as AnyObject!)
         }
         socketObj.socket.on("yesiamfreeforcall"){data,ack in
             print("yesiamfreeforcall .......")
             print(":::::::::::::::::::::::::::::::::::")
             var msg=JSON(data)
             print(msg.debugDescription)
-            self.delegate?.socketReceivedMessage("yesiamfreeforcall",data: data)
+            self.delegate?.socketReceivedMessage("yesiamfreeforcall",data: data as AnyObject!)
         }
         
         socketObj.socket.on("online"){data,ack in
@@ -201,7 +201,7 @@ class LoginAPI{
             print(":::::::::::::::::::::::::::::::::::")
             var msg=JSON(data)
             print(msg.debugDescription)
-            self.delegate?.socketReceivedMessage("online",data: data)
+            self.delegate?.socketReceivedMessage("online",data: data as AnyObject!)
         }
     
         socketObj.socket.on("offline"){data,ack in
@@ -209,7 +209,7 @@ class LoginAPI{
             print(":::::::::::::::::::::::::::::::::::")
             var msg=JSON(data)
             print(msg.debugDescription)
-            self.delegate?.socketReceivedMessage("offline",data: data)
+            self.delegate?.socketReceivedMessage("offline",data: data as AnyObject!)
         }
         
         
@@ -241,9 +241,9 @@ class LoginAPI{
                
                 let storyboard : UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
 
-                var next = storyboard.instantiateViewControllerWithIdentifier("Main") as! CallRingingViewController
+                var next = storyboard.instantiateViewController(withIdentifier: "Main") as! CallRingingViewController
                 
-                let navigationController = UIApplication.sharedApplication().windows[0].rootViewController as! UITabBarController
+                let navigationController = UIApplication.shared.windows[0].rootViewController as! UITabBarController
                 
                 let activeViewCont = navigationController.selectedViewController
                 var nameOfCaller=""
@@ -259,7 +259,7 @@ class LoginAPI{
                 //do
                 //{allkiboContactsArray = Array(try sqliteDB.db.prepare(contactsKibo))
                 do{
-                    for all in try sqliteDB.db.prepare(allcontacts) {
+                    for all in try sqliteDB.db.prepare(allcontacts!) {
                         if(all[phone]==iamincallWith) //if we found contact in our AddressBook
                             
                         {
@@ -275,7 +275,7 @@ class LoginAPI{
                 }
             
                 
-                activeViewCont!.presentViewController(next, animated: true, completion: {next.txtCallerName.text=jdata[0]["callerphone"].string!; next.currentusernameretrieved=username!; next.callerName=jdata[0]["callerphone"].string!
+                activeViewCont!.present(next, animated: true, completion: {next.txtCallerName.text=jdata[0]["callerphone"].string!; next.currentusernameretrieved=username!; next.callerName=jdata[0]["callerphone"].string!
                     isInitiator=false
                     sqliteDB.saveCallHist(nameOfCaller, dateTime1: NSDate().debugDescription, type1: "Incoming")
                     
@@ -372,7 +372,7 @@ class LoginAPI{
             print(":::::::::::::::::::::::::::::::::::")
             var msg=JSON(data)
             print(msg.debugDescription)
-            self.delegate?.socketReceivedMessage("noiambusy",data: data)
+            self.delegate?.socketReceivedMessage("noiambusy",data: data as AnyObject!)
         }
         //calleeisbusy
         socketObj.socket.on("calleeisbusy"){data,ack in
@@ -380,7 +380,7 @@ class LoginAPI{
             print(":::::::::::::::::::::::::::::::::::")
             var msg=JSON(data)
             print(msg.debugDescription)
-            self.delegate?.socketReceivedMessage("calleeisbusy",data: data)
+            self.delegate?.socketReceivedMessage("calleeisbusy",data: data as AnyObject!)
         }
         
         
@@ -390,7 +390,7 @@ class LoginAPI{
             print(":::::::::::::::::::::::::::::::::::")
             var msg=JSON(data)
             print(msg.debugDescription)
-            self.delegate?.socketReceivedMessage("offline",data: data)
+            self.delegate?.socketReceivedMessage("offline",data: data as AnyObject!)
         }
         
         socketObj.socket.on("messageStatusUpdate"){data,ack in
@@ -543,7 +543,7 @@ class LoginAPI{
             // declared system sound here
             //let systemSoundID: SystemSoundID = 1104
             // create a sound ID, in this case its the tweet sound.
-            var state=UIApplication.sharedApplication().applicationState
+            var state=UIApplication.shared.applicationState
             
             //UIApplicationState state = [[UIApplication sharedApplication] applicationState];
             
@@ -581,7 +581,7 @@ class LoginAPI{
             //print("you onlineeee \(ack)")
             print("you onlineeee \(ack)")
             globalChatRoomJoined = true
-            self.delegate?.socketReceivedMessage("youareonline",data: data)
+            self.delegate?.socketReceivedMessage("youareonline",data: data as AnyObject!)
         }
         /*
         socketObj.socket.on("message"){data,ack in
@@ -697,7 +697,7 @@ class LoginAPI{
             //-----------------------
             socketObj.socket.on("msg"){data,ack in
                 
-                self.delegateWebRTC.socketReceivedMSGWebRTC("msg", data: data)
+                self.delegateWebRTC.socketReceivedMSGWebRTC("msg", data: data as AnyObject!)
                 
                 print("msg reeived.. check if offer answer or ice")
                 
@@ -782,7 +782,7 @@ class LoginAPI{
             /////////////////////////////////////
             socketObj.socket.on("peer.connected"){data,ack in
                 print("received peer.connected obj from server")
-                self.delegateWebRTC.socketReceivedOtherWebRTC("peer.connected", data: data)
+                self.delegateWebRTC.socketReceivedOtherWebRTC("peer.connected", data: data as AnyObject!)
                 
                 //Both joined same room
                 /*
@@ -815,7 +815,7 @@ class LoginAPI{
             socketObj.socket.on("conference.stream"){data,ack in
                 
                 print("received conference.stream obj from server")
-                self.delegateWebRTC.socketReceivedOtherWebRTC("conference.stream", data: data)
+                self.delegateWebRTC.socketReceivedOtherWebRTC("conference.stream", data: data as AnyObject!)
                 var datajson=JSON(data)
                 print(datajson.debugDescription)
                 /*if(datajson[0]["username"].debugDescription != username! && datajson[0]["type"].debugDescription == "video" && self.rtcVideoTrackReceived != nil)
@@ -849,7 +849,7 @@ class LoginAPI{
                 var datajson=JSON(data)
                 print(datajson.debugDescription)
                 
-                self.delegateWebRTC.socketReceivedOtherWebRTC("peer.disconnected", data: data)
+                self.delegateWebRTC.socketReceivedOtherWebRTC("peer.disconnected", data: data as AnyObject!)
                 
             }
             
@@ -863,7 +863,7 @@ class LoginAPI{
                 
                 if(self.delegateWebRTC != nil){
                     print("insidee hereeee")
-                    self.delegateWebRTC.socketReceivedMessageWebRTC("message",data: data)
+                    self.delegateWebRTC.socketReceivedMessageWebRTC("message",data: data as AnyObject!)
                     var msg=JSON(data)
                     print(msg.debugDescription)
 
@@ -975,7 +975,7 @@ class LoginAPI{
             //-----------------
             socketObj.socket.on("msgAudio"){data,ack in
                 
-                self.delegateWebRTC.socketReceivedMSGWebRTC("msgAudio", data: data)
+                self.delegateWebRTC.socketReceivedMSGWebRTC("msgAudio", data: data as AnyObject!)
                 
                 print("msgAudio reeived.. check if offer answer or ice")
  
@@ -996,7 +996,7 @@ class LoginAPI{
             
             socketObj.socket.on("peer.connected.new"){data,ack in
                 print("received peer.connected.new obj from server")
-                self.delegateWebRTC.socketReceivedOtherWebRTC("peer.connected.new", data: data)
+                self.delegateWebRTC.socketReceivedOtherWebRTC("peer.connected.new", data: data as AnyObject!)
                 
                 //Both joined same room
             }
@@ -1004,7 +1004,7 @@ class LoginAPI{
             socketObj.socket.on("conference.stream"){data,ack in
                 
                 print("received conference.stream obj from server")
-                self.delegateWebRTC.socketReceivedOtherWebRTC("conference.stream", data: data)
+                self.delegateWebRTC.socketReceivedOtherWebRTC("conference.stream", data: data as AnyObject!)
                 
             }
             /*socketObj.socket.on("conference.streamVideo"){data,ack in
@@ -1026,7 +1026,7 @@ class LoginAPI{
                 var datajson=JSON(data)
                 print(datajson.debugDescription)
                 
-                self.delegateWebRTC.socketReceivedOtherWebRTC("peer.disconnected.new", data: data)
+                self.delegateWebRTC.socketReceivedOtherWebRTC("peer.disconnected.new", data: data as AnyObject!)
                 
             }
             
@@ -1130,11 +1130,11 @@ class LoginAPI{
         return self.socket
     }
     
-    func registerWithRoomId(roomId:NSString,clientId:NSString)
+    func registerWithRoomId(_ roomId:NSString,clientId:NSString)
     {
         
     }
-    func sendMessage(msg:String,para:[AnyObject]!)
+    func sendMessage(_ msg:String,para:[AnyObject]!)
     {
         socket.emit(msg, para)
         print("Socket emitted \(msg) \(para.debugDescription)", terminator: "")
@@ -1142,7 +1142,7 @@ class LoginAPI{
 }
     
     
-    func sendMessagesOfMessageType(msg:String)
+    func sendMessagesOfMessageType(_ msg:String)
     {
         print("inside sendMessagesOfMessageType func \(msg)", terminator: "")
         //var str=msg
@@ -1528,7 +1528,7 @@ class LoginAPI{
     */
     
     
-    func fetchSingleChatMessage(uniqueid:String)
+    func fetchSingleChatMessage(_ uniqueid:String)
     {
         print("uniqueid of single chat is \(uniqueid)")
         
@@ -1536,14 +1536,14 @@ class LoginAPI{
         
         print("inside fetch single chat")
         if(accountKit == nil){
-            accountKit = AKFAccountKit(responseType: AKFResponseType.AccessToken)
+            accountKit = AKFAccountKit(responseType: AKFResponseType.accessToken)
         }
         
         if (accountKit!.currentAccessToken == nil) {
             
             print("inside etch single 1462")
             //specify AKFResponseType.AccessToken
-            accountKit = AKFAccountKit(responseType: AKFResponseType.AccessToken)
+            accountKit = AKFAccountKit(responseType: AKFResponseType.accessToken)
             accountKit.requestAccount{
                 (account, error) -> Void in
                 
@@ -1595,20 +1595,20 @@ class LoginAPI{
 
 protocol UpdateChatDelegate:class
 {
-     func socketReceivedMessageChat(message:String,data:AnyObject!);
+     func socketReceivedMessageChat(_ message:String,data:AnyObject!);
 }
 
 protocol ChatAppSocketDelegate
 {
-    func channel(channel:SocketIOClient ,didChangeState state:ChatAppSocketChannelState);
-     func channel(channel:SocketIOClient,didReceiveMessage message:String);
+    func channel(_ channel:SocketIOClient ,didChangeState state:ChatAppSocketChannelState);
+     func channel(_ channel:SocketIOClient,didReceiveMessage message:String);
     //socket.on(message
    
 }
 protocol SocketClientDelegate:class
 {
-    func socketReceivedMessage(message:String,data:AnyObject!);
-    func socketReceivedSpecialMessage(message:String,params:JSON!)
+    func socketReceivedMessage(_ message:String,data:AnyObject!);
+    func socketReceivedSpecialMessage(_ message:String,params:JSON!)
     
     /*
     
@@ -1622,18 +1622,18 @@ protocol SocketClientDelegate:class
 }
 protocol SocketClientDelegateWebRTC:class
 {
-    func socketReceivedMSGWebRTC(message:String,data:AnyObject!);
-    func socketReceivedOtherWebRTC(message:String,data:AnyObject!);
-    func socketReceivedMessageWebRTC(message:String,data:AnyObject!);
+    func socketReceivedMSGWebRTC(_ message:String,data:AnyObject!);
+    func socketReceivedOtherWebRTC(_ message:String,data:AnyObject!);
+    func socketReceivedMessageWebRTC(_ message:String,data:AnyObject!);
     
     
 }
 
 protocol SocketClientDelegateWebRTCVideo:class
 {
-    func socketReceivedMSGWebRTCVideo(message:String,data:AnyObject!);
-    func socketReceivedOtherWebRTCVideo(message:String,data:AnyObject!);
-    func socketReceivedMessageWebRTCVideo(message:String,data:AnyObject!);
+    func socketReceivedMSGWebRTCVideo(_ message:String,data:AnyObject!);
+    func socketReceivedOtherWebRTCVideo(_ message:String,data:AnyObject!);
+    func socketReceivedMessageWebRTCVideo(_ message:String,data:AnyObject!);
     
     
 }

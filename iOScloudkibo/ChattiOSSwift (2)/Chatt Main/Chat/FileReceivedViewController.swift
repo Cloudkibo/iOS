@@ -14,7 +14,7 @@ class FileReceivedViewController: UIViewController,UIDocumentInteractionControll
     @IBOutlet weak var btnFilePreview: UIButton!
     var documentInteractionController:UIDocumentInteractionController!
     var delegateFileReceived:FileReceivedAlertDelegate!
-    var fileURL:NSURL!
+    var fileURL:URL!
     var videoCont:VideoViewController!
     
     override func viewDidLoad() {
@@ -27,7 +27,7 @@ class FileReceivedViewController: UIViewController,UIDocumentInteractionControll
         
     }
 
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         
         //videoCont=storyboard?.instantiateViewControllerWithIdentifier("MainV2") as! VideoViewController
         //videoCont.delegateFileReceived=self
@@ -36,8 +36,8 @@ class FileReceivedViewController: UIViewController,UIDocumentInteractionControll
     //var documentInteractionController = UIDocumentInteractionController().delegate=self
     
     
-    @IBAction func btn_backPressed(sender: AnyObject) {
-        self.dismissViewControllerAnimated(true) { () -> Void in
+    @IBAction func btn_backPressed(_ sender: AnyObject) {
+        self.dismiss(animated: true) { () -> Void in
             
             
         }
@@ -49,47 +49,47 @@ class FileReceivedViewController: UIViewController,UIDocumentInteractionControll
     func saveToiCloud()
     
     {
-           let filemgr = NSFileManager.init()
-        var ubiquityURL=filemgr.URLForUbiquityContainerIdentifier("iCloud.iCloud.MyAppTemplates.cloudkibo")
+           let filemgr = FileManager.init()
+        var ubiquityURL=filemgr.url(forUbiquityContainerIdentifier: "iCloud.iCloud.MyAppTemplates.cloudkibo")
         
         print("number 1 is \(ubiquityURL)")
-        ubiquityURL=ubiquityURL!.URLByAppendingPathComponent("Documents", isDirectory: true)
-        ubiquityURL=ubiquityURL!.URLByAppendingPathComponent("\(filejustreceivednameToSave)")
+        ubiquityURL=ubiquityURL!.appendingPathComponent("Documents", isDirectory: true)
+        ubiquityURL=ubiquityURL!.appendingPathComponent("\(filejustreceivednameToSave)")
         print("number 4 is \(ubiquityURL)")
         
-        var documentURL=filejustreceivedPathURL //this is full path
+        let documentURL=filejustreceivedPathURL //this is full path
         
         ///////   if let ubiquityURL = ubiquityURL {
-    var error:NSError?
+    let error:NSError?
     var isDir:ObjCBool = false
-    if (filemgr.fileExistsAtPath(ubiquityURL!.path!, isDirectory: &isDir)) {
+    if (filemgr.fileExists(atPath: ubiquityURL!.path, isDirectory: &isDir)) {
     /*do{try filemgr.removeItemAtURL(ubiquityURL!)}
      catch{
      print("error removing file")
      }*/
-    dispatch_async(dispatch_get_main_queue(),{
-    var alert = UIAlertController(title: "Error", message: "File with the name \(filejustreceivednameToSave) already exists. Please enter new name of file" , preferredStyle: .Alert)
+    DispatchQueue.main.async(execute: {
+    let alert = UIAlertController(title: "Error", message: "File with the name \(filejustreceivednameToSave) already exists. Please enter new name of file" , preferredStyle: .alert)
     
     //2. Add the text field. You can configure it however you need.
-    alert.addTextFieldWithConfigurationHandler({ (textField) -> Void in
+    alert.addTextField(configurationHandler: { (textField) -> Void in
     textField.text = ""
     })
     
     
     //3. Grab the value from the text field, and print it when the user clicks OK.
-    alert.addAction(UIAlertAction(title: "OK", style: .Default, handler: { (action) -> Void in
+    alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { (action) -> Void in
     let textField = alert.textFields![0] as UITextField
     print("Text field: \(textField.text)")
     var newfilenamegot=textField.text!
         
-    var indExt=filejustreceivednameToSave.characters.indexOf(".")
-    var filetype=filejustreceivednameToSave.substringFromIndex(indExt!)
+    let indExt=filejustreceivednameToSave.characters.index(of: ".")
+    let filetype=filejustreceivednameToSave.substring(from: indExt!)
         
-        var indExtNewName=newfilenamegot.characters.indexOf(".")
+        let indExtNewName=newfilenamegot.characters.index(of: ".")
         
         if(newfilenamegot.characters.contains("."))
         {
-        newfilenamegot=newfilenamegot.substringToIndex(indExtNewName!)
+        newfilenamegot=newfilenamegot.substring(to: indExtNewName!)
         }
         print("newfilenamegot is \(newfilenamegot)")
         ////filejustreceivednameToSave=textField.text!+filetype
@@ -99,7 +99,7 @@ class FileReceivedViewController: UIViewController,UIDocumentInteractionControll
     }))
     
     // 4. Present the alert.
-    self.presentViewController(alert, animated: true, completion:
+    self.present(alert, animated: true, completion:
     {
     
     
@@ -113,11 +113,11 @@ class FileReceivedViewController: UIViewController,UIDocumentInteractionControll
     
     do{if (error == nil) {
     print("copying file to icloud")
-    var ans=try filemgr.copyItemAtURL(documentURL!, toURL: ubiquityURL!)
+    var ans=try filemgr.copyItem(at: documentURL! as URL, to: ubiquityURL!)
         
-        let alert = UIAlertController(title: "Success", message: "Your file \(filejustreceivednameToSave) has been successfully saved to iCloud Drive", preferredStyle: UIAlertControllerStyle.Alert)
-        alert.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.Default, handler: nil))
-        self.presentViewController(alert, animated: true, completion: {
+        let alert = UIAlertController(title: "Success", message: "Your file \(filejustreceivednameToSave) has been successfully saved to iCloud Drive", preferredStyle: UIAlertControllerStyle.alert)
+        alert.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.default, handler: nil))
+        self.present(alert, animated: true, completion: {
             
             
         })
@@ -129,9 +129,9 @@ class FileReceivedViewController: UIViewController,UIDocumentInteractionControll
     catch{
     //print("error anssss is \(ans)")
     print("error is \(error)")
-    let alert = UIAlertController(title: "Cancel", message: "\(error)", preferredStyle: UIAlertControllerStyle.Alert)
-    alert.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.Default, handler: nil))
-    self.presentViewController(alert, animated: true, completion: {
+    let alert = UIAlertController(title: "Cancel", message: "\(error)", preferredStyle: UIAlertControllerStyle.alert)
+    alert.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.default, handler: nil))
+    self.present(alert, animated: true, completion: {
     
     
     })
@@ -144,18 +144,18 @@ class FileReceivedViewController: UIViewController,UIDocumentInteractionControll
     func didReceiveFileConference()
     {
         //videoCont.btnViewFile.enabled=true
-        let alert = UIAlertController(title: "Success", message: "You have received a new file. You can view files by clicking on \"View\" button present on Main conference page.", preferredStyle: UIAlertControllerStyle.Alert)
-        alert.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.Default, handler: nil))
-        self.presentViewController(alert, animated: true, completion: nil)
+        let alert = UIAlertController(title: "Success", message: "You have received a new file. You can view files by clicking on \"View\" button present on Main conference page.", preferredStyle: UIAlertControllerStyle.alert)
+        alert.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.default, handler: nil))
+        self.present(alert, animated: true, completion: nil)
     }
     
     
     
-    @IBAction func btnFileOpenPressed(sender: AnyObject) {
+    @IBAction func btnFileOpenPressed(_ sender: AnyObject) {
         
         
         
-        let filemgr = NSFileManager.init()
+        let filemgr = FileManager.init()
         //let filemgr = NSFileManager.defaultManager()
         var error: NSError?
         /*
@@ -184,20 +184,20 @@ class FileReceivedViewController: UIViewController,UIDocumentInteractionControll
         
         
         
-         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0))
+         DispatchQueue.global(priority: DispatchQueue.GlobalQueuePriority.default).async
             {
                 () -> Void in
-        var rootDirect=filemgr.URLForUbiquityContainerIdentifier(nil)?.URLByAppendingPathComponent("Documents")
+        let rootDirect=filemgr.url(forUbiquityContainerIdentifier: nil)?.appendingPathComponent("Documents")
         if((rootDirect) != nil)
         {
-            if((filemgr.fileExistsAtPath(rootDirect!.description, isDirectory: nil)) == false)
+            if((filemgr.fileExists(atPath: rootDirect!.description, isDirectory: nil)) == false)
             {
                 print("create directory")
                 //var cloudDirect=rootDirect!.URLByAppendingPathComponent("cloudkibo")
                 
-                var cloudDirect=filemgr.URLForUbiquityContainerIdentifier(nil)!.URLByAppendingPathComponent("cloudkibo2")
+                let cloudDirect=filemgr.url(forUbiquityContainerIdentifier: nil)!.appendingPathComponent("cloudkibo2")
                 do{
-                var directAns = try filemgr.createDirectoryAtURL(cloudDirect, withIntermediateDirectories: true, attributes: nil)
+                let directAns = try filemgr.createDirectory(at: cloudDirect, withIntermediateDirectories: true, attributes: nil)
                     print("cloudDirect is \(cloudDirect)")
                     print("directAns is \(directAns)")
                 }catch{
@@ -219,14 +219,14 @@ class FileReceivedViewController: UIViewController,UIDocumentInteractionControll
 
         */
                 
-        var ubiquityURL=filemgr.URLForUbiquityContainerIdentifier("iCloud.iCloud.MyAppTemplates.cloudkibo")
+        var ubiquityURL=filemgr.url(forUbiquityContainerIdentifier: "iCloud.iCloud.MyAppTemplates.cloudkibo")
         
         print("number 1 is \(ubiquityURL)")
-        ubiquityURL=ubiquityURL!.URLByAppendingPathComponent("Documents", isDirectory: true)
+        ubiquityURL=ubiquityURL!.appendingPathComponent("Documents", isDirectory: true)
         //print("number 2 is \(ubiquityURL)")
         ///ubiquityURL=ubiquityURL!.URLByAppendingPathComponent("cloudkibo2", isDirectory: true)
         //print("number 3 is \(ubiquityURL)")
-        ubiquityURL=ubiquityURL!.URLByAppendingPathComponent("\(filejustreceivedname)")
+        ubiquityURL=ubiquityURL!.appendingPathComponent("\(filejustreceivedname)")
         print("number 4 is \(ubiquityURL)")
         
         var documentURL=filejustreceivedPathURL
@@ -502,28 +502,28 @@ println("iCloud create failed")
 }
 */
 
-    @IBAction func btnFilePreviewPressed(sender: AnyObject) {
+    @IBAction func btnFilePreviewPressed(_ sender: AnyObject) {
         //preview
-        let dirPaths = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)
+        let dirPaths = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)
         let docsDir1 = dirPaths[0]
-        var documentDir=docsDir1 as NSString
+        let documentDir=docsDir1 as NSString
         print("\(username!) received file \(filejustreceivedname). trying to preview")
-        var filePathImage2=documentDir.stringByAppendingPathComponent(filejustreceivedname!)
+        let filePathImage2=documentDir.appendingPathComponent(filejustreceivedname!)
         
-        fileURL=NSURL(fileURLWithPath: filePathImage2)
-        var documentInteractionController = UIDocumentInteractionController(URL: fileURL)
+        fileURL=URL(fileURLWithPath: filePathImage2)
+        let documentInteractionController = UIDocumentInteractionController(url: fileURL)
         documentInteractionController.delegate=self
-        documentInteractionController.presentPreviewAnimated(true)
+        documentInteractionController.presentPreview(animated: true)
         
         
     }
     
-    @IBAction func btnSaveToOtherLocPressed(sender: AnyObject) {
+    @IBAction func btnSaveToOtherLocPressed(_ sender: AnyObject) {
         
-        var documentURL=filejustreceivedPathURL
-        documentInteractionController = UIDocumentInteractionController(URL: documentURL)
+        let documentURL=filejustreceivedPathURL
+        documentInteractionController = UIDocumentInteractionController(url: documentURL as! URL)
         documentInteractionController.delegate=self
-        documentInteractionController.presentOpenInMenuFromRect(CGRect(x: 20, y: 100, width: 300, height: 200), inView: self.view, animated: true)
+        documentInteractionController.presentOpenInMenu(from: CGRect(x: 20, y: 100, width: 300, height: 200), in: self.view, animated: true)
     }
  
     
@@ -532,21 +532,21 @@ println("iCloud create failed")
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-    func documentInteractionControllerViewControllerForPreview(controller: UIDocumentInteractionController) -> UIViewController {
+    func documentInteractionControllerViewControllerForPreview(_ controller: UIDocumentInteractionController) -> UIViewController {
         
         return self
     }
 
-    func documentInteractionControllerDidEndPreview(controller: UIDocumentInteractionController) {
+    func documentInteractionControllerDidEndPreview(_ controller: UIDocumentInteractionController) {
         
         documentInteractionController=nil
     }
     
     
     
-    func moveToiCloud(filetosave:NSURL)
+    func moveToiCloud(_ filetosave:URL)
     {
-        var sourceURL:NSURL=filetosave
+        var sourceURL:URL=filetosave
         //NSString destFileName
     }
     

@@ -12,10 +12,10 @@ struct NotificationItem {
     var type:String
     var message: String
     var otherUserName:String
-    var deadline: NSDate
+    var deadline: Date
     var UUID: String
     
-    init(otherUserName: String, message: String, type:String, UUID: String,deadline:NSDate) {
+    init(otherUserName: String, message: String, type:String, UUID: String,deadline:Date) {
         self.otherUserName = otherUserName
         self.message = message
         self.UUID = UUID

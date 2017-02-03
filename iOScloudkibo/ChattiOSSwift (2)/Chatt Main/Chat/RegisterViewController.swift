@@ -44,20 +44,20 @@ class RegisterViewController: UIViewController,UITextFieldDelegate {
         // Do any additional setup after loading the view.
     }
 
-    @IBAction func backBtnRegister(sender: AnyObject) {
-        self.dismissViewControllerAnimated(true) { () -> Void in
+    @IBAction func backBtnRegister(_ sender: AnyObject) {
+        self.dismiss(animated: true) { () -> Void in
             
             
         }
     }
-    @IBAction func btnRegisterTapped(sender: AnyObject) {
+    @IBAction func btnRegisterTapped(_ sender: AnyObject) {
         
         var url=Constants.MainUrl+Constants.createNewUser
         KeychainWrapper.setString(txtPassword.text!, forKey: "password")
         var param:[String:String]=["username": txtUsername.text!,"password":txtPassword.text!,"firstname":txtFirstname.text!,"lastname":txtLastname.text!,"phone":txtPhone.text!,"email":txtEmail.text!]
         
         
-        var param2:[String:AnyObject]=["username":"\(txtUsername.text!)","password":"\(txtPassword.text!)","firstname":"\(txtFirstname.text!)","lastname":"\(txtLastname.text)","phone":"\(txtPhone.text!)","email":"\(txtEmail.text!)"]
+        var param2:[String:AnyObject]=["username":"\(txtUsername.text!)" as AnyObject,"password":"\(txtPassword.text!)" as AnyObject,"firstname":"\(txtFirstname.text!)" as AnyObject,"lastname":"\(txtLastname.text)" as AnyObject,"phone":"\(txtPhone.text!)" as AnyObject,"email":"\(txtEmail.text!)" as AnyObject]
         /*var fff=JSONStringify(param2, prettyPrinted: false)
         var okk=JSON(param2)
         var okkpretty=JSONStringify(okk.object, prettyPrinted: false)
@@ -66,7 +66,7 @@ class RegisterViewController: UIViewController,UITextFieldDelegate {
         //var registerParams=["user":json.object]
         var pp="{\"user\":[{\"username\":\(txtUsername.text!),\"password\":\(txtPassword.text!),\"firstname\":\(txtFirstname.text!),\"lastname\":\(txtLastname.text!),\"phone\":\(txtPhone.text!),\"email\":\(txtEmail.text!)}]}"
         var jj=JSON(pp)
-        var ppdata = pp.dataUsingEncoding(NSUTF8StringEncoding)
+        var ppdata = pp.data(using: String.Encoding.utf8)
         let ppjson = JSON(data: ppdata!)
         
         print(pp, terminator: "")
@@ -319,37 +319,37 @@ class RegisterViewController: UIViewController,UITextFieldDelegate {
         // Dispose of any resources that can be recreated.
     }
     
-    func textFieldDidBeginEditing(textField: UITextField) {
+    func textFieldDidBeginEditing(_ textField: UITextField) {
         
         
     }
-    func textFieldDidEndEditing(textField: UITextField) {
+    func textFieldDidEndEditing(_ textField: UITextField) {
         
         
     }
-    func textFieldShouldBeginEditing(textField: UITextField) -> Bool {
+    func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
         return true
 
         
     }
     
-    func textFieldShouldClear(textField: UITextField) -> Bool {
+    func textFieldShouldClear(_ textField: UITextField) -> Bool {
         return true
 
         
     }
-    func textFieldShouldEndEditing(textField: UITextField) -> Bool {
+    func textFieldShouldEndEditing(_ textField: UITextField) -> Bool {
         return true
 
         
     }
     
-    func textFieldShouldReturn(textField: UITextField) -> Bool {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
         return true;
         
     }
-    func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange, replacementString string: String) -> Bool {
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         
         return true
 

@@ -23,24 +23,24 @@ class NewGroupSetDetails: UITableViewController,UINavigationControllerDelegate,U
     var fileSize1:UInt64=0
     var filePathImage:String!
     ////** new commented april 2016var fileSize:Int!
-    var fileContents:NSData!
+    var fileContents:Data!
     
     var file_name1=""
     var uniqueid=""
     var groupname=""
    /// @IBOutlet weak var txtFieldGroupName: UITextField!
-    var imgdata=NSData.init()
+    var imgdata=Data.init()
    // var participants=[CNContact]()
     var participants=[EPContact]()
        @IBOutlet var tblNewGroupDetails: UITableView!
-    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
         return 2
     }
     
-    func textFieldShouldReturn (textField: UITextField!) -> Bool{
+    func textFieldShouldReturn (_ textField: UITextField!) -> Bool{
         
-        var cell=tblNewGroupDetails.cellForRowAtIndexPath(NSIndexPath(forRow: 0, inSection: 0)) as! ContactsListCell
+        let cell=tblNewGroupDetails.cellForRow(at: IndexPath(row: 0, section: 0)) as! ContactsListCell
         
         cell.groupNameFieldOutlet.resignFirstResponder()
         return true
@@ -48,7 +48,7 @@ class NewGroupSetDetails: UITableViewController,UINavigationControllerDelegate,U
     }
     
    
-    func textFieldDidChange(textField: UITextField) {
+    func textFieldDidChange(_ textField: UITextField) {
         print("textfield editing")
     //var cell=tblNewGroupDetails.cellForRowAtIndexPath(NSIndexPath(forRow: 0, inSection: 0)) as! ContactsListCell
        // let cell=tblNewGroupDetails.dequeueReusableCellWithIdentifier("NewGroupDetailsCell") as! ContactsListCell
@@ -56,29 +56,29 @@ class NewGroupSetDetails: UITableViewController,UINavigationControllerDelegate,U
     if(!textField.text!.isEmpty)
     {
         
-    btnCreateGroupOutlet.enabled = true
+    btnCreateGroupOutlet.isEnabled = true
     
     }
     else
     {
-    btnCreateGroupOutlet.enabled = false
+    btnCreateGroupOutlet.isEnabled = false
     }
 }
     
-    @IBAction func btnCreateGroupDone(sender: AnyObject) {
+    @IBAction func btnCreateGroupDone(_ sender: AnyObject) {
         //create group
         //save data in sqlite
         
         var uid=randomStringWithLength(7)
         
-        var date=NSDate()
-        var calendar = NSCalendar.currentCalendar()
-        var year=calendar.components(NSCalendarUnit.Year,fromDate: date).year
-        var month=calendar.components(NSCalendarUnit.Month,fromDate: date).month
-        var day=calendar.components(.Day,fromDate: date).day
-        var hr=calendar.components(NSCalendarUnit.Hour,fromDate: date).hour
-        var min=calendar.components(NSCalendarUnit.Minute,fromDate: date).minute
-        var sec=calendar.components(NSCalendarUnit.Second,fromDate: date).second
+        var date=Date()
+        var calendar = Calendar.current
+        var year=(calendar as NSCalendar).components(NSCalendar.Unit.year,from: date).year
+        var month=(calendar as NSCalendar).components(NSCalendar.Unit.month,from: date).month
+        var day=(calendar as NSCalendar).components(.day,from: date).day
+        var hr=(calendar as NSCalendar).components(NSCalendar.Unit.hour,from: date).hour
+        var min=(calendar as NSCalendar).components(NSCalendar.Unit.minute,from: date).minute
+        var sec=(calendar as NSCalendar).components(NSCalendar.Unit.second,from: date).second
         print("\(year) \(month) \(day) \(hr) \(min) \(sec)")
         uniqueid="\(uid)\(year)\(month)\(day)\(hr)\(min)\(sec)"
         
@@ -88,13 +88,13 @@ class NewGroupSetDetails: UITableViewController,UINavigationControllerDelegate,U
         
        // let cell=tblNewGroupDetails.dequeueReusableCellWithIdentifier("NewGroupDetailsCell") as! ContactsListCell
       //  "NewGroupParticipantsCell"
-        var cell=tblNewGroupDetails.cellForRowAtIndexPath(NSIndexPath(forRow: 0, inSection: 0)) as! ContactsListCell
+        var cell=tblNewGroupDetails.cellForRow(at: IndexPath(row: 0, section: 0)) as! ContactsListCell
         
         groupname=cell.groupNameFieldOutlet.text!
         
         var memberphones=[String]()
         var membersnames=[String]()
-        for(var i=0;i<participants.count;i++)
+        for(i in 0 ..< participants.count)
         {
             memberphones.append(participants[i].getPhoneNumber())
             membersnames.append(participants[i].displayName())
@@ -109,7 +109,7 @@ class NewGroupSetDetails: UITableViewController,UINavigationControllerDelegate,U
         
         var myname=""
         let tbl_accounts = sqliteDB.accounts
-        do{for account in try sqliteDB.db.prepare(tbl_accounts) {
+        do{for account in try sqliteDB.db.prepare(tbl_accounts!) {
             myname=account[firstname]
             username=account[phone]
             
@@ -157,13 +157,13 @@ class NewGroupSetDetails: UITableViewController,UINavigationControllerDelegate,U
         
     }
     
-    func createGroupAPI(groupname:String,members:[String],uniqueid:String)
+    func createGroupAPI(_ groupname:String,members:[String],uniqueid:String)
     {
         //show progress wheen somewhere
        
        // var memberphones=[String]()
         var membersnames=[String]()
-        for(var i=0;i<participants.count;i++)
+        for(i in 0 ..< participants.count)
         {
           //  memberphones.append(participants[i].getPhoneNumber())
             membersnames.append(participants[i].displayName())
@@ -349,22 +349,22 @@ class NewGroupSetDetails: UITableViewController,UINavigationControllerDelegate,U
     }
     
        
-    func randomStringWithLength (len : Int) -> NSString {
+    func randomStringWithLength (_ len : Int) -> NSString {
         
         let letters : NSString = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
         
         let randomString : NSMutableString = NSMutableString(capacity: len)
         
-        for (var i=0; i < len; i++){
+        for (i in 0 ..< len){
             let length = UInt32 (letters.length)
             let rand = arc4random_uniform(length)
-            randomString.appendFormat("%C", letters.characterAtIndex(Int(rand)))
+            randomString.appendFormat("%C", letters.character(at: Int(rand)))
         }
         
         return randomString
     }
     
-    func ResizeImage(image: UIImage, targetSize: CGSize) -> UIImage {
+    func ResizeImage(_ image: UIImage, targetSize: CGSize) -> UIImage {
         let size = image.size
         
         let widthRatio  = targetSize.width  / image.size.width
@@ -373,37 +373,37 @@ class NewGroupSetDetails: UITableViewController,UINavigationControllerDelegate,U
         // Figure out what our orientation is, and use that to form the rectangle
         var newSize: CGSize
         if(widthRatio > heightRatio) {
-            newSize = CGSizeMake(size.width * heightRatio, size.height * heightRatio)
+            newSize = CGSize(width: size.width * heightRatio, height: size.height * heightRatio)
         } else {
-            newSize = CGSizeMake(size.width * widthRatio,  size.height * widthRatio)
+            newSize = CGSize(width: size.width * widthRatio,  height: size.height * widthRatio)
         }
         
         // This is the rect that we've calculated out and this is what is actually used below
-        let rect = CGRectMake(0, 0, newSize.width, newSize.height)
+        let rect = CGRect(x: 0, y: 0, width: newSize.width, height: newSize.height)
         
         // Actually do the resizing to the rect using the ImageContext stuff
         UIGraphicsBeginImageContextWithOptions(newSize, false, 1.0)
-        image.drawInRect(rect)
+        image.draw(in: rect)
         let newImage = UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsEndImageContext()
         
-        return newImage
+        return newImage!
     }
     
-    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if(indexPath.row==0)
         {
-        let cell=tblNewGroupDetails.dequeueReusableCellWithIdentifier("NewGroupDetailsCell") as! ContactsListCell
+        let cell=tblNewGroupDetails.dequeueReusableCell(withIdentifier: "NewGroupDetailsCell") as! ContactsListCell
         "NewGroupParticipantsCell"
             
             cell.groupNameFieldOutlet.delegate=self
-            cell.groupNameFieldOutlet.addTarget(self, action: "textFieldDidChange:", forControlEvents: UIControlEvents.EditingChanged)
-            cell.btn_edit_profilePic.hidden=true
+            cell.groupNameFieldOutlet.addTarget(self, action: #selector(NewGroupSetDetails.textFieldDidChange(_:)), for: UIControlEvents.editingChanged)
+            cell.btn_edit_profilePic.isHidden=true
             groupname=cell.groupNameFieldOutlet.text!
-            if(imgdata != NSData.init())
+            if(imgdata != Data.init())
             {
-                cell.btn_edit_profilePic.hidden=false
-                var tempimg=UIImage(data: imgdata)
+                cell.btn_edit_profilePic.isHidden=false
+                let tempimg=UIImage(data: imgdata)
               /* var s = CGSizeMake(cell.profilePicCameraOutlet.frame.width, cell.profilePicCameraOutlet.frame.height)
                 var newimg=ResizeImage(tempimg!, targetSize: s)
                 cell.profilePicCameraOutlet.layer.masksToBounds = true
@@ -420,16 +420,16 @@ class NewGroupSetDetails: UITableViewController,UINavigationControllerDelegate,U
                 
                 cell.profilePicCameraOutlet.layer.borderWidth = 1.0
                 cell.profilePicCameraOutlet.layer.masksToBounds = false
-                cell.profilePicCameraOutlet.layer.borderColor = UIColor.whiteColor().CGColor
+                cell.profilePicCameraOutlet.layer.borderColor = UIColor.white.cgColor
                 cell.profilePicCameraOutlet.layer.cornerRadius = cell.profilePicCameraOutlet.frame.size.width/2
                 cell.profilePicCameraOutlet.clipsToBounds = true
                 
                 
-                var w=tempimg!.size.width
+                let w=tempimg!.size.width
                 var h=tempimg!.size.height
-                var wOld=(cell.profilePicCameraOutlet.frame.width)
+                let wOld=(cell.profilePicCameraOutlet.frame.width)
                 var hOld=(cell.profilePicCameraOutlet.frame.height)
-                var scale:CGFloat=w/wOld
+                let scale:CGFloat=w/wOld
                 
                  cell.profilePicCameraOutlet.image=UIImage(data: imgdata,scale: scale)
               //  cell.profilePicCameraOutlet.image=UIImage(data: imgdata)
@@ -440,33 +440,33 @@ class NewGroupSetDetails: UITableViewController,UINavigationControllerDelegate,U
                 
                 cell.profilePicCameraOutlet.removeGestureRecognizer(tapRecognizerOld)
                 */
-                let tapRecognizer = UITapGestureRecognizer(target: self, action: Selector("imageEditTapped:"))
+                let tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(NewGroupSetDetails.imageEditTapped(_:)))
                 
                 cell.profilePicCameraOutlet.addGestureRecognizer(tapRecognizer)
                
-                let tapRecognizer2 = UITapGestureRecognizer(target: self, action: Selector("imageEditTapped:"))
+                let tapRecognizer2 = UITapGestureRecognizer(target: self, action: #selector(NewGroupSetDetails.imageEditTapped(_:)))
                 cell.btn_edit_profilePic.addGestureRecognizer(tapRecognizer2)
             }
             else
             {
-                var tempimg=UIImage(named:"chat_camera")
+                let tempimg=UIImage(named:"chat_camera")
                 imgdata=UIImagePNGRepresentation(tempimg!)!
                 cell.profilePicCameraOutlet.layer.borderWidth = 1.0
                 cell.profilePicCameraOutlet.layer.masksToBounds = false
-                cell.profilePicCameraOutlet.layer.borderColor = UIColor.whiteColor().CGColor
+                cell.profilePicCameraOutlet.layer.borderColor = UIColor.white.cgColor
                 cell.profilePicCameraOutlet.layer.cornerRadius = cell.profilePicCameraOutlet.frame.size.width/2
                 cell.profilePicCameraOutlet.clipsToBounds = true
                 
                 
-                var w=tempimg!.size.width
+                let w=tempimg!.size.width
                 var h=tempimg!.size.height
-                var wOld=(cell.profilePicCameraOutlet.frame.width)
+                let wOld=(cell.profilePicCameraOutlet.frame.width)
                 var hOld=(cell.profilePicCameraOutlet.frame.height)
-                var scale:CGFloat=wOld/w
+                let scale:CGFloat=wOld/w
                 
                 cell.profilePicCameraOutlet.image=UIImage(data: imgdata,scale: scale)
                 
-            let tapRecognizer = UITapGestureRecognizer(target: self, action: Selector("imageTapped:"))
+            let tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(NewGroupSetDetails.imageTapped(_:)))
             //Add the recognizer to your view.
            // chatImage.addGestureRecognizer(tapRecognizer)
             
@@ -476,7 +476,7 @@ class NewGroupSetDetails: UITableViewController,UINavigationControllerDelegate,U
         return cell
         }
         else{
-            let cell=tblNewGroupDetails.dequeueReusableCellWithIdentifier("NewGroupParticipantsCell") as! ContactsListCell
+            let cell=tblNewGroupDetails.dequeueReusableCell(withIdentifier: "NewGroupParticipantsCell") as! ContactsListCell
             cell.lbl_participantsNumberFromOne.text="PARTICIPANTS \(participants.count) of 256"
             cell.participantsCollection.delegate=self
             cell.participantsCollection.dataSource=self
@@ -486,14 +486,14 @@ class NewGroupSetDetails: UITableViewController,UINavigationControllerDelegate,U
         
     }
     
-    func imageEditTapped(gestureRecognizer: UITapGestureRecognizer) {
+    func imageEditTapped(_ gestureRecognizer: UITapGestureRecognizer) {
         //tappedImageView will be the image view that was tapped.
         //dismiss it, animate it off screen, whatever.
-        let shareMenu = UIAlertController(title: nil, message: nil, preferredStyle: .ActionSheet)
+        let shareMenu = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         
-        let resetImage = UIAlertAction(title: "Reset Image", style: UIAlertActionStyle.Default,handler: { (action) -> Void in
+        let resetImage = UIAlertAction(title: "Reset Image", style: UIAlertActionStyle.default,handler: { (action) -> Void in
             
-            self.imgdata=NSData.init()
+            self.imgdata=Data.init()
             gestureRecognizer.view?.removeGestureRecognizer(gestureRecognizer)
             self.tblNewGroupDetails.reloadData()
             
@@ -502,7 +502,7 @@ class NewGroupSetDetails: UITableViewController,UINavigationControllerDelegate,U
             //call Mute delegate or method
         })
         
-        let SelectImage = UIAlertAction(title: "Select Image", style: UIAlertActionStyle.Default,handler: { (action) -> Void in
+        let SelectImage = UIAlertAction(title: "Select Image", style: UIAlertActionStyle.default,handler: { (action) -> Void in
             
             self.selectImage(gestureRecognizer)
             
@@ -513,7 +513,7 @@ class NewGroupSetDetails: UITableViewController,UINavigationControllerDelegate,U
             //call Mute delegate or method
         })
         
-        let cancel = UIAlertAction(title: "Cancel", style: UIAlertActionStyle.Cancel, handler: { (action) -> Void in
+        let cancel = UIAlertAction(title: "Cancel", style: UIAlertActionStyle.cancel, handler: { (action) -> Void in
             
             // swipeindex=index
             //self.performSegueWithIdentifier("groupInfoSegue", sender: nil)
@@ -525,7 +525,7 @@ class NewGroupSetDetails: UITableViewController,UINavigationControllerDelegate,U
     shareMenu.addAction(SelectImage)
         shareMenu.addAction(cancel)
         
-        self.presentViewController(shareMenu, animated: true) { 
+        self.present(shareMenu, animated: true) { 
             
             
         }
@@ -536,12 +536,12 @@ class NewGroupSetDetails: UITableViewController,UINavigationControllerDelegate,U
         
     }
     
-    func selectImage(gestureRecognizer: UITapGestureRecognizer)
+    func selectImage(_ gestureRecognizer: UITapGestureRecognizer)
     {
         
        let tappedImageView = gestureRecognizer.view
         
-        var picker=UIImagePickerController.init()
+        let picker=UIImagePickerController.init()
         picker.delegate=self
         
         picker.allowsEditing = true;
@@ -552,14 +552,14 @@ class NewGroupSetDetails: UITableViewController,UINavigationControllerDelegate,U
         //savedPhotosAlbum
         // picker.sourceType = UIImagePickerControllerSourceType.PhotoLibrary
         //}
-        picker.sourceType = UIImagePickerControllerSourceType.PhotoLibrary
+        picker.sourceType = UIImagePickerControllerSourceType.photoLibrary
         ////picker.mediaTypes=[kUTTypeMovie as NSString as String,kUTTypeMovie as NSString as String]
         //[self presentViewController:picker animated:YES completion:NULL];
-        dispatch_async(dispatch_get_main_queue())
+        DispatchQueue.main.async
         { () -> Void in
             //  picker.addChildViewController(UILabel("hiiiiiiiiiiiii"))
             
-            self.presentViewController(picker, animated: true,completion: {
+            self.present(picker, animated: true,completion: {
                 print("done choosing image")
 
             tappedImageView!.removeGestureRecognizer(gestureRecognizer)
@@ -569,12 +569,12 @@ class NewGroupSetDetails: UITableViewController,UINavigationControllerDelegate,U
     }
     
     
-    func imageTapped(gestureRecognizer: UITapGestureRecognizer) {
+    func imageTapped(_ gestureRecognizer: UITapGestureRecognizer) {
         //tappedImageView will be the image view that was tapped.
         //dismiss it, animate it off screen, whatever.
         let tappedImageView = gestureRecognizer.view! as! UIImageView
         
-        var picker=UIImagePickerController.init()
+        let picker=UIImagePickerController.init()
         picker.delegate=self
         
         picker.allowsEditing = true;
@@ -585,14 +585,14 @@ class NewGroupSetDetails: UITableViewController,UINavigationControllerDelegate,U
         //savedPhotosAlbum
         // picker.sourceType = UIImagePickerControllerSourceType.PhotoLibrary
         //}
-        picker.sourceType = UIImagePickerControllerSourceType.PhotoLibrary
+        picker.sourceType = UIImagePickerControllerSourceType.photoLibrary
         ////picker.mediaTypes=[kUTTypeMovie as NSString as String,kUTTypeMovie as NSString as String]
         //[self presentViewController:picker animated:YES completion:NULL];
-        dispatch_async(dispatch_get_main_queue())
+        DispatchQueue.main.async
         { () -> Void in
             //  picker.addChildViewController(UILabel("hiiiiiiiiiiiii"))
             
-            self.presentViewController(picker, animated: true, completion: { 
+            self.present(picker, animated: true, completion: { 
                 
                 //new
                 print("removing gesture")
@@ -606,10 +606,10 @@ class NewGroupSetDetails: UITableViewController,UINavigationControllerDelegate,U
         
     }
     
-    func imagePickerControllerDidCancel(picker: UIImagePickerController) {
+    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
         
         
-        self.dismissViewControllerAnimated(true, completion:{ ()-> Void in
+        self.dismiss(animated: true, completion:{ ()-> Void in
             print("cancelled and dismissing image picker")
            // imgdata=NSData.init()
             self.tblNewGroupDetails.reloadData()
@@ -617,18 +617,18 @@ class NewGroupSetDetails: UITableViewController,UINavigationControllerDelegate,U
         
         
     }
-    func imagePickerController(picker: UIImagePickerController, didFinishPickingImage image: UIImage, editingInfo: [String : AnyObject]?) {
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingImage image: UIImage, editingInfo: [String : AnyObject]?) {
         
         
         
         //  var filesizenew=""
         
         
-        let imageUrl          = editingInfo![UIImagePickerControllerReferenceURL] as! NSURL
+        let imageUrl          = editingInfo![UIImagePickerControllerReferenceURL] as! URL
         let imageName         = imageUrl.lastPathComponent
-        let documentDirectory = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true).first as String!
-        let photoURL          = NSURL(fileURLWithPath: documentDirectory)
-        let localPath         = photoURL.URLByAppendingPathComponent(imageName!)
+        let documentDirectory = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true).first as String!
+        let photoURL          = URL(fileURLWithPath: documentDirectory!)
+        let localPath         = photoURL.appendingPathComponent(imageName)
         let image             = editingInfo![UIImagePickerControllerOriginalImage]as! UIImage
         let data              = UIImagePNGRepresentation(image)
         
@@ -637,8 +637,8 @@ class NewGroupSetDetails: UITableViewController,UINavigationControllerDelegate,U
         
        
         
-        if let imageURL = editingInfo![UIImagePickerControllerReferenceURL] as? NSURL {
-            let result = PHAsset.fetchAssetsWithALAssetURLs([imageURL], options: nil)
+        if let imageURL = editingInfo![UIImagePickerControllerReferenceURL] as? URL {
+            let result = PHAsset.fetchAssets(withALAssetURLs: [imageURL], options: nil)
             
             
             self.file_name1 = result.firstObject?.filename ?? ""
@@ -652,7 +652,7 @@ class NewGroupSetDetails: UITableViewController,UINavigationControllerDelegate,U
         
         ///
         
-        var furl=NSURL(string: localPath.URLString)
+        var furl=URL(string: localPath.URLString)
         
         //print(furl!.pathExtension!)
         //print(furl!.URLByDeletingPathExtension?.lastPathComponent!)
@@ -660,17 +660,17 @@ class NewGroupSetDetails: UITableViewController,UINavigationControllerDelegate,U
         var fname=furl!.URLByDeletingPathExtension?.lastPathComponent!
         
         
-        let dirPaths = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)
+        let dirPaths = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)
         let docsDir1 = dirPaths[0]
         var documentDir=docsDir1 as NSString
-        filePathImage2=documentDir.stringByAppendingPathComponent(self.file_name1)
-        var fm=NSFileManager.defaultManager()
+        filePathImage2=documentDir.appendingPathComponent(self.file_name1)
+        var fm=FileManager.default
         
-        var fileAttributes:[String:AnyObject]=["":""]
+        var fileAttributes:[String:AnyObject]=["":"" as AnyObject]
         do {
             /// let fileAttributes : NSDictionary? = try NSFileManager.defaultManager().attributesOfItemAtPath(furl!.path!)
             ///    let fileAttributes : NSDictionary? = try NSFileManager.defaultManager().attributesOfItemAtPath(imageUrl.path!)
-            let fileAttributes : NSDictionary? = try NSFileManager.defaultManager().attributesOfItemAtPath(filePathImage2)
+            let fileAttributes : NSDictionary? = try FileManager.default.attributesOfItem(atPath: filePathImage2) as NSDictionary?
             if let _attr = fileAttributes {
                 self.fileSize1 = _attr.fileSize();
                    }
@@ -682,18 +682,18 @@ class NewGroupSetDetails: UITableViewController,UINavigationControllerDelegate,U
         
         //print("filename is \(self.filename) destination path is \(filePathImage2) image name \(imageName) imageurl \(imageUrl) photourl \(photoURL) localPath \(localPath).. \(localPath.absoluteString)")
         
-        var s=fm.createFileAtPath(filePathImage2, contents: nil, attributes: nil)
+        var s=fm.createFile(atPath: filePathImage2, contents: nil, attributes: nil)
         
         //  var written=fileData!.writeToFile(filePathImage2, atomically: false)
         
         //filePathImage2
         print("before reloading, filePathImage2 is \(filePathImage2)")
-        var written=data!.writeToFile(filePathImage2, atomically: true)
+        var written=(try? data!.write(to: URL(fileURLWithPath: filePathImage2), options: [.atomic])) != nil
         
         ///
         if(written==true)
 {
-        self.dismissViewControllerAnimated(true, completion:{ ()-> Void in
+        self.dismiss(animated: true, completion:{ ()-> Void in
             print("dismissing image picker")
             print("selected image is \(image)")
             self.tblNewGroupDetails.reloadData()
@@ -717,8 +717,8 @@ class NewGroupSetDetails: UITableViewController,UINavigationControllerDelegate,U
         
 
     }
-    override func viewWillAppear(animated: Bool) {
-        let cell=tblNewGroupDetails.dequeueReusableCellWithIdentifier("NewGroupDetailsCell") as! ContactsListCell
+    override func viewWillAppear(_ animated: Bool) {
+        let cell=tblNewGroupDetails.dequeueReusableCell(withIdentifier: "NewGroupDetailsCell") as! ContactsListCell
         //cell=tblNewGroupDetails.cellForRowAtIndexPath(NSIndexPath(forRow: 0, inSection: 0)) as! ContactsListCell
         cell.groupNameFieldOutlet.delegate=self
 
@@ -728,20 +728,20 @@ class NewGroupSetDetails: UITableViewController,UINavigationControllerDelegate,U
     
     override func viewDidLoad() {
           //sqliteDB.db. groups.delete()
-        btnCreateGroupOutlet.enabled=false
+        btnCreateGroupOutlet.isEnabled=false
         
     }
     
     
     
-    override func tableView(tableView: UITableView, willDisplayCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath) {
+    override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         
         guard let tableViewCell = cell as? ContactsListCell else { return }
         
        // tableViewCell.setCollectionViewDataSourceDelegate(self, forRow: indexPath.row)
         
     }
-    override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         if(indexPath.row==0)
         {
         return 150
@@ -781,16 +781,16 @@ class NewGroupSetDetails: UITableViewController,UINavigationControllerDelegate,U
 extension NewGroupSetDetails: UICollectionViewDelegate, UICollectionViewDataSource {
     
   
-    func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return participants.count
     }
-    func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int {
+    func numberOfSections(in collectionView: UICollectionView) -> Int {
         return 1
     }
     
     
     // make a cell for each cell index path
-    func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         print("collectionview...")
         // get a reference to our storyboard cell
         // let cell = collectionView.dequeueReusableCellWithReuseIdentifier("ParticipantsAvatarsCell", forIndexPath: indexPath) as! UICollectionViewCell
@@ -799,7 +799,7 @@ extension NewGroupSetDetails: UICollectionViewDelegate, UICollectionViewDataSour
         
        // let cell = collectionview.participantsCollection.dequeueReusableCellWithReuseIdentifier("ParticipantsAvatarsCell", forIndexPath: indexPath)
         
-        let cell = collectionView.dequeueReusableCellWithReuseIdentifier("ParticipantsAvatarsCell", forIndexPath: indexPath) as! ParticipantsCollectionCell
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ParticipantsAvatarsCell", for: indexPath) as! ParticipantsCollectionCell
        //cell.participantsName.text=participants[indexPath.row].givenName
         cell.participantsName.text=participants[indexPath.row].displayName()
         
@@ -863,7 +863,7 @@ extension NewGroupSetDetails: UICollectionViewDelegate, UICollectionViewDataSour
         }
         }
         catch{
-           var errormsg = UIAlertView(title: "Error", message: "Failed to fetch avatar image", delegate: self, cancelButtonTitle: "Ok")
+           let errormsg = UIAlertView(title: "Error", message: "Failed to fetch avatar image", delegate: self, cancelButtonTitle: "Ok")
             errormsg.show()
             
         }
@@ -913,13 +913,13 @@ extension NewGroupSetDetails: UICollectionViewDelegate, UICollectionViewDataSour
         return cell
     }*/
 
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         
         
         //groupChatStartSegue
         if segue.identifier == "groupChatStartSegue" {
             
-            if let destinationVC = segue.destinationViewController as? GroupChatingDetailController{
+            if let destinationVC = segue.destination as? GroupChatingDetailController{
                 destinationVC.mytitle=groupname
                 destinationVC.groupid1=uniqueid
                 //destinationVC.navigationItem.leftBarButtonItem?.enabled=false

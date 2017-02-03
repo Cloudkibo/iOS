@@ -57,8 +57,8 @@ EPPickerDelegate,SWTableViewCellDelegate,UpdateChatViewsDelegate,RefreshContacts
     
     
    // @IBOutlet weak var lbl_version: UILabel!
-    var Q_serial2=dispatch_queue_create("Q_serial2",DISPATCH_QUEUE_SERIAL)
-    var Q_serial3=dispatch_queue_create("Q_serial3",DISPATCH_QUEUE_SERIAL)
+    var Q_serial2=DispatchQueue(label: "Q_serial2",attributes: [])
+    var Q_serial3=DispatchQueue(label: "Q_serial3",attributes: [])
     
     var messageFrame = UIView()
     var activityIndicator = UIActivityIndicatorView()
@@ -82,7 +82,7 @@ EPPickerDelegate,SWTableViewCellDelegate,UpdateChatViewsDelegate,RefreshContacts
     
     
     
-    func getCurrentUserDetails(completion: (result:Bool)->())
+    func getCurrentUserDetails(_ completion: @escaping (_ result:Bool)->())
     {
         if(socketObj != nil){
         socketObj.socket.emit("logClient","IPHONE-LOG: login success and AuthToken was not nil getting myself details from server")
@@ -213,9 +213,9 @@ EPPickerDelegate,SWTableViewCellDelegate,UpdateChatViewsDelegate,RefreshContacts
     //func fetchChatsFromServer()
     
     
-    @IBAction func addContactTapped(sender: UIBarButtonItem) {
+    @IBAction func addContactTapped(_ sender: UIBarButtonItem) {
         
-        self.performSegueWithIdentifier("inviteSegue",sender: nil)
+        self.performSegue(withIdentifier: "inviteSegue",sender: nil)
 
     }
     
@@ -253,7 +253,7 @@ EPPickerDelegate,SWTableViewCellDelegate,UpdateChatViewsDelegate,RefreshContacts
         
     }
     
-    override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: NSBundle?) {
+    override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
         // Custom initialization
         
@@ -262,24 +262,24 @@ EPPickerDelegate,SWTableViewCellDelegate,UpdateChatViewsDelegate,RefreshContacts
     
     
     
-    func showError(title:String,message:String,button1:String) {
+    func showError(_ title:String,message:String,button1:String) {
         
         // create the alert
-        let alert = UIAlertController(title: title, message: message, preferredStyle: UIAlertControllerStyle.Alert)
+        let alert = UIAlertController(title: title, message: message, preferredStyle: UIAlertControllerStyle.alert)
         
         // add the actions (buttons)
-        alert.addAction(UIAlertAction(title: button1, style: UIAlertActionStyle.Default, handler: nil))
+        alert.addAction(UIAlertAction(title: button1, style: UIAlertActionStyle.default, handler: nil))
         //alert.addAction(UIAlertAction(title: button2, style: UIAlertActionStyle.Cancel, handler: nil))
         
         // show the alert
-        self.presentViewController(alert, animated: true, completion: nil)
+        self.present(alert, animated: true, completion: nil)
     }
     
     func synchroniseChatData()
     {
         print("synchronise called")
         if(accountKit == nil){
-            accountKit = AKFAccountKit(responseType: AKFResponseType.AccessToken)
+            accountKit = AKFAccountKit(responseType: AKFResponseType.accessToken)
         }
         
         if (accountKit!.currentAccessToken != nil) {
@@ -295,7 +295,7 @@ EPPickerDelegate,SWTableViewCellDelegate,UpdateChatViewsDelegate,RefreshContacts
             
             
             let tbl_accounts = sqliteDB.accounts
-            do{for account in try sqliteDB.db.prepare(tbl_accounts) {
+            do{for account in try sqliteDB.db.prepare(tbl_accounts!) {
                 username=account[username1]
                 //displayname=account[firstname]
                 
@@ -390,7 +390,7 @@ EPPickerDelegate,SWTableViewCellDelegate,UpdateChatViewsDelegate,RefreshContacts
         let phone = Expression<String>("phone")
         
         let contactPhone = Expression<String>("contactPhone")
-        let date = Expression<NSDate>("date")
+        let date = Expression<Date>("date")
         //contactPhone
         
         //%%%%%% fetch chat
@@ -420,8 +420,8 @@ EPPickerDelegate,SWTableViewCellDelegate,UpdateChatViewsDelegate,RefreshContacts
         //    {
         
         //QOS_CLASS_USER_INTERACTIVE
-        let queue2 = dispatch_queue_create("com.cnoon.manager-response-queue", DISPATCH_QUEUE_CONCURRENT)
-        let qqq=dispatch_get_global_queue(QOS_CLASS_BACKGROUND, 0)
+        let queue2 = DispatchQueue(label: "com.cnoon.manager-response-queue", attributes: DispatchQueue.Attributes.concurrent)
+        let qqq=DispatchQueue.global(qos: DispatchQoS.QoSClass.background)
         let request = Alamofire.request(.POST, "\(fetchChatURL)", parameters: ["user1":username!], headers:header)
         request.response(
             queue: queue2,
@@ -690,7 +690,7 @@ EPPickerDelegate,SWTableViewCellDelegate,UpdateChatViewsDelegate,RefreshContacts
         
     }
     
-    func leftJoinContactsTables(phone1:String)->Array<Row>
+    func leftJoinContactsTables(_ phone1:String)->Array<Row>
     {
         
         var resultrow=Array<Row>()
@@ -718,7 +718,7 @@ EPPickerDelegate,SWTableViewCellDelegate,UpdateChatViewsDelegate,RefreshContacts
         
         var contactslists = sqliteDB.contactslists
         //=================================================
-        var joinquery=allcontacts.join(.LeftOuter, contactslists, on: contactslists[phone] == allcontacts[phone]).filter(allcontacts[phone]==phone1)
+        var joinquery=allcontacts.join(.LeftOuter, contactslists!, on: (contactslists?[phone])! == (allcontacts?[phone])!).filter(allcontacts[phone]==phone1)
     
         do{for joinresult in try sqliteDB.db.prepare(joinquery) {
         
@@ -755,7 +755,7 @@ EPPickerDelegate,SWTableViewCellDelegate,UpdateChatViewsDelegate,RefreshContacts
         }*/
         
         if(self.accountKit == nil){
-            self.accountKit = AKFAccountKit(responseType: AKFResponseType.AccessToken)
+            self.accountKit = AKFAccountKit(responseType: AKFResponseType.accessToken)
         }
     
         
@@ -799,7 +799,7 @@ EPPickerDelegate,SWTableViewCellDelegate,UpdateChatViewsDelegate,RefreshContacts
         if (self.accountKit!.currentAccessToken == nil) {
             
             //specify AKFResponseType.AccessToken
-            self.accountKit = AKFAccountKit(responseType: AKFResponseType.AccessToken)
+            self.accountKit = AKFAccountKit(responseType: AKFResponseType.accessToken)
             accountKit.requestAccount{
                 (account, error) -> Void in
                 
@@ -868,7 +868,7 @@ EPPickerDelegate,SWTableViewCellDelegate,UpdateChatViewsDelegate,RefreshContacts
         catch{
             print("error in reachability")
         }
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("checkForReachability:"), name:ReachabilityChangedNotification, object: reachability)
+        NotificationCenter.default.addObserver(self, selector: #selector(ChatViewController.checkForReachability(_:)), name:NSNotification.Name(rawValue: ReachabilityChangedNotification), object: reachability)
         
         self.navigationItem.titleView = viewForTitle
         /////self.navigationItem.leftBarButtonItem = UIBarButtonItem(customView: btnForLogo)
@@ -891,13 +891,13 @@ EPPickerDelegate,SWTableViewCellDelegate,UpdateChatViewsDelegate,RefreshContacts
         /////self.navigationItem.leftBarButtonItem = editButtonItem()
         ///////self.navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .Edit, target: self, action: "editItems:")
         self.navigationItem.rightBarButtonItem = btnContactAdd
-        self.tabBarController?.tabBar.tintColor = UIColor.greenColor()
+        self.tabBarController?.tabBar.tintColor = UIColor.green
         print("////////////////////// new class tokn \(AuthToken)", terminator: "")
         
         //print(self.ContactNames.count.description, terminator: "")
         // self.tblForChat.reloadData()
         
-        if(tblForChat.editing.boolValue==false)
+        if(tblForChat.isEditing==false)
         {
             editButtonOutlet.title="Edit"
             self.navigationItem.leftBarButtonItem!.title = "Edit"
@@ -918,7 +918,7 @@ EPPickerDelegate,SWTableViewCellDelegate,UpdateChatViewsDelegate,RefreshContacts
         }
       
     }
-    func checkForReachability(notification:NSNotification)
+    func checkForReachability(_ notification:Notification)
     {
         print("checking internet")
         // Remove the next two lines of code. You cannot instantiate the object
@@ -931,12 +931,12 @@ EPPickerDelegate,SWTableViewCellDelegate,UpdateChatViewsDelegate,RefreshContacts
         let networkReachability = notification.object as! Reachability;
         var remoteHostStatus = networkReachability.currentReachabilityStatus
         
-        if (remoteHostStatus == Reachability.NetworkStatus.NotReachable)
+        if (remoteHostStatus == Reachability.NetworkStatus.notReachable)
         {
             
             print("Not Reachable")
         }
-        else if (remoteHostStatus == Reachability.NetworkStatus.ReachableViaWiFi)
+        else if (remoteHostStatus == Reachability.NetworkStatus.reachableViaWiFi)
         {
             print("Reachable via Wifi")
             if(username != nil && username != "")
@@ -1024,10 +1024,10 @@ EPPickerDelegate,SWTableViewCellDelegate,UpdateChatViewsDelegate,RefreshContacts
     
     func loginSegueMethod()
     {print("line # 564")
-        self.performSegueWithIdentifier("loginSegue", sender: nil)
+        self.performSegue(withIdentifier: "loginSegue", sender: nil)
     }
     func socketConnected() {
-        if((self.view.window != nil) && self.isViewLoaded()){
+        if((self.view.window != nil) && self.isViewLoaded){
             /* var lll=self.storyboard?.instantiateViewControllerWithIdentifier("mainpage") as! LoginViewController
             
             lll.progressWheel.stopAnimating()
@@ -1041,13 +1041,13 @@ EPPickerDelegate,SWTableViewCellDelegate,UpdateChatViewsDelegate,RefreshContacts
     
     
     
-    @IBAction func editButtonPressed(sender: AnyObject) {
+    @IBAction func editButtonPressed(_ sender: AnyObject) {
         
      
-         tblForChat.setEditing(!tblForChat.editing, animated: true)
+         tblForChat.setEditing(!tblForChat.isEditing, animated: true)
         //////////self.setEditing(tblForChat.editing, animated: true)
-        print("editinggg1..\(tblForChat.editing.boolValue) .. \(tblForChat.editing)")
-        if(tblForChat.editing.boolValue==false)
+        print("editinggg1..\(tblForChat.isEditing) .. \(tblForChat.isEditing)")
+        if(tblForChat.isEditing==false)
         {
             editButtonOutlet.title="Edit"
             self.navigationController?.navigationItem.leftBarButtonItem?.title="Edit"
@@ -1074,16 +1074,16 @@ EPPickerDelegate,SWTableViewCellDelegate,UpdateChatViewsDelegate,RefreshContacts
     
 
     
-    func progressBarDisplayer(msg:String, _ indicator:Bool ) {
+    func progressBarDisplayer(_ msg:String, _ indicator:Bool ) {
         print(msg)
         strLabel = UILabel(frame: CGRect(x: 50, y: 0, width: 250, height: 50))
         strLabel.text = msg
-        strLabel.textColor = UIColor.whiteColor()
+        strLabel.textColor = UIColor.white
         messageFrame = UIView(frame: CGRect(x: view.frame.midX - 110, y: view.frame.midY - 25 , width: 230, height: 50))
         messageFrame.layer.cornerRadius = 15
         messageFrame.backgroundColor = UIColor(white: 0, alpha: 0.7)
         if indicator {
-            activityIndicator = UIActivityIndicatorView(activityIndicatorStyle: UIActivityIndicatorViewStyle.White)
+            activityIndicator = UIActivityIndicatorView(activityIndicatorStyle: UIActivityIndicatorViewStyle.white)
             activityIndicator.frame = CGRect(x: 0, y: 0, width: 50, height: 50)
             activityIndicator.startAnimating()
             messageFrame.addSubview(activityIndicator)
@@ -1092,16 +1092,16 @@ EPPickerDelegate,SWTableViewCellDelegate,UpdateChatViewsDelegate,RefreshContacts
         view.addSubview(messageFrame)
     }
     
-    func progressBarDisplayer2(msg:String, _ indicator:Bool ) {
+    func progressBarDisplayer2(_ msg:String, _ indicator:Bool ) {
         print(msg)
         strLabel2 = UILabel(frame: CGRect(x: 50, y: 0, width: 250, height: 50))
         strLabel2.text = msg
-        strLabel2.textColor = UIColor.whiteColor()
+        strLabel2.textColor = UIColor.white
         messageFrame2 = UIView(frame: CGRect(x: view.frame.midX - 110, y: view.frame.midY - 25 , width: 230, height: 50))
         messageFrame2.layer.cornerRadius = 15
         messageFrame2.backgroundColor = UIColor(white: 0, alpha: 0.7)
         if indicator {
-            activityIndicator2 = UIActivityIndicatorView(activityIndicatorStyle: UIActivityIndicatorViewStyle.White)
+            activityIndicator2 = UIActivityIndicatorView(activityIndicatorStyle: UIActivityIndicatorViewStyle.white)
             activityIndicator2.frame = CGRect(x: 0, y: 0, width: 50, height: 50)
             activityIndicator2.startAnimating()
             messageFrame2.addSubview(activityIndicator2)
@@ -1110,7 +1110,7 @@ EPPickerDelegate,SWTableViewCellDelegate,UpdateChatViewsDelegate,RefreshContacts
         view.addSubview(messageFrame2)
     }
     
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         let _id = Expression<String>("_id")
         let firstname = Expression<String?>("firstname")
         let lastname = Expression<String?>("lastname")
@@ -1119,8 +1119,8 @@ EPPickerDelegate,SWTableViewCellDelegate,UpdateChatViewsDelegate,RefreshContacts
         
         
         print("appearrrrrr", terminator: "")
-        let nsObject: AnyObject? = NSBundle.mainBundle().infoDictionary!["CFBundleShortVersionString"]
-        if let text = NSBundle.mainBundle().infoDictionary?["CFBundleVersion"] as? String {
+        let nsObject: AnyObject? = Bundle.main.infoDictionary!["CFBundleShortVersionString"] as AnyObject?
+        if let text = Bundle.main.infoDictionary?["CFBundleVersion"] as? String {
             print("... \(text)") //build number
         }
         print(",,,,, \(nsObject!.description)") //version number
@@ -1156,7 +1156,7 @@ EPPickerDelegate,SWTableViewCellDelegate,UpdateChatViewsDelegate,RefreshContacts
         else
         {*/
         if(accountKit == nil){
-            accountKit = AKFAccountKit(responseType: AKFResponseType.AccessToken)
+            accountKit = AKFAccountKit(responseType: AKFResponseType.accessToken)
         }
         if(accountKit.currentAccessToken != nil)
         {
@@ -1176,7 +1176,7 @@ EPPickerDelegate,SWTableViewCellDelegate,UpdateChatViewsDelegate,RefreshContacts
             //==---print("emailList count is \(emailList.count)")
             
             print("here refreshing UI in chats view line # 1123")
-            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT,0))
+            DispatchQueue.global(priority: DispatchQueue.GlobalQueuePriority.default).async
             {
             self.retrieveSingleChatsAndGroupsChatData({(result)-> () in
                 
@@ -1186,13 +1186,13 @@ EPPickerDelegate,SWTableViewCellDelegate,UpdateChatViewsDelegate,RefreshContacts
                 // self.tblForChats.reloadData()
                 
                 //commenting newwwwwwww -===-===-=
-                dispatch_async(dispatch_get_main_queue())
+                DispatchQueue.main.async
                 { self.messageFrame.removeFromSuperview()
                     self.tblForChat.reloadData()
                     print("pendingGroupIcons count is \(self.pendingGroupIcons.count)")
                     if(self.pendingGroupIcons.count>0)
                     {
-                        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT,0))
+                        DispatchQueue.global(priority: DispatchQueue.GlobalQueuePriority.default).async
                         {
                             //download group icons service
                             
@@ -1202,7 +1202,7 @@ EPPickerDelegate,SWTableViewCellDelegate,UpdateChatViewsDelegate,RefreshContacts
                                     
                                     
                                     
-                                    dispatch_async(dispatch_get_main_queue())
+                                    DispatchQueue.main.async
                                     {print("pendingGroupIcons refreshing page")
                                         
 
@@ -1271,7 +1271,7 @@ EPPickerDelegate,SWTableViewCellDelegate,UpdateChatViewsDelegate,RefreshContacts
                 
                 
                 let tbl_accounts = sqliteDB.accounts
-                do{for account in try sqliteDB.db.prepare(tbl_accounts) {
+                do{for account in try sqliteDB.db.prepare(tbl_accounts!) {
                     username=account[username1]
                     displayname=account[firstname]
                     
@@ -1289,9 +1289,9 @@ EPPickerDelegate,SWTableViewCellDelegate,UpdateChatViewsDelegate,RefreshContacts
                 
                 
                 
-                var dispatch_group_t = dispatch_group_create();
+                var dispatch_group_t = DispatchGroup();
                            }
-            if(tblForChat.editing.boolValue==false)
+            if(tblForChat.isEditing==false)
             {
                 editButtonOutlet.title="Edit"
                 self.navigationController?.navigationItem.leftBarButtonItem?.title="Edit"
@@ -1315,7 +1315,7 @@ EPPickerDelegate,SWTableViewCellDelegate,UpdateChatViewsDelegate,RefreshContacts
             socketObj.socket.emit("logClient","IPHONE-LOG: access token is nil so go to login page")
             }
             print("access token is nil so go to login page")
-            self.performSegueWithIdentifier("loginSegue", sender: self)
+            self.performSegue(withIdentifier: "loginSegue", sender: self)
         }
         
   //  }
@@ -1441,7 +1441,7 @@ EPPickerDelegate,SWTableViewCellDelegate,UpdateChatViewsDelegate,RefreshContacts
     var index=0
    // var pendingcount=0
     
-    func getData(completion:(result:Bool)->()) {
+    func getData(_ completion:@escaping (_ result:Bool)->()) {
         var x = [[String: AnyObject]]()
         var url=Constants.MainUrl+Constants.sendChatURL
         /*
@@ -1487,7 +1487,7 @@ EPPickerDelegate,SWTableViewCellDelegate,UpdateChatViewsDelegate,RefreshContacts
         }
         }
         else{
-            completion(result: false)
+            completion(false)
 
         }
     }
@@ -1495,7 +1495,7 @@ EPPickerDelegate,SWTableViewCellDelegate,UpdateChatViewsDelegate,RefreshContacts
     var index2=0
     // var pendingcount=0
     
-    func getGroupsData(completion:(result:Bool)->()) {
+    func getGroupsData(_ completion:@escaping (_ result:Bool)->()) {
         var x = [[String: AnyObject]]()
         // var url=Constants.MainUrl+Constants.sendChatURL
         /*
@@ -1527,12 +1527,12 @@ EPPickerDelegate,SWTableViewCellDelegate,UpdateChatViewsDelegate,RefreshContacts
                      
                      
                      */
-                    completion(result:true)
+                    completion(true)
                     self.index2 = self.index2 + 1
                     if self.index2 < self.pendinggroupchatsarray.count {
                         self.getGroupsData({ (result) -> () in})
                     }else {
-                        completion(result: true)
+                        completion(true)
                         /////////self.collectionView.reloadData()
                     }
                 }
@@ -1542,20 +1542,20 @@ EPPickerDelegate,SWTableViewCellDelegate,UpdateChatViewsDelegate,RefreshContacts
                     if self.index2 < self.pendinggroupchatsarray.count {
                         self.getGroupsData({ (result) -> () in})
                     }else {
-                        completion(result: true)                /////////// self.collectionView.reloadData()
+                        completion(true)                /////////// self.collectionView.reloadData()
                     }
                 }
             })
         }
         else{
-            completion(result: false)
+            completion(false)
             
         }
     }
     
 
     
-    func sendPendingChatMessages(completion:(result:Bool)->())
+    func sendPendingChatMessages(_ completion:@escaping (_ result:Bool)->())
     {
         
         self.pendingchatsarray.removeAll()
@@ -1571,7 +1571,7 @@ EPPickerDelegate,SWTableViewCellDelegate,UpdateChatViewsDelegate,RefreshContacts
         let owneruser = Expression<String>("owneruser")
         let fromFullName = Expression<String>("fromFullName")
         let msg = Expression<String>("msg")
-        let date = Expression<NSDate>("date")
+        let date = Expression<Date>("date")
         let status = Expression<String>("status")
         let uniqueid = Expression<String>("uniqueid")
          let type = Expression<String>("type")
@@ -1593,11 +1593,11 @@ EPPickerDelegate,SWTableViewCellDelegate,UpdateChatViewsDelegate,RefreshContacts
           //  pendingchatsarray.append(pendingMessagesArray as [String:String])
             print("initially pending chats count is \(pendingchatsarray.count)")
             
-            for pendingchats in try sqliteDB.db.prepare(tbl_userchats.filter(status=="pending").order(date.asc))
+            for pendingchats in try sqliteDB.db.prepare((tbl_userchats?.filter(status=="pending").order(date.asc))!)
             {
                 
                // print("pending chats count date desc is \(count)")
-                count++
+                count += 1
                 var imParas=["from":pendingchats[from],"to":pendingchats[to],"fromFullName":pendingchats[fromFullName],"msg":pendingchats[msg],"uniqueid":pendingchats[uniqueid],"type":pendingchats[type],"file_type":pendingchats[file_type]]
                 
                
@@ -1672,7 +1672,7 @@ EPPickerDelegate,SWTableViewCellDelegate,UpdateChatViewsDelegate,RefreshContacts
             let sender = Expression<String>("sender")
             let uniqueid = Expression<String>("uniqueid")
             
-            for statusMessages in try sqliteDB.db.prepare(tbl_messageStatus)
+            for statusMessages in try sqliteDB.db.prepare(tbl_messageStatus!)
             {
                 ////////if(socketObj != nil){
                 
@@ -1699,9 +1699,9 @@ EPPickerDelegate,SWTableViewCellDelegate,UpdateChatViewsDelegate,RefreshContacts
             socketObj.socket.emit("logClient","IPHONE-LOG: \(username!) done sending pending chat messages")
             }
             
-           dispatch_async(dispatch_get_main_queue())
+           DispatchQueue.main.async
            {
-            return completion(result: true)
+            return completion(true)
             }
        
     
@@ -1714,9 +1714,9 @@ EPPickerDelegate,SWTableViewCellDelegate,UpdateChatViewsDelegate,RefreshContacts
             socketObj.socket.emit("logClient","IPHONE-LOG: \(username!) error in sending pending chat messages")
             }
             
-            dispatch_async(dispatch_get_main_queue())
+            DispatchQueue.main.async
             {
-            return completion(result: false)
+            return completion(false)
             }
            
         }
@@ -1725,7 +1725,7 @@ EPPickerDelegate,SWTableViewCellDelegate,UpdateChatViewsDelegate,RefreshContacts
     }
     
     
-    func sendPendingGroupChatMessages(completion:(result:Bool)->())
+    func sendPendingGroupChatMessages(_ completion:(_ result:Bool)->())
     {
         self.pendinggroupchatsarray.removeAll()
         print("inside sending pending group chat messages.....")
@@ -1739,7 +1739,7 @@ EPPickerDelegate,SWTableViewCellDelegate,UpdateChatViewsDelegate,RefreshContacts
         let type = Expression<String>("type")
         let msg = Expression<String>("msg")
         let from_fullname = Expression<String>("from_fullname")
-        let date = Expression<NSDate>("date")
+        let date = Expression<Date>("date")
         let unique_id = Expression<String>("unique_id")
         
         
@@ -1751,7 +1751,7 @@ EPPickerDelegate,SWTableViewCellDelegate,UpdateChatViewsDelegate,RefreshContacts
         //print(res)
         
         var count=0
-        for(var i=0;i<pendingMSGs.count;i++)
+        for(i in 0 ..< pendingMSGs.count)
         {
             var membersList=sqliteDB.getGroupMembersOfGroup(pendingMSGs[i]["group_unique_id"] as! String)
             
@@ -1780,7 +1780,7 @@ EPPickerDelegate,SWTableViewCellDelegate,UpdateChatViewsDelegate,RefreshContacts
              })*/
         }
         
-        completion(result: true)
+        completion(true)
         
     }
 
@@ -1802,7 +1802,7 @@ EPPickerDelegate,SWTableViewCellDelegate,UpdateChatViewsDelegate,RefreshContacts
     */
     
     
-    func sendGroupChatMessage(group_id:String,from:String,type:String,msg:String,fromFullname:String,uniqueidChat:String,completion:(result:Bool)->())
+    func sendGroupChatMessage(_ group_id:String,from:String,type:String,msg:String,fromFullname:String,uniqueidChat:String,completion:@escaping (_ result:Bool)->())
     {
         // let queue=dispatch_get_global_queue(QOS_CLASS_USER_INITIATED,0)
         // let queue = dispatch_queue_create("com.kibochat.manager-response-queue", DISPATCH_QUEUE_CONCURRENT)
@@ -1883,7 +1883,7 @@ EPPickerDelegate,SWTableViewCellDelegate,UpdateChatViewsDelegate,RefreshContacts
         
     }*/
     
-    func retrieveSingleChatsAndGroupsChatData(completion:(result:Bool)->())
+    func retrieveSingleChatsAndGroupsChatData(_ completion:(_ result:Bool)->())
     {
         var pendingGroupIcons2=[String]()
         var messages2=NSMutableArray()
@@ -1903,16 +1903,16 @@ EPPickerDelegate,SWTableViewCellDelegate,UpdateChatViewsDelegate,RefreshContacts
         ////self.ContactsEmail.removeAll(keepCapacity: false)
         //////self.ContactMsgRead.removeAll(keepCapacity: false)
         var ContactCountMsgRead=0
-        var ContactsProfilePic=NSData.init()
+        var ContactsProfilePic=Data.init()
         var ChatType=""
         
         ///==dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT,0))
        
         self.groupsObjectList=sqliteDB.getGroupDetails()
         
-        for(var i=0;i<self.groupsObjectList.count;i++)
+        for(i in 0 ..< self.groupsObjectList.count)
         {
-            ContactsProfilePic=NSData.init()
+            ContactsProfilePic=Data.init()
             //print("date is \(self.groupsObjectList[i]["date_creation"] as! NSDate)")
             
             if((self.groupsObjectList[i]["status"] as! String) == "temp")
@@ -1936,11 +1936,11 @@ EPPickerDelegate,SWTableViewCellDelegate,UpdateChatViewsDelegate,RefreshContacts
             //ContactFirstname.append(groupsObjectList[i]["group_name"] as! String)
             //ContactLastNAme.append("")
             
-            var formatter2 = NSDateFormatter();
+            var formatter2 = DateFormatter();
             formatter2.dateFormat = "MM/dd hh:mm a"
-            formatter2.timeZone = NSTimeZone.localTimeZone()
+            formatter2.timeZone = TimeZone.autoupdatingCurrent
             ///////////////==========var defaultTimeeee = formatter2.stringFromDate(defaultTimeZoneStr!)
-            var defaultTimeeee = formatter2.stringFromDate(self.groupsObjectList[i]["date_creation"] as! NSDate)
+            var defaultTimeeee = formatter2.string(from: self.groupsObjectList[i]["date_creation"] as! Date)
             
             
             
@@ -1971,7 +1971,7 @@ EPPickerDelegate,SWTableViewCellDelegate,UpdateChatViewsDelegate,RefreshContacts
             //group_icon
             
             //group icon exists on server
-            if((self.groupsObjectList[i]["group_icon"] as! NSData).isEqualToData("exists".dataUsingEncoding(NSUTF8StringEncoding)!))
+            if((self.groupsObjectList[i]["group_icon"] as! Data) == "exists".data(using: String.Encoding.utf8)!)
             {
             var filedata=sqliteDB.getFilesData(self.groupsObjectList[i]["unique_id"] as! String)
                 //file exists locally
@@ -1982,12 +1982,12 @@ EPPickerDelegate,SWTableViewCellDelegate,UpdateChatViewsDelegate,RefreshContacts
                 //======
                 
                 //=======
-                let dirPaths = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)
+                let dirPaths = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)
                 let docsDir1 = dirPaths[0]
                 var documentDir=docsDir1 as NSString
-                var imgPath=documentDir.stringByAppendingPathComponent(filedata["file_name"] as! String)
+                var imgPath=documentDir.appendingPathComponent(filedata["file_name"] as! String)
                 
-                var imgNSData=NSFileManager.defaultManager().contentsAtPath(imgPath)
+                var imgNSData=FileManager.default.contents(atPath: imgPath)
                 
                 // print("found path is \(imgNSData)")
                 if(imgNSData != nil)
@@ -1999,7 +1999,7 @@ EPPickerDelegate,SWTableViewCellDelegate,UpdateChatViewsDelegate,RefreshContacts
                    // print("didnot find group icon")
                     pendingGroupIcons2.append(self.groupsObjectList[i]["unique_id"] as! String)
                     
-                    ContactsProfilePic=NSData.init()
+                    ContactsProfilePic=Data.init()
                 }
             }
                 else
@@ -2008,7 +2008,7 @@ EPPickerDelegate,SWTableViewCellDelegate,UpdateChatViewsDelegate,RefreshContacts
                     //print("didnot find group icon.......")
                     pendingGroupIcons2.append(self.groupsObjectList[i]["unique_id"] as! String)
                     
-                    ContactsProfilePic=NSData.init()
+                    ContactsProfilePic=Data.init()
                 }
             //=--}
                 
@@ -2030,13 +2030,13 @@ EPPickerDelegate,SWTableViewCellDelegate,UpdateChatViewsDelegate,RefreshContacts
             let type = Expression<String>("type")
             let msg = Expression<String>("msg")
             let from_fullname = Expression<String>("from_fullname")
-            let date = Expression<NSDate>("date")
+            let date = Expression<Date>("date")
             let unique_id = Expression<String>("unique_id")
             
             
             var tbl_groupchats=sqliteDB.group_chat
             
-            let myquerylastmsg=tbl_groupchats.filter(group_unique_id==(self.groupsObjectList[i]["unique_id"] as! String)).order(date.desc)
+            let myquerylastmsg=tbl_groupchats?.filter(group_unique_id==(self.groupsObjectList[i]["unique_id"] as! String)).order(date.desc)
             
             var queryruncount=0
             
@@ -2088,7 +2088,7 @@ EPPickerDelegate,SWTableViewCellDelegate,UpdateChatViewsDelegate,RefreshContacts
              var ContactsProfilePic=NSData.init()
              var ChatType=""
  */
-            messages2.addObject(["ContactsLastMsgDate":ContactsLastMsgDate,"ContactLastMessage":ContactLastMessage,"ContactLastNAme":ContactLastNAme,"ContactNames":ContactNames,"ContactStatus":ContactStatus,"ContactUsernames":ContactUsernames,"ContactOnlineStatus":ContactOnlineStatus,"ContactFirstname":ContactFirstname,"ContactsPhone":ContactsPhone,"ContactCountMsgRead":ContactCountMsgRead,"ContactsProfilePic":ContactsProfilePic,"ChatType":ChatType])
+            messages2.add(["ContactsLastMsgDate":ContactsLastMsgDate,"ContactLastMessage":ContactLastMessage,"ContactLastNAme":ContactLastNAme,"ContactNames":ContactNames,"ContactStatus":ContactStatus,"ContactUsernames":ContactUsernames,"ContactOnlineStatus":ContactOnlineStatus,"ContactFirstname":ContactFirstname,"ContactsPhone":ContactsPhone,"ContactCountMsgRead":ContactCountMsgRead,"ContactsProfilePic":ContactsProfilePic,"ChatType":ChatType])
             
             
             
@@ -2099,7 +2099,7 @@ EPPickerDelegate,SWTableViewCellDelegate,UpdateChatViewsDelegate,RefreshContacts
         let tbl_allcontacts=sqliteDB.allcontacts
         let to = Expression<String>("to")
         let from = Expression<String>("from")
-        let date = Expression<NSDate>("date")
+        let date = Expression<Date>("date")
         let msg = Expression<String>("msg")
         let fromFullName = Expression<String>("fromFullName")
         
@@ -2114,10 +2114,10 @@ EPPickerDelegate,SWTableViewCellDelegate,UpdateChatViewsDelegate,RefreshContacts
         
         // let myquery=tbl_userchats.join(tbl_contactslists, on: tbl_contactslists[phone] == tbl_userchats[contactPhone]).group(tbl_userchats[contactPhone]).order(date.desc)
         
-        let myquery=tbl_userchats.group(tbl_userchats[contactPhone]).order(date.desc)
+        let myquery=tbl_userchats?.group((tbl_userchats?[contactPhone])!).order(date.desc)
         
         var queryruncount=0
-        do{for ccc in try sqliteDB.db.prepare(myquery) {
+        do{for ccc in try sqliteDB.db.prepare(myquery!) {
             queryruncount=queryruncount+1
             //print("queryruncount is \(queryruncount)")
             var picfound=false
@@ -2146,11 +2146,11 @@ EPPickerDelegate,SWTableViewCellDelegate,UpdateChatViewsDelegate,RefreshContacts
             
             
             var nameFoundInAddressBook=false
-            let myquery1=tbl_userchats.join(tbl_contactslists, on: tbl_contactslists[self.phone] == ccc[contactPhone])//.group(tbl_userchats[contactPhone]).order(date.desc)
+            let myquery1=tbl_userchats?.join(tbl_contactslists!, on: (tbl_contactslists?[self.phone])! == ccc[contactPhone])//.group(tbl_userchats[contactPhone]).order(date.desc)
             
             //  var queryruncount=0
             //do{
-            for ccc1 in try sqliteDB.db.prepare(myquery1) {
+            for ccc1 in try sqliteDB.db.prepare(myquery1!) {
                 nameFoundInAddressBook=true
                //print("name found \(ccc1[firstname]+" "+ccc1[lastname])")
                 ContactNames=ccc1[self.firstname]!+" "+ccc1[self.lastname]!
@@ -2161,10 +2161,10 @@ EPPickerDelegate,SWTableViewCellDelegate,UpdateChatViewsDelegate,RefreshContacts
             }
             if(nameFoundInAddressBook==false)
             {
-                let myquery3=tbl_userchats.filter(tbl_userchats[from] != username && tbl_userchats[contactPhone]==ccc[contactPhone])
+                let myquery3=tbl_userchats?.filter((tbl_userchats?[from])! != username && (tbl_userchats?[contactPhone])!==ccc[contactPhone])
                 
                 
-                for ccc3 in try sqliteDB.db.prepare(myquery3) {
+                for ccc3 in try sqliteDB.db.prepare(myquery3!) {
                     print("name not found \(ccc[fromFullName])")
                     ContactNames=ccc3[fromFullName]
                     ContactFirstname=ccc3[fromFullName]
@@ -2191,22 +2191,22 @@ EPPickerDelegate,SWTableViewCellDelegate,UpdateChatViewsDelegate,RefreshContacts
             ChatType="single"
             
             
-            let myquerylastmsg=tbl_userchats.filter(to==ccc[contactPhone] || from==ccc[contactPhone]).order(date.desc)
+            let myquerylastmsg=tbl_userchats?.filter(to==ccc[contactPhone] || from==ccc[contactPhone]).order(date.desc)
             
             var queryruncount=0
             
             
             
             
-            do{for ccclastmsg in try sqliteDB.db.prepare(myquerylastmsg) {
+            do{for ccclastmsg in try sqliteDB.db.prepare(myquerylastmsg!) {
               //  print("date received in chat view is \(ccclastmsg[date])")
              
                 
-                var formatter2 = NSDateFormatter();
+                var formatter2 = DateFormatter();
                 formatter2.dateFormat = "MM/dd hh:mm a"
-                formatter2.timeZone = NSTimeZone.localTimeZone()
+                formatter2.timeZone = NSTimeZone.localTimeZone
                 ///////////////==========var defaultTimeeee = formatter2.stringFromDate(defaultTimeZoneStr!)
-                var defaultTimeeee = formatter2.stringFromDate(ccclastmsg[date])
+                var defaultTimeeee = formatter2.string(from: ccclastmsg[date])
                // print("===fetch date from database is ccclastmsg[date] \(ccclastmsg[date])... defaultTimeeee \(defaultTimeeee)")
                 
            
@@ -2235,7 +2235,7 @@ EPPickerDelegate,SWTableViewCellDelegate,UpdateChatViewsDelegate,RefreshContacts
            
             if(joinrows.count>0)
             {
-                for(var ii=0;ii<joinrows.count;ii++){
+                for(ii in 0 ..< joinrows.count){
                 //print(joinrows.debugDescription)
                 //print("found uniqueidentifier from joinnn is \(joinrows[0].get(uniqueidentifier))")
                 //==========----------let queryPic = tbl_allcontacts.filter(tbl_allcontacts[phone] == ccc[contactPhone])
@@ -2247,7 +2247,7 @@ EPPickerDelegate,SWTableViewCellDelegate,UpdateChatViewsDelegate,RefreshContacts
                 
                 var keys = [CNContactGivenNameKey, CNContactFamilyNameKey, CNContactEmailAddressesKey, CNContactPhoneNumbersKey, CNContactImageDataAvailableKey,CNContactThumbnailImageDataKey, CNContactImageDataKey]
                 //--- var foundcontact=try contactStore.unifiedContactWithIdentifier(picquery[uniqueidentifier], keysToFetch: keys)
-                var foundcontact=try contactStore.unifiedContactWithIdentifier(joinrows[ii].get(uniqueidentifier), keysToFetch: keys)
+                var foundcontact=try contactStore.unifiedContactWithIdentifier(joinrows[ii].get(uniqueidentifier), keysToFetch: keys as [CNKeyDescriptor])
                 
             
                 
@@ -2264,7 +2264,7 @@ break
             if(picfound==false)
             {
                 //print("no pic found for \(ContactUsernames)")
-                ContactsProfilePic=NSData.init()
+                ContactsProfilePic=NSData.init() as Data
                 // print("picquery NOT found for \(ccc[phone]) and is \(NSData.init())")
             }
             /*
@@ -2283,10 +2283,10 @@ break
              
              allkiboContactsArray = Array(try sqliteDB.db.prepare(query))
              */
-            let query = tbl_userchats.filter(from == ccc[contactPhone] && self.status == "delivered")          // SELECT "email" FROM "users"
+            let query = tbl_userchats?.filter(from == ccc[contactPhone] && self.status == "delivered")          // SELECT "email" FROM "users"
             
             
-            self.allkiboContactsArray = Array(try sqliteDB.db.prepare(query))
+            self.allkiboContactsArray = Array(try sqliteDB.db.prepare(query!))
             if(self.allkiboContactsArray.first==nil)
             {
                 ContactCountMsgRead=0
@@ -2295,7 +2295,7 @@ break
                 ContactCountMsgRead=self.allkiboContactsArray.count
             }
             
-            messages2.addObject(["ContactsLastMsgDate":ContactsLastMsgDate,"ContactLastMessage":ContactLastMessage,"ContactLastNAme":ContactLastNAme,"ContactNames":ContactNames,"ContactStatus":ContactStatus,"ContactUsernames":ContactUsernames,"ContactOnlineStatus":ContactOnlineStatus,"ContactFirstname":ContactFirstname,"ContactsPhone":ContactsPhone,"ContactCountMsgRead":ContactCountMsgRead,"ContactsProfilePic":ContactsProfilePic,"ChatType":ChatType])
+            messages2.add(["ContactsLastMsgDate":ContactsLastMsgDate,"ContactLastMessage":ContactLastMessage,"ContactLastNAme":ContactLastNAme,"ContactNames":ContactNames,"ContactStatus":ContactStatus,"ContactUsernames":ContactUsernames,"ContactOnlineStatus":ContactOnlineStatus,"ContactFirstname":ContactFirstname,"ContactsPhone":ContactsPhone,"ContactCountMsgRead":ContactCountMsgRead,"ContactsProfilePic":ContactsProfilePic,"ChatType":ChatType])
             }
             
             }
@@ -2326,37 +2326,37 @@ break
                     return date2!.compare(date1!)
         }*/
         
-        messages2.sortUsingComparator{
+        messages2.sort(comparator: {
             let obj1 = $0 as! [String:AnyObject]
             let obj2 = $1 as! [String:AnyObject]
             var datestr1=obj1["ContactsLastMsgDate"] as! String
             var datestr2=obj2["ContactsLastMsgDate"] as! String
-            let dateFormatter = NSDateFormatter()
+            let dateFormatter = DateFormatter()
             dateFormatter.dateFormat = "MM/dd hh:mm a"
-            let date1 = dateFormatter.dateFromString(datestr1 as String)
-            let date2 = dateFormatter.dateFromString(datestr2 as String)
+            let date1 = dateFormatter.date(from: datestr1 as String)
+            let date2 = dateFormatter.date(from: datestr2 as String)
             let result=date1!.compare(date2!)
            // print("date1comparator is \(date1) date2comparator is \(date2)")
-            if(result == NSComparisonResult.OrderedAscending)
+            if(result == ComparisonResult.orderedAscending)
             {
-                return .OrderedDescending
+                return .orderedDescending
             }
-            if(result == NSComparisonResult.OrderedSame)
+            if(result == ComparisonResult.orderedSame)
             {
-                return .OrderedSame
+                return .orderedSame
             }
-            return NSComparisonResult.OrderedAscending
-        }
+            return ComparisonResult.orderedAscending
+        })
         //self.messages.setArray(sortedmessages as [AnyObject])
        
         self.messages.setArray(messages2 as [AnyObject])
          self.messageFrame.removeFromSuperview()
         self.pendingGroupIcons.removeAll()
-        for(var i=0;i<pendingGroupIcons2.count;i++)
+        for(i in 0 ..< pendingGroupIcons2.count)
         {
         self.pendingGroupIcons.append(pendingGroupIcons2[i])
         }
-        return completion(result:true)
+        return completion(true)
     }
    // }
 //}
@@ -2936,12 +2936,12 @@ break
         // Dispose of any resources that can be recreated.
     }
     
-    @IBAction func unwindToChat (segueSelected : UIStoryboardSegue) {
+    @IBAction func unwindToChat (_ segueSelected : UIStoryboardSegue) {
         print("unwind chat", terminator: "")
         
     }
     
-    @IBAction func unwindFromBroadcastList(segue: UIStoryboardSegue){
+    @IBAction func unwindFromBroadcastList(_ segue: UIStoryboardSegue){
         // if(prevScreen=="newBroadcastList")
         //{
         print("unwind broadcast list")
@@ -2950,7 +2950,7 @@ break
         
     }
     
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
        
         
         return self.messages.count
@@ -2959,21 +2959,21 @@ break
     
 
     //uncomment later
-    func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
       print("tableheader")
         
-        var cellview=UIView.init()
+        let cellview=UIView.init()
         
-        let cell = tblForChat.dequeueReusableCellWithIdentifier("NewGroupCell") as! ContactsListCell
+        let cell = tblForChat.dequeueReusableCell(withIdentifier: "NewGroupCell") as! ContactsListCell
         btnNewGroup=cell.btnNewGroupOutlet
     
         cell.btnNewGroupOutlet.tag=section
-        cell.btnNewGroupOutlet.addTarget(self, action: Selector("BtnnewGroupClicked:"), forControlEvents:.TouchUpInside)
+        cell.btnNewGroupOutlet.addTarget(self, action: #selector(ChatViewController.BtnnewGroupClicked(_:)), for:.touchUpInside)
        
         
         print("appearrrrrr", terminator: "")
-        let nsObject: AnyObject? = NSBundle.mainBundle().infoDictionary!["CFBundleShortVersionString"]
-        if let text = NSBundle.mainBundle().infoDictionary?["CFBundleVersion"] as? String {
+        let nsObject: AnyObject? = Bundle.main.infoDictionary!["CFBundleShortVersionString"] as AnyObject?
+        if let text = Bundle.main.infoDictionary?["CFBundleVersion"] as? String {
             print("... \(text)") //build number
         }
         print(",,,,, \(nsObject!.description)") //version number
@@ -3001,7 +3001,7 @@ break
  
     
     
-    func BtnnewGroupClicked(sender:UIButton)
+    func BtnnewGroupClicked(_ sender:UIButton)
     {
         
         /*
@@ -3014,7 +3014,7 @@ break
         participantsSelected.removeAll()
         print("BtnnewGroupClicked")
         
-        self.performSegueWithIdentifier("addParticipantsSegue", sender: self)
+        self.performSegue(withIdentifier: "addParticipantsSegue", sender: self)
         /*picker = CNContactPickerViewController();
         picker.title="Add Participants"
         picker.navigationItem.leftBarButtonItem=picker.navigationController?.navigationItem.backBarButtonItem
@@ -3060,8 +3060,8 @@ break
         print("didSelectContacts \(contacts)")
         
         //get seleced participants
-        participantsSelected.appendContentsOf(contacts)
-        self.performSegueWithIdentifier("newGroupDetailsSegue", sender: nil);
+        participantsSelected.append(contentsOf: contacts)
+        self.performSegue(withIdentifier: "newGroupDetailsSegue", sender: nil);
         
         
         for contact in contacts {
@@ -3091,29 +3091,29 @@ break
 
     
     //uncomment later
-    func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         //print("header height table")
         return 70
     }
     
-    func numberOfSectionsInTableView(tableView: UITableView!) -> Int {
+    func numberOfSectionsInTableView(_ tableView: UITableView!) -> Int {
         return 1
     }
     
     
-    func hexStringToUIColor (hex:String) -> UIColor {
-        var cString:String = hex.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet() as NSCharacterSet).uppercaseString
+    func hexStringToUIColor (_ hex:String) -> UIColor {
+        var cString:String = hex.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet() as NSCharacterSet).uppercased()
         
         if (cString.hasPrefix("#")) {
-            cString = cString.substringFromIndex(cString.startIndex.advancedBy(1))
+            cString = cString.substring(from: cString.characters.index(cString.startIndex, offsetBy: 1))
         }
         
         if ((cString.characters.count) != 6) {
-            return UIColor.grayColor()
+            return UIColor.gray
         }
         
         var rgbValue:UInt32 = 0
-        NSScanner(string: cString).scanHexInt(&rgbValue)
+        Scanner(string: cString).scanHexInt32(&rgbValue)
         
         return UIColor(
             red: CGFloat((rgbValue & 0xFF0000) >> 16) / 255.0,
@@ -3125,19 +3125,19 @@ break
     
     
     func getRightUtilityButtonsToCell()-> NSMutableArray{
-        var utilityButtons: NSMutableArray = NSMutableArray()
+        let utilityButtons: NSMutableArray = NSMutableArray()
         
         
-        utilityButtons.sw_addUtilityButtonWithColor(hexStringToUIColor("#DCDEE0"), icon: UIImage(named:"more.png"))
+        utilityButtons.sw_addUtilityButton(with: hexStringToUIColor("#DCDEE0"), icon: UIImage(named:"more.png"))
         
         //utilityButtons.sw_addUtilityButtonWithColor(UIColor.redColor(), title: NSLocalizedString("ABC", comment: ""))
         //DCDEE0
-        utilityButtons.sw_addUtilityButtonWithColor(hexStringToUIColor("#24669A"), icon: UIImage(named:"archive.png"))
+        utilityButtons.sw_addUtilityButton(with: hexStringToUIColor("#24669A"), icon: UIImage(named:"archive.png"))
         return utilityButtons
         //24669A
     }
     
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath!) -> UITableViewCell! {
+    func tableView(_ tableView: UITableView, cellForRowAtIndexPath indexPath: IndexPath!) -> UITableViewCell! {
         
         /*
          var ContactsLastMsgDate=""
@@ -3159,7 +3159,7 @@ break
          var ContactsProfilePic=NSData.init()
          var ChatType=""
  */
-        var messageDic = messages.objectAtIndex(indexPath.row) as! [String : AnyObject];
+        var messageDic = messages.object(at: indexPath.row) as! [String : AnyObject];
       
         let ContactsLastMsgDate = messageDic["ContactsLastMsgDate"] as! String
         let ContactLastMessage = messageDic["ContactLastMessage"] as! String
@@ -3171,7 +3171,7 @@ break
         let ContactFirstname=messageDic["ContactFirstname"] as! String
         let ContactsPhone=messageDic["ContactsPhone"] as! String
         let ContactCountMsgRead=messageDic["ContactCountMsgRead"] as! Int
-        let ContactsProfilePic=messageDic["ContactsProfilePic"] as! NSData
+        let ContactsProfilePic=messageDic["ContactsProfilePic"] as! Data
         let ChatType=messageDic["ChatType"] as! NSString
         
         /* if (indexPath.row%2 == 0){
@@ -3183,19 +3183,19 @@ break
         //let cellPublic=tblForChat.dequeueReusableCellWithIdentifier("ChatPublicCell") as! ContactsListCell
         
         
-        var cell=tableView.dequeueReusableCellWithIdentifier("ChatPrivateCell") as? ContactsListCell
+        var cell=tableView.dequeueReusableCell(withIdentifier: "ChatPrivateCell") as? ContactsListCell
         
         if(cell == nil)
 {
-         cell=tblForChat.dequeueReusableCellWithIdentifier("ChatPrivateCell") as! ContactsListCell
+         cell=tblForChat.dequeueReusableCell(withIdentifier: "ChatPrivateCell") as! ContactsListCell
 }
         //if(ContactUsernames.count > 0)
         //{
         cell!.rightUtilityButtons=self.getRightUtilityButtonsToCell() as [AnyObject]
         cell!.delegate=self
         var contactFound=false
-        cell!.newMsg.hidden=true
-        cell!.countNewmsg.hidden=true
+        cell!.newMsg.isHidden=true
+        cell!.countNewmsg.isHidden=true
         cell!.profilePic.hnk_setImage(UIImage(named: "profile-pic1.png")!, key: "profile-pic1")
         //==--cell.profilePic.image=UIImage(named: "profile-pic1.png")
         
@@ -3217,8 +3217,8 @@ break
         let name = Expression<String?>("name")
         
         
-        cell!.statusPrivate.text=ContactLastMessage as! String
-        cell!.lbltimePrivate.text=ContactsLastMsgDate as! String
+        cell!.statusPrivate.text=ContactLastMessage 
+        cell!.lbltimePrivate.text=ContactsLastMsgDate 
     
         
         //cell.statusPrivate.text=ContactLastMessage[indexPath.row]
@@ -3276,10 +3276,10 @@ break
                     {
                        // print("name is no name")
                         //===---cell.contactName?.text=all[phone]
-                        cell!.contactName?.text=ContactUsernames as! String
+                        cell!.contactName?.text=ContactUsernames 
                     }
                     
-                   if(ContactsProfilePic != NSData.init())
+                   if(ContactsProfilePic != Data.init())
                     {
                         //print("seeting picc22 for \(ContactUsernames)")
                         
@@ -3294,7 +3294,7 @@ break
                         
                         cell!.profilePic.layer.borderWidth = 1.0
                         cell!.profilePic.layer.masksToBounds = false
-                        cell!.profilePic.layer.borderColor = UIColor.whiteColor().CGColor
+                        cell!.profilePic.layer.borderColor = UIColor.white.cgColor
                         cell!.profilePic.layer.cornerRadius = cell!.profilePic.frame.size.width/2
                         cell!.profilePic.clipsToBounds = true
                         //cell.profilePic.hnk_format=Format<UIImage>
@@ -3321,9 +3321,9 @@ break
                 //{
                 if(Int(ContactCountMsgRead)>0)
                 {
-                cell!.newMsg.hidden=false
+                cell!.newMsg.isHidden=false
                     cell!.countNewmsg.text="\(ContactCountMsgRead)"
-                    cell!.countNewmsg.hidden=false
+                    cell!.countNewmsg.isHidden=false
                 }
                // }
             }
@@ -3345,13 +3345,13 @@ break
                 if(ContactCountMsgRead>0)
                 {
                 //{
-                    cell!.newMsg.hidden=false
+                    cell!.newMsg.isHidden=false
                     cell!.countNewmsg.text="\(ContactCountMsgRead)"
-                    cell!.countNewmsg.hidden=false
+                    cell!.countNewmsg.isHidden=false
                 }
                 }
                 
-                if(/*!ContactsProfilePic.isEmpty  &&*/ ContactsProfilePic != NSData.init())
+                if(/*!ContactsProfilePic.isEmpty  &&*/ ContactsProfilePic != Data.init())
                 {
                     //print("seeting picc for \(ContactUsernames)")
                     var scaledimage=ImageResizer(size: CGSize(width: cell!.profilePic.bounds.width,height: cell!.profilePic.bounds.height), scaleMode: .AspectFill, allowUpscaling: true, compressionQuality: 0.5)
@@ -3365,7 +3365,7 @@ break
         else
         {
             cell!.contactName?.text=ContactNames
-            if(ContactsProfilePic != NSData.init())
+            if(ContactsProfilePic != Data.init())
             {
                // print("seeting picc22 for \(ContactUsernames)")
                 
@@ -3380,7 +3380,7 @@ break
                 
                 cell!.profilePic.layer.borderWidth = 1.0
                 cell!.profilePic.layer.masksToBounds = false
-                cell!.profilePic.layer.borderColor = UIColor.whiteColor().CGColor
+                cell!.profilePic.layer.borderColor = UIColor.white.cgColor
                 cell!.profilePic.layer.cornerRadius = cell!.profilePic.frame.size.width/2
                 cell!.profilePic.clipsToBounds = true
                 
@@ -3397,9 +3397,9 @@ break
             }
             if(ContactCountMsgRead > 0)
             {
-            cell!.newMsg.hidden=false
+            cell!.newMsg.isHidden=false
             cell!.countNewmsg.text="\(ContactCountMsgRead)"
-            cell!.countNewmsg.hidden=false
+            cell!.countNewmsg.isHidden=false
             }
 
         }
@@ -3451,11 +3451,11 @@ break
  
         if (ContactOnlineStatus==0)
         {
-            cell!.btnGreenDot.hidden=true
+            cell!.btnGreenDot.isHidden=true
         }
         else
         {
-            cell!.btnGreenDot.hidden=false
+            cell!.btnGreenDot.isHidden=false
         }
         
         //}
@@ -3463,7 +3463,7 @@ break
         
     }
     
-    func ResizeImage(image: UIImage, targetSize: CGSize) -> UIImage {
+    func ResizeImage(_ image: UIImage, targetSize: CGSize) -> UIImage {
         let size = image.size
         
         let widthRatio  = targetSize.width  / image.size.width
@@ -3472,25 +3472,25 @@ break
         // Figure out what our orientation is, and use that to form the rectangle
         var newSize: CGSize
         if(widthRatio > heightRatio) {
-            newSize = CGSizeMake(size.width * heightRatio, size.height * heightRatio)
+            newSize = CGSize(width: size.width * heightRatio, height: size.height * heightRatio)
         } else {
-            newSize = CGSizeMake(size.width * widthRatio,  size.height * widthRatio)
+            newSize = CGSize(width: size.width * widthRatio,  height: size.height * widthRatio)
         }
         
         // This is the rect that we've calculated out and this is what is actually used below
-        let rect = CGRectMake(0, 0, newSize.width, newSize.height)
+        let rect = CGRect(x: 0, y: 0, width: newSize.width, height: newSize.height)
         
         // Actually do the resizing to the rect using the ImageContext stuff
         UIGraphicsBeginImageContextWithOptions(newSize, false, 1.0)
-        image.drawInRect(rect)
+        image.draw(in: rect)
         let newImage = UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsEndImageContext()
         
-        return newImage
+        return newImage!
     }
     
-    func tableView(tableView: UITableView!, didSelectRowAtIndexPath indexPath: NSIndexPath!){
-        var messageDic = messages.objectAtIndex(indexPath.row) as! [String : AnyObject];
+    func tableView(_ tableView: UITableView!, didSelectRowAtIndexPath indexPath: IndexPath!){
+        var messageDic = messages.object(at: indexPath.row) as! [String : AnyObject];
         
         
         let ContactsLastMsgDate = messageDic["ContactsLastMsgDate"] as! String
@@ -3503,27 +3503,27 @@ break
         let ContactFirstname=messageDic["ContactFirstname"] as! String
         let ContactsPhone=messageDic["ContactsPhone"] as! String
         let ContactCountMsgRead=messageDic["ContactCountMsgRead"] as! Int
-        let ContactsProfilePic=messageDic["ContactsProfilePic"] as! NSData
+        let ContactsProfilePic=messageDic["ContactsProfilePic"] as! Data
         let ChatType=messageDic["ChatType"] as! NSString
         
         //let indexPath = tableView.indexPathForSelectedRow();
         //let currentCell = tableView.cellForRowAtIndexPath(indexPath!) as UITableViewCell!;
         
         ///print(ContactNames[indexPath.row], terminator: "")
-        if(tblForChat.editing.boolValue==false)
+        if(tblForChat.isEditing==false)
         {
-            if((ChatType as! String) == "group_failed")
+            if((ChatType as String) == "group_failed")
             {
                 print("clicked group_failed")
                 var membersCompleteList=sqliteDB.getGroupMembersOfGroup(groupsObjectList[indexPath.row]["unique_id"] as! String)
                 
                 var membersList=[String]()
-                for(var i=0;i<membersCompleteList.count;i++)
+                for(var i=0;i<membersCompleteList.count;i += 1)
                 {
                     membersList.append(membersCompleteList[i]["member_phone"] as! String)
                  }
                 
-                print("re-try create group id \(ContactUsernames as! String) name is \(groupsObjectList[indexPath.row]["group_name"] as! String) and members are \(membersList)")
+                print("re-try create group id \(ContactUsernames ) name is \(groupsObjectList[indexPath.row]["group_name"] as! String) and members are \(membersList)")
                 
               UtilityFunctions.init().createGroupAPI(groupsObjectList[indexPath.row]["group_name"] as! String, members: membersList, uniqueid: ContactUsernames as! String)
             }
@@ -3531,11 +3531,11 @@ break
             {
             if(ChatType == "single")
             {
-        self.performSegueWithIdentifier("contactChat", sender: nil);
+        self.performSegue(withIdentifier: "contactChat", sender: nil);
             }
             else{
 
-                self.performSegueWithIdentifier("startGroupChatSegue", sender: nil);
+                self.performSegue(withIdentifier: "startGroupChatSegue", sender: nil);
                 
             }
         }
@@ -3547,13 +3547,13 @@ break
 
     
     func tableView(
-        tableView: UITableView,
-        estimatedHeightForRowAtIndexPath indexPath: NSIndexPath
+        _ tableView: UITableView,
+        estimatedHeightForRowAtIndexPath indexPath: IndexPath
         ) -> CGFloat {
         return 50
     }
     
-    override func setEditing(editing: Bool, animated: Bool) {
+    override func setEditing(_ editing: Bool, animated: Bool) {
         super.setEditing(editing, animated: animated)
         tblForChat.setEditing(editing, animated: animated)
         print("editingggg....2")
@@ -3586,37 +3586,37 @@ break
     }
     */
     
-     func tableView(tableView: UITableView, shouldIndentWhileEditingRowAtIndexPath indexPath: NSIndexPath) -> Bool {
+     func tableView(_ tableView: UITableView, shouldIndentWhileEditingRowAtIndexPath indexPath: IndexPath) -> Bool {
         
         return false
     }
     
-    func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
+    func tableView(_ tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: IndexPath) {
        
-        var messageDic = messages.objectAtIndex(indexPath.row) as! [String : AnyObject];
+        var messageDic = messages.object(at: indexPath.row) as! [String : AnyObject];
         let ContactsLastMsgDate = messageDic["ContactsLastMsgDate"] as! String
         let ContactLastMessage = messageDic["ContactLastMessage"] as! String
         let ContactLastNAme=messageDic["ContactLastNAme"] as! String
-        var ContactNames=messageDic["ContactNames"] as! String
+        let ContactNames=messageDic["ContactNames"] as! String
         let ContactStatus=messageDic["ContactStatus"] as! String
         let ContactUsernames=messageDic["ContactUsernames"] as! String
         let ContactOnlineStatus=messageDic["ContactOnlineStatus"] as! Int
         let ContactFirstname=messageDic["ContactFirstname"] as! String
         let ContactsPhone=messageDic["ContactsPhone"] as! String
         let ContactCountMsgRead=messageDic["ContactCountMsgRead"] as! Int
-        let ContactsProfilePic=messageDic["ContactsProfilePic"] as! NSData
+        let ContactsProfilePic=messageDic["ContactsProfilePic"] as! Data
         let ChatType=messageDic["ChatType"] as! NSString
         
         
        //// if editingStyle == .Delete {
-        if(editingStyle == UITableViewCellEditingStyle.Delete){
-            let shareMenu = UIAlertController(title: nil, message: "Delete Chat with \(ContactNames)", preferredStyle: .ActionSheet)
+        if(editingStyle == UITableViewCellEditingStyle.delete){
+            let shareMenu = UIAlertController(title: nil, message: "Delete Chat with \(ContactNames)", preferredStyle: .actionSheet)
             
-            let DeleteAction = UIAlertAction(title: "Delete", style: UIAlertActionStyle.Default,handler: { (action) -> Void in
+            let DeleteAction = UIAlertAction(title: "Delete", style: UIAlertActionStyle.default,handler: { (action) -> Void in
                 self.removeChatHistory(ContactUsernames,indexPath: indexPath)
                 
             })
-            let cancelAction = UIAlertAction(title: "Cancel", style: UIAlertActionStyle.Cancel, handler: { (action) -> Void in
+            let cancelAction = UIAlertAction(title: "Cancel", style: UIAlertActionStyle.cancel, handler: { (action) -> Void in
                 
                 //self.sendType="Message"
                 //self.performSegueWithIdentifier("inviteSegue",sender: nil)
@@ -3634,7 +3634,7 @@ break
             shareMenu.addAction(cancelAction)
             
             
-            self.presentViewController(shareMenu, animated: true, completion: {
+            self.present(shareMenu, animated: true, completion: {
                 
             })
 
@@ -3654,7 +3654,7 @@ break
         }*/
         
     }
-     func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
+     func tableView(_ tableView: UITableView, canEditRowAtIndexPath indexPath: IndexPath) -> Bool {
         // Return false if you do not want the specified item to be editable.
         return true
     }
@@ -3666,9 +3666,9 @@ break
     
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     
-    func removeChatHistory(selectedContact:String,indexPath:NSIndexPath)
+    func removeChatHistory(_ selectedContact:String,indexPath:IndexPath)
         {
-            var messageDic = messages.objectAtIndex(indexPath.row) as! [String : AnyObject];
+            var messageDic = messages.object(at: indexPath.row) as! [String : AnyObject];
             
             let ContactsLastMsgDate = messageDic["ContactsLastMsgDate"] as! String
             let ContactLastMessage = messageDic["ContactLastMessage"] as! String
@@ -3680,7 +3680,7 @@ break
             let ContactFirstname=messageDic["ContactFirstname"] as! String
             let ContactsPhone=messageDic["ContactsPhone"] as! String
             let ContactCountMsgRead=messageDic["ContactCountMsgRead"] as! Int
-            let ContactsProfilePic=messageDic["ContactsProfilePic"] as! NSData
+            let ContactsProfilePic=messageDic["ContactsProfilePic"] as! Data
             let ChatType=messageDic["ChatType"] as! NSString
             
             
@@ -3768,7 +3768,7 @@ break
             
         }
     
-    func contactViewController(viewController: CNContactViewController, didCompleteWithContact contact: CNContact?) {
+    func contactViewController(_ viewController: CNContactViewController, didCompleteWith contact: CNContact?) {
         
         print("inside cncontatc didcomplete....")
         viewController.displayedPropertyKeys=[CNContactGivenNameKey]
@@ -3905,14 +3905,14 @@ break
 
     */
     
-    override func prepareForSegue(segue: UIStoryboardSegue?, sender: AnyObject?) {
+    override func prepare(for segue: UIStoryboardSegue?, sender: Any?) {
         
         //newGroupDetailsSegue
         //addParticipantsSegue
         
         if segue!.identifier == "addParticipantsSegue" {
             
-            if let destinationVC = segue!.destinationViewController as? AddParticipantsViewController{
+            if let destinationVC = segue!.destination as? AddParticipantsViewController{
                 //destinationVC.participants.removeAll()
                 destinationVC.prevScreen="newGroup"
                 //destinationVC.participants=self.participantsSelected
@@ -3922,7 +3922,7 @@ break
         
         if segue!.identifier == "newGroupDetailsSegue" {
             
-            if let destinationVC = segue!.destinationViewController as? NewGroupSetDetails{
+            if let destinationVC = segue!.destination as? NewGroupSetDetails{
                 destinationVC.participants.removeAll()
                     destinationVC.participants=self.participantsSelected
               //  let selectedRow = tblForChat.indexPathForSelectedRow!.row
@@ -3930,10 +3930,10 @@ break
             }}
         if segue!.identifier == "contactChat" {
             
-            if let destinationVC = segue!.destinationViewController as? ChatDetailViewController{
+            if let destinationVC = segue!.destination as? ChatDetailViewController{
                 
                 let selectedRow = tblForChat.indexPathForSelectedRow!.row
-                var messageDic = messages.objectAtIndex(selectedRow) as! [String : AnyObject];
+                var messageDic = messages.object(at: selectedRow) as! [String : AnyObject];
                 
                 //destinationVC.selectedContact = ContactNames[selectedRow]
                 destinationVC.selectedContact = messageDic["ContactUsernames"] as! String
@@ -3949,38 +3949,38 @@ break
         }
         if segue!.identifier == "newChat" {
             
-            if let destinationVC = segue!.destinationViewController as? ChatMainViewController{
+            if let destinationVC = segue!.destination as? ChatMainViewController{
                 destinationVC.mytitle="New Chat"
-                destinationVC.navigationItem.leftBarButtonItem?.enabled=false
+                destinationVC.navigationItem.leftBarButtonItem?.isEnabled=false
                 destinationVC.navigationItem.rightBarButtonItem?.image=nil
-                destinationVC.navigationItem.rightBarButtonItem?.enabled=false
+                destinationVC.navigationItem.rightBarButtonItem?.isEnabled=false
             }}
         //startGroupChatSegue
         if segue!.identifier == "startGroupChatSegue" {
             
-            if let destinationVC = segue!.destinationViewController as? GroupChatingDetailController{
+            if let destinationVC = segue!.destination as? GroupChatingDetailController{
                 let selectedRow = tblForChat.indexPathForSelectedRow!.row
                 
-                var messageDic = messages.objectAtIndex(selectedRow) as! [String : AnyObject];
+                var messageDic = messages.object(at: selectedRow) as! [String : AnyObject];
                 
                 let ContactsLastMsgDate = messageDic["ContactsLastMsgDate"] as! String
                 let ContactLastMessage = messageDic["ContactLastMessage"] as! String
                 let ContactLastNAme=messageDic["ContactLastNAme"] as! String
-                var ContactNames=messageDic["ContactNames"] as! String
+                let ContactNames=messageDic["ContactNames"] as! String
                 let ContactStatus=messageDic["ContactStatus"] as! String
                 let ContactUsernames=messageDic["ContactUsernames"] as! String
                 let ContactOnlineStatus=messageDic["ContactOnlineStatus"] as! Int
                 let ContactFirstname=messageDic["ContactFirstname"] as! String
                 let ContactsPhone=messageDic["ContactsPhone"] as! String
                 let ContactCountMsgRead=messageDic["ContactCountMsgRead"] as! Int
-                let ContactsProfilePic=messageDic["ContactsProfilePic"] as! NSData
+                let ContactsProfilePic=messageDic["ContactsProfilePic"] as! Data
                 let ChatType=messageDic["ChatType"] as! NSString
         
                 
                 print("going to groups chat, title is \(ContactNames) and groupid is \(ContactUsernames)")
                 destinationVC.mytitle=ContactNames
                destinationVC.groupid1=ContactUsernames
-                if(ContactsProfilePic != NSData.init())
+                if(ContactsProfilePic != Data.init())
                 {
                     destinationVC.groupimage=ContactsProfilePic
                 }
@@ -3988,9 +3988,9 @@ break
         //groupInfoSegue
         if segue!.identifier == "groupInfoSegue" {
             
-            if let destinationVC = segue!.destinationViewController as? GroupInfo3ViewController{
+            if let destinationVC = segue!.destination as? GroupInfo3ViewController{
                 let selectedRow = swipeindexRow
-                var messageDic = messages.objectAtIndex(selectedRow) as! [String : AnyObject];
+                var messageDic = messages.object(at: selectedRow!) as! [String : AnyObject];
                 
                 let ContactsLastMsgDate = messageDic["ContactsLastMsgDate"] as! String
                 let ContactLastMessage = messageDic["ContactLastMessage"] as! String
@@ -4002,7 +4002,7 @@ break
                 let ContactFirstname=messageDic["ContactFirstname"] as! String
                 let ContactsPhone=messageDic["ContactsPhone"] as! String
                 let ContactCountMsgRead=messageDic["ContactCountMsgRead"] as! Int
-                let ContactsProfilePic=messageDic["ContactsProfilePic"] as! NSData
+                let ContactsProfilePic=messageDic["ContactsProfilePic"] as! Data
                 let ChatType=messageDic["ChatType"] as! NSString
                 
                 print("going to groupsinfo  groupid is \(ContactUsernames)")
@@ -4013,11 +4013,11 @@ break
         if segue!.identifier == "contactDetailsFromChatSegue" {
             print("contactDetailsFromChatSegue")
             
-            let contactsDetailController = segue!.destinationViewController as? contactsDetailsTableViewController
+            let contactsDetailController = segue!.destination as? contactsDetailsTableViewController
             
             if let viewController = contactsDetailController {
                 let selectedRow = swipeindexRow
-                var messageDic = messages.objectAtIndex(selectedRow) as! [String : AnyObject];
+                var messageDic = messages.object(at: selectedRow!) as! [String : AnyObject];
                 
                 let ContactsLastMsgDate = messageDic["ContactsLastMsgDate"] as! String
                 let ContactLastMessage = messageDic["ContactLastMessage"] as! String
@@ -4029,10 +4029,10 @@ break
                 let ContactFirstname=messageDic["ContactFirstname"] as! String
                 let ContactsPhone=messageDic["ContactsPhone"] as! String
                 let ContactCountMsgRead=messageDic["ContactCountMsgRead"] as! Int
-                let ContactsProfilePic=messageDic["ContactsProfilePic"] as! NSData
+                let ContactsProfilePic=messageDic["ContactsProfilePic"] as! Data
                 let ChatType=messageDic["ChatType"] as! NSString
                 
-                var indexnew=getAddressBookIndex(ContactUsernames)
+                let indexnew=getAddressBookIndex(ContactUsernames)
                 contactsDetailController?.contactIndex=indexnew
                 //contactsDetailController?.contactIndex=tblForNotes.indexPathForSelectedRow!.row
                 //var cell=tblForNotes.cellForRowAtIndexPath(tblForNotes.indexPathForSelectedRow!) as! AllContactsCell
@@ -4048,7 +4048,7 @@ break
             }}
     }
     
-    func getAddressBookIndex(phone1:String)->Int
+    func getAddressBookIndex(_ phone1:String)->Int
     {
         var allcontactslist1=sqliteDB.allcontacts
         
@@ -4064,8 +4064,8 @@ break
         //////configureSearchController()
         var newindexphone = -1
         do
-        { alladdressContactsArray = Array(try sqliteDB.db.prepare(allcontactslist1))
-            for (var i=0;i<alladdressContactsArray.count;i++)
+        { alladdressContactsArray = Array(try sqliteDB.db.prepare(allcontactslist1!))
+            for (i in 0 ..< alladdressContactsArray.count)
             {
                 if(alladdressContactsArray[i].get(phone)==phone1)
                 {
@@ -4087,7 +4087,7 @@ break
     //SOCKET CLIENT DELEGATE MESSAGES
     ///////////////////////////////
     
-    func socketReceivedMessage(message:String,data:AnyObject!)
+    func socketReceivedMessage(_ message:String,data:AnyObject!)
     {print("socketReceivedMessage inside \(message)", terminator: "")
         //var msg=JSON(params)
         if(socketObj != nil){
@@ -4155,7 +4155,7 @@ break
             */
             case "updateUI":
                 print("here refreshing UI in chats view line # 3898")
-                dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT,0))
+                DispatchQueue.global(priority: DispatchQueue.GlobalQueuePriority.default).async
                 {
                 self.retrieveSingleChatsAndGroupsChatData({(result)-> () in
                     
@@ -4165,7 +4165,7 @@ break
                     // self.tblForChats.reloadData()
                     
                     //commenting newwwwwwww -===-===-=
-                    dispatch_async(dispatch_get_main_queue())
+                    DispatchQueue.main.async
                     {
                         self.tblForChat.reloadData()
                        /* if(self.messages.count>1)
@@ -4404,12 +4404,12 @@ break
     
     //UNCOMMENT WHEN DEALINAG WITH GROUPS
     
-   func swipeableTableViewCell(cell: SWTableViewCell!, didTriggerRightUtilityButtonWithIndex index: Int) {
+   func swipeableTableViewCell(_ cell: SWTableViewCell!, didTriggerRightUtilityButtonWith index: Int) {
     
-    swipeindexRow=tblForChat.indexPathForCell(cell)!.row
+    swipeindexRow=tblForChat.indexPath(for: cell)!.row
        // if(index==0)
        // {
-    var messageDic = messages.objectAtIndex(swipeindexRow) as! [String : AnyObject];
+    var messageDic = messages.object(at: swipeindexRow) as! [String : AnyObject];
     
     let ContactsLastMsgDate = messageDic["ContactsLastMsgDate"] as! String
     let ContactLastMessage = messageDic["ContactLastMessage"] as! String
@@ -4421,7 +4421,7 @@ break
     let ContactFirstname=messageDic["ContactFirstname"] as! String
     let ContactsPhone=messageDic["ContactsPhone"] as! String
     let ContactCountMsgRead=messageDic["ContactCountMsgRead"] as! Int
-    let ContactsProfilePic=messageDic["ContactsProfilePic"] as! NSData
+    let ContactsProfilePic=messageDic["ContactsProfilePic"] as! Data
     let ChatType=messageDic["ChatType"] as! NSString
     
         print("RightUtilityButton index of more is \(index)")
@@ -4431,7 +4431,7 @@ break
                 {
                 //let more = UITableViewRowAction(style: .Normal, title: "More") { action, index in
                     print("more button tapped")
-                    let shareMenu = UIAlertController(title: nil, message: nil, preferredStyle: .ActionSheet)
+                    let shareMenu = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
                     
                     /*let Mute = UIAlertAction(title: "Mute", style: UIAlertActionStyle.Default,handler: { (action) -> Void in
                         
@@ -4443,10 +4443,10 @@ break
                         //call Mute delegate or method
                     })*/
                     
-                    let GroupInfo = UIAlertAction(title: "Group Info", style: UIAlertActionStyle.Default,handler: { (action) -> Void in
+                    let GroupInfo = UIAlertAction(title: "Group Info", style: UIAlertActionStyle.default,handler: { (action) -> Void in
                         
                        // swipeindex=index
-                        self.performSegueWithIdentifier("groupInfoSegue", sender: nil)
+                        self.performSegue(withIdentifier: "groupInfoSegue", sender: nil)
                         //// self.removeChatHistory(self.ContactUsernames[indexPath.row],indexPath: indexPath)
                         
                         //call Mute delegate or method
@@ -4471,7 +4471,7 @@ break
                         //call Mute delegate or method
                     })
  */
-                    let cancelAction = UIAlertAction(title: "Cancel", style: UIAlertActionStyle.Cancel, handler: { (action) -> Void in
+                    let cancelAction = UIAlertAction(title: "Cancel", style: UIAlertActionStyle.cancel, handler: { (action) -> Void in
                         
                         //self.sendType="Message"
                         //self.performSegueWithIdentifier("inviteSegue",sender: nil)
@@ -4494,7 +4494,7 @@ break
                     shareMenu.addAction(cancelAction)
                     
                    // shareMenu.show
-                    self.presentViewController(shareMenu, animated: true, completion: {
+                    self.present(shareMenu, animated: true, completion: {
                         
                     })
                 //}
@@ -4503,19 +4503,19 @@ break
             {
                 //if single chat
                 //if exists in addressbook
-                 let shareMenu = UIAlertController(title: nil, message: nil, preferredStyle: .ActionSheet)
+                 let shareMenu = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
                 
-                var newindex=getAddressBookIndex(ContactUsernames)
+                let newindex=getAddressBookIndex(ContactUsernames)
                 if(newindex != -1)
                 {
                     
                    
                 
-                    let contactinfo = UIAlertAction(title: "Contact Info", style: UIAlertActionStyle.Default,handler: { (action) -> Void in
+                    let contactinfo = UIAlertAction(title: "Contact Info", style: UIAlertActionStyle.default,handler: { (action) -> Void in
                     //segue to contact info page
                     //contactDetailsSegue
                     
-                    self.performSegueWithIdentifier("contactDetailsFromChatSegue", sender: nil)
+                    self.performSegue(withIdentifier: "contactDetailsFromChatSegue", sender: nil)
                    })
                     
                     
@@ -4527,7 +4527,7 @@ break
                 }
                 else
                 {
-                    let addcontact = UIAlertAction(title: "Add to Contacts", style: UIAlertActionStyle.Default,handler: { (action) -> Void in
+                    let addcontact = UIAlertAction(title: "Add to Contacts", style: UIAlertActionStyle.default,handler: { (action) -> Void in
                         //segue to contact info page
                         //contactDetailsSegue
                         
@@ -4560,12 +4560,12 @@ break
                     
                     shareMenu.addAction(addcontact)
                 }
-                let cancelAction = UIAlertAction(title: "Cancel", style: UIAlertActionStyle.Cancel, handler: { (action) -> Void in
+                let cancelAction = UIAlertAction(title: "Cancel", style: UIAlertActionStyle.cancel, handler: { (action) -> Void in
                     
                     
                 })
 shareMenu.addAction(cancelAction)
-                self.presentViewController(shareMenu, animated: true, completion: {
+                self.present(shareMenu, animated: true, completion: {
                     
                 })
                 }
@@ -4575,36 +4575,36 @@ shareMenu.addAction(cancelAction)
     
     
     
-    func swipeableTableViewCellShouldHideUtilityButtonsOnSwipe(cell: SWTableViewCell!) -> Bool {
+    func swipeableTableViewCellShouldHideUtilityButtons(onSwipe cell: SWTableViewCell!) -> Bool {
         
         return true
     }
     
     
     
-    func socketReceivedSpecialMessage(message:String,params:SwiftyJSON.JSON!)
+    func socketReceivedSpecialMessage(_ message:String,params:SwiftyJSON.JSON!)
     {
         
     }
-    override func viewWillDisappear(animated: Bool) {
+    override func viewWillDisappear(_ animated: Bool) {
         print("dismissed chatttttttt")
         //socketObj.delegate=nil
     }
     
-    func refreshChatsUI(message:String!, uniqueid:String!, from:String!, date1:NSDate!, type:String!) {
+    func refreshChatsUI(_ message:String!, uniqueid:String!, from:String!, date1:Date!, type:String!) {
         print("here refreshing UI in chats view line # 4291")
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT,0))
+        DispatchQueue.global(priority: DispatchQueue.GlobalQueuePriority.default).async
         {
         self.retrieveSingleChatsAndGroupsChatData({(result)-> () in
            
             //commenting newwwwwwww -===-===-=
-            dispatch_async(dispatch_get_main_queue())
+            DispatchQueue.main.async
             {
                 self.tblForChat.reloadData()
                 print("pendingGroupIcons count is \(self.pendingGroupIcons.count)")
                 if(self.pendingGroupIcons.count>0)
                 {
-                    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT,0))
+                    DispatchQueue.global(priority: DispatchQueue.GlobalQueuePriority.default).async
                     {
                         //download group icons service
                         
@@ -4612,7 +4612,7 @@ shareMenu.addAction(cancelAction)
                         UtilityFunctions.init().downloadGroupIconsService(self.pendingGroupIcons, completion: { (result, error) in
                             self.retrieveSingleChatsAndGroupsChatData({(result)-> () in
                                 
-                                dispatch_async(dispatch_get_main_queue())
+                                DispatchQueue.main.async
                                 {print("pendingGroupIcons refreshing page")
                                     self.tblForChat.reloadData()
                                 }
@@ -4629,19 +4629,19 @@ shareMenu.addAction(cancelAction)
  
     }
     
-    func refreshContactsList(message: String) {
+    func refreshContactsList(_ message: String) {
         print("here refreshing UI in chats view line # 4341")
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT,0))
+        DispatchQueue.global(priority: DispatchQueue.GlobalQueuePriority.default).async
         {
             self.retrieveSingleChatsAndGroupsChatData({(result)-> () in
         
-            dispatch_async(dispatch_get_main_queue())
+            DispatchQueue.main.async
             {
                 self.tblForChat.reloadData()
                 print("pendingGroupIcons count is \(self.pendingGroupIcons.count)")
                 if(self.pendingGroupIcons.count>0)
                 {
-                    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT,0))
+                    DispatchQueue.global(priority: DispatchQueue.GlobalQueuePriority.default).async
                     {
                         //download group icons service
                         
@@ -4649,7 +4649,7 @@ shareMenu.addAction(cancelAction)
                         UtilityFunctions.init().downloadGroupIconsService(self.pendingGroupIcons, completion: { (result, error) in
                             self.retrieveSingleChatsAndGroupsChatData({(result)-> () in
                                 
-                                dispatch_async(dispatch_get_main_queue())
+                                DispatchQueue.main.async
                                 {print("pendingGroupIcons refreshing page")
                                     self.tblForChat.reloadData()
                                 }
@@ -4667,20 +4667,20 @@ shareMenu.addAction(cancelAction)
         
     }
     
-    func refreshMainChatViewUI(message: String, data: AnyObject!) {
+    func refreshMainChatViewUI(_ message: String, data: AnyObject!) {
         print("here refreshing UI in chats view line # 4390")
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT,0))
+        DispatchQueue.global(priority: DispatchQueue.GlobalQueuePriority.default).async
         {
             self.retrieveSingleChatsAndGroupsChatData({(result)-> () in
          
-            dispatch_async(dispatch_get_main_queue())
+            DispatchQueue.main.async
             {
                 self.tblForChat.reloadData()
                 
                 print("pendingGroupIcons count is \(self.pendingGroupIcons.count)")
                 if(self.pendingGroupIcons.count>0)
                 {
-                dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT,0))
+                DispatchQueue.global(priority: DispatchQueue.GlobalQueuePriority.default).async
                 {
                  //download group icons service
                     
@@ -4688,7 +4688,7 @@ shareMenu.addAction(cancelAction)
                     UtilityFunctions.init().downloadGroupIconsService(self.pendingGroupIcons, completion: { (result, error) in
                         self.retrieveSingleChatsAndGroupsChatData({(result)-> () in
                             
-                            dispatch_async(dispatch_get_main_queue())
+                            DispatchQueue.main.async
                         {print("pendingGroupIcons refreshing page")
                             self.tblForChat.reloadData()
                         }
@@ -4735,7 +4735,7 @@ shareMenu.addAction(cancelAction)
     
     deinit {
         print("deinit chat view controller")
-        NSNotificationCenter.defaultCenter().removeObserver(self)
+        NotificationCenter.default.removeObserver(self)
     }
  
     

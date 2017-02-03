@@ -24,7 +24,7 @@ class NetworkingLibAlamofire{
     
    
     
-    func sendRequestGetWithoutParameters(method:String,url:String)->JSON
+    func sendRequestGetWithoutParameters(_ method:String,url:String)->JSON
     {
         print(url)
         
@@ -62,7 +62,7 @@ class NetworkingLibAlamofire{
     }
     
     
-    func sendRequestPOST(method:String,url:String,parameters1:[String:String])
+    func sendRequestPOST(_ method:String,url:String,parameters1:[String:String])
         {
             var dataMy:JSON="[]"
             var errorMy:JSON="[]"
@@ -98,7 +98,7 @@ class NetworkingLibAlamofire{
     }
     
     
-    func getToken(userid:String?,passw:String?)
+    func getToken(_ userid:String?,passw:String?)
     {
         
         var url=Constants.MainUrl+Constants.authentictionUrl

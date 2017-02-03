@@ -12,27 +12,27 @@ class FileUtility{
     
     var chunkSize:Int=16000
     var chunks_per_ack:Int=16
-    let fm = NSFileManager.defaultManager()
+    let fm = FileManager.default
     
     
     //credit:http://stackoverflow.com/questions/5712527/how-to-detect-total-available-free-disk-space-on-the-iphone-ipad-device
    
     
     
-    class func exists (path: String) -> Bool {
-        return NSFileManager().fileExistsAtPath(path)
+    class func exists (_ path: String) -> Bool {
+        return FileManager().fileExists(atPath: path)
     }
     
-    class func read (path: String, encoding: NSStringEncoding = NSUTF8StringEncoding) -> NSData? {
+    class func read (_ path: String, encoding: String.Encoding = String.Encoding.utf8) -> Data? {
         if FileUtility.exists(path) {
-            return NSData(contentsOfFile: path)
+            return (try? Data(contentsOf: URL(fileURLWithPath: path)))
         }
         
         return nil
     }
     
-    class func write (path: String, content: NSData, encoding: NSStringEncoding = NSUTF8StringEncoding) -> Bool {
-        return content.writeToFile(path, atomically: true)
+    class func write (_ path: String, content: Data, encoding: String.Encoding = String.Encoding.utf8) -> Bool {
+        return ((try? content.write(to: URL(fileURLWithPath: path), options: [.atomic])) != nil)
     }
 
 
@@ -47,14 +47,14 @@ class FileUtility{
 
     func getfreeDiskSpace()->UInt64
     {
-        var dictionary:[String:AnyObject]=["":""]
+        var dictionary:[String:AnyObject]=["":"" as AnyObject]
         var totalspace:UInt64=0
         var totalFreeSpace:UInt64=0
-        let paths = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)
+        let paths = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)
         
         do
             {
-                dictionary = try NSFileManager.defaultManager().attributesOfFileSystemForPath(paths.last!)
+                dictionary = try FileManager.default.attributesOfFileSystem(forPath: paths.last!) as! [String : AnyObject]
             }
         catch
             {   print("error")
@@ -64,12 +64,12 @@ class FileUtility{
         {
             //for items in dictionary.keys
             //{
-            var fileSystemSizeInBytes:NSNumber = dictionary["\(NSFileSystemSize)"] as! NSNumber
-            var freeFileSystemSizeInBytes:NSNumber = dictionary["\(NSFileSystemFreeSize)"] as! NSNumber
+            var fileSystemSizeInBytes:NSNumber = dictionary["\(FileAttributeKey.systemSize)"] as! NSNumber
+            var freeFileSystemSizeInBytes:NSNumber = dictionary["\(FileAttributeKey.systemFreeSize)"] as! NSNumber
             print("filesystem size is \(fileSystemSizeInBytes)")
             print("filesystemfree size is \(freeFileSystemSizeInBytes)")
-            totalspace=fileSystemSizeInBytes.unsignedLongLongValue
-            totalFreeSpace=freeFileSystemSizeInBytes.unsignedLongLongValue
+            totalspace=fileSystemSizeInBytes.uint64Value
+            totalFreeSpace=freeFileSystemSizeInBytes.uint64Value
             print("total space is \(totalspace/1024)")
             print("total free space is \(totalFreeSpace/1024)")
             //}
@@ -82,10 +82,11 @@ class FileUtility{
         return totalFreeSpace
     }
     
-    func isFreeSpacAvailable(var fileSize:Int)->Bool
+    func isFreeSpacAvailable(_ fileSize:Int)->Bool
     {
-        var totalfreespace=getfreeDiskSpace()
-        var test=UInt64(10000000)
+        let fileSize = fileSize
+        let totalfreespace=getfreeDiskSpace()
+        let test=UInt64(10000000)
         var x=totalfreespace-test
         if(totalfreespace > UInt64(fileSize))
         {
@@ -124,16 +125,16 @@ NSLog(@"Error Obtaining System Memory Info: Domain = %@, Code = %ld", [error dom
 return totalFreeSpace;
 }
 */
-    func convert_file_to_byteArray(filename:String)->Array<UInt8>
+    func convert_file_to_byteArray(_ filename:String)->Array<UInt8>
     {
-        var file=fm.contentsAtPath(filename)
+        var file=fm.contents(atPath: filename)
         
         //print(file?.debugDescription)
         if(file==nil)
         {
             
             
-            file=NSData(contentsOfURL: urlLocalFile)
+            file=try? Data(contentsOf: urlLocalFile as URL)
             if(file == nil)
             {
                  print("invalid file. Choose other file type please")
@@ -144,20 +145,20 @@ return totalFreeSpace;
         }
         if(file != nil)
         {
-        print(file?.length)
-        var bytes=Array<UInt8>(count: file!.length, repeatedValue: 0)
+        print(file?.count)
+        var bytes=Array<UInt8>(repeating: 0, count: file!.count)
         
         // bytes.append(buffer.data.bytes)
-        file!.getBytes(&bytes, length: (file?.length)!)
+        (file! as NSData).getBytes(&bytes, length: (file?.count)!)
         // print(bytes.debugDescription)
-        var sssss=NSString(bytes: &bytes, length: file!.length, encoding: NSUTF8StringEncoding)
+        let sssss=NSString(bytes: &bytes, length: file!.count, encoding: String.Encoding.utf8.rawValue)
         print("file contents are \(sssss)")
         print(bytes.capacity)
         print(bytes.debugDescription)
         return bytes
         }
         else
-        {var bytes=Array<UInt8>(count: 0, repeatedValue: 0)
+        {let bytes=Array<UInt8>(repeating: 0, count: 0)
         return bytes}
     /*java.io.FileInputStream fis = null;
     byte[] stream = new byte[(int) f.length()];
@@ -181,18 +182,18 @@ private static final int CHUNKS_PER_ACK = 16;
 */
   
     
-    func convert_byteArray_to_fileNSData(filecontent:Array<UInt8>)->NSData
+    func convert_byteArray_to_fileNSData(_ filecontent:Array<UInt8>)->Data
     {
         var myfile=filecontent
         //var file=fm.contentsAtPath(filename)
         //print(file?.debugDescription)
        // print(filecontent.length)
         //var bytes=Array<UInt8>(count: file!.length, repeatedValue: 0)
-        var file:NSData!
+        var file:Data!
         // bytes.append(buffer.data.bytes)
         //file!.getBytes(&filecontent, length: (file?.length)!)
                // print(bytes.debugDescription)
-         file=NSData(bytes: filecontent, length: filecontent.count)
+         file=Data(bytes: UnsafePointer<UInt8>(filecontent), count: filecontent.count)
        // var sssss=NSString(bytes: &bytes, length: file!.length, encoding: NSUTF8StringEncoding)
        
         return file

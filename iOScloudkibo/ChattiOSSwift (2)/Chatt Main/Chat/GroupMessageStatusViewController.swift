@@ -29,7 +29,7 @@ class GroupMessageStatusViewController: UIViewController {
         
     }
     
-    override func viewWillAppear(animated: Bool)
+    override func viewWillAppear(_ animated: Bool)
     {
         
         /*
@@ -50,7 +50,7 @@ class GroupMessageStatusViewController: UIViewController {
 
         if(readBy.count>0)
         {
-            for(var i=0;i<readBy.count;i++)
+            for(i in 0 ..< readBy.count)
             {
             self.deliveredTo.append(self.readBy[i])
             }
@@ -59,7 +59,7 @@ class GroupMessageStatusViewController: UIViewController {
     }
     
     //getGroupsChatStatusObjectList
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
        
         if(section==0)
         {
@@ -72,17 +72,17 @@ class GroupMessageStatusViewController: UIViewController {
     }
     
     
-    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat
+    func tableView(_ tableView: UITableView, heightForRowAtIndexPath indexPath: IndexPath) -> CGFloat
     {
         return 120
     }
     
-    func numberOfSectionsInTableView(tableView: UITableView) -> Int
+    func numberOfSectionsInTableView(_ tableView: UITableView) -> Int
     {
         return 2
     }
     
-    func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         if(section==0)
         {
             return "DELIVERED TO"
@@ -95,9 +95,9 @@ class GroupMessageStatusViewController: UIViewController {
         
     }
     
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    func tableView(_ tableView: UITableView, cellForRowAtIndexPath indexPath: IndexPath) -> UITableViewCell {
         
-        let cell = tblMessageInfo.dequeueReusableCellWithIdentifier("messageInfoCell")! as UITableViewCell
+        let cell = tblMessageInfo.dequeueReusableCell(withIdentifier: "messageInfoCell")! as UITableViewCell
         var name=cell.viewWithTag(1) as! UILabel
         if(indexPath.row<deliveredTo.count)
         {

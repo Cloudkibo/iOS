@@ -27,12 +27,12 @@ class MeetingRoomData:NSObject,RTCPeerConnectionDelegate,RTCSessionDescriptionDe
     var fu=FileUtility()
     var filePathImage:String!
     var fileSize:Int!
-    var fileContents:NSData!
+    var fileContents:Data!
     var chunknumbertorequest:Int=0
     var numberOfChunksInFileToSave:Double=0
     var filePathReceived:String!
     var fileSizeReceived:Int!
-    var fileContentsReceived:NSData!
+    var fileContentsReceived:Data!
     var pc:RTCPeerConnection!
     var rtcMediaConst:RTCMediaConstraints!
     //////var rtcLocalVideoTrack:RTCVideoTrack!
@@ -114,7 +114,7 @@ class MeetingRoomData:NSObject,RTCPeerConnectionDelegate,RTCSessionDescriptionDe
             rtcFact=RTCPeerConnectionFactory()
         }
         ////////////////////////
-        self.pc=rtcFact.peerConnectionWithICEServers(rtcICEarray, constraints: self.rtcMediaConst, delegate:self)
+        self.pc=rtcFact.peerConnection(withICEServers: rtcICEarray, constraints: self.rtcMediaConst, delegate:self)
         
     }
     
@@ -207,30 +207,30 @@ class MeetingRoomData:NSObject,RTCPeerConnectionDelegate,RTCSessionDescriptionDe
     
     func sendOffer()
     {
-        self.pc.createOfferWithDelegate(self, constraints: self.rtcMediaConst!)
+        self.pc.createOffer(with: self, constraints: self.rtcMediaConst!)
     }
     
     
     func sendAnswer()
     {
-        self.pc.createAnswerWithDelegate(self, constraints: self.rtcMediaConst)
+        self.pc.createAnswer(with: self, constraints: self.rtcMediaConst)
         
     }
     
-    func toggleScreen(videoAction:Bool,tempstream:RTCMediaStream!)
+    func toggleScreen(_ videoAction:Bool,tempstream:RTCMediaStream!)
     {
         if(self.pc == nil)
         {
             createPeerConnection()
         }
         
-        socketObj.socket.emit("conference.streamScreen", ["username":username!,"id":currentID!,"type":"screenAndroid","action":videoAction.boolValue])
+        socketObj.socket.emit("conference.streamScreen", ["username":username!,"id":currentID!,"type":"screenAndroid","action":videoAction])
         
     }
     
     
     
-    func peerConnection(peerConnection: RTCPeerConnection!, addedStream stream1: RTCMediaStream!) {
+    func peerConnection(_ peerConnection: RTCPeerConnection!, addedStream stream1: RTCMediaStream!) {
         print("added remote data stream")
         /*if(stream1.videoTracks.count>0)
         {self.rtcRemoteVideoTrack=stream1.videoTracks[0] as! RTCVideoTrack
@@ -242,7 +242,7 @@ class MeetingRoomData:NSObject,RTCPeerConnectionDelegate,RTCSessionDescriptionDe
         }*/
         
     }
-    func peerConnection(peerConnection: RTCPeerConnection!, didCreateSessionDescription sdp: RTCSessionDescription!, error: NSError!) {
+    func peerConnection(_ peerConnection: RTCPeerConnection!, didCreateSessionDescription sdp: RTCSessionDescription!, error: NSError!) {
         
         print("did create offer/answer session description success")
         //^^^^^^^^^^^^^^^^^^^newwwww
@@ -256,7 +256,7 @@ class MeetingRoomData:NSObject,RTCPeerConnectionDelegate,RTCSessionDescriptionDe
                 print(sdp.debugDescription)
                 let sessionDescription=RTCSessionDescription(type: sdp.type!, sdp: sdp.description)
                 
-                self.pc.setLocalDescriptionWithDelegate(self, sessionDescription: sessionDescription)
+                self.pc.setLocalDescriptionWith(self, sessionDescription: sessionDescription)
                 
                 print(["by":currentID!,"to":otherID,"sdp":["type":sdp.type!,"sdp":sdp.description],"type":sdp.type!,"username":username!])
                 
@@ -268,7 +268,7 @@ class MeetingRoomData:NSObject,RTCPeerConnectionDelegate,RTCSessionDescriptionDe
                 print(sdp.debugDescription)
                 let sessionDescription=RTCSessionDescription(type: sdp.type!, sdp: sdp.description)
                 
-                self.pc.setLocalDescriptionWithDelegate(self, sessionDescription: sessionDescription)
+                self.pc.setLocalDescriptionWith(self, sessionDescription: sessionDescription)
                 
                 ////print(["by":currentID!,"to":otherID,"sdp":["type":sdp.type!,"sdp":sdp.description],"type":sdp.type!,"username":username!])
                 
@@ -283,11 +283,11 @@ class MeetingRoomData:NSObject,RTCPeerConnectionDelegate,RTCSessionDescriptionDe
         }
         
     }
-    func peerConnection(peerConnection: RTCPeerConnection!, didOpenDataChannel dataChannel: RTCDataChannel!) {
+    func peerConnection(_ peerConnection: RTCPeerConnection!, didOpen dataChannel: RTCDataChannel!) {
         print("opennnnn data channel")
         
     }
-    func peerConnection(peerConnection: RTCPeerConnection!, didSetSessionDescriptionWithError error: NSError!) {
+    func peerConnection(_ peerConnection: RTCPeerConnection!, didSetSessionDescriptionWithError error: NSError!) {
         
         print("inside didSetSessionDescriptionWithError")
         
@@ -303,7 +303,7 @@ class MeetingRoomData:NSObject,RTCPeerConnectionDelegate,RTCSessionDescriptionDe
                 self.pc.localDescription == nil {
                     print("creating answer")
                     //^^^^^^^^^ new self.pc.addStream(self.rtcMediaStream)
-                    self.pc.createAnswerWithDelegate(self, constraints: self.rtcMediaConst)
+                    self.pc.createAnswer(with: self, constraints: self.rtcMediaConst)
             }
             else
             {
@@ -320,7 +320,7 @@ class MeetingRoomData:NSObject,RTCPeerConnectionDelegate,RTCSessionDescriptionDe
         
         
     }
-    func peerConnection(peerConnection: RTCPeerConnection!, gotICECandidate candidate: RTCICECandidate!) {
+    func peerConnection(_ peerConnection: RTCPeerConnection!, gotICECandidate candidate: RTCICECandidate!) {
         
         var cnd=JSON(["sdpMLineIndex":candidate.sdpMLineIndex,"sdpMid":candidate.sdpMid!,"candidate":candidate.sdp!])
         
@@ -330,37 +330,37 @@ class MeetingRoomData:NSObject,RTCPeerConnectionDelegate,RTCSessionDescriptionDe
         
         
     }
-    func peerConnection(peerConnection: RTCPeerConnection!, iceConnectionChanged newState: RTCICEConnectionState) {
+    func peerConnection(_ peerConnection: RTCPeerConnection!, iceConnectionChanged newState: RTCICEConnectionState) {
         
         
     }
-    func peerConnection(peerConnection: RTCPeerConnection!, iceGatheringChanged newState: RTCICEGatheringState) {
+    func peerConnection(_ peerConnection: RTCPeerConnection!, iceGatheringChanged newState: RTCICEGatheringState) {
         
         
     }
-    func peerConnection(peerConnection: RTCPeerConnection!, removedStream stream: RTCMediaStream!) {
+    func peerConnection(_ peerConnection: RTCPeerConnection!, removedStream stream: RTCMediaStream!) {
         
         
     }
-    func peerConnection(peerConnection: RTCPeerConnection!, signalingStateChanged stateChanged: RTCSignalingState) {
+    func peerConnection(_ peerConnection: RTCPeerConnection!, signalingStateChanged stateChanged: RTCSignalingState) {
         
         
     }
-    func peerConnectionOnRenegotiationNeeded(peerConnection: RTCPeerConnection!) {
+    func peerConnection(onRenegotiationNeeded peerConnection: RTCPeerConnection!) {
         
         
     }
     
-    func randomStringWithLength (len : Int) -> NSString {
+    func randomStringWithLength (_ len : Int) -> NSString {
         
         let letters : NSString = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
         
         let randomString : NSMutableString = NSMutableString(capacity: len)
         
-        for (var i=0; i < len; i++){
+        for (i in 0 ..< len){
             let length = UInt32 (letters.length)
             let rand = arc4random_uniform(length)
-            randomString.appendFormat("%C", letters.characterAtIndex(Int(rand)))
+            randomString.appendFormat("%C", letters.character(at: Int(rand)))
         }
         
         return randomString
@@ -370,7 +370,7 @@ class MeetingRoomData:NSObject,RTCPeerConnectionDelegate,RTCSessionDescriptionDe
     
     
     
-    func handlemsg(data:AnyObject!)
+    func handlemsg(_ data:AnyObject!)
     {
         print("msgData reeived.. check if offer answer or ice")
         print(data.description)
@@ -452,7 +452,7 @@ class MeetingRoomData:NSObject,RTCPeerConnectionDelegate,RTCSessionDescriptionDe
     
     
     
-    func handleConferenceStream(data:AnyObject!)
+    func handleConferenceStream(_ data:AnyObject!)
     {
         var datajson=JSON(data!)
         print(datajson.debugDescription)
@@ -467,7 +467,7 @@ class MeetingRoomData:NSObject,RTCPeerConnectionDelegate,RTCSessionDescriptionDe
         {self.screenshared=true
             //Handle Screen sharing
             print("handle screen sharing data")
-            self.pc.createOfferWithDelegate(self, constraints: self.rtcMediaConst)
+            self.pc.createOffer(with: self, constraints: self.rtcMediaConst)
         }
         
         
@@ -481,7 +481,7 @@ class MeetingRoomData:NSObject,RTCPeerConnectionDelegate,RTCSessionDescriptionDe
             
             //print("msgData reeived.. check if offer answer or ice")
             print("msgData received from socket")
-            self.handlemsg(data)
+            self.handlemsg(data as AnyObject!)
             /*switch(message){
             
             // case "peer.connected.new":
@@ -532,7 +532,7 @@ class MeetingRoomData:NSObject,RTCPeerConnectionDelegate,RTCSessionDescriptionDe
             print("peer created datachannel")
             
             
-            self.pc.createOfferWithDelegate(self, constraints: self.rtcMediaConst!)
+            self.pc.createOffer(with: self, constraints: self.rtcMediaConst!)
         
             
         }
@@ -541,7 +541,7 @@ class MeetingRoomData:NSObject,RTCPeerConnectionDelegate,RTCSessionDescriptionDe
         socketObj.socket.on("conference.streamData"){data,ack in
             
             print("received conference.streamData obj from server")
-            self.handleConferenceStream(data)
+            self.handleConferenceStream(data as AnyObject!)
             //self.delegateWebRTCVideo.socketReceivedOtherWebRTCVideo("conference.streamVideo", data: data)
             
         }
@@ -600,7 +600,7 @@ class MeetingRoomData:NSObject,RTCPeerConnectionDelegate,RTCSessionDescriptionDe
         
     }*/
     
-    func sendDataBuffer(message:String,isb:Bool)
+    func sendDataBuffer(_ message:String,isb:Bool)
     {
         //var my="{\"eventName\":\"data_msg\",\"data\":{\"file_meta\":{}}}"
         //let buffer2 = RTCDataBuffer(
@@ -612,10 +612,10 @@ class MeetingRoomData:NSObject,RTCPeerConnectionDelegate,RTCSessionDescriptionDe
         
         
         let buffer = RTCDataBuffer(
-            data: (message.dataUsingEncoding(NSUTF8StringEncoding))!,
+            data: (message.data(using: String.Encoding.utf8))!,
             isBinary: isb
         )
-        var sentFile=self.rtcDataChannel.sendData(buffer)
+        let sentFile=self.rtcDataChannel.sendData(buffer)
         print("datachannel file METADATA sent is \(sentFile) OR image chunk size is sent \(sentFile)")
        
         
@@ -639,9 +639,9 @@ class MeetingRoomData:NSObject,RTCPeerConnectionDelegate,RTCSessionDescriptionDe
         // rtcInit.isNegotiated=true
         //rtcInit.isOrdered=true
         // rtcInit.maxRetransmits=30
-        var rtcInit=RTCDataChannelInit.init()
+        let rtcInit=RTCDataChannelInit.init()
        
-        rtcDataChannel=pc.createDataChannelWithLabel("channel", config: rtcInit)
+        rtcDataChannel=pc.createDataChannel(withLabel: "channel", config: rtcInit)
         if(rtcDataChannel != nil)
         {
             print("datachannel not nil")
@@ -658,13 +658,13 @@ class MeetingRoomData:NSObject,RTCPeerConnectionDelegate,RTCSessionDescriptionDe
         }
         
     }
-    func channel(channel: RTCDataChannel!, didChangeBufferedAmount amount: UInt) {
+    func channel(_ channel: RTCDataChannel!, didChangeBufferedAmount amount: UInt) {
         print("didChangeBufferedAmount \(amount)")
         
     }
    
     
-    func channel(channel: RTCDataChannel!, didReceiveMessageWithBuffer buffer: RTCDataBuffer!) {
+    func channel(_ channel: RTCDataChannel!, didReceiveMessageWith buffer: RTCDataBuffer!) {
         
        
         
@@ -677,17 +677,17 @@ class MeetingRoomData:NSObject,RTCPeerConnectionDelegate,RTCSessionDescriptionDe
         var channelJSON=JSON(buffer.data!)
         print(channelJSON.debugDescription)
         //var bytes:[UInt8]
-        var bytes=Array<UInt8>(count: buffer.data.length, repeatedValue: 0)
+        var bytes=Array<UInt8>(repeating: 0, count: buffer.data.count)
         
         // bytes.append(buffer.data.bytes)
-        buffer.data.getBytes(&bytes, length: buffer.data.length)
+        buffer.data.copyBytes(to: &bytes, count: buffer.data.count)
         print(bytes.debugDescription)
         
-        NSUTF8StringEncoding
+        String.Encoding.utf8
         
         
-        var sssss=NSString(bytes: &bytes, length: buffer.data.length, encoding: NSUTF8StringEncoding)
-        sssss=sssss?.stringByReplacingOccurrencesOfString("\\", withString: "")
+        var sssss=NSString(bytes: &bytes, length: buffer.data.count, encoding: String.Encoding.utf8.rawValue)
+        sssss=sssss?.replacingOccurrences(of: "\\", with: "") as NSString?
         print(sssss?.description)
         
         
@@ -696,15 +696,15 @@ class MeetingRoomData:NSObject,RTCPeerConnectionDelegate,RTCSessionDescriptionDe
 
 
         //buffer.data.
-        var tryyyyy=NSData(bytes: &bytes , length: buffer.data.length)
+        var tryyyyy=Data(bytes: UnsafePointer<UInt8>(&bytes) , count: buffer.data.count)
         var mytryyJSON=JSON(tryyyyy)
         
         if(sssss != nil){
             
-           var jjj:NSData = (sssss?.dataUsingEncoding(NSUTF8StringEncoding))!
+           var jjj:Data = (sssss?.data(using: String.Encoding.utf8.rawValue))!
             
             do
-            {jsonnnn = try NSJSONSerialization.JSONObjectWithData(jjj, options: NSJSONReadingOptions.MutableContainers) as! Dictionary<String, AnyObject>
+            {jsonnnn = try JSONSerialization.jsonObject(with: jjj, options: JSONSerialization.ReadingOptions.mutableContainers) as! Dictionary<String, AnyObject>
                 print("jsonnn")
                 print(jsonnnn)
             }catch
@@ -715,8 +715,8 @@ class MeetingRoomData:NSObject,RTCPeerConnectionDelegate,RTCSessionDescriptionDe
             
         myJSONdata=JSON(sssss!)
         print("myjsondata is \(myJSONdata)")
-        var oldjsombrackets=myJSONdata.description.stringByReplacingOccurrencesOfString("{", withString: "[")
-        new=oldjsombrackets.stringByReplacingOccurrencesOfString("}", withString: "]")
+        var oldjsombrackets=myJSONdata.description.replacingOccurrences(of: "{", with: "[")
+        new=oldjsombrackets.replacingOccurrences(of: "}", with: "]")
         print("new is \(new)")
            
         newjson=JSON(rawValue: new)!
@@ -724,14 +724,14 @@ class MeetingRoomData:NSObject,RTCPeerConnectionDelegate,RTCSessionDescriptionDe
           /////  var dddd:[String:AnyObject]=newjson.debugDescription as! [String:AnyObject]
             //////print("ddddddddd is \(dddd)")
             
-        let count = buffer.data.length
+        let count = buffer.data.count
         var doubles: [Double] = []
         ///let data = NSData(bytes: doubles, length: count)
-        var result = [UInt8](count: count, repeatedValue: 0)
-        buffer.data.getBytes(&result, length: count)
+        var result = [UInt8](repeating: 0, count: count)
+        buffer.data.copyBytes(to: &result, count: count)
      //////   print(result.debugDescription)
        
-        strData=String(bytes)
+        strData=String(describing: bytes)
         print("strdata")
         print(strData)
         var jsonStrData=JSON(strData)
@@ -884,17 +884,17 @@ request_chunk.put("data", request_data);
                         ////////FU utility
                         if(chunknumber % fu.chunks_per_ack == 0)
                         {
-                            for(var i=0;i<fu.chunks_per_ack;i++)
+                            for(i in 0 ..< fu.chunks_per_ack)
                             {
                                 if(fileSize < fu.chunkSize)
                                 {
                                     var bytebuffer=fu.convert_file_to_byteArray(filePathImage)
-                                    var byteToNSstring=NSString(bytes: &bytebuffer, length: bytebuffer.count, encoding: NSUTF8StringEncoding)
-                                    var bytestringfile=NSData(contentsOfFile: byteToNSstring as! String)
+                                    var byteToNSstring=NSString(bytes: &bytebuffer, length: bytebuffer.count, encoding: String.Encoding.utf8)
+                                    var bytestringfile=try? Data(contentsOf: URL(fileURLWithPath: byteToNSstring as! String))
                                     print("file size smaller than chunk")
                                     if(bytestringfile==nil)
                                     {
-                                        bytestringfile=NSData(contentsOfURL: urlLocalFile)
+                                        bytestringfile=try? Data(contentsOf: urlLocalFile)
                                     }
                                     var check=self.rtcDataChannel.sendData(RTCDataBuffer(data: bytestringfile,isBinary: true))
                                     print("chunk has been sent \(check)")
@@ -902,29 +902,29 @@ request_chunk.put("data", request_data);
                                     
                                 }
                                 print("file size is \(fileSize)")
-                                var x=CGFloat(fileContents.length/fu.chunkSize)
+                                var x=CGFloat(fileContents.count/fu.chunkSize)
                                 if(CGFloat(chunknumber+i) >= ceil(x))
                                 {
                                 print("file size came in math ceiling condition")
                                 }
                                 var upperlimit=(chunknumber+i+1)*fu.chunkSize
-                                if(upperlimit > fileContents.length)
+                                if(upperlimit > fileContents.count)
                                 {
-                                    upperlimit = fileContents.length-1
+                                    upperlimit = fileContents.count-1
                                 }
                                 var lowerlimit=(chunknumber+i)*fu.chunkSize
                                 print("lowerlimit \(lowerlimit) upper limit \(upperlimit)")
                                 if(lowerlimit > upperlimit)
                                 {break}
                                 
-                                var bytestringfile=NSFileManager.defaultManager().contentsAtPath(filePathImage)
+                                var bytestringfile=FileManager.default.contents(atPath: filePathImage)
                                 if(bytestringfile==nil)
                                 {
-                                    bytestringfile=NSData(contentsOfURL: urlLocalFile)
+                                    bytestringfile=try? Data(contentsOf: urlLocalFile as URL)
                                 }
                                /// var bytestringfile=NSData(contentsOfFile: bytebuffer)
-                                var newbuffer=Array<UInt8>(count: upperlimit-lowerlimit, repeatedValue: 0)
-                                bytestringfile?.getBytes(&newbuffer, range: NSRange(location: lowerlimit,length: upperlimit-lowerlimit))
+                                var newbuffer=Array<UInt8>(repeating: 0, count: upperlimit-lowerlimit)
+                                (bytestringfile as NSData?)?.getBytes(&newbuffer, range: NSRange(location: lowerlimit,length: upperlimit-lowerlimit))
                                 self.rtcDataChannel.sendData(RTCDataBuffer(data: bytestringfile,isBinary: true))
                                 print("chunk has been sent")
 
@@ -973,7 +973,7 @@ request_chunk.put("data", request_data);
                         //////bytesarraytowrite=Array<UInt8>()
                     }
                 }
-                numberOfChunksReceived++
+                numberOfChunksReceived += 1
                 /*
                 if(buffer.binary){
                 
@@ -1015,25 +1015,25 @@ request_chunk.put("data", request_data);
                 
                 */
                 //let fm = NSFileManager.defaultManager()
-                let dirPaths = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)
+                let dirPaths = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)
                 let docsDir1 = dirPaths[0]
                 var documentDir=docsDir1 as NSString
-                var filePathImage2=documentDir.stringByAppendingPathComponent(filejustreceivedname!)
-                filejustreceivedPathURL=NSURL(fileURLWithPath: filePathImage2)
+                var filePathImage2=documentDir.appendingPathComponent(filejustreceivedname!)
+                filejustreceivedPathURL=URL(fileURLWithPath: filePathImage2)
                 print("filejustreceivedPathURL is \(filejustreceivedPathURL)")
-                var fm=NSFileManager.defaultManager()
+                var fm=FileManager.default
                 
                 
                 //////////^^^^^^^newww tryy var filedata:NSData=fu.convert_byteArray_to_fileNSData(bytes)
-                var filedata:NSData=fu.convert_byteArray_to_fileNSData(bytesarraytowrite)
+                var filedata:Data=fu.convert_byteArray_to_fileNSData(bytesarraytowrite)
                 
-                var s=fm.createFileAtPath(filePathImage2, contents: nil, attributes: nil)
+                var s=fm.createFile(atPath: filePathImage2, contents: nil, attributes: nil)
 
-                var written=filedata.writeToFile(filePathImage2, atomically: true)
+                var written=(try? filedata.write(to: URL(fileURLWithPath: filePathImage2), options: [.atomic])) != nil
                 
                 if(written==true)
                 {
-                var furl2=NSURL(fileURLWithPath: filePathImage2)
+                var furl2=URL(fileURLWithPath: filePathImage2)
                 print("local furl2 is\(furl2)")
                 
                 //documentInteractionController = UIDocumentInteractionController(URL: fileURL)
@@ -1127,11 +1127,11 @@ CGPDFDocumentRef pdf   = CGPDFDocumentCreateWithProvider(provider);
 
 
     }
-    func requestchunk(num:Int!)
+    func requestchunk(_ num:Int!)
     {
 
     }
-    func channelDidChangeState(channel: RTCDataChannel!) {
+    func channelDidChangeState(_ channel: RTCDataChannel!) {
         print("channelDidChangeState \(channel.state)")
         
 
@@ -1159,7 +1159,7 @@ CGPDFDocumentRef pdf   = CGPDFDocumentCreateWithProvider(provider);
 
     }
 
-    func sendImage(imageData:NSData)
+    func sendImage(_ imageData:Data)
     {
         
         //var test="{length:\(imageData.length)}"
@@ -1171,18 +1171,18 @@ CGPDFDocumentRef pdf   = CGPDFDocumentCreateWithProvider(provider);
         
         //if(buf < buflimit.value)
        // {
-        var imageSent=self.rtcDataChannel.sendData(RTCDataBuffer(data: imageData, isBinary: true))
+        let imageSent=self.rtcDataChannel.sendData(RTCDataBuffer(data: imageData, isBinary: true))
             print("image senttttt \(imageSent)")
         //}
         
         //})
        
     }
-    func sharefile(fileurl:String!)
+    func sharefile(_ fileurl:String!)
     {
-        myfid++;
-        let fm = NSFileManager.defaultManager()
-        let dirPaths = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)
+        myfid += 1;
+        let fm = FileManager.default
+        let dirPaths = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)
         let docsDir1 = dirPaths[0]
         var documentDir=docsDir1 as NSString
         /*var filePath=documentDir.stringByAppendingPathComponent("file1.txt")
@@ -1198,7 +1198,7 @@ CGPDFDocumentRef pdf   = CGPDFDocumentCreateWithProvider(provider);
         //filePathImage="file:///private/var/mobile/Containers/Data/Application/F4137E3A-02E9-4A4D-8F20-089484823C88/tmp/iCloud.MyAppTemplates.cloudkibo-Inbox/regularExpressions.html"
         filePathImage=fileurl!
         print(filePathImage)
-        var furl=NSURL(string: filePathImage)
+        var furl=URL(string: filePathImage)
         //ADDEDDDDD
         //////furl=fileurl
         /////////////////newwwwwvar furl=NSURL(fileURLWithPath: filePathImage)
@@ -1206,24 +1206,24 @@ CGPDFDocumentRef pdf   = CGPDFDocumentCreateWithProvider(provider);
        ///// var furl=NSURL(fileURLWithPath:"file:///private/var/mobile/Containers/Data/Application/F4137E3A-02E9-4A4D-8F20-089484823C88/tmp/iCloud.MyAppTemplates.cloudkibo-Inbox/regularExpressions.html")
         
         //METADATA FILE NAME,TYPE
-        print(furl!.pathExtension!)
-        print(furl!.URLByDeletingPathExtension?.lastPathComponent!)
-        var ftype=furl!.pathExtension!
-        var fname=furl!.URLByDeletingPathExtension?.lastPathComponent!
+        print(furl!.pathExtension)
+        print(furl!.deletingPathExtension().lastPathComponent)
+        var ftype=furl!.pathExtension
+        var fname=furl!.deletingPathExtension().lastPathComponent
         //var attributesError=nil
-        var fileAttributes:[String:AnyObject]=["":""]
+        var fileAttributes:[String:AnyObject]=["":"" as AnyObject]
         do{
-            fileAttributes = try NSFileManager.defaultManager().attributesOfItemAtPath(furl!.path!)
+            fileAttributes = try FileManager.default.attributesOfItem(atPath: furl!.path) as! [String : AnyObject]
             
         }catch
         {print("error")
             print(fileAttributes)
         }
         
-        let fileSizeNumber = fileAttributes[NSFileSize]! as! NSNumber
-        print(fileAttributes[NSFileType] as! String)
+        let fileSizeNumber = fileAttributes[FileAttributeKey.size]! as! NSNumber
+        print(fileAttributes[FileAttributeKey.type] as! String)
         
-        fileSize=fileSizeNumber.integerValue
+        fileSize=fileSizeNumber.intValue
         
         //FILE METADATA size
         print(fileSize)
@@ -1231,10 +1231,10 @@ CGPDFDocumentRef pdf   = CGPDFDocumentCreateWithProvider(provider);
         /////let text2 = fm.contentsAtPath(filePath)
         ////////print(text2)
         /////////print(JSON(text2!))
-        fileContents=fm.contentsAtPath(filePathImage)!
-        var filecontentsJSON=JSON(fm.contentsAtPath(filePathImage)!)
+        fileContents=fm.contents(atPath: filePathImage)!
+        var filecontentsJSON=JSON(fm.contents(atPath: filePathImage)!)
         print(filecontentsJSON)
-        var mjson="{\"file_meta\":{\"name\":\"\(fname!)\",\"size\":\"\(fileSize.description)\",\"filetype\":\"\(ftype)\",\"browser\":\"firefox\",\"uname\":\"\(username!)\",\"fid\":\(myfid),\"senderid\":\(currentID!)}}"
+        var mjson="{\"file_meta\":{\"name\":\"\(fname)\",\"size\":\"\(fileSize.description)\",\"filetype\":\"\(ftype)\",\"browser\":\"firefox\",\"uname\":\"\(username!)\",\"fid\":\(myfid),\"senderid\":\(currentID!)}}"
         var fmetadata="{\"eventName\":\"data_msg\",\"data\":\(mjson)}"
         self.sendDataBuffer(fmetadata,isb: false)
         socketObj.socket.emit("conference.chat", ["message":"You have received a file. Download and Save it.","username":username!])

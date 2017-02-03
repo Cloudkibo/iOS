@@ -45,7 +45,7 @@ public protocol SocketEnginePollable : SocketEngineSpec {
 
 // Default polling methods
 extension SocketEnginePollable {
-    private func addHeaders(for req: URLRequest) -> URLRequest {
+    fileprivate func addHeaders(for req: URLRequest) -> URLRequest {
         var req = req
         
         if cookies != nil {
@@ -144,7 +144,7 @@ extension SocketEnginePollable {
         }
     }
     
-    private func flushWaitingForPost() {
+    fileprivate func flushWaitingForPost() {
         if postWait.count == 0 || !connected {
             return
         } else if websocket {

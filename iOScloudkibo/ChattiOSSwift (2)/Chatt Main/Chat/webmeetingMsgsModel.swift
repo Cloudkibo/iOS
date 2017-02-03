@@ -20,11 +20,11 @@ class webmeetingMsgsModel{
         messages=NSMutableArray()
         
     }
-    func addChatMsg(msg:String,usr:String)
+    func addChatMsg(_ msg:String,usr:String)
     {//["message":message, "type":msgType]
         if(usr != username!)
         {//Message of other user not myself
-        messages.addObject(["message":msg,"type":"1","username":usr])
+        messages.add(["message":msg,"type":"1","username":usr])
             if(self.delegateWebmeetingChat != nil)
             {
             self.delegateWebmeetingChat.receivedChatMessageUpdateUI(msg, username: usr)
@@ -35,11 +35,11 @@ class webmeetingMsgsModel{
 }
 protocol WebMeetingChatDelegate:class
 {
-    func receivedChatMessageUpdateUI(message:String,username:String);
+    func receivedChatMessageUpdateUI(_ message:String,username:String);
 }
 protocol DelegateSendScreenshotDelegate:class
 {
-    func sendImageFromDataChannel(screenshot:UIImage!);
+    func sendImageFromDataChannel(_ screenshot:UIImage!);
 }
 protocol AppDelegateScreenDelegate:class
 {

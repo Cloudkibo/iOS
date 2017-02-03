@@ -32,21 +32,21 @@ class MeetingRoomAudio:NSObject,SocketClientDelegateWebRTC,RTCPeerConnectionDele
     }
     
     func initAudio()
-    {var mainICEServerURL:NSURL=NSURL(fileURLWithPath: Constants.MainUrl)
+    {var mainICEServerURL:URL=URL(fileURLWithPath: Constants.MainUrl)
         //turn:turn.cloudkibo.com:3478?transport=udp
         //turn:turn.cloudkibo.com:3478?transport=udp
         /*rtcICEarray.append(RTCICEServer(URI: NSURL(string: "turn:turn.cloudkibo.com:3478?transport=udp"), username: "", password: ""))
         rtcICEarray.append(RTCICEServer(URI: NSURL(string: "turn:turn.cloudkibo.com:3478?transport=tcp"), username: "", password: ""))
         */
-        rtcICEarray.append(RTCICEServer(URI: NSURL(string:"turn:45.55.232.65:3478?transport=udp"), username: "cloudkibo", password: "cloudkibo"))
-        rtcICEarray.append(RTCICEServer(URI: NSURL(string:"turn:45.55.232.65:3478?transport=tcp"), username: "cloudkibo", password: "cloudkibo"))
+        rtcICEarray.append(RTCICEServer(uri: URL(string:"turn:45.55.232.65:3478?transport=udp"), username: "cloudkibo", password: "cloudkibo"))
+        rtcICEarray.append(RTCICEServer(uri: URL(string:"turn:45.55.232.65:3478?transport=tcp"), username: "cloudkibo", password: "cloudkibo"))
         
-        rtcICEarray.append(RTCICEServer(URI: NSURL(string:"stun:stun.l.google.com:19302"), username: "", password: ""))
-        rtcICEarray.append(RTCICEServer(URI: NSURL(string:"stun:23.21.150.121"), username: "", password: ""))
-        rtcICEarray.append(RTCICEServer(URI: NSURL(string:"stun:stun.anyfirewall.com:3478"), username: "", password: ""))
-        rtcICEarray.append(RTCICEServer(URI: NSURL(string:"turn:turn.bistri.com:80?transport=udp"), username: "homeo", password: "homeo"))
-        rtcICEarray.append(RTCICEServer(URI: NSURL(string:"turn:turn.bistri.com:80?transport=tcp"), username: "homeo", password: "homeo"))
-        rtcICEarray.append(RTCICEServer(URI: NSURL(string:"turn:turn.anyfirewall.com:443?transport=tcp"), username: "webrtc", password: "webrtc")
+        rtcICEarray.append(RTCICEServer(uri: URL(string:"stun:stun.l.google.com:19302"), username: "", password: ""))
+        rtcICEarray.append(RTCICEServer(uri: URL(string:"stun:23.21.150.121"), username: "", password: ""))
+        rtcICEarray.append(RTCICEServer(uri: URL(string:"stun:stun.anyfirewall.com:3478"), username: "", password: ""))
+        rtcICEarray.append(RTCICEServer(uri: URL(string:"turn:turn.bistri.com:80?transport=udp"), username: "homeo", password: "homeo"))
+        rtcICEarray.append(RTCICEServer(uri: URL(string:"turn:turn.bistri.com:80?transport=tcp"), username: "homeo", password: "homeo"))
+        rtcICEarray.append(RTCICEServer(uri: URL(string:"turn:turn.anyfirewall.com:443?transport=tcp"), username: "webrtc", password: "webrtc")
         )
         
         
@@ -74,23 +74,23 @@ class MeetingRoomAudio:NSObject,SocketClientDelegateWebRTC,RTCPeerConnectionDele
         return pc
     }
     
-    func receivedChatMessage(message:String,username:String)
+    func receivedChatMessage(_ message:String,username:String)
     {
         webMeetingModel.addChatMsg(message, usr: username)
         
     }
     
     
-    func randomStringWithLength (len : Int) -> NSString {
+    func randomStringWithLength (_ len : Int) -> NSString {
         
         let letters : NSString = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
         
         let randomString : NSMutableString = NSMutableString(capacity: len)
         
-        for (var i=0; i < len; i++){
+        for (i in 0 ..< len){
             let length = UInt32 (letters.length)
             let rand = arc4random_uniform(length)
-            randomString.appendFormat("%C", letters.characterAtIndex(Int(rand)))
+            randomString.appendFormat("%C", letters.character(at: Int(rand)))
         }
         
         return randomString
@@ -101,12 +101,12 @@ class MeetingRoomAudio:NSObject,SocketClientDelegateWebRTC,RTCPeerConnectionDele
         
         if(self.stream != nil)
         {
-            self.pc.addStream(self.stream)
+            self.pc.add(self.stream)
         }
         else
         {
             self.stream=self.getLocalMediaStream()
-            self.pc.addStream(self.stream)
+            self.pc.add(self.stream)
             
             
             ///////////////self.pc.addStream(self.getLocalMediaStream())
@@ -114,9 +114,9 @@ class MeetingRoomAudio:NSObject,SocketClientDelegateWebRTC,RTCPeerConnectionDele
     }
 
     
-    func toggleAudioPressed(sender: AnyObject) {
-        audioAction = !audioAction.boolValue
-        self.stream!.audioTracks[0].setEnabled(audioAction)
+    func toggleAudioPressed(_ sender: AnyObject) {
+        audioAction = !audioAction
+        (self.stream!.audioTracks[0] as AnyObject).setEnabled(audioAction)
     }
     
     func disconnect()
@@ -230,7 +230,7 @@ class MeetingRoomAudio:NSObject,SocketClientDelegateWebRTC,RTCPeerConnectionDele
             rtcFact=RTCPeerConnectionFactory()
         }
         ////////////////////////
-        self.pc=rtcFact.peerConnectionWithICEServers(rtcICEarray, constraints: self.rtcMediaConst, delegate:self)
+        self.pc=rtcFact.peerConnection(withICEServers: rtcICEarray, constraints: self.rtcMediaConst, delegate:self)
         ////CreateAndAttachDataChannel()
     }
     
@@ -241,7 +241,7 @@ class MeetingRoomAudio:NSObject,SocketClientDelegateWebRTC,RTCPeerConnectionDele
         
         var localStream:RTCMediaStream!
         
-        localStream=rtcFact.mediaStreamWithLabel("ARDAMS")
+        localStream=rtcFact.mediaStream(withLabel: "ARDAMS")
         /////////////************^^^
         ///////var localVideoTrack=createLocalVideoTrack()
         
@@ -259,8 +259,8 @@ class MeetingRoomAudio:NSObject,SocketClientDelegateWebRTC,RTCPeerConnectionDele
             
         }
 */
-        let audioTrack=rtcFact.audioTrackWithID("ARDAMSa0")
-        audioTrack.setEnabled(true)
+        let audioTrack=rtcFact.audioTrack(withID: "ARDAMSa0")
+        audioTrack?.setEnabled(true)
         let addedAudioStream=localStream.addAudioTrack(audioTrack)
         
         print("audio stream \(addedAudioStream)")
@@ -271,7 +271,7 @@ class MeetingRoomAudio:NSObject,SocketClientDelegateWebRTC,RTCPeerConnectionDele
         return localStream
     }
     
-    func didReceiveRemoteAudioTrack(remoteAudioTrack:RTCAudioTrack)
+    func didReceiveRemoteAudioTrack(_ remoteAudioTrack:RTCAudioTrack)
     {
         print("didreceiveremoteaudiotrack")
         
@@ -317,7 +317,7 @@ class MeetingRoomAudio:NSObject,SocketClientDelegateWebRTC,RTCPeerConnectionDele
     }*/
     
 
-    func peerConnection(peerConnection: RTCPeerConnection!, addedStream stream: RTCMediaStream!) {
+    func peerConnection(_ peerConnection: RTCPeerConnection!, addedStream stream: RTCMediaStream!) {
         print("added stream \(stream.debugDescription)")
         print(stream.videoTracks.count)
         print(stream.audioTracks.count)
@@ -328,7 +328,7 @@ class MeetingRoomAudio:NSObject,SocketClientDelegateWebRTC,RTCPeerConnectionDele
         if(stream.audioTracks.count>0)
         {print("remote audio track count is greater than one")
             let remoteAudioTrack=stream.audioTracks[0] as! RTCAudioTrack
-            dispatch_async(dispatch_get_main_queue(), {
+            DispatchQueue.main.async(execute: {
                 
                 self.didReceiveRemoteAudioTrack(remoteAudioTrack)
             })
@@ -339,12 +339,12 @@ class MeetingRoomAudio:NSObject,SocketClientDelegateWebRTC,RTCPeerConnectionDele
         
         
     }
-    func peerConnection(peerConnection: RTCPeerConnection!, didOpenDataChannel dataChannel: RTCDataChannel!) {
+    func peerConnection(_ peerConnection: RTCPeerConnection!, didOpen dataChannel: RTCDataChannel!) {
         print(".................. did open data channel")
         print(dataChannel.description)
         
     }
-    func peerConnection(peerConnection: RTCPeerConnection!, gotICECandidate candidate: RTCICECandidate!) {
+    func peerConnection(_ peerConnection: RTCPeerConnection!, gotICECandidate candidate: RTCICECandidate!) {
         ////////print("got ice candidate")
         
         //// dispatch_async(dispatch_get_main_queue(), {
@@ -360,28 +360,28 @@ class MeetingRoomAudio:NSObject,SocketClientDelegateWebRTC,RTCPeerConnectionDele
         
         //// })
     }
-    func peerConnection(peerConnection: RTCPeerConnection!, iceConnectionChanged newState: RTCICEConnectionState) {
+    func peerConnection(_ peerConnection: RTCPeerConnection!, iceConnectionChanged newState: RTCICEConnectionState) {
         ////////print("............... ice connection changed new state is \(newState.value.description)")
         
     }
-    func peerConnection(peerConnection: RTCPeerConnection!, iceGatheringChanged newState: RTCICEGatheringState) {
+    func peerConnection(_ peerConnection: RTCPeerConnection!, iceGatheringChanged newState: RTCICEGatheringState) {
         ///////// print("............... ice gathering changed \(newState.value.description)")
     }
-    func peerConnection(peerConnection: RTCPeerConnection!, removedStream stream: RTCMediaStream!) {
+    func peerConnection(_ peerConnection: RTCPeerConnection!, removedStream stream: RTCMediaStream!) {
         print("...............removed stream")
         
     }
-    func peerConnection(peerConnection: RTCPeerConnection!, signalingStateChanged stateChanged: RTCSignalingState) {
+    func peerConnection(_ peerConnection: RTCPeerConnection!, signalingStateChanged stateChanged: RTCSignalingState) {
         //////// print("................signalling state changed")
         ////////print(stateChanged.value)
         
     }
-    func peerConnectionOnRenegotiationNeeded(peerConnection: RTCPeerConnection!) {
+    func peerConnection(onRenegotiationNeeded peerConnection: RTCPeerConnection!) {
         ///////////print("............... on negotiation needed")
         
     }
     
-    func peerConnection(peerConnection: RTCPeerConnection!, didCreateSessionDescription sdp: RTCSessionDescription!, error: NSError!) {
+    func peerConnection(_ peerConnection: RTCPeerConnection!, didCreateSessionDescription sdp: RTCSessionDescription!, error: NSError!) {
         print("did create offer/answer session description success")
         //^^^^^^^^^^^^^^^^^^^newwwww
         ////dispatch_async(dispatch_get_main_queue(), {
@@ -409,7 +409,7 @@ class MeetingRoomAudio:NSObject,SocketClientDelegateWebRTC,RTCPeerConnectionDele
                 print(sdp.debugDescription)
                 let sessionDescription=RTCSessionDescription(type: sdp.type!, sdp: sdp.description)
                 
-                self.pc.setLocalDescriptionWithDelegate(self, sessionDescription: sessionDescription)
+                self.pc.setLocalDescriptionWith(self, sessionDescription: sessionDescription)
                 
                 ////print(["by":currentID!,"to":otherID,"sdp":["type":sdp.type!,"sdp":sdp.description],"type":sdp.type!,"username":username!])
                 
@@ -427,7 +427,7 @@ class MeetingRoomAudio:NSObject,SocketClientDelegateWebRTC,RTCPeerConnectionDele
         //// })
         
     }
-    func peerConnection(peerConnection: RTCPeerConnection!, didSetSessionDescriptionWithError error: NSError!) {
+    func peerConnection(_ peerConnection: RTCPeerConnection!, didSetSessionDescriptionWithError error: NSError!) {
         //print(error.localizedDescription)
         
         // If we are acting as the callee then generate an answer to the offer.
@@ -442,7 +442,7 @@ class MeetingRoomAudio:NSObject,SocketClientDelegateWebRTC,RTCPeerConnectionDele
                 self.pc.localDescription == nil {
                     print("creating answer")
                     //^^^^^^^^^ new self.pc.addStream(self.rtcMediaStream)
-                    self.pc.createAnswerWithDelegate(self, constraints: self.rtcMediaConst)
+                    self.pc.createAnswer(with: self, constraints: self.rtcMediaConst)
             }
             else
             {
@@ -458,7 +458,7 @@ class MeetingRoomAudio:NSObject,SocketClientDelegateWebRTC,RTCPeerConnectionDele
         
     }
     
-    func socketReceivedMSGWebRTC(message:String,data:AnyObject!)
+    func socketReceivedMSGWebRTC(_ message:String,data:AnyObject!)
     {print("socketReceivedMSGWebRTC inside")
         switch(message){
         case "msgAudio":
@@ -472,7 +472,7 @@ class MeetingRoomAudio:NSObject,SocketClientDelegateWebRTC,RTCPeerConnectionDele
         }
     }
     
-    func socketReceivedOtherWebRTC(message:String,data:AnyObject!)
+    func socketReceivedOtherWebRTC(_ message:String,data:AnyObject!)
     {
         print("socketReceivedOtherWebRTC inside")
         switch(message){
@@ -510,7 +510,7 @@ class MeetingRoomAudio:NSObject,SocketClientDelegateWebRTC,RTCPeerConnectionDele
         
     }
     
-    func socketReceivedMessageWebRTC(message:String,data:AnyObject!)
+    func socketReceivedMessageWebRTC(_ message:String,data:AnyObject!)
     {print("socketReceivedMessageWebRTC inside")
         switch(message){
             
@@ -525,7 +525,7 @@ class MeetingRoomAudio:NSObject,SocketClientDelegateWebRTC,RTCPeerConnectionDele
     
     
     
-    func handlemsg(data:AnyObject!)
+    func handlemsg(_ data:AnyObject!)
     {
         print("msgAudio reeived.. check if offer answer or ice")
         var msg=JSON(data)
@@ -600,7 +600,7 @@ class MeetingRoomAudio:NSObject,SocketClientDelegateWebRTC,RTCPeerConnectionDele
         
     }
     
-    func handlePeerConnected(data:AnyObject!)
+    func handlePeerConnected(_ data:AnyObject!)
     {
         print("received peer.connected.new Audio obj from server")
         
@@ -626,14 +626,14 @@ class MeetingRoomAudio:NSObject,SocketClientDelegateWebRTC,RTCPeerConnectionDele
             print("peer attached stream")
             
             
-            self.pc.createOfferWithDelegate(self, constraints: self.rtcMediaConst!)
+            self.pc.createOffer(with: self, constraints: self.rtcMediaConst!)
         }
         
     }
     
     
     
-    func handlePeerDisconnected(data:AnyObject!)
+    func handlePeerDisconnected(_ data:AnyObject!)
     {
         print("received peer.disconnected audio obj from server")
         
@@ -693,7 +693,7 @@ class MeetingRoomAudio:NSObject,SocketClientDelegateWebRTC,RTCPeerConnectionDele
         }*/
     }
     */
-    func handleMessage(data:AnyObject!)
+    func handleMessage(_ data:AnyObject!)
     {
         var msg=JSON(data)
         print(msg.debugDescription)
@@ -843,18 +843,18 @@ class MeetingRoomAudio:NSObject,SocketClientDelegateWebRTC,RTCPeerConnectionDele
         
         
     }
-    func channel(channel: RTCDataChannel!, didChangeBufferedAmount amount: UInt) {
+    func channel(_ channel: RTCDataChannel!, didChangeBufferedAmount amount: UInt) {
         print("didChangeBufferedAmount \(amount)")
         
     }
-    func channel(channel: RTCDataChannel!, didReceiveMessageWithBuffer buffer: RTCDataBuffer!) {
+    func channel(_ channel: RTCDataChannel!, didReceiveMessageWithBuffer buffer: RTCDataBuffer!) {
         print("didReceiveMessageWithBuffer")
         print(buffer.data.debugDescription)
         var channelJSON=JSON(buffer.data!)
         print(channelJSON.debugDescription)
         
     }
-    func channelDidChangeState(channel: RTCDataChannel!) {
+    func channelDidChangeState(_ channel: RTCDataChannel!) {
         print("channelDidChangeState")
         print(channel.debugDescription)
         

@@ -46,7 +46,7 @@ class MeetingRoomVideo:NSObject,RTCPeerConnectionDelegate,RTCSessionDescriptionD
         super.init()
     }
     
-    func mediaStreamTrackDidChange(mediaStreamTrack: RTCMediaStreamTrack!) {
+    func mediaStreamTrackDidChange(_ mediaStreamTrack: RTCMediaStreamTrack!) {
         
         print("****************** rtc media stream video track changed")
     }
@@ -109,7 +109,7 @@ class MeetingRoomVideo:NSObject,RTCPeerConnectionDelegate,RTCSessionDescriptionD
         //march 30 2016 new if
         if(pc == nil)
         {
-        self.pc=rtcFact.peerConnectionWithICEServers(rtcICEarray, constraints: self.rtcMediaConst, delegate:self)
+        self.pc=rtcFact.peerConnection(withICEServers: rtcICEarray, constraints: self.rtcMediaConst, delegate:self)
         }
         
         //march 30 2016 --- newwww commented
@@ -215,17 +215,17 @@ class MeetingRoomVideo:NSObject,RTCPeerConnectionDelegate,RTCSessionDescriptionD
     
     func sendOffer()
     {
-     self.pc.createOfferWithDelegate(self, constraints: self.rtcMediaConst!)
+     self.pc.createOffer(with: self, constraints: self.rtcMediaConst!)
     }
     
     
     func sendAnswer()
     {
-        self.pc.createAnswerWithDelegate(self, constraints: self.rtcMediaConst)
+        self.pc.createAnswer(with: self, constraints: self.rtcMediaConst)
         
     }
     
-    func toggleVideo(videoAction:Bool,s:RTCMediaStream!)
+    func toggleVideo(_ videoAction:Bool,s:RTCMediaStream!)
     {
         /*
         toggleVideo: function (p, s) {
@@ -246,7 +246,7 @@ class MeetingRoomVideo:NSObject,RTCPeerConnectionDelegate,RTCSessionDescriptionD
             self.rtcLocalVideoTrack=nil
             //////////////////////////^^^^^^^^^^^^^^^^^^newwwww
             
-            dispatch_async(dispatch_get_main_queue(), {
+            DispatchQueue.main.async(execute: {
                 
                 self.delegateConference.didremoveLocalVideoTrack()
             })
@@ -290,7 +290,7 @@ class MeetingRoomVideo:NSObject,RTCPeerConnectionDelegate,RTCSessionDescriptionD
         
         */
 
-        socketObj.socket.emit("conference.streamVideo", ["username":username!,"id":currentID!,"type":"video","action":videoAction.boolValue])
+        socketObj.socket.emit("conference.streamVideo", ["username":username!,"id":currentID!,"type":"video","action":videoAction])
         
         
         
@@ -330,7 +330,7 @@ class MeetingRoomVideo:NSObject,RTCPeerConnectionDelegate,RTCSessionDescriptionD
     
     
     
-    func peerConnection(peerConnection: RTCPeerConnection!, addedStream stream: RTCMediaStream!) {
+    func peerConnection(_ peerConnection: RTCPeerConnection!, addedStream stream: RTCMediaStream!) {
         print("video added remote stream count is \(stream.videoTracks.count)")
         
         
@@ -347,7 +347,7 @@ class MeetingRoomVideo:NSObject,RTCPeerConnectionDelegate,RTCSessionDescriptionD
         }
         
     }
-    func peerConnection(peerConnection: RTCPeerConnection!, didCreateSessionDescription sdp: RTCSessionDescription!, error: NSError!) {
+    func peerConnection(_ peerConnection: RTCPeerConnection!, didCreateSessionDescription sdp: RTCSessionDescription!, error: NSError!) {
         
         print("video did create offer/answer session description success")
         //^^^^^^^^^^^^^^^^^^^newwwww
@@ -374,7 +374,7 @@ class MeetingRoomVideo:NSObject,RTCPeerConnectionDelegate,RTCSessionDescriptionD
                 //print(sdp.debugDescription)
                 let sessionDescription=RTCSessionDescription(type: sdp.type!, sdp: sdp.description)
                 
-                self.pc.setLocalDescriptionWithDelegate(self, sessionDescription: sessionDescription)
+                self.pc.setLocalDescriptionWith(self, sessionDescription: sessionDescription)
                 
                 ////print(["by":currentID!,"to":otherID,"sdp":["type":sdp.type!,"sdp":sdp.description],"type":sdp.type!,"username":username!])
                 socketObj.socket.emit("logClient","IPHONE-LOG: \(username!) sending video \(sdp.type) to \(iamincallWith!)")
@@ -399,11 +399,11 @@ class MeetingRoomVideo:NSObject,RTCPeerConnectionDelegate,RTCSessionDescriptionD
         }
         
     }
-    func peerConnection(peerConnection: RTCPeerConnection!, didOpenDataChannel dataChannel: RTCDataChannel!) {
+    func peerConnection(_ peerConnection: RTCPeerConnection!, didOpen dataChannel: RTCDataChannel!) {
         
         
     }
-    func peerConnection(peerConnection: RTCPeerConnection!, didSetSessionDescriptionWithError error: NSError!) {
+    func peerConnection(_ peerConnection: RTCPeerConnection!, didSetSessionDescriptionWithError error: NSError!) {
         
         print("inside videodidSetSessionDescriptionWithError")
         
@@ -420,7 +420,7 @@ class MeetingRoomVideo:NSObject,RTCPeerConnectionDelegate,RTCSessionDescriptionD
             
                 {
                     socketObj.socket.emit("logClient","IPHONE-LOG: \(username!) created video answer for \(iamincallWith!)")
-                    self.pc.createAnswerWithDelegate(self, constraints: self.rtcMediaConst)
+                    self.pc.createAnswer(with: self, constraints: self.rtcMediaConst)
                 }
                     /* if isInitiator == true &&
                     self.pc.localDescription == nil {
@@ -446,7 +446,7 @@ class MeetingRoomVideo:NSObject,RTCPeerConnectionDelegate,RTCSessionDescriptionD
 
         
     }
-    func peerConnection(peerConnection: RTCPeerConnection!, gotICECandidate candidate: RTCICECandidate!) {
+    func peerConnection(_ peerConnection: RTCPeerConnection!, gotICECandidate candidate: RTCICECandidate!) {
         print("got icecand video")
         var cnd=JSON(["sdpMLineIndex":candidate.sdpMLineIndex,"sdpMid":candidate.sdpMid!,"candidate":candidate.sdp!])
         
@@ -457,37 +457,37 @@ class MeetingRoomVideo:NSObject,RTCPeerConnectionDelegate,RTCSessionDescriptionD
         socketObj.socket.emit("logClient","IPHONE-LOG: \(username!) sent video ice candidates to \(iamincallWith!)")
         
     }
-    func peerConnection(peerConnection: RTCPeerConnection!, iceConnectionChanged newState: RTCICEConnectionState) {
+    func peerConnection(_ peerConnection: RTCPeerConnection!, iceConnectionChanged newState: RTCICEConnectionState) {
         
         
     }
-    func peerConnection(peerConnection: RTCPeerConnection!, iceGatheringChanged newState: RTCICEGatheringState) {
+    func peerConnection(_ peerConnection: RTCPeerConnection!, iceGatheringChanged newState: RTCICEGatheringState) {
         
         
     }
-    func peerConnection(peerConnection: RTCPeerConnection!, removedStream stream: RTCMediaStream!) {
+    func peerConnection(_ peerConnection: RTCPeerConnection!, removedStream stream: RTCMediaStream!) {
         
         
     }
-    func peerConnection(peerConnection: RTCPeerConnection!, signalingStateChanged stateChanged: RTCSignalingState) {
+    func peerConnection(_ peerConnection: RTCPeerConnection!, signalingStateChanged stateChanged: RTCSignalingState) {
         
         
     }
-    func peerConnectionOnRenegotiationNeeded(peerConnection: RTCPeerConnection!) {
+    func peerConnection(onRenegotiationNeeded peerConnection: RTCPeerConnection!) {
         
         
     }
         
-        func randomStringWithLength (len : Int) -> NSString {
+        func randomStringWithLength (_ len : Int) -> NSString {
             
             let letters : NSString = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
             
             let randomString : NSMutableString = NSMutableString(capacity: len)
             
-            for (var i=0; i < len; i++){
+            for (i in 0 ..< len){
                 let length = UInt32 (letters.length)
                 let rand = arc4random_uniform(length)
-                randomString.appendFormat("%C", letters.characterAtIndex(Int(rand)))
+                randomString.appendFormat("%C", letters.character(at: Int(rand)))
             }
             
             return randomString
@@ -497,7 +497,7 @@ class MeetingRoomVideo:NSObject,RTCPeerConnectionDelegate,RTCSessionDescriptionD
     
     
     
-    func handlemsg(data:AnyObject!)
+    func handlemsg(_ data:AnyObject!)
     {
         
                 print("msgVideo reeived.. check if offer answer or ice")
@@ -585,7 +585,7 @@ class MeetingRoomVideo:NSObject,RTCPeerConnectionDelegate,RTCSessionDescriptionD
             
             ////if(rtcLocalstream != nil || streambackup != nil)
             //{
-                pc.addStream(streambackup)
+                pc.add(streambackup)
             ///}
             
             
@@ -680,7 +680,7 @@ class MeetingRoomVideo:NSObject,RTCPeerConnectionDelegate,RTCSessionDescriptionD
     
         
 
-    func handleConferenceStream(data:AnyObject!)
+    func handleConferenceStream(_ data:AnyObject!)
     {
         var datajson=JSON(data!)
         print(datajson.debugDescription)
@@ -855,7 +855,7 @@ func addHandlers()
         
         //print("msgVideo reeived.. check if offer answer or ice")
         print("msgVideo received from socket")
-        self.handlemsg(data)
+        self.handlemsg(data as AnyObject!)
         /*switch(message){
             
        // case "peer.connected.new":
@@ -903,7 +903,7 @@ func addHandlers()
     socketObj.socket.on("conference.streamVideo"){data,ack in
         
         print("received conference.streamVideo obj from server")
-        self.handleConferenceStream(data)
+        self.handleConferenceStream(data as AnyObject!)
         //self.delegateWebRTCVideo.socketReceivedOtherWebRTCVideo("conference.streamVideo", data: data)
         
     }
@@ -985,9 +985,9 @@ func addHandlers()
 
 protocol ConferenceDelegate:class
 {
-    func didReceiveRemoteVideoTrack(remoteAudioTrack:RTCVideoTrack);
+    func didReceiveRemoteVideoTrack(_ remoteAudioTrack:RTCVideoTrack);
     func didRemoveRemoteVideoTrack();
     //func didReceiveLocalVideoTrack(localVideoTrack:RTCVideoTrack);
-    func didReceiveLocalVideoTrack(remoteVideoTrack:RTCVideoTrack);
+    func didReceiveLocalVideoTrack(_ remoteVideoTrack:RTCVideoTrack);
     func didremoveLocalVideoTrack();
 }

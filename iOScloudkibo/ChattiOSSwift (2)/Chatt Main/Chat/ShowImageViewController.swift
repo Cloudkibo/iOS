@@ -12,10 +12,10 @@ class ShowImageViewController: UIViewController {
 
     var newimage:UIImage? = nil
     
-    override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: NSBundle?)
+    override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?)
     {
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
-        print(NSBundle.debugDescription())
+        print(Bundle.debugDescription())
         
         // Custom initialization
     }
@@ -24,10 +24,10 @@ class ShowImageViewController: UIViewController {
         super.init(coder: aDecoder)
     }
     
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         //fillImageView = UIImageView(image: newimage)
         fillImageView?.image=newimage
-        fillImageView?.contentMode = .ScaleAspectFit
+        fillImageView?.contentMode = .scaleAspectFit
         //fillImageView?.image
         fillImageView?.setNeedsDisplay()
     }

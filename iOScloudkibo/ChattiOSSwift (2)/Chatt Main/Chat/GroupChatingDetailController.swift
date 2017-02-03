@@ -32,7 +32,7 @@ class GroupChatingDetailController: UIViewController,UpdateGroupChatDetailsDeleg
     var delegateReload:UpdateGroupChatDetailsDelegate!
     var mytitle=""
     var groupid1=""
-    var groupimage:NSData!=nil
+    var groupimage:Data!=nil
     var messages:NSMutableArray!
     @IBOutlet var tblForGroupChat: UITableView!
     
@@ -40,33 +40,33 @@ class GroupChatingDetailController: UIViewController,UpdateGroupChatDetailsDeleg
    
     @IBOutlet weak var chatComposeView: UIView!
     
-    @IBAction func backBtnPressed(sender: AnyObject) {
-        self.dismissViewControllerAnimated(true) { 
+    @IBAction func backBtnPressed(_ sender: AnyObject) {
+        self.dismiss(animated: true) { 
             
             
         }
     }
-    func setTitle(title:String, subtitle:String) -> UIView {
+    func setTitle(_ title:String, subtitle:String) -> UIView {
         //Create a label programmatically and give it its property's
-        let titleLabel = UILabel(frame: CGRectMake(0, 0, 0, 0)) //x, y, width, height where y is to offset from the view center
-        titleLabel.backgroundColor = UIColor.clearColor()
-        titleLabel.textColor = UIColor.whiteColor()
-        titleLabel.font = UIFont.boldSystemFontOfSize(17)
+        let titleLabel = UILabel(frame: CGRect(x: 0, y: 0, width: 0, height: 0)) //x, y, width, height where y is to offset from the view center
+        titleLabel.backgroundColor = UIColor.clear
+        titleLabel.textColor = UIColor.white
+        titleLabel.font = UIFont.boldSystemFont(ofSize: 17)
         titleLabel.text = title
         titleLabel.sizeToFit()
         
         //Create a label for the Subtitle
-        let subtitleLabel = UILabel(frame: CGRectMake(0, 18, 0, 0))
-        subtitleLabel.backgroundColor = UIColor.clearColor()
+        let subtitleLabel = UILabel(frame: CGRect(x: 0, y: 18, width: 0, height: 0))
+        subtitleLabel.backgroundColor = UIColor.clear
         //subtitleLabel.textColor = UIColor.lightGrayColor()
-        subtitleLabel.textColor = UIColor.blackColor()
+        subtitleLabel.textColor = UIColor.black
         
-        subtitleLabel.font = UIFont.systemFontOfSize(12)
+        subtitleLabel.font = UIFont.systemFont(ofSize: 12)
         subtitleLabel.text = subtitle
         subtitleLabel.sizeToFit()
         
         //===
-        let titleView = UIView(frame: CGRectMake(0, 0, max(titleLabel.frame.size.width, subtitleLabel.frame.size.width), 30))
+        let titleView = UIView(frame: CGRect(x: 0, y: 0, width: max(titleLabel.frame.size.width, subtitleLabel.frame.size.width), height: 30))
         titleView.addSubview(titleLabel)
         titleView.addSubview(subtitleLabel)
         
@@ -74,7 +74,7 @@ class GroupChatingDetailController: UIViewController,UpdateGroupChatDetailsDeleg
         
         var frame = titleLabel.frame
         frame.origin.x = widthDiff / 2
-        titleLabel.frame = CGRectIntegral(frame)
+        titleLabel.frame = frame.integral
         /*if widthDiff > 0 {
             var frame = titleLabel.frame
             frame.origin.x = widthDiff / 2
@@ -107,22 +107,22 @@ class GroupChatingDetailController: UIViewController,UpdateGroupChatDetailsDeleg
         return titleView
     }
 
-    @IBAction func btnSendTapped(sender: AnyObject){
+    @IBAction func btnSendTapped(_ sender: AnyObject){
         
         var uniqueid_chat=generateUniqueid()
-        var date=getDateString(NSDate())
+        var date=getDateString(Date())
         var status="pending"
-        messages.addObject(["msg":txtFieldMessage.text!+" (pending)", "type":"2", "fromFullName":"","date":date,"uniqueid":uniqueid_chat])
+        messages.add(["msg":txtFieldMessage.text!+" (pending)", "type":"2", "fromFullName":"","date":date,"uniqueid":uniqueid_chat])
         
         
   
         
         //save chat
-        sqliteDB.storeGroupsChat(username!, group_unique_id1: groupid1, type1: "chat", msg1: txtFieldMessage.text!, from_fullname1: username!, date1: NSDate(), unique_id1: uniqueid_chat)
+        sqliteDB.storeGroupsChat(username!, group_unique_id1: groupid1, type1: "chat", msg1: txtFieldMessage.text!, from_fullname1: username!, date1: Date(), unique_id1: uniqueid_chat)
         
         
         //get members and store status as pending
-        for(var i=0;i<membersList.count;i++)
+        for(i in 0 ..< membersList.count)
         {
             /*
              let member_phone = Expression<String>("member_phone")
@@ -141,8 +141,8 @@ class GroupChatingDetailController: UIViewController,UpdateGroupChatDetailsDeleg
         tblForGroupChat.reloadData()
         if(messages.count>1)
         {
-            var indexPath = NSIndexPath(forRow:messages.count-1, inSection: 0)
-            tblForGroupChat.scrollToRowAtIndexPath(indexPath, atScrollPosition: UITableViewScrollPosition.Bottom, animated: true)
+            var indexPath = IndexPath(row:messages.count-1, section: 0)
+            tblForGroupChat.scrollToRow(at: indexPath, at: UITableViewScrollPosition.bottom, animated: true)
   
         
             
@@ -151,7 +151,7 @@ class GroupChatingDetailController: UIViewController,UpdateGroupChatDetailsDeleg
         /////// dispatch_async(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED,0))
         ////// {
         
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT,0))
+        DispatchQueue.global(priority: DispatchQueue.GlobalQueuePriority.default).async
         {
             print("messages count before sending msg is \(self.messages.count)")
             self.sendChatMessage(self.groupid1, from: username!, type: "chat", msg: chatmsg, fromFullname: username!, uniqueidChat: uniqueid_chat, completion: { (result) in
@@ -159,11 +159,11 @@ class GroupChatingDetailController: UIViewController,UpdateGroupChatDetailsDeleg
                 print("chat sent")
                 if(result==true)
                 {
-                    for(var i=0;i<self.membersList.count;i++)
+                    for(i in 0 ..< self.membersList.count)
                     {
                     if((self.membersList[i]["member_phone"] as! String) != username! && (self.membersList[i]["membership_status"] as! String) != "left")
                     {
-                        sqliteDB.updateGroupChatStatus(uniqueid_chat, memberphone1: self.membersList[i]["member_phone"]! as! String, status1: "sent", delivereddate1: NSDate(), readDate1: NSDate())
+                        sqliteDB.updateGroupChatStatus(uniqueid_chat, memberphone1: self.membersList[i]["member_phone"]! as! String, status1: "sent", delivereddate1: Date(), readDate1: Date())
                         
                          // === wrong sqliteDB.storeGRoupsChatStatus(uniqueid_chat, status1: "sent", memberphone1: self.membersList[i]["member_phone"]! as! String, delivereddate1: UtilityFunctions.init().minimumDate(), readDate1: UtilityFunctions.init().minimumDate())
                     }
@@ -179,7 +179,7 @@ class GroupChatingDetailController: UIViewController,UpdateGroupChatDetailsDeleg
     
     }
     
-    func sendChatMessage(group_id:String,from:String,type:String,msg:String,fromFullname:String,uniqueidChat:String,completion:(result:Bool)->())
+    func sendChatMessage(_ group_id:String,from:String,type:String,msg:String,fromFullname:String,uniqueidChat:String,completion:@escaping (_ result:Bool)->())
     {
         // let queue=dispatch_get_global_queue(QOS_CLASS_USER_INITIATED,0)
         // let queue = dispatch_queue_create("com.kibochat.manager-response-queue", DISPATCH_QUEUE_CONCURRENT)
@@ -247,7 +247,7 @@ class GroupChatingDetailController: UIViewController,UpdateGroupChatDetailsDeleg
     
 
     
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         
         
         //======== self.navigationController?.title=mytitle
@@ -264,7 +264,7 @@ class GroupChatingDetailController: UIViewController,UpdateGroupChatDetailsDeleg
    
         
         var namesList=[String]()
-        for(var i=0;i<membersList.count;i++)
+        for(i in 0 ..< membersList.count)
         {
             //var fullname=""
             if((sqliteDB.getNameFromAddressbook(membersList[i]["member_phone"] as! String)) != nil)
@@ -283,7 +283,7 @@ class GroupChatingDetailController: UIViewController,UpdateGroupChatDetailsDeleg
                 }
             }
         }
-        var subtitleMembers=namesList.joinWithSeparator(",").trunc(20)
+        var subtitleMembers=namesList.joined(separator: ",").trunc(20)
       self.navigationItem.titleView = setTitle(mytitle, subtitle: subtitleMembers)
        // self.navigationItem.title = mytitle
        // self.navigationItem.prompt=subtitleMembers
@@ -295,9 +295,9 @@ class GroupChatingDetailController: UIViewController,UpdateGroupChatDetailsDeleg
             
             if(self.messages.count>1)
             {
-                var indexPath = NSIndexPath(forRow:self.messages.count-1, inSection: 0)
+                var indexPath = IndexPath(row:self.messages.count-1, section: 0)
                 
-                self.tblForGroupChat.scrollToRowAtIndexPath(indexPath, atScrollPosition: UITableViewScrollPosition.Bottom, animated: true)
+                self.tblForGroupChat.scrollToRow(at: indexPath, at: UITableViewScrollPosition.bottom, animated: true)
             }
         }
         
@@ -311,22 +311,22 @@ class GroupChatingDetailController: UIViewController,UpdateGroupChatDetailsDeleg
         messages=NSMutableArray()
         
         
-        NSNotificationCenter.defaultCenter().removeObserver(self, name:UIApplicationWillResignActiveNotification, object: nil)
+        NotificationCenter.default.removeObserver(self, name:NSNotification.Name.UIApplicationWillResignActive, object: nil)
         
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("applicationWillResignActive:"), name:UIApplicationWillResignActiveNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(UIApplicationDelegate.applicationWillResignActive(_:)), name:NSNotification.Name.UIApplicationWillResignActive, object: nil)
         
         //
         
-        NSNotificationCenter.defaultCenter().removeObserver(self, name:UIKeyboardWillShowNotification, object: nil)
+        NotificationCenter.default.removeObserver(self, name:NSNotification.Name.UIKeyboardWillShow, object: nil)
         
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("applicationDidBecomeActive:"), name:UIApplicationDidBecomeActiveNotification, object: nil)
-        
-        
+        NotificationCenter.default.addObserver(self, selector: #selector(UIApplicationDelegate.applicationDidBecomeActive(_:)), name:NSNotification.Name.UIApplicationDidBecomeActive, object: nil)
         
         
-        NSNotificationCenter.defaultCenter().removeObserver(self, name:UIKeyboardWillShowNotification, object: nil)
         
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("keyboardWillShow:"), name:UIKeyboardWillShowNotification, object: nil)
+        
+        NotificationCenter.default.removeObserver(self, name:NSNotification.Name.UIKeyboardWillShow, object: nil)
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(GroupChatingDetailController.keyboardWillShow(_:)), name:NSNotification.Name.UIKeyboardWillShow, object: nil)
         
        //uncomment later NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("keyboardWillHide:"), name: UIKeyboardWillHideNotification, object: nil)
         
@@ -427,39 +427,39 @@ class GroupChatingDetailController: UIViewController,UpdateGroupChatDetailsDeleg
 
     }
     
-    func applicationDidBecomeActive(notification : NSNotification)
+    func applicationDidBecomeActive(_ notification : Notification)
     {print("app active chat details view")
         //print("didbecomeactivenotification=========")
         //  NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("applicationWillResignActive:"), name:UIApplicationWillResignActiveNotification, object: nil)
         
         //
         //   NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("applicationDidBecomeActive:"), name:UIApplicationDidBecomeActiveNotification, object: nil)
-        NSNotificationCenter.defaultCenter().removeObserver(self, name:UIKeyboardWillShowNotification, object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("keyboardWillShow:"), name:UIKeyboardWillShowNotification, object: nil)
+        NotificationCenter.default.removeObserver(self, name:NSNotification.Name.UIKeyboardWillShow, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(GroupChatingDetailController.keyboardWillShow(_:)), name:NSNotification.Name.UIKeyboardWillShow, object: nil)
         
         
         UIDelegates.getInstance().delegateGroupChatDetails1=self
         //// NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("willHideKeyBoard:"), name:UIKeyboardWillHideNotification, object: nil)
     }
-    func applicationWillResignActive(notification : NSNotification){
+    func applicationWillResignActive(_ notification : Notification){
         /////////self.view.endEditing(true)
         //print("applicationWillResignActive=========")
-        NSNotificationCenter.defaultCenter().removeObserver(self, name:UIKeyboardWillShowNotification, object: nil)
+        NotificationCenter.default.removeObserver(self, name:NSNotification.Name.UIKeyboardWillShow, object: nil)
         
     }
     
 
-    func getDateString(datetime:NSDate)->String
+    func getDateString(_ datetime:Date)->String
     {
-        var formatter2 = NSDateFormatter();
+        let formatter2 = DateFormatter();
         formatter2.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSS"
-        formatter2.timeZone = NSTimeZone.localTimeZone()
-        var defaultTimeeee = formatter2.stringFromDate(datetime)
+        formatter2.timeZone = TimeZone.autoupdatingCurrent
+        let defaultTimeeee = formatter2.string(from: datetime)
         return defaultTimeeee
     }
     
     
-    func retrieveChatFromSqlite(completion:(result:Bool)->())
+    func retrieveChatFromSqlite(_ completion:(_ result:Bool)->())
     {
         //print("retrieveChatFromSqlite called---------")
         ///^^messages.removeAllObjects()
@@ -470,11 +470,11 @@ class GroupChatingDetailController: UIViewController,UpdateGroupChatDetailsDeleg
         let type = Expression<String>("type")
         let msg = Expression<String>("msg")
         let from_fullname = Expression<String>("from_fullname")
-        let date = Expression<NSDate>("date")
+        let date = Expression<Date>("date")
         let unique_id = Expression<String>("unique_id")
         
         var tbl_userchats=sqliteDB.group_chat
-        var res=tbl_userchats.filter(group_unique_id==groupid1)
+        var res=tbl_userchats?.filter(group_unique_id==groupid1)
         //to==selecteduser || from==selecteduser
         //print("chat from sqlite is")
         //print(res)
@@ -483,7 +483,7 @@ class GroupChatingDetailController: UIViewController,UpdateGroupChatDetailsDeleg
             
             //for tblContacts in try sqliteDB.db.prepare(tbl_userchats.filter(owneruser==owneruser1)){
             ////print("queryy runned count is \(tbl_contactslists.count)")
-            for tblUserChats in try sqliteDB.db.prepare(tbl_userchats.filter(group_unique_id==groupid1).order(date.asc)){
+            for tblUserChats in try sqliteDB.db.prepare((tbl_userchats?.filter(group_unique_id==groupid1).order(date.asc))!){
                 
                 print("data of group table chat got is \(tblUserChats)")
                 //print("===fetch date from database is tblContacts[date] \(tblContacts[date])")
@@ -498,10 +498,10 @@ class GroupChatingDetailController: UIViewController,UpdateGroupChatDetailsDeleg
                 // var defaultTimeZoneStr2 = formatter.stringFromDate(defaultTimeZoneStr!)
                 
                 
-                var formatter2 = NSDateFormatter();
+                var formatter2 = DateFormatter();
                 formatter2.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSS"
-                formatter2.timeZone = NSTimeZone.localTimeZone()
-                var defaultTimeeee = formatter2.stringFromDate(tblUserChats[date])
+                formatter2.timeZone = NSTimeZone.local
+                var defaultTimeeee = formatter2.string(from: tblUserChats[date])
                 
                 var fullname=""
                 if((sqliteDB.getNameFromAddressbook(tblUserChats[from])) != nil)
@@ -595,7 +595,7 @@ class GroupChatingDetailController: UIViewController,UpdateGroupChatDetailsDeleg
                 }
  
  
-                if(tblUserChats[type].lowercaseString=="log")//check left
+                if(tblUserChats[type].lowercased()=="log")//check left
                 {
                     
                     
@@ -603,7 +603,7 @@ class GroupChatingDetailController: UIViewController,UpdateGroupChatDetailsDeleg
                    if(memStatus == "left")
                    {
                     self.txtFieldMessage.text="You left the group"
-                    self.chatComposeView.userInteractionEnabled=false
+                    self.chatComposeView.isUserInteractionEnabled=false
                     }
                 }
                 
@@ -631,12 +631,12 @@ class GroupChatingDetailController: UIViewController,UpdateGroupChatDetailsDeleg
                             }
                         }
                     }
-                            messages2.addObject(["msg":tblUserChats[msg]+" (\(status))", "type":"2", "fromFullName":fullname,"date":defaultTimeeee, "uniqueid":tblUserChats[unique_id]])
+                            messages2.add(["msg":tblUserChats[msg]+" (\(status))", "type":"2", "fromFullName":fullname,"date":defaultTimeeee, "uniqueid":tblUserChats[unique_id]])
                 }
                 else
                 {
                         
-                    messages2.addObject(["msg":tblUserChats[msg], "type":"1", "fromFullName":fullname,"date":defaultTimeeee, "uniqueid":tblUserChats[unique_id]])
+                    messages2.add(["msg":tblUserChats[msg], "type":"1", "fromFullName":fullname,"date":defaultTimeeee, "uniqueid":tblUserChats[unique_id]])
              
                 }
                 
@@ -647,7 +647,7 @@ class GroupChatingDetailController: UIViewController,UpdateGroupChatDetailsDeleg
             ////////////self.messages.addObjectsFromArray(messages2 as [AnyObject])
             
             
-            completion(result:true)
+            completion(true)
             /*
              self.tblForChats.reloadData()
              
@@ -668,9 +668,9 @@ class GroupChatingDetailController: UIViewController,UpdateGroupChatDetailsDeleg
     }
     
     
-    func addMessage(message: String, ofType msgType:String, date:String, uniqueid:String)
+    func addMessage(_ message: String, ofType msgType:String, date:String, uniqueid:String)
     {
-        messages.addObject(["message":message, "type":msgType, "date":date, "uniqueid":uniqueid])
+        messages.add(["message":message, "type":msgType, "date":date, "uniqueid":uniqueid])
     }
     
     //uncomment later
@@ -681,22 +681,22 @@ class GroupChatingDetailController: UIViewController,UpdateGroupChatDetailsDeleg
     }*/
     
     
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return messages.count
     }
     
     
-    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+    func tableView(_ tableView: UITableView, heightForRowAtIndexPath indexPath: IndexPath) -> CGFloat {
         
         ////======return 60
         
-        var messageDic = messages.objectAtIndex(indexPath.row) as! [String : String];
+        var messageDic = messages.object(at: indexPath.row) as! [String : String];
         
         let msg = messageDic["msg"] as NSString!
         let msgType = messageDic["type"]! as NSString
-        if(msgType.isEqualToString("3")||msgType.isEqualToString("4"))
+        if(msgType.isEqual(to: "3")||msgType.isEqual(to: "4"))
         {
-            var cell = tblForGroupChat.dequeueReusableCellWithIdentifier("FileImageReceivedCell")! as UITableViewCell
+            let cell = tblForGroupChat.dequeueReusableCell(withIdentifier: "FileImageReceivedCell")! as UITableViewCell
             let chatImage = cell.viewWithTag(1) as! UIImageView
             
             
@@ -713,13 +713,13 @@ class GroupChatingDetailController: UIViewController,UpdateGroupChatDetailsDeleg
         }
         else
         {
-            let sizeOFStr = self.getSizeOfString(msg)
+            let sizeOFStr = self.getSizeOfString(msg!)
             
             return sizeOFStr.height + 70
         }
     }
     
-    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    func numberOfSectionsInTableView(_ tableView: UITableView) -> Int {
         
         return 1
     }
@@ -750,25 +750,25 @@ class GroupChatingDetailController: UIViewController,UpdateGroupChatDetailsDeleg
         
     }*/
     
-     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+     func tableView(_ tableView: UITableView, cellForRowAtIndexPath indexPath: IndexPath) -> UITableViewCell {
         
       
         
-        var messageDic = messages.objectAtIndex(indexPath.row) as! [String : String];
+        var messageDic = messages.object(at: indexPath.row) as! [String : String];
        // NSLog(messageDic["message"]!, 1)
         let msgType = messageDic["type"] as NSString!
         let msg = messageDic["msg"] as NSString!
         let date2=messageDic["date"] as NSString!
         let fullname=messageDic["fromFullName"] as NSString!
-        let sizeOFStr = self.getSizeOfString(msg)
+        let sizeOFStr = self.getSizeOfString(msg!)
         let uniqueidDictValue=messageDic["uniqueid"] as NSString!
         
         
-        if(msgType.isEqual("2"))
+        if(msgType?.isEqual("2"))!
         {
             print("my msg \(msg)")
             //i am sender
-            var cell = tblForGroupChat.dequeueReusableCellWithIdentifier("ChatReceivedCell")! as UITableViewCell
+            let cell = tblForGroupChat.dequeueReusableCell(withIdentifier: "ChatReceivedCell")! as UITableViewCell
             let msgLabel = cell.viewWithTag(12) as! UILabel
             let chatImage = cell.viewWithTag(1) as! UIImageView
             let timeLabel = cell.viewWithTag(11) as! UILabel
@@ -780,25 +780,25 @@ class GroupChatingDetailController: UIViewController,UpdateGroupChatDetailsDeleg
             let distanceFactor = (197.0 - sizeOFStr.width) < 107 ? (197.0 - sizeOFStr.width) : 107
             //// //print("distanceFactor for \(msg) is \(distanceFactor)")
             
-            chatImage.frame = CGRectMake(20 + distanceFactor, chatImage.frame.origin.y, ((sizeOFStr.width + 107)  > 207 ? (sizeOFStr.width + 107) : 200), sizeOFStr.height + 40)
+            chatImage.frame = CGRect(x: 20 + distanceFactor, y: chatImage.frame.origin.y, width: ((sizeOFStr.width + 107)  > 207 ? (sizeOFStr.width + 107) : 200), height: sizeOFStr.height + 40)
             ////    //print("chatImage.x for \(msg) is \(20 + distanceFactor) and chatimage.wdith is \(chatImage.frame.width)")
             
             
-            msgLabel.hidden=false
+            msgLabel.isHidden=false
             //chatImage.frame = CGRectMake(20 + distanceFactor, chatImage.frame.origin.y, ((sizeOFStr.width + 100)  > 200 ? (sizeOFStr.width + 100) : 200), sizeOFStr.height + 40)
-            chatImage.image = UIImage(named: "chat_send")?.stretchableImageWithLeftCapWidth(40,topCapHeight: 20);
+            chatImage.image = UIImage(named: "chat_send")?.stretchableImage(withLeftCapWidth: 40,topCapHeight: 20);
             //*********
             
-            msgLabel.frame = CGRectMake(36 + distanceFactor, msgLabel.frame.origin.y, msgLabel.frame.size.width, sizeOFStr.height)
+            msgLabel.frame = CGRect(x: 36 + distanceFactor, y: msgLabel.frame.origin.y, width: msgLabel.frame.size.width, height: sizeOFStr.height)
             
             // //print("date received in chat is \(date2.debugDescription)")
-            var formatter = NSDateFormatter();
+            let formatter = DateFormatter();
             formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSS";
             //formatter.dateFormat = "MM/dd hh:mm a"";
-            formatter.timeZone = NSTimeZone.localTimeZone()
-            var defaultTimeZoneStr = formatter.dateFromString(date2.debugDescription)
+            formatter.timeZone = TimeZone.autoupdatingCurrent
+            let defaultTimeZoneStr = formatter.date(from: date2.debugDescription)
             //print("defaultTimeZoneStr \(defaultTimeZoneStr)")
-            timeLabel.frame = CGRectMake(36 + distanceFactor, msgLabel.frame.origin.y+msgLabel.frame.height+10, chatImage.frame.size.width-46, timeLabel.frame.size.height)
+            timeLabel.frame = CGRect(x: 36 + distanceFactor, y: msgLabel.frame.origin.y+msgLabel.frame.height+10, width: chatImage.frame.size.width-46, height: timeLabel.frame.size.height)
             
             if(defaultTimeZoneStr == nil)
             {
@@ -807,10 +807,10 @@ class GroupChatingDetailController: UIViewController,UpdateGroupChatDetailsDeleg
             }
             else
             {
-                var formatter2 = NSDateFormatter();
-                formatter2.timeZone=NSTimeZone.localTimeZone()
+                let formatter2 = DateFormatter();
+                formatter2.timeZone=TimeZone.autoupdatingCurrent
                 formatter2.dateFormat = "MM/dd hh:mm a";
-                var displaydate=formatter2.stringFromDate(defaultTimeZoneStr!)
+                let displaydate=formatter2.string(from: defaultTimeZoneStr!)
                 //formatter.dateFormat = "MM/dd hh:mm a"";
                 
                 
@@ -831,7 +831,7 @@ class GroupChatingDetailController: UIViewController,UpdateGroupChatDetailsDeleg
         else{
 
             print("got sender msg \(msg)")
-            var cell = tblForGroupChat.dequeueReusableCellWithIdentifier("ChatSentCell")! as UITableViewCell
+            let cell = tblForGroupChat.dequeueReusableCell(withIdentifier: "ChatSentCell")! as UITableViewCell
             
           
             
@@ -842,30 +842,30 @@ class GroupChatingDetailController: UIViewController,UpdateGroupChatDetailsDeleg
            
             let timeLabel = cell.viewWithTag(11) as! UILabel
             
-            chatImage.frame = CGRectMake(chatImage.frame.origin.x, chatImage.frame.origin.y, ((sizeOFStr.width + 100)  > 200 ? (sizeOFStr.width + 100) : 200), sizeOFStr.height + 60)
-            chatImage.image = UIImage(named: "chat_receive")?.stretchableImageWithLeftCapWidth(40,topCapHeight: 20);
+            chatImage.frame = CGRect(x: chatImage.frame.origin.x, y: chatImage.frame.origin.y, width: ((sizeOFStr.width + 100)  > 200 ? (sizeOFStr.width + 100) : 200), height: sizeOFStr.height + 60)
+            chatImage.image = UIImage(named: "chat_receive")?.stretchableImage(withLeftCapWidth: 40,topCapHeight: 20);
             //******
             
             
-            msgLabel.frame = CGRectMake(msgLabel.frame.origin.x, msgLabel.frame.origin.y, msgLabel.frame.size.width, sizeOFStr.height)
+            msgLabel.frame = CGRect(x: msgLabel.frame.origin.x, y: msgLabel.frame.origin.y, width: msgLabel.frame.size.width, height: sizeOFStr.height)
             
             
             
-            var formatter = NSDateFormatter();
+            let formatter = DateFormatter();
             formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSS";
             //formatter.dateFormat = "MM/dd hh:mm a"";
-            formatter.timeZone = NSTimeZone.localTimeZone()
-            var defaultTimeZoneStr = formatter.dateFromString(date2.debugDescription)
+            formatter.timeZone = TimeZone.autoupdatingCurrent
+            let defaultTimeZoneStr = formatter.date(from: date2.debugDescription)
             //print("defaultTimeZoneStr \(defaultTimeZoneStr)")
             
-            var formatter2 = NSDateFormatter();
-            formatter2.timeZone=NSTimeZone.localTimeZone()
+            let formatter2 = DateFormatter();
+            formatter2.timeZone=TimeZone.autoupdatingCurrent
             formatter2.dateFormat = "MM/dd hh:mm a";
-            var displaydate=formatter2.stringFromDate(defaultTimeZoneStr!)
-            timeLabel.frame = CGRectMake(msgLabel.frame.origin.x, msgLabel.frame.origin.y+msgLabel.frame.height+5, chatImage.frame.size.width-46, timeLabel.frame.size.height)
+            let displaydate=formatter2.string(from: defaultTimeZoneStr!)
+            timeLabel.frame = CGRect(x: msgLabel.frame.origin.x, y: msgLabel.frame.origin.y+msgLabel.frame.height+5, width: chatImage.frame.size.width-46, height: timeLabel.frame.size.height)
             
             timeLabel.text = displaydate
-            nameLabel.textColor=UIColor.blueColor()
+            nameLabel.textColor=UIColor.blue
             nameLabel.text=fullname as! String
             msgLabel.text=msg as! String
             
@@ -877,24 +877,24 @@ class GroupChatingDetailController: UIViewController,UpdateGroupChatDetailsDeleg
         
     }
     
-    func textFieldShouldReturn (textField: UITextField!) -> Bool{
+    func textFieldShouldReturn (_ textField: UITextField!) -> Bool{
         textField.resignFirstResponder()
-        var duration : NSTimeInterval = 0
-        var keyboardFrame = keyFrame
+        let duration : TimeInterval = 0
+        let keyboardFrame = keyFrame
         
         
-        if(cellY>(keyboardFrame.origin.y-20))
+        if(cellY>((keyboardFrame?.origin.y)!-20))
         {
-            UIView.animateWithDuration(duration, delay: 0, options:[], animations: {
-                self.viewForContent.contentOffset = CGPointMake(0, 0)
+            UIView.animate(withDuration: duration, delay: 0, options:[], animations: {
+                self.viewForContent.contentOffset = CGPoint(x: 0, y: 0)
                 
                 }, completion:{ (true)-> Void in
                     self.showKeyboard=false
             })
         }else{
-            UIView.animateWithDuration(duration, delay: 0, options:[], animations: {
-                var newY=self.chatComposeView.frame.origin.y+keyboardFrame.size.height
-                self.chatComposeView.frame=CGRectMake(self.chatComposeView.frame.origin.x,newY,self.chatComposeView.frame.width,self.chatComposeView.frame.height)
+            UIView.animate(withDuration: duration, delay: 0, options:[], animations: {
+                let newY=self.chatComposeView.frame.origin.y+(keyboardFrame?.size.height)!
+                self.chatComposeView.frame=CGRect(x: self.chatComposeView.frame.origin.x,y: newY,width: self.chatComposeView.frame.width,height: self.chatComposeView.frame.height)
                 
                 //== self.viewForContent.contentOffset = CGPointMake(0, keyboardFrame.size.height)
                 
@@ -952,7 +952,7 @@ class GroupChatingDetailController: UIViewController,UpdateGroupChatDetailsDeleg
         
     }
     
-    func keyboardWillShow(notification: NSNotification) {
+    func keyboardWillShow(_ notification: Notification) {
         
         
         //uncomment moved down
@@ -991,13 +991,13 @@ class GroupChatingDetailController: UIViewController,UpdateGroupChatDetailsDeleg
         {
             
             var userInfo: NSDictionary!
-            userInfo = notification.userInfo
+            userInfo = notification.userInfo as NSDictionary!
             
-            var duration : NSTimeInterval = 0
-            var curve = userInfo.objectForKey(UIKeyboardAnimationCurveUserInfoKey) as! UInt
-            duration = userInfo[UIKeyboardAnimationDurationUserInfoKey]as! NSTimeInterval
-            let keyboardF:NSValue = userInfo.objectForKey(UIKeyboardFrameEndUserInfoKey)as! NSValue
-            let keyboardFrame = keyboardF.CGRectValue()
+            var duration : TimeInterval = 0
+            var curve = userInfo.object(forKey: UIKeyboardAnimationCurveUserInfoKey) as! UInt
+            duration = userInfo[UIKeyboardAnimationDurationUserInfoKey]as! TimeInterval
+            let keyboardF:NSValue = userInfo.object(forKey: UIKeyboardFrameEndUserInfoKey)as! NSValue
+            let keyboardFrame = keyboardF.cgRectValue
             print("keyboard y is \(keyboardFrame.origin.y)")
             
             if(keyheight==nil)
@@ -1015,12 +1015,12 @@ class GroupChatingDetailController: UIViewController,UpdateGroupChatDetailsDeleg
             
             if(messages.count>0)
             {
-                var lastind=NSIndexPath.init(index: self.messages.count)
-                let rectOfCellInTableView = tblForGroupChat.rectForRowAtIndexPath(lastind)
-                let rectOfCellInSuperview = tblForGroupChat.convertRect(rectOfCellInTableView, toView: nil)
+                let lastind=IndexPath.init(index: self.messages.count)
+                let rectOfCellInTableView = tblForGroupChat.rectForRow(at: lastind)
+                let rectOfCellInSuperview = tblForGroupChat.convert(rectOfCellInTableView, to: nil)
                 print("last cell pos y is \(tblForGroupChat.visibleCells.last?.frame.origin.y)")
                 
-                print("Y of Cell is: \(rectOfCellInSuperview.origin.y%viewForContent.frame.height)")
+                print("Y of Cell is: \(rectOfCellInSuperview.origin.y.truncatingRemainder(dividingBy: viewForContent.frame.height))")
                 print("content offset is \(tblForGroupChat.contentOffset.y)")
                 
                 cellY=(tblForGroupChat.visibleCells.last?.frame.origin.y)!+(tblForGroupChat.visibleCells.last?.frame.height)!
@@ -1029,14 +1029,14 @@ class GroupChatingDetailController: UIViewController,UpdateGroupChatDetailsDeleg
                 if(cellY>(keyboardFrame.origin.y-20))
                 {
                     
-                    UIView.animateWithDuration(duration, delay: 0, options:[], animations: {
-                        self.viewForContent.contentOffset = CGPointMake(0, keyboardFrame.size.height)
+                    UIView.animate(withDuration: duration, delay: 0, options:[], animations: {
+                        self.viewForContent.contentOffset = CGPoint(x: 0, y: keyboardFrame.size.height)
                         
                         }, completion: nil)
                 }else{
-                    UIView.animateWithDuration(duration, delay: 0, options:[], animations: {
-                        var newY=self.chatComposeView.frame.origin.y-keyboardFrame.size.height
-                        self.chatComposeView.frame=CGRectMake(self.chatComposeView.frame.origin.x,newY,self.chatComposeView.frame.width,self.chatComposeView.frame.height)
+                    UIView.animate(withDuration: duration, delay: 0, options:[], animations: {
+                        let newY=self.chatComposeView.frame.origin.y-keyboardFrame.size.height
+                        self.chatComposeView.frame=CGRect(x: self.chatComposeView.frame.origin.x,y: newY,width: self.chatComposeView.frame.width,height: self.chatComposeView.frame.height)
                         
                         //== self.viewForContent.contentOffset = CGPointMake(0, keyboardFrame.size.height)
                         
@@ -1076,8 +1076,8 @@ class GroupChatingDetailController: UIViewController,UpdateGroupChatDetailsDeleg
             tblForGroupChat.reloadData()
             if(messages.count>1)
             {
-                let indexPath = NSIndexPath(forRow:messages.count-1, inSection: 0)
-                tblForGroupChat.scrollToRowAtIndexPath(indexPath, atScrollPosition: UITableViewScrollPosition.Bottom, animated: true)
+                let indexPath = IndexPath(row:messages.count-1, section: 0)
+                tblForGroupChat.scrollToRow(at: indexPath, at: UITableViewScrollPosition.bottom, animated: true)
             }
         
         /*if let keyboardSize = (notification.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.CGRectValue() {
@@ -1094,11 +1094,11 @@ class GroupChatingDetailController: UIViewController,UpdateGroupChatDetailsDeleg
         }
     }*/
     
-    func getSizeOfString(postTitle: NSString) -> CGSize {
+    func getSizeOfString(_ postTitle: NSString) -> CGSize {
         
         
         // Get the height of the font
-        let constraintSize = CGSizeMake(170, CGFloat.max)
+        let constraintSize = CGSize(width: 170, height: CGFloat.greatestFiniteMagnitude)
         
         //let constraintSize = CGSizeMake(220, CGFloat.max)
         
@@ -1110,31 +1110,31 @@ class GroupChatingDetailController: UIViewController,UpdateGroupChatDetailsDeleg
          attributes: attributes,
          context: nil)*/
         
-        let labelSize = postTitle.boundingRectWithSize(constraintSize,
-                                                       options: NSStringDrawingOptions.UsesLineFragmentOrigin,
-                                                       attributes:[NSFontAttributeName : UIFont.systemFontOfSize(11.0)],
+        let labelSize = postTitle.boundingRect(with: constraintSize,
+                                                       options: NSStringDrawingOptions.usesLineFragmentOrigin,
+                                                       attributes:[NSFontAttributeName : UIFont.systemFont(ofSize: 11.0)],
                                                        context: nil)
         ////print("size is width \(labelSize.width) and height is \(labelSize.height)")
         return labelSize.size
     }
     
-    func randomStringWithLength (len : Int) -> NSString {
+    func randomStringWithLength (_ len : Int) -> NSString {
         
         let letters : NSString = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
         
         let randomString : NSMutableString = NSMutableString(capacity: len)
         
-        for (var i=0; i < len; i++){
+        for (i in 0 ..< len){
             let length = UInt32 (letters.length)
             let rand = arc4random_uniform(length)
-            randomString.appendFormat("%C", letters.characterAtIndex(Int(rand)))
+            randomString.appendFormat("%C", letters.character(at: Int(rand)))
         }
         
         return randomString
     }
 
     
-    func sendGroupChatStatus(chat_uniqueid:String,status1:String)
+    func sendGroupChatStatus(_ chat_uniqueid:String,status1:String)
     {
     
     var url=Constants.MainUrl+Constants.updateGroupChatStatusAPI
@@ -1176,41 +1176,41 @@ class GroupChatingDetailController: UIViewController,UpdateGroupChatDetailsDeleg
     func generateUniqueid()->String
     {
     
-        var uid=randomStringWithLength(7)
+        let uid=randomStringWithLength(7)
     
-        var date=NSDate()
-        var calendar = NSCalendar.currentCalendar()
-        var year=calendar.components(NSCalendarUnit.Year,fromDate: date).year
-        var month=calendar.components(NSCalendarUnit.Month,fromDate: date).month
-        var day=calendar.components(.Day,fromDate: date).day
-        var hr=calendar.components(NSCalendarUnit.Hour,fromDate: date).hour
-        var min=calendar.components(NSCalendarUnit.Minute,fromDate: date).minute
-        var sec=calendar.components(NSCalendarUnit.Second,fromDate: date).second
+        let date=Date()
+        let calendar = Calendar.current
+        let year=(calendar as NSCalendar).components(NSCalendar.Unit.year,from: date).year
+        let month=(calendar as NSCalendar).components(NSCalendar.Unit.month,from: date).month
+        let day=(calendar as NSCalendar).components(.day,from: date).day
+        let hr=(calendar as NSCalendar).components(NSCalendar.Unit.hour,from: date).hour
+        let min=(calendar as NSCalendar).components(NSCalendar.Unit.minute,from: date).minute
+        let sec=(calendar as NSCalendar).components(NSCalendar.Unit.second,from: date).second
         print("\(year) \(month) \(day) \(hr) \(min) \(sec)")
-        var uniqueid="\(uid)\(year)\(month)\(day)\(hr)\(min)\(sec)"
+        let uniqueid="\(uid)\(year)\(month)\(day)\(hr)\(min)\(sec)"
         
         return uniqueid
         
 
     }
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         
         //groupMessageInfoSegue
         
         if segue.identifier == "groupMessageInfoSegue" {
             
-            if let destinationVC = segue.destinationViewController as? GroupMessageStatusViewController{
+            if let destinationVC = segue.destination as? GroupMessageStatusViewController{
                 
-                var messageDic = messages.objectAtIndex(swipedRow) as! [String : String];
+                var messageDic = messages.object(at: swipedRow) as! [String : String];
                 
                 let uniqueid = messageDic["uniqueid"] as NSString!
                 
-                destinationVC.message_unique_id=uniqueid as String
+                destinationVC.message_unique_id=uniqueid as! String
             }
         }
     }
     
-    func refreshGroupChatDetailUI(message: String, data: AnyObject!) {
+    func refreshGroupChatDetailUI(_ message: String, data: AnyObject!) {
         
         self.retrieveChatFromSqlite { (result) in
             
@@ -1221,9 +1221,9 @@ class GroupChatingDetailController: UIViewController,UpdateGroupChatDetailsDeleg
             
             if(self.messages.count>1)
             {
-                var indexPath = NSIndexPath(forRow:self.messages.count-1, inSection: 0)
+                let indexPath = IndexPath(row:self.messages.count-1, section: 0)
                 
-                self.tblForGroupChat.scrollToRowAtIndexPath(indexPath, atScrollPosition: UITableViewScrollPosition.Bottom, animated: true)
+                self.tblForGroupChat.scrollToRow(at: indexPath, at: UITableViewScrollPosition.bottom, animated: true)
             }
            // }
         }
@@ -1231,7 +1231,7 @@ class GroupChatingDetailController: UIViewController,UpdateGroupChatDetailsDeleg
     
     
     
-    override func viewWillDisappear(animated: Bool) {
+    override func viewWillDisappear(_ animated: Bool) {
         
         UIDelegates.getInstance().delegateGroupChatDetails1=nil
     }

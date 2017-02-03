@@ -25,7 +25,7 @@ class ContactsInviteViewController: UIViewController,UITableViewDelegate,UITable
     var inviteContactsEmails=[String]()
     var inviteContactsPhones=[String]()
     
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
        /* contactsList.fetch(){ (result) -> () in
             emailList = result
             contactsList.searchContactsByEmail(emailList){ (result) -> () in
@@ -58,11 +58,11 @@ class ContactsInviteViewController: UIViewController,UITableViewDelegate,UITable
         
         
         
-        inviteContactsNames.removeAll(keepCapacity: false)
-        inviteContactsEmails.removeAll(keepCapacity: false)
-        selectedEmails.removeAll(keepCapacity: false)
-        inviteContactsPhones.removeAll(keepCapacity: false)
-        var allcontactslist1=sqliteDB.allcontacts
+        inviteContactsNames.removeAll(keepingCapacity: false)
+        inviteContactsEmails.removeAll(keepingCapacity: false)
+        selectedEmails.removeAll(keepingCapacity: false)
+        inviteContactsPhones.removeAll(keepingCapacity: false)
+        let allcontactslist1=sqliteDB.allcontacts
         var alladdressContactsArray:Array<Row>
         
         let email = Expression<String>("email")
@@ -78,9 +78,9 @@ class ContactsInviteViewController: UIViewController,UITableViewDelegate,UITable
             {
                 
                 
-            let query = allcontactslist1.select(kibocontact,name,email,phone)           // SELECT "email" FROM "users"
+            let query = allcontactslist1?.select(kibocontact,name,email,phone)           // SELECT "email" FROM "users"
                 .filter(kibocontact == false)//.filter(email != "")     // WHERE "kiboContact" IS false
-            for ccc in try sqliteDB.db.prepare(query.filter(email != "")) {
+            for ccc in try sqliteDB.db.prepare((query?.filter(email != ""))!) {
                 
                 print("invite contact is \(ccc[name]) .. \(ccc[email])")
                 inviteContactsNames.append(ccc[name]!)
@@ -91,9 +91,9 @@ class ContactsInviteViewController: UIViewController,UITableViewDelegate,UITable
             }
             else
             {
-                let query = allcontactslist1.select(kibocontact,name,email,phone)           // SELECT "email" FROM "users"
+                let query = allcontactslist1?.select(kibocontact,name,email,phone)           // SELECT "email" FROM "users"
                     .filter(kibocontact == false)//.filter(email != "")     // WHERE "kiboContact" IS false
-                for ccc in try sqliteDB.db.prepare(query.filter(phone != "")) {
+                for ccc in try sqliteDB.db.prepare((query?.filter(phone != ""))!) {
                     
                     print("invite contact is \(ccc[name]) .. \(ccc[email])")
                     inviteContactsNames.append(ccc[name]!)
@@ -139,7 +139,7 @@ class ContactsInviteViewController: UIViewController,UITableViewDelegate,UITable
         // Do any additional setup after loading the view.
     }
 
-    @IBAction func btn_BackPressed(sender: AnyObject) {
+    @IBAction func btn_BackPressed(_ sender: AnyObject) {
         
         //Go to contacts list
         //var next = self.storyboard?.instantiateViewControllerWithIdentifier("MainChatView") as! ChatViewController
@@ -154,7 +154,7 @@ class ContactsInviteViewController: UIViewController,UITableViewDelegate,UITable
         
         
         //*************************%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% newww
-        self.dismissViewControllerAnimated(true, completion: { () -> Void in
+        self.dismiss(animated: true, completion: { () -> Void in
             
             //contactsList.contacts.removeAll()
             //contactsList.notAvailableContacts.removeAll()
@@ -167,7 +167,7 @@ class ContactsInviteViewController: UIViewController,UITableViewDelegate,UITable
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         //refreshControl.addTarget(self, action: Selector("fetchContacts"), forControlEvents: UIControlEvents.ValueChanged)
         
         return inviteContactsNames.count
@@ -175,17 +175,17 @@ class ContactsInviteViewController: UIViewController,UITableViewDelegate,UITable
         /////// old return notAvailableEmails.count
         //return emailList.count
     }
-    func tableView(tableView: UITableView, didDeselectRowAtIndexPath indexPath: NSIndexPath) {
+    func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
         
         
     }
-    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    func numberOfSections(in tableView: UITableView) -> Int {
         return 1
         
     }
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        let cell=tbl_inviteContacts.dequeueReusableCellWithIdentifier("ContactsInviteCell")! as! ContactsInviteCell
+        let cell=tbl_inviteContacts.dequeueReusableCell(withIdentifier: "ContactsInviteCell")! as! ContactsInviteCell
         
             cell.contactName.text=inviteContactsNames[indexPath.row]
         if(sendType=="Mail")
@@ -234,19 +234,19 @@ class ContactsInviteViewController: UIViewController,UITableViewDelegate,UITable
     
     
     
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath)
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath)
     {
         
         //let cell=tbl_inviteContacts.dequeueReusableCellWithIdentifier("ContactsInviteCell")! as! ContactsInviteCell
-        let selectedCell=tbl_inviteContacts.cellForRowAtIndexPath(indexPath) as! ContactsInviteCell
+        let selectedCell=tbl_inviteContacts.cellForRow(at: indexPath) as! ContactsInviteCell
         
         //let selectedCell=tbl_inviteContacts.cellForRowAtIndexPath(indexPath)
         //cell.textLabel?.text = "hiii"
         
         
-        if selectedCell.accessoryType == UITableViewCellAccessoryType.None
+        if selectedCell.accessoryType == UITableViewCellAccessoryType.none
         {
-            selectedCell.accessoryType = UITableViewCellAccessoryType.Checkmark
+            selectedCell.accessoryType = UITableViewCellAccessoryType.checkmark
             if(sendType=="Mail")
             {
             selectedEmails.append(inviteContactsEmails[indexPath.row])
@@ -262,10 +262,10 @@ class ContactsInviteViewController: UIViewController,UITableViewDelegate,UITable
         else
         {
             
-            selectedCell.accessoryType = UITableViewCellAccessoryType.None
-            var ind=selectedEmails.indexOf(selectedCell.contactEmail.text!)
+            selectedCell.accessoryType = UITableViewCellAccessoryType.none
+            let ind=selectedEmails.index(of: selectedCell.contactEmail.text!)
             //var ind=selectedEmails.indexOf((selectedCell?.textLabel?.text!)!)
-            selectedEmails.removeAtIndex(ind!)
+            selectedEmails.remove(at: ind!)
         }
         print(selectedEmails.description)
         
@@ -274,26 +274,26 @@ class ContactsInviteViewController: UIViewController,UITableViewDelegate,UITable
     
     
     
-    @IBAction func btn_DoneInvite(sender: AnyObject) {
+    @IBAction func btn_DoneInvite(_ sender: AnyObject) {
         
         if(sendType=="Mail")
         {
             let mailComposeViewController = self.configuredMailComposeViewController()
             if MFMailComposeViewController.canSendMail() {
-                self.presentViewController(mailComposeViewController, animated: true, completion: nil)
+                self.present(mailComposeViewController, animated: true, completion: nil)
             } else {
                 self.showSendMailErrorAlert()
             }
         }
         else{
             
-        var messageVC = MFMessageComposeViewController()
+        let messageVC = MFMessageComposeViewController()
             
             messageVC.body = "Hey, \n \n I just downloaded Kibo App on my iPhone. \n \n It is a smartphone messenger with added features. It provides integrated and unified voice, video, and data communication. \n \n It is available for both Android and iPhone and there is no PIN or username to remember. \n \n Get it now from https://api.cloudkibo.com and say good-bye to SMS!";
             messageVC.recipients = selectedEmails
             messageVC.messageComposeDelegate = self;
             
-            self.presentViewController(messageVC, animated: false, completion: nil)
+            self.present(messageVC, animated: false, completion: nil)
         }
         
 
@@ -342,17 +342,17 @@ class ContactsInviteViewController: UIViewController,UITableViewDelegate,UITable
     }
     
     
-    func messageComposeViewController(controller: MFMessageComposeViewController!, didFinishWithResult result: MessageComposeResult) {
+    func messageComposeViewController(_ controller: MFMessageComposeViewController!, didFinishWith result: MessageComposeResult) {
         switch (result) {
         case MessageComposeResultCancelled:
             print("Message was cancelled")
-            self.dismissViewControllerAnimated(true, completion: nil)
+            self.dismiss(animated: true, completion: nil)
         case MessageComposeResultFailed:
             print("Message failed")
-            self.dismissViewControllerAnimated(true, completion: nil)
+            self.dismiss(animated: true, completion: nil)
         case MessageComposeResultSent:
             print("Message was sent")
-            self.dismissViewControllerAnimated(true, completion: nil)
+            self.dismiss(animated: true, completion: nil)
         default:
             break;
         }
@@ -377,8 +377,8 @@ class ContactsInviteViewController: UIViewController,UITableViewDelegate,UITable
     }
     
     // MARK: MFMailComposeViewControllerDelegate Method
-    func mailComposeController(controller: MFMailComposeViewController!, didFinishWithResult result: MFMailComposeResult, error: NSError!) {
-        controller.dismissViewControllerAnimated(true, completion: nil)
+    func mailComposeController(_ controller: MFMailComposeViewController!, didFinishWith result: MFMailComposeResult, error: Error!) {
+        controller.dismiss(animated: true, completion: nil)
     }
 
     /*

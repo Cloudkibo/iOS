@@ -20,10 +20,10 @@ class syncGroupService
         
         
     }
-    func startSyncGroupsService(completion:(result:Bool,error:String!)->())
+    func startSyncGroupsService(_ completion:@escaping (_ result:Bool,_ error:String?)->())
     {print("start sync groups service after install")
         if(accountKit == nil){
-            accountKit = AKFAccountKit(responseType: AKFResponseType.AccessToken)
+            accountKit = AKFAccountKit(responseType: AKFResponseType.accessToken)
         }
         
         
@@ -31,7 +31,7 @@ class syncGroupService
             
             
             
-            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0)) {
+            DispatchQueue.global(priority: DispatchQueue.GlobalQueuePriority.background).async {
                 print("synccccc fetching contacts in background...")
                 self.SyncGroupsAPI{ (result,error,groupinfo) in
                    if(groupinfo != nil)
@@ -42,7 +42,7 @@ class syncGroupService
                         self.SyncGroupMembersAPI(){(result,error,groupinfo) in
                             print("...")
                             
-                            return completion(result: true, error: nil)
+                            return completion(true, nil)
                            // UtilityFunctions.init().downloadProfileImage("9Mm0S3b201611817744")
                         }
                        /* self.fullRefreshMembersInfo(groupinfo){ (result,error) in
@@ -59,7 +59,7 @@ class syncGroupService
                     }}
                     else
                    {
-                    return completion(result: true, error: nil)
+                    return completion(true, nil)
                     }
                 }
             }
@@ -67,10 +67,10 @@ class syncGroupService
         print("stop sync groups service after install")
     }
     
-    func startSyncGroupsServiceOnLaunch(completion:(result:Bool,error:String!)->())
+    func startSyncGroupsServiceOnLaunch(_ completion:@escaping (_ result:Bool,_ error:String?)->())
     {print("group sync on launch start")
         if(accountKit == nil){
-            accountKit = AKFAccountKit(responseType: AKFResponseType.AccessToken)
+            accountKit = AKFAccountKit(responseType: AKFResponseType.accessToken)
         }
         
         
@@ -85,7 +85,7 @@ class syncGroupService
           //  var Q5_fetchAllGroupsData=dispatch_queue_create("fetchAllGroupsData",DISPATCH_QUEUE_SERIAL)
            // dispatch_async(Q5_fetchAllGroupsData,{
                 print("synccccc fetching contacts in background on launch...")
-            dispatch_sync(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT,0))
+            DispatchQueue.global(priority: DispatchQueue.GlobalQueuePriority.default).sync
             {
                 self.SyncGroupsAPIonLaunch{ (result,error,groupinfo) in
                     if(groupinfo != nil)
@@ -96,9 +96,9 @@ class syncGroupService
                             self.SyncGroupMembersAPIonLaunch(){(result,error,groupinfo) in
                                 print("...")
                                 
-                                dispatch_async(dispatch_get_main_queue())
+                                DispatchQueue.main.async
                                 {
-                                return completion(result: true, error: nil)
+                                return completion(true, nil)
                                 }
                                 
                                 // UtilityFunctions.init().downloadProfileImage("9Mm0S3b201611817744")
@@ -116,9 +116,9 @@ class syncGroupService
                             
                         }}
                     else
-                    { dispatch_async(dispatch_get_main_queue())
+                    { DispatchQueue.main.async
                     {
-                        return completion(result: true, error: nil)
+                        return completion(true, nil)
                         }
                     }
                 }
@@ -132,7 +132,7 @@ class syncGroupService
     {
         
         if(accountKit == nil){
-            accountKit = AKFAccountKit(responseType: AKFResponseType.AccessToken)
+            accountKit = AKFAccountKit(responseType: AKFResponseType.accessToken)
         }
         
         
@@ -144,7 +144,7 @@ class syncGroupService
             }
             
            //commented for testing
-          dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0)) {
+          DispatchQueue.global(priority: DispatchQueue.GlobalQueuePriority.low).async {
                 print("sync partial groups chat in background...")
             Alamofire.request(.POST,"\(Constants.MainUrl+Constants.urllog)",headers:header,parameters: ["data":"IPHONE_LOG: sync partial groups chat in background... \(username!)"]).response{
                 request, response_, data, error in
@@ -154,7 +154,7 @@ class syncGroupService
                    /// if(groupinfo != nil)
                     //{
                         print("updating UI now...")
-                    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0)) {
+                    DispatchQueue.global(priority: DispatchQueue.GlobalQueuePriority.low).async {
                         Alamofire.request(.POST,"\(Constants.MainUrl+Constants.urllog)",headers:header,parameters: ["data":"IPHONE_LOG: sync group chat statuses in background... \(username!)"]).response{
                             request, response_, data, error in
                             print(error)
@@ -169,7 +169,7 @@ class syncGroupService
                         if(result==true)
                         {
                             
-                        dispatch_async(dispatch_get_main_queue())
+                        DispatchQueue.main.async
                         {
                             Alamofire.request(.POST,"\(Constants.MainUrl+Constants.urllog)",headers:header,parameters: ["data":"IPHONE_LOG: updating all UI screens \(username!)"]).response{
                                 request, response_, data, error in
@@ -188,7 +188,7 @@ class syncGroupService
             }}
     }
     
-    func SyncGroupsAPIonLaunch(completion:(result:Bool,error:String!,groupinfo:JSON!)->())
+    func SyncGroupsAPIonLaunch(_ completion:@escaping (_ result:Bool,_ error:String?,_ groupinfo:JSON?)->())
     {
         
         //  let isMute = Expression<Bool>("isMute")
@@ -206,7 +206,7 @@ class syncGroupService
         //let queue2 = dispatch_queue_create("com.kibochat.manager-response-queue-file", DISPATCH_QUEUE_CONCURRENT)
        // let qqq=dispatch_queue_create("com.kibochat.queue.getmembers",queue2)
         
-        dispatch_sync(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT,0))
+        DispatchQueue.global(priority: DispatchQueue.GlobalQueuePriority.default).sync
         {
         var request=Alamofire.request(.GET,"\(url)",headers:header).responseJSON { response in
         /*
@@ -243,7 +243,7 @@ class syncGroupService
         //====----return completion(result:true,error: "Fetch group info API failed",groupinfo: jsongroupinfo)
     }
 
-    func SyncGroupsAPI(completion:(result:Bool,error:String!,groupinfo:JSON!)->())
+    func SyncGroupsAPI(_ completion:@escaping (_ result:Bool,_ error:String?,_ groupinfo:JSON?)->())
     {
         
         //  let isMute = Expression<Bool>("isMute")
@@ -256,10 +256,10 @@ class syncGroupService
         var hhh=["headers":"\(header)"]
         print(header.description)
         
-        var queue2=dispatch_queue_attr_make_with_qos_class(DISPATCH_QUEUE_CONCURRENT, QOS_CLASS_BACKGROUND, 0);
+        var queue2=DispatchQoS(_FIXME_useThisWhenCreatingTheQueueAndRemoveFromThisCall: DispatchQueue.Attributes.concurrent, qosClass: DispatchQoS.QoSClass.background, relativePriority: 0);
         
         //let queue2 = dispatch_queue_create("com.kibochat.manager-response-queue-file", DISPATCH_QUEUE_CONCURRENT)
-        let qqq=dispatch_queue_create("com.kibochat.queue.getmembers",queue2)
+        let qqq=DispatchQueue(label: "com.kibochat.queue.getmembers",attributes: queue2)
         
         var request=Alamofire.request(.GET,"\(url)",headers:header)
         request.response(
@@ -285,13 +285,13 @@ class syncGroupService
             }
         })
     
-        return completion(result:true,error: "Fetch group info API failed",groupinfo: jsongroupinfo)
+        return completion(true,"Fetch group info API failed",jsongroupinfo)
     }
     
     
     //dispatch_sync(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT,0))
     
-    func fullRefreshGroupsInfoOnLaunch(groupInfo:JSON!,completion:(result:Bool,error:String!)->())
+    func fullRefreshGroupsInfoOnLaunch(_ groupInfo:JSON!,completion:@escaping (_ result:Bool,_ error:String?)->())
     {
         Alamofire.request(.POST,"\(Constants.MainUrl+Constants.urllog)",headers:header,parameters: ["data":"IPHONE_LOG: update database on install with gruop info \(username!)"]).response{
             request, response_, data, error in
@@ -307,20 +307,20 @@ class syncGroupService
         //==-- down do{
            //==---- down try sqliteDB.db.run(tbl_Groups.delete())
             var groupsList=[[String:AnyObject]]()
-        dispatch_sync(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT,0))
+        DispatchQueue.global(priority: DispatchQueue.GlobalQueuePriority.default).sync
         {
-            for(var i=0;i<groupInfo.count;i++)
+            for(i in 0 ..< groupInfo.count)
             {
                 //groupInfo[i]["group_unique_id"]
                 var unique_id=groupInfo[i]["group_unique_id"]["unique_id"].string!
                 var group_name=groupInfo[i]["group_unique_id"]["group_name"].string!
                 var date_creation=groupInfo[i]["group_unique_id"]["date_creation"].string!
-                var group_icon=NSData()
+                var group_icon=Data()
                 if(groupInfo[i]["group_unique_id"]["group_icon"] != nil)
                 {
                     //group_icon=(groupInfo[i]["group_unique_id"]["group_icon"] as! String).dataUsingEncoding(NSUTF8StringEncoding)!
                     print("group icon existssss")
-                    group_icon="exists".dataUsingEncoding(NSUTF8StringEncoding)!
+                    group_icon="exists".data(using: String.Encoding.utf8)!
                     
                     var filedata=sqliteDB.getFilesData(unique_id)
                     if(filedata.count>0)
@@ -330,12 +330,12 @@ class syncGroupService
                         //======
                         
                         //=======
-                        let dirPaths = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)
+                        let dirPaths = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)
                         let docsDir1 = dirPaths[0]
                         var documentDir=docsDir1 as NSString
                         var imgPath=documentDir.stringByAppendingPathComponent(filedata["file_name"] as! String)
                         
-                        var imgNSData=NSFileManager.defaultManager().contentsAtPath(imgPath)
+                        var imgNSData=FileManager.defaultManager().contentsAtPath(imgPath)
                         
                         // print("found path is \(imgNSData)")
                         if(imgNSData != nil)
@@ -360,18 +360,18 @@ class syncGroupService
                     //==uncomment later group_icon=groupInfo[i]["group_unique_id"]["group_icon"] as NSData
                 }
                 
-                let dateFormatter = NSDateFormatter()
-                dateFormatter.timeZone=NSTimeZone.localTimeZone()
+                let dateFormatter = DateFormatter()
+                dateFormatter.timeZone=TimeZone.autoupdatingCurrent
                 dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
                 //  let datens2 = dateFormatter.dateFromString(date2.debugDescription)
                 //2016-09-18T19:13:00.588Z
                 let datens2 = dateFormatter.dateFromString(date_creation)
                 var data=[String:AnyObject]()
                 data["group_name"]=group_name
-                data["groupicon1"]=group_icon
+                data["groupicon1"]=group_icon as AnyObject?
                 data["datecreation1"]=datens2
                 data["uniqueid1"]=unique_id
-                data["status1"]="new"
+                data["status1"]="new" as AnyObject?
                 groupsList.append(data)
                 
                //==-- move down sqliteDB.storeGroups(group_name, groupicon1: group_icon, datecreation1: datens2!, uniqueid1: unique_id, status1: "new")
@@ -383,53 +383,53 @@ class syncGroupService
             
             //delete and add
         do{
-            try sqliteDB.db.run(tbl_Groups.delete())
+            try sqliteDB.db.run((tbl_Groups?.delete())!)
             
-            for(var i=0;i<groupsList.count;i++)
+            for(i in 0 ..< groupsList.count)
             {
-            sqliteDB.storeGroups(groupsList[i]["group_name"] as! String, groupicon1: groupsList[i]["groupicon1"] as! NSData, datecreation1: groupsList[i]["datecreation1"] as! NSDate , uniqueid1: groupsList[i]["uniqueid1"] as! String, status1: groupsList[i]["status1"] as! String)
-            sqliteDB.storeMuteGroupSettingsTable(groupsList[i]["uniqueid1"] as! String, isMute1: false, muteTime1: NSDate(), unMuteTime1: NSDate())
+            sqliteDB.storeGroups(groupsList[i]["group_name"] as! String, groupicon1: groupsList[i]["groupicon1"] as! Data, datecreation1: groupsList[i]["datecreation1"] as! Date , uniqueid1: groupsList[i]["uniqueid1"] as! String, status1: groupsList[i]["status1"] as! String)
+            sqliteDB.storeMuteGroupSettingsTable(groupsList[i]["uniqueid1"] as! String, isMute1: false, muteTime1: Date(), unMuteTime1: Date())
             }
             
-            dispatch_async(dispatch_get_main_queue())
+            DispatchQueue.main.async
             {
-                return completion(result: true, error: nil)
+                return completion(true, nil)
             }
         }
             
         catch{
             print("cannot delete groups data")
         }
-            dispatch_async(dispatch_get_main_queue())
+            DispatchQueue.main.async
             {
                 
-                return completion(result: true, error: nil)
+                return completion(true, nil)
             }
         }
         
     }
     
-    func fullRefreshGroupsInfo(groupInfo:JSON!,completion:(result:Bool,error:String!)->())
+    func fullRefreshGroupsInfo(_ groupInfo:JSON!,completion:(_ result:Bool,_ error:String?)->())
     {print("inside full refresh groups")
         //_id:String,groupname:String,date_creation:String,group_icon:NSData
         var tbl_Groups=sqliteDB.groups
         
         
         do{
-        try sqliteDB.db.run(tbl_Groups.delete())
+        try sqliteDB.db.run((tbl_Groups?.delete())!)
             
-            for(var i=0;i<groupInfo.count;i++)
+            for(i in 0 ..< groupInfo.count)
             {
                 //groupInfo[i]["group_unique_id"]
                 var unique_id=groupInfo[i]["group_unique_id"]["unique_id"].string!
                 var group_name=groupInfo[i]["group_unique_id"]["group_name"].string!
                 var date_creation=groupInfo[i]["group_unique_id"]["date_creation"].string!
-                var group_icon=NSData()
+                var group_icon=Data()
                 if(groupInfo[i]["group_unique_id"]["group_icon"] != nil)
                 {
                     
                     //group_icon=(groupInfo[i]["group_unique_id"]["group_icon"] as! String).dataUsingEncoding(NSUTF8StringEncoding)!
-                    group_icon="exists".dataUsingEncoding(NSUTF8StringEncoding)!
+                    group_icon="exists".data(using: String.Encoding.utf8)!
                     var filedata=sqliteDB.getFilesData(unique_id)
                     if(filedata.count>0)
                     {
@@ -438,12 +438,12 @@ class syncGroupService
                         //======
                         
                         //=======
-                        let dirPaths = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)
+                        let dirPaths = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)
                         let docsDir1 = dirPaths[0]
                         var documentDir=docsDir1 as NSString
                         var imgPath=documentDir.stringByAppendingPathComponent(filedata["file_name"] as! String)
                         
-                        var imgNSData=NSFileManager.defaultManager().contentsAtPath(imgPath)
+                        var imgNSData=FileManager.defaultManager().contentsAtPath(imgPath)
                         
                         // print("found path is \(imgNSData)")
                         if(imgNSData != nil)
@@ -467,8 +467,8 @@ class syncGroupService
                    //==uncomment later group_icon=groupInfo[i]["group_unique_id"]["group_icon"] as NSData
                 }
                 
-                let dateFormatter = NSDateFormatter()
-                dateFormatter.timeZone=NSTimeZone.localTimeZone()
+                let dateFormatter = DateFormatter()
+                dateFormatter.timeZone=TimeZone.autoupdatingCurrent
                 dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
                 //  let datens2 = dateFormatter.dateFromString(date2.debugDescription)
                 //2016-09-18T19:13:00.588Z
@@ -477,7 +477,7 @@ class syncGroupService
                 sqliteDB.storeGroups(group_name, groupicon1: group_icon, datecreation1: datens2!, uniqueid1: unique_id, status1: "new")
                 
                 //=====MUTE GROUP====
-                sqliteDB.storeMuteGroupSettingsTable(unique_id, isMute1: false, muteTime1: NSDate(), unMuteTime1: NSDate())
+                sqliteDB.storeMuteGroupSettingsTable(unique_id, isMute1: false, muteTime1: Date(), unMuteTime1: Date())
                 
             }
         }
@@ -485,11 +485,11 @@ class syncGroupService
             print("cannot delete groups data")
         }
         
-        return completion(result: true, error: nil)
+        return completion(true, nil)
     }
     
     
-    func SyncGroupMembersAPIonLaunch(completion:(result:Bool,error:String!,groupinfo:JSON!)->())
+    func SyncGroupMembersAPIonLaunch(_ completion:@escaping (_ result:Bool,_ error:String?,_ groupinfo:JSON?)->())
     {
         print("sync members")
         
@@ -507,7 +507,7 @@ class syncGroupService
         
         var hhh=["headers":"\(header)"]
         print(header.description)
-       dispatch_sync(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT,0))
+       DispatchQueue.global(priority: DispatchQueue.GlobalQueuePriority.default).sync
        {
         
         var request=Alamofire.request(.GET,"\(url)",headers:header).validate().responseJSON{ response in
@@ -577,7 +577,7 @@ class syncGroupService
         //===---return completion(result:true,error: "Fetch group info API failed",groupinfo: jsongroupinfo)
     }
     
-    func SyncGroupMembersAPI(completion:(result:Bool,error:String!,groupinfo:JSON!)->())
+    func SyncGroupMembersAPI(_ completion:@escaping (_ result:Bool,_ error:String?,_ groupinfo:JSON?)->())
     {
         print("sync members")
         
@@ -587,10 +587,10 @@ class syncGroupService
         print("inside group info function")
         var url=Constants.MainUrl+Constants.fetchmygroupmembers
         print(url.debugDescription)
-        var queue2=dispatch_queue_attr_make_with_qos_class(DISPATCH_QUEUE_CONCURRENT, QOS_CLASS_BACKGROUND, 0);
+        var queue2=DispatchQoS(_FIXME_useThisWhenCreatingTheQueueAndRemoveFromThisCall: DispatchQueue.Attributes.concurrent, qosClass: DispatchQoS.QoSClass.background, relativePriority: 0);
         
         //let queue2 = dispatch_queue_create("com.kibochat.manager-response-queue-file", DISPATCH_QUEUE_CONCURRENT)
-        let qqq=dispatch_queue_create("com.kibochat.queue.getmembers",queue2)
+        let qqq=DispatchQueue(label: "com.kibochat.queue.getmembers",attributes: queue2)
         
         
         var hhh=["headers":"\(header)"]
@@ -650,7 +650,7 @@ class syncGroupService
             }
         })
         
-        return completion(result:true,error: "Fetch group info API failed",groupinfo: jsongroupinfo)
+        return completion(true,"Fetch group info API failed",jsongroupinfo)
     }
     
    /* func fullRefreshMembersInfo(groupInfo:JSON,completion:(result:Bool,error:String!)->())
@@ -713,7 +713,7 @@ class syncGroupService
     }
     */
     
-    func partialSyncGroupsChat(completion:(result:Bool,error:String!,groupinfo:JSON!)->())
+    func partialSyncGroupsChat(_ completion:@escaping (_ result:Bool,_ error:String?,_ groupinfo:JSON?)->())
     {
             print("sync partial chat")
             
@@ -817,13 +817,13 @@ class syncGroupService
                 }
             }
             
-            return completion(result:true,error: "API synch group chats partial failed",groupinfo: jsongroupinfo)
+            return completion(true,"API synch group chats partial failed",jsongroupinfo)
       
 
     }
     
     
-    func syncGroupChatStatuses(completion:(result:Bool,error:String!)->())
+    func syncGroupChatStatuses(_ completion:@escaping (_ result:Bool,_ error:String?)->())
     {print("sync statuses")
         var statusNotSentList=sqliteDB.getGroupsChatStatusUniqueIDsListNotSeen()
         var jsongroupinfo:JSON!=nil

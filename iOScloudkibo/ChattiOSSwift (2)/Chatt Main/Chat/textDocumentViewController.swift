@@ -28,33 +28,33 @@ class textDocumentViewController: UIViewController {
         // Do any additional setup after loading the view.
     }
     
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         var attrString:NSMutableAttributedString!=nil
         
         
         do{
             print("newtext is \(newtext)")
-            let dirPaths = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)
+            let dirPaths = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)
             let docsDir1 = dirPaths[0]
-            var documentDir=docsDir1 as NSString
-            var filePathImage2=documentDir.stringByAppendingPathComponent(newtext)
-            newtext=documentDir.stringByAppendingPathComponent(newtext)
+            let documentDir=docsDir1 as NSString
+            let filePathImage2=documentDir.appendingPathComponent(newtext)
+            newtext=documentDir.appendingPathComponent(newtext)
             //fname!+"."+ftype
             
             
-            var furl=NSURL(fileURLWithPath: filePathImage2)
-            var ftype=furl.pathExtension!
+            let furl=URL(fileURLWithPath: filePathImage2)
+            let ftype=furl.pathExtension
             
            /* var furl=NSURL(fileURLWithPath: newtext)
             var ftype=furl.pathExtension!
             print("file type found is \(ftype)")
  
  */
-            switch(ftype.lowercaseString)
+            switch(ftype.lowercased())
             {case "rtf":
             
             
-                 attrString = try NSMutableAttributedString(URL: NSURL(fileURLWithPath: newtext), options: [NSDocumentTypeDocumentAttribute:NSRTFTextDocumentType], documentAttributes: nil)
+                 attrString = try NSMutableAttributedString(url: URL(fileURLWithPath: newtext), options: [NSDocumentTypeDocumentAttribute:NSRTFTextDocumentType], documentAttributes: nil)
                 
            
                 case "txt":
@@ -62,7 +62,7 @@ class textDocumentViewController: UIViewController {
                         attrString =
                             
                             
-                            try NSMutableAttributedString(URL: NSURL(fileURLWithPath: newtext), options: [NSDocumentTypeDocumentAttribute:NSPlainTextDocumentType], documentAttributes: nil)
+                            try NSMutableAttributedString(url: URL(fileURLWithPath: newtext), options: [NSDocumentTypeDocumentAttribute:NSPlainTextDocumentType], documentAttributes: nil)
                         
                 
                 case "html":
@@ -70,43 +70,43 @@ class textDocumentViewController: UIViewController {
                         attrString =
                             
                             
-                            try NSMutableAttributedString(URL: NSURL(fileURLWithPath: newtext), options: [NSDocumentTypeDocumentAttribute:NSHTMLTextDocumentType], documentAttributes: nil)
+                            try NSMutableAttributedString(url: URL(fileURLWithPath: newtext), options: [NSDocumentTypeDocumentAttribute:NSHTMLTextDocumentType], documentAttributes: nil)
                 
                 case "rtfd":
                     
                         attrString =
                             
                             
-                            try NSMutableAttributedString(URL: NSURL(fileURLWithPath: newtext), options: [NSDocumentTypeDocumentAttribute:NSRTFDTextDocumentType], documentAttributes: nil)
+                            try NSMutableAttributedString(url: URL(fileURLWithPath: newtext), options: [NSDocumentTypeDocumentAttribute:NSRTFDTextDocumentType], documentAttributes: nil)
                         
                 
                 case "pdf":
-                    let webView = UIWebView(frame: CGRectMake(0,0,self.view.frame.size.width,self.view.frame.size.height))
-                    var pdffile=NSData(contentsOfFile: newtext)
+                    let webView = UIWebView(frame: CGRect(x: 0,y: 0,width: self.view.frame.size.width,height: self.view.frame.size.height))
+                    let pdffile=try? Data(contentsOf: URL(fileURLWithPath: newtext))
                     if(pdffile != nil)
                     {
                         //error handling. file found
-                    webView.loadData(pdffile!, MIMEType: "application/pdf", textEncodingName:"", baseURL: NSURL(fileURLWithPath: newtext).URLByDeletingLastPathComponent!)
-                    webView.contentMode = UIViewContentMode.ScaleAspectFit
+                    webView.load(pdffile!, mimeType: "application/pdf", textEncodingName:"", baseURL: NSURL(fileURLWithPath: newtext).deletingLastPathComponent!)
+                    webView.contentMode = UIViewContentMode.scaleAspectFit
                     webView.scalesPageToFit = true
-                    webView.contentMode = UIViewContentMode.ScaleAspectFit
+                    webView.contentMode = UIViewContentMode.scaleAspectFit
                     }
                     textViewDoc.addSubview(webView)
                 
             case "docx":
-                let webView = UIWebView(frame: CGRectMake(0,0,self.textViewDoc.frame.size.width,self.textViewDoc.frame.size.height-40))
-                var docxfile=NSData(contentsOfFile: newtext)
-                webView.loadData(docxfile!, MIMEType: "application/vnd.openxmlformats-officedocument.wordprocessingml.document", textEncodingName:"", baseURL: NSURL(fileURLWithPath: newtext).URLByDeletingLastPathComponent!)
+                let webView = UIWebView(frame: CGRect(x: 0,y: 0,width: self.textViewDoc.frame.size.width,height: self.textViewDoc.frame.size.height-40))
+                let docxfile=try? Data(contentsOf: URL(fileURLWithPath: newtext))
+                webView.load(docxfile!, mimeType: "application/vnd.openxmlformats-officedocument.wordprocessingml.document", textEncodingName:"", baseURL: NSURL(fileURLWithPath: newtext).deletingLastPathComponent!)
                 webView.scalesPageToFit = true
-                webView.contentMode = UIViewContentMode.ScaleAspectFit
+                webView.contentMode = UIViewContentMode.scaleAspectFit
                 textViewDoc.addSubview(webView)
                 
             case "doc":
-                 let webView = UIWebView(frame: CGRectMake(0,0,self.view.frame.size.width,self.view.frame.size.height))
-                var docxfile=NSData(contentsOfFile: newtext)
-                webView.loadData(docxfile!, MIMEType: "application/msword", textEncodingName:"", baseURL: NSURL(fileURLWithPath: newtext).URLByDeletingLastPathComponent!)
+                 let webView = UIWebView(frame: CGRect(x: 0,y: 0,width: self.view.frame.size.width,height: self.view.frame.size.height))
+                let docxfile=try? Data(contentsOf: URL(fileURLWithPath: newtext))
+                webView.load(docxfile!, mimeType: "application/msword", textEncodingName:"", baseURL: NSURL(fileURLWithPath: newtext).deletingLastPathComponent!)
                  webView.scalesPageToFit = true
-                 webView.contentMode = UIViewContentMode.ScaleAspectFit
+                 webView.contentMode = UIViewContentMode.scaleAspectFit
                  textViewDoc.addSubview(webView)
 
 
@@ -115,7 +115,7 @@ class textDocumentViewController: UIViewController {
             default:  attrString =
                 
                 
-                try NSMutableAttributedString(URL: NSURL(fileURLWithPath: newtext), options: [NSDocumentTypeDocumentAttribute:NSDocumentTypeDocumentAttribute], documentAttributes: nil)
+                try NSMutableAttributedString(url: URL(fileURLWithPath: newtext), options: [NSDocumentTypeDocumentAttribute:NSDocumentTypeDocumentAttribute], documentAttributes: nil)
             }
             
           
@@ -123,13 +123,13 @@ class textDocumentViewController: UIViewController {
             print("url text is \(newtext)")
             // textViewDoc.text = try NSString(contentsOfURL: NSURL(string: newtext)!, encoding: NSUTF8StringEncoding) as! String
             //var urlContents = NSString(contentsOfURL: docURL, encoding: NSUTF8StringEncoding, error: nil)
-            var txtNSString = try NSString(contentsOfFile: newtext, encoding: NSUTF8StringEncoding)
+            var txtNSString = try NSString(contentsOfFile: newtext, encoding: String.Encoding.utf8.rawValue)
             /////textViewDoc.text = txtNSString as String
             
             //NSUTF8StringEncoding
             textViewDoc.attributedText = attrString
             
-            textViewDoc.editable = false
+            textViewDoc.isEditable = false
         }
         catch{
             print("error in textdoc")

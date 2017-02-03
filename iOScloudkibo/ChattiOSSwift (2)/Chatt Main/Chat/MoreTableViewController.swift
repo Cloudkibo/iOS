@@ -24,7 +24,7 @@ class MoreTableViewController: UITableViewController {
         super.viewDidLoad()
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
-        self.tblOptions?.tableFooterView = UIView(frame: CGRectZero)
+        self.tblOptions?.tableFooterView = UIView(frame: CGRect.zero)
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         // self.navigationItem.rightBarButtonItem = self.editButtonItem()
     }
@@ -36,13 +36,13 @@ class MoreTableViewController: UITableViewController {
 
     // MARK: - Table view data source
 
-    override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    override func numberOfSections(in tableView: UITableView) -> Int {
         // #warning Potentially incomplete method implementation.
         // Return the number of sections.
         return 1
     }
 
-    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete method implementation.
         // Return the number of rows in the section.
         return 6
@@ -105,7 +105,7 @@ class MoreTableViewController: UITableViewController {
     }
     */
     
-    override func prepareForSegue(segue: UIStoryboardSegue?, sender: AnyObject?) {
+    override func prepare(for segue: UIStoryboardSegue?, sender: Any?) {
         //var newController=segue ?.destinationViewController
         // Get the new view controller using [segue destinationViewController].
         // Pass the selected object to the new view controller.
@@ -115,14 +115,14 @@ class MoreTableViewController: UITableViewController {
         //if segue!.identifier == "chatSegue" {
         if segue!.identifier == "logoutSegue" {
             print("Logging out", terminator: "")
-            if let destinationVC = segue!.destinationViewController as? LoginViewController{
+            if let destinationVC = segue!.destination as? LoginViewController{
                 
                 //%%%%%% new phone model
                 
                 if accountKit == nil {
                     
                     //specify AKFResponseType.AccessToken
-                    self.accountKit = AKFAccountKit(responseType: AKFResponseType.AccessToken)
+                    self.accountKit = AKFAccountKit(responseType: AKFResponseType.accessToken)
                     
                 }
                 self.accountKit.logOut()
@@ -136,9 +136,9 @@ class MoreTableViewController: UITableViewController {
                 var tbl_contactslists=sqliteDB.contactslists
                 var tbl_accounts=sqliteDB.accounts
                 let tbl_userchats=sqliteDB.userschats
-                tbl_contactslists.delete()
-                tbl_accounts.delete()
-                tbl_userchats.delete()
+                tbl_contactslists?.delete()
+                tbl_accounts?.delete()
+                tbl_userchats?.delete()
                 KeychainWrapper.removeObjectForKey("access_token")
                 KeychainWrapper.removeObjectForKey("username")
                 KeychainWrapper.removeObjectForKey("password")

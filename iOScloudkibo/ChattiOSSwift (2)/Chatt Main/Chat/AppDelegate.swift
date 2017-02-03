@@ -37,7 +37,7 @@ var versionNumber:String! = "0.4"
 //var versionNumber:Double! = KeychainWrapper.stringForKey("versionNumber") as! Double
 
 var syncServiceContacts:syncContactService!
-var addressbookChangedNotifReceivedDateTime:NSDate?
+var addressbookChangedNotifReceivedDateTime:Date?
 var addressbookChangedNotifReceived=false
 var aaaaa:SBNotificationHub!
 var uploadInfo:NSMutableArray!
@@ -46,7 +46,7 @@ var selectedText=""
 var chatDetailView:ChatDetailViewController!
 var goBack=false
 var countrycode:String! = KeychainWrapper.stringForKey("countrycode")
-let configuration1 = NSURLSessionConfiguration.backgroundSessionConfigurationWithIdentifier("com.example.app.background")
+let configuration1 = URLSessionConfiguration.background(withIdentifier: "com.example.app.background")
 let manager = Alamofire.Manager(configuration: configuration1)
 
 var endedCall=false
@@ -59,7 +59,7 @@ var phonesList=[String]()
 var notAvailableEmails=[String]()
 var contacts = [CNContact]()
 var availableEmailsList=[String]()
-var profileimageList=[NSData]()
+var profileimageList=[Data]()
 var uniqueidentifierList=[String]()
 
 var isFileReceived=false
@@ -97,7 +97,7 @@ var otherID:Int!
 //mark chat as read is remaining
 var isConference = false
 var ConferenceRoomName = ""
-var atimer:NSTimer!
+var atimer:Timer!
 var areYouFreeForCall:Bool=true
 var iamincallWith:String!
 var isInitiator=false
@@ -108,8 +108,8 @@ var contactsList=iOSContact(keys: [CNContactGivenNameKey, CNContactFamilyNameKey
 
 var filejustreceivednameToSave:String!
 var filejustreceivedname:String!
-var filejustreceivedPathURL:NSURL!
-var urlLocalFile:NSURL!
+var filejustreceivedPathURL:URL!
+var urlLocalFile:URL!
 var iOSstartedCall=false
 var firstTimeLogin=false
 var header:[String:String]=["kibo-token":""]
@@ -140,17 +140,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate,AppDelegateScreenDelegate 
         print("launchingggggggggg")
         return true
     }*/
-    func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
+    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
         print("========launchhhhhhhhh=====")
-        print(NSDate())
+        print(Date())
         
         
        //==--self.checkFirstRun()
         
         
-        let nsObject: AnyObject? = NSBundle.mainBundle().infoDictionary!["CFBundleShortVersionString"]
-        if let text = NSBundle.mainBundle().infoDictionary?["CFBundleVersion"] as? String {
+        let nsObject: AnyObject? = Bundle.main.infoDictionary!["CFBundleShortVersionString"] as AnyObject?
+        if let text = Bundle.main.infoDictionary?["CFBundleVersion"] as? String {
             print("... \(text)") //build number
         }
         print(",,,,, \(nsObject!.description)") //version number
@@ -212,9 +212,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate,AppDelegateScreenDelegate 
         uploadInfo=NSMutableArray()
         Fabric.with([Crashlytics.self])
         
-        UIApplication.sharedApplication().setStatusBarHidden(true, withAnimation: UIStatusBarAnimation.Fade);
+        UIApplication.shared.setStatusBarHidden(true, with: UIStatusBarAnimation.fade);
         
-        UIApplication.sharedApplication().setStatusBarStyle(UIStatusBarStyle.LightContent, animated: false);
+        UIApplication.shared.setStatusBarStyle(UIStatusBarStyle.lightContent, animated: false);
         
         
        /* do{reachability = try Reachability.reachabilityForInternetConnection()
@@ -237,10 +237,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate,AppDelegateScreenDelegate 
  
       /////  KeychainWrapper.removeObjectForKey("username")
         
-        UINavigationBar.appearance().titleTextAttributes = [NSForegroundColorAttributeName: UIColor.whiteColor()]
+        UINavigationBar.appearance().titleTextAttributes = [NSForegroundColorAttributeName: UIColor.white]
         //var socketObj=LoginAPI(url:"\(Constants.MainUrl)")
         webMeetingModel.delegateScreen=self
-        UIApplication.sharedApplication().networkActivityIndicatorVisible=true
+        UIApplication.shared.isNetworkActivityIndicatorVisible=true
         print("appdidFinishLaunching")
         
         
@@ -279,12 +279,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate,AppDelegateScreenDelegate 
         
         
         
-        let notificationTypes: UIUserNotificationType = [UIUserNotificationType.Alert, UIUserNotificationType.Badge, UIUserNotificationType.Sound]
+        let notificationTypes: UIUserNotificationType = [UIUserNotificationType.alert, UIUserNotificationType.badge, UIUserNotificationType.sound]
         
         //let notificationTypes: UIUserNotificationType = [UIUserNotificationType.None]
        
         
-        let pushNotificationSettings = UIUserNotificationSettings(forTypes: notificationTypes, categories: nil)
+        let pushNotificationSettings = UIUserNotificationSettings(types: notificationTypes, categories: nil)
         
         
         
@@ -304,8 +304,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate,AppDelegateScreenDelegate 
         do{for account in try sqliteDB.db.prepare(tbl_accounts) {
             username=account[username1]
 
-          */  print(" check permission for remote notifications \(UIApplication.sharedApplication().isRegisteredForRemoteNotifications())")
-        UIApplication.sharedApplication().registerUserNotificationSettings(pushNotificationSettings)
+          */  print(" check permission for remote notifications \(UIApplication.shared.isRegisteredForRemoteNotifications)")
+        UIApplication.shared.registerUserNotificationSettings(pushNotificationSettings)
        
             /*}
         }
@@ -317,9 +317,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate,AppDelegateScreenDelegate 
         
         
         //background
-        UIApplication.sharedApplication().setMinimumBackgroundFetchInterval(UIApplicationBackgroundFetchIntervalMinimum)
+        UIApplication.shared.setMinimumBackgroundFetchInterval(UIApplicationBackgroundFetchIntervalMinimum)
         
-      NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("contactChanged:"), name: CNContactStoreDidChangeNotification, object: nil)
+      NotificationCenter.default.addObserver(self, selector: #selector(AppDelegate.contactChanged(_:)), name: NSNotification.Name.CNContactStoreDidChange, object: nil)
 
         /*[[NSNotificationCenter defaultCenter] addObserver:self
             selector:@selector(aWindowBecameMain:)
@@ -408,7 +408,7 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
 
      
         
-        print("on launch app state is \(UIApplication.sharedApplication().applicationState.rawValue)")
+        print("on launch app state is \(UIApplication.shared.applicationState.rawValue)")
         return true
         
     }
@@ -450,7 +450,7 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
     
     
     
-    func contactChanged(notification : NSNotification)
+    func contactChanged(_ notification : Notification)
     {
         print("phonebood opened notification name \(notification.name)")
         /*Alamofire.request(.POST,"\(Constants.MainUrl+Constants.urllog)",headers:header,parameters: ["data":"IPHONE_LOG: Device phonebook opened notification \(username!)"]).response{
@@ -459,11 +459,11 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
          //   }
          
          */
-        if(notification.name==CNContactStoreDidChangeNotification)
+        if(notification.name==NSNotification.Name.CNContactStoreDidChange)
         {
-            let now=NSDate()
+            let now=Date()
             print("contact changed notification received")
-            guard addressbookChangedNotifReceivedDateTime==nil || now.timeIntervalSinceDate(addressbookChangedNotifReceivedDateTime!)>2 else{
+            guard addressbookChangedNotifReceivedDateTime==nil || now.timeIntervalSince(addressbookChangedNotifReceivedDateTime!)>2 else{
                 print("returning")
                 return}
             addressbookChangedNotifReceivedDateTime=now
@@ -473,13 +473,13 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
                 
                 addressbookChangedNotifReceived=true
                 var userInfo: NSDictionary!
-                userInfo = notification.userInfo
+                userInfo = notification.userInfo as NSDictionary!
                 print(userInfo)
                 print(userInfo.allKeys.debugDescription)
                 print("contacts changed sync now starting")
                 
                 //====-------
-                dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND,0))
+                DispatchQueue.global(priority: DispatchQueue.GlobalQueuePriority.background).async
                 {
                     syncServiceContacts.startSyncService()
                 }
@@ -518,7 +518,7 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
     {
                 print("synchronise called")
         if(accountKit == nil){
-            accountKit = AKFAccountKit(responseType: AKFResponseType.AccessToken)
+            accountKit = AKFAccountKit(responseType: AKFResponseType.accessToken)
         }
         
         if (accountKit!.currentAccessToken != nil) {
@@ -534,7 +534,7 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
             
             
             let tbl_accounts = sqliteDB.accounts
-            do{for account in try sqliteDB.db.prepare(tbl_accounts) {
+            do{for account in try sqliteDB.db.prepare(tbl_accounts!) {
                 username=account[username1]
                 //displayname=account[firstname]
                 
@@ -676,7 +676,7 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
     var index=0
     // var pendingcount=0
     
-    func getData(completion:(result:Bool)->()) {
+    func getData(_ completion:@escaping (_ result:Bool)->()) {
         var x = [[String: AnyObject]]()
         var url=Constants.MainUrl+Constants.sendChatURL
         /*
@@ -722,7 +722,7 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
             }
         }
         else{
-            completion(result: false)
+            completion(false)
             
         }
     }
@@ -733,7 +733,7 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
     var index2=0
     // var pendingcount=0
     
-    func getGroupsData(completion:(result:Bool)->()) {
+    func getGroupsData(_ completion:@escaping (_ result:Bool)->()) {
         var x = [[String: AnyObject]]()
        // var url=Constants.MainUrl+Constants.sendChatURL
         /*
@@ -765,12 +765,12 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
                  
                     
                     */
-                completion(result:true)
+                completion(true)
                     self.index2 = self.index2 + 1
                     if self.index2 < self.pendinggroupchatsarray.count {
                         self.getGroupsData({ (result) -> () in})
                     }else {
-                        completion(result: true)
+                        completion(true)
                         /////////self.collectionView.reloadData()
                     }
                 }
@@ -780,13 +780,13 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
                     if self.index2 < self.pendinggroupchatsarray.count {
                         self.getGroupsData({ (result) -> () in})
                     }else {
-                        completion(result: true)                /////////// self.collectionView.reloadData()
+                        completion(true)                /////////// self.collectionView.reloadData()
                     }
                 }
             })
         }
         else{
-            completion(result: false)
+            completion(false)
             
         }
     }
@@ -808,7 +808,7 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
         let phone = Expression<String>("phone")
         
         let contactPhone = Expression<String>("contactPhone")
-        let date = Expression<NSDate>("date")
+        let date = Expression<Date>("date")
         //contactPhone
         
         //%%%%%% fetch chat
@@ -834,8 +834,8 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
         //    {
         
         //QOS_CLASS_USER_INTERACTIVE
-        let queue2 = dispatch_queue_create("com.cnoon.manager-response-queue", DISPATCH_QUEUE_CONCURRENT)
-        let qqq=dispatch_get_global_queue(QOS_CLASS_BACKGROUND, 0)
+        let queue2 = DispatchQueue(label: "com.cnoon.manager-response-queue", attributes: DispatchQueue.Attributes.concurrent)
+        let qqq=DispatchQueue.global(qos: DispatchQoS.QoSClass.background)
         let request = Alamofire.request(.POST, "\(fetchChatURL)", parameters: ["user1":username!], headers:header)
         request.response(
             queue: queue2,
@@ -1099,7 +1099,7 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
 
   
     
-    func sendPendingChatMessages(completion:(result:Bool)->())
+    func sendPendingChatMessages(_ completion:(_ result:Bool)->())
     {
         print("checkin here inside pending chat messages.....")
         var userchats=sqliteDB.userschats
@@ -1127,26 +1127,26 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
         do
         {
             var count=0
-            for pendingchats in try sqliteDB.db.prepare(tbl_userchats.filter(status=="pending"))
+            for pendingchats in try sqliteDB.db.prepare((tbl_userchats?.filter(status=="pending"))!)
             {
                 print("inside for loop")
                 print("pending chats count in app delegate is \(count)")
                 
                 var date=NSDate()
-                var formatterDateSend = NSDateFormatter();
+                var formatterDateSend = DateFormatter();
                 formatterDateSend.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ";
                 ///newwwwwwww
                 ////formatterDateSend.timeZone = NSTimeZone.localTimeZone()
-                let dateSentString = formatterDateSend.stringFromDate(date);
+                let dateSentString = formatterDateSend.string(from: date as Date);
                 
                 
-                var formatterDateSendtoDateType = NSDateFormatter();
+                var formatterDateSendtoDateType = DateFormatter();
                 formatterDateSendtoDateType.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ";
-                var dateSentDateType = formatterDateSendtoDateType.dateFromString(dateSentString)
+                var dateSentDateType = formatterDateSendtoDateType.date(from: dateSentString)
                 
 
                 
-                count++
+                count += 1
                 var imParas=["from":pendingchats[from],"to":pendingchats[to],"fromFullName":pendingchats[fromFullName],"msg":pendingchats[msg],"uniqueid":pendingchats[uniqueid],"type":pendingchats[type],"file_type":pendingchats[file_type],"date":"\(dateSentDateType!)"]
                 
                 print("imparas are \(imParas)")
@@ -1186,7 +1186,7 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
             let sender = Expression<String>("sender")
             let uniqueid = Expression<String>("uniqueid")
             
-            for statusMessages in try sqliteDB.db.prepare(tbl_messageStatus)
+            for statusMessages in try sqliteDB.db.prepare(tbl_messageStatus!)
             {
             // if(socketObj != nil){
                 
@@ -1215,7 +1215,7 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
                 //==--socketObj.socket.emit("logClient","IPHONE-LOG: \(username!) done sending pending chat messages")
             }
             
-            return completion(result: true)
+            return completion(true)
             //// return completion(result: true)
         }
         catch
@@ -1225,14 +1225,14 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
                 socketObj.socket.emit("logClient","IPHONE-LOG: \(username!) error in sending pending chat messages")
             }
             
-            return completion(result: false)
+            return completion(false)
         }
         
         
     }
     
     
-    func sendGroupChatMessage(group_id:String,from:String,type:String,msg:String,fromFullname:String,uniqueidChat:String,completion:(result:Bool)->())
+    func sendGroupChatMessage(_ group_id:String,from:String,type:String,msg:String,fromFullname:String,uniqueidChat:String,completion:@escaping (_ result:Bool)->())
     {
         // let queue=dispatch_get_global_queue(QOS_CLASS_USER_INITIATED,0)
         // let queue = dispatch_queue_create("com.kibochat.manager-response-queue", DISPATCH_QUEUE_CONCURRENT)
@@ -1301,7 +1301,7 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
     }
     
     
-    func sendPendingGroupChatMessages(completion:(result:Bool)->())
+    func sendPendingGroupChatMessages(_ completion:(_ result:Bool)->())
     {
         print("inside sending pending group chat messages.....")
         var userchats=sqliteDB.userschats
@@ -1314,7 +1314,7 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
         let type = Expression<String>("type")
         let msg = Expression<String>("msg")
         let from_fullname = Expression<String>("from_fullname")
-        let date = Expression<NSDate>("date")
+        let date = Expression<Date>("date")
         let unique_id = Expression<String>("unique_id")
         
 
@@ -1326,7 +1326,7 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
         //print(res)
         
             var count=0
-        for(var i=0;i<pendingMSGs.count;i++)
+        for(i in 0 ..< pendingMSGs.count)
             {
                var membersList=sqliteDB.getGroupMembersOfGroup(pendingMSGs[i]["group_unique_id"] as! String)
                 
@@ -1355,7 +1355,7 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
                 })*/
             }
         
-        completion(result: true)
+        completion(true)
         
     }
                 //OLD SOCKET  LOGIC OF SENDING PENDING MESSAGES
@@ -1385,13 +1385,13 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
         }*/
     
 
-    func showError(title:String,message:String,button1:String) {
+    func showError(_ title:String,message:String,button1:String) {
         
         // create the alert
-        let alert = UIAlertController(title: title, message: message, preferredStyle: UIAlertControllerStyle.Alert)
+        let alert = UIAlertController(title: title, message: message, preferredStyle: UIAlertControllerStyle.alert)
         
         // add the actions (buttons)
-        alert.addAction(UIAlertAction(title: button1, style: UIAlertActionStyle.Default, handler: nil))
+        alert.addAction(UIAlertAction(title: button1, style: UIAlertActionStyle.default, handler: nil))
         //alert.addAction(UIAlertAction(title: button2, style: UIAlertActionStyle.Cancel, handler: nil))
         
      let tabBarController = window?.rootViewController as? UITabBarController
@@ -1401,13 +1401,13 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
         // show the alert
         //=-- let activeViewCont = navigationController.visibleViewController
         
-        self.window?.rootViewController?.presentViewController(alert, animated: true, completion: nil)
+        self.window?.rootViewController?.present(alert, animated: true, completion: nil)
         
         
         //=--tabBarController!.presentViewController(alert, animated: true, completion: nil)
     }
     
-    func application(application: UIApplication, didRegisterUserNotificationSettings notificationSettings: UIUserNotificationSettings) {
+    func application(_ application: UIApplication, didRegister notificationSettings: UIUserNotificationSettings) {
         print("didRegisterUserNotificationSettings")
         print("....234234  \(notificationSettings)")
         
@@ -1452,7 +1452,7 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
 {
         print("didRegisterUserNotificationSettings... inside...")
         
-            UIApplication.sharedApplication().registerForRemoteNotifications()
+            UIApplication.shared.registerForRemoteNotifications()
         }
  
         
@@ -1460,7 +1460,7 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
     // }
         
     }
-    func applicationWillResignActive(application: UIApplication) {
+    func applicationWillResignActive(_ application: UIApplication) {
         // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
         // Use this method to pause ongoing tasks, disable timers, and throttle down OpenGL ES frame rates. Games should use this method to pause the game.
        
@@ -1486,7 +1486,7 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
         print("appwillresignactive")
     }
     
-    func applicationDidEnterBackground(application: UIApplication) {
+    func applicationDidEnterBackground(_ application: UIApplication) {
         // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
         // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
         print("didenterbackground")
@@ -1517,10 +1517,10 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
         
     }
     
-    func applicationWillEnterForeground(application: UIApplication) {
+    func applicationWillEnterForeground(_ application: UIApplication) {
         
         
-        print("on willenterforeground app state is \(UIApplication.sharedApplication().applicationState.rawValue)")
+        print("on willenterforeground app state is \(UIApplication.shared.applicationState.rawValue)")
    /*     if(chatDetailView != nil)
 {
         chatDetailView.tblForChats.reloadData()
@@ -1590,13 +1590,13 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
         
     }
     
-    func applicationDidBecomeActive(application: UIApplication) {
+    func applicationDidBecomeActive(_ application: UIApplication) {
         // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
        
         
         
       //  self.messageFrame.removeFromSuperview()
-        print("did become active app state is \(UIApplication.sharedApplication().applicationState.rawValue)")
+        print("did become active app state is \(UIApplication.shared.applicationState.rawValue)")
         
         print("app launch variable is \(applaunch)")
         applaunch=true
@@ -1620,8 +1620,8 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
             }
         }*/
         print("app becomeActive")
-        UIApplication.sharedApplication().applicationIconBadgeNumber=1;
-        UIApplication.sharedApplication().applicationIconBadgeNumber=0;
+        UIApplication.shared.applicationIconBadgeNumber=1;
+        UIApplication.shared.applicationIconBadgeNumber=0;
 
        // socketObj=LoginAPI(url:"\(Constants.MainUrl)")
         //socketObj.addHandlers()
@@ -1683,7 +1683,7 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
         }*/
     }
     
-    func applicationWillTerminate(application: UIApplication) {
+    func applicationWillTerminate(_ application: UIApplication) {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
        
         print("app will terminate")
@@ -1856,7 +1856,7 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
     
     
      var retrycount=0
-     func application(application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: NSData) {
+     func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
         print("trying to register device token")
         
        /* let username1 = Expression<String>("username")
@@ -1866,14 +1866,14 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
             
      if(username != nil && username != ""){
         print("inside didRegisterForRemoteNotificationsWithDeviceToken username is \(username!) ")
-        var hub=SBNotificationHub(connectionString: Constants.connectionstring, notificationHubPath: Constants.hubname) //from constants file
+        let hub=SBNotificationHub(connectionString: Constants.connectionstring, notificationHubPath: Constants.hubname) //from constants file
         var tagarray=[String]()
-        tagarray.append(username!.substringFromIndex(username!.startIndex.successor()))
-        print(username!.substringFromIndex(username!.startIndex.successor()))
+        tagarray.append(username!.substring(from: username!.characters.index(after: username!.startIndex)))
+        print(username!.substring(from: username!.characters.index(after: username!.startIndex)))
        // var tagname=NSSet(object: username!.substringFromIndex(username!.startIndex))
-        var tagname=NSSet(array: tagarray)
+        let tagname=NSSet(array: tagarray)
        // hub.registerNativeWithDeviceToken(deviceToken, tags: tagname as Set<NSObject>) { (error) in
-        hub.registerNativeWithDeviceToken(deviceToken, tags: tagname as! Set<NSObject>) { (error) in
+        hub?.registerNative(withDeviceToken: deviceToken, tags: tagname as Set<NSObject>) { (error) in
         //hub.registerNativeWithDeviceToken(deviceToken, tags: nil) { (error) in
             
         if(error != nil)
@@ -1881,7 +1881,7 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
                 print("Registering for notifications \(error)")
                 ///UtilityFunctions.init().log_papertrail("Registering for notifications \(error)")
                 //retry
-                UIApplication.sharedApplication().registerForRemoteNotifications()
+                UIApplication.shared.registerForRemoteNotifications()
                 //==--UIApplication.sharedApplication().registerUserNotificationSettings(pushNotificationSettings)
 
             }
@@ -1920,7 +1920,7 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
         print("hereeeeeeeeeeee")
     }*/
    
-    func application(application: UIApplication, didReceiveRemoteNotification userInfo: [NSObject : AnyObject], fetchCompletionHandler completionHandler: (UIBackgroundFetchResult) -> Void) {
+    func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable: Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
         
         
      
@@ -1937,7 +1937,7 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
         
         
         //avoid calling twice, inactive when transitions by tapping on notification bar
-        if(UIApplication.sharedApplication().applicationState.rawValue != UIApplicationState.Inactive.rawValue)
+        if(UIApplication.shared.applicationState.rawValue != UIApplicationState.inactive.rawValue)
         {
             
         Alamofire.request(.POST,"https://api.cloudkibo.com/api/users/log",headers:header,parameters: ["data":"IPHONE_LOG: \(username!) received push notification as \(userInfo.description)"]).response{
@@ -1967,8 +1967,8 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
                     updateMessageStatus(singleuniqueid, status: (userInfo["status"] as? String)!)
                     print("calling completion handler for status update now")
                     
-                    completionHandler(UIBackgroundFetchResult.NewData)
-                    NSNotificationCenter.defaultCenter().postNotificationName("ReceivedNotification", object:userInfo)
+                    completionHandler(UIBackgroundFetchResult.newData)
+                    NotificationCenter.default.post(name: Notification.Name(rawValue: "ReceivedNotification"), object:userInfo)
                     
                 }
                 else
@@ -1981,8 +1981,8 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
                     {print("payload of iOS chat")
                     fetchSingleChatMessage(singleuniqueid)
                      print("calling completion handler for fetch chat now")
-                    completionHandler(UIBackgroundFetchResult.NewData)
-                    NSNotificationCenter.defaultCenter().postNotificationName("ReceivedNotification", object:userInfo)
+                    completionHandler(UIBackgroundFetchResult.newData)
+                    NotificationCenter.default.post(name: Notification.Name(rawValue: "ReceivedNotification"), object:userInfo)
                     }
                     
                     else
@@ -1997,10 +1997,10 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
                             var status=userInfo["status"] as! String
                             var user_phone=userInfo["user_phone"] as? String
                             
-                            let dateFormatter = NSDateFormatter()
+                            let dateFormatter = DateFormatter()
                             dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
-                            var delivered_date=NSDate()
-                            var read_date=NSDate()
+                            var delivered_date=Date()
+                            var read_date=Date()
                            
                             
                             
@@ -2070,8 +2070,8 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
                 fetchSingleChatMessage(singleuniqueid)
                 
                 */
-                completionHandler(UIBackgroundFetchResult.NewData)
-                NSNotificationCenter.defaultCenter().postNotificationName("ReceivedNotification", object:userInfo)
+                completionHandler(UIBackgroundFetchResult.newData)
+                NotificationCenter.default.post(name: Notification.Name(rawValue: "ReceivedNotification"), object:userInfo)
                 
                 
             }
@@ -2114,16 +2114,16 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
                         var isAdmin = userInfo["isAdmin"] as! String
                         var membership_status = userInfo["membership_status"] as! String
                         var group_name = userInfo["group_name"] as! String
-                       dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0)) {
+                       DispatchQueue.global(priority: DispatchQueue.GlobalQueuePriority.background).async {
                         self.fetchSingleGroup(groupId!, completion: { (result, error) in
                             
                             self.fetchGroupMembersSpecificGroup(groupId!,completion: { (result, error) in
                                 
-                                sqliteDB.storeGroupsChat("Log:", group_unique_id1: groupId!, type1: "log", msg1: "You are added by \(senderid)", from_fullname1: "", date1: NSDate(), unique_id1:UtilityFunctions.init().generateUniqueid())
+                                sqliteDB.storeGroupsChat("Log:", group_unique_id1: groupId!, type1: "log", msg1: "You are added by \(senderid)", from_fullname1: "", date1: Date(), unique_id1:UtilityFunctions.init().generateUniqueid())
                                 UIDelegates.getInstance().UpdateMainPageChatsDelegateCall()
                                 UIDelegates.getInstance().UpdateGroupInfoDetailsDelegateCall()
                                 
-                              completionHandler(UIBackgroundFetchResult.NewData)
+                              completionHandler(UIBackgroundFetchResult.newData)
                             })
                             
                         })
@@ -2152,7 +2152,7 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
                         UIDelegates.getInstance().UpdateGroupChatDetailsDelegateCall()
                         UIDelegates.getInstance().UpdateMainPageChatsDelegateCall()
                         UIDelegates.getInstance().UpdateGroupInfoDetailsDelegateCall()
-                         completionHandler(UIBackgroundFetchResult.NewData)
+                         completionHandler(UIBackgroundFetchResult.newData)
                     })
                    
                    
@@ -2173,7 +2173,7 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
                     var uniqueid1=UtilityFunctions.init().generateUniqueid()
                     
                     sqliteDB.updateMembershipStatus(groupId,memberphone1: senderId, membership_status1: "left")
-                    sqliteDB.storeGroupsChat("Log:", group_unique_id1: groupId, type1: "log", msg1: "\(senderId) has left this group", from_fullname1: "", date1: NSDate(), unique_id1: uniqueid1)
+                    sqliteDB.storeGroupsChat("Log:", group_unique_id1: groupId, type1: "log", msg1: "\(senderId) has left this group", from_fullname1: "", date1: Date(), unique_id1: uniqueid1)
                     ///////  sqliteDB.removeMember(groupId!,member_phone1: senderId!)
                     if(delegateRefreshChat != nil)
                     {
@@ -2184,7 +2184,7 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
                     UIDelegates.getInstance().UpdateGroupInfoDetailsDelegateCall()
                     UIDelegates.getInstance().UpdateGroupChatDetailsDelegateCall()
                     
-                    completionHandler(UIBackgroundFetchResult.NewData)
+                    completionHandler(UIBackgroundFetchResult.newData)
 
                     //updateUI
                     
@@ -2204,10 +2204,10 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
                     
                     if(personRemoved == username!)
 {
-   sqliteDB.storeGroupsChat("Log:", group_unique_id1: groupId, type1: "log", msg1: "\(senderId) removed you", from_fullname1: "", date1: NSDate(), unique_id1: uniqueid1)
+   sqliteDB.storeGroupsChat("Log:", group_unique_id1: groupId, type1: "log", msg1: "\(senderId) removed you", from_fullname1: "", date1: Date(), unique_id1: uniqueid1)
 }
 else{
-                    sqliteDB.storeGroupsChat("Log:", group_unique_id1: groupId, type1: "log", msg1: "\(personRemoved) is removed from this group", from_fullname1: "", date1: NSDate(), unique_id1: uniqueid1)
+                    sqliteDB.storeGroupsChat("Log:", group_unique_id1: groupId, type1: "log", msg1: "\(personRemoved) is removed from this group", from_fullname1: "", date1: Date(), unique_id1: uniqueid1)
                     }
                     ///////  sqliteDB.removeMember(groupId!,member_phone1: senderId!)
                     if(delegateRefreshChat != nil)
@@ -2219,7 +2219,7 @@ else{
                     UIDelegates.getInstance().UpdateGroupInfoDetailsDelegateCall()
                     UIDelegates.getInstance().UpdateGroupChatDetailsDelegateCall()
                     
-                    completionHandler(UIBackgroundFetchResult.NewData)
+                    completionHandler(UIBackgroundFetchResult.newData)
                     
                     /*
                      [senderId: +923201211991, badge: 0, aps: {
@@ -2304,7 +2304,7 @@ else{
         UIDelegates.getInstance().UpdateGroupInfoDetailsDelegateCall()
         
     }
-    func fetchGroupMembersSpecificGroup(unique_id:String,completion:(result:Bool,error:String!)->())
+    func fetchGroupMembersSpecificGroup(_ unique_id:String,completion:@escaping (_ result:Bool,_ error:String?)->())
     {
         print("uniqueid of grup fetching member is \(unique_id)")
         
@@ -2312,13 +2312,13 @@ else{
         
         // print("inside fetch single chat")
         if(accountKit == nil){
-            accountKit = AKFAccountKit(responseType: AKFResponseType.AccessToken)
+            accountKit = AKFAccountKit(responseType: AKFResponseType.accessToken)
         }
         
         if (accountKit!.currentAccessToken == nil) {
             
             
-            accountKit = AKFAccountKit(responseType: AKFResponseType.AccessToken)
+            accountKit = AKFAccountKit(responseType: AKFResponseType.accessToken)
             accountKit.requestAccount{
                 (account, error) -> Void in
                 
@@ -2406,7 +2406,7 @@ else{
     }
     
    
-    func fetchSingleGroup(unique_id:String,completion:(result:Bool,error:String!)->())
+    func fetchSingleGroup(_ unique_id:String,completion:@escaping (_ result:Bool,_ error:String?)->())
     {
         Alamofire.request(.POST,"https://api.cloudkibo.com/api/users/log",headers:header,parameters: ["data":"IPHONE_LOG: \(username!) fetching group chat message. uniqueid of single new group is \(unique_id)"]).response{
             request, response_, data, error in
@@ -2419,13 +2419,13 @@ else{
         
        // print("inside fetch single chat")
         if(accountKit == nil){
-            accountKit = AKFAccountKit(responseType: AKFResponseType.AccessToken)
+            accountKit = AKFAccountKit(responseType: AKFResponseType.accessToken)
         }
         
         if (accountKit!.currentAccessToken == nil) {
             
          
-            accountKit = AKFAccountKit(responseType: AKFResponseType.AccessToken)
+            accountKit = AKFAccountKit(responseType: AKFResponseType.accessToken)
             accountKit.requestAccount{
                 (account, error) -> Void in
                 
@@ -2514,7 +2514,7 @@ else{
             }
         }
     }
-    func fetchSingleGroupChatMessage(uniqueidMsg:String,completion:(result:Bool,error:String!)->())
+    func fetchSingleGroupChatMessage(_ uniqueidMsg:String,completion:@escaping (_ result:Bool,_ error:String?)->())
     {
            print("uniqueid of group single chat is \(uniqueidMsg)")
         
@@ -2522,14 +2522,14 @@ else{
             
             print("inside fetch single group chat")
             if(accountKit == nil){
-                accountKit = AKFAccountKit(responseType: AKFResponseType.AccessToken)
+                accountKit = AKFAccountKit(responseType: AKFResponseType.accessToken)
             }
             
             if (accountKit!.currentAccessToken == nil) {
                 
                 print("inside etch single 1462")
                 //specify AKFResponseType.AccessToken
-                accountKit = AKFAccountKit(responseType: AKFResponseType.AccessToken)
+                accountKit = AKFAccountKit(responseType: AKFResponseType.accessToken)
                 accountKit.requestAccount{
                     (account, error) -> Void in
                     
@@ -2615,29 +2615,29 @@ else{
       //default: print("doneeee...")
     }
     }
-    func application(application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: NSError) {
+    func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {
         
-        UIApplication.sharedApplication().registerForRemoteNotifications()
+        UIApplication.shared.registerForRemoteNotifications()
         print("registered for notification error", terminator: "")
         ////UtilityFunctions.init().log_papertrail("Error in registration. Error: \(error)")
         NSLog("Error in registration. Error: \(error)")
         //retry
-        UIApplication.sharedApplication().registerForRemoteNotifications()
+        UIApplication.shared.registerForRemoteNotifications()
         //==--UIApplication.sharedApplication().registerUserNotificationSettings(pushNotificationSettings)
 
     }
     
-    func iCloudAccountAvailabilityChanged(sender:NSNotification)
+    func iCloudAccountAvailabilityChanged(_ sender:Notification)
     {
 
 }
     
    
     func screenCapture() {
-        atimer=NSTimer(timeInterval: 0.1, target: self, selector: "timerFiredScreenCapture", userInfo: nil, repeats: true)
+        atimer=Timer(timeInterval: 0.1, target: self, selector: #selector(AppDelegate.timerFiredScreenCapture), userInfo: nil, repeats: true)
         
     
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0)) { () -> Void in
+    DispatchQueue.global(priority: DispatchQueue.GlobalQueuePriority.background).async { () -> Void in
     while(screenCaptureToggle)
     //for(var i=0;i<30000;i++)
     {
@@ -2650,7 +2650,7 @@ else{
 
     
     }
-    func application(application: UIApplication, willFinishLaunchingWithOptions launchOptions: [NSObject : AnyObject]?) -> Bool {
+    func application(_ application: UIApplication, willFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         
         return true
     }
@@ -2662,13 +2662,13 @@ else{
         //while(atimer.timeInterval < 3000)
         var chunkLength=64000
         var screenshot:UIImage!
-        dispatch_async(dispatch_get_main_queue(), { () -> Void in
-            var myscreen=self.window!.snapshotViewAfterScreenUpdates(true)
+        DispatchQueue.main.async(execute: { () -> Void in
+            var myscreen=self.window!.snapshotView(afterScreenUpdates: true)
             
             UIGraphicsBeginImageContext((self.window!.bounds.size))
             
-            self.window!.drawViewHierarchyInRect(myscreen.bounds, afterScreenUpdates: true)
-            print("width is \(myscreen.layer.bounds.width), height is \(myscreen.layer.bounds.height)")
+            self.window!.drawHierarchy(in: (myscreen?.bounds)!, afterScreenUpdates: true)
+            print("width is \(myscreen?.layer.bounds.width), height is \(myscreen?.layer.bounds.height)")
             screenshot=UIGraphicsGetImageFromCurrentImageContext()
             UIGraphicsEndImageContext()
             webMeetingModel.delegateSendScreenshotDataChannel.sendImageFromDataChannel(screenshot)
@@ -2678,22 +2678,22 @@ else{
         print("outside")
         
     }
-    public func showFileRecievedNotification()
+    open func showFileRecievedNotification()
     {
-        let alert = UIAlertController(title: "Success", message: "You have received a new file. Click on \"View\" button at top to View and Save it.", preferredStyle: UIAlertControllerStyle.Alert)
-        alert.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.Default, handler: nil))
-        let navigationController = UIApplication.sharedApplication().windows[0].rootViewController as! UINavigationController
+        let alert = UIAlertController(title: "Success", message: "You have received a new file. Click on \"View\" button at top to View and Save it.", preferredStyle: UIAlertControllerStyle.alert)
+        alert.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.default, handler: nil))
+        let navigationController = UIApplication.shared.windows[0].rootViewController as! UINavigationController
         
         let activeViewCont = navigationController.visibleViewController
         
-        activeViewCont!.presentViewController(alert, animated: true, completion: nil)
+        activeViewCont!.present(alert, animated: true, completion: nil)
         
         
     
     //self.window?.rootViewController!.presentViewController(alert, animated: true, completion: nil)
     }
     
-    func application(application: UIApplication, didReceiveLocalNotification notification: UILocalNotification) {
+    func application(_ application: UIApplication, didReceive notification: UILocalNotification) {
         ///application.applicationIconBadgeNumber = 0
       //  UIApplication.sharedApplication().presentLocalNotificationNow(notification)
         print("got local notification")
@@ -2702,11 +2702,11 @@ else{
     
     
   
-    func application(application: UIApplication, shouldSaveApplicationState coder: NSCoder) -> Bool {
+    func application(_ application: UIApplication, shouldSaveApplicationState coder: NSCoder) -> Bool {
         return true
     }
     
-    func application(application: UIApplication, shouldRestoreApplicationState coder: NSCoder) -> Bool {
+    func application(_ application: UIApplication, shouldRestoreApplicationState coder: NSCoder) -> Bool {
         return true
     }
    /* func application(application: UIApplication, viewControllerWithRestorationIdentifierPath identifierComponents: [AnyObject], coder: NSCoder) -> UIViewController? {
@@ -2729,11 +2729,11 @@ else{
     }
     
     */
-    func application(application: UIApplication, handleEventsForBackgroundURLSession identifier: String, completionHandler: () -> Void) {
+    func application(_ application: UIApplication, handleEventsForBackgroundURLSession identifier: String, completionHandler: @escaping () -> Void) {
         
          NetworkingManager.sharedManager.backgroundCompletionHandler = completionHandler
     }
-    func fetchSingleChatMessage(uniqueid:String)
+    func fetchSingleChatMessage(_ uniqueid:String)
     {
         
         Alamofire.request(.POST,"\(Constants.MainUrl+Constants.urllog)",headers:header,parameters: ["data":"IPHONE_LOG: inside function fetch single chat \(uniqueid)"]).response{
@@ -2751,14 +2751,14 @@ else{
         
         print("inside fetch single chat")
         if(accountKit == nil){
-            accountKit = AKFAccountKit(responseType: AKFResponseType.AccessToken)
+            accountKit = AKFAccountKit(responseType: AKFResponseType.accessToken)
         }
         
         if (accountKit!.currentAccessToken == nil) {
             
             print("inside etch single 1462")
             //specify AKFResponseType.AccessToken
-            accountKit = AKFAccountKit(responseType: AKFResponseType.AccessToken)
+            accountKit = AKFAccountKit(responseType: AKFResponseType.accessToken)
             accountKit.requestAccount{
                 (account, error) -> Void in
                 
@@ -2922,7 +2922,7 @@ else{
         
     }
     
-    func updateMessageStatus(uniqueID:String,status:String)
+    func updateMessageStatus(_ uniqueID:String,status:String)
     {
         print("messageStatusUpdate ...... :\(uniqueID) and : \(status)")
         print(":::::::::::::::::::::::::::::::::::")
@@ -2939,7 +2939,7 @@ else{
         
         //get status and unique id from server delivered or seen
         
-        var state=UIApplication.sharedApplication().applicationState
+        var state=UIApplication.shared.applicationState
         
         //UIApplicationState state = [[UIApplication sharedApplication] applicationState];
         
@@ -3003,21 +3003,21 @@ else{
     // Get current version code
     var currentVersionCode = 0.0;
         
-            let nsObject: AnyObject? = NSBundle.mainBundle().infoDictionary!["CFBundleShortVersionString"]
+            let nsObject: AnyObject? = Bundle.main.infoDictionary!["CFBundleShortVersionString"] as AnyObject?
         currentVersionCode = (nsObject as! NSString).doubleValue
         print("current version code is \(currentVersionCode)")
            // Get saved version code
-        let preferences = NSUserDefaults.standardUserDefaults()
-        print("preferences.doubleForKey PREF_VERSION_CODE_KEY \(preferences.doubleForKey(PREF_VERSION_CODE_KEY))")
+        let preferences = UserDefaults.standard
+        print("preferences.doubleForKey PREF_VERSION_CODE_KEY \(preferences.double(forKey: PREF_VERSION_CODE_KEY))")
             
 
         
-        if (preferences.doubleForKey(PREF_VERSION_CODE_KEY) == 0.0) {
+        if (preferences.double(forKey: PREF_VERSION_CODE_KEY) == 0.0) {
             //  Doesn't exist
             print("PREF_VERSION_CODE_KEY object not found")
             setupForNewInstall();
         } else {
-            let savedVersionCode = preferences.doubleForKey(PREF_VERSION_CODE_KEY)
+            let savedVersionCode = preferences.double(forKey: PREF_VERSION_CODE_KEY)
             if (currentVersionCode == savedVersionCode) {
                 
                 print("This is normal run : version \(currentVersionCode)")
@@ -3061,7 +3061,7 @@ else{
           //  let preferences = NSUserDefaults.standardUserDefaults()
             
            
-            let currentLevel = preferences.setDouble(currentVersionCode, forKey: PREF_VERSION_CODE_KEY)
+            let currentLevel = preferences.set(currentVersionCode, forKey: PREF_VERSION_CODE_KEY)
             
             //  Save to disk
             let didSave = preferences.synchronize()
@@ -3130,7 +3130,7 @@ else{
             
             print("Old data removed from tables. Checking old facebook auth token.");
         if(accountKit == nil){
-            accountKit = AKFAccountKit(responseType: AKFResponseType.AccessToken)
+            accountKit = AKFAccountKit(responseType: AKFResponseType.accessToken)
         }
         
          if (accountKit!.currentAccessToken != nil)
@@ -3244,7 +3244,7 @@ else{
 }
 protocol UpdateChatViewsDelegate:class
 {
-    func refreshChatsUI(message: String!, uniqueid:String!, from:String!, date1:NSDate!, type:String!);
+    func refreshChatsUI(_ message: String!, uniqueid:String!, from:String!, date1:Date!, type:String!);
 }
 
 

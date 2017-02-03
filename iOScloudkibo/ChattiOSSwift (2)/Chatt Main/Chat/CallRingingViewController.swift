@@ -30,7 +30,7 @@ class CallRingingViewController: UIViewController//RTCPeerConnectionDelegate,RTC
     var currentusernameretrieved:String!
     
     
-    @IBAction func btnAcceptPressed(sender: AnyObject) {
+    @IBAction func btnAcceptPressed(_ sender: AnyObject) {
         areYouFreeForCall=false
         goBack=true
         iamincall=true
@@ -63,7 +63,7 @@ class CallRingingViewController: UIViewController//RTCPeerConnectionDelegate,RTC
         //do
         //{allkiboContactsArray = Array(try sqliteDB.db.prepare(contactsKibo))
         do{
-            for all in try sqliteDB.db.prepare(allcontacts) {
+            for all in try sqliteDB.db.prepare(allcontacts!) {
                 if(all[phone]==txtCallerName.text!) //if we found contact in our AddressBook
                     
                 {
@@ -82,9 +82,9 @@ class CallRingingViewController: UIViewController//RTCPeerConnectionDelegate,RTC
         
         
         
-       let next = self.storyboard?.instantiateViewControllerWithIdentifier("MainV2") as! VideoViewController
+       let next = self.storyboard?.instantiateViewController(withIdentifier: "MainV2") as! VideoViewController
         
-        self.presentViewController(next, animated: true, completion: {
+        self.present(next, animated: true, completion: {
             var aa=JSON(["to":iamincallWith!,"msg":["callerphone":iamincallWith,"calleephone":username!,"status":"callaccepted","type":"call"]])
             
             //print(aa.description)
@@ -97,7 +97,7 @@ class CallRingingViewController: UIViewController//RTCPeerConnectionDelegate,RTC
 
         
            }
-    @IBAction func btnRejectPressed(sender: AnyObject) {
+    @IBAction func btnRejectPressed(_ sender: AnyObject) {
         areYouFreeForCall=true
         meetingStarted=false
         if(iamincallWith != nil && iamincallWith != "")
@@ -123,7 +123,7 @@ class CallRingingViewController: UIViewController//RTCPeerConnectionDelegate,RTC
             //do
             //{allkiboContactsArray = Array(try sqliteDB.db.prepare(contactsKibo))
             do{
-                for all in try sqliteDB.db.prepare(allcontacts) {
+                for all in try sqliteDB.db.prepare(allcontacts!) {
                     if(all[phone]==iamincallWith) //if we found contact in our AddressBook
                         
                     {
@@ -145,7 +145,7 @@ class CallRingingViewController: UIViewController//RTCPeerConnectionDelegate,RTC
         }
         
         
-        dismissViewControllerAnimated(true, completion: {
+        dismiss(animated: true, completion: {
         iamincallWith=""
             areYouFreeForCall=true
             self.othersideringing=false
@@ -164,14 +164,14 @@ class CallRingingViewController: UIViewController//RTCPeerConnectionDelegate,RTC
         })
     }
     
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         if(goBack==true)
         { socketObj.socket.emit("logClient","IPHONE-LOG: ended call, going back from call ringing view")
-        dispatch_async(dispatch_get_main_queue(), { () -> Void in
+        DispatchQueue.main.async(execute: { () -> Void in
             
             
             
-            self.dismissViewControllerAnimated(true, completion: { () -> Void in
+            self.dismiss(animated: true, completion: { () -> Void in
                 endedCall=false
                 areYouFreeForCall=true
                 goBack=false
@@ -216,10 +216,10 @@ class CallRingingViewController: UIViewController//RTCPeerConnectionDelegate,RTC
             var nameOfCaller=message[0]["callerphone"].string
             if(message[0]["status"]=="missing")
             {
-                self.dismissViewControllerAnimated(true, completion: {
+                self.dismiss(animated: true, completion: {
                     
                     do{
-                        for all in try sqliteDB.db.prepare(allcontacts) {
+                        for all in try sqliteDB.db.prepare(allcontacts!) {
                             if(all[phone]==message[0]["callerphone"].string) //if we found contact in our AddressBook
                                 
                             {

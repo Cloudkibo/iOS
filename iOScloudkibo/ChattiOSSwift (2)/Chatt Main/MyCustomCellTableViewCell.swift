@@ -18,13 +18,13 @@ class MyCustomCellTableViewCell: PKSwipeTableViewCell {
         // Initialization code
     }
 
-    override func setSelected(selected: Bool, animated: Bool) {
+    override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
 
         // Configure the view for the selected state
     }
     
-    func configureCell(strToSet:String) {
+    func configureCell(_ strToSet:String) {
         self.lblTitle.text = strToSet
     }
     
@@ -32,20 +32,20 @@ class MyCustomCellTableViewCell: PKSwipeTableViewCell {
         
         //Create a view that will display when user swipe the cell in right
         let viewCall = UIView()
-        viewCall.backgroundColor = UIColor.lightGrayColor()
-        viewCall.frame = CGRectMake(0, 0,CGRectGetHeight(self.frame)+20,CGRectGetHeight(self.frame))
+        viewCall.backgroundColor = UIColor.lightGray
+        viewCall.frame = CGRect(x: 0, y: 0,width: self.frame.height+20,height: self.frame.height)
         //Add a label to display the call text
         let lblCall = UILabel()
         lblCall.text  = "Call"
-        lblCall.font = UIFont.systemFontOfSize(15.0)
-        lblCall.textColor = UIColor.yellowColor()
-        lblCall.textAlignment = NSTextAlignment.Center
-        lblCall.frame = CGRectMake(0,CGRectGetHeight(self.frame) - 20,viewCall.frame.size.width,20)
+        lblCall.font = UIFont.systemFont(ofSize: 15.0)
+        lblCall.textColor = UIColor.yellow
+        lblCall.textAlignment = NSTextAlignment.center
+        lblCall.frame = CGRect(x: 0,y: self.frame.height - 20,width: viewCall.frame.size.width,height: 20)
         //Add a button to perform the action when user will tap on call and add a image to display
-        let btnCall = UIButton(type: UIButtonType.Custom)
-        btnCall.frame = CGRectMake((viewCall.frame.size.width - 40)/2,5,40,40)
-        btnCall.setImage(UIImage(named: "call"), forState: UIControlState.Normal)
-        btnCall.addTarget(self, action: "callButtonClicked", forControlEvents: UIControlEvents.TouchUpInside)
+        let btnCall = UIButton(type: UIButtonType.custom)
+        btnCall.frame = CGRect(x: (viewCall.frame.size.width - 40)/2,y: 5,width: 40,height: 40)
+        btnCall.setImage(UIImage(named: "call"), for: UIControlState())
+        btnCall.addTarget(self, action: #selector(MyCustomCellTableViewCell.callButtonClicked), for: UIControlEvents.touchUpInside)
 
         viewCall.addSubview(btnCall)
         viewCall.addSubview(lblCall)

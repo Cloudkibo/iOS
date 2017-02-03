@@ -30,12 +30,12 @@ EPPickerDelegate,SWTableViewCellDelegate,UIImagePickerControllerDelegate {
     var fileSize1:UInt64=0
     var filePathImage:String!
     ////** new commented april 2016var fileSize:Int!
-    var fileContents:NSData!
+    var fileContents:Data!
     
     var file_name1=""
 
     
-    var imgdata=NSData.init()
+    var imgdata=Data.init()
     var addmemberfailed=false
     //var uniqueid=""
     var singleGroupInfo=[String:AnyObject!]()
@@ -54,7 +54,7 @@ EPPickerDelegate,SWTableViewCellDelegate,UIImagePickerControllerDelegate {
         catch{
             print("error in reachability")
         }
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("checkForReachability:"), name:ReachabilityChangedNotification, object: reachability)
+        NotificationCenter.default.addObserver(self, selector: #selector(GroupInfo3ViewController.checkForReachability(_:)), name:NSNotification.Name(rawValue: ReachabilityChangedNotification), object: reachability)
         
         
         
@@ -69,12 +69,12 @@ EPPickerDelegate,SWTableViewCellDelegate,UIImagePickerControllerDelegate {
             //======
             
             //=======
-            let dirPaths = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)
+            let dirPaths = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)
             let docsDir1 = dirPaths[0]
             var documentDir=docsDir1 as NSString
-            var imgPath=documentDir.stringByAppendingPathComponent(filedata["file_name"] as! String)
+            var imgPath=documentDir.appendingPathComponent(filedata["file_name"] as! String)
             
-            imgdata=NSFileManager.defaultManager().contentsAtPath(imgPath)!
+            imgdata=FileManager.default.contents(atPath: imgPath)!
             
             // print("found path is \(imgNSData)")
             
@@ -87,12 +87,12 @@ EPPickerDelegate,SWTableViewCellDelegate,UIImagePickerControllerDelegate {
       
     
        // self.navigationItem.title="Group Info"
-        self.navigationController?.navigationBar.tintColor=UIColor.whiteColor()
+        self.navigationController?.navigationBar.tintColor=UIColor.white
 
         
         // Do any additional setup after loading the view.
     }
-    func checkForReachability(notification:NSNotification)
+    func checkForReachability(_ notification:Notification)
     {
         print("checking internet")
         // Remove the next two lines of code. You cannot instantiate the object
@@ -105,12 +105,12 @@ EPPickerDelegate,SWTableViewCellDelegate,UIImagePickerControllerDelegate {
         let networkReachability = notification.object as! Reachability;
         var remoteHostStatus = networkReachability.currentReachabilityStatus
         
-        if (remoteHostStatus == Reachability.NetworkStatus.NotReachable)
+        if (remoteHostStatus == Reachability.NetworkStatus.notReachable)
         {
             print("Not Reachable")
             internetAvailable = false
         }
-        else if (remoteHostStatus == Reachability.NetworkStatus.ReachableViaWiFi)
+        else if (remoteHostStatus == Reachability.NetworkStatus.reachableViaWiFi)
         {
             print("Reachable via Wifi")
             if(username != nil && username != "")
@@ -132,7 +132,7 @@ EPPickerDelegate,SWTableViewCellDelegate,UIImagePickerControllerDelegate {
     
    
     
-    func retrieveChatFromSqlite(completion:(result:Bool)->())
+    func retrieveChatFromSqlite(_ completion:(_ result:Bool)->())
     {
        print("retrieveChatFromSqlite called---------")
         ///^^messages.removeAllObjects()
@@ -142,8 +142,8 @@ EPPickerDelegate,SWTableViewCellDelegate,UIImagePickerControllerDelegate {
         let member_phone = Expression<String>("member_phone")
         let isAdmin = Expression<String>("isAdmin")
         let membership_status = Expression<String>("membership_status")
-        let date_joined = Expression<NSDate>("date_joined")
-        let date_left = Expression<NSDate>("date_left")
+        let date_joined = Expression<Date>("date_joined")
+        let date_left = Expression<Date>("date_left")
         let group_member_displayname = Expression<String>("group_member_displayname")
         
         
@@ -157,12 +157,12 @@ EPPickerDelegate,SWTableViewCellDelegate,UIImagePickerControllerDelegate {
         do
         {
            membersArrayOfGroup=sqliteDB.getGroupMembersOfGroup(groupid)
-            for(var i=0;i<membersArrayOfGroup.count;i++)
+            for i in 0 .. membersArrayOfGroup.count
             {
                 print("found matched idss")
                 if((membersArrayOfGroup[i]["membership_status"] as! String) == "joined")
                 {
-                messages2.addObject(["member_phone":membersArrayOfGroup[i]["member_phone"] as! String,"name":membersArrayOfGroup[i]["group_member_displayname"] as! String,"isAdmin":membersArrayOfGroup[i]["isAdmin"] as! String])
+                messages2.add(["member_phone":membersArrayOfGroup[i]["member_phone"] as! String,"name":membersArrayOfGroup[i]["group_member_displayname"] as! String,"isAdmin":membersArrayOfGroup[i]["isAdmin"] as! String])
                 }
             }
             //for tblContacts in try sqliteDB.db.prepare(tbl_userchats.filter(owneruser==owneruser1)){
@@ -181,17 +181,17 @@ EPPickerDelegate,SWTableViewCellDelegate,UIImagePickerControllerDelegate {
         ////////////self.messages.addObjectsFromArray(messages2 as [AnyObject])
         
         
-        completion(result:true)
+        completion(true)
 
     }
     
     
-    func BtnTryAgainTapped(sender:UIButton)
+    func BtnTryAgainTapped(_ sender:UIButton)
     {
         print("inside groupaddmember try again func")
     addToGroup()
     }
-    func BtnExitGroupClicked(sender:UIButton)
+    func BtnExitGroupClicked(_ sender:UIButton)
     {
         print("inside exit group func")
         if(internetAvailable==true)
@@ -200,21 +200,21 @@ EPPickerDelegate,SWTableViewCellDelegate,UIImagePickerControllerDelegate {
 }
 else{
 
-            let shareMenu = UIAlertController(title: nil, message: "Internet connectivity is required to exit this group", preferredStyle: .ActionSheet)
+            let shareMenu = UIAlertController(title: nil, message: "Internet connectivity is required to exit this group", preferredStyle: .actionSheet)
         
-        let yes = UIAlertAction(title: "OK", style: UIAlertActionStyle.Default,handler: { (action) -> Void in
+        let yes = UIAlertAction(title: "OK", style: UIAlertActionStyle.default,handler: { (action) -> Void in
             
             })
             shareMenu.addAction(yes)
-            self.presentViewController(shareMenu, animated: true, completion:nil)
+            self.present(shareMenu, animated: true, completion:nil)
         }
     }
     
     
     
-    @IBAction func btnBackPressed(sender: AnyObject) {
+    @IBAction func btnBackPressed(_ sender: AnyObject) {
       //  groupinfotochatstabsegue
-        self.performSegueWithIdentifier("groupinfotochatstabsegue", sender: nil)
+        self.performSegue(withIdentifier: "groupinfotochatstabsegue", sender: nil)
     }
     
     
@@ -223,12 +223,12 @@ else{
     
     
     
-    func BtnAddParticipantsClicked(sender:UIButton)
+    func BtnAddParticipantsClicked(_ sender:UIButton)
     {
         //add participants clicked
        
         identifiersarray.removeAll()
-for(var i=0;i<membersArrayOfGroup.count;i++)
+for i in 0 .. membersArrayOfGroup.count
 {
    if((membersArrayOfGroup[i]["membership_status"] as! String) == "joined")
     {
@@ -261,7 +261,7 @@ identifiersarray.append(identifier)
         
         self.presentViewController(picker, animated: true, completion: nil)
         */
-        self.performSegueWithIdentifier("addparticipantstogroupsegue", sender: nil)
+        self.performSegue(withIdentifier: "addparticipantstogroupsegue", sender: nil)
         
         
         // Display picker
@@ -298,7 +298,7 @@ identifiersarray.append(identifier)
         print("didSelectContacts \(contacts)")
         
         //get seleced participants
-        participantsSelected.appendContentsOf(contacts)
+        participantsSelected.append(contentsOf: contacts)
        
         addToGroup()
        
@@ -318,11 +318,11 @@ identifiersarray.append(identifier)
         
                 var memberphones=[String]()
         var membersnames=[String]()
-        for(var i=0;i<participantsSelected.count;i++)
+        for i in 0 .. participantsSelected.count
         {print()
             memberphones.append(participantsSelected[i].getPhoneNumber())
              membersnames.append(participantsSelected[i].displayName())
-            self.messages.addObject(["member_phone":memberphones[i],"name":membersnames[i],"isAdmin":"No"])
+            self.messages.add(["member_phone":memberphones[i],"name":membersnames[i],"isAdmin":"No"])
            
             //tblGroupInfo.reloadData()
 
@@ -339,11 +339,11 @@ identifiersarray.append(identifier)
     
     
     
-    func adminRemovesMember(memberPhone:String)
+    func adminRemovesMember(_ memberPhone:String)
     {
-        let shareMenu = UIAlertController(title: nil, message: "Are you sure you want to remove \(memberPhone)?", preferredStyle: .ActionSheet)
+        let shareMenu = UIAlertController(title: nil, message: "Are you sure you want to remove \(memberPhone)?", preferredStyle: .actionSheet)
         
-        let yes = UIAlertAction(title: "Yes", style: UIAlertActionStyle.Default,handler: { (action) -> Void in
+        let yes = UIAlertAction(title: "Yes", style: UIAlertActionStyle.default,handler: { (action) -> Void in
             
             
             var url=Constants.MainUrl+Constants.removeMemberFromGroup
@@ -383,20 +383,20 @@ identifiersarray.append(identifier)
             
             
         })
-        let no = UIAlertAction(title: "No", style: UIAlertActionStyle.Default,handler: { (action) -> Void in
+        let no = UIAlertAction(title: "No", style: UIAlertActionStyle.default,handler: { (action) -> Void in
             
         })
         shareMenu.addAction(yes)
         shareMenu.addAction(no)
         
-        self.presentViewController(shareMenu, animated: true) {
+        self.present(shareMenu, animated: true) {
             
             
         }
     }
     
     
-    func changeRole(member:String,isAdmin:String)
+    func changeRole(_ member:String,isAdmin:String)
     {
        // let shareMenu = UIAlertController(title: nil, message: "Are you sure you want to remove \(memberPhone)?", preferredStyle: .ActionSheet)
         
@@ -441,9 +441,9 @@ identifiersarray.append(identifier)
         
     func exitGroup()
     {
-        let shareMenu = UIAlertController(title: nil, message: "Are you sure you want to leave this group?", preferredStyle: .ActionSheet)
+        let shareMenu = UIAlertController(title: nil, message: "Are you sure you want to leave this group?", preferredStyle: .actionSheet)
         
-        let yes = UIAlertAction(title: "Yes", style: UIAlertActionStyle.Default,handler: { (action) -> Void in
+        let yes = UIAlertAction(title: "Yes", style: UIAlertActionStyle.default,handler: { (action) -> Void in
             
             var url=Constants.MainUrl+Constants.leaveGroup
             Alamofire.request(.POST,"\(url)",parameters:["group_unique_id":self.groupid],headers:header,encoding:.JSON).validate().responseJSON { response in
@@ -467,13 +467,13 @@ identifiersarray.append(identifier)
 
             
         })
-        let no = UIAlertAction(title: "No", style: UIAlertActionStyle.Default,handler: { (action) -> Void in
+        let no = UIAlertAction(title: "No", style: UIAlertActionStyle.default,handler: { (action) -> Void in
             
             })
             shareMenu.addAction(yes)
             shareMenu.addAction(no)
         
-        self.presentViewController(shareMenu, animated: true) { 
+        self.present(shareMenu, animated: true) { 
             
             
         }
@@ -481,12 +481,12 @@ identifiersarray.append(identifier)
     
     
     
-    func getDateString(datetime:NSDate)->String
+    func getDateString(_ datetime:Date)->String
     {
-        var formatter2 = NSDateFormatter();
+        let formatter2 = DateFormatter();
         formatter2.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSS"
-        formatter2.timeZone = NSTimeZone.localTimeZone()
-        var defaultTimeeee = formatter2.stringFromDate(datetime)
+        formatter2.timeZone = TimeZone.autoupdatingCurrent
+        let defaultTimeeee = formatter2.string(from: datetime)
         return defaultTimeeee
     }
 
@@ -494,24 +494,24 @@ identifiersarray.append(identifier)
     func generateUniqueid()->String
     {
         
-        var uid=randomStringWithLength(7)
+        let uid=randomStringWithLength(7)
         
-        var date=NSDate()
-        var calendar = NSCalendar.currentCalendar()
-        var year=calendar.components(NSCalendarUnit.Year,fromDate: date).year
-        var month=calendar.components(NSCalendarUnit.Month,fromDate: date).month
-        var day=calendar.components(.Day,fromDate: date).day
-        var hr=calendar.components(NSCalendarUnit.Hour,fromDate: date).hour
-        var min=calendar.components(NSCalendarUnit.Minute,fromDate: date).minute
-        var sec=calendar.components(NSCalendarUnit.Second,fromDate: date).second
+        let date=Date()
+        let calendar = Calendar.current
+        let year=(calendar as NSCalendar).components(NSCalendar.Unit.year,from: date).year
+        let month=(calendar as NSCalendar).components(NSCalendar.Unit.month,from: date).month
+        let day=(calendar as NSCalendar).components(.day,from: date).day
+        let hr=(calendar as NSCalendar).components(NSCalendar.Unit.hour,from: date).hour
+        let min=(calendar as NSCalendar).components(NSCalendar.Unit.minute,from: date).minute
+        let sec=(calendar as NSCalendar).components(NSCalendar.Unit.second,from: date).second
         print("\(year) \(month) \(day) \(hr) \(min) \(sec)")
-        var uniqueid="\(uid)\(year)\(month)\(day)\(hr)\(min)\(sec)"
+        let uniqueid="\(uid)\(year)\(month)\(day)\(hr)\(min)\(sec)"
         
         return uniqueid
         
         
     }
-    func addGroupMembersAPI(groupname:String,members:[String],uniqueid:String)
+    func addGroupMembersAPI(_ groupname:String,members:[String],uniqueid:String)
         {
             //show progress wheen somewhere
             
@@ -667,23 +667,23 @@ identifiersarray.append(identifier)
             
         }
         
-        func randomStringWithLength (len : Int) -> NSString {
+        func randomStringWithLength (_ len : Int) -> NSString {
             
             let letters : NSString = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
             
             let randomString : NSMutableString = NSMutableString(capacity: len)
             
-            for (var i=0; i < len; i++){
+            for i in 0 .. len{
                 let length = UInt32 (letters.length)
                 let rand = arc4random_uniform(length)
-                randomString.appendFormat("%C", letters.characterAtIndex(Int(rand)))
+                randomString.appendFormat("%C", letters.character(at: Int(rand)))
             }
             
             return randomString
         }
         
     
-    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+    func tableView(_ tableView: UITableView, heightForRowAtIndexPath indexPath: IndexPath) -> CGFloat {
         if(indexPath.row == 0)
         {
 return 95
@@ -710,22 +710,22 @@ return 95
         // Dispose of any resources that can be recreated.
     }
     
-    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    func numberOfSectionsInTableView(_ tableView: UITableView) -> Int {
         return 1
     }
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return messages.count+4
     }
 
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+    func tableView(_ tableView: UITableView, didSelectRowAtIndexPath indexPath: IndexPath) {
         if(indexPath.row>=3){
             print("here....")
-        var messageDic = messages.objectAtIndex(indexPath.row-3) as! [String : String];
+        var messageDic = messages.object(at: indexPath.row-3) as! [String : String];
        // NSLog(messageDic["message"]!, 1)
        // let msgType = messageDic["type"] as NSString!
         if(messageDic["newmember"] != nil)
         {
-            messages.removeObjectAtIndex(indexPath.row-3)
+            messages.removeObject(at: indexPath.row-3)
             
              self.addToGroup()
         }
@@ -737,15 +737,15 @@ return 95
             var selectedMemberName=messageDic["name"]
             var selectedMemberIsAdmin=messageDic["isAdmin"]
             
-            if(selectedMemberPhone!.lowercaseString != username!)
+            if(selectedMemberPhone!.lowercased() != username!)
             {
                 
             
             
             //show actions for removing group
-            let shareMenu = UIAlertController(title: nil, message: nil, preferredStyle: .ActionSheet)
+            let shareMenu = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
             
-            let makeAdmin = UIAlertAction(title: "Make Group Admin", style: UIAlertActionStyle.Default,handler: { (action) -> Void in
+            let makeAdmin = UIAlertAction(title: "Make Group Admin", style: UIAlertActionStyle.default,handler: { (action) -> Void in
                 
                 
                 self.changeRole(selectedMemberPhone!,isAdmin: "Yes")
@@ -770,26 +770,26 @@ return 95
                 
                 
             })
-            let removeMember = UIAlertAction(title: "Remove \(selectedMemberName!) ?", style: UIAlertActionStyle.Default,handler: { (action) -> Void in
+            let removeMember = UIAlertAction(title: "Remove \(selectedMemberName!) ?", style: UIAlertActionStyle.default,handler: { (action) -> Void in
                 if(internetAvailable==true)
 {
                 self.adminRemovesMember(selectedMemberPhone!)
                 }
 else{
-                let shareMenu = UIAlertController(title: nil, message: "Internet connectivity is required to remove any member", preferredStyle: .ActionSheet)
+                let shareMenu = UIAlertController(title: nil, message: "Internet connectivity is required to remove any member", preferredStyle: .actionSheet)
                 
-                let yes = UIAlertAction(title: "OK", style: UIAlertActionStyle.Default,handler: { (action) -> Void in
+                let yes = UIAlertAction(title: "OK", style: UIAlertActionStyle.default,handler: { (action) -> Void in
                     
                 })
                 shareMenu.addAction(yes)
-                self.presentViewController(shareMenu, animated: true, completion:nil)
+                self.present(shareMenu, animated: true, completion:nil)
                 }
             })
-            let cancel = UIAlertAction(title: "No", style: UIAlertActionStyle.Default,handler: { (action) -> Void in
+            let cancel = UIAlertAction(title: "No", style: UIAlertActionStyle.default,handler: { (action) -> Void in
                 
             })
                 
-                if(selectedMemberIsAdmin!.lowercaseString == "no")
+                if(selectedMemberIsAdmin!.lowercased() == "no")
                 {
                     shareMenu.addAction(makeAdmin)
                    }//end of not Admin
@@ -797,7 +797,7 @@ else{
                 shareMenu.addAction(removeMember)
                 shareMenu.addAction(cancel)
             
-                self.presentViewController(shareMenu, animated: true) {
+                self.present(shareMenu, animated: true) {
                 
                 
             }
@@ -817,20 +817,20 @@ else{
         }*/
     }
     
-     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+     func tableView(_ tableView: UITableView, cellForRowAtIndexPath indexPath: IndexPath) -> UITableViewCell {
         //GroupNamePicInfoCell
         
         
         if(indexPath.row==0)
         {
-            var cell=tblGroupInfo.dequeueReusableCellWithIdentifier("GroupNamePicInfoCell")! as! GroupInfoCell
+            var cell=tblGroupInfo.dequeueReusableCell(withIdentifier: "GroupNamePicInfoCell")! as! GroupInfoCell
             cell.lbl_groupName.text=singleGroupInfo["group_name"] as! String
          
             //cell.userInteractionEnabled=false
                 
-                cell.btnEditProfilePicOutlet.hidden=true
+                cell.btnEditProfilePicOutlet.isHidden=true
                // groupname=cell.groupNameFieldOutlet.text!
-                if(imgdata != NSData.init())
+                if(imgdata != Data.init())
                 {
                    // cell.btnEditProfilePicOutlet.hidden=false
                     var tempimg=UIImage(data: imgdata)
@@ -850,7 +850,7 @@ else{
                     
                     cell.cameraProfilePicOutlet.layer.borderWidth = 1.0
                     cell.cameraProfilePicOutlet.layer.masksToBounds = false
-                    cell.cameraProfilePicOutlet.layer.borderColor = UIColor.whiteColor().CGColor
+                    cell.cameraProfilePicOutlet.layer.borderColor = UIColor.white.cgColor
                     cell.cameraProfilePicOutlet.layer.cornerRadius = cell.cameraProfilePicOutlet.frame.size.width/2
                     cell.cameraProfilePicOutlet.clipsToBounds = true
                     
@@ -870,11 +870,11 @@ else{
                      
                      cell.profilePicCameraOutlet.removeGestureRecognizer(tapRecognizerOld)
                      */
-                    let tapRecognizer = UITapGestureRecognizer(target: self, action: Selector("imageEditTapped:"))
+                    let tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(GroupInfo3ViewController.imageEditTapped(_:)))
                     
                     cell.cameraProfilePicOutlet.addGestureRecognizer(tapRecognizer)
                     
-                    let tapRecognizer2 = UITapGestureRecognizer(target: self, action: Selector("imageEditTapped:"))
+                    let tapRecognizer2 = UITapGestureRecognizer(target: self, action: #selector(GroupInfo3ViewController.imageEditTapped(_:)))
                     cell.btnEditProfilePicOutlet.addGestureRecognizer(tapRecognizer2)
                 }
                 else
@@ -884,7 +884,7 @@ else{
                     imgdata=UIImagePNGRepresentation(tempimg!)!
                     cell.cameraProfilePicOutlet.layer.borderWidth = 1.0
                     cell.cameraProfilePicOutlet.layer.masksToBounds = false
-                    cell.cameraProfilePicOutlet.layer.borderColor = UIColor.whiteColor().CGColor
+                    cell.cameraProfilePicOutlet.layer.borderColor = UIColor.white.cgColor
                     cell.cameraProfilePicOutlet.layer.cornerRadius = cell.cameraProfilePicOutlet.frame.size.width/2
                     cell.cameraProfilePicOutlet.clipsToBounds = true
                     
@@ -897,7 +897,7 @@ else{
                     
                     cell.cameraProfilePicOutlet.image=UIImage(data: imgdata,scale: scale)
                     
-                    let tapRecognizer = UITapGestureRecognizer(target: self, action: Selector("imageTapped:"))
+                    let tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(GroupInfo3ViewController.imageTapped(_:)))
                     //Add the recognizer to your view.
                     // chatImage.addGestureRecognizer(tapRecognizer)
                     
@@ -912,13 +912,13 @@ else{
         }
         if(indexPath.row==1)
         {
-             var cell=tblGroupInfo.dequeueReusableCellWithIdentifier("AddParticipants1Cell")! as! GroupInfoCell
+             var cell=tblGroupInfo.dequeueReusableCell(withIdentifier: "AddParticipants1Cell")! as! GroupInfoCell
             btnNewGroup=cell.btnAddPatricipants
             //btnNewGroup=cell.btnNewGroupOutlet
             if(sqliteDB.getGroupAdmin(groupid)==username!)
             {
             //cell.btnAddPatricipants.tag=section
-            cell.btnAddPatricipants.addTarget(self, action: Selector("BtnAddParticipantsClicked:"), forControlEvents:.TouchUpInside)
+            cell.btnAddPatricipants.addTarget(self, action: #selector(GroupInfo3ViewController.BtnAddParticipantsClicked(_:)), for:.touchUpInside)
             }
             else
             {
@@ -930,8 +930,8 @@ else{
                 //cell.btnAddPatricipants.titlt
                 //cell.btnAddPatricipants.titleLabel?.enabled=false
                 //UIColor.grayColor()
-                       cell.userInteractionEnabled=false
-                cell.btnAddPatricipants.enabled=false
+                       cell.isUserInteractionEnabled=false
+                cell.btnAddPatricipants.isEnabled=false
                // cell.btnAddPatricipants.setTitle("You are a group member", forState: UIControlState.Disabled)
                     //="You are a group member in this group and cannot add participants"
                 //cell.btnAddPatricipants.currentTitleColor=UIColor.grayColor()
@@ -953,8 +953,8 @@ else{
         {if(indexPath.row==2)
         {
             print("Mute group chat cell")
-             var cell=tblGroupInfo.dequeueReusableCellWithIdentifier("MuteChatsCell")! as! UITableViewCell
-            cell.userInteractionEnabled=false
+             var cell=tblGroupInfo.dequeueReusableCell(withIdentifier: "MuteChatsCell")! 
+            cell.isUserInteractionEnabled=false
             return cell
             
         }
@@ -964,7 +964,7 @@ else{
            // if(indexPath.row==2 && (messages.count+1))
             {
                 print("exit/clear chat")
-             var cell=tblGroupInfo.dequeueReusableCellWithIdentifier("ExitClearChatCell")! as UITableViewCell
+             var cell=tblGroupInfo.dequeueReusableCell(withIdentifier: "ExitClearChatCell")! as UITableViewCell
             
             return cell
             }
@@ -972,19 +972,19 @@ else{
             {
                 if(indexPath.row<(messages.count+3))
                 {
-                    var messageDic = messages.objectAtIndex(indexPath.row-3) as! [String : String];
+                    var messageDic = messages.object(at: indexPath.row-3) as! [String : String];
                     // NSLog(messageDic["message"]!, 1)
                     let name = messageDic["name"] as NSString!
                     let isAdmin = messageDic["isAdmin"] as NSString!
                 print("inside show participants")
-                var cell=tableView.dequeueReusableCellWithIdentifier("ParticipantsInfoCell")! as! GroupInfoCell
-                cell.lbl_groupAdmin.hidden=true
+                var cell=tableView.dequeueReusableCell(withIdentifier: "ParticipantsInfoCell")! as! GroupInfoCell
+                cell.lbl_groupAdmin.isHidden=true
 
                 
                 //newmember
-                if(isAdmin.lowercaseString == "yes")
+                if(isAdmin?.lowercased == "yes")
                 {
-                   cell.lbl_groupAdmin.hidden=false
+                   cell.lbl_groupAdmin.isHidden=false
                     
                 }
                 else{
@@ -996,7 +996,7 @@ cell.lbl_groupAdmin.hidden=false
                     if(messageDic["newmember"] != nil)
                     {
                         cell.lbl_groupAdmin.text="(!)"
-                        cell.lbl_groupAdmin.hidden=false
+                        cell.lbl_groupAdmin.isHidden=false
                         cell.lbl_participant_status.text="Failed to add member. Tap here to retry."
                        
                         /*var tempUIView=UIButton()
@@ -1014,7 +1014,7 @@ cell.lbl_groupAdmin.hidden=false
                     else
                     {
                         //cell.lbl_groupAdmin.text="(!)"
-                        cell.lbl_groupAdmin.hidden=true
+                        cell.lbl_groupAdmin.isHidden=true
                         cell.lbl_participant_status.text="Hey there! I am using Kibo Chat"
                         
 
@@ -1031,14 +1031,14 @@ cell.lbl_groupAdmin.hidden=false
                 {
                     //last cell
                     print("exit/clear chat")
-                    var cell=tblGroupInfo.dequeueReusableCellWithIdentifier("ExitClearChatCell")! as! GroupInfoCell
+                    var cell=tblGroupInfo.dequeueReusableCell(withIdentifier: "ExitClearChatCell")! as! GroupInfoCell
                     
                     
                     btnNewGroup=cell.btn_exitGroup
                     //btnNewGroup=cell.btnNewGroupOutlet
                     
                     //cell.btnAddPatricipants.tag=section
-                    cell.btn_exitGroup.addTarget(self, action: Selector("BtnExitGroupClicked:"), forControlEvents:.TouchUpInside)
+                    cell.btn_exitGroup.addTarget(self, action: #selector(GroupInfo3ViewController.BtnExitGroupClicked(_:)), for:.touchUpInside)
 
                     
                     return cell
@@ -1053,29 +1053,29 @@ cell.lbl_groupAdmin.hidden=false
     }
     
 
-    func imageEditTapped(gestureRecognizer: UITapGestureRecognizer) {
+    func imageEditTapped(_ gestureRecognizer: UITapGestureRecognizer) {
         //tappedImageView will be the image view that was tapped.
         //dismiss it, animate it off screen, whatever.
         print("image edit tapped")
-        let shareMenu = UIAlertController(title: nil, message: nil, preferredStyle: .ActionSheet)
+        let shareMenu = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         
-        let resetImage = UIAlertAction(title: "Reset Image", style: UIAlertActionStyle.Default,handler: { (action) -> Void in
+        let resetImage = UIAlertAction(title: "Reset Image", style: UIAlertActionStyle.default,handler: { (action) -> Void in
             
             if(internetAvailable==true)
 {
-            self.imgdata=NSData.init()
+            self.imgdata=Data.init()
             gestureRecognizer.view?.removeGestureRecognizer(gestureRecognizer)
             self.tblGroupInfo.reloadData()
             
 }
 else{
-                let shareMenu = UIAlertController(title: nil, message: "Internet connectivity is required to change group icon", preferredStyle: .ActionSheet)
+                let shareMenu = UIAlertController(title: nil, message: "Internet connectivity is required to change group icon", preferredStyle: .actionSheet)
                 
-                let yes = UIAlertAction(title: "OK", style: UIAlertActionStyle.Default,handler: { (action) -> Void in
+                let yes = UIAlertAction(title: "OK", style: UIAlertActionStyle.default,handler: { (action) -> Void in
                     
                 })
                 shareMenu.addAction(yes)
-                self.presentViewController(shareMenu, animated: true, completion:nil)
+                self.present(shareMenu, animated: true, completion:nil)
                 
             }
             //// self.removeChatHistory(self.ContactUsernames[indexPath.row],indexPath: indexPath)
@@ -1083,7 +1083,7 @@ else{
             //call Mute delegate or method
         })
         
-        let SelectImage = UIAlertAction(title: "Select Image", style: UIAlertActionStyle.Default,handler: { (action) -> Void in
+        let SelectImage = UIAlertAction(title: "Select Image", style: UIAlertActionStyle.default,handler: { (action) -> Void in
             
             if(internetAvailable==true)
 {
@@ -1091,13 +1091,13 @@ else{
             
 }
 else{
-                let shareMenu = UIAlertController(title: nil, message: "Internet connectivity is required to change group icon", preferredStyle: .ActionSheet)
+                let shareMenu = UIAlertController(title: nil, message: "Internet connectivity is required to change group icon", preferredStyle: .actionSheet)
                 
-                let yes = UIAlertAction(title: "OK", style: UIAlertActionStyle.Default,handler: { (action) -> Void in
+                let yes = UIAlertAction(title: "OK", style: UIAlertActionStyle.default,handler: { (action) -> Void in
                     
                 })
                 shareMenu.addAction(yes)
-                self.presentViewController(shareMenu, animated: true, completion:nil)
+                self.present(shareMenu, animated: true, completion:nil)
             }
             
 
@@ -1108,7 +1108,7 @@ else{
             //call Mute delegate or method
         })
         
-        let cancel = UIAlertAction(title: "Cancel", style: UIAlertActionStyle.Cancel, handler: { (action) -> Void in
+        let cancel = UIAlertAction(title: "Cancel", style: UIAlertActionStyle.cancel, handler: { (action) -> Void in
             
             // swipeindex=index
             //self.performSegueWithIdentifier("groupInfoSegue", sender: nil)
@@ -1120,7 +1120,7 @@ else{
         shareMenu.addAction(SelectImage)
         shareMenu.addAction(cancel)
         
-        self.presentViewController(shareMenu, animated: true) {
+        self.present(shareMenu, animated: true) {
             
             
         }
@@ -1131,12 +1131,12 @@ else{
         
     }
     
-    func selectImage(gestureRecognizer: UITapGestureRecognizer)
+    func selectImage(_ gestureRecognizer: UITapGestureRecognizer)
     {
         
         let tappedImageView = gestureRecognizer.view
         
-        var picker=UIImagePickerController.init()
+        let picker=UIImagePickerController.init()
         picker.delegate=self
         
         picker.allowsEditing = true;
@@ -1147,14 +1147,14 @@ else{
         //savedPhotosAlbum
         // picker.sourceType = UIImagePickerControllerSourceType.PhotoLibrary
         //}
-        picker.sourceType = UIImagePickerControllerSourceType.PhotoLibrary
+        picker.sourceType = UIImagePickerControllerSourceType.photoLibrary
         ////picker.mediaTypes=[kUTTypeMovie as NSString as String,kUTTypeMovie as NSString as String]
         //[self presentViewController:picker animated:YES completion:NULL];
-        dispatch_async(dispatch_get_main_queue())
+        DispatchQueue.main.async
         { () -> Void in
             //  picker.addChildViewController(UILabel("hiiiiiiiiiiiii"))
             
-            self.presentViewController(picker, animated: true,completion: {
+            self.present(picker, animated: true,completion: {
                 print("done choosing image")
                 
                 tappedImageView!.removeGestureRecognizer(gestureRecognizer)
@@ -1163,13 +1163,13 @@ else{
         
     }
     
-    func imageTapped(gestureRecognizer: UITapGestureRecognizer) {
+    func imageTapped(_ gestureRecognizer: UITapGestureRecognizer) {
         //tappedImageView will be the image view that was tapped.
         //dismiss it, animate it off screen, whatever.
         print("image tapped")
         let tappedImageView = gestureRecognizer.view! as! UIImageView
         
-        var picker=UIImagePickerController.init()
+        let picker=UIImagePickerController.init()
         picker.delegate=self
         
         picker.allowsEditing = true;
@@ -1180,14 +1180,14 @@ else{
         //savedPhotosAlbum
         // picker.sourceType = UIImagePickerControllerSourceType.PhotoLibrary
         //}
-        picker.sourceType = UIImagePickerControllerSourceType.PhotoLibrary
+        picker.sourceType = UIImagePickerControllerSourceType.photoLibrary
         ////picker.mediaTypes=[kUTTypeMovie as NSString as String,kUTTypeMovie as NSString as String]
         //[self presentViewController:picker animated:YES completion:NULL];
-        dispatch_async(dispatch_get_main_queue())
+        DispatchQueue.main.async
         { () -> Void in
             //  picker.addChildViewController(UILabel("hiiiiiiiiiiiii"))
             
-            self.presentViewController(picker, animated: true, completion: {
+            self.present(picker, animated: true, completion: {
                 
                 //new
                 print("removing gesture")
@@ -1201,10 +1201,10 @@ else{
         
     }
     
-    func imagePickerControllerDidCancel(picker: UIImagePickerController) {
+    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
         
         
-        self.dismissViewControllerAnimated(true, completion:{ ()-> Void in
+        self.dismiss(animated: true, completion:{ ()-> Void in
             print("cancelled and dismissing image picker")
             // imgdata=NSData.init()
             self.tblGroupInfo.reloadData()
@@ -1212,18 +1212,18 @@ else{
         
         
     }
-    func imagePickerController(picker: UIImagePickerController, didFinishPickingImage image: UIImage, editingInfo: [String : AnyObject]?) {
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingImage image: UIImage, editingInfo: [String : AnyObject]?) {
         
         
         
         //  var filesizenew=""
         
         
-        let imageUrl          = editingInfo![UIImagePickerControllerReferenceURL] as! NSURL
+        let imageUrl          = editingInfo![UIImagePickerControllerReferenceURL] as! URL
         let imageName         = imageUrl.lastPathComponent
-        let documentDirectory = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true).first as String!
-        let photoURL          = NSURL(fileURLWithPath: documentDirectory)
-        let localPath         = photoURL.URLByAppendingPathComponent(imageName!)
+        let documentDirectory = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true).first as String!
+        let photoURL          = URL(fileURLWithPath: documentDirectory!)
+        let localPath         = photoURL.appendingPathComponent(imageName)
         let image             = editingInfo![UIImagePickerControllerOriginalImage]as! UIImage
         let data              = UIImagePNGRepresentation(image)
         
@@ -1232,8 +1232,8 @@ else{
         
         
         
-        if let imageURL = editingInfo![UIImagePickerControllerReferenceURL] as? NSURL {
-            let result = PHAsset.fetchAssetsWithALAssetURLs([imageURL], options: nil)
+        if let imageURL = editingInfo![UIImagePickerControllerReferenceURL] as? URL {
+            let result = PHAsset.fetchAssets(withALAssetURLs: [imageURL], options: nil)
             
             
             self.file_name1 = result.firstObject?.filename ?? ""
@@ -1247,7 +1247,7 @@ else{
         
         ///
         
-        var furl=NSURL(string: localPath.URLString)
+        var furl=URL(string: localPath.URLString)
         
         //print(furl!.pathExtension!)
         //print(furl!.URLByDeletingPathExtension?.lastPathComponent!)
@@ -1255,17 +1255,17 @@ else{
         var fname=furl!.URLByDeletingPathExtension?.lastPathComponent!
         
         
-        let dirPaths = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)
+        let dirPaths = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)
         let docsDir1 = dirPaths[0]
         var documentDir=docsDir1 as NSString
-        filePathImage2=documentDir.stringByAppendingPathComponent(self.file_name1)
-        var fm=NSFileManager.defaultManager()
+        filePathImage2=documentDir.appendingPathComponent(self.file_name1)
+        var fm=FileManager.default
         
-        var fileAttributes:[String:AnyObject]=["":""]
+        var fileAttributes:[String:AnyObject]=["":"" as AnyObject]
         do {
             /// let fileAttributes : NSDictionary? = try NSFileManager.defaultManager().attributesOfItemAtPath(furl!.path!)
             ///    let fileAttributes : NSDictionary? = try NSFileManager.defaultManager().attributesOfItemAtPath(imageUrl.path!)
-            let fileAttributes : NSDictionary? = try NSFileManager.defaultManager().attributesOfItemAtPath(filePathImage2)
+            let fileAttributes : NSDictionary? = try FileManager.default.attributesOfItem(atPath: filePathImage2) as NSDictionary?
             if let _attr = fileAttributes {
                 self.fileSize1 = _attr.fileSize();
             }
@@ -1277,17 +1277,17 @@ else{
         
         //print("filename is \(self.filename) destination path is \(filePathImage2) image name \(imageName) imageurl \(imageUrl) photourl \(photoURL) localPath \(localPath).. \(localPath.absoluteString)")
         
-        var s=fm.createFileAtPath(filePathImage2, contents: nil, attributes: nil)
+        var s=fm.createFile(atPath: filePathImage2, contents: nil, attributes: nil)
         
         //  var written=fileData!.writeToFile(filePathImage2, atomically: false)
         
         //filePathImage2
         print("before reloading, filePathImage2 is \(filePathImage2)")
-        data!.writeToFile(filePathImage2, atomically: true)
+        try? data!.write(to: URL(fileURLWithPath: filePathImage2), options: [.atomic])
         
         
         //====================================UPLOAD HERE===============================
-        if(self.imgdata != NSData.init())
+        if(self.imgdata != Data.init())
         {
             print("profile image is selected")
             print("call API to upload image")
@@ -1304,13 +1304,13 @@ else{
 }
 else
             {
-                let shareMenu = UIAlertController(title: nil, message: "Internet connectivity is required to upload group icon", preferredStyle: .ActionSheet)
+                let shareMenu = UIAlertController(title: nil, message: "Internet connectivity is required to upload group icon", preferredStyle: .actionSheet)
                 
-                let yes = UIAlertAction(title: "OK", style: UIAlertActionStyle.Default,handler: { (action) -> Void in
+                let yes = UIAlertAction(title: "OK", style: UIAlertActionStyle.default,handler: { (action) -> Void in
                     
                 })
                 shareMenu.addAction(yes)
-                self.presentViewController(shareMenu, animated: true, completion:nil)
+                self.present(shareMenu, animated: true, completion:nil)
             }
             
             
@@ -1318,7 +1318,7 @@ else
         
         ///
         
-        self.dismissViewControllerAnimated(true, completion:{ ()-> Void in
+        self.dismiss(animated: true, completion:{ ()-> Void in
             print("dismissing image picker")
             print("selected image is \(image)")
             self.tblGroupInfo.reloadData()
@@ -1342,32 +1342,32 @@ else
     
 
     
-    func setTitle(title:String, subtitle:String) -> UIView {
+    func setTitle(_ title:String, subtitle:String) -> UIView {
         //Create a label programmatically and give it its property's
-        let titleLabel = UILabel(frame: CGRectMake(0, 0, 0, 0)) //x, y, width, height where y is to offset from the view center
-        titleLabel.backgroundColor = UIColor.clearColor()
-        titleLabel.textColor = UIColor.whiteColor()
-        titleLabel.font = UIFont.boldSystemFontOfSize(17)
+        let titleLabel = UILabel(frame: CGRect(x: 0, y: 0, width: 0, height: 0)) //x, y, width, height where y is to offset from the view center
+        titleLabel.backgroundColor = UIColor.clear
+        titleLabel.textColor = UIColor.white
+        titleLabel.font = UIFont.boldSystemFont(ofSize: 17)
         titleLabel.text = title
         titleLabel.sizeToFit()
         
         //Create a label for the Subtitle
-        let subtitleLabel = UILabel(frame: CGRectMake(0, 18, 0, 0))
-        subtitleLabel.backgroundColor = UIColor.clearColor()
+        let subtitleLabel = UILabel(frame: CGRect(x: 0, y: 18, width: 0, height: 0))
+        subtitleLabel.backgroundColor = UIColor.clear
         //subtitleLabel.textColor = UIColor.lightGrayColor()
-        subtitleLabel.textColor = UIColor.blackColor()
+        subtitleLabel.textColor = UIColor.black
         
-        subtitleLabel.font = UIFont.systemFontOfSize(12)
+        subtitleLabel.font = UIFont.systemFont(ofSize: 12)
         subtitleLabel.text = subtitle
       
         subtitleLabel.adjustsFontSizeToFitWidth=false
-        subtitleLabel.lineBreakMode=NSLineBreakMode.ByTruncatingTail
+        subtitleLabel.lineBreakMode=NSLineBreakMode.byTruncatingTail
         
         
        //===== subtitleLabel.sizeToFit()
         
         // Create a view and add titleLabel and subtitleLabel as subviews setting
-        let titleView = UIView(frame: CGRectMake(0, 0, max(titleLabel.frame.size.width, subtitleLabel.frame.size.width), 30))
+        let titleView = UIView(frame: CGRect(x: 0, y: 0, width: max(titleLabel.frame.size.width, subtitleLabel.frame.size.width), height: 30))
         
         // Center title or subtitle on screen (depending on which is larger)
         if titleLabel.frame.width >= subtitleLabel.frame.width {
@@ -1387,7 +1387,7 @@ else
         return titleView
     }
 
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         
               /* var imageavatar1=UIImage(named: "avatar.png")
         //   imageavatar1=ResizeImage(imageavatar1!,targetSize: s)
@@ -1443,7 +1443,7 @@ else
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         // Get the new view controller using segue.destinationViewController.
         // Pass the selected object to the new view controller.
         
@@ -1452,7 +1452,7 @@ else
         if segue.identifier == "addparticipantstogroupsegue" {
             
             
-            if let destinationVC = segue.destinationViewController as? AddParticipantsViewController{
+            if let destinationVC = segue.destination as? AddParticipantsViewController{
                 destinationVC.prevScreen="Groupinfo"
                 destinationVC.identifiersarrayAlreadySelected.removeAll()
                 destinationVC.identifiersarrayAlreadySelected=identifiersarray

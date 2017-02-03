@@ -30,15 +30,15 @@ class WebmeetingChatViewController: UIViewController,WebMeetingChatDelegate,File
     
         var delegateChat:WebMeetingChatDelegate!
     
-    func receivedChatMessageApdateUI(message: String, username: String) {
+    func receivedChatMessageApdateUI(_ message: String, username: String) {
         //Reload table
         tblForChats.reloadData()
     
     }
-    override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: NSBundle?)
+    override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?)
         {
             super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
-            print(NSBundle.debugDescription())
+            print(Bundle.debugDescription())
             
             // Custom initialization
         }
@@ -57,7 +57,7 @@ class WebmeetingChatViewController: UIViewController,WebMeetingChatDelegate,File
             
         }
         
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         
         //videoCont=VideoViewController.init(nibName: "VideoViewController", bundle: nil)
         //videoCont.delegateFileReceived=self
@@ -67,8 +67,8 @@ class WebmeetingChatViewController: UIViewController,WebMeetingChatDelegate,File
             super.viewDidLoad()
             //videoCont=VideoViewController.init(nibName: "VideoViewController", bundle: nil)
             //videoCont.delegateFileReceived=self
-            NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("willShowKeyBoard:"), name:UIKeyboardWillShowNotification, object: nil)
-            NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("willHideKeyBoard:"), name:UIKeyboardWillHideNotification, object: nil)
+            NotificationCenter.default.addObserver(self, selector: #selector(WebmeetingChatViewController.willShowKeyBoard(_:)), name:NSNotification.Name.UIKeyboardWillShow, object: nil)
+            NotificationCenter.default.addObserver(self, selector: #selector(WebmeetingChatViewController.willHideKeyBoard(_:)), name:NSNotification.Name.UIKeyboardWillHide, object: nil)
             
             
             messages = webMeetingModel.messages
@@ -99,63 +99,63 @@ class WebmeetingChatViewController: UIViewController,WebMeetingChatDelegate,File
             self.tblForChats.scrollToRowAtIndexPath(indexPath, atScrollPosition: UITableViewScrollPosition.Bottom, animated: true)
         }*/
     
-    func receivedChatMessageUpdateUI(message: String, username: String) {
+    func receivedChatMessageUpdateUI(_ message: String, username: String) {
         
         tblForChats.reloadData()
     }
     
     
-    func addMessage(message: String, ofType msgType:String,usr:String) {
-            messages.addObject(["message":message, "type":msgType,"username":usr])
+    func addMessage(_ message: String, ofType msgType:String,usr:String) {
+            messages.add(["message":message, "type":msgType,"username":usr])
             tblForChats.reloadData()
             
         }
     
         
     
-        func tableView(tableView: UITableView!, numberOfRowsInSection section: Int) -> Int {
+        func tableView(_ tableView: UITableView!, numberOfRowsInSection section: Int) -> Int {
             return messages.count
             
         }
         
-        func numberOfSectionsInTableView(tableView: UITableView!) -> Int {
+        func numberOfSectionsInTableView(_ tableView: UITableView!) -> Int {
             return 1
         }
         
-        func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-            var messageDic = messages.objectAtIndex(indexPath.row) as! [String : String];
+        func tableView(_ tableView: UITableView, heightForRowAtIndexPath indexPath: IndexPath) -> CGFloat {
+            var messageDic = messages.object(at: indexPath.row) as! [String : String];
             let msg = messageDic["message"] as NSString!
-            let sizeOFStr = self.getSizeOfString(msg)
+            let sizeOFStr = self.getSizeOfString(msg!)
             return sizeOFStr.height + 70
         }
         
-        func tableView(tableView: UITableView!, cellForRowAtIndexPath indexPath: NSIndexPath!) -> UITableViewCell! {
+        func tableView(_ tableView: UITableView!, cellForRowAtIndexPath indexPath: IndexPath!) -> UITableViewCell! {
             var cell : UITableViewCell!
-            var messageDic = messages.objectAtIndex(indexPath.row) as! [String : String];
+            var messageDic = messages.object(at: indexPath.row) as! [String : String];
             NSLog(messageDic["message"]!, 1)
             let msgType = messageDic["type"] as NSString!
             let msg = messageDic["message"] as NSString!
-            let sizeOFStr = self.getSizeOfString(msg)
-            let myInitialUsername=username!.substringToIndex(username!.startIndex.advancedBy(1)).uppercaseString as String
+            let sizeOFStr = self.getSizeOfString(msg!)
+            let myInitialUsername=username!.substringToIndex(username!.characters.index(username!.startIndex, offsetBy: 1)).uppercased() as String
             
-            let initialOfName=messageDic["username"]!.substringToIndex(messageDic["username"]!.startIndex.advancedBy(1)).uppercaseString as String
-            if (msgType.isEqualToString("1")){
-                cell = tblForChats.dequeueReusableCellWithIdentifier("ChatSentCell")! as UITableViewCell
+            let initialOfName=messageDic["username"]!.substringToIndex(messageDic["username"]!.characters.index(messageDic["username"]!.startIndex, offsetBy: 1)).uppercased() as String
+            if (msgType?.isEqual(to: "1"))!{
+                cell = tblForChats.dequeueReusableCell(withIdentifier: "ChatSentCell")! as UITableViewCell
                 let textLable = cell.viewWithTag(12) as! UILabel
                 let chatImage = cell.viewWithTag(1) as! UIImageView
                 let profileImage = cell.viewWithTag(2) as! UIImageView
                 let labelName = cell.viewWithTag(5) as! UILabel
                 
-                chatImage.frame = CGRectMake(chatImage.frame.origin.x, chatImage.frame.origin.y, ((sizeOFStr.width + 60)  > 100 ? (sizeOFStr.width + 60) : 100), sizeOFStr.height + 40)
-                chatImage.image = UIImage(named: "chat_new_receive")?.stretchableImageWithLeftCapWidth(40,topCapHeight: 20);
-                textLable.frame = CGRectMake(textLable.frame.origin.x, textLable.frame.origin.y, textLable.frame.size.width, sizeOFStr.height)
-                profileImage.center = CGPointMake(profileImage.center.x, textLable.frame.origin.y + textLable.frame.size.height - profileImage.frame.size.height/2 + 10)
+                chatImage.frame = CGRect(x: chatImage.frame.origin.x, y: chatImage.frame.origin.y, width: ((sizeOFStr.width + 60)  > 100 ? (sizeOFStr.width + 60) : 100), height: sizeOFStr.height + 40)
+                chatImage.image = UIImage(named: "chat_new_receive")?.stretchableImage(withLeftCapWidth: 40,topCapHeight: 20);
+                textLable.frame = CGRect(x: textLable.frame.origin.x, y: textLable.frame.origin.y, width: textLable.frame.size.width, height: sizeOFStr.height)
+                profileImage.center = CGPoint(x: profileImage.center.x, y: textLable.frame.origin.y + textLable.frame.size.height - profileImage.frame.size.height/2 + 10)
                 textLable.text = "\(msg)"
                 labelName.text=initialOfName
                 print("ifffffffff")
                 
             } else {
-                cell = tblForChats.dequeueReusableCellWithIdentifier("ChatReceivedCell")! as UITableViewCell
+                cell = tblForChats.dequeueReusableCell(withIdentifier: "ChatReceivedCell")! as UITableViewCell
                 let deliveredLabel = cell.viewWithTag(13) as! UILabel
                 let textLable = cell.viewWithTag(12) as! UILabel
                 let timeLabel = cell.viewWithTag(11) as! UILabel
@@ -164,15 +164,15 @@ class WebmeetingChatViewController: UIViewController,WebMeetingChatDelegate,File
                 let labelName = cell.viewWithTag(5) as! UILabel
                 let distanceFactor = (170.0 - sizeOFStr.width) < 130 ? (170.0 - sizeOFStr.width) : 130
                 
-                chatImage.frame = CGRectMake(20 + distanceFactor, chatImage.frame.origin.y, ((sizeOFStr.width + 60)  > 100 ? (sizeOFStr.width + 60) : 100), sizeOFStr.height + 40)
-                chatImage.image = UIImage(named: "chat_new_send")?.stretchableImageWithLeftCapWidth(20,topCapHeight: 20);
-                textLable.frame = CGRectMake(36 + distanceFactor, textLable.frame.origin.y, textLable.frame.size.width, sizeOFStr.height)
-                profileImage.center = CGPointMake(profileImage.center.x, textLable.frame.origin.y + textLable.frame.size.height - profileImage.frame.size.height/2 + 10)
+                chatImage.frame = CGRect(x: 20 + distanceFactor, y: chatImage.frame.origin.y, width: ((sizeOFStr.width + 60)  > 100 ? (sizeOFStr.width + 60) : 100), height: sizeOFStr.height + 40)
+                chatImage.image = UIImage(named: "chat_new_send")?.stretchableImage(withLeftCapWidth: 20,topCapHeight: 20);
+                textLable.frame = CGRect(x: 36 + distanceFactor, y: textLable.frame.origin.y, width: textLable.frame.size.width, height: sizeOFStr.height)
+                profileImage.center = CGPoint(x: profileImage.center.x, y: textLable.frame.origin.y + textLable.frame.size.height - profileImage.frame.size.height/2 + 10)
                 //******
                 
                 //*******
-                timeLabel.frame = CGRectMake(36 + distanceFactor, timeLabel.frame.origin.y, timeLabel.frame.size.width, timeLabel.frame.size.height)
-                deliveredLabel.frame = CGRectMake(deliveredLabel.frame.origin.x, textLable.frame.origin.y + textLable.frame.size.height + 20, deliveredLabel.frame.size.width, deliveredLabel.frame.size.height)
+                timeLabel.frame = CGRect(x: 36 + distanceFactor, y: timeLabel.frame.origin.y, width: timeLabel.frame.size.width, height: timeLabel.frame.size.height)
+                deliveredLabel.frame = CGRect(x: deliveredLabel.frame.origin.x, y: textLable.frame.origin.y + textLable.frame.size.height + 20, width: deliveredLabel.frame.size.width, height: deliveredLabel.frame.size.height)
                 textLable.text = "\(msg)"
                 labelName.text=myInitialUsername
                 print("elseeeeee")
@@ -180,50 +180,50 @@ class WebmeetingChatViewController: UIViewController,WebMeetingChatDelegate,File
             return cell
         }
         
-        func willShowKeyBoard(notification : NSNotification){
+        func willShowKeyBoard(_ notification : Notification){
             
             var userInfo: NSDictionary!
-            userInfo = notification.userInfo
+            userInfo = notification.userInfo as NSDictionary!
             
-            var duration : NSTimeInterval = 0
-            var curve = userInfo.objectForKey(UIKeyboardAnimationCurveUserInfoKey) as! UInt
-            duration = userInfo[UIKeyboardAnimationDurationUserInfoKey] as! NSTimeInterval
-            let keyboardF:NSValue = userInfo.objectForKey(UIKeyboardFrameEndUserInfoKey) as! NSValue
-            let keyboardFrame = keyboardF.CGRectValue()
+            var duration : TimeInterval = 0
+            var curve = userInfo.object(forKey: UIKeyboardAnimationCurveUserInfoKey) as! UInt
+            duration = userInfo[UIKeyboardAnimationDurationUserInfoKey] as! TimeInterval
+            let keyboardF:NSValue = userInfo.object(forKey: UIKeyboardFrameEndUserInfoKey) as! NSValue
+            let keyboardFrame = keyboardF.cgRectValue
             
-            UIView.animateWithDuration(duration, delay: 0, options:[], animations: {
-                self.chatComposeView.frame = CGRectMake(self.chatComposeView.frame.origin.x, self.chatComposeView.frame.origin.y - keyboardFrame.size.height+self.chatComposeView.frame.size.height+3, self.chatComposeView.frame.size.width, self.chatComposeView.frame.size.height)
+            UIView.animate(withDuration: duration, delay: 0, options:[], animations: {
+                self.chatComposeView.frame = CGRect(x: self.chatComposeView.frame.origin.x, y: self.chatComposeView.frame.origin.y - keyboardFrame.size.height+self.chatComposeView.frame.size.height+3, width: self.chatComposeView.frame.size.width, height: self.chatComposeView.frame.size.height)
                 
-                self.tblForChats.frame = CGRectMake(self.tblForChats.frame.origin.x, self.tblForChats.frame.origin.y, self.tblForChats.frame.size.width, self.tblForChats.frame.size.height - keyboardFrame.size.height+49);
+                self.tblForChats.frame = CGRect(x: self.tblForChats.frame.origin.x, y: self.tblForChats.frame.origin.y, width: self.tblForChats.frame.size.width, height: self.tblForChats.frame.size.height - keyboardFrame.size.height+49);
                 }, completion: nil)
             if(messages.count>1)
             {
-            let indexPath = NSIndexPath(forRow:messages.count-1, inSection: 0)
-            tblForChats.scrollToRowAtIndexPath(indexPath, atScrollPosition: UITableViewScrollPosition.Bottom, animated: true)
+            let indexPath = IndexPath(row:messages.count-1, section: 0)
+            tblForChats.scrollToRow(at: indexPath, at: UITableViewScrollPosition.bottom, animated: true)
             }
             
         }
         
-        func willHideKeyBoard(notification : NSNotification){
+        func willHideKeyBoard(_ notification : Notification){
             
             var userInfo: NSDictionary!
-            userInfo = notification.userInfo
+            userInfo = notification.userInfo as NSDictionary!
             
-            var duration : NSTimeInterval = 0
-            var curve = userInfo.objectForKey(UIKeyboardAnimationCurveUserInfoKey) as! UInt
-            duration = userInfo[UIKeyboardAnimationDurationUserInfoKey] as! NSTimeInterval
-            let keyboardF:NSValue = userInfo.objectForKey(UIKeyboardFrameEndUserInfoKey) as! NSValue
-            let keyboardFrame = keyboardF.CGRectValue()
+            var duration : TimeInterval = 0
+            var curve = userInfo.object(forKey: UIKeyboardAnimationCurveUserInfoKey) as! UInt
+            duration = userInfo[UIKeyboardAnimationDurationUserInfoKey] as! TimeInterval
+            let keyboardF:NSValue = userInfo.object(forKey: UIKeyboardFrameEndUserInfoKey) as! NSValue
+            let keyboardFrame = keyboardF.cgRectValue
             
             
-            UIView.animateWithDuration(duration, delay: 0, options:[], animations: {
-                self.chatComposeView.frame = CGRectMake(self.chatComposeView.frame.origin.x, self.chatComposeView.frame.origin.y + keyboardFrame.size.height-self.chatComposeView.frame.size.height-3, self.chatComposeView.frame.size.width, self.chatComposeView.frame.size.height)
-                self.tblForChats.frame = CGRectMake(self.tblForChats.frame.origin.x, self.tblForChats.frame.origin.y, self.tblForChats.frame.size.width, self.tblForChats.frame.size.height + keyboardFrame.size.height-49);
+            UIView.animate(withDuration: duration, delay: 0, options:[], animations: {
+                self.chatComposeView.frame = CGRect(x: self.chatComposeView.frame.origin.x, y: self.chatComposeView.frame.origin.y + keyboardFrame.size.height-self.chatComposeView.frame.size.height-3, width: self.chatComposeView.frame.size.width, height: self.chatComposeView.frame.size.height)
+                self.tblForChats.frame = CGRect(x: self.tblForChats.frame.origin.x, y: self.tblForChats.frame.origin.y, width: self.tblForChats.frame.size.width, height: self.tblForChats.frame.size.height + keyboardFrame.size.height-49);
                 }, completion: nil)
             
         }
         
-        func textFieldShouldReturn (textField: UITextField!) -> Bool{
+        func textFieldShouldReturn (_ textField: UITextField!) -> Bool{
             textField.resignFirstResponder()
             return true
         }
@@ -257,17 +257,17 @@ class WebmeetingChatViewController: UIViewController,WebMeetingChatDelegate,File
             txtFldMessage.text = "";
             tblForChats.reloadData()
             
-            var indexPath = NSIndexPath(forRow:messages.count-1, inSection: 0)
-            tblForChats.scrollToRowAtIndexPath(indexPath, atScrollPosition: UITableViewScrollPosition.Bottom, animated: true)
+            let indexPath = IndexPath(row:messages.count-1, section: 0)
+            tblForChats.scrollToRow(at: indexPath, at: UITableViewScrollPosition.bottom, animated: true)
         }
         
-        func getSizeOfString(postTitle: NSString) -> CGSize {
+        func getSizeOfString(_ postTitle: NSString) -> CGSize {
             // Get the height of the font
-            let constraintSize = CGSizeMake(170, CGFloat.max)
+            let constraintSize = CGSize(width: 170, height: CGFloat.greatestFiniteMagnitude)
             
-            let attributes = [NSFontAttributeName:UIFont.systemFontOfSize(11.0)]
-            let labelSize = postTitle.boundingRectWithSize(constraintSize,
-                options: NSStringDrawingOptions.UsesLineFragmentOrigin,
+            let attributes = [NSFontAttributeName:UIFont.systemFont(ofSize: 11.0)]
+            let labelSize = postTitle.boundingRect(with: constraintSize,
+                options: NSStringDrawingOptions.usesLineFragmentOrigin,
                 attributes: attributes,
                 context: nil)
             return labelSize.size
@@ -275,17 +275,17 @@ class WebmeetingChatViewController: UIViewController,WebMeetingChatDelegate,File
         
    
         
-    @IBAction func btnBackToConferencePressed(sender: AnyObject) {
+    @IBAction func btnBackToConferencePressed(_ sender: AnyObject) {
     
-        self.dismissViewControllerAnimated(true, completion: nil)
+        self.dismiss(animated: true, completion: nil)
     }
     func didReceiveFileConference()
     {print("hereeeeee")
         //videoCont.btnViewFile.enabled=true
-        let alert = UIAlertController(title: "Success", message: "You have received a new file. You can view files by clicking on \"View\" button present on Main conference page.", preferredStyle: UIAlertControllerStyle.Alert)
-        alert.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.Default, handler: nil))
+        let alert = UIAlertController(title: "Success", message: "You have received a new file. You can view files by clicking on \"View\" button present on Main conference page.", preferredStyle: UIAlertControllerStyle.alert)
+        alert.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.default, handler: nil))
         //alert.showViewController(videoCont, sender: nil)
-        self.presentViewController(alert, animated: true, completion: nil)
+        self.present(alert, animated: true, completion: nil)
     }
 
         /*

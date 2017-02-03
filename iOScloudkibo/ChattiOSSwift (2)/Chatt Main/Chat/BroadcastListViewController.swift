@@ -29,7 +29,7 @@ class BroadcastListViewController: UIViewController,UINavigationControllerDelega
         super.viewDidLoad()
         
         
-        self.navigationItem.rightBarButtonItem = self.editButtonItem();
+        self.navigationItem.rightBarButtonItem = self.editButtonItem;
         //==--editButtonOutlet=self.editButtonOutlet
         /*if(tblBroadcastList.editing.boolValue==false)
         {
@@ -54,7 +54,7 @@ class BroadcastListViewController: UIViewController,UINavigationControllerDelega
        // self.navigationItem.titleView = "Broadcast Lists"
     }
     
-    override func setEditing(editing: Bool, animated: Bool) {
+    override func setEditing(_ editing: Bool, animated: Bool) {
         super.setEditing(editing, animated: animated)
         tblBroadcastList.setEditing(editing, animated: animated)
         print("editingggg....2")
@@ -79,14 +79,14 @@ class BroadcastListViewController: UIViewController,UINavigationControllerDelega
     
     
     
-    func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
+    func tableView(_ tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: IndexPath) {
         
-        var messageDic = broadcastlistmessages.objectAtIndex(indexPath.row) as! [String : AnyObject];
+        var messageDic = broadcastlistmessages.object(at: indexPath.row) as! [String : AnyObject];
         
         //// if editingStyle == .Delete {
-        if(editingStyle == UITableViewCellEditingStyle.Delete){
+        if(editingStyle == UITableViewCellEditingStyle.delete){
             
-            var messageDic = broadcastlistmessages.objectAtIndex(indexPath.row) as! [String : String];
+            var messageDic = broadcastlistmessages.object(at: indexPath.row) as! [String : String];
             var listname=messageDic["listname"] as! NSString
             var uniqueid=messageDic["uniqueid"] as! NSString
             
@@ -101,7 +101,7 @@ class BroadcastListViewController: UIViewController,UINavigationControllerDelega
             
         }
     }
-    func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
+    func tableView(_ tableView: UITableView, canEditRowAtIndexPath indexPath: IndexPath) -> Bool {
         // Return false if you do not want the specified item to be editable.
         return true
     }
@@ -110,20 +110,20 @@ class BroadcastListViewController: UIViewController,UINavigationControllerDelega
     {
       //listname string
       //membersnames string
-       var broadcastlistmessages2=NSMutableArray()
+       let broadcastlistmessages2=NSMutableArray()
         //uniqueid
         var aaa = sqliteDB.getBroadcastListDataForController()
         print("aaa is \(aaa.description)")
-        for(var i=0;i<aaa.count;i++)
+        for(i in 0 ..< aaa.count)
         {
-        broadcastlistmessages2.addObject(["listname":aaa[i]["listname"] as! String,"membersnames":aaa[i]["membersnames"] as! String,"uniqueid":aaa[i]["uniqueid"] as! String])
+        broadcastlistmessages2.add(["listname":aaa[i]["listname"] as! String,"membersnames":aaa[i]["membersnames"] as! String,"uniqueid":aaa[i]["uniqueid"] as! String])
         }
         
         broadcastlistmessages.setArray(broadcastlistmessages2 as [AnyObject])
         
     }
     
-    @IBAction func btnNewBroadcastListClicked(sender: AnyObject) {
+    @IBAction func btnNewBroadcastListClicked(_ sender: AnyObject) {
         
         //making new list so removing old data
         participantsSelected.removeAll()
@@ -143,7 +143,7 @@ class BroadcastListViewController: UIViewController,UINavigationControllerDelega
        
         
         
-        self.performSegueWithIdentifier("addParticipantsSegue", sender: self)
+        self.performSegue(withIdentifier: "addParticipantsSegue", sender: self)
         
         /*let contactPickerScene = EPContactsPicker(delegate: self, multiSelection:true, subtitleCellType: SubtitleCellValue.PhoneNumber)
         let navigationController = UINavigationController(rootViewController: contactPickerScene)
@@ -177,9 +177,9 @@ class BroadcastListViewController: UIViewController,UINavigationControllerDelega
     }
     
  
-    @IBAction func backButtonPressed(sender: AnyObject) {
+    @IBAction func backButtonPressed(_ sender: AnyObject) {
         print("unwind broadcast list")
-        self.performSegueWithIdentifier("FromBroadCastToChatTabSegue", sender: nil);
+        self.performSegue(withIdentifier: "FromBroadCastToChatTabSegue", sender: nil);
     }
    
     
@@ -217,7 +217,7 @@ class BroadcastListViewController: UIViewController,UINavigationControllerDelega
         print("didSelectContacts \(contacts)")
         
         //get seleced participants
-        participantsSelected.appendContentsOf(contacts)
+        participantsSelected.append(contentsOf: contacts)
         
         addToBroadcastList()
         
@@ -235,7 +235,7 @@ class BroadcastListViewController: UIViewController,UINavigationControllerDelega
         
         var memberphones=[String]()
         var membersnames=[String]()
-        for(var i=0;i<participantsSelected.count;i++)
+        for(i in 0 ..< participantsSelected.count)
         {print("appending memberphone now of participantselected \(participantsSelected[i].getPhoneNumber())")
             memberphones.append(participantsSelected[i].getPhoneNumber())
             membersnames.append(participantsSelected[i].displayName())
@@ -254,42 +254,42 @@ class BroadcastListViewController: UIViewController,UINavigationControllerDelega
         
     }
     
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return broadcastlistmessages.count
     }
     
    
     
-    func numberOfSectionsInTableView(tableView: UITableView!) -> Int {
+    func numberOfSectionsInTableView(_ tableView: UITableView!) -> Int {
         return 1
     }
     
-    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+    func tableView(_ tableView: UITableView, heightForRowAtIndexPath indexPath: IndexPath) -> CGFloat {
         
         return 90
     }
 
     
-    func tableView(tableView: UITableView!, cellForRowAtIndexPath indexPath: NSIndexPath!) -> UITableViewCell! {
+    func tableView(_ tableView: UITableView!, cellForRowAtIndexPath indexPath: IndexPath!) -> UITableViewCell! {
         //if (indexPath.row%2 == 0){
         //var cellPrivate = tblForNotes.dequeueReusableCellWithIdentifier("NotePrivateCell")! as UITableViewCell
-        var messageDic = broadcastlistmessages.objectAtIndex(indexPath.row) as! [String : String];
-        var listname=messageDic["listname"] as! NSString
+        var messageDic = broadcastlistmessages.object(at: indexPath.row) as! [String : String];
+        let listname=messageDic["listname"] as! NSString
         var uniqueid=messageDic["uniqueid"] as! NSString
         
-        var membersnames=messageDic["membersnames"] as! NSString
+        let membersnames=messageDic["membersnames"] as! NSString
         
-        var cell = tblBroadcastList.dequeueReusableCellWithIdentifier("BroadcastListCell")! as! BroadcastItemCell
+        let cell = tblBroadcastList.dequeueReusableCell(withIdentifier: "BroadcastListCell")! as! BroadcastItemCell
         if(listname == "")
-        {var memberscount=membersnames.componentsSeparatedByString(",").count
+        {let memberscount=membersnames.components(separatedBy: ",").count
         cell.lbl_recipents_count.text="Recipents:\(memberscount)"
         }
         else{
-            cell.lbl_recipents_count.text=listname as! String
+            cell.lbl_recipents_count.text=listname as String
         }
         
         cell.lbl_recipentsName.text=membersnames as String
-        cell.broadcastlist_info.addTarget(self, action: Selector("BtnBroadcastInfoClicked:"), forControlEvents:.TouchUpInside)
+        cell.broadcastlist_info.addTarget(self, action: #selector(BroadcastListViewController.BtnBroadcastInfoClicked(_:)), for:.touchUpInside)
         
         //cell.lbl_recipentsName.text="Sojharo,Sumaira991"
         
@@ -307,18 +307,18 @@ class BroadcastListViewController: UIViewController,UINavigationControllerDelega
    // }
     
     
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath)
+    func tableView(_ tableView: UITableView, didSelectRowAtIndexPath indexPath: IndexPath)
     {
-        self.performSegueWithIdentifier("broadcastChatSegue", sender: nil);
+        self.performSegue(withIdentifier: "broadcastChatSegue", sender: nil);
     }
     
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         
         //editlistsegue
         
         if segue.identifier == "addParticipantsSegue" {
             
-            if let destinationVC = segue.destinationViewController as? AddParticipantsViewController{
+            if let destinationVC = segue.destination as? AddParticipantsViewController{
                 //destinationVC.participants.removeAll()
                 destinationVC.prevScreen="newBroadcastList"
                 //destinationVC.participants=self.participantsSelected
@@ -328,15 +328,15 @@ class BroadcastListViewController: UIViewController,UINavigationControllerDelega
         //broadcastChatSegue
         if segue.identifier == "broadcastChatSegue" {
             
-            if let destinationVC = segue.destinationViewController as? ChatDetailViewController{
+            if let destinationVC = segue.destination as? ChatDetailViewController{
                 
                 let selectedRow = tblBroadcastList.indexPathForSelectedRow!.row
-                var messageDic = broadcastlistmessages.objectAtIndex(selectedRow) as! [String : String];
+                var messageDic = broadcastlistmessages.object(at: selectedRow) as! [String : String];
                 
                 let uniqueid = messageDic["uniqueid"] as NSString!
                 
                 destinationVC.broadcastlistmessages=broadcastlistmessages
-                destinationVC.broadcastlistID1=uniqueid as String
+                destinationVC.broadcastlistID1=uniqueid as! String
                 //destinationVC.participants.removeAll()
                 //==destinationVC.prevScreen="newBroadcastList"
                 //destinationVC.participants=self.participantsSelected
@@ -345,19 +345,19 @@ class BroadcastListViewController: UIViewController,UINavigationControllerDelega
             }}
         
         if segue.identifier == "showSingleBroadcastListCellSegue" {
-            if let destinationVC = segue.destinationViewController as? BroadcastListDetailsViewController{
+            if let destinationVC = segue.destination as? BroadcastListDetailsViewController{
                // let selectedRow = tblBroadcastList.indexPathForSelectedRow!.row
                 
                     let selectedRow = indexForInfo
                 
-                var messageDic = broadcastlistmessages.objectAtIndex(selectedRow) as! [String : String];
+                var messageDic = broadcastlistmessages.object(at: selectedRow) as! [String : String];
                 
                 let uniqueid = messageDic["uniqueid"] as NSString!
                 //selectedText=filename as String
                 //destinationVC.tabBarController?.selectedIndex=0
                 //self.tabBarController?.selectedIndex=0
                 print("broadcastlistID is \(uniqueid)")
-                destinationVC.broadcastlistID=uniqueid as String
+                destinationVC.broadcastlistID=uniqueid as! String
                 
                 /*self.dismissViewControllerAnimated(true, completion: { () -> Void in
                     
@@ -378,11 +378,11 @@ class BroadcastListViewController: UIViewController,UINavigationControllerDelega
             }}*/
     }
     
-    func BtnBroadcastInfoClicked(sender:AnyObject!)
-    { var buttonPosition = sender.convertPoint(CGPointZero, toView: tblBroadcastList)
-        var indexPath = self.tblBroadcastList.indexPathForRowAtPoint(buttonPosition)!
+    func BtnBroadcastInfoClicked(_ sender:AnyObject!)
+    { let buttonPosition = sender.convert(CGPoint.zero, to: tblBroadcastList)
+        var indexPath = self.tblBroadcastList.indexPathForRow(at: buttonPosition)!
         self.indexForInfo=indexPath.row
-self.performSegueWithIdentifier("showSingleBroadcastListCellSegue", sender: nil);
+self.performSegue(withIdentifier: "showSingleBroadcastListCellSegue", sender: nil);
         
     }
 

@@ -52,11 +52,11 @@ extension SocketEngineWebsocket {
         }
     }
     
-    public func websocketDidReceiveMessage(socket: WebSocket, text: String) {
+    public func websocketDidReceiveMessage(_ socket: WebSocket, text: String) {
         parseEngineMessage(text, fromPolling: false)
     }
     
-    public func websocketDidReceiveData(socket: WebSocket, data: Data) {
+    public func websocketDidReceiveData(_ socket: WebSocket, data: Data) {
         parseEngineData(data)
     }
 }

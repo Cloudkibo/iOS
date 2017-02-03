@@ -123,11 +123,11 @@ class UtilityFunctions{
         "avi": "video/x-msvideo"
     ]
     
-    func getFileExtension(mime:String)->String
+    func getFileExtension(_ mime:String)->String
     {
         print("taking out extension")
         
-        var ext=mimeTypes.keys[mimeTypes.values.indexOf(mime)!]
+        let ext=mimeTypes.keys[mimeTypes.values.index(of: mime)!]
         print("extension is \(ext)")
         return ext
     }
@@ -135,14 +135,14 @@ class UtilityFunctions{
     let DEFAULT_MIME_TYPE = "application/octet-stream"
     
 
-     func MimeType(ext: String?) -> String {
-        if ext != nil && mimeTypes.contains({ $0.0 == ext!.lowercaseString }) {
-            return mimeTypes[ext!.lowercaseString]!
+     func MimeType(_ ext: String?) -> String {
+        if ext != nil && mimeTypes.contains(where: { $0.0 == ext!.lowercased() }) {
+            return mimeTypes[ext!.lowercased()]!
         }
         return DEFAULT_MIME_TYPE
     }
     
-    func log_papertrail(msg:String)
+    func log_papertrail(_ msg:String)
     {
         Alamofire.request(.POST,"https://api.cloudkibo.com/api/users/log",headers:header,parameters: ["data":msg]).response{
             request, response_, data, error in
@@ -150,16 +150,16 @@ class UtilityFunctions{
         }
     }
     
-    func randomStringWithLength (len : Int) -> NSString {
+    func randomStringWithLength (_ len : Int) -> NSString {
         
         let letters : NSString = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
         
         let randomString : NSMutableString = NSMutableString(capacity: len)
         
-        for (var i=0; i < len; i++){
+        for (i in 0 ..< len){
             let length = UInt32 (letters.length)
             let rand = arc4random_uniform(length)
-            randomString.appendFormat("%C", letters.characterAtIndex(Int(rand)))
+            randomString.appendFormat("%C", letters.character(at: Int(rand)))
         }
         
         return randomString
@@ -167,30 +167,30 @@ class UtilityFunctions{
     func generateUniqueid()->String
     {
         
-        var uid=randomStringWithLength(7)
+        let uid=randomStringWithLength(7)
         
-        var date=NSDate()
-        var calendar = NSCalendar.currentCalendar()
-        var year=calendar.components(NSCalendarUnit.Year,fromDate: date).year
-        var month=calendar.components(NSCalendarUnit.Month,fromDate: date).month
-        var day=calendar.components(.Day,fromDate: date).day
-        var hr=calendar.components(NSCalendarUnit.Hour,fromDate: date).hour
-        var min=calendar.components(NSCalendarUnit.Minute,fromDate: date).minute
-        var sec=calendar.components(NSCalendarUnit.Second,fromDate: date).second
+        let date=Date()
+        let calendar = Calendar.current
+        let year=(calendar as NSCalendar).components(NSCalendar.Unit.year,from: date).year
+        let month=(calendar as NSCalendar).components(NSCalendar.Unit.month,from: date).month
+        let day=(calendar as NSCalendar).components(.day,from: date).day
+        let hr=(calendar as NSCalendar).components(NSCalendar.Unit.hour,from: date).hour
+        let min=(calendar as NSCalendar).components(NSCalendar.Unit.minute,from: date).minute
+        let sec=(calendar as NSCalendar).components(NSCalendar.Unit.second,from: date).second
         print("\(year) \(month) \(day) \(hr) \(min) \(sec)")
-        var uniqueid="\(uid)\(year)\(month)\(day)\(hr)\(min)\(sec)"
+        let uniqueid="\(uid)\(year)\(month)\(day)\(hr)\(min)\(sec)"
         
         return uniqueid
         
         
     }
     
-    func minimumDate() -> NSDate
+    func minimumDate() -> Date
     {
         
-        let formatter = NSDateFormatter()
+        let formatter = DateFormatter()
         formatter.dateFormat = "yyyy/MM/dd HH:mm"
-        let someDateTime = formatter.dateFromString("0001/01/01 00:01")
+        let someDateTime = formatter.date(from: "0001/01/01 00:01")
         
         return someDateTime!
         /*let calendar = NSCalendar(calendarIdentifier: NSGregorianCalendar)!
@@ -199,7 +199,7 @@ class UtilityFunctions{
 }
     
  
-    func createGroupAPI(groupname:String,members:[String],uniqueid:String)
+    func createGroupAPI(_ groupname:String,members:[String],uniqueid:String)
     {
         //show progress wheen somewhere
         
@@ -252,11 +252,11 @@ class UtilityFunctions{
     
     
     
-    func downloadProfileImageOnLaunch(uniqueid1:String,completion:(result:Bool,error:String!)->())
+    func downloadProfileImageOnLaunch(_ uniqueid1:String,completion:@escaping (_ result:Bool,_ error:String?)->())
     {
         print("inside download group icon on launch")
         //581b26d7583658844e9003d7
-        let path = NSFileManager.defaultManager().URLsForDirectory(.ApplicationSupportDirectory, inDomains: .UserDomainMask)[0] as NSURL
+        let path = FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask)[0] as URL
         //print("path download is \(path)")
         //////// let newPath = path.URLByAppendingPathComponent(fileName1)
         /////// print("full path download file is \(newPath)")
@@ -265,17 +265,17 @@ class UtilityFunctions{
         //  Alamofire.download(.GET, "http://httpbin.org/stream/100", destination: destination)
         var downloadURL=Constants.MainUrl+Constants.downloadGroupIcon
         
-        let destination: (NSURL, NSHTTPURLResponse) -> (NSURL) = {
+        let destination: (URL, HTTPURLResponse) -> (URL) = {
             (temporaryURL, response) in
             print("response file name is \(response.suggestedFilename!)")
             print("tempURL is \(temporaryURL) and response is \(response.allHeaderFields)")
-            if let directoryURL = NSFileManager.defaultManager().URLsForDirectory(.DocumentDirectory, inDomains: .UserDomainMask)[0] as? NSURL {
+            if let directoryURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0] as? URL {
                 //// var localImageURL = directoryURL.URLByAppendingPathComponent("\(response.suggestedFilename!)")
                 //filenamePending
                 ///===  var localImageURL = directoryURL.URLByAppendingPathComponent(filePendingName)
                 
-                var filetype=self.getFileExtension(response.MIMEType!)
-                var localImageURL = directoryURL.URLByAppendingPathComponent(uniqueid1+"."+filetype)
+                var filetype=self.getFileExtension(response.mimeType!)
+                var localImageURL = directoryURL.appendingPathComponent(uniqueid1+"."+filetype)
                 
                 /*let checkValidation = NSFileManager.defaultManager()
                  
@@ -297,7 +297,7 @@ class UtilityFunctions{
             return temporaryURL
         }
         
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT,0))
+        DispatchQueue.global(priority: DispatchQueue.GlobalQueuePriority.default).async
         {
         // print("downloading call unique id \(fileuniqueid)")
         Alamofire.download(.POST, "\(downloadURL)", headers:header, parameters: ["unique_id":uniqueid1], destination: destination)
@@ -395,10 +395,10 @@ class UtilityFunctions{
     
     
     
-    func downloadProfileImage(uniqueid1:String)
+    func downloadProfileImage(_ uniqueid1:String)
     {
         //581b26d7583658844e9003d7
-        let path = NSFileManager.defaultManager().URLsForDirectory(.ApplicationSupportDirectory, inDomains: .UserDomainMask)[0] as NSURL
+        let path = FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask)[0] as URL
         //print("path download is \(path)")
         //////// let newPath = path.URLByAppendingPathComponent(fileName1)
         /////// print("full path download file is \(newPath)")
@@ -407,17 +407,17 @@ class UtilityFunctions{
         //  Alamofire.download(.GET, "http://httpbin.org/stream/100", destination: destination)
         var downloadURL=Constants.MainUrl+Constants.downloadGroupIcon
         
-        let destination: (NSURL, NSHTTPURLResponse) -> (NSURL) = {
+        let destination: (URL, HTTPURLResponse) -> (URL) = {
             (temporaryURL, response) in
             print("response file name is \(response.suggestedFilename!)")
 print("tempURL is \(temporaryURL) and response is \(response.allHeaderFields)")
-            if let directoryURL = NSFileManager.defaultManager().URLsForDirectory(.DocumentDirectory, inDomains: .UserDomainMask)[0] as? NSURL {
+            if let directoryURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0] as? URL {
                 //// var localImageURL = directoryURL.URLByAppendingPathComponent("\(response.suggestedFilename!)")
                 //filenamePending
               ///===  var localImageURL = directoryURL.URLByAppendingPathComponent(filePendingName)
                 
-                var filetype=self.getFileExtension(response.MIMEType!)
-                var localImageURL = directoryURL.URLByAppendingPathComponent(uniqueid1+"."+filetype)
+                var filetype=self.getFileExtension(response.mimeType!)
+                var localImageURL = directoryURL.appendingPathComponent(uniqueid1+"."+filetype)
                 
                 /*let checkValidation = NSFileManager.defaultManager()
                  
@@ -522,18 +522,18 @@ print("tempURL is \(temporaryURL) and response is \(response.allHeaderFields)")
         }
     }
     
-    func downloadGroupIconsService(uniqueidArray:[String],completion:(result:Bool,error:String!/*,groupiconinfo:[String:NSData]*/)->())
+    func downloadGroupIconsService(_ uniqueidArray:[String],completion:@escaping (_ result:Bool,_ error:String?/*,groupiconinfo:[String:NSData]*/)->())
     {
         
         print("group icons array to be downloaded \(uniqueidArray)")
         var storedError: NSError!
         //var iconinfolist=[String:NSData]()
-        var downloadGroup = dispatch_group_create()
+        var downloadGroup = DispatchGroup()
         
         for address in uniqueidArray
         {
             //let url = NSURL(string: address)
-            dispatch_group_enter(downloadGroup)
+            downloadGroup.enter()
             Alamofire.request(.POST,"\(Constants.MainUrl+Constants.urllog)",headers:header,parameters: ["data":"IPHONE_LOG: \(username!) downloading group icons \(uniqueidArray.description)"]).response{
                 request, response_, data, error in
                 print(error)
@@ -541,7 +541,7 @@ print("tempURL is \(temporaryURL) and response is \(response.allHeaderFields)")
             
             self.downloadProfileImageOnLaunch(address, completion: { (result, error) in
                 print("done downloading pendingGroupIcons \(address)")
-                 dispatch_group_leave(downloadGroup)
+                 downloadGroup.leave()
             })
             /*
             let photo = DownloadPhoto(url: url!) {
@@ -583,7 +583,7 @@ print("tempURL is \(temporaryURL) and response is \(response.allHeaderFields)")
 
         }
         
-        dispatch_group_notify(downloadGroup, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0)) { // 2
+        downloadGroup.notify(queue: DispatchQueue.global(priority: DispatchQueue.GlobalQueuePriority.high)) { // 2
            print("pendingGroupIcons done all downloads")
             Alamofire.request(.POST,"\(Constants.MainUrl+Constants.urllog)",headers:header,parameters: ["data":"IPHONE_LOG: pendingGroupIcons done all downloads \(username!)"]).response{
                 request, response_, data, error in
@@ -591,35 +591,35 @@ print("tempURL is \(temporaryURL) and response is \(response.allHeaderFields)")
             }
             
             //if let completion = completion {
-                               completion(result: true, error: nil/*, groupiconinfo: iconinfolist*/)
+                               completion(true, nil/*, groupiconinfo: iconinfolist*/)
            // }
         }
     }
     
-    func convertStringToDate(dateString:String,dateformat:String)->NSDate
+    func convertStringToDate(_ dateString:String,dateformat:String)->Date
     {
-        let dateFormatter = NSDateFormatter()
+        let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = dateformat
         
-        let datens2 = dateFormatter.dateFromString(dateString)
+        let datens2 = dateFormatter.date(from: dateString)
         return datens2!
         
     }
 
-    func findContactsOnBackgroundThread (completion:(contact:[CNContact]?)->())/*->([CNContact]))*/ {
+    func findContactsOnBackgroundThread (_ completion:@escaping (_ contact:[CNContact]?)->())/*->([CNContact]))*/ {
         print("inside findContactsOnBackgroundThread")
-        dispatch_async(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0), { () -> Void in
+        DispatchQueue.global(qos: DispatchQoS.QoSClass.userInitiated).async(execute: { () -> Void in
             
             //let keysToFetch = [CNContactFormatter.descriptorForRequiredKeysForStyle(.FullName),CNContactPhoneNumbersKey] //CNContactIdentifierKey
             
              let keysToFetch = [CNContactGivenNameKey, CNContactFamilyNameKey, CNContactEmailAddressesKey, CNContactPhoneNumbersKey, CNContactImageDataAvailableKey,CNContactThumbnailImageDataKey, CNContactImageDataKey]
-            let fetchRequest = CNContactFetchRequest( keysToFetch: keysToFetch)
+            let fetchRequest = CNContactFetchRequest( keysToFetch: keysToFetch as [CNKeyDescriptor])
             var contacts = [CNContact]()
-            CNContact.localizedStringForKey(CNLabelPhoneNumberiPhone)
+            CNContact.localizedString(forKey: CNLabelPhoneNumberiPhone)
             
             fetchRequest.mutableObjects = false
             fetchRequest.unifyResults = true
-            fetchRequest.sortOrder = .UserDefault
+            fetchRequest.sortOrder = .userDefault
             
             let contactStoreID = CNContactStore().defaultContainerIdentifier()
             print("\(contactStoreID)")
@@ -627,7 +627,7 @@ print("tempURL is \(temporaryURL) and response is \(response.allHeaderFields)")
             
             do {
                 
-                try CNContactStore().enumerateContactsWithFetchRequest(fetchRequest) { (contact, stop) -> Void in
+                try CNContactStore().enumerateContacts(with: fetchRequest) { (contact, stop) -> Void in
                     //do something with contact
                     if contact.phoneNumbers.count > 0 {
                         print("inside contactsarray class \(contact.phoneNumbers)")
@@ -639,24 +639,24 @@ print("tempURL is \(temporaryURL) and response is \(response.allHeaderFields)")
                 print(e.localizedDescription)
             }
             
-            dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                return completion(contact: contacts)
+            DispatchQueue.main.async(execute: { () -> Void in
+                return completion(contacts)
                 
             })
         })
     }
 
-    func findContact(identifiers:String)->[CNContact]
+    func findContact(_ identifiers:String)->[CNContact]
     {var contacts = [CNContact]()
         let store = CNContactStore()
         do{
-            contacts = try store.unifiedContactsMatchingPredicate(CNContact.predicateForContactsWithIdentifiers([identifiers]), keysToFetch:[CNContactNamePrefixKey,
-                CNContactGivenNameKey,
-                CNContactFamilyNameKey,
-                CNContactOrganizationNameKey,
-                CNContactBirthdayKey,
-                CNContactImageDataKey,
-                CNContactThumbnailImageDataKey,
+            contacts = try store.unifiedContacts(matching: CNContact.predicateForContacts(withIdentifiers: [identifiers]), keysToFetch:[CNContactNamePrefixKey as CNKeyDescriptor,
+                CNContactGivenNameKey as CNKeyDescriptor,
+                CNContactFamilyNameKey as CNKeyDescriptor,
+                CNContactOrganizationNameKey as CNKeyDescriptor,
+                CNContactBirthdayKey as CNKeyDescriptor,
+                CNContactImageDataKey as CNKeyDescriptor,
+                CNContactThumbnailImageDataKey as CNKeyDescriptor,
                 CNContactImageDataAvailableKey,
                 CNContactPhoneNumbersKey,
                 CNContactEmailAddressesKey,
@@ -672,7 +672,7 @@ print("tempURL is \(temporaryURL) and response is \(response.allHeaderFields)")
     }
  
     
-    func AddtoAddressBook(contact1:CNContact,isKibo:Bool,completion:(result:Bool)->())
+    func AddtoAddressBook(_ contact1:CNContact,isKibo:Bool,completion:(_ result:Bool)->())
     {
         print("AddtoAddressBook called")
         var kiboContact=Expression<Bool>("kiboContact")
@@ -691,7 +691,7 @@ print("tempURL is \(temporaryURL) and response is \(response.allHeaderFields)")
     do{
     
     var uniqueidentifier1=contact1.identifier
-    var image=NSData()
+    var image=Data()
         if(contact1.isKeyAvailable(CNContactGivenNameKey))
         {
     fullname=contact1.givenName
@@ -703,17 +703,17 @@ print("tempURL is \(temporaryURL) and response is \(response.allHeaderFields)")
         }
     if (contact1.isKeyAvailable(CNContactPhoneNumbersKey)) {
     for phoneNumber:CNLabeledValue in contact1.phoneNumbers {print("phones are there")
-    let a = phoneNumber.value as! CNPhoneNumber
+    let a = phoneNumber.value 
     //////////////emails.append(a.valueForKey("digits") as! String)
     var zeroIndex = -1
-    var phoneDigits=a.valueForKey("digits") as! String
-    var actualphonedigits=a.valueForKey("digits") as! String
+    var phoneDigits=a.value(forKey: "digits") as! String
+    var actualphonedigits=a.value(forKey: "digits") as! String
  
-    for(var i=0;i<phoneDigits.characters.count;i++)
+    for(i in 0 ..< phoneDigits.characters.count)
     {
     if(phoneDigits.characters.first=="0")
     {
-    phoneDigits.removeAtIndex(phoneDigits.startIndex)
+    phoneDigits.remove(at: phoneDigits.startIndex)
     //phoneDigits.characters.popFirst() as! String
     print(".. droping zero \(phoneDigits)")
     }
@@ -733,7 +733,7 @@ print("tempURL is \(temporaryURL) and response is \(response.allHeaderFields)")
     if(countrycode == nil)
     {
     let tbl_accounts = sqliteDB.accounts
-    do{for account in try sqliteDB.db.prepare(tbl_accounts) {
+    do{for account in try sqliteDB.db.prepare(tbl_accounts!) {
     countrycode=account[country_prefix]
     //displayname=account[firstname]
     
@@ -757,7 +757,7 @@ print("tempURL is \(temporaryURL) and response is \(response.allHeaderFields)")
     {
     print(em?.label)
     print(em?.value)
-    emailAddress=(em?.value)! as! String
+    emailAddress=(em?.value)! as String
     print("email adress value iss \(emailAddress)")
     /////emails.append(em!.value as! String)
     }
@@ -795,12 +795,12 @@ print("tempURL is \(temporaryURL) and response is \(response.allHeaderFields)")
            //==-- try sqliteDB.db.run(tbl_allcontacts.delete())
             // print("now count is \(sqliteDB.db.scalar(tbl_allcontacts.count))")
             
-            for(var j=0;j<contactsdata.count;j++)
+            for(j in 0 ..< contactsdata.count)
             {
                 do{
-                    try sqliteDB.db.run(tbl_allcontacts.insert(name<-contactsdata[j]["name"]!,phone<-contactsdata[j]["phone"]!,actualphone<-contactsdata[j]["actualphone"]!,email<-contactsdata[j]["email"]!,uniqueidentifier<-contactsdata[j]["uniqueidentifier"]!,kiboContact<-isKibo))
+                    try sqliteDB.db.run(tbl_allcontacts?.insert(name<-contactsdata[j]["name"]!,phone<-contactsdata[j]["phone"]!,actualphone<-contactsdata[j]["actualphone"]!,email<-contactsdata[j]["email"]!,uniqueidentifier<-contactsdata[j]["uniqueidentifier"]!,kiboContact<-isKibo))
                     
-                    return completion(result: true)
+                    return completion(true)
                 }
                 catch(let error)
                 {
@@ -811,28 +811,28 @@ print("tempURL is \(temporaryURL) and response is \(response.allHeaderFields)")
             
         
        
-         return completion(result: false)
+         return completion(false)
     
     }
     
-    func requestForAccess(completionHandler: (accessGranted: Bool) -> Void) {
+    func requestForAccess(_ completionHandler: @escaping (_ accessGranted: Bool) -> Void) {
          let contactStore = CNContactStore()
-        let authorizationStatus = CNContactStore.authorizationStatusForEntityType(CNEntityType.Contacts)
+        let authorizationStatus = CNContactStore.authorizationStatus(for: CNEntityType.contacts)
         
         switch authorizationStatus {
-        case .Authorized:
-            completionHandler(accessGranted: true)
+        case .authorized:
+            completionHandler(true)
             
-        case .Denied, .NotDetermined:
-            contactStore.requestAccessForEntityType(CNEntityType.Contacts, completionHandler: { (access, accessError) -> Void in
+        case .denied, .notDetermined:
+            contactStore.requestAccess(for: CNEntityType.contacts, completionHandler: { (access, accessError) -> Void in
                 if access {
-                    completionHandler(accessGranted: access)
+                    completionHandler(access)
                 }
                 else {
-                    if authorizationStatus == CNAuthorizationStatus.Denied {
-                        dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                    if authorizationStatus == CNAuthorizationStatus.denied {
+                        DispatchQueue.main.async(execute: { () -> Void in
                             let message = "\(accessError!.localizedDescription)\n\nPlease allow the app to access your contacts through the Settings."
-                            completionHandler(accessGranted: false)
+                            completionHandler(false)
                             //==--self.showMessage(message)
                         })
                     }
@@ -840,7 +840,7 @@ print("tempURL is \(temporaryURL) and response is \(response.allHeaderFields)")
             })
             
         default:
-            completionHandler(accessGranted: false)
+            completionHandler(false)
         }
     }
     

@@ -62,20 +62,20 @@ class CallHistoryTableViewController: UIViewController,UITableViewDelegate,UITab
         // self.navigationItem.rightBarButtonItem = self.editButtonItem()
     }
 
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
     self.retrieveCallHistoryData()
         
     }
     
     func retrieveCallHistoryData()
     {
-        var date22=NSDate()
-        var formatter = NSDateFormatter();
+        let date22=Date()
+        let formatter = DateFormatter();
         formatter.dateFormat = "MM/dd hh:mm a";
-        formatter.timeZone = NSTimeZone.localTimeZone()
+        formatter.timeZone = TimeZone.autoupdatingCurrent
         ////formatter.dateStyle = .ShortStyle
         //formatter.timeStyle = .ShortStyle
-        let defaultTimeZoneStr = formatter.stringFromDate(date22);
+        let defaultTimeZoneStr = formatter.string(from: date22);
         
         
         //self.addCallData("User 1", dateTime: defaultTimeZoneStr, type: "Outgoing")
@@ -86,10 +86,10 @@ class CallHistoryTableViewController: UIViewController,UITableViewDelegate,UITab
         let type = Expression<String>("type")
         
         
-        var tblcallHistory = sqliteDB.callHistory
+        let tblcallHistory = sqliteDB.callHistory
         
         do{
-            for call in try sqliteDB.db.prepare(tblcallHistory) {
+            for call in try sqliteDB.db.prepare(tblcallHistory!) {
                 self.addCallData(call[name], dateTime: call[dateTime], type: call[type])
                 //  print("id: \(user[username]), email: \(user[email])")
                 
@@ -103,9 +103,9 @@ class CallHistoryTableViewController: UIViewController,UITableViewDelegate,UITab
 
     }
     
-    func addCallData(name:String,dateTime:String,type:String)
+    func addCallData(_ name:String,dateTime:String,type:String)
     {
-        CallHist.addObject(["name":name,"dateTime":dateTime,"type":type])
+        CallHist.add(["name":name,"dateTime":dateTime,"type":type])
     }
     
     override func didReceiveMemoryWarning() {
@@ -115,39 +115,39 @@ class CallHistoryTableViewController: UIViewController,UITableViewDelegate,UITab
 
     // MARK: - Table view data source
 
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
         return CallHist.count
     }
-    func tableView(tableView: UITableView, sectionForSectionIndexTitle title: String, atIndex index: Int) -> Int {
+    func tableView(_ tableView: UITableView, sectionForSectionIndexTitle title: String, at index: Int) -> Int {
         
         return 1
     }
 
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        var CallHistDictionary = CallHist.objectAtIndex(indexPath.row) as! [String : String];
-        let cell = tblForCallsHistory.dequeueReusableCellWithIdentifier("CallHistoryCell")! as! CallHistCell
-        var name=CallHistDictionary["name"]! as String
-        var dateTime=CallHistDictionary["dateTime"]! as String
-        var callType=CallHistDictionary["type"]! as String
+        var CallHistDictionary = CallHist.object(at: indexPath.row) as! [String : String];
+        let cell = tblForCallsHistory.dequeueReusableCell(withIdentifier: "CallHistoryCell")! as! CallHistCell
+        let name=CallHistDictionary["name"]! as String
+        let dateTime=CallHistDictionary["dateTime"]! as String
+        let callType=CallHistDictionary["type"]! as String
         
         
-        cell.imgCallOut.hidden=true
+        cell.imgCallOut.isHidden=true
         cell.lblName.text=name
         cell.lblDateTime.text=dateTime
         if(callType == "Outgoing")
         {
-            cell.lblName.textColor=UIColor.blackColor()
-            cell.imgCallOut.hidden=false
+            cell.lblName.textColor=UIColor.black
+            cell.imgCallOut.isHidden=false
         }
         if(callType == "Missed")
         {
-            cell.lblName.textColor=UIColor.redColor()
+            cell.lblName.textColor=UIColor.red
         }
         if(callType == "Incoming")
         {
-            cell.lblName.textColor=UIColor.blackColor()
+            cell.lblName.textColor=UIColor.black
                     }
         // Configure the cell...
         

@@ -69,19 +69,19 @@ class ConferenceCallViewController: UIViewController,ConferenceDelegate,Conferen
         
         //isInitiator=true
         //self.localView=RTCEAGLVideoView()
-        var w=localViewOutlet.bounds.width-(localViewOutlet.bounds.width*0.23)
-        var h=localViewOutlet.bounds.height-(localViewOutlet.bounds.height*0.27)
+        let w=localViewOutlet.bounds.width-(localViewOutlet.bounds.width*0.23)
+        let h=localViewOutlet.bounds.height-(localViewOutlet.bounds.height*0.27)
         
-        dispatch_async(dispatch_get_main_queue(), {
+        DispatchQueue.main.async(execute: {
         self.localView=RTCEAGLVideoView(frame: CGRect(x: w, y: h, width: 90, height: 85))
-        self.localView.drawRect(CGRect(x: w, y: h, width: 90, height: 85))
+        self.localView.draw(CGRect(x: w, y: h, width: 90, height: 85))
         
         //self.localView=RTCEAGLVideoView(frame: CGRect(x: 0, y: 50, width: 90, height: 85))
         //self.localView.drawRect(CGRect(x: 0, y: 50, width: 90, height: 85))
         
         ///self.remoteView=RTCEAGLVideoView()
         self.remoteView=RTCEAGLVideoView(frame: CGRect(x: 0, y: 50, width: 400, height: 370))
-        self.remoteView.drawRect(CGRect(x: 0, y: 50, width: 400, height: 370))
+        self.remoteView.draw(CGRect(x: 0, y: 50, width: 400, height: 370))
         //w 500 h 450
         print("size is... \(self.localViewOutlet.bounds.width)")
         print("size is.self... \(self.localViewOutlet.bounds.height)")
@@ -90,12 +90,12 @@ class ConferenceCallViewController: UIViewController,ConferenceDelegate,Conferen
         // Do any additional setup after loading the view.
     }
     
-    @IBAction func endCallBtnPressed(sender: AnyObject) {
+    @IBAction func endCallBtnPressed(_ sender: AnyObject) {
         self.disconnectAll()
         
     }
     
-    @IBAction func toggleVideoBtnPressed(sender: AnyObject) {
+    @IBAction func toggleVideoBtnPressed(_ sender: AnyObject) {
         actionVideo = !actionVideo
         if(mvideo == nil)
         {print("my video was nil)")
@@ -140,16 +140,16 @@ class ConferenceCallViewController: UIViewController,ConferenceDelegate,Conferen
         
     }
     
-    @IBAction func toggleAudioBtnPressed(sender: AnyObject) {
+    @IBAction func toggleAudioBtnPressed(_ sender: AnyObject) {
     }
     
-    @IBAction func backbtnPressed(sender: AnyObject) {
+    @IBAction func backbtnPressed(_ sender: AnyObject) {
         print("backkkkkkkkkkkkkk pressed")
         ///self.dismissViewControllerAnimated(true, completion: nil)
     }
     
     
-    @IBAction func btnCapturePressed(sender: AnyObject) {
+    @IBAction func btnCapturePressed(_ sender: AnyObject) {
         
         screenCaptureToggle = !screenCaptureToggle
         //////// mdata.toggleScreen(screenAction, tempstream: <#T##RTCMediaStream!#>)
@@ -167,7 +167,7 @@ class ConferenceCallViewController: UIViewController,ConferenceDelegate,Conferen
         }
         
            ////////////tryy march 31 2016  socketObj.socket.emit("conference.streamScreen", ["username":username!,"id":currentID!,"type":"screenAndroid","action":"true"])
-            atimer=NSTimer(timeInterval: 0.1, target: self, selector: "timerFiredScreenCapture", userInfo: nil, repeats: true)
+            atimer=Timer(timeInterval: 0.1, target: self, selector: "timerFiredScreenCapture", userInfo: nil, repeats: true)
             
         }
         else
@@ -175,14 +175,14 @@ class ConferenceCallViewController: UIViewController,ConferenceDelegate,Conferen
             btncapture.title! = "Capture"
             
             socketObj.socket.emit("conference.streamScreen", ["username":username!,"id":currentID!,"type":"screenAndroid","action":"false"])
-            atimer=NSTimer(timeInterval: 0.1, target: self, selector: "timerFiredScreenCapture", userInfo: nil, repeats: true)
+            atimer=Timer(timeInterval: 0.1, target: self, selector: "timerFiredScreenCapture", userInfo: nil, repeats: true)
         
             
             mdata.pc = nil
         }
         
         
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0)) { () -> Void in
+        DispatchQueue.global(priority: DispatchQueue.GlobalQueuePriority.background).async { () -> Void in
             
             while(self.screenCaptureToggle)
             //for(var i=0;i<30000;i++)
@@ -210,7 +210,7 @@ class ConferenceCallViewController: UIViewController,ConferenceDelegate,Conferen
         //{
            ////for window in UIApplication.sharedApplication().windows{
            var screenshot:UIImage!
-            dispatch_async(dispatch_get_main_queue(), { () -> Void in
+            DispatchQueue.main.async(execute: { () -> Void in
                 /*
                 UIGraphicsBeginImageContext(UIScreen.mainScreen().bounds.size)
                 self.view.drawViewHierarchyInRect(UIScreen.mainScreen().bounds, afterScreenUpdates: true)
@@ -227,15 +227,15 @@ class ConferenceCallViewController: UIViewController,ConferenceDelegate,Conferen
                 var test="\(imageData.length)"
                 */
                 //////////working 
-                var myscreen=UIScreen.mainScreen().snapshotViewAfterScreenUpdates(true)
+                var myscreen=UIScreen.main.snapshotView(afterScreenUpdates: true)
                 //var myscreen=UIApplication.sharedApplication().keyWindow?.snapshotViewAfterScreenUpdates(true)
                 //UIGraphicsBeginImageContext(myscreen!.bounds.size)
         
                 ///workingg
-                UIGraphicsBeginImageContext(UIScreen.mainScreen().bounds.size)
+                UIGraphicsBeginImageContext(UIScreen.main.bounds.size)
                 ////////UIGraphicsBeginImageContext( UIScreen.mainScreen().bounds.size)
                 ///self.view.drawViewHierarchyInRect(window.layer.bounds, afterScreenUpdates: true)
-                 self.view.drawViewHierarchyInRect(myscreen.bounds, afterScreenUpdates: true)
+                 self.view.drawHierarchy(in: myscreen.bounds, afterScreenUpdates: true)
                 //print("width is \(UIScreen.mainScreen().bounds.width), height is \(UIScreen.mainScreen().bounds.height)")
                 print("width is \(myscreen.layer.bounds.width), height is \(myscreen.layer.bounds.height)")
                 //var context:CGContextRef=UIGraphicsGetCurrentContext()!;
@@ -245,28 +245,28 @@ class ConferenceCallViewController: UIViewController,ConferenceDelegate,Conferen
                 UIGraphicsEndImageContext()
                 
         
-                var imageData:NSData = UIImageJPEGRepresentation(screenshot, 1.0)!
+                var imageData:Data = UIImageJPEGRepresentation(screenshot, 1.0)!
                 var numchunks=0
-                var len=imageData.length
+                var len=imageData.count
                 print("length is\(len)")
                 numchunks=len/chunkLength
                 print("numchunks are \(numchunks)")
         
-        var test="\(imageData.length)"
+        var test="\(imageData.count)"
       
         self.mdata.sendDataBuffer(test, isb: false)
         
-        for(var j=0;j<numchunks;j++)
+        for j in 0 .. numchunks
         {
             var start=j*chunkLength
             var end=(j+1)*chunkLength
-            self.mdata.sendImage(imageData.subdataWithRange(NSMakeRange(start,len-start)))
+            self.mdata.sendImage(imageData.subdata(with: NSMakeRange(start,len-start)))
             
         }
         if((len%chunkLength) > 0)
         {
             //imageData.getBytes(&imageData, length: numchunks*chunkLength)
-            self.mdata.sendImage(imageData.subdataWithRange(NSMakeRange(numchunks*chunkLength, len%chunkLength)))
+            self.mdata.sendImage(imageData.subdata(with: NSMakeRange(numchunks*chunkLength, len%chunkLength)))
             
         }
         })
@@ -372,7 +372,7 @@ dataChannel.send(img.data.subarray(n * CHUNK_LEN));
         
         var localStream:RTCMediaStream!
         
-        localStream=rtcFact.mediaStreamWithLabel("ARDAMS")
+        localStream=rtcFact.mediaStream(withLabel: "ARDAMS")
         
         self.rtcLocalVideoTrack = createLocalVideoTrack()
         if let lvt=self.rtcLocalVideoTrack
@@ -383,7 +383,7 @@ dataChannel.send(img.data.subarray(n * CHUNK_LEN));
             print("video stream \(addedVideo)")
             ////////////////////////////////pc.addStream(self.rtcLocalstream)
             ////++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-            dispatch_async(dispatch_get_main_queue(), {
+            DispatchQueue.main.async(execute: {
                 //////self.didReceiveLocalVideoTrack(localVideoTrack)
                 
                 
@@ -403,13 +403,13 @@ dataChannel.send(img.data.subarray(n * CHUNK_LEN));
     func createLocalVideoTrack()->RTCVideoTrack{
         //var localVideoTrack:RTCVideoTrack
         var cameraID:NSString!
-        for aaa in AVCaptureDevice.devicesWithMediaType(AVMediaTypeVideo)
+        for aaa in AVCaptureDevice.devices(withMediaType: AVMediaTypeVideo)
         {
             //self.rtcCaptureSession=aaa.captureSession
-            if aaa.position==AVCaptureDevicePosition.Front
+            if (aaa as AnyObject).position==AVCaptureDevicePosition.front
             {
-                print(aaa.localizedName!)
-                cameraID=aaa.localizedName!!
+                print((aaa as AnyObject).localizedName!)
+                cameraID=(aaa as AnyObject).localizedName! as NSString!
                 print("got front cameraaa as id \(cameraID)")
                 break
             }
@@ -422,13 +422,13 @@ dataChannel.send(img.data.subarray(n * CHUNK_LEN));
         //AVCaptureDevice
         let capturer=RTCVideoCapturer(deviceName: cameraID! as String)
         
-        print(capturer.description)
+        print(capturer?.description)
         
         var VideoSource:RTCVideoSource
         
-        VideoSource=rtcFact.videoSourceWithCapturer(capturer, constraints: nil)
+        VideoSource=rtcFact.videoSource(with: capturer, constraints: nil)
         /////////////self.rtcLocalVideoTrack=nil
-        self.rtcLocalVideoTrack=rtcFact.videoTrackWithID("ARDAMSv0", source: VideoSource)
+        self.rtcLocalVideoTrack=rtcFact.videoTrack(withID: "ARDAMSv0", source: VideoSource)
         print("sending localVideoTrack")
         return self.rtcLocalVideoTrack
         
@@ -440,7 +440,7 @@ dataChannel.send(img.data.subarray(n * CHUNK_LEN));
         // Dispose of any resources that can be recreated.
     }
     
-    func didReceiveLocalVideoTrack(localVideoTrack: RTCVideoTrack) {
+    func didReceiveLocalVideoTrack(_ localVideoTrack: RTCVideoTrack) {
         
         
         
@@ -459,7 +459,7 @@ dataChannel.send(img.data.subarray(n * CHUNK_LEN));
         }
 */
         self.rtcLocalVideoTrack=localVideoTrack
-        self.rtcLocalVideoTrack.addRenderer(self.localView)
+        self.rtcLocalVideoTrack.add(self.localView)
         self.localViewOutlet.addSubview(self.localView)
         
         
@@ -486,18 +486,18 @@ dataChannel.send(img.data.subarray(n * CHUNK_LEN));
         //// mvideo.addLocalMediaStreamToPeerConnection(rtcLocalVideoStream)
         
     }
-    func didReceiveRemoteVideoTrack(remoteVideoTrack:RTCVideoTrack)
+    func didReceiveRemoteVideoTrack(_ remoteVideoTrack:RTCVideoTrack)
     {
         print("didreceiveremotevideotrack11")
         
-        dispatch_async(dispatch_get_main_queue(), {
+        DispatchQueue.main.async(execute: {
         
         
         //////CODE TO RENDER REMOTE VIDEO
         
         
         self.rtcVideoTrackReceived=remoteVideoTrack
-        self.rtcVideoTrackReceived.addRenderer(self.remoteView)
+        self.rtcVideoTrackReceived.add(self.remoteView)
         self.localViewOutlet.addSubview(self.remoteView)
         self.localViewOutlet.updateConstraintsIfNeeded()
         
@@ -524,7 +524,7 @@ dataChannel.send(img.data.subarray(n * CHUNK_LEN));
     }
     */
     
-    func didReceiveRemoteScreen(remoteVideoTrack:RTCVideoTrack){
+    func didReceiveRemoteScreen(_ remoteVideoTrack:RTCVideoTrack){
         print("didreceiveremotescreentrack11")
         
         ////dispatch_async(dispatch_get_main_queue(), {
@@ -537,7 +537,7 @@ dataChannel.send(img.data.subarray(n * CHUNK_LEN));
         /////////self.remoteView=RTCEAGLVideoView(frame: CGRect(x: 0, y: 0, width: 500, height: 500))
         //////////self.remoteView.drawRect(CGRect(x: 0, y: 0, width: 500, height: 500))
         
-        self.rtcVideoTrackReceived.addRenderer(self.remoteView)
+        self.rtcVideoTrackReceived.add(self.remoteView)
         //////////////remoteVideoTrack.addRenderer(self.remoteView)
         ///////self.remoteView.hidden=true // ^^^^newww
         self.localViewOutlet.addSubview(self.remoteView)
@@ -549,9 +549,9 @@ dataChannel.send(img.data.subarray(n * CHUNK_LEN));
         self.localViewOutlet.setNeedsDisplay()
     }
     //func didReceiveLocalVideoTrack(localVideoTrack:RTCVideoTrack);
-    func didReceiveLocalScreen(localVideoTrack:RTCVideoTrack){
+    func didReceiveLocalScreen(_ localVideoTrack:RTCVideoTrack){
         self.rtcLocalVideoTrack=localVideoTrack
-        self.rtcLocalVideoTrack.addRenderer(self.localView)
+        self.rtcLocalVideoTrack.add(self.localView)
         self.localViewOutlet.addSubview(self.localView)
         self.localViewOutlet.updateConstraintsIfNeeded()
         self.localView.setNeedsDisplay()
@@ -563,7 +563,7 @@ dataChannel.send(img.data.subarray(n * CHUNK_LEN));
         if((self.rtcVideoTrackReceived) != nil)
         {print("remove remote screen renderer")
             
-            self.rtcVideoTrackReceived.removeRenderer(self.remoteView)
+            self.rtcVideoTrackReceived.remove(self.remoteView)
             self.rtcVideoTrackReceived=nil
             self.remoteView.removeFromSuperview()
         }
@@ -576,10 +576,10 @@ dataChannel.send(img.data.subarray(n * CHUNK_LEN));
         
         if((self.rtcVideoTrackReceived) != nil)
         {
-             dispatch_async(dispatch_get_main_queue(), { () -> Void in
+             DispatchQueue.main.async(execute: { () -> Void in
             print("remove remote video renderer")
             
-            self.rtcVideoTrackReceived.removeRenderer(self.remoteView)
+            self.rtcVideoTrackReceived.remove(self.remoteView)
             self.rtcVideoTrackReceived=nil
             //self.remoteView.hidden=true
             self.remoteView.removeFromSuperview()
@@ -593,7 +593,7 @@ dataChannel.send(img.data.subarray(n * CHUNK_LEN));
         print("remove local video renderer")
        //// dispatch_async(dispatch_get_main_queue(), { () -> Void in
         self.localView.renderFrame(nil)
-            self.rtcLocalVideoTrack.removeRenderer(self.localView)
+            self.rtcLocalVideoTrack.remove(self.localView)
             
             self.rtcLocalVideoStream.removeVideoTrack(self.rtcLocalVideoTrack)
             self.rtcLocalVideoStream = nil
@@ -613,10 +613,10 @@ dataChannel.send(img.data.subarray(n * CHUNK_LEN));
     
     func didReceiveFile() {
         print("file receivedddddddddddddd;;;;;;;;")
-        btnFileView.enabled=true
-        let alert = UIAlertController(title: "Success", message: "You have received a new file", preferredStyle: UIAlertControllerStyle.Alert)
-        alert.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.Default, handler: nil))
-        self.presentViewController(alert, animated: true, completion: nil)
+        btnFileView.isEnabled=true
+        let alert = UIAlertController(title: "Success", message: "You have received a new file", preferredStyle: UIAlertControllerStyle.alert)
+        alert.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.default, handler: nil))
+        self.present(alert, animated: true, completion: nil)
         //btnFileView.tintColor=UIColor.blackColor()
     }
     
@@ -630,11 +630,11 @@ dataChannel.send(img.data.subarray(n * CHUNK_LEN));
         
         if(self.rtcLocalVideoTrack != nil)
         {
-            self.rtcLocalVideoTrack.removeRenderer(self.localView)
+            self.rtcLocalVideoTrack.remove(self.localView)
         }
         if(self.rtcVideoTrackReceived != nil)
         {
-            self.rtcVideoTrackReceived.removeRenderer(self.remoteView)
+            self.rtcVideoTrackReceived.remove(self.remoteView)
         }
         //mvideo.rtcLocalstream=nil
         //mvideo.rtcLocalVideoTrack=nil
@@ -684,7 +684,7 @@ dataChannel.send(img.data.subarray(n * CHUNK_LEN));
         
     }
     
-    @IBAction func btnFileSharePressed(sender: AnyObject) {
+    @IBAction func btnFileSharePressed(_ sender: AnyObject) {
         
         //var documentDir:String!
         print(NSOpenStepRootDirectory())
@@ -692,10 +692,10 @@ dataChannel.send(img.data.subarray(n * CHUNK_LEN));
         
         let importMenu = UIDocumentMenuViewController(documentTypes: [kUTTypePackage as String, kUTTypeText as NSString as String, kUTTypePDF as String,kUTTypeJPEG as String, kUTTypeMP3 as String, kUTTypeContent as String, kUTTypeData as String, kUTTypeDiskImage as String,"com.apple.iwork.keynote.key","com.apple.iwork.numbers.numbers","com.apple.iwork.pages.pages",
             "public.text","com.microsoft.word.doc","com.microsoft.excel.xls", "com.microsoft.powerpoint.ppt", "com.adobe.pdf"],
-            inMode: .Import)
+            in: .import)
         ///////let importMenu = UIDocumentMenuViewController(documentTypes: UTIs, inMode: .Import)
         importMenu.delegate = self
-        self.presentViewController(importMenu, animated: true, completion: nil)
+        self.present(importMenu, animated: true, completion: nil)
         //////////mdata.sharefile()
         
         /*let documentPicker = UIDocumentPickerViewController(documentTypes: [kUTTypeText as NSString as String],
@@ -704,20 +704,20 @@ dataChannel.send(img.data.subarray(n * CHUNK_LEN));
         presentViewController(documentPicker, animated: true, completion: nil)*/
     }
     
-    func documentPicker(controller: UIDocumentPickerViewController, didPickDocumentAtURL url: NSURL) {
+    func documentPicker(_ controller: UIDocumentPickerViewController, didPickDocumentAt url: URL) {
         
         print("picker url is \(url)")
         
         url.startAccessingSecurityScopedResource()
         let coordinator = NSFileCoordinator()
         var error:NSError? = nil
-        coordinator.coordinateReadingItemAtURL(url, options: [], error: &error) { (url) -> Void in
+        coordinator.coordinate(readingItemAt: url, options: [], error: &error) { (url) -> Void in
             // do something with it
-            let fileData = NSData(contentsOfURL: url)
+            let fileData = try? Data(contentsOf: url)
             print(fileData?.description)
             print("file gotttttt")
             ///////////self.mdata.sharefile(url.URLString)
-            var furl=NSURL(string: url.URLString)
+            var furl=URL(string: url.URLString)
             //ADDEDDDDD
             //////furl=fileurl
             /////////////////newwwwwvar furl=NSURL(fileURLWithPath: filePathImage)
@@ -730,19 +730,19 @@ dataChannel.send(img.data.subarray(n * CHUNK_LEN));
             var ftype=furl!.pathExtension!
             var fname=furl!.URLByDeletingPathExtension?.lastPathComponent!
             //var attributesError=nil
-            var fileAttributes:[String:AnyObject]=["":""]
+            var fileAttributes:[String:AnyObject]=["":"" as AnyObject]
             do{
-                fileAttributes = try NSFileManager.defaultManager().attributesOfItemAtPath(furl!.path!)
+                fileAttributes = try FileManager.defaultManager().attributesOfItemAtPath(furl!.path!)
                 
             }catch
             {print("error")
                 print(fileAttributes)
             }
             
-            let fileSizeNumber = fileAttributes[NSFileSize]! as! NSNumber
-            print(fileAttributes[NSFileType] as! String)
+            let fileSizeNumber = fileAttributes[FileAttributeKey.size]! as! NSNumber
+            print(fileAttributes[FileAttributeKey.type] as! String)
             
-            self.mdata.fileSize=fileSizeNumber.integerValue
+            self.mdata.fileSize=fileSizeNumber.intValue
             
             //FILE METADATA size
             print(self.mdata.fileSize)
@@ -751,18 +751,18 @@ dataChannel.send(img.data.subarray(n * CHUNK_LEN));
             ////////print(text2)
             /////////print(JSON(text2!))
             ///mdata.fileContents=fm.contentsAtPath(filePathImage)!
-            self.mdata.fileContents=NSData(contentsOfURL: url)
+            self.mdata.fileContents=try? Data(contentsOf: url)
             self.mdata.filePathImage=url.URLString
-            var filecontentsJSON=JSON(NSData(contentsOfURL: url)!)
+            var filecontentsJSON=JSON(try! Data(contentsOf: url))
             print(filecontentsJSON)
             var mjson="{\"file_meta\":{\"name\":\"\(fname!)\",\"size\":\"\(self.mdata.fileSize.description)\",\"filetype\":\"\(ftype)\",\"browser\":\"firefox\",\"uname\":\"\(username!)\",\"fid\":\(self.mdata.myfid),\"senderid\":\(currentID!)}}"
             var fmetadata="{\"eventName\":\"data_msg\",\"data\":\(mjson)}"
             self.mdata.sendDataBuffer(fmetadata,isb: false)
             socketObj.socket.emit("conference.chat", ["message":"You have received a file. Download and Save it.","username":username!])
             
-            let alert = UIAlertController(title: "Success", message: "Your file has been successfully sent", preferredStyle: UIAlertControllerStyle.Alert)
-            alert.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.Default, handler: nil))
-            self.presentViewController(alert, animated: true, completion: nil)
+            let alert = UIAlertController(title: "Success", message: "Your file has been successfully sent", preferredStyle: UIAlertControllerStyle.alert)
+            alert.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.default, handler: nil))
+            self.present(alert, animated: true, completion: nil)
             
         }
 
@@ -773,14 +773,14 @@ dataChannel.send(img.data.subarray(n * CHUNK_LEN));
     
     
     
-    func documentMenu(documentMenu: UIDocumentMenuViewController, didPickDocumentPicker documentPicker: UIDocumentPickerViewController) {
+    func documentMenu(_ documentMenu: UIDocumentMenuViewController, didPickDocumentPicker documentPicker: UIDocumentPickerViewController) {
         
         documentPicker.delegate = self
-        presentViewController(documentPicker, animated: true, completion: nil)
+        present(documentPicker, animated: true, completion: nil)
         
         
     }
-    func documentMenuWasCancelled(documentMenu: UIDocumentMenuViewController) {
+    func documentMenuWasCancelled(_ documentMenu: UIDocumentMenuViewController) {
         
         
     }
@@ -789,7 +789,7 @@ dataChannel.send(img.data.subarray(n * CHUNK_LEN));
     {print("resetttttt")
         if(mvideo.streambackup != nil)
         {
-            dispatch_async(dispatch_get_main_queue(), { () -> Void in
+            DispatchQueue.main.async(execute: { () -> Void in
                 
             
                 self.mvideo.streambackup=nil

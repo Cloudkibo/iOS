@@ -12,7 +12,7 @@ import Contacts
 let sharedInstance = contactsSingletonClass()
 internal class contactsSingletonClass{
     
-    private init(){}
+    fileprivate init(){}
     var contactsArray:[CNContact]?
    
     
@@ -40,18 +40,18 @@ internal class contactsSingletonClass{
     }*/
 
     
-    func findContactsOnBackgroundThread (completion:(contact:[CNContact]?)->())/*->([CNContact]))*/ {
+    func findContactsOnBackgroundThread (_ completion:@escaping (_ contact:[CNContact]?)->())/*->([CNContact]))*/ {
         print("inside findContactsOnBackgroundThread")
-        dispatch_async(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0), { () -> Void in
+        DispatchQueue.global(qos: DispatchQoS.QoSClass.userInitiated).async(execute: { () -> Void in
             
-            let keysToFetch = [CNContactFormatter.descriptorForRequiredKeysForStyle(.FullName),CNContactPhoneNumbersKey] //CNContactIdentifierKey
-            let fetchRequest = CNContactFetchRequest( keysToFetch: keysToFetch)
+            let keysToFetch = [CNContactFormatter.descriptorForRequiredKeys(for: .fullName),CNContactPhoneNumbersKey] as [Any] //CNContactIdentifierKey
+            let fetchRequest = CNContactFetchRequest( keysToFetch: keysToFetch as! [CNKeyDescriptor])
             var contacts = [CNContact]()
-            CNContact.localizedStringForKey(CNLabelPhoneNumberiPhone)
+            CNContact.localizedString(forKey: CNLabelPhoneNumberiPhone)
             
             fetchRequest.mutableObjects = false
             fetchRequest.unifyResults = true
-            fetchRequest.sortOrder = .UserDefault
+            fetchRequest.sortOrder = .userDefault
             
             let contactStoreID = CNContactStore().defaultContainerIdentifier()
             print("\(contactStoreID)")
@@ -59,7 +59,7 @@ internal class contactsSingletonClass{
             
             do {
                 
-                try CNContactStore().enumerateContactsWithFetchRequest(fetchRequest) { (contact, stop) -> Void in
+                try CNContactStore().enumerateContacts(with: fetchRequest) { (contact, stop) -> Void in
                     //do something with contact
                     if contact.phoneNumbers.count > 0 {
                         print("inside contactsarray class \(contact.givenName)")
@@ -71,8 +71,8 @@ internal class contactsSingletonClass{
                 print(e.localizedDescription)
             }
             
-            dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                 return completion(contact: contacts)
+            DispatchQueue.main.async(execute: { () -> Void in
+                 return completion(contacts)
                 
             })
         })

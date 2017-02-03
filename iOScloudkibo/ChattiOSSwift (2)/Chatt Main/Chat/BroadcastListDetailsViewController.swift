@@ -19,7 +19,7 @@ class BroadcastListDetailsViewController: UIViewController,UINavigationControlle
     var broadcastmembers=[String]()
     var broadcastlistID=""
     var membersnames=[String]()
-    var memberavatars=[NSData]()
+    var memberavatars=[Data]()
     @IBOutlet weak var tblForBroadcastList: UITableView!
     
     required init?(coder aDecoder: NSCoder){
@@ -43,12 +43,12 @@ class BroadcastListDetailsViewController: UIViewController,UINavigationControlle
     }
     let uniqueidentifier = Expression<String>("uniqueidentifier")
 
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         
         broadcastlistinfo=sqliteDB.getSinglebroadcastlist(self.broadcastlistID)
        broadcastmembers=sqliteDB.getBroadcastListMembers(broadcastlistID)
         membersnames.removeAll()
-        for(var i=0;i<broadcastmembers.count;i++)
+        for(i in 0 ..< broadcastmembers.count)
         {
             membersnames.append(sqliteDB.getNameFromAddressbook(broadcastmembers[i]))
             
@@ -67,7 +67,7 @@ class BroadcastListDetailsViewController: UIViewController,UINavigationControlle
                 
                 var keys = [CNContactGivenNameKey, CNContactFamilyNameKey, CNContactEmailAddressesKey, CNContactPhoneNumbersKey, CNContactImageDataAvailableKey,CNContactThumbnailImageDataKey, CNContactImageDataKey]
                 //--- var foundcontact=try contactStore.unifiedContactWithIdentifier(picquery[uniqueidentifier], keysToFetch: keys)
-                do{var foundcontact=try contactStore.unifiedContactWithIdentifier(joinrows[0].get(uniqueidentifier), keysToFetch: keys)
+                do{var foundcontact=try contactStore.unifiedContactWithIdentifier(joinrows[0].get(uniqueidentifier), keysToFetch: keys as [CNKeyDescriptor])
                 
                 if(foundcontact.imageDataAvailable==true)
                 {
@@ -77,7 +77,7 @@ class BroadcastListDetailsViewController: UIViewController,UINavigationControlle
                     //picfound=true
                 }
                 else{
-                    memberavatars.append(NSData.init())
+                    memberavatars.append(Data.init())
                 }
                 
                 
@@ -91,7 +91,7 @@ class BroadcastListDetailsViewController: UIViewController,UINavigationControlle
             else{
                 
                 
-                self.memberavatars.append(NSData.init())
+                self.memberavatars.append(Data.init())
             }
             
         }
@@ -103,7 +103,7 @@ class BroadcastListDetailsViewController: UIViewController,UINavigationControlle
         // Dispose of any resources that can be recreated.
     }
     
-    func leftJoinContactsTables(phone1:String)->Array<Row>
+    func leftJoinContactsTables(_ phone1:String)->Array<Row>
     {
         print("inside broadcast messages leftjoin \(phone1)")
         var resultrow=Array<Row>()
@@ -131,7 +131,7 @@ class BroadcastListDetailsViewController: UIViewController,UINavigationControlle
         
         var contactslists = sqliteDB.contactslists
         //=================================================
-        var joinquery=allcontacts.join(.LeftOuter, contactslists, on: contactslists[phone] == allcontacts[phone]).filter(allcontacts[phone]==phone1)
+        var joinquery=allcontacts.join(.LeftOuter, contactslists!, on: (contactslists?[phone])! == (allcontacts?[phone])!).filter(allcontacts[phone]==phone1)
         
         do{for joinresult in try sqliteDB.db.prepare(joinquery) {
             
@@ -145,7 +145,7 @@ class BroadcastListDetailsViewController: UIViewController,UINavigationControlle
         
     }
 
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if(section==0)
         {
             return 1
@@ -157,12 +157,12 @@ class BroadcastListDetailsViewController: UIViewController,UINavigationControlle
     
     
     
-    func numberOfSectionsInTableView(tableView: UITableView!) -> Int {
+    func numberOfSectionsInTableView(_ tableView: UITableView!) -> Int {
         return 2
     }
     
     
-    func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         if(section==0)
         {
             return " "
@@ -176,18 +176,18 @@ class BroadcastListDetailsViewController: UIViewController,UINavigationControlle
     }
 
     
-    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+    func tableView(_ tableView: UITableView, heightForRowAtIndexPath indexPath: IndexPath) -> CGFloat {
         
         return 68    }
     
     
     
-    func textFieldShouldReturn (textField: UITextField!) -> Bool{
+    func textFieldShouldReturn (_ textField: UITextField!) -> Bool{
         
         textField.resignFirstResponder()
         print("textfield text is \(textField.text!)")
         sqliteDB.updateBroadcastlistName(self.broadcastlistID, listname1: textField.text!)
-        var cell = tblForBroadcastList.dequeueReusableCellWithIdentifier("ListNameCell")
+        var cell = tblForBroadcastList.dequeueReusableCell(withIdentifier: "ListNameCell")
         
         if(cell != nil)
         {
@@ -198,7 +198,7 @@ class BroadcastListDetailsViewController: UIViewController,UINavigationControlle
         }
         return true
     }
-    func tableView(tableView: UITableView!, cellForRowAtIndexPath indexPath: NSIndexPath!) -> UITableViewCell! {
+    func tableView(_ tableView: UITableView!, cellForRowAtIndexPath indexPath: IndexPath!) -> UITableViewCell! {
         
         print("count for broadcast members is \(broadcastmembers.count+1)")
         //if (indexPath.row%2 == 0){
@@ -210,11 +210,11 @@ class BroadcastListDetailsViewController: UIViewController,UINavigationControlle
         let uniqueid = Expression<String>("uniqueid")
         let listname = Expression<String>("listname")
         
-        var cell = tblForBroadcastList.dequeueReusableCellWithIdentifier("ListNameCell")! as! UITableViewCell
+        var cell = tblForBroadcastList.dequeueReusableCell(withIdentifier: "ListNameCell")! 
         
         if(indexPath.section==0)
         {
-            cell = tblForBroadcastList.dequeueReusableCellWithIdentifier("ListNameCell")! as! UITableViewCell
+            cell = tblForBroadcastList.dequeueReusableCell(withIdentifier: "ListNameCell")! 
             var txtfld=cell.viewWithTag(1) as! UITextField
             txtfld.text=self.broadcastlistinfo["listname"] as! String
             txtfld.delegate=self
@@ -225,7 +225,7 @@ class BroadcastListDetailsViewController: UIViewController,UINavigationControlle
             //if(indexPath.row>0){
                 if(indexPath.row<membersnames.count)
                 {
-                    cell = tblForBroadcastList.dequeueReusableCellWithIdentifier("NameCell")! as! UITableViewCell
+                    cell = tblForBroadcastList.dequeueReusableCell(withIdentifier: "NameCell")! 
                     
                     var namelabel=cell.viewWithTag(1) as! UILabel
                      var imageavatar=cell.viewWithTag(2) as! UIImageView
@@ -233,7 +233,7 @@ class BroadcastListDetailsViewController: UIViewController,UINavigationControlle
                   
                     //var resizedimage=scaledimage.resizeImage(UIImage(data:ContactsProfilePic)!)
                     
-                    if(memberavatars[indexPath.row] != NSData.init())
+                    if(memberavatars[indexPath.row] != Data.init())
                     {
                         //imageavatar.layer.borderWidth = 1.0
                         imageavatar.layer.masksToBounds = true
@@ -256,7 +256,7 @@ class BroadcastListDetailsViewController: UIViewController,UINavigationControlle
                 }
                 else{
                     //show edit
-                    cell = tblForBroadcastList.dequeueReusableCellWithIdentifier("EditListCell")! as! UITableViewCell
+                    cell = tblForBroadcastList.dequeueReusableCell(withIdentifier: "EditListCell")! 
                 }
             }
         
@@ -270,7 +270,7 @@ class BroadcastListDetailsViewController: UIViewController,UINavigationControlle
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         // Get the new view controller using segue.destinationViewController.
         // Pass the selected object to the new view controller.
         
@@ -304,12 +304,12 @@ class BroadcastListDetailsViewController: UIViewController,UINavigationControlle
         if segue.identifier == "editbroadcastlistSegue" {
             
             
-            if let destinationVC = segue.destinationViewController as? AddParticipantsViewController{
+            if let destinationVC = segue.destination as? AddParticipantsViewController{
                 
                 destinationVC.prevScreen="editbroadcastlist"
                 var identifierslist=[String]()
                 destinationVC.editbroadcastlistID=broadcastlistID
-                for(var i=0;i<broadcastmembers.count;i++)
+                for(i in 0 ..< broadcastmembers.count)
                 {
                     identifierslist.append(sqliteDB.getIdentifierFRomPhone(broadcastmembers[i]))
                     var found=UtilityFunctions.init().findContact(sqliteDB.getIdentifierFRomPhone(broadcastmembers[i]))

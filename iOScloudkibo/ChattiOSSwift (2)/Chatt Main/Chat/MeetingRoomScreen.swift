@@ -89,7 +89,7 @@ class MeetingRoomScreen:NSObject,RTCPeerConnectionDelegate,RTCSessionDescription
             rtcFact=RTCPeerConnectionFactory()
         }
         ////////////////////////
-        self.pc=rtcFact.peerConnectionWithICEServers(rtcICEarray, constraints: self.rtcMediaConst, delegate:self)
+        self.pc=rtcFact.peerConnection(withICEServers: rtcICEarray, constraints: self.rtcMediaConst, delegate:self)
         
     }
     
@@ -97,7 +97,7 @@ class MeetingRoomScreen:NSObject,RTCPeerConnectionDelegate,RTCSessionDescription
     {
         print("inside createlocalvideostream")
         
-        var localStream:RTCMediaStream!
+        let localStream:RTCMediaStream!
         /*
         localStream=rtcFact.mediaStreamWithLabel("ARDAMS")
         
@@ -130,13 +130,13 @@ class MeetingRoomScreen:NSObject,RTCPeerConnectionDelegate,RTCSessionDescription
     func createLocalVideoTrack()->RTCVideoTrack{
         //var localVideoTrack:RTCVideoTrack
         var cameraID:NSString!
-        for aaa in AVCaptureDevice.devicesWithMediaType(AVMediaTypeVideo)
+        for aaa in AVCaptureDevice.devices(withMediaType: AVMediaTypeVideo)
         {
             //self.rtcCaptureSession=aaa.captureSession
-            if aaa.position==AVCaptureDevicePosition.Front
+            if (aaa as AnyObject).position==AVCaptureDevicePosition.front
             {
-                print(aaa.localizedName!)
-                cameraID=aaa.localizedName!!
+                print((aaa as AnyObject).localizedName!)
+                cameraID=(aaa as AnyObject).localizedName! as NSString!
                 print("got front cameraaa as id \(cameraID)")
                 break
             }
@@ -149,13 +149,13 @@ class MeetingRoomScreen:NSObject,RTCPeerConnectionDelegate,RTCSessionDescription
         //AVCaptureDevice
         let capturer=RTCVideoCapturer(deviceName: cameraID! as String)
         
-        print(capturer.description)
+        print(capturer?.description)
         
         var VideoSource:RTCVideoSource
         
-        VideoSource=rtcFact.videoSourceWithCapturer(capturer, constraints: nil)
+        VideoSource=rtcFact.videoSource(with: capturer, constraints: nil)
         self.rtcLocalVideoTrack=nil
-        self.rtcLocalVideoTrack=rtcFact.videoTrackWithID("ARDAMSv0", source: VideoSource)
+        self.rtcLocalVideoTrack=rtcFact.videoTrack(withID: "ARDAMSv0", source: VideoSource)
         print("sending localVideoTrack")
         return self.rtcLocalVideoTrack
         
@@ -183,34 +183,34 @@ class MeetingRoomScreen:NSObject,RTCPeerConnectionDelegate,RTCSessionDescription
     
     func sendOffer()
     {
-        self.pc.createOfferWithDelegate(self, constraints: self.rtcMediaConst!)
+        self.pc.createOffer(with: self, constraints: self.rtcMediaConst!)
     }
     
     
     func sendAnswer()
     {
-        self.pc.createAnswerWithDelegate(self, constraints: self.rtcMediaConst)
+        self.pc.createAnswer(with: self, constraints: self.rtcMediaConst)
         
     }
     
-    func toggleScreen(videoAction:Bool,tempstream:RTCMediaStream!)
+    func toggleScreen(_ videoAction:Bool,tempstream:RTCMediaStream!)
     {
         if(self.pc == nil)
         {
             createPeerConnection()
         }
         
-        socketObj.socket.emit("conference.streamScreen", ["username":username!,"id":currentID!,"type":"screen","action":videoAction.boolValue])
+        socketObj.socket.emit("conference.streamScreen", ["username":username!,"id":currentID!,"type":"screen","action":videoAction])
         
     }
     
     
     
-    func peerConnection(peerConnection: RTCPeerConnection!, addedStream stream1: RTCMediaStream!) {
+    func peerConnection(_ peerConnection: RTCPeerConnection!, addedStream stream1: RTCMediaStream!) {
         print("added remote stream")
         if(stream1.videoTracks.count>0)
         {self.rtcRemoteVideoTrack=stream1.videoTracks[0] as! RTCVideoTrack
-            dispatch_async(dispatch_get_main_queue(), {
+            DispatchQueue.main.async(execute: {
                 
                 self.delegateConference.didReceiveRemoteScreen(self.rtcRemoteVideoTrack)
             })
@@ -218,7 +218,7 @@ class MeetingRoomScreen:NSObject,RTCPeerConnectionDelegate,RTCSessionDescription
         }
         
     }
-    func peerConnection(peerConnection: RTCPeerConnection!, didCreateSessionDescription sdp: RTCSessionDescription!, error: NSError!) {
+    func peerConnection(_ peerConnection: RTCPeerConnection!, didCreateSessionDescription sdp: RTCSessionDescription!, error: NSError!) {
         
         print("did create offer/answer session description success")
         //^^^^^^^^^^^^^^^^^^^newwwww
@@ -232,7 +232,7 @@ class MeetingRoomScreen:NSObject,RTCPeerConnectionDelegate,RTCSessionDescription
                 print(sdp.debugDescription)
                 let sessionDescription=RTCSessionDescription(type: sdp.type!, sdp: sdp.description)
                 
-                self.pc.setLocalDescriptionWithDelegate(self, sessionDescription: sessionDescription)
+                self.pc.setLocalDescriptionWith(self, sessionDescription: sessionDescription)
                 
                 print(["by":currentID!,"to":otherID,"sdp":["type":sdp.type!,"sdp":sdp.description],"type":sdp.type!,"username":username!])
                 
@@ -244,7 +244,7 @@ class MeetingRoomScreen:NSObject,RTCPeerConnectionDelegate,RTCSessionDescription
                 print(sdp.debugDescription)
                 let sessionDescription=RTCSessionDescription(type: sdp.type!, sdp: sdp.description)
                 
-                self.pc.setLocalDescriptionWithDelegate(self, sessionDescription: sessionDescription)
+                self.pc.setLocalDescriptionWith(self, sessionDescription: sessionDescription)
                 
                 ////print(["by":currentID!,"to":otherID,"sdp":["type":sdp.type!,"sdp":sdp.description],"type":sdp.type!,"username":username!])
                 
@@ -259,11 +259,11 @@ class MeetingRoomScreen:NSObject,RTCPeerConnectionDelegate,RTCSessionDescription
         }
         
     }
-    func peerConnection(peerConnection: RTCPeerConnection!, didOpenDataChannel dataChannel: RTCDataChannel!) {
+    func peerConnection(_ peerConnection: RTCPeerConnection!, didOpen dataChannel: RTCDataChannel!) {
         
         
     }
-    func peerConnection(peerConnection: RTCPeerConnection!, didSetSessionDescriptionWithError error: NSError!) {
+    func peerConnection(_ peerConnection: RTCPeerConnection!, didSetSessionDescriptionWithError error: NSError!) {
         
         print("inside didSetSessionDescriptionWithError")
         
@@ -279,7 +279,7 @@ class MeetingRoomScreen:NSObject,RTCPeerConnectionDelegate,RTCSessionDescription
                 self.pc.localDescription == nil {
                     print("creating answer")
                     //^^^^^^^^^ new self.pc.addStream(self.rtcMediaStream)
-                    self.pc.createAnswerWithDelegate(self, constraints: self.rtcMediaConst)
+                    self.pc.createAnswer(with: self, constraints: self.rtcMediaConst)
             }
             else
             {
@@ -296,7 +296,7 @@ class MeetingRoomScreen:NSObject,RTCPeerConnectionDelegate,RTCSessionDescription
         
         
     }
-    func peerConnection(peerConnection: RTCPeerConnection!, gotICECandidate candidate: RTCICECandidate!) {
+    func peerConnection(_ peerConnection: RTCPeerConnection!, gotICECandidate candidate: RTCICECandidate!) {
         
         var cnd=JSON(["sdpMLineIndex":candidate.sdpMLineIndex,"sdpMid":candidate.sdpMid!,"candidate":candidate.sdp!])
         
@@ -306,40 +306,40 @@ class MeetingRoomScreen:NSObject,RTCPeerConnectionDelegate,RTCSessionDescription
         
         
     }
-    func peerConnection(peerConnection: RTCPeerConnection!, iceConnectionChanged newState: RTCICEConnectionState) {
+    func peerConnection(_ peerConnection: RTCPeerConnection!, iceConnectionChanged newState: RTCICEConnectionState) {
         
         
     }
-    func peerConnection(peerConnection: RTCPeerConnection!, iceGatheringChanged newState: RTCICEGatheringState) {
+    func peerConnection(_ peerConnection: RTCPeerConnection!, iceGatheringChanged newState: RTCICEGatheringState) {
         
         
     }
-    func peerConnection(peerConnection: RTCPeerConnection!, removedStream stream: RTCMediaStream!) {
+    func peerConnection(_ peerConnection: RTCPeerConnection!, removedStream stream: RTCMediaStream!) {
         print("removed screen stream")
         print("stream screen tracks are \(stream.videoTracks.count)")
        // self.delegateConference.didRemoveRemoteScreen()
         //self.rtcRemoteVideoTrack=nil
         //self.pc.close()
     }
-    func peerConnection(peerConnection: RTCPeerConnection!, signalingStateChanged stateChanged: RTCSignalingState) {
+    func peerConnection(_ peerConnection: RTCPeerConnection!, signalingStateChanged stateChanged: RTCSignalingState) {
         
         
     }
-    func peerConnectionOnRenegotiationNeeded(peerConnection: RTCPeerConnection!) {
+    func peerConnection(onRenegotiationNeeded peerConnection: RTCPeerConnection!) {
         
         
     }
     
-    func randomStringWithLength (len : Int) -> NSString {
+    func randomStringWithLength (_ len : Int) -> NSString {
         
         let letters : NSString = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
         
         let randomString : NSMutableString = NSMutableString(capacity: len)
         
-        for (var i=0; i < len; i++){
+        for (i in 0 ..< len){
             let length = UInt32 (letters.length)
             let rand = arc4random_uniform(length)
-            randomString.appendFormat("%C", letters.characterAtIndex(Int(rand)))
+            randomString.appendFormat("%C", letters.character(at: Int(rand)))
         }
         
         return randomString
@@ -349,7 +349,7 @@ class MeetingRoomScreen:NSObject,RTCPeerConnectionDelegate,RTCSessionDescription
     
     
     
-    func handlemsg(data:AnyObject!)
+    func handlemsg(_ data:AnyObject!)
     {
         print("msg reeived.. check if offer answer or ice")
         print(data.description)
@@ -376,7 +376,7 @@ class MeetingRoomScreen:NSObject,RTCPeerConnectionDelegate,RTCSessionDescription
             
             //.........................
             ////////////////////////////////////self.stream=self.createLocalVideoStream()
-            pc.addStream(self.stream)
+            pc.add(self.stream)
             
             
             //^^^^^^^^^^^^^^^^^^^^^^^newwwwww self.pc.addStream(self.getLocalMediaStream())
@@ -430,7 +430,7 @@ class MeetingRoomScreen:NSObject,RTCPeerConnectionDelegate,RTCSessionDescription
     
     
     
-    func handleConferenceStream(data:AnyObject!)
+    func handleConferenceStream(_ data:AnyObject!)
     {
         var datajson=JSON(data!)
         //print(datajson.debugDescription)
@@ -445,7 +445,7 @@ class MeetingRoomScreen:NSObject,RTCPeerConnectionDelegate,RTCSessionDescription
         {self.screenshared=true
             //Handle Screen sharing
             print("handle screen sharing")
-            self.pc.createOfferWithDelegate(self, constraints: self.rtcMediaConst)
+            self.pc.createOffer(with: self, constraints: self.rtcMediaConst)
         }
         
         
@@ -460,7 +460,7 @@ class MeetingRoomScreen:NSObject,RTCPeerConnectionDelegate,RTCSessionDescription
             
             //print("msgScreen reeived.. check if offer answer or ice")
             print("msgScreen received from socket")
-            self.handlemsg(data)
+            self.handlemsg(data as AnyObject!)
             /*switch(message){
             
             // case "peer.connected.new":
@@ -513,7 +513,7 @@ class MeetingRoomScreen:NSObject,RTCPeerConnectionDelegate,RTCSessionDescription
             {
                 if(datajson[0]["action"]==true)
                 {
-                    self.handleConferenceStream(data)
+                    self.handleConferenceStream(data as AnyObject!)
 
                 }
                 else
@@ -523,7 +523,7 @@ class MeetingRoomScreen:NSObject,RTCPeerConnectionDelegate,RTCSessionDescription
                     //self.pc.close()
                     self.pc=nil
                     self.screenshared=false
-                    dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                    DispatchQueue.main.asynchronously(DispatchQueue.mainexecute: { () -> Void in
                         self.delegateConference.didRemoveRemoteScreen()
                         
                     })
@@ -600,7 +600,7 @@ class MeetingRoomScreen:NSObject,RTCPeerConnectionDelegate,RTCSessionDescription
 
 protocol ConferenceScreenReceiveDelegate:class
 {
-    func didReceiveRemoteScreen(remoteAudioTrack:RTCVideoTrack);
+    func didReceiveRemoteScreen(_ remoteAudioTrack:RTCVideoTrack);
     func didRemoveRemoteScreen();
     //func didReceiveLocalVideoTrack(localVideoTrack:RTCVideoTrack);
     //func didReceiveLocalScreen(remoteVideoTrack:RTCVideoTrack);

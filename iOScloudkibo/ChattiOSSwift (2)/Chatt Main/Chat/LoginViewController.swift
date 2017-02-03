@@ -25,13 +25,13 @@ class LoginViewController: UIViewController,SocketConnecting,AKFViewControllerDe
     @IBOutlet weak var txtForRoomName: UITextField!
     
     
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         
         if (accountKit.currentAccessToken != nil && firstTimeLogin==false) {
             header=["kibo-token":accountKit!.currentAccessToken!.tokenString]
             
           print("login view will appear")
-            self.dismissViewControllerAnimated(true, completion:{
+            self.dismiss(animated: true, completion:{
                 if(socketObj != nil){
                 socketObj.socket.emit("logClient", "login done fetch contacts and show contacts list now")
 }
@@ -115,11 +115,11 @@ class LoginViewController: UIViewController,SocketConnecting,AKFViewControllerDe
     
     //********************************************************************************************
     
-    func viewController(viewController: UIViewController!, didCompleteLoginWithAccessToken accessToken: AKFAccessToken!, state: String!) {
+    func viewController(_ viewController: UIViewController!, didCompleteLoginWith accessToken: AKFAccessToken!, state: String!) {
         print("Login succcess with AccessToken \(accessToken.debugDescription)")
-        dispatch_async(dispatch_get_main_queue(), {
+        DispatchQueue.main.async(execute: {
             header=["kibo-token":accountKit!.currentAccessToken!.tokenString]
-            accountKit = AKFAccountKit(responseType: AKFResponseType.AccessToken)
+            accountKit = AKFAccountKit(responseType: AKFResponseType.accessToken)
             accountKit.requestAccount{
                 (account, error) -> Void in
                 
@@ -132,25 +132,25 @@ class LoginViewController: UIViewController,SocketConnecting,AKFViewControllerDe
                     KeychainWrapper.setString((account?.phoneNumber?.countryCode)!, forKey: "countrycode")
                     countrycode=account?.phoneNumber?.countryCode
                     
-                    self.performSegueWithIdentifier("displaynamesegue", sender: self)
+                    self.performSegue(withIdentifier: "displaynamesegue", sender: self)
                 }
        
             
             }})
         
     }
-    func viewController(viewController: UIViewController!, didCompleteLoginWithAuthorizationCode code: String!, state: String!) {
+    func viewController(_ viewController: UIViewController!, didCompleteLoginWithAuthorizationCode code: String!, state: String!) {
         print("Login succcess with AuthorizationCode")
         
         
     }
     
-    func viewController(viewController: UIViewController!, didFailWithError error: NSError!) {
+    func viewController(_ viewController: UIViewController!, didFailWithError error: NSError!) {
         print("We have an error \(error)")
         self.showError("An error has occured:", message: error.debugDescription, button1: "Ok")
         
     }
-    func viewControllerDidCancel(viewController: UIViewController!) {
+    func viewControllerDidCancel(_ viewController: UIViewController!) {
         print("The user cancel the login")
     }
     
@@ -159,24 +159,24 @@ class LoginViewController: UIViewController,SocketConnecting,AKFViewControllerDe
     
     //**********
     
-    @IBAction func btnConferenceStart(sender: AnyObject) {
+    @IBAction func btnConferenceStart(_ sender: AnyObject) {
         
         
         
         print("call pressed")
         //1. Create the alert controller.
         
-        dispatch_async(dispatch_get_main_queue(),{
-            var alert = UIAlertController(title: "Welcome to Cloudkibo Meeting", message: "Please enter your username", preferredStyle: .Alert)
+        DispatchQueue.main.async(execute: {
+            let alert = UIAlertController(title: "Welcome to Cloudkibo Meeting", message: "Please enter your username", preferredStyle: .alert)
             
             //2. Add the text field. You can configure it however you need.
-            alert.addTextFieldWithConfigurationHandler({ (textField) -> Void in
+            alert.addTextField(configurationHandler: { (textField) -> Void in
                 textField.text = ""
             })
             
             
             //3. Grab the value from the text field, and print it when the user clicks OK.
-            alert.addAction(UIAlertAction(title: "OK", style: .Default, handler: { (action) -> Void in
+            alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { (action) -> Void in
                 let textField = alert.textFields![0] as UITextField
                 username = textField.text!
                 print("Text field: \(textField.text)")
@@ -234,15 +234,15 @@ class LoginViewController: UIViewController,SocketConnecting,AKFViewControllerDe
                 ////self.performSegueWithIdentifier("conferenceStartSegue", sender: nil)
                 
                 //***neww tryy may 2016
-                let next = self.storyboard!.instantiateViewControllerWithIdentifier("MainV2") as! VideoViewController
+                let next = self.storyboard!.instantiateViewController(withIdentifier: "MainV2") as! VideoViewController
                 
-                self.presentViewController(next, animated: true, completion:nil)
+                self.present(next, animated: true, completion:nil)
                 
                 
             }))
             
             // 4. Present the alert.
-            self.presentViewController(alert, animated: true, completion:
+            self.present(alert, animated: true, completion:
                 {
                     
                     
@@ -296,7 +296,7 @@ class LoginViewController: UIViewController,SocketConnecting,AKFViewControllerDe
         */
     }
     
-    @IBAction func btnWebmeetingStart(sender: AnyObject) {
+    @IBAction func btnWebmeetingStart(_ sender: AnyObject) {
         
         
         print("call pressed")
@@ -338,9 +338,9 @@ class LoginViewController: UIViewController,SocketConnecting,AKFViewControllerDe
         /// var mAudio=MeetingRoomAudio()
         ////mAudio.initAudio()
         
-        var next = self.storyboard?.instantiateViewControllerWithIdentifier("Main2") as! ConferenceCallViewController
+        var next = self.storyboard?.instantiateViewController(withIdentifier: "Main2") as! ConferenceCallViewController
         
-        self.presentViewController(next, animated: false, completion: {
+        self.present(next, animated: false, completion: {
         })
         
     }
@@ -355,8 +355,8 @@ class LoginViewController: UIViewController,SocketConnecting,AKFViewControllerDe
     
     
     var joinedRoom:Bool=false
-    var UserDictionary:[String:AnyObject] = ["":""]
-    override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: NSBundle?) {
+    var UserDictionary:[String:AnyObject] = ["":"" as AnyObject]
+    override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
         // Custom initialization
         
@@ -371,8 +371,8 @@ class LoginViewController: UIViewController,SocketConnecting,AKFViewControllerDe
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        let size = UIScreen.mainScreen().bounds.size
-        viewForContent.contentSize = CGSizeMake(size.width, 568)
+        let size = UIScreen.main.bounds.size
+        viewForContent.contentSize = CGSize(width: size.width, height: 568)
     }
     
     override func viewDidLoad() {
@@ -382,7 +382,7 @@ class LoginViewController: UIViewController,SocketConnecting,AKFViewControllerDe
         if accountKit == nil {
             // may also specify AKFResponseTypeAccessToken
             print("initialising AccountKit .......")
-            accountKit = AKFAccountKit(responseType: AKFResponseType.AccessToken)
+            accountKit = AKFAccountKit(responseType: AKFResponseType.accessToken)
         }
         
         //socketObj.delegateSocketConnected=self
@@ -446,53 +446,53 @@ class LoginViewController: UIViewController,SocketConnecting,AKFViewControllerDe
         self.progressWheel.hidden=true
         }*/
         
-        let size = UIScreen.mainScreen().bounds.size
-        viewForContent.contentSize = CGSizeMake(size.width, 568)
+        let size = UIScreen.main.bounds.size
+        viewForContent.contentSize = CGSize(width: size.width, height: 568)
     
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("willShowKeyBoard:"), name:UIKeyboardWillShowNotification, object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("willHideKeyBoard:"), name:UIKeyboardWillHideNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(LoginViewController.willShowKeyBoard(_:)), name:NSNotification.Name.UIKeyboardWillShow, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(LoginViewController.willHideKeyBoard(_:)), name:NSNotification.Name.UIKeyboardWillHide, object: nil)
         
         
         // Do any additional setup after loading the view.
     }
     
-    func willShowKeyBoard(notification : NSNotification){
+    func willShowKeyBoard(_ notification : Notification){
         
         var userInfo: NSDictionary!
-        userInfo = notification.userInfo
+        userInfo = notification.userInfo as NSDictionary!
         
-        var duration : NSTimeInterval = 0
-        var curve = userInfo.objectForKey(UIKeyboardAnimationCurveUserInfoKey) as! UInt
-        duration = userInfo[UIKeyboardAnimationDurationUserInfoKey]as! NSTimeInterval
-        let keyboardF:NSValue = userInfo.objectForKey(UIKeyboardFrameEndUserInfoKey)as! NSValue
-        let keyboardFrame = keyboardF.CGRectValue()
+        var duration : TimeInterval = 0
+        var curve = userInfo.object(forKey: UIKeyboardAnimationCurveUserInfoKey) as! UInt
+        duration = userInfo[UIKeyboardAnimationDurationUserInfoKey]as! TimeInterval
+        let keyboardF:NSValue = userInfo.object(forKey: UIKeyboardFrameEndUserInfoKey)as! NSValue
+        let keyboardFrame = keyboardF.cgRectValue
         
-        UIView.animateWithDuration(duration, delay: 0, options:[], animations: {
-            self.viewForContent.contentOffset = CGPointMake(0, keyboardFrame.size.height)
+        UIView.animate(withDuration: duration, delay: 0, options:[], animations: {
+            self.viewForContent.contentOffset = CGPoint(x: 0, y: keyboardFrame.size.height)
             
             }, completion: nil)
         
     }
     
-    func willHideKeyBoard(notification : NSNotification){
+    func willHideKeyBoard(_ notification : Notification){
         
         var userInfo: NSDictionary!
-        userInfo = notification.userInfo
+        userInfo = notification.userInfo as NSDictionary!
         
-        var duration : NSTimeInterval = 0
-        var curve = userInfo.objectForKey(UIKeyboardAnimationCurveUserInfoKey) as! UInt
-        duration = userInfo[UIKeyboardAnimationDurationUserInfoKey]as! NSTimeInterval
-        let keyboardF:NSValue = userInfo.objectForKey(UIKeyboardFrameEndUserInfoKey) as! NSValue
-        var keyboardFrame = keyboardF.CGRectValue()
+        var duration : TimeInterval = 0
+        var curve = userInfo.object(forKey: UIKeyboardAnimationCurveUserInfoKey) as! UInt
+        duration = userInfo[UIKeyboardAnimationDurationUserInfoKey]as! TimeInterval
+        let keyboardF:NSValue = userInfo.object(forKey: UIKeyboardFrameEndUserInfoKey) as! NSValue
+        var keyboardFrame = keyboardF.cgRectValue
         
-        UIView.animateWithDuration(duration, delay: 0, options:[], animations: {
-            self.viewForContent.contentOffset = CGPointMake(0, 0)
+        UIView.animate(withDuration: duration, delay: 0, options:[], animations: {
+            self.viewForContent.contentOffset = CGPoint(x: 0, y: 0)
             
             }, completion: nil)
         
     }
     
-    func textFieldShouldReturn (textField: UITextField) -> Bool{
+    func textFieldShouldReturn (_ textField: UITextField) -> Bool{
         if ((textField == txtForEmail)){
             txtForPassword.becomeFirstResponder();
         } else if (textField == txtForPassword){
@@ -504,18 +504,18 @@ class LoginViewController: UIViewController,SocketConnecting,AKFViewControllerDe
     
     
     
-    func prepareLoginViewController(loginViewController: AKFViewController) {
+    func prepareLoginViewController(_ loginViewController: AKFViewController) {
         
         loginViewController.delegate = self
         loginViewController.advancedUIManager = nil
         
         //Costumize the theme
-        let theme:AKFTheme = AKFTheme.defaultTheme()
+        let theme:AKFTheme = AKFTheme.default()
         theme.headerBackgroundColor = UIColor(red: 0.325, green: 0.557, blue: 1, alpha: 1)
         theme.headerTextColor = UIColor(red: 1, green: 1, blue: 1, alpha: 1)
         theme.iconColor = UIColor(red: 0.325, green: 0.557, blue: 1, alpha: 1)
         theme.inputTextColor = UIColor(white: 0.4, alpha: 1.0)
-        theme.statusBarStyle = .Default
+        theme.statusBarStyle = .default
         theme.textColor = UIColor(white: 0.3, alpha: 1.0)
         theme.titleColor = UIColor(red: 0.247, green: 0.247, blue: 0.247, alpha: 1)
         loginViewController.theme = theme
@@ -564,11 +564,11 @@ class LoginViewController: UIViewController,SocketConnecting,AKFViewControllerDe
     // {
            firstTimeLogin=true
             print("okkk")
-        let inputState: String = NSUUID().UUIDString
-        let viewController:AKFViewController = accountKit.viewControllerForPhoneLoginWithPhoneNumber(nil, state: inputState)  as! AKFViewController
+        let inputState: String = UUID().uuidString
+        let viewController:AKFViewController = accountKit.viewControllerForPhoneLogin(with: nil, state: inputState)  as! AKFViewController
         viewController.enableSendToFacebook = true
         self.prepareLoginViewController(viewController)
-        self.presentViewController(viewController as! UIViewController, animated: true, completion: nil)
+        self.present(viewController as! UIViewController, animated: true, completion: nil)
        /* }
         else{
             
@@ -958,15 +958,15 @@ class LoginViewController: UIViewController,SocketConnecting,AKFViewControllerDe
     func joinGlobalChatRoom(){}
     
     @IBAction func facebookBtnTapped() {
-        self.dismissViewControllerAnimated(true, completion: nil);
+        self.dismiss(animated: true, completion: nil);
     }
     
     @IBAction func twitterBtnTapped() {
-        self.dismissViewControllerAnimated(true, completion: nil);
+        self.dismiss(animated: true, completion: nil);
     }
     
     @IBAction func forgotPasswordBtnTapped() {
-        self.dismissViewControllerAnimated(true, completion: nil);
+        self.dismiss(animated: true, completion: nil);
     }
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -974,33 +974,33 @@ class LoginViewController: UIViewController,SocketConnecting,AKFViewControllerDe
     }
     
     
-    func textFieldDidBeginEditing(textField: UITextField) {
+    func textFieldDidBeginEditing(_ textField: UITextField) {
         
         
     }
-    func textFieldDidEndEditing(textField: UITextField) {
+    func textFieldDidEndEditing(_ textField: UITextField) {
         
         
     }
-    func textFieldShouldBeginEditing(textField: UITextField) -> Bool {
+    func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
         return true
         
         
     }
     
-    func textFieldShouldClear(textField: UITextField) -> Bool {
+    func textFieldShouldClear(_ textField: UITextField) -> Bool {
         return true
         
         
     }
-    func textFieldShouldEndEditing(textField: UITextField) -> Bool {
+    func textFieldShouldEndEditing(_ textField: UITextField) -> Bool {
         return true
         
         
     }
     
     
-    func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange, replacementString string: String) -> Bool {
+    func textField(_ textField: UITextField, shouldChangeCharactersInRange range: NSRange, replacementString string: String) -> Bool {
         
         return true
         
@@ -1008,7 +1008,7 @@ class LoginViewController: UIViewController,SocketConnecting,AKFViewControllerDe
     }
     func socketConnected() {
         print("connected delegate in login ")
-        if(self.isViewLoaded() || (self.view.window != nil))
+        if(self.isViewLoaded || (self.view.window != nil))
         {
             print("progress wheel stopping")
             if(socketObj != nil){
@@ -1016,7 +1016,7 @@ class LoginViewController: UIViewController,SocketConnecting,AKFViewControllerDe
             }
             //if(progressWheel != nil){
             self.progressWheel.stopAnimating()
-            self.progressWheel.hidden=true
+            self.progressWheel.isHidden=true
             //}
             
         }
@@ -1048,21 +1048,21 @@ class LoginViewController: UIViewController,SocketConnecting,AKFViewControllerDe
     }
     }*/
     
-    func showError(title:String,message:String,button1:String) {
+    func showError(_ title:String,message:String,button1:String) {
         
         // create the alert
-        let alert = UIAlertController(title: title, message: message, preferredStyle: UIAlertControllerStyle.Alert)
+        let alert = UIAlertController(title: title, message: message, preferredStyle: UIAlertControllerStyle.alert)
         
         // add the actions (buttons)
-        alert.addAction(UIAlertAction(title: button1, style: UIAlertActionStyle.Default, handler: nil))
+        alert.addAction(UIAlertAction(title: button1, style: UIAlertActionStyle.default, handler: nil))
         //alert.addAction(UIAlertAction(title: button2, style: UIAlertActionStyle.Cancel, handler: nil))
         
         // show the alert
-        self.presentViewController(alert, animated: true, completion: nil)
+        self.present(alert, animated: true, completion: nil)
     }
     
     
-    override func viewWillDisappear(animated: Bool) {
+    override func viewWillDisappear(_ animated: Bool) {
         print("dismissed loginnnnn")
         if(socketObj != nil)
 {

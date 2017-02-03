@@ -14,24 +14,24 @@ class fileTestingDoc: UIDocument {
     var userText: String? = "Some Sample Text"
     
     
-    override func contentsForType(typeName: String) throws -> AnyObject {
+    override func contents(forType typeName: String) throws -> Any {
         if let content = userText {
             
-            var length =
-            content.lengthOfBytesUsingEncoding(NSUTF8StringEncoding)
-            return NSData(bytes:content, length: length)
+            let length =
+            content.lengthOfBytes(using: String.Encoding.utf8)
+            return Data(bytes: UnsafePointer<UInt8>(content), count: length)
             
         } else {
-            return NSData()
+            return Data()
         }
         
     }
     
-    override func loadFromContents(contents: AnyObject, ofType typeName: String?) throws {
-        if let userContent = contents as? NSData {
-            userText = NSString(bytes: contents.bytes,
-                length: userContent.length,
-                encoding: NSUTF8StringEncoding) as? String
+    override func load(fromContents contents: Any, ofType typeName: String?) throws {
+        if let userContent = contents as? Data {
+            userText = NSString(bytes: (contents as AnyObject).bytes,
+                length: userContent.count,
+                encoding: String.Encoding.utf8.rawValue) as? String
         }
         
         

@@ -30,9 +30,9 @@ struct SocketPacket {
         case connect, disconnect, event, ack, error, binaryEvent, binaryAck
     }
     
-    private let placeholders: Int
+    fileprivate let placeholders: Int
     
-    private static let logType = "SocketPacket"
+    fileprivate static let logType = "SocketPacket"
 
     let nsp: String
     let id: Int
@@ -86,7 +86,7 @@ struct SocketPacket {
         }
     }
     
-    private func completeMessage(_ message: String) -> String {
+    fileprivate func completeMessage(_ message: String) -> String {
         if data.count == 0 {
             return message + "[]"
         }
@@ -101,7 +101,7 @@ struct SocketPacket {
         return message + jsonString
     }
     
-    private func createPacketString() -> String {
+    fileprivate func createPacketString() -> String {
         let typeString = String(type.rawValue)
         // Binary count?
         let binaryCountString = typeString + (type == .binaryEvent || type == .binaryAck ? "\(String(binary.count))-" : "")
@@ -116,7 +116,7 @@ struct SocketPacket {
     // Called when we have all the binary data for a packet
     // calls _fillInPlaceholders, which replaces placeholders with the
     // corresponding binary
-    private mutating func fillInPlaceholders() {
+    fileprivate mutating func fillInPlaceholders() {
         data = data.map(_fillInPlaceholders)
     }
     
@@ -124,7 +124,7 @@ struct SocketPacket {
     // If object is a collection it will recurse
     // Returns the object if it is not a placeholder or the corresponding
     // binary data
-    private func _fillInPlaceholders(_ object: Any) -> Any {
+    fileprivate func _fillInPlaceholders(_ object: Any) -> Any {
         switch object {
         case let dict as JSON:
             if dict["_placeholder"] as? Bool ?? false {
@@ -147,7 +147,7 @@ struct SocketPacket {
 }
 
 extension SocketPacket {
-    private static func findType(_ binCount: Int, ack: Bool) -> PacketType {
+    fileprivate static func findType(_ binCount: Int, ack: Bool) -> PacketType {
         switch binCount {
         case 0 where !ack:
             return .event

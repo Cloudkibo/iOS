@@ -62,7 +62,7 @@ class PendingFriendRequestsViewController: UIViewController {
         
         //-========Remove old values=====================
        
-        for var i=0;i<freindReqJSON.count;i++
+        for var i=0;i<freindReqJSON.count;i += 1
         {
             
             do {
@@ -196,22 +196,22 @@ class PendingFriendRequestsViewController: UIViewController {
         
     }
     
-    @IBAction func unwindToChat (segueSelected : UIStoryboardSegue) {
+    @IBAction func unwindToChat (_ segueSelected : UIStoryboardSegue) {
         print("unwind chat", terminator: "")
     }
     
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         //refreshControl.addTarget(self, action: Selector("fetchContacts"), forControlEvents: UIControlEvents.ValueChanged)
         
         print(pendingContactsNames.count, terminator: "")
         return pendingContactsNames.count
     }
     
-    func numberOfSectionsInTableView(tableView: UITableView!) -> Int {
+    func numberOfSectionsInTableView(_ tableView: UITableView!) -> Int {
         return 1
     }
     
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath!) -> UITableViewCell! {
+    func tableView(_ tableView: UITableView, cellForRowAtIndexPath indexPath: IndexPath!) -> UITableViewCell! {
         
         /* if (indexPath.row%2 == 0){
         return tblForChat.dequeueReusableCellWithIdentifier("ChatPrivateCell") as! UITableViewCell
@@ -219,7 +219,7 @@ class PendingFriendRequestsViewController: UIViewController {
         return tblForChat.dequeueReusableCellWithIdentifier("ChatPublicCell")as! UITableViewCell
         }
         */
-        let cell=tbl_pendingContacts.dequeueReusableCellWithIdentifier("ChatPrivateCell") as! PendingRequestsListCell
+        let cell=tbl_pendingContacts.dequeueReusableCell(withIdentifier: "ChatPrivateCell") as! PendingRequestsListCell
         
         cell.labelFriendName.text=pendingContactsNames[indexPath.row]
         
@@ -243,9 +243,9 @@ class PendingFriendRequestsViewController: UIViewController {
     }
 */
     
-    func tableView(tableView: UITableView, editActionsForRowAtIndexPath indexPath: NSIndexPath) -> [AnyObject]? {
+    func tableView(_ tableView: UITableView, editActionsForRowAtIndexPath indexPath: IndexPath) -> [AnyObject]? {
         var selectedRow = indexPath.row
-        let Delete = UITableViewRowAction(style: .Normal, title: "Delete") { action, index in
+        let Delete = UITableViewRowAction(style: .normal, title: "Delete") { action, index in
             print("reject button tapped", terminator: "")
             //var selectedRow = indexPath.row
             
@@ -298,9 +298,9 @@ class PendingFriendRequestsViewController: UIViewController {
             
         }
         
-    Delete.backgroundColor = UIColor.redColor()
+    Delete.backgroundColor = UIColor.red
     
-        let accept = UITableViewRowAction(style: .Normal, title: "Accept") { action, index in
+        let accept = UITableViewRowAction(style: .normal, title: "Accept") { action, index in
             print("accept button tapped", terminator: "")
             
             var url=Constants.MainUrl+Constants.approvePendingFriendRequest
@@ -350,7 +350,7 @@ class PendingFriendRequestsViewController: UIViewController {
 
             
         }
-        accept.backgroundColor = UIColor.grayColor()
+        accept.backgroundColor = UIColor.gray
     
         
         return [Delete, accept]
@@ -359,7 +359,7 @@ class PendingFriendRequestsViewController: UIViewController {
 
     
     //=====Accept or Deny Annimation------------------------=============
-   func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
+   func tableView(_ tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: IndexPath) {
        
       /*
         if editingStyle == .Delete {

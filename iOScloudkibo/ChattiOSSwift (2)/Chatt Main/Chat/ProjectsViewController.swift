@@ -16,7 +16,7 @@ class ProjectsViewController: UIViewController {
     @IBOutlet var itemForSearch : UIBarButtonItem!
     @IBOutlet var tblForProjects : UITableView!
         
-    override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: NSBundle?) {
+    override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
         // Custom initialization
     }
@@ -27,7 +27,7 @@ class ProjectsViewController: UIViewController {
         self.navigationItem.titleView = viewForTitle
         self.navigationItem.leftBarButtonItem = UIBarButtonItem(customView: btnForLogo)
         self.navigationItem.rightBarButtonItem = itemForSearch
-        self.tabBarController?.tabBar.tintColor = UIColor.greenColor()
+        self.tabBarController?.tabBar.tintColor = UIColor.green
         // Do any additional setup after loading the view.
     }
     
@@ -41,23 +41,23 @@ class ProjectsViewController: UIViewController {
         super.init(coder: aDecoder)
     }
     
-    @IBAction func unwindToChat (segueSelected : UIStoryboardSegue) {
+    @IBAction func unwindToChat (_ segueSelected : UIStoryboardSegue) {
         
     }
     
-    func tableView(tableView: UITableView!, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView!, numberOfRowsInSection section: Int) -> Int {
         return 10
     }
     
-    func numberOfSectionsInTableView(tableView: UITableView!) -> Int {
+    func numberOfSectionsInTableView(_ tableView: UITableView!) -> Int {
         return 1
     }
     
-    func tableView(tableView: UITableView!, cellForRowAtIndexPath indexPath: NSIndexPath!) -> UITableViewCell! {
+    func tableView(_ tableView: UITableView!, cellForRowAtIndexPath indexPath: IndexPath!) -> UITableViewCell! {
         if (indexPath.row%2 == 0){
-            return tblForProjects.dequeueReusableCellWithIdentifier("ProjectCell")! as UITableViewCell
+            return tblForProjects.dequeueReusableCell(withIdentifier: "ProjectCell")! as UITableViewCell
         } else {
-            return tblForProjects.dequeueReusableCellWithIdentifier("ProjectCell1")! as UITableViewCell
+            return tblForProjects.dequeueReusableCell(withIdentifier: "ProjectCell1")! as UITableViewCell
         }
     }
     
