@@ -180,7 +180,7 @@ class syncContactService
                          }
                          
                          }*/
-                        for(i in 0 ..< phoneDigits.characters.count)
+                        for i in 0 .. phoneDigits.characters.count
                         {
                             if(phoneDigits.characters.first=="0")
                             {
@@ -530,7 +530,7 @@ class syncContactService
           // --==== newww  try sqliteDB.db.run(tbl_allcontacts.delete())
            // =====---- newww print("now count is \(sqliteDB.db.scalar(tbl_allcontacts.count))")
             var contactsdata=[[String:String]]()
-            for(i in 0 ..< syncContactsList.count)
+            for i in 0 .. syncContactsList.count
             {
                 
                 do{
@@ -562,7 +562,7 @@ class syncContactService
                             var phoneDigits=a.value(forKey: "digits") as! String
                             var actualphonedigits=a.value(forKey: "digits") as! String
                         
-                            for(i in 0 ..< phoneDigits.characters.count)
+                            for i in 0 .. phoneDigits.characters.count
                             {
                                 if(phoneDigits.characters.first=="0")
                                 {
@@ -682,7 +682,7 @@ class syncContactService
                 ///////socketObj.socket.emit("logClient","IPHONE-LOG: iphoneLog: error is getting name \(error)")
             }
             
-            for(j in 0 ..< contactsdata.count)
+            for j in 0 .. contactsdata.count
             {
                 do{
                 try sqliteDB.db.run(tbl_allcontacts?.insert(name<-contactsdata[j]["name"]!,phone<-contactsdata[j]["phone"]!,actualphone<-contactsdata[j]["actualphone"]!,email<-contactsdata[j]["email"]!,uniqueidentifier<-contactsdata[j]["uniqueidentifier"]!))

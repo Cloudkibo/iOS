@@ -10,7 +10,7 @@ import UIKit
 import SQLite
 import Contacts
 import ContactsUI
-import Haneke
+//import Haneke
 
 
 class AddParticipantsViewController: UIViewController,InviteContactsDelegate,UITextFieldDelegate,UISearchBarDelegate,UISearchDisplayDelegate/*,UISearchResultsUpdating*/,UIScrollViewDelegate,RefreshContactsList,UITableViewDelegate,UITableViewDataSource {
@@ -54,7 +54,7 @@ class AddParticipantsViewController: UIViewController,InviteContactsDelegate,UIT
         
         var memberphones=[String]()
         var membersnames=[String]()
-        for(i in 0 ..< participantsSelected1.count)
+        for i in 0 .. participantsSelected1.count
         {print("appending memberphone now of participantselected \(participantsSelected1[i].getPhoneNumber())")
             memberphones.append(participantsSelected1[i].getPhoneNumber())
             membersnames.append(participantsSelected1[i].displayName())
@@ -89,7 +89,7 @@ class AddParticipantsViewController: UIViewController,InviteContactsDelegate,UIT
         
         var memberphones=[String]()
         var membersnames=[String]()
-        for(i in 0 ..< participantsSelected1.count)
+        for i in 0 .. participantsSelected1.count
         {print("appending memberphone now of participantselected \(participantsSelected1[i].getPhoneNumber())")
             memberphones.append(participantsSelected1[i].getPhoneNumber())
             membersnames.append(participantsSelected1[i].displayName())
@@ -795,7 +795,7 @@ class AddParticipantsViewController: UIViewController,InviteContactsDelegate,UIT
         var newindexphone = -1
         do
         { alladdressContactsArray = Array(try sqliteDB.db.prepare(allcontactslist1!))
-            for (i in 0 ..< alladdressContactsArray.count)
+            for i in 0 .. alladdressContactsArray.count
             {
                 if(alladdressContactsArray[i].get(phone)==phone1)
                 {
@@ -937,7 +937,7 @@ class AddParticipantsViewController: UIViewController,InviteContactsDelegate,UIT
                 
                // var memberphones=[String]()
                 //var membersnames=[String]()
-                for(i in 0 ..< participantsSelected1.count)
+                for i in 0 .. participantsSelected1.count
                 {print()
                     
                     //groupinfo participants adding
@@ -1003,7 +1003,7 @@ class AddParticipantsViewController: UIViewController,InviteContactsDelegate,UIT
                             print("selected phone is \(selectedphone)")
                             print("selected phone is \(selectedname)")
                             
-                            for (i in 0 ..< alladdressContactsArray.count)
+                            for i in 0 .. alladdressContactsArray.count
                             {
                                 if(alladdressContactsArray[i].get(phone)==selectedphone)
                                 {

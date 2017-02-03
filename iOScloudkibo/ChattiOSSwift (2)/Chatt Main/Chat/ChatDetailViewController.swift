@@ -3347,7 +3347,7 @@ let textLable = cell.viewWithTag(12) as! UILabel
         
         let randomString : NSMutableString = NSMutableString(capacity: len)
         
-        for (i in 0 ..< len){
+        for i in 0 .. len{
             let length = UInt32 (letters.length)
             let rand = arc4random_uniform(length)
             randomString.appendFormat("%C", letters.character(at: Int(rand)))
@@ -3995,7 +3995,7 @@ let textLable = cell.viewWithTag(12) as! UILabel
         }
         else{
         //save as broadcast message
-            for(i in 0 ..< broadcastMembersPhones.count)
+            for i in 0 .. broadcastMembersPhones.count
             {
                 imParas2.append(["from":"\(username!)","to":"\(broadcastMembersPhones[i])","fromFullName":"\(displayname)","msg":"\(txtFldMessage.text!)","uniqueid":"\(uniqueID)","type":"chat","file_type":"","date":"\(dateSentDateType!)"])
                 
@@ -4194,7 +4194,7 @@ print("hh \(hh)")
             var result1=false
             var uniqueid1=""
 var count=0
-            for(i in 0 ..< imParas2.count)
+            for i in 0 .. imParas2.count
             {
             self.sendChatMessage(imParas2[i]){ (uniqueid,result) -> () in
                 count += 1

@@ -155,7 +155,7 @@ print("now count is \(tbl_allcontacts?.count)")
                                  }
                                  
                                  }*/
-                                for(i in 0 ..< phoneDigits.characters.count)
+                                for i in 0 .. phoneDigits.characters.count
                                 {
                                     if(phoneDigits.characters.first=="0")
                                     {

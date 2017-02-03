@@ -114,7 +114,7 @@ class BroadcastListViewController: UIViewController,UINavigationControllerDelega
         //uniqueid
         var aaa = sqliteDB.getBroadcastListDataForController()
         print("aaa is \(aaa.description)")
-        for(i in 0 ..< aaa.count)
+        for i in 0 .. aaa.count
         {
         broadcastlistmessages2.add(["listname":aaa[i]["listname"] as! String,"membersnames":aaa[i]["membersnames"] as! String,"uniqueid":aaa[i]["uniqueid"] as! String])
         }
@@ -235,7 +235,7 @@ class BroadcastListViewController: UIViewController,UINavigationControllerDelega
         
         var memberphones=[String]()
         var membersnames=[String]()
-        for(i in 0 ..< participantsSelected.count)
+        for i in 0 .. participantsSelected.count
         {print("appending memberphone now of participantselected \(participantsSelected[i].getPhoneNumber())")
             memberphones.append(participantsSelected[i].getPhoneNumber())
             membersnames.append(participantsSelected[i].displayName())

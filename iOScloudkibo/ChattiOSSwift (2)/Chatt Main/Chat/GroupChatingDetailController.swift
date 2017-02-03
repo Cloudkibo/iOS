@@ -10,7 +10,7 @@ import UIKit
 import Alamofire
 import SQLite
 import SwiftyJSON
-import Haneke
+//import Haneke
 class GroupChatingDetailController: UIViewController,UpdateGroupChatDetailsDelegate {
     
     
@@ -122,7 +122,7 @@ class GroupChatingDetailController: UIViewController,UpdateGroupChatDetailsDeleg
         
         
         //get members and store status as pending
-        for(i in 0 ..< membersList.count)
+        for i in 0 .. membersList.count
         {
             /*
              let member_phone = Expression<String>("member_phone")
@@ -159,7 +159,7 @@ class GroupChatingDetailController: UIViewController,UpdateGroupChatDetailsDeleg
                 print("chat sent")
                 if(result==true)
                 {
-                    for(i in 0 ..< self.membersList.count)
+                    for i in 0 ..< self.membersList.count
                     {
                     if((self.membersList[i]["member_phone"] as! String) != username! && (self.membersList[i]["membership_status"] as! String) != "left")
                     {
@@ -264,7 +264,7 @@ class GroupChatingDetailController: UIViewController,UpdateGroupChatDetailsDeleg
    
         
         var namesList=[String]()
-        for(i in 0 ..< membersList.count)
+        for i in 0 ..< membersList.count
         {
             //var fullname=""
             if((sqliteDB.getNameFromAddressbook(membersList[i]["member_phone"] as! String)) != nil)
@@ -1124,7 +1124,7 @@ class GroupChatingDetailController: UIViewController,UpdateGroupChatDetailsDeleg
         
         let randomString : NSMutableString = NSMutableString(capacity: len)
         
-        for (i in 0 ..< len){
+        for i in 0 .. len{
             let length = UInt32 (letters.length)
             let rand = arc4random_uniform(length)
             randomString.appendFormat("%C", letters.character(at: Int(rand)))

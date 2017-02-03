@@ -33,7 +33,7 @@ extension Double : SocketData {}
 extension Int : SocketData {}
 extension NSArray : SocketData {}
 extension Data : SocketData {}
-extension Data : SocketData {}
+extension NSData : SocketData {}
 extension NSDictionary : SocketData {}
 extension NSString : SocketData {}
 extension NSNull : SocketData {}

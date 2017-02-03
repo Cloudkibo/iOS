@@ -94,7 +94,7 @@ class NewGroupSetDetails: UITableViewController,UINavigationControllerDelegate,U
         
         var memberphones=[String]()
         var membersnames=[String]()
-        for(i in 0 ..< participants.count)
+        for i in 0 .. participants.count
         {
             memberphones.append(participants[i].getPhoneNumber())
             membersnames.append(participants[i].displayName())
@@ -163,7 +163,7 @@ class NewGroupSetDetails: UITableViewController,UINavigationControllerDelegate,U
        
        // var memberphones=[String]()
         var membersnames=[String]()
-        for(i in 0 ..< participants.count)
+        for i in 0 .. participants.count
         {
           //  memberphones.append(participants[i].getPhoneNumber())
             membersnames.append(participants[i].displayName())
@@ -355,7 +355,7 @@ class NewGroupSetDetails: UITableViewController,UINavigationControllerDelegate,U
         
         let randomString : NSMutableString = NSMutableString(capacity: len)
         
-        for (i in 0 ..< len){
+        for  i in 0 .. len{
             let length = UInt32 (letters.length)
             let rand = arc4random_uniform(length)
             randomString.appendFormat("%C", letters.character(at: Int(rand)))

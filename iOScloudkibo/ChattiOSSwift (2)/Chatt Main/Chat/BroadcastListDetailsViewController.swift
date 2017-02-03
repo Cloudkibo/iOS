@@ -10,7 +10,7 @@ import UIKit
 import Contacts
 import ContactsUI
 import SQLite
-import Haneke
+//import Haneke
 
 class BroadcastListDetailsViewController: UIViewController,UINavigationControllerDelegate,UITextFieldDelegate {
 
@@ -48,7 +48,7 @@ class BroadcastListDetailsViewController: UIViewController,UINavigationControlle
         broadcastlistinfo=sqliteDB.getSinglebroadcastlist(self.broadcastlistID)
        broadcastmembers=sqliteDB.getBroadcastListMembers(broadcastlistID)
         membersnames.removeAll()
-        for(i in 0 ..< broadcastmembers.count)
+        for i in 0 .. broadcastmembers.count
         {
             membersnames.append(sqliteDB.getNameFromAddressbook(broadcastmembers[i]))
             
@@ -309,7 +309,7 @@ class BroadcastListDetailsViewController: UIViewController,UINavigationControlle
                 destinationVC.prevScreen="editbroadcastlist"
                 var identifierslist=[String]()
                 destinationVC.editbroadcastlistID=broadcastlistID
-                for(i in 0 ..< broadcastmembers.count)
+                for i in 0 .. broadcastmembers.count
                 {
                     identifierslist.append(sqliteDB.getIdentifierFRomPhone(broadcastmembers[i]))
                     var found=UtilityFunctions.init().findContact(sqliteDB.getIdentifierFRomPhone(broadcastmembers[i]))

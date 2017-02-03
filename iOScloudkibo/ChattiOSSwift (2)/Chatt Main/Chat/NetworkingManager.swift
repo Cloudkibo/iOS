@@ -160,9 +160,9 @@ class NetworkingManager
     static let sharedManager = NetworkingManager()
 
     
-    fileprivate lazy var backgroundManager: Alamofire.Manager = {
+    fileprivate lazy var backgroundManager: Alamofire.SessionManager = {
         let bundleIdentifier = "kiboChat"
-        return Alamofire.Manager(configuration: NSURLSessionConfiguration.backgroundSessionConfigurationWithIdentifier(bundleIdentifier + ".background"))
+        return Alamofire.SessionManager(configuration: NSURLSessionConfiguration.backgroundSessionConfigurationWithIdentifier(bundleIdentifier + ".background"))
     }()
     
     

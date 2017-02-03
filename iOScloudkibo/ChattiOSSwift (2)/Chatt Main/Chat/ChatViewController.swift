@@ -15,7 +15,7 @@ import Foundation
 import AccountKit
 import Contacts
 import ContactsUI
-import Haneke
+//import Haneke
 
 class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,CNContactPickerDelegate,
 EPPickerDelegate,SWTableViewCellDelegate,UpdateChatViewsDelegate,RefreshContactsList,UpdateMainPageChatsDelegate,CNContactViewControllerDelegate
@@ -1751,7 +1751,7 @@ EPPickerDelegate,SWTableViewCellDelegate,UpdateChatViewsDelegate,RefreshContacts
         //print(res)
         
         var count=0
-        for(i in 0 ..< pendingMSGs.count)
+        for i in 0 .. pendingMSGs.count
         {
             var membersList=sqliteDB.getGroupMembersOfGroup(pendingMSGs[i]["group_unique_id"] as! String)
             
@@ -1910,7 +1910,7 @@ EPPickerDelegate,SWTableViewCellDelegate,UpdateChatViewsDelegate,RefreshContacts
        
         self.groupsObjectList=sqliteDB.getGroupDetails()
         
-        for(i in 0 ..< self.groupsObjectList.count)
+        for i in 0 .. self.groupsObjectList.count
         {
             ContactsProfilePic=Data.init()
             //print("date is \(self.groupsObjectList[i]["date_creation"] as! NSDate)")
@@ -2235,7 +2235,7 @@ EPPickerDelegate,SWTableViewCellDelegate,UpdateChatViewsDelegate,RefreshContacts
            
             if(joinrows.count>0)
             {
-                for(ii in 0 ..< joinrows.count){
+                for ii in 0 .. joinrows.count{
                 //print(joinrows.debugDescription)
                 //print("found uniqueidentifier from joinnn is \(joinrows[0].get(uniqueidentifier))")
                 //==========----------let queryPic = tbl_allcontacts.filter(tbl_allcontacts[phone] == ccc[contactPhone])
@@ -2352,7 +2352,7 @@ break
         self.messages.setArray(messages2 as [AnyObject])
          self.messageFrame.removeFromSuperview()
         self.pendingGroupIcons.removeAll()
-        for(i in 0 ..< pendingGroupIcons2.count)
+        for i in 0 .. pendingGroupIcons2.count
         {
         self.pendingGroupIcons.append(pendingGroupIcons2[i])
         }
@@ -4065,7 +4065,7 @@ break
         var newindexphone = -1
         do
         { alladdressContactsArray = Array(try sqliteDB.db.prepare(allcontactslist1!))
-            for (i in 0 ..< alladdressContactsArray.count)
+            for i in 0 .. alladdressContactsArray.count
             {
                 if(alladdressContactsArray[i].get(phone)==phone1)
                 {

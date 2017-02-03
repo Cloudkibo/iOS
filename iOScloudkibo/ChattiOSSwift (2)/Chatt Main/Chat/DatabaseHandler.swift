@@ -2579,7 +2579,7 @@ print("--------")
         let read_date = Expression<Date>("read_date")
         let delivered_date = Expression<Date>("delivered_date")
         var result=true
-        for(i in 0 ..< members_phones1.count)
+        for i in 0 .. members_phones1.count
         {
         do
         {for groupChatStatus in try self.db.prepare(group_chat_status.filter(msg_unique_id==msg_unique_id1 && user_phone==members_phones1[i]["member_phone"] as! String)){
@@ -2607,7 +2607,7 @@ print("--------")
         let read_date = Expression<Date>("read_date")
         let delivered_date = Expression<Date>("delivered_date")
         var result=true
-        for(i in 0 ..< members_phones1.count)
+        for i in 0 .. members_phones1.count
         {
             do
             {for groupChatStatus in try self.db.prepare(group_chat_status.filter(msg_unique_id==msg_unique_id1 && user_phone==members_phones1[i]["member_phone"] as! String)){
@@ -2638,7 +2638,7 @@ print("--------")
         let read_date = Expression<Date>("read_date")
         let delivered_date = Expression<Date>("delivered_date")
         var result=true
-        for(i in 0 ..< members_phones1.count)
+        for i in 0 .. members_phones1.count
         {
             do
             {for groupChatStatus in try self.db.prepare(group_chat_status.filter(msg_unique_id==msg_unique_id1 && user_phone==members_phones1[i]["member_phone"] as! String)){
@@ -2795,7 +2795,7 @@ print("--------")
         //
         self.broadcastlistmembers = Table("broadcastlistmembers")
         do {
-            for(i in 0 ..< memberphones.count)
+            for i in 0 .. memberphones.count
             {
             let rowid = try db.run(broadcastlistmembers.insert(
                 uniqueid<-broadcastlistID1,
@@ -2828,7 +2828,7 @@ print("--------")
         do
         {
             try sqliteDB.db.run((query?.delete())!)
-            for(i in 0 ..< members.count)
+            for i in 0 .. members.count
             {
                 let rowid = try db.run(broadcastlistmembers?.insert(
                     uniqueid<-uniqueid1,
@@ -2944,13 +2944,13 @@ print("--------")
         let listname = Expression<String>("listname")
         
         var listdata = getSinglebroadcastlist()
-        for(i in 0 ..< listdata.count)
+        for i in 0 .. listdata.count
         {
             var listDetailSingle=[String:String]()
             
             var membersarray=getBroadcastListMembers(listdata[i]["uniqueid"] as! String)
             var memberslistnames=[String]()
-            for(j in 0 ..< membersarray.count)
+            for j in 0 .. membersarray.count
             {
                 print(membersarray[j] )
             memberslistnames.append(getNameFromAddressbook(membersarray[j] ))

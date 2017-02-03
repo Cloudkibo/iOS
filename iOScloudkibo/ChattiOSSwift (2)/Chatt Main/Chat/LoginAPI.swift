@@ -50,7 +50,8 @@ class LoginAPI{
     
     
     init(url:String){
-        socket=SocketIOClient(socketURL: "\(url)"/*, options: [.Log(true)]*/)
+       
+        socket=SocketIOClient(socketURL:  URL(string: "\(url)")/*, options: [.Log(true)]*/)
         areYouFreeForCall=true
         isBusy=false
         self.socket.on("connect") {data, ack in

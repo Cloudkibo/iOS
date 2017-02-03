@@ -28,11 +28,11 @@ protocol SocketParsable : SocketIOClientSpec {
 }
 
 extension SocketParsable {
-    fileprivate func isCorrectNamespace(_ nsp: String) -> Bool {
+    private func isCorrectNamespace(_ nsp: String) -> Bool {
         return nsp == self.nsp
     }
     
-    fileprivate func handleConnect(_ packetNamespace: String) {
+    private func handleConnect(_ packetNamespace: String) {
         if packetNamespace == "/" && nsp != "/" {
             joinNamespace(nsp)
         } else {
@@ -40,7 +40,7 @@ extension SocketParsable {
         }
     }
     
-    fileprivate func handlePacket(_ pack: SocketPacket) {
+    private func handlePacket(_ pack: SocketPacket) {
         switch pack.type {
         case .event where isCorrectNamespace(pack.nsp):
             handleEvent(pack.event, data: pack.args, isInternalMessage: false, withAck: pack.id)
@@ -125,7 +125,7 @@ extension SocketParsable {
     }
     
     // Parses data for events
-    fileprivate func parseData(_ data: String) -> Either<String, [Any]> {
+    private func parseData(_ data: String) -> Either<String, [Any]> {
         do {
             return .right(try data.toArray())
         } catch {

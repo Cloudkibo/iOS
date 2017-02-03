@@ -156,7 +156,7 @@ class UtilityFunctions{
         
         let randomString : NSMutableString = NSMutableString(capacity: len)
         
-        for (i in 0 ..< len){
+        for i in 0 .. len{
             let length = UInt32 (letters.length)
             let rand = arc4random_uniform(length)
             randomString.appendFormat("%C", letters.character(at: Int(rand)))
@@ -709,7 +709,7 @@ print("tempURL is \(temporaryURL) and response is \(response.allHeaderFields)")
     var phoneDigits=a.value(forKey: "digits") as! String
     var actualphonedigits=a.value(forKey: "digits") as! String
  
-    for(i in 0 ..< phoneDigits.characters.count)
+    for i in 0 .. phoneDigits.characters.count
     {
     if(phoneDigits.characters.first=="0")
     {
@@ -795,7 +795,7 @@ print("tempURL is \(temporaryURL) and response is \(response.allHeaderFields)")
            //==-- try sqliteDB.db.run(tbl_allcontacts.delete())
             // print("now count is \(sqliteDB.db.scalar(tbl_allcontacts.count))")
             
-            for(j in 0 ..< contactsdata.count)
+            for j in 0 .. contactsdata.count
             {
                 do{
                     try sqliteDB.db.run(tbl_allcontacts?.insert(name<-contactsdata[j]["name"]!,phone<-contactsdata[j]["phone"]!,actualphone<-contactsdata[j]["actualphone"]!,email<-contactsdata[j]["email"]!,uniqueidentifier<-contactsdata[j]["uniqueidentifier"]!,kiboContact<-isKibo))
@@ -842,6 +842,21 @@ print("tempURL is \(temporaryURL) and response is \(response.allHeaderFields)")
         default:
             completionHandler(false)
         }
+    }
+    
+    func networkRequestDownloadDataRequest()
+    {
+        /*Alamofire.request("\(Constants.MainUrl+Constants.urllog)", method: .post, parameters: ["data":"IPHONE_LOG: partial sync chat \(username!)"], encoding: JSONEncoding.default)
+            .downloadProgress(queue: DispatchQueue.global(qos: .utility)) { progress in
+                print("Progress: \(progress.fractionCompleted)")
+            }
+            .validate { request, response, data in
+                // Custom evaluation closure now includes data (allows you to parse data to dig out error messages if necessary)
+                return .success
+            }
+            .responseJSON { response in
+                debugPrint(response)
+        }*/
     }
     
    /* func showError(title:String,message:String,button1:String) {

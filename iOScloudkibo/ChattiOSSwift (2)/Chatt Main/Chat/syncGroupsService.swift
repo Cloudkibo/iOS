@@ -309,7 +309,7 @@ class syncGroupService
             var groupsList=[[String:AnyObject]]()
         DispatchQueue.global(priority: DispatchQueue.GlobalQueuePriority.default).sync
         {
-            for(i in 0 ..< groupInfo.count)
+            for i in 0 .. groupInfo.count
             {
                 //groupInfo[i]["group_unique_id"]
                 var unique_id=groupInfo[i]["group_unique_id"]["unique_id"].string!
@@ -385,7 +385,7 @@ class syncGroupService
         do{
             try sqliteDB.db.run((tbl_Groups?.delete())!)
             
-            for(i in 0 ..< groupsList.count)
+            for i in 0 .. groupsList.count
             {
             sqliteDB.storeGroups(groupsList[i]["group_name"] as! String, groupicon1: groupsList[i]["groupicon1"] as! Data, datecreation1: groupsList[i]["datecreation1"] as! Date , uniqueid1: groupsList[i]["uniqueid1"] as! String, status1: groupsList[i]["status1"] as! String)
             sqliteDB.storeMuteGroupSettingsTable(groupsList[i]["uniqueid1"] as! String, isMute1: false, muteTime1: Date(), unMuteTime1: Date())
@@ -418,7 +418,7 @@ class syncGroupService
         do{
         try sqliteDB.db.run((tbl_Groups?.delete())!)
             
-            for(i in 0 ..< groupInfo.count)
+            for i in 0 .. groupInfo.count
             {
                 //groupInfo[i]["group_unique_id"]
                 var unique_id=groupInfo[i]["group_unique_id"]["unique_id"].string!

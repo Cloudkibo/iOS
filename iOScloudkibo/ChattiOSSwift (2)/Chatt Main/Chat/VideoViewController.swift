@@ -242,7 +242,7 @@ class VideoViewController: UIViewController,RTCPeerConnectionDelegate,RTCSession
         }
         else
         {
-            var aa=JSON(["to":iamincallWith!,"msg":["callerphone":username!,"calleephone":iamincallWith!,"status":"missing","type":"call"]])
+            var aa=JSON.init(dictionaryLiteral:["to":iamincallWith!,"msg":["callerphone":username!,"calleephone":iamincallWith!,"status":"missing","type":"call"]])
             socketObj.socket.emit("logClient","IPHONE-LOG: \(aa.object)")
             socketObj.socket.emit("message",aa.object)
             
@@ -2411,7 +2411,7 @@ self.remoteDisconnected()
                         ////////FU utility
                         if(chunknumber % fu.chunks_per_ack == 0)
                         {
-                            for(i in 0 ..< fu.chunks_per_ack)
+                            for i in 0 .. fu.chunks_per_ack
                             {
                                 if(Int(fileSize1) < fu.chunkSize)
                                 {

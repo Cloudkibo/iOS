@@ -39,16 +39,16 @@ struct SocketStringReader {
     }
     
     @discardableResult
-    mutating func advance(_ by: Int) -> String.Index {
+    mutating func advance(by: Int) -> String.Index {
         currentIndex = message.characters.index(currentIndex, offsetBy: by)
         
         return currentIndex
     }
     
-    mutating func read(_ count: Int) -> String {
+    mutating func read(count: Int) -> String {
         let readString = message[currentIndex..<message.characters.index(currentIndex, offsetBy: count)]
         
-        advance(count)
+        advance(by: count)
         
         return readString
     }
@@ -62,12 +62,12 @@ struct SocketStringReader {
             return substring
         }
         
-        advance(message.characters.distance(from: message.characters.startIndex, to: foundRange.lowerBound) + 1)
+        advance(by: message.characters.distance(from: message.characters.startIndex, to: foundRange.lowerBound) + 1)
         
         return substring.substring(to: foundRange.lowerBound)
     }
     
     mutating func readUntilEnd() -> String {
-        return read(message.characters.distance(from: currentIndex, to: message.endIndex))
+        return read(count: message.characters.distance(from: currentIndex, to: message.endIndex))
     }
 }

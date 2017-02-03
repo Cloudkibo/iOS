@@ -47,7 +47,7 @@ var chatDetailView:ChatDetailViewController!
 var goBack=false
 var countrycode:String! = KeychainWrapper.stringForKey("countrycode")
 let configuration1 = URLSessionConfiguration.background(withIdentifier: "com.example.app.background")
-let manager = Alamofire.Manager(configuration: configuration1)
+let manager = Alamofire.SessionManager(configuration: configuration1)
 
 var endedCall=false
 var accountKit:AKFAccountKit!
@@ -74,7 +74,7 @@ var sqliteDB=DatabaseHandler(dbName:"cloudkibo.sqlite3")
 ////let sqliteDB=DatabaseHandler(dbName: "")
 //%%%%%%%%%%%%var AuthToken=KeychainWrapper.stringForKey("access_token")
 var AuthToken:String!=nil
-var loggedUserObj=JSON("[]")
+//var loggedUserObj=JSON("[]")
 var globalChatRoomJoined:Bool=false
 //let dbSQLite=DatabaseHandler(dbName: "/cloudKibo.sqlite3")
 
@@ -116,7 +116,7 @@ var header:[String:String]=["kibo-token":""]
 var delegateRefreshChat:UpdateChatViewsDelegate!
 //var appJustInstalled=[Bool]()
 var reachability:Reachability!;
-var contactsarray=[CNContact]?()
+var contactsarray=[CNContact]()
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate,AppDelegateScreenDelegate {
@@ -549,11 +549,26 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
                 
             }
             
-            Alamofire.request(.POST,"\(Constants.MainUrl+Constants.urllog)",headers:header,parameters: ["data":"IPHONE_LOG: partial sync chat \(username!)"]).response{
+            Alamofire.request("\(Constants.MainUrl+Constants.urllog)", method: .post, parameters: ["data":"IPHONE_LOG: partial sync chat \(username!)"], encoding: JSONEncoding.default)
+                .downloadProgress(queue: DispatchQueue.global(qos: .utility)) { progress in
+                    print("Progress: \(progress.fractionCompleted)")
+                }
+                .validate { request, response, data in
+                    // Custom evaluation closure now includes data (allows you to parse data to dig out error messages if necessary)
+                    return .success
+                }
+                .responseJSON { response in
+                    debugPrint(response)
+            }
+            
+            
+            ///updated alamofire4
+            /*
+            Alamofire.request("\(Constants.MainUrl+Constants.urllog)", method: .post, parameters: ["data":"IPHONE_LOG: partial sync chat \(username!)"], encoding: NSUTF8StringEncoding, headers: header)  /*(.POST,"\(Constants.MainUrl+Constants.urllog)",headers:header,parameters: ["data":"IPHONE_LOG: partial sync chat \(username!)"])*/.response{
                 request, response_, data, error in
                 print(error)
             }
-
+*/
             
             //  dispatch_async(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0)) {
             
@@ -1326,7 +1341,7 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
         //print(res)
         
             var count=0
-        for(i in 0 ..< pendingMSGs.count)
+        for i in 0 .. pendingMSGs.count
             {
                var membersList=sqliteDB.getGroupMembersOfGroup(pendingMSGs[i]["group_unique_id"] as! String)
                 

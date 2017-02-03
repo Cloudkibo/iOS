@@ -157,7 +157,7 @@ EPPickerDelegate,SWTableViewCellDelegate,UIImagePickerControllerDelegate {
         do
         {
            membersArrayOfGroup=sqliteDB.getGroupMembersOfGroup(groupid)
-            for i in 0 .. membersArrayOfGroup.count
+            for i in 0 ..< membersArrayOfGroup.count
             {
                 print("found matched idss")
                 if((membersArrayOfGroup[i]["membership_status"] as! String) == "joined")
@@ -228,7 +228,7 @@ else{
         //add participants clicked
        
         identifiersarray.removeAll()
-for i in 0 .. membersArrayOfGroup.count
+for i in 0 ..< membersArrayOfGroup.count
 {
    if((membersArrayOfGroup[i]["membership_status"] as! String) == "joined")
     {
@@ -318,7 +318,7 @@ identifiersarray.append(identifier)
         
                 var memberphones=[String]()
         var membersnames=[String]()
-        for i in 0 .. participantsSelected.count
+        for i in 0 ..< participantsSelected.count
         {print()
             memberphones.append(participantsSelected[i].getPhoneNumber())
              membersnames.append(participantsSelected[i].displayName())

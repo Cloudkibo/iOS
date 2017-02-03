@@ -276,7 +276,7 @@ class DisplayNameViewController: UIViewController {
                          }
                          
                          }*/
-                        for(i in 0 ..< phoneDigits.characters.count)
+                        for i in 0 .. phoneDigits.characters.count
                         {
                             if(phoneDigits.characters.first=="0")
                             {
@@ -361,7 +361,7 @@ class DisplayNameViewController: UIViewController {
             var contactsdata=[[String:String]]()
             DispatchQueue.global(priority: DispatchQueue.GlobalQueuePriority.default).sync{
                 
-            for(i in 0 ..< self.syncContactsList.count)
+            for i in 0 .. self.syncContactsList.count
             {
                 self.lbl_progress.text="Updating Contact \(i)"
                 
@@ -415,7 +415,7 @@ class DisplayNameViewController: UIViewController {
                              }
                              
                              }*/
-                            for(i in 0 ..< phoneDigits.characters.count)
+                            for i in 0 ..< phoneDigits.characters.count
                             {
                                 if(phoneDigits.characters.first=="0")
                                 {
@@ -528,7 +528,7 @@ class DisplayNameViewController: UIViewController {
                 try sqliteDB.db.run((tbl_allcontacts?.delete())!)
                 // print("now count is \(sqliteDB.db.scalar(tbl_allcontacts.count))")
                 
-                for(j in 0 ..< contactsdata.count)
+                for j in 0 .. contactsdata.count
                 {
                     do{
                         try sqliteDB.db.run(tbl_allcontacts?.insert(self.name<-contactsdata[j]["name"]!,self.phone<-contactsdata[j]["phone"]!,self.actualphone<-contactsdata[j]["actualphone"]!,self.email<-contactsdata[j]["email"]!,self.uniqueidentifier<-contactsdata[j]["uniqueidentifier"]!))
@@ -616,6 +616,18 @@ class DisplayNameViewController: UIViewController {
         
         //%%%%%%%%%%%%%%% new phone model change
         //Alamofire.request(.POST,searchContactsByEmail,parameters:["emails":emails],encoding: .JSON).responseJSON { response in
+        
+        Alamofire.request(searchContactsByPhones,
+                          method: .post,
+                          parameters: ["phonenumbers":phones],
+                          encoding: URLEncoding.default,
+                          headers: header)
+            .response(completionHandler: { (defaultDataResponse) in
+                // do something with the response
+                print(defaultDataResponse)
+            })
+        
+        
         Alamofire.request(.POST,searchContactsByPhones,headers:header,parameters:["phonenumbers":phones],encoding: .JSON).responseJSON { response in
             
             if(response.response?.statusCode==200)
@@ -700,7 +712,7 @@ class DisplayNameViewController: UIViewController {
                     
                 }
                 
-                completion(result: true)
+                completion(true)
             }
         
     }

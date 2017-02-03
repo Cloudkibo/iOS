@@ -619,7 +619,7 @@ class NotesViewController: UIViewController,InviteContactsDelegate,UITextFieldDe
                             print("selected phone is \(selectedphone)")
                             print("selected phone is \(selectedname)")
                             
-                            for (i in 0 ..< alladdressContactsArray.count)
+                            for i in 0 .. alladdressContactsArray.count
                             {
                                 if(alladdressContactsArray[i].get(phone)==selectedphone)
                                 {
