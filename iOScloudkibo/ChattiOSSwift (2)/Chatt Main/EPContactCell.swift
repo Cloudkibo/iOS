@@ -22,107 +22,56 @@ class EPContactCell: UITableViewCell {
         
         super.awakeFromNib()
         // Initialization code
-        selectionStyle = UITableViewCellSelectionStyle.None
+        selectionStyle = UITableViewCellSelectionStyle.none
         contactContainerView.layer.masksToBounds = true
         contactContainerView.layer.cornerRadius = contactContainerView.frame.size.width/2
     }
 
-    override func setSelected(selected: Bool, animated: Bool) {
+    override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
     }
     
-    func updateInitialsColorForIndexPath(indexpath: NSIndexPath) {
+    func updateInitialsColorForIndexPath(_ indexpath: IndexPath) {
         //Applies color to Initial Label
         let colorArray = [EPGlobalConstants.Colors.amethystColor,EPGlobalConstants.Colors.asbestosColor,EPGlobalConstants.Colors.emeraldColor,EPGlobalConstants.Colors.peterRiverColor,EPGlobalConstants.Colors.pomegranateColor,EPGlobalConstants.Colors.pumpkinColor,EPGlobalConstants.Colors.sunflowerColor]
         let randomValue = (indexpath.row + indexpath.section) % colorArray.count
         contactInitialLabel.backgroundColor = colorArray[randomValue]
     }
  
-    func updateContactsinUI(contact: EPContact, indexPath: NSIndexPath, subtitleType: SubtitleCellValue,isalreadyselected:Bool) {
-        
-          self.contact = contact
-       /* if(contact.isKiboContact())
-        {
-            
-            self.userInteractionEnabled=false
-            self.contactDetailTextLabel.textColor=UIColor.grayColor()
-            self.contactDetailTextLabel.text="Not a kibo contact"
-        }*/
-        //else{
-            self.contactTextLabel?.text = contact.displayName()
-           
-        //}
-        
-      
-        
-        
-        
-        
+    func updateContactsinUI(_ contact: EPContact, indexPath: IndexPath, subtitleType: SubtitleCellValue) {
+        self.contact = contact
         //Update all UI in the cell here
-        updateSubtitleBasedonType(subtitleType, contact: contact,isalreadyselected: isalreadyselected)
+        self.contactTextLabel?.text = contact.displayName()
+        updateSubtitleBasedonType(subtitleType, contact: contact)
         if contact.thumbnailProfileImage != nil {
             self.contactImageView?.image = contact.thumbnailProfileImage
-            self.contactImageView.hidden = false
-            self.contactInitialLabel.hidden = true
+            self.contactImageView.isHidden = false
+            self.contactInitialLabel.isHidden = true
         } else {
-            
-            
-            //UNCOMMENT IF U WISH TO SHOW INITIALS IN ABSENCE OF AVTATAR
-            
-            ///////self.contactInitialLabel.text = contact.contactInitials()
-            ///////updateInitialsColorForIndexPath(indexPath)
-            /////self.contactImageView.hidden = true
-            /////self.contactInitialLabel.hidden = false
+            self.contactInitialLabel.text = contact.contactInitials()
+            updateInitialsColorForIndexPath(indexPath)
+            self.contactImageView.isHidden = true
+            self.contactInitialLabel.isHidden = false
         }
     }
     
-    func updateSubtitleBasedonType(subtitleType: SubtitleCellValue , contact: EPContact,isalreadyselected:Bool) {
-        self.userInteractionEnabled=true
+    func updateSubtitleBasedonType(_ subtitleType: SubtitleCellValue , contact: EPContact) {
         
-        if(isalreadyselected==true)
-        {
-            ///////////////////
-           // self.setSelected(true, animated: true)
-          ////  self.backgroundColor=UIColor.grayColor()
-            self.contactDetailTextLabel.font=UIFont.boldSystemFontOfSize(contactDetailTextLabel.font.pointSize)
-             self.contactTextLabel.font=UIFont.boldSystemFontOfSize(contactTextLabel.font.pointSize)
-            self.contactDetailTextLabel.font=UIFont.italicSystemFontOfSize(contactDetailTextLabel.font.pointSize)
-            
-            self.contactDetailTextLabel.text = "Already added"
-            self.userInteractionEnabled=false
-        }
-        else
-        {
         switch subtitleType {
             
-        case SubtitleCellValue.PhoneNumber:
+        case SubtitleCellValue.phoneNumber:
             let phoneNumberCount = contact.phoneNumbers.count
+            
             if phoneNumberCount == 1  {
-                
-                if !contact.isKiboContact(){
-                    self.contactDetailTextLabel.text = "Not a kibo contact"
-                    self.userInteractionEnabled=false
-                }
-                else
-                {
                 self.contactDetailTextLabel.text = "\(contact.phoneNumbers[0].phoneNumber)"
-                }
             }
             else if phoneNumberCount > 1 {
-                
-                if !contact.isKiboContact(){
-                    self.contactDetailTextLabel.text = "Not a kibo contact"
-                    self.userInteractionEnabled=false
-                }
-                else
-                {
                 self.contactDetailTextLabel.text = "\(contact.phoneNumbers[0].phoneNumber) and \(contact.phoneNumbers.count-1) more"
-                }
             }
             else {
                 self.contactDetailTextLabel.text = EPGlobalConstants.Strings.phoneNumberNotAvaialable
             }
-        case SubtitleCellValue.Email:
+        case SubtitleCellValue.email:
             let emailCount = contact.emails.count
         
             if emailCount == 1  {
@@ -134,11 +83,10 @@ class EPContactCell: UITableViewCell {
             else {
                 self.contactDetailTextLabel.text = EPGlobalConstants.Strings.emailNotAvaialable
             }
-        case SubtitleCellValue.Birthday:
+        case SubtitleCellValue.birthday:
             self.contactDetailTextLabel.text = contact.birthdayString
-        case SubtitleCellValue.Organization:
-            self.contactDetailTextLabel.text = contact.company! as String
+        case SubtitleCellValue.organization:
+            self.contactDetailTextLabel.text = contact.company
         }
-    }//end else
     }
 }

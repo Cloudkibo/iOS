@@ -1,21 +1,28 @@
 PODS:
-  - Alamofire (3.4.0)
-  - EPContactsPicker (1.0.2)
+  - Alamofire (4.3.0)
   - HanekeSwift (0.10.1)
   - libjingle_peerconnection (11177.2.0)
 
 DEPENDENCIES:
-  - Alamofire (~> 3.0)
-  - EPContactsPicker
+  - Alamofire (from `https://github.com/Alamofire/Alamofire.git`, branch `master`)
   - HanekeSwift
   - libjingle_peerconnection
 
+EXTERNAL SOURCES:
+  Alamofire:
+    :branch: master
+    :git: https://github.com/Alamofire/Alamofire.git
+
+CHECKOUT OPTIONS:
+  Alamofire:
+    :commit: fa3c6d09b603f417c7788adb51ca0cade75b3d67
+    :git: https://github.com/Alamofire/Alamofire.git
+
 SPEC CHECKSUMS:
-  Alamofire: c19a627cefd6a95f840401c49ab1f124e07f54ee
-  EPContactsPicker: 38fcb880893b08df10758adb0941ea7e712b892a
+  Alamofire: 1f72088aff8f6b40828dadd61be2e9a31beca01e
   HanekeSwift: 08e47d3d0f2899ec58e5d257beba0de619aca9e8
   libjingle_peerconnection: 3458f646ddd61f08a9f3a0c43fb01fff5c165eb8
 
-PODFILE CHECKSUM: 1b7f87bf41a7ca8185210abc610b5beb8000264d
+PODFILE CHECKSUM: a0ff8c15a669cbb9910fcbaaf97366ba0fd77667
 
-COCOAPODS: 1.0.1
+COCOAPODS: 1.2.0
