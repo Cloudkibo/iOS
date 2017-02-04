@@ -284,7 +284,7 @@
             startingLineNumber = "229"
             endingLineNumber = "229"
             landmarkName = "viewDidLoad()"
-            landmarkType = "5">
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -2753,6 +2753,22 @@
             startingLineNumber = "321"
             endingLineNumber = "321"
             landmarkName = "addToGroup()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Chat/LoginAPI.swift"
+            timestampString = "507897647.200515"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "189"
+            endingLineNumber = "189"
+            landmarkName = "addHandlers()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

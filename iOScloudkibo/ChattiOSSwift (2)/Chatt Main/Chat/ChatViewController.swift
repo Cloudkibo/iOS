@@ -4065,7 +4065,7 @@ break
         var newindexphone = -1
         do
         { alladdressContactsArray = Array(try sqliteDB.db.prepare(allcontactslist1!))
-            for i in 0 .. alladdressContactsArray.count
+            for i in 0 ..< alladdressContactsArray.count
             {
                 if(alladdressContactsArray[i].get(phone)==phone1)
                 {

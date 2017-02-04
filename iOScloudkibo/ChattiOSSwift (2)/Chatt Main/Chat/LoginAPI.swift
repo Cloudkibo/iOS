@@ -51,7 +51,7 @@ class LoginAPI{
     
     init(url:String){
        
-        socket=SocketIOClient(socketURL:  URL(string: "\(url)")/*, options: [.Log(true)]*/)
+        socket=SocketIOClient(socketURL:  URL(string: "\(url)")!/*, options: [.Log(true)]*/)
         areYouFreeForCall=true
         isBusy=false
         self.socket.on("connect") {data, ack in
@@ -185,22 +185,28 @@ class LoginAPI{
         socketObj.socket.on("theseareonline"){data,ack in
             print("theseareonline ........")
             print(":::::::::::::::::::::::::::::::::::")
-            var msg=JSON(data)
+           
+            var msg:JSON=JSON.init(dictionaryLiteral: data.description)
             print(msg.debugDescription)
             self.delegate?.socketReceivedMessage("theseareonline",data: data as AnyObject!)
         }
         socketObj.socket.on("yesiamfreeforcall"){data,ack in
             print("yesiamfreeforcall .......")
             print(":::::::::::::::::::::::::::::::::::")
-            var msg=JSON(data)
-            print(msg.debugDescription)
+            var msg:JSON=JSON.init(dictionaryLiteral: data)
+            print(msg)
             self.delegate?.socketReceivedMessage("yesiamfreeforcall",data: data as AnyObject!)
         }
         
         socketObj.socket.on("online"){data,ack in
             print("online .......")
             print(":::::::::::::::::::::::::::::::::::")
-            var msg=JSON(data)
+            do{
+                var msg:JSON=try data.toJSON()
+            }
+        catch{
+                
+            }
             print(msg.debugDescription)
             self.delegate?.socketReceivedMessage("online",data: data as AnyObject!)
         }

@@ -155,7 +155,7 @@ class VideoViewController: UIViewController,RTCPeerConnectionDelegate,RTCSession
         
         self.sendDataBuffer(test, isb: false)
         
-        for j in 0 .. numchunks
+        for j in 0 ..< numchunks
         {
             var start=j*chunkLength
             var end=(j+1)*chunkLength
@@ -180,7 +180,8 @@ class VideoViewController: UIViewController,RTCPeerConnectionDelegate,RTCSession
         
         let randomString : NSMutableString = NSMutableString(capacity: len)
         
-        for i in 0 .. len{
+        for i in 0 ..< len
+        {
             let length = UInt32 (letters.length)
             let rand = arc4random_uniform(length)
             randomString.appendFormat("%C", letters.character(at: Int(rand)))
@@ -242,10 +243,10 @@ class VideoViewController: UIViewController,RTCPeerConnectionDelegate,RTCSession
         }
         else
         {
-            var aa=JSON.init(dictionaryLiteral:["to":iamincallWith!,"msg":["callerphone":username!,"calleephone":iamincallWith!,"status":"missing","type":"call"]])
-            socketObj.socket.emit("logClient","IPHONE-LOG: \(aa.object)")
-            socketObj.socket.emit("message",aa.object)
-            
+            var aa:JSON=["to":iamincallWith!,"msg":["callerphone":username!,"calleephone":iamincallWith!,"status":"missing","type":"call"]]
+            socketObj.socket.emit("logClient","IPHONE-LOG: \(aa)")
+            //===--  new swift3 socketObj.socket.emit("message",aa.object)
+            socketObj.socket.emit("message",aa)
             self.endView()
         }
         /*else{
@@ -563,8 +564,8 @@ self.remoteDisconnected()
         print("inside disconnect")
         if((self.pc) != nil)
         {
-            DispatchQueue.global(priority: Int(DispatchQoS.QoSClass.userInitiated.rawValue)).async{
-                
+            DispatchQueue.global(priority: DispatchQoS.QoSClass.userInitiated).async{
+        
                 if((self.rtcLocalVideoTrack) != nil)
                 {print("remove localtrack renderer")
                     self.rtcLocalVideoTrack.remove(self.localView)
@@ -1542,7 +1543,7 @@ self.remoteDisconnected()
     
     func socketReceivedOtherWebRTC(_ message:String,data:AnyObject!)
     {
-        var msg=JSON(data)
+        var msg:JSON=data
         socketObj.socket.emit("logClient","IPHONE-LOG: \(username!) received message \(msg)")
         
         print("socketReceivedOtherWebRTC inside \(msg)")

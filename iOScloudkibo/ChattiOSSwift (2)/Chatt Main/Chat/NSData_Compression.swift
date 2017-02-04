@@ -78,7 +78,8 @@ extension Data {
         
         // finally, attempt to uncompress the data and initalize self
         if let uncompressedData = compressedData.uncompressedDataUsingCompression(compression) {
-            (self as NSData).init(data: uncompressedData)
+            (self as NSData).base64EncodedData(options: .NSUTF8StringEncoding)
+                //.init(data: uncompressedData)
         }
         else {
             return nil
