@@ -10,6 +10,7 @@ import UIKit
 import Alamofire
 import SQLite
 import SwiftyJSON
+import Kingfisher
 //import Haneke
 class GroupChatingDetailController: UIViewController,UpdateGroupChatDetailsDelegate {
     
@@ -351,14 +352,20 @@ class GroupChatingDetailController: UIViewController,UpdateGroupChatDetailsDeleg
              cell!.profilePic.clipsToBounds = true
              */
             //cell.profilePic.hnk_format=Format<UIImage>
-            var scaledimage=ImageResizer(size: CGSize(width: (self.navigationController?.navigationBar.frame.height)!,height: (self.navigationController?.navigationBar.frame.height)!), scaleMode: .AspectFit, allowUpscaling: true, compressionQuality: 0.5)
+            var scaledimagegroupicon=UIImage(data:groupimage)!.kf.resize(to: CGSize(width: (self.navigationController?.navigationBar.frame.height)!,height: (self.navigationController?.navigationBar.frame.height)!))
+            
+            /////////var scaledimage=ImageResizer(size: CGSize(width: (self.navigationController?.navigationBar.frame.height)!,height: (self.navigationController?.navigationBar.frame.height)!), scaleMode: .AspectFit, allowUpscaling: true, compressionQuality: 0.5)
             //var resizedimage=scaledimage.resizeImage(UIImage(data:ContactsProfilePic)!)
             //==---cell!.profilePic.hnk_setImage(scaledimage.resizeImage(UIImage(data:ContactsProfilePic)!), key: groupid1)
             
             
             ///var s=CGSizeMake((self.navigationController?.navigationBar.frame.height)!-5,(self.navigationController?.navigationBar.frame.height)!-5)
-            var groupiconimage=scaledimage.resizeImage(UIImage(data:groupimage)!)
-            var barAvatarImage=UIImageView.init(image: groupiconimage)
+            ///////////var groupiconimage=scaledimage.resizeImage(UIImage(data:groupimage)!)
+            
+            
+            var barAvatarImage=UIImageView.init(image: scaledimagegroupicon)
+            
+            ///var barAvatarImage=UIImageView.init(image: groupiconimage)
             
             barAvatarImage.layer.borderWidth = 1.0
             //==--barAvatarImage.layer.masksToBounds = false

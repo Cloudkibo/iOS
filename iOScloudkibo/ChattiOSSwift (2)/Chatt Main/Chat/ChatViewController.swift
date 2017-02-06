@@ -15,6 +15,7 @@ import Foundation
 import AccountKit
 import Contacts
 import ContactsUI
+import Kingfisher
 //import Haneke
 
 class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,CNContactPickerDelegate,
@@ -3346,19 +3347,19 @@ break
                                 
                             } else {
                                 print("Not exist in cache.")
-                                ImageCache.default.store(profilepic!, forKey: ContactUsernames)
+                                ImageCache.default.store(profilepic, forKey: ContactUsernames)
                                 ImageCache.default.isImageCached(forKey: ContactUsernames)
                                 ImageCache.default.isImageCached(forKey: ContactUsernames)
                                 
                             }
                         }
                         
-                         //----replacing image lib
-                        /*
                         cell!.profilePic.kf.setImage(with: profilepic as! Resource)
                         
-                        var scaledimage=imageavatar.image?.kf.resize(to: CGSize(width: cell!.profilePic.bounds.width,height: cell!.profilePic.bounds.height))
+                        var scaledimage=cell!.profilePic.image?.kf.resize(to: CGSize(width: cell!.profilePic.bounds.width,height: cell!.profilePic.bounds.height))
                         
+                        //----replacing image lib
+                        /*
 
                         
                         var scaledimage=ImageResizer(size: CGSize(width: cell!.profilePic.bounds.width,height: cell!.profilePic.bounds.height), scaleMode: .AspectFill, allowUpscaling: true, compressionQuality: 0.5)
@@ -3419,11 +3420,38 @@ break
                 if(/*!ContactsProfilePic.isEmpty  &&*/ ContactsProfilePic != Data.init())
                 {
                     //print("seeting picc for \(ContactUsernames)")
+                    
+                    
+                    var profilepic=UIImage(data:ContactsProfilePic)!
+                    
+                    ImageCache.default.retrieveImage(forKey: ContactUsernames, options: nil) {
+                        image, cacheType in
+                        if let image = image {
+                            print("Get image \(image), cacheType: \(cacheType).")
+                            //In this code snippet, the `cacheType` is .disk
+                            
+                        } else {
+                            print("Not exist in cache.")
+                            ImageCache.default.store(profilepic, forKey: ContactUsernames)
+                            ImageCache.default.isImageCached(forKey: ContactUsernames)
+                            ImageCache.default.isImageCached(forKey: ContactUsernames)
+                            
+                        }
+                    }
+                    
+                    cell!.profilePic.kf.setImage(with: profilepic as! Resource)
+                    
+                    var scaledimage=cell!.profilePic.image?.kf.resize(to: CGSize(width: cell!.profilePic.bounds.width,height: cell!.profilePic.bounds.height))
+                    
+                    
+                    //----replacing image lib
+                    /*
                     var scaledimage=ImageResizer(size: CGSize(width: cell!.profilePic.bounds.width,height: cell!.profilePic.bounds.height), scaleMode: .AspectFill, allowUpscaling: true, compressionQuality: 0.5)
                     //var resizedimage=scaledimage.resizeImage(UIImage(data:ContactsProfilePic)!)
                     cell!.profilePic.hnk_setImage(scaledimage.resizeImage(UIImage(data:ContactsProfilePic)!), key: ContactUsernames)
                     
                     //==----cell.profilePic.image=UIImage(data:ContactsProfilePic)
+                    */
                 }
             }
         
@@ -3450,10 +3478,34 @@ break
                 cell!.profilePic.clipsToBounds = true
                 
                 
+                var profilepic=UIImage(data:ContactsProfilePic)!
+                
+                ImageCache.default.retrieveImage(forKey: ContactUsernames, options: nil) {
+                    image, cacheType in
+                    if let image = image {
+                        print("Get image \(image), cacheType: \(cacheType).")
+                        //In this code snippet, the `cacheType` is .disk
+                        
+                    } else {
+                        print("Not exist in cache.")
+                        ImageCache.default.store(profilepic, forKey: ContactUsernames)
+                        ImageCache.default.isImageCached(forKey: ContactUsernames)
+                        ImageCache.default.isImageCached(forKey: ContactUsernames)
+                        
+                    }
+                }
+                
+                cell!.profilePic.kf.setImage(with: profilepic as! Resource)
+                
+                var scaledimage=cell!.profilePic.image?.kf.resize(to: CGSize(width: cell!.profilePic.bounds.width,height: cell!.profilePic.bounds.height))
+                
+                
+                ////----replacing image lib
+                /*
                 var scaledimage=ImageResizer(size: CGSize(width: cell!.profilePic.bounds.width,height: cell!.profilePic.bounds.height), scaleMode: .AspectFill, allowUpscaling: true, compressionQuality: 0.5)
                 //var resizedimage=scaledimage.resizeImage(UIImage(data:ContactsProfilePic)!)
                 cell!.profilePic.hnk_setImage(scaledimage.resizeImage(UIImage(data:ContactsProfilePic)!), key: ContactUsernames)
-                
+                */
                 
                 //==----cell.profilePic.image=UIImage(data: ContactsProfilePic, scale: scale)
                 ///cell.profilePic.image=UIImage(data:ContactsProfilePic[indexPath.row])
