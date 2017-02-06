@@ -47,14 +47,23 @@ EPPickerDelegate,SWTableViewCellDelegate,UIImagePickerControllerDelegate {
         super.viewDidLoad()
 
         
-        do{reachability = try Reachability.reachabilityForInternetConnection()
+        do{reachability = try Reachability.init() //reachabilityForInternetConnection()
             try reachability.startNotifier();
             //  NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("checkForReachability:"), name:ReachabilityChangedNotification, object: reachability)
         }
         catch{
             print("error in reachability")
         }
-        NotificationCenter.default.addObserver(self, selector: #selector(GroupInfo3ViewController.checkForReachability(_:)), name:NSNotification.Name(rawValue: ReachabilityChangedNotification), object: reachability)
+        
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(GroupInfo3ViewController.checkForReachability(_:)),name: ReachabilityChangedNotification,object: reachability)
+        do{
+            try reachability.startNotifier()
+        }catch{
+            print("could not start reachability notifier")
+        }
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(GroupInfo3ViewController.checkForReachability(_:)),name: ReachabilityChangedNotification, object: reachability)//   .Name(rawValue: ReachabilityChangedNotification), object: reachability)
         
         
         
@@ -673,7 +682,7 @@ identifiersarray.append(identifier)
             
             let randomString : NSMutableString = NSMutableString(capacity: len)
             
-            for i in 0 .. len{
+            for i in 0 ..< len{
                 let length = UInt32 (letters.length)
                 let rand = arc4random_uniform(length)
                 randomString.appendFormat("%C", letters.character(at: Int(rand)))
@@ -1247,11 +1256,11 @@ else{
         
         ///
         
-        var furl=URL(string: localPath.URLString)
-        
+        var furl=URL(string: localPath.absoluteString)
+        var furl2=localPath.absoluteURL
         //print(furl!.pathExtension!)
         //print(furl!.URLByDeletingPathExtension?.lastPathComponent!)
-        ftype=furl!.pathExtension!
+        ftype=furl!.pathExtension
         var fname=furl!.URLByDeletingPathExtension?.lastPathComponent!
         
         

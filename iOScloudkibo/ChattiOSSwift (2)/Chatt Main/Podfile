@@ -5,7 +5,6 @@ target ‘Chat’ do
 
 use_frameworks!
 
-pod 'HanekeSwift'
 pod 'Alamofire', :git => 'https://github.com/Alamofire/Alamofire.git', :branch => 'master'
 pod "libjingle_peerconnection"
 end

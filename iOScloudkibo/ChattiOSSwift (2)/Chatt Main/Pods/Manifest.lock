@@ -1,11 +1,9 @@
 PODS:
   - Alamofire (4.3.0)
-  - HanekeSwift (0.10.1)
   - libjingle_peerconnection (11177.2.0)
 
 DEPENDENCIES:
   - Alamofire (from `https://github.com/Alamofire/Alamofire.git`, branch `master`)
-  - HanekeSwift
   - libjingle_peerconnection
 
 EXTERNAL SOURCES:
@@ -20,9 +18,8 @@ CHECKOUT OPTIONS:
 
 SPEC CHECKSUMS:
   Alamofire: 1f72088aff8f6b40828dadd61be2e9a31beca01e
-  HanekeSwift: 08e47d3d0f2899ec58e5d257beba0de619aca9e8
   libjingle_peerconnection: 3458f646ddd61f08a9f3a0c43fb01fff5c165eb8
 
-PODFILE CHECKSUM: a0ff8c15a669cbb9910fcbaaf97366ba0fd77667
+PODFILE CHECKSUM: 6ddc192f3c5195ed3af284a9b0aebdf5d7cfa846
 
 COCOAPODS: 1.2.0

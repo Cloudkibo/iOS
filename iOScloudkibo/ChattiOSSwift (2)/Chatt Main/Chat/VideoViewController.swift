@@ -159,7 +159,8 @@ class VideoViewController: UIViewController,RTCPeerConnectionDelegate,RTCSession
         {
             var start=j*chunkLength
             var end=(j+1)*chunkLength
-            self.sendImage(imageData.subdata(in: NSMakeRange(start,len-start)))
+            var newrange=start..<end
+            self.sendImage(imageData.subdata(in: newrange))
             
         }
         if((len%chunkLength) > 0)
@@ -1581,7 +1582,7 @@ self.remoteDisconnected()
             webMeetingModel.addChatMsg(chat[0]["message"].description, usr: chat[0]["username"].description)
             */
         default:print("wrong socket other mesage received")
-        var msg=JSON(data)
+        var msg:JSON=data as! JSON
         print(msg.description)
             socketObj.socket.emit("logClient","IPHONE-LOG: \(username!)received wrong socket message  \(msg.description)")
         }
@@ -1597,7 +1598,7 @@ self.remoteDisconnected()
     
     func socketReceivedMessageWebRTC(_ message:String,data:AnyObject!)
     {print("socketReceivedMessageWebRTC inside")
-        var msg=JSON(data!)
+        var msg:JSON=data! as JSON
         socketObj.socket.emit("logClient","IPHONE-LOG: \(username!) received socketReceivedMessageWebRTC  \(msg)")
         switch(message){
             
@@ -1615,7 +1616,7 @@ self.remoteDisconnected()
     func handlemsg(_ data:AnyObject!)
     {
         print("msg reeived.. check if offer answer or ice")
-        var msg=JSON(data)
+        var msg:JSON=data
         print(msg.description)
         
         if(msg[0]["type"].string! == "offer")
@@ -1713,7 +1714,7 @@ self.remoteDisconnected()
         
         //Both joined same room
         
-        var datajson=JSON(data!)
+        var datajson:JSON=data!
         print(datajson.debugDescription)
         socketObj.socket.emit("logClient","peer connected \(datajson.debugDescription)")
         //if(datajson[0]["username"].description != username!){
@@ -1774,8 +1775,8 @@ self.remoteDisconnected()
     {
         print("received peer.disconnected obj from server")
         
-        var datajson=JSON(data!)
-        print(datajson.debugDescription)
+        var datajson:JSON=data! as! JSON
+        print(datajson)
         
         if(datajson[0]["id"].int == otherID)
         {
@@ -3117,7 +3118,7 @@ self.remoteDisconnected()
            // socketObj.socket.emit("leave",["room":joinedRoomInCall,"id":currentID!])
         }
     
-    socketObj.socket.close()
+    socketObj.socket.removeAllHandlers() // close()
     socketObj.socket.disconnect()
         socketObj=nil
         print("socket is nillll", terminator: "")

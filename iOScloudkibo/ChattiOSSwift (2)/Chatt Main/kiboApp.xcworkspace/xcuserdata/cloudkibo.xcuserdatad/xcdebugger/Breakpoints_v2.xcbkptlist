@@ -522,7 +522,9 @@
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "312"
-            endingLineNumber = "312">
+            endingLineNumber = "312"
+            landmarkName = "uploadFile(_:to1:from1:uniqueid1:file_name1:file_size1:file_type1:type1:)"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -552,7 +554,9 @@
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "370"
-            endingLineNumber = "370">
+            endingLineNumber = "370"
+            landmarkName = "uploadFile(_:to1:from1:uniqueid1:file_name1:file_size1:file_type1:type1:)"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -566,7 +570,9 @@
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "424"
-            endingLineNumber = "424">
+            endingLineNumber = "424"
+            landmarkName = "uploadFile(_:to1:from1:uniqueid1:file_name1:file_size1:file_type1:type1:)"
+            landmarkType = "7">
             <Locations>
                <Location
                   shouldBeEnabled = "No"
@@ -612,7 +618,9 @@
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "713"
-            endingLineNumber = "713">
+            endingLineNumber = "713"
+            landmarkName = "downloadFile(_:filePendingName:filefrom:filetype:filePendingSize:filependingDate:filePendingTo:)"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -946,7 +954,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "2671"
             endingLineNumber = "2671"
-            landmarkName = "timerFiredScreenCapture()"
+            landmarkName = "application(_:willFinishLaunchingWithOptions:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -1683,7 +1691,9 @@
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "329"
-            endingLineNumber = "329">
+            endingLineNumber = "329"
+            landmarkName = "uploadFile(_:to1:from1:uniqueid1:file_name1:file_size1:file_type1:type1:)"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -2210,8 +2220,8 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "2739"
             endingLineNumber = "2739"
-            landmarkName = "fetchSingleChatMessage(_:)"
-            landmarkType = "7">
+            landmarkName = "AppDelegate"
+            landmarkType = "3">
             <Locations>
                <Location
                   shouldBeEnabled = "No"
@@ -2785,6 +2795,38 @@
             startingLineNumber = "551"
             endingLineNumber = "551"
             landmarkName = "synchroniseChatData()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Chat/GroupInfo3ViewController.swift"
+            timestampString = "508067097.403753"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "57"
+            endingLineNumber = "57"
+            landmarkName = "viewDidLoad()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Chat/GroupInfo3ViewController.swift"
+            timestampString = "508067552.159304"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "1255"
+            endingLineNumber = "1255"
+            landmarkName = "imagePickerController(_:didFinishPickingImage:editingInfo:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
