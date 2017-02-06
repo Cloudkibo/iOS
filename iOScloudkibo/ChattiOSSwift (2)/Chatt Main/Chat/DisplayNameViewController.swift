@@ -1446,11 +1446,25 @@ socketObj.socket.emit("logClient","button done pressed start time \(Date())")
                                                                                     }
                                                                                     self.Q5_fetchAllGroupsData.sync(execute: {
                                                                                     syncGroupsObj.startSyncGroupsServiceOnLaunch({ (result) -> () in
-                                                                                        Alamofire.request(.POST,"\(Constants.MainUrl+Constants.urllog)",headers:header,parameters: ["data":"IPHONE_LOG: sync on installation is completed. going to chat screen \(username!)"]).response{
+                                                                                        
+                                                                                        
+                                                                                        Alamofire.request("\(Constants.MainUrl+Constants.urllog)", method: .post, parameters: ["data":"IPHONE_LOG: sync on installation is completed. going to chat screen \(username!)"], encoding: JSONEncoding.default)
+                                                                                            .downloadProgress(queue: DispatchQueue.global(qos: .utility)) { progress in
+                                                                                                print("Progress: \(progress.fractionCompleted)")
+                                                                                            }
+                                                                                            .validate { request, response, data in
+                                                                                                // Custom evaluation closure now includes data (allows you to parse data to dig out error messages if necessary)
+                                                                                                return .success
+                                                                                            }
+                                                                                            .responseJSON { response in
+                                                                                                debugPrint(response)
+                                                                                        }
+                                                                                        
+                                                                                        /*Alamofire.request(.POST,"\(Constants.MainUrl+Constants.urllog)",headers:header,parameters: ["data":"IPHONE_LOG: sync on installation is completed. going to chat screen \(username!)"]).response{
                                                                                             request, response_, data, error in
                                                                                             print(error)
                                                                                         }
-
+*/
  
                                                                                     //result
                                                                                         print("sync on installation is completed. going to chat screen")

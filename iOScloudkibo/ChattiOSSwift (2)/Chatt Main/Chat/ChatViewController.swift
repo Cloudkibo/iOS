@@ -3196,7 +3196,38 @@ break
         var contactFound=false
         cell!.newMsg.isHidden=true
         cell!.countNewmsg.isHidden=true
-        cell!.profilePic.hnk_setImage(UIImage(named: "profile-pic1.png")!, key: "profile-pic1")
+        
+        
+        
+        
+        let path = Bundle.main.path(forResource: "profile-pic1", ofType: "png")
+        let imgURL = URL(fileURLWithPath: path!)
+        var profilepic=UIImage(named: "profile-pic1")
+        
+        ImageCache.default.retrieveImage(forKey: "profile-pic1", options: nil) {
+            image, cacheType in
+            if let image = image {
+                print("Get image \(image), cacheType: \(cacheType).")
+                //In this code snippet, the `cacheType` is .disk
+                
+            } else {
+                print("Not exist in cache.")
+                ImageCache.default.store(profilepic!, forKey: "profile-pic1")
+                ImageCache.default.isImageCached(forKey: "profile-pic1")
+                ImageCache.default.isImageCached(forKey: "profile-pic1")
+                
+            }
+        }
+        
+
+        
+        cell!.profilePic.kf.setImage(with: imgURL)
+        
+        //----replacing image lib
+
+       // cell!.profilePic.hnk_setImage(UIImage(named: "profile-pic1.png")!, key: "profile-pic1")
+        
+        
         //==--cell.profilePic.image=UIImage(named: "profile-pic1.png")
         
         ////%%%%%%%%%%%%%cell.contactName?.text=ContactNames[indexPath.row]
@@ -3298,6 +3329,38 @@ break
                         cell!.profilePic.layer.cornerRadius = cell!.profilePic.frame.size.width/2
                         cell!.profilePic.clipsToBounds = true
                         //cell.profilePic.hnk_format=Format<UIImage>
+                        
+                        
+                        
+                        
+                        
+                        //let path = Bundle.main.path(forResource: "profile-pic1", ofType: "png")
+                        //let imgURL = URL(fileURLWithPath: path!)
+                        var profilepic=UIImage(data:ContactsProfilePic)!
+                        
+                        ImageCache.default.retrieveImage(forKey: ContactUsernames, options: nil) {
+                            image, cacheType in
+                            if let image = image {
+                                print("Get image \(image), cacheType: \(cacheType).")
+                                //In this code snippet, the `cacheType` is .disk
+                                
+                            } else {
+                                print("Not exist in cache.")
+                                ImageCache.default.store(profilepic!, forKey: ContactUsernames)
+                                ImageCache.default.isImageCached(forKey: ContactUsernames)
+                                ImageCache.default.isImageCached(forKey: ContactUsernames)
+                                
+                            }
+                        }
+                        
+                         //----replacing image lib
+                        /*
+                        cell!.profilePic.kf.setImage(with: profilepic as! Resource)
+                        
+                        var scaledimage=imageavatar.image?.kf.resize(to: CGSize(width: cell!.profilePic.bounds.width,height: cell!.profilePic.bounds.height))
+                        
+
+                        
                         var scaledimage=ImageResizer(size: CGSize(width: cell!.profilePic.bounds.width,height: cell!.profilePic.bounds.height), scaleMode: .AspectFill, allowUpscaling: true, compressionQuality: 0.5)
                         //var resizedimage=scaledimage.resizeImage(UIImage(data:ContactsProfilePic)!)
                         cell!.profilePic.hnk_setImage(scaledimage.resizeImage(UIImage(data:ContactsProfilePic)!), key: ContactUsernames)
@@ -3305,6 +3368,8 @@ break
                         ///cell.profilePic.image=UIImage(data:ContactsProfilePic[indexPath.row])
                         //UIImage(data: NSData(data: ContactsProfilePic) , scale: scale)
                         //print("image size is s \(UIImage(data:ContactsProfilePic)?.size.width) and h \(UIImage(data:ContactsProfilePic)?.size.height)")
+                        
+                        */
                    }
                     
                     contactFound=true

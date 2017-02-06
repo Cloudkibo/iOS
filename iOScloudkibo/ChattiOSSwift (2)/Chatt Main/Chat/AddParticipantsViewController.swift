@@ -10,6 +10,7 @@ import UIKit
 import SQLite
 import Contacts
 import ContactsUI
+import Kingfisher
 //import Haneke
 
 
@@ -695,11 +696,44 @@ class AddParticipantsViewController: UIViewController,InviteContactsDelegate,UIT
                         cellPrivate.img_avatar.layer.cornerRadius = cellPrivate.img_avatar.frame.size.width/2
                         cellPrivate.img_avatar.clipsToBounds = true
                         //cell.profilePic.hnk_format=Format<UIImage>
-                        var scaledimage=ImageResizer(size: CGSize(width: cellPrivate.img_avatar.bounds.width,height: cellPrivate.img_avatar.bounds.height), scaleMode: .AspectFill, allowUpscaling: true, compressionQuality: 0.5)
+                        
+                        //var imgURL=URL(dataRepresentation: found.imageData!, relativeTo: URL(string: alladdressContactsArray[indexPath.row].get(phone)))
+                        
+                        
+                        //let path = Bundle.main.path(forResource: "profile-pic1", ofType: "png")
+                        //let imgURL = URL(fileURLWithPath: path!)
+                        
+                        var profilepic=UIImage(data: found.imageData!)
+                        
+                        ImageCache.default.retrieveImage(forKey: alladdressContactsArray[indexPath.row].get(phone), options: nil) {
+                            image, cacheType in
+                            if let image = image {
+                                print("Get image \(image), cacheType: \(cacheType).")
+                                //In this code snippet, the `cacheType` is .disk
+                                
+                            } else {
+                                print("Not exist in cache.")
+                                ImageCache.default.store(profilepic!, forKey: self.alladdressContactsArray[indexPath.row].get(phone))
+                                ImageCache.default.isImageCached(forKey: self.alladdressContactsArray[indexPath.row].get(phone))
+                                ImageCache.default.isImageCached(forKey: self.alladdressContactsArray[indexPath.row].get(phone))
+                                
+                            }
+                        }
+                        
+                        
+                        cellPrivate.img_avatar.kf.setImage(with: profilepic as! Resource?)
+                        
+                        var scaledimage=cellPrivate.img_avatar.image?.kf.resize(to: CGSize(width: cellPrivate.img_avatar.bounds.width,height: cellPrivate.img_avatar.bounds.height))
+                        
+                        
+                        //----replacing image lib
+                        //var scaledimage=ImageResizer(size: CGSize(width: cellPrivate.img_avatar.bounds.width,height: cellPrivate.img_avatar.bounds.height), scaleMode: .AspectFill, allowUpscaling: true, compressionQuality: 0.5)
+                        
                         //var resizedimage=scaledimage.resizeImage(UIImage(data:ContactsProfilePic)!)
                          //cellPrivate.img_avatar.hnk_setImage(scaledimage.resizeImage(UIImage(data:found.imageData!)!))
                         
-                        cellPrivate.img_avatar.hnk_setImage(scaledimage.resizeImage(UIImage(data:found.imageData!)!), key: alladdressContactsArray[indexPath.row].get(phone))
+                        //----replacing image lib
+                        //cellPrivate.img_avatar.hnk_setImage(scaledimage.resizeImage(UIImage(data:found.imageData!)!), key: alladdressContactsArray[indexPath.row].get(phone))
                         
                        
 
@@ -708,7 +742,34 @@ class AddParticipantsViewController: UIViewController,InviteContactsDelegate,UIT
                         //picfound=true
                     }
                     else{
-                         cellPrivate.img_avatar.hnk_setImage(UIImage(imageLiteral: "profile-pic1"), key: alladdressContactsArray[indexPath.row].get(phone))
+                        let path = Bundle.main.path(forResource: "profile-pic1", ofType: "png")
+                        let imgURL = URL(fileURLWithPath: path!)
+                        var profilepic=UIImage(named: "profile-pic1")
+                        
+                        ImageCache.default.retrieveImage(forKey: "profile-pic1", options: nil) {
+                            image, cacheType in
+                            if let image = image {
+                                print("Get image \(image), cacheType: \(cacheType).")
+                                //In this code snippet, the `cacheType` is .disk
+                                
+                            } else {
+                                print("Not exist in cache.")
+                                ImageCache.default.store(profilepic!, forKey: "profile-pic1")
+                                ImageCache.default.isImageCached(forKey: "profile-pic1")
+                                ImageCache.default.isImageCached(forKey: "profile-pic1")
+                                
+                            }
+                        }
+                        
+                       
+                        //var imgURL=URL(UIImage(imageLiteral: "profile-pic1"), relativeTo: URL(string: alladdressContactsArray[indexPath.row].get(phone)))
+                        
+                        
+                        cellPrivate.img_avatar.kf.setImage(with: imgURL)
+
+                        //----replacing image lib
+                        
+                         //cellPrivate.img_avatar.hnk_setImage(UIImage(imageLiteral: "profile-pic1"), key: alladdressContactsArray[indexPath.row].get(phone))
                      //   memberavatars.append(NSData.init())
                     }
 

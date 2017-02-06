@@ -10,6 +10,7 @@ import UIKit
 import Contacts
 import ContactsUI
 import SQLite
+import Kingfisher
 //import Haneke
 
 class BroadcastListDetailsViewController: UIViewController,UINavigationControllerDelegate,UITextFieldDelegate {
@@ -241,12 +242,44 @@ class BroadcastListDetailsViewController: UIViewController,UINavigationControlle
                         imageavatar.layer.cornerRadius = imageavatar.frame.size.width/2
                         imageavatar.clipsToBounds=true
                         
+                        
+                        
+                        var profilepic=UIImage(data: self.memberavatars[indexPath.row])
+                        
+                        ImageCache.default.retrieveImage(forKey: broadcastmembers[indexPath.row], options: nil) {
+                            image, cacheType in
+                            if let image = image {
+                                print("Get image \(image), cacheType: \(cacheType).")
+                                //In this code snippet, the `cacheType` is .disk
+                                
+                            } else {
+                                print("Not exist in cache.")
+                                ImageCache.default.store(profilepic!, forKey: self.broadcastmembers[indexPath.row])
+                                ImageCache.default.isImageCached(forKey: self.broadcastmembers[indexPath.row])
+                                ImageCache.default.isImageCached(forKey: self.broadcastmembers[indexPath.row])
+                                
+                            }
+                        }
+                        
+                        
+                       imageavatar.kf.setImage(with: profilepic as! Resource?)
+                        
+                        var scaledimage=imageavatar.image?.kf.resize(to: CGSize(width: imageavatar.bounds.width,height: imageavatar.bounds.height))
+                        
+                        
+                        
+                        
+                        
+                        //----replacing image lib
+                        /*
                           var scaledimage=ImageResizer(size: CGSize(width: imageavatar.bounds.width,height: imageavatar.bounds.height), scaleMode: .AspectFill, allowUpscaling: true, compressionQuality: 0.5)
                         
                         
                         
                         print("found avatar in broadcast page")
                         imageavatar.hnk_setImage(scaledimage.resizeImage(UIImage(data:self.memberavatars[indexPath.row])!), key: broadcastmembers[indexPath.row])
+                        
+                        */
                     }
                     else
                     {

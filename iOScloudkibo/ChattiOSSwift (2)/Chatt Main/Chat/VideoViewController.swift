@@ -1544,7 +1544,7 @@ self.remoteDisconnected()
     
     func socketReceivedOtherWebRTC(_ message:String,data:AnyObject!)
     {
-        var msg:JSON=data
+        var msg:JSON=data as! JSON
         socketObj.socket.emit("logClient","IPHONE-LOG: \(username!) received message \(msg)")
         
         print("socketReceivedOtherWebRTC inside \(msg)")
@@ -1598,7 +1598,7 @@ self.remoteDisconnected()
     
     func socketReceivedMessageWebRTC(_ message:String,data:AnyObject!)
     {print("socketReceivedMessageWebRTC inside")
-        var msg:JSON=data! as JSON
+        var msg:JSON=data! as! JSON
         socketObj.socket.emit("logClient","IPHONE-LOG: \(username!) received socketReceivedMessageWebRTC  \(msg)")
         switch(message){
             
@@ -1616,10 +1616,18 @@ self.remoteDisconnected()
     func handlemsg(_ data:AnyObject!)
     {
         print("msg reeived.. check if offer answer or ice")
-        var msg:JSON=data
-        print(msg.description)
-        
-        if(msg[0]["type"].string! == "offer")
+        var msg1:JSON=data as! [String:Any]
+        print(msg1.description)
+       // var aaa=msg.first as! [String:Any]
+       // let msgarray=msg.first
+       // var abc=aaa["type"]
+        let msg: [String: AnyObject]
+        if msg = msg1.dictionaryObject {
+            msg = dict
+        } else {
+            msg = [String: AnyObject]()
+        }
+        if(msg[0]["type"] as! String=="offer")//["type"].string! == "offer")
         {
             //^^^^^^^^^^^^^^^^newwwww if(joinedRoomInCall == "" && isInitiator.description == "false")
             if(joinedRoomInCall == "")
@@ -1646,11 +1654,11 @@ self.remoteDisconnected()
             
             
             //^^^^^^^^^^^^^^^^^^^^^^^newwwwww self.pc.addStream(self.getLocalMediaStream())
-            otherID=msg[0]["by"].int!
-            currentID=msg[0]["to"].int!
+            otherID=msg[0]["by"] as! Int
+            currentID=msg[0]["to"] as! Int
             //iamincallWith=msg[0]["username"].description
             
-            iamincallWith=msg[0]["username"].description
+            iamincallWith=msg[0]["username"] as! String
             socketObj.socket.emit("logClient","IPHONE-LOG: \(username) id is \(currentID) , \(iamincallWith) id is \(otherID)")
             //if(msg[0]["username"].description != username! && self.pc.remoteDescription == nil){
             
@@ -1665,7 +1673,7 @@ self.remoteDisconnected()
             
         }
         
-        if(msg[0]["type"].string! == "answer" && msg[0]["by"].int != currentID)
+        if(msg[0]["type"].string! == "answer" && msg[0]["by"] as! Int != currentID)
         {
             if(self.screenshared==true){
                 print("answer received screen")

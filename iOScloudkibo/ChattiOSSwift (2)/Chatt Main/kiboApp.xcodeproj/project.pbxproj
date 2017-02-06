@@ -83,6 +83,8 @@
 		716175A11C51C9B200A72E83 /* libsqlite3.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 716174981C5065BA00A72E83 /* libsqlite3.tbd */; };
 		7173B82B1E486E1500851F8D /* SwiftyJSON.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7173B8131E486BBE00851F8D /* SwiftyJSON.framework */; };
 		7173B82C1E486E1500851F8D /* SwiftyJSON.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 7173B8131E486BBE00851F8D /* SwiftyJSON.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		7173B8731E48BED500851F8D /* Kingfisher.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 7173B84D1E48BE1900851F8D /* Kingfisher.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		7173B8741E48C12400851F8D /* Kingfisher.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 7173B84D1E48BE1900851F8D /* Kingfisher.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		718AB5801D3F8C9000D197D7 /* chatMessagesModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 718AB57F1D3F8C9000D197D7 /* chatMessagesModel.swift */; };
 		7191CC681BCF0D9400F0847F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7191CC661BCF0D9400F0847F /* Main.storyboard */; };
 		719A0CE41DD5237800977C0B /* GroupMessageStatusViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 719A0CE31DD5237800977C0B /* GroupMessageStatusViewController.swift */; };
@@ -222,6 +224,97 @@
 			remoteGlobalIDString = 2E4FEFDA19575BE100351305;
 			remoteInfo = "SwiftyJSON iOS";
 		};
+		7173B84C1E48BE1900851F8D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 7173B83D1E48BE1800851F8D /* Kingfisher.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = D1ED2D351AD2D09F00CFC3EB;
+			remoteInfo = "Kingfisher-iOS";
+		};
+		7173B84E1E48BE1900851F8D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 7173B83D1E48BE1800851F8D /* Kingfisher.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = D13F49D61BEDA67C00CE335D;
+			remoteInfo = "Kingfisher-tvOS";
+		};
+		7173B8501E48BE1900851F8D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 7173B83D1E48BE1800851F8D /* Kingfisher.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 4B2944481C3D01B20088C3E7;
+			remoteInfo = "Kingfisher-macOS";
+		};
+		7173B8521E48BE1900851F8D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 7173B83D1E48BE1800851F8D /* Kingfisher.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = D16799EB1C4E74460020FD12;
+			remoteInfo = "Kingfisher-watchOS";
+		};
+		7173B8541E48BE1900851F8D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 7173B83D1E48BE1800851F8D /* Kingfisher.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = D1ED2D0B1AD2CFA600CFC3EB;
+			remoteInfo = "Kingfisher-Demo";
+		};
+		7173B8561E48BE1900851F8D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 7173B83D1E48BE1800851F8D /* Kingfisher.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = D13F49C21BEDA53F00CE335D;
+			remoteInfo = "Kingfisher-tvOS-Demo";
+		};
+		7173B8581E48BE1900851F8D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 7173B83D1E48BE1800851F8D /* Kingfisher.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 4B2944551C3D03880088C3E7;
+			remoteInfo = "Kingfisher-macOS-Demo";
+		};
+		7173B85A1E48BE1900851F8D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 7173B83D1E48BE1800851F8D /* Kingfisher.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = D1679A391C4E78B20020FD12;
+			remoteInfo = "Kingfisher-watchOS-Demo";
+		};
+		7173B85C1E48BE1900851F8D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 7173B83D1E48BE1800851F8D /* Kingfisher.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = D1679A451C4E78B20020FD12;
+			remoteInfo = "Kingfisher-watchOS-Demo Extension";
+		};
+		7173B85E1E48BE1900851F8D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 7173B83D1E48BE1800851F8D /* Kingfisher.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = D1ED2D3F1AD2D09F00CFC3EB;
+			remoteInfo = KingfisherTests;
+		};
+		7173B8601E48BE1900851F8D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 7173B83D1E48BE1800851F8D /* Kingfisher.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 4B37667F1C478F940001443F;
+			remoteInfo = "KingfisherTests-tvOS";
+		};
+		7173B8621E48BE1900851F8D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 7173B83D1E48BE1800851F8D /* Kingfisher.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = D10EC2311C3D632300A4211C;
+			remoteInfo = "KingfisherTests-macOS";
+		};
+		7173B8701E48BE4300851F8D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 7173B83D1E48BE1800851F8D /* Kingfisher.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = D1ED2D341AD2D09F00CFC3EB;
+			remoteInfo = "Kingfisher-iOS";
+		};
 		7181049C1E4344F800AC688C /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 718104921E4344F800AC688C /* SQLite.xcodeproj */;
@@ -281,12 +374,24 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
+		7173B8721E48BE5F00851F8D /* Copy Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				7173B8731E48BED500851F8D /* Kingfisher.framework in Copy Frameworks */,
+			);
+			name = "Copy Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		71CA0D5F1E436263004FF307 /* Embed Frameworks */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
+				7173B8741E48C12400851F8D /* Kingfisher.framework in Embed Frameworks */,
 				7173B82C1E486E1500851F8D /* SwiftyJSON.framework in Embed Frameworks */,
 				71CA0D611E436269004FF307 /* SQLite.framework in Embed Frameworks */,
 			);
@@ -380,6 +485,7 @@
 		716174971C5065BA00A72E83 /* libsqlite3.0.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.0.tbd; path = usr/lib/libsqlite3.0.tbd; sourceTree = SDKROOT; };
 		716174981C5065BA00A72E83 /* libsqlite3.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.tbd; path = usr/lib/libsqlite3.tbd; sourceTree = SDKROOT; };
 		7173B8021E486BBE00851F8D /* SwiftyJSON.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SwiftyJSON.xcodeproj; path = "../../../../../../../Downloads/SwiftyJSON-master 5/SwiftyJSON.xcodeproj"; sourceTree = "<group>"; };
+		7173B83D1E48BE1800851F8D /* Kingfisher.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Kingfisher.xcodeproj; path = ../../../Kingfisher/Kingfisher.xcodeproj; sourceTree = "<group>"; };
 		718104921E4344F800AC688C /* SQLite.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SQLite.xcodeproj; path = "SQLite.swift-master 7/SQLite.xcodeproj"; sourceTree = "<group>"; };
 		718AB57F1D3F8C9000D197D7 /* chatMessagesModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = chatMessagesModel.swift; sourceTree = "<group>"; };
 		7191CC601BCDB4D800F0847F /* TableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TableViewController.swift; sourceTree = "<group>"; };
@@ -498,6 +604,7 @@
 		5BF6361C19A9F3D900ABD0BA = {
 			isa = PBXGroup;
 			children = (
+				7173B83D1E48BE1800851F8D /* Kingfisher.xcodeproj */,
 				7173B8021E486BBE00851F8D /* SwiftyJSON.xcodeproj */,
 				71F6233D1DE4262E00AC6370 /* String-Extension.swift */,
 				71EA60721D78DD7100117B55 /* SwipeCellsSourceFiles */,
@@ -717,6 +824,25 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		7173B83E1E48BE1800851F8D /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				7173B84D1E48BE1900851F8D /* Kingfisher.framework */,
+				7173B84F1E48BE1900851F8D /* Kingfisher.framework */,
+				7173B8511E48BE1900851F8D /* Kingfisher.framework */,
+				7173B8531E48BE1900851F8D /* Kingfisher.framework */,
+				7173B8551E48BE1900851F8D /* Kingfisher-Demo.app */,
+				7173B8571E48BE1900851F8D /* Kingfisher-tvOS-Demo.app */,
+				7173B8591E48BE1900851F8D /* Kingfisher-macOS-Demo.app */,
+				7173B85B1E48BE1900851F8D /* Kingfisher-watchOS-Demo.app */,
+				7173B85D1E48BE1900851F8D /* Kingfisher-watchOS-Demo Extension.appex */,
+				7173B85F1E48BE1900851F8D /* KingfisherTests.xctest */,
+				7173B8611E48BE1900851F8D /* KingfisherTests-tvOS.xctest */,
+				7173B8631E48BE1900851F8D /* KingfisherTests-macOS.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 		718104931E4344F800AC688C /* Products */ = {
 			isa = PBXGroup;
 			children = (
@@ -790,10 +916,12 @@
 				15EB4F2155E43982615A2BF8 /* [CP] Embed Pods Frameworks */,
 				C9B46E8313FE29CBE90BC3AC /* [CP] Copy Pods Resources */,
 				71CA0D5F1E436263004FF307 /* Embed Frameworks */,
+				7173B8721E48BE5F00851F8D /* Copy Frameworks */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				7173B8711E48BE4300851F8D /* PBXTargetDependency */,
 				71CA0D631E436269004FF307 /* PBXTargetDependency */,
 				7173B82E1E486E1500851F8D /* PBXTargetDependency */,
 			);
@@ -867,6 +995,10 @@
 			projectDirPath = "";
 			projectReferences = (
 				{
+					ProductGroup = 7173B83E1E48BE1800851F8D /* Products */;
+					ProjectRef = 7173B83D1E48BE1800851F8D /* Kingfisher.xcodeproj */;
+				},
+				{
 					ProductGroup = 718104931E4344F800AC688C /* Products */;
 					ProjectRef = 718104921E4344F800AC688C /* SQLite.xcodeproj */;
 				},
@@ -931,6 +1063,90 @@
 			fileType = wrapper.cfbundle;
 			path = "SwiftyJSON tvOS Tests.xctest";
 			remoteRef = 7173B81E1E486BBE00851F8D /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		7173B84D1E48BE1900851F8D /* Kingfisher.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = Kingfisher.framework;
+			remoteRef = 7173B84C1E48BE1900851F8D /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		7173B84F1E48BE1900851F8D /* Kingfisher.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = Kingfisher.framework;
+			remoteRef = 7173B84E1E48BE1900851F8D /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		7173B8511E48BE1900851F8D /* Kingfisher.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = Kingfisher.framework;
+			remoteRef = 7173B8501E48BE1900851F8D /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		7173B8531E48BE1900851F8D /* Kingfisher.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = Kingfisher.framework;
+			remoteRef = 7173B8521E48BE1900851F8D /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		7173B8551E48BE1900851F8D /* Kingfisher-Demo.app */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.application;
+			path = "Kingfisher-Demo.app";
+			remoteRef = 7173B8541E48BE1900851F8D /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		7173B8571E48BE1900851F8D /* Kingfisher-tvOS-Demo.app */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.application;
+			path = "Kingfisher-tvOS-Demo.app";
+			remoteRef = 7173B8561E48BE1900851F8D /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		7173B8591E48BE1900851F8D /* Kingfisher-macOS-Demo.app */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.application;
+			path = "Kingfisher-macOS-Demo.app";
+			remoteRef = 7173B8581E48BE1900851F8D /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		7173B85B1E48BE1900851F8D /* Kingfisher-watchOS-Demo.app */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.application;
+			path = "Kingfisher-watchOS-Demo.app";
+			remoteRef = 7173B85A1E48BE1900851F8D /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		7173B85D1E48BE1900851F8D /* Kingfisher-watchOS-Demo Extension.appex */ = {
+			isa = PBXReferenceProxy;
+			fileType = "wrapper.app-extension";
+			path = "Kingfisher-watchOS-Demo Extension.appex";
+			remoteRef = 7173B85C1E48BE1900851F8D /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		7173B85F1E48BE1900851F8D /* KingfisherTests.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = KingfisherTests.xctest;
+			remoteRef = 7173B85E1E48BE1900851F8D /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		7173B8611E48BE1900851F8D /* KingfisherTests-tvOS.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = "KingfisherTests-tvOS.xctest";
+			remoteRef = 7173B8601E48BE1900851F8D /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		7173B8631E48BE1900851F8D /* KingfisherTests-macOS.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = "KingfisherTests-macOS.xctest";
+			remoteRef = 7173B8621E48BE1900851F8D /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		7181049D1E4344F800AC688C /* SQLite.framework */ = {
@@ -1223,6 +1439,11 @@
 			isa = PBXTargetDependency;
 			name = "SwiftyJSON iOS";
 			targetProxy = 7173B82D1E486E1500851F8D /* PBXContainerItemProxy */;
+		};
+		7173B8711E48BE4300851F8D /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = "Kingfisher-iOS";
+			targetProxy = 7173B8701E48BE4300851F8D /* PBXContainerItemProxy */;
 		};
 		71CA0D631E436269004FF307 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;

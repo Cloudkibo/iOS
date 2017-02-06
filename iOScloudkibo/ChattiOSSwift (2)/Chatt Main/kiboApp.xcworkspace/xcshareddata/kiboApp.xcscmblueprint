@@ -1,0 +1,30 @@
+{
+  "DVTSourceControlWorkspaceBlueprintPrimaryRemoteRepositoryKey" : "51D919B02F515DF511C628E9A9DE3260C99F16D5",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyRepositoryLocationsKey" : {
+
+  },
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyStatesKey" : {
+    "51D919B02F515DF511C628E9A9DE3260C99F16D5" : 9223372036854775807,
+    "17FB51EC7B87DC25DD21E28FDFD877B479CFFAC1" : 9223372036854775807
+  },
+  "DVTSourceControlWorkspaceBlueprintIdentifierKey" : "D22CBB5A-E2AB-49D2-8F22-A20B07632AF8",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyPathsKey" : {
+    "51D919B02F515DF511C628E9A9DE3260C99F16D5" : "iOS\/",
+    "17FB51EC7B87DC25DD21E28FDFD877B479CFFAC1" : "iOS\/Kingfisher\/"
+  },
+  "DVTSourceControlWorkspaceBlueprintNameKey" : "kiboApp",
+  "DVTSourceControlWorkspaceBlueprintVersion" : 204,
+  "DVTSourceControlWorkspaceBlueprintRelativePathToProjectKey" : "iOScloudkibo\/ChattiOSSwift (2)\/Chatt Main\/kiboApp.xcworkspace",
+  "DVTSourceControlWorkspaceBlueprintRemoteRepositoriesKey" : [
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/onevcat\/Kingfisher.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "17FB51EC7B87DC25DD21E28FDFD877B479CFFAC1"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/Cloudkibo\/iOS.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "51D919B02F515DF511C628E9A9DE3260C99F16D5"
+    }
+  ]
+}
