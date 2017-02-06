@@ -85,11 +85,11 @@ class CallRingingViewController: UIViewController//RTCPeerConnectionDelegate,RTC
        let next = self.storyboard?.instantiateViewController(withIdentifier: "MainV2") as! VideoViewController
         
         self.present(next, animated: true, completion: {
-            var aa=JSON(dictionaryLiteral:["to":iamincallWith!,"msg":["callerphone":iamincallWith,"calleephone":username!,"status":"callaccepted","type":"call"]])
+            var aa:JSON=(["to":iamincallWith!,"msg":["callerphone":iamincallWith,"calleephone":username!,"status":"callaccepted","type":"call"]])
             
             //print(aa.description)
-            socketObj.socket.emit("logClient","IPHONE-LOG: \(aa.object)")
-            socketObj.socket.emit("message",aa.object)
+            socketObj.socket.emit("logClient","IPHONE-LOG: \(aa)")
+            socketObj.socket.emit("message",aa)
             
             /////socketObj.sendMessagesOfMessageType("Accept Call")
                     })
@@ -104,7 +104,7 @@ class CallRingingViewController: UIViewController//RTCPeerConnectionDelegate,RTC
         {
            /// socketObj.socket.emit("noiambusy",["mycaller" :iamincallWith!, "me":username!])
             
-            var aa=JSON(dictionaryLiteral:["to":iamincallWith!,"msg":["callerphone":iamincallWith!,"calleephone":username!,"status":"callrejected","type":"call"]])
+            var aa:JSON=(["to":iamincallWith!,"msg":["callerphone":iamincallWith!,"calleephone":username!,"status":"callrejected","type":"call"]])
             
             //print(aa.description)
             socketObj.socket.emit("logClient","IPHONE-LOG: \(aa.object)")

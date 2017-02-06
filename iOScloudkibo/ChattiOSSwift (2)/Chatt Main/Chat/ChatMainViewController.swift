@@ -36,7 +36,7 @@ class ChatMainViewController:UIViewController,SocketConnecting,RefreshContactsLi
     @IBOutlet var viewForTitle : UIView!
     @IBOutlet var ctrlForChat : UISegmentedControl!
     @IBOutlet var btnForLogo : UIButton!
-    var loggedID=loggedUserObj["_id"]
+    //var loggedID=loggedUserObj["_id"]
     @IBOutlet var tblForChat : UITableView!
     @IBOutlet weak var btnContactAdd: UIBarButtonItem!
     var delegateSocketConn:SocketConnecting!

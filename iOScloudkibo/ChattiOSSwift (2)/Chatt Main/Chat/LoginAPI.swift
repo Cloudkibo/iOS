@@ -186,14 +186,15 @@ class LoginAPI{
             print("theseareonline ........")
             print(":::::::::::::::::::::::::::::::::::")
            
-            var msg:JSON=JSON.init(dictionaryLiteral: data.description)
+            var msg:JSON=data
             print(msg.debugDescription)
             self.delegate?.socketReceivedMessage("theseareonline",data: data as AnyObject!)
         }
+        
         socketObj.socket.on("yesiamfreeforcall"){data,ack in
             print("yesiamfreeforcall .......")
             print(":::::::::::::::::::::::::::::::::::")
-            var msg:JSON=JSON.init(dictionaryLiteral: data)
+            var msg:JSON=data
             print(msg)
             self.delegate?.socketReceivedMessage("yesiamfreeforcall",data: data as AnyObject!)
         }
@@ -202,7 +203,7 @@ class LoginAPI{
             print("online .......")
             print(":::::::::::::::::::::::::::::::::::")
             do{
-                var msg:JSON=try data.toJSON()
+                var msg:JSON=data
             }
         catch{
                 
@@ -214,7 +215,7 @@ class LoginAPI{
         socketObj.socket.on("offline"){data,ack in
             print("offline .......")
             print(":::::::::::::::::::::::::::::::::::")
-            var msg=JSON(data)
+            var msg:JSON=data
             print(msg.debugDescription)
             self.delegate?.socketReceivedMessage("offline",data: data as AnyObject!)
         }

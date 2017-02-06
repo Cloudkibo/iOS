@@ -180,7 +180,7 @@ class syncContactService
                          }
                          
                          }*/
-                        for i in 0 .. phoneDigits.characters.count
+                        for i in 0 ..< phoneDigits.characters.count
                         {
                             if(phoneDigits.characters.first=="0")
                             {
@@ -530,7 +530,7 @@ class syncContactService
           // --==== newww  try sqliteDB.db.run(tbl_allcontacts.delete())
            // =====---- newww print("now count is \(sqliteDB.db.scalar(tbl_allcontacts.count))")
             var contactsdata=[[String:String]]()
-            for i in 0 .. syncContactsList.count
+            for i in 0 ..< syncContactsList.count
             {
                 
                 do{

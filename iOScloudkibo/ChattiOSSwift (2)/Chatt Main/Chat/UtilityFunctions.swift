@@ -144,10 +144,24 @@ class UtilityFunctions{
     
     func log_papertrail(_ msg:String)
     {
+        
+        Alamofire.request("https://api.cloudkibo.com/api/users/log", method: .post, parameters: ["data":msg], encoding: JSONEncoding.default)
+            .downloadProgress(queue: DispatchQueue.global(qos: .utility)) { progress in
+                print("Progress: \(progress.fractionCompleted)")
+            }
+            .validate { request, response, data in
+                // Custom evaluation closure now includes data (allows you to parse data to dig out error messages if necessary)
+                return .success
+            }
+            .responseJSON { response in
+                debugPrint(response)
+        }
+
+        /*
         Alamofire.request(.POST,"https://api.cloudkibo.com/api/users/log",headers:header,parameters: ["data":msg]).response{
             request, response_, data, error in
             print(error)
-        }
+        }*/
     }
     
     func randomStringWithLength (_ len : Int) -> NSString {

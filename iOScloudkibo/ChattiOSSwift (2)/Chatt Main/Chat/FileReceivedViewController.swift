@@ -60,7 +60,7 @@ class FileReceivedViewController: UIViewController,UIDocumentInteractionControll
         let documentURL=filejustreceivedPathURL //this is full path
         
         ///////   if let ubiquityURL = ubiquityURL {
-    let error:NSError?
+    let error:NSError? = nil
     var isDir:ObjCBool = false
     if (filemgr.fileExists(atPath: ubiquityURL!.path, isDirectory: &isDir)) {
     /*do{try filemgr.removeItemAtURL(ubiquityURL!)}
@@ -521,7 +521,7 @@ println("iCloud create failed")
     @IBAction func btnSaveToOtherLocPressed(_ sender: AnyObject) {
         
         let documentURL=filejustreceivedPathURL
-        documentInteractionController = UIDocumentInteractionController(url: documentURL as! URL)
+        documentInteractionController = UIDocumentInteractionController(url: documentURL as! URL!)
         documentInteractionController.delegate=self
         documentInteractionController.presentOpenInMenu(from: CGRect(x: 20, y: 100, width: 300, height: 200), in: self.view, animated: true)
     }

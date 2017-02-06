@@ -332,7 +332,7 @@
             startingLineNumber = "65"
             endingLineNumber = "65"
             landmarkName = "saveToiCloud()"
-            landmarkType = "5">
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -1381,8 +1381,8 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "151"
             endingLineNumber = "151"
-            landmarkName = "syncContactService"
-            landmarkType = "3">
+            landmarkName = "SyncfetchContacts(_:)"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -2434,8 +2434,8 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "523"
             endingLineNumber = "523"
-            landmarkName = "syncContactService"
-            landmarkType = "3">
+            landmarkName = "SyncFillContactsTableWithRecords(_:)"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -2450,8 +2450,8 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "712"
             endingLineNumber = "712"
-            landmarkName = "syncContactService"
-            landmarkType = "3">
+            landmarkName = "SyncFillContactsTableWithRecords(_:)"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -2466,8 +2466,8 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "723"
             endingLineNumber = "723"
-            landmarkName = "syncContactService"
-            landmarkType = "3">
+            landmarkName = "syncSetKiboContactsBoolean(_:)"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -2482,8 +2482,8 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "766"
             endingLineNumber = "766"
-            landmarkName = "syncContactService"
-            landmarkType = "3">
+            landmarkName = "syncSetKiboContactsBoolean(_:)"
+            landmarkType = "7">
             <Locations>
                <Location
                   shouldBeEnabled = "Yes"
@@ -2530,8 +2530,8 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "1081"
             endingLineNumber = "1081"
-            landmarkName = "syncContactService"
-            landmarkType = "3">
+            landmarkName = "fetchContactsFromServer(_:)"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -2546,8 +2546,8 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "54"
             endingLineNumber = "54"
-            landmarkName = "syncContactService"
-            landmarkType = "3">
+            landmarkName = "startSyncService()"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -2562,8 +2562,8 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "1113"
             endingLineNumber = "1113"
-            landmarkName = "syncContactService"
-            landmarkType = "3">
+            landmarkName = "fetchContactsFromServer(_:)"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -2578,8 +2578,8 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "1107"
             endingLineNumber = "1107"
-            landmarkName = "syncContactService"
-            landmarkType = "3">
+            landmarkName = "fetchContactsFromServer(_:)"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -2594,8 +2594,8 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "1136"
             endingLineNumber = "1136"
-            landmarkName = "syncContactService"
-            landmarkType = "3">
+            landmarkName = "fetchContactsFromServer(_:)"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -2769,6 +2769,22 @@
             startingLineNumber = "189"
             endingLineNumber = "189"
             landmarkName = "addHandlers()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Chat/AppDelegate.swift"
+            timestampString = "508014143.907546"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "551"
+            endingLineNumber = "551"
+            landmarkName = "synchroniseChatData()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

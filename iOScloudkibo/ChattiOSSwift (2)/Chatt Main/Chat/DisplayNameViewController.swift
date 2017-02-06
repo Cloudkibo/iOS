@@ -726,10 +726,11 @@ class DisplayNameViewController: UIViewController {
         {
         socketObj.socket.emit("logClient","IPHONE-LOG: fetch contacts from server")
         }
-        if(loggedUserObj == JSON("[]"))
+        
+        /*if(loggedUserObj == JSON("[]"))
         {
         }
-        
+        */
         //%%%%% new phone model
         //var fetchChatURL=Constants.MainUrl+Constants.getContactsList+"?access_token="+AuthToken!
         
