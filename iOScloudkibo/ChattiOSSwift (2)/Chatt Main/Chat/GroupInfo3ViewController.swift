@@ -354,9 +354,12 @@ identifiersarray.append(identifier)
         
         let yes = UIAlertAction(title: "Yes", style: UIAlertActionStyle.default,handler: { (action) -> Void in
             
-            
             var url=Constants.MainUrl+Constants.removeMemberFromGroup
-            Alamofire.request(.POST,"\(url)",parameters:["group_unique_id":self.groupid,"phone":memberPhone],headers:header,encoding:.JSON).validate().responseJSON { response in
+            
+            let request=Alamofire.request("\(url)", method: .post, parameters: ["group_unique_id":self.groupid,"phone":memberPhone],headers:header).responseJSON { response in
+              
+                //alamofire4
+            //Alamofire.request(.POST,"\(url)",parameters:["group_unique_id":self.groupid,"phone":memberPhone],headers:header,encoding:.JSON).validate().responseJSON { response in
                 
                 
                 print("exit group response \(response.description)")
@@ -369,7 +372,7 @@ identifiersarray.append(identifier)
                    
                     sqliteDB.updateMembershipStatus(self.groupid,memberphone1: memberPhone, membership_status1: "left")
                     
-                    sqliteDB.storeGroupsChat("Log:", group_unique_id1: self.groupid, type1: "log", msg1: "\(memberPhone) is removed", from_fullname1: "", date1:NSDate() , unique_id1: uniqueidMsg)
+                    sqliteDB.storeGroupsChat("Log:", group_unique_id1: self.groupid, type1: "log", msg1: "\(memberPhone) is removed", from_fullname1: "", date1:NSDate() as Date , unique_id1: uniqueidMsg)
                     
                    /// sqliteDB.storeGroupsChat(username!, group_unique_id1: self.groupid, type1: "log_leftGroup", msg1: "You have left this group", from_fullname1: "", date1:NSDate() , unique_id1: uniqueidMsg)
                     
@@ -413,7 +416,11 @@ identifiersarray.append(identifier)
             
             
             var url=Constants.MainUrl+Constants.changeRole
-            Alamofire.request(.POST,"\(url)",parameters:["group_unique_id":self.groupid,"member_phone":member,"makeAdmin":isAdmin],headers:header,encoding:.JSON).validate().responseJSON { response in
+        
+        Alamofire.request("\(url)", method: .post, parameters: ["group_unique_id":self.groupid,"member_phone":member,"makeAdmin":isAdmin],headers:header).responseJSON { response in
+            
+            //alamofire4
+            //Alamofire.request(.POST,"\(url)",parameters:["group_unique_id":self.groupid,"member_phone":member,"makeAdmin":isAdmin],headers:header,encoding:.JSON).validate().responseJSON { response in
                 
                 
                 print("change member role response \(response.description)")
@@ -455,7 +462,10 @@ identifiersarray.append(identifier)
         let yes = UIAlertAction(title: "Yes", style: UIAlertActionStyle.default,handler: { (action) -> Void in
             
             var url=Constants.MainUrl+Constants.leaveGroup
-            Alamofire.request(.POST,"\(url)",parameters:["group_unique_id":self.groupid],headers:header,encoding:.JSON).validate().responseJSON { response in
+            
+               let request = Alamofire.request("\(url)", method: .post,headers:header).responseJSON { response in
+             //alamofire4
+           // Alamofire.request(.POST,"\(url)",parameters:["group_unique_id":self.groupid],headers:header,encoding:.JSON).validate().responseJSON { response in
                 
                 
                 print("exit group response \(response.description)")
@@ -467,7 +477,7 @@ identifiersarray.append(identifier)
                    // var dateString=self.getDateString(NSDate())
                     
                     sqliteDB.updateMembershipStatus(self.groupid,memberphone1: username!,membership_status1: "left")
-                    sqliteDB.storeGroupsChat("Log:", group_unique_id1: self.groupid, type1: "log", msg1: "You have left this group", from_fullname1: "", date1:NSDate() , unique_id1: uniqueidMsg)
+                    sqliteDB.storeGroupsChat("Log:", group_unique_id1: self.groupid, type1: "log", msg1: "You have left this group", from_fullname1: "", date1:NSDate() as Date , unique_id1: uniqueidMsg)
                     
                     self.tblGroupInfo.reloadData()
                 }
@@ -525,7 +535,12 @@ identifiersarray.append(identifier)
             //show progress wheen somewhere
             
             var url=Constants.MainUrl+Constants.addGroupMembersUrl
-            Alamofire.request(.POST,"\(url)",parameters:["group_name":groupname,"members":members, "group_unique_id":uniqueid],headers:header,encoding:.JSON).validate().responseJSON { response in
+            
+            
+            let request = Alamofire.request("\(url)", method: .post,parameters:["group_name":groupname,"members":members, "group_unique_id":uniqueid],headers:header).responseJSON { response in
+                
+                //alamofire4
+          ////  Alamofire.request(.POST,"\(url)",parameters:["group_name":groupname,"members":members, "group_unique_id":uniqueid],headers:header,encoding:.JSON).validate().responseJSON { response in
                 
                 /*
                  

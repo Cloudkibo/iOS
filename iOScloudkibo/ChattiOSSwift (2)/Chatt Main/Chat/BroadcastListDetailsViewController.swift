@@ -49,7 +49,7 @@ class BroadcastListDetailsViewController: UIViewController,UINavigationControlle
         broadcastlistinfo=sqliteDB.getSinglebroadcastlist(self.broadcastlistID)
        broadcastmembers=sqliteDB.getBroadcastListMembers(broadcastlistID)
         membersnames.removeAll()
-        for i in 0 .. broadcastmembers.count
+        for i in 0 ..< broadcastmembers.count
         {
             membersnames.append(sqliteDB.getNameFromAddressbook(broadcastmembers[i]))
             

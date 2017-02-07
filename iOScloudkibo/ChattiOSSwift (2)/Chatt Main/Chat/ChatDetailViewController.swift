@@ -3826,8 +3826,15 @@ let textLable = cell.viewWithTag(12) as! UILabel
                 */
        // dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT,0))
  DispatchQueue.global(priority: DispatchQueue.GlobalQueuePriority.default).async{
-        let request = Alamofire.request(.POST, "\(url)", parameters: chatstanza,headers:header).responseJSON { response in
-            // You are now running on the concurrent `queue` you created earlier.
+    
+    let request = Alamofire.request("\(url)", method: .post, parameters:  chatstanza,headers:header).responseJSON { response in
+
+    
+        //alamofire4
+   //// let request = Alamofire.request(.POST, "\(url)", parameters: chatstanza,headers:header).responseJSON { response in
+       
+        
+        // You are now running on the concurrent `queue` you created earlier.
           //print("Parsing JSON on thread: \(NSThread.currentThread()) is main thread: \(NSThread.isMainThread())")
                 
                 // Validate your JSON response and convert into model objects if necessary
@@ -3893,7 +3900,11 @@ let textLable = cell.viewWithTag(12) as! UILabel
         
         DispatchQueue.global(priority: DispatchQueue.GlobalQueuePriority.default).async
         {
-         let request = Alamofire.request(.POST, "\(url)", parameters: ["uniqueid":uniqueid,"sender":sender,"status":status],headers:header).responseJSON { response in
+            
+            let request=Alamofire.request("\(url)", method: .post, parameters: ["uniqueid":uniqueid,"sender":sender,"status":status],headers:header).responseJSON { response in
+                
+         //alamofire4
+                //let request = Alamofire.request(.POST, "\(url)", parameters: ["uniqueid":uniqueid,"sender":sender,"status":status],headers:header).responseJSON { response in
             
             
         /*let request = Alamofire.request(.POST, "\(url)", parameters: ["uniqueid":uniqueid,"sender":sender,"status":status],headers:header)

@@ -196,7 +196,12 @@ class GroupChatingDetailController: UIViewController,UpdateGroupChatDetailsDeleg
         var url=Constants.MainUrl+Constants.sendGroupChat
         print(url)
         print("..")
-        let request = Alamofire.request(.POST, "\(url)", parameters: ["group_unique_id":group_id,"from":from,"type":type,"msg":msg,"from_fullname":fromFullname,"unique_id":uniqueidChat],headers:header).responseJSON { response in
+        
+        let request=Alamofire.request("\(url)", method: .post, parameters: ["group_unique_id":group_id,"from":from,"type":type,"msg":msg,"from_fullname":fromFullname,"unique_id":uniqueidChat],headers:header).responseJSON { response in            
+        
+      //  let request = Alamofire.request(.POST, "\(url)", parameters: ["group_unique_id":group_id,"from":from,"type":type,"msg":msg,"from_fullname":fromFullname,"unique_id":uniqueidChat],headers:header).responseJSON { response in
+            
+            
             // You are now running on the concurrent `queue` you created earlier.
             //print("Parsing JSON on thread: \(NSThread.currentThread()) is main thread: \(NSThread.isMainThread())")
             
@@ -230,7 +235,7 @@ class GroupChatingDetailController: UIViewController,UpdateGroupChatDetailsDeleg
                 //print("Am I back on the main thread: \(NSThread.isMainThread())")
                 
                 print("MAINNNNNNNNNNNN")
-                completion(result: true)
+                completion(true)
                 //self.retrieveChatFromSqlite(self.selectedContact)
                 
                 
@@ -1149,7 +1154,12 @@ class GroupChatingDetailController: UIViewController,UpdateGroupChatDetailsDeleg
     
    //--- dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT,0))
     //{
-    let request = Alamofire.request(.POST, "\(url)", parameters: ["chat_unique_id":chat_uniqueid,"status":status1],headers:header).responseJSON { response in
+        
+        let request=Alamofire.request("\(url)", method: .post, parameters: ["chat_unique_id":chat_uniqueid,"status":status1],headers:header).responseJSON { response in
+            
+        
+        //alamofire4
+    //let request = Alamofire.request(.POST, "\(url)", parameters: ["chat_unique_id":chat_uniqueid,"status":status1],headers:header).responseJSON { response in
     
     
     /*let request = Alamofire.request(.POST, "\(url)", parameters: ["uniqueid":uniqueid,"sender":sender,"status":status],headers:header)

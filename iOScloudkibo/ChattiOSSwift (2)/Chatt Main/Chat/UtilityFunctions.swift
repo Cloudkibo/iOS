@@ -170,7 +170,7 @@ class UtilityFunctions{
         
         let randomString : NSMutableString = NSMutableString(capacity: len)
         
-        for i in 0 .. len{
+        for i in 0 ..< len{
             let length = UInt32 (letters.length)
             let rand = arc4random_uniform(length)
             randomString.appendFormat("%C", letters.character(at: Int(rand)))
@@ -226,7 +226,11 @@ class UtilityFunctions{
         }
         */
         var url=Constants.MainUrl+Constants.createGroupUrl
-        Alamofire.request(.POST,"\(url)",parameters:["group_name":groupname,"members":members, "unique_id":uniqueid],headers:header,encoding:.JSON).validate().responseJSON { response in
+        
+        Alamofire.request("\(url)", method: .post, parameters: ["group_name":groupname,"members":members, "unique_id":uniqueid],headers:header).responseJSON { response in
+          
+            //alamofire4
+        //Alamofire.request(.POST,"\(url)",parameters:["group_name":groupname,"members":members, "unique_id":uniqueid],headers:header,encoding:.JSON).validate().responseJSON { response in
             
             /*
              
@@ -249,7 +253,7 @@ class UtilityFunctions{
                 //update group date
                 sqliteDB.updateGroupCreationDate(uniqueid, date1: NSDate())
                 //update membership status
-                for(var i=0;i<members.count;i++)
+                for i in 0 ..< members.count
                 {
                      sqliteDB.updateMembershipStatus(uniqueid, memberphone1: members[i] as! String, membership_status1: "joined")
                 }
@@ -548,10 +552,12 @@ print("tempURL is \(temporaryURL) and response is \(response.allHeaderFields)")
         {
             //let url = NSURL(string: address)
             downloadGroup.enter()
-            Alamofire.request(.POST,"\(Constants.MainUrl+Constants.urllog)",headers:header,parameters: ["data":"IPHONE_LOG: \(username!) downloading group icons \(uniqueidArray.description)"]).response{
+            
+            
+            /*Alamofire.request(.POST,"\(Constants.MainUrl+Constants.urllog)",headers:header,parameters: ["data":"IPHONE_LOG: \(username!) downloading group icons \(uniqueidArray.description)"]).response{
                 request, response_, data, error in
                 print(error)
-            }
+            }*/
             
             self.downloadProfileImageOnLaunch(address, completion: { (result, error) in
                 print("done downloading pendingGroupIcons \(address)")
@@ -599,10 +605,10 @@ print("tempURL is \(temporaryURL) and response is \(response.allHeaderFields)")
         
         downloadGroup.notify(queue: DispatchQueue.global(priority: DispatchQueue.GlobalQueuePriority.high)) { // 2
            print("pendingGroupIcons done all downloads")
-            Alamofire.request(.POST,"\(Constants.MainUrl+Constants.urllog)",headers:header,parameters: ["data":"IPHONE_LOG: pendingGroupIcons done all downloads \(username!)"]).response{
+            /*Alamofire.request(.POST,"\(Constants.MainUrl+Constants.urllog)",headers:header,parameters: ["data":"IPHONE_LOG: pendingGroupIcons done all downloads \(username!)"]).response{
                 request, response_, data, error in
                 print(error)
-            }
+            }*/
             
             //if let completion = completion {
                                completion(true, nil/*, groupiconinfo: iconinfolist*/)

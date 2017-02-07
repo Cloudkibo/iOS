@@ -138,10 +138,16 @@ class DisplayNameViewController: UIViewController {
             var urlToSendDisplayName=Constants.MainUrl+Constants.firstTimeLogin
             var nn="{display_name:displayName}"
             //var getUserDataURL=userDataUrl
+        
+        
+        Alamofire.request("\(urlToSendDisplayName)", method: .post, parameters: ["display_name":displayName],headers:header).responseJSON { response in
+      
             
+            //alamofire4
+            /*
             Alamofire.request(.POST,"\(urlToSendDisplayName)",headers:header,parameters:["display_name":displayName]).responseJSON{
                 response in
-                
+                */
                 
                     print(response.data?.debugDescription)
                     
@@ -628,7 +634,11 @@ class DisplayNameViewController: UIViewController {
             })
         
         
-        Alamofire.request(.POST,searchContactsByPhones,headers:header,parameters:["phonenumbers":phones],encoding: .JSON).responseJSON { response in
+        let request = Alamofire.request("\(searchContactsByPhones)", method: .post, parameters: ["phonenumbers":phones],headers:header).responseJSON { response in
+            
+
+         //alamofire4
+       // Alamofire.request(.POST,searchContactsByPhones,headers:header,parameters:["phonenumbers":phones],encoding: .JSON).responseJSON { response in
             
             if(response.response?.statusCode==200)
             {socketObj.socket.emit("logClient","IPHONE-LOG: success in getting available and not available contacts")
@@ -742,8 +752,11 @@ class DisplayNameViewController: UIViewController {
         //Alamofire.request(.GET,"\(fetchChatURL)").validate(statusCode: 200..<300)
         header=["kibo-token":self.accountKit!.currentAccessToken!.tokenString]
         print("header iss \(header)")
-        Alamofire.request(.GET,"\(fetchChatURL)",headers:header).validate(statusCode: 200..<300)
-            .response { (request1, response1, data1, error1) in
+        
+        let request = Alamofire.request("\(fetchChatURL)",headers:header).responseJSON { response1 in
+          
+            //alamofire4
+       // Alamofire.request(.GET,"\(fetchChatURL)",headers:header).validate(statusCode: 200..<300).response { (request1, response1, data1, error1) in
                 
                 
                 
@@ -764,7 +777,7 @@ class DisplayNameViewController: UIViewController {
                         
                     }
                     //print("Contacts fetched success")
-                    let contactsJsonObj = JSON(data: data1!)
+                    let contactsJsonObj = JSON(data: response1.data!)
                     print(contactsJsonObj)
                     //print(contactsJsonObj["userid"])
                     //let contact=JSON(contactsJsonObj["contactid"])
@@ -919,6 +932,7 @@ class DisplayNameViewController: UIViewController {
         
         
         var getUserDataURL=userDataUrl
+        
         
         Alamofire.request(.GET,"\(getUserDataURL)",headers:header).validate(statusCode: 200..<300).responseJSON{response in
             

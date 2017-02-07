@@ -6,6 +6,7 @@
 //  Copyright (c) 2014 My App Templates. All rights reserved.
 //
 
+//DONE
 import UIKit
 import SwiftyJSON
 import Alamofire
@@ -72,7 +73,7 @@ EPPickerDelegate,SWTableViewCellDelegate,UpdateChatViewsDelegate,RefreshContacts
     @IBOutlet var viewForTitle : UIView!
     @IBOutlet var ctrlForChat : UISegmentedControl!
     @IBOutlet var btnForLogo : UIButton!
-    var loggedID=loggedUserObj["_id"]
+    //var loggedID=loggedUserObj["_id"]
     @IBOutlet var tblForChat : UITableView!
     @IBOutlet weak var btnContactAdd: UIBarButtonItem!
     var delegateSocketConn:SocketConnecting!
@@ -81,7 +82,10 @@ EPPickerDelegate,SWTableViewCellDelegate,UpdateChatViewsDelegate,RefreshContacts
     ////////let delegateController=LoginAPI(url: "sdfsfes")
     
     
-    
+    func socketReceivedSpecialMessage(_ message: String, params: JSON!) {
+        
+        
+    }
     
     func getCurrentUserDetails(_ completion: @escaping (_ result:Bool)->())
     {
@@ -98,11 +102,14 @@ EPPickerDelegate,SWTableViewCellDelegate,UpdateChatViewsDelegate,RefreshContacts
         
         var getUserDataURL=userDataUrl
         
-        Alamofire.request(.GET,"\(getUserDataURL)",headers:header).validate(statusCode: 200..<300).responseJSON{response in
+        let request = Alamofire.request("\(getUserDataURL)", method: .get,headers:header).responseJSON { response in
+            
+        //alamofire4
+       // Alamofire.request(.GET,"\(getUserDataURL)",headers:header).validate(statusCode: 200..<300).responseJSON{response in
             
             
             switch response.result {
-            case .Success:
+            case .success:
                 if let data1 = response.result.value {
                     let json = JSON(data1)
                     print("JSON: \(json)")
@@ -112,15 +119,15 @@ EPPickerDelegate,SWTableViewCellDelegate,UpdateChatViewsDelegate,RefreshContacts
                     
                     username=json["phone"].string
                     displayname=json["display_name"].string!
-                    loggedUserObj=json
+                    //loggedUserObj=json
                     KeychainWrapper.setString(loggedUserObj.description, forKey:"loggedUserObjString")
                     var loggedobjstring=KeychainWrapper.stringForKey("loggedUserObjString")
                     if(socketObj != nil){
                     socketObj.socket.emit("logClient","IPHONE-LOG: keychain of loggedUserObjString is \(loggedobjstring)")
                     }
                     
-                    print(loggedUserObj.debugDescription)
-                    print(loggedUserObj.object)
+                    //print(loggedUserObj.debugDescription)
+                    //print(loggedUserObj.object)
                     print("$$$$$$$$$$$$$$$$$$$$$$$$$")
                     print("************************")
                     
@@ -156,7 +163,7 @@ EPPickerDelegate,SWTableViewCellDelegate,UpdateChatViewsDelegate,RefreshContacts
                     
                     do{
                         
-                        try sqliteDB.db.run(tbl_accounts.delete())
+                        try sqliteDB.db.run(tbl_accounts?.delete())
                     }catch{
                         if(socketObj != nil){
                         socketObj.socket.emit("logClient","accounts table not deleted")
@@ -167,7 +174,7 @@ EPPickerDelegate,SWTableViewCellDelegate,UpdateChatViewsDelegate,RefreshContacts
                     // let insert = users.insert(email <- "alice@mac.com")
                     
                     
-                    tbl_accounts.delete()
+                    tbl_accounts?.delete()
                     
                     do {
                         let rowid = try sqliteDB.db.run(tbl_accounts.insert(self._id<-json["_id"].string!,
@@ -185,14 +192,14 @@ EPPickerDelegate,SWTableViewCellDelegate,UpdateChatViewsDelegate,RefreshContacts
                         //national_number"
                         print("inserted id: \(rowid)")
                         
-                        return completion(result:true)
+                        return completion(true)
                         
                     } catch {
                         print("insertion failed: \(error)")
                     }
                     
                     
-                    do{for account in try sqliteDB.db.prepare(tbl_accounts) {
+                    do{for account in try sqliteDB.db.prepare(tbl_accounts!) {
                         print("id: \(account[self._id]), phone: \(account[self.phone]), firstname: \(account[self.firstname])")
                         // id: 1, email: alice@mac.com, name: Optional("Alice")
                         }
@@ -203,7 +210,7 @@ EPPickerDelegate,SWTableViewCellDelegate,UpdateChatViewsDelegate,RefreshContacts
                         
                     }
                 }
-            case .Failure:
+            case .failure:
                 if(socketObj != nil){
                 socketObj.socket.emit("logClient", "\(username!) failed to get its data")
                 }
@@ -400,10 +407,10 @@ EPPickerDelegate,SWTableViewCellDelegate,UpdateChatViewsDelegate,RefreshContacts
         //self.progressBarDisplayer("Setting Conversations", true)
         print("\(username) is Fetching chat")
       //  socketObj.socket.emit("logClient","\(username) is Fetching chat")
-        Alamofire.request(.POST,"\(Constants.MainUrl+Constants.urllog)",headers:header,parameters: ["data":"IPHONE_LOG: \(username) is Fetching chat"]).response{
+       /* Alamofire.request(.POST,"\(Constants.MainUrl+Constants.urllog)",headers:header,parameters: ["data":"IPHONE_LOG: \(username) is Fetching chat"]).response{
             request, response_, data, error in
             print(error)
-        }
+        }*/
 
         //===
         
@@ -423,11 +430,22 @@ EPPickerDelegate,SWTableViewCellDelegate,UpdateChatViewsDelegate,RefreshContacts
         //QOS_CLASS_USER_INTERACTIVE
         let queue2 = DispatchQueue(label: "com.cnoon.manager-response-queue", attributes: DispatchQueue.Attributes.concurrent)
         let qqq=DispatchQueue.global(qos: DispatchQoS.QoSClass.background)
-        let request = Alamofire.request(.POST, "\(fetchChatURL)", parameters: ["user1":username!], headers:header)
-        request.response(
+        
+        
+        let request = Alamofire.request("\(fetchChatURL)", method: .post, parameters: ["user1":username!],headers:header)
+            //.responseJSON { response in
+            
+        //alamofire4
+       // let request = Alamofire.request(.POST, "\(fetchChatURL)", parameters: ["user1":username!], headers:header)
+     request.response(queue: queue2, completionHandler: { (response) in
+        
+       ///alamofire4
+        /*
             queue: queue2,
             responseSerializer: Request.JSONResponseSerializer(),
             completionHandler: { response in
+                
+                */
                 // You are now running on the concurrent `queue` you created earlier.
                 print("Parsing JSON on thread: \(NSThread.currentThread()) is main thread: \(NSThread.isMainThread())")
                 
@@ -942,11 +960,11 @@ EPPickerDelegate,SWTableViewCellDelegate,UpdateChatViewsDelegate,RefreshContacts
             print("Reachable via Wifi")
             if(username != nil && username != "")
             {
-                Alamofire.request(.POST,"\(Constants.MainUrl+Constants.urllog)",headers:header,parameters: ["data":"IPHONE_LOG: Reachable via wifi \(username!)"]).response{
+               /* Alamofire.request(.POST,"\(Constants.MainUrl+Constants.urllog)",headers:header,parameters: ["data":"IPHONE_LOG: Reachable via wifi \(username!)"]).response{
                     request, response_, data, error in
                     print(error)
                 }
-
+*/
                 
                 print("commenting")
                 //commentingg
@@ -1456,7 +1474,10 @@ EPPickerDelegate,SWTableViewCellDelegate,UpdateChatViewsDelegate,RefreshContacts
         
         if(pendingchatsarray.count>index)
         {
-        let request = Alamofire.request(.POST, "\(url)", parameters: pendingchatsarray[index],headers:header).responseJSON { response in
+            
+          let request = Alamofire.request("\(url)",parameters: pendingchatsarray[index]).responseJSON { response in
+                
+       // let request = Alamofire.request(.POST, "\(url)", parameters: pendingchatsarray[index],headers:header).responseJSON { response in
             switch response.result {
             case .Success(let JSON):
                 //x[self.index] = JSON as! [String : AnyObject] // saving data
@@ -3809,10 +3830,17 @@ break
             var removeChatHistoryURL=Constants.MainUrl+Constants.removeChatHistory
             
             //Alamofire.request(.POST,"\(removeChatHistoryURL)",headers:header,parameters: ["username":"\(selectedContact)"]).validate(statusCode: 200..<300).response{
-            Alamofire.request(.POST,"\(removeChatHistoryURL)",headers:header,parameters: ["phone":selectedContact]).validate(statusCode: 200..<300).response{
+            
+            let request=Alamofire.request("\(removeChatHistoryURL)", method: .post, parameters: ["phone":selectedContact],headers:header).response{
                 
                 request1, response1, data1, error1 in
+            
+                //alamofire4
+           /* Alamofire.request(.POST,"\(removeChatHistoryURL)",headers:header,parameters: ["phone":selectedContact]).validate(statusCode: 200..<300).response{
                 
+                request1, response1, data1, error1 in
+ */
+ 
                 //===========INITIALISE SOCKETIOCLIENT=========
                 // dispatch_async(dispatch_get_main_queue(), {
                 

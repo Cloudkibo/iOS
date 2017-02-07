@@ -451,7 +451,11 @@ class syncContactService
         
         //%%%%%%%%%%%%%%% new phone model change
         //Alamofire.request(.POST,searchContactsByEmail,parameters:["emails":emails],encoding: .JSON).responseJSON { response in
-        Alamofire.request(.POST,searchContactsByPhones,headers:header,parameters:["phonenumbers":phones],encoding: .JSON).responseJSON { response in
+        
+        let request = Alamofire.request(searchContactsByPhones, method: .post, parameters:  ["phonenumbers":phones],headers:header).responseJSON { response in
+
+            //alamofire4
+       // Alamofire.request(.POST,searchContactsByPhones,headers:header,parameters:["phonenumbers":phones],encoding: .JSON).responseJSON { response in
             
             if(response.response?.statusCode==200)
             {socketObj.socket.emit("logClient","IPHONE-LOG: success in getting available and not available contacts")
@@ -562,7 +566,7 @@ class syncContactService
                             var phoneDigits=a.value(forKey: "digits") as! String
                             var actualphonedigits=a.value(forKey: "digits") as! String
                         
-                            for i in 0 .. phoneDigits.characters.count
+                            for i in 0 ..< phoneDigits.characters.count
                             {
                                 if(phoneDigits.characters.first=="0")
                                 {
@@ -682,7 +686,7 @@ class syncContactService
                 ///////socketObj.socket.emit("logClient","IPHONE-LOG: iphoneLog: error is getting name \(error)")
             }
             
-            for j in 0 .. contactsdata.count
+            for j in 0 ..< contactsdata.count
             {
                 do{
                 try sqliteDB.db.run(tbl_allcontacts?.insert(name<-contactsdata[j]["name"]!,phone<-contactsdata[j]["phone"]!,actualphone<-contactsdata[j]["actualphone"]!,email<-contactsdata[j]["email"]!,uniqueidentifier<-contactsdata[j]["uniqueidentifier"]!))
@@ -860,8 +864,11 @@ class syncContactService
         var nn="{display_name:displayName}"
         //var getUserDataURL=userDataUrl
  
-        Alamofire.request(.POST,"\(urlToSendDisplayName)",headers:header,parameters:["display_name":displayName]).responseJSON{
-            response in
+        Alamofire.request("\(urlToSendDisplayName)", method: .post, parameters:  ["display_name":displayName],headers:header).responseJSON { response in
+            
+       
+            //alamofire4
+        //Alamofire.request(.POST,"\(urlToSendDisplayName)",headers:header,parameters:["display_name":displayName]).responseJSON{ response in
  
  
             print(response.data?.debugDescription)
@@ -1018,12 +1025,18 @@ class syncContactService
         //Alamofire.request(.GET,"\(fetchChatURL)").validate(statusCode: 200..<300)
         header=["kibo-token":self.accountKit!.currentAccessToken!.tokenString]
         print("header iss \(header)")
-        Alamofire.request(.GET,"\(fetchChatURL)",headers:header).validate(statusCode: 200..<300)
-            .response { (request1, response1, data1, error1) in
+        
+        
+        
+        
+        Alamofire.request("\(fetchChatURL)").response { response1 in // method defaults to `.get`
+            
+            ///alamofire4
+     //   Alamofire.request(.GET,"\(fetchChatURL)",headers:header).validate(statusCode: 200..<300).response { (request1, response1, data1, error1) in
                 
                 
                 
-                
+            
                 if response1?.statusCode==200 {
                     //============GOT Contacts SECCESS=================
                     
@@ -1040,7 +1053,12 @@ class syncContactService
                         
                     }
                     //print("Contacts fetched success")
-                    let contactsJsonObj = JSON(data: data1!)
+                    
+                    
+                    let contactsJsonObj = JSON(data: response1.data!)
+                    
+                    //alamofire4
+                    ///////==----let contactsJsonObj = JSON(data: data1!)
                     print(contactsJsonObj)
                     //print(contactsJsonObj["userid"])
                     //let contact=JSON(contactsJsonObj["contactid"])

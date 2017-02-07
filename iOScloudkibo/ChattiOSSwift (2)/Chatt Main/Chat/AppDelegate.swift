@@ -896,7 +896,9 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
         let queue2 = DispatchQueue(label: "com.cnoon.manager-response-queue", attributes: DispatchQueue.Attributes.concurrent)
         let qqq=DispatchQueue.global(qos: DispatchQoS.QoSClass.background)
         
-        let request = Alamofire.request("\(fetchChatURL)", method: .post, parameters: ["user1":username!],headers:header)
+        let request = Alamofire.request("\(fetchChatURL)", method: .post, parameters: ["user1":username!],headers:header).responseData(queue: queue2) { response in
+            
+            
             /*.downloadProgress(queue: DispatchQueue.global(qos: .utility)) { progress in
                 print("Progress: \(progress.fractionCompleted)")
             }
@@ -911,12 +913,17 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
         
         //alamofire4
         /////let request = Alamofire.request(.POST, "\(fetchChatURL)", parameters: ["user1":username!], headers:header)
-        request.response(
+        
+        
+        //alamofire4
+        /*request.response(
             queue: queue2,
             responseSerializer: Request.JSONResponseSerializer(),
             completionHandler: { response in
+                
+                */
                 // You are now running on the concurrent `queue` you created earlier.
-                print("Parsing JSON on thread: \(NSThread.currentThread()) is main thread: \(NSThread.isMainThread())")
+                print("Parsing JSON on thread: \(Thread.currentThread()) is main thread: \(NSThread.isMainThread())")
                 
                 // Validate your JSON response and convert into model objects if necessary
                 //print(response)
@@ -924,7 +931,7 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
                 
                 
                 switch response.result {
-                case .Success:
+                case .success:
                     
                     print("All chat fetched success")
                     socketObj.socket.emit("logClient", "All chat fetched success")
@@ -963,8 +970,7 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
                         //sqliteDB.deleteChat(self.selectedContact)
                         
                         socketObj.socket.emit("logClient","IPHONE-LOG: all chat messages count is \(UserchatJson["msg"].count)")
-                        for var i=0;i<UserchatJson["msg"].count
-                            ;i++
+                        for var i in 0 ..< UserchatJson["msg"].count
                         {
                             
                             // var isFile=false
@@ -1165,8 +1171,6 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
                 ///      print("Am I back on the main thread: \(NSThread.isMainThread())")
                 /// }
             }
-        )
-        
         
     }
     
@@ -1364,7 +1368,7 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
                 //print("Am I back on the main thread: \(NSThread.isMainThread())")
                 
                 print("MAINNNNNNNNNNNN")
-                completion(result: true)
+                completion(true)
                 //self.retrieveChatFromSqlite(self.selectedContact)
                 
                 
@@ -1373,7 +1377,7 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
                 /////// }
             }
             else{
-                completion(result: false)
+                completion(false)
                 
             }
         }//)
@@ -1406,7 +1410,7 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
         //print(res)
         
             var count=0
-        for i in 0 .. pendingMSGs.count
+        for i in 0 ..< pendingMSGs.count
             {
                var membersList=sqliteDB.getGroupMembersOfGroup(pendingMSGs[i]["group_unique_id"] as! String)
                 
@@ -1591,7 +1595,8 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
         if(socketObj != nil)
         {   //// socketObj.socket.close()
             socketObj.socket.disconnect()
-            socketObj.socket.close()
+            socketObj.socket.removeAllHandlers()
+            ////// swiftt3 socketObj.socket.close()
             /////  socketObj=nil
         }
         
@@ -1721,7 +1726,7 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
         }*/
         
        // print("socket status iss \(socketObj.socket.status)")
-        if(socketObj.socket.status == SocketIOClientStatus.Closed)
+        if(socketObj.socket.status == SocketIOClientStatus.disconnected) //.closed
         {
          //   print("opening socket")
             
@@ -2021,11 +2026,12 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
         {
          
             Alamofire.request("https://api.cloudkibo.com/api/users/log", method: .post, parameters: ["data":"IPHONE_LOG: \(username!) received push notification as \(userInfo.description)"],headers:header).response{
-                request, response_, data, error in
-                print(error)
+                response in
+                print(response.error)
             }
+        
 /*
-                
+         
         Alamofire.request(.POST,"https://api.cloudkibo.com/api/users/log",headers:header,parameters: ["data":"IPHONE_LOG: \(username!) received push notification as \(userInfo.description)"]).response{
             request, response_, data, error in
             print(error)
@@ -2424,7 +2430,10 @@ else{
         
         //var getUserDataURL=userDataUrl
         
-        Alamofire.request(.POST,"\(fetchSingleMsgURL)",parameters: ["unique_id":unique_id],headers:header).validate(statusCode: 200..<300).responseJSON{response in
+        let request = Alamofire.request("\(fetchSingleMsgURL)", method: .post,parameters: ["unique_id":unique_id],headers:header).responseJSON { response in
+            
+            //alamofire4
+        ////Alamofire.request(.POST,"\(fetchSingleMsgURL)",parameters: ["unique_id":unique_id],headers:header).validate(statusCode: 200..<300).responseJSON{response in
             
             //print("members fetched response \(response.description)")
             //var membersDataNew=JSON(response.response!.description)

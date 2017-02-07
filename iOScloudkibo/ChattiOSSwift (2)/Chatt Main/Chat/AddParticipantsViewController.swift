@@ -90,7 +90,7 @@ class AddParticipantsViewController: UIViewController,InviteContactsDelegate,UIT
         
         var memberphones=[String]()
         var membersnames=[String]()
-        for i in 0 .. participantsSelected1.count
+        for i in 0 ..< participantsSelected1.count
         {print("appending memberphone now of participantselected \(participantsSelected1[i].getPhoneNumber())")
             memberphones.append(participantsSelected1[i].getPhoneNumber())
             membersnames.append(participantsSelected1[i].displayName())

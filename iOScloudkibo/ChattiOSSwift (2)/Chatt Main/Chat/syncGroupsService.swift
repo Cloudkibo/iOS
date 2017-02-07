@@ -75,12 +75,13 @@ class syncGroupService
         
         
         if (accountKit!.currentAccessToken != nil) {
-            
-            Alamofire.request(.POST,"\(Constants.MainUrl+Constants.urllog)",headers:header,parameters: ["data":"IPHONE_LOG: group sync on install start \(username!)"]).response{
+           
+                
+  /*          Alamofire.request(.POST,"\(Constants.MainUrl+Constants.urllog)",headers:header,parameters: ["data":"IPHONE_LOG: group sync on install start \(username!)"]).response{
                 request, response_, data, error in
                 print(error)
             }
-
+*/
             
           //  var Q5_fetchAllGroupsData=dispatch_queue_create("fetchAllGroupsData",DISPATCH_QUEUE_SERIAL)
            // dispatch_async(Q5_fetchAllGroupsData,{
@@ -138,18 +139,18 @@ class syncGroupService
         
         if (accountKit!.currentAccessToken != nil) {
             
-            Alamofire.request(.POST,"\(Constants.MainUrl+Constants.urllog)",headers:header,parameters: ["data":"IPHONE_LOG: Starting partial groups chat sync \(username!)"]).response{
+            /*Alamofire.request(.POST,"\(Constants.MainUrl+Constants.urllog)",headers:header,parameters: ["data":"IPHONE_LOG: Starting partial groups chat sync \(username!)"]).response{
                 request, response_, data, error in
                 print(error)
-            }
+            }*/
             
            //commented for testing
           DispatchQueue.global(priority: DispatchQueue.GlobalQueuePriority.low).async {
                 print("sync partial groups chat in background...")
-            Alamofire.request(.POST,"\(Constants.MainUrl+Constants.urllog)",headers:header,parameters: ["data":"IPHONE_LOG: sync partial groups chat in background... \(username!)"]).response{
+            /*Alamofire.request(.POST,"\(Constants.MainUrl+Constants.urllog)",headers:header,parameters: ["data":"IPHONE_LOG: sync partial groups chat in background... \(username!)"]).response{
                 request, response_, data, error in
                 print(error)
-            }
+            }*/
                 self.partialSyncGroupsChat{ (result,error,groupinfo) in
                    /// if(groupinfo != nil)
                     //{
@@ -208,7 +209,7 @@ class syncGroupService
         
         DispatchQueue.global(priority: DispatchQueue.GlobalQueuePriority.default).sync
         {
-        var request=Alamofire.request(.GET,"\(url)",headers:header).responseJSON { response in
+            var request=Alamofire.request("\(url)",headers:header).response{ response in
         /*
         request.response(
             queue: qqq,
@@ -833,6 +834,9 @@ class syncGroupService
         print("status list is \(statusNotSentList)")
         var hhh=["headers":"\(header)"]
         print(header.description)
+        
+        
+            
         Alamofire.request(.POST,"\(url)",parameters:["unique_ids":statusNotSentList],headers:header, encoding: .JSON).validate().responseJSON { response in
             print(response)
             print(response.response?.statusCode)

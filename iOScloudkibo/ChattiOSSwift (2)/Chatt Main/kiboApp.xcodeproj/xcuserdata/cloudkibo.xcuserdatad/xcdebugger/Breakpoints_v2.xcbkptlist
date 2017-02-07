@@ -44,7 +44,7 @@
             startingLineNumber = "92"
             endingLineNumber = "92"
             landmarkName = "sendRequestPOST(_:url:parameters1:)"
-            landmarkType = "5">
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -76,7 +76,7 @@
             startingLineNumber = "203"
             endingLineNumber = "203"
             landmarkName = "tableView(_:numberOfRowsInSection:)"
-            landmarkType = "5">
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -92,7 +92,7 @@
             startingLineNumber = "71"
             endingLineNumber = "71"
             landmarkName = "btnRegisterTapped(_:)"
-            landmarkType = "5">
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -108,7 +108,7 @@
             startingLineNumber = "74"
             endingLineNumber = "74"
             landmarkName = "btnRegisterTapped(_:)"
-            landmarkType = "5">
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
