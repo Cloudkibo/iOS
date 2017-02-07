@@ -705,7 +705,51 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
         
         if(pendingchatsarray.count>index)
         {
-            let request = Alamofire.request(.POST, "\(url)", parameters: pendingchatsarray[index],headers:header).responseJSON { response in
+            
+            Alamofire.request("\(url)", method: .post, parameters: pendingchatsarray[index],headers:header)
+                .downloadProgress(queue: DispatchQueue.global(qos: .utility)) { progress in
+                    print("Progress: \(progress.fractionCompleted)")
+                }
+                .validate { request, response, data in
+                    // Custom evaluation closure now includes data (allows you to parse data to dig out error messages if necessary)
+                    return .success
+                }
+                .responseJSON { response in
+                    debugPrint(response)
+                    switch response.result {
+                      
+                    case .success(let JSON):
+                        //x[self.index] = JSON as! [String : AnyObject] // saving data
+                        var statusNow="sent"
+                        ///var chatmsg=JSON(data)
+                        /// print(data[0])
+                        ///print(chatmsg[0])
+                        //  print("chat sent msg \(chatstanza)")
+                        
+                        sqliteDB.UpdateChatStatus(self.pendingchatsarray[self.index]["uniqueid"]!, newstatus: "sent")
+                        completion(true)
+                        
+                        
+                        self.index = self.index + 1
+                        if self.index < self.pendingchatsarray.count {
+                            self.getData({ (result) -> () in})
+                        }else {
+                            completion(true)
+                            /////////self.collectionView.reloadData()
+                        }
+                    case .failure(let error):
+                        print("the error for \(self.pendingchatsarray[self.index]) is \(error) ")
+                        if self.index < self.pendingchatsarray.count {
+                            self.getData({ (result) -> () in})
+                        }else {
+                            completion(true)                /////////// self.collectionView.reloadData()
+                        }
+                    }
+            }
+            
+            
+            //alamofire4
+            /*let request = Alamofire.request(.POST, "\(url)", parameters: pendingchatsarray[index],headers:header).responseJSON { response in
                 switch response.result {
                 case .Success(let JSON):
                     //x[self.index] = JSON as! [String : AnyObject] // saving data
@@ -734,7 +778,7 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
                         completion(result: true)                /////////// self.collectionView.reloadData()
                     }
                 }
-            }
+            }*/
         }
         else{
             completion(false)
@@ -851,7 +895,22 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
         //QOS_CLASS_USER_INTERACTIVE
         let queue2 = DispatchQueue(label: "com.cnoon.manager-response-queue", attributes: DispatchQueue.Attributes.concurrent)
         let qqq=DispatchQueue.global(qos: DispatchQoS.QoSClass.background)
-        let request = Alamofire.request(.POST, "\(fetchChatURL)", parameters: ["user1":username!], headers:header)
+        
+        let request = Alamofire.request("\(fetchChatURL)", method: .post, parameters: ["user1":username!],headers:header)
+            /*.downloadProgress(queue: DispatchQueue.global(qos: .utility)) { progress in
+                print("Progress: \(progress.fractionCompleted)")
+            }
+            .validate { request, response, data in
+                // Custom evaluation closure now includes data (allows you to parse data to dig out error messages if necessary)
+                return .success
+            }
+            .responseJSON { response in
+                debugPrint(response)
+                switch response.result {
+                  */
+        
+        //alamofire4
+        /////let request = Alamofire.request(.POST, "\(fetchChatURL)", parameters: ["user1":username!], headers:header)
         request.response(
             queue: queue2,
             responseSerializer: Request.JSONResponseSerializer(),
@@ -1265,6 +1324,10 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
         var url=Constants.MainUrl+Constants.sendGroupChat
         print(url)
         print("..")
+        
+        
+         let request = Alamofire.request("\(url)", method: .post, parameters: ["group_unique_id":group_id,"from":from,"type":type,"msg":msg,"from_fullname":fromFullname,"unique_id":uniqueidChat],headers:header).responseJSON { response in
+        /*
         let request = Alamofire.request(.POST, "\(url)", parameters: ["group_unique_id":group_id,"from":from,"type":type,"msg":msg,"from_fullname":fromFullname,"unique_id":uniqueidChat],headers:header).responseJSON { response in
             // You are now running on the concurrent `queue` you created earlier.
             //print("Parsing JSON on thread: \(NSThread.currentThread()) is main thread: \(NSThread.isMainThread())")
@@ -1274,6 +1337,8 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
             
             // To update anything on the main thread, just jump back on like so.
             //print("\(chatstanza) ..  \(response)")
+            
+            */
             print("status code is \(response.response?.statusCode)")
             print(response)
             print(response.result.error)
@@ -1954,11 +2019,18 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
         //avoid calling twice, inactive when transitions by tapping on notification bar
         if(UIApplication.shared.applicationState.rawValue != UIApplicationState.inactive.rawValue)
         {
-            
+         
+            Alamofire.request("https://api.cloudkibo.com/api/users/log", method: .post, parameters: ["data":"IPHONE_LOG: \(username!) received push notification as \(userInfo.description)"],headers:header).response{
+                request, response_, data, error in
+                print(error)
+            }
+/*
+                
         Alamofire.request(.POST,"https://api.cloudkibo.com/api/users/log",headers:header,parameters: ["data":"IPHONE_LOG: \(username!) received push notification as \(userInfo.description)"]).response{
             request, response_, data, error in
             print(error)
         }
+ */
         
 
       ////////  if (application.applicationState != UIApplicationState.Background) {
@@ -2423,11 +2495,19 @@ else{
    
     func fetchSingleGroup(_ unique_id:String,completion:@escaping (_ result:Bool,_ error:String?)->())
     {
+        Alamofire.request("https://api.cloudkibo.com/api/users/log", method: .post, parameters: ["data":"IPHONE_LOG: \(username!) fetching group chat message. uniqueid of single new group is \(unique_id)"],headers:header).response{
+            request, response_, data, error in
+            print(error)
+        }
+
+        //alamofire4
+        /*
+        
         Alamofire.request(.POST,"https://api.cloudkibo.com/api/users/log",headers:header,parameters: ["data":"IPHONE_LOG: \(username!) fetching group chat message. uniqueid of single new group is \(unique_id)"]).response{
             request, response_, data, error in
             print(error)
         }
-        
+        */
         print("uniqueid of single new group is \(unique_id)")
         
         //======GETTING REST API TO GET SPECIFIC GROUP==================
@@ -2459,8 +2539,13 @@ else{
         
         //var getUserDataURL=userDataUrl
         
-        Alamofire.request(.POST,"\(fetchSingleMsgURL)",parameters: ["unique_id":unique_id],headers:header).validate(statusCode: 200..<300).responseJSON{response in
+        Alamofire.request("\(fetchSingleMsgURL)", method: .post, parameters: ["unique_id":unique_id],headers:header).responseJSON{response in
             
+            //alamofire4
+            /*
+
+        Alamofire.request(.POST,"\(fetchSingleMsgURL)",parameters: ["unique_id":unique_id],headers:header).validate(statusCode: 200..<300).responseJSON{response in
+            */
             
             switch response.result {
             case .Success:
@@ -2473,10 +2558,18 @@ else{
                     print(data1)
                     print(JSON(data1))
                     var groupSingleInfo=JSON(data1)
-                    Alamofire.request(.POST,"https://api.cloudkibo.com/api/users/log",headers:header,parameters: ["data":"IPHONE_LOG: \(username!) fetching group chat message success \(unique_id)"]).response{
+                    
+                    Alamofire.request("https://api.cloudkibo.com/api/users/log", method: .post, parameters: ["data":"IPHONE_LOG: \(username!) fetching group chat message success \(unique_id)"],headers:header).response{
                         request, response_, data, error in
                         print(error)
                     }
+                    
+                    //alamofire4
+                    /*
+                    Alamofire.request(.POST,"https://api.cloudkibo.com/api/users/log",headers:header,parameters: ["data":"IPHONE_LOG: \(username!) fetching group chat message success \(unique_id)"]).response{
+                        request, response_, data, error in
+                        print(error)
+                    }*/
                     /*
                      {
                      "date_creation" : "2016-10-27T13:28:35.824Z",
@@ -2511,7 +2604,7 @@ else{
                     
                     print("saving group single \(unique_id)")
                     
-                    Alamofire.request(.POST,"https://api.cloudkibo.com/api/users/log",headers:header,parameters: ["data":"IPHONE_LOG: \(username!) storing groups chat \(unique_id)"])
+                    //Alamofire.request(.POST,"https://api.cloudkibo.com/api/users/log",headers:header,parameters: ["data":"IPHONE_LOG: \(username!) storing groups chat \(unique_id)"])
                     
                     sqliteDB.storeGroups(group_name, groupicon1: group_icon, datecreation1: datens2!, uniqueid1: unique_id, status1: "new")
 
@@ -2567,9 +2660,13 @@ else{
             
             
             //var getUserDataURL=userDataUrl
+        
+        Alamofire.request("\(fetchSingleMsgURL)", method: .post, parameters: ["unique_id":uniqueidMsg],headers:header).responseJSON{response in
             
+//alamofire4
+        /*
             Alamofire.request(.POST,"\(fetchSingleMsgURL)",parameters: ["unique_id":uniqueidMsg],headers:header).validate(statusCode: 200..<300).responseJSON{response in
-                
+                */
                 
                 switch response.result {
                 case .Success:
@@ -2751,10 +2848,10 @@ else{
     func fetchSingleChatMessage(_ uniqueid:String)
     {
         
-        Alamofire.request(.POST,"\(Constants.MainUrl+Constants.urllog)",headers:header,parameters: ["data":"IPHONE_LOG: inside function fetch single chat \(uniqueid)"]).response{
+      /*  Alamofire.request(.POST,"\(Constants.MainUrl+Constants.urllog)",headers:header,parameters: ["data":"IPHONE_LOG: inside function fetch single chat \(uniqueid)"]).response{
             request, response_, data, error in
             print(error)
-        }
+        }*/
         
         if(socketObj != nil)
         {
@@ -2797,18 +2894,21 @@ else{
         
         //var getUserDataURL=userDataUrl
         
-        Alamofire.request(.POST,"\(fetchSingleMsgURL)",parameters: ["uniqueid":uniqueid],headers:header).validate(statusCode: 200..<300).responseJSON{response in
+        Alamofire.request("\(fetchSingleMsgURL)", method: .post, parameters:  ["uniqueid":uniqueid],headers:header).responseJSON{response in
+         
+            //alamofire4
+       /* Alamofire.request(.POST,"\(fetchSingleMsgURL)",parameters: ["uniqueid":uniqueid],headers:header).validate(statusCode: 200..<300).responseJSON{response in
             
-            
+            */
             switch response.result {
             case .Success:
                 if let data1 = response.result.value {
                     
-                    Alamofire.request(.POST,"\(Constants.MainUrl+Constants.urllog)",headers:header,parameters: ["data":"IPHONE_LOG: fetch single chat success \(uniqueid)"]).response{
+                   /* Alamofire.request(.POST,"\(Constants.MainUrl+Constants.urllog)",headers:header,parameters: ["data":"IPHONE_LOG: fetch single chat success \(uniqueid)"]).response{
                         request, response_, data, error in
                         print(error)
                     }
-                    
+                    */
                     if(socketObj != nil)
                     {
                         socketObj.socket.emit("logClient","fetched success single chat \(uniqueid)")
@@ -2921,16 +3021,23 @@ else{
                 }
                 else
                 {
-                     Alamofire.request(.POST,"\(Constants.MainUrl+Constants.urllog)",headers:header,parameters: ["data":"IPHONE_LOG: fetch single chat success BUT response returned is invalid \(uniqueid)"]).response{
+                   /*  Alamofire.request(.POST,"\(Constants.MainUrl+Constants.urllog)",headers:header,parameters: ["data":"IPHONE_LOG: fetch single chat success BUT response returned is invalid \(uniqueid)"]).response{
                         request, response_, data, error in
                         print(error)
-                    }
+                    }*/
                 }
             case .Failure:
-                Alamofire.request(.POST,"\(Constants.MainUrl+Constants.urllog)",headers:header,parameters: ["data":"IPHONE_LOG: fetch single chat FAILED \(uniqueid)"]).response{
+                
+                Alamofire.request("\(Constants.MainUrl+Constants.urllog)", method: .post, parameters:  ["data":"IPHONE_LOG: fetch single chat FAILED \(uniqueid)"],headers:header).response{
                     request, response_, data, error in
                     print(error)
                 }
+
+                  //alamofire4
+                /*Alamofire.request(.POST,"\(Constants.MainUrl+Constants.urllog)",headers:header,parameters: ["data":"IPHONE_LOG: fetch single chat FAILED \(uniqueid)"]).response{
+                    request, response_, data, error in
+                    print(error)
+                }*/
                 print("failed to get seingle chat message")
             }
         }

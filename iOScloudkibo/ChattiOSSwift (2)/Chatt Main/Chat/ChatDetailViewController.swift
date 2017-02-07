@@ -1396,10 +1396,18 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
         var removeChatHistoryURL=Constants.MainUrl+Constants.removeChatHistory
         
         //Alamofire.request(.POST,"\(removeChatHistoryURL)",headers:header,parameters: ["username":"\(selectedContact)"]).validate(statusCode: 200..<300).response{
-        Alamofire.request(.POST,"\(removeChatHistoryURL)",headers:header,parameters: ["phone":selectedContact]).validate(statusCode: 200..<300).response{
+       
+        
+        Alamofire.request("\(removeChatHistoryURL)", method: .post, parameters:  ["phone":selectedContact],headers:header).response{
             
             request1, response1, data1, error1 in
+
+        
+            //alamofire4
+        /*Alamofire.request(.POST,"\(removeChatHistoryURL)",headers:header,parameters: ["phone":selectedContact]).validate(statusCode: 200..<300).response{
             
+            request1, response1, data1, error1 in
+            */
             //===========INITIALISE SOCKETIOCLIENT=========
             // dispatch_async(dispatch_get_main_queue(), {
             
