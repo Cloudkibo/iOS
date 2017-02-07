@@ -571,7 +571,7 @@ identifiersarray.append(identifier)
                     //groupname=singleGroupInfo["group_name"] as! String
                     var memberphones=[String]()
                     var membersnames=[String]()
-                    for(var i=0;i<participantsSelected.count;i++)
+                    for var i in 0 ..< participantsSelected.count
                     {
                         memberphones.append(participantsSelected[i].getPhoneNumber())
                         membersnames.append(participantsSelected[i].displayName())
@@ -592,7 +592,7 @@ identifiersarray.append(identifier)
                     
                     var myname=""
                     let tbl_accounts = sqliteDB.accounts
-                    do{for account in try sqliteDB.db.prepare(tbl_accounts) {
+                    do{for account in try sqliteDB.db.prepare(tbl_accounts!) {
                         myname=account[firstname]
                         username=account[phone]
                         
@@ -610,7 +610,7 @@ identifiersarray.append(identifier)
                     //sqliteDB.storeMembers(uniqueid,member_displayname1: myname,member_phone1: username!, isAdmin1: "Yes", membershipStatus1: "joined", date_joined1: NSDate.init())
                     //sqliteDB.storeMembers(uniqueid,member_displayname1: myname, member_phone1: username!, isAdmin1: "Yes", membershipStatus1: "joined", date_joined1: NSDate.init())
                     
-                    for(var i=0;i<memberphones.count;i++)
+                    for i in 0 ..< memberphones.count
                     {
                         var isAdmin="No"
                         
@@ -624,7 +624,7 @@ identifiersarray.append(identifier)
                         }
                         else{
                             
-                            sqliteDB.storeMembers(uniqueid,member_displayname1: membersnames[i], member_phone1: memberphones[i], isAdmin1: isAdmin, membershipStatus1: "joined", date_joined1: NSDate.init())
+                            sqliteDB.storeMembers(uniqueid,member_displayname1: membersnames[i], member_phone1: memberphones[i], isAdmin1: isAdmin, membershipStatus1: "joined", date_joined1: NSDate.init() as Date)
                            
                         }
                         
@@ -657,19 +657,19 @@ identifiersarray.append(identifier)
                     self.addmemberfailed=true
                     var memberphones=[String]()
                     var membersnames=[String]()
-                    for(var i=0;i<participantsSelected.count;i++)
+                    for i in 0 ..< participantsSelected.count
                     {
                         memberphones.append(participantsSelected[i].getPhoneNumber())
                         membersnames.append(participantsSelected[i].displayName())
                        
                         var isAdmin="No"
-                        self.messages.removeObjectAtIndex(self.messages.count-1)
+                        self.messages.removeObject(at: self.messages.count-1)
                       
                     }
-                    for(var i=0;i<memberphones.count;i++)
+                    for i in 0 ..< memberphones.count
                     {
                         var isAdmin="No"
-                        self.messages.addObject(["member_phone":memberphones[i] as! String,"name":membersnames[i],"isAdmin":"No","newmember":"Yes"])
+                        self.messages.add(["member_phone":memberphones[i] as! String,"name":membersnames[i],"isAdmin":"No","newmember":"Yes"])
                         
                     }
                     print(response.result.debugDescription)
@@ -1276,7 +1276,7 @@ else{
         //print(furl!.pathExtension!)
         //print(furl!.URLByDeletingPathExtension?.lastPathComponent!)
         ftype=furl!.pathExtension
-        var fname=furl!.URLByDeletingPathExtension?.lastPathComponent!
+        var fname=furl!.deletingPathExtension().lastPathComponent
         
         
         let dirPaths = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)

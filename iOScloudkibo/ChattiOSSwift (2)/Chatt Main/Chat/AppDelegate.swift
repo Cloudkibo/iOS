@@ -923,7 +923,7 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
                 
                 */
                 // You are now running on the concurrent `queue` you created earlier.
-                print("Parsing JSON on thread: \(Thread.currentThread()) is main thread: \(NSThread.isMainThread())")
+                print("Parsing JSON on thread: \(Thread.current) is main thread: \(Thread.isMainThread)")
                 
                 // Validate your JSON response and convert into model objects if necessary
                 //print(response)
@@ -939,7 +939,7 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
                     
                     if let data1 = response.result.value {
                         print("data \(data1)")
-                        let UserchatJson = JSON(data1)
+                        let UserchatJson = data1 as! [String : Any]
                         print("chat fetched JSON: \(UserchatJson)")
                         
                         
@@ -1132,7 +1132,7 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
                         //------CHECK IF ANY PENDING FILES--------
                         if(UserchatJson["msg"].count > 0)
                         {
-                        dispatch_async(dispatch_get_main_queue())
+                        DispatchQueue.main.asynchronously()
                         {
                         if(delegateRefreshChat != nil)
                         {
@@ -2430,7 +2430,13 @@ else{
         
         //var getUserDataURL=userDataUrl
         
-        let request = Alamofire.request("\(fetchSingleMsgURL)", method: .post,parameters: ["unique_id":unique_id],headers:header).responseJSON { response in
+        let request = Alamofire.request("\(fetchSingleMsgURL)", method: .post,parameters: ["unique_id":unique_id],headers:header).validate().responseJSON { (responseData) -> Void in
+            if((responseData.result.value) != nil) {
+                let swiftyJsonVar = JSON(responseData.result.value!)
+                print(swiftyJsonVar)
+                
+                
+            //.responseJSON { response in
             
             //alamofire4
         ////Alamofire.request(.POST,"\(fetchSingleMsgURL)",parameters: ["unique_id":unique_id],headers:header).validate(statusCode: 200..<300).responseJSON{response in
@@ -2440,31 +2446,35 @@ else{
            // print("membersDataNew count is \(membersDataNew.count) and JSON data is : \(membersDataNew)")
             print("response code is \(response.response?.statusCode)")
 
-            if(response.result.isSuccess)
-            {
-            print("members fetched response.. \(response.result)")
-             print("members fetched response result.. \(response.result.value!)")
+            
+            switch response.result {
+            case .success(let value):
+                let json = JSON(value)
+          
+           // print("members fetched response.. \(response.result)")
+           //  print("members fetched response result.. \(response.result.value!)")
             print("members fetched response data.. \(response.data!)")
             
-            print("members fetched response JSON.. \(JSON(response.result.debugDescription))")
+            /*print("members fetched response JSON.. \(JSON(response.result.debugDescription))")
             print("members fetched response result JSON.. \(JSON(response.result.value!))")
             print("members fetched response data JSON.. \(JSON(response.data!))")
             
             print("members fetched response COUNT.. \(JSON(response.result.debugDescription).count)")
             print("members fetched response result COUNT.. \(JSON(response.result.value!).count)")
             print("members fetched response data COUNT.. \(JSON(response.data!).count)")
-            
-            var membersDataNew=JSON(response.result.value!)
-            for(var i=0;i<membersDataNew.count;i++)
+            */
+                var membersDataNew=JSON(data: response.data)
+                
+            for var i in 0 ..< membersDataNew.count
             {
-                var groupid=membersDataNew[i]["group_unique_id"]["unique_id"].string!
-                var displaynameMember=membersDataNew[i]["display_name"].string!
-                var member_phone1=membersDataNew[i]["member_phone"].string!
-                var isAdmin=membersDataNew[i]["isAdmin"].string!
-                var membership_status=membersDataNew[i]["membership_status"].string!
+                var groupid=membersDataNew[i]["group_unique_id"]["unique_id"].string1
+                var displaynameMember=membersDataNew[i]["display_name"] as! String
+                var member_phone1=membersDataNew[i]["member_phone"] as! String
+                var isAdmin=membersDataNew[i]["isAdmin"] as! String
+                var membership_status=membersDataNew[i]["membership_status"] as! String
                 var date_join=membersDataNew[i]["date_join"].string!
                 
-                let dateFormatter = NSDateFormatter()
+                let dateFormatter = DateFormatter()
                 dateFormatter.timeZone=NSTimeZone.localTimeZone()
                 dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
                 //  let datens2 = dateFormatter.dateFromString(date2.debugDescription)
@@ -2492,11 +2502,11 @@ else{
      */
             }
             
-            return completion(result: true, error: nil)
+            return completion(true, nil)
             }
             else
             {
-                return completion(result: false, error: nil)
+                return completion(false, nil)
             }
         }
     }
@@ -2505,8 +2515,8 @@ else{
     func fetchSingleGroup(_ unique_id:String,completion:@escaping (_ result:Bool,_ error:String?)->())
     {
         Alamofire.request("https://api.cloudkibo.com/api/users/log", method: .post, parameters: ["data":"IPHONE_LOG: \(username!) fetching group chat message. uniqueid of single new group is \(unique_id)"],headers:header).response{
-            request, response_, data, error in
-            print(error)
+            response in
+            print(response.error)
         }
 
         //alamofire4
@@ -2595,7 +2605,7 @@ else{
                     if(groupSingleInfo[0]["group_icon"] != nil)
                     {
                        // group_icon=(groupSingleInfo[0]["group_icon"] as! String).dataUsingEncoding(NSUTF8StringEncoding)!
-                        group_icon="exists".dataUsingEncoding(NSUTF8StringEncoding)!
+                        group_icon="exists".data(usingEncoding: NSUTF8StringEncoding)!
                         
                         
                         UtilityFunctions.init().downloadProfileImage(unique_id)

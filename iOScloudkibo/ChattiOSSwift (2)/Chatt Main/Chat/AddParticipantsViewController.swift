@@ -55,7 +55,7 @@ class AddParticipantsViewController: UIViewController,InviteContactsDelegate,UIT
         
         var memberphones=[String]()
         var membersnames=[String]()
-        for i in 0 .. participantsSelected1.count
+        for i in 0 ..< participantsSelected1.count
         {print("appending memberphone now of participantselected \(participantsSelected1[i].getPhoneNumber())")
             memberphones.append(participantsSelected1[i].getPhoneNumber())
             membersnames.append(participantsSelected1[i].displayName())
@@ -415,7 +415,7 @@ class AddParticipantsViewController: UIViewController,InviteContactsDelegate,UIT
         filteredArray = alladdressContactsArray.filter({ (contactname) -> Bool in
             let countryText: NSString = contactname.get(name)! as NSString
             
-            return (countryText.rangeOfString(searchText, options: NSString.CompareOptions.CaseInsensitiveSearch).location) != NSNotFound
+            return (countryText.rangeOfString(searchText, options: NSString.CompareOptions.caseInsensitive).location) != NSNotFound
         })
         
       tblForNotes.reloadData()
@@ -998,7 +998,7 @@ class AddParticipantsViewController: UIViewController,InviteContactsDelegate,UIT
                 
                // var memberphones=[String]()
                 //var membersnames=[String]()
-                for i in 0 .. participantsSelected1.count
+                for i in 0 ..< participantsSelected1.count
                 {print()
                     
                     //groupinfo participants adding

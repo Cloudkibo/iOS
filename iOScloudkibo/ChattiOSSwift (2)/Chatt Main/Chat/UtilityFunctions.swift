@@ -11,6 +11,8 @@ import UIKit
 import Alamofire
 import Contacts
 import SQLite
+import SwiftyJSON
+
 class UtilityFunctions{
     
     init()
@@ -877,6 +879,23 @@ print("tempURL is \(temporaryURL) and response is \(response.allHeaderFields)")
             .responseJSON { response in
                 debugPrint(response)
         }*/
+    }
+    
+    
+    class func requestGETURL(_ strURL: String, success:@escaping (JSON) -> Void, failure:@escaping (Error) -> Void) {
+        Alamofire.request(strURL).responseJSON { (responseObject) -> Void in
+            
+            print(responseObject)
+            
+            if responseObject.result.isSuccess {
+                let resJson = JSON(responseObject.result.value!)
+                success(resJson)
+            }
+            if responseObject.result.isFailure {
+                let error : Error = responseObject.result.error!
+                failure(error)
+            }
+        }
     }
     
    /* func showError(title:String,message:String,button1:String) {

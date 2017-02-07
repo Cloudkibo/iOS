@@ -111,20 +111,19 @@ EPPickerDelegate,SWTableViewCellDelegate,UpdateChatViewsDelegate,RefreshContacts
             switch response.result {
             case .success:
                 if let data1 = response.result.value {
-                    let json = JSON(data1)
+                    let json = data1 as! [String:Any]
                     print("JSON: \(json)")
                     
                     print("got user success")
                     
                     
-                    username=json["phone"].string
-                    displayname=json["display_name"].string!
+                    username=json["phone"] as! String
+                    displayname=json["display_name"] as! String
+
                     //loggedUserObj=json
-                    KeychainWrapper.setString(loggedUserObj.description, forKey:"loggedUserObjString")
-                    var loggedobjstring=KeychainWrapper.stringForKey("loggedUserObjString")
-                    if(socketObj != nil){
-                    socketObj.socket.emit("logClient","IPHONE-LOG: keychain of loggedUserObjString is \(loggedobjstring)")
-                    }
+                    /////////KeychainWrapper.setString(loggedUserObj.description, forKey:"loggedUserObjString")
+                    ////////var loggedobjstring=KeychainWrapper.stringForKey("loggedUserObjString")
+                   
                     
                     //print(loggedUserObj.debugDescription)
                     //print(loggedUserObj.object)
@@ -132,12 +131,13 @@ EPPickerDelegate,SWTableViewCellDelegate,UpdateChatViewsDelegate,RefreshContacts
                     print("************************")
                     
                     do{
-                        try KeychainWrapper.setString(json["phone"].string!, forKey: "username")
+                        try KeychainWrapper.setString(json["phone"] as! String
+, forKey: "username")
                         /// try KeychainWrapper.setString(json["display_name"].string!, forKey: "username")
-                        try KeychainWrapper.setString(json["display_name"].string!, forKey: "loggedFullName")
-                        try KeychainWrapper.setString(json["phone"].string!, forKey: "loggedPhone")
+                        try KeychainWrapper.setString(json["display_name"] as! String, forKey: "loggedFullName")
+                        try KeychainWrapper.setString(json["phone"] as! String, forKey: "loggedPhone")
                         try KeychainWrapper.setString("", forKey: "loggedEmail")
-                        try KeychainWrapper.setString(json["_id"].string!, forKey: "_id")
+                        try KeychainWrapper.setString(json["_id"] as! String, forKey: "_id")
                         
                         //%%%% new phone model
                         // try KeychainWrapper.setString(self.txtForPassword.text!, forKey: "password")
@@ -145,11 +145,11 @@ EPPickerDelegate,SWTableViewCellDelegate,UpdateChatViewsDelegate,RefreshContacts
                     }
                     catch{
                         print("error is setting keychain value")
-                        print(json.error?.localizedDescription)
+                        //print(json.error?.localizedDescription)
                     }
                     
                     
-                    var jsonNew=JSON("{\"room\": \"globalchatroom\",\"user\": {\"username\":\"sabachanna\"}}")
+                   // var jsonNew=JSON("{\"room\": \"globalchatroom\",\"user\": {\"username\":\"sabachanna\"}}")
                     //socketObj.socket.emit("join global chatroom", ["room": "globalchatroom", "user": ["username":"sabachanna"]]) WORKINGGG
                     if(socketObj != nil){
                     socketObj.socket.emit("logClient","IPHONE-LOG: \(username!) is joining room room:globalchatroom, user: \(json.object)")
@@ -163,7 +163,7 @@ EPPickerDelegate,SWTableViewCellDelegate,UpdateChatViewsDelegate,RefreshContacts
                     
                     do{
                         
-                        try sqliteDB.db.run(tbl_accounts?.delete())
+                        try sqliteDB.db.run((tbl_accounts?.delete())!)
                     }catch{
                         if(socketObj != nil){
                         socketObj.socket.emit("logClient","accounts table not deleted")
@@ -437,7 +437,10 @@ EPPickerDelegate,SWTableViewCellDelegate,UpdateChatViewsDelegate,RefreshContacts
             
         //alamofire4
        // let request = Alamofire.request(.POST, "\(fetchChatURL)", parameters: ["user1":username!], headers:header)
-     request.response(queue: queue2, completionHandler: { (response) in
+     request.responseJSON { (response) in
+        
+        
+        //responseJSON(queue: queue2,options: Request.js, completionHandler: { (response) in
         
        ///alamofire4
         /*
@@ -447,7 +450,7 @@ EPPickerDelegate,SWTableViewCellDelegate,UpdateChatViewsDelegate,RefreshContacts
                 
                 */
                 // You are now running on the concurrent `queue` you created earlier.
-                print("Parsing JSON on thread: \(NSThread.currentThread()) is main thread: \(NSThread.isMainThread())")
+                print("Parsing JSON on thread: \(Thread.current) is main thread: \(Thread.isMainThread)")
                 
                 // Validate your JSON response and convert into model objects if necessary
                 //print(response)
@@ -463,7 +466,7 @@ EPPickerDelegate,SWTableViewCellDelegate,UpdateChatViewsDelegate,RefreshContacts
                     
                     if let data1 = response.result.value {
                         print("data \(data1)")
-                        let UserchatJson = JSON(data1)
+                        let UserchatJson = JSON(response.data1)
                         print("chat fetched JSON: \(UserchatJson)")
                         
                         
@@ -505,7 +508,7 @@ EPPickerDelegate,SWTableViewCellDelegate,UpdateChatViewsDelegate,RefreshContacts
                             
                             
                             
-                            let dateFormatter = NSDateFormatter()
+                            let dateFormatter = DateFormatter()
                             dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
                             let datens2 = dateFormatter.dateFromString(UserchatJson["msg"][i]["date"].string!)
                             
@@ -978,10 +981,14 @@ EPPickerDelegate,SWTableViewCellDelegate,UpdateChatViewsDelegate,RefreshContacts
             print("Reachable")
             if(username != nil && username != "")
             {//commentingg
-                Alamofire.request(.POST,"\(Constants.MainUrl+Constants.urllog)",headers:header,parameters: ["data":"IPHONE_LOG: internet Reachable \(username!)"]).response{
-                    request, response_, data, error in
-                    print(error)
+                
+                let request=Alamofire.request("\(Constants.MainUrl+Constants.urllog)", method: .post, parameters: ["data":"IPHONE_LOG: internet Reachable \(username!)"],headers:header).response{
+                    
+                    response1 in
+                    
                 }
+
+             
                 var syncGroupsObj=syncGroupService.init()
                 syncGroupsObj.startPartialGroupsChatSyncService()
                 self.synchroniseChatData()
@@ -1474,12 +1481,14 @@ EPPickerDelegate,SWTableViewCellDelegate,UpdateChatViewsDelegate,RefreshContacts
         
         if(pendingchatsarray.count>index)
         {
-            
-          let request = Alamofire.request("\(url)",parameters: pendingchatsarray[index]).responseJSON { response in
+            let request=Alamofire.request("\(url)", method: .post, parameters: pendingchatsarray[index],headers:header).responseJSON(completionHandler: { (response) in
+                
+           // alamofire4
+      //==--  let request = Alamofire.request("\(url)",parameters: pendingchatsarray[index]).responseJSON { response in
                 
        // let request = Alamofire.request(.POST, "\(url)", parameters: pendingchatsarray[index],headers:header).responseJSON { response in
             switch response.result {
-            case .Success(let JSON):
+            case .success(let JSON):
                 //x[self.index] = JSON as! [String : AnyObject] // saving data
                 var statusNow="sent"
                 ///var chatmsg=JSON(data)
@@ -1488,25 +1497,25 @@ EPPickerDelegate,SWTableViewCellDelegate,UpdateChatViewsDelegate,RefreshContacts
               //  print("chat sent msg \(chatstanza)")
                 
                 sqliteDB.UpdateChatStatus(self.pendingchatsarray[self.index]["uniqueid"]!, newstatus: "sent")
-                completion(result:true)
+                completion(true)
 
                 
                 self.index = self.index + 1
                 if self.index < self.pendingchatsarray.count {
                     self.getData({ (result) -> () in})
                 }else {
-                    completion(result: true)
+                    completion(true)
                     /////////self.collectionView.reloadData()
                 }
-            case .Failure(let error):
+            case .failure(let error):
                 print("the error for \(self.pendingchatsarray[self.index]) is \(error) ")
                 if self.index < self.pendingchatsarray.count {
                     self.getData({ (result) -> () in})
                 }else {
-                       completion(result: true)                /////////// self.collectionView.reloadData()
+                       completion(true)                /////////// self.collectionView.reloadData()
                 }
             }
-        }
+        })
         }
         else{
             completion(false)
@@ -1843,7 +1852,14 @@ EPPickerDelegate,SWTableViewCellDelegate,UpdateChatViewsDelegate,RefreshContacts
         var url=Constants.MainUrl+Constants.sendGroupChat
         print(url)
         print("..")
-        let request = Alamofire.request(.POST, "\(url)", parameters: ["group_unique_id":group_id,"from":from,"type":type,"msg":msg,"from_fullname":fromFullname,"unique_id":uniqueidChat],headers:header).responseJSON { response in
+        
+        let request=Alamofire.request("\(url)", method: .post, parameters: ["group_unique_id":group_id,"from":from,"type":type,"msg":msg,"from_fullname":fromFullname,"unique_id":uniqueidChat],headers:header).responseJSON(completionHandler: { (response) in
+            
+            //alamofire4
+        //let request = Alamofire.request(.POST, "\(url)", parameters: ["group_unique_id":group_id,"from":from,"type":type,"msg":msg,"from_fullname":fromFullname,"unique_id":uniqueidChat],headers:header).responseJSON { response in
+           
+            
+            
             // You are now running on the concurrent `queue` you created earlier.
             //print("Parsing JSON on thread: \(NSThread.currentThread()) is main thread: \(NSThread.isMainThread())")
             
@@ -1877,7 +1893,7 @@ EPPickerDelegate,SWTableViewCellDelegate,UpdateChatViewsDelegate,RefreshContacts
                 //print("Am I back on the main thread: \(NSThread.isMainThread())")
                 
                 print("MAINNNNNNNNNNNN")
-                completion(result: true)
+                completion(true)
                 //self.retrieveChatFromSqlite(self.selectedContact)
                 
                 
@@ -1886,10 +1902,10 @@ EPPickerDelegate,SWTableViewCellDelegate,UpdateChatViewsDelegate,RefreshContacts
                 /////// }
             }
             else{
-                completion(result: false)
+                completion(false)
                 
             }
-        }//)
+        })//)
         
     }
     
@@ -1932,7 +1948,7 @@ EPPickerDelegate,SWTableViewCellDelegate,UpdateChatViewsDelegate,RefreshContacts
        
         self.groupsObjectList=sqliteDB.getGroupDetails()
         
-        for i in 0 .. self.groupsObjectList.count
+        for i in 0 ..< self.groupsObjectList.count
         {
             ContactsProfilePic=Data.init()
             //print("date is \(self.groupsObjectList[i]["date_creation"] as! NSDate)")
@@ -3833,7 +3849,7 @@ break
             
             let request=Alamofire.request("\(removeChatHistoryURL)", method: .post, parameters: ["phone":selectedContact],headers:header).response{
                 
-                request1, response1, data1, error1 in
+              response1 in
             
                 //alamofire4
            /* Alamofire.request(.POST,"\(removeChatHistoryURL)",headers:header,parameters: ["phone":selectedContact]).validate(statusCode: 200..<300).response{
@@ -3847,11 +3863,11 @@ break
                 //self.dismissViewControllerAnimated(true, completion: nil);
                 /// self.performSegueWithIdentifier("loginSegue", sender: nil)
                 
-                if response1?.statusCode==200 {
+                if response1.response?.statusCode==200 {
                     print("chat history deleted")
                    // if(ContactCountMsgRead.endIndex<=indexPath.row)
                     //{
-                    self.messages.removeObjectAtIndex(indexPath.row)
+                    self.messages.removeObject(at: indexPath.row)
                     /*self.ContactCountMsgRead.removeAtIndex(indexPath.row)
                     //}
                     
@@ -3880,13 +3896,13 @@ break
                     */
                     ////self.ContactsEmail.removeAtIndex(indexPath.row)
                     //print(request1)
-                    print(data1?.debugDescription)
+                    print(response1.data.debugDescription)
                     
                     sqliteDB.deleteChat(selectedContact)
                     
                     //self.messages.removeAllObjects()
-                    self.tblForChat.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Fade)
-                    dispatch_async(dispatch_get_main_queue())
+                    self.tblForChat.deleteRows(at: [indexPath], with: .fade)
+                    DispatchQueue.main.async
                         {
                             
                             self.tblForChat.reloadData()
@@ -3894,15 +3910,15 @@ break
                 }
                 else
                 {print("chat history not deleted")
-                    print(error1)
-                    print(data1)
+                    print(response1.error)
+                    print(response1.data)
                 }
-                if(response1?.statusCode==401)
+                if(response1.response?.statusCode==401)
                 {
                     print("chat history not deleted token refresh needed")
                     if(username==nil || password==nil)
                     {
-                        self.performSegueWithIdentifier("loginSegue", sender: nil)
+                        self.performSegue(withIdentifier: "loginSegue", sender: nil)
                     }
                     else{
                         self.rt.refrToken()
@@ -4484,7 +4500,7 @@ break
             }
             }*/
         case "yesiamfreeforcall":
-            var message=JSON(data!)
+            var message=data! as! [String : Any]
             print("other user is free", terminator: "")
             print(data?.debugDescription, terminator: "")
             if(socketObj != nil){
@@ -4494,7 +4510,7 @@ break
      
         case "youareonline":
             globalChatRoomJoined=true
-            var contactsOnlineList=JSON(data)
+            var contactsOnlineList=data as! [String : Any]
             
      
         case "calleeisbusy":
