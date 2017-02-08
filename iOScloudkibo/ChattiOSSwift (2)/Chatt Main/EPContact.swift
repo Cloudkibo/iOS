@@ -8,6 +8,7 @@
 
 import UIKit
 import Contacts
+import SQLite
 
 open class EPContact {
     
@@ -45,24 +46,83 @@ open class EPContact {
             birthdayString = dateFormatter.string(from: birthday!)
         }
         
-		for phoneNumber in contact.phoneNumbers {
-			guard let phoneLabel = phoneNumber.label else { continue }
-			let phone = phoneNumber.value.stringValue
-			
-			phoneNumbers.append((phone,phoneLabel))
-		}
-		
-		for emailAddress in contact.emailAddresses {
-			guard let emailLabel = emailAddress.label else { continue }
-			let email = emailAddress.value as String
-			
-			emails.append((email,emailLabel))
-		}
+        for phoneNumber:CNLabeledValue in contact.phoneNumbers {
+            let a = phoneNumber.value as! CNPhoneNumber
+            //////////////emails.append(a.valueForKey("digits") as! String)
+            var zeroIndex = -1
+            var phoneDigits=a.value(forKey: "digits") as! String
+            var actualphonedigits=a.value(forKey: "digits") as! String
+            
+            for i in 0..<phoneDigits.characters.count
+            {
+                if(phoneDigits.characters.first=="0")
+                {
+                    phoneDigits.remove(at: phoneDigits.startIndex)
+                    //phoneDigits.characters.popFirst() as! String
+                    print(".. droping zero \(phoneDigits)")
+                }
+                else
+                {
+                    break
+                }
+            }
+            
+            if(countrycode != nil){
+                if(countrycode=="1" && phoneDigits.characters.first=="1" && phoneDigits.characters.first != "+")
+                {
+                    phoneDigits = "+"+phoneDigits
+                }
+                else if(phoneDigits.characters.first != "+"){
+                    phoneDigits = "+"+countrycode+phoneDigits
+                    print("appended phone is \(phoneDigits)")
+                }
+                
+                
+            }
+            
+            
+            // phoneNumbers.append((phone.stringValue,phoneNumber.label))
+            phoneNumbers.append((phoneDigits,phoneNumber.label!))
+        }
+        
+        for emailAddress in contact.emailAddresses {
+            let email = emailAddress.value as! String
+            emails.append((email,emailAddress.label!))
+        }
     }
-	
-    open func displayName() -> String {
-        return firstName + " " + lastName
+    
+    
+    public func getPhoneNumber()->String
+    {
+        return (phoneNumbers.first?.phoneNumber)!
     }
+    
+    func isKiboContact()->Bool
+    {
+        var allcontactslist1=sqliteDB.allcontacts
+        var alladdressContactsArray:Array<Row>
+        
+        let phone = Expression<String>("phone")
+        let kibocontact = Expression<Bool>("kiboContact")
+        let name =
+            Expression<String?>("name")
+        // if(self.getPhoneNumber() != nil)
+        //{
+        do{for found in try sqliteDB.db.prepare(allcontactslist1?.filter(phone==self.getPhoneNumber() && kibocontact==true))
+        {
+            print("found contact \(self.getPhoneNumber())")
+            return true
+            }
+        }catch{}
+        // }
+        return false
+        
+    }
+    
+    public func displayName() -> String {
+        return "\(firstName) \(lastName)"
+    }
+  
     
     open func contactInitials() -> String {
         var initials = String()

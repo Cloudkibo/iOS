@@ -211,9 +211,11 @@ class syncContactService
                                     }
                                 }
                             }
-                            if(countrycode=="1" && phoneDigits.characters.first=="1" && phoneDigits.characters.first != "+")
+                            if(countrycode=="1" && phoneDigits.characters.first=="1")
                             {
+                                if(phoneDigits.characters.first != "+"){
                                 phoneDigits = "+"+phoneDigits
+                                }
                             }
                             else if(phoneDigits.characters.first != "+"){
                                 phoneDigits = "+"+countrycode+phoneDigits
@@ -473,14 +475,14 @@ class syncContactService
                 var availableContactsPhones=res["available"]
                 print("available contacts are \(availableContactsPhones.debugDescription)")
                 var notAvailablePhonesArrayReturned=res["notAvailable"].array
-                for var i=0;i<notAvailablePhonesArrayReturned!.count;i++
+                for i in 0..<notAvailablePhonesArrayReturned!.count
                 {
                     // self.notAvailableContacts[i]=NotavailableContactsEmails![i].rawString()!
                     self.syncNotAvailablePhonesList.append(notAvailablePhonesArrayReturned![i].debugDescription)
                    ////////// print("----------- \(self.notAvailableContacts[i].debugDescription)")
                 }
                 
-                for var i=0;i<availableContactsPhones.count;i++
+                for i in 0..<availableContactsPhones.count
                 {
                     // self.notAvailableContacts[i]=NotavailableContactsEmails![i].rawString()!
                     
@@ -497,7 +499,7 @@ class syncContactService
                 
                 dispatch_async(dispatch_get_main_queue())
                 {
-                completion(result: true)
+                completion(true)
                 }
                 
                /* if(self.delegate != nil)
@@ -689,7 +691,7 @@ class syncContactService
             for j in 0 ..< contactsdata.count
             {
                 do{
-                try sqliteDB.db.run(tbl_allcontacts?.insert(name<-contactsdata[j]["name"]!,phone<-contactsdata[j]["phone"]!,actualphone<-contactsdata[j]["actualphone"]!,email<-contactsdata[j]["email"]!,uniqueidentifier<-contactsdata[j]["uniqueidentifier"]!))
+                try sqliteDB.db.run((tbl_allcontacts?.insert(name<-contactsdata[j]["name"]!,phone<-contactsdata[j]["phone"]!,actualphone<-contactsdata[j]["actualphone"]!,email<-contactsdata[j]["email"]!,uniqueidentifier<-contactsdata[j]["uniqueidentifier"]!))!)
                 }
                 catch(let error)
                 {
@@ -881,7 +883,7 @@ class syncContactService
  
  
  
-            case .Success:
+            case .success:
                 print("display name sent to server")
                 firstTimeLogin=false
                 if(socketObj != nil)
@@ -926,7 +928,7 @@ class syncContactService
                 
                 //self.performSegueWithIdentifier(<#T##identifier: String##String#>, sender: <#T##AnyObject?#>)
                 
-            case .Failure(let error):
+            case .failure(let error):
                 print(error)
                 if(socketObj != nil)
                 {
@@ -995,7 +997,7 @@ class syncContactService
             }
             DispatchQueue.main.async
             {
-            completion(result: true)
+            completion(true)
             }
         }
         }
@@ -1009,9 +1011,6 @@ class syncContactService
         if(socketObj != nil)
         {
             socketObj.socket.emit("logClient","IPHONE-LOG: fetch contacts from server")
-        }
-        if(loggedUserObj == JSON("[]"))
-        {
         }
         
         //%%%%% new phone model
@@ -1037,7 +1036,7 @@ class syncContactService
                 
                 
             
-                if response1?.statusCode==200 {
+                if response1.response.statusCode==200 {
                     //============GOT Contacts SECCESS=================
                     
                     
@@ -1082,7 +1081,7 @@ class syncContactService
                     
                     let tbl_contactslists=sqliteDB.contactslists
                     /////////newwwwwwwww///////
-                    do{try sqliteDB.db.run(tbl_contactslists.delete())}catch{
+                    do{try sqliteDB.db.run(tbl_contactslists?.delete())}catch{
                         print("contactslist table not deleted")
                     }
                     ////////////////
@@ -1091,27 +1090,27 @@ class syncContactService
                     print(sqliteDB.contactslists.count)
                     
                     
-                    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT,0)){
+                    dispatch_async(dispatch_get_global_queue(DispatchQueue.GlobalQueuePriority.default,0)){
                     //////
-                    for var i=0;i<contactsJsonObj.count;i++
+                    for i in 0 ..< contactsJsonObj.count
                     {
                         print("inside for loop")
                         do {
                             if(contactsJsonObj[i]["contactid"]["username"].string != nil)
                             {
                                 print("inside username hereeeeeee")
-                                let rowid = try sqliteDB.db.run(tbl_contactslists.insert(contactid<-contactsJsonObj[i]["contactid"]["_id"].string!,
-                                    detailsshared<-contactsJsonObj[i]["detailsshared"].string!,
-                                    
-                                    unreadMessage<-contactsJsonObj[i]["unreadMessage"].boolValue,
-                                    
-                                    userid<-contactsJsonObj[i]["userid"].string!,
-                                    firstname<-contactsJsonObj[i]["contactid"]["firstname"].string!,
-                                    lastname<-contactsJsonObj[i]["contactid"]["lastname"].string!,
-                                    email<-contactsJsonObj[i]["contactid"]["email"].string!,
-                                    phone<-contactsJsonObj[i]["contactid"]["phone"].string!,
-                                    username<-contactsJsonObj[i]["contactid"]["username"].string!,
-                                    status<-contactsJsonObj[i]["contactid"]["status"].string!)
+                                let rowid = try sqliteDB.db.run((tbl_contactslists?.insert(contactid<-contactsJsonObj[i]["contactid"]["_id"].string!,
+                                                                                           detailsshared<-contactsJsonObj[i]["detailsshared"].string!,
+                                                                                           
+                                                                                           unreadMessage<-contactsJsonObj[i]["unreadMessage"].boolValue,
+                                                                                           
+                                                                                           userid<-contactsJsonObj[i]["userid"].string!,
+                                                                                           firstname<-contactsJsonObj[i]["contactid"]["firstname"].string!,
+                                                                                           lastname<-contactsJsonObj[i]["contactid"]["lastname"].string!,
+                                                                                           email<-contactsJsonObj[i]["contactid"]["email"].string!,
+                                                                                           phone<-contactsJsonObj[i]["contactid"]["phone"].string!,
+                                                                                           username<-contactsJsonObj[i]["contactid"]["username"].string!,
+                                                                                           status<-contactsJsonObj[i]["contactid"]["status"].string!))!
                                 )
                                 print("data inserttt")
                                 
@@ -1128,20 +1127,20 @@ class syncContactService
                                 print("inside displayname hereeeeeee")
                                 
                                 
-                                let rowid = try sqliteDB.db.run(tbl_contactslists.insert(contactid<-contactsJsonObj[i]["contactid"]["_id"].string!,
-                                    detailsshared<-contactsJsonObj[i]["detailsshared"].string!,
-                                    
-                                    unreadMessage<-contactsJsonObj[i]["unreadMessage"].boolValue,
-                                    
-                                    userid<-contactsJsonObj[i]["userid"].string!,
-                                    firstname<-contactsJsonObj[i]["contactid"]["display_name"].string!,
-                                    lastname<-"",
-                                    
-                                    //lastname<-contactsJsonObj[i]["contactid"]["lastname"].string!,
+                                let rowid = try sqliteDB.db.run((tbl_contactslists?.insert(contactid<-contactsJsonObj[i]["contactid"]["_id"].string!,
+                                                                                           detailsshared<-contactsJsonObj[i]["detailsshared"].string!,
+                                                                                           
+                                                                                           unreadMessage<-contactsJsonObj[i]["unreadMessage"].boolValue,
+                                                                                           
+                                                                                           userid<-contactsJsonObj[i]["userid"].string!,
+                                                                                           firstname<-contactsJsonObj[i]["contactid"]["display_name"].string!,
+                                                                                           lastname<-"",
+                                                                                           
+                                                                                           //lastname<-contactsJsonObj[i]["contactid"]["lastname"].string!,
                                     email<-"@",
                                     phone<-contactsJsonObj[i]["contactid"]["phone"].string!,
                                     username<-contactsJsonObj[i]["contactid"]["phone"].string!,
-                                    status<-contactsJsonObj[i]["contactid"]["status"].string!)
+                                    status<-contactsJsonObj[i]["contactid"]["status"].string!))!
                                 )
                                 
                                 print("inserted id: \(rowid)")
@@ -1156,25 +1155,25 @@ class syncContactService
                     
                     print("contacts fetchedddddddddddddd sucecess")
                     
-                    dispatch_async(dispatch_get_main_queue())
+                    dispatch_async(DispatchQueue.main)
                     {
-                    completion(result:true)
+                    completion(true)
                     }
                 }
                 
                 }else{
-                    dispatch_async(dispatch_get_main_queue())
+                    dispatch_async(DispatchQueue.main)
                     {
-                    completion(result:false)
+                    completion(false)
                     }
                     
-                    print("error: \(error1!.localizedDescription)")
+                   // print("error: \(error1!.localizedDescription)")
                     if(socketObj != nil)
                     {
-                        socketObj.socket.emit("logClient", "error: \(error1!.localizedDescription)")
+                        socketObj.socket.emit("logClient", "error:1174")
                     }
-                    print(error1)
-                    print(response1?.statusCode)
+                   // print(error1)
+                    print(response1.statusCode)
                     print("FETCH CONTACTS FAILED")
                     print("eeeeeeeeeeeeeeeeeeeeee")
                     

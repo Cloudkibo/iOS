@@ -253,7 +253,7 @@ class UtilityFunctions{
             {
                 print("success group created")
                 //update group date
-                sqliteDB.updateGroupCreationDate(uniqueid, date1: NSDate())
+                sqliteDB.updateGroupCreationDate(uniqueid, date1: NSDate() as Date)
                 //update membership status
                 for i in 0 ..< members.count
                 {
@@ -639,7 +639,16 @@ print("tempURL is \(temporaryURL) and response is \(response.allHeaderFields)")
             var contacts = [CNContact]()
             CNContact.localizedString(forKey: CNLabelPhoneNumberiPhone)
             
-            fetchRequest.mutableObjects = false
+            if #available(iOS 10.0, *) {
+                fetchRequest.mutableObjects = false
+            } else {
+                // Fallback on earlier versions
+            }
+            if #available(iOS 10.0, *) {
+                fetchRequest.mutableObjects = false
+            } else {
+                // Fallback on earlier versions
+            }
             fetchRequest.unifyResults = true
             fetchRequest.sortOrder = .userDefault
             
@@ -679,7 +688,7 @@ print("tempURL is \(temporaryURL) and response is \(response.allHeaderFields)")
                 CNContactBirthdayKey as CNKeyDescriptor,
                 CNContactImageDataKey as CNKeyDescriptor,
                 CNContactThumbnailImageDataKey as CNKeyDescriptor,
-                CNContactImageDataAvailableKey,
+                CNContactImageDataAvailableKey as CNKeyDescriptor,
                 CNContactPhoneNumbersKey,
                 CNContactEmailAddressesKey,
                 ])
@@ -731,7 +740,7 @@ print("tempURL is \(temporaryURL) and response is \(response.allHeaderFields)")
     var phoneDigits=a.value(forKey: "digits") as! String
     var actualphonedigits=a.value(forKey: "digits") as! String
  
-    for i in 0 .. phoneDigits.characters.count
+    for i in 0 ..< phoneDigits.characters.count
     {
     if(phoneDigits.characters.first=="0")
     {
@@ -762,9 +771,13 @@ print("tempURL is \(temporaryURL) and response is \(response.allHeaderFields)")
     }
     }
     }
-    if(countrycode=="1" && phoneDigits.characters.first=="1" && phoneDigits.characters.first != "+")
+    if(countrycode=="1")
     {
-    phoneDigits = "+"+phoneDigits
+        if(phoneDigits.characters.first=="1" && phoneDigits.characters.first != "+")
+        {
+            
+            phoneDigits = "+"+phoneDigits
+        }
     }
     else if(phoneDigits.characters.first != "+"){
     phoneDigits = "+"+countrycode+phoneDigits

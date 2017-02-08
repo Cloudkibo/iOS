@@ -1583,7 +1583,7 @@ class LoginAPI{
             
             
             switch response.result {
-            case .Success:
+            case .success:
                 if let data1 = response.result.value {
                     let json = JSON(data1)
                     print("JSON single chat: \(json)")
@@ -1595,7 +1595,7 @@ class LoginAPI{
                    // print(JSON(response.data!).description)
                     
                 }
-            case .Failure:
+            case .failure:
                 print("failed to get seingle chat message")
             }
         }

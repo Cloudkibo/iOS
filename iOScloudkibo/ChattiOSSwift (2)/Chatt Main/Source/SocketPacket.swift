@@ -126,7 +126,7 @@ struct SocketPacket {
     // binary data
     private func _fillInPlaceholders(_ object: Any) -> Any {
         switch object {
-        case let dict as JSON:
+        case let dict as JSONsocket:
             if dict["_placeholder"] as? Bool ?? false {
                 return binary[dict["num"] as! Int]
             } else {
@@ -174,7 +174,7 @@ extension SocketPacket {
 private extension SocketPacket {
     // Recursive function that looks for NSData in collections
     static func shred(_ data: Any, binary: inout [Data]) -> Any {
-        let placeholder = ["_placeholder": true, "num": binary.count] as JSON
+        let placeholder = ["_placeholder": true, "num": binary.count] as JSONsocket
         
         switch data {
         case let bin as Data:
@@ -183,8 +183,8 @@ private extension SocketPacket {
             return placeholder
         case let arr as [Any]:
             return arr.map({shred($0, binary: &binary)})
-        case let dict as JSON:
-            return dict.reduce(JSON(), {cur, keyValue in
+        case let dict as JSONsocket:
+            return dict.reduce(JSONsocket(), {cur, keyValue in
                 var mutCur = cur
                 
                 mutCur[keyValue.0] = shred(keyValue.1, binary: &binary)

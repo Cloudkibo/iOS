@@ -160,13 +160,16 @@ class VideoViewController: UIViewController,RTCPeerConnectionDelegate,RTCSession
             var start=j*chunkLength
             var end=(j+1)*chunkLength
             var newrange=start..<end
-            self.sendImage(imageData.subdata(in: newrange))
+            
+            let range:Range<Data.Index> = start..<end
+            
+            self.sendImage(imageData.subdata(in: range))
             
         }
         if((len%chunkLength) > 0)
         {
             //imageData.getBytes(&imageData, length: numchunks*chunkLength)
-            self.sendImage(imageData.subdata(in: NSMakeRange(numchunks*chunkLength, len%chunkLength)))
+            self.sendImage(imageData.subdata(in: numchunks*chunkLength..<len%chunkLength))
             
         }
         
@@ -244,10 +247,10 @@ class VideoViewController: UIViewController,RTCPeerConnectionDelegate,RTCSession
         }
         else
         {
-            var aa:JSON=["to":iamincallWith!,"msg":["callerphone":username!,"calleephone":iamincallWith!,"status":"missing","type":"call"]]
+            var aa = JSON(["to":iamincallWith!,"msg":["callerphone":username!,"calleephone":iamincallWith!,"status":"missing","type":"call"]])
             socketObj.socket.emit("logClient","IPHONE-LOG: \(aa.object)")
             //===--  new swift3 socketObj.socket.emit("message",aa.object)
-            socketObj.socket.emit("message",aa.object)
+            socketObj.socket.emit("message",aa.object as! SocketData)
             self.endView()
         }
         /*else{
@@ -1617,7 +1620,7 @@ self.remoteDisconnected()
     {
         print("msg reeived.. check if offer answer or ice")
         var msg=JSON(data)
-        print(msg1.description)
+      //  print(msg1.description)
        // var aaa=msg.first as! [String:Any]
        // let msgarray=msg.first
        // var abc=aaa["type"]
@@ -1669,7 +1672,7 @@ self.remoteDisconnected()
                 txtLabelMainPage.text="You are now connected in call with \(iamincallWith)"
                 var sessionDescription=RTCSessionDescription(type: msg[0]["type"].description, sdp: msg[0]["sdp"]["sdp"].description)
                 socketObj.socket.emit("logClient","IPHONE-LOG: \(username) is setting remote sdp")
-                self.pc.setRemoteDescriptionWithDelegate(self, sessionDescription: sessionDescription)
+                self.pc.setRemoteDescriptionWith(self, sessionDescription: sessionDescription)
             }
             
         }
@@ -2313,11 +2316,11 @@ self.remoteDisconnected()
                     print("myjsondata....")
                     print(myJSONdata["data"]["file_meta"])
                     print("jsonnnn.valueForKey.......")
-                    print(jsonnnn["eventName"])
+                   /* print(jsonnnn["eventName"])
                     print(jsonnnn["data"]!["file_meta"]!!["size"]!)
                     
                     print("file received \(myJSONdata["data"]["file_meta"].isExists())")
-                    
+                    */
                     var sizeee=Int.init((jsonnnn["data"]!["file_meta"]!!["size"]!?.debugDescription)!)
                     fileSizeReceived=sizeee
                     //fid=Int.init((jsonnnn["data"]!["file_meta"]!!["fid"]!?.debugDescription)!)

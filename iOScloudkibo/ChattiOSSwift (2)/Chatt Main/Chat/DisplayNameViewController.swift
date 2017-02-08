@@ -282,7 +282,7 @@ class DisplayNameViewController: UIViewController {
                          }
                          
                          }*/
-                        for i in 0...<phoneDigits.characters.count
+                        for i in 0..<phoneDigits.characters.count
                         {
                             if(phoneDigits.characters.first=="0")
                             {
@@ -877,7 +877,7 @@ class DisplayNameViewController: UIViewController {
                     print("contacts fetchedddddddddddddd sucecess")
                     
                     
-                    completion(result:true)
+                    completion(true)
                     
                 }else{
                     
@@ -1643,7 +1643,7 @@ socketObj.socket.emit("logClient","button done pressed start time \(Date())")
         
         var contactslists = sqliteDB.contactslists
         //=================================================
-        var joinquery=allcontacts.join(.leftOuter, contactslists!, on: (contactslists?[phone])! == (allcontacts?[phone])!)
+        var joinquery=allcontacts?.join(.leftOuter, contactslists!, on: (contactslists?[phone])! == (allcontacts?[phone])!)
         
         do{for joinresult in try sqliteDB.db.prepare(joinquery) {
             if(joinresult[uniqueidentifier].isEmpty){}

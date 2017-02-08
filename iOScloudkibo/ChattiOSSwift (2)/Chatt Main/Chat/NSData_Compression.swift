@@ -1,4 +1,4 @@
-
+/*
 //
 //  NSData+Compression.swift
 //  NSData+Compression
@@ -78,7 +78,7 @@ extension Data {
         
         // finally, attempt to uncompress the data and initalize self
         if let uncompressedData = compressedData.uncompressedDataUsingCompression(compression) {
-            (self as NSData).base64EncodedData(options: .NSUTF8StringEncoding)
+            (self as NSData).base64EncodedData(options: NSData.Base64EncodingOptions.endLineWithLineFeed)
                 //.init(data: uncompressedData)
         }
         else {
@@ -204,3 +204,4 @@ extension Data {
     }
     
 }
+*/
