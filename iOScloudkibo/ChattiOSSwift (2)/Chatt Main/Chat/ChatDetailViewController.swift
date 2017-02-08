@@ -143,7 +143,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
     
    
     func fileManager(_ fileManager: FileManager, shouldProceedAfterError error: Error, copyingItemAtPath srcPath: String, toPath dstPath: String) -> Bool {
-        if error == NSFileWriteFileExistsError {
+        if (error != nil) {
             do {
                 //var new path=dstPath.re
                 try fileManager.removeItem(atPath: dstPath)
@@ -707,7 +707,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
             iOSstartedCall=true
             socketObj.socket.emit("logClient","IPHONE-LOG: \(username!) is going to videoViewController")
             ////
-            var next = self.storyboard!.instantiateViewControllerWithIdentifier("MainV2") as! VideoViewController
+            var next = self.storyboard!.instantiateViewController(withIdentifier: "MainV2") as! VideoViewController
             
             self.presentViewController(next, animated: true, completion: {
             })
@@ -1609,7 +1609,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
                         
                         if(intangle.intValue==360)
                         {
-                            newprogressview.isHidden=true
+                            newprogressview?.isHidden=true
                         }
                         else
                         {
@@ -3887,7 +3887,7 @@ let textLable = cell.viewWithTag(12) as! UILabel
                     //print("Am I back on the main thread: \(NSThread.isMainThread())")
                     
                     print("main thread of send chat")
-                    dispatch_get_main_queue().asynchronously() {
+                    DispatchQueue.main.async {
 
                 return completion(uniqueid: chatstanza["uniqueid"]!,result: true)
                     }
@@ -3902,7 +3902,7 @@ let textLable = cell.viewWithTag(12) as! UILabel
             else{
                     dispatch_async(dispatch_get_main_queue()) {
 
-                        return completion(uniqueid:nil, result:false)
+                        return completion(nil, false)
                     }
 }
             }//)
@@ -3949,7 +3949,7 @@ let textLable = cell.viewWithTag(12) as! UILabel
                 if(response.response?.statusCode==200)
                 {
                     
-                    var resJSON=JSON.init(data:response.data)
+                    var resJSON=JSON.init(data:response.data!)
                     //print("json is \(resJSON)")
                     
                     
@@ -4635,7 +4635,7 @@ print("hh \(hh)")
                 //print("file gotttttt")
                
                 do {
-                    let fileAttributes : NSDictionary? = try FileManager.default.attributesOfItem(atPath: furl!.path)
+                    let fileAttributes : NSDictionary? = try FileManager.default.attributesOfItem(atPath: furl!.path) as NSDictionary?
                     
                     if let _attr = fileAttributes {
                         self.fileSize1 = _attr.fileSize();
@@ -4730,7 +4730,7 @@ print("hh \(hh)")
                 //^^var firstNameSelected=selectedUserObj["firstname"]
                 //^^^var lastNameSelected=selectedUserObj["lastname"]
                 //^^^var fullNameSelected=firstNameSelected.string!+" "+lastNameSelected.string!
-                var imParas=["from":"\(username!)","to":"\(self.selectedContact)","fromFullName":"\(displayname)","msg":fname!+"."+ftype,"uniqueid":uniqueID,"type":"file","file_type":"document"]
+                var imParas=["from":"\(username!)","to":"\(self.selectedContact)","fromFullName":"\(displayname)","msg":fname+"."+ftype,"uniqueid":uniqueID,"type":"file","file_type":"document"]
                 //print("imparas are \(imParas)")
                 //print(imParas, terminator: "")
                 //print("", terminator: "")

@@ -450,6 +450,8 @@ class NetworkingManager
                     print(JSON(response.result.value!)) // "status":"success"
                 case .failure(let error):
                     print("file upload failure")
+                    
+                
                 }
                 //debugPrint(response)
                 /*print("response 2 nsdata is \(JSON((response.2?.base64EncodedStringWithOptions(NSDataBase64EncodingOptions.Encoding64CharacterLineLength))!)))")
@@ -461,8 +463,10 @@ class NetworkingManager
               //  print("response is \(response.debugDescription)")
                // print("response result value is \(response.result.value)")
             }
-       
+                case .failure: print("case failure upload encoding")
                 }
+                
+            
         }
         )
         }
@@ -617,17 +621,17 @@ class NetworkingManager
                 {
                 var data=response.data
                     
-                let dirPaths = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)
+                let dirPaths = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)
                 let docsDir1 = dirPaths[0]
                 var documentDir=docsDir1 as NSString
-                var filePendingPath=documentDir.stringByAppendingPathComponent(filePendingName)
-                if(!self.imageExtensions.contains(filetype.lowercaseString))
+                var filePendingPath=documentDir.appendingPathComponent(filePendingName)
+                if(!self.imageExtensions.contains(filetype.lowercased()))
                 {
-                    data=data?.uncompressedDataUsingCompression(Compression.ZLIB)
+                    data=data?.uncompressedDataUsingCompression(Compression.zlib)
                 }
-            
-            if((data?.writeToFile(filePendingPath, atomically: true)) != nil){
-                if(self.imageExtensions.contains(filetype.lowercaseString))
+                    do{
+                    if let written = try data?.write(to: URL.init(fileURLWithPath: filePendingPath)){
+                if(self.imageExtensions.contains(filetype.lowercased()))
                 {
                     //filePendingName
                     sqliteDB.saveFile(filePendingTo, from1: filefrom, owneruser1: username!, file_name1: filePendingName, date1: nil, uniqueid1: fileuniqueid, file_size1: filePendingSize, file_type1: filetype, file_path1: filePendingPath, type1: "image")
@@ -638,6 +642,8 @@ class NetworkingManager
                     
                 }
             print("file written...")
+                        
+                       
         
                                 if(socketObj.delegateChat != nil)
                 {
@@ -648,7 +654,7 @@ class NetworkingManager
                 //===
                 if(delegateRefreshChat != nil)
                 {
-                    delegateRefreshChat?.refreshChatsUI("",uniqueid:fileuniqueid,from:filefrom,date1:NSDate(), type:"file")
+                    delegateRefreshChat?.refreshChatsUI("",uniqueid:fileuniqueid,from:filefrom,date1:NSDate() as Date!, type:"file")
                     
                     //===uncomment later  delegateRefreshChat?.refreshChatsUI("",uniqueid:fileuniqueid,from:filefrom,date1:NSDate(), type:"chat")
                 }
@@ -656,10 +662,15 @@ class NetworkingManager
                 print(NSDate())
                 self.confirmDownload(fileuniqueid)
                 print("confirminggggggg")
+                        }
+                    else{
+                        print("error in downloading file")
+                        }
 
             }
-            else{
-                print("error in writing file")
+                    catch{
+                        print("error writing file")
+                 
             }
                     }
                 
@@ -727,51 +738,20 @@ class NetworkingManager
         print("downloading call unique id \(fileuniqueid)")
        
         //uncomment change later
-            Alamofire.download("\(downloadURL)", method: .post, parameters: ["uniqueid":fileuniqueid], encoding: JSONEncoding.default, headers: header, to: destination1)
+            Alamofire.download("\(downloadURL)", method: .post, parameters: ["uniqueid":fileuniqueid], encoding: JSONEncoding.default, headers: header, to: destination1).response { (response) in
                 
-                /*
-                .progress { (bytesRead, totalBytesRead, totalBytesExpectedToRead) in
-
-            
-            //oad("\(downloadURL)",headers:header, parameters: ["uniqueid":fileuniqueid], to: destination)/*(.POST, "\(downloadURL)", , destination: destination)*/.progress { (bytesRead, totalBytesRead, totalBytesExpectedToRead) in
-                print("writing bytes \(totalBytesRead)")
-                print(" bytes1 \(bytesRead)")
-                print("totalBytesRead bytes \(totalBytesRead)")
-                var progressbytes=(Float(totalBytesRead)/Float(totalBytesExpectedToRead)) as Float
-                print("totalBytesExpectedToRead are \(totalBytesExpectedToRead)")
-               /* if(self.delegateProgressUpload != nil)
-                {
-                    if(progressbytes<1.0)
-                    {
-                        
-                        print("calling delegate progress bar.....")
-                        self.delegateProgressUpload.updateProgressUpload(progressbytes,uniqueid: fileuniqueid)
-                    }
-                    
-                }
-                */
-                
-               /* if(self.delegateProgressUpload != nil)
-                {print("progress download value is \(progressbytes)")
-                    self.delegateProgressUpload.updateProgressUpload(progressbytes,uniqueid: fileuniqueid)
-                    
-                }*/
-            }
-                */
-                
-            .response { (request, response, _, error) in
                 print(response)
-                print("1...... \(request?.URLString)")
-                print("2..... \(request?.URL.debugDescription)")
-                print("3.... \(response?.URL.debugDescription)")
+                print("1...... \(response.request?.url)")
+                //print("2..... \(response.request?. .URL.debugDescription)")
+                //print("3.... \(response.response?.URL.debugDescription)")
                 
                 
-                let dirPaths = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)
+                let dirPaths = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)
                 let docsDir1 = dirPaths[0]
                 var documentDir=docsDir1 as NSString
-                var filePendingPath=documentDir.stringByAppendingPathComponent(filePendingName)
+                var filePendingPath=documentDir.appendingPathComponent(filePendingName)
                 
-                if(self.imageExtensions.contains(filetype.lowercaseString))
+                if(self.imageExtensions.contains(filetype.lowercased()))
                 {
                 //filePendingName
                 sqliteDB.saveFile(filePendingTo, from1: filefrom, owneruser1: username!, file_name1: filePendingName, date1: nil, uniqueid1: fileuniqueid, file_size1: filePendingSize, file_type1: filetype, file_path1: filePendingPath, type1: "image")
@@ -818,14 +798,17 @@ class NetworkingManager
     func confirmDownload(_ uniqueid1:String)
     {
         let confirmURL=Constants.MainUrl+Constants.confirmDownload
-        Alamofire.request(.POST,"\(confirmURL)",headers:header,parameters:["uniqueid":uniqueid1]).validate(statusCode: 200..<300).responseJSON{response in
+        
+         let request = Alamofire.request("\(confirmURL)", method: .post, parameters: ["uniqueid":uniqueid1],headers:header).responseJSON { response in
+            
+      //  Alamofire.request(.POST,"\(confirmURL)",headers:header,parameters:["uniqueid":uniqueid1]).validate(statusCode: 200..<300).responseJSON{response in
             
             
             switch response.result {
-            case .Success:
+            case .success:
                 print("download confirm sent \(uniqueid1)")
                 
-            case .Failure(let error):
+            case .failure(let error):
                 print("confirmation download failed")
             }}
     }
@@ -937,7 +920,7 @@ class NetworkingManager
                              sqliteDB.saveFile(groupUniqueID, from1: "", owneruser1: "", file_name1: filename, date1: nil, uniqueid1: groupUniqueID, file_size1: "1", file_type1: fileType, file_path1: filePath1, type1: "groupIcon")
                            //update "group_icon" as exists
                             
-                        case .Failure(let error):
+                        case .failure(let error):
                             print("file upload failure \(error)")
                         }
                         
@@ -965,7 +948,7 @@ class NetworkingManager
                         
                         
                     }
-                case .Failure(let error):
+                case .failure(let error):
                     print("file upload failure")
                 }})
         

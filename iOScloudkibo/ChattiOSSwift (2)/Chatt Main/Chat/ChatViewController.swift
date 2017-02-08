@@ -736,9 +736,9 @@ EPPickerDelegate,SWTableViewCellDelegate,UpdateChatViewsDelegate,RefreshContacts
         
         var contactslists = sqliteDB.contactslists
         //=================================================
-        var joinquery=allcontacts.join(.leftOuter, contactslists!, on: (contactslists?[phone])! == (allcontacts?[phone])!).filter(allcontacts[phone]==phone1)
+        var joinquery=allcontacts?.join(.leftOuter, contactslists!, on: (contactslists?[phone])! == (allcontacts?[phone])!).filter((allcontacts?[phone])!==phone1)
     
-        do{for joinresult in try sqliteDB.db.prepare(joinquery) {
+        do{for joinresult in try sqliteDB.db.prepare(joinquery!) {
         
             resultrow.append(joinresult)
             }
@@ -2077,9 +2077,9 @@ EPPickerDelegate,SWTableViewCellDelegate,UpdateChatViewsDelegate,RefreshContacts
             
                 var formatter2 = DateFormatter();
                 formatter2.dateFormat = "MM/dd hh:mm a"
-                formatter2.timeZone = NSTimeZone.localTimeZone()
+                formatter2.timeZone = NSTimeZone.local
                 ///////////////==========var defaultTimeeee = formatter2.stringFromDate(defaultTimeZoneStr!)
-                var defaultTimeeee = formatter2.stringFromDate(ccclastmsg[date])
+                var defaultTimeeee = formatter2.string(from: ccclastmsg[date])
                 //print("===fetch date from database is ccclastmsg[date] \(ccclastmsg[date])... defaultTimeeee \(defaultTimeeee)")
              
                 
@@ -2264,7 +2264,7 @@ EPPickerDelegate,SWTableViewCellDelegate,UpdateChatViewsDelegate,RefreshContacts
            
             if(joinrows.count>0)
             {
-                for ii in 0 .. joinrows.count{
+                for ii in 0 ..< joinrows.count{
                 //print(joinrows.debugDescription)
                 //print("found uniqueidentifier from joinnn is \(joinrows[0].get(uniqueidentifier))")
                 //==========----------let queryPic = tbl_allcontacts.filter(tbl_allcontacts[phone] == ccc[contactPhone])
@@ -2276,7 +2276,7 @@ EPPickerDelegate,SWTableViewCellDelegate,UpdateChatViewsDelegate,RefreshContacts
                 
                 var keys = [CNContactGivenNameKey, CNContactFamilyNameKey, CNContactEmailAddressesKey, CNContactPhoneNumbersKey, CNContactImageDataAvailableKey,CNContactThumbnailImageDataKey, CNContactImageDataKey]
                 //--- var foundcontact=try contactStore.unifiedContactWithIdentifier(picquery[uniqueidentifier], keysToFetch: keys)
-                var foundcontact=try contactStore.unifiedContactWithIdentifier(joinrows[ii].get(uniqueidentifier), keysToFetch: keys as [CNKeyDescriptor])
+                var foundcontact=try contactStore.unifiedContact(withIdentifier: joinrows[ii].get(uniqueidentifier), keysToFetch: keys as [CNKeyDescriptor])
                 
             
                 
@@ -3131,7 +3131,7 @@ break
     
     
     func hexStringToUIColor (_ hex:String) -> UIColor {
-        var cString:String = hex.trimmingCharacters(in: NSCharacterSet.whitespaceAndNewlineCharacterSet as NSCharacterSet).uppercased()
+        var cString:String = hex.trimmingCharacters(in: (NSCharacterSet.whitespacesAndNewlines as NSCharacterSet) as CharacterSet).uppercased()
         
         if (cString.hasPrefix("#")) {
             cString = cString.substring(from: cString.characters.index(cString.startIndex, offsetBy: 1))

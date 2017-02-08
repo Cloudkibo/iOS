@@ -2949,7 +2949,7 @@ else{
                     var status="delivered"
                     
                     let dateFormatter = DateFormatter()
-                    dateFormatter.timeZone=NSTimeZone.localTimeZone
+                    dateFormatter.timeZone=NSTimeZone.local
                     dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
                     //  let datens2 = dateFormatter.dateFromString(date2.debugDescription)
                     //2016-09-18T19:13:00.588Z
@@ -2997,11 +2997,11 @@ else{
                     {
                     }
                     
-                    var state=UIApplication.sharedApplication().applicationState
+                    var state=UIApplication.shared.applicationState
 
 //UIApplicationState state = [[UIApplication sharedApplication] applicationState];
 
-                    if (state == UIApplicationState.Active || state == UIApplicationState.Inactive)
+                    if (state == UIApplicationState.active || state == UIApplicationState.inactive)
                     {
                         
                        //  let systemSoundID: SystemSoundID = 1016
