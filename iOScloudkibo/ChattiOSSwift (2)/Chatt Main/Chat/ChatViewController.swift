@@ -111,15 +111,14 @@ EPPickerDelegate,SWTableViewCellDelegate,UpdateChatViewsDelegate,RefreshContacts
             switch response.result {
             case .success:
                 if let data1 = response.result.value {
-                    let json = data1 as! [String:Any]
+                    let json = JSON.init(data1)
                     print("JSON: \(json)")
                     
                     print("got user success")
                     
                     
-                    username=json["phone"] as! String
-                    displayname=json["display_name"] as! String
-
+                    username=json["phone"].string!
+                    displayname=json["display_name"].string!
                     //loggedUserObj=json
                     /////////KeychainWrapper.setString(loggedUserObj.description, forKey:"loggedUserObjString")
                     ////////var loggedobjstring=KeychainWrapper.stringForKey("loggedUserObjString")
@@ -131,13 +130,12 @@ EPPickerDelegate,SWTableViewCellDelegate,UpdateChatViewsDelegate,RefreshContacts
                     print("************************")
                     
                     do{
-                        try KeychainWrapper.setString(json["phone"] as! String
-, forKey: "username")
+                        try KeychainWrapper.setString(json["phone"].string!, forKey: "username")
                         /// try KeychainWrapper.setString(json["display_name"].string!, forKey: "username")
-                        try KeychainWrapper.setString(json["display_name"] as! String, forKey: "loggedFullName")
-                        try KeychainWrapper.setString(json["phone"] as! String, forKey: "loggedPhone")
+                        try KeychainWrapper.setString(json["display_name"].string!, forKey: "loggedFullName")
+                        try KeychainWrapper.setString(json["phone"].string!, forKey: "loggedPhone")
                         try KeychainWrapper.setString("", forKey: "loggedEmail")
-                        try KeychainWrapper.setString(json["_id"] as! String, forKey: "_id")
+                        try KeychainWrapper.setString(json["_id"].string!, forKey: "_id")
                         
                         //%%%% new phone model
                         // try KeychainWrapper.setString(self.txtForPassword.text!, forKey: "password")
@@ -177,8 +175,8 @@ EPPickerDelegate,SWTableViewCellDelegate,UpdateChatViewsDelegate,RefreshContacts
                     tbl_accounts?.delete()
                     
                     do {
-                        let rowid = try sqliteDB.db.run(tbl_accounts.insert(self._id<-json["_id"].string!,
-                            //firstname<-json["firstname"].string!,
+                        let rowid = try sqliteDB.db.run((tbl_accounts?.insert(self._id<-json["_id"].string!,
+                                                                              //firstname<-json["firstname"].string!,
                             self.firstname<-json["display_name"].string!,
                             self.country_prefix<-json["country_prefix"].string!,
                             self.nationalNumber<-json["national_number"].string!,
@@ -187,7 +185,7 @@ EPPickerDelegate,SWTableViewCellDelegate,UpdateChatViewsDelegate,RefreshContacts
                             //email<-json["email"].string!,
                             self.username1<-json["phone"].string!,
                             self.status<-json["status"].string!,
-                            self.phone<-json["phone"].string!))
+                            self.phone<-json["phone"].string!))!)
                         //country_prefix
                         //national_number"
                         print("inserted id: \(rowid)")
@@ -458,7 +456,7 @@ EPPickerDelegate,SWTableViewCellDelegate,UpdateChatViewsDelegate,RefreshContacts
                 
                 
                 switch response.result {
-                case .Success:
+                case .success(let json):
                     
                     print("All chat fetched success")
                     socketObj.socket.emit("logClient", "All chat fetched success")
@@ -466,7 +464,7 @@ EPPickerDelegate,SWTableViewCellDelegate,UpdateChatViewsDelegate,RefreshContacts
                     
                     if let data1 = response.result.value {
                         print("data \(data1)")
-                        let UserchatJson = JSON(response.data1)
+                        let UserchatJson = JSON(data:data1 as! Data)
                         print("chat fetched JSON: \(UserchatJson)")
                         
                         
@@ -510,7 +508,7 @@ EPPickerDelegate,SWTableViewCellDelegate,UpdateChatViewsDelegate,RefreshContacts
                             
                             let dateFormatter = DateFormatter()
                             dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
-                            let datens2 = dateFormatter.dateFromString(UserchatJson["msg"][i]["date"].string!)
+                            let datens2 = dateFormatter.date(from: UserchatJson["msg"][i]["date"].string!)
                             
                             print("fetch date from server got is \(UserchatJson["msg"][i]["date"].string!)... converted is \(datens2.debugDescription)")
                             
@@ -670,7 +668,7 @@ EPPickerDelegate,SWTableViewCellDelegate,UpdateChatViewsDelegate,RefreshContacts
                         
                        // if(UserchatJson["msg"].count > 0)
                         //{
-                            dispatch_async(dispatch_get_main_queue()) {
+                            dispatch_get_main_queue().asynchronously() {
                                 if(delegateRefreshChat != nil)
                                 {print("updating UI now ...")
                                     delegateRefreshChat?.refreshChatsUI(nil, uniqueid:nil, from:nil, date1:nil, type:"status")
@@ -695,7 +693,7 @@ EPPickerDelegate,SWTableViewCellDelegate,UpdateChatViewsDelegate,RefreshContacts
                  
                     
                 /////return completion(result: true)
-                case .Failure:
+                case .failure:
                     socketObj.socket.emit("logClient", "All chat fetched failed")
                     print("all chat fetched failed")
                 }
@@ -706,9 +704,7 @@ EPPickerDelegate,SWTableViewCellDelegate,UpdateChatViewsDelegate,RefreshContacts
                 ///  dispatch_async(dispatch_get_main_queue()) {
                 ///      print("Am I back on the main thread: \(NSThread.isMainThread())")
                 /// }
-            }
-        )
-        
+        }
         
     }
     
@@ -740,7 +736,7 @@ EPPickerDelegate,SWTableViewCellDelegate,UpdateChatViewsDelegate,RefreshContacts
         
         var contactslists = sqliteDB.contactslists
         //=================================================
-        var joinquery=allcontacts.join(.LeftOuter, contactslists!, on: (contactslists?[phone])! == (allcontacts?[phone])!).filter(allcontacts[phone]==phone1)
+        var joinquery=allcontacts.join(.leftOuter, contactslists!, on: (contactslists?[phone])! == (allcontacts?[phone])!).filter(allcontacts[phone]==phone1)
     
         do{for joinresult in try sqliteDB.db.prepare(joinquery) {
         
@@ -862,7 +858,7 @@ EPPickerDelegate,SWTableViewCellDelegate,UpdateChatViewsDelegate,RefreshContacts
         var retrievedToken=KeychainWrapper.stringForKey("access_token")
         print("retrieved token === \(retrievedToken)")
         print("khul raha hai2", terminator: "")
-        print(loggedUserObj.object)
+       // print(loggedUserObj.object)
         
         
         if(KeychainWrapper.stringForKey("username") != nil)
@@ -872,12 +868,7 @@ EPPickerDelegate,SWTableViewCellDelegate,UpdateChatViewsDelegate,RefreshContacts
             if(socketObj != nil){
                 socketObj.delegate=self
             }
-            if(loggedUserObj == JSON("[]"))
-            {
-                
-                
-            }
-            
+          
         }//end if username definned
         
         print("loadddddd", terminator: "")
@@ -2081,7 +2072,7 @@ EPPickerDelegate,SWTableViewCellDelegate,UpdateChatViewsDelegate,RefreshContacts
             var chatexists=false
             
             
-            do{for ccclastmsg in try sqliteDB.db.prepare(myquerylastmsg) {
+            do{for ccclastmsg in try sqliteDB.db.prepare(myquerylastmsg!) {
                 //print("date received in chat view is \(ccclastmsg[date])")
             
                 var formatter2 = NSDateFormatter();
@@ -2242,7 +2233,7 @@ EPPickerDelegate,SWTableViewCellDelegate,UpdateChatViewsDelegate,RefreshContacts
                 
                 var formatter2 = DateFormatter();
                 formatter2.dateFormat = "MM/dd hh:mm a"
-                formatter2.timeZone = NSTimeZone.localTimeZone
+                formatter2.timeZone = NSTimeZone.local
                 ///////////////==========var defaultTimeeee = formatter2.stringFromDate(defaultTimeZoneStr!)
                 var defaultTimeeee = formatter2.string(from: ccclastmsg[date])
                // print("===fetch date from database is ccclastmsg[date] \(ccclastmsg[date])... defaultTimeeee \(defaultTimeeee)")
@@ -3672,8 +3663,7 @@ break
                 var membersCompleteList=sqliteDB.getGroupMembersOfGroup(groupsObjectList[indexPath.row]["unique_id"] as! String)
                 
                 var membersList=[String]()
-                for(var i=0;i<membersCompleteList.count;i += 1)
-                {
+                for i in 0 ..< membersCompleteList.count{
                     membersList.append(membersCompleteList[i]["member_phone"] as! String)
                  }
                 
@@ -4742,11 +4732,6 @@ shareMenu.addAction(cancelAction)
     }
     
     
-    
-    func socketReceivedSpecialMessage(_ message:String,params:SwiftyJSON.JSON!)
-    {
-        
-    }
     override func viewWillDisappear(_ animated: Bool) {
         print("dismissed chatttttttt")
         //socketObj.delegate=nil

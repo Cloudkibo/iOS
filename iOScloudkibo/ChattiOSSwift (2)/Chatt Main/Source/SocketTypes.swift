@@ -42,7 +42,7 @@ extension String : SocketData {}
 public typealias AckCallback = ([Any]) -> Void
 public typealias NormalCallback = ([Any], SocketAckEmitter) -> Void
 
-typealias JSON = [String: Any]
+typealias JSONsocket = [String: Any]
 typealias Probe = (msg: String, type: SocketEnginePacketType, data: [Data])
 typealias ProbeWaitQueue = [Probe]
 

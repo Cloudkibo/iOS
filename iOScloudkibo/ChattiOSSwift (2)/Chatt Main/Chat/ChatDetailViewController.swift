@@ -1582,7 +1582,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
                     
                     //print("from \(newprogressview.angle) to \(intangle.integerValue)")
                     newprogressview?.isHidden=false
-                    newprogressview.animateToAngle(intangle.intValue, duration: 0.7, completion: { (Bool) in
+                    newprogressview?.animateToAngle(intangle.intValue, duration: 0.7, completion: { (Bool) in
                         
                         if(intangle.intValue==360)
                         {
@@ -1590,7 +1590,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
                         }
                         else
                         {
-                            newprogressview.isHidden=false
+                            newprogressview?.isHidden=false
                         }
                         //newprogressview.angle=intangle.integerValue
                         
@@ -3864,7 +3864,7 @@ let textLable = cell.viewWithTag(12) as! UILabel
                     //print("Am I back on the main thread: \(NSThread.isMainThread())")
                     
                     print("main thread of send chat")
-                    dispatch_async(dispatch_get_main_queue()) {
+                    dispatch_get_main_queue().asynchronously() {
 
                 return completion(uniqueid: chatstanza["uniqueid"]!,result: true)
                     }
@@ -3925,7 +3925,8 @@ let textLable = cell.viewWithTag(12) as! UILabel
                 
                 if(response.response?.statusCode==200)
                 {
-                    var resJSON=JSON(response.result.value!)
+                    
+                    var resJSON=JSON.init(data:response.data)
                     //print("json is \(resJSON)")
                     
                     
@@ -4014,7 +4015,7 @@ let textLable = cell.viewWithTag(12) as! UILabel
         }
         else{
         //save as broadcast message
-            for i in 0 .. broadcastMembersPhones.count
+            for i in 0 ..< broadcastMembersPhones.count
             {
                 imParas2.append(["from":"\(username!)","to":"\(broadcastMembersPhones[i])","fromFullName":"\(displayname)","msg":"\(txtFldMessage.text!)","uniqueid":"\(uniqueID)","type":"chat","file_type":"","date":"\(dateSentDateType!)"])
                 
@@ -4212,13 +4213,13 @@ print("hh \(hh)")
             
             var result1=false
             var uniqueid1=""
-var count=0
-            for i in 0 .. imParas2.count
+            var count=0
+            for i in 0 ..< imParas2.count
             {
             self.sendChatMessage(imParas2[i]){ (uniqueid,result) -> () in
                 count += 1
                 if(result==true && count==1){
-                    var searchformat=NSPredicate(format: "uniqueid = %@",uniqueid)
+                    var searchformat=NSPredicate(format: "uniqueid = %@",uniqueid!)
                     
                     var resultArray=self.messages.filtered(using: searchformat)
                     var ind=self.messages.index(of: resultArray.first!)
@@ -4554,14 +4555,14 @@ var count=0
         
         
         //print("yess pickeddd document")
-        var furl=URL(string: url.URLString)
+        var furl=URL(string: url.absoluteString)
         
         
         //METADATA FILE NAME,TYPE
         //print(furl!.pathExtension!)
         //print(furl!.URLByDeletingPathExtension?.lastPathComponent!)
-        var ftype=furl!.pathExtension!
-        var fname=furl!.URLByDeletingPathExtension?.lastPathComponent!
+        var ftype=furl!.pathExtension
+        var fname=furl!.deletingPathExtension().lastPathComponent
         ////var fname=furl!.URLByDeletingPathExtension?.URLString
         //var attributesError=nil
         var fileAttributes:[String:AnyObject]=["":"" as AnyObject]
@@ -4596,7 +4597,7 @@ var count=0
                 
                 if(downloadkeyresult.count>0)
 {
-    var downloadedalready=try FileManager.defaultManager().startDownloadingUbiquitousItemAtURL(furl!)
+    var downloadedalready=try FileManager.default.startDownloadingUbiquitousItem(at: furl!)
     
 
 }
@@ -4611,7 +4612,7 @@ var count=0
                 //print("file gotttttt")
                
                 do {
-                    let fileAttributes : NSDictionary? = try FileManager.defaultManager().attributesOfItemAtPath(furl!.path!)
+                    let fileAttributes : NSDictionary? = try FileManager.default.attributesOfItemAtPath(furl!.path)
                     
                     if let _attr = fileAttributes {
                         self.fileSize1 = _attr.fileSize();
@@ -4629,7 +4630,7 @@ var count=0
                 ///////////print(JSON(text2!))
                 ///mdata.fileContents=fm.contentsAtPath(filePathImage)!
                 self.fileContents=try? Data(contentsOf: url)
-                self.filePathImage=url.URLString
+                self.filePathImage=url.absoluteString
                 //var filecontentsJSON=JSON(NSData(contentsOfURL: url)!)
                 ////print(filecontentsJSON)
                 //print("file url is \(self.filePathImage) file type is \(ftype)")

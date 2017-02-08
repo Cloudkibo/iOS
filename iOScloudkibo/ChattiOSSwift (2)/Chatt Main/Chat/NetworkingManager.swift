@@ -162,7 +162,7 @@ class NetworkingManager
     
     fileprivate lazy var backgroundManager: Alamofire.SessionManager = {
         let bundleIdentifier = "kiboChat"
-        return Alamofire.SessionManager(configuration: NSURLSessionConfiguration.backgroundSessionConfigurationWithIdentifier(bundleIdentifier + ".background"))
+        return Alamofire.SessionManager(configuration: URLSessionConfiguration.background(withIdentifier: bundleIdentifier + ".background"))
     }()
     
     
@@ -186,7 +186,12 @@ class NetworkingManager
           completionHandler: { response in
  
  */
-        let request = Alamofire.request(.POST, "\(url)", parameters: chatstanza,headers:header).responseJSON { response in
+        
+        let request = Alamofire.request("\(url)", method: .post, parameters: chatstanza,headers:header).responseJSON { response in
+        
+        
+            //alamofire4
+      //  let request = Alamofire.request(.POST, "\(url)", parameters: chatstanza,headers:header).responseJSON { response in
                 // You are now running on the concurrent `queue` you created earlier.
                
 

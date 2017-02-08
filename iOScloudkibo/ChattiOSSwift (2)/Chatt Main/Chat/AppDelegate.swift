@@ -939,7 +939,7 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
                     
                     if let data1 = response.result.value {
                         print("data \(data1)")
-                        let UserchatJson = data1 as! [String : Any]
+                        let UserchatJson = JSON.init(data:data1)
                         print("chat fetched JSON: \(UserchatJson)")
                         
                         
@@ -980,10 +980,10 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
                             
                             
                             
-                            let dateFormatter = NSDateFormatter()
+                            let dateFormatter = DateFormatter()
                             dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
                             
-                            let datens2 = dateFormatter.dateFromString(UserchatJson["msg"][i]["date"].string!)
+                            let datens2 = dateFormatter.date(from: UserchatJson["msg"][i]["date"].string!)
                             
                             print("fetch date from server got is \(UserchatJson["msg"][i]["date"].string!)... converted is \(datens2.debugDescription)")
                             
@@ -999,17 +999,17 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
                              let dateString = formatter.stringFromDate(datens2!)
                              */
                             
-                            if(UserchatJson["msg"][i]["type"].isExists())
+                            if(UserchatJson["msg"][i]["type"].exists())
                             {
                                 chattype=UserchatJson["msg"][i]["type"].string!
                             }
                             
-                            if(UserchatJson["msg"][i]["file_type"].isExists())
+                            if(UserchatJson["msg"][i]["file_type"].exists())
                             {
                                 file_type=UserchatJson["msg"][i]["file_type"].string!
                             }
                             
-                            if(UserchatJson["msg"][i]["uniqueid"].isExists())
+                            if(UserchatJson["msg"][i]["uniqueid"].exists())
                             {
                                 
                             
@@ -1132,7 +1132,7 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
                         //------CHECK IF ANY PENDING FILES--------
                         if(UserchatJson["msg"].count > 0)
                         {
-                        DispatchQueue.main.asynchronously()
+                        DispatchQueue.main.async
                         {
                         if(delegateRefreshChat != nil)
                         {
@@ -1159,7 +1159,7 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
                     
                     
                 /////return completion(result: true)
-                case .Failure:
+                case .failure:
                     socketObj.socket.emit("logClient", "All chat fetched failed")
                     print("all chat fetched failed")
                 }
@@ -2392,7 +2392,7 @@ else{
   
     func updateAllUIScreensForGroupChat()
     {
-        UIDelegates.getInstance().UpdateMainPageChatsDelegateCall()
+       UIDelegates.getInstance().UpdateMainPageChatsDelegateCall()
         UIDelegates.getInstance().UpdateGroupChatDetailsDelegateCall()
         UIDelegates.getInstance().UpdateGroupInfoDetailsDelegateCall()
         
@@ -2431,9 +2431,18 @@ else{
         //var getUserDataURL=userDataUrl
         
         let request = Alamofire.request("\(fetchSingleMsgURL)", method: .post,parameters: ["unique_id":unique_id],headers:header).validate().responseJSON { (responseData) -> Void in
-            if((responseData.result.value) != nil) {
-                let swiftyJsonVar = JSON(responseData.result.value!)
-                print(swiftyJsonVar)
+            //if((responseData.result.value) != nil) {
+                           
+           /* if let statusesArray = try? JSONSerialization.jsonObject(with: responseData.data!, options: .allowFragments) as? [[String: Any]],
+                    let user = statusesArray?[0]["user"] as? [String: Any],
+                    let username = user["name"] as? String {
+            
+                    // Finally we got the username
+                }
+                */
+                
+                //swiftyJsonVar.
+                //print(swiftyJsonVar.)
                 
                 
             //.responseJSON { response in
@@ -2444,16 +2453,16 @@ else{
             //print("members fetched response \(response.description)")
             //var membersDataNew=JSON(response.response!.description)
            // print("membersDataNew count is \(membersDataNew.count) and JSON data is : \(membersDataNew)")
-            print("response code is \(response.response?.statusCode)")
+           // print("response code is \(response.response?.statusCode)")
 
             
-            switch response.result {
+            switch responseData.result{
             case .success(let value):
-                let json = JSON(value)
+                let json = JSON.init(data:responseData.result.value as! Data)
           
            // print("members fetched response.. \(response.result)")
            //  print("members fetched response result.. \(response.result.value!)")
-            print("members fetched response data.. \(response.data!)")
+            print("members fetched response data.. \(responseData.data!)")
             
             /*print("members fetched response JSON.. \(JSON(response.result.debugDescription))")
             print("members fetched response result JSON.. \(JSON(response.result.value!))")
@@ -2463,27 +2472,27 @@ else{
             print("members fetched response result COUNT.. \(JSON(response.result.value!).count)")
             print("members fetched response data COUNT.. \(JSON(response.data!).count)")
             */
-                var membersDataNew=JSON(data: response.data)
+                var membersDataNew=JSON.init(data: responseData.result.value as! Data)
                 
             for var i in 0 ..< membersDataNew.count
             {
-                var groupid=membersDataNew[i]["group_unique_id"]["unique_id"].string1
-                var displaynameMember=membersDataNew[i]["display_name"] as! String
-                var member_phone1=membersDataNew[i]["member_phone"] as! String
-                var isAdmin=membersDataNew[i]["isAdmin"] as! String
-                var membership_status=membersDataNew[i]["membership_status"] as! String
-                var date_join=membersDataNew[i]["date_join"].string!
+                var groupid=membersDataNew[i]["group_unique_id"]["unique_id"].string
+                var displaynameMember=membersDataNew[i]["display_name"].string
+                var member_phone1=membersDataNew[i]["member_phone"].string
+                var isAdmin=membersDataNew[i]["isAdmin"].string
+                var membership_status=membersDataNew[i]["membership_status"].string
+                var date_join=membersDataNew[i]["date_join"].string
                 
                 let dateFormatter = DateFormatter()
-                dateFormatter.timeZone=NSTimeZone.localTimeZone()
+                dateFormatter.timeZone=NSTimeZone.local
                 dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
                 //  let datens2 = dateFormatter.dateFromString(date2.debugDescription)
                 //2016-09-18T19:13:00.588Z
-                let datens2 = dateFormatter.dateFromString(date_join)
+                let datens2 = dateFormatter.date(from: date_join!)
                 
                 
                 
-                sqliteDB.storeMembers(groupid, member_displayname1: displaynameMember, member_phone1: member_phone1, isAdmin1: isAdmin, membershipStatus1: membership_status, date_joined1: datens2!)
+                sqliteDB.storeMembers(groupid!, member_displayname1: displaynameMember!, member_phone1: member_phone1, isAdmin1: isAdmin!, membershipStatus1: membership_status!, date_joined1: datens2!)
             /*
      "__v" = 0;
      "_id" = 58137f5f44c231c85fb37e14;
@@ -2503,11 +2512,10 @@ else{
             }
             
             return completion(true, nil)
+            case .failure(let error):
+                  return completion(false, nil)
             }
-            else
-            {
-                return completion(false, nil)
-            }
+          
         }
     }
     
@@ -2567,7 +2575,7 @@ else{
             */
             
             switch response.result {
-            case .Success:
+            case .success:
               /*  Alamofire.request(.POST,"https://api.cloudkibo.com/api/users/log",headers:header,parameters: ["data":"IPHONE_LOG: \(username!) fetching group chat message. uniqueid of single new group is \(unique_id)"]).response{
                     request, response_, data, error in
                     print(error)
@@ -2579,8 +2587,9 @@ else{
                     var groupSingleInfo=JSON(data1)
                     
                     Alamofire.request("https://api.cloudkibo.com/api/users/log", method: .post, parameters: ["data":"IPHONE_LOG: \(username!) fetching group chat message success \(unique_id)"],headers:header).response{
-                        request, response_, data, error in
-                        print(error)
+                        response in
+                        
+                        print("fetching group chat message success")
                     }
                     
                     //alamofire4
@@ -2605,7 +2614,7 @@ else{
                     if(groupSingleInfo[0]["group_icon"] != nil)
                     {
                        // group_icon=(groupSingleInfo[0]["group_icon"] as! String).dataUsingEncoding(NSUTF8StringEncoding)!
-                        group_icon="exists".data(usingEncoding: NSUTF8StringEncoding)!
+                        group_icon="exists".data(usingEncoding: String.Encoding.utf8)!
                         
                         
                         UtilityFunctions.init().downloadProfileImage(unique_id)

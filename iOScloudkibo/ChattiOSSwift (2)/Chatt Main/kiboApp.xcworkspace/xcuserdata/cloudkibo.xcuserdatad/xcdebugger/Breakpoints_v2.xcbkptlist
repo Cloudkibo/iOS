@@ -411,7 +411,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "3047"
             endingLineNumber = "3047"
-            landmarkName = "docTapped(_:)"
+            landmarkName = "imageTapped(_:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -651,8 +651,8 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "3016"
             endingLineNumber = "3016"
-            landmarkName = "ChatDetailViewController"
-            landmarkType = "3">
+            landmarkName = "tableView(_:cellForRowAtIndexPath:)"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -827,7 +827,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "4534"
             endingLineNumber = "4534"
-            landmarkName = "documentPicker(_:didPickDocumentAt:)"
+            landmarkName = "prepare(for:sender:)"
             landmarkType = "7">
             <Locations>
                <Location
@@ -875,7 +875,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "4533"
             endingLineNumber = "4533"
-            landmarkName = "documentPicker(_:didPickDocumentAt:)"
+            landmarkName = "prepare(for:sender:)"
             landmarkType = "7">
             <Locations>
                <Location
@@ -955,7 +955,7 @@
             startingLineNumber = "2671"
             endingLineNumber = "2671"
             landmarkName = "fetchSingleGroupChatMessage(_:completion:)"
-            landmarkType = "9">
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -1452,7 +1452,7 @@
             startingLineNumber = "3019"
             endingLineNumber = "3019"
             landmarkName = "fetchSingleChatMessage(_:)"
-            landmarkType = "9">
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -1931,7 +1931,7 @@
             startingLineNumber = "2887"
             endingLineNumber = "2887"
             landmarkName = "fetchSingleChatMessage(_:)"
-            landmarkType = "9">
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -1947,7 +1947,7 @@
             startingLineNumber = "2963"
             endingLineNumber = "2963"
             landmarkName = "fetchSingleChatMessage(_:)"
-            landmarkType = "9">
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -1962,8 +1962,8 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "4828"
             endingLineNumber = "4828"
-            landmarkName = "ChatDetailViewController"
-            landmarkType = "3">
+            landmarkName = "documentPicker(_:didPickDocumentAt:)"
+            landmarkType = "7">
             <Locations>
                <Location
                   shouldBeEnabled = "Yes"
@@ -2010,7 +2010,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "4832"
             endingLineNumber = "4832"
-            landmarkName = "refreshChatsUI(_:uniqueid:from:date1:type:)"
+            landmarkName = "documentMenu(_:didPickDocumentPicker:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -2026,8 +2026,8 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "4841"
             endingLineNumber = "4841"
-            landmarkName = "refreshChatsUI(_:uniqueid:from:date1:type:)"
-            landmarkType = "7">
+            landmarkName = "ChatDetailViewController"
+            landmarkType = "3">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -2138,7 +2138,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "3808"
             endingLineNumber = "3808"
-            landmarkName = "sendChatMessage(_:completion:)"
+            landmarkName = "imagePickerControllerDidCancel(_:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -2219,7 +2219,7 @@
             startingLineNumber = "2739"
             endingLineNumber = "2739"
             landmarkName = "fetchSingleGroupChatMessage(_:completion:)"
-            landmarkType = "9">
+            landmarkType = "7">
             <Locations>
                <Location
                   shouldBeEnabled = "No"
@@ -2267,7 +2267,7 @@
             startingLineNumber = "2785"
             endingLineNumber = "2785"
             landmarkName = "timerFiredScreenCapture()"
-            landmarkType = "9">
+            landmarkType = "7">
             <Locations>
                <Location
                   shouldBeEnabled = "Yes"
@@ -2315,7 +2315,7 @@
             startingLineNumber = "2788"
             endingLineNumber = "2788"
             landmarkName = "timerFiredScreenCapture()"
-            landmarkType = "9">
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -2331,7 +2331,7 @@
             startingLineNumber = "2792"
             endingLineNumber = "2792"
             landmarkName = "timerFiredScreenCapture()"
-            landmarkType = "9">
+            landmarkType = "7">
             <Locations>
                <Location
                   shouldBeEnabled = "Yes"
@@ -2379,7 +2379,7 @@
             startingLineNumber = "2803"
             endingLineNumber = "2803"
             landmarkName = "timerFiredScreenCapture()"
-            landmarkType = "9">
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -2395,7 +2395,7 @@
             startingLineNumber = "2808"
             endingLineNumber = "2808"
             landmarkName = "showFileRecievedNotification()"
-            landmarkType = "9">
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -2411,7 +2411,7 @@
             startingLineNumber = "2789"
             endingLineNumber = "2789"
             landmarkName = "timerFiredScreenCapture()"
-            landmarkType = "9">
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -2898,22 +2898,6 @@
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "Chat/AppDelegate.swift"
-            timestampString = "508167389.543171"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "2500"
-            endingLineNumber = "2500"
-            landmarkName = "fetchGroupMembersSpecificGroup(_:completion:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
             filePath = "Chat/ChatViewController.swift"
             timestampString = "508171935.521236"
             startingColumnNumber = "9223372036854775807"
@@ -2937,6 +2921,102 @@
             startingLineNumber = "2457"
             endingLineNumber = "2457"
             landmarkName = "fetchGroupMembersSpecificGroup(_:completion:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Chat/AppDelegate.swift"
+            timestampString = "508228891.202798"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "2461"
+            endingLineNumber = "2461"
+            landmarkName = "fetchGroupMembersSpecificGroup(_:completion:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Chat/AppDelegate.swift"
+            timestampString = "508229040.166413"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "2463"
+            endingLineNumber = "2463"
+            landmarkName = "fetchGroupMembersSpecificGroup(_:completion:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Chat/AppDelegate.swift"
+            timestampString = "508229366.274755"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "2493"
+            endingLineNumber = "2493"
+            landmarkName = "fetchGroupMembersSpecificGroup(_:completion:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Chat/ChatViewController.swift"
+            timestampString = "508230138.497938"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "3671"
+            endingLineNumber = "3671"
+            landmarkName = "tableView(_:didSelectRowAtIndexPath:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Chat/ChatViewController.swift"
+            timestampString = "508231110.100979"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "671"
+            endingLineNumber = "671"
+            landmarkName = "fetchChatsFromServer()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Chat/ChatViewController.swift"
+            timestampString = "508231111.47702"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "667"
+            endingLineNumber = "667"
+            landmarkName = "fetchChatsFromServer()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

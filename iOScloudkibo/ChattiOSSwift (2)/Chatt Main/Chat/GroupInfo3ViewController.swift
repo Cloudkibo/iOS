@@ -1260,7 +1260,7 @@ else{
             let result = PHAsset.fetchAssets(withALAssetURLs: [imageURL], options: nil)
             
             
-            self.file_name1 = result.firstObject?.filename ?? ""
+            self.file_name1 = (result.firstObject?.burstIdentifier)!// .firstObject?.filename ?? ""
             
             // var myasset=result.firstObject as! PHAsset
             ////print(myasset.mediaType)
