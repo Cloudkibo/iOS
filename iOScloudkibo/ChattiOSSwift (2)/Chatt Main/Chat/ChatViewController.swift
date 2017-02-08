@@ -495,8 +495,8 @@ EPPickerDelegate,SWTableViewCellDelegate,UpdateChatViewsDelegate,RefreshContacts
                         //sqliteDB.deleteChat(self.selectedContact)
                         
                         socketObj.socket.emit("logClient","IPHONE-LOG: all chat messages count is \(UserchatJson["msg"].count)")
-                        for var i=0;i<UserchatJson["msg"].count
-                            ;i++
+                        for i in 0 ..< UserchatJson["msg"].count
+                            
                         {
                             
                             // var isFile=false
@@ -524,17 +524,17 @@ EPPickerDelegate,SWTableViewCellDelegate,UpdateChatViewsDelegate,RefreshContacts
                              let dateString = formatter.stringFromDate(datens2!)
                              */
                             
-                            if(UserchatJson["msg"][i]["type"].isExists())
+                            if(UserchatJson["msg"][i]["type"].exists())
                             {
                                 chattype=UserchatJson["msg"][i]["type"].string!
                             }
                             
-                            if(UserchatJson["msg"][i]["file_type"].isExists())
+                            if(UserchatJson["msg"][i]["file_type"].exists())
                             {
                                 file_type=UserchatJson["msg"][i]["file_type"].string!
                             }
                             
-                            if(UserchatJson["msg"][i]["uniqueid"].isExists())
+                            if(UserchatJson["msg"][i]["uniqueid"].exists())
                             {
                                 
                                 /* let tbl_files=sqliteDB.files;
@@ -668,7 +668,7 @@ EPPickerDelegate,SWTableViewCellDelegate,UpdateChatViewsDelegate,RefreshContacts
                         
                        // if(UserchatJson["msg"].count > 0)
                         //{
-                            dispatch_get_main_queue().asynchronously() {
+                            DispatchQueue.main.async() {
                                 if(delegateRefreshChat != nil)
                                 {print("updating UI now ...")
                                     delegateRefreshChat?.refreshChatsUI(nil, uniqueid:nil, from:nil, date1:nil, type:"status")
@@ -1773,7 +1773,7 @@ EPPickerDelegate,SWTableViewCellDelegate,UpdateChatViewsDelegate,RefreshContacts
         //print(res)
         
         var count=0
-        for i in 0 .. pendingMSGs.count
+        for i in 0 ..< pendingMSGs.count
         {
             var membersList=sqliteDB.getGroupMembersOfGroup(pendingMSGs[i]["group_unique_id"] as! String)
             
@@ -2075,7 +2075,7 @@ EPPickerDelegate,SWTableViewCellDelegate,UpdateChatViewsDelegate,RefreshContacts
             do{for ccclastmsg in try sqliteDB.db.prepare(myquerylastmsg!) {
                 //print("date received in chat view is \(ccclastmsg[date])")
             
-                var formatter2 = NSDateFormatter();
+                var formatter2 = DateFormatter();
                 formatter2.dateFormat = "MM/dd hh:mm a"
                 formatter2.timeZone = NSTimeZone.localTimeZone()
                 ///////////////==========var defaultTimeeee = formatter2.stringFromDate(defaultTimeZoneStr!)
@@ -3131,7 +3131,7 @@ break
     
     
     func hexStringToUIColor (_ hex:String) -> UIColor {
-        var cString:String = hex.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet() as NSCharacterSet).uppercased()
+        var cString:String = hex.trimmingCharacters(in: NSCharacterSet.whitespaceAndNewlineCharacterSet as NSCharacterSet).uppercased()
         
         if (cString.hasPrefix("#")) {
             cString = cString.substring(from: cString.characters.index(cString.startIndex, offsetBy: 1))

@@ -143,7 +143,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
     
    
     func fileManager(_ fileManager: FileManager, shouldProceedAfterError error: Error, copyingItemAtPath srcPath: String, toPath dstPath: String) -> Bool {
-        if error.code == NSFileWriteFileExistsError {
+        if error == NSFileWriteFileExistsError {
             do {
                 //var new path=dstPath.re
                 try fileManager.removeItem(atPath: dstPath)
@@ -667,7 +667,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
         //print("callthisperson,room : globalchatroom,callee: \(selectedContact), caller:\(username!)")
         
         
-        socketObj.socket.emitWithAck("callthisperson",["room" : "globalchatroom","calleephone": selectedContact, "callerphone":username!])(timeoutAfter: 15000){data in
+        var ack1=socketObj.socket.emitWithAck("callthisperson",["room" : "globalchatroom","calleephone": selectedContact, "callerphone":username!])/*{data in
             var chatmsg=JSON(data)
             
             //print(data[0])
@@ -688,6 +688,29 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
             self.presentViewController(next, animated: true, completion: {
             })
             
+        }*/
+        
+        
+        ack1.timingOut(after: 150000) { (data) in
+            var chatmsg=JSON(data)
+            
+            //print(data[0])
+            //print(data[0]["calleephone"]!!)
+            //print(data[0]["status"]!!.debugDescription!)
+            
+            //print("username is ... \(username!)")
+            
+            isInitiator=true
+            callerName=username!
+            iamincallWith=self.selectedContact
+            
+            iOSstartedCall=true
+            socketObj.socket.emit("logClient","IPHONE-LOG: \(username!) is going to videoViewController")
+            ////
+            var next = self.storyboard!.instantiateViewControllerWithIdentifier("MainV2") as! VideoViewController
+            
+            self.presentViewController(next, animated: true, completion: {
+            })
         }
         
         //  }
@@ -4567,7 +4590,7 @@ print("hh \(hh)")
         //var attributesError=nil
         var fileAttributes:[String:AnyObject]=["":"" as AnyObject]
         
-         shareMenu = UIAlertController(title: nil, message: " Send \" \(fname!) .\(ftype)\" to \(selectedFirstName) ? ", preferredStyle: .ActionSheet)
+         shareMenu = UIAlertController(title: nil, message: " Send \" \(fname) .\(ftype)\" to \(selectedFirstName) ? ", preferredStyle: .actionSheet)
        // shareMenu.modalPresentationStyle=UIModalPresentationStyle.OverCurrentContext
         let confirm = UIAlertAction(title: "Yes", style: UIAlertActionStyle.default,handler: { (action) -> Void in
             
@@ -4586,7 +4609,7 @@ print("hh \(hh)")
             var error:NSError? = nil
             //var downloadedalready=false
             do{
-                var downloadkeyresult=try furl!.resourceValuesForKeys([URLResourceKey.ubiquitousItemDownloadingStatusKey])
+                var downloadkeyresult=try furl!.resourceValues(forKeys: [URLResourceKey.ubiquitousItemDownloadingStatusKey])
            /// var downloadkeyresult=try url.resourceValuesForKeys([NSURLUbiquitousItemDownloadingStatusKey])
                 //print("... ... \(downloadkeyresult.debugDescription)")
            //////var downloadedalready=try NSFileManager.defaultManager().startDownloadingUbiquitousItemAtURL(furl!)
@@ -4612,7 +4635,7 @@ print("hh \(hh)")
                 //print("file gotttttt")
                
                 do {
-                    let fileAttributes : NSDictionary? = try FileManager.default.attributesOfItemAtPath(furl!.path)
+                    let fileAttributes : NSDictionary? = try FileManager.default.attributesOfItem(atPath: furl!.path)
                     
                     if let _attr = fileAttributes {
                         self.fileSize1 = _attr.fileSize();

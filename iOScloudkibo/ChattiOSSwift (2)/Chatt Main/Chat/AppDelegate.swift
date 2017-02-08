@@ -2492,7 +2492,7 @@ else{
                 
                 
                 
-                sqliteDB.storeMembers(groupid!, member_displayname1: displaynameMember!, member_phone1: member_phone1, isAdmin1: isAdmin!, membershipStatus1: membership_status!, date_joined1: datens2!)
+                sqliteDB.storeMembers(groupid!, member_displayname1: displaynameMember!, member_phone1: member_phone1!, isAdmin1: isAdmin!, membershipStatus1: membership_status!, date_joined1: datens2!)
             /*
      "__v" = 0;
      "_id" = 58137f5f44c231c85fb37e14;
@@ -2614,8 +2614,8 @@ else{
                     if(groupSingleInfo[0]["group_icon"] != nil)
                     {
                        // group_icon=(groupSingleInfo[0]["group_icon"] as! String).dataUsingEncoding(NSUTF8StringEncoding)!
-                        group_icon="exists".data(usingEncoding: String.Encoding.utf8)!
-                        
+                        group_icon="exists".data(using: String.Encoding.utf8)! as Data as NSData
+                            //.data(using: String.Encoding.utf8)
                         
                         UtilityFunctions.init().downloadProfileImage(unique_id)
                        
@@ -2623,29 +2623,29 @@ else{
                         // group_icon=groupSingleInfo[0]["group_icon"] as! NSData
                     }
                     
-                    let dateFormatter = NSDateFormatter()
-                    dateFormatter.timeZone=NSTimeZone.localTimeZone()
+                    let dateFormatter = DateFormatter()
+                    dateFormatter.timeZone=NSTimeZone.local
                     dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
                     //  let datens2 = dateFormatter.dateFromString(date2.debugDescription)
                     //2016-09-18T19:13:00.588Z
-                    let datens2 = dateFormatter.dateFromString(date_creation)
+                    let datens2 = dateFormatter.date(from: date_creation)
                     
                     print("saving group single \(unique_id)")
                     
                     //Alamofire.request(.POST,"https://api.cloudkibo.com/api/users/log",headers:header,parameters: ["data":"IPHONE_LOG: \(username!) storing groups chat \(unique_id)"])
                     
-                    sqliteDB.storeGroups(group_name, groupicon1: group_icon, datecreation1: datens2!, uniqueid1: unique_id, status1: "new")
+                    sqliteDB.storeGroups(group_name, groupicon1: group_icon as Data!, datecreation1: datens2!, uniqueid1: unique_id, status1: "new")
 
                     //=====MUTE GROUP====
-                    sqliteDB.storeMuteGroupSettingsTable(unique_id, isMute1: false, muteTime1: NSDate(), unMuteTime1: NSDate())
+                    sqliteDB.storeMuteGroupSettingsTable(unique_id, isMute1: false, muteTime1: NSDate() as Date, unMuteTime1: NSDate() as Date)
                     
-                    return completion(result:true,error:nil)
+                    return completion(true,nil)
                     
                 }
-            case .Failure:
-                return completion(result:false,error:"fetch single group failed")
+            case .failure:
+                return completion(false,"fetch single group failed")
             default: print("fetch single group failed")
-            return completion(result:false,error:"fetch single group failed")
+            return completion(false,"fetch single group failed")
 
             }
         }
@@ -2697,7 +2697,7 @@ else{
                 */
                 
                 switch response.result {
-                case .Success:
+                case .success:
                     if let data1 = response.result.value {
                         /*
                          from
@@ -2721,12 +2721,12 @@ else{
                        // print("JSON single chat to is: \(chatJson[0]["to"].string!)")
                        // var status="delivered"
                         
-                        let dateFormatter = NSDateFormatter()
-                        dateFormatter.timeZone=NSTimeZone.localTimeZone()
+                        let dateFormatter = DateFormatter()
+                        dateFormatter.timeZone=NSTimeZone.local
                         dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
                         //  let datens2 = dateFormatter.dateFromString(date2.debugDescription)
                         //2016-09-18T19:13:00.588Z
-                        let datens2 = dateFormatter.dateFromString(chatJson["date"].string!)
+                        let datens2 = dateFormatter.date(from: chatJson["date"].string!)
                         
                         var from=chatJson["from"].string!
                         var group_unique_id=chatJson["group_unique_id"]["unique_id"].string!
@@ -2739,14 +2739,14 @@ else{
                         sqliteDB.storeGroupsChat(from, group_unique_id1: group_unique_id, type1: type, msg1: msg, from_fullname1: from_fullname, date1: datens2!, unique_id1: unique_id)
                         
                         //store status update delivered
-                        sqliteDB.storeGRoupsChatStatus(unique_id, status1: "delivered", memberphone1: username!, delivereddate1: NSDate(), readDate1: NSDate())
+                        sqliteDB.storeGRoupsChatStatus(unique_id, status1: "delivered", memberphone1: username!, delivereddate1: NSDate() as Date!, readDate1: NSDate() as Date!)
                       
                         
-                        completion(result: true, error: nil)
+                        completion(true, nil)
                     }
                     
                 default: print("failed errorr")
-                    completion(result: false, error: "cannot fetch group chat message")
+                    completion(false, "cannot fetch group chat message")
                     
                 }
                 
@@ -2929,7 +2929,7 @@ else{
             
             */
             switch response.result {
-            case .Success:
+            case .success:
                 if let data1 = response.result.value {
                     
                    /* Alamofire.request(.POST,"\(Constants.MainUrl+Constants.urllog)",headers:header,parameters: ["data":"IPHONE_LOG: fetch single chat success \(uniqueid)"]).response{
@@ -2948,16 +2948,16 @@ else{
                     print("JSON single chat to is: \(chatJson[0]["to"].string!)")
                     var status="delivered"
                     
-                    let dateFormatter = NSDateFormatter()
-                    dateFormatter.timeZone=NSTimeZone.localTimeZone()
+                    let dateFormatter = DateFormatter()
+                    dateFormatter.timeZone=NSTimeZone.localTimeZone
                     dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
                     //  let datens2 = dateFormatter.dateFromString(date2.debugDescription)
                     //2016-09-18T19:13:00.588Z
-                    let datens2 = dateFormatter.dateFromString(chatJson[0]["date"].string!)
+                    let datens2 = dateFormatter.date(from: chatJson[0]["date"].string!)
                     
                     
                     
-                    if(!chatJson[0]["type"].isExists())
+                    if(!chatJson[0]["type"].exists())
                     {//old chat message
                         
                       
@@ -3054,11 +3054,11 @@ else{
                         print(error)
                     }*/
                 }
-            case .Failure:
+            case .failure:
                 
                 Alamofire.request("\(Constants.MainUrl+Constants.urllog)", method: .post, parameters:  ["data":"IPHONE_LOG: fetch single chat FAILED \(uniqueid)"],headers:header).response{
-                    request, response_, data, error in
-                    print(error)
+                    response in
+                    //print(error)
                 }
 
                   //alamofire4

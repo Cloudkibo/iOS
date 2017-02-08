@@ -89,7 +89,7 @@ class CallRingingViewController: UIViewController//RTCPeerConnectionDelegate,RTC
             
             //print(aa.description)
             socketObj.socket.emit("logClient","IPHONE-LOG: \(aa.object)")
-            socketObj.socket.emit("message",aa.object)
+            socketObj.socket.emit("message",aa.object as! SocketData)
             
             /////socketObj.sendMessagesOfMessageType("Accept Call")
                     })
@@ -108,7 +108,7 @@ class CallRingingViewController: UIViewController//RTCPeerConnectionDelegate,RTC
             
             //print(aa.description)
             socketObj.socket.emit("logClient","IPHONE-LOG: \(aa.object)")
-            socketObj.socket.emit("message",aa.object)
+            socketObj.socket.emit("message",aa.object as! SocketData)
             
             var nameOfCaller=""
             var allcontacts=sqliteDB.allcontacts

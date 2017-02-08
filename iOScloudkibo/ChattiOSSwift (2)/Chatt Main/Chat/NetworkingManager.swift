@@ -195,7 +195,7 @@ class NetworkingManager
                 // You are now running on the concurrent `queue` you created earlier.
                
 
- print("Parsing JSON on thread: \(NSThread.currentThread()) is main thread: \(NSThread.isMainThread())")
+ print("Parsing JSON on thread: \(Thread.current) is main thread: \(Thread.isMainThread)")
                 
                 // Validate your JSON response and convert into model objects if necessary
                // print(response.result.value) //status, uniqueid
@@ -215,7 +215,7 @@ class NetworkingManager
                     sqliteDB.UpdateChatStatus(chatstanza["uniqueid"]!, newstatus: "sent")
                     
                     
-                    completion(result:true)
+                    completion(true)
                     
                     
                     
@@ -235,7 +235,7 @@ class NetworkingManager
                     }*/
                 }
                 
-                 completion(result:false)
+                 completion(false)
             }
    
         //)
@@ -258,9 +258,13 @@ class NetworkingManager
                
                 */
         
-        let request = Alamofire.request(.POST, "\(url)", parameters: ["uniqueid":uniqueid,"sender":sender,"status":status],headers:header).responseJSON { response in
+        
+        let request = Alamofire.request("\(url)", method: .post, parameters: ["uniqueid":uniqueid,"sender":sender,"status":status],headers:header).responseJSON { response in
+      
+        //alamofire4
+        ////let request = Alamofire.request(.POST, "\(url)", parameters: ["uniqueid":uniqueid,"sender":sender,"status":status],headers:header).responseJSON { response in
                 // You are now running on the concurrent `queue` you created earlier.
-                print("Parsing JSON on thread: \(NSThread.currentThread()) is main thread: \(NSThread.isMainThread())")
+                print("Parsing JSON on thread: \(Thread.current) is main thread: \(Thread.isMainThread)")
                 
                 // Validate your JSON response and convert into model objects if necessary
                /////// print(response.result.value!) //status, uniqueid
@@ -275,7 +279,7 @@ class NetworkingManager
                     
                     
                    ///// dispatch_async(dispatch_get_main_queue()) {
-                        print("Am I back on the main thread: \(NSThread.isMainThread())")
+                        print("Am I back on the main thread: \(Thread.isMainThread)")
                         print("uniqueid is \(resJSON["uniqueid"].string!)")
                         sqliteDB.removeMessageStatusSeen(resJSON["uniqueid"].string!)
                         print("chat message status ack received")
@@ -350,7 +354,23 @@ class NetworkingManager
         print("mimetype is \(MimeType(file_type1))")
         
         var urlupload=Constants.MainUrl+Constants.uploadFile
-    Alamofire.upload(
+    
+        
+        Alamofire.upload(
+            multipartFormData: { multipartFormData in
+                multipartFormData.append(imageData!, withName:  "file", fileName: file_name1, mimeType: self.MimeType(file_type1))                //,fileName: file_name1, mimeType: "image/\(file_type1)")
+                for (key, value) in parameters {
+                    multipartFormData.append(value.data(using: .utf8)!, withName: key)
+                   // multipartFormData.append(data: value.data(using: String.Encoding.utf8)!, withName: key)
+                }
+
+        },
+            to: urlupload,headers: header,
+            encodingCompletion: { encodingResult in
+                switch encodingResult {
+                    
+           /*
+        Alamofire.upload(
     .POST,
     urlupload,
     headers: header,
@@ -366,30 +386,19 @@ class NetworkingManager
     },
     encodingCompletion: { encodingResult in
         switch encodingResult {
-        case .Success(let upload, _, _):
-            upload.progress { bytesWritten, totalBytesWritten, totalBytesExpectedToWrite in
-                dispatch_async(dispatch_get_main_queue()) {
-                    let percent = (Float(totalBytesWritten) / Float(totalBytesExpectedToWrite))
-                    /////progress(percent: percent)
-                    /*if(self.delegateProgressUpload != nil)
-                    {
-                        if(percent<1.0)
-                        {
-                       self.delegateProgressUpload.updateProgressUpload(percent,uniqueid: uniqueid1)
-                        }   
-                        
-                    }*/
-                    //Redraw specific table cell
-                    print("percentage is \(percent)")
-                }
-            }
+                    */
+        case .success(let upload, _, _):
+          
             upload.validate()
+            upload.uploadProgress { progress in // main queue by default
+                print("Upload Progress: \(progress.fractionCompleted)")
+            }
             upload.responseJSON { response in
                 print(response.response?.statusCode)
                 print(response.data!)
                 
                 switch response.result {
-                case .Success:
+                case .success:
                     
                     
                     var imParas=["from":from1,"to":to1,"fromFullName":"\(displayname)","msg":file_name1,"uniqueid":uniqueid1,"type":"file","file_type":type1]
@@ -403,8 +412,9 @@ class NetworkingManager
                     //------
                   
                     
-                    socketObj.socket.emitWithAck("im",["room":"globalchatroom","stanza":imParas])(timeoutAfter: 150000)
-                    {data in
+                    var ackFile=socketObj.socket.emitWithAck("im",["room":"globalchatroom","stanza":imParas])
+                    
+                    ackFile.timingOut(after: 15000, callback: { (data) in
                         
                         print("chat ack received  \(data)")
                         statusNow="sent"
@@ -415,10 +425,9 @@ class NetworkingManager
                         
                         //^^^self.retrieveChatFromSqlite(self.selectedContact)
                         //self.tblForChats.reloadData()
-                        
-                        
-                        
-                    }
+                    })
+                    
+                    
                     /*if(self.delegateChat != nil)
                     {
                         self.delegateChat?.socketReceivedMessageChat("updateUI", data: nil)
@@ -439,7 +448,7 @@ class NetworkingManager
                     print("file upload success")
                     print(response.result.value)
                     print(JSON(response.result.value!)) // "status":"success"
-                case .Failure(let error):
+                case .failure(let error):
                     print("file upload failure")
                 }
                 //debugPrint(response)
@@ -452,16 +461,14 @@ class NetworkingManager
               //  print("response is \(response.debugDescription)")
                // print("response result value is \(response.result.value)")
             }
-        case .Failure(let encodingError):
-            print(encodingError)
-            print("failureeeeeeee")
+       
+                }
+        }
+        )
         }
         
-    }
-    )
         
-        
-    }
+    
     
     func checkPendingFiles(_ uniqueid1:String)
     {print("inside checkpending")
@@ -469,14 +476,22 @@ class NetworkingManager
         
         //Alamofire.request(.POST,"\(removeChatHistoryURL)",headers:header,parameters: ["username":"\(selectedContact)"]).validate(statusCode: 200..<300).response{
         //====Alamofire.request(.POST,"\(checkPendingFiles)",headers:header,parameters: ["phone":phone1]).validate(statusCode: 200..<300).responseJSON{
+        
+        
+        Alamofire.request("\(checkPendingFiles)", method: .post, parameters: ["uniqueid":uniqueid1],headers:header).validate(statusCode: 200..<300).responseJSON{
+            
+            response in
+            
+
+        /*
         Alamofire.request(.POST,"\(checkPendingFiles)",headers:header,parameters: ["uniqueid":uniqueid1]).validate(statusCode: 200..<300).responseJSON{
             
-        response in
+        response in*/
             
            ////// print(response.data!)
             
             switch response.result {
-            case .Success:
+            case .success:
                 
                 //debugPrint(response)
                 print("checking pending files success")
@@ -537,7 +552,7 @@ class NetworkingManager
                     print("no pending files found")
                 }
             
-            case .Failure(let error):
+            case .failure(let error):
                 print("\(error) file check pending failed")
             }
             //request1, response1, data1, error1 in
@@ -576,12 +591,21 @@ class NetworkingManager
         {
         let queue2 = DispatchQueue(label: "com.kibochat.manager-response-queue-file", attributes: DispatchQueue.Attributes.concurrent)
         let qqq=DispatchQueue.global(qos: DispatchQoS.QoSClass.background)
-            let request = Alamofire.request(.POST, "\(downloadURL)", parameters: ["uniqueid":fileuniqueid], headers:header)
-            request.response(
+           
+            let request = Alamofire.request("\(downloadURL)", method: .post, parameters: ["uniqueid":fileuniqueid],headers:header)
+            
+            ///////let request = Alamofire.request(.POST, "\(downloadURL)", parameters: ["uniqueid":fileuniqueid], headers:header)
+            
+            request.responseJSON(queue: queue2, completionHandler: { (response) in
+                
+                
+            //})
+            
+            /*response(
                 queue: queue2,
                 responseSerializer: Request.dataResponseSerializer(),
                 completionHandler: { response in
-            
+            */
             
           /*  .response{
             request, response_, data, error in
@@ -659,7 +683,19 @@ class NetworkingManager
       //  Alamofire.download(.GET, "http://httpbin.org/stream/100", destination: destination)
         var downloadURL=Constants.MainUrl+Constants.downloadFile
         
-        let destination: (URL, HTTPURLResponse) -> (URL) = {
+            
+            
+            let destination1: DownloadRequest.DownloadFileDestination = { _, _ in
+                var documentsURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
+                var localImageURL = documentsURL.appendingPathComponent(filePendingName)
+                return (documentsURL, [.removePreviousFile])
+            }
+            
+            
+           /// let destination = DownloadRequest.suggestedDownloadDestination(for: .documentDirectory, in: .userDomainMask) as? URL
+            
+       
+            let destination: (URL, HTTPURLResponse) -> (URL) = {
             (temporaryURL, response) in
             
             if let directoryURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0] as? URL {
@@ -691,8 +727,13 @@ class NetworkingManager
         print("downloading call unique id \(fileuniqueid)")
        
         //uncomment change later
-        Alamofire.download(.POST, "\(downloadURL)", headers:header, parameters: ["uniqueid":fileuniqueid], destination: destination)
-            .progress { (bytesRead, totalBytesRead, totalBytesExpectedToRead) in
+            Alamofire.download("\(downloadURL)", method: .post, parameters: ["uniqueid":fileuniqueid], encoding: JSONEncoding.default, headers: header, to: destination1)
+                
+                /*
+                .progress { (bytesRead, totalBytesRead, totalBytesExpectedToRead) in
+
+            
+            //oad("\(downloadURL)",headers:header, parameters: ["uniqueid":fileuniqueid], to: destination)/*(.POST, "\(downloadURL)", , destination: destination)*/.progress { (bytesRead, totalBytesRead, totalBytesExpectedToRead) in
                 print("writing bytes \(totalBytesRead)")
                 print(" bytes1 \(bytesRead)")
                 print("totalBytesRead bytes \(totalBytesRead)")
@@ -716,6 +757,8 @@ class NetworkingManager
                     
                 }*/
             }
+                */
+                
             .response { (request, response, _, error) in
                 print(response)
                 print("1...... \(request?.URLString)")
@@ -809,6 +852,25 @@ class NetworkingManager
         
         // var urlupload=Constants.MainUrl+Constants.uploadFile
         print("uploading file image data is \(imageData)")
+        
+        
+        
+        
+        Alamofire.upload(
+            multipartFormData: { multipartFormData in
+                multipartFormData.append(imageData!, withName:  "file", fileName: filename, mimeType: self.MimeType(fileType))                //,fileName: file_name1, mimeType: "image/\(file_type1)")
+                for (key, value) in parameters {
+                    multipartFormData.append(value.data(using: .utf8)!, withName: key)
+                    // multipartFormData.append(data: value.data(using: String.Encoding.utf8)!, withName: key)
+                }
+                
+        },
+            to: url,headers: header,
+            encodingCompletion: { encodingResult in
+                switch encodingResult {
+                    
+
+        /*
         Alamofire.upload(
             .POST,
             url,
@@ -825,7 +887,25 @@ class NetworkingManager
             },
             encodingCompletion: { encodingResult in
                 switch encodingResult {
-                case .Success(let upload, _, _):
+                    */
+                    ////
+                
+                
+                case .success(let upload, _, _):
+                    
+                    upload.validate()
+                    upload.uploadProgress { progress in // main queue by default
+                        print("Upload Progress: \(progress.fractionCompleted)")
+                    }
+                    upload.responseJSON { response in
+                        print(response.response?.statusCode)
+                        print(response.data!)
+                        
+                        switch response.result {
+                        case .success:
+                            
+                            
+               /* case .Success(let upload, _, _):
                     upload.progress { bytesWritten, totalBytesWritten, totalBytesExpectedToWrite in
                         dispatch_async(dispatch_get_main_queue()) {
                             let percent = (Float(totalBytesWritten) / Float(totalBytesExpectedToWrite))
@@ -848,7 +928,12 @@ class NetworkingManager
                         print(response.data!)
                         print(JSON(response.data!))
                         switch response.result {
-                        case .Success:print("file uploaded successss")
+                        case .Success:
+                            
+                            */
+                            
+                            
+                            print("file uploaded successss")
                              sqliteDB.saveFile(groupUniqueID, from1: "", owneruser1: "", file_name1: filename, date1: nil, uniqueid1: groupUniqueID, file_size1: "1", file_type1: fileType, file_path1: filePath1, type1: "groupIcon")
                            //update "group_icon" as exists
                             
