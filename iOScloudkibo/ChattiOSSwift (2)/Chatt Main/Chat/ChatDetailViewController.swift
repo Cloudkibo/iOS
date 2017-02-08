@@ -709,7 +709,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
             ////
             var next = self.storyboard!.instantiateViewController(withIdentifier: "MainV2") as! VideoViewController
             
-            self.presentViewController(next, animated: true, completion: {
+            self.present(next, animated: true, completion: {
             })
         }
         
@@ -1422,8 +1422,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
        
         
         Alamofire.request("\(removeChatHistoryURL)", method: .post, parameters:  ["phone":selectedContact],headers:header).response{
-            
-            request1, response1, data1, error1 in
+            response in
 
         
             //alamofire4
@@ -1437,7 +1436,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
             //self.dismissViewControllerAnimated(true, completion: nil);
             /// self.performSegueWithIdentifier("loginSegue", sender: nil)
             
-            if response1?.statusCode==200 {
+            if response.response?.statusCode==200 {
                 //print("chat history deleted")
                 ////print(request1)
                 //print(data1?.debugDescription)
@@ -1445,7 +1444,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
                 sqliteDB.deleteChat(self.selectedContact.debugDescription)
                 
                 self.messages.removeAllObjects()
-                dispatch_async(dispatch_get_main_queue())
+                DispatchQueue.main.async
                 {
                     self.tblForChats.reloadData()
                 }
@@ -1455,12 +1454,12 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
                 //print(error1)
                 //print(data1)
             }
-            if(response1?.statusCode==401)
+            if(response.response?.statusCode==401)
             {
                 //print("chat history not deleted token refresh needed")
                 if(username==nil || password==nil)
                 {
-                    self.performSegueWithIdentifier("loginSegue", sender: nil)
+                    self.performSegue(withIdentifier: "loginSegue", sender: nil)
                 }
                 else{
                     self.rt.refrToken()

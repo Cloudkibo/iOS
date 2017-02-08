@@ -874,15 +874,19 @@ EPPickerDelegate,SWTableViewCellDelegate,UpdateChatViewsDelegate,RefreshContacts
         print("loadddddd", terminator: "")
         
         
-        do{reachability = try Reachability.reachabilityForInternetConnection()
+        do{reachability = try Reachability.init()
             try reachability.startNotifier();
             //  NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("checkForReachability:"), name:ReachabilityChangedNotification, object: reachability)
         }
         catch{
             print("error in reachability")
         }
-        NotificationCenter.default.addObserver(self, selector: #selector(ChatViewController.checkForReachability(_:)), name:NSNotification.Name(rawValue: ReachabilityChangedNotification), object: reachability)
         
+        NotificationCenter.default.addObserver(self, selector: #selector(GroupInfo3ViewController.checkForReachability(_:)),name: ReachabilityChangedNotification,object: reachability)
+      
+      /*
+        NotificationCenter.default.addObserver(self, selector: #selector(ChatViewController.checkForReachability(_:)), name:NSNotification.Name(rawValue: ReachabilityChangedNotification), object: reachability)
+        */
         self.navigationItem.titleView = viewForTitle
         /////self.navigationItem.leftBarButtonItem = UIBarButtonItem(customView: btnForLogo)
         //self.navigationItem.rightBarButtonItem = itemForSearch
@@ -2381,7 +2385,7 @@ break
         self.messages.setArray(messages2 as [AnyObject])
          self.messageFrame.removeFromSuperview()
         self.pendingGroupIcons.removeAll()
-        for i in 0 .. pendingGroupIcons2.count
+        for i in 0 ..< pendingGroupIcons2.count
         {
         self.pendingGroupIcons.append(pendingGroupIcons2[i])
         }
@@ -3663,9 +3667,11 @@ break
                 var membersCompleteList=sqliteDB.getGroupMembersOfGroup(groupsObjectList[indexPath.row]["unique_id"] as! String)
                 
                 var membersList=[String]()
-                for i in 0 ..< membersCompleteList.count{
+                
+                for i in 0 ..< membersCompleteList.count
+                {
                     membersList.append(membersCompleteList[i]["member_phone"] as! String)
-                 }
+                }
                 
                 print("re-try create group id \(ContactUsernames ) name is \(groupsObjectList[indexPath.row]["group_name"] as! String) and members are \(membersList)")
                 

@@ -159,14 +159,14 @@ class DisplayNameViewController: UIViewController {
                         
                         
                         
-                    case .Success:
+                    case .success(let value):
                         print("display name sent to server")
                         firstTimeLogin=false
                         if(socketObj != nil)
                         {
                         socketObj.socket.emit("logClient", "display name \(displayName) sent to server successfully")
                         }
-                        return completion(result: true)
+                        return completion(true)
                         //////// %%%%%%%%%%%%%%***************self.performSegueWithIdentifier("fetchContactsSegue", sender: self)
                         //self.performSegueWithIdentifier("fetchaddressbooksegue", sender: self)
                         //*********************%%%%%%%%%%%%%%%%%%%%%%%%% commented new
@@ -204,7 +204,7 @@ class DisplayNameViewController: UIViewController {
                         
                         //self.performSegueWithIdentifier(<#T##identifier: String##String#>, sender: <#T##AnyObject?#>)
                         
-                   case .Failure(let error):
+                    case .failure(let error):
                        print(error)
                        if(socketObj != nil)
                        {
@@ -282,7 +282,7 @@ class DisplayNameViewController: UIViewController {
                          }
                          
                          }*/
-                        for i in 0 .. phoneDigits.characters.count
+                        for i in 0...<phoneDigits.characters.count
                         {
                             if(phoneDigits.characters.first=="0")
                             {
@@ -367,7 +367,7 @@ class DisplayNameViewController: UIViewController {
             var contactsdata=[[String:String]]()
             DispatchQueue.global(priority: DispatchQueue.GlobalQueuePriority.default).sync{
                 
-            for i in 0 .. self.syncContactsList.count
+            for i in 0..<self.syncContactsList.count
             {
                 self.lbl_progress.text="Updating Contact \(i)"
                 
@@ -534,7 +534,7 @@ class DisplayNameViewController: UIViewController {
                 try sqliteDB.db.run((tbl_allcontacts?.delete())!)
                 // print("now count is \(sqliteDB.db.scalar(tbl_allcontacts.count))")
                 
-                for j in 0 .. contactsdata.count
+                for j in 0 ..< contactsdata.count
                 {
                     do{
                         try sqliteDB.db.run(tbl_allcontacts?.insert(self.name<-contactsdata[j]["name"]!,self.phone<-contactsdata[j]["phone"]!,self.actualphone<-contactsdata[j]["actualphone"]!,self.email<-contactsdata[j]["email"]!,self.uniqueidentifier<-contactsdata[j]["uniqueidentifier"]!))
@@ -643,7 +643,7 @@ class DisplayNameViewController: UIViewController {
             if(response.response?.statusCode==200)
             {socketObj.socket.emit("logClient","IPHONE-LOG: success in getting available and not available contacts")
                 
-                dispatch_sync(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT,0))
+                dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT,0).sync()
                 {
                 debugPrint(response.data)
                 //print(response.request)
@@ -659,14 +659,15 @@ class DisplayNameViewController: UIViewController {
                 var availableContactsPhones=res["available"]
                 print("available contacts are \(availableContactsPhones.debugDescription)")
                 var notAvailablePhonesArrayReturned=res["notAvailable"].array
-                for var i=0;i<notAvailablePhonesArrayReturned!.count;i++
+                for i in 0..<notAvailablePhonesArrayReturned!.count
                 {
                     // self.notAvailableContacts[i]=NotavailableContactsEmails![i].rawString()!
-                    self.syncNotAvailablePhonesList.append(notAvailablePhonesArrayReturned![i].debugDescription)
+            
+                        self.syncNotAvailablePhonesList.append(notAvailablePhonesArrayReturned![i].debugDescription)
                     ////////// print("----------- \(self.notAvailableContacts[i].debugDescription)")
-                }
+                    }
                 
-                for var i=0;i<availableContactsPhones.count;i++
+                for i in 0..<availableContactsPhones.count
                 {
                     // self.notAvailableContacts[i]=NotavailableContactsEmails![i].rawString()!
                     
@@ -675,15 +676,15 @@ class DisplayNameViewController: UIViewController {
                     
                     
                     // print("----------- \(self.notAvailableContacts[i].debugDescription)")
-                }
+                    }
                 
                 
                 //print(NotavailableContactsEmails!)
                 //////   print("**************** \(self.notAvailableContacts)")
                 
-                dispatch_async(dispatch_get_main_queue())
+                DispatchQueue.main.async
                 {
-                    completion(result: true)
+                    completion(true)
                 }
                 
                 /* if(self.delegate != nil)
@@ -801,7 +802,7 @@ class DisplayNameViewController: UIViewController {
                     
                     let tbl_contactslists=sqliteDB.contactslists
                     /////////newwwwwwwww///////
-                    do{try sqliteDB.db.run(tbl_contactslists.delete())}catch{
+                    do{try sqliteDB.db.run(tbl_contactslists?.delete())}catch{
                         print("contactslist table not deleted")
                     }
                     ////////////////
@@ -812,14 +813,14 @@ class DisplayNameViewController: UIViewController {
                 
                     
                     //////
-                    for var i=0;i<contactsJsonObj.count;i++
+                    for i in 0..<contactsJsonObj.count
                     {
                         print("inside for loop")
                         do {
                             if(contactsJsonObj[i]["contactid"]["username"].string != nil)
                             {
                                 print("inside username hereeeeeee")
-                                let rowid = try sqliteDB.db.run(tbl_contactslists.insert(contactid<-contactsJsonObj[i]["contactid"]["_id"].string!,
+                                let rowid = try sqliteDB.db.run(tbl_contactslists?.insert(contactid<-contactsJsonObj[i]["contactid"]["_id"].string!,
                                     detailsshared<-contactsJsonObj[i]["detailsshared"].string!,
                                     
                                     unreadMessage<-contactsJsonObj[i]["unreadMessage"].boolValue,
@@ -1642,7 +1643,7 @@ socketObj.socket.emit("logClient","button done pressed start time \(Date())")
         
         var contactslists = sqliteDB.contactslists
         //=================================================
-        var joinquery=allcontacts.join(.LeftOuter, contactslists!, on: (contactslists?[phone])! == (allcontacts?[phone])!)
+        var joinquery=allcontacts.join(.leftOuter, contactslists!, on: (contactslists?[phone])! == (allcontacts?[phone])!)
         
         do{for joinresult in try sqliteDB.db.prepare(joinquery) {
             if(joinresult[uniqueidentifier].isEmpty){}

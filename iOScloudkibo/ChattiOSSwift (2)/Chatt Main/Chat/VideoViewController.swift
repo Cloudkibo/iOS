@@ -245,9 +245,9 @@ class VideoViewController: UIViewController,RTCPeerConnectionDelegate,RTCSession
         else
         {
             var aa:JSON=["to":iamincallWith!,"msg":["callerphone":username!,"calleephone":iamincallWith!,"status":"missing","type":"call"]]
-            socketObj.socket.emit("logClient","IPHONE-LOG: \(aa)")
+            socketObj.socket.emit("logClient","IPHONE-LOG: \(aa.object)")
             //===--  new swift3 socketObj.socket.emit("message",aa.object)
-            socketObj.socket.emit("message",aa)
+            socketObj.socket.emit("message",aa.object)
             self.endView()
         }
         /*else{
@@ -1616,17 +1616,18 @@ self.remoteDisconnected()
     func handlemsg(_ data:AnyObject!)
     {
         print("msg reeived.. check if offer answer or ice")
-        var msg1:JSON=data as! [String:Any]
+        var msg=JSON(data)
         print(msg1.description)
        // var aaa=msg.first as! [String:Any]
        // let msgarray=msg.first
        // var abc=aaa["type"]
-        let msg: [String: AnyObject]
+        /*let msg: [String: AnyObject]
         if msg = msg1.dictionaryObject {
             msg = dict
         } else {
             msg = [String: AnyObject]()
-        }
+        }*/
+        
         if(msg[0]["type"] as! String=="offer")//["type"].string! == "offer")
         {
             //^^^^^^^^^^^^^^^^newwwww if(joinedRoomInCall == "" && isInitiator.description == "false")
@@ -2225,7 +2226,7 @@ self.remoteDisconnected()
         
         
         //buffer.data.
-        var tryyyyy=Data(bytes: UnsafePointer<UInt8>(&bytes) , count: buffer.data.count)
+     //   var tryyyyy=Data(bytes: UnsafePointer<UInt8>(&bytes) , count: buffer.data.count)
         var mytryyJSON=JSON(tryyyyy)
         
         if(sssss != nil){
@@ -2300,7 +2301,7 @@ self.remoteDisconnected()
             print("newjson[data][chunk.debugDescription is:")
             print("newjson[data][chunk].debugDescription")
             print(myJSONdata)
-            print(myJSONdata["data"].isExists())
+            print(myJSONdata["data"].exists())
             if(myJSONdata != "Speaking" && myJSONdata != "Silent" && !jsonnnn.isEmpty){
                 print("inside 1")
                 print(jsonnnn["eventName"]!)
@@ -2914,7 +2915,7 @@ self.remoteDisconnected()
             /////////print(JSON(text2!))
             ///mdata.fileContents=fm.contentsAtPath(filePathImage)!
             self.fileContents=try? Data(contentsOf: url)
-            self.filePathImage=url.URLString
+            self.filePathImage=url.absoluteString
             //var filecontentsJSON=JSON(NSData(contentsOfURL: url)!)
             //print(filecontentsJSON)
            print("file url is \(self.filePathImage) file type is \(ftype)")

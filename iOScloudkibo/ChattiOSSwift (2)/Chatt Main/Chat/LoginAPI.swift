@@ -186,7 +186,7 @@ class LoginAPI{
             print("theseareonline ........")
             print(":::::::::::::::::::::::::::::::::::")
            
-            var msg:JSON=data
+            var msg:JSON=JSON(data)
             print(msg.debugDescription)
             self.delegate?.socketReceivedMessage("theseareonline",data: data as AnyObject!)
         }
@@ -194,7 +194,7 @@ class LoginAPI{
         socketObj.socket.on("yesiamfreeforcall"){data,ack in
             print("yesiamfreeforcall .......")
             print(":::::::::::::::::::::::::::::::::::")
-            var msg:JSON=data
+            var msg=JSON(data)
             print(msg)
             self.delegate?.socketReceivedMessage("yesiamfreeforcall",data: data as AnyObject!)
         }
@@ -203,19 +203,19 @@ class LoginAPI{
             print("online .......")
             print(":::::::::::::::::::::::::::::::::::")
             do{
-                var msg:JSON=data
+                var msg:JSON=JSON(data)
             }
         catch{
                 
             }
-            print(msg.debugDescription)
+           // print(msg .debugDescription)
             self.delegate?.socketReceivedMessage("online",data: data as AnyObject!)
         }
     
         socketObj.socket.on("offline"){data,ack in
             print("offline .......")
             print(":::::::::::::::::::::::::::::::::::")
-            var msg:JSON=data
+            var msg:JSON=JSON(data)
             print(msg.debugDescription)
             self.delegate?.socketReceivedMessage("offline",data: data as AnyObject!)
         }
@@ -245,7 +245,7 @@ class LoginAPI{
                 
                 //print(aa.description)
                 socketObj.socket.emit("logClient","IPHONE-LOG: \(aa.object)")
-                socketObj.socket.emit("message",aa.object)
+                socketObj.socket.emit("message",aa.object as! SocketData)
                
                 let storyboard : UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
 
@@ -314,7 +314,7 @@ class LoginAPI{
                 
                 //print(aa.description)
                 socketObj.socket.emit("logClient","IPHONE-LOG: \(aa.object)")
-                socketObj.socket.emit("message",aa.object)
+                socketObj.socket.emit("message",aa.object as! SocketData)
             }
             //OLD LOGIC only works on chatview as catched there only
             /*var msg=JSON(data)
@@ -1575,7 +1575,11 @@ class LoginAPI{
         
         //var getUserDataURL=userDataUrl
         
-        Alamofire.request(.POST,"\(fetchSingleMsgURL)",parameters: ["uniqueid":uniqueid],headers:header).validate(statusCode: 200..<300).responseJSON{response in
+        
+         Alamofire.request("\(fetchSingleMsgURL)", method: .post, parameters: ["uniqueid":uniqueid],headers:header).responseJSON{response in
+        /*
+        Alamofire.request(.POST,"\(fetchSingleMsgURL)",parameters: ["uniqueid":uniqueid],headers:header).validate(statusCode: 200..<300)*/
+        
             
             
             switch response.result {
