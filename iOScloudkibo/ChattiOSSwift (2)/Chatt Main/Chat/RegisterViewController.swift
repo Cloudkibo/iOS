@@ -12,7 +12,7 @@ import SwiftyJSON
 import SQLite
 
 class RegisterViewController: UIViewController,UITextFieldDelegate {
-
+/*
     var rt=NetworkingLibAlamofire()
     
     
@@ -366,5 +366,5 @@ class RegisterViewController: UIViewController,UITextFieldDelegate {
         // Pass the selected object to the new view controller.
     }
     */
-
+*/
 }

@@ -274,6 +274,8 @@ class UtilityFunctions{
     
     func downloadProfileImageOnLaunch(_ uniqueid1:String,completion:@escaping (_ result:Bool,_ error:String?)->())
     {
+        
+        var filetype:String=""
         print("inside download group icon on launch")
         //581b26d7583658844e9003d7
         let path = FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask)[0] as URL
@@ -285,6 +287,16 @@ class UtilityFunctions{
         //  Alamofire.download(.GET, "http://httpbin.org/stream/100", destination: destination)
         var downloadURL=Constants.MainUrl+Constants.downloadGroupIcon
         
+        let destination: DownloadRequest.DownloadFileDestination = { _, response in
+            var documentsURL = FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask)[0]
+            
+            filetype=self.getFileExtension(response.mimeType!)
+            //var localImageURL = directoryURL.appendingPathComponent(uniqueid1+"."+filetype)
+            let fileURL = documentsURL.appendingPathComponent("\(uniqueid1).\(filetype)")
+            
+            return (fileURL, [.removePreviousFile, .createIntermediateDirectories])
+        }
+/*
         let destination: (URL, HTTPURLResponse) -> (URL) = {
             (temporaryURL, response) in
             print("response file name is \(response.suggestedFilename!)")
@@ -316,12 +328,19 @@ class UtilityFunctions{
             print("tempurl is \(temporaryURL.debugDescription)")
             return temporaryURL
         }
-        
+        */
         DispatchQueue.global(priority: DispatchQueue.GlobalQueuePriority.default).async
         {
         // print("downloading call unique id \(fileuniqueid)")
             
             
+            
+            
+            Alamofire.download("\(downloadURL)", method: .post, parameters: ["unique_id":uniqueid1], encoding: JSONEncoding.default, headers: header, to: destination).response { (response) in
+                
+                print(response)
+                /*
+                
             
         Alamofire.download(.POST, "\(downloadURL)", headers:header, parameters: ["unique_id":uniqueid1], destination: destination)
             .progress { (bytesRead, totalBytesRead, totalBytesExpectedToRead) in
@@ -349,22 +368,24 @@ class UtilityFunctions{
                  }*/
             }
             .response { (request, response, _, error) in
-                print(response)
-                print("1...... \(request?.URLString)")
-                print("2..... \(request?.URL.debugDescription)")
-                print("3.... \(response?.URL.debugDescription)")
-                print("error: \(error)")
+                */
                 
-                if(response?.statusCode==200 || response?.statusCode==201)
+                print(response)
+                print("1...... \(response.request?.url)")
+                print("2..... \(response.request?.url.debugDescription)")
+                print("3.... \(response.response?.url.debugDescription)")
+            //    print("error: \(error)")
+                
+                if(response.response?.statusCode==200 || response.response?.statusCode==201)
                 {
-                let dirPaths = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)
+                let dirPaths = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)
                 let docsDir1 = dirPaths[0]
                 var documentDir=docsDir1 as NSString
                 
                 
-                var filetype=self.getFileExtension(response!.MIMEType!)
+                //var filetype=self.getFileExtension(response.MIMEType!)
                 
-                var filePendingPath=documentDir.stringByAppendingPathComponent(uniqueid1+"."+filetype)
+                var filePendingPath=documentDir.appendingPathComponent(uniqueid1+"."+filetype)
                 
                 print("filePendingPath is \(filePendingPath)")
                 //var filePendingPath=documentDir.stringByAppendingPathComponent(uniqueid1)
@@ -395,9 +416,9 @@ class UtilityFunctions{
                 //self.confirmDownload(fileuniqueid)
                 print("confirminggggggg")
                 
-                dispatch_async(dispatch_get_main_queue())
+                DispatchQueue.main.async
                 {
-                    return completion(result: true, error: nil)
+                    return completion(true, nil)
                 /*UIDelegates.getInstance().UpdateMainPageChatsDelegateCall()
                 UIDelegates.getInstance().UpdateGroupChatDetailsDelegateCall()
                 UIDelegates.getInstance().UpdateGroupInfoDetailsDelegateCall()
@@ -405,9 +426,9 @@ class UtilityFunctions{
                 }
             }
             else{
-                dispatch_async(dispatch_get_main_queue())
+                DispatchQueue.main.async
                 {
-                    return completion(result: false, error: "Error in downloading profile picture")
+                    return completion(false, "Error in downloading profile picture")
                 }
             }
                 // print(request?.)
@@ -420,6 +441,7 @@ class UtilityFunctions{
     
     func downloadProfileImage(_ uniqueid1:String)
     {
+        var filetype=""
         //581b26d7583658844e9003d7
         let path = FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask)[0] as URL
         //print("path download is \(path)")
@@ -430,7 +452,18 @@ class UtilityFunctions{
         //  Alamofire.download(.GET, "http://httpbin.org/stream/100", destination: destination)
         var downloadURL=Constants.MainUrl+Constants.downloadGroupIcon
         
-        let destination: (URL, HTTPURLResponse) -> (URL) = {
+        
+        
+        let destination: DownloadRequest.DownloadFileDestination = { _, response in
+            var documentsURL = FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask)[0]
+            
+            filetype=self.getFileExtension(response.mimeType!)
+            //var localImageURL = directoryURL.appendingPathComponent(uniqueid1+"."+filetype)
+            let fileURL = documentsURL.appendingPathComponent("\(uniqueid1).\(filetype)")
+            
+            return (fileURL, [.removePreviousFile, .createIntermediateDirectories])
+        }
+        /*let destination: (URL, HTTPURLResponse) -> (URL) = {
             (temporaryURL, response) in
             print("response file name is \(response.suggestedFilename!)")
 print("tempURL is \(temporaryURL) and response is \(response.allHeaderFields)")
@@ -461,9 +494,14 @@ print("tempURL is \(temporaryURL) and response is \(response.allHeaderFields)")
             print("tempurl is \(temporaryURL.debugDescription)")
             return temporaryURL
         }
-        
+        */
         
        // print("downloading call unique id \(fileuniqueid)")
+        
+        Alamofire.download("\(downloadURL)", method: .post, parameters: ["unique_id":uniqueid1], encoding: JSONEncoding.default, headers: header, to: destination).response { (response) in
+            
+            print(response)
+            /*
         Alamofire.download(.POST, "\(downloadURL)", headers:header, parameters: ["unique_id":uniqueid1], destination: destination)
             .progress { (bytesRead, totalBytesRead, totalBytesExpectedToRead) in
                 print("writing bytes \(totalBytesRead)")
@@ -490,6 +528,7 @@ print("tempURL is \(temporaryURL) and response is \(response.allHeaderFields)")
                  }*/
             }
             .response { (request, response, _, error) in
+                */
                 print(response)
                 print("1...... \(request?.URLString)")
                 print("2..... \(request?.URL.debugDescription)")
@@ -503,7 +542,7 @@ print("tempURL is \(temporaryURL) and response is \(response.allHeaderFields)")
                 var documentDir=docsDir1 as NSString
                 
                 
-                var filetype=self.getFileExtension(response!.MIMEType!)
+                var filetype=self.getFileExtension(response.MIMEType!)
                 
                 var filePendingPath=documentDir.stringByAppendingPathComponent(uniqueid1+"."+filetype)
                 
@@ -791,7 +830,7 @@ print("tempURL is \(temporaryURL) and response is \(response.allHeaderFields)")
     // =============emails.append(phoneDigits)
     var emailAddress=""
     let em = try contact1.emailAddresses.first
-    if(em != nil && em != "")
+    if((em as NSString) != nil && (em as NSString) != "")
     {
     print(em?.label)
     print(em?.value)

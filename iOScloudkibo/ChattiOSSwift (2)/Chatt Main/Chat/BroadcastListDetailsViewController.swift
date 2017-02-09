@@ -132,9 +132,9 @@ class BroadcastListDetailsViewController: UIViewController,UINavigationControlle
         
         var contactslists = sqliteDB.contactslists
         //=================================================
-        var joinquery=allcontacts.join(.leftOuter, contactslists!, on: (contactslists?[phone])! == (allcontacts?[phone])!).filter(allcontacts?[phone]==phone1)
+        var joinquery=allcontacts?.join(.leftOuter, contactslists!, on: (contactslists?[phone])! == (allcontacts?[phone])!).filter((allcontacts?[phone])!==phone1)
         
-        do{for joinresult in try sqliteDB.db.prepare(joinquery) {
+        do{for joinresult in try sqliteDB.db.prepare(joinquery!) {
             
             resultrow.append(joinresult)
             }
@@ -342,7 +342,7 @@ class BroadcastListDetailsViewController: UIViewController,UINavigationControlle
                 destinationVC.prevScreen="editbroadcastlist"
                 var identifierslist=[String]()
                 destinationVC.editbroadcastlistID=broadcastlistID
-                for i in 0 ..<< broadcastmembers.count
+                for i in 0 ..< broadcastmembers.count
                 {
                     identifierslist.append(sqliteDB.getIdentifierFRomPhone(broadcastmembers[i]))
                     var found=UtilityFunctions.init().findContact(sqliteDB.getIdentifierFRomPhone(broadcastmembers[i]))

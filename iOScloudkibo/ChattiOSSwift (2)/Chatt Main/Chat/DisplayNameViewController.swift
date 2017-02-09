@@ -1122,8 +1122,9 @@ class DisplayNameViewController: UIViewController {
                     socketObj.socket.emit("logClient", "All chat fetched success")
                     }
                     if let data1 = response.result.value {
-                        
-                        dispatch_get_global_queue(DispatchQueue.GlobalQueuePriority.default, 0).sync() {
+                        let serialQueue = DispatchQueue(label: "queuename")
+                        serialQueue.sync{
+                       // DispatchQueue.global(DispatchQoS.default).sync() {
                             
                         let UserchatJson = JSON(data1)
                         print("chat fetched JSON: \(UserchatJson)")
@@ -1131,7 +1132,7 @@ class DisplayNameViewController: UIViewController {
                         var tableUserChatSQLite=sqliteDB.userschats
                         
                         do{
-                            try sqliteDB.db.run(tableUserChatSQLite?.delete())
+                            try sqliteDB.db.run((tableUserChatSQLite?.delete())!)
                         }catch{
                             if(socketObj != nil)
                             {
@@ -1258,7 +1259,7 @@ class DisplayNameViewController: UIViewController {
                     if(socketObj != nil)
                     { socketObj.socket.emit("logClient", "All chat fetched failed")
                     }
-                    dispatch_async(DispatchQueue.main) {
+                    DispatchQueue.main.async {
                         return completion(true)
                     }
                     print("all chat fetched failed")

@@ -123,7 +123,7 @@ class GroupChatingDetailController: UIViewController,UpdateGroupChatDetailsDeleg
         
         
         //get members and store status as pending
-        for i in 0 .. membersList.count
+        for i in 0 ..< membersList.count
         {
             /*
              let member_phone = Expression<String>("member_phone")
@@ -244,7 +244,7 @@ class GroupChatingDetailController: UIViewController,UpdateGroupChatDetailsDeleg
                 /////// }
             }
             else{
-                completion(result: false)
+                completion(false)
                 
                 }
         }//)
@@ -374,7 +374,7 @@ class GroupChatingDetailController: UIViewController,UpdateGroupChatDetailsDeleg
             
             barAvatarImage.layer.borderWidth = 1.0
             //==--barAvatarImage.layer.masksToBounds = false
-            barAvatarImage.layer.borderColor = UIColor.whiteColor().CGColor
+            barAvatarImage.layer.borderColor = UIColor.white.cgColor
             //==---barAvatarImage.layer.cornerRadius = barAvatarImage.frame.size.width/2
             //==--- barAvatarImage.clipsToBounds = true
             
@@ -1136,7 +1136,7 @@ class GroupChatingDetailController: UIViewController,UpdateGroupChatDetailsDeleg
         
         let randomString : NSMutableString = NSMutableString(capacity: len)
         
-        for i in 0 .. len{
+        for i in 0 ..< len{
             let length = UInt32 (letters.length)
             let rand = arc4random_uniform(length)
             randomString.appendFormat("%C", letters.character(at: Int(rand)))
@@ -1184,7 +1184,7 @@ class GroupChatingDetailController: UIViewController,UpdateGroupChatDetailsDeleg
     print("status seen sent response \(resJSON)")
         //update locally
         //moving it out of function. if seen offline so remove chat bubble unread count
-        sqliteDB.updateGroupChatStatus(chat_uniqueid, memberphone1: username!, status1: status1, delivereddate1: NSDate(), readDate1: NSDate())
+        sqliteDB.updateGroupChatStatus(chat_uniqueid, memberphone1: username!, status1: status1, delivereddate1: NSDate() as Date!, readDate1: NSDate() as Date!)
     }
     }
   //===  }

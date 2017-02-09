@@ -49,7 +49,11 @@ internal class contactsSingletonClass{
             var contacts = [CNContact]()
             CNContact.localizedString(forKey: CNLabelPhoneNumberiPhone)
             
-            fetchRequest.mutableObjects = false
+            if #available(iOS 10.0, *) {
+                fetchRequest.mutableObjects = false
+            } else {
+                // Fallback on earlier versions
+            }
             fetchRequest.unifyResults = true
             fetchRequest.sortOrder = .userDefault
             

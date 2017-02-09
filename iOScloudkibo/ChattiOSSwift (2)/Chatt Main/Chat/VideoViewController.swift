@@ -1435,7 +1435,7 @@ self.remoteDisconnected()
         
     }
     
-    func peerConnection(_ peerConnection: RTCPeerConnection!, didCreateSessionDescription sdp: RTCSessionDescription!, error: NSError!) {
+    func peerConnection(_ peerConnection: RTCPeerConnection!, didCreateSessionDescription sdp: RTCSessionDescription!, error: Error!) {
         
         print("did create offer/answer session description success")
         //^^^^^^^^^^^^^^^^^^^newwwww
@@ -1491,7 +1491,7 @@ self.remoteDisconnected()
         //// })
         
     }
-    func peerConnection(_ peerConnection: RTCPeerConnection!, didSetSessionDescriptionWithError error: NSError!) {
+    func peerConnection(_ peerConnection: RTCPeerConnection!, didSetSessionDescriptionWithError error: Error!) {
         //print(error.localizedDescription)
         
         // If we are acting as the callee then generate an answer to the offer.
@@ -2326,18 +2326,20 @@ self.remoteDisconnected()
                     
                     print("file received \(myJSONdata["data"]["file_meta"].isExists())")
                     */
-                    var sizeee=Int.init((jsonnnn["data"]!["file_meta"]!!["size"]!?.debugDescription)!)
+                    var test=((jsonnnn["data"] as! NSDictionary)["file_meta"] as! NSDictionary)["size"]
+                    var sizeee=Int.init(((jsonnnn["data"] as! NSDictionary)["file_meta"] as! NSDictionary)["size"].debugDescription)
                     fileSizeReceived=sizeee
                     //fid=Int.init((jsonnnn["data"]!["file_meta"]!!["fid"]!?.debugDescription)!)
                     //print("fid is \(fid)")
                     
                     //////////filePathReceived=channelJSON["data"]["file_meta"]["name"].debugDescription
-                    filePathReceived=jsonnnn["data"]!["file_meta"]!!["name"]!!.debugDescription
+                    //((jsonnnn["data"] as! NSDictionary)["file_meta"] as! NSDictionary)["name"]
+                    filePathReceived=((jsonnnn["data"] as! NSDictionary)["file_meta"] as! NSDictionary)["name"].debugDescription
                     socketObj.socket.emit("logClient","\(username!) received file name \(filePathReceived)")
                     ////fileSizeReceived=jsonnnn["data"]!["file_meta"]!!["size"]!! as! Int
                     print("file sizeeee jsonnnn is \(channelJSON["data"]["file_meta"]["size"].debugDescription)")
                     
-                    print("file sizeeee channelJSON is \(jsonnnn["data"]!["file_meta"]!!["size"].debugDescription)")
+                   //print("file sizeeee channelJSON is \(jsonnnn["data"]!["file_meta"]!!["size"].debugDescription)")
                     print("file sizeeee sizeee is \(sizeee)")
                     /////////////fileSizeReceived = channelJSON["data"]["file_meta"]["size"].intValue
                     
@@ -2430,12 +2432,12 @@ self.remoteDisconnected()
                         ////////FU utility
                         if(chunknumber % fu.chunks_per_ack == 0)
                         {
-                            for i in 0 .. fu.chunks_per_ack
+                            for i in 0 ..< fu.chunks_per_ack
                             {
                                 if(Int(fileSize1) < fu.chunkSize)
                                 {
                                     var bytebuffer=fu.convert_file_to_byteArray(filePathImage)
-                                    var byteToNSstring=NSString(bytes: &bytebuffer, length: bytebuffer.count, encoding: String.Encoding.utf8)
+                                    var byteToNSstring=NSString(bytes: &bytebuffer, length: bytebuffer.count, encoding: String.Encoding.utf8.rawValue)
                                     var bytestringfile:Data!
                                     do{
                                         
@@ -2882,14 +2884,14 @@ self.remoteDisconnected()
             
             //METADATA FILE NAME,TYPE
             print(furl!.pathExtension)
-            print(furl!.URLByDeletingPathExtension?.lastPathComponent!)
+            print(furl!.deletingLastPathComponent().lastPathComponent)
             var ftype=furl!.pathExtension
-            var fname=furl!.URLByDeletingPathExtension?.lastPathComponent!
+            var fname=furl!.deletingLastPathComponent().lastPathComponent
             ////var fname=furl!.URLByDeletingPathExtension?.URLString
                         //var attributesError=nil
             var fileAttributes:[String:AnyObject]=["":"" as AnyObject]
             do {
-                let fileAttributes : NSDictionary? = try FileManager.defaultManager().attributesOfItemAtPath(furl!.path!)
+                let fileAttributes : NSDictionary? = try FileManager.default.attributesOfItem(atPath: furl!.path) as NSDictionary?
                 
                 if let _attr = fileAttributes {
                    self.fileSize1 = _attr.fileSize();
@@ -2927,7 +2929,7 @@ self.remoteDisconnected()
             //var filecontentsJSON=JSON(NSData(contentsOfURL: url)!)
             //print(filecontentsJSON)
            print("file url is \(self.filePathImage) file type is \(ftype)")
-            var filename=fname!+"."+ftype
+            var filename=fname+"."+ftype
             socketObj.socket.emit("logClient","\(username!) is sending file \(fname)")
 
             var mjson="{\"file_meta\":{\"name\":\"\(filename)\",\"size\":\"\(self.fileSize1.description)\",\"filetype\":\"\(ftype)\",\"browser\":\"firefox\",\"uname\":\"\(username!)\",\"fid\":\(self.myfid),\"senderid\":\(currentID!)}}"
@@ -3489,6 +3491,7 @@ self.remoteDisconnected()
         })//end dispatch_async
         
         }
+ 
 }
 
 protocol FileReceivedAlertDelegate:class

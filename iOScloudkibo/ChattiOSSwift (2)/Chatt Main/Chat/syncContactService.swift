@@ -73,7 +73,7 @@ class syncContactService
             
             
       //  dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0)) {
-            let dispatch_queue_attr = DispatchQoS(DispatchQueue.Attributes(), qosClass: DispatchQoS.QoSClass.background, relativePriority: 0)
+            let dispatch_queue_attr = DispatchQoS.init(qosClass: DispatchQueue.Attributes(), relativePriority: 0)
             
             var queue1 = DispatchQueue(label: "1", attributes: dispatch_queue_attr)
             var queue2 = DispatchQueue(label: "2", attributes: dispatch_queue_attr)
@@ -510,7 +510,7 @@ class syncContactService
             }
             else
             {
-                DispatchQueue.main.asynchronously()
+                DispatchQueue.main.async
                 {
                 socketObj.socket.emit("logClient","IPHONE-LOG: error: \(response.debugDescription)")
                     completion(false)
@@ -600,20 +600,23 @@ class syncContactService
                                         }
                                     }
                                 }
-                                if(countrycode=="1" && phoneDigits.characters.first=="1" && phoneDigits.characters.first != "+")
+                                
+                                if(countrycode=="1" && phoneDigits.characters.first == Character.init("1") && phoneDigits.characters.first != Character.init("+"))
                                 {
                                     phoneDigits = "+"+phoneDigits
                                 }
-                                else if(phoneDigits.characters.first != "+"){
+                                    else if(phoneDigits.characters.first != "+")
+                                    {
                                     phoneDigits = "+"+countrycode+phoneDigits
                                     print("appended phone is \(phoneDigits)")
                                 }
                                 
                                 //////===========
                                 // =============emails.append(phoneDigits)
+                                
                                 var emailAddress=""
                                 let em = try syncContactsList[i].emailAddresses.first
-                                if(em != nil && em != "")
+                                if((em as NSString) != nil && (em as NSString) != "")
                                 {
                                     print(em?.label)
                                     print(em?.value)
@@ -621,10 +624,12 @@ class syncContactService
                                     print("email adress value iss \(emailAddress)")
                                     /////emails.append(em!.value as! String)
                                 }
+                                
                                 if(syncContactsList[i].imageDataAvailable==true)
                                 {
                                     image=syncContactsList[i].imageData!
                                 }
+                                
                                 print("trying to save \(fullname) and uniqueidentifier is \(uniqueidentifier1)")
                                 
                                 var data=[String:String]()
@@ -1091,7 +1096,7 @@ class syncContactService
                     print(sqliteDB.contactslists.count)
                     
                     
-                    DispatchQueue.global(DispatchQueue.global()).async(){
+                    DispatchQueue.global().async{
                     //////
                     for i in 0 ..< contactsJsonObj.count
                     {
@@ -1156,7 +1161,7 @@ class syncContactService
                     
                     print("contacts fetchedddddddddddddd sucecess")
                     
-                    dispatch_async(DispatchQueue.main)
+                    DispatchQueue.main.async
                     {
                     completion(true)
                     }
@@ -1174,12 +1179,12 @@ class syncContactService
                         socketObj.socket.emit("logClient", "error:1174")
                     }
                    // print(error1)
-                    print(response1.statusCode)
+                    print(response1.response?.statusCode)
                     print("FETCH CONTACTS FAILED")
                     print("eeeeeeeeeeeeeeeeeeeeee")
                     
                 }
-                if(response1.statusCode==401)
+                if(response1.response?.statusCode==401)
                 {
                     if(socketObj != nil)
                     {

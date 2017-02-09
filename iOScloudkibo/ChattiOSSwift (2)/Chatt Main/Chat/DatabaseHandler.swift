@@ -2827,12 +2827,12 @@ print("--------")
         do
         {
             try sqliteDB.db.run((query?.delete())!)
-            for i in 0 .. members.count
+            for i in 0 ..< members.count
             {
-                let rowid = try db.run(broadcastlistmembers?.insert(
+                let rowid = try db.run((broadcastlistmembers?.insert(
                     uniqueid<-uniqueid1,
                     memberphone<-members[i]
-                    ))
+                    ))!)
                 
         }
         }
@@ -2924,7 +2924,7 @@ print("--------")
             
             var aaa=list.get(listname)
             //var newEntry1["uniqueid"]=list.get(uniqueid)
-            newEntry["listname"]=list.get(listname)
+            newEntry["listname"]=list.get(listname) as AnyObject
             broadcastlist.append(newEntry)
             
             }
@@ -2950,7 +2950,7 @@ print("--------")
             
             var membersarray=getBroadcastListMembers(listdata[i]["uniqueid"] as! String)
             var memberslistnames=[String]()
-            for j in 0 .. membersarray.count
+            for j in 0 ..< membersarray.count
             {
                 print(membersarray[j] )
             memberslistnames.append(getNameFromAddressbook(membersarray[j] ))
