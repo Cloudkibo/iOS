@@ -157,7 +157,7 @@ class PendingFriendRequestsViewController: UIViewController {
             var error1=response.result.error            //===========INITIALISE SOCKETIOCLIENT=========
             dispatch_async(dispatch_get_main_queue(), {
                 
-                //self.dismissViewControllerAnimated(true, completion: nil);
+                //self.dismiss(true, completion: nil);
                 /// self.performSegueWithIdentifier("loginSegue", sender: nil)
                 
                 if response1?.statusCode==200 {
@@ -265,7 +265,7 @@ class PendingFriendRequestsViewController: UIViewController {
                     //===========INITIALISE SOCKETIOCLIENT=========
                     dispatch_async(dispatch_get_main_queue(), {
                         
-                        //self.dismissViewControllerAnimated(true, completion: nil);
+                        //self.dismiss(true, completion: nil);
                         /// self.performSegueWithIdentifier("loginSegue", sender: nil)
                         
                         if response1?.statusCode==200 {
@@ -317,7 +317,7 @@ class PendingFriendRequestsViewController: UIViewController {
                     //===========INITIALISE SOCKETIOCLIENT=========
                     dispatch_async(dispatch_get_main_queue(), {
                         
-                        //self.dismissViewControllerAnimated(true, completion: nil);
+                        //self.dismiss(true, completion: nil);
                         /// self.performSegueWithIdentifier("loginSegue", sender: nil)
                         
                         if response1?.statusCode==200 {
@@ -380,7 +380,7 @@ class PendingFriendRequestsViewController: UIViewController {
                     //===========INITIALISE SOCKETIOCLIENT=========
                     dispatch_async(dispatch_get_main_queue(), {
                         
-                        //self.dismissViewControllerAnimated(true, completion: nil);
+                        //self.dismiss(true, completion: nil);
                         /// self.performSegueWithIdentifier("loginSegue", sender: nil)
                         
                         if response1?.statusCode==200 {

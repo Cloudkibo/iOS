@@ -155,7 +155,7 @@ print("now count is \(tbl_allcontacts?.count)")
                                  }
                                  
                                  }*/
-                                for i in 0 .. phoneDigits.characters.count
+                                for i in 0 ..< phoneDigits.characters.count
                                 {
                                     if(phoneDigits.characters.first=="0")
                                     {
@@ -169,7 +169,7 @@ print("now count is \(tbl_allcontacts?.count)")
                                     }
                                 }
                                 do{
-                                    if(countrycode=="1" && phoneDigits.characters.first=="1" && phoneDigits.characters.first != "+")
+                                    if(countrycode=="1" && phoneDigits.characters.first==Character.init(s:"1") && phoneDigits.characters.first != Character.init(s:"+"))
                                     {
                                         phoneDigits = "+"+phoneDigits
                                     }
@@ -179,12 +179,11 @@ print("now count is \(tbl_allcontacts?.count)")
                                     }
                                     emails.append(phoneDigits)
                                     var emailAddress=""
-                                    let em = try contact.emailAddresses.first
-                                    if(em != nil && em != "")
+                                    if let em = try contact.emailAddresses.first
                                     {
-                                        print(em?.label)
-                                        print(em?.value)
-                                        emailAddress=(em?.value)! as String
+                                        print(em.label)
+                                        print(em.value)
+                                        emailAddress=(em.value) as String
                                         print("email adress value iss \(emailAddress)")
                                         /////emails.append(em!.value as! String)
                                     }
@@ -228,11 +227,10 @@ print("now count is \(tbl_allcontacts?.count)")
                      }*/
                     
                     do{
-                        let em = try contact.emailAddresses.first
-                        if(em != nil && em != "")
+                        if let em = try contact.emailAddresses.first
                         {
-                            print(em?.label)
-                            print(em?.value)
+                            print(em.label)
+                            print(em.value)
                             /////emails.append(em!.value as! String)
                         }
                         
@@ -796,8 +794,15 @@ print("now count is \(tbl_allcontacts?.count)")
         
         //%%%%%%%%%%%%%%% new phone model change
         //Alamofire.request(.POST,searchContactsByEmail,parameters:["emails":emails],encoding: .JSON).responseJSON { response in
-        Alamofire.request(.POST,searchContactsByPhones,headers:header,parameters:["phonenumbers":phones],encoding: .JSON).responseJSON { response in
+        
+        
+        
+        let request = Alamofire.request(searchContactsByPhones, method: .post, parameters: ["phonenumbers":phones],headers:header).responseJSON{ response in
             
+            
+        /*
+        Alamofire.request(.POST,searchContactsByPhones,headers:header,parameters:["phonenumbers":phones],encoding: .JSON).responseJSON { response in
+            */
             if(response.response?.statusCode==200)
             {socketObj.socket.emit("logClient","IPHONE-LOG: success in getting available and not available contacts")
                 debugPrint(response.data)
@@ -910,7 +915,12 @@ print("now count is \(tbl_allcontacts?.count)")
         //emails.append("sumaira.syedsaeed@gmail.com")
         //emails.append("kibo@kibo.com")
         let inviteMultipleURL=Constants.MainUrl+Constants.invitebymultipleemail
+        
+        let request = Alamofire.request(inviteMultipleURL, method: .post, parameters: ["emails":emails],headers:header).responseJSON{ response in
+            
+           /*
         Alamofire.request(.POST,inviteMultipleURL,headers:header,parameters:["emails":emails],encoding: .JSON).validate(statusCode: 200..<300).responseJSON { response in
+            */
             debugPrint(response.data)
             //print(response.request)
             //print(response.response)
@@ -921,12 +931,12 @@ print("now count is \(tbl_allcontacts?.count)")
 
             //print(response.result.value!)
             switch response.result {
-            case .Success:
+            case .success:
             print("invite sent")
                 return completion(result: res["msg"].string!)
-            case .Failure:
+            case .failure:
                 print("invite failed")
-                return completion(result: res["msg"].string!)
+                return completion(res["msg"].string!)
             }
             
         }

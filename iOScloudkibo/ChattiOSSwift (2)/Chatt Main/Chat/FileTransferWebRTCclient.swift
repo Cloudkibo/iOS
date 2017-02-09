@@ -273,7 +273,7 @@ func CreateAndAttachDataChannel()
      
      print("views removed from parent")
      
-     self.dismissViewControllerAnimated(false, completion: { () -> Void in
+     self.dismiss(false, completion: { () -> Void in
      
      
      })})
@@ -611,7 +611,7 @@ func disconnect()
                     
                     
                     
-                    self.dismissViewControllerAnimated(true, completion: { () -> Void in
+                    self.dismiss(true, completion: { () -> Void in
                         
                     })
                     
@@ -640,7 +640,7 @@ func disconnect()
                     
                     
                     
-                    self.dismissViewControllerAnimated(true, completion: { () -> Void in
+                    self.dismiss(true, completion: { () -> Void in
                         areYouFreeForCall=true
                     })
                     
@@ -660,7 +660,7 @@ func disconnect()
                 
                 
                 
-                self.dismissViewControllerAnimated(true, completion: { () -> Void in
+                self.dismiss(true, completion: { () -> Void in
                     areYouFreeForCall=true
                 })
                 
@@ -687,7 +687,7 @@ func disconnect()
                 
                 
                 
-                self.dismissViewControllerAnimated(true, completion: { () -> Void in
+                self.dismiss(true, completion: { () -> Void in
                     areYouFreeForCall=true
                 })
                 
@@ -933,7 +933,7 @@ override func viewWillAppear(animated: Bool) {
     txtLabelMainPage.font=UIFont.boldSystemFontOfSize(20)
     if(isFileReceived==true){
         print("here1")
-        dispatch_async(dispatch_get_main_queue()) { () -> Void in
+        DispatchQueue.main.async { () -> Void in
             self.btnViewFile.enabled=true
         }
     }
@@ -1070,7 +1070,7 @@ func peerConnection(peerConnection: RTCPeerConnection!, didOpenDataChannel dataC
     //%%% old from here.....
     print(dataChannel.description)
     ////// %%%%% newww
-    dispatch_async(dispatch_get_main_queue()) { () -> Void in
+    DispatchQueue.main.async { () -> Void in
         self.btncapture.enabled=true
         self.btnShareFile.enabled=true
         
@@ -2089,7 +2089,7 @@ func channel(channel: RTCDataChannel!, didReceiveMessageWithBuffer buffer: RTCDa
                 numberOfChunksInFileToSave=0
                 
                 // **** neww may 2016
-                dispatch_async(dispatch_get_main_queue()) { () -> Void in
+                DispatchQueue.main.async { () -> Void in
                     self.btnViewFile.enabled=true
                 }
                 // **
@@ -2173,7 +2173,7 @@ func channelDidChangeState(channel: RTCDataChannel!) {
     {
         ///self.rtcDataChannel=channel
         print("data channel opened now")
-        dispatch_async(dispatch_get_main_queue()) { () -> Void in
+        DispatchQueue.main.async { () -> Void in
             self.btncapture.enabled=true
             self.btnShareFile.enabled=true
             
@@ -2182,7 +2182,7 @@ func channelDidChangeState(channel: RTCDataChannel!) {
     if(channel.state == kRTCDataChannelStateClosed)
     {
         print("data channel closed now")
-        dispatch_async(dispatch_get_main_queue()) { () -> Void in
+        DispatchQueue.main.async { () -> Void in
             self.btncapture.enabled=false
             self.btnShareFile.enabled=false
             
@@ -2200,7 +2200,7 @@ func channelDidChangeState(channel: RTCDataChannel!) {
                                                   inMode: .Import)
     ///////let importMenu = UIDocumentMenuViewController(documentTypes: UTIs, inMode: .Import)
     importMenu.delegate = self
-    dispatch_async(dispatch_get_main_queue()) { () -> Void in
+    DispatchQueue.main.async { () -> Void in
         self.presentViewController(importMenu, animated: true, completion: nil)
         
         
@@ -2243,9 +2243,9 @@ func documentPicker(controller: UIDocumentPickerViewController, didPickDocumentA
             
             //METADATA FILE NAME,TYPE
             print(furl!.pathExtension!)
-            print(furl!.URLByDeletingPathExtension?.lastPathComponent!)
+            print(furl!.deletingLastPathComponent())
             var ftype=furl!.pathExtension!
-            var fname=furl!.URLByDeletingPathExtension?.lastPathComponent!
+            var fname=furl!.deletingLastPathComponent()
             ////var fname=furl!.URLByDeletingPathExtension?.URLString
             //var attributesError=nil
             var fileAttributes:[String:AnyObject]=["":""]
@@ -2399,7 +2399,7 @@ func endMeeting()
     socketObj.socket.disconnect()
     socketObj=nil
     print("socket is nillll", terminator: "")
-    //dispatch_async(dispatch_get_main_queue())
+    //DispatchQueue.main.async
     //{
     socketObj=LoginAPI(url:"\(Constants.MainUrl)")
     ///socketObj.connect()
@@ -2535,7 +2535,7 @@ func endMeeting()
         //MainChatView
         
         print("views removed from parent")
-        self.dismissViewControllerAnimated(false, completion: { () -> Void in
+        self.dismiss(false, completion: { () -> Void in
             
             
         })

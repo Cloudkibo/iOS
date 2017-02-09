@@ -395,7 +395,7 @@ class NotesViewController: UIViewController,InviteContactsDelegate,UITextFieldDe
          contactsList.fetch(){ (result) -> () in
          
          
-         dispatch_async(dispatch_get_main_queue()) {
+         DispatchQueue.main.async {
          // update some UI
          //remove progress wheel
          print("got server response")

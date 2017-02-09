@@ -160,7 +160,7 @@ class ChatMainViewController:UIViewController,SocketConnecting,RefreshContactsLi
                 //====================
                 dispatch_async(dispatch_get_main_queue(), {
                     
-                    self.dismissViewControllerAnimated(true, completion: nil);
+                    self.dismiss(true, completion: nil);
                     /// self.performSegueWithIdentifier("loginSegue", sender: nil)
                     
                     if response1?.statusCode==200 {
@@ -349,7 +349,7 @@ class ChatMainViewController:UIViewController,SocketConnecting,RefreshContactsLi
         
         if(isConference == true)
         {print("dont know why dismiss was there")
-            /////self.dismissViewControllerAnimated(true,completion: nil)
+            /////self.dismiss(true,completion: nil)
         }
        /* var retrievedToken=KeychainWrapper.stringForKey("access_token")
         print("retrieved token === \(retrievedToken)")
@@ -444,7 +444,7 @@ class ChatMainViewController:UIViewController,SocketConnecting,RefreshContactsLi
             self.fetchcontactsnew({(result)-> () in
                 
                 
-                //    dispatch_async(dispatch_get_main_queue())
+                //    DispatchQueue.main.async
                 //  {
                 // self.tblForChats.reloadData()
                 
@@ -462,7 +462,7 @@ class ChatMainViewController:UIViewController,SocketConnecting,RefreshContactsLi
             )}
         /*self.fetchContacts({ (result) -> () in
             //self.fetchContactsFromServer()
-            dispatch_async(dispatch_get_main_queue()) {
+            DispatchQueue.main.async {
                 self.tblForChat.reloadData()
             }
         })
@@ -529,7 +529,7 @@ class ChatMainViewController:UIViewController,SocketConnecting,RefreshContactsLi
             // do some task start to show progress wheel
             /*self.fetchContacts({ (result) -> () in
                 //self.fetchContactsFromServer()
-                dispatch_async(dispatch_get_main_queue()) {
+                DispatchQueue.main.async {
                 self.tblForChat.reloadData()
                 }
             })*/
@@ -540,7 +540,7 @@ class ChatMainViewController:UIViewController,SocketConnecting,RefreshContactsLi
             self.fetchcontactsnew({(result)-> () in
                 
                 
-                //    dispatch_async(dispatch_get_main_queue())
+                //    DispatchQueue.main.async
                 //  {
                 // self.tblForChats.reloadData()
                 
@@ -804,14 +804,14 @@ class ChatMainViewController:UIViewController,SocketConnecting,RefreshContactsLi
                 }
 
         }
-                dispatch_async(dispatch_get_main_queue())
+                DispatchQueue.main.async
                 {
             return completion(result:true)
         }
             }catch
         {
             print("query not runned contactlist")
-            dispatch_async(dispatch_get_main_queue())
+            DispatchQueue.main.async
             {
                 return completion(result:true)
             }
@@ -1047,7 +1047,7 @@ class ChatMainViewController:UIViewController,SocketConnecting,RefreshContactsLi
                 //===========INITIALISE SOCKETIOCLIENT=========
                 dispatch_async(dispatch_get_main_queue(), {
                     
-                    //self.dismissViewControllerAnimated(true, completion: nil);
+                    //self.dismiss(true, completion: nil);
                     /// self.performSegueWithIdentifier("loginSegue", sender: nil)
                     
                     if response1?.statusCode==200 {
@@ -1171,7 +1171,7 @@ class ChatMainViewController:UIViewController,SocketConnecting,RefreshContactsLi
                     //===========INITIALISE SOCKETIOCLIENT=========
                     dispatch_async(dispatch_get_main_queue(), {
                         
-                        //self.dismissViewControllerAnimated(true, completion: nil);
+                        //self.dismiss(true, completion: nil);
                         /// self.performSegueWithIdentifier("loginSegue", sender: nil)
                         
                         if response1?.statusCode==200 {
@@ -1674,7 +1674,7 @@ class ChatMainViewController:UIViewController,SocketConnecting,RefreshContactsLi
             // do some task start to show progress wheel
             self.fetchcontactsnew({ (result) -> () in
                 //self.fetchContactsFromServer()
-                //dispatch_async(dispatch_get_main_queue()) {
+                //DispatchQueue.main.async {
                 self.tblForChat.reloadData()
                 //}
             })

@@ -11,8 +11,11 @@ import SwiftyJSON
 import SQLite
 import Alamofire
 
-class WebmeetingChatViewController: UIViewController,WebMeetingChatDelegate,FileReceivedAlertDelegate {
-    
+class WebmeetingChatViewController
+//: UIViewController,WebMeetingChatDelegate,FileReceivedAlertDelegate 
+{
+
+/*
         var rt=NetworkingLibAlamofire()
         
         var delegateFileReceived:FileReceivedAlertDelegate!
@@ -136,9 +139,9 @@ class WebmeetingChatViewController: UIViewController,WebMeetingChatDelegate,File
             let msgType = messageDic["type"] as NSString!
             let msg = messageDic["message"] as NSString!
             let sizeOFStr = self.getSizeOfString(msg!)
-            let myInitialUsername=username!.substringToIndex(username!.characters.index(username!.startIndex, offsetBy: 1)).uppercased() as String
+            let myInitialUsername=username!.substring(username!.characters.index(username!.startIndex, offsetBy: 1)).uppercased() as String
             
-            let initialOfName=messageDic["username"]!.substringToIndex(messageDic["username"]!.characters.index(messageDic["username"]!.startIndex, offsetBy: 1)).uppercased() as String
+            let initialOfName=messageDic["username"]!.substring(messageDic["username"]!.characters.index(messageDic["username"]!.startIndex, offsetBy: 1)).uppercased() as String
             if (msgType?.isEqual(to: "1"))!{
                 cell = tblForChats.dequeueReusableCell(withIdentifier: "ChatSentCell")! as UITableViewCell
                 let textLable = cell.viewWithTag(12) as! UILabel
@@ -316,6 +319,5 @@ class WebmeetingChatViewController: UIViewController,WebMeetingChatDelegate,File
         
         }
         */
-        
-        
+    */*/*/
 }

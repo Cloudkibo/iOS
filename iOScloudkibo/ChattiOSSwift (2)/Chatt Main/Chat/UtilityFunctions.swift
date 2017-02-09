@@ -530,21 +530,17 @@ print("tempURL is \(temporaryURL) and response is \(response.allHeaderFields)")
             .response { (request, response, _, error) in
                 */
                 print(response)
-                print("1...... \(request?.URLString)")
-                print("2..... \(request?.URL.debugDescription)")
-                print("3.... \(response?.URL.debugDescription)")
-                print("error: \(error)")
+            
                 
                 
-                
-                let dirPaths = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)
+                let dirPaths = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)
                 let docsDir1 = dirPaths[0]
                 var documentDir=docsDir1 as NSString
                 
                 
-                var filetype=self.getFileExtension(response.MIMEType!)
+                //var filetype=self.getFileExtension(response.MIMEType!)
                 
-                var filePendingPath=documentDir.stringByAppendingPathComponent(uniqueid1+"."+filetype)
+                var filePendingPath=documentDir.appendingPathComponent(uniqueid1+"."+filetype)
                 
                 print("filePendingPath is \(filePendingPath)")
                 //var filePendingPath=documentDir.stringByAppendingPathComponent(uniqueid1)
@@ -831,10 +827,10 @@ print("tempURL is \(temporaryURL) and response is \(response.allHeaderFields)")
     var emailAddress=""
     
         if let em = try contact1.emailAddresses.first{
-            print(em?.label)
-            print(em?.value)
-            emailAddress=(em?.value)! as String
-            print("email adress value iss \(emailAddress)")
+            print(em.label)
+            print(em.value)
+            emailAddress=(em.value) as String
+            //print("email adress value iss \(emailAddress)")
             
         }
     

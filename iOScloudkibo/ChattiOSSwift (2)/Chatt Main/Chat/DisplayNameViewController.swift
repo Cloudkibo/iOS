@@ -173,7 +173,7 @@ class DisplayNameViewController: UIViewController {
                         
                         //%%%%%%%%%%%%%%%% new logic commented -------------
                         /*
-                        dispatch_async(dispatch_get_main_queue()) {
+                        DispatchQueue.main.async {
                             // update some UI
                             //remove progress wheel
                             print("got server response")
@@ -196,7 +196,7 @@ class DisplayNameViewController: UIViewController {
                         
                         /////%%%%%%% important new commented %%%%%%%%%
                         
-                        /*self.dismissViewControllerAnimated(false, completion: { () -> Void in
+                        /*self.dismiss(false, completion: { () -> Void in
                             
                             print("logged in going to contactlist")
                         })*/
@@ -241,12 +241,12 @@ class DisplayNameViewController: UIViewController {
                 self.syncContactsList.append(contact)
                 
                 print("contactsListSync appended count is \(self.syncContactsList.count)")
-              //  dispatch_async(dispatch_get_main_queue())
+              //  DispatchQueue.main.async
 //{
                 self.lbl_progress.text="Setting Contact \(self.syncContactsList.count)"
 //}
                 print("inside contacts filling for loop count is \(self.syncContactsList.count)")
-               // dispatch_async(dispatch_get_main_queue())
+               // DispatchQueue.main.async
                 //{
                     
                   //  self.messageFrame.removeFromSuperview()
@@ -1184,7 +1184,7 @@ class DisplayNameViewController: UIViewController {
                                     dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
                                     //  let datens2 = dateFormatter.dateFromString(date2.debugDescription)
                                     //2016-09-18T19:13:00.588Z
-                                    let datens2 = dateFormatter.dateFromString(UserchatJson["msg"][i]["date"].string!)
+                                    let datens2 = dateFormatter.date(from: UserchatJson["msg"][i]["date"].string!)
                                     
                                     
                                     
@@ -1241,17 +1241,17 @@ class DisplayNameViewController: UIViewController {
                             
                             
                         }
-                        dispatch_async(dispatch_get_main_queue()) {
+                        DispatchQueue.main.async{
                         return completion(true)
                             }
-                        /* dispatch_async(dispatch_get_main_queue()) {
+                        /* DispatchQueue.main.async {
                         self.messageFrame2.removeFromSuperview()
                         }
                         */
                     }
                     
                     }
-                    /*dispatch_async(dispatch_get_main_queue()) {
+                    /*DispatchQueue.main.async {
                     
                     }*/
                     
@@ -1297,7 +1297,7 @@ socketObj.socket.emit("logClient","button done pressed start time \(Date())")
         self.lbl_progress.text="Contacting Server..."
         Q0_sendDisplayName.sync(execute: {
                 self.sendNameToServer(displayName){ (result) -> () in
-                /*dispatch_async(dispatch_get_main_queue())
+                /*DispatchQueue.main.async
                     {
                     
                 }*/
@@ -1454,7 +1454,7 @@ socketObj.socket.emit("logClient","button done pressed start time \(Date())")
                                                                         socketObj.socket.emit("logClient","IPHONE LOG:Done fetching chat time \(Date())")
                                                                     }
 
-                                                                   // dispatch_async(dispatch_get_main_queue())
+                                                                   // DispatchQueue.main.async
                                                                        // {
                                                                    //         self.messageFrame.removeFromSuperview()
                                                                             //self.progressBarDisplayer("Setting Groups", true)
@@ -1551,7 +1551,7 @@ socketObj.socket.emit("logClient","button done pressed start time \(Date())")
                                     {
                                         self.fetchContactsFromServer({ (result) -> () in
                                             
-                                            dispatch_async(dispatch_get_main_queue())
+                                            DispatchQueue.main.async
                                                 {
                                                     self.messageFrame.removeFromSuperview()
                                             }
@@ -1764,7 +1764,7 @@ protocol initialSettingsProtocol:class
                     print("display name is \(displayName)")
                     /*Alamofire.request(.GET,"\(urlToSendDisplayName)",headers:header,parameters:["display_name":"\(displayName)"]).validate(statusCode: 200..<300).responseJSON{response in
                     */
-                    dispatch_async(dispatch_get_main_queue()) {
+                    DispatchQueue.main.async {
                         // update some UI
                         //remove progress wheel
                         print("got server response")
@@ -1795,7 +1795,7 @@ protocol initialSettingsProtocol:class
                         //self.performSegueWithIdentifier("fetchaddressbooksegue", sender: self)
                         //*********************%%%%%%%%%%%%%%%%%%%%%%%%% commented new
 
-                        self.dismissViewControllerAnimated(false, completion: { () -> Void in
+                        self.dismiss(false, completion: { () -> Void in
 
                             print("logged in going to contactlist")
                         })

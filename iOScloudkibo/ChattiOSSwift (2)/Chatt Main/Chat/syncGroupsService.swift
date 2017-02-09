@@ -221,20 +221,20 @@ class syncGroupService
                 
                 //.validate().responseJSON { response in
                 print(response)
-                if(response.result.isSuccess)
+                if(response.request.isSuccess)
                 {
-                    print(response.result.value)
-                    jsongroupinfo=JSON(response.result.value!)
-                    dispatch_async(dispatch_get_main_queue())
+                    print(response.request.value)
+                    jsongroupinfo=JSON(response.request.value!)
+                    DispatchQueue.main.async
                     {
-                    return completion(result:true,error: nil,groupinfo: jsongroupinfo)
+                    return completion(true,nil,jsongroupinfo)
                     }
                     
                 }
                 else{
-                    dispatch_async(dispatch_get_main_queue())
+                    DispatchQueue.main.async
                     {
-                    return completion(result:true,error: "API synch groups failed",groupinfo: jsongroupinfo)
+                    return completion(true,"API synch groups failed",jsongroupinfo)
                     }
                     
                 }
@@ -257,10 +257,10 @@ class syncGroupService
         var hhh=["headers":"\(header)"]
         print(header.description)
         
-        var queue2=DispatchQoS(_FIXME_useThisWhenCreatingTheQueueAndRemoveFromThisCall: DispatchQueue.Attributes.concurrent, qosClass: DispatchQoS.QoSClass.background, relativePriority: 0);
+        var queue2=DispatchQoS(_FIXME_useThisWhenCreatingTheQueueAndRemoveFromThisCall: DispatchQueue.//Attributes.concurrent, qosClass: DispatchQoS.QoSClass.background, relativePriority: 0);
         
         //let queue2 = dispatch_queue_create("com.kibochat.manager-response-queue-file", DISPATCH_QUEUE_CONCURRENT)
-        let qqq=DispatchQueue(label: "com.kibochat.queue.getmembers",attributes: queue2)
+        let qqq=DispatchQueue(label: "com.kibochat.queue.getmembers")//,attributes: queue2)
         
         var request=Alamofire.request(.GET,"\(url)",headers:header)
         request.response(
@@ -310,7 +310,7 @@ class syncGroupService
             var groupsList=[[String:AnyObject]]()
         DispatchQueue.global(priority: DispatchQueue.GlobalQueuePriority.default).sync
         {
-            for i in 0 .. groupInfo.count
+            for i in 0 ..< groupInfo.count
             {
                 //groupInfo[i]["group_unique_id"]
                 var unique_id=groupInfo[i]["group_unique_id"]["unique_id"].string!
@@ -386,7 +386,7 @@ class syncGroupService
         do{
             try sqliteDB.db.run((tbl_Groups?.delete())!)
             
-            for i in 0 .. groupsList.count
+            for i in 0 ..< groupsList.count
             {
             sqliteDB.storeGroups(groupsList[i]["group_name"] as! String, groupicon1: groupsList[i]["groupicon1"] as! Data, datecreation1: groupsList[i]["datecreation1"] as! Date , uniqueid1: groupsList[i]["uniqueid1"] as! String, status1: groupsList[i]["status1"] as! String)
             sqliteDB.storeMuteGroupSettingsTable(groupsList[i]["uniqueid1"] as! String, isMute1: false, muteTime1: Date(), unMuteTime1: Date())
@@ -419,7 +419,7 @@ class syncGroupService
         do{
         try sqliteDB.db.run((tbl_Groups?.delete())!)
             
-            for i in 0 .. groupInfo.count
+            for i in 0 ..< groupInfo.count
             {
                 //groupInfo[i]["group_unique_id"]
                 var unique_id=groupInfo[i]["group_unique_id"]["unique_id"].string!
@@ -553,7 +553,7 @@ class syncGroupService
                         
                         
                         let dateFormatter = NSDateFormatter()
-                        dateFormatter.timeZone=NSTimeZone.localTimeZone()
+                        dateFormatter.timeZone=NSTimeZone.local()
                         dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
                         
                         let datens2 = dateFormatter.dateFromString(date_join)
@@ -562,7 +562,7 @@ class syncGroupService
                         sqliteDB.storeMembers(group_id!,member_displayname1: membername!, member_phone1: member_phone, isAdmin1: isAdmin!, membershipStatus1: membership_status, date_joined1: datens2!)
                     }
                     
-                    dispatch_async(dispatch_get_main_queue())
+                    DispatchQueue.main.async
                     {
                     return completion(result:true,error: nil,groupinfo: jsongroupinfo)
                     }
@@ -633,7 +633,7 @@ class syncGroupService
                     
                     
                     let dateFormatter = NSDateFormatter()
-                    dateFormatter.timeZone=NSTimeZone.localTimeZone()
+                    dateFormatter.timeZone=NSTimeZone.local()
                     dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
                   
                     let datens2 = dateFormatter.dateFromString(date_join)
@@ -693,7 +693,7 @@ class syncGroupService
               
                 
                 let dateFormatter = NSDateFormatter()
-                dateFormatter.timeZone=NSTimeZone.localTimeZone()
+                dateFormatter.timeZone=NSTimeZone.local()
                 dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
                 //  let datens2 = dateFormatter.dateFromString(date2.debugDescription)
                 //2016-09-18T19:13:00.588Z
@@ -792,7 +792,7 @@ class syncGroupService
                         
                         
                         let dateFormatter = NSDateFormatter()
-                        dateFormatter.timeZone=NSTimeZone.localTimeZone()
+                        dateFormatter.timeZone=NSTimeZone.local()
                         dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
                         
                         let datens2 = dateFormatter.dateFromString(date!)
@@ -806,7 +806,7 @@ class syncGroupService
                         //== only for which i sent so no need sqliteDB.storeGRoupsChatStatus(uniqueid, status1: status, memberphone1: <#T##String#>)
                     }
  
-                    dispatch_async(dispatch_get_main_queue())
+                    DispatchQueue.main.async
                     {
                     return completion(result:true,error: nil,groupinfo: jsongroupinfo)
                     }
@@ -869,7 +869,7 @@ class syncGroupService
                     sqliteDB.updateGroupChatStatus(uniqueid1, memberphone1: user_phone1, status1: status1, delivereddate1: delivered_date, readDate1: read_date)
                     
                 }
-                dispatch_async(dispatch_get_main_queue())
+                DispatchQueue.main.async
                 {
                 return completion(result: true, error: nil)
                 }
@@ -893,7 +893,7 @@ class syncGroupService
                     print(error)
                 }
 
-                dispatch_async(dispatch_get_main_queue())
+                DispatchQueue.main.async
                 {
                 return completion(result:false,error: "Unable to fetch data")
                 }

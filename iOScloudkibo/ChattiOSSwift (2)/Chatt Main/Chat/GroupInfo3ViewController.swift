@@ -641,14 +641,14 @@ identifiersarray.append(identifier)
                     //self.performSegueWithIdentifier("groupChatStartSegue", sender: nil)
                     self.addmemberfailed=false
                     
-                    //self.dismissViewControllerAnimated(true, completion:{ ()-> Void in
+                    //self.dismiss(true, completion:{ ()-> Void in
                         
                         
                         self.tblGroupInfo.reloadData()
                         
                    // })
                     
-                    /*  self.dismissViewControllerAnimated(true, completion: {
+                    /*  self.dismiss(true, completion: {
                      
                      
                      })*/
@@ -679,7 +679,7 @@ identifiersarray.append(identifier)
                     arrayIndexPaths.append((NSIndexPath.init(index: self.messages.count+2)))
                     
                     
-                //    self.dismissViewControllerAnimated(true, completion:{ ()-> Void in
+                //    self.dismiss(true, completion:{ ()-> Void in
                        // self.tblGroupInfo.reloadRowsAtIndexPaths(arrayIndexPaths, withRowAnimation: UITableViewRowAnimation.Automatic)                       
                        self.tblGroupInfo.reloadData()
                         
@@ -1274,7 +1274,7 @@ else{
         var furl=URL(string: localPath.absoluteString)
         var furl2=localPath.absoluteURL
         //print(furl!.pathExtension!)
-        //print(furl!.URLByDeletingPathExtension?.lastPathComponent!)
+        //print(furl!.deletingLastPathComponent())
         ftype=furl!.pathExtension
         var fname=furl!.deletingPathExtension().lastPathComponent
         

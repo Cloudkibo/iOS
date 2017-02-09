@@ -188,7 +188,7 @@ class CallRingingViewController: UIViewController//RTCPeerConnectionDelegate,RTC
             
             
             
-            self.dismissViewControllerAnimated(true, completion: { () -> Void in
+            self.dismiss(true, completion: { () -> Void in
                 endedCall=false
                 areYouFreeForCall=true
             })

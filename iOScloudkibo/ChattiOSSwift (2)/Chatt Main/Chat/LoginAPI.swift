@@ -940,7 +940,7 @@ class LoginAPI{
                     joinedRoomInCall=""
                     if(self.pc != nil)
                     {self.pc.close()}
-                    self.dismissViewControllerAnimated(true, completion: nil)
+                    self.dismiss(true, completion: nil)
                     */
                     
                 }
@@ -1395,7 +1395,7 @@ class LoginAPI{
             }*/
            /////// managerFile.checkPendingFiles(username!)
 
-           //////// dispatch_async(dispatch_get_main_queue()) {
+           //////// DispatchQueue.main.async {
             
             
             
@@ -1428,7 +1428,7 @@ class LoginAPI{
         
         
         // To update anything on the main thread, just jump back on like so.
-        ///  dispatch_async(dispatch_get_main_queue()) {
+        ///  DispatchQueue.main.async {
         ///      print("Am I back on the main thread: \(NSThread.isMainThread())")
         /// }
         }

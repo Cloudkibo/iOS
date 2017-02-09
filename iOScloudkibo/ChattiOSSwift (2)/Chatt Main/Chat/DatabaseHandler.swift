@@ -498,7 +498,7 @@ print("alter table needed")
         var formatter = NSDateFormatter();
         formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ";
         //formatter.dateFormat = "MM/dd hh:mm a"";
-        formatter.timeZone = NSTimeZone.localTimeZone()
+        formatter.timeZone = NSTimeZone.local()
         //formatter.dateStyle = .ShortStyle
         //formatter.timeStyle = .ShortStyle
         let defaultTimeZoneStr2 = formatter.stringFromDate(date22);
@@ -773,7 +773,7 @@ print("alter table needed")
         var formatter = NSDateFormatter();
         //formatter.dateFormat = "yyyy-MM-dd HH:mm:ss ZZZ";
         formatter.dateFormat = "MM/dd hh:mm a"";
-        formatter.timeZone = NSTimeZone.localTimeZone()
+        formatter.timeZone = NSTimeZone.local()
         //formatter.dateStyle = .ShortStyle
         //formatter.timeStyle = .ShortStyle
         let defaultTimeZoneStr = formatter.stringFromDate(date22);*/
@@ -1020,7 +1020,7 @@ print("alter table needed")
                 var formatter = NSDateFormatter();
                 //formatter.dateFormat = "yyyy-MM-dd HH:mm:ss ZZZ";
                 formatter.dateFormat = "MM/dd hh:mm a"";
-                formatter.timeZone = NSTimeZone.localTimeZone()
+                formatter.timeZone = NSTimeZone.local()
                 //formatter.dateStyle = .ShortStyle
                 //formatter.timeStyle = .ShortStyle
                 let defaultTimeZoneStr = formatter.stringFromDate(date22);
@@ -1134,7 +1134,7 @@ print("alter table needed")
             let formatter2 = DateFormatter();
             formatter2.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ";
             
-            //////formatter.timeZone = NSTimeZone.localTimeZone()
+            //////formatter.timeZone = NSTimeZone.local()
             let defaultTimeZoneStr = formatter2.date(from: defaultTimeZoneStr2)
             print("default db date is \(defaultTimeZoneStr!)")
             
@@ -1284,7 +1284,7 @@ print("alter table needed")
             let formatter2 = DateFormatter();
             formatter2.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ";
             
-            //////formatter.timeZone = NSTimeZone.localTimeZone()
+            //////formatter.timeZone = NSTimeZone.local()
             let defaultTimeZoneStr = formatter2.date(from: defaultTimeZoneStr2)
             print("default db date is \(defaultTimeZoneStr!)")
             

@@ -94,7 +94,7 @@ class NewGroupSetDetails: UITableViewController,UINavigationControllerDelegate,U
         
         var memberphones=[String]()
         var membersnames=[String]()
-        for i in 0 .. participants.count
+        for i in 0 ..< participants.count
         {
             memberphones.append(participants[i].getPhoneNumber())
             membersnames.append(participants[i].displayName())
@@ -163,14 +163,20 @@ class NewGroupSetDetails: UITableViewController,UINavigationControllerDelegate,U
        
        // var memberphones=[String]()
         var membersnames=[String]()
-        for i in 0 .. participants.count
+        for i in 0 ..< participants.count
         {
           //  memberphones.append(participants[i].getPhoneNumber())
             membersnames.append(participants[i].displayName())
         }
         
+        
+        
         var url=Constants.MainUrl+Constants.createGroupUrl
-        Alamofire.request(.POST,"\(url)",parameters:["group_name":groupname,"members":members, "unique_id":uniqueid],headers:header,encoding:.JSON).validate().responseJSON { response in
+        
+        let request = Alamofire.request("\(url)", method: .post, parameters:["group_name":groupname,"members":members, "unique_id":uniqueid],headers:header).responseJSON { response in
+         
+            
+       // Alamofire.request(.POST,"\(url)",parameters:["group_name":groupname,"members":members, "unique_id":uniqueid],headers:header,encoding:.JSON).validate().responseJSON { response in
             
             /*
              
@@ -198,7 +204,7 @@ class NewGroupSetDetails: UITableViewController,UINavigationControllerDelegate,U
                 
                 var myname=""
                 let tbl_accounts = sqliteDB.accounts
-                do{for account in try sqliteDB.db.prepare(tbl_accounts) {
+                do{for account in try sqliteDB.db.prepare(tbl_accounts!) {
                     myname=account[firstname]
                     username=account[phone]
                     
@@ -217,19 +223,19 @@ class NewGroupSetDetails: UITableViewController,UINavigationControllerDelegate,U
                     print("...")
                      self.performSegueWithIdentifier("groupChatStartSegue", sender: nil)
                 }*/
-                sqliteDB.storeGroups(groupname, groupicon1: self.imgdata, datecreation1: NSDate(), uniqueid1: uniqueid, status1: "new")
+                sqliteDB.storeGroups(groupname, groupicon1: self.imgdata, datecreation1: NSDate() as Date, uniqueid1: uniqueid, status1: "new")
                 
                 //=====MUTE GROUP====
-                sqliteDB.storeMuteGroupSettingsTable(uniqueid, isMute1: false, muteTime1: NSDate(), unMuteTime1: NSDate())
+                sqliteDB.storeMuteGroupSettingsTable(uniqueid, isMute1: false, muteTime1: NSDate() as Date, unMuteTime1: NSDate() as Date)
                 
                 
-                sqliteDB.storeGroupsChat(username!, group_unique_id1: uniqueid, type1: "log", msg1: "You created this group", from_fullname1: username!, date1: NSDate(), unique_id1: UtilityFunctions.init().generateUniqueid())
+                sqliteDB.storeGroupsChat(username!, group_unique_id1: uniqueid, type1: "log", msg1: "You created this group", from_fullname1: username!, date1: NSDate() as Date, unique_id1: UtilityFunctions.init().generateUniqueid())
                 
-                sqliteDB.storeMembers(uniqueid,member_displayname1: myname, member_phone1: username!, isAdmin1: "Yes", membershipStatus1: "joined", date_joined1: NSDate.init())
+                sqliteDB.storeMembers(uniqueid,member_displayname1: myname, member_phone1: username!, isAdmin1: "Yes", membershipStatus1: "joined", date_joined1: NSDate.init() as Date)
               
                 
                 
-                for(var i=0;i<members.count;i++)
+                for var i in 0 ..< members.count
                 {
                     var isAdmin="No"
                     
@@ -238,17 +244,17 @@ class NewGroupSetDetails: UITableViewController,UINavigationControllerDelegate,U
                     {
                         print("adding group admin")
                         isAdmin="Yes"
-                        sqliteDB.storeMembers(uniqueid,member_displayname1: myname, member_phone1: members[i], isAdmin1: isAdmin, membershipStatus1: "joined", date_joined1: NSDate.init())
+                        sqliteDB.storeMembers(uniqueid,member_displayname1: myname, member_phone1: members[i], isAdmin1: isAdmin, membershipStatus1: "joined", date_joined1: NSDate.init() as Date)
                         
                     }
                     else{
                         
-                        sqliteDB.storeMembers(uniqueid,member_displayname1: membersnames[i], member_phone1: members[i], isAdmin1: isAdmin, membershipStatus1: "joined", date_joined1: NSDate.init())
+                        sqliteDB.storeMembers(uniqueid,member_displayname1: membersnames[i], member_phone1: members[i], isAdmin1: isAdmin, membershipStatus1: "joined", date_joined1: NSDate.init() as Date)
                     }
                     
                 }
                 
-                if(self.imgdata != NSData.init() && self.filePathImage2 != "")
+                if(self.imgdata != NSData.init() as Data && self.filePathImage2 != "")
                 {
                     print("profile image is selected")
                     print("call API to upload image")
@@ -262,9 +268,9 @@ class NewGroupSetDetails: UITableViewController,UINavigationControllerDelegate,U
  
                 }
                 //---uncomment later --- self.performSegueWithIdentifier("groupChatStartSegue", sender: nil)
-          self.performSegueWithIdentifier("backToChatsSegue", sender: nil)
+          self.performSegue(withIdentifier: "backToChatsSegue", sender: nil)
                 
-                  /*self.dismissViewControllerAnimated(true, completion: {
+                  /*self.dismiss(true, completion: {
                     
                     
                 })*/
@@ -277,7 +283,7 @@ class NewGroupSetDetails: UITableViewController,UINavigationControllerDelegate,U
                 
                 var myname=""
                 let tbl_accounts = sqliteDB.accounts
-                do{for account in try sqliteDB.db.prepare(tbl_accounts) {
+                do{for account in try sqliteDB.db.prepare(tbl_accounts!) {
                     myname=account[firstname]
                     username=account[phone]
                     
@@ -290,19 +296,19 @@ class NewGroupSetDetails: UITableViewController,UINavigationControllerDelegate,U
                     
                 }
                 
-                sqliteDB.storeGroups(groupname, groupicon1: self.imgdata, datecreation1: NSDate(), uniqueid1: uniqueid, status1: "temp")
+                sqliteDB.storeGroups(groupname, groupicon1: self.imgdata, datecreation1: NSDate() as Date, uniqueid1: uniqueid, status1: "temp")
                
                 //=====MUTE GROUP====
-                sqliteDB.storeMuteGroupSettingsTable(uniqueid, isMute1: false, muteTime1: NSDate(), unMuteTime1: NSDate())
+                sqliteDB.storeMuteGroupSettingsTable(uniqueid, isMute1: false, muteTime1: NSDate() as Date, unMuteTime1: NSDate() as Date)
                 
                 
-                sqliteDB.storeGroupsChat("Log:", group_unique_id1: uniqueid, type1: "log", msg1: "Failed to create group. Tap to try again", from_fullname1: "log", date1: NSDate(), unique_id1: UtilityFunctions.init().generateUniqueid())
+                sqliteDB.storeGroupsChat("Log:", group_unique_id1: uniqueid, type1: "log", msg1: "Failed to create group. Tap to try again", from_fullname1: "log", date1: NSDate() as Date, unique_id1: UtilityFunctions.init().generateUniqueid())
                 
-                sqliteDB.storeMembers(uniqueid,member_displayname1: myname, member_phone1: username!, isAdmin1: "Yes", membershipStatus1: "temp", date_joined1: NSDate())
+                sqliteDB.storeMembers(uniqueid,member_displayname1: myname, member_phone1: username!, isAdmin1: "Yes", membershipStatus1: "temp", date_joined1: NSDate() as Date)
                 
                 
                 
-                for(var i=0;i<members.count;i++)
+                for i in 0 ..< members.count
                 {
                     var isAdmin="No"
                     
@@ -311,17 +317,17 @@ class NewGroupSetDetails: UITableViewController,UINavigationControllerDelegate,U
                     {
                         print("adding group admin")
                         isAdmin="Yes"
-                        sqliteDB.storeMembers(uniqueid,member_displayname1: myname, member_phone1: members[i], isAdmin1: isAdmin, membershipStatus1: "temp", date_joined1: NSDate())
+                        sqliteDB.storeMembers(uniqueid,member_displayname1: myname, member_phone1: members[i], isAdmin1: isAdmin, membershipStatus1: "temp", date_joined1: NSDate() as Date)
                         
                     }
                     else{
                         
-                        sqliteDB.storeMembers(uniqueid,member_displayname1: membersnames[i], member_phone1: members[i], isAdmin1: isAdmin, membershipStatus1: "temp", date_joined1: NSDate())
+                        sqliteDB.storeMembers(uniqueid,member_displayname1: membersnames[i], member_phone1: members[i], isAdmin1: isAdmin, membershipStatus1: "temp", date_joined1: NSDate() as Date)
                     }
                     
                 }
                 
-                if(self.imgdata != NSData.init() && self.filePathImage2 != "")
+                if(self.imgdata != NSData.init() as Data && self.filePathImage2 != "")
                 {
                     print("profile image is selected")
                     print("call API to upload image")
@@ -337,7 +343,7 @@ class NewGroupSetDetails: UITableViewController,UINavigationControllerDelegate,U
 
                 
                 
-                self.dismissViewControllerAnimated(true, completion: { 
+                self.dismiss(animated: true, completion: { 
                     
                     UIDelegates.getInstance().UpdateMainPageChatsDelegateCall()
                 })
@@ -355,7 +361,7 @@ class NewGroupSetDetails: UITableViewController,UINavigationControllerDelegate,U
         
         let randomString : NSMutableString = NSMutableString(capacity: len)
         
-        for  i in 0 .. len{
+        for  i in 0 ..< len{
             let length = UInt32 (letters.length)
             let rand = arc4random_uniform(length)
             randomString.appendFormat("%C", letters.character(at: Int(rand)))
@@ -640,24 +646,21 @@ class NewGroupSetDetails: UITableViewController,UINavigationControllerDelegate,U
         if let imageURL = editingInfo![UIImagePickerControllerReferenceURL] as? URL {
             let result = PHAsset.fetchAssets(withALAssetURLs: [imageURL], options: nil)
             
-            
-            self.file_name1 = result.firstObject?.filename ?? ""
-            
+            self.file_name1 = (result.firstObject?.burstIdentifier)!
             // var myasset=result.firstObject as! PHAsset
             ////print(myasset.mediaType)
             
             
             
         }
-        
         ///
         
-        var furl=URL(string: localPath.URLString)
+        var furl=URL(string: localPath.absoluteString)
         
         //print(furl!.pathExtension!)
-        //print(furl!.URLByDeletingPathExtension?.lastPathComponent!)
-        ftype=furl!.pathExtension!
-        var fname=furl!.URLByDeletingPathExtension?.lastPathComponent!
+        //print(furl!.deletingLastPathComponent())
+        ftype=furl!.pathExtension
+        var fname=furl!.deletingLastPathComponent()
         
         
         let dirPaths = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)

@@ -151,7 +151,7 @@ class SignupViewController: UIViewController, UITextFieldDelegate {
                     //===========INITIALISE SOCKETIOCLIENT=========
                     dispatch_async(dispatch_get_main_queue(), {
                         
-                        self.dismissViewControllerAnimated(true, completion: nil);
+                        self.dismiss(true, completion: nil);
                         /// self.performSegueWithIdentifier("loginSegue", sender: nil)
                         
                         if response1?.statusCode==200 {
@@ -264,11 +264,11 @@ class SignupViewController: UIViewController, UITextFieldDelegate {
     func joinGlobalChatRoom(){}
     
     @IBAction func facebookBtnTapped(sender: AnyObject) {
-         self.dismissViewControllerAnimated(true, completion: nil);
+         self.dismiss(true, completion: nil);
     }
    
     @IBAction func twitterBtnTapped(sender: AnyObject) {
-        self.dismissViewControllerAnimated(true, completion: nil);
+        self.dismiss(true, completion: nil);
         
     }
     

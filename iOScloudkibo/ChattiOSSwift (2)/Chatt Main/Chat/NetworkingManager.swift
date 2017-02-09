@@ -222,7 +222,7 @@ class NetworkingManager
                     
                     
                     //happens when synch finishes after server chat is fetched
-                   /* dispatch_async(dispatch_get_main_queue()) {
+                   /* DispatchQueue.main.async {
                        // print("Am I back on the main thread: \(NSThread.isMainThread())")
                         
                         
@@ -279,7 +279,7 @@ class NetworkingManager
                     print("json is \(resJSON)")
                     
                     
-                   ///// dispatch_async(dispatch_get_main_queue()) {
+                   ///// DispatchQueue.main.async {
                         print("Am I back on the main thread: \(Thread.isMainThread)")
                         print("uniqueid is \(resJSON["uniqueid"].string!)")
                         sqliteDB.removeMessageStatusSeen(resJSON["uniqueid"].string!)
@@ -565,7 +565,7 @@ class NetworkingManager
             //===========INITIALISE SOCKETIOCLIENT=========
             // dispatch_async(dispatch_get_main_queue(), {
             
-            //self.dismissViewControllerAnimated(true, completion: nil);
+            //self.dismiss(true, completion: nil);
             /// self.performSegueWithIdentifier("loginSegue", sender: nil)
             
         /*if response1?.statusCode==200 {
@@ -891,7 +891,7 @@ class NetworkingManager
                             
                /* case .Success(let upload, _, _):
                     upload.progress { bytesWritten, totalBytesWritten, totalBytesExpectedToWrite in
-                        dispatch_async(dispatch_get_main_queue()) {
+                        DispatchQueue.main.async {
                             let percent = (Float(totalBytesWritten) / Float(totalBytesExpectedToWrite))
                             /////progress(percent: percent)
                             /* if(self.delegateProgressUpload != nil)

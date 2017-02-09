@@ -30,7 +30,7 @@ class ContactsInviteViewController: UIViewController,UITableViewDelegate,UITable
             emailList = result
             contactsList.searchContactsByEmail(emailList){ (result) -> () in
                 notAvailableEmails=result
-                dispatch_async(dispatch_get_main_queue()) { () -> Void in
+                DispatchQueue.main.async { () -> Void in
                     
                     self.tbl_inviteContacts.reloadData()
                 }
@@ -39,7 +39,7 @@ class ContactsInviteViewController: UIViewController,UITableViewDelegate,UITable
         */
         
 
-                /*dispatch_async(dispatch_get_main_queue()) { () -> Void in
+                /*DispatchQueue.main.async { () -> Void in
                     
                                            self.tbl_inviteContacts.reloadData()
             }*/
@@ -122,7 +122,7 @@ class ContactsInviteViewController: UIViewController,UITableViewDelegate,UITable
                         notAvailableEmails.append(r2)
                 }
                 //notAvailableEmails=result2
-                //dispatch_async(dispatch_get_main_queue()) { () -> Void in
+                //DispatchQueue.main.async { () -> Void in
                     
                     self.tbl_inviteContacts.reloadData()
                 //}
@@ -302,9 +302,9 @@ class ContactsInviteViewController: UIViewController,UITableViewDelegate,UITable
         
         /*
         contactsList.sendInvite(selectedEmails){ (result) -> () in
-            dispatch_async(dispatch_get_main_queue()) { () -> Void in
+            DispatchQueue.main.async { () -> Void in
                 var alertview=UIAlertController(title: "Info:", message: result, preferredStyle: UIAlertControllerStyle.Alert)
-                //self.dismissViewControllerAnimated(true, completion: { () -> Void in
+                //self.dismiss(true, completion: { () -> Void in
                 //alertview.addAction(<#T##action: UIAlertAction##UIAlertAction#>)
                 var okAction=UIAlertAction(title: "Ok", style: UIAlertActionStyle.Default, handler: { (action:UIAlertAction) -> Void in
                     
@@ -325,9 +325,9 @@ class ContactsInviteViewController: UIViewController,UITableViewDelegate,UITable
         
         
         //WORKING OLD
-       /* dispatch_async(dispatch_get_main_queue()) { () -> Void in
+       /* DispatchQueue.main.async { () -> Void in
             var alertview=UIAlertController(title: "Success", message: "Invitations are sent to selected contacts", preferredStyle: UIAlertControllerStyle.Alert)
-            //self.dismissViewControllerAnimated(true, completion: { () -> Void in
+            //self.dismiss(true, completion: { () -> Void in
             //alertview.addAction(<#T##action: UIAlertAction##UIAlertAction#>)
             var okAction=UIAlertAction(title: "Ok", style: UIAlertActionStyle.Default, handler: { (action:UIAlertAction) -> Void in
                 

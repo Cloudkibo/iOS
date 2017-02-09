@@ -58,7 +58,7 @@ class LoginViewController: UIViewController,SocketConnecting,AKFViewControllerDe
                 //no seque from login to chat. it is from chat to login
                 //self.performSegueWithIdentifier("loginSegue", sender: self)
                 //%%%%%%%%%%%%%%%%%% was working but showing contact list directly
-            /*self.dismissViewControllerAnimated(true, completion: { () -> Void in
+            /*self.dismiss(true, completion: { () -> Void in
                 
                 
                 print("login success now going to contact list")
@@ -72,7 +72,7 @@ class LoginViewController: UIViewController,SocketConnecting,AKFViewControllerDe
                 if(firstTimeLogin==false)
                 {
                 
-                self.dismissViewControllerAnimated(true, completion: { () -> Void in
+                self.dismiss(true, completion: { () -> Void in
                     
                     
                     print("login success now going to contact list")
@@ -85,7 +85,7 @@ class LoginViewController: UIViewController,SocketConnecting,AKFViewControllerDe
         else
         {
            
-            /*self.dismissViewControllerAnimated(true, completion:{
+            /*self.dismiss(true, completion:{
                 socketObj.socket.emit("logClient", "login done fetch contacts and show contacts list now")
                 print("show contacts list now")
                 }
@@ -640,7 +640,7 @@ class LoginViewController: UIViewController,SocketConnecting,AKFViewControllerDe
         print("JSON: \(json)")
         dispatch_async(dispatch_get_main_queue(), {
         
-        self.dismissViewControllerAnimated(true, completion: nil);
+        self.dismiss(true, completion: nil);
         print("got user success")
         self.gotToken=true
         var json=JSON(data1)
@@ -800,7 +800,7 @@ class LoginViewController: UIViewController,SocketConnecting,AKFViewControllerDe
         //===========INITIALISE SOCKETIOCLIENT=========
         dispatch_async(dispatch_get_main_queue(), {
         
-        self.dismissViewControllerAnimated(true, completion: nil);
+        self.dismiss(true, completion: nil);
         /// self.performSegueWithIdentifier("loginSegue", sender: nil)
         
         if response1?.statusCode==200 {

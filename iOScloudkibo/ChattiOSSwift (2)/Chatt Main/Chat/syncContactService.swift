@@ -220,7 +220,7 @@ class syncContactService
                             {   phoneDigits = "+"+phoneDigits
                                 
                             }
-                            else if(phoneDigits.characters.first != Character.init(s:"+")){
+                            else if(phoneDigits.characters.first != Character.init("+")){
                                 phoneDigits = "+"+countrycode+phoneDigits
                                 print("appended phone is \(phoneDigits)")
                             }
@@ -617,12 +617,13 @@ class syncContactService
                                 // =============emails.append(phoneDigits)
                                 
                                 var emailAddress=""
-                                let em = try syncContactsList[i].emailAddresses.first
-                                if((em as NSString) != nil && (em as NSString) != "")
+                               //let em = try syncContactsList[i].emailAddresses.first
+                                //if((em.value) != nil && (em.value) != "")
+                                if let em = try syncContactsList[i].emailAddresses.first
                                 {
-                                    print(em?.label)
-                                    print(em?.value)
-                                    emailAddress=(em?.value)! as String
+                                    print(em.label)
+                                    print(em.value)
+                                    emailAddress=(em.value) as String
                                     print("email adress value iss \(emailAddress)")
                                     /////emails.append(em!.value as! String)
                                 }
@@ -707,7 +708,7 @@ class syncContactService
                     ///////socketObj.socket.emit("logClient","IPHONE-LOG: iphoneLog: error is getting name \(error)")
                 }
             }
-                //dispatch_async(dispatch_get_main_queue())
+                //DispatchQueue.main.async
                 //{
                     completion(true)
                 //}
@@ -721,7 +722,7 @@ class syncContactService
             print("synccccc error in deleting allcontacts table")
             socketObj.socket.emit("logClient","IPHONE-LOG: iphoneLog: error in deleting allcontacts data \(error)")
         }
-        //dispatch_async(dispatch_get_main_queue())
+        //DispatchQueue.main.async
         //{
             completion(true)
         //}
@@ -905,7 +906,7 @@ class syncContactService
  
                 //%%%%%%%%%%%%%%%% new logic commented -------------
                 /*
-                 dispatch_async(dispatch_get_main_queue()) {
+                 DispatchQueue.main.async {
                  // update some UI
                  //remove progress wheel
                  print("got server response")
@@ -928,7 +929,7 @@ class syncContactService
                 
                 /////%%%%%%% important new commented %%%%%%%%%
                 
-                /*self.dismissViewControllerAnimated(false, completion: { () -> Void in
+                /*self.dismiss(false, completion: { () -> Void in
                  
                  print("logged in going to contactlist")
                  })*/

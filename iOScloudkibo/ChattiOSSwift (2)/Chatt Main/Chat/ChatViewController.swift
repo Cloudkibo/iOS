@@ -642,7 +642,7 @@ EPPickerDelegate,SWTableViewCellDelegate,UpdateChatViewsDelegate,RefreshContacts
                          }*/
                         /////// managerFile.checkPendingFiles(username!)
                         
-                        //////// dispatch_async(dispatch_get_main_queue()) {
+                        //////// DispatchQueue.main.async {
                         
                         
                         //IF NO CHAT WAS THERE TO FETCH
@@ -701,7 +701,7 @@ EPPickerDelegate,SWTableViewCellDelegate,UpdateChatViewsDelegate,RefreshContacts
                 
                 
                 // To update anything on the main thread, just jump back on like so.
-                ///  dispatch_async(dispatch_get_main_queue()) {
+                ///  DispatchQueue.main.async {
                 ///      print("Am I back on the main thread: \(NSThread.isMainThread())")
                 /// }
         }
@@ -1202,7 +1202,7 @@ EPPickerDelegate,SWTableViewCellDelegate,UpdateChatViewsDelegate,RefreshContacts
             self.retrieveSingleChatsAndGroupsChatData({(result)-> () in
                 
                 
-                //    dispatch_async(dispatch_get_main_queue())
+                //    DispatchQueue.main.async
                 //  {
                 // self.tblForChats.reloadData()
                 
@@ -1268,7 +1268,7 @@ EPPickerDelegate,SWTableViewCellDelegate,UpdateChatViewsDelegate,RefreshContacts
                         
                     }
                     */
-                    dispatch_async(dispatch_get_main_queue()) {
+                    DispatchQueue.main.async {
                         print("here reloading tableeee")
                         self.tblForChat.reloadData()
                     }
@@ -1388,7 +1388,7 @@ EPPickerDelegate,SWTableViewCellDelegate,UpdateChatViewsDelegate,RefreshContacts
                     catch{
                         
                     }
-                    dispatch_async(dispatch_get_main_queue()) {
+                    DispatchQueue.main.async {
                         print("here reloading tableeee")
                         self.tblForChat.reloadData()
                     }
@@ -1884,7 +1884,7 @@ EPPickerDelegate,SWTableViewCellDelegate,UpdateChatViewsDelegate,RefreshContacts
                 
                 
                 
-                /////    dispatch_async(dispatch_get_main_queue()) {
+                /////    DispatchQueue.main.async {
                 //print("Am I back on the main thread: \(NSThread.isMainThread())")
                 
                 print("MAINNNNNNNNNNNN")
@@ -2337,7 +2337,7 @@ break
         }
     
     
-//dispatch_async(dispatch_get_main_queue())
+//DispatchQueue.main.async
     //{
         /*
         var descriptor: NSSortDescriptor = NSSortDescriptor(key: "ContactsLastMsgDate", ascending: true)
@@ -2477,7 +2477,7 @@ break
             
             var formatter2 = NSDateFormatter();
             formatter2.dateFormat = "MM/dd hh:mm a"
-            formatter2.timeZone = NSTimeZone.localTimeZone()
+            formatter2.timeZone = NSTimeZone.local()
             ///////////////==========var defaultTimeeee = formatter2.stringFromDate(defaultTimeZoneStr!)
             var defaultTimeeee = formatter2.stringFromDate(groupsObjectList[i]["date_creation"] as! NSDate)
             
@@ -2571,14 +2571,14 @@ break
                 //formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSS";
                 //formatter.dateFormat = "MM/dd hh:mm a"";
                 //formatter.timeZone = NSTimeZone(name: "UTC")
-                // formatter.timeZone = NSTimeZone.localTimeZone()
+                // formatter.timeZone = NSTimeZone.local()
                 ////////////==========var defaultTimeZoneStr = formatter.dateFromString(ccc[date])
                 /////////////====== var defaultTimeZoneStr2 = formatter.stringFromDate(defaultTimeZoneStr!)
                 
                 
                 var formatter2 = NSDateFormatter();
                 formatter2.dateFormat = "MM/dd hh:mm a"
-                formatter2.timeZone = NSTimeZone.localTimeZone()
+                formatter2.timeZone = NSTimeZone.local()
                 ///////////////==========var defaultTimeeee = formatter2.stringFromDate(defaultTimeZoneStr!)
                 var defaultTimeeee = formatter2.stringFromDate(ccclastmsg[date])
                 print("===fetch date from database is ccclastmsg[date] \(ccclastmsg[date])... defaultTimeeee \(defaultTimeeee)")
@@ -2677,12 +2677,12 @@ break
             var formatter = NSDateFormatter();
             formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSS";
             //formatter.dateFormat = "MM/dd hh:mm a"";
-            formatter.timeZone = NSTimeZone.localTimeZone()
+            formatter.timeZone = NSTimeZone.local()
             var defaultTimeZoneStr = formatter.dateFromString(ccc[date])
             print("defaultTimeZoneStr \(defaultTimeZoneStr)")
             
             var formatter2 = NSDateFormatter();
-            formatter2.timeZone=NSTimeZone.localTimeZone()
+            formatter2.timeZone=NSTimeZone.local()
             formatter2.dateFormat = "MM/dd hh:mm a"";
             var displaydate=formatter2.stringFromDate(defaultTimeZoneStr!)
  */
@@ -2695,7 +2695,7 @@ break
           //  formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ";
             formatter.dateFormat = "yyyy-MM-dd HH:mm:ss ZZZ"
             //formatter.dateFormat = "MM/dd hh:mm a"";
-            formatter.timeZone = NSTimeZone.localTimeZone()
+            formatter.timeZone = NSTimeZone.local()
             //formatter.dateStyle = .ShortStyle
             //formatter.timeStyle = .ShortStyle
             //let defaultTimeZoneStr2 = formatter.stringFromDate(date22);
@@ -2788,14 +2788,14 @@ break
                 //formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSS";
                 //formatter.dateFormat = "MM/dd hh:mm a"";
                 //formatter.timeZone = NSTimeZone(name: "UTC")
-                // formatter.timeZone = NSTimeZone.localTimeZone()
+                // formatter.timeZone = NSTimeZone.local()
                 ////////////==========var defaultTimeZoneStr = formatter.dateFromString(ccc[date])
                 /////////////====== var defaultTimeZoneStr2 = formatter.stringFromDate(defaultTimeZoneStr!)
                 
                 
                 var formatter2 = NSDateFormatter();
                 formatter2.dateFormat = "MM/dd hh:mm a"
-                formatter2.timeZone = NSTimeZone.localTimeZone()
+                formatter2.timeZone = NSTimeZone.local()
                 ///////////////==========var defaultTimeeee = formatter2.stringFromDate(defaultTimeZoneStr!)
                 var defaultTimeeee = formatter2.stringFromDate(ccclastmsg[date])
                 print("===fetch date from database is ccclastmsg[date] \(ccclastmsg[date])... defaultTimeeee \(defaultTimeeee)")
@@ -3856,7 +3856,7 @@ break
                 //===========INITIALISE SOCKETIOCLIENT=========
                 // dispatch_async(dispatch_get_main_queue(), {
                 
-                //self.dismissViewControllerAnimated(true, completion: nil);
+                //self.dismiss(true, completion: nil);
                 /// self.performSegueWithIdentifier("loginSegue", sender: nil)
                 
                 if response1.response?.statusCode==200 {
@@ -4317,7 +4317,7 @@ break
                 self.retrieveSingleChatsAndGroupsChatData({(result)-> () in
                     
                     
-                    //    dispatch_async(dispatch_get_main_queue())
+                    //    DispatchQueue.main.async
                     //  {
                     // self.tblForChats.reloadData()
                     
@@ -4355,7 +4355,7 @@ break
                             
                         }
                         
-                        dispatch_async(dispatch_get_main_queue()) {
+                        DispatchQueue.main.async {
                             self.tblForChat.reloadData()
                         }
                     })
@@ -4381,7 +4381,7 @@ break
                             
                         }
                         
-                        dispatch_async(dispatch_get_main_queue()) {
+                        DispatchQueue.main.async {
                             self.tblForChat.reloadData()
                         }
                     })
@@ -4435,7 +4435,7 @@ break
                     }
                 }
             }
-            dispatch_async(dispatch_get_main_queue())
+            DispatchQueue.main.async
             {
                 self.tblForChat.reloadData()
             }
@@ -4483,14 +4483,14 @@ break
                         print("user found online2 \(self.ContactUsernames[j])")
                         self.ContactOnlineStatus[j]=1
                         onlinefound=true
-                        /*dispatch_async(dispatch_get_main_queue())
+                        /*DispatchQueue.main.async
                         {
                             self.tblForChat.reloadData()
                         }*/
                     }
                 }
             }
-            dispatch_async(dispatch_get_main_queue())
+            DispatchQueue.main.async
             {
                 self.tblForChat.reloadData()
             }
@@ -4538,14 +4538,14 @@ break
                         
                         self.ContactOnlineStatus[j]=1
                         onlinefound=true
-                      /*  dispatch_async(dispatch_get_main_queue())
+                      /*  DispatchQueue.main.async
                             {
                                 self.tblForChat.reloadData()
                         }*/
                     }
                 }
             }
-                dispatch_async(dispatch_get_main_queue())
+                DispatchQueue.main.async
                 {
                     self.tblForChat.reloadData()
                 }
@@ -4868,7 +4868,7 @@ shareMenu.addAction(cancelAction)
                     })
                    /* downloadGroupIconsService({(result) -> () in
 
-                    dispatch_async(dispatch_get_main_queue())
+                    DispatchQueue.main.async
                     {
                         self.tblForChat.reloadData()
                     }

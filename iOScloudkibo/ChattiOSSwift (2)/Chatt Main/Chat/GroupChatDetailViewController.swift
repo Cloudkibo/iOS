@@ -82,7 +82,7 @@ class GroupChatDetailViewController: UIViewController,SocketClientDelegate,Updat
     /* @IBAction func btnBackToChatsPressed(sender: AnyObject) {
      //backToChatPushSegue
      
-     self.dismissViewControllerAnimated(true) { () -> Void in
+     self.dismiss(true) { () -> Void in
      
      
      }
@@ -289,7 +289,7 @@ class GroupChatDetailViewController: UIViewController,SocketClientDelegate,Updat
         socketObj.delegate=self
         socketObj.delegateChat=self
         }
-        dispatch_async(dispatch_get_main_queue())
+        DispatchQueue.main.async
         {
             self.tblForChats.reloadData()
         }
@@ -784,7 +784,7 @@ class GroupChatDetailViewController: UIViewController,SocketClientDelegate,Updat
             //===========INITIALISE SOCKETIOCLIENT=========
             // dispatch_async(dispatch_get_main_queue(), {
             
-            //self.dismissViewControllerAnimated(true, completion: nil);
+            //self.dismiss(true, completion: nil);
             /// self.performSegueWithIdentifier("loginSegue", sender: nil)
             
             if response1?.statusCode==200 {
@@ -795,7 +795,7 @@ class GroupChatDetailViewController: UIViewController,SocketClientDelegate,Updat
                 sqliteDB.deleteChat(self.selectedContact.debugDescription)
                 
                 self.messages.removeAllObjects()
-                dispatch_async(dispatch_get_main_queue())
+                DispatchQueue.main.async
                 {
                     self.tblForChats.reloadData()
                 }
@@ -848,7 +848,7 @@ class GroupChatDetailViewController: UIViewController,SocketClientDelegate,Updat
                 //===========INITIALISE SOCKETIOCLIENT=========
                 // dispatch_async(dispatch_get_main_queue(), {
                 
-                //self.dismissViewControllerAnimated(true, completion: nil);
+                //self.dismiss(true, completion: nil);
                 /// self.performSegueWithIdentifier("loginSegue", sender: nil)
                 
                 //^^ if response1?.statusCode==200 {
@@ -944,7 +944,7 @@ class GroupChatDetailViewController: UIViewController,SocketClientDelegate,Updat
                // var foundMsgInd=messages.indexOfObject(messages.valueForKey("uniqueid") as! String==uniqueid)
                 var indexPath = NSIndexPath(forRow: foundMsgInd, inSection: 0)
                 
-                dispatch_async(dispatch_get_main_queue())
+                DispatchQueue.main.async
                 {
                     
                     var newcell=self.tblForChats.cellForRowAtIndexPath(indexPath)
@@ -1017,7 +1017,7 @@ class GroupChatDetailViewController: UIViewController,SocketClientDelegate,Updat
      //===========INITIALISE SOCKETIOCLIENT=========
      // dispatch_async(dispatch_get_main_queue(), {
      
-     //self.dismissViewControllerAnimated(true, completion: nil);
+     //self.dismiss(true, completion: nil);
      /// self.performSegueWithIdentifier("loginSegue", sender: nil)
      
      if response1?.statusCode==200 {
@@ -1066,7 +1066,7 @@ class GroupChatDetailViewController: UIViewController,SocketClientDelegate,Updat
      */
      
      }
-     dispatch_async(dispatch_get_main_queue()) {
+     DispatchQueue.main.async {
      completion(result:true)
      }
      }
@@ -2191,7 +2191,7 @@ class GroupChatDetailViewController: UIViewController,SocketClientDelegate,Updat
             picker.sourceType = UIImagePickerControllerSourceType.PhotoLibrary
             ////picker.mediaTypes=[kUTTypeMovie as NSString as String,kUTTypeMovie as NSString as String]
             //[self presentViewController:picker animated:YES completion:NULL];
-            dispatch_async(dispatch_get_main_queue())
+            DispatchQueue.main.async
             { () -> Void in
               //  picker.addChildViewController(UILabel("hiiiiiiiiiiiii"))
                 
@@ -2214,7 +2214,7 @@ class GroupChatDetailViewController: UIViewController,SocketClientDelegate,Updat
             ///////let importMenu = UIDocumentMenuViewController(documentTypes: UTIs, inMode: .Import)
             importMenu.delegate = self
             
-            dispatch_async(dispatch_get_main_queue()) { () -> Void in
+            DispatchQueue.main.async { () -> Void in
                 self.presentViewController(importMenu, animated: true, completion: nil)
                 
                 
@@ -2264,7 +2264,7 @@ class GroupChatDetailViewController: UIViewController,SocketClientDelegate,Updat
             //}
             
             //[self presentViewController:picker animated:YES completion:NULL];
-            dispatch_async(dispatch_get_main_queue()) { () -> Void in
+            DispatchQueue.main.async { () -> Void in
                 self.presentViewController(picker, animated: true, completion: nil)
                 
                 
@@ -2273,7 +2273,7 @@ class GroupChatDetailViewController: UIViewController,SocketClientDelegate,Updat
             
         }
     }
-        dispatch_async(dispatch_get_main_queue()) { () -> Void in
+        DispatchQueue.main.async { () -> Void in
             self.presentViewController(importMenu, animated: true, completion: nil)
             
             
@@ -2319,9 +2319,9 @@ class GroupChatDetailViewController: UIViewController,SocketClientDelegate,Updat
         var furl=NSURL(string: localPath.URLString)
         
         print(furl!.pathExtension!)
-        print(furl!.URLByDeletingPathExtension?.lastPathComponent!)
+        print(furl!.deletingLastPathComponent())
         var ftype=furl!.pathExtension!
-        var fname=furl!.URLByDeletingPathExtension?.lastPathComponent!
+        var fname=furl!.deletingLastPathComponent()
         
         
         let dirPaths = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)
@@ -2453,7 +2453,7 @@ class GroupChatDetailViewController: UIViewController,SocketClientDelegate,Updat
 
         
         
-        self.dismissViewControllerAnimated(true, completion:{ ()-> Void in
+        self.dismiss(true, completion:{ ()-> Void in
         
             if(self.showKeyboard==true)
             {var duration : NSTimeInterval = 0
@@ -2529,7 +2529,7 @@ class GroupChatDetailViewController: UIViewController,SocketClientDelegate,Updat
         shareMenu.addAction(confirm)
         shareMenu.addAction(notConfirm)
         
-        self.dismissViewControllerAnimated(true, completion:{ ()-> Void in
+        self.dismiss(true, completion:{ ()-> Void in
             
             if(self.showKeyboard==true)
             {var duration : NSTimeInterval = 0
@@ -2566,8 +2566,8 @@ class GroupChatDetailViewController: UIViewController,SocketClientDelegate,Updat
         
     }
     func imagePickerControllerDidCancel(picker: UIImagePickerController) {
-        dispatch_async(dispatch_get_main_queue()) { () -> Void in
-            self.dismissViewControllerAnimated(true, completion: { ()-> Void in
+        DispatchQueue.main.async { () -> Void in
+            self.dismiss(true, completion: { ()-> Void in
                 
                 if(self.showKeyboard==true)
                 {var duration : NSTimeInterval = 0
@@ -2676,7 +2676,7 @@ class GroupChatDetailViewController: UIViewController,SocketClientDelegate,Updat
         var formatter = NSDateFormatter();
         formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ";
         //formatter.dateFormat = "MM/dd hh:mm a"";
-        formatter.timeZone = NSTimeZone.localTimeZone()
+        formatter.timeZone = NSTimeZone.local()
         //formatter.dateStyle = .ShortStyle
         //formatter.timeStyle = .ShortStyle
         let defaultTimeZoneStr = formatter.stringFromDate(date22);
@@ -2686,7 +2686,7 @@ class GroupChatDetailViewController: UIViewController,SocketClientDelegate,Updat
         var date=NSDate()
         var formatter = NSDateFormatter();
         formatter.dateFormat = "MM/dd hh:mm a"";
-        formatter.timeZone = NSTimeZone.localTimeZone()
+        formatter.timeZone = NSTimeZone.local()
         //formatter.dateStyle = .ShortStyle
         //formatter.timeStyle = .ShortStyle
         let defaultTimeZoneStr = formatter.stringFromDate(date);
@@ -2794,7 +2794,7 @@ class GroupChatDetailViewController: UIViewController,SocketClientDelegate,Updat
             var formatter = NSDateFormatter();
             //formatter.dateFormat = "yyyy-MM-dd HH:mm:ss ZZZ";
             formatter.dateFormat = "MM/dd hh:mm a"";
-            formatter.timeZone = NSTimeZone.localTimeZone()
+            formatter.timeZone = NSTimeZone.local()
             // formatter.dateStyle = .ShortStyle
             //formatter.timeStyle = .ShortStyle
             let defaultTimeZoneStr = formatter.stringFromDate(date22);
@@ -2837,7 +2837,7 @@ class GroupChatDetailViewController: UIViewController,SocketClientDelegate,Updat
                 self.tblForChats.scrollToRowAtIndexPath(indexPath, atScrollPosition: UITableViewScrollPosition.Bottom, animated: true)
             }*/
             
-            // dispatch_async(dispatch_get_main_queue())
+            // DispatchQueue.main.async
             //  {
             //     self.tblForChats.reloadData()
             // }
@@ -2879,7 +2879,7 @@ class GroupChatDetailViewController: UIViewController,SocketClientDelegate,Updat
          //destinationVC.tabBarController?.selectedIndex=0
          //self.tabBarController?.selectedIndex=0
              destinationVC.newimage=self.selectedImage
-                    self.dismissViewControllerAnimated(true, completion: { () -> Void in
+                    self.dismiss(true, completion: { () -> Void in
          
                        
 
@@ -2896,7 +2896,7 @@ class GroupChatDetailViewController: UIViewController,SocketClientDelegate,Updat
                 //destinationVC.tabBarController?.selectedIndex=0
                 //self.tabBarController?.selectedIndex=0
                 destinationVC.newtext=selectedText
-                self.dismissViewControllerAnimated(true, completion: { () -> Void in
+                self.dismiss(true, completion: { () -> Void in
                     
                     
                     
@@ -2918,9 +2918,9 @@ class GroupChatDetailViewController: UIViewController,SocketClientDelegate,Updat
         
         //METADATA FILE NAME,TYPE
         print(furl!.pathExtension!)
-        print(furl!.URLByDeletingPathExtension?.lastPathComponent!)
+        print(furl!.deletingLastPathComponent())
         var ftype=furl!.pathExtension!
-        var fname=furl!.URLByDeletingPathExtension?.lastPathComponent!
+        var fname=furl!.deletingLastPathComponent()
         ////var fname=furl!.URLByDeletingPathExtension?.URLString
         //var attributesError=nil
         var fileAttributes:[String:AnyObject]=["":""]

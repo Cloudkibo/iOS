@@ -231,7 +231,7 @@ class GroupChatingDetailController: UIViewController,UpdateGroupChatDetailsDeleg
                 
                 
                 
-                /////    dispatch_async(dispatch_get_main_queue()) {
+                /////    DispatchQueue.main.async {
                 //print("Am I back on the main thread: \(NSThread.isMainThread())")
                 
                 print("MAINNNNNNNNNNNN")
@@ -505,7 +505,7 @@ class GroupChatingDetailController: UIViewController,UpdateGroupChatDetailsDeleg
                  //formatter.dateFormat = "MM/dd hh:mm a"";
                  formatter.timeZone = NSTimeZone(name: "UTC")
                  */
-                // formatter.timeZone = NSTimeZone.localTimeZone()
+                // formatter.timeZone = NSTimeZone.local()
                 // var defaultTimeZoneStr = formatter.dateFromString(tblContacts[date])
                 // var defaultTimeZoneStr2 = formatter.stringFromDate(defaultTimeZoneStr!)
                 
@@ -1232,7 +1232,7 @@ class GroupChatingDetailController: UIViewController,UpdateGroupChatDetailsDeleg
         self.retrieveChatFromSqlite { (result) in
             
             
-            //dispatch_async(dispatch_get_main_queue())
+            //DispatchQueue.main.async
            // {
             self.tblForGroupChat.reloadData()
             

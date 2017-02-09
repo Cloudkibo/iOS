@@ -359,7 +359,7 @@ class BroadcastListViewController: UIViewController,UINavigationControllerDelega
                 print("broadcastlistID is \(uniqueid)")
                 destinationVC.broadcastlistID=uniqueid as! String
                 
-                /*self.dismissViewControllerAnimated(true, completion: { () -> Void in
+                /*self.dismiss(true, completion: { () -> Void in
                     
                     
               

@@ -91,7 +91,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
     /* @IBAction func btnBackToChatsPressed(sender: AnyObject) {
      //backToChatPushSegue
      
-     self.dismissViewControllerAnimated(true) { () -> Void in
+     self.dismiss(true) { () -> Void in
      
      
      }
@@ -211,12 +211,12 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
         
         self.retrieveChatFromSqliteOnAppear(self.selectedContact,completion:{(result)-> () in
             
-        //    dispatch_async(dispatch_get_main_queue())
+        //    DispatchQueue.main.async
           //  {
            // self.tblForChats.reloadData()
             
             //commenting newwwwwwww -===-===-=
-         //   dispatch_async(dispatch_get_main_queue())
+         //   DispatchQueue.main.async
 //{
     self.tblForChats.reloadData()
 
@@ -367,7 +367,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
         }
         
         
-        /*dispatch_async(dispatch_get_main_queue())
+        /*DispatchQueue.main.async
         {
             self.tblForChats.reloadData()
         }*/
@@ -782,7 +782,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
                 //formatter.dateFormat = "MM/dd hh:mm a";
                 formatter.timeZone = NSTimeZone(name: "UTC")
                 */
-                // formatter.timeZone = NSTimeZone.localTimeZone()
+                // formatter.timeZone = NSTimeZone.local()
                // var defaultTimeZoneStr = formatter.dateFromString(tblContacts[date])
                // var defaultTimeZoneStr2 = formatter.stringFromDate(defaultTimeZoneStr!)
                 
@@ -980,7 +980,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
                      //formatter.dateFormat = "MM/dd hh:mm a";
                      formatter.timeZone = NSTimeZone(name: "UTC")
                      */
-                    // formatter.timeZone = NSTimeZone.localTimeZone()
+                    // formatter.timeZone = NSTimeZone.local()
                     // var defaultTimeZoneStr = formatter.dateFromString(tblContacts[date])
                     // var defaultTimeZoneStr2 = formatter.stringFromDate(defaultTimeZoneStr!)
                     
@@ -1232,7 +1232,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
                      //formatter.dateFormat = "MM/dd hh:mm a";
                      formatter.timeZone = NSTimeZone(name: "UTC")
                      */
-                    // formatter.timeZone = NSTimeZone.localTimeZone()
+                    // formatter.timeZone = NSTimeZone.local()
                     // var defaultTimeZoneStr = formatter.dateFromString(tblContacts[date])
                     // var defaultTimeZoneStr2 = formatter.stringFromDate(defaultTimeZoneStr!)
                     
@@ -1433,7 +1433,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
             //===========INITIALISE SOCKETIOCLIENT=========
             // dispatch_async(dispatch_get_main_queue(), {
             
-            //self.dismissViewControllerAnimated(true, completion: nil);
+            //self.dismiss(true, completion: nil);
             /// self.performSegueWithIdentifier("loginSegue", sender: nil)
             
             if response.response?.statusCode==200 {
@@ -1497,7 +1497,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
                 //===========INITIALISE SOCKETIOCLIENT=========
                 // dispatch_async(dispatch_get_main_queue(), {
                 
-                //self.dismissViewControllerAnimated(true, completion: nil);
+                //self.dismiss(true, completion: nil);
                 /// self.performSegueWithIdentifier("loginSegue", sender: nil)
                 
                 //^^ if response1?.statusCode==200 {
@@ -1669,7 +1669,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
      //===========INITIALISE SOCKETIOCLIENT=========
      // dispatch_async(dispatch_get_main_queue(), {
      
-     //self.dismissViewControllerAnimated(true, completion: nil);
+     //self.dismiss(true, completion: nil);
      /// self.performSegueWithIdentifier("loginSegue", sender: nil)
      
      if response1?.statusCode==200 {
@@ -1718,7 +1718,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
      */
      
      }
-     dispatch_async(dispatch_get_main_queue()) {
+     DispatchQueue.main.async {
      completion(result:true)
      }
      }
@@ -2020,7 +2020,7 @@ let textLable = cell.viewWithTag(12) as! UILabel
             
              /*
              let dateFormatter = NSDateFormatter()
-            dateFormatter.timeZone=NSTimeZone.localTimeZone()
+            dateFormatter.timeZone=NSTimeZone.local()
              dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSS"
            //  let datens2 = dateFormatter.dateFromString(date2.debugDescription)
             //2016-09-18T19:13:00.588Z
@@ -3377,7 +3377,7 @@ let textLable = cell.viewWithTag(12) as! UILabel
         
         let randomString : NSMutableString = NSMutableString(capacity: len)
         
-        for i in 0 .. len{
+        for i in 0 ..< len{
             let length = UInt32 (letters.length)
             let rand = arc4random_uniform(length)
             randomString.appendFormat("%C", letters.character(at: Int(rand)))
@@ -3486,7 +3486,7 @@ let textLable = cell.viewWithTag(12) as! UILabel
             //}
             
             //[self presentViewController:picker animated:YES completion:NULL];
-            dispatch_async(dispatch_get_main_queue()) { () -> Void in
+            DispatchQueue.main.async { () -> Void in
                 self.presentViewController(picker, animated: true, completion: nil)
                 
                 
@@ -3495,7 +3495,7 @@ let textLable = cell.viewWithTag(12) as! UILabel
             
         }
     }
-        dispatch_async(dispatch_get_main_queue()) { () -> Void in
+        DispatchQueue.main.async { () -> Void in
             self.presentViewController(importMenu, animated: true, completion: nil)
             
             
@@ -3541,9 +3541,9 @@ let textLable = cell.viewWithTag(12) as! UILabel
         var furl=URL(string: localPath.URLString)
         
         //print(furl!.pathExtension!)
-        //print(furl!.URLByDeletingPathExtension?.lastPathComponent!)
+        //print(furl!.deletingLastPathComponent())
         var ftype=furl!.pathExtension!
-        var fname=furl!.URLByDeletingPathExtension?.lastPathComponent!
+        var fname=furl!.deletingLastPathComponent()
         
         
         let dirPaths = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)
@@ -3882,13 +3882,13 @@ let textLable = cell.viewWithTag(12) as! UILabel
                 
                 
                 
-            // dispatch_async(dispatch_get_main_queue()) {
+            // DispatchQueue.main.async {
                     //print("Am I back on the main thread: \(NSThread.isMainThread())")
                     
                     print("main thread of send chat")
                     DispatchQueue.main.async {
 
-                return completion(uniqueid: chatstanza["uniqueid"]!,result: true)
+                return completion(chatstanza["uniqueid"]!,true)
                     }
                     //self.retrieveChatFromSqlite(self.selectedContact)
 
@@ -3899,7 +3899,7 @@ let textLable = cell.viewWithTag(12) as! UILabel
                // }
             }//if success
             else{
-                    dispatch_async(dispatch_get_main_queue()) {
+                    DispatchQueue.main.async {
 
                         return completion(nil, false)
                     }
@@ -3952,7 +3952,7 @@ let textLable = cell.viewWithTag(12) as! UILabel
                     //print("json is \(resJSON)")
                     
                     
-                  ////  dispatch_async(dispatch_get_main_queue()) {
+                  ////  DispatchQueue.main.async {
                         //print("Am I back on the main thread: \(NSThread.isMainThread())")
                         //print("uniqueid is \(resJSON["uniqueid"].string!)")
                     
@@ -4009,7 +4009,7 @@ let textLable = cell.viewWithTag(12) as! UILabel
         var formatterDateSend = DateFormatter();
         formatterDateSend.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ";
         ///newwwwwwww
-        ////formatterDateSend.timeZone = NSTimeZone.localTimeZone()
+        ////formatterDateSend.timeZone = NSTimeZone.local()
         let dateSentString = formatterDateSend.string(from: date);
         
         
@@ -4063,7 +4063,7 @@ let textLable = cell.viewWithTag(12) as! UILabel
         
         var msggg=txtFldMessage.text!
         
-    //  dispatch_async(dispatch_get_main_queue())
+    //  DispatchQueue.main.async
  //{
   
      
@@ -4082,7 +4082,7 @@ let textLable = cell.viewWithTag(12) as! UILabel
       //  }
        
         
-      /*  dispatch_async(dispatch_get_main_queue())
+      /*  DispatchQueue.main.async
         {
               print("adding msg \(msggg)")
             //==--self.tblForChats.reloadRowsAtIndexPaths([lastrowindexpath], withRowAnimation: .None)
@@ -4120,7 +4120,7 @@ print("hh \(hh)")
         
         txtFldMessage.text = "";
         
-        //dispatch_async(dispatch_get_main_queue())
+        //DispatchQueue.main.async
         //{
             print("adding msg \(msggg)")
 
@@ -4130,7 +4130,7 @@ print("hh \(hh)")
                 
               //  print("messages count after setting array is \(self.messages.count)")
                 
-              ///  dispatch_async(dispatch_get_main_queue())
+              ///  DispatchQueue.main.async
               //  {
             
            ///// self.tblForChats.beginUpdates()
@@ -4213,7 +4213,7 @@ print("hh \(hh)")
                     print("messages count after setting array is \(self.messages.count)")
                     
                     
-                    dispatch_async(dispatch_get_main_queue())
+                    DispatchQueue.main.async
                     {
                         self.tblForChats.reloadData()
                         print("messages count is \(self.messages.count)")
@@ -4304,7 +4304,7 @@ print("hh \(hh)")
                     print("messages count after setting array is \(self.messages.count)")
        
                     
-                    dispatch_async(dispatch_get_main_queue())
+                    DispatchQueue.main.async
                    {
                       self.tblForChats.reloadData()
                         print("messages count is \(self.messages.count)")
@@ -4446,7 +4446,7 @@ print("hh \(hh)")
             var formatter = NSDateFormatter();
             //formatter.dateFormat = "yyyy-MM-dd HH:mm:ss ZZZ";
             formatter.dateFormat = "MM/dd hh:mm a";
-            formatter.timeZone = NSTimeZone.localTimeZone()
+            formatter.timeZone = NSTimeZone.local()
             // formatter.dateStyle = .ShortStyle
             //formatter.timeStyle = .ShortStyle
             let defaultTimeZoneStr = formatter.stringFromDate(date22);
@@ -4501,7 +4501,7 @@ print("hh \(hh)")
                 }
             })
             */
-            // dispatch_async(dispatch_get_main_queue())
+            // DispatchQueue.main.async
             //  {
             //     self.tblForChats.reloadData()
             // }
@@ -4582,7 +4582,7 @@ print("hh \(hh)")
         
         //METADATA FILE NAME,TYPE
         //print(furl!.pathExtension!)
-        //print(furl!.URLByDeletingPathExtension?.lastPathComponent!)
+        //print(furl!.deletingLastPathComponent())
         var ftype=furl!.pathExtension
         var fname=furl!.deletingPathExtension().lastPathComponent
         ////var fname=furl!.URLByDeletingPathExtension?.URLString
@@ -4665,7 +4665,7 @@ print("hh \(hh)")
                 let dirPaths = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)
                 let docsDir1 = dirPaths[0]
                 var documentDir=docsDir1 as NSString
-                var filePathImage2=documentDir.stringByAppendingPathComponent(fname!+"."+ftype)
+                var filePathImage2=documentDir.appendingPathComponent(fname+"."+ftype)
                 var fm=FileManager.default
                 
                 /*var fileAttributes:[String:AnyObject]=["":""]
@@ -4686,7 +4686,7 @@ print("hh \(hh)")
                 
               //  //print("filename is \(self.filename) destination path is \(filePathImage2) image name \(imageName) imageurl \(imageUrl) photourl \(photoURL) localPath \(localPath).. \(localPath.absoluteString)")
                 
-                var s=fm.createFileAtPath(filePathImage2, contents: nil, attributes: nil)
+                var s=fm.createFile(atPath: filePathImage2, contents: nil, attributes: nil)
                 
                 //  var written=fileData!.writeToFile(filePathImage2, atomically: false)
                 
@@ -4898,7 +4898,7 @@ print("hh \(hh)")
             //check if on correct chat window where new message is received
         /*var formatter = NSDateFormatter();
         
-        formatter.timeZone = NSTimeZone.localTimeZone()
+        formatter.timeZone = NSTimeZone.local()
         formatter.dateFormat = "MM/dd hh:mm a";
         //formatter.dateStyle = .ShortStyle
         //formatter.timeStyle = .ShortStyle
@@ -4942,7 +4942,7 @@ print("hh \(hh)")
         //dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT,0))
         //{
             self.retrieveChatFromSqlite(self.selectedContact,completion:{(result)-> () in
-           ///// dispatch_async(dispatch_get_main_queue())
+           ///// DispatchQueue.main.async
            ///// {
                 
             DispatchQueue.main.async

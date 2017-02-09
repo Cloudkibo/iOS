@@ -287,7 +287,7 @@ class VideoViewController: UIViewController,RTCPeerConnectionDelegate,RTCSession
                 
                 print("views removed from parent")
                 
-                self.dismissViewControllerAnimated(false, completion: { () -> Void in
+                self.dismiss(false, completion: { () -> Void in
                     
                     
                 })})
@@ -2018,7 +2018,7 @@ self.remoteDisconnected()
             if(self.pc != nil)
             {self.pc.close()}
             
-           self.dismissViewControllerAnimated(true, completion: {
+           self.dismiss(true, completion: {
             
             sqliteDB.saveCallHist(iamincallWith!, dateTime1: NSDate().debugDescription, type1: "Outgoing")
             
@@ -2034,7 +2034,7 @@ self.remoteDisconnected()
            })*/
             //// self.endMeeting()
             
-            /////self.dismissViewControllerAnimated(true, completion: nil)
+            /////self.dismiss(true, completion: nil)
             
             
         }
@@ -2796,9 +2796,9 @@ self.remoteDisconnected()
             
             //METADATA FILE NAME,TYPE
             print(furl!.pathExtension!)
-            print(furl!.URLByDeletingPathExtension?.lastPathComponent!)
+            print(furl!.deletingLastPathComponent())
             var ftype=furl!.pathExtension!
-            var fname=furl!.URLByDeletingPathExtension?.lastPathComponent!
+            var fname=furl!.deletingLastPathComponent()
             //var attributesError=nil
             var fileAttributes:[String:AnyObject]=["":""]
             do{
@@ -3059,6 +3059,11 @@ self.remoteDisconnected()
     
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        
+        //--------
+        //uncomment later feb 2017
+        //--------
+        /*
         if segue.identifier == "chatConferenceSegue" {
             print("segueee chattt")
             let conferenceChatView = segue.destination as? WebmeetingChatViewController
@@ -3068,6 +3073,8 @@ self.remoteDisconnected()
                 self.delegateFileReceived=viewController
             }
         }
+        */
+        
         if segue.identifier == "filePreviewSegue" {
             print("segueee chattt")
             let filePreviewView = segue.destination as? FileReceivedViewController
@@ -3141,7 +3148,7 @@ self.remoteDisconnected()
     socketObj.socket.disconnect()
         socketObj=nil
         print("socket is nillll", terminator: "")
-        //dispatch_async(dispatch_get_main_queue())
+        //DispatchQueue.main.async
         //{
         socketObj=LoginAPI(url:"\(Constants.MainUrl)")
         ///socketObj.connect()
@@ -3326,7 +3333,7 @@ self.remoteDisconnected()
         //socketObj.socket.disconnect()
         //socketObj=nil
         print("socket is nillll", terminator: "")
-        //dispatch_async(dispatch_get_main_queue())
+        //DispatchQueue.main.async
         //{
         //socketObj=LoginAPI(url:"\(Constants.MainUrl)")
         ///socketObj.connect()

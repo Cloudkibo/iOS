@@ -252,7 +252,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate,AppDelegateScreenDelegate 
         if(socketObj == nil)
         {
             print("socket is nillll", terminator: "")
-           //dispatch_async(dispatch_get_main_queue())
+           //DispatchQueue.main.async
             //{
             socketObj=LoginAPI(url:"\(Constants.MainUrl)")
             ///socketObj.connect()
@@ -1124,7 +1124,7 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
                          }*/
                         /////// managerFile.checkPendingFiles(username!)
                         
-                        //////// dispatch_async(dispatch_get_main_queue()) {
+                        //////// DispatchQueue.main.async {
                         
                         
                         
@@ -1167,7 +1167,7 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
                 
                 
                 // To update anything on the main thread, just jump back on like so.
-                ///  dispatch_async(dispatch_get_main_queue()) {
+                ///  DispatchQueue.main.async {
                 ///      print("Am I back on the main thread: \(NSThread.isMainThread())")
                 /// }
             }
@@ -1214,7 +1214,7 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
                 var formatterDateSend = DateFormatter();
                 formatterDateSend.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ";
                 ///newwwwwwww
-                ////formatterDateSend.timeZone = NSTimeZone.localTimeZone()
+                ////formatterDateSend.timeZone = NSTimeZone.local()
                 let dateSentString = formatterDateSend.string(from: date as Date);
                 
                 
@@ -1364,7 +1364,7 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
                 
                 
                 
-                /////    dispatch_async(dispatch_get_main_queue()) {
+                /////    DispatchQueue.main.async {
                 //print("Am I back on the main thread: \(NSThread.isMainThread())")
                 
                 print("MAINNNNNNNNNNNN")
@@ -1639,7 +1639,7 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
              /*if(socketObj == nil)
         {
             print("socket is nillll", terminator: "")
-            //dispatch_async(dispatch_get_main_queue())
+            //DispatchQueue.main.async
             //{
             socketObj=LoginAPI(url:"\(Constants.MainUrl)")
             ///socketObj.connect()
@@ -1813,7 +1813,7 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
                     //===========INITIALISE SOCKETIOCLIENT=========
                     dispatch_async(dispatch_get_main_queue(), {
                         
-                        //self.dismissViewControllerAnimated(true, completion: nil);
+                        //self.dismiss(true, completion: nil);
                         /// self.performSegueWithIdentifier("loginSegue", sender: nil)
                         
                         if response.response!.statusCode==200 {
@@ -3108,7 +3108,7 @@ else{
                 var log=UtilityFunctions.init()
                 log.log_papertrail("informing UI to repfresh status \(uniqueID) and status \(status)")
                 
-                //===---dispatch_async(dispatch_get_main_queue())
+                //===---DispatchQueue.main.async
                 //--{
                 delegateRefreshChat?.refreshChatsUI(nil, uniqueid:nil, from:nil, date1:nil, type:"status")
                 //==---}

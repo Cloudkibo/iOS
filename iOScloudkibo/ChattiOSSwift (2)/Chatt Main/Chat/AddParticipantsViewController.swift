@@ -69,7 +69,7 @@ class AddParticipantsViewController: UIViewController,InviteContactsDelegate,UIT
         sqliteDB.storeBroadcastList(broadcastlistID, ListName1: "")
         sqliteDB.storeBroadcastListMembers(broadcastlistID, memberphones: memberphones)
        // let next = self.storyboard?.instantiateViewControllerWithIdentifier("BroadcastListView") as! BroadcastListViewController
-      //  self.dismissViewControllerAnimated(true, completion: nil);
+      //  self.dismiss(true, completion: nil);
         
         
        /* self.presentViewController(next, animated: true, completion: {
@@ -79,7 +79,7 @@ class AddParticipantsViewController: UIViewController,InviteContactsDelegate,UIT
         
        self.performSegue(withIdentifier: "GoToBroadCastSegue", sender: nil);
         
-        //self.dismissViewControllerAnimated(true, completion: nil);
+        //self.dismiss(true, completion: nil);
         //retrieveBroadCastLists()
         //===----tblBroadcastList.reloadData()
         
@@ -104,7 +104,7 @@ class AddParticipantsViewController: UIViewController,InviteContactsDelegate,UIT
         //==----sqliteDB.storeBroadcastList(broadcastlistID, ListName1: "")
         sqliteDB.UpdateBroadcastlistMembers(self.editbroadcastlistID, members: memberphones)
         // let next = self.storyboard?.instantiateViewControllerWithIdentifier("BroadcastListView") as! BroadcastListViewController
-        //  self.dismissViewControllerAnimated(true, completion: nil);
+        //  self.dismiss(true, completion: nil);
         
         
         /* self.presentViewController(next, animated: true, completion: {
@@ -114,7 +114,7 @@ class AddParticipantsViewController: UIViewController,InviteContactsDelegate,UIT
         
         self.performSegue(withIdentifier: "GoToBroadCastSegue", sender: nil);
         
-        //self.dismissViewControllerAnimated(true, completion: nil);
+        //self.dismiss(true, completion: nil);
         //retrieveBroadCastLists()
         //===----tblBroadcastList.reloadData()
         
@@ -133,19 +133,19 @@ class AddParticipantsViewController: UIViewController,InviteContactsDelegate,UIT
         if(prevScreen=="newBroadcastList")
         {
             addToBroadcastList()
-           // self.dismissViewControllerAnimated(true, completion: nil);
+           // self.dismiss(true, completion: nil);
         }
         if(prevScreen=="editbroadcastlist")
         {
             self.updateBroadcastList()
-            // self.dismissViewControllerAnimated(true, completion: nil);
+            // self.dismiss(true, completion: nil);
         }
         //Groupinfo
         if(prevScreen=="Groupinfo")
         {
             self.performSegue(withIdentifier: "gobackToGroupInfoSegue",sender: nil)
             //self.updateBroadcastList()
-            // self.dismissViewControllerAnimated(true, completion: nil);
+            // self.dismiss(true, completion: nil);
         }
       
         
@@ -517,7 +517,7 @@ class AddParticipantsViewController: UIViewController,InviteContactsDelegate,UIT
          contactsList.fetch(){ (result) -> () in
          
          
-         dispatch_async(dispatch_get_main_queue()) {
+         DispatchQueue.main.async {
          // update some UI
          //remove progress wheel
          print("got server response")
