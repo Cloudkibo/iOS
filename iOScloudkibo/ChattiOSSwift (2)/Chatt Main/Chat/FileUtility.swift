@@ -47,14 +47,15 @@ class FileUtility{
 
     func getfreeDiskSpace()->UInt64
     {
-        var dictionary:[String:AnyObject]=["":"" as AnyObject]
+       // var dictionary:[String:AnyObject]=["":"" as AnyObject]
+        var dictionary=[FileAttributeKey : AnyObject]()
         var totalspace:UInt64=0
         var totalFreeSpace:UInt64=0
         let paths = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)
         
         do
             {
-                dictionary = try FileManager.default.attributesOfFileSystem(forPath: paths.last!) as! [String : AnyObject]
+                var dictionary = try FileManager.default.attributesOfFileSystem(forPath: paths.last!) as! [FileAttributeKey : AnyObject]
             }
         catch
             {   print("error")
@@ -64,8 +65,8 @@ class FileUtility{
         {
             //for items in dictionary.keys
             //{
-            var fileSystemSizeInBytes:NSNumber = dictionary["\(FileAttributeKey.systemSize)"] as! NSNumber
-            var freeFileSystemSizeInBytes:NSNumber = dictionary["\(FileAttributeKey.systemFreeSize)"] as! NSNumber
+            var fileSystemSizeInBytes:NSNumber = dictionary[FileAttributeKey.systemSize] as! NSNumber
+            var freeFileSystemSizeInBytes:NSNumber = dictionary[FileAttributeKey.systemFreeSize] as! NSNumber
             print("filesystem size is \(fileSystemSizeInBytes)")
             print("filesystemfree size is \(freeFileSystemSizeInBytes)")
             totalspace=fileSystemSizeInBytes.uint64Value

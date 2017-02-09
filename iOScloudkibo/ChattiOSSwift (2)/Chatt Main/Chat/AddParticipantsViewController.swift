@@ -415,7 +415,7 @@ class AddParticipantsViewController: UIViewController,InviteContactsDelegate,UIT
         filteredArray = alladdressContactsArray.filter({ (contactname) -> Bool in
             let countryText: NSString = contactname.get(name)! as NSString
             
-            return (countryText.rangeOfString(searchText, options: NSString.CompareOptions.caseInsensitive).location) != NSNotFound
+            return (countryText.range(of: searchText, options: NSString.CompareOptions.caseInsensitive).location) != NSNotFound
         })
         
       tblForNotes.reloadData()
@@ -856,7 +856,7 @@ class AddParticipantsViewController: UIViewController,InviteContactsDelegate,UIT
         var newindexphone = -1
         do
         { alladdressContactsArray = Array(try sqliteDB.db.prepare(allcontactslist1!))
-            for i in 0 .. alladdressContactsArray.count
+            for i in 0 ..< alladdressContactsArray.count
             {
                 if(alladdressContactsArray[i].get(phone)==phone1)
                 {
@@ -1064,7 +1064,7 @@ class AddParticipantsViewController: UIViewController,InviteContactsDelegate,UIT
                             print("selected phone is \(selectedphone)")
                             print("selected phone is \(selectedname)")
                             
-                            for i in 0 .. alladdressContactsArray.count
+                            for i in 0 ..< alladdressContactsArray.count
                             {
                                 if(alladdressContactsArray[i].get(phone)==selectedphone)
                                 {

@@ -313,8 +313,11 @@ class DisplayNameViewController: UIViewController {
                                     }
                                 }
                             }
+                            var logicalexpression=countrycode=="1" &&
+                                phoneDigits.characters.first == Character.init("1") &&
+                                phoneDigits.characters.first != Character.init("+")
                             
-                            if(((countrycode=="1") && (phoneDigits.characters.first=="1")) && (phoneDigits.characters.first != "+"))
+                            if logicalexpression
                             {
                                 phoneDigits = "+"+phoneDigits
                             }
@@ -453,7 +456,12 @@ class DisplayNameViewController: UIViewController {
                                         }
                                     }
                                 }
-                                if(((countrycode=="1") && (phoneDigits.characters.first=="1")) && (phoneDigits.characters.first != "+"))
+                                var logicalexpression=countrycode=="1" &&
+                                    phoneDigits.characters.first == Character.init("1") &&
+                                    phoneDigits.characters.first != Character.init("+")
+
+                                
+                                if logicalexpression
                                 {
                                     phoneDigits = "+"+phoneDigits
                                 }
@@ -467,7 +475,7 @@ class DisplayNameViewController: UIViewController {
                                 var emailAddress=""
                                 let em = try self.syncContactsList[i].emailAddresses.first!
                                 
-                                if(em != nil && em != "")
+                                if((em as! String) != nil && (em as! String) != "")
                                 {
                                     print(em.label)
                                     print(em.value)
@@ -852,20 +860,20 @@ class DisplayNameViewController: UIViewController {
                                 print("inside displayname hereeeeeee")
                                 
                                 
-                                let rowid = try sqliteDB.db.run(tbl_contactslists?.insert(contactid<-contactsJsonObj[i]["contactid"]["_id"].string!,
-                                    detailsshared<-contactsJsonObj[i]["detailsshared"].string!,
-                                    
-                                    unreadMessage<-contactsJsonObj[i]["unreadMessage"].boolValue,
-                                    
-                                    userid<-contactsJsonObj[i]["userid"].string!,
-                                    firstname<-contactsJsonObj[i]["contactid"]["display_name"].string!,
-                                    lastname<-"",
-                                    
-                                    //lastname<-contactsJsonObj[i]["contactid"]["lastname"].string!,
+                                let rowid = try sqliteDB.db.run((tbl_contactslists?.insert(contactid<-contactsJsonObj[i]["contactid"]["_id"].string!,
+                                                                                           detailsshared<-contactsJsonObj[i]["detailsshared"].string!,
+                                                                                           
+                                                                                           unreadMessage<-contactsJsonObj[i]["unreadMessage"].boolValue,
+                                                                                           
+                                                                                           userid<-contactsJsonObj[i]["userid"].string!,
+                                                                                           firstname<-contactsJsonObj[i]["contactid"]["display_name"].string!,
+                                                                                           lastname<-"",
+                                                                                           
+                                                                                           //lastname<-contactsJsonObj[i]["contactid"]["lastname"].string!,
                                     email<-"@",
                                     phone<-contactsJsonObj[i]["contactid"]["phone"].string!,
                                     username<-contactsJsonObj[i]["contactid"]["phone"].string!,
-                                    status<-contactsJsonObj[i]["contactid"]["status"].string!)
+                                    status<-contactsJsonObj[i]["contactid"]["status"].string!))!
                                 )
                            
                                 print("inserted id: \(rowid)")
@@ -893,7 +901,7 @@ class DisplayNameViewController: UIViewController {
                     socketObj.socket.emit("logClient", "error: \(error1!.localizedDescription)")
                     }*/
                     //print(error1)
-                    print(response1.response.statusCode)
+                    print(response1.response?.statusCode)
                     print("FETCH CONTACTS FAILED")
                     print("eeeeeeeeeeeeeeeeeeeeee")
                     
@@ -935,12 +943,13 @@ class DisplayNameViewController: UIViewController {
         
         var getUserDataURL=userDataUrl
         
-        
-        Alamofire.request(.GET,"\(getUserDataURL)",headers:header).validate(statusCode: 200..<300).responseJSON{response in
+        Alamofire.request("\(getUserDataURL)").responseJSON { (response) in
+            
+       // Alamofire.request(.GET,"\(getUserDataURL)",headers:header).validate(statusCode: 200..<300).responseJSON{response in
             
             
             switch response.result {
-            case .Success:
+            case .success:
                 if let data1 = response.result.value {
                     let json = JSON(data1)
                     print("JSON: \(json)")
@@ -948,8 +957,8 @@ class DisplayNameViewController: UIViewController {
                     print("got user success")
                    
                     username=json["phone"].string
-                    loggedUserObj=json
-                    KeychainWrapper.setString(loggedUserObj.description, forKey:"loggedUserObjString")
+                    //loggedUserObj=json
+                    //KeychainWrapper.setString(loggedUserObj.description, forKey:"loggedUserObjString")
                     var loggedobjstring=KeychainWrapper.stringForKey("loggedUserObjString")
                     
                     if(socketObj != nil)
@@ -957,8 +966,8 @@ class DisplayNameViewController: UIViewController {
                     socketObj.socket.emit("logClient","IPHONE-LOG: keychain of loggedUserObjString is \(loggedobjstring)")
                     }
                         
-                    print(loggedUserObj.debugDescription)
-                    print(loggedUserObj.object)
+                    //print(loggedUserObj.debugDescription)
+                    //print(loggedUserObj.object)
                     print("$$$$$$$$$$$$$$$$$$$$$$$$$")
                     print("************************")
                     
@@ -998,7 +1007,7 @@ class DisplayNameViewController: UIViewController {
                         
                         do{
                             
-                            try sqliteDB.db.run(tbl_accounts.delete())
+                            try sqliteDB.db.run((tbl_accounts?.delete())!)
                         }catch{
                             if(socketObj != nil)
                             {
@@ -1026,8 +1035,8 @@ class DisplayNameViewController: UIViewController {
                        //=== uncomment later tbl_accounts.delete()
                         
                         do {
-                            let rowid = try sqliteDB.db.run(tbl_accounts.insert(_id<-json["_id"].string!,
-                                //firstname<-json["firstname"].string!,
+                            let rowid = try sqliteDB.db.run((tbl_accounts?.insert(_id<-json["_id"].string!,
+                                                                                  //firstname<-json["firstname"].string!,
                                 firstname<-json["display_name"].string!,
                                 country_prefix<-json["country_prefix"].string!,
                                 nationalNumber<-json["national_number"].string!,
@@ -1037,17 +1046,17 @@ class DisplayNameViewController: UIViewController {
                                 //email<-json["email"].string!,
                                 username1<-json["phone"].string!,
                                 status<-json["status"].string!,
-                                phone<-json["phone"].string!))
+                                phone<-json["phone"].string!))!)
                             print("inserted id: \(rowid)")
                             
-                            return completion(result:true)
+                            return completion(true)
                             
                         } catch {
                             print("insertion failed: \(error)")
                         }
                         
                         
-                        do{for account in try sqliteDB.db.prepare(tbl_accounts) {
+                        do{for account in try sqliteDB.db.prepare(tbl_accounts!) {
                             print("id: \(account[_id]), phone: \(account[phone]), firstname: \(account[firstname])")
                             // id: 1, email: alice@mac.com, name: Optional("Alice")
                             }
@@ -1058,7 +1067,7 @@ class DisplayNameViewController: UIViewController {
                            print("error \(error)")
                         }
                     }
-            case .Failure:
+            case .failure:
                 if(socketObj != nil)
                 {
                 socketObj.socket.emit("logClient", "\(username!) failed to get its data")
@@ -1114,7 +1123,7 @@ class DisplayNameViewController: UIViewController {
                     }
                     if let data1 = response.result.value {
                         
-                        dispatch_sync(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) {
+                        dispatch_get_global_queue(DispatchQueue.GlobalQueuePriority.default, 0).sync() {
                             
                         let UserchatJson = JSON(data1)
                         print("chat fetched JSON: \(UserchatJson)")
@@ -1122,7 +1131,7 @@ class DisplayNameViewController: UIViewController {
                         var tableUserChatSQLite=sqliteDB.userschats
                         
                         do{
-                            try sqliteDB.db.run(tableUserChatSQLite.delete())
+                            try sqliteDB.db.run(tableUserChatSQLite?.delete())
                         }catch{
                             if(socketObj != nil)
                             {
@@ -1137,16 +1146,12 @@ class DisplayNameViewController: UIViewController {
                         {
                         socketObj.socket.emit("logClient","IPHONE-LOG: all chat messages count is \(UserchatJson["msg"].count)")
                         }
-                        for var i=0;i<UserchatJson["msg"].count
-                            ;i++
-                        {
-                            //UserchatJson["msg"][i]["date"].string!
-                            
-                           // var labelll=self.messageFrame.subviews.first as! UILabel
-                            //self.strLabel.text="Setting Chats \(UserchatJson["msg"].count/i*100)% ..."
-                            let dateFormatter = NSDateFormatter()
+                        
+                            for var i in 0 ..< UserchatJson["msg"].count
+                            {
+                            let dateFormatter = DateFormatter()
                             dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
-                            let datens2 = dateFormatter.dateFromString(UserchatJson["msg"][i]["date"].string!)
+                            let datens2 = dateFormatter.date(from: UserchatJson["msg"][i]["date"].string!)
                            
                             print("fetch all date from server in installation got is \(UserchatJson["msg"][i]["date"].string!)... converted is \(datens2.debugDescription)")
                             
@@ -1159,7 +1164,7 @@ class DisplayNameViewController: UIViewController {
                             */
                             
                             
-                            if(UserchatJson["msg"][i]["uniqueid"].isExists())
+                            if(UserchatJson["msg"][i]["uniqueid"].exists())
                             {
                                 if(UserchatJson["msg"][i]["to"].string! == username! && UserchatJson["msg"][i]["status"].string!=="sent")
                                 {
@@ -1253,8 +1258,8 @@ class DisplayNameViewController: UIViewController {
                     if(socketObj != nil)
                     { socketObj.socket.emit("logClient", "All chat fetched failed")
                     }
-                    dispatch_async(dispatch_get_main_queue()) {
-                        return completion(result: true)
+                    dispatch_async(DispatchQueue.main) {
+                        return completion(true)
                     }
                     print("all chat fetched failed")
                 }

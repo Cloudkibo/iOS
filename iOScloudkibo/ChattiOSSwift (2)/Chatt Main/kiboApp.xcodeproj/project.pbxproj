@@ -81,6 +81,7 @@
 		7152CB251D47DDC900DB8127 /* Fabric.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7152CB231D47DDC900DB8127 /* Fabric.framework */; };
 		7152CB261D47DDC900DB8127 /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7152CB241D47DDC900DB8127 /* Crashlytics.framework */; };
 		71585F021DC8A4030067CD4A /* UIDelegates.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71585F011DC8A4030067CD4A /* UIDelegates.swift */; };
+		715D63CD1E4C57940088C192 /* Data+Compression.swift in Sources */ = {isa = PBXBuildFile; fileRef = 715D63CC1E4C57940088C192 /* Data+Compression.swift */; };
 		716175A01C51C9B200A72E83 /* libsqlite3.0.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 716174971C5065BA00A72E83 /* libsqlite3.0.tbd */; };
 		716175A11C51C9B200A72E83 /* libsqlite3.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 716174981C5065BA00A72E83 /* libsqlite3.tbd */; };
 		7173B8731E48BED500851F8D /* Kingfisher.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 7173B84D1E48BE1900851F8D /* Kingfisher.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -483,6 +484,7 @@
 		7152CB231D47DDC900DB8127 /* Fabric.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Fabric.framework; sourceTree = "<group>"; };
 		7152CB241D47DDC900DB8127 /* Crashlytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Crashlytics.framework; sourceTree = "<group>"; };
 		71585F011DC8A4030067CD4A /* UIDelegates.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIDelegates.swift; sourceTree = "<group>"; };
+		715D63CC1E4C57940088C192 /* Data+Compression.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Data+Compression.swift"; sourceTree = "<group>"; };
 		716174971C5065BA00A72E83 /* libsqlite3.0.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.0.tbd; path = usr/lib/libsqlite3.0.tbd; sourceTree = SDKROOT; };
 		716174981C5065BA00A72E83 /* libsqlite3.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.tbd; path = usr/lib/libsqlite3.tbd; sourceTree = SDKROOT; };
 		7173B83D1E48BE1800851F8D /* Kingfisher.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Kingfisher.xcodeproj; path = ../../../Kingfisher/Kingfisher.xcodeproj; sourceTree = "<group>"; };
@@ -639,6 +641,7 @@
 		5BF6362719A9F3D900ABD0BA /* Chat */ = {
 			isa = PBXGroup;
 			children = (
+				715D63CC1E4C57940088C192 /* Data+Compression.swift */,
 				713D51881CC11896007E0B47 /* Accounts.swift */,
 				71585F011DC8A4030067CD4A /* UIDelegates.swift */,
 				713D51891CC11896007E0B47 /* AppDelegate.swift */,
@@ -1327,6 +1330,7 @@
 				71E861C81D0066F4008BCC7C /* DisplayNameViewController.swift in Sources */,
 				713F39721D74459600F3A9C4 /* EPExtensions.swift in Sources */,
 				71C84C591E44AB2400330105 /* SocketEnginePacketType.swift in Sources */,
+				715D63CD1E4C57940088C192 /* Data+Compression.swift in Sources */,
 				71C1A2C41D767C0600FC5157 /* GroupChatDetailViewController.swift in Sources */,
 				713D51BF1CC11896007E0B47 /* CallRingingViewController.swift in Sources */,
 				71E046A31D228AE700B67362 /* CallHistoryTableViewController.swift in Sources */,

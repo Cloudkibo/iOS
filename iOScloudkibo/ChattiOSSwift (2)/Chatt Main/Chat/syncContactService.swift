@@ -1091,7 +1091,7 @@ class syncContactService
                     print(sqliteDB.contactslists.count)
                     
                     
-                    dispatch_async(dispatch_get_global_queue(DispatchQueue.GlobalQueuePriority.default,0)){
+                    DispatchQueue.global(DispatchQueue.global()).async(){
                     //////
                     for i in 0 ..< contactsJsonObj.count
                     {
@@ -1163,7 +1163,7 @@ class syncContactService
                 }
                 
                 }else{
-                    dispatch_async(DispatchQueue.main)
+                    DispatchQueue.main.async
                     {
                     completion(false)
                     }
@@ -1179,11 +1179,11 @@ class syncContactService
                     print("eeeeeeeeeeeeeeeeeeeeee")
                     
                 }
-                if(response1?.statusCode==401)
+                if(response1.statusCode==401)
                 {
                     if(socketObj != nil)
                     {
-                        socketObj.socket.emit("logClient", "error: \(error1!.localizedDescription)")
+                        socketObj.socket.emit("logClient", "error: ")
                     }
                     print("Refreshinggggggggggggggggggg token expired")
                     if(username==nil || password==nil)

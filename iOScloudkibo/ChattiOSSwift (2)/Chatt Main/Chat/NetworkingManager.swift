@@ -344,7 +344,7 @@ class NetworkingManager
         else{
             imageData=try? Data(contentsOf: URL(fileURLWithPath: filePath1))
              print("old upload image size is \(imageData!.count)")
-            var imageData2=imageData!.compressedDataUsingCompression(Compression.zlib)
+            var imageData2=imageData!.compressed(using: Compression.zlib)
             print("imageData2 is \(imageData2)")
             print("old upload image compressed size is \(imageData2!.count)")
         }
@@ -628,7 +628,7 @@ class NetworkingManager
                 var filePendingPath=documentDir.appendingPathComponent(filePendingName)
                 if(!self.imageExtensions.contains(filetype.lowercased()))
                 {
-                    data=data?.uncompressedDataUsingCompression(Compression.zlib)
+                    data=data?.uncompressed(using: Compression.zlib)
                 }
                     do{
                     if let written = try data?.write(to: URL.init(fileURLWithPath: filePendingPath)){

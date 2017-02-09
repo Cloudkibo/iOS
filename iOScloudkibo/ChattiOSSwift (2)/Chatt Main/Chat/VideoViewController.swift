@@ -44,7 +44,7 @@ class VideoViewController: UIViewController,RTCPeerConnectionDelegate,RTCSession
     var myfid=0
     var fid:Int!=0
     var bytesarraytowrite:Array<UInt8>!
-    var jsonnnn:Dictionary<String, AnyObject>!
+    var jsonnnn=Dictionary<String, AnyObject>()
     var numberOfChunksReceived:Int=0
     var fu=FileUtility()
     var filePathImage:String!
@@ -568,8 +568,8 @@ self.remoteDisconnected()
         print("inside disconnect")
         if((self.pc) != nil)
         {
-            DispatchQueue.global(priority: DispatchQoS.QoSClass.userInitiated).async{
-        
+            DispatchQueue.global(qos: .userInitiated).async {
+
                 if((self.rtcLocalVideoTrack) != nil)
                 {print("remove localtrack renderer")
                     self.rtcLocalVideoTrack.remove(self.localView)
@@ -659,8 +659,6 @@ self.remoteDisconnected()
                     
                 })}
             }
-            
-            
         }
         else
         {
@@ -1807,7 +1805,7 @@ self.remoteDisconnected()
                 
                 
                 
-                DispatchQueue.global(priority: Int(DispatchQoS.QoSClass.userInitiated.rawValue)).async{
+                DispatchQueue.global(qos: DispatchQoS.QoSClass.userInitiated).async{
                     //************* newwww april 2016 commented
                     /*if((self.rtcLocalVideoTrack) != nil)
                      {print("remove localtrack renderer")
@@ -1943,16 +1941,20 @@ self.remoteDisconnected()
                 print("got room name as \(joinedRoomInCall)")
                 print("trying to join room")
                 print("line #1394")
-                socketObj.socket.emitWithAck("init", ["room":CurrentRoomName,"username":username!])(timeoutAfter: 600000) {data in
-                    meetingStarted=true
-                    print("room joined got ack")
-                     socketObj.socket.emit("logClient","IPHONE-LOG: \(username) joined room \(CurrentRoomName)")
-                    var a=JSON(data)
-                    print(a.debugDescription)
-                    socketObj.socket.emit("logClient","\(username!) got room ack as \(a.debugDescription)")
-                    currentID=a[1].int!
-                    joinedRoomInCall=message[0]["room_name"].string!
-                    print("current id is \(currentID)")
+                var initsocket=socketObj.socket.emitWithAck("init", ["room":CurrentRoomName,"username":username!])
+            
+            initsocket.timingOut(after: 15000, callback: { (data) in
+                meetingStarted=true
+                print("room joined got ack")
+                socketObj.socket.emit("logClient","IPHONE-LOG: \(username) joined room \(CurrentRoomName)")
+                var a=JSON(data)
+                print(a.debugDescription)
+                socketObj.socket.emit("logClient","\(username!) got room ack as \(a.debugDescription)")
+                currentID=a[1].int!
+                joinedRoomInCall=message[0]["room_name"].string!
+                print("current id is \(currentID)")
+                
+            })
                     //}
              //   }}
                 ////////////////////////newwwwwww
@@ -1962,7 +1964,7 @@ self.remoteDisconnected()
         {
                 isInitiator = false
             }*/
-            }
+            
         }
         if(message[0]["status"]=="callaccepted")
         {
@@ -1982,8 +1984,9 @@ self.remoteDisconnected()
                 //joinedRoomInCall=roomname as String
                 //socketObj.socket.emitWithAck("init", ["room":ConferenceRoomName,"username":username!])(timeoutAfter: 1500000) {data in
                 
-                socketObj.socket.emitWithAck("init", ["room":ConferenceRoomName,"username":username!])(timeoutAfter: 1500000) {data in
-                    
+                var initconference=socketObj.socket.emitWithAck("init", ["room":ConferenceRoomName,"username":username!])
+                
+                initconference.timingOut(after: 150000, callback: { (data) in
                     meetingStarted=true
                     print("1-1 call room joined by got ack")
                     var a=JSON(data)
@@ -1997,9 +2000,10 @@ self.remoteDisconnected()
                     
                     //print(aa.description)
                     socketObj.socket.emit("logClient","IPHONE-LOG: \(aa.object)")
-                    socketObj.socket.emit("message",aa.object)
+                    socketObj.socket.emit("message",aa.object as! SocketData)
                     
-                }
+                })
+                
             }
             
           
@@ -2231,7 +2235,7 @@ self.remoteDisconnected()
         
         //buffer.data.
      //   var tryyyyy=Data(bytes: UnsafePointer<UInt8>(&bytes) , count: buffer.data.count)
-        var mytryyJSON=JSON(tryyyyy)
+        //var mytryyJSON=JSON(tryyyyy)
         
         if(sssss != nil){
             
@@ -2877,9 +2881,9 @@ self.remoteDisconnected()
             ///// var furl=NSURL(fileURLWithPath:"file:///private/var/mobile/Containers/Data/Application/F4137E3A-02E9-4A4D-8F20-089484823C88/tmp/iCloud.MyAppTemplates.cloudkibo-Inbox/regularExpressions.html")
             
             //METADATA FILE NAME,TYPE
-            print(furl!.pathExtension!)
+            print(furl!.pathExtension)
             print(furl!.URLByDeletingPathExtension?.lastPathComponent!)
-            var ftype=furl!.pathExtension!
+            var ftype=furl!.pathExtension
             var fname=furl!.URLByDeletingPathExtension?.lastPathComponent!
             ////var fname=furl!.URLByDeletingPathExtension?.URLString
                         //var attributesError=nil

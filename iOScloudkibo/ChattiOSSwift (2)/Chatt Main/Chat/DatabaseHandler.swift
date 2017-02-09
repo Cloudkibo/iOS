@@ -1941,11 +1941,11 @@ print("--------")
         {for groupsinfo in try self.db.prepare(tblGroups.filter(unique_id == groupid)){
             
             print("inside finding group found in db")
-            newEntry["group_name"]=groupsinfo.get(group_name)
-            newEntry["group_icon"]=groupsinfo.get(group_icon)
-            newEntry["date_creation"]=groupsinfo.get(date_creation)
-            newEntry["unique_id"]=groupsinfo.get(unique_id)
-            newEntry["isMute"]=groupsinfo.get(isMute)
+            newEntry["group_name"]=groupsinfo.get(group_name) as AnyObject
+            newEntry["group_icon"]=groupsinfo.get(group_icon) as AnyObject
+            newEntry["date_creation"]=groupsinfo.get(date_creation) as AnyObject
+            newEntry["unique_id"]=groupsinfo.get(unique_id) as AnyObject
+            newEntry["isMute"]=groupsinfo.get(isMute) as AnyObject
             //groupsList.append(newEntry)
             
             
@@ -1984,16 +1984,16 @@ print("--------")
         {for groupDetails in try self.db.prepare(tblGroupmember.filter(group_unique_id==groupid1)){
             // print("channel name for deptid \(deptid) is \(channelNames.get(msg_channel_name))")
             var newEntry: [String: AnyObject] = [:]
-            newEntry["group_unique_id"]=groupDetails.get(group_unique_id)
-            newEntry["member_phone"]=groupDetails.get(member_phone)
-            newEntry["isAdmin"]=groupDetails.get(isAdmin)
-            newEntry["membership_status"]=groupDetails.get(membership_status)
+            newEntry["group_unique_id"]=groupDetails.get(group_unique_id) as AnyObject
+            newEntry["member_phone"]=groupDetails.get(member_phone) as AnyObject
+            newEntry["isAdmin"]=groupDetails.get(isAdmin) as AnyObject
+            newEntry["membership_status"]=groupDetails.get(membership_status) as AnyObject
             
-            newEntry["date_joined"]=groupDetails.get(date_joined)
+            newEntry["date_joined"]=groupDetails.get(date_joined) as AnyObject
             
-            newEntry["date_left"]=groupDetails.get(date_left)
+            newEntry["date_left"]=groupDetails.get(date_left) as AnyObject
             
-            newEntry["group_member_displayname"]=groupDetails.get(group_member_displayname)
+            newEntry["group_member_displayname"]=groupDetails.get(group_member_displayname) as AnyObject
             /*newEntry["msg_channel_description"]=channelNames.get(msg_channel_description)
              newEntry["companyid"]=channelNames.get(companyid)
              newEntry["groupid"]=channelNames.get(groupid)
@@ -2579,7 +2579,7 @@ print("--------")
         let read_date = Expression<Date>("read_date")
         let delivered_date = Expression<Date>("delivered_date")
         var result=true
-        for i in 0 .. members_phones1.count
+        for i in 0 ..< members_phones1.count
         {
         do
         {for groupChatStatus in try self.db.prepare(group_chat_status.filter(msg_unique_id==msg_unique_id1 && user_phone==members_phones1[i]["member_phone"] as! String)){
@@ -2637,7 +2637,7 @@ print("--------")
         let read_date = Expression<Date>("read_date")
         let delivered_date = Expression<Date>("delivered_date")
         var result=true
-        for i in 0 .. members_phones1.count
+        for i in 0 ..< members_phones1.count
         {
             do
             {for groupChatStatus in try self.db.prepare(group_chat_status.filter(msg_unique_id==msg_unique_id1 && user_phone==members_phones1[i]["member_phone"] as! String)){
@@ -2737,13 +2737,13 @@ print("--------")
             {for pendingchatsGroupDetail in try self.db.prepare((tblgroupchat?.filter(unique_id == idPendingMsg))!)
             {
                 var newEntry=[String:AnyObject]()
-                newEntry["from"]=pendingchatsGroupDetail.get(from)
-                newEntry["group_unique_id"]=pendingchatsGroupDetail.get(group_unique_id)
-                newEntry["type"]=pendingchatsGroupDetail.get(type)
-                newEntry["msg"]=pendingchatsGroupDetail.get(msg)
-                newEntry["from_fullname"]=pendingchatsGroupDetail.get(from_fullname)
-                newEntry["date"]=pendingchatsGroupDetail.get(date)
-                newEntry["unique_id"]=pendingchatsGroupDetail.get(unique_id)
+                newEntry["from"]=pendingchatsGroupDetail.get(from) as AnyObject
+                newEntry["group_unique_id"]=pendingchatsGroupDetail.get(group_unique_id) as AnyObject
+                newEntry["type"]=pendingchatsGroupDetail.get(type) as AnyObject
+                newEntry["msg"]=pendingchatsGroupDetail.get(msg) as AnyObject
+                newEntry["from_fullname"]=pendingchatsGroupDetail.get(from_fullname) as AnyObject
+                newEntry["date"]=pendingchatsGroupDetail.get(date) as AnyObject
+                newEntry["unique_id"]=pendingchatsGroupDetail.get(unique_id) as AnyObject
                 groupsList.append(newEntry)
             }
                 
@@ -2887,7 +2887,7 @@ print("--------")
     
     func getSinglebroadcastlist(_ uniqueid1:String)->[String:AnyObject]
     {
-        var newEntry=[String:AnyObject]()
+        var newEntry=[String:Any]()
         
         let uniqueid = Expression<String>("uniqueid")
         let listname = Expression<String>("listname")
@@ -2906,7 +2906,7 @@ print("--------")
         {
             
         }
-       return newEntry
+       return newEntry as [String : AnyObject]
     }
     
     func getSinglebroadcastlist()->[[String:AnyObject]]
@@ -2922,7 +2922,8 @@ print("--------")
         {for list in try self.db.prepare(self.broadcastlisttable)
         { var newEntry=[String:AnyObject]()
             
-            newEntry["uniqueid"]=list.get(uniqueid)
+            var aaa=list.get(listname)
+            //var newEntry1["uniqueid"]=list.get(uniqueid)
             newEntry["listname"]=list.get(listname)
             broadcastlist.append(newEntry)
             

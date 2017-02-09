@@ -68,7 +68,7 @@ class BroadcastListDetailsViewController: UIViewController,UINavigationControlle
                 
                 var keys = [CNContactGivenNameKey, CNContactFamilyNameKey, CNContactEmailAddressesKey, CNContactPhoneNumbersKey, CNContactImageDataAvailableKey,CNContactThumbnailImageDataKey, CNContactImageDataKey]
                 //--- var foundcontact=try contactStore.unifiedContactWithIdentifier(picquery[uniqueidentifier], keysToFetch: keys)
-                do{var foundcontact=try contactStore.unifiedContactWithIdentifier(joinrows[0].get(uniqueidentifier), keysToFetch: keys as [CNKeyDescriptor])
+                do{var foundcontact=try contactStore.unifiedContact(withIdentifier: joinrows[0].get(uniqueidentifier), keysToFetch: keys as [CNKeyDescriptor])
                 
                 if(foundcontact.imageDataAvailable==true)
                 {
@@ -132,7 +132,7 @@ class BroadcastListDetailsViewController: UIViewController,UINavigationControlle
         
         var contactslists = sqliteDB.contactslists
         //=================================================
-        var joinquery=allcontacts.join(.LeftOuter, contactslists!, on: (contactslists?[phone])! == (allcontacts?[phone])!).filter(allcontacts[phone]==phone1)
+        var joinquery=allcontacts.join(.leftOuter, contactslists!, on: (contactslists?[phone])! == (allcontacts?[phone])!).filter(allcontacts?[phone]==phone1)
         
         do{for joinresult in try sqliteDB.db.prepare(joinquery) {
             
@@ -342,7 +342,7 @@ class BroadcastListDetailsViewController: UIViewController,UINavigationControlle
                 destinationVC.prevScreen="editbroadcastlist"
                 var identifierslist=[String]()
                 destinationVC.editbroadcastlistID=broadcastlistID
-                for i in 0 .. broadcastmembers.count
+                for i in 0 ..<< broadcastmembers.count
                 {
                     identifierslist.append(sqliteDB.getIdentifierFRomPhone(broadcastmembers[i]))
                     var found=UtilityFunctions.init().findContact(sqliteDB.getIdentifierFRomPhone(broadcastmembers[i]))

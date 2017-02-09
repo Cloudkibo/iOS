@@ -66,23 +66,26 @@ open class EPContact {
                     break
                 }
             }
+            var logicalexpression=countrycode=="1" &&
+                phoneDigits.characters.first == Character.init("1") &&
+                phoneDigits.characters.first != Character.init("+")
             
-            if(countrycode != nil){
-                if((countrycode=="1") && (phoneDigits.characters.first=="1") && (phoneDigits.characters.first != "+"))
-                {
-                    phoneDigits = "+"+phoneDigits
-                }
+
+            if logicalexpression{
+                
+                                phoneDigits = "+"+phoneDigits
+            }
                 else if(phoneDigits.characters.first != "+"){
                     phoneDigits = "+"+countrycode+phoneDigits
                     print("appended phone is \(phoneDigits)")
-                }
+                
                 
                 
             }
             
             
             // phoneNumbers.append((phone.stringValue,phoneNumber.label))
-            phoneNumbers.append((phoneDigits,phoneNumber.label!))
+            phoneNumbers.append((phoneDigits,phoneNumber: phoneNumber.label!))
         }
         
         for emailAddress in contact.emailAddresses {
