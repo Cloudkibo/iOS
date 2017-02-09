@@ -829,15 +829,23 @@ print("tempURL is \(temporaryURL) and response is \(response.allHeaderFields)")
     //////===========
     // =============emails.append(phoneDigits)
     var emailAddress=""
-    let em = try contact1.emailAddresses.first
-    if((em as NSString) != nil && (em as NSString) != "")
+    
+        if let em = try contact1.emailAddresses.first{
+            print(em?.label)
+            print(em?.value)
+            emailAddress=(em?.value)! as String
+            print("email adress value iss \(emailAddress)")
+            
+        }
+    
+    /*    if((em?.value) != nil && (em?.value) != "")
     {
     print(em?.label)
     print(em?.value)
     emailAddress=(em?.value)! as String
     print("email adress value iss \(emailAddress)")
     /////emails.append(em!.value as! String)
-    }
+    }*/
     if(contact1.imageDataAvailable==true)
     {
     image=contact1.imageData!

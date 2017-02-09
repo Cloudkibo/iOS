@@ -73,13 +73,13 @@ class syncContactService
             
             
       //  dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0)) {
-            let dispatch_queue_attr = DispatchQoS.init(qosClass: DispatchQueue.Attributes(), relativePriority: 0)
+            //let dispatch_queue_attr = DispatchQoS.init(qosClass: DispatchQoS.userInitiated, relativePriority: 0)
             
-            var queue1 = DispatchQueue(label: "1", attributes: dispatch_queue_attr)
-            var queue2 = DispatchQueue(label: "2", attributes: dispatch_queue_attr)
-            var queue3 = DispatchQueue(label: "3", attributes: dispatch_queue_attr)
-            var queue4 = DispatchQueue(label: "4", attributes: dispatch_queue_attr)
-            var queue5 = DispatchQueue(label: "5", attributes: dispatch_queue_attr)
+            var queue1 = DispatchQueue(label: "1")//, attributes: dispatch_queue_attr)
+            var queue2 = DispatchQueue(label: "2")//, attributes: dispatch_queue_attr)
+            var queue3 = DispatchQueue(label: "3")//, attributes: dispatch_queue_attr)
+            var queue4 = DispatchQueue(label: "4")//, attributes: dispatch_queue_attr)
+            var queue5 = DispatchQueue(label: "5")//, attributes: dispatch_queue_attr)
             
             queue1.async {
             print("synccccc fetching contacts in background...")
@@ -212,13 +212,15 @@ class syncContactService
                                     }
                                 }
                             }
-                            if(countrycode=="1" && phoneDigits.characters.first=="1")
-                            {
-                                if(phoneDigits.characters.first != "+"){
-                                phoneDigits = "+"+phoneDigits
-                                }
+                            var logicalexpression=countrycode=="1" &&
+                                phoneDigits.characters.first == Character.init("1") &&
+                                phoneDigits.characters.first != Character.init("+")
+                            
+                            if logicalexpression
+                            {   phoneDigits = "+"+phoneDigits
+                                
                             }
-                            else if(phoneDigits.characters.first != "+"){
+                            else if(phoneDigits.characters.first != Character.init(s:"+")){
                                 phoneDigits = "+"+countrycode+phoneDigits
                                 print("appended phone is \(phoneDigits)")
                             }

@@ -4617,7 +4617,8 @@ print("hh \(hh)")
          //   if(downloadedalready != nil)
 //{
                 
-                if(downloadkeyresult.count>0)
+                
+                if(downloadkeyresult.allValues.count>0)
 {
     var downloadedalready=try FileManager.default.startDownloadingUbiquitousItem(at: furl!)
     

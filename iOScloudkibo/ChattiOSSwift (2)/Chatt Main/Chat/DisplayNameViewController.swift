@@ -1179,8 +1179,8 @@ class DisplayNameViewController: UIViewController {
                                     //====
                                     
                                     
-                                    let dateFormatter = NSDateFormatter()
-                                    dateFormatter.timeZone=NSTimeZone.localTimeZone()
+                                    let dateFormatter = DateFormatter()
+                                    dateFormatter.timeZone=NSTimeZone.local
                                     dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
                                     //  let datens2 = dateFormatter.dateFromString(date2.debugDescription)
                                     //2016-09-18T19:13:00.588Z
@@ -1242,7 +1242,7 @@ class DisplayNameViewController: UIViewController {
                             
                         }
                         dispatch_async(dispatch_get_main_queue()) {
-                        return completion(result: true)
+                        return completion(true)
                             }
                         /* dispatch_async(dispatch_get_main_queue()) {
                         self.messageFrame2.removeFromSuperview()
