@@ -313,7 +313,8 @@ class DisplayNameViewController: UIViewController {
                                     }
                                 }
                             }
-                            if(countrycode=="1" && phoneDigits.characters.first=="1" && phoneDigits.characters.first != "+")
+                            
+                            if(((countrycode=="1") && (phoneDigits.characters.first=="1")) && (phoneDigits.characters.first != "+"))
                             {
                                 phoneDigits = "+"+phoneDigits
                             }
@@ -452,7 +453,7 @@ class DisplayNameViewController: UIViewController {
                                         }
                                     }
                                 }
-                                if(countrycode=="1" && phoneDigits.characters.first=="1" && phoneDigits.characters.first != "+")
+                                if(((countrycode=="1") && (phoneDigits.characters.first=="1")) && (phoneDigits.characters.first != "+"))
                                 {
                                     phoneDigits = "+"+phoneDigits
                                 }
@@ -464,15 +465,17 @@ class DisplayNameViewController: UIViewController {
                                 //////===========
                                 // =============emails.append(phoneDigits)
                                 var emailAddress=""
-                                let em = try self.syncContactsList[i].emailAddresses.first
+                                let em = try self.syncContactsList[i].emailAddresses.first!
+                                
                                 if(em != nil && em != "")
                                 {
-                                    print(em?.label)
-                                    print(em?.value)
-                                    emailAddress=(em?.value)! as String
+                                    print(em.label)
+                                    print(em.value)
+                                    emailAddress=(em.value) as String
                                     print("email adress value iss \(emailAddress)")
                                     /////emails.append(em!.value as! String)
                                 }
+                                
                                 if(self.syncContactsList[i].imageDataAvailable==true)
                                 {
                                     image=self.syncContactsList[i].imageData!
@@ -537,7 +540,7 @@ class DisplayNameViewController: UIViewController {
                 for j in 0 ..< contactsdata.count
                 {
                     do{
-                        try sqliteDB.db.run(tbl_allcontacts?.insert(self.name<-contactsdata[j]["name"]!,self.phone<-contactsdata[j]["phone"]!,self.actualphone<-contactsdata[j]["actualphone"]!,self.email<-contactsdata[j]["email"]!,self.uniqueidentifier<-contactsdata[j]["uniqueidentifier"]!))
+                        try sqliteDB.db.run((tbl_allcontacts?.insert(self.name<-contactsdata[j]["name"]!,self.phone<-contactsdata[j]["phone"]!,self.actualphone<-contactsdata[j]["actualphone"]!,self.email<-contactsdata[j]["email"]!,self.uniqueidentifier<-contactsdata[j]["uniqueidentifier"]!))!)
                     }
                     catch(let error)
                     {
@@ -643,7 +646,8 @@ class DisplayNameViewController: UIViewController {
             if(response.response?.statusCode==200)
             {socketObj.socket.emit("logClient","IPHONE-LOG: success in getting available and not available contacts")
                 
-                dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT,0).sync()
+                DispatchQueue.global().sync
+                //global(DispatchQueue.GlobalQueuePriority.default,0).sync()
                 {
                 debugPrint(response.data)
                 //print(response.request)
@@ -695,10 +699,10 @@ class DisplayNameViewController: UIViewController {
             }
             else
             {
-                dispatch_async(dispatch_get_main_queue())
+                DispatchQueue.main.async
                 {
                     socketObj.socket.emit("logClient","IPHONE-LOG: error: \(response.debugDescription)")
-                    completion(result: false)
+                    completion(false)
                 }
             }
             
@@ -762,7 +766,7 @@ class DisplayNameViewController: UIViewController {
                 
                 
                 
-                if response1?.statusCode==200 {
+                if response1.response?.statusCode==200 {
                     //============GOT Contacts SECCESS=================
                     
                     
@@ -802,7 +806,7 @@ class DisplayNameViewController: UIViewController {
                     
                     let tbl_contactslists=sqliteDB.contactslists
                     /////////newwwwwwwww///////
-                    do{try sqliteDB.db.run(tbl_contactslists?.delete())}catch{
+                    do{try sqliteDB.db.run((tbl_contactslists?.delete())!)}catch{
                         print("contactslist table not deleted")
                     }
                     ////////////////
@@ -820,18 +824,18 @@ class DisplayNameViewController: UIViewController {
                             if(contactsJsonObj[i]["contactid"]["username"].string != nil)
                             {
                                 print("inside username hereeeeeee")
-                                let rowid = try sqliteDB.db.run(tbl_contactslists?.insert(contactid<-contactsJsonObj[i]["contactid"]["_id"].string!,
-                                    detailsshared<-contactsJsonObj[i]["detailsshared"].string!,
-                                    
-                                    unreadMessage<-contactsJsonObj[i]["unreadMessage"].boolValue,
-                                    
-                                    userid<-contactsJsonObj[i]["userid"].string!,
-                                    firstname<-contactsJsonObj[i]["contactid"]["firstname"].string!,
-                                    lastname<-contactsJsonObj[i]["contactid"]["lastname"].string!,
-                                    email<-contactsJsonObj[i]["contactid"]["email"].string!,
-                                    phone<-contactsJsonObj[i]["contactid"]["phone"].string!,
-                                    username<-contactsJsonObj[i]["contactid"]["username"].string!,
-                                    status<-contactsJsonObj[i]["contactid"]["status"].string!)
+                                let rowid = try sqliteDB.db.run((tbl_contactslists?.insert(contactid<-contactsJsonObj[i]["contactid"]["_id"].string!,
+                                                                                           detailsshared<-contactsJsonObj[i]["detailsshared"].string!,
+                                                                                           
+                                                                                           unreadMessage<-contactsJsonObj[i]["unreadMessage"].boolValue,
+                                                                                           
+                                                                                           userid<-contactsJsonObj[i]["userid"].string!,
+                                                                                           firstname<-contactsJsonObj[i]["contactid"]["firstname"].string!,
+                                                                                           lastname<-contactsJsonObj[i]["contactid"]["lastname"].string!,
+                                                                                           email<-contactsJsonObj[i]["contactid"]["email"].string!,
+                                                                                           phone<-contactsJsonObj[i]["contactid"]["phone"].string!,
+                                                                                           username<-contactsJsonObj[i]["contactid"]["username"].string!,
+                                                                                           status<-contactsJsonObj[i]["contactid"]["status"].string!))!
                                 )
                                 print("data inserttt")
                                 
@@ -848,7 +852,7 @@ class DisplayNameViewController: UIViewController {
                                 print("inside displayname hereeeeeee")
                                 
                                 
-                                let rowid = try sqliteDB.db.run(tbl_contactslists.insert(contactid<-contactsJsonObj[i]["contactid"]["_id"].string!,
+                                let rowid = try sqliteDB.db.run(tbl_contactslists?.insert(contactid<-contactsJsonObj[i]["contactid"]["_id"].string!,
                                     detailsshared<-contactsJsonObj[i]["detailsshared"].string!,
                                     
                                     unreadMessage<-contactsJsonObj[i]["unreadMessage"].boolValue,
@@ -881,29 +885,26 @@ class DisplayNameViewController: UIViewController {
                     
                 }else{
                     
-                    completion(result:false)
+                    completion(false)
                     
-                    print("error: \(error1!.localizedDescription)")
-                    if(socketObj != nil)
+                    print("error: \(response1.error!.localizedDescription)")
+                    /*if(socketObj != nil)
                     {
                     socketObj.socket.emit("logClient", "error: \(error1!.localizedDescription)")
-                    }
-                    print(error1)
-                    print(response1?.statusCode)
+                    }*/
+                    //print(error1)
+                    print(response1.response.statusCode)
                     print("FETCH CONTACTS FAILED")
                     print("eeeeeeeeeeeeeeeeeeeeee")
                     
                 }
-                if(response1?.statusCode==401)
+                if(response1.response?.statusCode==401)
                 {
-                    if(socketObj != nil)
-                    {
-                    socketObj.socket.emit("logClient", "error: \(error1!.localizedDescription)")
-                    }
+                 
                     print("Refreshinggggggggggggggggggg token expired")
                     if(username==nil || password==nil)
                     {print("line # 1074")
-                        self.performSegueWithIdentifier("loginSegue", sender: nil)
+                        self.performSegue(withIdentifier: "loginSegue", sender: nil)
                     }
                     
                     /*else{
@@ -1090,7 +1091,12 @@ class DisplayNameViewController: UIViewController {
             //var getUserDataURL=userDataUrl
         
        // dispatch_sync(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) {
-            Alamofire.request(.POST,"\(fetchChatURL)",headers:header,parameters:["user1":username!]).validate(statusCode: 200..<300).responseJSON{response in
+        
+        
+        Alamofire.request("\(fetchChatURL)", method: .post, parameters: ["user1":username!],headers:header).responseJSON { response in
+            
+
+       /// Alamofire.request(.POST,"\(fetchChatURL)",headers:header,parameters:["user1":username!]).validate(statusCode: 200..<300).responseJSON{response in
                 
                 
                 
@@ -1100,7 +1106,7 @@ class DisplayNameViewController: UIViewController {
 
                 
                 switch response.result {
-                case .Success:
+                case .success:
                     
                     if(socketObj != nil)
                     {
@@ -1243,7 +1249,7 @@ class DisplayNameViewController: UIViewController {
                     
                     }*/
                     
-                case .Failure:
+                case .failure:
                     if(socketObj != nil)
                     { socketObj.socket.emit("logClient", "All chat fetched failed")
                     }
@@ -1645,7 +1651,7 @@ socketObj.socket.emit("logClient","button done pressed start time \(Date())")
         //=================================================
         var joinquery=allcontacts?.join(.leftOuter, contactslists!, on: (contactslists?[phone])! == (allcontacts?[phone])!)
         
-        do{for joinresult in try sqliteDB.db.prepare(joinquery) {
+        do{for joinresult in try sqliteDB.db.prepare(joinquery!) {
             if(joinresult[uniqueidentifier].isEmpty){}
             else{
                 resultrow.append(joinresult)

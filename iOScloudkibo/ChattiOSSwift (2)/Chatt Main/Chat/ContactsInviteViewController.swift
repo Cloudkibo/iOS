@@ -344,13 +344,13 @@ class ContactsInviteViewController: UIViewController,UITableViewDelegate,UITable
     
     func messageComposeViewController(_ controller: MFMessageComposeViewController!, didFinishWith result: MessageComposeResult) {
         switch (result) {
-        case MessageComposeResultCancelled:
+        case .cancelled:
             print("Message was cancelled")
             self.dismiss(animated: true, completion: nil)
-        case MessageComposeResultFailed:
+        case .failed:
             print("Message failed")
             self.dismiss(animated: true, completion: nil)
-        case MessageComposeResultSent:
+        case .sent:
             print("Message was sent")
             self.dismiss(animated: true, completion: nil)
         default:

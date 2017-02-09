@@ -1868,7 +1868,7 @@ print("--------")
 
         
     }
-    func getGroupDetails()->[[String:AnyObject]]
+    func getGroupDetails()->[[String:Any]]
     {
         let group_name = Expression<String>("group_name")
         let group_icon = Expression<Data>("group_icon")
@@ -1878,7 +1878,7 @@ print("--------")
         let status = Expression<String>("status")
         
         
-        var groupsList=[[String:AnyObject]]()
+        var groupsList=[[String:Any]]()
         
         /* let _id = Expression<String>("_id")
          let deptname = Expression<String>("deptname")
@@ -1893,10 +1893,10 @@ print("--------")
         do
         {for groupDetails in try self.db.prepare(self.groups){
            // print("channel name for deptid \(deptid) is \(channelNames.get(msg_channel_name))")
-            var newEntry: [String: AnyObject] = [:]
-            newEntry["group_name"]=groupDetails.get(group_name)
-            newEntry["group_icon"]=groupDetails.get(group_icon)
-            newEntry["date_creation"]=groupDetails.get(date_creation)
+            var newEntry: [String: Any] = [:]
+            newEntry["group_name"]=groupDetails.get(group_name) as String
+            newEntry["group_icon"]=groupDetails.get(group_icon) as Data
+            newEntry["date_creation"]=groupDetails.get(date_creation) as Date
             newEntry["unique_id"]=groupDetails.get(unique_id)
             newEntry["isMute"]=groupDetails.get(isMute)
             newEntry["status"]=groupDetails.get(status)
@@ -2607,9 +2607,8 @@ print("--------")
         let read_date = Expression<Date>("read_date")
         let delivered_date = Expression<Date>("delivered_date")
         var result=true
-        for i in 0 .. members_phones1.count
-        {
-            do
+        for i in 0 ..< members_phones1.count
+        {do
             {for groupChatStatus in try self.db.prepare(group_chat_status.filter(msg_unique_id==msg_unique_id1 && user_phone==members_phones1[i]["member_phone"] as! String)){
                 if(groupChatStatus[Status].lowercased() == "sent")
                 {
@@ -2795,7 +2794,7 @@ print("--------")
         //
         self.broadcastlistmembers = Table("broadcastlistmembers")
         do {
-            for i in 0 .. memberphones.count
+            for i in 0 ..< memberphones.count
             {
             let rowid = try db.run(broadcastlistmembers.insert(
                 uniqueid<-broadcastlistID1,
@@ -2944,7 +2943,7 @@ print("--------")
         let listname = Expression<String>("listname")
         
         var listdata = getSinglebroadcastlist()
-        for i in 0 .. listdata.count
+        for i in 0 ..< listdata.count
         {
             var listDetailSingle=[String:String]()
             

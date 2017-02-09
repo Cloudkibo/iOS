@@ -320,6 +320,9 @@ class UtilityFunctions{
         DispatchQueue.global(priority: DispatchQueue.GlobalQueuePriority.default).async
         {
         // print("downloading call unique id \(fileuniqueid)")
+            
+            
+            
         Alamofire.download(.POST, "\(downloadURL)", headers:header, parameters: ["unique_id":uniqueid1], destination: destination)
             .progress { (bytesRead, totalBytesRead, totalBytesExpectedToRead) in
                 print("writing bytes \(totalBytesRead)")
@@ -689,8 +692,8 @@ print("tempURL is \(temporaryURL) and response is \(response.allHeaderFields)")
                 CNContactImageDataKey as CNKeyDescriptor,
                 CNContactThumbnailImageDataKey as CNKeyDescriptor,
                 CNContactImageDataAvailableKey as CNKeyDescriptor,
-                CNContactPhoneNumbersKey,
-                CNContactEmailAddressesKey,
+                CNContactPhoneNumbersKey as CNKeyDescriptor,
+                CNContactEmailAddressesKey as CNKeyDescriptor,
                 ])
 
             return contacts
@@ -830,10 +833,10 @@ print("tempURL is \(temporaryURL) and response is \(response.allHeaderFields)")
            //==-- try sqliteDB.db.run(tbl_allcontacts.delete())
             // print("now count is \(sqliteDB.db.scalar(tbl_allcontacts.count))")
             
-            for j in 0 .. contactsdata.count
+            for j in 0 ..< contactsdata.count
             {
                 do{
-                    try sqliteDB.db.run(tbl_allcontacts?.insert(name<-contactsdata[j]["name"]!,phone<-contactsdata[j]["phone"]!,actualphone<-contactsdata[j]["actualphone"]!,email<-contactsdata[j]["email"]!,uniqueidentifier<-contactsdata[j]["uniqueidentifier"]!,kiboContact<-isKibo))
+                    try sqliteDB.db.run((tbl_allcontacts?.insert(name<-contactsdata[j]["name"]!,phone<-contactsdata[j]["phone"]!,actualphone<-contactsdata[j]["actualphone"]!,email<-contactsdata[j]["email"]!,uniqueidentifier<-contactsdata[j]["uniqueidentifier"]!,kiboContact<-isKibo))!)
                     
                     return completion(true)
                 }

@@ -881,16 +881,17 @@ self.remoteDisconnected()
             if(isSocketConnected==true){
                 //socketObj.socket.emitWithAck("init", ["room":ConferenceRoomName,"username":username!])(timeoutAfter: 1500000) {data in
                 
-                socketObj.socket.emitWithAck("init", ["room":ConferenceRoomName,"username":username!])(timeoutAfter: 1500000) {data in
-                    
+                var initroom=socketObj.socket.emitWithAck("init", ["room":ConferenceRoomName,"username":username!])
+                
+                initroom.timingOut(after: 150000, callback: { (data) in
                     print("conference room joined by got ack")
                     var a=JSON(data)
                     print(a.debugDescription)
                     currentID=a[1].int!
                     print("current id is \(currentID)")
                     print("room joined is\(ConferenceRoomName)")
-                }
-            }
+                    
+                })            }
             
             //roomname=ConferenceRoomName
         }
@@ -1683,7 +1684,7 @@ self.remoteDisconnected()
                 print("answer received screen")
                 socketObj.socket.emit("logClient","IPHONE-LOG: \(username) received screen answer")
                 var sessionDescription=RTCSessionDescription(type: msg[0]["type"].description, sdp: msg[0]["sdp"]["sdp"].description)
-                self.pc.setRemoteDescriptionWithDelegate(self, sessionDescription: sessionDescription)
+                self.pc.setRemoteDescriptionWith(self, sessionDescription: sessionDescription)
             }
             
             if(isInitiator.description == "true" && self.pc.remoteDescription == nil)
@@ -1692,7 +1693,7 @@ self.remoteDisconnected()
                 
                 print("answer received")
                 var sessionDescription=RTCSessionDescription(type: msg[0]["type"].description, sdp: msg[0]["sdp"]["sdp"].description)
-                self.pc.setRemoteDescriptionWithDelegate(self, sessionDescription: sessionDescription)
+                self.pc.setRemoteDescriptionWith(self, sessionDescription: sessionDescription)
             }
             
         }
@@ -1704,11 +1705,11 @@ self.remoteDisconnected()
             else{
                 if(msg[0]["by"].intValue != currentID)
                 {var iceCandidate=RTCICECandidate(mid: msg[0]["ice"]["sdpMid"].description, index: msg[0]["ice"]["sdpMLineIndex"].int!, sdp: msg[0]["ice"]["candidate"].description)
-                    print(iceCandidate.description)
+                    print(iceCandidate?.description)
                     
                     if(self.pc.localDescription != nil && self.pc.remoteDescription != nil)
                         
-                    {var addedcandidate=self.pc.addICECandidate(iceCandidate)
+                    {var addedcandidate=self.pc.add(iceCandidate)
                         socketObj.socket.emit("logClient","IPHONE-LOG: \(username) added ice candidate")
                         print("ice candidate added \(addedcandidate)")
                     }
@@ -1726,7 +1727,7 @@ self.remoteDisconnected()
         
         //Both joined same room
         
-        var datajson:JSON=data!
+        var datajson=JSON(data!)
         print(datajson.debugDescription)
         socketObj.socket.emit("logClient","peer connected \(datajson.debugDescription)")
         //if(datajson[0]["username"].description != username!){
@@ -2868,7 +2869,7 @@ self.remoteDisconnected()
             socketObj.socket.emit("logClient","IPHONE-LOG: \(username!) selected file ")
             print("file gotttttt")
             ///////////self.mdata.sharefile(url.URLString)
-            var furl=URL(string: url.URLString)
+            var furl=URL(string: url.absoluteString)
             //ADDEDDDDD
             //////furl=fileurl
             /////////////////newwwwwvar furl=NSURL(fileURLWithPath: filePathImage)

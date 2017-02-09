@@ -50,7 +50,7 @@ class GroupMessageStatusViewController: UIViewController {
 
         if(readBy.count>0)
         {
-            for i in 0 .. readBy.count
+            for i in 0 ..< readBy.count
             {
             self.deliveredTo.append(self.readBy[i])
             }

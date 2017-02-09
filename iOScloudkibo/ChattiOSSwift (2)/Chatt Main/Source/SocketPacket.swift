@@ -130,7 +130,7 @@ struct SocketPacket {
             if dict["_placeholder"] as? Bool ?? false {
                 return binary[dict["num"] as! Int]
             } else {
-                return dict.reduce(JSON(), {cur, keyValue in
+                return dict.reduce(JSONsocket(), {cur, keyValue in
                     var cur = cur
                     
                     cur[keyValue.0] = _fillInPlaceholders(keyValue.1)

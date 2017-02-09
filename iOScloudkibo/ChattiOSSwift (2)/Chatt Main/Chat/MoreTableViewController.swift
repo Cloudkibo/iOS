@@ -146,8 +146,8 @@ class MoreTableViewController: UITableViewController {
                 KeychainWrapper.removeObjectForKey("loggedPhone")
                 KeychainWrapper.removeObjectForKey("loggedEmail")
                 KeychainWrapper.removeObjectForKey("_id")
-                loggedUserObj=JSON("[]")
-               
+                //loggedUserObj=JSON("[]")
+             
                 //let dbSQLite=DatabaseHandler(dbName: "/cloudKibo.sqlite3")
                 print("loggedout", terminator: "")
                 

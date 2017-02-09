@@ -73,7 +73,8 @@ class syncContactService
             
             
       //  dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0)) {
-            let dispatch_queue_attr = DispatchQoS(_FIXME_useThisWhenCreatingTheQueueAndRemoveFromThisCall: DispatchQueue.Attributes(), qosClass: DispatchQoS.QoSClass.background, relativePriority: 0)
+            let dispatch_queue_attr = DispatchQoS(DispatchQueue.Attributes(), qosClass: DispatchQoS.QoSClass.background, relativePriority: 0)
+            
             var queue1 = DispatchQueue(label: "1", attributes: dispatch_queue_attr)
             var queue2 = DispatchQueue(label: "2", attributes: dispatch_queue_attr)
             var queue3 = DispatchQueue(label: "3", attributes: dispatch_queue_attr)
@@ -497,7 +498,7 @@ class syncContactService
                 //print(NotavailableContactsEmails!)
              //////   print("**************** \(self.notAvailableContacts)")
                 
-                dispatch_async(dispatch_get_main_queue())
+                DispatchQueue.main.async
                 {
                 completion(true)
                 }
@@ -509,10 +510,10 @@ class syncContactService
             }
             else
             {
-                dispatch_async(dispatch_get_main_queue())
+                DispatchQueue.main.asynchronously()
                 {
                 socketObj.socket.emit("logClient","IPHONE-LOG: error: \(response.debugDescription)")
-                    completion(result: false)
+                    completion(false)
                 }
             }
             
@@ -890,7 +891,7 @@ class syncContactService
                 {
                     socketObj.socket.emit("logClient", "display name \(displayName) sent to server successfully")
                 }
-                return completion(result: true)
+                return completion(true)
                 //////// %%%%%%%%%%%%%%***************self.performSegueWithIdentifier("fetchContactsSegue", sender: self)
                 //self.performSegueWithIdentifier("fetchaddressbooksegue", sender: self)
                 //*********************%%%%%%%%%%%%%%%%%%%%%%%%% commented new
@@ -1036,7 +1037,7 @@ class syncContactService
                 
                 
             
-                if response1.response.statusCode==200 {
+                if response1.response?.statusCode==200 {
                     //============GOT Contacts SECCESS=================
                     
                     
@@ -1081,7 +1082,7 @@ class syncContactService
                     
                     let tbl_contactslists=sqliteDB.contactslists
                     /////////newwwwwwwww///////
-                    do{try sqliteDB.db.run(tbl_contactslists?.delete())}catch{
+                    do{try sqliteDB.db.run((tbl_contactslists?.delete())!)}catch{
                         print("contactslist table not deleted")
                     }
                     ////////////////

@@ -68,7 +68,7 @@ open class EPContact {
             }
             
             if(countrycode != nil){
-                if(countrycode=="1" && phoneDigits.characters.first=="1" && phoneDigits.characters.first != "+")
+                if((countrycode=="1") && (phoneDigits.characters.first=="1") && (phoneDigits.characters.first != "+"))
                 {
                     phoneDigits = "+"+phoneDigits
                 }
@@ -108,7 +108,7 @@ open class EPContact {
             Expression<String?>("name")
         // if(self.getPhoneNumber() != nil)
         //{
-        do{for found in try sqliteDB.db.prepare(allcontactslist1?.filter(phone==self.getPhoneNumber() && kibocontact==true))
+        do{for found in try sqliteDB.db.prepare((allcontactslist1?.filter(phone==self.getPhoneNumber() && kibocontact==true))!)
         {
             print("found contact \(self.getPhoneNumber())")
             return true

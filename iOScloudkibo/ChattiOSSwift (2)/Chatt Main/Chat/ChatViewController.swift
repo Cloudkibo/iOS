@@ -1941,7 +1941,7 @@ EPPickerDelegate,SWTableViewCellDelegate,UpdateChatViewsDelegate,RefreshContacts
         
         ///==dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT,0))
        
-        self.groupsObjectList=sqliteDB.getGroupDetails()
+        self.groupsObjectList=sqliteDB.getGroupDetails() as [[String : AnyObject]]
         
         for i in 0 ..< self.groupsObjectList.count
         {
