@@ -3232,9 +3232,9 @@ break
         
         
         
-        
-        let path = Bundle.main.path(forResource: "profile-pic1", ofType: "png")
-        let imgURL = URL(fileURLWithPath: path!)
+        let imgURL=Bundle.main.url(forResource: "profile-pic1", withExtension: "png")
+        //let path = Bundle.main.path(forResource: "profile-pic1", ofType: "png")
+       // let imgURL = URL(
         var profilepic=UIImage(named: "profile-pic1")
         
         ImageCache.default.retrieveImage(forKey: "profile-pic1", options: nil) {

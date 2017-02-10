@@ -1604,7 +1604,18 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
                     
                     //print("from \(newprogressview.angle) to \(intangle.integerValue)")
                     newprogressview?.isHidden=false
-                    newprogressview?.animateToAngle(intangle.intValue, duration: 0.7, completion: { (Bool) in
+                    newprogressview?.animate(toAngle: Double(intangle), duration: 0.7, completion: { (result) in
+                        if(intangle.intValue==360)
+                        {
+                            newprogressview?.isHidden=true
+                        }
+                        else
+                        {
+                            newprogressview?.isHidden=false
+                        }
+ 
+                        
+                    })/* animateToAngle(intangle.intValue, duration: 0.7, completion: { (Bool) in
                         
                         if(intangle.intValue==360)
                         {
@@ -1617,6 +1628,8 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
                         //newprogressview.angle=intangle.integerValue
                         
                     })
+ */
+ 
                     //self.tblForChats.reloadRowsAtIndexPaths([indexPath], withRowAnimation: UITableViewRowAnimation.None)
                     
                     //var cell=self.tblForChats.dequeueReusableCellWithIdentifier("")! as UITableViewCell
