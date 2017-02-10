@@ -1182,7 +1182,7 @@ class DisplayNameViewController: UIViewController {
                                     let dateFormatter = DateFormatter()
                                     dateFormatter.timeZone=NSTimeZone.local
                                     dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
-                                    //  let datens2 = dateFormatter..date(from:date2.debugDescription)
+                                    //  let datens2 = dateFormatter.date(from:date2.debugDescription)
                                     //2016-09-18T19:13:00.588Z
                                     let datens2 = dateFormatter.date(from: UserchatJson["msg"][i]["date"].string!)
                                     

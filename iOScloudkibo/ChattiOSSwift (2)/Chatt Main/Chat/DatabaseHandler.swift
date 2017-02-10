@@ -490,7 +490,7 @@ print("alter table needed")
        // let dateFormatter = DateFormatter()
        // dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
        // dateFormatter.
-        //let datens2 = dateFormatter..date(from:NSDate().debugDescription)
+        //let datens2 = dateFormatter.date(from:NSDate().debugDescription)
        //print("defaultDate is \(datens2)")
         self.userschats = Table("userschats")
         /*
@@ -765,7 +765,7 @@ print("alter table needed")
         // let dateFormatter = DateFormatter()
         // dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
         // dateFormatter.
-        //let datens2 = dateFormatter..date(from:NSDate().debugDescription)
+        //let datens2 = dateFormatter.date(from:NSDate().debugDescription)
         //print("defaultDate is \(datens2)")
         self.files = Table("files")
         

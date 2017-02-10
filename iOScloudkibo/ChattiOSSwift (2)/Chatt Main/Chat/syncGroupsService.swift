@@ -225,7 +225,7 @@ class syncGroupService
                 print(response)
                 if(response.request.isSuccess)
                 {
-                    print(response.request.value)
+                    print(response.request?.value)
                     jsongroupinfo=JSON(response.request.value!)
                     DispatchQueue.main.async
                     {
@@ -366,9 +366,9 @@ class syncGroupService
                 let dateFormatter = DateFormatter()
                 dateFormatter.timeZone=TimeZone.autoupdatingCurrent
                 dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
-                //  let datens2 = dateFormatter..date(from:date2.debugDescription)
+                //  let datens2 = dateFormatter.date(from:date2.debugDescription)
                 //2016-09-18T19:13:00.588Z
-                let datens2 = dateFormatter..date(from:date_creation)
+                let datens2 = dateFormatter.date(from:date_creation)
                 var data=[String:AnyObject]()
                 data["group_name"]=group_name
                 data["groupicon1"]=group_icon as AnyObject?
@@ -473,9 +473,9 @@ class syncGroupService
                 let dateFormatter = DateFormatter()
                 dateFormatter.timeZone=TimeZone.autoupdatingCurrent
                 dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
-                //  let datens2 = dateFormatter..date(from:date2.debugDescription)
+                //  let datens2 = dateFormatter.date(from:date2.debugDescription)
                 //2016-09-18T19:13:00.588Z
-                let datens2 = dateFormatter..date(from:date_creation)
+                let datens2 = dateFormatter.date(from:date_creation)
                 
                 sqliteDB.storeGroups(group_name, groupicon1: group_icon, datecreation1: datens2!, uniqueid1: unique_id, status1: "new")
                 
@@ -513,7 +513,12 @@ class syncGroupService
        DispatchQueue.global(priority: DispatchQueue.GlobalQueuePriority.default).sync
        {
         
+          let request = Alamofire.request("\(url)",headers:header).responseJSON { response in
+            
+            /*
         var request=Alamofire.request(.GET,"\(url)",headers:header).validate().responseJSON{ response in
+            */
+        
             /*queue: qqq,
             responseSerializer: Request.JSONResponseSerializer(),
             completionHandler: { response in
@@ -558,7 +563,7 @@ class syncGroupService
                         dateFormatter.timeZone=NSTimeZone.local()
                         dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
                         
-                        let datens2 = dateFormatter..date(from:date_join)
+                        let datens2 = dateFormatter.date(from:date_join)
                         
                         
                         sqliteDB.storeMembers(group_id!,member_displayname1: membername!, member_phone1: member_phone, isAdmin1: isAdmin!, membershipStatus1: membership_status, date_joined1: datens2!)
@@ -590,20 +595,25 @@ class syncGroupService
         print("inside group info function")
         var url=Constants.MainUrl+Constants.fetchmygroupmembers
         print(url.debugDescription)
-        var queue2=DispatchQoS(_FIXME_useThisWhenCreatingTheQueueAndRemoveFromThisCall: DispatchQueue.Attributes.concurrent, qosClass: DispatchQoS.QoSClass.background, relativePriority: 0);
+        var queue2=DispatchQoS(DispatchQueue.Attributes.concurrent, qosClass: DispatchQoS.QoSClass.background, relativePriority: 0);
         
         //let queue2 = dispatch_queue_create("com.kibochat.manager-response-queue-file", DISPATCH_QUEUE_CONCURRENT)
         let qqq=DispatchQueue(label: "com.kibochat.queue.getmembers",attributes: queue2)
         
         
         var hhh=["headers":"\(header)"]
-        print(header.description)
-        var request=Alamofire.request(.GET,"\(url)",headers:header)
+       // print(header.description)
+        
+            
+             let request = Alamofire.request("\(url)",headers:header).responseData(queue: queue2)
+             { response in
+                
+      /*  var request=Alamofire.request(.GET,"\(url)",headers:header)
         request.response(
             queue: qqq,
             responseSerializer: Request.JSONResponseSerializer(),
             completionHandler: { response in
-            
+           */
             
             //.validate().responseJSON { response in
             print(response)
@@ -620,7 +630,7 @@ class syncGroupService
                     print("error delete members")
                 }
                 
-                for(var i=0;i<jsongroupinfo.count;i++)
+                for var i in 0..<jsongroupinfo.count
                 {
                  
                     var _id=jsongroupinfo[i]["_id"].string!
@@ -638,20 +648,19 @@ class syncGroupService
                     dateFormatter.timeZone=NSTimeZone.local()
                     dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
                   
-                    let datens2 = dateFormatter..date(from:date_join)
+                    let datens2 = dateFormatter.date(from:date_join)
              
                     
                     sqliteDB.storeMembers(group_id!,member_displayname1: membername!, member_phone1: member_phone, isAdmin1: isAdmin!, membershipStatus1: membership_status, date_joined1: datens2!)
                 }
                
-                return completion(result:true,error: nil,groupinfo: jsongroupinfo)
+                return completion(true,nil,jsongroupinfo)
                 
             }
             else{
-                return completion(result:true,error: "API synch groups failed",groupinfo: jsongroupinfo)
-                
-            }
-        })
+                return completion(true,"API synch groups failed",jsongroupinfo)
+                }
+        }
         
         return completion(true,"Fetch group info API failed",jsongroupinfo)
     }
@@ -697,9 +706,9 @@ class syncGroupService
                 let dateFormatter = DateFormatter()
                 dateFormatter.timeZone=NSTimeZone.local()
                 dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
-                //  let datens2 = dateFormatter..date(from:date2.debugDescription)
+                //  let datens2 = dateFormatter.date(from:date2.debugDescription)
                 //2016-09-18T19:13:00.588Z
-                let datens2 = dateFormatter..date(from:date_join)
+                let datens2 = dateFormatter.date(from:date_join)
                 
                 
                 sqliteDB.storeMembers(group_id!, member_phone1: member_phone, isAdmin1: isAdmin!, membershipStatus1: membership_status, date_joined1: datens2!)
@@ -729,7 +738,12 @@ class syncGroupService
         
             var hhh=["headers":"\(header)"]
             print(header.description)
-            Alamofire.request(.GET,"\(url)",headers:header).validate().responseJSON { response in
+        
+        let request = Alamofire.request("\(url)",headers:header).responseJSON{response in
+            
+            
+            //Alamofire.request(.GET,"\(url)",headers:header).validate().responseJSON { response in
+            
                 print(response)
                  print(response.response?.statusCode)
                 if(response.result.isSuccess)
@@ -797,7 +811,7 @@ class syncGroupService
                         dateFormatter.timeZone=NSTimeZone.local()
                         dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
                         
-                        let datens2 = dateFormatter..date(from:date!)
+                        let datens2 = dateFormatter.date(from:date!)
                         
                         
                         sqliteDB.storeGroupsChat(from!, group_unique_id1: group_unique_id!, type1: type!, msg1: msg!, from_fullname1: from_fullname!, date1: datens2!, unique_id1: uniqueid!)
@@ -870,7 +884,7 @@ class syncGroupService
                      dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
                 
                     let delivered_date = dateFormatter.date(from: delivered_dateString)
-                    let read_date = dateFormatter..date(from:read_dateString)
+                    let read_date = dateFormatter.date(from:read_dateString)
                     
                     print("updating status ......... \(i)")
                     sqliteDB.updateGroupChatStatus(uniqueid1, memberphone1: user_phone1, status1: status1, delivereddate1: delivered_date, readDate1: read_date)
@@ -878,7 +892,7 @@ class syncGroupService
                 }
                 DispatchQueue.main.async
                 {
-                return completion(result: true, error: nil)
+                return completion(true, nil)
                 }
                 /*
                  {
@@ -895,14 +909,15 @@ class syncGroupService
             }
             else
             {
-                Alamofire.request(.POST,"\(Constants.MainUrl+Constants.urllog)",headers:header,parameters: ["data":"IPHONE_LOG: partial sync group chat statuses failed \(username!)"]).response{
+                
+              /*  Alamofire.request(.POST,"\(Constants.MainUrl+Constants.urllog)",headers:header,parameters: ["data":"IPHONE_LOG: partial sync group chat statuses failed \(username!)"]).response{
                     request, response_, data, error in
                     print(error)
                 }
-
+*/
                 DispatchQueue.main.async
                 {
-                return completion(result:false,error: "Unable to fetch data")
+                return completion(false,"Unable to fetch data")
                 }
             }
             

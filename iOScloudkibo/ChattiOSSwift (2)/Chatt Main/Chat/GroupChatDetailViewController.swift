@@ -1228,7 +1228,7 @@ class GroupChatDetailViewController: UIViewController,SocketClientDelegate,Updat
              
              let dateFormatter = DateFormatter()
              dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
-             let datens2 = dateFormatter..date(from:date2.debugDescription)
+             let datens2 = dateFormatter.date(from:date2.debugDescription)
              
              
              
@@ -1925,7 +1925,7 @@ class GroupChatDetailViewController: UIViewController,SocketClientDelegate,Updat
             /*
              let dateFormatter = DateFormatter()
              dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
-             let datens2 = dateFormatter..date(from:date2.debugDescription)
+             let datens2 = dateFormatter.date(from:date2.debugDescription)
              
              
              

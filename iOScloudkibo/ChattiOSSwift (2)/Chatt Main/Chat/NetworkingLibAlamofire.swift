@@ -28,14 +28,17 @@ class NetworkingLibAlamofire{
     {
         print(url)
         
-        Alamofire.request(.GET,"\(url)").responseJSON{response in
+        
+        let request = Alamofire.request("\(url)",headers:header).responseJSON{ response in
+            
+       // Alamofire.request(.GET,"\(url)").responseJSON{response in
             var response1=response.response
             var request1=response.request
             var data1=response.data
             var error1=response.result.error
             
             //===========INITIALISE SOCKETIOCLIENT=========
-            dispatch_async(dispatch_get_main_queue(), {
+            DispatchQueue.main.async{
                 
                 //self.dismiss(true, completion: nil);
                 /// self.performSegueWithIdentifier("loginSegue", sender: nil)
@@ -56,7 +59,7 @@ class NetworkingLibAlamofire{
                     //print(errorMy.description)
 
                 }
-            })
+            }
         }
      return self.dataMy
     }
@@ -66,13 +69,15 @@ class NetworkingLibAlamofire{
         {
             var dataMy:JSON="[]"
             var errorMy:JSON="[]"
-            Alamofire.request(.POST,"\(url)",parameters:parameters1).responseJSON{response in
+            let request = Alamofire.request("\(url)",method:.post,parameters:parameters1 ,headers:header).responseJSON{ response in
+                
+           // Alamofire.request(.POST,"\(url)",parameters:parameters1).responseJSON{response in
                 var response1=response.response
                 var request1=response.request
                 var data1=response.data
                 var error1=response.result.error
                 //===========INITIALISE SOCKETIOCLIENT=========
-                dispatch_async(dispatch_get_main_queue(), {
+                DispatchQueue.main.async{
                     
                     //self.dismiss(true, completion: nil);
                     /// self.performSegueWithIdentifier("loginSegue", sender: nil)
@@ -92,7 +97,7 @@ class NetworkingLibAlamofire{
                         //errorMy=JSON(error1!)
                        // print(errorMy.description)
                     }
-                })
+                }
             }
             //return dataMy
     }
@@ -104,11 +109,14 @@ class NetworkingLibAlamofire{
         var url=Constants.MainUrl+Constants.authentictionUrl
         //KeychainWrapper.setString(txtForPassword.text!, forKey: "password")
         var param:[String:String]=["username": userid!,"password":passw!]
-        Alamofire.request(.POST,"\(url)",parameters: param).response{
+        
+         let request = Alamofire.request("\(url)", method: .post, parameters: param,headers:header).response{ response in
+            
+       /* Alamofire.request(.POST,"\(url)",parameters: param).response{
             request, response, data, error in
             print(error)
-            
-            if response?.statusCode==200
+            */
+            if response.response?.statusCode==200
                 
             {
                 print("login success")
@@ -121,7 +129,7 @@ class NetworkingLibAlamofire{
                 //let index: String.Index = advance(self.AuthToken.startIndex, 10)
                 
                 //======================STORING Token========================
-                let jsonLogin = JSON(data: data!)
+                let jsonLogin = JSON(data: response.data!)
                 let token = jsonLogin["token"]
                 KeychainWrapper.setString(token.string!, forKey: "access_token")
                 AuthToken=token.string!
@@ -140,11 +148,10 @@ class NetworkingLibAlamofire{
         var url=Constants.MainUrl+Constants.authentictionUrl
         //KeychainWrapper.setString(txtForPassword.text!, forKey: "password")
         var param:[String:String]=["username": username!,"password": password!]
-        Alamofire.request(.POST,"\(url)",parameters: param).response{
-            request, response, data, error in
-            print(error)
-            
-            if response?.statusCode==200
+        
+        let request = Alamofire.request("\(url)", method: .post, parameters: param,headers:header).response{ response in
+     
+            if response.response?.statusCode==200
                 
             {
                 print("Refresh Token success")
@@ -154,7 +161,7 @@ class NetworkingLibAlamofire{
                 
                 
                 //======================STORING Token========================
-                let jsonLogin = JSON(data: data!)
+                let jsonLogin = JSON(data: response.data!)
                 let token = jsonLogin["token"]
                 KeychainWrapper.setString(token.string!, forKey: "access_token")
                 AuthToken=token.string!
@@ -173,11 +180,16 @@ class NetworkingLibAlamofire{
         
         //dismiss and show login screen
         var param:[String:String]=["username": username!,"password":password!]
-        Alamofire.request(.POST,"\(url)",parameters: param).response{
+        
+        let request = Alamofire.request("\(url)", method: .post, parameters: param,headers:header).response{ response in
+            
+      //   let request = Alamofire.request("\(url)", method: .post, parameters: param,headers:header).response{ response in
+            
+      /*  Alamofire.request(.POST,"\(url)",parameters: param).response{
             request, response, data, error in
             print(error)
-            
-            if response?.statusCode==200
+            */
+            if response.response?.statusCode==200
                 
             {
                 print("login success")
@@ -190,21 +202,28 @@ class NetworkingLibAlamofire{
                 //let index: String.Index = advance(self.AuthToken.startIndex, 10)
                 
                 //======================STORING Token========================
-                let jsonLogin = JSON(data: data!)
+                let jsonLogin = JSON(data: response.data!)
                 let token = jsonLogin["token"]
                 KeychainWrapper.setString(token.string!, forKey: "access_token")
                 AuthToken=token.string!
                 
                 //========GET USER DETAILS===============
                 var getUserDataURL=userDataUrl
-                Alamofire.request(.GET,"\(getUserDataURL)",headers:header).validate(statusCode: 200..<300).responseJSON{response in
+               
+                
+                let request = Alamofire.request("\(getUserDataURL)",headers:header).responseJSON{ response in
+       
+                    
+              //  Alamofire.request(.GET,"\(getUserDataURL)",headers:header).validate(statusCode: 200..<300).responseJSON{response in
+                  
+                    
                     var response1=response.response
                     var request1=response.request
                     var data1=response.data
                     var error1=response.result.error
                     
                     //===========INITIALISE SOCKETIOCLIENT=========
-                    dispatch_async(dispatch_get_main_queue(), {
+                    DispatchQueue.main.async{
                         
                         //self.dismiss(true, completion: nil);
                         /// self.performSegueWithIdentifier("loginSegue", sender: nil)
@@ -215,7 +234,7 @@ class NetworkingLibAlamofire{
                             var json=JSON(data1!)
                             //KeychainWrapper.setData(data1!, forKey: "loggedUserObj")
                             //loggedUserObj=json(loggedUserObj)
-                            loggedUserObj=json
+                            //loggedUserObj=json
                             ///KeychainWrapper.setString(JSONStringify(json, prettyPrinted: true), forKey:"loggedIDKeyChain")
                             //===========saving username======================
                             KeychainWrapper.setString(json["display_name"].string!, forKey: "username")
@@ -250,7 +269,7 @@ class NetworkingLibAlamofire{
                             
                             print("GOT USER FAILED")
                         }
-                    })
+                    }
                     
                    
                 }

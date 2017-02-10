@@ -1191,7 +1191,7 @@ extension Date: Value {
         return String.declaredDatatype
     }
     class func fromDatatypeValue(stringValue: String) -> Date {
-        return SQLDateFormatter..date(from:stringValue)!
+        return SQLdateFormatter.date(from:stringValue)!
     }
     var datatypeValue: String {
         return SQLDateFormatter.stringFromDate(self)

@@ -1910,8 +1910,8 @@ EPPickerDelegate,SWTableViewCellDelegate,UpdateChatViewsDelegate,RefreshContacts
         var datestr2=obj1["ContactsLastMsgDate"] as! String
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
-        let date1 = dateFormatter..date(from:datestr1 as String)
-        let date2 = dateFormatter..date(from:datestr2 as String)
+        let date1 = dateFormatter.date(from:datestr1 as String)
+        let date2 = dateFormatter.date(from:datestr2 as String)
         return date2<date1
         
     }*/
@@ -2354,8 +2354,8 @@ break
                     var datestr2=obj1["ContactsLastMsgDate"] as! String
                     let dateFormatter = DateFormatter()
                     dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
-                    let date1 = dateFormatter..date(from:datestr1 as String)
-                    let date2 = dateFormatter..date(from:datestr2 as String)
+                    let date1 = dateFormatter.date(from:datestr1 as String)
+                    let date2 = dateFormatter.date(from:datestr2 as String)
                     return date2!.compare(date1!)
         }*/
         

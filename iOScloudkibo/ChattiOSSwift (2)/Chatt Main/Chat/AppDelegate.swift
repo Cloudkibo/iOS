@@ -2100,14 +2100,14 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
                             /* if(status == "delivered")
                             {
                                 var delivered_dateString=userInfo["delivered_date"] as! String
-                               delivered_date = dateFormatter..date(from:delivered_dateString)!
+                               delivered_date = dateFormatter.date(from:delivered_dateString)!
                                 
                                 
                             }
                             else
                             {
                             var read_dateString=userInfo["read_date"] as! String
-                                read_date = dateFormatter..date(from:read_dateString)!
+                                read_date = dateFormatter.date(from:read_dateString)!
                                 
 
                             }
@@ -2486,7 +2486,7 @@ else{
                 let dateFormatter = DateFormatter()
                 dateFormatter.timeZone=NSTimeZone.local
                 dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
-                //  let datens2 = dateFormatter..date(from:date2.debugDescription)
+                //  let datens2 = dateFormatter.date(from:date2.debugDescription)
                 //2016-09-18T19:13:00.588Z
                 let datens2 = dateFormatter.date(from: date_join!)
                 
@@ -2626,7 +2626,7 @@ else{
                     let dateFormatter = DateFormatter()
                     dateFormatter.timeZone=NSTimeZone.local
                     dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
-                    //  let datens2 = dateFormatter..date(from:date2.debugDescription)
+                    //  let datens2 = dateFormatter.date(from:date2.debugDescription)
                     //2016-09-18T19:13:00.588Z
                     let datens2 = dateFormatter.date(from: date_creation)
                     
@@ -2724,7 +2724,7 @@ else{
                         let dateFormatter = DateFormatter()
                         dateFormatter.timeZone=NSTimeZone.local
                         dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
-                        //  let datens2 = dateFormatter..date(from:date2.debugDescription)
+                        //  let datens2 = dateFormatter.date(from:date2.debugDescription)
                         //2016-09-18T19:13:00.588Z
                         let datens2 = dateFormatter.date(from: chatJson["date"].string!)
                         
@@ -2951,7 +2951,7 @@ else{
                     let dateFormatter = DateFormatter()
                     dateFormatter.timeZone=NSTimeZone.local
                     dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
-                    //  let datens2 = dateFormatter..date(from:date2.debugDescription)
+                    //  let datens2 = dateFormatter.date(from:date2.debugDescription)
                     //2016-09-18T19:13:00.588Z
                     let datens2 = dateFormatter.date(from: chatJson[0]["date"].string!)
                     
