@@ -223,10 +223,10 @@ class syncGroupService
                 
                 //.validate().responseJSON { response in
                 print(response)
-                if(response.request.isSuccess)
+                if(response.response?.statusCode==200)
                 {
                     print(response.request?.value)
-                    jsongroupinfo=JSON(response.request.value!)
+                    jsongroupinfo=JSON(response.request!.value!)
                     DispatchQueue.main.async
                     {
                     return completion(true,nil,jsongroupinfo)
@@ -282,11 +282,11 @@ class syncGroupService
             {
             print(response.result.value)
             jsongroupinfo=JSON(response.result.value!)
-            return completion(result:true,error: nil,groupinfo: jsongroupinfo)
+            return completion(true,nil,jsongroupinfo)
                 
             }
             else{
-                return completion(result:true,error: "API synch groups failed",groupinfo: jsongroupinfo)
+                return completion(true,"API synch groups failed",jsongroupinfo)
                 
             }
         }
@@ -373,10 +373,10 @@ class syncGroupService
                 //2016-09-18T19:13:00.588Z
                 let datens2 = dateFormatter.date(from:date_creation)
                 var data=[String:AnyObject]()
-                data["group_name"]=group_name
+                data["group_name"]=group_name as AnyObject?
                 data["groupicon1"]=group_icon as AnyObject?
-                data["datecreation1"]=datens2
-                data["uniqueid1"]=unique_id
+                data["datecreation1"]=datens2 as AnyObject?
+                data["uniqueid1"]=unique_id as AnyObject?
                 data["status1"]="new" as AnyObject?
                 groupsList.append(data)
                 
@@ -531,10 +531,11 @@ class syncGroupService
                 print(response)
                 if(response.result.isSuccess)
                 {
+                    /*
                     Alamofire.request(.POST,"\(Constants.MainUrl+Constants.urllog)",headers:header,parameters: ["data":"IPHONE_LOG: got group members on install \(username!)"]).response{
                         request, response_, data, error in
                         print(error)
-                    }
+                    }*/
 
                     
                     print("group members got success")
@@ -543,12 +544,12 @@ class syncGroupService
                     print(jsongroupinfo)
                     do{
                         var tbl_Groups_Members=sqliteDB.group_member
-                        try sqliteDB.db.run(tbl_Groups_Members.delete())
+                        try sqliteDB.db.run(tbl_Groups_Members?.delete())
                     }catch{
                         print("error delete members")
                     }
                     
-                    for(var i=0;i<jsongroupinfo.count;i++)
+                    for var i in 0 ..< jsongroupinfo.count
                     {
                         
                         var _id=jsongroupinfo[i]["_id"].string!
@@ -563,7 +564,7 @@ class syncGroupService
                         
                         
                         let dateFormatter = DateFormatter()
-                        dateFormatter.timeZone=NSTimeZone.local()
+                        dateFormatter.timeZone=NSTimeZone.local
                         dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
                         
                         let datens2 = dateFormatter.date(from:date_join)
@@ -574,12 +575,12 @@ class syncGroupService
                     
                     DispatchQueue.main.async
                     {
-                    return completion(result:true,error: nil,groupinfo: jsongroupinfo)
+                    return completion(true,nil,jsongroupinfo)
                     }
                     
                 }
                 else{
-                    return completion(result:true,error: "API synch groups failed",groupinfo: jsongroupinfo)
+                    return completion(true,"API synch groups failed",jsongroupinfo)
                     
                 }
         }
@@ -598,11 +599,11 @@ class syncGroupService
         print("inside group info function")
         var url=Constants.MainUrl+Constants.fetchmygroupmembers
         print(url.debugDescription)
-        var queue2=DispatchQoS(DispatchQueue.Attributes.concurrent, qosClass: DispatchQoS.QoSClass.background, relativePriority: 0);
+        
+        //var queue2=DispatchQoS(DispatchQueue.Attributes.concurrent, qosClass: DispatchQoS.QoSClass.background, relativePriority: 0);
         
         //let queue2 = dispatch_queue_create("com.kibochat.manager-response-queue-file", DISPATCH_QUEUE_CONCURRENT)
-        let qqq=DispatchQueue(label: "com.kibochat.queue.getmembers",attributes: queue2)
-        
+        let qqq=DispatchQueue(label: "com.kibochat.queue.getmembers")
         
         var hhh=["headers":"\(header)"]
        // print(header.description)
@@ -751,10 +752,13 @@ class syncGroupService
                  print(response.response?.statusCode)
                 if(response.result.isSuccess)
                 {
-                    Alamofire.request(.POST,"\(Constants.MainUrl+Constants.urllog)",headers:header,parameters: ["data":"IPHONE_LOG: group chat partial got success \(username!)"]).response{
+                    
+                    let request = Alamofire.request("\(Constants.MainUrl+Constants.urllog)",parameters: ["data":"IPHONE_LOG: group chat partial got success \(username!)"],headers:header).response(completionHandler: { (response) in
+
+                   /* Alamofire.request(.POST,"\(Constants.MainUrl+Constants.urllog)",headers:header,parameters: ["data":"IPHONE_LOG: group chat partial got success \(username!)"]).response{
                         request, response_, data, error in
                         print(error)
-                    }
+                    }*/
                     print("group chat partial got success")
                     print(response.result.value)
                     jsongroupinfo=JSON(response.result.value!)
@@ -790,7 +794,7 @@ class syncGroupService
                         print("error delete members")
                     }*/
                     
-                    for(var i=0;i<jsongroupinfo.count;i++)
+                    for i in 0..< jsongroupinfo.count
                     {
                         print("partial sync group chats storing info \(i)")
                         
@@ -811,7 +815,7 @@ class syncGroupService
                         
                         
                         let dateFormatter = DateFormatter()
-                        dateFormatter.timeZone=NSTimeZone.local()
+                        dateFormatter.timeZone=NSTimeZone.local
                         dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
                         
                         let datens2 = dateFormatter.date(from:date!)
@@ -827,12 +831,14 @@ class syncGroupService
  
                     DispatchQueue.main.async
                     {
-                    return completion(result:true,error: nil,groupinfo: jsongroupinfo)
+                    return completion(true,nil,jsongroupinfo)
                     }
+                })
                 }
+                    
                 else{
                     print("error in partial group chat sync \(response.result)")
-                    return completion(result:true,error: "API synch group chats partial failed",groupinfo: jsongroupinfo)
+                    return completion(true,"API synch group chats partial failed",jsongroupinfo)
                     
                 }
             }

@@ -325,23 +325,33 @@ class LoginViewController: UIViewController,SocketConnecting,AKFViewControllerDe
         ConferenceRoomName = txtForRoomName.text!
         /////////socketObj.sendMessagesOfMessageType("Conference Call")
         if(socketObj != nil){
-        socketObj.socket.emitWithAck("init.new", ["room":ConferenceRoomName,"username":username!])(timeoutAfter: 150000000) {data in
-            print("room joined by got ack")
-            var a=JSON(data)
-            print(a.debugDescription)
-            currentID=a[1].int!
-            print("current id is \(currentID)")
-            print("room joined is\(ConferenceRoomName)")
-            joinedRoomInCall=ConferenceRoomName
-        }
+        var init1=socketObj.socket.emitWithAck("init.new", ["room":ConferenceRoomName,"username":username!])
+            init1.timingOut(after: 1500000, callback: { (data) in
+                print("room joined by got ack")
+                var a=JSON(data)
+                print(a.debugDescription)
+                currentID=a[1].int!
+                print("current id is \(currentID)")
+                print("room joined is\(ConferenceRoomName)")
+                joinedRoomInCall=ConferenceRoomName
+                
+            })
+           // (timeoutAfter: 150000000) {data in
+           
+        //}
         }
         /// var mAudio=MeetingRoomAudio()
         ////mAudio.initAudio()
         
+        
+        
+        // feb 2017 later
+        /*
         var next = self.storyboard?.instantiateViewController(withIdentifier: "Main2") as! ConferenceCallViewController
         
         self.present(next, animated: false, completion: {
         })
+ */
         
     }
     

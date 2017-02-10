@@ -307,7 +307,7 @@ class NotesViewController: UIViewController,InviteContactsDelegate,UITextFieldDe
         filteredArray = alladdressContactsArray.filter({ (contactname) -> Bool in
             let countryText: NSString = contactname.get(name)! as NSString
             
-            return (countryText.rangeOfString(searchText, options: NSString.CompareOptions.CaseInsensitiveSearch).location) != NSNotFound
+            return (countryText.rangeOfString(searchText, options: NSCaseInsensitiveSearch).location) != NSNotFound
         })
         
       tblForNotes.reloadData()
@@ -619,7 +619,7 @@ class NotesViewController: UIViewController,InviteContactsDelegate,UITextFieldDe
                             print("selected phone is \(selectedphone)")
                             print("selected phone is \(selectedname)")
                             
-                            for i in 0 .. alladdressContactsArray.count
+                            for i in 0 ..< alladdressContactsArray.count
                             {
                                 if(alladdressContactsArray[i].get(phone)==selectedphone)
                                 {

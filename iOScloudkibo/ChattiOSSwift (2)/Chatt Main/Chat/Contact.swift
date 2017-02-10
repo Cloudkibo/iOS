@@ -530,12 +530,11 @@ print("now count is \(tbl_allcontacts?.count)")
                      }*/
                     
                     do{
-                        let em = try contact.emailAddresses.first
-                        if(em != nil && em != "")
+                        if let em = try contact.emailAddresses.first
                         {
-                            print(em?.label)
-                            print(em?.value)
-                            emails.append(em!.value as String)
+                            print(em.label)
+                            print(em.value)
+                            emails.append(em.value as String)
                         }
                         
                         
