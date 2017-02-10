@@ -62,22 +62,22 @@ class PendingFriendRequestsViewController: UIViewController {
         
         //-========Remove old values=====================
        
-        for var i=0;i<freindReqJSON.count;i += 1
+        for var i in 0 ..< freindReqJSON.count
         {
             
             do {
-                let rowid = try sqliteDB.db.run(tbl_contactslists.insert(contactid<-freindReqJSON[i]["contactid"]["_id"].string!,
-                    detailsshared<-freindReqJSON[i]["detailsshared"].string!,
-                    
-                    unreadMessage<-freindReqJSON[i]["unreadMessage"].boolValue,
-                    
-                    userid<-freindReqJSON[i]["userid"].string!,
-                    firstname<-freindReqJSON[i]["contactid"]["firstname"].string!,
-                    lastname<-freindReqJSON[i]["contactid"]["lastname"].string!,
-                    email<-freindReqJSON[i]["contactid"]["email"].string!,
-                    phone<-freindReqJSON[i]["contactid"]["_id"].string!,
-                    username<-freindReqJSON[i]["contactid"]["username"].string!,
-                    status<-freindReqJSON[i]["contactid"]["status"].string!)
+                let rowid = try sqliteDB.db.run((tbl_contactslists?.insert(contactid<-freindReqJSON[i]["contactid"]["_id"].string!,
+                                                                           detailsshared<-freindReqJSON[i]["detailsshared"].string!,
+                                                                           
+                                                                           unreadMessage<-freindReqJSON[i]["unreadMessage"].boolValue,
+                                                                           
+                                                                           userid<-freindReqJSON[i]["userid"].string!,
+                                                                           firstname<-freindReqJSON[i]["contactid"]["firstname"].string!,
+                                                                           lastname<-freindReqJSON[i]["contactid"]["lastname"].string!,
+                                                                           email<-freindReqJSON[i]["contactid"]["email"].string!,
+                                                                           phone<-freindReqJSON[i]["contactid"]["_id"].string!,
+                                                                           username<-freindReqJSON[i]["contactid"]["username"].string!,
+                                                                           status<-freindReqJSON[i]["contactid"]["status"].string!))!
                     )
                 
                 print("inserted id: \(rowid)")
@@ -150,12 +150,18 @@ class PendingFriendRequestsViewController: UIViewController {
         var url=Constants.MainUrl+Constants.getPendingFriendRequestsContacts
        //print(pendingList.description)
        // print(pendingList.count)
-        Alamofire.request(.GET,"\(url)",headers:header).validate(statusCode: 200..<300).responseJSON{response in
+        
+        
+        let request = Alamofire.request("\(url)",headers:header).responseJSON { (response) in
+            
+       /* Alamofire.request(.GET,"\(url)",headers:header).validate(statusCode: 200..<300).responseJSON{response in
+            
+            */
             var response1=response.response
             var request1=response.request
             var data1=response.data
             var error1=response.result.error            //===========INITIALISE SOCKETIOCLIENT=========
-            dispatch_async(dispatch_get_main_queue(), {
+            DispatchQueue.main.async{
                 
                 //self.dismiss(true, completion: nil);
                 /// self.performSegueWithIdentifier("loginSegue", sender: nil)
@@ -163,7 +169,7 @@ class PendingFriendRequestsViewController: UIViewController {
                 if response1?.statusCode==200 {
                     print("Request success")
                     var json=JSON(data1!)
-                    for(var i=0;i<json.count;i++){
+                    for i in 0 ..< json.count{
                         //print(json[i])
                     self.pendingContactsNames.append(json[i]["userid"]["username"].string!)
                         self.pendingContactsObj.append(json[i]["userid"])
@@ -185,7 +191,7 @@ class PendingFriendRequestsViewController: UIViewController {
                     //print(errorMy.description)
                     
                 }
-            })
+            }
             if(response1?.statusCode==401)
             {
              print("loading pending request failed token expired")
@@ -254,16 +260,21 @@ class PendingFriendRequestsViewController: UIViewController {
             var url=Constants.MainUrl+Constants.rejectPendingFriendRequest
             var usernameToReject=self.pendingContactsObj[selectedRow]["username"]
             //var params=self.ContactsObjectss[selectedRow].arrayValue
+            
+            let request = Alamofire.request("\(url)",parameters:["username":"\(usernameToReject)"],headers:header).responseJSON { (response) in
+          
+                /*
             Alamofire.request(.POST,"\(url)",headers:header,parameters:["username":"\(usernameToReject)"]
                 //Alamofire.request(.POST,"\(url)",parameters:["index":"\(selectedRow)"]
                 ).validate(statusCode: 200..<300).responseJSON{response in
+                    */
                     var response1=response.response
                     var request1=response.request
                     var data1=response.data
                     var error1=response.result.error
                     
                     //===========INITIALISE SOCKETIOCLIENT=========
-                    dispatch_async(dispatch_get_main_queue(), {
+                    DispatchQueue.main.async{
                         
                         //self.dismiss(true, completion: nil);
                         /// self.performSegueWithIdentifier("loginSegue", sender: nil)
@@ -271,7 +282,7 @@ class PendingFriendRequestsViewController: UIViewController {
                         if response1?.statusCode==200 {
                             //print("got user success")
                             print("Request successfully rejected")
-                            self.pendingContactsNames.removeAtIndex(selectedRow)
+                            self.pendingContactsNames.remove(at: selectedRow)
                             var json=JSON(data1!)
                             
                             
@@ -283,11 +294,11 @@ class PendingFriendRequestsViewController: UIViewController {
                         {
                             print("reject pending request failed")
                             //var json=JSON(error1!)
-                            print(error1?.description)
-                            print(response1?.statusCode)
+                           // print(error1?.description)
+                            //print(response1?.statusCode)
                             
                         }
-                    })
+                    }
                     if(response1?.statusCode==401)
                     {
                         print("reject request failed token expired")
@@ -306,25 +317,31 @@ class PendingFriendRequestsViewController: UIViewController {
             var url=Constants.MainUrl+Constants.approvePendingFriendRequest
             var usernameToReject=self.pendingContactsObj[selectedRow]["username"]
             //var params=self.ContactsObjectss[selectedRow].arrayValue
+            
+            let request = Alamofire.request("\(url)",parameters:["username":"\(usernameToReject)"],headers:header).responseJSON { (response) in
+               
+                /*
             Alamofire.request(.POST,"\(url)",headers:header,parameters:["username":"\(usernameToReject)"]
                 //Alamofire.request(.POST,"\(url)",parameters:["index":"\(selectedRow)"]
                 ).validate(statusCode: 200..<300).responseJSON{response in
+                    */
+                
                     var response1=response.response
                     var request1=response.request
                     var data1=response.data
                     var error1=response.result.error
                     
                     //===========INITIALISE SOCKETIOCLIENT=========
-                    dispatch_async(dispatch_get_main_queue(), {
+                    DispatchQueue.main.async{
                         
                         //self.dismiss(true, completion: nil);
                         /// self.performSegueWithIdentifier("loginSegue", sender: nil)
                         
-                        if response1?.statusCode==200 {
+                        if response.response?.statusCode==200 {
                             //print("got user success")
                             print("Request successfully rejected")
-                            self.pendingContactsNames.removeAtIndex(selectedRow)
-                            var json=JSON(data1!)
+                            self.pendingContactsNames.remove(at: selectedRow)
+                            var json=JSON(response.data!)
                             
                             
                             print(json)
@@ -335,12 +352,12 @@ class PendingFriendRequestsViewController: UIViewController {
                         {
                             print("approve request failed")
                             //var json=JSON(error1!)
-                            print(error1?.description)
-                            print(response1?.statusCode)
+                            //print(error1?.description)
+                            print(response.response?.statusCode)
                             
                         }
-                    })
-                    if(response1?.statusCode==401)
+                    }
+                    if(response.response?.statusCode==401)
                     {
                         print("approve request failed token expired")
                         self.rt.refrToken()
@@ -359,7 +376,8 @@ class PendingFriendRequestsViewController: UIViewController {
 
     
     //=====Accept or Deny Annimation------------------------=============
-   func tableView(_ tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: IndexPath) {
+   func tableView(_ tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: IndexPath)
+   {
        
       /*
         if editingStyle == .Delete {

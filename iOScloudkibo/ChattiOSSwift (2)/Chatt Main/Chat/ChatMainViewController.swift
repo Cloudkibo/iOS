@@ -854,9 +854,9 @@ class ChatMainViewController:UIViewController,SocketConnecting,RefreshContactsLi
         
         var contactslists = sqliteDB.contactslists
         //=================================================
-        var joinquery=contactslists.join(.Cross, allcontacts!, on: (allcontacts?[phone])! == (contactslists?[phone])!)
+        var joinquery=contactslists?.join(.cross, allcontacts!, on: (allcontacts?[phone])! == (contactslists?[phone])!)
         
-        do{for joinresult in try sqliteDB.db.prepare(joinquery) {
+        do{for joinresult in try sqliteDB.db.prepare(joinquery!) {
             
             if(joinresult[uniqueidentifier] == ""){}
             else{

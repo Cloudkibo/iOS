@@ -169,7 +169,7 @@ print("now count is \(tbl_allcontacts?.count)")
                                     }
                                 }
                                 do{
-                                    if(countrycode=="1" && phoneDigits.characters.first==Character.init(s:"1") && phoneDigits.characters.first != Character.init(s:"+"))
+                                    if(countrycode=="1" && phoneDigits.characters.first==Character.init("1") && phoneDigits.characters.first != Character.init("+"))
                                     {
                                         phoneDigits = "+"+phoneDigits
                                     }
@@ -675,7 +675,11 @@ print("now count is \(tbl_allcontacts?.count)")
         
         //%%%%%%%%%%%%%%% new phone model change
         //Alamofire.request(.POST,searchContactsByEmail,parameters:["emails":emails],encoding: .JSON).responseJSON { response in
-        Alamofire.request(.POST,searchContactsByEmail,headers:header,parameters:["emails":emails],encoding: .JSON).responseJSON { response in
+        
+        Alamofire.request(searchContactsByEmail, method: .post, parameters: ["emails":emails], headers: header).responseJSON { (response) in
+            
+        
+       // Alamofire.request(.POST,searchContactsByEmail,headers:header,parameters:["emails":emails],encoding: .JSON).responseJSON { response in
             
             if(response.response?.statusCode==200)
             {socketObj.socket.emit("logClient","IPHONE-LOG: success in getting available and not available contacts")
@@ -693,14 +697,13 @@ print("now count is \(tbl_allcontacts?.count)")
             var availableContactsEmails=res["available"]
             print("available contacts are \(availableContactsEmails.debugDescription)")
             var NotavailableContactsEmails=res["notAvailable"].array
-            for var i=0;i<NotavailableContactsEmails!.count;i++
-            {
-                // self.notAvailableContacts[i]=NotavailableContactsEmails![i].rawString()!
+                for var i in 0 ..< NotavailableContactsEmails!.count
+                {                // self.notAvailableContacts[i]=NotavailableContactsEmails![i].rawString()!
                 self.notAvailableContacts.append(NotavailableContactsEmails![i].debugDescription)
                 print("----------- \(self.notAvailableContacts[i].debugDescription)")
             }
                 
-                for var i=0;i<availableContactsEmails.count;i++
+                for var i in 0 ..< availableContactsEmails.count
                 {
                     // self.notAvailableContacts[i]=NotavailableContactsEmails![i].rawString()!
                     availableEmailsList.append(availableContactsEmails[i].debugDescription)
@@ -748,7 +751,7 @@ print("now count is \(tbl_allcontacts?.count)")
                 
             print(NotavailableContactsEmails!)
             print("**************** \(self.notAvailableContacts)")
-            completion(result: self.notAvailableContacts)
+            completion(self.notAvailableContacts)
                 
                //============ self.delegate?.receivedContactsUpdateUI()
         }
@@ -819,14 +822,14 @@ print("now count is \(tbl_allcontacts?.count)")
                 var availableContactsPhones=res["available"]
                 print("available contacts are \(availableContactsPhones.debugDescription)")
                 var NotavailableContactsEmails=res["notAvailable"].array
-                for var i=0;i<NotavailableContactsEmails!.count;i++
+                for var i in 0 ..< NotavailableContactsEmails!.count
                 {
                     // self.notAvailableContacts[i]=NotavailableContactsEmails![i].rawString()!
                     self.notAvailableContacts.append(NotavailableContactsEmails![i].debugDescription)
                     print("----------- \(self.notAvailableContacts[i].debugDescription)")
                 }
                 
-                for var i=0;i<availableContactsPhones.count;i++
+                for var i in 0 ..< availableContactsPhones.count
                 {
                     // self.notAvailableContacts[i]=NotavailableContactsEmails![i].rawString()!
                     
@@ -840,7 +843,7 @@ print("now count is \(tbl_allcontacts?.count)")
                 
                 //print(NotavailableContactsEmails!)
                 print("**************** \(self.notAvailableContacts)")
-                completion(result: self.notAvailableContacts)
+                completion(self.notAvailableContacts)
                 
                /* if(self.delegate != nil)
 {
@@ -933,7 +936,7 @@ print("now count is \(tbl_allcontacts?.count)")
             switch response.result {
             case .success:
             print("invite sent")
-                return completion(result: res["msg"].string!)
+                return completion(res["msg"].string!)
             case .failure:
                 print("invite failed")
                 return completion(res["msg"].string!)

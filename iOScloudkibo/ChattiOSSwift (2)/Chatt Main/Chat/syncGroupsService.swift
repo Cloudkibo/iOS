@@ -264,12 +264,15 @@ class syncGroupService
         //let queue2 = dispatch_queue_create("com.kibochat.manager-response-queue-file", DISPATCH_QUEUE_CONCURRENT)
         let qqq=DispatchQueue(label: "com.kibochat.queue.getmembers")//,attributes: queue2)
         
+        let request = Alamofire.request("\(url)", method: .get, headers:header).responseData(queue: qqq) { (response) in
+            
+            /*
         var request=Alamofire.request(.GET,"\(url)",headers:header)
         request.response(
             queue: qqq,
             responseSerializer: Request.JSONResponseSerializer(),
             completionHandler: { response in
-                
+                */
 
         
         
@@ -286,7 +289,7 @@ class syncGroupService
                 return completion(result:true,error: "API synch groups failed",groupinfo: jsongroupinfo)
                 
             }
-        })
+        }
     
         return completion(true,"Fetch group info API failed",jsongroupinfo)
     }

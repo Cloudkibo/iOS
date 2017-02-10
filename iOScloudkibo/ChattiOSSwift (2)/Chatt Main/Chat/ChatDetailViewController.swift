@@ -3521,7 +3521,7 @@ let textLable = cell.viewWithTag(12) as! UILabel
         if let imageURL = editingInfo![UIImagePickerControllerReferenceURL] as? URL {
             let result = PHAsset.fetchAssets(withALAssetURLs: [imageURL], options: nil)
             
-            PHImageManager.defaultManager().requestImageDataForAsset(result, options: nil, resultHandler: { _, _, _, info in
+            PHImageManager.defaultManager().requestImageDataForAsset(result.firstObject!, options: nil, resultHandler: { _, _, _, info in
                 
                 if let fileName1 = (info?["PHImageFileURLKey"] as? NSURL)?.lastPathComponent {
                     //do sth with file name
@@ -3544,11 +3544,11 @@ let textLable = cell.viewWithTag(12) as! UILabel
             
         socketObj.socket.emit("logClient","IPHONE-LOG: \(username!) selected image ")
         //print("file gotttttt")
-        var furl=URL(string: localPath.URLString)
+        var furl=URL(string: localPath.absoluteString)
         
         //print(furl!.pathExtension!)
         //print(furl!.deletingLastPathComponent())
-        var ftype=furl!.pathExtension!
+        var ftype=furl!.pathExtension
         var fname=furl!.deletingLastPathComponent()
         
         
@@ -4699,7 +4699,7 @@ print("hh \(hh)")
                 //filePathImage2
                 //var data=NSData(contentsOfFile: self.filePathImage)
                 do{
-                    var writefile=try fileData!.write(to: URL(fileURLWithPath: filePathImage2))
+                    var writefile = try fileData!.write(to: URL(fileURLWithPath: filePathImage2))
                     //.writeToFile(filePathImage2, atomically: true)
                 }
                 catch{
