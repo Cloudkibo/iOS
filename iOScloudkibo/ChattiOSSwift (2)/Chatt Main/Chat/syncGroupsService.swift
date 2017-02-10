@@ -226,7 +226,7 @@ class syncGroupService
                 if(response.response?.statusCode==200)
                 {
                     print(response.request?.value)
-                    jsongroupinfo=JSON(response.request!.value!)
+                    jsongroupinfo=JSON(response.request!.value)
                     DispatchQueue.main.async
                     {
                     return completion(true,nil,jsongroupinfo)
@@ -544,7 +544,7 @@ class syncGroupService
                     print(jsongroupinfo)
                     do{
                         var tbl_Groups_Members=sqliteDB.group_member
-                        try sqliteDB.db.run(tbl_Groups_Members?.delete())
+                        try sqliteDB.db.run((tbl_Groups_Members?.delete())!)
                     }catch{
                         print("error delete members")
                     }
@@ -609,7 +609,7 @@ class syncGroupService
        // print(header.description)
         
             
-             let request = Alamofire.request("\(url)",headers:header).responseData(queue: queue2)
+             let request = Alamofire.request("\(url)",headers:header).responseData(queue: qqq)
              { response in
                 
       /*  var request=Alamofire.request(.GET,"\(url)",headers:header)
@@ -629,12 +629,12 @@ class syncGroupService
                 print(jsongroupinfo)
                 do{
                     var tbl_Groups_Members=sqliteDB.group_member
-                try sqliteDB.db.run(tbl_Groups_Members.delete())
+                try sqliteDB.db.run((tbl_Groups_Members?.delete())!)
                 }catch{
                     print("error delete members")
                 }
                 
-                for var i in 0..<jsongroupinfo.count
+                for var i in 0 ..< jsongroupinfo.count
                 {
                  
                     var _id=jsongroupinfo[i]["_id"].string!
@@ -649,7 +649,7 @@ class syncGroupService
                     
                     
                     let dateFormatter = DateFormatter()
-                    dateFormatter.timeZone=NSTimeZone.local()
+                    dateFormatter.timeZone=NSTimeZone.local
                     dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
                   
                     let datens2 = dateFormatter.date(from:date_join)
@@ -753,15 +753,14 @@ class syncGroupService
                 if(response.result.isSuccess)
                 {
                     
-                    let request = Alamofire.request("\(Constants.MainUrl+Constants.urllog)",parameters: ["data":"IPHONE_LOG: group chat partial got success \(username!)"],headers:header).response(completionHandler: { (response) in
-
+                    let request = Alamofire.request("\(Constants.MainUrl+Constants.urllog)",parameters: ["data":"IPHONE_LOG: group chat partial got success \(username!)"],headers:header).responseJSON(completionHandler: { (response) in
                    /* Alamofire.request(.POST,"\(Constants.MainUrl+Constants.urllog)",headers:header,parameters: ["data":"IPHONE_LOG: group chat partial got success \(username!)"]).response{
                         request, response_, data, error in
                         print(error)
                     }*/
                     print("group chat partial got success")
                     print(response.result.value)
-                    jsongroupinfo=JSON(response.result.value!)
+                    jsongroupinfo=JSON(response.result.value)
                     print(jsongroupinfo)
                     
                     print("jsongroupinfo.count is \(jsongroupinfo.count)")
@@ -794,7 +793,7 @@ class syncGroupService
                         print("error delete members")
                     }*/
                     
-                    for i in 0..< jsongroupinfo.count
+                    for i in 0 ..< jsongroupinfo.count
                     {
                         print("partial sync group chats storing info \(i)")
                         

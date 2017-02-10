@@ -3521,7 +3521,7 @@ let textLable = cell.viewWithTag(12) as! UILabel
         if let imageURL = editingInfo![UIImagePickerControllerReferenceURL] as? URL {
             let result = PHAsset.fetchAssets(withALAssetURLs: [imageURL], options: nil)
             
-            PHImageManager.default().requestImageDataForAsset(result.firstObject!, options: nil, resultHandler: { _, _, _, info in
+            PHImageManager.default().requestImageData(for: result.firstObject!, options: nil, resultHandler: { _, _, _, info in
                 
                 if let fileName1 = (info?["PHImageFileURLKey"] as? NSURL)?.lastPathComponent {
                     //do sth with file name
