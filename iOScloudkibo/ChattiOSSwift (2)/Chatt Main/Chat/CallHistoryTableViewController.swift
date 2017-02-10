@@ -24,7 +24,7 @@ class CallHistoryTableViewController: UIViewController,UITableViewDelegate,UITab
         ///self.retrieveCallHistoryData()
         /*
         var date22=NSDate()
-        var formatter = NSDateFormatter();
+        var formatter = DateFormatter();
         formatter.dateFormat = "MM/dd hh:mm a"";
         formatter.timeZone = NSTimeZone.local()
         ////formatter.dateStyle = .ShortStyle

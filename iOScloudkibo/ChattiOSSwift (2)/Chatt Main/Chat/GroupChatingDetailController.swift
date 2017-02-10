@@ -399,9 +399,9 @@ class GroupChatingDetailController: UIViewController,UpdateGroupChatDetailsDeleg
             let dirPaths = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)
             let docsDir1 = dirPaths[0]
             var documentDir=docsDir1 as NSString
-            var imgPath=documentDir.stringByAppendingPathComponent(filedata["file_name"] as! String)
+            var imgPath=documentDir.appendingPathComponent(filedata["file_name"] as! String)
             
-            var imgNSData=NSFileManager.defaultManager().contentsAtPath(imgPath)
+            var imgNSData=NSFileManager.default.contents(atPath:imgPath)
 
             //==
             var imageavatar1=UIImage.init(data:(imgNSData)!)
@@ -500,13 +500,13 @@ class GroupChatingDetailController: UIViewController,UpdateGroupChatDetailsDeleg
                 print("data of group table chat got is \(tblUserChats)")
                 //print("===fetch date from database is tblContacts[date] \(tblContacts[date])")
                 /*
-                 var formatter = NSDateFormatter();
+                 var formatter = DateFormatter();
                  formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSS";
                  //formatter.dateFormat = "MM/dd hh:mm a"";
                  formatter.timeZone = NSTimeZone(name: "UTC")
                  */
                 // formatter.timeZone = NSTimeZone.local()
-                // var defaultTimeZoneStr = formatter.dateFromString(tblContacts[date])
+                // var defaultTimeZoneStr = formatter..date(from:tblContacts[date])
                 // var defaultTimeZoneStr2 = formatter.stringFromDate(defaultTimeZoneStr!)
                 
                 

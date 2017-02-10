@@ -431,7 +431,7 @@ class FileReceivedViewController: UIViewController,UIDocumentInteractionControll
         let dirPaths = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)
         let docsDir1 = dirPaths[0]
         var documentDir=docsDir1 as NSString
-        var filePathImage2=documentDir.stringByAppendingPathComponent(filejustreceivedname!)
+        var filePathImage2=documentDir.appendingPathComponent(filejustreceivedname!)
         print("filepath2 is\(filePathImage2)")
         fileURL=NSURL(fileURLWithPath: filePathImage2)
         var furl2=NSURL(fileURLWithPath: filePathImage2)

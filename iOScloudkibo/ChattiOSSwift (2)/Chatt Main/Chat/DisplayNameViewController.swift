@@ -1156,7 +1156,7 @@ class DisplayNameViewController: UIViewController {
                            
                             print("fetch all date from server in installation got is \(UserchatJson["msg"][i]["date"].string!)... converted is \(datens2.debugDescription)")
                             
-                            /*let formatter = NSDateFormatter()
+                            /*let formatter = DateFormatter()
                             formatter.dateFormat = "MM/dd hh:mm a"";
                             //formatter.dateStyle = NSDateFormatterStyle.ShortStyle
                             //formatter.timeStyle = .ShortStyle
@@ -1182,7 +1182,7 @@ class DisplayNameViewController: UIViewController {
                                     let dateFormatter = DateFormatter()
                                     dateFormatter.timeZone=NSTimeZone.local
                                     dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
-                                    //  let datens2 = dateFormatter.dateFromString(date2.debugDescription)
+                                    //  let datens2 = dateFormatter..date(from:date2.debugDescription)
                                     //2016-09-18T19:13:00.588Z
                                     let datens2 = dateFormatter.date(from: UserchatJson["msg"][i]["date"].string!)
                                     
@@ -1197,7 +1197,7 @@ class DisplayNameViewController: UIViewController {
                                     //chatJson[0]["from"].string!
                                     
                                     /*
-                                    let formatter = NSDateFormatter()
+                                    let formatter = DateFormatter()
                                     formatter.dateStyle = NSDateFormatterStyle.ShortStyle
                                     formatter.timeStyle = .ShortStyle
                                     

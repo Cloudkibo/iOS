@@ -777,13 +777,13 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
                 
                 //print("===fetch date from database is tblContacts[date] \(tblContacts[date])")
                 /*
-                var formatter = NSDateFormatter();
+                var formatter = DateFormatter();
                 formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSS";
                 //formatter.dateFormat = "MM/dd hh:mm a";
                 formatter.timeZone = NSTimeZone(name: "UTC")
                 */
                 // formatter.timeZone = NSTimeZone.local()
-               // var defaultTimeZoneStr = formatter.dateFromString(tblContacts[date])
+               // var defaultTimeZoneStr = formatter..date(from:tblContacts[date])
                // var defaultTimeZoneStr2 = formatter.stringFromDate(defaultTimeZoneStr!)
                 
                 
@@ -975,13 +975,13 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
                     
                     //print("===fetch date from database is tblContacts[date] \(tblContacts[date])")
                     /*
-                     var formatter = NSDateFormatter();
+                     var formatter = DateFormatter();
                      formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSS";
                      //formatter.dateFormat = "MM/dd hh:mm a";
                      formatter.timeZone = NSTimeZone(name: "UTC")
                      */
                     // formatter.timeZone = NSTimeZone.local()
-                    // var defaultTimeZoneStr = formatter.dateFromString(tblContacts[date])
+                    // var defaultTimeZoneStr = formatter..date(from:tblContacts[date])
                     // var defaultTimeZoneStr2 = formatter.stringFromDate(defaultTimeZoneStr!)
                     
                     
@@ -1227,13 +1227,13 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
                     print("found data \(tblContacts.get(to))")
                     //print("===fetch date from database is tblContacts[date] \(tblContacts[date])")
                     /*
-                     var formatter = NSDateFormatter();
+                     var formatter = DateFormatter();
                      formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSS";
                      //formatter.dateFormat = "MM/dd hh:mm a";
                      formatter.timeZone = NSTimeZone(name: "UTC")
                      */
                     // formatter.timeZone = NSTimeZone.local()
-                    // var defaultTimeZoneStr = formatter.dateFromString(tblContacts[date])
+                    // var defaultTimeZoneStr = formatter..date(from:tblContacts[date])
                     // var defaultTimeZoneStr2 = formatter.stringFromDate(defaultTimeZoneStr!)
                     
                     
@@ -2019,15 +2019,15 @@ let textLable = cell.viewWithTag(12) as! UILabel
             textLable.text = "\(msg)"
             
              /*
-             let dateFormatter = NSDateFormatter()
+             let dateFormatter = DateFormatter()
             dateFormatter.timeZone=NSTimeZone.local()
              dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSS"
-           //  let datens2 = dateFormatter.dateFromString(date2.debugDescription)
+           //  let datens2 = dateFormatter..date(from:date2.debugDescription)
             //2016-09-18T19:13:00.588Z
-             let datens2 = dateFormatter.dateFromString("2016-09-18T19:13:00.588")
+             let datens2 = dateFormatter..date(from:"2016-09-18T19:13:00.588")
              //print(".... \(datens2)")
             */
-             //let formatter2 = NSDateFormatter()
+             //let formatter2 = DateFormatter()
              //formatter2.dateStyle = NSDateFormatterStyle.ShortStyle
              //formatter2.timeStyle = .ShortStyle
              
@@ -2073,7 +2073,7 @@ let textLable = cell.viewWithTag(12) as! UILabel
             /*  let documentDirectory = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true).first as String!
              let photoURL          = NSURL(fileURLWithPath: documentDirectory)
              let imgPath         = photoURL.URLByAppendingPathComponent(self.filename)
-             var imgNSData=NSFileManager.defaultManager().contentsAtPath(imgPath.path!)
+             var imgNSData=NSFileManager.default.contents(atPath:imgPath.path!)
              if(imgNSData != nil)
              {
              chatImage.image = UIImage(data: imgNSData!)
@@ -2186,7 +2186,7 @@ let textLable = cell.viewWithTag(12) as! UILabel
             let dirPaths = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)
             let docsDir1 = dirPaths[0]
             let documentDir=docsDir1 as NSString
-            //==== --var imgPath=documentDir.stringByAppendingPathComponent(msg as! String)
+            //==== --var imgPath=documentDir.appendingPathComponent(msg as! String)
             let imgPath=documentDir.appendingPathComponent(filename as! String)
             
 
@@ -2196,7 +2196,7 @@ let textLable = cell.viewWithTag(12) as! UILabel
             let imgNSData=FileManager.default.contents(atPath: imgPath)
             
        //===     print("imgNSData is \(imgNSData)")
-            //var imgNSData=NSFileManager.defaultManager().contentsAtPath(imgPath.path!)
+            //var imgNSData=NSFileManager.default.contents(atPath:imgPath.path!)
             //print("hereee imgPath.path! is \(imgPath)")
             
             
@@ -2279,7 +2279,7 @@ let textLable = cell.viewWithTag(12) as! UILabel
             }
             
             timeLabel.text="\(displaydate) (\(status))" /* var imgNSURL = NSURL(fileURLWithPath: msg as String)
-             var imgNSData=NSFileManager.defaultManager().contentsAtPath(imgNSURL.path!)
+             var imgNSData=NSFileManager.default.contents(atPath:imgNSURL.path!)
              if(imgNSData != nil)
              {
              chatImage.image = UIImage(contentsOfFile: msg as String)
@@ -2327,7 +2327,7 @@ let textLable = cell.viewWithTag(12) as! UILabel
             
         //====     print("imgNSData is \(imgNSData)")
             
-            //var imgNSData=NSFileManager.defaultManager().contentsAtPath(imgPath.path!)
+            //var imgNSData=NSFileManager.default.contents(atPath:imgPath.path!)
             //print("hereee imgPath.path! is \(imgPath)")
             
             timeLabel.frame = CGRect(x: chatImage.frame.origin.x, y: chatImage.frame.origin.y+180, width: chatImage.frame.width,  height: timeLabel.frame.height)
@@ -2413,7 +2413,7 @@ let textLable = cell.viewWithTag(12) as! UILabel
              timeLabel.text="\(displaydate) \(status)"
             
             /* var imgNSURL = NSURL(fileURLWithPath: msg as String)
-             var imgNSData=NSFileManager.defaultManager().contentsAtPath(imgNSURL.path!)
+             var imgNSData=NSFileManager.default.contents(atPath:imgNSURL.path!)
              if(imgNSData != nil)
              {
              chatImage.image = UIImage(contentsOfFile: msg as String)
@@ -2557,7 +2557,7 @@ let textLable = cell.viewWithTag(12) as! UILabel
             
             selectedText = filename as String
             
-            /// var imgNSData=NSFileManager.defaultManager().contentsAtPath(imgPath)
+            /// var imgNSData=NSFileManager.default.contents(atPath:imgPath)
             chatImage.isUserInteractionEnabled=true
             //var filelabel=UILabel(frame: CGRect(x: 20 + chatImage.frame.origin.x, y: chatImage.frame.origin.y + sizeOFStr.height + 40,width: ((sizeOFStr.width + 100)  > 200 ? (sizeOFStr.width + 100) : 200), height: sizeOFStr.height + 40))
             //filelabel.text="rtf   95kb 3:23am"
@@ -2746,10 +2746,10 @@ let textLable = cell.viewWithTag(12) as! UILabel
             let dirPaths = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)
             let docsDir1 = dirPaths[0]
             var documentDir=docsDir1 as NSString
-            ////var imgPath=documentDir.stringByAppendingPathComponent(msg as! String)
+            ////var imgPath=documentDir.appendingPathComponent(msg as! String)
             
             selectedText = filename as String
-            /// var imgNSData=NSFileManager.defaultManager().contentsAtPath(imgPath)
+            /// var imgNSData=NSFileManager.default.contents(atPath:imgPath)
             chatImage.isUserInteractionEnabled=true
             //var filelabel=UILabel(frame: CGRect(x: 20 + distanceFactor, y: chatImage.frame.origin.y + sizeOFStr.height + 40,width: ((sizeOFStr.width + 100)  > 200 ? (sizeOFStr.width + 100) : 200), height: sizeOFStr.height + 40))
             //filelabel.text="rtf   95kb 3:23am"
@@ -2818,10 +2818,10 @@ let textLable = cell.viewWithTag(12) as! UILabel
                 let dirPaths = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)
                 let docsDir1 = dirPaths[0]
                 var documentDir=docsDir1 as NSString
-                var imgPath=documentDir.stringByAppendingPathComponent(msg as! String)
+                var imgPath=documentDir.appendingPathComponent(msg as! String)
                 
-                var imgNSData=NSFileManager.defaultManager().contentsAtPath(imgPath)
-                //var imgNSData=NSFileManager.defaultManager().contentsAtPath(imgPath.path!)
+                var imgNSData=NSFileManager.default.contents(atPath:imgPath)
+                //var imgNSData=NSFileManager.default.contents(atPath:imgPath.path!)
                 //print("hereee imgPath.path! is \(imgPath)")
            
                 
@@ -2848,7 +2848,7 @@ let textLable = cell.viewWithTag(12) as! UILabel
 
                 
                /* var imgNSURL = NSURL(fileURLWithPath: msg as String)
-                var imgNSData=NSFileManager.defaultManager().contentsAtPath(imgNSURL.path!)
+                var imgNSData=NSFileManager.default.contents(atPath:imgNSURL.path!)
                 if(imgNSData != nil)
                 {
                 chatImage.image = UIImage(contentsOfFile: msg as String)
@@ -2931,10 +2931,10 @@ let textLable = cell.viewWithTag(12) as! UILabel
                     let dirPaths = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)
                     let docsDir1 = dirPaths[0]
                     var documentDir=docsDir1 as NSString
-                    ////var imgPath=documentDir.stringByAppendingPathComponent(msg as! String)
+                    ////var imgPath=documentDir.appendingPathComponent(msg as! String)
                     
                     selectedText = msg as! String
-                   /// var imgNSData=NSFileManager.defaultManager().contentsAtPath(imgPath)
+                   /// var imgNSData=NSFileManager.default.contents(atPath:imgPath)
                     chatImage.userInteractionEnabled=true
                     var filelabel=UILabel(frame: CGRect(x: 20 + distanceFactor, y: chatImage.frame.origin.y + sizeOFStr.height + 40,width: ((sizeOFStr.width + 100)  > 200 ? (sizeOFStr.width + 100) : 200), height: sizeOFStr.height + 40))
                     filelabel.text="rtf   95kb 3:23am"
@@ -2951,13 +2951,13 @@ let textLable = cell.viewWithTag(12) as! UILabel
            
             //////////////////////deliveredLabel.text="Delivered"
             /*
-             let dateFormatter = NSDateFormatter()
+             let dateFormatter = DateFormatter()
              dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
-             let datens2 = dateFormatter.dateFromString(date2.debugDescription)
+             let datens2 = dateFormatter..date(from:date2.debugDescription)
              
              
              
-             let formatter = NSDateFormatter()
+             let formatter = DateFormatter()
              formatter.dateStyle = NSDateFormatterStyle.ShortStyle
              formatter.timeStyle = .ShortStyle
              
@@ -3988,7 +3988,7 @@ let textLable = cell.viewWithTag(12) as! UILabel
         
         //^^^^var loggedid=loggedUserObj["_id"]
         /* var uniqueid=self.randomStringWithLength(5)
-         let formatter = NSDateFormatter()
+         let formatter = DateFormatter()
          formatter.dateStyle = NSDateFormatterStyle.LongStyle
          formatter.timeStyle = .ShortStyle
          */
@@ -4443,7 +4443,7 @@ print("hh \(hh)")
             
             
             var date22=NSDate()
-            var formatter = NSDateFormatter();
+            var formatter = DateFormatter();
             //formatter.dateFormat = "yyyy-MM-dd HH:mm:ss ZZZ";
             formatter.dateFormat = "MM/dd hh:mm a";
             formatter.timeZone = NSTimeZone.local()
@@ -4896,7 +4896,7 @@ print("hh \(hh)")
   
                 
             //check if on correct chat window where new message is received
-        /*var formatter = NSDateFormatter();
+        /*var formatter = DateFormatter();
         
         formatter.timeZone = NSTimeZone.local()
         formatter.dateFormat = "MM/dd hh:mm a";
@@ -4912,7 +4912,7 @@ print("hh \(hh)")
                 formatter2.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSS"
                 formatter2.timeZone = TimeZone.autoupdatingCurrent
                 var defaultTimeeee = formatter2.string(from: date1)
-      //  let defaultTimeZoneStr2=formatter.dateFromString(defaultTimeZoneStr)
+      //  let defaultTimeZoneStr2=formatter..date(from:defaultTimeZoneStr)
         
         
         //print("date is \(defaultTimeZoneStr2)")

@@ -1912,7 +1912,7 @@ func channel(channel: RTCDataChannel!, didReceiveMessageWithBuffer buffer: RTCDa
                             if(lowerlimit > upperlimit)
                             {break}
                             
-                            var bytestringfile=NSFileManager.defaultManager().contentsAtPath(filePathImage)
+                            var bytestringfile=NSFileManager.default.contents(atPath:filePathImage)
                             if(bytestringfile==nil)
                             {
                                 bytestringfile=NSData(contentsOfURL: urlLocalFile)
@@ -2022,7 +2022,7 @@ func channel(channel: RTCDataChannel!, didReceiveMessageWithBuffer buffer: RTCDa
         let dirPaths = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)
         let docsDir1 = dirPaths[0]
         var documentDir=docsDir1 as NSString
-        var filePathImage2=documentDir.stringByAppendingPathComponent(filejustreceivedname!)
+        var filePathImage2=documentDir.appendingPathComponent(filejustreceivedname!)
         filejustreceivedPathURL=NSURL(fileURLWithPath: filePathImage2)
         print("filejustreceivedPathURL is \(filejustreceivedPathURL)")
         var fm=NSFileManager.defaultManager()

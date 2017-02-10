@@ -516,7 +516,7 @@ EPPickerDelegate,SWTableViewCellDelegate,UpdateChatViewsDelegate,RefreshContacts
                              print("===fetch chat date raw from server in chatview is \(UserchatJson["msg"][i]["date"].string!)")
                             
                             /*
-                             let formatter = NSDateFormatter()
+                             let formatter = DateFormatter()
                              formatter.dateFormat = "MM/dd hh:mm a"";
                              // formatter.dateStyle = NSDateFormatterStyle.ShortStyle
                              //formatter.timeStyle = .ShortStyle
@@ -1908,10 +1908,10 @@ EPPickerDelegate,SWTableViewCellDelegate,UpdateChatViewsDelegate,RefreshContacts
     {
         var datestr1=obj1["ContactsLastMsgDate"] as! String
         var datestr2=obj1["ContactsLastMsgDate"] as! String
-        let dateFormatter = NSDateFormatter()
+        let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
-        let date1 = dateFormatter.dateFromString(datestr1 as String)
-        let date2 = dateFormatter.dateFromString(datestr2 as String)
+        let date1 = dateFormatter..date(from:datestr1 as String)
+        let date2 = dateFormatter..date(from:datestr2 as String)
         return date2<date1
         
     }*/
@@ -2352,10 +2352,10 @@ break
                 
                     var datestr1=obj1["ContactsLastMsgDate"] as! String
                     var datestr2=obj1["ContactsLastMsgDate"] as! String
-                    let dateFormatter = NSDateFormatter()
+                    let dateFormatter = DateFormatter()
                     dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
-                    let date1 = dateFormatter.dateFromString(datestr1 as String)
-                    let date2 = dateFormatter.dateFromString(datestr2 as String)
+                    let date1 = dateFormatter..date(from:datestr1 as String)
+                    let date2 = dateFormatter..date(from:datestr2 as String)
                     return date2!.compare(date1!)
         }*/
         
@@ -2475,7 +2475,7 @@ break
             ContactFirstname.append(groupsObjectList[i]["group_name"] as! String)
             ContactLastNAme.append("")
             
-            var formatter2 = NSDateFormatter();
+            var formatter2 = DateFormatter();
             formatter2.dateFormat = "MM/dd hh:mm a"
             formatter2.timeZone = NSTimeZone.local()
             ///////////////==========var defaultTimeeee = formatter2.stringFromDate(defaultTimeZoneStr!)
@@ -2519,9 +2519,9 @@ break
                 let dirPaths = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)
                 let docsDir1 = dirPaths[0]
                 var documentDir=docsDir1 as NSString
-                var imgPath=documentDir.stringByAppendingPathComponent(filedata["file_name"] as! String)
+                var imgPath=documentDir.appendingPathComponent(filedata["file_name"] as! String)
                 
-                var imgNSData=NSFileManager.defaultManager().contentsAtPath(imgPath)
+                var imgNSData=NSFileManager.default.contents(atPath:imgPath)
                 
                // print("found path is \(imgNSData)")
                 if(imgNSData != nil)
@@ -2567,16 +2567,16 @@ break
                  print(error)
                  }*/
                 
-                // var formatter = NSDateFormatter();
+                // var formatter = DateFormatter();
                 //formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSS";
                 //formatter.dateFormat = "MM/dd hh:mm a"";
                 //formatter.timeZone = NSTimeZone(name: "UTC")
                 // formatter.timeZone = NSTimeZone.local()
-                ////////////==========var defaultTimeZoneStr = formatter.dateFromString(ccc[date])
+                ////////////==========var defaultTimeZoneStr = formatter..date(from:ccc[date])
                 /////////////====== var defaultTimeZoneStr2 = formatter.stringFromDate(defaultTimeZoneStr!)
                 
                 
-                var formatter2 = NSDateFormatter();
+                var formatter2 = DateFormatter();
                 formatter2.dateFormat = "MM/dd hh:mm a"
                 formatter2.timeZone = NSTimeZone.local()
                 ///////////////==========var defaultTimeeee = formatter2.stringFromDate(defaultTimeZoneStr!)
@@ -2674,14 +2674,14 @@ break
             print(ccc[fromFullName])
        //   print("===fetch date from database is tblContacts[date] ... date converted is \(defaultTimeZoneStr)... string is \(defaultTimeZoneStr2)... defaultTimeeee \(defaultTimeeee)")
             /*
-            var formatter = NSDateFormatter();
+            var formatter = DateFormatter();
             formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSS";
             //formatter.dateFormat = "MM/dd hh:mm a"";
             formatter.timeZone = NSTimeZone.local()
-            var defaultTimeZoneStr = formatter.dateFromString(ccc[date])
+            var defaultTimeZoneStr = formatter..date(from:ccc[date])
             print("defaultTimeZoneStr \(defaultTimeZoneStr)")
             
-            var formatter2 = NSDateFormatter();
+            var formatter2 = DateFormatter();
             formatter2.timeZone=NSTimeZone.local()
             formatter2.dateFormat = "MM/dd hh:mm a"";
             var displaydate=formatter2.stringFromDate(defaultTimeZoneStr!)
@@ -2691,7 +2691,7 @@ break
             
             
          /*
-            var formatter = NSDateFormatter();
+            var formatter = DateFormatter();
           //  formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ";
             formatter.dateFormat = "yyyy-MM-dd HH:mm:ss ZZZ"
             //formatter.dateFormat = "MM/dd hh:mm a"";
@@ -2700,13 +2700,13 @@ break
             //formatter.timeStyle = .ShortStyle
             //let defaultTimeZoneStr2 = formatter.stringFromDate(date22);
             //var d=ccc[date] as! NSDate
-           var datezulo = formatter.dateFromString(ccc[date].debugDescription)
+           var datezulo = formatter..date(from:ccc[date].debugDescription)
             print("default db date is \(datezulo)")
             
            
             
            // var date22=NSDate()
-            let formatter2 = NSDateFormatter()
+            let formatter2 = DateFormatter()
             formatter2.dateFormat = "MM/dd hh:mm a""
             /////// formatter.dateStyle = NSDateFormatterStyle.ShortStyle
             //////formatter.timeStyle = .ShortStyle
@@ -2784,16 +2784,16 @@ break
                     print(error)
                 }*/
                 
-                // var formatter = NSDateFormatter();
+                // var formatter = DateFormatter();
                 //formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSS";
                 //formatter.dateFormat = "MM/dd hh:mm a"";
                 //formatter.timeZone = NSTimeZone(name: "UTC")
                 // formatter.timeZone = NSTimeZone.local()
-                ////////////==========var defaultTimeZoneStr = formatter.dateFromString(ccc[date])
+                ////////////==========var defaultTimeZoneStr = formatter..date(from:ccc[date])
                 /////////////====== var defaultTimeZoneStr2 = formatter.stringFromDate(defaultTimeZoneStr!)
                 
                 
-                var formatter2 = NSDateFormatter();
+                var formatter2 = DateFormatter();
                 formatter2.dateFormat = "MM/dd hh:mm a"
                 formatter2.timeZone = NSTimeZone.local()
                 ///////////////==========var defaultTimeeee = formatter2.stringFromDate(defaultTimeZoneStr!)

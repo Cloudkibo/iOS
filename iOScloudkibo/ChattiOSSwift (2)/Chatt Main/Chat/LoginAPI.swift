@@ -1268,15 +1268,15 @@ class LoginAPI{
             
             
             
-            let dateFormatter = NSDateFormatter()
+            let dateFormatter = DateFormatter()
             dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
-            let datens2 = dateFormatter.dateFromString(UserchatJson["msg"][i]["date"].string!)
+            let datens2 = dateFormatter..date(from:UserchatJson["msg"][i]["date"].string!)
           //  print("fetch date from server got is \(UserchatJson["msg"][i]["date"].string!)... converted is \(datens2.debugDescription)")
             print("===fetch chat inside loginAPI full fetch chat got date as \(UserchatJson["msg"][i]["date"].string!) .. date .... converted NSDate is \(datens2!)")
            
             
             /*
-            let formatter = NSDateFormatter()
+            let formatter = DateFormatter()
             formatter.dateFormat = "MM/dd hh:mm a"";
            // formatter.dateStyle = NSDateFormatterStyle.ShortStyle
             //formatter.timeStyle = .ShortStyle

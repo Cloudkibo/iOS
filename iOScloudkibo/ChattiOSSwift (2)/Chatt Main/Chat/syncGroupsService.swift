@@ -156,26 +156,28 @@ class syncGroupService
                     //{
                         print("updating UI now...")
                     DispatchQueue.global(priority: DispatchQueue.GlobalQueuePriority.low).async {
-                        Alamofire.request(.POST,"\(Constants.MainUrl+Constants.urllog)",headers:header,parameters: ["data":"IPHONE_LOG: sync group chat statuses in background... \(username!)"]).response{
+                        /*Alamofire.request(.POST,"\(Constants.MainUrl+Constants.urllog)",headers:header,parameters: ["data":"IPHONE_LOG: sync group chat statuses in background... \(username!)"]).response{
                             request, response_, data, error in
                             print(error)
-                        }
+                        }*/
                         self.syncGroupChatStatuses{(result,error) in
                             
-                            Alamofire.request(.POST,"\(Constants.MainUrl+Constants.urllog)",headers:header,parameters: ["data":"IPHONE_LOG: Done group chat statuses in background... \(username!)"]).response{
+                            
+                            
+                          /*  Alamofire.request(.POST,"\(Constants.MainUrl+Constants.urllog)",headers:header,parameters: ["data":"IPHONE_LOG: Done group chat statuses in background... \(username!)"]).response{
                                 request, response_, data, error in
                                 print(error)
-                            }
+                            }*/
                             
                         if(result==true)
                         {
                             
                         DispatchQueue.main.async
                         {
-                            Alamofire.request(.POST,"\(Constants.MainUrl+Constants.urllog)",headers:header,parameters: ["data":"IPHONE_LOG: updating all UI screens \(username!)"]).response{
+                           /* Alamofire.request(.POST,"\(Constants.MainUrl+Constants.urllog)",headers:header,parameters: ["data":"IPHONE_LOG: updating all UI screens \(username!)"]).response{
                                 request, response_, data, error in
                                 print(error)
-                            }
+                            }*/
 
                         UIDelegates.getInstance().UpdateMainPageChatsDelegateCall()
                         UIDelegates.getInstance().UpdateGroupInfoDetailsDelegateCall()
@@ -257,7 +259,7 @@ class syncGroupService
         var hhh=["headers":"\(header)"]
         print(header.description)
         
-        var queue2=DispatchQoS(_FIXME_useThisWhenCreatingTheQueueAndRemoveFromThisCall: DispatchQueue.//Attributes.concurrent, qosClass: DispatchQoS.QoSClass.background, relativePriority: 0);
+        //var queue2=DispatchQoS(_FIXME_useThisWhenCreatingTheQueueAndRemoveFromThisCall: DispatchQueue.//Attributes.concurrent, qosClass: DispatchQoS.QoSClass.background, relativePriority: 0);
         
         //let queue2 = dispatch_queue_create("com.kibochat.manager-response-queue-file", DISPATCH_QUEUE_CONCURRENT)
         let qqq=DispatchQueue(label: "com.kibochat.queue.getmembers")//,attributes: queue2)
@@ -294,10 +296,10 @@ class syncGroupService
     
     func fullRefreshGroupsInfoOnLaunch(_ groupInfo:JSON!,completion:@escaping (_ result:Bool,_ error:String?)->())
     {
-        Alamofire.request(.POST,"\(Constants.MainUrl+Constants.urllog)",headers:header,parameters: ["data":"IPHONE_LOG: update database on install with gruop info \(username!)"]).response{
+        /*Alamofire.request(.POST,"\(Constants.MainUrl+Constants.urllog)",headers:header,parameters: ["data":"IPHONE_LOG: update database on install with gruop info \(username!)"]).response{
             request, response_, data, error in
             print(error)
-        }
+        }*/
 
         
         print("inside full refresh groups")
@@ -334,9 +336,9 @@ class syncGroupService
                         let dirPaths = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)
                         let docsDir1 = dirPaths[0]
                         var documentDir=docsDir1 as NSString
-                        var imgPath=documentDir.stringByAppendingPathComponent(filedata["file_name"] as! String)
+                        var imgPath=documentDir.appendingPathComponent(filedata["file_name"] as! String)
                         
-                        var imgNSData=FileManager.defaultManager().contentsAtPath(imgPath)
+                        var imgNSData=FileManager.default.contents(atPath: imgPath)
                         
                         // print("found path is \(imgNSData)")
                         if(imgNSData != nil)
@@ -364,9 +366,9 @@ class syncGroupService
                 let dateFormatter = DateFormatter()
                 dateFormatter.timeZone=TimeZone.autoupdatingCurrent
                 dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
-                //  let datens2 = dateFormatter.dateFromString(date2.debugDescription)
+                //  let datens2 = dateFormatter..date(from:date2.debugDescription)
                 //2016-09-18T19:13:00.588Z
-                let datens2 = dateFormatter.dateFromString(date_creation)
+                let datens2 = dateFormatter..date(from:date_creation)
                 var data=[String:AnyObject]()
                 data["group_name"]=group_name
                 data["groupicon1"]=group_icon as AnyObject?
@@ -442,9 +444,9 @@ class syncGroupService
                         let dirPaths = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)
                         let docsDir1 = dirPaths[0]
                         var documentDir=docsDir1 as NSString
-                        var imgPath=documentDir.stringByAppendingPathComponent(filedata["file_name"] as! String)
+                        var imgPath=documentDir.appendingPathComponent(filedata["file_name"] as! String)
                         
-                        var imgNSData=FileManager.defaultManager().contentsAtPath(imgPath)
+                        var imgNSData=FileManager.default.contents(atPath:imgPath)
                         
                         // print("found path is \(imgNSData)")
                         if(imgNSData != nil)
@@ -471,9 +473,9 @@ class syncGroupService
                 let dateFormatter = DateFormatter()
                 dateFormatter.timeZone=TimeZone.autoupdatingCurrent
                 dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
-                //  let datens2 = dateFormatter.dateFromString(date2.debugDescription)
+                //  let datens2 = dateFormatter..date(from:date2.debugDescription)
                 //2016-09-18T19:13:00.588Z
-                let datens2 = dateFormatter.dateFromString(date_creation)
+                let datens2 = dateFormatter..date(from:date_creation)
                 
                 sqliteDB.storeGroups(group_name, groupicon1: group_icon, datecreation1: datens2!, uniqueid1: unique_id, status1: "new")
                 
@@ -552,11 +554,11 @@ class syncGroupService
                         
                         
                         
-                        let dateFormatter = NSDateFormatter()
+                        let dateFormatter = DateFormatter()
                         dateFormatter.timeZone=NSTimeZone.local()
                         dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
                         
-                        let datens2 = dateFormatter.dateFromString(date_join)
+                        let datens2 = dateFormatter..date(from:date_join)
                         
                         
                         sqliteDB.storeMembers(group_id!,member_displayname1: membername!, member_phone1: member_phone, isAdmin1: isAdmin!, membershipStatus1: membership_status, date_joined1: datens2!)
@@ -632,11 +634,11 @@ class syncGroupService
                     
                     
                     
-                    let dateFormatter = NSDateFormatter()
+                    let dateFormatter = DateFormatter()
                     dateFormatter.timeZone=NSTimeZone.local()
                     dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
                   
-                    let datens2 = dateFormatter.dateFromString(date_join)
+                    let datens2 = dateFormatter..date(from:date_join)
              
                     
                     sqliteDB.storeMembers(group_id!,member_displayname1: membername!, member_phone1: member_phone, isAdmin1: isAdmin!, membershipStatus1: membership_status, date_joined1: datens2!)
@@ -692,12 +694,12 @@ class syncGroupService
                 
               
                 
-                let dateFormatter = NSDateFormatter()
+                let dateFormatter = DateFormatter()
                 dateFormatter.timeZone=NSTimeZone.local()
                 dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
-                //  let datens2 = dateFormatter.dateFromString(date2.debugDescription)
+                //  let datens2 = dateFormatter..date(from:date2.debugDescription)
                 //2016-09-18T19:13:00.588Z
-                let datens2 = dateFormatter.dateFromString(date_join)
+                let datens2 = dateFormatter..date(from:date_join)
                 
                 
                 sqliteDB.storeMembers(group_id!, member_phone1: member_phone, isAdmin1: isAdmin!, membershipStatus1: membership_status, date_joined1: datens2!)
@@ -791,11 +793,11 @@ class syncGroupService
                         var status=jsongroupinfo[i]["status"].string
                         
                         
-                        let dateFormatter = NSDateFormatter()
+                        let dateFormatter = DateFormatter()
                         dateFormatter.timeZone=NSTimeZone.local()
                         dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
                         
-                        let datens2 = dateFormatter.dateFromString(date!)
+                        let datens2 = dateFormatter..date(from:date!)
                         
                         
                         sqliteDB.storeGroupsChat(from!, group_unique_id1: group_unique_id!, type1: type!, msg1: msg!, from_fullname1: from_fullname!, date1: datens2!, unique_id1: uniqueid!)
@@ -836,21 +838,26 @@ class syncGroupService
         print(header.description)
         
         
+        let request = Alamofire.request("\(url)", method: .post, parameters: ["unique_ids":statusNotSentList],headers:header).responseJSON{response in
             
+            
+            
+            /*
         Alamofire.request(.POST,"\(url)",parameters:["unique_ids":statusNotSentList],headers:header, encoding: .JSON).validate().responseJSON { response in
+            */
             print(response)
             print(response.response?.statusCode)
             if(response.result.isSuccess)
             {
-                Alamofire.request(.POST,"\(Constants.MainUrl+Constants.urllog)",headers:header,parameters: ["data":"IPHONE_LOG: partial sync group chat statuses success \(username!)"]).response{
+               /* Alamofire.request(.POST,"\(Constants.MainUrl+Constants.urllog)",headers:header,parameters: ["data":"IPHONE_LOG: partial sync group chat statuses success \(username!)"]).response{
                     request, response_, data, error in
                     print(error)
-                }
+                }*/
                 
              print("yes success")
                 print(JSON(response.result.value!).count)
                 var jsongroupinfo=JSON(response.result.value!)
-                for(var i=0;i<jsongroupinfo.count;i++)
+                for var i in 0 ..< jsongroupinfo.count
                 {
                     var uniqueid1=jsongroupinfo[i]["chat_unique_id"].string!
                     var user_phone1=jsongroupinfo[i]["user_phone"].string!
@@ -859,11 +866,11 @@ class syncGroupService
                     var delivered_dateString=jsongroupinfo[i]["delivered_date"].string!
                     var status1=jsongroupinfo[i]["status"].string!
                     
-                     let dateFormatter = NSDateFormatter()
+                     let dateFormatter = DateFormatter()
                      dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
                 
-                    let delivered_date = dateFormatter.dateFromString(delivered_dateString)
-                    let read_date = dateFormatter.dateFromString(read_dateString)
+                    let delivered_date = dateFormatter.date(from: delivered_dateString)
+                    let read_date = dateFormatter..date(from:read_dateString)
                     
                     print("updating status ......... \(i)")
                     sqliteDB.updateGroupChatStatus(uniqueid1, memberphone1: user_phone1, status1: status1, delivereddate1: delivered_date, readDate1: read_date)

@@ -388,7 +388,7 @@ class UtilityFunctions{
                 var filePendingPath=documentDir.appendingPathComponent(uniqueid1+"."+filetype)
                 
                 print("filePendingPath is \(filePendingPath)")
-                //var filePendingPath=documentDir.stringByAppendingPathComponent(uniqueid1)
+                //var filePendingPath=documentDir.appendingPathComponent(uniqueid1)
                 
                 //  if(self.imageExtensions.contains(filetype.lowercaseString))
                 // {
@@ -543,7 +543,7 @@ print("tempURL is \(temporaryURL) and response is \(response.allHeaderFields)")
                 var filePendingPath=documentDir.appendingPathComponent(uniqueid1+"."+filetype)
                 
                 print("filePendingPath is \(filePendingPath)")
-                //var filePendingPath=documentDir.stringByAppendingPathComponent(uniqueid1)
+                //var filePendingPath=documentDir.appendingPathComponent(uniqueid1)
                 
               //  if(self.imageExtensions.contains(filetype.lowercaseString))
                // {
@@ -626,9 +626,9 @@ print("tempURL is \(temporaryURL) and response is \(response.allHeaderFields)")
                 let dirPaths = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)
                 let docsDir1 = dirPaths[0]
                 var documentDir=docsDir1 as NSString
-                var imgPath=documentDir.stringByAppendingPathComponent(filedata["file_name"] as! String)
+                var imgPath=documentDir.appendingPathComponent(filedata["file_name"] as! String)
                 
-                var imgNSData=NSFileManager.defaultManager().contentsAtPath(imgPath)
+                var imgNSData=NSFileManager.default.contents(atPath:imgPath)
                     if(imgNSData != nil)
                     {
                         //uniqueid is key

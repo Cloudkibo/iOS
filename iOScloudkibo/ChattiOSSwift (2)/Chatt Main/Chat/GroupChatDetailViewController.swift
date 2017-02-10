@@ -1226,13 +1226,13 @@ class GroupChatDetailViewController: UIViewController,SocketClientDelegate,Updat
             textLable.text = "\(msg)"
             /*
              
-             let dateFormatter = NSDateFormatter()
+             let dateFormatter = DateFormatter()
              dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
-             let datens2 = dateFormatter.dateFromString(date2.debugDescription)
+             let datens2 = dateFormatter..date(from:date2.debugDescription)
              
              
              
-             let formatter = NSDateFormatter()
+             let formatter = DateFormatter()
              formatter.dateStyle = NSDateFormatterStyle.ShortStyle
              formatter.timeStyle = .ShortStyle
              
@@ -1253,7 +1253,7 @@ class GroupChatDetailViewController: UIViewController,SocketClientDelegate,Updat
             /*  let documentDirectory = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true).first as String!
              let photoURL          = NSURL(fileURLWithPath: documentDirectory)
              let imgPath         = photoURL.URLByAppendingPathComponent(self.filename)
-             var imgNSData=NSFileManager.defaultManager().contentsAtPath(imgPath.path!)
+             var imgNSData=NSFileManager.default.contents(atPath:imgPath.path!)
              if(imgNSData != nil)
              {
              chatImage.image = UIImage(data: imgNSData!)
@@ -1310,10 +1310,10 @@ class GroupChatDetailViewController: UIViewController,SocketClientDelegate,Updat
             let dirPaths = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)
             let docsDir1 = dirPaths[0]
             var documentDir=docsDir1 as NSString
-            var imgPath=documentDir.stringByAppendingPathComponent(msg as! String)
+            var imgPath=documentDir.appendingPathComponent(msg as! String)
             
-            var imgNSData=NSFileManager.defaultManager().contentsAtPath(imgPath)
-            //var imgNSData=NSFileManager.defaultManager().contentsAtPath(imgPath.path!)
+            var imgNSData=NSFileManager.default.contents(atPath:imgPath)
+            //var imgNSData=NSFileManager.default.contents(atPath:imgPath.path!)
             print("hereee imgPath.path! is \(imgPath)")
             
             
@@ -1382,7 +1382,7 @@ class GroupChatDetailViewController: UIViewController,SocketClientDelegate,Updat
             
             
             /* var imgNSURL = NSURL(fileURLWithPath: msg as String)
-             var imgNSData=NSFileManager.defaultManager().contentsAtPath(imgNSURL.path!)
+             var imgNSData=NSFileManager.default.contents(atPath:imgNSURL.path!)
              if(imgNSData != nil)
              {
              chatImage.image = UIImage(contentsOfFile: msg as String)
@@ -1415,10 +1415,10 @@ class GroupChatDetailViewController: UIViewController,SocketClientDelegate,Updat
             let dirPaths = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)
             let docsDir1 = dirPaths[0]
             var documentDir=docsDir1 as NSString
-            var imgPath=documentDir.stringByAppendingPathComponent(msg as! String)
+            var imgPath=documentDir.appendingPathComponent(msg as! String)
             
-            var imgNSData=NSFileManager.defaultManager().contentsAtPath(imgPath)
-            //var imgNSData=NSFileManager.defaultManager().contentsAtPath(imgPath.path!)
+            var imgNSData=NSFileManager.default.contents(atPath:imgPath)
+            //var imgNSData=NSFileManager.default.contents(atPath:imgPath.path!)
             print("hereee imgPath.path! is \(imgPath)")
             
             
@@ -1486,7 +1486,7 @@ class GroupChatDetailViewController: UIViewController,SocketClientDelegate,Updat
             
             
             /* var imgNSURL = NSURL(fileURLWithPath: msg as String)
-             var imgNSData=NSFileManager.defaultManager().contentsAtPath(imgNSURL.path!)
+             var imgNSData=NSFileManager.default.contents(atPath:imgNSURL.path!)
              if(imgNSData != nil)
              {
              chatImage.image = UIImage(contentsOfFile: msg as String)
@@ -1598,10 +1598,10 @@ class GroupChatDetailViewController: UIViewController,SocketClientDelegate,Updat
             let dirPaths = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)
             let docsDir1 = dirPaths[0]
             var documentDir=docsDir1 as NSString
-            ////var imgPath=documentDir.stringByAppendingPathComponent(msg as! String)
+            ////var imgPath=documentDir.appendingPathComponent(msg as! String)
             
             selectedText = msg as! String
-            /// var imgNSData=NSFileManager.defaultManager().contentsAtPath(imgPath)
+            /// var imgNSData=NSFileManager.default.contents(atPath:imgPath)
             chatImage.userInteractionEnabled=true
             //var filelabel=UILabel(frame: CGRect(x: 20 + chatImage.frame.origin.x, y: chatImage.frame.origin.y + sizeOFStr.height + 40,width: ((sizeOFStr.width + 100)  > 200 ? (sizeOFStr.width + 100) : 200), height: sizeOFStr.height + 40))
             //filelabel.text="rtf   95kb 3:23am"
@@ -1734,10 +1734,10 @@ class GroupChatDetailViewController: UIViewController,SocketClientDelegate,Updat
             let dirPaths = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)
             let docsDir1 = dirPaths[0]
             var documentDir=docsDir1 as NSString
-            ////var imgPath=documentDir.stringByAppendingPathComponent(msg as! String)
+            ////var imgPath=documentDir.appendingPathComponent(msg as! String)
             
             selectedText = msg as! String
-            /// var imgNSData=NSFileManager.defaultManager().contentsAtPath(imgPath)
+            /// var imgNSData=NSFileManager.default.contents(atPath:imgPath)
             chatImage.userInteractionEnabled=true
             //var filelabel=UILabel(frame: CGRect(x: 20 + distanceFactor, y: chatImage.frame.origin.y + sizeOFStr.height + 40,width: ((sizeOFStr.width + 100)  > 200 ? (sizeOFStr.width + 100) : 200), height: sizeOFStr.height + 40))
             //filelabel.text="rtf   95kb 3:23am"
@@ -1790,10 +1790,10 @@ class GroupChatDetailViewController: UIViewController,SocketClientDelegate,Updat
                 let dirPaths = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)
                 let docsDir1 = dirPaths[0]
                 var documentDir=docsDir1 as NSString
-                var imgPath=documentDir.stringByAppendingPathComponent(msg as! String)
+                var imgPath=documentDir.appendingPathComponent(msg as! String)
                 
-                var imgNSData=NSFileManager.defaultManager().contentsAtPath(imgPath)
-                //var imgNSData=NSFileManager.defaultManager().contentsAtPath(imgPath.path!)
+                var imgNSData=NSFileManager.default.contents(atPath:imgPath)
+                //var imgNSData=NSFileManager.default.contents(atPath:imgPath.path!)
                 print("hereee imgPath.path! is \(imgPath)")
            
                 
@@ -1820,7 +1820,7 @@ class GroupChatDetailViewController: UIViewController,SocketClientDelegate,Updat
 
                 
                /* var imgNSURL = NSURL(fileURLWithPath: msg as String)
-                var imgNSData=NSFileManager.defaultManager().contentsAtPath(imgNSURL.path!)
+                var imgNSData=NSFileManager.default.contents(atPath:imgNSURL.path!)
                 if(imgNSData != nil)
                 {
                 chatImage.image = UIImage(contentsOfFile: msg as String)
@@ -1903,10 +1903,10 @@ class GroupChatDetailViewController: UIViewController,SocketClientDelegate,Updat
                     let dirPaths = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)
                     let docsDir1 = dirPaths[0]
                     var documentDir=docsDir1 as NSString
-                    ////var imgPath=documentDir.stringByAppendingPathComponent(msg as! String)
+                    ////var imgPath=documentDir.appendingPathComponent(msg as! String)
                     
                     selectedText = msg as! String
-                   /// var imgNSData=NSFileManager.defaultManager().contentsAtPath(imgPath)
+                   /// var imgNSData=NSFileManager.default.contents(atPath:imgPath)
                     chatImage.userInteractionEnabled=true
                     var filelabel=UILabel(frame: CGRect(x: 20 + distanceFactor, y: chatImage.frame.origin.y + sizeOFStr.height + 40,width: ((sizeOFStr.width + 100)  > 200 ? (sizeOFStr.width + 100) : 200), height: sizeOFStr.height + 40))
                     filelabel.text="rtf   95kb 3:23am"
@@ -1923,13 +1923,13 @@ class GroupChatDetailViewController: UIViewController,SocketClientDelegate,Updat
            
             //////////////////////deliveredLabel.text="Delivered"
             /*
-             let dateFormatter = NSDateFormatter()
+             let dateFormatter = DateFormatter()
              dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
-             let datens2 = dateFormatter.dateFromString(date2.debugDescription)
+             let datens2 = dateFormatter..date(from:date2.debugDescription)
              
              
              
-             let formatter = NSDateFormatter()
+             let formatter = DateFormatter()
              formatter.dateStyle = NSDateFormatterStyle.ShortStyle
              formatter.timeStyle = .ShortStyle
              
@@ -2327,7 +2327,7 @@ class GroupChatDetailViewController: UIViewController,SocketClientDelegate,Updat
         let dirPaths = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)
         let docsDir1 = dirPaths[0]
         var documentDir=docsDir1 as NSString
-        var filePathImage2=documentDir.stringByAppendingPathComponent(self.filename)
+        var filePathImage2=documentDir.appendingPathComponent(self.filename)
         var fm=NSFileManager.defaultManager()
        
         var fileAttributes:[String:AnyObject]=["":""]
@@ -2590,7 +2590,7 @@ class GroupChatDetailViewController: UIViewController,SocketClientDelegate,Updat
         
         //^^^^var loggedid=loggedUserObj["_id"]
         /* var uniqueid=self.randomStringWithLength(5)
-         let formatter = NSDateFormatter()
+         let formatter = DateFormatter()
          formatter.dateStyle = NSDateFormatterStyle.LongStyle
          formatter.timeStyle = .ShortStyle
          */
@@ -2673,7 +2673,7 @@ class GroupChatDetailViewController: UIViewController,SocketClientDelegate,Updat
         
         
         var date22=NSDate()
-        var formatter = NSDateFormatter();
+        var formatter = DateFormatter();
         formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ";
         //formatter.dateFormat = "MM/dd hh:mm a"";
         formatter.timeZone = NSTimeZone.local()
@@ -2684,7 +2684,7 @@ class GroupChatDetailViewController: UIViewController,SocketClientDelegate,Updat
         
         /*
         var date=NSDate()
-        var formatter = NSDateFormatter();
+        var formatter = DateFormatter();
         formatter.dateFormat = "MM/dd hh:mm a"";
         formatter.timeZone = NSTimeZone.local()
         //formatter.dateStyle = .ShortStyle
@@ -2791,7 +2791,7 @@ class GroupChatDetailViewController: UIViewController,SocketClientDelegate,Updat
             
             
             var date22=NSDate()
-            var formatter = NSDateFormatter();
+            var formatter = DateFormatter();
             //formatter.dateFormat = "yyyy-MM-dd HH:mm:ss ZZZ";
             formatter.dateFormat = "MM/dd hh:mm a"";
             formatter.timeZone = NSTimeZone.local()
@@ -3000,7 +3000,7 @@ class GroupChatDetailViewController: UIViewController,SocketClientDelegate,Updat
                 let dirPaths = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)
                 let docsDir1 = dirPaths[0]
                 var documentDir=docsDir1 as NSString
-                var filePathImage2=documentDir.stringByAppendingPathComponent(fname!+"."+ftype)
+                var filePathImage2=documentDir.appendingPathComponent(fname!+"."+ftype)
                 var fm=NSFileManager.defaultManager()
                 
                 /*var fileAttributes:[String:AnyObject]=["":""]

@@ -487,22 +487,22 @@ print("alter table needed")
         let isBroadcastMessage = Expression<Bool>("isBroadcastMessage")
         
         
-       // let dateFormatter = NSDateFormatter()
+       // let dateFormatter = DateFormatter()
        // dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
        // dateFormatter.
-        //let datens2 = dateFormatter.dateFromString(NSDate().debugDescription)
+        //let datens2 = dateFormatter..date(from:NSDate().debugDescription)
        //print("defaultDate is \(datens2)")
         self.userschats = Table("userschats")
         /*
         var date22=NSDate()
-        var formatter = NSDateFormatter();
+        var formatter = DateFormatter();
         formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ";
         //formatter.dateFormat = "MM/dd hh:mm a"";
         formatter.timeZone = NSTimeZone.local()
         //formatter.dateStyle = .ShortStyle
         //formatter.timeStyle = .ShortStyle
         let defaultTimeZoneStr2 = formatter.stringFromDate(date22);
-        var defaultTimeZoneStr = formatter.dateFromString(defaultTimeZoneStr2)
+        var defaultTimeZoneStr = formatter..date(from:defaultTimeZoneStr2)
         */
        // print("default db date is \(defaultTimeZoneStr)")
         do{
@@ -762,15 +762,15 @@ print("alter table needed")
         let file_path = Expression<String>("file_path")
         
         
-        // let dateFormatter = NSDateFormatter()
+        // let dateFormatter = DateFormatter()
         // dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
         // dateFormatter.
-        //let datens2 = dateFormatter.dateFromString(NSDate().debugDescription)
+        //let datens2 = dateFormatter..date(from:NSDate().debugDescription)
         //print("defaultDate is \(datens2)")
         self.files = Table("files")
         
         /*var date22=NSDate()
-        var formatter = NSDateFormatter();
+        var formatter = DateFormatter();
         //formatter.dateFormat = "yyyy-MM-dd HH:mm:ss ZZZ";
         formatter.dateFormat = "MM/dd hh:mm a"";
         formatter.timeZone = NSTimeZone.local()
@@ -1017,7 +1017,7 @@ print("alter table needed")
             if(date1 == nil)
             {
                 var date22=NSDate()
-                var formatter = NSDateFormatter();
+                var formatter = DateFormatter();
                 //formatter.dateFormat = "yyyy-MM-dd HH:mm:ss ZZZ";
                 formatter.dateFormat = "MM/dd hh:mm a"";
                 formatter.timeZone = NSTimeZone.local()
@@ -1158,7 +1158,7 @@ print("alter table needed")
             let defaultTimeZoneStr2 = formatter.string(from: date1);
             let defaultTimeZoneStr = formatter.date(from: defaultTimeZoneStr2)
             
-            ////var defaultTimeZoneStr = formatter.dateFromString(date1)
+            ////var defaultTimeZoneStr = formatter..date(from:date1)
             print("default db date from server is \(defaultTimeZoneStr!)")
             
             print("===fetch chat inside database handler got date as \(date1) .. date string is \(defaultTimeZoneStr2) ...converted NSDate is \(defaultTimeZoneStr!)  ... date1 got is \(date1)")
@@ -1308,7 +1308,7 @@ print("alter table needed")
             let defaultTimeZoneStr2 = formatter.string(from: date1);
             let defaultTimeZoneStr = formatter.date(from: defaultTimeZoneStr2)
             
-           ////var defaultTimeZoneStr = formatter.dateFromString(date1)
+           ////var defaultTimeZoneStr = formatter..date(from:date1)
             print("default db date from server is \(defaultTimeZoneStr!)")
             
               print("===fetch chat inside database handler got date as \(date1) .. date string is \(defaultTimeZoneStr2) ...converted NSDate is \(defaultTimeZoneStr!)  ... date1 got is \(date1)")
