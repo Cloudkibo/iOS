@@ -720,8 +720,9 @@ class AddParticipantsViewController: UIViewController,InviteContactsDelegate,UIT
                             }
                         }
                         
+                        var picurl=URL(fileURLWithPath: alladdressContactsArray[indexPath.row].get(phone))
                         
-                        cellPrivate.img_avatar.kf.setImage(with: profilepic as! Resource?)
+                        cellPrivate.img_avatar.kf.setImage(with: picurl)
                         
                         var scaledimage=cellPrivate.img_avatar.image?.kf.resize(to: CGSize(width: cellPrivate.img_avatar.bounds.width,height: cellPrivate.img_avatar.bounds.height))
                         
@@ -742,8 +743,6 @@ class AddParticipantsViewController: UIViewController,InviteContactsDelegate,UIT
                         //picfound=true
                     }
                     else{
-                        let path = Bundle.main.path(forResource: "profile-pic1", ofType: "png")
-                        let imgURL = URL(fileURLWithPath: path!)
                         var profilepic=UIImage(named: "profile-pic1")
                         
                         ImageCache.default.retrieveImage(forKey: "profile-pic1", options: nil) {
@@ -764,6 +763,7 @@ class AddParticipantsViewController: UIViewController,InviteContactsDelegate,UIT
                        
                         //var imgURL=URL(UIImage(imageLiteral: "profile-pic1"), relativeTo: URL(string: alladdressContactsArray[indexPath.row].get(phone)))
                         
+                        var imgURL=URL(fileURLWithPath: "profile-pic1")
                         
                         cellPrivate.img_avatar.kf.setImage(with: imgURL)
 

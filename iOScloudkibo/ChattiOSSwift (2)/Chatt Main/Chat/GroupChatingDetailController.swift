@@ -399,9 +399,9 @@ class GroupChatingDetailController: UIViewController,UpdateGroupChatDetailsDeleg
             let dirPaths = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)
             let docsDir1 = dirPaths[0]
             var documentDir=docsDir1 as NSString
-            var imgPath=documentDir.appendingPathComponent(filedata["file_name"] as! String)
+            var imgPath=documentDir.stringByAppendingPathComponent(filedata["file_name"] as! String)
             
-            var imgNSData=NSFileManager.default.contents(atPath:imgPath)
+            var imgNSData=NSFileManager.defaultManager().contentsAtPath(imgPath)
 
             //==
             var imageavatar1=UIImage.init(data:(imgNSData)!)
@@ -500,13 +500,13 @@ class GroupChatingDetailController: UIViewController,UpdateGroupChatDetailsDeleg
                 print("data of group table chat got is \(tblUserChats)")
                 //print("===fetch date from database is tblContacts[date] \(tblContacts[date])")
                 /*
-                 var formatter = DateFormatter();
+                 var formatter = NSDateFormatter();
                  formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSS";
                  //formatter.dateFormat = "MM/dd hh:mm a"";
                  formatter.timeZone = NSTimeZone(name: "UTC")
                  */
                 // formatter.timeZone = NSTimeZone.local()
-                // var defaultTimeZoneStr = formatter..date(from:tblContacts[date])
+                // var defaultTimeZoneStr = formatter.dateFromString(tblContacts[date])
                 // var defaultTimeZoneStr2 = formatter.stringFromDate(defaultTimeZoneStr!)
                 
                 
@@ -808,14 +808,13 @@ class GroupChatingDetailController: UIViewController,UpdateGroupChatDetailsDeleg
             formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSS";
             //formatter.dateFormat = "MM/dd hh:mm a"";
             formatter.timeZone = TimeZone.autoupdatingCurrent
-            let defaultTimeZoneStr = formatter.date(from: date2.debugDescription)
+            let defaultTimeZoneStr = formatter.date(from: date2 as! String)
             //print("defaultTimeZoneStr \(defaultTimeZoneStr)")
             timeLabel.frame = CGRect(x: 36 + distanceFactor, y: msgLabel.frame.origin.y+msgLabel.frame.height+10, width: chatImage.frame.size.width-46, height: timeLabel.frame.size.height)
             
             if(defaultTimeZoneStr == nil)
             {
-                timeLabel.text=date2.debugDescription
-                
+                timeLabel.text=date2! as! String
             }
             else
             {
@@ -867,7 +866,7 @@ class GroupChatingDetailController: UIViewController,UpdateGroupChatDetailsDeleg
             formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSS";
             //formatter.dateFormat = "MM/dd hh:mm a"";
             formatter.timeZone = TimeZone.autoupdatingCurrent
-            let defaultTimeZoneStr = formatter.date(from: date2.debugDescription)
+            let defaultTimeZoneStr = formatter.date(from: date2 as! String)
             //print("defaultTimeZoneStr \(defaultTimeZoneStr)")
             
             let formatter2 = DateFormatter();

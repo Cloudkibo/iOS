@@ -93,7 +93,7 @@ EPPickerDelegate,SWTableViewCellDelegate,UpdateChatViewsDelegate,RefreshContacts
         socketObj.socket.emit("logClient","IPHONE-LOG: login success and AuthToken was not nil getting myself details from server")
         }
         
-        print("login success")
+        print("login success...2")
         
         //======GETTING REST API TO GET CURRENT USER=======================
         
@@ -198,6 +198,7 @@ EPPickerDelegate,SWTableViewCellDelegate,UpdateChatViewsDelegate,RefreshContacts
                     
                     
                     do{for account in try sqliteDB.db.prepare(tbl_accounts!) {
+                        
                         print("id: \(account[self._id]), phone: \(account[self.phone]), firstname: \(account[self.firstname])")
                         // id: 1, email: alice@mac.com, name: Optional("Alice")
                         }

@@ -473,9 +473,10 @@ class DisplayNameViewController: UIViewController {
                                 //////===========
                                 // =============emails.append(phoneDigits)
                                 var emailAddress=""
-                                let em = try self.syncContactsList[i].emailAddresses.first!
+                                if let em = try self.syncContactsList[i].emailAddresses.first
+                                {
                                 
-                                if((em as! String) != nil && (em as! String) != "")
+                                if((em.value as! String) != nil && (em.value as! String) != "")
                                 {
                                     print(em.label)
                                     print(em.value)
@@ -483,7 +484,7 @@ class DisplayNameViewController: UIViewController {
                                     print("email adress value iss \(emailAddress)")
                                     /////emails.append(em!.value as! String)
                                 }
-                                
+                            }
                                 if(self.syncContactsList[i].imageDataAvailable==true)
                                 {
                                     image=self.syncContactsList[i].imageData!
@@ -634,18 +635,19 @@ class DisplayNameViewController: UIViewController {
         //%%%%%%%%%%%%%%% new phone model change
         //Alamofire.request(.POST,searchContactsByEmail,parameters:["emails":emails],encoding: .JSON).responseJSON { response in
         
-        Alamofire.request(searchContactsByPhones,
+       /* Alamofire.request(searchContactsByPhones,
                           method: .post,
                           parameters: ["phonenumbers":phones],
                           encoding: URLEncoding.default,
                           headers: header)
-            .response(completionHandler: { (defaultDataResponse) in
+            .responseJSON(completionHandler: { (response) in
                 // do something with the response
-                print(defaultDataResponse)
-            })
+                print(response)
+           // })
+ 
+        */
         
-        
-        let request = Alamofire.request("\(searchContactsByPhones)", method: .post, parameters: ["phonenumbers":phones],headers:header).responseJSON { response in
+     let request = Alamofire.request("\(searchContactsByPhones)", method: .post, parameters: ["phonenumbers":phones],encoding: JSONEncoding.init(), headers:header).responseJSON{ response in
             
 
          //alamofire4
@@ -657,34 +659,37 @@ class DisplayNameViewController: UIViewController {
                 DispatchQueue.global().sync
                 //global(DispatchQueue.GlobalQueuePriority.default,0).sync()
                 {
-                debugPrint(response.data)
+                debugPrint("response.data \(response.data)")
                 //print(response.request)
                 //print(response.response)
-                print(response.data)
+                //print(response.data)
                 //print(response.e
                 
                 //************* error here...........................
-                print(response.result.value!)
-                var res=JSON(response.result.value!)
-                //print(res)
+                //print("response.result.value! \(response.result.value!)")
+              //  print(")response.result.value! \(response.result.value!)")
+                    /////////var res=JSON(response.data!)
+                    var res=JSON(response.result.value)
+                print("res \(res)")
                 ////////////////var availableContactsEmails=res["available"].object
                 var availableContactsPhones=res["available"]
                 print("available contacts are \(availableContactsPhones.debugDescription)")
-                var notAvailablePhonesArrayReturned=res["notAvailable"].array
-                for i in 0..<notAvailablePhonesArrayReturned!.count
+                    
+                var notAvailablePhonesArrayReturned=res["notAvailable"]
+                    for i in 0..<notAvailablePhonesArrayReturned.count
                 {
                     // self.notAvailableContacts[i]=NotavailableContactsEmails![i].rawString()!
             
-                        self.syncNotAvailablePhonesList.append(notAvailablePhonesArrayReturned![i].debugDescription)
+                        self.syncNotAvailablePhonesList.append(notAvailablePhonesArrayReturned[i].string!)
                     ////////// print("----------- \(self.notAvailableContacts[i].debugDescription)")
                     }
                 
-                for i in 0..<availableContactsPhones.count
+                for var i in 0 ..< availableContactsPhones.count
                 {
                     // self.notAvailableContacts[i]=NotavailableContactsEmails![i].rawString()!
                     
                     
-                    self.syncAvailablePhonesList.append(availableContactsPhones[i].debugDescription)
+                    self.syncAvailablePhonesList.append(availableContactsPhones[i].string!)
                     
                     
                     // print("----------- \(self.notAvailableContacts[i].debugDescription)")
@@ -709,7 +714,7 @@ class DisplayNameViewController: UIViewController {
             {
                 DispatchQueue.main.async
                 {
-                    socketObj.socket.emit("logClient","IPHONE-LOG: error: \(response.debugDescription)")
+                    socketObj.socket.emit("logClient","IPHONE-LOG: error: \(response.error)")
                     completion(false)
                 }
             }
@@ -934,7 +939,7 @@ class DisplayNameViewController: UIViewController {
         socketObj.socket.emit("logClient","IPHONE-LOG: login success and AuthToken was not nil getting myself details from server")
         }
         
-        print("login success")
+        print("login success 1")
         
         //======GETTING REST API TO GET CURRENT USER=======================
         
@@ -943,13 +948,15 @@ class DisplayNameViewController: UIViewController {
         
         var getUserDataURL=userDataUrl
         
-        Alamofire.request("\(getUserDataURL)").responseJSON { (response) in
+        Alamofire.request("\(getUserDataURL)",headers:header).validate(statusCode: 200..<300).responseJSON { (response) in
             
        // Alamofire.request(.GET,"\(getUserDataURL)",headers:header).validate(statusCode: 200..<300).responseJSON{response in
             
             
-            switch response.result {
-            case .success:
+            //switch response.result {
+            if(response.response?.statusCode==200)
+            {
+            //case .success:
                 if let data1 = response.result.value {
                     let json = JSON(data1)
                     print("JSON: \(json)")
@@ -1067,14 +1074,18 @@ class DisplayNameViewController: UIViewController {
                            print("error \(error)")
                         }
                     }
-            case .failure:
+           // case .failure:
+            }
+            else{
+                print("error \(response.error)")
                 if(socketObj != nil)
                 {
                 socketObj.socket.emit("logClient", "\(username!) failed to get its data")
                 }
             }
+            }
         }
-    }
+    
     
     
     func fetchChatsFromServer(_ completion: @escaping (_ result:Bool)->())

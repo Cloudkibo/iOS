@@ -2008,8 +2008,7 @@ let textLable = cell.viewWithTag(12) as! UILabel
            
             
             
-            textLable.text = "\(msg)"
-            /*textLable.lineBreakMode = .ByWordWrapping
+            textLable.text = msg! as! String            /*textLable.lineBreakMode = .ByWordWrapping
             textLable.numberOfLines=0
             textLable.sizeToFit()
             print("previous height is \(textLable.frame.height) msg is \(msg)")
@@ -2029,7 +2028,7 @@ let textLable = cell.viewWithTag(12) as! UILabel
             
             ////// profileImage.center = CGPointMake(profileImage.center.x, textLable.frame.origin.y + textLable.frame.size.height - profileImage.frame.size.height/2 + 10)
             profileImage.center = CGPoint(x: profileImage.center.x, y: textLable.frame.origin.y + textLable.frame.size.height - profileImage.frame.size.height/2+20)
-            textLable.text = "\(msg)"
+            textLable.text = msg! as! String
             
              /*
              let dateFormatter = DateFormatter()
@@ -2103,7 +2102,7 @@ let textLable = cell.viewWithTag(12) as! UILabel
             
             
             textLable.isHidden=false
-            textLable.text = "\(msg)"
+            textLable.text = msg! as! String
             /*textLable.lineBreakMode = .ByWordWrapping
             textLable.numberOfLines=0
             textLable.sizeToFit()
@@ -2563,7 +2562,7 @@ let textLable = cell.viewWithTag(12) as! UILabel
             let docData=FileManager.default.contents(atPath: docPath)
             if(docData != nil)
             {
-            textLable.text = "\(msg)"
+            textLable.text = msg! as! String
             }
             else{
                 textLable.text = "Downloading..."
@@ -2683,7 +2682,7 @@ let textLable = cell.viewWithTag(12) as! UILabel
             
             
             textLable.isHidden=false
-            textLable.text = "\(msg)"
+            textLable.text = msg as! String
             /*textLable.lineBreakMode = .ByWordWrapping
             textLable.numberOfLines=0
             textLable.sizeToFit()
