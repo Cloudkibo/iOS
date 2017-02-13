@@ -1293,8 +1293,9 @@ EPPickerDelegate,SWTableViewCellDelegate,UpdateChatViewsDelegate,RefreshContacts
                 
                 let tbl_accounts = sqliteDB.accounts
                 do{for account in try sqliteDB.db.prepare(tbl_accounts!) {
-                    username=account[username1]
-                    displayname=account[firstname]
+                    username=account.get(username1)
+                    //[username1]
+                    displayname=account.get(firstname) //[firstname]
                     
                     }
                 }
@@ -1473,11 +1474,12 @@ EPPickerDelegate,SWTableViewCellDelegate,UpdateChatViewsDelegate,RefreshContacts
          completionHandler: { response in
          
          */
-        
+        print("inside sending pending chat")
         if(pendingchatsarray.count>index)
         {
             let request=Alamofire.request("\(url)", method: .post, parameters: pendingchatsarray[index],headers:header).responseJSON(completionHandler: { (response) in
                 
+                print("sending request to send pending chat \(url)")
            // alamofire4
       //==--  let request = Alamofire.request("\(url)",parameters: pendingchatsarray[index]).responseJSON { response in
                 
@@ -3253,7 +3255,8 @@ break
         }
         
 
-        
+        var picurl=URL(fileURLWithPath: "profile-pic1")
+
         cell!.profilePic.kf.setImage(with: imgURL)
         
         //----replacing image lib
@@ -3385,8 +3388,11 @@ break
                                 
                             }
                         }
-                        
-                        cell!.profilePic.kf.setImage(with: profilepic as! Resource)
+                    
+                       // let p = Bundle.main.path(forResource: "loader", ofType: "gif")!
+                       // let data = try! Data(contentsOf: URL(fileURLWithPath: p))
+                        var picurl=URL(fileURLWithPath: ContactUsernames)
+                        cell!.profilePic.kf.setImage(with: picurl)
                         
                         var scaledimage=cell!.profilePic.image?.kf.resize(to: CGSize(width: cell!.profilePic.bounds.width,height: cell!.profilePic.bounds.height))
                         
@@ -3471,7 +3477,9 @@ break
                         }
                     }
                     
-                    cell!.profilePic.kf.setImage(with: profilepic as! Resource)
+                    var picurl=URL(fileURLWithPath: ContactUsernames)
+
+                    cell!.profilePic.kf.setImage(with: picurl)
                     
                     var scaledimage=cell!.profilePic.image?.kf.resize(to: CGSize(width: cell!.profilePic.bounds.width,height: cell!.profilePic.bounds.height))
                     
@@ -3527,7 +3535,9 @@ break
                     }
                 }
                 
-                cell!.profilePic.kf.setImage(with: profilepic as! Resource)
+                var picurl=URL(fileURLWithPath: ContactUsernames)
+
+                cell!.profilePic.kf.setImage(with: picurl)
                 
                 var scaledimage=cell!.profilePic.image?.kf.resize(to: CGSize(width: cell!.profilePic.bounds.width,height: cell!.profilePic.bounds.height))
                 
@@ -4506,7 +4516,7 @@ break
      
         case "youareonline":
             globalChatRoomJoined=true
-            var contactsOnlineList=data as! [String : Any]
+            var contactsOnlineList=JSON(data)
             
      
         case "calleeisbusy":

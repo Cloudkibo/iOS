@@ -2052,7 +2052,8 @@ let textLable = cell.viewWithTag(12) as! UILabel
             formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSS";
             //formatter.dateFormat = "MM/dd hh:mm a";
             formatter.timeZone = TimeZone.autoupdatingCurrent
-            let defaultTimeZoneStr = formatter.date(from: date2.debugDescription)
+            print("line 2055")
+            let defaultTimeZoneStr = formatter.date(from: date2 as! String)
             //print("defaultTimeZoneStr \(defaultTimeZoneStr)")
             
             let formatter2 = DateFormatter();
@@ -2147,12 +2148,12 @@ let textLable = cell.viewWithTag(12) as! UILabel
             formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSS";
             //formatter.dateFormat = "MM/dd hh:mm a";
             formatter.timeZone = TimeZone.autoupdatingCurrent
-            let defaultTimeZoneStr = formatter.date(from: date2.debugDescription)
+            let defaultTimeZoneStr = formatter.date(from: date2 as! String)
             //print("defaultTimeZoneStr \(defaultTimeZoneStr)")
             
             if(defaultTimeZoneStr == nil)
             {
-                timeLabel.text=date2.debugDescription
+                timeLabel.text=date2 as! String
 
             }
             else
@@ -2217,7 +2218,7 @@ let textLable = cell.viewWithTag(12) as! UILabel
             formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSS";
             //formatter.dateFormat = "MM/dd hh:mm a";
             formatter.timeZone = TimeZone.autoupdatingCurrent
-            let defaultTimeZoneStr = formatter.date(from: date2.debugDescription)
+            let defaultTimeZoneStr = formatter.date(from: date2 as! String)
             //print("defaultTimeZoneStr \(defaultTimeZoneStr)")
             
             let formatter2 = DateFormatter();
@@ -2350,7 +2351,7 @@ let textLable = cell.viewWithTag(12) as! UILabel
             formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSS";
             //formatter.dateFormat = "MM/dd hh:mm a";
             formatter.timeZone = TimeZone.autoupdatingCurrent
-            let defaultTimeZoneStr = formatter.date(from: date2.debugDescription)
+            let defaultTimeZoneStr = formatter.date(from: date2 as! String)
             //print("defaultTimeZoneStr \(defaultTimeZoneStr)")
             
             let formatter2 = DateFormatter();
@@ -2588,7 +2589,7 @@ let textLable = cell.viewWithTag(12) as! UILabel
             formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSS";
             //formatter.dateFormat = "MM/dd hh:mm a";
             formatter.timeZone = TimeZone.autoupdatingCurrent
-            let defaultTimeZoneStr = formatter.date(from: date2.debugDescription)
+            let defaultTimeZoneStr = formatter.date(from: date2 as! String)
             //print("defaultTimeZoneStr \(defaultTimeZoneStr)")
             
             let formatter2 = DateFormatter();
@@ -2777,7 +2778,7 @@ let textLable = cell.viewWithTag(12) as! UILabel
             formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSS";
             //formatter.dateFormat = "MM/dd hh:mm a";
             formatter.timeZone = TimeZone.autoupdatingCurrent
-            let defaultTimeZoneStr = formatter.date(from: date2.debugDescription)
+            let defaultTimeZoneStr = formatter.date(from: date2 as! String)
             //print("defaultTimeZoneStr \(defaultTimeZoneStr)")
             
             let formatter2 = DateFormatter();
@@ -4071,7 +4072,7 @@ let textLable = cell.viewWithTag(12) as! UILabel
         //formatter.dateStyle = .ShortStyle
         //formatter.timeStyle = .ShortStyle
         let defaultTimeZoneStr = formatter.string(from: date);
-        let defaultTimeZoneStr2=formatter.date(from: defaultTimeZoneStr)
+        let defaultTimeZoneStr2=formatter.date(from: defaultTimeZoneStr as! String)
        
        
         /*var lastrowindexpath = NSIndexPath(forRow:messages.count-1, inSection: 0)

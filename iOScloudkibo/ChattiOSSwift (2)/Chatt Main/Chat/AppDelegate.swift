@@ -706,19 +706,20 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
         if(pendingchatsarray.count>index)
         {
             
-            Alamofire.request("\(url)", method: .post, parameters: pendingchatsarray[index],headers:header)
-                .downloadProgress(queue: DispatchQueue.global(qos: .utility)) { progress in
+            var req=Alamofire.request("\(url)", method: .post, parameters: pendingchatsarray[index],headers:header)
+               /*( .downloadProgress(queue: DispatchQueue.global(qos: .utility)) { progress in
                     print("Progress: \(progress.fractionCompleted)")
                 }
                 .validate { request, response, data in
                     // Custom evaluation closure now includes data (allows you to parse data to dig out error messages if necessary)
                     return .success
                 }
-                .responseJSON { response in
+                */
+                req.response { response in
                     debugPrint(response)
-                    switch response.result {
-                      
-                    case .success(let JSON):
+                    if (response.response?.statusCode==200) {
+                      print("success sent pending chat")
+                   // case .success(let JSON):
                         //x[self.index] = JSON as! [String : AnyObject] // saving data
                         var statusNow="sent"
                         ///var chatmsg=JSON(data)
@@ -737,13 +738,16 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
                             completion(true)
                             /////////self.collectionView.reloadData()
                         }
-                    case .failure(let error):
-                        print("the error for \(self.pendingchatsarray[self.index]) is \(error) ")
+                    }
+                    //case .failure(let error):
+                    else{
+                        print("the error for \(self.pendingchatsarray[self.index]) is \(response.error) ")
                         if self.index < self.pendingchatsarray.count {
                             self.getData({ (result) -> () in})
                         }else {
                             completion(true)                /////////// self.collectionView.reloadData()
                         }
+            }
                     }
             }
             
@@ -779,11 +783,7 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
                     }
                 }
             }*/
-        }
-        else{
-            completion(false)
-            
-        }
+    
     }
     
     

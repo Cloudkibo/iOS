@@ -188,7 +188,7 @@ class NetworkingManager
  
  */
         
-        let request = Alamofire.request("\(url)", method: .post, parameters: chatstanza,headers:header).responseJSON { response in
+        let request = Alamofire.request("\(url)", method: .post, parameters: chatstanza,headers:header).response { response in
         
         
             //alamofire4
