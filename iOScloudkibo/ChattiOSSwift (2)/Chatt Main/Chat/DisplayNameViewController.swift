@@ -1137,8 +1137,9 @@ class DisplayNameViewController: UIViewController {
                         serialQueue.sync{
                        // DispatchQueue.global(DispatchQoS.default).sync() {
                             
-                        let UserchatJson = JSON(data1)
-                        print("chat fetched JSON: \(UserchatJson)")
+                        //let UserchatJson = JSON(data1)
+                            let UserchatJson = JSON(response.data!)
+                        print("all chat fetched JSON: \(UserchatJson)")
                         
                         var tableUserChatSQLite=sqliteDB.userschats
                         
