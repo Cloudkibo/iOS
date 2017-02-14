@@ -2923,7 +2923,7 @@ print("--------")
         { var newEntry=[String:AnyObject]()
             
             var aaa=list.get(listname)
-            //var newEntry1["uniqueid"]=list.get(uniqueid)
+            newEntry["uniqueid"]=list.get(uniqueid) as AnyObject
             newEntry["listname"]=list.get(listname) as AnyObject
             broadcastlist.append(newEntry)
             
