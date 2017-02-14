@@ -229,7 +229,7 @@ class UtilityFunctions{
         */
         var url=Constants.MainUrl+Constants.createGroupUrl
         
-        Alamofire.request("\(url)", method: .post, parameters: ["group_name":groupname,"members":members, "unique_id":uniqueid],headers:header).responseJSON { response in
+        Alamofire.request("\(url)", method: .post, parameters: ["group_name":groupname,"members":members, "unique_id":uniqueid],encoding: JSONEncoding.default,headers:header).responseJSON { response in
           
             //alamofire4
         //Alamofire.request(.POST,"\(url)",parameters:["group_name":groupname,"members":members, "unique_id":uniqueid],headers:header,encoding:.JSON).validate().responseJSON { response in

@@ -294,11 +294,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Chat/ChatViewController.swift"
-            timestampString = "508690008.409106"
+            timestampString = "508751713.086263"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "3735"
-            endingLineNumber = "3735"
+            startingLineNumber = "3736"
+            endingLineNumber = "3736"
             landmarkName = "ChatViewController"
             landmarkType = "3">
          </BreakpointContent>
@@ -900,11 +900,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Chat/ChatViewController.swift"
-            timestampString = "508690008.409106"
+            timestampString = "508751713.086263"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "3865"
-            endingLineNumber = "3865"
+            startingLineNumber = "3866"
+            endingLineNumber = "3866"
             landmarkName = "removeChatHistory(_:indexPath:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -1750,11 +1750,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Chat/ChatViewController.swift"
-            timestampString = "508690008.409106"
+            timestampString = "508751713.086263"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "4691"
-            endingLineNumber = "4691"
+            startingLineNumber = "4692"
+            endingLineNumber = "4692"
             landmarkName = "swipeableTableViewCell(_:didTriggerRightUtilityButtonWith:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -2038,11 +2038,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Chat/ChatViewController.swift"
-            timestampString = "508690008.409106"
+            timestampString = "508751713.086263"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "4606"
-            endingLineNumber = "4606"
+            startingLineNumber = "4607"
+            endingLineNumber = "4607"
             landmarkName = "swipeableTableViewCell(_:didTriggerRightUtilityButtonWith:)"
             landmarkType = "7">
             <Locations>
@@ -3316,11 +3316,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Chat/NewGroupSetDetails.swift"
-            timestampString = "508337013.474981"
+            timestampString = "508748751.818785"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "325"
-            endingLineNumber = "325"
+            startingLineNumber = "327"
+            endingLineNumber = "327"
             landmarkName = "createGroupAPI(_:members:uniqueid:)"
             landmarkType = "7">
          </BreakpointContent>

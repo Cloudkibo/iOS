@@ -3676,12 +3676,13 @@ break
             {
                 print("clicked group_failed")
                 var membersCompleteList=sqliteDB.getGroupMembersOfGroup(groupsObjectList[indexPath.row]["unique_id"] as! String)
-                
+                print("membersCompleteList is \(membersCompleteList)")
                 var membersList=[String]()
                 
                 for i in 0 ..< membersCompleteList.count
                 {
                     membersList.append(membersCompleteList[i]["member_phone"] as! String)
+                    print("membersCompleteList[i][member_phone] as! String \(membersCompleteList[i]["member_phone"] as! String)")
                 }
                 
                 print("re-try create group id \(ContactUsernames ) name is \(groupsObjectList[indexPath.row]["group_name"] as! String) and members are \(membersList)")

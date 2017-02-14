@@ -85,7 +85,7 @@ open class EPContact {
             
             
             // phoneNumbers.append((phone.stringValue,phoneNumber.label))
-            phoneNumbers.append((phoneDigits,phoneNumber: phoneNumber.label!))
+            phoneNumbers.append((phoneDigits,phoneNumber.label!))
         }
         
         for emailAddress in contact.emailAddresses {
@@ -97,6 +97,7 @@ open class EPContact {
     
     public func getPhoneNumber()->String
     {
+        print("getPhoneNumber phoneNumbers.first?.phoneNumber \(phoneNumbers.first?.phoneNumber) and phoneNumbers \(phoneNumbers[0].phoneLabel)")
         return (phoneNumbers.first?.phoneNumber)!
     }
     

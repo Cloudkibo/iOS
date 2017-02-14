@@ -80,9 +80,10 @@ class NewGroupSetDetails: UITableViewController,UINavigationControllerDelegate,U
         var min=(calendar as NSCalendar).components(NSCalendar.Unit.minute,from: date).minute
         var sec=(calendar as NSCalendar).components(NSCalendar.Unit.second,from: date).second
         print("\(year) \(month) \(day) \(hr) \(min) \(sec)")
-        uniqueid="\(uid)\(year)\(month)\(day)\(hr)\(min)\(sec)"
+        uniqueid="\(uid)\(year!)\(month!)\(day!)\(hr!)\(min!)\(sec!)"
         
 
+        
         print("saving in database")
         
         
@@ -100,7 +101,8 @@ class NewGroupSetDetails: UITableViewController,UINavigationControllerDelegate,U
             membersnames.append(participants[i].displayName())
         }
         print("group_name is \(groupname)")
-        print("memberphones are \(memberphones.debugDescription)")
+        print("memberphones are \(memberphones)")
+        print("memberphones.debugDescription are \(memberphones.debugDescription)")
         
         //==========sqliteDB.storeGroups(groupname, groupicon1: imgdata, datecreation1: NSDate(), uniqueid1: uniqueid)
         
@@ -173,7 +175,7 @@ class NewGroupSetDetails: UITableViewController,UINavigationControllerDelegate,U
         
         var url=Constants.MainUrl+Constants.createGroupUrl
         
-        let request = Alamofire.request("\(url)", method: .post, parameters:["group_name":groupname,"members":members, "unique_id":uniqueid],headers:header).responseJSON { response in
+        let request = Alamofire.request("\(url)", method: .post, parameters:["group_name":groupname,"members":members, "unique_id":uniqueid],encoding: JSONEncoding.default,headers:header).responseJSON { response in
          
             
        // Alamofire.request(.POST,"\(url)",parameters:["group_name":groupname,"members":members, "unique_id":uniqueid],headers:header,encoding:.JSON).validate().responseJSON { response in
@@ -342,9 +344,9 @@ class NewGroupSetDetails: UITableViewController,UINavigationControllerDelegate,U
                 }
 
                 
-                
+                print("dismiss new group now")
                 self.dismiss(animated: true, completion: { 
-                    
+                   print("dismissing newgroupcreate")
                     UIDelegates.getInstance().UpdateMainPageChatsDelegateCall()
                 })
                 //self.performSegueWithIdentifier("backToMainChatSegue", sender: nil)
