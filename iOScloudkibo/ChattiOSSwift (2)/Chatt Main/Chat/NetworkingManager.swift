@@ -587,7 +587,7 @@ class NetworkingManager
     
     func downloadFile(_ fileuniqueid:String,filePendingName:String,filefrom:String,filetype:String,filePendingSize:String,filependingDate:String,filePendingTo:String)
     {
-        
+        print("inside download file function uniqueid \(fileuniqueid) and filetype is \(filetype) filePendingSize is \(filePendingSize)")
         
         var downloadURL=Constants.MainUrl+Constants.downloadFile
         print("start download")
@@ -597,11 +597,11 @@ class NetworkingManager
         let queue2 = DispatchQueue(label: "com.kibochat.manager-response-queue-file", attributes: DispatchQueue.Attributes.concurrent)
         let qqq=DispatchQueue.global(qos: DispatchQoS.QoSClass.background)
            
-            let request = Alamofire.request("\(downloadURL)", method: .post, parameters: ["uniqueid":fileuniqueid],headers:header)
+            let request = Alamofire.request("\(downloadURL)", method: .post, parameters: ["uniqueid":fileuniqueid],encoding: JSONEncoding.default, headers:header)
             
             ///////let request = Alamofire.request(.POST, "\(downloadURL)", parameters: ["uniqueid":fileuniqueid], headers:header)
             
-            request.responseJSON(queue: queue2, completionHandler: { (response) in
+            request.response(queue: queue2, completionHandler: { (response) in
                 
                 
             //})
@@ -618,8 +618,9 @@ class NetworkingManager
             print("data file is \(data)")
             
          */
-                if(response.result.isSuccess)
+                if(response.response?.statusCode==200)
                 {
+                    print("download request response success \(response.data)")
                 var data=response.data
                     
                 let dirPaths = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)
@@ -664,6 +665,7 @@ class NetworkingManager
                 self.confirmDownload(fileuniqueid)
                 print("confirminggggggg")
                         }
+                        
                     else{
                         print("error in downloading file")
                         }
@@ -674,6 +676,9 @@ class NetworkingManager
                  
             }
                     }
+                else{
+                    print("unable to download file \(response.error)")
+                }
                 
                     //filedownloaded’ to with parameters ‘senderoffile’, ‘receiveroffile’
                 

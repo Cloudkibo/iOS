@@ -438,7 +438,7 @@ class syncContactService
         //var ss:String="["
         for e in phones{
             //ss.appendContentsOf(e)
-            print("phones sending to server are \(e)")
+            print("phones sending to server during contact sync are \(e)")
             
         }
         
@@ -457,7 +457,7 @@ class syncContactService
         //%%%%%%%%%%%%%%% new phone model change
         //Alamofire.request(.POST,searchContactsByEmail,parameters:["emails":emails],encoding: .JSON).responseJSON { response in
         
-        let request = Alamofire.request(searchContactsByPhones, method: .post, parameters:  ["phonenumbers":phones],headers:header).responseJSON { response in
+        let request = Alamofire.request(searchContactsByPhones, method: .post, parameters:  ["phonenumbers":phones],encoding: JSONEncoding.default,headers:header).responseJSON { response in
 
             //alamofire4
        // Alamofire.request(.POST,searchContactsByPhones,headers:header,parameters:["phonenumbers":phones],encoding: .JSON).responseJSON { response in
@@ -473,7 +473,7 @@ class syncContactService
                 //************* error here...........................
                 print(response.result.value!)
                 var res=JSON(response.result.value!)
-                //print(res)
+           
                 ////////////////var availableContactsEmails=res["available"].object
                 var availableContactsPhones=res["available"]
                 print("available contacts are \(availableContactsPhones.debugDescription)")
