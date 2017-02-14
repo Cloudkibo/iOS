@@ -465,7 +465,7 @@ EPPickerDelegate,SWTableViewCellDelegate,UpdateChatViewsDelegate,RefreshContacts
                     
                     if let data1 = response.result.value {
                         print("data \(data1)")
-                        let UserchatJson = JSON(data:data1 as! Data)
+                        let UserchatJson = JSON(data:response.data!)
                         print("chat fetched JSON: \(UserchatJson)")
                         
                         

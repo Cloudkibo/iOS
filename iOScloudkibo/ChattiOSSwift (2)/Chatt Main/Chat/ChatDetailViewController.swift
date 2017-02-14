@@ -4012,7 +4012,7 @@ let textLable = cell.viewWithTag(12) as! UILabel
          formatter.timeStyle = .ShortStyle
          */
         //let dateString = formatter.stringFromDate(NSDate())
-        let calendar = Calendar.current
+        /*let calendar = Calendar.current
         let comp = (calendar as NSCalendar).components([.hour, .minute], from: Date())
         let year = String(describing: comp.year)
         let month = String(describing: comp.month)
@@ -4020,10 +4020,20 @@ let textLable = cell.viewWithTag(12) as! UILabel
         let hour = String(describing: comp.hour)
         let minute = String(describing: comp.minute)
         let second = String(describing: comp.second)
-        
+        */
         var randNum5=self.randomStringWithLength(5) as String
-        var uniqueID=randNum5+year+month+day+hour+minute+second
         
+        let date1=Date()
+        let calendar = Calendar.current
+        let year=(calendar as NSCalendar).components(NSCalendar.Unit.year,from: date1).year
+        let month=(calendar as NSCalendar).components(NSCalendar.Unit.month,from: date1).month
+        let day=(calendar as NSCalendar).components(.day,from: date1).day
+        let hr=(calendar as NSCalendar).components(NSCalendar.Unit.hour,from: date1).hour
+        let min=(calendar as NSCalendar).components(NSCalendar.Unit.minute,from: date1).minute
+        let sec=(calendar as NSCalendar).components(NSCalendar.Unit.second,from: date1).second
+        print("\(randNum5) \(year) \(month) \(day) \(hr) \(min) \(sec)")
+       //var uniqueID=randNum5+year+month+day+hr+min+sec
+        var uniqueID="\(randNum5)\(year!)\(month!)\(day!)\(hr!)\(min!) \(sec!)"
         var date=Date()
         var formatterDateSend = DateFormatter();
         formatterDateSend.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ";
