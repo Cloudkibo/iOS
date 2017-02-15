@@ -2058,7 +2058,7 @@ EPPickerDelegate,SWTableViewCellDelegate,UpdateChatViewsDelegate,RefreshContacts
         }
             else
             {
-                
+                print("groups icon not exists")
             }
         
             let from = Expression<String>("from")

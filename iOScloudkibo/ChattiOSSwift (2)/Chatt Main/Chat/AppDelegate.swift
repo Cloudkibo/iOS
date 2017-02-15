@@ -2458,8 +2458,11 @@ else{
             
             switch responseData.result{
             case .success(let value):
-                let json = JSON.init(data:responseData.result.value as! Data)
-          
+                
+                
+            
+                    
+                let json = JSON(responseData.result.value)
            // print("members fetched response.. \(response.result)")
            //  print("members fetched response result.. \(response.result.value!)")
             print("members fetched response data.. \(responseData.data!)")
@@ -2472,7 +2475,7 @@ else{
             print("members fetched response result COUNT.. \(JSON(response.result.value!).count)")
             print("members fetched response data COUNT.. \(JSON(response.data!).count)")
             */
-                var membersDataNew=JSON.init(data: responseData.result.value as! Data)
+                var membersDataNew=JSON(responseData.result.value!)
                 
             for var i in 0 ..< membersDataNew.count
             {
