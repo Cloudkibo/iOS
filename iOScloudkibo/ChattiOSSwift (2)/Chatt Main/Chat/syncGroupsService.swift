@@ -211,7 +211,7 @@ class syncGroupService
         
         DispatchQueue.global(priority: DispatchQueue.GlobalQueuePriority.default).sync
         {
-            var request=Alamofire.request("\(url)",headers:header).response{ response in
+            var request=Alamofire.request("\(url)",headers:header).responseJSON{ response in
         /*
         request.response(
             queue: qqq,
@@ -223,10 +223,10 @@ class syncGroupService
                 
                 //.validate().responseJSON { response in
                 print(response)
-                if(response.response?.statusCode==200)
+                if(response.result.isSuccess)
                 {
-                    print(response.request?.value)
-                    jsongroupinfo=JSON(response.request!.value)
+                    print(response.result.value)
+                    jsongroupinfo=JSON(response.result.value!)
                     DispatchQueue.main.async
                     {
                     return completion(true,nil,jsongroupinfo)
