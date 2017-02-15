@@ -1259,12 +1259,12 @@ else{
         if let imageURL = editingInfo![UIImagePickerControllerReferenceURL] as? URL {
             let result = PHAsset.fetchAssets(withALAssetURLs: [imageURL], options: nil)
             
-            
-            self.file_name1 = (result.firstObject?.burstIdentifier)!// .firstObject?.filename ?? ""
-            
+            var asset=result.firstObject! as PHAsset
+            self.file_name1=asset.originalFilename!
+            //==----self.file_name1 = (result.firstObject?.burstIdentifier)!
             // var myasset=result.firstObject as! PHAsset
             ////print(myasset.mediaType)
-            
+            print("original filename is \(self.file_name1)")
             
             
         }
