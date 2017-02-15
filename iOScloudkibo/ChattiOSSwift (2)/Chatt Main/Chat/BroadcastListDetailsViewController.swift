@@ -261,8 +261,9 @@ class BroadcastListDetailsViewController: UIViewController,UINavigationControlle
                             }
                         }
                         
+                        var picurl=URL(fileURLWithPath: self.broadcastmembers[indexPath.row])
                         
-                       imageavatar.kf.setImage(with: profilepic as! Resource?)
+                       imageavatar.kf.setImage(with: picurl)
                         
                         var scaledimage=imageavatar.image?.kf.resize(to: CGSize(width: imageavatar.bounds.width,height: imageavatar.bounds.height))
                         
