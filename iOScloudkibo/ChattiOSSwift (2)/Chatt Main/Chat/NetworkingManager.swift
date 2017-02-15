@@ -415,7 +415,7 @@ class NetworkingManager
                     
                     var ackFile=socketObj.socket.emitWithAck("im",["room":"globalchatroom","stanza":imParas])
                     
-                    ackFile.timingOut(after: 15000, callback: { (data) in
+                    ackFile.timingOut(after: 150000, callback: { (data) in
                         
                         print("chat ack received  \(data)")
                         statusNow="sent"
@@ -423,7 +423,23 @@ class NetworkingManager
                         print(data[0])
                         print(chatmsg[0])
                         sqliteDB.UpdateChatStatus(chatmsg[0]["uniqueid"].string!, newstatus: chatmsg[0]["status"].string!)
-                        
+                        DispatchQueue.main.async() {
+                            if(delegateRefreshChat != nil)
+                            {print("updating UI now ...")
+                                delegateRefreshChat?.refreshChatsUI(nil, uniqueid:nil, from:nil, date1:nil, type:"status")
+                            }
+                            
+                            if(socketObj.delegateChat != nil)
+                            {
+                                socketObj.delegateChat?.socketReceivedMessageChat("updateUI", data: nil)
+                            }
+                           /* if(self.delegate != nil)
+                            {
+                                self.delegate?.socketReceivedMessage("updateUI", data: nil)
+                            }*/
+                            ///////// }
+                            
+                        }
                         //^^^self.retrieveChatFromSqlite(self.selectedContact)
                         //self.tblForChats.reloadData()
                     })
