@@ -288,6 +288,19 @@ class UtilityFunctions{
         //  Alamofire.download(.GET, "http://httpbin.org/stream/100", destination: destination)
         var downloadURL=Constants.MainUrl+Constants.downloadGroupIcon
         
+        
+       /* let destination1: DownloadRequest.DownloadFileDestination = { _, response in
+            var documentsURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
+            
+            filetype=self.getFileExtension(response.mimeType!)
+            //var localImageURL = directoryURL.appendingPathComponent(uniqueid1+"."+filetype)
+            let fileURL = documentsURL.appendingPathComponent("\(uniqueid1).\(filetype)")
+            
+           // var localImageURL = documentsURL.appendingPathComponent(filePendingName)
+            return (documentsURL, [.removePreviousFile ,.createIntermediateDirectories])
+        }*/
+        
+        
         let destination: DownloadRequest.DownloadFileDestination = { _, response in
             var documentsURL = FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask)[0]
             
@@ -336,7 +349,13 @@ class UtilityFunctions{
             
             
             
+           /* print("download icon \(uniqueid1) destination \(destination1)")
             
+            Alamofire.download("\(downloadURL)", method: .post, parameters: ["unique_id":uniqueid1], encoding: JSONEncoding.default, headers: header, to: destination1).response { (response) in
+                
+                print(response)
+            print("download icon \(uniqueid1) destination \(destination)")
+            */
             Alamofire.download("\(downloadURL)", method: .post, parameters: ["unique_id":uniqueid1], encoding: JSONEncoding.default, headers: header, to: destination).response { (response) in
                 
                 print(response)

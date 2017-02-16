@@ -646,8 +646,8 @@ class syncGroupService
                     var member_phone=jsongroupinfo[i]["member_phone"].string!
                     var membership_status=jsongroupinfo[i]["membership_status"].string!
                     
-                    
-                    
+                    print("members sync")
+                    print(jsongroupinfo)
                     let dateFormatter = DateFormatter()
                     dateFormatter.timeZone=NSTimeZone.local
                     dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
@@ -860,7 +860,7 @@ class syncGroupService
         print(header.description)
         
         
-        let request = Alamofire.request("\(url)", method: .post, parameters: ["unique_ids":statusNotSentList],headers:header).responseJSON{response in
+        let request = Alamofire.request("\(url)", method: .post, parameters: ["unique_ids":statusNotSentList], encoding: JSONEncoding.default,headers:header).responseJSON{response in
             
             
             

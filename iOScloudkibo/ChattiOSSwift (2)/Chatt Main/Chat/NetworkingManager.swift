@@ -251,6 +251,7 @@ class NetworkingManager
       //  let queue = dispatch_queue_create("com.kibochat.manager-response-queue", DISPATCH_QUEUE_CONCURRENT)
         
         var url=Constants.MainUrl+Constants.sendChatStatusURL
+        
         /*let request = Alamofire.request(.POST, "\(url)", parameters: ["uniqueid":uniqueid,"sender":sender,"status":status],headers:header)
         request.response(
             queue: queue,
@@ -412,17 +413,48 @@ class NetworkingManager
                     
                     //------
                   
-                    
-                    var ackFile=socketObj.socket.emitWithAck("im",["room":"globalchatroom","stanza":imParas])
-                    
-                    ackFile.timingOut(after: 150000, callback: { (data) in
+                     var url=Constants.MainUrl+Constants.sendChatURL
+                    let request = Alamofire.request("\(url)", method: .post, parameters:  imParas,headers:header).responseJSON { response in
                         
-                        print("chat ack received  \(data)")
+                        
+                        //alamofire4
+                        //// let request = Alamofire.request(.POST, "\(url)", parameters: chatstanza,headers:header).responseJSON { response in
+                        
+                        
+                        // You are now running on the concurrent `queue` you created earlier.
+                        //print("Parsing JSON on thread: \(NSThread.currentThread()) is main thread: \(NSThread.isMainThread())")
+                        
+                        // Validate your JSON response and convert into model objects if necessary
+                        //print(response.result.value) //status, uniqueid
+                        
+                        // To update anything on the main thread, just jump back on like so.
+                        print("\(imParas) ..  \(response)")
+                        if(response.response?.statusCode==200)
+                        {
+                            //  dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT,0))
+                            //{
+                            //print("chat ack received")
+                           // var statusNow="sent"
+                            
+                            
+                            
+                            
+                            //==-----
+                   ////////// var ackFile=socketObj.socket.emitWithAck("im",["room":"globalchatroom","stanza":imParas])
+                    
+                   /////// ackFile.timingOut(after: 150000, callback: { (data) in
+                        
+                        print("chat ack received  \(response.data!)")
                         statusNow="sent"
-                        var chatmsg=JSON(data)
-                        print(data[0])
-                        print(chatmsg[0])
-                        sqliteDB.UpdateChatStatus(chatmsg[0]["uniqueid"].string!, newstatus: chatmsg[0]["status"].string!)
+                        var chatmsg=JSON(response.data!)
+                        print("response.data! \(response.data!)")
+                            print("response.result.value \(response.result.value)")
+                            print("JSON chatmsg \(chatmsg)")
+                            print("JSON response.result.value \(JSON(response.result.value!))")
+                       // print(chatmsg[0])
+                       // sqliteDB.UpdateChatStatus(chatmsg[0]["uniqueid"].string!, newstatus: chatmsg[0]["status"].string!)
+                            sqliteDB.UpdateChatStatus(chatmsg["uniqueid"].string!, newstatus: chatmsg["status"].string!)
+                            
                         DispatchQueue.main.async() {
                             if(delegateRefreshChat != nil)
                             {print("updating UI now ...")
@@ -442,7 +474,7 @@ class NetworkingManager
                         }
                         //^^^self.retrieveChatFromSqlite(self.selectedContact)
                         //self.tblForChats.reloadData()
-                    })
+                 ////////   })
                     
                     
                     /*if(self.delegateChat != nil)
@@ -465,9 +497,11 @@ class NetworkingManager
                     print("file upload success")
                     print(response.result.value)
                     print(JSON(response.result.value!)) // "status":"success"
-                case .failure(let error):
+                        }
+               // case .failure(let error):
+                        else{
                     print("file upload failure")
-                    
+                        }
                 
                 }
                 //debugPrint(response)
@@ -479,13 +513,16 @@ class NetworkingManager
  */
               //  print("response is \(response.debugDescription)")
                // print("response result value is \(response.result.value)")
-            }
                 case .failure: print("case failure upload encoding")
-                }
                 
-            
+                }
+                    }
+               
+                
+                case .failure: print("case failure in encoding")
+                    
         }
-        )
+        })
         }
         
         

@@ -337,7 +337,7 @@ identifiersarray.append(identifier)
 
         }
         
-        
+        print("adding members to group \(singleGroupInfo["group_name"] as! String) \(groupid) and members array \(memberphones)")
         addGroupMembersAPI(singleGroupInfo["group_name"] as! String,members: memberphones,uniqueid: groupid)
         //send to server
         
@@ -537,7 +537,7 @@ identifiersarray.append(identifier)
             var url=Constants.MainUrl+Constants.addGroupMembersUrl
             
             
-            let request = Alamofire.request("\(url)", method: .post,parameters:["group_name":groupname,"members":members, "group_unique_id":uniqueid],headers:header).responseJSON { response in
+            let request = Alamofire.request("\(url)", method: .post,parameters:["group_name":groupname,"members":members, "group_unique_id":uniqueid], encoding:JSONEncoding.default,headers:header).responseJSON { response in
                 
                 //alamofire4
           ////  Alamofire.request(.POST,"\(url)",parameters:["group_name":groupname,"members":members, "group_unique_id":uniqueid],headers:header,encoding:.JSON).validate().responseJSON { response in
