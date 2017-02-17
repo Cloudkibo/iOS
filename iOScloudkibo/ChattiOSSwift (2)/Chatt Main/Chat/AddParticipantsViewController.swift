@@ -743,7 +743,7 @@ class AddParticipantsViewController: UIViewController,InviteContactsDelegate,UIT
                         //picfound=true
                     }
                     else{
-                        var profilepic=UIImage(named: "profile-pic1")
+                        var profilepic=UIImage(named: "profile-pic1.png")
                         
                         ImageCache.default.retrieveImage(forKey: "profile-pic1", options: nil) {
                             image, cacheType in
@@ -763,7 +763,7 @@ class AddParticipantsViewController: UIViewController,InviteContactsDelegate,UIT
                        
                         //var imgURL=URL(UIImage(imageLiteral: "profile-pic1"), relativeTo: URL(string: alladdressContactsArray[indexPath.row].get(phone)))
                         
-                        var imgURL=URL(fileURLWithPath: "profile-pic1")
+                        var imgURL=URL(fileURLWithPath: "profile-pic1.png")
                         
                         cellPrivate.img_avatar.kf.setImage(with: imgURL)
 

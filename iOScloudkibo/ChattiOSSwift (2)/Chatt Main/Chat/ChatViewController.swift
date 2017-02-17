@@ -1704,7 +1704,7 @@ EPPickerDelegate,SWTableViewCellDelegate,UpdateChatViewsDelegate,RefreshContacts
             for statusMessages in try sqliteDB.db.prepare(tbl_messageStatus!)
             {
                 ////////if(socketObj != nil){
-                
+                print("pending status messages \(statusMessages)")
             managerFile.sendChatStatusUpdateMessage(statusMessages[uniqueid], status: statusMessages[status], sender: statusMessages[sender])
                 
                 // OLD SOCKET LOGIC
@@ -3238,29 +3238,35 @@ break
         let imgURL=Bundle.main.url(forResource: "profile-pic1", withExtension: "png")
         //let path = Bundle.main.path(forResource: "profile-pic1", ofType: "png")
        // let imgURL = URL(
-        var profilepic=UIImage(named: "profile-pic1")
+        var profilepic=UIImage(named: "profile-pic1.png")
+        ImageCache.default.store(profilepic!, forKey: "profile-pic1")
+        
+        var resultcache=ImageCache.default.isImageCached(forKey: "profile-pic1")
         
         ImageCache.default.retrieveImage(forKey: "profile-pic1", options: nil) {
             image, cacheType in
             if let image = image {
                 print("Get image \(image), cacheType: \(cacheType).")
                 //In this code snippet, the `cacheType` is .disk
-                
+                //var picurl=URL(fileURLWithPath: "profile-pic1.png")
+                var picurl=URL(fileURLWithPath: "profile-pic1")
+                cell!.profilePic.kf.setImage(with: picurl)
             } else {
                 print("Not exist in cache.")
-                ImageCache.default.store(profilepic!, forKey: "profile-pic1")
-                ImageCache.default.isImageCached(forKey: "profile-pic1")
-                ImageCache.default.isImageCached(forKey: "profile-pic1")
+                /*ImageCache.default.store(profilepic!, forKey: "profile-pic1")
+                var resultcache=ImageCache.default.isImageCached(forKey: "profile-pic1")
+            
+                var picurl=URL(fileURLWithPath: "profile-pic1.png")
                 
+                cell!.profilePic.kf.setImage(with: ImageResource.init(downloadURL: picurl, cacheKey: "profile-pic1"))
+                */
+
             }
+        
         }
         
 
-        var picurl=URL(fileURLWithPath: "profile-pic1")
-
-        cell!.profilePic.kf.setImage(with: imgURL)
-        
-        //----replacing image lib
+              //----replacing image lib
 
        // cell!.profilePic.hnk_setImage(UIImage(named: "profile-pic1.png")!, key: "profile-pic1")
         
