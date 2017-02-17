@@ -592,6 +592,7 @@ print("tempURL is \(temporaryURL) and response is \(response.allHeaderFields)")
                 print("confirminggggggg")
                 
                 UIDelegates.getInstance().UpdateMainPageChatsDelegateCall()
+            UIDelegates.getInstance().UpdateSingleChatDetailDelegateCall()
                 UIDelegates.getInstance().UpdateGroupChatDetailsDelegateCall()
                 UIDelegates.getInstance().UpdateGroupInfoDetailsDelegateCall()
                 

@@ -327,10 +327,12 @@ EPPickerDelegate,SWTableViewCellDelegate,UpdateChatViewsDelegate,RefreshContacts
             
             //commenting it managerFile.checkPendingFiles(username!)
            
+            print("now send pending single chat messages")
             self.sendPendingChatMessages({ (result) -> () in
                 self.index=0
                 self.getData({ (result) -> () in
                     
+                    print("now send pending groups messages")
                     self.sendPendingGroupChatMessages({ (result) -> () in
                         self.index2=0
                         self.getGroupsData({ (result) -> () in
@@ -349,12 +351,12 @@ EPPickerDelegate,SWTableViewCellDelegate,UpdateChatViewsDelegate,RefreshContacts
                  
                             
                             //commenting new uncomment
-               /* UIDelegates.getInstance().UpdateGroupChatDetailsDelegateCall()
+                UIDelegates.getInstance().UpdateGroupChatDetailsDelegateCall()
                 UIDelegates.getInstance().UpdateMainPageChatsDelegateCall()
-                            
-                if(delegateRefreshChat != nil)
+                UIDelegates.getInstance().UpdateSingleChatDetailDelegateCall()
+               /* if(delegateRefreshChat != nil)
                 {
-                    print("refresh UI after pending msgs are sent")
+                    print("refresh UI after pending msgs are sent....")
                     delegateRefreshChat?.refreshChatsUI(nil, uniqueid:nil, from:nil, date1:nil, type:"status")
                 }*/
                             
@@ -366,12 +368,12 @@ EPPickerDelegate,SWTableViewCellDelegate,UpdateChatViewsDelegate,RefreshContacts
                             
                             //commenting ===---
                             var syncGroupsObj=syncGroupService.init()
-                  /*  syncGroupsObj.startSyncGroupsService({ (result) -> () in
+                 syncGroupsObj.startSyncGroupsService({ (result) -> () in
                         
                         // partial sync groups
                         print("calling partial sync groups chat")
                        //==-- syncGroupsObj.startPartialGroupsChatSyncService()
-                    })*/
+                    })
  
                     
                 })
@@ -387,7 +389,7 @@ EPPickerDelegate,SWTableViewCellDelegate,UpdateChatViewsDelegate,RefreshContacts
    func fetchChatsFromServer()
     {
         
-        
+        print("inside fetchchatsfromserver")
         let uniqueid = Expression<String>("uniqueid")
         let file_name = Expression<String>("file_name")
         let type = Expression<String>("type")
@@ -1227,7 +1229,7 @@ EPPickerDelegate,SWTableViewCellDelegate,UpdateChatViewsDelegate,RefreshContacts
                                     DispatchQueue.main.async
                                     {print("pendingGroupIcons refreshing page")
                                         
-
+                                        UIDelegates.getInstance().UpdateSingleChatDetailDelegateCall()
                                         self.tblForChat.reloadData()
                                     }
                                 })
@@ -3249,8 +3251,11 @@ break
                 print("Get image \(image), cacheType: \(cacheType).")
                 //In this code snippet, the `cacheType` is .disk
                 //var picurl=URL(fileURLWithPath: "profile-pic1.png")
-                var picurl=URL(fileURLWithPath: "profile-pic1")
-                cell!.profilePic.kf.setImage(with: picurl)
+                let fileURL = NSURL(fileURLWithPath: NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true).first!).appendingPathComponent("profile-pic1.png")
+                
+                
+                //var picurl=URL(fileURLWithPath: "profile-pic1")
+                cell!.profilePic.kf.setImage(with: imgURL)
             } else {
                 print("Not exist in cache.")
                 /*ImageCache.default.store(profilepic!, forKey: "profile-pic1")
@@ -3264,7 +3269,15 @@ break
             }
         
         }
-        
+            cell!.profilePic.kf.setImage(with: imgURL, placeholder: Image.init(named: "profile-pic1"), options: nil, progressBlock: { (test, test2) in
+                
+                print("set img progress block \(test) \(test)")
+            }) { (img, error1, cachetype, url1) in
+                
+                print("set image completion \(img)")
+                 print("set image completion error \(error1)")
+                  print("set image completion url \(url1)")
+        }
 
               //----replacing image lib
 
@@ -3398,7 +3411,13 @@ break
                     
                        // let p = Bundle.main.path(forResource: "loader", ofType: "gif")!
                        // let data = try! Data(contentsOf: URL(fileURLWithPath: p))
-                        var picurl=URL(fileURLWithPath: ContactUsernames)
+                        //// let picurl = URL(dataRepresentation: ContactsProfilePic, relativeTo: nil)
+                        /*let dirPaths = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)
+                        let docsDir1 = dirPaths[0]
+                        var documentDir=docsDir1 as NSString
+                        var imgPath=documentDir.appendingPathComponent(filedata["file_name"] as! String)
+                        */
+                        var picurl=URL(dataRepresentation: ContactsProfilePic, relativeTo: URL(string: ContactUsernames))
                         cell!.profilePic.kf.setImage(with: picurl)
                         
                         var scaledimage=cell!.profilePic.image?.kf.resize(to: CGSize(width: cell!.profilePic.bounds.width,height: cell!.profilePic.bounds.height))
@@ -4784,6 +4803,7 @@ shareMenu.addAction(cancelAction)
                                 
                                 DispatchQueue.main.async
                                 {print("pendingGroupIcons refreshing page")
+                                    UIDelegates.getInstance().UpdateSingleChatDetailDelegateCall()
                                     self.tblForChat.reloadData()
                                 }
                             })
@@ -4821,6 +4841,7 @@ shareMenu.addAction(cancelAction)
                                 
                                 DispatchQueue.main.async
                                 {print("pendingGroupIcons refreshing page")
+                                    UIDelegates.getInstance().UpdateSingleChatDetailDelegateCall()
                                     self.tblForChat.reloadData()
                                 }
                             })
@@ -4860,6 +4881,7 @@ shareMenu.addAction(cancelAction)
                             
                             DispatchQueue.main.async
                         {print("pendingGroupIcons refreshing page")
+                            UIDelegates.getInstance().UpdateSingleChatDetailDelegateCall()
                             self.tblForChat.reloadData()
                         }
                         })

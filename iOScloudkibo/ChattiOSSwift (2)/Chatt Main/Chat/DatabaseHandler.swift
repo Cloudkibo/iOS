@@ -964,7 +964,10 @@ print("alter table needed")
             .filter(uniqueid == uniqueid1)     // WHERE "name" IS NOT NULL
         
         do
-        {try sqliteDB.db.run((query?.update(status <- newstatus))!)}
+        {var res=try sqliteDB.db.run((query?.update(status <- newstatus))!)
+            
+            print("update status query runned \(res.description)")
+        }
         catch
         {
             print("error in updating chat")

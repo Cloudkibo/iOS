@@ -3882,7 +3882,7 @@ let textLable = cell.viewWithTag(12) as! UILabel
                 //print(response.result.value) //status, uniqueid
                 
                 // To update anything on the main thread, just jump back on like so.
-                print("\(chatstanza) ..  \(response)")
+                ////print("\(chatstanza) ..  \(response)")
                 if(response.response?.statusCode==200)
                 {
                   //  dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT,0))
@@ -4201,7 +4201,7 @@ print("hh \(hh)")
       //  }
         
 
-        print("messages count before sending msg is \(self.messages.count)")
+        //print("messages count before sending msg is \(self.messages.count)")
         print("sending msg \(msggg)")
         if(selectedContact != ""){
             self.sendChatMessage(imParas){ (uniqueid,result) -> () in
@@ -4225,7 +4225,7 @@ print("hh \(hh)")
                 DispatchQueue.main.async
                 {
                     self.tblForChats.reloadData()
-                    print("messages count is \(self.messages.count)")
+                   // print("messages count is \(self.messages.count)")
                     
                    /* if(self.messages.count>1)
                     {
@@ -4258,6 +4258,10 @@ print("hh \(hh)")
                 */
                 // }
             }
+                else
+                {
+                    print("unable to send chat \(imParas)")
+                }
         }
     }
     else{
@@ -4287,7 +4291,7 @@ print("hh \(hh)")
                     DispatchQueue.main.async
                     {
                         self.tblForChats.reloadData()
-                        print("messages count is \(self.messages.count)")
+                       // print("messages count is \(self.messages.count)")
                     }
                 }
 }}
@@ -4511,7 +4515,28 @@ print("hh \(hh)")
             
             //print("$$ \(message)")
             //print(message)
-            
+
+            self.self.retrieveChatFromSqlite(self.selectedContact,completion:{(result)-> () in
+                
+                //    DispatchQueue.main.async
+                //  {
+                // self.tblForChats.reloadData()
+                
+                //commenting newwwwwwww -===-===-=
+                //   DispatchQueue.main.async
+                //{
+                self.tblForChats.reloadData()
+                
+                if(self.messages.count>1)
+                {
+                    //var indexPath = NSIndexPath(forRow:self.messages.count-1, inSection: 0)
+                    let indexPath = IndexPath(row:self.tblForChats.numberOfRows(inSection: 0)-1, section: 0)
+                    self.tblForChats.scrollToRow(at: indexPath, at: UITableViewScrollPosition.bottom, animated: false)
+                }
+                //}
+                //}
+                // })
+            })
            /* self.retrieveChatFromSqlite(self.selectedContact)
             if(self.messages.count>1)
             {
@@ -4519,6 +4544,7 @@ print("hh \(hh)")
                 
                 self.tblForChats.scrollToRowAtIndexPath(indexPath, atScrollPosition: UITableViewScrollPosition.Bottom, animated: false)
             }*/
+
            /* self.retrieveChatFromSqlite(selectedContact,completion:{(result)-> () in
                 self.tblForChats.reloadData()
                 
@@ -4528,8 +4554,8 @@ print("hh \(hh)")
                     
                     self.tblForChats.scrollToRowAtIndexPath(indexPath, atScrollPosition: UITableViewScrollPosition.Bottom, animated: false)
                 }
-            })
-            */
+            })*/
+ 
             // DispatchQueue.main.async
             //  {
             //     self.tblForChats.reloadData()
@@ -4972,12 +4998,13 @@ print("hh \(hh)")
         else{
         
         //received status
-        print("refreshing chats details UI now")
+        print("refreshing chats details UI now type not cat but \(type!)")
         //dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT,0))
         //{
             self.retrieveChatFromSqlite(self.selectedContact,completion:{(result)-> () in
            ///// DispatchQueue.main.async
            ///// {
+                print("refreshing chats details UI now ........")
                 
             DispatchQueue.main.async
             {
