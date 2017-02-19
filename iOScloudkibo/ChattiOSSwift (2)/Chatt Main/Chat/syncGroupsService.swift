@@ -752,8 +752,10 @@ class syncGroupService
                  print(response.response?.statusCode)
                 if(response.result.isSuccess)
                 {
-                    
+                    /*
                     let request = Alamofire.request("\(Constants.MainUrl+Constants.urllog)",parameters: ["data":"IPHONE_LOG: group chat partial got success \(username!)"],headers:header).responseJSON(completionHandler: { (response) in
+                        
+                        */
                    /* Alamofire.request(.POST,"\(Constants.MainUrl+Constants.urllog)",headers:header,parameters: ["data":"IPHONE_LOG: group chat partial got success \(username!)"]).response{
                         request, response_, data, error in
                         print(error)
@@ -832,7 +834,7 @@ class syncGroupService
                     {
                     return completion(true,nil,jsongroupinfo)
                     }
-                })
+               // })
                 }
                     
                 else{

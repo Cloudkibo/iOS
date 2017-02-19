@@ -57,6 +57,7 @@ EPPickerDelegate,SWTableViewCellDelegate,UIImagePickerControllerDelegate {
         
         
         NotificationCenter.default.addObserver(self, selector: #selector(GroupInfo3ViewController.checkForReachability(_:)),name: ReachabilityChangedNotification,object: reachability)
+        /*
         do{
             try reachability.startNotifier()
         }catch{
@@ -65,7 +66,7 @@ EPPickerDelegate,SWTableViewCellDelegate,UIImagePickerControllerDelegate {
         
         NotificationCenter.default.addObserver(self, selector: #selector(GroupInfo3ViewController.checkForReachability(_:)),name: ReachabilityChangedNotification, object: reachability)//   .Name(rawValue: ReachabilityChangedNotification), object: reachability)
         
-        
+        */
         
         
         messages=NSMutableArray()
@@ -463,7 +464,7 @@ identifiersarray.append(identifier)
             
             var url=Constants.MainUrl+Constants.leaveGroup
             
-               let request = Alamofire.request("\(url)", method: .post,headers:header).responseJSON { response in
+            let request = Alamofire.request("\(url)", method: .post,parameters:["group_unique_id":self.groupid],encoding: JSONEncoding.default,headers:header).responseJSON { response in
              //alamofire4
            // Alamofire.request(.POST,"\(url)",parameters:["group_unique_id":self.groupid],headers:header,encoding:.JSON).validate().responseJSON { response in
                 

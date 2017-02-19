@@ -2493,9 +2493,19 @@ else{
                 //2016-09-18T19:13:00.588Z
                 let datens2 = dateFormatter.date(from: date_join!)
                 
+                //if already exist in members table , then update membership status
                 
+                var membershipstatus=sqliteDB.getMemberShipStatus(groupid!, memberphone: member_phone1!)
+                if(membershipstatus=="error")
+                {
+                      sqliteDB.storeMembers(groupid!, member_displayname1: displaynameMember!, member_phone1: member_phone1!, isAdmin1: isAdmin!, membershipStatus1: membership_status!, date_joined1: datens2!)
+                }
+                //else
+                else{
+                    sqliteDB.updateMembershipStatus(groupid!, memberphone1: member_phone1!, membership_status1: "joined")
+                }
                 
-                sqliteDB.storeMembers(groupid!, member_displayname1: displaynameMember!, member_phone1: member_phone1!, isAdmin1: isAdmin!, membershipStatus1: membership_status!, date_joined1: datens2!)
+              
             /*
      "__v" = 0;
      "_id" = 58137f5f44c231c85fb37e14;

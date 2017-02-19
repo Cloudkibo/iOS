@@ -273,6 +273,8 @@ class GroupChatingDetailController: UIViewController,UpdateGroupChatDetailsDeleg
         for i in 0 ..< membersList.count
         {
             //var fullname=""
+            if(membersList[i]["membership_status"] as! String != "left")
+            {
             if((sqliteDB.getNameFromAddressbook(membersList[i]["member_phone"] as! String)) != nil)
             {
                 namesList.append(sqliteDB.getNameFromAddressbook(membersList[i]["member_phone"]  as! String))
@@ -288,6 +290,7 @@ class GroupChatingDetailController: UIViewController,UpdateGroupChatDetailsDeleg
                     namesList.append(membersList[i]["member_phone"] as! String)
                 }
             }
+        }
         }
         var subtitleMembers=namesList.joined(separator: ",").trunc(20)
       self.navigationItem.titleView = setTitle(mytitle, subtitle: subtitleMembers)

@@ -380,7 +380,11 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
         }*/
         //%%%%%%%%%%%%%%%%%&&&&&&&&&&&&&&&&&&^^^^^^^^^
         //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%FetchChatServer()
+        
+        
         self.NewChatNavigationTitle.title=selectedFirstName
+        
+        
         self.navigationItem.leftBarButtonItem = self.navigationItem.backBarButtonItem
         var receivedMsg=JSON("")
         
