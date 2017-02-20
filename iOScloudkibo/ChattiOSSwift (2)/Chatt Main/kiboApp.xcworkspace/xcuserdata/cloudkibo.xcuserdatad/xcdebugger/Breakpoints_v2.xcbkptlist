@@ -283,8 +283,8 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "3761"
             endingLineNumber = "3761"
-            landmarkName = "ChatViewController"
-            landmarkType = "3">
+            landmarkName = "setEditing(_:animated:)"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy

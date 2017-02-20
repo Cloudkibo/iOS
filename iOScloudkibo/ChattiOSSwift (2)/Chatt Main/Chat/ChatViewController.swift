@@ -17,6 +17,8 @@ import AccountKit
 import Contacts
 import ContactsUI
 import Kingfisher
+//import AlamofireImage
+
 //import Haneke
 
 class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,CNContactPickerDelegate,
@@ -3241,6 +3243,22 @@ break
         //let path = Bundle.main.path(forResource: "profile-pic1", ofType: "png")
        // let imgURL = URL(
         var profilepic=UIImage(named: "profile-pic1.png")
+        // Scale image to size disregarding aspect ratio
+      //  let scaledImage = profilepic.af_imageScaled(to: size)
+        
+        // Scale image to fit within specified size while maintaining aspect ratio
+        //let aspectScaledToFitImage = image.af_imageAspectScaled(toFit: size)
+
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
         ImageCache.default.store(profilepic!, forKey: "profile-pic1")
         
         var resultcache=ImageCache.default.isImageCached(forKey: "profile-pic1")
