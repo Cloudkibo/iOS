@@ -1056,10 +1056,18 @@ print("alter table needed")
         let query = tbl_userchats?.select(status)           // SELECT "email" FROM "users"
             .filter(uniqueid == uniqueid1)     // WHERE "name" IS NOT NULL
         
-        do
-        {var res=try sqliteDB.db.run((query?.update(status <- newstatus))!)
-            
-            print("update status query runned \(res.description)")
+             do{for tblContacts in try sqliteDB.db.prepare((tbl_userchats?.filter(uniqueid == uniqueid1))!){
+                if(tblContacts[status] != "seen")
+                {
+                    var res=try sqliteDB.db.run((query?.update(status <- newstatus))!)
+                    
+                    print("update status query runned \(res.description)")
+                }
+                else{
+                    print("already seen so no update")
+                }
+                }
+           
         }
         catch
         {

@@ -5047,6 +5047,7 @@ print("hh \(hh)")
     }
         delegateRefreshChat=nil
         delegateChatRefr=nil
+        delegatechatdetail=nil
        /////  NSNotificationCenter.defaultCenter().removeObserver(self, name:UIKeyboardWillShowNotification, object: nil)    
     }
     
@@ -5061,7 +5062,7 @@ print("hh \(hh)")
     
     func refreshSingleChatDetailUI(_ message: String, data: AnyObject!) {
         
-        self.retrieveChatFromSqliteOnAppear(self.selectedContact,completion:{(result)-> () in
+        self.retrieveChatFromSqlite(self.selectedContact,completion:{(result)-> () in
             
         self.tblForChats.reloadData()
         
