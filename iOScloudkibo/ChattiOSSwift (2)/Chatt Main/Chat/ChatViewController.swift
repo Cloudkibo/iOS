@@ -17,7 +17,7 @@ import AccountKit
 import Contacts
 import ContactsUI
 import Kingfisher
-//import AlamofireImage
+import AlamofireImage
 
 //import Haneke
 
@@ -25,6 +25,7 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
 EPPickerDelegate,SWTableViewCellDelegate,UpdateChatViewsDelegate,RefreshContactsList,UpdateMainPageChatsDelegate,CNContactViewControllerDelegate
 {
     
+    let imageCache = AutoPurgingImageCache()
     var pendingGroupIcons=[String]()
     var messages:NSMutableArray!
     var pendinggroupchatsarray=[[String:AnyObject]]()
@@ -3244,11 +3245,17 @@ break
        // let imgURL = URL(
         var profilepic=UIImage(named: "profile-pic1.png")
         // Scale image to size disregarding aspect ratio
-      //  let scaledImage = profilepic.af_imageScaled(to: size)
+        //let scaledImage = profilepic.af_imageScaled(to: size)
         
         // Scale image to fit within specified size while maintaining aspect ratio
         //let aspectScaledToFitImage = image.af_imageAspectScaled(toFit: size)
-
+        imageCache.add(profilepic!, withIdentifier: "profile-pic1")
+        
+        // Fetch
+        let cachedAvatar = imageCache.image(withIdentifier: "profile-pic1")
+        cell!.profilePic.image=cachedAvatar
+        // Remove
+        //imageCache.removeImage(withIdentifier: "avatar")
         
         
         
@@ -3259,7 +3266,7 @@ break
         
         
         
-        ImageCache.default.store(profilepic!, forKey: "profile-pic1")
+      /*  ImageCache.default.store(profilepic!, forKey: "profile-pic1")
         
         var resultcache=ImageCache.default.isImageCached(forKey: "profile-pic1")
         
@@ -3296,6 +3303,7 @@ break
                  print("set image completion error \(error1)")
                   print("set image completion url \(url1)")
         }
+        */
 
               //----replacing image lib
 
@@ -3412,7 +3420,14 @@ break
                         //let imgURL = URL(fileURLWithPath: path!)
                         var profilepic=UIImage(data:ContactsProfilePic)!
                         
-                        ImageCache.default.retrieveImage(forKey: ContactUsernames, options: nil) {
+                        
+                        imageCache.add(profilepic!, withIdentifier: "profile-pic1")
+                        
+                        // Fetch
+                        let cachedAvatar = imageCache.image(withIdentifier: ContactUsernames)
+                        
+                        
+                        /*ImageCache.default.retrieveImage(forKey: ContactUsernames, options: nil) {
                             image, cacheType in
                             if let image = image {
                                 print("Get image \(image), cacheType: \(cacheType).")
@@ -3425,7 +3440,7 @@ break
                                 ImageCache.default.isImageCached(forKey: ContactUsernames)
                                 
                             }
-                        }
+                        }*/
                     
                        // let p = Bundle.main.path(forResource: "loader", ofType: "gif")!
                        // let data = try! Data(contentsOf: URL(fileURLWithPath: p))
@@ -3435,11 +3450,18 @@ break
                         var documentDir=docsDir1 as NSString
                         var imgPath=documentDir.appendingPathComponent(filedata["file_name"] as! String)
                         */
-                        var picurl=URL(dataRepresentation: ContactsProfilePic, relativeTo: URL(string: ContactUsernames))
+                       
+                        
+                        /*var picurl=URL(dataRepresentation: ContactsProfilePic, relativeTo: URL(string: ContactUsernames))
+                        
                         cell!.profilePic.kf.setImage(with: picurl)
                         
                         var scaledimage=cell!.profilePic.image?.kf.resize(to: CGSize(width: cell!.profilePic.bounds.width,height: cell!.profilePic.bounds.height))
                         
+                        
+                        */
+                        
+                        cell!.profilePic.image=cachedAvatar
                         //----replacing image lib
                         /*
 
