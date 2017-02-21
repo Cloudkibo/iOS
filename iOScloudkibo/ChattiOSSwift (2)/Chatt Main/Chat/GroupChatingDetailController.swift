@@ -259,11 +259,13 @@ class GroupChatingDetailController: UIViewController,UpdateGroupChatDetailsDeleg
         //======== self.navigationController?.title=mytitle
         
         
-     /*   let swipeRecognizer = UISwipeGestureRecognizer(target: self, action: Selector("chatSwipped:"))
+       /* let swipeRecognizer = UISwipeGestureRecognizer(target: self, action: Selector("chatSwipped"))
         //Add the recognizer to your view.
-        swipeRecognizer.direction = .Left
+        swipeRecognizer.direction = .left
+        
         tblForGroupChat.addGestureRecognizer(swipeRecognizer)
- */
+        */
+ 
         UIDelegates.getInstance().delegateGroupChatDetails1=self
         membersList=sqliteDB.getGroupMembersOfGroup(self.groupid1)
         
@@ -740,30 +742,30 @@ class GroupChatingDetailController: UIViewController,UpdateGroupChatDetailsDeleg
     }
     
     
-   /* func chatSwipped(sender:UISwipeGestureRecognizer)
+    func chatSwipped(_ sender : UISwipeGestureRecognizer)
     {
         let gesture:UISwipeGestureRecognizer = sender as! UISwipeGestureRecognizer
-        if(gesture.direction == .Left)
+        if(gesture.direction == .left)
         {
             
-            var location = gesture.locationInView(tblForGroupChat)
+            var location = gesture.location(in: tblForGroupChat)
             print("swipe location is \(location)")
-            var swipedIndexPath = tblForGroupChat.indexPathForRowAtPoint(location)
+            var swipedIndexPath = tblForGroupChat.indexPathForRow(at: location)
             swipedRow=swipedIndexPath!.row
             print("swiped row is \(swipedRow)")
-           var swipedCell  = tblForGroupChat.cellForRowAtIndexPath(swipedIndexPath!)
+           var swipedCell  = tblForGroupChat.cellForRow(at: swipedIndexPath!)
 
             
             
            // swipeGesture.i
-            self.performSegueWithIdentifier("groupMessageInfoSegue", sender: nil)
+            self.performSegue(withIdentifier: "groupMessageInfoSegue", sender: nil)
             /*var frame:CGRect = self.mainView.frame;
             frame.origin.x = -self.leftButton.frame.width;
             self.mainView.frame = frame;*/
         }
        
         
-    }*/
+    }
     
      func tableView(_ tableView: UITableView, cellForRowAtIndexPath indexPath: IndexPath) -> UITableViewCell {
         
@@ -835,6 +837,11 @@ class GroupChatingDetailController: UIViewController,UpdateGroupChatDetailsDeleg
 
             }
             
+            let swipeRecognizer = UISwipeGestureRecognizer(target: self, action: #selector(self.chatSwipped(_:)))
+                //Selector("chatSwipped:"))
+            //Add the recognizer to your view.
+            swipeRecognizer.direction = .left
+            chatImage.addGestureRecognizer(swipeRecognizer)
             msgLabel.text=msg as! String
             return cell
         
@@ -1214,12 +1221,13 @@ class GroupChatingDetailController: UIViewController,UpdateGroupChatDetailsDeleg
     }
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         
+        print("inside preparesegue")
         //groupMessageInfoSegue
         
         if segue.identifier == "groupMessageInfoSegue" {
-            
+              print("inside preparesegue groupMessageInfoSegue")
             if let destinationVC = segue.destination as? GroupMessageStatusViewController{
-                
+                print("inside preparesegue destinationVC \(destinationVC.debugDescription)")
                 var messageDic = messages.object(at: swipedRow) as! [String : String];
                 
                 let uniqueid = messageDic["uniqueid"] as NSString!

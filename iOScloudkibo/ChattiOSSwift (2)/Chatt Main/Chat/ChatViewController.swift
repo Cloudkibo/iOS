@@ -3421,7 +3421,7 @@ break
                         var profilepic=UIImage(data:ContactsProfilePic)!
                         
                         
-                        imageCache.add(profilepic!, withIdentifier: "profile-pic1")
+                        imageCache.add(profilepic, withIdentifier: ContactUsernames)
                         
                         // Fetch
                         let cachedAvatar = imageCache.image(withIdentifier: ContactUsernames)
@@ -3528,7 +3528,12 @@ break
                     
                     var profilepic=UIImage(data:ContactsProfilePic)!
                     
-                    ImageCache.default.retrieveImage(forKey: ContactUsernames, options: nil) {
+                    imageCache.add(profilepic, withIdentifier: ContactUsernames)
+                    
+                    // Fetch
+                    var cachedAvatar = imageCache.image(withIdentifier: ContactUsernames)
+                    cachedAvatar=UtilityFunctions.init().resizedAvatar(img: cachedAvatar, size: CGSize(width: cell!.profilePic.bounds.width,height: cell!.profilePic.bounds.height), sizeStyle: "Fill")
+                    /*ImageCache.default.retrieveImage(forKey: ContactUsernames, options: nil) {
                         image, cacheType in
                         if let image = image {
                             print("Get image \(image), cacheType: \(cacheType).")
@@ -3548,7 +3553,7 @@ break
                     cell!.profilePic.kf.setImage(with: picurl)
                     
                     var scaledimage=cell!.profilePic.image?.kf.resize(to: CGSize(width: cell!.profilePic.bounds.width,height: cell!.profilePic.bounds.height))
-                    
+                    */
                     
                     //----replacing image lib
                     /*
@@ -3558,6 +3563,8 @@ break
                     
                     //==----cell.profilePic.image=UIImage(data:ContactsProfilePic)
                     */
+                    
+                     cell!.profilePic.image=cachedAvatar!
                 }
             }
         

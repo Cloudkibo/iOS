@@ -14,6 +14,8 @@ import SQLite
 import SwiftyJSON
 import Photos
 import AssetsLibrary
+import AlamofireImage
+
 class UtilityFunctions{
     
     init()
@@ -301,7 +303,7 @@ class UtilityFunctions{
         }*/
         
         
-        let destination: DownloadRequest.DownloadFileDestination = { _, response in
+        let destination: Alamofire.DownloadRequest.DownloadFileDestination = { _, response in
             var documentsURL = FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask)[0]
             
             filetype=self.getFileExtension(response.mimeType!)
@@ -474,7 +476,7 @@ class UtilityFunctions{
         
         
         
-        let destination: DownloadRequest.DownloadFileDestination = { _, response in
+        let destination: Alamofire.DownloadRequest.DownloadFileDestination = { _, response in
             var documentsURL = FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask)[0]
             
             filetype=self.getFileExtension(response.mimeType!)
@@ -990,6 +992,30 @@ print("tempURL is \(temporaryURL) and response is \(response.allHeaderFields)")
         // show the alert
         self.presentViewController(alert, animated: true, completion: nil)
     }*/
+    
+    func resizedAvatar(img:UIImage!,size:CGSize, sizeStyle:String)->UIImage?
+    {
+        switch(sizeStyle)
+        {
+        case "noRatio":
+        // Scale image to size disregarding aspect ratio
+        let scaledImage = img.af_imageScaled(to: size)
+        return scaledImage
+        case "Fit":
+        // Scale image to fit within specified size while maintaining aspect ratio
+        let aspectScaledToFitImage = img.af_imageAspectScaled(toFit: size)
+        return aspectScaledToFitImage
+        case "Fill":
+        // Scale image to fill specified size while maintaining aspect ratio
+        let aspectScaledToFillImage = img.af_imageAspectScaled(toFill: size)
+            return aspectScaledToFillImage
+        
+        default: return nil
+        }
+        
+        //return nil
+    }
+    
 }
 
 extension PHAsset {

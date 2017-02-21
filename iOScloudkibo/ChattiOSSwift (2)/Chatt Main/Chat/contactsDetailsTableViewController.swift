@@ -10,9 +10,11 @@ import UIKit
 import Contacts
 import SQLite
 import MessageUI
+import AlamofireImage
 
 class contactsDetailsTableViewController: UITableViewController,MFMailComposeViewControllerDelegate,MFMessageComposeViewControllerDelegate {
     
+    var imageCache=AutoPurgingImageCache()
     var sendType=""
     var contactIndex:Int=1
     var isKiboContact=false
@@ -114,12 +116,23 @@ class contactsDetailsTableViewController: UITableViewController,MFMailComposeVie
                     let foundcontact=try contactStore.unifiedContact(withIdentifier: picquery[uniqueidentifier], keysToFetch: keys as [CNKeyDescriptor])
                     if(foundcontact.imageDataAvailable==true)
                     {
-                        foundcontact.imageData
+                        //foundcontact.imageData
+                        
                         let imageavatar1=UIImage.init(data:(foundcontact.imageData)!)
+                        
+                        imageCache.add(imageavatar1!, withIdentifier: alladdressContactsArray[contactIndex].get(phone))
+                        
+                        // Fetch
+                        var cachedAvatar = imageCache.image(withIdentifier: alladdressContactsArray[contactIndex].get(phone))
+                        cachedAvatar=UtilityFunctions.init().resizedAvatar(img: cachedAvatar, size: CGSize(width: cell.profileAvatar.bounds.width,height: cell.profileAvatar.bounds.height), sizeStyle: "Fill")
+                
+                        
+                        let circularImage = cachedAvatar?.af_imageRoundedIntoCircle()
+                        cell.profileAvatar.image=circularImage
                         //   imageavatar1=ResizeImage(imageavatar1!,targetSize: s)
                         
                         //var img=UIImage(data:ContactsProfilePic[indexPath.row])
-                        let w=imageavatar1!.size.width
+                       /* let w=imageavatar1!.size.width
                         var h=imageavatar1!.size.height
                         let wOld=cell.profileAvatar.frame.width
                         var hOld=cell.profileAvatar.frame.height
@@ -135,7 +148,7 @@ class contactsDetailsTableViewController: UITableViewController,MFMailComposeVie
                         cell.profileAvatar.layer.borderColor = UIColor.white.cgColor
                         cell.profileAvatar.layer.cornerRadius = cell.profileAvatar.frame.size.width/2
                         cell.profileAvatar.clipsToBounds = true
-                        
+                        */
                       
                         //ContactsProfilePic.append(foundcontact.imageData!)
                         //picfound=true

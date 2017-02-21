@@ -14,13 +14,14 @@ import AVFoundation
 import Foundation
 import AccountKit
 import Contacts
-
+import AlamofireImage
 
 
 var delegateRefreshContacts:RefreshContactsList!
 class ChatMainViewController:UIViewController,SocketConnecting,RefreshContactsList
 {
     
+    let imageCache = AutoPurgingImageCache()
     var messages:NSMutableArray!
     var sendType=""
     var accountKit: AKFAccountKit!
@@ -956,10 +957,18 @@ class ChatMainViewController:UIViewController,SocketConnecting,RefreshContactsLi
                 cell.profilePic.layer.cornerRadius = cell.profilePic.frame.size.width/2
                 cell.profilePic.clipsToBounds = true
                 
-                cell.profilePic.image=UIImage(data: ContactsProfilePic, scale: scale)
+                imageCache.add(img!, withIdentifier: ContactUsernames)
+                
+                // Fetch
+                var cachedAvatar = imageCache.image(withIdentifier: ContactUsernames)
+                cachedAvatar=UtilityFunctions.init().resizedAvatar(img: cachedAvatar, size: CGSize(width: cell.profilePic.bounds.width,height: cell.profilePic.bounds.height), sizeStyle: "Fill")
+                    
+                cell.profilePic.image=cachedAvatar
+                    
+                    /*cell.profilePic.image=UIImage(data: ContactsProfilePic, scale: scale)
                 ///cell.profilePic.image=UIImage(data:ContactsProfilePic[indexPath.row])
                 UIImage(data: ContactsProfilePic, scale: scale)
-                print("image size is s \(UIImage(data:ContactsProfilePic)?.size.width) and h \(UIImage(data:ContactsProfilePic)?.size.height)")
+                print("image size is s \(UIImage(data:ContactsProfilePic)?.size.width) and h \(UIImage(data:ContactsProfilePic)?.size.height)")*/
             }
             else
             {
