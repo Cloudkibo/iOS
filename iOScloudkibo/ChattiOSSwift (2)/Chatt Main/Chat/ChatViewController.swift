@@ -334,6 +334,9 @@ EPPickerDelegate,SWTableViewCellDelegate,UpdateChatViewsDelegate,RefreshContacts
             self.sendPendingChatMessages({ (result) -> () in
                 self.index=0
                 self.getData({ (result) -> () in
+                    UIDelegates.getInstance().UpdateGroupChatDetailsDelegateCall()
+                    UIDelegates.getInstance().UpdateMainPageChatsDelegateCall()
+                    UIDelegates.getInstance().UpdateSingleChatDetailDelegateCall()
                     
                     print("now send pending groups messages")
                     self.sendPendingGroupChatMessages({ (result) -> () in
@@ -1632,6 +1635,7 @@ EPPickerDelegate,SWTableViewCellDelegate,UpdateChatViewsDelegate,RefreshContacts
                 
                // print("pending chats count date desc is \(count)")
                 count += 1
+                
                 var imParas=["from":pendingchats[from],"to":pendingchats[to],"fromFullName":pendingchats[fromFullName],"msg":pendingchats[msg],"uniqueid":pendingchats[uniqueid],"type":pendingchats[type],"file_type":pendingchats[file_type]]
                 
                
@@ -1733,10 +1737,10 @@ EPPickerDelegate,SWTableViewCellDelegate,UpdateChatViewsDelegate,RefreshContacts
             socketObj.socket.emit("logClient","IPHONE-LOG: \(username!) done sending pending chat messages")
             }
             
-           DispatchQueue.main.async
-           {
+          // DispatchQueue.main.async
+          // {
             return completion(true)
-            }
+            //}
        
     
             //// return completion(result: true)

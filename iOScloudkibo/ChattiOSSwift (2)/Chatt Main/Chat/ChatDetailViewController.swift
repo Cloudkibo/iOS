@@ -19,10 +19,11 @@ import Contacts
 import Compression
 
 
-class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChatDelegate,UIDocumentPickerDelegate,UIDocumentMenuDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate,FileManagerDelegate,showUploadProgressDelegate,UpdateChatViewsDelegate{
+class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChatDelegate,UIDocumentPickerDelegate,UIDocumentMenuDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate,FileManagerDelegate,showUploadProgressDelegate,UpdateChatViewsDelegate,UpdateSingleChatDetailDelegate{
     
     var Q_serial1=DispatchQueue(label: "Q_serial1",attributes: [])
     
+    var delegatechatdetail:UpdateSingleChatDetailDelegate!
     var broadcastlistID1=""
     var broadcastlistmessages:NSMutableArray!
     var broadcastMembersPhones=[String]()
@@ -175,7 +176,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
         //print("chat will appear")
         socketObj.socket.emit("logClient","IPHONE-LOG: chat page will appear")
         
-        
+        UIDelegates.getInstance().delegateSingleChatDetails1=self
         delegateRefreshChat=self
         
         
@@ -5057,6 +5058,24 @@ print("hh \(hh)")
      
      super.viewDidLayoutSubviews()
      }*/
+    
+    func refreshSingleChatDetailUI(_ message: String, data: AnyObject!) {
+        
+        self.retrieveChatFromSqliteOnAppear(self.selectedContact,completion:{(result)-> () in
+            
+        self.tblForChats.reloadData()
+        
+        if(self.messages.count>1)
+        {
+            //var indexPath = NSIndexPath(forRow:self.messages.count-1, inSection: 0)
+            let indexPath = IndexPath(row:self.tblForChats.numberOfRows(inSection: 0)-1, section: 0)
+            self.tblForChats.scrollToRow(at: indexPath, at: UITableViewScrollPosition.bottom, animated: false)
+        }
+        //}
+        //}
+        // })
+    })
+    }
 }
 
 
