@@ -28,6 +28,7 @@ class DatabaseHandler:NSObject{
     var group_muteSettings:Table!
     var broadcastlisttable:Table!
     var broadcastlistmembers:Table!
+    var groupStatusUpdatesTemp:Table!
     
     init(dbName:String)
     {print("inside database handler class")
@@ -279,6 +280,14 @@ print("alter table needed")
         catch
         {
             print("error in dropping broadcastlistmembers table \(error)")
+        }
+        
+        self.groupStatusUpdatesTemp = Table("groupStatusUpdatesTemp")
+        do{try db.run(self.groupStatusUpdatesTemp.drop(ifExists: true))
+        }
+        catch
+        {
+            print("error in dropping groupStatusUpdatesTemp table \(error)")
         }
        
         //var broadcastlistmembers:Table!
@@ -814,6 +823,39 @@ print("alter table needed")
     }
     
     
+    
+    
+    
+    func createGroupStatusTempTable()
+    {
+        if(socketObj != nil)
+        {
+            
+            socketObj.socket.emit("logClient","IPHONE-LOG: creating groupStatusUpdatesTemp table")
+        }
+        let status = Expression<String>("status")
+        let sender = Expression<String>("sender")
+        let messageuniqueid = Expression<String>("messageuniqueid")
+
+        
+        self.groupStatusUpdatesTemp = Table("groupStatusUpdatesTemp")
+        do{
+            try db.run(groupStatusUpdatesTemp.create(ifNotExists: retainOldDatabase) { t in
+                t.column(status)
+                t.column(sender)
+                t.column(messageuniqueid)
+            })
+            
+        }
+        catch
+        {
+            if(socketObj != nil)
+            {socketObj.socket.emit("logClient","IPHONE-LOG: error in creating messageStatus table \(error)")}
+            print("error in creating messageStatus table")
+        }
+        
+    }
+    
     func saveMessageStatusSeen(_ status1:String,sender1:String,uniqueid1:String)
     {
         
@@ -841,6 +883,57 @@ print("alter table needed")
         
         
         
+    }
+    func saveGroupStatusTemp(_ status1:String,sender1:String,messageuniqueid1:String)
+    {
+    let status = Expression<String>("status")
+    let sender = Expression<String>("sender")
+    let messageuniqueid = Expression<String>("messageuniqueid")
+    
+    
+    self.groupStatusUpdatesTemp = Table("groupStatusUpdatesTemp")
+        
+        do {
+            let rowid = try db.run((groupStatusUpdatesTemp?.insert(
+                status<-status1,
+                sender<-sender1,
+                messageuniqueid<-messageuniqueid1
+                ))!)
+            
+            if(socketObj != nil)
+            {
+                // socketObj.socket.emit("logClient","IPHONE-LOG: all messageStatus saved in sqliteDB")
+            }
+            print("inserted id groupStatusUpdatesTemp : \(rowid)")
+        } catch {
+            print("insertion failed: error - groupStatusUpdatesTemp \(error)")
+        }
+    }
+    
+    
+    func removeGroupStatusTemp(_ status1:String,memberphone1:String,messageuniqueid1:String)
+    {
+        let status = Expression<String>("status")
+        let sender = Expression<String>("sender")
+        let messageuniqueid = Expression<String>("messageuniqueid")
+        
+        
+        self.groupStatusUpdatesTemp = Table("groupStatusUpdatesTemp")
+        do
+        {
+            try sqliteDB.db.run((groupStatusUpdatesTemp?.filter(messageuniqueid==messageuniqueid1).delete())!)
+            
+        }
+        catch(let error)
+        {
+            print("error in deleting groupStatusUpdatesTemp \(error)")
+            if(socketObj != nil)
+            {
+                socketObj.socket.emit("logClient","IPHONE-LOG: error in deleting groupStatusUpdatesTemp from sqliteDB \(error)")
+            }
+            
+        }
+
     }
     func removeMessageStatusSeen(_ uniqueid1:String)
     {
@@ -2988,4 +3081,30 @@ print("--------")
         
     }
     
+    func getGroupStatusTemp(messageUniqueid1:String)->[String : AnyObject]
+    {
+        let status = Expression<String>("status")
+        let sender = Expression<String>("sender")
+        let messageuniqueid = Expression<String>("messageuniqueid")
+        
+        var newEntry = [String : Any]()
+
+        self.groupStatusUpdatesTemp = Table("groupStatusUpdatesTemp")
+        
+                let query = self.groupStatusUpdatesTemp.select(messageuniqueid).filter(messageUniqueid == messageUniqueid1)
+        do
+        {for list in try self.db.prepare(query)
+        {   newEntry["status"]=list.get(status)
+            newEntry["sender"]=list.get(sender)
+            newEntry["messageUniqueid"]=list.get(messageuniqueid)
+            
+            }
+        }
+        catch
+        {
+            
+        }
+        return newEntry as [String : AnyObject]
+        
+    }
 }

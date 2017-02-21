@@ -1437,7 +1437,28 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
                         
                     }
                 })*/
+                
+                
+                
             }
+        
+        var tbl_groupStatusUpdatesTemp=sqliteDB.groupStatusUpdatesTemp
+        let status = Expression<String>("status")
+        let sender = Expression<String>("sender")
+        let uniqueid = Expression<String>("uniqueid")
+        
+        do{
+        for statusMessages in try sqliteDB.db.prepare(tbl_groupStatusUpdatesTemp!)
+        {
+            // if(socketObj != nil){
+            
+            self.sendGroupChatStatus(statusMessages[uniqueid], status1: statusMessages[status])
+            
+           
+            }}
+        catch{
+            print("error in sending status updates to server")
+        }
         
         completion(true)
         
@@ -1469,6 +1490,32 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
         }*/
     
 
+    
+    func sendGroupChatStatus(_ chat_uniqueid:String,status1:String)
+    {
+        
+        var url=Constants.MainUrl+Constants.updateGroupChatStatusAPI
+        
+        
+        //--- dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT,0))
+        //{
+        
+        let request=Alamofire.request("\(url)", method: .post, parameters: ["chat_unique_id":chat_uniqueid,"status":status1],headers:header).responseJSON { response in
+            
+            
+                 if(response.response?.statusCode==200)
+            {
+                var resJSON=JSON(response.result.value!)
+                print("status seen sent response \(resJSON)")
+                //update locally
+                //moving it out of function. if seen offline so remove chat bubble unread count
+                
+                sqliteDB.removeGroupStatusTemp(status1, memberphone1: username!, messageuniqueid1: chat_uniqueid)
+                sqliteDB.updateGroupChatStatus(chat_uniqueid, memberphone1: username!, status1: status1, delivereddate1: NSDate() as Date!, readDate1: NSDate() as Date!)
+            }
+        }
+    }
+    
     func showError(_ title:String,message:String,button1:String) {
         
         // create the alert

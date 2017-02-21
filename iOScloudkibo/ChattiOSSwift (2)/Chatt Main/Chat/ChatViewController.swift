@@ -1814,6 +1814,24 @@ EPPickerDelegate,SWTableViewCellDelegate,UpdateChatViewsDelegate,RefreshContacts
              })*/
         }
         
+        var tbl_groupStatusUpdatesTemp=sqliteDB.groupStatusUpdatesTemp
+        let status = Expression<String>("status")
+        let sender = Expression<String>("sender")
+        let uniqueid = Expression<String>("uniqueid")
+        
+        do{
+            for statusMessages in try sqliteDB.db.prepare(tbl_groupStatusUpdatesTemp!)
+            {
+                // if(socketObj != nil){
+                
+                self.sendGroupChatStatus(statusMessages[uniqueid], status1: statusMessages[status])
+                
+                
+            }}
+        catch{
+            print("error in sending status updates to server")
+        }
+        
         completion(true)
         
     }
@@ -1835,6 +1853,52 @@ EPPickerDelegate,SWTableViewCellDelegate,UpdateChatViewsDelegate,RefreshContacts
     }
     */
     
+    
+    func sendGroupChatStatus(_ chat_uniqueid:String,status1:String)
+    {
+        
+        var url=Constants.MainUrl+Constants.updateGroupChatStatusAPI
+        
+        
+        //--- dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT,0))
+        //{
+        
+        let request=Alamofire.request("\(url)", method: .post, parameters: ["chat_unique_id":chat_uniqueid,"status":status1],headers:header).responseJSON { response in
+            
+            
+            //alamofire4
+            //let request = Alamofire.request(.POST, "\(url)", parameters: ["chat_unique_id":chat_uniqueid,"status":status1],headers:header).responseJSON { response in
+            
+            
+            /*let request = Alamofire.request(.POST, "\(url)", parameters: ["uniqueid":uniqueid,"sender":sender,"status":status],headers:header)
+             request.response(
+             queue: queue,
+             responseSerializer: Request.JSONResponseSerializer(options: .AllowFragments),
+             completionHandler: { response in
+             
+             */
+            // You are now running on the concurrent `queue` you created earlier.
+            //print("Parsing JSON on thread: \(NSThread.currentThread()) is main thread: \(NSThread.isMainThread())")
+            
+            // Validate your JSON response and convert into model objects if necessary
+            //   //print(response.result.value!) //status, uniqueid
+            
+            
+            // To update anything on the main thread, just jump back on like so.
+            
+            if(response.response?.statusCode==200)
+            {
+                var resJSON=JSON(response.result.value!)
+                print("status seen sent response \(resJSON)")
+                //update locally
+                //moving it out of function. if seen offline so remove chat bubble unread count
+                
+                sqliteDB.removeGroupStatusTemp(status1, memberphone1: username!, messageuniqueid1: chat_uniqueid)
+                sqliteDB.updateGroupChatStatus(chat_uniqueid, memberphone1: username!, status1: status1, delivereddate1: NSDate() as Date!, readDate1: NSDate() as Date!)
+            }
+        }
+        //===  }
+    }
     
     func sendGroupChatMessage(_ group_id:String,from:String,type:String,msg:String,fromFullname:String,uniqueidChat:String,completion:@escaping (_ result:Bool)->())
     {

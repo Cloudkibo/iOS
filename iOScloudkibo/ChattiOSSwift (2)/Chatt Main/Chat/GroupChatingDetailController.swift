@@ -559,6 +559,8 @@ class GroupChatingDetailController: UIViewController,UpdateGroupChatDetailsDeleg
                    
                     if(singleStatus == "delivered")
                     {print("yes it is delivered")
+                        
+                    sqliteDB.saveGroupStatusTemp("seen", sender1: tblUserChats[from], messageuniqueid1: tblUserChats[unique_id])
                      self.sendGroupChatStatus(tblUserChats[unique_id],status1: "seen")
                     }
 
@@ -583,11 +585,15 @@ class GroupChatingDetailController: UIViewController,UpdateGroupChatDetailsDeleg
                         }
                         
                     }
+                     
+                     
                     
                     */
                     //sqliteDB.updateGroupChatStatus(tblUserChats[unique_id], memberphone1: username!, status1: "seen")
                     
                     //==done sqliteDB.UpdateChatStatus(tblContacts[uniqueid], newstatus: "seen")
+                    
+                    
                     
                     
                     //== do later saving temprarily === sqliteDB.saveMessageStatusSeen("seen", sender1: tblContacts[from], uniqueid1: tblContacts[uniqueid])
@@ -609,6 +615,18 @@ class GroupChatingDetailController: UIViewController,UpdateGroupChatDetailsDeleg
                      
                      }
                      */
+                    
+                   //}
+
+                    
+                   /* if(tblContacts[from]==selecteduser && (tblContacts[status]=="delivered"))
+                    {
+                        sqliteDB.UpdateChatStatus(tblContacts[uniqueid], newstatus: "seen")
+                        
+                        sqliteDB.saveMessageStatusSeen("seen", sender1: tblContacts[from], uniqueid1: tblContacts[uniqueid])
+                        
+                        self.sendChatStatusUpdateMessage(tblContacts[uniqueid],status: "seen",sender: tblContacts[from])
+                    }*/
                 }
  
  
@@ -1193,6 +1211,8 @@ class GroupChatingDetailController: UIViewController,UpdateGroupChatDetailsDeleg
     print("status seen sent response \(resJSON)")
         //update locally
         //moving it out of function. if seen offline so remove chat bubble unread count
+        
+        sqliteDB.removeGroupStatusTemp(status1, memberphone1: username!, messageuniqueid1: chat_uniqueid)
         sqliteDB.updateGroupChatStatus(chat_uniqueid, memberphone1: username!, status1: status1, delivereddate1: NSDate() as Date!, readDate1: NSDate() as Date!)
     }
     }
