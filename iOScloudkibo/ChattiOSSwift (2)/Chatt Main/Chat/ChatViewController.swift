@@ -4929,6 +4929,7 @@ shareMenu.addAction(cancelAction)
                             DispatchQueue.main.async
                         {print("pendingGroupIcons refreshing page")
                             UIDelegates.getInstance().UpdateSingleChatDetailDelegateCall()
+                            
                             self.tblForChat.reloadData()
                         }
                         })

@@ -1232,7 +1232,12 @@ class GroupChatingDetailController: UIViewController,UpdateGroupChatDetailsDeleg
                 
                 let uniqueid = messageDic["uniqueid"] as NSString!
                 
+                let msg = messageDic["msg"] as NSString!
+                let date2=messageDic["date"] as NSString!
+                let fullname=messageDic["fromFullName"] as NSString!
                 destinationVC.message_unique_id=uniqueid as! String
+                destinationVC.messageString=msg as! String
+                destinationVC.datetime=date2 as! String
             }
         }
     }

@@ -22,7 +22,8 @@ class GroupMessageStatusViewController: UIViewController {
     @IBOutlet weak var chatImage: UIImageView!
     @IBOutlet weak var chatMsg_lbl: UILabel!
     @IBOutlet weak var time_lbl: UILabel!
-    
+    var messageString=""
+    var datetime=""
     
     override func viewDidLoad() {
         messages=NSMutableArray()
@@ -55,6 +56,28 @@ class GroupMessageStatusViewController: UIViewController {
             self.deliveredTo.append(self.readBy[i])
             }
         }
+        
+        
+        
+        print("datetime on button is \(datetime)")
+        
+        
+        let formatter = DateFormatter();
+        formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSS";
+        //formatter.dateFormat = "MM/dd hh:mm a";
+        formatter.timeZone = TimeZone.autoupdatingCurrent
+        let defaultTimeZoneStr = formatter.date(from: datetime)
+        
+        
+        let formatter2 = DateFormatter();
+        formatter2.timeZone=TimeZone.autoupdatingCurrent
+        formatter2.dateFormat = "MM/dd hh:mm a";
+        let displaydate=formatter2.string(from: defaultTimeZoneStr!)
+        
+        chatMsg_lbl.text=messageString
+        logDate_btn.setTitle(displaydate, for: .normal)
+        
+        
         
     }
     
@@ -95,17 +118,39 @@ class GroupMessageStatusViewController: UIViewController {
         
     }
     
+    
+    
     func tableView(_ tableView: UITableView, cellForRowAtIndexPath indexPath: IndexPath) -> UITableViewCell {
         
         let cell = tblMessageInfo.dequeueReusableCell(withIdentifier: "messageInfoCell")! as UITableViewCell
         var name=cell.viewWithTag(1) as! UILabel
+        
+        var datetimeStatusUpdate=cell.viewWithTag(3) as! UILabel
+        
         if(indexPath.row<deliveredTo.count)
         {
         name.text=sqliteDB.getNameGroupMemberNameFromMembersTable(deliveredTo[indexPath.row]["user_phone"] as! String)
+            //delivered_date
+            //read_date
+            var date=self.deliveredTo[indexPath.row]["delivered_date"] as! Date?
+            
+            let formatter2 = DateFormatter();
+            formatter2.timeZone=TimeZone.autoupdatingCurrent
+            formatter2.dateFormat = "MM/dd hh:mm a";
+            let displaydate=formatter2.string(from: date!)
+            datetimeStatusUpdate.text=displaydate
+            
         }
         else
         {
             name.text=sqliteDB.getNameGroupMemberNameFromMembersTable(readBy[indexPath.row - deliveredTo.count]["user_phone"] as! String)
+            var date=self.readBy[indexPath.row]["read_date"] as! Date?
+            
+            let formatter2 = DateFormatter();
+            formatter2.timeZone=TimeZone.autoupdatingCurrent
+            formatter2.dateFormat = "MM/dd hh:mm a";
+            let displaydate=formatter2.string(from: date!)
+            datetimeStatusUpdate.text=displaydate
             
         }
         

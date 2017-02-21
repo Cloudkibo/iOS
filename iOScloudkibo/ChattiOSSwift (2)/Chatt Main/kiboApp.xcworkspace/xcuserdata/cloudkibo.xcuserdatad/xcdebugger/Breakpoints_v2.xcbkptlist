@@ -3573,7 +3573,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "756"
             endingLineNumber = "756"
-            landmarkName = "chatSwipped(sender:)"
+            landmarkName = "chatSwipped(_:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
