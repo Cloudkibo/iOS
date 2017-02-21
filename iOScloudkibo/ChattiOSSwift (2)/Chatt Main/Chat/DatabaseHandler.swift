@@ -144,7 +144,7 @@ class DatabaseHandler:NSObject{
         createMuteGroupSettingsTable()
         createBroadcastListTable()
         createBroadcastListMembersTable()
-    
+        createGroupStatusTempTable()
         //createAllContactsTable()
         
     }
@@ -3091,12 +3091,12 @@ print("--------")
 
         self.groupStatusUpdatesTemp = Table("groupStatusUpdatesTemp")
         
-                let query = self.groupStatusUpdatesTemp.select(messageuniqueid).filter(messageUniqueid == messageUniqueid1)
+                let query = self.groupStatusUpdatesTemp.select(messageuniqueid).filter(messageuniqueid == messageUniqueid1)
         do
         {for list in try self.db.prepare(query)
         {   newEntry["status"]=list.get(status)
             newEntry["sender"]=list.get(sender)
-            newEntry["messageUniqueid"]=list.get(messageuniqueid)
+            newEntry["messageuniqueid"]=list.get(messageuniqueid)
             
             }
         }

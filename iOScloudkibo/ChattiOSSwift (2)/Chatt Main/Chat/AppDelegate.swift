@@ -1445,14 +1445,14 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
         var tbl_groupStatusUpdatesTemp=sqliteDB.groupStatusUpdatesTemp
         let status = Expression<String>("status")
         let sender = Expression<String>("sender")
-        let uniqueid = Expression<String>("uniqueid")
+        let messageuniqueid = Expression<String>("messageuniqueid")
         
         do{
         for statusMessages in try sqliteDB.db.prepare(tbl_groupStatusUpdatesTemp!)
         {
             // if(socketObj != nil){
             
-            self.sendGroupChatStatus(statusMessages[uniqueid], status1: statusMessages[status])
+            self.sendGroupChatStatus(statusMessages[messageuniqueid], status1: statusMessages[status])
             
            
             }}
