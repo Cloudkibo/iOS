@@ -288,6 +288,7 @@ class UtilityFunctions{
         //////  let destination = Alamofire.Request.suggestedDownloadDestination(directory: .DocumentDirectory, domain: .UserDomainMask)
         //  print("path download is \(destination.lowercaseString)")
         //  Alamofire.download(.GET, "http://httpbin.org/stream/100", destination: destination)
+        
         var downloadURL=Constants.MainUrl+Constants.downloadGroupIcon
         
         
@@ -312,6 +313,8 @@ class UtilityFunctions{
             
             return (fileURL, [.removePreviousFile, .createIntermediateDirectories])
         }
+     
+
 /*
         let destination: (URL, HTTPURLResponse) -> (URL) = {
             (temporaryURL, response) in
