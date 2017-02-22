@@ -158,6 +158,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate,AppDelegateScreenDelegate 
         var log=UtilityFunctions.init()
         log.log_papertrail("IPHONE: \(username!) has version number \(nsObject!.description)")
         
+   
+       
+      
         
         //  self.messageFrame.removeFromSuperview()
         // print("setting contacts start time \(NSDate())")

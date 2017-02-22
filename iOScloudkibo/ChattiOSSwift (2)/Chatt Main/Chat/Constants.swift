@@ -10,7 +10,7 @@ import Foundation
 class Constants{
     
     //static let MainUrl="https://www.cloudkibo.com"
-    static let MainUrl="https://api.cloudkibo.com"
+    static var MainUrl="https://api.cloudkibo.com"
 
     static let firstTimeLogin="/api/users/newuser"
     static let authentictionUrl="/auth/local/"

@@ -770,6 +770,45 @@ EPPickerDelegate,SWTableViewCellDelegate,UpdateChatViewsDelegate,RefreshContacts
         
         manager?.startListening()
 */
+        
+        let defaults = UserDefaults.standard
+        
+        if let baseURL = defaults.string(forKey: "baseURL") {
+            print(baseURL)
+            Constants.MainUrl=baseURL
+        }
+        else{
+            //ask from user
+            //self.showError("Get Base URL", message: "Base URL set is \(Constants.MainUrl)", button1: "Ok")
+            let alertController = UIAlertController(title: "Enter Server URL", message: "Please input your URL:", preferredStyle: .alert)
+            
+            let confirmAction = UIAlertAction(title: "Ok", style: .default) { (_) in
+                if let field = alertController.textFields![0] as? UITextField {
+                    // store your data
+                    Constants.MainUrl=field.text!
+                    defaults.set(field.text! as! String, forKey: "baseURL")
+                   // UserDefaults.standardUserDefaults.set(field.text, forKey: "userEmail")
+                   // UserDefaults.standard.synchronize()
+                } else {
+                    // user did not fill field
+                }
+            }
+            
+            let cancelAction = UIAlertAction(title: "Cancel", style: .cancel) { (_) in
+            
+            }
+            
+            alertController.addTextField { (textField) in
+                //textField.placeholder = "Email"
+                textField.text=Constants.MainUrl
+            }
+            
+            alertController.addAction(confirmAction)
+            alertController.addAction(cancelAction)
+            
+            self.present(alertController, animated: true, completion: nil)
+            print("not in defaults")
+        }
         messages=NSMutableArray()
         syncServiceContacts.delegateRefreshContactsList=self
         delegateRefreshChat=self

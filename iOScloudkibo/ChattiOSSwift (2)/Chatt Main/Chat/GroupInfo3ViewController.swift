@@ -83,8 +83,11 @@ EPPickerDelegate,SWTableViewCellDelegate,UIImagePickerControllerDelegate {
             let docsDir1 = dirPaths[0]
             var documentDir=docsDir1 as NSString
             var imgPath=documentDir.appendingPathComponent(filedata["file_name"] as! String)
-            
-            imgdata=FileManager.default.contents(atPath: imgPath)!
+            print("imgpath is \(imgPath)")
+            if (FileManager.default.contents(atPath: imgPath) != nil)
+            {
+               imgdata=FileManager.default.contents(atPath: imgPath)!
+            }
             
             // print("found path is \(imgNSData)")
             

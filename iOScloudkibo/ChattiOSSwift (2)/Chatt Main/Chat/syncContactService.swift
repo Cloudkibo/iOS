@@ -1037,7 +1037,7 @@ class syncContactService
         
         
         
-        Alamofire.request("\(fetchChatURL)").response { response1 in // method defaults to `.get`
+        Alamofire.request("\(fetchChatURL)", headers:header).response { response1 in // method defaults to `.get`
             
             ///alamofire4
      //   Alamofire.request(.GET,"\(fetchChatURL)",headers:header).validate(statusCode: 200..<300).response { (request1, response1, data1, error1) in
@@ -1045,7 +1045,7 @@ class syncContactService
                 
                 
             
-                if response1.response?.statusCode==200 {
+                if response1.response?.statusCode==200 || response1.response?.statusCode==201 {
                     //============GOT Contacts SECCESS=================
                     
                     
