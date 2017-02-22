@@ -20,10 +20,14 @@ import Crashlytics
 import Foundation
 import SystemConfiguration
 import AVFoundation
-
+import ContactsUI
+import Contacts
 //import UserNotifications
 //import WindowsAzureMessaging
 
+
+
+let contactPickerViewController = CNContactPickerViewController()
 
 var messageFrame = UIView()
 var activityIndicator = UIActivityIndicatorView()
