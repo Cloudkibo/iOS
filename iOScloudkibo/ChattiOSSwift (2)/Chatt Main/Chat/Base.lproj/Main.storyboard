@@ -2573,6 +2573,150 @@
                                                             </subviews>
                                                         </tableViewCellContentView>
                                                     </tableViewCell>
+                                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" verticalHuggingPriority="1000" selectionStyle="default" indentationWidth="10" reuseIdentifier="ContactSentCell" rowHeight="80" id="HJd-UL-f3j">
+                                                        <rect key="frame" x="0.0" y="742" width="320" height="80"/>
+                                                        <autoresizingMask key="autoresizingMask"/>
+                                                        <tableViewCellContentView key="contentView" autoresizesSubviews="NO" opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" verticalHuggingPriority="1000" preservesSuperviewLayoutMargins="YES" tableViewCell="HJd-UL-f3j" id="OJe-ew-pTJ">
+                                                            <rect key="frame" x="0.0" y="0.0" width="320" height="80"/>
+                                                            <autoresizingMask key="autoresizingMask"/>
+                                                            <subviews>
+                                                                <imageView opaque="NO" clipsSubviews="YES" tag="1" contentMode="redraw" verticalHuggingPriority="1000" misplaced="YES" preservesSuperviewLayoutMargins="YES" image="chat_send" highlighted="YES" id="jvQ-sY-IhL">
+                                                                    <rect key="frame" x="45" y="0.0" width="267" height="80"/>
+                                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                                </imageView>
+                                                                <label hidden="YES" opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="13" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Delivered" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" enabled="NO" adjustsFontSizeToFit="NO" id="5Ne-gd-O2W">
+                                                                    <rect key="frame" x="245" y="59" width="67" height="21"/>
+                                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                                    <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                                                    <color key="textColor" red="0.33333333329999998" green="0.33333333329999998" blue="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                                    <nil key="highlightedColor"/>
+                                                                </label>
+                                                                <imageView opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="2" contentMode="top" misplaced="YES" image="profile-pic1" id="WtM-jl-yXe">
+                                                                    <rect key="frame" x="54" y="13" width="55" height="54"/>
+                                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                                </imageView>
+                                                                <label hidden="YES" opaque="NO" userInteractionEnabled="NO" tag="12" contentMode="TopLeft" horizontalHuggingPriority="251" verticalHuggingPriority="1000" misplaced="YES" preservesSuperviewLayoutMargins="YES" text="Contact Name" lineBreakMode="wordWrap" numberOfLines="50" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="t3Z-QX-euS">
+                                                                    <rect key="frame" x="117" y="27" width="161" height="15"/>
+                                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                                    <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
+                                                                    <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="13"/>
+                                                                    <nil key="highlightedColor"/>
+                                                                </label>
+                                                                <view hidden="YES" opaque="NO" clearsContextBeforeDrawing="NO" tag="14" contentMode="scaleToFill" id="C6B-8Z-OgC" customClass="KDCircularProgress" customModule="Chat" customModuleProvider="target">
+                                                                    <rect key="frame" x="245" y="-1" width="33" height="32"/>
+                                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                                    <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                                    <userDefinedRuntimeAttributes>
+                                                                        <userDefinedRuntimeAttribute type="number" keyPath="angle">
+                                                                            <integer key="value" value="0"/>
+                                                                        </userDefinedRuntimeAttribute>
+                                                                        <userDefinedRuntimeAttribute type="boolean" keyPath="roundedCorners" value="YES"/>
+                                                                        <userDefinedRuntimeAttribute type="number" keyPath="startAngle">
+                                                                            <integer key="value" value="0"/>
+                                                                        </userDefinedRuntimeAttribute>
+                                                                        <userDefinedRuntimeAttribute type="number" keyPath="glowAmount">
+                                                                            <real key="value" value="0.0"/>
+                                                                        </userDefinedRuntimeAttribute>
+                                                                        <userDefinedRuntimeAttribute type="number" keyPath="progressThickness">
+                                                                            <real key="value" value="0.59999999999999998"/>
+                                                                        </userDefinedRuntimeAttribute>
+                                                                        <userDefinedRuntimeAttribute type="number" keyPath="trackThickness">
+                                                                            <real key="value" value="0.25"/>
+                                                                        </userDefinedRuntimeAttribute>
+                                                                        <userDefinedRuntimeAttribute type="color" keyPath="trackColor">
+                                                                            <color key="value" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                                        </userDefinedRuntimeAttribute>
+                                                                        <userDefinedRuntimeAttribute type="color" keyPath="IBColor1">
+                                                                            <color key="value" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                                        </userDefinedRuntimeAttribute>
+                                                                        <userDefinedRuntimeAttribute type="color" keyPath="progressInsideFillColor">
+                                                                            <color key="value" red="0.5" green="0.5" blue="0.5" alpha="0.5" colorSpace="custom" customColorSpace="sRGB"/>
+                                                                        </userDefinedRuntimeAttribute>
+                                                                    </userDefinedRuntimeAttributes>
+                                                                </view>
+                                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="11" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Contact Phone number (sent)" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="WIt-k7-zax">
+                                                                    <rect key="frame" x="117" y="50" width="161" height="17"/>
+                                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                                    <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
+                                                                    <fontDescription key="fontDescription" type="system" pointSize="11"/>
+                                                                    <nil key="highlightedColor"/>
+                                                                </label>
+                                                            </subviews>
+                                                        </tableViewCellContentView>
+                                                    </tableViewCell>
+                                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" verticalHuggingPriority="1000" selectionStyle="default" indentationWidth="10" reuseIdentifier="DocSentCell" rowHeight="80" id="XWA-CI-iAv" userLabel="DocSentCell">
+                                                        <rect key="frame" x="0.0" y="822" width="320" height="80"/>
+                                                        <autoresizingMask key="autoresizingMask"/>
+                                                        <tableViewCellContentView key="contentView" autoresizesSubviews="NO" opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" verticalHuggingPriority="1000" preservesSuperviewLayoutMargins="YES" tableViewCell="XWA-CI-iAv" id="6mr-G4-QVF">
+                                                            <rect key="frame" x="0.0" y="0.0" width="320" height="80"/>
+                                                            <autoresizingMask key="autoresizingMask"/>
+                                                            <subviews>
+                                                                <imageView opaque="NO" clipsSubviews="YES" tag="1" contentMode="redraw" verticalHuggingPriority="1000" preservesSuperviewLayoutMargins="YES" image="chat_receive" highlighted="YES" id="lr0-Gg-gBX">
+                                                                    <rect key="frame" x="8" y="0.0" width="232" height="80"/>
+                                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                                </imageView>
+                                                                <label hidden="YES" opaque="NO" userInteractionEnabled="NO" tag="12" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="1000" misplaced="YES" preservesSuperviewLayoutMargins="YES" text="Contact Name" lineBreakMode="wordWrap" numberOfLines="50" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="nfU-ya-eea">
+                                                                    <rect key="frame" x="100" y="30" width="137" height="15"/>
+                                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                                    <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
+                                                                    <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="11"/>
+                                                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                                    <nil key="highlightedColor"/>
+                                                                </label>
+                                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="11" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Phone" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="VyW-Lq-B6P">
+                                                                    <rect key="frame" x="100" y="47" width="137" height="17"/>
+                                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                                    <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
+                                                                    <fontDescription key="fontDescription" type="system" pointSize="11"/>
+                                                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                                    <nil key="highlightedColor"/>
+                                                                </label>
+                                                                <imageView opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="2" contentMode="top" misplaced="YES" image="profile-pic1" id="kos-t9-lEf">
+                                                                    <rect key="frame" x="37" y="11" width="55" height="53"/>
+                                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                                </imageView>
+                                                                <view hidden="YES" tag="14" contentMode="scaleToFill" id="U2g-zh-PUu" customClass="KDCircularProgress" customModule="Chat" customModuleProvider="target">
+                                                                    <rect key="frame" x="204" y="0.0" width="33" height="32"/>
+                                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                                    <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                                    <userDefinedRuntimeAttributes>
+                                                                        <userDefinedRuntimeAttribute type="number" keyPath="angle">
+                                                                            <integer key="value" value="0"/>
+                                                                        </userDefinedRuntimeAttribute>
+                                                                        <userDefinedRuntimeAttribute type="boolean" keyPath="roundedCorners" value="YES"/>
+                                                                        <userDefinedRuntimeAttribute type="number" keyPath="startAngle">
+                                                                            <integer key="value" value="0"/>
+                                                                        </userDefinedRuntimeAttribute>
+                                                                        <userDefinedRuntimeAttribute type="number" keyPath="glowAmount">
+                                                                            <real key="value" value="0.0"/>
+                                                                        </userDefinedRuntimeAttribute>
+                                                                        <userDefinedRuntimeAttribute type="number" keyPath="progressThickness">
+                                                                            <real key="value" value="0.59999999999999998"/>
+                                                                        </userDefinedRuntimeAttribute>
+                                                                        <userDefinedRuntimeAttribute type="number" keyPath="trackThickness">
+                                                                            <real key="value" value="0.25"/>
+                                                                        </userDefinedRuntimeAttribute>
+                                                                        <userDefinedRuntimeAttribute type="color" keyPath="trackColor">
+                                                                            <color key="value" red="0.0" green="0.62533538509999997" blue="0.00019143004029999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                                        </userDefinedRuntimeAttribute>
+                                                                        <userDefinedRuntimeAttribute type="color" keyPath="IBColor1">
+                                                                            <color key="value" red="0.090196078430000007" green="0.68235294120000001" blue="0.31372549020000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                                        </userDefinedRuntimeAttribute>
+                                                                        <userDefinedRuntimeAttribute type="color" keyPath="progressInsideFillColor">
+                                                                            <color key="value" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
+                                                                        </userDefinedRuntimeAttribute>
+                                                                    </userDefinedRuntimeAttributes>
+                                                                </view>
+                                                                <label hidden="YES" opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="13" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Delivered" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" enabled="NO" adjustsFontSizeToFit="NO" id="cwP-Pq-tMm">
+                                                                    <rect key="frame" x="170" y="59" width="67" height="21"/>
+                                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                                    <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                                                    <color key="textColor" red="0.33333333329999998" green="0.33333333329999998" blue="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                                    <nil key="highlightedColor"/>
+                                                                </label>
+                                                            </subviews>
+                                                        </tableViewCellContentView>
+                                                    </tableViewCell>
                                                 </prototypes>
                                                 <connections>
                                                     <outlet property="dataSource" destination="vqu-uk-8SN" id="AQW-up-RlT"/>
@@ -2645,8 +2789,79 @@
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="u05-OP-Jjm" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" verticalHuggingPriority="1000" selectionStyle="default" indentationWidth="10" reuseIdentifier="DocReceivedCell" rowHeight="80" id="HcR-Pu-2mH">
+                    <rect key="frame" x="0.0" y="0.0" width="320" height="80"/>
+                    <autoresizingMask key="autoresizingMask"/>
+                    <tableViewCellContentView key="contentView" autoresizesSubviews="NO" opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" verticalHuggingPriority="1000" preservesSuperviewLayoutMargins="YES" tableViewCell="HcR-Pu-2mH" id="oZb-BR-XRG">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="80"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <subviews>
+                            <imageView opaque="NO" clipsSubviews="YES" tag="1" contentMode="redraw" verticalHuggingPriority="1000" preservesSuperviewLayoutMargins="YES" image="chat_send" highlighted="YES" id="Hxa-aW-5KB">
+                                <rect key="frame" x="80" y="0.0" width="232" height="80"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </imageView>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="11" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="rtf - 2 KB                 8:07 AM" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="iz2-ps-8Xq">
+                                <rect key="frame" x="114" y="46" width="165" height="17"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="11"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label hidden="YES" opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="13" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Delivered" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" enabled="NO" adjustsFontSizeToFit="NO" id="hWq-86-ocH">
+                                <rect key="frame" x="245" y="59" width="67" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                <color key="textColor" red="0.33333333329999998" green="0.33333333329999998" blue="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <imageView opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="2" contentMode="top" image="notes" id="Ok7-BO-xmP">
+                                <rect key="frame" x="86" y="0.0" width="22" height="31"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </imageView>
+                            <label hidden="YES" opaque="NO" userInteractionEnabled="NO" tag="12" contentMode="TopLeft" horizontalHuggingPriority="251" verticalHuggingPriority="1000" preservesSuperviewLayoutMargins="YES" text="Invalid Document" lineBreakMode="wordWrap" numberOfLines="50" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Kn6-KF-WpO">
+                                <rect key="frame" x="111" y="0.0" width="170" height="15"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
+                                <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="11"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <view hidden="YES" opaque="NO" clearsContextBeforeDrawing="NO" tag="14" contentMode="scaleToFill" id="DKh-aD-SBZ" customClass="KDCircularProgress" customModule="Chat" customModuleProvider="target">
+                                <rect key="frame" x="245" y="-1" width="33" height="32"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="angle">
+                                        <integer key="value" value="0"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="boolean" keyPath="roundedCorners" value="YES"/>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="startAngle">
+                                        <integer key="value" value="0"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="glowAmount">
+                                        <real key="value" value="0.0"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="progressThickness">
+                                        <real key="value" value="0.59999999999999998"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="trackThickness">
+                                        <real key="value" value="0.25"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="color" keyPath="trackColor">
+                                        <color key="value" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="color" keyPath="IBColor1">
+                                        <color key="value" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="color" keyPath="progressInsideFillColor">
+                                        <color key="value" red="0.5" green="0.5" blue="0.5" alpha="0.5" colorSpace="custom" customColorSpace="sRGB"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
+                            </view>
+                        </subviews>
+                    </tableViewCellContentView>
+                </tableViewCell>
             </objects>
-            <point key="canvasLocation" x="1416" y="-1140"/>
+            <point key="canvasLocation" x="1415.5" y="-1140.5"/>
         </scene>
         <!--Show Image View Controller-->
         <scene sceneID="nAQ-Bt-fgj">
