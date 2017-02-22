@@ -17,12 +17,15 @@ import AssetsLibrary
 import Photos
 import Contacts
 import Compression
+import ContactsUI
 
 
-class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChatDelegate,UIDocumentPickerDelegate,UIDocumentMenuDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate,FileManagerDelegate,showUploadProgressDelegate,UpdateChatViewsDelegate,UpdateSingleChatDetailDelegate{
+
+class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChatDelegate,UIDocumentPickerDelegate,UIDocumentMenuDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate,FileManagerDelegate,showUploadProgressDelegate,UpdateChatViewsDelegate,UpdateSingleChatDetailDelegate,CNContactPickerDelegate,UIPickerViewDelegate{
     
     var Q_serial1=DispatchQueue(label: "Q_serial1",attributes: [])
-    
+    let contactPickerViewController = CNContactPickerViewController()
+
     var delegatechatdetail:UpdateSingleChatDetailDelegate!
     var broadcastlistID1=""
     var broadcastlistmessages:NSMutableArray!
@@ -311,6 +314,8 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
     }
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.contactPickerViewController.delegate = self
+        
         self.tblForChats.estimatedRowHeight = 10.0;
         self.tblForChats.rowHeight = UITableViewAutomaticDimension;
         /*
@@ -3462,9 +3467,20 @@ let textLable = cell.viewWithTag(12) as! UILabel
 
             
         })
+        let contactAction = UIAlertAction(title: "Share Contact", style: UIAlertActionStyle.default, handler: { (action) -> Void in
+            
+            
+            self.contactPickerViewController.predicateForEnablingContact = NSPredicate(format: "birthday != nil")
+            
+            
+            self.present(self.contactPickerViewController, animated: true, completion: nil)
+        
+        })
+        
         let cancelAction = UIAlertAction(title: "Cancel", style: UIAlertActionStyle.cancel, handler:nil)
         shareMenu.addAction(photoAction)
         shareMenu.addAction(documentAction)
+        shareMenu.addAction(contactAction)
         shareMenu.addAction(cancelAction)
         
         
@@ -3519,6 +3535,11 @@ let textLable = cell.viewWithTag(12) as! UILabel
             
         }
         */
+    }
+    
+    func contactPicker(picker: CNContactPickerViewController, didSelectContact contact: CNContact) {
+        //delegate.didFetchContacts([contact])
+        //navigationController?.popViewController(animated: true)
     }
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingImage image: UIImage, editingInfo: [String : AnyObject]?) {
