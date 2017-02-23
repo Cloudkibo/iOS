@@ -18,9 +18,6 @@ import Photos
 import Contacts
 import Compression
 import ContactsUI
-
-
-
 class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChatDelegate,UIDocumentPickerDelegate,UIDocumentMenuDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate,FileManagerDelegate,showUploadProgressDelegate,UpdateChatViewsDelegate,UpdateSingleChatDetailDelegate,CNContactPickerDelegate,CNContactViewControllerDelegate
     {//,UIPickerViewDelegate{
     
@@ -2859,7 +2856,9 @@ let textLable = cell.viewWithTag(12) as! UILabel
           
             
             let correctheight=getSizeOfStringHeight(msg!).height
-            chatImage.frame = CGRect(x: 20 + distanceFactor, y: chatImage.frame.origin.y, width: ((sizeOFStr.width + 107)  > 207 ? (sizeOFStr.width + 107) : 200), height: correctheight + 20)
+           //===----- chatImage.frame = CGRect(x: 20 + distanceFactor, y: chatImage.frame.origin.y, width: ((sizeOFStr.width + 107)  > 207 ? (sizeOFStr.width + 107) : 200), height: correctheight + 20)
+            
+            chatImage.frame = CGRect(x: 20 + distanceFactor, y: chatImage.frame.origin.y, width: ((sizeOFStr.width + 107)  > 207 ? (sizeOFStr.width + 107) : 200), height: ((correctheight + 20)  > 100 ? (correctheight+20) : 100))
             
             //==== newwww chatImage.frame = CGRectMake(20 + distanceFactor, chatImage.frame.origin.y, ((sizeOFStr.width + 107)  > 207 ? (sizeOFStr.width + 107) : 200), sizeOFStr.height + 40)
             //chatImage.frame = CGRectMake(20 + distanceFactor, chatImage.frame.origin.y, ((sizeOFStr.width + 100)  > 200 ? (sizeOFStr.width + 100) : 200), sizeOFStr.height + 40)
@@ -2931,6 +2930,12 @@ let textLable = cell.viewWithTag(12) as! UILabel
     
     func contactViewController(_ viewController: CNContactViewController, didCompleteWith contact: CNContact?) {
         
+        /*
+        DispatchQueue.global(priority: DispatchQueue.GlobalQueuePriority.background).async
+            {
+                syncServiceContacts.startSyncService()
+        }
+        */
         print("inside cncontatc didcomplete....")
         viewController.displayedPropertyKeys=[CNContactGivenNameKey]
         UtilityFunctions.init().AddtoAddressBook(contact!,isKibo: true) { (result) in
@@ -3312,6 +3317,7 @@ let textLable = cell.viewWithTag(12) as! UILabel
             // picker.sourceType = UIImagePickerControllerSourceType.PhotoLibrary
             //}
             picker.sourceType = UIImagePickerControllerSourceType.photoLibrary
+            picker.mediaTypes=["public.movie","public.image"]
             ////picker.mediaTypes=[kUTTypeMovie as NSString as String,kUTTypeMovie as NSString as String]
             //[self presentViewController:picker animated:YES completion:NULL];
             DispatchQueue.main.async
@@ -3611,6 +3617,40 @@ let textLable = cell.viewWithTag(12) as! UILabel
         
     }
     */
+   /* func imagePickerController(  didFinishPickingMediaWithInfo info:NSDictionary!) {
+        videoUrl = info[UIImagePickerControllerMediaURL] as! NSURL!
+        let pathString = videoUrl.relativePath
+        self.dismissViewControllerAnimated(true, completion: nil)
+    }
+    */
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
+        
+        let mediaType:AnyObject? = info[UIImagePickerControllerMediaType] as AnyObject?
+        
+        if let type:AnyObject = mediaType {
+            if type is String {
+                let stringType = type as! String
+                if stringType == kUTTypeMovie as! String {
+                    let urlOfVideo = info[UIImagePickerControllerMediaURL] as? NSURL
+                    print("url video is \(urlOfVideo)")
+                    /*if let url = urlOfVideo {
+                        // 2
+                        AssetsLibrary.writeVideoAtPathToSavedPhotosAlbum(url,
+                                                                         completionBlock: {(url: NSURL!, error: NSError!) in
+                                                                            if let theError = error{
+                                                                                println("Error saving video = \(theError)")
+                                                                            }
+                                                                            else {
+                                                                                println("no errors happened")
+                                                                            }
+                        })
+                    }*/
+                } 
+            }
+        
+        
+    }
+    }
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingImage image: UIImage, editingInfo: [String : AnyObject]?) {
         
         

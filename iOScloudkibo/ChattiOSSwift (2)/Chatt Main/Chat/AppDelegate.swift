@@ -41,6 +41,7 @@ var versionNumber:String! = "0.4"
 //var versionNumber:Double! = KeychainWrapper.stringForKey("versionNumber") as! Double
 
 var syncServiceContacts:syncContactService!
+var syncServiceContacts2:syncContactService!
 var addressbookChangedNotifReceivedDateTime:Date?
 var addressbookChangedNotifReceived=false
 var aaaaa:SBNotificationHub!
@@ -198,6 +199,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate,AppDelegateScreenDelegate 
         
         
         syncServiceContacts=syncContactService.init()
+        syncServiceContacts2=syncContactService.init()
         
              
         /*

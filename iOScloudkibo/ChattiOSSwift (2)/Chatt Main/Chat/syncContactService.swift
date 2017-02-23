@@ -544,7 +544,7 @@ class syncContactService
                 
                 do{
                     /////// uniqueidentifierList.append(contact.identifier)
-                    if(try syncContactsList[i].givenName != "")
+                    if( try syncContactsList[i].givenName != "")
                     {
                         /////////nameList.append(contact.givenName+" "+contact.familyName)
                         print(syncContactsList[i].givenName)
