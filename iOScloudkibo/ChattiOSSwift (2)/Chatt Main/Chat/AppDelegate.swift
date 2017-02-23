@@ -27,7 +27,7 @@ import Contacts
 
 
 
-let contactPickerViewController = CNContactPickerViewController()
+
 
 var messageFrame = UIView()
 var activityIndicator = UIActivityIndicatorView()

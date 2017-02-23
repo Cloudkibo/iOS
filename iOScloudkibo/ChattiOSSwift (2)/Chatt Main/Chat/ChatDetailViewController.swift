@@ -21,7 +21,8 @@ import ContactsUI
 
 
 
-class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChatDelegate,UIDocumentPickerDelegate,UIDocumentMenuDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate,FileManagerDelegate,showUploadProgressDelegate,UpdateChatViewsDelegate,UpdateSingleChatDetailDelegate,CNContactPickerDelegate,UIPickerViewDelegate{
+class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChatDelegate,UIDocumentPickerDelegate,UIDocumentMenuDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate,FileManagerDelegate,showUploadProgressDelegate,UpdateChatViewsDelegate,UpdateSingleChatDetailDelegate,CNContactPickerDelegate
+    {//,UIPickerViewDelegate{
     
     var Q_serial1=DispatchQueue(label: "Q_serial1",attributes: [])
    
@@ -313,7 +314,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
     }
     override func viewDidLoad() {
         super.viewDidLoad()
-        contactPickerViewController.delegate = self
+        //contactPickerViewController.delegate = self
         
         self.tblForChats.estimatedRowHeight = 10.0;
         self.tblForChats.rowHeight = UITableViewAutomaticDimension;
@@ -3315,7 +3316,7 @@ let textLable = cell.viewWithTag(12) as! UILabel
         */
     }
     
-    func textFieldShouldReturn (_ textField: UITextField!) -> Bool{
+    func textFieldShouldReturn (_ textField: UITextField!) -> Bool {
         
         textField.resignFirstResponder()
         let duration : TimeInterval = 0
@@ -3410,6 +3411,8 @@ let textLable = cell.viewWithTag(12) as! UILabel
     
     @IBAction func btnShareFileInChatPressed(_ sender: AnyObject)
     {
+        let contactPickerViewController = CNContactPickerViewController()
+        contactPickerViewController.delegate=self
         
         
         let shareMenu = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
@@ -3470,7 +3473,6 @@ let textLable = cell.viewWithTag(12) as! UILabel
             
             
            // contactPickerViewController.predicateForEnablingContact = NSPredicate(format: "birthday != nil")
-            
             
             self.present(contactPickerViewController, animated: true, completion: nil)
         
@@ -3536,24 +3538,195 @@ let textLable = cell.viewWithTag(12) as! UILabel
         */
     }
     
-    func contactPicker(picker: CNContactPickerViewController, didSelectContact contact: CNContact) {
-        //delegate.didFetchContacts([contact])
+    func contactPicker(_ picker: CNContactPickerViewController, didSelect contact: CNContact) {
+        print("inside contact selected")
         //navigationController?.popViewController(animated: true)
-        for contactsfetched in contacts{
-            var name=contactsfetched.givenName
-        }
+        //self.navigationController?.popViewController(animated: true)
+       
+            var name=contact.givenName
+            print("selected contact is \(name)")
+        
+                
+                var randNum5=self.randomStringWithLength(5) as String
+                
+                let date1=Date()
+                let calendar = Calendar.current
+                let year=(calendar as NSCalendar).components(NSCalendar.Unit.year,from: date1).year
+                let month=(calendar as NSCalendar).components(NSCalendar.Unit.month,from: date1).month
+                let day=(calendar as NSCalendar).components(.day,from: date1).day
+                let hr=(calendar as NSCalendar).components(NSCalendar.Unit.hour,from: date1).hour
+                let min=(calendar as NSCalendar).components(NSCalendar.Unit.minute,from: date1).minute
+                let sec=(calendar as NSCalendar).components(NSCalendar.Unit.second,from: date1).second
+                print("\(randNum5) \(year) \(month) \(day) \(hr) \(min) \(sec)")
+                //var uniqueID=randNum5+year+month+day+hr+min+sec
+                var uniqueID="\(randNum5)\(year!)\(month!)\(day!)\(hr!)\(min!) \(sec!)"
+                var date=Date()
+                var formatterDateSend = DateFormatter();
+                formatterDateSend.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ";
+                ///newwwwwwww
+                ////formatterDateSend.timeZone = NSTimeZone.local()
+                let dateSentString = formatterDateSend.string(from: date);
+                
+                
+                var formatterDateSendtoDateType = DateFormatter();
+                formatterDateSendtoDateType.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ";
+                var dateSentDateType = formatterDateSendtoDateType.date(from: dateSentString)
+                
+                
+                //2016-10-15T22:18:16.000
+                var imParas=[String:String]()
+                var imParas2=[[String:String]]()
+                
+                var statusNow=""
+                statusNow="pending"
+                
+                
+                if(selectedContact != "")
+                {
+                    imParas=["from":"\(username!)","to":"\(selectedContact)","fromFullName":"\(displayname)","msg":"\(txtFldMessage.text!)","uniqueid":"\(uniqueID)","type":"chat","file_type":"","date":"\(dateSentDateType!)"]
+                    
+                    
+                    
+                    sqliteDB.SaveChat("\(selectedContact)", from1: username!, owneruser1: username!, fromFullName1: displayname, msg1: txtFldMessage.text!, date1: dateSentDateType, uniqueid1: uniqueID, status1: statusNow, type1: "chat", file_type1: "", file_path1: "")
+                    
+                }
+                else{
+                    //save as broadcast message
+                    for i in 0 ..< broadcastMembersPhones.count
+                    {
+                        imParas2.append(["from":"\(username!)","to":"\(broadcastMembersPhones[i])","fromFullName":"\(displayname)","msg":"\(txtFldMessage.text!)","uniqueid":"\(uniqueID)","type":"chat","file_type":"","date":"\(dateSentDateType!)"])
+                        
+                        
+                        sqliteDB.SaveBroadcastChat("\(broadcastMembersPhones[i])", from1: username!, owneruser1: username!, fromFullName1: displayname, msg1: txtFldMessage.text!, date1: dateSentDateType, uniqueid1: uniqueID, status1: statusNow, type1: "chat", file_type1: "", file_path1: "", broadcastlistID1: broadcastlistID1)
+                        //broadcastMembersPhones[i]
+                    }
+                }
+                var formatter = DateFormatter();
+                formatter.timeZone = TimeZone.autoupdatingCurrent
+                formatter.dateFormat = "MM/dd hh:mm a";
+                //formatter.dateStyle = .ShortStyle
+                //formatter.timeStyle = .ShortStyle
+                let defaultTimeZoneStr = formatter.string(from: date);
+                let defaultTimeZoneStr2=formatter.date(from: defaultTimeZoneStr as! String)
+                
+                
+                
+                var msggg=txtFldMessage.text!
+                
+                
+                txtFldMessage.text = "";
+                
+                //DispatchQueue.main.async
+                //{
+                print("adding msg \(msggg)")
+                
+                //==--self.tblForChats.reloadRowsAtIndexPaths([lastrowindexpath], withRowAnimation: .None)
+                self.addMessage(msggg+" (\(statusNow))",status:statusNow,ofType: "2",date:defaultTimeZoneStr, uniqueid: uniqueID)
+                
+                self.tblForChats.reloadData()
+                if(self.messages.count>1)
+                {
+                    // let indexPath = NSIndexPath(forRow:self.messages.count-1, inSection: 0)
+                    let indexPath = IndexPath(row:self.tblForChats.numberOfRows(inSection: 0)-1, section: 0)
+                    self.tblForChats.scrollToRow(at: indexPath, at: UITableViewScrollPosition.bottom, animated: false)
+                    
+                    
+                    
+                }
+                // }
+                // })
+                //  }
+                
+                
+                //print("messages count before sending msg is \(self.messages.count)")
+                print("sending msg \(msggg)")
+                if(selectedContact != ""){
+                    self.sendChatMessage(imParas){ (uniqueid,result) -> () in
+                        
+                        if(result==true)
+                        {
+                            var searchformat=NSPredicate(format: "uniqueid = %@",uniqueid!)
+                            
+                            var resultArray=self.messages.filtered(using: searchformat)
+                            var ind=self.messages.index(of: resultArray.first!)
+                            //cfpresultArray.first
+                            //resultArray.first
+                            var aa=self.messages.object(at: ind) as! [String:AnyObject]
+                            var actualmsg=aa["message"] as! String
+                            actualmsg=actualmsg.removeCharsFromEnd(10)
+                            //var actualmsg=newmsg
+                            aa["message"]="\(actualmsg) (sent)" as AnyObject?
+                            self.messages.replaceObject(at: ind, with: aa)
+                            //  self.messages.objectAtIndex(ind).message="\(self.messages[ind]["message"]) (sent)"
+                            var indexp=IndexPath(row:ind, section:0)
+                            DispatchQueue.main.async
+                                {
+                                    self.tblForChats.reloadData()
+                            }
+                            
+                        }
+                        else
+                        {
+                            print("unable to send chat \(imParas)")
+                        }
+                    }
+                }
+                else{
+                    
+                    var result1=false
+                    var uniqueid1=""
+                    var count=0
+                    for i in 0 ..< imParas2.count
+                    {
+                        self.sendChatMessage(imParas2[i]){ (uniqueid,result) -> () in
+                            count += 1
+                            if(result==true && count==1){
+                                var searchformat=NSPredicate(format: "uniqueid = %@",uniqueid!)
+                                
+                                var resultArray=self.messages.filtered(using: searchformat)
+                                var ind=self.messages.index(of: resultArray.first!)
+                                //cfpresultArray.first
+                                //resultArray.first
+                                var aa=self.messages.object(at: ind) as! [String:AnyObject]
+                                var actualmsg=aa["message"] as! String
+                                actualmsg=actualmsg.removeCharsFromEnd(10)
+                                //var actualmsg=newmsg
+                                aa["message"]="\(actualmsg) (sent)" as AnyObject?
+                                self.messages.replaceObject(at: ind, with: aa)
+                                //  self.messages.objectAtIndex(ind).message="\(self.messages[ind]["message"]) (sent)"
+                                var indexp=IndexPath(row:ind, section:0)
+                                DispatchQueue.main.async
+                                    {
+                                        self.tblForChats.reloadData()
+                                        // print("messages count is \(self.messages.count)")
+                                }
+                            }
+                        }}
+                    /*  }
+                     }*/
+                }
+                
+                
+                
+                
+        
     }
+    
+    
  
-    /*func contactPicker(_ picker: CNContactPickerViewController, didSelect contacts: [CNContact]) {
+   /* func contactPicker(_ picker: CNContactPickerViewController, didSelect contacts: [CNContact])
+    {
         
         for contactsfetched in contacts{
             var name=contactsfetched.givenName
             var phones=contactsfetched.phoneNumbers
+            print("selected contact2 is \(name)")
+            
             
         }
         
-    }*/
-    
+    }
+    */
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingImage image: UIImage, editingInfo: [String : AnyObject]?) {
         
         
@@ -4039,26 +4212,6 @@ let textLable = cell.viewWithTag(12) as! UILabel
     
     @IBAction func postBtnTapped() {
         
-        
-        ///=== code for sending chat here
-        ///=================
-        
-        //^^^^var loggedid=loggedUserObj["_id"]
-        /* var uniqueid=self.randomStringWithLength(5)
-         let formatter = DateFormatter()
-         formatter.dateStyle = NSDateFormatterStyle.LongStyle
-         formatter.timeStyle = .ShortStyle
-         */
-        //let dateString = formatter.stringFromDate(NSDate())
-        /*let calendar = Calendar.current
-        let comp = (calendar as NSCalendar).components([.hour, .minute], from: Date())
-        let year = String(describing: comp.year)
-        let month = String(describing: comp.month)
-        let day = String(describing: comp.day)
-        let hour = String(describing: comp.hour)
-        let minute = String(describing: comp.minute)
-        let second = String(describing: comp.second)
-        */
         var randNum5=self.randomStringWithLength(5) as String
         
         let date1=Date()
@@ -4122,68 +4275,9 @@ let textLable = cell.viewWithTag(12) as! UILabel
         let defaultTimeZoneStr2=formatter.date(from: defaultTimeZoneStr as! String)
        
        
-        /*var lastrowindexpath = NSIndexPath(forRow:messages.count-1, inSection: 0)
-        tblForChats.beginUpdates()
-        tblForChats.insertRowsAtIndexPaths([lastrowindexpath], withRowAnimation: .None)
-        tblForChats.endUpdates()
-        */
         
         var msggg=txtFldMessage.text!
-        
-    //  DispatchQueue.main.async
- //{
-  
-     
-        
-        ///self.addMessage(msggg+" (\(statusNow))",status:statusNow,ofType: "2",date:defaultTimeZoneStr, uniqueid: uniqueID)
    
-        
-        
-   
-        
-        /*self.tblForChats.beginUpdates()
-    let indexPath = NSIndexPath(forRow:self.messages.count-1, inSection: 0)
-    self.tblForChats.insertRowsAtIndexPaths([indexPath], withRowAnimation: .None)
-    self.tblForChats.endUpdates()
- */
-      //  }
-       
-        
-      /*  DispatchQueue.main.async
-        {
-              print("adding msg \(msggg)")
-            //==--self.tblForChats.reloadRowsAtIndexPaths([lastrowindexpath], withRowAnimation: .None)
-            self.addMessage(msggg+" (\(statusNow))",status:statusNow,ofType: "2",date:defaultTimeZoneStr, uniqueid: uniqueID)
-            
-            
-             let hh=(self.tblForChats.visibleCells.last?.frame.origin.y)!+(self.tblForChats.visibleCells.last?.frame.height)!
-
-print("self.tblForChats.contentSize.height \(self.tblForChats.contentSize.height)")
-print("self.tblForChats.frame.size.height \(self.tblForChats.frame.size.height)")
-print("hh \(hh)")
-            //if (self.tblForChats.contentSize.height > self.tblForChats.frame.size.height)
-         //   if (self.tblForChats.contentSize.height > hh)
-                
-            //{
-              //  var offset = CGPointMake(0, self.tblForChats.contentSize.height - self.tblForChats.frame.size.height);
-               /* var offset = CGPointMake(0, hh -  self.tblForChats.frame.size.height);
-                
-                self.tblForChats.setContentOffset(offset, animated: true)
-              //  [self.messagesTableView setContentOffset:offset animated:YES];
-           // }
-            self.tblForChats.reloadData()
-            */
-            if(self.messages.count>1)
-            {
-                // let indexPath = NSIndexPath(forRow:self.messages.count-1, inSection: 0)
-                let indexPath = NSIndexPath(forRow:self.tblForChats.numberOfRowsInSection(0)-1, inSection: 0)
-                self.tblForChats.scrollToRowAtIndexPath(indexPath, atScrollPosition: UITableViewScrollPosition.Bottom, animated: false)
-                
-                
-                
-            }
-        
-        }*/
         
         txtFldMessage.text = "";
         
@@ -4193,37 +4287,7 @@ print("hh \(hh)")
 
         //==--self.tblForChats.reloadRowsAtIndexPaths([lastrowindexpath], withRowAnimation: .None)
             self.addMessage(msggg+" (\(statusNow))",status:statusNow,ofType: "2",date:defaultTimeZoneStr, uniqueid: uniqueID)
-           // self.retrieveChatFromSqlite(self.selectedContact,completion:{(result)-> () in
-                
-              //  print("messages count after setting array is \(self.messages.count)")
-                
-              ///  DispatchQueue.main.async
-              //  {
-            
-           ///// self.tblForChats.beginUpdates()
-           /* self.tblForChats.insertRowsAtIndexPaths([
-                NSIndexPath(forRow: self.tblForChats.numberOfRowsInSection(0)-1, inSection: 0)
-                ], withRowAnimation: .None)
-            if(self.messages.count>1)
-            {
-                // let indexPath = NSIndexPath(forRow:self.messages.count-1, inSection: 0)
-                let indexPath = NSIndexPath(forRow:self.tblForChats.numberOfRowsInSection(0)-1, inSection: 0)
-                self.tblForChats.scrollToRowAtIndexPath(indexPath, atScrollPosition: UITableViewScrollPosition.Bottom, animated: false)
-                
-                
-                
-            }*/
-        /*  self.tblForChats.endUpdates()
-           if(self.messages.count>1)
-            {
-                // let indexPath = NSIndexPath(forRow:self.messages.count-1, inSection: 0)
-                let indexPath = NSIndexPath(forRow:self.tblForChats.numberOfRowsInSection(0)-1, inSection: 0)
-                self.tblForChats.scrollToRowAtIndexPath(indexPath, atScrollPosition: UITableViewScrollPosition.Bottom, animated: false)
-                
-                
-                
-            }
-            */
+  
             self.tblForChats.reloadData()
             if(self.messages.count>1)
             {
@@ -4263,38 +4327,8 @@ print("hh \(hh)")
                 DispatchQueue.main.async
                 {
                     self.tblForChats.reloadData()
-                   // print("messages count is \(self.messages.count)")
-                    
-                   /* if(self.messages.count>1)
-                    {
-                        //var indexPath = NSIndexPath(forRow:self.messages.count-1, inSection: 0)
-                        let indexPath = NSIndexPath(forRow:self.tblForChats.numberOfRowsInSection(0)-1, inSection: 0)
-                        self.tblForChats.scrollToRowAtIndexPath(indexPath, atScrollPosition: UITableViewScrollPosition.Bottom, animated: false)
-                    }*/
-                //self.tblForChats.reloadRowsAtIndexPaths([indexp], withRowAnimation: .None)
                 }
-                //dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT,0))
-                //  {
-                /*self.retrieveChatFromSqlite(self.selectedContact,completion:{(result)-> () in
-                    
-                    print("messages count after setting array is \(self.messages.count)")
-                    
-                    
-                    DispatchQueue.main.async
-                    {
-                        self.tblForChats.reloadData()
-                        print("messages count is \(self.messages.count)")
-                        
-                        if(self.messages.count>1)
-                        {
-                            //var indexPath = NSIndexPath(forRow:self.messages.count-1, inSection: 0)
-                            let indexPath = NSIndexPath(forRow:self.tblForChats.numberOfRowsInSection(0)-1, inSection: 0)
-                            self.tblForChats.scrollToRowAtIndexPath(indexPath, atScrollPosition: UITableViewScrollPosition.Bottom, animated: false)
-                        }
-                    }
-                })
-                */
-                // }
+    
             }
                 else
                 {
@@ -4339,62 +4373,7 @@ print("hh \(hh)")
     
         
         
-        
-        
-        
-        //commenting ==--- for testing
-        /*tblForChats.reloadData()
-        
-        /*tblForChats.beginUpdates()
-        var indexPath = NSIndexPath(forRow: messages.count-1, inSection: 0)
-       self.tblForChats.insertRowsAtIndexPaths([indexPath], withRowAnimation: UITableViewRowAnimation.None)
-        //.reloadRowsAtIndexPaths([indexPath], withRowAnimation: UITableViewRowAnimation.Top)
-        tblForChats.endUpdates()*/
-        
-        if(messages.count>1)
-        {
-            var indexPath = NSIndexPath(forRow:messages.count-1, inSection: 0)
-            tblForChats.scrollToRowAtIndexPath(indexPath, atScrollPosition: UITableViewScrollPosition.Bottom, animated: false)
-            
-      
-            
-        }*/
-        
-       /////// dispatch_async(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED,0))
-       ////// {
-        
-       // dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT,0))
-       // {
-       /* print("messages count before sending msg is \(self.messages.count)")
-            self.sendChatMessage(imParas){ (result) -> () in
-                
-                //dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT,0))
-              //  {
-                self.retrieveChatFromSqlite(self.selectedContact,completion:{(result)-> () in
-                    
-                    print("messages count after setting array is \(self.messages.count)")
-       
-                    
-                    DispatchQueue.main.async
-                   {
-                      self.tblForChats.reloadData()
-                        print("messages count is \(self.messages.count)")
-                    
-                        if(self.messages.count>1)
-                        {
-                            //var indexPath = NSIndexPath(forRow:self.messages.count-1, inSection: 0)
-                            let indexPath = NSIndexPath(forRow:self.tblForChats.numberOfRowsInSection(0)-1, inSection: 0)
-                            self.tblForChats.scrollToRowAtIndexPath(indexPath, atScrollPosition: UITableViewScrollPosition.Bottom, animated: false)
-                        }
-                    }
-                })
-                
-       // }
-            }*/
-       // }
-            //  }
-            
-        ///////}
+
     }
     
     func getSizeOfString(_ postTitle: NSString) -> CGSize {
