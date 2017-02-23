@@ -21,7 +21,7 @@ import ContactsUI
 
 
 
-class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChatDelegate,UIDocumentPickerDelegate,UIDocumentMenuDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate,FileManagerDelegate,showUploadProgressDelegate,UpdateChatViewsDelegate,UpdateSingleChatDetailDelegate,CNContactPickerDelegate
+class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChatDelegate,UIDocumentPickerDelegate,UIDocumentMenuDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate,FileManagerDelegate,showUploadProgressDelegate,UpdateChatViewsDelegate,UpdateSingleChatDetailDelegate,CNContactPickerDelegate,CNContactViewControllerDelegate
     {//,UIPickerViewDelegate{
     
     var Q_serial1=DispatchQueue(label: "Q_serial1",attributes: [])
@@ -2767,19 +2767,29 @@ let textLable = cell.viewWithTag(12) as! UILabel
         
         if(msgType?.isEqual(to: "7"))!
         {
-            cell = tableView.dequeueReusableCell(withIdentifier: "ContactSentCell")! as UITableViewCell
+            print("contact received is \(msg)")
+            cell = tableView.dequeueReusableCell(withIdentifier: "ContactReceivedCell")! as UITableViewCell
             if(cell==nil)
             {
-                cell = tblForChats.dequeueReusableCell(withIdentifier: "ContactSentCell")! as UITableViewCell
+                cell = tblForChats.dequeueReusableCell(withIdentifier: "ContactReceivedCell")! as UITableViewCell
             }
             let textLable = cell.viewWithTag(12) as! UILabel
             let chatImage = cell.viewWithTag(1) as! UIImageView
             let profileImage = cell.viewWithTag(2) as! UIImageView
             let timeLabel = cell.viewWithTag(11) as! UILabel
-            //let buttonSave = cell.viewWithTag(15) as! UIButton
+            let buttonSave = cell.viewWithTag(15) as! UIButton
             
             
-            textLable.text = msg! as! String            /*textLable.lineBreakMode = .ByWordWrapping
+            buttonSave.addTarget(self, action: #selector(ChatDetailViewController.BtnSaveContactClicked(_:)), for:.touchUpInside)
+          
+            
+            let contactinfo=msg!.components(separatedBy: ":") ///return array string
+            textLable.text = contactinfo[0]
+            contactreceivedphone=contactinfo[1]
+
+            timeLabel.text = contactinfo[1]
+            
+            /*textLable.lineBreakMode = .ByWordWrapping
              textLable.numberOfLines=0
              textLable.sizeToFit()
              print("previous height is \(textLable.frame.height) msg is \(msg)")
@@ -2791,15 +2801,18 @@ let textLable = cell.viewWithTag(12) as! UILabel
             //====new  chatImage.frame = CGRectMake(chatImage.frame.origin.x, chatImage.frame.origin.y, ((sizeOFStr.width + 100)  > 200 ? (sizeOFStr.width + 100) : 200), sizeOFStr.height + 40)
             chatImage.image = UIImage(named: "chat_receive")?.stretchableImage(withLeftCapWidth: 40,topCapHeight: 20);
             //******
+             profileImage.center = CGPoint(x: chatImage.frame.origin.x+60, y: chatImage.frame.origin.y+30)
             
-            textLable.frame = CGRect(x: textLable.frame.origin.x, y: textLable.frame.origin.y, width: chatImage.frame.width-36, height: correctheight)
+           //profileImage.center = CGPoint(x: profileImage.center.x, y: textLable.frame.origin.y + textLable.frame.size.height - profileImage.frame.size.height/2+20)
             
-            //==new  textLable.frame = CGRectMake(textLable.frame.origin.x, textLable.frame.origin.y, textLable.frame.size.width, sizeOFStr.height)
+           
+            
+            //textLable.frame = CGRect(x: textLable.frame.origin.x, y: textLable.frame.origin.y, width: chatImage.frame.width-36, height: correctheight+20)
+            
+                        textLable.frame = CGRect(x: profileImage.center.x+50, y: profileImage.center.y, width: chatImage.frame.width-36, height: correctheight)
             
             
-            ////// profileImage.center = CGPointMake(profileImage.center.x, textLable.frame.origin.y + textLable.frame.size.height - profileImage.frame.size.height/2 + 10)
-            profileImage.center = CGPoint(x: profileImage.center.x, y: textLable.frame.origin.y + textLable.frame.size.height - profileImage.frame.size.height/2+20)
-            textLable.text = msg! as! String
+           // textLable.text = msg! as! String
             
             let formatter = DateFormatter();
             formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSS";
@@ -2816,31 +2829,35 @@ let textLable = cell.viewWithTag(12) as! UILabel
             //formatter.dateFormat = "MM/dd hh:mm a";
             
             
-            timeLabel.frame = CGRect(x: textLable.frame.origin.x, y: textLable.frame.origin.y+textLable.frame.height, width: chatImage.frame.size.width-46, height: timeLabel.frame.size.height)
+            timeLabel.frame = CGRect(x: profileImage.center.x+50, y: textLable.frame.origin.y+textLable.frame.height, width: chatImage.frame.size.width-46, height: timeLabel.frame.size.height)
+            print("textlabel is \(textLable.text!) and timelabel is \(timeLabel.text!)")
+            print("textlabel is \(textLable.bounds.debugDescription) and timelabel is \(timeLabel.bounds.debugDescription)")
             
-             timeLabel.text=displaydate
             //timeLabel.text=date2.debugDescription
         }
         if(msgType?.isEqual(to: "8"))!
         {
             
             print("UI chat type is \(msgType!)")
-            cell=tableView.dequeueReusableCell(withIdentifier: "ContactReceivedCell")
+            cell=tableView.dequeueReusableCell(withIdentifier: "ContactSentCell")
             if(cell==nil)
             {
-                cell = tblForChats.dequeueReusableCell(withIdentifier: "ContactReceivedCell")! as UITableViewCell
+                cell = tblForChats.dequeueReusableCell(withIdentifier: "ContactSentCell")! as UITableViewCell
             }
             let deliveredLabel = cell.viewWithTag(13) as! UILabel
             let textLable = cell.viewWithTag(12) as! UILabel
             let timeLabel = cell.viewWithTag(11) as! UILabel
             let chatImage = cell.viewWithTag(1) as! UIImageView
             let profileImage = cell.viewWithTag(2) as! UIImageView
-         
+            
+            
+            
             //// //print("here 905 msgtype is \(msgType)")
             let distanceFactor = (197.0 - sizeOFStr.width) < 107 ? (197.0 - sizeOFStr.width) : 107
             textLable.isHidden=false
             textLable.text = msg! as! String
           
+            
             let correctheight=getSizeOfStringHeight(msg!).height
             chatImage.frame = CGRect(x: 20 + distanceFactor, y: chatImage.frame.origin.y, width: ((sizeOFStr.width + 107)  > 207 ? (sizeOFStr.width + 107) : 200), height: correctheight + 20)
             
@@ -2897,14 +2914,41 @@ let textLable = cell.viewWithTag(12) as! UILabel
         return cell
            }
     
+    var contactreceivedphone=""
+    func BtnSaveContactClicked(_ sender:UIButton)
+    {
+        let contact = CNMutableContact()
+        
+      
+        contact.phoneNumbers = [CNLabeledValue(
+            label:CNLabelPhoneNumberiPhone,
+            value:CNPhoneNumber(stringValue:contactreceivedphone))]
+        let contactViewController = CNContactViewController(forNewContact: contact)
+        contactViewController.delegate=self
+        //var contactDetailShow=CNContactViewControllr.init(contact)
+        self.navigationController!.pushViewController(contactViewController,animated: false)
+    }
+    
+    func contactViewController(_ viewController: CNContactViewController, didCompleteWith contact: CNContact?) {
+        
+        print("inside cncontatc didcomplete....")
+        viewController.displayedPropertyKeys=[CNContactGivenNameKey]
+        UtilityFunctions.init().AddtoAddressBook(contact!,isKibo: true) { (result) in
+            
+            if(result==true)
+            {
+              //  self.refreshChatsUI(nil, uniqueid: <#T##String!#>, from: <#T##String!#>, date1: <#T##Date!#>, type: <#T##String!#>)
+            }
+        }
+    }
    /* override func encodeRestorableStateWithCoder(coder: NSCoder) {
         //1
-        
+     
         //coder.encode
         if let messages = messages {
             coder.encodeObject(messages, forKey: "messages")
         }
-        
+     
         //2
         super.encodeRestorableStateWithCoder(coder)
     }
