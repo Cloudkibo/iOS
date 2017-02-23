@@ -1871,6 +1871,23 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
             }
             }//end 4
                else{
+                
+                if(msgType.isEqual(to: "7") || msgType.isEqual(to: "8"))
+                {
+                    let cell = tblForChats.dequeueReusableCell(withIdentifier: "ContactSentCell")! as UITableViewCell
+                    let chatImage = cell.viewWithTag(1) as! UIImageView
+                    
+                    
+                    if(chatImage.frame.height <= 110)
+                    {
+                        return chatImage.frame.height+20
+                    }
+                    else
+                    {
+                        return 110
+                    }
+                }
+                else{
                 if(tblForChats.cellForRow(at: indexPath) != nil)
 {
     let cell=tblForChats.cellForRow(at: indexPath)
@@ -1881,6 +1898,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
                     return getSizeOfStringHeight(msg!).height+25
                 //=== ==== --return correctheight+25
 }
+                }
                 /*if(msgType.isEqualToString("1"))
                  {
                     var cell = tblForChats.dequeueReusableCellWithIdentifier("ChatSentCell")! as UITableViewCell
@@ -2758,7 +2776,7 @@ let textLable = cell.viewWithTag(12) as! UILabel
             let chatImage = cell.viewWithTag(1) as! UIImageView
             let profileImage = cell.viewWithTag(2) as! UIImageView
             let timeLabel = cell.viewWithTag(11) as! UILabel
-            
+            //let buttonSave = cell.viewWithTag(15) as! UIButton
             
             
             textLable.text = msg! as! String            /*textLable.lineBreakMode = .ByWordWrapping
@@ -2769,7 +2787,7 @@ let textLable = cell.viewWithTag(12) as! UILabel
              */
             let correctheight=getSizeOfStringHeight(msg!).height
             
-            chatImage.frame = CGRect(x: chatImage.frame.origin.x, y: chatImage.frame.origin.y,width: ((sizeOFStr.width + 107)  > 207 ? (sizeOFStr.width + 107) : 200), height: correctheight + 20)
+            chatImage.frame = CGRect(x: chatImage.frame.origin.x, y: chatImage.frame.origin.y,width: ((sizeOFStr.width + 107)  > 207 ? (sizeOFStr.width + 107) : 200), height: ((correctheight + 20)  > 100 ? (correctheight+20) : 100))
             //====new  chatImage.frame = CGRectMake(chatImage.frame.origin.x, chatImage.frame.origin.y, ((sizeOFStr.width + 100)  > 200 ? (sizeOFStr.width + 100) : 200), sizeOFStr.height + 40)
             chatImage.image = UIImage(named: "chat_receive")?.stretchableImage(withLeftCapWidth: 40,topCapHeight: 20);
             //******
