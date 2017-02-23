@@ -90,10 +90,17 @@ open class EPContact {
         
         for emailAddress in contact.emailAddresses {
             let email = emailAddress.value as! String
-            emails.append((email,emailAddress.label!))
+            if (emailAddress.label != nil)
+            {
+                 emails.append((email,emailAddress.label!))
+            }
+            else{
+                emails.append((email,""))
+
+            }
+                    }
+      
         }
-    }
-    
     
     public func getPhoneNumber()->String
     {
