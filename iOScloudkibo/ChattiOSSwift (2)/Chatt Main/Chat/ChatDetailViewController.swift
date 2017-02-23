@@ -883,9 +883,16 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
                     }
                     else
                     {
+                        if(tblContacts[type]=="contact")
+                        {
+                            messages2.add(["message":tblContacts[msg]+" (\(tblContacts[status])) ","status":tblContacts[status], "type":"8", "date":defaultTimeeee, "uniqueid":tblContacts[uniqueid]])
+                            
+                            
+                        }
+                        else{
                         messages2.add(["message":tblContacts[msg]+" (\(tblContacts[status])) ","status":tblContacts[status], "type":"2", "date":defaultTimeeee, "uniqueid":tblContacts[uniqueid]])
                        
-                        
+                        }
                     //^^^^self.addMessage(tblContacts[msg]+" (\(tblContacts[status])) ", ofType: "2",date: tblContacts[date],uniqueid: tblContacts[uniqueid])
                     }
                     }
@@ -931,9 +938,15 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
                     }
                     else
                     {
+                        if(tblContacts[type]=="contact")
+                        {
+                            print("found contact received")
+                            messages2.add(["message":tblContacts[msg],"status":tblContacts[status], "type":"7", "date":defaultTimeeee, "uniqueid":tblContacts[uniqueid]])
+                        }
+                        else{
                         
                         messages2.add(["message":tblContacts[msg],"status":tblContacts[status], "type":"1", "date":defaultTimeeee, "uniqueid":tblContacts[uniqueid]])
-                       
+                        }
                         
                    ///^^^ self.addMessage(tblContacts[msg], ofType: "1", date: tblContacts[date],uniqueid: tblContacts[uniqueid])
                     }
@@ -1390,8 +1403,9 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
                         }
                         else
                         {
-                            if(tblContacts[file_type]=="contact")
+                            if(tblContacts[type]=="contact")
                             {
+                                print("found contact received")
                                 messages2.add(["message":tblContacts[msg],"status":tblContacts[status], "type":"7", "date":defaultTimeeee, "uniqueid":tblContacts[uniqueid]])
                             }
                             else{
@@ -2700,51 +2714,11 @@ let textLable = cell.viewWithTag(12) as! UILabel
             
             profileImage.center = CGPoint(x: 45+distanceFactor, y: chatImage.frame.origin.y + (profileImage.frame.size.height)/2+5)
            
-            
-           //==== ==== ==== commented profileImage.center = CGPointMake(45+distanceFactor, textLable.frame.origin.y + textLable.frame.size.height - profileImage.frame.size.height/2+10)
-            
-            //newwwwww===== comment
-            /*deliveredLabel.frame = CGRectMake(deliveredLabel.frame.origin.x, textLable.frame.origin.y + textLable.frame.size.height + 15, deliveredLabel.frame.size.width, deliveredLabel.frame.size.height)
-            
-            /////
-            
-            chatImage.frame = CGRectMake(20 + distanceFactor, chatImage.frame.origin.y, ((sizeOFStr.width + 107)  > 207 ? (sizeOFStr.width + 107) : 200), sizeOFStr.height + 40)
-            */
-            
-              //print("chatImage.x for \(msg) is \(20 + distanceFactor) and chatimage.wdith is \(chatImage.frame.width)")
-            
+           
             
             
             textLable.isHidden=false
-            //chatImage.frame = CGRectMake(20 + distanceFactor, chatImage.frame.origin.y, ((sizeOFStr.width + 100)  > 200 ? (sizeOFStr.width + 100) : 200), sizeOFStr.height + 40)
-           
-            //newwww ===== ===== =====
-            /* chatImage.image = UIImage(named: "chat_send")?.stretchableImageWithLeftCapWidth(40,topCapHeight: 20);
-            
-            // chatImage.layer.borderColor=UIColor.greenColor().CGColor
-            //  chatImage.layer.borderWidth = 3.0;
-            // chatImage.highlighted=true
-            // *********
-            textLable.text = "\(msg)"
-            //old was 36 in place of 60
-            textLable.frame = CGRectMake(60 + distanceFactor, textLable.frame.origin.y, textLable.frame.size.width, sizeOFStr.height)
-            */
-            
-            
-           //==== uncomment later profileImage.setNeedsDisplay()
-            
-            //=== ==== ==== new comment    timeLabel.frame = CGRectMake(35 + distanceFactor, chatImage.frame.origin.y+sizeOFStr.height + 20, chatImage.frame.size.width-40, timeLabel.frame.size.height)
-            
-            
-            //////chatImage.contentMode = .Center
-            
-            //chatImage.frame = CGRectMake(80, chatImage.frame.origin.y, 220, 220)
-            /*let documentDirectory = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true).first as String!
-             let photoURL          = NSURL(fileURLWithPath: documentDirectory)
-             let imgPath         = photoURL.URLByAppendingPathComponent(msg as! String)
-             
-             */
-            
+        
             
             let filename=messageDic["filename"] as! NSString
             let dirPaths = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)
@@ -2772,7 +2746,134 @@ let textLable = cell.viewWithTag(12) as! UILabel
 
            // timeLabel.text=date2.debugDescription
         }
-
+        
+        if(msgType?.isEqual(to: "7"))!
+        {
+            cell = tableView.dequeueReusableCell(withIdentifier: "ContactSentCell")! as UITableViewCell
+            if(cell==nil)
+            {
+                cell = tblForChats.dequeueReusableCell(withIdentifier: "ContactSentCell")! as UITableViewCell
+            }
+            let textLable = cell.viewWithTag(12) as! UILabel
+            let chatImage = cell.viewWithTag(1) as! UIImageView
+            let profileImage = cell.viewWithTag(2) as! UIImageView
+            let timeLabel = cell.viewWithTag(11) as! UILabel
+            
+            
+            
+            textLable.text = msg! as! String            /*textLable.lineBreakMode = .ByWordWrapping
+             textLable.numberOfLines=0
+             textLable.sizeToFit()
+             print("previous height is \(textLable.frame.height) msg is \(msg)")
+             var correctheight=textLable.frame.height
+             */
+            let correctheight=getSizeOfStringHeight(msg!).height
+            
+            chatImage.frame = CGRect(x: chatImage.frame.origin.x, y: chatImage.frame.origin.y,width: ((sizeOFStr.width + 107)  > 207 ? (sizeOFStr.width + 107) : 200), height: correctheight + 20)
+            //====new  chatImage.frame = CGRectMake(chatImage.frame.origin.x, chatImage.frame.origin.y, ((sizeOFStr.width + 100)  > 200 ? (sizeOFStr.width + 100) : 200), sizeOFStr.height + 40)
+            chatImage.image = UIImage(named: "chat_receive")?.stretchableImage(withLeftCapWidth: 40,topCapHeight: 20);
+            //******
+            
+            textLable.frame = CGRect(x: textLable.frame.origin.x, y: textLable.frame.origin.y, width: chatImage.frame.width-36, height: correctheight)
+            
+            //==new  textLable.frame = CGRectMake(textLable.frame.origin.x, textLable.frame.origin.y, textLable.frame.size.width, sizeOFStr.height)
+            
+            
+            ////// profileImage.center = CGPointMake(profileImage.center.x, textLable.frame.origin.y + textLable.frame.size.height - profileImage.frame.size.height/2 + 10)
+            profileImage.center = CGPoint(x: profileImage.center.x, y: textLable.frame.origin.y + textLable.frame.size.height - profileImage.frame.size.height/2+20)
+            textLable.text = msg! as! String
+            
+            let formatter = DateFormatter();
+            formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSS";
+            //formatter.dateFormat = "MM/dd hh:mm a";
+            formatter.timeZone = TimeZone.autoupdatingCurrent
+            print("line 2055")
+            let defaultTimeZoneStr = formatter.date(from: date2 as! String)
+            //print("defaultTimeZoneStr \(defaultTimeZoneStr)")
+            
+            let formatter2 = DateFormatter();
+            formatter2.timeZone=TimeZone.autoupdatingCurrent
+            formatter2.dateFormat = "MM/dd hh:mm a";
+            let displaydate=formatter2.string(from: defaultTimeZoneStr!)
+            //formatter.dateFormat = "MM/dd hh:mm a";
+            
+            
+            timeLabel.frame = CGRect(x: textLable.frame.origin.x, y: textLable.frame.origin.y+textLable.frame.height, width: chatImage.frame.size.width-46, height: timeLabel.frame.size.height)
+            
+             timeLabel.text=displaydate
+            //timeLabel.text=date2.debugDescription
+        }
+        if(msgType?.isEqual(to: "8"))!
+        {
+            
+            print("UI chat type is \(msgType!)")
+            cell=tableView.dequeueReusableCell(withIdentifier: "ContactReceivedCell")
+            if(cell==nil)
+            {
+                cell = tblForChats.dequeueReusableCell(withIdentifier: "ContactReceivedCell")! as UITableViewCell
+            }
+            let deliveredLabel = cell.viewWithTag(13) as! UILabel
+            let textLable = cell.viewWithTag(12) as! UILabel
+            let timeLabel = cell.viewWithTag(11) as! UILabel
+            let chatImage = cell.viewWithTag(1) as! UIImageView
+            let profileImage = cell.viewWithTag(2) as! UIImageView
+         
+            //// //print("here 905 msgtype is \(msgType)")
+            let distanceFactor = (197.0 - sizeOFStr.width) < 107 ? (197.0 - sizeOFStr.width) : 107
+            textLable.isHidden=false
+            textLable.text = msg! as! String
+          
+            let correctheight=getSizeOfStringHeight(msg!).height
+            chatImage.frame = CGRect(x: 20 + distanceFactor, y: chatImage.frame.origin.y, width: ((sizeOFStr.width + 107)  > 207 ? (sizeOFStr.width + 107) : 200), height: correctheight + 20)
+            
+            //==== newwww chatImage.frame = CGRectMake(20 + distanceFactor, chatImage.frame.origin.y, ((sizeOFStr.width + 107)  > 207 ? (sizeOFStr.width + 107) : 200), sizeOFStr.height + 40)
+            //chatImage.frame = CGRectMake(20 + distanceFactor, chatImage.frame.origin.y, ((sizeOFStr.width + 100)  > 200 ? (sizeOFStr.width + 100) : 200), sizeOFStr.height + 40)
+            chatImage.image = UIImage(named: "chat_send")?.stretchableImage(withLeftCapWidth: 40,topCapHeight: 20);
+            //*********
+            
+            //getSizeOfStringHeight(msg).height
+            
+            textLable.frame = CGRect(x: 26 + distanceFactor, y: textLable.frame.origin.y, width: chatImage.frame.width-36, height: correctheight)
+            
+            profileImage.center = CGPoint(x: profileImage.center.x, y: textLable.frame.origin.y + textLable.frame.size.height - profileImage.frame.size.height/2+10)
+            
+            //==uncomment if needed timeLabel.frame = CGRectMake(36 + distanceFactor, timeLabel.frame.origin.y, timeLabel.frame.size.width, timeLabel.frame.size.height)
+            
+            timeLabel.frame = CGRect(x: 36 + distanceFactor, y: textLable.frame.origin.y+textLable.frame.height, width: chatImage.frame.size.width-46, height: timeLabel.frame.size.height)
+            
+            deliveredLabel.frame = CGRect(x: deliveredLabel.frame.origin.x, y: textLable.frame.origin.y + textLable.frame.size.height + 15, width: deliveredLabel.frame.size.width, height: deliveredLabel.frame.size.height)
+            
+            
+            
+            
+            //print("date received in chat post 2 is \(date2.debugDescription)")
+            // //print("date received in chat is \(date2.debugDescription)")
+            let formatter = DateFormatter();
+            formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSS";
+            //formatter.dateFormat = "MM/dd hh:mm a";
+            formatter.timeZone = TimeZone.autoupdatingCurrent
+            let defaultTimeZoneStr = formatter.date(from: date2 as! String)
+            //print("defaultTimeZoneStr \(defaultTimeZoneStr)")
+            
+            if(defaultTimeZoneStr == nil)
+            {
+                timeLabel.text=date2 as! String
+                
+            }
+            else
+            {
+                let formatter2 = DateFormatter();
+                formatter2.timeZone=TimeZone.autoupdatingCurrent
+                formatter2.dateFormat = "MM/dd hh:mm a";
+                let displaydate=formatter2.string(from: defaultTimeZoneStr!)
+                //formatter.dateFormat = "MM/dd hh:mm a";
+                
+                timeLabel.text=displaydate
+            }
+            
+            //local date already shortened then added to dictionary when post button is pressed
+            //timeLabel.text=date2.debugDescription
+        }
             
 
         return cell
@@ -3308,7 +3409,7 @@ let textLable = cell.viewWithTag(12) as! UILabel
                     
                     
                     
-                    sqliteDB.SaveChat("\(selectedContact)", from1: username!, owneruser1: username!, fromFullName1: displayname, msg1: msgbody, date1: dateSentDateType, uniqueid1: uniqueID, status1: statusNow, type1: "chat", file_type1: "", file_path1: "")
+                    sqliteDB.SaveChat("\(selectedContact)", from1: username!, owneruser1: username!, fromFullName1: displayname, msg1: msgbody, date1: dateSentDateType, uniqueid1: uniqueID, status1: statusNow, type1: "contact", file_type1: "", file_path1: "")
                     
                 }
                 else{
@@ -3318,7 +3419,7 @@ let textLable = cell.viewWithTag(12) as! UILabel
                         imParas2.append(["from":"\(username!)","to":"\(broadcastMembersPhones[i])","fromFullName":"\(displayname)","msg":"\(msgbody)","uniqueid":"\(uniqueID)","type":"contact","file_type":"","date":"\(dateSentDateType!)"])
                         
                         
-                        sqliteDB.SaveBroadcastChat("\(broadcastMembersPhones[i])", from1: username!, owneruser1: username!, fromFullName1: displayname, msg1: msgbody, date1: dateSentDateType, uniqueid1: uniqueID, status1: statusNow, type1: "chat", file_type1: "", file_path1: "", broadcastlistID1: broadcastlistID1)
+                        sqliteDB.SaveBroadcastChat("\(broadcastMembersPhones[i])", from1: username!, owneruser1: username!, fromFullName1: displayname, msg1: msgbody, date1: dateSentDateType, uniqueid1: uniqueID, status1: statusNow, type1: "contact", file_type1: "", file_path1: "", broadcastlistID1: broadcastlistID1)
                         //broadcastMembersPhones[i]
                     }
                 }
@@ -3342,7 +3443,7 @@ let textLable = cell.viewWithTag(12) as! UILabel
                 print("adding msg \(msggg)")
                 
                 //==--self.tblForChats.reloadRowsAtIndexPaths([lastrowindexpath], withRowAnimation: .None)
-                self.addMessage(msggg+" (\(statusNow))",status:statusNow,ofType: "2",date:defaultTimeZoneStr, uniqueid: uniqueID)
+                self.addMessage(msggg+" (\(statusNow))",status:statusNow,ofType: "8",date:defaultTimeZoneStr, uniqueid: uniqueID)
                 
                 self.tblForChats.reloadData()
                 if(self.messages.count>1)
@@ -4673,7 +4774,7 @@ let textLable = cell.viewWithTag(12) as! UILabel
       //  var chatJSON=JSON(data!)
    // var uniqueid=chatJSON["un"]
         
-        if(type! == "chat")
+        if(type! == "chat" || type! == "document" || type! == "image" || type! == "contact")
         {
             
             //update status seen in table
@@ -4715,7 +4816,32 @@ let textLable = cell.viewWithTag(12) as! UILabel
         
         //print("date is \(defaultTimeZoneStr2)")
                 print("adding message received")
-        self.addMessage(message,status: "sent", ofType: "1",date:defaultTimeeee, uniqueid: uniqueid)
+        
+                switch(type!)
+                {
+                    case "chat":
+                    
+                        self.addMessage(message,status: "sent", ofType: "1",date:defaultTimeeee, uniqueid: uniqueid)
+                    
+
+                    case "document":
+                    
+                        self.addMessage(message,status: "sent", ofType: "5",date:defaultTimeeee, uniqueid: uniqueid)
+                    
+
+                    case "image":
+                        self.addMessage(message,status: "sent", ofType: "3",date:defaultTimeeee, uniqueid: uniqueid)
+                    
+
+                    
+                    case "contact":
+                        self.addMessage(message,status: "sent", ofType: "7",date:defaultTimeeee, uniqueid: uniqueid)
+                    
+                
+                    default: print("invalid chat type received")
+
+                }
+               // self.addMessage(message,status: "sent", ofType: "1",date:defaultTimeeee, uniqueid: uniqueid)
         
         
         txtFldMessage.text = "";
