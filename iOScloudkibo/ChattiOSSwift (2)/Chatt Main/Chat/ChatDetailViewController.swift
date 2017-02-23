@@ -2937,6 +2937,33 @@ let textLable = cell.viewWithTag(12) as! UILabel
         }
         */
         print("inside cncontatc didcomplete....")
+        self.dismiss(animated: true, completion:{ ()-> Void in
+            
+            if(self.showKeyboard==true)
+            {
+                self.textFieldShouldReturn(self.txtFldMessage)
+                //uncomment later
+                /*var duration : NSTimeInterval = 0
+                 
+                 
+                 UIView.animateWithDuration(duration, delay: 0, options:[], animations: {
+                 self.chatComposeView.frame = CGRectMake(self.chatComposeView.frame.origin.x, self.chatComposeView.frame.origin.y + self.keyheight-self.chatComposeView.frame.size.height-3, self.chatComposeView.frame.size.width, self.chatComposeView.frame.size.height)
+                 self.tblForChats.frame = CGRectMake(self.tblForChats.frame.origin.x, self.tblForChats.frame.origin.y, self.tblForChats.frame.size.width, self.tblForChats.frame.size.height + self.keyFrame.size.height-49);
+                 }, completion: nil)
+                 self.showKeyboard=false
+                 */
+            }
+            
+            if(self.messages.count>1)
+            {
+                //var indexPath = NSIndexPath(forRow:self.messages.count-1, inSection: 0)
+                let indexPath = IndexPath(row:self.tblForChats.numberOfRows(inSection: 0)-1, section: 0)
+                self.tblForChats.scrollToRow(at: indexPath, at: UITableViewScrollPosition.bottom, animated: false)
+            }
+            
+        });
+        //=----------
+        
         viewController.displayedPropertyKeys=[CNContactGivenNameKey]
         UtilityFunctions.init().AddtoAddressBook(contact!,isKibo: true) { (result) in
             
@@ -3633,7 +3660,12 @@ let textLable = cell.viewWithTag(12) as! UILabel
                 if stringType == kUTTypeMovie as! String {
                     let urlOfVideo = info[UIImagePickerControllerMediaURL] as? NSURL
                     print("url video is \(urlOfVideo)")
-                    /*if let url = urlOfVideo {
+                    self.dismiss(animated: true, completion: { 
+                        
+                        self.sendVideo(urlOfVideo: urlOfVideo!.absoluteString!)
+                        
+                    })
+                     /*if let url = urlOfVideo {
                         // 2
                         AssetsLibrary.writeVideoAtPathToSavedPhotosAlbum(url,
                                                                          completionBlock: {(url: NSURL!, error: NSError!) in
@@ -3650,6 +3682,53 @@ let textLable = cell.viewWithTag(12) as! UILabel
         
         
     }
+    }
+    
+    func sendVideo(urlOfVideo:String)
+    {
+        let shareMenu = UIAlertController(title: nil, message: " Send \" \(filename) \" to \(selectedFirstName) ? ", preferredStyle: .actionSheet)
+        shareMenu.modalPresentationStyle=UIModalPresentationStyle.overCurrentContext
+        let confirm = UIAlertAction(title: "Yes", style: UIAlertActionStyle.default,handler: { (action) -> Void in
+            
+            socketObj.socket.emit("logClient","IPHONE-LOG: \(username!) selected image ")
+            //print("file gotttttt")
+            var furl=URL(string: urlOfVideo)
+            
+            //print(furl!.pathExtension!)
+            //print(furl!.deletingLastPathComponent())
+            var ftype=furl!.pathExtension
+            var fname=furl!.deletingLastPathComponent()
+            
+            
+            let dirPaths = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)
+            let docsDir1 = dirPaths[0]
+            var documentDir=docsDir1 as NSString
+            var filePathImage2=documentDir.appendingPathComponent(self.filename)
+            var fm=FileManager.default
+            
+            var fileAttributes:[String:AnyObject]=["":"" as AnyObject]
+            do {
+                /// let fileAttributes : NSDictionary? = try NSFileManager.defaultManager().attributesOfItemAtPath(furl!.path!)
+                ///    let fileAttributes : NSDictionary? = try NSFileManager.defaultManager().attributesOfItemAtPath(imageUrl.path!)
+                let fileAttributes : NSDictionary? = try FileManager.default.attributesOfItem(atPath: filePathImage2) as NSDictionary?
+                if let _attr = fileAttributes {
+                    self.fileSize1 = _attr.fileSize();
+                    //print("file size is \(self.fileSize1)")
+                    //// ***april 2016 neww self.fileSize=(fileSize1 as! NSNumber).integerValue
+                }
+            } catch {
+                socketObj.socket.emit("logClient","IPHONE-LOG: error: \(error)")
+                //print("Error:+++ \(error)")
+            }
+            
+    })
+       shareMenu.addAction(confirm)
+        self.present(shareMenu, animated: true) {
+            
+            
+        }
+        
+        
     }
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingImage image: UIImage, editingInfo: [String : AnyObject]?) {
         
