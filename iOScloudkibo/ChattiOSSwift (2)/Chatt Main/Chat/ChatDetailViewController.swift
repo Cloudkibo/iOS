@@ -3708,16 +3708,16 @@ let textLable = cell.viewWithTag(12) as! UILabel
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
         
         let mediaType:AnyObject? = info[UIImagePickerControllerMediaType] as AnyObject?
-        
+        var videoURL=info[UIImagePickerControllerReferenceURL] as? URL
         if let type:AnyObject = mediaType {
             if type is String {
                 let stringType = type as! String
                 if stringType == kUTTypeMovie as! String {
-                    let urlOfVideo = info[UIImagePickerControllerMediaURL] as? NSURL
+                    let urlOfVideo = info[UIImagePickerControllerMediaURL] as! URL
                     print("url video is \(urlOfVideo)")
                     self.dismiss(animated: true, completion: { 
                         
-                        self.sendVideo(urlOfVideo: urlOfVideo!.absoluteString!)
+                        self.sendVideo(urlOfVideo: urlOfVideo)
                         
                     })
                      /*if let url = urlOfVideo {
@@ -3739,7 +3739,7 @@ let textLable = cell.viewWithTag(12) as! UILabel
     }
     }
     
-    func sendVideo(urlOfVideo:String)
+    func sendVideo(urlOfVideo:URL)
     {
         let shareMenu = UIAlertController(title: nil, message: " Send \" \(filename) \" to \(selectedFirstName) ? ", preferredStyle: .actionSheet)
         shareMenu.modalPresentationStyle=UIModalPresentationStyle.overCurrentContext
@@ -3747,16 +3747,25 @@ let textLable = cell.viewWithTag(12) as! UILabel
             
             socketObj.socket.emit("logClient","IPHONE-LOG: \(username!) selected image ")
             //print("file gotttttt")
-            var furl=URL(string: urlOfVideo)
-            
+           //// var furl=URL(string: urlOfVideo)
+            var furl=URL(string: urlOfVideo.absoluteString)
             //print(furl!.pathExtension!)
             //print(furl!.deletingLastPathComponent())
             var ftype=furl!.pathExtension
             var fname=furl!.deletingLastPathComponent()
             
-            let result = PHAsset.fetchAssets(withALAssetURLs: [furl!], options: nil)
+            let result = PHAsset.fetchAssets(withALAssetURLs: [urlOfVideo], options: nil)
             var asset=result.firstObject! as PHAsset
             self.filename=asset.originalFilename!
+            
+            PHImageManager.default().requestAVAsset (forVideo: asset, options: nil) { (avasset, _, _) in
+                var originalSizeStr: String?
+                if let urlAsset = avasset as? AVURLAsset {
+                    let dict = try! urlAsset.url.resourceValues(forKeys: [URLResourceKey.fileSizeKey])
+                    //let size = dict. .allValues[URLResourceKey.fileSizeKey]// fileSize// [URLResourceKey.fileSizeKey] as! Int
+                    print("video metadata \(urlOfVideo) ...name is  \(self.filename) ... type is \(ftype) ")
+                }
+            }
             //==----self.file_name1 = (result.firstObject?.burstIdentifier)!
             // var myasset=result.firstObject as! PHAsset
             ////print(myasset.mediaType)
@@ -3773,21 +3782,69 @@ let textLable = cell.viewWithTag(12) as! UILabel
             var fm=FileManager.default
             
             var fileAttributes:[String:AnyObject]=["":"" as AnyObject]
-            do {
-                /// let fileAttributes : NSDictionary? = try NSFileManager.defaultManager().attributesOfItemAtPath(furl!.path!)
-                ///    let fileAttributes : NSDictionary? = try NSFileManager.defaultManager().attributesOfItemAtPath(imageUrl.path!)
-                let fileAttributes : NSDictionary? = try FileManager.default.attributesOfItem(atPath: filePathImage2) as NSDictionary?
-                if let _attr = fileAttributes {
-                    self.fileSize1 = _attr.fileSize();
-                    //print("file size is \(self.fileSize1)")
-                    //// ***april 2016 neww self.fileSize=(fileSize1 as! NSNumber).integerValue
-                }
-                print("video metadata \(filePathImage2) ...name is  \(self.filename) ... type is \(ftype) .. \(self.fileSize1)")
-            } catch {
-                socketObj.socket.emit("logClient","IPHONE-LOG: error: \(error)")
-                //print("Error:+++ \(error)")
+       
+            var s=fm.createFile(atPath: filePathImage2, contents: nil, attributes: nil)
+            
+            //  var written=fileData!.writeToFile(filePathImage2, atomically: false)
+            
+            //filePathImage2
+            do{var data=try Data.init(contentsOf: urlOfVideo)
+            try? data.write(to: URL(fileURLWithPath: filePathImage2), options: [.atomic])
+            // data!.writeToFile(localPath.absoluteString, atomically: true)
+            }
+            catch{
+                print("cannot write file \(error)")
+                self.showError("Error", message: "Unable to get video", button1: "Ok")
             }
             
+            let calendar = Calendar.current
+            let comp = (calendar as NSCalendar).components([.hour, .minute], from: Date())
+            let year = String(describing: comp.year)
+            let month = String(describing: comp.month)
+            let day = String(describing: comp.day)
+            let hour = String(describing: comp.hour)
+            let minute = String(describing: comp.minute)
+            let second = String(describing: comp.second)
+            
+            
+            var randNum5=self.randomStringWithLength(5) as String
+            var uniqueID=randNum5+year+month+day+hour+minute+second
+            
+            
+            
+            
+            var imParas=["from":"\(username!)","to":"\(self.selectedContact)","fromFullName":"\(displayname)","msg":self.filename,"uniqueid":uniqueID,"type":"file","file_type":"video"]
+            //print("imparas are \(imParas)")
+            
+            
+            var statusNow="pending"
+            //------
+            sqliteDB.SaveChat(self.selectedContact, from1: username!, owneruser1: username!, fromFullName1: displayname, msg1: self.filename, date1: nil, uniqueid1: uniqueID, status1: statusNow, type1: "file", file_type1: "video", file_path1: filePathImage2)
+            
+            
+        
+            sqliteDB.saveFile(self.selectedContact, from1: username!, owneruser1: username!, file_name1: self.filename, date1: nil, uniqueid1: uniqueID, file_size1: "\(self.fileSize1)", file_type1: ftype, file_path1: filePathImage2, type1: "video")
+            
+            self.addUploadInfo(self.selectedContact,uniqueid1: uniqueID, rowindex: self.messages.count, uploadProgress: 0.0, isCompleted: false)
+            
+            managerFile.uploadFile(filePathImage2, to1: self.selectedContact, from1: username!, uniqueid1: uniqueID, file_name1: self.filename, file_size1: "\(self.fileSize1)", file_type1: ftype,type1:"video")
+            
+            self.retrieveChatFromSqlite(self.selectedContact,completion:{(result)-> () in
+                DispatchQueue.main.async
+                    {
+                        self.tblForChats.reloadData()
+                        
+                        if(self.messages.count>1)
+                        {
+                            //var indexPath = NSIndexPath(forRow:self.messages.count-1, inSection: 0)
+                            let indexPath = IndexPath(row:self.tblForChats.numberOfRows(inSection: 0)-1, section: 0)
+                            self.tblForChats.scrollToRow(at: indexPath, at: UITableViewScrollPosition.bottom, animated: false)
+                        }
+                }
+            })
+            self.dismiss(animated: true, completion:{ ()-> Void in
+                
+            })
     })
        shareMenu.addAction(confirm)
         self.present(shareMenu, animated: true) {
@@ -3854,9 +3911,7 @@ let textLable = cell.viewWithTag(12) as! UILabel
        
         var fileAttributes:[String:AnyObject]=["":"" as AnyObject]
         do {
-           /// let fileAttributes : NSDictionary? = try NSFileManager.defaultManager().attributesOfItemAtPath(furl!.path!)
-        ///    let fileAttributes : NSDictionary? = try NSFileManager.defaultManager().attributesOfItemAtPath(imageUrl.path!)
-            let fileAttributes : NSDictionary? = try FileManager.default.attributesOfItem(atPath: filePathImage2) as NSDictionary?
+           let fileAttributes : NSDictionary? = try FileManager.default.attributesOfItem(atPath: filePathImage2) as NSDictionary?
             if let _attr = fileAttributes {
                 self.fileSize1 = _attr.fileSize();
                 //print("file size is \(self.fileSize1)")
@@ -3892,19 +3947,7 @@ let textLable = cell.viewWithTag(12) as! UILabel
             
             var randNum5=self.randomStringWithLength(5) as String
             var uniqueID=randNum5+year+month+day+hour+minute+second
-            //var uniqueID=randNum5+year
-            //print("unique ID is \(uniqueID)")
-            
-            //var loggedid=_id!
-            //^^var firstNameSelected=selectedUserObj["firstname"]
-            //^^^var lastNameSelected=selectedUserObj["lastname"]
-            //^^^var fullNameSelected=firstNameSelected.string!+" "+lastNameSelected.string!
-            //var imParas=["from":"\(username!)","to":"\(self.selectedContact)","fromFullName":"\(displayname)","msg":"\(self.txtFldMessage.text!)","uniqueid":"\(uniqueID)"]
-            
-            
-            
-            
-            
+          
             
             
             
@@ -3913,13 +3956,6 @@ let textLable = cell.viewWithTag(12) as! UILabel
             
             
             var statusNow="pending"
-            //}
-            
-            ////sqliteDB.SaveChat("\(selectedContact)", from1: username!, owneruser1: username!, fromFullName1: displayname!, msg1: fname!+"."+ftype, date1: nil, uniqueid1: uniqueID, status1: statusNow, type1: "chat", file_type1: "", file_path1: "")
-            // sqliteDB.SaveChat("\(selectedContact)", from1: "\(username!)",owneruser1: "\(username!)", fromFullName1: "\(loggedFullName!)", msg1: "\(txtFldMessage.text!)",date1: nil,uniqueid1: uniqueID, status1: statusNow)
-            
-            
-            
             //------
             sqliteDB.SaveChat(self.selectedContact, from1: username!, owneruser1: username!, fromFullName1: displayname, msg1: self.filename, date1: nil, uniqueid1: uniqueID, status1: statusNow, type1: "file", file_type1: "image", file_path1: filePathImage2)
             
@@ -3951,10 +3987,7 @@ let textLable = cell.viewWithTag(12) as! UILabel
             self.addUploadInfo(self.selectedContact,uniqueid1: uniqueID, rowindex: self.messages.count, uploadProgress: 0.0, isCompleted: false)
             
             managerFile.uploadFile(filePathImage2, to1: self.selectedContact, from1: username!, uniqueid1: uniqueID, file_name1: self.filename, file_size1: "\(self.fileSize1)", file_type1: ftype,type1:"image")
-            //print("alamofire upload calledddd")
-            
-            ///sqliteDB.saveChatImage(self.selectedContact, from1: username!, owneruser1: username!, fromFullName1: displayname, msg1: self.filename, date1: nil, uniqueid1: uniqueID, status1: "pending", type1: "document",file_type1: ftype, file_path1: filePathImage2)
-        
+         
             self.retrieveChatFromSqlite(self.selectedContact,completion:{(result)-> () in
                DispatchQueue.main.async
 {
@@ -3968,41 +4001,12 @@ let textLable = cell.viewWithTag(12) as! UILabel
                 }
                 }
             })
-            
-       /////// self.addMessage(filePathImage2, ofType: "3", date: nil)
-            ////print(result.firstObject?.keys)
-            //filename = result.firstObject?.fileSize.debugDescription
-            /* PHImageManager.defaultManager().requestImageDataForAsset(result.firstObject as! PHAsset, options: PHImageRequestOptions.init(), resultHandler: { (imageData, dataUTI, orientation, infoDict) in
-             infoDict?.keys.elements.forEach({ (infoKeys) in
-             //print("---+++---")
-             //print(dataUTI)
-             ////print(infoKeys.debugDescription)
-             })
-             
-             
-             })*/
-            // filename = result.firstObject?.
-        
-        
-        
-
-        
-        
         self.dismiss(animated: true, completion:{ ()-> Void in
         
             if(self.showKeyboard==true)
             {
                  self.textFieldShouldReturn(self.txtFldMessage)
-                //uncomment later
-                /*var duration : NSTimeInterval = 0
-                
-                
-                UIView.animateWithDuration(duration, delay: 0, options:[], animations: {
-                    self.chatComposeView.frame = CGRectMake(self.chatComposeView.frame.origin.x, self.chatComposeView.frame.origin.y + self.keyheight-self.chatComposeView.frame.size.height-3, self.chatComposeView.frame.size.width, self.chatComposeView.frame.size.height)
-                    self.tblForChats.frame = CGRectMake(self.tblForChats.frame.origin.x, self.tblForChats.frame.origin.y, self.tblForChats.frame.size.width, self.tblForChats.frame.size.height + self.keyFrame.size.height-49);
-                    }, completion: nil)
-                self.showKeyboard=false
-        */
+             
             }
             
             if(self.messages.count>1)
@@ -4015,48 +4019,6 @@ let textLable = cell.viewWithTag(12) as! UILabel
         });
         
      
-        
-        
-        /*if (controller.documentPickerMode == UIDocumentPickerMode.Import) {
-            NSLog("Opened ", url.path!);
-            //print("picker url is \(url)")
-            
-            
-            */
-        
-        
-                
-        
-                
-            //    urlLocalFile=localPath
-                /////let text2 = fm.contentsAtPath(filePath)
-                //////////print(text2)
-                ///////////print(JSON(text2!))
-                ///mdata.fileContents=fm.contentsAtPath(filePathImage)!
-            //    self.fileContents=NSData(contentsOfURL: localPath)
-             //   self.filePathImage=localPath.URLString
-                //var filecontentsJSON=JSON(NSData(contentsOfURL: url)!)
-                ////print(filecontentsJSON)
-               // //print("file url is \(self.filePathImage) file type is \(ftype)")
-            //    var filename=fname!+"."+ftype
-               // socketObj.socket.emit("logClient","\(username!) is sending file \(fname)")
-                
-               // var mjson="{\"file_meta\":{\"name\":\"\(filename)\",\"size\":\"\(self.fileSize1.description)\",\"filetype\":\"\(ftype)\",\"browser\":\"firefox\",\"uname\":\"\(username!)\",\"fid\":\(self.myfid),\"senderid\":\(currentID!)}}"
-               /// var fmetadata="{\"eventName\":\"data_msg\",\"data\":\(mjson)}"
-                
-                
-                //----------sendDataBuffer(fmetadata,isb: false)
-                
-                
-              //  socketObj.socket.emit("conference.chat", ["message":"You have received a file. Download and Save it.","username":username!])
-                
-              /*  let alert = UIAlertController(title: "Success", message: "Your file has been successfully sent", preferredStyle: UIAlertControllerStyle.Alert)
-                alert.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.Default, handler: nil))
-                self.presentViewController(alert, animated: true, completion: nil)*/
-                
-        
-            //mdata.sharefile(url)
-       // }
         
         })
         
@@ -4072,16 +4034,7 @@ let textLable = cell.viewWithTag(12) as! UILabel
             if(self.showKeyboard==true)
             {
                 self.textFieldShouldReturn(self.txtFldMessage)
-                //uncomment later
-                /*var duration : NSTimeInterval = 0
-                
-                
-                UIView.animateWithDuration(duration, delay: 0, options:[], animations: {
-                    self.chatComposeView.frame = CGRectMake(self.chatComposeView.frame.origin.x, self.chatComposeView.frame.origin.y + self.keyheight-self.chatComposeView.frame.size.height-3, self.chatComposeView.frame.size.width, self.chatComposeView.frame.size.height)
-                    self.tblForChats.frame = CGRectMake(self.tblForChats.frame.origin.x, self.tblForChats.frame.origin.y, self.tblForChats.frame.size.width, self.tblForChats.frame.size.height + self.keyFrame.size.height-49);
-                    }, completion: nil)
-                self.showKeyboard=false*/
-                
+              
             }
             self.tblForChats.reloadData()
             if(self.messages.count>1)
