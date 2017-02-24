@@ -18,7 +18,7 @@ import Photos
 import Contacts
 import Compression
 import ContactsUI
-class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChatDelegate,UIDocumentPickerDelegate,UIDocumentMenuDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate,FileManagerDelegate,showUploadProgressDelegate,UpdateChatViewsDelegate,UpdateSingleChatDetailDelegate,CNContactPickerDelegate,CNContactViewControllerDelegate
+class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChatDelegate,UIDocumentPickerDelegate,UIDocumentMenuDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate,FileManagerDelegate,showUploadProgressDelegate,UpdateChatViewsDelegate,UpdateSingleChatDetailDelegate,CNContactPickerDelegate,CNContactViewControllerDelegate,UIPickerViewDelegate
     {//,UIPickerViewDelegate{
     
     var Q_serial1=DispatchQueue(label: "Q_serial1",attributes: [])
@@ -3385,7 +3385,7 @@ let textLable = cell.viewWithTag(12) as! UILabel
         
         let shareMenu = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         shareMenu.modalPresentationStyle=UIModalPresentationStyle.overCurrentContext
-        let photoAction = UIAlertAction(title: "Photo/Video Library", style: UIAlertActionStyle.default,handler: { (action) -> Void in
+        let videoAction = UIAlertAction(title: "Share Video", style: UIAlertActionStyle.default,handler: { (action) -> Void in
             
             let picker=UIImagePickerController.init()
             picker.delegate=self
@@ -3399,7 +3399,7 @@ let textLable = cell.viewWithTag(12) as! UILabel
             // picker.sourceType = UIImagePickerControllerSourceType.PhotoLibrary
             //}
             picker.sourceType = UIImagePickerControllerSourceType.photoLibrary
-            picker.mediaTypes=["public.movie","public.image"]
+            picker.mediaTypes=["public.movie"]
             ////picker.mediaTypes=[kUTTypeMovie as NSString as String,kUTTypeMovie as NSString as String]
             //[self presentViewController:picker animated:YES completion:NULL];
             DispatchQueue.main.async
@@ -3413,6 +3413,35 @@ let textLable = cell.viewWithTag(12) as! UILabel
             }
             
         
+        })
+        let photoAction = UIAlertAction(title: "Photo/Video Library", style: UIAlertActionStyle.default,handler: { (action) -> Void in
+            
+            let picker=UIImagePickerController.init()
+            picker.delegate=self
+            
+            picker.allowsEditing = true;
+            //picker.modalPresentationStyle = UIModalPresentationStyle.OverCurrentContext
+            // if(UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.PhotoLibrary))
+            //  {
+            
+            //savedPhotosAlbum
+            // picker.sourceType = UIImagePickerControllerSourceType.PhotoLibrary
+            //}
+            picker.sourceType = UIImagePickerControllerSourceType.photoLibrary
+            picker.mediaTypes=["public.image"]
+            ////picker.mediaTypes=[kUTTypeMovie as NSString as String,kUTTypeMovie as NSString as String]
+            //[self presentViewController:picker animated:YES completion:NULL];
+            DispatchQueue.main.async
+                { () -> Void in
+                    //  picker.addChildViewController(UILabel("hiiiiiiiiiiiii"))
+                    if(self.showKeyboard==true)
+                    {self.textFieldShouldReturn(self.txtFldMessage)
+                    }
+                    self.present(picker, animated: true, completion: nil)
+                    
+            }
+            
+            
         })
         let documentAction = UIAlertAction(title: "Share Document", style: UIAlertActionStyle.default, handler: { (action) -> Void in
             
@@ -3449,6 +3478,7 @@ let textLable = cell.viewWithTag(12) as! UILabel
         
         let cancelAction = UIAlertAction(title: "Cancel", style: UIAlertActionStyle.cancel, handler:nil)
         shareMenu.addAction(photoAction)
+        shareMenu.addAction(videoAction)
         shareMenu.addAction(documentAction)
         shareMenu.addAction(contactAction)
         shareMenu.addAction(cancelAction)
@@ -3706,7 +3736,7 @@ let textLable = cell.viewWithTag(12) as! UILabel
     }
     */
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
-        
+        print("in here imagepicker")
         let mediaType:AnyObject? = info[UIImagePickerControllerMediaType] as AnyObject?
         var videoURL=info[UIImagePickerControllerReferenceURL] as? URL
         if let type:AnyObject = mediaType {
@@ -3717,7 +3747,7 @@ let textLable = cell.viewWithTag(12) as! UILabel
                     print("url video is \(urlOfVideo)")
                     self.dismiss(animated: true, completion: { 
                         
-                        self.sendVideo(urlOfVideo: urlOfVideo)
+                        self.sendVideo(urlOfVideoGetMetadata: videoURL!, urlOfVideoPath: urlOfVideo)
                         
                     })
                      /*if let url = urlOfVideo {
@@ -3732,14 +3762,18 @@ let textLable = cell.viewWithTag(12) as! UILabel
                                                                             }
                         })
                     }*/
-                } 
+                }
+                else{
+                    print("choosen type is not video")
+                    self.imagePickerController(picker, didFinishPickingImage: (info[UIImagePickerControllerOriginalImage] as? UIImage)!, editingInfo: info as [String : AnyObject]?)
+                }
             }
         
         
     }
     }
     
-    func sendVideo(urlOfVideo:URL)
+    func sendVideo(urlOfVideoGetMetadata:URL,urlOfVideoPath:URL)
     {
         let shareMenu = UIAlertController(title: nil, message: " Send \" \(filename) \" to \(selectedFirstName) ? ", preferredStyle: .actionSheet)
         shareMenu.modalPresentationStyle=UIModalPresentationStyle.overCurrentContext
@@ -3748,13 +3782,13 @@ let textLable = cell.viewWithTag(12) as! UILabel
             socketObj.socket.emit("logClient","IPHONE-LOG: \(username!) selected image ")
             //print("file gotttttt")
            //// var furl=URL(string: urlOfVideo)
-            var furl=URL(string: urlOfVideo.absoluteString)
+            var furl=URL(string: urlOfVideoPath.absoluteString)
             //print(furl!.pathExtension!)
             //print(furl!.deletingLastPathComponent())
             var ftype=furl!.pathExtension
             var fname=furl!.deletingLastPathComponent()
             
-            let result = PHAsset.fetchAssets(withALAssetURLs: [urlOfVideo], options: nil)
+            let result = PHAsset.fetchAssets(withALAssetURLs: [urlOfVideoGetMetadata], options: nil)
             var asset=result.firstObject! as PHAsset
             self.filename=asset.originalFilename!
             
@@ -3763,7 +3797,7 @@ let textLable = cell.viewWithTag(12) as! UILabel
                 if let urlAsset = avasset as? AVURLAsset {
                     let dict = try! urlAsset.url.resourceValues(forKeys: [URLResourceKey.fileSizeKey])
                     //let size = dict. .allValues[URLResourceKey.fileSizeKey]// fileSize// [URLResourceKey.fileSizeKey] as! Int
-                    print("video metadata \(urlOfVideo) ...name is  \(self.filename) ... type is \(ftype) ")
+                    print("video metadata \(urlOfVideoGetMetadata) ...name is  \(self.filename) ... type is \(ftype) ")
                 }
             }
             //==----self.file_name1 = (result.firstObject?.burstIdentifier)!
@@ -3788,7 +3822,7 @@ let textLable = cell.viewWithTag(12) as! UILabel
             //  var written=fileData!.writeToFile(filePathImage2, atomically: false)
             
             //filePathImage2
-            do{var data=try Data.init(contentsOf: urlOfVideo)
+            do{var data=try Data.init(contentsOf: urlOfVideoPath)
             try? data.write(to: URL(fileURLWithPath: filePathImage2), options: [.atomic])
             // data!.writeToFile(localPath.absoluteString, atomically: true)
             }
@@ -3856,6 +3890,7 @@ let textLable = cell.viewWithTag(12) as! UILabel
     }
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingImage image: UIImage, editingInfo: [String : AnyObject]?) {
         
+        print("image pickerrr")
         
 
           //  var filesizenew=""
@@ -4062,6 +4097,7 @@ let textLable = cell.viewWithTag(12) as! UILabel
         
     }
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+        print("picker cancelled")
         DispatchQueue.main.async { () -> Void in
             self.dismiss(animated: true, completion: { ()-> Void in
                 
