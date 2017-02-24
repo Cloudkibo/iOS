@@ -2872,7 +2872,7 @@ let textLable = cell.viewWithTag(12) as! UILabel
              //chatImage.frame = CGRect(x: 20 + distanceFactor, y: chatImage.frame.origin.y, width: ((sizeOFStr.width + 107)  > 207 ? (sizeOFStr.width + 107) : 200), height: ((correctheight + 20)  > 100 ? (correctheight+20) : 100))
             
             
-            chatImage.frame = CGRect(x: /*chatImage.frame.origin.x*/ 20 + distanceFactor, y: chatImage.frame.origin.y,width: ((sizeOFStr.width + 107)  > 207 ? (sizeOFStr.width + 107) : 200), height: ((correctheight + 20)  > 85 ? (correctheight+20) : 85))
+            chatImage.frame = CGRect(x: /*chatImage.frame.origin.x*/ 20 + distanceFactor, y: chatImage.frame.origin.y,width: ((sizeOFStr.width + 107)  > 210 ? (sizeOFStr.width + 107) : 210), height: ((correctheight + 20)  > 75 ? (correctheight+20) : 75))
             
 
             
@@ -2885,7 +2885,7 @@ let textLable = cell.viewWithTag(12) as! UILabel
             
             //profileImage.center = CGPoint(x: profileImage.center.x, y: textLable.frame.origin.y + textLable.frame.size.height - profileImage.frame.size.height/2+10)
             
-            profileImage.center = CGPoint(x: chatImage.frame.origin.x+40, y: chatImage.frame.height/2)
+            profileImage.center = CGPoint(x: chatImage.frame.origin.x+30, y: chatImage.frame.height/2)
             
             //Setting Contact Name
             textLable.frame = CGRect(x: profileImage.center.x+35, y: profileImage.center.y-15, width: chatImage.frame.width-36, height: correctheight)
@@ -2924,7 +2924,8 @@ let textLable = cell.viewWithTag(12) as! UILabel
                 let displaydate=formatter2.string(from: defaultTimeZoneStr!)
                 //formatter.dateFormat = "MM/dd hh:mm a";
                 
-                timeLabel.text=displaydate
+                let status=messageDic["status"] as NSString!
+                timeLabel.text="\(displaydate) (\(status!))"
             }
             
             //local date already shortened then added to dictionary when post button is pressed
@@ -2961,6 +2962,48 @@ let textLable = cell.viewWithTag(12) as! UILabel
         print("inside cncontatc didcomplete....")
         self.dismiss(animated: true, completion:{ ()-> Void in
             
+        //=----------
+        
+        viewController.displayedPropertyKeys=[CNContactGivenNameKey]
+        if(contact != nil){
+        UtilityFunctions.init().AddtoAddressBook(contact!,isKibo: true) { (result) in
+            
+            if(result==true)
+            {
+                if(self.showKeyboard==true)
+                {
+                    self.textFieldShouldReturn(self.txtFldMessage)
+                    //uncomment later
+                    /*var duration : NSTimeInterval = 0
+                     
+                     
+                     UIView.animateWithDuration(duration, delay: 0, options:[], animations: {
+                     self.chatComposeView.frame = CGRectMake(self.chatComposeView.frame.origin.x, self.chatComposeView.frame.origin.y + self.keyheight-self.chatComposeView.frame.size.height-3, self.chatComposeView.frame.size.width, self.chatComposeView.frame.size.height)
+                     self.tblForChats.frame = CGRectMake(self.tblForChats.frame.origin.x, self.tblForChats.frame.origin.y, self.tblForChats.frame.size.width, self.tblForChats.frame.size.height + self.keyFrame.size.height-49);
+                     }, completion: nil)
+                     self.showKeyboard=false
+                     */
+                }
+                
+                if(self.messages.count>1)
+                {
+                    //var indexPath = NSIndexPath(forRow:self.messages.count-1, inSection: 0)
+                    let indexPath = IndexPath(row:self.tblForChats.numberOfRows(inSection: 0)-1, section: 0)
+                    self.tblForChats.scrollToRow(at: indexPath, at: UITableViewScrollPosition.bottom, animated: false)
+                }
+
+              //  self.refreshChatsUI(nil, uniqueid: <#T##String!#>, from: <#T##String!#>, date1: <#T##Date!#>, type: <#T##String!#>)
+            }
+        }
+            
+        }
+        else{
+            print("no contact selected")          }
+             });
+        
+        
+        //self.navigationController!.popViewController(animated: true)
+       // self.dismiss(animated: true, completion:{ ()-> Void in
             if(self.showKeyboard==true)
             {
                 self.textFieldShouldReturn(self.txtFldMessage)
@@ -2982,18 +3025,8 @@ let textLable = cell.viewWithTag(12) as! UILabel
                 let indexPath = IndexPath(row:self.tblForChats.numberOfRows(inSection: 0)-1, section: 0)
                 self.tblForChats.scrollToRow(at: indexPath, at: UITableViewScrollPosition.bottom, animated: false)
             }
-            
-        });
-        //=----------
-        
-        viewController.displayedPropertyKeys=[CNContactGivenNameKey]
-        UtilityFunctions.init().AddtoAddressBook(contact!,isKibo: true) { (result) in
-            
-            if(result==true)
-            {
-              //  self.refreshChatsUI(nil, uniqueid: <#T##String!#>, from: <#T##String!#>, date1: <#T##Date!#>, type: <#T##String!#>)
-            }
-        }
+        self.navigationController!.popViewController(animated: true)
+        //})
     }
    /* override func encodeRestorableStateWithCoder(coder: NSCoder) {
         //1
@@ -3721,6 +3754,17 @@ let textLable = cell.viewWithTag(12) as! UILabel
             var ftype=furl!.pathExtension
             var fname=furl!.deletingLastPathComponent()
             
+            let result = PHAsset.fetchAssets(withALAssetURLs: [furl!], options: nil)
+            var asset=result.firstObject! as PHAsset
+            self.filename=asset.originalFilename!
+            //==----self.file_name1 = (result.firstObject?.burstIdentifier)!
+            // var myasset=result.firstObject as! PHAsset
+            ////print(myasset.mediaType)
+            print("original filename of video is \(self.filename)")
+ 
+            
+        
+
             
             let dirPaths = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)
             let docsDir1 = dirPaths[0]
@@ -3738,6 +3782,7 @@ let textLable = cell.viewWithTag(12) as! UILabel
                     //print("file size is \(self.fileSize1)")
                     //// ***april 2016 neww self.fileSize=(fileSize1 as! NSNumber).integerValue
                 }
+                print("video metadata \(filePathImage2) ...name is  \(self.filename) ... type is \(ftype) .. \(self.fileSize1)")
             } catch {
                 socketObj.socket.emit("logClient","IPHONE-LOG: error: \(error)")
                 //print("Error:+++ \(error)")
