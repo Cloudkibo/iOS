@@ -2644,15 +2644,15 @@
                                                             </subviews>
                                                         </tableViewCellContentView>
                                                     </tableViewCell>
-                                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" verticalHuggingPriority="1000" selectionStyle="default" indentationWidth="10" reuseIdentifier="ContactReceivedCell" rowHeight="80" id="XWA-CI-iAv">
-                                                        <rect key="frame" x="0.0" y="822" width="320" height="80"/>
+                                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" verticalHuggingPriority="1000" misplaced="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="ContactReceivedCell" rowHeight="65" id="XWA-CI-iAv">
+                                                        <rect key="frame" x="0.0" y="822" width="320" height="65"/>
                                                         <autoresizingMask key="autoresizingMask"/>
                                                         <tableViewCellContentView key="contentView" autoresizesSubviews="NO" opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" verticalHuggingPriority="1000" preservesSuperviewLayoutMargins="YES" tableViewCell="XWA-CI-iAv" id="6mr-G4-QVF">
-                                                            <rect key="frame" x="0.0" y="0.0" width="320" height="80"/>
+                                                            <rect key="frame" x="0.0" y="0.0" width="320" height="65"/>
                                                             <autoresizingMask key="autoresizingMask"/>
                                                             <subviews>
-                                                                <imageView opaque="NO" clipsSubviews="YES" tag="1" contentMode="redraw" verticalHuggingPriority="1000" preservesSuperviewLayoutMargins="YES" image="chat_receive" highlighted="YES" id="lr0-Gg-gBX">
-                                                                    <rect key="frame" x="8" y="0.0" width="232" height="80"/>
+                                                                <imageView opaque="NO" clipsSubviews="YES" tag="1" contentMode="redraw" verticalHuggingPriority="1000" misplaced="YES" preservesSuperviewLayoutMargins="YES" image="chat_receive" highlighted="YES" id="lr0-Gg-gBX">
+                                                                    <rect key="frame" x="8" y="0.0" width="232" height="65"/>
                                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                                 </imageView>
                                                                 <label hidden="YES" opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="13" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Delivered" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" enabled="NO" adjustsFontSizeToFit="NO" id="cwP-Pq-tMm">
@@ -2715,7 +2715,7 @@
                                                                     </userDefinedRuntimeAttributes>
                                                                 </view>
                                                                 <button opaque="NO" tag="15" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="QxX-dR-Kej">
-                                                                    <rect key="frame" x="191" y="47" width="46" height="30"/>
+                                                                    <rect key="frame" x="191" y="35" width="46" height="30"/>
                                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                                     <state key="normal" title="Save"/>

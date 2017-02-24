@@ -1019,6 +1019,19 @@ print("tempURL is \(temporaryURL) and response is \(response.allHeaderFields)")
         //return nil
     }
     
+    func compareLongerString(txt1:String,txt2:String)->String
+    {
+        if(txt1.characters.count<txt2.characters.count)
+        {
+            return txt2
+        }
+        else
+        {
+           return txt1
+        }
+
+    }
+    
 }
 
 extension PHAsset {

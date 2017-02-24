@@ -1875,13 +1875,13 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
                     let chatImage = cell.viewWithTag(1) as! UIImageView
                     
                     
-                    if(chatImage.frame.height <= 110)
+                    if(chatImage.frame.height <= 95)
                     {
                         return chatImage.frame.height+20
                     }
                     else
                     {
-                        return 110
+                        return 95
                     }
                 }
                 else{
@@ -2021,7 +2021,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
         let msgType = messageDic["type"] as NSString!
         let msg = messageDic["message"] as NSString!
         let date2=messageDic["date"] as NSString!
-        let sizeOFStr = self.getSizeOfString(msg!)
+        var sizeOFStr = self.getSizeOfString(msg!)
         let uniqueidDictValue=messageDic["uniqueid"] as NSString!
         
        // cell = tblForChats.dequeueReusableCellWithIdentifier("ChatSentCell")! as UITableViewCell
@@ -2783,18 +2783,19 @@ let textLable = cell.viewWithTag(12) as! UILabel
             let contactinfo=msg!.components(separatedBy: ":") ///return array string
             textLable.text = contactinfo[0]
             contactreceivedphone=contactinfo[1]
-
             timeLabel.text = contactinfo[1]
             
+                        
             /*textLable.lineBreakMode = .ByWordWrapping
              textLable.numberOfLines=0
              textLable.sizeToFit()
              print("previous height is \(textLable.frame.height) msg is \(msg)")
              var correctheight=textLable.frame.height
              */
-            let correctheight=getSizeOfStringHeight(msg!).height
+            let correctheight=getSizeOfStringHeight(UtilityFunctions.init().compareLongerString(txt1: timeLabel.text!, txt2: textLable.text!) as NSString).height
             
-            chatImage.frame = CGRect(x: chatImage.frame.origin.x, y: chatImage.frame.origin.y,width: ((sizeOFStr.width + 107)  > 207 ? (sizeOFStr.width + 107) : 200), height: ((correctheight + 20)  > 100 ? (correctheight+20) : 100))
+            sizeOFStr=getSizeOfString(UtilityFunctions.init().compareLongerString(txt1: timeLabel.text!, txt2: textLable.text!) as NSString)
+            chatImage.frame = CGRect(x: chatImage.frame.origin.x, y: chatImage.frame.origin.y,width: ((sizeOFStr.width + 107)  > 207 ? (sizeOFStr.width + 107) : 200), height: ((correctheight + 20)  > 85 ? (correctheight+20) : 85))
             //====new  chatImage.frame = CGRectMake(chatImage.frame.origin.x, chatImage.frame.origin.y, ((sizeOFStr.width + 100)  > 200 ? (sizeOFStr.width + 100) : 200), sizeOFStr.height + 40)
             chatImage.image = UIImage(named: "chat_receive")?.stretchableImage(withLeftCapWidth: 40,topCapHeight: 20);
             //******
