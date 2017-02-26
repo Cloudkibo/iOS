@@ -42,6 +42,21 @@ class NetworkingManager
         "svgz",
         "webp"
     ]
+    let videoExtensions=[
+        "3gpp",
+    "3gp",
+    "ts",
+        "mp4",
+    "mpeg",
+    "mpg",
+    "mov",
+    "webm",
+    "flv",
+    "mng",
+    "asx",
+    "asf",
+    "wmv",
+    "avi"]
     internal let DEFAULT_MIME_TYPE = "application/octet-stream"
     
      let mimeTypes = [
@@ -532,10 +547,7 @@ class NetworkingManager
     {print("inside checkpending")
         var checkPendingFiles=Constants.MainUrl+Constants.checkPendingFile
         
-        //Alamofire.request(.POST,"\(removeChatHistoryURL)",headers:header,parameters: ["username":"\(selectedContact)"]).validate(statusCode: 200..<300).response{
-        //====Alamofire.request(.POST,"\(checkPendingFiles)",headers:header,parameters: ["phone":phone1]).validate(statusCode: 200..<300).responseJSON{
-        
-        
+      
         Alamofire.request("\(checkPendingFiles)", method: .post, parameters: ["uniqueid":uniqueid1],headers:header).validate(statusCode: 200..<300).responseJSON{
             
             response in
@@ -645,7 +657,7 @@ class NetworkingManager
         var downloadURL=Constants.MainUrl+Constants.downloadFile
         print("start download")
         print(Date())
-        if(Int.init(filePendingSize)<15000000)
+        if(Int.init(filePendingSize)<150000)
         {
         let queue2 = DispatchQueue(label: "com.kibochat.manager-response-queue-file", attributes: DispatchQueue.Attributes.concurrent)
         let qqq=DispatchQueue.global(qos: DispatchQoS.QoSClass.background)
@@ -685,17 +697,25 @@ class NetworkingManager
                     data=data?.uncompressed(using: Compression.zlib)
                 }
                     do{
-                    if let written = try data?.write(to: URL.init(fileURLWithPath: filePendingPath)){
+                        print("file path is \(filePendingPath) and filetype is \(filetype)")// and data is \(data!)")
+                    if let written = try data?.write(to: URL.init(fileURLWithPath: filePendingPath))
+                    {
+                        print("inside written")
                 if(self.imageExtensions.contains(filetype.lowercased()))
                 {
                     //filePendingName
                     sqliteDB.saveFile(filePendingTo, from1: filefrom, owneruser1: username!, file_name1: filePendingName, date1: nil, uniqueid1: fileuniqueid, file_size1: filePendingSize, file_type1: filetype, file_path1: filePendingPath, type1: "image")
                 }
+                else{if(self.videoExtensions.contains(filetype.lowercased()))
+                        {
+                            //filePendingName
+                            sqliteDB.saveFile(filePendingTo, from1: filefrom, owneruser1: username!, file_name1: filePendingName, date1: nil, uniqueid1: fileuniqueid, file_size1: filePendingSize, file_type1: filetype, file_path1: filePendingPath, type1: "video")
+                        }
                 else
                 {
                     sqliteDB.saveFile(filePendingTo, from1: filefrom, owneruser1: username!, file_name1: filePendingName, date1: nil, uniqueid1: fileuniqueid, file_size1: filePendingSize, file_type1: filetype, file_path1: filePendingPath, type1: "document")
                     
-                }
+                    }}
             print("file written...")
                         
                        
@@ -720,12 +740,12 @@ class NetworkingManager
                         }
                         
                     else{
-                        print("error in downloading file")
+                        print("error in downloading file 111 )")
                         }
 
             }
                     catch{
-                        print("error writing file")
+                        print("error writing file \(error)")
                  
             }
                     }

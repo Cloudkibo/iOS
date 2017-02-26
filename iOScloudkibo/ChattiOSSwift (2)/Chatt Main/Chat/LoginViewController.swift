@@ -124,9 +124,6 @@ class LoginViewController: UIViewController,SocketConnecting,AKFViewControllerDe
             accountKit.requestAccount{
                 (account, error) -> Void in
                 
-                
-                
-                
                 //**********
                 
                 if(account != nil){

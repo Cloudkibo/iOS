@@ -888,7 +888,13 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
                             
                         }
                         else{
+                            if(tblContacts[file_type]=="video")
+                            {
+                                print("found contact received")
+                                messages2.add(["message":tblContacts[msg],"status":tblContacts[status], "type":"2", "date":defaultTimeeee, "uniqueid":tblContacts[uniqueid]])
+                            }else{
                         messages2.add(["message":tblContacts[msg]+" (\(tblContacts[status])) ","status":tblContacts[status], "type":"2", "date":defaultTimeeee, "uniqueid":tblContacts[uniqueid]])
+                            }
                        
                         }
                     //^^^^self.addMessage(tblContacts[msg]+" (\(tblContacts[status])) ", ofType: "2",date: tblContacts[date],uniqueid: tblContacts[uniqueid])
@@ -942,8 +948,25 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
                             messages2.add(["message":tblContacts[msg],"status":tblContacts[status], "type":"7", "date":defaultTimeeee, "uniqueid":tblContacts[uniqueid]])
                         }
                         else{
-                        
+                            if(tblContacts[file_type]=="video")
+                            {
+                                print("checking if video is pending")
+                                var filedownloaded=sqliteDB.checkIfFileExists(tblContacts[uniqueid])
+                                
+                                if(filedownloaded==false)
+                                {
+                                    print("video is not downloaded locally")
+                                    //checkpendingfiles
+                                    
+                                    managerFile.checkPendingFiles(tblContacts[uniqueid])
+                                }
+                                
+                                print("found contact received")
+                                messages2.add(["message":tblContacts[msg],"status":tblContacts[status], "type":"1", "date":defaultTimeeee, "uniqueid":tblContacts[uniqueid]])
+                            }
+                            else{
                         messages2.add(["message":tblContacts[msg],"status":tblContacts[status], "type":"1", "date":defaultTimeeee, "uniqueid":tblContacts[uniqueid]])
+                            }
                         }
                         
                    ///^^^ self.addMessage(tblContacts[msg], ofType: "1", date: tblContacts[date],uniqueid: tblContacts[uniqueid])
@@ -1351,8 +1374,14 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
 
                                 }
                                 else{
+                                    
+                                    if(tblContacts[file_type]=="video")
+                                    {
+                                        print("found contact received")
+                                        messages2.add(["message":tblContacts[msg],"status":tblContacts[status], "type":"2", "date":defaultTimeeee, "uniqueid":tblContacts[uniqueid]])
+                                    }else{
                                 messages2.add(["message":tblContacts[msg]+" (\(tblContacts[status])) ","status":tblContacts[status], "type":"2", "date":defaultTimeeee, "uniqueid":tblContacts[uniqueid]])
-                                
+                                    }
                                 
                                 //^^^^self.addMessage(tblContacts[msg]+" (\(tblContacts[status])) ", ofType: "2",date: tblContacts[date],uniqueid: tblContacts[uniqueid])
                                 }
@@ -1389,6 +1418,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
                             if(filedownloaded==false)
                             {
                                 //checkpendingfiles
+                                
                                 managerFile.checkPendingFiles(tblContacts[uniqueid])
                             }
                             
@@ -1399,6 +1429,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
                             //^^^^ self.addMessage(tblContacts[msg], ofType: "5",date: tblContacts[date],uniqueid: tblContacts[uniqueid])
                             
                         }
+                    
                         else
                         {
                             if(tblContacts[type]=="contact")
@@ -1407,7 +1438,26 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
                                 messages2.add(["message":tblContacts[msg],"status":tblContacts[status], "type":"7", "date":defaultTimeeee, "uniqueid":tblContacts[uniqueid]])
                             }
                             else{
+                                
+                                if(tblContacts[file_type]=="video")
+                                {
+                                    print("checking if video is pending")
+                                    var filedownloaded=sqliteDB.checkIfFileExists(tblContacts[uniqueid])
+                                    
+                                    if(filedownloaded==false)
+                                    {
+                                        print("video is not downloaded locally")
+                                        //checkpendingfiles
+                                        
+                                        managerFile.checkPendingFiles(tblContacts[uniqueid])
+                                    }
+
+                                    print("found contact received")
+                                    messages2.add(["message":tblContacts[msg],"status":tblContacts[status], "type":"1", "date":defaultTimeeee, "uniqueid":tblContacts[uniqueid]])
+                                }
+                                else{
                             messages2.add(["message":tblContacts[msg],"status":tblContacts[status], "type":"1", "date":defaultTimeeee, "uniqueid":tblContacts[uniqueid]])
+                                }
                             }
                             
                             ///^^^ self.addMessage(tblContacts[msg], ofType: "1", date: tblContacts[date],uniqueid: tblContacts[uniqueid])
