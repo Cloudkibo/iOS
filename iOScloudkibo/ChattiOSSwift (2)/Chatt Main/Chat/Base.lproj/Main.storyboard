@@ -419,7 +419,7 @@
                                         <rect key="frame" x="0.0" y="22" width="320" height="66"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Zjl-fV-fCT" id="p7A-kq-oTu">
-                                            <rect key="frame" x="0.0" y="0.0" width="320" height="65"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="320" height="65.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Vacancy" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="NsV-Ss-HPi">
@@ -2574,7 +2574,7 @@
                                                         </tableViewCellContentView>
                                                     </tableViewCell>
                                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" verticalHuggingPriority="1000" misplaced="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="ContactSentCell" rowHeight="75" id="HJd-UL-f3j">
-                                                        <rect key="frame" x="0.0" y="739" width="320" height="75"/>
+                                                        <rect key="frame" x="0.0" y="742" width="320" height="75"/>
                                                         <autoresizingMask key="autoresizingMask"/>
                                                         <tableViewCellContentView key="contentView" autoresizesSubviews="NO" opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" verticalHuggingPriority="1000" preservesSuperviewLayoutMargins="YES" tableViewCell="HJd-UL-f3j" id="OJe-ew-pTJ">
                                                             <rect key="frame" x="0.0" y="0.0" width="320" height="75"/>
@@ -2720,6 +2720,21 @@
                                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                                     <state key="normal" title="Save"/>
                                                                 </button>
+                                                            </subviews>
+                                                        </tableViewCellContentView>
+                                                    </tableViewCell>
+                                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="VideoSentCell" rowHeight="214" id="fyw-sM-GMS">
+                                                        <rect key="frame" x="0.0" y="882" width="320" height="214"/>
+                                                        <autoresizingMask key="autoresizingMask"/>
+                                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="fyw-sM-GMS" id="nLb-qR-gBR">
+                                                            <rect key="frame" x="0.0" y="0.0" width="320" height="214"/>
+                                                            <autoresizingMask key="autoresizingMask"/>
+                                                            <subviews>
+                                                                <view contentMode="scaleToFill" misplaced="YES" id="bBR-zy-VAL">
+                                                                    <rect key="frame" x="101" y="8" width="219" height="198"/>
+                                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                                </view>
                                                             </subviews>
                                                         </tableViewCellContentView>
                                                     </tableViewCell>
@@ -6256,6 +6271,19 @@
             </objects>
             <point key="canvasLocation" x="2399" y="-1805"/>
         </scene>
+        <!--View Controller-->
+        <scene sceneID="CNl-w6-9fm">
+            <objects>
+                <viewController id="Qfb-5X-3PB" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="WN7-M8-fSq">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="CQi-Ba-Amg" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+        </scene>
     </scenes>
     <resources>
         <image name="audio_on" width="50" height="50"/>
@@ -6304,21 +6332,21 @@
         <simulatedScreenMetrics key="destination" type="retina4_7.fullscreen"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="ThT-lo-Acr"/>
+        <segue reference="X5X-Qt-8lc"/>
+        <segue reference="8LM-cv-XXH"/>
+        <segue reference="Y9a-Vx-tcX"/>
         <segue reference="NgD-BM-wgZ"/>
         <segue reference="6oI-GI-9iA"/>
         <segue reference="ye7-7r-hp1"/>
         <segue reference="ogf-EO-Swc"/>
         <segue reference="TN9-Au-PUW"/>
-        <segue reference="7Lx-es-nco"/>
-        <segue reference="Y9a-Vx-tcX"/>
-        <segue reference="1jA-Zj-XHt"/>
         <segue reference="Spe-dd-EXu"/>
+        <segue reference="ThT-lo-Acr"/>
         <segue reference="BY8-e2-RyW"/>
+        <segue reference="1jA-Zj-XHt"/>
         <segue reference="N5B-Ot-bcs"/>
+        <segue reference="xLi-xx-esW"/>
         <segue reference="Lsn-aA-q1J"/>
-        <segue reference="8LM-cv-XXH"/>
-        <segue reference="X5X-Qt-8lc"/>
     </inferredMetricsTieBreakers>
     <color key="tintColor" red="0.054901960784313725" green="0.47843137254901963" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
 </document>
