@@ -19,6 +19,7 @@ import Contacts
 import Compression
 import ContactsUI
 import MediaPlayer
+import AVKit
 class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChatDelegate,UIDocumentPickerDelegate,UIDocumentMenuDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate,FileManagerDelegate,showUploadProgressDelegate,UpdateChatViewsDelegate,UpdateSingleChatDetailDelegate,CNContactPickerDelegate,CNContactViewControllerDelegate,UIPickerViewDelegate
     {//,UIPickerViewDelegate{
     
@@ -1940,7 +1941,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
                 else{
                     if(msgType.isEqual(to: "9") || msgType.isEqual(to: "10"))
                     {
-                        return 200
+                        return 215
                     }
                     else{
                 if(tblForChats.cellForRow(at: indexPath) != nil)
@@ -3001,7 +3002,9 @@ let textLable = cell.viewWithTag(12) as! UILabel
             }
             
             let videoView = cell.viewWithTag(0)
+            let videoLabel = videoView?.viewWithTag(1) as! UILabel
             
+            videoLabel.text=msg as String?
             let dirPaths = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)
             let docsDir1 = dirPaths[0]
             var documentDir=docsDir1 as NSString
@@ -3011,7 +3014,7 @@ let textLable = cell.viewWithTag(12) as! UILabel
             
             
             let url = NSURL.fileURL(withPath: videoPath)
-            
+            /*
             self.moviePlayer = MPMoviePlayerController(contentURL: url)
             if let player = self.moviePlayer {
                // player.view.frame=(videoView?.frame)!
@@ -3026,12 +3029,20 @@ let textLable = cell.viewWithTag(12) as! UILabel
                player.repeatMode = MPMovieRepeatMode.none
                 player.shouldAutoplay=false
                 ////player.play()
-               
-                cell.addSubview(player.view)
+                */
+            
+            
+            let tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(ChatDetailViewController.videoTapped(_:)))
+            //Add the recognizer to your view.
+            videoView?.addGestureRecognizer(tapRecognizer)
+            
+            
+                //self.view.addSubview(player.view)
+                //cell.addSubview(player.view)
                // videoView?.addSubview(player.view)
                 //videoView?.bringSubview(toFront: player.view)
                 
-            }
+            
             /*let textLable = cell.viewWithTag(12) as! UILabel
             let chatImage = cell.viewWithTag(1) as! UIImageView
             let profileImage = cell.viewWithTag(2) as! UIImageView
@@ -3108,18 +3119,22 @@ let textLable = cell.viewWithTag(12) as! UILabel
             }
             
             let videoView = cell.viewWithTag(0)
+    let videoLabel = videoView?.viewWithTag(1) as! UILabel
+    
+    videoLabel.text=msg as String?
             //let filename=messageDic["filename"] as! NSString
             let dirPaths = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)
             let docsDir1 = dirPaths[0]
             var documentDir=docsDir1 as NSString
-            var videoPath=documentDir.appendingPathComponent(msg as! String)
+            var videoPath=documentDir.appendingPathComponent(msg! as! String)
             
             
             
-           // var moviePlayer : MPMoviePlayerController!
+             // var moviePlayer : MPMoviePlayerController!
             
             let url = NSURL.fileURL(withPath: videoPath)
-            self.moviePlayer = MPMoviePlayerController(contentURL: url)
+            
+            /*self.moviePlayer = MPMoviePlayerController(contentURL: url)
             if let player = self.moviePlayer {
                 player.view.frame = CGRect(x: self.view.frame.width/3, y: (videoView?.frame.origin.y)!, width: 200, height: 200)
                 //player.prepareToPlay()
@@ -3135,11 +3150,23 @@ let textLable = cell.viewWithTag(12) as! UILabel
                 ////player.play()
                 player.shouldAutoplay=false
                 
-                cell.addSubview(player.view)
-
+                self.view.addSubview(player.view)
+                */
+            
+            
+            let tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(ChatDetailViewController.videoTapped(_:)))
+            //Add the recognizer to your view.
+            videoView?.addGestureRecognizer(tapRecognizer)
+           
+            
+            /*let player = AVPlayer(url: url)
+            let playerViewController = AVPlayerViewController()
+            playerViewController.player = player
+            self.present(playerViewController, animated: true) {
+              */
                 //videoView?.addSubview(player.view)
                 //videoView?.bringSubview(toFront: player.view)
-            }
+            
         }
         return cell
            }
@@ -3270,7 +3297,26 @@ let textLable = cell.viewWithTag(12) as! UILabel
          self.performSegue(withIdentifier: "showFullImageSegue", sender: nil);
         
     }
-    
+    func videoTapped(_ gestureRecognizer: UITapGestureRecognizer) {
+        //tappedImageView will be the image view that was tapped.
+        //dismiss it, animate it off screen, whatever.
+        let tappedVideoView = gestureRecognizer.view! as! UIView
+        let videonameLabel=tappedVideoView.viewWithTag(1) as! UILabel
+        let dirPaths = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)
+        let docsDir1 = dirPaths[0]
+        var documentDir=docsDir1 as NSString
+        var videoPath=documentDir.appendingPathComponent(videonameLabel.text!)
+        
+        let player = AVPlayer(url: URL.init(fileURLWithPath: videoPath))
+        let playerViewController = AVPlayerViewController()
+        playerViewController.player = player
+        
+        self.present(playerViewController, animated: true) {
+            
+       //  self.performSegue(withIdentifier: "showFullImageSegue", sender: nil);
+        
+    }
+    }
     func docTapped(_ gestureRecognizer: UITapGestureRecognizer) {
         //tappedImageView will be the image view that was tapped.
         //dismiss it, animate it off screen, whatever.
