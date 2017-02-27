@@ -141,6 +141,7 @@
 		71C84C6A1E44AB2400330105 /* WebSocket.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71C84C521E44AB2400330105 /* WebSocket.swift */; };
 		71CE4C271DEFF758001637DA /* BroadcastItemCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71CE4C261DEFF758001637DA /* BroadcastItemCell.swift */; };
 		71CE4C2B1DEFF7E9001637DA /* BroadcastListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71CE4C2A1DEFF7E9001637DA /* BroadcastListViewController.swift */; };
+		71D20B4D1E645A150080E28B /* audio_tiny8.wav in Resources */ = {isa = PBXBuildFile; fileRef = 71D20B4C1E645A140080E28B /* audio_tiny8.wav */; };
 		71D74E8F1DEBD8E400D44D59 /* NSData_Compression.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71D74E8E1DEBD8E400D44D59 /* NSData_Compression.swift */; };
 		71D74E911DEBDC2300D44D59 /* libcompression.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 71D74E901DEBDC2300D44D59 /* libcompression.tbd */; };
 		71DA13371DF7CBBC002C0583 /* BroadcastListDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71DA13361DF7CBBC002C0583 /* BroadcastListDetailsViewController.swift */; };
@@ -602,6 +603,7 @@
 		71C84C521E44AB2400330105 /* WebSocket.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WebSocket.swift; sourceTree = "<group>"; };
 		71CE4C261DEFF758001637DA /* BroadcastItemCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BroadcastItemCell.swift; sourceTree = "<group>"; };
 		71CE4C2A1DEFF7E9001637DA /* BroadcastListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BroadcastListViewController.swift; sourceTree = "<group>"; };
+		71D20B4C1E645A140080E28B /* audio_tiny8.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = audio_tiny8.wav; sourceTree = "<group>"; };
 		71D74E8E1DEBD8E400D44D59 /* NSData_Compression.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NSData_Compression.swift; sourceTree = "<group>"; };
 		71D74E901DEBDC2300D44D59 /* libcompression.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libcompression.tbd; path = usr/lib/libcompression.tbd; sourceTree = SDKROOT; };
 		71DA13341DF42FD2002C0583 /* Alamofire.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Alamofire.framework; path = "../../../../../../../Library/Developer/Xcode/DerivedData/kiboApp-ckwegrnpnjdryqfinanunrzashgm/Build/Products/Debug-iphoneos/Alamofire.framework"; sourceTree = "<group>"; };
@@ -752,6 +754,7 @@
 				713D51A21CC11896007E0B47 /* KeychainWrapper.swift */,
 				713D51A31CC11896007E0B47 /* LoginAPI.swift */,
 				713D51A41CC11896007E0B47 /* LoginViewController.swift */,
+				71D20B4C1E645A140080E28B /* audio_tiny8.wav */,
 				7191CC661BCF0D9400F0847F /* Main.storyboard */,
 				714560491B904D6900C8E0D2 /* Models */,
 				713D51AA1CC11896007E0B47 /* MoreTableViewController.swift */,
@@ -1349,6 +1352,7 @@
 				71C4018C1CF715C500D38126 /* endCall.png in Resources */,
 				71C401881CF715C500D38126 /* audioOff.png in Resources */,
 				71C401771CF7159F00D38126 /* videoOff@2x.png in Resources */,
+				71D20B4D1E645A150080E28B /* audio_tiny8.wav in Resources */,
 				71C4018D1CF715C500D38126 /* endCall@2x.png in Resources */,
 				71E20B9D1CF720DD0042EDAD /* avatar.png in Resources */,
 				71BFD47A1CFD13D3004ACCBF /* AccountKitStrings.bundle in Resources */,

@@ -2745,6 +2745,13 @@
                                                                             <rect key="frame" x="-11" y="0.0" width="241" height="198"/>
                                                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                                         </imageView>
+                                                                        <label opaque="NO" userInteractionEnabled="NO" tag="2" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Sending..." textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="wKx-Al-xIT">
+                                                                            <rect key="frame" x="0.0" y="90" width="219" height="21"/>
+                                                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                                            <nil key="textColor"/>
+                                                                            <nil key="highlightedColor"/>
+                                                                        </label>
                                                                     </subviews>
                                                                 </view>
                                                             </subviews>
@@ -2772,6 +2779,82 @@
                                                                             <rect key="frame" x="0.0" y="0.0" width="219" height="198"/>
                                                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                                         </imageView>
+                                                                        <label opaque="NO" userInteractionEnabled="NO" tag="2" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Downloading..." textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="16A-BK-r8D">
+                                                                            <rect key="frame" x="0.0" y="88" width="219" height="21"/>
+                                                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                                            <nil key="textColor"/>
+                                                                            <nil key="highlightedColor"/>
+                                                                        </label>
+                                                                    </subviews>
+                                                                    <color key="backgroundColor" red="0.8676412563" green="0.8676412563" blue="0.8676412563" alpha="1" colorSpace="calibratedRGB"/>
+                                                                </view>
+                                                            </subviews>
+                                                        </tableViewCellContentView>
+                                                    </tableViewCell>
+                                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="AudioSentCell" rowHeight="214" id="409-zR-TUs">
+                                                        <rect key="frame" x="0.0" y="1310" width="320" height="214"/>
+                                                        <autoresizingMask key="autoresizingMask"/>
+                                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="409-zR-TUs" id="P06-SJ-38L">
+                                                            <rect key="frame" x="0.0" y="0.0" width="320" height="213"/>
+                                                            <autoresizingMask key="autoresizingMask"/>
+                                                            <subviews>
+                                                                <view contentMode="scaleToFill" id="IK0-jv-5Sk">
+                                                                    <rect key="frame" x="101" y="8" width="219" height="198"/>
+                                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                                    <subviews>
+                                                                        <label opaque="NO" userInteractionEnabled="NO" tag="1" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Uploading..." textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="ScU-Pt-6wk">
+                                                                            <rect key="frame" x="0.0" y="89" width="211" height="21"/>
+                                                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                                            <nil key="textColor"/>
+                                                                            <nil key="highlightedColor"/>
+                                                                        </label>
+                                                                        <label opaque="NO" userInteractionEnabled="NO" tag="2" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Sending..." textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="t6z-lS-6af">
+                                                                            <rect key="frame" x="0.0" y="90" width="219" height="21"/>
+                                                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                                            <nil key="textColor"/>
+                                                                            <nil key="highlightedColor"/>
+                                                                        </label>
+                                                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" image="audioOn.png" id="YZP-vT-YNd">
+                                                                            <rect key="frame" x="0.0" y="1" width="219" height="198"/>
+                                                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                                        </imageView>
+                                                                    </subviews>
+                                                                </view>
+                                                            </subviews>
+                                                        </tableViewCellContentView>
+                                                    </tableViewCell>
+                                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="AudioReceivedCell" rowHeight="214" id="aup-Ma-zcj">
+                                                        <rect key="frame" x="0.0" y="1524" width="320" height="214"/>
+                                                        <autoresizingMask key="autoresizingMask"/>
+                                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="aup-Ma-zcj" id="FeG-r8-1CW">
+                                                            <rect key="frame" x="0.0" y="0.0" width="320" height="214"/>
+                                                            <autoresizingMask key="autoresizingMask"/>
+                                                            <subviews>
+                                                                <view contentMode="scaleToFill" id="FQ8-lC-xgz">
+                                                                    <rect key="frame" x="8" y="8" width="219" height="198"/>
+                                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                                    <subviews>
+                                                                        <label opaque="NO" userInteractionEnabled="NO" tag="1" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Downloading..." textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="faS-FX-jnH">
+                                                                            <rect key="frame" x="8" y="89" width="203" height="21"/>
+                                                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                                            <nil key="textColor"/>
+                                                                            <nil key="highlightedColor"/>
+                                                                        </label>
+                                                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="audioOn.png" id="xcn-6r-pyI">
+                                                                            <rect key="frame" x="0.0" y="0.0" width="219" height="198"/>
+                                                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                                        </imageView>
+                                                                        <label opaque="NO" userInteractionEnabled="NO" tag="2" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Downloading..." textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Z0g-Oj-qbL">
+                                                                            <rect key="frame" x="0.0" y="88" width="219" height="21"/>
+                                                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                                            <nil key="textColor"/>
+                                                                            <nil key="highlightedColor"/>
+                                                                        </label>
                                                                     </subviews>
                                                                     <color key="backgroundColor" red="0.8676412563" green="0.8676412563" blue="0.8676412563" alpha="1" colorSpace="calibratedRGB"/>
                                                                 </view>
@@ -2798,6 +2881,7 @@
                                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                         <textInputTraits key="textInputTraits"/>
                                                         <connections>
+                                                            <action selector="didChangeText:" destination="vqu-uk-8SN" eventType="valueChanged" id="0ia-vJ-1q4"/>
                                                             <outlet property="delegate" destination="vqu-uk-8SN" id="Iv1-J1-pYL"/>
                                                         </connections>
                                                     </textField>
@@ -2820,6 +2904,12 @@
                                                             <action selector="btnShareFileInChatPressed:" destination="vqu-uk-8SN" eventType="touchUpInside" id="a93-pZ-MYE"/>
                                                         </connections>
                                                     </button>
+                                                    <button hidden="YES" opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="Er7-rH-y78">
+                                                        <rect key="frame" x="267" y="7" width="46" height="30"/>
+                                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                        <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                                        <state key="normal" title="Record"/>
+                                                    </button>
                                                 </subviews>
                                                 <color key="backgroundColor" red="0.66666666666666663" green="0.66666666666666663" blue="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                             </view>
@@ -2841,6 +2931,8 @@
                     <nil key="simulatedBottomBarMetrics"/>
                     <connections>
                         <outlet property="NewChatNavigationTitle" destination="DA8-is-YEu" id="SDC-KV-Xfw"/>
+                        <outlet property="btnSendAudio" destination="Er7-rH-y78" id="bLI-7f-VPX"/>
+                        <outlet property="btnSendChat" destination="gAa-IQ-B4G" id="pfv-gQ-rso"/>
                         <outlet property="chatComposeView" destination="LxC-Tv-JZr" id="5Jb-OE-pIC"/>
                         <outlet property="tblForChats" destination="8ne-qn-KGp" id="IKm-bB-e2a"/>
                         <outlet property="txtFldMessage" destination="4FE-aT-v0f" id="ytJ-BX-lo5"/>
@@ -6334,6 +6426,7 @@
         </scene>
     </scenes>
     <resources>
+        <image name="audioOn.png" width="150" height="150"/>
         <image name="audio_on" width="50" height="50"/>
         <image name="avatar" width="80" height="80"/>
         <image name="avatarTwo.png" width="320" height="364"/>

@@ -27,6 +27,8 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
     
      var Q_serial1=DispatchQueue(label: "Q_serial1",attributes: [])
    
+    @IBOutlet weak var btnSendAudio: UIButton!
+    @IBOutlet weak var btnSendChat: UIButton!
     var delegatechatdetail:UpdateSingleChatDetailDelegate!
     var broadcastlistID1=""
     var broadcastlistmessages:NSMutableArray!
@@ -84,7 +86,9 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
     var tbl_userchats:Table!
     
     var messages:NSMutableArray!
-    override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?)
+    
+  
+      override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?)
     {
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
         //print(NSBundle.debugDescription())
@@ -93,6 +97,20 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
     }
     
     
+    @IBAction func didChangeText(_ sender: UITextField) {
+        print("value text changed")
+        if(sender.text==nil)
+        {
+            //show Record button
+            self.btnSendChat.isHidden=true
+            self.btnSendAudio.isHidden=false
+        }
+        else{
+            self.btnSendChat.isHidden=false
+            self.btnSendAudio.isHidden=true
+        }
+
+    }
     /* @IBAction func btnBackToChatsPressed(sender: AnyObject) {
      //backToChatPushSegue
      
@@ -3009,11 +3027,23 @@ let textLable = cell.viewWithTag(12) as! UILabel
             let docsDir1 = dirPaths[0]
             var documentDir=docsDir1 as NSString
             var videoPath=documentDir.appendingPathComponent(msg as! String)
+           // let videoLabel = videoView?.viewWithTag(1) as! UILabel
+            let videoLabelStatus = videoView?.viewWithTag(2) as! UILabel
             
             
             
             
             let url = NSURL.fileURL(withPath: videoPath)
+            
+            let docData=FileManager.default.contents(atPath: videoPath)
+            if(docData != nil)
+            {
+                videoLabelStatus.text = "Play"
+            }
+            else{
+                videoLabelStatus.text = "Downloading..."
+            }
+
             /*
             self.moviePlayer = MPMoviePlayerController(contentURL: url)
             if let player = self.moviePlayer {
@@ -3120,7 +3150,8 @@ let textLable = cell.viewWithTag(12) as! UILabel
             
             let videoView = cell.viewWithTag(0)
     let videoLabel = videoView?.viewWithTag(1) as! UILabel
-    
+            let videoLabelStatus = videoView?.viewWithTag(2) as! UILabel
+            
     videoLabel.text=msg as String?
             //let filename=messageDic["filename"] as! NSString
             let dirPaths = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)
@@ -3133,7 +3164,14 @@ let textLable = cell.viewWithTag(12) as! UILabel
              // var moviePlayer : MPMoviePlayerController!
             
             let url = NSURL.fileURL(withPath: videoPath)
-            
+            let docData=FileManager.default.contents(atPath: videoPath)
+            if(docData != nil)
+            {
+                videoLabelStatus.text = "Play"
+            }
+            else{
+                videoLabelStatus.text = "Downloading..."
+            }
             /*self.moviePlayer = MPMoviePlayerController(contentURL: url)
             if let player = self.moviePlayer {
                 player.view.frame = CGRect(x: self.view.frame.width/3, y: (videoView?.frame.origin.y)!, width: 200, height: 200)
@@ -3537,6 +3575,8 @@ let textLable = cell.viewWithTag(12) as! UILabel
             }, completion: nil)
         */
     }
+    
+
     
     func textFieldShouldReturn (_ textField: UITextField!) -> Bool {
         
