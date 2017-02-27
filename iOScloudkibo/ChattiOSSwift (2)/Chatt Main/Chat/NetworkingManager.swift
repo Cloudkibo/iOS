@@ -692,12 +692,25 @@ class NetworkingManager
                 let docsDir1 = dirPaths[0]
                 var documentDir=docsDir1 as NSString
                 var filePendingPath=documentDir.appendingPathComponent(filePendingName)
+                    print("filepending path is \(filePendingPath)")
                 if(!self.imageExtensions.contains(filetype.lowercased()))
                 {
                     data=data?.uncompressed(using: Compression.zlib)
                 }
                     do{
                         print("file path is \(filePendingPath) and filetype is \(filetype)")// and data is \(data!)")
+                        
+                        var fileExists = FileManager().fileExists(atPath: filePendingPath)
+                        while(fileExists==true)
+                        {
+                            var newname=filePendingName.components(separatedBy: ".")[0]+"1"+filePendingName.components(separatedBy: ".")[1]
+                            
+                            print("newname is \(newname)")
+                            filePendingPath=documentDir.appendingPathComponent(newname)
+                            print("filePendingPath is \(filePendingPath)")
+                            fileExists = FileManager().fileExists(atPath: filePendingPath)
+                            
+                        }
                     if let written = try data?.write(to: URL.init(fileURLWithPath: filePendingPath))
                     {
                         print("inside written")

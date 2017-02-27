@@ -891,7 +891,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
                             if(tblContacts[file_type]=="video")
                             {
                                 print("found contact received")
-                                messages2.add(["message":tblContacts[msg],"status":tblContacts[status], "type":"2", "date":defaultTimeeee, "uniqueid":tblContacts[uniqueid]])
+                                messages2.add(["message":tblContacts[msg],"status":tblContacts[status], "type":"10", "date":defaultTimeeee, "uniqueid":tblContacts[uniqueid]])
                             }else{
                         messages2.add(["message":tblContacts[msg]+" (\(tblContacts[status])) ","status":tblContacts[status], "type":"2", "date":defaultTimeeee, "uniqueid":tblContacts[uniqueid]])
                             }
@@ -962,7 +962,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
                                 }
                                 
                                 print("found contact received")
-                                messages2.add(["message":tblContacts[msg],"status":tblContacts[status], "type":"1", "date":defaultTimeeee, "uniqueid":tblContacts[uniqueid]])
+                                messages2.add(["message":tblContacts[msg],"status":tblContacts[status], "type":"9", "date":defaultTimeeee, "uniqueid":tblContacts[uniqueid]])
                             }
                             else{
                         messages2.add(["message":tblContacts[msg],"status":tblContacts[status], "type":"1", "date":defaultTimeeee, "uniqueid":tblContacts[uniqueid]])
@@ -1378,7 +1378,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
                                     if(tblContacts[file_type]=="video")
                                     {
                                         print("found contact received")
-                                        messages2.add(["message":tblContacts[msg],"status":tblContacts[status], "type":"2", "date":defaultTimeeee, "uniqueid":tblContacts[uniqueid]])
+                                        messages2.add(["message":tblContacts[msg],"status":tblContacts[status], "type":"10", "date":defaultTimeeee, "uniqueid":tblContacts[uniqueid]])
                                     }else{
                                 messages2.add(["message":tblContacts[msg]+" (\(tblContacts[status])) ","status":tblContacts[status], "type":"2", "date":defaultTimeeee, "uniqueid":tblContacts[uniqueid]])
                                     }
@@ -1453,7 +1453,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
                                     }
 
                                     print("found contact received")
-                                    messages2.add(["message":tblContacts[msg],"status":tblContacts[status], "type":"1", "date":defaultTimeeee, "uniqueid":tblContacts[uniqueid]])
+                                    messages2.add(["message":tblContacts[msg],"status":tblContacts[status], "type":"9", "date":defaultTimeeee, "uniqueid":tblContacts[uniqueid]])
                                 }
                                 else{
                             messages2.add(["message":tblContacts[msg],"status":tblContacts[status], "type":"1", "date":defaultTimeeee, "uniqueid":tblContacts[uniqueid]])
@@ -1936,6 +1936,11 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
                     }
                 }
                 else{
+                    if(msgType.isEqual(to: "9") || msgType.isEqual(to: "10"))
+                    {
+                        return 200
+                    }
+                    else{
                 if(tblForChats.cellForRow(at: indexPath) != nil)
 {
     let cell=tblForChats.cellForRow(at: indexPath)
@@ -1945,7 +1950,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
 }else{
                     return getSizeOfStringHeight(msg!).height+25
                 //=== ==== --return correctheight+25
-}
+                    }}
                 }
                 /*if(msgType.isEqualToString("1"))
                  {
@@ -2982,7 +2987,89 @@ let textLable = cell.viewWithTag(12) as! UILabel
             //local date already shortened then added to dictionary when post button is pressed
             //timeLabel.text=date2.debugDescription
         }
+        if(msgType?.isEqual(to: "9"))!
+        {
+            print("contact received is \(msg)")
+            cell = tableView.dequeueReusableCell(withIdentifier: "VideoReceivedCell")! as UITableViewCell
+            if(cell==nil)
+            {
+                cell = tblForChats.dequeueReusableCell(withIdentifier: "VideoReceivedCell")! as UITableViewCell
+            }
             
+            /*let textLable = cell.viewWithTag(12) as! UILabel
+            let chatImage = cell.viewWithTag(1) as! UIImageView
+            let profileImage = cell.viewWithTag(2) as! UIImageView
+            let timeLabel = cell.viewWithTag(11) as! UILabel
+            let buttonSave = cell.viewWithTag(15) as! UIButton
+ 
+            
+            buttonSave.addTarget(self, action: #selector(ChatDetailViewController.BtnSaveContactClicked(_:)), for:.touchUpInside)
+            
+            
+            let contactinfo=msg!.components(separatedBy: ":") ///return array string
+            textLable.text = contactinfo[0]
+            contactreceivedphone=contactinfo[1]
+            timeLabel.text = contactinfo[1]
+            if((textLable.text!.characters.count) > 21){
+                var newtextlabel = textLable.text!.trunc(19)+".."
+                textLable.text = newtextlabel
+            }
+            
+           
+            let correctheight=getSizeOfStringHeight(UtilityFunctions.init().compareLongerString(txt1: timeLabel.text!, txt2: textLable.text!) as NSString).height
+            
+            sizeOFStr=getSizeOfString(UtilityFunctions.init().compareLongerString(txt1: timeLabel.text!, txt2: textLable.text!) as NSString)
+ 
+            //Setting Chat cell area
+            chatImage.frame = CGRect(x: chatImage.frame.origin.x, y: chatImage.frame.origin.y,width: ((sizeOFStr.width + 107)  > 207 ? (sizeOFStr.width + 107) : 200), height: ((correctheight + 20)  > 85 ? (correctheight+20) : 85))
+            
+            ////////////////chatImage.image = UIImage(named: "chat_receive")?.stretchableImage(withLeftCapWidth: 40,topCapHeight: 20);
+            
+            
+            //Setting Contact Avatar
+            
+            profileImage.center = CGPoint(x: CGFloat(Float(chatImage.image!.leftCapWidth)+30.0), y: chatImage.frame.height/2)
+            
+            //Setting Contact Name
+            textLable.frame = CGRect(x: profileImage.center.x+35, y: profileImage.center.y-15, width: chatImage.frame.width-36, height: correctheight)
+            
+            
+            // textLable.text = msg! as! String
+            
+            let formatter = DateFormatter();
+            formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSS";
+            //formatter.dateFormat = "MM/dd hh:mm a";
+            formatter.timeZone = TimeZone.autoupdatingCurrent
+            print("line 2055")
+            let defaultTimeZoneStr = formatter.date(from: date2 as! String)
+            //print("defaultTimeZoneStr \(defaultTimeZoneStr)")
+            
+            let formatter2 = DateFormatter();
+            formatter2.timeZone=TimeZone.autoupdatingCurrent
+            formatter2.dateFormat = "MM/dd hh:mm a";
+            let displaydate=formatter2.string(from: defaultTimeZoneStr!)
+            //formatter.dateFormat = "MM/dd hh:mm a";
+            
+            
+            timeLabel.frame = CGRect(x: profileImage.center.x+35, y: textLable.frame.origin.y+textLable.frame.height, width: chatImage.frame.size.width-46, height: timeLabel.frame.size.height)
+            print("textlabel is \(textLable.text!) and timelabel is \(timeLabel.text!)")
+            print("textlabel is \(textLable.bounds.debugDescription) and timelabel is \(timeLabel.bounds.debugDescription)")
+            
+            buttonSave.frame = CGRect(x: chatImage.frame.width-40, y: chatImage.frame.height-25, width: buttonSave.frame.size.width, height: buttonSave.frame.size.height)
+            //timeLabel.text=date2.debugDescription
+            
+            */
+        }
+
+        if(msgType?.isEqual(to: "10"))!
+        {
+            print("contact received is \(msg)")
+            cell = tableView.dequeueReusableCell(withIdentifier: "VideoSentCell")! as UITableViewCell
+            if(cell==nil)
+            {
+                cell = tblForChats.dequeueReusableCell(withIdentifier: "VideoSentCell")! as UITableViewCell
+            }
+        }
 
         return cell
            }
@@ -3600,7 +3687,7 @@ let textLable = cell.viewWithTag(12) as! UILabel
             var fullname=epcontact.displayName()
         var msgbody=fullname+":"+phone
         print("msgbody is \(msgbody)")
-                var randNum5=self.randomStringWithLength(5) as String
+               /* var randNum5=self.randomStringWithLength(5) as String
                 
                 let date1=Date()
                 let calendar = Calendar.current
@@ -3613,6 +3700,10 @@ let textLable = cell.viewWithTag(12) as! UILabel
                 print("\(randNum5) \(year) \(month) \(day) \(hr) \(min) \(sec)")
                 //var uniqueID=randNum5+year+month+day+hr+min+sec
                 var uniqueID="\(randNum5)\(year!)\(month!)\(day!)\(hr!)\(min!) \(sec!)"
+        */
+        var uniqueID=UtilityFunctions.init().generateUniqueid()
+        
+        
                 var date=Date()
                 var formatterDateSend = DateFormatter();
                 formatterDateSend.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ";
@@ -3882,7 +3973,7 @@ let textLable = cell.viewWithTag(12) as! UILabel
                 self.showError("Error", message: "Unable to get video", button1: "Ok")
             }
             
-            let calendar = Calendar.current
+          /*  let calendar = Calendar.current
             let comp = (calendar as NSCalendar).components([.hour, .minute], from: Date())
             let year = String(describing: comp.year)
             let month = String(describing: comp.month)
@@ -3894,9 +3985,9 @@ let textLable = cell.viewWithTag(12) as! UILabel
             
             var randNum5=self.randomStringWithLength(5) as String
             var uniqueID=randNum5+year+month+day+hour+minute+second
-            
-            
-            
+            */
+            var uniqueID=UtilityFunctions.init().generateUniqueid()
+            print("uniqueid video is \(uniqueID)")
             
             var imParas=["from":"\(username!)","to":"\(self.selectedContact)","fromFullName":"\(displayname)","msg":self.filename,"uniqueid":uniqueID,"type":"file","file_type":"video"]
             //print("imparas are \(imParas)")
@@ -4021,7 +4112,7 @@ let textLable = cell.viewWithTag(12) as! UILabel
       // data!.writeToFile(localPath.absoluteString, atomically: true)
         
             
-            let calendar = Calendar.current
+            /*let calendar = Calendar.current
             let comp = (calendar as NSCalendar).components([.hour, .minute], from: Date())
             let year = String(describing: comp.year)
             let month = String(describing: comp.month)
@@ -4033,7 +4124,8 @@ let textLable = cell.viewWithTag(12) as! UILabel
             
             var randNum5=self.randomStringWithLength(5) as String
             var uniqueID=randNum5+year+month+day+hour+minute+second
-          
+            */var uniqueID=UtilityFunctions.init().generateUniqueid()
+            
             
             
             
@@ -4323,7 +4415,7 @@ let textLable = cell.viewWithTag(12) as! UILabel
     @IBAction func postBtnTapped() {
         
         var randNum5=self.randomStringWithLength(5) as String
-        
+        /*
         let date1=Date()
         let calendar = Calendar.current
         let year=(calendar as NSCalendar).components(NSCalendar.Unit.year,from: date1).year
@@ -4335,6 +4427,8 @@ let textLable = cell.viewWithTag(12) as! UILabel
         print("\(randNum5) \(year) \(month) \(day) \(hr) \(min) \(sec)")
        //var uniqueID=randNum5+year+month+day+hr+min+sec
         var uniqueID="\(randNum5)\(year!)\(month!)\(day!)\(hr!)\(min!) \(sec!)"
+        */
+        var uniqueID=UtilityFunctions.init().generateUniqueid()
         var date=Date()
         var formatterDateSend = DateFormatter();
         formatterDateSend.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ";
@@ -4895,7 +4989,7 @@ let textLable = cell.viewWithTag(12) as! UILabel
                 
                 //----------sendDataBuffer(fmetadata,isb: false)
                 
-                
+                /*
                 let calendar = Calendar.current
                 let comp = (calendar as NSCalendar).components([.hour, .minute], from: Date())
                 let year = String(describing: comp.year)
@@ -4908,6 +5002,7 @@ let textLable = cell.viewWithTag(12) as! UILabel
                 
                 var randNum5=self.randomStringWithLength(5) as String
                 var uniqueID=randNum5+year+month+day+hour+minute+second
+                */var uniqueID=UtilityFunctions.init().generateUniqueid()
                 
                 
                 

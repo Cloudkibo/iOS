@@ -2733,7 +2733,7 @@
                                                                 <view contentMode="scaleToFill" misplaced="YES" id="bBR-zy-VAL">
                                                                     <rect key="frame" x="101" y="8" width="219" height="198"/>
                                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                                    <color key="backgroundColor" red="0.0" green="0.7254902124" blue="0.41176474089999998" alpha="1" colorSpace="deviceRGB"/>
                                                                 </view>
                                                             </subviews>
                                                         </tableViewCellContentView>
@@ -2745,10 +2745,10 @@
                                                             <rect key="frame" x="0.0" y="0.0" width="320" height="214"/>
                                                             <autoresizingMask key="autoresizingMask"/>
                                                             <subviews>
-                                                                <view contentMode="scaleToFill" id="EV7-aD-hOA">
-                                                                    <rect key="frame" x="101" y="8" width="219" height="198"/>
+                                                                <view contentMode="scaleToFill" misplaced="YES" id="EV7-aD-hOA">
+                                                                    <rect key="frame" x="8" y="8" width="219" height="198"/>
                                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                                    <color key="backgroundColor" red="0.8676412563" green="0.8676412563" blue="0.8676412563" alpha="1" colorSpace="calibratedRGB"/>
                                                                 </view>
                                                             </subviews>
                                                         </tableViewCellContentView>
