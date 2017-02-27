@@ -22,7 +22,9 @@ import MediaPlayer
 class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChatDelegate,UIDocumentPickerDelegate,UIDocumentMenuDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate,FileManagerDelegate,showUploadProgressDelegate,UpdateChatViewsDelegate,UpdateSingleChatDetailDelegate,CNContactPickerDelegate,CNContactViewControllerDelegate,UIPickerViewDelegate
     {//,UIPickerViewDelegate{
     
-    var Q_serial1=DispatchQueue(label: "Q_serial1",attributes: [])
+    var moviePlayer : MPMoviePlayerController!
+    
+     var Q_serial1=DispatchQueue(label: "Q_serial1",attributes: [])
    
     var delegatechatdetail:UpdateSingleChatDetailDelegate!
     var broadcastlistID1=""
@@ -2989,13 +2991,47 @@ let textLable = cell.viewWithTag(12) as! UILabel
         }
         if(msgType?.isEqual(to: "9"))!
         {
-            print("contact received is \(msg)")
+            
+            
+            print("video received is \(msg)")
             cell = tableView.dequeueReusableCell(withIdentifier: "VideoReceivedCell")! as UITableViewCell
             if(cell==nil)
             {
                 cell = tblForChats.dequeueReusableCell(withIdentifier: "VideoReceivedCell")! as UITableViewCell
             }
             
+            let videoView = cell.viewWithTag(0)
+            
+            let dirPaths = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)
+            let docsDir1 = dirPaths[0]
+            var documentDir=docsDir1 as NSString
+            var videoPath=documentDir.appendingPathComponent(msg as! String)
+            
+            
+            
+            
+            let url = NSURL.fileURL(withPath: videoPath)
+            
+            self.moviePlayer = MPMoviePlayerController(contentURL: url)
+            if let player = self.moviePlayer {
+               // player.view.frame=(videoView?.frame)!
+                
+                player.view.frame = CGRect(x: (videoView?.frame.origin.x)!+10, y: (videoView?.frame.origin.y)!, width: 200, height: 200)
+                player.scalingMode = .aspectFit
+                 player.prepareToPlay()
+                ///player.scalingMode = MPMovieScalingMode.fill
+                player.isFullscreen = true
+                player.controlStyle = MPMovieControlStyle.embedded
+                player.movieSourceType = MPMovieSourceType.file
+               player.repeatMode = MPMovieRepeatMode.none
+                player.shouldAutoplay=false
+                ////player.play()
+               
+                cell.addSubview(player.view)
+               // videoView?.addSubview(player.view)
+                //videoView?.bringSubview(toFront: player.view)
+                
+            }
             /*let textLable = cell.viewWithTag(12) as! UILabel
             let chatImage = cell.viewWithTag(1) as! UIImageView
             let profileImage = cell.viewWithTag(2) as! UIImageView
@@ -3059,18 +3095,52 @@ let textLable = cell.viewWithTag(12) as! UILabel
             //timeLabel.text=date2.debugDescription
             
             */
-        }
+    
+    }
 
         if(msgType?.isEqual(to: "10"))!
         {
-            print("contact received is \(msg)")
+            print("video sent is \(msg)")
             cell = tableView.dequeueReusableCell(withIdentifier: "VideoSentCell")! as UITableViewCell
             if(cell==nil)
             {
                 cell = tblForChats.dequeueReusableCell(withIdentifier: "VideoSentCell")! as UITableViewCell
             }
-        }
+            
+            let videoView = cell.viewWithTag(0)
+            //let filename=messageDic["filename"] as! NSString
+            let dirPaths = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)
+            let docsDir1 = dirPaths[0]
+            var documentDir=docsDir1 as NSString
+            var videoPath=documentDir.appendingPathComponent(msg as! String)
+            
+            
+            
+           // var moviePlayer : MPMoviePlayerController!
+            
+            let url = NSURL.fileURL(withPath: videoPath)
+            self.moviePlayer = MPMoviePlayerController(contentURL: url)
+            if let player = self.moviePlayer {
+                player.view.frame = CGRect(x: self.view.frame.width/3, y: (videoView?.frame.origin.y)!, width: 200, height: 200)
+                //player.prepareToPlay()
 
+                player.scalingMode = .aspectFit
+                ///player.scalingMode = MPMovieScalingMode.fill
+                player.isFullscreen = false
+                player.controlStyle = MPMovieControlStyle.embedded
+                player.movieSourceType = MPMovieSourceType.file
+                player.controlStyle = .embedded
+                //player.repeatMode = MPMovieRepeatMode.
+                player.prepareToPlay()
+                ////player.play()
+                player.shouldAutoplay=false
+                
+                cell.addSubview(player.view)
+
+                //videoView?.addSubview(player.view)
+                //videoView?.bringSubview(toFront: player.view)
+            }
+        }
         return cell
            }
     

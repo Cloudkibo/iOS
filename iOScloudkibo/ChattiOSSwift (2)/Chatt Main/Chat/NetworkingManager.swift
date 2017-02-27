@@ -657,7 +657,8 @@ class NetworkingManager
         var downloadURL=Constants.MainUrl+Constants.downloadFile
         print("start download")
         print(Date())
-        if(Int.init(filePendingSize)<150000)
+        
+        /*if(Int.init(filePendingSize)<150000)
         {
         let queue2 = DispatchQueue(label: "com.kibochat.manager-response-queue-file", attributes: DispatchQueue.Attributes.concurrent)
         let qqq=DispatchQueue.global(qos: DispatchQoS.QoSClass.background)
@@ -695,6 +696,7 @@ class NetworkingManager
                     print("filepending path is \(filePendingPath)")
                 if(!self.imageExtensions.contains(filetype.lowercased()))
                 {
+                    print("image compressing")
                     data=data?.uncompressed(using: Compression.zlib)
                 }
                     do{
@@ -711,9 +713,17 @@ class NetworkingManager
                             fileExists = FileManager().fileExists(atPath: filePendingPath)
                             
                         }
-                    if let written = try data?.write(to: URL.init(fileURLWithPath: filePendingPath))
-                    {
+                   // if let written = try data?.write(to: URL.init(fileURLWithPath: filePendingPath))
+                        print("data is \(data)")
+                    
+                        try data?.write(to: URL.init(fileURLWithPath: filePendingPath))
+                    //{
+                        fileExists = FileManager().fileExists(atPath: filePendingPath)
+                        
                         print("inside written")
+                         if(fileExists==true)
+                        {
+
                 if(self.imageExtensions.contains(filetype.lowercased()))
                 {
                     //filePendingName
@@ -751,29 +761,33 @@ class NetworkingManager
                 self.confirmDownload(fileuniqueid)
                 print("confirminggggggg")
                         }
-                        
-                    else{
-                        print("error in downloading file 111 )")
+                        else{
+                            print("file not exist not written \(filePendingPath)")
                         }
-
-            }
+                    }
+                    
                     catch{
                         print("error writing file \(error)")
-                 
-            }
+                        
                     }
+
+            }
                 else{
                     print("unable to download file \(response.error)")
                 }
                 
+                    })
+            
                     //filedownloaded’ to with parameters ‘senderoffile’, ‘receiveroffile’
                 
             
                 
             //print(error)
-        })
+       
         
-        }else{
+        }
+        */
+       /// else{
         //uncomment
       
        
@@ -784,14 +798,14 @@ class NetworkingManager
       //////  let destination = Alamofire.Request.suggestedDownloadDestination(directory: .DocumentDirectory, domain: .UserDomainMask)
               //  print("path download is \(destination.lowercaseString)")
       //  Alamofire.download(.GET, "http://httpbin.org/stream/100", destination: destination)
-        var downloadURL=Constants.MainUrl+Constants.downloadFile
+       // var downloadURL=Constants.MainUrl+Constants.downloadFile
         
             
             
             let destination1: DownloadRequest.DownloadFileDestination = { _, _ in
                 var documentsURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
                 var localImageURL = documentsURL.appendingPathComponent(filePendingName)
-                return (documentsURL, [.removePreviousFile])
+                return (localImageURL, [.removePreviousFile])
             }
             
             
@@ -807,16 +821,16 @@ class NetworkingManager
                 print("filePendingName is \(filePendingName)")
                 var localImageURL = directoryURL.appendingPathComponent(filePendingName)
                 print("response.suggestedFilename! is \(response.suggestedFilename!)")
-                /*let checkValidation = NSFileManager.defaultManager()
+                let checkValidation = FileManager.default
                 
-                if (checkValidation.fileExistsAtPath("\(localImageURL)"))
+                if (checkValidation.fileExists(atPath: "\(localImageURL)"))
                 {
                     print("FILE AVAILABLE")
                 }
                 else
                 {
                     print("FILE NOT AVAILABLE")
-                }*/
+                }
                 
                 
                 print("localpathhhhhh \(localImageURL.debugDescription)")
@@ -884,7 +898,7 @@ class NetworkingManager
                 
         }
         
-        }
+       //// }
     }
     
     func confirmDownload(_ uniqueid1:String)
