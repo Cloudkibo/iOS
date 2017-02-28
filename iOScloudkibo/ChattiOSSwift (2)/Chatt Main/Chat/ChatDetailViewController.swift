@@ -25,6 +25,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
     
     //,UIPickerViewDelegate{
     
+    var audioFilePlayName=""
     var moviePlayer : MPMoviePlayerController!
     var audioPlayer = AVAudioPlayer()
     var Q_serial1=DispatchQueue(label: "Q_serial1",attributes: [])
@@ -116,7 +117,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
     @IBAction func btnRecordTouchUpInside(_ sender: UIButton) {
     txtFldMessage.text=""
         print("btnRecordTouchUpInside")
-          finishRecording(success: false)
+          finishRecording(success: true)
         
        
         
@@ -141,12 +142,12 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
         audioRecorder.stop()
         ////audioRecorder = nil
         
-        if success {
+        if !success {
             
             btnSendAudio.setTitle("Record", for: .normal)
             // recording failed :(
         }  else {
-            btnSendAudio.setTitle("Re-record", for: .normal)
+            btnSendAudio.setTitle("Record", for: .normal)
             //add audio component
             //save to database
             //send chat
@@ -160,7 +161,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
             var documentDir=docsDir1 as NSString
             var filePathImage2=documentDir.appendingPathComponent(self.filename)
             
-            var furl=URL(string: filePathImage2.absoluteString)
+            var furl=URL(string: filePathImage2)
             //print(furl!.pathExtension!)
             //print(furl!.deletingLastPathComponent())
             var ftype=furl!.pathExtension
@@ -472,7 +473,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
             audioRecorder = try AVAudioRecorder(url: URL.init(fileURLWithPath: audioFilename), settings: settings)
             audioRecorder.delegate = self
             audioRecorder.record()
-            self.filename=audioFilename
+            self.filename="\(uniqueID).m4a"
             print("recording audio \(uniqueID).m4a ")
             
             //////audioRecorder.deleterecording()
@@ -493,6 +494,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
         
         do {
             try recordingSession.setCategory(AVAudioSessionCategoryPlayAndRecord)
+           // try recordingSession.setCategory(AVAudioSessionCategoryPlayAndRecord, options: AVAudioSessionCategoryOptions.DefaultToSpeaker)
             try recordingSession.setActive(true)
             recordingSession.requestRecordPermission() { [unowned self] allowed in
                 DispatchQueue.main.async {
@@ -1090,7 +1092,16 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
                                 print("found contact received")
                                 messages2.add(["message":tblContacts[msg],"status":tblContacts[status], "type":"10", "date":defaultTimeeee, "uniqueid":tblContacts[uniqueid]])
                             }else{
+                                
+                                
+                                if(tblContacts[file_type]=="audio")
+                                {
+                                    
+                                    
+                                    messages2.add(["message":tblContacts[msg],"status":tblContacts[status], "type":"12", "date":defaultTimeeee, "uniqueid":tblContacts[uniqueid]])
+                                }else{
                         messages2.add(["message":tblContacts[msg]+" (\(tblContacts[status])) ","status":tblContacts[status], "type":"2", "date":defaultTimeeee, "uniqueid":tblContacts[uniqueid]])
+                                }
                             }
                        
                         }
@@ -1162,7 +1173,14 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
                                 messages2.add(["message":tblContacts[msg],"status":tblContacts[status], "type":"9", "date":defaultTimeeee, "uniqueid":tblContacts[uniqueid]])
                             }
                             else{
-                        messages2.add(["message":tblContacts[msg],"status":tblContacts[status], "type":"1", "date":defaultTimeeee, "uniqueid":tblContacts[uniqueid]])
+                                
+                                if(tblContacts[file_type]=="audio")
+                                {
+                                    
+                                    
+                                    messages2.add(["message":tblContacts[msg],"status":tblContacts[status], "type":"11", "date":defaultTimeeee, "uniqueid":tblContacts[uniqueid]])
+                                }else{messages2.add(["message":tblContacts[msg],"status":tblContacts[status], "type":"1", "date":defaultTimeeee, "uniqueid":tblContacts[uniqueid]])
+                                }
                             }
                         }
                         
@@ -1574,10 +1592,18 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
                                     
                                     if(tblContacts[file_type]=="video")
                                     {
-                                        print("found contact received")
+                                        print("found video received")
                                         messages2.add(["message":tblContacts[msg],"status":tblContacts[status], "type":"10", "date":defaultTimeeee, "uniqueid":tblContacts[uniqueid]])
                                     }else{
+                                        
+                                        if(tblContacts[file_type]=="audio")
+                                        {
+                                            
+                                            
+                                            messages2.add(["message":tblContacts[msg],"status":tblContacts[status], "type":"12", "date":defaultTimeeee, "uniqueid":tblContacts[uniqueid]])
+                                        }else{
                                 messages2.add(["message":tblContacts[msg]+" (\(tblContacts[status])) ","status":tblContacts[status], "type":"2", "date":defaultTimeeee, "uniqueid":tblContacts[uniqueid]])
+                                    }
                                     }
                                 
                                 //^^^^self.addMessage(tblContacts[msg]+" (\(tblContacts[status])) ", ofType: "2",date: tblContacts[date],uniqueid: tblContacts[uniqueid])
@@ -1653,7 +1679,15 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
                                     messages2.add(["message":tblContacts[msg],"status":tblContacts[status], "type":"9", "date":defaultTimeeee, "uniqueid":tblContacts[uniqueid]])
                                 }
                                 else{
+                                    
+                                    if(tblContacts[file_type]=="audio")
+                                    {
+
+                                        
+                                           messages2.add(["message":tblContacts[msg],"status":tblContacts[status], "type":"11", "date":defaultTimeeee, "uniqueid":tblContacts[uniqueid]])
+                                        }else{
                             messages2.add(["message":tblContacts[msg],"status":tblContacts[status], "type":"1", "date":defaultTimeeee, "uniqueid":tblContacts[uniqueid]])
+                                        }
                                 }
                             }
                             
@@ -3432,105 +3466,66 @@ let textLable = cell.viewWithTag(12) as! UILabel
         
         if(msgType?.isEqual(to: "11"))!
         {
-            print("video sent is \(msg)")
+           //audio received
+            print("audio received is \(msg)")
             cell = tableView.dequeueReusableCell(withIdentifier: "AudioReceivedCell")! as UITableViewCell
             if(cell==nil)
             {
                 cell = tblForChats.dequeueReusableCell(withIdentifier: "AudioReceivedCell")! as UITableViewCell
             }
-            
-            let deliveredLabel = cell.viewWithTag(13) as! UILabel
             let textLable = cell.viewWithTag(12) as! UILabel
-            let timeLabel = cell.viewWithTag(11) as! UILabel
             let chatImage = cell.viewWithTag(1) as! UIImageView
             let profileImage = cell.viewWithTag(2) as! UIImageView
-            let progressView=cell.viewWithTag(14) as! KDCircularProgress
+            let timeLabel = cell.viewWithTag(11) as! UILabel
+            let buttonSave = cell.viewWithTag(15) as! UIButton
+            
+            audioFilePlayName=msg! as! String
+            buttonSave.addTarget(self, action: #selector(ChatDetailViewController.BtnPlayAudioClicked(_:)), for:.touchUpInside)
             
             
-            let distanceFactor = (170.0 - sizeOFStr.width) < 100 ? (170.0 - sizeOFStr.width) : 100
-          let correctheight=getSizeOfStringHeight(msg!).height
+           /* let contactinfo=msg!.components(separatedBy: ":") ///return array string
+            textLable.text = contactinfo[0]
+            contactreceivedphone=contactinfo[1]
+            timeLabel.text = contactinfo[1]
+            if((textLable.text!.characters.count) > 21){
+                var newtextlabel = textLable.text!.trunc(19)+".."
+                textLable.text = newtextlabel
+            }
+            */
+            textLable.text = msg as! String
             
-            textLable.isHidden=false
-            //chatImage.frame = CGRectMake(20 + distanceFactor, chatImage.frame.origin.y, ((sizeOFStr.width + 100)  > 200 ? (sizeOFStr.width + 100) : 200), sizeOFStr.height + 40)
+            /*textLable.lineBreakMode = .ByWordWrapping
+             textLable.numberOfLines=0
+             textLable.sizeToFit()
+             print("previous height is \(textLable.frame.height) msg is \(msg)")
+             var correctheight=textLable.frame.height
+             */
+            let correctheight=getSizeOfStringHeight(UtilityFunctions.init().compareLongerString(txt1: timeLabel.text!, txt2: textLable.text!) as NSString).height
+            
+            sizeOFStr=getSizeOfString(UtilityFunctions.init().compareLongerString(txt1: timeLabel.text!, txt2: textLable.text!) as NSString)
+            
+            //Setting Chat cell area
+            chatImage.frame = CGRect(x: chatImage.frame.origin.x, y: chatImage.frame.origin.y,width: ((sizeOFStr.width + 107)  > 207 ? (sizeOFStr.width + 107) : 200), height: ((correctheight + 20)  > 85 ? (correctheight+20) : 85))
+            
             chatImage.image = UIImage(named: "chat_receive")?.stretchableImage(withLeftCapWidth: 40,topCapHeight: 20);
             
-            chatImage.frame = CGRect(x: chatImage.frame.origin.x, y: chatImage.frame.origin.y, width: ((sizeOFStr.width + 100)  > 200 ? (sizeOFStr.width + 100) : 200), height: correctheight + 20)
+            
+            //Setting Contact Avatar
+            //profileImage.center = CGPoint(x: chatImage.frame.origin.x+60, y: chatImage.frame.origin.y+30)
+            
+            profileImage.center = CGPoint(x: CGFloat(Float(chatImage.image!.leftCapWidth)+30.0), y: chatImage.frame.height/2)
+            
+            //Setting Contact Name
+            textLable.frame = CGRect(x: profileImage.center.x+35, y: profileImage.center.y-15, width: chatImage.frame.width-36, height: correctheight)
             
             
+            // textLable.text = msg! as! String
             
-            
-            textLable.frame = CGRect(x: 60, y: textLable.frame.origin.y, width: chatImage.frame.width-70, height: correctheight)
-            
-            
-            // newwwwwwwwww textLable.frame = CGRectMake(26 + distanceFactor, textLable.frame.origin.y, chatImage.frame.width-36, getSizeOfStringHeight(msg).height)
-            //print("new height is \(textLable.frame.height) msg is \(msg)")
-            //=====newwwwwww  textLable.frame = CGRectMake(26 + distanceFactor,
-            
-            
-            timeLabel.frame = CGRect(x: 35, y: textLable.frame.origin.y+textLable.frame.height, width: chatImage.frame.size.width-46, height: timeLabel.frame.size.height)
-            
-            profileImage.center = CGPoint(x: 45, y: chatImage.frame.origin.y + (profileImage.frame.size.height)/2+5)
-            
-            
-            
-            // chatImage.layer.borderColor=UIColor.greenColor().CGColor
-            //  chatImage.layer.borderWidth = 3.0;
-            // chatImage.highlighted=true
-            // *********
-            
-            //old was 36 in place of 60
-            ///textLable.frame = CGRectMake(60 + textLable.frame.origin.x, textLable.frame.origin.y, textLable.frame.size.width, sizeOFStr.height)
-            
-            
-            //// profileImage.center = CGPointMake(45+textLable.frame.origin.x, textLable.frame.origin.y + textLable.frame.size.height - profileImage.frame.size.height/2+10)
-            
-            ////////profileImage.setNeedsDisplay()
-            
-            ////timeLabel.frame = CGRectMake(35 + distanceFactor, chatImage.frame.origin.y+sizeOFStr.height + 20, chatImage.frame.size.width-40, timeLabel.frame.size.height)
-            
-            
-            //////chatImage.contentMode = .Center
-            
-            //chatImage.frame = CGRectMake(80, chatImage.frame.origin.y, 220, 220)
-            
-            
-            let filename=messageDic["filename"] as! NSString
-            let dirPaths = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)
-            let docsDir1 = dirPaths[0]
-            let documentDir=docsDir1 as NSString
-            let docPath=documentDir.appendingPathComponent(filename as String)
-            
-            
-            
-            let docData=FileManager.default.contents(atPath: docPath)
-            if(docData != nil)
-            {
-                textLable.text = msg! as! String
-            }
-            else{
-                textLable.text = "Downloading..."
-            }
-            
-            selectedText = filename as String
-            
-            /// var imgNSData=NSFileManager.default.contents(atPath:imgPath)
-            chatImage.isUserInteractionEnabled=true
-            //var filelabel=UILabel(frame: CGRect(x: 20 + chatImage.frame.origin.x, y: chatImage.frame.origin.y + sizeOFStr.height + 40,width: ((sizeOFStr.width + 100)  > 200 ? (sizeOFStr.width + 100) : 200), height: sizeOFStr.height + 40))
-            //filelabel.text="rtf   95kb 3:23am"
-            //chatImage.addSubview(filelabel)
-            // UILabel(frame: 0,0,((sizeOFStr.width + 100)  > 200 ? (sizeOFStr.width + 100) : 200), sizeOFStr.height + 40)
-            
-            //let tapRecognizer = UITapGestureRecognizer(target: self, action: Selector("docTapped:"))
-            //Add the recognizer to your view.
-            
-            
-            //chatImage.addGestureRecognizer(tapRecognizer)
-            
-            //print("date received in chat is \(date2.debugDescription)")
             let formatter = DateFormatter();
             formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSS";
             //formatter.dateFormat = "MM/dd hh:mm a";
             formatter.timeZone = TimeZone.autoupdatingCurrent
+            print("line 2055")
             let defaultTimeZoneStr = formatter.date(from: date2 as! String)
             //print("defaultTimeZoneStr \(defaultTimeZoneStr)")
             
@@ -3538,11 +3533,111 @@ let textLable = cell.viewWithTag(12) as! UILabel
             formatter2.timeZone=TimeZone.autoupdatingCurrent
             formatter2.dateFormat = "MM/dd hh:mm a";
             let displaydate=formatter2.string(from: defaultTimeZoneStr!)
+            //formatter.dateFormat = "MM/dd hh:mm a";
             
-            timeLabel.text=displaydate
+            
+            timeLabel.frame = CGRect(x: profileImage.center.x+35, y: textLable.frame.origin.y+textLable.frame.height, width: chatImage.frame.size.width-46, height: timeLabel.frame.size.height)
+            print("textlabel is \(textLable.text!) and timelabel is \(timeLabel.text!)")
+            print("textlabel is \(textLable.bounds.debugDescription) and timelabel is \(timeLabel.bounds.debugDescription)")
+            
+            buttonSave.frame = CGRect(x: chatImage.frame.width-40, y: chatImage.frame.height-25, width: buttonSave.frame.size.width, height: buttonSave.frame.size.height)
             //timeLabel.text=date2.debugDescription
 
             
+        }
+        if(msgType?.isEqual(to: "12"))!
+        {
+            
+            print("UI chat type is \(msgType!)")
+            cell=tableView.dequeueReusableCell(withIdentifier: "AudioSentCell")
+            if(cell==nil)
+            {
+                cell = tblForChats.dequeueReusableCell(withIdentifier: "AudioSentCell")! as UITableViewCell
+            }
+            let deliveredLabel = cell.viewWithTag(13) as! UILabel
+            let textLable = cell.viewWithTag(12) as! UILabel
+            let timeLabel = cell.viewWithTag(11) as! UILabel
+            let chatImage = cell.viewWithTag(1) as! UIImageView
+            let profileImage = cell.viewWithTag(2) as! UIImageView
+            
+            /*
+            let contactinfo=msg!.components(separatedBy: ":") ///return array string
+            textLable.text = contactinfo[0]
+            if((textLable.text!.characters.count) > 21){
+                var newtextlabel = textLable.text!.trunc(19)+".."
+                textLable.text = newtextlabel
+            }*/
+            textLable.text=msg as! String
+            sizeOFStr=getSizeOfString(textLable.text! as! NSString)
+            print("sizeOFStr of \(textLable.text!) is \(sizeOFStr)")
+            //// //print("here 905 msgtype is \(msgType)")
+            let distanceFactor = (197.0 - sizeOFStr.width) < 90 ? (197.0 - sizeOFStr.width) : 90
+            textLable.isHidden=false
+            //textLable.text = msg! as! String
+            
+            
+            let correctheight=getSizeOfStringHeight(msg!).height
+            //chatImage.frame = CGRect(x: 20 + distanceFactor, y: chatImage.frame.origin.y, width: ((sizeOFStr.width + 107)  > 207 ? (sizeOFStr.width + 107) : 200), height: ((correctheight + 20)  > 100 ? (correctheight+20) : 100))
+            
+            
+            chatImage.frame = CGRect(x: /*chatImage.frame.origin.x*/ 20 + distanceFactor, y: chatImage.frame.origin.y,width: ((sizeOFStr.width + 107)  > 210 ? (sizeOFStr.width + 107) : 210), height: ((correctheight + 20)  > 75 ? (correctheight+20) : 75))
+            
+            
+            
+            chatImage.image = UIImage(named: "chat_send")?.stretchableImage(withLeftCapWidth: 40,topCapHeight: 20);
+            //*********
+            
+            //getSizeOfStringHeight(msg).height
+            
+            //textLable.frame = CGRect(x: 26 + distanceFactor, y: textLable.frame.origin.y, width: chatImage.frame.width-36, height: correctheight)
+            
+            //profileImage.center = CGPoint(x: profileImage.center.x, y: textLable.frame.origin.y + textLable.frame.size.height - profileImage.frame.size.height/2+10)
+            
+            profileImage.center = CGPoint(x: chatImage.frame.origin.x+30, y: chatImage.frame.height/2)
+            
+            //Setting Contact Name
+            textLable.frame = CGRect(x: profileImage.center.x+35, y: profileImage.center.y-15, width: chatImage.frame.width-36, height: correctheight)
+            
+            
+            
+            //==uncomment if needed timeLabel.frame = CGRectMake(36 + distanceFactor, timeLabel.frame.origin.y, timeLabel.frame.size.width, timeLabel.frame.size.height)
+            
+            // timeLabel.frame = CGRect(x: 36 + distanceFactor, y: textLable.frame.origin.y+textLable.frame.height, width: chatImage.frame.size.width-46, height: timeLabel.frame.size.height)
+            timeLabel.frame = CGRect(x: profileImage.center.x+35, y: textLable.frame.origin.y+textLable.frame.height, width: chatImage.frame.size.width-46, height: timeLabel.frame.size.height)
+            
+            deliveredLabel.frame = CGRect(x: deliveredLabel.frame.origin.x, y: textLable.frame.origin.y + textLable.frame.size.height + 15, width: deliveredLabel.frame.size.width, height: deliveredLabel.frame.size.height)
+            
+            
+            
+            
+            //print("date received in chat post 2 is \(date2.debugDescription)")
+            // //print("date received in chat is \(date2.debugDescription)")
+            let formatter = DateFormatter();
+            formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSS";
+            //formatter.dateFormat = "MM/dd hh:mm a";
+            formatter.timeZone = TimeZone.autoupdatingCurrent
+            let defaultTimeZoneStr = formatter.date(from: date2 as! String)
+            //print("defaultTimeZoneStr \(defaultTimeZoneStr)")
+            
+            if(defaultTimeZoneStr == nil)
+            {
+                timeLabel.text=date2 as! String
+                
+            }
+            else
+            {
+                let formatter2 = DateFormatter();
+                formatter2.timeZone=TimeZone.autoupdatingCurrent
+                formatter2.dateFormat = "MM/dd hh:mm a";
+                let displaydate=formatter2.string(from: defaultTimeZoneStr!)
+                //formatter.dateFormat = "MM/dd hh:mm a";
+                
+                let status=messageDic["status"] as NSString!
+                timeLabel.text="\(displaydate) (\(status!))"
+            }
+            
+            //local date already shortened then added to dictionary when post button is pressed
+            //timeLabel.text=date2.debugDescription
         }
         
         /*
@@ -3571,6 +3666,25 @@ let textLable = cell.viewWithTag(12) as! UILabel
         //var contactDetailShow=CNContactViewControllr.init(contact)
         self.navigationController!.pushViewController(contactViewController,animated: false)
     }
+    
+    func BtnPlayAudioClicked(_ sender:UIButton)
+    {
+        
+        let dirPaths = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)
+        let docsDir1 = dirPaths[0]
+        var documentDir=docsDir1 as NSString
+        var audiopath=documentDir.appendingPathComponent(audioFilePlayName)
+        do{audioPlayer=try AVAudioPlayer.init(contentsOf: URL.init(fileURLWithPath: audiopath))
+        audioPlayer.play()
+        }
+        catch{
+            print("invalid audio file")
+            sender.isUserInteractionEnabled=false
+            
+
+        }
+        
+         }
     
     func contactViewController(_ viewController: CNContactViewController, didCompleteWith contact: CNContact?) {
         

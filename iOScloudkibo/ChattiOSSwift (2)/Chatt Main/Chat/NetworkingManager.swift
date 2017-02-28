@@ -42,6 +42,14 @@ class NetworkingManager
         "svgz",
         "webp"
     ]
+    
+    
+    let audioExtensions=[
+        "mid",
+        "midi","kar","mp3","ogg","m4a",
+        "ra"
+    ]
+    //m4a
     let videoExtensions=[
         "3gpp",
     "3gp",
@@ -357,12 +365,20 @@ class NetworkingManager
             imageData=UIImageJPEGRepresentation(UIImage(contentsOfFile: filePath1)!,0.9)
             print("new upload image size is \(imageData!.count)")
         }
+            
         else{
+            
+            if(self.audioExtensions.contains(file_type1.lowercased()))
+            {
+                //imageData=UIImageJPEGRepresentation(UIImage(contentsOfFile: filePath1)!,0.9)
+                print("video file is uploading")
+            }else{
             imageData=try? Data(contentsOf: URL(fileURLWithPath: filePath1))
              print("old upload image size is \(imageData!.count)")
             var imageData2=imageData!.compressed(using: Compression.zlib)
             print("imageData2 is \(imageData2)")
             print("old upload image compressed size is \(imageData2!.count)")
+            }
         }
        // var imageData=UIImageJPEGRepresentation(UIImage(contentsOfFile: filePath1)!,0.9)
        
