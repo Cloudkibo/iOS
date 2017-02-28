@@ -232,6 +232,21 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
         }
 
     }
+    
+    @IBAction func txtfieldChangedText(_ sender: UITextField) {
+        print("value text changed.......")
+        if(sender.text==nil || sender.text=="")
+        {
+            //show Record button
+            self.btnSendChat.isHidden=true
+            self.btnSendAudio.isHidden=false
+        }
+        else{
+            self.btnSendChat.isHidden=false
+            self.btnSendAudio.isHidden=true
+        }
+}
+    
     /* @IBAction func btnBackToChatsPressed(sender: AnyObject) {
      //backToChatPushSegue
      
@@ -1169,14 +1184,24 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
                                     managerFile.checkPendingFiles(tblContacts[uniqueid])
                                 }
                                 
-                                print("found contact received")
+                                print("found video received")
                                 messages2.add(["message":tblContacts[msg],"status":tblContacts[status], "type":"9", "date":defaultTimeeee, "uniqueid":tblContacts[uniqueid]])
                             }
                             else{
                                 
                                 if(tblContacts[file_type]=="audio")
                                 {
+                                    print("checking if audio is pending")
+                                    var filedownloaded=sqliteDB.checkIfFileExists(tblContacts[uniqueid])
                                     
+                                    if(filedownloaded==false)
+                                    {
+                                        print("audio is not downloaded locally")
+                                        //checkpendingfiles
+                                        
+                                        managerFile.checkPendingFiles(tblContacts[uniqueid])
+                                    }
+
                                     
                                     messages2.add(["message":tblContacts[msg],"status":tblContacts[status], "type":"11", "date":defaultTimeeee, "uniqueid":tblContacts[uniqueid]])
                                 }else{messages2.add(["message":tblContacts[msg],"status":tblContacts[status], "type":"1", "date":defaultTimeeee, "uniqueid":tblContacts[uniqueid]])
@@ -2151,7 +2176,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
             }//end 4
                else{
                 
-                if(msgType.isEqual(to: "7") || msgType.isEqual(to: "8"))
+                if(msgType.isEqual(to: "7") || msgType.isEqual(to: "8") || msgType.isEqual(to: "11") || msgType.isEqual(to: "12"))
                 {
                     let cell = tblForChats.dequeueReusableCell(withIdentifier: "ContactSentCell")! as UITableViewCell
                     let chatImage = cell.viewWithTag(1) as! UIImageView
@@ -3480,7 +3505,16 @@ let textLable = cell.viewWithTag(12) as! UILabel
             let buttonSave = cell.viewWithTag(15) as! UIButton
             
             audioFilePlayName=msg! as! String
-            buttonSave.addTarget(self, action: #selector(ChatDetailViewController.BtnPlayAudioClicked(_:)), for:.touchUpInside)
+            /*buttonSave.addTarget(self, action: #selector(ChatDetailViewController.BtnPlayAudioClicked(_:)), for:.touchUpInside)
+            */
+            
+            textLable.text = msg! as! String
+            let tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(ChatDetailViewController.BtnPlayAudioClicked(_:)))
+            //Add the recognizer to your view.
+            
+            cell.contentView.addGestureRecognizer(tapRecognizer)
+            
+           
             
             
            /* let contactinfo=msg!.components(separatedBy: ":") ///return array string
@@ -3492,7 +3526,6 @@ let textLable = cell.viewWithTag(12) as! UILabel
                 textLable.text = newtextlabel
             }
             */
-            textLable.text = msg as! String
             
             /*textLable.lineBreakMode = .ByWordWrapping
              textLable.numberOfLines=0
@@ -3635,6 +3668,16 @@ let textLable = cell.viewWithTag(12) as! UILabel
                 let status=messageDic["status"] as NSString!
                 timeLabel.text="\(displaydate) (\(status!))"
             }
+        
+            audioFilePlayName=msg! as! String
+            
+            let tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(ChatDetailViewController.BtnPlayAudioClicked(_:)))
+            //Add the recognizer to your view.
+            
+            cell.contentView.addGestureRecognizer(tapRecognizer)
+           
+            
+            
             
             //local date already shortened then added to dictionary when post button is pressed
             //timeLabel.text=date2.debugDescription
@@ -3667,19 +3710,26 @@ let textLable = cell.viewWithTag(12) as! UILabel
         self.navigationController!.pushViewController(contactViewController,animated: false)
     }
     
-    func BtnPlayAudioClicked(_ sender:UIButton)
+    func BtnPlayAudioClicked(_ gestureRecognizer: UITapGestureRecognizer)
     {
+        let tappedAudioView = gestureRecognizer.view! as! UIView
+        let textLable = tappedAudioView.viewWithTag(12) as! UILabel
+        print("playing audio.. \(textLable.text!)")
         
         let dirPaths = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)
         let docsDir1 = dirPaths[0]
         var documentDir=docsDir1 as NSString
-        var audiopath=documentDir.appendingPathComponent(audioFilePlayName)
-        do{audioPlayer=try AVAudioPlayer.init(contentsOf: URL.init(fileURLWithPath: audiopath))
+        //var audiopath=documentDir.appendingPathComponent(audioFilePlayName)
+        var audiopath=documentDir.appendingPathComponent(textLable.text!)
+        do{
+            
+            audioPlayer=try AVAudioPlayer.init(contentsOf: URL.init(fileURLWithPath: audiopath))
+            print("playing now... \(textLable.text!)")
         audioPlayer.play()
         }
         catch{
             print("invalid audio file")
-            sender.isUserInteractionEnabled=false
+            //sender.isUserInteractionEnabled=false
             
 
         }
@@ -4375,6 +4425,7 @@ let textLable = cell.viewWithTag(12) as! UILabel
                 
                 
                 //txtFldMessage.text = "";
+        
                 
                 //DispatchQueue.main.async
                 //{
@@ -5100,7 +5151,8 @@ let textLable = cell.viewWithTag(12) as! UILabel
    
         
         txtFldMessage.text = "";
-        
+        self.txtfieldChangedText(txtFldMessage)
+        //txtfieldChangedText
         //DispatchQueue.main.async
         //{
             print("adding msg \(msggg)")
@@ -5844,6 +5896,8 @@ let textLable = cell.viewWithTag(12) as! UILabel
         
         
         txtFldMessage.text = "";
+                self.txtfieldChangedText(txtFldMessage)
+                
                 DispatchQueue.main.async
                 {
         self.tblForChats.reloadData()

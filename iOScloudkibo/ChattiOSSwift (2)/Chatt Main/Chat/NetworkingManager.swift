@@ -371,7 +371,8 @@ class NetworkingManager
             if(self.audioExtensions.contains(file_type1.lowercased()))
             {
                 //imageData=UIImageJPEGRepresentation(UIImage(contentsOfFile: filePath1)!,0.9)
-                print("video file is uploading")
+                print("audio file is uploading")
+                imageData=try? Data(contentsOf: URL(fileURLWithPath: filePath1))
             }else{
             imageData=try? Data(contentsOf: URL(fileURLWithPath: filePath1))
              print("old upload image size is \(imageData!.count)")

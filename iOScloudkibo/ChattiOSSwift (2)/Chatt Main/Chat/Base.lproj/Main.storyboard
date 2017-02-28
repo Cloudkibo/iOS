@@ -2979,6 +2979,7 @@
                                                         <textInputTraits key="textInputTraits"/>
                                                         <connections>
                                                             <action selector="didChangeText:" destination="vqu-uk-8SN" eventType="valueChanged" id="0ia-vJ-1q4"/>
+                                                            <action selector="txtfieldChangedText:" destination="vqu-uk-8SN" eventType="editingChanged" id="vI3-fp-YlV"/>
                                                             <outlet property="delegate" destination="vqu-uk-8SN" id="Iv1-J1-pYL"/>
                                                         </connections>
                                                     </textField>
