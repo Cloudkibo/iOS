@@ -3569,12 +3569,12 @@ let textLable = cell.viewWithTag(12) as! UILabel
             //formatter.dateFormat = "MM/dd hh:mm a";
             
             
-            timeLabel.frame = CGRect(x: profileImage.center.x+35, y: textLable.frame.origin.y+textLable.frame.height, width: chatImage.frame.size.width-46, height: timeLabel.frame.size.height)
+            timeLabel.frame = CGRect(x: profileImage.center.x+35, y: textLable.frame.origin.y+textLable.frame.height, width: chatImage.frame.size.width-100, height: timeLabel.frame.size.height)
             print("textlabel is \(textLable.text!) and timelabel is \(timeLabel.text!)")
             print("textlabel is \(textLable.bounds.debugDescription) and timelabel is \(timeLabel.bounds.debugDescription)")
             
             buttonSave.frame = CGRect(x: chatImage.frame.width-40, y: chatImage.frame.height-25, width: buttonSave.frame.size.width, height: buttonSave.frame.size.height)
-            //timeLabel.text=date2.debugDescription
+            timeLabel.text=displaydate
 
             
         }
