@@ -105,7 +105,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
     }
     
     
-    @IBAction func btnRecordTouchDown(_ sender: UIButton) {
+    /*@IBAction func btnRecordTouchDown(_ sender: UIButton) {
     
     print("btnRecordTouchDown")
         self.startRecording()
@@ -125,7 +125,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
         print("btnRecordAudioTouchDragExit")
           finishRecording(success: false)
         
-    }
+    }*/
     
     
     func finishRecording(success: Bool) {
@@ -2198,6 +2198,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
         let date2=messageDic["date"] as NSString!
         var sizeOFStr = self.getSizeOfString(msg!)
         let uniqueidDictValue=messageDic["uniqueid"] as NSString!
+        let status=messageDic["status"] as NSString!
         
        // cell = tblForChats.dequeueReusableCellWithIdentifier("ChatSentCell")! as UITableViewCell
 
@@ -3117,6 +3118,7 @@ let textLable = cell.viewWithTag(12) as! UILabel
             
             let videoView = cell.viewWithTag(0)
             let videoLabel = videoView?.viewWithTag(1) as! UILabel
+            let timeLabel = videoView?.viewWithTag(3) as! UILabel
             
             videoLabel.text=msg as String?
             let dirPaths = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)
@@ -3155,6 +3157,30 @@ let textLable = cell.viewWithTag(12) as! UILabel
                 ////player.play()
                 */
             
+            
+            let formatter = DateFormatter();
+            formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSS";
+            //formatter.dateFormat = "MM/dd hh:mm a";
+            formatter.timeZone = TimeZone.autoupdatingCurrent
+            print("line 2055")
+            let defaultTimeZoneStr = formatter.date(from: date2 as! String)
+            //print("defaultTimeZoneStr \(defaultTimeZoneStr)")
+            
+            let formatter2 = DateFormatter();
+            formatter2.timeZone=TimeZone.autoupdatingCurrent
+            formatter2.dateFormat = "MM/dd hh:mm a";
+            let displaydate=formatter2.string(from: defaultTimeZoneStr!)
+            //formatter.dateFormat = "MM/dd hh:mm a";
+            
+            
+            timeLabel.frame = CGRect(x: (videoView?.frame.origin.x)!, y: (videoView?.frame.origin.y)!+(videoView?.frame.height)!, width: (videoView?.frame.size.width)!-46, height: timeLabel.frame.size.height)
+            
+            
+            //===new   timeLabel.frame = CGRectMake(textLable.frame.origin.x, textLable.frame.origin.y+textLable.frame.height+10, chatImage.frame.size.width-46, timeLabel.frame.size.height)
+            
+            
+            //print("displaydate is \(displaydate)")
+            timeLabel.text=displaydate+" (\(status as! String))"
             
             let tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(ChatDetailViewController.videoTapped(_:)))
             //Add the recognizer to your view.
@@ -3246,6 +3272,8 @@ let textLable = cell.viewWithTag(12) as! UILabel
     let videoLabel = videoView?.viewWithTag(1) as! UILabel
             let videoLabelStatus = videoView?.viewWithTag(2) as! UILabel
             
+            let timeLabel = videoView?.viewWithTag(3) as! UILabel
+            
     videoLabel.text=msg as String?
             //let filename=messageDic["filename"] as! NSString
             let dirPaths = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)
@@ -3284,6 +3312,29 @@ let textLable = cell.viewWithTag(12) as! UILabel
                 
                 self.view.addSubview(player.view)
                 */
+            
+            let formatter = DateFormatter();
+            formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSS";
+            //formatter.dateFormat = "MM/dd hh:mm a";
+            formatter.timeZone = TimeZone.autoupdatingCurrent
+            let defaultTimeZoneStr = formatter.date(from: date2 as! String)
+            //print("defaultTimeZoneStr \(defaultTimeZoneStr)")
+            
+            if(defaultTimeZoneStr == nil)
+            {
+                timeLabel.text=date2 as! String
+                
+            }
+            else
+            {
+                let formatter2 = DateFormatter();
+                formatter2.timeZone=TimeZone.autoupdatingCurrent
+                formatter2.dateFormat = "MM/dd hh:mm a";
+                let displaydate=formatter2.string(from: defaultTimeZoneStr!)
+                //formatter.dateFormat = "MM/dd hh:mm a";
+                
+                timeLabel.text=displaydate+" (\(status as! String))"
+            }
             
             
             let tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(ChatDetailViewController.videoTapped(_:)))
