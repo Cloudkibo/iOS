@@ -105,17 +105,20 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
     }
     
     
-    /*@IBAction func btnRecordTouchDown(_ sender: UIButton) {
+    @IBAction func btnRecordTouchDown(_ sender: UIButton) {
     
     print("btnRecordTouchDown")
+        txtFldMessage.text="< Slide left to cancel"
         self.startRecording()
     }
     
     
     @IBAction func btnRecordTouchUpInside(_ sender: UIButton) {
-    
+    txtFldMessage.text=""
         print("btnRecordTouchUpInside")
           finishRecording(success: false)
+        
+       
         
     }
     
@@ -123,9 +126,15 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
     
     @IBAction func btnRecordAudioTouchDragExit(_ sender: UIButton) {
         print("btnRecordAudioTouchDragExit")
-          finishRecording(success: false)
+        finishRecording(success: false)
+        var deleted=audioRecorder.deleteRecording()
+        print("audio deleted \(deleted)")
+        txtFldMessage.text=""
+        //not saved
+          //finishRecording(success: false)
         
-    }*/
+        
+    }
     
     
     func finishRecording(success: Bool) {
@@ -133,10 +142,77 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
         ////audioRecorder = nil
         
         if success {
-            btnSendAudio.setTitle("Re-record", for: .normal)
-        } else {
+            
             btnSendAudio.setTitle("Record", for: .normal)
             // recording failed :(
+        }  else {
+            btnSendAudio.setTitle("Re-record", for: .normal)
+            //add audio component
+            //save to database
+            //send chat
+            
+            var uniqueID=UtilityFunctions.init().generateUniqueid()
+            print("uniqueid audio is \(uniqueID)")
+            
+            
+            let dirPaths = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)
+            let docsDir1 = dirPaths[0]
+            var documentDir=docsDir1 as NSString
+            var filePathImage2=documentDir.appendingPathComponent(self.filename)
+            
+            var furl=URL(string: filePathImage2.absoluteString)
+            //print(furl!.pathExtension!)
+            //print(furl!.deletingLastPathComponent())
+            var ftype=furl!.pathExtension
+            var fname=furl!.deletingLastPathComponent()
+            var filesize=0
+            do {
+                let fileAttributes : NSDictionary? = try FileManager.default.attributesOfItem(atPath: filePathImage2) as NSDictionary?
+                if let _attr = fileAttributes {
+                    self.fileSize1 = _attr.fileSize();
+                    filesize=Int(_attr.fileSize());
+                    //print("file size is \(self.fileSize1)")
+                    //// ***april 2016 neww self.fileSize=(fileSize1 as! NSNumber).integerValue
+                }
+            } catch {
+                socketObj.socket.emit("logClient","IPHONE-LOG: error: \(error)")
+                //print("Error:+++ \(error)")
+            }
+            
+            
+            var imParas=["from":"\(username!)","to":"\(self.selectedContact)","fromFullName":"\(displayname)","msg":self.filename,"uniqueid":uniqueID,"type":"file","file_type":"audio"]
+            //print("imparas are \(imParas)")
+            
+            
+            var statusNow="pending"
+            //------
+            sqliteDB.SaveChat(self.selectedContact, from1: username!, owneruser1: username!, fromFullName1: displayname, msg1: self.filename, date1: nil, uniqueid1: uniqueID, status1: statusNow, type1: "file", file_type1: "audio", file_path1: filePathImage2)
+            
+            
+            
+            sqliteDB.saveFile(self.selectedContact, from1: username!, owneruser1: username!, file_name1: self.filename, date1: nil, uniqueid1: uniqueID, file_size1: "\(self.fileSize1)", file_type1: ftype, file_path1: filePathImage2, type1: "audio")
+            
+            self.addUploadInfo(self.selectedContact,uniqueid1: uniqueID, rowindex: self.messages.count, uploadProgress: 0.0, isCompleted: false)
+            
+            print("uploading audio")
+            managerFile.uploadFile(filePathImage2, to1: self.selectedContact, from1: username!, uniqueid1: uniqueID, file_name1: self.filename, file_size1: "\(self.fileSize1)", file_type1: ftype,type1:"audio")
+            
+            self.retrieveChatFromSqlite(self.selectedContact,completion:{(result)-> () in
+                DispatchQueue.main.async
+                    {
+                        self.tblForChats.reloadData()
+                        
+                        if(self.messages.count>1)
+                        {
+                            //var indexPath = NSIndexPath(forRow:self.messages.count-1, inSection: 0)
+                            let indexPath = IndexPath(row:self.tblForChats.numberOfRows(inSection: 0)-1, section: 0)
+                            self.tblForChats.scrollToRow(at: indexPath, at: UITableViewScrollPosition.bottom, animated: false)
+                        }
+                }
+            })
+            
+            
+            
         }
     }
     
@@ -385,7 +461,6 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
         let documentDir=docsDir1 as NSString
         let audioFilename =  documentDir.appendingPathComponent("\(uniqueID).m4a")
         
-        
         let settings = [
             AVFormatIDKey: Int(kAudioFormatMPEG4AAC),
             AVSampleRateKey: 12000,
@@ -397,10 +472,13 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
             audioRecorder = try AVAudioRecorder(url: URL.init(fileURLWithPath: audioFilename), settings: settings)
             audioRecorder.delegate = self
             audioRecorder.record()
+            self.filename=audioFilename
+            print("recording audio \(uniqueID).m4a ")
             
+            //////audioRecorder.deleterecording()
             btnSendAudio.setTitle("Tap to Stop", for: .normal)
         } catch {
-            print("finish recording.. not recorded")
+            print("error finish recording.. not recorded \(uniqueID).m4a")
             finishRecording(success: false)
         }
     }
