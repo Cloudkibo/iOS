@@ -4285,14 +4285,15 @@ let textLable = cell.viewWithTag(12) as! UILabel
             self.locationManager.delegate=self
             self.locationManager.requestWhenInUseAuthorization()
             
-           // self.locationManager.startUpdatingLocation()
+            self.locationManager.startUpdatingLocation()
             print("here share location prompt")
             
-            if(self.didFindMyLocation==true)
-            {
-           self.locationManager.requestLocation()
+          //  if(self.didFindMyLocation==true)
+         //   {
+           //self.locationManager.requestLocation()
+           // self.locationManager(manager: self.locationm, didUpdateLocations: <#T##[CLLocation]#>)
             self.sendCoordinates(location: self.locationManager.location!)
-            }
+          //  }
             
 
             
