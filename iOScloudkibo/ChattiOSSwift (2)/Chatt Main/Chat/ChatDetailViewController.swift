@@ -20,11 +20,17 @@ import Compression
 import ContactsUI
 import MediaPlayer
 import AVKit
-class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChatDelegate,UIDocumentPickerDelegate,UIDocumentMenuDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate,FileManagerDelegate,showUploadProgressDelegate,UpdateChatViewsDelegate,UpdateSingleChatDetailDelegate,CNContactPickerDelegate,CNContactViewControllerDelegate,UIPickerViewDelegate,AVAudioRecorderDelegate
+//import GoogleMaps
+
+class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChatDelegate,UIDocumentPickerDelegate,UIDocumentMenuDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate,FileManagerDelegate,showUploadProgressDelegate,UpdateChatViewsDelegate,UpdateSingleChatDetailDelegate,CNContactPickerDelegate,CNContactViewControllerDelegate,UIPickerViewDelegate,AVAudioRecorderDelegate,CLLocationManagerDelegate
     {
     
     //,UIPickerViewDelegate{
     
+   // weak var viewMap: GMSMapView!
+    var locationManager = CLLocationManager()
+    
+    var didFindMyLocation = false
     var audioFilePlayName=""
     var moviePlayer : MPMoviePlayerController!
     var audioPlayer = AVAudioPlayer()
@@ -504,8 +510,10 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
         //contactPickerViewController.delegate = self
         
         
+        locationManager.delegate = self
         
-        recordingSession = AVAudioSession.sharedInstance()
+        //do on button click
+               recordingSession = AVAudioSession.sharedInstance()
         
         do {
             try recordingSession.setCategory(AVAudioSessionCategoryPlayAndRecord)
@@ -4271,6 +4279,25 @@ let textLable = cell.viewWithTag(12) as! UILabel
 
             
         })
+        
+        let locationAction = UIAlertAction(title: "Share Location", style: UIAlertActionStyle.default,handler: { (action) -> Void in
+            
+            self.locationManager.delegate=self
+            self.locationManager.requestWhenInUseAuthorization()
+            
+           // self.locationManager.startUpdatingLocation()
+            print("here share location prompt")
+            
+            if(self.didFindMyLocation==true)
+            {
+           self.locationManager.requestLocation()
+            self.sendCoordinates(location: self.locationManager.location!)
+            }
+            
+
+            
+            
+        })
         let contactAction = UIAlertAction(title: "Share Contact", style: UIAlertActionStyle.default, handler: { (action) -> Void in
             
             
@@ -4284,6 +4311,7 @@ let textLable = cell.viewWithTag(12) as! UILabel
         shareMenu.addAction(photoAction)
         shareMenu.addAction(videoAction)
         shareMenu.addAction(documentAction)
+        shareMenu.addAction(locationAction)
         shareMenu.addAction(contactAction)
         shareMenu.addAction(cancelAction)
         
@@ -5999,6 +6027,211 @@ let textLable = cell.viewWithTag(12) as! UILabel
         //}
         // })
     })
+    }
+    
+    func locationManager(manager: CLLocationManager!, didChangeAuthorizationStatus status: CLAuthorizationStatus) {
+        if status == CLAuthorizationStatus.authorizedWhenInUse {
+           // viewMap.isMyLocationEnabled = true
+            //got location
+            print("location permission granted")
+            self.didFindMyLocation=true
+        }
+    }
+    
+    
+   /* override func observeValueForKeyPath(keyPath: String, ofObject object: AnyObject, change: [NSObject : AnyObject], context: UnsafeMutablePointer<Void>) {
+        if !didFindMyLocation {
+            let myLocation: CLLocation = change[NSKeyValueChangeNewKey] as CLLocation
+            viewMap.camera = GMSCameraPosition.camera(withTarget: myLocation.coordinate, zoom: 10.0)
+            viewMap.settings.myLocationButton = true
+            
+            didFindMyLocation = true
+        }
+    }*/
+    
+    func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        print("here taking location")
+        let userLocation:CLLocation = locations[0] as CLLocation
+        
+        manager.stopUpdatingLocation()
+        
+        let coordinations = CLLocationCoordinate2D(latitude: userLocation.coordinate.latitude,longitude: userLocation.coordinate.longitude)
+      //  let span = MKCoordinateSpanMake(0.2,0.2)
+       // let region = MKCoordinateRegion(center: coordinations, span: span)
+        
+       // mapView.setRegion(region, animated: true)
+       //////    sendCoordinates(location: userLocation)
+    }
+
+    func sendCoordinates(location:CLLocation)
+    {
+        var msgbody="\(location.coordinate.latitude):\(location.coordinate.longitude)"
+        print("msgbody is \(msgbody)")
+        /* var randNum5=self.randomStringWithLength(5) as String
+         
+         let date1=Date()
+         let calendar = Calendar.current
+         let year=(calendar as NSCalendar).components(NSCalendar.Unit.year,from: date1).year
+         let month=(calendar as NSCalendar).components(NSCalendar.Unit.month,from: date1).month
+         let day=(calendar as NSCalendar).components(.day,from: date1).day
+         let hr=(calendar as NSCalendar).components(NSCalendar.Unit.hour,from: date1).hour
+         let min=(calendar as NSCalendar).components(NSCalendar.Unit.minute,from: date1).minute
+         let sec=(calendar as NSCalendar).components(NSCalendar.Unit.second,from: date1).second
+         print("\(randNum5) \(year) \(month) \(day) \(hr) \(min) \(sec)")
+         //var uniqueID=randNum5+year+month+day+hr+min+sec
+         var uniqueID="\(randNum5)\(year!)\(month!)\(day!)\(hr!)\(min!) \(sec!)"
+         */
+        var uniqueID=UtilityFunctions.init().generateUniqueid()
+        
+        
+        var date=Date()
+        var formatterDateSend = DateFormatter();
+        formatterDateSend.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ";
+        ///newwwwwwww
+        ////formatterDateSend.timeZone = NSTimeZone.local()
+        let dateSentString = formatterDateSend.string(from: date);
+        
+        
+        var formatterDateSendtoDateType = DateFormatter();
+        formatterDateSendtoDateType.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ";
+        var dateSentDateType = formatterDateSendtoDateType.date(from: dateSentString)
+        
+        
+        //2016-10-15T22:18:16.000
+        var imParas=[String:String]()
+        var imParas2=[[String:String]]()
+        
+        var statusNow=""
+        statusNow="pending"
+        
+        
+        if(selectedContact != "")
+        {
+            imParas=["from":"\(username!)","to":"\(selectedContact)","fromFullName":"\(displayname)","msg":"\(msgbody)","uniqueid":"\(uniqueID)","type":"location","file_type":"","date":"\(dateSentDateType!)"]
+            
+            
+            
+            sqliteDB.SaveChat("\(selectedContact)", from1: username!, owneruser1: username!, fromFullName1: displayname, msg1: msgbody, date1: dateSentDateType, uniqueid1: uniqueID, status1: statusNow, type1: "location", file_type1: "", file_path1: "")
+            
+        }
+        else{
+            //save as broadcast message
+            for i in 0 ..< broadcastMembersPhones.count
+            {
+                imParas2.append(["from":"\(username!)","to":"\(broadcastMembersPhones[i])","fromFullName":"\(displayname)","msg":"\(msgbody)","uniqueid":"\(uniqueID)","type":"location","file_type":"","date":"\(dateSentDateType!)"])
+                
+                
+                sqliteDB.SaveBroadcastChat("\(broadcastMembersPhones[i])", from1: username!, owneruser1: username!, fromFullName1: displayname, msg1: msgbody, date1: dateSentDateType, uniqueid1: uniqueID, status1: statusNow, type1: "location", file_type1: "", file_path1: "", broadcastlistID1: broadcastlistID1)
+                //broadcastMembersPhones[i]
+            }
+        }
+        var formatter = DateFormatter();
+        formatter.timeZone = TimeZone.autoupdatingCurrent
+        formatter.dateFormat = "MM/dd hh:mm a";
+        //formatter.dateStyle = .ShortStyle
+        //formatter.timeStyle = .ShortStyle
+        let defaultTimeZoneStr = formatter.string(from: date);
+        let defaultTimeZoneStr2=formatter.date(from: defaultTimeZoneStr as! String)
+        
+        
+        
+        var msggg=msgbody
+        
+        
+        //txtFldMessage.text = "";
+        
+        
+        //DispatchQueue.main.async
+        //{
+        print("adding msg \(msggg)")
+       
+        
+        self.addMessage(msggg+" (\(statusNow))",status:statusNow,ofType: "14",date:defaultTimeZoneStr, uniqueid: uniqueID)
+        
+        self.tblForChats.reloadData()
+        if(self.messages.count>1)
+        {
+            // let indexPath = NSIndexPath(forRow:self.messages.count-1, inSection: 0)
+            let indexPath = IndexPath(row:self.tblForChats.numberOfRows(inSection: 0)-1, section: 0)
+            self.tblForChats.scrollToRow(at: indexPath, at: UITableViewScrollPosition.bottom, animated: false)
+            
+            
+            
+        }
+        // }
+        // })
+        //  }
+        
+        
+        //print("messages count before sending msg is \(self.messages.count)")
+        print("sending msg \(msggg)")
+        if(selectedContact != ""){
+            //in chat window
+            self.sendChatMessage(imParas){ (uniqueid,result) -> () in
+                
+                if(result==true)
+                {
+                    var searchformat=NSPredicate(format: "uniqueid = %@",uniqueid!)
+                    
+                    var resultArray=self.messages.filtered(using: searchformat)
+                    var ind=self.messages.index(of: resultArray.first!)
+                    //cfpresultArray.first
+                    //resultArray.first
+                    var aa=self.messages.object(at: ind) as! [String:AnyObject]
+                    var actualmsg=aa["message"] as! String
+                    actualmsg=actualmsg.removeCharsFromEnd(10)
+                    //var actualmsg=newmsg
+                    aa["message"]="\(actualmsg) (sent)" as AnyObject?
+                    self.messages.replaceObject(at: ind, with: aa)
+                    //  self.messages.objectAtIndex(ind).message="\(self.messages[ind]["message"]) (sent)"
+                    var indexp=IndexPath(row:ind, section:0)
+                    DispatchQueue.main.async
+                        {
+                            self.tblForChats.reloadData()
+                    }
+                    
+                }
+                else
+                {
+                    print("unable to send chat \(imParas)")
+                }
+            }
+        }
+        else{
+            
+            var result1=false
+            var uniqueid1=""
+            var count=0
+            for i in 0 ..< imParas2.count
+            {
+                self.sendChatMessage(imParas2[i]){ (uniqueid,result) -> () in
+                    count += 1
+                    if(result==true && count==1){
+                        var searchformat=NSPredicate(format: "uniqueid = %@",uniqueid!)
+                        
+                        var resultArray=self.messages.filtered(using: searchformat)
+                        var ind=self.messages.index(of: resultArray.first!)
+                        //cfpresultArray.first
+                        //resultArray.first
+                        var aa=self.messages.object(at: ind) as! [String:AnyObject]
+                        var actualmsg=aa["message"] as! String
+                        actualmsg=actualmsg.removeCharsFromEnd(10)
+                        //var actualmsg=newmsg
+                        aa["message"]="\(actualmsg) (sent)" as AnyObject?
+                        self.messages.replaceObject(at: ind, with: aa)
+                        //  self.messages.objectAtIndex(ind).message="\(self.messages[ind]["message"]) (sent)"
+                        var indexp=IndexPath(row:ind, section:0)
+                        DispatchQueue.main.async
+                            {
+                                self.tblForChats.reloadData()
+                                // print("messages count is \(self.messages.count)")
+                        }
+                    }
+                }}
+            /*  }
+             }*/
+        }
+        
     }
 }
 
