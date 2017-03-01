@@ -22,6 +22,7 @@ import SystemConfiguration
 import AVFoundation
 import ContactsUI
 import Contacts
+import GoogleMaps
 //import UserNotifications
 //import WindowsAzureMessaging
 
@@ -150,7 +151,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate,AppDelegateScreenDelegate 
         print("========launchhhhhhhhh=====")
         print(Date())
         
-        
+        GMSServices.provideAPIKey("AIzaSyA4ayZ7WiMRkulzF6OxZhBa8WXp7w4BkhI")
        //==--self.checkFirstRun()
         
         

@@ -4583,38 +4583,43 @@ let textLable = cell.viewWithTag(12) as! UILabel
     }
     
     func sendVideo(urlOfVideoGetMetadata:URL,urlOfVideoPath:URL)
-    {
-        let shareMenu = UIAlertController(title: nil, message: " Send \" \(filename) \" to \(selectedFirstName) ? ", preferredStyle: .actionSheet)
+    { print("urlOfVideoGetMetadata is \(urlOfVideoGetMetadata) and urlOfVideoPath is \(urlOfVideoPath)")
+        
+        var furl=URL(string: urlOfVideoPath.absoluteString)
+        //print(furl!.pathExtension!)
+        //print(furl!.deletingLastPathComponent())
+        var ftype=furl!.pathExtension
+        var fname=furl!.deletingLastPathComponent()
+        
+        let result = PHAsset.fetchAssets(withALAssetURLs: [urlOfVideoGetMetadata], options: nil)
+        var asset=result.firstObject! as PHAsset
+        self.filename=asset.originalFilename!
+        print("video assettype is \(asset.mediaType)")
+    
+     //   print("ext is \(asset.
+        //asset.mediaType
+        PHImageManager.default().requestAVAsset (forVideo: asset, options: nil) { (avasset, _, _) in
+            var originalSizeStr: String?
+            if let urlAsset = avasset as? AVURLAsset {
+                let dict = try! urlAsset.url.resourceValues(forKeys: [URLResourceKey.fileSizeKey])
+                //let size = dict. .allValues[URLResourceKey.fileSizeKey]// fileSize// [URLResourceKey.fileSizeKey] as! Int
+                print("video metadata \(urlOfVideoGetMetadata) ...name is  \(self.filename) ... type is \(ftype) ")
+            }
+        }
+        //==----self.file_name1 = (result.firstObject?.burstIdentifier)!
+        // var myasset=result.firstObject as! PHAsset
+        ////print(myasset.mediaType)
+        print("original filename of video is \(self.filename)")
+        
+        
+        let shareMenu = UIAlertController(title: nil, message: "Send \" \(filename) \" to \(selectedFirstName) ? ", preferredStyle: .actionSheet)
         shareMenu.modalPresentationStyle=UIModalPresentationStyle.overCurrentContext
         let confirm = UIAlertAction(title: "Yes", style: UIAlertActionStyle.default,handler: { (action) -> Void in
             
             socketObj.socket.emit("logClient","IPHONE-LOG: \(username!) selected image ")
             //print("file gotttttt")
            //// var furl=URL(string: urlOfVideo)
-            var furl=URL(string: urlOfVideoPath.absoluteString)
-            //print(furl!.pathExtension!)
-            //print(furl!.deletingLastPathComponent())
-            var ftype=furl!.pathExtension
-            var fname=furl!.deletingLastPathComponent()
-            
-            let result = PHAsset.fetchAssets(withALAssetURLs: [urlOfVideoGetMetadata], options: nil)
-            var asset=result.firstObject! as PHAsset
-            self.filename=asset.originalFilename!
-            
-            PHImageManager.default().requestAVAsset (forVideo: asset, options: nil) { (avasset, _, _) in
-                var originalSizeStr: String?
-                if let urlAsset = avasset as? AVURLAsset {
-                    let dict = try! urlAsset.url.resourceValues(forKeys: [URLResourceKey.fileSizeKey])
-                    //let size = dict. .allValues[URLResourceKey.fileSizeKey]// fileSize// [URLResourceKey.fileSizeKey] as! Int
-                    print("video metadata \(urlOfVideoGetMetadata) ...name is  \(self.filename) ... type is \(ftype) ")
-                }
-            }
-            //==----self.file_name1 = (result.firstObject?.burstIdentifier)!
-            // var myasset=result.firstObject as! PHAsset
-            ////print(myasset.mediaType)
-            print("original filename of video is \(self.filename)")
- 
-            
+         
         
 
             
@@ -4689,7 +4694,12 @@ let textLable = cell.viewWithTag(12) as! UILabel
                 
             })
     })
+        let notConfirm = UIAlertAction(title: "No", style: UIAlertActionStyle.cancel, handler: { (action) -> Void in
+            
+        })
+
        shareMenu.addAction(confirm)
+        shareMenu.addAction(notConfirm)
         self.present(shareMenu, animated: true) {
             
             
@@ -4721,6 +4731,7 @@ let textLable = cell.viewWithTag(12) as! UILabel
                 if let fileName1 = (info?["PHImageFileURLKey"] as? NSURL)?.lastPathComponent {
                     //do sth with file name
                     self.filename=fileName1
+                    
                 }
             })
          /////====-----------  self.filename = result.firstObject?.filename ?? ""

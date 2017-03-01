@@ -368,18 +368,18 @@ class NetworkingManager
             
         else{
             
-            if(self.audioExtensions.contains(file_type1.lowercased()))
+            /*if(self.audioExtensions.contains(file_type1.lowercased()))
             {
                 //imageData=UIImageJPEGRepresentation(UIImage(contentsOfFile: filePath1)!,0.9)
                 print("audio file is uploading")
-                imageData=try? Data(contentsOf: URL(fileURLWithPath: filePath1))
-            }else{
+                //imageData=try? Data(contentsOf: URL(fileURLWithPath: filePath1))
+            }else{*/
             imageData=try? Data(contentsOf: URL(fileURLWithPath: filePath1))
              print("old upload image size is \(imageData!.count)")
             var imageData2=imageData!.compressed(using: Compression.zlib)
             print("imageData2 is \(imageData2)")
             print("old upload image compressed size is \(imageData2!.count)")
-            }
+            //}
         }
        // var imageData=UIImageJPEGRepresentation(UIImage(contentsOfFile: filePath1)!,0.9)
        

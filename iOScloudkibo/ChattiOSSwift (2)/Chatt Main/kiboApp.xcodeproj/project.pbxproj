@@ -78,16 +78,16 @@
 		7142EC8C1DBE33560070826F /* syncGroupsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7142EC8B1DBE33560070826F /* syncGroupsService.swift */; };
 		7142EC971DBF51DC0070826F /* UtilityFunctions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7142EC961DBF51DC0070826F /* UtilityFunctions.swift */; };
 		7142EC991DC196DB0070826F /* GroupInfoCells.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7142EC981DC196DB0070826F /* GroupInfoCells.swift */; };
+		7146903F1E66F4BF00FA6530 /* GoogleMaps.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7146903D1E66F4BF00FA6530 /* GoogleMaps.framework */; };
+		714690401E66F4BF00FA6530 /* GoogleMapsCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7146903E1E66F4BF00FA6530 /* GoogleMapsCore.framework */; };
+		714690601E66F51200FA6530 /* GoogleMapsBase.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7146905F1E66F51200FA6530 /* GoogleMapsBase.framework */; };
+		714690621E66F54500FA6530 /* GoogleMaps.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 714690611E66F54500FA6530 /* GoogleMaps.bundle */; };
 		7150119F1D12D0940091AD7B /* Reachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7150119E1D12D0940091AD7B /* Reachability.swift */; };
 		7152369A1E4AEB9100524BC3 /* SwiftyJSON.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7152368D1E4AEB6E00524BC3 /* SwiftyJSON.framework */; };
 		7152369B1E4AEB9100524BC3 /* SwiftyJSON.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 7152368D1E4AEB6E00524BC3 /* SwiftyJSON.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		7152CB251D47DDC900DB8127 /* Fabric.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7152CB231D47DDC900DB8127 /* Fabric.framework */; };
 		7152CB261D47DDC900DB8127 /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7152CB241D47DDC900DB8127 /* Crashlytics.framework */; };
 		71585F021DC8A4030067CD4A /* UIDelegates.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71585F011DC8A4030067CD4A /* UIDelegates.swift */; };
-		715A616C1E65AEEF00FB4A1D /* GooglePlaces.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 715A616B1E65AEEE00FB4A1D /* GooglePlaces.framework */; };
-		715A616F1E65AF2800FB4A1D /* GoogleMaps.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 715A616D1E65AF2800FB4A1D /* GoogleMaps.framework */; };
-		715A61701E65AF2800FB4A1D /* GoogleMapsCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 715A616E1E65AF2800FB4A1D /* GoogleMapsCore.framework */; };
-		715A61721E65AF3F00FB4A1D /* GooglePlacePicker.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 715A61711E65AF3F00FB4A1D /* GooglePlacePicker.framework */; };
 		715A61781E65B13600FB4A1D /* Accelerate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 715A61771E65B13600FB4A1D /* Accelerate.framework */; };
 		715A61981E65B13C00FB4A1D /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 715A61971E65B13C00FB4A1D /* CoreData.framework */; };
 		715A619A1E65B14900FB4A1D /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 715A61991E65B14900FB4A1D /* CoreGraphics.framework */; };
@@ -558,15 +558,15 @@
 		7142EC981DC196DB0070826F /* GroupInfoCells.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GroupInfoCells.swift; sourceTree = "<group>"; };
 		714560551B904DAA00C8E0D2 /* Contacts.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Contacts.swift; sourceTree = "<group>"; };
 		7145605B1B90875D00C8E0D2 /* Accounts.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Accounts.swift; sourceTree = "<group>"; };
+		7146903D1E66F4BF00FA6530 /* GoogleMaps.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = GoogleMaps.framework; sourceTree = "<group>"; };
+		7146903E1E66F4BF00FA6530 /* GoogleMapsCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = GoogleMapsCore.framework; sourceTree = "<group>"; };
+		7146905F1E66F51200FA6530 /* GoogleMapsBase.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = GoogleMapsBase.framework; sourceTree = "<group>"; };
+		714690611E66F54500FA6530 /* GoogleMaps.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = GoogleMaps.bundle; path = GoogleMaps.framework/Versions/A/Resources/GoogleMaps.bundle; sourceTree = "<group>"; };
 		7150119E1D12D0940091AD7B /* Reachability.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Reachability.swift; sourceTree = "<group>"; };
 		715236821E4AEB6E00524BC3 /* SwiftyJSON.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SwiftyJSON.xcodeproj; path = "../../../../../../../Downloads/SwiftyJSON-master 6/SwiftyJSON.xcodeproj"; sourceTree = "<group>"; };
 		7152CB231D47DDC900DB8127 /* Fabric.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Fabric.framework; sourceTree = "<group>"; };
 		7152CB241D47DDC900DB8127 /* Crashlytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Crashlytics.framework; sourceTree = "<group>"; };
 		71585F011DC8A4030067CD4A /* UIDelegates.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIDelegates.swift; sourceTree = "<group>"; };
-		715A616B1E65AEEE00FB4A1D /* GooglePlaces.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = GooglePlaces.framework; sourceTree = "<group>"; };
-		715A616D1E65AF2800FB4A1D /* GoogleMaps.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = GoogleMaps.framework; sourceTree = "<group>"; };
-		715A616E1E65AF2800FB4A1D /* GoogleMapsCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = GoogleMapsCore.framework; sourceTree = "<group>"; };
-		715A61711E65AF3F00FB4A1D /* GooglePlacePicker.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = GooglePlacePicker.framework; sourceTree = "<group>"; };
 		715A61771E65B13600FB4A1D /* Accelerate.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accelerate.framework; path = System/Library/Frameworks/Accelerate.framework; sourceTree = SDKROOT; };
 		715A61971E65B13C00FB4A1D /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		715A61991E65B14900FB4A1D /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -688,21 +688,20 @@
 				7152369A1E4AEB9100524BC3 /* SwiftyJSON.framework in Frameworks */,
 				710070341DFBB789001530B5 /* Alamofire.framework in Frameworks */,
 				71D74E911DEBDC2300D44D59 /* libcompression.tbd in Frameworks */,
+				714690601E66F51200FA6530 /* GoogleMapsBase.framework in Frameworks */,
 				7152CB251D47DDC900DB8127 /* Fabric.framework in Frameworks */,
 				710EF26C1C96B16500578739 /* CloudKit.framework in Frameworks */,
+				714690401E66F4BF00FA6530 /* GoogleMapsCore.framework in Frameworks */,
 				716175A01C51C9B200A72E83 /* libsqlite3.0.tbd in Frameworks */,
 				713CC2741E5B2BFC00D4782F /* AlamofireImage.framework in Frameworks */,
-				715A61701E65AF2800FB4A1D /* GoogleMapsCore.framework in Frameworks */,
-				715A616C1E65AEEF00FB4A1D /* GooglePlaces.framework in Frameworks */,
 				716175A11C51C9B200A72E83 /* libsqlite3.tbd in Frameworks */,
 				71BFD46F1CFD13CC004ACCBF /* AccountKit.framework in Frameworks */,
 				71A98F961C4D6434009D04D7 /* Foundation.framework in Frameworks */,
+				7146903F1E66F4BF00FA6530 /* GoogleMaps.framework in Frameworks */,
 				711CD86D1E5B10E90079CB88 /* AlamofireImage.framework in Frameworks */,
 				7152CB261D47DDC900DB8127 /* Crashlytics.framework in Frameworks */,
 				71232D5E1D65D8C5000DE13E /* WindowsAzureMessaging.framework in Frameworks */,
-				715A616F1E65AF2800FB4A1D /* GoogleMaps.framework in Frameworks */,
 				ADE75A7706ECA3615D20C1E9 /* Pods_Chat.framework in Frameworks */,
-				715A61721E65AF3F00FB4A1D /* GooglePlacePicker.framework in Frameworks */,
 				71B6DD731E4D860D0078DE01 /* SQLite.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -720,10 +719,10 @@
 		5BF6361C19A9F3D900ABD0BA = {
 			isa = PBXGroup;
 			children = (
-				715A61711E65AF3F00FB4A1D /* GooglePlacePicker.framework */,
-				715A616D1E65AF2800FB4A1D /* GoogleMaps.framework */,
-				715A616E1E65AF2800FB4A1D /* GoogleMapsCore.framework */,
-				715A616B1E65AEEE00FB4A1D /* GooglePlaces.framework */,
+				714690611E66F54500FA6530 /* GoogleMaps.bundle */,
+				7146905F1E66F51200FA6530 /* GoogleMapsBase.framework */,
+				7146903D1E66F4BF00FA6530 /* GoogleMaps.framework */,
+				7146903E1E66F4BF00FA6530 /* GoogleMapsCore.framework */,
 				713CC25B1E5B2B7A00D4782F /* AlamofireImage.xcodeproj */,
 				71EA60721D78DD7100117B55 /* SwipeCellsSourceFiles */,
 				715236821E4AEB6E00524BC3 /* SwiftyJSON.xcodeproj */,
@@ -1410,6 +1409,7 @@
 			files = (
 				71C1A2D81D769B0900FC5157 /* Main.storyboard in Resources */,
 				71C4018A1CF715C500D38126 /* audioOn.png in Resources */,
+				714690621E66F54500FA6530 /* GoogleMaps.bundle in Resources */,
 				71C401761CF7159F00D38126 /* videoOff.png in Resources */,
 				71C401751CF7159F00D38126 /* video-camera-icon@2x.png in Resources */,
 				71C401741CF7159F00D38126 /* video-camera-icon.png in Resources */,
@@ -1733,7 +1733,7 @@
 				PROVISIONING_PROFILE = "90c37bb4-c956-40e5-a21c-b5b8428703d9";
 				SDKROOT = iphoneos;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				VALID_ARCHS = "arm64 armv7 armv7s $(inherited)";
+				VALID_ARCHS = "armv7 armv7s $(inherited)";
 			};
 			name = Debug;
 		};
@@ -1772,7 +1772,7 @@
 				SDKROOT = iphoneos;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				VALIDATE_PRODUCT = YES;
-				VALID_ARCHS = "arm64 armv7 armv7s $(inherited)";
+				VALID_ARCHS = "armv7 armv7s";
 			};
 			name = Release;
 		};
@@ -1782,6 +1782,7 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD)";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ENABLE_MODULES = YES;
@@ -1796,7 +1797,6 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(PROJECT_DIR)",
 					"$(SRCROOT)",
-					"$(PROJECT_DIR)/build/Debug-iphoneos",
 					"$(inherited)",
 				);
 				HEADER_SEARCH_PATHS = (
@@ -1816,6 +1816,7 @@
 					"$(inherited)",
 					"-framework",
 					"\"Alamofire\"",
+					"-ObjC",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = iCloud.MyAppTemplates.cloudkibo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1827,7 +1828,7 @@
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = 1;
-				VALID_ARCHS = "$(ARCHS_STANDARD)";
+				VALID_ARCHS = "arm7 armv7 arm64";
 			};
 			name = Debug;
 		};
@@ -1837,6 +1838,7 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD)";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ENABLE_MODULES = YES;
@@ -1849,7 +1851,6 @@
 				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
-					"$(PROJECT_DIR)/build/Debug-iphoneos",
 					"$(SRCROOT)",
 					"$(PROJECT_DIR)",
 					"$(inherited)",
@@ -1875,6 +1876,7 @@
 					"$(inherited)",
 					"-framework",
 					"\"Alamofire\"",
+					"-ObjC",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = iCloud.MyAppTemplates.cloudkibo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1886,7 +1888,7 @@
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = 1;
-				VALID_ARCHS = "$(ARCHS_STANDARD)";
+				VALID_ARCHS = "armv7 arm7";
 			};
 			name = Release;
 		};

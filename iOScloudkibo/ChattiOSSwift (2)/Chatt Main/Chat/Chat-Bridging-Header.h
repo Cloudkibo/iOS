@@ -1,8 +1,13 @@
 //
 //  Use this file to import your target's public headers that you would like to expose to Swift.
 //
-
-
+/*
+#import "GooglePlacePicker/GooglePlacePicker.h"
+#import "GooglePlaces/GooglePlaces.h"
+#import "GoogleMapsCore/GoogleMapsCore.h"
+#import "GoogleMaps/GoogleMaps.h"
+*/
+//#import "GoogleMaps/GoogleMaps.h"
 #import "WindowsAzureMessaging/WindowsAzureMessaging.h"
 #import "RTCPeerConnectionFactory.h"
 #import "RTCAudioSource.h"
