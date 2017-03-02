@@ -1222,7 +1222,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
                                     messages2.add(["message":tblContacts[msg],"status":tblContacts[status], "type":"11", "date":defaultTimeeee, "uniqueid":tblContacts[uniqueid]])
                                 }else{
                                     
-                                    if(tblContacts[file_type]=="audio")
+                                    if(tblContacts[type]=="location")
                                     {
                                          messages2.add(["message":tblContacts[msg],"status":tblContacts[status], "type":"13", "date":defaultTimeeee, "uniqueid":tblContacts[uniqueid]])
                                         
@@ -1749,7 +1749,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
                                         {
                                             
                                             
-                                            messages2.add(["message":tblContacts[msg],"status":tblContacts[status], "type":"15", "date":defaultTimeeee, "uniqueid":tblContacts[uniqueid]])
+                                            messages2.add(["message":tblContacts[msg],"status":tblContacts[status], "type":"13", "date":defaultTimeeee, "uniqueid":tblContacts[uniqueid]])
                                         }else{
                             messages2.add(["message":tblContacts[msg],"status":tblContacts[status], "type":"1", "date":defaultTimeeee, "uniqueid":tblContacts[uniqueid]])
                                         }
@@ -2355,7 +2355,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
         if((msgType?.isEqual(to: "5"))!||(msgType?.isEqual(to: "6"))!){
         self.performSegue(withIdentifier: "showFullDocSegue", sender: nil);
         }
-            if((msgType?.isEqual(to: "14"))!){
+            if((msgType?.isEqual(to: "14"))! || (msgType?.isEqual(to: "13"))!){
                 self.performSegue(withIdentifier: "MapViewSegue", sender: nil);
             }
         }
@@ -3751,7 +3751,9 @@ let textLable = cell.viewWithTag(12) as! UILabel
              
              */
             let status=messageDic["status"] as NSString!
-            
+            let contactinfo=msg!.components(separatedBy: ":") ///return array string
+            var latitude = contactinfo[0]
+            var longitude = contactinfo[1]
             //===     print("imgNSData is \(imgNSData)")
             //var imgNSData=NSFileManager.default.contents(atPath:imgPath.path!)
             //print("hereee imgPath.path! is \(imgPath)")
@@ -3829,7 +3831,10 @@ let textLable = cell.viewWithTag(12) as! UILabel
         
             let contactinfo=msg!.components(separatedBy: ":") ///return array string
             var latitude = contactinfo[0]
-            var longitude = contactinfo[1]
+            //var longitude = contactinfo[1]
+            
+            //coz message has mag+ \(status)
+            var longitude = contactinfo[1].components(separatedBy: " ")[0]
           ///  var url=URL.init("http://maps.google.com/maps/api/staticmap?center=\(latitude) , \(longitude) &zoom=18&size=500x300&sensor=TRUE_OR_FALSE")
             var url=URL.init(string: "http://maps.google.com/maps/api/staticmap?center=\(latitude),\(longitude)&zoom=18&size=500x300&sensor=TRUE_OR_FALSE")
             let resource = ImageResource(downloadURL: url!, cacheKey: "\(uniqueidDictValue)")

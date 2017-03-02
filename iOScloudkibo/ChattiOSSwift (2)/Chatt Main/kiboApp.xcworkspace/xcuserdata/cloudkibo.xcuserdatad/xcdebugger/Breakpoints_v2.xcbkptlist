@@ -214,11 +214,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Chat/ChatDetailViewController.swift"
-            timestampString = "510148913.794353"
+            timestampString = "510153217.497172"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "3995"
-            endingLineNumber = "3995"
+            startingLineNumber = "3969"
+            endingLineNumber = "3969"
             landmarkName = "contactViewController(_:didCompleteWith:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -230,11 +230,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Chat/ChatDetailViewController.swift"
-            timestampString = "510148913.794353"
+            timestampString = "510153217.497172"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "5874"
-            endingLineNumber = "5874"
+            startingLineNumber = "5848"
+            endingLineNumber = "5848"
             landmarkName = "documentPicker(_:didPickDocumentAt:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -518,11 +518,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Chat/ChatDetailViewController.swift"
-            timestampString = "510148913.794353"
+            timestampString = "510153217.497172"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "5894"
-            endingLineNumber = "5894"
+            startingLineNumber = "5868"
+            endingLineNumber = "5868"
             landmarkName = "documentPicker(_:didPickDocumentAt:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -534,11 +534,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Chat/ChatDetailViewController.swift"
-            timestampString = "510148913.794353"
+            timestampString = "510153217.497172"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "5672"
-            endingLineNumber = "5672"
+            startingLineNumber = "5646"
+            endingLineNumber = "5646"
             landmarkName = "socketReceivedMessageChat(_:data:)"
             landmarkType = "7">
             <Locations>
@@ -582,11 +582,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Chat/ChatDetailViewController.swift"
-            timestampString = "510148913.794353"
+            timestampString = "510153217.497172"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "5671"
-            endingLineNumber = "5671"
+            startingLineNumber = "5645"
+            endingLineNumber = "5645"
             landmarkName = "socketReceivedMessageChat(_:data:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -937,11 +937,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Chat/ChatDetailViewController.swift"
-            timestampString = "510148913.794353"
+            timestampString = "510153217.497172"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "5141"
-            endingLineNumber = "5141"
+            startingLineNumber = "5115"
+            endingLineNumber = "5115"
             landmarkName = "imagePickerController(_:didFinishPickingImage:editingInfo:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -1448,11 +1448,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Chat/ChatDetailViewController.swift"
-            timestampString = "510148913.794353"
+            timestampString = "510153217.497172"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "5994"
-            endingLineNumber = "5994"
+            startingLineNumber = "5968"
+            endingLineNumber = "5968"
             landmarkName = "documentPicker(_:didPickDocumentAt:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -1464,11 +1464,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Chat/ChatDetailViewController.swift"
-            timestampString = "510148913.794353"
+            timestampString = "510153217.497172"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "5998"
-            endingLineNumber = "5998"
+            startingLineNumber = "5972"
+            endingLineNumber = "5972"
             landmarkName = "documentPicker(_:didPickDocumentAt:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -1480,11 +1480,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Chat/ChatDetailViewController.swift"
-            timestampString = "510148913.794353"
+            timestampString = "510153217.497172"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "6007"
-            endingLineNumber = "6007"
+            startingLineNumber = "5981"
+            endingLineNumber = "5981"
             landmarkName = "documentPicker(_:didPickDocumentAt:)"
             landmarkType = "7">
             <Locations>
@@ -1528,11 +1528,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Chat/ChatDetailViewController.swift"
-            timestampString = "510148913.794353"
+            timestampString = "510153217.497172"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "6062"
-            endingLineNumber = "6062"
+            startingLineNumber = "6036"
+            endingLineNumber = "6036"
             landmarkName = "documentMenu(_:didPickDocumentPicker:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -1544,11 +1544,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Chat/ChatDetailViewController.swift"
-            timestampString = "510148913.794353"
+            timestampString = "510153217.497172"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "6058"
-            endingLineNumber = "6058"
+            startingLineNumber = "6032"
+            endingLineNumber = "6032"
             landmarkName = "ChatDetailViewController"
             landmarkType = "3">
          </BreakpointContent>
@@ -1560,11 +1560,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Chat/ChatDetailViewController.swift"
-            timestampString = "510148913.794353"
+            timestampString = "510153217.497172"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "6046"
-            endingLineNumber = "6046"
+            startingLineNumber = "6020"
+            endingLineNumber = "6020"
             landmarkName = "documentPicker(_:didPickDocumentAt:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -1576,11 +1576,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Chat/ChatDetailViewController.swift"
-            timestampString = "510148913.794353"
+            timestampString = "510153217.497172"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "5100"
-            endingLineNumber = "5100"
+            startingLineNumber = "5074"
+            endingLineNumber = "5074"
             landmarkName = "imagePickerController(_:didFinishPickingImage:editingInfo:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -2726,11 +2726,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Chat/ChatDetailViewController.swift"
-            timestampString = "510148913.794353"
+            timestampString = "510153217.497172"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "6233"
-            endingLineNumber = "6233"
+            startingLineNumber = "6207"
+            endingLineNumber = "6207"
             landmarkName = "refreshSingleChatDetailUI(_:data:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -2742,11 +2742,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Chat/ChatDetailViewController.swift"
-            timestampString = "510148913.794353"
+            timestampString = "510153217.497172"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "4939"
-            endingLineNumber = "4939"
+            startingLineNumber = "4913"
+            endingLineNumber = "4913"
             landmarkName = "imagePickerController(_:didFinishPickingImage:editingInfo:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -2964,11 +2964,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Chat/ChatDetailViewController.swift"
-            timestampString = "510148913.794353"
+            timestampString = "510153217.497172"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "4633"
-            endingLineNumber = "4633"
+            startingLineNumber = "4607"
+            endingLineNumber = "4607"
             landmarkName = "contactPicker(_:didSelect:)"
             landmarkType = "7">
             <Actions>
@@ -3004,11 +3004,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Chat/ChatDetailViewController.swift"
-            timestampString = "510148913.794353"
+            timestampString = "510153217.497172"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "4805"
-            endingLineNumber = "4805"
+            startingLineNumber = "4779"
+            endingLineNumber = "4779"
             landmarkName = "imagePickerController(_:didFinishPickingMediaWithInfo:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -3020,11 +3020,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Chat/ChatDetailViewController.swift"
-            timestampString = "510148913.794353"
+            timestampString = "510153217.497172"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "4809"
-            endingLineNumber = "4809"
+            startingLineNumber = "4783"
+            endingLineNumber = "4783"
             landmarkName = "sendVideo(urlOfVideoGetMetadata:urlOfVideoPath:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -3036,11 +3036,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Chat/ChatDetailViewController.swift"
-            timestampString = "510148913.794353"
+            timestampString = "510153217.497172"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "4749"
-            endingLineNumber = "4749"
+            startingLineNumber = "4723"
+            endingLineNumber = "4723"
             landmarkName = "ChatDetailViewController"
             landmarkType = "3">
          </BreakpointContent>
@@ -3164,11 +3164,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Chat/ChatDetailViewController.swift"
-            timestampString = "510148913.794353"
+            timestampString = "510153217.497172"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "6248"
-            endingLineNumber = "6248"
+            startingLineNumber = "6222"
+            endingLineNumber = "6222"
             landmarkName = "locationManager(manager:didChangeAuthorizationStatus:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -3180,11 +3180,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Chat/ChatDetailViewController.swift"
-            timestampString = "510148913.794353"
+            timestampString = "510153217.497172"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "3855"
-            endingLineNumber = "3855"
+            startingLineNumber = "3838"
+            endingLineNumber = "3838"
             landmarkName = "tableView(_:cellForRowAtIndexPath:)"
             landmarkType = "7">
          </BreakpointContent>
