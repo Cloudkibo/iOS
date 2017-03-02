@@ -8,35 +8,41 @@
 
 import UIKit
 import GoogleMaps
-class MapViewController: UIViewController,CLLocationManagerDelegate {
+class MapViewController: UIViewController {
 
-    @IBOutlet weak var viewMapOutlet: GMSMapView!
-    
+    @IBOutlet weak var viewMapOutlet: UIView!
+    var mapView=GMSMapView()
     var latitude=""
     var longitude=""
     override func viewDidLoad() {
         super.viewDidLoad()
 
         
-        var locationManager = CLLocationManager()
+       // var locationManager = CLLocationManager()
         
         
         //locationManager.delegate = self
        // locationManager.requestWhenInUseAuthorization()
+        var latDeg=CLLocationDegrees.init(latitude)
+        var longDeg=CLLocationDegrees.init(longitude)
         
-        let camera = GMSCameraPosition.camera(withLatitude: -33.86, longitude: 151.20, zoom: 6)
-        self.viewMapOutlet.isMyLocationEnabled = true
+        if(latDeg != nil  && longDeg != nil)
+        {
+        let camera = GMSCameraPosition.camera(withLatitude: latDeg!, longitude: longDeg!, zoom: 15)
+        self.mapView.camera = camera
+        mapView.frame=viewMapOutlet.bounds
+            let marker = GMSMarker()
+            marker.position = CLLocationCoordinate2DMake(latDeg!, longDeg!)
+            // marker.title = "Sydney"
+            // marker.snippet = "Australia"
+            marker.map = mapView
+            
+        viewMapOutlet.addSubview(mapView)
+        }
         
-        self.viewMapOutlet.camera = camera
-        
-        let marker = GMSMarker()
-        marker.position = CLLocationCoordinate2DMake(-33.86, 151.20)
-       // marker.title = "Sydney"
-       // marker.snippet = "Australia"
-        marker.map = viewMapOutlet
         
         
-        var didFindMyLocation = false
+       // var didFindMyLocation = false
        // viewMap.addObserver(self, forKeyPath: "myLocation", options: NSKeyValueObservingOptions.New, context: nil)
 
         // Do any additional setup after loading the view.
