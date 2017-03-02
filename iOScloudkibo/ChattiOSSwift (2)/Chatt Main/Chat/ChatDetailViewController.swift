@@ -2355,6 +2355,9 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
         if((msgType?.isEqual(to: "5"))!||(msgType?.isEqual(to: "6"))!){
         self.performSegue(withIdentifier: "showFullDocSegue", sender: nil);
         }
+            if((msgType?.isEqual(to: "14"))!){
+                self.performSegue(withIdentifier: "MapViewSegue", sender: nil);
+            }
         }
     }
     
@@ -3853,8 +3856,11 @@ let textLable = cell.viewWithTag(12) as! UILabel
             var url=URL.init(string: "http://maps.google.com/maps/api/staticmap?center=\(latitude),\(longitude)&zoom=18&size=500x300&sensor=TRUE_OR_FALSE")
             let resource = ImageResource(downloadURL: url!, cacheKey: "\(uniqueidDictValue)")
             chatImage.kf.setImage(with: resource)
-            
+            textLable.text=msg! as! String
+            textLable.isHidden=true
             timeLabel.text="\(displaydate) \(status)"
+           // let tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(ChatDetailViewController.mapTapped(_:)))
+            //chatImage.addGestureRecognizer(tapRecognizer)
             
             /* var imgNSURL = NSURL(fileURLWithPath: msg as String)
              var imgNSData=NSFileManager.default.contents(atPath:imgNSURL.path!)
@@ -4032,6 +4038,14 @@ let textLable = cell.viewWithTag(12) as! UILabel
         let tappedImageView = gestureRecognizer.view! as! UIImageView
         selectedImage=tappedImageView.image
          self.performSegue(withIdentifier: "showFullImageSegue", sender: nil);
+        
+    }
+    func mapTapped(_ gestureRecognizer: UITapGestureRecognizer) {
+        //tappedImageView will be the image view that was tapped.
+        //dismiss it, animate it off screen, whatever.
+        //let tappedImageView = gestureRecognizer.view! as! UIImageView
+        //selectedImage=tappedImageView.image
+        self.performSegue(withIdentifier: "MapViewSegue", sender: nil);
         
     }
     func videoTapped(_ gestureRecognizer: UITapGestureRecognizer) {
@@ -5713,6 +5727,28 @@ let textLable = cell.viewWithTag(12) as! UILabel
          })
          }
          }
+        
+        
+        if segue!.identifier == "MapViewSegue" {
+            if let destinationVC = segue!.destination as? MapViewController{
+                //destinationVC.tabBarController?.selectedIndex=0
+                //self.tabBarController?.selectedIndex=0
+                let selectedRow = tblForChats.indexPathForSelectedRow!.row
+                var messageDic = messages.object(at: selectedRow) as! [String : String];
+                let coordinates = messageDic["message"] as NSString!
+                
+                let locationinfo=coordinates!.components(separatedBy: ":") ///return array string
+                var latitude = locationinfo[0]
+                var longitude = locationinfo[1]
+                destinationVC.latitude=latitude
+                destinationVC.longitude=longitude
+                self.dismiss(animated: true, completion: { () -> Void in
+                    
+                    
+                    
+                })
+            }
+        }
         if segue!.identifier == "showFullDocSegue" {
             if let destinationVC = segue!.destination as? textDocumentViewController{
                 let selectedRow = tblForChats.indexPathForSelectedRow!.row
@@ -5730,7 +5766,7 @@ let textLable = cell.viewWithTag(12) as! UILabel
                 })
             }
         }
- 
+ //MapViewSegue
     }
     
     func documentPicker(_ controller: UIDocumentPickerViewController, didPickDocumentAt url: URL) {

@@ -82,6 +82,7 @@
 		714690401E66F4BF00FA6530 /* GoogleMapsCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7146903E1E66F4BF00FA6530 /* GoogleMapsCore.framework */; };
 		714690601E66F51200FA6530 /* GoogleMapsBase.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7146905F1E66F51200FA6530 /* GoogleMapsBase.framework */; };
 		714690621E66F54500FA6530 /* GoogleMaps.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 714690611E66F54500FA6530 /* GoogleMaps.bundle */; };
+		714690661E68348E00FA6530 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 714690651E68348E00FA6530 /* MapViewController.swift */; };
 		7150119F1D12D0940091AD7B /* Reachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7150119E1D12D0940091AD7B /* Reachability.swift */; };
 		7152369A1E4AEB9100524BC3 /* SwiftyJSON.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7152368D1E4AEB6E00524BC3 /* SwiftyJSON.framework */; };
 		7152369B1E4AEB9100524BC3 /* SwiftyJSON.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 7152368D1E4AEB6E00524BC3 /* SwiftyJSON.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -562,6 +563,7 @@
 		7146903E1E66F4BF00FA6530 /* GoogleMapsCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = GoogleMapsCore.framework; sourceTree = "<group>"; };
 		7146905F1E66F51200FA6530 /* GoogleMapsBase.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = GoogleMapsBase.framework; sourceTree = "<group>"; };
 		714690611E66F54500FA6530 /* GoogleMaps.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = GoogleMaps.bundle; path = GoogleMaps.framework/Versions/A/Resources/GoogleMaps.bundle; sourceTree = "<group>"; };
+		714690651E68348E00FA6530 /* MapViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
 		7150119E1D12D0940091AD7B /* Reachability.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Reachability.swift; sourceTree = "<group>"; };
 		715236821E4AEB6E00524BC3 /* SwiftyJSON.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SwiftyJSON.xcodeproj; path = "../../../../../../../Downloads/SwiftyJSON-master 6/SwiftyJSON.xcodeproj"; sourceTree = "<group>"; };
 		7152CB231D47DDC900DB8127 /* Fabric.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Fabric.framework; sourceTree = "<group>"; };
@@ -856,6 +858,7 @@
 				71CE4C261DEFF758001637DA /* BroadcastItemCell.swift */,
 				71CE4C2A1DEFF7E9001637DA /* BroadcastListViewController.swift */,
 				71DA13361DF7CBBC002C0583 /* BroadcastListDetailsViewController.swift */,
+				714690651E68348E00FA6530 /* MapViewController.swift */,
 			);
 			path = Chat;
 			sourceTree = "<group>";
@@ -1572,6 +1575,7 @@
 				713D51C51CC11896007E0B47 /* ChatViewController.swift in Sources */,
 				713D51E51CC11896007E0B47 /* PendingRequestsListCell.swift in Sources */,
 				71C84C541E44AB2400330105 /* SocketAckManager.swift in Sources */,
+				714690661E68348E00FA6530 /* MapViewController.swift in Sources */,
 				7122F96C1D4FDFA400EBBCED /* ShowImageViewController.swift in Sources */,
 				71C84C5B1E44AB2400330105 /* SocketEngineSpec.swift in Sources */,
 				713E7E321E020EB800C7285A /* contactsSingletonClass.swift in Sources */,

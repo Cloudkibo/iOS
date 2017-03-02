@@ -3190,6 +3190,7 @@
                         <outlet property="viewForContent" destination="AhY-Jg-R2a" id="eRa-iY-9Dl"/>
                         <segue destination="LME-ma-WZ9" kind="push" identifier="showFullImageSegue" id="Ite-sp-zyZ"/>
                         <segue destination="TP2-6C-5JJ" kind="push" identifier="showFullDocSegue" id="LYu-6R-l0u"/>
+                        <segue destination="aly-VZ-y43" kind="push" identifier="MapViewSegue" id="nfZ-gF-nDM"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="u05-OP-Jjm" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -3248,14 +3249,6 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="YLH-zi-1y8" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="2151" y="-1126"/>
-        </scene>
-        <!--AV Player View Controller-->
-        <scene sceneID="aCE-cG-4Px">
-            <objects>
-                <avPlayerViewController videoGravity="AVLayerVideoGravityResizeAspect" id="LJI-0L-QwB" sceneMemberID="viewController"/>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="kha-u6-f0x" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="2578" y="-1160"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="Uqe-hH-AAS">
@@ -4474,6 +4467,31 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Jx8-Cq-88F" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-366" y="-2521"/>
+        </scene>
+        <!--Map View Controller-->
+        <scene sceneID="CxZ-kE-AWk">
+            <objects>
+                <viewController id="aly-VZ-y43" customClass="MapViewController" customModule="Chat" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="8uS-IQ-fmK">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" misplaced="YES" id="Tj2-ql-uLb">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="rNH-Vp-0Qo"/>
+                    <connections>
+                        <outlet property="viewMapOutlet" destination="Tj2-ql-uLb" id="JXl-5y-hjg"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="IwV-pQ-2Xf" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2669" y="-1116"/>
         </scene>
         <!--New Chat-->
         <scene sceneID="OGK-7T-VEf">
