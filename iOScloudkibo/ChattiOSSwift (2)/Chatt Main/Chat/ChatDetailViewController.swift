@@ -20,6 +20,7 @@ import Compression
 import ContactsUI
 import MediaPlayer
 import AVKit
+import Kingfisher
 //import GoogleMaps
 
 class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChatDelegate,UIDocumentPickerDelegate,UIDocumentMenuDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate,FileManagerDelegate,showUploadProgressDelegate,UpdateChatViewsDelegate,UpdateSingleChatDetailDelegate,CNContactPickerDelegate,CNContactViewControllerDelegate,UIPickerViewDelegate,AVAudioRecorderDelegate,CLLocationManagerDelegate
@@ -1123,7 +1124,14 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
                                     
                                     messages2.add(["message":tblContacts[msg],"status":tblContacts[status], "type":"12", "date":defaultTimeeee, "uniqueid":tblContacts[uniqueid]])
                                 }else{
+                                    if(tblContacts[type]=="location")
+                                    {
+                                        
+                                        
+                                        messages2.add(["message":tblContacts[msg],"status":tblContacts[status], "type":"14", "date":defaultTimeeee, "uniqueid":tblContacts[uniqueid]])
+                                    }else{
                         messages2.add(["message":tblContacts[msg]+" (\(tblContacts[status])) ","status":tblContacts[status], "type":"2", "date":defaultTimeeee, "uniqueid":tblContacts[uniqueid]])
+                                    }
                                 }
                             }
                        
@@ -1212,7 +1220,14 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
 
                                     
                                     messages2.add(["message":tblContacts[msg],"status":tblContacts[status], "type":"11", "date":defaultTimeeee, "uniqueid":tblContacts[uniqueid]])
-                                }else{messages2.add(["message":tblContacts[msg],"status":tblContacts[status], "type":"1", "date":defaultTimeeee, "uniqueid":tblContacts[uniqueid]])
+                                }else{
+                                    
+                                    if(tblContacts[file_type]=="audio")
+                                    {
+                                         messages2.add(["message":tblContacts[msg],"status":tblContacts[status], "type":"13", "date":defaultTimeeee, "uniqueid":tblContacts[uniqueid]])
+                                        
+                                    }else{messages2.add(["message":tblContacts[msg],"status":tblContacts[status], "type":"1", "date":defaultTimeeee, "uniqueid":tblContacts[uniqueid]])
+                                    }
                                 }
                             }
                         }
@@ -1635,8 +1650,18 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
                                             
                                             messages2.add(["message":tblContacts[msg],"status":tblContacts[status], "type":"12", "date":defaultTimeeee, "uniqueid":tblContacts[uniqueid]])
                                         }else{
+                                            
+                                            
+                                            if(tblContacts[type]=="location")
+                                            {
+                                                
+                                                
+                                                messages2.add(["message":tblContacts[msg],"status":tblContacts[status], "type":"14", "date":defaultTimeeee, "uniqueid":tblContacts[uniqueid]])
+                                            }
+                                            else{
                                 messages2.add(["message":tblContacts[msg]+" (\(tblContacts[status])) ","status":tblContacts[status], "type":"2", "date":defaultTimeeee, "uniqueid":tblContacts[uniqueid]])
                                     }
+                                        }
                                     }
                                 
                                 //^^^^self.addMessage(tblContacts[msg]+" (\(tblContacts[status])) ", ofType: "2",date: tblContacts[date],uniqueid: tblContacts[uniqueid])
@@ -1719,7 +1744,15 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
                                         
                                            messages2.add(["message":tblContacts[msg],"status":tblContacts[status], "type":"11", "date":defaultTimeeee, "uniqueid":tblContacts[uniqueid]])
                                         }else{
+                                        
+                                        if(tblContacts[type]=="location")
+                                        {
+                                            
+                                            
+                                            messages2.add(["message":tblContacts[msg],"status":tblContacts[status], "type":"15", "date":defaultTimeeee, "uniqueid":tblContacts[uniqueid]])
+                                        }else{
                             messages2.add(["message":tblContacts[msg],"status":tblContacts[status], "type":"1", "date":defaultTimeeee, "uniqueid":tblContacts[uniqueid]])
+                                        }
                                         }
                                 }
                             }
@@ -2167,7 +2200,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
             }
            else
             {
-               if(msgType.isEqual(to: "4"))
+               if(msgType.isEqual(to: "4") || msgType.isEqual(to: "14"))
                {
             let cell = tblForChats.dequeueReusableCell(withIdentifier: "FileImageReceivedCell")! as UITableViewCell
             let chatImage = cell.viewWithTag(1) as! UIImageView
@@ -3690,6 +3723,152 @@ let textLable = cell.viewWithTag(12) as! UILabel
             //local date already shortened then added to dictionary when post button is pressed
             //timeLabel.text=date2.debugDescription
         }
+        if (msgType?.isEqual(to: "14"))!{
+            cell = ///tblForChats.dequeueReusableCellWithIdentifier("ChatReceivedCell")! as UITableViewCell
+                
+                //FileImageReceivedCell
+                tblForChats.dequeueReusableCell(withIdentifier: "LocationSentCell")! as UITableViewCell
+            
+            //=====cell.tag = indexPath.row
+            
+            let deliveredLabel = cell.viewWithTag(13) as! UILabel
+            let textLable = cell.viewWithTag(12) as! UILabel
+            let timeLabel = cell.viewWithTag(11) as! UILabel
+            let chatImage = cell.viewWithTag(1) as! UIImageView
+            let profileImage = cell.viewWithTag(2) as! UIImageView
+            let progressView = cell.viewWithTag(14) as! KDCircularProgress!
+            
+            //////chatImage.contentMode = .Center
+            
+            //chatImage.frame = CGRectMake(80, chatImage.frame.origin.y, 220, 220)
+            /*let documentDirectory = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true).first as String!
+             let photoURL          = NSURL(fileURLWithPath: documentDirectory)
+             let imgPath         = photoURL.URLByAppendingPathComponent(msg as! String)
+             
+             */
+            
+            // var status=messageDic["status"] as! NSString
+            
+            ///let filename=messageDic["filename"] as! NSString
+           /* let status=(msg as! String).replacingOccurrences(of: filename as String, with: "", options: NSString.CompareOptions.literal, range: nil)
+            
+            let dirPaths = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)
+            let docsDir1 = dirPaths[0]
+            let documentDir=docsDir1 as NSString
+            
+            let imgPath=documentDir.appendingPathComponent(filename as String)
+            //  print("uniqueid image is \(uniqueidDictValue) filename is \(filename) imgPath is \(imgPath)")
+            
+            let imgNSData=FileManager.default.contents(atPath: imgPath)
+            */
+            //====     print("imgNSData is \(imgNSData)")
+            
+            //var imgNSData=NSFileManager.default.contents(atPath:imgPath.path!)
+            //print("hereee imgPath.path! is \(imgPath)")
+            
+            timeLabel.frame = CGRect(x: chatImage.frame.origin.x, y: chatImage.frame.origin.y+180, width: chatImage.frame.width,  height: timeLabel.frame.height)
+            
+            
+            let formatter = DateFormatter();
+            formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSS";
+            //formatter.dateFormat = "MM/dd hh:mm a";
+            formatter.timeZone = TimeZone.autoupdatingCurrent
+            let defaultTimeZoneStr = formatter.date(from: date2 as! String)
+            //print("defaultTimeZoneStr \(defaultTimeZoneStr)")
+            
+            let formatter2 = DateFormatter();
+            formatter2.timeZone=TimeZone.autoupdatingCurrent
+            formatter2.dateFormat = "MM/dd hh:mm a";
+            let displaydate=formatter2.string(from: defaultTimeZoneStr!)
+            
+          /*  if(imgNSData != nil /*&& (cell.tag == indexPath.row)*/)
+            {
+                chatImage.isUserInteractionEnabled = true
+                //now you need a tap gesture recognizer
+                //note that target and action point to what happens when the action is recognized.
+                let tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(ChatDetailViewController.imageTapped(_:)))
+                //Add the recognizer to your view.
+                
+                
+                let predicate=NSPredicate(format: "uniqueid = %@", uniqueidDictValue!)
+                let resultArray=uploadInfo.filtered(using: predicate)
+                if(resultArray.count>0)
+                {
+                    
+                    
+                    let uploadDone = (resultArray.first! as AnyObject).value(forKey: "isCompleted") as! Bool
+                    if(uploadDone==false)
+                    {
+                        progressView?.isHidden=false
+                    }
+                    else
+                    {
+                        progressView?.isHidden=true
+                        
+                    }
+                    
+                }
+                /*var predicate=NSPredicate(format: "uniqueid = %@", uniqueidDictValue)
+                 var resultArray=uploadInfo.filteredArrayUsingPredicate(predicate)
+                 if(resultArray.count>0)
+                 {
+                 // progressView.hidden=false
+                 // //print("yes uploading predicate satisfiedd")
+                 var bbb = resultArray.first!.valueForKey("uploadProgress") as! Float
+                 //print("yes uploading predicate satisfiedd \(bbb)")
+                 var newAngleValue=(bbb*360) as NSNumber
+                 //print("\(progressView.angle) to newangle is \(newAngleValue.integerValue)")
+                 if(progressView.angle<newAngleValue.integerValue)
+                 {
+                 progressView.animateFromAngle(progressView.angle, toAngle: newAngleValue.integerValue, duration: 0.5, completion: nil)
+                 }
+                 
+                 
+                 // progressView.animateToAngle(newAngleValue.integerValue, duration: 0.5, completion: nil)
+                 //return true
+                 }
+                 */
+                chatImage.addGestureRecognizer(tapRecognizer)
+                
+                
+                chatImage.frame = CGRect(x: chatImage.frame.origin.x, y: chatImage.frame.origin.y, width: 218, height: 200)
+                
+                chatImage.image = UIImage(data: imgNSData!)!
+                ///.stretchableImageWithLeftCapWidth(40,topCapHeight: 20);
+                chatImage.contentMode = .scaleAspectFill
+                //======= uncomment later chatImage.setNeedsDisplay()
+                //print("file shownnnnnnnnn")
+                textLable.isHidden=true
+                
+                
+                //print("date received in chat is \(date2.debugDescription)")
+                
+                timeLabel.text="\(displaydate) \(status)"
+                // timeLabel.text=date2.debugDescription
+            }*/
+            let contactinfo=msg!.components(separatedBy: ":") ///return array string
+            var latitude = contactinfo[0]
+            var longitude = contactinfo[1]
+          ///  var url=URL.init("http://maps.google.com/maps/api/staticmap?center=\(latitude) , \(longitude) &zoom=18&size=500x300&sensor=TRUE_OR_FALSE")
+            var url=URL.init(string: "http://maps.google.com/maps/api/staticmap?center=\(latitude),\(longitude)&zoom=18&size=500x300&sensor=TRUE_OR_FALSE")
+            let resource = ImageResource(downloadURL: url!, cacheKey: "\(uniqueidDictValue)")
+            chatImage.kf.setImage(with: resource)
+            
+            timeLabel.text="\(displaydate) \(status)"
+            
+            /* var imgNSURL = NSURL(fileURLWithPath: msg as String)
+             var imgNSData=NSFileManager.default.contents(atPath:imgNSURL.path!)
+             if(imgNSData != nil)
+             {
+             chatImage.image = UIImage(contentsOfFile: msg as String)
+             //print("file shownnnnnnnnn")
+             }
+             */
+        }
+
+        
+        //let resource = ImageResource(downloadURL: url, cacheKey: "my_cache_key")
+        //imageView.kf.setImage(with: resource)
         
         /*
          do {
