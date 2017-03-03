@@ -906,7 +906,7 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
         let queue2 = DispatchQueue(label: "com.cnoon.manager-response-queue", attributes: DispatchQueue.Attributes.concurrent)
         let qqq=DispatchQueue.global(qos: DispatchQoS.QoSClass.background)
         
-        let request = Alamofire.request("\(fetchChatURL)", method: .post, parameters: ["user1":username!],headers:header).responseData(queue: queue2) { response in
+        let request = Alamofire.request("\(fetchChatURL)", method: .post, parameters: ["user1":username!],encoding:JSONEncoding.default,headers:header).responseData(queue: queue2) { response in
             
             
             /*.downloadProgress(queue: DispatchQueue.global(qos: .utility)) { progress in
@@ -2023,7 +2023,7 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
                 print("Registering for notifications \(error)")
                 ///UtilityFunctions.init().log_papertrail("Registering for notifications \(error)")
                 //retry
-                UIApplication.shared.registerForRemoteNotifications()
+                /////===-------UIApplication.shared.registerForRemoteNotifications()
                 //==--UIApplication.sharedApplication().registerUserNotificationSettings(pushNotificationSettings)
 
             }
@@ -2992,7 +2992,7 @@ else{
         
         //var getUserDataURL=userDataUrl
         
-        Alamofire.request("\(fetchSingleMsgURL)", method: .post, parameters:  ["uniqueid":uniqueid],headers:header).responseJSON{response in
+        Alamofire.request("\(fetchSingleMsgURL)", method: .post, parameters:  ["uniqueid":uniqueid], encoding:JSONEncoding.default, headers:header).responseJSON{response in
          
             //alamofire4
        /* Alamofire.request(.POST,"\(fetchSingleMsgURL)",parameters: ["uniqueid":uniqueid],headers:header).validate(statusCode: 200..<300).responseJSON{response in

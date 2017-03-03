@@ -4364,6 +4364,19 @@ let textLable = cell.viewWithTag(12) as! UILabel
         
         let shareMenu = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         shareMenu.modalPresentationStyle=UIModalPresentationStyle.overCurrentContext
+        
+        
+        let cameraAction = UIAlertAction(title: "Camera", style: UIAlertActionStyle.default,handler: { (action) -> Void in
+            
+            let imagePicker=UIImagePickerController.init()
+           /// imagePicker =  UIImagePickerController()
+            imagePicker.delegate = self
+            imagePicker.sourceType = .camera
+            
+            self.present(imagePicker, animated: true, completion: nil)
+
+        })
+        
         let videoAction = UIAlertAction(title: "Share Video", style: UIAlertActionStyle.default,handler: { (action) -> Void in
             
             let picker=UIImagePickerController.init()
@@ -4476,6 +4489,8 @@ let textLable = cell.viewWithTag(12) as! UILabel
         })
         
         let cancelAction = UIAlertAction(title: "Cancel", style: UIAlertActionStyle.cancel, handler:nil)
+        
+        shareMenu.addAction(cameraAction)
         shareMenu.addAction(photoAction)
         shareMenu.addAction(videoAction)
         shareMenu.addAction(documentAction)
@@ -4770,7 +4785,12 @@ let textLable = cell.viewWithTag(12) as! UILabel
                 }
                 else{
                     print("choosen type is not video")
+                    if (picker.sourceType == UIImagePickerControllerSourceType.camera) {
+                        print ("from camera")
+                    }
                     self.imagePickerController(picker, didFinishPickingImage: (info[UIImagePickerControllerOriginalImage] as? UIImage)!, editingInfo: info as [String : AnyObject]?)
+                    
+                   
                 }
             }
         
@@ -4910,7 +4930,28 @@ let textLable = cell.viewWithTag(12) as! UILabel
 
           //  var filesizenew=""
  
-        
+        if(picker.sourceType == UIImagePickerControllerSourceType.camera)
+        {
+        var imgCaptured = editingInfo?[UIImagePickerControllerOriginalImage] as? UIImage
+            //UIImageWriteToSavedPhotosAlbum(img, Any?, Selector?, contextInfo: UnsafeMutableRawPointer?)
+            PHPhotoLibrary.shared().performChanges({
+                PHAssetChangeRequest.creationRequestForAsset(from: imgCaptured!)
+            }, completionHandler: { success, error in
+                if success {
+                    // Saved successfully!
+                    print("saved successfully")
+                }
+                else if let error = error {
+                    print(")Save photo failed with error")
+                    
+                }
+                else {
+                    print("Save photo failed with no error")
+                }
+            })
+        }
+        else
+        {
         let imageUrl          = editingInfo![UIImagePickerControllerReferenceURL] as! URL
         let imageName         = imageUrl.lastPathComponent
         let documentDirectory = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true).first as String!
@@ -5111,7 +5152,7 @@ let textLable = cell.viewWithTag(12) as! UILabel
             
             
         }*/
-        
+    }
     }
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
         print("picker cancelled")

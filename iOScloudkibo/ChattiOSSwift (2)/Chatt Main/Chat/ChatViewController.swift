@@ -439,7 +439,7 @@ EPPickerDelegate,SWTableViewCellDelegate,UpdateChatViewsDelegate,RefreshContacts
         let qqq=DispatchQueue.global(qos: DispatchQoS.QoSClass.background)
         
         
-        let request = Alamofire.request("\(fetchChatURL)", method: .post, parameters: ["user1":username!],headers:header)
+        let request = Alamofire.request("\(fetchChatURL)", method: .post, parameters: ["user1":username!],encoding:JSONEncoding.default,headers:header)
             //.responseJSON { response in
             
         //alamofire4
