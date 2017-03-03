@@ -4927,28 +4927,64 @@ let textLable = cell.viewWithTag(12) as! UILabel
         
         print("image pickerrr")
         
-
+        var ftype=""
           //  var filesizenew=""
- 
+        var data:Data!=Data.init()
         if(picker.sourceType == UIImagePickerControllerSourceType.camera)
         {
         var imgCaptured = editingInfo?[UIImagePickerControllerOriginalImage] as? UIImage
+            if(!(imgCaptured?.imageOrientation == UIImageOrientation.up ||
+                imgCaptured?.imageOrientation == UIImageOrientation.upMirrored))
+            {
+                var imgsize = imgCaptured?.size;
+                UIGraphicsBeginImageContext(imgsize!);
+                imgCaptured?.draw(in: CGRect.init(x: 0.0, y: 0.0, width: (imgsize?.width)!, height:(imgsize?.height)!))
+                imgCaptured = UIGraphicsGetImageFromCurrentImageContext()
+                UIGraphicsEndImageContext()
+            }
+            data              = UIImagePNGRepresentation(imgCaptured!)
             //UIImageWriteToSavedPhotosAlbum(img, Any?, Selector?, contextInfo: UnsafeMutableRawPointer?)
-            PHPhotoLibrary.shared().performChanges({
-                PHAssetChangeRequest.creationRequestForAsset(from: imgCaptured!)
-            }, completionHandler: { success, error in
+           // var assetRequest=PHAssetChangeRequest.creationRequestForAsset(from: imgCaptured!)
+            
+            var imageIdentifier=""
+            PHPhotoLibrary.shared().performChanges({ () -> Void in
+                let changeRequest = PHAssetChangeRequest.creationRequestForAsset(from: image)
+                let placeHolder = changeRequest.placeholderForCreatedAsset
+                imageIdentifier = (placeHolder?.localIdentifier)!
+            }, completionHandler: { (success, error) -> Void in
                 if success {
-                    // Saved successfully!
+                    //completion(localIdentifier: imageIdentifier)
+                    let result = PHAsset.fetchAssets(withLocalIdentifiers: [imageIdentifier], options: nil)
+                    
+                    var asset=result.firstObject! as PHAsset
+                    
+                    self.filename=asset.originalFilename!
+                    print("camera filename is \(self.filename)")
+                    
+                    PHImageManager.default().requestImageData(for: result.firstObject!, options: nil, resultHandler: { _, _, _, info in
+                        
+                        if let filetype = (info?["PHImageFileURLKey"] as? NSURL)?.pathExtension {
+                            ftype=filetype
+                            
+                            print("camera ftype is \(ftype)")
+                        }
+                    })
                     print("saved successfully")
-                }
-                else if let error = error {
-                    print(")Save photo failed with error")
+
+                } else if let error = error {
+                    print("Save photo failed with error")
                     
                 }
                 else {
                     print("Save photo failed with no error")
                 }
             })
+            
+            
+            
+            
+            
+ 
         }
         else
         {
@@ -4958,7 +4994,7 @@ let textLable = cell.viewWithTag(12) as! UILabel
         let photoURL          = URL(fileURLWithPath: documentDirectory!)
         let localPath         = photoURL.appendingPathComponent(imageName)
         let image             = editingInfo![UIImagePickerControllerOriginalImage]as! UIImage
-        let data              = UIImagePNGRepresentation(image)
+        data              = UIImagePNGRepresentation(image)
        
         if let imageURL = editingInfo![UIImagePickerControllerReferenceURL] as? URL {
             let result = PHAsset.fetchAssets(withALAssetURLs: [imageURL], options: nil)
@@ -4979,20 +5015,22 @@ let textLable = cell.viewWithTag(12) as! UILabel
             
             
         }
+            var furl=URL(string: localPath.absoluteString)
+            
+            //print(furl!.pathExtension!)
+            //print(furl!.deletingLastPathComponent())
+            ftype=furl!.pathExtension
         
-        
+            
+        }
         let shareMenu = UIAlertController(title: nil, message: " Send \" \(filename) \" to \(selectedFirstName) ? ", preferredStyle: .actionSheet)
         shareMenu.modalPresentationStyle=UIModalPresentationStyle.overCurrentContext
         let confirm = UIAlertAction(title: "Yes", style: UIAlertActionStyle.default,handler: { (action) -> Void in
             
         socketObj.socket.emit("logClient","IPHONE-LOG: \(username!) selected image ")
         //print("file gotttttt")
-        var furl=URL(string: localPath.absoluteString)
-        
-        //print(furl!.pathExtension!)
-        //print(furl!.deletingLastPathComponent())
-        var ftype=furl!.pathExtension
-        var fname=furl!.deletingLastPathComponent()
+      
+       // var fname=furl!.deletingLastPathComponent()
         
         
         let dirPaths = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)
@@ -5152,7 +5190,7 @@ let textLable = cell.viewWithTag(12) as! UILabel
             
             
         }*/
-    }
+   //// }
     }
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
         print("picker cancelled")
