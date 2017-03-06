@@ -1662,8 +1662,7 @@ func channel(channel: RTCDataChannel!, didReceiveMessageWithBuffer buffer: RTCDa
     //socketObj.socket.emit("logClient","IPHONE-LOG: \(username!) received message \(channelJSON) from datachannel")
     print(" hi hereee \(channelJSON.debugDescription)")
     //var bytes:[UInt8]
-    var bytes=Array<UInt8>(count: buffer.data.length, repeatedValue: 0)
-    
+    c    
     // bytes.append(buffer.data.bytes)
     buffer.data.getBytes(&bytes, length: buffer.data.length)
     print(" hi hereee2 \(bytes.debugDescription)")

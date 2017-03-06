@@ -808,6 +808,8 @@ EPPickerDelegate,SWTableViewCellDelegate,UpdateChatViewsDelegate,RefreshContacts
                     self.showError("Success", message: "You can backup your data on iCloud", button1: "Ok")
                     print("write to icloud")
                     
+                    UtilityFunctions.init().backupFiles()
+                    
                 }
             }
                 

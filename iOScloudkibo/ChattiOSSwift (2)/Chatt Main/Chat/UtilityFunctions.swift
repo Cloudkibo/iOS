@@ -1032,6 +1032,102 @@ print("tempURL is \(temporaryURL) and response is \(response.allHeaderFields)")
 
     }
     
+    func backupFiles()
+    {
+        let dirPaths = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)
+        let docsDir1 = dirPaths[0]
+        var documentDir=docsDir1 as NSString
+        
+        var dir=URL.init(string: docsDir1)
+        var keys=NSArray.init(objects: [URLResourceKey.isDirectoryKey, URLResourceKey.isPackageKey, URLResourceKey.localizedNameKey,nil])
+        var enumerator=FileManager.default.enumerator(at: dir!, includingPropertiesForKeys: [URLResourceKey.isDirectoryKey, URLResourceKey.isPackageKey, URLResourceKey.localizedNameKey])
+        
+        for url in enumerator!{
+            print("url icloud file backup is \(url)")
+            var urlfile=url as! NSURL
+           // var isPackage = AnyObject()
+            var rsrcPackage: AnyObject?
+            var rsrcDirectory: AnyObject?
+            var rsrc: AnyObject?
+            
+
+            do{
+            try urlfile.getResourceValue(&rsrcPackage, forKey: URLResourceKey.isPackageKey)
+            print("URLResourceKey.isPackageKey \(rsrcPackage)")
+            
+           // var isDirectory = AnyObject()
+            try urlfile.getResourceValue(&rsrcDirectory , forKey: URLResourceKey.isDirectoryKey)
+            print("URLResourceKey.isDirectoryKey \(rsrcDirectory)")
+       
+            
+            //var localName = ""
+                
+                if(rsrcDirectory! as! Bool == false && rsrcPackage! as! Bool == false)
+            
+                {try urlfile.getResourceValue(&rsrc , forKey:  URLResourceKey.localizedNameKey)
+            print(" URLResourceKey.localizedNameKey \(rsrc!)")
+                    saveToiCloud(filename: rsrc! as! String)
+                    
+                }
+            }
+            catch
+            {
+                print("icloud error files ")
+            }
+        }
+           //var filepath=documentDir.appendingPathComponent(filename)
+        //var filesList=FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
+       // let filelistdocsDir1 = dirPaths[0]
+       /* var filesList=FileManager.default.urls(for: documentDir, in: .userDomainMask)
+        
+        for file in filesList{
+            print("got file to be backed up")
+            print(file)
+        }*/
+        
+        /*
+         NSURL *directoryURL = <#An NSURL object that contains a reference to a directory#>;
+         
+         NSArray *keys = [NSArray arrayWithObjects:
+         NSURLIsDirectoryKey, NSURLIsPackageKey, NSURLLocalizedNameKey, nil];
+         
+         NSDirectoryEnumerator *enumerator = [[NSFileManager defaultManager]
+         enumeratorAtURL:directoryURL
+         includingPropertiesForKeys:keys
+         options:(NSDirectoryEnumerationSkipsPackageDescendants |
+         NSDirectoryEnumerationSkipsHiddenFiles)
+         errorHandler:^(NSURL *url, NSError *error) {
+         // Handle the error.
+         // Return YES if the enumeration should continue after the error.
+         return <#YES or NO#>;
+         }];
+         
+         for (NSURL *url in enumerator) {
+         
+         // Error checking is omitted for clarity.
+         
+         NSNumber *isDirectory = nil;
+         [url getResourceValue:&isDirectory forKey:NSURLIsDirectoryKey error:NULL];
+         
+         if ([isDirectory boolValue]) {
+         
+         NSString *localizedName = nil;
+         [url getResourceValue:&localizedName forKey:NSURLLocalizedNameKey error:NULL];
+         
+         NSNumber *isPackage = nil;
+         [url getResourceValue:&isPackage forKey:NSURLIsPackageKey error:NULL];
+         
+         if ([isPackage boolValue]) {
+         NSLog(@"Package at %@", localizedName);
+         }
+         else {
+         NSLog(@"Directory at %@", localizedName);
+         }
+         }
+         }
+ */
+    }
+    
     func saveToiCloud(filename:String)
         
     {
@@ -1044,14 +1140,32 @@ print("tempURL is \(temporaryURL) and response is \(response.allHeaderFields)")
         print("number 4 is \(ubiquityURL)")
         
         
+        //let dirPaths = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)
+       // let docsDir1 = dirPaths[0]
+        //var documentDir=docsDir1 as NSString
+        //var filepath=documentDir.appendingPathComponent(filename)
+        //var ddd=FileManager.init().urls(for: .documentDirectory, in: .userDomainMask)
+       // let docsDir1 = ddd[0]
+        /*
         let dirPaths = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)
         let docsDir1 = dirPaths[0]
         var documentDir=docsDir1 as NSString
         var filepath=documentDir.appendingPathComponent(filename)
-        var filePathURL=URL(fileURLWithPath: filepath)
         
-        let documentURL=filePathURL //this is full path
+        var dir=URL.init(string: filepath)
+        */
         
+        
+        let dirPaths = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)
+        let docsDir1 = dirPaths[0]
+        var documentDir=docsDir1 as NSString
+        var filePathImage2=documentDir.appendingPathComponent(filename)
+        var fileurl=NSURL(fileURLWithPath: filePathImage2)
+        //var filePathURL=URL(fileURLWithPath: filepath)
+        
+        //let documentURL=filePathURL //this is full path
+        
+        let documentURL=fileurl
         ///////   if let ubiquityURL = ubiquityURL {
         let error:NSError? = nil
         var isDir:ObjCBool = false
@@ -1108,7 +1222,7 @@ print("tempURL is \(temporaryURL) and response is \(response.allHeaderFields)")
             
             do{if (error == nil) {
                 print("copying file to icloud")
-                var ans=try filemgr.copyItem(at: documentURL! as URL, to: ubiquityURL!)
+                var ans=try filemgr.copyItem(at: documentURL as URL, to: ubiquityURL!)
                 print("Your file \(filename) has been successfully saved to iCloud Drive")
                
                 
