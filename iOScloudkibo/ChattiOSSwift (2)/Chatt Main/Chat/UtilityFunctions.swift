@@ -1043,14 +1043,16 @@ print("tempURL is \(temporaryURL) and response is \(response.allHeaderFields)")
         var enumerator=FileManager.default.enumerator(at: dir!, includingPropertiesForKeys: [URLResourceKey.isDirectoryKey, URLResourceKey.isPackageKey, URLResourceKey.localizedNameKey])
         
         for url in enumerator!{
-            print("url icloud file backup is \(url)")
             var urlfile=url as! NSURL
+            print("url icloud file backup is \(urlfile)")
+            
            // var isPackage = AnyObject()
             var rsrcPackage: AnyObject?
             var rsrcDirectory: AnyObject?
             var rsrc: AnyObject?
             
-
+            var fileeee=url as! URL
+            print("fileee \(fileeee)")
             do{
             try urlfile.getResourceValue(&rsrcPackage, forKey: URLResourceKey.isPackageKey)
             print("URLResourceKey.isPackageKey \(rsrcPackage)")
@@ -1066,7 +1068,7 @@ print("tempURL is \(temporaryURL) and response is \(response.allHeaderFields)")
             
                 {try urlfile.getResourceValue(&rsrc , forKey:  URLResourceKey.localizedNameKey)
             print(" URLResourceKey.localizedNameKey \(rsrc!)")
-                    saveToiCloud(filename: rsrc! as! String)
+                    saveToiCloud(filename: rsrc! as! String,fileurl: fileeee)
                     
                 }
             }
@@ -1128,10 +1130,35 @@ print("tempURL is \(temporaryURL) and response is \(response.allHeaderFields)")
  */
     }
     
-    func saveToiCloud(filename:String)
+    func saveToiCloud(filename:String,fileurl:URL)
         
     {
-        let filemgr = FileManager.init()
+        var filemgr=FileManager.init()
+        DispatchQueue.global(priority: DispatchQueue.GlobalQueuePriority.default).async
+            {
+                () -> Void in
+                let rootDirect=filemgr.url(forUbiquityContainerIdentifier: nil)?.appendingPathComponent("Backup")
+                if((rootDirect) != nil)
+                {
+                    if((filemgr.fileExists(atPath: rootDirect!.description, isDirectory: nil)) == false)
+                    {
+                        print("create directory")
+                        //var cloudDirect=rootDirect!.URLByAppendingPathComponent("cloudkibo")
+                        
+                        let cloudDirect=filemgr.url(forUbiquityContainerIdentifier: nil)!.appendingPathComponent("cloudkibo2")
+                        do{
+                            let directAns = try filemgr.createDirectory(at: cloudDirect, withIntermediateDirectories: true, attributes: nil)
+                            print("cloudDirect is \(cloudDirect)")
+                            print("directAns is \(directAns)")
+                        }catch{
+                            print("error 2 is \(error)")
+                        }
+                    }
+                }
+                
+        }
+        
+        //let filemgr = FileManager.init()
         var ubiquityURL=filemgr.url(forUbiquityContainerIdentifier: Constants.icloudcontainer)
         
         print("number 1 is \(ubiquityURL)")
@@ -1155,17 +1182,25 @@ print("tempURL is \(temporaryURL) and response is \(response.allHeaderFields)")
         var dir=URL.init(string: filepath)
         */
         
+        /*
+        let dirPaths = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)
+        let docsDir1 = dirPaths[0]
+        var documentDir=docsDir1 as NSString
+        var filePathImage2=documentDir.appendingPathComponent(filename)
+        var fileurl=URL(fileURLWithPath: filePathImage2)
+        //var filePathURL=URL(fileURLWithPath: filepath)
+        
+        //let documentURL=filePathURL //this is full path
+        
+        */
         
         let dirPaths = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)
         let docsDir1 = dirPaths[0]
         var documentDir=docsDir1 as NSString
         var filePathImage2=documentDir.appendingPathComponent(filename)
-        var fileurl=NSURL(fileURLWithPath: filePathImage2)
-        //var filePathURL=URL(fileURLWithPath: filepath)
+        var filepath2=URL(fileURLWithPath: filePathImage2)
+        let documentURL=filepath2
         
-        //let documentURL=filePathURL //this is full path
-        
-        let documentURL=fileurl
         ///////   if let ubiquityURL = ubiquityURL {
         let error:NSError? = nil
         var isDir:ObjCBool = false
@@ -1222,7 +1257,7 @@ print("tempURL is \(temporaryURL) and response is \(response.allHeaderFields)")
             
             do{if (error == nil) {
                 print("copying file to icloud")
-                var ans=try filemgr.copyItem(at: documentURL as URL, to: ubiquityURL!)
+                var ans=try filemgr.copyItem(at: documentURL, to: ubiquityURL!)
                 print("Your file \(filename) has been successfully saved to iCloud Drive")
                
                 

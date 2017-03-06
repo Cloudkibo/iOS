@@ -25,6 +25,7 @@ class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,
 EPPickerDelegate,SWTableViewCellDelegate,UpdateChatViewsDelegate,RefreshContactsList,UpdateMainPageChatsDelegate,CNContactViewControllerDelegate
 {
     
+    var mycontainer:URL?=nil
     let imageCache = AutoPurgingImageCache()
     var pendingGroupIcons=[String]()
     var messages:NSMutableArray!
@@ -799,16 +800,16 @@ EPPickerDelegate,SWTableViewCellDelegate,UpdateChatViewsDelegate,RefreshContacts
         
         DispatchQueue.global(qos: .utility).async {
             
-            var mycontainer = FileManager.default.url(forUbiquityContainerIdentifier: nil)
+            self.mycontainer = FileManager.default.url(forUbiquityContainerIdentifier: nil)
             
-            if(mycontainer != nil)
+            if(self.mycontainer != nil)
             {
                 //write
                 DispatchQueue.main.async {
                     self.showError("Success", message: "You can backup your data on iCloud", button1: "Ok")
                     print("write to icloud")
                     
-                    UtilityFunctions.init().backupFiles()
+                    
                     
                 }
             }
@@ -1209,6 +1210,8 @@ EPPickerDelegate,SWTableViewCellDelegate,UpdateChatViewsDelegate,RefreshContacts
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        
+        
         let _id = Expression<String>("_id")
         let firstname = Expression<String?>("firstname")
         let lastname = Expression<String?>("lastname")
@@ -1309,6 +1312,9 @@ EPPickerDelegate,SWTableViewCellDelegate,UpdateChatViewsDelegate,RefreshContacts
             //dont do on every appear. just do once
             //==--print("emaillist is \(emailList.first)")
             //==---print("emailList count is \(emailList.count)")
+            
+            
+          
             
             print("here refreshing UI in chats view line # 1123")
             DispatchQueue.global(priority: DispatchQueue.GlobalQueuePriority.default).async
@@ -3217,6 +3223,10 @@ break
     
     func BtnnewGroupClicked(_ sender:UIButton)
     {
+        if(mycontainer != nil)
+        {
+            UtilityFunctions.init().backupFiles()
+        }
         
         /*
         let contactPickerScene = EPContactsPicker(delegate: self, multiSelection:true, subtitleCellType: SubtitleCellValue.PhoneNumber)
