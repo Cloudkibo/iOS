@@ -1295,7 +1295,7 @@ print("tempURL is \(temporaryURL) and response is \(response.allHeaderFields)")
                 }
             else{
                 print("Your file \(filename) has not been saved to iCloud Drive \(error)")
-                
+                backupChatsTable()
                 }
             }
             catch{
@@ -1312,6 +1312,21 @@ print("tempURL is \(temporaryURL) and response is \(response.allHeaderFields)")
         }
         
     }
+    
+    func backupChatsTable()
+    {
+        let dirPaths = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)
+        let docsDir1 = dirPaths[0]
+        var documentDir=docsDir1 as NSString
+        var filePathImage2=documentDir.appendingPathComponent("chats.JSON")
+        print("dir to save table chat json is \(filePathImage2)")
+        var text=JSON.init([["fsdf":"Sdfs"],["Sfsf":"Sdfsd"]])
+        print("text to be saved is \(Data.init(base64Encoded: text.string!))")
+        var filestattus=FileManager.default.createFile(atPath: filePathImage2, contents: Data.init(base64Encoded: text.string!), attributes: nil)
+        print("file saved status is \(filestattus)")
+        
+    }
+
 }
 
 extension PHAsset {

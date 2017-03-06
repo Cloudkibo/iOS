@@ -156,6 +156,7 @@
 		71C84C691E44AB2400330105 /* SSLSecurity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71C84C511E44AB2400330105 /* SSLSecurity.swift */; };
 		71C84C6A1E44AB2400330105 /* WebSocket.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71C84C521E44AB2400330105 /* WebSocket.swift */; };
 		71CB8C011E6D86E9009D5D05 /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 71CB8C001E6D86E9009D5D05 /* CloudKit.framework */; };
+		71CB8C031E6DA934009D5D05 /* BackupTables.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71CB8C021E6DA934009D5D05 /* BackupTables.swift */; };
 		71CE4C271DEFF758001637DA /* BroadcastItemCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71CE4C261DEFF758001637DA /* BroadcastItemCell.swift */; };
 		71CE4C2B1DEFF7E9001637DA /* BroadcastListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71CE4C2A1DEFF7E9001637DA /* BroadcastListViewController.swift */; };
 		71D20B4D1E645A150080E28B /* audio_tiny8.wav in Resources */ = {isa = PBXBuildFile; fileRef = 71D20B4C1E645A140080E28B /* audio_tiny8.wav */; };
@@ -635,6 +636,7 @@
 		71C84C511E44AB2400330105 /* SSLSecurity.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SSLSecurity.swift; sourceTree = "<group>"; };
 		71C84C521E44AB2400330105 /* WebSocket.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WebSocket.swift; sourceTree = "<group>"; };
 		71CB8C001E6D86E9009D5D05 /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = System/Library/Frameworks/CloudKit.framework; sourceTree = SDKROOT; };
+		71CB8C021E6DA934009D5D05 /* BackupTables.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BackupTables.swift; sourceTree = "<group>"; };
 		71CE4C261DEFF758001637DA /* BroadcastItemCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BroadcastItemCell.swift; sourceTree = "<group>"; };
 		71CE4C2A1DEFF7E9001637DA /* BroadcastListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BroadcastListViewController.swift; sourceTree = "<group>"; };
 		71D20B4C1E645A140080E28B /* audio_tiny8.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = audio_tiny8.wav; sourceTree = "<group>"; };
@@ -859,6 +861,7 @@
 				71CE4C2A1DEFF7E9001637DA /* BroadcastListViewController.swift */,
 				71DA13361DF7CBBC002C0583 /* BroadcastListDetailsViewController.swift */,
 				714690651E68348E00FA6530 /* MapViewController.swift */,
+				71CB8C021E6DA934009D5D05 /* BackupTables.swift */,
 			);
 			path = Chat;
 			sourceTree = "<group>";
@@ -1537,6 +1540,7 @@
 				715D63CD1E4C57940088C192 /* Data+Compression.swift in Sources */,
 				71C1A2C41D767C0600FC5157 /* GroupChatDetailViewController.swift in Sources */,
 				713D51BF1CC11896007E0B47 /* CallRingingViewController.swift in Sources */,
+				71CB8C031E6DA934009D5D05 /* BackupTables.swift in Sources */,
 				71E046A31D228AE700B67362 /* CallHistoryTableViewController.swift in Sources */,
 				71C84C691E44AB2400330105 /* SSLSecurity.swift in Sources */,
 				713D51EA1CC11896007E0B47 /* SignupViewController.swift in Sources */,
