@@ -165,7 +165,40 @@ class AppDelegate: UIResponder, UIApplicationDelegate,AppDelegateScreenDelegate 
         log.log_papertrail("IPHONE: \(username!) has version number \(nsObject!.description)")
         
    
-       
+        var fileManager=FileManager.default
+        var currentiCloudToken=fileManager.ubiquityIdentityToken
+        if(currentiCloudToken != nil)
+        {
+            print("currentiCloudToken is \(currentiCloudToken)")
+            var newTokenData:NSData=NSKeyedArchiver.archivedData(withRootObject: currentiCloudToken!) as NSData
+            UserDefaults.standard.set(newTokenData, forKey: "com.apple.Chat.UbiquityIdentityToken")
+            
+        }
+        else{
+            UserDefaults.standard.removeObject(forKey: "com.apple.Chat.UbiquityIdentityToken")
+        }
+        
+        DispatchQueue.global(qos: .utility).async {
+            
+            var mycontainer = FileManager.default.url(forUbiquityContainerIdentifier: nil)
+            
+            if(mycontainer != nil)
+            {
+                //write
+                DispatchQueue.main.async {
+                    
+                    print("write to icloud")
+                    
+                }
+            }
+                
+            else
+            {
+                print("no permission to write to icloud")
+            }
+        }
+
+        NotificationCenter.default.addObserver(self, selector: "iCloudAccountAvailabilityChanged:",name: nil, object: nil)
       
         
         //  self.messageFrame.removeFromSuperview()
@@ -2839,6 +2872,21 @@ else{
     
     func iCloudAccountAvailabilityChanged(_ sender:Notification)
     {
+        
+        /*
+        dispatch_async (dispatch_get_global_queue (DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(void) {
+            myContainer = [[NSFileManager defaultManager]
+                URLForUbiquityContainerIdentifier: nil];
+            if (myContainer != nil) {
+                // Your app can write to the iCloud container
+                
+                dispatch_async (dispatch_get_main_queue (), ^(void) {
+                    // On the main thread, update UI and state as appropriate
+                    });
+            }
+            });
+        This example assumes that you have previously defined myContainer as an instance variable of type NSURL prior to executing this code.
+        */
 
 }
     

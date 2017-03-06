@@ -13,7 +13,6 @@
 		710947751D71189E008BC238 /* ParticipantsCollectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 710947741D71189E008BC238 /* ParticipantsCollectionCell.swift */; };
 		710CB64E1D06EB030070CA3D /* contactsDetailsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 710CB64D1D06EB030070CA3D /* contactsDetailsTableViewController.swift */; };
 		710D4E3E1D3D8F7600FBC352 /* FileTransferWebRTCclient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 710D4E3D1D3D8F7600FBC352 /* FileTransferWebRTCclient.swift */; };
-		710EF26C1C96B16500578739 /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 710EF26B1C96B16500578739 /* CloudKit.framework */; };
 		711CD86D1E5B10E90079CB88 /* AlamofireImage.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 711CD86C1E5B10E90079CB88 /* AlamofireImage.framework */; };
 		7122F96C1D4FDFA400EBBCED /* ShowImageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7122F96B1D4FDFA400EBBCED /* ShowImageViewController.swift */; };
 		7122F96E1D500FFA00EBBCED /* textDocumentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7122F96D1D500FFA00EBBCED /* textDocumentViewController.swift */; };
@@ -156,6 +155,7 @@
 		71C84C681E44AB2400330105 /* SocketTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71C84C501E44AB2400330105 /* SocketTypes.swift */; };
 		71C84C691E44AB2400330105 /* SSLSecurity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71C84C511E44AB2400330105 /* SSLSecurity.swift */; };
 		71C84C6A1E44AB2400330105 /* WebSocket.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71C84C521E44AB2400330105 /* WebSocket.swift */; };
+		71CB8BFF1E6C4636009D5D05 /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 71CB8BFE1E6C4636009D5D05 /* CloudKit.framework */; };
 		71CE4C271DEFF758001637DA /* BroadcastItemCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71CE4C261DEFF758001637DA /* BroadcastItemCell.swift */; };
 		71CE4C2B1DEFF7E9001637DA /* BroadcastListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71CE4C2A1DEFF7E9001637DA /* BroadcastListViewController.swift */; };
 		71D20B4D1E645A150080E28B /* audio_tiny8.wav in Resources */ = {isa = PBXBuildFile; fileRef = 71D20B4C1E645A140080E28B /* audio_tiny8.wav */; };
@@ -490,7 +490,6 @@
 		710947741D71189E008BC238 /* ParticipantsCollectionCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ParticipantsCollectionCell.swift; sourceTree = "<group>"; };
 		710CB64D1D06EB030070CA3D /* contactsDetailsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = contactsDetailsTableViewController.swift; sourceTree = "<group>"; };
 		710D4E3D1D3D8F7600FBC352 /* FileTransferWebRTCclient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FileTransferWebRTCclient.swift; sourceTree = "<group>"; };
-		710EF26B1C96B16500578739 /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = System/Library/Frameworks/CloudKit.framework; sourceTree = SDKROOT; };
 		711CD86C1E5B10E90079CB88 /* AlamofireImage.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; name = AlamofireImage.framework; path = "/Users/cloudkibo/Documents/kiboChatTry/iOS/iOS/iOScloudkibo/ChattiOSSwift (2)/Chatt Main/build/Debug-iphoneos/AlamofireImage.framework"; sourceTree = "<absolute>"; };
 		7122F96B1D4FDFA400EBBCED /* ShowImageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShowImageViewController.swift; sourceTree = "<group>"; };
 		7122F96D1D500FFA00EBBCED /* textDocumentViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = textDocumentViewController.swift; sourceTree = "<group>"; };
@@ -635,6 +634,7 @@
 		71C84C501E44AB2400330105 /* SocketTypes.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SocketTypes.swift; sourceTree = "<group>"; };
 		71C84C511E44AB2400330105 /* SSLSecurity.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SSLSecurity.swift; sourceTree = "<group>"; };
 		71C84C521E44AB2400330105 /* WebSocket.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WebSocket.swift; sourceTree = "<group>"; };
+		71CB8BFE1E6C4636009D5D05 /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = System/Library/Frameworks/CloudKit.framework; sourceTree = SDKROOT; };
 		71CE4C261DEFF758001637DA /* BroadcastItemCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BroadcastItemCell.swift; sourceTree = "<group>"; };
 		71CE4C2A1DEFF7E9001637DA /* BroadcastListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BroadcastListViewController.swift; sourceTree = "<group>"; };
 		71D20B4C1E645A140080E28B /* audio_tiny8.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = audio_tiny8.wav; sourceTree = "<group>"; };
@@ -690,9 +690,9 @@
 				7152369A1E4AEB9100524BC3 /* SwiftyJSON.framework in Frameworks */,
 				710070341DFBB789001530B5 /* Alamofire.framework in Frameworks */,
 				71D74E911DEBDC2300D44D59 /* libcompression.tbd in Frameworks */,
+				71CB8BFF1E6C4636009D5D05 /* CloudKit.framework in Frameworks */,
 				714690601E66F51200FA6530 /* GoogleMapsBase.framework in Frameworks */,
 				7152CB251D47DDC900DB8127 /* Fabric.framework in Frameworks */,
-				710EF26C1C96B16500578739 /* CloudKit.framework in Frameworks */,
 				714690401E66F4BF00FA6530 /* GoogleMapsCore.framework in Frameworks */,
 				716175A01C51C9B200A72E83 /* libsqlite3.0.tbd in Frameworks */,
 				713CC2741E5B2BFC00D4782F /* AlamofireImage.framework in Frameworks */,
@@ -1027,6 +1027,7 @@
 		FB1C3696C1C732596BCC879C /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				71CB8BFE1E6C4636009D5D05 /* CloudKit.framework */,
 				715A61AB1E65B1A800FB4A1D /* SystemConfiguration.framework */,
 				715A61A91E65B19F00FB4A1D /* QuartzCore.framework */,
 				715A61A71E65B19900FB4A1D /* OpenGLES.framework */,
@@ -1042,7 +1043,6 @@
 				710070331DFBB789001530B5 /* Alamofire.framework */,
 				71DA13341DF42FD2002C0583 /* Alamofire.framework */,
 				71D74E901DEBDC2300D44D59 /* libcompression.tbd */,
-				710EF26B1C96B16500578739 /* CloudKit.framework */,
 				716174971C5065BA00A72E83 /* libsqlite3.0.tbd */,
 				716174981C5065BA00A72E83 /* libsqlite3.tbd */,
 				71A98F951C4D6434009D04D7 /* Foundation.framework */,
