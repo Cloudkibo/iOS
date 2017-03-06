@@ -1137,18 +1137,20 @@ print("tempURL is \(temporaryURL) and response is \(response.allHeaderFields)")
         DispatchQueue.global(priority: DispatchQueue.GlobalQueuePriority.default).async
             {
                 () -> Void in
-                let rootDirect=filemgr.url(forUbiquityContainerIdentifier: nil)?.appendingPathComponent("Backup")
+                let rootDirect=filemgr.url(forUbiquityContainerIdentifier: "iCloud.iCloud.MyAppTemplates.cloudkibo")?.appendingPathComponent("Documents")
                 if((rootDirect) != nil)
                 {
                     if((filemgr.fileExists(atPath: rootDirect!.description, isDirectory: nil)) == false)
                     {
                         print("create directory")
                         //var cloudDirect=rootDirect!.URLByAppendingPathComponent("cloudkibo")
+                        var cloudDirect=rootDirect!.appendingPathComponent("cloudkibo")
                         
-                        let cloudDirect=filemgr.url(forUbiquityContainerIdentifier: nil)!.appendingPathComponent("cloudkibo2")
+                        ////let cloudDirect=filemgr.url(forUbiquityContainerIdentifier: "iCloud.iCloud.MyAppTemplates.cloudkibo")!.appendingPathComponent("cloudkibo2")
                         do{
-                            let directAns = try filemgr.createDirectory(at: cloudDirect, withIntermediateDirectories: true, attributes: nil)
-                            print("cloudDirect is \(cloudDirect)")
+                            var directAns = try filemgr.createDirectory(at: cloudDirect, withIntermediateDirectories: true, attributes: nil)
+                           
+                            print("cloudDirect is \(cloudDirect) and creation was \(directAns)")
                             print("directAns is \(directAns)")
                         }catch{
                             print("error 2 is \(error)")
@@ -1159,10 +1161,11 @@ print("tempURL is \(temporaryURL) and response is \(response.allHeaderFields)")
         }
         
         //let filemgr = FileManager.init()
-        var ubiquityURL=filemgr.url(forUbiquityContainerIdentifier: Constants.icloudcontainer)
-        
+       // var ubiquityURL=filemgr.url(forUbiquityContainerIdentifier: Constants.icloudcontainer)
+        var ubiquityURL=filemgr.url(forUbiquityContainerIdentifier: "iCloud.iCloud.MyAppTemplates.cloudkibo")
+            ///.appendingPathComponent("Documents")
         print("number 1 is \(ubiquityURL)")
-        ubiquityURL=ubiquityURL!.appendingPathComponent("Backup", isDirectory: true)
+        ubiquityURL=ubiquityURL!.appendingPathComponent("Documents", isDirectory: true)
         ubiquityURL=ubiquityURL!.appendingPathComponent("\(filename)")
         print("number 4 is \(ubiquityURL)")
         
@@ -1198,6 +1201,7 @@ print("tempURL is \(temporaryURL) and response is \(response.allHeaderFields)")
         let docsDir1 = dirPaths[0]
         var documentDir=docsDir1 as NSString
         var filePathImage2=documentDir.appendingPathComponent(filename)
+        var filedata=NSData.init(contentsOfFile: filePathImage2)
         var filepath2=URL(fileURLWithPath: filePathImage2)
         let documentURL=filepath2
         
@@ -1257,9 +1261,17 @@ print("tempURL is \(temporaryURL) and response is \(response.allHeaderFields)")
             
             do{if (error == nil) {
                 print("copying file to icloud")
-                var ans=try filemgr.copyItem(at: documentURL, to: ubiquityURL!)
-                print("Your file \(filename) has been successfully saved to iCloud Drive")
-               
+                
+                if(filemgr.fileExists(atPath: filePathImage2) == true)
+                
+                {
+                var ans=try filemgr.createFile(atPath: (ubiquityURL?.absoluteString)!, contents: filedata as Data?, attributes: nil)
+                    //.copyItem(at: documentURL, to: ubiquityURL!)
+                print("Your file \(filename) has been \(ans) saved to iCloud Drive")
+                }
+                else{
+                    print("cannot find file at path \(documentURL)")
+                }
                 
                 /*let alert = UIAlertController(title: "Success", message: "Your file \(filename) has been successfully saved to iCloud Drive", preferredStyle: UIAlertControllerStyle.alert)
                 alert.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.default, handler: nil))

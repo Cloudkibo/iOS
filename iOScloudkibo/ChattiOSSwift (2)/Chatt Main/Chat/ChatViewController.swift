@@ -800,7 +800,7 @@ EPPickerDelegate,SWTableViewCellDelegate,UpdateChatViewsDelegate,RefreshContacts
         
         DispatchQueue.global(qos: .utility).async {
             
-            self.mycontainer = FileManager.default.url(forUbiquityContainerIdentifier: nil)
+            self.mycontainer = FileManager.default.url(forUbiquityContainerIdentifier:"iCloud.iCloud.MyAppTemplates.cloudkibo")
             
             if(self.mycontainer != nil)
             {

@@ -1546,7 +1546,7 @@ self.remoteDisconnected()
     
     func socketReceivedOtherWebRTC(_ message:String,data:AnyObject!)
     {
-        var msg:JSON=data as! JSON
+        var msg:JSON=JSON(data)
         socketObj.socket.emit("logClient","IPHONE-LOG: \(username!) received message \(msg)")
         
         print("socketReceivedOtherWebRTC inside \(msg)")
@@ -1584,7 +1584,7 @@ self.remoteDisconnected()
             webMeetingModel.addChatMsg(chat[0]["message"].description, usr: chat[0]["username"].description)
             */
         default:print("wrong socket other mesage received")
-        var msg:JSON=data as! JSON
+        var msg:JSON=JSON(data)
         print(msg.description)
             socketObj.socket.emit("logClient","IPHONE-LOG: \(username!)received wrong socket message  \(msg.description)")
         }
@@ -1600,7 +1600,7 @@ self.remoteDisconnected()
     
     func socketReceivedMessageWebRTC(_ message:String,data:AnyObject!)
     {print("socketReceivedMessageWebRTC inside")
-        var msg:JSON=data! as! JSON
+        var msg:JSON=JSON(data!)
         socketObj.socket.emit("logClient","IPHONE-LOG: \(username!) received socketReceivedMessageWebRTC  \(msg)")
         switch(message){
             
@@ -1786,7 +1786,7 @@ self.remoteDisconnected()
     {
         print("received peer.disconnected obj from server")
         
-        var datajson:JSON=data! as! JSON
+        var datajson:JSON=JSON(data!)
         print(datajson)
         
         if(datajson[0]["id"].int == otherID)

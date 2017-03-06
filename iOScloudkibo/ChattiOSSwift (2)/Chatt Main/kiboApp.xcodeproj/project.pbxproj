@@ -155,7 +155,7 @@
 		71C84C681E44AB2400330105 /* SocketTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71C84C501E44AB2400330105 /* SocketTypes.swift */; };
 		71C84C691E44AB2400330105 /* SSLSecurity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71C84C511E44AB2400330105 /* SSLSecurity.swift */; };
 		71C84C6A1E44AB2400330105 /* WebSocket.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71C84C521E44AB2400330105 /* WebSocket.swift */; };
-		71CB8BFF1E6C4636009D5D05 /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 71CB8BFE1E6C4636009D5D05 /* CloudKit.framework */; };
+		71CB8C011E6D86E9009D5D05 /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 71CB8C001E6D86E9009D5D05 /* CloudKit.framework */; };
 		71CE4C271DEFF758001637DA /* BroadcastItemCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71CE4C261DEFF758001637DA /* BroadcastItemCell.swift */; };
 		71CE4C2B1DEFF7E9001637DA /* BroadcastListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71CE4C2A1DEFF7E9001637DA /* BroadcastListViewController.swift */; };
 		71D20B4D1E645A150080E28B /* audio_tiny8.wav in Resources */ = {isa = PBXBuildFile; fileRef = 71D20B4C1E645A140080E28B /* audio_tiny8.wav */; };
@@ -634,7 +634,7 @@
 		71C84C501E44AB2400330105 /* SocketTypes.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SocketTypes.swift; sourceTree = "<group>"; };
 		71C84C511E44AB2400330105 /* SSLSecurity.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SSLSecurity.swift; sourceTree = "<group>"; };
 		71C84C521E44AB2400330105 /* WebSocket.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WebSocket.swift; sourceTree = "<group>"; };
-		71CB8BFE1E6C4636009D5D05 /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = System/Library/Frameworks/CloudKit.framework; sourceTree = SDKROOT; };
+		71CB8C001E6D86E9009D5D05 /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = System/Library/Frameworks/CloudKit.framework; sourceTree = SDKROOT; };
 		71CE4C261DEFF758001637DA /* BroadcastItemCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BroadcastItemCell.swift; sourceTree = "<group>"; };
 		71CE4C2A1DEFF7E9001637DA /* BroadcastListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BroadcastListViewController.swift; sourceTree = "<group>"; };
 		71D20B4C1E645A140080E28B /* audio_tiny8.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = audio_tiny8.wav; sourceTree = "<group>"; };
@@ -690,7 +690,7 @@
 				7152369A1E4AEB9100524BC3 /* SwiftyJSON.framework in Frameworks */,
 				710070341DFBB789001530B5 /* Alamofire.framework in Frameworks */,
 				71D74E911DEBDC2300D44D59 /* libcompression.tbd in Frameworks */,
-				71CB8BFF1E6C4636009D5D05 /* CloudKit.framework in Frameworks */,
+				71CB8C011E6D86E9009D5D05 /* CloudKit.framework in Frameworks */,
 				714690601E66F51200FA6530 /* GoogleMapsBase.framework in Frameworks */,
 				7152CB251D47DDC900DB8127 /* Fabric.framework in Frameworks */,
 				714690401E66F4BF00FA6530 /* GoogleMapsCore.framework in Frameworks */,
@@ -1027,7 +1027,7 @@
 		FB1C3696C1C732596BCC879C /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				71CB8BFE1E6C4636009D5D05 /* CloudKit.framework */,
+				71CB8C001E6D86E9009D5D05 /* CloudKit.framework */,
 				715A61AB1E65B1A800FB4A1D /* SystemConfiguration.framework */,
 				715A61A91E65B19F00FB4A1D /* QuartzCore.framework */,
 				715A61A71E65B19900FB4A1D /* OpenGLES.framework */,
