@@ -1032,6 +1032,115 @@ print("tempURL is \(temporaryURL) and response is \(response.allHeaderFields)")
 
     }
     
+    func saveToiCloud(filename:String)
+        
+    {
+        let filemgr = FileManager.init()
+        var ubiquityURL=filemgr.url(forUbiquityContainerIdentifier: Constants.icloudcontainer)
+        
+        print("number 1 is \(ubiquityURL)")
+        ubiquityURL=ubiquityURL!.appendingPathComponent("Backup", isDirectory: true)
+        ubiquityURL=ubiquityURL!.appendingPathComponent("\(filename)")
+        print("number 4 is \(ubiquityURL)")
+        
+        
+        let dirPaths = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)
+        let docsDir1 = dirPaths[0]
+        var documentDir=docsDir1 as NSString
+        var filepath=documentDir.appendingPathComponent(filename)
+        var filePathURL=URL(fileURLWithPath: filepath)
+        
+        let documentURL=filePathURL //this is full path
+        
+        ///////   if let ubiquityURL = ubiquityURL {
+        let error:NSError? = nil
+        var isDir:ObjCBool = false
+        if (filemgr.fileExists(atPath: ubiquityURL!.path, isDirectory: &isDir)) {
+            print("file exists alrady on icloud")
+            /*do{try filemgr.removeItemAtURL(ubiquityURL!)}
+             catch{
+             print("error removing file")
+             }*/
+           /* DispatchQueue.main.async(execute: {
+                let alert = UIAlertController(title: "Error", message: "File with the name \(filejustreceivednameToSave) already exists. Please enter new name of file" , preferredStyle: .alert)
+                
+                //2. Add the text field. You can configure it however you need.
+                alert.addTextField(configurationHandler: { (textField) -> Void in
+                    textField.text = ""
+                })
+                
+                
+                //3. Grab the value from the text field, and print it when the user clicks OK.
+                alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { (action) -> Void in
+                    let textField = alert.textFields![0] as UITextField
+                    print("Text field: \(textField.text)")
+                    var newfilenamegot=textField.text!
+                    
+                    let indExt=filejustreceivednameToSave.characters.index(of: ".")
+                    let filetype=filejustreceivednameToSave.substring(from: indExt!)
+                    
+                    let indExtNewName=newfilenamegot.characters.index(of: ".")
+                    
+                    if(newfilenamegot.characters.contains("."))
+                    {
+                        newfilenamegot=newfilenamegot.substring(to: indExtNewName!)
+                    }
+                    print("newfilenamegot is \(newfilenamegot)")
+                    ////filejustreceivednameToSave=textField.text!+filetype
+                    filejustreceivednameToSave=newfilenamegot+filetype
+                    print("newwwww file isss \(filejustreceivednameToSave)")
+                    self.saveToiCloud()
+                }))
+                
+                // 4. Present the alert.
+                self.present(alert, animated: true, completion:
+                    {
+                        
+                        
+                }
+                )
+                
+            })
+            */
+            
+        }
+        else{
+            
+            do{if (error == nil) {
+                print("copying file to icloud")
+                var ans=try filemgr.copyItem(at: documentURL! as URL, to: ubiquityURL!)
+                print("Your file \(filename) has been successfully saved to iCloud Drive")
+               
+                
+                /*let alert = UIAlertController(title: "Success", message: "Your file \(filename) has been successfully saved to iCloud Drive", preferredStyle: UIAlertControllerStyle.alert)
+                alert.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.default, handler: nil))
+                self.present(alert, animated: true, completion: {
+                    
+                    
+                })*/
+                
+                //print(error?.localizedDescription);
+                
+                }
+            else{
+                print("Your file \(filename) has not been saved to iCloud Drive \(error)")
+                
+                }
+            }
+            catch{
+                //print("error anssss is \(ans)")
+                print("error icloud is \(error)")
+                /*let alert = UIAlertController(title: "Cancel", message: "\(error)", preferredStyle: UIAlertControllerStyle.alert)
+                alert.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.default, handler: nil))
+                self.present(alert, animated: true, completion: {
+                    
+                    
+                })*/
+            }
+            
+        }
+        
+    }
 }
 
 extension PHAsset {
