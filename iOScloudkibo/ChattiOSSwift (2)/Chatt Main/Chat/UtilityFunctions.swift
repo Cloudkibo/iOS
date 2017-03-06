@@ -1143,8 +1143,10 @@ print("tempURL is \(temporaryURL) and response is \(response.allHeaderFields)")
                     if((filemgr.fileExists(atPath: rootDirect!.description, isDirectory: nil)) == false)
                     {
                         print("create directory")
+                        
+                        /*
                         //var cloudDirect=rootDirect!.URLByAppendingPathComponent("cloudkibo")
-                        var cloudDirect=rootDirect!.appendingPathComponent("cloudkibo")
+                        ///var cloudDirect=rootDirect!.appendingPathComponent("cloudkibo")
                         
                         ////let cloudDirect=filemgr.url(forUbiquityContainerIdentifier: "iCloud.iCloud.MyAppTemplates.cloudkibo")!.appendingPathComponent("cloudkibo2")
                         do{
@@ -1154,7 +1156,7 @@ print("tempURL is \(temporaryURL) and response is \(response.allHeaderFields)")
                             print("directAns is \(directAns)")
                         }catch{
                             print("error 2 is \(error)")
-                        }
+                        }*/
                     }
                 }
                 
@@ -1166,6 +1168,9 @@ print("tempURL is \(temporaryURL) and response is \(response.allHeaderFields)")
             ///.appendingPathComponent("Documents")
         print("number 1 is \(ubiquityURL)")
         ubiquityURL=ubiquityURL!.appendingPathComponent("Documents", isDirectory: true)
+        
+        
+        
         ubiquityURL=ubiquityURL!.appendingPathComponent("\(filename)")
         print("number 4 is \(ubiquityURL)")
         
@@ -1265,7 +1270,9 @@ print("tempURL is \(temporaryURL) and response is \(response.allHeaderFields)")
                 if(filemgr.fileExists(atPath: filePathImage2) == true)
                 
                 {
-                var ans=try filemgr.createFile(atPath: (ubiquityURL?.absoluteString)!, contents: filedata as Data?, attributes: nil)
+                    var ans=try filemgr.setUbiquitous(true, itemAt: URL.init(fileURLWithPath: filePathImage2), destinationURL: ubiquityURL!)
+                    
+               // var ans=try filemgr.createFile(atPath: (ubiquityURL?.absoluteString)!, contents: filedata as Data?, attributes: nil)
                     //.copyItem(at: documentURL, to: ubiquityURL!)
                 print("Your file \(filename) has been \(ans) saved to iCloud Drive")
                 }
