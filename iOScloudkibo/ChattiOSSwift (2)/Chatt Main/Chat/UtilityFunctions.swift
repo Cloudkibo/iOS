@@ -1218,6 +1218,7 @@ print("tempURL is \(temporaryURL) and response is \(response.allHeaderFields)")
         var isDir:ObjCBool = false
         if (filemgr.fileExists(atPath: ubiquityURL!.path, isDirectory: &isDir)) {
             print("file exists alrady on icloud")
+              backupChatsTable()
             /*do{try filemgr.removeItemAtURL(ubiquityURL!)}
              catch{
              print("error removing file")
@@ -1278,6 +1279,7 @@ print("tempURL is \(temporaryURL) and response is \(response.allHeaderFields)")
                // var ans=try filemgr.createFile(atPath: (ubiquityURL?.absoluteString)!, contents: filedata as Data?, attributes: nil)
                     //.copyItem(at: documentURL, to: ubiquityURL!)
                 print("Your file \(filename) has been \(ans) saved to iCloud Drive")
+                    backupChatsTable()
                 }
                 else{
                     print("cannot find file at path \(documentURL)")
@@ -1313,19 +1315,96 @@ print("tempURL is \(temporaryURL) and response is \(response.allHeaderFields)")
         
     }
     
-    func backupChatsTable()
+    func backupChatsTableDraft()
     {
         let dirPaths = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)
         let docsDir1 = dirPaths[0]
         var documentDir=docsDir1 as NSString
-        var filePathImage2=documentDir.appendingPathComponent("chats.JSON")
+        var filePathImage2=documentDir.appendingPathComponent("chats1.JSON")
         print("dir to save table chat json is \(filePathImage2)")
+        
+        
         var text=JSON.init([["fsdf":"Sdfs"],["Sfsf":"Sdfsd"]])
-        print("text to be saved is \(Data.init(base64Encoded: text.string!))")
-        var filestattus=FileManager.default.createFile(atPath: filePathImage2, contents: Data.init(base64Encoded: text.string!), attributes: nil)
+        print("text to be saved is \(text)")
+        
+        do{
+            var filestattus=try FileManager.default.createFile(atPath: filePathImage2, contents: text.rawData(), attributes: nil)
         print("file saved status is \(filestattus)")
+        }
+        catch{
+            print("unable to dave chat json file")
+        }
         
     }
+    
+    func backupChatsTable()
+    {
+        
+        let dirPaths = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)
+        let docsDir1 = dirPaths[0]
+        var documentDir=docsDir1 as NSString
+        var filePathImage2=documentDir.appendingPathComponent("chats2.JSON")
+        print("dir to save table chat json is \(filePathImage2)")
+      
+        
+        var groupsList=[[String:Any]]()
+        
+        let to = Expression<String>("to")
+        let from = Expression<String>("from")
+        let fromFullName = Expression<String>("fromFullName")
+        let msg = Expression<String>("msg")
+        let owneruser = Expression<String>("owneruser")
+        let date = Expression<Date>("date")
+        let uniqueid = Expression<String>("uniqueid")
+        let status = Expression<String>("status")
+        let contactPhone = Expression<String>("contactPhone")
+        let type = Expression<String>("type")
+        let file_type = Expression<String>("file_type")
+        let file_path = Expression<String>("file_path")
+        let broadcastlistID = Expression<String>("broadcastlistID")
+        let isBroadcastMessage = Expression<Bool>("isBroadcastMessage")
+        var chats=sqliteDB.userschats
+        
+        do
+        {for chats in try sqliteDB.db.prepare(chats!){
+            // print("channel name for deptid \(deptid) is \(channelNames.get(msg_channel_name))")
+            var newEntry: [String: Any] = [:]
+            
+            newEntry["groupsList"]=chats.get(to) as String
+            newEntry["from"]=chats.get(from) as String
+            newEntry["fromFullName"]=chats.get(fromFullName) as String
+            newEntry["msg"]=chats.get(msg) as String
+            newEntry["owneruser"]=chats.get(owneruser) as String
+            newEntry["date"]=chats.get(date).debugDescription as String
+            newEntry["uniqueid"]=chats.get(uniqueid) as String
+            newEntry["status"]=chats.get(status) as String
+            newEntry["contactPhone"]=chats.get(contactPhone) as String
+            newEntry["type"]=chats.get(type) as String
+            newEntry["file_type"]=chats.get(file_type) as String
+            newEntry["file_path"]=chats.get(file_path) as String
+            newEntry["broadcastlistID"]=chats.get(broadcastlistID) as String
+            newEntry["isBroadcastMessage"]=chats.get(isBroadcastMessage) as Bool
+            
+             groupsList.append(newEntry)
+            }
+            var text=JSON.init(groupsList)
+            //print("text to be saved is \(text.r)")
+            
+            do{
+                var filestattus=try FileManager.default.createFile(atPath: filePathImage2, contents: groupsList.toJSON(), attributes: nil)
+                print("file saved status is \(filestattus)")
+            }
+            catch{
+                print("unable to dave chat json file")
+            }
+            
+        }
+        catch{
+            
+        }
+    }
+    
+    
 
 }
 
