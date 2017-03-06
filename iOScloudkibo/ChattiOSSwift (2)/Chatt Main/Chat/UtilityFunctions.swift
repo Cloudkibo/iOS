@@ -1038,7 +1038,9 @@ print("tempURL is \(temporaryURL) and response is \(response.allHeaderFields)")
         let docsDir1 = dirPaths[0]
         var documentDir=docsDir1 as NSString
         
-        var dir=URL.init(string: docsDir1)
+       var dir=URL.init(string: docsDir1)
+       
+       
         var keys=NSArray.init(objects: [URLResourceKey.isDirectoryKey, URLResourceKey.isPackageKey, URLResourceKey.localizedNameKey,nil])
         var enumerator=FileManager.default.enumerator(at: dir!, includingPropertiesForKeys: [URLResourceKey.isDirectoryKey, URLResourceKey.isPackageKey, URLResourceKey.localizedNameKey])
         
@@ -1068,6 +1070,7 @@ print("tempURL is \(temporaryURL) and response is \(response.allHeaderFields)")
             
                 {try urlfile.getResourceValue(&rsrc , forKey:  URLResourceKey.localizedNameKey)
             print(" URLResourceKey.localizedNameKey \(rsrc!)")
+                   
                     saveToiCloud(filename: rsrc! as! String,fileurl: fileeee)
                     
                 }
@@ -1137,18 +1140,18 @@ print("tempURL is \(temporaryURL) and response is \(response.allHeaderFields)")
         DispatchQueue.global(priority: DispatchQueue.GlobalQueuePriority.default).async
             {
                 () -> Void in
-                let rootDirect=filemgr.url(forUbiquityContainerIdentifier: "iCloud.iCloud.MyAppTemplates.cloudkibo")?.appendingPathComponent("Documents")
+                let rootDirect=filemgr.url(forUbiquityContainerIdentifier: "iCloud.iCloud.MyAppTemplates.cloudkibo")?.appendingPathComponent("Backup")
                 if((rootDirect) != nil)
                 {
                     if((filemgr.fileExists(atPath: rootDirect!.description, isDirectory: nil)) == false)
                     {
                         print("create directory")
                         
-                        /*
+                        
                         //var cloudDirect=rootDirect!.URLByAppendingPathComponent("cloudkibo")
                         ///var cloudDirect=rootDirect!.appendingPathComponent("cloudkibo")
                         
-                        ////let cloudDirect=filemgr.url(forUbiquityContainerIdentifier: "iCloud.iCloud.MyAppTemplates.cloudkibo")!.appendingPathComponent("cloudkibo2")
+                        let cloudDirect=filemgr.url(forUbiquityContainerIdentifier: "iCloud.iCloud.MyAppTemplates.cloudkibo")!.appendingPathComponent("Backup")
                         do{
                             var directAns = try filemgr.createDirectory(at: cloudDirect, withIntermediateDirectories: true, attributes: nil)
                            
@@ -1156,7 +1159,7 @@ print("tempURL is \(temporaryURL) and response is \(response.allHeaderFields)")
                             print("directAns is \(directAns)")
                         }catch{
                             print("error 2 is \(error)")
-                        }*/
+                        }
                     }
                 }
                 
@@ -1167,7 +1170,7 @@ print("tempURL is \(temporaryURL) and response is \(response.allHeaderFields)")
         var ubiquityURL=filemgr.url(forUbiquityContainerIdentifier: "iCloud.iCloud.MyAppTemplates.cloudkibo")
             ///.appendingPathComponent("Documents")
         print("number 1 is \(ubiquityURL)")
-        ubiquityURL=ubiquityURL!.appendingPathComponent("Documents", isDirectory: true)
+        ubiquityURL=ubiquityURL!.appendingPathComponent("Backup", isDirectory: true)
         
         
         
