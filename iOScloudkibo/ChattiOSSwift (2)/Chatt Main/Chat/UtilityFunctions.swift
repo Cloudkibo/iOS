@@ -1071,7 +1071,7 @@ print("tempURL is \(temporaryURL) and response is \(response.allHeaderFields)")
                 {try urlfile.getResourceValue(&rsrc , forKey:  URLResourceKey.localizedNameKey)
             print(" URLResourceKey.localizedNameKey \(rsrc!)")
                    
-                    saveToiCloud(filename: rsrc! as! String,fileurl: fileeee)
+                    copyToICloud(filename: rsrc! as! String,fileurl: fileeee)
                     
                 }
             }
@@ -1082,54 +1082,21 @@ print("tempURL is \(temporaryURL) and response is \(response.allHeaderFields)")
         }
         
         backupChatsTable()
+        backupFilesTable()
         
    
     }
     
-    func saveToiCloud(filename:String,fileurl:URL)
+    func copyToICloud(filename:String,fileurl:URL)
         
     {
-        var filemgr=FileManager.init()
-        DispatchQueue.global(priority: DispatchQueue.GlobalQueuePriority.default).async
-            {
-                () -> Void in
-                let rootDirect=filemgr.url(forUbiquityContainerIdentifier: "iCloud.iCloud.MyAppTemplates.cloudkibo")?.appendingPathComponent("Backup")
-                if((rootDirect) != nil)
-                {
-                    if((filemgr.fileExists(atPath: rootDirect!.description, isDirectory: nil)) == false)
-                    {
-                        print("create directory")
-                        
-                        
-                        //var cloudDirect=rootDirect!.URLByAppendingPathComponent("cloudkibo")
-                        ///var cloudDirect=rootDirect!.appendingPathComponent("cloudkibo")
-                        
-                        let cloudDirect=filemgr.url(forUbiquityContainerIdentifier: "iCloud.iCloud.MyAppTemplates.cloudkibo")!.appendingPathComponent("Backup")
-                        do{
-                            var directAns = try filemgr.createDirectory(at: cloudDirect, withIntermediateDirectories: true, attributes: nil)
-                           
-                            print("cloudDirect is \(cloudDirect) and creation was \(directAns)")
-                            //print("directAns is \(directAns)")
-                        }catch{
-                            print("error 2 is \(error)")
-                        }
-                    }
-                }
-                
-        }
-        
-        //let filemgr = FileManager.init()
-       // var ubiquityURL=filemgr.url(forUbiquityContainerIdentifier: Constants.icloudcontainer)
-        var ubiquityURL=filemgr.url(forUbiquityContainerIdentifier: "iCloud.iCloud.MyAppTemplates.cloudkibo")
-            ///.appendingPathComponent("Documents")
-        //print("number 1 is \(ubiquityURL)")
-        ubiquityURL=ubiquityURL!.appendingPathComponent("Backup", isDirectory: true)
-        
+        var ubiquityURL=getBackupDirectoryICloud()
         
         
         ubiquityURL=ubiquityURL!.appendingPathComponent("\(filename)")
         print("ubiquityURL is \(ubiquityURL)")
         
+        var filemgr=FileManager.init()
         
               let dirPaths = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)
         let docsDir1 = dirPaths[0]
@@ -1172,16 +1139,6 @@ print("tempURL is \(temporaryURL) and response is \(response.allHeaderFields)")
                 else{
                     print("cannot find file at path \(documentURL)")
                 }
-                
-                /*let alert = UIAlertController(title: "Success", message: "Your file \(filename) has been successfully saved to iCloud Drive", preferredStyle: UIAlertControllerStyle.alert)
-                alert.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.default, handler: nil))
-                self.present(alert, animated: true, completion: {
-                    
-                    
-                })*/
-                
-                //print(error?.localizedDescription);
-                
                 }
             else{
                 print("Your file \(filename) has not been saved to iCloud Drive \(error)")
@@ -1191,16 +1148,46 @@ print("tempURL is \(temporaryURL) and response is \(response.allHeaderFields)")
             catch{
                 //print("error anssss is \(ans)")
                 print("error icloud is \(error)")
-                /*let alert = UIAlertController(title: "Cancel", message: "\(error)", preferredStyle: UIAlertControllerStyle.alert)
-                alert.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.default, handler: nil))
-                self.present(alert, animated: true, completion: {
-                    
-                    
-                })*/
-            }
+                          }
             
         }
         
+    }
+    
+    func getBackupDirectoryICloud()->URL?
+    {
+        
+        var cloudDirect:URL?=nil
+        var filemgr=FileManager.init()
+      //  DispatchQueue.global(priority: DispatchQueue.GlobalQueuePriority.default).async
+        //    {
+          //      () -> Void in
+                cloudDirect=filemgr.url(forUbiquityContainerIdentifier: Constants.icloudcontainer)?.appendingPathComponent("Backup")
+                if((cloudDirect) != nil)
+                {
+                    if((filemgr.fileExists(atPath: cloudDirect!.description, isDirectory: nil)) == false)
+                    {
+                        print("create directory")
+                        
+                        
+                        //var cloudDirect=rootDirect!.URLByAppendingPathComponent("cloudkibo")
+                        ///var cloudDirect=rootDirect!.appendingPathComponent("cloudkibo")
+                        
+                         cloudDirect=filemgr.url(forUbiquityContainerIdentifier: Constants.icloudcontainer)!.appendingPathComponent("Backup")
+                        do{
+                            var directAns = try filemgr.createDirectory(at: cloudDirect!, withIntermediateDirectories: true, attributes: nil)
+                            
+                            print("cloudDirect is \(cloudDirect) and creation was \(directAns)")
+                            //print("directAns is \(directAns)")
+                        }catch{
+                            print("error creating backup directory is \(error)")
+                        }
+                    }
+                }
+                
+      //  }
+        
+        return cloudDirect
     }
     
     func backupChatsTableDraft()
@@ -1225,17 +1212,56 @@ print("tempURL is \(temporaryURL) and response is \(response.allHeaderFields)")
         
     }
     
+    func saveTableToICloud(filename:String,tableData:Data)->Bool
+    {
+        var fileMgr=FileManager.init()
+        var ubiquityURL=getBackupDirectoryICloud()
+        if(ubiquityURL != nil)
+        {
+            var fileLocation=ubiquityURL?.appendingPathComponent(filename)
+            do{var isCreated=try fileMgr.createFile(atPath: (fileLocation?.path)!, contents: tableData, attributes: nil)
+           
+            if(isCreated==true)
+            {
+                print("file created on icloud \(filename)")
+                return true
+            }
+            else{
+                print("error: file is NOT created on icloud \(filename)")
+                return false
+            }
+            }
+            catch{
+                print("error saving file \(filename) to icloud")
+                return false
+            }
+            /* if (filemgr.fileExists(atPath: fileLocation!.path, isDirectory: &isDir)) {
+                print("file exists alrady on icloud")
+                //IF JSON SO REPLACE
+                
+                
+            }
+            else{
+                
+            }*/
+
+        }
+        else{
+            print("error: iCloud not accessible")
+            return false
+        }
+    }
     func backupChatsTable()
     {
         
         let dirPaths = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)
         let docsDir1 = dirPaths[0]
         var documentDir=docsDir1 as NSString
-        var filePathImage2=documentDir.appendingPathComponent("chatsjsonbackup3.json")
+        var filePathImage2=documentDir.appendingPathComponent("userschats.json")
         print("dir to save table chat json is \(filePathImage2)")
       
         
-        var groupsList=[[String:Any]]()
+        var chatsList=[[String:Any]]()
         
         let to = Expression<String>("to")
         let from = Expression<String>("from")
@@ -1258,7 +1284,7 @@ print("tempURL is \(temporaryURL) and response is \(response.allHeaderFields)")
             // print("channel name for deptid \(deptid) is \(channelNames.get(msg_channel_name))")
             var newEntry: [String: Any] = [:]
             
-            newEntry["groupsList"]=chats.get(to) as String
+            newEntry["to"]=chats.get(to) as String
             newEntry["from"]=chats.get(from) as String
             newEntry["fromFullName"]=chats.get(fromFullName) as String
             newEntry["msg"]=chats.get(msg) as String
@@ -1273,27 +1299,176 @@ print("tempURL is \(temporaryURL) and response is \(response.allHeaderFields)")
             newEntry["broadcastlistID"]=chats.get(broadcastlistID) as String
             newEntry["isBroadcastMessage"]=chats.get(isBroadcastMessage) as Bool
             
-             groupsList.append(newEntry)
+             chatsList.append(newEntry)
             }
-            var text=JSON.init(groupsList)
+            var text=JSON.init(chatsList)
             //print("text to be saved is \(text.r)")
             
-            do{
-                var filestattus=try FileManager.default.createFile(atPath: filePathImage2, contents: groupsList.toJSON(), attributes: nil)
+/*            do{
+                var filestattus=try FileManager.default.createFile(atPath: filePathImage2, contents: chatsList.toJSON(), attributes: nil)
                 print("file saved status is \(filestattus)")
-                saveToiCloud(filename: "chatsjsonbackup3.json", fileurl: URL.init(fileURLWithPath: filePathImage2))
-            }
+                */
+                do{
+                    
+                var isSaved=saveTableToICloud(filename: "userchats.json", tableData: try chatsList.toJSON())
+                    
+                    
+                    
+                }
+                
+                catch{
+                   
+                    print("unable to convert to json")
+                }
+                
+               // saveToiCloud(filename: "userschats.json", fileurl: URL.init(fileURLWithPath: filePathImage2))
+          /*  }
             catch{
-                print("unable to dave chat json file")
-            }
+                print("unable to save userchats json file")
+            }*/
             
         }
         catch{
-            
+            print("error reading from table userchats")
         }
         
-        readChatsFile(filename: "chatsjsonbackup3.json")
+        readChatsFile(filename: "userchats.json")
     }
+    
+    func backupFilesTable()
+    {
+     
+        var filename="files.json"
+        var List=[[String:Any]]()
+        print("table name is \(filename.removeCharsFromEnd(5))")
+        let to = Expression<String>("to") //user phone or group id
+        let from = Expression<String>("from")
+        let date = Expression<Date>("date")
+        let uniqueid = Expression<String>("uniqueid") //chat uniqueid OR group image id
+        let contactPhone = Expression<String>("contactPhone")
+        let type = Expression<String>("type")  //image or document
+        let file_name = Expression<String>("file_name")
+        let file_size = Expression<String>("file_size")
+        let file_type = Expression<String>("file_type")
+        let file_path = Expression<String>("file_path")
+        
+        var files=sqliteDB.files
+        
+        do
+        {for files in try sqliteDB.db.prepare(files!){
+            // print("channel name for deptid \(deptid) is \(channelNames.get(msg_channel_name))")
+            var newEntry: [String: Any] = [:]
+            
+            newEntry["to"]=files.get(to) as String
+            newEntry["from"]=files.get(from) as String
+    
+            newEntry["date"]=files.get(date).debugDescription as String
+            newEntry["uniqueid"]=files.get(uniqueid) as String
+            newEntry["contactPhone"]=files.get(contactPhone) as String
+            newEntry["type"]=files.get(type) as String
+            newEntry["file_name"]=files.get(file_name) as String
+            newEntry["file_size"]=files.get(file_size) as String
+
+            newEntry["file_type"]=files.get(file_type) as String
+            newEntry["file_path"]=files.get(file_path) as String
+            
+            List.append(newEntry)
+            }
+            var text=JSON.init(List)
+            //print("text to be saved is \(text.r)")
+            
+            /*            do{
+             var filestattus=try FileManager.default.createFile(atPath: filePathImage2, contents: chatsList.toJSON(), attributes: nil)
+             print("file saved status is \(filestattus)")
+             */
+            do{
+                
+                var isSaved=saveTableToICloud(filename: filename, tableData: try List.toJSON())
+                
+                
+                
+            }
+                
+            catch{
+                
+                print("unable to convert to json")
+            }
+            
+            // saveToiCloud(filename: "userschats.json", fileurl: URL.init(fileURLWithPath: filePathImage2))
+            /*  }
+             catch{
+             print("unable to save userchats json file")
+             }*/
+            
+        }
+        catch{
+            print("error reading from table \(filename.removeCharsFromEnd(5))")
+        }
+        
+        readChatsFile(filename: filename)
+    }
+    
+    func backupStatusUpdateTable()
+    {
+        
+        var filename="statusUpdate.json"
+        var List=[[String:Any]]()
+        print("table name is \(filename.removeCharsFromEnd(5))")
+        
+        
+        let status = Expression<String>("status")
+        let sender = Expression<String>("sender")
+        let uniqueid = Expression<String>("uniqueid")
+        
+        var files=sqliteDB.statusUpdate
+        
+        do
+        {for statusUpdate in try sqliteDB.db.prepare(files!){
+            // print("channel name for deptid \(deptid) is \(channelNames.get(msg_channel_name))")
+            var newEntry: [String: Any] = [:]
+            
+            newEntry["status"]=statusUpdate.get(status) as String
+            newEntry["sender"]=statusUpdate.get(sender) as String
+            
+            newEntry["uniqueid"]=statusUpdate.get(uniqueid).debugDescription as String
+            
+            List.append(newEntry)
+            }
+            var text=JSON.init(List)
+            //print("text to be saved is \(text.r)")
+            
+            /*            do{
+             var filestattus=try FileManager.default.createFile(atPath: filePathImage2, contents: chatsList.toJSON(), attributes: nil)
+             print("file saved status is \(filestattus)")
+             */
+            do{
+                
+                var isSaved=saveTableToICloud(filename: filename, tableData: try List.toJSON())
+                
+                
+                
+            }
+                
+            catch{
+                
+                print("unable to convert to json")
+            }
+            
+            // saveToiCloud(filename: "userschats.json", fileurl: URL.init(fileURLWithPath: filePathImage2))
+            /*  }
+             catch{
+             print("unable to save userchats json file")
+             }*/
+            
+        }
+        catch{
+            print("error reading from table \(filename.removeCharsFromEnd(5))")
+        }
+        
+        readChatsFile(filename: filename)
+    }
+
+
     
     func readChatsFile(filename:String)
     {
@@ -1302,11 +1477,11 @@ print("tempURL is \(temporaryURL) and response is \(response.allHeaderFields)")
         ubiquityURL=ubiquityURL!.appendingPathComponent("\(filename)")
         
         do{ var filedata=try Data.init(contentsOf: ubiquityURL!)
-        print("reading chats table from icloud")
+        print("reading \(filename.removeCharsFromEnd(5)) table from icloud")
         print(JSON.init(data: filedata))
         }
         catch{
-            print("error reading chats table from icloud")
+            print("error reading \(filename.removeCharsFromEnd(5)) table from icloud")
         }
     }
     
