@@ -1080,6 +1080,9 @@ print("tempURL is \(temporaryURL) and response is \(response.allHeaderFields)")
                 print("icloud error files ")
             }
         }
+        
+        backupChatsTable()
+        
            //var filepath=documentDir.appendingPathComponent(filename)
         //var filesList=FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
        // let filelistdocsDir1 = dirPaths[0]
@@ -1218,7 +1221,7 @@ print("tempURL is \(temporaryURL) and response is \(response.allHeaderFields)")
         var isDir:ObjCBool = false
         if (filemgr.fileExists(atPath: ubiquityURL!.path, isDirectory: &isDir)) {
             print("file exists alrady on icloud")
-              backupChatsTable()
+              ///////------backupChatsTable()
             /*do{try filemgr.removeItemAtURL(ubiquityURL!)}
              catch{
              print("error removing file")
@@ -1279,7 +1282,7 @@ print("tempURL is \(temporaryURL) and response is \(response.allHeaderFields)")
                // var ans=try filemgr.createFile(atPath: (ubiquityURL?.absoluteString)!, contents: filedata as Data?, attributes: nil)
                     //.copyItem(at: documentURL, to: ubiquityURL!)
                 print("Your file \(filename) has been \(ans) saved to iCloud Drive")
-                    backupChatsTable()
+                   ///--- backupChatsTable()
                 }
                 else{
                     print("cannot find file at path \(documentURL)")
@@ -1297,7 +1300,7 @@ print("tempURL is \(temporaryURL) and response is \(response.allHeaderFields)")
                 }
             else{
                 print("Your file \(filename) has not been saved to iCloud Drive \(error)")
-                backupChatsTable()
+                //-----backupChatsTable()
                 }
             }
             catch{
@@ -1343,7 +1346,7 @@ print("tempURL is \(temporaryURL) and response is \(response.allHeaderFields)")
         let dirPaths = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)
         let docsDir1 = dirPaths[0]
         var documentDir=docsDir1 as NSString
-        var filePathImage2=documentDir.appendingPathComponent("chats2.JSON")
+        var filePathImage2=documentDir.appendingPathComponent("chatsjsonbackup2.json")
         print("dir to save table chat json is \(filePathImage2)")
       
         
@@ -1393,6 +1396,7 @@ print("tempURL is \(temporaryURL) and response is \(response.allHeaderFields)")
             do{
                 var filestattus=try FileManager.default.createFile(atPath: filePathImage2, contents: groupsList.toJSON(), attributes: nil)
                 print("file saved status is \(filestattus)")
+                saveToiCloud(filename: "chatsjsonbackup2.json", fileurl: URL.init(fileURLWithPath: filePathImage2))
             }
             catch{
                 print("unable to dave chat json file")
@@ -1402,7 +1406,24 @@ print("tempURL is \(temporaryURL) and response is \(response.allHeaderFields)")
         catch{
             
         }
+        
+        ///////readChatsFile(filename: "chatsjsonbackup2.json")
     }
+    
+    /*func readChatsFile(filename:String)
+    {
+        var ubiquityURL=FileManager.init().url(forUbiquityContainerIdentifier: "iCloud.iCloud.MyAppTemplates.cloudkibo")
+        ubiquityURL=ubiquityURL!.appendingPathComponent("Backup", isDirectory: true)
+        ubiquityURL=ubiquityURL!.appendingPathComponent("\(filename)")
+        
+        do{ var filedata=try Data.init(contentsOf: ubiquityURL!)
+        print("reading chats table from icloud")
+        print(JSON.init(data: filedata))
+        }
+        catch{
+            print("error reading chats table from icloud")
+        }
+    }*/
     
     
 
