@@ -1083,57 +1083,7 @@ print("tempURL is \(temporaryURL) and response is \(response.allHeaderFields)")
         
         backupChatsTable()
         
-           //var filepath=documentDir.appendingPathComponent(filename)
-        //var filesList=FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
-       // let filelistdocsDir1 = dirPaths[0]
-       /* var filesList=FileManager.default.urls(for: documentDir, in: .userDomainMask)
-        
-        for file in filesList{
-            print("got file to be backed up")
-            print(file)
-        }*/
-        
-        /*
-         NSURL *directoryURL = <#An NSURL object that contains a reference to a directory#>;
-         
-         NSArray *keys = [NSArray arrayWithObjects:
-         NSURLIsDirectoryKey, NSURLIsPackageKey, NSURLLocalizedNameKey, nil];
-         
-         NSDirectoryEnumerator *enumerator = [[NSFileManager defaultManager]
-         enumeratorAtURL:directoryURL
-         includingPropertiesForKeys:keys
-         options:(NSDirectoryEnumerationSkipsPackageDescendants |
-         NSDirectoryEnumerationSkipsHiddenFiles)
-         errorHandler:^(NSURL *url, NSError *error) {
-         // Handle the error.
-         // Return YES if the enumeration should continue after the error.
-         return <#YES or NO#>;
-         }];
-         
-         for (NSURL *url in enumerator) {
-         
-         // Error checking is omitted for clarity.
-         
-         NSNumber *isDirectory = nil;
-         [url getResourceValue:&isDirectory forKey:NSURLIsDirectoryKey error:NULL];
-         
-         if ([isDirectory boolValue]) {
-         
-         NSString *localizedName = nil;
-         [url getResourceValue:&localizedName forKey:NSURLLocalizedNameKey error:NULL];
-         
-         NSNumber *isPackage = nil;
-         [url getResourceValue:&isPackage forKey:NSURLIsPackageKey error:NULL];
-         
-         if ([isPackage boolValue]) {
-         NSLog(@"Package at %@", localizedName);
-         }
-         else {
-         NSLog(@"Directory at %@", localizedName);
-         }
-         }
-         }
- */
+   
     }
     
     func saveToiCloud(filename:String,fileurl:URL)
@@ -1159,7 +1109,7 @@ print("tempURL is \(temporaryURL) and response is \(response.allHeaderFields)")
                             var directAns = try filemgr.createDirectory(at: cloudDirect, withIntermediateDirectories: true, attributes: nil)
                            
                             print("cloudDirect is \(cloudDirect) and creation was \(directAns)")
-                            print("directAns is \(directAns)")
+                            //print("directAns is \(directAns)")
                         }catch{
                             print("error 2 is \(error)")
                         }
@@ -1172,43 +1122,16 @@ print("tempURL is \(temporaryURL) and response is \(response.allHeaderFields)")
        // var ubiquityURL=filemgr.url(forUbiquityContainerIdentifier: Constants.icloudcontainer)
         var ubiquityURL=filemgr.url(forUbiquityContainerIdentifier: "iCloud.iCloud.MyAppTemplates.cloudkibo")
             ///.appendingPathComponent("Documents")
-        print("number 1 is \(ubiquityURL)")
+        //print("number 1 is \(ubiquityURL)")
         ubiquityURL=ubiquityURL!.appendingPathComponent("Backup", isDirectory: true)
         
         
         
         ubiquityURL=ubiquityURL!.appendingPathComponent("\(filename)")
-        print("number 4 is \(ubiquityURL)")
+        print("ubiquityURL is \(ubiquityURL)")
         
         
-        //let dirPaths = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)
-       // let docsDir1 = dirPaths[0]
-        //var documentDir=docsDir1 as NSString
-        //var filepath=documentDir.appendingPathComponent(filename)
-        //var ddd=FileManager.init().urls(for: .documentDirectory, in: .userDomainMask)
-       // let docsDir1 = ddd[0]
-        /*
-        let dirPaths = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)
-        let docsDir1 = dirPaths[0]
-        var documentDir=docsDir1 as NSString
-        var filepath=documentDir.appendingPathComponent(filename)
-        
-        var dir=URL.init(string: filepath)
-        */
-        
-        /*
-        let dirPaths = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)
-        let docsDir1 = dirPaths[0]
-        var documentDir=docsDir1 as NSString
-        var filePathImage2=documentDir.appendingPathComponent(filename)
-        var fileurl=URL(fileURLWithPath: filePathImage2)
-        //var filePathURL=URL(fileURLWithPath: filepath)
-        
-        //let documentURL=filePathURL //this is full path
-        
-        */
-        
-        let dirPaths = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)
+              let dirPaths = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)
         let docsDir1 = dirPaths[0]
         var documentDir=docsDir1 as NSString
         var filePathImage2=documentDir.appendingPathComponent(filename)
@@ -1221,52 +1144,8 @@ print("tempURL is \(temporaryURL) and response is \(response.allHeaderFields)")
         var isDir:ObjCBool = false
         if (filemgr.fileExists(atPath: ubiquityURL!.path, isDirectory: &isDir)) {
             print("file exists alrady on icloud")
-              ///////------backupChatsTable()
-            /*do{try filemgr.removeItemAtURL(ubiquityURL!)}
-             catch{
-             print("error removing file")
-             }*/
-           /* DispatchQueue.main.async(execute: {
-                let alert = UIAlertController(title: "Error", message: "File with the name \(filejustreceivednameToSave) already exists. Please enter new name of file" , preferredStyle: .alert)
-                
-                //2. Add the text field. You can configure it however you need.
-                alert.addTextField(configurationHandler: { (textField) -> Void in
-                    textField.text = ""
-                })
-                
-                
-                //3. Grab the value from the text field, and print it when the user clicks OK.
-                alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { (action) -> Void in
-                    let textField = alert.textFields![0] as UITextField
-                    print("Text field: \(textField.text)")
-                    var newfilenamegot=textField.text!
-                    
-                    let indExt=filejustreceivednameToSave.characters.index(of: ".")
-                    let filetype=filejustreceivednameToSave.substring(from: indExt!)
-                    
-                    let indExtNewName=newfilenamegot.characters.index(of: ".")
-                    
-                    if(newfilenamegot.characters.contains("."))
-                    {
-                        newfilenamegot=newfilenamegot.substring(to: indExtNewName!)
-                    }
-                    print("newfilenamegot is \(newfilenamegot)")
-                    ////filejustreceivednameToSave=textField.text!+filetype
-                    filejustreceivednameToSave=newfilenamegot+filetype
-                    print("newwwww file isss \(filejustreceivednameToSave)")
-                    self.saveToiCloud()
-                }))
-                
-                // 4. Present the alert.
-                self.present(alert, animated: true, completion:
-                    {
-                        
-                        
-                }
-                )
-                
-            })
-            */
+             //IF JSON SO REPLACE
+            
             
         }
         else{
@@ -1277,12 +1156,18 @@ print("tempURL is \(temporaryURL) and response is \(response.allHeaderFields)")
                 if(filemgr.fileExists(atPath: filePathImage2) == true)
                 
                 {
-                    var ans=try filemgr.setUbiquitous(true, itemAt: URL.init(fileURLWithPath: filePathImage2), destinationURL: ubiquityURL!)
+                    
+                    do{ var ans=try filemgr.copyItem(at: URL.init(fileURLWithPath: filePathImage2), to: ubiquityURL!)
+                    ///var ans=try filemgr.setUbiquitous(true, itemAt: URL.init(fileURLWithPath: filePathImage2), destinationURL: ubiquityURL!)
                     
                // var ans=try filemgr.createFile(atPath: (ubiquityURL?.absoluteString)!, contents: filedata as Data?, attributes: nil)
                     //.copyItem(at: documentURL, to: ubiquityURL!)
                 print("Your file \(filename) has been \(ans) saved to iCloud Drive")
                    ///--- backupChatsTable()
+                    }
+                    catch{
+                        print("savedddddd to icloud")
+                    }
                 }
                 else{
                     print("cannot find file at path \(documentURL)")
@@ -1346,7 +1231,7 @@ print("tempURL is \(temporaryURL) and response is \(response.allHeaderFields)")
         let dirPaths = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)
         let docsDir1 = dirPaths[0]
         var documentDir=docsDir1 as NSString
-        var filePathImage2=documentDir.appendingPathComponent("chatsjsonbackup2.json")
+        var filePathImage2=documentDir.appendingPathComponent("chatsjsonbackup3.json")
         print("dir to save table chat json is \(filePathImage2)")
       
         
@@ -1396,7 +1281,7 @@ print("tempURL is \(temporaryURL) and response is \(response.allHeaderFields)")
             do{
                 var filestattus=try FileManager.default.createFile(atPath: filePathImage2, contents: groupsList.toJSON(), attributes: nil)
                 print("file saved status is \(filestattus)")
-                saveToiCloud(filename: "chatsjsonbackup2.json", fileurl: URL.init(fileURLWithPath: filePathImage2))
+                saveToiCloud(filename: "chatsjsonbackup3.json", fileurl: URL.init(fileURLWithPath: filePathImage2))
             }
             catch{
                 print("unable to dave chat json file")
@@ -1407,10 +1292,10 @@ print("tempURL is \(temporaryURL) and response is \(response.allHeaderFields)")
             
         }
         
-        ///////readChatsFile(filename: "chatsjsonbackup2.json")
+        readChatsFile(filename: "chatsjsonbackup3.json")
     }
     
-    /*func readChatsFile(filename:String)
+    func readChatsFile(filename:String)
     {
         var ubiquityURL=FileManager.init().url(forUbiquityContainerIdentifier: "iCloud.iCloud.MyAppTemplates.cloudkibo")
         ubiquityURL=ubiquityURL!.appendingPathComponent("Backup", isDirectory: true)
@@ -1423,7 +1308,7 @@ print("tempURL is \(temporaryURL) and response is \(response.allHeaderFields)")
         catch{
             print("error reading chats table from icloud")
         }
-    }*/
+    }
     
     
 
