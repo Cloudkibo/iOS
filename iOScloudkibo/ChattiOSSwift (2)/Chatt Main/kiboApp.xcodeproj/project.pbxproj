@@ -160,6 +160,7 @@
 		71CB8C051E6ED5FD009D5D05 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71CB8C041E6ED5FC009D5D05 /* SettingsViewController.swift */; };
 		71CB8C071E6ED715009D5D05 /* SettingsCells.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71CB8C061E6ED715009D5D05 /* SettingsCells.swift */; };
 		71CB8C091E6EE30C009D5D05 /* ChatsSettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71CB8C081E6EE30C009D5D05 /* ChatsSettingsViewController.swift */; };
+		71CB8C0B1E6EE84E009D5D05 /* BackupSettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71CB8C0A1E6EE84E009D5D05 /* BackupSettingsViewController.swift */; };
 		71CE4C271DEFF758001637DA /* BroadcastItemCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71CE4C261DEFF758001637DA /* BroadcastItemCell.swift */; };
 		71CE4C2B1DEFF7E9001637DA /* BroadcastListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71CE4C2A1DEFF7E9001637DA /* BroadcastListViewController.swift */; };
 		71D20B4D1E645A150080E28B /* audio_tiny8.wav in Resources */ = {isa = PBXBuildFile; fileRef = 71D20B4C1E645A140080E28B /* audio_tiny8.wav */; };
@@ -643,6 +644,7 @@
 		71CB8C041E6ED5FC009D5D05 /* SettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		71CB8C061E6ED715009D5D05 /* SettingsCells.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsCells.swift; sourceTree = "<group>"; };
 		71CB8C081E6EE30C009D5D05 /* ChatsSettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatsSettingsViewController.swift; sourceTree = "<group>"; };
+		71CB8C0A1E6EE84E009D5D05 /* BackupSettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BackupSettingsViewController.swift; sourceTree = "<group>"; };
 		71CE4C261DEFF758001637DA /* BroadcastItemCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BroadcastItemCell.swift; sourceTree = "<group>"; };
 		71CE4C2A1DEFF7E9001637DA /* BroadcastListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BroadcastListViewController.swift; sourceTree = "<group>"; };
 		71D20B4C1E645A140080E28B /* audio_tiny8.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = audio_tiny8.wav; sourceTree = "<group>"; };
@@ -871,6 +873,7 @@
 				71CB8C041E6ED5FC009D5D05 /* SettingsViewController.swift */,
 				71CB8C061E6ED715009D5D05 /* SettingsCells.swift */,
 				71CB8C081E6EE30C009D5D05 /* ChatsSettingsViewController.swift */,
+				71CB8C0A1E6EE84E009D5D05 /* BackupSettingsViewController.swift */,
 			);
 			path = Chat;
 			sourceTree = "<group>";
@@ -1570,6 +1573,7 @@
 				713D51CE1CC11896007E0B47 /* ContactsListCell.swift in Sources */,
 				713D51E21CC11896007E0B47 /* notificationsMainClass.swift in Sources */,
 				71DC15321D26655700E5BFC2 /* pushNotifications.md in Sources */,
+				71CB8C0B1E6EE84E009D5D05 /* BackupSettingsViewController.swift in Sources */,
 				710D4E3E1D3D8F7600FBC352 /* FileTransferWebRTCclient.swift in Sources */,
 				71EA60811D78DDAA00117B55 /* SWLongPressGestureRecognizer.m in Sources */,
 				71CB8C091E6EE30C009D5D05 /* ChatsSettingsViewController.swift in Sources */,

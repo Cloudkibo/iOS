@@ -87,7 +87,7 @@ class SettingsViewController: UIViewController,UITableViewDelegate,UITableViewDa
             return 70
         }
         else{
-            return 40
+            return 50
         }
         //return 100
     }

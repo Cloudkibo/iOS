@@ -3223,11 +3223,11 @@ break
     
     func BtnnewGroupClicked(_ sender:UIButton)
     {
-        if(mycontainer != nil)
+       /* if(mycontainer != nil)
         {
             UtilityFunctions.init().backupFiles()
         }
-        
+        */
         /*
         let contactPickerScene = EPContactsPicker(delegate: self, multiSelection:true, subtitleCellType: SubtitleCellValue.PhoneNumber)
         let navigationController = UINavigationController(rootViewController: contactPickerScene)

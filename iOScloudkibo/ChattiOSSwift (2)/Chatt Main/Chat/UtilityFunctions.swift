@@ -1107,8 +1107,14 @@ print("tempURL is \(temporaryURL) and response is \(response.allHeaderFields)")
         let documentURL=filepath2
         
         ///////   if let ubiquityURL = ubiquityURL {
-        let error:NSError? = nil
+        var error:NSError? = nil
         var isDir:ObjCBool = false
+        
+        let coordinator = NSFileCoordinator()
+        //var error:NSError? = nil
+        coordinator.coordinate(readingItemAt: ubiquityURL!, options: [], error: &error) { (url) -> Void in
+          
+        }
         if (filemgr.fileExists(atPath: ubiquityURL!.path, isDirectory: &isDir)) {
             print("file exists alrady on icloud")
              //IF JSON SO REPLACE
