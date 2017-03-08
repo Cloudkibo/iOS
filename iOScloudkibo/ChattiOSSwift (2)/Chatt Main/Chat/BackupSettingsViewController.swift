@@ -108,7 +108,7 @@ class BackupSettingsViewController: UIViewController,UITableViewDelegate,UITable
             return 1
         }
         else{
-            return 1
+            return 2
         }
         //return 2
     }
@@ -126,10 +126,19 @@ class BackupSettingsViewController: UIViewController,UITableViewDelegate,UITable
        
         if(indexPath.section==1)
         {
+            
+            if(indexPath.row==0)
+            {
            cell = tbl_BackupSettings.dequeueReusableCell(withIdentifier: "BackUpNowCell")! as! UITableViewCell
             
+            }
+            else{
+            cell = tbl_BackupSettings.dequeueReusableCell(withIdentifier: "AutoBackupCell")! as! UITableViewCell
+            
+            }
            
  
+            ///AutoBackupCell
         }
         
         return cell

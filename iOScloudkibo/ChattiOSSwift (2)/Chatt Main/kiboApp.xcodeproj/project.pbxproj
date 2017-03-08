@@ -1817,7 +1817,7 @@
 				CODE_SIGN_ENTITLEMENTS = Chat/Chat.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=*]" = "iPhone Developer: Jawaid Ekram (S6L9EK8V4A)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEVELOPMENT_TEAM = LRN8T5S99N;
 				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
@@ -1848,8 +1848,8 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = iCloud.MyAppTemplates.cloudkibo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "691b786d-f744-4d0c-b19e-200399569759";
-				PROVISIONING_PROFILE_SPECIFIER = "KiboChat Production Profile";
+				PROVISIONING_PROFILE = "90c37bb4-c956-40e5-a21c-b5b8428703d9";
+				PROVISIONING_PROFILE_SPECIFIER = newKiboChatDevelopment;
 				SCAN_ALL_SOURCE_FILES_FOR_INCLUDES = NO;
 				SDKROOT = iphoneos;
 				SWIFT_OBJC_BRIDGING_HEADER = "Chat/Chat-Bridging-Header.h";
@@ -1873,7 +1873,7 @@
 				CODE_SIGN_ENTITLEMENTS = Chat/Chat.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=*]" = "iPhone Developer: Jawaid Ekram (S6L9EK8V4A)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEVELOPMENT_TEAM = LRN8T5S99N;
 				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
@@ -1908,8 +1908,8 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = iCloud.MyAppTemplates.cloudkibo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "691b786d-f744-4d0c-b19e-200399569759";
-				PROVISIONING_PROFILE_SPECIFIER = "KiboChat Production Profile";
+				PROVISIONING_PROFILE = "90c37bb4-c956-40e5-a21c-b5b8428703d9";
+				PROVISIONING_PROFILE_SPECIFIER = newKiboChatDevelopment;
 				SCAN_ALL_SOURCE_FILES_FOR_INCLUDES = NO;
 				SDKROOT = iphoneos;
 				SWIFT_OBJC_BRIDGING_HEADER = "Chat/Chat-Bridging-Header.h";

@@ -12,9 +12,12 @@ class BackupAutoScheduleViewController: UIViewController,UITableViewDelegate,UIT
 
     @IBOutlet weak var tbl_backupAutoScheduleSettings: UITableView!
     
+    var messages:NSMutableArray!
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        messages=NSMutableArray()
+        messages=["Daily","Weekly","Monthly","Never"]
         // Do any additional setup after loading the view.
     }
 
@@ -28,19 +31,54 @@ class BackupAutoScheduleViewController: UIViewController,UITableViewDelegate,UIT
         
         
         var cell = tbl_backupAutoScheduleSettings.dequeueReusableCell(withIdentifier: "BackupAutoScheduleOptionsCell")! as! UITableViewCell
-        
-     
+        let textLable = cell.viewWithTag(1) as! UILabel
+        textLable.text=messages.object(at:indexPath.row) as! String
      return cell
     }
     
 
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-     
+     if(indexPath.section==0)
+     {
         return 50
+        }
+     else{
+        return 200
+        }
      
     }
     
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        
+        if(section==0)
+        {
+            return 20
+        }
+        
+        else
+        {
+            return 100
+        }
+    }
     
+    
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        
+        if(section==1)
+        {
+        var titleSection:UILabel=UILabel.init()
+        titleSection.text="To avoid excessive data charges, connect your phone to Wi-Fi or disable cellular data for iCloud: iPhone Settings > iCloud > iCloud Drive > Use Cellular Data > OFF"
+        titleSection.numberOfLines=0
+        titleSection.lineBreakMode = .byWordWrapping
+        titleSection.backgroundColor = UIColor.white
+        
+        
+        return titleSection
+        }
+        else{
+            return nil
+        }
+    }
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         if(section==0)
         {return " "
@@ -51,6 +89,7 @@ class BackupAutoScheduleViewController: UIViewController,UITableViewDelegate,UIT
     }
     
     
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
         if(section==0)
@@ -58,7 +97,7 @@ class BackupAutoScheduleViewController: UIViewController,UITableViewDelegate,UIT
             return 1
         }
         else{
-            return 0
+            return messages.count
         }
         //return 2
     }
