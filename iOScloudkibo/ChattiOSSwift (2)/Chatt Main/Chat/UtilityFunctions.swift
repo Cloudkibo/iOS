@@ -22,6 +22,23 @@ class UtilityFunctions{
     {
         
     }
+    
+    let videoExtensions=[
+        "3gpp",
+        "3gp",
+        "ts",
+        "mp4",
+        "mpeg",
+        "mpg",
+        "mov",
+        "webm",
+        "flv",
+        "mng",
+        "asx",
+        "asf",
+        "wmv",
+        "avi"]
+    
     internal let mimeTypes = [
         "html": "text/html",
         "htm": "text/html",
@@ -1363,6 +1380,19 @@ print("tempURL is \(temporaryURL) and response is \(response.allHeaderFields)")
         do
         {for files in try sqliteDB.db.prepare(files!){
             // print("channel name for deptid \(deptid) is \(channelNames.get(msg_channel_name))")
+            
+            if (UserDefaults.standard.value(forKey: Constants.defaultsBackupIncludeVideosKey) == nil)
+            {
+                UserDefaults.standard.set("Off", forKey: Constants.defaultsBackupIncludeVideosKey)
+                
+            }
+            if(UserDefaults.standard.value(forKey: Constants.defaultsBackupIncludeVideosKey) as! String == "Off")
+            
+            {
+                //exclude videos
+                if(!videoExtensions.contains((files.get(file_type) as String).lowercased()))
+                {
+                    print("filetype is not video it is \(files.get(file_type) as String) and settings includevideos is set as \(UserDefaults.standard.value(forKey: Constants.defaultsBackupIncludeVideosKey) as! String)")
             var newEntry: [String: Any] = [:]
             
             newEntry["to"]=files.get(to) as String
@@ -1379,6 +1409,29 @@ print("tempURL is \(temporaryURL) and response is \(response.allHeaderFields)")
             newEntry["file_path"]=files.get(file_path) as String
             
             List.append(newEntry)
+                }
+            }
+            else
+            {
+                print("filetype is not video it is \(files.get(file_type) as String) and settings includevideos is set as \(UserDefaults.standard.value(forKey: Constants.defaultsBackupIncludeVideosKey) as! String)")
+                var newEntry: [String: Any] = [:]
+                
+                newEntry["to"]=files.get(to) as String
+                newEntry["from"]=files.get(from) as String
+                
+                newEntry["date"]=files.get(date).debugDescription as String
+                newEntry["uniqueid"]=files.get(uniqueid) as String
+                newEntry["contactPhone"]=files.get(contactPhone) as String
+                newEntry["type"]=files.get(type) as String
+                newEntry["file_name"]=files.get(file_name) as String
+                newEntry["file_size"]=files.get(file_size) as String
+                
+                newEntry["file_type"]=files.get(file_type) as String
+                newEntry["file_path"]=files.get(file_path) as String
+                
+                List.append(newEntry)
+ 
+            }
             }
             var text=JSON.init(List)
             //print("text to be saved is \(text.r)")
@@ -1390,7 +1443,7 @@ print("tempURL is \(temporaryURL) and response is \(response.allHeaderFields)")
             do{
                 
                 var isSaved=saveTableToICloud(filename: filename, tableData: try List.toJSON())
-                
+                print("files table isSaved \(isSaved)")
                 
                 
             }

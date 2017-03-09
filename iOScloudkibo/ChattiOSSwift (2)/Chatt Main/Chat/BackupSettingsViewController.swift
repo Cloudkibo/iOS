@@ -121,6 +121,7 @@ class BackupSettingsViewController: UIViewController,UITableViewDelegate,UITable
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
+       
         
         var cell = tbl_BackupSettings.dequeueReusableCell(withIdentifier: "BackupInfoCell")! as! UITableViewCell
        
@@ -145,7 +146,20 @@ class BackupSettingsViewController: UIViewController,UITableViewDelegate,UITable
                 cell = tbl_BackupSettings.dequeueReusableCell(withIdentifier: "IncludeVideosCell")! as! UITableViewCell
                 var switchIncludeVideos=cell.viewWithTag(2) as! UISwitch
                 switchIncludeVideos.tag=111
-                switchIncludeVideos.addTarget(self, action: Selector("stateChanged"), for: UIControlEvents.valueChanged)
+                if (UserDefaults.standard.value(forKey: Constants.defaultsBackupIncludeVideosKey) == nil)
+                {
+                    UserDefaults.standard.set("Off", forKey: Constants.defaultsBackupIncludeVideosKey)
+                    
+                }
+                if(UserDefaults.standard.value(forKey: Constants.defaultsBackupIncludeVideosKey) as! String == "On")
+                {
+                switchIncludeVideos.setOn(true, animated: true)
+                }
+                else
+                {
+                   switchIncludeVideos.setOn(false, animated: true)
+                }
+                ///switchIncludeVideos.addTarget(self, action: Selector("stateChanged:"), for: UIControlEvents.valueChanged)
                 //2
                 
                 //
@@ -160,7 +174,22 @@ class BackupSettingsViewController: UIViewController,UITableViewDelegate,UITable
         return cell
     }
     
-    func stateChanged(sender: AnyObject) {
+    @IBAction func switchStateChanged(_ sender: UISwitch) {
+        
+        if(sender.tag==111){
+            if sender.isOn {
+                //
+                print("switch is ON")
+                UserDefaults.standard.set("On", forKey: Constants.defaultsBackupIncludeVideosKey)
+                
+            } else {
+                  print("switch is Off")
+                UserDefaults.standard.set("Off", forKey: Constants.defaultsBackupIncludeVideosKey)
+                
+            }
+        }
+    }
+   /* func stateChanged(sender: UISwitch) {
         print("switch pressed")
          let switch1 = sender as! UISwitch
         if(switch1.tag==111){
@@ -173,12 +202,12 @@ class BackupSettingsViewController: UIViewController,UITableViewDelegate,UITable
             
         }
         }
-        }
+        }*/
     
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         print("didselect")
-        if(indexPath.section==1)
+        if(indexPath.section==1 && indexPath.row == 0)
         {
             print("section1")
             
