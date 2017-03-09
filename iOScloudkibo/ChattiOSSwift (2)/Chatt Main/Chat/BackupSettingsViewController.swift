@@ -137,6 +137,15 @@ class BackupSettingsViewController: UIViewController,UITableViewDelegate,UITable
                 
             cell = tbl_BackupSettings.dequeueReusableCell(withIdentifier: "AutoBackupCell")! as! UITableViewCell
                 
+                var lbl_option=cell.viewWithTag(2) as! UILabel
+                if (UserDefaults.standard.value(forKey: Constants.defaultsBackupTimeKey) == nil)
+                {
+                    UserDefaults.standard.set("Off", forKey: Constants.defaultsBackupTimeKey)
+                    
+                }
+                
+                lbl_option.text=UserDefaults.standard.value(forKey: Constants.defaultsBackupTimeKey) as! String
+                print("lbl_option.text is \(lbl_option.text)")
                 //IncludeVideosCell
             
             }

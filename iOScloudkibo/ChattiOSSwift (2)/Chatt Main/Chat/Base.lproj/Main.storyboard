@@ -6794,7 +6794,7 @@
                                         <rect key="frame" x="0.0" y="28" width="320" height="114"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="rEp-iO-PNI" id="nPg-NN-c8q">
-                                            <rect key="frame" x="0.0" y="0.0" width="320" height="113.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="320" height="113"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" id="POx-RS-GRP">
@@ -6830,7 +6830,7 @@
                                         <rect key="frame" x="0.0" y="142" width="320" height="50"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="u20-Pt-GKr" id="c2t-EX-c8g">
-                                            <rect key="frame" x="0.0" y="0.0" width="320" height="49.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="320" height="49"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Back Up Now" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="zo9-5h-rUA">
@@ -6847,18 +6847,18 @@
                                         <rect key="frame" x="0.0" y="192" width="320" height="48"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Pue-nb-n2I" id="Ote-4T-tbN">
-                                            <rect key="frame" x="0.0" y="0.0" width="287" height="47.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="287" height="47"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Auto Backup" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="bu0-cI-FQW">
-                                                    <rect key="frame" x="15" y="14" width="97.5" height="20.5"/>
+                                                <label opaque="NO" multipleTouchEnabled="YES" tag="1" contentMode="left" text="Auto Backup" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="bu0-cI-FQW">
+                                                    <rect key="frame" x="15" y="13" width="98" height="21"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Off" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="cZI-Mp-YMX">
-                                                    <rect key="frame" x="260.5" y="14" width="24.5" height="20.5"/>
+                                                <label opaque="NO" multipleTouchEnabled="YES" tag="2" contentMode="left" text="Off" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="cZI-Mp-YMX">
+                                                    <rect key="frame" x="260" y="13" width="25" height="21"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
@@ -6874,7 +6874,7 @@
                                         <rect key="frame" x="0.0" y="240" width="320" height="46"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="s6h-2d-J26" id="9pL-Id-LVi">
-                                            <rect key="frame" x="0.0" y="0.0" width="320" height="45.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="320" height="45"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Include Videos" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="3WM-IP-pkv">

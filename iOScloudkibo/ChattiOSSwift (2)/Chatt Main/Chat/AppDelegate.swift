@@ -151,6 +151,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate,AppDelegateScreenDelegate 
         print("========launchhhhhhhhh=====")
         print(Date())
         
+        
+       UIApplication.shared.setMinimumBackgroundFetchInterval(10)
+        
+       // UIApplication.shared.setMinimumBackgroundFetchInterval(UIApplicationBackgroundFetchIntervalMinimum)
+        
         GMSServices.provideAPIKey("AIzaSyA4ayZ7WiMRkulzF6OxZhBa8WXp7w4BkhI")
        //==--self.checkFirstRun()
         
@@ -2916,8 +2921,17 @@ else{
         return UIViewController
     }*/
     
-    /*func application(_ application: UIApplication, performFetchWithCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
-        if let tabBarController = window?.rootViewController as? UITabBarController,
+    func application(_ application: UIApplication, performFetchWithCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
+        
+        
+        print("taking backup offline")
+        UtilityFunctions.init().log_papertrail("taking backup offline")
+
+        
+        UtilityFunctions.init().backupFiles()
+        completionHandler(.newData)
+        
+        /*if let tabBarController = window?.rootViewController as? UITabBarController,
             let viewControllers = tabBarController.viewControllers
         {
             for viewController in viewControllers {
@@ -2928,10 +2942,10 @@ else{
                     }
                 }
             }
-        }
+        }*/
     }
     
-    */
+ 
     func application(_ application: UIApplication, handleEventsForBackgroundURLSession identifier: String, completionHandler: @escaping () -> Void) {
         
          NetworkingManager.sharedManager.backgroundCompletionHandler = completionHandler
