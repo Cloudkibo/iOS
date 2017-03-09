@@ -1521,13 +1521,22 @@ socketObj.socket.emit("logClient","button done pressed start time \(Date())")
                                                                                         
                                                                                         
                                                                                         
-                                                                                        self.performSegue(withIdentifier: "displayToChatSegue", sender: nil)
-                                                                            
+                                                                                        //self.performSegue(withIdentifier: "displayToChatSegue", sender: nil)
+                                                                
+                                                                                       /* var chatview=self.storyboard?.instantiateViewController(withIdentifier: "MainChatView")
                                                                                         
-                                                                                        /*self.dismiss(animated: false, completion: { () -> Void in
+                                                                                    
+                                                                                        
+                                                                                       self.present(chatview!, animated: true, completion: {
                                                                                 
                                                                                 print("logged in going to contactlist")
+                                                                                
                                                                             })*/
+                                                                                        
+                                                                                        self.dismiss(animated: false, completion: { () -> Void in
+                                                                                
+                                                                                print("logged in going to contactlist")
+                                                                            })
                                                                                         
                                                                                         }
                                                                                         

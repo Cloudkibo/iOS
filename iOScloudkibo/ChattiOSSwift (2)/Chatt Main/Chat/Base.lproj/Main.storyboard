@@ -767,7 +767,7 @@
                         <outlet property="lbl_progress" destination="aRW-wG-HGx" id="oNl-Bs-tGa"/>
                         <outlet property="lbl_version" destination="JDz-6d-X8X" id="U6L-Ya-MpL"/>
                         <outlet property="txtDisplayName" destination="GTe-Tk-m8F" id="Jbh-KY-g2J"/>
-                        <segue destination="cJu-ld-BCz" kind="push" id="7r9-iY-Uct"/>
+                        <segue destination="EF7-fc-vdB" kind="modal" identifier="displayToChatSegue" id="cPW-RE-2je"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="oQH-NK-AVV" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -782,6 +782,7 @@
                         <inset key="imageInsets" minX="0.0" minY="5" maxX="0.0" maxY="-5"/>
                     </tabBarItem>
                     <navigationItem key="navigationItem" title="Chats" id="gm6-wK-huN"/>
+                    <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" barStyle="black" translucent="NO" id="Ftl-RI-GPN">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -795,6 +796,7 @@
                     <toolbar key="toolbar" opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="XP6-om-6de">
                         <rect key="frame" x="0.0" y="524" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
+                        <color key="tintColor" red="0.054901960784313725" green="0.47843137254901963" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     </toolbar>
                     <connections>
                         <segue destination="cJu-ld-BCz" kind="relationship" relationship="rootViewController" id="YcQ-tG-0CT"/>
@@ -809,7 +811,7 @@
             <objects>
                 <viewController restorationIdentifier="MainChatView" storyboardIdentifier="MainChatView" title="Chats" id="cJu-ld-BCz" customClass="ChatViewController" customModule="Chat" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="PNV-85-Adt">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <rect key="frame" x="0.0" y="64" width="320" height="455"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" rowHeight="66" sectionHeaderHeight="22" sectionFooterHeight="22" id="qPF-7P-jaS">
@@ -1029,7 +1031,6 @@
                             </connections>
                         </barButtonItem>
                     </navigationItem>
-                    <nil key="simulatedBottomBarMetrics"/>
                     <connections>
                         <outlet property="btnContactAdd" destination="cB7-Wy-yKI" id="bVE-vT-ne2"/>
                         <outlet property="btnForLogo" destination="KXr-Gf-PHk" id="vbF-qc-KNp"/>
@@ -1149,7 +1150,7 @@
             <objects>
                 <viewController id="Kar-qX-hHJ" customClass="ArchivedChatsViewController" customModule="Chat" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="HWV-OH-irZ">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <rect key="frame" x="0.0" y="64" width="320" height="455"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="103" sectionHeaderHeight="28" sectionFooterHeight="28" id="WQb-Qp-b3G">
@@ -1239,7 +1240,7 @@
             <objects>
                 <tableViewController id="YH8-pY-Wmo" customClass="NewGroupSetDetails" customModule="Chat" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="fel-tA-dNj" userLabel="tblNewGroupDetails">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <rect key="frame" x="0.0" y="64" width="320" height="455"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <prototypes>
@@ -1828,7 +1829,7 @@
             <objects>
                 <viewController hidesBottomBarWhenPushed="YES" id="Yvw-Fw-Qsr" customClass="GroupChatingDetailController" customModule="Chat" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="YFT-Al-49q">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <rect key="frame" x="0.0" y="64" width="320" height="455"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" id="KiZ-C9-jPm">
@@ -3280,7 +3281,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="u05-OP-Jjm" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1415" y="-1141"/>
+            <point key="canvasLocation" x="1413" y="-1093"/>
         </scene>
         <!--Show Image View Controller-->
         <scene sceneID="nAQ-Bt-fgj">
@@ -3357,7 +3358,7 @@
             <objects>
                 <tableViewController id="f95-J5-fN9" customClass="contactsDetailsTableViewController" customModule="Chat" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="60" sectionHeaderHeight="28" sectionFooterHeight="28" id="ysj-dd-SVD">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <rect key="frame" x="0.0" y="64" width="320" height="455"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <prototypes>
@@ -4954,7 +4955,7 @@
             <objects>
                 <viewController id="RIV-wT-i1E" customClass="GroupMessageStatusViewController" customModule="Chat" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="nkB-oO-0n0">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <rect key="frame" x="0.0" y="64" width="320" height="455"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="Nsx-G1-7fc">
@@ -5059,7 +5060,7 @@
                                 </connections>
                             </tableView>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="11" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="12:45 PM" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="bLx-b6-BFv">
-                                <rect key="frame" x="183" y="5" width="53" height="17"/>
+                                <rect key="frame" x="183" y="-108" width="53" height="17"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
                                 <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="9"/>
@@ -5087,7 +5088,7 @@
             <objects>
                 <viewController storyboardIdentifier="BroadcastListView" hidesBottomBarWhenPushed="YES" id="Rgk-Rk-lne" customClass="BroadcastListViewController" customModule="Chat" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="0y3-sA-Lsl">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <rect key="frame" x="0.0" y="64" width="320" height="504"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" id="uM7-X0-w22">
@@ -5191,7 +5192,7 @@
             <objects>
                 <viewController id="LaF-Wn-rQI" customClass="BroadcastListDetailsViewController" customModule="Chat" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="OHM-pL-quI">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <rect key="frame" x="0.0" y="64" width="320" height="504"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="FsE-cg-xNn">
@@ -7118,22 +7119,23 @@
         <simulatedScreenMetrics key="destination" type="retina4_0.fullscreen"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="OaJ-Hk-2uB"/>
+        <segue reference="Spe-dd-EXu"/>
+        <segue reference="YcQ-tG-0CT"/>
+        <segue reference="cPW-RE-2je"/>
         <segue reference="Wyu-u6-g5L"/>
-        <segue reference="7r9-iY-Uct"/>
+        <segue reference="1jA-Zj-XHt"/>
         <segue reference="BY8-e2-RyW"/>
+        <segue reference="Sdy-kO-WHf"/>
         <segue reference="ThT-lo-Acr"/>
+        <segue reference="ADA-1C-gHV"/>
+        <segue reference="W8i-Cs-Z8T"/>
+        <segue reference="cEg-U8-UBa"/>
+        <segue reference="jZZ-fL-lXE"/>
         <segue reference="Y9a-Vx-tcX"/>
-        <segue reference="6oI-GI-9iA"/>
-        <segue reference="ye7-7r-hp1"/>
-        <segue reference="ogf-EO-Swc"/>
-        <segue reference="TN9-Au-PUW"/>
-        <segue reference="DG8-Wc-RK7"/>
         <segue reference="QOc-Kg-WHZ"/>
-        <segue reference="xLi-xx-esW"/>
         <segue reference="X5X-Qt-8lc"/>
         <segue reference="8LM-cv-XXH"/>
-        <segue reference="xaI-60-nb7"/>
+        <segue reference="Lsn-aA-q1J"/>
     </inferredMetricsTieBreakers>
     <color key="tintColor" red="0.054901960784313725" green="0.47843137254901963" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
 </document>
