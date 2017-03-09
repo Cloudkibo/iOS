@@ -1109,7 +1109,8 @@ print("tempURL is \(temporaryURL) and response is \(response.allHeaderFields)")
     {
         var ubiquityURL=getBackupDirectoryICloud()
         
-        
+        if(ubiquityURL != nil)
+        {
         ubiquityURL=ubiquityURL!.appendingPathComponent("\(filename)")
         print("ubiquityURL is \(ubiquityURL)")
         
@@ -1174,7 +1175,8 @@ print("tempURL is \(temporaryURL) and response is \(response.allHeaderFields)")
                           }
             
         }
-        
+    }
+    
     }
     
     func getBackupDirectoryICloud()->URL?

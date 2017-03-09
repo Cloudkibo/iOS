@@ -152,7 +152,32 @@ class AppDelegate: UIResponder, UIApplicationDelegate,AppDelegateScreenDelegate 
         print(Date())
         
         
-       UIApplication.shared.setMinimumBackgroundFetchInterval(10)
+        
+        if (UserDefaults.standard.value(forKey: Constants.defaultsBackupTimeKey) == nil)
+        {
+            UserDefaults.standard.set("Off", forKey: Constants.defaultsBackupTimeKey)
+            
+        }
+        else{
+            
+            switch(UserDefaults.standard.value(forKey: Constants.defaultsBackupTimeKey) as! String)
+            {
+                case "Daily":
+                print("backup daily")
+                UIApplication.shared.setMinimumBackgroundFetchInterval(86400)
+                
+            case "Weekly":
+                print("backup daily")
+                UIApplication.shared.setMinimumBackgroundFetchInterval(604800)
+
+                
+            case "Monthly":
+                print("backup daily")
+                UIApplication.shared.setMinimumBackgroundFetchInterval(604800*4)
+                
+            default: print("backup off")
+            }
+       }
         
        // UIApplication.shared.setMinimumBackgroundFetchInterval(UIApplicationBackgroundFetchIntervalMinimum)
         
@@ -167,7 +192,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate,AppDelegateScreenDelegate 
         print(",,,,, \(nsObject!.description)") //version number
         
         var log=UtilityFunctions.init()
-        log.log_papertrail("IPHONE: \(username!) has version number \(nsObject!.description)")
+        //log.log_papertrail("IPHONE: \(username!) has version number \(nsObject!.description)")
         
 
         //  self.messageFrame.removeFromSuperview()
@@ -2829,12 +2854,12 @@ else{
     }
     func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {
         
-        UIApplication.shared.registerForRemoteNotifications()
+        ////UIApplication.shared.registerForRemoteNotifications()
         print("registered for notification error", terminator: "")
         ////UtilityFunctions.init().log_papertrail("Error in registration. Error: \(error)")
         NSLog("Error in registration. Error: \(error)")
         //retry
-        UIApplication.shared.registerForRemoteNotifications()
+        ////UIApplication.shared.registerForRemoteNotifications()
         //==--UIApplication.sharedApplication().registerUserNotificationSettings(pushNotificationSettings)
 
     }
@@ -2929,7 +2954,7 @@ else{
 
         
         UtilityFunctions.init().backupFiles()
-        completionHandler(.newData)
+       //// completionHandler(.newData)
         
         /*if let tabBarController = window?.rootViewController as? UITabBarController,
             let viewControllers = tabBarController.viewControllers
