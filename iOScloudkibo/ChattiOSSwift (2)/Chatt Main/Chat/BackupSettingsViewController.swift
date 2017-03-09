@@ -108,7 +108,7 @@ class BackupSettingsViewController: UIViewController,UITableViewDelegate,UITable
             return 1
         }
         else{
-            return 2
+            return 3
         }
         //return 2
     }
@@ -132,10 +132,26 @@ class BackupSettingsViewController: UIViewController,UITableViewDelegate,UITable
            cell = tbl_BackupSettings.dequeueReusableCell(withIdentifier: "BackUpNowCell")! as! UITableViewCell
             
             }
-            else{
+            if(indexPath.row==1){
+                
             cell = tbl_BackupSettings.dequeueReusableCell(withIdentifier: "AutoBackupCell")! as! UITableViewCell
+                
+                //IncludeVideosCell
             
             }
+            
+            if(indexPath.row==2){
+                
+                cell = tbl_BackupSettings.dequeueReusableCell(withIdentifier: "IncludeVideosCell")! as! UITableViewCell
+                var switchIncludeVideos=cell.viewWithTag(2) as! UISwitch
+                switchIncludeVideos.tag=111
+                switchIncludeVideos.addTarget(self, action: Selector("stateChanged"), for: UIControlEvents.valueChanged)
+                //2
+                
+                //
+                
+            }
+            
            
  
             ///AutoBackupCell
@@ -143,6 +159,22 @@ class BackupSettingsViewController: UIViewController,UITableViewDelegate,UITable
         
         return cell
     }
+    
+    func stateChanged(sender: AnyObject) {
+        print("switch pressed")
+         let switch1 = sender as! UISwitch
+        if(switch1.tag==111){
+        if switch1.isOn {
+           //
+            UserDefaults.standard.set("On", forKey: Constants.defaultsBackupIncludeVideosKey)
+            
+        } else {
+            UserDefaults.standard.set("Off", forKey: Constants.defaultsBackupIncludeVideosKey)
+            
+        }
+        }
+        }
+    
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         print("didselect")

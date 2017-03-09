@@ -82,6 +82,9 @@ static let connectionstring="Endpoint=sb://cloudkibo.servicebus.windows.net/;Sha
     
     static var icloudcontainer = "iCloud.iCloud.MyAppTemplates.cloudkibo"
     
+    static var defaultsBackupTimeKey = "BackupTime"
+    static var defaultsBackupIncludeVideosKey = "IncludeVideos"
+    
   //  static var fetchSingleGroupChat="/api/groupchat/fetchSingleChat"
     /*
      private static String phoneContactsURL = "https://www.cloudkibo.com/api/users/searchaccountsbyphone/";
