@@ -2410,7 +2410,8 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
 {
             cell = tblForChats.dequeueReusableCell(withIdentifier: "ChatSentCell")! as UITableViewCell
 }
-let textLable = cell.viewWithTag(12) as! UILabel
+            
+            let textLable = cell.viewWithTag(12) as! UILabel
             let chatImage = cell.viewWithTag(1) as! UIImageView
             let profileImage = cell.viewWithTag(2) as! UIImageView
             let timeLabel = cell.viewWithTag(11) as! UILabel

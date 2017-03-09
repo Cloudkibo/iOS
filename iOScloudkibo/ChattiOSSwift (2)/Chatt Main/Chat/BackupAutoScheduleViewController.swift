@@ -17,7 +17,7 @@ class BackupAutoScheduleViewController: UIViewController,UITableViewDelegate,UIT
         super.viewDidLoad()
 
         messages=NSMutableArray()
-        messages=["Daily","Weekly","Monthly","Never"]
+        messages=[["option":"Daily","status":"false"],["option":"Weekly","status":"false"],["option":"Monthly","status":"false"],["option":"Off","status":"true"]]
         // Do any additional setup after loading the view.
     }
 
@@ -28,11 +28,45 @@ class BackupAutoScheduleViewController: UIViewController,UITableViewDelegate,UIT
     
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        
+       
+        var messageDic = messages.object(at: indexPath.row) as! [String : String];
+       // NSLog(messageDic["message"]!, 1)
+        let option = messageDic["option"] as String!
+        let status = messageDic["status"] as String!
         
         var cell = tbl_backupAutoScheduleSettings.dequeueReusableCell(withIdentifier: "BackupAutoScheduleOptionsCell")! as! UITableViewCell
+        
         let textLable = cell.viewWithTag(1) as! UILabel
-        textLable.text=messages.object(at:indexPath.row) as! String
+        
+        if let backupValue=UserDefaults.standard.value(forKey: "BackupTime")
+        {
+            
+            if(option == backupValue as! String)
+            {
+                //got option
+                cell.accessoryType=UITableViewCellAccessoryType.checkmark
+                
+            }
+        }
+        else{
+            if(option == "Off")
+            {
+                cell.accessoryType=UITableViewCellAccessoryType.checkmark
+                UserDefaults.standard.set("Off", forKey: "BackupTime")
+            }
+        }
+        
+       /* if(status=="true")
+        {
+        cell.accessoryType=UITableViewCellAccessoryType.checkmark
+        }
+        else
+        {
+            cell.accessoryType=UITableViewCellAccessoryType.none
+        }*/
+        textLable.text=option
+        print("backupValue is \(UserDefaults.standard.value(forKey: "BackupTime"))")
+        
      return cell
     }
     
@@ -94,11 +128,11 @@ class BackupAutoScheduleViewController: UIViewController,UITableViewDelegate,UIT
         
         if(section==0)
         {
-            return 1
+            return messages.count
+
         }
         else{
-            return messages.count
-        }
+            return 0}
         //return 2
     }
     
@@ -106,6 +140,65 @@ class BackupAutoScheduleViewController: UIViewController,UITableViewDelegate,UIT
         
         return 2
     }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath)
+    {
+        
+        var messageDic = messages.object(at: indexPath.row) as! [String : String];
+        // NSLog(messageDic["message"]!, 1)
+        var status = messageDic["status"] as String!
+        
+        
+        //let cell=tbl_inviteContacts.dequeueReusableCellWithIdentifier("ContactsInviteCell")! as! ContactsInviteCell
+        let selectedCell=tbl_backupAutoScheduleSettings.cellForRow(at: indexPath)! as UITableViewCell
+        
+        //let selectedCell=tbl_inviteContacts.cellForRowAtIndexPath(indexPath)
+        //cell.textLabel?.text = "hiii"
+        
+        
+        if selectedCell.accessoryType == UITableViewCellAccessoryType.none
+        {
+                       //selected save in userdefaults
+            //remove check from all others
+            
+            for i in 0 ..< messages.count
+            {
+                var allmessages = messages.object(at: i) as! [String : String]
+                  allmessages["status"]="false"
+                var cellcounter=tbl_backupAutoScheduleSettings.cellForRow(at: IndexPath(row: i,section: 0))! as UITableViewCell
+                cellcounter.accessoryType = UITableViewCellAccessoryType.none
+                
+            }
+           /* for var statuses in messages as! [[String : String]]
+            {
+                ///var messageDic = messages.object(at: indexPath.row) as! [String : String];
+                
+               statuses["status"]="false"
+                
+                
+            }*/
+            
+            UserDefaults.standard.set(messageDic["option"], forKey: "BackupTime")
+            messageDic["status"]="true"
+            selectedCell.accessoryType = UITableViewCellAccessoryType.checkmark
+            
+
+            
+        }
+        else
+        {
+           // messageDic["status"]="false"
+           // selectedCell.accessoryType = UITableViewCellAccessoryType.none
+            
+            /*let ind=selectedEmails.index(of: selectedCell.contactEmail.text!)
+            //var ind=selectedEmails.indexOf((selectedCell?.textLabel?.text!)!)
+            selectedEmails.remove(at: ind!)
+ */
+        }
+        
+        
+    }
+
     
     /*
     // MARK: - Navigation
