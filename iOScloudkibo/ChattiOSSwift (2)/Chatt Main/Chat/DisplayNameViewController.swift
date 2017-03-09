@@ -1518,10 +1518,16 @@ socketObj.socket.emit("logClient","button done pressed start time \(Date())")
 
                                                                                         //self.messageFrame.removeFromSuperview()
                                                                                         print("completed done time \(Date())")
-                                                                            self.dismiss(animated: false, completion: { () -> Void in
+                                                                                        
+                                                                                        
+                                                                                        
+                                                                                        self.performSegue(withIdentifier: "displayToChatSegue", sender: nil)
+                                                                            
+                                                                                        
+                                                                                        /*self.dismiss(animated: false, completion: { () -> Void in
                                                                                 
                                                                                 print("logged in going to contactlist")
-                                                                            })
+                                                                            })*/
                                                                                         
                                                                                         }
                                                                                         

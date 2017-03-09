@@ -172,6 +172,13 @@ class LoginViewController: UIViewController,SocketConnecting,AKFViewControllerDe
                         print("not in defaults")
                     }
                     */
+                    
+                    
+                    //restoreChatSegue
+                    
+                    //if backup available
+                    //self.performSegue(withIdentifier: "restoreChatSegue", sender: self)
+                    //else no backup
                     self.performSegue(withIdentifier: "displaynamesegue", sender: self)
                 }
        

@@ -196,6 +196,7 @@
                         <outlet property="txtForPassword" destination="FM4-cl-KU9" id="Qxf-uE-eiH"/>
                         <outlet property="txtForRoomName" destination="WxN-59-A4o" id="s20-gw-vRr"/>
                         <outlet property="viewForContent" destination="EPw-Sn-zwt" id="lZv-6L-ImN"/>
+                        <segue destination="vnC-Zk-R4g" kind="modal" identifier="restoreChatSegue" id="8hZ-ZE-1pf"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="FY7-zh-HkE" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -766,11 +767,12 @@
                         <outlet property="lbl_progress" destination="aRW-wG-HGx" id="oNl-Bs-tGa"/>
                         <outlet property="lbl_version" destination="JDz-6d-X8X" id="U6L-Ya-MpL"/>
                         <outlet property="txtDisplayName" destination="GTe-Tk-m8F" id="Jbh-KY-g2J"/>
+                        <segue destination="cJu-ld-BCz" kind="push" id="7r9-iY-Uct"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="oQH-NK-AVV" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-764" y="-1949"/>
+            <point key="canvasLocation" x="-1128" y="-1837"/>
         </scene>
         <!--Chats-->
         <scene sceneID="2v1-Kp-zHu">
@@ -790,10 +792,9 @@
                             <color key="textShadowColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         </textAttributes>
                     </navigationBar>
-                    <toolbar key="toolbar" opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translucent="NO" id="XP6-om-6de">
+                    <toolbar key="toolbar" opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="XP6-om-6de">
                         <rect key="frame" x="0.0" y="524" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
-                        <color key="tintColor" red="0.054901960784313725" green="0.47843137254901963" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     </toolbar>
                     <connections>
                         <segue destination="cJu-ld-BCz" kind="relationship" relationship="rootViewController" id="YcQ-tG-0CT"/>
@@ -929,7 +930,7 @@
                                         <rect key="frame" x="0.0" y="169" width="320" height="66"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="CNq-vA-UCi" id="a2v-wa-jnG">
-                                            <rect key="frame" x="0.0" y="0.0" width="320" height="65.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="320" height="65"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="chat_arrow" id="u0s-LH-0EJ">
@@ -1086,11 +1087,11 @@
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <textView clipsSubviews="YES" multipleTouchEnabled="YES" tag="2" contentMode="scaleToFill" misplaced="YES" textAlignment="natural" id="njK-TV-KDm">
+                                                <textView clipsSubviews="YES" multipleTouchEnabled="YES" userInteractionEnabled="NO" tag="2" contentMode="scaleToFill" misplaced="YES" editable="NO" textAlignment="natural" selectable="NO" id="njK-TV-KDm">
                                                     <rect key="frame" x="8" y="37" width="304" height="92"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                                    <string key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</string>
+                                                    <string key="text">Restore your chat history from iCloud. You will not be able to restore later if you decline to restore now. Your media will restore in background after your messages restore</string>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                     <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                                                 </textView>
@@ -1115,17 +1116,33 @@
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                 </prototypes>
+                                <connections>
+                                    <outlet property="dataSource" destination="b6Z-bK-6rz" id="Qlf-1A-oog"/>
+                                    <outlet property="delegate" destination="b6Z-bK-6rz" id="7li-rO-Njb"/>
+                                </connections>
                             </tableView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
+                    <navigationItem key="navigationItem" id="oAY-XP-mP7">
+                        <barButtonItem key="leftBarButtonItem" title="Skip" id="TQj-xx-IAU">
+                            <connections>
+                                <segue destination="Whm-1V-S8W" kind="modal" id="Wyu-u6-g5L"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" enabled="NO" title="Done" id="URZ-ak-gVM">
+                            <connections>
+                                <segue destination="Whm-1V-S8W" kind="modal" id="2Eu-5W-8Py"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
                         <outlet property="tbl_RestoreChats" destination="Cvb-j3-Xvz" id="483-p0-Oks"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="l8j-t1-Bcm" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-366" y="-1863"/>
+            <point key="canvasLocation" x="-286" y="-1863"/>
         </scene>
         <!--Archived Chats-->
         <scene sceneID="2M1-VD-U5T">
@@ -3714,7 +3731,7 @@
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="lJi-cD-Yjf" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-593" y="-1092"/>
+            <point key="canvasLocation" x="-687" y="-1093"/>
         </scene>
         <!--Favourites-->
         <scene sceneID="KV5-4K-q77">
@@ -5548,6 +5565,7 @@
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="Whm-1V-S8W" sceneMemberID="viewController">
                     <toolbarItems/>
+                    <navigationItem key="navigationItem" id="avh-yp-Oti"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="1q4-Wb-paQ">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -5560,7 +5578,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="sgB-7N-KUy" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-1167" y="-2004"/>
+            <point key="canvasLocation" x="-1490" y="-1863"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="b2X-tl-8Sx">
@@ -7028,6 +7046,26 @@
             </objects>
             <point key="canvasLocation" x="1467" y="1570"/>
         </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="qSY-ZH-xxH">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="vnC-Zk-R4g" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationItem key="navigationItem" id="lVj-f2-51x"/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="TYk-PG-lLb">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <color key="barTintColor" red="0.14901960780000001" green="0.66274509800000003" blue="0.30980392159999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="b6Z-bK-6rz" kind="relationship" relationship="rootViewController" id="KkQ-Bc-tsQ"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="85P-u5-uLY" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-738" y="-1863"/>
+        </scene>
     </scenes>
     <resources>
         <image name="audio_on" width="50" height="50"/>
@@ -7081,19 +7119,20 @@
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
         <segue reference="OaJ-Hk-2uB"/>
-        <segue reference="xLi-xx-esW"/>
-        <segue reference="DG8-Wc-RK7"/>
-        <segue reference="QOc-Kg-WHZ"/>
-        <segue reference="TN9-Au-PUW"/>
-        <segue reference="ye7-7r-hp1"/>
-        <segue reference="6oI-GI-9iA"/>
-        <segue reference="NgD-BM-wgZ"/>
+        <segue reference="Wyu-u6-g5L"/>
+        <segue reference="7r9-iY-Uct"/>
         <segue reference="BY8-e2-RyW"/>
         <segue reference="ThT-lo-Acr"/>
         <segue reference="Y9a-Vx-tcX"/>
+        <segue reference="6oI-GI-9iA"/>
+        <segue reference="ye7-7r-hp1"/>
         <segue reference="ogf-EO-Swc"/>
-        <segue reference="8LM-cv-XXH"/>
+        <segue reference="TN9-Au-PUW"/>
+        <segue reference="DG8-Wc-RK7"/>
+        <segue reference="QOc-Kg-WHZ"/>
+        <segue reference="xLi-xx-esW"/>
         <segue reference="X5X-Qt-8lc"/>
+        <segue reference="8LM-cv-XXH"/>
         <segue reference="xaI-60-nb7"/>
     </inferredMetricsTieBreakers>
     <color key="tintColor" red="0.054901960784313725" green="0.47843137254901963" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>

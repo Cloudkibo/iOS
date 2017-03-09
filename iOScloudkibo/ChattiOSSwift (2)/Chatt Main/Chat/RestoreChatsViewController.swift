@@ -38,12 +38,12 @@ class RestoreChatsViewController: UIViewController,UITableViewDelegate,UITableVi
         
         if(section==0)
         {
-            return 20
+            return 100
         }
             
         else
         {
-            return 100
+            return 20
         }
     }
     
@@ -65,11 +65,11 @@ class RestoreChatsViewController: UIViewController,UITableViewDelegate,UITableVi
             cell = tbl_RestoreChats.dequeueReusableCell(withIdentifier: "RestoreFromICloudCell")! as! UITableViewCell
             
             //RestoreFromICloudCell
-            let ltbl_LastBackupDate = cell.viewWithTag(1) as! UILabel
-            let lbl_BackupInfoText = cell.viewWithTag(2) as! UITextView
+            //let ltbl_LastBackupDate = cell.viewWithTag(1) as! UILabel
+            //let lbl_BackupInfoText = cell.viewWithTag(2) as! UITextView
         }
         
-        
+        return cell
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -84,11 +84,10 @@ class RestoreChatsViewController: UIViewController,UITableViewDelegate,UITableVi
             return 1
             
         }
-        if(section==2)
-        {
+        
             return 0
             
-        }
+        
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
