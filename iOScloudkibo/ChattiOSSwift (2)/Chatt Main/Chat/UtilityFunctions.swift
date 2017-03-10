@@ -1466,7 +1466,9 @@ print("tempURL is \(temporaryURL) and response is \(response.allHeaderFields)")
             print("error reading from table \(filename.removeCharsFromEnd(5))")
         }
         
-        readChatsFile(filename: filename)
+        RestoreService.init().RestoreFilesTable(filename: filename)
+        //copyToAppContainer
+        //readChatsFile(filename: filename)
     }
     
     func backupStatusUpdateTable()
