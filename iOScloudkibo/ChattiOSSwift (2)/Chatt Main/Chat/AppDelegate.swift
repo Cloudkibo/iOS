@@ -164,7 +164,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate,AppDelegateScreenDelegate 
             {
                 case "Daily":
                 print("backup daily")
-                UIApplication.shared.setMinimumBackgroundFetchInterval(86400)
+                UIApplication.shared.setMinimumBackgroundFetchInterval(86400/24)
                 
             case "Weekly":
                 print("backup daily")

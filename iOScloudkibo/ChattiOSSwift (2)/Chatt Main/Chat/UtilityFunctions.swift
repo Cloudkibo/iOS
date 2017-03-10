@@ -1356,8 +1356,8 @@ print("tempURL is \(temporaryURL) and response is \(response.allHeaderFields)")
         catch{
             print("error reading from table userchats")
         }
-        
-        readChatsFile(filename: "userchats.json")
+        RestoreService.init().RestoreChatsTable(filename: "userchats.json")
+        /////---readChatsFile(filename: "userchats.json")
     }
     
     func backupFilesTable()

@@ -1307,9 +1307,12 @@ socketObj.socket.emit("logClient","button done pressed start time \(Date())")
         displayname=displayName
         //=--progressBarDisplayer("Contacting Server", true)
         self.lbl_progress.text="Contacting Server..."
+        
+        
         Q0_sendDisplayName.sync(execute: {
                 self.sendNameToServer(displayName){ (result) -> () in
-                /*DispatchQueue.main.async
+                
+                    /*DispatchQueue.main.async
                     {
                     
                 }*/
@@ -1459,7 +1462,25 @@ socketObj.socket.emit("logClient","button done pressed start time \(Date())")
                                                                         socketObj.socket.emit("logClient","IPHONE LOG: fetch chat start time \(Date())")
                                                                     }
 
-                                                                self.fetchChatsFromServer({ (result) -> () in
+                                                               
+                                                                    
+                                                                    
+                                                                    
+                                                                    
+                                                                    
+                                                                    
+                                                                    
+                                                                    
+                                                                    
+                                                                    //BACKUP-------
+                                                                    
+                                                                    
+                                                                    
+                                                                    
+                                                                    
+                                                                    
+                                                                    
+                                                                    self.fetchChatsFromServer({ (result) -> () in
                                                                     
                                                                     if(socketObj != nil)
                                                                     {
