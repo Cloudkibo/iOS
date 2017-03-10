@@ -379,6 +379,10 @@ print("alter table needed")
         let phone = Expression<String>("phone")
         let username = Expression<String>("username")
         let status = Expression<String>("status")
+        let blockedByMe = Expression<Bool>("blockedByMe")
+        let IamBlocked = Expression<Bool>("IamBlocked")
+        //blockedByMe
+        //IamBlocked
         
         self.contactslists = Table("contactslists")
         do{
@@ -394,6 +398,8 @@ print("alter table needed")
             t.column(phone,unique: true)
             t.column(username)
             t.column(status)
+            t.column(blockedByMe, defaultValue: false)
+            t.column(IamBlocked, defaultValue: false)
             
             //     "name" TEXT
             })
@@ -3114,5 +3120,167 @@ print("--------")
         }
         return newEntry as [String : AnyObject]
         
+    }
+    
+    
+    func IamBlockedUpdateStatus(phone1:String)
+    {
+        let contactid = Expression<String>("contactid")
+        let detailsshared = Expression<String>("detailsshared")
+        let unreadMessage = Expression<Bool>("unreadMessage")
+        
+        let userid = Expression<String>("userid")
+        let firstname = Expression<String>("firstname")
+        let lastname = Expression<String>("lastname")
+        let email = Expression<String>("email")
+        let phone = Expression<String>("phone")
+        let username = Expression<String>("username")
+        let status = Expression<String>("status")
+        let blockedByMe = Expression<Bool>("blockedByMe")
+        let IamBlocked = Expression<Bool>("IamBlocked")
+        //blockedByMe
+        //IamBlocked
+        
+        self.contactslists = Table("contactslists")
+        do{
+            try self.db.run(self.contactslists.filter(phone==phone1).select(IamBlocked).update(IamBlocked:true))
+        }
+        catch{
+            print("error: unable to update value iAMblocked contact")
+        }
+        
+        
+    }
+    
+    func BlockContactUpdateStatus(phone1:String)
+    {
+        let contactid = Expression<String>("contactid")
+        let detailsshared = Expression<String>("detailsshared")
+        let unreadMessage = Expression<Bool>("unreadMessage")
+        
+        let userid = Expression<String>("userid")
+        let firstname = Expression<String>("firstname")
+        let lastname = Expression<String>("lastname")
+        let email = Expression<String>("email")
+        let phone = Expression<String>("phone")
+        let username = Expression<String>("username")
+        let status = Expression<String>("status")
+        let blockedByMe = Expression<Bool>("blockedByMe")
+        let IamBlocked = Expression<Bool>("IamBlocked")
+        //blockedByMe
+        //IamBlocked
+        
+        self.contactslists = Table("contactslists")
+        do{
+            try self.db.run(self.contactslists.filter(phone==phone1).select(blockedByMe).update(blockedByMe:true))
+        }
+        catch{
+            print("error: unable to update value blockedByME contact")
+        }
+        
+        
+    }
+    
+    func getBlockedContatList()->[[String : Any]]
+    {
+        
+        
+        var BlockedContatList=[[String:Any]]()
+        
+        let contactid = Expression<String>("contactid")
+        let detailsshared = Expression<String>("detailsshared")
+        let unreadMessage = Expression<Bool>("unreadMessage")
+        
+        let userid = Expression<String>("userid")
+        let firstname = Expression<String>("firstname")
+        let lastname = Expression<String>("lastname")
+        let email = Expression<String>("email")
+        let phone = Expression<String>("phone")
+        let username = Expression<String>("username")
+        let status = Expression<String>("status")
+        let blockedByMe = Expression<Bool>("blockedByMe")
+        let IamBlocked = Expression<Bool>("IamBlocked")
+        //blockedByMe
+        //IamBlocked
+        
+        self.contactslists = Table("contactslists")
+        
+        
+      //  let query = self.contactslists.select(messageuniqueid).filter(messageuniqueid == messageUniqueid1)
+        do
+        {for list in try self.db.prepare(self.contactslists.filter(blockedByMe==true))
+        {
+            var newEntry = [String : Any]()
+            
+            newEntry["contactid"]=list.get(contactid)
+             newEntry["detailsshared"]=list.get(detailsshared)
+             newEntry["unreadMessage"]=list.get(unreadMessage)
+             newEntry["userid"]=list.get(userid)
+             newEntry["firstname"]=list.get(firstname)
+             newEntry["lastname"]=list.get(lastname)
+             newEntry["email"]=list.get(email)
+             newEntry["phone"]=list.get(phone)
+             newEntry["username"]=list.get(username)
+             newEntry["status"]=list.get(status)
+             newEntry["blockedByMe"]=list.get(blockedByMe)
+             newEntry["IamBlocked"]=list.get(IamBlocked)
+            broadcastlist.append(newEntry)
+        }
+        }
+        catch{
+            print("error in getting blocked contacts")
+        }
+        return BlockedContatList
+    }
+    
+    func getIAMblockedByList()->[[String:Any]]
+    {
+        
+        var IAMblockedByList=[[String:Any]]()
+        
+        let contactid = Expression<String>("contactid")
+        let detailsshared = Expression<String>("detailsshared")
+        let unreadMessage = Expression<Bool>("unreadMessage")
+        
+        let userid = Expression<String>("userid")
+        let firstname = Expression<String>("firstname")
+        let lastname = Expression<String>("lastname")
+        let email = Expression<String>("email")
+        let phone = Expression<String>("phone")
+        let username = Expression<String>("username")
+        let status = Expression<String>("status")
+        let blockedByMe = Expression<Bool>("blockedByMe")
+        let IamBlocked = Expression<Bool>("IamBlocked")
+        //blockedByMe
+        //IamBlocked
+        
+        self.contactslists = Table("contactslists")
+        
+        
+        //  let query = self.contactslists.select(messageuniqueid).filter(messageuniqueid == messageUniqueid1)
+        do
+        {for list in try self.db.prepare(self.contactslists.filter(IamBlocked==true))
+        {
+            var newEntry = [String : Any]()
+            
+            newEntry["contactid"]=list.get(contactid)
+            newEntry["detailsshared"]=list.get(detailsshared)
+            newEntry["unreadMessage"]=list.get(unreadMessage)
+            newEntry["userid"]=list.get(userid)
+            newEntry["firstname"]=list.get(firstname)
+            newEntry["lastname"]=list.get(lastname)
+            newEntry["email"]=list.get(email)
+            newEntry["phone"]=list.get(phone)
+            newEntry["username"]=list.get(username)
+            newEntry["status"]=list.get(status)
+            newEntry["blockedByMe"]=list.get(blockedByMe)
+            newEntry["IamBlocked"]=list.get(IamBlocked)
+            IAMblockedByList.append(newEntry)
+            }
+        }
+        catch{
+            print("error in getting blocked contacts")
+        }
+        return IAMblockedByList
     }
 }

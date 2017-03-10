@@ -61,7 +61,8 @@ class contactsDetailsTableViewController: UITableViewController,MFMailComposeVie
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        return 6
+        return 7
+        //return 6
     }
 
     
@@ -282,6 +283,14 @@ class contactsDetailsTableViewController: UITableViewController,MFMailComposeVie
             cell = tableView.dequeueReusableCell(withIdentifier: "invite_kibo_cell", for: indexPath) as! AllContactsCell
             
             cell.isHidden=false
+        }
+        if(indexPath.row==5)
+        {
+            //block
+            //BlockThisContactCell
+            cell = tableView.dequeueReusableCell(withIdentifier: "BlockThisContactCell", for: indexPath) as! AllContactsCell
+            
+            
         }
         
         //cell.lbl_phone
