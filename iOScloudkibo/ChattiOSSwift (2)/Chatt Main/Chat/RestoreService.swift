@@ -388,7 +388,10 @@ class RestoreService
                     
                     
                     //set file format "2017-03-06 14:06:43 +0000"
+                    if(files["file_name"].string! != "" && files["file_name"].string! != nil)
+                    {
                    copyToAppContainer(filename: files["file_name"].string!)
+                    }
                     sqliteDB.saveFile(files["to"].string!, from1: files["from"].string!, owneruser1: username!, file_name1: files["file_name"].string!, date1: nil, uniqueid1: files["uniqueid"].string!, file_size1: files["file_size"].string!, file_type1: files["file_type"].string!, file_path1: files["file_path"].string!, type1: files["type"].string!)
                 }
             }
@@ -441,7 +444,7 @@ class RestoreService
                     ///--- backupChatsTable()
                 }
                 catch{
-                    print("NOT saveddd to app container")
+                    print("NOT saveddd to app container \(error)")
                 }
             }
             else{

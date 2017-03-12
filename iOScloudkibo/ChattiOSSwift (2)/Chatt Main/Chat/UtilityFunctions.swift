@@ -1100,6 +1100,13 @@ print("tempURL is \(temporaryURL) and response is \(response.allHeaderFields)")
         
         backupChatsTable()
         backupFilesTable()
+        backupStatusUpdateTable()
+        BackupGroupsTable()
+        BackupGroupsChatTable()
+        BackupGroupMembersTable()
+        BackupBroadcastListTable()
+        BackupGroupChatsStatusTable()
+        BackupBroadcastListMembersTable()
         
    
     }
@@ -1314,7 +1321,14 @@ print("tempURL is \(temporaryURL) and response is \(response.allHeaderFields)")
             newEntry["fromFullName"]=chats.get(fromFullName) as String
             newEntry["msg"]=chats.get(msg) as String
             newEntry["owneruser"]=chats.get(owneruser) as String
-            newEntry["date"]=chats.get(date).debugDescription as String
+            
+            var formatterDateSendtoDateType = DateFormatter();
+            formatterDateSendtoDateType.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ";
+            formatterDateSendtoDateType.timeZone = TimeZone.autoupdatingCurrent
+            var datestring=formatterDateSendtoDateType.string(from: chats.get(date))
+            
+            
+            newEntry["date"]=datestring
             newEntry["uniqueid"]=chats.get(uniqueid) as String
             newEntry["status"]=chats.get(status) as String
             newEntry["contactPhone"]=chats.get(contactPhone) as String
@@ -1356,7 +1370,7 @@ print("tempURL is \(temporaryURL) and response is \(response.allHeaderFields)")
         catch{
             print("error reading from table userchats")
         }
-        RestoreService.init().RestoreChatsTable(filename: "userchats.json")
+       ///==--- RestoreService.init().RestoreChatsTable(filename: "userchats.json")
         /////---readChatsFile(filename: "userchats.json")
     }
     
@@ -1400,7 +1414,14 @@ print("tempURL is \(temporaryURL) and response is \(response.allHeaderFields)")
             newEntry["to"]=files.get(to) as String
             newEntry["from"]=files.get(from) as String
     
-            newEntry["date"]=files.get(date).debugDescription as String
+                    
+                    var formatterDateSendtoDateType = DateFormatter();
+                    formatterDateSendtoDateType.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ";
+                    formatterDateSendtoDateType.timeZone = TimeZone.autoupdatingCurrent
+                    var datestring=formatterDateSendtoDateType.string(from: files.get(date))
+            
+                    
+            newEntry["date"]=datestring
             newEntry["uniqueid"]=files.get(uniqueid) as String
             newEntry["contactPhone"]=files.get(contactPhone) as String
             newEntry["type"]=files.get(type) as String
@@ -1466,7 +1487,7 @@ print("tempURL is \(temporaryURL) and response is \(response.allHeaderFields)")
             print("error reading from table \(filename.removeCharsFromEnd(5))")
         }
         
-        RestoreService.init().RestoreFilesTable(filename: filename)
+        ///////RestoreService.init().RestoreFilesTable(filename: filename)
         //copyToAppContainer
         //readChatsFile(filename: filename)
     }
@@ -1560,8 +1581,16 @@ print("tempURL is \(temporaryURL) and response is \(response.allHeaderFields)")
             newEntry["msg_unique_id"]=files.get(msg_unique_id) as String
             newEntry["(Status)"]=files.get(Status) as String
             newEntry["(user_phone)"]=files.get(user_phone) as String
-            newEntry["(read_date)"]=files.get(read_date) as Date
-            newEntry["(delivered_date)"]=files.get(delivered_date) as Date
+            
+            var formatterDateSendtoDateType = DateFormatter();
+            formatterDateSendtoDateType.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ";
+            formatterDateSendtoDateType.timeZone = TimeZone.autoupdatingCurrent
+            var datestringread=formatterDateSendtoDateType.string(from: files.get(read_date) as Date)
+            
+            var datestringdelivered=formatterDateSendtoDateType.string(from: files.get(delivered_date) as Date)
+            
+            newEntry["(read_date)"]=datestringread
+            newEntry["(delivered_date)"]=datestringdelivered
            
             
             List.append(newEntry)
@@ -1691,7 +1720,14 @@ print("tempURL is \(temporaryURL) and response is \(response.allHeaderFields)")
              newEntry["(type)"]=files.get(type) as String
              newEntry["(msg)"]=files.get(msg) as String
              newEntry["(from_fullname)"]=files.get(from_fullname) as String
-             newEntry["(date)"]=files.get(date) as Date
+            
+            var formatterDateSendtoDateType = DateFormatter();
+            formatterDateSendtoDateType.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ";
+            formatterDateSendtoDateType.timeZone = TimeZone.autoupdatingCurrent
+            var datestring=formatterDateSendtoDateType.string(from: files.get(date) as Date)
+            
+            
+             newEntry["(date)"]=datestring
              newEntry["(unique_id)"]=files.get(unique_id) as String
             
             
@@ -1758,8 +1794,15 @@ print("tempURL is \(temporaryURL) and response is \(response.allHeaderFields)")
             newEntry["(member_phone)"]=files.get(member_phone) as String
             newEntry["(isAdmin)"]=files.get(isAdmin) as String
             newEntry["(membership_status)"]=files.get(membership_status) as String
-            newEntry["(date_joined)"]=files.get(date_joined)
-            newEntry["(date_left)"]=files.get(date_left)
+            
+            var formatterDateSendtoDateType = DateFormatter();
+            formatterDateSendtoDateType.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ";
+            formatterDateSendtoDateType.timeZone = TimeZone.autoupdatingCurrent
+            var datestringjoined=formatterDateSendtoDateType.string(from: files.get(date_joined) as Date)
+            
+             var datestringleft=formatterDateSendtoDateType.string(from: files.get(date_left) as Date)
+            newEntry["(date_joined)"]=datestringjoined
+            newEntry["(date_left)"]=datestringleft
             newEntry["(group_member_displayname)"]=files.get(group_member_displayname) as String
 
             
@@ -1812,7 +1855,7 @@ print("tempURL is \(temporaryURL) and response is \(response.allHeaderFields)")
         let date_creation = Expression<Date>("date_creation")
         let unique_id = Expression<String>("unique_id")
         let isMute = Expression<Bool>("isMute")
-        let status = Expression<Bool>("status")
+        let status = Expression<String>("status")
   
         var files=sqliteDB.groups
         
@@ -1822,9 +1865,15 @@ print("tempURL is \(temporaryURL) and response is \(response.allHeaderFields)")
             
             var newEntry: [String: Any] = [:]
             
+            
+            var formatterDateSendtoDateType = DateFormatter();
+            formatterDateSendtoDateType.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ";
+            formatterDateSendtoDateType.timeZone = TimeZone.autoupdatingCurrent
+            var datestring=formatterDateSendtoDateType.string(from: files.get(date_creation))
+            
             newEntry["group_name"]=files.get(group_name) as String
-            newEntry["(group_icon)"]=files.get(group_icon)
-            newEntry["(date_creation)"]=files.get(date_creation)
+            newEntry["(group_icon)"]=files.get(group_icon).base64EncodedString() ///////----
+            newEntry["(date_creation)"]=datestring
             newEntry["(unique_id)"]=files.get(unique_id) as String
             newEntry["(isMute)"]=files.get(isMute)
             newEntry["(status)"]=files.get(status)

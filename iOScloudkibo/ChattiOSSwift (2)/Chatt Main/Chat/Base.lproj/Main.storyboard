@@ -1143,7 +1143,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="l8j-t1-Bcm" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-286" y="-1863"/>
+            <point key="canvasLocation" x="-319" y="-1837"/>
         </scene>
         <!--Archived Chats-->
         <scene sceneID="2M1-VD-U5T">
@@ -7082,7 +7082,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="85P-u5-uLY" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-738" y="-1863"/>
+            <point key="canvasLocation" x="-666" y="-1805"/>
         </scene>
     </scenes>
     <resources>
