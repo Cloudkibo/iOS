@@ -11,7 +11,8 @@ import SQLite
 import UIKit
 import SwiftyJSON
 
-class RestoreService{
+class RestoreService
+{
     
     
     init()
@@ -21,8 +22,6 @@ class RestoreService{
     
     func RestoreChatsTable(filename:String)
     {
-      //  var ubiquityURL=FileManager.init().url(forUbiquityContainerIdentifier: "iCloud.iCloud.MyAppTemplates.cloudkibo")
-        
         var ubiquityURL = UtilityFunctions.init().getBackupDirectoryICloud()
         
         if(ubiquityURL != nil)
@@ -55,10 +54,215 @@ class RestoreService{
         }
     }
     
-    
-    func RestoreChatsStatusTable(filename:String)
+    func restoreGroupsTable(filename:String)
     {
+        let group_name = Expression<String>("group_name")
+        let group_icon = Expression<Data>("group_icon")
+        let date_creation = Expression<Date>("date_creation")
+        let unique_id = Expression<String>("unique_id")
+        let isMute = Expression<Bool>("isMute")
+        let status = Expression<Bool>("status")
+
+        var ubiquityURL = UtilityFunctions.init().getBackupDirectoryICloud()
         
+        if(ubiquityURL != nil)
+        {
+            ///////ubiquityURL=ubiquityURL!.appendingPathComponent("Backup", isDirectory: true)
+            ubiquityURL=ubiquityURL!.appendingPathComponent("\(filename)")
+            
+            do{ var groupsData=try Data.init(contentsOf: ubiquityURL!)
+                print("reading \(filename.removeCharsFromEnd(5)) table from icloud")
+                print(JSON.init(data: groupsData))
+                var groupsDataJSONobject=JSON.init(data: groupsData)
+                
+                for groupsRows in groupsDataJSONobject
+                {
+                    var groups=groupsRows.1 //as! [String : Any]
+                    
+                    var formatterDateSendtoDateType = DateFormatter();
+                    formatterDateSendtoDateType.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ";
+                    
+                    var dateCreationDateType = formatterDateSendtoDateType.date(from: groups["date_creation"].string!)
+                    
+                    var group_icon=NSData()
+                    
+                    if(groups["group_icon"] != nil)
+                    {
+                        // group_icon=(groupSingleInfo[0]["group_icon"] as! String).dataUsingEncoding(NSUTF8StringEncoding)!
+                        group_icon="exists".data(using: String.Encoding.utf8)! as Data as NSData
+                        
+                    }
+                    
+                    sqliteDB.storeGroups(groups["group_name"].string!, groupicon1: group_icon as Data!, datecreation1: dateCreationDateType!, uniqueid1: groups["unique_id"].string!, status1: groups["status"].string!)
+                   
+                    // sqliteDB.SaveChat(chats["to"].string!, from1: chats["from"].string!, owneruser1: chats["owneruser"].string!, fromFullName1: chats["fromFullName"].string!, msg1: chats["msg"].string!, date1: dateSentDateType, uniqueid1: chats["uniqueid"].string!, status1: chats["status"].string!, type1: chats["type"].string!, file_type1: chats["file_type"].string!, file_path1: chats["file_path"].string!)
+                    
+                    
+                }
+            }
+            catch{
+                print("error reading \(filename.removeCharsFromEnd(5)) table from icloud")
+            }
+        }
+    }
+    
+    func restoreGroupMembersTable(filename:String)
+    {
+        var ubiquityURL = UtilityFunctions.init().getBackupDirectoryICloud()
+        
+        if(ubiquityURL != nil)
+        {
+            ///////ubiquityURL=ubiquityURL!.appendingPathComponent("Backup", isDirectory: true)
+            ubiquityURL=ubiquityURL!.appendingPathComponent("\(filename)")
+            
+            do{ var chatsData=try Data.init(contentsOf: ubiquityURL!)
+                print("reading \(filename.removeCharsFromEnd(5)) table from icloud")
+                print(JSON.init(data: chatsData))
+                var ChatsDataJSONobject=JSON.init(data: chatsData)
+                
+                for chatsRows in ChatsDataJSONobject
+                {
+                    var chats=chatsRows.1 //as! [String : Any]
+                    let group_unique_id = Expression<String>("group_unique_id")
+                    let member_phone = Expression<String>("member_phone")
+                    let isAdmin = Expression<String>("isAdmin")
+                    let membership_status = Expression<String>("membership_status")
+                    let date_joined = Expression<Date>("date_joined")
+                    let date_left = Expression<Date>("date_left")
+                    let group_member_displayname = Expression<String>("group_member_displayname")
+                    
+                    
+                    
+                    var formatterDateSendtoDateType = DateFormatter();
+                    formatterDateSendtoDateType.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ";
+                    var date_joinedDate = formatterDateSendtoDateType.date(from: chats["date_joined"].string!)
+                    
+                     var date_leftDate = formatterDateSendtoDateType.date(from: chats["date_left"].string!)
+                    
+                   
+                    sqliteDB.storeMembers(chats["group_unique_id"].string!, member_displayname1: chats["group_member_displayname"].string!, member_phone1: chats["member_phone"].string!, isAdmin1: chats["isAdmin"].string!, membershipStatus1: chats["membership_status"].string!, date_joined1: date_joinedDate!)
+                    
+                    //date left
+                 
+                    
+                }
+            }
+            catch{
+                print("error reading \(filename.removeCharsFromEnd(5)) table from icloud")
+            }
+        }
+    }
+    
+    func restoreGroupChatTable(filename:String)
+    {
+        var ubiquityURL = UtilityFunctions.init().getBackupDirectoryICloud()
+        
+        if(ubiquityURL != nil)
+        {
+            ///////ubiquityURL=ubiquityURL!.appendingPathComponent("Backup", isDirectory: true)
+            ubiquityURL=ubiquityURL!.appendingPathComponent("\(filename)")
+            
+            do{ var chatsData=try Data.init(contentsOf: ubiquityURL!)
+                print("reading \(filename.removeCharsFromEnd(5)) table from icloud")
+                print(JSON.init(data: chatsData))
+                var ChatsDataJSONobject=JSON.init(data: chatsData)
+                
+                for chatsRows in ChatsDataJSONobject
+                {
+                    var chats=chatsRows.1 //as! [String : Any]
+                    
+                    let from = Expression<String>("from")
+                    let group_unique_id = Expression<String>("group_unique_id")
+                    let type = Expression<String>("type")
+                    let msg = Expression<String>("msg")
+                    let from_fullname = Expression<String>("from_fullname")
+                    let date = Expression<Date>("date")
+                    let unique_id = Expression<String>("unique_id")
+                    
+
+                    
+                    var formatterDateSendtoDateType = DateFormatter();
+                    formatterDateSendtoDateType.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ";
+                    var dateSentDateType = formatterDateSendtoDateType.date(from: chats["date"].string!)
+                    
+                    
+                    sqliteDB.storeGroupsChat(chats["from"].string!, group_unique_id1: chats["group_unique_id"].string!, type1: chats["type"].string!, msg1: chats["msg"].string!, from_fullname1: chats["from_fullname"].string!, date1: dateSentDateType!, unique_id1: chats["unique_id"].string!)
+                    
+                    
+                }
+            }
+            catch{
+                print("error reading \(filename.removeCharsFromEnd(5)) table from icloud")
+            }
+        }
+    }
+    
+    func restoreBroadcastListTable()
+    {
+        var ubiquityURL = UtilityFunctions.init().getBackupDirectoryICloud()
+        
+        if(ubiquityURL != nil)
+        {
+            ///////ubiquityURL=ubiquityURL!.appendingPathComponent("Backup", isDirectory: true)
+            ubiquityURL=ubiquityURL!.appendingPathComponent("\(filename)")
+            
+            do{ var chatsData=try Data.init(contentsOf: ubiquityURL!)
+                print("reading \(filename.removeCharsFromEnd(5)) table from icloud")
+                print(JSON.init(data: chatsData))
+                var ChatsDataJSONobject=JSON.init(data: chatsData)
+                
+                for chatsRows in ChatsDataJSONobject
+                {
+                    var chats=chatsRows.1 //as! [String : Any]
+                    
+                    
+                    var formatterDateSendtoDateType = DateFormatter();
+                    formatterDateSendtoDateType.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ";
+                    var dateSentDateType = formatterDateSendtoDateType.date(from: chats["date"].string!)
+                    
+                    sqliteDB.SaveChat(chats["to"].string!, from1: chats["from"].string!, owneruser1: chats["owneruser"].string!, fromFullName1: chats["fromFullName"].string!, msg1: chats["msg"].string!, date1: dateSentDateType, uniqueid1: chats["uniqueid"].string!, status1: chats["status"].string!, type1: chats["type"].string!, file_type1: chats["file_type"].string!, file_path1: chats["file_path"].string!)
+                    
+                    
+                }
+            }
+            catch{
+                print("error reading \(filename.removeCharsFromEnd(5)) table from icloud")
+            }
+        }
+    }
+    
+    func RestoreGroupChatsStatusTable(filename:String)
+    {
+        var ubiquityURL = UtilityFunctions.init().getBackupDirectoryICloud()
+        
+        if(ubiquityURL != nil)
+        {
+            ///////ubiquityURL=ubiquityURL!.appendingPathComponent("Backup", isDirectory: true)
+            ubiquityURL=ubiquityURL!.appendingPathComponent("\(filename)")
+            
+            do{ var chatsData=try Data.init(contentsOf: ubiquityURL!)
+                print("reading \(filename.removeCharsFromEnd(5)) table from icloud")
+                print(JSON.init(data: chatsData))
+                var ChatsDataJSONobject=JSON.init(data: chatsData)
+                
+                for chatsRows in ChatsDataJSONobject
+                {
+                    var chats=chatsRows.1 //as! [String : Any]
+                    
+                    
+                    var formatterDateSendtoDateType = DateFormatter();
+                    formatterDateSendtoDateType.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ";
+                    var dateSentDateType = formatterDateSendtoDateType.date(from: chats["date"].string!)
+                    
+                    sqliteDB.SaveChat(chats["to"].string!, from1: chats["from"].string!, owneruser1: chats["owneruser"].string!, fromFullName1: chats["fromFullName"].string!, msg1: chats["msg"].string!, date1: dateSentDateType, uniqueid1: chats["uniqueid"].string!, status1: chats["status"].string!, type1: chats["type"].string!, file_type1: chats["file_type"].string!, file_path1: chats["file_path"].string!)
+                    
+                    
+                }
+            }
+            catch{
+                print("error reading \(filename.removeCharsFromEnd(5)) table from icloud")
+            }
+        }
     }
     
     func RestoreFilesTable(filename:String)
@@ -145,7 +349,7 @@ class RestoreService{
                     ///--- backupChatsTable()
                 }
                 catch{
-                    print("NOT savedddddd to app container")
+                    print("NOT saveddd to app container")
                 }
             }
             else{
