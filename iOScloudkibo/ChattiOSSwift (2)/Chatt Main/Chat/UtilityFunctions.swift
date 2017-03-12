@@ -1471,6 +1471,405 @@ print("tempURL is \(temporaryURL) and response is \(response.allHeaderFields)")
         //readChatsFile(filename: filename)
     }
     
+    
+    
+
+    
+    func BackupBroadcastListMembersTable()
+    {
+        ///
+        var filename="files.json"
+        var List=[[String:Any]]()
+        print("table name is \(filename.removeCharsFromEnd(5))")
+        
+        let uniqueid = Expression<String>("uniqueid")
+        let memberphone = Expression<String>("memberphone")
+        var files=sqliteDB.broadcastlistmembers
+        
+        do
+        {for files in try sqliteDB.db.prepare(files!){
+            // print("channel name for deptid \(deptid) is \(channelNames.get(msg_channel_name))")
+            
+           var newEntry: [String: Any] = [:]
+                    
+                    newEntry["uniqueid"]=files.get(uniqueid) as String
+                    newEntry["(memberphone)"]=files.get(memberphone) as String
+                    
+                  
+                    List.append(newEntry)
+            
+                      }
+            var text=JSON.init(List)
+        }
+        catch
+        {
+            print("error reading broadcast list members table")
+        }
+        
+        do{
+                
+                var isSaved=saveTableToICloud(filename: filename, tableData: try List.toJSON())
+                print("BackupBroadcastListMembersTable table isSaved \(isSaved)")
+                
+                
+            }
+                
+            catch{
+                
+                print("unable to convert to json")
+            }
+            
+            // saveToiCloud(filename: "userschats.json", fileurl: URL.init(fileURLWithPath: filePathImage2))
+            /*  }
+             catch{
+             print("unable to save userchats json file")
+             }*/
+      
+       // RestoreService.init().RestoreFilesTable(filename: filename)
+        //copyToAppContainer
+        //readChatsFile(filename: filename)
+    }
+    
+    
+    
+    func BackupGroupChatsStatusTable()
+    {
+        
+        var filename="groupchatstatus.json"
+        var List=[[String:Any]]()
+        print("table name is \(filename.removeCharsFromEnd(5))")
+        
+        
+        let msg_unique_id = Expression<String>("msg_unique_id")
+        let Status = Expression<String>("Status")
+        let user_phone = Expression<String>("user_phone")
+        
+        let read_date = Expression<Date>("read_date")
+        let delivered_date = Expression<Date>("delivered_date")
+        
+        var files=sqliteDB.group_chat_status
+      
+        
+        
+        do
+        {for files in try sqliteDB.db.prepare(files!){
+            // print("channel name for deptid \(deptid) is \(channelNames.get(msg_channel_name))")
+            
+            var newEntry: [String: Any] = [:]
+            
+            newEntry["msg_unique_id"]=files.get(msg_unique_id) as String
+            newEntry["(Status)"]=files.get(Status) as String
+            newEntry["(user_phone)"]=files.get(user_phone) as String
+            newEntry["(read_date)"]=files.get(read_date) as Date
+            newEntry["(delivered_date)"]=files.get(delivered_date) as Date
+           
+            
+            List.append(newEntry)
+            
+            }
+            var text=JSON.init(List)
+        }
+        catch
+        {
+            print("error reading BackupGroupChatsStatusTable table")
+        }
+        
+        do{
+            
+            var isSaved=saveTableToICloud(filename: filename, tableData: try List.toJSON())
+            print("BackupGroupChatsStatusTable table isSaved \(isSaved)")
+            
+            
+        }
+            
+        catch{
+            
+            print("unable to convert to json")
+        }
+        
+        // saveToiCloud(filename: "userschats.json", fileurl: URL.init(fileURLWithPath: filePathImage2))
+        /*  }
+         catch{
+         print("unable to save userchats json file")
+         }*/
+        
+        // RestoreService.init().RestoreFilesTable(filename: filename)
+        //copyToAppContainer
+        //readChatsFile(filename: filename)
+    }
+    
+    
+  
+    
+    
+    func BackupBroadcastListTable()
+    {
+        
+        var filename="broadcastlists.json"
+        var List=[[String:Any]]()
+        print("table name is \(filename.removeCharsFromEnd(5))")
+        
+        
+        let uniqueid = Expression<String>("uniqueid")
+        let listname = Expression<String>("listname")
+        
+        var files=sqliteDB.broadcastlisttable
+        
+        do
+        {for files in try sqliteDB.db.prepare(files!){
+            // print("channel name for deptid \(deptid) is \(channelNames.get(msg_channel_name))")
+            
+            var newEntry: [String: Any] = [:]
+            
+            newEntry["uniqueid"]=files.get(uniqueid) as String
+            newEntry["(listname)"]=files.get(listname) as String
+            
+            
+            List.append(newEntry)
+            
+            }
+            var text=JSON.init(List)
+        }
+        catch
+        {
+            print("error reading broadcastlist table")
+        }
+        
+        do{
+            
+            var isSaved=saveTableToICloud(filename: filename, tableData: try List.toJSON())
+            print("broadcastlist table isSaved \(isSaved)")
+            
+            
+        }
+            
+        catch{
+            
+            print("unable to convert to json")
+        }
+        
+        // saveToiCloud(filename: "userschats.json", fileurl: URL.init(fileURLWithPath: filePathImage2))
+        /*  }
+         catch{
+         print("unable to save userchats json file")
+         }*/
+        
+        // RestoreService.init().RestoreFilesTable(filename: filename)
+        //copyToAppContainer
+        //readChatsFile(filename: filename)
+    }
+    
+    
+    
+    func BackupGroupsChatTable()
+    {
+        
+        var filename="groupchats.json"
+        var List=[[String:Any]]()
+        print("table name is \(filename.removeCharsFromEnd(5))")
+       
+        let from = Expression<String>("from")
+        let group_unique_id = Expression<String>("group_unique_id")
+        let type = Expression<String>("type")
+        let msg = Expression<String>("msg")
+        let from_fullname = Expression<String>("from_fullname")
+        let date = Expression<Date>("date")
+        let unique_id = Expression<String>("unique_id")
+        
+        
+        
+        var files=sqliteDB.group_chat
+        
+        do
+        {for files in try sqliteDB.db.prepare(files!){
+            // print("channel name for deptid \(deptid) is \(channelNames.get(msg_channel_name))")
+            
+            var newEntry: [String: Any] = [:]
+            
+            newEntry["from"]=files.get(from) as String
+            newEntry["(group_unique_id)"]=files.get(group_unique_id) as String
+             newEntry["(type)"]=files.get(type) as String
+             newEntry["(msg)"]=files.get(msg) as String
+             newEntry["(from_fullname)"]=files.get(from_fullname) as String
+             newEntry["(date)"]=files.get(date) as Date
+             newEntry["(unique_id)"]=files.get(unique_id) as String
+            
+            
+            List.append(newEntry)
+            
+            }
+            var text=JSON.init(List)
+        }
+        catch
+        {
+            print("error reading broadcast list  table")
+        }
+        
+        do{
+            
+            var isSaved=saveTableToICloud(filename: filename, tableData: try List.toJSON())
+            print("BackupBroadcastListTable table isSaved \(isSaved)")
+            
+            
+        }
+            
+        catch{
+            
+            print("unable to convert to json")
+        }
+        
+        // saveToiCloud(filename: "userschats.json", fileurl: URL.init(fileURLWithPath: filePathImage2))
+        /*  }
+         catch{
+         print("unable to save userchats json file")
+         }*/
+        
+        // RestoreService.init().RestoreFilesTable(filename: filename)
+        //copyToAppContainer
+        //readChatsFile(filename: filename)
+    }
+    
+    
+    
+    func BackupGroupMembersTable()
+    {
+        
+        var filename="groupmembers.json"
+        var List=[[String:Any]]()
+        print("table name is \(filename.removeCharsFromEnd(5))")
+        
+        let group_unique_id = Expression<String>("group_unique_id")
+        let member_phone = Expression<String>("member_phone")
+        let isAdmin = Expression<String>("isAdmin")
+        let membership_status = Expression<String>("membership_status")
+        let date_joined = Expression<Date>("date_joined")
+        let date_left = Expression<Date>("date_left")
+        let group_member_displayname = Expression<String>("group_member_displayname")
+        
+        var files=sqliteDB.group_member
+        
+        do
+        {for files in try sqliteDB.db.prepare(files!){
+            // print("channel name for deptid \(deptid) is \(channelNames.get(msg_channel_name))")
+            
+            var newEntry: [String: Any] = [:]
+            
+            newEntry["group_unique_id"]=files.get(group_unique_id) as String
+            newEntry["(member_phone)"]=files.get(member_phone) as String
+            newEntry["(isAdmin)"]=files.get(isAdmin) as String
+            newEntry["(membership_status)"]=files.get(membership_status) as String
+            newEntry["(date_joined)"]=files.get(date_joined)
+            newEntry["(date_left)"]=files.get(date_left)
+            newEntry["(group_member_displayname)"]=files.get(group_member_displayname) as String
+
+            
+            
+            List.append(newEntry)
+            
+            }
+            var text=JSON.init(List)
+        }
+        catch
+        {
+            print("error reading groupmembers table")
+        }
+        
+        do{
+            
+            var isSaved=saveTableToICloud(filename: filename, tableData: try List.toJSON())
+            print("BackupGroupMembers table isSaved \(isSaved)")
+            
+            
+        }
+            
+        catch{
+            
+            print("unable to convert to json")
+        }
+        
+        // saveToiCloud(filename: "userschats.json", fileurl: URL.init(fileURLWithPath: filePathImage2))
+        /*  }
+         catch{
+         print("unable to save userchats json file")
+         }*/
+        
+        // RestoreService.init().RestoreFilesTable(filename: filename)
+        //copyToAppContainer
+        //readChatsFile(filename: filename)
+    }
+    
+    
+    
+    func BackupGroupsTable()
+    {
+        
+        var filename="groups.json"
+        var List=[[String:Any]]()
+        print("table name is \(filename.removeCharsFromEnd(5))")
+        
+        let group_name = Expression<String>("group_name")
+        let group_icon = Expression<Data>("group_icon")
+        let date_creation = Expression<Date>("date_creation")
+        let unique_id = Expression<String>("unique_id")
+        let isMute = Expression<Bool>("isMute")
+        let status = Expression<Bool>("status")
+  
+        var files=sqliteDB.groups
+        
+        do
+        {for files in try sqliteDB.db.prepare(files!){
+            // print("channel name for deptid \(deptid) is \(channelNames.get(msg_channel_name))")
+            
+            var newEntry: [String: Any] = [:]
+            
+            newEntry["group_name"]=files.get(group_name) as String
+            newEntry["(group_icon)"]=files.get(group_icon)
+            newEntry["(date_creation)"]=files.get(date_creation)
+            newEntry["(unique_id)"]=files.get(unique_id) as String
+            newEntry["(isMute)"]=files.get(isMute)
+            newEntry["(status)"]=files.get(status)
+            
+            
+            List.append(newEntry)
+            
+            }
+            var text=JSON.init(List)
+        }
+        catch
+        {
+            print("error reading groups table")
+        }
+        
+        do{
+            
+            var isSaved=saveTableToICloud(filename: filename, tableData: try List.toJSON())
+            print("BackupGroups table isSaved \(isSaved)")
+            
+            
+        }
+            
+        catch{
+            
+            print("unable to convert to json")
+        }
+        
+        // saveToiCloud(filename: "userschats.json", fileurl: URL.init(fileURLWithPath: filePathImage2))
+        /*  }
+         catch{
+         print("unable to save userchats json file")
+         }*/
+        
+        // RestoreService.init().RestoreFilesTable(filename: filename)
+        //copyToAppContainer
+        //readChatsFile(filename: filename)
+    }
+    
+    
+  
+
+    
+    
+    //////
     func backupStatusUpdateTable()
     {
         

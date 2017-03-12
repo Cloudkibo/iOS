@@ -17,7 +17,53 @@ class RestoreService
     
     init()
     {
+        let downloadQueue = OperationQueue();
+        downloadQueue.maxConcurrentOperationCount = 1;
         
+       // for i in 1...10 {
+            
+            let RestoreChatsTable : BlockOperation = BlockOperation(block: {
+                self.RestoreChatsTable(filename: "userchats.json")
+            })
+        
+        let restoreGroupsTable : BlockOperation = BlockOperation(block: {
+            self.restoreGroupsTable(filename: "groups.json")
+        })
+
+        let restoreGroupMembersTable : BlockOperation = BlockOperation(block: {
+            self.restoreGroupMembersTable(filename: "groupmembers.json")
+        })
+
+        let restoreGroupChatTable : BlockOperation = BlockOperation(block: {
+            self.restoreGroupChatTable(filename: "groupchats.json")
+        })
+
+        let restoreBroadcastListTable : BlockOperation = BlockOperation(block: {
+            self.restoreBroadcastListTable(filename: "broadcastlists.json")
+        })
+
+        let RestoreGroupChatsStatusTable : BlockOperation = BlockOperation(block: {
+            self.RestoreGroupChatsStatusTable(filename: "groupchatstatus.json")
+        })
+
+        let restoreBroadcastListMembersTable : BlockOperation = BlockOperation(block: {
+            self.restoreBroadcastListMembersTable(filename: "broadcastlistmembers.json")
+        })
+
+        let RestoreFilesTable : BlockOperation = BlockOperation(block: {
+            self.RestoreFilesTable(filename: "files.json")
+        })
+
+        
+            downloadQueue.addOperation(RestoreChatsTable)
+              downloadQueue.addOperation(restoreGroupsTable)
+              downloadQueue.addOperation(restoreGroupMembersTable)
+              downloadQueue.addOperation(restoreGroupChatTable)
+              downloadQueue.addOperation(restoreBroadcastListTable)
+              downloadQueue.addOperation(RestoreGroupChatsStatusTable)
+              downloadQueue.addOperation(restoreBroadcastListMembersTable)
+            downloadQueue.addOperation(RestoreFilesTable)
+       // }
     }
     
     func RestoreChatsTable(filename:String)
@@ -197,7 +243,7 @@ class RestoreService
         }
     }
     
-    func restoreBroadcastListTable()
+    func restoreBroadcastListTable(filename:String)
     {
         var ubiquityURL = UtilityFunctions.init().getBackupDirectoryICloud()
         
@@ -215,12 +261,15 @@ class RestoreService
                 {
                     var chats=chatsRows.1 //as! [String : Any]
                     
+                    let uniqueid = Expression<String>("uniqueid")
+                    let listname = Expression<String>("listname")
+      
                     
-                    var formatterDateSendtoDateType = DateFormatter();
-                    formatterDateSendtoDateType.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ";
-                    var dateSentDateType = formatterDateSendtoDateType.date(from: chats["date"].string!)
+                   // var formatterDateSendtoDateType = DateFormatter();
+                   // formatterDateSendtoDateType.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ";
+                   // var dateSentDateType = formatterDateSendtoDateType.date(from: chats["date"].string!)
                     
-                    sqliteDB.SaveChat(chats["to"].string!, from1: chats["from"].string!, owneruser1: chats["owneruser"].string!, fromFullName1: chats["fromFullName"].string!, msg1: chats["msg"].string!, date1: dateSentDateType, uniqueid1: chats["uniqueid"].string!, status1: chats["status"].string!, type1: chats["type"].string!, file_type1: chats["file_type"].string!, file_path1: chats["file_path"].string!)
+                    sqliteDB.storeBroadcastList(chats["uniqueid"].string!, ListName1: chats["listname"].string!)
                     
                     
                 }
@@ -229,6 +278,40 @@ class RestoreService
                 print("error reading \(filename.removeCharsFromEnd(5)) table from icloud")
             }
         }
+    }
+    
+    func restoreBroadcastListMembersTable(filename:String)
+    {
+        
+        var ubiquityURL = UtilityFunctions.init().getBackupDirectoryICloud()
+        
+        if(ubiquityURL != nil)
+        {
+            ///////ubiquityURL=ubiquityURL!.appendingPathComponent("Backup", isDirectory: true)
+            ubiquityURL=ubiquityURL!.appendingPathComponent("\(filename)")
+            
+            do{ var chatsData=try Data.init(contentsOf: ubiquityURL!)
+                print("reading \(filename.removeCharsFromEnd(5)) table from icloud")
+                print(JSON.init(data: chatsData))
+                var ChatsDataJSONobject=JSON.init(data: chatsData)
+                
+                for chatsRows in ChatsDataJSONobject
+                {
+                    var chats=chatsRows.1 //as! [String : Any]
+                    
+                    let uniqueid = Expression<String>("uniqueid")
+                    let memberphone = Expression<String>("memberphone")
+                    
+                    sqliteDB.storeBroadcastListMembers(chats["uniqueid"].string!, memberphones: [chats["memberphone"].string!])
+                    
+                }
+            }
+            catch{
+                print("error reading \(filename.removeCharsFromEnd(5)) table from icloud")
+            }
+        }
+
+        
     }
     
     func RestoreGroupChatsStatusTable(filename:String)
@@ -249,13 +332,22 @@ class RestoreService
                 {
                     var chats=chatsRows.1 //as! [String : Any]
                     
+                    let msg_unique_id = Expression<String>("msg_unique_id")
+                    let Status = Expression<String>("Status")
+                    let user_phone = Expression<String>("user_phone")
+                    
+                    let read_date = Expression<Date>("read_date")
+                    let delivered_date = Expression<Date>("delivered_date")
                     
                     var formatterDateSendtoDateType = DateFormatter();
                     formatterDateSendtoDateType.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ";
-                    var dateSentDateType = formatterDateSendtoDateType.date(from: chats["date"].string!)
+                    var read_dateDateType = formatterDateSendtoDateType.date(from: chats["read_date"].string!)
+                   
+                    var delivered_dateDateType = formatterDateSendtoDateType.date(from: chats["delivered_date"].string!)
                     
-                    sqliteDB.SaveChat(chats["to"].string!, from1: chats["from"].string!, owneruser1: chats["owneruser"].string!, fromFullName1: chats["fromFullName"].string!, msg1: chats["msg"].string!, date1: dateSentDateType, uniqueid1: chats["uniqueid"].string!, status1: chats["status"].string!, type1: chats["type"].string!, file_type1: chats["file_type"].string!, file_path1: chats["file_path"].string!)
                     
+                    sqliteDB.storeGRoupsChatStatus(chats["msg_unique_id"].string!, status1: chats["Status"].string!, memberphone1: chats["user_phone"].string!, delivereddate1: delivered_dateDateType!, readDate1: read_dateDateType!)
+                   // sqliteDB.storeBroadcastListMembers(chats["uniqueid"].string!, memberphones: [chats["memberphone"].string!])
                     
                 }
             }

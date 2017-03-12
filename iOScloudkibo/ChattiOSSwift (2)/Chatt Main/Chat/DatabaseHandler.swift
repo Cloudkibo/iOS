@@ -2897,6 +2897,7 @@ print("--------")
         }
         
     }
+    
     func storeBroadcastListMembers(_ broadcastlistID1:String,memberphones:[String])
     {
         let uniqueid = Expression<String>("uniqueid")
@@ -2914,7 +2915,8 @@ print("--------")
             
             print("inserted id broadcastlistmember : \(rowid)")
             }
-        } catch {
+        }
+        catch {
             print("insertion failed: broadcastlistmember \(error)")
         }
         
@@ -3143,7 +3145,7 @@ print("--------")
         
         self.contactslists = Table("contactslists")
         do{
-            try self.db.run(self.contactslists.filter(phone==phone1).select(IamBlocked).update(true))
+            try self.db.run(self.contactslists.filter(phone==phone1).select(IamBlocked).update(IamBlocked<-true))
         }
         catch{
             print("error: unable to update value iAMblocked contact")
@@ -3172,7 +3174,7 @@ print("--------")
         
         self.contactslists = Table("contactslists")
         do{
-            try self.db.run(self.contactslists.filter(phone==phone1).select(blockedByMe).update(true))
+            try self.db.run(self.contactslists.filter(phone==phone1).select(blockedByMe).update(blockedByMe<-true))
         }
         catch{
             print("error: unable to update value blockedByME contact")
