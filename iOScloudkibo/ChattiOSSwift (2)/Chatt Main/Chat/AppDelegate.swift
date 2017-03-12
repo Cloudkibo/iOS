@@ -2208,6 +2208,29 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
                             UIDelegates.getInstance().UpdateGroupInfoDetailsDelegateCall()
                             
                         }
+                        else{
+                            
+                            if(notifType=="block:blockedyou")
+                                
+                            {print("inside i am blocked")
+                                //change message status
+                                //status : 'delivered',
+                                //uniqueId : req.body.unique_id
+                                var phone=userInfo["phone"] as! String
+                                sqliteDB.IamBlockedUpdateStatus(phone1: phone, status1: true)
+                            }
+                            else{
+                                
+                                if(notifType=="block:unblockedyou")
+                                    
+                                {print("inside i am unblocked")
+                                    //change message status
+                                    //status : 'delivered',
+                                    //uniqueId : req.body.unique_id
+                                    var phone=userInfo["phone"] as! String
+                                    sqliteDB.IamBlockedUpdateStatus(phone1: phone, status1: false)
+                                }
+                        }
                                            }
                 }
                 

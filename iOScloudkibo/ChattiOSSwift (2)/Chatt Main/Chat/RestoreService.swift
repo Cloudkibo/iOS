@@ -128,7 +128,7 @@ class RestoreService
                     var formatterDateSendtoDateType = DateFormatter();
                     formatterDateSendtoDateType.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ";
                     
-                    var dateCreationDateType = formatterDateSendtoDateType.date(from: groups["date_creation"].string!)
+                    var dateCreationDateType = formatterDateSendtoDateType.date(from: groups["date_creation"].debugDescription)
                     
                     var group_icon=NSData()
                     

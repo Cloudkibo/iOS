@@ -1868,7 +1868,7 @@ print("tempURL is \(temporaryURL) and response is \(response.allHeaderFields)")
             
             var formatterDateSendtoDateType = DateFormatter();
             formatterDateSendtoDateType.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ";
-            formatterDateSendtoDateType.timeZone = TimeZone.autoupdatingCurrent
+            formatterDateSendtoDateType.timeZone = TimeZone.current
             var datestring=formatterDateSendtoDateType.string(from: files.get(date_creation))
             
             newEntry["group_name"]=files.get(group_name) as String
@@ -2019,5 +2019,53 @@ extension PHAsset {
         }
         
         return fname
+    }
+    
+    func blockContact(phone1:String)
+    {
+        var blockContactURL=Constants.MainUrl+Constants.blockContactURL
+        
+        //Alamofire.request(.POST,"\(removeChatHistoryURL)",headers:header,parameters: ["username":"\(selectedContact)"]).validate(statusCode: 200..<300).response{
+        
+        
+        Alamofire.request("\(blockContactURL)", method: .post, parameters:  ["phone":phone1],headers:header).response{
+            response in
+            
+            print(response)
+            if(response.response?.statusCode==200 || response.response?.statusCode==201)
+            {
+                //block
+                print("contact blocked")
+                sqliteDB.BlockContactUpdateStatus(phone1: phone1,status1: true)
+            }
+            else{
+                print("unable to block")
+            }
+            
+        }
+    }
+    
+    func unblockContact(phone1:String)
+    {
+        var blockContactURL=Constants.MainUrl+Constants.blockContactURL
+        
+        //Alamofire.request(.POST,"\(removeChatHistoryURL)",headers:header,parameters: ["username":"\(selectedContact)"]).validate(statusCode: 200..<300).response{
+        
+        
+        Alamofire.request("\(blockContactURL)", method: .post, parameters:  ["phone":phone1],headers:header).response{
+            response in
+            
+            print(response)
+            if(response.response?.statusCode==200 || response.response?.statusCode==201)
+            {
+                //block
+                print("contact unblocked")
+                sqliteDB.BlockContactUpdateStatus(phone1: phone1,status1: false)
+            }
+            else{
+                print("unable to unblock")
+            }
+            
+        }
     }
 }

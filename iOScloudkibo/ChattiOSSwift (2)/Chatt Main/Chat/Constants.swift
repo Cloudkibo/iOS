@@ -80,6 +80,9 @@ static let connectionstring="Endpoint=sb://cloudkibo.servicebus.windows.net/;Sha
     
     static var downloadGroupIcon="/api/groupmessaging/downloadIcon"
     
+    static var blockContactURL="/api/contactslist/blockContact"
+    static var unblockContactURL="/api/contactslist/unblockContact"
+    
     static var icloudcontainer = "iCloud.iCloud.MyAppTemplates.cloudkibo"
     
     static var defaultsBackupTimeKey = "BackupTime"

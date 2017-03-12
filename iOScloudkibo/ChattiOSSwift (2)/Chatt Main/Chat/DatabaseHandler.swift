@@ -3125,7 +3125,7 @@ print("--------")
     }
     
     
-    func IamBlockedUpdateStatus(phone1:String)
+    func IamBlockedUpdateStatus(phone1:String,status1:Bool)
     {
         let contactid = Expression<String>("contactid")
         let detailsshared = Expression<String>("detailsshared")
@@ -3145,7 +3145,7 @@ print("--------")
         
         self.contactslists = Table("contactslists")
         do{
-            try self.db.run(self.contactslists.filter(phone==phone1).select(IamBlocked).update(IamBlocked<-true))
+            try self.db.run(self.contactslists.filter(phone==phone1).select(IamBlocked).update(IamBlocked<-status1))
         }
         catch{
             print("error: unable to update value iAMblocked contact")
@@ -3154,7 +3154,7 @@ print("--------")
         
     }
     
-    func BlockContactUpdateStatus(phone1:String)
+    func BlockContactUpdateStatus(phone1:String,status1:Bool)
     {
         let contactid = Expression<String>("contactid")
         let detailsshared = Expression<String>("detailsshared")
@@ -3174,7 +3174,7 @@ print("--------")
         
         self.contactslists = Table("contactslists")
         do{
-            try self.db.run(self.contactslists.filter(phone==phone1).select(blockedByMe).update(blockedByMe<-true))
+            try self.db.run(self.contactslists.filter(phone==phone1).select(blockedByMe).update(blockedByMe<-status1))
         }
         catch{
             print("error: unable to update value blockedByME contact")

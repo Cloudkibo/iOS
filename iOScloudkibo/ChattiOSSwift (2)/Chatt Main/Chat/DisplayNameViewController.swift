@@ -1456,7 +1456,19 @@ socketObj.socket.emit("logClient","button done pressed start time \(Date())")
                                                                         self.lbl_progress.text="Setting Chats.."
                                                                 //self.messageFrame.removeFromSuperview()
                                                                 //self.progressBarDisplayer("Setting Chats", true)
-                                                                self.Q5_fetchAllChats.sync(execute: {
+                                                                
+                                                                        
+                                                                        
+                                                                        
+                                                                        
+                                                                        
+                                                                        
+                                                                    print("restoring service")
+                                                                    RestoreService.init()
+                                                                        
+                                                                        
+                                                                      /*
+                                                                        self.Q5_fetchAllChats.sync(execute: {
                                                                     if(socketObj != nil)
                                                                     {
                                                                         socketObj.socket.emit("logClient","IPHONE LOG: fetch chat start time \(Date())")
@@ -1568,6 +1580,23 @@ socketObj.socket.emit("logClient","button done pressed start time \(Date())")
                                                                    // }
                                                                 })
                                                         })
+                                                                        
+                                                                        */
+                                                                        
+                                                                        
+                                                                        
+                                                                        
+                                                                        
+                                                                        
+                                                                        
+                                                                        
+                                                                        
+                                                                        
+                                                                        
+                                                                        
+                                                                        
+                                                                        
+                                                                        
                                                                     })
                                                                     })
                                                     })
