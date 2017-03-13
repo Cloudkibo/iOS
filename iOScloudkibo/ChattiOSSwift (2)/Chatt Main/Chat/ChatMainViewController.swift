@@ -909,7 +909,7 @@ class ChatMainViewController:UIViewController,SocketConnecting,RefreshContactsLi
          print("indexpath row number is \(indexPath.row)")
         if(indexPath.row < (messages.count))
         {
-            var messageDic = messages.object(at: indexPath.row) as! [String : AnyObject];
+            var messageDic = messages!.object(at: indexPath.row) as! [String : AnyObject]
             
             //let ContactLastNAme=messageDic["ContactLastNAme"] as! String
             let ContactNames=messageDic["ContactNames"] as! String

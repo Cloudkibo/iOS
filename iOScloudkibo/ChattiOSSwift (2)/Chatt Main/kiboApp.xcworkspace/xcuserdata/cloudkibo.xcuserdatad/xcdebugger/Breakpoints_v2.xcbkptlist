@@ -166,11 +166,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Chat/contactsDetailsTableViewController.swift"
-            timestampString = "511010535.954631"
+            timestampString = "511109678.183998"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "336"
-            endingLineNumber = "336"
+            startingLineNumber = "364"
+            endingLineNumber = "364"
             landmarkName = "inviteTokiboButtonPressed(_:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -3451,11 +3451,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Chat/DatabaseHandler.swift"
-            timestampString = "511010535.954631"
+            timestampString = "511108083.687538"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "3177"
-            endingLineNumber = "3177"
+            startingLineNumber = "3178"
+            endingLineNumber = "3178"
             landmarkName = "BlockContactUpdateStatus(phone1:status1:)"
             landmarkType = "7">
          </BreakpointContent>

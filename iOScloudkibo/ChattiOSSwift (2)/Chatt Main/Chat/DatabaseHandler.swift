@@ -3145,7 +3145,7 @@ print("--------")
         
         self.contactslists = Table("contactslists")
         do{
-            try self.db.run(self.contactslists.filter(phone==phone1).select(IamBlocked).update(IamBlocked<-status1))
+            try self.db.run(self.contactslists.select(IamBlocked,phone).filter(phone==phone1).update(IamBlocked<-status1))
         }
         catch{
             print("error: unable to update value iAMblocked contact")
@@ -3174,7 +3174,9 @@ print("--------")
         
         self.contactslists = Table("contactslists")
         do{
-            try self.db.run(self.contactslists.filter(phone==phone1).select(blockedByMe).update(blockedByMe<-status1))
+            print("phone \(phone1) statusblocked \(status1)")
+            var rowupdated=try self.db.run(self.contactslists.select(blockedByMe,phone).filter(phone==phone1).update(blockedByMe<-status1))
+            print("blockedByMe value \(self.contactslists.select(blockedByMe).filter(phone==phone1)) rowupdated \(rowupdated)")
         }
         catch{
             print("error: unable to update value blockedByME contact")

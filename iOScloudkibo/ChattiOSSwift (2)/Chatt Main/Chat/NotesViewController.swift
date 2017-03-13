@@ -649,7 +649,7 @@ class NotesViewController: UIViewController,InviteContactsDelegate,UITextFieldDe
                             print("new index is \(newindexphone)")
                             contactsDetailController?.contactIndex=newindexphone
                             
-                            
+                            contactsDetailController?.selectedContactphone=selectedphone
                              contactsDetailController?.isKiboContact = alladdressContactsArray[newindexphone].get(kibocontact)
                             
                            /* var cell=tblForNotes.cellForRowAtIndexPath(newindexphone!) as! AllContactsCell
@@ -680,6 +680,9 @@ class NotesViewController: UIViewController,InviteContactsDelegate,UITextFieldDe
                     else{
                     print("search bar not active")
                 contactsDetailController?.contactIndex=tblForNotes.indexPathForSelectedRow!.row
+                    let phone = Expression<String>("phone")
+                  contactsDetailController?.selectedContactphone=alladdressContactsArray[tblForNotes.indexPathForSelectedRow!.row].get(phone)
+                    
                 var cell=tblForNotes.cellForRow(at: tblForNotes.indexPathForSelectedRow!) as! AllContactsCell
                 if(cell.labelStatusPrivate.isHidden==false)
                 {

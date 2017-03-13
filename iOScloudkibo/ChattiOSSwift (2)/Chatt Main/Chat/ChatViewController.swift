@@ -2332,6 +2332,11 @@ EPPickerDelegate,SWTableViewCellDelegate,UpdateChatViewsDelegate,RefreshContacts
         /////////// let contactProfileImage = Expression<NSData>("profileimage")
         let uniqueidentifier = Expression<String>("uniqueidentifier")
         
+        
+        let blockedByMe = Expression<Bool>("blockedByMe")
+        let IamBlocked = Expression<Bool>("IamBlocked")
+        
+        
         // let myquery=tbl_userchats.join(tbl_contactslists, on: tbl_contactslists[phone] == tbl_userchats[contactPhone]).group(tbl_userchats[contactPhone]).order(date.desc)
         
         let myquery=tbl_userchats?.group((tbl_userchats?[contactPhone])!).order(date.desc)
@@ -2366,7 +2371,7 @@ EPPickerDelegate,SWTableViewCellDelegate,UpdateChatViewsDelegate,RefreshContacts
             
             
             var nameFoundInAddressBook=false
-            let myquery1=tbl_userchats?.join(tbl_contactslists!, on: (tbl_contactslists?[self.phone])! == ccc[contactPhone])//.group(tbl_userchats[contactPhone]).order(date.desc)
+            let myquery1=tbl_userchats?.join(tbl_contactslists!, on: (tbl_contactslists?[self.phone])! == ccc[contactPhone] && blockedByMe == false)//.group(tbl_userchats[contactPhone]).order(date.desc)
             
             //  var queryruncount=0
             //do{
@@ -4458,6 +4463,7 @@ break
                 
                 let indexnew=getAddressBookIndex(ContactUsernames)
                 contactsDetailController?.contactIndex=indexnew
+                contactsDetailController?.selectedContactphone=ContactUsernames
                 //contactsDetailController?.contactIndex=tblForNotes.indexPathForSelectedRow!.row
                 //var cell=tblForNotes.cellForRowAtIndexPath(tblForNotes.indexPathForSelectedRow!) as! AllContactsCell
                 

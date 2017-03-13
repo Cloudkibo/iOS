@@ -14,6 +14,7 @@ import AlamofireImage
 
 class contactsDetailsTableViewController: UITableViewController,MFMailComposeViewControllerDelegate,MFMessageComposeViewControllerDelegate {
     
+    var selectedContactphone=""
     var imageCache=AutoPurgingImageCache()
     var sendType=""
     var contactIndex:Int=1
@@ -24,7 +25,7 @@ class contactsDetailsTableViewController: UITableViewController,MFMailComposeVie
         super.viewDidLoad()
 
         let allcontactslist1=sqliteDB.allcontacts
-        
+        print("selectedContactphone \(selectedContactphone)")
         
         
         
@@ -299,7 +300,34 @@ class contactsDetailsTableViewController: UITableViewController,MFMailComposeVie
         return cell
     }
 
-
+    
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+        
+        //var messageDic = messages.object(at: indexPath.row) as! [String : String];
+        // NSLog(messageDic["message"]!, 1)
+        //var status = messageDic["status"] as String!
+        
+        
+        //let cell=tbl_inviteContacts.dequeueReusableCellWithIdentifier("ContactsInviteCell")! as! ContactsInviteCell
+        //let selectedCell=tableView.cellForRow(at: indexPath)! as AllContactsCell
+        if(indexPath.row==5)
+        {
+              let phone = Expression<String>("phone")
+            if(alladdressContactsArray[contactIndex].get(phone) != "")
+            {
+              
+                var phoneselectd=alladdressContactsArray[contactIndex].get(phone)
+               // cell.isHidden=false
+                  sqliteDB.BlockContactUpdateStatus(phone1: phoneselectd, status1: true)
+                
+            }
+        
+        }
+        
+        
+    }
+    
     @IBAction func inviteTokiboButtonPressed(_ sender: AnyObject) {
         
             let shareMenu = UIAlertController(title: nil, message: "Invite using", preferredStyle: .actionSheet)

@@ -30,4 +30,5 @@ class AllContactsCell:UITableViewCell {
     
     @IBOutlet weak var lbl_new_name: UILabel!
     @IBOutlet weak var lbl_new_subtitle: UILabel!
+    @IBOutlet weak var btn_lbl_blockContact: UILabel!
 }
