@@ -126,9 +126,18 @@ class RestoreService
                     var groups=groupsRows.1 //as! [String : Any]
                     
                     var formatterDateSendtoDateType = DateFormatter();
-                    formatterDateSendtoDateType.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ";
+                     let dateFormatter = DateFormatter()
+                    dateFormatter.timeZone=NSTimeZone.local
+                    dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
+                    //  let datens2 = dateFormatter.date(from:date2.debugDescription)
+                    //2016-09-18T19:13:00.588Z
                     
-                    var dateCreationDateType = formatterDateSendtoDateType.date(from: groups["date_creation"].debugDescription)
+                    print(" groups unique_id .string! is \( groups["unique_id"].string!)")
+                    var datestring=groups["date_creation"]
+                    print("datestring \(datestring)")
+                    
+                    let dateCreationDateType = dateFormatter.date(from: groups["date_creation"].debugDescription)
+                   /// var datens2 = formatterDateSendtoDateType.date(from: groups["date_creation"].debugDescription)
                     
                     var group_icon=NSData()
                     

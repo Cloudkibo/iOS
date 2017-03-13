@@ -2258,7 +2258,7 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
                 }*/
             
              }
-        
+             }
             else
              {
                 print("rwong payload without type field")

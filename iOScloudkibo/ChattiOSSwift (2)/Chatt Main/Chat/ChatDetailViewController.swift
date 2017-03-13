@@ -4911,12 +4911,12 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
                 
             })
     })
-        let notConfirm = UIAlertAction(title: "No", style: UIAlertActionStyle.cancel, handler: { (action) -> Void in
+       // let notConfirm = UIAlertAction(title: "No", style: UIAlertActionStyle.cancel, handler: { (action) -> Void in
             
-        })
+      //  })
 
        shareMenu.addAction(confirm)
-        shareMenu.addAction(notConfirm)
+        //shareMenu.addAction(notConfirm)
         self.present(shareMenu, animated: true) {
             
             
