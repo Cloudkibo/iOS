@@ -610,7 +610,8 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
         
         
         self.NewChatNavigationTitle.title=selectedFirstName
-        
+         let tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(ChatDetailViewController.contactTapped(_:)))
+         self.NewChatNavigationTitle.addGestureRecognizer(tapRecognizer)
         
         self.navigationItem.leftBarButtonItem = self.navigationItem.backBarButtonItem
         var receivedMsg=JSON("")
@@ -4007,6 +4008,16 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
     */
     
     
+    
+    func contactTapped(_ gestureRecognizer: UITapGestureRecognizer) {
+        //tappedImageView will be the image view that was tapped.
+        //dismiss it, animate it off screen, whatever.
+        //let tappedImageView = gestureRecognizer.view! as! UIImageView
+        //selectedImage=tappedImageView.image
+        self.performSegue(withIdentifier: "contactdetailsinfosegue", sender: nil);
+        
+    }
+    
     func imageTapped(_ gestureRecognizer: UITapGestureRecognizer) {
         //tappedImageView will be the image view that was tapped.
         //dismiss it, animate it off screen, whatever.
@@ -5768,6 +5779,13 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
         // Get the new view controller using [segue destinationViewController].
         // Pass the selected object to the new view controller.
         
+        
+        //contactdetailsinfosegue
+        if segue!.identifier == "contactdetailsinfosegue" {
+            if let destinationVC = segue!.destination as? contactsDetailsTableViewController{
+                destinationVC.selectedContactphone=self.selectedContact
+            }
+        }
         
          if segue!.identifier == "showFullImageSegue" {
          if let destinationVC = segue!.destination as? ShowImageViewController{

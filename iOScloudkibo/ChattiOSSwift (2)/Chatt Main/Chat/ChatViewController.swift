@@ -2343,6 +2343,17 @@ EPPickerDelegate,SWTableViewCellDelegate,UpdateChatViewsDelegate,RefreshContacts
         
         var queryruncount=0
         do{for ccc in try sqliteDB.db.prepare(myquery!) {
+           
+            /*var blockedcontact=false
+            for resultrows in try sqliteDB.db.prepare((tbl_contactslists?.filter(phone==ccc[contactPhone] && blockedByMe==true))!)
+            {
+                print()
+                blockedcontact=true
+                break
+            }
+            if(blockedcontact==false)
+            {*/
+           /// tbl_contactslists?[blockedByMe])! == false
             queryruncount=queryruncount+1
             //print("queryruncount is \(queryruncount)")
             var picfound=false
@@ -2371,7 +2382,7 @@ EPPickerDelegate,SWTableViewCellDelegate,UpdateChatViewsDelegate,RefreshContacts
             
             
             var nameFoundInAddressBook=false
-            let myquery1=tbl_userchats?.join(tbl_contactslists!, on: (tbl_contactslists?[self.phone])! == ccc[contactPhone] && blockedByMe == false)//.group(tbl_userchats[contactPhone]).order(date.desc)
+            let myquery1=tbl_userchats?.join(tbl_contactslists!, on: (tbl_contactslists?[self.phone])! == ccc[contactPhone] /*&& (tbl_contactslists?[blockedByMe])! == false*/)//.group(tbl_userchats[contactPhone]).order(date.desc)
             
             //  var queryruncount=0
             //do{
@@ -2522,8 +2533,8 @@ break
             
             messages2.add(["ContactsLastMsgDate":ContactsLastMsgDate,"ContactLastMessage":ContactLastMessage,"ContactLastNAme":ContactLastNAme,"ContactNames":ContactNames,"ContactStatus":ContactStatus,"ContactUsernames":ContactUsernames,"ContactOnlineStatus":ContactOnlineStatus,"ContactFirstname":ContactFirstname,"ContactsPhone":ContactsPhone,"ContactCountMsgRead":ContactCountMsgRead,"ContactsProfilePic":ContactsProfilePic,"ChatType":ChatType])
             }
-            
             }
+           // }
         catch{
             
         }

@@ -14,6 +14,8 @@ import AlamofireImage
 
 class contactsDetailsTableViewController: UITableViewController,MFMailComposeViewControllerDelegate,MFMessageComposeViewControllerDelegate {
     
+    var iamBlocked=false
+    var blockedByMe=false
     var selectedContactphone=""
     var imageCache=AutoPurgingImageCache()
     var sendType=""
@@ -290,7 +292,13 @@ class contactsDetailsTableViewController: UITableViewController,MFMailComposeVie
             //block
             //BlockThisContactCell
             cell = tableView.dequeueReusableCell(withIdentifier: "BlockThisContactCell", for: indexPath) as! AllContactsCell
-            
+            if(blockedByMe==true)
+            {
+               cell.btn_lbl_blockContact.text="Unblock this contact"
+            }
+            else{
+                cell.btn_lbl_blockContact.text="Block this contact"
+            }
             
         }
         
@@ -319,7 +327,16 @@ class contactsDetailsTableViewController: UITableViewController,MFMailComposeVie
               
                 var phoneselectd=alladdressContactsArray[contactIndex].get(phone)
                // cell.isHidden=false
-                  sqliteDB.BlockContactUpdateStatus(phone1: phoneselectd, status1: true)
+                if(blockedByMe==false)
+                    {
+                 // sqliteDB.BlockContactUpdateStatus(phone1: phoneselectd, status1: true)
+                        UtilityFunctions.init().blockContact(phone1: phoneselectd)
+                }
+                else
+                    {
+                        UtilityFunctions.init().unblockContact(phone1: phoneselectd)
+                  //  sqliteDB.BlockContactUpdateStatus(phone1: phoneselectd, status1: false)
+                }
                 
             }
         
