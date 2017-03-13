@@ -51,6 +51,208 @@ class DisplayNameViewController: UIViewController {
     var activityIndicator = UIActivityIndicatorView()
     var strLabel = UILabel()
     
+    
+    
+    @IBAction func btnSkipPressed(_ sender: Any) {
+        
+        var displayName="unknown"
+        displayName=txtDisplayName.text!
+        // appJustInstalled=[true]
+        if(accountKit!.currentAccessToken != nil)
+        {
+            header=["kibo-token":accountKit!.currentAccessToken!.tokenString]
+        }
+        displayname=displayName
+        //=--progressBarDisplayer("Contacting Server", true)
+        self.lbl_progress.text="Contacting Server..."
+        
+        
+        Q0_sendDisplayName.sync(execute: {
+            self.sendNameToServer(displayName){ (result) -> () in
+                
+                /*DispatchQueue.main.async
+                 {
+                 
+                 }*/
+                /*self.messageFrame.removeFromSuperview()
+                 print("setting contacts start time \(NSDate())")
+                 self.progressBarDisplayer("Setting Contacts Step 1/4", true)
+                 */
+                
+                self.lbl_progress.text="Setting Contacts..."
+                if(socketObj != nil)
+                {
+                    socketObj.socket.emit("logClient","IPHONE LOG: setting contacts start time \(Date())")
+                }
+                
+                self.Q1_fetchFromDevice.sync(execute: {//self.strLabel.text="Setting Contacts Step 2/4"
+                    //self.fetchContactsFromDevice({ (result) -> () in
+                    //SyncfetchContacts
+                    self.SyncfetchContacts({ (result) -> () in
+                        
+                        if(socketObj != nil)
+                        {
+                            socketObj.socket.emit("logClient","IPHONE LOG:Done reading addressbook time \(Date())")
+                        }
+                        //self.messageFrame.removeFromSuperview()
+                        //print("Sending network request..")
+                        // self.progressBarDisplayer("Sending network request..", true)
+                        self.lbl_progress.text="Waiting for Server response.."
+                        self.Q2_sendPhonesToServer.sync(execute: {//self.strLabel.text="Setting Contacts Step 2/4"
+                            //====----- self.sendPhoneNumbersToServer({ (result) -> () in
+                            self.SyncSendPhoneNumbersToServer(self.syncPhonesList, completion: { (result) in
+                                //self.messageFrame.removeFromSuperview()
+                                //print("updating local database \(NSDate())")
+                                // self.progressBarDisplayer("Updating local database", true)
+                                if(socketObj != nil)
+                                {
+                                    socketObj.socket.emit("logClient","IPHONE LOG:got server response time \(Date())")
+                                }
+                                
+                                self.lbl_progress.text="Updating local database.."
+                                self.Q3_getContactsFromServer.sync(execute: {
+                                    
+                                    //.......
+                                    //....
+                                    self.SyncFillContactsTableWithRecords({ (result) in
+                                        
+                                        
+                                        self.Q6_updateIsKiboStatus.sync(execute: {
+                                            self.syncSetKiboContactsBoolean({ (result) in
+                                                
+                                                
+                                                if(socketObj != nil)
+                                                {
+                                                    socketObj.socket.emit("logClient","IPHONE LOG:Done updating database time \(Date())")
+                                                }
+                                                
+                                                //===self.updateKiboContactsStatus({ (result) in
+                                                
+                                                
+                                                /*var allcontactslist1=sqliteDB.allcontacts
+                                                 var alladdressContactsArray:Array<Row>
+                                                 
+                                                 let phone = Expression<String>("phone")
+                                                 let kibocontact = Expression<Bool>("kiboContact")
+                                                 let name = Expression<String?>("name")
+                                                 
+                                                 //alladdressContactsArray = Array(try sqliteDB.db.prepare(allcontactslist1))
+                                                 
+                                                 do{for ccc in try sqliteDB.db.prepare(allcontactslist1) {
+                                                 
+                                                 for var i=0;i<availableEmailsList.count;i++
+                                                 {print(":::email .......  : \(availableEmailsList[i])")
+                                                 if(ccc[phone]==availableEmailsList[i])
+                                                 { print(":::::::: \(ccc[phone])  and emaillist : \(availableEmailsList[i])")
+                                                 //ccc[kibocontact]
+                                                 
+                                                 let query = allcontactslist1.select(kibocontact)           // SELECT "email" FROM "users"
+                                                 .filter(phone == ccc[phone])     // WHERE "name" IS NOT NULL
+                                                 
+                                                 try sqliteDB.db.run(query.update(kibocontact <- true))
+                                                 // for kk in try sqliteDB.db.prepare(query) {
+                                                 //  try sqliteDB.db.run(query.update(kk[kibocontact] <- true))
+                                                 //}
+                                                 //try sqliteDB.db.run(allcontactslist1.update(query[kibocontact] <- true))
+                                                 
+                                                 // try sqliteDB.db.run(allcontactslist1.update(ccc[kibocontact] <- true))
+                                                 }
+                                                 
+                                                 }
+                                                 
+                                                 }
+                                                 }
+                                                 catch{
+                                                 print("error 123")
+                                                 }*/
+                                                
+                                                //   self.messageFrame.//removeFromSuperview()
+                                                print("setting contacts start time \(Date())")
+                                                //self.progressBarDisplayer("Waiting for server response", true)
+                                                
+                                                self.Q4_getUserData.sync(execute: {
+                                                    //self.messageFrame.removeFromSuperview()
+                                                    //print("setting contacts start time \(NSDate())")
+                                                    //self.progressBarDisplayer("Setting Contacts Step 4/4", true)
+                                                    self.getCurrentUserDetails({ (result) -> () in
+                                                        
+                                                        
+                                                        
+                                                        
+                                                        let notificationTypes: UIUserNotificationType = [UIUserNotificationType.alert, UIUserNotificationType.badge, UIUserNotificationType.sound]
+                                                        
+                                                        //let notificationTypes: UIUserNotificationType = [UIUserNotificationType.None]
+                                                        
+                                                        
+                                                        let pushNotificationSettings = UIUserNotificationSettings(types: notificationTypes, categories: nil)
+                                                        
+                                                        
+                                                        
+                                                        /////-------will be commented----
+                                                        //application.registerUserNotificationSettings(pushNotificationSettings)
+                                                        //application.registerForRemoteNotifications()
+                                                        
+                                                        if(username != nil && username != "")
+                                                        {
+                                                            print("didRegisterForRemoteNotificationsWithDeviceToken in displaycontroller")
+                                                            
+                                                            UIApplication.shared.registerUserNotificationSettings(pushNotificationSettings)
+                                                        }
+                                                        
+                                                        print("setting contacts finish time \(Date())")
+                                                        
+                                                        self.lbl_progress.text="Getting details from server.."
+                                                        self.Q_fetchAllfriends.sync(execute: {
+                                                            
+                                                            self.fetchContactsFromServer({ (result) in
+                                                                
+                                                                if(socketObj != nil)
+                                                                {
+                                                                    socketObj.socket.emit("logClient","IPHONE LOG:Done setting contacts time \(Date())")
+                                                                }
+                                                                
+                                                                ///self.lbl_progress.text="Setting Chats.."
+                                                                //self.messageFrame.removeFromSuperview()
+                                                                //self.progressBarDisplayer("Setting Chats", true)
+                                                                
+                                                                
+                                                                self.Q5_fetchAllGroupsData.sync(execute: {
+                                                                     var syncGroupsObj=syncGroupService.init()
+                                                                    syncGroupsObj.startSyncGroupsServiceOnLaunch({ (result) -> () in
+                                                                        
+                                                                        
+                                                                DispatchQueue.main.async
+                                                                    {
+                                                                        
+                                                                        self.dismiss(animated: false, completion: { () -> Void in
+                                                                            
+                                                                            print("logged in going to contactlist")
+                                                                        })
+                                                                }
+                                                                    })})
+                                                                
+                                                            })
+                                                        })
+                                                    })
+                                                })
+                                            })
+                                        })
+                                    })
+                                })
+                            })
+                        })
+                    })
+                })
+            }
+        })
+    }
+    
+    
+    
+    
+    
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -1464,7 +1666,16 @@ socketObj.socket.emit("logClient","button done pressed start time \(Date())")
                                                                         
                                                                         
                                                                     print("restoring service")
-                                                                    RestoreService.init()
+                                                                    RestoreService.init().startRestoreBackup(completion: { (result) in
+                                                                        DispatchQueue.main.async
+                                                                            {
+                                                                                
+                                                                        self.dismiss(animated: false, completion: { () -> Void in
+                                                                            
+                                                                            print("logged in going to contactlist")
+                                                                        })
+                                                                        }
+                                                                    })
                                                                         
                                                                         
                                                                       /*

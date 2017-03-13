@@ -14,8 +14,12 @@ import SwiftyJSON
 class RestoreService
 {
     
-    
     init()
+    {
+        
+    }
+    
+    func startRestoreBackup(completion:@escaping (_ result:Bool)->())
     {
         let downloadQueue = OperationQueue();
         downloadQueue.maxConcurrentOperationCount = 1;
@@ -63,6 +67,9 @@ class RestoreService
               downloadQueue.addOperation(RestoreGroupChatsStatusTable)
               downloadQueue.addOperation(restoreBroadcastListMembersTable)
             downloadQueue.addOperation(RestoreFilesTable)
+        downloadQueue.waitUntilAllOperationsAreFinished()
+        print("restore done")
+        return completion(true)
        // }
     }
     

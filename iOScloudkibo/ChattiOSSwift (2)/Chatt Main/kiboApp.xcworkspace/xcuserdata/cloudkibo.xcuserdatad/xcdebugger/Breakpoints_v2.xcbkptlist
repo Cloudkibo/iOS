@@ -10,11 +10,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Chat/DisplayNameViewController.swift"
-            timestampString = "504424618.718312"
+            timestampString = "511097840.444661"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "202"
-            endingLineNumber = "202"
+            startingLineNumber = "404"
+            endingLineNumber = "404"
             landmarkName = "sendNameToServer(_:completion:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -72,11 +72,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Chat/DisplayNameViewController.swift"
-            timestampString = "504424618.718312"
+            timestampString = "511097840.444661"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "129"
-            endingLineNumber = "129"
+            startingLineNumber = "331"
+            endingLineNumber = "331"
             landmarkName = "sendNameToServer(_:completion:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -1017,11 +1017,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Chat/DisplayNameViewController.swift"
-            timestampString = "508691277.831553"
+            timestampString = "511097840.444661"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1078"
-            endingLineNumber = "1078"
+            startingLineNumber = "1280"
+            endingLineNumber = "1280"
             landmarkName = "getCurrentUserDetails(_:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -1288,11 +1288,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Chat/DisplayNameViewController.swift"
-            timestampString = "511025329.334593"
+            timestampString = "511097840.444661"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1510"
-            endingLineNumber = "1510"
+            startingLineNumber = "1721"
+            endingLineNumber = "1721"
             landmarkName = "btnDonePressed(_:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -1608,11 +1608,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Chat/DisplayNameViewController.swift"
-            timestampString = "508744491.803383"
+            timestampString = "511097840.444661"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1232"
-            endingLineNumber = "1232"
+            startingLineNumber = "1434"
+            endingLineNumber = "1434"
             landmarkName = "fetchChatsFromServer(_:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -2470,11 +2470,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Chat/DisplayNameViewController.swift"
-            timestampString = "508744491.803383"
+            timestampString = "511097840.444661"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1159"
-            endingLineNumber = "1159"
+            startingLineNumber = "1361"
+            endingLineNumber = "1361"
             landmarkName = "fetchChatsFromServer(_:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -3435,11 +3435,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Chat/DisplayNameViewController.swift"
-            timestampString = "511025329.334593"
+            timestampString = "511097840.444661"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1563"
-            endingLineNumber = "1563"
+            startingLineNumber = "1774"
+            endingLineNumber = "1774"
             landmarkName = "btnDonePressed(_:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -3467,11 +3467,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Chat/RestoreService.swift"
-            timestampString = "511086673.386629"
+            timestampString = "511097840.444661"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "244"
-            endingLineNumber = "244"
+            startingLineNumber = "251"
+            endingLineNumber = "251"
             landmarkName = "restoreGroupChatTable(filename:)"
             landmarkType = "7">
          </BreakpointContent>
