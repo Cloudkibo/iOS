@@ -1499,7 +1499,7 @@ print("tempURL is \(temporaryURL) and response is \(response.allHeaderFields)")
     func BackupBroadcastListMembersTable()
     {
         ///
-        var filename="files.json"
+        var filename="broadcastlistmembers.json"
         var List=[[String:Any]]()
         print("table name is \(filename.removeCharsFromEnd(5))")
         
@@ -1514,7 +1514,7 @@ print("tempURL is \(temporaryURL) and response is \(response.allHeaderFields)")
            var newEntry: [String: Any] = [:]
                     
                     newEntry["uniqueid"]=files.get(uniqueid) as String
-                    newEntry["(memberphone)"]=files.get(memberphone) as String
+                    newEntry["memberphone"]=files.get(memberphone) as String
                     
                   
                     List.append(newEntry)
@@ -1579,8 +1579,8 @@ print("tempURL is \(temporaryURL) and response is \(response.allHeaderFields)")
             var newEntry: [String: Any] = [:]
             
             newEntry["msg_unique_id"]=files.get(msg_unique_id) as String
-            newEntry["(Status)"]=files.get(Status) as String
-            newEntry["(user_phone)"]=files.get(user_phone) as String
+            newEntry["Status"]=files.get(Status) as String
+            newEntry["user_phone"]=files.get(user_phone) as String
             
             var formatterDateSendtoDateType = DateFormatter();
             formatterDateSendtoDateType.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ";
@@ -1589,8 +1589,8 @@ print("tempURL is \(temporaryURL) and response is \(response.allHeaderFields)")
             
             var datestringdelivered=formatterDateSendtoDateType.string(from: files.get(delivered_date) as Date)
             
-            newEntry["(read_date)"]=datestringread
-            newEntry["(delivered_date)"]=datestringdelivered
+            newEntry["read_date"]=datestringread
+            newEntry["delivered_date"]=datestringdelivered
            
             
             List.append(newEntry)
@@ -1651,7 +1651,7 @@ print("tempURL is \(temporaryURL) and response is \(response.allHeaderFields)")
             var newEntry: [String: Any] = [:]
             
             newEntry["uniqueid"]=files.get(uniqueid) as String
-            newEntry["(listname)"]=files.get(listname) as String
+            newEntry["listname"]=files.get(listname) as String
             
             
             List.append(newEntry)
@@ -1716,10 +1716,10 @@ print("tempURL is \(temporaryURL) and response is \(response.allHeaderFields)")
             var newEntry: [String: Any] = [:]
             
             newEntry["from"]=files.get(from) as String
-            newEntry["(group_unique_id)"]=files.get(group_unique_id) as String
-             newEntry["(type)"]=files.get(type) as String
-             newEntry["(msg)"]=files.get(msg) as String
-             newEntry["(from_fullname)"]=files.get(from_fullname) as String
+            newEntry["group_unique_id"]=files.get(group_unique_id) as String
+             newEntry["type"]=files.get(type) as String
+             newEntry["msg"]=files.get(msg) as String
+             newEntry["from_fullname"]=files.get(from_fullname) as String
             
             var formatterDateSendtoDateType = DateFormatter();
             formatterDateSendtoDateType.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ";
@@ -1727,8 +1727,8 @@ print("tempURL is \(temporaryURL) and response is \(response.allHeaderFields)")
             var datestring=formatterDateSendtoDateType.string(from: files.get(date) as Date)
             
             
-             newEntry["(date)"]=datestring
-             newEntry["(unique_id)"]=files.get(unique_id) as String
+             newEntry["date"]=datestring
+             newEntry["unique_id"]=files.get(unique_id) as String
             
             
             List.append(newEntry)
@@ -1791,9 +1791,9 @@ print("tempURL is \(temporaryURL) and response is \(response.allHeaderFields)")
             var newEntry: [String: Any] = [:]
             
             newEntry["group_unique_id"]=files.get(group_unique_id) as String
-            newEntry["(member_phone)"]=files.get(member_phone) as String
-            newEntry["(isAdmin)"]=files.get(isAdmin) as String
-            newEntry["(membership_status)"]=files.get(membership_status) as String
+            newEntry["member_phone"]=files.get(member_phone) as String
+            newEntry["isAdmin"]=files.get(isAdmin) as String
+            newEntry["membership_status"]=files.get(membership_status) as String
             
             var formatterDateSendtoDateType = DateFormatter();
             formatterDateSendtoDateType.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ";
@@ -1801,9 +1801,9 @@ print("tempURL is \(temporaryURL) and response is \(response.allHeaderFields)")
             var datestringjoined=formatterDateSendtoDateType.string(from: files.get(date_joined) as Date)
             
              var datestringleft=formatterDateSendtoDateType.string(from: files.get(date_left) as Date)
-            newEntry["(date_joined)"]=datestringjoined
-            newEntry["(date_left)"]=datestringleft
-            newEntry["(group_member_displayname)"]=files.get(group_member_displayname) as String
+            newEntry["date_joined"]=datestringjoined
+            newEntry["date_left"]=datestringleft
+            newEntry["group_member_displayname"]=files.get(group_member_displayname) as String
 
             
             
@@ -1872,11 +1872,11 @@ print("tempURL is \(temporaryURL) and response is \(response.allHeaderFields)")
             var datestring=formatterDateSendtoDateType.string(from: files.get(date_creation))
             
             newEntry["group_name"]=files.get(group_name) as String
-            newEntry["(group_icon)"]=files.get(group_icon).base64EncodedString() ///////----
-            newEntry["(date_creation)"]=datestring
-            newEntry["(unique_id)"]=files.get(unique_id) as String
-            newEntry["(isMute)"]=files.get(isMute)
-            newEntry["(status)"]=files.get(status)
+            newEntry["group_icon"]=files.get(group_icon).base64EncodedString() ///////----
+            newEntry["date_creation"]=datestring
+            newEntry["unique_id"]=files.get(unique_id) as String
+            newEntry["isMute"]=files.get(isMute)
+            newEntry["status"]=files.get(status)
             
             
             List.append(newEntry)

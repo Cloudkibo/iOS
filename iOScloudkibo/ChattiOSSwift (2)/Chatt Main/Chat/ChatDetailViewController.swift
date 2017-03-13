@@ -5809,7 +5809,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
                 var messageDic = messages.object(at: selectedRow) as! [String : String];
                 
                 let filename = messageDic["filename"] as NSString!
-                selectedText=filename as! String
+                selectedText=filename! as! String
                 //destinationVC.tabBarController?.selectedIndex=0
                 //self.tabBarController?.selectedIndex=0
                 destinationVC.newtext=selectedText
