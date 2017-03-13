@@ -22,6 +22,7 @@ class contactsDetailsTableViewController: UITableViewController,MFMailComposeVie
     var contactIndex:Int=1
     var isKiboContact=false
       var alladdressContactsArray = Array<Row>()
+    var infoRow:Row?=nil
     let name = Expression<String?>("name")
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -32,8 +33,28 @@ class contactsDetailsTableViewController: UITableViewController,MFMailComposeVie
         
         
         //alladdressContactsArray = Array(try sqliteDB.db.prepare(allcontactslist1))
-      
+        let phone = Expression<String>("phone")
+        let kibocontact = Expression<Bool>("kiboContact")
+        let name = Expression<String?>("name")
+        let email = Expression<String?>("email")
         
+        do{
+        for contactfound in try sqliteDB.db.prepare((allcontactslist1?.filter(phone==selectedContactphone))!)
+            {
+            self.infoRow=contactfound
+            }
+            
+            
+        }
+        catch{
+            print("not found in allcontacts")
+        }
+        
+        if(self.infoRow==nil)
+        {
+            //not in addressbook
+            
+        }
         do
         {alladdressContactsArray = Array(try sqliteDB.db.prepare((allcontactslist1?.order(name.asc))!))
             
@@ -108,7 +129,9 @@ class contactsDetailsTableViewController: UITableViewController,MFMailComposeVie
             
             //--------------
             
-            let queryPic = tbl_allcontacts?.filter((tbl_allcontacts?[phone])! == alladdressContactsArray[contactIndex].get(phone))          // SELECT "email" FROM "users"
+           /// ------ let queryPic = tbl_allcontacts?.filter((tbl_allcontacts?[phone])! == alladdressContactsArray[contactIndex].get(phone))          // SELECT "email" FROM "users"
+            
+            let queryPic = tbl_allcontacts?.filter((tbl_allcontacts?[phone])! == selectedContactphone)          // SELECT "email" FROM "users"
             
             
             do{
@@ -226,12 +249,23 @@ class contactsDetailsTableViewController: UITableViewController,MFMailComposeVie
             cell.isHidden=true
             
             
+            if(self.infoRow?.get(phone) != "")
+            {
+                cell.lbl_phone.text=self.infoRow?.get(phone)
+                cell.isHidden=false
+
+            }
+            //////
+            /*
             if(alladdressContactsArray[contactIndex].get(phone) != "")
             {
                 cell.lbl_phone.text=alladdressContactsArray[contactIndex].get(phone)
                 cell.isHidden=false
                 
-            }
+            }*/
+            ////
+            
+            
             /*if (contacts[contactIndex].isKeyAvailable(CNContactPhoneNumbersKey)) {
                 for phoneNumber:CNLabeledValue in contacts[contactIndex].phoneNumbers {
                      let a = phoneNumber.value as! CNPhoneNumber
@@ -254,6 +288,13 @@ class contactsDetailsTableViewController: UITableViewController,MFMailComposeVie
             cell.isHidden=true
             
             
+            if(self.infoRow?.get(email) != "")
+            {
+                cell.lbl_email.text=self.infoRow?.get(email)
+                 cell.isHidden=false
+ 
+            }
+            /*
             if(alladdressContactsArray[contactIndex].get(email) != "")
             {
                 cell.lbl_email.text=alladdressContactsArray[contactIndex].get(email)
@@ -261,7 +302,7 @@ class contactsDetailsTableViewController: UITableViewController,MFMailComposeVie
                 //homeEmailAddress = emailAddress.value as! String
                 cell.isHidden=false
                 
-            }
+            }*/
             
         /*    var homeEmailAddress: String!
         for emailAddress in currentContact.emailAddresses {
@@ -318,11 +359,28 @@ class contactsDetailsTableViewController: UITableViewController,MFMailComposeVie
         
         
         //let cell=tbl_inviteContacts.dequeueReusableCellWithIdentifier("ContactsInviteCell")! as! ContactsInviteCell
-        //let selectedCell=tableView.cellForRow(at: indexPath)! as AllContactsCell
+        let selectedCell=tableView.cellForRow(at: indexPath)! as! AllContactsCell
         if(indexPath.row==5)
         {
               let phone = Expression<String>("phone")
-            if(alladdressContactsArray[contactIndex].get(phone) != "")
+            if(self.infoRow?.get(phone) != "")
+            {
+                var phoneselectd=self.infoRow?.get(phone)
+                if(blockedByMe==false)
+                {
+                    // sqliteDB.BlockContactUpdateStatus(phone1: phoneselectd, status1: true)
+                    UtilityFunctions.init().blockContact(phone1: phoneselectd!)
+                    selectedCell.btn_lbl_blockContact.text="Unblock this Contact"
+                }
+                else
+                {
+                    UtilityFunctions.init().unblockContact(phone1: phoneselectd!)
+                    //  sqliteDB.BlockContactUpdateStatus(phone1: phoneselectd, status1: false)
+                    selectedCell.btn_lbl_blockContact.text="Block this Contact"
+                }
+            }
+            ///
+           /* if(alladdressContactsArray[contactIndex].get(phone) != "")
             {
               
                 var phoneselectd=alladdressContactsArray[contactIndex].get(phone)
@@ -338,7 +396,7 @@ class contactsDetailsTableViewController: UITableViewController,MFMailComposeVie
                   //  sqliteDB.BlockContactUpdateStatus(phone1: phoneselectd, status1: false)
                 }
                 
-            }
+            }*/
         
         }
         
@@ -377,8 +435,9 @@ class contactsDetailsTableViewController: UITableViewController,MFMailComposeVie
                 
                 
                 
-               
-                messageVC.recipients = [self.alladdressContactsArray[self.contactIndex].get(phone)]
+                messageVC.recipients = [(self.infoRow?.get(phone))!]
+                
+               //==--- messageVC.recipients = [self.alladdressContactsArray[self.contactIndex].get(phone)]
                 
                 messageVC.messageComposeDelegate = self;
                 
@@ -433,7 +492,14 @@ class contactsDetailsTableViewController: UITableViewController,MFMailComposeVie
         //mailComposerVC.setToRecipients(["someone@somewhere.com"])
        // mailComposerVC.setToRecipients(selectedEmails)
         let email = Expression<String>("email")
-       mailComposerVC.setToRecipients([alladdressContactsArray[contactIndex].get(email)])
+        
+        mailComposerVC.setToRecipients([(self.infoRow?.get(email))!])
+      
+        
+        
+       /////===---mailComposerVC.setToRecipients([alladdressContactsArray[contactIndex].get(email)])
+        
+        
         
         mailComposerVC.setSubject("Invitation for joining Kibo App")
         mailComposerVC.setMessageBody("Hey, \n \n I just downloaded Kibo App on my iPhone. \n \n It is a smartphone messenger with added features. It provides integrated and unified voice, video, and data communication. \n \n It is available for both Android and iPhone and there is no PIN or username to remember. \n \n Get it now from https://itunes.apple.com/us/app/kibo-chat/id1099977984?ls=1&mt=8 and say good-bye to SMS!", isHTML: false)

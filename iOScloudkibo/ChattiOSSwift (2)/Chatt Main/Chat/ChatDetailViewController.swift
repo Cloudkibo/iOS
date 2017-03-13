@@ -29,6 +29,8 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
     //,UIPickerViewDelegate{
     
    // weak var viewMap: GMSMapView!
+    var isBlocked=false
+    var iamblocked=false
     var locationManager = CLLocationManager()
     
     var didFindMyLocation = false
@@ -611,7 +613,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
         
         self.NewChatNavigationTitle.title=selectedFirstName
          let tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(ChatDetailViewController.contactTapped(_:)))
-         self.NewChatNavigationTitle.addGestureRecognizer(tapRecognizer)
+         self.NewChatNavigationTitle.titleView?.addGestureRecognizer(tapRecognizer)
         
         self.navigationItem.leftBarButtonItem = self.navigationItem.backBarButtonItem
         var receivedMsg=JSON("")
@@ -683,6 +685,12 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
         }
     }
 
+        
+         if(isBlocked==true)
+         {
+            self.btnSendChat.isEnabled=false
+            self.btnSendAudio.isEnabled=false
+        }
     
         
         
@@ -5378,7 +5386,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
     
     
     @IBAction func postBtnTapped() {
-        
+       
         var randNum5=self.randomStringWithLength(5) as String
         /*
         let date1=Date()

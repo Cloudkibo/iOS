@@ -4383,6 +4383,26 @@ break
                 destinationVC.ContactNames=messageDic["ContactNames"] as! String
                 destinationVC.ContactOnlineStatus=messageDic["ContactOnlineStatus"] as! Int
                 print("destinationnnnnn....")
+                
+                
+                let tbl_contactslists=sqliteDB.contactslists
+                let blockedByMe = Expression<Bool>("blockedByMe")
+                let IamBlocked = Expression<Bool>("IamBlocked")
+                
+                var blockedcontact=false
+                
+                do{for resultrows in try sqliteDB.db.prepare((tbl_contactslists?.filter(phone==(messageDic["ContactUsernames"] as! String) && blockedByMe==true))!)
+                {
+                    print()
+                    blockedcontact=true
+                    destinationVC.isBlocked=true
+                    break
+                }
+                }
+                catch{
+                    print("not blocked coz not in contact list")
+                }
+                
                 //////print("Selectedrow is \(selectedRow)... username is \(ContactUsernames[selectedRow]) firstname is \(ContactFirstname[selectedRow]) lastname is \(ContactLastNAme[selectedRow]) fullname is \(ContactNames)")
             
             }
@@ -4475,6 +4495,11 @@ break
                 let indexnew=getAddressBookIndex(ContactUsernames)
                 contactsDetailController?.contactIndex=indexnew
                 contactsDetailController?.selectedContactphone=ContactUsernames
+                
+                let blockedByMe = Expression<Bool>("blockedByMe")
+                let IamBlocked = Expression<Bool>("IamBlocked")
+       
+                
                 //contactsDetailController?.contactIndex=tblForNotes.indexPathForSelectedRow!.row
                 //var cell=tblForNotes.cellForRowAtIndexPath(tblForNotes.indexPathForSelectedRow!) as! AllContactsCell
                 
@@ -4484,6 +4509,20 @@ break
                     contactsDetailController?.isKiboContact = true
                     //print("hidden falseeeeeee")
                 }
+                let tbl_contactslists=sqliteDB.contactslists
+                
+                do{for resultrows in try sqliteDB.db.prepare((tbl_contactslists?.filter(phone==(messageDic["ContactUsernames"] as! String) && blockedByMe==true))!)
+                {
+                    print()
+                    //blockedcontact=true
+                     contactsDetailController?.blockedByMe=true
+                    break
+                    }
+                }
+                catch{
+                    print("not blocked coz not in contact list")
+                }
+                
                 
     
             }}
