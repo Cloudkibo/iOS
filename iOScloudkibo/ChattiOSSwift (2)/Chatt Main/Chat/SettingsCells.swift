@@ -13,6 +13,7 @@ class SettingsCells:UITableViewCell{
     
     @IBOutlet weak var profile_pic: UIImageView!
     @IBOutlet weak var lbl_name: UILabel!
-    @IBOutlet weak var img_logoChat: UIImageView!
-    @IBOutlet weak var lbl_chats: UILabel!
+ 
+    @IBOutlet weak var lbl_settings: UILabel!
+    @IBOutlet weak var img_logo: UIImageView!
 }

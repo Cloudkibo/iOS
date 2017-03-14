@@ -8,17 +8,21 @@
 
 import UIKit
 import SQLite
+import AlamofireImage
 
 class SettingsViewController: UIViewController,UITableViewDelegate,UITableViewDataSource {
 
     @IBOutlet weak var tbl_Settings: UITableView!
     
-    
-    
+    let imageCache = AutoPurgingImageCache()
+    var messages:NSMutableArray!
     override func viewDidLoad() {
         super.viewDidLoad()
 
         self.navigationItem.title="Settings"
+        
+        messages=NSMutableArray()
+        messages=[["label":"Chats","logo":"navi_logo.png"],["label":"Accounts","logo":"chat_lock.png"]]
         // Do any additional setup after loading the view.
     }
 
@@ -37,7 +41,7 @@ class SettingsViewController: UIViewController,UITableViewDelegate,UITableViewDa
           return 1
         }
         else{
-            return 1
+            return messages.count
         }
         //return 2
     }
@@ -50,6 +54,7 @@ class SettingsViewController: UIViewController,UITableViewDelegate,UITableViewDa
     
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        
         
         var cell = tbl_Settings.dequeueReusableCell(withIdentifier: "TopCell")! as! SettingsCells
         if(indexPath.section==0)
@@ -72,8 +77,20 @@ class SettingsViewController: UIViewController,UITableViewDelegate,UITableViewDa
         }
         if(indexPath.section>0)
         {
+            var messageDic = messages.object(at: indexPath.row) as! [String : String];
+            // NSLog(messageDic["message"]!, 1)
+            let optionLabel = messageDic["label"] as String!
+            let optionLogo = messageDic["logo"] as String!
+            
+            
             cell = tbl_Settings.dequeueReusableCell(withIdentifier: "Settings")! as! SettingsCells
-
+            cell.lbl_settings.text = optionLabel
+            var logo=UIImage(named: optionLogo!)
+            imageCache.add(logo!, withIdentifier: optionLabel!)
+            
+            // Fetch
+            let cachedAvatar = imageCache.image(withIdentifier: optionLabel!)
+            cell.img_logo.image=cachedAvatar
         }
         return cell
         
