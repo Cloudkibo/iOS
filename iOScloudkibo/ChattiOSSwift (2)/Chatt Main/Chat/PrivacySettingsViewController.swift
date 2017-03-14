@@ -21,6 +21,63 @@ class PrivacySettingsViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        
+        //  if(section==0)
+        // {
+        //     return 1
+        // }
+        // else{
+        return messages.count
+        //}
+        //return 2
+    }
+    
+    func numberOfSections(in tableView: UITableView) -> Int {
+        
+        return 1
+    }
+    
+    
+    
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        
+        
+        var cell = tbl_accountsSettings.dequeueReusableCell(withIdentifier: "AccountSettingsCell")! as! UITableViewCell
+        
+        
+        var lbl_name=cell.viewWithTag(1) as! UILabel
+        //if(indexPath.section>0)
+        // {
+        var messageDic = messages.object(at: indexPath.row) as! [String : String];
+        // NSLog(messageDic["message"]!, 1)
+        let optionLabel = messageDic["label"] as String!
+        let optionSegue = messageDic["segue"] as String!
+        lbl_name.text=optionLabel
+        
+        // }
+        return cell
+        
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+        //
+        if(indexPath.section>0)
+        {
+            var messageDic = messages.object(at: indexPath.row) as! [String : String];
+            // NSLog(messageDic["message"]!, 1)
+            let optionSegue = messageDic["segue"] as String!
+            
+            
+            //let cell=tbl_inviteContacts.dequeueReusableCellWithIdentifier("ContactsInviteCell")! as! ContactsInviteCell
+            let selectedCell=tbl_accountsSettings.cellForRow(at: indexPath)! as UITableViewCell
+            self.performSegue(withIdentifier: optionSegue!, sender: nil)
+        }
+        
+    }
+
 
     /*
     // MARK: - Navigation

@@ -343,11 +343,43 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
         //print("chat will appear")
         socketObj.socket.emit("logClient","IPHONE-LOG: chat page will appear")
         
+        let blockedByMe = Expression<Bool>("blockedByMe")
+        let IamBlocked = Expression<Bool>("IamBlocked")
+        let phone = Expression<String>("phone")
+        
+        
+        //contactsDetailController?.contactIndex=tblForNotes.indexPathForSelectedRow!.row
+        //var cell=tblForNotes.cellForRowAtIndexPath(tblForNotes.indexPathForSelectedRow!) as! AllContactsCell
+        
+        
+        //if(ContactStatus != "")
+        // {
+        //print("hidden falseeeeeee")
+        //}
+        let tbl_contactslists=sqliteDB.contactslists
+        isBlocked=false
+        do{for resultrows in try sqliteDB.db.prepare((tbl_contactslists?.filter(phone==selectedContact && blockedByMe==true))!)
+        {
+            print("blocked by me")
+            //blockedcontact=true
+            isBlocked=true
+            }
+        }
+        catch{
+            print("not blocked coz not in contact list")
+        }
+        
         
         if(isBlocked==true)
         {
             self.btnSendChat.isEnabled=false
             self.btnSendAudio.isEnabled=false
+        }
+        else
+        {
+            self.btnSendChat.isEnabled=true
+            self.btnSendAudio.isEnabled=true
+
         }
         
         UIDelegates.getInstance().delegateSingleChatDetails1=self
@@ -474,7 +506,18 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
     
     override func viewDidAppear(_ animated: Bool) {
         print("last cell pos y is \(tblForChats.visibleCells.last?.frame.origin.y)")
-       
+        
+        if(isBlocked==true)
+        {
+            self.btnSendChat.isEnabled=false
+            self.btnSendAudio.isEnabled=false
+        }
+        else
+        {
+            self.btnSendChat.isEnabled=true
+            self.btnSendAudio.isEnabled=true
+            
+        }
       
         /*if(self.messages.count>1)
         {
@@ -706,6 +749,13 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
             self.btnSendChat.isEnabled=false
             self.btnSendAudio.isEnabled=false
         }
+         else
+         {
+            self.btnSendChat.isEnabled=true
+            self.btnSendAudio.isEnabled=true
+            
+        }
+
     
         
         
