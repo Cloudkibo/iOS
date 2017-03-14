@@ -36,6 +36,29 @@ class ChatsSettingsViewController: UIViewController,UITableViewDelegate,UITableV
         
         return cell
     }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+      
+        self.performSegue(withIdentifier: "BackupSettingsSegue", sender: nil)
+    }
+    
+   /* func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+        //
+        if(indexPath.section>0)
+        {
+            var messageDic = messages.object(at: indexPath.row) as! [String : String];
+            // NSLog(messageDic["message"]!, 1)
+            var status = messageDic["status"] as String!
+            var segue = messageDic["segue"] as String!
+            
+            
+            //let cell=tbl_inviteContacts.dequeueReusableCellWithIdentifier("ContactsInviteCell")! as! ContactsInviteCell
+            let selectedCell=tbl_Settings.cellForRow(at: indexPath)! as UITableViewCell
+            self.performSegue(withIdentifier: segue!, sender: nil)
+        }
+        
+    }*/
     /*
     // MARK: - Navigation
 

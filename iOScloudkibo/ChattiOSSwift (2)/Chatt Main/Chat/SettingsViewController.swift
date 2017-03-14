@@ -22,7 +22,7 @@ class SettingsViewController: UIViewController,UITableViewDelegate,UITableViewDa
         self.navigationItem.title="Settings"
         
         messages=NSMutableArray()
-        messages=[["label":"Chats","logo":"navi_logo.png"],["label":"Accounts","logo":"chat_lock.png"]]
+        messages=[["label":"Chats","logo":"navi_logo.png","segue":"BackupSegue"],["label":"Accounts","logo":"chat_lock.png","segue":"PrivacySegue"]]
         // Do any additional setup after loading the view.
     }
 
@@ -96,6 +96,24 @@ class SettingsViewController: UIViewController,UITableViewDelegate,UITableViewDa
         
     }
     
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+        //
+        if(indexPath.section>0)
+        {
+        var messageDic = messages.object(at: indexPath.row) as! [String : String];
+        // NSLog(messageDic["message"]!, 1)
+        var status = messageDic["status"] as String!
+        var segue = messageDic["segue"] as String!
+        
+        
+        //let cell=tbl_inviteContacts.dequeueReusableCellWithIdentifier("ContactsInviteCell")! as! ContactsInviteCell
+        let selectedCell=tbl_Settings.cellForRow(at: indexPath)! as UITableViewCell
+        self.performSegue(withIdentifier: segue!, sender: nil)
+        }
+        
+    }
+    
    
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         
@@ -108,14 +126,22 @@ class SettingsViewController: UIViewController,UITableViewDelegate,UITableViewDa
         }
         //return 100
     }
-    /*
+    
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         // Get the new view controller using segue.destinationViewController.
         // Pass the selected object to the new view controller.
+
+            
+            //contactdetailsinfosegue
+            /*if segue.identifier == "BackupSegue" {
+                if let destinationVC = segue.destination as? contactsDetailsTableViewController{
+                    destinationVC.selectedContactphone=self.selectedContact
+                }
+            }*/
     }
-    */
+ 
 
 }
