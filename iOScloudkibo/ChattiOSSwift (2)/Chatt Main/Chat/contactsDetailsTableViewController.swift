@@ -85,6 +85,7 @@ class contactsDetailsTableViewController: UITableViewController,MFMailComposeVie
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
+        
         return 7
         //return 6
     }
@@ -261,7 +262,7 @@ class contactsDetailsTableViewController: UITableViewController,MFMailComposeVie
             cell.isHidden=true
             
             
-            if(self.infoRow?.get(phone) != "")
+            if(self.infoRow?.get(phone) != "" && self.infoRow?.get(phone) != nil)
             {
                 cell.lbl_phone.text=self.infoRow?.get(phone)
                 cell.isHidden=false
@@ -301,8 +302,9 @@ class contactsDetailsTableViewController: UITableViewController,MFMailComposeVie
             cell.isHidden=true
             
             
-            if(self.infoRow?.get(email) != "")
+            if(self.infoRow?.get(email) != "" && self.infoRow?.get(email) != nil)
             {
+                print("email \(self.infoRow?.get(email))")
                 cell.lbl_email.text=self.infoRow?.get(email)
                  cell.isHidden=false
  

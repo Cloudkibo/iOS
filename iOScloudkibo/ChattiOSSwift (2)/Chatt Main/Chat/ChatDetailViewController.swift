@@ -343,6 +343,13 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
         //print("chat will appear")
         socketObj.socket.emit("logClient","IPHONE-LOG: chat page will appear")
         
+        
+        if(isBlocked==true)
+        {
+            self.btnSendChat.isEnabled=false
+            self.btnSendAudio.isEnabled=false
+        }
+        
         UIDelegates.getInstance().delegateSingleChatDetails1=self
         delegateRefreshChat=self
         
@@ -613,7 +620,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
         
         let button =  UIButton(type: .custom)
         button.frame = CGRect(x: 0, y: 0, width: 100, height: 40)
-        button.backgroundColor = UIColor.red
+        button.backgroundColor = NewChatNavigationTitle.titleView?.backgroundColor
         button.setTitle(selectedFirstName, for: .normal)
         button.addTarget(self, action: #selector(ChatDetailViewController.contactTapped(_:)), for: .touchUpInside)
         self.NewChatNavigationTitle.titleView=button
