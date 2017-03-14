@@ -611,10 +611,18 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
         //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%FetchChatServer()
         
         
-        self.NewChatNavigationTitle.title=selectedFirstName
-         let tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(ChatDetailViewController.contactTapped(_:)))
-         self.NewChatNavigationTitle.titleView?.addGestureRecognizer(tapRecognizer)
+        let button =  UIButton(type: .custom)
+        button.frame = CGRect(x: 0, y: 0, width: 100, height: 40)
+        button.backgroundColor = UIColor.red
+        button.setTitle(selectedFirstName, for: .normal)
+        button.addTarget(self, action: #selector(ChatDetailViewController.contactTapped(_:)), for: .touchUpInside)
+        self.NewChatNavigationTitle.titleView=button
+       ///==-- self.NewChatNavigationTitle.title=selectedFirstName
         
+        
+        /*let tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(ChatDetailViewController.contactTapped(_:)))
+         self.NewChatNavigationTitle.titleView?.addGestureRecognizer(tapRecognizer)
+        */
         self.navigationItem.leftBarButtonItem = self.navigationItem.backBarButtonItem
         var receivedMsg=JSON("")
         
@@ -4017,7 +4025,9 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
     
     
     
-    func contactTapped(_ gestureRecognizer: UITapGestureRecognizer) {
+    //func contactTapped(_ gestureRecognizer: UITapGestureRecognizer) {
+    func contactTapped(_ button: UIButton) {
+        print("contact title tapped \(self.selectedContact)")
         //tappedImageView will be the image view that was tapped.
         //dismiss it, animate it off screen, whatever.
         //let tappedImageView = gestureRecognizer.view! as! UIImageView
@@ -5792,6 +5802,34 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
         if segue!.identifier == "contactdetailsinfosegue" {
             if let destinationVC = segue!.destination as? contactsDetailsTableViewController{
                 destinationVC.selectedContactphone=self.selectedContact
+                let blockedByMe = Expression<Bool>("blockedByMe")
+                let IamBlocked = Expression<Bool>("IamBlocked")
+                let phone = Expression<String>("phone")
+                
+                
+                //contactsDetailController?.contactIndex=tblForNotes.indexPathForSelectedRow!.row
+                //var cell=tblForNotes.cellForRowAtIndexPath(tblForNotes.indexPathForSelectedRow!) as! AllContactsCell
+                
+                
+                //if(ContactStatus != "")
+               // {
+                    destinationVC.isKiboContact = true
+                    //print("hidden falseeeeeee")
+                //}
+                let tbl_contactslists=sqliteDB.contactslists
+                
+                do{for resultrows in try sqliteDB.db.prepare((tbl_contactslists?.filter(phone==selectedContact && blockedByMe==true))!)
+                {
+                    print("blocked by me")
+                    //blockedcontact=true
+                    destinationVC.blockedByMe=true
+                    break
+                    }
+                }
+                catch{
+                    print("not blocked coz not in contact list")
+                }
+                
             }
         }
         

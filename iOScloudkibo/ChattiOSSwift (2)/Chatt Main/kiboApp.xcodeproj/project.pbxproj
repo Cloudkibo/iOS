@@ -13,6 +13,8 @@
 		710947751D71189E008BC238 /* ParticipantsCollectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 710947741D71189E008BC238 /* ParticipantsCollectionCell.swift */; };
 		710CB64E1D06EB030070CA3D /* contactsDetailsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 710CB64D1D06EB030070CA3D /* contactsDetailsTableViewController.swift */; };
 		710D4E3E1D3D8F7600FBC352 /* FileTransferWebRTCclient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 710D4E3D1D3D8F7600FBC352 /* FileTransferWebRTCclient.swift */; };
+		71189A801E781EF800245D97 /* AccountsSettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71189A7F1E781EF800245D97 /* AccountsSettingsViewController.swift */; };
+		71189AA01E781F2100245D97 /* PrivacySettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71189A9F1E781F2100245D97 /* PrivacySettingsViewController.swift */; };
 		711CD86D1E5B10E90079CB88 /* AlamofireImage.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 711CD86C1E5B10E90079CB88 /* AlamofireImage.framework */; };
 		712050181E71707700D87E2C /* RestoreChatsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 712050171E71707700D87E2C /* RestoreChatsViewController.swift */; };
 		7122F96C1D4FDFA400EBBCED /* ShowImageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7122F96B1D4FDFA400EBBCED /* ShowImageViewController.swift */; };
@@ -498,6 +500,8 @@
 		710947741D71189E008BC238 /* ParticipantsCollectionCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ParticipantsCollectionCell.swift; sourceTree = "<group>"; };
 		710CB64D1D06EB030070CA3D /* contactsDetailsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = contactsDetailsTableViewController.swift; sourceTree = "<group>"; };
 		710D4E3D1D3D8F7600FBC352 /* FileTransferWebRTCclient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FileTransferWebRTCclient.swift; sourceTree = "<group>"; };
+		71189A7F1E781EF800245D97 /* AccountsSettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccountsSettingsViewController.swift; sourceTree = "<group>"; };
+		71189A9F1E781F2100245D97 /* PrivacySettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PrivacySettingsViewController.swift; sourceTree = "<group>"; };
 		711CD86C1E5B10E90079CB88 /* AlamofireImage.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; name = AlamofireImage.framework; path = "/Users/cloudkibo/Documents/kiboChatTry/iOS/iOS/iOScloudkibo/ChattiOSSwift (2)/Chatt Main/build/Debug-iphoneos/AlamofireImage.framework"; sourceTree = "<absolute>"; };
 		712050171E71707700D87E2C /* RestoreChatsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RestoreChatsViewController.swift; sourceTree = "<group>"; };
 		7122F96B1D4FDFA400EBBCED /* ShowImageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShowImageViewController.swift; sourceTree = "<group>"; };
@@ -883,6 +887,8 @@
 				71CB8C0C1E6FF21A009D5D05 /* BackupAutoScheduleViewController.swift */,
 				712050171E71707700D87E2C /* RestoreChatsViewController.swift */,
 				71F6683C1E72980E00A88E35 /* RestoreService.swift */,
+				71189A7F1E781EF800245D97 /* AccountsSettingsViewController.swift */,
+				71189A9F1E781F2100245D97 /* PrivacySettingsViewController.swift */,
 			);
 			path = Chat;
 			sourceTree = "<group>";
@@ -1544,6 +1550,7 @@
 				713D51EC1CC11896007E0B47 /* VideoViewController.swift in Sources */,
 				713D51CB1CC11896007E0B47 /* Contacts.swift in Sources */,
 				71CE4C271DEFF758001637DA /* BroadcastItemCell.swift in Sources */,
+				71189AA01E781F2100245D97 /* PrivacySettingsViewController.swift in Sources */,
 				71C84C531E44AB2400330105 /* SocketAckEmitter.swift in Sources */,
 				713D51C81CC11896007E0B47 /* Constants.swift in Sources */,
 				713D51C11CC11896007E0B47 /* ChatAppClient.swift in Sources */,
@@ -1606,6 +1613,7 @@
 				713D51E51CC11896007E0B47 /* PendingRequestsListCell.swift in Sources */,
 				71C84C541E44AB2400330105 /* SocketAckManager.swift in Sources */,
 				714690661E68348E00FA6530 /* MapViewController.swift in Sources */,
+				71189A801E781EF800245D97 /* AccountsSettingsViewController.swift in Sources */,
 				7122F96C1D4FDFA400EBBCED /* ShowImageViewController.swift in Sources */,
 				71C84C5B1E44AB2400330105 /* SocketEngineSpec.swift in Sources */,
 				713E7E321E020EB800C7285A /* contactsSingletonClass.swift in Sources */,

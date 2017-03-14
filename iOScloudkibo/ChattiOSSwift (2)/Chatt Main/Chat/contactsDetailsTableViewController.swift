@@ -113,7 +113,19 @@ class contactsDetailsTableViewController: UITableViewController,MFMailComposeVie
         
        // alladdressContactsArray[contactIndex].get(name)
         //cell.lbl_contactName.text=currentContact.givenName+" "+currentContact.familyName
-            cell.lbl_contactName.text=alladdressContactsArray[contactIndex].get(name)
+            
+            
+            
+         //==-----   cell.lbl_contactName.text=alladdressContactsArray[contactIndex].get(name)
+            if(self.infoRow==nil)
+            {
+                cell.lbl_contactName.text=selectedContactphone
+                
+                cell.isHidden=false
+
+            }
+            else{
+             cell.lbl_contactName.text=self.infoRow?.get(name)
             
             cell.isHidden=false
             
@@ -189,7 +201,7 @@ class contactsDetailsTableViewController: UITableViewController,MFMailComposeVie
                 print("error in fetching profile image")
             }
             
-            
+            }
             
             //----------
            /* do{
@@ -255,6 +267,7 @@ class contactsDetailsTableViewController: UITableViewController,MFMailComposeVie
                 cell.isHidden=false
 
             }
+            
             //////
             /*
             if(alladdressContactsArray[contactIndex].get(phone) != "")
