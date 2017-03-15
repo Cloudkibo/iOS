@@ -75,8 +75,8 @@ class AccountsSettingsViewController: UIViewController,UITableViewDelegate,UITab
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
         //
-        if(indexPath.section>0)
-        {
+       // if(indexPath.section>0)
+        //{
             var messageDic = messages.object(at: indexPath.row) as! [String : String];
             // NSLog(messageDic["message"]!, 1)
             let optionSegue = messageDic["segue"] as String!
@@ -85,7 +85,7 @@ class AccountsSettingsViewController: UIViewController,UITableViewDelegate,UITab
             //let cell=tbl_inviteContacts.dequeueReusableCellWithIdentifier("ContactsInviteCell")! as! ContactsInviteCell
             let selectedCell=tbl_accountsSettings.cellForRow(at: indexPath)! as UITableViewCell
             self.performSegue(withIdentifier: optionSegue!, sender: nil)
-        }
+       // }
         
     }
     /*
