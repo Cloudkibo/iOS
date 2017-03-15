@@ -1057,6 +1057,10 @@ print("tempURL is \(temporaryURL) and response is \(response.allHeaderFields)")
         
        var dir=URL.init(string: docsDir1)
        
+        /*if (UserDefaults.standard.value(forKey: Constants.defaultsBackupDateTimeKey) == nil)
+        {
+          UserDefaults.standard.set(Date(), forKey: Constants.defaultsBackupDateTimeKey)
+        }*/
        
         var keys=NSArray.init(objects: [URLResourceKey.isDirectoryKey, URLResourceKey.isPackageKey, URLResourceKey.localizedNameKey,nil])
         var enumerator=FileManager.default.enumerator(at: dir!, includingPropertiesForKeys: [URLResourceKey.isDirectoryKey, URLResourceKey.isPackageKey, URLResourceKey.localizedNameKey])

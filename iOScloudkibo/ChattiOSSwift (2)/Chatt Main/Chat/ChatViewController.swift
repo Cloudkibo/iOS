@@ -398,6 +398,7 @@ EPPickerDelegate,SWTableViewCellDelegate,UpdateChatViewsDelegate,RefreshContacts
     {
         
         print("inside fetchchatsfromserver")
+        UtilityFunctions.init().log_papertrail("IPHONE: \(username!) fetching partial chatsfromserver")
         let uniqueid = Expression<String>("uniqueid")
         let file_name = Expression<String>("file_name")
         let type = Expression<String>("type")
@@ -470,7 +471,7 @@ EPPickerDelegate,SWTableViewCellDelegate,UpdateChatViewsDelegate,RefreshContacts
                 case .success(let json):
                     
                     print("All chat fetched success")
-                    socketObj.socket.emit("logClient", "All chat fetched success")
+                    socketObj.socket.emit("logClient", "Partial chat fetched success")
                     print("response data \(response.data)")
                     
                     if let data1 = response.result.value {
@@ -1016,6 +1017,7 @@ EPPickerDelegate,SWTableViewCellDelegate,UpdateChatViewsDelegate,RefreshContacts
     func checkForReachability(_ notification:Notification)
     {
         print("checking internet")
+        UtilityFunctions.init().log_papertrail("IPHONE: checking internet")
         // Remove the next two lines of code. You cannot instantiate the object
         // you want to receive notifications from inside of the notification
         // handler that is meant for the notifications it emits.
@@ -1030,12 +1032,15 @@ EPPickerDelegate,SWTableViewCellDelegate,UpdateChatViewsDelegate,RefreshContacts
         {
             
             print("Not Reachable")
+                    UtilityFunctions.init().log_papertrail("IPHONE: \(username!) Not Reachable")
         }
         else if (remoteHostStatus == Reachability.NetworkStatus.reachableViaWiFi)
         {
             print("Reachable via Wifi")
+                    UtilityFunctions.init().log_papertrail("IPHONE: \(username!) Reachable via wifi")
             if(username != nil && username != "")
             {
+                
                /* Alamofire.request(.POST,"\(Constants.MainUrl+Constants.urllog)",headers:header,parameters: ["data":"IPHONE_LOG: Reachable via wifi \(username!)"]).response{
                     request, response_, data, error in
                     print(error)

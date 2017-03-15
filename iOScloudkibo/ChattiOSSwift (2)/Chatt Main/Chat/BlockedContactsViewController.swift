@@ -117,11 +117,7 @@ class BlockedContactsViewController: UIViewController,UITableViewDataSource,UITa
         return ""
        // return "Blocked contacts will no longer be able to call you or send you message"
     }
-    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        
-        return 150
-    }
-    
+   
   
 
     /*
