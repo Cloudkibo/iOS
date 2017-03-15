@@ -2026,7 +2026,7 @@ print("tempURL is \(temporaryURL) and response is \(response.allHeaderFields)")
     
     func unblockContact(phone1:String)
     {
-        var blockContactURL=Constants.MainUrl+Constants.blockContactURL
+        var blockContactURL=Constants.MainUrl+Constants.unblockContactURL
         
         //Alamofire.request(.POST,"\(removeChatHistoryURL)",headers:header,parameters: ["username":"\(selectedContact)"]).validate(statusCode: 200..<300).response{
         

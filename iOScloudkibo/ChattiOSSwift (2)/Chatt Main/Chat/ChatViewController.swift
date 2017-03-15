@@ -22,9 +22,12 @@ import AlamofireImage
 //import Haneke
 
 class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,CNContactPickerDelegate,
-EPPickerDelegate,SWTableViewCellDelegate,UpdateChatViewsDelegate,RefreshContactsList,UpdateMainPageChatsDelegate,CNContactViewControllerDelegate
+EPPickerDelegate,SWTableViewCellDelegate,UpdateChatViewsDelegate,RefreshContactsList,UpdateMainPageChatsDelegate,CNContactViewControllerDelegate,UISearchBarDelegate,UISearchDisplayDelegate
 {
     
+    var filteredArray=Array<Row>()
+    var groupchatmessages=Array<Row>()
+    var chatmessages=Array<Row>()
     var mycontainer:URL?=nil
     let imageCache = AutoPurgingImageCache()
     var pendingGroupIcons=[String]()
@@ -2134,7 +2137,13 @@ EPPickerDelegate,SWTableViewCellDelegate,UpdateChatViewsDelegate,RefreshContacts
         ///==dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT,0))
        
         self.groupsObjectList=sqliteDB.getGroupDetails() as [[String : AnyObject]]
-        
+        do{
+        groupchatmessages=Array(try sqliteDB.db.prepare((sqliteDB.group_chat)!))
+        }
+        catch
+        {
+            print("error getting group chats")
+        }
         for i in 0 ..< self.groupsObjectList.count
         {
             ContactsProfilePic=Data.init()
@@ -2343,6 +2352,17 @@ EPPickerDelegate,SWTableViewCellDelegate,UpdateChatViewsDelegate,RefreshContacts
         
         
         // let myquery=tbl_userchats.join(tbl_contactslists, on: tbl_contactslists[phone] == tbl_userchats[contactPhone]).group(tbl_userchats[contactPhone]).order(date.desc)
+        
+        do
+        {
+           chatmessages=Array(try sqliteDB.db.prepare((tbl_userchats)!))
+        
+        }
+        catch
+        {
+            print("error: unable to get chats")
+        }
+        
         
         let myquery=tbl_userchats?.group((tbl_userchats?[contactPhone])!).order(date.desc)
         
@@ -3193,8 +3213,14 @@ break
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
        
-        
+        if tableView == self.searchDisplayController!.searchResultsTableView {
+            //if shouldShowSearchResults {
+            return filteredArray.count
+        }
+        else
+        {
         return self.messages.count
+        }
         //==--return ContactUsernames.count
     }
     
@@ -3382,6 +3408,55 @@ break
         //24669A
     }
     
+    
+    func filterContentForSearchText(_ searchText: String) {
+        // Filter the array using the filter method
+        
+        
+        if self.messages.count == 0 && chatmessages.count==0{
+            self.filteredArray.removeAll()
+            return
+        }
+        
+        let name = Expression<String?>("name")
+        // Filter the data array and get only those countries that match the search text.
+        
+        /*filteredArray = chatmessages.filter({ (contactname) -> Bool in
+            let countryText: NSString = contactname.get(name)! as NSString
+            
+            return (countryText.range(of: searchText, options: NSString.CompareOptions.caseInsensitive).location) != NSNotFound
+        })
+        */
+        let msg = Expression<String>("msg")
+        filteredArray.removeAll()
+        filteredArray.append(contentsOf: chatmessages.filter({ (chatmsg) -> Bool in
+            let countryText: NSString = chatmsg.get(msg) as NSString
+            
+            return (countryText.range(of: searchText, options: NSString.CompareOptions.caseInsensitive).location) != NSNotFound
+        }))
+        
+        filteredArray.append(contentsOf:groupchatmessages.filter({ (chatmsg) -> Bool in
+            let countryText: NSString = chatmsg.get(msg) as NSString
+            
+            return (countryText.range(of: searchText, options: NSString.CompareOptions.caseInsensitive).location) != NSNotFound
+        }))
+        print("filtered arrray count is \(filteredArray.count) searchtext is \(searchText) and \(filteredArray.debugDescription)")
+        tblForChat.reloadData()
+        //==----tblForNotes.reloadData()
+        
+        
+        /* self.speciesSearchResults = self.species!.filter({( aSpecies: StarWarsSpecies) -> Bool in
+         // to start, let's just search by name
+         return aSpecies.name!.lowercaseString.rangeOfString(searchText.lowercaseString) != nil
+         })*/
+    }
+    
+    func searchDisplayController(_ controller: UISearchDisplayController!, shouldReloadTableForSearch searchString: String!) -> Bool {
+        self.filterContentForSearchText(searchString)
+        return true
+    }
+    
+    
     func tableView(_ tableView: UITableView, cellForRowAtIndexPath indexPath: IndexPath!) -> UITableViewCell! {
         
         /*
@@ -3404,21 +3479,136 @@ break
          var ContactsProfilePic=NSData.init()
          var ChatType=""
  */
-        var messageDic = messages.object(at: indexPath.row) as! [String : AnyObject];
-      
-        let ContactsLastMsgDate = messageDic["ContactsLastMsgDate"] as! String
-        let ContactLastMessage = messageDic["ContactLastMessage"] as! String
-        let ContactLastNAme=messageDic["ContactLastNAme"] as! String
-        var ContactNames=messageDic["ContactNames"] as! String
-        let ContactStatus=messageDic["ContactStatus"] as! String
-        let ContactUsernames=messageDic["ContactUsernames"] as! String
-        let ContactOnlineStatus=messageDic["ContactOnlineStatus"] as! Int
-        let ContactFirstname=messageDic["ContactFirstname"] as! String
-        let ContactsPhone=messageDic["ContactsPhone"] as! String
-        let ContactCountMsgRead=messageDic["ContactCountMsgRead"] as! Int
-        let ContactsProfilePic=messageDic["ContactsProfilePic"] as! Data
-        let ChatType=messageDic["ChatType"] as! NSString
         
+        var messageDic=[String : AnyObject]()
+        var ContactLastMessage=""
+        
+        var ContactUsernames=""
+        var ContactsLastMsgDate = ""
+        var ContactLastNAme=""
+        var ContactNames=""
+        var ContactStatus=""
+       // let ContactUsernames=""
+        var ContactOnlineStatus=0
+        var ContactFirstname=""
+        var ContactsPhone=""
+        var ContactCountMsgRead=0
+        var ContactsProfilePic:Data! = nil
+        var ChatType=""
+        
+       if tableView == self.searchDisplayController!.searchResultsTableView {
+            //if shouldShowSearchResults {
+            let msg = Expression<String>("msg")
+        let type = Expression<String>("type")
+        let group_unique_id = Expression<String>("group_unique_id")
+        
+        let contactPhone = Expression<String>("contactPhone")
+        if let abc=filteredArray[indexPath.row].get(group_unique_id)
+        {
+            ContactLastMessage=filteredArray[indexPath.row].get(msg)
+            
+            ContactUsernames=filteredArray[indexPath.row].get(contactPhone)
+            
+             ContactsLastMsgDate = filteredArray[indexPath.row].get(date)
+            
+            var name = ContactUsernames
+            if(sqliteDB.getNameFromAddressbook(filteredArray[indexPath.row].get(contactPhone)) != nil)
+            {
+                name=sqliteDB.getNameFromAddressbook(filteredArray[indexPath.row].get(contactPhone))
+            }
+            
+            ContactLastNAme=""
+             ContactNames=name
+             ContactStatus=""
+             ContactOnlineStatus=0
+             ContactFirstname=""
+             ContactsPhone=filteredArray[indexPath.row].get(contactPhone)
+            ContactCountMsgRead=0
+             ContactsProfilePic=Data.init()
+             ChatType="single"
+
+            
+        }
+        else
+        {
+            let msg_unique_id = Expression<String>("msg_unique_id")
+            let Status = Expression<String>("Status")
+            let user_phone = Expression<String>("user_phone")
+            let read_date = Expression<Date>("read_date")
+            let delivered_date = Expression<Date>("delivered_date")
+            
+            let from = Expression<String>("from")
+            let group_unique_id = Expression<String>("group_unique_id")
+            let type = Expression<String>("type")
+            let msg = Expression<String>("msg")
+            let from_fullname = Expression<String>("from_fullname")
+            let date = Expression<Date>("date")
+            let unique_id = Expression<String>("unique_id")
+            
+            
+            ContactUsernames=filteredArray[indexPath.row].get(user_phone)
+            
+            ContactsLastMsgDate = filteredArray[indexPath.row].get(date) as! String
+
+            ContactLastMessage=filteredArray[indexPath.row].get(msg)
+            ContactLastNAme=filteredArray[indexPath.row].get(user_phone)
+            var name=filteredArray[indexPath.row].get(user_phone)
+            if(sqliteDB.getNameFromAddressbook(filteredArray[indexPath.row].get(user_phone)) != nil)
+            {
+                name=sqliteDB.getNameFromAddressbook(filteredArray[indexPath.row].get(user_phone))
+            }
+             ContactNames=name
+             ContactStatus=""
+             ContactUsernames=filteredArray[indexPath.row].get(user_phone)
+             ContactOnlineStatus=0
+             ContactFirstname=name
+             ContactsPhone=filteredArray[indexPath.row].get(user_phone)
+             ContactCountMsgRead=0
+             ContactsProfilePic=Data.init()
+             ChatType="group"
+            
+        }
+            // ContactLastMessage=filteredArray[indexPath.row].get(msg)
+        
+        //    ContactUsernames=filteredArray[indexPath.row].get(msg)
+            
+            /* ContactsLastMsgDate = messageDic["ContactsLastMsgDate"] as! String
+             ContactLastMessage = messageDic["ContactLastMessage"] as! String
+             ContactLastNAme=messageDic["ContactLastNAme"] as! String
+             ContactNames=messageDic["ContactNames"] as! String
+             ContactStatus=messageDic["ContactStatus"] as! String
+             ContactUsernames=messageDic["ContactUsernames"] as! String
+             ContactOnlineStatus=messageDic["ContactOnlineStatus"] as! Int
+             ContactFirstname=messageDic["ContactFirstname"] as! String
+             ContactsPhone=messageDic["ContactsPhone"] as! String
+             ContactCountMsgRead=messageDic["ContactCountMsgRead"] as! Int
+             ContactsProfilePic=(messageDic["ContactsProfilePic"] as! Data as NSData!) as Data!
+             ChatType=(messageDic["ChatType"] as! NSString) as String
+            */
+            
+            
+           /* cellPrivate.labelNamePrivate.text=filteredArray[indexPath.row].get(name)
+            if(filteredArray[indexPath.row].get(kibocontact)==true)
+            {
+                cellPrivate.labelStatusPrivate.isHidden=false
+            }*/
+        }
+        else{
+          messageDic = messages.object(at: indexPath.row) as! [String : AnyObject];
+      
+         ContactsLastMsgDate = messageDic["ContactsLastMsgDate"] as! String
+         ContactLastMessage = messageDic["ContactLastMessage"] as! String
+         ContactLastNAme=messageDic["ContactLastNAme"] as! String
+         ContactNames=messageDic["ContactNames"] as! String
+         ContactStatus=messageDic["ContactStatus"] as! String
+         ContactUsernames=messageDic["ContactUsernames"] as! String
+         ContactOnlineStatus=messageDic["ContactOnlineStatus"] as! Int
+         ContactFirstname=messageDic["ContactFirstname"] as! String
+         ContactsPhone=messageDic["ContactsPhone"] as! String
+         ContactCountMsgRead=messageDic["ContactCountMsgRead"] as! Int
+         ContactsProfilePic=messageDic["ContactsProfilePic"] as! Data
+         ChatType=(messageDic["ChatType"] as! NSString) as String
+        }
         /* if (indexPath.row%2 == 0){
         return tblForChat.dequeueReusableCellWithIdentifier("ChatPrivateCell") as! UITableViewCell
         } else {
