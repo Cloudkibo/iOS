@@ -1227,6 +1227,7 @@ EPPickerDelegate,SWTableViewCellDelegate,UpdateChatViewsDelegate,RefreshContacts
         let email = Expression<String>("email")
         let phone = Expression<String>("phone")
         
+        self.searchDisplayController?.searchResultsTableView.rowHeight = tblForChat.rowHeight
         
         print("appearrrrrr", terminator: "")
         let nsObject: AnyObject? = Bundle.main.infoDictionary!["CFBundleShortVersionString"] as AnyObject?
@@ -3417,6 +3418,8 @@ break
         var string = "hello Swift"
         let msg = Expression<String>("msg")
         let uniqueid = Expression<String>("uniqueid")
+        let unique_id = Expression<String>("unique_id")
+
          let contactPhone = Expression<String>("contactPhone")
          let from = Expression<String>("from")
         
@@ -3430,7 +3433,8 @@ break
         }
         
         
-        filteredArray.removeAll()
+        filteredArray.removeAllObjects()
+        
         var foundsinglechats=chatmessages.filter({ (searchedrow) -> Bool in
             let allsinglechatmsgs=searchedrow.get(msg) as! NSString
             //let allsinglechatmsgsIDs=searchedrow.get(uniqueid)
@@ -3452,7 +3456,7 @@ break
         
         for groupchats in foundgroupchats
         {
-            filteredArray.add(["uniqueid":groupchats.get(uniqueid) as! String,"msg":groupchats.get(msg) as! String,"type":"group", "contactPhone":groupchats.get(from)])
+            filteredArray.add(["uniqueid":groupchats.get(unique_id) as! String,"msg":groupchats.get(msg) as! String,"type":"group", "contactPhone":groupchats.get(from)])
         }
         
        
@@ -3595,27 +3599,26 @@ break
             let date = Expression<Date>("date")
             let unique_id = Expression<String>("unique_id")
             
-            
-            ContactUsernames=filteredArray[indexPath.row].get(user_phone)
-            
-            ContactsLastMsgDate = filteredArray[indexPath.row].get(date) as! String
-
-            ContactLastMessage=filteredArray[indexPath.row].get(msg)
-            ContactLastNAme=filteredArray[indexPath.row].get(user_phone)
-            var name=filteredArray[indexPath.row].get(user_phone)
-            if(sqliteDB.getNameFromAddressbook(filteredArray[indexPath.row].get(user_phone)) != nil)
+            ContactLastMessage=messageDic["msg"] as! String
+            ContactUsernames=messageDic["contactPhone"] as! String
+            ContactsLastMsgDate = Date().debugDescription
+            var name = ContactUsernames
+            if(sqliteDB.getNameFromAddressbook(messageDic["contactPhone"] as! String!) != nil)
             {
-                name=sqliteDB.getNameFromAddressbook(filteredArray[indexPath.row].get(user_phone))
+                name=sqliteDB.getNameFromAddressbook(messageDic["contactPhone"] as! String!)
             }
-             ContactNames=name
-             ContactStatus=""
-             ContactUsernames=filteredArray[indexPath.row].get(user_phone)
-             ContactOnlineStatus=0
-             ContactFirstname=name
-             ContactsPhone=filteredArray[indexPath.row].get(user_phone)
-             ContactCountMsgRead=0
-             ContactsProfilePic=Data.init()
-             ChatType="group"
+            
+            ContactLastNAme=""
+            ContactNames=name
+            ContactStatus=""
+            ContactOnlineStatus=0
+            ContactFirstname=""
+            ContactsPhone=messageDic["contactPhone"] as! String
+            ContactCountMsgRead=0
+            ContactsProfilePic=Data.init()
+            ChatType="group"
+            
+
             
         }
             // ContactLastMessage=filteredArray[indexPath.row].get(msg)
@@ -4230,7 +4233,7 @@ break
         _ tableView: UITableView,
         estimatedHeightForRowAtIndexPath indexPath: IndexPath
         ) -> CGFloat {
-        return 50
+        return 80
     }
     
     override func setEditing(_ editing: Bool, animated: Bool) {
