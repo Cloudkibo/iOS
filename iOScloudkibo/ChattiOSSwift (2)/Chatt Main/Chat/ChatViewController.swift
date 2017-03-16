@@ -3419,7 +3419,7 @@ break
         let msg = Expression<String>("msg")
         let uniqueid = Expression<String>("uniqueid")
         let unique_id = Expression<String>("unique_id")
-
+        let date = Expression<Date>("date")
          let contactPhone = Expression<String>("contactPhone")
          let from = Expression<String>("from")
         let group_unique_id = Expression<String>("group_unique_id")
@@ -3452,14 +3452,40 @@ break
         
         for singlechats in foundsinglechats
         {
-        filteredArray.add(["uniqueid":singlechats.get(uniqueid) as! String,"msg":singlechats.get(msg) as! String,"type":"single", "contactPhone":singlechats.get(contactPhone)])
+            
+            var formatter2 = DateFormatter();
+            formatter2.dateFormat = "MM/dd hh:mm a"
+            formatter2.timeZone = NSTimeZone.local
+            ///////////////==========var defaultTimeeee = formatter2.stringFromDate(defaultTimeZoneStr!)
+            var defaultTimeeee = formatter2.string(from: singlechats.get(date) as! Date)
+            
+        filteredArray.add(["uniqueid":singlechats.get(uniqueid) as! String,"msg":singlechats.get(msg) as! String,"type":"single", "contactPhone":singlechats.get(contactPhone),"date":defaultTimeeee])
         }
         
         for groupchats in foundgroupchats
         {
-            
+            let from = Expression<String>("from")
+            let group_unique_id = Expression<String>("group_unique_id")
+            let type = Expression<String>("type")
+            let msg = Expression<String>("msg")
+            let from_fullname = Expression<String>("from_fullname")
+            let date = Expression<Date>("date")
+            let unique_id = Expression<String>("unique_id")
             var groupinfo=sqliteDB.getSingleGroupInfo(groupchats.get(group_unique_id))
-            filteredArray.add(["uniqueid":groupchats.get(unique_id) as! String,"msg":groupchats.get(msg) as! String,"type":"group", "contactPhone":groupchats.get(from),"group_unique_id":groupchats.get(group_unique_id),"group_name":groupinfo["group_name"] as! String])
+            
+            var formatter2 = DateFormatter();
+            formatter2.dateFormat = "MM/dd hh:mm a"
+            formatter2.timeZone = NSTimeZone.local
+            ///////////////==========var defaultTimeeee = formatter2.stringFromDate(defaultTimeZoneStr!)
+            var defaultTimeeee = formatter2.string(from: groupchats.get(date) as! Date)
+            //print("===fetch date from database is ccclastmsg[date] \(ccclastmsg[date])... defaultTimeeee \(defaultTimeeee)")
+            
+            
+            // print("last msg is \(ccclastmsg[msg])")
+            //ContactsLastMsgDate=defaultTimeeee
+            
+            
+            filteredArray.add(["uniqueid":groupchats.get(unique_id) as! String,"msg":groupchats.get(msg) as! String,"type":"group", "contactPhone":groupchats.get(from),"group_unique_id":groupchats.get(group_unique_id),"group_name":groupinfo["group_name"] as! String,"date":defaultTimeeee])
         }
         
        
@@ -3567,7 +3593,7 @@ break
         {
             ContactLastMessage=messageDic["msg"] as! String
             ContactUsernames=messageDic["contactPhone"] as! String
-            ContactsLastMsgDate = Date().debugDescription
+            ContactsLastMsgDate = messageDic["date"] as! String
             var name = ContactUsernames
             if(sqliteDB.getNameFromAddressbook(messageDic["contactPhone"] as! String!) != nil)
             {
@@ -3602,9 +3628,11 @@ break
             let date = Expression<Date>("date")
             let unique_id = Expression<String>("unique_id")
             
+            
+            
             ContactLastMessage=messageDic["msg"] as! String
-            ContactUsernames=messageDic["contactPhone"] as! String
-            ContactsLastMsgDate = Date().debugDescription
+            ContactUsernames=messageDic["group_unique_id"] as! String
+            ContactsLastMsgDate = messageDic["date"] as! String
           
             
             ContactLastNAme=""
@@ -3612,7 +3640,7 @@ break
             ContactStatus=""
             ContactOnlineStatus=0
             ContactFirstname=messageDic["group_name"] as! String!
-            ContactsPhone=messageDic["contactPhone"] as! String
+            ContactsPhone=messageDic["group_unique_id"] as! String
             ContactCountMsgRead=0
             ContactsProfilePic=Data.init()
             ChatType="group"
@@ -4683,7 +4711,7 @@ break
                         
                         ContactLastMessage=messageDic["msg"] as! String
                         ContactUsernames=messageDic["contactPhone"] as! String
-                        ContactsLastMsgDate = Date().debugDescription
+                        ContactsLastMsgDate = messageDic["date"] as! String
                         var name = ContactUsernames
                         if(sqliteDB.getNameFromAddressbook(messageDic["contactPhone"] as! String!) != nil)
                         {
@@ -4767,7 +4795,6 @@ break
                 var messageDic = [String : AnyObject]()
                 
                 var ContactLastMessage=""
-                
                 var ContactUsernames=""
                 var ContactsLastMsgDate = ""
                 var ContactLastNAme=""
@@ -4796,20 +4823,20 @@ break
                         
                         messageDic = filteredArray.object(at: (indexPath?.row)!) as! [String : AnyObject]
                         
-                        destinationVC.searchUniqueid=messageDic["unique_id"] as! String
-                      
+                        destinationVC.searchUniqueid=messageDic["uniqueid"] as! String
+                        
                         
                         ContactLastMessage=messageDic["msg"] as! String
-                        ContactUsernames=messageDic["contactPhone"] as! String
-                        ContactsLastMsgDate = Date().debugDescription
+                        ContactUsernames=messageDic["group_unique_id"] as! String
+                        ContactsLastMsgDate = messageDic["date"] as! String
                         
-                        
+                       // messageDic["group_unique_id"] as! String
                         ContactLastNAme=""
                         ContactNames=messageDic["group_name"] as! String!
                         ContactStatus=""
                         ContactOnlineStatus=0
                         ContactFirstname=messageDic["group_name"] as! String!
-                        ContactsPhone=messageDic["contactPhone"] as! String
+                        ContactsPhone=messageDic["group_unique_id"] as! String
                         ContactCountMsgRead=0
                         ContactsProfilePic=Data.init()
                         ChatType="group"
@@ -4849,6 +4876,10 @@ break
                  ContactsProfilePic=Data.init()
                  ChatType="group"
  */
+                    
+                    selectedRow = tblForChat.indexPathForSelectedRow!.row
+                    messageDic = messages.object(at: selectedRow) as! [String : AnyObject];
+                    
                  ContactsLastMsgDate = messageDic["ContactsLastMsgDate"] as! String
                  ContactLastMessage = messageDic["ContactLastMessage"] as! String
                  ContactLastNAme=messageDic["ContactLastNAme"] as! String

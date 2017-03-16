@@ -2900,11 +2900,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Chat/GroupChatingDetailController.swift"
-            timestampString = "509371484.127365"
+            timestampString = "511366896.455014"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "774"
-            endingLineNumber = "774"
+            startingLineNumber = "805"
+            endingLineNumber = "805"
             landmarkName = "chatSwipped(_:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -3499,11 +3499,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Chat/ChatViewController.swift"
-            timestampString = "511359248.144948"
+            timestampString = "511368170.564109"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "4644"
-            endingLineNumber = "4644"
+            startingLineNumber = "4665"
+            endingLineNumber = "4665"
             landmarkName = "prepare(for:sender:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -3515,11 +3515,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Chat/ChatViewController.swift"
-            timestampString = "511359248.144948"
+            timestampString = "511368170.564109"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "4673"
-            endingLineNumber = "4673"
+            startingLineNumber = "4694"
+            endingLineNumber = "4694"
             landmarkName = "prepare(for:sender:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -3531,11 +3531,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Chat/ChatViewController.swift"
-            timestampString = "511359248.144948"
+            timestampString = "511368170.564109"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "4667"
-            endingLineNumber = "4667"
+            startingLineNumber = "4688"
+            endingLineNumber = "4688"
             landmarkName = "prepare(for:sender:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -3547,11 +3547,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Chat/ChatViewController.swift"
-            timestampString = "511359248.144948"
+            timestampString = "511368170.564109"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "4669"
-            endingLineNumber = "4669"
+            startingLineNumber = "4690"
+            endingLineNumber = "4690"
             landmarkName = "prepare(for:sender:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -3595,11 +3595,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Chat/ChatViewController.swift"
-            timestampString = "511349843.780177"
+            timestampString = "511368170.564109"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "3578"
-            endingLineNumber = "3578"
+            startingLineNumber = "3597"
+            endingLineNumber = "3597"
             landmarkName = "tableView(_:cellForRowAtIndexPath:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -3611,11 +3611,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Chat/ChatViewController.swift"
-            timestampString = "511349843.780177"
+            timestampString = "511368170.564109"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "3661"
-            endingLineNumber = "3661"
+            startingLineNumber = "3682"
+            endingLineNumber = "3682"
             landmarkName = "tableView(_:cellForRowAtIndexPath:)"
             landmarkType = "7">
          </BreakpointContent>
