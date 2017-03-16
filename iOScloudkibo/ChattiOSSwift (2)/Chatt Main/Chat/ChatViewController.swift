@@ -3422,6 +3422,7 @@ break
 
          let contactPhone = Expression<String>("contactPhone")
          let from = Expression<String>("from")
+        let group_unique_id = Expression<String>("group_unique_id")
         
         if string.range(of:"Swift") != nil{
             //println("exists")
@@ -3456,7 +3457,9 @@ break
         
         for groupchats in foundgroupchats
         {
-            filteredArray.add(["uniqueid":groupchats.get(unique_id) as! String,"msg":groupchats.get(msg) as! String,"type":"group", "contactPhone":groupchats.get(from)])
+            
+            var groupinfo=sqliteDB.getSingleGroupInfo(groupchats.get(group_unique_id))
+            filteredArray.add(["uniqueid":groupchats.get(unique_id) as! String,"msg":groupchats.get(msg) as! String,"type":"group", "contactPhone":groupchats.get(from),"group_unique_id":groupchats.get(group_unique_id),"group_name":groupinfo["group_name"] as! String])
         }
         
        
@@ -3602,17 +3605,13 @@ break
             ContactLastMessage=messageDic["msg"] as! String
             ContactUsernames=messageDic["contactPhone"] as! String
             ContactsLastMsgDate = Date().debugDescription
-            var name = ContactUsernames
-            if(sqliteDB.getNameFromAddressbook(messageDic["contactPhone"] as! String!) != nil)
-            {
-                name=sqliteDB.getNameFromAddressbook(messageDic["contactPhone"] as! String!)
-            }
+          
             
             ContactLastNAme=""
-            ContactNames=name
+            ContactNames=messageDic["group_name"] as! String!
             ContactStatus=""
             ContactOnlineStatus=0
-            ContactFirstname=""
+            ContactFirstname=messageDic["group_name"] as! String!
             ContactsPhone=messageDic["contactPhone"] as! String
             ContactCountMsgRead=0
             ContactsProfilePic=Data.init()
@@ -4171,8 +4170,30 @@ break
     func tableView(_ tableView: UITableView!, didSelectRowAtIndexPath indexPath: IndexPath!){
        
         
-        var messageDic = messages.object(at: indexPath.row) as! [String : AnyObject];
         
+        if tableView == self.searchDisplayController!.searchResultsTableView {
+            
+            var messageDic = filteredArray.object(at: indexPath.row) as! [String : AnyObject]
+            //if shouldShowSearchResults {
+            let msg = Expression<String>("msg")
+            let type = Expression<String>("type")
+            let group_unique_id = Expression<String>("group_unique_id")
+            
+            let contactPhone = Expression<String>("contactPhone")
+            // if let abc=
+            if((messageDic["type"] as! String) == "single")
+                //[indexPath.row].get(group_unique_id)
+            {
+               self.performSegue(withIdentifier: "contactChat", sender: nil);
+                
+            }
+            else{
+                self.performSegue(withIdentifier: "startGroupChatSegue", sender: nil);
+            }
+        }
+        else{
+        var messageDic = messages.object(at: indexPath.row) as! [String : AnyObject];
+        //searchUniqueid
         
         let ContactsLastMsgDate = messageDic["ContactsLastMsgDate"] as! String
         let ContactLastMessage = messageDic["ContactLastMessage"] as! String
@@ -4224,7 +4245,7 @@ break
         }
         }
         //slideToChat
-        
+        }
     }
     
 
@@ -4622,9 +4643,37 @@ break
             
             if let destinationVC = segue!.destination as? ChatDetailViewController{
                 
-                let selectedRow = tblForChat.indexPathForSelectedRow!.row
-                var messageDic = messages.object(at: selectedRow) as! [String : AnyObject];
+                var messageDic=[String : AnyObject]()
+                var selectedRow=0
+                if tableView == self.searchDisplayController!.searchResultsTableView {
+                    print("searchbar active")
+                    let indexPath = self.searchDisplayController?.searchResultsTableView.indexPathForSelectedRow
+                    print("selected indexpath of search result is \(indexPath?.row)") //filtered array index
+                    if indexPath != nil {
+                        selectedRow = indexPath.row
+                        
+                        messageDic = filteredArray.object(at: indexPath.row) as! [String : AnyObject]
+                        //if shouldShowSearchResults {
+                        let msg = Expression<String>("msg")
+                        let type = Expression<String>("type")
+                        let group_unique_id = Expression<String>("group_unique_id")
+                        
+                        let contactPhone = Expression<String>("contactPhone")
+                        // if let abc=
+                        destinationVC.searchUniqueid=messageDic["uniqueid"] as! String
+                       
+                        
+
+                    }
+                }
+                        
+                else{
+                    selectedRow = tblForChat.indexPathForSelectedRow!.row
+                    messageDic = messages.object(at: selectedRow) as! [String : AnyObject];
+                    
+                }
                 
+               
                 //destinationVC.selectedContact = ContactNames[selectedRow]
                 destinationVC.selectedContact = messageDic["ContactUsernames"] as! String
                 destinationVC.selectedFirstName=messageDic["ContactNames"] as! String
@@ -4632,6 +4681,8 @@ break
                 ///////////////////////////////////destinationVC.selectedID=ContactIDs[selectedRow]
                 destinationVC.ContactNames=messageDic["ContactNames"] as! String
                 destinationVC.ContactOnlineStatus=messageDic["ContactOnlineStatus"] as! Int
+                
+                
                 print("destinationnnnnn....")
                 
                 
@@ -4654,7 +4705,7 @@ break
                 }
                 
                 //////print("Selectedrow is \(selectedRow)... username is \(ContactUsernames[selectedRow]) firstname is \(ContactFirstname[selectedRow]) lastname is \(ContactLastNAme[selectedRow]) fullname is \(ContactNames)")
-            
+                
             }
         }
         if segue!.identifier == "newChat" {

@@ -21,6 +21,7 @@ import ContactsUI
 import MediaPlayer
 import AVKit
 import Kingfisher
+
 //import GoogleMaps
 
 class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChatDelegate,UIDocumentPickerDelegate,UIDocumentMenuDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate,FileManagerDelegate,showUploadProgressDelegate,UpdateChatViewsDelegate,UpdateSingleChatDetailDelegate,CNContactPickerDelegate,CNContactViewControllerDelegate,UIPickerViewDelegate,AVAudioRecorderDelegate,CLLocationManagerDelegate
@@ -29,6 +30,9 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
     //,UIPickerViewDelegate{
     
    // weak var viewMap: GMSMapView!
+    
+    var searchUniqueid:String!=nil
+    var scrolledRowIndex = -1
     var isBlocked=false
     var iamblocked=false
     var locationManager = CLLocationManager()
@@ -430,9 +434,32 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
             if(self.messages.count>1)
             {
                 //var indexPath = NSIndexPath(forRow:self.messages.count-1, inSection: 0)
+                
+                if(searchUniqueid != nil)
+                {
+                    var predicate=NSPredicate(format: "uniqueid = %@", uniqueid)
+                    var resultArray=messages.filtered(using: predicate)
+                    if(resultArray.count > 0)
+                    {
+                        var foundindex=resultArray.index(of: resultArray.first!)
+                        // let indexPath = IndexPath(row:self.tblForChats.numberOfRows(inSection: 0)-1, section: 0)
+                        self.tblForChats.scrollToRow(at: foundindex, at: UITableViewScrollPosition.bottom, animated: false)
+                    }
+                    else{
+                            
+                            let indexPath = IndexPath(row:self.tblForChats.numberOfRows(inSection: 0)-1, section: 0)
+                            self.tblForChats.scrollToRow(at: indexPath, at: UITableViewScrollPosition.bottom, animated: false)
+                        }
+                    
+                   
+                }
+                else{
+                
                 let indexPath = IndexPath(row:self.tblForChats.numberOfRows(inSection: 0)-1, section: 0)
                 self.tblForChats.scrollToRow(at: indexPath, at: UITableViewScrollPosition.bottom, animated: false)
+                }
             }
+            searchUniqueid=nil
             //}
             //}
        // })
@@ -519,12 +546,6 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
             
         }
       
-        /*if(self.messages.count>1)
-        {
-            var indexPath = NSIndexPath(forRow:self.messages.count-1, inSection: 0)
-            
-            self.tblForChats.scrollToRowAtIndexPath(indexPath, atScrollPosition: UITableViewScrollPosition.Bottom, animated: false)
-        }*/
     }
     
     func startRecording() {
@@ -646,18 +667,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
         }
         
         
-        /*DispatchQueue.main.async
-        {
-            self.tblForChats.reloadData()
-        }*/
-        //commenting newwww --====----====-----====
-      /* if(self.messages.count>1)
-        {
-            var indexPath = NSIndexPath(forRow:self.messages.count-1, inSection: 0)
-            
-            self.tblForChats.scrollToRowAtIndexPath(indexPath, atScrollPosition: UITableViewScrollPosition.Bottom, animated: false)
-        }*/
-        //%%%%%%%%%%%%%%%%%&&&&&&&&&&&&&&&&&&^^^^^^^^^
+                //%%%%%%%%%%%%%%%%%&&&&&&&&&&&&&&&&&&^^^^^^^^^
         //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%FetchChatServer()
         
         
@@ -4049,7 +4059,11 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
             if(self.messages.count>1)
             {
                 //var indexPath = NSIndexPath(forRow:self.messages.count-1, inSection: 0)
+               // let indexPath = IndexPath(row:self.tblForChats.numberOfRows(inSection: 0)-1, section: 0)
+                
                 let indexPath = IndexPath(row:self.tblForChats.numberOfRows(inSection: 0)-1, section: 0)
+                
+                
                 self.tblForChats.scrollToRow(at: indexPath, at: UITableViewScrollPosition.bottom, animated: false)
             }
         self.navigationController!.popViewController(animated: true)
