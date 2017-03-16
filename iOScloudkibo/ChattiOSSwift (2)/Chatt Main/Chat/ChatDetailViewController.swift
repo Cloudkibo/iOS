@@ -2009,7 +2009,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
         //uploadInfo.indexOfObject(<#T##anObject: AnyObject##AnyObject#>)
        /* uploadInfo.filterUsingPredicate(NSPredicate(block: { ("uniqueid", uniqueid) -> Bool in
             
-            
+         
         })*/
         var predicate=NSPredicate(format: "uniqueid = %@", uniqueid)
         var resultArray=uploadInfo.filtered(using: predicate)

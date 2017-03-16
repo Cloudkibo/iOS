@@ -3643,12 +3643,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Chat/ChatViewController.swift"
-            timestampString = "511310484.829672"
+            timestampString = "511347225.10113"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "3506"
-            endingLineNumber = "3506"
-            landmarkName = "tableView(_:cellForRowAtIndexPath:)"
+            startingLineNumber = "3441"
+            endingLineNumber = "3441"
+            landmarkName = "filterContentForSearchText(_:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
