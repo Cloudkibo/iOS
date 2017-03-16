@@ -709,7 +709,8 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
                                 UIDelegates.getInstance().UpdateMainPageChatsDelegateCall()
                                 UIDelegates.getInstance().UpdateGroupInfoDetailsDelegateCall()
                                 
-                                completionHandler(UIBackgroundFetchResult.newData)
+                                completionHandler([.alert, .badge, .sound])
+                             //   completionHandler(UIBackgroundFetchResult.newData)
                             })
                             
                         })
@@ -738,7 +739,9 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
                         UIDelegates.getInstance().UpdateGroupChatDetailsDelegateCall()
                         UIDelegates.getInstance().UpdateMainPageChatsDelegateCall()
                         UIDelegates.getInstance().UpdateGroupInfoDetailsDelegateCall()
-                        completionHandler(UIBackgroundFetchResult.newData)
+                       
+                        completionHandler([.alert, .badge, .sound])
+                        // completionHandler(UIBackgroundFetchResult.newData)
                     })
                     
                     
