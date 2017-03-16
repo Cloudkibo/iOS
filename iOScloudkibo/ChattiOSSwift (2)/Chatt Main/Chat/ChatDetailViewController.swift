@@ -435,15 +435,19 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
             {
                 //var indexPath = NSIndexPath(forRow:self.messages.count-1, inSection: 0)
                 
-                if(searchUniqueid != nil)
+                if(self.searchUniqueid != nil)
                 {
-                    var predicate=NSPredicate(format: "uniqueid = %@", uniqueid)
-                    var resultArray=messages.filtered(using: predicate)
+                    var predicate=NSPredicate(format: "uniqueid = %@", self.searchUniqueid)
+                    var resultArray=self.messages.filtered(using: predicate)
                     if(resultArray.count > 0)
                     {
-                        var foundindex=resultArray.index(of: resultArray.first!)
-                        // let indexPath = IndexPath(row:self.tblForChats.numberOfRows(inSection: 0)-1, section: 0)
-                        self.tblForChats.scrollToRow(at: foundindex, at: UITableViewScrollPosition.bottom, animated: false)
+                        
+                        var foundindex=self.messages.index(of: resultArray.first!)
+                         let indexPath = IndexPath(row:foundindex, section: 0)
+                       // self.tblForChats.seth
+                        self.tblForChats.cellForRow(at: indexPath)?.setHighlighted(true, animated: true)
+                        self.tblForChats.cellForRow(at: indexPath)?.backgroundColor=UIColor.lightGray
+                        self.tblForChats.scrollToRow(at: indexPath, at: UITableViewScrollPosition.bottom, animated: false)
                     }
                     else{
                             
@@ -459,7 +463,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
                 self.tblForChats.scrollToRow(at: indexPath, at: UITableViewScrollPosition.bottom, animated: false)
                 }
             }
-            searchUniqueid=nil
+            self.searchUniqueid=nil
             //}
             //}
        // })

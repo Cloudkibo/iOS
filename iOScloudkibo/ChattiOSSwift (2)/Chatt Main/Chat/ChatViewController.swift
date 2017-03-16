@@ -24,7 +24,7 @@ import AlamofireImage
 class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,CNContactPickerDelegate,
 EPPickerDelegate,SWTableViewCellDelegate,UpdateChatViewsDelegate,RefreshContactsList,UpdateMainPageChatsDelegate,CNContactViewControllerDelegate,UISearchBarDelegate,UISearchDisplayDelegate
 {
-    
+    var selectedFromSearch=false
     var filteredArray:NSMutableArray!
     var groupchatmessages=Array<Row>()
     var chatmessages=Array<Row>()
@@ -4173,6 +4173,7 @@ break
         
         if tableView == self.searchDisplayController!.searchResultsTableView {
             
+            self.selectedFromSearch=true
             var messageDic = filteredArray.object(at: indexPath.row) as! [String : AnyObject]
             //if shouldShowSearchResults {
             let msg = Expression<String>("msg")
@@ -4192,6 +4193,7 @@ break
             }
         }
         else{
+            self.selectedFromSearch=false
         var messageDic = messages.object(at: indexPath.row) as! [String : AnyObject];
         //searchUniqueid
         
@@ -4641,18 +4643,35 @@ break
             }}
         if segue!.identifier == "contactChat" {
             
-            if let destinationVC = segue!.destination as? ChatDetailViewController{
-                
+             if let destinationVC = segue!.destination as? ChatDetailViewController{
+            var ContactLastMessage=""
+            
+            var ContactUsernames=""
+            var ContactsLastMsgDate = ""
+            var ContactLastNAme=""
+            var ContactNames=""
+            var ContactStatus=""
+            // let ContactUsernames=""
+            var ContactOnlineStatus=0
+            var ContactFirstname=""
+            var ContactsPhone=""
+            var ContactCountMsgRead=0
+            var ContactsProfilePic:Data! = nil
+            var ChatType=""
                 var messageDic=[String : AnyObject]()
                 var selectedRow=0
-                if tableView == self.searchDisplayController!.searchResultsTableView {
+            if (selectedFromSearch==true){
+                
+               
+               
+               // if tblForChat == self.searchDisplayController!.searchResultsTableView {
                     print("searchbar active")
                     let indexPath = self.searchDisplayController?.searchResultsTableView.indexPathForSelectedRow
                     print("selected indexpath of search result is \(indexPath?.row)") //filtered array index
                     if indexPath != nil {
-                        selectedRow = indexPath.row
+                        selectedRow = (indexPath?.row)!
                         
-                        messageDic = filteredArray.object(at: indexPath.row) as! [String : AnyObject]
+                        messageDic = filteredArray.object(at: (indexPath?.row)!) as! [String : AnyObject]
                         //if shouldShowSearchResults {
                         let msg = Expression<String>("msg")
                         let type = Expression<String>("type")
@@ -4661,27 +4680,50 @@ break
                         let contactPhone = Expression<String>("contactPhone")
                         // if let abc=
                         destinationVC.searchUniqueid=messageDic["uniqueid"] as! String
-                       
+                        
+                        ContactLastMessage=messageDic["msg"] as! String
+                        ContactUsernames=messageDic["contactPhone"] as! String
+                        ContactsLastMsgDate = Date().debugDescription
+                        var name = ContactUsernames
+                        if(sqliteDB.getNameFromAddressbook(messageDic["contactPhone"] as! String!) != nil)
+                        {
+                            name=sqliteDB.getNameFromAddressbook(messageDic["contactPhone"] as! String!)
+                        }
+                        
+                        ContactLastNAme=""
+                        ContactNames=name
+                        ContactStatus=""
+                        ContactOnlineStatus=0
+                        ContactFirstname=""
+                        ContactsPhone=messageDic["contactPhone"] as! String
+                        ContactCountMsgRead=0
+                        ContactsProfilePic=Data.init()
+                        ChatType="single"
+
                         
 
                     }
-                }
-                        
+               // }
+            }
                 else{
                     selectedRow = tblForChat.indexPathForSelectedRow!.row
                     messageDic = messages.object(at: selectedRow) as! [String : AnyObject];
-                    
+                    ContactUsernames = messageDic["ContactUsernames"] as! String
+                    ContactNames=messageDic["ContactNames"] as! String
+                    ContactLastNAme=messageDic["ContactLastNAme"] as! String
+                    ///////////////////////////////////destinationVC.selectedID=ContactIDs[selectedRow]
+                    ContactNames=messageDic["ContactNames"] as! String
+                    ContactOnlineStatus=messageDic["ContactOnlineStatus"] as! Int
                 }
                 
                
                 //destinationVC.selectedContact = ContactNames[selectedRow]
-                destinationVC.selectedContact = messageDic["ContactUsernames"] as! String
-                destinationVC.selectedFirstName=messageDic["ContactNames"] as! String
-                destinationVC.selectedLastName=messageDic["ContactLastNAme"] as! String
+                destinationVC.selectedContact = ContactUsernames
+                destinationVC.selectedFirstName=ContactNames
+                destinationVC.selectedLastName=ContactLastNAme
                 ///////////////////////////////////destinationVC.selectedID=ContactIDs[selectedRow]
-                destinationVC.ContactNames=messageDic["ContactNames"] as! String
-                destinationVC.ContactOnlineStatus=messageDic["ContactOnlineStatus"] as! Int
-                
+                destinationVC.ContactNames=ContactNames
+                destinationVC.ContactOnlineStatus=ContactOnlineStatus                
                 
                 print("destinationnnnnn....")
                 
@@ -4692,7 +4734,7 @@ break
                 
                 var blockedcontact=false
                 
-                do{for resultrows in try sqliteDB.db.prepare((tbl_contactslists?.filter(phone==(messageDic["ContactUsernames"] as! String) && blockedByMe==true))!)
+                do{for resultrows in try sqliteDB.db.prepare((tbl_contactslists?.filter(phone==(ContactUsernames) && blockedByMe==true))!)
                 {
                     print()
                     blockedcontact=true
@@ -4705,8 +4747,8 @@ break
                 }
                 
                 //////print("Selectedrow is \(selectedRow)... username is \(ContactUsernames[selectedRow]) firstname is \(ContactFirstname[selectedRow]) lastname is \(ContactLastNAme[selectedRow]) fullname is \(ContactNames)")
-                
-            }
+            //}
+        }
         }
         if segue!.identifier == "newChat" {
             
@@ -4720,23 +4762,106 @@ break
         if segue!.identifier == "startGroupChatSegue" {
             
             if let destinationVC = segue!.destination as? GroupChatingDetailController{
-                let selectedRow = tblForChat.indexPathForSelectedRow!.row
+                //var selectedRow = tblForChat.indexPathForSelectedRow!.row
+                var selectedRow=0;
+                var messageDic = [String : AnyObject]()
                 
-                var messageDic = messages.object(at: selectedRow) as! [String : AnyObject];
+                var ContactLastMessage=""
                 
-                let ContactsLastMsgDate = messageDic["ContactsLastMsgDate"] as! String
-                let ContactLastMessage = messageDic["ContactLastMessage"] as! String
-                let ContactLastNAme=messageDic["ContactLastNAme"] as! String
-                let ContactNames=messageDic["ContactNames"] as! String
-                let ContactStatus=messageDic["ContactStatus"] as! String
-                let ContactUsernames=messageDic["ContactUsernames"] as! String
-                let ContactOnlineStatus=messageDic["ContactOnlineStatus"] as! Int
-                let ContactFirstname=messageDic["ContactFirstname"] as! String
-                let ContactsPhone=messageDic["ContactsPhone"] as! String
-                let ContactCountMsgRead=messageDic["ContactCountMsgRead"] as! Int
-                let ContactsProfilePic=messageDic["ContactsProfilePic"] as! Data
-                let ChatType=messageDic["ChatType"] as! NSString
-        
+                var ContactUsernames=""
+                var ContactsLastMsgDate = ""
+                var ContactLastNAme=""
+                var ContactNames=""
+                var ContactStatus=""
+                // let ContactUsernames=""
+                var ContactOnlineStatus=0
+                var ContactFirstname=""
+                var ContactsPhone=""
+                var ContactCountMsgRead=0
+                var ContactsProfilePic:Data! = nil
+                var ChatType=""
+
+                //var messageDic = messages.object(at: selectedRow) as! [String : AnyObject];
+                
+                if (selectedFromSearch==true){
+                    
+                    
+                    
+                    // if tblForChat == self.searchDisplayController!.searchResultsTableView {
+                    print("searchbar active")
+                    let indexPath = self.searchDisplayController?.searchResultsTableView.indexPathForSelectedRow
+                    print("selected indexpath of search result is \(indexPath?.row)") //filtered array index
+                    if indexPath != nil {
+                        selectedRow = (indexPath?.row)!
+                        
+                        messageDic = filteredArray.object(at: (indexPath?.row)!) as! [String : AnyObject]
+                        
+                        destinationVC.searchUniqueid=messageDic["unique_id"] as! String
+                      
+                        
+                        ContactLastMessage=messageDic["msg"] as! String
+                        ContactUsernames=messageDic["contactPhone"] as! String
+                        ContactsLastMsgDate = Date().debugDescription
+                        
+                        
+                        ContactLastNAme=""
+                        ContactNames=messageDic["group_name"] as! String!
+                        ContactStatus=""
+                        ContactOnlineStatus=0
+                        ContactFirstname=messageDic["group_name"] as! String!
+                        ContactsPhone=messageDic["contactPhone"] as! String
+                        ContactCountMsgRead=0
+                        ContactsProfilePic=Data.init()
+                        ChatType="group"
+
+                        
+                    }
+                }
+                else{
+                /*
+                 
+                 let msg_unique_id = Expression<String>("msg_unique_id")
+                 let Status = Expression<String>("Status")
+                 let user_phone = Expression<String>("user_phone")
+                 let read_date = Expression<Date>("read_date")
+                 let delivered_date = Expression<Date>("delivered_date")
+                 
+                 let from = Expression<String>("from")
+                 let group_unique_id = Expression<String>("group_unique_id")
+                 let type = Expression<String>("type")
+                 let msg = Expression<String>("msg")
+                 let from_fullname = Expression<String>("from_fullname")
+                 let date = Expression<Date>("date")
+                 let unique_id = Expression<String>("unique_id")
+                 
+                 ContactLastMessage=messageDic["msg"] as! String
+                 ContactUsernames=messageDic["contactPhone"] as! String
+                 ContactsLastMsgDate = Date().debugDescription
+                 
+                 
+                 ContactLastNAme=""
+                 ContactNames=messageDic["group_name"] as! String!
+                 ContactStatus=""
+                 ContactOnlineStatus=0
+                 ContactFirstname=messageDic["group_name"] as! String!
+                 ContactsPhone=messageDic["contactPhone"] as! String
+                 ContactCountMsgRead=0
+                 ContactsProfilePic=Data.init()
+                 ChatType="group"
+ */
+                 ContactsLastMsgDate = messageDic["ContactsLastMsgDate"] as! String
+                 ContactLastMessage = messageDic["ContactLastMessage"] as! String
+                 ContactLastNAme=messageDic["ContactLastNAme"] as! String
+                 ContactNames=messageDic["ContactNames"] as! String
+                 ContactStatus=messageDic["ContactStatus"] as! String
+                 ContactUsernames=messageDic["ContactUsernames"] as! String
+                 ContactOnlineStatus=messageDic["ContactOnlineStatus"] as! Int
+                 ContactFirstname=messageDic["ContactFirstname"] as! String
+                 ContactsPhone=messageDic["ContactsPhone"] as! String
+                 ContactCountMsgRead=messageDic["ContactCountMsgRead"] as! Int
+                 ContactsProfilePic=messageDic["ContactsProfilePic"] as! Data
+                 ChatType=(messageDic["ChatType"] as! NSString) as String
+            }
                 
                 print("going to groups chat, title is \(ContactNames) and groupid is \(ContactUsernames)")
                 destinationVC.mytitle=ContactNames

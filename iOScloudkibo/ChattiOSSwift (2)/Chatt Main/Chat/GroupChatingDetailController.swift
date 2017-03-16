@@ -24,9 +24,9 @@ class GroupChatingDetailController: UIViewController,UpdateGroupChatDetailsDeleg
     /////
     
     
-    
+    var searchUniqueid:String! = nil
     @IBOutlet weak var viewForContent: UIScrollView!
-    
+    var searcheduniqueid:String!=nil
     var swipedRow:Int!
     ///@IBOutlet weak var viewForTableAndTextfield: UIView!
     var membersList=[[String:AnyObject]]()
@@ -306,11 +306,42 @@ class GroupChatingDetailController: UIViewController,UpdateGroupChatDetailsDeleg
             
             if(self.messages.count>1)
             {
-                var indexPath = IndexPath(row:self.messages.count-1, section: 0)
                 
-                self.tblForGroupChat.scrollToRow(at: indexPath, at: UITableViewScrollPosition.bottom, animated: true)
+                if(self.searchUniqueid != nil)
+                {
+                    var predicate=NSPredicate(format: "uniqueid = %@", self.searchUniqueid)
+                    var resultArray=self.messages.filtered(using: predicate)
+                    if(resultArray.count > 0)
+                    {
+                        
+                        var foundindex=self.messages.index(of: resultArray.first!)
+                        let indexPath = IndexPath(row:foundindex, section: 0)
+                        // self.tblForChats.seth
+                        self.tblForGroupChat.cellForRow(at: indexPath)?.setHighlighted(true, animated: true)
+                        self.tblForGroupChat.cellForRow(at: indexPath)?.backgroundColor=UIColor.lightGray
+                        self.tblForGroupChat.scrollToRow(at: indexPath, at: UITableViewScrollPosition.bottom, animated: false)
+                    }
+                    else{
+                        
+                        let indexPath = IndexPath(row:self.tblForGroupChat.numberOfRows(inSection: 0)-1, section: 0)
+                        self.tblForGroupChat.scrollToRow(at: indexPath, at: UITableViewScrollPosition.bottom, animated: false)
+                    }
+                    
+                    
+                }
+                else{
+                    
+                    let indexPath = IndexPath(row:self.tblForGroupChat.numberOfRows(inSection: 0)-1, section: 0)
+                    self.tblForGroupChat.scrollToRow(at: indexPath, at: UITableViewScrollPosition.bottom, animated: false)
+                }
             }
-        }
+            self.searchUniqueid=nil
+
+               // var indexPath = IndexPath(row:self.messages.count-1, section: 0)
+                
+               // self.tblForGroupChat.scrollToRow(at: indexPath, at: UITableViewScrollPosition.bottom, animated: true)
+            }
+        
         
     }
     
