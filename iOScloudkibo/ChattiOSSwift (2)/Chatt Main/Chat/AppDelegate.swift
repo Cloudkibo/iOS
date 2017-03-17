@@ -346,6 +346,7 @@ var contactsarray=[CNContact]()
             username=account[username1]
 
           */  print(" check permission for remote notifications \(UIApplication.shared.isRegisteredForRemoteNotifications)")
+            
             if #available(iOS 10.0, *) {
                 let center  = UNUserNotificationCenter.current()
                 center.delegate = self
@@ -355,6 +356,7 @@ var contactsarray=[CNContact]()
                     }
                 }
             }
+                
             else {
                 let notificationTypes: UIUserNotificationType = [UIUserNotificationType.alert, UIUserNotificationType.badge, UIUserNotificationType.sound]
                 
@@ -513,10 +515,20 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
     
     //Called when a notification is delivered to a foreground app.
     @available(iOS 10.0, *)
-    func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
+    func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void)
+        {
         print("User Info = ",notification.request.content.userInfo)
         
         var userInfo=notification.request.content.userInfo
+            
+            if(UIApplication.shared.applicationState.rawValue != UIApplicationState.inactive.rawValue)
+            {
+                
+                Alamofire.request("https://api.cloudkibo.com/api/users/log", method: .post, parameters: ["data":"IPHONE_LOG: \(username!) iOS 10+ received push notification as \(userInfo.description)"],headers:header).response{
+                    response in
+                    print(response.error)
+                }
+
         if  let singleuniqueid = userInfo["uniqueId"] as? String {
             // Printout of (userInfo["aps"])["type"]
             print("\nFrom APS-dictionary with key \"singleuniqueid\":  \( singleuniqueid)")
@@ -835,8 +847,14 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
             }
             
         }
+            }
+            else
+            {
+                UtilityFunctions.init().log_papertrail("Push received when insactive, not processed \(userInfo)")
+            }
         completionHandler([.alert, .badge, .sound])
     }
+    
 
        // completionHandler([.alert, .badge, .sound])
   //  }
@@ -1981,7 +1999,7 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
 {
         print("didRegisterUserNotificationSettings... inside...")
         
-            UIApplication.shared.registerForRemoteNotifications()
+           ////==-- UIApplication.shared.registerForRemoteNotifications()
         }
  
         
@@ -2449,7 +2467,6 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
         AudioServicesPlaySystemSound (systemSoundID)
         print("hereeeeeeeeeeee")
     }*/
-   
     func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable: Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
         
         
@@ -2467,10 +2484,17 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
         
         
         //avoid calling twice, inactive when transitions by tapping on notification bar
-        if(UIApplication.shared.applicationState.rawValue != UIApplicationState.inactive.rawValue)
+        if #available(iOS 10.0, *){
+            print("iOS 10+ version")
+
+        }
+        else{
+            
+        
+        if(UIApplication.shared.applicationState.rawValue != UIApplicationState.inactive.rawValue )
         {
          
-            Alamofire.request("https://api.cloudkibo.com/api/users/log", method: .post, parameters: ["data":"IPHONE_LOG: \(username!) received push notification as \(userInfo.description)"],headers:header).response{
+            Alamofire.request("https://api.cloudkibo.com/api/users/log", method: .post, parameters: ["data":"IPHONE_LOG: \(username!) received push notification in mode value \(UIApplication.shared.applicationState.rawValue) as \(userInfo.description)"],headers:header).response{
                 response in
                 print(response.error)
             }
@@ -2808,11 +2832,13 @@ else{
     }
         else
         {
+            UtilityFunctions.init().log_papertrail("IPHONE: \(username!) app in background received push but will not preocess ----- \(userInfo)")
             
           /*  Alamofire.request(.POST,"https://api.cloudkibo.com/api/users/log",headers:header,parameters: ["data":"IPHONE_LOG: \(username!) received push notification when in inactive mode so nothing will be processed \(userInfo.description)"]).response{
                 request, response_, data, error in
                 print(error)
             }*/
+        }
         }
        /////// print("remote notification received is \(userInfo)")
         /*var notificationJSON=JSON(userInfo)
@@ -2845,7 +2871,7 @@ else{
        // print("json received is is \(notificationJSON["aps"])")
  ///////   }
     }
- 
+    
     /*
     func application(application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: NSData) {
         let token=JSON(deviceToken)
