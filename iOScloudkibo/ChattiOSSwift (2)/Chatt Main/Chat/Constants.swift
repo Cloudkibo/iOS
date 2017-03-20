@@ -92,6 +92,8 @@ class Constants{
     static var defaultsBackupTimeKey = "BackupTime"
     static var defaultsBackupIncludeVideosKey = "IncludeVideos"
     
+    static var upwardSyncURL = "api/sync/upwardSync"
+    
   //  static var fetchSingleGroupChat="/api/groupchat/fetchSingleChat"
     /*
      private static String phoneContactsURL = "https://www.cloudkibo.com/api/users/searchaccountsbyphone/";

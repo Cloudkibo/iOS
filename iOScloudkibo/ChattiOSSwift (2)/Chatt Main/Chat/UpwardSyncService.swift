@@ -10,6 +10,7 @@ import Foundation
 import SQLite
 import UIKit
 import SwiftyJSON
+import AccountKit
 
 class syncService{
     
@@ -20,6 +21,34 @@ class syncService{
         
     }
     
+    
+    func startSyncGroupsService(_ completion:@escaping (_ result:Bool,_ error:String?)->())
+    {print("start sync groups service after install")
+        if(accountKit == nil){
+            accountKit = AKFAccountKit(responseType: AKFResponseType.accessToken)
+        }
+        
+        
+        if (accountKit!.currentAccessToken != nil) {
+            
+            
+            
+            DispatchQueue.global(priority: DispatchQueue.GlobalQueuePriority.background).async {
+                
+                var params=["unsentMessages":self.createArrayUnsentChatMessages(),
+                    "unsentGroupMessages": self.getPendingGroupChatMessages(),
+                    "unsentChatMessageStatus":self.sendPendingChatStatuses(),
+                    "unsentGroupChatMessageStatus":self.sendPendingGroupChatStatuses(),
+                    "unsentGroups":self.getPendingGroupChatMessages(),
+                    "unsentAddedGroupMembers":[],
+                    "unsentRemovedGroupMembers":[],
+                    "statusOfSentMessages":self.getStatusOfSentChats(),
+                    "statusOfSentGroupMessages":self.getStatusOfSentGroupChats()] as [String : Any]
+                
+                
+            }
+        }
+    }
     
     func createArrayUnsentChatMessages()->[[String:String]]
     {
@@ -142,6 +171,48 @@ class syncService{
       return pendingGroupchatsMsgsArray
     }
     
+    func sendPendingGroupChatStatuses()->[[String:String]]
+    {
+        
+        var pendingGroupchatsStatusArray=[[String:String]]()
+        
+        var tbl_groupStatusUpdatesTemp=sqliteDB.groupStatusUpdatesTemp
+        let status = Expression<String>("status")
+        let sender = Expression<String>("sender")
+        let messageuniqueid = Expression<String>("messageuniqueid")
+        
+        do{
+            for statusMessages in try sqliteDB.db.prepare(tbl_groupStatusUpdatesTemp!)
+            {
+                //statusMessages[messageuniqueid], status1: statusMessages[status]
+                var params=["chat_unique_id":statusMessages[messageuniqueid],"status":statusMessages[status]]
+                pendingGroupchatsStatusArray.append(params)
+            }
+            
+        
+        
+        }
+        catch{
+            print("error: cant get unsent statuses for group chat statuses")
+        }
+        
+        return pendingGroupchatsStatusArray
+    }
+    
+    
+    func getStatusOfSentGroupChats()->[String:[String]]
+    {
+         var statusNotSentList=sqliteDB.getGroupsChatStatusUniqueIDsListNotSeen()
+        var params=["chat_unique_id":statusNotSentList]
+        return params
+    }
+    
+    func getStatusOfSentChats()->[String:[String]]
+    {
+        var statusNotSentList=sqliteDB.getChatStatusUniqueIDsListNotSeen()
+        var params=["unique_ids":statusNotSentList]
+        return params
+    }
     
     
     
