@@ -190,6 +190,7 @@
 		71EA60841D78DDAA00117B55 /* SWUtilityButtonView.m in Sources */ = {isa = PBXBuildFile; fileRef = 71EA607E1D78DDAA00117B55 /* SWUtilityButtonView.m */; };
 		71F6233E1DE4262E00AC6370 /* String-Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71F6233D1DE4262E00AC6370 /* String-Extension.swift */; };
 		71F6683D1E72980E00A88E35 /* RestoreService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71F6683C1E72980E00A88E35 /* RestoreService.swift */; };
+		71FF54B41E7FE47900BF512A /* UpwardSyncService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71FF54B31E7FE47900BF512A /* UpwardSyncService.swift */; };
 		ADE75A7706ECA3615D20C1E9 /* Pods_Chat.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 854F2F9980D7FDE2A1146041 /* Pods_Chat.framework */; };
 /* End PBXBuildFile section */
 
@@ -687,6 +688,7 @@
 		71EA607E1D78DDAA00117B55 /* SWUtilityButtonView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SWUtilityButtonView.m; sourceTree = "<group>"; };
 		71F6233D1DE4262E00AC6370 /* String-Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String-Extension.swift"; sourceTree = "<group>"; };
 		71F6683C1E72980E00A88E35 /* RestoreService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RestoreService.swift; sourceTree = "<group>"; };
+		71FF54B31E7FE47900BF512A /* UpwardSyncService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UpwardSyncService.swift; sourceTree = "<group>"; };
 		854F2F9980D7FDE2A1146041 /* Pods_Chat.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Chat.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		BC0C99CB9F91896CEAE65024 /* Pods.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D5D12C2D2DEB7980E4B9CD81 /* Pods-Chat.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Chat.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Chat/Pods-Chat.debug.xcconfig"; sourceTree = "<group>"; };
@@ -892,6 +894,7 @@
 				71189A7F1E781EF800245D97 /* AccountsSettingsViewController.swift */,
 				71189A9F1E781F2100245D97 /* PrivacySettingsViewController.swift */,
 				71189AA11E79243500245D97 /* BlockedContactsViewController.swift */,
+				71FF54B31E7FE47900BF512A /* UpwardSyncService.swift */,
 			);
 			path = Chat;
 			sourceTree = "<group>";
@@ -1599,6 +1602,7 @@
 				710D4E3E1D3D8F7600FBC352 /* FileTransferWebRTCclient.swift in Sources */,
 				71EA60811D78DDAA00117B55 /* SWLongPressGestureRecognizer.m in Sources */,
 				71CB8C091E6EE30C009D5D05 /* ChatsSettingsViewController.swift in Sources */,
+				71FF54B41E7FE47900BF512A /* UpwardSyncService.swift in Sources */,
 				713D51E31CC11896007E0B47 /* Peer.swift in Sources */,
 				713D51D61CC11896007E0B47 /* KeychainWrapper.swift in Sources */,
 				713D51CF1CC11896007E0B47 /* DatabaseHandler.swift in Sources */,

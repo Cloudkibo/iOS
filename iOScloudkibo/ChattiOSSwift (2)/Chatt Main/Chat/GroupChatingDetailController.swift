@@ -11,12 +11,16 @@ import Alamofire
 import SQLite
 import SwiftyJSON
 import Kingfisher
+import MediaPlayer
+import AVKit
+
 //import Haneke
 class GroupChatingDetailController: UIViewController,UpdateGroupChatDetailsDelegate {
     
     
     
     
+    @IBOutlet weak var btnSendAudio: UIButton!
     var cellY:CGFloat=0
     var showKeyboard=false
     var keyFrame:CGRect!
@@ -40,6 +44,16 @@ class GroupChatingDetailController: UIViewController,UpdateGroupChatDetailsDeleg
     @IBOutlet weak var txtFieldMessage: UITextField!
    
     @IBOutlet weak var chatComposeView: UIView!
+    
+    var moviePlayer : MPMoviePlayerController!
+    var audioPlayer = AVAudioPlayer()
+    var Q_serial1=DispatchQueue(label: "Q_serial1",attributes: [])
+    
+    
+    
+    var recordingSession: AVAudioSession!
+    var audioRecorder: AVAudioRecorder!
+    
     
     @IBAction func backBtnPressed(_ sender: AnyObject) {
         self.dismiss(animated: true) { 
@@ -253,6 +267,54 @@ class GroupChatingDetailController: UIViewController,UpdateGroupChatDetailsDeleg
     
 
     
+    @IBAction func btnRecordTouchDown(_ sender: UIButton) {
+        
+        print("btnRecordTouchDown")
+        txtFieldMessage.text="< Slide left to cancel"
+     ///=--   self.startRecording()
+    }
+    
+    
+    @IBAction func btnRecordTouchUpInside(_ sender: UIButton) {
+        txtFieldMessage.text=""
+        print("btnRecordTouchUpInside")
+        finishRecording(success: true)
+        
+        
+        
+    }
+    
+    
+    
+    @IBAction func btnRecordAudioTouchDragExit(_ sender: UIButton) {
+        print("btnRecordAudioTouchDragExit")
+        finishRecording(success: false)
+        var deleted=audioRecorder.deleteRecording()
+        print("audio deleted \(deleted)")
+        txtFieldMessage.text=""
+        //not saved
+        //finishRecording(success: false)
+        
+        
+    }
+    
+    func finishRecording(success: Bool) {
+        audioRecorder.stop()
+        ////audioRecorder = nil
+        
+        if !success {
+            
+            btnSendAudio.setTitle("Record", for: .normal)
+            // recording failed :(
+        }  else {
+            btnSendAudio.setTitle("Record", for: .normal)
+            //add audio component
+            //save to database
+            //send chat
+   
+        }
+    }
+ 
     override func viewWillAppear(_ animated: Bool) {
         
         

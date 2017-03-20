@@ -4573,6 +4573,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
             self.locationManager.startUpdatingLocation()
             print("here share location prompt")
             
+            //if(locationManager.location
           //  if(self.didFindMyLocation==true)
          //   {
            //self.locationManager.requestLocation()
@@ -6444,6 +6445,9 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
             //got location
             print("location permission granted")
             self.didFindMyLocation=true
+        }
+        else{
+            print("location pemission not granted")
         }
     }
     
