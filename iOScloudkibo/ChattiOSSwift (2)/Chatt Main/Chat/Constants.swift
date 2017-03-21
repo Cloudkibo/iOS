@@ -92,7 +92,7 @@ class Constants{
     static var defaultsBackupTimeKey = "BackupTime"
     static var defaultsBackupIncludeVideosKey = "IncludeVideos"
     
-    static var upwardSyncURL = "api/sync/upwardSync"
+    static var upwardSyncURL = "/api/sync/upwardSync"
     
   //  static var fetchSingleGroupChat="/api/groupchat/fetchSingleChat"
     /*

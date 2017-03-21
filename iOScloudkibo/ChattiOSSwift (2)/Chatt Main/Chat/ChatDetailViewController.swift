@@ -588,7 +588,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
         //contactPickerViewController.delegate = self
         
         
-        locationManager.delegate = self
+       /// locationManager.delegate = self
         
         //do on button click
                recordingSession = AVAudioSession.sharedInstance()
@@ -4575,13 +4575,13 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
             self.locationManager.startUpdatingLocation()
             
             //if(locationManager.location
-           if(self.didFindMyLocation==true)
-            {
+         //  if(self.didFindMyLocation==true)
+         //   {
                 print("her in got permission")
             self.locationManager.requestLocation()
            // self.locationManager(manager: self.locationm, didUpdateLocations: <#T##[CLLocation]#>)
            self.sendCoordinates(location: self.locationManager.location!)
-            }
+          //  }
             
 
             
@@ -6467,9 +6467,14 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation])
     {
         print("here taking location")
+        let userLocation:CLLocation = locations[0] as CLLocation
+        
         manager.stopUpdatingLocation()
         
+        let coordinations = CLLocationCoordinate2D(latitude: userLocation.coordinate.latitude,longitude: userLocation.coordinate.longitude)
+        
     }
+    
     func locationManager(_ manager: CLLocationManager, didFailWithError error: NSError)
     {
         print("error here taking location \(error)")

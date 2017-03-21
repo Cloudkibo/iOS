@@ -23,8 +23,8 @@ class syncService{
     }
     
     
-    func startSyncGroupsService(_ completion:@escaping (_ result:Bool,_ error:String?)->())
-    {print("start sync groups service after install")
+    func startUpwardSyncService(_ completion:@escaping (_ result:Bool,_ error:String?)->())
+    {print("start upward sync service after install")
         if(accountKit == nil){
             accountKit = AKFAccountKit(responseType: AKFResponseType.accessToken)
         }
@@ -46,7 +46,7 @@ class syncService{
             DispatchQueue.global(priority: DispatchQueue.GlobalQueuePriority.background).async {
                 
                 //upwardSyncURL
-                  let request=Alamofire.request("\(url)", method: .post, parameters: params,headers:header).responseJSON { response in
+                let request=Alamofire.request("\(url)", method: .post, parameters: params,encoding:JSONEncoding.default,headers:header).responseJSON { response in
                     
                     print("upward sync \(response)")
                 }
@@ -213,11 +213,18 @@ class syncService{
         return params
     }
     
-    func getStatusOfSentChats()->[String:[String]]
+    func getStatusOfSentChats()->[[String:String]]
     {
-        var statusNotSentList=sqliteDB.getChatStatusUniqueIDsListNotSeen()
-        var params=["unique_ids":statusNotSentList]
-        return params
+        
+        var statusNotSentList=sqliteDB.getChatStatusListNotSeenObject()
+        var listStatuses=[[String:String]]()
+        
+        for obj in statusNotSentList
+        {
+        var params=["uniqueid":obj["uniqueid"],"status":obj["status"]]
+            listStatuses.append(params as! [String : String])
+        }
+        return listStatuses
     }
     
     

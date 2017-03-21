@@ -2831,21 +2831,35 @@ else{
                     {
                        var uniqueid=userInfo["uniqueid"] as! String
                        var status=userInfo["status"] as! String
+                    
+                        sqliteDB.UpdateChatStatus(uniqueid, newstatus: status)
                         
-                        if(status == "blocked")
-                        {
-                            // sent message to blocked contact
-                            //update status sent
-                        }
-                        else
-                        {
-                            //update status
-                        }
+                        UIDelegates.getInstance().UpdateMainPageChatsDelegateCall()
+                        UIDelegates.getInstance().UpdateGroupInfoDetailsDelegateCall()
+                        UIDelegates.getInstance().UpdateGroupChatDetailsDelegateCall()
+                        
+                        completionHandler(UIBackgroundFetchResult.newData)
+                    
 
                     }
-                    if(sub_type=="''unsentGroupMessages''")
+                    if(sub_type=="unsentGroupMessages")
                     {
+                        print("push got group chat \(userInfo)")
+                        /*for i in 0 ..< self.membersList.count
+                        {
+                            if((self.membersList[i]["member_phone"] as! String) != username! && (self.membersList[i]["membership_status"] as! String) != "left")
+                            {
+                                sqliteDB.updateGroupChatStatus(uniqueid_chat, memberphone1: self.membersList[i]["member_phone"]! as! String, status1: "sent", delivereddate1: Date(), readDate1: Date())
+                                
+                                // === wrong sqliteDB.storeGRoupsChatStatus(uniqueid_chat, status1: "sent", memberphone1: self.membersList[i]["member_phone"]! as! String, delivereddate1: UtilityFunctions.init().minimumDate(), readDate1: UtilityFunctions.init().minimumDate())
+                            }
+                        }
                         
+                        //==== sqliteDB.updateGroupChatStatus(uniqueid_chat, memberphone1: username!,status1: "sent", delivereddate1: UtilityFunctions.init().minimumDate(), readDate1: UtilityFunctions.init().minimumDate())
+                        
+                        UIDelegates.getInstance().UpdateGroupChatDetailsDelegateCall()
+ */
+
                     }
                     if(sub_type=="unsentChatMessageStatus")
                     {

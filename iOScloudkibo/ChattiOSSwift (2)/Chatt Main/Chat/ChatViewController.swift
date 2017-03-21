@@ -1053,9 +1053,25 @@ EPPickerDelegate,SWTableViewCellDelegate,UpdateChatViewsDelegate,RefreshContacts
                 
                 print("commenting")
                 //commentingg
-                var syncGroupsObj=syncGroupService.init()
+               /* var syncGroupsObj=syncGroupService.init()
                 syncGroupsObj.startPartialGroupsChatSyncService()
-                self.synchroniseChatData()
+                self.synchroniseChatData()*/
+                var syncservice=syncService.init()
+                syncservice.startUpwardSyncService({ (result, error) in
+                    
+                    print("upward sync donee")
+                    self.retrieveSingleChatsAndGroupsChatData({(result)-> () in
+                        
+                        
+                        
+                        DispatchQueue.main.async
+                            {print("pendingGroupIcons refreshing page")
+                                
+                                UIDelegates.getInstance().UpdateSingleChatDetailDelegateCall()
+                                self.tblForChat.reloadData()
+                        }
+                })
+            })
             }
         }
         else

@@ -1326,7 +1326,7 @@ class GroupChatingDetailController: UIViewController,UpdateGroupChatDetailsDeleg
         let min=(calendar as NSCalendar).components(NSCalendar.Unit.minute,from: date).minute
         let sec=(calendar as NSCalendar).components(NSCalendar.Unit.second,from: date).second
         print("\(year) \(month) \(day) \(hr) \(min) \(sec)")
-        let uniqueid="\(uid)\(year)\(month)\(day)\(hr)\(min)\(sec)"
+        let uniqueid="\(uid)\(year!)\(month!)\(day!)\(hr!)\(min!)\(sec!)"
         
         return uniqueid
         

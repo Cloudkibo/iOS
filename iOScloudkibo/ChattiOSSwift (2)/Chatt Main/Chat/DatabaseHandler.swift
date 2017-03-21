@@ -2428,6 +2428,30 @@ print("--------")
         return uniqueidlist
     }
 
+    func getChatStatusListNotSeenObject()->[[String:String]]
+    {
+        
+        let uniqueid = Expression<String>("uniqueid")
+        let status = Expression<String>("status")
+        
+        
+        let tbl_userchats=sqliteDB.userschats
+        // var tblGroupmember = Table("group_member")
+        var uniqueidlist=[[String:String]]()
+        do
+        {for ChatStatus in try self.db.prepare((tbl_userchats?.filter(status.lowercaseString != "seen"))!){
+            print("found status NOT SEEN")
+            var newlist=[String:String]()
+            newlist["uniqueid"]=ChatStatus[uniqueid]
+            newlist["status"]=ChatStatus[status]
+            uniqueidlist.append(newlist)
+            }
+        }catch{
+            print("error in NOT SEEN status query")
+        }
+        return uniqueidlist
+    }
+    
     func updateGroupCreationDate(_ uniqueid1:String,date1:Date)
     {
         let date_creation = Expression<Date>("date_creation")
