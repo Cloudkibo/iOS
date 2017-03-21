@@ -4567,19 +4567,21 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
         
         let locationAction = UIAlertAction(title: "Share Location", style: UIAlertActionStyle.default,handler: { (action) -> Void in
             
-            self.locationManager.delegate=self
+            print("here share location prompt")
+            
+            //self.locationManager.delegate=self
             self.locationManager.requestWhenInUseAuthorization()
             
             self.locationManager.startUpdatingLocation()
-            print("here share location prompt")
             
             //if(locationManager.location
-          //  if(self.didFindMyLocation==true)
-         //   {
-           //self.locationManager.requestLocation()
+           if(self.didFindMyLocation==true)
+            {
+                print("her in got permission")
+            self.locationManager.requestLocation()
            // self.locationManager(manager: self.locationm, didUpdateLocations: <#T##[CLLocation]#>)
-            self.sendCoordinates(location: self.locationManager.location!)
-          //  }
+           self.sendCoordinates(location: self.locationManager.location!)
+            }
             
 
             
@@ -6462,7 +6464,19 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
         }
     }*/
     
-    func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation])
+    {
+        print("here taking location")
+        manager.stopUpdatingLocation()
+        
+    }
+    func locationManager(_ manager: CLLocationManager, didFailWithError error: NSError)
+    {
+        print("error here taking location \(error)")
+
+    }
+    
+    /*func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         print("here taking location")
         let userLocation:CLLocation = locations[0] as CLLocation
         
@@ -6475,7 +6489,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
        // mapView.setRegion(region, animated: true)
        //////    sendCoordinates(location: userLocation)
     }
-
+*/
     func sendCoordinates(location:CLLocation)
     {
         var msgbody="\(location.coordinate.latitude):\(location.coordinate.longitude)"

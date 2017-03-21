@@ -11,6 +11,7 @@ import SQLite
 import UIKit
 import SwiftyJSON
 import AccountKit
+import Alamofire
 
 class syncService{
     
@@ -31,20 +32,25 @@ class syncService{
         
         if (accountKit!.currentAccessToken != nil) {
             
-            
+            var url=Constants.MainUrl+Constants.upwardSyncURL
+            var params=["unsentMessages":self.createArrayUnsentChatMessages(),
+                        "unsentGroupMessages": self.getPendingGroupChatMessages(),
+                        "unsentChatMessageStatus":self.sendPendingChatStatuses(),
+                        "unsentGroupChatMessageStatus":self.sendPendingGroupChatStatuses(),
+                        "unsentGroups":self.getPendingGroupChatMessages(),
+                        "unsentAddedGroupMembers":[],
+                        "unsentRemovedGroupMembers":[],
+                        "statusOfSentMessages":self.getStatusOfSentChats(),
+                        "statusOfSentGroupMessages":self.getStatusOfSentGroupChats()] as [String : Any]
             
             DispatchQueue.global(priority: DispatchQueue.GlobalQueuePriority.background).async {
                 
-                var params=["unsentMessages":self.createArrayUnsentChatMessages(),
-                    "unsentGroupMessages": self.getPendingGroupChatMessages(),
-                    "unsentChatMessageStatus":self.sendPendingChatStatuses(),
-                    "unsentGroupChatMessageStatus":self.sendPendingGroupChatStatuses(),
-                    "unsentGroups":self.getPendingGroupChatMessages(),
-                    "unsentAddedGroupMembers":[],
-                    "unsentRemovedGroupMembers":[],
-                    "statusOfSentMessages":self.getStatusOfSentChats(),
-                    "statusOfSentGroupMessages":self.getStatusOfSentGroupChats()] as [String : Any]
-                
+                //upwardSyncURL
+                  let request=Alamofire.request("\(url)", method: .post, parameters: params,headers:header).responseJSON { response in
+                    
+                    print("upward sync \(response)")
+                }
+            
                 
             }
         }

@@ -2823,6 +2823,44 @@ else{
                     UtilityFunctions.init().downloadProfileImage(groupId)
                 }
                 
+                if(type=="'syncUpward'")
+                {
+                    var sub_type = userInfo["sub_type"] as! String
+                    
+                    if(sub_type=="'unsentMessages'")
+                    {
+                       var uniqueid=userInfo["uniqueid"] as! String
+                       var status=userInfo["status"] as! String
+                        
+                        if(status == "blocked")
+                        {
+                            // sent message to blocked contact
+                            //update status sent
+                        }
+                        else
+                        {
+                            //update status
+                        }
+
+                    }
+                    if(sub_type=="''unsentGroupMessages''")
+                    {
+                        
+                    }
+                    if(sub_type=="unsentChatMessageStatus")
+                    {
+                        
+                    }
+                    if(sub_type=="'unsentMessages'")
+                    {
+                        
+                    }
+                    if(sub_type=="'unsentMessages'")
+                    {
+                        
+                    }
+                }
+                
 
                 
                 //}
@@ -2891,6 +2929,7 @@ else{
         UIDelegates.getInstance().UpdateGroupInfoDetailsDelegateCall()
         
     }
+    
     func fetchGroupMembersSpecificGroup(_ unique_id:String,completion:@escaping (_ result:Bool,_ error:String?)->())
     {
         print("uniqueid of grup fetching member is \(unique_id)")

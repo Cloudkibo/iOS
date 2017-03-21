@@ -2416,7 +2416,7 @@ print("--------")
         // var tblGroupmember = Table("group_member")
         var uniqueidlist=[String]()
         do
-        {for ChatStatus in try self.db.prepare(tbl_userchats?.filter(status.lowercaseString != "seen")){
+        {for ChatStatus in try self.db.prepare((tbl_userchats?.filter(status.lowercaseString != "seen"))!){
             print("found status NOT SEEN")
             
             uniqueidlist.append(ChatStatus[uniqueid])
