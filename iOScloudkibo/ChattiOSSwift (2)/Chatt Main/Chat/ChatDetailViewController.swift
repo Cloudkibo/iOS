@@ -588,7 +588,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
         //contactPickerViewController.delegate = self
         
         
-       /// locationManager.delegate = self
+        locationManager.delegate = self
         
         //do on button click
                recordingSession = AVAudioSession.sharedInstance()
@@ -4578,7 +4578,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
          //  if(self.didFindMyLocation==true)
          //   {
                 print("her in got permission")
-            self.locationManager.requestLocation()
+            //self.locationManager.requestLocation()
            // self.locationManager(manager: self.locationm, didUpdateLocations: <#T##[CLLocation]#>)
            self.sendCoordinates(location: self.locationManager.location!)
           //  }
