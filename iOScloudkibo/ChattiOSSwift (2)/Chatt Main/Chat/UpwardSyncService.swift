@@ -22,6 +22,171 @@ class syncService{
         
     }
     
+    func startDownwardSync(_ completion:@escaping (_ result:Bool,_ error:String?)->())
+    {
+        DispatchQueue.global(priority: DispatchQueue.GlobalQueuePriority.background).async {
+            
+            //upwardSyncURL
+            print("start downward sync service after install")
+            if(accountKit == nil){
+                accountKit = AKFAccountKit(responseType: AKFResponseType.accessToken)
+            }
+            
+            
+            if (accountKit!.currentAccessToken != nil) {
+                
+                var url=Constants.MainUrl+Constants.downwardSyncURL
+                
+            let request=Alamofire.request("\(url)", method: .get,encoding:JSONEncoding.default,headers:header).responseJSON { response in
+            
+                print("downward sync response is \(response)")
+                if(response.response?.statusCode==200)
+                {
+                    
+                    var resJSON=JSON.init(data:response.data!)
+                    print("downward sync JSON response is \(resJSON)")
+                    var partialChatObjectList=resJSON["partialChat"]//: the partial chat sync,
+                    self.partialChatSync(UserchatJson: partialChatObjectList)
+                    
+                    var contactsUpdateObjectList=resJSON["contactsUpdate"]//: the update on your contacts,
+                    var contactsWhoBlockedYouObjectList=resJSON["contactsWhoBlockedYou"]//: the contacts who have blocked you,
+                    var contactsBlockedByMeObjectList=resJSON["contactsBlockedByMe"]//: the contacts which are blocked by me,
+                    var myGroupsObjectList=resJSON["myGroups"]//: my groups,
+                    var myGroupsMembersObjectList=resJSON["myGroupsMembers"]//: member of groups I am in,
+                    var partialGroupChatObjectList=resJSON["partialGroupChat"]//: the partial group chat
+
+                    
+                }
+                //print("JSON: \(JSON(response.))")
+            }
+        }
+        
+    }
+    }
+    
+    
+    func partialChatSync(UserchatJson:JSON)
+    {
+        socketObj.socket.emit("logClient","IPHONE-LOG: all chat messages count is \(UserchatJson["msg"].count)")
+        for i in 0 ..< UserchatJson["msg"].count
+            
+        {
+            
+            // var isFile=false
+            var chattype="chat"
+            var file_type=""
+            //UserchatJson["msg"][i]["date"].string!
+            
+            
+            
+            let dateFormatter = DateFormatter()
+            dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
+            let datens2 = dateFormatter.date(from: UserchatJson["msg"][i]["date"].string!)
+            
+            print("fetch date from server got is \(UserchatJson["msg"][i]["date"].string!)... converted is \(datens2.debugDescription)")
+            
+            
+            print("===fetch chat date raw from server in chatview is \(UserchatJson["msg"][i]["date"].string!)")
+            
+            /*
+             let formatter = DateFormatter()
+             formatter.dateFormat = "MM/dd hh:mm a"";
+             // formatter.dateStyle = NSDateFormatterStyle.ShortStyle
+             //formatter.timeStyle = .ShortStyle
+             
+             let dateString = formatter.stringFromDate(datens2!)
+             */
+            
+            if(UserchatJson["msg"][i]["type"].exists())
+            {
+                chattype=UserchatJson["msg"][i]["type"].string!
+            }
+            
+            if(UserchatJson["msg"][i]["file_type"].exists())
+            {
+                file_type=UserchatJson["msg"][i]["file_type"].string!
+            }
+            
+            if(UserchatJson["msg"][i]["uniqueid"].exists())
+            {
+                
+                
+                if(UserchatJson["msg"][i]["to"].string! == username! && UserchatJson["msg"][i]["status"].string!=="sent")
+                {
+                    var updatedStatus="delivered"
+                    
+                    
+                    sqliteDB.SaveChat(UserchatJson["msg"][i]["to"].string!, from1: UserchatJson["msg"][i]["from"].string!,owneruser1:UserchatJson["msg"][i]["owneruser"].string! , fromFullName1: UserchatJson["msg"][i]["fromFullName"].string!, msg1: UserchatJson["msg"][i]["msg"].string!,date1:datens2,uniqueid1:UserchatJson["msg"][i]["uniqueid"].string!,status1: updatedStatus, type1: chattype, file_type1: file_type,file_path1: "" )
+                    
+                    //socketObj.socket.emit("messageStatusUpdate",["status":"","iniqueid":"","sender":""])
+                    
+                    
+                    if(UserchatJson["msg"][i]["type"].string! == "file")
+                    {
+                        managerFile.checkPendingFiles(UserchatJson["msg"][i]["uniqueid"].string!)
+                        
+                    }
+                    
+                    //==-- new change  managerFile.sendChatStatusUpdateMessage(UserchatJson["msg"][i]["uniqueid"].string!, status: updatedStatus, sender: UserchatJson["msg"][i]["from"].string!)
+                    
+                    
+                    
+                    
+                }
+                else
+                {
+                    
+                    if(UserchatJson["msg"][i]["type"].string! == "file")
+                    {
+                        managerFile.checkPendingFiles(UserchatJson["msg"][i]["uniqueid"].string!)
+                        
+                    }
+                    
+                    sqliteDB.SaveChat(UserchatJson["msg"][i]["to"].string!, from1: UserchatJson["msg"][i]["from"].string!,owneruser1:UserchatJson["msg"][i]["owneruser"].string! , fromFullName1: UserchatJson["msg"][i]["fromFullName"].string!, msg1: UserchatJson["msg"][i]["msg"].string!,date1:datens2,uniqueid1:UserchatJson["msg"][i]["uniqueid"].string!,status1: UserchatJson["msg"][i]["status"].string!, type1: chattype, file_type1: file_type,file_path1: "" )
+                    
+                }
+            }
+            else
+            {
+                sqliteDB.SaveChat(UserchatJson["msg"][i]["to"].string!, from1: UserchatJson["msg"][i]["from"].string!,owneruser1:UserchatJson["msg"][i]["owneruser"].string! , fromFullName1: UserchatJson["msg"][i]["fromFullName"].string!, msg1: UserchatJson["msg"][i]["msg"].string!,date1:datens2,uniqueid1:"",status1: "",type1: chattype, file_type1: file_type,file_path1: "" )
+                
+            }
+            
+        }
+        
+        
+        
+        
+        // if(UserchatJson["msg"].count > 0)
+        //{
+        DispatchQueue.main.async() {
+            
+            UIDelegates.getInstance().UpdateMainPageChatsDelegateCall()
+            UIDelegates.getInstance().UpdateSingleChatDetailDelegateCall()
+            
+            /*if(delegateRefreshChat != nil)
+            {print("updating UI now ...")
+                delegateRefreshChat?.refreshChatsUI(nil, uniqueid:nil, from:nil, date1:nil, type:"status")
+            }
+            
+            if(socketObj.delegateChat != nil)
+            {
+                socketObj.delegateChat?.socketReceivedMessageChat("updateUI", data: nil)
+            }
+            if(self.delegate != nil)
+            {
+                self.delegate?.socketReceivedMessage("updateUI", data: nil)
+            }
+            ///////// }
+            */
+            
+        }
+        print("all fetched chats saved in sqlite success")
+        //}
+        
+        
+    
+    }
     
     func startUpwardSyncService(_ completion:@escaping (_ result:Bool,_ error:String?)->())
     {print("start upward sync service after install")
@@ -49,13 +214,14 @@ class syncService{
                 let request=Alamofire.request("\(url)", method: .post, parameters: params,encoding:JSONEncoding.default,headers:header).responseJSON { response in
                     
                     print("upward sync \(response)")
+                    return completion(true,nil)
                 }
             
                 
             }
         }
     }
-    
+
     func createArrayUnsentChatMessages()->[[String:String]]
     {
     

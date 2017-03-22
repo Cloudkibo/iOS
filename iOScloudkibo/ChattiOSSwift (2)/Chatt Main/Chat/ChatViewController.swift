@@ -552,35 +552,6 @@ EPPickerDelegate,SWTableViewCellDelegate,UpdateChatViewsDelegate,RefreshContacts
                             if(UserchatJson["msg"][i]["uniqueid"].exists())
                             {
                                 
-                                /* let tbl_files=sqliteDB.files;
-                                 do{
-                                 
-                                 
-                                 for tblFiles in try sqliteDB.db.prepare(tbl_files.filter(uniqueid==UserchatJson["msg"][i]["uniqueid"].string!/*,from==username!*/)){
-                                 isFile=true
-                                 chattype=tblFiles[type]
-                                 
-                                 print("File exists in file table \(file_name)")
-                                 /////   socketObj.socket.emit("logClient","IPHONE LOG: \(username!) File exists in file table \(tblFiles[file_name])")
-                                 
-                                 
-                                 /*print(tblContacts[to])
-                                 print(tblContacts[from])
-                                 print(tblContacts[msg])
-                                 print(tblContacts[date])
-                                 print(tblContacts[status])
-                                 print("--------")
-                                 */
-                                 /*if(tblContacts[from]==selecteduser
-                                 
-                                 ){}*/
-                                 }
-                                 }
-                                 catch
-                                 {
-                                 print("error in checking files table")
-                                 }
-                                 */
                                 
                                 if(UserchatJson["msg"][i]["to"].string! == username! && UserchatJson["msg"][i]["status"].string!=="sent")
                                 {
@@ -599,17 +570,7 @@ EPPickerDelegate,SWTableViewCellDelegate,UpdateChatViewsDelegate,RefreshContacts
                                     }
                                     
                                    //==-- new change  managerFile.sendChatStatusUpdateMessage(UserchatJson["msg"][i]["uniqueid"].string!, status: updatedStatus, sender: UserchatJson["msg"][i]["from"].string!)
-                                    
-                                    
-                                    //OLD SOCKET LOGIC
-                                    /* socketObj.socket.emitWithAck("messageStatusUpdate", ["status":updatedStatus,"uniqueid":UserchatJson["msg"][i]["uniqueid"].string!,"sender": UserchatJson["msg"][i]["from"].string!])(timeoutAfter: 0){data in
-                                     var chatmsg=JSON(data)
-                                     print(data[0])
-                                     print(chatmsg[0])
-                                     print("chat status emitted")
-                                     socketObj.socket.emit("logClient","\(username) chat status emitted")
-                                     
-                                     }*/
+                              
                                     
                                     
                                     
@@ -637,49 +598,6 @@ EPPickerDelegate,SWTableViewCellDelegate,UpdateChatViewsDelegate,RefreshContacts
                         
                         
                         
-                        /*  let tbl_userchats=sqliteDB.userschats
-                         let tbl_contactslists=sqliteDB.contactslists
-                         let tbl_allcontacts=sqliteDB.allcontacts
-                         
-                         let myquery=tbl_contactslists.join(tbl_userchats, on: tbl_contactslists[phone] == tbl_userchats[contactPhone]).group(tbl_userchats[contactPhone]).order(date.desc)
-                         
-                         var queryruncount=0
-                         do{for ccc in try sqliteDB.db.prepare(myquery) {
-                         
-                         print("checking pending files from \(ccc[contactPhone])")
-                         managerFile.checkPendingFiles(ccc[contactPhone])
-                         
-                         
-                         }
-                         }
-                         catch{
-                         print("error 1232")
-                         }*/
-                        /////// managerFile.checkPendingFiles(username!)
-                        
-                        //////// DispatchQueue.main.async {
-                        
-                        
-                        //IF NO CHAT WAS THERE TO FETCH
-                        /*
-                        //------CHECK IF ANY PENDING FILES--------
-                        if(delegateRefreshChat != nil)
-                        {
-                            delegateRefreshChat?.refreshChatsUI("updateUI", data: nil)
-                        }
-                        
-                        if(socketObj.delegateChat != nil)
-                        {
-                            socketObj.delegateChat?.socketReceivedMessageChat("updateUI", data: nil)
-                        }
-                        if(self.delegate != nil)
-                        {
-                            self.delegate?.socketReceivedMessage("updateUI", data: nil)
-                        }
-                        ///////// }
-                        
-                        
-                        print("all fetched chats saved in sqlite success")*/
                         
                        // if(UserchatJson["msg"].count > 0)
                         //{
@@ -1063,17 +981,26 @@ EPPickerDelegate,SWTableViewCellDelegate,UpdateChatViewsDelegate,RefreshContacts
                 syncservice.startUpwardSyncService({ (result, error) in
                     
                     print("upward sync donee")
-                    self.retrieveSingleChatsAndGroupsChatData({(result)-> () in
+                    
+                    syncservice.startDownwardSync({ (result2, error2) in
+                        
+                        self.retrieveSingleChatsAndGroupsChatData({(result)-> () in
+                            
+                            
+                            
+                            DispatchQueue.main.async
+                                {print("pendingGroupIcons refreshing page")
+                                    
+                                    UIDelegates.getInstance().UpdateMainPageChatsDelegateCall()
+                                    UIDelegates.getInstance().UpdateSingleChatDetailDelegateCall()
+                                    UIDelegates.getInstance().UpdateGroupChatDetailsDelegateCall()
+                                    self.tblForChat.reloadData()
+                            }
+                        })
                         
                         
-                        
-                        DispatchQueue.main.async
-                            {print("pendingGroupIcons refreshing page")
-                                
-                                UIDelegates.getInstance().UpdateSingleChatDetailDelegateCall()
-                                self.tblForChat.reloadData()
-                        }
-                })
+                    })
+              
             })
             }
         }
@@ -1090,21 +1017,31 @@ EPPickerDelegate,SWTableViewCellDelegate,UpdateChatViewsDelegate,RefreshContacts
                 }
 
              
+                
                 var syncservice=syncService.init()
                 syncservice.startUpwardSyncService({ (result, error) in
                     
                     print("upward sync donee")
-                    self.retrieveSingleChatsAndGroupsChatData({(result)-> () in
+                    
+                    syncservice.startDownwardSync({ (result2, error2) in
+                        
+                        self.retrieveSingleChatsAndGroupsChatData({(result)-> () in
+                            
+                            
+                            
+                            DispatchQueue.main.async
+                                {print("pendingGroupIcons refreshing page")
+                                    
+                                    UIDelegates.getInstance().UpdateMainPageChatsDelegateCall()
+                                    UIDelegates.getInstance().UpdateSingleChatDetailDelegateCall()
+                                    UIDelegates.getInstance().UpdateGroupChatDetailsDelegateCall()
+                                    self.tblForChat.reloadData()
+                            }
+                        })
                         
                         
-                        
-                        DispatchQueue.main.async
-                            {print("pendingGroupIcons refreshing page")
-                                
-                                UIDelegates.getInstance().UpdateSingleChatDetailDelegateCall()
-                                self.tblForChat.reloadData()
-                        }
                     })
+                    
                 })
                 
                 /*var syncGroupsObj=syncGroupService.init()
