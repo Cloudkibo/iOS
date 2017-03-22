@@ -1053,10 +1053,12 @@ EPPickerDelegate,SWTableViewCellDelegate,UpdateChatViewsDelegate,RefreshContacts
                 
                 print("commenting")
                 //commentingg
-               /* var syncGroupsObj=syncGroupService.init()
+                var syncGroupsObj=syncGroupService.init()
                 syncGroupsObj.startPartialGroupsChatSyncService()
-                self.synchroniseChatData()*/
-                var syncservice=syncService.init()
+                self.synchroniseChatData()
+                
+                
+               /* var syncservice=syncService.init()
                 syncservice.startUpwardSyncService({ (result, error) in
                     
                     print("upward sync donee")
@@ -1071,7 +1073,7 @@ EPPickerDelegate,SWTableViewCellDelegate,UpdateChatViewsDelegate,RefreshContacts
                                 self.tblForChat.reloadData()
                         }
                 })
-            })
+            })*/
             }
         }
         else

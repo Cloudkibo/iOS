@@ -2932,11 +2932,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Chat/DatabaseHandler.swift"
-            timestampString = "511794836.468833"
+            timestampString = "511853736.797436"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "3134"
-            endingLineNumber = "3134"
+            startingLineNumber = "3135"
+            endingLineNumber = "3135"
             landmarkName = "deleteBroadcastList(_:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -3483,11 +3483,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Chat/DatabaseHandler.swift"
-            timestampString = "511794836.468833"
+            timestampString = "511853736.797436"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "3202"
-            endingLineNumber = "3202"
+            startingLineNumber = "3203"
+            endingLineNumber = "3203"
             landmarkName = "IamBlockedUpdateStatus(phone1:status1:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -3691,11 +3691,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Chat/UpwardSyncService.swift"
-            timestampString = "511794608.919244"
+            timestampString = "511853736.797436"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "225"
-            endingLineNumber = "225"
+            startingLineNumber = "226"
+            endingLineNumber = "226"
             landmarkName = "getStatusOfSentChats()"
             landmarkType = "7">
          </BreakpointContent>

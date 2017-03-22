@@ -2433,13 +2433,14 @@ print("--------")
         
         let uniqueid = Expression<String>("uniqueid")
         let status = Expression<String>("status")
+        let from = Expression<String>("from")
         
         
         let tbl_userchats=sqliteDB.userschats
         // var tblGroupmember = Table("group_member")
         var uniqueidlist=[[String:String]]()
         do
-        {for ChatStatus in try self.db.prepare((tbl_userchats?.filter(status.lowercaseString != "seen"))!){
+        {for ChatStatus in try self.db.prepare((tbl_userchats?.filter(status.lowercaseString != "seen" && from==username!))!){
             print("found status NOT SEEN")
             var newlist=[String:String]()
             newlist["uniqueid"]=ChatStatus[uniqueid]

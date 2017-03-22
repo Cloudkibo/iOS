@@ -37,7 +37,7 @@ class syncService{
                         "unsentGroupMessages": self.getPendingGroupChatMessages(),
                         "unsentChatMessageStatus":self.sendPendingChatStatuses(),
                         "unsentGroupChatMessageStatus":self.sendPendingGroupChatStatuses(),
-                        "unsentGroups":self.getPendingGroupChatMessages(),
+                        "unsentGroups":[],
                         "unsentAddedGroupMembers":[],
                         "unsentRemovedGroupMembers":[],
                         "statusOfSentMessages":self.getStatusOfSentChats(),
@@ -126,7 +126,7 @@ class syncService{
         {
             for statusMessages in try sqliteDB.db.prepare(tbl_messageStatus!)
             {
-            var imParas=["uniqueid":statusMessages[uniqueid],"sender":sender,"status":statusMessages[status]] as [String : Any]
+            var imParas=["uniqueid":statusMessages[uniqueid],"sender":statusMessages[sender],"status":statusMessages[status]] as [String : Any]
             pendingchatsStatusArray.append(imParas as! [String : String])
             
             
@@ -141,9 +141,6 @@ class syncService{
     
     func getPendingGroupChatMessages()->[[String:String]]
     {
-        var userchats=sqliteDB.userschats
-        //  var userchatsArray:Array<Row>
-        
         
         var pendingGroupchatsMsgsArray=[[String:String]]()
         
@@ -208,22 +205,27 @@ class syncService{
     
     func getStatusOfSentGroupChats()->[String:[String]]
     {
-         var statusNotSentList=sqliteDB.getGroupsChatStatusUniqueIDsListNotSeen()
-        var params=["chat_unique_id":statusNotSentList]
+        var statusNotSentList=sqliteDB.getGroupsChatStatusUniqueIDsListNotSeen()
+        var params=["unique_ids":statusNotSentList]
+       //  var statusNotSentList=sqliteDB.getGroupsChatStatusUniqueIDsListNotSeen()
+       // var params=["chat_unique_id":statusNotSentList]
         return params
     }
     
-    func getStatusOfSentChats()->[[String:String]]
+    func getStatusOfSentChats()->[String:[String]]
     {
         
         var statusNotSentList=sqliteDB.getChatStatusListNotSeenObject()
-        var listStatuses=[[String:String]]()
-        
+        var listStatuses=[String:[String]]()
+        var listUniqueIDS=[String]()
         for obj in statusNotSentList
         {
-        var params=["uniqueid":obj["uniqueid"],"status":obj["status"]]
-            listStatuses.append(params as! [String : String])
+           listUniqueIDS.append(obj["uniqueid"]!)
+            
+       // var params=["uniqueid":obj["uniqueid"],"status":obj["status"]]
+           // listStatuses.append(params as! [String : String])
         }
+        listStatuses["unique_ids"]=listUniqueIDS
         return listStatuses
     }
     
