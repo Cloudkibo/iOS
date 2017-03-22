@@ -614,11 +614,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Chat/AppDelegate.swift"
-            timestampString = "511879287.82614"
+            timestampString = "511886810.132562"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "3513"
-            endingLineNumber = "3513"
+            startingLineNumber = "3600"
+            endingLineNumber = "3600"
             landmarkName = "fetchSingleGroup(_:completion:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -1033,11 +1033,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Chat/AppDelegate.swift"
-            timestampString = "511879287.82614"
+            timestampString = "511886810.132562"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "3867"
-            endingLineNumber = "3867"
+            startingLineNumber = "3954"
+            endingLineNumber = "3954"
             landmarkName = "fetchSingleChatMessage(_:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -1049,11 +1049,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Chat/AppDelegate.swift"
-            timestampString = "511879287.82614"
+            timestampString = "511886810.132562"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "2966"
-            endingLineNumber = "2966"
+            startingLineNumber = "3053"
+            endingLineNumber = "3053"
             landmarkName = "application(_:didReceiveRemoteNotification:fetchCompletionHandler:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -1113,11 +1113,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Chat/AppDelegate.swift"
-            timestampString = "511879287.82614"
+            timestampString = "511886810.132562"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "2804"
-            endingLineNumber = "2804"
+            startingLineNumber = "2891"
+            endingLineNumber = "2891"
             landmarkName = "application(_:didReceiveRemoteNotification:fetchCompletionHandler:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -1129,11 +1129,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Chat/AppDelegate.swift"
-            timestampString = "511879287.82614"
+            timestampString = "511886810.132562"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "3208"
-            endingLineNumber = "3208"
+            startingLineNumber = "3295"
+            endingLineNumber = "3295"
             landmarkName = "application(_:didReceiveRemoteNotification:fetchCompletionHandler:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -1352,11 +1352,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Chat/AppDelegate.swift"
-            timestampString = "511879287.82614"
+            timestampString = "511886810.132562"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "2889"
-            endingLineNumber = "2889"
+            startingLineNumber = "2976"
+            endingLineNumber = "2976"
             landmarkName = "application(_:didReceiveRemoteNotification:fetchCompletionHandler:)"
             landmarkType = "7">
             <Locations>
@@ -1400,11 +1400,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Chat/AppDelegate.swift"
-            timestampString = "511879287.82614"
+            timestampString = "511886810.132562"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "2924"
-            endingLineNumber = "2924"
+            startingLineNumber = "3011"
+            endingLineNumber = "3011"
             landmarkName = "application(_:didReceiveRemoteNotification:fetchCompletionHandler:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -1416,11 +1416,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Chat/AppDelegate.swift"
-            timestampString = "511879287.82614"
+            timestampString = "511886810.132562"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "3734"
-            endingLineNumber = "3734"
+            startingLineNumber = "3821"
+            endingLineNumber = "3821"
             landmarkName = "application(_:performFetchWithCompletionHandler:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -1432,11 +1432,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Chat/AppDelegate.swift"
-            timestampString = "511879287.82614"
+            timestampString = "511886810.132562"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "3810"
-            endingLineNumber = "3810"
+            startingLineNumber = "3897"
+            endingLineNumber = "3897"
             landmarkName = "fetchSingleChatMessage(_:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -1608,11 +1608,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Chat/AppDelegate.swift"
-            timestampString = "511879287.82614"
+            timestampString = "511886810.132562"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "3581"
-            endingLineNumber = "3581"
+            startingLineNumber = "3668"
+            endingLineNumber = "3668"
             landmarkName = "fetchSingleGroupChatMessage(_:completion:)"
             landmarkType = "7">
             <Locations>
@@ -1656,11 +1656,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Chat/AppDelegate.swift"
-            timestampString = "511879287.82614"
+            timestampString = "511886810.132562"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "3623"
-            endingLineNumber = "3623"
+            startingLineNumber = "3710"
+            endingLineNumber = "3710"
             landmarkName = "fetchSingleGroupChatMessage(_:completion:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -1672,11 +1672,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Chat/AppDelegate.swift"
-            timestampString = "511879287.82614"
+            timestampString = "511886810.132562"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "3626"
-            endingLineNumber = "3626"
+            startingLineNumber = "3713"
+            endingLineNumber = "3713"
             landmarkName = "fetchSingleGroupChatMessage(_:completion:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -1688,11 +1688,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Chat/AppDelegate.swift"
-            timestampString = "511879287.82614"
+            timestampString = "511886810.132562"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "3630"
-            endingLineNumber = "3630"
+            startingLineNumber = "3717"
+            endingLineNumber = "3717"
             landmarkName = "fetchSingleGroupChatMessage(_:completion:)"
             landmarkType = "7">
             <Locations>
@@ -1736,11 +1736,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Chat/AppDelegate.swift"
-            timestampString = "511879287.82614"
+            timestampString = "511886810.132562"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "3641"
-            endingLineNumber = "3641"
+            startingLineNumber = "3728"
+            endingLineNumber = "3728"
             landmarkName = "application(_:didFailToRegisterForRemoteNotificationsWithError:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -1752,11 +1752,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Chat/AppDelegate.swift"
-            timestampString = "511879287.82614"
+            timestampString = "511886810.132562"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "3646"
-            endingLineNumber = "3646"
+            startingLineNumber = "3733"
+            endingLineNumber = "3733"
             landmarkName = "application(_:didFailToRegisterForRemoteNotificationsWithError:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -1768,11 +1768,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Chat/AppDelegate.swift"
-            timestampString = "511879287.82614"
+            timestampString = "511886810.132562"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "3627"
-            endingLineNumber = "3627"
+            startingLineNumber = "3714"
+            endingLineNumber = "3714"
             landmarkName = "fetchSingleGroupChatMessage(_:completion:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -2198,11 +2198,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Chat/AppDelegate.swift"
-            timestampString = "511879287.82614"
+            timestampString = "511886810.132562"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "3286"
-            endingLineNumber = "3286"
+            startingLineNumber = "3373"
+            endingLineNumber = "3373"
             landmarkName = "fetchGroupMembersSpecificGroup(_:completion:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -2214,11 +2214,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Chat/AppDelegate.swift"
-            timestampString = "511879287.82614"
+            timestampString = "511886810.132562"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "3294"
-            endingLineNumber = "3294"
+            startingLineNumber = "3381"
+            endingLineNumber = "3381"
             landmarkName = "fetchGroupMembersSpecificGroup(_:completion:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -2230,11 +2230,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Chat/AppDelegate.swift"
-            timestampString = "511879287.82614"
+            timestampString = "511886810.132562"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "3295"
-            endingLineNumber = "3295"
+            startingLineNumber = "3382"
+            endingLineNumber = "3382"
             landmarkName = "fetchGroupMembersSpecificGroup(_:completion:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -2246,11 +2246,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Chat/AppDelegate.swift"
-            timestampString = "511879287.82614"
+            timestampString = "511886810.132562"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "3326"
-            endingLineNumber = "3326"
+            startingLineNumber = "3413"
+            endingLineNumber = "3413"
             landmarkName = "fetchGroupMembersSpecificGroup(_:completion:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -2262,11 +2262,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Chat/AppDelegate.swift"
-            timestampString = "511879287.82614"
+            timestampString = "511886810.132562"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "3473"
-            endingLineNumber = "3473"
+            startingLineNumber = "3560"
+            endingLineNumber = "3560"
             landmarkName = "fetchSingleGroup(_:completion:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -2278,11 +2278,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Chat/AppDelegate.swift"
-            timestampString = "511879287.82614"
+            timestampString = "511886810.132562"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "3468"
-            endingLineNumber = "3468"
+            startingLineNumber = "3555"
+            endingLineNumber = "3555"
             landmarkName = "fetchSingleGroup(_:completion:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -2294,11 +2294,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Chat/AppDelegate.swift"
-            timestampString = "511879287.82614"
+            timestampString = "511886810.132562"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "3566"
-            endingLineNumber = "3566"
+            startingLineNumber = "3653"
+            endingLineNumber = "3653"
             landmarkName = "fetchSingleGroupChatMessage(_:completion:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -2358,11 +2358,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Chat/AppDelegate.swift"
-            timestampString = "511879287.82614"
+            timestampString = "511886810.132562"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "3848"
-            endingLineNumber = "3848"
+            startingLineNumber = "3935"
+            endingLineNumber = "3935"
             landmarkName = "fetchSingleChatMessage(_:)"
             landmarkType = "7">
          </BreakpointContent>
