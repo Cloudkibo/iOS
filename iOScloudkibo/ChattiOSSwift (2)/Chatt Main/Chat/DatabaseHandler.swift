@@ -2285,8 +2285,11 @@ print("--------")
             }
             else
             {
+                if(status1.lowercased() == "seen")
+                {
                 var row=try sqliteDB.db.run(query.update(read_date <- readDate1))
-            }
+                }
+                }
         }
         catch
         {

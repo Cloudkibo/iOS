@@ -307,6 +307,7 @@ class NetworkingManager
                         print("Am I back on the main thread: \(Thread.isMainThread)")
                         print("uniqueid is \(resJSON["uniqueid"].string!)")
                         sqliteDB.removeMessageStatusSeen(resJSON["uniqueid"].string!)
+                    
                         print("chat message status ack received")
                         
                         //print(data[0]["status"]!!.string!+" ... "+data[0]["uniqueid"]!!.string!)
