@@ -15,6 +15,12 @@ class UIDelegates
     var delegateMainPageChats1:UpdateMainPageChatsDelegate!
     var delegateSingleChatDetails1:UpdateSingleChatDetailDelegate!
     
+    
+    var delegateInsertChatAtLast1:insertChatAtLastDelegate!
+    var delegateUpdateChatStatusRow1:updateChatStatusRowDelegate!
+    var delegateInsertBulkChatsSync1:insertBulkChatsSyncDelegate!
+    var delegateInsertBulkChatsStatusesSync:insertBulkChatsStatusesSyncDelegate!
+    
    // var delegateChannelsDetails1:UpdateChannelsDetailsDelegate!
    // var delegateTeamsDetails1:UpdateTeamsDetailsDelegate!
     
@@ -78,6 +84,26 @@ protocol UpdateSingleChatDetailDelegate:class
 {
     func refreshSingleChatDetailUI(_ message:String,data:AnyObject!);
 }
+
+
+protocol insertChatAtLastDelegate:class
+{
+    func insertChatRowAtLast(_ message:String,uniqueid:String,status:String,filename:String,type:String,date:String);
+}
+protocol updateChatStatusRowDelegate:class
+{
+    func updateChatStatusRow(_ message:String,uniqueid:String,status:String,filename:String,type:String,date:String);
+}
+protocol insertBulkChatsSyncDelegate:class
+{
+    func insertBulkChats(statusArray:[String:AnyObject])
+}
+protocol insertBulkChatsStatusesSyncDelegate:class
+{
+    func insertBulkChatStatusesSync(statusArray:[String:AnyObject])
+        //[_ message:String,uniqueid:String,status:String,filename:String,type:String,date:String])
+}
+
 /*
 protocol UpdateChannelsDetailsDelegate:class
 {

@@ -4062,7 +4062,12 @@ var uniqueid=payload["uniqueid"] as! String
                         dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
                         //  let datens2 = dateFormatter.date(from:date2.debugDescription)
                         //2016-09-18T19:13:00.588Z
-                        let datens2 = dateFormatter.date(from: chatJson["date"].string!)
+                        
+                        
+                        
+                        
+                        ///let datens2 = dateFormatter.date(from: chatJson["date"].string!)
+                        let datens2 = dateFormatter.date(from: chatJson["date_server_receive"].string!)
                         
                         var from=chatJson["from"].string!
                         var group_unique_id=chatJson["group_unique_id"]["unique_id"].string!
@@ -4294,9 +4299,11 @@ var uniqueid=payload["uniqueid"] as! String
                     dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
                     //  let datens2 = dateFormatter.date(from:date2.debugDescription)
                     //2016-09-18T19:13:00.588Z
-                    let datens2 = dateFormatter.date(from: chatJson[0]["date"].string!)
                     
                     
+                    
+                   let datens2 = dateFormatter.date(from: chatJson[0]["date"].string!)
+                  
                     
                     if(!chatJson[0]["type"].exists())
                     {//old chat message

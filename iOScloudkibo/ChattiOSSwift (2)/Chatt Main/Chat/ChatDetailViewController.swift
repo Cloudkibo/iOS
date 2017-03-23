@@ -24,7 +24,7 @@ import Kingfisher
 
 //import GoogleMaps
 
-class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChatDelegate,UIDocumentPickerDelegate,UIDocumentMenuDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate,FileManagerDelegate,showUploadProgressDelegate,UpdateChatViewsDelegate,UpdateSingleChatDetailDelegate,CNContactPickerDelegate,CNContactViewControllerDelegate,UIPickerViewDelegate,AVAudioRecorderDelegate,CLLocationManagerDelegate
+class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChatDelegate,UIDocumentPickerDelegate,UIDocumentMenuDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate,FileManagerDelegate,showUploadProgressDelegate,UpdateChatViewsDelegate,UpdateSingleChatDetailDelegate,CNContactPickerDelegate,CNContactViewControllerDelegate,UIPickerViewDelegate,AVAudioRecorderDelegate,CLLocationManagerDelegate,insertChatAtLastDelegate,updateChatStatusRowDelegate,insertBulkChatsSyncDelegate,insertBulkChatsStatusesSyncDelegate
     {
     
     //,UIPickerViewDelegate{
@@ -6665,6 +6665,27 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
         }
         
     }
+    
+    func insertChatRowAtLast(_ message: String, uniqueid: String, status: String, filename: String, type: String, date: String) {
+        
+        
+    }
+    
+    func insertBulkChats(statusArray: [String : AnyObject]) {
+        
+        
+    }
+    
+    func insertBulkChatStatusesSync(statusArray: [String : AnyObject]) {
+        
+        
+    }
+    
+    func updateChatStatusRow(_ message: String, uniqueid: String, status: String, filename: String, type: String, date: String) {
+        
+        
+    }
+    
 }
 
 

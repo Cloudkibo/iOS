@@ -415,12 +415,11 @@ class syncService{
             
             let dateFormatter = DateFormatter()
             dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
-            let datens2 = dateFormatter.date(from: UserchatJson["msg"][i]["date"].string!)
+            //let datens2 = dateFormatter.date(from: UserchatJson["msg"][i]["date"].string!)
+            let datens2 = dateFormatter.date(from: UserchatJson["msg"][i]["date_server_receive"].string!)
+            //date_server_receive
+           
             
-            print("fetch date from server got is \(UserchatJson["msg"][i]["date"].string!)... converted is \(datens2.debugDescription)")
-            
-            
-            print("===fetch chat date raw from server in chatview is \(UserchatJson["msg"][i]["date"].string!)")
             
             /*
              let formatter = DateFormatter()
