@@ -4783,7 +4783,11 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
                             //resultArray.first
                             var aa=self.messages.object(at: ind) as! [String:AnyObject]
                             var actualmsg=aa["message"] as! String
-                            actualmsg=actualmsg.removeCharsFromEnd(10)
+                            
+                            self.updateChatStatusRow(aa["message"] as! String, uniqueid: aa["uniqueid"] as! String, status: aa["status"] as! String, filename: "", type: aa["type"] as! String, date: aa["date"] as! String)
+                            
+                            
+                            /*actualmsg=actualmsg.removeCharsFromEnd(10)
                             //var actualmsg=newmsg
                             aa["message"]="\(actualmsg) (sent)" as AnyObject?
                             self.messages.replaceObject(at: ind, with: aa)
@@ -4793,7 +4797,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
                                 {
                                     self.tblForChats.reloadData()
                             }
-                            
+                            */
                         }
                         else
                         {
@@ -5552,7 +5556,13 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
             print("adding msg \(msggg)")
 
         //==--self.tblForChats.reloadRowsAtIndexPaths([lastrowindexpath], withRowAnimation: .None)
-            self.addMessage(msggg+" (\(statusNow))",status:statusNow,ofType: "2",date:defaultTimeZoneStr, uniqueid: uniqueID)
+        
+        
+        
+        self.insertChatRowAtLast(msggg+" (\(statusNow))", uniqueid: uniqueID, status: statusNow, filename: "", type: "2", date: defaultTimeZoneStr)
+        
+        
+        /*self.addMessage(msggg+" (\(statusNow))",status:statusNow,ofType: "2",date:defaultTimeZoneStr, uniqueid: uniqueID)
   
             self.tblForChats.reloadData()
             if(self.messages.count>1)
@@ -5564,7 +5574,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
                 
                 
             }
-        
+        */
         
         
         
@@ -5587,7 +5597,12 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
                 //cfpresultArray.first
                 //resultArray.first
                 var aa=self.messages.object(at: ind) as! [String:AnyObject]
+    
+    
     var actualmsg=aa["message"] as! String
+    
+    
+    
     actualmsg=actualmsg.removeCharsFromEnd(10)
     //var actualmsg=newmsg
                 aa["message"]="\(actualmsg) (sent)" as AnyObject?
@@ -5613,6 +5628,8 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
             var count=0
             for i in 0 ..< imParas2.count
             {
+                
+                //replace with single downward sync api
             self.sendChatMessage(imParas2[i]){ (uniqueid,result) -> () in
                 count += 1
                 if(result==true && count==1){
@@ -6690,6 +6707,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
         messages.add(["message":message,"filename":filename,"type":type,"date":date,"uniqueid":uniqueid])
         tblForChats.insertRows(at: [NSIndexPath.init(row: messages.count-1, section: 0) as IndexPath], with: UITableViewRowAnimation.bottom)
         tblForChats.endUpdates()
+        self.tblForChats.scrollToRow(at: NSIndexPath.init(row: messages.count-1, section: 0) as IndexPath, at: UITableViewScrollPosition.bottom, animated: false)
 
         
     }
