@@ -4837,11 +4837,15 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
                                 self.messages.replaceObject(at: ind, with: aa)
                                 //  self.messages.objectAtIndex(ind).message="\(self.messages[ind]["message"]) (sent)"
                                 var indexp=IndexPath(row:ind, section:0)
-                                DispatchQueue.main.async
+                                self.tblForChats.beginUpdates()
+                                self.tblForChats.reloadRows(at: [indexp], with: UITableViewRowAnimation.none)
+                                self.tblForChats.endUpdates()
+                                
+                                /*DispatchQueue.main.async
                                     {
                                         self.tblForChats.reloadData()
                                         // print("messages count is \(self.messages.count)")
-                                }
+                                }*/
                             }
                         }}
                     /*  }
@@ -6757,14 +6761,20 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
         var predicate=NSPredicate(format: "uniqueid = %@", uniqueid)
         var resultArray=self.messages.filtered(using: predicate)
         if(resultArray.count > 0)
-        {tblForChats.beginUpdates()
+        {
             var foundindex=self.messages.index(of: resultArray.first!)
+            var aa=self.messages.object(at: foundindex) as! [String:AnyObject]
+            var actualmsg=aa["message"] as! String
+            var oldstatus=aa["status"] as! String
+            var statusCount=oldstatus.characters.count+3
+            actualmsg=actualmsg.removeCharsFromEnd(statusCount)
             
-            
-             var newrow:[String:AnyObject]=["message":"\(message as AnyObject) (\(status))" as AnyObject,"filename":filename as AnyObject,"type":type as AnyObject,"date":date as AnyObject,"uniqueid":uniqueid as AnyObject]
+             var newrow:[String:AnyObject]=["message":"\(actualmsg) (\(status))" as AnyObject,"filename":filename as AnyObject,"type":aa["type"] as AnyObject,"date":aa["date"] as AnyObject,"uniqueid":aa["uniqueid"] as AnyObject,"status":status as AnyObject]
+            tblForChats.beginUpdates()
             messages.replaceObject(at: foundindex, with: newrow)
             tblForChats.reloadRows(at: [NSIndexPath.init(row: foundindex, section: 0) as IndexPath], with: UITableViewRowAnimation.none)
             tblForChats.endUpdates()
+            
         }
     }
     

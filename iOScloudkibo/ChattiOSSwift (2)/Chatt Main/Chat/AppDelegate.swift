@@ -781,6 +781,7 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
                         print("refresh UI after member leaves")
                         delegateRefreshChat?.refreshChatsUI(nil, uniqueid:nil, from:nil, date1:nil, type:"status")
                     }
+                
                     UIDelegates.getInstance().UpdateMainPageChatsDelegateCall()
                     UIDelegates.getInstance().UpdateGroupInfoDetailsDelegateCall()
                     UIDelegates.getInstance().UpdateGroupChatDetailsDelegateCall()
@@ -812,11 +813,11 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
                         sqliteDB.storeGroupsChat("Log:", group_unique_id1: groupId, type1: "log", msg1: "\(personRemoved) is removed from this group", from_fullname1: "", date1: Date(), unique_id1: uniqueid1)
                     }
                     ///////  sqliteDB.removeMember(groupId!,member_phone1: senderId!)
-                    if(delegateRefreshChat != nil)
+                    /*if(delegateRefreshChat != nil)
                     {
                         print("refresh UI after member leaves")
                         delegateRefreshChat?.refreshChatsUI(nil, uniqueid:nil, from:nil, date1:nil, type:"status")
-                    }
+                    }*/
                     UIDelegates.getInstance().UpdateMainPageChatsDelegateCall()
                     UIDelegates.getInstance().UpdateGroupInfoDetailsDelegateCall()
                     UIDelegates.getInstance().UpdateGroupChatDetailsDelegateCall()
@@ -2907,11 +2908,11 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
                         sqliteDB.updateMembershipStatus(groupId,memberphone1: senderId, membership_status1: "left")
                         sqliteDB.storeGroupsChat("Log:", group_unique_id1: groupId, type1: "log", msg1: "\(senderId) has left this group", from_fullname1: "", date1: Date(), unique_id1: uniqueid1)
                         ///////  sqliteDB.removeMember(groupId!,member_phone1: senderId!)
-                        if(delegateRefreshChat != nil)
+                        /*if(delegateRefreshChat != nil)
                         {
                             print("refresh UI after member leaves")
                             delegateRefreshChat?.refreshChatsUI(nil, uniqueid:nil, from:nil, date1:nil, type:"status")
-                        }
+                        }*/
                         UIDelegates.getInstance().UpdateMainPageChatsDelegateCall()
                         UIDelegates.getInstance().UpdateGroupInfoDetailsDelegateCall()
                         UIDelegates.getInstance().UpdateGroupChatDetailsDelegateCall()
@@ -2943,11 +2944,12 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
                             sqliteDB.storeGroupsChat("Log:", group_unique_id1: groupId, type1: "log", msg1: "\(personRemoved) is removed from this group", from_fullname1: "", date1: Date(), unique_id1: uniqueid1)
                         }
                         ///////  sqliteDB.removeMember(groupId!,member_phone1: senderId!)
-                        if(delegateRefreshChat != nil)
+                        /*if(delegateRefreshChat != nil)
                         {
                             print("refresh UI after member leaves")
                             delegateRefreshChat?.refreshChatsUI(nil, uniqueid:nil, from:nil, date1:nil, type:"status")
-                        }
+                        }*/
+                        UIDelegates.getInstance().UpdateSingleChatDetailDelegateCall()
                         UIDelegates.getInstance().UpdateMainPageChatsDelegateCall()
                         UIDelegates.getInstance().UpdateGroupInfoDetailsDelegateCall()
                         UIDelegates.getInstance().UpdateGroupChatDetailsDelegateCall()
@@ -3426,11 +3428,12 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
                     sqliteDB.updateMembershipStatus(groupId,memberphone1: senderId, membership_status1: "left")
                     sqliteDB.storeGroupsChat("Log:", group_unique_id1: groupId, type1: "log", msg1: "\(senderId) has left this group", from_fullname1: "", date1: Date(), unique_id1: uniqueid1)
                     ///////  sqliteDB.removeMember(groupId!,member_phone1: senderId!)
-                    if(delegateRefreshChat != nil)
+                    /*if(delegateRefreshChat != nil)
                     {
                         print("refresh UI after member leaves")
                         delegateRefreshChat?.refreshChatsUI(nil, uniqueid:nil, from:nil, date1:nil, type:"status")
-                    }
+                    }*/
+                    UIDelegates.getInstance().UpdateSingleChatDetailDelegateCall()
                     UIDelegates.getInstance().UpdateMainPageChatsDelegateCall()
                     UIDelegates.getInstance().UpdateGroupInfoDetailsDelegateCall()
                     UIDelegates.getInstance().UpdateGroupChatDetailsDelegateCall()
@@ -3461,11 +3464,12 @@ else{
                     sqliteDB.storeGroupsChat("Log:", group_unique_id1: groupId, type1: "log", msg1: "\(personRemoved) is removed from this group", from_fullname1: "", date1: Date(), unique_id1: uniqueid1)
                     }
                     ///////  sqliteDB.removeMember(groupId!,member_phone1: senderId!)
-                    if(delegateRefreshChat != nil)
+                   /* if(delegateRefreshChat != nil)
                     {
                         print("refresh UI after member leaves")
                         delegateRefreshChat?.refreshChatsUI(nil, uniqueid:nil, from:nil, date1:nil, type:"status")
-                    }
+                    }*/
+                    UIDelegates.getInstance().UpdateSingleChatDetailDelegateCall()
                     UIDelegates.getInstance().UpdateMainPageChatsDelegateCall()
                     UIDelegates.getInstance().UpdateGroupInfoDetailsDelegateCall()
                     UIDelegates.getInstance().UpdateGroupChatDetailsDelegateCall()
@@ -4376,6 +4380,8 @@ var uniqueid=payload["uniqueid"] as! String
                         
                         // to play sound
                         AudioServicesPlaySystemSound (systemSoundID)
+                        
+                       //// UIDelegates.getInstance().delegateInsertChatAtLast1.insertChatRowAtLast(chatJson[0]["msg"].string!+" ( \(chatJson[0]["status"].string!)", uniqueid: chatJson[0]["uniqueid"].string!, status: status, filename: chatJson[0]["msg"].string!, type: <#T##String#>, date: String)
                         delegateRefreshChat?.refreshChatsUI(chatJson[0]["msg"].string!, uniqueid:chatJson[0]["uniqueid"].string!, from:chatJson[0]["from"].string!, date1:datens2, type:chatJson[0]["type"].string!)
                     }
                     
