@@ -4071,7 +4071,7 @@ var uniqueid=payload["uniqueid"] as! String
                         
                         
                         ///let datens2 = dateFormatter.date(from: chatJson["date"].string!)
-                        let datens2 = dateFormatter.date(from: chatJson["date_server_received"].string!)
+                        let datens2 = dateFormatter.date(from: chatJson["date"].string!)
                         
                         var from=chatJson["from"].string!
                         var group_unique_id=chatJson["group_unique_id"]["unique_id"].string!

@@ -4814,7 +4814,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
                     }
                 }
                 else{
-                    
+                    print("here in elseeee")
                     var result1=false
                     var uniqueid1=""
                     var count=0
@@ -5625,7 +5625,8 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
                /// DispatchQueue.main.async
                /// {
                    //==--- self.tblForChats.reloadData()
-    self.updateChatStatusRow(aa["message"] as! String, uniqueid: aa["uniqueid"] as! String, status: aa["status"] as! String, filename: "", type: aa["type"], date: aa["date"])
+    print("update2 rowss 5628")
+    self.updateChatStatusRow(aa["message"] as! String, uniqueid: aa["uniqueid"] as! String, status: aa["status"] as! String, filename: "", type: aa["type"] as! String, date: aa["date"] as! String)
     
     /*
                     self.tblForChats.beginUpdates()
@@ -5668,7 +5669,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
                     self.messages.replaceObject(at: ind, with: aa)
                     //  self.messages.objectAtIndex(ind).message="\(self.messages[ind]["message"]) (sent)"
                     var indexp=IndexPath(row:ind, section:0)
-                   
+                    print("update rowsssss 5671")
                     self.tblForChats.beginUpdates()
                     self.tblForChats.reloadRows(at: [indexp], with: UITableViewRowAnimation.bottom)
                     self.tblForChats.endUpdates()
