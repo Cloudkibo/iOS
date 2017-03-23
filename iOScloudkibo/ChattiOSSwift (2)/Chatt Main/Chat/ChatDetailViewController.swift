@@ -5618,13 +5618,22 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
     actualmsg=actualmsg.removeCharsFromEnd(10)
     //var actualmsg=newmsg
                 aa["message"]="\(actualmsg) (sent)" as AnyObject?
+    aa["status"]="sent" as AnyObject?
                 self.messages.replaceObject(at: ind, with: aa)
               //  self.messages.objectAtIndex(ind).message="\(self.messages[ind]["message"]) (sent)"
                 var indexp=IndexPath(row:ind, section:0)
-                DispatchQueue.main.async
-                {
-                    self.tblForChats.reloadData()
-                }
+               /// DispatchQueue.main.async
+               /// {
+                   //==--- self.tblForChats.reloadData()
+    self.updateChatStatusRow(aa["message"] as! String, uniqueid: aa["uniqueid"] as! String, status: aa["status"] as! String, filename: "", type: aa["type"], date: aa["date"])
+    
+    /*
+                    self.tblForChats.beginUpdates()
+                    self.tblForChats.reloadRows(at: [indexp], with: UITableViewRowAnimation.bottom)
+                    self.tblForChats.endUpdates()
+    self.tblForChats.scrollToRow(at: NSIndexPath.init(row: ind, section: 0) as IndexPath, at: UITableViewScrollPosition.bottom, animated: false)
+ */
+                ///}
     
             }
                 else
@@ -5659,11 +5668,16 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
                     self.messages.replaceObject(at: ind, with: aa)
                     //  self.messages.objectAtIndex(ind).message="\(self.messages[ind]["message"]) (sent)"
                     var indexp=IndexPath(row:ind, section:0)
-                    DispatchQueue.main.async
+                   
+                    self.tblForChats.beginUpdates()
+                    self.tblForChats.reloadRows(at: [indexp], with: UITableViewRowAnimation.bottom)
+                    self.tblForChats.endUpdates()
+                    ////self.tblForChats.scrollToRow(at: NSIndexPath.init(row: messages.count-1, section: 0) as IndexPath, at: UITableViewScrollPosition.bottom, animated: false)
+                    /* DispatchQueue.main.async
                     {
                         self.tblForChats.reloadData()
                        // print("messages count is \(self.messages.count)")
-                    }
+                    }*/
                 }
 }}
                       /*  }
@@ -6309,7 +6323,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
       //  var chatJSON=JSON(data!)
    // var uniqueid=chatJSON["un"]
         
-        if(type! == "chat" || type! == "document" || type! == "image" || type! == "contact")
+        /*if(type! == "chat" || type! == "document" || type! == "image" || type! == "contact")
         {
             
             //update status seen in table
@@ -6431,7 +6445,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
             self.tblForChats.scrollToRowAtIndexPath(indexPath, atScrollPosition: UITableViewScrollPosition.Bottom, animated: false)
         }*/
         }
-        
+        */
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -6458,7 +6472,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
     
     func refreshSingleChatDetailUI(_ message: String, data: AnyObject!) {
         
-        self.retrieveChatFromSqlite(self.selectedContact,completion:{(result)-> () in
+        /*self.retrieveChatFromSqlite(self.selectedContact,completion:{(result)-> () in
             
         self.tblForChats.reloadData()
         
@@ -6471,7 +6485,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
         //}
         //}
         // })
-    })
+    })*/
     }
     
     func locationManager(manager: CLLocationManager!, didChangeAuthorizationStatus status: CLAuthorizationStatus) {
@@ -6770,8 +6784,9 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
             actualmsg=actualmsg.removeCharsFromEnd(statusCount)
             
              var newrow:[String:AnyObject]=["message":"\(actualmsg) (\(status))" as AnyObject,"filename":filename as AnyObject,"type":aa["type"] as AnyObject,"date":aa["date"] as AnyObject,"uniqueid":aa["uniqueid"] as AnyObject,"status":status as AnyObject]
-            tblForChats.beginUpdates()
             messages.replaceObject(at: foundindex, with: newrow)
+            tblForChats.beginUpdates()
+            
             tblForChats.reloadRows(at: [NSIndexPath.init(row: foundindex, section: 0) as IndexPath], with: UITableViewRowAnimation.none)
             tblForChats.endUpdates()
             

@@ -416,7 +416,7 @@ class syncService{
             let dateFormatter = DateFormatter()
             dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
             //let datens2 = dateFormatter.date(from: UserchatJson["msg"][i]["date"].string!)
-            let datens2 = dateFormatter.date(from: UserchatJson["msg"][i]["date_server_receive"].string!)
+            let datens2 = dateFormatter.date(from: UserchatJson["msg"][i]["date_server_received"].string!)
             //date_server_receive
            
             
