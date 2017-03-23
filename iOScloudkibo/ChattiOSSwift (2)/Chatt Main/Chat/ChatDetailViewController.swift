@@ -30,6 +30,10 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
     //,UIPickerViewDelegate{
     
    // weak var viewMap: GMSMapView!
+    var delegateInsertChatAtLast:insertChatAtLastDelegate!
+    var delegateUpdateChatStatusRow:updateChatStatusRowDelegate!
+    var delegateInsertBulkChatSync:insertBulkChatsSyncDelegate!
+    var delegateBulkChatStatus:insertBulkChatsStatusesSyncDelegate!
     
     var searchUniqueid:String!=nil
     var scrolledRowIndex = -1
@@ -635,7 +639,11 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
         
         //UIApplicationWillEnterForegroundNotification
         
-       
+       UIDelegates.getInstance().delegateInsertChatAtLast1=self
+       UIDelegates.getInstance().delegateInsertBulkChatsSync1=self
+        UIDelegates.getInstance().delegateInsertBulkChatsStatusesSync=self
+        UIDelegates.getInstance().delegateUpdateChatStatusRow1=self
+        
         delegateRefreshChat=self
         NotificationCenter.default.removeObserver(self, name:NSNotification.Name.UIApplicationWillResignActive, object: nil)
         
@@ -6755,7 +6763,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
             
              var newrow:[String:AnyObject]=["message":"\(message as AnyObject) (\(status))" as AnyObject,"filename":filename as AnyObject,"type":type as AnyObject,"date":date as AnyObject,"uniqueid":uniqueid as AnyObject]
             messages.replaceObject(at: foundindex, with: newrow)
-            
+            tblForChats.reloadRows(at: [NSIndexPath.init(row: foundindex, section: 0) as IndexPath], with: UITableViewRowAnimation.none)
             tblForChats.endUpdates()
         }
     }

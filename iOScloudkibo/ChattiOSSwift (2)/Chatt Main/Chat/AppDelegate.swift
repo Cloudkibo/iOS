@@ -4451,9 +4451,15 @@ var uniqueid=payload["uniqueid"] as! String
             // to play sound
             AudioServicesPlaySystemSound (systemSoundID)
             */
+        UIDelegates.getInstance().delegateUpdateChatStatusRow1.updateChatStatusRow("", uniqueid: uniqueID, status: status, filename: "", type: "", date: "")
         
-        UIDelegates.getInstance().UpdateSingleChatDetailDelegateCall()
+        //==--UIDelegates.getInstance().UpdateSingleChatDetailDelegateCall()
         UIDelegates.getInstance().UpdateMainPageChatsDelegateCall()
+        
+        
+        
+        
+        
         /*if(delegateRefreshChat != nil)
             {
                 print("informing UI to repfresh status")
