@@ -5564,6 +5564,10 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
                 
                 
             }
+        
+        
+        
+        
            // }
        // })
       //  }
@@ -6668,22 +6672,74 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
     
     func insertChatRowAtLast(_ message: String, uniqueid: String, status: String, filename: String, type: String, date: String) {
         
+        /*tblForChats.beginUpdates()
+        messages.add(["message":message,"filename":filename,"type":type,"date":date,"uniqueid":uniqueid])
+        var predicate=NSPredicate(format: "uniqueid = %@", uniqueid)
+        var resultArray=self.messages.filtered(using: predicate)
+        
+        if(resultArray.count > 0)
+        {
+            var foundindex=self.messages.index(of: resultArray.first!)
+             tblForChats.insertRows(at: [NSIndexPath.init(row: foundindex, section: 0) as IndexPath], with: UITableViewRowAnimation.bottom)
+            //insertRow(at: NSIndexPath(forRow: foundindex, inSection: 0), with: UITableViewRowAnimation.bottom)
+        }
+       
+        tblForChats.endUpdates()
+        */
+        tblForChats.beginUpdates()
+        messages.add(["message":message,"filename":filename,"type":type,"date":date,"uniqueid":uniqueid])
+        tblForChats.insertRows(at: [NSIndexPath.init(row: messages.count-1, section: 0) as IndexPath], with: UITableViewRowAnimation.bottom)
+        tblForChats.endUpdates()
+
         
     }
     
-    func insertBulkChats(statusArray: [String : AnyObject]) {
-        
+    func insertBulkChats(statusArray: [[String : AnyObject]]) {
+      
+        tblForChats.beginUpdates()
+        for chats  in statusArray
+        {
+        //var messageDic = chats.object(at: indexPath.row) as! [String : String];
+            messages.add(["message":chats["message"],"filename":chats["filename"],"type":chats["type"],"date":chats["date"],"uniqueid":chats["uniqueid"],"status":chats["status"]])
+        tblForChats.insertRows(at: [NSIndexPath.init(row: messages.count-1, section: 0) as IndexPath], with: UITableViewRowAnimation.bottom)
+        }
+        tblForChats.endUpdates()
         
     }
     
-    func insertBulkChatStatusesSync(statusArray: [String : AnyObject]) {
+    func insertBulkChatStatusesSync(statusArray: [[String : AnyObject]]) {
         
-        
+        tblForChats.beginUpdates()
+        for chats in statusArray
+        {
+            var predicate=NSPredicate(format: "uniqueid = %@", chats["uniqueid"] as! String)
+            var resultArray=self.messages.filtered(using: predicate)
+            if(resultArray.count > 0)
+            {
+                var foundindex=self.messages.index(of: resultArray.first!)
+                var newrow:[String:AnyObject]=["message":"\(chats["message"]!) (\(chats["status"])" as AnyObject,"filename":chats["filename"]!,"type":chats["type"]!,"date":chats["date"]!,"uniqueid":chats["uniqueid"]!,"status":chats["status"]!]
+                
+                //messages.add(["message":chats["message"],"filename":chats["filename"],"type":chats["type"],"date":chats["date"],"uniqueid":chats["uniqueid"]])
+            tblForChats.insertRows(at: [NSIndexPath.init(row: resultArray.first as! Int, section: 0) as IndexPath], with: UITableViewRowAnimation.bottom)
+            }
+        }
+        tblForChats.endUpdates()
     }
     
     func updateChatStatusRow(_ message: String, uniqueid: String, status: String, filename: String, type: String, date: String) {
         
-        
+        var predicate=NSPredicate(format: "uniqueid = %@", uniqueid)
+        var resultArray=self.messages.filtered(using: predicate)
+        if(resultArray.count > 0)
+        {tblForChats.beginUpdates()
+            var foundindex=self.messages.index(of: resultArray.first!)
+            
+            
+             var newrow:[String:AnyObject]=["message":"\(message as AnyObject) (\(status))" as AnyObject,"filename":filename as AnyObject,"type":type as AnyObject,"date":date as AnyObject,"uniqueid":uniqueid as AnyObject]
+            messages.replaceObject(at: foundindex, with: newrow)
+            
+            tblForChats.endUpdates()
+        }
     }
     
 }

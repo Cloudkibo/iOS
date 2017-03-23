@@ -96,11 +96,11 @@ protocol updateChatStatusRowDelegate:class
 }
 protocol insertBulkChatsSyncDelegate:class
 {
-    func insertBulkChats(statusArray:[String:AnyObject])
+    func insertBulkChats(statusArray:[[String:AnyObject]])
 }
 protocol insertBulkChatsStatusesSyncDelegate:class
 {
-    func insertBulkChatStatusesSync(statusArray:[String:AnyObject])
+    func insertBulkChatStatusesSync(statusArray:[[String:AnyObject]])
         //[_ message:String,uniqueid:String,status:String,filename:String,type:String,date:String])
 }
 
