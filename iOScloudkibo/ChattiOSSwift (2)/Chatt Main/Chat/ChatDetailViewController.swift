@@ -392,7 +392,10 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
         
         UIDelegates.getInstance().delegateSingleChatDetails1=self
         delegateRefreshChat=self
-        
+        UIDelegates.getInstance().delegateInsertChatAtLast1=self
+        UIDelegates.getInstance().delegateInsertBulkChatsSync1=self
+        UIDelegates.getInstance().delegateInsertBulkChatsStatusesSync=self
+        UIDelegates.getInstance().delegateUpdateChatStatusRow1=self
         
        /* NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("applicationWillResignActive:"), name:UIApplicationWillResignActiveNotification, object: nil)
         
@@ -5619,7 +5622,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
     //var actualmsg=newmsg
                 aa["message"]="\(actualmsg) (sent)" as AnyObject?
     aa["status"]="sent" as AnyObject?
-                self.messages.replaceObject(at: ind, with: aa)
+                ///////==-------self.messages.replaceObject(at: ind, with: aa)
               //  self.messages.objectAtIndex(ind).message="\(self.messages[ind]["message"]) (sent)"
                 var indexp=IndexPath(row:ind, section:0)
                /// DispatchQueue.main.async
