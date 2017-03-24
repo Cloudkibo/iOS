@@ -846,12 +846,13 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
                 if(type=="syncUpward")
                 {
                     
-                    UtilityFunctions.init().log_papertrail("IPHONE: UPWARD SYNC PUSH \(userInfo) ... PAYLOAD: \(userInfo["payload"] as! [AnyHashable : Any])")
+                    UtilityFunctions.init().log_papertrail("IPHONE: UPWARD SYNC PUSH \(userInfo) ... PAYLOAD: \(userInfo["payload"])")
                     var sub_type = userInfo["sub_type"] as! String
                     
                     if(sub_type=="unsentMessages")
                     {
-                        var payload=userInfo["payload"] as! [AnyHashable : Any]
+                        if let payload=userInfo["payload"] as? [AnyHashable : Any]
+                        {
                         var uniqueid=payload["uniqueid"] as! String
                         var status=payload["status"] as! String
                         
@@ -862,16 +863,16 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
                         UIDelegates.getInstance().UpdateGroupChatDetailsDelegateCall()
                         
                         completionHandler([.alert, .badge, .sound])
-                        
+                        }
                         
                     }
                     if(sub_type=="unsentGroupMessages")
                     {
-                        UtilityFunctions.init().log_papertrail("IPHONE: UPWARD SYNC PUSH \(userInfo) ... PAYLOAD: \(userInfo["payload"] as! [AnyHashable : Any])")
+                        UtilityFunctions.init().log_papertrail("IPHONE: UPWARD SYNC PUSH \(userInfo) ... PAYLOAD: \(userInfo["payload"])")
                         print("push got group chat \(userInfo)")
                         
-                        var payload=userInfo["payload"] as! [AnyHashable : Any]
-                        var uniqueid=payload["unique_id"] as! String
+                        if let payload=userInfo["payload"] as? [AnyHashable : Any]
+                        {var uniqueid=payload["unique_id"] as! String
                         
                         
                         let msg_unique_id = Expression<String>("msg_unique_id")
@@ -899,8 +900,8 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
                             
                         }
                         
-                        
-                        
+                    }
+                    
                     }
                     //unsentChatMessageStatus
                     //unsentGroupChatMessageStatus
@@ -911,18 +912,20 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
                     //statusOfSentGroupMessages
                     if(sub_type=="unsentChatMessageStatus")
                     {
-                        var payload=userInfo["payload"] as! [AnyHashable : Any]
+                        if let payload=userInfo["payload"] as? [AnyHashable : Any] {
+                            
                         if(payload.count>0)
                         {
                             var uniqueid=payload["uniqueid"] as! String
                             sqliteDB.removeMessageStatusSeen(uniqueid)
                         }
                     }
+                    }
                     
                     if(sub_type=="unsentGroupChatMessageStatus")
                     {
-                        var payload=userInfo["payload"] as! [AnyHashable : Any]
-                        if(payload.count>0)
+                      if let payload=userInfo["payload"] as? [AnyHashable : Any]
+                      {if(payload.count>0)
                         {
                             
                             var chat_uniqueid=payload["chat_uniqueid"] as! String
@@ -937,7 +940,7 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
                             
                             completionHandler([])
                         }
-                       
+                    }
                     }
                     if(sub_type=="unsentGroups")
                     {
@@ -958,7 +961,8 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
                     {
                         //"uniqueid":"3fc8d6548c22c3341172114344","status":"delivered
                         
-                        var payload=userInfo["payload"] as! [AnyHashable : Any]
+                        if let payload=userInfo["payload"] as? [AnyHashable : Any]
+                        {
                         if(payload.count>0)
                         {
                             var uniqueid=payload["uniqueid"] as! String
@@ -971,18 +975,18 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
                             
                             completionHandler([])
                         }
-                        
-                       
+                    }
+                    
                     }
                     
                     if(sub_type=="statusOfSentGroupMessages")
                     {
-                        UtilityFunctions.init().log_papertrail("IPHONE: UPWARD SYNC PUSH \(userInfo) ... PAYLOAD: \(userInfo["payload"] as! [AnyHashable : Any])")
+                        UtilityFunctions.init().log_papertrail("IPHONE: UPWARD SYNC PUSH \(userInfo) ... PAYLOAD: \(userInfo["payload"])")
                         print("statusOfSentGroupMessages")
                         
                         
-                        var payload=userInfo["payload"] as! [AnyHashable : Any]
-                        if(payload.count>0)
+                        if let payload=userInfo["payload"] as? [AnyHashable : Any]
+                        {if(payload.count>0)
                         {
                             
                             var chat_unique_id=payload["chat_unique_id"] as! String
@@ -1016,7 +1020,7 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
                             
                             completionHandler([])
                         }
-                        
+                    }
                     }
                 }
                 
@@ -3493,12 +3497,13 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
                     if(type=="syncUpward")
                     {
                         
-                        UtilityFunctions.init().log_papertrail("IPHONE: UPWARD SYNC PUSH \(userInfo) ... PAYLOAD: \(userInfo["payload"] as! [AnyHashable : Any])")
+                        UtilityFunctions.init().log_papertrail("IPHONE: UPWARD SYNC PUSH \(userInfo) ... PAYLOAD: \(userInfo["payload"])")
                         var sub_type = userInfo["sub_type"] as! String
                         
                         if(sub_type=="unsentMessages")
                         {
-                            var payload=userInfo["payload"] as! [AnyHashable : Any]
+                            if let payload=userInfo["payload"] as? [AnyHashable : Any]
+                            {
                             var uniqueid=payload["uniqueid"] as! String
                             var status=payload["status"] as! String
                             
@@ -3510,14 +3515,15 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
                             
                              completionHandler(UIBackgroundFetchResult.newData)
                             
-                            
+                        }
                         }
                         if(sub_type=="unsentGroupMessages")
                         {
-                            UtilityFunctions.init().log_papertrail("IPHONE: UPWARD SYNC PUSH \(userInfo) ... PAYLOAD: \(userInfo["payload"] as! [AnyHashable : Any])")
+                            UtilityFunctions.init().log_papertrail("IPHONE: UPWARD SYNC PUSH \(userInfo) ... PAYLOAD: \(userInfo["payload"])")
                             print("push got group chat \(userInfo)")
                             
-                            var payload=userInfo["payload"] as! [AnyHashable : Any]
+                            if let payload=userInfo["payload"] as? [AnyHashable : Any]
+                            {
                             var uniqueid=payload["unique_id"] as! String
                             
                             
@@ -3546,8 +3552,8 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
                                 
                             }
                             
-                            
-                            
+                        }
+                        
                         }
                         //unsentChatMessageStatus
                         //unsentGroupChatMessageStatus
@@ -3558,17 +3564,20 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
                         //statusOfSentGroupMessages
                         if(sub_type=="unsentChatMessageStatus")
                         {
-                            var payload=userInfo["payload"] as! [AnyHashable : Any]
+                            if let payload=userInfo["payload"] as? [AnyHashable : Any]
+                            {
                             if(payload.count>0)
                             {
                                 var uniqueid=payload["uniqueid"] as! String
                                 sqliteDB.removeMessageStatusSeen(uniqueid)
                             }
                         }
+                        }
                         
                         if(sub_type=="unsentGroupChatMessageStatus")
                         {
-                            var payload=userInfo["payload"] as! [AnyHashable : Any]
+                            if let payload=userInfo["payload"] as? [AnyHashable : Any]
+                            {
                             if(payload.count>0)
                             {
                                 
@@ -3584,7 +3593,7 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
                                 
                                  completionHandler(UIBackgroundFetchResult.newData)
                             }
-                            
+                        }
                         }
                         if(sub_type=="unsentGroups")
                         {
@@ -3605,7 +3614,8 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
                         {
                             //"uniqueid":"3fc8d6548c22c3341172114344","status":"delivered
                             
-                            var payload=userInfo["payload"] as! [AnyHashable : Any]
+                           if let payload=userInfo["payload"] as? [AnyHashable : Any]
+                           {
                             if(payload.count>0)
                             {
                                 var uniqueid=payload["uniqueid"] as! String
@@ -3618,18 +3628,18 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
                                 
                                 completionHandler(UIBackgroundFetchResult.newData)
                             }
-                            
-                            
+                        }
+                        
                         }
                         
                         if(sub_type=="statusOfSentGroupMessages")
                         {
-                            UtilityFunctions.init().log_papertrail("IPHONE: UPWARD SYNC PUSH \(userInfo) ... PAYLOAD: \(userInfo["payload"] as! [AnyHashable : Any])")
+                            UtilityFunctions.init().log_papertrail("IPHONE: UPWARD SYNC PUSH \(userInfo) ... PAYLOAD: \(userInfo["payload"])")
                             print("statusOfSentGroupMessages")
                             
                             
-                            var payload=userInfo["payload"] as! [AnyHashable : Any]
-                            if(payload.count>0)
+                           if let payload=userInfo["payload"] as? [AnyHashable : Any]
+                           {if(payload.count>0)
                             {
                                 
                                 var chat_unique_id=payload["chat_unique_id"] as! String
@@ -3663,7 +3673,7 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
                                 
                                  completionHandler(UIBackgroundFetchResult.newData)
                             }
-                            
+                        }
                         }
                     }
                 }
@@ -4012,12 +4022,13 @@ else{
                 if(type=="syncUpward")
                 {
                     
-                    UtilityFunctions.init().log_papertrail("IPHONE: UPWARD SYNC PUSH \(userInfo) ... PAYLOAD: \(userInfo["payload"] as! [AnyHashable : Any])")
+                    UtilityFunctions.init().log_papertrail("IPHONE: UPWARD SYNC PUSH \(userInfo) ... PAYLOAD: \(userInfo["payload"])")
                     var sub_type = userInfo["sub_type"] as! String
                     
                     if(sub_type=="unsentMessages")
                     {
-                        var payload=userInfo["payload"] as! [AnyHashable : Any]
+                       if let payload=userInfo["payload"] as? [AnyHashable : Any]
+                       {
                        var uniqueid=payload["uniqueid"] as! String
                        var status=payload["status"] as! String
                     
@@ -4028,15 +4039,16 @@ else{
                         UIDelegates.getInstance().UpdateGroupChatDetailsDelegateCall()
                         
                         completionHandler(UIBackgroundFetchResult.newData)
-                    
+                    }
 
                     }
                     if(sub_type=="unsentGroupMessages")
                     {
-                         UtilityFunctions.init().log_papertrail("IPHONE: UPWARD SYNC PUSH \(userInfo) ... PAYLOAD: \(userInfo["payload"] as! [AnyHashable : Any])")
+                         UtilityFunctions.init().log_papertrail("IPHONE: UPWARD SYNC PUSH \(userInfo) ... PAYLOAD: \(userInfo["payload"])")
                         print("push got group chat \(userInfo)")
                         
-                        var payload=userInfo["payload"] as! [AnyHashable : Any]
+                        if let payload=userInfo["payload"] as? [AnyHashable : Any]
+                        {
                         var uniqueid=payload["unique_id"] as! String
                        
                         
@@ -4062,7 +4074,7 @@ else{
                             
                         }
                         
- 
+                    }
 
                     }
                     //unsentChatMessageStatus
@@ -4074,18 +4086,19 @@ else{
                     //statusOfSentGroupMessages
                     if(sub_type=="unsentChatMessageStatus")
                     {
-                        var payload=userInfo["payload"] as! [AnyHashable : Any]
-                        if(payload.count>0)
+                        if let payload=userInfo["payload"] as? [AnyHashable : Any]
+                        {if(payload.count>0)
                         {
 var uniqueid=payload["uniqueid"] as! String
                         sqliteDB.removeMessageStatusSeen(uniqueid)
                         }
                     }
+                    }
                     
                     if(sub_type=="unsentGroupChatMessageStatus")
                     {
-                        var payload=userInfo["payload"] as! [AnyHashable : Any]
-                        if(payload.count>0)
+                        if let payload=userInfo["payload"] as? [AnyHashable : Any]
+                        {if(payload.count>0)
                         {
 
                             var chat_uniqueid=payload["chat_uniqueid"] as! String
@@ -4094,6 +4107,7 @@ var uniqueid=payload["uniqueid"] as! String
  sqliteDB.removeGroupStatusTemp(status, memberphone1: username!, messageuniqueid1: chat_uniqueid)
  sqliteDB.updateGroupChatStatus(chat_uniqueid, memberphone1: username!, status1: status, delivereddate1: NSDate() as Date!, readDate1: NSDate() as Date!)
                         }
+                    }
                     }
                     if(sub_type=="unsentGroups")
                     {
@@ -4114,7 +4128,8 @@ var uniqueid=payload["uniqueid"] as! String
                     {
                         //"uniqueid":"3fc8d6548c22c3341172114344","status":"delivered
                         
-                        var payload=userInfo["payload"] as! [AnyHashable : Any]
+                        if let payload=userInfo["payload"] as? [AnyHashable : Any]
+                        {
                         if(payload.count>0)
                         {
                         var uniqueid=payload["uniqueid"] as! String
@@ -4124,42 +4139,46 @@ var uniqueid=payload["uniqueid"] as! String
                         
                         }
                     }
+                    }
                     
                     if(sub_type=="statusOfSentGroupMessages")
                     {
-                       UtilityFunctions.init().log_papertrail("IPHONE: UPWARD SYNC PUSH \(userInfo) ... PAYLOAD: \(userInfo["payload"] as! [AnyHashable : Any])")
+                       UtilityFunctions.init().log_papertrail("IPHONE: UPWARD SYNC PUSH \(userInfo) ... PAYLOAD: \(userInfo["payload"])")
                         print("statusOfSentGroupMessages")
                         
                         
-                        var payload=userInfo["payload"] as! [AnyHashable : Any]
-                        if(payload.count>0)
+                        if let payload=userInfo["payload"] as? [AnyHashable : Any]
                         {
-
-                        var chat_unique_id=payload["chat_unique_id"] as! String
-                        var user_phone=payload["user_phone"] as! String
-                        var read_date=payload["read_date"] as! String
-                        var delivered_date=payload["delivered_date"] as! String
-                        var status=payload["status"] as! String
-                        
-                        for var i in 0 ..< payload.count
-                        {
-                            var uniqueid1=chat_unique_id
-                            var user_phone1=user_phone
-                            var read_dateString=read_date
-                            
-                            var delivered_dateString=delivered_date
-                            var status1=status
-                            
-                            let dateFormatter = DateFormatter()
-                            dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
-                            
-                            let delivered_date = dateFormatter.date(from: delivered_dateString)
-                            let read_date = dateFormatter.date(from:read_dateString)
-                            
-                            print("updating status ......... \(i)")
-                            sqliteDB.updateGroupChatStatus(uniqueid1, memberphone1: user_phone1, status1: status1, delivereddate1: delivered_date, readDate1: read_date)
+                            if(payload.count>0)
+                            {
+                                
+                                var chat_unique_id=payload["chat_unique_id"] as! String
+                                var user_phone=payload["user_phone"] as! String
+                                var read_date=payload["read_date"] as! String
+                                var delivered_date=payload["delivered_date"] as! String
+                                var status=payload["status"] as! String
+                                
+                                for var i in 0 ..< payload.count
+                                {
+                                    var uniqueid1=chat_unique_id
+                                    var user_phone1=user_phone
+                                    var read_dateString=read_date
+                                    
+                                    var delivered_dateString=delivered_date
+                                    var status1=status
+                                    
+                                    let dateFormatter = DateFormatter()
+                                    dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
+                                    
+                                    let delivered_date = dateFormatter.date(from: delivered_dateString)
+                                    let read_date = dateFormatter.date(from:read_dateString)
+                                    
+                                    print("updating status ......... \(i)")
+                                    sqliteDB.updateGroupChatStatus(uniqueid1, memberphone1: user_phone1, status1: status1, delivereddate1: delivered_date, readDate1: read_date)
+                                }
                             }
                         }
+                       
 
                     }
                 }
@@ -4837,7 +4856,7 @@ var uniqueid=payload["uniqueid"] as! String
                         print()
                         sqliteDB.SaveChat(chatJson[0]["to"].string!, from1: chatJson[0]["from"].string!,owneruser1:chatJson[0]["to"].string!, fromFullName1: chatJson[0]["fromFullName"].string!, msg1: chatJson[0]["msg"].string!,date1:datens2,uniqueid1:chatJson[0]["uniqueid"].string!,status1: status,type1: "", file_type1: "chat",file_path1: "")
                         
-                        managerFile.sendChatStatusUpdateMessage(chatJson[0]["uniqueid"].string!, status: status, sender: chatJson[0]["from"].string!)
+                        //====-------managerFile.sendChatStatusUpdateMessage(chatJson[0]["uniqueid"].string!, status: status, sender: chatJson[0]["from"].string!)
                         
                         
                     }
@@ -5043,10 +5062,19 @@ var uniqueid=payload["uniqueid"] as! String
             // to play sound
             AudioServicesPlaySystemSound (systemSoundID)
             */
-        
+        let msg = Expression<String>("msg")
+         let uniqueid = Expression<String>("uniqueid")
+        var message=""
+        do{for tblContacts in try sqliteDB.db.prepare((sqliteDB.userschats!.filter(uniqueid == uniqueID))){
+            message=tblContacts[msg]
+            }
+        }
+            catch{
+                
+            }
         if(UIDelegates.getInstance().delegateUpdateChatStatusRow1 != nil)
         {
-        UIDelegates.getInstance().delegateUpdateChatStatusRow1.updateChatStatusRow("", uniqueid: uniqueID, status: status, filename: "", type: "", date: "")
+        UIDelegates.getInstance().delegateUpdateChatStatusRow1.updateChatStatusRow(message, uniqueid: uniqueID, status: status, filename: "", type: "", date: "")
         }
         //==--UIDelegates.getInstance().UpdateSingleChatDetailDelegateCall()
         UIDelegates.getInstance().UpdateMainPageChatsDelegateCall()

@@ -954,14 +954,18 @@ EPPickerDelegate,SWTableViewCellDelegate,UpdateChatViewsDelegate,RefreshContacts
         {
             
             print("Not Reachable")
+            if(username != nil && username != "")
+            {
+
                     UtilityFunctions.init().log_papertrail("IPHONE: \(username!) Not Reachable")
-        }
+            }
+            }
         else if (remoteHostStatus == Reachability.NetworkStatus.reachableViaWiFi)
         {
             print("Reachable via Wifi")
-                    UtilityFunctions.init().log_papertrail("IPHONE: \(username!) Reachable via wifi")
             if(username != nil && username != "")
             {
+                UtilityFunctions.init().log_papertrail("IPHONE: \(username!) Reachable via wifi")
                 
                /* Alamofire.request(.POST,"\(Constants.MainUrl+Constants.urllog)",headers:header,parameters: ["data":"IPHONE_LOG: Reachable via wifi \(username!)"]).response{
                     request, response_, data, error in
@@ -4257,7 +4261,8 @@ break
         _ tableView: UITableView,
         estimatedHeightForRowAtIndexPath indexPath: IndexPath
         ) -> CGFloat {
-        return 80
+        return 150
+        //return 80
     }
     
     override func setEditing(_ editing: Bool, animated: Bool) {

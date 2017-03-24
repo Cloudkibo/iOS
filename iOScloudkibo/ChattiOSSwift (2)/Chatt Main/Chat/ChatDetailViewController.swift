@@ -221,7 +221,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
                         self.tblForChats.reloadData()
                         
                         if(self.messages.count>1)
-                        {
+                        { print("scrollinggg 224 line")
                             //var indexPath = NSIndexPath(forRow:self.messages.count-1, inSection: 0)
                             let indexPath = IndexPath(row:self.tblForChats.numberOfRows(inSection: 0)-1, section: 0)
                             self.tblForChats.scrollToRow(at: indexPath, at: UITableViewScrollPosition.bottom, animated: false)
@@ -448,7 +448,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
                     var resultArray=self.messages.filtered(using: predicate)
                     if(resultArray.count > 0)
                     {
-                        
+                        print("scrollinggg 451 line")
                         var foundindex=self.messages.index(of: resultArray.first!)
                          let indexPath = IndexPath(row:foundindex, section: 0)
                        // self.tblForChats.seth
@@ -457,7 +457,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
                         self.tblForChats.scrollToRow(at: indexPath, at: UITableViewScrollPosition.bottom, animated: false)
                     }
                     else{
-                            
+                         print("scrollinggg 460 line")
                             let indexPath = IndexPath(row:self.tblForChats.numberOfRows(inSection: 0)-1, section: 0)
                             self.tblForChats.scrollToRow(at: indexPath, at: UITableViewScrollPosition.bottom, animated: false)
                         }
@@ -465,7 +465,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
                    
                 }
                 else{
-                
+                 print("scrollinggg 468 line")
                 let indexPath = IndexPath(row:self.tblForChats.numberOfRows(inSection: 0)-1, section: 0)
                 self.tblForChats.scrollToRow(at: indexPath, at: UITableViewScrollPosition.bottom, animated: false)
                 }
@@ -621,7 +621,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
             // failed to record!
         }
         
-        self.tblForChats.estimatedRowHeight = 10.0;
+        self.tblForChats.estimatedRowHeight = 100.0
         self.tblForChats.rowHeight = UITableViewAutomaticDimension;
         /*
         let nib1 = UINib(nibName: "ChatSentCell", bundle: nil)
@@ -4041,6 +4041,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
                 {
                     //var indexPath = NSIndexPath(forRow:self.messages.count-1, inSection: 0)
                     let indexPath = IndexPath(row:self.tblForChats.numberOfRows(inSection: 0)-1, section: 0)
+                     print("scrollinggg 4044 line")
                     self.tblForChats.scrollToRow(at: indexPath, at: UITableViewScrollPosition.bottom, animated: false)
                 }
 
@@ -4078,7 +4079,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
                 
                 let indexPath = IndexPath(row:self.tblForChats.numberOfRows(inSection: 0)-1, section: 0)
                 
-                
+                 print("scrollinggg 4082 line")
                 self.tblForChats.scrollToRow(at: indexPath, at: UITableViewScrollPosition.bottom, animated: false)
             }
         self.navigationController!.popViewController(animated: true)
@@ -4767,6 +4768,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
                 self.tblForChats.reloadData()
                 if(self.messages.count>1)
                 {
+                     print("scrollinggg 4771 line")
                     // let indexPath = NSIndexPath(forRow:self.messages.count-1, inSection: 0)
                     let indexPath = IndexPath(row:self.tblForChats.numberOfRows(inSection: 0)-1, section: 0)
                     self.tblForChats.scrollToRow(at: indexPath, at: UITableViewScrollPosition.bottom, animated: false)
@@ -5027,6 +5029,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
                         
                         if(self.messages.count>1)
                         {
+                             print("scrollinggg 5032 line")
                             //var indexPath = NSIndexPath(forRow:self.messages.count-1, inSection: 0)
                             let indexPath = IndexPath(row:self.tblForChats.numberOfRows(inSection: 0)-1, section: 0)
                             self.tblForChats.scrollToRow(at: indexPath, at: UITableViewScrollPosition.bottom, animated: false)
@@ -5253,6 +5256,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
                 
                 if(self.messages.count>1)
                 {
+                     print("scrollinggg 5259 line")
                     //var indexPath = NSIndexPath(forRow:self.messages.count-1, inSection: 0)
                     let indexPath = IndexPath(row:self.tblForChats.numberOfRows(inSection: 0)-1, section: 0)
                     self.tblForChats.scrollToRow(at: indexPath, at: UITableViewScrollPosition.bottom, animated: false)
@@ -5269,6 +5273,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
             
             if(self.messages.count>1)
             {
+                 print("scrollinggg 5276 line")
                 //var indexPath = NSIndexPath(forRow:self.messages.count-1, inSection: 0)
                 let indexPath = IndexPath(row:self.tblForChats.numberOfRows(inSection: 0)-1, section: 0)
                 self.tblForChats.scrollToRow(at: indexPath, at: UITableViewScrollPosition.bottom, animated: false)
@@ -5298,7 +5303,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
             if(self.messages.count>1)
             {
                // var indexPath = NSIndexPath(forRow:self.messages.count-1, inSection: 0)
-                
+                 print("scrollinggg 5306 line")
                 let indexPath = IndexPath(row:self.tblForChats.numberOfRows(inSection: 0)-1, section: 0)
                 self.tblForChats.scrollToRow(at: indexPath, at: UITableViewScrollPosition.bottom, animated: false)
                 
@@ -5672,7 +5677,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
                     self.messages.replaceObject(at: ind, with: aa)
                     //  self.messages.objectAtIndex(ind).message="\(self.messages[ind]["message"]) (sent)"
                     var indexp=IndexPath(row:ind, section:0)
-                    print("update rowsssss 5671")
+                    print("update rowsssss 5671 line")
                     self.tblForChats.beginUpdates()
                     self.tblForChats.reloadRows(at: [indexp], with: UITableViewRowAnimation.bottom)
                     self.tblForChats.endUpdates()
@@ -5850,7 +5855,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
             //print("$$ \(message)")
             //print(message)
 
-            self.self.retrieveChatFromSqlite(self.selectedContact,completion:{(result)-> () in
+            /*self.self.retrieveChatFromSqlite(self.selectedContact,completion:{(result)-> () in
                 
                 //    DispatchQueue.main.async
                 //  {
@@ -5870,7 +5875,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
                 //}
                 //}
                 // })
-            })
+            })*/
            /* self.retrieveChatFromSqlite(self.selectedContact)
             if(self.messages.count>1)
             {
@@ -6782,17 +6787,28 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
         {
             var foundindex=self.messages.index(of: resultArray.first!)
             var aa=self.messages.object(at: foundindex) as! [String:AnyObject]
-            var actualmsg=aa["message"] as! String
-            var oldstatus=aa["status"] as! String
-            var statusCount=oldstatus.characters.count+3
-            actualmsg=actualmsg.removeCharsFromEnd(statusCount)
+           // var actualmsg=aa["message"] as! String
             
-             var newrow:[String:AnyObject]=["message":"\(actualmsg) (\(status))" as AnyObject,"filename":filename as AnyObject,"type":aa["type"] as AnyObject,"date":aa["date"] as AnyObject,"uniqueid":aa["uniqueid"] as AnyObject,"status":status as AnyObject]
+            //find bracket from last
+            /////////var oldstatus=aa["status"] as! String
+            
+           // let indExt=actualmsg.sub
+            //let filetype=filejustreceivednameToSave.substring(from: indExt!)
+            
+            
+            //var statusCount=oldstatus.characters.count+3
+            //actualmsg=actualmsg.removeCharsFromEnd(statusCount)
+            
+             var newrow:[String:AnyObject]=["message":"\(message) \((status))"/*"message":"\(actualmsg) (\(status))"*/ as AnyObject,"filename":filename as AnyObject,"type":aa["type"] as AnyObject,"date":aa["date"] as AnyObject,"uniqueid":aa["uniqueid"] as AnyObject,"status":status as AnyObject]
             messages.replaceObject(at: foundindex, with: newrow)
             tblForChats.beginUpdates()
             
-            tblForChats.reloadRows(at: [NSIndexPath.init(row: foundindex, section: 0) as IndexPath], with: UITableViewRowAnimation.none)
+            tblForChats.reloadRows(at: [NSIndexPath.init(row: foundindex, section: 0) as IndexPath], with: UITableViewRowAnimation.bottom)
             tblForChats.endUpdates()
+            
+            
+            
+           //// self.tblForChats.scrollToRow(at: NSIndexPath.init(row: messages.count-1, section: 0) as IndexPath, at: UITableViewScrollPosition.bottom, animated: false)
             
         }
     }
