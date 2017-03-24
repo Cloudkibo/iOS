@@ -6738,8 +6738,9 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
        
         tblForChats.endUpdates()
         */
+        
         tblForChats.beginUpdates()
-        messages.add(["message":message,"filename":filename,"type":type,"date":date,"uniqueid":uniqueid])
+        messages.add(["message":message,"filename":filename,"type":type,"date":date,"uniqueid":uniqueid, "status":status])
         tblForChats.insertRows(at: [NSIndexPath.init(row: messages.count-1, section: 0) as IndexPath], with: UITableViewRowAnimation.bottom)
         tblForChats.endUpdates()
         self.tblForChats.scrollToRow(at: NSIndexPath.init(row: messages.count-1, section: 0) as IndexPath, at: UITableViewScrollPosition.bottom, animated: false)
@@ -6787,28 +6788,35 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
         {
             var foundindex=self.messages.index(of: resultArray.first!)
             var aa=self.messages.object(at: foundindex) as! [String:AnyObject]
-           // var actualmsg=aa["message"] as! String
+            var actualmsg=aa["message"] as! String
             
             //find bracket from last
-            /////////var oldstatus=aa["status"] as! String
+            var oldstatus=aa["status"] as! String
             
-           // let indExt=actualmsg.sub
+            // let indExt=actualmsg.sub
             //let filetype=filejustreceivednameToSave.substring(from: indExt!)
             
             
-            //var statusCount=oldstatus.characters.count+3
-            //actualmsg=actualmsg.removeCharsFromEnd(statusCount)
+            var statusCount=oldstatus.characters.count+3
+            actualmsg=actualmsg.removeCharsFromEnd(statusCount)
             
-             var newrow:[String:AnyObject]=["message":"\(message) \((status))"/*"message":"\(actualmsg) (\(status))"*/ as AnyObject,"filename":filename as AnyObject,"type":aa["type"] as AnyObject,"date":aa["date"] as AnyObject,"uniqueid":aa["uniqueid"] as AnyObject,"status":status as AnyObject]
+            print("found old message is \(message)")
+            
+            var newrow:[String:AnyObject]=["message":"\(actualmsg) (\(status))"/*"\(message) \((status))"*/  /*"message":"\(actualmsg) (\(status))"*/ as AnyObject,"filename":filename as AnyObject,"type":aa["type"] as AnyObject,"date":aa["date"] as AnyObject,"uniqueid":aa["uniqueid"] as AnyObject,"status":status as AnyObject]
+            
+            print("replaced with \(newrow["message"])")
+            
             messages.replaceObject(at: foundindex, with: newrow)
+            
             tblForChats.beginUpdates()
             
             tblForChats.reloadRows(at: [NSIndexPath.init(row: foundindex, section: 0) as IndexPath], with: UITableViewRowAnimation.bottom)
+            
             tblForChats.endUpdates()
             
             
             
-           //// self.tblForChats.scrollToRow(at: NSIndexPath.init(row: messages.count-1, section: 0) as IndexPath, at: UITableViewScrollPosition.bottom, animated: false)
+            //// self.tblForChats.scrollToRow(at: NSIndexPath.init(row: messages.count-1, section: 0) as IndexPath, at: UITableViewScrollPosition.bottom, animated: false)
             
         }
     }
