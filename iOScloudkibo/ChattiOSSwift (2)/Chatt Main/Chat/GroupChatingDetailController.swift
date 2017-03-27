@@ -28,11 +28,11 @@ import MobileCoreServices
 //import PHAsset
 //import PhotosUI
 //import Haneke
-class GroupChatingDetailController: UIViewController,UIDocumentPickerDelegate,UIDocumentMenuDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate,FileManagerDelegate,UpdateGroupChatDetailsDelegate,CNContactPickerDelegate,CNContactViewControllerDelegate,UIPickerViewDelegate,AVAudioRecorderDelegate {
+class GroupChatingDetailController: UIViewController,UIDocumentPickerDelegate,UIDocumentMenuDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate,FileManagerDelegate,UpdateGroupChatDetailsDelegate,CNContactPickerDelegate,CNContactViewControllerDelegate,UIPickerViewDelegate,AVAudioRecorderDelegate,CLLocationManagerDelegate {
     
     
     
-    
+    var locationManager = CLLocationManager()
     @IBOutlet weak var btnSendChat: UIButton!
     @IBOutlet weak var btnSendAudio: UIButton!
     var cellY:CGFloat=0
@@ -485,7 +485,7 @@ class GroupChatingDetailController: UIViewController,UIDocumentPickerDelegate,UI
         
         self.btnSendChat.isEnabled=true
         self.btnSendAudio.isEnabled=true
-        
+        locationManager.delegate=self
        //   self.navigationItem.titleView = setTitle(mytitle, subtitle: "Sumaira,xyz,abc")
         messages=NSMutableArray()
         
@@ -1590,8 +1590,8 @@ class GroupChatingDetailController: UIViewController,UIDocumentPickerDelegate,UI
         shareMenu.addAction(photoAction)
         shareMenu.addAction(videoAction)
         shareMenu.addAction(documentAction)
-        //shareMenu.addAction(locationAction)
-        //shareMenu.addAction(contactAction)
+        shareMenu.addAction(locationAction)
+        shareMenu.addAction(contactAction)
         shareMenu.addAction(cancelAction)
         
         

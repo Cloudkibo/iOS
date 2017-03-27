@@ -3169,8 +3169,8 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "6490"
             endingLineNumber = "6490"
-            landmarkName = "refreshSingleChatDetailUI(_:data:)"
-            landmarkType = "7">
+            landmarkName = "ChatDetailViewController"
+            landmarkType = "3">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
