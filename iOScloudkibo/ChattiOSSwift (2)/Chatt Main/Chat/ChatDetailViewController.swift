@@ -1047,7 +1047,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
         
     }
     
-    
+
     
     func retrieveChatFromSqliteOnAppear(_ selecteduser:String,completion:@escaping (_ result:Bool)->())
     {
@@ -4592,7 +4592,11 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
                 print("her in got permission")
             //self.locationManager.requestLocation()
            // self.locationManager(manager: self.locationm, didUpdateLocations: <#T##[CLLocation]#>)
-           self.sendCoordinates(location: self.locationManager.location!)
+            if(self.locationManager.location != nil)
+            {self.sendCoordinates(location: self.locationManager.location!)}
+            else{
+                self.showError("Error", message: "Unable to read your location. Please check your internet connection", button1: "Ok")
+            }
           //  }
             
 
@@ -6464,8 +6468,15 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
         socketObj.delegateChat=nil
     }
         delegateRefreshChat=nil
-        delegateChatRefr=nil
+        ////delegateChatRefr=nil
         delegatechatdetail=nil
+        delegateInsertChatAtLast=nil
+        UIDelegates.getInstance().delegateSingleChatDetails1=nil
+        ////delegateRefreshChat=nil
+        UIDelegates.getInstance().delegateInsertChatAtLast1=nil
+        UIDelegates.getInstance().delegateInsertBulkChatsSync1=nil
+        UIDelegates.getInstance().delegateInsertBulkChatsStatusesSync=nil
+        UIDelegates.getInstance().delegateUpdateChatStatusRow1=nil
        /////  NSNotificationCenter.defaultCenter().removeObserver(self, name:UIKeyboardWillShowNotification, object: nil)    
     }
     

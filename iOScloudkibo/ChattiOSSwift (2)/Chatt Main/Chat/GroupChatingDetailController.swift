@@ -22,6 +22,9 @@ import Compression
 import ContactsUI
 import Foundation
 import AssetsLibrary
+import MobileCoreServices
+
+
 //import PHAsset
 //import PhotosUI
 //import Haneke
@@ -1533,7 +1536,7 @@ class GroupChatingDetailController: UIViewController,UIDocumentPickerDelegate,UI
             //let importMenu = UIDocumentMenuViewController(documentTypes: [kUTTypeText as NSString as String, kUTTypeImage as String,"com.adobe.pdf","public.jpeg","public.html","public.content","public.data","public.item",kUTTypeBundle as String],
             //   inMode: .Import)
             
-            let importMenu = UIDocumentMenuViewController(documentTypes: [/*kUTTypeText as NSString as String,*/"com.adobe.pdf","public.html",/*"public.content",*/"public.text",/*kUTTypeBundle as String,"com.apple.rtfd"*/"com.adobe.pdf","com.microsoft.word.doc","org.openxmlformats.wordprocessingml.document"],
+            let importMenu = UIDocumentMenuViewController(documentTypes: [kUTTypeText as NSString as String,"com.adobe.pdf","public.html",/*"public.content",*/"public.text",/*kUTTypeBundle as String,"com.apple.rtfd"*/"com.adobe.pdf","com.microsoft.word.doc","org.openxmlformats.wordprocessingml.document"],
                                                           in: .import)
             ///////let importMenu = UIDocumentMenuViewController(documentTypes: UTIs, inMode: .Import)
             importMenu.delegate = self
@@ -1550,7 +1553,7 @@ class GroupChatingDetailController: UIViewController,UIDocumentPickerDelegate,UI
             
         })
         
-        /*let locationAction = UIAlertAction(title: "Share Location", style: UIAlertActionStyle.default,handler: { (action) -> Void in
+        let locationAction = UIAlertAction(title: "Share Location", style: UIAlertActionStyle.default,handler: { (action) -> Void in
             
             print("here share location prompt")
             
@@ -1565,13 +1568,13 @@ class GroupChatingDetailController: UIViewController,UIDocumentPickerDelegate,UI
             print("her in got permission")
             //self.locationManager.requestLocation()
             // self.locationManager(manager: self.locationm, didUpdateLocations: <#T##[CLLocation]#>)
-            self.sendCoordinates(location: self.locationManager.location!)
+            //self.sendCoordinates(location: self.locationManager.location!)
             //  }
             
             
             
             
-        })*/
+        })
         let contactAction = UIAlertAction(title: "Share Contact", style: UIAlertActionStyle.default, handler: { (action) -> Void in
             
             
@@ -1586,7 +1589,7 @@ class GroupChatingDetailController: UIViewController,UIDocumentPickerDelegate,UI
         //shareMenu.addAction(cameraAction)
         shareMenu.addAction(photoAction)
         shareMenu.addAction(videoAction)
-        //shareMenu.addAction(documentAction)
+        shareMenu.addAction(documentAction)
         //shareMenu.addAction(locationAction)
         //shareMenu.addAction(contactAction)
         shareMenu.addAction(cancelAction)

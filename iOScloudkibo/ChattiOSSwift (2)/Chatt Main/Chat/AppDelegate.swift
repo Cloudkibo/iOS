@@ -2891,8 +2891,8 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
         }*/
         
        // print("socket status iss \(socketObj.socket.status)")
-        if(socketObj.socket.status == SocketIOClientStatus.disconnected) //.closed
-        {
+       /// if(socketObj.socket.status == SocketIOClientStatus.disconnected) //.closed
+      ///  {
          //   print("opening socket")
             
             if(username != nil && username != "")
@@ -2955,7 +2955,7 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
             
           //  socketObj.socket.connect()
            // socketObj.socket.open()
-        }
+      ////  }
         
         if(socketObj == nil)
         {
