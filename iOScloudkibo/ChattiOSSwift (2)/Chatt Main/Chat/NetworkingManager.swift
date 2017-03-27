@@ -270,6 +270,8 @@ class NetworkingManager
     
     func sendChatStatusUpdateMessage(_ uniqueid:String,status:String,sender:String)
     {
+        if(status != "delivered")
+        {
         
       //  let queue = dispatch_queue_create("com.kibochat.manager-response-queue", DISPATCH_QUEUE_CONCURRENT)
         
@@ -324,7 +326,7 @@ class NetworkingManager
             }
        // )
     }
-    
+    }
 
     
     
@@ -489,6 +491,10 @@ class NetworkingManager
                             sqliteDB.UpdateChatStatus(chatmsg["uniqueid"].string!, newstatus: chatmsg["status"].string!)
                             
                         DispatchQueue.main.async() {
+                            if(UIDelegates.getInstance().delegateSingleChatDetails1 != nil)
+                            {
+                                UIDelegates.getInstance().UpdateSingleChatDetailDelegateCall()
+                            }
                             if(delegateRefreshChat != nil)
                             {print("updating UI now ...")
                                 delegateRefreshChat?.refreshChatsUI(nil, uniqueid:nil, from:nil, date1:nil, type:"status")

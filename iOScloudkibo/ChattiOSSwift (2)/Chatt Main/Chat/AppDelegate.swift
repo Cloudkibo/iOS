@@ -2248,6 +2248,10 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
                         {
                         DispatchQueue.main.async
                         {
+                            if(UIDelegates.getInstance().delegateSingleChatDetails1 != nil)
+                            {
+                            UIDelegates.getInstance().UpdateSingleChatDetailDelegateCall()
+                            }
                         if(delegateRefreshChat != nil)
                         {
                             print("informing UI to repfresh status")
@@ -4977,7 +4981,7 @@ var uniqueid=payload["uniqueid"] as! String
                     
                     if(UIDelegates.getInstance().delegateInsertChatAtLast1 != nil)
                     {
-                    UIDelegates.getInstance().delegateInsertChatAtLast1.insertChatRowAtLast(chatJson[0]["msg"].string!, uniqueid: chatJson[0]["uniqueid"].string!, status: status, filename: filename, type: "\(type)", date: defaultTimeeee)
+                        UIDelegates.getInstance().delegateInsertChatAtLast1.insertChatRowAtLast(chatJson[0]["msg"].string!, uniqueid: chatJson[0]["uniqueid"].string!, status: status, filename: filename, type: "\(type)", date: defaultTimeeee,from:chatJson[0]["from"].string!)
                     }
                 UIDelegates.getInstance().UpdateMainPageChatsDelegateCall()
                     

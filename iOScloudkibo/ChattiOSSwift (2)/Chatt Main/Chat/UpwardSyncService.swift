@@ -492,7 +492,7 @@ class syncService{
         
         // if(UserchatJson["msg"].count > 0)
         //{
-        DispatchQueue.main.async() {
+       /* DispatchQueue.main.async() {
             
             UIDelegates.getInstance().UpdateMainPageChatsDelegateCall()
             UIDelegates.getInstance().UpdateSingleChatDetailDelegateCall()
@@ -513,7 +513,7 @@ class syncService{
             ///////// }
             */
             
-        }
+        }*/
         print("all fetched chats saved in sqlite success")
         //}
         

@@ -13,13 +13,24 @@ import SwiftyJSON
 import Kingfisher
 import MediaPlayer
 import AVKit
-
+import Photos
+import Contacts
+import AssetsLibrary
+import Photos
+import Contacts
+import Compression
+import ContactsUI
+import Foundation
+import AssetsLibrary
+//import PHAsset
+//import PhotosUI
 //import Haneke
-class GroupChatingDetailController: UIViewController,UpdateGroupChatDetailsDelegate {
+class GroupChatingDetailController: UIViewController,UIDocumentPickerDelegate,UIDocumentMenuDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate,FileManagerDelegate,UpdateGroupChatDetailsDelegate,CNContactPickerDelegate,CNContactViewControllerDelegate,UIPickerViewDelegate,AVAudioRecorderDelegate {
     
     
     
     
+    @IBOutlet weak var btnSendChat: UIButton!
     @IBOutlet weak var btnSendAudio: UIButton!
     var cellY:CGFloat=0
     var showKeyboard=false
@@ -53,6 +64,43 @@ class GroupChatingDetailController: UIViewController,UpdateGroupChatDetailsDeleg
     
     var recordingSession: AVAudioSession!
     var audioRecorder: AVAudioRecorder!
+    
+    
+    @IBAction func didValueChanged(_ sender: UITextField) {
+        
+        
+        print("value text changed....... ")
+        if(sender.text==nil || sender.text=="")
+        {
+            //show Record button
+            self.btnSendChat.isHidden=true
+            self.btnSendAudio.isHidden=false
+        }
+        else{
+            self.btnSendChat.isHidden=false
+            self.btnSendAudio.isHidden=true
+        }
+        
+        
+         }
+    
+    @IBAction func didEditingChnged(_ sender: UITextField) {
+        
+        print("value text changed")
+        if(sender.text==nil || sender.text=="")
+        {
+            //show Record button
+            self.btnSendChat.isHidden=true
+            self.btnSendAudio.isHidden=false
+        }
+        else{
+            self.btnSendChat.isHidden=false
+            self.btnSendAudio.isHidden=true
+        }
+        
+
+   
+    }
     
     
     @IBAction func backBtnPressed(_ sender: AnyObject) {
@@ -122,6 +170,28 @@ class GroupChatingDetailController: UIViewController,UpdateGroupChatDetailsDeleg
         return titleView
     }
 
+    
+    func documentPicker(_ controller: UIDocumentPickerViewController, didPickDocumentAt url: URL) {
+        
+    }
+    
+    
+    func documentMenu(_ documentMenu: UIDocumentMenuViewController, didPickDocumentPicker documentPicker: UIDocumentPickerViewController) {
+        
+        documentPicker.delegate = self
+        present(documentPicker, animated: true, completion: nil)
+        
+        
+    }
+    
+    
+    
+    func documentMenuWasCancelled(_ documentMenu: UIDocumentMenuViewController) {
+        
+        
+    }
+    
+    
     @IBAction func btnSendTapped(_ sender: AnyObject){
         
         var uniqueid_chat=generateUniqueid()
@@ -153,6 +223,7 @@ class GroupChatingDetailController: UIViewController,UpdateGroupChatDetailsDeleg
         
         var chatmsg=txtFieldMessage.text!
         txtFieldMessage.text = "";
+        self.didValueChanged(txtFieldMessage)
         tblForGroupChat.reloadData()
         if(messages.count>1)
         {
@@ -299,7 +370,7 @@ class GroupChatingDetailController: UIViewController,UpdateGroupChatDetailsDeleg
     }
     
     func finishRecording(success: Bool) {
-        audioRecorder.stop()
+        ////audioRecorder.stop()
         ////audioRecorder = nil
         
         if !success {
@@ -409,7 +480,8 @@ class GroupChatingDetailController: UIViewController,UpdateGroupChatDetailsDeleg
     
     override func viewDidLoad() {
         
-        
+        self.btnSendChat.isEnabled=true
+        self.btnSendAudio.isEnabled=true
         
        //   self.navigationItem.titleView = setTitle(mytitle, subtitle: "Sumaira,xyz,abc")
         messages=NSMutableArray()
@@ -1375,6 +1447,203 @@ class GroupChatingDetailController: UIViewController,UpdateGroupChatDetailsDeleg
     }
     
     
+    @IBAction func btnFileShare(_ sender: Any) {
+        let contactPickerViewController = CNContactPickerViewController()
+        contactPickerViewController.delegate=self
+        
+        
+        let shareMenu = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        shareMenu.modalPresentationStyle=UIModalPresentationStyle.overCurrentContext
+        
+        
+        let cameraAction = UIAlertAction(title: "Camera", style: UIAlertActionStyle.default,handler: { (action) -> Void in
+            
+            let imagePicker=UIImagePickerController.init()
+            /// imagePicker =  UIImagePickerController()
+            imagePicker.delegate = self
+            imagePicker.sourceType = .camera
+            
+            self.present(imagePicker, animated: true, completion: nil)
+            
+        })
+        
+        let videoAction = UIAlertAction(title: "Share Video", style: UIAlertActionStyle.default,handler: { (action) -> Void in
+            
+            let picker=UIImagePickerController.init()
+            picker.delegate=self
+            
+            picker.allowsEditing = true;
+            //picker.modalPresentationStyle = UIModalPresentationStyle.OverCurrentContext
+            // if(UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.PhotoLibrary))
+            //  {
+            
+            //savedPhotosAlbum
+            // picker.sourceType = UIImagePickerControllerSourceType.PhotoLibrary
+            //}
+            picker.sourceType = UIImagePickerControllerSourceType.photoLibrary
+            picker.mediaTypes=["public.movie"]
+            ////picker.mediaTypes=[kUTTypeMovie as NSString as String,kUTTypeMovie as NSString as String]
+            //[self presentViewController:picker animated:YES completion:NULL];
+            DispatchQueue.main.async
+                { () -> Void in
+                    //  picker.addChildViewController(UILabel("hiiiiiiiiiiiii"))
+                    if(self.showKeyboard==true)
+                    {self.textFieldShouldReturn(self.txtFieldMessage)
+                    }
+                    self.present(picker, animated: true, completion: nil)
+                    
+            }
+            
+            
+        })
+        let photoAction = UIAlertAction(title: "Share Photo", style: UIAlertActionStyle.default,handler: { (action) -> Void in
+            
+            let picker=UIImagePickerController.init()
+            picker.delegate=self
+            
+            picker.allowsEditing = true;
+            //picker.modalPresentationStyle = UIModalPresentationStyle.OverCurrentContext
+            // if(UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.PhotoLibrary))
+            //  {
+            
+            //savedPhotosAlbum
+            // picker.sourceType = UIImagePickerControllerSourceType.PhotoLibrary
+            //}
+            picker.sourceType = UIImagePickerControllerSourceType.photoLibrary
+            picker.mediaTypes=["public.image"]
+            ////picker.mediaTypes=[kUTTypeMovie as NSString as String,kUTTypeMovie as NSString as String]
+            //[self presentViewController:picker animated:YES completion:NULL];
+            DispatchQueue.main.async
+                { () -> Void in
+                    //  picker.addChildViewController(UILabel("hiiiiiiiiiiiii"))
+                    if(self.showKeyboard==true)
+                    {self.textFieldShouldReturn(self.txtFieldMessage)
+                    }
+                    self.present(picker, animated: true, completion: nil)
+                    
+            }
+            
+            
+        })
+        let documentAction = UIAlertAction(title: "Share Document", style: UIAlertActionStyle.default, handler: { (action) -> Void in
+            
+            //print(NSOpenStepRootDirectory())
+            ///var UTIs=UTTypeCopyPreferredTagWithClass("public.image", kUTTypeImage)?.takeRetainedValue() as! [String]
+            
+            //let importMenu = UIDocumentMenuViewController(documentTypes: [kUTTypeText as NSString as String, kUTTypeImage as String,"com.adobe.pdf","public.jpeg","public.html","public.content","public.data","public.item",kUTTypeBundle as String],
+            //   inMode: .Import)
+            
+            let importMenu = UIDocumentMenuViewController(documentTypes: [/*kUTTypeText as NSString as String,*/"com.adobe.pdf","public.html",/*"public.content",*/"public.text",/*kUTTypeBundle as String,"com.apple.rtfd"*/"com.adobe.pdf","com.microsoft.word.doc","org.openxmlformats.wordprocessingml.document"],
+                                                          in: .import)
+            ///////let importMenu = UIDocumentMenuViewController(documentTypes: UTIs, inMode: .Import)
+            importMenu.delegate = self
+            
+            DispatchQueue.main.async { () -> Void in
+                if(self.showKeyboard==true)
+                {self.textFieldShouldReturn(self.txtFieldMessage)
+                }
+                self.present(importMenu, animated: true, completion: nil)
+                
+                
+            }
+            
+            
+        })
+        
+        /*let locationAction = UIAlertAction(title: "Share Location", style: UIAlertActionStyle.default,handler: { (action) -> Void in
+            
+            print("here share location prompt")
+            
+            //self.locationManager.delegate=self
+            self.locationManager.requestWhenInUseAuthorization()
+            
+            self.locationManager.startUpdatingLocation()
+            
+            //if(locationManager.location
+            //  if(self.didFindMyLocation==true)
+            //   {
+            print("her in got permission")
+            //self.locationManager.requestLocation()
+            // self.locationManager(manager: self.locationm, didUpdateLocations: <#T##[CLLocation]#>)
+            self.sendCoordinates(location: self.locationManager.location!)
+            //  }
+            
+            
+            
+            
+        })*/
+        let contactAction = UIAlertAction(title: "Share Contact", style: UIAlertActionStyle.default, handler: { (action) -> Void in
+            
+            
+            // contactPickerViewController.predicateForEnablingContact = NSPredicate(format: "birthday != nil")
+            
+            self.present(contactPickerViewController, animated: true, completion: nil)
+            
+        })
+        
+        let cancelAction = UIAlertAction(title: "Cancel", style: UIAlertActionStyle.cancel, handler:nil)
+        
+        //shareMenu.addAction(cameraAction)
+        shareMenu.addAction(photoAction)
+        shareMenu.addAction(videoAction)
+        //shareMenu.addAction(documentAction)
+        //shareMenu.addAction(locationAction)
+        //shareMenu.addAction(contactAction)
+        shareMenu.addAction(cancelAction)
+        
+        
+        
+        self.present(shareMenu, animated: true, completion: {
+            
+        })
+        
+        
+        
+        
+        
+        
+        
+        
+        //................................
+        
+        /*
+         //socketObj.socket.emit("logClient","\(username!) is sharing file with \(iamincallWith)")
+         //print(NSOpenStepRootDirectory())
+         ///var UTIs=UTTypeCopyPreferredTagWithClass("public.image", kUTTypeImage)?.takeRetainedValue() as! [String]
+         
+         let importMenu = UIDocumentMenuViewController(documentTypes: [kUTTypeText as NSString as String, kUTTypeImage as String,"com.adobe.pdf","public.jpeg","public.html","public.content","public.data","public.item",kUTTypeBundle as String],
+         inMode: .Import)
+         ///////let importMenu = UIDocumentMenuViewController(documentTypes: UTIs, inMode: .Import)
+         importMenu.delegate = self
+         if(UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.PhotoLibrary))
+         {
+         importMenu.addOptionWithTitle("Photots and Movies", image: nil, order: UIDocumentMenuOrder.First) {
+         var picker=UIImagePickerController.init()
+         picker.delegate=self
+         
+         picker.allowsEditing = true;
+         // if(UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.PhotoLibrary))
+         //  {
+         picker.sourceType = UIImagePickerControllerSourceType.PhotoLibrary
+         //}
+         
+         //[self presentViewController:picker animated:YES completion:NULL];
+         DispatchQueue.main.async { () -> Void in
+         self.presentViewController(picker, animated: true, completion: nil)
+         
+         
+         }
+         
+         
+         }
+         }
+         DispatchQueue.main.async { () -> Void in
+         self.presentViewController(importMenu, animated: true, completion: nil)
+         
+         
+         }
+         */
+    }
     
     override func viewWillDisappear(_ animated: Bool) {
         

@@ -5579,9 +5579,8 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
         
         
         
-        self.insertChatRowAtLast(msggg+" (\(statusNow))", uniqueid: uniqueID, status: statusNow, filename: "", type: "2", date: defaultTimeZoneStr)
-        
-        
+        self.insertChatRowAtLast(msggg+" (\(statusNow))", uniqueid: uniqueID, status: statusNow, filename: "", type: "2", date: defaultTimeZoneStr, from: username!)
+       
         /*self.addMessage(msggg+" (\(statusNow))",status:statusNow,ofType: "2",date:defaultTimeZoneStr, uniqueid: uniqueID)
   
             self.tblForChats.reloadData()
@@ -6481,7 +6480,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
     
     func refreshSingleChatDetailUI(_ message: String, data: AnyObject!) {
         
-        /*self.retrieveChatFromSqlite(self.selectedContact,completion:{(result)-> () in
+        self.retrieveChatFromSqlite(self.selectedContact,completion:{(result)-> () in
             
         self.tblForChats.reloadData()
         
@@ -6494,7 +6493,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
         //}
         //}
         // })
-    })*/
+    })
     }
     
     func locationManager(manager: CLLocationManager!, didChangeAuthorizationStatus status: CLAuthorizationStatus) {
@@ -6722,7 +6721,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
         
     }
     
-    func insertChatRowAtLast(_ message: String, uniqueid: String, status: String, filename: String, type: String, date: String) {
+    func insertChatRowAtLast(_ message: String, uniqueid: String, status: String, filename: String, type: String, date: String,from:String) {
         
         /*tblForChats.beginUpdates()
         messages.add(["message":message,"filename":filename,"type":type,"date":date,"uniqueid":uniqueid])
@@ -6738,13 +6737,23 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
        
         tblForChats.endUpdates()
         */
-        
-        tblForChats.beginUpdates()
         messages.add(["message":message,"filename":filename,"type":type,"date":date,"uniqueid":uniqueid, "status":status])
+        //tblForChats.beginUpdates()
+        
         tblForChats.insertRows(at: [NSIndexPath.init(row: messages.count-1, section: 0) as IndexPath], with: UITableViewRowAnimation.bottom)
-        tblForChats.endUpdates()
+        
+       // tblForChats.endUpdates()
         self.tblForChats.scrollToRow(at: NSIndexPath.init(row: messages.count-1, section: 0) as IndexPath, at: UITableViewScrollPosition.bottom, animated: false)
-
+        
+        if(from == selectedContact)
+        {
+            
+            sqliteDB.UpdateChatStatus(uniqueid, newstatus: "seen")
+            
+            sqliteDB.saveMessageStatusSeen("seen", sender1: from, uniqueid1: uniqueid)
+            
+            sendChatStatusUpdateMessage(uniqueid,status: "seen",sender:from)
+        }
         
     }
     

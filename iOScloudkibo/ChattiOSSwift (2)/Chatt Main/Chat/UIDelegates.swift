@@ -88,7 +88,7 @@ protocol UpdateSingleChatDetailDelegate:class
 
 protocol insertChatAtLastDelegate:class
 {
-    func insertChatRowAtLast(_ message:String,uniqueid:String,status:String,filename:String,type:String,date:String);
+    func insertChatRowAtLast(_ message:String,uniqueid:String,status:String,filename:String,type:String,date:String,from:String);
 }
 protocol updateChatStatusRowDelegate:class
 {

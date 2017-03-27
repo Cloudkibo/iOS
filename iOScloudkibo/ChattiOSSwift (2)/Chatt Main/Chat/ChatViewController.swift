@@ -602,6 +602,10 @@ EPPickerDelegate,SWTableViewCellDelegate,UpdateChatViewsDelegate,RefreshContacts
                        // if(UserchatJson["msg"].count > 0)
                         //{
                             DispatchQueue.main.async() {
+                                if(UIDelegates.getInstance().delegateSingleChatDetails1 != nil)
+                                {
+                                    UIDelegates.getInstance().UpdateSingleChatDetailDelegateCall()
+                                }
                                 if(delegateRefreshChat != nil)
                                 {print("updating UI now ...")
                                     delegateRefreshChat?.refreshChatsUI(nil, uniqueid:nil, from:nil, date1:nil, type:"status")
