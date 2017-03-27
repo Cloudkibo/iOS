@@ -1645,6 +1645,117 @@ class GroupChatingDetailController: UIViewController,UIDocumentPickerDelegate,UI
          */
     }
     
+    func insertChatRowAtLast(_ message: String, uniqueid: String, status: String, filename: String, type: String, date: String,from:String) {
+        
+        /*tblForChats.beginUpdates()
+         messages.add(["message":message,"filename":filename,"type":type,"date":date,"uniqueid":uniqueid])
+         var predicate=NSPredicate(format: "uniqueid = %@", uniqueid)
+         var resultArray=self.messages.filtered(using: predicate)
+         
+         if(resultArray.count > 0)
+         {
+         var foundindex=self.messages.index(of: resultArray.first!)
+         tblForChats.insertRows(at: [NSIndexPath.init(row: foundindex, section: 0) as IndexPath], with: UITableViewRowAnimation.bottom)
+         //insertRow(at: NSIndexPath(forRow: foundindex, inSection: 0), with: UITableViewRowAnimation.bottom)
+         }
+         
+         tblForChats.endUpdates()
+         */
+        messages.add(["message":message,"filename":filename,"type":type,"date":date,"uniqueid":uniqueid, "status":status])
+        //tblForChats.beginUpdates()
+        
+        tblForGroupChat.insertRows(at: [NSIndexPath.init(row: messages.count-1, section: 0) as IndexPath], with: UITableViewRowAnimation.bottom)
+        
+        // tblForChats.endUpdates()
+        self.tblForGroupChat.scrollToRow(at: NSIndexPath.init(row: messages.count-1, section: 0) as IndexPath, at: UITableViewScrollPosition.bottom, animated: false)
+        
+        if(from != username!)
+        {
+            //LATER
+            
+            //sqliteDB.UpdateChatStatus(uniqueid, newstatus: "seen")
+           // sqliteDB.saveGroupStatusTemp("seen", sender1: tblUserChats[from], messageuniqueid1: tblUserChats[uniqueid])
+            //sqliteDB.saveMessageStatusSeen("seen", sender1: from, uniqueid1: uniqueid)
+            //self.sendGroupChatStatus(uniqueid,status: "seen")
+
+            //sendChatStatusUpdateMessage(uniqueid,status: "seen",sender:from)
+        }
+        
+    }
+    
+    func insertBulkChats(statusArray: [[String : AnyObject]]) {
+        
+        tblForGroupChat.beginUpdates()
+        for chats  in statusArray
+        {
+            //var messageDic = chats.object(at: indexPath.row) as! [String : String];
+            messages.add(["message":chats["message"],"filename":chats["filename"],"type":chats["type"],"date":chats["date"],"uniqueid":chats["uniqueid"],"status":chats["status"]])
+            tblForGroupChat.insertRows(at: [NSIndexPath.init(row: messages.count-1, section: 0) as IndexPath], with: UITableViewRowAnimation.bottom)
+        }
+        tblForGroupChat.endUpdates()
+        
+    }
+    
+    func insertBulkChatStatusesSync(statusArray: [[String : AnyObject]]) {
+        
+        tblForGroupChat.beginUpdates()
+        for chats in statusArray
+        {
+            var predicate=NSPredicate(format: "uniqueid = %@", chats["uniqueid"] as! String)
+            var resultArray=self.messages.filtered(using: predicate)
+            if(resultArray.count > 0)
+            {
+                var foundindex=self.messages.index(of: resultArray.first!)
+                var newrow:[String:AnyObject]=["message":"\(chats["message"]!) (\(chats["status"])" as AnyObject,"filename":chats["filename"]!,"type":chats["type"]!,"date":chats["date"]!,"uniqueid":chats["uniqueid"]!,"status":chats["status"]!]
+                
+                //messages.add(["message":chats["message"],"filename":chats["filename"],"type":chats["type"],"date":chats["date"],"uniqueid":chats["uniqueid"]])
+                tblForGroupChat.insertRows(at: [NSIndexPath.init(row: resultArray.first as! Int, section: 0) as IndexPath], with: UITableViewRowAnimation.bottom)
+            }
+        }
+        tblForGroupChat.endUpdates()
+    }
+    
+    func updateChatStatusRow(_ message: String, uniqueid: String, status: String, filename: String, type: String, date: String) {
+        
+        var predicate=NSPredicate(format: "uniqueid = %@", uniqueid)
+        var resultArray=self.messages.filtered(using: predicate)
+        if(resultArray.count > 0)
+        {
+            var foundindex=self.messages.index(of: resultArray.first!)
+            var aa=self.messages.object(at: foundindex) as! [String:AnyObject]
+            var actualmsg=aa["message"] as! String
+            
+            //find bracket from last
+            var oldstatus=aa["status"] as! String
+            
+            // let indExt=actualmsg.sub
+            //let filetype=filejustreceivednameToSave.substring(from: indExt!)
+            
+            
+            var statusCount=oldstatus.characters.count+3
+            actualmsg=actualmsg.removeCharsFromEnd(statusCount)
+            
+            print("found old message is \(message)")
+            
+            var newrow:[String:AnyObject]=["message":"\(actualmsg) (\(status))"/*"\(message) \((status))"*/  /*"message":"\(actualmsg) (\(status))"*/ as AnyObject,"filename":filename as AnyObject,"type":aa["type"] as AnyObject,"date":aa["date"] as AnyObject,"uniqueid":aa["uniqueid"] as AnyObject,"status":status as AnyObject]
+            
+            print("replaced with \(newrow["message"])")
+            
+            messages.replaceObject(at: foundindex, with: newrow)
+            
+            tblForGroupChat.beginUpdates()
+            
+            tblForGroupChat.reloadRows(at: [NSIndexPath.init(row: foundindex, section: 0) as IndexPath], with: UITableViewRowAnimation.bottom)
+            
+            tblForGroupChat.endUpdates()
+            
+            
+            
+            //// self.tblForChats.scrollToRow(at: NSIndexPath.init(row: messages.count-1, section: 0) as IndexPath, at: UITableViewScrollPosition.bottom, animated: false)
+            
+        }
+    }
+    
     override func viewWillDisappear(_ animated: Bool) {
         
         UIDelegates.getInstance().delegateGroupChatDetails1=nil

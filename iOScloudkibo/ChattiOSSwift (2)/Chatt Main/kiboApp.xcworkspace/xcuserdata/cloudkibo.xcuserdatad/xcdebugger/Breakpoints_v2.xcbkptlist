@@ -1166,8 +1166,8 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "45"
             endingLineNumber = "45"
-            landmarkName = "Constants"
-            landmarkType = "3">
+            landmarkName = "hubname"
+            landmarkType = "24">
             <Locations>
                <Location
                   shouldBeEnabled = "Yes"

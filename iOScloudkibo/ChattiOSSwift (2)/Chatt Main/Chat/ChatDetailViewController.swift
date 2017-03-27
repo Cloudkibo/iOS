@@ -1662,8 +1662,8 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
                     
                     
                     
-                    if(tblContacts[from]==selecteduser && (tblContacts[status]=="delivered"))
-                    {
+                    if(tblContacts[from]==selecteduser && ((tblContacts[status]=="delivered") || tblContacts[status]=="sent"))
+                    {print("sent by \(tblContacts[from]) msg \(tblContacts[msg]) status is \(tblContacts[status])")
                         sqliteDB.UpdateChatStatus(tblContacts[uniqueid], newstatus: "seen")
                         
                         sqliteDB.saveMessageStatusSeen("seen", sender1: tblContacts[from], uniqueid1: tblContacts[uniqueid])
@@ -6479,7 +6479,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
      }*/
     
     func refreshSingleChatDetailUI(_ message: String, data: AnyObject!) {
-        
+        print("inside refreshSingleChatDetailUI")
         self.retrieveChatFromSqlite(self.selectedContact,completion:{(result)-> () in
             
         self.tblForChats.reloadData()
