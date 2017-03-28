@@ -1421,8 +1421,8 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "4733"
             endingLineNumber = "4733"
-            landmarkName = "AppDelegate"
-            landmarkType = "3">
+            landmarkName = "application(_:shouldSaveApplicationState:)"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -1757,7 +1757,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "4645"
             endingLineNumber = "4645"
-            landmarkName = "application(_:didFailToRegisterForRemoteNotificationsWithError:)"
+            landmarkName = "fetchSingleGroupChatMessage(_:completion:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -1789,8 +1789,8 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "2586"
             endingLineNumber = "2586"
-            landmarkName = "AppDelegate"
-            landmarkType = "3">
+            landmarkName = "sendPendingGroupChatMessages(_:)"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -3691,11 +3691,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Chat/ChatDetailViewController.swift"
-            timestampString = "512306013.097225"
+            timestampString = "512430317.387808"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "6823"
-            endingLineNumber = "6823"
+            startingLineNumber = "6828"
+            endingLineNumber = "6828"
             landmarkName = "updateChatStatusRow(_:uniqueid:status:filename:type:date:)"
             landmarkType = "7">
          </BreakpointContent>

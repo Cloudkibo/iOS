@@ -3698,11 +3698,11 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
             
         if(UIApplication.shared.applicationState.rawValue != UIApplicationState.inactive.rawValue )
         {
-           UtilityFunctions.init().log_papertrail("IPHONE: \(username!) iOS 10+ receivednotification method called mode not inactive \(UIApplication.shared.applicationState.rawValue) \(userInfo) ")
-            Alamofire.request("https://api.cloudkibo.com/api/users/log", method: .post, parameters: ["data":"IPHONE_LOG: \(username!) received push notification in mode value \(UIApplication.shared.applicationState.rawValue) as \(userInfo.description)"],headers:header).response{
+           UtilityFunctions.init().log_papertrail("IPHONE: \(username!) iOS 9+ receivednotification method called mode not inactive \(UIApplication.shared.applicationState.rawValue) \(userInfo) ")
+            /*Alamofire.request("https://api.cloudkibo.com/api/users/log", method: .post, parameters: ["data":"IPHONE_LOG: \(username!) received push notification in mode value \(UIApplication.shared.applicationState.rawValue) as \(userInfo.description)"],headers:header).response{
                 response in
                 print(response.error)
-            }
+            }*/
         
 /*
          
@@ -4102,6 +4102,11 @@ else{
                         {
 var uniqueid=payload["uniqueid"] as! String
                         sqliteDB.removeMessageStatusSeen(uniqueid)
+                            UIDelegates.getInstance().UpdateGroupChatDetailsDelegateCall()
+                            UIDelegates.getInstance().UpdateMainPageChatsDelegateCall()
+                            UIDelegates.getInstance().UpdateGroupInfoDetailsDelegateCall()
+                            completionHandler(UIBackgroundFetchResult.newData)
+
                         }
                     }
                     }
@@ -4117,6 +4122,11 @@ var uniqueid=payload["uniqueid"] as! String
                         
  sqliteDB.removeGroupStatusTemp(status, memberphone1: username!, messageuniqueid1: chat_uniqueid)
  sqliteDB.updateGroupChatStatus(chat_uniqueid, memberphone1: username!, status1: status, delivereddate1: NSDate() as Date!, readDate1: NSDate() as Date!)
+                            UIDelegates.getInstance().UpdateGroupChatDetailsDelegateCall()
+                            UIDelegates.getInstance().UpdateMainPageChatsDelegateCall()
+                            UIDelegates.getInstance().UpdateGroupInfoDetailsDelegateCall()
+                            completionHandler(UIBackgroundFetchResult.newData)
+
                         }
                     }
                     }
@@ -4147,7 +4157,11 @@ var uniqueid=payload["uniqueid"] as! String
                             var status=payload["status"] as! String
                             
                             sqliteDB.UpdateChatStatus(uniqueid, newstatus: status)
-                        
+                            UIDelegates.getInstance().UpdateGroupChatDetailsDelegateCall()
+                            UIDelegates.getInstance().UpdateMainPageChatsDelegateCall()
+                            UIDelegates.getInstance().UpdateGroupInfoDetailsDelegateCall()
+                            completionHandler(UIBackgroundFetchResult.newData)
+
                         }
                     }
                     }

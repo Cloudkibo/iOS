@@ -6561,6 +6561,9 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
        //////    sendCoordinates(location: userLocation)
     }
 */
+  
+    
+    
     func sendCoordinates(location:CLLocation)
     {
         var msgbody="\(location.coordinate.latitude):\(location.coordinate.longitude)"
@@ -6725,12 +6728,14 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
                                 // print("messages count is \(self.messages.count)")
                         }
                     }
-                }}
+                }
+            }
             /*  }
              }*/
         }
-        
     }
+    
+ 
     
     func insertChatRowAtLast(_ message: String, uniqueid: String, status: String, filename: String, type: String, date: String,from:String) {
         
