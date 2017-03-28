@@ -154,7 +154,11 @@ var contactsarray=[CNContact]()
         print("========launchhhhhhhhh=====")
         print(Date())
         
-        
+        print("app state application is \(UIApplication.shared.applicationState.rawValue)")
+        print("app state is \(application.applicationState.rawValue)")
+        print("app state value background is \(UIApplicationState.background.rawValue)")
+        print("app state value inactive is \(UIApplicationState.inactive.rawValue)")
+        print("app state value active is \(UIApplicationState.active.rawValue)")
         
         if (UserDefaults.standard.value(forKey: Constants.defaultsBackupTimeKey) == nil)
         {
@@ -1046,7 +1050,10 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
     @available(iOS 10.0, *)
     func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
         
-        UtilityFunctions.init().log_papertrail("iOS 10 mode \(UIApplication.shared.applicationState) User Info = \(response.notification.request.content.userInfo)")
+        
+        UtilityFunctions.init().log_papertrail("IPHONE: iOS 10+ \(username!) didreceive \(response.notification.request.content.userInfo)")
+            
+       ///// UtilityFunctions.init().log_papertrail("iOS 10 mode \(UIApplication.shared.applicationState) User Info = \(response.notification.request.content.userInfo)")
             print("User Info = ",response.notification.request.content.userInfo)
         
         /*var userInfo=response.notification.request.content.userInfo
@@ -3214,8 +3221,7 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
         
      
         
-        
-        print("receivednotification method called \(userInfo)")
+        //print("receivednotification method called \(userInfo)")
         /*print("app state application is \(UIApplication.sharedApplication().applicationState.rawValue)")
         print("app state is \(application.applicationState.rawValue)")
         print("app state value background is \(UIApplicationState.Background.rawValue)")
@@ -3228,6 +3234,7 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
         //avoid calling twice, inactive when transitions by tapping on notification bar
         if #available(iOS 10.0, *){
             print("iOS 10+ version")
+            UtilityFunctions.init().log_papertrail("IPHONE: \(username!) iOS 10+ receivednotification method called mode \(UIApplication.shared.applicationState.rawValue) \(userInfo) ")
             
             if  let singleuniqueid = userInfo["uniqueId"] as? String {
                 // Printout of (userInfo["aps"])["type"]
@@ -3585,7 +3592,7 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
                             if(payload.count>0)
                             {
                                 
-                                var chat_uniqueid=payload["chat_uniqueid"] as! String
+                                var chat_uniqueid=payload["uniqueid"] as! String
                                 var status=payload["status"] as! String
                                 
                                 sqliteDB.removeGroupStatusTemp(status, memberphone1: username!, messageuniqueid1: chat_uniqueid)
@@ -3688,10 +3695,10 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
         }
         else{
     
-    
+            
         if(UIApplication.shared.applicationState.rawValue != UIApplicationState.inactive.rawValue )
         {
-    
+           UtilityFunctions.init().log_papertrail("IPHONE: \(username!) iOS 10+ receivednotification method called mode not inactive \(UIApplication.shared.applicationState.rawValue) \(userInfo) ")
             Alamofire.request("https://api.cloudkibo.com/api/users/log", method: .post, parameters: ["data":"IPHONE_LOG: \(username!) received push notification in mode value \(UIApplication.shared.applicationState.rawValue) as \(userInfo.description)"],headers:header).response{
                 response in
                 print(response.error)
