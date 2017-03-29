@@ -23,8 +23,6 @@ import ContactsUI
 import Foundation
 import AssetsLibrary
 import MobileCoreServices
-
-
 //import PHAsset
 //import PhotosUI
 //import Haneke
@@ -1759,6 +1757,116 @@ class GroupChatingDetailController: UIViewController,UIDocumentPickerDelegate,UI
         }
     }
     
+    
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
+        
+            var filename=""
+            var ftype=""
+            var filesize1=""
+        
+            let imageUrl          = info[UIImagePickerControllerReferenceURL] as! URL
+            let imageName         = imageUrl.lastPathComponent
+            let documentDirectory = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true).first as String!
+            let photoURL          = URL(fileURLWithPath: documentDirectory!)
+            let localPath         = photoURL.appendingPathComponent(imageName)
+            let image             = info[UIImagePickerControllerOriginalImage]as! UIImage
+            let data              = UIImagePNGRepresentation(image)
+            
+            if let imageURL = info[UIImagePickerControllerReferenceURL] as? URL {
+                let result = PHAsset.fetchAssets(withALAssetURLs: [imageURL], options: nil)
+                
+                PHImageManager.default().requestImageData(for: result.firstObject!, options: nil, resultHandler: { _, _, _, info in
+                    
+                    if let fileName1 = (info?["PHImageFileURLKey"] as? NSURL)?.lastPathComponent {
+                        //do sth with file name
+                        filename=fileName1
+                        
+                    }
+                })
+                /////====-----------  self.filename = result.firstObject?.filename ?? ""
+                
+                // var myasset=result.firstObject as! PHAsset
+                ////print(myasset.mediaType)
+                
+                
+                
+            }
+            var furl=URL(string: localPath.absoluteString)
+            
+            //print(furl!.pathExtension!)
+            //print(furl!.deletingLastPathComponent())
+            ftype=furl!.pathExtension
+            
+            
+        
+        let shareMenu = UIAlertController(title: nil, message: " Share file \(filename) ? ", preferredStyle: .actionSheet)
+        shareMenu.modalPresentationStyle=UIModalPresentationStyle.overCurrentContext
+        let confirm = UIAlertAction(title: "Yes", style: UIAlertActionStyle.default,handler: { (action) -> Void in
+            
+            socketObj.socket.emit("logClient","IPHONE-LOG: \(username!) selected image ")
+            //print("file gotttttt")
+            
+            // var fname=furl!.deletingLastPathComponent()
+            
+            
+            let dirPaths = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)
+            let docsDir1 = dirPaths[0]
+            var documentDir=docsDir1 as NSString
+            var filePathImage2=documentDir.appendingPathComponent(filename)
+            var fm=FileManager.default
+            
+            var fileAttributes:[String:AnyObject]=["":"" as AnyObject]
+            do {
+                let fileAttributes : NSDictionary? = try FileManager.default.attributesOfItem(atPath: filePathImage2) as NSDictionary?
+                if let _attr = fileAttributes {
+                    filesize1 = _attr.fileSize();
+                    //print("file size is \(self.fileSize1)")
+                    //// ***april 2016 neww self.fileSize=(fileSize1 as! NSNumber).integerValue
+                }
+            } catch {
+                socketObj.socket.emit("logClient","IPHONE-LOG: error: \(error)")
+                //print("Error:+++ \(error)")
+            }
+            
+            
+            //print("filename is \(self.filename) destination path is \(filePathImage2) image name \(imageName) imageurl \(imageUrl) photourl \(photoURL) localPath \(localPath).. \(localPath.absoluteString)")
+            
+            var s=fm.createFile(atPath: filePathImage2, contents: nil, attributes: nil)
+            
+            //  var written=fileData!.writeToFile(filePathImage2, atomically: false)
+            
+            //filePathImage2
+            
+            try? data!.write(to: URL(fileURLWithPath: filePathImage2), options: [.atomic])
+            // data!.writeToFile(localPath.absoluteString, atomically: true)
+            
+             var uniqueID=UtilityFunctions.init().generateUniqueid()
+            
+            
+            
+            
+            var imParas=["from":"\(username!)","to":"\(self.selectedContact)","fromFullName":"\(displayname)","msg":self.filename,"uniqueid":uniqueID,"type":"file","file_type":"image"]
+            //print("imparas are \(imParas)")
+            
+            
+            var statusNow="pending"
+            //------
+            sqliteDB.SaveChat(self.selectedContact, from1: username!, owneruser1: username!, fromFullName1: displayname, msg1: self.filename, date1: nil, uniqueid1: uniqueID, status1: statusNow, type1: "file", file_type1: "image", file_path1: filePathImage2)
+            
+        
+            sqliteDB.saveFile(self.selectedContact, from1: username!, owneruser1: username!, file_name1: self.filename, date1: nil, uniqueid1: uniqueID, file_size1: "\(self.fileSize1)", file_type1: ftype, file_path1: filePathImage2, type1: "image")
+            
+            self.addUploadInfo(self.selectedContact,uniqueid1: uniqueID, rowindex: self.messages.count, uploadProgress: 0.0, isCompleted: false)
+            
+            managerFile.uploadFile(filePathImage2, to1: self.selectedContact, from1: username!, uniqueid1: uniqueID, file_name1: self.filename, file_size1: "\(self.fileSize1)", file_type1: ftype,type1:"image")
+        })
+        
+    }
+    
+    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+        
+        
+    }
     override func viewWillDisappear(_ animated: Bool) {
         
         UIDelegates.getInstance().delegateGroupChatDetails1=nil

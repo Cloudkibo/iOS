@@ -942,7 +942,7 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
                             UIDelegates.getInstance().UpdateGroupInfoDetailsDelegateCall()
                             UIDelegates.getInstance().UpdateGroupChatDetailsDelegateCall()
                             
-                            completionHandler([])
+                            completionHandler(.alert)
                         }
                     }
                     }
@@ -965,19 +965,19 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
                     {
                         //"uniqueid":"3fc8d6548c22c3341172114344","status":"delivered
                         
-                        if let payload=userInfo["payload"] as? [AnyHashable : Any]
+                        if let payload=userInfo["payload"] as? JSON
                         {
-                        if(payload.count>0)
-                        {
-                            var uniqueid=payload["uniqueid"] as! String
-                            var status=payload["status"] as! String
+                            for var i in 0 ..< payload.count
+                            {
+                            var uniqueid=payload[i]["uniqueid"] as! String
+                            var status=payload[i]["status"] as! String
                             
                             sqliteDB.UpdateChatStatus(uniqueid, newstatus: status)
                             UIDelegates.getInstance().UpdateMainPageChatsDelegateCall()
                             UIDelegates.getInstance().UpdateGroupInfoDetailsDelegateCall()
                             UIDelegates.getInstance().UpdateGroupChatDetailsDelegateCall()
                             
-                            completionHandler([])
+                            completionHandler(.alert)
                         }
                     }
                     
@@ -1022,7 +1022,7 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
                             UIDelegates.getInstance().UpdateGroupInfoDetailsDelegateCall()
                             UIDelegates.getInstance().UpdateGroupChatDetailsDelegateCall()
                             
-                            completionHandler([])
+                            completionHandler(.alert)
                         }
                     }
                     }
@@ -3734,6 +3734,10 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
                     updateMessageStatus(singleuniqueid, status: (userInfo["status"] as? String)!)
                     print("calling completion handler for status update now")
                     
+                    UIDelegates.getInstance().UpdateSingleChatDetailDelegateCall()
+                    UIDelegates.getInstance().UpdateMainPageChatsDelegateCall()
+                    completionHandler(UIBackgroundFetchResult.newData)
+
                     completionHandler(UIBackgroundFetchResult.newData)
                     NotificationCenter.default.post(name: Notification.Name(rawValue: "ReceivedNotification"), object:userInfo)
                     
@@ -3748,6 +3752,10 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
                     {print("payload of iOS chat")
                     fetchSingleChatMessage(singleuniqueid)
                      print("calling completion handler for fetch chat now")
+                        UIDelegates.getInstance().UpdateSingleChatDetailDelegateCall()
+                        UIDelegates.getInstance().UpdateMainPageChatsDelegateCall()
+                        completionHandler(UIBackgroundFetchResult.newData)
+
                     completionHandler(UIBackgroundFetchResult.newData)
                     NotificationCenter.default.post(name: Notification.Name(rawValue: "ReceivedNotification"), object:userInfo)
                     }
@@ -3808,6 +3816,10 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
                                 //uniqueId : req.body.unique_id
                                 var phone=userInfo["phone"] as! String
                                 sqliteDB.IamBlockedUpdateStatus(phone1: phone, status1: true)
+                                UIDelegates.getInstance().UpdateSingleChatDetailDelegateCall()
+                                                               UIDelegates.getInstance().UpdateMainPageChatsDelegateCall()
+                                completionHandler(UIBackgroundFetchResult.newData)
+
                             }
                             else{
                                 
@@ -4080,6 +4092,9 @@ else{
                             UIDelegates.getInstance().UpdateMainPageChatsDelegateCall()
                             UIDelegates.getInstance().UpdateGroupChatDetailsDelegateCall()
                             
+                           UIDelegates.getInstance().UpdateGroupInfoDetailsDelegateCall()
+                            completionHandler(UIBackgroundFetchResult.newData)
+
                         }
                         catch{
                             
@@ -4202,6 +4217,11 @@ var uniqueid=payload["uniqueid"] as! String
                                     sqliteDB.updateGroupChatStatus(uniqueid1, memberphone1: user_phone1, status1: status1, delivereddate1: delivered_date, readDate1: read_date)
                                 }
                             }
+                            UIDelegates.getInstance().UpdateGroupChatDetailsDelegateCall()
+                            UIDelegates.getInstance().UpdateMainPageChatsDelegateCall()
+                            UIDelegates.getInstance().UpdateGroupInfoDetailsDelegateCall()
+                            completionHandler(UIBackgroundFetchResult.newData)
+
                         }
                        
 

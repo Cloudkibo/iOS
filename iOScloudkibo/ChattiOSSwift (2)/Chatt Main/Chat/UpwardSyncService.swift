@@ -725,6 +725,7 @@ class syncService{
            // listStatuses.append(params as! [String : String])
         }
         listStatuses["unique_ids"]=listUniqueIDS
+        print("getStatusOfSentChats \(listStatuses)")
         return listStatuses
     }
     
