@@ -832,7 +832,18 @@ class GroupChatingDetailController: UIViewController,UIDocumentPickerDelegate,UI
                             }
                         }
                     }
-                            messages2.add(["msg":tblUserChats[msg]+" (\(status))", "type":"2", "fromFullName":fullname,"date":defaultTimeeee, "uniqueid":tblUserChats[unique_id]])
+                    if(tblUserChats[type]=="image")
+                    {
+                        messages2.add(["msg":tblUserChats[msg],"type":"4", "fromFullName":fullname,"date":defaultTimeeee, "uniqueid":tblUserChats[unique_id],"status":status])
+                    }
+                    if(tblUserChats[type]=="chat")
+                    {
+
+                    //messages2.add(["message":tblContacts[msg]+" (\(tblContacts[status]))","filename":tblContacts[msg],"type":"4", "date":defaultTimeeee, "uniqueid":tblContacts[uniqueid]])
+                    
+
+                            messages2.add(["msg":tblUserChats[msg]+" (\(status))", "type":"2", "fromFullName":fullname,"date":defaultTimeeee, "uniqueid":tblUserChats[unique_id],"status":status])
+                    }
                 }
                 else
                 {
@@ -1762,7 +1773,7 @@ class GroupChatingDetailController: UIViewController,UIDocumentPickerDelegate,UI
         
             var filename=""
             var ftype=""
-            var filesize1=""
+            var filesize1=0
         
             let imageUrl          = info[UIImagePickerControllerReferenceURL] as! URL
             let imageName         = imageUrl.lastPathComponent
@@ -1819,7 +1830,7 @@ class GroupChatingDetailController: UIViewController,UIDocumentPickerDelegate,UI
             do {
                 let fileAttributes : NSDictionary? = try FileManager.default.attributesOfItem(atPath: filePathImage2) as NSDictionary?
                 if let _attr = fileAttributes {
-                    filesize1 = _attr.fileSize();
+                    filesize1 = Int(_attr.fileSize());
                     //print("file size is \(self.fileSize1)")
                     //// ***april 2016 neww self.fileSize=(fileSize1 as! NSNumber).integerValue
                 }
@@ -1840,11 +1851,87 @@ class GroupChatingDetailController: UIViewController,UIDocumentPickerDelegate,UI
             try? data!.write(to: URL(fileURLWithPath: filePathImage2), options: [.atomic])
             // data!.writeToFile(localPath.absoluteString, atomically: true)
             
-             var uniqueID=UtilityFunctions.init().generateUniqueid()
+             //var uniqueID=
+            
+            var uniqueid_chat=UtilityFunctions.init().generateUniqueid()
+
+            var date=self.getDateString(Date())
+            var status="pending"
+           
+            ///messages.add(["msg":txtFieldMessage.text!+" (pending)", "type":"2", "fromFullName":"","date":date,"uniqueid":uniqueid_chat])
             
             
             
             
+            //save chat
+            sqliteDB.storeGroupsChat(username!, group_unique_id1: self.groupid1, type1: "chat", msg1: self.txtFieldMessage.text!, from_fullname1: username!, date1: Date(), unique_id1: uniqueid_chat)
+            
+            
+            
+            //self.addUploadInfo(self.groupid,uniqueid1: uniqueid_chat, rowindex: self.messages.count, uploadProgress: 0.0, isCompleted: false)
+            
+            
+            //get members and store status as pending
+            for i in 0 ..< self.membersList.count
+            {
+                /*
+                 let member_phone = Expression<String>("member_phone")
+                 let isAdmin = Expression<String>("isAdmin")
+                 let membership_status
+                 */
+                if((self.membersList[i]["member_phone"] as! String) != username! && (self.membersList[i]["membership_status"] as! String) != "left")
+                {
+                    print("adding group chat status for \(self.membersList[i]["member_phone"])")
+                    sqliteDB.storeGRoupsChatStatus(uniqueid_chat, status1: "pending", memberphone1: self.membersList[i]["member_phone"]! as! String, delivereddate1: UtilityFunctions.init().minimumDate(), readDate1: UtilityFunctions.init().minimumDate())
+                    
+                    sqliteDB.saveFile(self.membersList[i]["member_phone"]! as! String, from1: username!, owneruser1: username!, file_name1: filename, date1: nil, uniqueid1: uniqueid_chat, file_size1: "\(filesize1)", file_type1: ftype, file_path1: filePathImage2, type1: "image")
+                    
+                }
+            }
+            
+            
+            
+            
+            
+            self.tblForGroupChat.reloadData()
+            if(self.messages.count>1)
+            {
+                var indexPath = IndexPath(row:self.messages.count-1, section: 0)
+                self.tblForGroupChat.scrollToRow(at: indexPath, at: UITableViewScrollPosition.bottom, animated: true)
+                
+                
+                
+            }
+            
+            /////// dispatch_async(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED,0))
+            ////// {
+            
+            DispatchQueue.global(priority: DispatchQueue.GlobalQueuePriority.default).async
+                {
+                    print("messages count before sending msg is \(self.messages.count)")
+                    self.sendChatMessage(self.groupid1, from: username!, type: "image", msg: filename, fromFullname: username!, uniqueidChat: uniqueid_chat, completion: { (result) in
+                        
+                        print("image sent")
+                        if(result==true)
+                        {
+                            for i in 0 ..< self.membersList.count
+                            {
+                                if((self.membersList[i]["member_phone"] as! String) != username! && (self.membersList[i]["membership_status"] as! String) != "left")
+                                {
+                                    sqliteDB.updateGroupChatStatus(uniqueid_chat, memberphone1: self.membersList[i]["member_phone"]! as! String, status1: "sent", delivereddate1: Date(), readDate1: Date())
+                                    
+                                    // === wrong sqliteDB.storeGRoupsChatStatus(uniqueid_chat, status1: "sent", memberphone1: self.membersList[i]["member_phone"]! as! String, delivereddate1: UtilityFunctions.init().minimumDate(), readDate1: UtilityFunctions.init().minimumDate())
+                                }
+                            }
+                            
+                            //==== sqliteDB.updateGroupChatStatus(uniqueid_chat, memberphone1: username!,status1: "sent", delivereddate1: UtilityFunctions.init().minimumDate(), readDate1: UtilityFunctions.init().minimumDate())
+                            
+                            UIDelegates.getInstance().UpdateGroupChatDetailsDelegateCall()
+                        }
+            
+            
+            
+            /*
             var imParas=["from":"\(username!)","to":"\(self.selectedContact)","fromFullName":"\(displayname)","msg":self.filename,"uniqueid":uniqueID,"type":"file","file_type":"image"]
             //print("imparas are \(imParas)")
             
@@ -1857,10 +1944,17 @@ class GroupChatingDetailController: UIViewController,UIDocumentPickerDelegate,UI
             sqliteDB.saveFile(self.selectedContact, from1: username!, owneruser1: username!, file_name1: self.filename, date1: nil, uniqueid1: uniqueID, file_size1: "\(self.fileSize1)", file_type1: ftype, file_path1: filePathImage2, type1: "image")
             
             self.addUploadInfo(self.selectedContact,uniqueid1: uniqueID, rowindex: self.messages.count, uploadProgress: 0.0, isCompleted: false)
-            
-            managerFile.uploadFile(filePathImage2, to1: self.selectedContact, from1: username!, uniqueid1: uniqueID, file_name1: self.filename, file_size1: "\(self.fileSize1)", file_type1: ftype,type1:"image")
+            */
+                        managerFile.uploadFileInGroup(filePathImage2, groupid1:self.groupid1,from1:username!,uniqueid1:uniqueid_chat,file_name1:filename,file_size1:"\(filesize1)",file_type1:"image",type1:ftype)
+                        //uploadFileInGroup(_ filePath1:String,groupid1:String,from1:String, uniqueid1:String,file_name1:String,file_size1:String,file_type1:String,type1:String){
+                        
+
+                        
+                        //(filePathImage2, to1: self.selectedContact, from1: username!, uniqueid1: uniqueID, file_name1: self.filename, file_size1: "\(self.fileSize1)", file_type1: ftype,type1:"image")
         })
         
+    }
+        })
     }
     
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {

@@ -2125,6 +2125,34 @@ print("--------")
         
         
     }
+    func getGroupMembersCount(groupid1:String)->Int
+    {
+    let group_unique_id = Expression<String>("group_unique_id")
+    
+   // var groupsList=[[String:AnyObject]]()
+    
+    /* let _id = Expression<String>("_id")
+     let deptname = Expression<String>("deptname")
+     let deptdescription = Expression<String>("deptdescription")
+     let companyid = Expression<String>("companyid")
+     let createdby = Expression<String>("createdby")
+     let creationdate = Expression<String>("creationdate")
+     let deleteStatus = Expression<String>("deleteStatus")
+     */
+    var tblGroupmember = Table("group_member")
+    var memberscount=0
+    do
+    {var membersArray = Array(try self.db.prepare(tblGroupmember.filter(group_unique_id==groupid1)))
+     memberscount=membersArray.count
+    }
+    catch{
+    print("failed to get groupsList")
+    }
+    return memberscount
+    
+    
+    
+    }
     
     func removeMember(_ groupid1:String,member_phone1:String)
         {

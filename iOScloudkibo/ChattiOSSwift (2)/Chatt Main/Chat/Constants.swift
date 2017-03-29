@@ -95,6 +95,8 @@ static let hubname="CloudKiboIOSPush" //testing
     static var upwardSyncURL = "/api/sync/upwardSync"
     static var downwardSyncURL = "/api/sync/downwardSync"
     
+    static var uploadImageInGroupChatURL = "/api/filetransfersgroup/upload"
+    
   //  static var fetchSingleGroupChat="/api/groupchat/fetchSingleChat"
     /*
      private static String phoneContactsURL = "https://www.cloudkibo.com/api/users/searchaccountsbyphone/";

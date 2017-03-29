@@ -328,6 +328,206 @@ class NetworkingManager
     }
     }
 
+    func uploadFileInGroup(_ filePath1:String,groupid1:String,from1:String, uniqueid1:String,file_name1:String,file_size1:String,file_type1:String,type1:String){
+        
+        var membercount=sqliteDB.getGroupMembersCount(groupid1: groupid1)
+        var parameters = [
+            "group_unique_id": groupid1,
+            "from": from1,
+            "total_members":"\(membercount)",
+            "uniqueid": uniqueid1,
+            "filename": file_name1,
+            "filesize": file_size1,
+           ]
+        
+        /*group_unique_id : req.body.group_unique_id,
+        from : req.body.from,
+        total_members: req.body.total_members,
+        uniqueid: req.body.uniqueid,
+        file_name : req.body.filename,
+        file_size : req.body.filesize,
+        path : serverPath,*/
+        
+        /*var parameterJSON = JSON([
+         "to": to1,
+         "from": from1,
+         "uniqueid": uniqueid1,
+         "file_name": file_name1,
+         "file_size": file_size1,
+         "file_type": file_type1
+         /*to
+         from
+         uniqueid
+         file_name
+         file_size
+         file_type
+         */
+         ])
+         
+         */
+        // JSON stringify
+        // let parameterString = parameterJSON.rawString(NSUTF8StringEncoding, options: NSJSONWritingOptions.PrettyPrinted )
+        // let jsonParameterData = parameterString!.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: true)
+        
+        var imageData:Data?
+        if(self.imageExtensions.contains(file_type1.lowercased()))
+        {
+            imageData=UIImageJPEGRepresentation(UIImage(contentsOfFile: filePath1)!,0.9)
+            print("new upload image size is \(imageData!.count)")
+        }
+            
+        else{
+            
+            /*if(self.audioExtensions.contains(file_type1.lowercased()))
+             {
+             //imageData=UIImageJPEGRepresentation(UIImage(contentsOfFile: filePath1)!,0.9)
+             print("audio file is uploading")
+             //imageData=try? Data(contentsOf: URL(fileURLWithPath: filePath1))
+             }else{*/
+            imageData=try? Data(contentsOf: URL(fileURLWithPath: filePath1))
+            print("old upload image size is \(imageData!.count)")
+            var imageData2=imageData!.compressed(using: Compression.zlib)
+            print("imageData2 is \(imageData2)")
+            print("old upload image compressed size is \(imageData2!.count)")
+            //}
+        }
+        // var imageData=UIImageJPEGRepresentation(UIImage(contentsOfFile: filePath1)!,0.9)
+        
+        // print("ols upload image size is \(imageData2!.length)")
+        
+        print("mimetype is \(MimeType(file_type1))")
+        
+        var urlupload=Constants.MainUrl+Constants.uploadImageInGroupChatURL
+        
+        
+        Alamofire.upload(
+            multipartFormData: { multipartFormData in
+                multipartFormData.append(imageData!, withName:  "file", fileName: file_name1, mimeType: self.MimeType(file_type1))                //,fileName: file_name1, mimeType: "image/\(file_type1)")
+                for (key, value) in parameters {
+                    multipartFormData.append(value.data(using: .utf8)!, withName: key)
+                    // multipartFormData.append(data: value.data(using: String.Encoding.utf8)!, withName: key)
+                }
+                
+        },
+            to: urlupload,headers: header,
+            encodingCompletion: { encodingResult in
+                switch encodingResult {
+                    
+                    /*
+                     Alamofire.upload(
+                     .POST,
+                     urlupload,
+                     headers: header,
+                     multipartFormData: { multipartFormData in
+                     multipartFormData.appendBodyPart(data: imageData!, name: "file"
+                     ,fileName: file_name1, mimeType: self.MimeType(file_type1))
+                     //,fileName: file_name1, mimeType: "image/\(file_type1)")
+                     for (key, value) in parameters {
+                     multipartFormData.appendBodyPart(data: value.dataUsingEncoding(NSUTF8StringEncoding)!, name: key)
+                     }
+                     ///multipartFormData.appendBodyPart(data: jsonParameterData!, name: "goesIntoForm")
+                     
+                     },
+                     encodingCompletion: { encodingResult in
+                     switch encodingResult {
+                     */
+                case .success(let upload, _, _):
+                    
+                    upload.validate()
+                    upload.uploadProgress { progress in // main queue by default
+                        print("Upload Progress: \(progress.fractionCompleted)")
+                    }
+                    upload.responseJSON { response in
+                        print(response.response?.statusCode)
+                        print(response.data!)
+                        
+                        switch response.result {
+                        case .success:
+                            
+                            var uniqueid_chat=UtilityFunctions.init().generateUniqueid()
+                            
+                            //var date=self.getDateString(Date())
+                            var status="pending"
+                            
+                            ///messages.add(["msg":txtFieldMessage.text!+" (pending)", "type":"2", "fromFullName":"","date":date,"uniqueid":uniqueid_chat])
+                            
+                            
+                            
+                            
+                            //save chat
+                            //////sqliteDB.storeGroupsChat(username!, group_unique_id1: self.groupid1, type1: "chat", msg1: self.txtFieldMessage.text!, from_fullname1: username!, date1: Date(), unique_id1: uniqueid_chat)
+                            
+                            
+                            
+                    
+                            
+                            
+                            DispatchQueue.global(priority: DispatchQueue.GlobalQueuePriority.default).async
+                                {
+                                    
+                                    var url=Constants.MainUrl+Constants.sendGroupChat
+                                    print(url)
+                                    print("..")
+                                    //filePath1:String,groupid1:String,from1:String, uniqueid1:String,file_name1:String,file_size1:String,file_type1:String,type1:String
+                                    
+                                    
+                                    let request=Alamofire.request("\(url)", method: .post, parameters: ["group_unique_id":groupid1,"from":from1,"type":file_type1,"msg":msg.self,"from_fullname":username!,"unique_id":uniqueid1],headers:header).responseJSON { response in
+                                        
+                                        //  let request = Alamofire.request(.POST, "\(url)", parameters: ["group_unique_id":group_id,"from":from,"type":type,"msg":msg,"from_fullname":fromFullname,"unique_id":uniqueidChat],headers:header).responseJSON { response in
+                                        
+                                        
+                                        // You are now running on the concurrent `queue` you created earlier.
+                                        //print("Parsing JSON on thread: \(NSThread.currentThread()) is main thread: \(NSThread.isMainThread())")
+                                        
+                                        // Validate your JSON response and convert into model objects if necessary
+                                        //print(response.result.value) //status, uniqueid
+                                        
+                                        // To update anything on the main thread, just jump back on like so.
+                                        //print("\(chatstanza) ..  \(response)")
+                                        print("status code is \(response.response?.statusCode)")
+                                        print(response)
+                                        print(response.result.error)
+                                        if(response.response?.statusCode==200 || response.response?.statusCode==201)
+                                        {
+                                            var membersList=sqliteDB.getGroupMembersOfGroup(groupid1)
+                                            for i in 0 ..< membersList.count
+                                            {
+                                                if((membersList[i]["member_phone"] as! String) != username! && (membersList[i]["membership_status"] as! String) != "left")
+                                                {
+                                                    sqliteDB.updateGroupChatStatus(uniqueid_chat, memberphone1: membersList[i]["member_phone"]! as! String, status1: "sent", delivereddate1: Date(), readDate1: Date())
+                                                    
+                                                    // === wrong sqliteDB.storeGRoupsChatStatus(uniqueid_chat, status1: "sent", memberphone1: self.membersList[i]["member_phone"]! as! String, delivereddate1: UtilityFunctions.init().minimumDate(), readDate1: UtilityFunctions.init().minimumDate())
+                                                }
+                                            }
+                                            if(self.delegateProgressUpload != nil)
+                                            {
+                                                self.delegateProgressUpload.updateProgressUpload(1.0,uniqueid: uniqueid1)
+                                                
+                                            }
+                                            
+                                            
+                                        }
+                                        else{
+                                            print("failed to send chat")
+                                        }
+                                        
+                                        //send chat end
+                                    }
+                            
+                            }
+                        
+                        case .failure: print("case failure upload encoding")
+                            
+                        }
+                    }
+                    
+                    
+                case .failure: print("file uploading encoding failed")
+        
+    }
+        
+        })
+    }
     
     
     func uploadFile(_ filePath1:String,to1:String,from1:String, uniqueid1:String,file_name1:String,file_size1:String,file_type1:String,type1:String){
