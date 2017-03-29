@@ -3358,6 +3358,10 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
             
             
             
+           // let tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(ChatDetailViewController.videoTapped(_:)))
+            //Add the recognizer to your view.
+            //videoView?.addGestureRecognizer(tapRecognizer)
+            
             
             //print("date received in chat post 2 is \(date2.debugDescription)")
             // //print("date received in chat is \(date2.debugDescription)")

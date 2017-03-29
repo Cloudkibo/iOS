@@ -39,7 +39,7 @@ class GroupChatingDetailController: UIViewController,UIDocumentPickerDelegate,UI
     var keyheight:CGFloat!
     /////
     
-    
+    var filename=""
     var searchUniqueid:String! = nil
     @IBOutlet weak var viewForContent: UIScrollView!
     var searcheduniqueid:String!=nil
@@ -847,8 +847,22 @@ class GroupChatingDetailController: UIViewController,UIDocumentPickerDelegate,UI
                 }
                 else
                 {
+                    if(tblUserChats[type]=="image")
+                    {
+                        var filedownloaded=sqliteDB.checkIfFileExists(tblUserChats[unique_id])
                         
+                        if(filedownloaded==false)
+                        {
+                            //checkpendingfiles
+                            
+                            managerFile.checkPendingFilesInGroup(tblUserChats[unique_id])
+                        }
+
+                        messages2.add(["msg":tblUserChats[msg],"type":"3", "fromFullName":fullname,"date":defaultTimeeee, "uniqueid":tblUserChats[unique_id],"filename":tblUserChats[msg],"status":""])
+                    }
+                    else{
                     messages2.add(["msg":tblUserChats[msg], "type":"1", "fromFullName":fullname,"date":defaultTimeeee, "uniqueid":tblUserChats[unique_id]])
+                    }
              
                 }
                 
@@ -1072,7 +1086,7 @@ class GroupChatingDetailController: UIViewController,UIDocumentPickerDelegate,UI
                 
                 // var status=messageDic["status"] as! NSString
                 
-                let filename=messageDic["filename"] as! NSString
+                let filename=messageDic["filename"]! as! NSString
                 let status=(msg as! String).replacingOccurrences(of: filename as String, with: "", options: NSString.CompareOptions.literal, range: nil)
                 
                 let dirPaths = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)
@@ -1182,6 +1196,140 @@ class GroupChatingDetailController: UIViewController,UIDocumentPickerDelegate,UI
             }
 
             else{
+                if(msgType?.isEqual(to: "3"))!
+                
+                    {
+                        cell = ///tblForChats.dequeueReusableCellWithIdentifier("ChatReceivedCell")! as UITableViewCell
+                            
+                            //FileImageReceivedCell
+                            tblForGroupChat.dequeueReusableCell(withIdentifier: "FileImageSentCell")! as UITableViewCell
+                        
+                        //=== uncomment   cell.tag = indexPath.row
+                        
+                        let deliveredLabel = cell.viewWithTag(13) as! UILabel
+                        let textLable = cell.viewWithTag(12) as! UILabel
+                        let timeLabel = cell.viewWithTag(11) as! UILabel
+                        let chatImage = cell.viewWithTag(1) as! UIImageView
+                        let profileImage = cell.viewWithTag(2) as! UIImageView
+                        
+                        let progressView = cell.viewWithTag(14) as! KDCircularProgress!
+                        
+                        //////chatImage.contentMode = .Center
+                        
+                        //chatImage.frame = CGRectMake(80, chatImage.frame.origin.y, 220, 220)
+                        /*let documentDirectory = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true).first as String!
+                         let photoURL          = NSURL(fileURLWithPath: documentDirectory)
+                         let imgPath         = photoURL.URLByAppendingPathComponent(msg as! String)
+                         
+                         */
+                        let status=messageDic["status"] as NSString!
+                        
+                        let filename=messageDic["filename"] as NSString!
+                        let dirPaths = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)
+                        let docsDir1 = dirPaths[0]
+                        let documentDir=docsDir1 as NSString
+                        //==== --var imgPath=documentDir.appendingPathComponent(msg as! String)
+                        let imgPath=documentDir.appendingPathComponent(filename as! String)
+                        
+                        
+                        //filename
+                        //  print("uniqueid image is \(uniqueidDictValue) filename is \(filename) imgPath is \(imgPath) ")
+                        
+                        let imgNSData=FileManager.default.contents(atPath: imgPath)
+                        
+                        //===     print("imgNSData is \(imgNSData)")
+                        //var imgNSData=NSFileManager.default.contents(atPath:imgPath.path!)
+                        //print("hereee imgPath.path! is \(imgPath)")
+                        
+                        
+                        let formatter = DateFormatter();
+                        formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSS";
+                        //formatter.dateFormat = "MM/dd hh:mm a";
+                        formatter.timeZone = TimeZone.autoupdatingCurrent
+                        let defaultTimeZoneStr = formatter.date(from: date2 as! String)
+                        //print("defaultTimeZoneStr \(defaultTimeZoneStr)")
+                        
+                        let formatter2 = DateFormatter();
+                        formatter2.timeZone=TimeZone.autoupdatingCurrent
+                        formatter2.dateFormat = "MM/dd hh:mm a";
+                        let displaydate=formatter2.string(from: defaultTimeZoneStr!)
+                        
+                        if(imgNSData != nil/* && (cell.tag == indexPath.row)*/)
+                        {
+                            chatImage.isUserInteractionEnabled = true
+                            
+                            
+                            /*var predicate=NSPredicate(format: "uniqueid = %@", uniqueidDictValue)
+                             var resultArray=uploadInfo.filteredArrayUsingPredicate(predicate)
+                             if(resultArray.count>0)
+                             {
+                             
+                             
+                             var uploadDone = resultArray.first!.valueForKey("isCompleted") as! Bool
+                             if(uploadDone==false)
+                             {
+                             progressView.hidden=false
+                             }
+                             else
+                             {
+                             progressView.hidden=true
+                             
+                             }
+                             
+                             // progressView.hidden=false
+                             // //print("yes uploading predicate satisfiedd")
+                             //  var bbb = resultArray.first!.valueForKey("uploadProgress") as! Float
+                             
+                             
+                             /*//print("yes uploading predicate satisfiedd \(bbb)")
+                             var newAngleValue=(bbb*360) as NSNumber
+                             //print("\(progressView.angle) to newangle is \(newAngleValue.integerValue)")
+                             if(progressView.angle<newAngleValue.integerValue)
+                             {
+                             progressView.animateFromAngle(progressView.angle, toAngle: newAngleValue.integerValue, duration: 0.5, completion: nil)
+                             }*/
+                             
+                             
+                             
+                             // progressView.animateToAngle(newAngleValue.integerValue, duration: 0.5, completion: nil)
+                             //return true
+                             }
+                             
+                             */
+                            
+                            chatImage.image = UIImage(data: imgNSData!)!
+                            
+                            //now you need a tap gesture recognizer
+                            //note that target and action point to what happens when the action is recognized.
+                            let tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(ChatDetailViewController.imageTapped(_:)))
+                            //Add the recognizer to your view.
+                            chatImage.addGestureRecognizer(tapRecognizer)
+                            
+                            
+                            chatImage.frame = CGRect(x: chatImage.frame.origin.x, y: chatImage.frame.origin.y, width: 200, height: 200)
+                            
+                            chatImage.image = UIImage(data: imgNSData!)!
+                            ///.stretchableImageWithLeftCapWidth(40,topCapHeight: 20);
+                            chatImage.contentMode = .scaleAspectFill
+                            //===== uncomment later chatImage.setNeedsDisplay()
+                            //print("file shownnnnnnnnn")
+                            textLable.isHidden=true
+                            
+                            
+                            timeLabel.text="\(displaydate) (\(status))"
+                            //timeLabel.text=date2.debugDescription
+                        }
+                        
+                        timeLabel.text="\(displaydate) (\(status))" /* var imgNSURL = NSURL(fileURLWithPath: msg as String)
+                         var imgNSData=NSFileManager.default.contents(atPath:imgNSURL.path!)
+                         if(imgNSData != nil)
+                         {
+                         chatImage.image = UIImage(contentsOfFile: msg as String)
+                         //print("file shownnnnnnnnn")
+                         }
+                         */
+                    }
+                else{
             print("got sender msg \(msg)")
             let cell = tblForGroupChat.dequeueReusableCell(withIdentifier: "ChatSentCell")! as UITableViewCell
             
@@ -1221,6 +1369,7 @@ class GroupChatingDetailController: UIViewController,UIDocumentPickerDelegate,UI
             nameLabel.text=fullname as! String
             msgLabel.text=msg as! String
             
+            }
             }
             return cell
 
@@ -1909,10 +2058,21 @@ class GroupChatingDetailController: UIViewController,UIDocumentPickerDelegate,UI
     
    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingImage image: UIImage, editingInfo: [String : AnyObject]?) {
         print("inside imagepicked")
-            var filename=""
+    
             var ftype=""
             var filesize1=0
-        
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
             let imageUrl          = editingInfo?[UIImagePickerControllerReferenceURL] as! URL
             let imageName         = imageUrl.lastPathComponent
             let documentDirectory = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true).first as String!
@@ -1920,7 +2080,12 @@ class GroupChatingDetailController: UIViewController,UIDocumentPickerDelegate,UI
             let localPath         = photoURL.appendingPathComponent(imageName)
             let image             = editingInfo?[UIImagePickerControllerOriginalImage]as! UIImage
             let data              = UIImagePNGRepresentation(image)
-            
+    
+    
+    
+      var uniqueid_chat=UtilityFunctions.init().generateUniqueid()
+    
+    ////self.filename=uniqueid_chat
             if let imageURL = editingInfo?[UIImagePickerControllerReferenceURL] as? URL {
                 let result = PHAsset.fetchAssets(withALAssetURLs: [imageURL], options: nil)
                 
@@ -1928,7 +2093,7 @@ class GroupChatingDetailController: UIViewController,UIDocumentPickerDelegate,UI
                     
                     if let fileName1 = (info?["PHImageFileURLKey"] as? NSURL)?.lastPathComponent {
                         //do sth with file name
-                        filename=fileName1
+                        self.filename=fileName1
                         
                     }
                 })
@@ -1962,11 +2127,19 @@ class GroupChatingDetailController: UIViewController,UIDocumentPickerDelegate,UI
             let dirPaths = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)
             let docsDir1 = dirPaths[0]
             var documentDir=docsDir1 as NSString
-            var filePathImage2=documentDir.appendingPathComponent(filename)
+            var filePathImage2=documentDir.appendingPathComponent(self.filename)
             var fm=FileManager.default
-            
+    
+    
+    
+    
+    
+    
+    //  var uniqueid_chat=UtilityFunctions.init().generateUniqueid()
+    
             var fileAttributes:[String:AnyObject]=["":"" as AnyObject]
-            do {
+    
+    do {
                 let fileAttributes : NSDictionary? = try FileManager.default.attributesOfItem(atPath: filePathImage2) as NSDictionary?
                 if let _attr = fileAttributes {
                     filesize1 = Int(_attr.fileSize());
@@ -1987,12 +2160,17 @@ class GroupChatingDetailController: UIViewController,UIDocumentPickerDelegate,UI
             
             //filePathImage2
             
-            try? data!.write(to: URL(fileURLWithPath: filePathImage2), options: [.atomic])
+    do{try data!.write(to: URL(fileURLWithPath: filePathImage2), options: [.atomic])
+    }
+    catch{
+        print("file not written \(error)")
+        return
+    }
             // data!.writeToFile(localPath.absoluteString, atomically: true)
             
              //var uniqueID=
             
-            var uniqueid_chat=UtilityFunctions.init().generateUniqueid()
+    
 
             var date=self.getDateString(Date())
             var status="pending"
@@ -2003,7 +2181,7 @@ class GroupChatingDetailController: UIViewController,UIDocumentPickerDelegate,UI
             
             
             //save chat
-            sqliteDB.storeGroupsChat(username!, group_unique_id1: self.groupid1, type1: "chat", msg1: self.txtFieldMessage.text!, from_fullname1: username!, date1: Date(), unique_id1: uniqueid_chat)
+            sqliteDB.storeGroupsChat(username!, group_unique_id1: self.groupid1, type1: "image", msg1: self.filename, from_fullname1: username!, date1: Date(), unique_id1: uniqueid_chat)
             
             
             
@@ -2023,7 +2201,7 @@ class GroupChatingDetailController: UIViewController,UIDocumentPickerDelegate,UI
                     print("adding group chat status for \(self.membersList[i]["member_phone"])")
                     sqliteDB.storeGRoupsChatStatus(uniqueid_chat, status1: "pending", memberphone1: self.membersList[i]["member_phone"]! as! String, delivereddate1: UtilityFunctions.init().minimumDate(), readDate1: UtilityFunctions.init().minimumDate())
                     
-                    sqliteDB.saveFile(self.membersList[i]["member_phone"]! as! String, from1: username!, owneruser1: username!, file_name1: filename, date1: nil, uniqueid1: uniqueid_chat, file_size1: "\(filesize1)", file_type1: ftype, file_path1: filePathImage2, type1: "image")
+                    sqliteDB.saveFile(self.membersList[i]["member_phone"]! as! String, from1: username!, owneruser1: username!, file_name1: self.filename, date1: nil, uniqueid1: uniqueid_chat, file_size1: "\(filesize1)", file_type1: ftype, file_path1: filePathImage2, type1: "image")
                     
                 }
             }
@@ -2048,7 +2226,7 @@ class GroupChatingDetailController: UIViewController,UIDocumentPickerDelegate,UI
             DispatchQueue.global(priority: DispatchQueue.GlobalQueuePriority.default).async
                 {
                     print("messages count before sending msg is \(self.messages.count)")
-                    self.sendChatMessage(self.groupid1, from: username!, type: "image", msg: filename, fromFullname: username!, uniqueidChat: uniqueid_chat, completion: { (result) in
+                    self.sendChatMessage(self.groupid1, from: username!, type: "image", msg: self.filename, fromFullname: username!, uniqueidChat: uniqueid_chat, completion: { (result) in
                         
                         print("image sent")
                         if(result==true)
@@ -2084,7 +2262,7 @@ class GroupChatingDetailController: UIViewController,UIDocumentPickerDelegate,UI
             
             self.addUploadInfo(self.selectedContact,uniqueid1: uniqueID, rowindex: self.messages.count, uploadProgress: 0.0, isCompleted: false)
             */
-                        managerFile.uploadFileInGroup(filePathImage2, groupid1:self.groupid1,from1:username!,uniqueid1:uniqueid_chat,file_name1:filename,file_size1:"\(filesize1)",file_type1:"image",type1:ftype)
+                        managerFile.uploadFileInGroup(filePathImage2, groupid1:self.groupid1,from1:username!,uniqueid1:uniqueid_chat,file_name1:self.filename,file_size1:"\(filesize1)",file_type1:"image",type1:"image")
                         //uploadFileInGroup(_ filePath1:String,groupid1:String,from1:String, uniqueid1:String,file_name1:String,file_size1:String,file_type1:String,type1:String){
                         
 

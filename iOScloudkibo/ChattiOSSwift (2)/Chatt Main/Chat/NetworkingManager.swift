@@ -338,6 +338,7 @@ class NetworkingManager
             "uniqueid": uniqueid1,
             "filename": file_name1,
             "filesize": file_size1,
+            "file_type": file_type1
            ]
         
         /*group_unique_id : req.body.group_unique_id,
@@ -766,7 +767,91 @@ class NetworkingManager
         
         
     
-    
+    func checkPendingFilesInGroup(_ uniqueid1:String)
+    {print("inside checkpending")
+        var checkPendingFiles=Constants.MainUrl+Constants.checkPendingFileGroupChatURL
+        
+        
+        Alamofire.request("\(checkPendingFiles)", method: .post, parameters: ["uniqueid":uniqueid1],headers:header).validate(statusCode: 200..<300).responseJSON{
+            
+            response in
+            
+            
+            /*
+             Alamofire.request(.POST,"\(checkPendingFiles)",headers:header,parameters: ["uniqueid":uniqueid1]).validate(statusCode: 200..<300).responseJSON{
+             
+             response in*/
+            
+            ////// print(response.data!)
+            
+            switch response.result {
+            case .success:
+                
+                //debugPrint(response)
+                print("checking pending files success")
+                ///////print(response.result.value)
+                if(response.result.value != nil)
+                {print(JSON(response.result.value!)) // "status":"success"
+                    var jsonResult=JSON(response.result.value!)
+                    //print("count jsonresult is \(jsonResult.count)")
+                    // print("count jsonresult zeroth is \(jsonResult[0].count)")
+                    print("count jsonresult filepending \(jsonResult["filepending"].count)")
+                    
+                    if(jsonResult["filepending"].count>0)
+                    {//print("count filepending is \(jsonResult["filepending"].count)")
+                        // for(var i=0;i<jsonResult.count;i++)
+                        //{
+                        //  if(jsonResult[i]["filepending"]["from"].isExists())
+                        //{
+                        
+                        /*
+                         
+                         "filepending" : {
+                         "from" : "+923201211991",
+                         "uniqueid" : "ovDA992233720368547758079223372036854775807922337203685477580713289223372036854775807",
+                         "_id" : "57a842cfc42c92dc695b162c",
+                         "__v" : 0,
+                         "file_type" : "JPG",
+                         "file_size" : 0,
+                         "file_name" : "IMG_0073.JPG",
+                         "date" : "2016-08-08T08:29:03.233Z",
+                         "path" : "\/f6fdf7ed82d2016884293.jpeg",
+                         "to" : "+923333864540"
+                         }
+                         */
+                        print("downloading file with id \(jsonResult["filepending"]["uniqueid"])")
+                        print("downloading file from \(jsonResult["filepending"]["from"])")
+                        if(jsonResult["filepending"]["from"] != nil)
+                        {
+                            print("downloading file with id \(jsonResult["filepending"]["uniqueid"])")
+                            
+                            var fileuniqueid=jsonResult["filepending"]["uniqueid"].string!
+                            var filePendingName=jsonResult["filepending"]["file_name"].string!
+                            var filefrom=jsonResult["filepending"]["from"].string!
+                            var filetype=jsonResult["filepending"]["file_type"].string!
+                            var filePendingSize="\(jsonResult["filepending"]["file_size"])"
+                            var filependingDate=jsonResult["filepending"]["date"].string!
+                            var filePendingTo=jsonResult["filepending"]["to"].string!
+                            
+                            //  self.downloadFile("\(jsonResult["filepending"]["uniqueid"])")
+                            self.downloadFileInGroup(fileuniqueid,filePendingName: filePendingName,filefrom: filefrom,filetype: filetype,filePendingSize: filePendingSize,filependingDate: filependingDate,filePendingTo: filePendingTo)
+                        }
+                        //}
+                        
+                        //}
+                        
+                    }
+                }
+                else{
+                    print("no pending files found")
+                }
+                
+            case .failure(let error):
+                print("\(error) file check pending failed")
+            }
+        }
+        
+    }
     func checkPendingFiles(_ uniqueid1:String)
     {print("inside checkpending")
         var checkPendingFiles=Constants.MainUrl+Constants.checkPendingFile
@@ -874,6 +959,149 @@ class NetworkingManager
         }
     }
     
+    
+    func downloadFileInGroup(_ fileuniqueid:String,filePendingName:String,filefrom:String,filetype:String,filePendingSize:String,filependingDate:String,filePendingTo:String)
+    {
+        print("inside download file function uniqueid \(fileuniqueid) and filetype is \(filetype) filePendingSize is \(filePendingSize)")
+        
+        var downloadURL=Constants.MainUrl+Constants.downloadInGroupChatURL
+        print("start download")
+        print(Date())
+        
+
+        
+        let path = FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask)[0] as URL
+        //print("path download is \(path)")
+        //////// let newPath = path.URLByAppendingPathComponent(fileName1)
+        /////// print("full path download file is \(newPath)")
+        //////  let destination = Alamofire.Request.suggestedDownloadDestination(directory: .DocumentDirectory, domain: .UserDomainMask)
+        //  print("path download is \(destination.lowercaseString)")
+        //  Alamofire.download(.GET, "http://httpbin.org/stream/100", destination: destination)
+        // var downloadURL=Constants.MainUrl+Constants.downloadFile
+        
+        
+        
+        let destination1: DownloadRequest.DownloadFileDestination = { _, _ in
+            var documentsURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
+            var localImageURL = documentsURL.appendingPathComponent(filePendingName)
+            return (localImageURL, [.removePreviousFile])
+        }
+        
+        
+        /// let destination = DownloadRequest.suggestedDownloadDestination(for: .documentDirectory, in: .userDomainMask) as? URL
+        
+        
+        let destination: (URL, HTTPURLResponse) -> (URL) = {
+            (temporaryURL, response) in
+            
+            if let directoryURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0] as? URL {
+                //// var localImageURL = directoryURL.URLByAppendingPathComponent("\(response.suggestedFilename!)")
+                //filenamePending
+                print("filePendingName is \(filePendingName)")
+                var localImageURL = directoryURL.appendingPathComponent(filePendingName)
+                print("response.suggestedFilename! is \(response.suggestedFilename!)")
+                let checkValidation = FileManager.default
+                
+                if (checkValidation.fileExists(atPath: "\(localImageURL)"))
+                {
+                    print("FILE AVAILABLE")
+                }
+                else
+                {
+                    print("FILE NOT AVAILABLE")
+                }
+                
+                
+                print("localpathhhhhh \(localImageURL.debugDescription)")
+                return localImageURL
+            }
+            print("tempurl is \(temporaryURL.debugDescription)")
+            return temporaryURL
+        }
+        
+        
+        print("downloading call unique id \(fileuniqueid)")
+        
+        //uncomment change later
+        Alamofire.download("\(downloadURL)", method: .post, parameters: ["uniqueid":fileuniqueid], encoding: JSONEncoding.default, headers: header, to: destination1).response { (response) in
+            
+            print(response)
+            print("1...... \(response.request?.url)")
+            //print("2..... \(response.request?. .URL.debugDescription)")
+            //print("3.... \(response.response?.URL.debugDescription)")
+            
+            
+            let dirPaths = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)
+            let docsDir1 = dirPaths[0]
+            var documentDir=docsDir1 as NSString
+            var filePendingPath=documentDir.appendingPathComponent(filePendingName)
+            
+            if(self.imageExtensions.contains(filetype.lowercased()))
+            {
+                //filePendingName
+                sqliteDB.saveFile(filePendingTo, from1: filefrom, owneruser1: username!, file_name1: filePendingName, date1: nil, uniqueid1: fileuniqueid, file_size1: filePendingSize, file_type1: filetype, file_path1: filePendingPath, type1: "image")
+            }
+            else
+            {
+                sqliteDB.saveFile(filePendingTo, from1: filefrom, owneruser1: username!, file_name1: filePendingName, date1: nil, uniqueid1: fileuniqueid, file_size1: filePendingSize, file_type1: filetype, file_path1: filePendingPath, type1: "document")
+                
+            }
+            if(socketObj.delegateChat != nil)
+            {
+                socketObj.delegateChat.socketReceivedMessageChat("updateUI", data: nil)
+            }
+            
+            
+            //===
+            //refresh UI file download commented==--- uncomment later ====================================----------
+            /*
+             if(delegateRefreshChat != nil)
+             {
+             delegateRefreshChat?.refreshChatsUI("",uniqueid:fileuniqueid,from:filefrom,date1:NSDate(), type:"file")
+             
+             //===uncomment later  delegateRefreshChat?.refreshChatsUI("",uniqueid:fileuniqueid,from:filefrom,date1:NSDate(), type:"chat")
+             }*/
+            
+            
+            
+            
+            
+            //filedownloaded’ to with parameters ‘senderoffile’, ‘receiveroffile’
+            
+            print("download done long")
+            print(NSDate())
+            self.confirmDownload(fileuniqueid)
+            print("confirminggggggg")
+            
+            // print(request?.)
+            
+        }
+        
+        //// }
+    }
+    
+    func confirmDownloadInGroup(_ uniqueid1:String)
+    {
+        let confirmURL=Constants.MainUrl+Constants.confirmDownloadInGroupChatURL
+        
+        let request = Alamofire.request("\(confirmURL)", method: .post, parameters: ["uniqueid":uniqueid1],headers:header).responseJSON { response in
+            
+            //  Alamofire.request(.POST,"\(confirmURL)",headers:header,parameters:["uniqueid":uniqueid1]).validate(statusCode: 200..<300).responseJSON{response in
+            
+            
+            switch response.result {
+            case .success:
+                print("download confirm sent \(uniqueid1)")
+                
+            case .failure(let error):
+                print("confirmation download failed")
+            }}
+    }
+    
+    
+    
+    
+    
     func downloadFile(_ fileuniqueid:String,filePendingName:String,filefrom:String,filetype:String,filePendingSize:String,filependingDate:String,filePendingTo:String)
     {
         print("inside download file function uniqueid \(fileuniqueid) and filetype is \(filetype) filePendingSize is \(filePendingSize)")
@@ -886,16 +1114,16 @@ class NetworkingManager
         {
         let queue2 = DispatchQueue(label: "com.kibochat.manager-response-queue-file", attributes: DispatchQueue.Attributes.concurrent)
         let qqq=DispatchQueue.global(qos: DispatchQoS.QoSClass.background)
-           
+         
             let request = Alamofire.request("\(downloadURL)", method: .post, parameters: ["uniqueid":fileuniqueid],encoding: JSONEncoding.default, headers:header)
-            
+         
             ///////let request = Alamofire.request(.POST, "\(downloadURL)", parameters: ["uniqueid":fileuniqueid], headers:header)
-            
+         
             request.response(queue: queue2, completionHandler: { (response) in
-                
-                
+         
+         
             //})
-            
+         
             /*response(
                 queue: queue2,
                 responseSerializer: Request.dataResponseSerializer(),

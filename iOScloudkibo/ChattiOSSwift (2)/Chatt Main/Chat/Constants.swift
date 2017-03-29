@@ -97,6 +97,10 @@ static let hubname="CloudKiboIOSPush" //testing
     
     static var uploadImageInGroupChatURL = "/api/filetransfersgroup/upload"
     
+    static var checkPendingFileGroupChatURL = "/api/filetransfersgroup/checkpendingfile"
+    static var confirmDownloadInGroupChatURL = "/api/filetransfersgroup/confirmdownload"
+    static var downloadInGroupChatURL = "/api/filetransfersgroup/download"
+    
   //  static var fetchSingleGroupChat="/api/groupchat/fetchSingleChat"
     /*
      private static String phoneContactsURL = "https://www.cloudkibo.com/api/users/searchaccountsbyphone/";
