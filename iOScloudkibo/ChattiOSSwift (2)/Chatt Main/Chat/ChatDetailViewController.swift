@@ -27,8 +27,9 @@ import Kingfisher
 class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChatDelegate,UIDocumentPickerDelegate,UIDocumentMenuDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate,FileManagerDelegate,showUploadProgressDelegate,UpdateChatViewsDelegate,UpdateSingleChatDetailDelegate,CNContactPickerDelegate,CNContactViewControllerDelegate,UIPickerViewDelegate,AVAudioRecorderDelegate,CLLocationManagerDelegate,insertChatAtLastDelegate,updateChatStatusRowDelegate,insertBulkChatsSyncDelegate,insertBulkChatsStatusesSyncDelegate
     {
     
+    var contactCardSelected="0"
     //,UIPickerViewDelegate{
-    
+    var contactshared=false
    // weak var viewMap: GMSMapView!
     var delegateInsertChatAtLast:insertChatAtLastDelegate!
     var delegateUpdateChatStatusRow:updateChatStatusRowDelegate!
@@ -3313,6 +3314,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
             
             let contactinfo=msg!.components(separatedBy: ":") ///return array string
             textLable.text = contactinfo[0]
+            var number=contactinfo[1]
             if((textLable.text!.characters.count) > 21){
                 var newtextlabel = textLable.text!.trunc(19)+".."
                 textLable.text = newtextlabel
@@ -3334,6 +3336,12 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
 
             
                chatImage.image = UIImage(named: "chat_send")?.stretchableImage(withLeftCapWidth: 40,topCapHeight: 20);
+            
+            contactCardSelected=number
+            let tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(ChatDetailViewController.contactSharedTapped(_:)))
+            //Add the recognizer to your view.
+            chatImage.addGestureRecognizer(tapRecognizer)
+            
             //*********
             
             //getSizeOfStringHeight(msg).height
@@ -4156,13 +4164,24 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
         let player = AVPlayer(url: URL.init(fileURLWithPath: videoPath))
         let playerViewController = AVPlayerViewController()
         playerViewController.player = player
-        
+        contactshared=false
         self.present(playerViewController, animated: true) {
             
        //  self.performSegue(withIdentifier: "showFullImageSegue", sender: nil);
         
     }
+      
     }
+    
+    func contactSharedTapped(_ gestureRecognizer: UITapGestureRecognizer) {
+        //tappedImageView will be the image view that was tapped.
+        //dismiss it, animate it off screen, whatever.
+        contactshared=true
+        
+        self.performSegue(withIdentifier: "contactdetailsinfosegue", sender: nil);
+
+    }
+    
     func docTapped(_ gestureRecognizer: UITapGestureRecognizer) {
         //tappedImageView will be the image view that was tapped.
         //dismiss it, animate it off screen, whatever.
@@ -5942,7 +5961,14 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
         //contactdetailsinfosegue
         if segue!.identifier == "contactdetailsinfosegue" {
             if let destinationVC = segue!.destination as? contactsDetailsTableViewController{
+                
+                if(contactshared==true)
+                {
+                    destinationVC.selectedContactphone=self.contactCardSelected
+                }
+                else{
                 destinationVC.selectedContactphone=self.selectedContact
+                }
                 let blockedByMe = Expression<Bool>("blockedByMe")
                 let IamBlocked = Expression<Bool>("IamBlocked")
                 let phone = Expression<String>("phone")
