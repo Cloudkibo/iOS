@@ -3967,8 +3967,13 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
             
             //coz message has mag+ \(status)
             var longitude = contactinfo[1].components(separatedBy: " ")[0]
+          ////  var longitude = contactinfo[1]
           ///  var url=URL.init("http://maps.google.com/maps/api/staticmap?center=\(latitude) , \(longitude) &zoom=18&size=500x300&sensor=TRUE_OR_FALSE")
             var url=URL.init(string: "http://maps.google.com/maps/api/staticmap?center=\(latitude),\(longitude)&zoom=18&size=500x300&sensor=TRUE_OR_FALSE")
+            
+            print("\(latitude)    \(longitude)")
+            
+           //// var url=URL.init(string:"https://maps.googleapis.com/maps/api/staticmap?center=\(latitude),\(longitude)&zoom=12&size=100x100&key=AIzaSyA4ayZ7WiMRkulzF6OxZhBa8WXp7w4BkhI")
             let resource = ImageResource(downloadURL: url!, cacheKey: "\(uniqueidDictValue)")
             chatImage.kf.setImage(with: resource)
             textLable.text=msg! as! String
@@ -4661,7 +4666,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
                 print("Place attributions \(place.coordinate)")
                 var latitude=place.coordinate.latitude.description
                 var longitude=place.coordinate.longitude.description
-                self.sendCoordinates(latitide: latitude, longitude: longitude)
+                self.sendCoordinates(latitude: latitude, longitude: longitude)
             })
             
             
@@ -6655,7 +6660,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
   
     
     
-    func sendCoordinates(latitide:String,longitude:String)
+    func sendCoordinates(latitude:String,longitude:String)
     {
         //var msgbody="\(location.coordinate.latitude):\(location.coordinate.longitude)"
         
