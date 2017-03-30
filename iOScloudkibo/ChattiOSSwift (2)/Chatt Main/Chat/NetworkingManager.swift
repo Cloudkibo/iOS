@@ -338,7 +338,7 @@ class NetworkingManager
             "uniqueid": uniqueid1,
             "filename": file_name1,
             "filesize": file_size1,
-            "file_type": file_type1
+            "file_type": type1
            ]
         
         /*group_unique_id : req.body.group_unique_id,

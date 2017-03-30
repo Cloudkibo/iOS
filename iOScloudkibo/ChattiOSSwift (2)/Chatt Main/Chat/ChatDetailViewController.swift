@@ -3315,6 +3315,8 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
             let contactinfo=msg!.components(separatedBy: ":") ///return array string
             textLable.text = contactinfo[0]
             var number=contactinfo[1]
+            let number2=number.components(separatedBy: " ")
+            number=number2[0]
             if((textLable.text!.characters.count) > 21){
                 var newtextlabel = textLable.text!.trunc(19)+".."
                 textLable.text = newtextlabel

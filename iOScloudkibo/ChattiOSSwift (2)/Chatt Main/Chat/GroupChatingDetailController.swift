@@ -1331,7 +1331,7 @@ class GroupChatingDetailController: UIViewController,UIDocumentPickerDelegate,UI
                     }
                 else{
             print("got sender msg \(msg)")
-            let cell = tblForGroupChat.dequeueReusableCell(withIdentifier: "ChatSentCell")! as UITableViewCell
+             cell = tblForGroupChat.dequeueReusableCell(withIdentifier: "ChatSentCell")! as UITableViewCell
             
           
             
@@ -1815,9 +1815,9 @@ class GroupChatingDetailController: UIViewController,UIDocumentPickerDelegate,UI
             DispatchQueue.main.async
                 { () -> Void in
                     //  picker.addChildViewController(UILabel("hiiiiiiiiiiiii"))
-                   /* if(self.showKeyboard==true)
+                    if(self.showKeyboard==true)
                     {self.textFieldShouldReturn(self.txtFieldMessage)
-                    }*/
+                    }
                     self.present(picker, animated: true, completion: nil)
                     
            }
@@ -2061,58 +2061,47 @@ class GroupChatingDetailController: UIViewController,UIDocumentPickerDelegate,UI
     
             var ftype=""
             var filesize1=0
+        var data:Data!=Data.init()
     
     
     
     
     
+    let imageUrl          = editingInfo![UIImagePickerControllerReferenceURL] as! URL
+    let imageName         = imageUrl.lastPathComponent
+    let documentDirectory = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true).first as String!
+    let photoURL          = URL(fileURLWithPath: documentDirectory!)
+    let localPath         = photoURL.appendingPathComponent(imageName)
+    let image             = editingInfo![UIImagePickerControllerOriginalImage]as! UIImage
+    data              = UIImagePNGRepresentation(image)
     
-    
-    
-    
-    
-    
-    
-            let imageUrl          = editingInfo?[UIImagePickerControllerReferenceURL] as! URL
-            let imageName         = imageUrl.lastPathComponent
-            let documentDirectory = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true).first as String!
-            let photoURL          = URL(fileURLWithPath: documentDirectory!)
-            let localPath         = photoURL.appendingPathComponent(imageName)
-            let image             = editingInfo?[UIImagePickerControllerOriginalImage]as! UIImage
-            let data              = UIImagePNGRepresentation(image)
-    
-    
-    
-      var uniqueid_chat=UtilityFunctions.init().generateUniqueid()
-    
-    ////self.filename=uniqueid_chat
-            if let imageURL = editingInfo?[UIImagePickerControllerReferenceURL] as? URL {
-                let result = PHAsset.fetchAssets(withALAssetURLs: [imageURL], options: nil)
-                
-                PHImageManager.default().requestImageData(for: result.firstObject!, options: nil, resultHandler: { _, _, _, info in
-                    
-                    if let fileName1 = (info?["PHImageFileURLKey"] as? NSURL)?.lastPathComponent {
-                        //do sth with file name
-                        self.filename=fileName1
-                        
-                    }
-                })
-                /////====-----------  self.filename = result.firstObject?.filename ?? ""
-                
-                // var myasset=result.firstObject as! PHAsset
-                ////print(myasset.mediaType)
-                
-                
+    if let imageURL = editingInfo![UIImagePickerControllerReferenceURL] as? URL {
+        let result = PHAsset.fetchAssets(withALAssetURLs: [imageURL], options: nil)
+        
+        PHImageManager.default().requestImageData(for: result.firstObject!, options: nil, resultHandler: { _, _, _, info in
+            
+            if let fileName1 = (info?["PHImageFileURLKey"] as? NSURL)?.lastPathComponent {
+                //do sth with file name
+                self.filename=fileName1
+                print("filename is \(self.filename)")
                 
             }
-            var furl=URL(string: localPath.absoluteString)
-            
-            //print(furl!.pathExtension!)
-            //print(furl!.deletingLastPathComponent())
-            ftype=furl!.pathExtension
-            
-            
+        })
+        /////====-----------  self.filename = result.firstObject?.filename ?? ""
         
+        // var myasset=result.firstObject as! PHAsset
+        ////print(myasset.mediaType)
+        
+        
+        
+    }
+    var furl=URL(string: localPath.absoluteString)
+    
+    //print(furl!.pathExtension!)
+    //print(furl!.deletingLastPathComponent())
+    ftype=furl!.pathExtension
+    print("file type is \(ftype)")
+    
       /*  let shareMenu = UIAlertController(title: nil, message: " Share file \(filename) ? ", preferredStyle: .actionSheet)
     
         shareMenu.modalPresentationStyle=UIModalPresentationStyle.overCurrentContext
@@ -2123,11 +2112,15 @@ class GroupChatingDetailController: UIViewController,UIDocumentPickerDelegate,UI
             
             // var fname=furl!.deletingLastPathComponent()
             
-            
-            let dirPaths = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)
-            let docsDir1 = dirPaths[0]
-            var documentDir=docsDir1 as NSString
-            var filePathImage2=documentDir.appendingPathComponent(self.filename)
+    let shareMenu = UIAlertController(title: nil, message: " Send \" \(filename) ? ", preferredStyle: .actionSheet)
+    shareMenu.modalPresentationStyle=UIModalPresentationStyle.overCurrentContext
+    let confirm = UIAlertAction(title: "Yes", style: UIAlertActionStyle.default,handler: { (action) -> Void in
+  
+    let dirPaths = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)
+    let docsDir1 = dirPaths[0]
+    var documentDir=docsDir1 as NSString
+    var filePathImage2=documentDir.appendingPathComponent(self.filename)
+    print("filePathImage2 is \(filePathImage2)")
             var fm=FileManager.default
     
     
@@ -2135,7 +2128,7 @@ class GroupChatingDetailController: UIViewController,UIDocumentPickerDelegate,UI
     
     
     
-    //  var uniqueid_chat=UtilityFunctions.init().generateUniqueid()
+      var uniqueid_chat=UtilityFunctions.init().generateUniqueid()
     
             var fileAttributes:[String:AnyObject]=["":"" as AnyObject]
     
@@ -2223,8 +2216,9 @@ class GroupChatingDetailController: UIViewController,UIDocumentPickerDelegate,UI
             /////// dispatch_async(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED,0))
             ////// {
             
-            DispatchQueue.global(priority: DispatchQueue.GlobalQueuePriority.default).async
-                {
+           // DispatchQueue.global(priority: DispatchQueue.GlobalQueuePriority.default).async
+                //{
+                    /*
                     print("messages count before sending msg is \(self.messages.count)")
                     self.sendChatMessage(self.groupid1, from: username!, type: "image", msg: self.filename, fromFullname: username!, uniqueidChat: uniqueid_chat, completion: { (result) in
                         
@@ -2245,7 +2239,7 @@ class GroupChatingDetailController: UIViewController,UIDocumentPickerDelegate,UI
                             
                             UIDelegates.getInstance().UpdateGroupChatDetailsDelegateCall()
                         }
-            
+            */
             
             
             /*
@@ -2262,21 +2256,97 @@ class GroupChatingDetailController: UIViewController,UIDocumentPickerDelegate,UI
             
             self.addUploadInfo(self.selectedContact,uniqueid1: uniqueID, rowindex: self.messages.count, uploadProgress: 0.0, isCompleted: false)
             */
-                        managerFile.uploadFileInGroup(filePathImage2, groupid1:self.groupid1,from1:username!,uniqueid1:uniqueid_chat,file_name1:self.filename,file_size1:"\(filesize1)",file_type1:"image",type1:"image")
+                        managerFile.uploadFileInGroup(filePathImage2, groupid1:self.groupid1,from1:username!,uniqueid1:uniqueid_chat,file_name1:self.filename,file_size1:"\(filesize1)",file_type1:ftype,type1:"image")
+    
+    
                         //uploadFileInGroup(_ filePath1:String,groupid1:String,from1:String, uniqueid1:String,file_name1:String,file_size1:String,file_type1:String,type1:String){
                         
 
                         
                         //(filePathImage2, to1: self.selectedContact, from1: username!, uniqueid1: uniqueID, file_name1: self.filename, file_size1: "\(self.fileSize1)", file_type1: ftype,type1:"image")
-        })
+       // })
+    
+    self.retrieveChatFromSqlite({ (result) in
         
+        
+   // })
+   // (self.selectedContact,completion:{(result)-> () in
+        DispatchQueue.main.async
+            {
+                self.tblForGroupChat.reloadData()
+                
+                if(self.messages.count>1)
+                {
+                    print("scrollinggg 5032 line")
+                    //var indexPath = NSIndexPath(forRow:self.messages.count-1, inSection: 0)
+                    let indexPath = IndexPath(row:self.tblForGroupChat.numberOfRows(inSection: 0)-1, section: 0)
+                    self.tblForGroupChat.scrollToRow(at: indexPath, at: UITableViewScrollPosition.bottom, animated: false)
+                }
+        }
+    })
+    self.dismiss(animated: true, completion:{ ()-> Void in
+        
+    })
+    })
+    let notConfirm = UIAlertAction(title: "No", style: UIAlertActionStyle.cancel, handler: { (action) -> Void in
+        
+    })
+    
+    shareMenu.addAction(confirm)
+    shareMenu.addAction(notConfirm)
+    
+    self.dismiss(animated: true, completion:{ ()-> Void in
+        
+        if(self.showKeyboard==true)
+        {
+            self.textFieldShouldReturn(self.txtFieldMessage)
+            
+        }
+        self.tblForGroupChat.reloadData()
+        if(self.messages.count>1)
+        {
+            // var indexPath = NSIndexPath(forRow:self.messages.count-1, inSection: 0)
+            print("scrollinggg 5306 line")
+            let indexPath = IndexPath(row:self.tblForGroupChat.numberOfRows(inSection: 0)-1, section: 0)
+            self.tblForGroupChat.scrollToRow(at: indexPath, at: UITableViewScrollPosition.bottom, animated: false)
+            
+        }
+        
+        self.present(shareMenu, animated: true) {
+            
+            
+        }
+        
+    });
     }
       //  }//
    // )
-    }
+    
     
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
-        
+        print("picker cancelled")
+        DispatchQueue.main.async { () -> Void in
+            self.dismiss(animated: true, completion: { ()-> Void in
+                
+                if(self.showKeyboard==true)
+                {
+                    print("hidinggg keyboard")
+                    self.textFieldShouldReturn(self.txtFieldMessage)
+                    // uncomment later
+                    /*var duration : NSTimeInterval = 0
+                     
+                     
+                     UIView.animateWithDuration(duration, delay: 0, options:[], animations: {
+                     self.chatComposeView.frame = CGRectMake(self.chatComposeView.frame.origin.x, self.chatComposeView.frame.origin.y + self.keyheight-self.chatComposeView.frame.size.height-3, self.chatComposeView.frame.size.width, self.chatComposeView.frame.size.height)
+                     self.tblForChats.frame = CGRectMake(self.tblForChats.frame.origin.x, self.tblForChats.frame.origin.y, self.tblForChats.frame.size.width, self.tblForChats.frame.size.height + self.keyFrame.size.height-49);
+                     }, completion: nil)
+                     self.showKeyboard=false
+                     
+                     
+                     }*/
+                }});
+        }
+
         
     }
     override func viewWillDisappear(_ animated: Bool) {
