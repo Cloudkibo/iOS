@@ -1909,7 +1909,7 @@ class GroupChatingDetailController: UIViewController,UIDocumentPickerDelegate,UI
         
         let cancelAction = UIAlertAction(title: "Cancel", style: UIAlertActionStyle.cancel, handler:nil)
         
-        //shareMenu.addAction(cameraAction)
+        shareMenu.addAction(cameraAction)
         shareMenu.addAction(photoAction)
         shareMenu.addAction(videoAction)
         shareMenu.addAction(documentAction)
@@ -2081,7 +2081,27 @@ class GroupChatingDetailController: UIViewController,UIDocumentPickerDelegate,UI
             
         }
     }
-    
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
+        print("in here imagepicker")
+        let mediaType:AnyObject? = info[UIImagePickerControllerMediaType] as AnyObject?
+        var videoURL=info[UIImagePickerControllerReferenceURL] as? URL
+        if let type:AnyObject = mediaType {
+            if type is String {
+                let stringType = type as! String
+                if stringType == kUTTypeMovie as! String {
+                    
+                }
+                else{
+                    print("choosen type is not video")
+                    if (picker.sourceType == UIImagePickerControllerSourceType.camera) {
+                        print ("from camera")
+                    }
+                    self.imagePickerController(picker, didFinishPickingImage: (info[UIImagePickerControllerOriginalImage] as? UIImage)!, editingInfo: info as [String : AnyObject]?)
+                }
+                
+            }
+        }
+    }
     
    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingImage image: UIImage, editingInfo: [String : AnyObject]?) {
         print("inside imagepicked")
@@ -2092,7 +2112,63 @@ class GroupChatingDetailController: UIViewController,UIDocumentPickerDelegate,UI
     
     
     
-    
+    if(picker.sourceType == UIImagePickerControllerSourceType.camera)
+    {
+        var imgCaptured = editingInfo?[UIImagePickerControllerOriginalImage] as? UIImage
+        if(!(imgCaptured?.imageOrientation == UIImageOrientation.up ||
+            imgCaptured?.imageOrientation == UIImageOrientation.upMirrored))
+        {
+            var imgsize = imgCaptured?.size;
+            UIGraphicsBeginImageContext(imgsize!);
+            imgCaptured?.draw(in: CGRect.init(x: 0.0, y: 0.0, width: (imgsize?.width)!, height:(imgsize?.height)!))
+            imgCaptured = UIGraphicsGetImageFromCurrentImageContext()
+            UIGraphicsEndImageContext()
+        }
+        data              = UIImagePNGRepresentation(imgCaptured!)
+        //UIImageWriteToSavedPhotosAlbum(img, Any?, Selector?, contextInfo: UnsafeMutableRawPointer?)
+        // var assetRequest=PHAssetChangeRequest.creationRequestForAsset(from: imgCaptured!)
+        
+        var imageIdentifier=""
+        PHPhotoLibrary.shared().performChanges({ () -> Void in
+            let changeRequest = PHAssetChangeRequest.creationRequestForAsset(from: image)
+            let placeHolder = changeRequest.placeholderForCreatedAsset
+            imageIdentifier = (placeHolder?.localIdentifier)!
+        }, completionHandler: { (success, error) -> Void in
+            if success {
+                //completion(localIdentifier: imageIdentifier)
+                let result = PHAsset.fetchAssets(withLocalIdentifiers: [imageIdentifier], options: nil)
+                
+                var asset=result.firstObject! as PHAsset
+                
+                self.filename=asset.originalFilename!
+                print("camera filename is \(self.filename)")
+                
+                PHImageManager.default().requestImageData(for: result.firstObject!, options: nil, resultHandler: { _, _, _, info in
+                    
+                    if let filetype = (info?["PHImageFileURLKey"] as? NSURL)?.pathExtension {
+                        ftype=filetype
+                        
+                        print("camera ftype is \(ftype)")
+                    }
+                })
+                print("saved successfully")
+                
+            } else if let error = error {
+                print("Save photo failed with error")
+                
+            }
+            else {
+                print("Save photo failed with no error")
+            }
+        })
+        
+        
+        
+        
+        
+        
+    }
+    else{
     
     let imageUrl          = editingInfo![UIImagePickerControllerReferenceURL] as! URL
     let imageName         = imageUrl.lastPathComponent
@@ -2138,7 +2214,7 @@ class GroupChatingDetailController: UIViewController,UIDocumentPickerDelegate,UI
             //print("file gotttttt")
             
             // var fname=furl!.deletingLastPathComponent()
-            
+    }
     let shareMenu = UIAlertController(title: nil, message: " Send \" \(filename) ? ", preferredStyle: .actionSheet)
     shareMenu.modalPresentationStyle=UIModalPresentationStyle.overCurrentContext
     let confirm = UIAlertAction(title: "Yes", style: UIAlertActionStyle.default,handler: { (action) -> Void in
