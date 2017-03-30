@@ -2048,6 +2048,56 @@ print("tempURL is \(temporaryURL) and response is \(response.allHeaderFields)")
         }
     }
     
+    func checkIfKiboContactOnServer(phone:String)->Bool
+    {
+        let searchContactsByPhones=Constants.MainUrl+Constants.searchContactsByPhone
+      var result=false
+        
+        let request = Alamofire.request("\(searchContactsByPhones)", method: .post, parameters: ["phonenumbers":[phone]],encoding: JSONEncoding.init(), headers:header).responseJSON{ response in
+            
+            
+            //alamofire4
+            // Alamofire.request(.POST,searchContactsByPhones,headers:header,parameters:["phonenumbers":phones],encoding: .JSON).responseJSON { response in
+            
+            if(response.response?.statusCode==200)
+            {socketObj.socket.emit("logClient","IPHONE-LOG: success in getting available and not available contacts")
+                
+               // DispatchQueue.global().sync
+                    //global(DispatchQueue.GlobalQueuePriority.default,0).sync()
+                 //   {
+                        debugPrint("response.data \(response.data)")
+                        //print(response.request)
+                        //print(response.response)
+                        //print(response.data)
+                        //print(response.e
+                        
+                        //************* error here...........................
+                        //print("response.result.value! \(response.result.value!)")
+                        //  print(")response.result.value! \(response.result.value!)")
+                        /////////var res=JSON(response.data!)
+                        var res=JSON(response.result.value)
+                        print("res \(res)")
+                        ////////////////var availableContactsEmails=res["available"].object
+                        var availableContactsPhones=res["available"]
+                        print("available contacts are \(availableContactsPhones.debugDescription)")
+                        
+                        var notAvailablePhonesArrayReturned=res["notAvailable"]
+                        if(availableContactsPhones.count>0)
+                        {
+                            result=true
+                        }
+                        else{
+                            result=false
+                        }
+                        
+               // }
+            }
+          
+        }
+        
+        return result
+    }
+    
 
 }
 

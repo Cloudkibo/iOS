@@ -24,6 +24,8 @@ import ContactsUI
 import Contacts
 import GoogleMaps
 import UserNotifications
+import GooglePlacePicker
+import GooglePlaces
 //import UserNotifications
 //import WindowsAzureMessaging
 
@@ -189,6 +191,9 @@ var contactsarray=[CNContact]()
        // UIApplication.shared.setMinimumBackgroundFetchInterval(UIApplicationBackgroundFetchIntervalMinimum)
         
         GMSServices.provideAPIKey("AIzaSyA4ayZ7WiMRkulzF6OxZhBa8WXp7w4BkhI")
+        GMSPlacesClient.provideAPIKey("AIzaSyA4ayZ7WiMRkulzF6OxZhBa8WXp7w4BkhI")
+        GMSServices.provideAPIKey("AIzaSyA4ayZ7WiMRkulzF6OxZhBa8WXp7w4BkhI")
+        
        //==--self.checkFirstRun()
         
         

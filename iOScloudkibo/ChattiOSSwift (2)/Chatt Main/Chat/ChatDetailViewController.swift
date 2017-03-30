@@ -21,7 +21,9 @@ import ContactsUI
 import MediaPlayer
 import AVKit
 import Kingfisher
-
+import GooglePlacePicker
+import GooglePlaces
+import GoogleMaps
 //import GoogleMaps
 
 class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChatDelegate,UIDocumentPickerDelegate,UIDocumentMenuDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate,FileManagerDelegate,showUploadProgressDelegate,UpdateChatViewsDelegate,UpdateSingleChatDetailDelegate,CNContactPickerDelegate,CNContactViewControllerDelegate,UIPickerViewDelegate,AVAudioRecorderDelegate,CLLocationManagerDelegate,insertChatAtLastDelegate,updateChatStatusRowDelegate,insertBulkChatsSyncDelegate,insertBulkChatsStatusesSyncDelegate
@@ -2323,13 +2325,13 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
                     let chatImage = cell.viewWithTag(1) as! UIImageView
                     
                     
-                    if(chatImage.frame.height <= 95)
+                    if(chatImage.frame.height <= 180)
                     {
                         return chatImage.frame.height+20
                     }
                     else
                     {
-                        return 95
+                        return 180
                     }
                 }
                 else{
@@ -3227,6 +3229,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
             if(cell==nil)
             {
                 cell = tblForChats.dequeueReusableCell(withIdentifier: "ContactReceivedCell")! as UITableViewCell
+                
             }
             let textLable = cell.viewWithTag(12) as! UILabel
             let chatImage = cell.viewWithTag(1) as! UIImageView
@@ -3234,13 +3237,22 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
             let timeLabel = cell.viewWithTag(11) as! UILabel
             let buttonSave = cell.viewWithTag(15) as! UIButton
             
+            let buttonsView = cell.viewWithTag(16)! as UIView
+            let btnInviteView = buttonsView.viewWithTag(0) as! UIButton
+            let btnSaveView = buttonsView.viewWithTag(1) as! UIButton
+            let btnMessageView = buttonsView.viewWithTag(2) as! UIButton
             
-            buttonSave.addTarget(self, action: #selector(ChatDetailViewController.BtnSaveContactClicked(_:)), for:.touchUpInside)
+            //buttonSave.tag=indexPath.row
+            buttonSave.isHidden=true
+            
+            btnSaveView.addTarget(self, action: #selector(ChatDetailViewController.BtnSaveContactClicked(_:)), for:.touchUpInside)
           
             
             let contactinfo=msg!.components(separatedBy: ":") ///return array string
             textLable.text = contactinfo[0]
             contactreceivedphone=contactinfo[1]
+            
+            
             timeLabel.text = contactinfo[1]
             if((textLable.text!.characters.count) > 21){
                var newtextlabel = textLable.text!.trunc(19)+".."
@@ -3258,10 +3270,12 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
             sizeOFStr=getSizeOfString(UtilityFunctions.init().compareLongerString(txt1: timeLabel.text!, txt2: textLable.text!) as NSString)
             
             //Setting Chat cell area
-            chatImage.frame = CGRect(x: chatImage.frame.origin.x, y: chatImage.frame.origin.y,width: ((sizeOFStr.width + 107)  > 207 ? (sizeOFStr.width + 107) : 200), height: ((correctheight + 20)  > 85 ? (correctheight+20) : 85))
+            chatImage.frame = CGRect(x: chatImage.frame.origin.x, y: chatImage.frame.origin.y,width: ((sizeOFStr.width + 107)  > 207 ? (sizeOFStr.width + 107) : 200), height: ((correctheight + 20)  > 75 ? (correctheight+20) : 75))
            
             chatImage.image = UIImage(named: "chat_receive")?.stretchableImage(withLeftCapWidth: 40,topCapHeight: 20);
+            buttonsView.frame=CGRect(x:chatImage.frame.origin.x,y: buttonsView.frame.origin.y,width:chatImage.frame.width,height:buttonsView.frame.height)
             
+
             
             //Setting Contact Avatar
              //profileImage.center = CGPoint(x: chatImage.frame.origin.x+60, y: chatImage.frame.origin.y+30)
@@ -3310,7 +3324,10 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
             let timeLabel = cell.viewWithTag(11) as! UILabel
             let chatImage = cell.viewWithTag(1) as! UIImageView
             let profileImage = cell.viewWithTag(2) as! UIImageView
-            
+            let buttonsView = cell.viewWithTag(16)! as UIView
+            let btnInviteView = buttonsView.viewWithTag(0) as! UIButton
+            let btnSaveView = buttonsView.viewWithTag(1) as! UIButton
+            let btnMessageView = buttonsView.viewWithTag(2) as! UIButton
             
             let contactinfo=msg!.components(separatedBy: ":") ///return array string
             textLable.text = contactinfo[0]
@@ -3336,6 +3353,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
             chatImage.frame = CGRect(x: /*chatImage.frame.origin.x*/ 20 + distanceFactor, y: chatImage.frame.origin.y,width: ((sizeOFStr.width + 107)  > 210 ? (sizeOFStr.width + 107) : 210), height: ((correctheight + 20)  > 75 ? (correctheight+20) : 75))
             
 
+            buttonsView.frame=CGRect(x:chatImage.frame.origin.x,y: buttonsView.frame.origin.y,width:chatImage.frame.width,height:buttonsView.frame.height)
             
                chatImage.image = UIImage(named: "chat_send")?.stretchableImage(withLeftCapWidth: 40,topCapHeight: 20);
             
@@ -3980,8 +3998,25 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
     func BtnSaveContactClicked(_ sender:UIButton)
     {
         let contact = CNMutableContact()
+        /*var rowselected=sender.tag
+        var messageDic = messages.object(at: rowselected) as! [String : String];
+        let msg = messageDic["message"] as NSString!
         
-      
+        //sender.tag=15
+        
+        let contactinfo=msg?.components(separatedBy: ":") ///return array string
+        //textLable.text = contactinfo[0]
+        contactreceivedphone=(contactinfo?[1])!
+        */
+        
+      var phoneIdentifier=sqliteDB.getIdentifierFRomPhone(contactreceivedphone)
+        if(phoneIdentifier != nil)
+        {
+            
+        }
+        else{
+            
+        }
         contact.phoneNumbers = [CNLabeledValue(
             label:CNLabelPhoneNumberiPhone,
             value:CNPhoneNumber(stringValue:contactreceivedphone))]
@@ -4606,8 +4641,32 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
             
             print("here share location prompt")
             
+            
+            let config = GMSPlacePickerConfig(viewport: nil)
+            let placePicker = GMSPlacePicker(config: config)
+            
+            placePicker.pickPlace(callback: { (place, error) -> Void in
+                if let error = error {
+                    print("Pick Place error: \(error.localizedDescription)")
+                    return
+                }
+                
+                guard let place = place else {
+                    print("No place selected")
+                    return
+                }
+                
+                print("Place name \(place.name)")
+                print("Place address \(place.formattedAddress)")
+                print("Place attributions \(place.coordinate)")
+                var latitude=place.coordinate.latitude.description
+                var longitude=place.coordinate.longitude.description
+                self.sendCoordinates(latitide: latitude, longitude: longitude)
+            })
+            
+            
             //self.locationManager.delegate=self
-            self.locationManager.requestWhenInUseAuthorization()
+           /* self.locationManager.requestWhenInUseAuthorization()
             
             self.locationManager.startUpdatingLocation()
             
@@ -4624,7 +4683,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
             }
           //  }
             
-
+*/
             
             
         })
@@ -6596,9 +6655,12 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
   
     
     
-    func sendCoordinates(location:CLLocation)
+    func sendCoordinates(latitide:String,longitude:String)
     {
-        var msgbody="\(location.coordinate.latitude):\(location.coordinate.longitude)"
+        //var msgbody="\(location.coordinate.latitude):\(location.coordinate.longitude)"
+        
+        var msgbody="\(latitude):\(longitude)"
+        
         print("msgbody is \(msgbody)")
         /* var randNum5=self.randomStringWithLength(5) as String
          
