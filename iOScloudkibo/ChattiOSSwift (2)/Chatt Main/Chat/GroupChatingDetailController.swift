@@ -31,6 +31,8 @@ class GroupChatingDetailController: UIViewController,UIDocumentPickerDelegate,UI
     
      let shareMenu = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
     var locationManager = CLLocationManager()
+    
+    var selectedImage:UIImage!
     @IBOutlet weak var btnSendChat: UIButton!
     @IBOutlet weak var btnSendAudio: UIButton!
     var cellY:CGFloat=0
@@ -1123,7 +1125,7 @@ class GroupChatingDetailController: UIViewController,UIDocumentPickerDelegate,UI
                     chatImage.isUserInteractionEnabled = true
                     //now you need a tap gesture recognizer
                     //note that target and action point to what happens when the action is recognized.
-                    let tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(ChatDetailViewController.imageTapped(_:)))
+                    let tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(GroupChatingDetailController.imageTapped(_:)))
                     //Add the recognizer to your view.
                     
                     
@@ -1301,7 +1303,7 @@ class GroupChatingDetailController: UIViewController,UIDocumentPickerDelegate,UI
                             
                             //now you need a tap gesture recognizer
                             //note that target and action point to what happens when the action is recognized.
-                            let tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(ChatDetailViewController.imageTapped(_:)))
+                            let tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(GroupChatingDetailController.imageTapped(_:)))
                             //Add the recognizer to your view.
                             chatImage.addGestureRecognizer(tapRecognizer)
                             
@@ -1453,6 +1455,17 @@ class GroupChatingDetailController: UIViewController,UIDocumentPickerDelegate,UI
         
         
     }
+    
+    
+    func imageTapped(_ gestureRecognizer: UITapGestureRecognizer) {
+        //tappedImageView will be the image view that was tapped.
+        //dismiss it, animate it off screen, whatever.
+        let tappedImageView = gestureRecognizer.view! as! UIImageView
+        selectedImage=tappedImageView.image
+        self.performSegue(withIdentifier: "showFullImageGroupSegue", sender: nil);
+        
+    }
+    
     
     func keyboardWillShow(_ notification: Notification) {
         
@@ -1723,6 +1736,20 @@ class GroupChatingDetailController: UIViewController,UIDocumentPickerDelegate,UI
                 destinationVC.datetime=date2 as! String
             }
         }
+        
+        if segue.identifier == "showFullImageGroupSegue" {
+            if let destinationVC = segue.destination as? ShowImageViewController{
+                //destinationVC.tabBarController?.selectedIndex=0
+                //self.tabBarController?.selectedIndex=0
+                destinationVC.newimage=self.selectedImage
+                self.dismiss(animated: true, completion: { () -> Void in
+                    
+                    
+                    
+                })
+            }
+        }
+
     }
     
     func refreshGroupChatDetailUI(_ message: String, data: AnyObject!) {

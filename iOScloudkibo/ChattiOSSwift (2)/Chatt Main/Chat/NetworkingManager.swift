@@ -338,7 +338,7 @@ class NetworkingManager
             "uniqueid": uniqueid1,
             "filename": file_name1,
             "filesize": file_size1,
-            "file_type": type1
+            "filetype": type1
            ]
         
         /*group_unique_id : req.body.group_unique_id,
@@ -471,8 +471,8 @@ class NetworkingManager
                                     print("..")
                                     //filePath1:String,groupid1:String,from1:String, uniqueid1:String,file_name1:String,file_size1:String,file_type1:String,type1:String
                                     
-                                    
-                                    let request=Alamofire.request("\(url)", method: .post, parameters: ["group_unique_id":groupid1,"from":from1,"type":file_type1,"msg":msg.self,"from_fullname":username!,"unique_id":uniqueid1],headers:header).responseJSON { response in
+                                    print("send image chat filename \(file_name1)")
+                                    let request=Alamofire.request("\(url)", method: .post, parameters: ["group_unique_id":groupid1,"from":from1,"type":"image","msg":file_name1,"from_fullname":username!,"unique_id":uniqueid1],headers:header).responseJSON { response in
                                         
                                         //  let request = Alamofire.request(.POST, "\(url)", parameters: ["group_unique_id":group_id,"from":from,"type":type,"msg":msg,"from_fullname":fromFullname,"unique_id":uniqueidChat],headers:header).responseJSON { response in
                                         
@@ -828,12 +828,20 @@ class NetworkingManager
                             var fileuniqueid=jsonResult["filepending"]["uniqueid"].string!
                             var filePendingName=jsonResult["filepending"]["file_name"].string!
                             var filefrom=jsonResult["filepending"]["from"].string!
-                            var filetype=jsonResult["filepending"]["file_type"].string!
+                            
+                            
+                            ////var filetype=jsonResult["filepending"]["file_type"].string!
                             var filePendingSize="\(jsonResult["filepending"]["file_size"])"
                             var filependingDate=jsonResult["filepending"]["date"].string!
-                            var filePendingTo=jsonResult["filepending"]["to"].string!
+                            //var filePendingTo=jsonResult["filepending"]["to"].string!
+                            var filePendingTo=jsonResult["filepending"]["group_unique_id"].string!
                             
                             //  self.downloadFile("\(jsonResult["filepending"]["uniqueid"])")
+                           var filetype="unknown"
+                            if(self.imageExtensions.contains(("."+filePendingName.components(separatedBy: ".")[1]).lowercased()))
+                            {
+                                filetype="image"
+                            }
                             self.downloadFileInGroup(fileuniqueid,filePendingName: filePendingName,filefrom: filefrom,filetype: filetype,filePendingSize: filePendingSize,filependingDate: filependingDate,filePendingTo: filePendingTo)
                         }
                         //}

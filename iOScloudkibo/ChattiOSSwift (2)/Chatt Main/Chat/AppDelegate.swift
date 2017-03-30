@@ -4666,6 +4666,11 @@ var uniqueid=payload["uniqueid"] as! String
                         //store status update delivered
                         sqliteDB.storeGRoupsChatStatus(unique_id, status1: "delivered", memberphone1: username!, delivereddate1: NSDate() as Date!, readDate1: NSDate() as Date!)
                       
+                        if(chatJson["type"].string! != "chat")
+                        {
+                            managerFile.checkPendingFilesInGroup(chatJson["unique_id"].string!)
+                            
+                        }
                         
                         completion(true, nil)
                     }

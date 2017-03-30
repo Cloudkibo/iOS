@@ -2747,7 +2747,7 @@
                                                 <rect key="frame" x="0.0" y="1919" width="320" height="120"/>
                                                 <autoresizingMask key="autoresizingMask"/>
                                                 <tableViewCellContentView key="contentView" autoresizesSubviews="NO" opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" verticalHuggingPriority="1000" preservesSuperviewLayoutMargins="YES" tableViewCell="Hbh-Of-qhd" id="S6B-1J-228">
-                                                    <rect key="frame" x="0.0" y="0.0" width="320" height="65"/>
+                                                    <rect key="frame" x="0.0" y="0.0" width="320" height="120"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <subviews>
                                                         <imageView opaque="NO" clipsSubviews="YES" tag="1" contentMode="redraw" verticalHuggingPriority="1000" misplaced="YES" preservesSuperviewLayoutMargins="YES" image="chat_receive" highlighted="YES" id="dBu-cH-JzP">
@@ -2904,6 +2904,7 @@
                         <outlet property="txtFieldMessage" destination="7GT-bG-Zes" id="wV6-oH-Liy"/>
                         <outlet property="viewForContent" destination="KiZ-C9-jPm" id="idO-B1-1OL"/>
                         <segue destination="RIV-wT-i1E" kind="push" identifier="groupMessageInfoSegue" id="9K8-4X-4lF"/>
+                        <segue destination="LME-ma-WZ9" kind="push" identifier="showFullImageGroupSegue" id="tX8-Fc-8Jp"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="wjA-fP-LCO" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -7949,17 +7950,18 @@
         <segue reference="0Ba-7e-jXB"/>
         <segue reference="ogf-EO-Swc"/>
         <segue reference="Sdy-kO-WHf"/>
-        <segue reference="1jA-Zj-XHt"/>
-        <segue reference="cEg-U8-UBa"/>
-        <segue reference="BY8-e2-RyW"/>
-        <segue reference="W8i-Cs-Z8T"/>
-        <segue reference="Y9a-Vx-tcX"/>
-        <segue reference="jZZ-fL-lXE"/>
         <segue reference="Spe-dd-EXu"/>
-        <segue reference="SBG-bF-djg"/>
-        <segue reference="N5B-Ot-bcs"/>
+        <segue reference="BY8-e2-RyW"/>
+        <segue reference="jZZ-fL-lXE"/>
+        <segue reference="W8i-Cs-Z8T"/>
+        <segue reference="cEg-U8-UBa"/>
+        <segue reference="Y9a-Vx-tcX"/>
+        <segue reference="1jA-Zj-XHt"/>
         <segue reference="Wyu-u6-g5L"/>
         <segue reference="cPW-RE-2je"/>
+        <segue reference="tX8-Fc-8Jp"/>
+        <segue reference="SBG-bF-djg"/>
+        <segue reference="N5B-Ot-bcs"/>
         <segue reference="8LM-cv-XXH"/>
         <segue reference="X5X-Qt-8lc"/>
     </inferredMetricsTieBreakers>

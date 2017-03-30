@@ -109,6 +109,13 @@ class syncService{
             let datens2 = dateFormatter.date(from:date!)
             
             
+            if(type != "chat")
+            {
+                managerFile.checkPendingFilesInGroup(uniqueid!)
+                
+            }
+            
+            
             sqliteDB.storeGroupsChat(from!, group_unique_id1: group_unique_id!, type1: type!, msg1: msg!, from_fullname1: from_fullname!, date1: datens2!, unique_id1: uniqueid!)
             
             
