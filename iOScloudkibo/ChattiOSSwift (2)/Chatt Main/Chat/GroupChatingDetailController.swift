@@ -29,11 +29,11 @@ import MobileCoreServices
 class GroupChatingDetailController: UIViewController,UIDocumentPickerDelegate,UIDocumentMenuDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate,FileManagerDelegate,UpdateGroupChatDetailsDelegate,CNContactPickerDelegate,CNContactViewControllerDelegate,UIPickerViewDelegate,AVAudioRecorderDelegate,CLLocationManagerDelegate {
     
     
-     let shareMenu = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+     var shareMenu = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
     var locationManager = CLLocationManager()
     
     
-    
+    var fileSize1:UInt64=0
     var audioFilePlayName=""
     
     var selectedImage:UIImage!
@@ -180,7 +180,317 @@ class GroupChatingDetailController: UIViewController,UIDocumentPickerDelegate,UI
     
     func documentPicker(_ controller: UIDocumentPickerViewController, didPickDocumentAt url: URL) {
         
+        
+        
+        
+        
+        //print("yess pickeddd document")
+        var furl=URL(string: url.absoluteString)
+        
+        
+        //METADATA FILE NAME,TYPE
+        //print(furl!.pathExtension!)
+        //print(furl!.deletingLastPathComponent())
+        var ftype=furl!.pathExtension
+        var fname=furl!.deletingPathExtension().lastPathComponent
+        ////var fname=furl!.URLByDeletingPathExtension?.URLString
+        //var attributesError=nil
+        var fileAttributes:[String:AnyObject]=["":"" as AnyObject]
+        
+        shareMenu = UIAlertController(title: nil, message: " Send \" \(fname) .\(ftype) ? ", preferredStyle: .actionSheet)
+        // shareMenu.modalPresentationStyle=UIModalPresentationStyle.OverCurrentContext
+        let confirm = UIAlertAction(title: "Yes", style: UIAlertActionStyle.default,handler: { (action) -> Void in
+            
+            
+            
+            
+            
+            if (controller.documentPickerMode == UIDocumentPickerMode.import) {
+                //  NSLog("Opened ", url.path!);
+                //print("picker url is \(url)")
+                //print("opened \(url.path!)")
+                
+                
+                url.startAccessingSecurityScopedResource()
+                let coordinator = NSFileCoordinator()
+                var error:NSError? = nil
+                //var downloadedalready=false
+                do{
+                    var downloadkeyresult=try furl!.resourceValues(forKeys: [URLResourceKey.ubiquitousItemDownloadingStatusKey])
+                    /// var downloadkeyresult=try url.resourceValuesForKeys([NSURLUbiquitousItemDownloadingStatusKey])
+                    //print("... ... \(downloadkeyresult.debugDescription)")
+                    //////var downloadedalready=try NSFileManager.defaultManager().startDownloadingUbiquitousItemAtURL(furl!)
+                    
+                    ////// //print("downloadedalready is \(downloadedalready)")
+                    //   if(downloadedalready != nil)
+                    //{
+                    
+                    
+                    if(downloadkeyresult.allValues.count>0)
+                    {
+                        var downloadedalready=try FileManager.default.startDownloadingUbiquitousItem(at: furl!)
+                        
+                        
+                    }
+                    coordinator.coordinate(readingItemAt: url, options: [], error: &error) { (url) -> Void in
+                        
+                        //print("error is \(error)")
+                        
+                        // do something with it
+                        let fileData = try? Data(contentsOf: url)
+                        /////////////////////////print(fileData?.description)
+                        socketObj.socket.emit("logClient","IPHONE-LOG: \(username!) selected file ")
+                        //print("file gotttttt")
+                        
+                        do {
+                            let fileAttributes : NSDictionary? = try FileManager.default.attributesOfItem(atPath: furl!.path) as NSDictionary?
+                            
+                            if let _attr = fileAttributes {
+                                self.fileSize1 = _attr.fileSize();
+                                //print("file size is \(self.fileSize1)")
+                                //// ***april 2016 neww self.fileSize=(fileSize1 as! NSNumber).integerValue
+                            }
+                        } catch {
+                            socketObj.socket.emit("logClient","IPHONE-LOG: error: \(error)")
+                            //print("Error:.... \(error)")
+                        }
+                        
+                        urlLocalFile=url
+                        /////let text2 = fm.contentsAtPath(filePath)
+                        //////////print(text2)
+                        ///////////print(JSON(text2!))
+                        ///mdata.fileContents=fm.contentsAtPath(filePathImage)!
+                        ////====----------------self.fileContents=try? Data(contentsOf: url)
+                        //////====--------------self.filePathImage=url.absoluteString
+                        //var filecontentsJSON=JSON(NSData(contentsOfURL: url)!)
+                        ////print(filecontentsJSON)
+                        //print("file url is \(self.filePathImage) file type is \(ftype)")
+                        
+                        
+                        
+                        
+                        
+                        let dirPaths = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)
+                        let docsDir1 = dirPaths[0]
+                        var documentDir=docsDir1 as NSString
+                        var filePathImage2=documentDir.appendingPathComponent(fname+"."+ftype)
+                        var fm=FileManager.default
+                        
+                        /*var fileAttributes:[String:AnyObject]=["":""]
+                         do {
+                         /// let fileAttributes : NSDictionary? = try NSFileManager.defaultManager().attributesOfItemAtPath(furl!.path!)
+                         let fileAttributes : NSDictionary? = try NSFileManager.defaultManager().attributesOfItemAtPath(imageUrl.path!)
+                         
+                         if let _attr = fileAttributes {
+                         self.fileSize1 = _attr.fileSize();
+                         //print("file size is \(self.fileSize1)")
+                         //// ***april 2016 neww self.fileSize=(fileSize1 as! NSNumber).integerValue
+                         }
+                         } catch {
+                         socketObj.socket.emit("logClient","IPHONE-LOG: error: \(error)")
+                         //print("Error:+++ \(error)")
+                         }*/
+                        
+                        
+                        //  //print("filename is \(self.filename) destination path is \(filePathImage2) image name \(imageName) imageurl \(imageUrl) photourl \(photoURL) localPath \(localPath).. \(localPath.absoluteString)")
+                        
+                        var s=fm.createFile(atPath: filePathImage2, contents: nil, attributes: nil)
+                        
+                        //  var written=fileData!.writeToFile(filePathImage2, atomically: false)
+                        
+                        //filePathImage2
+                        //var data=NSData(contentsOfFile: self.filePathImage)
+                        do{
+                            var writefile = try fileData!.write(to: URL(fileURLWithPath: filePathImage2))
+                            //.writeToFile(filePathImage2, atomically: true)
+                        }
+                        catch{
+                            print("unable to write")
+                        }
+                        
+                        
+                        
+                        
+                        /*
+                         var filename=fname!+"."+ftype
+                         socketObj.socket.emit("logClient","\(username!) is sending file \(fname)")
+                         
+                         var mjson="{\"file_meta\":{\"name\":\"\(filename)\",\"size\":\"\(self.fileSize1.description)\",\"filetype\":\"\(ftype)\",\"browser\":\"firefox\",\"uname\":\"\(username!)\",\"fid\":\(self.myfid),\"senderid\":\(currentID!)}}"
+                         var fmetadata="{\"eventName\":\"data_msg\",\"data\":\(mjson)}"
+                         */
+                        
+                        //----------sendDataBuffer(fmetadata,isb: false)
+                        
+                        /*
+                         let calendar = Calendar.current
+                         let comp = (calendar as NSCalendar).components([.hour, .minute], from: Date())
+                         let year = String(describing: comp.year)
+                         let month = String(describing: comp.month)
+                         let day = String(describing: comp.day)
+                         let hour = String(describing: comp.hour)
+                         let minute = String(describing: comp.minute)
+                         let second = String(describing: comp.second)
+                         
+                         
+                         var randNum5=self.randomStringWithLength(5) as String
+                         var uniqueID=randNum5+year+month+day+hour+minute+second
+                         */var uniqueID=UtilityFunctions.init().generateUniqueid()
+                        
+                        
+                        
+                        //var uniqueID=randNum5+year
+                        //print("unique ID is \(uniqueID)")
+                        
+                        //^^var firstNameSelected=selectedUserObj["firstname"]
+                        //^^^var lastNameSelected=selectedUserObj["lastname"]
+                        //^^^var fullNameSelected=firstNameSelected.string!+" "+lastNameSelected.string!
+                        var imParas=["from":"\(username!)","to":"\(self.selectedContact)","fromFullName":"\(displayname)","msg":fname+"."+ftype,"uniqueid":uniqueID,"type":"file","file_type":"document"]
+                        //print("imparas are \(imParas)")
+                        //print(imParas, terminator: "")
+                        //print("", terminator: "")
+                        ///=== code for sending chat here
+                        ///=================
+                        
+                        //socketObj.socket.emit("logClient","IPHONE-LOG: \(username!) is sending chat message")
+                        //////socketObj.socket.emit("im",["room":"globalchatroom","stanza":imParas])
+                        var statusNow=""
+                        /*if(isSocketConnected==true)
+                         {
+                         statusNow="sent"
+                         
+                         }
+                         else
+                         {
+                         */
+                        ///statusNow="pending"
+                        //}
+                        
+                        ////sqliteDB.SaveChat("\(selectedContact)", from1: username!, owneruser1: username!, fromFullName1: displayname!, msg1: fname!+"."+ftype, date1: nil, uniqueid1: uniqueID, status1: statusNow, type1: "chat", file_type1: "", file_path1: "")
+                        // sqliteDB.SaveChat("\(selectedContact)", from1: "\(username!)",owneruser1: "\(username!)", fromFullName1: "\(loggedFullName!)", msg1: "\(txtFldMessage.text!)",date1: nil,uniqueid1: uniqueID, status1: statusNow)
+                        
+                        
+                        
+                        //------
+                        
+                             sqliteDB.storeGroupsChat(username!, group_unique_id1: self.groupid1, type1: "document", msg1: fname+"."+ftype, from_fullname1: displayname, date1: Date(), unique_id1: uniqueID)
+                        
+                        for i in 0 ..< self.membersList.count
+                        {
+                            /*
+                             let member_phone = Expression<String>("member_phone")
+                             let isAdmin = Expression<String>("isAdmin")
+                             let membership_status
+                             */
+                            if((self.membersList[i]["member_phone"] as! String) != username! && (self.membersList[i]["membership_status"] as! String) != "left")
+                            {
+                                print("adding group chat status for \(self.membersList[i]["member_phone"])")
+                                sqliteDB.storeGRoupsChatStatus(uniqueID, status1: "pending", memberphone1: self.membersList[i]["member_phone"]! as! String, delivereddate1: UtilityFunctions.init().minimumDate(), readDate1: UtilityFunctions.init().minimumDate())
+                            }
+                        }
+
+                        
+                      ///  sqliteDB.SaveChat(self.selectedContact, from1: username!, owneruser1: username!, fromFullName1: displayname, msg1: fname+"."+ftype, date1: nil, uniqueid1: uniqueID, status1: statusNow, type1: "file", file_type1: "document", file_path1: filePathImage2)
+                        
+                        
+                        
+                        
+                        //emit when uploaded
+                        
+                        /* socketObj.socket.emitWithAck("im",["room":"globalchatroom","stanza":imParas])(timeoutAfter: 150000)
+                         {data in
+                         
+                         //print("chat ack received  \(data)")
+                         statusNow="sent"
+                         var chatmsg=JSON(data)
+                         //print(data[0])
+                         //print(chatmsg[0])
+                         sqliteDB.UpdateChatStatus(chatmsg[0]["uniqueid"].string!, newstatus: chatmsg[0]["status"].string!)
+                         
+                         self.retrieveChatFromSqlite(self.selectedContact)
+                         //self.tblForChats.reloadData()
+                         
+                         
+                         
+                         }*/
+                        
+                        
+                        sqliteDB.saveFile(groupid1, from1: username!, owneruser1: username!, file_name1: fname+"."+ftype, date1: nil, uniqueid1: uniqueID, file_size1: "\(self.fileSize1)", file_type1: ftype, file_path1: filePathImage2, type1: "document")
+                        
+                        
+                       ///// self.addUploadInfo(self.selectedContact,uniqueid1: uniqueID, rowindex: self.messages.count, uploadProgress: 0.0, isCompleted: false)
+                        
+                        managerFile.uploadFileInGroup(filePathImage2, groupid1: groupid1, from1: username!, uniqueid1: uniqueID, file_name1: fname+"."+ftype, file_size1: fileSize1, file_type1: ftype, type1: "document")
+                        
+                        //(filePathImage2, to1: self.selectedContact, from1: username!, uniqueid1: uniqueID, file_name1: fname+"."+ftype, file_size1: "\(self.fileSize1)", file_type1: ftype, type1:"document")
+                        
+                        ////  sqliteDB.saveChatImage(self.selectedContact, from1: username!, owneruser1: username!, fromFullName1: "fafa", msg1: fname!+"."+ftype, date1: nil, uniqueid1: uniqueID, status1: "pending", type1: "document", file_type1: ftype, file_path1: filePathImage2)
+                        
+                        //// sqliteDB.saveChatImage(self.selectedContact, from1: username!,fromFullName1: displayname, owneruser1:username!, msg1: fname!+"."+ftype, date1: nil, uniqueid1: uniqueID, status1: "pending", type1: "doc",file_type1: ftype, file_path1: filePathImage2)
+                        selectedText = filePathImage2
+                        
+                        ////  self.retrieveChatFromSqlite(self.selectedContact)
+                       
+                        
+                        self.retrieveChatFromSqlite({ (result) in
+                            
+                            
+                            // })
+                            // (self.selectedContact,completion:{(result)-> () in
+                            DispatchQueue.main.async
+                                {
+                                    self.tblForGroupChat.reloadData()
+                                    
+                                    if(self.messages.count>1)
+                                    {
+                                        print("scrollinggg 5032 line")
+                                        //var indexPath = NSIndexPath(forRow:self.messages.count-1, inSection: 0)
+                                        let indexPath = IndexPath(row:self.tblForGroupChat.numberOfRows(inSection: 0)-1, section: 0)
+                                        self.tblForGroupChat.scrollToRow(at: indexPath, at: UITableViewScrollPosition.bottom, animated: false)
+                                    }
+                            }
+                        })
+                        
+                        
+                        ////  sqliteDB.SaveChat(self.selectedContact, from1: username!, owneruser1: username!, fromFullName1: displayname, msg1: filename, date1: nil, uniqueid1: uniqueID, status1: "pending")
+                        
+                        /////socketObj.socket.emit("conference.chat", ["message":"You have received a file. Download and Save it.","username":username!])
+                        
+                        /* let alert = UIAlertController(title: "Success", message: "Your file has been successfully sent", preferredStyle: UIAlertControllerStyle.Alert)
+                         alert.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.Default, handler: nil))
+                         self.presentViewController(alert, animated: true, completion: nil)
+                         
+                         */
+                    }
+                    //       }
+                    url.stopAccessingSecurityScopedResource()
+                    //mdata.sharefile(url)
+                }
+                    
+                    
+                    
+                catch
+                {
+                    //print("eeee \(error)")
+                }
+            }
+        })
+        
+        
+        let notConfirm = UIAlertAction(title: "No", style: UIAlertActionStyle.cancel, handler: { (action) -> Void in
+            
+        })
+        
+        shareMenu.addAction(confirm)
+        shareMenu.addAction(notConfirm)
+        
+        self.present(shareMenu, animated: true, completion: {
+            
+        })
+        
+        
+        
     }
+    
     
     
     func documentMenu(_ documentMenu: UIDocumentMenuViewController, didPickDocumentPicker documentPicker: UIDocumentPickerViewController) {
@@ -197,6 +507,7 @@ class GroupChatingDetailController: UIViewController,UIDocumentPickerDelegate,UI
         
         
     }
+
     
     
     @IBAction func btnSendTapped(_ sender: AnyObject){
@@ -1112,9 +1423,26 @@ class GroupChatingDetailController: UIViewController,UIDocumentPickerDelegate,UI
         }
         else
         {
+            if(msgType.isEqual(to: "7") || msgType.isEqual(to: "8") || msgType.isEqual(to: "11") || msgType.isEqual(to: "12"))
+            {
+                let cell = tblForGroupChat.dequeueReusableCell(withIdentifier: "ContactSentCell")! as UITableViewCell
+                let chatImage = cell.viewWithTag(1) as! UIImageView
+                
+                
+                if(chatImage.frame.height <= 180)
+                {
+                    return chatImage.frame.height+20
+                }
+                else
+                {
+                    return 180
+                }
+            }
+            else{
             let sizeOFStr = self.getSizeOfString(msg!)
             
             return sizeOFStr.height + 70
+            }
         }
     }
     
