@@ -413,7 +413,7 @@ class GroupChatingDetailController: UIViewController,UIDocumentPickerDelegate,UI
             
             
             
-            var date=self.getDateString(Date())
+            ///var date=self.getDateString(Date())
             var status="pending"
             
             ///messages.add(["msg":txtFieldMessage.text!+" (pending)", "type":"2", "fromFullName":"","date":date,"uniqueid":uniqueid_chat])
@@ -422,7 +422,7 @@ class GroupChatingDetailController: UIViewController,UIDocumentPickerDelegate,UI
             
             
             //save chat
-            sqliteDB.storeGroupsChat(username!, group_unique_id1: self.groupid1, type1: "audio", msg1: self.filename, from_fullname1: username!, date1: Date(), unique_id1: uniqueid_chat)
+            sqliteDB.storeGroupsChat(username!, group_unique_id1: self.groupid1, type1: "audio", msg1: self.filename, from_fullname1: username!, date1: Date(), unique_id1: uniqueID)
             
             
             
@@ -440,9 +440,9 @@ class GroupChatingDetailController: UIViewController,UIDocumentPickerDelegate,UI
                 if((self.membersList[i]["member_phone"] as! String) != username! && (self.membersList[i]["membership_status"] as! String) != "left")
                 {
                     print("adding group chat status for \(self.membersList[i]["member_phone"])")
-                    sqliteDB.storeGRoupsChatStatus(uniqueid_chat, status1: "pending", memberphone1: self.membersList[i]["member_phone"]! as! String, delivereddate1: UtilityFunctions.init().minimumDate(), readDate1: UtilityFunctions.init().minimumDate())
+                    sqliteDB.storeGRoupsChatStatus(uniqueID, status1: "pending", memberphone1: self.membersList[i]["member_phone"]! as! String, delivereddate1: UtilityFunctions.init().minimumDate(), readDate1: UtilityFunctions.init().minimumDate())
                     
-                    sqliteDB.saveFile(self.membersList[i]["member_phone"]! as! String, from1: username!, owneruser1: username!, file_name1: self.filename, date1: nil, uniqueid1: uniqueid_chat, file_size1: "\(filesize1)", file_type1: ftype, file_path1: filePathImage2, type1: "audio")
+                    sqliteDB.saveFile(self.membersList[i]["member_phone"]! as! String, from1: username!, owneruser1: username!, file_name1: self.filename, date1: nil, uniqueid1: uniqueID, file_size1: "\(filesize1)", file_type1: ftype, file_path1: filePathImage2, type1: "audio")
                     
                 }
             }
@@ -465,7 +465,34 @@ class GroupChatingDetailController: UIViewController,UIDocumentPickerDelegate,UI
                        //// self.addUploadInfo(self.selectedContact,uniqueid1: uniqueID, rowindex: self.messages.count, uploadProgress: 0.0, isCompleted: false)
             
             print("uploading audio")
+            managerFile.uploadFileInGroup(filePathImage2, groupid1:self.groupid1,from1:username!,uniqueid1:uniqueID,file_name1:self.filename,file_size1:"\(filesize1)",file_type1:ftype,type1:"audio")
             
+            
+            //uploadFileInGroup(_ filePath1:String,groupid1:String,from1:String, uniqueid1:String,file_name1:String,file_size1:String,file_type1:String,type1:String){
+            
+            
+            
+            //(filePathImage2, to1: self.selectedContact, from1: username!, uniqueid1: uniqueID, file_name1: self.filename, file_size1: "\(self.fileSize1)", file_type1: ftype,type1:"image")
+            // })
+            
+            self.retrieveChatFromSqlite({ (result) in
+                
+                
+                // })
+                // (self.selectedContact,completion:{(result)-> () in
+                DispatchQueue.main.async
+                    {
+                        self.tblForGroupChat.reloadData()
+                        
+                        if(self.messages.count>1)
+                        {
+                            print("scrollinggg 5032 line")
+                            //var indexPath = NSIndexPath(forRow:self.messages.count-1, inSection: 0)
+                            let indexPath = IndexPath(row:self.tblForGroupChat.numberOfRows(inSection: 0)-1, section: 0)
+                            self.tblForGroupChat.scrollToRow(at: indexPath, at: UITableViewScrollPosition.bottom, animated: false)
+                        }
+                }
+            })
             
             
             //add audio component

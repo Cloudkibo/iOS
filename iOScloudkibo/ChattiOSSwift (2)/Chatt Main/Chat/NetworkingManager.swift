@@ -472,7 +472,7 @@ class NetworkingManager
                                     //filePath1:String,groupid1:String,from1:String, uniqueid1:String,file_name1:String,file_size1:String,file_type1:String,type1:String
                                     
                                     print("send image chat filename \(file_name1)")
-                                    let request=Alamofire.request("\(url)", method: .post, parameters: ["group_unique_id":groupid1,"from":from1,"type":"image","msg":file_name1,"from_fullname":username!,"unique_id":uniqueid1],headers:header).responseJSON { response in
+                                    let request=Alamofire.request("\(url)", method: .post, parameters: ["group_unique_id":groupid1,"from":from1,"type":type1,"msg":file_name1,"from_fullname":username!,"unique_id":uniqueid1],headers:header).responseJSON { response in
                                         
                                         //  let request = Alamofire.request(.POST, "\(url)", parameters: ["group_unique_id":group_id,"from":from,"type":type,"msg":msg,"from_fullname":fromFullname,"unique_id":uniqueidChat],headers:header).responseJSON { response in
                                         
@@ -842,6 +842,15 @@ class NetworkingManager
                             {
                                 filetype="image"
                             }
+                            if(self.audioExtensions.contains(("."+filePendingName.components(separatedBy: ".")[1]).lowercased()))
+                            {
+                                filetype="audio"
+                            }
+                            if(self.videoExtensions.contains(("."+filePendingName.components(separatedBy: ".")[1]).lowercased()))
+                            {
+                                filetype="video"
+                            }
+                            
                             self.downloadFileInGroup(fileuniqueid,filePendingName: filePendingName,filefrom: filefrom,filetype: filetype,filePendingSize: filePendingSize,filependingDate: filependingDate,filePendingTo: filePendingTo)
                         }
                         //}
@@ -1044,7 +1053,7 @@ class NetworkingManager
             var documentDir=docsDir1 as NSString
             var filePendingPath=documentDir.appendingPathComponent(filePendingName)
             
-            if(self.imageExtensions.contains(filetype.lowercased()))
+           /* if(self.imageExtensions.contains(filetype.lowercased()))
             {
                 //filePendingName
                 sqliteDB.saveFile(filePendingTo, from1: filefrom, owneruser1: username!, file_name1: filePendingName, date1: nil, uniqueid1: fileuniqueid, file_size1: filePendingSize, file_type1: filetype, file_path1: filePendingPath, type1: "image")
@@ -1053,7 +1062,10 @@ class NetworkingManager
             {
                 sqliteDB.saveFile(filePendingTo, from1: filefrom, owneruser1: username!, file_name1: filePendingName, date1: nil, uniqueid1: fileuniqueid, file_size1: filePendingSize, file_type1: filetype, file_path1: filePendingPath, type1: "document")
                 
-            }
+            }*/
+            
+             sqliteDB.saveFile(filePendingTo, from1: filefrom, owneruser1: username!, file_name1: filePendingName, date1: nil, uniqueid1: fileuniqueid, file_size1: filePendingSize, file_type1: filetype, file_path1: filePendingPath, type1: filetype)
+            
             if(socketObj.delegateChat != nil)
             {
                 socketObj.delegateChat.socketReceivedMessageChat("updateUI", data: nil)
