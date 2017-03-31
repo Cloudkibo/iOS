@@ -837,20 +837,10 @@ class NetworkingManager
                             var filePendingTo=jsonResult["filepending"]["group_unique_id"].string!
                             
                             //  self.downloadFile("\(jsonResult["filepending"]["uniqueid"])")
-                           var filetype="unknown"
-                            if(self.imageExtensions.contains(("."+filePendingName.components(separatedBy: ".")[1]).lowercased()))
-                            {
-                                filetype="image"
-                            }
-                            if(self.audioExtensions.contains(("."+filePendingName.components(separatedBy: ".")[1]).lowercased()))
-                            {
-                                filetype="audio"
-                            }
-                            if(self.videoExtensions.contains(("."+filePendingName.components(separatedBy: ".")[1]).lowercased()))
-                            {
-                                filetype="video"
-                            }
                             
+                            var filetype=jsonResult["filepending"]["file_type"].string!
+                            
+                                                     
                             self.downloadFileInGroup(fileuniqueid,filePendingName: filePendingName,filefrom: filefrom,filetype: filetype,filePendingSize: filePendingSize,filependingDate: filependingDate,filePendingTo: filePendingTo)
                         }
                         //}
@@ -1090,7 +1080,7 @@ class NetworkingManager
             
             print("download done long")
             print(NSDate())
-            self.confirmDownload(fileuniqueid)
+            self.confirmDownloadInGroup(fileuniqueid)
             print("confirminggggggg")
             
             // print(request?.)
@@ -1101,7 +1091,7 @@ class NetworkingManager
     }
     
     func confirmDownloadInGroup(_ uniqueid1:String)
-    {
+    {print("confirmDownloadInGroup \(uniqueid1)")
         let confirmURL=Constants.MainUrl+Constants.confirmDownloadInGroupChatURL
         
         let request = Alamofire.request("\(confirmURL)", method: .post, parameters: ["uniqueid":uniqueid1],headers:header).responseJSON { response in
