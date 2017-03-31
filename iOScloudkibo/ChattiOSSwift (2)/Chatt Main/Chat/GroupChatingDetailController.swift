@@ -375,19 +375,138 @@ class GroupChatingDetailController: UIViewController,UIDocumentPickerDelegate,UI
     func finishRecording(success: Bool) {
         ////audioRecorder.stop()
         ////audioRecorder = nil
-        
+        var filesize1=0
         if !success {
             
             btnSendAudio.setTitle("Record", for: .normal)
             // recording failed :(
         }  else {
             btnSendAudio.setTitle("Record", for: .normal)
+            
+            var uniqueID=UtilityFunctions.init().generateUniqueid()
+            print("uniqueid audio is \(uniqueID)")
+            
+            
+            let dirPaths = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)
+            let docsDir1 = dirPaths[0]
+            var documentDir=docsDir1 as NSString
+            var filePathImage2=documentDir.appendingPathComponent(self.filename)
+            
+            var furl=URL(string: filePathImage2)
+            //print(furl!.pathExtension!)
+            //print(furl!.deletingLastPathComponent())
+            var ftype=furl!.pathExtension
+            var fname=furl!.deletingLastPathComponent()
+            
+            do {
+                let fileAttributes : NSDictionary? = try FileManager.default.attributesOfItem(atPath: filePathImage2) as NSDictionary?
+                if let _attr = fileAttributes {
+                    //var filesize1 = _attr.fileSize();
+                    filesize1=Int(_attr.fileSize());
+                    //print("file size is \(self.fileSize1)")
+                    //// ***april 2016 neww self.fileSize=(fileSize1 as! NSNumber).integerValue
+                }
+            } catch {
+                socketObj.socket.emit("logClient","IPHONE-LOG: error: audio : \(error)")
+                //print("Error:+++ \(error)")
+            }
+            
+            
+            
+            var date=self.getDateString(Date())
+            var status="pending"
+            
+            ///messages.add(["msg":txtFieldMessage.text!+" (pending)", "type":"2", "fromFullName":"","date":date,"uniqueid":uniqueid_chat])
+            
+            
+            
+            
+            //save chat
+            sqliteDB.storeGroupsChat(username!, group_unique_id1: self.groupid1, type1: "audio", msg1: self.filename, from_fullname1: username!, date1: Date(), unique_id1: uniqueid_chat)
+            
+            
+            
+            //self.addUploadInfo(self.groupid,uniqueid1: uniqueid_chat, rowindex: self.messages.count, uploadProgress: 0.0, isCompleted: false)
+            
+            
+            //get members and store status as pending
+            for i in 0 ..< self.membersList.count
+            {
+                /*
+                 let member_phone = Expression<String>("member_phone")
+                 let isAdmin = Expression<String>("isAdmin")
+                 let membership_status
+                 */
+                if((self.membersList[i]["member_phone"] as! String) != username! && (self.membersList[i]["membership_status"] as! String) != "left")
+                {
+                    print("adding group chat status for \(self.membersList[i]["member_phone"])")
+                    sqliteDB.storeGRoupsChatStatus(uniqueid_chat, status1: "pending", memberphone1: self.membersList[i]["member_phone"]! as! String, delivereddate1: UtilityFunctions.init().minimumDate(), readDate1: UtilityFunctions.init().minimumDate())
+                    
+                    sqliteDB.saveFile(self.membersList[i]["member_phone"]! as! String, from1: username!, owneruser1: username!, file_name1: self.filename, date1: nil, uniqueid1: uniqueid_chat, file_size1: "\(filesize1)", file_type1: ftype, file_path1: filePathImage2, type1: "audio")
+                    
+                }
+            }
+            
+            
+            
+            
+            
+            self.tblForGroupChat.reloadData()
+            if(self.messages.count>1)
+            {
+                var indexPath = IndexPath(row:self.messages.count-1, section: 0)
+                self.tblForGroupChat.scrollToRow(at: indexPath, at: UITableViewScrollPosition.bottom, animated: true)
+                
+                
+                
+            }
+            
+            
+                       //// self.addUploadInfo(self.selectedContact,uniqueid1: uniqueID, rowindex: self.messages.count, uploadProgress: 0.0, isCompleted: false)
+            
+            print("uploading audio")
+            
+            
+            
             //add audio component
             //save to database
             //send chat
    
         }
     }
+    
+    func startRecording() {
+        var uniqueID = UtilityFunctions.init().generateUniqueid()
+        
+        
+        let dirPaths = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)
+        let docsDir1 = dirPaths[0]
+        let documentDir=docsDir1 as NSString
+        let audioFilename =  documentDir.appendingPathComponent("\(uniqueID).m4a")
+        
+        let settings = [
+            AVFormatIDKey: Int(kAudioFormatMPEG4AAC),
+            AVSampleRateKey: 12000,
+            AVNumberOfChannelsKey: 1,
+            AVEncoderAudioQualityKey: AVAudioQuality.high.rawValue
+        ]
+        
+        do {
+            audioRecorder = try AVAudioRecorder(url: URL.init(fileURLWithPath: audioFilename), settings: settings)
+            audioRecorder.delegate = self
+            audioRecorder.record()
+            self.filename="\(uniqueID).m4a"
+            print("recording audio \(uniqueID).m4a ")
+            
+            //////audioRecorder.deleterecording()
+            btnSendAudio.setTitle("Tap to Stop", for: .normal)
+        } catch {
+            print("error finish recording.. not recorded \(uniqueID).m4a")
+            finishRecording(success: false)
+        }
+    }
+   
+    
  
     override func viewWillAppear(_ animated: Bool) {
         
