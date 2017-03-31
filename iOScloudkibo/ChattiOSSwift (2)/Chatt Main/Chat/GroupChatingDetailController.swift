@@ -984,6 +984,10 @@ class GroupChatingDetailController: UIViewController,UIDocumentPickerDelegate,UI
                     {
                         messages2.add(["msg":tblUserChats[msg],"type":"4", "fromFullName":fullname,"date":defaultTimeeee, "uniqueid":tblUserChats[unique_id],"filename":tblUserChats[msg],"status":status])
                     }
+                    if(tblUserChats[type]=="audio")
+                    {
+                        messages2.add(["msg":tblUserChats[msg],"type":"12", "fromFullName":fullname,"date":defaultTimeeee, "uniqueid":tblUserChats[unique_id],"filename":tblUserChats[msg],"status":status])
+                    }
                     if(tblUserChats[type]=="chat")
                     {
 
@@ -1008,7 +1012,24 @@ class GroupChatingDetailController: UIViewController,UIDocumentPickerDelegate,UI
 
                         messages2.add(["msg":tblUserChats[msg],"type":"3", "fromFullName":fullname,"date":defaultTimeeee, "uniqueid":tblUserChats[unique_id],"filename":tblUserChats[msg],"status":""])
                     }
-                    else{
+                    if(tblUserChats[type]=="audio")
+                    {
+                        print("checking if audio is pending")
+                        var filedownloaded=sqliteDB.checkIfFileExists(tblUserChats[unique_id])
+                        
+                        if(filedownloaded==false)
+                        {
+                            print("audio is not downloaded locally")
+                            //checkpendingfiles
+                            
+                            managerFile.checkPendingFilesInGroup(tblUserChats[unique_id])
+                        }
+                        
+                        
+                         messages2.add(["msg":tblUserChats[msg], "type":"11", "fromFullName":fullname,"date":defaultTimeeee, "uniqueid":tblUserChats[unique_id]])
+                    }
+                        
+                    if(tblUserChats[type]=="chat"){
                     messages2.add(["msg":tblUserChats[msg], "type":"1", "fromFullName":fullname,"date":defaultTimeeee, "uniqueid":tblUserChats[unique_id]])
                     }
              
