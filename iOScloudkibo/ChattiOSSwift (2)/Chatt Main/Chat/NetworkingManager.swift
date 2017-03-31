@@ -500,11 +500,11 @@ class NetworkingManager
                                                     // === wrong sqliteDB.storeGRoupsChatStatus(uniqueid_chat, status1: "sent", memberphone1: self.membersList[i]["member_phone"]! as! String, delivereddate1: UtilityFunctions.init().minimumDate(), readDate1: UtilityFunctions.init().minimumDate())
                                                 }
                                             }
-                                            if(self.delegateProgressUpload != nil)
+                                           /* if(self.delegateProgressUpload != nil)
                                             {
                                                 self.delegateProgressUpload.updateProgressUpload(1.0,uniqueid: uniqueid1)
                                                 
-                                            }
+                                            }*/
                                             
                                             
                                         }
