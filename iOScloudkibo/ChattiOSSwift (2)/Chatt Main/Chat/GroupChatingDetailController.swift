@@ -1361,9 +1361,11 @@ class GroupChatingDetailController: UIViewController,UIDocumentPickerDelegate,UI
                     if(tblUserChats[type]=="document")
                     {
                         //  var filedownloaded=sqliteDB.checkIfFileExists(tblContacts[uniqueid])
+                        var filedownloaded=sqliteDB.checkIfFileExists(tblUserChats[unique_id])
+                         print("checking if document is pending")
                         if(filedownloaded==false)
                         {
-                            print("audio is not downloaded locally")
+                            print("document is not downloaded locally")
                             //checkpendingfiles
                             
                             managerFile.checkPendingFilesInGroup(tblUserChats[unique_id])
