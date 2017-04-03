@@ -1318,6 +1318,14 @@ class GroupChatingDetailController: UIViewController,UIDocumentPickerDelegate,UI
                         //^^^^ self.addMessage(tblContacts[msg], ofType: "6",date: tblContacts[date],uniqueid: tblContacts[uniqueid])
                         
                     }
+                    
+                    if(tblUserChats[type]=="video")
+                    {
+                          messages2.add(["msg":tblUserChats[msg]+" (\(status))","type":"10", "fromFullName":fullname,"date":defaultTimeeee, "uniqueid":tblUserChats[unique_id],"filename":tblUserChats[msg],"status":status])
+                        
+                       /// messages2.add(["message":tblContacts[msg],"status":tblContacts[status], "type":"10", "date":defaultTimeeee, "uniqueid":tblContacts[uniqueid]])
+                    }
+                    
                     if(tblUserChats[type]=="chat")
                     {
 
@@ -1381,6 +1389,26 @@ class GroupChatingDetailController: UIViewController,UIDocumentPickerDelegate,UI
                         //^^^^ self.addMessage(tblContacts[msg], ofType: "6",date: tblContacts[date],uniqueid: tblContacts[uniqueid])
                         
                     }
+                    
+                    if(tblUserChats[type]=="video")
+                    {
+                        print("checking if video is pending")
+                        var filedownloaded=sqliteDB.checkIfFileExists(tblUserChats[unique_id])
+                        
+                        if(filedownloaded==false)
+                        {
+                            print("video is not downloaded locally")
+                            //checkpendingfiles
+                            
+                            managerFile.checkPendingFilesInGroup(tblUserChats[unique_id])
+                        }
+                        
+                        print("found video received")
+                        messages2.add(["msg":tblUserChats[msg], "type":"9", "fromFullName":fullname,"date":defaultTimeeee, "uniqueid":tblUserChats[unique_id],"filename":tblUserChats[msg]])
+
+                        
+                    }
+                    
                     
                     
                     if(tblUserChats[type]=="chat"){
@@ -2345,7 +2373,170 @@ class GroupChatingDetailController: UIViewController,UIDocumentPickerDelegate,UI
                                 //timeLabel.text=date2.debugDescription
                             }
                             else{
-            print("got sender msg \(msg)")
+                                
+                                if(msgType?.isEqual(to: "9"))!
+                                {
+                                    print("video received is \(msg)")
+                                    cell = tableView.dequeueReusableCell(withIdentifier: "VideoReceivedCell")! as UITableViewCell
+                                    if(cell==nil)
+                                    {
+                                        cell = tblForGroupChat.dequeueReusableCell(withIdentifier: "VideoReceivedCell")! as UITableViewCell
+                                    }
+                                    
+                                    let videoView = cell.viewWithTag(0)
+                                    let videoLabel = videoView?.viewWithTag(1) as! UILabel
+                                    let timeLabel = videoView?.viewWithTag(3) as! UILabel
+                                    
+                                    videoLabel.text=msg as String?
+                                    let dirPaths = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)
+                                    let docsDir1 = dirPaths[0]
+                                    var documentDir=docsDir1 as NSString
+                                    var videoPath=documentDir.appendingPathComponent(msg as! String)
+                                    // let videoLabel = videoView?.viewWithTag(1) as! UILabel
+                                    let videoLabelStatus = videoView?.viewWithTag(2) as! UILabel
+                                    
+                                    
+                                    let url = NSURL.fileURL(withPath: videoPath)
+                                    
+                                    let docData=FileManager.default.contents(atPath: videoPath)
+                                    if(docData != nil)
+                                    {
+                                        videoLabelStatus.text = "Play"
+                                    }
+                                    else{
+                                        videoLabelStatus.text = "Downloading..."
+                                    }
+                                    
+                                    /*
+                                     self.moviePlayer = MPMoviePlayerController(contentURL: url)
+                                     if let player = self.moviePlayer {
+                                     // player.view.frame=(videoView?.frame)!
+                                     
+                                     player.view.frame = CGRect(x: (videoView?.frame.origin.x)!+10, y: (videoView?.frame.origin.y)!, width: 200, height: 200)
+                                     player.scalingMode = .aspectFit
+                                     player.prepareToPlay()
+                                     ///player.scalingMode = MPMovieScalingMode.fill
+                                     player.isFullscreen = true
+                                     player.controlStyle = MPMovieControlStyle.embedded
+                                     player.movieSourceType = MPMovieSourceType.file
+                                     player.repeatMode = MPMovieRepeatMode.none
+                                     player.shouldAutoplay=false
+                                     ////player.play()
+                                     */
+                                    
+                                    
+                                    let formatter = DateFormatter();
+                                    formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSS";
+                                    //formatter.dateFormat = "MM/dd hh:mm a";
+                                    formatter.timeZone = TimeZone.autoupdatingCurrent
+                                    print("line 2055")
+                                    let defaultTimeZoneStr = formatter.date(from: date2 as! String)
+                                    //print("defaultTimeZoneStr \(defaultTimeZoneStr)")
+                                    
+                                    let formatter2 = DateFormatter();
+                                    formatter2.timeZone=TimeZone.autoupdatingCurrent
+                                    formatter2.dateFormat = "MM/dd hh:mm a";
+                                    let displaydate=formatter2.string(from: defaultTimeZoneStr!)
+                                    //formatter.dateFormat = "MM/dd hh:mm a";
+                                    
+                                    
+                                    timeLabel.frame = CGRect(x: (videoView?.frame.origin.x)!, y: (videoView?.frame.origin.y)!+(videoView?.frame.height)!, width: (videoView?.frame.size.width)!-46, height: timeLabel.frame.size.height)
+                                    
+                                    
+                                    //===new   timeLabel.frame = CGRectMake(textLable.frame.origin.x, textLable.frame.origin.y+textLable.frame.height+10, chatImage.frame.size.width-46, timeLabel.frame.size.height)
+                                    
+                                    
+                                    //print("displaydate is \(displaydate)")
+                                    var status=messageDic["status"] as! NSString
+                                    timeLabel.text=displaydate+" (\(status as! String))"
+                                    
+                                    let tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(GroupChatingDetailController.videoTapped(_:)))
+                                    //Add the recognizer to your view.
+                                    videoView?.addGestureRecognizer(tapRecognizer)
+                                    
+                                    
+                                }
+                                else{
+                                
+                                    
+                                    if(msgType?.isEqual(to: "10"))!
+                                    {
+                                        print("video sent is \(msg)")
+                                        cell = tableView.dequeueReusableCell(withIdentifier: "VideoSentCell")! as UITableViewCell
+                                        if(cell==nil)
+                                        {
+                                            cell = tblForGroupChat.dequeueReusableCell(withIdentifier: "VideoSentCell")! as UITableViewCell
+                                        }
+                                        
+                                        let videoView = cell.viewWithTag(0)
+                                        let videoLabel = videoView?.viewWithTag(1) as! UILabel
+                                        let videoLabelStatus = videoView?.viewWithTag(2) as! UILabel
+                                        
+                                        let timeLabel = videoView?.viewWithTag(3) as! UILabel
+                                        
+                                        videoLabel.text=msg as String?
+                                        //let filename=messageDic["filename"] as! NSString
+                                        let dirPaths = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)
+                                        let docsDir1 = dirPaths[0]
+                                        var documentDir=docsDir1 as NSString
+                                        var videoPath=documentDir.appendingPathComponent(msg! as! String)
+                                        
+                                        
+                                        
+                                        // var moviePlayer : MPMoviePlayerController!
+                                        
+                                        let url = NSURL.fileURL(withPath: videoPath)
+                                        let docData=FileManager.default.contents(atPath: videoPath)
+                                        if(docData != nil)
+                                        {
+                                            videoLabelStatus.text = "Play"
+                                        }
+                                        else{
+                                            videoLabelStatus.text = "Downloading..."
+                                        }
+                                        
+                                        var status=messageDic["status"] as! NSString
+                                        let formatter = DateFormatter()
+                                        formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSS";
+                                        //formatter.dateFormat = "MM/dd hh:mm a";
+                                        formatter.timeZone = TimeZone.autoupdatingCurrent
+                                        let defaultTimeZoneStr = formatter.date(from: date2 as! String)
+                                        //print("defaultTimeZoneStr \(defaultTimeZoneStr)")
+                                        
+                                        if(defaultTimeZoneStr == nil)
+                                        {
+                                            timeLabel.text=date2 as! String
+                                            
+                                        }
+                                        else
+                                        {
+                                            let formatter2 = DateFormatter();
+                                            formatter2.timeZone=TimeZone.autoupdatingCurrent
+                                            formatter2.dateFormat = "MM/dd hh:mm a";
+                                            let displaydate=formatter2.string(from: defaultTimeZoneStr!)
+                                            //formatter.dateFormat = "MM/dd hh:mm a";
+                                            
+                                            timeLabel.text=displaydate+" (\(status as! String))"
+                                        }
+                                        
+                                        
+                                        let tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(ChatDetailViewController.videoTapped(_:)))
+                                        //Add the recognizer to your view.
+                                        videoView?.addGestureRecognizer(tapRecognizer)
+                                        
+                                        
+                                        /*let player = AVPlayer(url: url)
+                                         let playerViewController = AVPlayerViewController()
+                                         playerViewController.player = player
+                                         self.present(playerViewController, animated: true) {
+                                         */
+                                        //videoView?.addSubview(player.view)
+                                        //videoView?.bringSubview(toFront: player.view)
+                                        
+                                    }
+                                    
+                                    else{
+                                print("got sender msg \(msg)")
              cell = tblForGroupChat.dequeueReusableCell(withIdentifier: "ChatSentCell")! as UITableViewCell
             
           
@@ -2384,7 +2575,9 @@ class GroupChatingDetailController: UIViewController,UIDocumentPickerDelegate,UI
             nameLabel.text=fullname as! String
             msgLabel.text=msg as! String
             
+                                    }
             }
+                            }
                         }        }
                     }
                 }
@@ -2558,6 +2751,27 @@ class GroupChatingDetailController: UIViewController,UIDocumentPickerDelegate,UI
         
     }
     
+    func videoTapped(_ gestureRecognizer: UITapGestureRecognizer) {
+        //tappedImageView will be the image view that was tapped.
+        //dismiss it, animate it off screen, whatever.
+        let tappedVideoView = gestureRecognizer.view! as! UIView
+        let videonameLabel=tappedVideoView.viewWithTag(1) as! UILabel
+        let dirPaths = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)
+        let docsDir1 = dirPaths[0]
+        var documentDir=docsDir1 as NSString
+        var videoPath=documentDir.appendingPathComponent(videonameLabel.text!)
+        
+        let player = AVPlayer(url: URL.init(fileURLWithPath: videoPath))
+        let playerViewController = AVPlayerViewController()
+        playerViewController.player = player
+        contactshared=false
+        self.present(playerViewController, animated: true) {
+            
+            //  self.performSegue(withIdentifier: "showFullImageSegue", sender: nil);
+            
+        }
+        
+    }
     
     func keyboardWillShow(_ notification: Notification) {
         
@@ -3226,6 +3440,9 @@ class GroupChatingDetailController: UIViewController,UIDocumentPickerDelegate,UI
     func sendVideo(urlOfVideoGetMetadata:URL,urlOfVideoPath:URL)
     { print("urlOfVideoGetMetadata is \(urlOfVideoGetMetadata) and urlOfVideoPath is \(urlOfVideoPath)")
         
+        
+        
+        var filesize1=0
         var furl=URL(string: urlOfVideoPath.absoluteString)
         //print(furl!.pathExtension!)
         //print(furl!.deletingLastPathComponent())
@@ -3309,7 +3526,7 @@ class GroupChatingDetailController: UIViewController,UIDocumentPickerDelegate,UI
             
             
             //save chat
-            sqliteDB.storeGroupsChat(username!, group_unique_id1: self.groupid1, type1: "image", msg1: self.filename, from_fullname1: username!, date1: Date(), unique_id1: uniqueid_chat)
+            sqliteDB.storeGroupsChat(username!, group_unique_id1: self.groupid1, type1: "video", msg1: self.filename, from_fullname1: username!, date1: Date(), unique_id1: uniqueid_chat)
             
             
             
@@ -3756,6 +3973,19 @@ class GroupChatingDetailController: UIViewController,UIDocumentPickerDelegate,UI
     override func viewWillDisappear(_ animated: Bool) {
         
         UIDelegates.getInstance().delegateGroupChatDetails1=nil
+    }
+    
+    func showError(_ title:String,message:String,button1:String) {
+        
+        // create the alert
+        let alert = UIAlertController(title: title, message: message, preferredStyle: UIAlertControllerStyle.alert)
+        
+        // add the actions (buttons)
+        alert.addAction(UIAlertAction(title: button1, style: UIAlertActionStyle.default, handler: nil))
+        //alert.addAction(UIAlertAction(title: button2, style: UIAlertActionStyle.Cancel, handler: nil))
+        
+        // show the alert
+        self.present(alert, animated: true, completion: nil)
     }
 
 }
