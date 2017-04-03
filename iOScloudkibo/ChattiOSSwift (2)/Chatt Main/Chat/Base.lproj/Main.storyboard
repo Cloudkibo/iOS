@@ -2906,7 +2906,7 @@
                         <segue destination="RIV-wT-i1E" kind="push" identifier="groupMessageInfoSegue" id="9K8-4X-4lF"/>
                         <segue destination="LME-ma-WZ9" kind="push" identifier="showFullImageGroupSegue" id="tX8-Fc-8Jp"/>
                         <segue destination="TP2-6C-5JJ" kind="push" identifier="showFullDocGroupSegue" id="TtG-5C-Jez"/>
-                        <segue destination="aly-VZ-y43" kind="push" identifier="MapViewGroupsSegue" id="sRV-B5-zqK"/>
+                        <segue destination="aly-VZ-y43" kind="push" identifier="MapViewGroupSegue" id="sRV-B5-zqK"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="wjA-fP-LCO" userLabel="First Responder" sceneMemberID="firstResponder"/>

@@ -23,6 +23,10 @@ import ContactsUI
 import Foundation
 import AssetsLibrary
 import MobileCoreServices
+import GooglePlacePicker
+import GooglePlaces
+import GoogleMaps
+
 //import PHAsset
 //import PhotosUI
 //import Haneke
@@ -1487,12 +1491,32 @@ class GroupChatingDetailController: UIViewController,UIDocumentPickerDelegate,UI
     func tableView(_ tableView: UITableView, heightForRowAtIndexPath indexPath: IndexPath) -> CGFloat {
         
         ////======return 60
-        
+        if(messages.count > 0 && (messages.count > indexPath.row))
+        {
+            
         var messageDic = messages.object(at: indexPath.row) as! [String : String];
         
         let msg = messageDic["msg"] as NSString!
         let msgType = messageDic["type"]! as NSString
-        if(msgType.isEqual(to: "3")||msgType.isEqual(to: "4"))
+        
+        if(msgType.isEqual(to: "3") || msgType.isEqual(to: "13"))
+        {
+            //FileImageSentCell
+            let cell = tblForGroupChat.dequeueReusableCell(withIdentifier: "FileImageSentCell")! as UITableViewCell
+            let chatImage = cell.viewWithTag(1) as! UIImageView
+            
+            
+            if(chatImage.frame.height <= 230)
+            {
+                return chatImage.frame.height+20
+            }
+            else
+            {
+                return 200
+            }
+        }
+        else{
+        if(msgType.isEqual(to: "14")||msgType.isEqual(to: "4"))
         {
             let cell = tblForGroupChat.dequeueReusableCell(withIdentifier: "FileImageReceivedCell")! as UITableViewCell
             let chatImage = cell.viewWithTag(1) as! UIImageView
@@ -1538,6 +1562,12 @@ class GroupChatingDetailController: UIViewController,UIDocumentPickerDelegate,UI
             return sizeOFStr.height + 70
                 }
             }
+        }
+        }
+    }
+        else{
+            return 0
+
         }
     }
     
@@ -2569,7 +2599,7 @@ class GroupChatingDetailController: UIViewController,UIDocumentPickerDelegate,UI
                                             cell = ///tblForChats.dequeueReusableCellWithIdentifier("ChatReceivedCell")! as UITableViewCell
                                                 
                                                 //FileImageReceivedCell
-                                                tblForChats.dequeueReusableCell(withIdentifier: "LocationReceivedCell")! as UITableViewCell
+                                                tblForGroupChat.dequeueReusableCell(withIdentifier: "LocationReceivedCell")! as UITableViewCell
                                             
                                             //=== uncomment   cell.tag = indexPath.row
                                             
@@ -2631,7 +2661,7 @@ class GroupChatingDetailController: UIViewController,UIDocumentPickerDelegate,UI
                                                 cell = ///tblForChats.dequeueReusableCellWithIdentifier("ChatReceivedCell")! as UITableViewCell
                                                     
                                                     //FileImageReceivedCell
-                                                    tblForChats.dequeueReusableCell(withIdentifier: "LocationSentCell")! as UITableViewCell
+                                                    tblForGroupChat.dequeueReusableCell(withIdentifier: "LocationSentCell")! as UITableViewCell
                                                 
                                                 //=====cell.tag = indexPath.row
                                                 
@@ -2687,7 +2717,9 @@ class GroupChatingDetailController: UIViewController,UIDocumentPickerDelegate,UI
                                                 chatImage.kf.setImage(with: resource)
                                                 textLable.text=msg! as! String
                                                 textLable.isHidden=true
-                                                timeLabel.text="\(displaydate) \(status!)"
+                                                
+                                                var status=messageDic["status"] as! NSString
+                                                timeLabel.text="\(displaydate) \(status)"
                                                 
                                             }
                                             else{
@@ -2853,70 +2885,171 @@ class GroupChatingDetailController: UIViewController,UIDocumentPickerDelegate,UI
         var statusNow=""
         statusNow="pending"
         
+        messages.add(["msg":msgbody+" (pending)", "type":"14", "fromFullName":"","date":date,"uniqueid":uniqueID])
         
-        if(selectedContact != "")
+        
+        
+        
+        //save chat
+        sqliteDB.storeGroupsChat(username!, group_unique_id1: groupid1, type1: "location", msg1: msgbody, from_fullname1: username!, date1: Date(), unique_id1: uniqueID)
+        
+        
+        //get members and store status as pending
+        for i in 0 ..< membersList.count
         {
-            imParas=["from":"\(username!)","to":"\(selectedContact)","fromFullName":"\(displayname)","msg":"\(msgbody)","uniqueid":"\(uniqueID)","type":"location","file_type":"","date":"\(dateSentDateType!)"]
-            
-            
-            
-            sqliteDB.SaveChat("\(selectedContact)", from1: username!, owneruser1: username!, fromFullName1: displayname, msg1: msgbody, date1: dateSentDateType, uniqueid1: uniqueID, status1: statusNow, type1: "location", file_type1: "", file_path1: "")
-            
-        }
-        else{
-            //save as broadcast message
-            for i in 0 ..< broadcastMembersPhones.count
+            /*
+             let member_phone = Expression<String>("member_phone")
+             let isAdmin = Expression<String>("isAdmin")
+             let membership_status
+             */
+            if((membersList[i]["member_phone"] as! String) != username! && (membersList[i]["membership_status"] as! String) != "left")
             {
-                imParas2.append(["from":"\(username!)","to":"\(broadcastMembersPhones[i])","fromFullName":"\(displayname)","msg":"\(msgbody)","uniqueid":"\(uniqueID)","type":"location","file_type":"","date":"\(dateSentDateType!)"])
-                
-                
-                sqliteDB.SaveBroadcastChat("\(broadcastMembersPhones[i])", from1: username!, owneruser1: username!, fromFullName1: displayname, msg1: msgbody, date1: dateSentDateType, uniqueid1: uniqueID, status1: statusNow, type1: "location", file_type1: "", file_path1: "", broadcastlistID1: broadcastlistID1)
-                //broadcastMembersPhones[i]
+                print("adding group chat status for \(membersList[i]["member_phone"])")
+                sqliteDB.storeGRoupsChatStatus(uniqueID, status1: "pending", memberphone1: membersList[i]["member_phone"]! as! String, delivereddate1: UtilityFunctions.init().minimumDate(), readDate1: UtilityFunctions.init().minimumDate())
             }
         }
-        var formatter = DateFormatter();
-        formatter.timeZone = TimeZone.autoupdatingCurrent
-        formatter.dateFormat = "MM/dd hh:mm a";
-        //formatter.dateStyle = .ShortStyle
-        //formatter.timeStyle = .ShortStyle
-        let defaultTimeZoneStr = formatter.string(from: date);
-        let defaultTimeZoneStr2=formatter.date(from: defaultTimeZoneStr as! String)
+        
+       // var chatmsg=txtFieldMessage.text!
+        //txtFieldMessage.text = "";
+       // self.didValueChanged(txtFieldMessage)
+        
+       /* tblForGroupChat.reloadData()
+        if(messages.count>1)
+        {
+            var indexPath = IndexPath(row:messages.count-1, section: 0)
+            tblForGroupChat.scrollToRow(at: indexPath, at: UITableViewScrollPosition.bottom, animated: true)
+            
+            
+            
+        }
+        */
         
         
         
-        var msggg=msgbody
         
         
-        //txtFldMessage.text = "";
         
         
-        //DispatchQueue.main.async
-        //{
-        print("adding msg \(msggg)")
         
         
-        self.addMessage(msggg+" (\(statusNow))",status:statusNow,ofType: "14",date:defaultTimeZoneStr, uniqueid: uniqueID)
         
-        self.tblForChats.reloadData()
+        
+        
+        
+        
+        
+        
+        
+        /*sqliteDB.storeGroupsChat(username!, group_unique_id1: self.groupid1, type1: "audio", msg1: self.filename, from_fullname1: username!, date1: Date(), unique_id1: uniqueID)
+        
+        
+        
+        //self.addUploadInfo(self.groupid,uniqueid1: uniqueid_chat, rowindex: self.messages.count, uploadProgress: 0.0, isCompleted: false)
+        
+        
+        //get members and store status as pending
+        for i in 0 ..< self.membersList.count
+        {
+            /*
+             let member_phone = Expression<String>("member_phone")
+             let isAdmin = Expression<String>("isAdmin")
+             let membership_status
+             */
+            if((self.membersList[i]["member_phone"] as! String) != username! && (self.membersList[i]["membership_status"] as! String) != "left")
+            {
+                print("adding group chat status for \(self.membersList[i]["member_phone"])")
+                sqliteDB.storeGRoupsChatStatus(uniqueID, status1: "pending", memberphone1: self.membersList[i]["member_phone"]! as! String, delivereddate1: UtilityFunctions.init().minimumDate(), readDate1: UtilityFunctions.init().minimumDate())
+                
+                ///////sqliteDB.saveFile(self.membersList[i]["member_phone"]! as! String, from1: username!, owneruser1: username!, file_name1: self.filename, date1: nil, uniqueid1: uniqueID, file_size1: "\(filesize1)", file_type1: ftype, file_path1: filePathImage2, type1: "audio")
+                
+            }
+        }
+
+        
+        
+        var formatter2 = DateFormatter();
+        formatter2.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSS"
+        formatter2.timeZone = NSTimeZone.local
+        var defaultTimeeee = formatter2.string(from:Date())
+        
+        
+        messages.add(["msg":msgbody+" (\(statusNow))", "type":"14", "fromFullName":"","date":date,"uniqueid":uniqueID])
+      
+        
+        
+        ////self.addMessage(msgbody+" (\(statusNow))",status:statusNow,ofType: "14",date:defaultTimeeee, uniqueid: uniqueID)
+        
+        self.tblForGroupChat.reloadData()
         if(self.messages.count>1)
         {
             // let indexPath = NSIndexPath(forRow:self.messages.count-1, inSection: 0)
-            let indexPath = IndexPath(row:self.tblForChats.numberOfRows(inSection: 0)-1, section: 0)
-            self.tblForChats.scrollToRow(at: indexPath, at: UITableViewScrollPosition.bottom, animated: false)
+            let indexPath = IndexPath(row:self.tblForGroupChat.numberOfRows(inSection: 0)-1, section: 0)
+            self.tblForGroupChat.scrollToRow(at: indexPath, at: UITableViewScrollPosition.bottom, animated: false)
             
             
             
         }
+        */
+        
         // }
         // })
         //  }
         
         
+        
+       // DispatchQueue.global(priority: DispatchQueue.GlobalQueuePriority.default).async
+         //   {
+                print("messages count before sending msg is \(self.messages.count)")
+                self.sendChatMessage(self.groupid1, from: username!, type: "location", msg: msgbody, fromFullname: username!, uniqueidChat: uniqueID, completion: { (result) in
+                    
+                    print("chat sent")
+                    if(result==true)
+                    {
+                        for i in 0 ..< self.membersList.count
+                        {
+                            if((self.membersList[i]["member_phone"] as! String) != username! && (self.membersList[i]["membership_status"] as! String) != "left")
+                            {
+                                sqliteDB.updateGroupChatStatus(uniqueID, memberphone1: self.membersList[i]["member_phone"]! as! String, status1: "sent", delivereddate1: Date(), readDate1: Date())
+                                
+                                // === wrong sqliteDB.storeGRoupsChatStatus(uniqueid_chat, status1: "sent", memberphone1: self.membersList[i]["member_phone"]! as! String, delivereddate1: UtilityFunctions.init().minimumDate(), readDate1: UtilityFunctions.init().minimumDate())
+                            }
+                        }
+                        
+                        var searchformat=NSPredicate(format: "uniqueid = %@",uniqueID)
+                        
+                        var resultArray=self.messages.filtered(using: searchformat)
+                        var ind=self.messages.index(of: resultArray.first!)
+                        //cfpresultArray.first
+                        //resultArray.first
+                        var aa=self.messages.object(at: ind) as! [String:AnyObject]
+                        var actualmsg=aa["msg"] as! String
+                        actualmsg=actualmsg.removeCharsFromEnd(10)
+                        //var actualmsg=newmsg
+                        aa["msg"]="\(actualmsg) (sent)" as AnyObject?
+                        self.messages.replaceObject(at: ind, with: aa)
+                        //  self.messages.objectAtIndex(ind).message="\(self.messages[ind]["message"]) (sent)"
+                        var indexp=IndexPath(row:ind, section:0)
+                      //  DispatchQueue.main.async
+                        //    {
+                       //         self.tblForChats.reloadData()
+                       // }
+
+                        
+                        //==== sqliteDB.updateGroupChatStatus(uniqueid_chat, memberphone1: username!,status1: "sent", delivereddate1: UtilityFunctions.init().minimumDate(), readDate1: UtilityFunctions.init().minimumDate())
+                        
+                        UIDelegates.getInstance().UpdateGroupChatDetailsDelegateCall()
+                    }
+                })
+       // }
+        
+        
+        
+        //...
+        
         //print("messages count before sending msg is \(self.messages.count)")
-        print("sending msg \(msggg)")
-        if(selectedContact != ""){
-            //in chat window
-            self.sendChatMessage(imParas){ (uniqueid,result) -> () in
+        print("sending msg \(msgbody)")
+             //in chat window
+           /* self.sendChatMessage(imParas){ (uniqueid,result) -> () in
                 
                 if(result==true)
                 {
@@ -2945,42 +3078,7 @@ class GroupChatingDetailController: UIViewController,UIDocumentPickerDelegate,UI
                     print("unable to send chat \(imParas)")
                 }
             }
-        }
-        else{
-            
-            var result1=false
-            var uniqueid1=""
-            var count=0
-            for i in 0 ..< imParas2.count
-            {
-                self.sendChatMessage(imParas2[i]){ (uniqueid,result) -> () in
-                    count += 1
-                    if(result==true && count==1){
-                        var searchformat=NSPredicate(format: "uniqueid = %@",uniqueid!)
-                        
-                        var resultArray=self.messages.filtered(using: searchformat)
-                        var ind=self.messages.index(of: resultArray.first!)
-                        //cfpresultArray.first
-                        //resultArray.first
-                        var aa=self.messages.object(at: ind) as! [String:AnyObject]
-                        var actualmsg=aa["message"] as! String
-                        actualmsg=actualmsg.removeCharsFromEnd(10)
-                        //var actualmsg=newmsg
-                        aa["message"]="\(actualmsg) (sent)" as AnyObject?
-                        self.messages.replaceObject(at: ind, with: aa)
-                        //  self.messages.objectAtIndex(ind).message="\(self.messages[ind]["message"]) (sent)"
-                        var indexp=IndexPath(row:ind, section:0)
-                        DispatchQueue.main.async
-                            {
-                                self.tblForChats.reloadData()
-                                // print("messages count is \(self.messages.count)")
-                        }
-                    }
-                }
-            }
-            /*  }
-             }*/
-        }
+      */
     }
     
     
@@ -3027,7 +3125,7 @@ class GroupChatingDetailController: UIViewController,UIDocumentPickerDelegate,UI
                 self.performSegue(withIdentifier: "showFullDocGroupSegue", sender: nil);
             }
             if((msgType?.isEqual(to: "14"))! || (msgType?.isEqual(to: "13"))!){
-                self.performSegue(withIdentifier: "MapViewSegue", sender: nil);
+                self.performSegue(withIdentifier: "MapViewGroupSegue", sender: nil);
             }
         }
     }
@@ -3438,6 +3536,27 @@ class GroupChatingDetailController: UIViewController,UIDocumentPickerDelegate,UI
             }
         }
         
+        if segue.identifier == "MapViewGroupSegue" {
+            if let destinationVC = segue.destination as? MapViewController{
+                //destinationVC.tabBarController?.selectedIndex=0
+                //self.tabBarController?.selectedIndex=0
+                let selectedRow = tblForGroupChat.indexPathForSelectedRow!.row
+                var messageDic = messages.object(at: selectedRow) as! [String : String];
+                let coordinates = messageDic["msg"] as NSString!
+                
+                let locationinfo=coordinates!.components(separatedBy: ":") ///return array string
+                var latitude = locationinfo[0]
+                var longitude = locationinfo[1]
+                destinationVC.latitude=latitude
+                destinationVC.longitude=longitude
+                self.dismiss(animated: true, completion: { () -> Void in
+                    
+                    
+                    
+                })
+            }
+        }
+        
         if segue.identifier == "showFullImageGroupSegue" {
             if let destinationVC = segue.destination as? ShowImageViewController{
                 //destinationVC.tabBarController?.selectedIndex=0
@@ -3599,21 +3718,27 @@ class GroupChatingDetailController: UIViewController,UIDocumentPickerDelegate,UI
             
             print("here share location prompt")
             
-            //self.locationManager.delegate=self
-            self.locationManager.requestWhenInUseAuthorization()
+            let config = GMSPlacePickerConfig(viewport: nil)
+            let placePicker = GMSPlacePicker(config: config)
             
-            self.locationManager.startUpdatingLocation()
-            
-            //if(locationManager.location
-            //  if(self.didFindMyLocation==true)
-            //   {
-            print("her in got permission")
-            //self.locationManager.requestLocation()
-            // self.locationManager(manager: self.locationm, didUpdateLocations: <#T##[CLLocation]#>)
-            //self.sendCoordinates(location: self.locationManager.location!)
-            //  }
-            
-            
+            placePicker.pickPlace(callback: { (place, error) -> Void in
+                if let error = error {
+                    print("Pick Place error: \(error.localizedDescription)")
+                    return
+                }
+                
+                guard let place = place else {
+                    print("No place selected")
+                    return
+                }
+                
+                print("Place name \(place.name)")
+                print("Place address \(place.formattedAddress)")
+                print("Place attributions \(place.coordinate)")
+                var latitude=place.coordinate.latitude.description
+                var longitude=place.coordinate.longitude.description
+                self.sendCoordinates(latitude: latitude, longitude: longitude)
+            })
             
             
         })
