@@ -29,6 +29,8 @@ import MobileCoreServices
 class GroupChatingDetailController: UIViewController,UIDocumentPickerDelegate,UIDocumentMenuDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate,FileManagerDelegate,UpdateGroupChatDetailsDelegate,CNContactPickerDelegate,CNContactViewControllerDelegate,UIPickerViewDelegate,AVAudioRecorderDelegate,CLLocationManagerDelegate {
     
     
+    
+    var contactshared=false
      var shareMenu = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
     var locationManager = CLLocationManager()
     
@@ -766,6 +768,7 @@ class GroupChatingDetailController: UIViewController,UIDocumentPickerDelegate,UI
             
             
             
+            
             self.tblForGroupChat.reloadData()
             if(self.messages.count>1)
             {
@@ -1321,7 +1324,7 @@ class GroupChatingDetailController: UIViewController,UIDocumentPickerDelegate,UI
                     
                     if(tblUserChats[type]=="video")
                     {
-                          messages2.add(["msg":tblUserChats[msg]+" (\(status))","type":"10", "fromFullName":fullname,"date":defaultTimeeee, "uniqueid":tblUserChats[unique_id],"filename":tblUserChats[msg],"status":status])
+                          messages2.add(["msg":tblUserChats[msg],"type":"10", "fromFullName":fullname,"date":defaultTimeeee, "uniqueid":tblUserChats[unique_id],"filename":tblUserChats[msg],"status":status])
                         
                        /// messages2.add(["message":tblContacts[msg],"status":tblContacts[status], "type":"10", "date":defaultTimeeee, "uniqueid":tblContacts[uniqueid]])
                     }
@@ -1506,9 +1509,16 @@ class GroupChatingDetailController: UIViewController,UIDocumentPickerDelegate,UI
                 }
             }
             else{
+                
+                if(msgType.isEqual(to: "9") || msgType.isEqual(to: "10"))
+                {
+                    return 215
+                }
+                else{
             let sizeOFStr = self.getSizeOfString(msg!)
             
             return sizeOFStr.height + 70
+                }
             }
         }
     }
@@ -2447,8 +2457,8 @@ class GroupChatingDetailController: UIViewController,UIDocumentPickerDelegate,UI
                                     
                                     
                                     //print("displaydate is \(displaydate)")
-                                    var status=messageDic["status"] as! NSString
-                                    timeLabel.text=displaydate+" (\(status as! String))"
+                                    //var status=messageDic["status"] as! NSString
+                                    timeLabel.text=displaydate///////+" (\(status as! String))"
                                     
                                     let tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(GroupChatingDetailController.videoTapped(_:)))
                                     //Add the recognizer to your view.
@@ -2520,7 +2530,7 @@ class GroupChatingDetailController: UIViewController,UIDocumentPickerDelegate,UI
                                         }
                                         
                                         
-                                        let tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(ChatDetailViewController.videoTapped(_:)))
+                                        let tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(GroupChatingDetailController.videoTapped(_:)))
                                         //Add the recognizer to your view.
                                         videoView?.addGestureRecognizer(tapRecognizer)
                                         
@@ -2760,7 +2770,7 @@ class GroupChatingDetailController: UIViewController,UIDocumentPickerDelegate,UI
         let docsDir1 = dirPaths[0]
         var documentDir=docsDir1 as NSString
         var videoPath=documentDir.appendingPathComponent(videonameLabel.text!)
-        
+        print("videoPath path is \(videoPath)")
         let player = AVPlayer(url: URL.init(fileURLWithPath: videoPath))
         let playerViewController = AVPlayerViewController()
         playerViewController.player = player
@@ -3591,8 +3601,14 @@ class GroupChatingDetailController: UIViewController,UIDocumentPickerDelegate,UI
         
         shareMenu.addAction(confirm)
         shareMenu.addAction(notConfirm)
+        //shareMenu.addAction(notConfirm)
+        self.present(shareMenu, animated: true) {
+            
+            
+        }
         
-        self.dismiss(animated: true, completion:{ ()-> Void in
+        
+      /*  self.dismiss(animated: true, completion:{ ()-> Void in
             
             if(self.showKeyboard==true)
             {
@@ -3614,7 +3630,7 @@ class GroupChatingDetailController: UIViewController,UIDocumentPickerDelegate,UI
                 
             }
             
-        })
+        })*/
     //  }//
 
         

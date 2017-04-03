@@ -3255,6 +3255,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
             let timeLabel = videoView?.viewWithTag(3) as! UILabel
             
             videoLabel.text=msg as String?
+            
             let dirPaths = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)
             let docsDir1 = dirPaths[0]
             var documentDir=docsDir1 as NSString
