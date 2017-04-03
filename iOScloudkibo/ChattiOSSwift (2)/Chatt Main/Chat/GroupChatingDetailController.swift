@@ -2128,7 +2128,7 @@ class GroupChatingDetailController: UIViewController,UIDocumentPickerDelegate,UI
                              */
                             let correctheight=getSizeOfStringHeight(msg!).height
                             
-                            chatImage.frame = CGRect(x: 20 + distanceFactor, y: chatImage.frame.origin.y, width: ((sizeOFStr.width + 107)  > 207 ? (sizeOFStr.width + 107) : 200), height: correctheight + 20)
+                            chatImage.frame = CGRect(x: 20 + distanceFactor, y: chatImage.frame.origin.y, width: ((sizeOFStr.width + 107)  > 207 ? (sizeOFStr.width + 107) : 200), height: correctheight + 30)
                             chatImage.image = UIImage(named: "chat_send")?.stretchableImage(withLeftCapWidth: 40,topCapHeight: 20);
                             //*********
                             
@@ -2256,7 +2256,7 @@ class GroupChatingDetailController: UIViewController,UIDocumentPickerDelegate,UI
                                 //chatImage.frame = CGRectMake(20 + distanceFactor, chatImage.frame.origin.y, ((sizeOFStr.width + 100)  > 200 ? (sizeOFStr.width + 100) : 200), sizeOFStr.height + 40)
                                 chatImage.image = UIImage(named: "chat_receive")?.stretchableImage(withLeftCapWidth: 40,topCapHeight: 20);
                                 
-                                chatImage.frame = CGRect(x: chatImage.frame.origin.x, y: chatImage.frame.origin.y, width: ((sizeOFStr.width + 100)  > 200 ? (sizeOFStr.width + 100) : 200), height: correctheight + 20)
+                                chatImage.frame = CGRect(x: chatImage.frame.origin.x, y: chatImage.frame.origin.y, width: ((sizeOFStr.width + 100)  > 200 ? (sizeOFStr.width + 100) : 200), height: correctheight + 50)
                                 
                                 
                                 
@@ -2425,6 +2425,24 @@ class GroupChatingDetailController: UIViewController,UIDocumentPickerDelegate,UI
         return labelSize.size
     }
     
+    
+    
+    func tableView(_ tableView: UITableView, didSelectRowAtIndexPath indexPath: IndexPath) {
+        if(messages.count > 0 && messages.count > indexPath.row)
+        {
+            var messageDic = messages.object(at: indexPath.row) as! [String : String];
+           // NSLog(messageDic["message"]!, 1)
+            let msgType = messageDic["type"] as NSString!
+            let msg = messageDic["msg"] as NSString!
+            
+            if((msgType?.isEqual(to: "5"))!||(msgType?.isEqual(to: "6"))!){
+                self.performSegue(withIdentifier: "showFullDocGroupSegue", sender: nil);
+            }
+            if((msgType?.isEqual(to: "14"))! || (msgType?.isEqual(to: "13"))!){
+                self.performSegue(withIdentifier: "MapViewSegue", sender: nil);
+            }
+        }
+    }
     
     
     func textFieldShouldReturn (_ textField: UITextField!) -> Bool{
@@ -2823,9 +2841,27 @@ class GroupChatingDetailController: UIViewController,UIDocumentPickerDelegate,UI
                 })
             }
         }
+        
+        if let destinationVC = segue.destination as? textDocumentViewController{
+            let selectedRow = tblForGroupChat.indexPathForSelectedRow!.row
+            var messageDic = messages.object(at: selectedRow) as! [String : String];
+            
+            let filename = messageDic["filename"] as NSString!
+            selectedText=filename! as! String
+            //destinationVC.tabBarController?.selectedIndex=0
+            //self.tabBarController?.selectedIndex=0
+            destinationVC.newtext=selectedText
+            self.dismiss(animated: true, completion: { () -> Void in
+                
+                
+                
+            })
+        }
+    
+    
 
     }
-    
+
     func refreshGroupChatDetailUI(_ message: String, data: AnyObject!) {
         
         self.retrieveChatFromSqlite { (result) in
@@ -3155,6 +3191,8 @@ class GroupChatingDetailController: UIViewController,UIDocumentPickerDelegate,UI
             
         }
     }
+    
+    
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
         print("in here imagepicker")
         let mediaType:AnyObject? = info[UIImagePickerControllerMediaType] as AnyObject?
@@ -3164,6 +3202,13 @@ class GroupChatingDetailController: UIViewController,UIDocumentPickerDelegate,UI
                 let stringType = type as! String
                 if stringType == kUTTypeMovie as! String {
                     
+                    let urlOfVideo = info[UIImagePickerControllerMediaURL] as! URL
+                    print("url video is \(urlOfVideo)")
+                    self.dismiss(animated: true, completion: {
+                        
+                        self.sendVideo(urlOfVideoGetMetadata: videoURL!, urlOfVideoPath: urlOfVideo)
+                        
+                    })
                 }
                 else{
                     print("choosen type is not video")
@@ -3175,6 +3220,188 @@ class GroupChatingDetailController: UIViewController,UIDocumentPickerDelegate,UI
                 
             }
         }
+    }
+    
+    
+    func sendVideo(urlOfVideoGetMetadata:URL,urlOfVideoPath:URL)
+    { print("urlOfVideoGetMetadata is \(urlOfVideoGetMetadata) and urlOfVideoPath is \(urlOfVideoPath)")
+        
+        var furl=URL(string: urlOfVideoPath.absoluteString)
+        //print(furl!.pathExtension!)
+        //print(furl!.deletingLastPathComponent())
+        var ftype=furl!.pathExtension
+        var fname=furl!.deletingLastPathComponent()
+        
+        let result = PHAsset.fetchAssets(withALAssetURLs: [urlOfVideoGetMetadata], options: nil)
+        var asset=result.firstObject! as PHAsset
+        self.filename=asset.originalFilename!
+        print("video assettype is \(asset.mediaType)")
+        
+        //   print("ext is \(asset.
+        //asset.mediaType
+        PHImageManager.default().requestAVAsset (forVideo: asset, options: nil) { (avasset, _, _) in
+            var originalSizeStr: String?
+            if let urlAsset = avasset as? AVURLAsset {
+                let dict = try! urlAsset.url.resourceValues(forKeys: [URLResourceKey.fileSizeKey])
+                //let size = dict. .allValues[URLResourceKey.fileSizeKey]// fileSize// [URLResourceKey.fileSizeKey] as! Int
+                print("video metadata \(urlOfVideoGetMetadata) ...name is  \(self.filename) ... type is \(ftype) ")
+            }
+        }
+        //==----self.file_name1 = (result.firstObject?.burstIdentifier)!
+        // var myasset=result.firstObject as! PHAsset
+        ////print(myasset.mediaType)
+        print("original filename of video is \(self.filename)")
+        
+        
+        let shareMenu = UIAlertController(title: nil, message: "Send \" \(filename) ? ", preferredStyle: .actionSheet)
+        shareMenu.modalPresentationStyle=UIModalPresentationStyle.overCurrentContext
+        let confirm = UIAlertAction(title: "Yes", style: UIAlertActionStyle.default,handler: { (action) -> Void in
+            
+            socketObj.socket.emit("logClient","IPHONE-LOG: \(username!) selected video group ")
+            //print("file gotttttt")
+            //// var furl=URL(string: urlOfVideo)
+            
+            
+            
+            
+            let dirPaths = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)
+            let docsDir1 = dirPaths[0]
+            var documentDir=docsDir1 as NSString
+            var filePathImage2=documentDir.appendingPathComponent(self.filename)
+            var fm=FileManager.default
+            
+            var fileAttributes:[String:AnyObject]=["":"" as AnyObject]
+            
+            var s=fm.createFile(atPath: filePathImage2, contents: nil, attributes: nil)
+            
+            //  var written=fileData!.writeToFile(filePathImage2, atomically: false)
+            
+            //filePathImage2
+            do{var data=try Data.init(contentsOf: urlOfVideoPath)
+                try? data.write(to: URL(fileURLWithPath: filePathImage2), options: [.atomic])
+                // data!.writeToFile(localPath.absoluteString, atomically: true)
+            }
+            catch{
+                print("cannot write file \(error)")
+                self.showError("Error", message: "Unable to get video", button1: "Ok")
+            }
+            
+            /*  let calendar = Calendar.current
+             let comp = (calendar as NSCalendar).components([.hour, .minute], from: Date())
+             let year = String(describing: comp.year)
+             let month = String(describing: comp.month)
+             let day = String(describing: comp.day)
+             let hour = String(describing: comp.hour)
+             let minute = String(describing: comp.minute)
+             let second = String(describing: comp.second)
+             
+             
+             var randNum5=self.randomStringWithLength(5) as String
+             var uniqueID=randNum5+year+month+day+hour+minute+second
+             */
+            var uniqueid_chat=UtilityFunctions.init().generateUniqueid()
+            var date=self.getDateString(Date())
+            var status="pending"
+            
+            ///messages.add(["msg":txtFieldMessage.text!+" (pending)", "type":"2", "fromFullName":"","date":date,"uniqueid":uniqueid_chat])
+            
+            
+            
+            
+            //save chat
+            sqliteDB.storeGroupsChat(username!, group_unique_id1: self.groupid1, type1: "image", msg1: self.filename, from_fullname1: username!, date1: Date(), unique_id1: uniqueid_chat)
+            
+            
+            
+            //self.addUploadInfo(self.groupid,uniqueid1: uniqueid_chat, rowindex: self.messages.count, uploadProgress: 0.0, isCompleted: false)
+            
+            
+            //get members and store status as pending
+            for i in 0 ..< self.membersList.count
+            {
+                /*
+                 let member_phone = Expression<String>("member_phone")
+                 let isAdmin = Expression<String>("isAdmin")
+                 let membership_status
+                 */
+                if((self.membersList[i]["member_phone"] as! String) != username! && (self.membersList[i]["membership_status"] as! String) != "left")
+                {
+                    print("adding group chat status for \(self.membersList[i]["member_phone"])")
+                    sqliteDB.storeGRoupsChatStatus(uniqueid_chat, status1: "pending", memberphone1: self.membersList[i]["member_phone"]! as! String, delivereddate1: UtilityFunctions.init().minimumDate(), readDate1: UtilityFunctions.init().minimumDate())
+                    
+                    sqliteDB.saveFile(self.membersList[i]["member_phone"]! as! String, from1: username!, owneruser1: username!, file_name1: self.filename, date1: nil, uniqueid1: uniqueid_chat, file_size1: "\(filesize1)", file_type1: ftype, file_path1: filePathImage2, type1: "video")
+                    
+                }
+            }
+            
+            
+            
+            managerFile.uploadFileInGroup(filePathImage2, groupid1:self.groupid1,from1:username!,uniqueid1:uniqueid_chat,file_name1:self.filename,file_size1:"\(filesize1)",file_type1:ftype,type1:"video")
+            
+            
+            //uploadFileInGroup(_ filePath1:String,groupid1:String,from1:String, uniqueid1:String,file_name1:String,file_size1:String,file_type1:String,type1:String){
+            
+            
+            
+            //(filePathImage2, to1: self.selectedContact, from1: username!, uniqueid1: uniqueID, file_name1: self.filename, file_size1: "\(self.fileSize1)", file_type1: ftype,type1:"image")
+            // })
+            
+            self.retrieveChatFromSqlite({ (result) in
+                
+                
+                // })
+                // (self.selectedContact,completion:{(result)-> () in
+                DispatchQueue.main.async
+                    {
+                        self.tblForGroupChat.reloadData()
+                        
+                        if(self.messages.count>1)
+                        {
+                            print("scrollinggg 3360 line")
+                            //var indexPath = NSIndexPath(forRow:self.messages.count-1, inSection: 0)
+                            let indexPath = IndexPath(row:self.tblForGroupChat.numberOfRows(inSection: 0)-1, section: 0)
+                            self.tblForGroupChat.scrollToRow(at: indexPath, at: UITableViewScrollPosition.bottom, animated: false)
+                        }
+                }
+            })
+            self.dismiss(animated: true, completion:{ ()-> Void in
+                
+            })
+        })
+        let notConfirm = UIAlertAction(title: "No", style: UIAlertActionStyle.cancel, handler: { (action) -> Void in
+            
+        })
+        
+        shareMenu.addAction(confirm)
+        shareMenu.addAction(notConfirm)
+        
+        self.dismiss(animated: true, completion:{ ()-> Void in
+            
+            if(self.showKeyboard==true)
+            {
+                self.textFieldShouldReturn(self.txtFieldMessage)
+                
+            }
+            self.tblForGroupChat.reloadData()
+            if(self.messages.count>1)
+            {
+                // var indexPath = NSIndexPath(forRow:self.messages.count-1, inSection: 0)
+                print("scrollinggg 3389 line")
+                let indexPath = IndexPath(row:self.tblForGroupChat.numberOfRows(inSection: 0)-1, section: 0)
+                self.tblForGroupChat.scrollToRow(at: indexPath, at: UITableViewScrollPosition.bottom, animated: false)
+                
+            }
+            
+            self.present(shareMenu, animated: true) {
+                
+                
+            }
+            
+        })
+    //  }//
+
+        
+
     }
     
    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingImage image: UIImage, editingInfo: [String : AnyObject]?) {

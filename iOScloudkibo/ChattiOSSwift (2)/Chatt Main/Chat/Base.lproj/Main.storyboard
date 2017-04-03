@@ -2905,6 +2905,8 @@
                         <outlet property="viewForContent" destination="KiZ-C9-jPm" id="idO-B1-1OL"/>
                         <segue destination="RIV-wT-i1E" kind="push" identifier="groupMessageInfoSegue" id="9K8-4X-4lF"/>
                         <segue destination="LME-ma-WZ9" kind="push" identifier="showFullImageGroupSegue" id="tX8-Fc-8Jp"/>
+                        <segue destination="TP2-6C-5JJ" kind="push" identifier="showFullDocGroupSegue" id="TtG-5C-Jez"/>
+                        <segue destination="aly-VZ-y43" kind="push" identifier="MapViewGroupsSegue" id="sRV-B5-zqK"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="wjA-fP-LCO" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -4018,7 +4020,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="YLH-zi-1y8" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2151" y="-1126"/>
+            <point key="canvasLocation" x="2248" y="-1148"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="Uqe-hH-AAS">
@@ -7990,21 +7992,23 @@
         <simulatedScreenMetrics key="destination" type="retina4_0.fullscreen"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="SBG-bF-djg"/>
-        <segue reference="W8i-Cs-Z8T"/>
+        <segue reference="BY8-e2-RyW"/>
         <segue reference="0Ba-7e-jXB"/>
         <segue reference="ogf-EO-Swc"/>
         <segue reference="Sdy-kO-WHf"/>
-        <segue reference="TN9-Au-PUW"/>
         <segue reference="6oI-GI-9iA"/>
+        <segue reference="TN9-Au-PUW"/>
+        <segue reference="W8i-Cs-Z8T"/>
         <segue reference="1jA-Zj-XHt"/>
-        <segue reference="BY8-e2-RyW"/>
-        <segue reference="Y9a-Vx-tcX"/>
         <segue reference="Spe-dd-EXu"/>
+        <segue reference="Y9a-Vx-tcX"/>
+        <segue reference="SBG-bF-djg"/>
+        <segue reference="N5B-Ot-bcs"/>
         <segue reference="Wyu-u6-g5L"/>
         <segue reference="cPW-RE-2je"/>
-        <segue reference="Ite-sp-zyZ"/>
-        <segue reference="N5B-Ot-bcs"/>
+        <segue reference="tX8-Fc-8Jp"/>
+        <segue reference="sRV-B5-zqK"/>
+        <segue reference="TtG-5C-Jez"/>
         <segue reference="8LM-cv-XXH"/>
         <segue reference="X5X-Qt-8lc"/>
         <segue reference="Lsn-aA-q1J"/>

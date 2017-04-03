@@ -3030,7 +3030,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
             
             
             
-            textLable.frame = CGRect(x: 60, y: textLable.frame.origin.y, width: chatImage.frame.width-70, height: correctheight)
+            textLable.frame = CGRect(x: 60, y: textLable.frame.origin.y+10, width: chatImage.frame.width-70, height: correctheight)
             
             
             // newwwwwwwwww textLable.frame = CGRectMake(26 + distanceFactor, textLable.frame.origin.y, chatImage.frame.width-36, getSizeOfStringHeight(msg).height)
@@ -3040,7 +3040,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
             
             timeLabel.frame = CGRect(x: 35, y: textLable.frame.origin.y+textLable.frame.height, width: chatImage.frame.size.width-46, height: timeLabel.frame.size.height)
             
-            profileImage.center = CGPoint(x: 45, y: chatImage.frame.origin.y + (profileImage.frame.size.height)/2+5)
+            profileImage.center = CGPoint(x: 45, y: chatImage.frame.origin.y+10 + (profileImage.frame.size.height)/2+5)
             
             
             
