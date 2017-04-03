@@ -29,11 +29,13 @@ import MobileCoreServices
 class GroupChatingDetailController: UIViewController,UIDocumentPickerDelegate,UIDocumentMenuDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate,FileManagerDelegate,UpdateGroupChatDetailsDelegate,CNContactPickerDelegate,CNContactViewControllerDelegate,UIPickerViewDelegate,AVAudioRecorderDelegate,CLLocationManagerDelegate {
     
     
-    
+    var contactCardSelected="0"
     var contactshared=false
      var shareMenu = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
     var locationManager = CLLocationManager()
     
+   
+    var didFindMyLocation = false
     
     var fileSize1:UInt64=0
     var audioFilePlayName=""
@@ -947,6 +949,10 @@ class GroupChatingDetailController: UIViewController,UIDocumentPickerDelegate,UI
     
     override func viewDidLoad() {
         
+        
+        
+        locationManager.delegate = self
+        
         self.btnSendChat.isEnabled=true
         self.btnSendAudio.isEnabled=true
         locationManager.delegate=self
@@ -1329,6 +1335,13 @@ class GroupChatingDetailController: UIViewController,UIDocumentPickerDelegate,UI
                        /// messages2.add(["message":tblContacts[msg],"status":tblContacts[status], "type":"10", "date":defaultTimeeee, "uniqueid":tblContacts[uniqueid]])
                     }
                     
+                    if(tblUserChats[type]=="location")
+                    {
+                         messages2.add(["msg":tblUserChats[msg], "type":"14", "fromFullName":fullname,"date":defaultTimeeee, "uniqueid":tblUserChats[unique_id],"status":status])
+                        
+                        
+                    }
+                    
                     if(tblUserChats[type]=="chat")
                     {
 
@@ -1412,7 +1425,12 @@ class GroupChatingDetailController: UIViewController,UIDocumentPickerDelegate,UI
                         
                     }
                     
-                    
+                    if(tblUserChats[type]=="location")
+                    {
+                        
+                        messages2.add(["msg":tblUserChats[msg], "type":"13", "fromFullName":fullname,"date":defaultTimeeee, "uniqueid":tblUserChats[unique_id]])
+                        
+                    }
                     
                     if(tblUserChats[type]=="chat"){
                     messages2.add(["msg":tblUserChats[msg], "type":"1", "fromFullName":fullname,"date":defaultTimeeee, "uniqueid":tblUserChats[unique_id]])
@@ -2397,7 +2415,7 @@ class GroupChatingDetailController: UIViewController,UIDocumentPickerDelegate,UI
                                     let videoLabel = videoView?.viewWithTag(1) as! UILabel
                                     let timeLabel = videoView?.viewWithTag(3) as! UILabel
                                     
-                                    videoLabel.text=msg as String?
+                                    videoLabel.text=msg! as! String
                                     let dirPaths = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)
                                     let docsDir1 = dirPaths[0]
                                     var documentDir=docsDir1 as NSString
@@ -2546,6 +2564,135 @@ class GroupChatingDetailController: UIViewController,UIDocumentPickerDelegate,UI
                                     }
                                     
                                     else{
+                                        
+                                        if (msgType?.isEqual(to: "13"))!{
+                                            cell = ///tblForChats.dequeueReusableCellWithIdentifier("ChatReceivedCell")! as UITableViewCell
+                                                
+                                                //FileImageReceivedCell
+                                                tblForChats.dequeueReusableCell(withIdentifier: "LocationReceivedCell")! as UITableViewCell
+                                            
+                                            //=== uncomment   cell.tag = indexPath.row
+                                            
+                                            let deliveredLabel = cell.viewWithTag(13) as! UILabel
+                                            let textLable = cell.viewWithTag(12) as! UILabel
+                                            let timeLabel = cell.viewWithTag(11) as! UILabel
+                                            let chatImage = cell.viewWithTag(1) as! UIImageView
+                                            let profileImage = cell.viewWithTag(2) as! UIImageView
+                                            
+                                            let progressView = cell.viewWithTag(14) as! KDCircularProgress!
+                                            
+                                            //////chatImage.contentMode = .Center
+                                            
+                                            //chatImage.frame = CGRectMake(80, chatImage.frame.origin.y, 220, 220)
+                                            /*let documentDirectory = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true).first as String!
+                                             let photoURL          = NSURL(fileURLWithPath: documentDirectory)
+                                             let imgPath         = photoURL.URLByAppendingPathComponent(msg as! String)
+                                             
+                                             */
+                                            let status=messageDic["status"] as NSString!
+                                            let contactinfo=msg!.components(separatedBy: ":") ///return array string
+                                            var latitude = contactinfo[0]
+                                            var longitude = contactinfo[1]
+                                            //===     print("imgNSData is \(imgNSData)")
+                                            //var imgNSData=NSFileManager.default.contents(atPath:imgPath.path!)
+                                            //print("hereee imgPath.path! is \(imgPath)")
+                                            
+                                            
+                                            let formatter = DateFormatter();
+                                            formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSS";
+                                            //formatter.dateFormat = "MM/dd hh:mm a";
+                                            formatter.timeZone = TimeZone.autoupdatingCurrent
+                                            let defaultTimeZoneStr = formatter.date(from: date2 as! String)
+                                            //print("defaultTimeZoneStr \(defaultTimeZoneStr)")
+                                            
+                                            let formatter2 = DateFormatter();
+                                            formatter2.timeZone=TimeZone.autoupdatingCurrent
+                                            formatter2.dateFormat = "MM/dd hh:mm a";
+                                            let displaydate=formatter2.string(from: defaultTimeZoneStr!)
+                                            
+                                            var url=URL.init(string: "http://maps.google.com/maps/api/staticmap?center=\(latitude),\(longitude)&zoom=18&size=500x300&sensor=TRUE_OR_FALSE")
+                                            let resource = ImageResource(downloadURL: url!, cacheKey: "\(uniqueidDictValue)")
+                                            chatImage.kf.setImage(with: resource)
+                                            textLable.text=msg! as! String
+                                            textLable.isHidden=true
+                                            
+                                            timeLabel.text="\(displaydate) (\(status))" /* var imgNSURL = NSURL(fileURLWithPath: msg as String)
+                                             var imgNSData=NSFileManager.default.contents(atPath:imgNSURL.path!)
+                                             if(imgNSData != nil)
+                                             {
+                                             chatImage.image = UIImage(contentsOfFile: msg as String)
+                                             //print("file shownnnnnnnnn")
+                                             }
+                                             */
+                                        }
+                                        else{
+                                            
+                                            if (msgType?.isEqual(to: "14"))!{
+                                                cell = ///tblForChats.dequeueReusableCellWithIdentifier("ChatReceivedCell")! as UITableViewCell
+                                                    
+                                                    //FileImageReceivedCell
+                                                    tblForChats.dequeueReusableCell(withIdentifier: "LocationSentCell")! as UITableViewCell
+                                                
+                                                //=====cell.tag = indexPath.row
+                                                
+                                                let deliveredLabel = cell.viewWithTag(13) as! UILabel
+                                                let textLable = cell.viewWithTag(12) as! UILabel
+                                                let timeLabel = cell.viewWithTag(11) as! UILabel
+                                                let chatImage = cell.viewWithTag(1) as! UIImageView
+                                                let profileImage = cell.viewWithTag(2) as! UIImageView
+                                                let progressView = cell.viewWithTag(14) as! KDCircularProgress!
+                                                
+                                                
+                                                timeLabel.frame = CGRect(x: chatImage.frame.origin.x, y: chatImage.frame.origin.y+180, width: chatImage.frame.width,  height: timeLabel.frame.height)
+                                                
+                                                
+                                                let formatter = DateFormatter();
+                                                formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSS";
+                                                //formatter.dateFormat = "MM/dd hh:mm a";
+                                                formatter.timeZone = TimeZone.autoupdatingCurrent
+                                                let defaultTimeZoneStr = formatter.date(from: date2 as! String)
+                                                //print("defaultTimeZoneStr \(defaultTimeZoneStr)")
+                                                
+                                                var displaydate=""
+                                                if(defaultTimeZoneStr == nil)
+                                                {
+                                                    displaydate=date2 as! String
+                                                    
+                                                }
+                                                else
+                                                {
+                                                    let formatter2 = DateFormatter();
+                                                    formatter2.timeZone=TimeZone.autoupdatingCurrent
+                                                    formatter2.dateFormat = "MM/dd hh:mm a";
+                                                    let displaydate=formatter2.string(from: defaultTimeZoneStr!)
+                                                    //formatter.dateFormat = "MM/dd hh:mm a";
+                                                    
+                                                    // timeLabel.text=displaydate
+                                                }
+                                                
+                                                let contactinfo=msg!.components(separatedBy: ":") ///return array string
+                                                var latitude = contactinfo[0]
+                                                //var longitude = contactinfo[1]
+                                                
+                                                //coz message has mag+ \(status)
+                                                var longitude = contactinfo[1].components(separatedBy: " ")[0]
+                                                ////  var longitude = contactinfo[1]
+                                                ///  var url=URL.init("http://maps.google.com/maps/api/staticmap?center=\(latitude) , \(longitude) &zoom=18&size=500x300&sensor=TRUE_OR_FALSE")
+                                                var url=URL.init(string: "http://maps.google.com/maps/api/staticmap?center=\(latitude),\(longitude)&zoom=18&size=500x300&sensor=TRUE_OR_FALSE")
+                                                
+                                                print("\(latitude)    \(longitude)")
+                                                
+                                                //// var url=URL.init(string:"https://maps.googleapis.com/maps/api/staticmap?center=\(latitude),\(longitude)&zoom=12&size=100x100&key=AIzaSyA4ayZ7WiMRkulzF6OxZhBa8WXp7w4BkhI")
+                                                let resource = ImageResource(downloadURL: url!, cacheKey: "\(uniqueidDictValue)")
+                                                chatImage.kf.setImage(with: resource)
+                                                textLable.text=msg! as! String
+                                                textLable.isHidden=true
+                                                timeLabel.text="\(displaydate) \(status!)"
+                                                
+                                            }
+                                            else{
+                                            
+                                            
                                 print("got sender msg \(msg)")
              cell = tblForGroupChat.dequeueReusableCell(withIdentifier: "ChatSentCell")! as UITableViewCell
             
@@ -2585,6 +2732,8 @@ class GroupChatingDetailController: UIViewController,UIDocumentPickerDelegate,UI
             nameLabel.text=fullname as! String
             msgLabel.text=msg as! String
             
+                                            }
+                                        }
                                     }
             }
                             }
@@ -2599,6 +2748,242 @@ class GroupChatingDetailController: UIViewController,UIDocumentPickerDelegate,UI
   
         
     }
+    
+    
+    
+    
+    func locationManager(manager: CLLocationManager!, didChangeAuthorizationStatus status: CLAuthorizationStatus) {
+        if status == CLAuthorizationStatus.authorizedWhenInUse {
+            // viewMap.isMyLocationEnabled = true
+            //got location
+            print("location permission granted")
+            self.didFindMyLocation=true
+        }
+        else{
+            print("location pemission not granted")
+        }
+    }
+    
+    
+    /* override func observeValueForKeyPath(keyPath: String, ofObject object: AnyObject, change: [NSObject : AnyObject], context: UnsafeMutablePointer<Void>) {
+     if !didFindMyLocation {
+     let myLocation: CLLocation = change[NSKeyValueChangeNewKey] as CLLocation
+     viewMap.camera = GMSCameraPosition.camera(withTarget: myLocation.coordinate, zoom: 10.0)
+     viewMap.settings.myLocationButton = true
+     
+     didFindMyLocation = true
+     }
+     }*/
+    
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation])
+    {
+        print("here taking location")
+        let userLocation:CLLocation = locations[0] as CLLocation
+        
+        manager.stopUpdatingLocation()
+        
+        let coordinations = CLLocationCoordinate2D(latitude: userLocation.coordinate.latitude,longitude: userLocation.coordinate.longitude)
+        
+    }
+    
+    func locationManager(_ manager: CLLocationManager, didFailWithError error: NSError)
+    {
+        print("error here taking location \(error)")
+        
+    }
+    
+    /*func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+     print("here taking location")
+     let userLocation:CLLocation = locations[0] as CLLocation
+     
+     manager.stopUpdatingLocation()
+     
+     let coordinations = CLLocationCoordinate2D(latitude: userLocation.coordinate.latitude,longitude: userLocation.coordinate.longitude)
+     //  let span = MKCoordinateSpanMake(0.2,0.2)
+     // let region = MKCoordinateRegion(center: coordinations, span: span)
+     
+     // mapView.setRegion(region, animated: true)
+     //////    sendCoordinates(location: userLocation)
+     }
+     */
+    
+    
+    
+    func sendCoordinates(latitude:String,longitude:String)
+    {
+        //var msgbody="\(location.coordinate.latitude):\(location.coordinate.longitude)"
+        
+        var msgbody="\(latitude):\(longitude)"
+        
+        print("msgbody is \(msgbody)")
+        /* var randNum5=self.randomStringWithLength(5) as String
+         
+         let date1=Date()
+         let calendar = Calendar.current
+         let year=(calendar as NSCalendar).components(NSCalendar.Unit.year,from: date1).year
+         let month=(calendar as NSCalendar).components(NSCalendar.Unit.month,from: date1).month
+         let day=(calendar as NSCalendar).components(.day,from: date1).day
+         let hr=(calendar as NSCalendar).components(NSCalendar.Unit.hour,from: date1).hour
+         let min=(calendar as NSCalendar).components(NSCalendar.Unit.minute,from: date1).minute
+         let sec=(calendar as NSCalendar).components(NSCalendar.Unit.second,from: date1).second
+         print("\(randNum5) \(year) \(month) \(day) \(hr) \(min) \(sec)")
+         //var uniqueID=randNum5+year+month+day+hr+min+sec
+         var uniqueID="\(randNum5)\(year!)\(month!)\(day!)\(hr!)\(min!) \(sec!)"
+         */
+        var uniqueID=UtilityFunctions.init().generateUniqueid()
+        
+        
+        var date=Date()
+        var formatterDateSend = DateFormatter();
+        formatterDateSend.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ";
+        ///newwwwwwww
+        ////formatterDateSend.timeZone = NSTimeZone.local()
+        let dateSentString = formatterDateSend.string(from: date);
+        
+        
+        var formatterDateSendtoDateType = DateFormatter();
+        formatterDateSendtoDateType.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ";
+        var dateSentDateType = formatterDateSendtoDateType.date(from: dateSentString)
+        
+        
+        //2016-10-15T22:18:16.000
+        var imParas=[String:String]()
+        var imParas2=[[String:String]]()
+        
+        var statusNow=""
+        statusNow="pending"
+        
+        
+        if(selectedContact != "")
+        {
+            imParas=["from":"\(username!)","to":"\(selectedContact)","fromFullName":"\(displayname)","msg":"\(msgbody)","uniqueid":"\(uniqueID)","type":"location","file_type":"","date":"\(dateSentDateType!)"]
+            
+            
+            
+            sqliteDB.SaveChat("\(selectedContact)", from1: username!, owneruser1: username!, fromFullName1: displayname, msg1: msgbody, date1: dateSentDateType, uniqueid1: uniqueID, status1: statusNow, type1: "location", file_type1: "", file_path1: "")
+            
+        }
+        else{
+            //save as broadcast message
+            for i in 0 ..< broadcastMembersPhones.count
+            {
+                imParas2.append(["from":"\(username!)","to":"\(broadcastMembersPhones[i])","fromFullName":"\(displayname)","msg":"\(msgbody)","uniqueid":"\(uniqueID)","type":"location","file_type":"","date":"\(dateSentDateType!)"])
+                
+                
+                sqliteDB.SaveBroadcastChat("\(broadcastMembersPhones[i])", from1: username!, owneruser1: username!, fromFullName1: displayname, msg1: msgbody, date1: dateSentDateType, uniqueid1: uniqueID, status1: statusNow, type1: "location", file_type1: "", file_path1: "", broadcastlistID1: broadcastlistID1)
+                //broadcastMembersPhones[i]
+            }
+        }
+        var formatter = DateFormatter();
+        formatter.timeZone = TimeZone.autoupdatingCurrent
+        formatter.dateFormat = "MM/dd hh:mm a";
+        //formatter.dateStyle = .ShortStyle
+        //formatter.timeStyle = .ShortStyle
+        let defaultTimeZoneStr = formatter.string(from: date);
+        let defaultTimeZoneStr2=formatter.date(from: defaultTimeZoneStr as! String)
+        
+        
+        
+        var msggg=msgbody
+        
+        
+        //txtFldMessage.text = "";
+        
+        
+        //DispatchQueue.main.async
+        //{
+        print("adding msg \(msggg)")
+        
+        
+        self.addMessage(msggg+" (\(statusNow))",status:statusNow,ofType: "14",date:defaultTimeZoneStr, uniqueid: uniqueID)
+        
+        self.tblForChats.reloadData()
+        if(self.messages.count>1)
+        {
+            // let indexPath = NSIndexPath(forRow:self.messages.count-1, inSection: 0)
+            let indexPath = IndexPath(row:self.tblForChats.numberOfRows(inSection: 0)-1, section: 0)
+            self.tblForChats.scrollToRow(at: indexPath, at: UITableViewScrollPosition.bottom, animated: false)
+            
+            
+            
+        }
+        // }
+        // })
+        //  }
+        
+        
+        //print("messages count before sending msg is \(self.messages.count)")
+        print("sending msg \(msggg)")
+        if(selectedContact != ""){
+            //in chat window
+            self.sendChatMessage(imParas){ (uniqueid,result) -> () in
+                
+                if(result==true)
+                {
+                    var searchformat=NSPredicate(format: "uniqueid = %@",uniqueid!)
+                    
+                    var resultArray=self.messages.filtered(using: searchformat)
+                    var ind=self.messages.index(of: resultArray.first!)
+                    //cfpresultArray.first
+                    //resultArray.first
+                    var aa=self.messages.object(at: ind) as! [String:AnyObject]
+                    var actualmsg=aa["message"] as! String
+                    actualmsg=actualmsg.removeCharsFromEnd(10)
+                    //var actualmsg=newmsg
+                    aa["message"]="\(actualmsg) (sent)" as AnyObject?
+                    self.messages.replaceObject(at: ind, with: aa)
+                    //  self.messages.objectAtIndex(ind).message="\(self.messages[ind]["message"]) (sent)"
+                    var indexp=IndexPath(row:ind, section:0)
+                    DispatchQueue.main.async
+                        {
+                            self.tblForChats.reloadData()
+                    }
+                    
+                }
+                else
+                {
+                    print("unable to send chat \(imParas)")
+                }
+            }
+        }
+        else{
+            
+            var result1=false
+            var uniqueid1=""
+            var count=0
+            for i in 0 ..< imParas2.count
+            {
+                self.sendChatMessage(imParas2[i]){ (uniqueid,result) -> () in
+                    count += 1
+                    if(result==true && count==1){
+                        var searchformat=NSPredicate(format: "uniqueid = %@",uniqueid!)
+                        
+                        var resultArray=self.messages.filtered(using: searchformat)
+                        var ind=self.messages.index(of: resultArray.first!)
+                        //cfpresultArray.first
+                        //resultArray.first
+                        var aa=self.messages.object(at: ind) as! [String:AnyObject]
+                        var actualmsg=aa["message"] as! String
+                        actualmsg=actualmsg.removeCharsFromEnd(10)
+                        //var actualmsg=newmsg
+                        aa["message"]="\(actualmsg) (sent)" as AnyObject?
+                        self.messages.replaceObject(at: ind, with: aa)
+                        //  self.messages.objectAtIndex(ind).message="\(self.messages[ind]["message"]) (sent)"
+                        var indexp=IndexPath(row:ind, section:0)
+                        DispatchQueue.main.async
+                            {
+                                self.tblForChats.reloadData()
+                                // print("messages count is \(self.messages.count)")
+                        }
+                    }
+                }
+            }
+            /*  }
+             }*/
+        }
+    }
+    
+    
     
     
     func getSizeOfStringHeight(_ postTitle: NSString) -> CGSize {
