@@ -711,6 +711,9 @@ EPPickerDelegate,SWTableViewCellDelegate,UpdateChatViewsDelegate,RefreshContacts
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        
+
+        
         var fileManager=FileManager.default
         var currentiCloudToken=fileManager.ubiquityIdentityToken
         if(currentiCloudToken != nil)

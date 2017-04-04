@@ -591,6 +591,99 @@ class GroupChatingDetailController: UIViewController,UIDocumentPickerDelegate,UI
     
     }
     
+    func contactViewController(_ viewController: CNContactViewController, didCompleteWith contact: CNContact?) {
+        
+        /*
+         DispatchQueue.global(priority: DispatchQueue.GlobalQueuePriority.background).async
+         {
+         syncServiceContacts.startSyncService()
+         }
+         */
+        print("inside cncontatc didcomplete....")
+        self.dismiss(animated: true, completion:{ ()-> Void in
+            
+            //=----------
+            
+            viewController.displayedPropertyKeys=[CNContactGivenNameKey]
+            if(contact != nil){
+                UtilityFunctions.init().AddtoAddressBook(contact!,isKibo: true) { (result) in
+                    
+                    if(result==true)
+                    {
+                        if(self.showKeyboard==true)
+                        {
+                            self.textFieldShouldReturn(self.txtFieldMessage)
+                            //uncomment later
+                            /*var duration : NSTimeInterval = 0
+                             
+                             
+                             UIView.animateWithDuration(duration, delay: 0, options:[], animations: {
+                             self.chatComposeView.frame = CGRectMake(self.chatComposeView.frame.origin.x, self.chatComposeView.frame.origin.y + self.keyheight-self.chatComposeView.frame.size.height-3, self.chatComposeView.frame.size.width, self.chatComposeView.frame.size.height)
+                             self.tblForChats.frame = CGRectMake(self.tblForChats.frame.origin.x, self.tblForChats.frame.origin.y, self.tblForChats.frame.size.width, self.tblForChats.frame.size.height + self.keyFrame.size.height-49);
+                             }, completion: nil)
+                             self.showKeyboard=false
+                             */
+                        }
+                        
+                        if(self.messages.count>1)
+                        {
+                            //var indexPath = NSIndexPath(forRow:self.messages.count-1, inSection: 0)
+                            let indexPath = IndexPath(row:self.tblForGroupChat.numberOfRows(inSection: 0)-1, section: 0)
+                            print("scrollinggg 4044 line")
+                            self.tblForGroupChat.scrollToRow(at: indexPath, at: UITableViewScrollPosition.bottom, animated: false)
+                        }
+                        
+                        //  self.refreshChatsUI(nil, uniqueid: <#T##String!#>, from: <#T##String!#>, date1: <#T##Date!#>, type: <#T##String!#>)
+                    }
+                }
+                
+            }
+            else{
+                print("no contact selected")          }
+        });
+        
+        
+        //self.navigationController!.popViewController(animated: true)
+        // self.dismiss(animated: true, completion:{ ()-> Void in
+        if(self.showKeyboard==true)
+        {
+            self.textFieldShouldReturn(self.txtFieldMessage)
+            //uncomment later
+            /*var duration : NSTimeInterval = 0
+             
+             
+             UIView.animateWithDuration(duration, delay: 0, options:[], animations: {
+             self.chatComposeView.frame = CGRectMake(self.chatComposeView.frame.origin.x, self.chatComposeView.frame.origin.y + self.keyheight-self.chatComposeView.frame.size.height-3, self.chatComposeView.frame.size.width, self.chatComposeView.frame.size.height)
+             self.tblForChats.frame = CGRectMake(self.tblForChats.frame.origin.x, self.tblForChats.frame.origin.y, self.tblForChats.frame.size.width, self.tblForChats.frame.size.height + self.keyFrame.size.height-49);
+             }, completion: nil)
+             self.showKeyboard=false
+             */
+        }
+        
+        if(self.messages.count>1)
+        {
+            //var indexPath = NSIndexPath(forRow:self.messages.count-1, inSection: 0)
+            // let indexPath = IndexPath(row:self.tblForChats.numberOfRows(inSection: 0)-1, section: 0)
+            
+            let indexPath = IndexPath(row:self.tblForGroupChat.numberOfRows(inSection: 0)-1, section: 0)
+            
+            print("scrollinggg 4082 line")
+            self.tblForGroupChat.scrollToRow(at: indexPath, at: UITableViewScrollPosition.bottom, animated: false)
+        }
+        self.navigationController!.popViewController(animated: true)
+        //})
+    }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     func sendChatMessage(_ group_id:String,from:String,type:String,msg:String,fromFullname:String,uniqueidChat:String,completion:@escaping (_ result:Bool)->())
     {
         // let queue=dispatch_get_global_queue(QOS_CLASS_USER_INITIATED,0)
@@ -2764,7 +2857,7 @@ class GroupChatingDetailController: UIViewController,UIDocumentPickerDelegate,UI
                                                     let chatImage = cell.viewWithTag(1) as! UIImageView
                                                     let profileImage = cell.viewWithTag(2) as! UIImageView
                                                     let timeLabel = cell.viewWithTag(11) as! UILabel
-                                                    let buttonSave = cell.viewWithTag(16) as! UIButton
+                                                    let buttonSave = cell.viewWithTag(15) as! UIButton
                                                     
                                                     let buttonsView = cell.viewWithTag(16)! as UIView
                                                     let btnInviteView = buttonsView.viewWithTag(0) as! UIButton

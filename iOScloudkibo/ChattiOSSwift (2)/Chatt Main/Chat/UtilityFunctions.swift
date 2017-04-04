@@ -2098,6 +2098,24 @@ print("tempURL is \(temporaryURL) and response is \(response.allHeaderFields)")
         return result
     }
     
+    
+    func getURLs(text:String)->[NSURL]
+    {
+        //let text = "http://www.google.com .I am Kirit Modi, Competed Bachelor degree (Information technology). My blog url is http://iosdevcenters.blogspot.in, Check It"
+        let types: NSTextCheckingResult.CheckingType = .link
+        var URLStrings = [NSURL]()
+        let detector = try? NSDataDetector(types: types.rawValue)
+        let matches = detector!.matches(in: text, options: .reportCompletion, range: NSMakeRange(0, text.characters.count))
+        
+        for match in matches {
+            print(match.url!)
+            URLStrings.append(match.url! as NSURL)
+        }
+        print("URL URL URL")
+        print(URLStrings)
+        
+        return URLStrings
+    }
 
 }
 

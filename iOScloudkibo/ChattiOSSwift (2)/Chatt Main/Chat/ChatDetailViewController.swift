@@ -24,6 +24,8 @@ import Kingfisher
 import GooglePlacePicker
 import GooglePlaces
 import GoogleMaps
+
+
 //import GoogleMaps
 
 class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChatDelegate,UIDocumentPickerDelegate,UIDocumentMenuDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate,FileManagerDelegate,showUploadProgressDelegate,UpdateChatViewsDelegate,UpdateSingleChatDetailDelegate,CNContactPickerDelegate,CNContactViewControllerDelegate,UIPickerViewDelegate,AVAudioRecorderDelegate,CLLocationManagerDelegate,insertChatAtLastDelegate,updateChatStatusRowDelegate,insertBulkChatsSyncDelegate,insertBulkChatsStatusesSyncDelegate
@@ -249,6 +251,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
         else{
             self.btnSendChat.isHidden=false
             self.btnSendAudio.isHidden=true
+           
         }
 
     }
@@ -264,6 +267,12 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
         else{
             self.btnSendChat.isHidden=false
             self.btnSendAudio.isHidden=true
+            
+            var urlArray=UtilityFunctions.init().getURLs(text: sender.text!)
+            
+            let slp = SwiftLinkPreview()
+            
+           // urlArray.first
         }
 }
     

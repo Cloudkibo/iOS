@@ -113,6 +113,12 @@
 		71636DCA1E8D3042007D7A02 /* GooglePlacePicker.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 71636DC91E8D3042007D7A02 /* GooglePlacePicker.bundle */; };
 		7173B8731E48BED500851F8D /* Kingfisher.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 7173B84D1E48BE1900851F8D /* Kingfisher.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		7173B8741E48C12400851F8D /* Kingfisher.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 7173B84D1E48BE1900851F8D /* Kingfisher.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		71803D2C1E93D12600A0604D /* Cache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71803D261E93D12600A0604D /* Cache.swift */; };
+		71803D2D1E93D12600A0604D /* NSURLSessionExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71803D271E93D12600A0604D /* NSURLSessionExtension.swift */; };
+		71803D2E1E93D12600A0604D /* PreviewError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71803D281E93D12600A0604D /* PreviewError.swift */; };
+		71803D2F1E93D12600A0604D /* Regex.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71803D291E93D12600A0604D /* Regex.swift */; };
+		71803D301E93D12600A0604D /* StringExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71803D2A1E93D12600A0604D /* StringExtension.swift */; };
+		71803D311E93D12600A0604D /* SwiftLinkPreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71803D2B1E93D12600A0604D /* SwiftLinkPreview.swift */; };
 		718AB5801D3F8C9000D197D7 /* chatMessagesModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 718AB57F1D3F8C9000D197D7 /* chatMessagesModel.swift */; };
 		7191CC681BCF0D9400F0847F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7191CC661BCF0D9400F0847F /* Main.storyboard */; };
 		719A0CE41DD5237800977C0B /* GroupMessageStatusViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 719A0CE31DD5237800977C0B /* GroupMessageStatusViewController.swift */; };
@@ -609,6 +615,12 @@
 		71636DC71E8D3038007D7A02 /* GooglePlacePicker.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = GooglePlacePicker.framework; sourceTree = "<group>"; };
 		71636DC91E8D3042007D7A02 /* GooglePlacePicker.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = GooglePlacePicker.bundle; path = GooglePlacePicker.framework/Versions/A/Resources/GooglePlacePicker.bundle; sourceTree = "<group>"; };
 		7173B83D1E48BE1800851F8D /* Kingfisher.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Kingfisher.xcodeproj; path = ../../../Kingfisher/Kingfisher.xcodeproj; sourceTree = "<group>"; };
+		71803D261E93D12600A0604D /* Cache.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Cache.swift; sourceTree = "<group>"; };
+		71803D271E93D12600A0604D /* NSURLSessionExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NSURLSessionExtension.swift; sourceTree = "<group>"; };
+		71803D281E93D12600A0604D /* PreviewError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PreviewError.swift; sourceTree = "<group>"; };
+		71803D291E93D12600A0604D /* Regex.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Regex.swift; sourceTree = "<group>"; };
+		71803D2A1E93D12600A0604D /* StringExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StringExtension.swift; sourceTree = "<group>"; };
+		71803D2B1E93D12600A0604D /* SwiftLinkPreview.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwiftLinkPreview.swift; sourceTree = "<group>"; };
 		718104921E4344F800AC688C /* SQLite.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SQLite.xcodeproj; path = "SQLite.swift-master 7/SQLite.xcodeproj"; sourceTree = "<group>"; };
 		718AB57F1D3F8C9000D197D7 /* chatMessagesModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = chatMessagesModel.swift; sourceTree = "<group>"; };
 		7191CC601BCDB4D800F0847F /* TableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TableViewController.swift; sourceTree = "<group>"; };
@@ -757,6 +769,12 @@
 		5BF6361C19A9F3D900ABD0BA = {
 			isa = PBXGroup;
 			children = (
+				71803D261E93D12600A0604D /* Cache.swift */,
+				71803D271E93D12600A0604D /* NSURLSessionExtension.swift */,
+				71803D281E93D12600A0604D /* PreviewError.swift */,
+				71803D291E93D12600A0604D /* Regex.swift */,
+				71803D2A1E93D12600A0604D /* StringExtension.swift */,
+				71803D2B1E93D12600A0604D /* SwiftLinkPreview.swift */,
 				71636DC91E8D3042007D7A02 /* GooglePlacePicker.bundle */,
 				71636DC71E8D3038007D7A02 /* GooglePlacePicker.framework */,
 				71636DC51E8D2FA2007D7A02 /* GooglePlaces.bundle */,
@@ -1576,6 +1594,7 @@
 				713D51EC1CC11896007E0B47 /* VideoViewController.swift in Sources */,
 				713D51CB1CC11896007E0B47 /* Contacts.swift in Sources */,
 				71CE4C271DEFF758001637DA /* BroadcastItemCell.swift in Sources */,
+				71803D2C1E93D12600A0604D /* Cache.swift in Sources */,
 				71189AA01E781F2100245D97 /* PrivacySettingsViewController.swift in Sources */,
 				71C84C531E44AB2400330105 /* SocketAckEmitter.swift in Sources */,
 				713D51C81CC11896007E0B47 /* Constants.swift in Sources */,
@@ -1630,6 +1649,7 @@
 				71C84C581E44AB2400330105 /* SocketEngineClient.swift in Sources */,
 				719A0CE41DD5237800977C0B /* GroupMessageStatusViewController.swift in Sources */,
 				713D51CD1CC11896007E0B47 /* ContactsInviteViewController.swift in Sources */,
+				71803D2F1E93D12600A0604D /* Regex.swift in Sources */,
 				71CE4C2B1DEFF7E9001637DA /* BroadcastListViewController.swift in Sources */,
 				71DA13371DF7CBBC002C0583 /* BroadcastListDetailsViewController.swift in Sources */,
 				71F6233E1DE4262E00AC6370 /* String-Extension.swift in Sources */,
@@ -1656,6 +1676,7 @@
 				713D51E71CC11896007E0B47 /* RegisterViewController.swift in Sources */,
 				713D51BE1CC11896007E0B47 /* AppDelegate.swift in Sources */,
 				71EA60801D78DDAA00117B55 /* SWCellScrollView.m in Sources */,
+				71803D301E93D12600A0604D /* StringExtension.swift in Sources */,
 				71EA607F1D78DDAA00117B55 /* NSMutableArray+SWUtilityButtons.m in Sources */,
 				713D51EE1CC11896007E0B47 /* WebmeetingChatViewController.swift in Sources */,
 				71C84C661E44AB2400330105 /* SocketParsable.swift in Sources */,
@@ -1663,6 +1684,7 @@
 				713D51C41CC11896007E0B47 /* ChatDetailViewController.swift in Sources */,
 				710CB64E1D06EB030070CA3D /* contactsDetailsTableViewController.swift in Sources */,
 				713D51C31CC11896007E0B47 /* ChatContactsCell.swift in Sources */,
+				71803D311E93D12600A0604D /* SwiftLinkPreview.swift in Sources */,
 				710947731D710A63008BC238 /* NewGroupSetDetails.swift in Sources */,
 				713D51C71CC11896007E0B47 /* ConferenceViewController.swift in Sources */,
 				713D51E41CC11896007E0B47 /* PendingFriendRequestsViewController.swift in Sources */,
@@ -1677,6 +1699,7 @@
 				71C84C551E44AB2400330105 /* SocketAnyEvent.swift in Sources */,
 				713D51D81CC11896007E0B47 /* LoginViewController.swift in Sources */,
 				713D51C21CC11896007E0B47 /* ChatComposeViewController.swift in Sources */,
+				71803D2E1E93D12600A0604D /* PreviewError.swift in Sources */,
 				713D51BD1CC11896007E0B47 /* Accounts.swift in Sources */,
 				713F3DD71D7A88990072C9E9 /* ArchivedChatsViewController.swift in Sources */,
 				71C84C621E44AB2400330105 /* SocketIOClientSpec.swift in Sources */,
@@ -1688,6 +1711,7 @@
 				713D51E91CC11896007E0B47 /* rtcViewController.swift in Sources */,
 				713D51E11CC11896007E0B47 /* notifications.swift in Sources */,
 				7127FF591D396A6A006375E8 /* numberOfFavouritesCell.swift in Sources */,
+				71803D2D1E93D12600A0604D /* NSURLSessionExtension.swift in Sources */,
 				7142EC8C1DBE33560070826F /* syncGroupsService.swift in Sources */,
 				71EA60831D78DDAA00117B55 /* SWUtilityButtonTapGestureRecognizer.m in Sources */,
 				71C84C5A1E44AB2400330105 /* SocketEnginePollable.swift in Sources */,
