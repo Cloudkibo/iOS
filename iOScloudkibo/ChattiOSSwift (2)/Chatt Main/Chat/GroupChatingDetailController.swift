@@ -3815,6 +3815,174 @@ class GroupChatingDetailController: UIViewController,UIDocumentPickerDelegate,UI
          */
     }
     
+    
+    
+    
+    func contactPicker(_ picker: CNContactPickerViewController, didSelect contact: CNContact) {
+        print("inside contact selected")
+        //navigationController?.popViewController(animated: true)
+        //self.navigationController?.popViewController(animated: true)
+        
+        var name=contact.givenName
+        print("selected contact is \(name)")
+        var epcontact=EPContact.init(contact: contact)
+        var phone=epcontact.getPhoneNumber()
+        var fullname=epcontact.displayName()
+        var msgbody=fullname+":"+phone
+        print("msgbody is \(msgbody)")
+    
+        var uniqueID=UtilityFunctions.init().generateUniqueid()
+        
+        
+        var date=Date()
+        var formatterDateSend = DateFormatter();
+        formatterDateSend.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ";
+        ///newwwwwwww
+        ////formatterDateSend.timeZone = NSTimeZone.local()
+        let dateSentString = formatterDateSend.string(from: date);
+        
+        
+        var formatterDateSendtoDateType = DateFormatter();
+        formatterDateSendtoDateType.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ";
+        var dateSentDateType = formatterDateSendtoDateType.date(from: dateSentString)
+        
+        
+        //2016-10-15T22:18:16.000
+        var imParas=[String:String]()
+        var imParas2=[[String:String]]()
+        
+        var statusNow=""
+        statusNow="pending"
+        
+        messages.add(["msg":msgbody+" (pending)", "type":"8", "fromFullName":"","date":date,"uniqueid":uniqueID])
+        
+        
+        
+        
+        //save chat
+        sqliteDB.storeGroupsChat(username!, group_unique_id1: groupid1, type1: "contact", msg1: msgbody, from_fullname1: username!, date1: Date(), unique_id1: uniqueID)
+        
+        
+        //get members and store status as pending
+        for i in 0 ..< membersList.count
+        {
+            /*
+             let member_phone = Expression<String>("member_phone")
+             let isAdmin = Expression<String>("isAdmin")
+             let membership_status
+             */
+            if((membersList[i]["member_phone"] as! String) != username! && (membersList[i]["membership_status"] as! String) != "left")
+            {
+                print("adding group chat status for \(membersList[i]["member_phone"])")
+                sqliteDB.storeGRoupsChatStatus(uniqueID, status1: "pending", memberphone1: membersList[i]["member_phone"]! as! String, delivereddate1: UtilityFunctions.init().minimumDate(), readDate1: UtilityFunctions.init().minimumDate())
+            }
+        }
+
+        
+        var msggg=msgbody
+        
+    
+        self.tblForChats.reloadData()
+        if(self.messages.count>1)
+        {
+            print("scrollinggg 4771 line")
+            // let indexPath = NSIndexPath(forRow:self.messages.count-1, inSection: 0)
+            let indexPath = IndexPath(row:self.tblForChats.numberOfRows(inSection: 0)-1, section: 0)
+            self.tblForChats.scrollToRow(at: indexPath, at: UITableViewScrollPosition.bottom, animated: false)
+            
+            
+            
+        }
+        // }
+        // })
+        //  }
+        
+        
+        //print("messages count before sending msg is \(self.messages.count)")
+        print("sending msg \(msggg)")
+        if(selectedContact != ""){
+            self.sendChatMessage(imParas){ (uniqueid,result) -> () in
+                
+                if(result==true)
+                {
+                    var searchformat=NSPredicate(format: "uniqueid = %@",uniqueid!)
+                    
+                    var resultArray=self.messages.filtered(using: searchformat)
+                    var ind=self.messages.index(of: resultArray.first!)
+                    //cfpresultArray.first
+                    //resultArray.first
+                    var aa=self.messages.object(at: ind) as! [String:AnyObject]
+                    var actualmsg=aa["message"] as! String
+                    
+                    self.updateChatStatusRow(aa["message"] as! String, uniqueid: aa["uniqueid"] as! String, status: aa["status"] as! String, filename: "", type: aa["type"] as! String, date: aa["date"] as! String)
+                    
+                    
+                    /*actualmsg=actualmsg.removeCharsFromEnd(10)
+                     //var actualmsg=newmsg
+                     aa["message"]="\(actualmsg) (sent)" as AnyObject?
+                     self.messages.replaceObject(at: ind, with: aa)
+                     //  self.messages.objectAtIndex(ind).message="\(self.messages[ind]["message"]) (sent)"
+                     var indexp=IndexPath(row:ind, section:0)
+                     DispatchQueue.main.async
+                     {
+                     self.tblForChats.reloadData()
+                     }
+                     */
+                }
+                else
+                {
+                    print("unable to send chat \(imParas)")
+                }
+            }
+        }
+        else{
+            print("here in elseeee")
+            var result1=false
+            var uniqueid1=""
+            var count=0
+            for i in 0 ..< imParas2.count
+            {
+                self.sendChatMessage(imParas2[i]){ (uniqueid,result) -> () in
+                    count += 1
+                    if(result==true && count==1){
+                        var searchformat=NSPredicate(format: "uniqueid = %@",uniqueid!)
+                        
+                        var resultArray=self.messages.filtered(using: searchformat)
+                        var ind=self.messages.index(of: resultArray.first!)
+                        //cfpresultArray.first
+                        //resultArray.first
+                        var aa=self.messages.object(at: ind) as! [String:AnyObject]
+                        var actualmsg=aa["message"] as! String
+                        actualmsg=actualmsg.removeCharsFromEnd(10)
+                        //var actualmsg=newmsg
+                        aa["message"]="\(actualmsg) (sent)" as AnyObject?
+                        self.messages.replaceObject(at: ind, with: aa)
+                        //  self.messages.objectAtIndex(ind).message="\(self.messages[ind]["message"]) (sent)"
+                        var indexp=IndexPath(row:ind, section:0)
+                        self.tblForChats.beginUpdates()
+                        self.tblForChats.reloadRows(at: [indexp], with: UITableViewRowAnimation.none)
+                        self.tblForChats.endUpdates()
+                        
+                        /*DispatchQueue.main.async
+                         {
+                         self.tblForChats.reloadData()
+                         // print("messages count is \(self.messages.count)")
+                         }*/
+                    }
+                }}
+            /*  }
+             }*/
+        }
+        
+        
+        
+        
+        
+    }
+    
+    
+    
+    
     func insertChatRowAtLast(_ message: String, uniqueid: String, status: String, filename: String, type: String, date: String,from:String) {
         
         /*tblForChats.beginUpdates()
