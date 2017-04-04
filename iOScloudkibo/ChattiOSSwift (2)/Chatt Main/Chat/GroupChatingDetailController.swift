@@ -32,7 +32,7 @@ import GoogleMaps
 //import Haneke
 class GroupChatingDetailController: UIViewController,UIDocumentPickerDelegate,UIDocumentMenuDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate,FileManagerDelegate,UpdateGroupChatDetailsDelegate,CNContactPickerDelegate,CNContactViewControllerDelegate,UIPickerViewDelegate,AVAudioRecorderDelegate,CLLocationManagerDelegate {
     
-    
+    var contactreceivedphone=""
     var contactCardSelected="0"
     var contactshared=false
      var shareMenu = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
@@ -1346,6 +1346,19 @@ class GroupChatingDetailController: UIViewController,UIDocumentPickerDelegate,UI
                         
                     }
                     
+                    
+                    if(tblUserChats[type]=="contact")
+                    {
+                        
+                         messages2.add(["msg":tblUserChats[msg]+" (\(status))", "type":"8", "fromFullName":fullname,"date":defaultTimeeee, "uniqueid":tblUserChats[unique_id],"status":status])
+                        
+                        
+                    
+                        
+                        
+                    }
+                    
+                    
                     if(tblUserChats[type]=="chat")
                     {
 
@@ -1435,6 +1448,19 @@ class GroupChatingDetailController: UIViewController,UIDocumentPickerDelegate,UI
                         messages2.add(["msg":tblUserChats[msg], "type":"13", "fromFullName":fullname,"date":defaultTimeeee, "uniqueid":tblUserChats[unique_id]])
                         
                     }
+                    
+                    
+                    if(tblUserChats[type]=="contact")
+                    {
+                        print("found contact received")
+                        
+                        
+                         messages2.add(["msg":tblUserChats[msg], "type":"7", "fromFullName":fullname,"date":defaultTimeeee, "uniqueid":tblUserChats[unique_id]])
+                        
+                    }
+
+                    
+                    
                     
                     if(tblUserChats[type]=="chat"){
                     messages2.add(["msg":tblUserChats[msg], "type":"1", "fromFullName":fullname,"date":defaultTimeeee, "uniqueid":tblUserChats[unique_id]])
@@ -2724,7 +2750,211 @@ class GroupChatingDetailController: UIViewController,UIDocumentPickerDelegate,UI
                                             }
                                             else{
                                             
-                                            
+                                        
+                                                if(msgType?.isEqual(to: "7"))!
+                                                {
+                                                    print("contact received is \(msg)")
+                                                    cell = tableView.dequeueReusableCell(withIdentifier: "ContactReceivedCell")! as UITableViewCell
+                                                    if(cell==nil)
+                                                    {
+                                                        cell = tblForGroupChat.dequeueReusableCell(withIdentifier: "ContactReceivedCell")! as UITableViewCell
+                                                        
+                                                    }
+                                                    let textLable = cell.viewWithTag(12) as! UILabel
+                                                    let chatImage = cell.viewWithTag(1) as! UIImageView
+                                                    let profileImage = cell.viewWithTag(2) as! UIImageView
+                                                    let timeLabel = cell.viewWithTag(11) as! UILabel
+                                                    let buttonSave = cell.viewWithTag(16) as! UIButton
+                                                    
+                                                    let buttonsView = cell.viewWithTag(16)! as UIView
+                                                    let btnInviteView = buttonsView.viewWithTag(0) as! UIButton
+                                                    let btnSaveView = buttonsView.viewWithTag(1) as! UIButton
+                                                    let btnMessageView = buttonsView.viewWithTag(2) as! UIButton
+                                                    
+                                                    //buttonSave.tag=indexPath.row
+                                                    buttonSave.isHidden=true
+                                                    
+                                                    btnSaveView.addTarget(self, action: #selector(GroupChatingDetailController.BtnSaveContactClicked(_:)), for:.touchUpInside)
+                                                    
+                                                    
+                                                    let contactinfo=msg!.components(separatedBy: ":") ///return array string
+                                                    textLable.text = contactinfo[0]
+                                                    contactreceivedphone=contactinfo[1]
+                                                    
+                                                    
+                                                    timeLabel.text = contactinfo[1]
+                                                    if((textLable.text!.characters.count) > 21){
+                                                        var newtextlabel = textLable.text!.trunc(19)+".."
+                                                        textLable.text = newtextlabel
+                                                    }
+                                                    
+                                                    /*textLable.lineBreakMode = .ByWordWrapping
+                                                     textLable.numberOfLines=0
+                                                     textLable.sizeToFit()
+                                                     print("previous height is \(textLable.frame.height) msg is \(msg)")
+                                                     var correctheight=textLable.frame.height
+                                                     */
+                                                    let correctheight=getSizeOfStringHeight(UtilityFunctions.init().compareLongerString(txt1: timeLabel.text!, txt2: textLable.text!) as NSString).height
+                                                    
+                                                    sizeOFStr=getSizeOfString(UtilityFunctions.init().compareLongerString(txt1: timeLabel.text!, txt2: textLable.text!) as NSString)
+                                                    
+                                                    //Setting Chat cell area
+                                                    chatImage.frame = CGRect(x: chatImage.frame.origin.x, y: chatImage.frame.origin.y,width: ((sizeOFStr.width + 107)  > 207 ? (sizeOFStr.width + 107) : 200), height: ((correctheight + 20)  > 75 ? (correctheight+20) : 75))
+                                                    
+                                                    chatImage.image = UIImage(named: "chat_receive")?.stretchableImage(withLeftCapWidth: 40,topCapHeight: 20);
+                                                    buttonsView.frame=CGRect(x:chatImage.frame.origin.x,y: buttonsView.frame.origin.y,width:chatImage.frame.width,height:buttonsView.frame.height)
+                                                    
+                                                    
+                                                    
+                                                    //Setting Contact Avatar
+                                                    //profileImage.center = CGPoint(x: chatImage.frame.origin.x+60, y: chatImage.frame.origin.y+30)
+                                                    
+                                                    profileImage.center = CGPoint(x: CGFloat(Float(chatImage.image!.leftCapWidth)+30.0), y: chatImage.frame.height/2)
+                                                    
+                                                    //Setting Contact Name
+                                                    textLable.frame = CGRect(x: profileImage.center.x+35, y: profileImage.center.y-15, width: chatImage.frame.width-36, height: correctheight)
+                                                    
+                                                    
+                                                    // textLable.text = msg! as! String
+                                                    
+                                                    let formatter = DateFormatter();
+                                                    formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSS";
+                                                    //formatter.dateFormat = "MM/dd hh:mm a";
+                                                    formatter.timeZone = TimeZone.autoupdatingCurrent
+                                                    print("line 2055")
+                                                    let defaultTimeZoneStr = formatter.date(from: date2 as! String)
+                                                    //print("defaultTimeZoneStr \(defaultTimeZoneStr)")
+                                                    
+                                                    let formatter2 = DateFormatter();
+                                                    formatter2.timeZone=TimeZone.autoupdatingCurrent
+                                                    formatter2.dateFormat = "MM/dd hh:mm a";
+                                                    let displaydate=formatter2.string(from: defaultTimeZoneStr!)
+                                                    //formatter.dateFormat = "MM/dd hh:mm a";
+                                                    
+                                                    
+                                                    timeLabel.frame = CGRect(x: profileImage.center.x+35, y: textLable.frame.origin.y+textLable.frame.height, width: chatImage.frame.size.width-46, height: timeLabel.frame.size.height)
+                                                    print("textlabel is \(textLable.text!) and timelabel is \(timeLabel.text!)")
+                                                    print("textlabel is \(textLable.bounds.debugDescription) and timelabel is \(timeLabel.bounds.debugDescription)")
+                                                    
+                                                    buttonSave.frame = CGRect(x: chatImage.frame.width-40, y: chatImage.frame.height-25, width: buttonSave.frame.size.width, height: buttonSave.frame.size.height)
+                                                    //timeLabel.text=date2.debugDescription
+                                                }
+                                                else{
+                                                
+                                                
+                                                    if(msgType?.isEqual(to: "8"))!
+                                                    {
+                                                        
+                                                        print("UI chat type is \(msgType!)")
+                                                        cell=tableView.dequeueReusableCell(withIdentifier: "ContactSentCell")!
+                                                        if(cell==nil)
+                                                        {
+                                                            cell = tblForGroupChat.dequeueReusableCell(withIdentifier: "ContactSentCell")! as UITableViewCell
+                                                        }
+                                                        let deliveredLabel = cell.viewWithTag(13) as! UILabel
+                                                        let textLable = cell.viewWithTag(12) as! UILabel
+                                                        let timeLabel = cell.viewWithTag(11) as! UILabel
+                                                        let chatImage = cell.viewWithTag(1) as! UIImageView
+                                                        let profileImage = cell.viewWithTag(2) as! UIImageView
+                                                        let buttonsView = cell.viewWithTag(16)! as UIView
+                                                        let btnInviteView = buttonsView.viewWithTag(0) as! UIButton
+                                                        let btnSaveView = buttonsView.viewWithTag(1) as! UIButton
+                                                        let btnMessageView = buttonsView.viewWithTag(2) as! UIButton
+                                                        
+                                                        let contactinfo=msg!.components(separatedBy: ":") ///return array string
+                                                        textLable.text = contactinfo[0]
+                                                        var number=contactinfo[1]
+                                                        let number2=number.components(separatedBy: " ")
+                                                        number=number2[0]
+                                                        if((textLable.text!.characters.count) > 21){
+                                                            var newtextlabel = textLable.text!.trunc(19)+".."
+                                                            textLable.text = newtextlabel
+                                                        }
+                                                        sizeOFStr=getSizeOfString(textLable.text! as! NSString)
+                                                        print("sizeOFStr of \(textLable.text!) is \(sizeOFStr)")
+                                                        //// //print("here 905 msgtype is \(msgType)")
+                                                        let distanceFactor = (197.0 - sizeOFStr.width) < 90 ? (197.0 - sizeOFStr.width) : 90
+                                                        textLable.isHidden=false
+                                                        //textLable.text = msg! as! String
+                                                        
+                                                        
+                                                        let correctheight=getSizeOfStringHeight(msg!).height
+                                                        //chatImage.frame = CGRect(x: 20 + distanceFactor, y: chatImage.frame.origin.y, width: ((sizeOFStr.width + 107)  > 207 ? (sizeOFStr.width + 107) : 200), height: ((correctheight + 20)  > 100 ? (correctheight+20) : 100))
+                                                        
+                                                        
+                                                        chatImage.frame = CGRect(x: /*chatImage.frame.origin.x*/ 20 + distanceFactor, y: chatImage.frame.origin.y,width: ((sizeOFStr.width + 107)  > 210 ? (sizeOFStr.width + 107) : 210), height: ((correctheight + 20)  > 75 ? (correctheight+20) : 75))
+                                                        
+                                                        
+                                                        buttonsView.frame=CGRect(x:chatImage.frame.origin.x,y: buttonsView.frame.origin.y,width:chatImage.frame.width,height:buttonsView.frame.height)
+                                                        
+                                                        chatImage.image = UIImage(named: "chat_send")?.stretchableImage(withLeftCapWidth: 40,topCapHeight: 20);
+                                                        
+                                                        contactCardSelected=number
+                                                        let tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(GroupChatingDetailController.contactSharedTapped(_:)))
+                                                        //Add the recognizer to your view.
+                                                        chatImage.addGestureRecognizer(tapRecognizer)
+                                                        
+                                                        //*********
+                                                        
+                                                        //getSizeOfStringHeight(msg).height
+                                                        
+                                                        //textLable.frame = CGRect(x: 26 + distanceFactor, y: textLable.frame.origin.y, width: chatImage.frame.width-36, height: correctheight)
+                                                        
+                                                        //profileImage.center = CGPoint(x: profileImage.center.x, y: textLable.frame.origin.y + textLable.frame.size.height - profileImage.frame.size.height/2+10)
+                                                        
+                                                        profileImage.center = CGPoint(x: chatImage.frame.origin.x+30, y: chatImage.frame.height/2)
+                                                        
+                                                        //Setting Contact Name
+                                                        textLable.frame = CGRect(x: profileImage.center.x+35, y: profileImage.center.y-15, width: chatImage.frame.width-36, height: correctheight)
+                                                        
+                                                        
+                                                        
+                                                        //==uncomment if needed timeLabel.frame = CGRectMake(36 + distanceFactor, timeLabel.frame.origin.y, timeLabel.frame.size.width, timeLabel.frame.size.height)
+                                                        
+                                                        // timeLabel.frame = CGRect(x: 36 + distanceFactor, y: textLable.frame.origin.y+textLable.frame.height, width: chatImage.frame.size.width-46, height: timeLabel.frame.size.height)
+                                                        timeLabel.frame = CGRect(x: profileImage.center.x+35, y: textLable.frame.origin.y+textLable.frame.height, width: chatImage.frame.size.width-46, height: timeLabel.frame.size.height)
+                                                        
+                                                        deliveredLabel.frame = CGRect(x: deliveredLabel.frame.origin.x, y: textLable.frame.origin.y + textLable.frame.size.height + 15, width: deliveredLabel.frame.size.width, height: deliveredLabel.frame.size.height)
+                                                        
+                                                        
+                                                        
+                                                        // let tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(ChatDetailViewController.videoTapped(_:)))
+                                                        //Add the recognizer to your view.
+                                                        //videoView?.addGestureRecognizer(tapRecognizer)
+                                                        
+                                                        
+                                                        //print("date received in chat post 2 is \(date2.debugDescription)")
+                                                        // //print("date received in chat is \(date2.debugDescription)")
+                                                        let formatter = DateFormatter();
+                                                        formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSS";
+                                                        //formatter.dateFormat = "MM/dd hh:mm a";
+                                                        formatter.timeZone = TimeZone.autoupdatingCurrent
+                                                        let defaultTimeZoneStr = formatter.date(from: date2 as! String)
+                                                        //print("defaultTimeZoneStr \(defaultTimeZoneStr)")
+                                                        
+                                                        if(defaultTimeZoneStr == nil)
+                                                        {
+                                                            timeLabel.text=date2 as! String
+                                                            
+                                                        }
+                                                        else
+                                                        {
+                                                            let formatter2 = DateFormatter();
+                                                            formatter2.timeZone=TimeZone.autoupdatingCurrent
+                                                            formatter2.dateFormat = "MM/dd hh:mm a";
+                                                            let displaydate=formatter2.string(from: defaultTimeZoneStr!)
+                                                            //formatter.dateFormat = "MM/dd hh:mm a";
+                                                            
+                                                            let status=messageDic["status"] as NSString!
+                                                            timeLabel.text="\(displaydate) (\(status!))"
+                                                        }
+                                                        
+                                                        //local date already shortened then added to dictionary when post button is pressed
+                                                        //timeLabel.text=date2.debugDescription
+                                                    }
+                                                    else{
+                                                
+                                                
                                 print("got sender msg \(msg)")
              cell = tblForGroupChat.dequeueReusableCell(withIdentifier: "ChatSentCell")! as UITableViewCell
             
@@ -2763,7 +2993,10 @@ class GroupChatingDetailController: UIViewController,UIDocumentPickerDelegate,UI
             nameLabel.textColor=UIColor.blue
             nameLabel.text=fullname as! String
             msgLabel.text=msg as! String
+                                                        
+                                                    }
             
+                                                }
                                             }
                                         }
                                     }
@@ -2781,8 +3014,57 @@ class GroupChatingDetailController: UIViewController,UIDocumentPickerDelegate,UI
         
     }
     
+    func contactTapped(_ button: UIButton) {
+       // print("contact title tapped \(self.selectedContact)")
+        //tappedImageView will be the image view that was tapped.
+        //dismiss it, animate it off screen, whatever.
+        //let tappedImageView = gestureRecognizer.view! as! UIImageView
+        //selectedImage=tappedImageView.image
+        self.performSegue(withIdentifier: "contactdetailsinfogroupsegue", sender: nil);
+        
+    }
     
     
+    func BtnSaveContactClicked(_ sender:UIButton)
+    {
+        let contact = CNMutableContact()
+        /*var rowselected=sender.tag
+         var messageDic = messages.object(at: rowselected) as! [String : String];
+         let msg = messageDic["message"] as NSString!
+         
+         //sender.tag=15
+         
+         let contactinfo=msg?.components(separatedBy: ":") ///return array string
+         //textLable.text = contactinfo[0]
+         contactreceivedphone=(contactinfo?[1])!
+         */
+        
+        var phoneIdentifier=sqliteDB.getIdentifierFRomPhone(contactreceivedphone)
+        if(phoneIdentifier != nil)
+        {
+            
+        }
+        else{
+            
+        }
+        contact.phoneNumbers = [CNLabeledValue(
+            label:CNLabelPhoneNumberiPhone,
+            value:CNPhoneNumber(stringValue:contactreceivedphone))]
+        let contactViewController = CNContactViewController(forNewContact: contact)
+        contactViewController.delegate=self
+        //var contactDetailShow=CNContactViewControllr.init(contact)
+        self.navigationController!.pushViewController(contactViewController,animated: false)
+    }
+
+    
+    func contactSharedTapped(_ gestureRecognizer: UITapGestureRecognizer) {
+        //tappedImageView will be the image view that was tapped.
+        //dismiss it, animate it off screen, whatever.
+        contactshared=true
+        
+        self.performSegue(withIdentifier: "contactdetailsinfogroupsegue", sender: nil);
+        
+    }
     
     func locationManager(manager: CLLocationManager!, didChangeAuthorizationStatus status: CLAuthorizationStatus) {
         if status == CLAuthorizationStatus.authorizedWhenInUse {
@@ -3536,6 +3818,67 @@ class GroupChatingDetailController: UIViewController,UIDocumentPickerDelegate,UI
             }
         }
         
+        if segue.identifier == "contactdetailsinfogroupsegue" {
+            if let destinationVC = segue.destination as? contactsDetailsTableViewController{
+                
+                if(contactshared==true)
+                {
+                    destinationVC.selectedContactphone=self.contactCardSelected
+                }
+                else{
+                    destinationVC.selectedContactphone=groupid1
+                }
+                let blockedByMe = Expression<Bool>("blockedByMe")
+                let IamBlocked = Expression<Bool>("IamBlocked")
+                let phone = Expression<String>("phone")
+                
+                
+                //contactsDetailController?.contactIndex=tblForNotes.indexPathForSelectedRow!.row
+                //var cell=tblForNotes.cellForRowAtIndexPath(tblForNotes.indexPathForSelectedRow!) as! AllContactsCell
+                
+                
+                //if(ContactStatus != "")
+                // {
+                destinationVC.isKiboContact = true
+                //print("hidden falseeeeeee")
+                //}
+                let tbl_contactslists=sqliteDB.contactslists
+                
+                do{
+                    
+                    
+                    for i in 0 ..< membersList.count
+                    {
+                        /*
+                         let member_phone = Expression<String>("member_phone")
+                         let isAdmin = Expression<String>("isAdmin")
+                         let membership_status
+                         */
+                        if((membersList[i]["member_phone"] as! String) != username! && (membersList[i]["membership_status"] as! String) != "left")
+                        {
+                            
+                            for resultrows in try sqliteDB.db.prepare((tbl_contactslists?.filter(phone==(membersList[i]["member_phone"] as! String) && blockedByMe==true))!)
+                            {
+                                print("blocked by me")
+                                //blockedcontact=true
+                                destinationVC.blockedByMe=true
+                                break
+                            }
+                            
+                            print("adding group contat segue for \(membersList[i]["member_phone"])")
+                        }}
+                    
+                    
+               
+                }
+                catch{
+                    print("not blocked coz not in contact list")
+                }
+                
+            }
+        }
+        
+        
         if segue.identifier == "MapViewGroupSegue" {
             if let destinationVC = segue.destination as? MapViewController{
                 //destinationVC.tabBarController?.selectedIndex=0
@@ -3879,100 +4222,55 @@ class GroupChatingDetailController: UIViewController,UIDocumentPickerDelegate,UI
         }
 
         
-        var msggg=msgbody
-        
-    
-        self.tblForChats.reloadData()
-        if(self.messages.count>1)
-        {
-            print("scrollinggg 4771 line")
-            // let indexPath = NSIndexPath(forRow:self.messages.count-1, inSection: 0)
-            let indexPath = IndexPath(row:self.tblForChats.numberOfRows(inSection: 0)-1, section: 0)
-            self.tblForChats.scrollToRow(at: indexPath, at: UITableViewScrollPosition.bottom, animated: false)
-            
-            
-            
-        }
-        // }
-        // })
-        //  }
         
         
-        //print("messages count before sending msg is \(self.messages.count)")
-        print("sending msg \(msggg)")
-        if(selectedContact != ""){
-            self.sendChatMessage(imParas){ (uniqueid,result) -> () in
-                
-                if(result==true)
-                {
-                    var searchformat=NSPredicate(format: "uniqueid = %@",uniqueid!)
-                    
-                    var resultArray=self.messages.filtered(using: searchformat)
-                    var ind=self.messages.index(of: resultArray.first!)
-                    //cfpresultArray.first
-                    //resultArray.first
-                    var aa=self.messages.object(at: ind) as! [String:AnyObject]
-                    var actualmsg=aa["message"] as! String
-                    
-                    self.updateChatStatusRow(aa["message"] as! String, uniqueid: aa["uniqueid"] as! String, status: aa["status"] as! String, filename: "", type: aa["type"] as! String, date: aa["date"] as! String)
-                    
-                    
-                    /*actualmsg=actualmsg.removeCharsFromEnd(10)
-                     //var actualmsg=newmsg
-                     aa["message"]="\(actualmsg) (sent)" as AnyObject?
-                     self.messages.replaceObject(at: ind, with: aa)
-                     //  self.messages.objectAtIndex(ind).message="\(self.messages[ind]["message"]) (sent)"
-                     var indexp=IndexPath(row:ind, section:0)
-                     DispatchQueue.main.async
-                     {
-                     self.tblForChats.reloadData()
-                     }
-                     */
-                }
-                else
-                {
-                    print("unable to send chat \(imParas)")
-                }
-            }
-        }
-        else{
-            print("here in elseeee")
-            var result1=false
-            var uniqueid1=""
-            var count=0
-            for i in 0 ..< imParas2.count
+        print("messages count before sending msg is \(self.messages.count)")
+        self.sendChatMessage(self.groupid1, from: username!, type: "contact", msg: msgbody, fromFullname: username!, uniqueidChat: uniqueID, completion: { (result) in
+            
+            print("chat sent")
+            if(result==true)
             {
-                self.sendChatMessage(imParas2[i]){ (uniqueid,result) -> () in
-                    count += 1
-                    if(result==true && count==1){
-                        var searchformat=NSPredicate(format: "uniqueid = %@",uniqueid!)
+                for i in 0 ..< self.membersList.count
+                {
+                    if((self.membersList[i]["member_phone"] as! String) != username! && (self.membersList[i]["membership_status"] as! String) != "left")
+                    {
+                        sqliteDB.updateGroupChatStatus(uniqueID, memberphone1: self.membersList[i]["member_phone"]! as! String, status1: "sent", delivereddate1: Date(), readDate1: Date())
                         
-                        var resultArray=self.messages.filtered(using: searchformat)
-                        var ind=self.messages.index(of: resultArray.first!)
-                        //cfpresultArray.first
-                        //resultArray.first
-                        var aa=self.messages.object(at: ind) as! [String:AnyObject]
-                        var actualmsg=aa["message"] as! String
-                        actualmsg=actualmsg.removeCharsFromEnd(10)
-                        //var actualmsg=newmsg
-                        aa["message"]="\(actualmsg) (sent)" as AnyObject?
-                        self.messages.replaceObject(at: ind, with: aa)
-                        //  self.messages.objectAtIndex(ind).message="\(self.messages[ind]["message"]) (sent)"
-                        var indexp=IndexPath(row:ind, section:0)
-                        self.tblForChats.beginUpdates()
-                        self.tblForChats.reloadRows(at: [indexp], with: UITableViewRowAnimation.none)
-                        self.tblForChats.endUpdates()
-                        
-                        /*DispatchQueue.main.async
-                         {
-                         self.tblForChats.reloadData()
-                         // print("messages count is \(self.messages.count)")
-                         }*/
+                        // === wrong sqliteDB.storeGRoupsChatStatus(uniqueid_chat, status1: "sent", memberphone1: self.membersList[i]["member_phone"]! as! String, delivereddate1: UtilityFunctions.init().minimumDate(), readDate1: UtilityFunctions.init().minimumDate())
                     }
-                }}
-            /*  }
-             }*/
-        }
+                }
+                
+                var searchformat=NSPredicate(format: "uniqueid = %@",uniqueID)
+                
+                var resultArray=self.messages.filtered(using: searchformat)
+                var ind=self.messages.index(of: resultArray.first!)
+                //cfpresultArray.first
+                //resultArray.first
+                var aa=self.messages.object(at: ind) as! [String:AnyObject]
+                var actualmsg=aa["msg"] as! String
+                actualmsg=actualmsg.removeCharsFromEnd(10)
+                //var actualmsg=newmsg
+                aa["msg"]="\(actualmsg) (sent)" as AnyObject?
+                self.messages.replaceObject(at: ind, with: aa)
+                //  self.messages.objectAtIndex(ind).message="\(self.messages[ind]["message"]) (sent)"
+                var indexp=IndexPath(row:ind, section:0)
+                //  DispatchQueue.main.async
+                //    {
+                //         self.tblForChats.reloadData()
+                // }
+                
+                
+                //==== sqliteDB.updateGroupChatStatus(uniqueid_chat, memberphone1: username!,status1: "sent", delivereddate1: UtilityFunctions.init().minimumDate(), readDate1: UtilityFunctions.init().minimumDate())
+                
+                UIDelegates.getInstance().UpdateGroupChatDetailsDelegateCall()
+            }
+        })
+        
+        
+        
+        
+        
+        
         
         
         

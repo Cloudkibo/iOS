@@ -3999,6 +3999,8 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
         
     }
     
+    
+    
     func imageTapped(_ gestureRecognizer: UITapGestureRecognizer) {
         //tappedImageView will be the image view that was tapped.
         //dismiss it, animate it off screen, whatever.

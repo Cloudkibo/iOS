@@ -2515,36 +2515,36 @@
                                                     </subviews>
                                                 </tableViewCellContentView>
                                             </tableViewCell>
-                                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" verticalHuggingPriority="1000" selectionStyle="default" indentationWidth="10" reuseIdentifier="ContactSentCell" rowHeight="75" id="ht9-39-uEk">
-                                                <rect key="frame" x="0.0" y="1674" width="320" height="75"/>
+                                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" verticalHuggingPriority="1000" selectionStyle="default" indentationWidth="10" reuseIdentifier="ContactSentCell" rowHeight="131" id="OZG-Rs-yVy">
+                                                <rect key="frame" x="0.0" y="1674" width="320" height="131"/>
                                                 <autoresizingMask key="autoresizingMask"/>
-                                                <tableViewCellContentView key="contentView" autoresizesSubviews="NO" opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" verticalHuggingPriority="1000" preservesSuperviewLayoutMargins="YES" tableViewCell="ht9-39-uEk" id="B5Y-KR-MA8">
-                                                    <rect key="frame" x="0.0" y="0.0" width="320" height="75"/>
+                                                <tableViewCellContentView key="contentView" autoresizesSubviews="NO" opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" verticalHuggingPriority="1000" preservesSuperviewLayoutMargins="YES" tableViewCell="OZG-Rs-yVy" id="Ec1-ZL-YfV">
+                                                    <rect key="frame" x="0.0" y="0.0" width="320" height="131"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <subviews>
-                                                        <imageView opaque="NO" clipsSubviews="YES" tag="1" contentMode="redraw" verticalHuggingPriority="1000" preservesSuperviewLayoutMargins="YES" image="chat_send" highlighted="YES" id="Iav-FY-q3Q">
-                                                            <rect key="frame" x="45" y="0.0" width="267" height="74"/>
+                                                        <imageView opaque="NO" clipsSubviews="YES" tag="1" contentMode="redraw" verticalHuggingPriority="1000" preservesSuperviewLayoutMargins="YES" image="chat_send" highlighted="YES" id="Gbf-Ss-7RH">
+                                                            <rect key="frame" x="45" y="0.0" width="267" height="120"/>
                                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                         </imageView>
-                                                        <label hidden="YES" opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="13" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Delivered" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" enabled="NO" adjustsFontSizeToFit="NO" id="1xs-aC-8Bz">
+                                                        <label hidden="YES" opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="13" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Delivered" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" enabled="NO" adjustsFontSizeToFit="NO" id="XZF-0q-Gfw">
                                                             <rect key="frame" x="245" y="59" width="67" height="21"/>
                                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                             <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                                             <color key="textColor" red="0.33333333329999998" green="0.33333333329999998" blue="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
-                                                        <imageView opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="2" contentMode="top" image="profile-pic1" id="83z-6K-9Ju">
+                                                        <imageView opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="2" contentMode="top" image="profile-pic1" id="tw1-Gw-oYm">
                                                             <rect key="frame" x="54" y="13" width="55" height="54"/>
                                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                         </imageView>
-                                                        <label hidden="YES" opaque="NO" userInteractionEnabled="NO" tag="12" contentMode="TopLeft" horizontalHuggingPriority="251" verticalHuggingPriority="1000" preservesSuperviewLayoutMargins="YES" text="Contact Name" textAlignment="natural" lineBreakMode="wordWrap" numberOfLines="50" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="JGB-19-fug">
+                                                        <label hidden="YES" opaque="NO" userInteractionEnabled="NO" tag="12" contentMode="TopLeft" horizontalHuggingPriority="251" verticalHuggingPriority="1000" preservesSuperviewLayoutMargins="YES" text="Contact Name" textAlignment="natural" lineBreakMode="wordWrap" numberOfLines="50" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Tgf-QK-Tgy">
                                                             <rect key="frame" x="117" y="27" width="161" height="15"/>
                                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                             <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                                                             <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="11"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
-                                                        <view hidden="YES" opaque="NO" clearsContextBeforeDrawing="NO" tag="14" contentMode="scaleToFill" id="OlS-MF-pRM" customClass="KDCircularProgress" customModule="Chat" customModuleProvider="target">
+                                                        <view hidden="YES" opaque="NO" clearsContextBeforeDrawing="NO" tag="14" contentMode="scaleToFill" id="QRV-NB-fBG" customClass="KDCircularProgress" customModule="Chat" customModuleProvider="target">
                                                             <rect key="frame" x="245" y="-1" width="33" height="32"/>
                                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -2576,63 +2576,85 @@
                                                                 </userDefinedRuntimeAttribute>
                                                             </userDefinedRuntimeAttributes>
                                                         </view>
-                                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="11" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Contact Phone number (sent)" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="o3e-QN-gtg">
+                                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="11" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Contact Phone number (sent)" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="3Am-ie-yvE">
                                                             <rect key="frame" x="117" y="50" width="161" height="17"/>
                                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                             <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                                                             <fontDescription key="fontDescription" type="system" pointSize="10"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
+                                                        <view tag="16" contentMode="scaleToFill" id="NYd-PE-CmQ">
+                                                            <rect key="frame" x="54" y="75" width="224" height="35"/>
+                                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                            <subviews>
+                                                                <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="XfP-I8-Osa">
+                                                                    <rect key="frame" x="0.0" y="2" width="224" height="30"/>
+                                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                                    <state key="normal" title="Invite to Kibo Chat"/>
+                                                                </button>
+                                                                <button opaque="NO" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="TFU-EE-YDS">
+                                                                    <rect key="frame" x="0.0" y="2" width="108" height="30"/>
+                                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                                    <state key="normal" title="Save Contact"/>
+                                                                </button>
+                                                                <button opaque="NO" tag="2" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="EDj-mC-AWx">
+                                                                    <rect key="frame" x="116" y="2" width="108" height="30"/>
+                                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                                    <state key="normal" title="Message"/>
+                                                                </button>
+                                                            </subviews>
+                                                            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                        </view>
                                                     </subviews>
                                                 </tableViewCellContentView>
                                             </tableViewCell>
-                                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" verticalHuggingPriority="1000" misplaced="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="ContactReceivedCell" rowHeight="95" id="aN7-dq-eCb">
-                                                <rect key="frame" x="0.0" y="1749" width="320" height="95"/>
+                                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" verticalHuggingPriority="1000" selectionStyle="default" indentationWidth="10" reuseIdentifier="ContactReceivedCell" rowHeight="120" id="h7V-pS-QtI">
+                                                <rect key="frame" x="0.0" y="1805" width="320" height="120"/>
                                                 <autoresizingMask key="autoresizingMask"/>
-                                                <tableViewCellContentView key="contentView" autoresizesSubviews="NO" opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" verticalHuggingPriority="1000" preservesSuperviewLayoutMargins="YES" tableViewCell="aN7-dq-eCb" id="NLn-gC-Ngm">
-                                                    <rect key="frame" x="0.0" y="0.0" width="320" height="95"/>
+                                                <tableViewCellContentView key="contentView" autoresizesSubviews="NO" opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" verticalHuggingPriority="1000" preservesSuperviewLayoutMargins="YES" tableViewCell="h7V-pS-QtI" id="2wb-xc-fGL">
+                                                    <rect key="frame" x="0.0" y="0.0" width="320" height="120"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <subviews>
-                                                        <imageView opaque="NO" clipsSubviews="YES" tag="1" contentMode="redraw" verticalHuggingPriority="1000" misplaced="YES" preservesSuperviewLayoutMargins="YES" image="chat_receive" highlighted="YES" id="0FA-fG-4Lj">
-                                                            <rect key="frame" x="8" y="0.0" width="232" height="95"/>
+                                                        <imageView opaque="NO" clipsSubviews="YES" tag="1" contentMode="redraw" verticalHuggingPriority="1000" preservesSuperviewLayoutMargins="YES" image="chat_receive" highlighted="YES" id="kCT-JA-OfS">
+                                                            <rect key="frame" x="8" y="0.0" width="232" height="109"/>
                                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                         </imageView>
-                                                        <label opaque="NO" userInteractionEnabled="NO" tag="15" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Sojharo" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="pGW-dB-nSg">
-                                                            <rect key="frame" x="44" y="0.0" width="170" height="21"/>
-                                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                            <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
-                                                            <color key="textColor" red="0.5" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                            <nil key="highlightedColor"/>
-                                                        </label>
-                                                        <label hidden="YES" opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="13" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Delivered" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" enabled="NO" adjustsFontSizeToFit="NO" id="qoA-2I-ogi">
-                                                            <rect key="frame" x="253" y="37" width="67" height="21"/>
+                                                        <label hidden="YES" opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="13" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Delivered" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" enabled="NO" adjustsFontSizeToFit="NO" id="rhA-95-OAC">
+                                                            <rect key="frame" x="253" y="17" width="67" height="21"/>
                                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                             <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                                             <color key="textColor" red="0.33333333329999998" green="0.33333333329999998" blue="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
-                                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="12" contentMode="TopLeft" horizontalHuggingPriority="251" verticalHuggingPriority="1000" misplaced="YES" preservesSuperviewLayoutMargins="YES" text="Contact Name" lineBreakMode="wordWrap" numberOfLines="50" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="wWt-uh-Pza">
-                                                            <rect key="frame" x="71" y="44" width="137" height="15"/>
+                                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="12" contentMode="TopLeft" horizontalHuggingPriority="251" verticalHuggingPriority="1000" preservesSuperviewLayoutMargins="YES" text="Contact Name" lineBreakMode="wordWrap" numberOfLines="50" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="epi-pd-L3a">
+                                                            <rect key="frame" x="71" y="24" width="137" height="15"/>
                                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                             <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                                                             <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="11"/>
                                                             <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
-                                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="11" contentMode="TopLeft" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Phone" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="VMR-xy-Kif">
-                                                            <rect key="frame" x="71" y="60" width="137" height="17"/>
+                                                        <label opaque="NO" userInteractionEnabled="NO" tag="16" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Sojharo" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Czd-4A-wyt">
+                                                            <rect key="frame" x="8" y="0.0" width="320" height="21"/>
+                                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                            <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                                                            <color key="textColor" red="0.5" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                            <nil key="highlightedColor"/>
+                                                        </label>
+                                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="11" contentMode="TopLeft" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Phone" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="OST-Ec-EK8">
+                                                            <rect key="frame" x="71" y="40" width="137" height="17"/>
                                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                             <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                                                             <fontDescription key="fontDescription" type="system" pointSize="11"/>
                                                             <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
-                                                        <imageView opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="2" contentMode="top" misplaced="YES" image="profile-pic1" id="vfU-88-8Cq">
-                                                            <rect key="frame" x="8" y="31" width="55" height="53"/>
+                                                        <imageView opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="2" contentMode="top" image="profile-pic1" id="uWA-FU-CeG">
+                                                            <rect key="frame" x="8" y="11" width="55" height="53"/>
                                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                         </imageView>
-                                                        <view hidden="YES" tag="14" contentMode="scaleToFill" misplaced="YES" id="OzH-y6-SsN" customClass="KDCircularProgress" customModule="Chat" customModuleProvider="target">
-                                                            <rect key="frame" x="204" y="20" width="33" height="32"/>
+                                                        <view hidden="YES" tag="14" contentMode="scaleToFill" id="c7A-lC-YQk" customClass="KDCircularProgress" customModule="Chat" customModuleProvider="target">
+                                                            <rect key="frame" x="204" y="0.0" width="33" height="32"/>
                                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                             <userDefinedRuntimeAttributes>
@@ -2663,17 +2685,39 @@
                                                                 </userDefinedRuntimeAttribute>
                                                             </userDefinedRuntimeAttributes>
                                                         </view>
-                                                        <button opaque="NO" tag="15" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="top" buttonType="roundedRect" lineBreakMode="middleTruncation" id="Ha8-cE-ua7">
-                                                            <rect key="frame" x="191" y="67" width="46" height="17"/>
+                                                        <button opaque="NO" tag="15" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="top" buttonType="roundedRect" lineBreakMode="middleTruncation" id="eKr-7y-oJT">
+                                                            <rect key="frame" x="191" y="47" width="46" height="17"/>
                                                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
                                                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                             <state key="normal" title="Save"/>
                                                         </button>
+                                                        <view tag="16" contentMode="scaleToFill" id="GIj-WI-dmO">
+                                                            <rect key="frame" x="8" y="74" width="224" height="35"/>
+                                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                            <subviews>
+                                                                <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="WyS-ko-fUG">
+                                                                    <rect key="frame" x="0.0" y="2" width="224" height="30"/>
+                                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                                    <state key="normal" title="Invite to Kibo Chat"/>
+                                                                </button>
+                                                                <button opaque="NO" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="AYr-sm-rQv">
+                                                                    <rect key="frame" x="0.0" y="2" width="108" height="30"/>
+                                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                                    <state key="normal" title="Save Contact"/>
+                                                                </button>
+                                                                <button opaque="NO" tag="2" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="E6Z-r0-0k4">
+                                                                    <rect key="frame" x="116" y="2" width="108" height="30"/>
+                                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                                    <state key="normal" title="Message"/>
+                                                                </button>
+                                                            </subviews>
+                                                            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                        </view>
                                                     </subviews>
                                                 </tableViewCellContentView>
                                             </tableViewCell>
                                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" verticalHuggingPriority="1000" selectionStyle="default" indentationWidth="10" reuseIdentifier="AudioSentCell" rowHeight="75" id="yhz-aD-AQG">
-                                                <rect key="frame" x="0.0" y="1844" width="320" height="75"/>
+                                                <rect key="frame" x="0.0" y="1925" width="320" height="75"/>
                                                 <autoresizingMask key="autoresizingMask"/>
                                                 <tableViewCellContentView key="contentView" autoresizesSubviews="NO" opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" verticalHuggingPriority="1000" preservesSuperviewLayoutMargins="YES" tableViewCell="yhz-aD-AQG" id="MRz-o3-Tva">
                                                     <rect key="frame" x="0.0" y="0.0" width="320" height="75"/>
@@ -2744,7 +2788,7 @@
                                                 </tableViewCellContentView>
                                             </tableViewCell>
                                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" verticalHuggingPriority="1000" misplaced="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="AudioReceivedCell" rowHeight="120" id="Hbh-Of-qhd">
-                                                <rect key="frame" x="0.0" y="1919" width="320" height="120"/>
+                                                <rect key="frame" x="0.0" y="2000" width="320" height="120"/>
                                                 <autoresizingMask key="autoresizingMask"/>
                                                 <tableViewCellContentView key="contentView" autoresizesSubviews="NO" opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" verticalHuggingPriority="1000" preservesSuperviewLayoutMargins="YES" tableViewCell="Hbh-Of-qhd" id="S6B-1J-228">
                                                     <rect key="frame" x="0.0" y="0.0" width="320" height="120"/>
@@ -2907,6 +2951,7 @@
                         <segue destination="LME-ma-WZ9" kind="push" identifier="showFullImageGroupSegue" id="tX8-Fc-8Jp"/>
                         <segue destination="TP2-6C-5JJ" kind="push" identifier="showFullDocGroupSegue" id="TtG-5C-Jez"/>
                         <segue destination="aly-VZ-y43" kind="push" identifier="MapViewGroupSegue" id="sRV-B5-zqK"/>
+                        <segue destination="f95-J5-fN9" kind="push" identifier="contactdetailsinfogroupsegue" id="JPH-2T-Pun"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="wjA-fP-LCO" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -8002,13 +8047,13 @@
         <segue reference="1jA-Zj-XHt"/>
         <segue reference="Spe-dd-EXu"/>
         <segue reference="Y9a-Vx-tcX"/>
-        <segue reference="SBG-bF-djg"/>
-        <segue reference="N5B-Ot-bcs"/>
         <segue reference="Wyu-u6-g5L"/>
         <segue reference="cPW-RE-2je"/>
         <segue reference="tX8-Fc-8Jp"/>
         <segue reference="sRV-B5-zqK"/>
+        <segue reference="JPH-2T-Pun"/>
         <segue reference="TtG-5C-Jez"/>
+        <segue reference="N5B-Ot-bcs"/>
         <segue reference="8LM-cv-XXH"/>
         <segue reference="X5X-Qt-8lc"/>
         <segue reference="Lsn-aA-q1J"/>
