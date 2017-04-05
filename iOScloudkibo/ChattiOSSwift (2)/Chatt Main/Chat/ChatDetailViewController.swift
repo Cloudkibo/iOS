@@ -25,13 +25,13 @@ import GooglePlacePicker
 import GooglePlaces
 import GoogleMaps
 import ActiveLabel
-
+//import URLEmbeddedView
 //import GoogleMaps
 
 class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChatDelegate,UIDocumentPickerDelegate,UIDocumentMenuDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate,FileManagerDelegate,showUploadProgressDelegate,UpdateChatViewsDelegate,UpdateSingleChatDetailDelegate,CNContactPickerDelegate,CNContactViewControllerDelegate,UIPickerViewDelegate,AVAudioRecorderDelegate,CLLocationManagerDelegate,insertChatAtLastDelegate,updateChatStatusRowDelegate,insertBulkChatsSyncDelegate,insertBulkChatsStatusesSyncDelegate,ActiveLabelDelegate
     {
     
-    var view: UIView!
+    //var view: UIView!
     var urlTitle=""
     var urlDesc=""
     var urlURL=""
@@ -289,6 +289,10 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
                     
                     self.hasURL=true
                     print("\(result)")
+                    
+                    let embeddedView = URLEmbeddedView()
+                    embeddedView.loadURL(sender.text)
+                    
                     //urlTitle=result["title"]
                     //urlDesc=result["description"]
                     //urlURL=result["url"]
@@ -2325,6 +2329,8 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
     }
     
     
+    
+    
     //urlPopView.xib
     func loadViewFromXibFile() -> UIView {
         let bundle = Bundle(for: type(of: self))
@@ -2337,7 +2343,8 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
     /**
      Sets up the view by loading it from the xib file and setting its frame
      */
-    override func setupView() {
+    
+   /* override func setupView() {
         view = loadViewFromXibFile()
         view.frame = bounds
         view.translatesAutoresizingMaskIntoConstraints = false
@@ -2379,7 +2386,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
         
         visualEffectView.layer.cornerRadius = 4.0
     }
-
+*/
     func tableView(_ tableView: UITableView!, cellForRowAtIndexPath indexPath: IndexPath!) -> UITableViewCell! {
         var cell : UITableViewCell!
        // print("reloading of cellsssssssss......------------===========++++++")

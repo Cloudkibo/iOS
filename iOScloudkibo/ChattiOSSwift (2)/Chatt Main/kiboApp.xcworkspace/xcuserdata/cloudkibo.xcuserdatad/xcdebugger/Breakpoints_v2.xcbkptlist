@@ -219,7 +219,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "3977"
             endingLineNumber = "3977"
-            landmarkName = "contactViewController(_:didCompleteWith:)"
+            landmarkName = "BtnSaveContactClicked(_:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -235,7 +235,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "6070"
             endingLineNumber = "6070"
-            landmarkName = "documentPicker(_:didPickDocumentAt:)"
+            landmarkName = "prepare(for:sender:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -539,7 +539,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "5826"
             endingLineNumber = "5826"
-            landmarkName = "socketReceivedMessageChat(_:data:)"
+            landmarkName = "socketReceivedMessage(_:data:)"
             landmarkType = "7">
             <Locations>
                <Location
@@ -587,7 +587,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "5825"
             endingLineNumber = "5825"
-            landmarkName = "socketReceivedMessageChat(_:data:)"
+            landmarkName = "socketReceivedMessage(_:data:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -1070,8 +1070,8 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "2383"
             endingLineNumber = "2383"
-            landmarkName = "tableView(_:cellForRowAtIndexPath:)"
-            landmarkType = "7">
+            landmarkName = "ChatDetailViewController"
+            landmarkType = "3">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -2937,7 +2937,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "4680"
             endingLineNumber = "4680"
-            landmarkName = "contactPicker(_:didSelect:)"
+            landmarkName = "btnShareFileInChatPressed(_:)"
             landmarkType = "7">
             <Actions>
                <BreakpointActionProxy
@@ -2977,8 +2977,8 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "4866"
             endingLineNumber = "4866"
-            landmarkName = "ChatDetailViewController"
-            landmarkType = "3">
+            landmarkName = "contactPicker(_:didSelect:)"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -2993,7 +2993,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "4870"
             endingLineNumber = "4870"
-            landmarkName = "imagePickerController(_:didFinishPickingMediaWithInfo:)"
+            landmarkName = "contactPicker(_:didSelect:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -3121,8 +3121,8 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "608"
             endingLineNumber = "608"
-            landmarkName = "startRecording()"
-            landmarkType = "7">
+            landmarkName = "ChatDetailViewController"
+            landmarkType = "3">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -3137,7 +3137,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "6451"
             endingLineNumber = "6451"
-            landmarkName = "viewWillDisappear(_:)"
+            landmarkName = "refreshChatsUI(_:uniqueid:from:date1:type:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -3664,7 +3664,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "6792"
             endingLineNumber = "6792"
-            landmarkName = "insertBulkChatStatusesSync(statusArray:)"
+            landmarkName = "insertChatRowAtLast(_:uniqueid:status:filename:type:date:from:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

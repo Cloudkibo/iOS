@@ -17,6 +17,9 @@
 		71189AA01E781F2100245D97 /* PrivacySettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71189A9F1E781F2100245D97 /* PrivacySettingsViewController.swift */; };
 		71189AA21E79243500245D97 /* BlockedContactsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71189AA11E79243500245D97 /* BlockedContactsViewController.swift */; };
 		711996361E9567CA003D54A3 /* urlPopView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 711996351E9567CA003D54A3 /* urlPopView.xib */; };
+		7119965C1E958ABA003D54A3 /* Array+MisterFusion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 711996591E958ABA003D54A3 /* Array+MisterFusion.swift */; };
+		7119965D1E958ABA003D54A3 /* MisterFusion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7119965A1E958ABA003D54A3 /* MisterFusion.swift */; };
+		7119965E1E958ABA003D54A3 /* MisterFusionExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7119965B1E958ABA003D54A3 /* MisterFusionExtension.swift */; };
 		711CD86D1E5B10E90079CB88 /* AlamofireImage.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 711CD86C1E5B10E90079CB88 /* AlamofireImage.framework */; };
 		712050181E71707700D87E2C /* RestoreChatsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 712050171E71707700D87E2C /* RestoreChatsViewController.swift */; };
 		7122F96C1D4FDFA400EBBCED /* ShowImageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7122F96B1D4FDFA400EBBCED /* ShowImageViewController.swift */; };
@@ -192,6 +195,25 @@
 		71E20B9F1CF720DD0042EDAD /* avatarTwo.png in Resources */ = {isa = PBXBuildFile; fileRef = 71E20B9B1CF720DD0042EDAD /* avatarTwo.png */; };
 		71E20BA01CF720DD0042EDAD /* avatarTwoHalf.png in Resources */ = {isa = PBXBuildFile; fileRef = 71E20B9C1CF720DD0042EDAD /* avatarTwoHalf.png */; };
 		71E3EE491D5BAD8300310DB0 /* KDCircularProgress.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71E3EE481D5BAD8300310DB0 /* KDCircularProgress.swift */; };
+		71E50D0D1E958B5200A3C5BB /* Array+MisterFusion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71E50D0A1E958B5200A3C5BB /* Array+MisterFusion.swift */; };
+		71E50D0E1E958B5200A3C5BB /* MisterFusion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71E50D0B1E958B5200A3C5BB /* MisterFusion.swift */; };
+		71E50D0F1E958B5200A3C5BB /* MisterFusionExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71E50D0C1E958B5200A3C5BB /* MisterFusionExtension.swift */; };
+		71E50D3F1E958B9200A3C5BB /* AttributedTextProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71E50D2F1E958B9200A3C5BB /* AttributedTextProvider.swift */; };
+		71E50D401E958B9200A3C5BB /* AttributeManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71E50D301E958B9200A3C5BB /* AttributeManager.swift */; };
+		71E50D411E958B9200A3C5BB /* LinkIconView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71E50D311E958B9200A3C5BB /* LinkIconView.swift */; };
+		71E50D421E958B9200A3C5BB /* MD5.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71E50D321E958B9200A3C5BB /* MD5.swift */; };
+		71E50D431E958B9200A3C5BB /* NSTimeInterval+Util.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71E50D331E958B9200A3C5BB /* NSTimeInterval+Util.swift */; };
+		71E50D441E958B9200A3C5BB /* NSUserDefaults+URLEmbeddedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71E50D341E958B9200A3C5BB /* NSUserDefaults+URLEmbeddedView.swift */; };
+		71E50D451E958B9200A3C5BB /* OGData+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71E50D351E958B9200A3C5BB /* OGData+CoreDataProperties.swift */; };
+		71E50D461E958B9200A3C5BB /* OGData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71E50D361E958B9200A3C5BB /* OGData.swift */; };
+		71E50D471E958B9200A3C5BB /* OGDataCacheManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71E50D371E958B9200A3C5BB /* OGDataCacheManager.swift */; };
+		71E50D481E958B9200A3C5BB /* OGDataProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71E50D381E958B9200A3C5BB /* OGDataProvider.swift */; };
+		71E50D491E958B9200A3C5BB /* OGImageCacheManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71E50D391E958B9200A3C5BB /* OGImageCacheManager.swift */; };
+		71E50D4A1E958B9200A3C5BB /* OGImageProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71E50D3A1E958B9200A3C5BB /* OGImageProvider.swift */; };
+		71E50D4B1E958B9200A3C5BB /* TaskContainable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71E50D3B1E958B9200A3C5BB /* TaskContainable.swift */; };
+		71E50D4C1E958B9200A3C5BB /* URLEmbeddedView+Inspectable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71E50D3C1E958B9200A3C5BB /* URLEmbeddedView+Inspectable.swift */; };
+		71E50D4D1E958B9200A3C5BB /* URLEmbeddedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71E50D3D1E958B9200A3C5BB /* URLEmbeddedView.swift */; };
+		71E50D4E1E958B9200A3C5BB /* URLImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71E50D3E1E958B9200A3C5BB /* URLImageView.swift */; };
 		71E861C81D0066F4008BCC7C /* DisplayNameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71E861C71D0066F4008BCC7C /* DisplayNameViewController.swift */; };
 		71EA60711D77EC7800117B55 /* GroupInfo3ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71EA60701D77EC7800117B55 /* GroupInfo3ViewController.swift */; };
 		71EA607F1D78DDAA00117B55 /* NSMutableArray+SWUtilityButtons.m in Sources */ = {isa = PBXBuildFile; fileRef = 71EA60741D78DDAA00117B55 /* NSMutableArray+SWUtilityButtons.m */; };
@@ -518,6 +540,9 @@
 		71189A9F1E781F2100245D97 /* PrivacySettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PrivacySettingsViewController.swift; sourceTree = "<group>"; };
 		71189AA11E79243500245D97 /* BlockedContactsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BlockedContactsViewController.swift; sourceTree = "<group>"; };
 		711996351E9567CA003D54A3 /* urlPopView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = urlPopView.xib; sourceTree = "<group>"; };
+		711996591E958ABA003D54A3 /* Array+MisterFusion.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Array+MisterFusion.swift"; sourceTree = "<group>"; };
+		7119965A1E958ABA003D54A3 /* MisterFusion.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MisterFusion.swift; sourceTree = "<group>"; };
+		7119965B1E958ABA003D54A3 /* MisterFusionExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MisterFusionExtension.swift; sourceTree = "<group>"; };
 		711CD86C1E5B10E90079CB88 /* AlamofireImage.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; name = AlamofireImage.framework; path = "/Users/cloudkibo/Documents/kiboChatTry/iOS/iOS/iOScloudkibo/ChattiOSSwift (2)/Chatt Main/build/Debug-iphoneos/AlamofireImage.framework"; sourceTree = "<absolute>"; };
 		712050171E71707700D87E2C /* RestoreChatsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RestoreChatsViewController.swift; sourceTree = "<group>"; };
 		7122F96B1D4FDFA400EBBCED /* ShowImageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShowImageViewController.swift; sourceTree = "<group>"; };
@@ -696,6 +721,25 @@
 		71E20B9B1CF720DD0042EDAD /* avatarTwo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = avatarTwo.png; sourceTree = "<group>"; };
 		71E20B9C1CF720DD0042EDAD /* avatarTwoHalf.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = avatarTwoHalf.png; sourceTree = "<group>"; };
 		71E3EE481D5BAD8300310DB0 /* KDCircularProgress.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KDCircularProgress.swift; sourceTree = "<group>"; };
+		71E50D0A1E958B5200A3C5BB /* Array+MisterFusion.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Array+MisterFusion.swift"; sourceTree = "<group>"; };
+		71E50D0B1E958B5200A3C5BB /* MisterFusion.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MisterFusion.swift; sourceTree = "<group>"; };
+		71E50D0C1E958B5200A3C5BB /* MisterFusionExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MisterFusionExtension.swift; sourceTree = "<group>"; };
+		71E50D2F1E958B9200A3C5BB /* AttributedTextProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AttributedTextProvider.swift; sourceTree = "<group>"; };
+		71E50D301E958B9200A3C5BB /* AttributeManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AttributeManager.swift; sourceTree = "<group>"; };
+		71E50D311E958B9200A3C5BB /* LinkIconView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LinkIconView.swift; sourceTree = "<group>"; };
+		71E50D321E958B9200A3C5BB /* MD5.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MD5.swift; sourceTree = "<group>"; };
+		71E50D331E958B9200A3C5BB /* NSTimeInterval+Util.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSTimeInterval+Util.swift"; sourceTree = "<group>"; };
+		71E50D341E958B9200A3C5BB /* NSUserDefaults+URLEmbeddedView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSUserDefaults+URLEmbeddedView.swift"; sourceTree = "<group>"; };
+		71E50D351E958B9200A3C5BB /* OGData+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "OGData+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		71E50D361E958B9200A3C5BB /* OGData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OGData.swift; sourceTree = "<group>"; };
+		71E50D371E958B9200A3C5BB /* OGDataCacheManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OGDataCacheManager.swift; sourceTree = "<group>"; };
+		71E50D381E958B9200A3C5BB /* OGDataProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OGDataProvider.swift; sourceTree = "<group>"; };
+		71E50D391E958B9200A3C5BB /* OGImageCacheManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OGImageCacheManager.swift; sourceTree = "<group>"; };
+		71E50D3A1E958B9200A3C5BB /* OGImageProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OGImageProvider.swift; sourceTree = "<group>"; };
+		71E50D3B1E958B9200A3C5BB /* TaskContainable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TaskContainable.swift; sourceTree = "<group>"; };
+		71E50D3C1E958B9200A3C5BB /* URLEmbeddedView+Inspectable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "URLEmbeddedView+Inspectable.swift"; sourceTree = "<group>"; };
+		71E50D3D1E958B9200A3C5BB /* URLEmbeddedView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = URLEmbeddedView.swift; sourceTree = "<group>"; };
+		71E50D3E1E958B9200A3C5BB /* URLImageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = URLImageView.swift; sourceTree = "<group>"; };
 		71E861C71D0066F4008BCC7C /* DisplayNameViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DisplayNameViewController.swift; sourceTree = "<group>"; };
 		71EA60701D77EC7800117B55 /* GroupInfo3ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GroupInfo3ViewController.swift; sourceTree = "<group>"; };
 		71EA60731D78DDAA00117B55 /* NSMutableArray+SWUtilityButtons.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSMutableArray+SWUtilityButtons.h"; sourceTree = "<group>"; };
@@ -771,6 +815,8 @@
 		5BF6361C19A9F3D900ABD0BA = {
 			isa = PBXGroup;
 			children = (
+				71E50D2E1E958B9200A3C5BB /* URLEmbeddedView */,
+				71E50D091E958B5200A3C5BB /* MisterFusion */,
 				711996351E9567CA003D54A3 /* urlPopView.xib */,
 				71803D261E93D12600A0604D /* Cache.swift */,
 				71803D271E93D12600A0604D /* NSURLSessionExtension.swift */,
@@ -822,6 +868,9 @@
 		5BF6362719A9F3D900ABD0BA /* Chat */ = {
 			isa = PBXGroup;
 			children = (
+				711996591E958ABA003D54A3 /* Array+MisterFusion.swift */,
+				7119965A1E958ABA003D54A3 /* MisterFusion.swift */,
+				7119965B1E958ABA003D54A3 /* MisterFusionExtension.swift */,
 				715D63CC1E4C57940088C192 /* Data+Compression.swift */,
 				713D51881CC11896007E0B47 /* Accounts.swift */,
 				71585F011DC8A4030067CD4A /* UIDelegates.swift */,
@@ -1077,6 +1126,39 @@
 				71C1A2D31D769B0900FC5157 /* Main.storyboard */,
 			);
 			path = Base.lproj;
+			sourceTree = "<group>";
+		};
+		71E50D091E958B5200A3C5BB /* MisterFusion */ = {
+			isa = PBXGroup;
+			children = (
+				71E50D0A1E958B5200A3C5BB /* Array+MisterFusion.swift */,
+				71E50D0B1E958B5200A3C5BB /* MisterFusion.swift */,
+				71E50D0C1E958B5200A3C5BB /* MisterFusionExtension.swift */,
+			);
+			path = MisterFusion;
+			sourceTree = "<group>";
+		};
+		71E50D2E1E958B9200A3C5BB /* URLEmbeddedView */ = {
+			isa = PBXGroup;
+			children = (
+				71E50D2F1E958B9200A3C5BB /* AttributedTextProvider.swift */,
+				71E50D301E958B9200A3C5BB /* AttributeManager.swift */,
+				71E50D311E958B9200A3C5BB /* LinkIconView.swift */,
+				71E50D321E958B9200A3C5BB /* MD5.swift */,
+				71E50D331E958B9200A3C5BB /* NSTimeInterval+Util.swift */,
+				71E50D341E958B9200A3C5BB /* NSUserDefaults+URLEmbeddedView.swift */,
+				71E50D351E958B9200A3C5BB /* OGData+CoreDataProperties.swift */,
+				71E50D361E958B9200A3C5BB /* OGData.swift */,
+				71E50D371E958B9200A3C5BB /* OGDataCacheManager.swift */,
+				71E50D381E958B9200A3C5BB /* OGDataProvider.swift */,
+				71E50D391E958B9200A3C5BB /* OGImageCacheManager.swift */,
+				71E50D3A1E958B9200A3C5BB /* OGImageProvider.swift */,
+				71E50D3B1E958B9200A3C5BB /* TaskContainable.swift */,
+				71E50D3C1E958B9200A3C5BB /* URLEmbeddedView+Inspectable.swift */,
+				71E50D3D1E958B9200A3C5BB /* URLEmbeddedView.swift */,
+				71E50D3E1E958B9200A3C5BB /* URLImageView.swift */,
+			);
+			path = URLEmbeddedView;
 			sourceTree = "<group>";
 		};
 		71EA60721D78DD7100117B55 /* SwipeCellsSourceFiles */ = {
@@ -1590,6 +1672,7 @@
 			files = (
 				7122F96E1D500FFA00EBBCED /* textDocumentViewController.swift in Sources */,
 				71C84C601E44AB2400330105 /* SocketIOClientConfiguration.swift in Sources */,
+				71E50D4E1E958B9200A3C5BB /* URLImageView.swift in Sources */,
 				71189AA21E79243500245D97 /* BlockedContactsViewController.swift in Sources */,
 				7142EC991DC196DB0070826F /* GroupInfoCells.swift in Sources */,
 				71EA60711D77EC7800117B55 /* GroupInfo3ViewController.swift in Sources */,
@@ -1603,9 +1686,11 @@
 				71C84C531E44AB2400330105 /* SocketAckEmitter.swift in Sources */,
 				713D51C81CC11896007E0B47 /* Constants.swift in Sources */,
 				713D51C11CC11896007E0B47 /* ChatAppClient.swift in Sources */,
+				71E50D461E958B9200A3C5BB /* OGData.swift in Sources */,
 				713D51D71CC11896007E0B47 /* LoginAPI.swift in Sources */,
 				713F396F1D74459600F3A9C4 /* EPContactCell.swift in Sources */,
 				713F396D1D74459600F3A9C4 /* EPConstants.swift in Sources */,
+				7119965E1E958ABA003D54A3 /* MisterFusionExtension.swift in Sources */,
 				71C84C6A1E44AB2400330105 /* WebSocket.swift in Sources */,
 				713D51EF1CC11896007E0B47 /* webmeetingMsgsModel.swift in Sources */,
 				71AEC9891D01D67300DF58BD /* AllContactsViewCell.swift in Sources */,
@@ -1629,6 +1714,8 @@
 				71C1A2D91D769B0900FC5157 /* MyCustomCellTableViewCell.swift in Sources */,
 				71C84C561E44AB2400330105 /* SocketClientManager.swift in Sources */,
 				713D51CC1CC11896007E0B47 /* ContactsInviteCell.swift in Sources */,
+				71E50D4D1E958B9200A3C5BB /* URLEmbeddedView.swift in Sources */,
+				71E50D4C1E958B9200A3C5BB /* URLEmbeddedView+Inspectable.swift in Sources */,
 				7127CC911D9D0C800047683B /* syncContactService.swift in Sources */,
 				71C84C651E44AB2400330105 /* SocketPacket.swift in Sources */,
 				71CB8C0D1E6FF21A009D5D05 /* BackupAutoScheduleViewController.swift in Sources */,
@@ -1638,17 +1725,21 @@
 				713F396E1D74459600F3A9C4 /* EPContact.swift in Sources */,
 				713D51D11CC11896007E0B47 /* FileReceivedViewController.swift in Sources */,
 				713D51CE1CC11896007E0B47 /* ContactsListCell.swift in Sources */,
+				71E50D0F1E958B5200A3C5BB /* MisterFusionExtension.swift in Sources */,
 				713D51E21CC11896007E0B47 /* notificationsMainClass.swift in Sources */,
 				71DC15321D26655700E5BFC2 /* pushNotifications.md in Sources */,
 				71CB8C0B1E6EE84E009D5D05 /* BackupSettingsViewController.swift in Sources */,
 				710D4E3E1D3D8F7600FBC352 /* FileTransferWebRTCclient.swift in Sources */,
 				71EA60811D78DDAA00117B55 /* SWLongPressGestureRecognizer.m in Sources */,
 				71CB8C091E6EE30C009D5D05 /* ChatsSettingsViewController.swift in Sources */,
+				71E50D441E958B9200A3C5BB /* NSUserDefaults+URLEmbeddedView.swift in Sources */,
 				71FF54B41E7FE47900BF512A /* UpwardSyncService.swift in Sources */,
 				713D51E31CC11896007E0B47 /* Peer.swift in Sources */,
 				713D51D61CC11896007E0B47 /* KeychainWrapper.swift in Sources */,
 				713D51CF1CC11896007E0B47 /* DatabaseHandler.swift in Sources */,
 				71C84C671E44AB2400330105 /* SocketStringReader.swift in Sources */,
+				7119965D1E958ABA003D54A3 /* MisterFusion.swift in Sources */,
+				71E50D471E958B9200A3C5BB /* OGDataCacheManager.swift in Sources */,
 				713D51DE1CC11896007E0B47 /* MoreTableViewController.swift in Sources */,
 				71C84C581E44AB2400330105 /* SocketEngineClient.swift in Sources */,
 				719A0CE41DD5237800977C0B /* GroupMessageStatusViewController.swift in Sources */,
@@ -1660,18 +1751,24 @@
 				713D51D01CC11896007E0B47 /* File.swift in Sources */,
 				713D51D31CC11896007E0B47 /* FileUtility.swift in Sources */,
 				71CB8C051E6ED5FD009D5D05 /* SettingsViewController.swift in Sources */,
+				71E50D481E958B9200A3C5BB /* OGDataProvider.swift in Sources */,
 				713D51C51CC11896007E0B47 /* ChatViewController.swift in Sources */,
 				713D51E51CC11896007E0B47 /* PendingRequestsListCell.swift in Sources */,
+				71E50D491E958B9200A3C5BB /* OGImageCacheManager.swift in Sources */,
 				71C84C541E44AB2400330105 /* SocketAckManager.swift in Sources */,
+				7119965C1E958ABA003D54A3 /* Array+MisterFusion.swift in Sources */,
 				714690661E68348E00FA6530 /* MapViewController.swift in Sources */,
 				71189A801E781EF800245D97 /* AccountsSettingsViewController.swift in Sources */,
 				7122F96C1D4FDFA400EBBCED /* ShowImageViewController.swift in Sources */,
 				71C84C5B1E44AB2400330105 /* SocketEngineSpec.swift in Sources */,
 				713E7E321E020EB800C7285A /* contactsSingletonClass.swift in Sources */,
 				71C84C681E44AB2400330105 /* SocketTypes.swift in Sources */,
+				71E50D451E958B9200A3C5BB /* OGData+CoreDataProperties.swift in Sources */,
 				71C1A2CF1D768ABC00FC5157 /* GroupChatingDetailController.swift in Sources */,
+				71E50D4A1E958B9200A3C5BB /* OGImageProvider.swift in Sources */,
 				71C1A2DA1D769B0900FC5157 /* PKSwipeTableViewCell.swift in Sources */,
 				71C84C5F1E44AB2400330105 /* SocketIOClient.swift in Sources */,
+				71E50D401E958B9200A3C5BB /* AttributeManager.swift in Sources */,
 				713D51D51CC11896007E0B47 /* JSONStringify.swift in Sources */,
 				71EA60841D78DDAA00117B55 /* SWUtilityButtonView.m in Sources */,
 				713E7E341E023E4E00C7285A /* AddParticipantsViewController.swift in Sources */,
@@ -1685,23 +1782,29 @@
 				713D51EE1CC11896007E0B47 /* WebmeetingChatViewController.swift in Sources */,
 				71C84C661E44AB2400330105 /* SocketParsable.swift in Sources */,
 				71F6683D1E72980E00A88E35 /* RestoreService.swift in Sources */,
+				71E50D4B1E958B9200A3C5BB /* TaskContainable.swift in Sources */,
+				71E50D431E958B9200A3C5BB /* NSTimeInterval+Util.swift in Sources */,
 				713D51C41CC11896007E0B47 /* ChatDetailViewController.swift in Sources */,
+				71E50D3F1E958B9200A3C5BB /* AttributedTextProvider.swift in Sources */,
 				710CB64E1D06EB030070CA3D /* contactsDetailsTableViewController.swift in Sources */,
 				713D51C31CC11896007E0B47 /* ChatContactsCell.swift in Sources */,
 				71803D311E93D12600A0604D /* SwiftLinkPreview.swift in Sources */,
 				710947731D710A63008BC238 /* NewGroupSetDetails.swift in Sources */,
 				713D51C71CC11896007E0B47 /* ConferenceViewController.swift in Sources */,
+				71E50D0E1E958B5200A3C5BB /* MisterFusion.swift in Sources */,
 				713D51E41CC11896007E0B47 /* PendingFriendRequestsViewController.swift in Sources */,
 				713EC7051D0518B800495A43 /* ChatMainViewController.swift in Sources */,
 				718AB5801D3F8C9000D197D7 /* chatMessagesModel.swift in Sources */,
 				71C84C5E1E44AB2400330105 /* SocketExtensions.swift in Sources */,
 				7122F9701D54B7FF00EBBCED /* NetworkingManager.swift in Sources */,
+				71E50D411E958B9200A3C5BB /* LinkIconView.swift in Sources */,
 				71CB8C071E6ED715009D5D05 /* SettingsCells.swift in Sources */,
 				71C84C5D1E44AB2400330105 /* SocketEventHandler.swift in Sources */,
 				71E3EE491D5BAD8300310DB0 /* KDCircularProgress.swift in Sources */,
 				713D51C91CC11896007E0B47 /* Contact.swift in Sources */,
 				71C84C551E44AB2400330105 /* SocketAnyEvent.swift in Sources */,
 				713D51D81CC11896007E0B47 /* LoginViewController.swift in Sources */,
+				71E50D421E958B9200A3C5BB /* MD5.swift in Sources */,
 				713D51C21CC11896007E0B47 /* ChatComposeViewController.swift in Sources */,
 				71803D2E1E93D12600A0604D /* PreviewError.swift in Sources */,
 				713D51BD1CC11896007E0B47 /* Accounts.swift in Sources */,
@@ -1720,6 +1823,7 @@
 				71EA60831D78DDAA00117B55 /* SWUtilityButtonTapGestureRecognizer.m in Sources */,
 				71C84C5A1E44AB2400330105 /* SocketEnginePollable.swift in Sources */,
 				71C84C641E44AB2400330105 /* SocketLogger.swift in Sources */,
+				71E50D0D1E958B5200A3C5BB /* Array+MisterFusion.swift in Sources */,
 				713D51DF1CC11896007E0B47 /* NetworkingLibAlamofire.swift in Sources */,
 				71C84C5C1E44AB2400330105 /* SocketEngineWebsocket.swift in Sources */,
 			);

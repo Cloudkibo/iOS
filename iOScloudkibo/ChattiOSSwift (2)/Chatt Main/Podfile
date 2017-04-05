@@ -4,7 +4,16 @@ source 'https://github.com/CocoaPods/Specs.git'
 target ‘Chat’ do
  
 use_frameworks!
-pod 'ActiveLabel', :git => 'https://github.com/optonaut/ActiveLabel.swift', :branch => 'master'
+
+pod 'CryptoSwift'
+pod 'MisterFusion'
+def swift3_overrides
+pod 'Kanna', git: 'https://github.com/tid-kijyun/Kanna.git', branch: 'swift3.0'
+end
+
+swift3_overrides
+pod 'URLEmbeddedView', :git => 'https://github.com/marty-suzuki/URLEmbeddedView.git', :tag => '0.6.0'
+
 pod 'Alamofire', :git => 'https://github.com/Alamofire/Alamofire.git', :branch => 'master'
 pod "libjingle_peerconnection"
  
