@@ -4,7 +4,7 @@ source 'https://github.com/CocoaPods/Specs.git'
 target ‘Chat’ do
  
 use_frameworks!
-
+pod 'ActiveLabel', :git => 'https://github.com/optonaut/ActiveLabel.swift', :branch => 'master'
 pod 'Alamofire', :git => 'https://github.com/Alamofire/Alamofire.git', :branch => 'master'
 pod "libjingle_peerconnection"
  

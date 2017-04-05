@@ -24,13 +24,19 @@ import Kingfisher
 import GooglePlacePicker
 import GooglePlaces
 import GoogleMaps
-
+import ActiveLabel
 
 //import GoogleMaps
 
 class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChatDelegate,UIDocumentPickerDelegate,UIDocumentMenuDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate,FileManagerDelegate,showUploadProgressDelegate,UpdateChatViewsDelegate,UpdateSingleChatDetailDelegate,CNContactPickerDelegate,CNContactViewControllerDelegate,UIPickerViewDelegate,AVAudioRecorderDelegate,CLLocationManagerDelegate,insertChatAtLastDelegate,updateChatStatusRowDelegate,insertBulkChatsSyncDelegate,insertBulkChatsStatusesSyncDelegate
     {
     
+    var urlTitle=""
+    var urlDesc=""
+    var urlURL=""
+
+    
+    var hasURL=false
     var contactCardSelected="0"
     //,UIPickerViewDelegate{
     var contactshared=false
@@ -271,7 +277,26 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
             var urlArray=UtilityFunctions.init().getURLs(text: sender.text!)
             
             let slp = SwiftLinkPreview()
-            
+            slp.preview(
+                sender.text,
+                onSuccess: { result in
+                    
+                    self.hasURL=true
+                    print("\(result)")
+                    //urlTitle=result["title"]
+                    //urlDesc=result["description"]
+                    //urlURL=result["url"]
+                    //Chat.SwiftLinkResponseKey.description
+                    //Chat.SwiftLinkResponseKey.images
+                    //Chat.SwiftLinkResponseKey.title
+                    //Chat.SwiftLinkResponseKey.url
+            },
+                onError: { error in
+                    
+                    print("\(error)")
+                    
+            }
+            )
            // urlArray.first
         }
 }
@@ -2349,8 +2374,11 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
             let timeLabel = cell.viewWithTag(11) as! UILabel
            
             
-            
-            textLable.text = msg! as! String            /*textLable.lineBreakMode = .ByWordWrapping
+            //textLable.dataDetectorTypes = UIDataDetectorTy
+            textLable.text = msg! as! String
+           // var range=textLable.rangeOfString("www.iba.edu.pk")
+            //textLable.link
+            /*textLable.lineBreakMode = .ByWordWrapping
             textLable.numberOfLines=0
             textLable.sizeToFit()
             print("previous height is \(textLable.frame.height) msg is \(msg)")
@@ -2421,7 +2449,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
             cell = tblForChats.dequeueReusableCell(withIdentifier: "ChatReceivedCell")! as UITableViewCell
 }
             let deliveredLabel = cell.viewWithTag(13) as! UILabel
-            let textLable = cell.viewWithTag(12) as! UILabel
+            var textLable = cell.viewWithTag(12) as! ActiveLabel
             let timeLabel = cell.viewWithTag(11) as! UILabel
             let chatImage = cell.viewWithTag(1) as! UIImageView
             let profileImage = cell.viewWithTag(2) as! UIImageView
@@ -2442,6 +2470,20 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
            
          ////    //print("chatImage.x for \(msg) is \(20 + distanceFactor) and chatimage.wdith is \(chatImage.frame.width)")
             
+         let range=(textLable.text as! NSString).range(of: "www.iba.edu.pk")
+            //let range = nsString.rangeOfString(name)
+            let url = NSURL(string: "www.iba.edu.pk")!
+            ////(textLable.text as! NSString).addLinkToURL(url, withRange: range)
+            
+            textLable = ActiveLabel()
+            
+            textLable.numberOfLines = 0
+            textLable.enabledTypes = [.mention, .hashtag, .url]
+            textLable.text = "This is a post with #hashtags and a @userhandle."
+            textLable.textColor = .black
+            textLable.handleHashtagTap { hashtag in
+                print("Success. You just tapped the \(hashtag) hashtag")
+            }
             
             textLable.isHidden=false
             textLable.text = msg! as! String

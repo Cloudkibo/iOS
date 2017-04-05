@@ -420,7 +420,7 @@
                                         <rect key="frame" x="0.0" y="22" width="320" height="66"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Zjl-fV-fCT" id="p7A-kq-oTu">
-                                            <rect key="frame" x="0.0" y="0.0" width="320" height="65.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="320" height="65"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Vacancy" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="NsV-Ss-HPi">
@@ -8048,10 +8048,10 @@
         <segue reference="BY8-e2-RyW"/>
         <segue reference="Wyu-u6-g5L"/>
         <segue reference="cPW-RE-2je"/>
-        <segue reference="sRV-B5-zqK"/>
-        <segue reference="JPH-2T-Pun"/>
-        <segue reference="TtG-5C-Jez"/>
-        <segue reference="tX8-Fc-8Jp"/>
+        <segue reference="nfZ-gF-nDM"/>
+        <segue reference="Ite-sp-zyZ"/>
+        <segue reference="LYu-6R-l0u"/>
+        <segue reference="SBG-bF-djg"/>
         <segue reference="N5B-Ot-bcs"/>
         <segue reference="TN9-Au-PUW"/>
         <segue reference="8LM-cv-XXH"/>

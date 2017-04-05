@@ -1,25 +1,34 @@
 PODS:
+  - ActiveLabel (0.7.1)
   - Alamofire (4.3.0)
   - libjingle_peerconnection (11177.2.0)
 
 DEPENDENCIES:
+  - ActiveLabel (from `https://github.com/optonaut/ActiveLabel.swift`, branch `master`)
   - Alamofire (from `https://github.com/Alamofire/Alamofire.git`, branch `master`)
   - libjingle_peerconnection
 
 EXTERNAL SOURCES:
+  ActiveLabel:
+    :branch: master
+    :git: https://github.com/optonaut/ActiveLabel.swift
   Alamofire:
     :branch: master
     :git: https://github.com/Alamofire/Alamofire.git
 
 CHECKOUT OPTIONS:
+  ActiveLabel:
+    :commit: 5c030f3c37a43faaa5250130898028d7093c3d89
+    :git: https://github.com/optonaut/ActiveLabel.swift
   Alamofire:
     :commit: fa3c6d09b603f417c7788adb51ca0cade75b3d67
     :git: https://github.com/Alamofire/Alamofire.git
 
 SPEC CHECKSUMS:
+  ActiveLabel: faa96b5f50507770536a3e48a4cf291ee88fb7db
   Alamofire: 1f72088aff8f6b40828dadd61be2e9a31beca01e
   libjingle_peerconnection: 3458f646ddd61f08a9f3a0c43fb01fff5c165eb8
 
-PODFILE CHECKSUM: 7256742b18f575ae6f6cee123086577b0b78d740
+PODFILE CHECKSUM: fff4ad929ff7c80cf3cba380d4828486bdcfb12b
 
 COCOAPODS: 1.2.0

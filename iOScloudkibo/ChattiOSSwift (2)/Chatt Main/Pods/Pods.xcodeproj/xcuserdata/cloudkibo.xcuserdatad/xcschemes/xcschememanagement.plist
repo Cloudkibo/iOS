@@ -4,6 +4,11 @@
 <dict>
 	<key>SchemeUserState</key>
 	<dict>
+		<key>ActiveLabel.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
 		<key>Alamofire.xcscheme</key>
 		<dict>
 			<key>isShown</key>
@@ -22,7 +27,12 @@
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>96D70275555D9C11108B6D889D284FC7</key>
+		<key>A1EBDD3BC77EFE921F5EFB115E0E3B3D</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>DB56982340CF3F0093B6626DFDFDEF9F</key>
 		<dict>
 			<key>primary</key>
 			<true/>
