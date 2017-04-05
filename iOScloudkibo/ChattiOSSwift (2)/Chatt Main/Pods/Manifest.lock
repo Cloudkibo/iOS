@@ -1,34 +1,43 @@
 PODS:
+  - ActiveLabel (0.7.1)
   - Alamofire (4.3.0)
-  - CryptoSwift (0.6.8)
+  - Kanna (2.0.0)
   - libjingle_peerconnection (11177.2.0)
 
 DEPENDENCIES:
+  - ActiveLabel (from `https://github.com/optonaut/ActiveLabel.swift`, branch `master`)
   - Alamofire (from `https://github.com/Alamofire/Alamofire.git`, branch `master`)
-  - CryptoSwift (from `https://github.com/krzyzanowskim/CryptoSwift`, branch `master`)
+  - Kanna (from `https://github.com/tid-kijyun/Kanna`, branch `swift3.0`)
   - libjingle_peerconnection
 
 EXTERNAL SOURCES:
+  ActiveLabel:
+    :branch: master
+    :git: https://github.com/optonaut/ActiveLabel.swift
   Alamofire:
     :branch: master
     :git: https://github.com/Alamofire/Alamofire.git
-  CryptoSwift:
-    :branch: master
-    :git: https://github.com/krzyzanowskim/CryptoSwift
+  Kanna:
+    :branch: swift3.0
+    :git: https://github.com/tid-kijyun/Kanna
 
 CHECKOUT OPTIONS:
+  ActiveLabel:
+    :commit: 5c030f3c37a43faaa5250130898028d7093c3d89
+    :git: https://github.com/optonaut/ActiveLabel.swift
   Alamofire:
     :commit: fa3c6d09b603f417c7788adb51ca0cade75b3d67
     :git: https://github.com/Alamofire/Alamofire.git
-  CryptoSwift:
-    :commit: b1a4e7890ff979579a40138d74f1528de6f44d64
-    :git: https://github.com/krzyzanowskim/CryptoSwift
+  Kanna:
+    :commit: 109249451c32e14dac541bfbfeaa91b4dcb47a87
+    :git: https://github.com/tid-kijyun/Kanna
 
 SPEC CHECKSUMS:
+  ActiveLabel: faa96b5f50507770536a3e48a4cf291ee88fb7db
   Alamofire: 1f72088aff8f6b40828dadd61be2e9a31beca01e
-  CryptoSwift: 769c3796bb40f94f7b0fb4f829eaebb67fde9897
+  Kanna: 8d60d86a3580f7dee732811e5163a5e3e41a32a7
   libjingle_peerconnection: 3458f646ddd61f08a9f3a0c43fb01fff5c165eb8
 
-PODFILE CHECKSUM: 38766671ecc02cb6383a2253bfb541ef5d2688e3
+PODFILE CHECKSUM: a66c16c34c9441d11e59953efba564b7ba58fce8
 
 COCOAPODS: 1.2.0

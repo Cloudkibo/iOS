@@ -2207,7 +2207,7 @@ print("--------")
 
     }
     
-    func getGroupAdmin(_ id:String)->String{
+    func getGroupAdmin(_ id:String)->[String]{
     
     let group_unique_id = Expression<String>("group_unique_id")
     let member_phone = Expression<String>("member_phone")
@@ -2217,7 +2217,7 @@ print("--------")
     let date_left = Expression<Date>("date_left")
     let group_member_displayname = Expression<String>("group_member_displayname")
     
-    var groupsList=[[String:AnyObject]]()
+    var groupsList=[String]()
     
     /* let _id = Expression<String>("_id")
      let deptname = Expression<String>("deptname")
@@ -2231,11 +2231,11 @@ print("--------")
     
     do
     {for groupDetails in try self.db.prepare(tblGroupmember.filter(group_unique_id==id && isAdmin.lowercaseString=="yes")){
-        return groupDetails[member_phone]
+         groupsList.append(groupDetails[member_phone])
         }}catch{
             
         }
-     return "error"}
+     return groupsList}
     
     func changeRole(_ groupid1:String,member1:String,isAdmin1:String)
     {

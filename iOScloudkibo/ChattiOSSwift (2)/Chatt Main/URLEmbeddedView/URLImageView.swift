@@ -7,7 +7,7 @@
 //
 
 import UIKit
-import MisterFusion
+//import MisterFusion
 
 final class URLImageView: UIImageView {
     private let activityView = UIActivityIndicatorView(activityIndicatorStyle: .gray)

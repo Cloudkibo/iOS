@@ -8,6 +8,7 @@
 #import "GoogleMaps/GoogleMaps.h"
 */
 //#import "GoogleMaps/GoogleMaps.h"
+//#import "libxml2-kanna.h"
 #import "WindowsAzureMessaging/WindowsAzureMessaging.h"
 #import "RTCPeerConnectionFactory.h"
 #import "RTCAudioSource.h"

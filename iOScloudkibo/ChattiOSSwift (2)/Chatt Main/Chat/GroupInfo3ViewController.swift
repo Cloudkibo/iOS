@@ -759,7 +759,8 @@ return 95
         }
         else
         {
-            if(sqliteDB.getGroupAdmin(groupid)==username!)
+            for admins in sqliteDB.getGroupAdmin(groupid){
+            if(admins==username!)
             {
             var selectedMemberPhone=messageDic["member_phone"]
             var selectedMemberName=messageDic["name"]
@@ -834,6 +835,7 @@ else{
             
         }//end of mee
         }
+            }
             }
     }
     
@@ -943,8 +945,10 @@ else{
              var cell=tblGroupInfo.dequeueReusableCell(withIdentifier: "AddParticipants1Cell")! as! GroupInfoCell
             btnNewGroup=cell.btnAddPatricipants
             //btnNewGroup=cell.btnNewGroupOutlet
-            if(sqliteDB.getGroupAdmin(groupid)==username!)
-            {
+            for admins in sqliteDB.getGroupAdmin(groupid){
+                if(admins==username){
+           // if(sqliteDB.getGroupAdmin(groupid)==username!)
+            
             //cell.btnAddPatricipants.tag=section
             cell.btnAddPatricipants.addTarget(self, action: #selector(GroupInfo3ViewController.BtnAddParticipantsClicked(_:)), for:.touchUpInside)
             }
@@ -966,6 +970,7 @@ else{
                 //cell.btnAddPatricipants.titleLabel?.text="You are a group member in this group and cannot add participants"
          
                 
+            }
             }
             return cell
             

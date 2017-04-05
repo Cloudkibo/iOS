@@ -4,12 +4,17 @@
 <dict>
 	<key>SchemeUserState</key>
 	<dict>
+		<key>ActiveLabel.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
 		<key>Alamofire.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
 		</dict>
-		<key>CryptoSwift.xcscheme</key>
+		<key>Kanna.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
@@ -22,7 +27,7 @@
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
-		<key>6BB1C1403B2419F911818DA8413FDA07</key>
+		<key>2343721109B59C6225DFE42E85AD713A</key>
 		<dict>
 			<key>primary</key>
 			<true/>
@@ -32,7 +37,12 @@
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>B85DB17DED441B2A7E0028D4B39423C9</key>
+		<key>A1EBDD3BC77EFE921F5EFB115E0E3B3D</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>C8F7054D982A7A5AD7861F725CFED7E6</key>
 		<dict>
 			<key>primary</key>
 			<true/>

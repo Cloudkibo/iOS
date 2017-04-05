@@ -291,7 +291,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
                     print("\(result)")
                     
                     let embeddedView = URLEmbeddedView()
-                    embeddedView.loadURL(sender.text)
+                    embeddedView.loadURL(sender.text!)
                     
                     //urlTitle=result["title"]
                     //urlDesc=result["description"]

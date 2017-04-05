@@ -7,7 +7,7 @@
 //
 
 import UIKit
-import MisterFusion
+//import MisterFusion
 
 open class URLEmbeddedView: UIView {
     private typealias ATP = AttributedTextProvider
