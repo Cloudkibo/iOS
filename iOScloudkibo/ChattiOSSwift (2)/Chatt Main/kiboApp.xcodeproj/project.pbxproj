@@ -16,6 +16,7 @@
 		71189A801E781EF800245D97 /* AccountsSettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71189A7F1E781EF800245D97 /* AccountsSettingsViewController.swift */; };
 		71189AA01E781F2100245D97 /* PrivacySettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71189A9F1E781F2100245D97 /* PrivacySettingsViewController.swift */; };
 		71189AA21E79243500245D97 /* BlockedContactsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71189AA11E79243500245D97 /* BlockedContactsViewController.swift */; };
+		711996361E9567CA003D54A3 /* urlPopView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 711996351E9567CA003D54A3 /* urlPopView.xib */; };
 		711CD86D1E5B10E90079CB88 /* AlamofireImage.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 711CD86C1E5B10E90079CB88 /* AlamofireImage.framework */; };
 		712050181E71707700D87E2C /* RestoreChatsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 712050171E71707700D87E2C /* RestoreChatsViewController.swift */; };
 		7122F96C1D4FDFA400EBBCED /* ShowImageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7122F96B1D4FDFA400EBBCED /* ShowImageViewController.swift */; };
@@ -516,6 +517,7 @@
 		71189A7F1E781EF800245D97 /* AccountsSettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccountsSettingsViewController.swift; sourceTree = "<group>"; };
 		71189A9F1E781F2100245D97 /* PrivacySettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PrivacySettingsViewController.swift; sourceTree = "<group>"; };
 		71189AA11E79243500245D97 /* BlockedContactsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BlockedContactsViewController.swift; sourceTree = "<group>"; };
+		711996351E9567CA003D54A3 /* urlPopView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = urlPopView.xib; sourceTree = "<group>"; };
 		711CD86C1E5B10E90079CB88 /* AlamofireImage.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; name = AlamofireImage.framework; path = "/Users/cloudkibo/Documents/kiboChatTry/iOS/iOS/iOScloudkibo/ChattiOSSwift (2)/Chatt Main/build/Debug-iphoneos/AlamofireImage.framework"; sourceTree = "<absolute>"; };
 		712050171E71707700D87E2C /* RestoreChatsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RestoreChatsViewController.swift; sourceTree = "<group>"; };
 		7122F96B1D4FDFA400EBBCED /* ShowImageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShowImageViewController.swift; sourceTree = "<group>"; };
@@ -769,6 +771,7 @@
 		5BF6361C19A9F3D900ABD0BA = {
 			isa = PBXGroup;
 			children = (
+				711996351E9567CA003D54A3 /* urlPopView.xib */,
 				71803D261E93D12600A0604D /* Cache.swift */,
 				71803D271E93D12600A0604D /* NSURLSessionExtension.swift */,
 				71803D281E93D12600A0604D /* PreviewError.swift */,
@@ -1493,6 +1496,7 @@
 				71C401771CF7159F00D38126 /* videoOff@2x.png in Resources */,
 				71D20B4D1E645A150080E28B /* audio_tiny8.wav in Resources */,
 				71C4018D1CF715C500D38126 /* endCall@2x.png in Resources */,
+				711996361E9567CA003D54A3 /* urlPopView.xib in Resources */,
 				71E20B9D1CF720DD0042EDAD /* avatar.png in Resources */,
 				71BFD47A1CFD13D3004ACCBF /* AccountKitStrings.bundle in Resources */,
 				71E20B9F1CF720DD0042EDAD /* avatarTwo.png in Resources */,

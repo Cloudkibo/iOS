@@ -28,9 +28,10 @@ import ActiveLabel
 
 //import GoogleMaps
 
-class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChatDelegate,UIDocumentPickerDelegate,UIDocumentMenuDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate,FileManagerDelegate,showUploadProgressDelegate,UpdateChatViewsDelegate,UpdateSingleChatDetailDelegate,CNContactPickerDelegate,CNContactViewControllerDelegate,UIPickerViewDelegate,AVAudioRecorderDelegate,CLLocationManagerDelegate,insertChatAtLastDelegate,updateChatStatusRowDelegate,insertBulkChatsSyncDelegate,insertBulkChatsStatusesSyncDelegate
+class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChatDelegate,UIDocumentPickerDelegate,UIDocumentMenuDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate,FileManagerDelegate,showUploadProgressDelegate,UpdateChatViewsDelegate,UpdateSingleChatDetailDelegate,CNContactPickerDelegate,CNContactViewControllerDelegate,UIPickerViewDelegate,AVAudioRecorderDelegate,CLLocationManagerDelegate,insertChatAtLastDelegate,updateChatStatusRowDelegate,insertBulkChatsSyncDelegate,insertBulkChatsStatusesSyncDelegate,ActiveLabelDelegate
     {
     
+    var view: UIView!
     var urlTitle=""
     var urlDesc=""
     var urlURL=""
@@ -131,6 +132,11 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
         //print(NSBundle.debugDescription())
         
         // Custom initialization
+    }
+    
+    func didSelect(_ text: String, type: ActiveType) {
+        
+        print("did select activelabel \(text) type \(type)")
     }
     
     
@@ -2319,6 +2325,60 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
     }
     
     
+    //urlPopView.xib
+    func loadViewFromXibFile() -> UIView {
+        let bundle = Bundle(for: type(of: self))
+        let nib = UINib(nibName: "urlPopView", bundle: bundle)
+        let view = nib.instantiate(withOwner: self, options: nil)[0] as! UIView
+        return view
+    }
+    
+    
+    /**
+     Sets up the view by loading it from the xib file and setting its frame
+     */
+    override func setupView() {
+        view = loadViewFromXibFile()
+        view.frame = bounds
+        view.translatesAutoresizingMaskIntoConstraints = false
+        addSubview(view)
+        
+        translatesAutoresizingMaskIntoConstraints = false
+        
+        titleLabel.text = NSLocalizedString("Saved_to_garage", comment: "")
+        
+        /// Adds a shadow to our view
+        view.layer.cornerRadius = 4.0
+        view.layer.shadowColor = UIColor.blackColor().CGColor
+        view.layer.shadowOpacity = 0.2
+        view.layer.shadowRadius = 4.0
+        view.layer.shadowOffset = CGSizeMake(0.0, 8.0)
+        
+        visualEffectView.layer.cornerRadius = 4.0
+    }
+   
+    /**
+     Sets up the view by loading it from the xib file and setting its frame
+     */
+    override func setupView() {
+        view = loadViewFromXibFile()
+        view.frame = bounds
+        view.translatesAutoresizingMaskIntoConstraints = false
+        addSubview(view)
+        
+        translatesAutoresizingMaskIntoConstraints = false
+        
+        titleLabel.text = NSLocalizedString("Saved_to_garage", comment: "")
+        
+        /// Adds a shadow to our view
+        view.layer.cornerRadius = 4.0
+        view.layer.shadowColor = UIColor.blackColor().CGColor
+        view.layer.shadowOpacity = 0.2
+        view.layer.shadowRadius = 4.0
+        view.layer.shadowOffset = CGSizeMake(0.0, 8.0)
+        
+        visualEffectView.layer.cornerRadius = 4.0
+    }
 
     func tableView(_ tableView: UITableView!, cellForRowAtIndexPath indexPath: IndexPath!) -> UITableViewCell! {
         var cell : UITableViewCell!
@@ -2475,18 +2535,27 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
             let url = NSURL(string: "www.iba.edu.pk")!
             ////(textLable.text as! NSString).addLinkToURL(url, withRange: range)
             
-            textLable = ActiveLabel()
-            
+            //textLable = ActiveLabel()
+            textLable.text = msg! as! String
             textLable.numberOfLines = 0
             textLable.enabledTypes = [.mention, .hashtag, .url]
-            textLable.text = "This is a post with #hashtags and a @userhandle."
+           // textLable.text = "This is a post with #hashtags and a @userhandle."
             textLable.textColor = .black
             textLable.handleHashtagTap { hashtag in
                 print("Success. You just tapped the \(hashtag) hashtag")
             }
-            
+            textLable.handleURLTap({ (url) in
+                 print("Success. You just tapped the \(url) url")
+                var stringURL="\(url)"
+                if !(stringURL.contains("http")) {
+                    stringURL = "http://" + stringURL
+                }
+                
+                var res=UIApplication.shared.openURL(NSURL.init(string: stringURL) as! URL)
+                print("open url \(res)")
+            })
             textLable.isHidden=false
-            textLable.text = msg! as! String
+           
             /*textLable.lineBreakMode = .ByWordWrapping
             textLable.numberOfLines=0
             textLable.sizeToFit()
