@@ -2847,7 +2847,7 @@ class GroupChatingDetailController: UIViewController,UIDocumentPickerDelegate,UI
                                                 if(msgType?.isEqual(to: "7"))!
                                                 {
                                                     print("contact received is \(msg)")
-                                                    cell = tableView.dequeueReusableCell(withIdentifier: "ContactReceivedCell")! as UITableViewCell
+                                                    cell = tblForGroupChat.dequeueReusableCell(withIdentifier: "ContactReceivedCell")! as UITableViewCell
                                                     if(cell==nil)
                                                     {
                                                         cell = tblForGroupChat.dequeueReusableCell(withIdentifier: "ContactReceivedCell")! as UITableViewCell
@@ -2855,9 +2855,10 @@ class GroupChatingDetailController: UIViewController,UIDocumentPickerDelegate,UI
                                                     }
                                                     let textLable = cell.viewWithTag(12) as! UILabel
                                                     let chatImage = cell.viewWithTag(1) as! UIImageView
-                                                    let profileImage = cell.viewWithTag(2) as! UIImageView
+                                                    let profileImage = cell.viewWithTag(22) as! UIImageView
                                                     let timeLabel = cell.viewWithTag(11) as! UILabel
-                                                    let buttonSave = cell.viewWithTag(15) as! UIButton
+                                                    
+                                                                                                       ///let buttonSave = cell.viewWithTag(15) as! UIButton
                                                     
                                                     let buttonsView = cell.viewWithTag(16)! as UIView
                                                     let btnInviteView = buttonsView.viewWithTag(0) as! UIButton
@@ -2865,8 +2866,11 @@ class GroupChatingDetailController: UIViewController,UIDocumentPickerDelegate,UI
                                                     let btnMessageView = buttonsView.viewWithTag(2) as! UIButton
                                                     
                                                     //buttonSave.tag=indexPath.row
-                                                    buttonSave.isHidden=true
-                                                    
+                                                   // buttonSave.isHidden=true
+                                                    var lbl_senderName = cell.viewWithTag(15) as! UILabel
+
+                                                    lbl_senderName.text=fullname as! String?
+                                                       lbl_senderName.frame=CGRect(x:chatImage.frame.origin.x+20,y: lbl_senderName.frame.origin.y,width:lbl_senderName.frame.width,height:lbl_senderName.frame.height)
                                                     btnSaveView.addTarget(self, action: #selector(GroupChatingDetailController.BtnSaveContactClicked(_:)), for:.touchUpInside)
                                                     
                                                     
@@ -2902,7 +2906,7 @@ class GroupChatingDetailController: UIViewController,UIDocumentPickerDelegate,UI
                                                     //Setting Contact Avatar
                                                     //profileImage.center = CGPoint(x: chatImage.frame.origin.x+60, y: chatImage.frame.origin.y+30)
                                                     
-                                                    profileImage.center = CGPoint(x: CGFloat(Float(chatImage.image!.leftCapWidth)+30.0), y: chatImage.frame.height/2)
+                                                    profileImage.center = CGPoint(x: CGFloat(Float(chatImage.image!.leftCapWidth)+30.0), y: chatImage.frame.height/2 + 10)
                                                     
                                                     //Setting Contact Name
                                                     textLable.frame = CGRect(x: profileImage.center.x+35, y: profileImage.center.y-15, width: chatImage.frame.width-36, height: correctheight)
@@ -2929,7 +2933,7 @@ class GroupChatingDetailController: UIViewController,UIDocumentPickerDelegate,UI
                                                     print("textlabel is \(textLable.text!) and timelabel is \(timeLabel.text!)")
                                                     print("textlabel is \(textLable.bounds.debugDescription) and timelabel is \(timeLabel.bounds.debugDescription)")
                                                     
-                                                    buttonSave.frame = CGRect(x: chatImage.frame.width-40, y: chatImage.frame.height-25, width: buttonSave.frame.size.width, height: buttonSave.frame.size.height)
+                                                   // buttonSave.frame = CGRect(x: chatImage.frame.width-40, y: chatImage.frame.height-25, width: buttonSave.frame.size.width, height: buttonSave.frame.size.height)
                                                     //timeLabel.text=date2.debugDescription
                                                 }
                                                 else{

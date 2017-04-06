@@ -8,6 +8,5 @@ use_frameworks!
 pod 'Alamofire', :git => 'https://github.com/Alamofire/Alamofire.git', :branch => 'master'
 pod "libjingle_peerconnection"
  pod 'ActiveLabel', :git => 'https://github.com/optonaut/ActiveLabel.swift', :branch => 'master'
-pod 'Kanna', :git => 'https://github.com/tid-kijyun/Kanna', :branch =>  ‘swift3.0'
 
 end

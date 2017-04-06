@@ -485,7 +485,7 @@ class AddParticipantsViewController: UIViewController,InviteContactsDelegate,UIT
         super.viewDidLoad()
         contactsList.delegate=self
       //  self.navigationItem.titleView. = "Add Participants"
-        
+        print("add participants \(groupid) prevscreen \(prevScreen)")
         self.searchDisplayController?.searchBar.tintColor=UIColor.blue
         ////self.searchDisplayController?.searchBar.barTintColor=UIColor.redColor()
         
