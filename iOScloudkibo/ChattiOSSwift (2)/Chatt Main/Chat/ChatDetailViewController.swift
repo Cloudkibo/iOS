@@ -281,6 +281,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
             self.btnSendAudio.isHidden=true
             
             var urlArray=UtilityFunctions.init().getURLs(text: sender.text!)
+            print()
             
             let slp = SwiftLinkPreview()
             slp.preview(
@@ -288,14 +289,14 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
                 onSuccess: { result in
                     
                     self.hasURL=true
-                    print("\(result)")
+                    print("url result is \(result)")
                     
                   //  let embeddedView = URLEmbeddedView()
                    // embeddedView.loadURL(sender.text!)
-                    
+                    print("title \(result[.title] as! String)")
                     self.urlTitle=result[.title] as! String
                     self.urlDesc=result[SwiftLinkResponseKey.description] as! String
-                    self.urlURL=result[SwiftLinkResponseKey.url] as! String
+                    //self.urlURL=result[SwiftLinkResponseKey.url] as! String
                     var urlURLimage=result[SwiftLinkResponseKey.image] as! String
                     //Chat.SwiftLinkResponseKey.description
                     //Chat.SwiftLinkResponseKey.images
@@ -304,7 +305,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
             },
                 onError: { error in
                     
-                    print("\(error)")
+                    print("error: in url is \(error)")
                     
             }
             )
@@ -1098,7 +1099,44 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
                                         
                                         messages2.add(["message":tblContacts[msg],"status":tblContacts[status], "type":"14", "date":defaultTimeeee, "uniqueid":tblContacts[uniqueid]])
                                     }else{
-                        messages2.add(["message":tblContacts[msg]+" (\(tblContacts[status])) ","status":tblContacts[status], "type":"2", "date":defaultTimeeee, "uniqueid":tblContacts[uniqueid]])
+                                        print("hereee 2 ")
+                                        messages2.add(["message":tblContacts[msg]+" (\(tblContacts[status])) ","status":tblContacts[status], "type":"2", "date":defaultTimeeee, "uniqueid":tblContacts[uniqueid]])
+                                        /*var urlArray=UtilityFunctions.init().getURLs(text: tblContacts[msg])
+                                        print()
+                                        
+                                        let slp = SwiftLinkPreview()
+                                        slp.preview(
+                                            tblContacts[msg],
+                                            onSuccess: { result in
+                                                
+                                                self.hasURL=true
+                                                print("url result in retrieve is \(result)")
+                                                
+                                                //  let embeddedView = URLEmbeddedView()
+                                                // embeddedView.loadURL(sender.text!)
+                                                print("title \(result[.title] as! String)")
+                                                self.urlTitle=result[.title] as! String
+                                                self.urlDesc=result[SwiftLinkResponseKey.description] as! String
+                                                //self.urlURL=result[SwiftLinkResponseKey.url] as! String
+                                                var urlURLimage=result[SwiftLinkResponseKey.image] as! String
+                                                //Chat.SwiftLinkResponseKey.description
+                                                //Chat.SwiftLinkResponseKey.images
+                                                //Chat.SwiftLinkResponseKey.title
+                                                //Chat.SwiftLinkResponseKey.url
+                                                //
+                                                 self.messages.add(["message":tblContacts[msg]+" (\(tblContacts[status])) ","status":tblContacts[status], "type":"2", "date":defaultTimeeee, "uniqueid":tblContacts[uniqueid],"title":result[.title] as! String,"description":result[SwiftLinkResponseKey.description] as! String,"url":"\(result[.url]!)"])
+                                                 self.tblForChats.reloadData()
+                                        },
+                                            onError: { error in
+                                                 self.messages.add(["message":tblContacts[msg]+" (\(tblContacts[status])) ","status":tblContacts[status], "type":"2", "date":defaultTimeeee, "uniqueid":tblContacts[uniqueid]])
+                                                print("error: in url is \(error)")
+                                                
+                                        }
+                                       
+                                        )*/
+                                            
+                                            
+                       
                                     }
                                 }
                             }
@@ -1344,13 +1382,49 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
                                 //^^^^ self.addMessage(tblContacts[msg], ofType: "6",date: tblContacts[date],uniqueid: tblContacts[uniqueid])
                                 
                             }
-                            else
-                            {
+                            else{
                                 messages2.add(["message":tblContacts[msg]+" (\(tblContacts[status])) ","status":tblContacts[status], "type":"2", "date":defaultTimeeee, "uniqueid":tblContacts[uniqueid]])
+                                /*var urlArray=UtilityFunctions.init().getURLs(text: tblContacts[msg])
+                                print()
+                                
+                                let slp = SwiftLinkPreview()
+                                slp.preview(
+                                    tblContacts[msg],
+                                    onSuccess: { result in
+                                        
+                                        self.hasURL=true
+                                        print("url result in retrieve is \(result)")
+                                        
+                                        //  let embeddedView = URLEmbeddedView()
+                                        // embeddedView.loadURL(sender.text!)
+                                        print("title \(result[.title] as! String)")
+                                        self.urlTitle=result[.title] as! String
+                                        self.urlDesc=result[SwiftLinkResponseKey.description] as! String
+                                        //self.urlURL=result[SwiftLinkResponseKey.url] as! String
+                                        var urlURLimage=result[SwiftLinkResponseKey.image] as! String
+                                        //Chat.SwiftLinkResponseKey.description
+                                        //Chat.SwiftLinkResponseKey.images
+                                        //Chat.SwiftLinkResponseKey.title
+                                        //Chat.SwiftLinkResponseKey.url
+                                        //
+                                        messages2.add(["message":tblContacts[msg]+" (\(tblContacts[status])) ","status":tblContacts[status], "type":"2", "date":defaultTimeeee, "uniqueid":tblContacts[uniqueid],"title":result[.title] as! String,"description":result[SwiftLinkResponseKey.description] as! String,"url":"\(result[.url])"])
+                                        self.tblForChats.reloadData()
+                                },
+                                    onError: { error in
+                                        messages2.add(["message":tblContacts[msg]+" (\(tblContacts[status])) ","status":tblContacts[status], "type":"2", "date":defaultTimeeee, "uniqueid":tblContacts[uniqueid]])
+                                        print("error: in url is \(error)")
+                                        
+                                })
                                 
                                 
-                                //^^^^self.addMessage(tblContacts[msg]+" (\(tblContacts[status])) ", ofType: "2",date: tblContacts[date],uniqueid: tblContacts[uniqueid])
+                              */
                             }
+                            /*{
+                                messages2.add(["message":tblContacts[msg]+" (\(tblContacts[status])) ","status":tblContacts[status], "type":"2", "date":defaultTimeeee, "uniqueid":tblContacts[uniqueid]])
+                             
+                             
+                                //^^^^self.addMessage(tblContacts[msg]+" (\(tblContacts[status])) ", ofType: "2",date: tblContacts[date],uniqueid: tblContacts[uniqueid])
+                            }*/
                         }
                     }
                     else
@@ -1627,6 +1701,10 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
                                                 messages2.add(["message":tblContacts[msg],"status":tblContacts[status], "type":"14", "date":defaultTimeeee, "uniqueid":tblContacts[uniqueid]])
                                             }
                                             else{
+                                                
+                                                print("2 in onload retrieve")
+                                                
+                                                
                                 messages2.add(["message":tblContacts[msg]+" (\(tblContacts[status])) ","status":tblContacts[status], "type":"2", "date":defaultTimeeee, "uniqueid":tblContacts[uniqueid]])
                                     }
                                         }
@@ -2210,12 +2288,19 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
 {
     let cell=tblForChats.cellForRow(at: indexPath)
     let chatImage = cell!.viewWithTag(1) as! UIImageView
+  
      return chatImage.frame.height+5
 
 }else{
-                    return getSizeOfStringHeight(msg!).height+25+50
+                  if(msgType.isEqual(to: "2"))
+                  {
+                    return getSizeOfStringHeight(msg!).height+25+60
                 //=== ==== --return correctheight+25
-                    }}
+                    }
+                  else{
+                    return getSizeOfStringHeight(msg!).height+25
+                    }
+                        }}
                 }
                 /*if(msgType.isEqualToString("1"))
                  {
@@ -2510,7 +2595,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
             timeLabel.text=displaydate
             //timeLabel.text=date2.debugDescription
         }
-        if (msgType?.isEqual(to: "2"))!{
+        if (msgType?.isEqual(to: "22"))!{
             cell=tableView.dequeueReusableCell(withIdentifier: "ChatReceivedCell")
             if(cell==nil)
 {
@@ -2522,6 +2607,20 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
             let chatImage = cell.viewWithTag(1) as! UIImageView
             let profileImage = cell.viewWithTag(2) as! UIImageView
             let urlView = cell.viewWithTag(22)
+            
+            
+            var title=urlView?.viewWithTag(19) as! UILabel
+            var desc=urlView?.viewWithTag(20) as! UILabel
+            var urllbl=urlView?.viewWithTag(21) as! UILabel
+            var activityIndicator=urlView?.viewWithTag(24) as! UIActivityIndicatorView
+            
+
+            
+            title.isHidden=true
+            desc.isHidden=true
+            urllbl.isHidden=false
+            activityIndicator.startAnimating()
+
             
             /*  let documentDirectory = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true).first as String!
              let photoURL          = NSURL(fileURLWithPath: documentDirectory)
@@ -2574,9 +2673,89 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
             */
             let correctheight=getSizeOfStringHeight(msg!).height
             
-            urlView?.frame = CGRect(x: 20 + distanceFactor, y: (urlView?.frame.origin.y)!, width: (urlView?.frame.width)!, height: (urlView?.frame.height)!)
             
-            chatImage.frame = CGRect(x: 20 + distanceFactor, y: chatImage.frame.origin.y, width: ((sizeOFStr.width + 107)  > 207 ? (sizeOFStr.width + 107) : 200), height: correctheight + (urlView?.frame.height)! + 20)
+            var urlArray=UtilityFunctions.init().getURLs(text: msg! as String!)
+            
+            print()
+            
+            let slp = SwiftLinkPreview()
+            slp.preview(
+                msg! as String!,
+                onSuccess: { result in
+                    
+                    self.hasURL=true
+                    print("url result in retrieve is \(result)")
+                    
+                    //  let embeddedView = URLEmbeddedView()
+                    // embeddedView.loadURL(sender.text!)
+                    print("title \(result[.title] as! String)")
+                    self.tblForChats.beginUpdates()
+                    //self.tblForChats.reloadRows(at: [indexp], with: UITableViewRowAnimation.bottom)
+                    self.urlTitle=result[.title] as! String
+                    self.urlDesc=result[SwiftLinkResponseKey.description] as! String
+                    //self.urlURL=result[SwiftLinkResponseKey.url] as! String
+                    var urlURLimage=result[SwiftLinkResponseKey.image] as! String
+                    
+                    title.isHidden=false
+                    desc.isHidden=false
+                    urllbl.isHidden=false
+                    activityIndicator.stopAnimating()
+
+                    
+                    
+                    title.text=result[.title] as! String
+                    desc.text=result[SwiftLinkResponseKey.description] as! String
+                    urllbl.text="\(result[SwiftLinkResponseKey.url]!)"
+
+                    
+                     self.tblForChats.endUpdates()
+                    //Chat.SwiftLinkResponseKey.description
+                    //Chat.SwiftLinkResponseKey.images
+                    //Chat.SwiftLinkResponseKey.title
+                    //Chat.SwiftLinkResponseKey.url
+                    //
+                   /// self.messages.add(["message":tblContacts[msg]+" (\(tblContacts[status])) ","status":tblContacts[status], "type":"2", "date":defaultTimeeee, "uniqueid":tblContacts[uniqueid],"title":result[.title] as! String,"description":result[SwiftLinkResponseKey.description] as! String,"url":"\(result[.url]!)"])
+                    if(messageDic["title"] != nil)
+                    {print("detected URL")
+                        
+                        title.text=messageDic["title"] as? String!
+                        desc.text=messageDic["description"] as? String!
+                        urllbl.text=messageDic["url"] as? String!
+                        
+                    }
+                    
+                   
+            },
+                onError: { error in
+                    ///self.messages.add(["message":tblContacts[msg]+" (\(tblContacts[status])) ","status":tblContacts[status], "type":"2", "date":defaultTimeeee, "uniqueid":tblContacts[uniqueid]])
+                    print("error: in url is \(error)")
+                    desc.isHidden=false
+                    desc.text="Unable to load data"
+                    activityIndicator.stopAnimating()
+
+                    
+            }
+                
+            )
+            
+            
+            
+            /*if(messageDic["title"] != nil)
+            {print("detected URL")
+                 title.text=messageDic["title"] as? String!
+                desc.text=messageDic["description"] as? String!
+                urllbl.text=messageDic["url"] as? String!
+                
+            }*/
+            urlView?.frame = CGRect(x: 25 + distanceFactor, y: (urlView?.frame.origin.y)!, width:  ((sizeOFStr.width + 107+30)  > 207 ? (sizeOFStr.width + 107-40) : 200-40), height: (urlView?.frame.height)!)
+           // urlView?.frame = CGRect(x: 20 + distanceFactor, y: (urlView?.frame.origin.y)!, width: (urlView?.frame.width)!, height: 0)
+            //urlView?.isHidden=true
+            
+            //chatImage.frame = CGRect(x: 20 + distanceFactor, y: chatImage.frame.origin.y, width: ((sizeOFStr.width + 107)  > 207 ? (sizeOFStr.width + 107) : 200), height: correctheight + (urlView?.frame.height)! + 20)
+            
+            /////==--chatImage.frame = CGRect(x: 20 + distanceFactor, y: ((urlView?.frame.origin.y)!-5), width: ((urlView?.frame.width)!  > 207 ? (sizeOFStr.width + 107) : 200), height: correctheight + (urlView?.frame.height)! + 20+10)
+            
+            chatImage.frame = CGRect(x: 20 + distanceFactor, y: ((urlView?.frame.origin.y)!-5), width: (urlView?.frame.width)!+40 , height: correctheight + (urlView?.frame.height)! + 20+10)
             
            //==== newwww chatImage.frame = CGRectMake(20 + distanceFactor, chatImage.frame.origin.y, ((sizeOFStr.width + 107)  > 207 ? (sizeOFStr.width + 107) : 200), sizeOFStr.height + 40)
             //chatImage.frame = CGRectMake(20 + distanceFactor, chatImage.frame.origin.y, ((sizeOFStr.width + 100)  > 200 ? (sizeOFStr.width + 100) : 200), sizeOFStr.height + 40)
@@ -2634,6 +2813,123 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
             
             //local date already shortened then added to dictionary when post button is pressed
            //timeLabel.text=date2.debugDescription
+        }
+        if (msgType?.isEqual(to: "2"))!{
+            cell=tableView.dequeueReusableCell(withIdentifier: "ChatReceivedCell")
+            if(cell==nil)
+            {
+                cell = tblForChats.dequeueReusableCell(withIdentifier: "ChatReceivedCell")! as UITableViewCell
+            }
+            let deliveredLabel = cell.viewWithTag(13) as! UILabel
+            let textLable = cell.viewWithTag(12) as! ActiveLabel
+            let timeLabel = cell.viewWithTag(11) as! UILabel
+            let chatImage = cell.viewWithTag(1) as! UIImageView
+            let profileImage = cell.viewWithTag(2) as! UIImageView
+            /*  let documentDirectory = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true).first as String!
+             let photoURL          = NSURL(fileURLWithPath: documentDirectory)
+             let imgPath         = photoURL.URLByAppendingPathComponent(self.filename)
+             var imgNSData=NSFileManager.default.contents(atPath:imgPath.path!)
+             if(imgNSData != nil)
+             {
+             chatImage.image = UIImage(data: imgNSData!)
+             chatImage.contentMode = .ScaleAspectFit
+             }
+             */
+            //// //print("here 905 msgtype is \(msgType)")
+            let distanceFactor = (197.0 - sizeOFStr.width) < 107 ? (197.0 - sizeOFStr.width) : 107
+            //// //print("distanceFactor for \(msg) is \(distanceFactor)")
+            
+            
+            ////    //print("chatImage.x for \(msg) is \(20 + distanceFactor) and chatimage.wdith is \(chatImage.frame.width)")
+            
+            
+            textLable.isHidden=false
+            textLable.text = msg! as! String
+            textLable.text = msg! as! String
+            textLable.numberOfLines = 0
+            textLable.enabledTypes = [.mention, .hashtag, .url]
+            // textLable.text = "This is a post with #hashtags and a @userhandle."
+            textLable.textColor = .black
+            textLable.handleHashtagTap { hashtag in
+                print("Success. You just tapped the \(hashtag) hashtag")
+            }
+            textLable.handleURLTap({ (url) in
+                print("Success. You just tapped the \(url) url")
+                var stringURL="\(url)"
+                if !(stringURL.contains("http")) {
+                    stringURL = "http://" + stringURL
+                }
+                
+                var res=UIApplication.shared.openURL(NSURL.init(string: stringURL) as! URL)
+                print("open url \(res)")
+            })
+            
+            
+            /*textLable.lineBreakMode = .ByWordWrapping
+             textLable.numberOfLines=0
+             textLable.sizeToFit()
+             print("previous height is \(textLable.frame.height) msg is \(msg)")
+             var correctheight=textLable.frame.height
+             */
+            let correctheight=getSizeOfStringHeight(msg!).height
+            chatImage.frame = CGRect(x: 20 + distanceFactor, y: chatImage.frame.origin.y, width: ((sizeOFStr.width + 107)  > 207 ? (sizeOFStr.width + 107) : 200), height: correctheight + 20)
+            
+            //==== newwww chatImage.frame = CGRectMake(20 + distanceFactor, chatImage.frame.origin.y, ((sizeOFStr.width + 107)  > 207 ? (sizeOFStr.width + 107) : 200), sizeOFStr.height + 40)
+            //chatImage.frame = CGRectMake(20 + distanceFactor, chatImage.frame.origin.y, ((sizeOFStr.width + 100)  > 200 ? (sizeOFStr.width + 100) : 200), sizeOFStr.height + 40)
+            chatImage.image = UIImage(named: "chat_send")?.stretchableImage(withLeftCapWidth: 40,topCapHeight: 20);
+            //*********
+            
+            //getSizeOfStringHeight(msg).height
+            
+            textLable.frame = CGRect(x: 26 + distanceFactor, y: textLable.frame.origin.y, width: chatImage.frame.width-36, height: correctheight)
+            
+            
+            // newwwwwwwwww textLable.frame = CGRectMake(26 + distanceFactor, textLable.frame.origin.y, chatImage.frame.width-36, getSizeOfStringHeight(msg).height)
+            //  print("new height is \(textLable.frame.height) msg is \(msg)")
+            //=====newwwwwww  textLable.frame = CGRectMake(26 + distanceFactor, textLable.frame.origin.y, chatImage.frame.width-36, sizeOFStr.height)
+            //==== new textLable.frame = CGRectMake(36 + distanceFactor, textLable.frame.origin.y, textLable.frame.size.width, sizeOFStr.height)
+            ///  //print("textLable.x for \(msg) is \(textLable.frame.origin.x) and textLable.width is \(textLable.frame.width)")
+            
+            ////profileImage.center = CGPointMake(profileImage.center.x, textLable.frame.origin.y + textLable.frame.size.height - profileImage.frame.size.height/2 + 10)
+            
+            profileImage.center = CGPoint(x: profileImage.center.x, y: textLable.frame.origin.y + textLable.frame.size.height - profileImage.frame.size.height/2+10)
+            
+            //==uncomment if needed timeLabel.frame = CGRectMake(36 + distanceFactor, timeLabel.frame.origin.y, timeLabel.frame.size.width, timeLabel.frame.size.height)
+            
+            timeLabel.frame = CGRect(x: 36 + distanceFactor, y: textLable.frame.origin.y+textLable.frame.height, width: chatImage.frame.size.width-46, height: timeLabel.frame.size.height)
+            
+            deliveredLabel.frame = CGRect(x: deliveredLabel.frame.origin.x, y: textLable.frame.origin.y + textLable.frame.size.height + 15, width: deliveredLabel.frame.size.width, height: deliveredLabel.frame.size.height)
+            
+            
+            
+            
+            //print("date received in chat post 2 is \(date2.debugDescription)")
+            // //print("date received in chat is \(date2.debugDescription)")
+            let formatter = DateFormatter();
+            formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSS";
+            //formatter.dateFormat = "MM/dd hh:mm a";
+            formatter.timeZone = TimeZone.autoupdatingCurrent
+            let defaultTimeZoneStr = formatter.date(from: date2 as! String)
+            //print("defaultTimeZoneStr \(defaultTimeZoneStr)")
+            
+            if(defaultTimeZoneStr == nil)
+            {
+                timeLabel.text=date2 as! String
+                
+            }
+            else
+            {
+                let formatter2 = DateFormatter();
+                formatter2.timeZone=TimeZone.autoupdatingCurrent
+                formatter2.dateFormat = "MM/dd hh:mm a";
+                let displaydate=formatter2.string(from: defaultTimeZoneStr!)
+                //formatter.dateFormat = "MM/dd hh:mm a";
+                
+                timeLabel.text=displaydate
+            }
+            
+            //local date already shortened then added to dictionary when post button is pressed
+            //timeLabel.text=date2.debugDescription
         }
         if (msgType?.isEqual(to: "3"))!{
             cell = ///tblForChats.dequeueReusableCellWithIdentifier("ChatReceivedCell")! as UITableViewCell

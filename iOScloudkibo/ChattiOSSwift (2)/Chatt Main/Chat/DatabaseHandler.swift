@@ -29,7 +29,7 @@ class DatabaseHandler:NSObject{
     var broadcastlisttable:Table!
     var broadcastlistmembers:Table!
     var groupStatusUpdatesTemp:Table!
-    
+    var urlData:Table!
     init(dbName:String)
     {print("inside database handler class")
         
@@ -145,6 +145,7 @@ class DatabaseHandler:NSObject{
         createBroadcastListTable()
         createBroadcastListMembersTable()
         createGroupStatusTempTable()
+        createURLTable()
         //createAllContactsTable()
         
     }
@@ -478,6 +479,51 @@ print("alter table needed")
     }
     
     
+    func createURLTable(){
+        
+        
+        let urlMessageID = Expression<String>("urlMessageID")
+        let title = Expression<String>("title")
+        let desc = Expression<String>("desc")
+        let url = Expression<String>("url")
+        let msg = Expression<String>("msg")
+        let image = Expression<Data>("image")
+        
+        self.urlData = Table("urlData")
+        /*
+         var date22=NSDate()
+         var formatter = DateFormatter();
+         formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ";
+         //formatter.dateFormat = "MM/dd hh:mm a"";
+         formatter.timeZone = NSTimeZone.local()
+         //formatter.dateStyle = .ShortStyle
+         //formatter.timeStyle = .ShortStyle
+         let defaultTimeZoneStr2 = formatter.stringFromDate(date22);
+         var defaultTimeZoneStr = formatter..date(from:defaultTimeZoneStr2)
+         */
+        // print("default db date is \(defaultTimeZoneStr)")
+        do{
+            try db.run(urlData.create(ifNotExists: retainOldDatabase) { t in     // CREATE TABLE "accounts" (
+                t.column(urlMessageID)//loggedin user id
+                t.column(title)
+                t.column(desc)
+                t.column(url)
+                t.column(msg)
+                t.column(image, defaultValue:Data.init())
+                
+                //t.column(file_path, defaultValue:"")
+                
+                //     "name" TEXT
+            })
+            
+        }
+        catch(let error)
+        {
+
+            
+        }
+        
+    }
     
     func createUserChatTable(){
         
@@ -500,7 +546,8 @@ print("alter table needed")
         let file_path = Expression<String>("file_path")
         let broadcastlistID = Expression<String>("broadcastlistID")
         let isBroadcastMessage = Expression<Bool>("isBroadcastMessage")
-        
+        //let file_path = Expression<String>("file_path")
+
         
        // let dateFormatter = DateFormatter()
        // dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
@@ -1176,7 +1223,33 @@ print("alter table needed")
             
             
         }*/
+    func SaveURLData(_ urlMessageID1:String,title1:String,desc1:String,url1:String,msg1:String,image1:Data)
+    {
+        
+        let urlMessageID = Expression<String>("urlMessageID")
+    let title = Expression<String>("title")
+    let desc = Expression<String>("desc")
+    let url = Expression<String>("url")
+    let msg = Expression<String>("msg")
+    let image = Expression<Data>("image")
     
+    self.urlData = Table("urlData")
+        do{
+            let rowid = try db.run((urlData?.insert(urlMessageID<-urlMessageID1,
+                                                    title<-title1,
+                                                    desc<-desc1,
+                                                    url<-url1,
+                                                    msg<-msg1,
+                                                    image<-image1
+                
+                
+                ))!)
+        }
+        catch{
+            
+        }
+    
+}
     func SaveChat(_ to1:String,from1:String,owneruser1:String,fromFullName1:String,msg1:String,date1:Date!,uniqueid1:String!,status1:String,type1:String,file_type1:String,file_path1:String)
     {
         //createUserChatTable()
