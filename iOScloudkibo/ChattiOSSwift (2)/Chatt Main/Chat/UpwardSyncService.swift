@@ -71,7 +71,7 @@ class syncService{
                     self.statusofsentmessages(payload: statusOfSentMessagesObj)
 
                     var statusOfSentGroupMessagesObj=resJSON["statusOfSentGroupMessages"]//: the partial group chat
-                    self.statusOfSentGroupMessages(jsongroupinfo: statusOfSentGroupMessagesObj)
+                    self.statusOfSentGroupMessages(payload: statusOfSentGroupMessagesObj)
                     
 
                     //statusOfSentGroupMessages
@@ -90,7 +90,7 @@ class syncService{
      try db.run(betty.update(balance += amount))
      }
  */
-    func statusofsentmessages(payload:JSON)
+    func statusOfSentGroupMessages(payload:JSON)
     {
     
      
