@@ -37,7 +37,8 @@ class syncService{
                 
                 var url=Constants.MainUrl+Constants.downwardSyncURL
                 
-            let request=Alamofire.request("\(url)", method: .get,encoding:JSONEncoding.default,headers:header).responseJSON { response in
+                let request=Alamofire.request("\(url)", method: .post,parameters:["statusOfSentMessages":self.getStatusOfSentChats(),
+                    "statusOfSentGroupMessages":self.getStatusOfSentGroupChats()],encoding:JSONEncoding.default,headers:header).responseJSON { response in
             
                 print("downward sync response is \(response)")
                 if(response.response?.statusCode==200)
@@ -541,12 +542,13 @@ class syncService{
             var params=["unsentMessages":self.createArrayUnsentChatMessages(),
                         "unsentGroupMessages": self.getPendingGroupChatMessages(),
                         "unsentChatMessageStatus":self.sendPendingChatStatuses(),
-                        "unsentGroupChatMessageStatus":self.sendPendingGroupChatStatuses(),
-                        "unsentGroups":[],
-                        "unsentAddedGroupMembers":[],
-                        "unsentRemovedGroupMembers":[],
-                        "statusOfSentMessages":self.getStatusOfSentChats(),
-                        "statusOfSentGroupMessages":self.getStatusOfSentGroupChats()] as [String : Any]
+                        "unsentGroupChatMessageStatus":self.sendPendingGroupChatStatuses()//,
+                        //"unsentGroups":[],
+                        //"unsentAddedGroupMembers":[],
+                        //"unsentRemovedGroupMembers":[]//,
+                       // "statusOfSentMessages":self.getStatusOfSentChats(),
+                       // "statusOfSentGroupMessages":self.getStatusOfSentGroupChats()
+                ] as [String : Any]
             
             DispatchQueue.global(priority: DispatchQueue.GlobalQueuePriority.background).async {
                 
@@ -554,7 +556,108 @@ class syncService{
                 let request=Alamofire.request("\(url)", method: .post, parameters: params,encoding:JSONEncoding.default,headers:header).responseJSON { response in
                     
                     print("upward sync \(response)")
-                    return completion(true,nil)
+                    if(response.result.isSuccess)
+                    {
+                        //UtilityFunctions.init().log_papertrail("IPHONE: UPWARD SYNC PUSH \(userInfo) ... PAYLOAD: \(userInfo["payload"])")
+                       /* var sub_type = userInfo["sub_type"] as! String
+                        
+                        if(sub_type=="unsentMessages")
+                        {*/
+                           // if let payload=userInfo["payload"] as? [AnyHashable : Any]
+                            for payload in params["unsentMessages"] as! [[String:String]]
+                            {
+                                var uniqueid=payload["uniqueid"]
+                                var status="sent"
+                                
+                                sqliteDB.UpdateChatStatus(uniqueid!, newstatus: status)
+                                
+                               // UIDelegates.getInstance().UpdateMainPageChatsDelegateCall()
+                                //UIDelegates.getInstance().UpdateGroupInfoDetailsDelegateCall()
+                                //UIDelegates.getInstance().UpdateGroupChatDetailsDelegateCall()
+                                
+                               // completionHandler(UIBackgroundFetchResult.newData)
+                                
+                            }
+                        
+                        for payload in params["unsentGroupMessages"] as! [[String:String]]
+                        
+                        {
+                           // UtilityFunctions.init().log_papertrail("IPHONE: UPWARD SYNC PUSH \(userInfo) ... PAYLOAD: \(userInfo["payload"])")
+                            //print("push got group chat \(userInfo)")
+                          
+                                var uniqueid=payload["unique_id"]
+                                
+                                
+                                let msg_unique_id = Expression<String>("msg_unique_id")
+                                let Status = Expression<String>("Status")
+                                let user_phone = Expression<String>("user_phone")
+                                
+                                let read_date = Expression<Date>("read_date")
+                                let delivered_date = Expression<Date>("delivered_date")
+                                
+                                
+                                
+                                sqliteDB.group_chat_status = Table("group_chat_status")
+                                
+                                let query = sqliteDB.group_chat_status.select(Status).filter(msg_unique_id == uniqueid!)
+                                do
+                                {let row=try sqliteDB.db.run(query.update(Status <- "sent"))
+                                    
+                                   // UIDelegates.getInstance().UpdateMainPageChatsDelegateCall()
+                                   // UIDelegates.getInstance().UpdateGroupInfoDetailsDelegateCall()
+                                   // UIDelegates.getInstance().UpdateGroupChatDetailsDelegateCall()
+                                    
+                                    //completionHandler(UIBackgroundFetchResult.newData)
+                                }
+                                catch{
+                                    
+                                }
+                                
+                            }
+                        
+                        //unsentChatMessageStatus
+                        //unsentGroupChatMessageStatus
+                        //unsentGroups
+                        //unsentAddedGroupMembers
+                        //unsentRemovedGroupMembers
+                        //statusOfSentMessages
+                        //statusOfSentGroupMessages
+                        
+                        for payload in params["unsentChatMessageStatus"] as! [[String:String]]
+                            
+                        {
+                        
+                                    var uniqueid=payload["uniqueid"]
+                                    sqliteDB.removeMessageStatusSeen(uniqueid!)
+                        }
+                        
+                        for payload in params["unsentGroupChatMessageStatus"] as! [[String:String]]
+                        {
+                                    
+                                    var chat_uniqueid=payload["chat_uniqueid"]
+                                    var status="sent"
+                                    
+                                    sqliteDB.removeGroupStatusTemp(status, memberphone1: username!, messageuniqueid1: chat_uniqueid!)
+                                    sqliteDB.updateGroupChatStatus(chat_uniqueid!, memberphone1: username!, status1: status, delivereddate1: NSDate() as Date!, readDate1: NSDate() as Date!)
+                                    
+                                  //  UIDelegates.getInstance().UpdateMainPageChatsDelegateCall()
+                                   // UIDelegates.getInstance().UpdateGroupInfoDetailsDelegateCall()
+                                   // UIDelegates.getInstance().UpdateGroupChatDetailsDelegateCall()
+                                    
+                                   // completionHandler(UIBackgroundFetchResult.newData)
+                                }
+                        
+                        UIDelegates.getInstance().UpdateMainPageChatsDelegateCall()
+                        UIDelegates.getInstance().UpdateGroupInfoDetailsDelegateCall()
+                         UIDelegates.getInstance().UpdateGroupChatDetailsDelegateCall()
+                        UIDelegates.getInstance().UpdateSingleChatDetailDelegateCall()
+
+                         return completion(true,nil)
+                    }
+                    else{
+                         return completion(false,nil)
+                    }
+                   
                 }
             
                 
