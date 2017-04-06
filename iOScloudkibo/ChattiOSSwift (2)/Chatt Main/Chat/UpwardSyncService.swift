@@ -67,6 +67,16 @@ class syncService{
                     var partialGroupChatObjectList=resJSON["partialGroupChat"]//: the partial group chat
                     self.getPartialGroupChat(jsongroupinfo: partialGroupChatObjectList)
                     
+                    var statusOfSentMessagesObj=resJSON["statusOfSentMessages"]//: the partial group chat
+                    self.statusofsentmessages(payload: statusOfSentMessagesObj)
+
+                    var statusOfSentGroupMessagesObj=resJSON["statusOfSentGroupMessages"]//: the partial group chat
+                    self.statusOfSentGroupMessages(jsongroupinfo: statusOfSentGroupMessagesObj)
+                    
+
+                    //statusOfSentGroupMessages
+                    //
+                    
                 }
                 //print("JSON: \(JSON(response.))")
             }
@@ -80,6 +90,50 @@ class syncService{
      try db.run(betty.update(balance += amount))
      }
  */
+    func statusofsentmessages(payload:JSON)
+    {
+    
+     
+    for var i in 0 ..< payload.count
+    {
+        var chat_unique_id=payload[i]["chat_unique_id"] as! String
+        var user_phone=payload[i]["user_phone"] as! String
+        var read_dateString=payload[i]["read_date"] as! String
+        var delivered_dateString=payload[i]["delivered_date"] as! String
+        var status=payload[i]["status"] as! String
+        
+    var uniqueid1=chat_unique_id
+    var user_phone1=user_phone
+    //var read_dateString=read_date
+    
+    //var delivered_dateString=delivered_date
+    var status1=status
+    
+    let dateFormatter = DateFormatter()
+    dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
+    
+    let delivered_date = dateFormatter.date(from: delivered_dateString)
+    let read_date = dateFormatter.date(from:read_dateString)
+    
+    print("updating status ......... \(i)")
+    sqliteDB.updateGroupChatStatus(uniqueid1, memberphone1: user_phone1, status1: status1, delivereddate1: delivered_date, readDate1: read_date)
+    }
+ 
+    }
+
+
+    func statusofsentmessages(payload:JSON){
+        //if let payload=userInfo["payload"] as? JSON
+        //{
+            for var i in 0 ..< payload.count
+            {
+                var uniqueid=payload[i]["uniqueid"] as! String
+                var status=payload[i]["status"] as! String
+                
+                sqliteDB.UpdateChatStatus(uniqueid, newstatus: status)
+            }
+       // }
+    }
     
     func getPartialGroupChat(jsongroupinfo:JSON)
     {
@@ -634,7 +688,7 @@ class syncService{
                         for payload in params["unsentGroupChatMessageStatus"] as! [[String:String]]
                         {
                                     
-                                    var chat_uniqueid=payload["chat_uniqueid"]
+                                    var chat_uniqueid=payload["chat_unique_id"]
                                     var status="sent"
                                     
                                     sqliteDB.removeGroupStatusTemp(status, memberphone1: username!, messageuniqueid1: chat_uniqueid!)
