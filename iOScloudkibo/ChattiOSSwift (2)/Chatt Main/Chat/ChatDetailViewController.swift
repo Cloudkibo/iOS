@@ -35,7 +35,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
     var urlTitle=""
     var urlDesc=""
     var urlURL=""
-
+    
     
     var hasURL=false
     var contactCardSelected="0"
@@ -293,9 +293,10 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
                   //  let embeddedView = URLEmbeddedView()
                    // embeddedView.loadURL(sender.text!)
                     
-                    //urlTitle=result["title"]
-                    //urlDesc=result["description"]
-                    //urlURL=result["url"]
+                    self.urlTitle=result[.title] as! String
+                    self.urlDesc=result[SwiftLinkResponseKey.description] as! String
+                    self.urlURL=result[SwiftLinkResponseKey.url] as! String
+                    var urlURLimage=result[SwiftLinkResponseKey.image] as! String
                     //Chat.SwiftLinkResponseKey.description
                     //Chat.SwiftLinkResponseKey.images
                     //Chat.SwiftLinkResponseKey.title
@@ -2212,7 +2213,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
      return chatImage.frame.height+5
 
 }else{
-                    return getSizeOfStringHeight(msg!).height+25
+                    return getSizeOfStringHeight(msg!).height+25+50
                 //=== ==== --return correctheight+25
                     }}
                 }
@@ -2520,6 +2521,8 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
             let timeLabel = cell.viewWithTag(11) as! UILabel
             let chatImage = cell.viewWithTag(1) as! UIImageView
             let profileImage = cell.viewWithTag(2) as! UIImageView
+            let urlView = cell.viewWithTag(22)
+            
             /*  let documentDirectory = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true).first as String!
              let photoURL          = NSURL(fileURLWithPath: documentDirectory)
              let imgPath         = photoURL.URLByAppendingPathComponent(self.filename)
@@ -2570,7 +2573,10 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
             var correctheight=textLable.frame.height
             */
             let correctheight=getSizeOfStringHeight(msg!).height
-            chatImage.frame = CGRect(x: 20 + distanceFactor, y: chatImage.frame.origin.y, width: ((sizeOFStr.width + 107)  > 207 ? (sizeOFStr.width + 107) : 200), height: correctheight + 20)
+            
+            urlView?.frame = CGRect(x: 20 + distanceFactor, y: (urlView?.frame.origin.y)!, width: (urlView?.frame.width)!, height: (urlView?.frame.height)!)
+            
+            chatImage.frame = CGRect(x: 20 + distanceFactor, y: chatImage.frame.origin.y, width: ((sizeOFStr.width + 107)  > 207 ? (sizeOFStr.width + 107) : 200), height: correctheight + (urlView?.frame.height)! + 20)
             
            //==== newwww chatImage.frame = CGRectMake(20 + distanceFactor, chatImage.frame.origin.y, ((sizeOFStr.width + 107)  > 207 ? (sizeOFStr.width + 107) : 200), sizeOFStr.height + 40)
             //chatImage.frame = CGRectMake(20 + distanceFactor, chatImage.frame.origin.y, ((sizeOFStr.width + 100)  > 200 ? (sizeOFStr.width + 100) : 200), sizeOFStr.height + 40)
