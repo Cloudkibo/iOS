@@ -3964,6 +3964,41 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
                         })}}*/
                            
                 }
+                //group:role_updated
+                if(type=="group:role_updated")
+                {
+                    /*type : 'group:role_updated',
+                    senderId : req.user.phone,
+                    personUpdated : req.body.member_phone,
+                    groupId : req.body.group_unique_id,
+                    isAdmin: req.body.makeAdmin,
+                    badge : dataUser.iOS_badge
+                    
+                    */
+                    var senderId=userInfo["senderId"] as! String  //from
+                    var groupId=userInfo["groupId"] as! String
+                    var isAdmin=userInfo["isAdmin"] as! String
+                    var personUpdated=userInfo["personUpdated"] as! String
+                    
+                    var uniqueid1=UtilityFunctions.init().generateUniqueid()
+                    sqliteDB.changeRole(groupId, member1: personUpdated, isAdmin1: isAdmin)
+                    //sqliteDB.updateMembershipStatus(groupId,memberphone1: senderId, membership_status1: "left")
+                    sqliteDB.storeGroupsChat("Log:", group_unique_id1: groupId, type1: "log", msg1: "\(senderId) has made \(personUpdated) as group admin", from_fullname1: "", date1: Date(), unique_id1: uniqueid1)
+                    ///////  sqliteDB.removeMember(groupId!,member_phone1: senderId!)
+                    /*if(delegateRefreshChat != nil)
+                     {
+                     print("refresh UI after member leaves")
+                     delegateRefreshChat?.refreshChatsUI(nil, uniqueid:nil, from:nil, date1:nil, type:"status")
+                     }*/
+                    UIDelegates.getInstance().UpdateSingleChatDetailDelegateCall()
+                    UIDelegates.getInstance().UpdateMainPageChatsDelegateCall()
+                    UIDelegates.getInstance().UpdateGroupInfoDetailsDelegateCall()
+                    UIDelegates.getInstance().UpdateGroupChatDetailsDelegateCall()
+                    
+                    completionHandler(UIBackgroundFetchResult.newData)
+
+                    
+                }
                 if(type=="group:chat_received")
                 {
                     
