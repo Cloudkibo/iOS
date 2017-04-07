@@ -68,11 +68,18 @@ class syncService{
                     self.getPartialGroupChat(jsongroupinfo: partialGroupChatObjectList)
                     
                     var statusOfSentMessagesObj=resJSON["statusOfSentMessages"]//: the partial group chat
-                    self.statusofsentmessages(payload: statusOfSentMessagesObj)
+                    print("statusOfSentMessages JSON is \(statusOfSentMessagesObj)")
+                    self.statusofsentmessages(payload: statusOfSentMessagesObj, completion: { (result, error) in
+                        var statusOfSentGroupMessagesObj=resJSON["statusOfSentGroupMessages"]//: the partial group chat
+                        self.statusOfSentGroupMessages(payload: statusOfSentGroupMessagesObj)
+                        DispatchQueue.main.async {
+                            
+                            return completion(true,nil)
+                        }
+                        
+                    })
 
-                    var statusOfSentGroupMessagesObj=resJSON["statusOfSentGroupMessages"]//: the partial group chat
-                    self.statusOfSentGroupMessages(payload: statusOfSentGroupMessagesObj)
-                    
+                   
 
                     //statusOfSentGroupMessages
                     //
@@ -96,11 +103,11 @@ class syncService{
      
     for var i in 0 ..< payload.count
     {
-        var chat_unique_id=payload[i]["chat_unique_id"] as! String
-        var user_phone=payload[i]["user_phone"] as! String
-        var read_dateString=payload[i]["read_date"] as! String
-        var delivered_dateString=payload[i]["delivered_date"] as! String
-        var status=payload[i]["status"] as! String
+        var chat_unique_id=payload[i]["chat_unique_id"].string!
+        var user_phone=payload[i]["user_phone"].string!
+        var read_dateString=payload[i]["read_date"].string!
+        var delivered_dateString=payload[i]["delivered_date"].string!
+        var status=payload[i]["status"].string!
         
     var uniqueid1=chat_unique_id
     var user_phone1=user_phone
@@ -122,16 +129,19 @@ class syncService{
     }
 
 
-    func statusofsentmessages(payload:JSON){
+    func statusofsentmessages(payload:JSON,completion:@escaping (_ result:Bool,_ error:String?)->()){
         //if let payload=userInfo["payload"] as? JSON
         //{
             for var i in 0 ..< payload.count
-            {
-                var uniqueid=payload[i]["uniqueid"] as! String
-                var status=payload[i]["status"] as! String
+            {print("statusofsentmessages payload i value \(i)")
+                print(payload[i])
+                var uniqueid=payload[i]["uniqueid"].string!
+                var status=payload[i]["status"].string!
                 
                 sqliteDB.UpdateChatStatus(uniqueid, newstatus: status)
             }
+        
+        return completion(true,nil)
        // }
     }
     

@@ -2137,6 +2137,7 @@ print("--------")
         catch{
             print("failed to get teams single object data")
         }
+        print("search get single group array is \(newEntry)")
         return newEntry
         
     }

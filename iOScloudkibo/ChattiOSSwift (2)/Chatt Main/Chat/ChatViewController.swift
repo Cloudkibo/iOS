@@ -3455,6 +3455,7 @@ break
             let from_fullname = Expression<String>("from_fullname")
             let date = Expression<Date>("date")
             let unique_id = Expression<String>("unique_id")
+            print("search group id \(groupchats.get(group_unique_id))")
             var groupinfo=sqliteDB.getSingleGroupInfo(groupchats.get(group_unique_id))
             
             var formatter2 = DateFormatter();

@@ -2911,7 +2911,7 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
             {
                 //commenting for testing
                 
-                var syncservice=syncService.init()
+              /*  var syncservice=syncService.init()
                 syncservice.startUpwardSyncService({ (result, error) in
                     
                     print("upward sync donee")
@@ -2931,7 +2931,7 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
                     
                 })
                 
-                
+                */
                 
                 
                 
