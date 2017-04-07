@@ -530,10 +530,10 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
             
             var userInfo=notification.request.content.userInfo
             
-             if  let singleuniqueid = userInfo["sound"] as? String
-             {
+             //if  let singleuniqueid = userInfo["sound"] as? String
+             //{
             completionHandler([.alert, .badge, .sound])
-            }
+            //}
             
            // UtilityFunctions.init().log_papertrail("iOS 10 mode \(UIApplication.shared.applicationState) User Info = \(notification.request.content.userInfo)")
        // print("User Info = \(notification.request.content.userInfo)")
