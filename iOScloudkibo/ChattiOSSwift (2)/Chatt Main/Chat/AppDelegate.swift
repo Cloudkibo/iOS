@@ -5153,7 +5153,7 @@ var uniqueid=payload["uniqueid"] as! String
             }
         if(UIDelegates.getInstance().delegateUpdateChatStatusRow1 != nil)
         {
-        UIDelegates.getInstance().delegateUpdateChatStatusRow1.updateChatStatusRow(message, uniqueid: uniqueID, status: status, filename: "", type: msgtype as! String4, date: "")
+        UIDelegates.getInstance().delegateUpdateChatStatusRow1.updateChatStatusRow(message, uniqueid: uniqueID, status: status, filename: "", type: msgtype as! String, date: "")
         }
         //==--UIDelegates.getInstance().UpdateSingleChatDetailDelegateCall()
         UIDelegates.getInstance().UpdateMainPageChatsDelegateCall()
