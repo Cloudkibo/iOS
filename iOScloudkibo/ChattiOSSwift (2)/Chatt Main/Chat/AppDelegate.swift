@@ -526,12 +526,15 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
     @available(iOS 10.0, *)
     func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void)
         {
-            UtilityFunctions.init().log_papertrail("iOS 10 mode \(UIApplication.shared.applicationState) User Info = \(notification.request.content.userInfo)")
-        print("User Info = \(notification.request.content.userInfo)")
+           // UtilityFunctions.init().log_papertrail("iOS 10 mode \(UIApplication.shared.applicationState) User Info = \(notification.request.content.userInfo)")
+       // print("User Info = \(notification.request.content.userInfo)")
         
         var userInfo=notification.request.content.userInfo
             
-            if(UIApplication.shared.applicationState.rawValue != UIApplicationState.inactive.rawValue)
+            UtilityFunctions.init().getAppState(currentState: UIApplication.shared.applicationState.rawValue)
+            UtilityFunctions.init().log_papertrail("IPHONE: \(username!) willpresent iOS10 \(userInfo)")
+            
+           /* if(UIApplication.shared.applicationState.rawValue != UIApplicationState.inactive.rawValue)
             {
                 
                 Alamofire.request("https://api.cloudkibo.com/api/users/log", method: .post, parameters: ["data":"IPHONE_LOG: \(username!) iOS 10+ received push notification as \(userInfo.description)"],headers:header).response{
@@ -1045,6 +1048,7 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
                 UtilityFunctions.init().log_papertrail("Push received when insactive, not processed \(userInfo)")
             }
         completionHandler([.alert, .badge, .sound])
+            */
     }
     
 
@@ -1054,12 +1058,13 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
     //Called to let your app know which action was selected by the user for a given notification.
     @available(iOS 10.0, *)
     func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
-        
-        
-        UtilityFunctions.init().log_papertrail("IPHONE: iOS 10+ \(username!) didreceive \(response.notification.request.content.userInfo)")
+        UtilityFunctions.init().getAppState(currentState: UIApplication.shared.applicationState.rawValue)
+        UtilityFunctions.init().log_papertrail("IPHONE: didReceive notification iOS10 \(response.notification.request.content.userInfo)")
+      
+        //UtilityFunctions.init().log_papertrail("IPHONE: iOS 10+ \(username!) didreceive \(response.notification.request.content.userInfo)")
             
        ///// UtilityFunctions.init().log_papertrail("iOS 10 mode \(UIApplication.shared.applicationState) User Info = \(response.notification.request.content.userInfo)")
-            print("User Info = ",response.notification.request.content.userInfo)
+          //  print("User Info = ",response.notification.request.content.userInfo)
         
         /*var userInfo=response.notification.request.content.userInfo
         
@@ -1575,6 +1580,8 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
         */
         completionHandler()
     }
+    
+    
     
     func contactChanged(_ notification : Notification)
     {
@@ -3237,9 +3244,12 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
         
         
         //avoid calling twice, inactive when transitions by tapping on notification bar
-        if #available(iOS 10.0, *){
+       /* if #available(iOS 10.0, *){
+            UtilityFunctions.init().getAppState(currentState: UIApplication.shared.applicationState.rawValue)
+            UtilityFunctions.init().log_papertrail("IPHONE: receivednotification(old) iOS10 \(userInfo)")
+            
             print("iOS 10+ version")
-            UtilityFunctions.init().log_papertrail("IPHONE: \(username!) iOS 10+ receivednotification method called mode \(UIApplication.shared.applicationState.rawValue) \(userInfo) ")
+           // UtilityFunctions.init().log_papertrail("IPHONE: \(username!) iOS 10+ receivednotification method called mode \(UIApplication.shared.applicationState.rawValue) \(userInfo) ")
             
             if  let singleuniqueid = userInfo["uniqueId"] as? String {
                 // Printout of (userInfo["aps"])["type"]
@@ -3695,11 +3705,13 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
                 }
 
             }
-            
+          completionHandler(UIBackgroundFetchResult.newData)
 
-        }
-        else{
+        }*/
+       // else{
     
+            UtilityFunctions.init().getAppState(currentState: UIApplication.shared.applicationState.rawValue)
+            UtilityFunctions.init().log_papertrail("IPHONE: receivednotification(old) iOS9 \(userInfo)")
             
         if(UIApplication.shared.applicationState.rawValue != UIApplicationState.inactive.rawValue )
         {
@@ -3761,7 +3773,7 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
                         UIDelegates.getInstance().UpdateMainPageChatsDelegateCall()
                         completionHandler(UIBackgroundFetchResult.newData)
 
-                    completionHandler(UIBackgroundFetchResult.newData)
+                   // completionHandler(UIBackgroundFetchResult.newData)
                     NotificationCenter.default.post(name: Notification.Name(rawValue: "ReceivedNotification"), object:userInfo)
                     }
                     
@@ -3959,10 +3971,10 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
                         UIDelegates.getInstance().UpdateGroupChatDetailsDelegateCall()
                         UIDelegates.getInstance().UpdateMainPageChatsDelegateCall()
                         UIDelegates.getInstance().UpdateGroupInfoDetailsDelegateCall()
-                         completionHandler(UIBackgroundFetchResult.newData)
+               
                     })
                    
-                   
+                             completionHandler(UIBackgroundFetchResult.newData)
                     
 
                 }
@@ -4249,14 +4261,16 @@ var uniqueid=payload["uniqueid"] as! String
     }
         else
         {
-            UtilityFunctions.init().log_papertrail("IPHONE: \(username!) app in background received push but will not preocess ----- \(userInfo)")
+            
+            var stateApp=UtilityFunctions.init().getAppState(currentState: UIApplication.shared.applicationState.rawValue)
+            UtilityFunctions.init().log_papertrail("IPHONE: \(username!) app in \(stateApp) state received push iOS9 but will not preocess ----- \(userInfo)")
             
           /*  Alamofire.request(.POST,"https://api.cloudkibo.com/api/users/log",headers:header,parameters: ["data":"IPHONE_LOG: \(username!) received push notification when in inactive mode so nothing will be processed \(userInfo.description)"]).response{
                 request, response_, data, error in
                 print(error)
             }*/
         }
-        }
+      //  }
        /////// print("remote notification received is \(userInfo)")
         /*var notificationJSON=JSON(userInfo)
         print("json converted is \(notificationJSON)")

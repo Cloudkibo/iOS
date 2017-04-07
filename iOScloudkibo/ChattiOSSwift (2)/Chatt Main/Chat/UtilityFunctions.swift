@@ -2116,6 +2116,37 @@ print("tempURL is \(temporaryURL) and response is \(response.allHeaderFields)")
         
         return URLStrings
     }
+    
+    func getAppState(currentState:UIApplicationState.RawValue)->String
+    {
+        print("app state application is \(currentState)")
+        
+        switch(currentState)
+        {
+        case UIApplicationState.inactive.rawValue:
+            print("inactive")
+            self.log_papertrail("IPHONE-Log: \(username!) inactive")
+            return "inactive"
+            
+        case UIApplicationState.background.rawValue:
+            print("background")
+            self.log_papertrail("IPHONE-Log: \(username!) background")
+            return "background"
+            
+        case UIApplicationState.active.rawValue:
+            print("active")
+            self.log_papertrail("IPHONE-Log: \(username!) active")
+            return "active"
+            
+            
+        default: self.log_papertrail(currentState.description)
+            return ""
+        // print("app state value background is \(UIApplicationState.background.rawValue)")
+       // print("app state value inactive is \(UIApplicationState.inactive.rawValue)")
+       // print("app state value active is \(UIApplicationState.active.rawValue)")
+        }
+        
+    }
 
 }
 

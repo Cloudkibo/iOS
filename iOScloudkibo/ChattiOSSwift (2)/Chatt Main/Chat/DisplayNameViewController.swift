@@ -12,8 +12,9 @@ import SwiftyJSON
 import ContactsUI
 import AccountKit
 import SQLite
+import UserNotifications
 
-class DisplayNameViewController: UIViewController {
+class DisplayNameViewController: UIViewController,UNUserNotificationCenterDelegate {
     
     @IBOutlet weak var lbl_progress: UILabel!
     
@@ -1640,7 +1641,30 @@ socketObj.socket.emit("logClient","button done pressed start time \(Date())")
                                                                     {
                                                                         print("didRegisterForRemoteNotificationsWithDeviceToken in displaycontroller")
                                                                         
-                                                                        UIApplication.shared.registerUserNotificationSettings(pushNotificationSettings)
+                                                                       // UIApplication.shared.registerUserNotificationSettings(pushNotificationSettings)
+                                                                        if #available(iOS 10.0, *) {
+                                                                            let center  = UNUserNotificationCenter.current()
+                                                                            center.delegate = self
+                                                                            center.requestAuthorization(options: [.sound, .alert, .badge]) { (granted, error) in
+                                                                                if error == nil{
+                                                                                    UIApplication.shared.registerForRemoteNotifications()
+                                                                                }
+                                                                            }
+                                                                        }
+                                                                            
+                                                                        else {
+                                                                            let notificationTypes: UIUserNotificationType = [UIUserNotificationType.alert, UIUserNotificationType.badge, UIUserNotificationType.sound]
+                                                                            
+                                                                            //let notificationTypes: UIUserNotificationType = [UIUserNotificationType.None]
+                                                                            
+                                                                            
+                                                                            let pushNotificationSettings = UIUserNotificationSettings(types: notificationTypes, categories: nil)
+                                                                            
+                                                                            UIApplication.shared.registerUserNotificationSettings(UIUserNotificationSettings(types: [.sound, .alert, .badge], categories: nil))
+                                                                            UIApplication.shared.registerForRemoteNotifications()
+                                                                        }
+                                                                        
+
                                                                     }
                                                                     
                                                                     print("setting contacts finish time \(Date())")
