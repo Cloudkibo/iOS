@@ -526,10 +526,17 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
     @available(iOS 10.0, *)
     func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void)
         {
+            
+            
+            var userInfo=notification.request.content.userInfo
+            
+             if  let singleuniqueid = userInfo["sound"] as? String
+             {
+            completionHandler([.alert, .badge, .sound])
+            }
+            
            // UtilityFunctions.init().log_papertrail("iOS 10 mode \(UIApplication.shared.applicationState) User Info = \(notification.request.content.userInfo)")
        // print("User Info = \(notification.request.content.userInfo)")
-        
-        var userInfo=notification.request.content.userInfo
             
             UtilityFunctions.init().getAppState(currentState: UIApplication.shared.applicationState.rawValue)
             UtilityFunctions.init().log_papertrail("IPHONE: \(username!) willpresent iOS10 \(userInfo)")
