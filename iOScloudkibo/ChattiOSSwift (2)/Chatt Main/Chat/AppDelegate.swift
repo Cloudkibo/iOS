@@ -5140,9 +5140,12 @@ var uniqueid=payload["uniqueid"] as! String
             */
         let msg = Expression<String>("msg")
          let uniqueid = Expression<String>("uniqueid")
+        let type = Expression<String>("type")
+        var msgtype=""
         var message=""
         do{for tblContacts in try sqliteDB.db.prepare((sqliteDB.userschats!.filter(uniqueid == uniqueID))){
             message=tblContacts[msg]
+            msgtype=tblContacts[type]
             }
         }
             catch{
@@ -5150,7 +5153,7 @@ var uniqueid=payload["uniqueid"] as! String
             }
         if(UIDelegates.getInstance().delegateUpdateChatStatusRow1 != nil)
         {
-        UIDelegates.getInstance().delegateUpdateChatStatusRow1.updateChatStatusRow(message, uniqueid: uniqueID, status: status, filename: "", type: "", date: "")
+        UIDelegates.getInstance().delegateUpdateChatStatusRow1.updateChatStatusRow(message, uniqueid: uniqueID, status: status, filename: "", type: msgtype as! String4, date: "")
         }
         //==--UIDelegates.getInstance().UpdateSingleChatDetailDelegateCall()
         UIDelegates.getInstance().UpdateMainPageChatsDelegateCall()

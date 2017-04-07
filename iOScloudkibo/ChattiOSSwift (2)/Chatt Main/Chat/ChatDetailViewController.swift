@@ -3497,7 +3497,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
             
             btnSaveView.addTarget(self, action: #selector(ChatDetailViewController.BtnSaveContactClicked(_:)), for:.touchUpInside)
           
-            
+            print("components now seperating by : \(msg!)")
             let contactinfo=msg!.components(separatedBy: ":") ///return array string
             textLable.text = contactinfo[0]
             contactreceivedphone=contactinfo[1]
@@ -3578,10 +3578,11 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
             let btnInviteView = buttonsView.viewWithTag(0) as! UIButton
             let btnSaveView = buttonsView.viewWithTag(1) as! UIButton
             let btnMessageView = buttonsView.viewWithTag(2) as! UIButton
-            
+            print("components now seperating by : \(msg!)")
             let contactinfo=msg!.components(separatedBy: ":") ///return array string
             textLable.text = contactinfo[0]
             var number=contactinfo[1]
+            print("components now seperating by space \(number)")
             let number2=number.components(separatedBy: " ")
             number=number2[0]
             if((textLable.text!.characters.count) > 21){
@@ -4134,6 +4135,7 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
              
              */
             let status=messageDic["status"] as NSString!
+            print("components now seperating by : \(msg!)")
             let contactinfo=msg!.components(separatedBy: ":") ///return array string
             var latitude = contactinfo[0]
             var longitude = contactinfo[1]
@@ -4211,12 +4213,13 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
                 
                // timeLabel.text=displaydate
             }
-        
+        print("components now seperating by : \(msg!)")
             let contactinfo=msg!.components(separatedBy: ":") ///return array string
             var latitude = contactinfo[0]
             //var longitude = contactinfo[1]
             
             //coz message has mag+ \(status)
+            print("components now seperating by space \(contactinfo[1])")
             var longitude = contactinfo[1].components(separatedBy: " ")[0]
           ////  var longitude = contactinfo[1]
           ///  var url=URL.init("http://maps.google.com/maps/api/staticmap?center=\(latitude) , \(longitude) &zoom=18&size=500x300&sensor=TRUE_OR_FALSE")
@@ -6341,6 +6344,8 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
                 var messageDic = messages.object(at: selectedRow) as! [String : String];
                 let coordinates = messageDic["message"] as NSString!
                 
+                
+                print("components now seperating by : \(coordinates!)")
                 let locationinfo=coordinates!.components(separatedBy: ":") ///return array string
                 var latitude = locationinfo[0]
                 var longitude = locationinfo[1]
@@ -7175,10 +7180,12 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
             
             
             var statusCount=oldstatus.characters.count+3
+            if(type != "location")
+            {
             actualmsg=actualmsg.removeCharsFromEnd(statusCount)
             
             print("found old message is \(message)")
-            
+            }
             var newrow:[String:AnyObject]=["message":"\(actualmsg) (\(status))"/*"\(message) \((status))"*/  /*"message":"\(actualmsg) (\(status))"*/ as AnyObject,"filename":filename as AnyObject,"type":aa["type"] as AnyObject,"date":aa["date"] as AnyObject,"uniqueid":aa["uniqueid"] as AnyObject,"status":status as AnyObject]
             
             print("replaced with \(newrow["message"])")
