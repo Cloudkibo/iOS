@@ -24,7 +24,7 @@ class syncService{
     
     func startDownwardSync(_ completion:@escaping (_ result:Bool,_ error:String?)->())
     {
-        DispatchQueue.global(priority: DispatchQueue.GlobalQueuePriority.background).async {
+       // DispatchQueue.global(priority: DispatchQueue.GlobalQueuePriority.background).async {
             
             //upwardSyncURL
             print("start downward sync service after install")
@@ -43,7 +43,7 @@ class syncService{
                 print("downward sync response is \(response)")
                 if(response.response?.statusCode==200)
                 {
-                    
+                      DispatchQueue.global(priority: DispatchQueue.GlobalQueuePriority.background).async {
                     var resJSON=JSON.init(data:response.data!)
                     print("downward sync JSON response is \(resJSON)")
                     var partialChatObjectList=resJSON["partialChat"]//: the partial chat sync,
@@ -83,11 +83,11 @@ class syncService{
 
                     //statusOfSentGroupMessages
                     //
-                    
+                    }
                 }
                 //print("JSON: \(JSON(response.))")
             }
-        }
+        
         
     }
     }
