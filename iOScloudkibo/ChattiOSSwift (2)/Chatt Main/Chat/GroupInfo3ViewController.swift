@@ -209,7 +209,32 @@ EPPickerDelegate,SWTableViewCellDelegate,UIImagePickerControllerDelegate {
         print("inside exit group func")
         if(internetAvailable==true)
 {
+    var hasAnotherAdmin=false
+    for i in 0 ..< membersArrayOfGroup.count
+    {
+        print("found matched idss")
+        if((membersArrayOfGroup[i]["membership_status"] as! String) == "joined" && membersArrayOfGroup[i]["isAdmin"] as! String == "yes")
+        {
+            hasAnotherAdmin=true
+            break
+          //  messages2.add(["member_phone":membersArrayOfGroup[i]["member_phone"] as! String,"name":membersArrayOfGroup[i]["group_member_displayname"] as! String,"isAdmin":membersArrayOfGroup[i]["isAdmin"] as! String])
+        }
+    }
+    if(hasAnotherAdmin==true)
+    {
         exitGroup()
+    }
+    else{
+        
+        let shareMenu = UIAlertController(title: nil, message: "Please select another Admin for the Group before leaving", preferredStyle: .actionSheet)
+        
+        let yes = UIAlertAction(title: "OK", style: UIAlertActionStyle.default,handler: { (action) -> Void in
+            
+        })
+        shareMenu.addAction(yes)
+        self.present(shareMenu, animated: true, completion:nil)
+        
+    }
 }
 else{
 
