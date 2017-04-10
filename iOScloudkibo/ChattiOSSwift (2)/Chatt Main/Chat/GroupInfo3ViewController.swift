@@ -213,7 +213,8 @@ EPPickerDelegate,SWTableViewCellDelegate,UIImagePickerControllerDelegate {
     for i in 0 ..< membersArrayOfGroup.count
     {
         print("found matched idss")
-        if((membersArrayOfGroup[i]["membership_status"] as! String) == "joined" && membersArrayOfGroup[i]["isAdmin"] as! String == "yes")
+        print(membersArrayOfGroup[i])
+        if((membersArrayOfGroup[i]["membership_status"] as! String) == "joined" && membersArrayOfGroup[i]["isAdmin"]?.lowercased  == "yes")
         {
             hasAnotherAdmin=true
             break
