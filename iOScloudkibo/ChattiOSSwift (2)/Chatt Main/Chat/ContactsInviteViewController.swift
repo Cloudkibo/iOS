@@ -289,7 +289,7 @@ class ContactsInviteViewController: UIViewController,UITableViewDelegate,UITable
             
         let messageVC = MFMessageComposeViewController()
             
-            messageVC.body = "Hey, \n \n I just downloaded Kibo App on my iPhone. \n \n It is a smartphone messenger with added features. It provides integrated and unified voice, video, and data communication. \n \n It is available for both Android and iPhone and there is no PIN or username to remember. \n \n Get it now from https://api.cloudkibo.com and say good-bye to SMS!";
+            messageVC.body = "Hey, \n \n I just downloaded KiboChat App on my iPhone. \n \n It is a smartphone messenger with added features. It provides integrated and unified voice, video, and data communication. \n \n It is available for both Android and iPhone and there is no PIN or username to remember. \n \n Get it now from https://api.cloudkibo.com and say good-bye to SMS!";
             messageVC.recipients = selectedEmails
             messageVC.messageComposeDelegate = self;
             

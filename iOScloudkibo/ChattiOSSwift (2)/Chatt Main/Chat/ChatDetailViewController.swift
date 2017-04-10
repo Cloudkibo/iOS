@@ -25,12 +25,15 @@ import GooglePlacePicker
 import GooglePlaces
 import GoogleMaps
 import ActiveLabel
+import MessageUI
 //import URLEmbeddedView
 //import GoogleMaps
 
-class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChatDelegate,UIDocumentPickerDelegate,UIDocumentMenuDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate,FileManagerDelegate,showUploadProgressDelegate,UpdateChatViewsDelegate,UpdateSingleChatDetailDelegate,CNContactPickerDelegate,CNContactViewControllerDelegate,UIPickerViewDelegate,AVAudioRecorderDelegate,CLLocationManagerDelegate,insertChatAtLastDelegate,updateChatStatusRowDelegate,insertBulkChatsSyncDelegate,insertBulkChatsStatusesSyncDelegate,ActiveLabelDelegate
-    {
+class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChatDelegate,UIDocumentPickerDelegate,UIDocumentMenuDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate,FileManagerDelegate,showUploadProgressDelegate,UpdateChatViewsDelegate,UpdateSingleChatDetailDelegate,CNContactPickerDelegate,CNContactViewControllerDelegate,UIPickerViewDelegate,AVAudioRecorderDelegate,CLLocationManagerDelegate,insertChatAtLastDelegate,updateChatStatusRowDelegate,insertBulkChatsSyncDelegate,insertBulkChatsStatusesSyncDelegate,ActiveLabelDelegate,MFMessageComposeViewControllerDelegate
+{
     
+
+var isKiboContact="false"
     //var view: UIView!
     var urlTitle=""
     var urlDesc=""
@@ -3501,8 +3504,24 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
             let contactinfo=msg!.components(separatedBy: ":") ///return array string
             textLable.text = contactinfo[0]
             contactreceivedphone=contactinfo[1]
-            
-            
+            isKiboContact=contactinfo[2]
+            if(isKiboContact=="false")
+            {
+                btnInviteView.isHidden=false
+                btnSaveView.isHidden=true
+                btnMessageView.isHidden=true
+                print("isKiboContact is \(isKiboContact)")
+                 //btnInviteView.frame=CGRect(x:btnInviteView.origin.x,y:btnInviteView.origin.y,width:btnInviteView.bounds.width,height:btnInviteView.bounds.height)
+                btnInviteView.addTarget(self, action: #selector(ChatDetailViewController.BtnInviteContactClicked(_:)), for:.touchUpInside)
+                
+
+            }
+            else{
+                btnInviteView.isHidden=true
+                btnSaveView.isHidden=false
+                btnMessageView.isHidden=false
+                print("isKiboContact is \(isKiboContact)")
+            }
             timeLabel.text = contactinfo[1]
             if((textLable.text!.characters.count) > 21){
                var newtextlabel = textLable.text!.trunc(19)+".."
@@ -3583,8 +3602,31 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
             textLable.text = contactinfo[0]
             var number=contactinfo[1]
             print("components now seperating by space \(number)")
-            let number2=number.components(separatedBy: " ")
-            number=number2[0]
+            let number2=number.components(separatedBy: ":")
+               number=number2[0]
+            let kibo2=number.components(separatedBy: " ")
+         isKiboContact=number2[0]
+            
+            if(isKiboContact=="false")
+            {print("isKiboContact is \(isKiboContact)")
+                btnInviteView.isHidden=false
+                btnSaveView.isHidden=true
+                btnMessageView.isHidden=true
+                
+                
+               /// btnInviteView.frame=CGRect(x:btnInviteView.origin.x,y:btnInviteView.origin.y,width:btnInviteView.bounds.width,height:btnInviteView.bounds.height)
+                btnInviteView.addTarget(self, action: #selector(ChatDetailViewController.BtnInviteContactClicked(_:)), for:.touchUpInside)
+                
+                
+            }
+            else{
+                print("isKiboContact is \(isKiboContact)")
+                btnInviteView.isHidden=true
+                btnSaveView.isHidden=false
+                btnMessageView.isHidden=false
+            }
+
+            
             if((textLable.text!.characters.count) > 21){
                 var newtextlabel = textLable.text!.trunc(19)+".."
                 textLable.text = newtextlabel
@@ -4254,6 +4296,22 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
            }
     
     var contactreceivedphone=""
+    func BtnInviteContactClicked(_ sender:UIButton)
+    {
+        let messageVC = MFMessageComposeViewController()
+        
+        messageVC.body = "Hey, \n \n I just downloaded KiboChat App on my iPhone. \n \n It is a smartphone messenger with added features. It provides integrated and unified voice, video, and data communication. \n \n It is available for both Android and iPhone and there is no PIN or username to remember. \n \n Get it now from https://api.cloudkibo.com and say good-bye to SMS!";
+        messageVC.recipients = [contactreceivedphone]
+        messageVC.messageComposeDelegate = self;
+        
+        self.present(messageVC, animated: false, completion: nil)
+        
+        
+       // let next = self.storyboard?.instantiateViewController(withIdentifier: "Main4") as! ContactsInviteViewController
+        //next.sendType="Message"
+        //self.present(next,animated:true,completion:nil)
+        
+    }
     func BtnSaveContactClicked(_ sender:UIButton)
     {
         let contact = CNMutableContact()
@@ -7204,6 +7262,37 @@ class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChat
             
         }
     }
+    
+    /*!
+     @method     messageComposeViewController:didFinishWithResult:
+     @abstract   Delegate callback which is called upon user's completion of message composition.
+     @discussion This delegate callback will be called when the user completes the message composition.
+     How the user chose to complete this task will be given as one of the parameters to the
+     callback.  Upon this call, the client should remove the view associated with the controller,
+     typically by dismissing modally.
+     @param      controller   The MFMessageComposeViewController instance which is returning the result.
+     @param      result       MessageComposeResult indicating how the user chose to complete the composition process.
+     */
+    @available(iOS 4.0, *)
+    public func messageComposeViewController(_ controller: MFMessageComposeViewController, didFinishWith result: MessageComposeResult) {
+        
+            switch (result) {
+            case .cancelled:
+                print("Message was cancelled")
+                self.dismiss(animated: true, completion: nil)
+            case .failed:
+                print("Message failed")
+                self.dismiss(animated: true, completion: nil)
+            case .sent:
+                print("Message was sent")
+                self.dismiss(animated: true, completion: nil)
+            default:
+                break;
+            }
+        
+    }
+    
+    
     
 }
 
