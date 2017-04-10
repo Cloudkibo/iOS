@@ -2680,7 +2680,16 @@ var isKiboContact="false"
             var urlArray=UtilityFunctions.init().getURLs(text: msg! as String!)
             
             print()
-            
+            if(messageDic["title"] != nil)
+            {print("detected URL")
+                
+                title.text=messageDic["title"] as? String!
+                desc.text=messageDic["description"] as? String!
+                urllbl.text=messageDic["url"] as? String!
+                
+            }
+            else
+            {
             let slp = SwiftLinkPreview()
             slp.preview(
                 msg! as String!,
@@ -2718,14 +2727,13 @@ var isKiboContact="false"
                     //Chat.SwiftLinkResponseKey.url
                     //
                    /// self.messages.add(["message":tblContacts[msg]+" (\(tblContacts[status])) ","status":tblContacts[status], "type":"2", "date":defaultTimeeee, "uniqueid":tblContacts[uniqueid],"title":result[.title] as! String,"description":result[SwiftLinkResponseKey.description] as! String,"url":"\(result[.url]!)"])
-                    if(messageDic["title"] != nil)
-                    {print("detected URL")
-                        
-                        title.text=messageDic["title"] as? String!
-                        desc.text=messageDic["description"] as? String!
-                        urllbl.text=messageDic["url"] as? String!
-                        
-                    }
+                    
+                    sqliteDB.SaveURLData(urlMessageID1:UtilityFunctions.init().generateUniqueid(),title1:result[.title] as! String,desc1:result[SwiftLinkResponseKey.description] as! String,url1:String,msg1:msg! as String!,image1:result[SwiftLinkResponseKey.image] as! String)
+                    
+                   // var urlinfoObject=sqliteDBgetSingleURLInfo(url1:"\(result[SwiftLinkResponseKey.url])")
+                    
+                   
+                
                     
                    
             },
@@ -2740,8 +2748,8 @@ var isKiboContact="false"
             }
                 
             )
-            
-            
+        }
+        
             
             /*if(messageDic["title"] != nil)
             {print("detected URL")

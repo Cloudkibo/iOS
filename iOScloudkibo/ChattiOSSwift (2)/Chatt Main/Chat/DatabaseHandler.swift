@@ -2106,6 +2106,41 @@ print("--------")
         
         
     }
+    
+    func getSingleURLInfo(_ url1:String)->[String: AnyObject]
+    {
+        
+    let urlMessageID = Expression<String>("urlMessageID")
+    let title = Expression<String>("title")
+    let desc = Expression<String>("desc")
+    let url = Expression<String>("url")
+    let msg = Expression<String>("msg")
+    let image = Expression<Data>("image")
+    
+    self.urlData = Table("urlData")
+         var newEntry: [String: AnyObject] = [:]
+        do
+        {for URLinfo in try self.db.prepare(self.urlData.filter(url1 == url)){
+            
+          //  print("inside finding group found in db")
+            newEntry["urlMessageID"]=URLinfo.get(urlMessageID) as AnyObject
+            newEntry["title"]=URLinfo.get(title) as AnyObject
+            newEntry["desc"]=URLinfo.get(desc) as AnyObject
+            newEntry["url"]=URLinfo.get(url) as AnyObject
+            newEntry["msg"]=URLinfo.get(msg) as AnyObject
+            //groupsList.append(newEntry)
+            break
+            
+            }
+        }
+        catch{
+            print("failed to get URL info object data")
+        }
+        print("search get URL info is \(newEntry)")
+        return newEntry
+    
+    }
+    
     func getSingleGroupInfo(_ groupid:String)->[String: AnyObject]
     {
         // var groupsList=[String:AnyObject]()
