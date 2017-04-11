@@ -196,13 +196,15 @@ class syncService{
     
     func getGroupMembers(jsongroupinfo:JSON)
     {
+        var membership_status=Expression<String>("membership_status")
+        
         
             do{
                 try sqliteDB.db.transaction {
-       
+       //membershipStatus1: "temp"
             var tbl_Groups_Members=sqliteDB.group_member
             
-            try sqliteDB.db.run((tbl_Groups_Members?.delete())!)
+            try sqliteDB.db.run((tbl_Groups_Members?.filter(membership_status != "temp").delete())!)
         
         
         for var i in 0 ..< jsongroupinfo.count

@@ -2010,6 +2010,31 @@ print("--------")
         }
     }
     
+    
+    
+    func updateGroupsCreateNewStatus(uniqueid1:String,status1:String)
+    {
+        
+        let group_name = Expression<String>("group_name")
+        let group_icon = Expression<Data>("group_icon")
+        let date_creation = Expression<Date>("date_creation")
+        let unique_id = Expression<String>("unique_id")
+        let isMute = Expression<Bool>("isMute")
+        let status = Expression<String>("status") //temp or new
+        
+        self.groups = Table("groups")
+        let query = groups.select(unique_id)           // SELECT "email" FROM "users"
+            .filter(unique_id == uniqueid1)     // WHERE "name" IS NOT NULL
+        
+        do
+        {try sqliteDB.db.run(query.update(status <- status1))}
+        catch
+        {
+            print("error: cannot update group new status")
+        }
+        
+        
+    }
     func storeGroups(_ groupname1:String,groupicon1:Data!,datecreation1:Date,uniqueid1:String,status1:String)
     {
         

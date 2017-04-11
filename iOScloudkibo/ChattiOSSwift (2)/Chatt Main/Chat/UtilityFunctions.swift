@@ -273,6 +273,7 @@ class UtilityFunctions{
             {
                 print("success group created")
                 //update group date
+                sqliteDB.updateGroupsCreateNewStatus(uniqueid1: uniqueid, status1: "new")
                 sqliteDB.updateGroupCreationDate(uniqueid, date1: NSDate() as Date)
                 //update membership status
                 for i in 0 ..< members.count

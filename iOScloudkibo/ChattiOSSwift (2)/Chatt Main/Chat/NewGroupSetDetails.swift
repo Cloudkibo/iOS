@@ -225,6 +225,8 @@ class NewGroupSetDetails: UITableViewController,UINavigationControllerDelegate,U
                     print("...")
                      self.performSegueWithIdentifier("groupChatStartSegue", sender: nil)
                 }*/
+                
+                //check if status not temp
                 sqliteDB.storeGroups(groupname, groupicon1: self.imgdata, datecreation1: NSDate() as Date, uniqueid1: uniqueid, status1: "new")
                 
                 //=====MUTE GROUP====
@@ -297,7 +299,7 @@ class NewGroupSetDetails: UITableViewController,UINavigationControllerDelegate,U
                     print("error in getting data from accounts table")
                     
                 }
-                
+                //updateGroupsCreateNewStatus
                 sqliteDB.storeGroups(groupname, groupicon1: self.imgdata, datecreation1: NSDate() as Date, uniqueid1: uniqueid, status1: "temp")
                
                 //=====MUTE GROUP====

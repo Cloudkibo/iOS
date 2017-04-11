@@ -4232,7 +4232,9 @@ break
             if((ChatType as String) == "group_failed")
             {
                 print("clicked group_failed")
-                var membersCompleteList=sqliteDB.getGroupMembersOfGroup(groupsObjectList[indexPath.row]["unique_id"] as! String)
+               // var membersCompleteList=sqliteDB.getGroupMembersOfGroup(groupsObjectList[indexPath.row]["unique_id"] as! String)
+                print("getGroupMembersOfGroup \(ContactUsernames)")
+                var membersCompleteList=sqliteDB.getGroupMembersOfGroup(ContactUsernames)
                 print("membersCompleteList is \(membersCompleteList)")
                 var membersList=[String]()
                 
@@ -4242,9 +4244,12 @@ break
                     print("membersCompleteList[i][member_phone] as! String \(membersCompleteList[i]["member_phone"] as! String)")
                 }
                 
-                print("re-try create group id \(ContactUsernames ) name is \(groupsObjectList[indexPath.row]["group_name"] as! String) and members are \(membersList)")
+               // print("re-try create group id \(ContactUsernames ) name is \(groupsObjectList[indexPath.row]["group_name"] as! String) and members are \(membersList)")
                 
-              UtilityFunctions.init().createGroupAPI(groupsObjectList[indexPath.row]["group_name"] as! String, members: membersList, uniqueid: ContactUsernames as! String)
+                 print("re-try create group id \(ContactUsernames ) name is \(ContactNames) and members are \(membersList)")
+             // UtilityFunctions.init().createGroupAPI(groupsObjectList[indexPath.row]["group_name"] as! String, members: membersList, uniqueid: ContactUsernames as! String)
+                
+                UtilityFunctions.init().createGroupAPI(ContactNames, members: membersList, uniqueid: ContactUsernames as! String)
             }
             else
             {
