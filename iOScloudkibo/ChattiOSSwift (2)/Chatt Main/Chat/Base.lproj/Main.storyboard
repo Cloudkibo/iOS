@@ -1193,7 +1193,7 @@
                                         <rect key="frame" x="0.0" y="28" width="320" height="103"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Fu4-KD-Cp8" id="Ymf-Op-dvL">
-                                            <rect key="frame" x="0.0" y="0.0" width="320" height="102.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="320" height="102"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="profile-pic1" id="KXe-hy-PtF">
@@ -6025,7 +6025,7 @@
                                         <rect key="frame" x="0.0" y="28" width="320" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="VnU-xq-X1G" id="Rck-cy-nSX">
-                                            <rect key="frame" x="0.0" y="0.0" width="320" height="43.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <textField opaque="NO" clipsSubviews="YES" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="List Name" textAlignment="natural" minimumFontSize="17" id="qYE-m6-5HL">
@@ -6041,7 +6041,7 @@
                                         <rect key="frame" x="0.0" y="72" width="320" height="68"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Mpo-yj-Nva" id="0xV-IW-ESa">
-                                            <rect key="frame" x="0.0" y="0.0" width="320" height="67.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="320" height="67"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" tag="1" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="YoY-RA-tR0">
@@ -6444,7 +6444,7 @@
                                         <rect key="frame" x="0.0" y="22" width="320" height="66"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="mLm-vv-rBx" id="1OV-Gk-iEZ">
-                                            <rect key="frame" x="0.0" y="0.0" width="320" height="65.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="320" height="65"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="p6r-Ee-w9Z">
@@ -6509,7 +6509,7 @@
                                         <rect key="frame" x="0.0" y="88" width="320" height="66"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="92g-U7-ELy" id="Oqa-iL-6gt">
-                                            <rect key="frame" x="0.0" y="0.0" width="320" height="65.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="320" height="65"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="2z2-O9-hhc">
@@ -6527,7 +6527,7 @@
                                         <rect key="frame" x="0.0" y="154" width="320" height="66"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="qOR-yY-ieU" id="hep-nT-8xd">
-                                            <rect key="frame" x="0.0" y="0.0" width="320" height="65.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="320" height="65"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <button hidden="YES" opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="OEz-wQ-8oH">
@@ -6583,7 +6583,7 @@
                                         <rect key="frame" x="0.0" y="220" width="320" height="66"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" userInteractionEnabled="NO" contentMode="center" tableViewCell="dRT-se-N2A" id="h33-lj-gDm">
-                                            <rect key="frame" x="0.0" y="0.0" width="320" height="65.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="320" height="65"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0 Favourites" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="ETc-dG-2TX" userLabel="numberFavourites">
@@ -8107,23 +8107,23 @@
         <simulatedScreenMetrics key="destination" type="retina4_0.fullscreen"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="6oI-GI-9iA"/>
-        <segue reference="Sdy-kO-WHf"/>
+        <segue reference="cEg-U8-UBa"/>
         <segue reference="0Ba-7e-jXB"/>
-        <segue reference="ogf-EO-Swc"/>
+        <segue reference="ADA-1C-gHV"/>
+        <segue reference="0xH-LE-leu"/>
         <segue reference="Y9a-Vx-tcX"/>
         <segue reference="1jA-Zj-XHt"/>
-        <segue reference="BY8-e2-RyW"/>
+        <segue reference="ThT-lo-Acr"/>
         <segue reference="W8i-Cs-Z8T"/>
         <segue reference="Spe-dd-EXu"/>
+        <segue reference="Sdy-kO-WHf"/>
+        <segue reference="jZZ-fL-lXE"/>
+        <segue reference="N5B-Ot-bcs"/>
         <segue reference="nfZ-gF-nDM"/>
         <segue reference="Ite-sp-zyZ"/>
         <segue reference="LYu-6R-l0u"/>
-        <segue reference="SBG-bF-djg"/>
-        <segue reference="N5B-Ot-bcs"/>
         <segue reference="Wyu-u6-g5L"/>
         <segue reference="cPW-RE-2je"/>
-        <segue reference="TN9-Au-PUW"/>
         <segue reference="Lsn-aA-q1J"/>
         <segue reference="X5X-Qt-8lc"/>
         <segue reference="8LM-cv-XXH"/>

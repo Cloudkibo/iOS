@@ -237,12 +237,13 @@ class syncService{
     
     func getGroups(groupInfo:JSON)
     {
+        var status=Expression<String>("status")
         var tbl_Groups=sqliteDB.groups
-        
+        //self.groupsObjectList[i]["status"] as! String == "temp"
         
         do{
              try sqliteDB.db.transaction {
-            try sqliteDB.db.run((tbl_Groups?.delete())!)
+            try sqliteDB.db.run((tbl_Groups?.filter(status != "temp").delete())!)
             
             for i in 0 ..< groupInfo.count
             {
@@ -413,7 +414,7 @@ class syncService{
      
             for i in 0 ..< contactsJsonObj.count
             {
-                print("inside for loop")
+                print("inside for loop \(contactsJsonObj)")
                 do {
                     if(contactsJsonObj[i]["contactid"]["username"].string != nil)
                     {

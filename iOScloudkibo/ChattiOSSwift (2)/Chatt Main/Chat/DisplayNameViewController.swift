@@ -1067,7 +1067,8 @@ class DisplayNameViewController: UIViewController,UNUserNotificationCenterDelega
                             {
                                 print("inside displayname hereeeeeee")
                                 
-                                
+                                if(contactsJsonObj[i]["contactid"] != nil)
+                                {
                                 let rowid = try sqliteDB.db.run((tbl_contactslists?.insert(contactid<-contactsJsonObj[i]["contactid"]["_id"].string!,
                                                                                            detailsshared<-contactsJsonObj[i]["detailsshared"].string!,
                                                                                            
@@ -1082,7 +1083,7 @@ class DisplayNameViewController: UIViewController,UNUserNotificationCenterDelega
                                     phone<-contactsJsonObj[i]["contactid"]["phone"].string!,
                                     username<-contactsJsonObj[i]["contactid"]["phone"].string!,
                                     status<-contactsJsonObj[i]["contactid"]["status"].string!))!
-                                )
+                                    )}
                            
                                 print("inserted id: \(rowid)")
                                 

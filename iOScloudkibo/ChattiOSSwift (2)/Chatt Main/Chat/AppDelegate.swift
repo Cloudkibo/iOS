@@ -3818,7 +3818,7 @@ var uniqueid=payload["uniqueid"] as! String
                     var userobj = userInfo["user"] as! JSON
                     var newuserphone=userobj["phone"].string!
                     var addressbookname=sqliteDB.getNameFromAddressbook(newuserphone)
-                    if(addressbookname!=nil)
+                    if(addressbookname != nil)
                     {
                         // in addressbook
                         sqliteDB.updateKiboStatusInAddressbook(newuserphone)
@@ -3832,7 +3832,8 @@ var uniqueid=payload["uniqueid"] as! String
                     self.username1<-json["phone"].string!,
                     self.status<-json["status"].string!,
                     self.phone<-json["phone"].string!))!)
- */
+ 
+                     */
                     
                 }
 
