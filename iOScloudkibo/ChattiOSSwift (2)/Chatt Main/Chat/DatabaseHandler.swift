@@ -1223,7 +1223,7 @@ print("alter table needed")
             
             
         }*/
-    func SaveURLData(_ urlMessageID1:String,title1:String,desc1:String,url1:String,msg1:String,image1:Data)
+    func SaveURLData(_ urlMessageID1:String,title1:String,desc1:String,url1:String,msg1:String,image1:Data?)
     {
         
         let urlMessageID = Expression<String>("urlMessageID")
@@ -1240,7 +1240,7 @@ print("alter table needed")
                                                     desc<-desc1,
                                                     url<-url1,
                                                     msg<-msg1,
-                                                    image<-image1
+                                                    image<-Data.init()
                 
                 
                 ))!)
@@ -2120,7 +2120,7 @@ print("--------")
     self.urlData = Table("urlData")
          var newEntry: [String: AnyObject] = [:]
         do
-        {for URLinfo in try self.db.prepare(self.urlData.filter(url1 == url)){
+        {for URLinfo in try self.db.prepare(self.urlData.filter(url == url1)){
             
           //  print("inside finding group found in db")
             newEntry["urlMessageID"]=URLinfo.get(urlMessageID) as AnyObject
