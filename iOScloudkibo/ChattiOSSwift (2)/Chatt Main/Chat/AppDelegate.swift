@@ -4725,7 +4725,7 @@ var uniqueid=payload["uniqueid"] as! String
                         sqliteDB.storeGroupsChat(from, group_unique_id1: group_unique_id, type1: type, msg1: msg, from_fullname1: from_fullname, date1: datens2!, unique_id1: unique_id)
                         
                         //store status update delivered
-                        sqliteDB.storeGRoupsChatStatus(unique_id, status1: "delivered", memberphone1: username!, delivereddate1: NSDate() as Date!, readDate1: NSDate() as Date!)
+                        sqliteDB.storeGRoupsChatStatus(unique_id, status1: "delivered", memberphone1: from, delivereddate1: NSDate() as Date!, readDate1: NSDate() as Date!)
                       
                         if(chatJson["type"].string! != "chat")
                         {

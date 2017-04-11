@@ -299,8 +299,8 @@ var isKiboContact="false"
                     print("title \(result[.title] as! String)")
                     self.urlTitle=result[.title] as! String
                     self.urlDesc=result[SwiftLinkResponseKey.description] as! String
-                    //self.urlURL=result[SwiftLinkResponseKey.url] as! String
-                    var urlURLimage=result[SwiftLinkResponseKey.image] as! String
+                    self.urlURL="\(result[SwiftLinkResponseKey.url])" // as! String
+                    //var urlURLimage=result[SwiftLinkResponseKey.image] as! String
                     //Chat.SwiftLinkResponseKey.description
                     //Chat.SwiftLinkResponseKey.images
                     //Chat.SwiftLinkResponseKey.title
@@ -1103,7 +1103,33 @@ var isKiboContact="false"
                                         messages2.add(["message":tblContacts[msg],"status":tblContacts[status], "type":"14", "date":defaultTimeeee, "uniqueid":tblContacts[uniqueid]])
                                     }else{
                                         print("hereee 2 ")
+                                        
+                                        var urlArray=UtilityFunctions.init().getURLs(text: tblContacts[msg])
+                                        if(urlArray.count>0)
+                                        {
+                                            print("found url \(urlArray.first!)")
+                                           var urlInfoDB=sqliteDB.getSingleURLInfo("\(urlArray.first!)")
+                                            if(urlInfoDB.count>0){
+                                        
+                                                 var title=urlInfoDB["title"]
+                                                var description=urlInfoDB["desc"]
+                                                var url=urlInfoDB["url"]
+                                                //newEntry["msg"]=URLinfo.get(msg) as AnyObject
+                                                messages2.add(["message":tblContacts[msg]+" (\(tblContacts[status])) ","status":tblContacts[status], "type":"22", "date":defaultTimeeee, "uniqueid":tblContacts[uniqueid],"title":title,"description":description,"url":url])
+                                                
+
+                                            }
+                                            else{
+                                                messages2.add(["message":tblContacts[msg]+" (\(tblContacts[status])) ","status":tblContacts[status], "type":"2", "date":defaultTimeeee, "uniqueid":tblContacts[uniqueid]])
+                                                
+                                            }
+                                        }
+                                        
+                                      
+
+                                        else{
                                         messages2.add(["message":tblContacts[msg]+" (\(tblContacts[status])) ","status":tblContacts[status], "type":"2", "date":defaultTimeeee, "uniqueid":tblContacts[uniqueid]])
+                                        }
                                         /*var urlArray=UtilityFunctions.init().getURLs(text: tblContacts[msg])
                                         print()
                                         
@@ -1386,7 +1412,36 @@ var isKiboContact="false"
                                 
                             }
                             else{
-                                messages2.add(["message":tblContacts[msg]+" (\(tblContacts[status])) ","status":tblContacts[status], "type":"2", "date":defaultTimeeee, "uniqueid":tblContacts[uniqueid]])
+                                
+                                var urlArray=UtilityFunctions.init().getURLs(text: tblContacts[msg])
+                                if(urlArray.count>0)
+                                {
+                                    print("found url \(urlArray.first!)")
+                                    var urlInfoDB=sqliteDB.getSingleURLInfo("\(urlArray.first!)")
+                                    if(urlInfoDB.count>0){
+                                        
+                                        var title=urlInfoDB["title"]
+                                        var description=urlInfoDB["desc"]
+                                        var url=urlInfoDB["url"]
+                                        //newEntry["msg"]=URLinfo.get(msg) as AnyObject
+                                        messages2.add(["message":tblContacts[msg]+" (\(tblContacts[status])) ","status":tblContacts[status], "type":"22", "date":defaultTimeeee, "uniqueid":tblContacts[uniqueid],"title":title,"description":description,"url":url])
+                                        
+                                        
+                                    }
+                                    else{
+                                        messages2.add(["message":tblContacts[msg]+" (\(tblContacts[status])) ","status":tblContacts[status], "type":"2", "date":defaultTimeeee, "uniqueid":tblContacts[uniqueid]])
+                                        
+                                    }
+                                }
+                                    
+                                    
+                                    
+                                else{
+                                    messages2.add(["message":tblContacts[msg]+" (\(tblContacts[status])) ","status":tblContacts[status], "type":"2", "date":defaultTimeeee, "uniqueid":tblContacts[uniqueid]])
+                                }
+                                
+                                
+                               /////=-=-= messages2.add(["message":tblContacts[msg]+" (\(tblContacts[status])) ","status":tblContacts[status], "type":"2", "date":defaultTimeeee, "uniqueid":tblContacts[uniqueid]])
                                 /*var urlArray=UtilityFunctions.init().getURLs(text: tblContacts[msg])
                                 print()
                                 
@@ -2701,6 +2756,12 @@ var isKiboContact="false"
                     //  let embeddedView = URLEmbeddedView()
                     // embeddedView.loadURL(sender.text!)
                     print("title \(result[.title] as! String)")
+                    messageDic["title"]=result[.title] as! String
+                    messageDic["description"]=result[SwiftLinkResponseKey.description] as! String
+                    messageDic["url"]="\(result[SwiftLinkResponseKey.url]!)"
+                    messageDic["image"]=result[SwiftLinkResponseKey.image] as! String
+
+                    
                     self.tblForChats.beginUpdates()
                     //self.tblForChats.reloadRows(at: [indexp], with: UITableViewRowAnimation.bottom)
                     self.urlTitle=result[.title] as! String
@@ -2728,7 +2789,7 @@ var isKiboContact="false"
                     //
                    /// self.messages.add(["message":tblContacts[msg]+" (\(tblContacts[status])) ","status":tblContacts[status], "type":"2", "date":defaultTimeeee, "uniqueid":tblContacts[uniqueid],"title":result[.title] as! String,"description":result[SwiftLinkResponseKey.description] as! String,"url":"\(result[.url]!)"])
                     
-                    sqliteDB.SaveURLData(urlMessageID1:UtilityFunctions.init().generateUniqueid(),title1:result[.title] as! String,desc1:result[SwiftLinkResponseKey.description] as! String,url1:String,msg1:msg! as String!,image1:result[SwiftLinkResponseKey.image] as! String)
+                   sqliteDB.SaveURLData(UtilityFunctions.init().generateUniqueid(),title1:result[.title] as! String,desc1:result[SwiftLinkResponseKey.description] as! String,url1:result[SwiftLinkResponseKey.description] as! String,msg1:msg! as String!,image1:result[SwiftLinkResponseKey.image] as! Data)
                     
                    // var urlinfoObject=sqliteDBgetSingleURLInfo(url1:"\(result[SwiftLinkResponseKey.url])")
                     
@@ -5993,7 +6054,10 @@ var isKiboContact="false"
         //==--self.tblForChats.reloadRowsAtIndexPaths([lastrowindexpath], withRowAnimation: .None)
         
         
-        
+        if(hasURL==true)
+        {
+          self.insertChatRowAtLast(msggg+" (\(statusNow))", uniqueid: uniqueID, status: statusNow, filename: "", type: "22", date: defaultTimeZoneStr, from: username!)  
+        }
         self.insertChatRowAtLast(msggg+" (\(statusNow))", uniqueid: uniqueID, status: statusNow, filename: "", type: "2", date: defaultTimeZoneStr, from: username!)
        
         /*self.addMessage(msggg+" (\(statusNow))",status:statusNow,ofType: "2",date:defaultTimeZoneStr, uniqueid: uniqueID)
