@@ -2415,7 +2415,7 @@ var isKiboContact="false"
 }else{
                   if(msgType.isEqual(to: "22"))
                   {
-                    return getSizeOfStringHeight(msg!).height+25+60
+                    return getSizeOfStringHeight(msg!).height+25+60+10
                 //=== ==== --return correctheight+25
                     }
                   else{
@@ -2731,7 +2731,7 @@ var isKiboContact="false"
             
             
             var title=urlView?.viewWithTag(19) as! UILabel
-            var desc=urlView?.viewWithTag(20) as! UILabel
+            var desc=urlView?.viewWithTag(20) as! ActiveLabel
             var urllbl=urlView?.viewWithTag(21) as! UILabel
             var activityIndicator=urlView?.viewWithTag(24) as! UIActivityIndicatorView
             
@@ -2754,7 +2754,6 @@ var isKiboContact="false"
              }
              */
            //// //print("here 905 msgtype is \(msgType)")
-            let distanceFactor = (197.0 - sizeOFStr.width) < 107 ? (197.0 - sizeOFStr.width) : 107
            //// //print("distanceFactor for \(msg) is \(distanceFactor)")
             
            
@@ -2808,6 +2807,35 @@ var isKiboContact="false"
                 title.text=messageDic["title"] as? String!
                 desc.text=messageDic["description"] as? String!
                 urllbl.text=messageDic["url"] as? String!
+            
+            var sizeOFStrDesc = self.getSizeOfString(messageDic["description"]! as! NSString)
+            
+            if(sizeOFStrDesc.height>sizeOFStr.height)
+            {
+               sizeOFStr=sizeOFStrDesc
+            }
+            
+            let distanceFactor = (197.0 - sizeOFStr.width) < 107 ? (197.0 - sizeOFStr.width) : 107
+            
+            desc.numberOfLines = 0
+            desc.enabledTypes = [.mention, .hashtag, .url]
+            // textLable.text = "This is a post with #hashtags and a @userhandle."
+            desc.textColor = .black
+            desc.handleHashtagTap { hashtag in
+                print("Success. You just tapped the \(hashtag) hashtag")
+            }
+            desc.handleURLTap({ (url) in
+                print("Success. You just tapped the \(url) url")
+                var stringURL="\(url)"
+                if !(stringURL.contains("http")) {
+                    stringURL = "http://" + stringURL
+                }
+                
+                var res=UIApplication.shared.openURL(NSURL.init(string: stringURL) as! URL)
+                print("open url \(res)")
+            })
+            
+            let correctheightViewDesc=getSizeOfStringHeight(messageDic["description"] as! NSString).height
                 
             /*}
             else
@@ -2887,7 +2915,7 @@ var isKiboContact="false"
                 urllbl.text=messageDic["url"] as? String!
                 
             }*/
-            urlView?.frame = CGRect(x: 25 + distanceFactor, y: (urlView?.frame.origin.y)!, width:  ((sizeOFStr.width + 107+30)  > 207 ? (sizeOFStr.width + 107-40) : 200-40), height: (urlView?.frame.height)!)
+            urlView?.frame = CGRect(x: 25 + distanceFactor, y: (urlView?.frame.origin.y)!, width:  ((sizeOFStr.width + 107+30)  > 207 ? (sizeOFStr.width + 107-40) : 200-40), height: correctheightViewDesc + (urlView?.frame.height)!)
            // urlView?.frame = CGRect(x: 20 + distanceFactor, y: (urlView?.frame.origin.y)!, width: (urlView?.frame.width)!, height: 0)
             //urlView?.isHidden=true
             
@@ -2903,6 +2931,10 @@ var isKiboContact="false"
             //*********
            
             //getSizeOfStringHeight(msg).height
+            //desc
+            
+            desc.frame = CGRect(x: desc.frame.origin.x, y: desc.frame.origin.y, width: (urlView?.frame.width)!, height: correctheightViewDesc)
+            
             
            textLable.frame = CGRect(x: 26 + distanceFactor, y: textLable.frame.origin.y, width: chatImage.frame.width-36, height: correctheight)
             
@@ -3046,7 +3078,7 @@ var isKiboContact="false"
                             
                             
                             
-                            var messages2=["message":msg!+" (\(status)) ","status":status, "type":"22", "date":date2, "uniqueid":uniqueidDictValue,"title":result[.title] as! String,"description":result[SwiftLinkResponseKey.description] as! String,"url":"\(result[SwiftLinkResponseKey.url]!)"]
+                            var messages2=["message":msg!/*+" (\(status)) "*/,"status":status, "type":"22", "date":date2, "uniqueid":uniqueidDictValue,"title":result[.title] as! String,"description":result[SwiftLinkResponseKey.description] as! String,"url":"\(result[SwiftLinkResponseKey.url]!)"]
                             
                             self.messages.replaceObject(at: indexPath.row, with: messages2)
                             //NSLog(messageDic["message"]!, 1)
@@ -6223,7 +6255,7 @@ var isKiboContact="false"
         //  self.insertChatRowAtLast(msggg/*+" (\(statusNow))"*/, uniqueid: uniqueID, status: statusNow, filename: "", type: "22", date: defaultTimeZoneStr, from: username!)
        // }
        // else{
-        self.insertChatRowAtLast(msggg/*+" (\(statusNow))"*/, uniqueid: uniqueID, status: statusNow, filename: "", type: "2", date: defaultTimeZoneStr, from: username!)
+        self.insertChatRowAtLast(msggg+" (\(statusNow))", uniqueid: uniqueID, status: statusNow, filename: "", type: "2", date: defaultTimeZoneStr, from: username!)
         //}
        
         /*self.addMessage(msggg+" (\(statusNow))",status:statusNow,ofType: "2",date:defaultTimeZoneStr, uniqueid: uniqueID)
