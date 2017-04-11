@@ -1131,6 +1131,49 @@ print("alter table needed")
         }
 }
     
+    func UpdateChat(_ uniqueid1:String,type1:String)
+    {
+        //  UtilityFunctions.init().log_papertrail("IPHONE: \(username!) inside database function to update chat status")
+        print("uniqueid is \(uniqueid1) and type1 is \(type1)")
+        let uniqueid = Expression<String>("uniqueid")
+        let status = Expression<String>("status")
+        let to = Expression<String>("to")
+        let from = Expression<String>("from")
+        let owneruser = Expression<String>("owneruser")
+        let fromFullName = Expression<String>("fromFullName")
+        let msg = Expression<String>("msg")
+        let date = Expression<Date>("date")
+        let contactPhone = Expression<String>("contactPhone")
+        let type = Expression<String>("type")
+        let file_type = Expression<String>("file_type")
+        let file_path = Expression<String>("file_path")
+        
+        
+        
+        let tbl_userchats=sqliteDB.userschats
+        
+        let query = tbl_userchats?.select(status)           // SELECT "email" FROM "users"
+            .filter(uniqueid == uniqueid1)     // WHERE "name" IS NOT NULL
+        
+        do{for tblContacts in try sqliteDB.db.prepare((tbl_userchats?.filter(uniqueid == uniqueid1))!)
+        {
+               var res=try sqliteDB.db.run((query?.update(type <- type1))!)
+            print("chat type updated result is \(res) msg is \(tblContacts[msg])")
+            break
+                
+                          }
+            
+        }
+        catch
+        {
+            print("error in updating chat")
+            if(socketObj != nil){
+                socketObj.socket.emit("logClient","\(username!) error in updating chat satatus")
+            }
+        }
+    }
+    
+    
    /* func saveChatImage(to1:String,from1:String,owneruser1:String,fromFullName1:String,msg1:String,date1:String!,uniqueid1:String!,status1:String,type1:String,file_type1:String,file_path1:String)
 
     {
@@ -2107,7 +2150,7 @@ print("--------")
         
     }
     
-    func getSingleURLInfo(_ url1:String)->[String: AnyObject]
+    func getSingleURLInfo(_ uniqueid1:String)->[String: AnyObject]
     {
         
     let urlMessageID = Expression<String>("urlMessageID")
@@ -2120,7 +2163,7 @@ print("--------")
     self.urlData = Table("urlData")
          var newEntry: [String: AnyObject] = [:]
         do
-        {for URLinfo in try self.db.prepare(self.urlData.filter(url == url1)){
+        {for URLinfo in try self.db.prepare(self.urlData.filter(urlMessageID == uniqueid1)){
             
           //  print("inside finding group found in db")
             newEntry["urlMessageID"]=URLinfo.get(urlMessageID) as AnyObject

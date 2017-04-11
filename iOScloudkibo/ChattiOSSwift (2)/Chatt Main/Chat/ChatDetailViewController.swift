@@ -283,6 +283,7 @@ var isKiboContact="false"
             self.btnSendChat.isHidden=false
             self.btnSendAudio.isHidden=true
             
+            /*
             var urlArray=UtilityFunctions.init().getURLs(text: sender.text!)
             print()
             
@@ -311,7 +312,7 @@ var isKiboContact="false"
                     print("error: in url is \(error)")
                     
             }
-            )
+            )*/
            // urlArray.first
         }
 }
@@ -1102,9 +1103,34 @@ var isKiboContact="false"
                                         
                                         messages2.add(["message":tblContacts[msg],"status":tblContacts[status], "type":"14", "date":defaultTimeeee, "uniqueid":tblContacts[uniqueid]])
                                     }else{
+                                        if(tblContacts[type]=="link")
+                                        {
+                                            var urlArray=UtilityFunctions.init().getURLs(text: tblContacts[msg])
+                                            print("found url \(urlArray.first!)")
+                                            var urlInfoDB=sqliteDB.getSingleURLInfo(tblContacts[uniqueid])
+                                            if(urlInfoDB.count>0){
+                                                
+                                                var title=urlInfoDB["title"]
+                                                var description=urlInfoDB["desc"]
+                                                var url=urlInfoDB["url"]
+                                                //newEntry["msg"]=URLinfo.get(msg) as AnyObject
+                                                messages2.add(["message":tblContacts[msg]/*+" (\(tblContacts[status])) "*/,"status":tblContacts[status], "type":"22", "date":defaultTimeeee, "uniqueid":tblContacts[uniqueid],"title":title,"description":description,"url":url])
+                                                
+                                                
+                                            }
+                                            else{
+                                                
+                                                messages2.add(["message":tblContacts[msg]+" (\(tblContacts[status])) ","status":tblContacts[status], "type":"2", "date":defaultTimeeee, "uniqueid":tblContacts[uniqueid]])
+                                                
+                                                //}
+                                            }
+                                            
+                                            
+                                        }
+                                        else{
                                         print("hereee 2 ")
                                         
-                                        var urlArray=UtilityFunctions.init().getURLs(text: tblContacts[msg])
+                                       /* var urlArray=UtilityFunctions.init().getURLs(text: tblContacts[msg])
                                         if(urlArray.count>0)
                                         {
                                             print("found url \(urlArray.first!)")
@@ -1125,11 +1151,11 @@ var isKiboContact="false"
                                             }
                                         }
                                         
-                                      
+                                      */
 
-                                        else{
+                                      //  else{
                                         messages2.add(["message":tblContacts[msg]+" (\(tblContacts[status])) ","status":tblContacts[status], "type":"2", "date":defaultTimeeee, "uniqueid":tblContacts[uniqueid]])
-                                        }
+                                        //}
                                         /*var urlArray=UtilityFunctions.init().getURLs(text: tblContacts[msg])
                                         print()
                                         
@@ -1164,7 +1190,7 @@ var isKiboContact="false"
                                        
                                         )*/
                                             
-                                            
+                                        }
                        
                                     }
                                 }
@@ -1413,6 +1439,41 @@ var isKiboContact="false"
                             }
                             else{
                                 
+                                if(tblContacts[type]=="link")
+                                {
+                                    
+                                    var urlArray=UtilityFunctions.init().getURLs(text: tblContacts[msg])
+                                    if(urlArray.count>0)
+                                    {
+                                        print("found url \(urlArray.first!)")
+                                        var urlInfoDB=sqliteDB.getSingleURLInfo(tblContacts[uniqueid])
+                                        if(urlInfoDB.count>0){
+                                            
+                                            var title=urlInfoDB["title"]
+                                            var description=urlInfoDB["desc"]
+                                            var url=urlInfoDB["url"]
+                                            //newEntry["msg"]=URLinfo.get(msg) as AnyObject
+                                            messages2.add(["message":tblContacts[msg]/*+" (\(tblContacts[status])) "*/,"status":tblContacts[status], "type":"22", "date":defaultTimeeee, "uniqueid":tblContacts[uniqueid],"title":title,"description":description,"url":url])
+                                            
+                                            
+                                        }
+                                        else{
+                                            
+                                            messages2.add(["message":tblContacts[msg]+" (\(tblContacts[status])) ","status":tblContacts[status], "type":"2", "date":defaultTimeeee, "uniqueid":tblContacts[uniqueid]])
+                                            
+                                            //}
+                                        }
+                                  
+                                        
+                                    }else{
+                                      
+                                          messages2.add(["message":tblContacts[msg]+" (\(tblContacts[status])) ","status":tblContacts[status], "type":"2", "date":defaultTimeeee, "uniqueid":tblContacts[uniqueid]])
+                                    }
+                                        
+                             //  messages2.add(["message":tblContacts[msg]+" (\(tblContacts[status])) ","status":tblContacts[status], "type":"22", "date":defaultTimeeee, "uniqueid":tblContacts[uniqueid],"title"])
+                                }
+                                else{
+                              /*
                                 var urlArray=UtilityFunctions.init().getURLs(text: tblContacts[msg])
                                 if(urlArray.count>0)
                                 {
@@ -1429,16 +1490,17 @@ var isKiboContact="false"
                                         
                                     }
                                     else{
+ 
                                         messages2.add(["message":tblContacts[msg]+" (\(tblContacts[status])) ","status":tblContacts[status], "type":"2", "date":defaultTimeeee, "uniqueid":tblContacts[uniqueid]])
                                         
-                                    }
+                                    //}
                                 }
                                     
                                     
                                     
-                                else{
+                                else{*/
                                     messages2.add(["message":tblContacts[msg]+" (\(tblContacts[status])) ","status":tblContacts[status], "type":"2", "date":defaultTimeeee, "uniqueid":tblContacts[uniqueid]])
-                                }
+                              //  }
                                 
                                 
                                /////=-=-= messages2.add(["message":tblContacts[msg]+" (\(tblContacts[status])) ","status":tblContacts[status], "type":"2", "date":defaultTimeeee, "uniqueid":tblContacts[uniqueid]])
@@ -1483,6 +1545,7 @@ var isKiboContact="false"
                              
                                 //^^^^self.addMessage(tblContacts[msg]+" (\(tblContacts[status])) ", ofType: "2",date: tblContacts[date],uniqueid: tblContacts[uniqueid])
                             }*/
+                        }
                         }
                     }
                     else
@@ -2674,10 +2737,10 @@ var isKiboContact="false"
             
 
             
-            title.isHidden=true
-            desc.isHidden=true
+            //title.isHidden=true
+            //desc.isHidden=true
             urllbl.isHidden=false
-            activityIndicator.startAnimating()
+            activityIndicator.stopAnimating()
 
             
             /*  let documentDirectory = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true).first as String!
@@ -2722,7 +2785,10 @@ var isKiboContact="false"
                 print("open url \(res)")
             })
             textLable.isHidden=false
-           
+            title.isHidden=false
+            desc.isHidden=false
+            urllbl.isHidden=false
+            
             /*textLable.lineBreakMode = .ByWordWrapping
             textLable.numberOfLines=0
             textLable.sizeToFit()
@@ -2735,14 +2801,15 @@ var isKiboContact="false"
             var urlArray=UtilityFunctions.init().getURLs(text: msg! as String!)
             
             print("messageDic url 22 i \(messageDic)")
-            if(messageDic["title"] != nil)
-            {print("detected URL")
+            //if(messageDic["title"] != nil)
+            //{
+                print("detected URL")
                 
                 title.text=messageDic["title"] as? String!
                 desc.text=messageDic["description"] as? String!
                 urllbl.text=messageDic["url"] as? String!
                 
-            }
+            /*}
             else
             {
             let slp = SwiftLinkPreview()
@@ -2810,7 +2877,7 @@ var isKiboContact="false"
             }
                 
             )
-        }
+        }*/
         
             
             /*if(messageDic["title"] != nil)
@@ -2936,7 +3003,103 @@ var isKiboContact="false"
                 var res=UIApplication.shared.openURL(NSURL.init(string: stringURL) as! URL)
                 print("open url \(res)")
             })
+            print("message is \(textLable.text!)")
+            print("url encode is \(textLable.text?.urlEncode())  and isvalidurl  \(textLable.text?.isValidURL())")
             
+            if(textLable.text!.isValidURL() == true)
+            {
+                //update database and fetch metadata in background
+                
+                    let slp = SwiftLinkPreview()
+                    slp.preview(
+                        textLable.text! as String!,
+                        onSuccess: { result in
+                            
+                            self.hasURL=true
+                            print("url result in retrieve is \(result)")
+                            sqliteDB.SaveURLData(uniqueidDictValue! as! String,title1:result[.title] as! String,desc1:result[SwiftLinkResponseKey.description] as! String,url1:"\(result[SwiftLinkResponseKey.url])",msg1:msg! as String!,image1:nil//Data.init(base64Encoded:result[SwiftLinkResponseKey.image] as! String)!
+                            )
+                            
+                            sqliteDB.UpdateChat(uniqueidDictValue! as! String, type1: "link")
+                            
+                            //  let embeddedView = URLEmbeddedView()
+                            // embeddedView.loadURL(sender.text!)
+                           
+
+                            
+                            
+                            
+                            print("title \(result[.title] as! String)")
+                            messageDic["title"]=result[.title] as! String
+                            messageDic["description"]=result[SwiftLinkResponseKey.description] as! String
+                            messageDic["url"]="\(result[SwiftLinkResponseKey.url]!)"
+                            messageDic["image"]=result[SwiftLinkResponseKey.image] as! String
+                            
+                            
+                            var messageDicSingle = self.messages.object(at: indexPath.row) as! [String : String];
+                            let msgType = messageDicSingle["type"] as String!
+                            let msg = messageDicSingle["message"] as String!
+                            let date2=messageDicSingle["date"] as String!
+                            var sizeOFStr = self.getSizeOfString(msg! as! NSString)
+                            let uniqueidDictValue=messageDicSingle["uniqueid"] as String!
+                            let status=messageDicSingle["status"] as String!
+                            
+                            
+                            
+                            var messages2=["message":msg!+" (\(status)) ","status":status, "type":"22", "date":date2, "uniqueid":uniqueidDictValue,"title":result[.title] as! String,"description":result[SwiftLinkResponseKey.description] as! String,"url":"\(result[SwiftLinkResponseKey.url]!)"]
+                            
+                            self.messages.replaceObject(at: indexPath.row, with: messages2)
+                            //NSLog(messageDic["message"]!, 1)
+                            
+                            //self.tblForChats.reloadRows(at: [indexp], with: UITableViewRowAnimation.bottom)
+                            self.urlTitle=result[.title] as! String
+                            self.urlDesc=result[SwiftLinkResponseKey.description] as! String
+                            //self.urlURL=result[SwiftLinkResponseKey.url] as! String
+                            var urlURLimage=result[SwiftLinkResponseKey.image] as! String
+                            
+                           /* title.isHidden=false
+                            desc.isHidden=false
+                            urllbl.isHidden=false
+                            activityIndicator.stopAnimating()
+                            
+                            
+                            
+                            title.text=result[.title] as! String
+                            desc.text=result[SwiftLinkResponseKey.description] as! String
+                            urllbl.text="\(result[SwiftLinkResponseKey.url]!)"
+                            */
+                            self.tblForChats.beginUpdates()
+                            //var indexp=IndexPath(row:indexP, section:0)
+                            self.tblForChats.reloadRows(at: [indexPath], with: UITableViewRowAnimation.none)
+                            self.tblForChats.endUpdates()
+                            //Chat.SwiftLinkResponseKey.description
+                            //Chat.SwiftLinkResponseKey.images
+                            //Chat.SwiftLinkResponseKey.title
+                            //Chat.SwiftLinkResponseKey.url
+                            //
+                            /// self.messages.add(["message":tblContacts[msg]+" (\(tblContacts[status])) ","status":tblContacts[status], "type":"2", "date":defaultTimeeee, "uniqueid":tblContacts[uniqueid],"title":result[.title] as! String,"description":result[SwiftLinkResponseKey.description] as! String,"url":"\(result[.url]!)"])
+                            
+                            
+                            // var urlinfoObject=sqliteDBgetSingleURLInfo(url1:"\(result[SwiftLinkResponseKey.url])")
+                            
+                            
+                            
+                            
+                            
+                    },
+                        onError: { error in
+                            ///self.messages.add(["message":tblContacts[msg]+" (\(tblContacts[status])) ","status":tblContacts[status], "type":"2", "date":defaultTimeeee, "uniqueid":tblContacts[uniqueid]])
+                            print("error: in url is \(error)")
+                           /* desc.isHidden=false
+                            desc.text="Unable to load data"
+                            activityIndicator.stopAnimating()*/
+                            
+                            
+                    }
+                        
+                    )
+                }
+                
             
             /*textLable.lineBreakMode = .ByWordWrapping
              textLable.numberOfLines=0
@@ -6055,13 +6218,13 @@ var isKiboContact="false"
         //==--self.tblForChats.reloadRowsAtIndexPaths([lastrowindexpath], withRowAnimation: .None)
         
         
-        if(hasURL==true)
-        {
-          self.insertChatRowAtLast(msggg/*+" (\(statusNow))"*/, uniqueid: uniqueID, status: statusNow, filename: "", type: "22", date: defaultTimeZoneStr, from: username!)
-        }
-        else{
+       // if(hasURL==true)
+        //{
+        //  self.insertChatRowAtLast(msggg/*+" (\(statusNow))"*/, uniqueid: uniqueID, status: statusNow, filename: "", type: "22", date: defaultTimeZoneStr, from: username!)
+       // }
+       // else{
         self.insertChatRowAtLast(msggg/*+" (\(statusNow))"*/, uniqueid: uniqueID, status: statusNow, filename: "", type: "2", date: defaultTimeZoneStr, from: username!)
-        }
+        //}
        
         /*self.addMessage(msggg+" (\(statusNow))",status:statusNow,ofType: "2",date:defaultTimeZoneStr, uniqueid: uniqueID)
   
