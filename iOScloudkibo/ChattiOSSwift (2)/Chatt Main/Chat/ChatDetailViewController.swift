@@ -1119,8 +1119,8 @@ var isKiboContact="false"
                                                 
                                             }
                                             else{
-                                                
-                                                messages2.add(["message":tblContacts[msg]+" (\(tblContacts[status])) ","status":tblContacts[status], "type":"2", "date":defaultTimeeee, "uniqueid":tblContacts[uniqueid]])
+                                                print("type link but not found in database")
+                                               // messages2.add(["message":tblContacts[msg]+" (\(tblContacts[status])) ","status":tblContacts[status], "type":"2", "date":defaultTimeeee, "uniqueid":tblContacts[uniqueid]])
                                                 
                                                 //}
                                             }
@@ -1458,8 +1458,8 @@ var isKiboContact="false"
                                             
                                         }
                                         else{
-                                            
-                                            messages2.add(["message":tblContacts[msg]+" (\(tblContacts[status])) ","status":tblContacts[status], "type":"2", "date":defaultTimeeee, "uniqueid":tblContacts[uniqueid]])
+                                            print("type link but not in db")
+                                            //messages2.add(["message":tblContacts[msg]+" (\(tblContacts[status])) ","status":tblContacts[status], "type":"2", "date":defaultTimeeee, "uniqueid":tblContacts[uniqueid]])
                                             
                                             //}
                                         }
@@ -2809,16 +2809,20 @@ var isKiboContact="false"
                 urllbl.text=messageDic["url"] as? String!
             
             var sizeOFStrDesc = self.getSizeOfString(messageDic["description"]! as! NSString)
-            
-            if(sizeOFStrDesc.height>sizeOFStr.height)
+            var temp=sizeOFStr
+            /*if(sizeOFStrDesc.height>sizeOFStr.height)
             {
                sizeOFStr=sizeOFStrDesc
             }
+            else{
+                sizeOFStr=temp+
+            }*/
             
             let distanceFactor = (197.0 - sizeOFStr.width) < 107 ? (197.0 - sizeOFStr.width) : 107
             
             desc.numberOfLines = 0
             desc.enabledTypes = [.mention, .hashtag, .url]
+            desc.lineBreakMode = .byWordWrapping
             // textLable.text = "This is a post with #hashtags and a @userhandle."
             desc.textColor = .black
             desc.handleHashtagTap { hashtag in
@@ -2915,7 +2919,7 @@ var isKiboContact="false"
                 urllbl.text=messageDic["url"] as? String!
                 
             }*/
-            urlView?.frame = CGRect(x: 25 + distanceFactor, y: (urlView?.frame.origin.y)!, width:  ((sizeOFStr.width + 107+30)  > 207 ? (sizeOFStr.width + 107-40) : 200-40), height: correctheightViewDesc + (urlView?.frame.height)!)
+            urlView?.frame = CGRect(x: 25 + distanceFactor, y: (urlView?.frame.origin.y)!, width:  ((sizeOFStrDesc.width + 107+30)  > 207 ? (sizeOFStrDesc.width + 107-40) : 200-40), height: correctheightViewDesc + 30/*(urlView?.frame.height)!*/)
            // urlView?.frame = CGRect(x: 20 + distanceFactor, y: (urlView?.frame.origin.y)!, width: (urlView?.frame.width)!, height: 0)
             //urlView?.isHidden=true
             
@@ -2933,6 +2937,8 @@ var isKiboContact="false"
             //getSizeOfStringHeight(msg).height
             //desc
             
+           // urllbl
+            urllbl.frame = CGRect(x: urllbl.frame.origin.x, y: urllbl.frame.height-20, width: (urllbl.frame.width)!, height: urllbl.frame.height)
             desc.frame = CGRect(x: desc.frame.origin.x, y: desc.frame.origin.y, width: (urlView?.frame.width)!, height: correctheightViewDesc)
             
             
