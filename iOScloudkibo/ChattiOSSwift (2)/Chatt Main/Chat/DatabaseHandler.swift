@@ -2688,17 +2688,34 @@ print("--------")
         
     }
     
+    func updateKiboStatusInAddressbook(_ phone1:String!)
+    {
+        let name = Expression<String>("name")
+        let phone = Expression<String>("phone")
+        let kiboContact = Expression<Bool>("kiboContact")
+       
+        
+            do{
+                try self.db.run(self.allcontacts.filter(phone==phone1).update(kiboContact<-true))
+            }
+            catch{
+                
+            }
+    
+        
+    }
+    
     func getNameFromAddressbook(_ phone1:String!)->String!
     {
         let name = Expression<String>("name")
         let phone = Expression<String>("phone")
         
-       
+        
         do
         { for res in try sqliteDB.db.prepare(self.allcontacts.filter(phone == phone1))
         {
             return res[name]
-        }
+            }
         }
         catch
         {

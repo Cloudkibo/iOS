@@ -2938,7 +2938,8 @@ var isKiboContact="false"
             //desc
             
            // urllbl
-            urllbl.frame = CGRect(x: urllbl.frame.origin.x, y: urllbl.frame.height-20, width: (urllbl.frame.width)!, height: urllbl.frame.height)
+            urllbl.frame = CGRect(x: urllbl.frame.origin.x, y: (urlView?.frame.height)!-20, width: (urllbl.frame.width), height: urllbl.frame.height)
+            
             desc.frame = CGRect(x: desc.frame.origin.x, y: desc.frame.origin.y, width: (urlView?.frame.width)!, height: correctheightViewDesc)
             
             
