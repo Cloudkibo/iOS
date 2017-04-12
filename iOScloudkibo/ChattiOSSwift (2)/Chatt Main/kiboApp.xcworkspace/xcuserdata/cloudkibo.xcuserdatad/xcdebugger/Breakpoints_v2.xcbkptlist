@@ -2118,11 +2118,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Chat/GroupInfo3ViewController.swift"
-            timestampString = "513522920.722761"
+            timestampString = "513694335.090408"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1285"
-            endingLineNumber = "1285"
+            startingLineNumber = "1295"
+            endingLineNumber = "1295"
             landmarkName = "imagePickerController(_:didFinishPickingImage:editingInfo:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -3947,11 +3947,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Chat/GroupInfo3ViewController.swift"
-            timestampString = "513522920.722761"
+            timestampString = "513694335.090408"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1516"
-            endingLineNumber = "1516"
+            startingLineNumber = "1526"
+            endingLineNumber = "1526"
             landmarkName = "prepare(for:sender:)"
             landmarkType = "7">
          </BreakpointContent>

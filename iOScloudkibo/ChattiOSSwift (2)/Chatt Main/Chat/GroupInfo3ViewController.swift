@@ -825,6 +825,12 @@ return 95
                 
                 
             })
+                let demoteAdmin = UIAlertAction(title: "Demote Admin", style: UIAlertActionStyle.default,handler: { (action) -> Void in
+                    
+                    
+                    self.changeRole(selectedMemberPhone!,isAdmin: "No")
+               
+                })
             let removeMember = UIAlertAction(title: "Remove \(selectedMemberName!) ?", style: UIAlertActionStyle.default,handler: { (action) -> Void in
                 if(internetAvailable==true)
 {
@@ -848,6 +854,10 @@ else{
                 {
                     shareMenu.addAction(makeAdmin)
                    }//end of not Admin
+                else{
+                    //demote
+                    shareMenu.addAction(demoteAdmin)
+                }
                 
                 shareMenu.addAction(removeMember)
                 shareMenu.addAction(cancel)
