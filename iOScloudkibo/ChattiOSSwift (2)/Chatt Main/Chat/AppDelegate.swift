@@ -3207,7 +3207,7 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
         let hub=SBNotificationHub(connectionString: Constants.connectionstring, notificationHubPath: Constants.hubname) //from constants file
         var tagarray=[String]()
         tagarray.append(username!.substring(from: username!.characters.index(after: username!.startIndex)))
-        tagarray.append("new_user")
+        tagarray.append("newuser")
         
         print(username!.substring(from: username!.characters.index(after: username!.startIndex)))
        // var tagname=NSSet(object: username!.substringFromIndex(username!.startIndex))

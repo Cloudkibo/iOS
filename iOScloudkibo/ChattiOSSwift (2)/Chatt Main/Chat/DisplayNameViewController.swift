@@ -195,10 +195,49 @@ class DisplayNameViewController: UIViewController,UNUserNotificationCenterDelega
                                                         
                                                         if(username != nil && username != "")
                                                         {
+                                                            
+                                                            /* let username1 = Expression<String>("username")
+                                                             let tbl_accounts = sqliteDB.accounts
+                                                             do{for account in try sqliteDB.db.prepare(tbl_accounts) {
+                                                             username=account[username1]
+                                                             
+                                                             */  print(" check permission for remote notifications \(UIApplication.shared.isRegisteredForRemoteNotifications)")
+                                                            
+                                                            if #available(iOS 10.0, *) {
+                                                                let center  = UNUserNotificationCenter.current()
+                                                                center.delegate = self
+                                                                center.requestAuthorization(options: [.sound, .alert, .badge]) { (granted, error) in
+                                                                    if error == nil{
+                                                                        UIApplication.shared.registerForRemoteNotifications()
+                                                                    }
+                                                                }
+                                                            }
+                                                                
+                                                            else {
+                                                                let notificationTypes: UIUserNotificationType = [UIUserNotificationType.alert, UIUserNotificationType.badge, UIUserNotificationType.sound]
+                                                                
+                                                                //let notificationTypes: UIUserNotificationType = [UIUserNotificationType.None]
+                                                                
+                                                                
+                                                                let pushNotificationSettings = UIUserNotificationSettings(types: notificationTypes, categories: nil)
+                                                                
+                                                                UIApplication.shared.registerUserNotificationSettings(UIUserNotificationSettings(types: [.sound, .alert, .badge], categories: nil))
+                                                                UIApplication.shared.registerForRemoteNotifications()
+                                                            }
+                                                            
+                                                            //UIApplication.shared.registerUserNotificationSettings(pushNotificationSettings)
+                                                            
+                                                            /*}
+                                                             }
+                                                             catch{
+                                                             
+                                                             }*/
+                                                        }
+                                                        /*{
                                                             print("didRegisterForRemoteNotificationsWithDeviceToken in displaycontroller")
                                                             
                                                             UIApplication.shared.registerUserNotificationSettings(pushNotificationSettings)
-                                                        }
+                                                        }*/
                                                         
                                                         print("setting contacts finish time \(Date())")
                                                         

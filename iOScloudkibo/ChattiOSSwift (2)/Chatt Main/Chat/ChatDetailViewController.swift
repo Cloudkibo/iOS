@@ -433,13 +433,13 @@ var isKiboContact="false"
         
         if(isBlocked==true)
         {
-            self.btnSendChat.isEnabled=false
-            self.btnSendAudio.isEnabled=false
+            //self.btnSendChat.isEnabled=false
+            //self.btnSendAudio.isEnabled=false
         }
         else
         {
-            self.btnSendChat.isEnabled=true
-            self.btnSendAudio.isEnabled=true
+            //self.btnSendChat.isEnabled=true
+            //self.btnSendAudio.isEnabled=true
 
         }
         
@@ -600,13 +600,13 @@ var isKiboContact="false"
         
         if(isBlocked==true)
         {
-            self.btnSendChat.isEnabled=false
-            self.btnSendAudio.isEnabled=false
+           // self.btnSendChat.isEnabled=false
+          //  self.btnSendAudio.isEnabled=false
         }
         else
         {
-            self.btnSendChat.isEnabled=true
-            self.btnSendAudio.isEnabled=true
+          //  self.btnSendChat.isEnabled=true
+           // self.btnSendAudio.isEnabled=true
             
         }
       
@@ -826,13 +826,13 @@ var isKiboContact="false"
         
          if(isBlocked==true)
          {
-            self.btnSendChat.isEnabled=false
-            self.btnSendAudio.isEnabled=false
+          //  self.btnSendChat.isEnabled=false
+          //  self.btnSendAudio.isEnabled=false
         }
          else
          {
-            self.btnSendChat.isEnabled=true
-            self.btnSendAudio.isEnabled=true
+           // self.btnSendChat.isEnabled=true
+           // self.btnSendAudio.isEnabled=true
             
         }
 
@@ -6190,24 +6190,22 @@ var isKiboContact="false"
        // )
     }
     
-    
-    
-    @IBAction func postBtnTapped() {
-       
+    func sendPostButtonPressed()
+    {
         var randNum5=self.randomStringWithLength(5) as String
         /*
-        let date1=Date()
-        let calendar = Calendar.current
-        let year=(calendar as NSCalendar).components(NSCalendar.Unit.year,from: date1).year
-        let month=(calendar as NSCalendar).components(NSCalendar.Unit.month,from: date1).month
-        let day=(calendar as NSCalendar).components(.day,from: date1).day
-        let hr=(calendar as NSCalendar).components(NSCalendar.Unit.hour,from: date1).hour
-        let min=(calendar as NSCalendar).components(NSCalendar.Unit.minute,from: date1).minute
-        let sec=(calendar as NSCalendar).components(NSCalendar.Unit.second,from: date1).second
-        print("\(randNum5) \(year) \(month) \(day) \(hr) \(min) \(sec)")
-       //var uniqueID=randNum5+year+month+day+hr+min+sec
-        var uniqueID="\(randNum5)\(year!)\(month!)\(day!)\(hr!)\(min!) \(sec!)"
-        */
+         let date1=Date()
+         let calendar = Calendar.current
+         let year=(calendar as NSCalendar).components(NSCalendar.Unit.year,from: date1).year
+         let month=(calendar as NSCalendar).components(NSCalendar.Unit.month,from: date1).month
+         let day=(calendar as NSCalendar).components(.day,from: date1).day
+         let hr=(calendar as NSCalendar).components(NSCalendar.Unit.hour,from: date1).hour
+         let min=(calendar as NSCalendar).components(NSCalendar.Unit.minute,from: date1).minute
+         let sec=(calendar as NSCalendar).components(NSCalendar.Unit.second,from: date1).second
+         print("\(randNum5) \(year) \(month) \(day) \(hr) \(min) \(sec)")
+         //var uniqueID=randNum5+year+month+day+hr+min+sec
+         var uniqueID="\(randNum5)\(year!)\(month!)\(day!)\(hr!)\(min!) \(sec!)"
+         */
         var uniqueID=UtilityFunctions.init().generateUniqueid()
         var date=Date()
         var formatterDateSend = DateFormatter();
@@ -6221,136 +6219,136 @@ var isKiboContact="false"
         formatterDateSendtoDateType.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ";
         var dateSentDateType = formatterDateSendtoDateType.date(from: dateSentString)
         
-
-     //2016-10-15T22:18:16.000
+        
+        //2016-10-15T22:18:16.000
         var imParas=[String:String]()
-         var imParas2=[[String:String]]()
-       
+        var imParas2=[[String:String]]()
+        
         var statusNow=""
-               statusNow="pending"
+        statusNow="pending"
         
         
-        if(selectedContact != "")
+        if(self.selectedContact != "")
         {
-            imParas=["from":"\(username!)","to":"\(selectedContact)","fromFullName":"\(displayname)","msg":"\(txtFldMessage.text!)","uniqueid":"\(uniqueID)","type":"chat","file_type":"","date":"\(dateSentDateType!)"]
+            imParas=["from":"\(username!)","to":"\(self.selectedContact)","fromFullName":"\(displayname)","msg":"\(self.txtFldMessage.text!)","uniqueid":"\(uniqueID)","type":"chat","file_type":"","date":"\(dateSentDateType!)"]
             
-
             
-        sqliteDB.SaveChat("\(selectedContact)", from1: username!, owneruser1: username!, fromFullName1: displayname, msg1: txtFldMessage.text!, date1: dateSentDateType, uniqueid1: uniqueID, status1: statusNow, type1: "chat", file_type1: "", file_path1: "")
+            
+            sqliteDB.SaveChat("\(self.selectedContact)", from1: username!, owneruser1: username!, fromFullName1: displayname, msg1: self.txtFldMessage.text!, date1: dateSentDateType, uniqueid1: uniqueID, status1: statusNow, type1: "chat", file_type1: "", file_path1: "")
             
         }
         else{
-        //save as broadcast message
-            for i in 0 ..< broadcastMembersPhones.count
+            //save as broadcast message
+            for i in 0 ..< self.broadcastMembersPhones.count
             {
-                imParas2.append(["from":"\(username!)","to":"\(broadcastMembersPhones[i])","fromFullName":"\(displayname)","msg":"\(txtFldMessage.text!)","uniqueid":"\(uniqueID)","type":"chat","file_type":"","date":"\(dateSentDateType!)"])
+                imParas2.append(["from":"\(username!)","to":"\(self.broadcastMembersPhones[i])","fromFullName":"\(displayname)","msg":"\(self.txtFldMessage.text!)","uniqueid":"\(uniqueID)","type":"chat","file_type":"","date":"\(dateSentDateType!)"])
                 
-
-                sqliteDB.SaveBroadcastChat("\(broadcastMembersPhones[i])", from1: username!, owneruser1: username!, fromFullName1: displayname, msg1: txtFldMessage.text!, date1: dateSentDateType, uniqueid1: uniqueID, status1: statusNow, type1: "chat", file_type1: "", file_path1: "", broadcastlistID1: broadcastlistID1)
+                
+                sqliteDB.SaveBroadcastChat("\(self.broadcastMembersPhones[i])", from1: username!, owneruser1: username!, fromFullName1: displayname, msg1: self.txtFldMessage.text!, date1: dateSentDateType, uniqueid1: uniqueID, status1: statusNow, type1: "chat", file_type1: "", file_path1: "", broadcastlistID1: self.broadcastlistID1)
                 //broadcastMembersPhones[i]
             }
         }
-         var formatter = DateFormatter();
+        var formatter = DateFormatter();
         formatter.timeZone = TimeZone.autoupdatingCurrent
         formatter.dateFormat = "MM/dd hh:mm a";
         //formatter.dateStyle = .ShortStyle
         //formatter.timeStyle = .ShortStyle
         let defaultTimeZoneStr = formatter.string(from: date);
         let defaultTimeZoneStr2=formatter.date(from: defaultTimeZoneStr as! String)
-       
-       
         
-        var msggg=txtFldMessage.text!
-   
         
-        txtFldMessage.text = "";
-        self.txtfieldChangedText(txtFldMessage)
+        
+        var msggg=self.txtFldMessage.text!
+        
+        
+        self.txtFldMessage.text = "";
+        self.txtfieldChangedText(self.txtFldMessage)
         //txtfieldChangedText
         //DispatchQueue.main.async
         //{
-            print("adding msg \(msggg)")
-
+        print("adding msg \(msggg)")
+        
         //==--self.tblForChats.reloadRowsAtIndexPaths([lastrowindexpath], withRowAnimation: .None)
         
         
-       // if(hasURL==true)
+        // if(hasURL==true)
         //{
         //  self.insertChatRowAtLast(msggg/*+" (\(statusNow))"*/, uniqueid: uniqueID, status: statusNow, filename: "", type: "22", date: defaultTimeZoneStr, from: username!)
-       // }
-       // else{
+        // }
+        // else{
         self.insertChatRowAtLast(msggg+" (\(statusNow))", uniqueid: uniqueID, status: statusNow, filename: "", type: "2", date: defaultTimeZoneStr, from: username!)
         //}
-       
+        
         /*self.addMessage(msggg+" (\(statusNow))",status:statusNow,ofType: "2",date:defaultTimeZoneStr, uniqueid: uniqueID)
-  
-            self.tblForChats.reloadData()
-            if(self.messages.count>1)
-            {
-               // let indexPath = NSIndexPath(forRow:self.messages.count-1, inSection: 0)
-                let indexPath = IndexPath(row:self.tblForChats.numberOfRows(inSection: 0)-1, section: 0)
-                self.tblForChats.scrollToRow(at: indexPath, at: UITableViewScrollPosition.bottom, animated: false)
-                
-                
-                
-            }
-        */
+         
+         self.tblForChats.reloadData()
+         if(self.messages.count>1)
+         {
+         // let indexPath = NSIndexPath(forRow:self.messages.count-1, inSection: 0)
+         let indexPath = IndexPath(row:self.tblForChats.numberOfRows(inSection: 0)-1, section: 0)
+         self.tblForChats.scrollToRow(at: indexPath, at: UITableViewScrollPosition.bottom, animated: false)
+         
+         
+         
+         }
+         */
         
         
         
-           // }
-       // })
-      //  }
+        // }
+        // })
+        //  }
         
-
+        
         //print("messages count before sending msg is \(self.messages.count)")
         print("sending msg \(msggg)")
-        if(selectedContact != ""){
+        if(self.selectedContact != ""){
             self.sendChatMessage(imParas){ (uniqueid,result) -> () in
                 
                 if(result==true)
-{
-                var searchformat=NSPredicate(format: "uniqueid = %@",uniqueid!)
-                
-                var resultArray=self.messages.filtered(using: searchformat)
-                var ind=self.messages.index(of: resultArray.first!)
-                //cfpresultArray.first
-                //resultArray.first
-                var aa=self.messages.object(at: ind) as! [String:AnyObject]
-    
-    
-    var actualmsg=aa["message"] as! String
-    
-    
-    
-    actualmsg=actualmsg.removeCharsFromEnd(10)
-    //var actualmsg=newmsg
-                aa["message"]="\(actualmsg) (sent)" as AnyObject?
-    aa["status"]="sent" as AnyObject?
-                ///////==-------self.messages.replaceObject(at: ind, with: aa)
-              //  self.messages.objectAtIndex(ind).message="\(self.messages[ind]["message"]) (sent)"
-                var indexp=IndexPath(row:ind, section:0)
-               /// DispatchQueue.main.async
-               /// {
-                   //==--- self.tblForChats.reloadData()
-    print("update2 rowss 5628")
-    self.updateChatStatusRow(aa["message"] as! String, uniqueid: aa["uniqueid"] as! String, status: aa["status"] as! String, filename: "", type: aa["type"] as! String, date: aa["date"] as! String)
-    
-    /*
-                    self.tblForChats.beginUpdates()
-                    self.tblForChats.reloadRows(at: [indexp], with: UITableViewRowAnimation.bottom)
-                    self.tblForChats.endUpdates()
-    self.tblForChats.scrollToRow(at: NSIndexPath.init(row: ind, section: 0) as IndexPath, at: UITableViewScrollPosition.bottom, animated: false)
- */
-                ///}
-    
-            }
+                {
+                    var searchformat=NSPredicate(format: "uniqueid = %@",uniqueid!)
+                    
+                    var resultArray=self.messages.filtered(using: searchformat)
+                    var ind=self.messages.index(of: resultArray.first!)
+                    //cfpresultArray.first
+                    //resultArray.first
+                    var aa=self.messages.object(at: ind) as! [String:AnyObject]
+                    
+                    
+                    var actualmsg=aa["message"] as! String
+                    
+                    
+                    
+                    actualmsg=actualmsg.removeCharsFromEnd(10)
+                    //var actualmsg=newmsg
+                    aa["message"]="\(actualmsg) (sent)" as AnyObject?
+                    aa["status"]="sent" as AnyObject?
+                    ///////==-------self.messages.replaceObject(at: ind, with: aa)
+                    //  self.messages.objectAtIndex(ind).message="\(self.messages[ind]["message"]) (sent)"
+                    var indexp=IndexPath(row:ind, section:0)
+                    /// DispatchQueue.main.async
+                    /// {
+                    //==--- self.tblForChats.reloadData()
+                    print("update2 rowss 5628")
+                    self.updateChatStatusRow(aa["message"] as! String, uniqueid: aa["uniqueid"] as! String, status: aa["status"] as! String, filename: "", type: aa["type"] as! String, date: aa["date"] as! String)
+                    
+                    /*
+                     self.tblForChats.beginUpdates()
+                     self.tblForChats.reloadRows(at: [indexp], with: UITableViewRowAnimation.bottom)
+                     self.tblForChats.endUpdates()
+                     self.tblForChats.scrollToRow(at: NSIndexPath.init(row: ind, section: 0) as IndexPath, at: UITableViewScrollPosition.bottom, animated: false)
+                     */
+                    ///}
+                    
+                }
                 else
                 {
                     print("unable to send chat \(imParas)")
                 }
+            }
         }
-    }
-    else{
+        else{
             
             var result1=false
             var uniqueid1=""
@@ -6359,44 +6357,79 @@ var isKiboContact="false"
             {
                 
                 //replace with single downward sync api
-            self.sendChatMessage(imParas2[i]){ (uniqueid,result) -> () in
-                count += 1
-                if(result==true && count==1){
-                    var searchformat=NSPredicate(format: "uniqueid = %@",uniqueid!)
-                    
-                    var resultArray=self.messages.filtered(using: searchformat)
-                    var ind=self.messages.index(of: resultArray.first!)
-                    //cfpresultArray.first
-                    //resultArray.first
-                    var aa=self.messages.object(at: ind) as! [String:AnyObject]
-                    var actualmsg=aa["message"] as! String
-                    actualmsg=actualmsg.removeCharsFromEnd(10)
-                    //var actualmsg=newmsg
-                    aa["message"]="\(actualmsg) (sent)" as AnyObject?
-                    self.messages.replaceObject(at: ind, with: aa)
-                    //  self.messages.objectAtIndex(ind).message="\(self.messages[ind]["message"]) (sent)"
-                    var indexp=IndexPath(row:ind, section:0)
-                    print("update rowsssss 5671 line")
-                    self.tblForChats.beginUpdates()
-                    self.tblForChats.reloadRows(at: [indexp], with: UITableViewRowAnimation.bottom)
-                    self.tblForChats.endUpdates()
-                    ////self.tblForChats.scrollToRow(at: NSIndexPath.init(row: messages.count-1, section: 0) as IndexPath, at: UITableViewScrollPosition.bottom, animated: false)
-                    /* DispatchQueue.main.async
-                    {
-                        self.tblForChats.reloadData()
-                       // print("messages count is \(self.messages.count)")
-                    }*/
-                }
-}}
-                      /*  }
-    }*/
+                self.sendChatMessage(imParas2[i]){ (uniqueid,result) -> () in
+                    count += 1
+                    if(result==true && count==1){
+                        var searchformat=NSPredicate(format: "uniqueid = %@",uniqueid!)
+                        
+                        var resultArray=self.messages.filtered(using: searchformat)
+                        var ind=self.messages.index(of: resultArray.first!)
+                        //cfpresultArray.first
+                        //resultArray.first
+                        var aa=self.messages.object(at: ind) as! [String:AnyObject]
+                        var actualmsg=aa["message"] as! String
+                        actualmsg=actualmsg.removeCharsFromEnd(10)
+                        //var actualmsg=newmsg
+                        aa["message"]="\(actualmsg) (sent)" as AnyObject?
+                        self.messages.replaceObject(at: ind, with: aa)
+                        //  self.messages.objectAtIndex(ind).message="\(self.messages[ind]["message"]) (sent)"
+                        var indexp=IndexPath(row:ind, section:0)
+                        print("update rowsssss 5671 line")
+                        self.tblForChats.beginUpdates()
+                        self.tblForChats.reloadRows(at: [indexp], with: UITableViewRowAnimation.bottom)
+                        self.tblForChats.endUpdates()
+                        ////self.tblForChats.scrollToRow(at: NSIndexPath.init(row: messages.count-1, section: 0) as IndexPath, at: UITableViewScrollPosition.bottom, animated: false)
+                        /* DispatchQueue.main.async
+                         {
+                         self.tblForChats.reloadData()
+                         // print("messages count is \(self.messages.count)")
+                         }*/
+                    }
+                }}
+            /*  }
+             }*/
         }
-    
-        
-        
-
     }
     
+    @IBAction func postBtnTapped() {
+       
+        if(isBlocked==true)
+        {
+        let shareMenu = UIAlertController(title: "", message: "Unblock contact to send a message", preferredStyle: .actionSheet)
+        shareMenu.modalPresentationStyle=UIModalPresentationStyle.overCurrentContext
+        
+        
+        let unblockAction = UIAlertAction(title: "UnBlock", style: UIAlertActionStyle.default,handler: { (action) -> Void in
+            UtilityFunctions.init().unblockContact(phone1: self.selectedContact)
+            //completion result
+
+            self.sendPostButtonPressed()
+       
+        
+     
+        })
+        let cancelAction = UIAlertAction(title: "Cancel", style: UIAlertActionStyle.cancel, handler:{ (action) -> Void in
+            
+            return
+            
+        })
+        
+        
+        shareMenu.addAction(unblockAction)
+        shareMenu.addAction(cancelAction)
+        
+        
+        
+        self.present(shareMenu, animated: true, completion: {
+            
+        })
+    }
+        else{
+            self.sendPostButtonPressed()
+        }
+}
+        
+
     func getSizeOfString(_ postTitle: NSString) -> CGSize {
         
         
