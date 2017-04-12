@@ -143,6 +143,7 @@ var isKiboContact="false"
     }
     
     
+    
     @IBAction func btnRecordTouchDown(_ sender: UIButton) {
     
     print("btnRecordTouchDown")
@@ -151,7 +152,7 @@ var isKiboContact="false"
     }
     
     
-    @IBAction func btnRecordTouchUpInside(_ sender: UIButton) {
+   @IBAction func btnRecordTouchUpInside(_ sender: UIButton) {
     txtFldMessage.text=""
         print("btnRecordTouchUpInside")
           finishRecording(success: true)
@@ -159,7 +160,7 @@ var isKiboContact="false"
        
         
     }
-    
+   
    
     
     @IBAction func btnRecordAudioTouchDragExit(_ sender: UIButton) {
@@ -417,6 +418,14 @@ var isKiboContact="false"
         // {
         //print("hidden falseeeeeee")
         //}
+        
+        let longPressRecognizer = UILongPressGestureRecognizer(target: self, action: #selector(ChatDetailViewController.longPressedRecord(_:)))
+         self.btnSendAudio.addGestureRecognizer(longPressRecognizer)
+ 
+
+        
+        
+        
         let tbl_contactslists=sqliteDB.contactslists
         isBlocked=false
         do{for resultrows in try sqliteDB.db.prepare((tbl_contactslists?.filter(phone==selectedContact && blockedByMe==true))!)
@@ -4767,6 +4776,28 @@ var isKiboContact="false"
     
     
     //func contactTapped(_ gestureRecognizer: UITapGestureRecognizer) {
+    
+    //longPressedRecord
+    func longPressedRecord(_ gestureRecognizer: UILongPressGestureRecognizer) {
+        
+   // func longPressedRecord(_ button: UIButton) {
+        if (gestureRecognizer.state == UIGestureRecognizerState.ended) {
+            print("long pressed ended")
+            txtFldMessage.text=""
+            print("btnRecordTouchUpInside")
+            finishRecording(success: true)
+            
+            
+        }
+        else{
+            print("long pressed")
+            print("btnRecordTouchDown")
+            txtFldMessage.text="< Slide left to cancel"
+            self.startRecording()
+            
+        }
+        
+    }
     func contactTapped(_ button: UIButton) {
         print("contact title tapped \(self.selectedContact)")
         //tappedImageView will be the image view that was tapped.
