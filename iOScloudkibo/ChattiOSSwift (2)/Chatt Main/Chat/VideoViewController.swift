@@ -730,7 +730,10 @@ self.remoteDisconnected()
         
         if(displayname=="")
         {
-            txtLabelUsername.text=KeychainWrapper.stringForKey("username")
+            //new addition
+             txtLabelUsername.text=username!
+            //new commented
+            //txtLabelUsername.text=KeychainWrapper.stringForKey("username")
         }
         else{
         txtLabelUsername.text=displayname
@@ -1630,7 +1633,9 @@ self.remoteDisconnected()
             msg = [String: AnyObject]()
         }*/
         
-        if(msg[0]["type"] as! String=="offer")//["type"].string! == "offer")
+        //if(msg[0]["type"] as! String=="offer")//["type"].string! == "offer")
+        if(msg["type"] as! String=="offer")//["type"].string! == "offer")
+            
         {
             //^^^^^^^^^^^^^^^^newwwww if(joinedRoomInCall == "" && isInitiator.description == "false")
             if(joinedRoomInCall == "")

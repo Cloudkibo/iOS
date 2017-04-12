@@ -88,7 +88,9 @@ var globalChatRoomJoined:Bool=false
 //let dbSQLite=DatabaseHandler(dbName: "/cloudKibo.sqlite3")
 
 //%%%%%%%%%%%%%%%% new phone model
-var username:String! = KeychainWrapper.stringForKey("username")
+var username:String! = ""
+
+//var username:String! = KeychainWrapper.stringForKey("username")
 //var username:String!="sadia1"
 var password=KeychainWrapper.stringForKey("password")
 let loggedFullName=KeychainWrapper.stringForKey("loggedFullName")
@@ -161,6 +163,18 @@ var contactsarray=[CNContact]()
         print("app state value background is \(UIApplicationState.background.rawValue)")
         print("app state value inactive is \(UIApplicationState.inactive.rawValue)")
         print("app state value active is \(UIApplicationState.active.rawValue)")
+        
+        let username1 = Expression<String>("username")
+        let tbl_accounts = sqliteDB.accounts
+        do{for account in try sqliteDB.db.prepare(tbl_accounts!) {
+            username=account[username1]
+            
+            }
+        }
+        catch{
+            
+        }
+ 
         
         if (UserDefaults.standard.value(forKey: Constants.defaultsBackupTimeKey) == nil)
         {
@@ -277,7 +291,7 @@ var contactsarray=[CNContact]()
         
         //RESET TEMP
         
- /*  if(username != nil)
+  /* if(username != nil)
 {
  KeychainWrapper.removeObjectForKey("username")
         KeychainWrapper.removeObjectForKey("loggedFullName")
@@ -344,6 +358,14 @@ var contactsarray=[CNContact]()
   
         
         //^^^^^^^^^^^^^^^^^^^
+        
+        
+        
+        
+        
+        
+        
+        
         
       //  print("username is \(username!)")
     if(username != nil && username != "")
@@ -4328,6 +4350,7 @@ var uniqueid=payload["uniqueid"] as! String
     }
     func application(_ application: UIApplication, willFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         
+        print("willFinishLaunchingWithOptions")
         return true
     }
     func timerFiredScreenCapture()

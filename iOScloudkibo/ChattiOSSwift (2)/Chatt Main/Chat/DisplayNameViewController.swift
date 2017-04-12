@@ -1170,11 +1170,11 @@ class DisplayNameViewController: UIViewController,UNUserNotificationCenterDelega
                     username=json["phone"].string
                     //loggedUserObj=json
                     //KeychainWrapper.setString(loggedUserObj.description, forKey:"loggedUserObjString")
-                    var loggedobjstring=KeychainWrapper.stringForKey("loggedUserObjString")
+                   // var loggedobjstring=KeychainWrapper.stringForKey("loggedUserObjString")
                     
                     if(socketObj != nil)
                     {
-                    socketObj.socket.emit("logClient","IPHONE-LOG: keychain of loggedUserObjString is \(loggedobjstring)")
+                   // socketObj.socket.emit("logClient","IPHONE-LOG: keychain of loggedUserObjString is \(loggedobjstring)")
                     }
                         
                     //print(loggedUserObj.debugDescription)

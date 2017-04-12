@@ -866,7 +866,23 @@ var isKiboContact="false"
         
         //socketObj.socket.emit("callthisperson",["room" : "globalchatroom","callee": self.ContactUsernames[selectedRow], "caller":username!])
         // &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&**************************
-        username=KeychainWrapper.stringForKey("username")
+        
+        
+        //username=KeychainWrapper.stringForKey("username")
+       
+        //new addition
+        let username1 = Expression<String>("username")
+        let tbl_accounts = sqliteDB.accounts
+        do{for account in try sqliteDB.db.prepare(tbl_accounts!) {
+            username=account[username1]
+            
+            }
+        }
+        catch{
+            
+        }
+        
+        
         socketObj.socket.emit("logClient","IPHONE-LOG: callthisperson,room:globalchatroom,calleephone: \(selectedContact),callerphone:\(username!)")
         //print("callthisperson,room : globalchatroom,callee: \(selectedContact), caller:\(username!)")
         

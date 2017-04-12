@@ -869,7 +869,24 @@ EPPickerDelegate,SWTableViewCellDelegate,UpdateChatViewsDelegate,RefreshContacts
        // print(loggedUserObj.object)
         
         
-        if(KeychainWrapper.stringForKey("username") != nil)
+        //new addition
+        let username1 = Expression<String>("username")
+        let tbl_accounts = sqliteDB.accounts
+        do{for account in try sqliteDB.db.prepare(tbl_accounts!) {
+            print("delegate added in chat")
+            currrentUsernameRetrieved=account[username1]
+            print("currrentUsernameRetrieved is \(currrentUsernameRetrieved)")
+            if(socketObj != nil){
+                socketObj.delegate=self
+            }
+            
+            }
+        }
+        catch{
+            
+        }
+        //new commented
+       /* if(KeychainWrapper.stringForKey("username") != nil)
         {print("delegate added in chat")
             currrentUsernameRetrieved=KeychainWrapper.stringForKey("username")!
             print("currrentUsernameRetrieved is \(currrentUsernameRetrieved)")
@@ -878,6 +895,7 @@ EPPickerDelegate,SWTableViewCellDelegate,UpdateChatViewsDelegate,RefreshContacts
             }
           
         }//end if username definned
+        */
         
         print("loadddddd", terminator: "")
         
@@ -5162,7 +5180,13 @@ break
             iOSstartedCall=true
             //////*** newww may 2016
             
-            callerName=KeychainWrapper.stringForKey("username")!
+            
+            //new addition
+            callerName=username!
+
+            //new commented
+            //callerName=KeychainWrapper.stringForKey("username")!
+            
             //iamincallWith=msg[0]["callee"].string!
             if(socketObj != nil){
             socketObj.socket.emit("logClient","IPHONE-LOG: \(username!) othersideringing , callee is \(callerName)")
