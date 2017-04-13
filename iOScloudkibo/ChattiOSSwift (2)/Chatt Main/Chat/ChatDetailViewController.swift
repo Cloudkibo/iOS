@@ -4781,6 +4781,14 @@ var isKiboContact="false"
     func longPressedRecord(_ gestureRecognizer: UILongPressGestureRecognizer) {
         
    // func longPressedRecord(_ button: UIButton) {
+        if (gestureRecognizer.state == UIGestureRecognizerState.cancelled){
+            print("longCancelled")
+            finishRecording(success: false)
+            var deleted=audioRecorder.deleteRecording()
+            print("audio deleted \(deleted)")
+            txtFldMessage.text=""
+
+        }
         if (gestureRecognizer.state == UIGestureRecognizerState.ended) {
             print("long pressed ended")
             txtFldMessage.text=""

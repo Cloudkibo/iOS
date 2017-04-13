@@ -87,6 +87,7 @@
 		714690601E66F51200FA6530 /* GoogleMapsBase.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7146905F1E66F51200FA6530 /* GoogleMapsBase.framework */; };
 		714690621E66F54500FA6530 /* GoogleMaps.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 714690611E66F54500FA6530 /* GoogleMaps.bundle */; };
 		714690661E68348E00FA6530 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 714690651E68348E00FA6530 /* MapViewController.swift */; };
+		714FA19E1E9F856B005B16DE /* localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 714FA19D1E9F856B005B16DE /* localizable.strings */; };
 		7150119F1D12D0940091AD7B /* Reachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7150119E1D12D0940091AD7B /* Reachability.swift */; };
 		7152369A1E4AEB9100524BC3 /* SwiftyJSON.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7152368D1E4AEB6E00524BC3 /* SwiftyJSON.framework */; };
 		7152369B1E4AEB9100524BC3 /* SwiftyJSON.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 7152368D1E4AEB6E00524BC3 /* SwiftyJSON.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -594,6 +595,12 @@
 		7146905F1E66F51200FA6530 /* GoogleMapsBase.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = GoogleMapsBase.framework; sourceTree = "<group>"; };
 		714690611E66F54500FA6530 /* GoogleMaps.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = GoogleMaps.bundle; path = GoogleMaps.framework/Versions/A/Resources/GoogleMaps.bundle; sourceTree = "<group>"; };
 		714690651E68348E00FA6530 /* MapViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
+		714FA19D1E9F856B005B16DE /* localizable.strings */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; path = localizable.strings; sourceTree = "<group>"; };
+		714FA1C21E9F88D4005B16DE /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/Main.strings; sourceTree = "<group>"; };
+		714FA1C81E9F893E005B16DE /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/Main.strings; sourceTree = "<group>"; };
+		714FA1CE1E9F8947005B16DE /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/Main.strings; sourceTree = "<group>"; };
+		714FA1D41E9F8953005B16DE /* ar */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ar; path = ar.lproj/Main.strings; sourceTree = "<group>"; };
+		714FA1DA1E9F897B005B16DE /* ur */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ur; path = ur.lproj/Main.strings; sourceTree = "<group>"; };
 		7150119E1D12D0940091AD7B /* Reachability.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Reachability.swift; sourceTree = "<group>"; };
 		715236821E4AEB6E00524BC3 /* SwiftyJSON.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SwiftyJSON.xcodeproj; path = "../../../../../../../Downloads/SwiftyJSON-master 6/SwiftyJSON.xcodeproj"; sourceTree = "<group>"; };
 		7152CB231D47DDC900DB8127 /* Fabric.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Fabric.framework; sourceTree = "<group>"; };
@@ -939,6 +946,7 @@
 				71189AA11E79243500245D97 /* BlockedContactsViewController.swift */,
 				71FF54B31E7FE47900BF512A /* UpwardSyncService.swift */,
 				71BAE4281E8D2B1800A48EC5 /* Chat */,
+				714FA19D1E9F856B005B16DE /* localizable.strings */,
 			);
 			path = Chat;
 			sourceTree = "<group>";
@@ -1501,6 +1509,7 @@
 				71C4018C1CF715C500D38126 /* endCall.png in Resources */,
 				71C401881CF715C500D38126 /* audioOff.png in Resources */,
 				71636DCA1E8D3042007D7A02 /* GooglePlacePicker.bundle in Resources */,
+				714FA19E1E9F856B005B16DE /* localizable.strings in Resources */,
 				71C401771CF7159F00D38126 /* videoOff@2x.png in Resources */,
 				71D20B4D1E645A150080E28B /* audio_tiny8.wav in Resources */,
 				71C4018D1CF715C500D38126 /* endCall@2x.png in Resources */,
@@ -1775,6 +1784,11 @@
 			isa = PBXVariantGroup;
 			children = (
 				7191CC671BCF0D9400F0847F /* Base */,
+				714FA1C21E9F88D4005B16DE /* fr */,
+				714FA1C81E9F893E005B16DE /* es */,
+				714FA1CE1E9F8947005B16DE /* de */,
+				714FA1D41E9F8953005B16DE /* ar */,
+				714FA1DA1E9F897B005B16DE /* ur */,
 			);
 			name = Main.storyboard;
 			sourceTree = "<group>";
@@ -1802,6 +1816,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
@@ -1849,6 +1864,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
