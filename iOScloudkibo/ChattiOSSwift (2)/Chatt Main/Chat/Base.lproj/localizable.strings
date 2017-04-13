@@ -1,8 +1,9 @@
 /* 
-  localised.strings
+  localizable.strings
   kiboApp
 
   Created by Cloudkibo on 13/04/2017.
   Copyright © 2017 MyAppTemplates. All rights reserved.
 */
- "New Group"="dsfasdfasd";
+
+"New Group" = "Nouveau Groupe";

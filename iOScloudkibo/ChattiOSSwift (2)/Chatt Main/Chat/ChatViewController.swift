@@ -3237,8 +3237,10 @@ break
         let cellview=UIView.init()
         
         let cell = tblForChat.dequeueReusableCell(withIdentifier: "NewGroupCell") as! ContactsListCell
+        cell.btnNewGroupOutlet.setTitle(NSLocalizedString("New Group", tableName: nil, bundle: Bundle.main, value: "", comment: "New Group"), for:UIControlState.normal)
         btnNewGroup=cell.btnNewGroupOutlet
-        btnNewGroup.setTitle(<#T##title: String?##String?#>, for: <#T##UIControlState#>) .text=NSLocalizedString("New Group", tableName: nil, bundle: Bundle.main, value: "", comment: "")
+        btnNewGroup.setTitle(NSLocalizedString("New Group", tableName: nil, bundle: Bundle.main, value: "", comment: "New Group"), for:UIControlState.normal)
+        
         cell.btnNewGroupOutlet.tag=section
         cell.btnNewGroupOutlet.addTarget(self, action: #selector(ChatViewController.BtnnewGroupClicked(_:)), for:.touchUpInside)
        
