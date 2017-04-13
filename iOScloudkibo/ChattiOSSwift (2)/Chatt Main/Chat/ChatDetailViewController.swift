@@ -32,7 +32,7 @@ import MessageUI
 class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChatDelegate,UIDocumentPickerDelegate,UIDocumentMenuDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate,FileManagerDelegate,showUploadProgressDelegate,UpdateChatViewsDelegate,UpdateSingleChatDetailDelegate,CNContactPickerDelegate,CNContactViewControllerDelegate,UIPickerViewDelegate,AVAudioRecorderDelegate,CLLocationManagerDelegate,insertChatAtLastDelegate,updateChatStatusRowDelegate,insertBulkChatsSyncDelegate,insertBulkChatsStatusesSyncDelegate,ActiveLabelDelegate,MFMessageComposeViewControllerDelegate
 {
     
-
+var swipe=false
 var isKiboContact="false"
     //var view: UIView!
     var urlTitle=""
@@ -148,10 +148,10 @@ var isKiboContact="false"
     
     print("btnRecordTouchDown")
         txtFldMessage.text="< Slide left to cancel"
-        self.startRecording()
+     ////   self.startRecording()
     }
     
-    
+    /*
    @IBAction func btnRecordTouchUpInside(_ sender: UIButton) {
     txtFldMessage.text=""
         print("btnRecordTouchUpInside")
@@ -161,17 +161,18 @@ var isKiboContact="false"
         
     }
    
-   
+   */
     
     @IBAction func btnRecordAudioTouchDragExit(_ sender: UIButton) {
         print("btnRecordAudioTouchDragExit")
-        finishRecording(success: false)
+       
+        /*finishRecording(success: false)
         var deleted=audioRecorder.deleteRecording()
         print("audio deleted \(deleted)")
         txtFldMessage.text=""
         //not saved
           //finishRecording(success: false)
-        
+        */
         
     }
     
@@ -421,7 +422,10 @@ var isKiboContact="false"
         
         let longPressRecognizer = UILongPressGestureRecognizer(target: self, action: #selector(ChatDetailViewController.longPressedRecord(_:)))
          self.btnSendAudio.addGestureRecognizer(longPressRecognizer)
- 
+        
+      /*  let PanDraggedRecognizer = UIPanGestureRecognizer(target: self, action: #selector(ChatDetailViewController.PanDraggedRecord(_:)))
+        self.btnSendAudio.addGestureRecognizer(PanDraggedRecognizer)
+ */
 
         
         
@@ -4778,34 +4782,79 @@ var isKiboContact="false"
     //func contactTapped(_ gestureRecognizer: UITapGestureRecognizer) {
     
     //longPressedRecord
+    
+    //PanDraggedRecord
+    func PanDraggedRecord(_ gestureRecognizer: UIPanGestureRecognizer) {
+    print("inside PanDraggedRecord")
+        if(gestureRecognizer.state == UIGestureRecognizerState.ended)
+        {
+            print("PanDraggedRecord ended")
+        }
+    }
+    
     func longPressedRecord(_ gestureRecognizer: UILongPressGestureRecognizer) {
-        
+        print("long pressed state \(gestureRecognizer.state.rawValue)")
+        var locationButton=gestureRecognizer.location(in: btnSendAudio)
+        print("locationButton \(locationButton.x)")
+        /*(if(locationButton.x<0)
+        {
+            swipe=true
+        }
+        else{
+            swipe=false
+        }*/
+        if (gestureRecognizer.state == UIGestureRecognizerState.ended) {
+            print("long pressed ended")
+            if(locationButton.x>0){
+            txtFldMessage.text=""
+            print("btnRecordTouchUpInside")
+            finishRecording(success: true)
+            }
+            else{
+                finishRecording(success: false)
+                var deleted=audioRecorder.deleteRecording()
+                print("audio deleted \(deleted)")
+                txtFldMessage.text=""
+                //not saved
+                //finishRecording(success: false)
+            }
+            
+            
+        }
+        if (gestureRecognizer.state == UIGestureRecognizerState.began) {
+ print("long pressed")
+// print("btnRecordTouchDown")
+ txtFldMessage.text="< Slide left to cancel"
+ self.startRecording()
+        }
+ }/*
    // func longPressedRecord(_ button: UIButton) {
-        if (gestureRecognizer.state == UIGestureRecognizerState.cancelled){
+        /*if (gestureRecognizer.state == UIGestureRecognizerState.){
             print("longCancelled")
             finishRecording(success: false)
             var deleted=audioRecorder.deleteRecording()
-            print("audio deleted \(deleted)")
+            //print("audio deleted \(deleted)")
             txtFldMessage.text=""
 
-        }
-        if (gestureRecognizer.state == UIGestureRecognizerState.ended) {
+        }*/
+        /*if (gestureRecognizer.state == UIGestureRecognizerState.ended) {
             print("long pressed ended")
             txtFldMessage.text=""
             print("btnRecordTouchUpInside")
             finishRecording(success: true)
             
             
-        }
-        else{
+        }*/
+        /*else{
             print("long pressed")
             print("btnRecordTouchDown")
             txtFldMessage.text="< Slide left to cancel"
             self.startRecording()
             
-        }
+        }*/
         
     }
+ */
     func contactTapped(_ button: UIButton) {
         print("contact title tapped \(self.selectedContact)")
         //tappedImageView will be the image view that was tapped.
