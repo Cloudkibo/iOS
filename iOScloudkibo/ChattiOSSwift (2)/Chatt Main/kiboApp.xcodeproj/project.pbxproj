@@ -25,6 +25,9 @@
 		71232D5E1D65D8C5000DE13E /* WindowsAzureMessaging.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 71232D5D1D65D8C5000DE13E /* WindowsAzureMessaging.framework */; };
 		7127CC911D9D0C800047683B /* syncContactService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7127CC901D9D0C800047683B /* syncContactService.swift */; };
 		7127FF591D396A6A006375E8 /* numberOfFavouritesCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7127FF581D396A6A006375E8 /* numberOfFavouritesCell.swift */; };
+		71301E4D1E9FBB4A00F40772 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 71301E4F1E9FBB4A00F40772 /* Main.storyboard */; };
+		71301E501E9FBB5300F40772 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 71301E521E9FBB5300F40772 /* LaunchScreen.storyboard */; };
+		71301E591E9FBD9C00F40772 /* localised.strings in Resources */ = {isa = PBXBuildFile; fileRef = 71301E5B1E9FBD9C00F40772 /* localised.strings */; };
 		713CC2741E5B2BFC00D4782F /* AlamofireImage.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 713CC2671E5B2B7A00D4782F /* AlamofireImage.framework */; };
 		713CC2751E5B2BFC00D4782F /* AlamofireImage.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 713CC2671E5B2B7A00D4782F /* AlamofireImage.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		713D51BD1CC11896007E0B47 /* Accounts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 713D51881CC11896007E0B47 /* Accounts.swift */; };
@@ -87,7 +90,6 @@
 		714690601E66F51200FA6530 /* GoogleMapsBase.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7146905F1E66F51200FA6530 /* GoogleMapsBase.framework */; };
 		714690621E66F54500FA6530 /* GoogleMaps.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 714690611E66F54500FA6530 /* GoogleMaps.bundle */; };
 		714690661E68348E00FA6530 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 714690651E68348E00FA6530 /* MapViewController.swift */; };
-		714FA19E1E9F856B005B16DE /* localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 714FA19D1E9F856B005B16DE /* localizable.strings */; };
 		7150119F1D12D0940091AD7B /* Reachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7150119E1D12D0940091AD7B /* Reachability.swift */; };
 		7152369A1E4AEB9100524BC3 /* SwiftyJSON.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7152368D1E4AEB6E00524BC3 /* SwiftyJSON.framework */; };
 		7152369B1E4AEB9100524BC3 /* SwiftyJSON.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 7152368D1E4AEB6E00524BC3 /* SwiftyJSON.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -122,20 +124,16 @@
 		71803D301E93D12600A0604D /* StringExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71803D2A1E93D12600A0604D /* StringExtension.swift */; };
 		71803D311E93D12600A0604D /* SwiftLinkPreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71803D2B1E93D12600A0604D /* SwiftLinkPreview.swift */; };
 		718AB5801D3F8C9000D197D7 /* chatMessagesModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 718AB57F1D3F8C9000D197D7 /* chatMessagesModel.swift */; };
-		7191CC681BCF0D9400F0847F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7191CC661BCF0D9400F0847F /* Main.storyboard */; };
 		719A0CE41DD5237800977C0B /* GroupMessageStatusViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 719A0CE31DD5237800977C0B /* GroupMessageStatusViewController.swift */; };
 		719EFCFD1C9260FF000FD52F /* fileTestingDoc.swift in Sources */ = {isa = PBXBuildFile; fileRef = 719EFCFC1C9260FF000FD52F /* fileTestingDoc.swift */; };
 		71A98F961C4D6434009D04D7 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 71A98F951C4D6434009D04D7 /* Foundation.framework */; };
 		71AEC9891D01D67300DF58BD /* AllContactsViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71AEC9881D01D67300DF58BD /* AllContactsViewCell.swift */; };
 		71B6DD731E4D860D0078DE01 /* SQLite.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7181049D1E4344F800AC688C /* SQLite.framework */; };
 		71B6DD741E4D860D0078DE01 /* SQLite.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 7181049D1E4344F800AC688C /* SQLite.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		71BAE4291E8D2B1800A48EC5 /* Chat in Sources */ = {isa = PBXBuildFile; fileRef = 71BAE4281E8D2B1800A48EC5 /* Chat */; };
 		71BFD46F1CFD13CC004ACCBF /* AccountKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 71BFD46E1CFD13CC004ACCBF /* AccountKit.framework */; };
 		71BFD47A1CFD13D3004ACCBF /* AccountKitStrings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 71BFD4791CFD13D3004ACCBF /* AccountKitStrings.bundle */; };
 		71C1A2C41D767C0600FC5157 /* GroupChatDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71C1A2C31D767C0600FC5157 /* GroupChatDetailViewController.swift */; };
 		71C1A2CF1D768ABC00FC5157 /* GroupChatingDetailController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71C1A2CE1D768ABC00FC5157 /* GroupChatingDetailController.swift */; };
-		71C1A2D71D769B0900FC5157 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 71C1A2D11D769B0900FC5157 /* LaunchScreen.storyboard */; };
-		71C1A2D81D769B0900FC5157 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 71C1A2D31D769B0900FC5157 /* Main.storyboard */; };
 		71C1A2D91D769B0900FC5157 /* MyCustomCellTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71C1A2D51D769B0900FC5157 /* MyCustomCellTableViewCell.swift */; };
 		71C1A2DA1D769B0900FC5157 /* PKSwipeTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71C1A2D61D769B0900FC5157 /* PKSwipeTableViewCell.swift */; };
 		71C401741CF7159F00D38126 /* video-camera-icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 71C401701CF7159F00D38126 /* video-camera-icon.png */; };
@@ -529,6 +527,13 @@
 		71232D5D1D65D8C5000DE13E /* WindowsAzureMessaging.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = WindowsAzureMessaging.framework; sourceTree = "<group>"; };
 		7127CC901D9D0C800047683B /* syncContactService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = syncContactService.swift; sourceTree = "<group>"; };
 		7127FF581D396A6A006375E8 /* numberOfFavouritesCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = numberOfFavouritesCell.swift; sourceTree = "<group>"; };
+		71301E531E9FBB5B00F40772 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		71301E541E9FBB5B00F40772 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		71301E551E9FBB6800F40772 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
+		71301E561E9FBB6800F40772 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/Main.strings; sourceTree = "<group>"; };
+		71301E5A1E9FBD9C00F40772 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/localised.strings; sourceTree = "<group>"; };
+		71301E5C1E9FBF0300F40772 /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Base; path = Base.lproj/localised.strings; sourceTree = "<group>"; };
+		71301E5D1E9FBF0500F40772 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/localised.strings; sourceTree = "<group>"; };
 		713CC25B1E5B2B7A00D4782F /* AlamofireImage.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = AlamofireImage.xcodeproj; path = ../../../../../../../Downloads/AlamofireImage/AlamofireImage.xcodeproj; sourceTree = "<group>"; };
 		713D51881CC11896007E0B47 /* Accounts.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Accounts.swift; sourceTree = "<group>"; };
 		713D51891CC11896007E0B47 /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -595,12 +600,6 @@
 		7146905F1E66F51200FA6530 /* GoogleMapsBase.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = GoogleMapsBase.framework; sourceTree = "<group>"; };
 		714690611E66F54500FA6530 /* GoogleMaps.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = GoogleMaps.bundle; path = GoogleMaps.framework/Versions/A/Resources/GoogleMaps.bundle; sourceTree = "<group>"; };
 		714690651E68348E00FA6530 /* MapViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
-		714FA19D1E9F856B005B16DE /* localizable.strings */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; path = localizable.strings; sourceTree = "<group>"; };
-		714FA1C21E9F88D4005B16DE /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/Main.strings; sourceTree = "<group>"; };
-		714FA1C81E9F893E005B16DE /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/Main.strings; sourceTree = "<group>"; };
-		714FA1CE1E9F8947005B16DE /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/Main.strings; sourceTree = "<group>"; };
-		714FA1D41E9F8953005B16DE /* ar */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ar; path = ar.lproj/Main.strings; sourceTree = "<group>"; };
-		714FA1DA1E9F897B005B16DE /* ur */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ur; path = ur.lproj/Main.strings; sourceTree = "<group>"; };
 		7150119E1D12D0940091AD7B /* Reachability.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Reachability.swift; sourceTree = "<group>"; };
 		715236821E4AEB6E00524BC3 /* SwiftyJSON.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SwiftyJSON.xcodeproj; path = "../../../../../../../Downloads/SwiftyJSON-master 6/SwiftyJSON.xcodeproj"; sourceTree = "<group>"; };
 		7152CB231D47DDC900DB8127 /* Fabric.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Fabric.framework; sourceTree = "<group>"; };
@@ -635,18 +634,14 @@
 		718104921E4344F800AC688C /* SQLite.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SQLite.xcodeproj; path = "SQLite.swift-master 7/SQLite.xcodeproj"; sourceTree = "<group>"; };
 		718AB57F1D3F8C9000D197D7 /* chatMessagesModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = chatMessagesModel.swift; sourceTree = "<group>"; };
 		7191CC601BCDB4D800F0847F /* TableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TableViewController.swift; sourceTree = "<group>"; };
-		7191CC671BCF0D9400F0847F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		719A0CE31DD5237800977C0B /* GroupMessageStatusViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GroupMessageStatusViewController.swift; sourceTree = "<group>"; };
 		719EFCFC1C9260FF000FD52F /* fileTestingDoc.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = fileTestingDoc.swift; sourceTree = "<group>"; };
 		71A98F951C4D6434009D04D7 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		71AEC9881D01D67300DF58BD /* AllContactsViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AllContactsViewCell.swift; sourceTree = "<group>"; };
-		71BAE4281E8D2B1800A48EC5 /* Chat */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Chat; sourceTree = "<group>"; };
 		71BFD46E1CFD13CC004ACCBF /* AccountKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = AccountKit.framework; sourceTree = "<group>"; };
 		71BFD4791CFD13D3004ACCBF /* AccountKitStrings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = AccountKitStrings.bundle; sourceTree = "<group>"; };
 		71C1A2C31D767C0600FC5157 /* GroupChatDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GroupChatDetailViewController.swift; sourceTree = "<group>"; };
 		71C1A2CE1D768ABC00FC5157 /* GroupChatingDetailController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GroupChatingDetailController.swift; sourceTree = "<group>"; };
-		71C1A2D21D769B0900FC5157 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
-		71C1A2D41D769B0900FC5157 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Main.storyboard; sourceTree = "<group>"; };
 		71C1A2D51D769B0900FC5157 /* MyCustomCellTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyCustomCellTableViewCell.swift; sourceTree = "<group>"; };
 		71C1A2D61D769B0900FC5157 /* PKSwipeTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PKSwipeTableViewCell.swift; sourceTree = "<group>"; };
 		71C401701CF7159F00D38126 /* video-camera-icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "video-camera-icon.png"; sourceTree = "<group>"; };
@@ -804,7 +799,6 @@
 				715236821E4AEB6E00524BC3 /* SwiftyJSON.xcodeproj */,
 				7173B83D1E48BE1800851F8D /* Kingfisher.xcodeproj */,
 				71F6233D1DE4262E00AC6370 /* String-Extension.swift */,
-				71C1A2D01D769B0900FC5157 /* Base.lproj */,
 				71C1A2D51D769B0900FC5157 /* MyCustomCellTableViewCell.swift */,
 				71C1A2D61D769B0900FC5157 /* PKSwipeTableViewCell.swift */,
 				713F39731D7445A100F3A9C4 /* ContactPick */,
@@ -882,7 +876,8 @@
 				713D51A31CC11896007E0B47 /* LoginAPI.swift */,
 				713D51A41CC11896007E0B47 /* LoginViewController.swift */,
 				71D20B4C1E645A140080E28B /* audio_tiny8.wav */,
-				7191CC661BCF0D9400F0847F /* Main.storyboard */,
+				71301E521E9FBB5300F40772 /* LaunchScreen.storyboard */,
+				71301E4F1E9FBB4A00F40772 /* Main.storyboard */,
 				714560491B904D6900C8E0D2 /* Models */,
 				713D51AA1CC11896007E0B47 /* MoreTableViewController.swift */,
 				713D51AB1CC11896007E0B47 /* NetworkingLibAlamofire.swift */,
@@ -945,8 +940,7 @@
 				71189A9F1E781F2100245D97 /* PrivacySettingsViewController.swift */,
 				71189AA11E79243500245D97 /* BlockedContactsViewController.swift */,
 				71FF54B31E7FE47900BF512A /* UpwardSyncService.swift */,
-				71BAE4281E8D2B1800A48EC5 /* Chat */,
-				714FA19D1E9F856B005B16DE /* localizable.strings */,
+				71301E5B1E9FBD9C00F40772 /* localised.strings */,
 			);
 			path = Chat;
 			sourceTree = "<group>";
@@ -1082,15 +1076,6 @@
 				718104A91E4344F800AC688C /* SQLite.framework */,
 			);
 			name = Products;
-			sourceTree = "<group>";
-		};
-		71C1A2D01D769B0900FC5157 /* Base.lproj */ = {
-			isa = PBXGroup;
-			children = (
-				71C1A2D11D769B0900FC5157 /* LaunchScreen.storyboard */,
-				71C1A2D31D769B0900FC5157 /* Main.storyboard */,
-			);
-			path = Base.lproj;
 			sourceTree = "<group>";
 		};
 		71EA60721D78DD7100117B55 /* SwipeCellsSourceFiles */ = {
@@ -1500,28 +1485,27 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				71C1A2D81D769B0900FC5157 /* Main.storyboard in Resources */,
 				71C4018A1CF715C500D38126 /* audioOn.png in Resources */,
 				714690621E66F54500FA6530 /* GoogleMaps.bundle in Resources */,
 				71C401761CF7159F00D38126 /* videoOff.png in Resources */,
+				71301E4D1E9FBB4A00F40772 /* Main.storyboard in Resources */,
 				71C401751CF7159F00D38126 /* video-camera-icon@2x.png in Resources */,
 				71C401741CF7159F00D38126 /* video-camera-icon.png in Resources */,
 				71C4018C1CF715C500D38126 /* endCall.png in Resources */,
 				71C401881CF715C500D38126 /* audioOff.png in Resources */,
+				71301E501E9FBB5300F40772 /* LaunchScreen.storyboard in Resources */,
 				71636DCA1E8D3042007D7A02 /* GooglePlacePicker.bundle in Resources */,
-				714FA19E1E9F856B005B16DE /* localizable.strings in Resources */,
 				71C401771CF7159F00D38126 /* videoOff@2x.png in Resources */,
 				71D20B4D1E645A150080E28B /* audio_tiny8.wav in Resources */,
 				71C4018D1CF715C500D38126 /* endCall@2x.png in Resources */,
 				711996361E9567CA003D54A3 /* urlPopView.xib in Resources */,
 				71E20B9D1CF720DD0042EDAD /* avatar.png in Resources */,
+				71301E591E9FBD9C00F40772 /* localised.strings in Resources */,
 				71BFD47A1CFD13D3004ACCBF /* AccountKitStrings.bundle in Resources */,
 				71E20B9F1CF720DD0042EDAD /* avatarTwo.png in Resources */,
 				713F39701D74459600F3A9C4 /* EPContactCell.xib in Resources */,
 				71C4018B1CF715C500D38126 /* audioOn@2x.png in Resources */,
 				71636DC61E8D2FA2007D7A02 /* GooglePlaces.bundle in Resources */,
-				71C1A2D71D769B0900FC5157 /* LaunchScreen.storyboard in Resources */,
-				7191CC681BCF0D9400F0847F /* Main.storyboard in Resources */,
 				71C401891CF715C500D38126 /* audioOff@2x.png in Resources */,
 				71E20B9E1CF720DD0042EDAD /* avatarHalf.png in Resources */,
 				71E20BA01CF720DD0042EDAD /* avatarTwoHalf.png in Resources */,
@@ -1693,7 +1677,6 @@
 				71EA60841D78DDAA00117B55 /* SWUtilityButtonView.m in Sources */,
 				713E7E341E023E4E00C7285A /* AddParticipantsViewController.swift in Sources */,
 				713D51E81CC11896007E0B47 /* RoomService.swift in Sources */,
-				71BAE4291E8D2B1800A48EC5 /* Chat in Sources */,
 				713D51E71CC11896007E0B47 /* RegisterViewController.swift in Sources */,
 				713D51BE1CC11896007E0B47 /* AppDelegate.swift in Sources */,
 				71EA60801D78DDAA00117B55 /* SWCellScrollView.m in Sources */,
@@ -1780,33 +1763,32 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
-		7191CC661BCF0D9400F0847F /* Main.storyboard */ = {
+		71301E4F1E9FBB4A00F40772 /* Main.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
-				7191CC671BCF0D9400F0847F /* Base */,
-				714FA1C21E9F88D4005B16DE /* fr */,
-				714FA1C81E9F893E005B16DE /* es */,
-				714FA1CE1E9F8947005B16DE /* de */,
-				714FA1D41E9F8953005B16DE /* ar */,
-				714FA1DA1E9F897B005B16DE /* ur */,
+				71301E541E9FBB5B00F40772 /* Base */,
+				71301E561E9FBB6800F40772 /* fr */,
 			);
 			name = Main.storyboard;
 			sourceTree = "<group>";
 		};
-		71C1A2D11D769B0900FC5157 /* LaunchScreen.storyboard */ = {
+		71301E521E9FBB5300F40772 /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
-				71C1A2D21D769B0900FC5157 /* Base */,
+				71301E531E9FBB5B00F40772 /* Base */,
+				71301E551E9FBB6800F40772 /* fr */,
 			);
 			name = LaunchScreen.storyboard;
 			sourceTree = "<group>";
 		};
-		71C1A2D31D769B0900FC5157 /* Main.storyboard */ = {
+		71301E5B1E9FBD9C00F40772 /* localised.strings */ = {
 			isa = PBXVariantGroup;
 			children = (
-				71C1A2D41D769B0900FC5157 /* Base */,
+				71301E5A1E9FBD9C00F40772 /* fr */,
+				71301E5C1E9FBF0300F40772 /* Base */,
+				71301E5D1E9FBF0500F40772 /* en */,
 			);
-			name = Main.storyboard;
+			name = localised.strings;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
