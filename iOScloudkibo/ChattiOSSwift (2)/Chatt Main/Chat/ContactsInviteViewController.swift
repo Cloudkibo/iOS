@@ -289,7 +289,7 @@ class ContactsInviteViewController: UIViewController,UITableViewDelegate,UITable
             
         let messageVC = MFMessageComposeViewController()
             
-            messageVC.body = "Hey, \n \n I just downloaded KiboChat App on my iPhone. \n \n It is a smartphone messenger with added features. It provides integrated and unified voice, video, and data communication. \n \n It is available for both Android and iPhone and there is no PIN or username to remember. \n \n Get it now from https://api.cloudkibo.com and say good-bye to SMS!";
+            messageVC.body = "Hey, \n \n I just downloaded KiboChat App on my iPhone. \n \n It is a smartphone messenger with added features. It provides integrated and unified voice, video, and data communication. \n \n It is available for both Android and iPhone and there is no PIN or username to remember. \n \n Get it now from https://api.cloudkibo.com and say good-bye to SMS!".localized;
             messageVC.recipients = selectedEmails
             messageVC.messageComposeDelegate = self;
             
@@ -365,14 +365,14 @@ class ContactsInviteViewController: UIViewController,UITableViewDelegate,UITable
         
     //mailComposerVC.setToRecipients(["someone@somewhere.com"])
         mailComposerVC.setToRecipients(selectedEmails)
-        mailComposerVC.setSubject("Invitation for joining Kibo App")
-        mailComposerVC.setMessageBody("Hey, \n \n I just downloaded Kibo App on my iPhone. \n \n It is a smartphone messenger with added features. It provides integrated and unified voice, video, and data communication. \n \n It is available for both Android and iPhone and there is no PIN or username to remember. \n \n Get it now from https://api.cloudkibo.com and say good-bye to SMS!", isHTML: false)
+        mailComposerVC.setSubject("Invitation for joining Kibo App".localized)
+        mailComposerVC.setMessageBody("Hey, \n \n I just downloaded Kibo App on my iPhone. \n \n It is a smartphone messenger with added features. It provides integrated and unified voice, video, and data communication. \n \n It is available for both Android and iPhone and there is no PIN or username to remember. \n \n Get it now from https://api.cloudkibo.com and say good-bye to SMS!".localized, isHTML: false)
         
         return mailComposerVC
     }
     
     func showSendMailErrorAlert() {
-        let sendMailErrorAlert = UIAlertView(title: "Could Not Send Email", message: "Your device could not send e-mail.  Please check e-mail configuration and try again.", delegate: self, cancelButtonTitle: "OK")
+        let sendMailErrorAlert = UIAlertView(title: "Could Not Send Email".localized, message: "Your device could not send e-mail.  Please check e-mail configuration and try again.".localized, delegate: self, cancelButtonTitle: "OK".localized)
         sendMailErrorAlert.show()
     }
     

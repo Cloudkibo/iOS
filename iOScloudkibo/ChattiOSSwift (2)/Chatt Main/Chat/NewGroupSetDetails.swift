@@ -501,7 +501,7 @@ class NewGroupSetDetails: UITableViewController,UINavigationControllerDelegate,U
         //dismiss it, animate it off screen, whatever.
         let shareMenu = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         
-        let resetImage = UIAlertAction(title: "Reset Image", style: UIAlertActionStyle.default,handler: { (action) -> Void in
+        let resetImage = UIAlertAction(title: "Reset Image".localized, style: UIAlertActionStyle.default,handler: { (action) -> Void in
             
             self.imgdata=Data.init()
             gestureRecognizer.view?.removeGestureRecognizer(gestureRecognizer)
@@ -512,7 +512,7 @@ class NewGroupSetDetails: UITableViewController,UINavigationControllerDelegate,U
             //call Mute delegate or method
         })
         
-        let SelectImage = UIAlertAction(title: "Select Image", style: UIAlertActionStyle.default,handler: { (action) -> Void in
+        let SelectImage = UIAlertAction(title: "Select Image".localized, style: UIAlertActionStyle.default,handler: { (action) -> Void in
             
             self.selectImage(gestureRecognizer)
             
@@ -523,7 +523,7 @@ class NewGroupSetDetails: UITableViewController,UINavigationControllerDelegate,U
             //call Mute delegate or method
         })
         
-        let cancel = UIAlertAction(title: "Cancel", style: UIAlertActionStyle.cancel, handler: { (action) -> Void in
+        let cancel = UIAlertAction(title: "Cancel".localized, style: UIAlertActionStyle.cancel, handler: { (action) -> Void in
             
             // swipeindex=index
             //self.performSegueWithIdentifier("groupInfoSegue", sender: nil)
@@ -872,7 +872,7 @@ extension NewGroupSetDetails: UICollectionViewDelegate, UICollectionViewDataSour
         }
         }
         catch{
-           let errormsg = UIAlertView(title: "Error", message: "Failed to fetch avatar image", delegate: self, cancelButtonTitle: "Ok")
+           let errormsg = UIAlertView(title: "Error".localized, message: "Failed to fetch avatar image".localized, delegate: self, cancelButtonTitle: "Ok".localized)
             errormsg.show()
             
         }

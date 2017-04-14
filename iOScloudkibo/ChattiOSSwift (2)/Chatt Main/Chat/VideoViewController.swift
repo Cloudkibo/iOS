@@ -108,14 +108,14 @@ class VideoViewController: UIViewController,RTCPeerConnectionDelegate,RTCSession
             socketObj.socket.emit("conference.stream", ["username":username!,"id":currentID!,"type":"screenAndroid","action":"true"])
             
             
-            btncapture.title! = "Hide"
+            btncapture.title! = "Hide".localized
             webMeetingModel.delegateScreen.screenCapture()
             /////atimer=NSTimer(timeInterval: 0.1, target: self, selector: "timerFiredScreenCapture", userInfo: nil, repeats: true)
             
         }
         else
         {
-            btncapture.title! = "Capture"
+            btncapture.title! = "Capture".localized
             
             //socketObj.socket.emit("conference.stream", ["username":username!,"id":currentID!,"type":"screenAndroid","action":"false"])
             
@@ -1745,7 +1745,7 @@ self.remoteDisconnected()
             //txtLabelMainPage.font
             
             txtLabelMainPage.font=UIFont.boldSystemFont(ofSize: 20)
-            txtLabelMainPage.text="You are now connected in call with \(iamincallWith)"
+            txtLabelMainPage.text="You are now connected in call with:".localized+" \(iamincallWith)"
             
             print("socketObj value new is \(socketObj)")
             //////optional
@@ -2076,7 +2076,7 @@ self.remoteDisconnected()
              print(msg.debugDescription)
              */
             //self.showError
-            txtLabelMainPage.text="\(iamincallWith!) is offline"
+            txtLabelMainPage.text="User offline:".localized+" \(iamincallWith!)"
             //sleep()
             
         }
@@ -2659,8 +2659,8 @@ self.remoteDisconnected()
                     }
                     // **
                     
-                    let alert = UIAlertController(title: "Success", message: "You have received a new file. Click on \"View\" button at top to View and Save it.", preferredStyle: UIAlertControllerStyle.alert)
-                    alert.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.default, handler: nil))
+                    let alert = UIAlertController(title: "Success".localized, message: "You have received a new file. Click on \"View\" button at top to View and Save it.".localized, preferredStyle: UIAlertControllerStyle.alert)
+                    alert.addAction(UIAlertAction(title: "Ok".localized, style: UIAlertActionStyle.default, handler: nil))
                     //UIApplication.sharedApplication().keyWindow?.rootViewController!.presentViewController(alert, animated: true, completion: nil)
                     //if(UIApplication.sharedApplication().keyWindow?.rootViewController.present)
                     self.present(alert, animated: true, completion: nil)
@@ -2954,8 +2954,8 @@ self.remoteDisconnected()
             //%%%%%%%%%% socketObj.socket.emit("conference.chat", ["message":"You have received a file. Download and Save it.","username":username!])
             socketObj.socket.emit("conference.chat", ["message":"You have received a file. Download and Save it.","username":username!])
             
-            let alert = UIAlertController(title: "Success", message: "Your file has been successfully sent", preferredStyle: UIAlertControllerStyle.alert)
-            alert.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.default, handler: nil))
+            let alert = UIAlertController(title: "Success".localized, message: "Your file has been successfully sent".localized, preferredStyle: UIAlertControllerStyle.alert)
+            alert.addAction(UIAlertAction(title: "Ok".localized, style: UIAlertActionStyle.default, handler: nil))
             self.present(alert, animated: true, completion: nil)
 
             

@@ -42,23 +42,23 @@ class NotesViewController: UIViewController,InviteContactsDelegate,UITextFieldDe
         var contactdata:[String:String]!
         
         DispatchQueue.main.async(execute: {
-            self.alert = UIAlertController(title: "Add new contact", message: "Please Fill details", preferredStyle: .alert)
+            self.alert = UIAlertController(title: "Add new contact".localized, message: "Please Fill details".localized, preferredStyle: .alert)
             
             //2. Add the text field. You can configure it however you need.
             self.alert.addTextField(configurationHandler: {(textField: UITextField!) in
-                textField.placeholder = "First Name"
+                textField.placeholder = "First Name".localized
                 textField.isSecureTextEntry = false
                 // textField.addTarget(self, action: "textChanged", forControlEvents: .EditingChanged)
             })
             
             self.alert.addTextField(configurationHandler: {(textField: UITextField!) in
-                textField.placeholder = "Last Name"
+                textField.placeholder = "Last Name".localized
                 textField.isSecureTextEntry = false
                 // textField.addTarget(self, action: "textChanged", forControlEvents: .EditingChanged)
             })
             
             self.alert.addTextField(configurationHandler: {(textField: UITextField!) in
-                textField.placeholder = "Phone Number"
+                textField.placeholder = "Phone Number".localized
                 textField.isSecureTextEntry = false
                 //textField.addTarget(self, action: "textChanged", forControlEvents: .EditingChanged)
             })
@@ -67,14 +67,14 @@ class NotesViewController: UIViewController,InviteContactsDelegate,UITextFieldDe
              textField.text = ""
              })*/
             
-            var cancelAction=UIAlertAction(title: "Cancel", style: .cancel, handler: { (action) -> Void in
+            var cancelAction=UIAlertAction(title: "Cancel".localized, style: .cancel, handler: { (action) -> Void in
                 
                 
                 
             })
             
             //3. Grab the value from the text field, and print it when the user clicks OK.
-            var okAction=UIAlertAction(title: "Ok", style: .default, handler: { (action) -> Void in
+            var okAction=UIAlertAction(title: "Ok".localized, style: .default, handler: { (action) -> Void in
                 
                 let textFieldFname = self.alert.textFields![0] as UITextField
                 let textFieldLname = self.alert.textFields![1] as UITextField
@@ -86,7 +86,7 @@ class NotesViewController: UIViewController,InviteContactsDelegate,UITextFieldDe
                 contactsList.saveToAddressBook(contactdata){(result) -> () in
                     if(result==true)
                     {
-                        var alert = UIAlertController(title: "Add new contact", message: "Please Fill details", preferredStyle: .alert)
+                        var alert = UIAlertController(title: "Add new contact".localized, message: "Please Fill details".localized, preferredStyle: .alert)
                         
                     }
                     

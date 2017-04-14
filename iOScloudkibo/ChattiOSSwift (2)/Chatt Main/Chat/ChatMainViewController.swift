@@ -26,7 +26,7 @@ class ChatMainViewController:UIViewController,SocketConnecting,RefreshContactsLi
     var sendType=""
     var accountKit: AKFAccountKit!
     var rt=NetworkingLibAlamofire()
-    var mytitle="Favourites"
+    var mytitle="Favourites".localized
     
     var messageFrame = UIView()
     var activityIndicator = UIActivityIndicatorView()
@@ -1000,7 +1000,7 @@ class ChatMainViewController:UIViewController,SocketConnecting,RefreshContactsLi
         {
          // print("here2 count is \(ContactNames.count)")
             let cell = tblForChat.dequeueReusableCell(withIdentifier: "numberOfFavouritesCell") as! numberOfFavouritesCell
-           cell.lbl_numberOfFavourites.text = "\(messages.count) Favourites"
+           cell.lbl_numberOfFavourites.text = "\(messages.count) "+"Favourites".localized
             return cell
         }
         }

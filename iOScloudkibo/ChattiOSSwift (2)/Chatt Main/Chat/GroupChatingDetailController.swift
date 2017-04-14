@@ -205,9 +205,9 @@ class GroupChatingDetailController: UIViewController,UIDocumentPickerDelegate,UI
         //var attributesError=nil
         var fileAttributes:[String:AnyObject]=["":"" as AnyObject]
         
-        shareMenu = UIAlertController(title: nil, message: " Send \" \(fname) .\(ftype) ? ", preferredStyle: .actionSheet)
+        shareMenu = UIAlertController(title: nil, message: "Send".localized+" \" \(fname) .\(ftype) \" "+"?".localized, preferredStyle: .actionSheet)
         // shareMenu.modalPresentationStyle=UIModalPresentationStyle.OverCurrentContext
-        let confirm = UIAlertAction(title: "Yes", style: UIAlertActionStyle.default,handler: { (action) -> Void in
+        let confirm = UIAlertAction(title: "Yes".localized, style: UIAlertActionStyle.default,handler: { (action) -> Void in
             
             
             
@@ -484,7 +484,7 @@ class GroupChatingDetailController: UIViewController,UIDocumentPickerDelegate,UI
         })
         
         
-        let notConfirm = UIAlertAction(title: "No", style: UIAlertActionStyle.cancel, handler: { (action) -> Void in
+        let notConfirm = UIAlertAction(title: "No".localized, style: UIAlertActionStyle.cancel, handler: { (action) -> Void in
             
         })
         
@@ -760,7 +760,7 @@ class GroupChatingDetailController: UIViewController,UIDocumentPickerDelegate,UI
     @IBAction func btnRecordTouchDown(_ sender: UIButton) {
         
         print("btnRecordTouchDown")
-        txtFieldMessage.text="< Slide left to cancel"
+        txtFieldMessage.text="< Slide left to cancel".localized
         self.startRecording()
     }
     
@@ -794,10 +794,10 @@ class GroupChatingDetailController: UIViewController,UIDocumentPickerDelegate,UI
         var filesize1=0
         if !success {
             
-            btnSendAudio.setTitle("Record", for: .normal)
+            btnSendAudio.setTitle("Record".localized, for: .normal)
             // recording failed :(
         }  else {
-            btnSendAudio.setTitle("Record", for: .normal)
+            btnSendAudio.setTitle("Record".localized, for: .normal)
             
             var uniqueID=UtilityFunctions.init().generateUniqueid()
             print("uniqueid audio is \(uniqueID)")

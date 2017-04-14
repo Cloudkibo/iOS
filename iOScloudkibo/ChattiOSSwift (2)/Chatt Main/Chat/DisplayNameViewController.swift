@@ -65,7 +65,7 @@ class DisplayNameViewController: UIViewController,UNUserNotificationCenterDelega
         }
         displayname=displayName
         //=--progressBarDisplayer("Contacting Server", true)
-        self.lbl_progress.text="Contacting Server..."
+        self.lbl_progress.text="Contacting Server...".localized
         
         
         Q0_sendDisplayName.sync(execute: {
@@ -80,7 +80,7 @@ class DisplayNameViewController: UIViewController,UNUserNotificationCenterDelega
                  self.progressBarDisplayer("Setting Contacts Step 1/4", true)
                  */
                 
-                self.lbl_progress.text="Setting Contacts..."
+                self.lbl_progress.text="Setting Contacts...".localized
                 if(socketObj != nil)
                 {
                     socketObj.socket.emit("logClient","IPHONE LOG: setting contacts start time \(Date())")
@@ -110,7 +110,7 @@ class DisplayNameViewController: UIViewController,UNUserNotificationCenterDelega
                                     socketObj.socket.emit("logClient","IPHONE LOG:got server response time \(Date())")
                                 }
                                 
-                                self.lbl_progress.text="Updating local database.."
+                                self.lbl_progress.text="Updating local database..".localized
                                 self.Q3_getContactsFromServer.sync(execute: {
                                     
                                     //.......
@@ -615,7 +615,7 @@ class DisplayNameViewController: UIViewController,UNUserNotificationCenterDelega
                 
             for i in 0..<self.syncContactsList.count
             {
-                self.lbl_progress.text="Updating Contact \(i)"
+                self.lbl_progress.text="Updating Contact".localized+" \(i)"
                 
                 do{
                     /////// uniqueidentifierList.append(contact.identifier)
@@ -1549,7 +1549,7 @@ socketObj.socket.emit("logClient","button done pressed start time \(Date())")
         }
         displayname=displayName
         //=--progressBarDisplayer("Contacting Server", true)
-        self.lbl_progress.text="Contacting Server..."
+        self.lbl_progress.text="Contacting Server...".localized
         
         
         Q0_sendDisplayName.sync(execute: {
@@ -1564,7 +1564,7 @@ socketObj.socket.emit("logClient","button done pressed start time \(Date())")
                     self.progressBarDisplayer("Setting Contacts Step 1/4", true)
                     */
                     
-                    self.lbl_progress.text="Setting Contacts..."
+                    self.lbl_progress.text="Setting Contacts...".localized
                     if(socketObj != nil)
                     {
                         socketObj.socket.emit("logClient","IPHONE LOG: setting contacts start time \(Date())")
@@ -1709,7 +1709,7 @@ socketObj.socket.emit("logClient","button done pressed start time \(Date())")
                                                                     
                                                                     print("setting contacts finish time \(Date())")
                                                                     
-                                                                    self.lbl_progress.text="Getting details from server.."
+                                                                    self.lbl_progress.text="Getting details from server..".localized
                                                                     self.Q_fetchAllfriends.sync(execute: {
                                                                             
                                                                     self.fetchContactsFromServer({ (result) in
@@ -1719,7 +1719,7 @@ socketObj.socket.emit("logClient","button done pressed start time \(Date())")
                                                                             socketObj.socket.emit("logClient","IPHONE LOG:Done setting contacts time \(Date())")
                                                                         }
 
-                                                                        self.lbl_progress.text="Setting Chats.."
+                                                                        self.lbl_progress.text="Setting Chats..".localized
                                                                 //self.messageFrame.removeFromSuperview()
                                                                 //self.progressBarDisplayer("Setting Chats", true)
                                                                 

@@ -334,7 +334,7 @@ class contactsDetailsTableViewController: UITableViewController,MFMailComposeVie
         {
             cell = tableView.dequeueReusableCell(withIdentifier: "Status_Cell", for: indexPath) as! AllContactsCell
             cell.isHidden=false
-            cell.lbl_status.text="Hey there! I am using KiboApp"
+            cell.lbl_status.text="Hey there! I am using KiboApp".localized
             
         }
         if(indexPath.row==4 && isKiboContact==false)
@@ -350,10 +350,10 @@ class contactsDetailsTableViewController: UITableViewController,MFMailComposeVie
             cell = tableView.dequeueReusableCell(withIdentifier: "BlockThisContactCell", for: indexPath) as! AllContactsCell
             if(blockedByMe==true)
             {
-               cell.btn_lbl_blockContact.text="Unblock this contact"
+               cell.btn_lbl_blockContact.text="Unblock this contact".localized
             }
             else{
-                cell.btn_lbl_blockContact.text="Block this contact"
+                cell.btn_lbl_blockContact.text="Block this contact".localized
             }
             
         }
@@ -385,13 +385,13 @@ class contactsDetailsTableViewController: UITableViewController,MFMailComposeVie
                 {
                     // sqliteDB.BlockContactUpdateStatus(phone1: phoneselectd, status1: true)
                     UtilityFunctions.init().blockContact(phone1: phoneselectd!)
-                    selectedCell.btn_lbl_blockContact.text="Unblock this Contact"
+                    selectedCell.btn_lbl_blockContact.text="Unblock this Contact".localized
                 }
                 else
                 {
                     UtilityFunctions.init().unblockContact(phone1: phoneselectd!)
                     //  sqliteDB.BlockContactUpdateStatus(phone1: phoneselectd, status1: false)
-                    selectedCell.btn_lbl_blockContact.text="Block this Contact"
+                    selectedCell.btn_lbl_blockContact.text="Block this Contact".localized
                 }
             }
             ///
@@ -446,7 +446,7 @@ class contactsDetailsTableViewController: UITableViewController,MFMailComposeVie
                 
                 let messageVC = MFMessageComposeViewController()
                 
-                messageVC.body = "Hey, \n \n I just downloaded Kibo App on my iPhone. \n \n It is a smartphone messenger with added features. It provides integrated and unified voice, video, and data communication. \n \n It is available for both Android and iPhone and there is no PIN or username to remember. \n \n Get it now from https://itunes.apple.com/us/app/kibo-chat/id1099977984?ls=1&mt=8 and say good-bye to SMS!";
+                messageVC.body = "Hey,".localized+"\n \n"+"I just downloaded Kibo App on my iPhone.".localized+"\n \n"+"It is a smartphone messenger with added features. It provides integrated and unified voice, video, and data communication.".localized+"\n \n"+"It is available for both Android and iPhone and there is no PIN or username to remember.".localized+"\n \n"+"Get it now from https://itunes.apple.com/us/app/kibo-chat/id1099977984?ls=1&mt=8 and say good-bye to SMS!".localized;
                 
                 
                 
@@ -469,7 +469,7 @@ class contactsDetailsTableViewController: UITableViewController,MFMailComposeVie
                  self.presentViewController(messageVC, animated: false, completion: nil)
                  */
             })
-        let cancelAction = UIAlertAction(title: "Cancel", style: UIAlertActionStyle.cancel, handler:nil)
+        let cancelAction = UIAlertAction(title: "Cancel".localized, style: UIAlertActionStyle.cancel, handler:nil)
         shareMenu.addAction(msgAction)
         shareMenu.addAction(twitterAction)
             shareMenu.addAction(cancelAction)
@@ -516,14 +516,14 @@ class contactsDetailsTableViewController: UITableViewController,MFMailComposeVie
         
         
         
-        mailComposerVC.setSubject("Invitation for joining Kibo App")
-        mailComposerVC.setMessageBody("Hey, \n \n I just downloaded Kibo App on my iPhone. \n \n It is a smartphone messenger with added features. It provides integrated and unified voice, video, and data communication. \n \n It is available for both Android and iPhone and there is no PIN or username to remember. \n \n Get it now from https://itunes.apple.com/us/app/kibo-chat/id1099977984?ls=1&mt=8 and say good-bye to SMS!", isHTML: false)
+        mailComposerVC.setSubject("Invitation for joining Kibo App".localized)
+        mailComposerVC.setMessageBody("Hey,".localized+"\n \n"+"I just downloaded Kibo App on my iPhone.".localized+"\n \n"+"It is a smartphone messenger with added features. It provides integrated and unified voice, video, and data communication.".localized+"\n \n"+"It is available for both Android and iPhone and there is no PIN or username to remember.".localized+"\n \n"+"Get it now from https://itunes.apple.com/us/app/kibo-chat/id1099977984?ls=1&mt=8 and say good-bye to SMS!".localized, isHTML: false)
         
         return mailComposerVC
     }
     
     func showSendMailErrorAlert() {
-        let sendMailErrorAlert = UIAlertView(title: "Could Not Send Email", message: "Your device could not send e-mail.  Please check e-mail configuration and try again.", delegate: self, cancelButtonTitle: "OK")
+        let sendMailErrorAlert = UIAlertView(title: "Could Not Send Email".localized, message: "Your device could not send e-mail.  Please check e-mail configuration and try again.".localized, delegate: self, cancelButtonTitle: "OK")
         sendMailErrorAlert.show()
     }
     

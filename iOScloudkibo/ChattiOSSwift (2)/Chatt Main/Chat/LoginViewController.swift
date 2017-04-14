@@ -194,7 +194,7 @@ class LoginViewController: UIViewController,SocketConnecting,AKFViewControllerDe
     
     func viewController(_ viewController: UIViewController!, didFailWithError error: NSError!) {
         print("We have an error \(error)")
-        self.showError("An error has occured:", message: error.debugDescription, button1: "Ok")
+        self.showError("An error has occured:".localized, message: error.localizedDescription, button1: "Ok".localized)
         
     }
     func viewControllerDidCancel(_ viewController: UIViewController!) {
@@ -214,7 +214,7 @@ class LoginViewController: UIViewController,SocketConnecting,AKFViewControllerDe
         //1. Create the alert controller.
         
         DispatchQueue.main.async(execute: {
-            let alert = UIAlertController(title: "Welcome to Cloudkibo Meeting", message: "Please enter your username", preferredStyle: .alert)
+            let alert = UIAlertController(title: "Welcome to Cloudkibo Meeting".localized, message: "Please enter your username".localized, preferredStyle: .alert)
             
             //2. Add the text field. You can configure it however you need.
             alert.addTextField(configurationHandler: { (textField) -> Void in

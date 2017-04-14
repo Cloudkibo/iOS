@@ -4360,13 +4360,13 @@ break
         
        //// if editingStyle == .Delete {
         if(editingStyle == UITableViewCellEditingStyle.delete){
-            let shareMenu = UIAlertController(title: nil, message: "Delete Chat with \(ContactNames)", preferredStyle: .actionSheet)
+            let shareMenu = UIAlertController(title: nil, message: "Delete Chat with:".localized+" \(ContactNames)", preferredStyle: .actionSheet)
             
-            let DeleteAction = UIAlertAction(title: "Delete", style: UIAlertActionStyle.default,handler: { (action) -> Void in
+            let DeleteAction = UIAlertAction(title: "Delete".localized, style: UIAlertActionStyle.default,handler: { (action) -> Void in
                 self.removeChatHistory(ContactUsernames,indexPath: indexPath)
                 
             })
-            let cancelAction = UIAlertAction(title: "Cancel", style: UIAlertActionStyle.cancel, handler: { (action) -> Void in
+            let cancelAction = UIAlertAction(title: "Cancel".localized, style: UIAlertActionStyle.cancel, handler: { (action) -> Void in
                 
                 //self.sendType="Message"
                 //self.performSegueWithIdentifier("inviteSegue",sender: nil)
@@ -4797,7 +4797,7 @@ break
         if segue!.identifier == "newChat" {
             
             if let destinationVC = segue!.destination as? ChatMainViewController{
-                destinationVC.mytitle="New Chat"
+                destinationVC.mytitle="New Chat".localized
                 destinationVC.navigationItem.leftBarButtonItem?.isEnabled=false
                 destinationVC.navigationItem.rightBarButtonItem?.image=nil
                 destinationVC.navigationItem.rightBarButtonItem?.isEnabled=false
@@ -5313,7 +5313,7 @@ break
      
         case "calleeisbusy":
             
-            self.showError("Information", message: "User is busy. Please try again later", button1: "Ok")
+            self.showError("Information".localized, message: "User is busy. Please try again later".localized, button1: "Ok".localized)
             
         case "online":
             //{data,ack in
@@ -5403,7 +5403,7 @@ break
                         //call Mute delegate or method
                     })*/
                     
-                    let GroupInfo = UIAlertAction(title: "Group Info", style: UIAlertActionStyle.default,handler: { (action) -> Void in
+                    let GroupInfo = UIAlertAction(title: "Group Info".localized, style: UIAlertActionStyle.default,handler: { (action) -> Void in
                         
                        // swipeindex=index
                         self.performSegue(withIdentifier: "groupInfoSegue", sender: nil)
@@ -5431,7 +5431,7 @@ break
                         //call Mute delegate or method
                     })
  */
-                    let cancelAction = UIAlertAction(title: "Cancel", style: UIAlertActionStyle.cancel, handler: { (action) -> Void in
+                    let cancelAction = UIAlertAction(title: "Cancel".localized, style: UIAlertActionStyle.cancel, handler: { (action) -> Void in
                         
                         //self.sendType="Message"
                         //self.performSegueWithIdentifier("inviteSegue",sender: nil)
@@ -5471,7 +5471,7 @@ break
                     
                    
                 
-                    let contactinfo = UIAlertAction(title: "Contact Info", style: UIAlertActionStyle.default,handler: { (action) -> Void in
+                    let contactinfo = UIAlertAction(title: "Contact Info".localized, style: UIAlertActionStyle.default,handler: { (action) -> Void in
                     //segue to contact info page
                     //contactDetailsSegue
                     
@@ -5487,7 +5487,7 @@ break
                 }
                 else
                 {
-                    let addcontact = UIAlertAction(title: "Add to Contacts", style: UIAlertActionStyle.default,handler: { (action) -> Void in
+                    let addcontact = UIAlertAction(title: "Add to Contacts".localized, style: UIAlertActionStyle.default,handler: { (action) -> Void in
                         //segue to contact info page
                         //contactDetailsSegue
                         
@@ -5520,7 +5520,7 @@ break
                     
                     shareMenu.addAction(addcontact)
                 }
-                let cancelAction = UIAlertAction(title: "Cancel", style: UIAlertActionStyle.cancel, handler: { (action) -> Void in
+                let cancelAction = UIAlertAction(title: "Cancel".localized, style: UIAlertActionStyle.cancel, handler: { (action) -> Void in
                     
                     
                 })

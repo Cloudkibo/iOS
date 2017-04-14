@@ -68,7 +68,7 @@ class FileReceivedViewController: UIViewController,UIDocumentInteractionControll
      print("error removing file")
      }*/
     DispatchQueue.main.async(execute: {
-    let alert = UIAlertController(title: "Error", message: "File with the name \(filejustreceivednameToSave) already exists. Please enter new name of file" , preferredStyle: .alert)
+    let alert = UIAlertController(title: "Error", message: "File with the name  already exists:".localized+" \(filejustreceivednameToSave)."+" Please enter new file name".localized , preferredStyle: .alert)
     
     //2. Add the text field. You can configure it however you need.
     alert.addTextField(configurationHandler: { (textField) -> Void in
@@ -77,7 +77,7 @@ class FileReceivedViewController: UIViewController,UIDocumentInteractionControll
     
     
     //3. Grab the value from the text field, and print it when the user clicks OK.
-    alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { (action) -> Void in
+    alert.addAction(UIAlertAction(title: "OK".localized, style: .default, handler: { (action) -> Void in
     let textField = alert.textFields![0] as UITextField
     print("Text field: \(textField.text)")
     var newfilenamegot=textField.text!
@@ -115,8 +115,8 @@ class FileReceivedViewController: UIViewController,UIDocumentInteractionControll
     print("copying file to icloud")
     var ans=try filemgr.copyItem(at: documentURL! as URL, to: ubiquityURL!)
         
-        let alert = UIAlertController(title: "Success", message: "Your file \(filejustreceivednameToSave) has been successfully saved to iCloud Drive", preferredStyle: UIAlertControllerStyle.alert)
-        alert.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.default, handler: nil))
+        let alert = UIAlertController(title: "Success".localized, message: "Your file has been successfully saved to iCloud Drive".localized+": \(filejustreceivednameToSave) ", preferredStyle: UIAlertControllerStyle.alert)
+        alert.addAction(UIAlertAction(title: "Ok".localized, style: UIAlertActionStyle.default, handler: nil))
         self.present(alert, animated: true, completion: {
             
             
@@ -129,8 +129,8 @@ class FileReceivedViewController: UIViewController,UIDocumentInteractionControll
     catch{
     //print("error anssss is \(ans)")
     print("error is \(error)")
-    let alert = UIAlertController(title: "Cancel", message: "\(error)", preferredStyle: UIAlertControllerStyle.alert)
-    alert.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.default, handler: nil))
+    let alert = UIAlertController(title: "Cancel".localized, message: "\(error)", preferredStyle: UIAlertControllerStyle.alert)
+    alert.addAction(UIAlertAction(title: "Ok".localized, style: UIAlertActionStyle.default, handler: nil))
     self.present(alert, animated: true, completion: {
     
     
@@ -144,8 +144,8 @@ class FileReceivedViewController: UIViewController,UIDocumentInteractionControll
     func didReceiveFileConference()
     {
         //videoCont.btnViewFile.enabled=true
-        let alert = UIAlertController(title: "Success", message: "You have received a new file. You can view files by clicking on \"View\" button present on Main conference page.", preferredStyle: UIAlertControllerStyle.alert)
-        alert.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.default, handler: nil))
+        let alert = UIAlertController(title: "Success".localized, message: "You have received a new file. You can view files by clicking on \"View\" button present on Main conference page.".localized, preferredStyle: UIAlertControllerStyle.alert)
+        alert.addAction(UIAlertAction(title: "Ok".localized, style: UIAlertActionStyle.default, handler: nil))
         self.present(alert, animated: true, completion: nil)
     }
     
