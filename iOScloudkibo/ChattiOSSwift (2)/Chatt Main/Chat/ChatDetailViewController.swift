@@ -147,7 +147,7 @@ var isKiboContact="false"
     @IBAction func btnRecordTouchDown(_ sender: UIButton) {
     
     print("btnRecordTouchDown")
-        txtFldMessage.text="< Slide left to cancel"
+        txtFldMessage.text="< Slide left to cancel".localized
      ////   self.startRecording()
     }
     
@@ -183,10 +183,10 @@ var isKiboContact="false"
         
         if !success {
             
-            btnSendAudio.setTitle("Record", for: .normal)
+            btnSendAudio.setTitle("Record".localized, for: .normal)
             // recording failed :(
         }  else {
-            btnSendAudio.setTitle("Record", for: .normal)
+            btnSendAudio.setTitle("Record".localized, for: .normal)
             //add audio component
             //save to database
             //send chat
@@ -3631,7 +3631,7 @@ var isKiboContact="false"
             textLable.text = msg! as! String
             }
             else{
-                textLable.text = "Downloading..."
+                textLable.text = "Downloading...".localized
             }
             
             selectedText = filename as String
@@ -4042,10 +4042,10 @@ var isKiboContact="false"
             let docData=FileManager.default.contents(atPath: videoPath)
             if(docData != nil)
             {
-                videoLabelStatus.text = "Play"
+                videoLabelStatus.text = "Play".localized
             }
             else{
-                videoLabelStatus.text = "Downloading..."
+                videoLabelStatus.text = "Downloading...".localized
             }
 
             /*
@@ -4197,10 +4197,10 @@ var isKiboContact="false"
             let docData=FileManager.default.contents(atPath: videoPath)
             if(docData != nil)
             {
-                videoLabelStatus.text = "Play"
+                videoLabelStatus.text = "Play".localized
             }
             else{
-                videoLabelStatus.text = "Downloading..."
+                videoLabelStatus.text = "Downloading...".localized
             }
             /*self.moviePlayer = MPMoviePlayerController(contentURL: url)
             if let player = self.moviePlayer {
@@ -4601,7 +4601,7 @@ var isKiboContact="false"
     {
         let messageVC = MFMessageComposeViewController()
         
-        messageVC.body = "Hey, \n \n I just downloaded KiboChat App on my iPhone. \n \n It is a smartphone messenger with added features. It provides integrated and unified voice, video, and data communication. \n \n It is available for both Android and iPhone and there is no PIN or username to remember. \n \n Get it now from https://api.cloudkibo.com and say good-bye to SMS!";
+        messageVC.body = "Hey, \n \n I just downloaded KiboChat App on my iPhone. \n \n It is a smartphone messenger with added features. It provides integrated and unified voice, video, and data communication. \n \n It is available for both Android and iPhone and there is no PIN or username to remember. \n \n Get it now from https://api.cloudkibo.com and say good-bye to SMS!".localized;
         messageVC.recipients = [contactreceivedphone]
         messageVC.messageComposeDelegate = self;
         
@@ -4824,7 +4824,7 @@ var isKiboContact="false"
         if (gestureRecognizer.state == UIGestureRecognizerState.began) {
  print("long pressed")
 // print("btnRecordTouchDown")
- txtFldMessage.text="< Slide left to cancel"
+ txtFldMessage.text="< Slide left to cancel".localized
  self.startRecording()
         }
  }/*
@@ -5238,7 +5238,7 @@ var isKiboContact="false"
         shareMenu.modalPresentationStyle=UIModalPresentationStyle.overCurrentContext
         
         
-        let cameraAction = UIAlertAction(title: "Camera", style: UIAlertActionStyle.default,handler: { (action) -> Void in
+        let cameraAction = UIAlertAction(title: "Camera".localized, style: UIAlertActionStyle.default,handler: { (action) -> Void in
             
             let imagePicker=UIImagePickerController.init()
            /// imagePicker =  UIImagePickerController()
@@ -5249,7 +5249,7 @@ var isKiboContact="false"
 
         })
         
-        let videoAction = UIAlertAction(title: "Share Video", style: UIAlertActionStyle.default,handler: { (action) -> Void in
+        let videoAction = UIAlertAction(title: "Share Video".localized, style: UIAlertActionStyle.default,handler: { (action) -> Void in
             
             let picker=UIImagePickerController.init()
             picker.delegate=self
@@ -5278,7 +5278,7 @@ var isKiboContact="false"
             
         
         })
-        let photoAction = UIAlertAction(title: "Photo/Video Library", style: UIAlertActionStyle.default,handler: { (action) -> Void in
+        let photoAction = UIAlertAction(title: "Photo/Video Library".localized, style: UIAlertActionStyle.default,handler: { (action) -> Void in
             
             let picker=UIImagePickerController.init()
             picker.delegate=self
@@ -5307,7 +5307,7 @@ var isKiboContact="false"
             
             
         })
-        let documentAction = UIAlertAction(title: "Share Document", style: UIAlertActionStyle.default, handler: { (action) -> Void in
+        let documentAction = UIAlertAction(title: "Share Document".localized, style: UIAlertActionStyle.default, handler: { (action) -> Void in
             
             //print(NSOpenStepRootDirectory())
             ///var UTIs=UTTypeCopyPreferredTagWithClass("public.image", kUTTypeImage)?.takeRetainedValue() as! [String]
@@ -5332,7 +5332,7 @@ var isKiboContact="false"
             
         })
         
-        let locationAction = UIAlertAction(title: "Share Location", style: UIAlertActionStyle.default,handler: { (action) -> Void in
+        let locationAction = UIAlertAction(title: "Share Location".localized, style: UIAlertActionStyle.default,handler: { (action) -> Void in
             
             print("here share location prompt")
             
@@ -5382,7 +5382,7 @@ var isKiboContact="false"
             
             
         })
-        let contactAction = UIAlertAction(title: "Share Contact", style: UIAlertActionStyle.default, handler: { (action) -> Void in
+        let contactAction = UIAlertAction(title: "Share Contact".localized, style: UIAlertActionStyle.default, handler: { (action) -> Void in
             
             
            // contactPickerViewController.predicateForEnablingContact = NSPredicate(format: "birthday != nil")
@@ -5391,7 +5391,7 @@ var isKiboContact="false"
         
         })
         
-        let cancelAction = UIAlertAction(title: "Cancel", style: UIAlertActionStyle.cancel, handler:nil)
+        let cancelAction = UIAlertAction(title: "Cancel".localized, style: UIAlertActionStyle.cancel, handler:nil)
         
         shareMenu.addAction(cameraAction)
         shareMenu.addAction(photoAction)
@@ -5740,7 +5740,7 @@ var isKiboContact="false"
         print("original filename of video is \(self.filename)")
         
         
-        let shareMenu = UIAlertController(title: nil, message: "Send \" \(filename) \" to \(selectedFirstName) ? ", preferredStyle: .actionSheet)
+        let shareMenu = UIAlertController(title: nil, message: "Send".localized+"  \(filename) "+"?".localized/* to \(selectedFirstName) ? "*/, preferredStyle: .actionSheet)
         shareMenu.modalPresentationStyle=UIModalPresentationStyle.overCurrentContext
         let confirm = UIAlertAction(title: "Yes", style: UIAlertActionStyle.default,handler: { (action) -> Void in
             
@@ -5770,7 +5770,7 @@ var isKiboContact="false"
             }
             catch{
                 print("cannot write file \(error)")
-                self.showError("Error", message: "Unable to get video", button1: "Ok")
+                self.showError("Error".localized, message: "Unable to get video".localized, button1: "Ok".localized)
             }
             
           /*  let calendar = Calendar.current
@@ -6068,7 +6068,7 @@ var isKiboContact="false"
         
         })
         
-        let notConfirm = UIAlertAction(title: "No", style: UIAlertActionStyle.cancel, handler: { (action) -> Void in
+        let notConfirm = UIAlertAction(title: "No".localized, style: UIAlertActionStyle.cancel, handler: { (action) -> Void in
             
                     })
         
@@ -6483,11 +6483,11 @@ var isKiboContact="false"
        
         if(isBlocked==true)
         {
-        let shareMenu = UIAlertController(title: "", message: "Unblock contact to send a message", preferredStyle: .actionSheet)
+        let shareMenu = UIAlertController(title: "", message: "Unblock contact to send a message".localized, preferredStyle: .actionSheet)
         shareMenu.modalPresentationStyle=UIModalPresentationStyle.overCurrentContext
         
         
-        let unblockAction = UIAlertAction(title: "UnBlock", style: UIAlertActionStyle.default,handler: { (action) -> Void in
+        let unblockAction = UIAlertAction(title: "UnBlock".localized, style: UIAlertActionStyle.default,handler: { (action) -> Void in
             UtilityFunctions.init().unblockContact(phone1: self.selectedContact)
             //completion result
 
@@ -6496,7 +6496,7 @@ var isKiboContact="false"
         
      
         })
-        let cancelAction = UIAlertAction(title: "Cancel", style: UIAlertActionStyle.cancel, handler:{ (action) -> Void in
+        let cancelAction = UIAlertAction(title: "Cancel".localized, style: UIAlertActionStyle.cancel, handler:{ (action) -> Void in
             
             return
             
@@ -6868,10 +6868,10 @@ var isKiboContact="false"
         ////var fname=furl!.URLByDeletingPathExtension?.URLString
         //var attributesError=nil
         var fileAttributes:[String:AnyObject]=["":"" as AnyObject]
-        
-         shareMenu = UIAlertController(title: nil, message: " Send \" \(fname) .\(ftype)\" to \(selectedFirstName) ? ", preferredStyle: .actionSheet)
+        //message: "Send".localized+" \" \(fname) .\(ftype) \" "+"?".localized
+         shareMenu = UIAlertController(title: nil, message: "Send".localized+" \" \(fname) .\(ftype) \" "+"?".localized, preferredStyle: .actionSheet)
        // shareMenu.modalPresentationStyle=UIModalPresentationStyle.OverCurrentContext
-        let confirm = UIAlertAction(title: "Yes", style: UIAlertActionStyle.default,handler: { (action) -> Void in
+        let confirm = UIAlertAction(title: "Yes".localized, style: UIAlertActionStyle.default,handler: { (action) -> Void in
             
 
             
@@ -7122,7 +7122,7 @@ var isKiboContact="false"
         })
         
         
-        let notConfirm = UIAlertAction(title: "No", style: UIAlertActionStyle.cancel, handler: { (action) -> Void in
+        let notConfirm = UIAlertAction(title: "No".localized, style: UIAlertActionStyle.cancel, handler: { (action) -> Void in
             
         })
         
@@ -7722,6 +7722,9 @@ extension String {
         return self.substring(to: self.characters.index(self.startIndex, offsetBy: substringIndex))
     }
     
+    var localized: String {
+        return NSLocalizedString(self, tableName: nil, bundle: Bundle.main, value: "", comment: "")
+    }
 }
 
 

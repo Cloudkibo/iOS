@@ -290,7 +290,7 @@ EPPickerDelegate,SWTableViewCellDelegate,UpdateChatViewsDelegate,RefreshContacts
         //self.present(alert, animated: true, completion: nil)
     }
     
-    func synchroniseChatData()
+   /* func synchroniseChatData()
     {
         print("synchronise called")
         if(accountKit == nil){
@@ -394,10 +394,10 @@ EPPickerDelegate,SWTableViewCellDelegate,UpdateChatViewsDelegate,RefreshContacts
             })
         }
     }
+    */
     
     
-    
-   func fetchChatsFromServer()
+   /*func fetchChatsFromServer()
     {
         
         print("inside fetchchatsfromserver")
@@ -643,7 +643,7 @@ EPPickerDelegate,SWTableViewCellDelegate,UpdateChatViewsDelegate,RefreshContacts
                 /// }
         }
         
-    }
+    }*/
     
     func leftJoinContactsTables(_ phone1:String)->Array<Row>
     {
@@ -948,8 +948,8 @@ EPPickerDelegate,SWTableViewCellDelegate,UpdateChatViewsDelegate,RefreshContacts
         }
         else
         {
-            editButtonOutlet.title="Done"
-            self.navigationItem.leftBarButtonItem!.title = "Done"
+            editButtonOutlet.title="Done".localized
+            self.navigationItem.leftBarButtonItem!.title = "Done".localized
         }
         
 
@@ -1168,8 +1168,8 @@ EPPickerDelegate,SWTableViewCellDelegate,UpdateChatViewsDelegate,RefreshContacts
         }
         else
         {
-            editButtonOutlet.title="Done"
-            self.navigationController?.navigationItem.leftBarButtonItem?.title="Done"
+            editButtonOutlet.title="Done".localized
+            self.navigationController?.navigationItem.leftBarButtonItem?.title="Done".localized
             ///self.navigationItem.leftBarButtonItem!.title = "Done"
         }
         //self.navigationItem.leftBarButtonItem!.title = "Done"
@@ -1286,7 +1286,7 @@ EPPickerDelegate,SWTableViewCellDelegate,UpdateChatViewsDelegate,RefreshContacts
             else{
                 //ask from user
                 //self.showError("Get Base URL", message: "Base URL set is \(Constants.MainUrl)", button1: "Ok")
-                let alertController = UIAlertController(title: "Enter Server URL", message: "Please input your URL:", preferredStyle: .alert)
+                let alertController = UIAlertController(title: "Enter Server URL".localized, message: "Please input your URL:".localized, preferredStyle: .alert)
                 
                 let confirmAction = UIAlertAction(title: "Ok", style: .default) { (_) in
                     if let field = alertController.textFields![0] as? UITextField {
@@ -1300,7 +1300,7 @@ EPPickerDelegate,SWTableViewCellDelegate,UpdateChatViewsDelegate,RefreshContacts
                     }
                 }
                 
-                let cancelAction = UIAlertAction(title: "Cancel", style: .cancel) { (_) in
+                let cancelAction = UIAlertAction(title: "Cancel".localized, style: .cancel) { (_) in
                     
                 }
                 
@@ -1458,8 +1458,8 @@ EPPickerDelegate,SWTableViewCellDelegate,UpdateChatViewsDelegate,RefreshContacts
             }
             else
             {
-                editButtonOutlet.title="Done"
-                self.navigationController?.navigationItem.leftBarButtonItem?.title="Done"
+                editButtonOutlet.title="Done".localized
+                self.navigationController?.navigationItem.leftBarButtonItem?.title="Done".localized
                 ///self.navigationItem.leftBarButtonItem!.title = "Done"
             }
             
@@ -2310,7 +2310,7 @@ EPPickerDelegate,SWTableViewCellDelegate,UpdateChatViewsDelegate,RefreshContacts
             if(chatexists==false)
             {
                 ContactsLastMsgDate=defaultTimeeee
-                ContactLastMessage="Welcome to the group"
+                ContactLastMessage="Welcome to the group".localized
             }
             /*
              var ContactsLastMsgDate=""
@@ -3411,11 +3411,11 @@ break
         let utilityButtons: NSMutableArray = NSMutableArray()
         
         
-        utilityButtons.sw_addUtilityButton(with: hexStringToUIColor("#DCDEE0"), icon: UIImage(named:"more.png"))
+        utilityButtons.sw_addUtilityButton(with: hexStringToUIColor("#DCDEE0"), icon: UIImage(named:"more.png".localized))
         
         //utilityButtons.sw_addUtilityButtonWithColor(UIColor.redColor(), title: NSLocalizedString("ABC", comment: ""))
         //DCDEE0
-        utilityButtons.sw_addUtilityButton(with: hexStringToUIColor("#24669A"), icon: UIImage(named:"archive.png"))
+        utilityButtons.sw_addUtilityButton(with: hexStringToUIColor("#24669A"), icon: UIImage(named:"archive.png".localized))
         return utilityButtons
         //24669A
     }
