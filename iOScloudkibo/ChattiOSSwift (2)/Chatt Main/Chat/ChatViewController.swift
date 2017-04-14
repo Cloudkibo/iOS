@@ -942,8 +942,9 @@ EPPickerDelegate,SWTableViewCellDelegate,UpdateChatViewsDelegate,RefreshContacts
         
         if(tblForChat.isEditing==false)
         {
-            editButtonOutlet.title="Edit"
-            self.navigationItem.leftBarButtonItem!.title = "Edit"
+            editButtonOutlet.title=NSLocalizedString("Edit", tableName: nil, bundle: Bundle.main, value: "", comment: "Edit")
+            //"Edit"
+            self.navigationItem.leftBarButtonItem!.title = NSLocalizedString("Edit", tableName: nil, bundle: Bundle.main, value: "", comment: "Edit")//"Edit"
         }
         else
         {
@@ -1159,9 +1160,11 @@ EPPickerDelegate,SWTableViewCellDelegate,UpdateChatViewsDelegate,RefreshContacts
         print("editinggg1..\(tblForChat.isEditing) .. \(tblForChat.isEditing)")
         if(tblForChat.isEditing==false)
         {
-            editButtonOutlet.title="Edit"
-            self.navigationController?.navigationItem.leftBarButtonItem?.title="Edit"
-            self.navigationItem.leftBarButtonItem!.title = "Edit"
+            editButtonOutlet.title=NSLocalizedString("Edit", tableName: nil, bundle: Bundle.main, value: "", comment: "Edit")
+            //"Edit"
+            self.navigationController?.navigationItem.leftBarButtonItem?.title=NSLocalizedString("Edit", tableName: nil, bundle: Bundle.main, value: "", comment: "Edit")
+            //"Edit"
+            self.navigationItem.leftBarButtonItem!.title = NSLocalizedString("Edit", tableName: nil, bundle: Bundle.main, value: "", comment: "Edit") //"Edit"
         }
         else
         {
@@ -1447,9 +1450,11 @@ EPPickerDelegate,SWTableViewCellDelegate,UpdateChatViewsDelegate,RefreshContacts
                            }
             if(tblForChat.isEditing==false)
             {
-                editButtonOutlet.title="Edit"
-                self.navigationController?.navigationItem.leftBarButtonItem?.title="Edit"
-                self.navigationItem.leftBarButtonItem!.title = "Edit"
+                editButtonOutlet.title=NSLocalizedString("Edit", tableName: nil, bundle: Bundle.main, value: "", comment: "Edit")
+                //"Edit"
+                self.navigationController?.navigationItem.leftBarButtonItem?.title=NSLocalizedString("Edit", tableName: nil, bundle: Bundle.main, value: "", comment: "Edit")
+                //"Edit"
+                self.navigationItem.leftBarButtonItem!.title = NSLocalizedString("Edit", tableName: nil, bundle: Bundle.main, value: "", comment: "Edit")//"Edit"
             }
             else
             {
@@ -3237,9 +3242,9 @@ break
         let cellview=UIView.init()
         
         let cell = tblForChat.dequeueReusableCell(withIdentifier: "NewGroupCell") as! ContactsListCell
-        cell.btnNewGroupOutlet.setTitle(NSLocalizedString("New Group", tableName: nil, bundle: Bundle.main, value: "", comment: "New Group"), for:UIControlState.normal)
+       // cell.btnNewGroupOutlet.setTitle(NSLocalizedString("New Group", tableName: nil, bundle: Bundle.main, value: "", comment: "New Group"), for:UIControlState.normal)
         btnNewGroup=cell.btnNewGroupOutlet
-        btnNewGroup.setTitle(NSLocalizedString("New Group", tableName: nil, bundle: Bundle.main, value: "", comment: "New Group"), for:UIControlState.normal)
+        //btnNewGroup.setTitle(NSLocalizedString("New Group", tableName: nil, bundle: Bundle.main, value: "", comment: "New Group"), for:UIControlState.normal)
         
         cell.btnNewGroupOutlet.tag=section
         cell.btnNewGroupOutlet.addTarget(self, action: #selector(ChatViewController.BtnnewGroupClicked(_:)), for:.touchUpInside)
@@ -5379,7 +5384,8 @@ break
     let ChatType=messageDic["ChatType"] as! NSString
     
         print("RightUtilityButton index of more is \(index)")
-            if(editButtonOutlet.title=="Edit")
+            if(editButtonOutlet.title==NSLocalizedString("Edit", tableName: nil, bundle: Bundle.main, value: "", comment: "Edit"))
+                //"Edit")
             {//UITableViewCellEditingStyle
              if(ChatType != "single")
                 {
@@ -5693,3 +5699,16 @@ shareMenu.addAction(cancelAction)
  
     
 }
+/*extension UILabel {
+    
+    var localizedText: String {
+        set (key) {
+            text = NSLocalizedString(key, comment: "")
+        }
+        get {
+            return text!
+        }
+    }
+    
+}
+*/
