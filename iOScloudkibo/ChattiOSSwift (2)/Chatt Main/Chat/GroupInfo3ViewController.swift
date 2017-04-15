@@ -227,9 +227,9 @@ EPPickerDelegate,SWTableViewCellDelegate,UIImagePickerControllerDelegate {
     }
     else{
         
-        let shareMenu = UIAlertController(title: nil, message: "Please select another Admin for the Group before leaving", preferredStyle: .actionSheet)
+        let shareMenu = UIAlertController(title: nil, message: "Please select another Admin for the Group before leaving".localized, preferredStyle: .actionSheet)
         
-        let yes = UIAlertAction(title: "OK", style: UIAlertActionStyle.default,handler: { (action) -> Void in
+        let yes = UIAlertAction(title: "OK".localized, style: UIAlertActionStyle.default,handler: { (action) -> Void in
             
         })
         shareMenu.addAction(yes)
@@ -239,9 +239,9 @@ EPPickerDelegate,SWTableViewCellDelegate,UIImagePickerControllerDelegate {
 }
 else{
 
-            let shareMenu = UIAlertController(title: nil, message: "Internet connectivity is required to exit this group", preferredStyle: .actionSheet)
+            let shareMenu = UIAlertController(title: nil, message: "Internet connectivity is required to exit this group".localized, preferredStyle: .actionSheet)
         
-        let yes = UIAlertAction(title: "OK", style: UIAlertActionStyle.default,handler: { (action) -> Void in
+        let yes = UIAlertAction(title: "OK".localized, style: UIAlertActionStyle.default,handler: { (action) -> Void in
             
             })
             shareMenu.addAction(yes)
@@ -380,7 +380,7 @@ identifiersarray.append(identifier)
     
     func adminRemovesMember(_ memberPhone:String)
     {
-        let shareMenu = UIAlertController(title: nil, message: "Are you sure you want to remove \(memberPhone)?", preferredStyle: .actionSheet)
+        let shareMenu = UIAlertController(title: nil, message: "Are you sure you want to remove:".localized+" \(memberPhone) "+"?".localized, preferredStyle: .actionSheet)
         
         let yes = UIAlertAction(title: "Yes", style: UIAlertActionStyle.default,handler: { (action) -> Void in
             
@@ -402,7 +402,7 @@ identifiersarray.append(identifier)
                    
                     sqliteDB.updateMembershipStatus(self.groupid,memberphone1: memberPhone, membership_status1: "left")
                     
-                    sqliteDB.storeGroupsChat("Log:", group_unique_id1: self.groupid, type1: "log", msg1: "\(memberPhone) is removed", from_fullname1: "", date1:NSDate() as Date , unique_id1: uniqueidMsg)
+                    sqliteDB.storeGroupsChat("Log:", group_unique_id1: self.groupid, type1: "log", msg1: "Removed:".localized+" \(memberPhone)", from_fullname1: "", date1:NSDate() as Date , unique_id1: uniqueidMsg)
                     
                    /// sqliteDB.storeGroupsChat(username!, group_unique_id1: self.groupid, type1: "log_leftGroup", msg1: "You have left this group", from_fullname1: "", date1:NSDate() , unique_id1: uniqueidMsg)
                     
@@ -425,7 +425,7 @@ identifiersarray.append(identifier)
             
             
         })
-        let no = UIAlertAction(title: "No", style: UIAlertActionStyle.default,handler: { (action) -> Void in
+        let no = UIAlertAction(title: "No".localized, style: UIAlertActionStyle.default,handler: { (action) -> Void in
             
         })
         shareMenu.addAction(yes)
@@ -487,9 +487,9 @@ identifiersarray.append(identifier)
         
     func exitGroup()
     {
-        let shareMenu = UIAlertController(title: nil, message: "Are you sure you want to leave this group?", preferredStyle: .actionSheet)
+        let shareMenu = UIAlertController(title: nil, message: "Are you sure you want to leave this group?".localized, preferredStyle: .actionSheet)
         
-        let yes = UIAlertAction(title: "Yes", style: UIAlertActionStyle.default,handler: { (action) -> Void in
+        let yes = UIAlertAction(title: "Yes".localized, style: UIAlertActionStyle.default,handler: { (action) -> Void in
             
             var url=Constants.MainUrl+Constants.leaveGroup
             
@@ -507,7 +507,7 @@ identifiersarray.append(identifier)
                    // var dateString=self.getDateString(NSDate())
                     
                     sqliteDB.updateMembershipStatus(self.groupid,memberphone1: username!,membership_status1: "left")
-                    sqliteDB.storeGroupsChat("Log:", group_unique_id1: self.groupid, type1: "log", msg1: "You have left this group", from_fullname1: "", date1:NSDate() as Date , unique_id1: uniqueidMsg)
+                    sqliteDB.storeGroupsChat("Log:", group_unique_id1: self.groupid, type1: "log", msg1: "You have left this group".localized, from_fullname1: "", date1:NSDate() as Date , unique_id1: uniqueidMsg)
                     
                     self.tblGroupInfo.reloadData()
                 }
@@ -516,7 +516,7 @@ identifiersarray.append(identifier)
 
             
         })
-        let no = UIAlertAction(title: "No", style: UIAlertActionStyle.default,handler: { (action) -> Void in
+        let no = UIAlertAction(title: "No".localized, style: UIAlertActionStyle.default,handler: { (action) -> Void in
             
             })
             shareMenu.addAction(yes)
@@ -800,7 +800,7 @@ return 95
             //show actions for removing group
             let shareMenu = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
             
-            let makeAdmin = UIAlertAction(title: "Make Group Admin", style: UIAlertActionStyle.default,handler: { (action) -> Void in
+            let makeAdmin = UIAlertAction(title: "Make Group Admin".localized, style: UIAlertActionStyle.default,handler: { (action) -> Void in
                 
                 
                 self.changeRole(selectedMemberPhone!,isAdmin: "Yes")
@@ -825,28 +825,28 @@ return 95
                 
                 
             })
-                let demoteAdmin = UIAlertAction(title: "Demote Admin", style: UIAlertActionStyle.default,handler: { (action) -> Void in
+                let demoteAdmin = UIAlertAction(title: "Demote Admin".localized, style: UIAlertActionStyle.default,handler: { (action) -> Void in
                     
                     
                     self.changeRole(selectedMemberPhone!,isAdmin: "No")
                
                 })
-            let removeMember = UIAlertAction(title: "Remove \(selectedMemberName!) ?", style: UIAlertActionStyle.default,handler: { (action) -> Void in
+            let removeMember = UIAlertAction(title: "Remove:"+" \(selectedMemberName!) "+"?".localized, style: UIAlertActionStyle.default,handler: { (action) -> Void in
                 if(internetAvailable==true)
 {
                 self.adminRemovesMember(selectedMemberPhone!)
                 }
 else{
-                let shareMenu = UIAlertController(title: nil, message: "Internet connectivity is required to remove any member", preferredStyle: .actionSheet)
+                let shareMenu = UIAlertController(title: nil, message: "Internet connectivity is required to remove any member".localized, preferredStyle: .actionSheet)
                 
-                let yes = UIAlertAction(title: "OK", style: UIAlertActionStyle.default,handler: { (action) -> Void in
+                let yes = UIAlertAction(title: "OK".localized, style: UIAlertActionStyle.default,handler: { (action) -> Void in
                     
                 })
                 shareMenu.addAction(yes)
                 self.present(shareMenu, animated: true, completion:nil)
                 }
             })
-            let cancel = UIAlertAction(title: "No", style: UIAlertActionStyle.default,handler: { (action) -> Void in
+            let cancel = UIAlertAction(title: "No".localized, style: UIAlertActionStyle.default,handler: { (action) -> Void in
                 
             })
                 
@@ -1066,7 +1066,7 @@ cell.lbl_groupAdmin.hidden=false
                     {
                         cell.lbl_groupAdmin.text="(!)"
                         cell.lbl_groupAdmin.isHidden=false
-                        cell.lbl_participant_status.text="Failed to add member. Tap here to retry."
+                        cell.lbl_participant_status.text="Failed to add member. Tap here to retry.".localized
                        
                         /*var tempUIView=UIButton()
                         tempUIView=cell.lbl_participant_status.targetForAction(Selector("BtnTryAgainTapped:"), withSender: nil) as! UIButton
@@ -1084,7 +1084,7 @@ cell.lbl_groupAdmin.hidden=false
                     {
                         //cell.lbl_groupAdmin.text="(!)"
                         cell.lbl_groupAdmin.isHidden=true
-                        cell.lbl_participant_status.text="Hey there! I am using Kibo Chat"
+                        cell.lbl_participant_status.text="Hey there! I am using Kibo Chat".localized
                         
 
                     }
@@ -1128,7 +1128,7 @@ cell.lbl_groupAdmin.hidden=false
         print("image edit tapped")
         let shareMenu = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         
-        let resetImage = UIAlertAction(title: "Reset Image", style: UIAlertActionStyle.default,handler: { (action) -> Void in
+        let resetImage = UIAlertAction(title: "Reset Image".localized, style: UIAlertActionStyle.default,handler: { (action) -> Void in
             
             if(internetAvailable==true)
 {
@@ -1138,9 +1138,9 @@ cell.lbl_groupAdmin.hidden=false
             
 }
 else{
-                let shareMenu = UIAlertController(title: nil, message: "Internet connectivity is required to change group icon", preferredStyle: .actionSheet)
+                let shareMenu = UIAlertController(title: nil, message: "Internet connectivity is required to change group icon".localized, preferredStyle: .actionSheet)
                 
-                let yes = UIAlertAction(title: "OK", style: UIAlertActionStyle.default,handler: { (action) -> Void in
+                let yes = UIAlertAction(title: "OK".localized, style: UIAlertActionStyle.default,handler: { (action) -> Void in
                     
                 })
                 shareMenu.addAction(yes)
@@ -1152,7 +1152,7 @@ else{
             //call Mute delegate or method
         })
         
-        let SelectImage = UIAlertAction(title: "Select Image", style: UIAlertActionStyle.default,handler: { (action) -> Void in
+        let SelectImage = UIAlertAction(title: "Select Image".localized, style: UIAlertActionStyle.default,handler: { (action) -> Void in
             
             if(internetAvailable==true)
 {
@@ -1160,9 +1160,9 @@ else{
             
 }
 else{
-                let shareMenu = UIAlertController(title: nil, message: "Internet connectivity is required to change group icon", preferredStyle: .actionSheet)
+                let shareMenu = UIAlertController(title: nil, message: "Internet connectivity is required to change group icon".localized, preferredStyle: .actionSheet)
                 
-                let yes = UIAlertAction(title: "OK", style: UIAlertActionStyle.default,handler: { (action) -> Void in
+                let yes = UIAlertAction(title: "OK".localized, style: UIAlertActionStyle.default,handler: { (action) -> Void in
                     
                 })
                 shareMenu.addAction(yes)
@@ -1177,7 +1177,7 @@ else{
             //call Mute delegate or method
         })
         
-        let cancel = UIAlertAction(title: "Cancel", style: UIAlertActionStyle.cancel, handler: { (action) -> Void in
+        let cancel = UIAlertAction(title: "Cancel".localized, style: UIAlertActionStyle.cancel, handler: { (action) -> Void in
             
             // swipeindex=index
             //self.performSegueWithIdentifier("groupInfoSegue", sender: nil)
@@ -1373,9 +1373,9 @@ else{
 }
 else
             {
-                let shareMenu = UIAlertController(title: nil, message: "Internet connectivity is required to upload group icon", preferredStyle: .actionSheet)
+                let shareMenu = UIAlertController(title: nil, message: "Internet connectivity is required to upload group icon".localized, preferredStyle: .actionSheet)
                 
-                let yes = UIAlertAction(title: "OK", style: UIAlertActionStyle.default,handler: { (action) -> Void in
+                let yes = UIAlertAction(title: "OK".localized, style: UIAlertActionStyle.default,handler: { (action) -> Void in
                     
                 })
                 shareMenu.addAction(yes)

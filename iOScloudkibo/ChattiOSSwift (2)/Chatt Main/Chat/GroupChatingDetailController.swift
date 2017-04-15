@@ -1372,7 +1372,7 @@ class GroupChatingDetailController: UIViewController,UIDocumentPickerDelegate,UI
                     var memStatus=sqliteDB.getMemberShipStatus(self.groupid1, memberphone: username!)
                    if(memStatus == "left")
                    {
-                    self.txtFieldMessage.text="You left the group"
+                    self.txtFieldMessage.text="You left the group".localized
                     self.chatComposeView.isUserInteractionEnabled=false
                     }
                 }
@@ -2515,7 +2515,7 @@ class GroupChatingDetailController: UIViewController,UIDocumentPickerDelegate,UI
                                     textLable.text = msg! as! String
                                 }
                                 else{
-                                    textLable.text = "Downloading..."
+                                    textLable.text = "Downloading...".localized
                                 }
                                 
                                 selectedText = filename as String
@@ -2578,10 +2578,10 @@ class GroupChatingDetailController: UIViewController,UIDocumentPickerDelegate,UI
                                     let docData=FileManager.default.contents(atPath: videoPath)
                                     if(docData != nil)
                                     {
-                                        videoLabelStatus.text = "Play"
+                                        videoLabelStatus.text = "Play".localized
                                     }
                                     else{
-                                        videoLabelStatus.text = "Downloading..."
+                                        videoLabelStatus.text = "Downloading...".localized
                                     }
                                     
                                     /*
@@ -2666,10 +2666,10 @@ class GroupChatingDetailController: UIViewController,UIDocumentPickerDelegate,UI
                                         let docData=FileManager.default.contents(atPath: videoPath)
                                         if(docData != nil)
                                         {
-                                            videoLabelStatus.text = "Play"
+                                            videoLabelStatus.text = "Play".localized
                                         }
                                         else{
-                                            videoLabelStatus.text = "Downloading..."
+                                            videoLabelStatus.text = "Downloading...".localized
                                         }
                                         
                                         var status=messageDic["status"] as! NSString
@@ -4060,7 +4060,7 @@ class GroupChatingDetailController: UIViewController,UIDocumentPickerDelegate,UI
    /// shareMenu.modalPresentationStyle=UIModalPresentationStyle.overCurrentContext
         
         
-        let cameraAction = UIAlertAction(title: "Camera", style: UIAlertActionStyle.default,handler: { (action) -> Void in
+        let cameraAction = UIAlertAction(title: "Camera".localized, style: UIAlertActionStyle.default,handler: { (action) -> Void in
             
             let imagePicker=UIImagePickerController.init()
             /// imagePicker =  UIImagePickerController()
@@ -4071,7 +4071,7 @@ class GroupChatingDetailController: UIViewController,UIDocumentPickerDelegate,UI
             
         })
         
-        let videoAction = UIAlertAction(title: "Share Video", style: UIAlertActionStyle.default,handler: { (action) -> Void in
+        let videoAction = UIAlertAction(title: "Share Video".localized, style: UIAlertActionStyle.default,handler: { (action) -> Void in
             
             let picker=UIImagePickerController.init()
             picker.delegate=self
@@ -4100,7 +4100,7 @@ class GroupChatingDetailController: UIViewController,UIDocumentPickerDelegate,UI
             
             
         })
-        let photoAction = UIAlertAction(title: "Share Photo", style: UIAlertActionStyle.default,handler: { (action) -> Void in
+        let photoAction = UIAlertAction(title: "Share Photo".localized, style: UIAlertActionStyle.default,handler: { (action) -> Void in
             
             let picker=UIImagePickerController.init()
             picker.delegate=self
@@ -4129,7 +4129,7 @@ class GroupChatingDetailController: UIViewController,UIDocumentPickerDelegate,UI
             
             
         })
-        let documentAction = UIAlertAction(title: "Share Document", style: UIAlertActionStyle.default, handler: { (action) -> Void in
+        let documentAction = UIAlertAction(title: "Share Document".localized, style: UIAlertActionStyle.default, handler: { (action) -> Void in
             
             //print(NSOpenStepRootDirectory())
             ///var UTIs=UTTypeCopyPreferredTagWithClass("public.image", kUTTypeImage)?.takeRetainedValue() as! [String]
@@ -4154,7 +4154,7 @@ class GroupChatingDetailController: UIViewController,UIDocumentPickerDelegate,UI
             
         })
         
-        let locationAction = UIAlertAction(title: "Share Location", style: UIAlertActionStyle.default,handler: { (action) -> Void in
+        let locationAction = UIAlertAction(title: "Share Location".localized, style: UIAlertActionStyle.default,handler: { (action) -> Void in
             
             print("here share location prompt")
             
@@ -4182,7 +4182,7 @@ class GroupChatingDetailController: UIViewController,UIDocumentPickerDelegate,UI
             
             
         })
-        let contactAction = UIAlertAction(title: "Share Contact", style: UIAlertActionStyle.default, handler: { (action) -> Void in
+        let contactAction = UIAlertAction(title: "Share Contact".localized, style: UIAlertActionStyle.default, handler: { (action) -> Void in
             
             
             // contactPickerViewController.predicateForEnablingContact = NSPredicate(format: "birthday != nil")
@@ -4191,7 +4191,7 @@ class GroupChatingDetailController: UIViewController,UIDocumentPickerDelegate,UI
             
         })
         
-        let cancelAction = UIAlertAction(title: "Cancel", style: UIAlertActionStyle.cancel, handler:nil)
+        let cancelAction = UIAlertAction(title: "Cancel".localized, style: UIAlertActionStyle.cancel, handler:nil)
         
         shareMenu.addAction(cameraAction)
         shareMenu.addAction(photoAction)
@@ -4583,7 +4583,7 @@ class GroupChatingDetailController: UIViewController,UIDocumentPickerDelegate,UI
             }
             catch{
                 print("cannot write file \(error)")
-                self.showError("Error", message: "Unable to get video", button1: "Ok")
+                self.showError("Error".localized, message: "Unable to get video".localized, button1: "Ok".localized)
             }
             
             /*  let calendar = Calendar.current
@@ -4668,7 +4668,7 @@ class GroupChatingDetailController: UIViewController,UIDocumentPickerDelegate,UI
                 
             })
         })
-        let notConfirm = UIAlertAction(title: "No", style: UIAlertActionStyle.cancel, handler: { (action) -> Void in
+        let notConfirm = UIAlertAction(title: "No".localized, style: UIAlertActionStyle.cancel, handler: { (action) -> Void in
             
         })
         
