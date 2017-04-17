@@ -64,7 +64,7 @@ class BackupAutoScheduleViewController: UIViewController,UITableViewDelegate,UIT
         {
             cell.accessoryType=UITableViewCellAccessoryType.none
         }*/
-        textLable.text=option
+        textLable.text=option?.localized
         print("backupValue is \(UserDefaults.standard.value(forKey: "BackupTime"))")
         
      return cell
@@ -101,7 +101,7 @@ class BackupAutoScheduleViewController: UIViewController,UITableViewDelegate,UIT
         if(section==1)
         {
         var titleSection:UILabel=UILabel.init()
-        titleSection.text="To avoid excessive data charges, connect your phone to Wi-Fi or disable cellular data for iCloud: iPhone Settings > iCloud > iCloud Drive > Use Cellular Data > OFF"
+        titleSection.text="To avoid excessive data charges, connect your phone to Wi-Fi or disable cellular data for iCloud: iPhone Settings > iCloud > iCloud Drive > Use Cellular Data > OFF".localized
         titleSection.numberOfLines=0
         titleSection.lineBreakMode = .byWordWrapping
         titleSection.backgroundColor = UIColor.white

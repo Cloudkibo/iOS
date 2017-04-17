@@ -179,6 +179,9 @@ class BackupSettingsViewController: UIViewController,UITableViewDelegate,UITable
  
             ///AutoBackupCell
         }
+        else{
+            (cell.viewWithTag(3) as! UITextView).text = (cell.viewWithTag(3) as! UITextView).text.localized
+        }
         
         return cell
     }
