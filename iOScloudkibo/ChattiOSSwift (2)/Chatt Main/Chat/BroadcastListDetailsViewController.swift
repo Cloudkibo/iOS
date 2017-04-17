@@ -170,7 +170,7 @@ class BroadcastListDetailsViewController: UIViewController,UINavigationControlle
         }
         else
         {
-            return "List Recipients"
+            return "List Recipients".localized
         }
         
         

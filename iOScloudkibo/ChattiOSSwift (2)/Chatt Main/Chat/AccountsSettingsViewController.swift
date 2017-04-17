@@ -18,10 +18,10 @@ class AccountsSettingsViewController: UIViewController,UITableViewDelegate,UITab
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        self.navigationItem.title="Account"
+        self.navigationItem.title="Account".localized
         
         messages=NSMutableArray()
-        messages=[["label":"Privacy","segue":"PrivacySettingsSegue"]]
+        messages=[["label":"Privacy".localized,"segue":"PrivacySettingsSegue"]]
         // Do any additional setup after loading the view.
         
         // Do any additional setup after loading the view.

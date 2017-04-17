@@ -22,7 +22,7 @@ class SettingsViewController: UIViewController,UITableViewDelegate,UITableViewDa
         self.navigationItem.title="Settings"
         
         messages=NSMutableArray()
-        messages=[["label":"Chats","logo":"navi_logo.png","segue":"BackupSegue"],["label":"Accounts","logo":"chat_lock.png","segue":"PrivacySegue"]]
+        messages=[["label":"Chats".localized,"logo":"navi_logo.png","segue":"BackupSegue"],["label":"Accounts".localized,"logo":"chat_lock.png","segue":"PrivacySegue"]]
         // Do any additional setup after loading the view.
     }
 

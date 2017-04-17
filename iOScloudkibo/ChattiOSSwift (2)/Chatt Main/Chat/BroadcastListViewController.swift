@@ -46,7 +46,7 @@ class BroadcastListViewController: UIViewController,UINavigationControllerDelega
         self.tblBroadcastList.rowHeight = UITableViewAutomaticDimension;
         
         self.navigationItem.leftBarButtonItem?.title="<"
-        self.navigationitem1.title="Broadcast Lists"
+        self.navigationitem1.title="Broadcast Lists".localized
         
         broadcastlistmessages=NSMutableArray()
         retrieveBroadCastLists()

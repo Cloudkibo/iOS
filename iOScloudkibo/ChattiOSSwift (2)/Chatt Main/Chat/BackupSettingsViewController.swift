@@ -39,7 +39,7 @@ class BackupSettingsViewController: UIViewController,UITableViewDelegate,UITable
             {
                 //write
                 DispatchQueue.main.async {
-                    self.showError("Success", message: "You can backup your data on iCloud", button1: "Ok")
+                    self.showError("Success".localized, message: "You can backup your data on iCloud".localized, button1: "Ok".localized)
                     print("write to icloud")
                     
                     
@@ -50,7 +50,7 @@ class BackupSettingsViewController: UIViewController,UITableViewDelegate,UITable
             else
             {
                 DispatchQueue.main.async {
-                    self.showError("Failed to access iCloud", message: "Please sign in to correct iCloud account to resume backup service", button1: "Ok")
+                    self.showError("Failed to access iCloud".localized, message: "Please sign in to correct iCloud account to resume backup service".localized, button1: "Ok".localized)
                     print("no permission to write to icloud")
                 }
             }

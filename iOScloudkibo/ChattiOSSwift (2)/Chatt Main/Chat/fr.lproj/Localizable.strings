@@ -11,3 +11,108 @@
 //"Backup your chat history and media to iCloud so if youblose your iPhone or switch to neew one, your chat history is safe. You can restore your chat history and media when you reinstall KiboApp." = "Sauvegardez votre historique de conversation et vos médias sur iCloud, donc, si vous utilisez votre iPhone ou en modifiez-vous, l'historique de votre chat est sécurisé. Vous pouvez restaurer votre historique de conversation et votre média lorsque vous réinstallez KiboApp.";
 
 //"Back Up Now"="adfasdfasd";*/
+"< Slide left to cancel"
+"Record"
+"Downloading…"
+"Play"
+"Hey, \n \n I just downloaded KiboChat App on my iPhone. \n \n It is a smartphone messenger with added features. It provides integrated and unified voice, video, and data communication. \n \n It is available for both Android and iPhone and there is no PIN or username to remember. \n \n Get it now from https://api.cloudkibo.com and say good-bye to SMS!”
+
+"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
+
+"Camera"
+"Share Video"
+"Photo/Video Library"
+"Share Document"
+"Share Location"
+"Share Contact"
+"Cancel"
+"Send"
+"?"
+"Error"
+"Unable to get video"
+"Ok"
+"No"
+"Unblock contact to send a message
+"UnBlock
+"Yes”
+"Done
+"Enter Server URL"
+"Please input your URL:
+"Welcome to the group"
+"more.png
+"archive.png
+"Delete Chat with:
+"Delete
+"New Chat
+"User is busy. Please try again later"
+Information
+Group Info
+Contact Info
+Add to Contacts
+Favourites
+Invitation for joining Kibo App
+Could Not Send Email
+Your device could not send e-mail.  Please check e-mail configuration and try again.
+Contacting Server…
+Setting Contacts…
+Updating local database..
+Updating Contact”
+Getting details from server..
+Setting Chats..
+Please enter new file name
+File with the name  already exists:
+Success
+Your file has been successfully saved to iCloud Drive
+You have received a new file. You can view files by clicking on \”View\" button present on Main conference page.
+An error has occurred:
+Welcome to Cloudkibo Meeting
+Please enter your username
+Add new contact
+Please Fill details
+First Name
+Last Name
+Phone Number
+Hide
+Capture
+You are now connected in call with:
+User offline:
+“Your file has been successfully sent"
+Unblock this contact
+Block this contact
+Hey,
+I just downloaded Kibo App on my iPhone. \n \n It is a smartphone messenger with added features. It provides integrated and unified voice, video, and data communication. \n \n It is available for both Android and iPhone and there is no PIN or username to remember. \n \n Get it now from https://itunes.apple.com/us/app/kibo-chat/id1099977984?ls=1&mt=8 and say good-bye to SMS!
+
+It is a smartphone messenger with added features. It provides integrated and unified voice, video, and data communication.
+It is available for both Android and iPhone and there is no PIN or username to remember.
+Get it now from https://itunes.apple.com/us/app/kibo-chat/id1099977984?ls=1&mt=8 and say good-bye to SMS!
+Could Not Send Email
+Your device could not send e-mail.  Please check e-mail configuration and try again.
+Reset Image
+Select Image
+Failed to fetch avatar image
+You left the group
+Please select another Admin for the Group before leaving
+Internet connectivity is required to exit this group
+Are you sure you want to remove:
+“Are you sure you want to leave this group?"
+Removed:
+You have left this group
+Make Group Admin
+Demote Admin
+Remove:
+Internet connectivity is required to remove any member
+Failed to add member. Tap here to retry.
+Internet connectivity is required to change group icon
+DELIVERED TO
+READ BY
+Broadcast Lists
+List Recipients
+Accounts
+Chats
+Success
+You can backup your data on iCloud
+Ok
+Please sign in to correct iCloud account to resume backup service
+Failed to access iCloud
+To avoid excessive data charges, connect your phone to Wi-Fi or disable cellular data for iCloud: iPhone Settings > iCloud > iCloud Drive > Use Cellular Data > OFF”
+Account

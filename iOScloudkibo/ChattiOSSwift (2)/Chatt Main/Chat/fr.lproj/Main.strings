@@ -449,8 +449,8 @@
 /* Class = "UISegmentedControl"; Lhv-CL-sBE.segmentTitles[1] = "Tous les chats"; ObjectID = "Lhv-CL-sBE"; */
 "Lhv-CL-sBE.segmentTitles[1]" = "Tous les chats";
 
-/* Class = "UIBarButtonItem"; title = "Chats"; ObjectID = "Lpb-iM-YQZ"; */
-"Lpb-iM-YQZ.title" = "Chats";
+/* Class = "UIBarButtonItem"; title = "bavarder"; ObjectID = "Lpb-iM-YQZ"; */
+"Lpb-iM-YQZ.title" = "bavarder";
 
 /* Class = "UIButton"; normalTitle = "Nouveau groupe"; ObjectID = "MPq-UO-Sjf"; */
 "MPq-UO-Sjf.normalTitle" = "Nouveau groupe";
@@ -545,8 +545,8 @@
 /* Class = "UIButton"; normalTitle = "Clear Chat"; ObjectID = "QUK-t3-X78"; */
 "QUK-t3-X78.normalTitle" = "Clear Chat";
 
-/* Class = "UINavigationItem"; title = "Chats"; ObjectID = "QZL-y5-aQ9"; */
-"QZL-y5-aQ9.title" = "Chats";
+/* Class = "UINavigationItem"; title = "bavarder"; ObjectID = "QZL-y5-aQ9"; */
+"QZL-y5-aQ9.title" = "bavarder";
 
 /* Class = "UIButton"; normalTitle = "sauvegarder"; ObjectID = "QxX-dR-Kej"; */
 "QxX-dR-Kej.normalTitle" = "sauvegarder";
@@ -628,8 +628,8 @@
 /* Class = "UILabel"; text = "Je suis d'accord. Je pense que notre public va certainement graviter vers notre"; ObjectID = "UW9-SX-xfE"; */
 "UW9-SX-xfE.text" = "Je suis d'accord. Je pense que notre public va certainement graviter vers notre";
 
-/* Class = "UIViewController"; title = "Chats"; ObjectID = "Ui7-BI-cmw"; */
-"Ui7-BI-cmw.title" = "Chats";
+/* Class = "UIViewController"; title = "bavarder"; ObjectID = "Ui7-BI-cmw"; */
+"Ui7-BI-cmw.title" = "bavarder";
 
 /* Class = "UILabel"; text = "Audio Name"; ObjectID = "UnT-RD-KfL"; */
 "UnT-RD-KfL.text" = "Audio Name";
@@ -667,8 +667,8 @@
 /* Class = "UIButton"; normalTitle = "Inviter à Kibo Chat"; ObjectID = "WyS-ko-fUG"; */
 "WyS-ko-fUG.normalTitle" = "Inviter à Kibo Chat";
 
-/* Class = "UILabel"; text = "Chats"; ObjectID = "X7J-Vy-IKB"; */
-"X7J-Vy-IKB.text" = "Chats";
+/* Class = "UILabel"; text = "bavarder"; ObjectID = "X7J-Vy-IKB"; */
+"X7J-Vy-IKB.text" = "bavarder";
 
 /* Class = "UILabel"; text = "16/06/2016"; ObjectID = "XMK-rI-6MR"; */
 "XMK-rI-6MR.text" = "16/06/2016";
@@ -791,8 +791,8 @@
 /* Class = "UILabel"; text = "12h45"; ObjectID = "cGC-Np-cCi"; */
 "cGC-Np-cCi.text" = "12h45";
 
-/* Class = "UIViewController"; title = "Chats"; ObjectID = "cJu-ld-BCz"; */
-"cJu-ld-BCz.title" = "Chats";
+/* Class = "UIViewController"; title = "bavarder"; ObjectID = "cJu-ld-BCz"; */
+"cJu-ld-BCz.title" = "bavarder";
 
 /* Class = "UILabel"; text = "Muet"; ObjectID = "cL1-9w-0wn"; */
 "cL1-9w-0wn.text" = "Muet";
@@ -911,8 +911,8 @@
 /* Class = "UILabel"; text = "Sans nom"; ObjectID = "glD-Vs-5rS"; */
 "glD-Vs-5rS.text" = "Sans nom";
 
-/* Class = "UINavigationItem"; title = "Chats"; ObjectID = "gm6-wK-huN"; */
-"gm6-wK-huN.title" = "Chats";
+/* Class = "UINavigationItem"; title = "bavarder"; ObjectID = "gm6-wK-huN"; */
+"gm6-wK-huN.title" = "bavarder";
 
 /* Class = "UILabel"; text = "Sumaira991:"; ObjectID = "h3s-cd-jvf"; */
 "h3s-cd-jvf.text" = "Sumaira991:";
@@ -1177,8 +1177,8 @@
 /* Class = "UINavigationItem"; title = "Invite to Cloudkibo"; ObjectID = "umL-Vx-88Q"; */
 "umL-Vx-88Q.title" = "Invite to Cloudkibo";
 
-/* Class = "UIViewController"; title = "Chats"; ObjectID = "v28-cs-4pq"; */
-"v28-cs-4pq.title" = "Chats";
+/* Class = "UIViewController"; title = "bavarder"; ObjectID = "v28-cs-4pq"; */
+"v28-cs-4pq.title" = "bavarder";
 
 /* Class = "UILabel"; text = "Sumaira"; ObjectID = "vAK-dg-Ut5"; */
 "vAK-dg-Ut5.text" = "Sumaira";

@@ -118,7 +118,7 @@ class BackupAutoScheduleViewController: UIViewController,UITableViewDelegate,UIT
         {return " "
         }
         else{
-            return "To avoid excessive data charges, connect your phone to Wi-Fi or disable cellular data for iCloud: iPhone Settings > iCloud > iCloud Drive > Use Cellular Data > OFF"
+            return "To avoid excessive data charges, connect your phone to Wi-Fi or disable cellular data for iCloud: iPhone Settings > iCloud > iCloud Drive > Use Cellular Data > OFF".localized
         }
     }
     
