@@ -80,9 +80,6 @@
 /* Class = "UILabel"; text = "Hey there! I am using KiboApp"; ObjectID = "4YO-te-Ucr"; */
 "4YO-te-Ucr.text" = "Hey there! I am using KiboApp";
 
-/* Class = "UILabel"; text = "What do you think of this tool!"; ObjectID = "4Z6-FB-ogh"; */
-"4Z6-FB-ogh.text" = "What do you think of this tool!";
-
 /* Class = "UILabel"; text = "electricity, gas, water, garden, door, heater"; ObjectID = "4iM-aX-3mX"; */
 "4iM-aX-3mX.text" = "electricity, gas, water, garden, door, heater";
 
@@ -248,9 +245,6 @@
 /* Class = "UILabel"; text = "About Chatt"; ObjectID = "CX0-eO-mb6"; */
 "CX0-eO-mb6.text" = "About Chatt";
 
-/* Class = "UILabel"; text = "12:45 PM"; ObjectID = "Crn-x2-yOE"; */
-"Crn-x2-yOE.text" = "12:45 PM";
-
 /* Class = "UILabel"; text = "Downloading Image..."; ObjectID = "Csz-Td-DgU"; */
 "Csz-Td-DgU.text" = "Downloading Image...";
 
@@ -289,9 +283,6 @@
 
 /* Class = "UIButton"; normalTitle = "Message"; ObjectID = "EDj-mC-AWx"; */
 "EDj-mC-AWx.normalTitle" = "Message";
-
-/* Class = "UIButton"; normalTitle = "Post"; ObjectID = "EEM-lI-R6j"; */
-"EEM-lI-R6j.normalTitle" = "Post";
 
 /* Class = "UILabel"; text = "0 Favourites"; ObjectID = "ETc-dG-2TX"; */
 "ETc-dG-2TX.text" = "0 Favourites";
@@ -440,14 +431,8 @@
 /* Class = "UIButton"; normalTitle = "New Group"; ObjectID = "MPq-UO-Sjf"; */
 "MPq-UO-Sjf.normalTitle" = "New Group";
 
-/* Class = "UIBarButtonItem"; title = "Delete"; ObjectID = "MZc-U2-mJc"; */
-"MZc-U2-mJc.title" = "Delete";
-
 /* Class = "UILabel"; text = "ACCOUNT ID"; ObjectID = "Mbz-he-aU6"; */
 "Mbz-he-aU6.text" = "ACCOUNT ID";
-
-/* Class = "UIBarButtonItem"; title = "Delete"; ObjectID = "MoE-jM-rn3"; */
-"MoE-jM-rn3.title" = "Delete";
 
 /* Class = "UILabel"; text = "Downloading document.."; ObjectID = "MzZ-Gf-Arh"; */
 "MzZ-Gf-Arh.text" = "Downloading document..";
@@ -737,9 +722,6 @@
 /* Class = "UILabel"; text = "12:45 PM"; ObjectID = "bLx-b6-BFv"; */
 "bLx-b6-BFv.text" = "12:45 PM";
 
-/* Class = "UINavigationItem"; title = "New Chat"; ObjectID = "bRf-H5-Dwc"; */
-"bRf-H5-Dwc.title" = "New Chat";
-
 /* Class = "UILabel"; text = "Delivered"; ObjectID = "bSd-rG-mTh"; */
 "bSd-rG-mTh.text" = "Delivered";
 
@@ -776,17 +758,8 @@
 /* Class = "UILabel"; text = "Off"; ObjectID = "cZI-Mp-YMX"; */
 "cZI-Mp-YMX.text" = "Off";
 
-/* Class = "UILabel"; text = "Its actually pretty good!"; ObjectID = "ceA-7C-SVX"; */
-"ceA-7C-SVX.text" = "Its actually pretty good!";
-
 /* Class = "UINavigationItem"; title = "New Chat"; ObjectID = "ckh-qo-Nce"; */
 "ckh-qo-Nce.title" = "New Chat";
-
-/* Class = "UILabel"; text = "12:45 PM"; ObjectID = "cmk-Ux-3cJ"; */
-"cmk-Ux-3cJ.text" = "12:45 PM";
-
-/* Class = "UINavigationItem"; title = "New Chat"; ObjectID = "cnd-PW-z8h"; */
-"cnd-PW-z8h.title" = "New Chat";
 
 /* Class = "UIButton"; normalTitle = "Broadcast lists"; ObjectID = "cqd-QN-sAJ"; */
 "cqd-QN-sAJ.normalTitle" = "Broadcast lists";
@@ -830,9 +803,6 @@
 /* Class = "UIButton"; normalTitle = "Message"; ObjectID = "eAM-Dp-ZnL"; */
 "eAM-Dp-ZnL.normalTitle" = "Message";
 
-/* Class = "UIButton"; normalTitle = "Post"; ObjectID = "ePk-hb-UUG"; */
-"ePk-hb-UUG.normalTitle" = "Post";
-
 /* Class = "UILabel"; text = "7:03 AM"; ObjectID = "ekT-2m-ome"; */
 "ekT-2m-ome.text" = "7:03 AM";
 
@@ -841,9 +811,6 @@
 
 /* Class = "UILabel"; text = "Label"; ObjectID = "eu3-L8-uhT"; */
 "eu3-L8-uhT.text" = "Label";
-
-/* Class = "UILabel"; text = "12:45 PM"; ObjectID = "f9O-Ai-hn7"; */
-"f9O-Ai-hn7.text" = "12:45 PM";
 
 /* Class = "UILabel"; text = "Restore from iCloud"; ObjectID = "fOO-ry-RFJ"; */
 "fOO-ry-RFJ.text" = "Restore from iCloud";
@@ -934,9 +901,6 @@
 
 /* Class = "UILabel"; text = "Title"; ObjectID = "jiq-JX-7GE"; */
 "jiq-JX-7GE.text" = "Title";
-
-/* Class = "UILabel"; text = "What do you think of this tool!"; ObjectID = "kYl-fJ-aTZ"; */
-"kYl-fJ-aTZ.text" = "What do you think of this tool!";
 
 /* Class = "UILabel"; text = "Notes"; ObjectID = "kpd-YU-9dI"; */
 "kpd-YU-9dI.text" = "Notes";
@@ -1085,17 +1049,11 @@
 /* Class = "UILabel"; text = "12:45 PM"; ObjectID = "roe-A8-qsT"; */
 "roe-A8-qsT.text" = "12:45 PM";
 
-/* Class = "UILabel"; text = "Delivered"; ObjectID = "ruj-Yk-lgz"; */
-"ruj-Yk-lgz.text" = "Delivered";
-
 /* Class = "UILabel"; text = "Hey there! I am using KiboApp"; ObjectID = "rvk-SI-dvz"; */
 "rvk-SI-dvz.text" = "Hey there! I am using KiboApp";
 
 /* Class = "UILabel"; text = "Name"; ObjectID = "rwn-yD-Wug"; */
 "rwn-yD-Wug.text" = "Name";
-
-/* Class = "UILabel"; text = "Delivered"; ObjectID = "ryV-8b-4oq"; */
-"ryV-8b-4oq.text" = "Delivered";
 
 /* Class = "UILabel"; text = "Downloading Image..."; ObjectID = "s23-WC-chm"; */
 "s23-WC-chm.text" = "Downloading Image...";
@@ -1202,17 +1160,11 @@
 /* Class = "UILabel"; text = "time label"; ObjectID = "xg2-vf-VKf"; */
 "xg2-vf-VKf.text" = "time label";
 
-/* Class = "UILabel"; text = "12:45 PM"; ObjectID = "yX1-Sa-yRU"; */
-"yX1-Sa-yRU.text" = "12:45 PM";
-
 /* Class = "UILabel"; text = "Delivered"; ObjectID = "ygU-4p-d3X"; */
 "ygU-4p-d3X.text" = "Delivered";
 
 /* Class = "UILabel"; text = "What do you think of this tool!"; ObjectID = "yhn-Js-mGs"; */
 "yhn-Js-mGs.text" = "What do you think of this tool!";
-
-/* Class = "UILabel"; text = "Its actually pretty good!"; ObjectID = "yv9-3M-wLI"; */
-"yv9-3M-wLI.text" = "Its actually pretty good!";
 
 /* Class = "UILabel"; text = "Audio Name"; ObjectID = "ywL-Iu-pi2"; */
 "ywL-Iu-pi2.text" = "Audio Name";

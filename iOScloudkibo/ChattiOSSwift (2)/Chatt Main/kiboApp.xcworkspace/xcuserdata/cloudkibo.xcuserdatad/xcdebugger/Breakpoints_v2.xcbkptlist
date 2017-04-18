@@ -219,7 +219,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "4643"
             endingLineNumber = "4643"
-            landmarkName = "BtnSaveContactClicked(_:)"
+            landmarkName = "contactViewController(_:didCompleteWith:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -235,7 +235,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "6828"
             endingLineNumber = "6828"
-            landmarkName = "prepare(for:sender:)"
+            landmarkName = "documentPicker(_:didPickDocumentAt:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -523,7 +523,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "6848"
             endingLineNumber = "6848"
-            landmarkName = "prepare(for:sender:)"
+            landmarkName = "documentPicker(_:didPickDocumentAt:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -539,8 +539,8 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "6582"
             endingLineNumber = "6582"
-            landmarkName = "ChatDetailViewController"
-            landmarkType = "3">
+            landmarkName = "socketReceivedMessageChat(_:data:)"
+            landmarkType = "7">
             <Locations>
                <Location
                   shouldBeEnabled = "No"
@@ -587,7 +587,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "6581"
             endingLineNumber = "6581"
-            landmarkName = "btn_deleteChatHistoryPressed(_:)"
+            landmarkName = "socketReceivedMessageChat(_:data:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -1056,22 +1056,6 @@
             endingLineNumber = "3519"
             landmarkName = "application(_:didReceiveRemoteNotification:fetchCompletionHandler:)"
             landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Chat/ChatDetailViewController.swift"
-            timestampString = "513801972.753617"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "2622"
-            endingLineNumber = "2622"
-            landmarkName = "ChatDetailViewController"
-            landmarkType = "3">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -3696,7 +3680,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "7550"
             endingLineNumber = "7550"
-            landmarkName = "sendCoordinates(latitude:longitude:)"
+            landmarkName = "insertChatRowAtLast(_:uniqueid:status:filename:type:date:from:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

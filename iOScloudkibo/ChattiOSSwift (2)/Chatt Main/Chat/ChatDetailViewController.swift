@@ -2575,54 +2575,7 @@ var isKiboContact="false"
         return view
     }
     
-    
-    /**
-     Sets up the view by loading it from the xib file and setting its frame
-     */
-    
-   /* override func setupView() {
-        view = loadViewFromXibFile()
-        view.frame = bounds
-        view.translatesAutoresizingMaskIntoConstraints = false
-        addSubview(view)
-        
-        translatesAutoresizingMaskIntoConstraints = false
-        
-        titleLabel.text = NSLocalizedString("Saved_to_garage", comment: "")
-        
-        /// Adds a shadow to our view
-        view.layer.cornerRadius = 4.0
-        view.layer.shadowColor = UIColor.blackColor().CGColor
-        view.layer.shadowOpacity = 0.2
-        view.layer.shadowRadius = 4.0
-        view.layer.shadowOffset = CGSizeMake(0.0, 8.0)
-        
-        visualEffectView.layer.cornerRadius = 4.0
-    }
-   
-    /**
-     Sets up the view by loading it from the xib file and setting its frame
-     */
-    override func setupView() {
-        view = loadViewFromXibFile()
-        view.frame = bounds
-        view.translatesAutoresizingMaskIntoConstraints = false
-        addSubview(view)
-        
-        translatesAutoresizingMaskIntoConstraints = false
-        
-        titleLabel.text = NSLocalizedString("Saved_to_garage", comment: "")
-        
-        /// Adds a shadow to our view
-        view.layer.cornerRadius = 4.0
-        view.layer.shadowColor = UIColor.blackColor().CGColor
-        view.layer.shadowOpacity = 0.2
-        view.layer.shadowRadius = 4.0
-        view.layer.shadowOffset = CGSizeMake(0.0, 8.0)
-        
-        visualEffectView.layer.cornerRadius = 4.0
-    }
-*/
+
     func tableView(_ tableView: UITableView!, cellForRowAtIndexPath indexPath: IndexPath!) -> UITableViewCell! {
         var cell : UITableViewCell!
        // print("reloading of cellsssssssss......------------===========++++++")
