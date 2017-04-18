@@ -86,14 +86,14 @@
 /* Class = "UILabel"; text = "electricity, gas, water, garden, door, heater"; ObjectID = "4iM-aX-3mX"; */
 "4iM-aX-3mX.text" = "electricity, gas, water, garden, door, heater";
 
-/* Class = "UIBarButtonItem"; title = "Back"; ObjectID = "4jK-iT-cuf"; */
-"4jK-iT-cuf.title" = "Back";
+/* Class = "UIBarButtonItem"; title = "Zurück"; ObjectID = "4jK-iT-cuf"; */
+"4jK-iT-cuf.title" = "Zurück";
 
-/* Class = "UIViewController"; title = "Chat Backup"; ObjectID = "4vt-oZ-4oi"; */
-"4vt-oZ-4oi.title" = "Chat Backup";
+/* Class = "UIViewController"; title = "Chat-Sicherung"; ObjectID = "4vt-oZ-4oi"; */
+"4vt-oZ-4oi.title" = "Chat-Sicherung";
 
-/* Class = "UILabel"; text = "I agree. I think our audience will definitely gravitate towards our"; ObjectID = "54o-Nx-8vY"; */
-"54o-Nx-8vY.text" = "I agree. I think our audience will definitely gravitate towards our";
+/* Class = "UILabel"; text = "Ich stimme zu. Ich denke, unser Publikum wird auf jeden Fall zu unserem"; ObjectID = "54o-Nx-8vY"; */
+"54o-Nx-8vY.text" = "Ich stimme zu. Ich denke, unser Publikum wird auf jeden Fall zu unserem";
 
 /* Class = "UILabel"; text = "Geliefert"; ObjectID = "58A-aT-fgJ"; */
 "58A-aT-fgJ.text" = "Geliefert";
@@ -101,20 +101,20 @@
 /* Class = "UILabel"; text = "Geliefert"; ObjectID = "5Ne-gd-O2W"; */
 "5Ne-gd-O2W.text" = "Geliefert";
 
-/* Class = "UILabel"; text = "File upload Failed"; ObjectID = "60V-Nx-Fpd"; */
-"60V-Nx-Fpd.text" = "File upload Failed";
+/* Class = "UILabel"; text = "Datei-Upload fehlgeschlagen"; ObjectID = "60V-Nx-Fpd"; */
+"60V-Nx-Fpd.text" = "Datei-Upload fehlgeschlagen";
 
-/* Class = "UILabel"; text = "12:45 PM"; ObjectID = "6Na-jU-bLf"; */
-"6Na-jU-bLf.text" = "12:45 PM";
+/* Class = "UILabel"; text = "12:45 Uhr"; ObjectID = "6Na-jU-bLf"; */
+"6Na-jU-bLf.text" = "12:45 Uhr";
 
-/* Class = "UITextField"; placeholder = "Group Subject"; ObjectID = "6Ww-uK-Hvx"; */
-"6Ww-uK-Hvx.placeholder" = "Group Subject";
+/* Class = "UITextField"; placeholder = "Gruppenfach"; ObjectID = "6Ww-uK-Hvx"; */
+"6Ww-uK-Hvx.placeholder" = "Gruppenfach";
 
-/* Class = "UILabel"; text = "Date/Time"; ObjectID = "6bR-G7-sDQ"; */
-"6bR-G7-sDQ.text" = "Date/Time";
+/* Class = "UILabel"; text = "Terminzeit"; ObjectID = "6bR-G7-sDQ"; */
+"6bR-G7-sDQ.text" = "Terminzeit";
 
-/* Class = "UILabel"; text = "12:45 PM"; ObjectID = "6be-g3-2gA"; */
-"6be-g3-2gA.text" = "12:45 PM";
+/* Class = "UILabel"; text = "12:45 Uhr"; ObjectID = "6be-g3-2gA"; */
+"6be-g3-2gA.text" = "12:45 Uhr";
 
 /* Class = "UILabel"; text = "Salaam"; ObjectID = "6pE-4C-yYl"; */
 "6pE-4C-yYl.text" = "Salaam";
@@ -125,29 +125,29 @@
 /* Class = "UILabel"; text = "Sumaira"; ObjectID = "77V-2K-eXW"; */
 "77V-2K-eXW.text" = "Sumaira";
 
-/* Class = "UITextView"; text = "Invalid File Format. Please Try again"; ObjectID = "7Eo-pg-7AV"; */
-"7Eo-pg-7AV.text" = "Invalid File Format. Please Try again";
+/* Class = "UITextView"; text = "Ungültiges Dateiformat. Bitte versuche es erneut"; ObjectID = "7Eo-pg-7AV"; */
+"7Eo-pg-7AV.text" = "Ungültiges Dateiformat. Bitte versuche es erneut";
 
 /* Class = "UILabel"; text = "Sojharo"; ObjectID = "7O6-SR-2Ab"; */
 "7O6-SR-2Ab.text" = "Sojharo";
 
-/* Class = "UIButton"; normalTitle = "Invite to Kibo App"; ObjectID = "7gg-uq-3KP"; */
-"7gg-uq-3KP.normalTitle" = "Invite to Kibo App";
+/* Class = "UIButton"; normalTitle = "Einladung zur Kibo App"; ObjectID = "7gg-uq-3KP"; */
+"7gg-uq-3KP.normalTitle" = "Einladung zur Kibo App";
 
-/* Class = "UILabel"; text = "status"; ObjectID = "7lU-TR-LoI"; */
-"7lU-TR-LoI.text" = "status";
+/* Class = "UILabel"; text = "Status"; ObjectID = "7lU-TR-LoI"; */
+"7lU-TR-LoI.text" = "Status";
 
-/* Class = "UILabel"; text = "12:45 PM"; ObjectID = "7mG-rp-oy0"; */
-"7mG-rp-oy0.text" = "12:45 PM";
+/* Class = "UILabel"; text = "12:45 Uhr"; ObjectID = "7mG-rp-oy0"; */
+"7mG-rp-oy0.text" = "12:45 Uhr";
 
-/* Class = "UILabel"; text = "damaged message"; ObjectID = "8Gz-mj-Phm"; */
-"8Gz-mj-Phm.text" = "damaged message";
+/* Class = "UILabel"; text = "Beschädigte Nachricht"; ObjectID = "8Gz-mj-Phm"; */
+"8Gz-mj-Phm.text" = "Beschädigte Nachricht";
 
 /* Class = "UILabel"; text = "Salaam"; ObjectID = "8QI-jh-DtD"; */
 "8QI-jh-DtD.text" = "Salaam";
 
-/* Class = "UILabel"; text = "Please fill all the fields."; ObjectID = "8TG-oF-ukr"; */
-"8TG-oF-ukr.text" = "Please fill all the fields.";
+/* Class = "UILabel"; text = "Bitte füllen Sie alle Felder aus."; ObjectID = "8TG-oF-ukr"; */
+"8TG-oF-ukr.text" = "Bitte füllen Sie alle Felder aus.";
 
 /* Class = "UILabel"; text = "You"; ObjectID = "8W0-s8-E42"; */
 "8W0-s8-E42.text" = "You";
@@ -158,23 +158,23 @@
 /* Class = "UILabel"; text = "12:45 PM @jayL"; ObjectID = "8fN-4X-KOI"; */
 "8fN-4X-KOI.text" = "12:45 PM @jayL";
 
-/* Class = "UISegmentedControl"; 8gX-Zo-Gwa.segmentTitles[0] = "My Chats"; ObjectID = "8gX-Zo-Gwa"; */
-"8gX-Zo-Gwa.segmentTitles[0]" = "My Chats";
+/* Class = "UISegmentedControl"; 8gX-Zo-Gwa.segmentTitles[0] = "Meine Chats"; ObjectID = "8gX-Zo-Gwa"; */
+"8gX-Zo-Gwa.segmentTitles[0]" = "Meine Chats";
 
-/* Class = "UISegmentedControl"; 8gX-Zo-Gwa.segmentTitles[1] = "All Chats"; ObjectID = "8gX-Zo-Gwa"; */
-"8gX-Zo-Gwa.segmentTitles[1]" = "All Chats";
+/* Class = "UISegmentedControl"; 8gX-Zo-Gwa.segmentTitles[1] = "Alle Chats"; ObjectID = "8gX-Zo-Gwa"; */
+"8gX-Zo-Gwa.segmentTitles[1]" = "Alle Chats";
 
 /* Class = "UILabel"; text = "Wie geht es dir?"; ObjectID = "8kG-Jj-RXT"; */
 "8kG-Jj-RXT.text" = "Wie geht es dir?";
 
-/* Class = "UIButton"; normalTitle = "Message"; ObjectID = "8qV-XF-d8b"; */
-"8qV-XF-d8b.normalTitle" = "Message";
+/* Class = "UIButton"; normalTitle = "Nachricht"; ObjectID = "8qV-XF-d8b"; */
+"8qV-XF-d8b.normalTitle" = "Nachricht";
 
 /* Class = "UILabel"; text = "1"; ObjectID = "8rJ-k3-qmq"; */
 "8rJ-k3-qmq.text" = "1";
 
-/* Class = "UITextView"; text = "Please provide a group subject and optional group icon"; ObjectID = "8st-WW-8YK"; */
-"8st-WW-8YK.text" = "Please provide a group subject and optional group icon";
+/* Class = "UITextView"; text = "Bitte geben Sie ein Gruppenfach und ein optionales Gruppensymbol an"; ObjectID = "8st-WW-8YK"; */
+"8st-WW-8YK.text" = "Bitte geben Sie ein Gruppenfach und ein optionales Gruppensymbol an";
 
 /* Class = "UILabel"; text = "Was hältst du von diesem Tool?"; ObjectID = "93i-UZ-2j7"; */
 "93i-UZ-2j7.text" = "Was hältst du von diesem Tool?";
@@ -182,11 +182,11 @@
 /* Class = "UILabel"; text = "o o o"; ObjectID = "98S-CM-mnL"; */
 "98S-CM-mnL.text" = "o o o";
 
-/* Class = "UIButton"; normalTitle = "Save"; ObjectID = "9Hp-Kd-4GI"; */
-"9Hp-Kd-4GI.normalTitle" = "Save";
+/* Class = "UIButton"; normalTitle = "sparen"; ObjectID = "9Hp-Kd-4GI"; */
+"9Hp-Kd-4GI.normalTitle" = "sparen";
 
-/* Class = "UINavigationItem"; title = "New Chat"; ObjectID = "9Pf-ht-Yhm"; */
-"9Pf-ht-Yhm.title" = "New Chat";
+/* Class = "UINavigationItem"; title = "Neuer Chat"; ObjectID = "9Pf-ht-Yhm"; */
+"9Pf-ht-Yhm.title" = "Neuer Chat";
 
 /* Class = "UILabel"; text = "Geliefert"; ObjectID = "9XJ-a8-4CM"; */
 "9XJ-a8-4CM.text" = "Geliefert";
@@ -194,20 +194,20 @@
 /* Class = "UILabel"; text = "Geliefert"; ObjectID = "9iJ-SX-iTL"; */
 "9iJ-SX-iTL.text" = "Geliefert";
 
-/* Class = "UINavigationItem"; title = "Register"; ObjectID = "9ix-El-WAQ"; */
-"9ix-El-WAQ.title" = "Register";
+/* Class = "UINavigationItem"; title = "Neu registrieren"; ObjectID = "9ix-El-WAQ"; */
+"9ix-El-WAQ.title" = "Neu registrieren";
 
 /* Class = "UIBarButtonItem"; title = "Aktie"; ObjectID = "A7v-i2-gQr"; */
 "A7v-i2-gQr.title" = "Aktie";
 
-/* Class = "UITextField"; placeholder = "email"; ObjectID = "AHI-OP-Xy4"; */
-"AHI-OP-Xy4.placeholder" = "email";
+/* Class = "UITextField"; placeholder = "Aktie"; ObjectID = "AHI-OP-Xy4"; */
+"AHI-OP-Xy4.placeholder" = "Aktie";
 
-/* Class = "UILabel"; text = "Its actually pretty good!"; ObjectID = "AVk-15-L4r"; */
-"AVk-15-L4r.text" = "Its actually pretty good!";
+/* Class = "UILabel"; text = "Es ist eigentlich ziemlich gut!"; ObjectID = "AVk-15-L4r"; */
+"AVk-15-L4r.text" = "Es ist eigentlich ziemlich gut!";
 
-/* Class = "UIButton"; normalTitle = "Save Contact"; ObjectID = "AYr-sm-rQv"; */
-"AYr-sm-rQv.normalTitle" = "Save Contact";
+/* Class = "UIButton"; normalTitle = "Kontakt speichern"; ObjectID = "AYr-sm-rQv"; */
+"AYr-sm-rQv.normalTitle" = "Kontakt speichern";
 
 /* Class = "UISegmentedControl"; Aot-z6-UzX.segmentTitles[0] = "8"; ObjectID = "Aot-z6-UzX"; */
 "Aot-z6-UzX.segmentTitles[0]" = "8";
@@ -218,41 +218,41 @@
 /* Class = "UISegmentedControl"; Aot-z6-UzX.segmentTitles[2] = "21"; ObjectID = "Aot-z6-UzX"; */
 "Aot-z6-UzX.segmentTitles[2]" = "21";
 
-/* Class = "UILabel"; text = "12:45 PM"; ObjectID = "B05-Vd-EeN"; */
-"B05-Vd-EeN.text" = "12:45 PM";
+/* Class = "UILabel"; text = "12:45 Uhr"; ObjectID = "B05-Vd-EeN"; */
+"B05-Vd-EeN.text" = "12:45 Uhr";
 
-/* Class = "UINavigationItem"; title = "Favourites"; ObjectID = "BO5-xM-pGS"; */
-"BO5-xM-pGS.title" = "Favourites";
+/* Class = "UINavigationItem"; title = "Favoriten"; ObjectID = "BO5-xM-pGS"; */
+"BO5-xM-pGS.title" = "Favoriten";
 
-/* Class = "UILabel"; text = "Blocked"; ObjectID = "BZ0-0n-NgP"; */
-"BZ0-0n-NgP.text" = "Blocked";
+/* Class = "UILabel"; text = "Gesperrt"; ObjectID = "BZ0-0n-NgP"; */
+"BZ0-0n-NgP.text" = "Gesperrt";
 
-/* Class = "UIButton"; normalTitle = "New List"; ObjectID = "Bae-IK-pT7"; */
-"Bae-IK-pT7.normalTitle" = "New List";
+/* Class = "UIButton"; normalTitle = "Neue Liste"; ObjectID = "Bae-IK-pT7"; */
+"Bae-IK-pT7.normalTitle" = "Neue Liste";
 
 /* Class = "UILabel"; text = "📢"; ObjectID = "Bdi-Z6-Z8q"; */
 "Bdi-Z6-Z8q.text" = "📢";
 
-/* Class = "UILabel"; text = "group admin"; ObjectID = "Bft-42-FWJ"; */
-"Bft-42-FWJ.text" = "group admin";
+/* Class = "UILabel"; text = "Gruppenadministrator"; ObjectID = "Bft-42-FWJ"; */
+"Bft-42-FWJ.text" = "Gruppenadministrator";
 
-/* Class = "UILabel"; text = "Today"; ObjectID = "Bk7-wb-hRs"; */
-"Bk7-wb-hRs.text" = "Today";
+/* Class = "UILabel"; text = "Heute"; ObjectID = "Bk7-wb-hRs"; */
+"Bk7-wb-hRs.text" = "Heute";
 
-/* Class = "UIViewController"; title = "BroadCast List Chat"; ObjectID = "BxU-xp-zoC"; */
-"BxU-xp-zoC.title" = "BroadCast List Chat";
+/* Class = "UIViewController"; title = "BroadCast Liste Chat"; ObjectID = "BxU-xp-zoC"; */
+"BxU-xp-zoC.title" = "BroadCast Liste Chat";
 
-/* Class = "UILabel"; text = "Uploading..."; ObjectID = "CUh-QG-1nP"; */
-"CUh-QG-1nP.text" = "Uploading...";
+/* Class = "UILabel"; text = "Hochladen ..."; ObjectID = "CUh-QG-1nP"; */
+"CUh-QG-1nP.text" = "Hochladen ...";
 
-/* Class = "UILabel"; text = "About Chatt"; ObjectID = "CX0-eO-mb6"; */
-"CX0-eO-mb6.text" = "About Chatt";
+/* Class = "UILabel"; text = "Über Chatt"; ObjectID = "CX0-eO-mb6"; */
+"CX0-eO-mb6.text" = "Über Chatt";
 
-/* Class = "UILabel"; text = "12:45 PM"; ObjectID = "Crn-x2-yOE"; */
-"Crn-x2-yOE.text" = "12:45 PM";
+/* Class = "UILabel"; text = "12:45 Uhr"; ObjectID = "Crn-x2-yOE"; */
+"Crn-x2-yOE.text" = "12:45 Uhr";
 
-/* Class = "UILabel"; text = "Downloading Image..."; ObjectID = "Csz-Td-DgU"; */
-"Csz-Td-DgU.text" = "Downloading Image...";
+/* Class = "UILabel"; text = "Bild herunterladen ..."; ObjectID = "Csz-Td-DgU"; */
+"Csz-Td-DgU.text" = "Bild herunterladen ...";
 
 /* Class = "UILabel"; text = "Kibo Bot"; ObjectID = "Cui-4B-FY0"; */
 "Cui-4B-FY0.text" = "Kibo Bot";
@@ -266,29 +266,29 @@
 /* Class = "UILabel"; text = "Sojharo"; ObjectID = "Czd-4A-wyt"; */
 "Czd-4A-wyt.text" = "Sojharo";
 
-/* Class = "UINavigationItem"; title = "New Chat"; ObjectID = "DA8-is-YEu"; */
-"DA8-is-YEu.title" = "New Chat";
+/* Class = "UINavigationItem"; title = "Neuer Chat"; ObjectID = "DA8-is-YEu"; */
+"DA8-is-YEu.title" = "Neuer Chat";
 
-/* Class = "UILabel"; text = "12:45 PM"; ObjectID = "Dd1-uB-qkb"; */
-"Dd1-uB-qkb.text" = "12:45 PM";
+/* Class = "UILabel"; text = "12:45 Uhr"; ObjectID = "Dd1-uB-qkb"; */
+"Dd1-uB-qkb.text" = "12:45 Uhr";
 
 /* Class = "UILabel"; text = "Was hältst du von diesem Tool?"; ObjectID = "DkN-Ww-imM"; */
 "DkN-Ww-imM.text" = "Was hältst du von diesem Tool?";
 
-/* Class = "UIButton"; normalTitle = "Message"; ObjectID = "E6Z-r0-0k4"; */
-"E6Z-r0-0k4.normalTitle" = "Message";
+/* Class = "UIButton"; normalTitle = "Nachricht"; ObjectID = "E6Z-r0-0k4"; */
+"E6Z-r0-0k4.normalTitle" = "Nachricht";
 
 /* Class = "UIButton"; normalTitle = "Invite to Kibo Chat"; ObjectID = "E6w-Ql-Shy"; */
 "E6w-Ql-Shy.normalTitle" = "Invite to Kibo Chat";
 
-/* Class = "UILabel"; text = "File Upload Failed"; ObjectID = "E7k-bo-dkN"; */
-"E7k-bo-dkN.text" = "File Upload Failed";
+/* Class = "UILabel"; text = "Datei-Upload fehlgeschlagen"; ObjectID = "E7k-bo-dkN"; */
+"E7k-bo-dkN.text" = "Datei-Upload fehlgeschlagen";
 
 /* Class = "UILabel"; text = "Geliefert"; ObjectID = "EDT-Mt-wXc"; */
 "EDT-Mt-wXc.text" = "Geliefert";
 
-/* Class = "UIButton"; normalTitle = "Message"; ObjectID = "EDj-mC-AWx"; */
-"EDj-mC-AWx.normalTitle" = "Message";
+/* Class = "UIButton"; normalTitle = "Nachricht"; ObjectID = "EDj-mC-AWx"; */
+"EDj-mC-AWx.normalTitle" = "Nachricht";
 
 /* Class = "UIButton"; normalTitle = "Post"; ObjectID = "EEM-lI-R6j"; */
 "EEM-lI-R6j.normalTitle" = "Post";
@@ -317,8 +317,8 @@
 /* Class = "UITextField"; placeholder = "password"; ObjectID = "FM4-cl-KU9"; */
 "FM4-cl-KU9.placeholder" = "password";
 
-/* Class = "UILabel"; text = "damaged message"; ObjectID = "FlP-cy-vwl"; */
-"FlP-cy-vwl.text" = "damaged message";
+/* Class = "UILabel"; text = "Beschädigte Nachricht"; ObjectID = "FlP-cy-vwl"; */
+"FlP-cy-vwl.text" = "Beschädigte Nachricht";
 
 /* Class = "UILabel"; text = "Sojharo4909, Sumaira1991"; ObjectID = "FqE-W2-XNR"; */
 "FqE-W2-XNR.text" = "Sojharo4909, Sumaira1991";
@@ -335,11 +335,11 @@
 /* Class = "UILabel"; text = "Date/Time + status"; ObjectID = "Gme-9l-jSe"; */
 "Gme-9l-jSe.text" = "Date/Time + status";
 
-/* Class = "UISegmentedControl"; Gp2-3a-Gfi.segmentTitles[0] = "My Chats"; ObjectID = "Gp2-3a-Gfi"; */
-"Gp2-3a-Gfi.segmentTitles[0]" = "My Chats";
+/* Class = "UISegmentedControl"; Gp2-3a-Gfi.segmentTitles[0] = "Meine Chats"; ObjectID = "Gp2-3a-Gfi"; */
+"Gp2-3a-Gfi.segmentTitles[0]" = "Meine Chats";
 
-/* Class = "UISegmentedControl"; Gp2-3a-Gfi.segmentTitles[1] = "All Chats"; ObjectID = "Gp2-3a-Gfi"; */
-"Gp2-3a-Gfi.segmentTitles[1]" = "All Chats";
+/* Class = "UISegmentedControl"; Gp2-3a-Gfi.segmentTitles[1] = "Alle Chats"; ObjectID = "Gp2-3a-Gfi"; */
+"Gp2-3a-Gfi.segmentTitles[1]" = "Alle Chats";
 
 /* Class = "UILabel"; text = "Downloading Location..."; ObjectID = "Gxz-pk-qPt"; */
 "Gxz-pk-qPt.text" = "Downloading Location...";
@@ -353,11 +353,11 @@
 /* Class = "UILabel"; text = "description"; ObjectID = "HDM-2z-M0c"; */
 "HDM-2z-M0c.text" = "description";
 
-/* Class = "UIBarButtonItem"; title = "Back"; ObjectID = "HGD-DU-4Zd"; */
-"HGD-DU-4Zd.title" = "Back";
+/* Class = "UIBarButtonItem"; title = "Zurück"; ObjectID = "HGD-DU-4Zd"; */
+"HGD-DU-4Zd.title" = "Zurück";
 
-/* Class = "UIButton"; normalTitle = "Register"; ObjectID = "HHO-av-rto"; */
-"HHO-av-rto.normalTitle" = "Register";
+/* Class = "UIButton"; normalTitle = "Neu registrieren"; ObjectID = "HHO-av-rto"; */
+"HHO-av-rto.normalTitle" = "Neu registrieren";
 
 /* Class = "UILabel"; text = "time label"; ObjectID = "Hjb-IA-vOG"; */
 "Hjb-IA-vOG.text" = "time label";
@@ -374,11 +374,11 @@
 /* Class = "UIButton"; normalTitle = "X"; ObjectID = "IWc-zh-Pyk"; */
 "IWc-zh-Pyk.normalTitle" = "X";
 
-/* Class = "UILabel"; text = "Date/Time"; ObjectID = "IYu-H2-cmU"; */
-"IYu-H2-cmU.text" = "Date/Time";
+/* Class = "UILabel"; text = "Terminzeit"; ObjectID = "IYu-H2-cmU"; */
+"IYu-H2-cmU.text" = "Terminzeit";
 
-/* Class = "UITabBarItem"; title = "Favourites"; ObjectID = "Ihc-4U-QqU"; */
-"Ihc-4U-QqU.title" = "Favourites";
+/* Class = "UITabBarItem"; title = "Favoriten"; ObjectID = "Ihc-4U-QqU"; */
+"Ihc-4U-QqU.title" = "Favoriten";
 
 /* Class = "UILabel"; text = "READ BY"; ObjectID = "J6I-Fc-9oS"; */
 "J6I-Fc-9oS.text" = "READ BY";
@@ -398,8 +398,8 @@
 /* Class = "UILabel"; text = "Recipents: 2"; ObjectID = "JrU-Vh-xSF"; */
 "JrU-Vh-xSF.text" = "Recipents: 2";
 
-/* Class = "UILabel"; text = "12:45 PM"; ObjectID = "KAa-jN-Npg"; */
-"KAa-jN-Npg.text" = "12:45 PM";
+/* Class = "UILabel"; text = "12:45 Uhr"; ObjectID = "KAa-jN-Npg"; */
+"KAa-jN-Npg.text" = "12:45 Uhr";
 
 /* Class = "UILabel"; text = "Sending..."; ObjectID = "KQ7-xt-hP2"; */
 "KQ7-xt-hP2.text" = "Sending...";
@@ -419,8 +419,8 @@
 /* Class = "UIButton"; normalTitle = "Send"; ObjectID = "LHN-fr-PL7"; */
 "LHN-fr-PL7.normalTitle" = "Send";
 
-/* Class = "UILabel"; text = "Uploading..."; ObjectID = "LM9-0i-upM"; */
-"LM9-0i-upM.text" = "Uploading...";
+/* Class = "UILabel"; text = "Hochladen ..."; ObjectID = "LM9-0i-upM"; */
+"LM9-0i-upM.text" = "Hochladen ...";
 
 /* Class = "UILabel"; text = "Etikette"; ObjectID = "LbQ-GJ-FWx"; */
 "LbQ-GJ-FWx.text" = "Etikette";
@@ -428,11 +428,11 @@
 /* Class = "UILabel"; text = "Kein Name"; ObjectID = "LfE-XY-rsu"; */
 "LfE-XY-rsu.text" = "Kein Name";
 
-/* Class = "UISegmentedControl"; Lhv-CL-sBE.segmentTitles[0] = "My Chats"; ObjectID = "Lhv-CL-sBE"; */
-"Lhv-CL-sBE.segmentTitles[0]" = "My Chats";
+/* Class = "UISegmentedControl"; Lhv-CL-sBE.segmentTitles[0] = "Meine Chats"; ObjectID = "Lhv-CL-sBE"; */
+"Lhv-CL-sBE.segmentTitles[0]" = "Meine Chats";
 
-/* Class = "UISegmentedControl"; Lhv-CL-sBE.segmentTitles[1] = "All Chats"; ObjectID = "Lhv-CL-sBE"; */
-"Lhv-CL-sBE.segmentTitles[1]" = "All Chats";
+/* Class = "UISegmentedControl"; Lhv-CL-sBE.segmentTitles[1] = "Alle Chats"; ObjectID = "Lhv-CL-sBE"; */
+"Lhv-CL-sBE.segmentTitles[1]" = "Alle Chats";
 
 /* Class = "UIBarButtonItem"; title = "Chats"; ObjectID = "Lpb-iM-YQZ"; */
 "Lpb-iM-YQZ.title" = "Chats";
@@ -476,14 +476,14 @@
 /* Class = "UILabel"; text = "Vacancy"; ObjectID = "NsV-Ss-HPi"; */
 "NsV-Ss-HPi.text" = "Vacancy";
 
-/* Class = "UIButton"; normalTitle = "Today"; ObjectID = "Nsx-G1-7fc"; */
-"Nsx-G1-7fc.normalTitle" = "Today";
+/* Class = "UIButton"; normalTitle = "Heute"; ObjectID = "Nsx-G1-7fc"; */
+"Nsx-G1-7fc.normalTitle" = "Heute";
 
-/* Class = "UILabel"; text = "12:45 PM"; ObjectID = "O0W-3g-UaU"; */
-"O0W-3g-UaU.text" = "12:45 PM";
+/* Class = "UILabel"; text = "12:45 Uhr"; ObjectID = "O0W-3g-UaU"; */
+"O0W-3g-UaU.text" = "12:45 Uhr";
 
-/* Class = "UILabel"; text = "12:45 PM"; ObjectID = "O5Y-GQ-vQ6"; */
-"O5Y-GQ-vQ6.text" = "12:45 PM";
+/* Class = "UILabel"; text = "12:45 Uhr"; ObjectID = "O5Y-GQ-vQ6"; */
+"O5Y-GQ-vQ6.text" = "12:45 Uhr";
 
 /* Class = "UIBarButtonItem"; title = "Chatten"; ObjectID = "O8B-ca-1RO"; */
 "O8B-ca-1RO.title" = "Chatten";
@@ -530,26 +530,26 @@
 /* Class = "UINavigationItem"; title = "Chats"; ObjectID = "QZL-y5-aQ9"; */
 "QZL-y5-aQ9.title" = "Chats";
 
-/* Class = "UIButton"; normalTitle = "Save"; ObjectID = "QxX-dR-Kej"; */
-"QxX-dR-Kej.normalTitle" = "Save";
+/* Class = "UIButton"; normalTitle = "sparen"; ObjectID = "QxX-dR-Kej"; */
+"QxX-dR-Kej.normalTitle" = "sparen";
 
-/* Class = "UILabel"; text = "12:45 PM"; ObjectID = "R7V-7X-hG8"; */
-"R7V-7X-hG8.text" = "12:45 PM";
+/* Class = "UILabel"; text = "12:45 Uhr"; ObjectID = "R7V-7X-hG8"; */
+"R7V-7X-hG8.text" = "12:45 Uhr";
 
-/* Class = "UIButton"; normalTitle = "Save Contact"; ObjectID = "RAD-hj-Xs3"; */
-"RAD-hj-Xs3.normalTitle" = "Save Contact";
+/* Class = "UIButton"; normalTitle = "Kontakt speichern"; ObjectID = "RAD-hj-Xs3"; */
+"RAD-hj-Xs3.normalTitle" = "Kontakt speichern";
 
 /* Class = "UILabel"; text = "Add Contact"; ObjectID = "RDm-xA-WqA"; */
 "RDm-xA-WqA.text" = "Add Contact";
 
-/* Class = "UILabel"; text = "12:45 PM"; ObjectID = "RQP-27-48A"; */
-"RQP-27-48A.text" = "12:45 PM";
+/* Class = "UILabel"; text = "12:45 Uhr"; ObjectID = "RQP-27-48A"; */
+"RQP-27-48A.text" = "12:45 Uhr";
 
 /* Class = "UINavigationItem"; title = "All Contacts"; ObjectID = "RSp-lL-SlV"; */
 "RSp-lL-SlV.title" = "All Contacts";
 
-/* Class = "UIBarButtonItem"; title = "Back"; ObjectID = "Rdp-dA-oqt"; */
-"Rdp-dA-oqt.title" = "Back";
+/* Class = "UIBarButtonItem"; title = "Zurück"; ObjectID = "Rdp-dA-oqt"; */
+"Rdp-dA-oqt.title" = "Zurück";
 
 /* Class = "UIBarButtonItem"; title = "View"; ObjectID = "Rds-G3-nkw"; */
 "Rds-G3-nkw.title" = "View";
@@ -557,26 +557,26 @@
 /* Class = "UILabel"; text = "Etikette"; ObjectID = "Re3-n3-cxa"; */
 "Re3-n3-cxa.text" = "Etikette";
 
-/* Class = "UILabel"; text = "File upload Failed"; ObjectID = "Rn9-QG-bTL"; */
-"Rn9-QG-bTL.text" = "File upload Failed";
+/* Class = "UILabel"; text = "Datei-Upload fehlgeschlagen"; ObjectID = "Rn9-QG-bTL"; */
+"Rn9-QG-bTL.text" = "Datei-Upload fehlgeschlagen";
 
-/* Class = "UILabel"; text = "12:45 PM"; ObjectID = "Rw4-31-LOd"; */
-"Rw4-31-LOd.text" = "12:45 PM";
+/* Class = "UILabel"; text = "12:45 Uhr"; ObjectID = "Rw4-31-LOd"; */
+"Rw4-31-LOd.text" = "12:45 Uhr";
 
-/* Class = "UILabel"; text = "12:45 PM"; ObjectID = "S3z-gk-JVO"; */
-"S3z-gk-JVO.text" = "12:45 PM";
+/* Class = "UILabel"; text = "12:45 Uhr"; ObjectID = "S3z-gk-JVO"; */
+"S3z-gk-JVO.text" = "12:45 Uhr";
 
 /* Class = "UILabel"; text = "10:22 PM @aaron"; ObjectID = "SNx-41-ra0"; */
 "SNx-41-ra0.text" = "10:22 PM @aaron";
 
-/* Class = "UIBarButtonItem"; title = "Back"; ObjectID = "SRf-ZL-sQS"; */
-"SRf-ZL-sQS.title" = "Back";
+/* Class = "UIBarButtonItem"; title = "Zurück"; ObjectID = "SRf-ZL-sQS"; */
+"SRf-ZL-sQS.title" = "Zurück";
 
 /* Class = "UIButton"; normalTitle = "Post"; ObjectID = "T6a-sW-vss"; */
 "T6a-sW-vss.normalTitle" = "Post";
 
-/* Class = "UIButton"; normalTitle = "Save Contact"; ObjectID = "TFU-EE-YDS"; */
-"TFU-EE-YDS.normalTitle" = "Save Contact";
+/* Class = "UIButton"; normalTitle = "Kontakt speichern"; ObjectID = "TFU-EE-YDS"; */
+"TFU-EE-YDS.normalTitle" = "Kontakt speichern";
 
 /* Class = "UIBarButtonItem"; title = "Skip"; ObjectID = "TQj-xx-IAU"; */
 "TQj-xx-IAU.title" = "Skip";
@@ -599,14 +599,14 @@
 /* Class = "UILabel"; text = "No >"; ObjectID = "U4c-fF-q3e"; */
 "U4c-fF-q3e.text" = "No >";
 
-/* Class = "UINavigationItem"; title = "New Chat"; ObjectID = "U5d-re-h1P"; */
-"U5d-re-h1P.title" = "New Chat";
+/* Class = "UINavigationItem"; title = "Neuer Chat"; ObjectID = "U5d-re-h1P"; */
+"U5d-re-h1P.title" = "Neuer Chat";
 
 /* Class = "UIBarButtonItem"; title = "Done"; ObjectID = "URZ-ak-gVM"; */
 "URZ-ak-gVM.title" = "Done";
 
-/* Class = "UILabel"; text = "I agree. I think our audience will definitely gravitate towards our"; ObjectID = "UW9-SX-xfE"; */
-"UW9-SX-xfE.text" = "I agree. I think our audience will definitely gravitate towards our";
+/* Class = "UILabel"; text = "Ich stimme zu. Ich denke, unser Publikum wird auf jeden Fall zu unserem"; ObjectID = "UW9-SX-xfE"; */
+"UW9-SX-xfE.text" = "Ich stimme zu. Ich denke, unser Publikum wird auf jeden Fall zu unserem";
 
 /* Class = "UIViewController"; title = "Chats"; ObjectID = "Ui7-BI-cmw"; */
 "Ui7-BI-cmw.title" = "Chats";
@@ -623,17 +623,17 @@
 /* Class = "UITextField"; placeholder = "password"; ObjectID = "VdO-gk-pHN"; */
 "VdO-gk-pHN.placeholder" = "password";
 
-/* Class = "UIButton"; normalTitle = "Save"; ObjectID = "Vjn-is-hKx"; */
-"Vjn-is-hKx.normalTitle" = "Save";
+/* Class = "UIButton"; normalTitle = "sparen"; ObjectID = "Vjn-is-hKx"; */
+"Vjn-is-hKx.normalTitle" = "sparen";
 
-/* Class = "UILabel"; text = "12:45 PM"; ObjectID = "Vmk-7M-nb9"; */
-"Vmk-7M-nb9.text" = "12:45 PM";
+/* Class = "UILabel"; text = "12:45 Uhr"; ObjectID = "Vmk-7M-nb9"; */
+"Vmk-7M-nb9.text" = "12:45 Uhr";
 
 /* Class = "UILabel"; text = "Phone"; ObjectID = "VyW-Lq-B6P"; */
 "VyW-Lq-B6P.text" = "Phone";
 
-/* Class = "UILabel"; text = "12:45 PM"; ObjectID = "WGz-pr-vqs"; */
-"WGz-pr-vqs.text" = "12:45 PM";
+/* Class = "UILabel"; text = "12:45 Uhr"; ObjectID = "WGz-pr-vqs"; */
+"WGz-pr-vqs.text" = "12:45 Uhr";
 
 /* Class = "UILabel"; text = "Kontakt Telefonnummer (gesendet)"; ObjectID = "WIt-k7-zax"; */
 "WIt-k7-zax.text" = "Kontakt Telefonnummer (gesendet)";
@@ -692,8 +692,8 @@
 /* Class = "UILabel"; text = "Etikette"; ObjectID = "YoY-RA-tR0"; */
 "YoY-RA-tR0.text" = "Etikette";
 
-/* Class = "UILabel"; text = "I agree. I think our audience will definitely gravitate towards our"; ObjectID = "Yrv-Xn-pxI"; */
-"Yrv-Xn-pxI.text" = "I agree. I think our audience will definitely gravitate towards our";
+/* Class = "UILabel"; text = "Ich stimme zu. Ich denke, unser Publikum wird auf jeden Fall zu unserem"; ObjectID = "Yrv-Xn-pxI"; */
+"Yrv-Xn-pxI.text" = "Ich stimme zu. Ich denke, unser Publikum wird auf jeden Fall zu unserem";
 
 /* Class = "UILabel"; text = "rtf - 2 KB                 8:07 AM"; ObjectID = "YvU-Bb-aew"; */
 "YvU-Bb-aew.text" = "rtf - 2 KB                 8:07 AM";
@@ -713,8 +713,8 @@
 /* Class = "UILabel"; text = "Sojharo"; ObjectID = "aTB-6i-gwX"; */
 "aTB-6i-gwX.text" = "Sojharo";
 
-/* Class = "UILabel"; text = "Downloading Image..."; ObjectID = "aZw-F4-wz5"; */
-"aZw-F4-wz5.text" = "Downloading Image...";
+/* Class = "UILabel"; text = "Bild herunterladen ..."; ObjectID = "aZw-F4-wz5"; */
+"aZw-F4-wz5.text" = "Bild herunterladen ...";
 
 /* Class = "UITextField"; placeholder = "username"; ObjectID = "adW-sx-O0L"; */
 "adW-sx-O0L.placeholder" = "username";
@@ -734,11 +734,11 @@
 /* Class = "UILabel"; text = "Followers"; ObjectID = "bJH-3i-0es"; */
 "bJH-3i-0es.text" = "Followers";
 
-/* Class = "UILabel"; text = "12:45 PM"; ObjectID = "bLx-b6-BFv"; */
-"bLx-b6-BFv.text" = "12:45 PM";
+/* Class = "UILabel"; text = "12:45 Uhr"; ObjectID = "bLx-b6-BFv"; */
+"bLx-b6-BFv.text" = "12:45 Uhr";
 
-/* Class = "UINavigationItem"; title = "New Chat"; ObjectID = "bRf-H5-Dwc"; */
-"bRf-H5-Dwc.title" = "New Chat";
+/* Class = "UINavigationItem"; title = "Neuer Chat"; ObjectID = "bRf-H5-Dwc"; */
+"bRf-H5-Dwc.title" = "Neuer Chat";
 
 /* Class = "UILabel"; text = "Geliefert"; ObjectID = "bSd-rG-mTh"; */
 "bSd-rG-mTh.text" = "Geliefert";
@@ -746,8 +746,8 @@
 /* Class = "UIButton"; normalTitle = "Reject"; ObjectID = "bU4-eP-oAa"; */
 "bU4-eP-oAa.normalTitle" = "Reject";
 
-/* Class = "UILabel"; text = "12:45 PM"; ObjectID = "bhv-SU-En8"; */
-"bhv-SU-En8.text" = "12:45 PM";
+/* Class = "UILabel"; text = "12:45 Uhr"; ObjectID = "bhv-SU-En8"; */
+"bhv-SU-En8.text" = "12:45 Uhr";
 
 /* Class = "UIButton"; normalTitle = "Logout"; ObjectID = "bim-Ua-zV6"; */
 "bim-Ua-zV6.normalTitle" = "Logout";
@@ -764,8 +764,8 @@
 /* Class = "UILabel"; text = "Geliefert"; ObjectID = "cBn-Hy-X2u"; */
 "cBn-Hy-X2u.text" = "Geliefert";
 
-/* Class = "UILabel"; text = "12:45 PM"; ObjectID = "cGC-Np-cCi"; */
-"cGC-Np-cCi.text" = "12:45 PM";
+/* Class = "UILabel"; text = "12:45 Uhr"; ObjectID = "cGC-Np-cCi"; */
+"cGC-Np-cCi.text" = "12:45 Uhr";
 
 /* Class = "UIViewController"; title = "Chats"; ObjectID = "cJu-ld-BCz"; */
 "cJu-ld-BCz.title" = "Chats";
@@ -776,17 +776,17 @@
 /* Class = "UILabel"; text = "Off"; ObjectID = "cZI-Mp-YMX"; */
 "cZI-Mp-YMX.text" = "Off";
 
-/* Class = "UILabel"; text = "Its actually pretty good!"; ObjectID = "ceA-7C-SVX"; */
-"ceA-7C-SVX.text" = "Its actually pretty good!";
+/* Class = "UILabel"; text = "Es ist eigentlich ziemlich gut!"; ObjectID = "ceA-7C-SVX"; */
+"ceA-7C-SVX.text" = "Es ist eigentlich ziemlich gut!";
 
-/* Class = "UINavigationItem"; title = "New Chat"; ObjectID = "ckh-qo-Nce"; */
-"ckh-qo-Nce.title" = "New Chat";
+/* Class = "UINavigationItem"; title = "Neuer Chat"; ObjectID = "ckh-qo-Nce"; */
+"ckh-qo-Nce.title" = "Neuer Chat";
 
-/* Class = "UILabel"; text = "12:45 PM"; ObjectID = "cmk-Ux-3cJ"; */
-"cmk-Ux-3cJ.text" = "12:45 PM";
+/* Class = "UILabel"; text = "12:45 Uhr"; ObjectID = "cmk-Ux-3cJ"; */
+"cmk-Ux-3cJ.text" = "12:45 Uhr";
 
-/* Class = "UINavigationItem"; title = "New Chat"; ObjectID = "cnd-PW-z8h"; */
-"cnd-PW-z8h.title" = "New Chat";
+/* Class = "UINavigationItem"; title = "Neuer Chat"; ObjectID = "cnd-PW-z8h"; */
+"cnd-PW-z8h.title" = "Neuer Chat";
 
 /* Class = "UIButton"; normalTitle = "Broadcast lists"; ObjectID = "cqd-QN-sAJ"; */
 "cqd-QN-sAJ.normalTitle" = "Broadcast lists";
@@ -797,14 +797,14 @@
 /* Class = "UINavigationItem"; title = "More"; ObjectID = "cyI-Nj-boR"; */
 "cyI-Nj-boR.title" = "More";
 
-/* Class = "UILabel"; text = "12:45 PM"; ObjectID = "dAf-EX-S1G"; */
-"dAf-EX-S1G.text" = "12:45 PM";
+/* Class = "UILabel"; text = "12:45 Uhr"; ObjectID = "dAf-EX-S1G"; */
+"dAf-EX-S1G.text" = "12:45 Uhr";
 
 /* Class = "UILabel"; text = "Geliefert"; ObjectID = "dB5-46-GOT"; */
 "dB5-46-GOT.text" = "Geliefert";
 
-/* Class = "UILabel"; text = "12:45 PM"; ObjectID = "dI6-yn-t4P"; */
-"dI6-yn-t4P.text" = "12:45 PM";
+/* Class = "UILabel"; text = "12:45 Uhr"; ObjectID = "dI6-yn-t4P"; */
+"dI6-yn-t4P.text" = "12:45 Uhr";
 
 /* Class = "UILabel"; text = "Privacy"; ObjectID = "dVP-zw-4PK"; */
 "dVP-zw-4PK.text" = "Privacy";
@@ -818,8 +818,8 @@
 /* Class = "UILabel"; text = "Was hältst du von diesem Tool?"; ObjectID = "deD-ze-KF6"; */
 "deD-ze-KF6.text" = "Was hältst du von diesem Tool?";
 
-/* Class = "UILabel"; text = "Downloading Image..."; ObjectID = "dfX-VB-afE"; */
-"dfX-VB-afE.text" = "Downloading Image...";
+/* Class = "UILabel"; text = "Bild herunterladen ..."; ObjectID = "dfX-VB-afE"; */
+"dfX-VB-afE.text" = "Bild herunterladen ...";
 
 /* Class = "UILabel"; text = "Kein Name"; ObjectID = "dm7-r2-WeC"; */
 "dm7-r2-WeC.text" = "Kein Name";
@@ -827,8 +827,8 @@
 /* Class = "UILabel"; text = "Please enter your name."; ObjectID = "e1o-he-xE0"; */
 "e1o-he-xE0.text" = "Please enter your name.";
 
-/* Class = "UIButton"; normalTitle = "Message"; ObjectID = "eAM-Dp-ZnL"; */
-"eAM-Dp-ZnL.normalTitle" = "Message";
+/* Class = "UIButton"; normalTitle = "Nachricht"; ObjectID = "eAM-Dp-ZnL"; */
+"eAM-Dp-ZnL.normalTitle" = "Nachricht";
 
 /* Class = "UIButton"; normalTitle = "Post"; ObjectID = "ePk-hb-UUG"; */
 "ePk-hb-UUG.normalTitle" = "Post";
@@ -842,14 +842,14 @@
 /* Class = "UILabel"; text = "Etikette"; ObjectID = "eu3-L8-uhT"; */
 "eu3-L8-uhT.text" = "Etikette";
 
-/* Class = "UILabel"; text = "12:45 PM"; ObjectID = "f9O-Ai-hn7"; */
-"f9O-Ai-hn7.text" = "12:45 PM";
+/* Class = "UILabel"; text = "12:45 Uhr"; ObjectID = "f9O-Ai-hn7"; */
+"f9O-Ai-hn7.text" = "12:45 Uhr";
 
 /* Class = "UILabel"; text = "Restore from iCloud"; ObjectID = "fOO-ry-RFJ"; */
 "fOO-ry-RFJ.text" = "Restore from iCloud";
 
-/* Class = "UILabel"; text = "12:45 PM"; ObjectID = "fcJ-lR-n6i"; */
-"fcJ-lR-n6i.text" = "12:45 PM";
+/* Class = "UILabel"; text = "12:45 Uhr"; ObjectID = "fcJ-lR-n6i"; */
+"fcJ-lR-n6i.text" = "12:45 Uhr";
 
 /* Class = "UINavigationItem"; title = "Root View Controller"; ObjectID = "feZ-tZ-JBe"; */
 "feZ-tZ-JBe.title" = "Root View Controller";
@@ -863,8 +863,8 @@
 /* Class = "UIBarButtonItem"; title = "Edit"; ObjectID = "gDP-Oc-cxr"; */
 "gDP-Oc-cxr.title" = "Edit";
 
-/* Class = "UILabel"; text = "12:45 PM"; ObjectID = "gTZ-pQ-l6j"; */
-"gTZ-pQ-l6j.text" = "12:45 PM";
+/* Class = "UILabel"; text = "12:45 Uhr"; ObjectID = "gTZ-pQ-l6j"; */
+"gTZ-pQ-l6j.text" = "12:45 Uhr";
 
 /* Class = "UILabel"; text = "Geliefert"; ObjectID = "gVv-vn-6q5"; */
 "gVv-vn-6q5.text" = "Geliefert";
@@ -890,8 +890,8 @@
 /* Class = "UILabel"; text = "Sumaira991:"; ObjectID = "h3s-cd-jvf"; */
 "h3s-cd-jvf.text" = "Sumaira991:";
 
-/* Class = "UIBarButtonItem"; title = "Back"; ObjectID = "hdV-cN-hOE"; */
-"hdV-cN-hOE.title" = "Back";
+/* Class = "UIBarButtonItem"; title = "Zurück"; ObjectID = "hdV-cN-hOE"; */
+"hdV-cN-hOE.title" = "Zurück";
 
 /* Class = "UIBarButtonItem"; title = "Invite"; ObjectID = "heh-dU-cKb"; */
 "heh-dU-cKb.title" = "Invite";
@@ -902,8 +902,8 @@
 /* Class = "UILabel"; text = "Wird heruntergeladen..."; ObjectID = "hrh-Rw-2mg"; */
 "hrh-Rw-2mg.text" = "Wird heruntergeladen...";
 
-/* Class = "UILabel"; text = "12:45 PM"; ObjectID = "hsp-iF-OE7"; */
-"hsp-iF-OE7.text" = "12:45 PM";
+/* Class = "UILabel"; text = "12:45 Uhr"; ObjectID = "hsp-iF-OE7"; */
+"hsp-iF-OE7.text" = "12:45 Uhr";
 
 /* Class = "UILabel"; text = "home"; ObjectID = "hv3-BU-kJt"; */
 "hv3-BU-kJt.text" = "home";
@@ -941,17 +941,17 @@
 /* Class = "UILabel"; text = "Notes"; ObjectID = "kpd-YU-9dI"; */
 "kpd-YU-9dI.text" = "Notes";
 
-/* Class = "UILabel"; text = "12:45 PM"; ObjectID = "kvG-HH-C3l"; */
-"kvG-HH-C3l.text" = "12:45 PM";
+/* Class = "UILabel"; text = "12:45 Uhr"; ObjectID = "kvG-HH-C3l"; */
+"kvG-HH-C3l.text" = "12:45 Uhr";
 
-/* Class = "UIBarButtonItem"; title = "Back"; ObjectID = "l2l-4J-XNy"; */
-"l2l-4J-XNy.title" = "Back";
+/* Class = "UIBarButtonItem"; title = "Zurück"; ObjectID = "l2l-4J-XNy"; */
+"l2l-4J-XNy.title" = "Zurück";
 
 /* Class = "UILabel"; text = "Geliefert"; ObjectID = "l3c-5D-w4Z"; */
 "l3c-5D-w4Z.text" = "Geliefert";
 
-/* Class = "UILabel"; text = "12:45 PM"; ObjectID = "l5g-kU-bKw"; */
-"l5g-kU-bKw.text" = "12:45 PM";
+/* Class = "UILabel"; text = "12:45 Uhr"; ObjectID = "l5g-kU-bKw"; */
+"l5g-kU-bKw.text" = "12:45 Uhr";
 
 /* Class = "UINavigationItem"; title = "Archived Chats"; ObjectID = "lLg-0j-P8T"; */
 "lLg-0j-P8T.title" = "Archived Chats";
@@ -962,8 +962,8 @@
 /* Class = "UILabel"; text = "Please enter your name"; ObjectID = "lul-5W-Jb5"; */
 "lul-5W-Jb5.text" = "Please enter your name";
 
-/* Class = "UILabel"; text = "12:45 PM"; ObjectID = "m1Z-D9-2GB"; */
-"m1Z-D9-2GB.text" = "12:45 PM";
+/* Class = "UILabel"; text = "12:45 Uhr"; ObjectID = "m1Z-D9-2GB"; */
+"m1Z-D9-2GB.text" = "12:45 Uhr";
 
 /* Class = "UILabel"; text = "rtf - 2 KB                 8:07 AM"; ObjectID = "m5G-5C-FpU"; */
 "m5G-5C-FpU.text" = "rtf - 2 KB                 8:07 AM";
@@ -995,8 +995,8 @@
 /* Class = "UINavigationItem"; title = "Neue Gruppe"; ObjectID = "oUa-VY-LAE"; */
 "oUa-VY-LAE.title" = "Neue Gruppe";
 
-/* Class = "UILabel"; text = "12:45 PM"; ObjectID = "oVC-kS-vSo"; */
-"oVC-kS-vSo.text" = "12:45 PM";
+/* Class = "UILabel"; text = "12:45 Uhr"; ObjectID = "oVC-kS-vSo"; */
+"oVC-kS-vSo.text" = "12:45 Uhr";
 
 /* Class = "UILabel"; text = "Lat Backup: "; ObjectID = "oYP-ja-5Ax"; */
 "oYP-ja-5Ax.text" = "Lat Backup: ";
@@ -1007,8 +1007,8 @@
 /* Class = "UIButton"; normalTitle = "Save to other Location"; ObjectID = "oqA-R9-fuV"; */
 "oqA-R9-fuV.normalTitle" = "Save to other Location";
 
-/* Class = "UILabel"; text = "Chat Backup"; ObjectID = "ot9-wv-VX6"; */
-"ot9-wv-VX6.text" = "Chat Backup";
+/* Class = "UILabel"; text = "Chat-Sicherung"; ObjectID = "ot9-wv-VX6"; */
+"ot9-wv-VX6.text" = "Chat-Sicherung";
 
 /* Class = "UITextView"; text = "Welcome to Cloudkibo Conference! Waiting for other peer to connect."; ObjectID = "p1W-Cd-iuP"; */
 "p1W-Cd-iuP.text" = "Welcome to Cloudkibo Conference! Waiting for other peer to connect.";
@@ -1022,8 +1022,8 @@
 /* Class = "UILabel"; text = "Kein Name"; ObjectID = "p6t-Jp-IxK"; */
 "p6t-Jp-IxK.text" = "Kein Name";
 
-/* Class = "UIButton"; normalTitle = "Save Contact"; ObjectID = "pDG-YO-Q9E"; */
-"pDG-YO-Q9E.normalTitle" = "Save Contact";
+/* Class = "UIButton"; normalTitle = "Kontakt speichern"; ObjectID = "pDG-YO-Q9E"; */
+"pDG-YO-Q9E.normalTitle" = "Kontakt speichern";
 
 /* Class = "UILabel"; text = "Sojharo"; ObjectID = "pEJ-Nx-ykT"; */
 "pEJ-Nx-ykT.text" = "Sojharo";
@@ -1067,8 +1067,8 @@
 /* Class = "UILabel"; text = "version"; ObjectID = "rQW-jP-oHF"; */
 "rQW-jP-oHF.text" = "version";
 
-/* Class = "UILabel"; text = "12:45 PM"; ObjectID = "rf8-4O-dWx"; */
-"rf8-4O-dWx.text" = "12:45 PM";
+/* Class = "UILabel"; text = "12:45 Uhr"; ObjectID = "rf8-4O-dWx"; */
+"rf8-4O-dWx.text" = "12:45 Uhr";
 
 /* Class = "UILabel"; text = "Date/Time (sent)"; ObjectID = "rfm-kB-oq0"; */
 "rfm-kB-oq0.text" = "Date/Time (sent)";
@@ -1082,8 +1082,8 @@
 /* Class = "UIBarButtonItem"; title = "Create"; ObjectID = "rnm-1a-DAV"; */
 "rnm-1a-DAV.title" = "Create";
 
-/* Class = "UILabel"; text = "12:45 PM"; ObjectID = "roe-A8-qsT"; */
-"roe-A8-qsT.text" = "12:45 PM";
+/* Class = "UILabel"; text = "12:45 Uhr"; ObjectID = "roe-A8-qsT"; */
+"roe-A8-qsT.text" = "12:45 Uhr";
 
 /* Class = "UILabel"; text = "Geliefert"; ObjectID = "ruj-Yk-lgz"; */
 "ruj-Yk-lgz.text" = "Geliefert";
@@ -1097,8 +1097,8 @@
 /* Class = "UILabel"; text = "Geliefert"; ObjectID = "ryV-8b-4oq"; */
 "ryV-8b-4oq.text" = "Geliefert";
 
-/* Class = "UILabel"; text = "Downloading Image..."; ObjectID = "s23-WC-chm"; */
-"s23-WC-chm.text" = "Downloading Image...";
+/* Class = "UILabel"; text = "Bild herunterladen ..."; ObjectID = "s23-WC-chm"; */
+"s23-WC-chm.text" = "Bild herunterladen ...";
 
 /* Class = "UILabel"; text = "Was hältst du von diesem Tool?"; ObjectID = "sdg-5k-62c"; */
 "sdg-5k-62c.text" = "Was hältst du von diesem Tool?";
@@ -1127,8 +1127,8 @@
 /* Class = "UILabel"; text = "EMAIL / PHONE"; ObjectID = "tkP-7B-S2V"; */
 "tkP-7B-S2V.text" = "EMAIL / PHONE";
 
-/* Class = "UILabel"; text = "damaged message"; ObjectID = "txX-YM-Z4G"; */
-"txX-YM-Z4G.text" = "damaged message";
+/* Class = "UILabel"; text = "Beschädigte Nachricht"; ObjectID = "txX-YM-Z4G"; */
+"txX-YM-Z4G.text" = "Beschädigte Nachricht";
 
 /* Class = "UITabBarItem"; title = "Calls"; ObjectID = "u4X-wt-T2C"; */
 "u4X-wt-T2C.title" = "Calls";
@@ -1157,11 +1157,11 @@
 /* Class = "UILabel"; text = "My Profile"; ObjectID = "vVj-iJ-spf"; */
 "vVj-iJ-spf.text" = "My Profile";
 
-/* Class = "UILabel"; text = "email"; ObjectID = "vzK-Zy-8lt"; */
-"vzK-Zy-8lt.text" = "email";
+/* Class = "UILabel"; text = "Aktie"; ObjectID = "vzK-Zy-8lt"; */
+"vzK-Zy-8lt.text" = "Aktie";
 
-/* Class = "UIBarButtonItem"; title = "Back"; ObjectID = "w2Q-fo-CVo"; */
-"w2Q-fo-CVo.title" = "Back";
+/* Class = "UIBarButtonItem"; title = "Zurück"; ObjectID = "w2Q-fo-CVo"; */
+"w2Q-fo-CVo.title" = "Zurück";
 
 /* Class = "UILabel"; text = "Sending..."; ObjectID = "wKx-Al-xIT"; */
 "wKx-Al-xIT.text" = "Sending...";
@@ -1202,8 +1202,8 @@
 /* Class = "UILabel"; text = "time label"; ObjectID = "xg2-vf-VKf"; */
 "xg2-vf-VKf.text" = "time label";
 
-/* Class = "UILabel"; text = "12:45 PM"; ObjectID = "yX1-Sa-yRU"; */
-"yX1-Sa-yRU.text" = "12:45 PM";
+/* Class = "UILabel"; text = "12:45 Uhr"; ObjectID = "yX1-Sa-yRU"; */
+"yX1-Sa-yRU.text" = "12:45 Uhr";
 
 /* Class = "UILabel"; text = "Geliefert"; ObjectID = "ygU-4p-d3X"; */
 "ygU-4p-d3X.text" = "Geliefert";
@@ -1211,8 +1211,8 @@
 /* Class = "UILabel"; text = "Was hältst du von diesem Tool?"; ObjectID = "yhn-Js-mGs"; */
 "yhn-Js-mGs.text" = "Was hältst du von diesem Tool?";
 
-/* Class = "UILabel"; text = "Its actually pretty good!"; ObjectID = "yv9-3M-wLI"; */
-"yv9-3M-wLI.text" = "Its actually pretty good!";
+/* Class = "UILabel"; text = "Es ist eigentlich ziemlich gut!"; ObjectID = "yv9-3M-wLI"; */
+"yv9-3M-wLI.text" = "Es ist eigentlich ziemlich gut!";
 
 /* Class = "UILabel"; text = "Audio Name"; ObjectID = "ywL-Iu-pi2"; */
 "ywL-Iu-pi2.text" = "Audio Name";
@@ -1229,5 +1229,5 @@
 /* Class = "UILabel"; text = "Back Up Now"; ObjectID = "zo9-5h-rUA"; */
 "zo9-5h-rUA.text" = "Back Up Now";
 
-/* Class = "UILabel"; text = "12:45 PM"; ObjectID = "zzO-Pv-90d"; */
-"zzO-Pv-90d.text" = "12:45 PM";
+/* Class = "UILabel"; text = "12:45 Uhr"; ObjectID = "zzO-Pv-90d"; */
+"zzO-Pv-90d.text" = "12:45 Uhr";
