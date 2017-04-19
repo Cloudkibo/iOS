@@ -2,12 +2,12 @@
   "images" : [
     {
       "idiom" : "universal",
-      "filename" : "tabbar_chat.png",
+      "filename" : "chattab.png",
       "scale" : "1x"
     },
     {
       "idiom" : "universal",
-      "filename" : "tabbar_chat@2x.png",
+      "filename" : "chattab2.png",
       "scale" : "2x"
     },
     {

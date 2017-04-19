@@ -1,0 +1,11 @@
+/* 
+  InfoPlist.strings
+  kiboApp
+
+  Created by Cloudkibo on 19/04/2017.
+  Copyright © 2017 MyAppTemplates. All rights reserved.
+*/
+
+"CFBundleDisplayName" = "كيبوتشات";
+
+"CFBundleName" = "كيبوتشات";

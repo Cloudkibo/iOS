@@ -1183,3 +1183,7 @@
 
 /* Class = "UILabel"; text = "12:45 PM"; ObjectID = "zzO-Pv-90d"; */
 "zzO-Pv-90d.text" = "12:45 PM";
+
+/* Class = "UIBarButtonItem"; title =
+ "چیٹس"; ObjectID = "EvI-wl-R4T"; */
+"EvI-wl-R4T.title" = "چیٹس";

@@ -1264,3 +1264,12 @@
 
 /* Class = "UILabel"; text = "12h45"; ObjectID = "zzO-Pv-90d"; */
 "zzO-Pv-90d.text" = "12h45";
+
+
+/* Class = "UIBarButtonItem"; title =
+ "Bavarder"; ObjectID = "EvI-wl-R4T"; */
+"EvI-wl-R4T.title" = "Bavarder";
+
+
+
+//EvI-wl-R4T

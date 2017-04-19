@@ -33,6 +33,7 @@
 		7134C6921EA76C3100FF588E /* storyTrans.txt in Resources */ = {isa = PBXBuildFile; fileRef = 7134C6911EA76C3100FF588E /* storyTrans.txt */; };
 		7134C6941EA76D5B00FF588E /* TestStory.txt in Resources */ = {isa = PBXBuildFile; fileRef = 7134C6931EA76D5B00FF588E /* TestStory.txt */; };
 		7134C6961EA76ED300FF588E /* storyboardDefault.txt in Resources */ = {isa = PBXBuildFile; fileRef = 7134C6951EA76ED300FF588E /* storyboardDefault.txt */; };
+		7134C6991EA79E7C00FF588E /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 7134C69B1EA79E7C00FF588E /* InfoPlist.strings */; };
 		713CC2741E5B2BFC00D4782F /* AlamofireImage.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 713CC2671E5B2B7A00D4782F /* AlamofireImage.framework */; };
 		713CC2751E5B2BFC00D4782F /* AlamofireImage.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 713CC2671E5B2B7A00D4782F /* AlamofireImage.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		713D51BD1CC11896007E0B47 /* Accounts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 713D51881CC11896007E0B47 /* Accounts.swift */; };
@@ -547,6 +548,12 @@
 		7134C6911EA76C3100FF588E /* storyTrans.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = storyTrans.txt; sourceTree = "<group>"; };
 		7134C6931EA76D5B00FF588E /* TestStory.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = TestStory.txt; sourceTree = "<group>"; };
 		7134C6951EA76ED300FF588E /* storyboardDefault.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = storyboardDefault.txt; sourceTree = "<group>"; };
+		7134C69A1EA79E7C00FF588E /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		7134C69C1EA79E7E00FF588E /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		7134C69D1EA79E7F00FF588E /* ar */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ar; path = ar.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		7134C69E1EA79E8800FF588E /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		7134C69F1EA79E8A00FF588E /* ur */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ur; path = ur.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		7134C6A11EA79EA300FF588E /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Base; path = Base.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		713CC25B1E5B2B7A00D4782F /* AlamofireImage.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = AlamofireImage.xcodeproj; path = ../../../../../../../Downloads/AlamofireImage/AlamofireImage.xcodeproj; sourceTree = "<group>"; };
 		713D51881CC11896007E0B47 /* Accounts.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Accounts.swift; sourceTree = "<group>"; };
 		713D51891CC11896007E0B47 /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -983,6 +990,7 @@
 				5BF6362919A9F3D900ABD0BA /* Info.plist */,
 				713D51B61CC11896007E0B47 /* SignupViewController.swift */,
 				719EFCFC1C9260FF000FD52F /* fileTestingDoc.swift */,
+				7134C69B1EA79E7C00FF588E /* InfoPlist.strings */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -1523,6 +1531,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				71C4018A1CF715C500D38126 /* audioOn.png in Resources */,
+				7134C6991EA79E7C00FF588E /* InfoPlist.strings in Resources */,
 				714690621E66F54500FA6530 /* GoogleMaps.bundle in Resources */,
 				71C401761CF7159F00D38126 /* videoOff.png in Resources */,
 				71301E4D1E9FBB4A00F40772 /* Main.storyboard in Resources */,
@@ -1846,6 +1855,19 @@
 				7134C6881EA62C4F00FF588E /* en */,
 			);
 			name = Localizable.strings;
+			sourceTree = "<group>";
+		};
+		7134C69B1EA79E7C00FF588E /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				7134C69A1EA79E7C00FF588E /* fr */,
+				7134C69C1EA79E7E00FF588E /* es */,
+				7134C69D1EA79E7F00FF588E /* ar */,
+				7134C69E1EA79E8800FF588E /* de */,
+				7134C69F1EA79E8A00FF588E /* ur */,
+				7134C6A11EA79EA300FF588E /* Base */,
+			);
+			name = InfoPlist.strings;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
