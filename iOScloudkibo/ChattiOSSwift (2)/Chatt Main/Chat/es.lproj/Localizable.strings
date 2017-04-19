@@ -1,9 +1,142 @@
-/* 
-  localizable.strings
-  kiboApp
-
-  Created by Cloudkibo on 13/04/2017.
-  Copyright © 2017 MyAppTemplates. All rights reserved.
-*/
+/*
+ localizable.strings
+ kiboApp
+ 
+ Created by Cloudkibo on 13/04/2017.
+ Copyright © 2017 MyAppTemplates. All rights reserved.
+ */
 
 "New Group" = "Nouveau Groupe";
+"Edit" = "Modifier";
+"Backup your chat history and media to iCloud so if youblose your iPhone or switch to neew one, your chat history is safe. You can restore your chat history and media when you reinstall KiboApp." = "Sauvegardez votre historique de conversation et vos médias sur iCloud, donc, si vous utilisez votre iPhone ou en modifiez-vous, l'historique de votre chat est sécurisé. Vous pouvez restaurer votre historique de conversation et votre média lorsque vous réinstallez KiboApp.";
+
+//"Back Up Now"="adfasdfasd";*/
+
+
+
+
+"< Slide left to cancel"="<Deslice hacia la izquierda para cancelar";
+"Record"="Grabar";
+"Downloading…"="Descargando ...";
+"Play"="Jugar";
+
+"Hey, \n \n I just downloaded KiboChat App on my iPhone. \n \n It is a smartphone messenger with added features. It provides integrated and unified voice, video, and data communication. \n \n It is available for both Android and iPhone and there is no PIN or username to remember. \n \n Get it now from https://api.cloudkibo.com and say good-bye to SMS!"="Hola, \ n \ n Acabo de descargar la aplicación KiboChat en mi iPhone. \ N \ n Es un mensajero de smartphone con características añadidas que proporciona comunicación integrada de voz, video y datos. \ N \ n Está disponible para Tanto Android como iPhone y no hay PIN ni nombre de usuario para recordar. \ N \ n ¡Obtenga ahora desde https://api.cloudkibo.com y despedirse de SMS!";
+
+"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"="AbcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+
+"Camera"="Cámara";
+
+"Share Video"="Compartir video";
+
+"Photo/Video Library"="Biblioteca de fotos / vídeos";
+
+"Share Document"="Compartir documento";
+
+"Share Location"="Comparte ubicacion";
+
+"Share Contact"="Compartir contacto";
+
+"Cancel"="Cancelar";
+"Send"="Enviar";
+"?"="?";
+"Error"="Error";
+"Unable to get video"="No se puede obtener el video";
+"Ok"="De acuerdo";
+"No"="No";
+"Unblock contact to send a message"="Desbloquear contacto para enviar un mensaje";
+"UnBlock"="Desatascar";
+"Yes"="Sí";
+"Done"="Hecho";
+"Enter Server URL"="Introducir URL del servidor";
+"Please input your URL:"="Introduzca su URL:";
+"Welcome to the group"="Bienvenido al grupo";
+"more.png"="more.png";
+"archive.png"="archive.png";
+"Delete Chat with:"="Borrar Chat con:";
+
+
+"Delete"="Effacer";
+"New Chat"="Nouveau chat";
+"User is busy. Please try again later"="L'utilisateur est occupé. Veuillez réessayer plus tard";
+"Information"="Information";
+"Group Info"="Informations sur le groupe";
+"Contact Info"="Informations de contact";
+"Add to Contacts"="Ajouter aux contacts";
+"Favourites"="Favoris";
+"Invitation for joining Kibo App"="Invitation à rejoindre l'application Kibo";
+"Could Not Send Email"="Impossible d'envoyer un courrier électronique";
+"Your device could not send e-mail.  Please check e-mail configuration and try again."="Votre appareil n'a pas pu envoyer d'e-mail. Veuillez vérifier la configuration du courrier électronique et réessayer.";
+"Contacting Server…"="Contacter le serveur ...";
+"Setting Contacts…"="Réglage des contacts ...";
+"Updating local database.."="Mise à jour de la base de données locale ..";
+"Updating Contact"="Mise à jour du contact";
+"Getting details from server.."="Obtenir les détails du serveur ..";
+"Setting Chats.."="Définir les conversations ..";
+"Please enter new file name"="Entrez un nouveau nom de fichier";
+"File with the name  already exists:"="Le fichier avec le nom existe déjà:";
+"Success"="Succès";
+"Your file has been successfully saved to iCloud Drive"="Votre fichier a été enregistré avec succès dans iCloud Drive";
+"You have received a new file. You can view files by clicking on \”View\" button present on Main conference page."="Vous avez reçu un nouveau fichier. Vous pouvez afficher les fichiers en cliquant sur le bouton \"Afficher \" présent sur la page principale de la conférence.";
+"An error has occurred:"="Une erreur est survenue:";
+"Welcome to Cloudkibo Meeting"="Bienvenue à la réunion de Cloudkibo";
+"Please enter your username"="s'il vous plaît entrez votre nom d'utilisateur";
+"Add new contact"="Ajouter un nouveau contact";
+"Please Fill details"="Veuillez remplir les détails";
+"First Name"="Prénom";
+"Last Name"="Nom de famille";
+"Phone Number"="Numéro de téléphone";
+"Hide"="Cacher";
+"Capture"="Capturer";
+"You are now connected in call with:"="Vous êtes maintenant connecté en appel avec:";
+"User offline:"="Utilisateur hors ligne:";
+"Your file has been successfully sent"="Votre fichier a été envoyé avec succès";
+"Unblock this contact"="Débloquer ce contact";
+"Block this contact"="Bloquer ce contact";
+"Hey,"="Hey,";
+"I just downloaded Kibo App on my iPhone. \n \n It is a smartphone messenger with added features. It provides integrated and unified voice, video, and data communication. \n \n It is available for both Android and iPhone and there is no PIN or username to remember. \n \n Get it now from https://itunes.apple.com/us/app/kibo-chat/id1099977984?ls=1&mt=8 and say good-bye to SMS!"="Hey, Je viens de télécharger l'application Kibo sur mon iPhone. \ N \ n C'est un messagerie de smartphone avec des fonctionnalités ajoutées. Il fournit une voix intégrée et unifiée, une vidéo et une communication de données. \ N \ n Il est disponible pour Android et iPhone et il n'y a aucun code PIN ou nom d'utilisateur à retenir. \ N \ n Obtenez-le maintenant à partir de https://itunes.apple.com/us/app/kibo-chat/id1099977984?ls=1&mt=8 et dites au revoir au SMS!";
+
+"It is a smartphone messenger with added features. It provides integrated and unified voice, video, and data communication."="C'est un messager de smartphone avec des fonctionnalités ajoutées. Il fournit une voix intégrée et unifiée, une vidéo et une communication de données.";
+
+"It is available for both Android and iPhone and there is no PIN or username to remember."="Il est disponible pour Android et iPhone et il n'y a aucun code PIN ou nom d'utilisateur à retenir.";
+
+"Get it now from https://itunes.apple.com/us/app/kibo-chat/id1099977984?ls=1&mt=8 and say good-bye to SMS!"="Obtenez-le maintenant à partir de https://itunes.apple.com/fr/app/kibo-chat/id1099977984?ls=1&mt=8 et dites au revoir au SMS!";
+
+"Could Not Send Email"="Impossible d'envoyer un courrier électronique";
+"Your device could not send e-mail.  Please check e-mail configuration and try again."="Votre appareil n'a pas pu envoyer d'e-mail. Veuillez vérifier la configuration du courrier électronique et réessayer.";
+"Reset Image"="Réinitialiser l'image";
+"Select Image"="Sélectionner l'image";
+"Failed to fetch avatar image"="Impossible de récupérer l'image de l'avatar";
+"You left the group"="Vous avez quitté le groupe";
+"Please select another Admin for the Group before leaving"="Sélectionnez un autre administrateur pour le groupe avant de partir";
+"Internet connectivity is required to exit this group"="Une connexion Internet est requise pour quitter ce groupe";
+"Are you sure you want to remove:"="Êtes-vous sûr de vouloir désinstaller:";
+"Are you sure you want to leave this group?"="Êtes-vous sûr de vouloir quitter ce groupe?";
+"Removed:"="Supprimé:";
+"You have left this group"="Vous avez quitté ce groupe";
+"Make Group Admin"="Créer un administrateur de groupe";
+"Demote Admin"="Demote Admin";
+"Remove:"="Retirer:";
+"Internet connectivity is required to remove any member"="La connexion Internet est requise pour supprimer un membre";
+"Failed to add member. Tap here to retry."="Impossible d'ajouter un membre. Appuyez ici pour réessayer.";
+"Internet connectivity is required to change group icon"="La connectivité Internet est requise pour changer l'icône du groupe";
+"DELIVERED TO"="LIVRÉ À";
+"READ BY"="LIRE PAR";
+"Broadcast Lists"="Des listes de diffusion";
+"List Recipients"="Liste des destinataires";
+"Accounts"="Comptes";
+"Chats"="bavarder";
+"Success"="Succès";
+"You can backup your data on iCloud"="Vous pouvez sauvegarder vos données sur iCloud";
+"Ok"="D'accord";
+"Please sign in to correct iCloud account to resume backup service"="Veuillez vous connecter pour corriger le compte iCloud pour reprendre le service de sauvegarde";
+"Failed to access iCloud"="Impossible d'accéder à iCloud";
+"To avoid excessive data charges, connect your phone to Wi-Fi or disable cellular data for iCloud: iPhone Settings > iCloud > iCloud Drive > Use Cellular Data > OFF"="Pour éviter des charges de données excessives, connectez votre téléphone à Wi-Fi ou désactivez les données cellulaires pour iCloud: Paramètres iPhone> iCloud> iCloud Drive> Utiliser les données cellulaires> OFF";
+"Account"="Compte";
+"Privacy"="Intimité";
+"Chats"="Chats";
+"Settings"="Paramètres";
+"Daily"="du quotidien";
+"Weekly"="Hebdomadaire";
+"Monthly"="Mensuel";
+"Off"="De";
+
