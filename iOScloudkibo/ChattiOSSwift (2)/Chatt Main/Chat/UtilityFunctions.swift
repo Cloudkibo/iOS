@@ -2150,32 +2150,48 @@ print("tempURL is \(temporaryURL) and response is \(response.allHeaderFields)")
     }
     
     func writeLocaliseFile()
-    {  let fileName = "StoryTranslated"
+    {  let fileName = "StoryBoardTranslated"
         let DocumentDirURL = try! FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: true)
         
         let fileURL = DocumentDirURL.appendingPathComponent(fileName).appendingPathExtension("txt")
         print("FilePath: \(fileURL.path)")
         
-        if let pathTrans = Bundle.main.path(forResource: "storyKeys2", ofType: "txt") {
+        if let pathTrans = Bundle.main.path(forResource: "storyboardDefault", ofType: "txt") {
             do {
-                let trans = try String(contentsOfFile: pathTrans, encoding: .utf8) //full string
-                let transStrings = trans.components(separatedBy: .newlines)
-                var newDict=""
-                for i in 0 ..< transStrings.count
+                var storyboardDefault = try String(contentsOfFile: pathTrans, encoding: .utf8) //full string
+                //let storyboardDefaultStrings = storyboardDefault.components(separatedBy: .newlines)
+                
+        if let pathTrans = Bundle.main.path(forResource: "TestStory", ofType: "txt") {
+            do {
+                let testStory = try String(contentsOfFile: pathTrans, encoding: .utf8) //full string
+                let testStoryStrings = testStory.components(separatedBy: .newlines)
+                //var newDict=""
+                
+                if let pathTrans = Bundle.main.path(forResource: "storyTrans", ofType: "txt") {
+                    do {
+                        let storyTrans = try String(contentsOfFile: pathTrans, encoding: .utf8) //full string
+                        let storyTransStrings = storyTrans.components(separatedBy: .newlines)
+                        var newDict=""
+                        
+                for i in 0 ..< testStoryStrings.count
                 {
-                    newDict=newDict+"\n"+"\""+transStrings[i]+"\""
+                    
+                    storyboardDefault = storyboardDefault.replacingOccurrences(of: testStoryStrings[i], with:storyTransStrings[i], options: NSString.CompareOptions.literal, range: nil)
+
+                    
+                    
+                 //   newDict=newDict+"\n"+"\""+transStrings[i]+"\""
                     /// newDict=newDict+"\n"+"\""+myStrings[i]+"\"=\""+transStrings[i]+"\";"
-                    print(newDict)
+                   // print(newDict)
                     
                     
                 }
-                let writeString = newDict
+                        print(storyboardDefault)
+                let writeString = storyboardDefault
                 
                 
                 ////
-                for (originalWord, newWord) in myDictionary {
-                    myString = myString.stringByReplacingOccurrencesOfString(originalWord, withString:newWord, options: NSStringCompareOptions.LiteralSearch, range: nil)
-                }
+              
                 
                 ////
                 do {
@@ -2191,7 +2207,20 @@ print("tempURL is \(temporaryURL) and response is \(response.allHeaderFields)")
             catch{
                  print(error)
             }
+                }
+            }
+                catch{
+                    print("error reading storytrans")
+                }
+            }
+           
+                }
+            catch{
+                print(error)
+            }
             
+
+        
        /* if let path = Bundle.main.path(forResource: "keyFile", ofType: "txt") {
             do {
                 let data = try String(contentsOfFile: path, encoding: .utf8)
@@ -2234,6 +2263,7 @@ print("tempURL is \(temporaryURL) and response is \(response.allHeaderFields)")
         }*/
     }
     }
+    
     func replaceStoryboardStrings()
     {
         

@@ -1,213 +1,210 @@
 
-/* Class = "UILabel"; text = "Delivered"; ObjectID = "02M-ul-rKY"; */
-"02M-ul-rKY.text" = "Delivered";
+/* Class = "UILabel"; text = "بھیج دیا گیا"; ObjectID = "02M-ul-rKY"; */
+"02M-ul-rKY.text" = "بھیج دیا گیا";
 
-/* Class = "UILabel"; text = "Project"; ObjectID = "05P-0A-sxh"; */
-"05P-0A-sxh.text" = "Project";
+/* Class = "UILabel"; text = "پروجیکٹ"; ObjectID = "05P-0A-sxh"; */
+"05P-0A-sxh.text" = "پروجیکٹ";
 
-/* Class = "UIButton"; normalTitle = "Record"; ObjectID = "0jv-CT-ecg"; */
-"0jv-CT-ecg.normalTitle" = "Record";
+/* Class = "UIButton"; normalTitle = "ریکارڈ"; ObjectID = "0jv-CT-ecg"; */
+"0jv-CT-ecg.normalTitle" = "ریکارڈ";
 
-/* Class = "UILabel"; text = "Downloading..."; ObjectID = "16A-BK-r8D"; */
-"16A-BK-r8D.text" = "Downloading...";
+/* Class = "UILabel"; text = "ڈاؤن لوڈ کرنا ..."; ObjectID = "16A-BK-r8D"; */
+"16A-BK-r8D.text" = "ڈاؤن لوڈ کرنا ...";
 
-/* Class = "UITextView"; text = "You have received a file. Click on buttons below to preview or open file in other application"; ObjectID = "1Bj-fJ-bsg"; */
-"1Bj-fJ-bsg.text" = "You have received a file. Click on buttons below to preview or open file in other application";
+/* Class = "UITextView"; text = "آپ کو ایک فائل موصول ہوئی ہے. دوسری درخواست میں پیش منظر یا کھلی فائل کے لئے ذیل بٹن پر کلک کریں"; ObjectID = "1Bj-fJ-bsg"; */
+"1Bj-fJ-bsg.text" = "آپ کو ایک فائل موصول ہوئی ہے. دوسری درخواست میں پیش منظر یا کھلی فائل کے لئے ذیل بٹن پر کلک کریں";
 
-/* Class = "UIBarButtonItem"; title = "Chat"; ObjectID = "1Q3-hY-TkG"; */
-"1Q3-hY-TkG.title" = "Chat";
+/* Class = "UIBarButtonItem"; title = "چیٹ"; ObjectID = "1Q3-hY-TkG"; */
+"1Q3-hY-TkG.title" = "چیٹ";
 
-/* Class = "UILabel"; text = "Salaam. How are you?"; ObjectID = "1WK-Tw-IdJ"; */
-"1WK-Tw-IdJ.text" = "Salaam. How are you?";
+/* Class = "UILabel"; text = "سلام. آپ کیسے ہیں؟"; ObjectID = "1WK-Tw-IdJ"; */
+"1WK-Tw-IdJ.text" = "سلام. آپ کیسے ہیں؟";
 
-/* Class = "UILabel"; text = "Created at 1:45pm"; ObjectID = "1kJ-cx-70v"; */
-"1kJ-cx-70v.text" = "Created at 1:45pm";
+/* Class = "UILabel"; text = "میں 1:45 PM پیدا کیا"; ObjectID = "1kJ-cx-70v"; */
+"1kJ-cx-70v.text" = "میں 1:45 PM پیدا کیا";
 
-/* Class = "UILabel"; text = "My Account"; ObjectID = "2Bt-Fz-rbh"; */
-"2Bt-Fz-rbh.text" = "My Account";
+/* Class = "UILabel"; text = "میرا اکاونٹ"; ObjectID = "2Bt-Fz-rbh"; */
+"2Bt-Fz-rbh.text" = "میرا اکاونٹ";
 
-/* Class = "UILabel"; text = "Too many expenses"; ObjectID = "2jE-Mb-vQO"; */
-"2jE-Mb-vQO.text" = "Too many expenses";
+/* Class = "UILabel"; text = "بہت زیادہ اخراجات"; ObjectID = "2jE-Mb-vQO"; */
+"2jE-Mb-vQO.text" = "بہت زیادہ اخراجات";
 
-/* Class = "UIButton"; normalTitle = "Invite Friends to Kibo App"; ObjectID = "2z2-O9-hhc"; */
-"2z2-O9-hhc.normalTitle" = "Invite Friends to Kibo App";
+/* Class = "UIButton"; normalTitle = "Kibo اپلی کیشن کے لئے دوستوں کو مدعو کریں"; ObjectID = "2z2-O9-hhc"; */
+"2z2-O9-hhc.normalTitle" = "Kibo اپلی کیشن کے لئے دوستوں کو مدعو کریں";
 
-/* Class = "UITabBarItem"; title = "Contacts"; ObjectID = "35A-sW-V98"; */
-"35A-sW-V98.title" = "Contacts";
+/* Class = "UITabBarItem"; title = "رابطے"; ObjectID = "35A-sW-V98"; */
+"35A-sW-V98.title" = "رابطے";
 
-/* Class = "UILabel"; text = "Contact Phone number (sent)"; ObjectID = "3Am-ie-yvE"; */
-"3Am-ie-yvE.text" = "Contact Phone number (sent)";
+/* Class = "UILabel"; text = "رابطے کا فون نمبر (بھیجا)"; ObjectID = "3Am-ie-yvE"; */
+"3Am-ie-yvE.text" = "رابطے کا فون نمبر (بھیجا)";
 
-/* Class = "UIButton"; normalTitle = "Add New.."; ObjectID = "3DD-UL-k9P"; */
-"3DD-UL-k9P.normalTitle" = "Add New..";
+/* Class = "UIButton"; normalTitle = "نیا شامل کریں.."; ObjectID = "3DD-UL-k9P"; */
+"3DD-UL-k9P.normalTitle" = "نیا شامل کریں..";
 
-/* Class = "UILabel"; text = "Caller Name"; ObjectID = "3PK-Am-dVm"; */
-"3PK-Am-dVm.text" = "Caller Name";
+/* Class = "UILabel"; text = "کالر کا نام"; ObjectID = "3PK-Am-dVm"; */
+"3PK-Am-dVm.text" = "کالر کا نام";
 
-/* Class = "UILabel"; text = "Total Size:"; ObjectID = "3Sw-HR-deD"; */
-"3Sw-HR-deD.text" = "Total Size:";
+/* Class = "UILabel"; text = "کل سائز:"; ObjectID = "3Sw-HR-deD"; */
+"3Sw-HR-deD.text" = "کل سائز:";
 
-/* Class = "UILabel"; text = "No Name"; ObjectID = "3UV-pK-skJ"; */
-"3UV-pK-skJ.text" = "No Name";
+/* Class = "UILabel"; text = "گمنام"; ObjectID = "3UV-pK-skJ"; */
+"3UV-pK-skJ.text" = "گمنام";
 
-/* Class = "UILabel"; text = "Include Videos"; ObjectID = "3WM-IP-pkv"; */
-"3WM-IP-pkv.text" = "Include Videos";
+/* Class = "UILabel"; text = "شامل ویڈیوز"; ObjectID = "3WM-IP-pkv"; */
+"3WM-IP-pkv.text" = "شامل ویڈیوز";
 
-/* Class = "UILabel"; text = "What do you think of this tool!"; ObjectID = "3YG-ya-qFi"; */
-"3YG-ya-qFi.text" = "What do you think of this tool!";
+/* Class = "UILabel"; text = "آپ کو اس آلے کو کیا سمجھتے ہو!"; ObjectID = "3YG-ya-qFi"; */
+"3YG-ya-qFi.text" = "آپ کو اس آلے کو کیا سمجھتے ہو!";
 
-/* Class = "UIButton"; normalTitle = "Exit Group"; ObjectID = "3ag-Xi-p0z"; */
-"3ag-Xi-p0z.normalTitle" = "Exit Group";
+/* Class = "UIButton"; normalTitle = "باہر نکلیں گروپ"; ObjectID = "3ag-Xi-p0z"; */
+"3ag-Xi-p0z.normalTitle" = "باہر نکلیں گروپ";
 
-/* Class = "UINavigationItem"; title = "New Group"; ObjectID = "3w4-ek-sav"; */
-"3w4-ek-sav.title" = "New Group";
+/* Class = "UINavigationItem"; title = "نیا گروپ"; ObjectID = "3w4-ek-sav"; */
+"3w4-ek-sav.title" = "نیا گروپ";
 
-/* Class = "UILabel"; text = "Label"; ObjectID = "3xA-Nw-mOS"; */
-"3xA-Nw-mOS.text" = "Label";
+/* Class = "UILabel"; text = "لیبل"; ObjectID = "3xA-Nw-mOS"; */
+"3xA-Nw-mOS.text" = "لیبل";
 
 /* Class = "UILabel"; text = "Sojharo"; ObjectID = "3xc-VY-abn"; */
 "3xc-VY-abn.text" = "Sojharo";
 
-/* Class = "UILabel"; text = "Label"; ObjectID = "4HC-4Y-wJa"; */
-"4HC-4Y-wJa.text" = "Label";
+/* Class = "UILabel"; text = "لیبل"; ObjectID = "4HC-4Y-wJa"; */
+"4HC-4Y-wJa.text" = "لیبل";
 
-/* Class = "UITextField"; placeholder = "last name"; ObjectID = "4Ha-F0-jkt"; */
-"4Ha-F0-jkt.placeholder" = "last name";
+/* Class = "UITextField"; placeholder = "آخری نام"; ObjectID = "4Ha-F0-jkt"; */
+"4Ha-F0-jkt.placeholder" = "آخری نام";
 
-/* Class = "UIBarButtonItem"; title = "Share"; ObjectID = "4Nv-SW-SrJ"; */
-"4Nv-SW-SrJ.title" = "Share";
+/* Class = "UIBarButtonItem"; title = "اشتراک کریں"; ObjectID = "4Nv-SW-SrJ"; */
+"4Nv-SW-SrJ.title" = "اشتراک کریں";
 
-/* Class = "UILabel"; text = "Hey there! I am using KiboApp"; ObjectID = "4YO-te-Ucr"; */
-"4YO-te-Ucr.text" = "Hey there! I am using KiboApp";
+/* Class = "UILabel"; text = "وہاں ارے! میں نے KiboApp استعمال کر رہا ہوں"; ObjectID = "4YO-te-Ucr"; */
+"4YO-te-Ucr.text" = "وہاں ارے! میں نے KiboApp استعمال کر رہا ہوں";
 
-/* Class = "UILabel"; text = "What do you think of this tool!"; ObjectID = "4Z6-FB-ogh"; */
-"4Z6-FB-ogh.text" = "What do you think of this tool!";
+/* Class = "UILabel"; text = "بجلی، گیس، پانی، باغ، دروازے، ہیٹر"; ObjectID = "4iM-aX-3mX"; */
+"4iM-aX-3mX.text" = "بجلی، گیس، پانی، باغ، دروازے، ہیٹر";
 
-/* Class = "UILabel"; text = "electricity, gas, water, garden, door, heater"; ObjectID = "4iM-aX-3mX"; */
-"4iM-aX-3mX.text" = "electricity, gas, water, garden, door, heater";
+/* Class = "UIBarButtonItem"; title = "پیچھے"; ObjectID = "4jK-iT-cuf"; */
+"4jK-iT-cuf.title" = "پیچھے";
 
-/* Class = "UIBarButtonItem"; title = "Back"; ObjectID = "4jK-iT-cuf"; */
-"4jK-iT-cuf.title" = "Back";
+/* Class = "UIViewController"; title = "چیٹ بیک اپ"; ObjectID = "4vt-oZ-4oi"; */
+"4vt-oZ-4oi.title" = "چیٹ بیک اپ";
 
-/* Class = "UIViewController"; title = "Chat Backup"; ObjectID = "4vt-oZ-4oi"; */
-"4vt-oZ-4oi.title" = "Chat Backup";
+/* Class = "UILabel"; text = "میں متفق ہوں. میں ہمارے سامعین یقینی طرف gravitate گا لگتا ہے ہمارے"; ObjectID = "54o-Nx-8vY"; */
+"54o-Nx-8vY.text" = "میں متفق ہوں. میں ہمارے سامعین یقینی طرف gravitate گا لگتا ہے ہمارے";
 
-/* Class = "UILabel"; text = "I agree. I think our audience will definitely gravitate towards our"; ObjectID = "54o-Nx-8vY"; */
-"54o-Nx-8vY.text" = "I agree. I think our audience will definitely gravitate towards our";
+/* Class = "UILabel"; text = "بھیج دیا گیا"; ObjectID = "58A-aT-fgJ"; */
+"58A-aT-fgJ.text" = "بھیج دیا گیا";
 
-/* Class = "UILabel"; text = "Delivered"; ObjectID = "58A-aT-fgJ"; */
-"58A-aT-fgJ.text" = "Delivered";
+/* Class = "UILabel"; text = "بھیج دیا گیا"; ObjectID = "5Ne-gd-O2W"; */
+"5Ne-gd-O2W.text" = "بھیج دیا گیا";
 
-/* Class = "UILabel"; text = "Delivered"; ObjectID = "5Ne-gd-O2W"; */
-"5Ne-gd-O2W.text" = "Delivered";
-
-/* Class = "UILabel"; text = "File upload Failed"; ObjectID = "60V-Nx-Fpd"; */
-"60V-Nx-Fpd.text" = "File upload Failed";
+/* Class = "UILabel"; text = "فائل اپ لوڈ ناکام"; ObjectID = "60V-Nx-Fpd"; */
+"60V-Nx-Fpd.text" = "فائل اپ لوڈ ناکام";
 
 /* Class = "UILabel"; text = "12:45 PM"; ObjectID = "6Na-jU-bLf"; */
 "6Na-jU-bLf.text" = "12:45 PM";
 
-/* Class = "UITextField"; placeholder = "Group Subject"; ObjectID = "6Ww-uK-Hvx"; */
-"6Ww-uK-Hvx.placeholder" = "Group Subject";
+/* Class = "UITextField"; placeholder = "گروپ موضوع"; ObjectID = "6Ww-uK-Hvx"; */
+"6Ww-uK-Hvx.placeholder" = "گروپ موضوع";
 
-/* Class = "UILabel"; text = "Date/Time"; ObjectID = "6bR-G7-sDQ"; */
-"6bR-G7-sDQ.text" = "Date/Time";
+/* Class = "UILabel"; text = "تاریخ وقت"; ObjectID = "6bR-G7-sDQ"; */
+"6bR-G7-sDQ.text" = "تاریخ وقت";
 
 /* Class = "UILabel"; text = "12:45 PM"; ObjectID = "6be-g3-2gA"; */
 "6be-g3-2gA.text" = "12:45 PM";
 
-/* Class = "UILabel"; text = "Salaam"; ObjectID = "6pE-4C-yYl"; */
-"6pE-4C-yYl.text" = "Salaam";
+/* Class = "UILabel"; text = "سلام"; ObjectID = "6pE-4C-yYl"; */
+"6pE-4C-yYl.text" = "سلام";
 
 /* Class = "UILabel"; text = "Sojharo"; ObjectID = "6uH-gG-Xdy"; */
 "6uH-gG-Xdy.text" = "Sojharo";
 
-/* Class = "UILabel"; text = "Sumaira"; ObjectID = "77V-2K-eXW"; */
-"77V-2K-eXW.text" = "Sumaira";
+/* Class = "UILabel"; text = "سمیرا"; ObjectID = "77V-2K-eXW"; */
+"77V-2K-eXW.text" = "سمیرا";
 
-/* Class = "UITextView"; text = "Invalid File Format. Please Try again"; ObjectID = "7Eo-pg-7AV"; */
-"7Eo-pg-7AV.text" = "Invalid File Format. Please Try again";
+/* Class = "UITextView"; text = "غلط فائل کی شکل. دوبارہ کوشش کریں"; ObjectID = "7Eo-pg-7AV"; */
+"7Eo-pg-7AV.text" = "غلط فائل کی شکل. دوبارہ کوشش کریں";
 
 /* Class = "UILabel"; text = "Sojharo"; ObjectID = "7O6-SR-2Ab"; */
 "7O6-SR-2Ab.text" = "Sojharo";
 
-/* Class = "UIButton"; normalTitle = "Invite to Kibo App"; ObjectID = "7gg-uq-3KP"; */
-"7gg-uq-3KP.normalTitle" = "Invite to Kibo App";
+/* Class = "UIButton"; normalTitle = "Kibo اپلی کیشن کے لئے مدعو کریں"; ObjectID = "7gg-uq-3KP"; */
+"7gg-uq-3KP.normalTitle" = "Kibo اپلی کیشن کے لئے مدعو کریں";
 
-/* Class = "UILabel"; text = "status"; ObjectID = "7lU-TR-LoI"; */
-"7lU-TR-LoI.text" = "status";
+/* Class = "UILabel"; text = "حیثیت"; ObjectID = "7lU-TR-LoI"; */
+"7lU-TR-LoI.text" = "حیثیت";
 
 /* Class = "UILabel"; text = "12:45 PM"; ObjectID = "7mG-rp-oy0"; */
 "7mG-rp-oy0.text" = "12:45 PM";
 
-/* Class = "UILabel"; text = "damaged message"; ObjectID = "8Gz-mj-Phm"; */
-"8Gz-mj-Phm.text" = "damaged message";
+/* Class = "UILabel"; text = "تباہ شدہ پیغام"; ObjectID = "8Gz-mj-Phm"; */
+"8Gz-mj-Phm.text" = "تباہ شدہ پیغام";
 
-/* Class = "UILabel"; text = "Salaam"; ObjectID = "8QI-jh-DtD"; */
-"8QI-jh-DtD.text" = "Salaam";
+/* Class = "UILabel"; text = "سلام"; ObjectID = "8QI-jh-DtD"; */
+"8QI-jh-DtD.text" = "سلام";
 
-/* Class = "UILabel"; text = "Please fill all the fields."; ObjectID = "8TG-oF-ukr"; */
-"8TG-oF-ukr.text" = "Please fill all the fields.";
+/* Class = "UILabel"; text = "تمام شعبوں کو بھرنے کریں."; ObjectID = "8TG-oF-ukr"; */
+"8TG-oF-ukr.text" = "تمام شعبوں کو بھرنے کریں.";
 
-/* Class = "UILabel"; text = "You"; ObjectID = "8W0-s8-E42"; */
-"8W0-s8-E42.text" = "You";
+/* Class = "UILabel"; text = "تم"; ObjectID = "8W0-s8-E42"; */
+"8W0-s8-E42.text" = "تم";
 
 /* Class = "UIButton"; normalTitle = "Webmeeting"; ObjectID = "8a9-hM-erS"; */
 "8a9-hM-erS.normalTitle" = "Webmeeting";
 
-/* Class = "UILabel"; text = "12:45 PM @jayL"; ObjectID = "8fN-4X-KOI"; */
-"8fN-4X-KOI.text" = "12:45 PM @jayL";
+/* Class = "UILabel"; text = "12:45 PMjayL"; ObjectID = "8fN-4X-KOI"; */
+"8fN-4X-KOI.text" = "12:45 PMjayL";
 
-/* Class = "UISegmentedControl"; 8gX-Zo-Gwa.segmentTitles[0] = "My Chats"; ObjectID = "8gX-Zo-Gwa"; */
-"8gX-Zo-Gwa.segmentTitles[0]" = "My Chats";
+/* Class = "UISegmentedControl"; 8gX-Zo-Gwa.segmentTitles[0] = "میرا چیٹس"; ObjectID = "8gX-Zo-Gwa"; */
+"8gX-Zo-Gwa.segmentTitles[0]" = "میرا چیٹس";
 
-/* Class = "UISegmentedControl"; 8gX-Zo-Gwa.segmentTitles[1] = "All Chats"; ObjectID = "8gX-Zo-Gwa"; */
-"8gX-Zo-Gwa.segmentTitles[1]" = "All Chats";
+/* Class = "UISegmentedControl"; 8gX-Zo-Gwa.segmentTitles[1] = "تمام چیٹس"; ObjectID = "8gX-Zo-Gwa"; */
+"8gX-Zo-Gwa.segmentTitles[1]" = "تمام چیٹس";
 
-/* Class = "UILabel"; text = "Salaam. How are you?"; ObjectID = "8kG-Jj-RXT"; */
-"8kG-Jj-RXT.text" = "Salaam. How are you?";
+/* Class = "UILabel"; text = "سلام. آپ کیسے ہیں؟"; ObjectID = "8kG-Jj-RXT"; */
+"8kG-Jj-RXT.text" = "سلام. آپ کیسے ہیں؟";
 
-/* Class = "UIButton"; normalTitle = "Message"; ObjectID = "8qV-XF-d8b"; */
-"8qV-XF-d8b.normalTitle" = "Message";
+/* Class = "UIButton"; normalTitle = "پیغام"; ObjectID = "8qV-XF-d8b"; */
+"8qV-XF-d8b.normalTitle" = "پیغام";
 
 /* Class = "UILabel"; text = "1"; ObjectID = "8rJ-k3-qmq"; */
 "8rJ-k3-qmq.text" = "1";
 
-/* Class = "UITextView"; text = "Please provide a group subject and optional group icon"; ObjectID = "8st-WW-8YK"; */
-"8st-WW-8YK.text" = "Please provide a group subject and optional group icon";
+/* Class = "UITextView"; text = "ایک گروہ موضوع اور اختیاری گروپ آئیکن فراہم کریں"; ObjectID = "8st-WW-8YK"; */
+"8st-WW-8YK.text" = "ایک گروہ موضوع اور اختیاری گروپ آئیکن فراہم کریں";
 
-/* Class = "UILabel"; text = "What do you think of this tool!"; ObjectID = "93i-UZ-2j7"; */
-"93i-UZ-2j7.text" = "What do you think of this tool!";
+/* Class = "UILabel"; text = "آپ کو اس آلے کو کیا سمجھتے ہو!"; ObjectID = "93i-UZ-2j7"; */
+"93i-UZ-2j7.text" = "آپ کو اس آلے کو کیا سمجھتے ہو!";
 
 /* Class = "UILabel"; text = "o o o"; ObjectID = "98S-CM-mnL"; */
 "98S-CM-mnL.text" = "o o o";
 
-/* Class = "UIButton"; normalTitle = "Save"; ObjectID = "9Hp-Kd-4GI"; */
-"9Hp-Kd-4GI.normalTitle" = "Save";
+/* Class = "UIButton"; normalTitle = "محفوظ کریں"; ObjectID = "9Hp-Kd-4GI"; */
+"9Hp-Kd-4GI.normalTitle" = "محفوظ کریں";
 
-/* Class = "UINavigationItem"; title = "New Chat"; ObjectID = "9Pf-ht-Yhm"; */
-"9Pf-ht-Yhm.title" = "New Chat";
+/* Class = "UINavigationItem"; title = "نیا چیٹ"; ObjectID = "9Pf-ht-Yhm"; */
+"9Pf-ht-Yhm.title" = "نیا چیٹ";
 
-/* Class = "UILabel"; text = "Delivered"; ObjectID = "9XJ-a8-4CM"; */
-"9XJ-a8-4CM.text" = "Delivered";
+/* Class = "UILabel"; text = "بھیج دیا گیا"; ObjectID = "9XJ-a8-4CM"; */
+"9XJ-a8-4CM.text" = "بھیج دیا گیا";
 
-/* Class = "UILabel"; text = "Delivered"; ObjectID = "9iJ-SX-iTL"; */
-"9iJ-SX-iTL.text" = "Delivered";
+/* Class = "UILabel"; text = "بھیج دیا گیا"; ObjectID = "9iJ-SX-iTL"; */
+"9iJ-SX-iTL.text" = "بھیج دیا گیا";
 
-/* Class = "UINavigationItem"; title = "Register"; ObjectID = "9ix-El-WAQ"; */
-"9ix-El-WAQ.title" = "Register";
+/* Class = "UINavigationItem"; title = "کریں"; ObjectID = "9ix-El-WAQ"; */
+"9ix-El-WAQ.title" = "کریں";
 
-/* Class = "UIBarButtonItem"; title = "Share"; ObjectID = "A7v-i2-gQr"; */
-"A7v-i2-gQr.title" = "Share";
+/* Class = "UIBarButtonItem"; title = "اشتراک کریں"; ObjectID = "A7v-i2-gQr"; */
+"A7v-i2-gQr.title" = "اشتراک کریں";
 
-/* Class = "UITextField"; placeholder = "email"; ObjectID = "AHI-OP-Xy4"; */
-"AHI-OP-Xy4.placeholder" = "email";
+/* Class = "UITextField"; placeholder = "ای میل"; ObjectID = "AHI-OP-Xy4"; */
+"AHI-OP-Xy4.placeholder" = "ای میل";
 
-/* Class = "UILabel"; text = "Its actually pretty good!"; ObjectID = "AVk-15-L4r"; */
-"AVk-15-L4r.text" = "Its actually pretty good!";
+/* Class = "UILabel"; text = "اس کی اصل میں بہت اچھا ہے!"; ObjectID = "AVk-15-L4r"; */
+"AVk-15-L4r.text" = "اس کی اصل میں بہت اچھا ہے!";
 
-/* Class = "UIButton"; normalTitle = "Save Contact"; ObjectID = "AYr-sm-rQv"; */
-"AYr-sm-rQv.normalTitle" = "Save Contact";
+/* Class = "UIButton"; normalTitle = "رابطہ محفوظ کریں"; ObjectID = "AYr-sm-rQv"; */
+"AYr-sm-rQv.normalTitle" = "رابطہ محفوظ کریں";
 
 /* Class = "UISegmentedControl"; Aot-z6-UzX.segmentTitles[0] = "8"; ObjectID = "Aot-z6-UzX"; */
 "Aot-z6-UzX.segmentTitles[0]" = "8";
@@ -221,44 +218,41 @@
 /* Class = "UILabel"; text = "12:45 PM"; ObjectID = "B05-Vd-EeN"; */
 "B05-Vd-EeN.text" = "12:45 PM";
 
-/* Class = "UINavigationItem"; title = "Favourites"; ObjectID = "BO5-xM-pGS"; */
-"BO5-xM-pGS.title" = "Favourites";
+/* Class = "UINavigationItem"; title = "پسندیدہ"; ObjectID = "BO5-xM-pGS"; */
+"BO5-xM-pGS.title" = "پسندیدہ";
 
-/* Class = "UILabel"; text = "Blocked"; ObjectID = "BZ0-0n-NgP"; */
-"BZ0-0n-NgP.text" = "Blocked";
+/* Class = "UILabel"; text = "بلاک شدہ"; ObjectID = "BZ0-0n-NgP"; */
+"BZ0-0n-NgP.text" = "بلاک شدہ";
 
-/* Class = "UIButton"; normalTitle = "New List"; ObjectID = "Bae-IK-pT7"; */
-"Bae-IK-pT7.normalTitle" = "New List";
+/* Class = "UIButton"; normalTitle = "نیا لسٹ"; ObjectID = "Bae-IK-pT7"; */
+"Bae-IK-pT7.normalTitle" = "نیا لسٹ";
 
 /* Class = "UILabel"; text = "📢"; ObjectID = "Bdi-Z6-Z8q"; */
 "Bdi-Z6-Z8q.text" = "📢";
 
-/* Class = "UILabel"; text = "group admin"; ObjectID = "Bft-42-FWJ"; */
-"Bft-42-FWJ.text" = "group admin";
+/* Class = "UILabel"; text = "گروپ منتظم"; ObjectID = "Bft-42-FWJ"; */
+"Bft-42-FWJ.text" = "گروپ منتظم";
 
-/* Class = "UILabel"; text = "Today"; ObjectID = "Bk7-wb-hRs"; */
-"Bk7-wb-hRs.text" = "Today";
+/* Class = "UILabel"; text = "آج"; ObjectID = "Bk7-wb-hRs"; */
+"Bk7-wb-hRs.text" = "آج";
 
-/* Class = "UIViewController"; title = "BroadCast List Chat"; ObjectID = "BxU-xp-zoC"; */
-"BxU-xp-zoC.title" = "BroadCast List Chat";
+/* Class = "UIViewController"; title = "براڈ کی فہرست چیٹ"; ObjectID = "BxU-xp-zoC"; */
+"BxU-xp-zoC.title" = "براڈ کی فہرست چیٹ";
 
-/* Class = "UILabel"; text = "Uploading..."; ObjectID = "CUh-QG-1nP"; */
-"CUh-QG-1nP.text" = "Uploading...";
+/* Class = "UILabel"; text = "اپ لوڈ کی ..."; ObjectID = "CUh-QG-1nP"; */
+"CUh-QG-1nP.text" = "اپ لوڈ کی ...";
 
-/* Class = "UILabel"; text = "About Chatt"; ObjectID = "CX0-eO-mb6"; */
-"CX0-eO-mb6.text" = "About Chatt";
+/* Class = "UILabel"; text = "Chatt بارے میں"; ObjectID = "CX0-eO-mb6"; */
+"CX0-eO-mb6.text" = "Chatt بارے میں";
 
-/* Class = "UILabel"; text = "12:45 PM"; ObjectID = "Crn-x2-yOE"; */
-"Crn-x2-yOE.text" = "12:45 PM";
+/* Class = "UILabel"; text = "تصویری ڈاؤن لوڈ کرنا ..."; ObjectID = "Csz-Td-DgU"; */
+"Csz-Td-DgU.text" = "تصویری ڈاؤن لوڈ کرنا ...";
 
-/* Class = "UILabel"; text = "Downloading Image..."; ObjectID = "Csz-Td-DgU"; */
-"Csz-Td-DgU.text" = "Downloading Image...";
+/* Class = "UILabel"; text = "Kibo بوٹ"; ObjectID = "Cui-4B-FY0"; */
+"Cui-4B-FY0.text" = "Kibo بوٹ";
 
-/* Class = "UILabel"; text = "Kibo Bot"; ObjectID = "Cui-4B-FY0"; */
-"Cui-4B-FY0.text" = "Kibo Bot";
-
-/* Class = "UIBarButtonItem"; title = "Cancel"; ObjectID = "Cw6-de-ipJ"; */
-"Cw6-de-ipJ.title" = "Cancel";
+/* Class = "UIBarButtonItem"; title = "منسوخ کریں"; ObjectID = "Cw6-de-ipJ"; */
+"Cw6-de-ipJ.title" = "منسوخ کریں";
 
 /* Class = "UILabel"; text = "rtf - 2 KB                 8:07 AM"; ObjectID = "Cyu-rO-LM1"; */
 "Cyu-rO-LM1.text" = "rtf - 2 KB                 8:07 AM";
@@ -266,134 +260,131 @@
 /* Class = "UILabel"; text = "Sojharo"; ObjectID = "Czd-4A-wyt"; */
 "Czd-4A-wyt.text" = "Sojharo";
 
-/* Class = "UINavigationItem"; title = "New Chat"; ObjectID = "DA8-is-YEu"; */
-"DA8-is-YEu.title" = "New Chat";
+/* Class = "UINavigationItem"; title = "نیا چیٹ"; ObjectID = "DA8-is-YEu"; */
+"DA8-is-YEu.title" = "نیا چیٹ";
 
 /* Class = "UILabel"; text = "12:45 PM"; ObjectID = "Dd1-uB-qkb"; */
 "Dd1-uB-qkb.text" = "12:45 PM";
 
-/* Class = "UILabel"; text = "What do you think of this tool!"; ObjectID = "DkN-Ww-imM"; */
-"DkN-Ww-imM.text" = "What do you think of this tool!";
+/* Class = "UILabel"; text = "آپ کو اس آلے کو کیا سمجھتے ہو!"; ObjectID = "DkN-Ww-imM"; */
+"DkN-Ww-imM.text" = "آپ کو اس آلے کو کیا سمجھتے ہو!";
 
-/* Class = "UIButton"; normalTitle = "Message"; ObjectID = "E6Z-r0-0k4"; */
-"E6Z-r0-0k4.normalTitle" = "Message";
+/* Class = "UIButton"; normalTitle = "پیغام"; ObjectID = "E6Z-r0-0k4"; */
+"E6Z-r0-0k4.normalTitle" = "پیغام";
 
-/* Class = "UIButton"; normalTitle = "Invite to Kibo Chat"; ObjectID = "E6w-Ql-Shy"; */
-"E6w-Ql-Shy.normalTitle" = "Invite to Kibo Chat";
+/* Class = "UIButton"; normalTitle = "Kibo چیٹ کے لئے مدعو"; ObjectID = "E6w-Ql-Shy"; */
+"E6w-Ql-Shy.normalTitle" = "Kibo چیٹ کے لئے مدعو";
 
-/* Class = "UILabel"; text = "File Upload Failed"; ObjectID = "E7k-bo-dkN"; */
-"E7k-bo-dkN.text" = "File Upload Failed";
+/* Class = "UILabel"; text = "اپ لوڈ ناکام ہو گیا فائل"; ObjectID = "E7k-bo-dkN"; */
+"E7k-bo-dkN.text" = "اپ لوڈ ناکام ہو گیا فائل";
 
-/* Class = "UILabel"; text = "Delivered"; ObjectID = "EDT-Mt-wXc"; */
-"EDT-Mt-wXc.text" = "Delivered";
+/* Class = "UILabel"; text = "بھیج دیا گیا"; ObjectID = "EDT-Mt-wXc"; */
+"EDT-Mt-wXc.text" = "بھیج دیا گیا";
 
-/* Class = "UIButton"; normalTitle = "Message"; ObjectID = "EDj-mC-AWx"; */
-"EDj-mC-AWx.normalTitle" = "Message";
+/* Class = "UIButton"; normalTitle = "پیغام"; ObjectID = "EDj-mC-AWx"; */
+"EDj-mC-AWx.normalTitle" = "پیغام";
 
-/* Class = "UIButton"; normalTitle = "Post"; ObjectID = "EEM-lI-R6j"; */
-"EEM-lI-R6j.normalTitle" = "Post";
+/* Class = "UILabel"; text = "0 پسندیدہ"; ObjectID = "ETc-dG-2TX"; */
+"ETc-dG-2TX.text" = "0 پسندیدہ";
 
-/* Class = "UILabel"; text = "0 Favourites"; ObjectID = "ETc-dG-2TX"; */
-"ETc-dG-2TX.text" = "0 Favourites";
+/* Class = "UIViewController"; title = 'تمام روابط'; ObjectID = "Eg8-OD-8L6"; */
+"Eg8-OD-8L6.title" = 'تمام روابط';
 
-/* Class = "UIViewController"; title = "All Contacts"; ObjectID = "Eg8-OD-8L6"; */
-"Eg8-OD-8L6.title" = "All Contacts";
+/* Class = "UITextField"; placeholder = "پہلا نام"; ObjectID = "El8-Yg-BMf"; */
+"El8-Yg-BMf.placeholder" = "پہلا نام";
 
-/* Class = "UITextField"; placeholder = "first name"; ObjectID = "El8-Yg-BMf"; */
-"El8-Yg-BMf.placeholder" = "first name";
+/* Class = "UIButton"; normalTitle = "ریکارڈ"; ObjectID = "Er7-rH-y78"; */
+"Er7-rH-y78.normalTitle" = "ریکارڈ";
 
-/* Class = "UIButton"; normalTitle = "Record"; ObjectID = "Er7-rH-y78"; */
-"Er7-rH-y78.normalTitle" = "Record";
+/* Class = "UILabel"; text = "میں دیا:"; ObjectID = "F2g-fX-Yfe"; */
+"F2g-fX-Yfe.text" = "میں دیا:";
 
-/* Class = "UILabel"; text = "To:"; ObjectID = "F2g-fX-Yfe"; */
-"F2g-fX-Yfe.text" = "To:";
+/* Class = "UILabel"; text = "URL"; ObjectID = "FEK-aa-lqI"; */
+"FEK-aa-lqI.text" = "URL";
 
-/* Class = "UILabel"; text = "url"; ObjectID = "FEK-aa-lqI"; */
-"FEK-aa-lqI.text" = "url";
+/* Class = "UINavigationItem"; title = "شرکاء میں شامل کریں"; ObjectID = "FJq-Os-zoD"; */
+"FJq-Os-zoD.title" = "شرکاء میں شامل کریں";
 
-/* Class = "UINavigationItem"; title = "Add Participants"; ObjectID = "FJq-Os-zoD"; */
-"FJq-Os-zoD.title" = "Add Participants";
+/* Class = "UITextField"; placeholder = "پاس ورڈ"; ObjectID = "FM4-cl-KU9"; */
+"FM4-cl-KU9.placeholder" = "پاس ورڈ";
 
-/* Class = "UITextField"; placeholder = "password"; ObjectID = "FM4-cl-KU9"; */
-"FM4-cl-KU9.placeholder" = "password";
+/* Class = "UILabel"; text = "تباہ شدہ پیغام"; ObjectID = "FlP-cy-vwl"; */
+"FlP-cy-vwl.text" = "تباہ شدہ پیغام";
 
-/* Class = "UILabel"; text = "damaged message"; ObjectID = "FlP-cy-vwl"; */
-"FlP-cy-vwl.text" = "damaged message";
+/* Class = "UILabel"; text = "Sojharo4909، Sumaira1991"; ObjectID = "FqE-W2-XNR"; */
+"FqE-W2-XNR.text" = "Sojharo4909، Sumaira1991";
 
-/* Class = "UILabel"; text = "Sojharo4909, Sumaira1991"; ObjectID = "FqE-W2-XNR"; */
-"FqE-W2-XNR.text" = "Sojharo4909, Sumaira1991";
+/* Class = "UILabel"; text = "لیبل"; ObjectID = "GMs-6I-Hif"; */
+"GMs-6I-Hif.text" = "لیبل";
 
-/* Class = "UILabel"; text = "Label"; ObjectID = "GMs-6I-Hif"; */
-"GMs-6I-Hif.text" = "Label";
+/* Class = "UITextField"; placeholder = "آپ کا نام یہاں"; ObjectID = "GTe-Tk-m8F"; */
+"GTe-Tk-m8F.placeholder" = "آپ کا نام یہاں";
 
-/* Class = "UITextField"; placeholder = "Your name here"; ObjectID = "GTe-Tk-m8F"; */
-"GTe-Tk-m8F.placeholder" = "Your name here";
+/* Class = "UILabel"; text = "میری سپیشل پروجیکٹ"; ObjectID = "Gis-RX-z4G"; */
+"Gis-RX-z4G.text" = "میری سپیشل پروجیکٹ";
 
-/* Class = "UILabel"; text = "My Special Project"; ObjectID = "Gis-RX-z4G"; */
-"Gis-RX-z4G.text" = "My Special Project";
+/* Class = "UILabel"; text = "تاریخ / وقت + حیثیت"; ObjectID = "Gme-9l-jSe"; */
+"Gme-9l-jSe.text" = "تاریخ / وقت + حیثیت";
 
-/* Class = "UILabel"; text = "Date/Time + status"; ObjectID = "Gme-9l-jSe"; */
-"Gme-9l-jSe.text" = "Date/Time + status";
+/* Class = "UISegmentedControl"; Gp2-3a-Gfi.segmentTitles[0] = "میرا چیٹس"; ObjectID = "Gp2-3a-Gfi"; */
+"Gp2-3a-Gfi.segmentTitles[0]" = "میرا چیٹس";
 
-/* Class = "UISegmentedControl"; Gp2-3a-Gfi.segmentTitles[0] = "My Chats"; ObjectID = "Gp2-3a-Gfi"; */
-"Gp2-3a-Gfi.segmentTitles[0]" = "My Chats";
+/* Class = "UISegmentedControl"; Gp2-3a-Gfi.segmentTitles[1] = "تمام چیٹس"; ObjectID = "Gp2-3a-Gfi"; */
+"Gp2-3a-Gfi.segmentTitles[1]" = "تمام چیٹس";
 
-/* Class = "UISegmentedControl"; Gp2-3a-Gfi.segmentTitles[1] = "All Chats"; ObjectID = "Gp2-3a-Gfi"; */
-"Gp2-3a-Gfi.segmentTitles[1]" = "All Chats";
+/* Class = "UILabel"; text = "ڈاؤن لوڈ کر رہا مقام ..."; ObjectID = "Gxz-pk-qPt"; */
+"Gxz-pk-qPt.text" = "ڈاؤن لوڈ کر رہا مقام ...";
 
-/* Class = "UILabel"; text = "Downloading Location..."; ObjectID = "Gxz-pk-qPt"; */
-"Gxz-pk-qPt.text" = "Downloading Location...";
+/* Class = "UILabel"; text = "بلاک اس رابطے"; ObjectID = "H0d-Jb-M2T"; */
+"H0d-Jb-M2T.text" = "بلاک اس رابطے";
 
-/* Class = "UILabel"; text = "Block this Contact"; ObjectID = "H0d-Jb-M2T"; */
-"H0d-Jb-M2T.text" = "Block this Contact";
+/* Class = "UIButton"; normalTitle = "iCloud کے میں محفوظ کریں"; ObjectID = "H8S-4J-jAQ"; */
+"H8S-4J-jAQ.normalTitle" = "iCloud کے میں محفوظ کریں";
 
-/* Class = "UIButton"; normalTitle = "Save to iCloud"; ObjectID = "H8S-4J-jAQ"; */
-"H8S-4J-jAQ.normalTitle" = "Save to iCloud";
+/* Class = "UILabel"; text = "تفصیل"; ObjectID = "HDM-2z-M0c"; */
+"HDM-2z-M0c.text" = "تفصیل";
 
-/* Class = "UILabel"; text = "description"; ObjectID = "HDM-2z-M0c"; */
-"HDM-2z-M0c.text" = "description";
+/* Class = "UIBarButtonItem"; title = "پیچھے"; ObjectID = "HGD-DU-4Zd"; */
+"HGD-DU-4Zd.title" = "پیچھے";
 
-/* Class = "UIBarButtonItem"; title = "Back"; ObjectID = "HGD-DU-4Zd"; */
-"HGD-DU-4Zd.title" = "Back";
+/* Class = "UIButton"; normalTitle = "کریں"; ObjectID = "HHO-av-rto"; */
+"HHO-av-rto.normalTitle" = "کریں";
 
-/* Class = "UIButton"; normalTitle = "Register"; ObjectID = "HHO-av-rto"; */
-"HHO-av-rto.normalTitle" = "Register";
+/* Class = "UILabel"; text = "وقت لیبل"; ObjectID = "Hjb-IA-vOG"; */
+"Hjb-IA-vOG.text" = "وقت لیبل";
 
-/* Class = "UILabel"; text = "time label"; ObjectID = "Hjb-IA-vOG"; */
-"Hjb-IA-vOG.text" = "time label";
+/* Class = "UILabel"; text = "لاگ آوٹ"; ObjectID = "I2e-Yg-pY7"; */
+"I2e-Yg-pY7.text" = "لاگ آوٹ";
 
-/* Class = "UILabel"; text = "Log out"; ObjectID = "I2e-Yg-pY7"; */
-"I2e-Yg-pY7.text" = "Log out";
+/* Class = "UILabel"; text = "پروجیکٹ کا انتخاب کریں"; ObjectID = "I9o-Fq-Jfd"; */
+"I9o-Fq-Jfd.text" = "پروجیکٹ کا انتخاب کریں";
 
-/* Class = "UILabel"; text = "Choose Project"; ObjectID = "I9o-Fq-Jfd"; */
-"I9o-Fq-Jfd.text" = "Choose Project";
-
-/* Class = "UILabel"; text = "How are you? What do you think"; ObjectID = "IPA-7k-9he"; */
-"IPA-7k-9he.text" = "How are you? What do you think";
+/* Class = "UILabel"; text = "آپ کیسے ہیں؟ آپ کا کیا خیال ہے"; ObjectID = "IPA-7k-9he"; */
+"IPA-7k-9he.text" = "آپ کیسے ہیں؟ آپ کا کیا خیال ہے";
 
 /* Class = "UIButton"; normalTitle = "X"; ObjectID = "IWc-zh-Pyk"; */
 "IWc-zh-Pyk.normalTitle" = "X";
 
-/* Class = "UILabel"; text = "Date/Time"; ObjectID = "IYu-H2-cmU"; */
-"IYu-H2-cmU.text" = "Date/Time";
+/* Class = "UILabel"; text = "تاریخ وقت"; ObjectID = "IYu-H2-cmU"; */
+"IYu-H2-cmU.text" = "تاریخ وقت";
 
-/* Class = "UITabBarItem"; title = "Favourites"; ObjectID = "Ihc-4U-QqU"; */
-"Ihc-4U-QqU.title" = "Favourites";
+/* Class = "UITabBarItem"; title = "پسندیدہ"; ObjectID = "Ihc-4U-QqU"; */
+"Ihc-4U-QqU.title" = "پسندیدہ";
 
-/* Class = "UILabel"; text = "READ BY"; ObjectID = "J6I-Fc-9oS"; */
-"J6I-Fc-9oS.text" = "READ BY";
+/* Class = "UILabel"; text = "کی طرف سے پڑھا"; ObjectID = "J6I-Fc-9oS"; */
+"J6I-Fc-9oS.text" = "کی طرف سے پڑھا";
 
-/* Class = "UILabel"; text = "Version"; ObjectID = "JDz-6d-X8X"; */
-"JDz-6d-X8X.text" = "Version";
+/* Class = "UILabel"; text = "ورژن"; ObjectID = "JDz-6d-X8X"; */
+"JDz-6d-X8X.text" = "ورژن";
 
-/* Class = "UITextField"; placeholder = "username (kiboname)"; ObjectID = "JN4-F8-vto"; */
-"JN4-F8-vto.placeholder" = "username (kiboname)";
+/* Class = "UITextField"; placeholder = "صارف نام (kiboname)"; ObjectID = "JN4-F8-vto"; */
+"JN4-F8-vto.placeholder" = "صارف نام (kiboname)";
 
 /* Class = "UILabel"; text = "Sojharo"; ObjectID = "JPT-KY-8Qb"; */
 "JPT-KY-8Qb.text" = "Sojharo";
 
-/* Class = "UILabel"; text = "Delivered"; ObjectID = "JQU-fs-3xS"; */
-"JQU-fs-3xS.text" = "Delivered";
+/* Class = "UILabel"; text = "بھیج دیا گیا"; ObjectID = "JQU-fs-3xS"; */
+"JQU-fs-3xS.text" = "بھیج دیا گیا";
 
 /* Class = "UILabel"; text = "Recipents: 2"; ObjectID = "JrU-Vh-xSF"; */
 "JrU-Vh-xSF.text" = "Recipents: 2";
@@ -401,65 +392,59 @@
 /* Class = "UILabel"; text = "12:45 PM"; ObjectID = "KAa-jN-Npg"; */
 "KAa-jN-Npg.text" = "12:45 PM";
 
-/* Class = "UILabel"; text = "Sending..."; ObjectID = "KQ7-xt-hP2"; */
-"KQ7-xt-hP2.text" = "Sending...";
+/* Class = "UILabel"; text = "بھیج رہا ہے ..."; ObjectID = "KQ7-xt-hP2"; */
+"KQ7-xt-hP2.text" = "بھیج رہا ہے ...";
 
-/* Class = "UILabel"; text = "Title"; ObjectID = "KYZ-o5-p0n"; */
-"KYZ-o5-p0n.text" = "Title";
+/* Class = "UILabel"; text = "عنوان"; ObjectID = "KYZ-o5-p0n"; */
+"KYZ-o5-p0n.text" = "عنوان";
 
-/* Class = "UILabel"; text = "Delivered"; ObjectID = "KYt-5z-Qfz"; */
-"KYt-5z-Qfz.text" = "Delivered";
+/* Class = "UILabel"; text = "بھیج دیا گیا"; ObjectID = "KYt-5z-Qfz"; */
+"KYt-5z-Qfz.text" = "بھیج دیا گیا";
 
-/* Class = "UILabel"; text = "Invalid Document"; ObjectID = "KgE-SZ-tzs"; */
-"KgE-SZ-tzs.text" = "Invalid Document";
+/* Class = "UILabel"; text = "غلط دستاویز"; ObjectID = "KgE-SZ-tzs"; */
+"KgE-SZ-tzs.text" = "غلط دستاویز";
 
-/* Class = "UILabel"; text = "12:45 PM @jayL"; ObjectID = "LEJ-9t-Ggb"; */
-"LEJ-9t-Ggb.text" = "12:45 PM @jayL";
+/* Class = "UILabel"; text = "12:45 PMjayL"; ObjectID = "LEJ-9t-Ggb"; */
+"LEJ-9t-Ggb.text" = "12:45 PMjayL";
 
-/* Class = "UIButton"; normalTitle = "Send"; ObjectID = "LHN-fr-PL7"; */
-"LHN-fr-PL7.normalTitle" = "Send";
+/* Class = "UIButton"; normalTitle = "بھیجیں"; ObjectID = "LHN-fr-PL7"; */
+"LHN-fr-PL7.normalTitle" = "بھیجیں";
 
-/* Class = "UILabel"; text = "Uploading..."; ObjectID = "LM9-0i-upM"; */
-"LM9-0i-upM.text" = "Uploading...";
+/* Class = "UILabel"; text = "اپ لوڈ کی ..."; ObjectID = "LM9-0i-upM"; */
+"LM9-0i-upM.text" = "اپ لوڈ کی ...";
 
-/* Class = "UILabel"; text = "Label"; ObjectID = "LbQ-GJ-FWx"; */
-"LbQ-GJ-FWx.text" = "Label";
+/* Class = "UILabel"; text = "لیبل"; ObjectID = "LbQ-GJ-FWx"; */
+"LbQ-GJ-FWx.text" = "لیبل";
 
-/* Class = "UILabel"; text = "No Name"; ObjectID = "LfE-XY-rsu"; */
-"LfE-XY-rsu.text" = "No Name";
+/* Class = "UILabel"; text = "گمنام"; ObjectID = "LfE-XY-rsu"; */
+"LfE-XY-rsu.text" = "گمنام";
 
-/* Class = "UISegmentedControl"; Lhv-CL-sBE.segmentTitles[0] = "My Chats"; ObjectID = "Lhv-CL-sBE"; */
-"Lhv-CL-sBE.segmentTitles[0]" = "My Chats";
+/* Class = "UISegmentedControl"; Lhv-CL-sBE.segmentTitles[0] = "میرا چیٹس"; ObjectID = "Lhv-CL-sBE"; */
+"Lhv-CL-sBE.segmentTitles[0]" = "میرا چیٹس";
 
-/* Class = "UISegmentedControl"; Lhv-CL-sBE.segmentTitles[1] = "All Chats"; ObjectID = "Lhv-CL-sBE"; */
-"Lhv-CL-sBE.segmentTitles[1]" = "All Chats";
+/* Class = "UISegmentedControl"; Lhv-CL-sBE.segmentTitles[1] = "تمام چیٹس"; ObjectID = "Lhv-CL-sBE"; */
+"Lhv-CL-sBE.segmentTitles[1]" = "تمام چیٹس";
 
-/* Class = "UIBarButtonItem"; title = "Chats"; ObjectID = "Lpb-iM-YQZ"; */
-"Lpb-iM-YQZ.title" = "Chats";
+/* Class = "UIBarButtonItem"; title = "چیٹس"; ObjectID = "Lpb-iM-YQZ"; */
+"Lpb-iM-YQZ.title" = "چیٹس";
 
-/* Class = "UIButton"; normalTitle = "New Group"; ObjectID = "MPq-UO-Sjf"; */
-"MPq-UO-Sjf.normalTitle" = "New Group";
+/* Class = "UIButton"; normalTitle = "نیا گروپ"; ObjectID = "MPq-UO-Sjf"; */
+"MPq-UO-Sjf.normalTitle" = "نیا گروپ";
 
-/* Class = "UIBarButtonItem"; title = "Delete"; ObjectID = "MZc-U2-mJc"; */
-"MZc-U2-mJc.title" = "Delete";
+/* Class = "UILabel"; text = "اکاؤنٹ کی شناخت"; ObjectID = "Mbz-he-aU6"; */
+"Mbz-he-aU6.text" = "اکاؤنٹ کی شناخت";
 
-/* Class = "UILabel"; text = "ACCOUNT ID"; ObjectID = "Mbz-he-aU6"; */
-"Mbz-he-aU6.text" = "ACCOUNT ID";
+/* Class = "UILabel"; text = "دستاویز ڈاؤن لوڈ ہو .."; ObjectID = "MzZ-Gf-Arh"; */
+"MzZ-Gf-Arh.text" = "دستاویز ڈاؤن لوڈ ہو ..";
 
-/* Class = "UIBarButtonItem"; title = "Delete"; ObjectID = "MoE-jM-rn3"; */
-"MoE-jM-rn3.title" = "Delete";
+/* Class = "UILabel"; text = "مقام اپ لوڈ ناکام"; ObjectID = "N0P-VY-kvf"; */
+"N0P-VY-kvf.text" = "مقام اپ لوڈ ناکام";
 
-/* Class = "UILabel"; text = "Downloading document.."; ObjectID = "MzZ-Gf-Arh"; */
-"MzZ-Gf-Arh.text" = "Downloading document..";
+/* Class = "UILabel"; text = "بھیج دیا گیا"; ObjectID = "N5p-uq-Y2V"; */
+"N5p-uq-Y2V.text" = "بھیج دیا گیا";
 
-/* Class = "UILabel"; text = "Location upload Failed"; ObjectID = "N0P-VY-kvf"; */
-"N0P-VY-kvf.text" = "Location upload Failed";
-
-/* Class = "UILabel"; text = "Delivered"; ObjectID = "N5p-uq-Y2V"; */
-"N5p-uq-Y2V.text" = "Delivered";
-
-/* Class = "UILabel"; text = "Name"; ObjectID = "NCg-oc-Qil"; */
-"NCg-oc-Qil.text" = "Name";
+/* Class = "UILabel"; text = "نام"; ObjectID = "NCg-oc-Qil"; */
+"NCg-oc-Qil.text" = "نام";
 
 /* Class = "UILabel"; text = "Public"; ObjectID = "NHu-ur-xhp"; */
 "NHu-ur-xhp.text" = "Public";
@@ -467,17 +452,17 @@
 /* Class = "UITextField"; placeholder = "phone"; ObjectID = "NZ5-HN-2WX"; */
 "NZ5-HN-2WX.placeholder" = "phone";
 
-/* Class = "UIBarButtonItem"; title = "Capture"; ObjectID = "Nba-B7-Etl"; */
-"Nba-B7-Etl.title" = "Capture";
+/* Class = "UIBarButtonItem"; title = "قبضہ"; ObjectID = "Nba-B7-Etl"; */
+"Nba-B7-Etl.title" = "قبضہ";
 
-/* Class = "UILabel"; text = "Delivered"; ObjectID = "NoI-HD-Lo8"; */
-"NoI-HD-Lo8.text" = "Delivered";
+/* Class = "UILabel"; text = "بھیج دیا گیا"; ObjectID = "NoI-HD-Lo8"; */
+"NoI-HD-Lo8.text" = "بھیج دیا گیا";
 
 /* Class = "UILabel"; text = "Vacancy"; ObjectID = "NsV-Ss-HPi"; */
 "NsV-Ss-HPi.text" = "Vacancy";
 
-/* Class = "UIButton"; normalTitle = "Today"; ObjectID = "Nsx-G1-7fc"; */
-"Nsx-G1-7fc.normalTitle" = "Today";
+/* Class = "UIButton"; normalTitle = "آج"; ObjectID = "Nsx-G1-7fc"; */
+"Nsx-G1-7fc.normalTitle" = "آج";
 
 /* Class = "UILabel"; text = "12:45 PM"; ObjectID = "O0W-3g-UaU"; */
 "O0W-3g-UaU.text" = "12:45 PM";
@@ -485,80 +470,80 @@
 /* Class = "UILabel"; text = "12:45 PM"; ObjectID = "O5Y-GQ-vQ6"; */
 "O5Y-GQ-vQ6.text" = "12:45 PM";
 
-/* Class = "UIBarButtonItem"; title = "Chat"; ObjectID = "O8B-ca-1RO"; */
-"O8B-ca-1RO.title" = "Chat";
+/* Class = "UIBarButtonItem"; title = "چیٹ"; ObjectID = "O8B-ca-1RO"; */
+"O8B-ca-1RO.title" = "چیٹ";
 
-/* Class = "UILabel"; text = "None"; ObjectID = "ODQ-wa-0T8"; */
-"ODQ-wa-0T8.text" = "None";
+/* Class = "UILabel"; text = "کوئی نہیں"; ObjectID = "ODQ-wa-0T8"; */
+"ODQ-wa-0T8.text" = "کوئی نہیں";
 
-/* Class = "UILabel"; text = "Invalid Document"; ObjectID = "OJs-Bo-fPa"; */
-"OJs-Bo-fPa.text" = "Invalid Document";
+/* Class = "UILabel"; text = "غلط دستاویز"; ObjectID = "OJs-Bo-fPa"; */
+"OJs-Bo-fPa.text" = "غلط دستاویز";
 
 /* Class = "UILabel"; text = "Its actually pretty good"; ObjectID = "OPC-sf-wca"; */
 "OPC-sf-wca.text" = "Its actually pretty good";
 
-/* Class = "UILabel"; text = "Phone"; ObjectID = "OST-Ec-EK8"; */
-"OST-Ec-EK8.text" = "Phone";
+/* Class = "UILabel"; text = "فون"; ObjectID = "OST-Ec-EK8"; */
+"OST-Ec-EK8.text" = "فون";
 
-/* Class = "UILabel"; text = "Sample Group"; ObjectID = "Oc8-1Z-mX9"; */
-"Oc8-1Z-mX9.text" = "Sample Group";
+/* Class = "UILabel"; text = "نمونہ گروپ"; ObjectID = "Oc8-1Z-mX9"; */
+"Oc8-1Z-mX9.text" = "نمونہ گروپ";
 
-/* Class = "UIButton"; normalTitle = "edit"; ObjectID = "Ocf-nI-R69"; */
-"Ocf-nI-R69.normalTitle" = "edit";
+/* Class = "UIButton"; normalTitle = "ترمیم کریں"; ObjectID = "Ocf-nI-R69"; */
+"Ocf-nI-R69.normalTitle" = "ترمیم کریں";
 
-/* Class = "UILabel"; text = "Delivered"; ObjectID = "P0c-mc-ubU"; */
-"P0c-mc-ubU.text" = "Delivered";
+/* Class = "UILabel"; text = "بھیج دیا گیا"; ObjectID = "P0c-mc-ubU"; */
+"P0c-mc-ubU.text" = "بھیج دیا گیا";
 
-/* Class = "UIBarButtonItem"; title = "Item"; ObjectID = "POA-c0-IEH"; */
-"POA-c0-IEH.title" = "Item";
+/* Class = "UIBarButtonItem"; title = "آئٹم"; ObjectID = "POA-c0-IEH"; */
+"POA-c0-IEH.title" = "آئٹم";
 
-/* Class = "UILabel"; text = "Kibo Bot"; ObjectID = "PWc-ag-tic"; */
-"PWc-ag-tic.text" = "Kibo Bot";
+/* Class = "UILabel"; text = "Kibo بوٹ"; ObjectID = "PWc-ag-tic"; */
+"PWc-ag-tic.text" = "Kibo بوٹ";
 
-/* Class = "UILabel"; text = "Sumaira"; ObjectID = "PlT-i7-5Zi"; */
-"PlT-i7-5Zi.text" = "Sumaira";
+/* Class = "UILabel"; text = "سمیرا"; ObjectID = "PlT-i7-5Zi"; */
+"PlT-i7-5Zi.text" = "سمیرا";
 
-/* Class = "UILabel"; text = "Archived"; ObjectID = "QM1-z9-aUL"; */
-"QM1-z9-aUL.text" = "Archived";
+/* Class = "UILabel"; text = "آرکائیو"; ObjectID = "QM1-z9-aUL"; */
+"QM1-z9-aUL.text" = "آرکائیو";
 
-/* Class = "UILabel"; text = "Date/Time + status"; ObjectID = "QU8-bf-XiG"; */
-"QU8-bf-XiG.text" = "Date/Time + status";
+/* Class = "UILabel"; text = "تاریخ / وقت + حیثیت"; ObjectID = "QU8-bf-XiG"; */
+"QU8-bf-XiG.text" = "تاریخ / وقت + حیثیت";
 
 /* Class = "UIButton"; normalTitle = "Clear Chat"; ObjectID = "QUK-t3-X78"; */
 "QUK-t3-X78.normalTitle" = "Clear Chat";
 
-/* Class = "UINavigationItem"; title = "Chats"; ObjectID = "QZL-y5-aQ9"; */
-"QZL-y5-aQ9.title" = "Chats";
+/* Class = "UINavigationItem"; title = "چیٹس"; ObjectID = "QZL-y5-aQ9"; */
+"QZL-y5-aQ9.title" = "چیٹس";
 
-/* Class = "UIButton"; normalTitle = "Save"; ObjectID = "QxX-dR-Kej"; */
-"QxX-dR-Kej.normalTitle" = "Save";
+/* Class = "UIButton"; normalTitle = "محفوظ کریں"; ObjectID = "QxX-dR-Kej"; */
+"QxX-dR-Kej.normalTitle" = "محفوظ کریں";
 
 /* Class = "UILabel"; text = "12:45 PM"; ObjectID = "R7V-7X-hG8"; */
 "R7V-7X-hG8.text" = "12:45 PM";
 
-/* Class = "UIButton"; normalTitle = "Save Contact"; ObjectID = "RAD-hj-Xs3"; */
-"RAD-hj-Xs3.normalTitle" = "Save Contact";
+/* Class = "UIButton"; normalTitle = "رابطہ محفوظ کریں"; ObjectID = "RAD-hj-Xs3"; */
+"RAD-hj-Xs3.normalTitle" = "رابطہ محفوظ کریں";
 
-/* Class = "UILabel"; text = "Add Contact"; ObjectID = "RDm-xA-WqA"; */
-"RDm-xA-WqA.text" = "Add Contact";
+/* Class = "UILabel"; text = "رابطہ شامل کریں"; ObjectID = "RDm-xA-WqA"; */
+"RDm-xA-WqA.text" = "رابطہ شامل کریں";
 
 /* Class = "UILabel"; text = "12:45 PM"; ObjectID = "RQP-27-48A"; */
 "RQP-27-48A.text" = "12:45 PM";
 
-/* Class = "UINavigationItem"; title = "All Contacts"; ObjectID = "RSp-lL-SlV"; */
-"RSp-lL-SlV.title" = "All Contacts";
+/* Class = "UINavigationItem"; title = 'تمام روابط'; ObjectID = "RSp-lL-SlV"; */
+"RSp-lL-SlV.title" = 'تمام روابط';
 
-/* Class = "UIBarButtonItem"; title = "Back"; ObjectID = "Rdp-dA-oqt"; */
-"Rdp-dA-oqt.title" = "Back";
+/* Class = "UIBarButtonItem"; title = "پیچھے"; ObjectID = "Rdp-dA-oqt"; */
+"Rdp-dA-oqt.title" = "پیچھے";
 
-/* Class = "UIBarButtonItem"; title = "View"; ObjectID = "Rds-G3-nkw"; */
-"Rds-G3-nkw.title" = "View";
+/* Class = "UIBarButtonItem"; title = "دیکھیں"; ObjectID = "Rds-G3-nkw"; */
+"Rds-G3-nkw.title" = "دیکھیں";
 
-/* Class = "UILabel"; text = "Label"; ObjectID = "Re3-n3-cxa"; */
-"Re3-n3-cxa.text" = "Label";
+/* Class = "UILabel"; text = "لیبل"; ObjectID = "Re3-n3-cxa"; */
+"Re3-n3-cxa.text" = "لیبل";
 
-/* Class = "UILabel"; text = "File upload Failed"; ObjectID = "Rn9-QG-bTL"; */
-"Rn9-QG-bTL.text" = "File upload Failed";
+/* Class = "UILabel"; text = "فائل اپ لوڈ ناکام"; ObjectID = "Rn9-QG-bTL"; */
+"Rn9-QG-bTL.text" = "فائل اپ لوڈ ناکام";
 
 /* Class = "UILabel"; text = "12:45 PM"; ObjectID = "Rw4-31-LOd"; */
 "Rw4-31-LOd.text" = "12:45 PM";
@@ -569,50 +554,50 @@
 /* Class = "UILabel"; text = "10:22 PM @aaron"; ObjectID = "SNx-41-ra0"; */
 "SNx-41-ra0.text" = "10:22 PM @aaron";
 
-/* Class = "UIBarButtonItem"; title = "Back"; ObjectID = "SRf-ZL-sQS"; */
-"SRf-ZL-sQS.title" = "Back";
+/* Class = "UIBarButtonItem"; title = "پیچھے"; ObjectID = "SRf-ZL-sQS"; */
+"SRf-ZL-sQS.title" = "پیچھے";
 
-/* Class = "UIButton"; normalTitle = "Post"; ObjectID = "T6a-sW-vss"; */
-"T6a-sW-vss.normalTitle" = "Post";
+/* Class = "UIButton"; normalTitle = "پوسٹ"; ObjectID = "T6a-sW-vss"; */
+"T6a-sW-vss.normalTitle" = "پوسٹ";
 
-/* Class = "UIButton"; normalTitle = "Save Contact"; ObjectID = "TFU-EE-YDS"; */
-"TFU-EE-YDS.normalTitle" = "Save Contact";
+/* Class = "UIButton"; normalTitle = "رابطہ محفوظ کریں"; ObjectID = "TFU-EE-YDS"; */
+"TFU-EE-YDS.normalTitle" = "رابطہ محفوظ کریں";
 
-/* Class = "UIBarButtonItem"; title = "Skip"; ObjectID = "TQj-xx-IAU"; */
-"TQj-xx-IAU.title" = "Skip";
+/* Class = "UIBarButtonItem"; title = "جائیں"; ObjectID = "TQj-xx-IAU"; */
+"TQj-xx-IAU.title" = "جائیں";
 
-/* Class = "UILabel"; text = "Contact Name"; ObjectID = "Tgf-QK-Tgy"; */
-"Tgf-QK-Tgy.text" = "Contact Name";
+/* Class = "UILabel"; text = "رابطے کا نام"; ObjectID = "Tgf-QK-Tgy"; */
+"Tgf-QK-Tgy.text" = "رابطے کا نام";
 
-/* Class = "UILabel"; text = "Hey there! I am using Kibo App"; ObjectID = "TlC-un-fqV"; */
-"TlC-un-fqV.text" = "Hey there! I am using Kibo App";
+/* Class = "UILabel"; text = "Kibo اپلی وہاں ارے! میں استعمال کر رہا ہوں"; ObjectID = "TlC-un-fqV"; */
+"TlC-un-fqV.text" = "Kibo اپلی وہاں ارے! میں استعمال کر رہا ہوں";
 
-/* Class = "UILabel"; text = "Welcome to Kibo Chat"; ObjectID = "Tot-09-2fK"; */
-"Tot-09-2fK.text" = "Welcome to Kibo Chat";
+/* Class = "UILabel"; text = "Kibo چیٹ میں خوش آمدید"; ObjectID = "Tot-09-2fK"; */
+"Tot-09-2fK.text" = "Kibo چیٹ میں خوش آمدید";
 
-/* Class = "UILabel"; text = "Downloading..."; ObjectID = "Tsk-ue-gTr"; */
-"Tsk-ue-gTr.text" = "Downloading...";
+/* Class = "UILabel"; text = "ڈاؤن لوڈ کرنا ..."; ObjectID = "Tsk-ue-gTr"; */
+"Tsk-ue-gTr.text" = "ڈاؤن لوڈ کرنا ...";
 
 /* Class = "UILabel"; text = "Pending Friend Requests"; ObjectID = "Tvd-2g-tZk"; */
 "Tvd-2g-tZk.text" = "Pending Friend Requests";
 
-/* Class = "UILabel"; text = "No >"; ObjectID = "U4c-fF-q3e"; */
-"U4c-fF-q3e.text" = "No >";
+/* Class = "UILabel"; text = "نہیں>"; ObjectID = "U4c-fF-q3e"; */
+"U4c-fF-q3e.text" = "نہیں>";
 
-/* Class = "UINavigationItem"; title = "New Chat"; ObjectID = "U5d-re-h1P"; */
-"U5d-re-h1P.title" = "New Chat";
+/* Class = "UINavigationItem"; title = "نیا چیٹ"; ObjectID = "U5d-re-h1P"; */
+"U5d-re-h1P.title" = "نیا چیٹ";
 
-/* Class = "UIBarButtonItem"; title = "Done"; ObjectID = "URZ-ak-gVM"; */
-"URZ-ak-gVM.title" = "Done";
+/* Class = "UIBarButtonItem"; title = "ہو گیا"; ObjectID = "URZ-ak-gVM"; */
+"URZ-ak-gVM.title" = "ہو گیا";
 
-/* Class = "UILabel"; text = "I agree. I think our audience will definitely gravitate towards our"; ObjectID = "UW9-SX-xfE"; */
-"UW9-SX-xfE.text" = "I agree. I think our audience will definitely gravitate towards our";
+/* Class = "UILabel"; text = "میں متفق ہوں. میں ہمارے سامعین یقینی طرف gravitate گا لگتا ہے ہمارے"; ObjectID = "UW9-SX-xfE"; */
+"UW9-SX-xfE.text" = "میں متفق ہوں. میں ہمارے سامعین یقینی طرف gravitate گا لگتا ہے ہمارے";
 
-/* Class = "UIViewController"; title = "Chats"; ObjectID = "Ui7-BI-cmw"; */
-"Ui7-BI-cmw.title" = "Chats";
+/* Class = "UIViewController"; title = "چیٹس"; ObjectID = "Ui7-BI-cmw"; */
+"Ui7-BI-cmw.title" = "چیٹس";
 
-/* Class = "UILabel"; text = "Audio Name"; ObjectID = "UnT-RD-KfL"; */
-"UnT-RD-KfL.text" = "Audio Name";
+/* Class = "UILabel"; text = "آڈیو نام"; ObjectID = "UnT-RD-KfL"; */
+"UnT-RD-KfL.text" = "آڈیو نام";
 
 /* Class = "UILabel"; text = "Date/Time (sent)"; ObjectID = "Uup-bT-MCc"; */
 "Uup-bT-MCc.text" = "Date/Time (sent)";
@@ -620,179 +605,167 @@
 /* Class = "UILabel"; text = "10:22 PM @aaron"; ObjectID = "Uwm-Pu-Obv"; */
 "Uwm-Pu-Obv.text" = "10:22 PM @aaron";
 
-/* Class = "UITextField"; placeholder = "password"; ObjectID = "VdO-gk-pHN"; */
-"VdO-gk-pHN.placeholder" = "password";
+/* Class = "UITextField"; placeholder = "پاس ورڈ"; ObjectID = "VdO-gk-pHN"; */
+"VdO-gk-pHN.placeholder" = "پاس ورڈ";
 
-/* Class = "UIButton"; normalTitle = "Save"; ObjectID = "Vjn-is-hKx"; */
-"Vjn-is-hKx.normalTitle" = "Save";
+/* Class = "UIButton"; normalTitle = "محفوظ کریں"; ObjectID = "Vjn-is-hKx"; */
+"Vjn-is-hKx.normalTitle" = "محفوظ کریں";
 
 /* Class = "UILabel"; text = "12:45 PM"; ObjectID = "Vmk-7M-nb9"; */
 "Vmk-7M-nb9.text" = "12:45 PM";
 
-/* Class = "UILabel"; text = "Phone"; ObjectID = "VyW-Lq-B6P"; */
-"VyW-Lq-B6P.text" = "Phone";
+/* Class = "UILabel"; text = "فون"; ObjectID = "VyW-Lq-B6P"; */
+"VyW-Lq-B6P.text" = "فون";
 
 /* Class = "UILabel"; text = "12:45 PM"; ObjectID = "WGz-pr-vqs"; */
 "WGz-pr-vqs.text" = "12:45 PM";
 
-/* Class = "UILabel"; text = "Contact Phone number (sent)"; ObjectID = "WIt-k7-zax"; */
-"WIt-k7-zax.text" = "Contact Phone number (sent)";
+/* Class = "UILabel"; text = "رابطے کا فون نمبر (بھیجا)"; ObjectID = "WIt-k7-zax"; */
+"WIt-k7-zax.text" = "رابطے کا فون نمبر (بھیجا)";
 
 /* Class = "UILabel"; text = "home"; ObjectID = "WbZ-Qs-Mdg"; */
 "WbZ-Qs-Mdg.text" = "home";
 
-/* Class = "UITextField"; placeholder = "Room name"; ObjectID = "WxN-59-A4o"; */
-"WxN-59-A4o.placeholder" = "Room name";
+/* Class = "UITextField"; placeholder = "کمرہ نام"; ObjectID = "WxN-59-A4o"; */
+"WxN-59-A4o.placeholder" = "کمرہ نام";
 
-/* Class = "UIButton"; normalTitle = "Invite to Kibo Chat"; ObjectID = "WyS-ko-fUG"; */
-"WyS-ko-fUG.normalTitle" = "Invite to Kibo Chat";
+/* Class = "UIButton"; normalTitle = "Kibo چیٹ کے لئے مدعو"; ObjectID = "WyS-ko-fUG"; */
+"WyS-ko-fUG.normalTitle" = "Kibo چیٹ کے لئے مدعو";
 
-/* Class = "UILabel"; text = "Chats"; ObjectID = "X7J-Vy-IKB"; */
-"X7J-Vy-IKB.text" = "Chats";
+/* Class = "UILabel"; text = "چیٹس"; ObjectID = "X7J-Vy-IKB"; */
+"X7J-Vy-IKB.text" = "چیٹس";
 
 /* Class = "UILabel"; text = "16/06/2016"; ObjectID = "XMK-rI-6MR"; */
 "XMK-rI-6MR.text" = "16/06/2016";
 
-/* Class = "UILabel"; text = "Downloading..."; ObjectID = "XX0-or-6M2"; */
-"XX0-or-6M2.text" = "Downloading...";
+/* Class = "UILabel"; text = "ڈاؤن لوڈ کرنا ..."; ObjectID = "XX0-or-6M2"; */
+"XX0-or-6M2.text" = "ڈاؤن لوڈ کرنا ...";
 
-/* Class = "UILabel"; text = "Delivered"; ObjectID = "XZF-0q-Gfw"; */
-"XZF-0q-Gfw.text" = "Delivered";
+/* Class = "UILabel"; text = "بھیج دیا گیا"; ObjectID = "XZF-0q-Gfw"; */
+"XZF-0q-Gfw.text" = "بھیج دیا گیا";
 
-/* Class = "UIBarButtonItem"; title = "Edit"; ObjectID = "Xeq-br-M4H"; */
-"Xeq-br-M4H.title" = "Edit";
+/* Class = "UIBarButtonItem"; title = "ترمیم کریں"; ObjectID = "Xeq-br-M4H"; */
+"Xeq-br-M4H.title" = "ترمیم کریں";
 
-/* Class = "UIButton"; normalTitle = "Invite to Kibo Chat"; ObjectID = "XfP-I8-Osa"; */
-"XfP-I8-Osa.normalTitle" = "Invite to Kibo Chat";
+/* Class = "UIButton"; normalTitle = "Kibo چیٹ کے لئے مدعو"; ObjectID = "XfP-I8-Osa"; */
+"XfP-I8-Osa.normalTitle" = "Kibo چیٹ کے لئے مدعو";
 
-/* Class = "UILabel"; text = "Delivered"; ObjectID = "Xfw-mK-75V"; */
-"Xfw-mK-75V.text" = "Delivered";
+/* Class = "UILabel"; text = "بھیج دیا گیا"; ObjectID = "Xfw-mK-75V"; */
+"Xfw-mK-75V.text" = "بھیج دیا گیا";
 
-/* Class = "UILabel"; text = "No Name"; ObjectID = "Xgc-Xu-0e6"; */
-"Xgc-Xu-0e6.text" = "No Name";
+/* Class = "UILabel"; text = "گمنام"; ObjectID = "Xgc-Xu-0e6"; */
+"Xgc-Xu-0e6.text" = "گمنام";
 
-/* Class = "UIViewController"; title = "Add Participants"; ObjectID = "Xlj-pb-Vmy"; */
-"Xlj-pb-Vmy.title" = "Add Participants";
+/* Class = "UIViewController"; title = "شرکاء میں شامل کریں"; ObjectID = "Xlj-pb-Vmy"; */
+"Xlj-pb-Vmy.title" = "شرکاء میں شامل کریں";
 
 /* Class = "UINavigationItem"; title = "Contact info"; ObjectID = "Xlx-0M-Tv5"; */
 "Xlx-0M-Tv5.title" = "Contact info";
 
-/* Class = "UILabel"; text = "Location upload Failed"; ObjectID = "Y6r-uW-AdP"; */
-"Y6r-uW-AdP.text" = "Location upload Failed";
+/* Class = "UILabel"; text = "مقام اپ لوڈ ناکام"; ObjectID = "Y6r-uW-AdP"; */
+"Y6r-uW-AdP.text" = "مقام اپ لوڈ ناکام";
 
-/* Class = "UITextView"; text = "Backup your chat history and media to iCloud so if youblose your iPhone or switch to neew one, your chat history is safe. You can restore your chat history and media when you reinstall KiboApp."; ObjectID = "YIZ-uD-IGE"; */
-"YIZ-uD-IGE.text" = "Backup your chat history and media to iCloud so if youblose your iPhone or switch to neew one, your chat history is safe. You can restore your chat history and media when you reinstall KiboApp.";
+/* Class = "UITextView"; text = "آپ کی چیٹ تاریخ اور میڈیا iCloud کے لئے بیک اپ اگر ایسا ہے تو youblose آپ کے فون یا ایک، آپ کی چیٹ کی سرگزشت محفوظ ہے neew پر سوئچ کریں. آپ KiboApp دوبارہ انسٹال کرتے وقت آپ کو آپ کی چیٹ تاریخ اور میڈیا کو بحال کر سکتے ہیں."; ObjectID = "YIZ-uD-IGE"; */
+"YIZ-uD-IGE.text" = "آپ کی چیٹ تاریخ اور میڈیا iCloud کے لئے بیک اپ اگر ایسا ہے تو youblose آپ کے فون یا ایک، آپ کی چیٹ کی سرگزشت محفوظ ہے neew پر سوئچ کریں. آپ KiboApp دوبارہ انسٹال کرتے وقت آپ کو آپ کی چیٹ تاریخ اور میڈیا کو بحال کر سکتے ہیں.";
 
-/* Class = "UITextView"; text = "Restore your chat history from iCloud. You will not be able to restore later if you decline to restore now. Your media will restore in background after your messages restore"; ObjectID = "YW0-nQ-6DV"; */
-"YW0-nQ-6DV.text" = "Restore your chat history from iCloud. You will not be able to restore later if you decline to restore now. Your media will restore in background after your messages restore";
+/* Class = "UITextView"; text = "iCloud کے سے آپ کی چیٹ کی سرگزشت بحال کریں. اگر آپ اب بحال کرنے کی رد ہے تو بعد میں بحال کرنے کے قابل نہیں ہو گا. آپ کے پیغامات بعد اپنے میڈیا کے پس منظر میں بحال کریں گے بحال"; ObjectID = "YW0-nQ-6DV"; */
+"YW0-nQ-6DV.text" = "iCloud کے سے آپ کی چیٹ کی سرگزشت بحال کریں. اگر آپ اب بحال کرنے کی رد ہے تو بعد میں بحال کرنے کے قابل نہیں ہو گا. آپ کے پیغامات بعد اپنے میڈیا کے پس منظر میں بحال کریں گے بحال";
 
-/* Class = "UILabel"; text = "Sample Group"; ObjectID = "Yjn-ld-Rx7"; */
-"Yjn-ld-Rx7.text" = "Sample Group";
+/* Class = "UILabel"; text = "نمونہ گروپ"; ObjectID = "Yjn-ld-Rx7"; */
+"Yjn-ld-Rx7.text" = "نمونہ گروپ";
 
-/* Class = "UILabel"; text = "Label"; ObjectID = "YoY-RA-tR0"; */
-"YoY-RA-tR0.text" = "Label";
+/* Class = "UILabel"; text = "لیبل"; ObjectID = "YoY-RA-tR0"; */
+"YoY-RA-tR0.text" = "لیبل";
 
-/* Class = "UILabel"; text = "I agree. I think our audience will definitely gravitate towards our"; ObjectID = "Yrv-Xn-pxI"; */
-"Yrv-Xn-pxI.text" = "I agree. I think our audience will definitely gravitate towards our";
+/* Class = "UILabel"; text = "میں متفق ہوں. میں ہمارے سامعین یقینی طرف gravitate گا لگتا ہے ہمارے"; ObjectID = "Yrv-Xn-pxI"; */
+"Yrv-Xn-pxI.text" = "میں متفق ہوں. میں ہمارے سامعین یقینی طرف gravitate گا لگتا ہے ہمارے";
 
 /* Class = "UILabel"; text = "rtf - 2 KB                 8:07 AM"; ObjectID = "YvU-Bb-aew"; */
 "YvU-Bb-aew.text" = "rtf - 2 KB                 8:07 AM";
 
-/* Class = "UILabel"; text = "Loading..."; ObjectID = "YxZ-N5-AE4"; */
-"YxZ-N5-AE4.text" = "Loading...";
+/* Class = "UILabel"; text = "لوڈ کر رہا ہے ..."; ObjectID = "YxZ-N5-AE4"; */
+"YxZ-N5-AE4.text" = "لوڈ کر رہا ہے ...";
 
-/* Class = "UINavigationItem"; title = "Calls History"; ObjectID = "Z5L-u5-k6r"; */
-"Z5L-u5-k6r.title" = "Calls History";
+/* Class = "UINavigationItem"; title = "تاریخ کالز"; ObjectID = "Z5L-u5-k6r"; */
+"Z5L-u5-k6r.title" = "تاریخ کالز";
 
-/* Class = "UILabel"; text = "Delivered"; ObjectID = "Zqd-ck-BlT"; */
-"Zqd-ck-BlT.text" = "Delivered";
+/* Class = "UILabel"; text = "بھیج دیا گیا"; ObjectID = "Zqd-ck-BlT"; */
+"Zqd-ck-BlT.text" = "بھیج دیا گیا";
 
-/* Class = "UILabel"; text = "Please enter your name"; ObjectID = "aCG-Fd-lGK"; */
-"aCG-Fd-lGK.text" = "Please enter your name";
+/* Class = "UILabel"; text = "براہ مہربانی اپنا نام درج کریں"; ObjectID = "aCG-Fd-lGK"; */
+"aCG-Fd-lGK.text" = "براہ مہربانی اپنا نام درج کریں";
 
 /* Class = "UILabel"; text = "Sojharo"; ObjectID = "aTB-6i-gwX"; */
 "aTB-6i-gwX.text" = "Sojharo";
 
-/* Class = "UILabel"; text = "Downloading Image..."; ObjectID = "aZw-F4-wz5"; */
-"aZw-F4-wz5.text" = "Downloading Image...";
+/* Class = "UILabel"; text = "تصویری ڈاؤن لوڈ کرنا ..."; ObjectID = "aZw-F4-wz5"; */
+"aZw-F4-wz5.text" = "تصویری ڈاؤن لوڈ کرنا ...";
 
-/* Class = "UITextField"; placeholder = "username"; ObjectID = "adW-sx-O0L"; */
-"adW-sx-O0L.placeholder" = "username";
+/* Class = "UITextField"; placeholder = "صارف نام"; ObjectID = "adW-sx-O0L"; */
+"adW-sx-O0L.placeholder" = "صارف نام";
 
 /* Class = "UILabel"; text = "Sumaira4540:"; ObjectID = "apm-wb-hmp"; */
 "apm-wb-hmp.text" = "Sumaira4540:";
 
-/* Class = "UINavigationItem"; title = "Message Info"; ObjectID = "ata-TC-bbT"; */
-"ata-TC-bbT.title" = "Message Info";
+/* Class = "UINavigationItem"; title = "پیغام کی معلومات"; ObjectID = "ata-TC-bbT"; */
+"ata-TC-bbT.title" = "پیغام کی معلومات";
 
-/* Class = "UILabel"; text = "No Name"; ObjectID = "axy-iu-7eC"; */
-"axy-iu-7eC.text" = "No Name";
+/* Class = "UILabel"; text = "گمنام"; ObjectID = "axy-iu-7eC"; */
+"axy-iu-7eC.text" = "گمنام";
 
-/* Class = "UIButton"; normalTitle = "Add Participants"; ObjectID = "b2d-XF-Fbf"; */
-"b2d-XF-Fbf.normalTitle" = "Add Participants";
+/* Class = "UIButton"; normalTitle = "شرکاء میں شامل کریں"; ObjectID = "b2d-XF-Fbf"; */
+"b2d-XF-Fbf.normalTitle" = "شرکاء میں شامل کریں";
 
-/* Class = "UILabel"; text = "Followers"; ObjectID = "bJH-3i-0es"; */
-"bJH-3i-0es.text" = "Followers";
+/* Class = "UILabel"; text = "فالورز"; ObjectID = "bJH-3i-0es"; */
+"bJH-3i-0es.text" = "فالورز";
 
 /* Class = "UILabel"; text = "12:45 PM"; ObjectID = "bLx-b6-BFv"; */
 "bLx-b6-BFv.text" = "12:45 PM";
 
-/* Class = "UINavigationItem"; title = "New Chat"; ObjectID = "bRf-H5-Dwc"; */
-"bRf-H5-Dwc.title" = "New Chat";
+/* Class = "UILabel"; text = "بھیج دیا گیا"; ObjectID = "bSd-rG-mTh"; */
+"bSd-rG-mTh.text" = "بھیج دیا گیا";
 
-/* Class = "UILabel"; text = "Delivered"; ObjectID = "bSd-rG-mTh"; */
-"bSd-rG-mTh.text" = "Delivered";
-
-/* Class = "UIButton"; normalTitle = "Reject"; ObjectID = "bU4-eP-oAa"; */
-"bU4-eP-oAa.normalTitle" = "Reject";
+/* Class = "UIButton"; normalTitle = "مسترد کریں"; ObjectID = "bU4-eP-oAa"; */
+"bU4-eP-oAa.normalTitle" = "مسترد کریں";
 
 /* Class = "UILabel"; text = "12:45 PM"; ObjectID = "bhv-SU-En8"; */
 "bhv-SU-En8.text" = "12:45 PM";
 
-/* Class = "UIButton"; normalTitle = "Logout"; ObjectID = "bim-Ua-zV6"; */
-"bim-Ua-zV6.normalTitle" = "Logout";
+/* Class = "UIButton"; normalTitle = "لاگ آوٹ"; ObjectID = "bim-Ua-zV6"; */
+"bim-Ua-zV6.normalTitle" = "لاگ آوٹ";
 
-/* Class = "UINavigationController"; title = "All Contacts"; ObjectID = "btP-4N-NZt"; */
-"btP-4N-NZt.title" = "All Contacts";
+/* Class = "UINavigationController"; title = 'تمام روابط'; ObjectID = "btP-4N-NZt"; */
+"btP-4N-NZt.title" = 'تمام روابط';
 
-/* Class = "UILabel"; text = "Auto Backup"; ObjectID = "bu0-cI-FQW"; */
-"bu0-cI-FQW.text" = "Auto Backup";
+/* Class = "UILabel"; text = "آٹو بیک اپ"; ObjectID = "bu0-cI-FQW"; */
+"bu0-cI-FQW.text" = "آٹو بیک اپ";
 
 /* Class = "UIButton"; normalTitle = "Conference"; ObjectID = "c0I-DY-yGf"; */
 "c0I-DY-yGf.normalTitle" = "Conference";
 
-/* Class = "UILabel"; text = "Delivered"; ObjectID = "cBn-Hy-X2u"; */
-"cBn-Hy-X2u.text" = "Delivered";
+/* Class = "UILabel"; text = "بھیج دیا گیا"; ObjectID = "cBn-Hy-X2u"; */
+"cBn-Hy-X2u.text" = "بھیج دیا گیا";
 
 /* Class = "UILabel"; text = "12:45 PM"; ObjectID = "cGC-Np-cCi"; */
 "cGC-Np-cCi.text" = "12:45 PM";
 
-/* Class = "UIViewController"; title = "Chats"; ObjectID = "cJu-ld-BCz"; */
-"cJu-ld-BCz.title" = "Chats";
+/* Class = "UIViewController"; title = "چیٹس"; ObjectID = "cJu-ld-BCz"; */
+"cJu-ld-BCz.title" = "چیٹس";
 
-/* Class = "UILabel"; text = "Mute"; ObjectID = "cL1-9w-0wn"; */
-"cL1-9w-0wn.text" = "Mute";
+/* Class = "UILabel"; text = "خاموش"; ObjectID = "cL1-9w-0wn"; */
+"cL1-9w-0wn.text" = "خاموش";
 
-/* Class = "UILabel"; text = "Off"; ObjectID = "cZI-Mp-YMX"; */
-"cZI-Mp-YMX.text" = "Off";
+/* Class = "UILabel"; text = "بند"; ObjectID = "cZI-Mp-YMX"; */
+"cZI-Mp-YMX.text" = "بند";
 
-/* Class = "UILabel"; text = "Its actually pretty good!"; ObjectID = "ceA-7C-SVX"; */
-"ceA-7C-SVX.text" = "Its actually pretty good!";
+/* Class = "UINavigationItem"; title = "نیا چیٹ"; ObjectID = "ckh-qo-Nce"; */
+"ckh-qo-Nce.title" = "نیا چیٹ";
 
-/* Class = "UINavigationItem"; title = "New Chat"; ObjectID = "ckh-qo-Nce"; */
-"ckh-qo-Nce.title" = "New Chat";
+/* Class = "UIButton"; normalTitle = "براڈ فہرستوں"; ObjectID = "cqd-QN-sAJ"; */
+"cqd-QN-sAJ.normalTitle" = "براڈ فہرستوں";
 
-/* Class = "UILabel"; text = "12:45 PM"; ObjectID = "cmk-Ux-3cJ"; */
-"cmk-Ux-3cJ.text" = "12:45 PM";
-
-/* Class = "UINavigationItem"; title = "New Chat"; ObjectID = "cnd-PW-z8h"; */
-"cnd-PW-z8h.title" = "New Chat";
-
-/* Class = "UIButton"; normalTitle = "Broadcast lists"; ObjectID = "cqd-QN-sAJ"; */
-"cqd-QN-sAJ.normalTitle" = "Broadcast lists";
-
-/* Class = "UILabel"; text = "Delivered"; ObjectID = "cwP-Pq-tMm"; */
-"cwP-Pq-tMm.text" = "Delivered";
+/* Class = "UILabel"; text = "بھیج دیا گیا"; ObjectID = "cwP-Pq-tMm"; */
+"cwP-Pq-tMm.text" = "بھیج دیا گیا";
 
 /* Class = "UINavigationItem"; title = "More"; ObjectID = "cyI-Nj-boR"; */
 "cyI-Nj-boR.title" = "More";
@@ -800,53 +773,47 @@
 /* Class = "UILabel"; text = "12:45 PM"; ObjectID = "dAf-EX-S1G"; */
 "dAf-EX-S1G.text" = "12:45 PM";
 
-/* Class = "UILabel"; text = "Delivered"; ObjectID = "dB5-46-GOT"; */
-"dB5-46-GOT.text" = "Delivered";
+/* Class = "UILabel"; text = "بھیج دیا گیا"; ObjectID = "dB5-46-GOT"; */
+"dB5-46-GOT.text" = "بھیج دیا گیا";
 
 /* Class = "UILabel"; text = "12:45 PM"; ObjectID = "dI6-yn-t4P"; */
 "dI6-yn-t4P.text" = "12:45 PM";
 
-/* Class = "UILabel"; text = "Privacy"; ObjectID = "dVP-zw-4PK"; */
-"dVP-zw-4PK.text" = "Privacy";
+/* Class = "UILabel"; text = "رازداری"; ObjectID = "dVP-zw-4PK"; */
+"dVP-zw-4PK.text" = "رازداری";
 
-/* Class = "UILabel"; text = "Delivered"; ObjectID = "daH-Uw-nen"; */
-"daH-Uw-nen.text" = "Delivered";
+/* Class = "UILabel"; text = "بھیج دیا گیا"; ObjectID = "daH-Uw-nen"; */
+"daH-Uw-nen.text" = "بھیج دیا گیا";
 
-/* Class = "UILabel"; text = "Delivered"; ObjectID = "daX-KL-LVH"; */
-"daX-KL-LVH.text" = "Delivered";
+/* Class = "UILabel"; text = "بھیج دیا گیا"; ObjectID = "daX-KL-LVH"; */
+"daX-KL-LVH.text" = "بھیج دیا گیا";
 
-/* Class = "UILabel"; text = "What do you think of this tool!"; ObjectID = "deD-ze-KF6"; */
-"deD-ze-KF6.text" = "What do you think of this tool!";
+/* Class = "UILabel"; text = "آپ کو اس آلے کو کیا سمجھتے ہو!"; ObjectID = "deD-ze-KF6"; */
+"deD-ze-KF6.text" = "آپ کو اس آلے کو کیا سمجھتے ہو!";
 
-/* Class = "UILabel"; text = "Downloading Image..."; ObjectID = "dfX-VB-afE"; */
-"dfX-VB-afE.text" = "Downloading Image...";
+/* Class = "UILabel"; text = "تصویری ڈاؤن لوڈ کرنا ..."; ObjectID = "dfX-VB-afE"; */
+"dfX-VB-afE.text" = "تصویری ڈاؤن لوڈ کرنا ...";
 
-/* Class = "UILabel"; text = "No Name"; ObjectID = "dm7-r2-WeC"; */
-"dm7-r2-WeC.text" = "No Name";
+/* Class = "UILabel"; text = "گمنام"; ObjectID = "dm7-r2-WeC"; */
+"dm7-r2-WeC.text" = "گمنام";
 
-/* Class = "UILabel"; text = "Please enter your name."; ObjectID = "e1o-he-xE0"; */
-"e1o-he-xE0.text" = "Please enter your name.";
+/* Class = "UILabel"; text = "براہ مہربانی اپنا نام درج کریں."; ObjectID = "e1o-he-xE0"; */
+"e1o-he-xE0.text" = "براہ مہربانی اپنا نام درج کریں.";
 
-/* Class = "UIButton"; normalTitle = "Message"; ObjectID = "eAM-Dp-ZnL"; */
-"eAM-Dp-ZnL.normalTitle" = "Message";
-
-/* Class = "UIButton"; normalTitle = "Post"; ObjectID = "ePk-hb-UUG"; */
-"ePk-hb-UUG.normalTitle" = "Post";
+/* Class = "UIButton"; normalTitle = "پیغام"; ObjectID = "eAM-Dp-ZnL"; */
+"eAM-Dp-ZnL.normalTitle" = "پیغام";
 
 /* Class = "UILabel"; text = "7:03 AM"; ObjectID = "ekT-2m-ome"; */
 "ekT-2m-ome.text" = "7:03 AM";
 
-/* Class = "UILabel"; text = "Contact Name"; ObjectID = "epi-pd-L3a"; */
-"epi-pd-L3a.text" = "Contact Name";
+/* Class = "UILabel"; text = "رابطے کا نام"; ObjectID = "epi-pd-L3a"; */
+"epi-pd-L3a.text" = "رابطے کا نام";
 
-/* Class = "UILabel"; text = "Label"; ObjectID = "eu3-L8-uhT"; */
-"eu3-L8-uhT.text" = "Label";
+/* Class = "UILabel"; text = "لیبل"; ObjectID = "eu3-L8-uhT"; */
+"eu3-L8-uhT.text" = "لیبل";
 
-/* Class = "UILabel"; text = "12:45 PM"; ObjectID = "f9O-Ai-hn7"; */
-"f9O-Ai-hn7.text" = "12:45 PM";
-
-/* Class = "UILabel"; text = "Restore from iCloud"; ObjectID = "fOO-ry-RFJ"; */
-"fOO-ry-RFJ.text" = "Restore from iCloud";
+/* Class = "UILabel"; text = "iCloud کے سے بحال کریں"; ObjectID = "fOO-ry-RFJ"; */
+"fOO-ry-RFJ.text" = "iCloud کے سے بحال کریں";
 
 /* Class = "UILabel"; text = "12:45 PM"; ObjectID = "fcJ-lR-n6i"; */
 "fcJ-lR-n6i.text" = "12:45 PM";
@@ -854,20 +821,20 @@
 /* Class = "UINavigationItem"; title = "Root View Controller"; ObjectID = "feZ-tZ-JBe"; */
 "feZ-tZ-JBe.title" = "Root View Controller";
 
-/* Class = "UITextView"; text = "PARTICIPANTS 1 of 256"; ObjectID = "fj2-3h-qbw"; */
-"fj2-3h-qbw.text" = "PARTICIPANTS 1 of 256";
+/* Class = "UITextView"; text = "شرکاء 256 کے 1"; ObjectID = "fj2-3h-qbw"; */
+"fj2-3h-qbw.text" = "شرکاء 256 کے 1";
 
-/* Class = "UIButton"; normalTitle = "Send"; ObjectID = "gAa-IQ-B4G"; */
-"gAa-IQ-B4G.normalTitle" = "Send";
+/* Class = "UIButton"; normalTitle = "بھیجیں"; ObjectID = "gAa-IQ-B4G"; */
+"gAa-IQ-B4G.normalTitle" = "بھیجیں";
 
-/* Class = "UIBarButtonItem"; title = "Edit"; ObjectID = "gDP-Oc-cxr"; */
-"gDP-Oc-cxr.title" = "Edit";
+/* Class = "UIBarButtonItem"; title = "ترمیم کریں"; ObjectID = "gDP-Oc-cxr"; */
+"gDP-Oc-cxr.title" = "ترمیم کریں";
 
 /* Class = "UILabel"; text = "12:45 PM"; ObjectID = "gTZ-pQ-l6j"; */
 "gTZ-pQ-l6j.text" = "12:45 PM";
 
-/* Class = "UILabel"; text = "Delivered"; ObjectID = "gVv-vn-6q5"; */
-"gVv-vn-6q5.text" = "Delivered";
+/* Class = "UILabel"; text = "بھیج دیا گیا"; ObjectID = "gVv-vn-6q5"; */
+"gVv-vn-6q5.text" = "بھیج دیا گیا";
 
 /* Class = "UIButton"; normalTitle = "( i )"; ObjectID = "gXO-MY-0cb"; */
 "gXO-MY-0cb.normalTitle" = "( i )";
@@ -875,32 +842,32 @@
 /* Class = "UINavigationItem"; title = "Webmeeting Chat"; ObjectID = "gZA-6S-6Q9"; */
 "gZA-6S-6Q9.title" = "Webmeeting Chat";
 
-/* Class = "UIButton"; normalTitle = "Accept"; ObjectID = "gbx-D0-MSL"; */
-"gbx-D0-MSL.normalTitle" = "Accept";
+/* Class = "UIButton"; normalTitle = "قبول کریں"; ObjectID = "gbx-D0-MSL"; */
+"gbx-D0-MSL.normalTitle" = "قبول کریں";
 
-/* Class = "UIBarButtonItem"; title = "Delete"; ObjectID = "gc0-1Z-DdG"; */
-"gc0-1Z-DdG.title" = "Delete";
+/* Class = "UIBarButtonItem"; title = "حذف کریں"; ObjectID = "gc0-1Z-DdG"; */
+"gc0-1Z-DdG.title" = "حذف کریں";
 
-/* Class = "UILabel"; text = "No Name"; ObjectID = "glD-Vs-5rS"; */
-"glD-Vs-5rS.text" = "No Name";
+/* Class = "UILabel"; text = "گمنام"; ObjectID = "glD-Vs-5rS"; */
+"glD-Vs-5rS.text" = "گمنام";
 
-/* Class = "UINavigationItem"; title = "Chats"; ObjectID = "gm6-wK-huN"; */
-"gm6-wK-huN.title" = "Chats";
+/* Class = "UINavigationItem"; title = "چیٹس"; ObjectID = "gm6-wK-huN"; */
+"gm6-wK-huN.title" = "چیٹس";
 
 /* Class = "UILabel"; text = "Sumaira991:"; ObjectID = "h3s-cd-jvf"; */
 "h3s-cd-jvf.text" = "Sumaira991:";
 
-/* Class = "UIBarButtonItem"; title = "Back"; ObjectID = "hdV-cN-hOE"; */
-"hdV-cN-hOE.title" = "Back";
+/* Class = "UIBarButtonItem"; title = "پیچھے"; ObjectID = "hdV-cN-hOE"; */
+"hdV-cN-hOE.title" = "پیچھے";
 
-/* Class = "UIBarButtonItem"; title = "Invite"; ObjectID = "heh-dU-cKb"; */
-"heh-dU-cKb.title" = "Invite";
+/* Class = "UIBarButtonItem"; title = "مدعو کریں"; ObjectID = "heh-dU-cKb"; */
+"heh-dU-cKb.title" = "مدعو کریں";
 
-/* Class = "UILabel"; text = "Phone number"; ObjectID = "hhv-Rp-xra"; */
-"hhv-Rp-xra.text" = "Phone number";
+/* Class = "UILabel"; text = "فون نمبر"; ObjectID = "hhv-Rp-xra"; */
+"hhv-Rp-xra.text" = "فون نمبر";
 
-/* Class = "UILabel"; text = "Downloading..."; ObjectID = "hrh-Rw-2mg"; */
-"hrh-Rw-2mg.text" = "Downloading...";
+/* Class = "UILabel"; text = "ڈاؤن لوڈ کرنا ..."; ObjectID = "hrh-Rw-2mg"; */
+"hrh-Rw-2mg.text" = "ڈاؤن لوڈ کرنا ...";
 
 /* Class = "UILabel"; text = "12:45 PM"; ObjectID = "hsp-iF-OE7"; */
 "hsp-iF-OE7.text" = "12:45 PM";
@@ -908,35 +875,32 @@
 /* Class = "UILabel"; text = "home"; ObjectID = "hv3-BU-kJt"; */
 "hv3-BU-kJt.text" = "home";
 
-/* Class = "UIButton"; normalTitle = "Preview"; ObjectID = "iAt-Ty-od0"; */
-"iAt-Ty-od0.normalTitle" = "Preview";
+/* Class = "UIButton"; normalTitle = "پیش منظر"; ObjectID = "iAt-Ty-od0"; */
+"iAt-Ty-od0.normalTitle" = "پیش منظر";
 
-/* Class = "UIButton"; normalTitle = "Invite to Kibo Chat"; ObjectID = "iQo-HL-db0"; */
-"iQo-HL-db0.normalTitle" = "Invite to Kibo Chat";
+/* Class = "UIButton"; normalTitle = "Kibo چیٹ کے لئے مدعو"; ObjectID = "iQo-HL-db0"; */
+"iQo-HL-db0.normalTitle" = "Kibo چیٹ کے لئے مدعو";
 
-/* Class = "UILabel"; text = "Loading..."; ObjectID = "ieI-ea-pNC"; */
-"ieI-ea-pNC.text" = "Loading...";
+/* Class = "UILabel"; text = "لوڈ کر رہا ہے ..."; ObjectID = "ieI-ea-pNC"; */
+"ieI-ea-pNC.text" = "لوڈ کر رہا ہے ...";
 
-/* Class = "UILabel"; text = "No Name"; ObjectID = "iyR-Xb-z2d"; */
-"iyR-Xb-z2d.text" = "No Name";
+/* Class = "UILabel"; text = "گمنام"; ObjectID = "iyR-Xb-z2d"; */
+"iyR-Xb-z2d.text" = "گمنام";
 
-/* Class = "UIButton"; normalTitle = "Send"; ObjectID = "j3V-YI-88C"; */
-"j3V-YI-88C.normalTitle" = "Send";
+/* Class = "UIButton"; normalTitle = "بھیجیں"; ObjectID = "j3V-YI-88C"; */
+"j3V-YI-88C.normalTitle" = "بھیجیں";
 
-/* Class = "UILabel"; text = "Delivered"; ObjectID = "jRD-Y9-iTf"; */
-"jRD-Y9-iTf.text" = "Delivered";
+/* Class = "UILabel"; text = "بھیج دیا گیا"; ObjectID = "jRD-Y9-iTf"; */
+"jRD-Y9-iTf.text" = "بھیج دیا گیا";
 
-/* Class = "UILabel"; text = "Calling"; ObjectID = "jVL-7n-cYf"; */
-"jVL-7n-cYf.text" = "Calling";
+/* Class = "UILabel"; text = "بلا"; ObjectID = "jVL-7n-cYf"; */
+"jVL-7n-cYf.text" = "بلا";
 
-/* Class = "UILabel"; text = "Label"; ObjectID = "jXt-nA-pgn"; */
-"jXt-nA-pgn.text" = "Label";
+/* Class = "UILabel"; text = "لیبل"; ObjectID = "jXt-nA-pgn"; */
+"jXt-nA-pgn.text" = "لیبل";
 
-/* Class = "UILabel"; text = "Title"; ObjectID = "jiq-JX-7GE"; */
-"jiq-JX-7GE.text" = "Title";
-
-/* Class = "UILabel"; text = "What do you think of this tool!"; ObjectID = "kYl-fJ-aTZ"; */
-"kYl-fJ-aTZ.text" = "What do you think of this tool!";
+/* Class = "UILabel"; text = "عنوان"; ObjectID = "jiq-JX-7GE"; */
+"jiq-JX-7GE.text" = "عنوان";
 
 /* Class = "UILabel"; text = "Notes"; ObjectID = "kpd-YU-9dI"; */
 "kpd-YU-9dI.text" = "Notes";
@@ -944,23 +908,23 @@
 /* Class = "UILabel"; text = "12:45 PM"; ObjectID = "kvG-HH-C3l"; */
 "kvG-HH-C3l.text" = "12:45 PM";
 
-/* Class = "UIBarButtonItem"; title = "Back"; ObjectID = "l2l-4J-XNy"; */
-"l2l-4J-XNy.title" = "Back";
+/* Class = "UIBarButtonItem"; title = "پیچھے"; ObjectID = "l2l-4J-XNy"; */
+"l2l-4J-XNy.title" = "پیچھے";
 
-/* Class = "UILabel"; text = "Delivered"; ObjectID = "l3c-5D-w4Z"; */
-"l3c-5D-w4Z.text" = "Delivered";
+/* Class = "UILabel"; text = "بھیج دیا گیا"; ObjectID = "l3c-5D-w4Z"; */
+"l3c-5D-w4Z.text" = "بھیج دیا گیا";
 
 /* Class = "UILabel"; text = "12:45 PM"; ObjectID = "l5g-kU-bKw"; */
 "l5g-kU-bKw.text" = "12:45 PM";
 
-/* Class = "UINavigationItem"; title = "Archived Chats"; ObjectID = "lLg-0j-P8T"; */
-"lLg-0j-P8T.title" = "Archived Chats";
+/* Class = "UINavigationItem"; title = "آرکائیو چیٹس"; ObjectID = "lLg-0j-P8T"; */
+"lLg-0j-P8T.title" = "آرکائیو چیٹس";
 
 /* Class = "UILabel"; text = "Edit Profile"; ObjectID = "luF-NJ-tsY"; */
 "luF-NJ-tsY.text" = "Edit Profile";
 
-/* Class = "UILabel"; text = "Please enter your name"; ObjectID = "lul-5W-Jb5"; */
-"lul-5W-Jb5.text" = "Please enter your name";
+/* Class = "UILabel"; text = "براہ مہربانی اپنا نام درج کریں"; ObjectID = "lul-5W-Jb5"; */
+"lul-5W-Jb5.text" = "براہ مہربانی اپنا نام درج کریں";
 
 /* Class = "UILabel"; text = "12:45 PM"; ObjectID = "m1Z-D9-2GB"; */
 "m1Z-D9-2GB.text" = "12:45 PM";
@@ -968,32 +932,32 @@
 /* Class = "UILabel"; text = "rtf - 2 KB                 8:07 AM"; ObjectID = "m5G-5C-FpU"; */
 "m5G-5C-FpU.text" = "rtf - 2 KB                 8:07 AM";
 
-/* Class = "UILabel"; text = "Delivered"; ObjectID = "mmU-mH-85C"; */
-"mmU-mH-85C.text" = "Delivered";
+/* Class = "UILabel"; text = "بھیج دیا گیا"; ObjectID = "mmU-mH-85C"; */
+"mmU-mH-85C.text" = "بھیج دیا گیا";
 
-/* Class = "UILabel"; text = "Delivered"; ObjectID = "nEJ-dl-fIN"; */
-"nEJ-dl-fIN.text" = "Delivered";
+/* Class = "UILabel"; text = "بھیج دیا گیا"; ObjectID = "nEJ-dl-fIN"; */
+"nEJ-dl-fIN.text" = "بھیج دیا گیا";
 
-/* Class = "UINavigationItem"; title = "Message Info"; ObjectID = "nLf-7i-uXN"; */
-"nLf-7i-uXN.title" = "Message Info";
+/* Class = "UINavigationItem"; title = "پیغام کی معلومات"; ObjectID = "nLf-7i-uXN"; */
+"nLf-7i-uXN.title" = "پیغام کی معلومات";
 
-/* Class = "UIButton"; normalTitle = "edit"; ObjectID = "nUM-h9-Ofp"; */
-"nUM-h9-Ofp.normalTitle" = "edit";
+/* Class = "UIButton"; normalTitle = "ترمیم کریں"; ObjectID = "nUM-h9-Ofp"; */
+"nUM-h9-Ofp.normalTitle" = "ترمیم کریں";
 
-/* Class = "UILabel"; text = "Delivered"; ObjectID = "nXa-HK-Idt"; */
-"nXa-HK-Idt.text" = "Delivered";
+/* Class = "UILabel"; text = "بھیج دیا گیا"; ObjectID = "nXa-HK-Idt"; */
+"nXa-HK-Idt.text" = "بھیج دیا گیا";
 
-/* Class = "UILabel"; text = "Downloading..."; ObjectID = "nb8-12-SqI"; */
-"nb8-12-SqI.text" = "Downloading...";
+/* Class = "UILabel"; text = "ڈاؤن لوڈ کرنا ..."; ObjectID = "nb8-12-SqI"; */
+"nb8-12-SqI.text" = "ڈاؤن لوڈ کرنا ...";
 
-/* Class = "UILabel"; text = "Contact Name"; ObjectID = "nfU-ya-eea"; */
-"nfU-ya-eea.text" = "Contact Name";
+/* Class = "UILabel"; text = "رابطے کا نام"; ObjectID = "nfU-ya-eea"; */
+"nfU-ya-eea.text" = "رابطے کا نام";
 
-/* Class = "UITextView"; text = "Restore your chat history from iCloud. You will not be able to restore later if you decline to restore now. Your media will restore in background after your messages restore"; ObjectID = "njK-TV-KDm"; */
-"njK-TV-KDm.text" = "Restore your chat history from iCloud. You will not be able to restore later if you decline to restore now. Your media will restore in background after your messages restore";
+/* Class = "UITextView"; text = "iCloud کے سے آپ کی چیٹ کی سرگزشت بحال کریں. اگر آپ اب بحال کرنے کی رد ہے تو بعد میں بحال کرنے کے قابل نہیں ہو گا. آپ کے پیغامات بعد اپنے میڈیا کے پس منظر میں بحال کریں گے بحال"; ObjectID = "njK-TV-KDm"; */
+"njK-TV-KDm.text" = "iCloud کے سے آپ کی چیٹ کی سرگزشت بحال کریں. اگر آپ اب بحال کرنے کی رد ہے تو بعد میں بحال کرنے کے قابل نہیں ہو گا. آپ کے پیغامات بعد اپنے میڈیا کے پس منظر میں بحال کریں گے بحال";
 
-/* Class = "UINavigationItem"; title = "New Group"; ObjectID = "oUa-VY-LAE"; */
-"oUa-VY-LAE.title" = "New Group";
+/* Class = "UINavigationItem"; title = "نیا گروپ"; ObjectID = "oUa-VY-LAE"; */
+"oUa-VY-LAE.title" = "نیا گروپ";
 
 /* Class = "UILabel"; text = "12:45 PM"; ObjectID = "oVC-kS-vSo"; */
 "oVC-kS-vSo.text" = "12:45 PM";
@@ -1001,17 +965,17 @@
 /* Class = "UILabel"; text = "Lat Backup: "; ObjectID = "oYP-ja-5Ax"; */
 "oYP-ja-5Ax.text" = "Lat Backup: ";
 
-/* Class = "UILabel"; text = "Delivered"; ObjectID = "oZ8-u3-Le6"; */
-"oZ8-u3-Le6.text" = "Delivered";
+/* Class = "UILabel"; text = "بھیج دیا گیا"; ObjectID = "oZ8-u3-Le6"; */
+"oZ8-u3-Le6.text" = "بھیج دیا گیا";
 
-/* Class = "UIButton"; normalTitle = "Save to other Location"; ObjectID = "oqA-R9-fuV"; */
-"oqA-R9-fuV.normalTitle" = "Save to other Location";
+/* Class = "UIButton"; normalTitle = "دوسرے مقام میں محفوظ کریں"; ObjectID = "oqA-R9-fuV"; */
+"oqA-R9-fuV.normalTitle" = "دوسرے مقام میں محفوظ کریں";
 
-/* Class = "UILabel"; text = "Chat Backup"; ObjectID = "ot9-wv-VX6"; */
-"ot9-wv-VX6.text" = "Chat Backup";
+/* Class = "UILabel"; text = "چیٹ بیک اپ"; ObjectID = "ot9-wv-VX6"; */
+"ot9-wv-VX6.text" = "چیٹ بیک اپ";
 
-/* Class = "UITextView"; text = "Welcome to Cloudkibo Conference! Waiting for other peer to connect."; ObjectID = "p1W-Cd-iuP"; */
-"p1W-Cd-iuP.text" = "Welcome to Cloudkibo Conference! Waiting for other peer to connect.";
+/* Class = "UITextView"; text = "Cloudkibo کانفرنس میں خوش آمدید! دیگر ہم مرتبہ مربوط کرنے کے لئے انتظار کر رہا ہے."; ObjectID = "p1W-Cd-iuP"; */
+"p1W-Cd-iuP.text" = "Cloudkibo کانفرنس میں خوش آمدید! دیگر ہم مرتبہ مربوط کرنے کے لئے انتظار کر رہا ہے.";
 
 /* Class = "UISegmentedControl"; p51-w3-jMU.segmentTitles[0] = "My Projects"; ObjectID = "p51-w3-jMU"; */
 "p51-w3-jMU.segmentTitles[0]" = "My Projects";
@@ -1019,11 +983,11 @@
 /* Class = "UISegmentedControl"; p51-w3-jMU.segmentTitles[1] = "All Projects"; ObjectID = "p51-w3-jMU"; */
 "p51-w3-jMU.segmentTitles[1]" = "All Projects";
 
-/* Class = "UILabel"; text = "No Name"; ObjectID = "p6t-Jp-IxK"; */
-"p6t-Jp-IxK.text" = "No Name";
+/* Class = "UILabel"; text = "گمنام"; ObjectID = "p6t-Jp-IxK"; */
+"p6t-Jp-IxK.text" = "گمنام";
 
-/* Class = "UIButton"; normalTitle = "Save Contact"; ObjectID = "pDG-YO-Q9E"; */
-"pDG-YO-Q9E.normalTitle" = "Save Contact";
+/* Class = "UIButton"; normalTitle = "رابطہ محفوظ کریں"; ObjectID = "pDG-YO-Q9E"; */
+"pDG-YO-Q9E.normalTitle" = "رابطہ محفوظ کریں";
 
 /* Class = "UILabel"; text = "Sojharo"; ObjectID = "pEJ-Nx-ykT"; */
 "pEJ-Nx-ykT.text" = "Sojharo";
@@ -1031,41 +995,41 @@
 /* Class = "UIViewController"; title = "CallRingingViewController"; ObjectID = "pEh-DU-l9J"; */
 "pEh-DU-l9J.title" = "CallRingingViewController";
 
-/* Class = "UILabel"; text = "Downloading Location..."; ObjectID = "pLy-aI-4JD"; */
-"pLy-aI-4JD.text" = "Downloading Location...";
+/* Class = "UILabel"; text = "ڈاؤن لوڈ کر رہا مقام ..."; ObjectID = "pLy-aI-4JD"; */
+"pLy-aI-4JD.text" = "ڈاؤن لوڈ کر رہا مقام ...";
 
-/* Class = "UILabel"; text = "Delivered"; ObjectID = "pVa-8H-ium"; */
-"pVa-8H-ium.text" = "Delivered";
+/* Class = "UILabel"; text = "بھیج دیا گیا"; ObjectID = "pVa-8H-ium"; */
+"pVa-8H-ium.text" = "بھیج دیا گیا";
 
-/* Class = "UILabel"; text = "Group Created by you"; ObjectID = "pWZ-Y6-B64"; */
-"pWZ-Y6-B64.text" = "Group Created by you";
+/* Class = "UILabel"; text = "گروپ آپ کے ذریعے تخلیق"; ObjectID = "pWZ-Y6-B64"; */
+"pWZ-Y6-B64.text" = "گروپ آپ کے ذریعے تخلیق";
 
-/* Class = "UILabel"; text = "Audio File"; ObjectID = "pmE-6d-zD2"; */
-"pmE-6d-zD2.text" = "Audio File";
+/* Class = "UILabel"; text = "آڈیو فائل"; ObjectID = "pmE-6d-zD2"; */
+"pmE-6d-zD2.text" = "آڈیو فائل";
 
 /* Class = "UIButton"; normalTitle = "test"; ObjectID = "q63-Hq-0xE"; */
 "q63-Hq-0xE.normalTitle" = "test";
 
-/* Class = "UIBarButtonItem"; title = "Restore"; ObjectID = "q6D-yt-bjz"; */
-"q6D-yt-bjz.title" = "Restore";
+/* Class = "UIBarButtonItem"; title = "بحال"; ObjectID = "q6D-yt-bjz"; */
+"q6D-yt-bjz.title" = "بحال";
 
 /* Class = "UINavigationItem"; title = "Requests"; ObjectID = "qOU-x9-C7N"; */
 "qOU-x9-C7N.title" = "Requests";
 
-/* Class = "UITextField"; placeholder = "List Name"; ObjectID = "qYE-m6-5HL"; */
-"qYE-m6-5HL.placeholder" = "List Name";
+/* Class = "UITextField"; placeholder = "فہرست کا نام"; ObjectID = "qYE-m6-5HL"; */
+"qYE-m6-5HL.placeholder" = "فہرست کا نام";
 
-/* Class = "UILabel"; text = "Hey there! I am using Kibo App"; ObjectID = "qkw-eY-Ou5"; */
-"qkw-eY-Ou5.text" = "Hey there! I am using Kibo App";
+/* Class = "UILabel"; text = "Kibo اپلی وہاں ارے! میں استعمال کر رہا ہوں"; ObjectID = "qkw-eY-Ou5"; */
+"qkw-eY-Ou5.text" = "Kibo اپلی وہاں ارے! میں استعمال کر رہا ہوں";
 
-/* Class = "UILabel"; text = "Delivered"; ObjectID = "qpI-Zh-0q1"; */
-"qpI-Zh-0q1.text" = "Delivered";
+/* Class = "UILabel"; text = "بھیج دیا گیا"; ObjectID = "qpI-Zh-0q1"; */
+"qpI-Zh-0q1.text" = "بھیج دیا گیا";
 
-/* Class = "UIBarButtonItem"; title = "View"; ObjectID = "qw0-sO-Rab"; */
-"qw0-sO-Rab.title" = "View";
+/* Class = "UIBarButtonItem"; title = "دیکھیں"; ObjectID = "qw0-sO-Rab"; */
+"qw0-sO-Rab.title" = "دیکھیں";
 
-/* Class = "UILabel"; text = "version"; ObjectID = "rQW-jP-oHF"; */
-"rQW-jP-oHF.text" = "version";
+/* Class = "UILabel"; text = "ورژن"; ObjectID = "rQW-jP-oHF"; */
+"rQW-jP-oHF.text" = "ورژن";
 
 /* Class = "UILabel"; text = "12:45 PM"; ObjectID = "rf8-4O-dWx"; */
 "rf8-4O-dWx.text" = "12:45 PM";
@@ -1073,161 +1037,149 @@
 /* Class = "UILabel"; text = "Date/Time (sent)"; ObjectID = "rfm-kB-oq0"; */
 "rfm-kB-oq0.text" = "Date/Time (sent)";
 
-/* Class = "UILabel"; text = "Delivered"; ObjectID = "rhA-95-OAC"; */
-"rhA-95-OAC.text" = "Delivered";
+/* Class = "UILabel"; text = "بھیج دیا گیا"; ObjectID = "rhA-95-OAC"; */
+"rhA-95-OAC.text" = "بھیج دیا گیا";
 
 /* Class = "UILabel"; text = "rtf - 2 KB                 8:07 AM"; ObjectID = "rjT-JP-T66"; */
 "rjT-JP-T66.text" = "rtf - 2 KB                 8:07 AM";
 
-/* Class = "UIBarButtonItem"; title = "Create"; ObjectID = "rnm-1a-DAV"; */
-"rnm-1a-DAV.title" = "Create";
+/* Class = "UIBarButtonItem"; title = "بنانا"; ObjectID = "rnm-1a-DAV"; */
+"rnm-1a-DAV.title" = "بنانا";
 
 /* Class = "UILabel"; text = "12:45 PM"; ObjectID = "roe-A8-qsT"; */
 "roe-A8-qsT.text" = "12:45 PM";
 
-/* Class = "UILabel"; text = "Delivered"; ObjectID = "ruj-Yk-lgz"; */
-"ruj-Yk-lgz.text" = "Delivered";
+/* Class = "UILabel"; text = "وہاں ارے! میں نے KiboApp استعمال کر رہا ہوں"; ObjectID = "rvk-SI-dvz"; */
+"rvk-SI-dvz.text" = "وہاں ارے! میں نے KiboApp استعمال کر رہا ہوں";
 
-/* Class = "UILabel"; text = "Hey there! I am using KiboApp"; ObjectID = "rvk-SI-dvz"; */
-"rvk-SI-dvz.text" = "Hey there! I am using KiboApp";
+/* Class = "UILabel"; text = "نام"; ObjectID = "rwn-yD-Wug"; */
+"rwn-yD-Wug.text" = "نام";
 
-/* Class = "UILabel"; text = "Name"; ObjectID = "rwn-yD-Wug"; */
-"rwn-yD-Wug.text" = "Name";
+/* Class = "UILabel"; text = "تصویری ڈاؤن لوڈ کرنا ..."; ObjectID = "s23-WC-chm"; */
+"s23-WC-chm.text" = "تصویری ڈاؤن لوڈ کرنا ...";
 
-/* Class = "UILabel"; text = "Delivered"; ObjectID = "ryV-8b-4oq"; */
-"ryV-8b-4oq.text" = "Delivered";
+/* Class = "UILabel"; text = "آپ کو اس آلے کو کیا سمجھتے ہو!"; ObjectID = "sdg-5k-62c"; */
+"sdg-5k-62c.text" = "آپ کو اس آلے کو کیا سمجھتے ہو!";
 
-/* Class = "UILabel"; text = "Downloading Image..."; ObjectID = "s23-WC-chm"; */
-"s23-WC-chm.text" = "Downloading Image...";
+/* Class = "UILabel"; text = "ڈاؤن لوڈ ہو .."; ObjectID = "srV-3S-uvU"; */
+"srV-3S-uvU.text" = "ڈاؤن لوڈ ہو ..";
 
-/* Class = "UILabel"; text = "What do you think of this tool!"; ObjectID = "sdg-5k-62c"; */
-"sdg-5k-62c.text" = "What do you think of this tool!";
-
-/* Class = "UILabel"; text = "Downloading.."; ObjectID = "srV-3S-uvU"; */
-"srV-3S-uvU.text" = "Downloading..";
-
-/* Class = "UILabel"; text = "Label"; ObjectID = "ssc-bH-oiK"; */
-"ssc-bH-oiK.text" = "Label";
+/* Class = "UILabel"; text = "لیبل"; ObjectID = "ssc-bH-oiK"; */
+"ssc-bH-oiK.text" = "لیبل";
 
 /* Class = "UILabel"; text = "Sojharo"; ObjectID = "sva-g3-ciu"; */
 "sva-g3-ciu.text" = "Sojharo";
 
-/* Class = "UILabel"; text = "Contact Name"; ObjectID = "t3Z-QX-euS"; */
-"t3Z-QX-euS.text" = "Contact Name";
+/* Class = "UILabel"; text = "رابطے کا نام"; ObjectID = "t3Z-QX-euS"; */
+"t3Z-QX-euS.text" = "رابطے کا نام";
 
-/* Class = "UIButton"; normalTitle = "Get Started"; ObjectID = "tRc-Fc-R5S"; */
-"tRc-Fc-R5S.normalTitle" = "Get Started";
+/* Class = "UIButton"; normalTitle = "شروع کرنے کے"; ObjectID = "tRc-Fc-R5S"; */
+"tRc-Fc-R5S.normalTitle" = "شروع کرنے کے";
 
-/* Class = "UILabel"; text = "Hey there! I am using KiboApp"; ObjectID = "tck-7S-BAb"; */
-"tck-7S-BAb.text" = "Hey there! I am using KiboApp";
+/* Class = "UILabel"; text = "وہاں ارے! میں نے KiboApp استعمال کر رہا ہوں"; ObjectID = "tck-7S-BAb"; */
+"tck-7S-BAb.text" = "وہاں ارے! میں نے KiboApp استعمال کر رہا ہوں";
 
-/* Class = "UINavigationItem"; title = "Chat Screen"; ObjectID = "thG-G3-vaa"; */
-"thG-G3-vaa.title" = "Chat Screen";
+/* Class = "UINavigationItem"; title = "چیٹ سکرین"; ObjectID = "thG-G3-vaa"; */
+"thG-G3-vaa.title" = "چیٹ سکرین";
 
-/* Class = "UILabel"; text = "EMAIL / PHONE"; ObjectID = "tkP-7B-S2V"; */
-"tkP-7B-S2V.text" = "EMAIL / PHONE";
+/* Class = "UILabel"; text = "ای میل / فون"; ObjectID = "tkP-7B-S2V"; */
+"tkP-7B-S2V.text" = "ای میل / فون";
 
-/* Class = "UILabel"; text = "damaged message"; ObjectID = "txX-YM-Z4G"; */
-"txX-YM-Z4G.text" = "damaged message";
+/* Class = "UILabel"; text = "تباہ شدہ پیغام"; ObjectID = "txX-YM-Z4G"; */
+"txX-YM-Z4G.text" = "تباہ شدہ پیغام";
 
-/* Class = "UITabBarItem"; title = "Calls"; ObjectID = "u4X-wt-T2C"; */
-"u4X-wt-T2C.title" = "Calls";
+/* Class = "UITabBarItem"; title = "بلاتا ہے"; ObjectID = "u4X-wt-T2C"; */
+"u4X-wt-T2C.title" = "بلاتا ہے";
 
-/* Class = "UILabel"; text = "Delivered"; ObjectID = "uEU-ac-DLc"; */
-"uEU-ac-DLc.text" = "Delivered";
+/* Class = "UILabel"; text = "بھیج دیا گیا"; ObjectID = "uEU-ac-DLc"; */
+"uEU-ac-DLc.text" = "بھیج دیا گیا";
 
 /* Class = "UILabel"; text = "📢"; ObjectID = "uPA-u7-rCi"; */
 "uPA-u7-rCi.text" = "📢";
 
-/* Class = "UILabel"; text = "Downloading document.."; ObjectID = "uVY-zY-rQf"; */
-"uVY-zY-rQf.text" = "Downloading document..";
+/* Class = "UILabel"; text = "دستاویز ڈاؤن لوڈ ہو .."; ObjectID = "uVY-zY-rQf"; */
+"uVY-zY-rQf.text" = "دستاویز ڈاؤن لوڈ ہو ..";
 
-/* Class = "UINavigationItem"; title = "Invite to Cloudkibo"; ObjectID = "umL-Vx-88Q"; */
-"umL-Vx-88Q.title" = "Invite to Cloudkibo";
+/* Class = "UINavigationItem"; title = "Cloudkibo میں مدعو کریں"; ObjectID = "umL-Vx-88Q"; */
+"umL-Vx-88Q.title" = "Cloudkibo میں مدعو کریں";
 
-/* Class = "UIViewController"; title = "Chats"; ObjectID = "v28-cs-4pq"; */
-"v28-cs-4pq.title" = "Chats";
+/* Class = "UIViewController"; title = "چیٹس"; ObjectID = "v28-cs-4pq"; */
+"v28-cs-4pq.title" = "چیٹس";
 
-/* Class = "UILabel"; text = "Sumaira"; ObjectID = "vAK-dg-Ut5"; */
-"vAK-dg-Ut5.text" = "Sumaira";
+/* Class = "UILabel"; text = "سمیرا"; ObjectID = "vAK-dg-Ut5"; */
+"vAK-dg-Ut5.text" = "سمیرا";
 
-/* Class = "UILabel"; text = "Delivered"; ObjectID = "vEa-0j-yN5"; */
-"vEa-0j-yN5.text" = "Delivered";
+/* Class = "UILabel"; text = "بھیج دیا گیا"; ObjectID = "vEa-0j-yN5"; */
+"vEa-0j-yN5.text" = "بھیج دیا گیا";
 
-/* Class = "UILabel"; text = "My Profile"; ObjectID = "vVj-iJ-spf"; */
-"vVj-iJ-spf.text" = "My Profile";
+/* Class = "UILabel"; text = "میری پروفائل"; ObjectID = "vVj-iJ-spf"; */
+"vVj-iJ-spf.text" = "میری پروفائل";
 
-/* Class = "UILabel"; text = "email"; ObjectID = "vzK-Zy-8lt"; */
-"vzK-Zy-8lt.text" = "email";
+/* Class = "UILabel"; text = "ای میل"; ObjectID = "vzK-Zy-8lt"; */
+"vzK-Zy-8lt.text" = "ای میل";
 
-/* Class = "UIBarButtonItem"; title = "Back"; ObjectID = "w2Q-fo-CVo"; */
-"w2Q-fo-CVo.title" = "Back";
+/* Class = "UIBarButtonItem"; title = "پیچھے"; ObjectID = "w2Q-fo-CVo"; */
+"w2Q-fo-CVo.title" = "پیچھے";
 
-/* Class = "UILabel"; text = "Sending..."; ObjectID = "wKx-Al-xIT"; */
-"wKx-Al-xIT.text" = "Sending...";
+/* Class = "UILabel"; text = "بھیج رہا ہے ..."; ObjectID = "wKx-Al-xIT"; */
+"wKx-Al-xIT.text" = "بھیج رہا ہے ...";
 
-/* Class = "UILabel"; text = "Login to Cloudkibo Application"; ObjectID = "wfa-HY-wgX"; */
-"wfa-HY-wgX.text" = "Login to Cloudkibo Application";
+/* Class = "UILabel"; text = "Cloudkibo درخواست کرنے کے لئے لاگ ان کریں"; ObjectID = "wfa-HY-wgX"; */
+"wfa-HY-wgX.text" = "Cloudkibo درخواست کرنے کے لئے لاگ ان کریں";
 
-/* Class = "UITextField"; placeholder = "Your name (for notifications)"; ObjectID = "woe-55-SMN"; */
-"woe-55-SMN.placeholder" = "Your name (for notifications)";
+/* Class = "UITextField"; placeholder = "آپ کا نام (اطلاعات کیلئے)"; ObjectID = "woe-55-SMN"; */
+"woe-55-SMN.placeholder" = "آپ کا نام (اطلاعات کیلئے)";
 
-/* Class = "UILabel"; text = "Audio File"; ObjectID = "wqd-Cy-yGa"; */
-"wqd-Cy-yGa.text" = "Audio File";
+/* Class = "UILabel"; text = "آڈیو فائل"; ObjectID = "wqd-Cy-yGa"; */
+"wqd-Cy-yGa.text" = "آڈیو فائل";
 
-/* Class = "UILabel"; text = "Chat"; ObjectID = "wr1-QI-Jz1"; */
-"wr1-QI-Jz1.text" = "Chat";
+/* Class = "UILabel"; text = "چیٹ"; ObjectID = "wr1-QI-Jz1"; */
+"wr1-QI-Jz1.text" = "چیٹ";
 
-/* Class = "UILabel"; text = "Last Backup:"; ObjectID = "wwt-sa-9sZ"; */
-"wwt-sa-9sZ.text" = "Last Backup:";
+/* Class = "UILabel"; text = "آخری بیک اپ:"; ObjectID = "wwt-sa-9sZ"; */
+"wwt-sa-9sZ.text" = "آخری بیک اپ:";
 
 /* Class = "UILabel"; text = "Its actually pretty good"; ObjectID = "wyd-LA-4IG"; */
 "wyd-LA-4IG.text" = "Its actually pretty good";
 
-/* Class = "UILabel"; text = "My Special Project"; ObjectID = "x0i-9q-xzP"; */
-"x0i-9q-xzP.text" = "My Special Project";
+/* Class = "UILabel"; text = "میری سپیشل پروجیکٹ"; ObjectID = "x0i-9q-xzP"; */
+"x0i-9q-xzP.text" = "میری سپیشل پروجیکٹ";
 
-/* Class = "UIBarButtonItem"; title = "Capture"; ObjectID = "xOo-F1-erW"; */
-"xOo-F1-erW.title" = "Capture";
+/* Class = "UIBarButtonItem"; title = "قبضہ"; ObjectID = "xOo-F1-erW"; */
+"xOo-F1-erW.title" = "قبضہ";
 
-/* Class = "UIButton"; normalTitle = "Edit List.."; ObjectID = "xSK-iy-vzB"; */
-"xSK-iy-vzB.normalTitle" = "Edit List..";
+/* Class = "UIButton"; normalTitle = "فہرست میں ترمیم .."; ObjectID = "xSK-iy-vzB"; */
+"xSK-iy-vzB.normalTitle" = "فہرست میں ترمیم ..";
 
-/* Class = "UIBarButtonItem"; title = "Skip"; ObjectID = "xZl-ew-0JO"; */
-"xZl-ew-0JO.title" = "Skip";
+/* Class = "UIBarButtonItem"; title = "جائیں"; ObjectID = "xZl-ew-0JO"; */
+"xZl-ew-0JO.title" = "جائیں";
 
-/* Class = "UITabBarItem"; title = "Settings"; ObjectID = "xe2-I8-UFU"; */
-"xe2-I8-UFU.title" = "Settings";
+/* Class = "UITabBarItem"; title = "ترتیبات"; ObjectID = "xe2-I8-UFU"; */
+"xe2-I8-UFU.title" = "ترتیبات";
 
-/* Class = "UILabel"; text = "time label"; ObjectID = "xg2-vf-VKf"; */
-"xg2-vf-VKf.text" = "time label";
+/* Class = "UILabel"; text = "وقت لیبل"; ObjectID = "xg2-vf-VKf"; */
+"xg2-vf-VKf.text" = "وقت لیبل";
 
-/* Class = "UILabel"; text = "12:45 PM"; ObjectID = "yX1-Sa-yRU"; */
-"yX1-Sa-yRU.text" = "12:45 PM";
+/* Class = "UILabel"; text = "بھیج دیا گیا"; ObjectID = "ygU-4p-d3X"; */
+"ygU-4p-d3X.text" = "بھیج دیا گیا";
 
-/* Class = "UILabel"; text = "Delivered"; ObjectID = "ygU-4p-d3X"; */
-"ygU-4p-d3X.text" = "Delivered";
+/* Class = "UILabel"; text = "آپ کو اس آلے کو کیا سمجھتے ہو!"; ObjectID = "yhn-Js-mGs"; */
+"yhn-Js-mGs.text" = "آپ کو اس آلے کو کیا سمجھتے ہو!";
 
-/* Class = "UILabel"; text = "What do you think of this tool!"; ObjectID = "yhn-Js-mGs"; */
-"yhn-Js-mGs.text" = "What do you think of this tool!";
+/* Class = "UILabel"; text = "آڈیو نام"; ObjectID = "ywL-Iu-pi2"; */
+"ywL-Iu-pi2.text" = "آڈیو نام";
 
-/* Class = "UILabel"; text = "Its actually pretty good!"; ObjectID = "yv9-3M-wLI"; */
-"yv9-3M-wLI.text" = "Its actually pretty good!";
+/* Class = "UILabel"; text = "بھیج دیا گیا"; ObjectID = "zA2-Cm-aD7"; */
+"zA2-Cm-aD7.text" = "بھیج دیا گیا";
 
-/* Class = "UILabel"; text = "Audio Name"; ObjectID = "ywL-Iu-pi2"; */
-"ywL-Iu-pi2.text" = "Audio Name";
+/* Class = "UILabel"; text = "لیبل"; ObjectID = "zGp-3w-H3f"; */
+"zGp-3w-H3f.text" = "لیبل";
 
-/* Class = "UILabel"; text = "Delivered"; ObjectID = "zA2-Cm-aD7"; */
-"zA2-Cm-aD7.text" = "Delivered";
+/* Class = "UIButton"; normalTitle = "پوسٹ"; ObjectID = "zMg-CH-LI1"; */
+"zMg-CH-LI1.normalTitle" = "پوسٹ";
 
-/* Class = "UILabel"; text = "Label"; ObjectID = "zGp-3w-H3f"; */
-"zGp-3w-H3f.text" = "Label";
-
-/* Class = "UIButton"; normalTitle = "Post"; ObjectID = "zMg-CH-LI1"; */
-"zMg-CH-LI1.normalTitle" = "Post";
-
-/* Class = "UILabel"; text = "Back Up Now"; ObjectID = "zo9-5h-rUA"; */
-"zo9-5h-rUA.text" = "Back Up Now";
+/* Class = "UILabel"; text = "اب بیک اپ"; ObjectID = "zo9-5h-rUA"; */
+"zo9-5h-rUA.text" = "اب بیک اپ";
 
 /* Class = "UILabel"; text = "12:45 PM"; ObjectID = "zzO-Pv-90d"; */
 "zzO-Pv-90d.text" = "12:45 PM";
