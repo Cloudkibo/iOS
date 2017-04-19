@@ -6,32 +6,23 @@
  Copyright © 2017 MyAppTemplates. All rights reserved.
  */
 
-"New Group" = "Neue Gruppe";
-"Edit" = "Bearbeiten";
-"Backup your chat history and media to iCloud so if youblose your iPhone or switch to neew one, your chat history is safe. You can restore your chat history and media when you reinstall KiboApp." = "Sichern Sie Ihre Chat-Geschichte und Medien auf iCloud so, wenn Sie Ihr iPhone oder schalten Sie auf Never, Ihr Chat Geschichte ist sicher. Sie können Ihren Chat-Verlauf und Medien wiederherstellen, wenn Sie KiboApp neu installieren";
+"New Group"="Neue Gruppe";
+"Edit"="Bearbeiten";
+"Backup your chat history and media to iCloud so if youblose your iPhone or switch to neew one, your chat history is safe. You can restore your chat history and media when you reinstall KiboApp."="Sichern Sie Ihre Chat-Geschichte und Medien auf iCloud so, wenn Sie Ihr iPhone oder schalten Sie auf Never, Ihr Chat Geschichte ist sicher. Sie können Ihren Chat-Verlauf und Medien wiederherstellen, wenn Sie KiboApp neu installieren";
 
 //"Back Up Now"="adfasdfasd";*/
 "< Slide left to cancel"="<Schieben Sie nach links, um abzubrechen";
 "Record"="Aufzeichnung";
 "Downloading…"="Wird heruntergeladen…";
 "Play"="Spielen";
-
 "Hey, \n \n I just downloaded KiboChat App on my iPhone. \n \n It is a smartphone messenger with added features. It provides integrated and unified voice, video, and data communication. \n \n It is available for both Android and iPhone and there is no PIN or username to remember. \n \n Get it now from https://api.cloudkibo.com and say good-bye to SMS!"="Hey, \ n \ n Ich habe gerade KiboChat App auf meinem iPhone heruntergeladen. \ N \ n Es ist ein Smartphone-Messenger mit zusätzlichen Features. Es bietet integrierte und vereinheitlichte Sprach-, Video- und Datenkommunikation. \ N \ n Es ist sowohl für Android als auch für iPhone verfügbar und es gibt keine PIN oder Benutzername zu erinnern. \ N \ n Holen Sie es jetzt von https://api.cloudkibo.com und verabschieden Sie sich von SMS!";
-
 "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-
 "Camera"="Kamera";
-
 "Share Video"="Video teilen";
-
 "Photo/Video Library"="Foto / Video-Bibliothek";
-
 "Share Document"="Dokument freigeben";
-
 "Share Location"="Ort teilen";
-
 "Share Contact"="PKontakt teilen";
-
 "Cancel"="Stornieren";
 "Send"="Senden";
 "?"="?";
@@ -44,9 +35,6 @@
 "Yes"="Ja";
 "Done"="Erledigt";
 "Enter Server URL"="Server-URL eingeben";
-
-
-
 "Please input your URL:"="Bitte geben Sie Ihre URL ein:";
 "Welcome to the group"="Willkommen in der Gruppe";
 "more.png"="more.png";
@@ -54,7 +42,7 @@
 "Delete Chat with:"="Chat mit:";
 "Delete"="Löschen";
 "New Chat"="Neuer Chat";
-"User is busy. Please try again later"="Benutzer ist beschäftigt. Bitte versuchen Sie es später noch einmal"
+"User is busy. Please try again later"="Benutzer ist beschäftigt. Bitte versuchen Sie es später noch einmal";
 "Information"="Information";
 "Group Info"="Gruppeninfo";
 "Contact Info"="Kontaktinformation";
@@ -64,7 +52,6 @@
 "Could Not Send Email"="E-Mail konnte nicht gesendet werden";
 "Your device could not send e-mail.  Please check e-mail configuration and try again."="Ihr Gerät konnte keine E-Mail senden. Bitte überprüfen Sie die E-Mail-Konfiguration und versuchen Sie es erneut.";
 "Contacting Server…"="Kontakt zum Server ...";
-
 "Setting Contacts…"="Kontakte setzen ...";
 "Updating local database.."="Lokale Datenbank aktualisieren ..";
 "Updating Contact"="Kontakt aktualisieren";
@@ -74,7 +61,7 @@
 "File with the name  already exists:"="Datei mit dem Namen existiert bereits:";
 "Success"="Erfolg";
 "Your file has been successfully saved to iCloud Drive"="Ihre Datei wurde erfolgreich auf iCloud Drive gespeichert";
-"You have received a new file. You can view files by clicking on \”View\" button present on Main conference page."="Sie haben eine neue Datei erhalten. Sie können Dateien anzeigen, indem Sie auf die Schaltfläche "Ansicht" klicken, die auf der Hauptkonferenzseite vorhanden ist.";
+"You have received a new file. You can view files by clicking on \”View\" button present on Main conference page."="Sie haben eine neue Datei erhalten. Sie können Dateien anzeigen, indem Sie auf die Schaltfläche \"Ansicht\" klicken, die auf der Hauptkonferenzseite vorhanden ist.";
 "An error has occurred:"="Ein Fehler ist aufgetreten:";
 "Welcome to Cloudkibo Meeting"="Willkommen bei Cloudkibo Meeting";
 "Please enter your username"="Bitte geben Sie Ihren Benutzernamen ein";
@@ -138,4 +125,3 @@
 "Weekly"="Wöchentlich";
 "Monthly"="Monatlich";
 "Off"="Aus";
-

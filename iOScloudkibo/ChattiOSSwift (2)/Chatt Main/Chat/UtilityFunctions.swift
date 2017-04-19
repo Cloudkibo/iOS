@@ -2148,6 +2148,60 @@ print("tempURL is \(temporaryURL) and response is \(response.allHeaderFields)")
         }
         
     }
+    
+    func writeLocaliseFile()
+    {  let fileName = "Test"
+        let DocumentDirURL = try! FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: true)
+        
+        let fileURL = DocumentDirURL.appendingPathComponent(fileName).appendingPathExtension("txt")
+        print("FilePath: \(fileURL.path)")
+        
+        
+        if let path = Bundle.main.path(forResource: "keyFile", ofType: "txt") {
+            do {
+                let data = try String(contentsOfFile: path, encoding: .utf8)
+                let myStrings = data.components(separatedBy: .newlines)
+                
+                if let pathTrans = Bundle.main.path(forResource: "valueFile", ofType: "txt") {
+                    do {
+                        let trans = try String(contentsOfFile: pathTrans, encoding: .utf8)
+                        let transStrings = trans.components(separatedBy: .newlines)
+                        var newDict=""
+                        for i in 0 ..< myStrings.count
+                        {
+                            newDict=newDict+"\n"+"\""+myStrings[i]+"\"=\""+transStrings[i]+"\";"
+                            print(newDict)
+                           
+
+                        }
+                        let writeString = newDict
+                        do {
+                            // Write to the file
+                            try writeString.write(to: fileURL, atomically: true, encoding: String.Encoding.utf8)
+                            print("writinggg")
+                        } catch let error as NSError {
+                            print("Failed writing to URL: \(fileURL), Error: " + error.localizedDescription)
+                        }
+                        
+                        
+                        //TextView.text = myStrings.joined(separator: ", ")
+                    } catch {
+                        print(error)
+                    }
+                }
+                
+                
+                //TextView.text = myStrings.joined(separator: ", ")
+            } catch {
+                print(error)
+            }
+        }
+    }
+    
+    func write()
+    {
+        // Save data to file
+        }
 
 }
 

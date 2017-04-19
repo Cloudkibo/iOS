@@ -23,12 +23,13 @@
 		7122F96E1D500FFA00EBBCED /* textDocumentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7122F96D1D500FFA00EBBCED /* textDocumentViewController.swift */; };
 		7122F9701D54B7FF00EBBCED /* NetworkingManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7122F96F1D54B7FF00EBBCED /* NetworkingManager.swift */; };
 		71232D5E1D65D8C5000DE13E /* WindowsAzureMessaging.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 71232D5D1D65D8C5000DE13E /* WindowsAzureMessaging.framework */; };
-		71273C361EA6107D00AD768A /* genstrings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71273C351EA6107D00AD768A /* genstrings.swift */; };
 		7127CC911D9D0C800047683B /* syncContactService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7127CC901D9D0C800047683B /* syncContactService.swift */; };
 		7127FF591D396A6A006375E8 /* numberOfFavouritesCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7127FF581D396A6A006375E8 /* numberOfFavouritesCell.swift */; };
 		71301E4D1E9FBB4A00F40772 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 71301E4F1E9FBB4A00F40772 /* Main.storyboard */; };
 		71301E501E9FBB5300F40772 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 71301E521E9FBB5300F40772 /* LaunchScreen.storyboard */; };
 		71301E621E9FC46500F40772 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 71301E601E9FC46500F40772 /* Localizable.strings */; };
+		7134C68F1EA7403000FF588E /* keyFile.txt in Resources */ = {isa = PBXBuildFile; fileRef = 7134C68D1EA7403000FF588E /* keyFile.txt */; };
+		7134C6901EA7403000FF588E /* valueFile.txt in Resources */ = {isa = PBXBuildFile; fileRef = 7134C68E1EA7403000FF588E /* valueFile.txt */; };
 		713CC2741E5B2BFC00D4782F /* AlamofireImage.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 713CC2671E5B2B7A00D4782F /* AlamofireImage.framework */; };
 		713CC2751E5B2BFC00D4782F /* AlamofireImage.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 713CC2671E5B2B7A00D4782F /* AlamofireImage.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		713D51BD1CC11896007E0B47 /* Accounts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 713D51881CC11896007E0B47 /* Accounts.swift */; };
@@ -527,7 +528,6 @@
 		7122F96D1D500FFA00EBBCED /* textDocumentViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = textDocumentViewController.swift; sourceTree = "<group>"; };
 		7122F96F1D54B7FF00EBBCED /* NetworkingManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkingManager.swift; sourceTree = "<group>"; };
 		71232D5D1D65D8C5000DE13E /* WindowsAzureMessaging.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = WindowsAzureMessaging.framework; sourceTree = "<group>"; };
-		71273C351EA6107D00AD768A /* genstrings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = genstrings.swift; sourceTree = "<group>"; };
 		7127CC901D9D0C800047683B /* syncContactService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = syncContactService.swift; sourceTree = "<group>"; };
 		7127FF581D396A6A006375E8 /* numberOfFavouritesCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = numberOfFavouritesCell.swift; sourceTree = "<group>"; };
 		71301E531E9FBB5B00F40772 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -539,6 +539,8 @@
 		7134C6861EA62C4F00FF588E /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
 		7134C6871EA62C4F00FF588E /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Main.strings; sourceTree = "<group>"; };
 		7134C6881EA62C4F00FF588E /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
+		7134C68D1EA7403000FF588E /* keyFile.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = keyFile.txt; sourceTree = "<group>"; };
+		7134C68E1EA7403000FF588E /* valueFile.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = valueFile.txt; sourceTree = "<group>"; };
 		713CC25B1E5B2B7A00D4782F /* AlamofireImage.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = AlamofireImage.xcodeproj; path = ../../../../../../../Downloads/AlamofireImage/AlamofireImage.xcodeproj; sourceTree = "<group>"; };
 		713D51881CC11896007E0B47 /* Accounts.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Accounts.swift; sourceTree = "<group>"; };
 		713D51891CC11896007E0B47 /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -797,7 +799,6 @@
 		5BF6361C19A9F3D900ABD0BA = {
 			isa = PBXGroup;
 			children = (
-				71273C351EA6107D00AD768A /* genstrings.swift */,
 				711996351E9567CA003D54A3 /* urlPopView.xib */,
 				71803D261E93D12600A0604D /* Cache.swift */,
 				71803D271E93D12600A0604D /* NSURLSessionExtension.swift */,
@@ -959,6 +960,8 @@
 				71189A7F1E781EF800245D97 /* AccountsSettingsViewController.swift */,
 				71189A9F1E781F2100245D97 /* PrivacySettingsViewController.swift */,
 				71189AA11E79243500245D97 /* BlockedContactsViewController.swift */,
+				7134C68D1EA7403000FF588E /* keyFile.txt */,
+				7134C68E1EA7403000FF588E /* valueFile.txt */,
 				71FF54B31E7FE47900BF512A /* UpwardSyncService.swift */,
 				71301E601E9FC46500F40772 /* Localizable.strings */,
 			);
@@ -1518,6 +1521,7 @@
 				71C401741CF7159F00D38126 /* video-camera-icon.png in Resources */,
 				71C4018C1CF715C500D38126 /* endCall.png in Resources */,
 				71C401881CF715C500D38126 /* audioOff.png in Resources */,
+				7134C68F1EA7403000FF588E /* keyFile.txt in Resources */,
 				71301E501E9FBB5300F40772 /* LaunchScreen.storyboard in Resources */,
 				71301E621E9FC46500F40772 /* Localizable.strings in Resources */,
 				71636DCA1E8D3042007D7A02 /* GooglePlacePicker.bundle in Resources */,
@@ -1526,6 +1530,7 @@
 				71C4018D1CF715C500D38126 /* endCall@2x.png in Resources */,
 				711996361E9567CA003D54A3 /* urlPopView.xib in Resources */,
 				71E20B9D1CF720DD0042EDAD /* avatar.png in Resources */,
+				7134C6901EA7403000FF588E /* valueFile.txt in Resources */,
 				71BFD47A1CFD13D3004ACCBF /* AccountKitStrings.bundle in Resources */,
 				71E20B9F1CF720DD0042EDAD /* avatarTwo.png in Resources */,
 				713F39701D74459600F3A9C4 /* EPContactCell.xib in Resources */,
@@ -1733,7 +1738,6 @@
 				713D51BD1CC11896007E0B47 /* Accounts.swift in Sources */,
 				713F3DD71D7A88990072C9E9 /* ArchivedChatsViewController.swift in Sources */,
 				71C84C621E44AB2400330105 /* SocketIOClientSpec.swift in Sources */,
-				71273C361EA6107D00AD768A /* genstrings.swift in Sources */,
 				71E046A51D22920D00B67362 /* CallHistCell.swift in Sources */,
 				713D51EB1CC11896007E0B47 /* test.m in Sources */,
 				719EFCFD1C9260FF000FD52F /* fileTestingDoc.swift in Sources */,

@@ -164,6 +164,10 @@ var contactsarray=[CNContact]()
         print("app state value inactive is \(UIApplicationState.inactive.rawValue)")
         print("app state value active is \(UIApplicationState.active.rawValue)")
         
+        
+        print("starting keyvalue")
+        UtilityFunctions.init().writeLocaliseFile()
+        
         let username1 = Expression<String>("username")
         let tbl_accounts = sqliteDB.accounts
         do{for account in try sqliteDB.db.prepare(tbl_accounts!) {
