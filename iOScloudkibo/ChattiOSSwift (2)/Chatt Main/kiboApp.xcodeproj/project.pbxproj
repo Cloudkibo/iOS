@@ -30,6 +30,9 @@
 		71301E621E9FC46500F40772 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 71301E601E9FC46500F40772 /* Localizable.strings */; };
 		7134C68F1EA7403000FF588E /* keyFile.txt in Resources */ = {isa = PBXBuildFile; fileRef = 7134C68D1EA7403000FF588E /* keyFile.txt */; };
 		7134C6901EA7403000FF588E /* valueFile.txt in Resources */ = {isa = PBXBuildFile; fileRef = 7134C68E1EA7403000FF588E /* valueFile.txt */; };
+		7134C6921EA76C3100FF588E /* storyTrans.txt in Resources */ = {isa = PBXBuildFile; fileRef = 7134C6911EA76C3100FF588E /* storyTrans.txt */; };
+		7134C6941EA76D5B00FF588E /* TestStory.txt in Resources */ = {isa = PBXBuildFile; fileRef = 7134C6931EA76D5B00FF588E /* TestStory.txt */; };
+		7134C6961EA76ED300FF588E /* storyboardDefault.txt in Resources */ = {isa = PBXBuildFile; fileRef = 7134C6951EA76ED300FF588E /* storyboardDefault.txt */; };
 		713CC2741E5B2BFC00D4782F /* AlamofireImage.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 713CC2671E5B2B7A00D4782F /* AlamofireImage.framework */; };
 		713CC2751E5B2BFC00D4782F /* AlamofireImage.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 713CC2671E5B2B7A00D4782F /* AlamofireImage.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		713D51BD1CC11896007E0B47 /* Accounts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 713D51881CC11896007E0B47 /* Accounts.swift */; };
@@ -541,6 +544,9 @@
 		7134C6881EA62C4F00FF588E /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		7134C68D1EA7403000FF588E /* keyFile.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = keyFile.txt; sourceTree = "<group>"; };
 		7134C68E1EA7403000FF588E /* valueFile.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = valueFile.txt; sourceTree = "<group>"; };
+		7134C6911EA76C3100FF588E /* storyTrans.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = storyTrans.txt; sourceTree = "<group>"; };
+		7134C6931EA76D5B00FF588E /* TestStory.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = TestStory.txt; sourceTree = "<group>"; };
+		7134C6951EA76ED300FF588E /* storyboardDefault.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = storyboardDefault.txt; sourceTree = "<group>"; };
 		713CC25B1E5B2B7A00D4782F /* AlamofireImage.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = AlamofireImage.xcodeproj; path = ../../../../../../../Downloads/AlamofireImage/AlamofireImage.xcodeproj; sourceTree = "<group>"; };
 		713D51881CC11896007E0B47 /* Accounts.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Accounts.swift; sourceTree = "<group>"; };
 		713D51891CC11896007E0B47 /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -947,6 +953,9 @@
 				71CE4C261DEFF758001637DA /* BroadcastItemCell.swift */,
 				71CE4C2A1DEFF7E9001637DA /* BroadcastListViewController.swift */,
 				71DA13361DF7CBBC002C0583 /* BroadcastListDetailsViewController.swift */,
+				7134C6931EA76D5B00FF588E /* TestStory.txt */,
+				7134C6911EA76C3100FF588E /* storyTrans.txt */,
+				7134C6951EA76ED300FF588E /* storyboardDefault.txt */,
 				714690651E68348E00FA6530 /* MapViewController.swift */,
 				71CB8C021E6DA934009D5D05 /* BackupTables.swift */,
 				71CB8C041E6ED5FC009D5D05 /* SettingsViewController.swift */,
@@ -1522,6 +1531,7 @@
 				71C4018C1CF715C500D38126 /* endCall.png in Resources */,
 				71C401881CF715C500D38126 /* audioOff.png in Resources */,
 				7134C68F1EA7403000FF588E /* keyFile.txt in Resources */,
+				7134C6921EA76C3100FF588E /* storyTrans.txt in Resources */,
 				71301E501E9FBB5300F40772 /* LaunchScreen.storyboard in Resources */,
 				71301E621E9FC46500F40772 /* Localizable.strings in Resources */,
 				71636DCA1E8D3042007D7A02 /* GooglePlacePicker.bundle in Resources */,
@@ -1532,6 +1542,7 @@
 				71E20B9D1CF720DD0042EDAD /* avatar.png in Resources */,
 				7134C6901EA7403000FF588E /* valueFile.txt in Resources */,
 				71BFD47A1CFD13D3004ACCBF /* AccountKitStrings.bundle in Resources */,
+				7134C6961EA76ED300FF588E /* storyboardDefault.txt in Resources */,
 				71E20B9F1CF720DD0042EDAD /* avatarTwo.png in Resources */,
 				713F39701D74459600F3A9C4 /* EPContactCell.xib in Resources */,
 				71C4018B1CF715C500D38126 /* audioOn@2x.png in Resources */,
@@ -1540,6 +1551,7 @@
 				71E20B9E1CF720DD0042EDAD /* avatarHalf.png in Resources */,
 				71E20BA01CF720DD0042EDAD /* avatarTwoHalf.png in Resources */,
 				5BF6363219A9F3D900ABD0BA /* Images.xcassets in Resources */,
+				7134C6941EA76D5B00FF588E /* TestStory.txt in Resources */,
 				713D51C01CC11896007E0B47 /* Chat.entitlements in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
