@@ -26,7 +26,7 @@ import MobileCoreServices
 import GooglePlacePicker
 import GooglePlaces
 import GoogleMaps
-
+import ActiveLabel
 //import PHAsset
 //import PhotosUI
 //import Haneke
@@ -1740,7 +1740,7 @@ class GroupChatingDetailController: UIViewController,UIDocumentPickerDelegate,UI
             print("my msg \(msg)")
             //i am sender
              cell = tblForGroupChat.dequeueReusableCell(withIdentifier: "ChatReceivedCell")! as UITableViewCell
-            let msgLabel = cell.viewWithTag(12) as! UILabel
+            let msgLabel = cell.viewWithTag(12) as! ActiveLabel
             let chatImage = cell.viewWithTag(1) as! UIImageView
             let timeLabel = cell.viewWithTag(11) as! UILabel
             
@@ -1797,6 +1797,27 @@ class GroupChatingDetailController: UIViewController,UIDocumentPickerDelegate,UI
             swipeRecognizer.direction = .left
             chatImage.addGestureRecognizer(swipeRecognizer)
             msgLabel.text=msg as! String
+            
+          //  textLable.text = msg! as! String
+            msgLabel.numberOfLines = 0
+            msgLabel.enabledTypes = [.mention, .hashtag, .url]
+            // textLable.text = "This is a post with #hashtags and a @userhandle."
+            msgLabel.textColor = .black
+            msgLabel.handleHashtagTap { hashtag in
+                print("Success. You just tapped the \(hashtag) hashtag")
+            }
+            msgLabel.handleURLTap({ (url) in
+                print("Success. You just tapped the \(url) url")
+                var stringURL="\(url)"
+                if !(stringURL.contains("http")) {
+                    stringURL = "http://" + stringURL
+                }
+                
+                var res=UIApplication.shared.openURL(NSURL.init(string: stringURL) as! URL)
+                print("open url \(res)")
+            })
+
+            
             return cell
         
         }
@@ -3057,7 +3078,7 @@ class GroupChatingDetailController: UIViewController,UIDocumentPickerDelegate,UI
             
           
             
-            let msgLabel = cell.viewWithTag(12) as! UILabel
+            let msgLabel = cell.viewWithTag(12) as! ActiveLabel
             
             let chatImage = cell.viewWithTag(1) as! UIImageView
             let nameLabel = cell.viewWithTag(15) as! UILabel
@@ -3090,6 +3111,23 @@ class GroupChatingDetailController: UIViewController,UIDocumentPickerDelegate,UI
             nameLabel.textColor=UIColor.blue
             nameLabel.text=fullname as! String
             msgLabel.text=msg as! String
+                                                        msgLabel.numberOfLines = 0
+                                                        msgLabel.enabledTypes = [.mention, .hashtag, .url]
+                                                        // textLable.text = "This is a post with #hashtags and a @userhandle."
+                                                        msgLabel.textColor = .black
+                                                        msgLabel.handleHashtagTap { hashtag in
+                                                            print("Success. You just tapped the \(hashtag) hashtag")
+                                                        }
+                                                        msgLabel.handleURLTap({ (url) in
+                                                            print("Success. You just tapped the \(url) url")
+                                                            var stringURL="\(url)"
+                                                            if !(stringURL.contains("http")) {
+                                                                stringURL = "http://" + stringURL
+                                                            }
+                                                            
+                                                            var res=UIApplication.shared.openURL(NSURL.init(string: stringURL) as! URL)
+                                                            print("open url \(res)")
+                                                        })
                                                         
                                                     }
             

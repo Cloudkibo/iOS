@@ -2656,6 +2656,26 @@ var isKiboContact="false"
             profileImage.center = CGPoint(x: profileImage.center.x, y: textLable.frame.origin.y + textLable.frame.size.height - profileImage.frame.size.height/2+20)
             textLable.text = msg! as! String
             
+            //textLable.text = msg! as! String
+            textLable.numberOfLines = 0
+            textLable.enabledTypes = [.mention, .hashtag, .url]
+            // textLable.text = "This is a post with #hashtags and a @userhandle."
+            textLable.textColor = .black
+            textLable.handleHashtagTap { hashtag in
+                print("Success. You just tapped the \(hashtag) hashtag")
+            }
+            textLable.handleURLTap({ (url) in
+                print("Success. You just tapped the \(url) url")
+                var stringURL="\(url)"
+                if !(stringURL.contains("http")) {
+                    stringURL = "http://" + stringURL
+                }
+                
+                var res=UIApplication.shared.openURL(NSURL.init(string: stringURL) as! URL)
+                print("open url \(res)")
+            })
+
+            
              /*
              let dateFormatter = DateFormatter()
             dateFormatter.timeZone=NSTimeZone.local()
