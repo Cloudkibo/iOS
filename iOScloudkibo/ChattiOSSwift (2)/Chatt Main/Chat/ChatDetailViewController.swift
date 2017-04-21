@@ -401,6 +401,42 @@ var isKiboContact="false"
         
     }
     
+    func getLastSeen()->String
+    {var lastseen=""
+      //  let slp = SwiftLinkPreview()
+        Alamofire.request(Constants.MainUrl+Constants.getLastSeen, method: .post, parameters: ["phone":selectedContact], encoding: JSONEncoding.default, headers: header).responseJSON { (response) in
+            
+            if(response.response?.statusCode==200)
+            {
+           var dataGot=JSON(response.data)
+            print(dataGot)
+                //lastseen=dataGot.description
+                lastseen=dataGot["last_seen"].string!
+                print("last seen: \(lastseen)")
+                var datedisplay=UtilityFunctions.init().getDateShortened(date2: lastseen)
+                let subtitleLabel = UILabel(frame: CGRect(x: 0, y: 27, width: 0, height: 0))
+                subtitleLabel.backgroundColor = UIColor.clear
+                //subtitleLabel.textColor = UIColor.lightGrayColor()
+                subtitleLabel.textColor = UIColor.black
+                
+                subtitleLabel.font = UIFont.systemFont(ofSize: 12)
+                subtitleLabel.text = "Last seen: \(datedisplay)"
+                subtitleLabel.sizeToFit()
+                
+                let button =  UIButton(type: .custom)
+                button.frame = CGRect(x: 0, y: 0, width: 100, height: 40)
+                button.backgroundColor = self.NewChatNavigationTitle.titleView?.backgroundColor
+                button.setTitle(self.selectedFirstName, for: .normal)
+                button.addSubview(subtitleLabel)
+                button.addTarget(self, action: #selector(ChatDetailViewController.contactTapped(_:)), for: .touchUpInside)
+                self.NewChatNavigationTitle.titleView=button
+            }
+            else{
+                print("error in getting last seen")
+            }
+        }
+        return lastseen
+    }
     
     override func viewWillAppear(_ animated: Bool) {
         //print("chat will appear")
@@ -410,7 +446,7 @@ var isKiboContact="false"
         let IamBlocked = Expression<Bool>("IamBlocked")
         let phone = Expression<String>("phone")
         
-        
+        //setNavigationTitle(subtitle: "tap")
         //contactsDetailController?.contactIndex=tblForNotes.indexPathForSelectedRow!.row
         //var cell=tblForNotes.cellForRowAtIndexPath(tblForNotes.indexPathForSelectedRow!) as! AllContactsCell
         
@@ -419,6 +455,8 @@ var isKiboContact="false"
         // {
         //print("hidden falseeeeeee")
         //}
+        
+        self.getLastSeen()
         
         let longPressRecognizer = UILongPressGestureRecognizer(target: self, action: #selector(ChatDetailViewController.longPressedRecord(_:)))
          self.btnSendAudio.addGestureRecognizer(longPressRecognizer)
@@ -656,7 +694,25 @@ var isKiboContact="false"
         }
     }
     
-    
+    func setNavigationTitle(subtitleLabel:UILabel,button:UIButton,subtitle:String)
+    {
+        //subtitleLabel = UILabel(frame: CGRect(x: 0, y: 27, width: 0, height: 0))
+        subtitleLabel.backgroundColor = UIColor.clear
+        //subtitleLabel.textColor = UIColor.lightGrayColor()
+        subtitleLabel.textColor = UIColor.black
+        
+        subtitleLabel.font = UIFont.systemFont(ofSize: 12)
+        subtitleLabel.text = title
+        subtitleLabel.sizeToFit()
+        
+       // button =  UIButton(type: .custom)
+        button.frame = CGRect(x: 0, y: 0, width: 100, height: 40)
+        button.backgroundColor = NewChatNavigationTitle.titleView?.backgroundColor
+        button.setTitle(selectedFirstName, for: .normal)
+        button.addSubview(subtitleLabel)
+        button.addTarget(self, action: #selector(ChatDetailViewController.contactTapped(_:)), for: .touchUpInside)
+        self.NewChatNavigationTitle.titleView=button
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -753,11 +809,20 @@ var isKiboContact="false"
                 //%%%%%%%%%%%%%%%%%&&&&&&&&&&&&&&&&&&^^^^^^^^^
         //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%FetchChatServer()
         
+        let subtitleLabel = UILabel(frame: CGRect(x: 0, y: 27, width: 0, height: 0))
+        subtitleLabel.backgroundColor = UIColor.clear
+        //subtitleLabel.textColor = UIColor.lightGrayColor()
+        subtitleLabel.textColor = UIColor.black
+        
+        subtitleLabel.font = UIFont.systemFont(ofSize: 12)
+        subtitleLabel.text = "tap here for info"
+        subtitleLabel.sizeToFit()
         
         let button =  UIButton(type: .custom)
         button.frame = CGRect(x: 0, y: 0, width: 100, height: 40)
         button.backgroundColor = NewChatNavigationTitle.titleView?.backgroundColor
         button.setTitle(selectedFirstName, for: .normal)
+        button.addSubview(subtitleLabel)
         button.addTarget(self, action: #selector(ChatDetailViewController.contactTapped(_:)), for: .touchUpInside)
         self.NewChatNavigationTitle.titleView=button
        ///==-- self.NewChatNavigationTitle.title=selectedFirstName

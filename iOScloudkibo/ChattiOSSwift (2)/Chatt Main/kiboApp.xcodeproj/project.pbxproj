@@ -94,7 +94,6 @@
 		7146903F1E66F4BF00FA6530 /* GoogleMaps.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7146903D1E66F4BF00FA6530 /* GoogleMaps.framework */; };
 		714690401E66F4BF00FA6530 /* GoogleMapsCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7146903E1E66F4BF00FA6530 /* GoogleMapsCore.framework */; };
 		714690601E66F51200FA6530 /* GoogleMapsBase.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7146905F1E66F51200FA6530 /* GoogleMapsBase.framework */; };
-		714690621E66F54500FA6530 /* GoogleMaps.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 714690611E66F54500FA6530 /* GoogleMaps.bundle */; };
 		714690661E68348E00FA6530 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 714690651E68348E00FA6530 /* MapViewController.swift */; };
 		7150119F1D12D0940091AD7B /* Reachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7150119E1D12D0940091AD7B /* Reachability.swift */; };
 		7152369A1E4AEB9100524BC3 /* SwiftyJSON.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7152368D1E4AEB6E00524BC3 /* SwiftyJSON.framework */; };
@@ -118,9 +117,7 @@
 		716175A01C51C9B200A72E83 /* libsqlite3.0.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 716174971C5065BA00A72E83 /* libsqlite3.0.tbd */; };
 		716175A11C51C9B200A72E83 /* libsqlite3.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 716174981C5065BA00A72E83 /* libsqlite3.tbd */; };
 		71636DC41E8D2F84007D7A02 /* GooglePlaces.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 71636DC31E8D2F84007D7A02 /* GooglePlaces.framework */; };
-		71636DC61E8D2FA2007D7A02 /* GooglePlaces.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 71636DC51E8D2FA2007D7A02 /* GooglePlaces.bundle */; };
 		71636DC81E8D3038007D7A02 /* GooglePlacePicker.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 71636DC71E8D3038007D7A02 /* GooglePlacePicker.framework */; };
-		71636DCA1E8D3042007D7A02 /* GooglePlacePicker.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 71636DC91E8D3042007D7A02 /* GooglePlacePicker.bundle */; };
 		7173B8731E48BED500851F8D /* Kingfisher.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 7173B84D1E48BE1900851F8D /* Kingfisher.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		7173B8741E48C12400851F8D /* Kingfisher.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 7173B84D1E48BE1900851F8D /* Kingfisher.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		71803D2C1E93D12600A0604D /* Cache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71803D261E93D12600A0604D /* Cache.swift */; };
@@ -1532,7 +1529,6 @@
 			files = (
 				71C4018A1CF715C500D38126 /* audioOn.png in Resources */,
 				7134C6991EA79E7C00FF588E /* InfoPlist.strings in Resources */,
-				714690621E66F54500FA6530 /* GoogleMaps.bundle in Resources */,
 				71C401761CF7159F00D38126 /* videoOff.png in Resources */,
 				71301E4D1E9FBB4A00F40772 /* Main.storyboard in Resources */,
 				71C401751CF7159F00D38126 /* video-camera-icon@2x.png in Resources */,
@@ -1543,7 +1539,6 @@
 				7134C6921EA76C3100FF588E /* storyTrans.txt in Resources */,
 				71301E501E9FBB5300F40772 /* LaunchScreen.storyboard in Resources */,
 				71301E621E9FC46500F40772 /* Localizable.strings in Resources */,
-				71636DCA1E8D3042007D7A02 /* GooglePlacePicker.bundle in Resources */,
 				71C401771CF7159F00D38126 /* videoOff@2x.png in Resources */,
 				71D20B4D1E645A150080E28B /* audio_tiny8.wav in Resources */,
 				71C4018D1CF715C500D38126 /* endCall@2x.png in Resources */,
@@ -1555,7 +1550,6 @@
 				71E20B9F1CF720DD0042EDAD /* avatarTwo.png in Resources */,
 				713F39701D74459600F3A9C4 /* EPContactCell.xib in Resources */,
 				71C4018B1CF715C500D38126 /* audioOn@2x.png in Resources */,
-				71636DC61E8D2FA2007D7A02 /* GooglePlaces.bundle in Resources */,
 				71C401891CF715C500D38126 /* audioOff@2x.png in Resources */,
 				71E20B9E1CF720DD0042EDAD /* avatarHalf.png in Resources */,
 				71E20BA01CF720DD0042EDAD /* avatarTwoHalf.png in Resources */,

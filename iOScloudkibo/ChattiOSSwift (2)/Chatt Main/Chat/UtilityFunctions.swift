@@ -2324,6 +2324,33 @@ print("tempURL is \(temporaryURL) and response is \(response.allHeaderFields)")
             myString = myString.stringByReplacingOccurrencesOfString(originalWord, withString:newWord, options: NSStringCompareOptions.LiteralSearch, range: nil)
         }*/
         }
+    
+    func getDateShortened(date2:String)->String
+    {
+        var displaydate=""
+        let formatter = DateFormatter();
+        //formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSS";
+        formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
+        //formatter.dateFormat = "MM/dd hh:mm a";
+        formatter.timeZone = TimeZone.autoupdatingCurrent
+        let defaultTimeZoneStr = formatter.date(from: date2)
+        //print("defaultTimeZoneStr \(defaultTimeZoneStr)")
+        
+       /* if(defaultTimeZoneStr == nil)
+        {
+            timeLabel.text=date2 as! String
+            
+        }
+        else
+        {*/
+            let formatter2 = DateFormatter();
+            formatter2.timeZone=TimeZone.autoupdatingCurrent
+            formatter2.dateFormat = "MM/dd hh:mm a";
+             displaydate=formatter2.string(from: defaultTimeZoneStr!)
+        
+        return displaydate
+   // }
+    }
 
 }
 
