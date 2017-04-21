@@ -414,7 +414,7 @@ var isKiboContact="false"
                 lastseen=dataGot["last_seen"].string!
                 print("last seen: \(lastseen)")
                 var datedisplay=UtilityFunctions.init().getDateShortened(date2: lastseen)
-                let subtitleLabel = UILabel(frame: CGRect(x: 0, y: 27, width: 0, height: 0))
+                let subtitleLabel = UILabel(frame: CGRect(x: 0, y: 27, width: 100, height: 0))
                 subtitleLabel.backgroundColor = UIColor.clear
                 //subtitleLabel.textColor = UIColor.lightGrayColor()
                 subtitleLabel.textColor = UIColor.black
@@ -422,6 +422,7 @@ var isKiboContact="false"
                 subtitleLabel.font = UIFont.systemFont(ofSize: 12)
                 subtitleLabel.text = "Last seen: \(datedisplay)"
                 subtitleLabel.sizeToFit()
+                subtitleLabel.textAlignment = NSTextAlignment.center
                 
                 let button =  UIButton(type: .custom)
                 button.frame = CGRect(x: 0, y: 0, width: 100, height: 40)
@@ -809,7 +810,7 @@ var isKiboContact="false"
                 //%%%%%%%%%%%%%%%%%&&&&&&&&&&&&&&&&&&^^^^^^^^^
         //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%FetchChatServer()
         
-        let subtitleLabel = UILabel(frame: CGRect(x: 0, y: 27, width: 0, height: 0))
+        let subtitleLabel = UILabel(frame: CGRect(x: 0, y: 27, width: 100, height: 0))
         subtitleLabel.backgroundColor = UIColor.clear
         //subtitleLabel.textColor = UIColor.lightGrayColor()
         subtitleLabel.textColor = UIColor.black
@@ -817,6 +818,7 @@ var isKiboContact="false"
         subtitleLabel.font = UIFont.systemFont(ofSize: 12)
         subtitleLabel.text = "tap here for info"
         subtitleLabel.sizeToFit()
+        subtitleLabel.textAlignment = NSTextAlignment.center
         
         let button =  UIButton(type: .custom)
         button.frame = CGRect(x: 0, y: 0, width: 100, height: 40)

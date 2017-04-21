@@ -2448,7 +2448,7 @@ EPPickerDelegate,SWTableViewCellDelegate,UpdateChatViewsDelegate,RefreshContacts
                 
             }
             
-            ContactStatus="Hey there! I am using Kibo App"
+            ContactStatus="Hey there! I am using Kibo App".localized
             
             ////////////// ContactUsernames.append(ccc[phone])
             
