@@ -3073,25 +3073,9 @@ var isKiboContact="false"
             let timeLabel = cell.viewWithTag(11) as! UILabel
             let chatImage = cell.viewWithTag(1) as! UIImageView
             let profileImage = cell.viewWithTag(2) as! UIImageView
-            /*  let documentDirectory = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true).first as String!
-             let photoURL          = NSURL(fileURLWithPath: documentDirectory)
-             let imgPath         = photoURL.URLByAppendingPathComponent(self.filename)
-             var imgNSData=NSFileManager.default.contents(atPath:imgPath.path!)
-             if(imgNSData != nil)
-             {
-             chatImage.image = UIImage(data: imgNSData!)
-             chatImage.contentMode = .ScaleAspectFit
-             }
-             */
-            //// //print("here 905 msgtype is \(msgType)")
-            let distanceFactor = (197.0 - sizeOFStr.width) < 107 ? (197.0 - sizeOFStr.width) : 107
-            //// //print("distanceFactor for \(msg) is \(distanceFactor)")
+         
             
-            
-            ////    //print("chatImage.x for \(msg) is \(20 + distanceFactor) and chatimage.wdith is \(chatImage.frame.width)")
-            
-            
-            textLable.isHidden=false
+            let distanceFactor = (197.0 - sizeOFStr.width) < 107 ? (197.0 - sizeOFStr.width) : 107;            textLable.isHidden=false
             textLable.text = msg! as! String
             textLable.text = msg! as! String
             textLable.numberOfLines = 0
@@ -3208,48 +3192,25 @@ var isKiboContact="false"
                     )
                 }
                 
-            
-            /*textLable.lineBreakMode = .ByWordWrapping
-             textLable.numberOfLines=0
-             textLable.sizeToFit()
-             print("previous height is \(textLable.frame.height) msg is \(msg)")
-             var correctheight=textLable.frame.height
-             */
+         
             let correctheight=getSizeOfStringHeight(msg!).height
-            chatImage.frame = CGRect(x: 20 + distanceFactor, y: chatImage.frame.origin.y, width: ((sizeOFStr.width + 107)  > 207 ? (sizeOFStr.width + 107) : 200), height: correctheight + 20)
             
-            //==== newwww chatImage.frame = CGRectMake(20 + distanceFactor, chatImage.frame.origin.y, ((sizeOFStr.width + 107)  > 207 ? (sizeOFStr.width + 107) : 200), sizeOFStr.height + 40)
-            //chatImage.frame = CGRectMake(20 + distanceFactor, chatImage.frame.origin.y, ((sizeOFStr.width + 100)  > 200 ? (sizeOFStr.width + 100) : 200), sizeOFStr.height + 40)
-            chatImage.image = UIImage(named: "chat_send")?.stretchableImage(withLeftCapWidth: 40,topCapHeight: 20);
+            ////!!chatImage.frame = CGRect(x: 20 + distanceFactor, y: chatImage.frame.origin.y, width: ((sizeOFStr.width + 107)  > 207 ? (sizeOFStr.width + 107) : 200), height: correctheight + 20)
+            
+              ////!!  chatImage.image = UIImage(named: "chat_send")?.stretchableImage(withLeftCapWidth: 40,topCapHeight: 20);
             //*********
             
             //getSizeOfStringHeight(msg).height
             
-            textLable.frame = CGRect(x: 26 + distanceFactor, y: textLable.frame.origin.y, width: chatImage.frame.width-36, height: correctheight)
+            //!!textLable.frame = CGRect(x: 26 + distanceFactor, y: textLable.frame.origin.y, width: chatImage.frame.width-36, height: correctheight)
             
+            //!!profileImage.center = CGPoint(x: profileImage.center.x, y: textLable.frame.origin.y + textLable.frame.size.height - profileImage.frame.size.height/2+10)
             
-            // newwwwwwwwww textLable.frame = CGRectMake(26 + distanceFactor, textLable.frame.origin.y, chatImage.frame.width-36, getSizeOfStringHeight(msg).height)
-            //  print("new height is \(textLable.frame.height) msg is \(msg)")
-            //=====newwwwwww  textLable.frame = CGRectMake(26 + distanceFactor, textLable.frame.origin.y, chatImage.frame.width-36, sizeOFStr.height)
-            //==== new textLable.frame = CGRectMake(36 + distanceFactor, textLable.frame.origin.y, textLable.frame.size.width, sizeOFStr.height)
-            ///  //print("textLable.x for \(msg) is \(textLable.frame.origin.x) and textLable.width is \(textLable.frame.width)")
+            //!!timeLabel.frame = CGRect(x: 36 + distanceFactor, y: textLable.frame.origin.y+textLable.frame.height, width: chatImage.frame.size.width-46, height: timeLabel.frame.size.height)
             
-            ////profileImage.center = CGPointMake(profileImage.center.x, textLable.frame.origin.y + textLable.frame.size.height - profileImage.frame.size.height/2 + 10)
+           //!! deliveredLabel.frame = CGRect(x: deliveredLabel.frame.origin.x, y: textLable.frame.origin.y + textLable.frame.size.height + 15, width: deliveredLabel.frame.size.width, height: deliveredLabel.frame.size.height)
             
-            profileImage.center = CGPoint(x: profileImage.center.x, y: textLable.frame.origin.y + textLable.frame.size.height - profileImage.frame.size.height/2+10)
-            
-            //==uncomment if needed timeLabel.frame = CGRectMake(36 + distanceFactor, timeLabel.frame.origin.y, timeLabel.frame.size.width, timeLabel.frame.size.height)
-            
-            timeLabel.frame = CGRect(x: 36 + distanceFactor, y: textLable.frame.origin.y+textLable.frame.height, width: chatImage.frame.size.width-46, height: timeLabel.frame.size.height)
-            
-            deliveredLabel.frame = CGRect(x: deliveredLabel.frame.origin.x, y: textLable.frame.origin.y + textLable.frame.size.height + 15, width: deliveredLabel.frame.size.width, height: deliveredLabel.frame.size.height)
-            
-            
-            
-            
-            //print("date received in chat post 2 is \(date2.debugDescription)")
-            // //print("date received in chat is \(date2.debugDescription)")
-            let formatter = DateFormatter();
+             let formatter = DateFormatter();
             formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSS";
             //formatter.dateFormat = "MM/dd hh:mm a";
             formatter.timeZone = TimeZone.autoupdatingCurrent
