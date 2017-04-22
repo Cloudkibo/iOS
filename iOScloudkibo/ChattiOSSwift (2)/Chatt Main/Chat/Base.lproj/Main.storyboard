@@ -870,36 +870,46 @@
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="65"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="right" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="MPq-UO-Sjf">
-                                                    <rect key="frame" x="192" y="18" width="120" height="30"/>
-                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                    <state key="normal" title="New Group"/>
-                                                </button>
-                                                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cqd-QN-sAJ">
-                                                    <rect key="frame" x="8" y="18" width="107" height="30"/>
-                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                    <state key="normal" title="Broadcast lists"/>
-                                                    <connections>
-                                                        <segue destination="Rgk-Rk-lne" kind="push" identifier="chatToBroadcast" id="cEg-U8-UBa"/>
-                                                    </connections>
-                                                </button>
-                                                <button hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="q63-Hq-0xE">
-                                                    <rect key="frame" x="137" y="18" width="46" height="30"/>
-                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                    <state key="normal" title="test"/>
-                                                    <connections>
-                                                        <segue destination="Kar-qX-hHJ" kind="push" id="Y9a-Vx-tcX"/>
-                                                    </connections>
-                                                </button>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="version" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rQW-jP-oHF">
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" text="version" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rQW-jP-oHF">
                                                     <rect key="frame" x="8" y="0.0" width="304" height="21"/>
-                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="10"/>
                                                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
+                                                <stackView opaque="NO" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="kfN-My-kD3">
+                                                    <rect key="frame" x="8" y="17" width="303" height="30"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <subviews>
+                                                        <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cqd-QN-sAJ">
+                                                            <rect key="frame" x="0.0" y="0.0" width="178" height="30"/>
+                                                            <state key="normal" title="Broadcast lists"/>
+                                                            <connections>
+                                                                <segue destination="Rgk-Rk-lne" kind="push" identifier="chatToBroadcast" id="cEg-U8-UBa"/>
+                                                            </connections>
+                                                        </button>
+                                                        <button hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="q63-Hq-0xE">
+                                                            <rect key="frame" x="178" y="0.0" width="48" height="30"/>
+                                                            <state key="normal" title="testsdf"/>
+                                                            <connections>
+                                                                <segue destination="Kar-qX-hHJ" kind="push" id="Y9a-Vx-tcX"/>
+                                                            </connections>
+                                                        </button>
+                                                        <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="right" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="MPq-UO-Sjf">
+                                                            <rect key="frame" x="226" y="0.0" width="77" height="30"/>
+                                                            <state key="normal" title="New Group"/>
+                                                        </button>
+                                                    </subviews>
+                                                </stackView>
                                             </subviews>
                                             <color key="backgroundColor" red="0.86764125631313127" green="0.86764125631313127" blue="0.86764125631313127" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                            <constraints>
+                                                <constraint firstAttribute="trailingMargin" secondItem="MPq-UO-Sjf" secondAttribute="trailing" constant="1" id="6AO-Cl-2AB"/>
+                                                <constraint firstAttribute="leadingMargin" secondItem="rQW-jP-oHF" secondAttribute="leading" id="94E-T1-nXC"/>
+                                                <constraint firstAttribute="leadingMargin" secondItem="cqd-QN-sAJ" secondAttribute="leading" id="I1W-tQ-VZy"/>
+                                                <constraint firstAttribute="trailingMargin" secondItem="rQW-jP-oHF" secondAttribute="trailing" id="Z6Q-iw-C4g"/>
+                                                <constraint firstItem="MPq-UO-Sjf" firstAttribute="top" secondItem="rQW-jP-oHF" secondAttribute="bottom" constant="-4" id="dmD-I7-TOe"/>
+                                                <constraint firstItem="cqd-QN-sAJ" firstAttribute="top" secondItem="rQW-jP-oHF" secondAttribute="bottom" constant="-4" id="xrH-zz-cDE"/>
+                                            </constraints>
                                         </tableViewCellContentView>
                                         <connections>
                                             <outlet property="btnBroadcastLists" destination="cqd-QN-sAJ" id="n3U-5v-bbL"/>
@@ -987,11 +997,10 @@
                                                     <rect key="frame" x="298" y="8" width="14" height="18"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                 </imageView>
-                                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" fixedFrame="YES" image="profile-pic1" translatesAutoresizingMaskIntoConstraints="NO" id="6js-rY-tBV">
+                                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="profile-pic1" translatesAutoresizingMaskIntoConstraints="NO" id="6js-rY-tBV">
                                                     <rect key="frame" x="19" y="7" width="52" height="52"/>
-                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                 </imageView>
-                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" text="No Name" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="axy-iu-7eC">
+                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="No Name" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="axy-iu-7eC">
                                                     <rect key="frame" x="85" y="5" width="148" height="21"/>
                                                     <accessibility key="accessibilityConfiguration">
                                                         <accessibilityTraits key="traits" none="YES"/>
@@ -1006,9 +1015,8 @@
                                                     <color key="textColor" red="0.66666666666666663" green="0.66666666666666663" blue="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Hey there! I am using KiboApp" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tck-7S-BAb">
+                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Hey there! I am using KiboApp" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tck-7S-BAb">
                                                     <rect key="frame" x="85" y="30" width="165" height="27"/>
-                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="11"/>
                                                     <color key="textColor" red="0.66666666666666663" green="0.66666666666666663" blue="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <nil key="highlightedColor"/>
@@ -1028,20 +1036,23 @@
                                                     <color key="tintColor" red="0.089366517961025238" green="0.68537509441375732" blue="0.33751887083053589" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <state key="normal" image="chat_user_small"/>
                                                 </button>
-                                                <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="1" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8rJ-k3-qmq" userLabel="countNewmsg">
+                                                <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" text="1" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8rJ-k3-qmq" userLabel="countNewmsg">
                                                     <rect key="frame" x="266" y="33" width="17" height="21"/>
-                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="10"/>
                                                     <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                             </subviews>
                                             <constraints>
-                                                <constraint firstItem="hsp-iF-OE7" firstAttribute="top" secondItem="a2v-wa-jnG" secondAttribute="topMargin" constant="-3" id="Hgr-J6-3k6"/>
-                                                <constraint firstItem="hsp-iF-OE7" firstAttribute="top" secondItem="a2v-wa-jnG" secondAttribute="topMargin" constant="-3" id="I9q-MW-Vjh"/>
-                                                <constraint firstAttribute="trailingMargin" secondItem="hsp-iF-OE7" secondAttribute="trailing" id="Mkq-QR-cd0"/>
-                                                <constraint firstItem="hsp-iF-OE7" firstAttribute="leading" secondItem="axy-iu-7eC" secondAttribute="trailing" constant="8" id="Mob-W6-D7f"/>
-                                                <constraint firstItem="hsp-iF-OE7" firstAttribute="leading" secondItem="axy-iu-7eC" secondAttribute="trailing" constant="8" id="Qcq-R4-L55"/>
+                                                <constraint firstItem="6js-rY-tBV" firstAttribute="top" secondItem="a2v-wa-jnG" secondAttribute="topMargin" constant="-1" id="9lQ-MA-ove"/>
+                                                <constraint firstAttribute="trailingMargin" secondItem="hsp-iF-OE7" secondAttribute="trailing" id="A76-Eu-Olj"/>
+                                                <constraint firstItem="tck-7S-BAb" firstAttribute="leading" secondItem="6js-rY-tBV" secondAttribute="trailing" constant="14" id="CqE-aY-AXg"/>
+                                                <constraint firstItem="axy-iu-7eC" firstAttribute="leading" secondItem="6js-rY-tBV" secondAttribute="trailing" constant="14" id="NDe-X1-YyD"/>
+                                                <constraint firstItem="hsp-iF-OE7" firstAttribute="top" secondItem="a2v-wa-jnG" secondAttribute="topMargin" constant="-3" id="cnr-lY-wJP"/>
+                                                <constraint firstItem="6js-rY-tBV" firstAttribute="leading" secondItem="a2v-wa-jnG" secondAttribute="leadingMargin" constant="11" id="jQ2-H2-xUJ"/>
+                                                <constraint firstItem="tck-7S-BAb" firstAttribute="top" secondItem="axy-iu-7eC" secondAttribute="bottom" constant="4" id="jcA-QX-RmD"/>
+                                                <constraint firstItem="8rJ-k3-qmq" firstAttribute="leading" secondItem="tck-7S-BAb" secondAttribute="trailing" constant="16" id="uOm-it-IAd"/>
+                                                <constraint firstItem="axy-iu-7eC" firstAttribute="top" secondItem="a2v-wa-jnG" secondAttribute="topMargin" constant="-3" id="wcJ-6H-5oQ"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                         <connections>
