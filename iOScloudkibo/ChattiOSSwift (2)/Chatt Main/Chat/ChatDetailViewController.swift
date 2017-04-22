@@ -3075,7 +3075,8 @@ var isKiboContact="false"
             let profileImage = cell.viewWithTag(2) as! UIImageView
          
             
-            let distanceFactor = (197.0 - sizeOFStr.width) < 107 ? (197.0 - sizeOFStr.width) : 107;            textLable.isHidden=false
+            ////!!let distanceFactor = (197.0 - sizeOFStr.width) < 107 ? (197.0 - sizeOFStr.width) : 107;
+            textLable.isHidden=false
             textLable.text = msg! as! String
             textLable.text = msg! as! String
             textLable.numberOfLines = 0
