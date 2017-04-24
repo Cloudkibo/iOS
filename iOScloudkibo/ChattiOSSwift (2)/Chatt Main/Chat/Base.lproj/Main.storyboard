@@ -3301,14 +3301,14 @@
                                                                 <imageView opaque="NO" tag="1" contentMode="redraw" misplaced="YES" preservesSuperviewLayoutMargins="YES" image="chat_send" highlighted="YES" translatesAutoresizingMaskIntoConstraints="NO" id="8hW-tJ-jff">
                                                                     <rect key="frame" x="208" y="1" width="104" height="69"/>
                                                                 </imageView>
-                                                                <label opaque="NO" tag="12" contentMode="TopLeft" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" preservesSuperviewLayoutMargins="YES" text="damaged " lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FlP-cy-vwl" customClass="ActiveLabel" customModule="ActiveLabel">
-                                                                    <rect key="frame" x="220" y="11" width="57" height="47"/>
+                                                                <label opaque="NO" tag="12" contentMode="TopLeft" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" preservesSuperviewLayoutMargins="YES" text="damaged " lineBreakMode="wordWrap" numberOfLines="0" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FlP-cy-vwl" customClass="ActiveLabel" customModule="ActiveLabel">
+                                                                    <rect key="frame" x="220" y="3" width="57" height="47"/>
                                                                     <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                                                                     <constraints>
                                                                         <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="30" id="7Ss-NZ-dKs"/>
-                                                                        <constraint firstAttribute="width" relation="lessThanOrEqual" constant="200" id="HMJ-r5-crm"/>
+                                                                        <constraint firstAttribute="width" relation="lessThanOrEqual" constant="230" id="HMJ-r5-crm"/>
                                                                     </constraints>
-                                                                    <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="11"/>
+                                                                    <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="14"/>
                                                                     <nil key="highlightedColor"/>
                                                                     <userDefinedRuntimeAttributes>
                                                                         <userDefinedRuntimeAttribute type="number" keyPath="minimumLineHeight">
@@ -3316,8 +3316,8 @@
                                                                         </userDefinedRuntimeAttribute>
                                                                     </userDefinedRuntimeAttributes>
                                                                 </label>
-                                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="11" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" text="📢" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uPA-u7-rCi">
-                                                                    <rect key="frame" x="96" y="20.5" width="16" height="16"/>
+                                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="11" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="📢" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uPA-u7-rCi">
+                                                                    <rect key="frame" x="239" y="51" width="57" height="16"/>
                                                                     <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                                                                     <constraints>
                                                                         <constraint firstAttribute="height" constant="16" id="Z2r-2l-Shx"/>
@@ -3339,14 +3339,15 @@
                                                             </subviews>
                                                             <constraints>
                                                                 <constraint firstAttribute="trailingMargin" secondItem="FlP-cy-vwl" secondAttribute="trailing" constant="15" id="Asp-oO-Lsr"/>
+                                                                <constraint firstAttribute="trailingMargin" secondItem="uPA-u7-rCi" secondAttribute="trailing" constant="16" id="FdP-iK-JdD"/>
                                                                 <constraint firstItem="8hW-tJ-jff" firstAttribute="top" secondItem="I1R-We-iA6" secondAttribute="topMargin" constant="-10" id="Gwo-gx-KgS"/>
-                                                                <constraint firstItem="8hW-tJ-jff" firstAttribute="trailing" secondItem="FlP-cy-vwl" secondAttribute="trailing" id="J3X-23-pl0"/>
-                                                                <constraint firstItem="8hW-tJ-jff" firstAttribute="width" secondItem="FlP-cy-vwl" secondAttribute="width" constant="20" id="OKG-cj-E0Q"/>
+                                                                <constraint firstItem="uPA-u7-rCi" firstAttribute="top" secondItem="FlP-cy-vwl" secondAttribute="bottom" constant="1" id="P9f-my-wyB"/>
                                                                 <constraint firstAttribute="bottomMargin" secondItem="8hW-tJ-jff" secondAttribute="bottom" constant="-1" id="XVf-p5-HAM"/>
                                                                 <constraint firstAttribute="bottomMargin" secondItem="FlP-cy-vwl" secondAttribute="bottom" constant="11" id="XiY-bS-3Zz"/>
                                                                 <constraint firstAttribute="trailingMargin" secondItem="jRD-Y9-iTf" secondAttribute="trailing" constant="35" id="gGe-8h-juP"/>
                                                                 <constraint firstAttribute="topMargin" secondItem="FlP-cy-vwl" secondAttribute="top" id="ha6-hs-tgg"/>
                                                                 <constraint firstItem="jRD-Y9-iTf" firstAttribute="top" secondItem="FlP-cy-vwl" secondAttribute="bottom" constant="-4" id="jjJ-ZC-nWz"/>
+                                                                <constraint firstAttribute="trailingMargin" secondItem="8hW-tJ-jff" secondAttribute="trailing" id="jlM-Yb-Dtx"/>
                                                                 <constraint firstItem="8hW-tJ-jff" firstAttribute="leading" secondItem="FlP-cy-vwl" secondAttribute="leading" constant="-20" id="wOc-7S-fAu"/>
                                                                 <constraint firstItem="jRD-Y9-iTf" firstAttribute="top" secondItem="FlP-cy-vwl" secondAttribute="bottom" constant="-4" id="zNf-Wq-k4H"/>
                                                             </constraints>
