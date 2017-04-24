@@ -1622,6 +1622,8 @@ self.remoteDisconnected()
     {
         print("msg reeived.. check if offer answer or ice")
         var msg=JSON(data)
+        print("msg is \(msg)")
+        print("msg 0 is \(msg[0])")
       //  print(msg1.description)
        // var aaa=msg.first as! [String:Any]
        // let msgarray=msg.first
@@ -1634,7 +1636,7 @@ self.remoteDisconnected()
         }*/
         
         //if(msg[0]["type"] as! String=="offer")//["type"].string! == "offer")
-        if(msg["type"] as! String=="offer")//["type"].string! == "offer")
+        if(msg[0]["type"].string!=="offer")//["type"].string! == "offer")
             
         {
             //^^^^^^^^^^^^^^^^newwwww if(joinedRoomInCall == "" && isInitiator.description == "false")
@@ -1662,11 +1664,11 @@ self.remoteDisconnected()
             
             
             //^^^^^^^^^^^^^^^^^^^^^^^newwwwww self.pc.addStream(self.getLocalMediaStream())
-            otherID=msg[0]["by"] as! Int
-            currentID=msg[0]["to"] as! Int
+            otherID=msg[0]["by"].int!
+            currentID=msg[0]["to"].int!
             //iamincallWith=msg[0]["username"].description
             
-            iamincallWith=msg[0]["username"] as! String
+            iamincallWith=msg[0]["username"].string!
             socketObj.socket.emit("logClient","IPHONE-LOG: \(username) id is \(currentID) , \(iamincallWith) id is \(otherID)")
             //if(msg[0]["username"].description != username! && self.pc.remoteDescription == nil){
             
@@ -1681,7 +1683,7 @@ self.remoteDisconnected()
             
         }
         
-        if(msg[0]["type"].string! == "answer" && msg[0]["by"] as! Int != currentID)
+        if(msg[0]["type"].string! == "answer" && msg[0]["by"].int! != currentID)
         {
             if(self.screenshared==true){
                 print("answer received screen")
@@ -2333,16 +2335,26 @@ self.remoteDisconnected()
                     */
                     var test=((jsonnnn["data"] as! NSDictionary)["file_meta"] as! NSDictionary)["size"]
                     var sizeee=Int.init(((jsonnnn["data"] as! NSDictionary)["file_meta"] as! NSDictionary)["size"].debugDescription)
+                    
+                       sizeee=Int.init(channelJSON["data"]["file_meta"]["size"].debugDescription)
+                    
                     fileSizeReceived=sizeee
+                   
+                    
+                    
                     //fid=Int.init((jsonnnn["data"]!["file_meta"]!!["fid"]!?.debugDescription)!)
                     //print("fid is \(fid)")
                     
                     //////////filePathReceived=channelJSON["data"]["file_meta"]["name"].debugDescription
                     //((jsonnnn["data"] as! NSDictionary)["file_meta"] as! NSDictionary)["name"]
-                    filePathReceived=((jsonnnn["data"] as! NSDictionary)["file_meta"] as! NSDictionary)["name"].debugDescription
+                    
+                    
+                    filePathReceived=((jsonnnn["data"] as! NSDictionary)["file_meta"] as!
+                        NSDictionary)["name"].debugDescription
                     socketObj.socket.emit("logClient","\(username!) received file name \(filePathReceived)")
                     ////fileSizeReceived=jsonnnn["data"]!["file_meta"]!!["size"]!! as! Int
                     print("file sizeeee jsonnnn is \(channelJSON["data"]["file_meta"]["size"].debugDescription)")
+                  
                     
                    //print("file sizeeee channelJSON is \(jsonnnn["data"]!["file_meta"]!!["size"].debugDescription)")
                     print("file sizeeee sizeee is \(sizeee)")

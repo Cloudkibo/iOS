@@ -258,4 +258,5 @@
 "Audio Name"
 "Post"
 "Back Up Now"
+"Please provide a group subject and optional group icon"
 ""

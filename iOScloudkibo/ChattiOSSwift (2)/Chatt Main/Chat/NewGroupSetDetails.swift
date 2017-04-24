@@ -409,6 +409,7 @@ class NewGroupSetDetails: UITableViewController,UINavigationControllerDelegate,U
             cell.groupNameFieldOutlet.delegate=self
             cell.groupNameFieldOutlet.addTarget(self, action: #selector(NewGroupSetDetails.textFieldDidChange(_:)), for: UIControlEvents.editingChanged)
             cell.btn_edit_profilePic.isHidden=true
+            cell.txt_label_group_details.text="Please provide a group subject and optional group icon".localized
             groupname=cell.groupNameFieldOutlet.text!.localized
             if(imgdata != Data.init())
             {

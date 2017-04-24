@@ -2419,7 +2419,7 @@ var isKiboContact="false"
     }*/
     
 
-    func tableView(_ tableView: UITableView, heightForRowAtIndexPath indexPath: IndexPath) -> CGFloat {
+    /*func tableView(_ tableView: UITableView, heightForRowAtIndexPath indexPath: IndexPath) -> CGFloat {
         
       // print("cal height for row \(indexPath.row) and dixt object count is \(messages.count)")
        // label.text = "This is a Label"
@@ -2613,7 +2613,7 @@ var isKiboContact="false"
          
          */
     }
-    
+    */
      func tableView(_ tableView: UITableView, didSelectRowAtIndexPath indexPath: IndexPath) {
         if(messages.count > 0 && messages.count > indexPath.row)
         {
@@ -3078,8 +3078,7 @@ var isKiboContact="false"
             ////!!let distanceFactor = (197.0 - sizeOFStr.width) < 107 ? (197.0 - sizeOFStr.width) : 107;
             textLable.isHidden=false
             textLable.text = msg! as! String
-            textLable.text = msg! as! String
-            textLable.numberOfLines = 0
+            ////textLable.numberOfLines = 0
             textLable.enabledTypes = [.mention, .hashtag, .url]
             // textLable.text = "This is a post with #hashtags and a @userhandle."
             textLable.textColor = .black
@@ -3109,8 +3108,13 @@ var isKiboContact="false"
                         onSuccess: { result in
                             
                             self.hasURL=true
+                            var description="-"
+                            if let desc=result[SwiftLinkResponseKey.description]
+                            {
+                               description=desc as! String
+                            }
                             print("url result in retrieve is \(result)")
-                            sqliteDB.SaveURLData(uniqueidDictValue! as! String,title1:result[.title] as! String,desc1:result[SwiftLinkResponseKey.description] as! String,url1:"\(result[SwiftLinkResponseKey.url])",msg1:msg! as String!,image1:nil//Data.init(base64Encoded:result[SwiftLinkResponseKey.image] as! String)!
+                            sqliteDB.SaveURLData(uniqueidDictValue! as! String,title1:result[.title] as! String,desc1:description/*result[SwiftLinkResponseKey.description] as! String*/,url1:"\(result[SwiftLinkResponseKey.url])",msg1:msg! as String!,image1:nil//Data.init(base64Encoded:result[SwiftLinkResponseKey.image] as! String)!
                             )
                             
                             sqliteDB.UpdateChat(uniqueidDictValue! as! String, type1: "link")
@@ -3124,7 +3128,8 @@ var isKiboContact="false"
                             
                             print("title \(result[.title] as! String)")
                             messageDic["title"]=result[.title] as! String
-                            messageDic["description"]=result[SwiftLinkResponseKey.description] as! String
+                            messageDic["description"]=description
+                                //result[SwiftLinkResponseKey.description] as! String
                             messageDic["url"]="\(result[SwiftLinkResponseKey.url]!)"
                             messageDic["image"]=result[SwiftLinkResponseKey.image] as! String
                             
@@ -3139,14 +3144,14 @@ var isKiboContact="false"
                             
                             
                             
-                            var messages2=["message":msg!/*+" (\(status)) "*/,"status":status, "type":"22", "date":date2, "uniqueid":uniqueidDictValue,"title":result[.title] as! String,"description":result[SwiftLinkResponseKey.description] as! String,"url":"\(result[SwiftLinkResponseKey.url]!)"]
+                            var messages2=["message":msg!/*+" (\(status)) "*/,"status":status, "type":"22", "date":date2, "uniqueid":uniqueidDictValue,"title":result[.title] as! String,"description":description,"url":"\(result[SwiftLinkResponseKey.url]!)"]
                             
                             self.messages.replaceObject(at: indexPath.row, with: messages2)
                             //NSLog(messageDic["message"]!, 1)
                             
                             //self.tblForChats.reloadRows(at: [indexp], with: UITableViewRowAnimation.bottom)
                             self.urlTitle=result[.title] as! String
-                            self.urlDesc=result[SwiftLinkResponseKey.description] as! String
+                            self.urlDesc=description
                             //self.urlURL=result[SwiftLinkResponseKey.url] as! String
                             var urlURLimage=result[SwiftLinkResponseKey.image] as! String
                             
