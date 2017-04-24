@@ -282,7 +282,7 @@ class BroadcastListViewController: UIViewController,UINavigationControllerDelega
         let cell = tblBroadcastList.dequeueReusableCell(withIdentifier: "BroadcastListCell")! as! BroadcastItemCell
         if(listname == "")
         {let memberscount=membersnames.components(separatedBy: ",").count
-        cell.lbl_recipents_count.text="Recipents:\(memberscount)"
+        cell.lbl_recipents_count.text="Recipents:".localized+"\(memberscount)"
         }
         else{
             cell.lbl_recipents_count.text=listname as String

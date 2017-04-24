@@ -42,6 +42,7 @@ class ContactsListCell:SWTableViewCell {
     @IBOutlet weak var lbl_version: UILabel!
     @IBOutlet weak var btn_edit_profilePic: UIButton!
     
+    @IBOutlet weak var txt_label_group_details: UITextView!
     /* override func awakeFromNib() {
     @IBOutlet weak var contactNamePublic: UILabel!
         super.awakeFromNib()
