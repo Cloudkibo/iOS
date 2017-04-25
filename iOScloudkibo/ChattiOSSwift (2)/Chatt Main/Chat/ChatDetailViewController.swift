@@ -1918,12 +1918,42 @@ var isKiboContact="false"
                                                 
                                                 messages2.add(["message":tblContacts[msg],"status":tblContacts[status], "type":"14", "date":defaultTimeeee, "uniqueid":tblContacts[uniqueid]])
                                             }
+                                                
+                                                
+                                                
+                                                
+                                                ////////adddd
                                             else{
                                                 
                                                 print("2 in onload retrieve")
-                                                
+                                                if(tblContacts[type]=="link")
+                                                {
+                                                    var urlArray=UtilityFunctions.init().getURLs(text: tblContacts[msg])
+                                                    print("found url \(urlArray.first!)")
+                                                    var urlInfoDB=sqliteDB.getSingleURLInfo(tblContacts[uniqueid])
+                                                    if(urlInfoDB.count>0){
+                                                        
+                                                        var title=urlInfoDB["title"]
+                                                        var description=urlInfoDB["desc"]
+                                                        var url=urlInfoDB["url"]
+                                                        //newEntry["msg"]=URLinfo.get(msg) as AnyObject
+                                                        messages2.add(["message":tblContacts[msg]/*+" (\(tblContacts[status])) "*/,"status":tblContacts[status], "type":"22", "date":defaultTimeeee, "uniqueid":tblContacts[uniqueid],"title":title,"description":description,"url":url])
+                                                        
+                                                        
+                                                    }
+                                                    else{
+                                                        print("type link but not found in database")
+                                                        // messages2.add(["message":tblContacts[msg]+" (\(tblContacts[status])) ","status":tblContacts[status], "type":"2", "date":defaultTimeeee, "uniqueid":tblContacts[uniqueid]])
+                                                        
+                                                        //}
+                                                    }
+                                                    
+                                                    
+                                                }
+                                                else{
                                                 
                                 messages2.add(["message":tblContacts[msg]+" (\(tblContacts[status])) ","status":tblContacts[status], "type":"2", "date":defaultTimeeee, "uniqueid":tblContacts[uniqueid]])
+                                                }
                                     }
                                         }
                                     }
@@ -2853,6 +2883,7 @@ var isKiboContact="false"
                 var res=UIApplication.shared.openURL(NSURL.init(string: stringURL) as! URL)
                 print("open url \(res)")
             })
+            urlView?.isHidden=false
             textLable.isHidden=false
             title.isHidden=false
             desc.isHidden=false
