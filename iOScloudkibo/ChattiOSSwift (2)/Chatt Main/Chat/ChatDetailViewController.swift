@@ -220,11 +220,11 @@ var isKiboContact="false"
             }
             
             
-            var imParas=["from":"\(username!)","to":"\(self.selectedContact)","fromFullName":"\(displayname)","msg":self.filename,"uniqueid":uniqueID,"type":"file","file_type":"audio"]
+            var statusNow="pending"
+            var imParas=["from":"\(username!)","to":"\(self.selectedContact)","fromFullName":"\(displayname)","msg":self.filename,"uniqueid":uniqueID,"type":"file","file_type":"audio","status":statusNow]
             //print("imparas are \(imParas)")
             
             
-            var statusNow="pending"
             //------
             sqliteDB.SaveChat(self.selectedContact, from1: username!, owneruser1: username!, fromFullName1: displayname, msg1: self.filename, date1: nil, uniqueid1: uniqueID, status1: statusNow, type1: "file", file_type1: "audio", file_path1: filePathImage2)
             
@@ -746,7 +746,8 @@ var isKiboContact="false"
             // failed to record!
         }
         
-        self.tblForChats.estimatedRowHeight = 100.0
+        self.tblForChats.estimatedRowHeight = 40.0
+
         self.tblForChats.rowHeight = UITableViewAutomaticDimension;
         /*
         let nib1 = UINib(nibName: "ChatSentCell", bundle: nil)
@@ -1166,7 +1167,7 @@ var isKiboContact="false"
                         }*/
                       ////  self.addUploadInfo(selectedContact, uniqueid1: tblContacts[uniqueid], rowindex: messages.count, uploadProgress: 1, isCompleted: true)
                        
-                        messages2.add(["message":tblContacts[msg]+" (\(tblContacts[status]))","filename":tblContacts[msg], "type":"6", "date":defaultTimeeee, "uniqueid":tblContacts[uniqueid]])
+                        messages2.add(["message":tblContacts[msg]+" (\(tblContacts[status]))","filename":tblContacts[msg], "type":"6","status":tblContacts[status],"date":defaultTimeeee, "uniqueid":tblContacts[uniqueid]])
                         
                        //^^^^ self.addMessage(tblContacts[msg], ofType: "6",date: tblContacts[date],uniqueid: tblContacts[uniqueid])
                         
@@ -1528,7 +1529,7 @@ var isKiboContact="false"
                                  }*/
                                 ////  self.addUploadInfo(selectedContact, uniqueid1: tblContacts[uniqueid], rowindex: messages.count, uploadProgress: 1, isCompleted: true)
                                 
-                                messages2.add(["message":tblContacts[msg]+" (\(tblContacts[status]))","filename":tblContacts[msg], "type":"6", "date":defaultTimeeee, "uniqueid":tblContacts[uniqueid]])
+                                messages2.add(["message":tblContacts[msg]+" (\(tblContacts[status]))","filename":tblContacts[msg], "type":"6","status":tblContacts[status],"date":defaultTimeeee, "uniqueid":tblContacts[uniqueid]])
                                 
                                 //^^^^ self.addMessage(tblContacts[msg], ofType: "6",date: tblContacts[date],uniqueid: tblContacts[uniqueid])
                                 
@@ -2887,7 +2888,7 @@ var isKiboContact="false"
                 sizeOFStr=temp+
             }*/
             
-            let distanceFactor = (197.0 - sizeOFStr.width) < 107 ? (197.0 - sizeOFStr.width) : 107
+            //!!let distanceFactor = (197.0 - sizeOFStr.width) < 107 ? (197.0 - sizeOFStr.width) : 107
             
             desc.numberOfLines = 0
             desc.enabledTypes = [.mention, .hashtag, .url]
@@ -2908,7 +2909,7 @@ var isKiboContact="false"
                 print("open url \(res)")
             })
             
-            let correctheightViewDesc=getSizeOfStringHeight(messageDic["description"] as! NSString).height
+            //!!let correctheightViewDesc=getSizeOfStringHeight(messageDic["description"] as! NSString).height
                 
             /*}
             else
@@ -2988,31 +2989,36 @@ var isKiboContact="false"
                 urllbl.text=messageDic["url"] as? String!
                 
             }*/
-            urlView?.frame = CGRect(x: 25 + distanceFactor, y: (urlView?.frame.origin.y)!, width:  ((sizeOFStrDesc.width + 107+30)  > 207 ? (sizeOFStrDesc.width + 107-40) : 200-40), height: correctheightViewDesc + 30/*(urlView?.frame.height)!*/)
-           // urlView?.frame = CGRect(x: 20 + distanceFactor, y: (urlView?.frame.origin.y)!, width: (urlView?.frame.width)!, height: 0)
+            
+            
+            
+            //!!urlView?.frame = CGRect(x: 25 + distanceFactor, y: (urlView?.frame.origin.y)!, width:  ((sizeOFStrDesc.width + 107+30)  > 207 ? (sizeOFStrDesc.width + 107-40) : 200-40), height: correctheightViewDesc + 30/*(urlView?.frame.height)!*/)
+           
+            
+            // urlView?.frame = CGRect(x: 20 + distanceFactor, y: (urlView?.frame.origin.y)!, width: (urlView?.frame.width)!, height: 0)
             //urlView?.isHidden=true
             
             //chatImage.frame = CGRect(x: 20 + distanceFactor, y: chatImage.frame.origin.y, width: ((sizeOFStr.width + 107)  > 207 ? (sizeOFStr.width + 107) : 200), height: correctheight + (urlView?.frame.height)! + 20)
             
             /////==--chatImage.frame = CGRect(x: 20 + distanceFactor, y: ((urlView?.frame.origin.y)!-5), width: ((urlView?.frame.width)!  > 207 ? (sizeOFStr.width + 107) : 200), height: correctheight + (urlView?.frame.height)! + 20+10)
             
-            chatImage.frame = CGRect(x: 20 + distanceFactor, y: ((urlView?.frame.origin.y)!-5), width: (urlView?.frame.width)!+40 , height: correctheight + (urlView?.frame.height)! + 20+10)
+            //!!chatImage.frame = CGRect(x: 20 + distanceFactor, y: ((urlView?.frame.origin.y)!-5), width: (urlView?.frame.width)!+40 , height: correctheight + (urlView?.frame.height)! + 20+10)
             
            //==== newwww chatImage.frame = CGRectMake(20 + distanceFactor, chatImage.frame.origin.y, ((sizeOFStr.width + 107)  > 207 ? (sizeOFStr.width + 107) : 200), sizeOFStr.height + 40)
             //chatImage.frame = CGRectMake(20 + distanceFactor, chatImage.frame.origin.y, ((sizeOFStr.width + 100)  > 200 ? (sizeOFStr.width + 100) : 200), sizeOFStr.height + 40)
-            chatImage.image = UIImage(named: "chat_send")?.stretchableImage(withLeftCapWidth: 40,topCapHeight: 20);
+            //!!chatImage.image = UIImage(named: "chat_send")?.stretchableImage(withLeftCapWidth: 40,topCapHeight: 20);
             //*********
            
             //getSizeOfStringHeight(msg).height
             //desc
             
            // urllbl
-            urllbl.frame = CGRect(x: urllbl.frame.origin.x, y: (urlView?.frame.height)!-20, width: (urllbl.frame.width), height: urllbl.frame.height)
+            //!!urllbl.frame = CGRect(x: urllbl.frame.origin.x, y: (urlView?.frame.height)!-20, width: (urllbl.frame.width), height: urllbl.frame.height)
             
-            desc.frame = CGRect(x: desc.frame.origin.x, y: desc.frame.origin.y, width: (urlView?.frame.width)!, height: correctheightViewDesc)
+            //!!desc.frame = CGRect(x: desc.frame.origin.x, y: desc.frame.origin.y, width: (urlView?.frame.width)!, height: correctheightViewDesc)
             
             
-           textLable.frame = CGRect(x: 26 + distanceFactor, y: textLable.frame.origin.y, width: chatImage.frame.width-36, height: correctheight)
+           //!!textLable.frame = CGRect(x: 26 + distanceFactor, y: textLable.frame.origin.y, width: chatImage.frame.width-36, height: correctheight)
             
             
            // newwwwwwwwww textLable.frame = CGRectMake(26 + distanceFactor, textLable.frame.origin.y, chatImage.frame.width-36, getSizeOfStringHeight(msg).height)
@@ -3023,13 +3029,13 @@ var isKiboContact="false"
             
             ////profileImage.center = CGPointMake(profileImage.center.x, textLable.frame.origin.y + textLable.frame.size.height - profileImage.frame.size.height/2 + 10)
             
-            profileImage.center = CGPoint(x: profileImage.center.x, y: textLable.frame.origin.y + textLable.frame.size.height - profileImage.frame.size.height/2+10)
+            //!!profileImage.center = CGPoint(x: profileImage.center.x, y: textLable.frame.origin.y + textLable.frame.size.height - profileImage.frame.size.height/2+10)
             
             //==uncomment if needed timeLabel.frame = CGRectMake(36 + distanceFactor, timeLabel.frame.origin.y, timeLabel.frame.size.width, timeLabel.frame.size.height)
             
             //!!timeLabel.frame = CGRect(x: 36 + distanceFactor, y: textLable.frame.origin.y+textLable.frame.height, width: chatImage.frame.size.width-46, height: timeLabel.frame.size.height)
                 
-            deliveredLabel.frame = CGRect(x: deliveredLabel.frame.origin.x, y: textLable.frame.origin.y + textLable.frame.size.height + 15, width: deliveredLabel.frame.size.width, height: deliveredLabel.frame.size.height)
+            //!!deliveredLabel.frame = CGRect(x: deliveredLabel.frame.origin.x, y: textLable.frame.origin.y + textLable.frame.size.height + 15, width: deliveredLabel.frame.size.width, height: deliveredLabel.frame.size.height)
             
             
             
@@ -3521,7 +3527,7 @@ var isKiboContact="false"
             let profileImage = cell.viewWithTag(2) as! UIImageView
              let progressView=cell.viewWithTag(14) as! KDCircularProgress
             
-            let distanceFactor = (170.0 - sizeOFStr.width) < 100 ? (170.0 - sizeOFStr.width) : 100
+            //!!let distanceFactor = (170.0 - sizeOFStr.width) < 100 ? (170.0 - sizeOFStr.width) : 100
             
             
             /*
@@ -3582,14 +3588,14 @@ var isKiboContact="false"
             
             textLable.isHidden=false
             //chatImage.frame = CGRectMake(20 + distanceFactor, chatImage.frame.origin.y, ((sizeOFStr.width + 100)  > 200 ? (sizeOFStr.width + 100) : 200), sizeOFStr.height + 40)
-            chatImage.image = UIImage(named: "chat_receive")?.stretchableImage(withLeftCapWidth: 40,topCapHeight: 20);
+            //!!chatImage.image = UIImage(named: "chat_receive")?.stretchableImage(withLeftCapWidth: 40,topCapHeight: 20);
             
-             chatImage.frame = CGRect(x: chatImage.frame.origin.x, y: chatImage.frame.origin.y, width: ((sizeOFStr.width + 100)  > 200 ? (sizeOFStr.width + 100) : 200), height: correctheight + 20)
-            
-            
+             //!!chatImage.frame = CGRect(x: chatImage.frame.origin.x, y: chatImage.frame.origin.y, width: ((sizeOFStr.width + 100)  > 200 ? (sizeOFStr.width + 100) : 200), height: correctheight + 20)
             
             
-            textLable.frame = CGRect(x: 60, y: textLable.frame.origin.y+10, width: chatImage.frame.width-70, height: correctheight)
+            
+            
+            //!!textLable.frame = CGRect(x: 60, y: textLable.frame.origin.y+10, width: chatImage.frame.width-70, height: correctheight)
             
             
             // newwwwwwwwww textLable.frame = CGRectMake(26 + distanceFactor, textLable.frame.origin.y, chatImage.frame.width-36, getSizeOfStringHeight(msg).height)
@@ -3599,7 +3605,7 @@ var isKiboContact="false"
             
             //!!timeLabel.frame = CGRect(x: 35, y: textLable.frame.origin.y+textLable.frame.height, width: chatImage.frame.size.width-46, height: timeLabel.frame.size.height)
             
-            profileImage.center = CGPoint(x: 45, y: chatImage.frame.origin.y+10 + (profileImage.frame.size.height)/2+5)
+            //!!profileImage.center = CGPoint(x: 45, y: chatImage.frame.origin.y+10 + (profileImage.frame.size.height)/2+5)
             
             
             
@@ -3690,7 +3696,7 @@ var isKiboContact="false"
             
            // let distanceFactor = (170.0 - sizeOFStr.width) < 100 ? (170.0 - sizeOFStr.width) : 100
     
-            let distanceFactor = (197.0 - sizeOFStr.width) < 107 ? (197.0 - sizeOFStr.width) : 107
+            //!!let distanceFactor = (197.0 - sizeOFStr.width) < 107 ? (197.0 - sizeOFStr.width) : 107
             
             //===== neww  let distanceFactor = (197.0 - sizeOFStr.width) < 107 ? (197.0 - sizeOFStr.width) : 107
             //print("distanceFactor for \(msg) is \(distanceFactor)")
@@ -3732,13 +3738,13 @@ var isKiboContact="false"
             */
             let correctheight=getSizeOfStringHeight(msg!).height
             
-            chatImage.frame = CGRect(x: 20 + distanceFactor, y: chatImage.frame.origin.y, width: ((sizeOFStr.width + 107)  > 207 ? (sizeOFStr.width + 107) : 200), height: correctheight + 20)
-            chatImage.image = UIImage(named: "chat_send")?.stretchableImage(withLeftCapWidth: 40,topCapHeight: 20);
+            //!!chatImage.frame = CGRect(x: 20 + distanceFactor, y: chatImage.frame.origin.y, width: ((sizeOFStr.width + 107)  > 207 ? (sizeOFStr.width + 107) : 200), height: correctheight + 20)
+            //!!chatImage.image = UIImage(named: "chat_send")?.stretchableImage(withLeftCapWidth: 40,topCapHeight: 20);
             //*********
             
             //getSizeOfStringHeight(msg).height
             
-            textLable.frame = CGRect(x: 60 + distanceFactor, y: textLable.frame.origin.y, width: chatImage.frame.width-70, height: correctheight)
+            //!!textLable.frame = CGRect(x: 60 + distanceFactor, y: textLable.frame.origin.y, width: chatImage.frame.width-70, height: correctheight)
             
             
             // newwwwwwwwww textLable.frame = CGRectMake(26 + distanceFactor, textLable.frame.origin.y, chatImage.frame.width-36, getSizeOfStringHeight(msg).height)
@@ -3748,7 +3754,7 @@ var isKiboContact="false"
             
             //!!timeLabel.frame = CGRect(x: 36 + distanceFactor, y: textLable.frame.origin.y+textLable.frame.height, width: chatImage.frame.size.width-46, height: timeLabel.frame.size.height)
             
-            profileImage.center = CGPoint(x: 45+distanceFactor, y: chatImage.frame.origin.y + (profileImage.frame.size.height)/2+5)
+            //!!profileImage.center = CGPoint(x: 45+distanceFactor, y: chatImage.frame.origin.y + (profileImage.frame.size.height)/2+5)
            
            
             
@@ -5514,7 +5520,7 @@ var isKiboContact="false"
                 
                 if(selectedContact != "")
                 {
-                    imParas=["from":"\(username!)","to":"\(selectedContact)","fromFullName":"\(displayname)","msg":"\(msgbody)","uniqueid":"\(uniqueID)","type":"contact","file_type":"","date":"\(dateSentDateType!)"]
+                    imParas=["from":"\(username!)","to":"\(selectedContact)","fromFullName":"\(displayname)","msg":"\(msgbody)","uniqueid":"\(uniqueID)","type":"contact","file_type":"","status":statusNow,"date":"\(dateSentDateType!)"]
                     
                     
                     
@@ -5795,12 +5801,12 @@ var isKiboContact="false"
             */
             var uniqueID=UtilityFunctions.init().generateUniqueid()
             print("uniqueid video is \(uniqueID)")
+            var statusNow="pending"
             
-            var imParas=["from":"\(username!)","to":"\(self.selectedContact)","fromFullName":"\(displayname)","msg":self.filename,"uniqueid":uniqueID,"type":"file","file_type":"video"]
+            var imParas=["from":"\(username!)","to":"\(self.selectedContact)","fromFullName":"\(displayname)","msg":self.filename,"uniqueid":uniqueID,"type":"file","file_type":"video","status":statusNow]
             //print("imparas are \(imParas)")
             
             
-            var statusNow="pending"
             //------
             sqliteDB.SaveChat(self.selectedContact, from1: username!, owneruser1: username!, fromFullName1: displayname, msg1: self.filename, date1: nil, uniqueid1: uniqueID, status1: statusNow, type1: "file", file_type1: "video", file_path1: filePathImage2)
             
@@ -6000,13 +6006,13 @@ var isKiboContact="false"
             */var uniqueID=UtilityFunctions.init().generateUniqueid()
             
             
+            var statusNow="pending"
             
             
-            var imParas=["from":"\(username!)","to":"\(self.selectedContact)","fromFullName":"\(displayname)","msg":self.filename,"uniqueid":uniqueID,"type":"file","file_type":"image"]
+            var imParas=["from":"\(username!)","to":"\(self.selectedContact)","fromFullName":"\(displayname)","msg":self.filename,"uniqueid":uniqueID,"type":"file","file_type":"image","status":statusNow]
             //print("imparas are \(imParas)")
             
             
-            var statusNow="pending"
             //------
             sqliteDB.SaveChat(self.selectedContact, from1: username!, owneruser1: username!, fromFullName1: displayname, msg1: self.filename, date1: nil, uniqueid1: uniqueID, status1: statusNow, type1: "file", file_type1: "image", file_path1: filePathImage2)
             
@@ -6325,7 +6331,7 @@ var isKiboContact="false"
         
         if(self.selectedContact != "")
         {
-            imParas=["from":"\(username!)","to":"\(self.selectedContact)","fromFullName":"\(displayname)","msg":"\(self.txtFldMessage.text!)","uniqueid":"\(uniqueID)","type":"chat","file_type":"","date":"\(dateSentDateType!)"]
+            imParas=["from":"\(username!)","to":"\(self.selectedContact)","fromFullName":"\(displayname)","msg":"\(self.txtFldMessage.text!)","uniqueid":"\(uniqueID)","type":"chat","status":statusNow,"file_type":"","date":"\(dateSentDateType!)"]
             
             
             
@@ -7023,7 +7029,9 @@ var isKiboContact="false"
                 //^^var firstNameSelected=selectedUserObj["firstname"]
                 //^^^var lastNameSelected=selectedUserObj["lastname"]
                 //^^^var fullNameSelected=firstNameSelected.string!+" "+lastNameSelected.string!
-                var imParas=["from":"\(username!)","to":"\(self.selectedContact)","fromFullName":"\(displayname)","msg":fname+"."+ftype,"uniqueid":uniqueID,"type":"file","file_type":"document"]
+                
+                 var statusNow="pending"
+                var imParas=["from":"\(username!)","to":"\(self.selectedContact)","fromFullName":"\(displayname)","msg":fname+"."+ftype,"uniqueid":uniqueID,"type":"file","file_type":"document","status":statusNow]
                 //print("imparas are \(imParas)")
                 //print(imParas, terminator: "")
                 //print("", terminator: "")
@@ -7032,7 +7040,7 @@ var isKiboContact="false"
                 
                 //socketObj.socket.emit("logClient","IPHONE-LOG: \(username!) is sending chat message")
                 //////socketObj.socket.emit("im",["room":"globalchatroom","stanza":imParas])
-                var statusNow=""
+                //var statusNow=""
                 /*if(isSocketConnected==true)
                  {
                  statusNow="sent"
@@ -7041,7 +7049,7 @@ var isKiboContact="false"
                  else
                  {
                  */
-                statusNow="pending"
+               
                 //}
                 
                 ////sqliteDB.SaveChat("\(selectedContact)", from1: username!, owneruser1: username!, fromFullName1: displayname!, msg1: fname!+"."+ftype, date1: nil, uniqueid1: uniqueID, status1: statusNow, type1: "chat", file_type1: "", file_path1: "")
@@ -7444,7 +7452,7 @@ var isKiboContact="false"
         
         if(selectedContact != "")
         {
-            imParas=["from":"\(username!)","to":"\(selectedContact)","fromFullName":"\(displayname)","msg":"\(msgbody)","uniqueid":"\(uniqueID)","type":"location","file_type":"","date":"\(dateSentDateType!)"]
+            imParas=["from":"\(username!)","to":"\(selectedContact)","fromFullName":"\(displayname)","msg":"\(msgbody)","uniqueid":"\(uniqueID)","type":"location","file_type":"","date":"\(dateSentDateType!)","status":statusNow]
             
             
             
