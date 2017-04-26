@@ -1367,6 +1367,7 @@ else{
             
             if(internetAvailable==true)
 {
+    print("upload group icon \(groupid)  \(self.filePathImage2) .. \(self.file_name1) ... \(self.ftype)")
             managerFile.uploadProfileImage(groupid,filePath1: self.filePathImage2,filename: self.file_name1,fileType: self.ftype,completion: {(result,error) in
                 
             })

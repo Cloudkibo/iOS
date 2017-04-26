@@ -1202,27 +1202,36 @@ var isKiboContact="false"
                                     }else{
                                         if(tblContacts[type]=="link")
                                         {
+                                            
                                             var urlArray=UtilityFunctions.init().getURLs(text: tblContacts[msg])
-                                            print("found url \(urlArray.first!)")
-                                            var urlInfoDB=sqliteDB.getSingleURLInfo(tblContacts[uniqueid])
-                                            if(urlInfoDB.count>0){
+                                            if(urlArray.count>0)
+                                            {
+                                                print("found url \(urlArray.first!)")
+                                                var urlInfoDB=sqliteDB.getSingleURLInfo(tblContacts[uniqueid])
+                                                if(urlInfoDB.count>0){
+                                                    
+                                                    var title=urlInfoDB["title"]
+                                                    var description=urlInfoDB["desc"]
+                                                    var url=urlInfoDB["url"]
+                                                    //newEntry["msg"]=URLinfo.get(msg) as AnyObject
+                                                    messages2.add(["message":tblContacts[msg]/*+" (\(tblContacts[status])) "*/,"status":tblContacts[status], "type":"22", "date":defaultTimeeee, "uniqueid":tblContacts[uniqueid],"title":title,"description":description,"url":url])
+                                                    
+                                                    
+                                                }
+                                                else{
+                                                    print("type link but not in db")
+                                                    //messages2.add(["message":tblContacts[msg]+" (\(tblContacts[status])) ","status":tblContacts[status], "type":"2", "date":defaultTimeeee, "uniqueid":tblContacts[uniqueid]])
+                                                    
+                                                    //}
+                                                }
                                                 
-                                                var title=urlInfoDB["title"]
-                                                var description=urlInfoDB["desc"]
-                                                var url=urlInfoDB["url"]
-                                                //newEntry["msg"]=URLinfo.get(msg) as AnyObject
-                                                messages2.add(["message":tblContacts[msg]/*+" (\(tblContacts[status])) "*/,"status":tblContacts[status], "type":"22", "date":defaultTimeeee, "uniqueid":tblContacts[uniqueid],"title":title,"description":description,"url":url])
                                                 
+                                            }else{
                                                 
-                                            }
-                                            else{
-                                                print("type link but not found in database")
-                                               // messages2.add(["message":tblContacts[msg]+" (\(tblContacts[status])) ","status":tblContacts[status], "type":"2", "date":defaultTimeeee, "uniqueid":tblContacts[uniqueid]])
-                                                
-                                                //}
+                                                messages2.add(["message":tblContacts[msg]+" (\(tblContacts[status])) ","status":tblContacts[status], "type":"2", "date":defaultTimeeee, "uniqueid":tblContacts[uniqueid]])
                                             }
                                             
-                                            
+                                            //  messages2.add(["message":tblContacts[msg]+" (\(tblContacts[status])) ","status":tblContacts[status], "type":"22", "date":defaultTimeeee, "uniqueid":tblContacts[uniqueid],"title"])
                                         }
                                         else{
                                         print("hereee 2 ")
@@ -1399,7 +1408,7 @@ var isKiboContact="false"
                                                 var description=urlInfoDB["desc"]
                                                 var url=urlInfoDB["url"]
                                                 //newEntry["msg"]=URLinfo.get(msg) as AnyObject
-                                                messages2.add(["message":tblContacts[msg]/*+" (\(tblContacts[status])) "*/,"status":tblContacts[status], "type":"11", "date":defaultTimeeee, "uniqueid":tblContacts[uniqueid],"title":title,"description":description,"url":url])
+                                                messages2.add(["message":tblContacts[msg]/*+" (\(tblContacts[status])) "*/,"status":tblContacts[status], "type":"23", "date":defaultTimeeee, "uniqueid":tblContacts[uniqueid],"title":title,"description":description,"url":url])
                                                 
                                                 
                                             }
@@ -1758,42 +1767,8 @@ var isKiboContact="false"
                             }
 
                             else{
-                                if(tblContacts[type]=="link")
-                                {
-                                    var urlArray=UtilityFunctions.init().getURLs(text: tblContacts[msg])
-                                    if(urlArray.count>0)
-                                    {
-                                        print("found url \(urlArray.first!)")
-                                        var urlInfoDB=sqliteDB.getSingleURLInfo(tblContacts[uniqueid])
-                                        if(urlInfoDB.count>0){
-                                            
-                                            var title=urlInfoDB["title"]
-                                            var description=urlInfoDB["desc"]
-                                            var url=urlInfoDB["url"]
-                                            //newEntry["msg"]=URLinfo.get(msg) as AnyObject
-                                            messages2.add(["message":tblContacts[msg]/*+" (\(tblContacts[status])) "*/,"status":tblContacts[status], "type":"11", "date":defaultTimeeee, "uniqueid":tblContacts[uniqueid],"title":title,"description":description,"url":url])
-                                            
-                                            
-                                        }
-                                        else{
-                                            print("type link but not in db")
-                                            //messages2.add(["message":tblContacts[msg]+" (\(tblContacts[status])) ","status":tblContacts[status], "type":"2", "date":defaultTimeeee, "uniqueid":tblContacts[uniqueid]])
-                                            
-                                            //}
-                                        }
-                                        
-                                        
-                                    }else{
-                                        
-                                        messages2.add(["message":tblContacts[msg]+" (\(tblContacts[status])) ","status":tblContacts[status], "type":"1", "date":defaultTimeeee, "uniqueid":tblContacts[uniqueid]])
-                                    }
-                                    
-                                    //  messages2.add(["message":tblContacts[msg]+" (\(tblContacts[status])) ","status":tblContacts[status], "type":"22", "date":defaultTimeeee, "uniqueid":tblContacts[uniqueid],"title"])
-                                }
-                                else{
-                            messages2.add(["message":tblContacts[msg],"status":tblContacts[status], "type":"1", "date":defaultTimeeee, "uniqueid":tblContacts[uniqueid]])
-                            
-                                }
+                                
+                                messages2.add(["message":tblContacts[msg]+" (\(tblContacts[status])) ","status":tblContacts[status], "type":"2", "date":defaultTimeeee, "uniqueid":tblContacts[uniqueid]])
                             }
                             ///^^^ self.addMessage(tblContacts[msg], ofType: "1", date: tblContacts[date],uniqueid: tblContacts[uniqueid])
                             }
@@ -2033,27 +2008,36 @@ var isKiboContact="false"
                                                 print("2 in onload retrieve")
                                                 if(tblContacts[type]=="link")
                                                 {
+                                                    
                                                     var urlArray=UtilityFunctions.init().getURLs(text: tblContacts[msg])
-                                                    print("found url \(urlArray.first!)")
-                                                    var urlInfoDB=sqliteDB.getSingleURLInfo(tblContacts[uniqueid])
-                                                    if(urlInfoDB.count>0){
+                                                    if(urlArray.count>0)
+                                                    {
+                                                        print("found url \(urlArray.first!)")
+                                                        var urlInfoDB=sqliteDB.getSingleURLInfo(tblContacts[uniqueid])
+                                                        if(urlInfoDB.count>0){
+                                                            
+                                                            var title=urlInfoDB["title"]
+                                                            var description=urlInfoDB["desc"]
+                                                            var url=urlInfoDB["url"]
+                                                            //newEntry["msg"]=URLinfo.get(msg) as AnyObject
+                                                            messages2.add(["message":tblContacts[msg]/*+" (\(tblContacts[status])) "*/,"status":tblContacts[status], "type":"22", "date":defaultTimeeee, "uniqueid":tblContacts[uniqueid],"title":title,"description":description,"url":url])
+                                                            
+                                                            
+                                                        }
+                                                        else{
+                                                            print("type link but not in db")
+                                                            //messages2.add(["message":tblContacts[msg]+" (\(tblContacts[status])) ","status":tblContacts[status], "type":"2", "date":defaultTimeeee, "uniqueid":tblContacts[uniqueid]])
+                                                            
+                                                            //}
+                                                        }
                                                         
-                                                        var title=urlInfoDB["title"]
-                                                        var description=urlInfoDB["desc"]
-                                                        var url=urlInfoDB["url"]
-                                                        //newEntry["msg"]=URLinfo.get(msg) as AnyObject
-                                                        messages2.add(["message":tblContacts[msg]/*+" (\(tblContacts[status])) "*/,"status":tblContacts[status], "type":"22", "date":defaultTimeeee, "uniqueid":tblContacts[uniqueid],"title":title,"description":description,"url":url])
                                                         
+                                                    }else{
                                                         
-                                                    }
-                                                    else{
-                                                        print("type link but not found in database")
-                                                        // messages2.add(["message":tblContacts[msg]+" (\(tblContacts[status])) ","status":tblContacts[status], "type":"2", "date":defaultTimeeee, "uniqueid":tblContacts[uniqueid]])
-                                                        
-                                                        //}
+                                                        messages2.add(["message":tblContacts[msg]+" (\(tblContacts[status])) ","status":tblContacts[status], "type":"2", "date":defaultTimeeee, "uniqueid":tblContacts[uniqueid]])
                                                     }
                                                     
-                                                    
+                                                    //  messages2.add(["message":tblContacts[msg]+" (\(tblContacts[status])) ","status":tblContacts[status], "type":"22", "date":defaultTimeeee, "uniqueid":tblContacts[uniqueid],"title"])
                                                 }
                                                 else{
                                                 
@@ -2164,7 +2148,7 @@ var isKiboContact="false"
                                                         var description=urlInfoDB["desc"]
                                                         var url=urlInfoDB["url"]
                                                         //newEntry["msg"]=URLinfo.get(msg) as AnyObject
-                                                        messages2.add(["message":tblContacts[msg]/*+" (\(tblContacts[status])) "*/,"status":tblContacts[status], "type":"11", "date":defaultTimeeee, "uniqueid":tblContacts[uniqueid],"title":title,"description":description,"url":url])
+                                                        messages2.add(["message":tblContacts[msg]/*+" (\(tblContacts[status])) "*/,"status":tblContacts[status], "type":"23", "date":defaultTimeeee, "uniqueid":tblContacts[uniqueid],"title":title,"description":description,"url":url])
                                                         
                                                         
                                                     }
@@ -3096,7 +3080,7 @@ var isKiboContact="false"
             timeLabel.text=displaydate
             //timeLabel.text=date2.debugDescription
         }
-        if (msgType?.isEqual(to: "11"))!{
+        if (msgType?.isEqual(to: "23"))!{
             cell=tableView.dequeueReusableCell(withIdentifier: "ChatSentCell11")
             if(cell==nil)
             {
