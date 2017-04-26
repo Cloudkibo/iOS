@@ -1,0 +1,4 @@
+{"identity":{"generator":"Crashlytics iOS SDK/3.7.2","build_version":"112","display_version":"3.7.2","api_key":"3b282bf90cce24442d5c9291e267a78c0393f407","started_at":1493188891,"session_id":"cf90c45e2860431b8cbd35367197330e","install_id":"E4803329-F355-4CC3-B480-87CABEC2BBCD","beta_token":null,"absolute_log_timestamps":true}}
+{"host":{"model":"iPhone8,4","machine":"N69uAP","os_build_version":"14D27","os_display_version":"10.2.1","platform":"ios","locale":"en_PK"}}
+{"application":{"bundle_id":"iCloud.MyAppTemplates.cloudkibo","custom_bundle_id":null,"build_version":"0.11","display_version":"0.1306","extension_id":null}}
+{"executable":{"architecture":"arm64","uuid":"1b12ddd87e8f34f1bc95ba290d4ff8b4","base":4295081984,"size":16187392,"encrypted":false,"minimum_sdk_version":"9.2.0","built_sdk_version":"10.2.0"}}

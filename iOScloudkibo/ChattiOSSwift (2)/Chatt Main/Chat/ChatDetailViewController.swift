@@ -1384,7 +1384,44 @@ var isKiboContact="false"
                                     {
                                          messages2.add(["message":tblContacts[msg],"status":tblContacts[status], "type":"13", "date":defaultTimeeee, "uniqueid":tblContacts[uniqueid]])
                                         
-                                    }else{messages2.add(["message":tblContacts[msg],"status":tblContacts[status], "type":"1", "date":defaultTimeeee, "uniqueid":tblContacts[uniqueid]])
+                                    }else{
+                                        
+                                        if(tblContacts[type]=="link")
+                                        {
+                                        var urlArray=UtilityFunctions.init().getURLs(text: tblContacts[msg])
+                                        if(urlArray.count>0)
+                                        {
+                                            print("found url \(urlArray.first!)")
+                                            var urlInfoDB=sqliteDB.getSingleURLInfo(tblContacts[uniqueid])
+                                            if(urlInfoDB.count>0){
+                                                
+                                                var title=urlInfoDB["title"]
+                                                var description=urlInfoDB["desc"]
+                                                var url=urlInfoDB["url"]
+                                                //newEntry["msg"]=URLinfo.get(msg) as AnyObject
+                                                messages2.add(["message":tblContacts[msg]/*+" (\(tblContacts[status])) "*/,"status":tblContacts[status], "type":"11", "date":defaultTimeeee, "uniqueid":tblContacts[uniqueid],"title":title,"description":description,"url":url])
+                                                
+                                                
+                                            }
+                                            else{
+                                                print("type link but not in db")
+                                                //messages2.add(["message":tblContacts[msg]+" (\(tblContacts[status])) ","status":tblContacts[status], "type":"2", "date":defaultTimeeee, "uniqueid":tblContacts[uniqueid]])
+                                                
+                                                //}
+                                            }
+                                            
+                                            
+                                        }else{
+                                            
+                                            messages2.add(["message":tblContacts[msg]+" (\(tblContacts[status])) ","status":tblContacts[status], "type":"1", "date":defaultTimeeee, "uniqueid":tblContacts[uniqueid]])
+                                        }
+                                        
+                                        //  messages2.add(["message":tblContacts[msg]+" (\(tblContacts[status])) ","status":tblContacts[status], "type":"22", "date":defaultTimeeee, "uniqueid":tblContacts[uniqueid],"title"])
+                                    }
+                                    
+                                    else{
+                                        messages2.add(["message":tblContacts[msg],"status":tblContacts[status], "type":"1", "date":defaultTimeeee, "uniqueid":tblContacts[uniqueid]])
+                                    }
                                     }
                                 }
                             }
@@ -1686,10 +1723,78 @@ var isKiboContact="false"
                         }
                         else
                         {
-                            
+                            if(tblContacts[type]=="link")
+                            {
+                                
+                                var urlArray=UtilityFunctions.init().getURLs(text: tblContacts[msg])
+                                if(urlArray.count>0)
+                                {
+                                    print("found url \(urlArray.first!)")
+                                    var urlInfoDB=sqliteDB.getSingleURLInfo(tblContacts[uniqueid])
+                                    if(urlInfoDB.count>0){
+                                        
+                                        var title=urlInfoDB["title"]
+                                        var description=urlInfoDB["desc"]
+                                        var url=urlInfoDB["url"]
+                                        //newEntry["msg"]=URLinfo.get(msg) as AnyObject
+                                        messages2.add(["message":tblContacts[msg]/*+" (\(tblContacts[status])) "*/,"status":tblContacts[status], "type":"22", "date":defaultTimeeee, "uniqueid":tblContacts[uniqueid],"title":title,"description":description,"url":url])
+                                        
+                                        
+                                    }
+                                    else{
+                                        print("type link but not in db")
+                                        //messages2.add(["message":tblContacts[msg]+" (\(tblContacts[status])) ","status":tblContacts[status], "type":"2", "date":defaultTimeeee, "uniqueid":tblContacts[uniqueid]])
+                                        
+                                        //}
+                                    }
+                                    
+                                    
+                                }else{
+                                    
+                                    messages2.add(["message":tblContacts[msg]+" (\(tblContacts[status])) ","status":tblContacts[status], "type":"2", "date":defaultTimeeee, "uniqueid":tblContacts[uniqueid]])
+                                }
+                                
+                                //  messages2.add(["message":tblContacts[msg]+" (\(tblContacts[status])) ","status":tblContacts[status], "type":"22", "date":defaultTimeeee, "uniqueid":tblContacts[uniqueid],"title"])
+                            }
+
+                            else{
+                                if(tblContacts[type]=="link")
+                                {
+                                    var urlArray=UtilityFunctions.init().getURLs(text: tblContacts[msg])
+                                    if(urlArray.count>0)
+                                    {
+                                        print("found url \(urlArray.first!)")
+                                        var urlInfoDB=sqliteDB.getSingleURLInfo(tblContacts[uniqueid])
+                                        if(urlInfoDB.count>0){
+                                            
+                                            var title=urlInfoDB["title"]
+                                            var description=urlInfoDB["desc"]
+                                            var url=urlInfoDB["url"]
+                                            //newEntry["msg"]=URLinfo.get(msg) as AnyObject
+                                            messages2.add(["message":tblContacts[msg]/*+" (\(tblContacts[status])) "*/,"status":tblContacts[status], "type":"11", "date":defaultTimeeee, "uniqueid":tblContacts[uniqueid],"title":title,"description":description,"url":url])
+                                            
+                                            
+                                        }
+                                        else{
+                                            print("type link but not in db")
+                                            //messages2.add(["message":tblContacts[msg]+" (\(tblContacts[status])) ","status":tblContacts[status], "type":"2", "date":defaultTimeeee, "uniqueid":tblContacts[uniqueid]])
+                                            
+                                            //}
+                                        }
+                                        
+                                        
+                                    }else{
+                                        
+                                        messages2.add(["message":tblContacts[msg]+" (\(tblContacts[status])) ","status":tblContacts[status], "type":"1", "date":defaultTimeeee, "uniqueid":tblContacts[uniqueid]])
+                                    }
+                                    
+                                    //  messages2.add(["message":tblContacts[msg]+" (\(tblContacts[status])) ","status":tblContacts[status], "type":"22", "date":defaultTimeeee, "uniqueid":tblContacts[uniqueid],"title"])
+                                }
+                                else{
                             messages2.add(["message":tblContacts[msg],"status":tblContacts[status], "type":"1", "date":defaultTimeeee, "uniqueid":tblContacts[uniqueid]])
                             
-                            
+                                }
+                            }
                             ///^^^ self.addMessage(tblContacts[msg], ofType: "1", date: tblContacts[date],uniqueid: tblContacts[uniqueid])
                             }
                         }
@@ -2045,7 +2150,42 @@ var isKiboContact="false"
                                             
                                             messages2.add(["message":tblContacts[msg],"status":tblContacts[status], "type":"13", "date":defaultTimeeee, "uniqueid":tblContacts[uniqueid]])
                                         }else{
+                                            
+                                            if(tblContacts[type]=="link")
+                                            {
+                                                var urlArray=UtilityFunctions.init().getURLs(text: tblContacts[msg])
+                                                if(urlArray.count>0)
+                                                {
+                                                    print("found url \(urlArray.first!)")
+                                                    var urlInfoDB=sqliteDB.getSingleURLInfo(tblContacts[uniqueid])
+                                                    if(urlInfoDB.count>0){
+                                                        
+                                                        var title=urlInfoDB["title"]
+                                                        var description=urlInfoDB["desc"]
+                                                        var url=urlInfoDB["url"]
+                                                        //newEntry["msg"]=URLinfo.get(msg) as AnyObject
+                                                        messages2.add(["message":tblContacts[msg]/*+" (\(tblContacts[status])) "*/,"status":tblContacts[status], "type":"11", "date":defaultTimeeee, "uniqueid":tblContacts[uniqueid],"title":title,"description":description,"url":url])
+                                                        
+                                                        
+                                                    }
+                                                    else{
+                                                        print("type link but not in db")
+                                                        //messages2.add(["message":tblContacts[msg]+" (\(tblContacts[status])) ","status":tblContacts[status], "type":"2", "date":defaultTimeeee, "uniqueid":tblContacts[uniqueid]])
+                                                        
+                                                        //}
+                                                    }
+                                                    
+                                                    
+                                                }else{
+                                                    
+                                                    messages2.add(["message":tblContacts[msg]+" (\(tblContacts[status])) ","status":tblContacts[status], "type":"1", "date":defaultTimeeee, "uniqueid":tblContacts[uniqueid]])
+                                                }
+                                                
+                                                //  messages2.add(["message":tblContacts[msg]+" (\(tblContacts[status])) ","status":tblContacts[status], "type":"22", "date":defaultTimeeee, "uniqueid":tblContacts[uniqueid],"title"])
+                                            }
+                                            else{
                             messages2.add(["message":tblContacts[msg],"status":tblContacts[status], "type":"1", "date":defaultTimeeee, "uniqueid":tblContacts[uniqueid]])
+                                            }
                                         }
                                         }
                                 }
@@ -2774,6 +2914,146 @@ var isKiboContact="false"
             })
 
             
+            
+            ////////!!!!!!!!
+            
+            textLable.isHidden=false
+            textLable.text = msg! as! String
+            ////textLable.numberOfLines = 0
+            textLable.enabledTypes = [.mention, .hashtag, .url]
+            // textLable.text = "This is a post with #hashtags and a @userhandle."
+            textLable.textColor = .black
+            textLable.handleHashtagTap { hashtag in
+                print("Success. You just tapped the \(hashtag) hashtag")
+            }
+            textLable.handleURLTap({ (url) in
+                print("Success. You just tapped the \(url) url")
+                var stringURL="\(url)"
+                if !(stringURL.contains("http")) {
+                    stringURL = "http://" + stringURL
+                }
+                
+                var res=UIApplication.shared.openURL(NSURL.init(string: stringURL) as! URL)
+                print("open url \(res)")
+            })
+            print("message is \(textLable.text!)")
+            print("url encode is \(textLable.text?.urlEncode())  and isvalidurl  \(textLable.text?.isValidURL())")
+            
+            if(textLable.text!.isValidURL() == true)
+            {
+                //update database and fetch metadata in background
+                if !(textLable.text!.contains("http")) {
+                    textLable.text! = "http://" + textLable.text!
+                }
+                
+                let slp = SwiftLinkPreview()
+                slp.preview(
+                    textLable.text! as String!,
+                    onSuccess: { result in
+                        
+                        self.hasURL=true
+                        var description="-"
+                        if let desc=result[SwiftLinkResponseKey.description]
+                        {
+                            description=desc as! String
+                        }
+                        print("url result in retrieve is \(result)")
+                        sqliteDB.SaveURLData(uniqueidDictValue! as! String,title1:result[.title] as! String,desc1:description/*result[SwiftLinkResponseKey.description] as! String*/,url1:"\(result[SwiftLinkResponseKey.url]!)",msg1:msg! as String!,image1:nil//Data.init(base64Encoded:result[SwiftLinkResponseKey.image] as! String)!
+                        )
+                        
+                        sqliteDB.UpdateChat(uniqueidDictValue! as! String, type1: "link")
+                        
+                        //  let embeddedView = URLEmbeddedView()
+                        // embeddedView.loadURL(sender.text!)
+                        
+                        
+                        
+                        
+                        
+                        print("title \(result[.title] as! String)")
+                        messageDic["title"]=result[.title] as! String
+                        messageDic["description"]=description
+                        //result[SwiftLinkResponseKey.description] as! String
+                        messageDic["url"]="\(result[SwiftLinkResponseKey.url]!)!"
+                        messageDic["image"]=result[SwiftLinkResponseKey.image] as! String
+                        
+                        
+                        var messageDicSingle = self.messages.object(at: indexPath.row) as! [String : String];
+                        let msgType = messageDicSingle["type"] as String!
+                        let msg = messageDicSingle["message"] as String!
+                        let date2=messageDicSingle["date"] as String!
+                        var sizeOFStr = self.getSizeOfString(msg! as! NSString)
+                        let uniqueidDictValue=messageDicSingle["uniqueid"] as String!
+                        let status=messageDicSingle["status"] as String!
+                        
+                        
+                        
+                        var messages2=["message":msg!/*+" (\(status)) "*/,"status":status, "type":"11", "date":date2, "uniqueid":uniqueidDictValue,"title":result[.title] as! String,"description":description,"url":"\(result[SwiftLinkResponseKey.url]!)!"]
+                        
+                        self.messages.replaceObject(at: indexPath.row, with: messages2)
+                        //NSLog(messageDic["message"]!, 1)
+                        
+                        //self.tblForChats.reloadRows(at: [indexp], with: UITableViewRowAnimation.bottom)
+                        self.urlTitle=result[.title] as! String
+                        self.urlDesc=description
+                        //self.urlURL=result[SwiftLinkResponseKey.url] as! String
+                        var urlURLimage=result[SwiftLinkResponseKey.image] as! String
+                        
+                        /* title.isHidden=false
+                         desc.isHidden=false
+                         urllbl.isHidden=false
+                         activityIndicator.stopAnimating()
+                         
+                         
+                         
+                         title.text=result[.title] as! String
+                         desc.text=result[SwiftLinkResponseKey.description] as! String
+                         urllbl.text="\(result[SwiftLinkResponseKey.url]!)"
+                         */
+                        self.tblForChats.beginUpdates()
+                        //var indexp=IndexPath(row:indexP, section:0)
+                        self.tblForChats.reloadRows(at: [indexPath], with: UITableViewRowAnimation.none)
+                        self.tblForChats.endUpdates()
+                        //Chat.SwiftLinkResponseKey.description
+                        //Chat.SwiftLinkResponseKey.images
+                        //Chat.SwiftLinkResponseKey.title
+                        //Chat.SwiftLinkResponseKey.url
+                        //
+                        /// self.messages.add(["message":tblContacts[msg]+" (\(tblContacts[status])) ","status":tblContacts[status], "type":"2", "date":defaultTimeeee, "uniqueid":tblContacts[uniqueid],"title":result[.title] as! String,"description":result[SwiftLinkResponseKey.description] as! String,"url":"\(result[.url]!)"])
+                        
+                        
+                        // var urlinfoObject=sqliteDBgetSingleURLInfo(url1:"\(result[SwiftLinkResponseKey.url])")
+                        
+                        
+                        
+                        
+                        
+                },
+                    onError: { error in
+                        ///self.messages.add(["message":tblContacts[msg]+" (\(tblContacts[status])) ","status":tblContacts[status], "type":"2", "date":defaultTimeeee, "uniqueid":tblContacts[uniqueid]])
+                        print("error: in url is \(error)")
+                        /* desc.isHidden=false
+                         desc.text="Unable to load data"
+                         activityIndicator.stopAnimating()*/
+                        
+                        
+                }
+                    
+                )
+            }
+            
+         
+            
+            
+            
+            
+            
+            
+            
+            
+            //////
+            
+            
              /*
              let dateFormatter = DateFormatter()
             dateFormatter.timeZone=NSTimeZone.local()
@@ -2814,6 +3094,289 @@ var isKiboContact="false"
             
             //print("displaydate is \(displaydate)")
             timeLabel.text=displaydate
+            //timeLabel.text=date2.debugDescription
+        }
+        if (msgType?.isEqual(to: "11"))!{
+            cell=tableView.dequeueReusableCell(withIdentifier: "ChatSentCell11")
+            if(cell==nil)
+            {
+                cell = tblForChats.dequeueReusableCell(withIdentifier: "ChatSentCell11")! as UITableViewCell
+            }
+            let deliveredLabel = cell.viewWithTag(13) as! UILabel
+            var textLable = cell.viewWithTag(12) as! ActiveLabel
+            let timeLabel = cell.viewWithTag(11) as! UILabel
+            let chatImage = cell.viewWithTag(1) as! UIImageView
+            let profileImage = cell.viewWithTag(2) as! UIImageView
+            let urlView = cell.viewWithTag(22)
+            
+            
+            var title=urlView?.viewWithTag(19) as! UILabel
+            var desc=urlView?.viewWithTag(20) as! ActiveLabel
+            var urllbl=urlView?.viewWithTag(21) as! UILabel
+            var activityIndicator=urlView?.viewWithTag(24) as! UIActivityIndicatorView
+            
+            
+            
+            //title.isHidden=true
+            //desc.isHidden=true
+            urllbl.isHidden=false
+            activityIndicator.stopAnimating()
+            
+            
+            /*  let documentDirectory = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true).first as String!
+             let photoURL          = NSURL(fileURLWithPath: documentDirectory)
+             let imgPath         = photoURL.URLByAppendingPathComponent(self.filename)
+             var imgNSData=NSFileManager.default.contents(atPath:imgPath.path!)
+             if(imgNSData != nil)
+             {
+             chatImage.image = UIImage(data: imgNSData!)
+             chatImage.contentMode = .ScaleAspectFit
+             }
+             */
+            //// //print("here 905 msgtype is \(msgType)")
+            //// //print("distanceFactor for \(msg) is \(distanceFactor)")
+            
+            
+            ////    //print("chatImage.x for \(msg) is \(20 + distanceFactor) and chatimage.wdith is \(chatImage.frame.width)")
+            
+            // let range=(textLable.text as! NSString).range(of: "www.iba.edu.pk")
+            //let range = nsString.rangeOfString(name)
+            //let url = NSURL(string: "www.iba.edu.pk")!
+            ////(textLable.text as! NSString).addLinkToURL(url, withRange: range)
+            
+            //textLable = ActiveLabel()
+            textLable.text = msg! as! String
+            textLable.numberOfLines = 0
+            textLable.enabledTypes = [.mention, .hashtag, .url]
+            // textLable.text = "This is a post with #hashtags and a @userhandle."
+            textLable.textColor = .black
+            textLable.handleHashtagTap { hashtag in
+                print("Success. You just tapped the \(hashtag) hashtag")
+            }
+            textLable.handleURLTap({ (url) in
+                print("Success. You just tapped the \(url) url")
+                var stringURL="\(url)!"
+                if !(stringURL.contains("http")) {
+                    stringURL = "http://" + stringURL
+                }
+                
+                var res=UIApplication.shared.openURL(NSURL.init(string: stringURL) as! URL)
+                print("open url \(res)")
+            })
+            urlView?.isHidden=false
+            textLable.isHidden=false
+            title.isHidden=false
+            desc.isHidden=false
+            urllbl.isHidden=false
+            
+            /*textLable.lineBreakMode = .ByWordWrapping
+             textLable.numberOfLines=0
+             textLable.sizeToFit()
+             print("previous height is \(textLable.frame.height) msg is \(msg)")
+             var correctheight=textLable.frame.height
+             */
+            let correctheight=getSizeOfStringHeight(msg!).height
+            
+            
+            var urlArray=UtilityFunctions.init().getURLs(text: msg! as String!)
+            
+            print("messageDic url 11  i \(messageDic)")
+            //if(messageDic["title"] != nil)
+            //{
+            print("detected URL")
+            
+            title.text=messageDic["title"] as! String!
+            desc.text=messageDic["description"] as! String!
+            urllbl.text=messageDic["url"]! as! String!
+            
+            var sizeOFStrDesc = self.getSizeOfString(messageDic["description"]! as! NSString)
+            var temp=sizeOFStr
+            /*if(sizeOFStrDesc.height>sizeOFStr.height)
+             {
+             sizeOFStr=sizeOFStrDesc
+             }
+             else{
+             sizeOFStr=temp+
+             }*/
+            
+            //!!let distanceFactor = (197.0 - sizeOFStr.width) < 107 ? (197.0 - sizeOFStr.width) : 107
+            
+            desc.numberOfLines = 0
+            desc.enabledTypes = [.mention, .hashtag, .url]
+            desc.lineBreakMode = .byWordWrapping
+            // textLable.text = "This is a post with #hashtags and a @userhandle."
+            desc.textColor = .black
+            desc.handleHashtagTap { hashtag in
+                print("Success. You just tapped the \(hashtag) hashtag")
+            }
+            desc.handleURLTap({ (url) in
+                print("Success. You just tapped the \(url) url")
+                var stringURL="\(url)"
+                if !(stringURL.contains("http")) {
+                    stringURL = "http://" + stringURL
+                }
+                
+                var res=UIApplication.shared.openURL(NSURL.init(string: stringURL) as! URL)
+                print("open url \(res)")
+            })
+            
+            //!!let correctheightViewDesc=getSizeOfStringHeight(messageDic["description"] as! NSString).height
+            
+            /*}
+             else
+             {
+             let slp = SwiftLinkPreview()
+             slp.preview(
+             msg! as String!,
+             onSuccess: { result in
+             
+             self.hasURL=true
+             print("url result in retrieve is \(result)")
+             sqliteDB.SaveURLData(UtilityFunctions.init().generateUniqueid(),title1:result[.title] as! String,desc1:result[SwiftLinkResponseKey.description] as! String,url1:"\(result[SwiftLinkResponseKey.url])",msg1:msg! as String!,image1:nil//Data.init(base64Encoded:result[SwiftLinkResponseKey.image] as! String)!
+             )
+             
+             //  let embeddedView = URLEmbeddedView()
+             // embeddedView.loadURL(sender.text!)
+             print("title \(result[.title] as! String)")
+             messageDic["title"]=result[.title] as! String
+             messageDic["description"]=result[SwiftLinkResponseKey.description] as! String
+             messageDic["url"]="\(result[SwiftLinkResponseKey.url]!)"
+             messageDic["image"]=result[SwiftLinkResponseKey.image] as! String
+             
+             
+             self.tblForChats.beginUpdates()
+             //self.tblForChats.reloadRows(at: [indexp], with: UITableViewRowAnimation.bottom)
+             self.urlTitle=result[.title] as! String
+             self.urlDesc=result[SwiftLinkResponseKey.description] as! String
+             //self.urlURL=result[SwiftLinkResponseKey.url] as! String
+             var urlURLimage=result[SwiftLinkResponseKey.image] as! String
+             
+             title.isHidden=false
+             desc.isHidden=false
+             urllbl.isHidden=false
+             activityIndicator.stopAnimating()
+             
+             
+             
+             title.text=result[.title] as! String
+             desc.text=result[SwiftLinkResponseKey.description] as! String
+             urllbl.text="\(result[SwiftLinkResponseKey.url]!)"
+             
+             
+             self.tblForChats.endUpdates()
+             //Chat.SwiftLinkResponseKey.description
+             //Chat.SwiftLinkResponseKey.images
+             //Chat.SwiftLinkResponseKey.title
+             //Chat.SwiftLinkResponseKey.url
+             //
+             /// self.messages.add(["message":tblContacts[msg]+" (\(tblContacts[status])) ","status":tblContacts[status], "type":"2", "date":defaultTimeeee, "uniqueid":tblContacts[uniqueid],"title":result[.title] as! String,"description":result[SwiftLinkResponseKey.description] as! String,"url":"\(result[.url]!)"])
+             
+             
+             // var urlinfoObject=sqliteDBgetSingleURLInfo(url1:"\(result[SwiftLinkResponseKey.url])")
+             
+             
+             
+             
+             
+             },
+             onError: { error in
+             ///self.messages.add(["message":tblContacts[msg]+" (\(tblContacts[status])) ","status":tblContacts[status], "type":"2", "date":defaultTimeeee, "uniqueid":tblContacts[uniqueid]])
+             print("error: in url is \(error)")
+             desc.isHidden=false
+             desc.text="Unable to load data"
+             activityIndicator.stopAnimating()
+             
+             
+             }
+             
+             )
+             }*/
+            
+            
+            /*if(messageDic["title"] != nil)
+             {print("detected URL")
+             title.text=messageDic["title"] as? String!
+             desc.text=messageDic["description"] as? String!
+             urllbl.text=messageDic["url"] as? String!
+             
+             }*/
+            
+            
+            
+            //!!urlView?.frame = CGRect(x: 25 + distanceFactor, y: (urlView?.frame.origin.y)!, width:  ((sizeOFStrDesc.width + 107+30)  > 207 ? (sizeOFStrDesc.width + 107-40) : 200-40), height: correctheightViewDesc + 30/*(urlView?.frame.height)!*/)
+            
+            
+            // urlView?.frame = CGRect(x: 20 + distanceFactor, y: (urlView?.frame.origin.y)!, width: (urlView?.frame.width)!, height: 0)
+            //urlView?.isHidden=true
+            
+            //chatImage.frame = CGRect(x: 20 + distanceFactor, y: chatImage.frame.origin.y, width: ((sizeOFStr.width + 107)  > 207 ? (sizeOFStr.width + 107) : 200), height: correctheight + (urlView?.frame.height)! + 20)
+            
+            /////==--chatImage.frame = CGRect(x: 20 + distanceFactor, y: ((urlView?.frame.origin.y)!-5), width: ((urlView?.frame.width)!  > 207 ? (sizeOFStr.width + 107) : 200), height: correctheight + (urlView?.frame.height)! + 20+10)
+            
+            //!!chatImage.frame = CGRect(x: 20 + distanceFactor, y: ((urlView?.frame.origin.y)!-5), width: (urlView?.frame.width)!+40 , height: correctheight + (urlView?.frame.height)! + 20+10)
+            
+            //==== newwww chatImage.frame = CGRectMake(20 + distanceFactor, chatImage.frame.origin.y, ((sizeOFStr.width + 107)  > 207 ? (sizeOFStr.width + 107) : 200), sizeOFStr.height + 40)
+            //chatImage.frame = CGRectMake(20 + distanceFactor, chatImage.frame.origin.y, ((sizeOFStr.width + 100)  > 200 ? (sizeOFStr.width + 100) : 200), sizeOFStr.height + 40)
+            //!!chatImage.image = UIImage(named: "chat_send")?.stretchableImage(withLeftCapWidth: 40,topCapHeight: 20);
+            //*********
+            
+            //getSizeOfStringHeight(msg).height
+            //desc
+            
+            // urllbl
+            //!!urllbl.frame = CGRect(x: urllbl.frame.origin.x, y: (urlView?.frame.height)!-20, width: (urllbl.frame.width), height: urllbl.frame.height)
+            
+            //!!desc.frame = CGRect(x: desc.frame.origin.x, y: desc.frame.origin.y, width: (urlView?.frame.width)!, height: correctheightViewDesc)
+            
+            
+            //!!textLable.frame = CGRect(x: 26 + distanceFactor, y: textLable.frame.origin.y, width: chatImage.frame.width-36, height: correctheight)
+            
+            
+            // newwwwwwwwww textLable.frame = CGRectMake(26 + distanceFactor, textLable.frame.origin.y, chatImage.frame.width-36, getSizeOfStringHeight(msg).height)
+            //  print("new height is \(textLable.frame.height) msg is \(msg)")
+            //=====newwwwwww  textLable.frame = CGRectMake(26 + distanceFactor, textLable.frame.origin.y, chatImage.frame.width-36, sizeOFStr.height)
+            //==== new textLable.frame = CGRectMake(36 + distanceFactor, textLable.frame.origin.y, textLable.frame.size.width, sizeOFStr.height)
+            ///  //print("textLable.x for \(msg) is \(textLable.frame.origin.x) and textLable.width is \(textLable.frame.width)")
+            
+            ////profileImage.center = CGPointMake(profileImage.center.x, textLable.frame.origin.y + textLable.frame.size.height - profileImage.frame.size.height/2 + 10)
+            
+            //!!profileImage.center = CGPoint(x: profileImage.center.x, y: textLable.frame.origin.y + textLable.frame.size.height - profileImage.frame.size.height/2+10)
+            
+            //==uncomment if needed timeLabel.frame = CGRectMake(36 + distanceFactor, timeLabel.frame.origin.y, timeLabel.frame.size.width, timeLabel.frame.size.height)
+            
+            //!!timeLabel.frame = CGRect(x: 36 + distanceFactor, y: textLable.frame.origin.y+textLable.frame.height, width: chatImage.frame.size.width-46, height: timeLabel.frame.size.height)
+            
+            //!!deliveredLabel.frame = CGRect(x: deliveredLabel.frame.origin.x, y: textLable.frame.origin.y + textLable.frame.size.height + 15, width: deliveredLabel.frame.size.width, height: deliveredLabel.frame.size.height)
+            
+            
+            
+            
+            //print("date received in chat post 2 is \(date2.debugDescription)")
+            // //print("date received in chat is \(date2.debugDescription)")
+            let formatter = DateFormatter();
+            formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSS";
+            //formatter.dateFormat = "MM/dd hh:mm a";
+            formatter.timeZone = TimeZone.autoupdatingCurrent
+            let defaultTimeZoneStr = formatter.date(from: date2 as! String)
+            //print("defaultTimeZoneStr \(defaultTimeZoneStr)")
+            
+            if(defaultTimeZoneStr == nil)
+            {
+                timeLabel.text=date2 as! String
+                
+            }
+            else
+            {
+                let formatter2 = DateFormatter();
+                formatter2.timeZone=TimeZone.autoupdatingCurrent
+                formatter2.dateFormat = "MM/dd hh:mm a";
+                let displaydate=formatter2.string(from: defaultTimeZoneStr!)
+                //formatter.dateFormat = "MM/dd hh:mm a";
+                
+                timeLabel.text=displaydate
+            }
+            
+            //local date already shortened then added to dictionary when post button is pressed
             //timeLabel.text=date2.debugDescription
         }
         if (msgType?.isEqual(to: "22"))!{
@@ -3138,6 +3701,9 @@ var isKiboContact="false"
             if(textLable.text!.isValidURL() == true)
             {
                 //update database and fetch metadata in background
+                if !(textLable.text!.contains("http")) {
+                    textLable.text! = "http://" + textLable.text!
+                }
                 
                     let slp = SwiftLinkPreview()
                     slp.preview(
@@ -3151,7 +3717,7 @@ var isKiboContact="false"
                                description=desc as! String
                             }
                             print("url result in retrieve is \(result)")
-                            sqliteDB.SaveURLData(uniqueidDictValue! as! String,title1:result[.title] as! String,desc1:description/*result[SwiftLinkResponseKey.description] as! String*/,url1:"\(result[SwiftLinkResponseKey.url])",msg1:msg! as String!,image1:nil//Data.init(base64Encoded:result[SwiftLinkResponseKey.image] as! String)!
+                            sqliteDB.SaveURLData(uniqueidDictValue! as! String,title1:result[.title] as! String,desc1:description/*result[SwiftLinkResponseKey.description] as! String*/,url1:"\(result[SwiftLinkResponseKey.url]!)",msg1:msg! as String!,image1:nil//Data.init(base64Encoded:result[SwiftLinkResponseKey.image] as! String)!
                             )
                             
                             sqliteDB.UpdateChat(uniqueidDictValue! as! String, type1: "link")
@@ -7704,7 +8270,12 @@ var isKiboContact="false"
             
             print("found old message is \(message)")
             }
-            var newrow:[String:AnyObject]=["message":"\(actualmsg) (\(status))"/*"\(message) \((status))"*/  /*"message":"\(actualmsg) (\(status))"*/ as AnyObject,"filename":filename as AnyObject,"type":aa["type"] as AnyObject,"date":aa["date"] as AnyObject,"uniqueid":aa["uniqueid"] as AnyObject,"status":status as AnyObject]
+            var url=""
+            if(type == "link")
+            {
+                url=aa["url"] as! String
+            }
+            var newrow:[String:AnyObject]=["message":"\(actualmsg) (\(status))"/*"\(message) \((status))"*/  /*"message":"\(actualmsg) (\(status))"*/ as AnyObject,"filename":filename as AnyObject,"type":aa["type"] as AnyObject,"date":aa["date"] as AnyObject,"uniqueid":aa["uniqueid"] as AnyObject,"status":status as AnyObject,"url":url as AnyObject]
             
             print("replaced with \(newrow["message"])")
             

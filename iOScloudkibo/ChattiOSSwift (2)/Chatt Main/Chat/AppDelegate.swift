@@ -3323,7 +3323,7 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
  group:you_are_added
  */
                     
-                    if(notifType=="chat" || notifType=="file" || notifType=="contact" || notifType=="location")
+                    if(notifType=="chat" || notifType=="file" || notifType=="contact" || notifType=="location" || notifType=="link")
                    
                     {print("payload of iOS chat")
                     fetchSingleChatMessage(singleuniqueid)
