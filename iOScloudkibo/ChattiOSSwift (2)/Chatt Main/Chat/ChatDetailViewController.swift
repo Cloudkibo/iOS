@@ -2875,7 +2875,7 @@ var isKiboContact="false"
             }
             textLable.handleURLTap({ (url) in
                  print("Success. You just tapped the \(url) url")
-                var stringURL="\(url)"
+                var stringURL="\(url)!"
                 if !(stringURL.contains("http")) {
                     stringURL = "http://" + stringURL
                 }
@@ -2905,9 +2905,9 @@ var isKiboContact="false"
             //{
                 print("detected URL")
                 
-                title.text=messageDic["title"] as? String!
-                desc.text=messageDic["description"] as? String!
-                urllbl.text=messageDic["url"] as? String!
+                title.text=messageDic["title"] as! String!
+                desc.text=messageDic["description"] as! String!
+                urllbl.text=messageDic["url"]! as! String!
             
             var sizeOFStrDesc = self.getSizeOfString(messageDic["description"]! as! NSString)
             var temp=sizeOFStr
@@ -3167,7 +3167,7 @@ var isKiboContact="false"
                             messageDic["title"]=result[.title] as! String
                             messageDic["description"]=description
                                 //result[SwiftLinkResponseKey.description] as! String
-                            messageDic["url"]="\(result[SwiftLinkResponseKey.url]!)"
+                            messageDic["url"]="\(result[SwiftLinkResponseKey.url]!)!"
                             messageDic["image"]=result[SwiftLinkResponseKey.image] as! String
                             
                             
@@ -3181,7 +3181,7 @@ var isKiboContact="false"
                             
                             
                             
-                            var messages2=["message":msg!/*+" (\(status)) "*/,"status":status, "type":"22", "date":date2, "uniqueid":uniqueidDictValue,"title":result[.title] as! String,"description":description,"url":"\(result[SwiftLinkResponseKey.url]!)"]
+                            var messages2=["message":msg!/*+" (\(status)) "*/,"status":status, "type":"22", "date":date2, "uniqueid":uniqueidDictValue,"title":result[.title] as! String,"description":description,"url":"\(result[SwiftLinkResponseKey.url]!)!"]
                             
                             self.messages.replaceObject(at: indexPath.row, with: messages2)
                             //NSLog(messageDic["message"]!, 1)
