@@ -1409,7 +1409,7 @@ class NetworkingManager
         
         Alamofire.upload(
             multipartFormData: { multipartFormData in
-                multipartFormData.append(imageData!, withName:  "file", fileName: filename, mimeType: self.MimeType(fileType))                //,fileName: file_name1, mimeType: "image/\(file_type1)")
+                multipartFormData.append(imageData!, withName:  "file", fileName: filename, mimeType: fileType)                //,fileName: file_name1, mimeType: "image/\(file_type1)")
                 for (key, value) in parameters {
                     multipartFormData.append(value.data(using: .utf8)!, withName: key)
                     // multipartFormData.append(data: value.data(using: String.Encoding.utf8)!, withName: key)

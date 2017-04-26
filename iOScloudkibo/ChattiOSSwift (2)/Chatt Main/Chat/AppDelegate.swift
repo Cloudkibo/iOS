@@ -2891,12 +2891,26 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
         }
         
     }
+    func handleIdentityChanged(notification: NSNotification){
+        
+        let fileManager = FileManager()
+        
+        if let token = fileManager.ubiquityIdentityToken{
+            print("The new token is \(token)")
+        } else {
+            print("User has logged out of iCloud")
+        }
+        
+    }
     
     func applicationDidBecomeActive(_ application: UIApplication) {
         // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
        
         
-        
+        NotificationCenter.default.addObserver(self,
+                                                         selector: "handleIdentityChanged:",
+                                                         name: NSNotification.Name.NSUbiquityIdentityDidChange,
+                                                         object: nil)
       //  self.messageFrame.removeFromSuperview()
         print("did become active app state is \(UIApplication.shared.applicationState.rawValue)")
         

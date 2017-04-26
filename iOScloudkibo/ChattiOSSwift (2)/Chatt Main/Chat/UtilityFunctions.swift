@@ -1027,7 +1027,7 @@ print("tempURL is \(temporaryURL) and response is \(response.allHeaderFields)")
         let aspectScaledToFitImage = img.af_imageAspectScaled(toFit: size)
         return aspectScaledToFitImage
         case "Fill":
-        // Scale image to fill specified size while maintaining aspect ratio
+        // Scale image to fill specified size while maintaining 
         let aspectScaledToFillImage = img.af_imageAspectScaled(toFill: size)
             return aspectScaledToFillImage
         

@@ -4014,9 +4014,14 @@ break
                     
                     imageCache.add(profilepic, withIdentifier: ContactUsernames)
                     
+                    print("cell!.profilePic.bounds \(cell!.profilePic.bounds)")
                     // Fetch
+                    if(cell!.profilePic.bounds.width>0){
                     var cachedAvatar = imageCache.image(withIdentifier: ContactUsernames)
                     cachedAvatar=UtilityFunctions.init().resizedAvatar(img: cachedAvatar, size: CGSize(width: cell!.profilePic.bounds.width,height: cell!.profilePic.bounds.height), sizeStyle: "Fill")
+                    
+                     cell!.profilePic.image=cachedAvatar!
+                    }
                     /*ImageCache.default.retrieveImage(forKey: ContactUsernames, options: nil) {
                         image, cacheType in
                         if let image = image {
@@ -4048,7 +4053,7 @@ break
                     //==----cell.profilePic.image=UIImage(data:ContactsProfilePic)
                     */
                     
-                     cell!.profilePic.image=cachedAvatar!
+                    
                 }
             }
         
