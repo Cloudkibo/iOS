@@ -2208,6 +2208,28 @@ print("--------")
         return newEntry
     
     }
+    func updateGroupname(groupid:String,newname:String)
+    {
+        let group_name = Expression<String>("group_name")
+        let unique_id = Expression<String>("unique_id")
+        
+        
+        var tblGroups = Table("groups")
+        do
+        {
+            let query = tblGroups.select(unique_id).filter(unique_id == groupid)
+       
+            try sqliteDB.db.run(query.update(group_name <- newname))
+            {
+        print("group name updated in db")
+        
+            }
+        }
+        catch{
+            
+        }
+        
+    }
     
     func getSingleGroupInfo(_ groupid:String)->[String: AnyObject]
     {
