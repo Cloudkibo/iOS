@@ -2215,7 +2215,7 @@ EPPickerDelegate,SWTableViewCellDelegate,UpdateChatViewsDelegate,RefreshContacts
             //group_icon
             
             //group icon exists on server
-            var singleGroupInfo=sqliteDB.getSingleGroupInfo(self.groupsObjectList[i]["unique_id"] as! String)
+            //var singleGroupInfo=sqliteDB.getSingleGroupInfo(self.groupsObjectList[i]["unique_id"] as! String)
             var filedata=sqliteDB.getFilesData(self.groupsObjectList[i]["unique_id"] as! String)
             if(filedata.count>0)
             {
@@ -4094,6 +4094,48 @@ break
             cell!.contactName?.text=ContactNames
             if(ContactsProfilePic != Data.init())
             {
+                
+                print("ound avatar in favourites")
+                
+                let img=UIImage(data:ContactsProfilePic)
+                let w=img!.size.width
+                var h=img!.size.height
+                let wOld=cell!.profilePic.bounds.width
+                 let hOld=cell!.profilePic.bounds.height
+                let scale:CGFloat=w/wOld
+                
+                ////self.ResizeImage(img!, targetSize: CGSizeMake(cell.profilePic.bounds.width,cell.profilePic.bounds.height))
+                
+                cell!.profilePic.layer.borderWidth = 1.0
+                cell!.profilePic.layer.masksToBounds = false
+                cell!.profilePic.layer.borderColor = UIColor.white.cgColor
+                cell!.profilePic.layer.cornerRadius = cell!.profilePic.frame.size.width/2
+                cell!.profilePic.clipsToBounds = true
+                
+                imageCache.add(img!, withIdentifier: ContactUsernames)
+                
+                // Fetch
+                var cachedAvatar = imageCache.image(withIdentifier: ContactUsernames)
+                cachedAvatar=UtilityFunctions.init().resizedAvatar(img: cachedAvatar, size: CGSize(width: cell!.profilePic.bounds.width,height: cell!.profilePic.bounds.height), sizeStyle: "Fill")
+                
+                cell!.profilePic.image=cachedAvatar
+                
+                /*cell.profilePic.image=UIImage(data: ContactsProfilePic, scale: scale)
+                 ///cell.profilePic.image=UIImage(data:ContactsProfilePic[indexPath.row])
+                 UIImage(data: ContactsProfilePic, scale: scale)
+                 print("image size is s \(UIImage(data:ContactsProfilePic)?.size.width) and h \(UIImage(data:ContactsProfilePic)?.size.height)")*/
+            }
+            else
+            {
+                print("not found avatar in favourites")
+                cell!.profilePic.image=UIImage(named: "profile-pic1")
+                
+            }
+            
+            
+            /*if(ContactsProfilePic != Data.init())
+            {
+                print("has group iconnnnnn")
                // print("seeting picc22 for \(ContactUsernames)")
                 
                 var img=UIImage(data:ContactsProfilePic)
@@ -4147,7 +4189,7 @@ break
                 ///cell.profilePic.image=UIImage(data:ContactsProfilePic[indexPath.row])
                 //UIImage(data: ContactsProfilePic, scale: scale)
                 //print("image size is s \(UIImage(data:ContactsProfilePic)?.size.width) and h \(UIImage(data:ContactsProfilePic)?.size.height)")
-            }
+            }*/
             if(ContactCountMsgRead > 0)
             {
             cell!.newMsg.isHidden=false

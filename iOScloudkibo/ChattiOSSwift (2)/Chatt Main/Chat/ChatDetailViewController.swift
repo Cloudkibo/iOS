@@ -4390,11 +4390,12 @@ var isKiboContact="false"
             let btnSaveView = buttonsView.viewWithTag(1) as! UIButton
             let btnMessageView = buttonsView.viewWithTag(2) as! UIButton
             
-            //buttonSave.tag=indexPath.row
-            buttonSave.isHidden=true
             
             btnSaveView.addTarget(self, action: #selector(ChatDetailViewController.BtnSaveContactClicked(_:)), for:.touchUpInside)
-          
+            
+            //buttonSave.tag=indexPath.row
+            buttonSave.isHidden=true
+           
             print("components now seperating by : \(msg!)")
             let contactinfo=msg!.components(separatedBy: ":") ///return array string
             textLable.text = contactinfo[0]
@@ -4493,6 +4494,8 @@ var isKiboContact="false"
             let btnSaveView = buttonsView.viewWithTag(1) as! UIButton
             let btnMessageView = buttonsView.viewWithTag(2) as! UIButton
             print("components now seperating by : \(msg!)")
+            
+            
             let contactinfo=msg!.components(separatedBy: ":") ///return array string
             textLable.text = contactinfo[0]
             var number=contactinfo[1]
@@ -4501,6 +4504,10 @@ var isKiboContact="false"
                number=number2[0]
             let kibo2=number.components(separatedBy: " ")
          isKiboContact=number2[0]
+            
+            btnSaveView.addTarget(self, action: #selector(ChatDetailViewController.BtnSaveContactClicked(_:)), for:.touchUpInside)
+            
+
             
             if(isKiboContact=="false")
             {print("isKiboContact is \(isKiboContact)")
@@ -5209,6 +5216,7 @@ var isKiboContact="false"
     }
     func BtnSaveContactClicked(_ sender:UIButton)
     {
+        print("save new contact clicked")
         let contact = CNMutableContact()
         /*var rowselected=sender.tag
         var messageDic = messages.object(at: rowselected) as! [String : String];
