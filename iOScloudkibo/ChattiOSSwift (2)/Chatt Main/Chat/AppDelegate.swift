@@ -557,10 +557,27 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
             var userInfo=notification.request.content.userInfo
             let appDelegate = UIApplication.shared.delegate
             if let window = appDelegate!.window {
-                if(window?.rootViewController?.isKind(of: ChatDetailViewController.self))!
+                if(window?.rootViewController?.isKind(of: UITabBarController.self))!
                 {
+                    if((window?.rootViewController as! UITabBarController).tabBarItem.title=="Chats")
+                        {
+                            print("chatssss")
+                    }
+                    else{
+                        print("another \((window?.rootViewController as! UITabBarController).tabBarItem.tag)")
+                    }
+                  /* if(window?.rootViewController?.tabBarController?.presentedViewController?.isKind(of:ChatDetailViewController.self))!
+                   {
                     print("Chatdetailvisiblee")
                     print(myview.selectedContact)
+                    
+                    }
+                   else{
+                    print("another tabbar \(window?.rootViewController?.presentedViewController)")
+                     }*/
+                }
+                else{
+                    print("no .. \(window?.rootViewController)")
                 }
             }
              //if  let singleuniqueid = userInfo["sound"] as? String
