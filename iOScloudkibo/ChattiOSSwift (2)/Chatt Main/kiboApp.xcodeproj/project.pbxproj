@@ -116,6 +116,7 @@
 		715D63CD1E4C57940088C192 /* Data+Compression.swift in Sources */ = {isa = PBXBuildFile; fileRef = 715D63CC1E4C57940088C192 /* Data+Compression.swift */; };
 		716175A01C51C9B200A72E83 /* libsqlite3.0.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 716174971C5065BA00A72E83 /* libsqlite3.0.tbd */; };
 		716175A11C51C9B200A72E83 /* libsqlite3.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 716174981C5065BA00A72E83 /* libsqlite3.tbd */; };
+		7162AE9A1EB1FFF200A2DAA3 /* RenameGroupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7162AE991EB1FFF200A2DAA3 /* RenameGroupViewController.swift */; };
 		71636DC41E8D2F84007D7A02 /* GooglePlaces.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 71636DC31E8D2F84007D7A02 /* GooglePlaces.framework */; };
 		71636DC81E8D3038007D7A02 /* GooglePlacePicker.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 71636DC71E8D3038007D7A02 /* GooglePlacePicker.framework */; };
 		7173B8731E48BED500851F8D /* Kingfisher.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 7173B84D1E48BE1900851F8D /* Kingfisher.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -638,6 +639,7 @@
 		715D63CC1E4C57940088C192 /* Data+Compression.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Data+Compression.swift"; sourceTree = "<group>"; };
 		716174971C5065BA00A72E83 /* libsqlite3.0.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.0.tbd; path = usr/lib/libsqlite3.0.tbd; sourceTree = SDKROOT; };
 		716174981C5065BA00A72E83 /* libsqlite3.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.tbd; path = usr/lib/libsqlite3.tbd; sourceTree = SDKROOT; };
+		7162AE991EB1FFF200A2DAA3 /* RenameGroupViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RenameGroupViewController.swift; sourceTree = "<group>"; };
 		71636DC31E8D2F84007D7A02 /* GooglePlaces.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = GooglePlaces.framework; sourceTree = "<group>"; };
 		71636DC51E8D2FA2007D7A02 /* GooglePlaces.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = GooglePlaces.bundle; path = GooglePlaces.framework/Versions/A/Resources/GooglePlaces.bundle; sourceTree = "<group>"; };
 		71636DC71E8D3038007D7A02 /* GooglePlacePicker.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = GooglePlacePicker.framework; sourceTree = "<group>"; };
@@ -944,6 +946,7 @@
 				7122F96F1D54B7FF00EBBCED /* NetworkingManager.swift */,
 				71E3EE481D5BAD8300310DB0 /* KDCircularProgress.swift */,
 				710947721D710A63008BC238 /* NewGroupSetDetails.swift */,
+				7162AE991EB1FFF200A2DAA3 /* RenameGroupViewController.swift */,
 				71C1A2CE1D768ABC00FC5157 /* GroupChatingDetailController.swift */,
 				71EA60701D77EC7800117B55 /* GroupInfo3ViewController.swift */,
 				7142EC981DC196DB0070826F /* GroupInfoCells.swift */,
@@ -1657,6 +1660,7 @@
 				71AEC9891D01D67300DF58BD /* AllContactsViewCell.swift in Sources */,
 				71C84C611E44AB2400330105 /* SocketIOClientOption.swift in Sources */,
 				713D51E61CC11896007E0B47 /* ProjectsViewController.swift in Sources */,
+				7162AE9A1EB1FFF200A2DAA3 /* RenameGroupViewController.swift in Sources */,
 				71585F021DC8A4030067CD4A /* UIDelegates.swift in Sources */,
 				71E861C81D0066F4008BCC7C /* DisplayNameViewController.swift in Sources */,
 				713F39721D74459600F3A9C4 /* EPExtensions.swift in Sources */,

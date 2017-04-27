@@ -1511,10 +1511,10 @@
             </objects>
             <point key="canvasLocation" x="493" y="-2178"/>
         </scene>
-        <!--View Controller-->
+        <!--Rename Group View Controller-->
         <scene sceneID="IXP-7m-Hoc">
             <objects>
-                <viewController id="r3u-mL-hke" sceneMemberID="viewController">
+                <viewController id="r3u-mL-hke" customClass="RenameGroupViewController" customModule="Chat" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="vIp-FU-3l0"/>
                         <viewControllerLayoutGuide type="bottom" id="LKT-ID-SAw"/>
@@ -1523,36 +1523,32 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="80" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="DJo-FO-MeD">
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="72" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="DJo-FO-MeD">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="80" id="Mdz-fv-hyU">
-                                        <rect key="frame" x="0.0" y="28" width="320" height="80"/>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="72" id="Mdz-fv-hyU">
+                                        <rect key="frame" x="0.0" y="28" width="320" height="72"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Mdz-fv-hyU" id="0RA-xv-2J8">
-                                            <rect key="frame" x="0.0" y="0.0" width="320" height="79"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="320" height="71"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Sumaira" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="77V-2K-eXW">
-                                                    <rect key="frame" x="72" y="8" width="240" height="21"/>
-                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Phone number" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hhv-Rp-xra">
-                                                    <rect key="frame" x="72" y="37" width="240" height="21"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Group Name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hhv-Rp-xra">
+                                                    <rect key="frame" x="8" y="13" width="304" height="30"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <color key="textColor" red="0.66666666666666663" green="0.66666666666666663" blue="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="uD7-W3-0YW">
-                                                    <rect key="frame" x="8" y="12" width="56" height="56"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="19" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QNL-gp-Jyr">
+                                                    <rect key="frame" x="286" y="42" width="26" height="21"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                </imageView>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
                                             </subviews>
                                         </tableViewCellContentView>
                                     </tableViewCell>
@@ -1561,10 +1557,19 @@
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     </view>
+                    <navigationItem key="navigationItem" id="ZPP-Hi-Vht">
+                        <barButtonItem key="leftBarButtonItem" title="Cancel" id="bhP-rg-Pju"/>
+                        <barButtonItem key="rightBarButtonItem" title="Save" id="Ksz-SY-0xh"/>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="btnCancel" destination="bhP-rg-Pju" id="Maq-oa-9Z1"/>
+                        <outlet property="btnDone" destination="Ksz-SY-0xh" id="8PW-i7-OaQ"/>
+                        <outlet property="tblRenameGroup" destination="DJo-FO-MeD" id="Uiz-ND-zZ3"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="AUN-zl-xXA" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1183" y="-3060"/>
+            <point key="canvasLocation" x="864" y="-2821"/>
         </scene>
         <!--New Group-->
         <scene sceneID="ZCg-wh-q0b">
@@ -1958,7 +1963,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="5B2-zn-Er0" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="947" y="-2592"/>
+            <point key="canvasLocation" x="1329" y="-2796"/>
         </scene>
         <!--New Chat-->
         <scene sceneID="DAO-yB-sUK">
@@ -7166,6 +7171,7 @@
                         <segue destination="YH8-pY-Wmo" kind="push" identifier="" id="Aba-99-G71"/>
                         <segue destination="Xlj-pb-Vmy" kind="push" identifier="addparticipantstogroupsegue" id="Jjq-iC-ovb"/>
                         <segue destination="cJu-ld-BCz" kind="push" identifier="groupinfotochatstabsegue" id="YLQ-j7-Vcj"/>
+                        <segue destination="r3u-mL-hke" kind="push" id="Rpu-qx-dwf"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="623-Tf-xJ9" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -8458,19 +8464,19 @@
         <segue reference="jZZ-fL-lXE"/>
         <segue reference="YLQ-j7-Vcj"/>
         <segue reference="W8i-Cs-Z8T"/>
-        <segue reference="BY8-e2-RyW"/>
         <segue reference="cEg-U8-UBa"/>
         <segue reference="Spe-dd-EXu"/>
         <segue reference="Y9a-Vx-tcX"/>
         <segue reference="1jA-Zj-XHt"/>
-        <segue reference="TtG-5C-Jez"/>
-        <segue reference="tX8-Fc-8Jp"/>
-        <segue reference="sRV-B5-zqK"/>
-        <segue reference="JPH-2T-Pun"/>
         <segue reference="Wyu-u6-g5L"/>
         <segue reference="cPW-RE-2je"/>
         <segue reference="QOc-Kg-WHZ"/>
         <segue reference="Aba-99-G71"/>
+        <segue reference="0xH-LE-leu"/>
+        <segue reference="TtG-5C-Jez"/>
+        <segue reference="tX8-Fc-8Jp"/>
+        <segue reference="sRV-B5-zqK"/>
+        <segue reference="JPH-2T-Pun"/>
         <segue reference="Lsn-aA-q1J"/>
         <segue reference="8LM-cv-XXH"/>
         <segue reference="X5X-Qt-8lc"/>
