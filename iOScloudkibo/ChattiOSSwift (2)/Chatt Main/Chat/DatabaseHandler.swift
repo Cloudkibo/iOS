@@ -2220,11 +2220,7 @@ print("--------")
             let query = tblGroups.select(unique_id).filter(unique_id == groupid)
        
             try sqliteDB.db.run(query.update(group_name <- newname))
-            {
-        print("group name updated in db")
-        
-            }
-        }
+                    }
         catch{
             
         }

@@ -553,9 +553,16 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
     func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void)
         {
             
-            
+            var myview=ChatDetailViewController()
             var userInfo=notification.request.content.userInfo
-            
+            let appDelegate = UIApplication.shared.delegate
+            if let window = appDelegate!.window {
+                if(window?.rootViewController?.isKind(of: ChatDetailViewController.self))!
+                {
+                    print("Chatdetailvisiblee")
+                    print(myview.selectedContact)
+                }
+            }
              //if  let singleuniqueid = userInfo["sound"] as? String
              //{
             completionHandler([.alert, .badge, .sound])
@@ -3530,7 +3537,23 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
                         })}}*/
                            
                 }
+                //group:name_update
                 //group:role_updated
+                if(type=="group:name_update")
+                {
+                    var senderId=userInfo["senderId"] as! String  //from
+                    var groupId=userInfo["groupId"] as! String
+                    var new_name=userInfo["new_name"] as! String
+                    sqliteDB.updateGroupname(groupid:groupId,newname:new_name)
+                    
+                    var uniqueid1=UtilityFunctions.init().generateUniqueid()
+                     sqliteDB.storeGroupsChat("Log:", group_unique_id1: groupId, type1: "log", msg1: "\(senderId) changed the subject to \(new_name)", from_fullname1: "", date1: Date(), unique_id1: uniqueid1)
+                    
+                    
+                    
+
+                    
+                }
                 if(type=="group:role_updated")
                 {
                     /*type : 'group:role_updated',

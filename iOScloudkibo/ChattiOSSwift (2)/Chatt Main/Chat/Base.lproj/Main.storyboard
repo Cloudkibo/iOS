@@ -1520,7 +1520,7 @@
                         <viewControllerLayoutGuide type="bottom" id="LKT-ID-SAw"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="6hQ-CZ-wew">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <rect key="frame" x="0.0" y="64" width="320" height="504"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Group Name" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Gc2-sO-SJ7">
@@ -1530,6 +1530,7 @@
                                 <textInputTraits key="textInputTraits"/>
                                 <connections>
                                     <action selector="changingText:" destination="r3u-mL-hke" eventType="editingChanged" id="l87-xv-vPr"/>
+                                    <action selector="txtChanged:" destination="r3u-mL-hke" eventType="valueChanged" id="thd-DI-OgK"/>
                                 </connections>
                             </textField>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="19" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QNL-gp-Jyr">
@@ -1543,14 +1544,24 @@
                         <constraints>
                             <constraint firstAttribute="trailingMargin" secondItem="QNL-gp-Jyr" secondAttribute="trailing" constant="-8" id="1Fc-qm-Epk"/>
                             <constraint firstItem="Gc2-sO-SJ7" firstAttribute="leading" secondItem="6hQ-CZ-wew" secondAttribute="leadingMargin" constant="-8" id="GJv-fU-MJN"/>
-                            <constraint firstItem="Gc2-sO-SJ7" firstAttribute="top" secondItem="vIp-FU-3l0" secondAttribute="bottom" constant="-13" id="chN-Ee-Dgq"/>
+                            <constraint firstItem="Gc2-sO-SJ7" firstAttribute="top" secondItem="vIp-FU-3l0" secondAttribute="bottom" constant="7" id="w4r-Xp-GzP"/>
                             <constraint firstItem="QNL-gp-Jyr" firstAttribute="top" secondItem="Gc2-sO-SJ7" secondAttribute="bottom" constant="8" id="yH0-rg-1Gh"/>
                         </constraints>
                     </view>
+                    <extendedEdge key="edgesForExtendedLayout" bottom="YES"/>
                     <navigationItem key="navigationItem" id="ZPP-Hi-Vht">
-                        <barButtonItem key="leftBarButtonItem" title="Cancel" id="bhP-rg-Pju"/>
-                        <barButtonItem key="rightBarButtonItem" title="Save" id="Ksz-SY-0xh"/>
+                        <barButtonItem key="leftBarButtonItem" title="Cancel" id="bhP-rg-Pju">
+                            <connections>
+                                <action selector="btnCancelPressed:" destination="r3u-mL-hke" id="CK4-Uv-lG4"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" title="Save" id="Ksz-SY-0xh">
+                            <connections>
+                                <action selector="donePressed:" destination="r3u-mL-hke" id="gzG-c3-83M"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
+                    <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
                     <connections>
                         <outlet property="btnCancel" destination="bhP-rg-Pju" id="Maq-oa-9Z1"/>
                         <outlet property="btnDone" destination="Ksz-SY-0xh" id="8PW-i7-OaQ"/>
@@ -7162,7 +7173,7 @@
                         <segue destination="YH8-pY-Wmo" kind="push" identifier="" id="Aba-99-G71"/>
                         <segue destination="Xlj-pb-Vmy" kind="push" identifier="addparticipantstogroupsegue" id="Jjq-iC-ovb"/>
                         <segue destination="cJu-ld-BCz" kind="push" identifier="groupinfotochatstabsegue" id="YLQ-j7-Vcj"/>
-                        <segue destination="r3u-mL-hke" kind="push" identifier="renameGroupSegue" id="Rpu-qx-dwf"/>
+                        <segue destination="r3u-mL-hke" kind="push" identifier="renameGroupNameSegue" id="Rpu-qx-dwf"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="623-Tf-xJ9" userLabel="First Responder" sceneMemberID="firstResponder"/>

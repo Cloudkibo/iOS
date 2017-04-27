@@ -882,6 +882,13 @@ else{
         
         }*/
     }
+        func didSelectGroupName(_ gestureRecognizer: UITapGestureRecognizer) {
+            
+        print("textfield clicked")
+        //var
+        
+        self.performSegue(withIdentifier: "renameGroupNameSegue", sender: self)
+    }
     
      func tableView(_ tableView: UITableView, cellForRowAtIndexPath indexPath: IndexPath) -> UITableViewCell {
         //GroupNamePicInfoCell
@@ -893,7 +900,13 @@ else{
             cell.lbl_groupName.text=singleGroupInfo["group_name"] as! String
          
             //cell.userInteractionEnabled=false
-                
+            
+            
+             let tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(GroupInfo3ViewController.didSelectGroupName(_:)))
+            
+            cell.lbl_groupName.addGestureRecognizer(tapRecognizer)
+            
+            
                 cell.btnEditProfilePicOutlet.isHidden=true
                // groupname=cell.groupNameFieldOutlet.text!
                 if(imgdata != Data.init())
@@ -1519,6 +1532,17 @@ else
         
         
         //identifiersarrayAlreadySelected
+        
+        //renameGroupNameSegue
+        if segue.identifier == "renameGroupNameSegue" {
+            
+            
+            if let destinationVC = segue.destination as? RenameGroupViewController{
+                destinationVC.groupid=self.groupid
+                destinationVC.oldgroupname=singleGroupInfo["group_name"] as! String
+                
+            }
+        }
         if segue.identifier == "addparticipantstogroupsegue" {
             
             

@@ -7,10 +7,12 @@
 //
 
 import UIKit
+import Alamofire
+import Foundation
+class RenameGroupViewController: UIViewController,UITextFieldDelegate {
 
-class RenameGroupViewController: UITableViewController,UINavigationControllerDelegate,UIImagePickerControllerDelegate,UITextFieldDelegate {
-
-    
+    var internetavailable=false
+    var groupid=""
     var oldgroupname=""
     @IBOutlet weak var btnCancel: UIBarButtonItem!
    // @IBOutlet weak var tblRenameGroup: UITableView!
@@ -21,17 +23,17 @@ class RenameGroupViewController: UITableViewController,UINavigationControllerDel
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(RenameGroupViewController.checkForReachability(_:)),name: ReachabilityChangedNotification,object: reachability)
+        
         // Do any additional setup after loading the view.
     }
 
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-    
-    @IBAction func changingText(_ sender: UITextField) {
-        1
-        if(oldgroupname==sender.text! || oldgroupname==sender.text!=="")
+    @IBAction func txtChanged(_ sender: UITextField) {
+        print("txtchanged..")
+        lblCount.text="\(sender.text!.characters.count)"
+        if(oldgroupname==sender.text! || sender.text! == nil)
         {
             btnDone.isEnabled=false
         }
@@ -39,6 +41,88 @@ class RenameGroupViewController: UITableViewController,UINavigationControllerDel
             btnDone.isEnabled=true
         }
     }
+    
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+        // Dispose of any resources that can be recreated.
+    }
+    
+    @IBAction func changingText(_ sender: UITextField) {
+        
+        if(oldgroupname==sender.text! || sender.text! == nil)
+        {
+            btnDone.isEnabled=false
+        }
+        else{
+            btnDone.isEnabled=true
+        }
+    }
+    
+    @IBAction func donePressed(_ sender: Any) {
+        if(internetAvailable==true)
+        {
+        self.renameGroup(groupid: groupid,newname: txtFieldGroupName.text!)
+        }
+        else{
+            let shareMenu = UIAlertController(title: nil, message: "Internet connectivity is required to change group name".localized, preferredStyle: .actionSheet)
+            
+            let yes = UIAlertAction(title: "OK".localized, style: UIAlertActionStyle.default,handler: { (action) -> Void in
+                
+            })
+            shareMenu.addAction(yes)
+            self.present(shareMenu, animated: true, completion:nil)
+        }
+    
+        }
+
+    
+
+    func checkForReachability(_ notification:Notification)
+    {
+        print("checking internet")
+        // Remove the next two lines of code. You cannot instantiate the object
+        // you want to receive notifications from inside of the notification
+        // handler that is meant for the notifications it emits.
+        
+        //var networkReachability = Reachability.reachabilityForInternetConnection()
+        //networkReachability.startNotifier()
+        
+        let networkReachability = notification.object as! Reachability;
+        var remoteHostStatus = networkReachability.currentReachabilityStatus
+        
+        if (remoteHostStatus == Reachability.NetworkStatus.notReachable)
+        {
+            print("Not Reachable")
+            internetAvailable = false
+        }
+        else if (remoteHostStatus == Reachability.NetworkStatus.reachableViaWiFi)
+        {
+            print("Reachable via Wifi")
+            if(username != nil && username != "")
+            {
+                //self.synchroniseChatData()
+                internetAvailable=true
+            }
+        }
+        else
+        {
+            print("Reachable")
+            if(username != nil && username != "")
+            {
+                //self.synchroniseChatData()
+                internetAvailable=true
+            }
+        }
+    }
+    
+    @IBAction func btnCancelPressed(_ sender: Any) {
+        if let nav = self.navigationController {
+            nav.popViewController(animated: true)
+        }
+        else{
+        self.dismiss(animated: true,completion:nil)    }
+    }
+    
     func renameGroup(groupid:String,newname:String)
     {
         var url=Constants.MainUrl+Constants.updateGroupName
@@ -48,9 +132,17 @@ class RenameGroupViewController: UITableViewController,UINavigationControllerDel
             print("Update GRoup name called")
             if(response.result.isSuccess)
             {
-                print("group name chabged success")
-                sqliteDB.updateGroupname(groupid:String,newname:String)
+                print("group name changed success")
+                sqliteDB.updateGroupname(groupid:groupid,newname:newname)
+                var uniqueid1=UtilityFunctions.init().generateUniqueid()
                 
+                sqliteDB.storeGroupsChat("Log:", group_unique_id1: groupid, type1: "log", msg1: "You changed the subject to \(newname)", from_fullname1: "", date1: Date(), unique_id1: uniqueid1)
+                if let nav = self.navigationController {
+                    nav.popViewController(animated: true)
+                }
+                else{
+                self.dismiss(animated: true,completion:nil)
+                }
             }
         }
     }
