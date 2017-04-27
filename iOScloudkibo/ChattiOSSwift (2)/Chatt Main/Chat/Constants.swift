@@ -102,7 +102,7 @@ static let connectionstring="Endpoint=sb://cloudkibo.servicebus.windows.net/;Sha
     static var downloadInGroupChatURL = "/api/filetransfersgroup/download"
     
     static var getLastSeen = "/api/users/getUserInfo"
-    
+    static var updateGroupName = "/api/groupmessaging/updateGroupName"
   //  static var fetchSingleGroupChat="/api/groupchat/fetchSingleChat"
     /*
      private static String phoneContactsURL = "https://www.cloudkibo.com/api/users/searchaccountsbyphone/";

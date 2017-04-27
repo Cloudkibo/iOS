@@ -2215,7 +2215,39 @@ EPPickerDelegate,SWTableViewCellDelegate,UpdateChatViewsDelegate,RefreshContacts
             //group_icon
             
             //group icon exists on server
-            if((self.groupsObjectList[i]["group_icon"] as! Data) == "exists".data(using: String.Encoding.utf8)!)
+            var singleGroupInfo=sqliteDB.getSingleGroupInfo(self.groupsObjectList[i]["unique_id"] as! String)
+            var filedata=sqliteDB.getFilesData(self.groupsObjectList[i]["unique_id"] as! String)
+            if(filedata.count>0)
+            {
+                print("found group icon")
+                print("actual path is \(filedata["file_path"])")
+                //======
+                
+                //=======
+                let dirPaths = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)
+                let docsDir1 = dirPaths[0]
+                var documentDir=docsDir1 as NSString
+                var imgPath=documentDir.appendingPathComponent(filedata["file_name"] as! String)
+                print("imgpath is \(imgPath)")
+                if (FileManager.default.contents(atPath: imgPath) != nil)
+                {
+                    var imgdata=FileManager.default.contents(atPath: imgPath)!
+                    ContactsProfilePic=imgdata
+                }
+                else
+                {
+                    // print("didnot find group icon")
+                    pendingGroupIcons2.append(self.groupsObjectList[i]["unique_id"] as! String)
+                    
+                    ContactsProfilePic=Data.init()
+                }
+                
+                // print("found path is \(imgNSData)")
+                
+                //  self.ContactsProfilePic.append(imgNSData!)
+            }
+                
+            /*if((self.groupsObjectList[i]["group_icon"] as! Data) == "exists".data(using: String.Encoding.utf8)!)
             {
             var filedata=sqliteDB.getFilesData(self.groupsObjectList[i]["unique_id"] as! String)
                 //file exists locally
@@ -2253,7 +2285,7 @@ EPPickerDelegate,SWTableViewCellDelegate,UpdateChatViewsDelegate,RefreshContacts
                     pendingGroupIcons2.append(self.groupsObjectList[i]["unique_id"] as! String)
                     
                     ContactsProfilePic=Data.init()
-                }
+                }*/
             //=--}
                 
            /* else
@@ -2263,7 +2295,7 @@ EPPickerDelegate,SWTableViewCellDelegate,UpdateChatViewsDelegate,RefreshContacts
                 pendingGroupIcons2.append(self.groupsObjectList[i]["unique_id"] as! String)
                 ContactsProfilePic=NSData.init()
             }*/
-        }
+       // }
             else
             {
                 print("groups icon not exists")
@@ -4101,7 +4133,7 @@ break
 
                 cell!.profilePic.kf.setImage(with: picurl)
                 
-                var scaledimage=cell!.profilePic.image?.kf.resize(to: CGSize(width: cell!.profilePic.bounds.width,height: cell!.profilePic.bounds.height))
+                //var scaledimage=cell!.profilePic.image?.kf.resize(to: CGSize(width: cell!.profilePic.bounds.width,height: cell!.profilePic.bounds.height))
                 
                 
                 ////----replacing image lib

@@ -900,14 +900,14 @@
                                                     <rect key="frame" x="8" y="17" width="304" height="30"/>
                                                     <subviews>
                                                         <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="fill" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cqd-QN-sAJ">
-                                                            <rect key="frame" x="0.0" y="0.0" width="179" height="30"/>
+                                                            <rect key="frame" x="0.0" y="0.0" width="227" height="30"/>
                                                             <state key="normal" title="Broadcast lists"/>
                                                             <connections>
                                                                 <segue destination="Rgk-Rk-lne" kind="push" identifier="chatToBroadcast" id="cEg-U8-UBa"/>
                                                             </connections>
                                                         </button>
                                                         <button hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="q63-Hq-0xE">
-                                                            <rect key="frame" x="179" y="0.0" width="48" height="30"/>
+                                                            <rect key="frame" x="227" y="0.0" width="0.0" height="30"/>
                                                             <state key="normal" title="testsdf"/>
                                                             <connections>
                                                                 <segue destination="Kar-qX-hHJ" kind="push" id="Y9a-Vx-tcX"/>
@@ -6928,7 +6928,7 @@
                                                     <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                                     <state key="normal" title="edit"/>
                                                 </button>
-                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Sample Group" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Yjn-ld-Rx7">
+                                                <label opaque="NO" clipsSubviews="YES" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Sample Group" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Yjn-ld-Rx7">
                                                     <rect key="frame" x="75" y="23" width="237" height="21"/>
                                                     <accessibility key="accessibilityConfiguration">
                                                         <accessibilityTraits key="traits" none="YES"/>
@@ -8429,25 +8429,25 @@
         <simulatedScreenMetrics key="destination" type="retina4_0.fullscreen"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="BY8-e2-RyW"/>
-        <segue reference="0Ba-7e-jXB"/>
-        <segue reference="ADA-1C-gHV"/>
+        <segue reference="Ite-sp-zyZ"/>
+        <segue reference="W8i-Cs-Z8T"/>
+        <segue reference="YLQ-j7-Vcj"/>
         <segue reference="jZZ-fL-lXE"/>
-        <segue reference="Spe-dd-EXu"/>
-        <segue reference="cEg-U8-UBa"/>
+        <segue reference="Jjq-iC-ovb"/>
+        <segue reference="Aba-99-G71"/>
         <segue reference="Y9a-Vx-tcX"/>
         <segue reference="1jA-Zj-XHt"/>
-        <segue reference="W8i-Cs-Z8T"/>
-        <segue reference="Sdy-kO-WHf"/>
+        <segue reference="Spe-dd-EXu"/>
+        <segue reference="BY8-e2-RyW"/>
+        <segue reference="cEg-U8-UBa"/>
+        <segue reference="QOc-Kg-WHZ"/>
         <segue reference="Wyu-u6-g5L"/>
         <segue reference="cPW-RE-2je"/>
-        <segue reference="QOc-Kg-WHZ"/>
-        <segue reference="nfZ-gF-nDM"/>
-        <segue reference="Ite-sp-zyZ"/>
         <segue reference="LYu-6R-l0u"/>
+        <segue reference="nfZ-gF-nDM"/>
         <segue reference="SBG-bF-djg"/>
-        <segue reference="X5X-Qt-8lc"/>
         <segue reference="8LM-cv-XXH"/>
+        <segue reference="X5X-Qt-8lc"/>
         <segue reference="Lsn-aA-q1J"/>
     </inferredMetricsTieBreakers>
     <color key="tintColor" red="0.054901960784313725" green="0.47843137254901963" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
