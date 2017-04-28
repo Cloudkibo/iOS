@@ -559,12 +559,19 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
             if let window = appDelegate!.window {
                 if(window?.rootViewController?.isKind(of: UITabBarController.self))!
                 {
-                    if((window?.rootViewController as! UITabBarController).tabBarItem.title=="Chats")
+                    if((window?.rootViewController as! UITabBarController).selectedIndex==0)
                         {
-                            print("chatssss")
+                           
+                            if((window?.rootViewController as! UITabBarController).childViewControllers.first?.isKind(of: ChatDetailViewController.self))!
+                            {
+                                print("chatssss")
+                            }
+                            else{
+                                print("another view of chats")
+                            }
                     }
                     else{
-                        print("another \((window?.rootViewController as! UITabBarController).tabBarItem.tag)")
+                        print("another \((window?.rootViewController as! UITabBarController).selectedIndex)")
                     }
                   /* if(window?.rootViewController?.tabBarController?.presentedViewController?.isKind(of:ChatDetailViewController.self))!
                    {
@@ -3701,8 +3708,9 @@ else{
                 
                 if(type=="group:icon_update")
                 {
-                    print("group icon is changed")
+                    print("group icon is changed \(userInfo["groupId"] as! String)")
                     var groupId=userInfo["groupId"] as! String
+                    print("group icon changed of: \(sqliteDB.getSingleGroupInfo(userInfo["groupId"] as! String))")
                     //"exists".dataUsingEncoding(NSUTF8StringEncoding)!
                     UtilityFunctions.init().downloadProfileImage(groupId)
                 }

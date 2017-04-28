@@ -321,8 +321,15 @@ class UtilityFunctions{
             return (documentsURL, [.removePreviousFile ,.createIntermediateDirectories])
         }*/
         
+        let destination1: Alamofire.DownloadRequest.DownloadFileDestination = { _, response in
+            filetype=self.getFileExtension(response.mimeType!)
+            var documentsURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
+            var localImageURL = documentsURL.appendingPathComponent("\(uniqueid1).\(filetype)")
+            return (localImageURL, [.removePreviousFile])
+        }
         
-        let destination: Alamofire.DownloadRequest.DownloadFileDestination = { _, response in
+        
+        /*let destination: Alamofire.DownloadRequest.DownloadFileDestination = { _, response in
             var documentsURL = FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask)[0]
             
             filetype=self.getFileExtension(response.mimeType!)
@@ -330,7 +337,7 @@ class UtilityFunctions{
             let fileURL = documentsURL.appendingPathComponent("\(uniqueid1).\(filetype)")
             
             return (fileURL, [.removePreviousFile, .createIntermediateDirectories])
-        }
+        }*/
      
 
 /*
@@ -379,7 +386,7 @@ class UtilityFunctions{
                 print(response)
             print("download icon \(uniqueid1) destination \(destination)")
             */
-            Alamofire.download("\(downloadURL)", method: .post, parameters: ["unique_id":uniqueid1], encoding: JSONEncoding.default, headers: header, to: destination).response { (response) in
+            Alamofire.download("\(downloadURL)", method: .post, parameters: ["unique_id":uniqueid1], encoding: JSONEncoding.default, headers: header, to: destination1).response { (response) in
                 
                 print(response)
                 /*
@@ -415,7 +422,7 @@ class UtilityFunctions{
                 
                 print(response)
                 print("1...... \(response.request?.url)")
-                print("2..... \(response.request?.url.debugDescription)")
+                print("2..... \(response.response?.allHeaderFields)")
                 print("3.... \(response.response?.url.debugDescription)")
             //    print("error: \(error)")
                 
@@ -496,8 +503,15 @@ class UtilityFunctions{
         var downloadURL=Constants.MainUrl+Constants.downloadGroupIcon
         
         
+        let destination1: Alamofire.DownloadRequest.DownloadFileDestination = { _, response in
+            filetype=self.getFileExtension(response.mimeType!)
+            var documentsURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
+            var localImageURL = documentsURL.appendingPathComponent("\(uniqueid1).\(filetype)")
+            return (localImageURL, [.removePreviousFile])
+        }
         
-        let destination: Alamofire.DownloadRequest.DownloadFileDestination = { _, response in
+        
+        /*let destination: Alamofire.DownloadRequest.DownloadFileDestination = { _, response in
             var documentsURL = FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask)[0]
             
             filetype=self.getFileExtension(response.mimeType!)
@@ -505,7 +519,7 @@ class UtilityFunctions{
             let fileURL = documentsURL.appendingPathComponent("\(uniqueid1).\(filetype)")
             
             return (fileURL, [.removePreviousFile, .createIntermediateDirectories])
-        }
+        }*/
         /*let destination: (URL, HTTPURLResponse) -> (URL) = {
             (temporaryURL, response) in
             print("response file name is \(response.suggestedFilename!)")
@@ -541,7 +555,7 @@ print("tempURL is \(temporaryURL) and response is \(response.allHeaderFields)")
         
        // print("downloading call unique id \(fileuniqueid)")
         
-        Alamofire.download("\(downloadURL)", method: .post, parameters: ["unique_id":uniqueid1], encoding: JSONEncoding.default, headers: header, to: destination).response { (response) in
+        Alamofire.download("\(downloadURL)", method: .post, parameters: ["unique_id":uniqueid1], encoding: JSONEncoding.default, headers: header, to: destination1).response { (response) in
             
             print(response)
             /*
