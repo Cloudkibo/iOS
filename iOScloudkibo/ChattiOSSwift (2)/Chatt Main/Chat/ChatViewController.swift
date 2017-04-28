@@ -4097,9 +4097,9 @@ break
                 
                 print("ound avatar in favourites")
                 
-                let img=UIImage(data:ContactsProfilePic)
-                let w=img!.size.width
-                var h=img!.size.height
+                if let img=UIImage(data:ContactsProfilePic)
+                {let w=img.size.width
+                var h=img.size.height
                 let wOld=cell!.profilePic.bounds.width
                  let hOld=cell!.profilePic.bounds.height
                 let scale:CGFloat=w/wOld
@@ -4112,14 +4112,15 @@ break
                 cell!.profilePic.layer.cornerRadius = cell!.profilePic.frame.size.width/2
                 cell!.profilePic.clipsToBounds = true
                 
-                imageCache.add(img!, withIdentifier: ContactUsernames)
+                imageCache.removeImage(withIdentifier: ContactUsernames)
+                imageCache.add(img, withIdentifier: ContactUsernames)
                 
                 // Fetch
                 var cachedAvatar = imageCache.image(withIdentifier: ContactUsernames)
                 cachedAvatar=UtilityFunctions.init().resizedAvatar(img: cachedAvatar, size: CGSize(width: cell!.profilePic.bounds.width,height: cell!.profilePic.bounds.height), sizeStyle: "Fill")
                 
                 cell!.profilePic.image=cachedAvatar
-                
+            }
                 /*cell.profilePic.image=UIImage(data: ContactsProfilePic, scale: scale)
                  ///cell.profilePic.image=UIImage(data:ContactsProfilePic[indexPath.row])
                  UIImage(data: ContactsProfilePic, scale: scale)

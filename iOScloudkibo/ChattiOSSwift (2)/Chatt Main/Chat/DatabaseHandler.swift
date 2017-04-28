@@ -1599,6 +1599,103 @@ print("alter table needed")
         
         
     
+    func updateFileInfo(_ to1:String,from1:String,owneruser1:String,file_name1:String,date1:String!,uniqueid1:String!,file_size1:String,file_type1:String,file_path1:String, type1:String)
+    {
+    //var chatType="image"
+    
+    //createUserChatTable()
+    let to = Expression<String>("to")
+    let from = Expression<String>("from")
+    let date = Expression<Date>("date")
+    let uniqueid = Expression<String>("uniqueid")
+    let contactPhone = Expression<String>("contactPhone")
+    let type = Expression<String>("type")
+    let file_name = Expression<String>("file_name")
+    let file_size = Expression<String>("file_size")
+    let file_type = Expression<String>("file_type")
+    let file_path = Expression<String>("file_path")
+    
+    
+    let tbl_userfiles=sqliteDB.files
+    
+    var contactPhone1=""
+    if(to1 != owneruser1)
+    {
+    contactPhone1=to1
+    }
+    else
+    {
+    contactPhone1=from1
+    }
+        var mydate:Date!
+    if(date1 == nil)
+    {
+    let date22=Date()
+    let formatter = DateFormatter();
+    formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ";
+    //formatter.dateFormat = "MM/dd hh:mm a"";
+    formatter.timeZone = TimeZone.autoupdatingCurrent
+    //formatter.dateStyle = .ShortStyle
+    //formatter.timeStyle = .ShortStyle
+    let defaultTimeZoneStr2 = formatter.string(from: date22);
+    let defaultTimeZoneStr = formatter.date(from: defaultTimeZoneStr2)
+    print("default db date is \(defaultTimeZoneStr)")
+    
+    mydate=defaultTimeZoneStr
+    
+    
+    }
+    else
+    {
+    
+    //var date22=NSDate()
+    let formatter = DateFormatter();
+    formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ";
+    //formatter.dateFormat = "MM/dd hh:mm a"";
+    formatter.timeZone = TimeZone.autoupdatingCurrent
+    let defaultTimeZoneStr = formatter.date(from: date1)
+    print("default db date from server is \(defaultTimeZoneStr)")
+    
+    
+    mydate=defaultTimeZoneStr
+    }
+    /*
+     t.column(type, defaultValue:"chat")
+     t.column(file_type, defaultValue:"")
+     t.column(file_path, defaultValue:"")
+     */
+    
+        
+        let query = tbl_userfiles?.select(to,from,date,uniqueid,contactPhone,type,file_name,file_size,file_type,file_path)           // SELECT "email" FROM "users"
+            .filter(uniqueid == uniqueid1)     // WHERE "name" IS NOT NULL
+        
+        
+        do
+        {try sqliteDB.db.run((query?.update(to<-to1,
+                                            from<-from1,
+                                            date<-mydate,
+                                            uniqueid<-uniqueid1,
+                                            contactPhone<-contactPhone1,
+                                            type<-type1,  //image or document
+            file_name<-file_name1,
+            file_size<-file_size1,
+            file_type<-file_type1,
+            file_path<-file_path1))!)}
+        catch
+        {
+            print("error: cannot update file info")
+        }
+   
+    
+    
+    /*if let rowid = insert.rowid {
+     print("inserted id: \(rowid)")
+     } else if insert.statement.failed {
+     print("insertion failed: \(insert.statement.reason)")
+     }*/
+    
+    
+    }
     
     func saveFile(_ to1:String,from1:String,owneruser1:String,file_name1:String,date1:String!,uniqueid1:String!,file_size1:String,file_type1:String,file_path1:String, type1:String)
         

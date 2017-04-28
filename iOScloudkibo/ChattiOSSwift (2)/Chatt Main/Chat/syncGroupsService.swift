@@ -348,11 +348,15 @@ class syncGroupService
                         {
                             //update UI
                             
+                            
                         }
                         else
                         {
                             print("didnot find group icon")
-                         //=====UtilityFunctions.init().downloadProfileImageOnLaunch(unique_id)
+                         UtilityFunctions.init().downloadProfileImageOnLaunch(unique_id, completion: { (result, error) in
+                            print("done sync group icon")
+                           
+                         })
                         }
                         
                     }

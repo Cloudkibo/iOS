@@ -1409,7 +1409,7 @@ class NetworkingManager
         
         Alamofire.upload(
             multipartFormData: { multipartFormData in
-                multipartFormData.append(imageData!, withName:  "file", fileName: filename, mimeType: fileType)                //,fileName: file_name1, mimeType: "image/\(file_type1)")
+                multipartFormData.append(imageData!, withName:  "file", fileName: filename, mimeType: ".\(fileType)")                //,fileName: file_name1, mimeType: "image/\(file_type1)")
                 for (key, value) in parameters {
                     multipartFormData.append(value.data(using: .utf8)!, withName: key)
                     // multipartFormData.append(data: value.data(using: String.Encoding.utf8)!, withName: key)
@@ -1485,7 +1485,17 @@ class NetworkingManager
                             
                             
                             print("file uploaded successss")
-                             sqliteDB.saveFile(groupUniqueID, from1: "", owneruser1: "", file_name1: filename, date1: nil, uniqueid1: groupUniqueID, file_size1: "1", file_type1: fileType, file_path1: filePath1, type1: "groupIcon")
+                            var iconExists=sqliteDB.checkIfFileExists(groupUniqueID)
+                            if(iconExists==true)
+                            {
+                                sqliteDB.updateFileInfo(groupUniqueID, from1: "", owneruser1: "", file_name1: filename, date1: nil, uniqueid1: groupUniqueID, file_size1: "1", file_type1: fileType, file_path1: filePath1, type1: "groupIcon")
+                            }
+                            else{
+                               sqliteDB.saveFile(groupUniqueID, from1: "", owneruser1: "", file_name1: filename, date1: nil, uniqueid1: groupUniqueID, file_size1: "1", file_type1: fileType, file_path1: filePath1, type1: "groupIcon")
+                            }
+                            
+                            
+                           //  sqliteDB.saveFile(groupUniqueID, from1: "", owneruser1: "", file_name1: filename, date1: nil, uniqueid1: groupUniqueID, file_size1: "1", file_type1: fileType, file_path1: filePath1, type1: "groupIcon")
                            //update "group_icon" as exists
                             
                         case .failure(let error):

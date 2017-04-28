@@ -443,7 +443,15 @@ class UtilityFunctions{
                 //  if(self.imageExtensions.contains(filetype.lowercaseString))
                 // {
                 //filePendingName
-                sqliteDB.saveFile(uniqueid1, from1: "", owneruser1: "", file_name1: uniqueid1+"."+filetype, date1: nil, uniqueid1: uniqueid1, file_size1: "1", file_type1: filetype, file_path1: filePendingPath, type1: "groupIcon")
+                    
+                    var iconExists=sqliteDB.checkIfFileExists(uniqueid1)
+                    if(iconExists==true)
+                    {
+                    sqliteDB.updateFileInfo(uniqueid1, from1: "", owneruser1: "", file_name1: uniqueid1+"."+filetype, date1: nil, uniqueid1: uniqueid1, file_size1: "1", file_type1: filetype, file_path1: filePendingPath, type1: "groupIcon")
+                    }
+                    else{
+                    sqliteDB.saveFile(uniqueid1, from1: "", owneruser1: "", file_name1: uniqueid1+"."+filetype, date1: nil, uniqueid1: uniqueid1, file_size1: "1", file_type1: filetype, file_path1: filePendingPath, type1: "groupIcon")
+                    }
                 //}
                 /*else
                  {
@@ -504,6 +512,7 @@ class UtilityFunctions{
         
         
         let destination1: Alamofire.DownloadRequest.DownloadFileDestination = { _, response in
+            var serverfilename=response.suggestedFilename
             filetype=self.getFileExtension(response.mimeType!)
             var documentsURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
             var localImageURL = documentsURL.appendingPathComponent("\(uniqueid1).\(filetype)")
@@ -605,7 +614,18 @@ print("tempURL is \(temporaryURL) and response is \(response.allHeaderFields)")
               //  if(self.imageExtensions.contains(filetype.lowercaseString))
                // {
                     //filePendingName
-                    sqliteDB.saveFile(uniqueid1, from1: "", owneruser1: "", file_name1: uniqueid1+"."+filetype, date1: nil, uniqueid1: uniqueid1, file_size1: "1", file_type1: filetype, file_path1: filePendingPath, type1: "groupIcon")
+            
+            var iconExists=sqliteDB.checkIfFileExists(uniqueid1)
+            if(iconExists==true)
+            {
+                sqliteDB.updateFileInfo(uniqueid1, from1: "", owneruser1: "", file_name1: uniqueid1+"."+filetype, date1: nil, uniqueid1: uniqueid1, file_size1: "1", file_type1: filetype, file_path1: filePendingPath, type1: "groupIcon")
+            }
+            else{
+                sqliteDB.saveFile(uniqueid1, from1: "", owneruser1: "", file_name1: uniqueid1+"."+filetype, date1: nil, uniqueid1: uniqueid1, file_size1: "1", file_type1: filetype, file_path1: filePendingPath, type1: "groupIcon")
+            }
+            
+            
+                    /////!!sqliteDB.saveFile(uniqueid1, from1: "", owneruser1: "", file_name1: uniqueid1+"."+filetype, date1: nil, uniqueid1: uniqueid1, file_size1: "1", file_type1: filetype, file_path1: filePendingPath, type1: "groupIcon")
                 //}
                 /*else
                 {

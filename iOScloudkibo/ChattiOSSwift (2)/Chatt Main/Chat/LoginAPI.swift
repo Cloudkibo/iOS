@@ -51,7 +51,9 @@ class LoginAPI{
     
     init(url:String){
        
-        socket=SocketIOClient(socketURL:  URL(string: "\(url)")!/*, options: [.Log(true)]*/)
+        
+        self.socket = SocketIOClient(socketURL: URL(string: url)!, config: [.voipenabled(true),.forcePolling(true)])
+       // socket=SocketIOClient(socketURL:URL(string: "\(url)")! , config: [.voipenabled(true)])!/*, options: [.Log(true)]*/)
         areYouFreeForCall=true
         isBusy=false
         self.socket.on("connect") {data, ack in
