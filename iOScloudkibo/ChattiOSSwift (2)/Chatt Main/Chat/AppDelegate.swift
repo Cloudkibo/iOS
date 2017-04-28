@@ -2840,13 +2840,13 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
         }*/
         
         
-        if(socketObj != nil)
+       /* if(socketObj != nil)
         {   //// socketObj.socket.close()
             socketObj.socket.disconnect()
             socketObj.socket.removeAllHandlers()
             ////// swiftt3 socketObj.socket.close()
             /////  socketObj=nil
-        }
+        }*/
         
     }
     
@@ -2912,14 +2912,14 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
         }
         */
         
-         if(socketObj == nil)
+       /*  if(socketObj == nil)
         {
             print("socket is nillll", terminator: "")
             socketObj=LoginAPI(url:"\(Constants.MainUrl)")
             ///socketObj.connect()
             socketObj.addHandlers()
             socketObj.addWebRTCHandlers()
-        }
+        }*/
         
     }
     func handleIdentityChanged(notification: NSNotification){

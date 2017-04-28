@@ -52,7 +52,7 @@ class LoginAPI{
     init(url:String){
        
         
-        self.socket = SocketIOClient(socketURL: URL(string: url)!, config: [.voipenabled(true),.forcePolling(true)])
+        socket = SocketIOClient(socketURL: URL(string: "\(url)")!, config:SocketIOClientConfiguration.init(arrayLiteral: .voipEnabled(true)))
        // socket=SocketIOClient(socketURL:URL(string: "\(url)")! , config: [.voipenabled(true)])!/*, options: [.Log(true)]*/)
         areYouFreeForCall=true
         isBusy=false
