@@ -416,7 +416,7 @@ var contactsarray=[CNContact]()
         
         
         //background
-        UIApplication.shared.setMinimumBackgroundFetchInterval(UIApplicationBackgroundFetchIntervalMinimum)
+        //UIApplication.shared.setMinimumBackgroundFetchInterval(UIApplicationBackgroundFetchIntervalMinimum)
         
       NotificationCenter.default.addObserver(self, selector: #selector(AppDelegate.contactChanged(_:)), name: NSNotification.Name.CNContactStoreDidChange, object: nil)
 
@@ -1125,6 +1125,7 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
         UtilityFunctions.init().getAppState(currentState: UIApplication.shared.applicationState.rawValue)
         UtilityFunctions.init().log_papertrail("IPHONE: didReceive notification iOS10 \(response.notification.request.content.userInfo)")
       
+        
         //UtilityFunctions.init().log_papertrail("IPHONE: iOS 10+ \(username!) didreceive \(response.notification.request.content.userInfo)")
             
        ///// UtilityFunctions.init().log_papertrail("iOS 10 mode \(UIApplication.shared.applicationState) User Info = \(response.notification.request.content.userInfo)")
@@ -2822,6 +2823,10 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
         // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
         // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
         print("didenterbackground")
+        
+        UtilityFunctions.init().log_papertrail("IPHONE: \(username!) app didenterbackground")
+       
+        
         /*print("close socket")
         if(socketObj != nil)
         {    socketObj.socket.close()
@@ -2839,7 +2844,7 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
             socketObj.addWebRTCHandlers()
         }*/
         
-        
+        ///!!
        /* if(socketObj != nil)
         {   //// socketObj.socket.close()
             socketObj.socket.disconnect()
@@ -2937,6 +2942,7 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
     func applicationDidBecomeActive(_ application: UIApplication) {
         // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
        
+        UtilityFunctions.init().log_papertrail("IPHONE: \(username!) app is active now")
         
         NotificationCenter.default.addObserver(self,
                                                          selector: "handleIdentityChanged:",
@@ -3043,12 +3049,15 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
  
                 */
             }
-            
-            socketObj=nil
+        
+        
+        //!!!
+            /*socketObj=nil
             socketObj=LoginAPI(url:"\(Constants.MainUrl)")
             ///socketObj.connect()
             socketObj.addHandlers()
             socketObj.addWebRTCHandlers()
+ */
             
           //  socketObj.socket.connect()
            // socketObj.socket.open()
@@ -3073,6 +3082,8 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
     func applicationWillTerminate(_ application: UIApplication) {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
        
+         UtilityFunctions.init().log_papertrail("IPHONE: \(username!) app will terminate")
+        
         print("app will terminate")
         //socketObj.socket.disconnect(fast: true)
         //socketObj.socket.close(fast: true)
@@ -3314,6 +3325,38 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
      
        // else{
     
+        if(socketObj == nil)
+        {
+                  UtilityFunctions.init().log_papertrail("IPHONE:  \(username!) socketObj is nil is connecting socket")
+            
+            print("socket is nillll", terminator: "")
+            socketObj=LoginAPI(url:"\(Constants.MainUrl)")
+            ///socketObj.connect()
+            socketObj.addHandlers()
+            socketObj.addWebRTCHandlers()
+            
+        }
+        else{
+            if(socketObj.socket==nil)
+            {
+                
+                UtilityFunctions.init().log_papertrail("IPHONE:  \(username!) socket is  nill ")
+            }
+            else{
+                
+           
+              UtilityFunctions.init().log_papertrail("IPHONE:  \(username!) socket is not nill status is \(socketObj.socket.status)")
+                if(socketObj.socket.status == SocketIOClientStatus.disconnected)
+                {
+                    //socketObj.socket.close
+                socketObj=LoginAPI(url:"\(Constants.MainUrl)")
+                ///socketObj.connect()
+                socketObj.addHandlers()
+                socketObj.addWebRTCHandlers()
+                }
+            }
+        }
+        
             UtilityFunctions.init().getAppState(currentState: UIApplication.shared.applicationState.rawValue)
             UtilityFunctions.init().log_papertrail("IPHONE: receivednotification(old) iOS9 \(userInfo)")
             
@@ -3359,7 +3402,7 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
                     UIDelegates.getInstance().UpdateMainPageChatsDelegateCall()
                     completionHandler(UIBackgroundFetchResult.newData)
 
-                    completionHandler(UIBackgroundFetchResult.newData)
+                    //completionHandler(UIBackgroundFetchResult.newData)
                     NotificationCenter.default.post(name: Notification.Name(rawValue: "ReceivedNotification"), object:userInfo)
                     
                 }
@@ -4416,6 +4459,7 @@ var uniqueid=payload["uniqueid"] as! String
     }
     func application(_ application: UIApplication, willFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         
+         UtilityFunctions.init().log_papertrail("IPHONE: \(username!) app willFinishLaunchingWithOptions")
         print("willFinishLaunchingWithOptions")
         return true
     }
@@ -4480,7 +4524,7 @@ var uniqueid=payload["uniqueid"] as! String
     
     func application(_ application: UIApplication, performFetchWithCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
         
-        
+        //UIApplication.shared.setMinimumBackgroundFetchInterval(UIApplicationBackgroundFetchIntervalMinimum) commented
         print("taking backup offline")
         UtilityFunctions.init().log_papertrail("taking backup offline")
 
