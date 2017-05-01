@@ -818,6 +818,27 @@ print("tempURL is \(temporaryURL) and response is \(response.allHeaderFields)")
     }
     }
  
+    func isKiboContact(phone1:String)->Bool
+    {
+        var allcontactslist1=sqliteDB.allcontacts
+        var alladdressContactsArray:Array<Row>
+        
+        let phone = Expression<String>("phone")
+        let kibocontact = Expression<Bool>("kiboContact")
+        let name =
+            Expression<String?>("name")
+        // if(self.getPhoneNumber() != nil)
+        //{
+        do{for found in try sqliteDB.db.prepare((allcontactslist1?.filter(phone==phone1 && kibocontact==true))!)
+        {
+           // print("found contact \(self.getPhoneNumber())")
+            return true
+            }
+        }catch{}
+        // }
+        return false
+        
+    }
     
     func AddtoAddressBook(_ contact1:CNContact,isKibo:Bool,completion:(_ result:Bool)->())
     {

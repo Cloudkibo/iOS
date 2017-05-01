@@ -171,7 +171,12 @@ class LoginAPI{
             self.mobileSocketID=(data[0] as AnyObject).debugDescription
             
             var serviceSendInitialData=ConnectToDesktop.init()
-            serviceSendInitialData.startInitialChatDataLoad(phone: username!, to_connection_id: desktopRoomID, from_connection_id: mobileSocketID, data: sqliteDB.getChatDetails(), type: "loading_chatlist")
+            
+            
+            serviceSendInitialData.startInitialDataLoad(phone: username!, to_connection_id: self.desktopRoomID, from_connection_id: self.mobileSocketID, data: sqliteDB.getChatDetails() as AnyObject, type: "loading_chatlist")
+            
+            serviceSendInitialData.startInitialDataLoad(phone: username!, to_connection_id: self.desktopRoomID, from_connection_id: self.mobileSocketID, data: sqliteDB.getContactDetails() as AnyObject, type: "loading_contacts")
+            //getContactDetails
             
             //self.desktopRoomID=dataJSONsocketID[0].string!
             //self.desktopAppRoomJoined = true

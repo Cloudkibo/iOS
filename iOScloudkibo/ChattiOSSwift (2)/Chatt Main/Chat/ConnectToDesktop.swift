@@ -17,7 +17,7 @@ class ConnectToDesktop{
         
     }
     
-    func startInitialChatDataLoad(phone:String,to_connection_id:String,from_connection_id:String,data:[[String:Any]],type:String)
+    func startInitialDataLoad(phone:String,to_connection_id:String,from_connection_id:String,data:AnyObject,type:String)
     {
         print("inside loading initial data to desktop app")
        /* platform_room_message` with following payload:
@@ -34,7 +34,7 @@ class ConnectToDesktop{
             "from_connection_id" : from_connection_id,
             "data":data,
             "type": type] as [String : Any]
-        socketObj.socket.emitWithAck("platform_room_message", ["data":dataInput]).timingOut(after: 0){data in
+        socketObj.socket.emitWithAck("platform_room_message", ["data":dataInput]).timingOut(after: 500000){data in
             
             print(data)
             print(JSON(data))
@@ -42,5 +42,9 @@ class ConnectToDesktop{
         
 
     }
+    
+   
+    
+
     
 }

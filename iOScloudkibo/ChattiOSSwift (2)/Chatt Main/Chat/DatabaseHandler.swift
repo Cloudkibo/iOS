@@ -3704,11 +3704,11 @@ print("--------")
         {
             var newEntry = [String : Any]()
       
-            newEntry["date"]=list.get(contactPhone)
-            newEntry["contact_phone"]=list.get(date)
-            newEntry["msg"]=list.get(msg)
+            newEntry["date"]=list.get(date).debugDescription as AnyObject
+            newEntry["contact_phone"]=list.get(contactPhone) as! String
+            newEntry["msg"]=list.get(msg) as! String
             newEntry["pendingMsgs"]="0"
-            newEntry["display_name"]=self.getNameFromAddressbook(list.get(contactPhone))
+            newEntry["display_name"]=self.getNameFromAddressbook(list.get(contactPhone)) as! String
             
             allChatsList.append(newEntry)
             }
@@ -3716,9 +3716,57 @@ print("--------")
         catch{
             
         }
+        
         return allChatsList
 /*
          info platform data sharing message -> {"phone":"+923323800399","to_connection_id":"4731","from_connection_id":"74177","type":"loading_chatlist","data":[{"date":"2017-05-01T13:09:09.468Z","contact_phone":"+923000359691","msg":"hello","pendingMsgs":0,"display_name":"Ansa Laghari"},{"date":"2017-05-01T13:08:57.650Z","contact_phone":"+923333864540","msg":"test","pendingMsgs":0,"display_name":"Sumaira 2"}]}
  */
+    }
+    
+    func getContactDetails()->[[String:Any]]
+    {
+        let contactid = Expression<String>("contactid")
+        let detailsshared = Expression<String>("detailsshared")
+        let unreadMessage = Expression<Bool>("unreadMessage")
+        
+        let userid = Expression<String>("userid")
+        let firstname = Expression<String>("firstname")
+        let lastname = Expression<String>("lastname")
+        let email = Expression<String>("email")
+        let phone = Expression<String>("phone")
+        let username = Expression<String>("username")
+        let status = Expression<String>("status")
+        let blockedByMe = Expression<Bool>("blockedByMe")
+        let IamBlocked = Expression<Bool>("IamBlocked")
+        //blockedByMe
+        //IamBlocked
+        var allContactsList=[[String:Any]]()
+        
+        self.contactslists = Table("contactslists")
+        do
+        {for list in try self.db.prepare(self.contactslists)
+        {
+            var newEntry = [String : Any]()
+            
+            newEntry["phone"]=list.get(phone)
+            newEntry["display_name"] = self.getNameFromAddressbook(list.get(phone) as! String)
+            newEntry["_id"]=list.get(userid) as! String
+            newEntry["detailsshared"]=list.get(detailsshared) as! String
+            newEntry["status"]=list.get(status) as! String
+            newEntry["on_cloudkibo"]=UtilityFunctions.init().isKiboContact(phone1: list.get(phone))
+            //on_cloudkibo
+            allContactsList.append(newEntry)
+            }
+        }
+        catch{
+            
+        }
+        
+        return allContactsList
+
+        
+        /*
+         {"phone":"+923313548911","display_name":"DAYEM SIDDIQUI","_id":"587756acf661e36e14c4d9b9","detailsshared":"Yes","status":"I am on CloudKibo","on_cloudkibo":"true"},{"phone":"+923057007457","display_name":"Asad Steve Jobs","_id":"587757c9a1357780141f48e6","detailsshared":"Yes","status":"I am on CloudKibo","on_cloudkibo":"true"},{"phone":"+923410212162","display_name":"Imran Shaukat","_id":"587756e5f661e36e14c4d9ba","detailsshared":"Yes","status":"I am on CloudKibo","on_cloudkibo":"true"},{"phone":"+923341366328","display_name":"Asad Steve Jobs","_id":"5879cd41de29d3ff5659e448","detailsshared":"Yes","status":"I am on CloudKibo","on_cloudkibo":"true"
+         */
     }
 }
