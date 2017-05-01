@@ -22,7 +22,7 @@ class SettingsViewController: UIViewController,UITableViewDelegate,UITableViewDa
         self.navigationItem.title="Settings"
         
         messages=NSMutableArray()
-        messages=[["label":"Chats".localized,"logo":"navi_logo.png","segue":"BackupSegue"],["label":"Accounts".localized,"logo":"chat_lock.png","segue":"PrivacySegue"]]
+        messages=[["label":"Chats".localized,"logo":"navi_logo.png","segue":"BackupSegue"],["label":"Accounts".localized,"logo":"chat_lock.png","segue":"PrivacySegue"],["label":"Connect to Desktop app".localized,"logo":"chat_lock.png","segue":""]]
         // Do any additional setup after loading the view.
     }
 
@@ -96,6 +96,34 @@ class SettingsViewController: UIViewController,UITableViewDelegate,UITableViewDa
         
     }
     
+    func showAlertConnectToDesktop()
+    {
+        let alert = UIAlertController(title: "Error", message: "Please enter ID displayed on your desktop app to connect".localized , preferredStyle: .alert)
+        
+        //2. Add the text field. You can configure it however you need.
+        alert.addTextField(configurationHandler: { (textField) -> Void in
+            textField.text = ""
+        })
+        
+        
+        //3. Grab the value from the text field, and print it when the user clicks OK.
+        alert.addAction(UIAlertAction(title: "OK".localized, style: .default, handler: { (action) -> Void in
+            let textField = alert.textFields![0] as UITextField
+            print("Text field: \(textField.text)")
+            var newfilenamegot=textField.text!
+            
+            
+        }))
+        
+        // 4. Present the alert.
+        self.present(alert, animated: true, completion:
+            {
+                
+                
+        }
+        )
+    }
+    
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
         //
@@ -108,8 +136,17 @@ class SettingsViewController: UIViewController,UITableViewDelegate,UITableViewDa
         
         
         //let cell=tbl_inviteContacts.dequeueReusableCellWithIdentifier("ContactsInviteCell")! as! ContactsInviteCell
-        let selectedCell=tbl_Settings.cellForRow(at: indexPath)! as UITableViewCell
-        self.performSegue(withIdentifier: segue!, sender: nil)
+            if(segue != "")
+            {
+                let selectedCell=tbl_Settings.cellForRow(at: indexPath)! as UITableViewCell
+                self.performSegue(withIdentifier: segue!, sender: nil)
+            }
+            else{
+                //tap action
+                //show alert ID of desktop app
+                
+                
+            }
         }
         
     }

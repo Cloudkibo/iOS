@@ -442,7 +442,8 @@ class syncService{
                     {
                         print("inside displayname hereeeeeee")
                         
-                        
+                        if contactsJsonObj[i]["contactid"]["_id"] != nil
+                        {
                         let rowid = try sqliteDB.db.run((tbl_contactslists?.insert(contactid<-contactsJsonObj[i]["contactid"]["_id"].string!,
                                                                                    detailsshared<-contactsJsonObj[i]["detailsshared"].string!,
                                                                                    
@@ -458,7 +459,7 @@ class syncService{
                             username<-contactsJsonObj[i]["contactid"]["phone"].string!,
                             status<-contactsJsonObj[i]["contactid"]["status"].string!))!
                         )
-                        
+                        }
                         print("inserted id: \(rowid)")
                         
                     }

@@ -206,7 +206,7 @@ var contactsarray=[CNContact]()
             }
        }
         
-       // UIApplication.shared.setMinimumBackgroundFetchInterval(UIApplicationBackgroundFetchIntervalMinimum)
+    //!! UIApplication.shared.setMinimumBackgroundFetchInterval(60)
         
         GMSServices.provideAPIKey("AIzaSyA4ayZ7WiMRkulzF6OxZhBa8WXp7w4BkhI")
         GMSPlacesClient.provideAPIKey("AIzaSyA4ayZ7WiMRkulzF6OxZhBa8WXp7w4BkhI")
@@ -416,7 +416,7 @@ var contactsarray=[CNContact]()
         
         
         //background
-        //UIApplication.shared.setMinimumBackgroundFetchInterval(UIApplicationBackgroundFetchIntervalMinimum)
+      UIApplication.shared.setMinimumBackgroundFetchInterval(UIApplicationBackgroundFetchIntervalMinimum)
         
       NotificationCenter.default.addObserver(self, selector: #selector(AppDelegate.contactChanged(_:)), name: NSNotification.Name.CNContactStoreDidChange, object: nil)
 
@@ -4460,7 +4460,13 @@ var uniqueid=payload["uniqueid"] as! String
     func application(_ application: UIApplication, willFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         
          UtilityFunctions.init().log_papertrail("IPHONE: \(username!) app willFinishLaunchingWithOptions")
+        UtilityFunctions.init().log_papertrail("IPHONE: \(launchOptions)")
         print("willFinishLaunchingWithOptions")
+        //!!
+        /*socketObj=LoginAPI(url:"\(Constants.MainUrl)")
+        ///socketObj.connect()
+        socketObj.addHandlers()
+        socketObj.addWebRTCHandlers()*/
         return true
     }
     func timerFiredScreenCapture()
@@ -4525,11 +4531,13 @@ var uniqueid=payload["uniqueid"] as! String
     func application(_ application: UIApplication, performFetchWithCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
         
         //UIApplication.shared.setMinimumBackgroundFetchInterval(UIApplicationBackgroundFetchIntervalMinimum) commented
+      
+        
         print("taking backup offline")
         UtilityFunctions.init().log_papertrail("taking backup offline")
 
         
-        UtilityFunctions.init().backupFiles()
+        //!!UtilityFunctions.init().backupFiles()
        //// completionHandler(.newData)
         
         /*if let tabBarController = window?.rootViewController as? UITabBarController,

@@ -36,8 +36,8 @@ kARDWebSocketChannelStateRegistered,
 kARDWebSocketChannelStateError*/
 
 class LoginAPI{
-    
-    
+    var desktopAppRoomJoined=false
+    var desktopRoomID=""
     var delegateChat:UpdateChatDelegate!
     var socket:SocketIOClient
     //var areYouFreeForCall:Bool
@@ -47,7 +47,7 @@ class LoginAPI{
     var delegateWebRTCVideo:SocketClientDelegateWebRTCVideo!
     var delegateSocketConnected:SocketConnecting!
     //var areYouFreeForCall:Bool
-    
+    var delegateDesktopApp:SocketClientDelegateDesktopApp!
     
     init(url:String){
        
@@ -153,6 +153,54 @@ class LoginAPI{
         
             }
 */
+    
+    
+    func addDesktopAppHandlers()
+    {
+        //connect with Desktop app
+        //joined_platform_room
+        socket.on("joined_platform_room") {data,ack in
+            
+            UtilityFunctions.init().log_papertrail("you joined room with desktop ack \(ack)")
+            UtilityFunctions.init().log_papertrail("you joined room with desktop data \(data)")
+            
+            var dataJSONsocketID = JSON(data)
+            print(dataJSONsocketID)
+            self.desktopRoomID=dataJSONsocketID[0].string!
+            self.desktopAppRoomJoined = true
+        }
+        
+        //platform_room_message
+        socket.on("platform_room_message") {data,ack in
+            
+            UtilityFunctions.init().log_papertrail("IPHONE-LOG: received platform_room_message data \(data) .. \(username!)")
+            UtilityFunctions.init().log_papertrail("received platform_room_message ack \(ack) .. \(username!) ")
+            
+            var dataJSONsocketID = JSON(data)
+            print(dataJSONsocketID)
+            self.desktopRoomID=dataJSONsocketID[0].string!
+            self.desktopAppRoomJoined = true
+        }
+        
+        
+    }
+    
+    func joinDesktopApp()
+    {
+        let tbl_accounts = sqliteDB.accounts
+        let phone = Expression<String>("phone")
+
+        do{
+            for account in try sqliteDB.db.prepare(tbl_accounts!)
+            {
+            socketObj.socket.emit("join_platform_room", ["phone":"\(account[phone])"])
+            }
+        }
+        catch{
+            UtilityFunctions.init().log_papertrail("Cannot connect to desktop app \(username!)")
+        }
+        
+    }
     
     func addHandlers(){
         print("adding socket handlerssss", terminator: "")
@@ -1651,6 +1699,13 @@ protocol SocketClientDelegateWebRTCVideo:class
     
     
 }
+
+protocol SocketClientDelegateDesktopApp:class
+{
+    func socketReceivedDesktopAppMessage(_ message:String,data:AnyObject!);
+    
+}
+
 protocol SocketConnecting:class
 {
     func socketConnected();

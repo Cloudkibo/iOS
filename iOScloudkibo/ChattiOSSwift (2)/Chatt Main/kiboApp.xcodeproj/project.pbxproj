@@ -88,6 +88,7 @@
 		713F39711D74459600F3A9C4 /* EPContactsPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 713F396B1D74459600F3A9C4 /* EPContactsPicker.swift */; };
 		713F39721D74459600F3A9C4 /* EPExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 713F396C1D74459600F3A9C4 /* EPExtensions.swift */; };
 		713F3DD71D7A88990072C9E9 /* ArchivedChatsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 713F3DD61D7A88990072C9E9 /* ArchivedChatsViewController.swift */; };
+		7141A51C1EB726D100BA244A /* ConnectToDesktop.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7141A51B1EB726D100BA244A /* ConnectToDesktop.swift */; };
 		7142EC8C1DBE33560070826F /* syncGroupsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7142EC8B1DBE33560070826F /* syncGroupsService.swift */; };
 		7142EC971DBF51DC0070826F /* UtilityFunctions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7142EC961DBF51DC0070826F /* UtilityFunctions.swift */; };
 		7142EC991DC196DB0070826F /* GroupInfoCells.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7142EC981DC196DB0070826F /* GroupInfoCells.swift */; };
@@ -609,6 +610,7 @@
 		713F396B1D74459600F3A9C4 /* EPContactsPicker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EPContactsPicker.swift; sourceTree = "<group>"; };
 		713F396C1D74459600F3A9C4 /* EPExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EPExtensions.swift; sourceTree = "<group>"; };
 		713F3DD61D7A88990072C9E9 /* ArchivedChatsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ArchivedChatsViewController.swift; sourceTree = "<group>"; };
+		7141A51B1EB726D100BA244A /* ConnectToDesktop.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConnectToDesktop.swift; sourceTree = "<group>"; };
 		7142EC8B1DBE33560070826F /* syncGroupsService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = syncGroupsService.swift; sourceTree = "<group>"; };
 		7142EC961DBF51DC0070826F /* UtilityFunctions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UtilityFunctions.swift; sourceTree = "<group>"; };
 		7142EC981DC196DB0070826F /* GroupInfoCells.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GroupInfoCells.swift; sourceTree = "<group>"; };
@@ -976,6 +978,7 @@
 				71189A7F1E781EF800245D97 /* AccountsSettingsViewController.swift */,
 				71189A9F1E781F2100245D97 /* PrivacySettingsViewController.swift */,
 				71189AA11E79243500245D97 /* BlockedContactsViewController.swift */,
+				7141A51B1EB726D100BA244A /* ConnectToDesktop.swift */,
 				7134C68D1EA7403000FF588E /* keyFile.txt */,
 				7134C68E1EA7403000FF588E /* valueFile.txt */,
 				71FF54B31E7FE47900BF512A /* UpwardSyncService.swift */,
@@ -1669,6 +1672,7 @@
 				71C1A2C41D767C0600FC5157 /* GroupChatDetailViewController.swift in Sources */,
 				713D51BF1CC11896007E0B47 /* CallRingingViewController.swift in Sources */,
 				71CB8C031E6DA934009D5D05 /* BackupTables.swift in Sources */,
+				7141A51C1EB726D100BA244A /* ConnectToDesktop.swift in Sources */,
 				71E046A31D228AE700B67362 /* CallHistoryTableViewController.swift in Sources */,
 				71C84C691E44AB2400330105 /* SSLSecurity.swift in Sources */,
 				713D51EA1CC11896007E0B47 /* SignupViewController.swift in Sources */,
