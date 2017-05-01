@@ -327,6 +327,8 @@ var contactsarray=[CNContact]()
 //{
             socketObj.addHandlers()
             socketObj.addWebRTCHandlers()
+            socketObj.addDesktopAppHandlers()
+
             //}
 //}
         }
@@ -3334,6 +3336,7 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
             ///socketObj.connect()
             socketObj.addHandlers()
             socketObj.addWebRTCHandlers()
+            socketObj.addDesktopAppHandlers()
             
         }
         else{
@@ -3353,6 +3356,7 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
                 ///socketObj.connect()
                 socketObj.addHandlers()
                 socketObj.addWebRTCHandlers()
+                    socketObj.addDesktopAppHandlers()
                 }
             }
         }

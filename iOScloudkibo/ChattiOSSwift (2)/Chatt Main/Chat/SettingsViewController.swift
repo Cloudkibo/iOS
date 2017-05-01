@@ -10,15 +10,17 @@ import UIKit
 import SQLite
 import AlamofireImage
 
-class SettingsViewController: UIViewController,UITableViewDelegate,UITableViewDataSource {
+class SettingsViewController: UIViewController,UITableViewDelegate,UITableViewDataSource,SocketClientDelegateDesktopApp {
 
+    
+    var delegateDesktopApp:SocketClientDelegateDesktopApp!
     @IBOutlet weak var tbl_Settings: UITableView!
     
     let imageCache = AutoPurgingImageCache()
     var messages:NSMutableArray!
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        socketObj.delegateDesktopApp=self
         self.navigationItem.title="Settings"
         
         messages=NSMutableArray()
@@ -98,6 +100,13 @@ class SettingsViewController: UIViewController,UITableViewDelegate,UITableViewDa
     
     func showAlertConnectToDesktop()
     {
+       // if(socketObj != nil)
+       // {
+          //  if(socketObj.desktopAppRoomJoined == false)
+          //  {
+                
+                //socketObj.joinDesktopApp()
+                
         let alert = UIAlertController(title: "Error", message: "Please enter ID displayed on your desktop app to connect".localized , preferredStyle: .alert)
         
         //2. Add the text field. You can configure it however you need.
@@ -109,11 +118,25 @@ class SettingsViewController: UIViewController,UITableViewDelegate,UITableViewDa
         //3. Grab the value from the text field, and print it when the user clicks OK.
         alert.addAction(UIAlertAction(title: "OK".localized, style: .default, handler: { (action) -> Void in
             let textField = alert.textFields![0] as UITextField
-            print("Text field: \(textField.text)")
-            var newfilenamegot=textField.text!
+            var socketIDdesktop=textField.text!
+            print("compare \(socketObj.desktopRoomID.description) and \(socketIDdesktop)")
+            socketObj.desktopRoomID=socketIDdesktop
+            socketObj.joinDesktopApp()
             
+            /*if(socketObj.desktopRoomID.description ==socketIDdesktop)
+            {
+                //connected
+                socketObj.desktopAppRoomJoined=true
+            }
+            else{
+                socketObj.desktopAppRoomJoined=false
+               self.showAlertConnectToDesktop()
+            }*/
             
         }))
+                alert.addAction(UIAlertAction(title: "Cancel".localized, style: .cancel, handler: { (action) -> Void in
+                    
+                }))
         
         // 4. Present the alert.
         self.present(alert, animated: true, completion:
@@ -122,6 +145,20 @@ class SettingsViewController: UIViewController,UITableViewDelegate,UITableViewDa
                 
         }
         )
+           // }
+            /*else{
+                 let alert = UIAlertController(title: "Error", message: "You are already connected to desktop app".localized , preferredStyle: .alert)
+                
+                alert.addAction(UIAlertAction(title: "OK".localized, style: .cancel, handler: { (action) -> Void in
+                }))
+            
+                self.present(alert, animated: true, completion:
+                    {
+                        
+                        
+                })
+            }*/
+        //}
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -144,6 +181,7 @@ class SettingsViewController: UIViewController,UITableViewDelegate,UITableViewDa
             else{
                 //tap action
                 //show alert ID of desktop app
+                self.showAlertConnectToDesktop()
                 
                 
             }
@@ -151,6 +189,14 @@ class SettingsViewController: UIViewController,UITableViewDelegate,UITableViewDa
         
     }
     
+    func socketReceivedDesktopAppMessage(_ message: String, data: AnyObject!) {
+        
+        //if connected, ask for ID
+        if(message=="joined_platform_room")
+        {
+        showAlertConnectToDesktop()
+        }
+    }
    
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         

@@ -38,6 +38,7 @@ kARDWebSocketChannelStateError*/
 class LoginAPI{
     var desktopAppRoomJoined=false
     var desktopRoomID=""
+    var mobileSocketID=""
     var delegateChat:UpdateChatDelegate!
     var socket:SocketIOClient
     //var areYouFreeForCall:Bool
@@ -164,10 +165,12 @@ class LoginAPI{
             UtilityFunctions.init().log_papertrail("you joined room with desktop ack \(ack)")
             UtilityFunctions.init().log_papertrail("you joined room with desktop data \(data)")
             
-            var dataJSONsocketID = JSON(data)
-            print(dataJSONsocketID)
-            self.desktopRoomID=dataJSONsocketID[0].string!
-            self.desktopAppRoomJoined = true
+           // var dataJSONsocketID = JSON(data)
+            //print(dataJSONsocketID)
+            self.mobileSocketID=JSON(data[0]).string!
+            //self.desktopRoomID=dataJSONsocketID[0].string!
+            //self.desktopAppRoomJoined = true
+            self.delegateDesktopApp.socketReceivedDesktopAppMessage("joined_platform_room", data: data as AnyObject!)
         }
         
         //platform_room_message
@@ -176,10 +179,7 @@ class LoginAPI{
             UtilityFunctions.init().log_papertrail("IPHONE-LOG: received platform_room_message data \(data) .. \(username!)")
             UtilityFunctions.init().log_papertrail("received platform_room_message ack \(ack) .. \(username!) ")
             
-            var dataJSONsocketID = JSON(data)
-            print(dataJSONsocketID)
-            self.desktopRoomID=dataJSONsocketID[0].string!
-            self.desktopAppRoomJoined = true
+            self.delegateDesktopApp.socketReceivedDesktopAppMessage("platform_room_message", data: data as AnyObject!)
         }
         
         
