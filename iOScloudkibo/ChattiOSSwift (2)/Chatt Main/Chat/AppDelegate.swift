@@ -44,6 +44,7 @@ var versionNumber:String! = "0.4"
 //KeychainWrapper.stringForKey("retainOldDatabase") as! Bool
 //var versionNumber:Double! = KeychainWrapper.stringForKey("versionNumber") as! Double
 
+var socket:SocketIOClient!
 var syncServiceContacts:syncContactService!
 var syncServiceContacts2:syncContactService!
 var addressbookChangedNotifReceivedDateTime:Date?
@@ -313,9 +314,19 @@ var contactsarray=[CNContact]()
         
         
         
+        socket = SocketIOClient(socketURL:URL(string: "\(Constants.MainUrl)")!, config:SocketIOClientConfiguration.init(arrayLiteral: .voipEnabled(true)))
+        socket.connect()
+        UtilityFunctions.init().log_papertrail("socket connectingg \(socket.sid)")
+        // socket=SocketIOClient(socketURL:URL(string: "\(url)")! , config: [.voipenabled(true)])!/*, options: [.Log(true)]*/)
+        areYouFreeForCall=true
+        //isBusy=false
+        socket.on("connect") {data, ack in
+            isSocketConnected=true
+            NSLog("connected to socket")
+            
+        }
         
-        
-        
+       
         if(socketObj == nil)
         {
             print("socket is nillll", terminator: "")
@@ -329,9 +340,9 @@ var contactsarray=[CNContact]()
             socketObj.addWebRTCHandlers()
             socketObj.addDesktopAppHandlers()
 
-            //}
+            }
 //}
-        }
+ 
         
      
         
@@ -3327,7 +3338,7 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
      
        // else{
     
-        if(socketObj == nil)
+        /*if(socketObj == nil)
         {
                   UtilityFunctions.init().log_papertrail("IPHONE:  \(username!) socketObj is nil is connecting socket")
             
@@ -3359,7 +3370,7 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
                     socketObj.addDesktopAppHandlers()
                 }
             }
-        }
+        }*/
         
             UtilityFunctions.init().getAppState(currentState: UIApplication.shared.applicationState.rawValue)
             UtilityFunctions.init().log_papertrail("IPHONE: receivednotification(old) iOS9 \(userInfo)")
