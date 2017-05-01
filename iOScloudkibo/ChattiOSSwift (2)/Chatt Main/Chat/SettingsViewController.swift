@@ -194,7 +194,7 @@ class SettingsViewController: UIViewController,UITableViewDelegate,UITableViewDa
         //if connected, ask for ID
         if(message=="joined_platform_room")
         {
-        showAlertConnectToDesktop()
+        //showAlertConnectToDesktop()
         }
     }
    

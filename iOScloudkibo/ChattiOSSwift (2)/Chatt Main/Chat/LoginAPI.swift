@@ -166,11 +166,16 @@ class LoginAPI{
             UtilityFunctions.init().log_papertrail("you joined room with desktop data \(data)")
             
            // var dataJSONsocketID = JSON(data)
-            //print(dataJSONsocketID)
-            self.mobileSocketID=JSON(data[0]).string!
+            print(data.debugDescription)
+            print((data[0] as AnyObject).debugDescription)
+            self.mobileSocketID=(data[0] as AnyObject).debugDescription
+            
+            var serviceSendInitialData=ConnectToDesktop.init()
+            serviceSendInitialData.startInitialChatDataLoad(phone: username!, to_connection_id: desktopRoomID, from_connection_id: mobileSocketID, data: sqliteDB.getChatDetails(), type: "loading_chatlist")
+            
             //self.desktopRoomID=dataJSONsocketID[0].string!
             //self.desktopAppRoomJoined = true
-            self.delegateDesktopApp.socketReceivedDesktopAppMessage("joined_platform_room", data: data as AnyObject!)
+            //self.delegateDesktopApp.socketReceivedDesktopAppMessage("joined_platform_room", data: data as AnyObject!)
         }
         
         //platform_room_message

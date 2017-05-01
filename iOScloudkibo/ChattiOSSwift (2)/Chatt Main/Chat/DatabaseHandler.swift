@@ -3676,4 +3676,49 @@ print("--------")
         }
         return IAMblockedByList
     }
+    
+    func getChatDetails()->[[String:Any]]
+    {
+        let to = Expression<String>("to")
+        let from = Expression<String>("from")
+        let fromFullName = Expression<String>("fromFullName")
+        let msg = Expression<String>("msg")
+        let owneruser = Expression<String>("owneruser")
+        let date = Expression<Date>("date")
+        let uniqueid = Expression<String>("uniqueid")
+        let status = Expression<String>("status")
+        let contactPhone = Expression<String>("contactPhone")
+        let type = Expression<String>("type")
+        let file_type = Expression<String>("file_type")
+        let file_path = Expression<String>("file_path")
+        let broadcastlistID = Expression<String>("broadcastlistID")
+        let isBroadcastMessage = Expression<Bool>("isBroadcastMessage")
+        
+        self.userschats = Table("userschats")
+        var allChatsList=[[String:Any]]()
+        
+        
+        //  let query = self.contactslists.select(messageuniqueid).filter(messageuniqueid == messageUniqueid1)
+        do
+        {for list in try self.db.prepare(self.userschats)
+        {
+            var newEntry = [String : Any]()
+      
+            newEntry["date"]=list.get(contactPhone)
+            newEntry["contact_phone"]=list.get(date)
+            newEntry["msg"]=list.get(msg)
+            newEntry["pendingMsgs"]="0"
+            newEntry["display_name"]=self.getNameFromAddressbook(list.get(contactPhone))
+            
+            allChatsList.append(newEntry)
+            }
+        }
+        catch{
+            
+        }
+        return allChatsList
+/*
+         info platform data sharing message -> {"phone":"+923323800399","to_connection_id":"4731","from_connection_id":"74177","type":"loading_chatlist","data":[{"date":"2017-05-01T13:09:09.468Z","contact_phone":"+923000359691","msg":"hello","pendingMsgs":0,"display_name":"Ansa Laghari"},{"date":"2017-05-01T13:08:57.650Z","contact_phone":"+923333864540","msg":"test","pendingMsgs":0,"display_name":"Sumaira 2"}]}
+ */
+    }
 }
