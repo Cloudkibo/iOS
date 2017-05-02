@@ -179,9 +179,6 @@ class LoginAPI{
             ////!!serviceSendInitialData.startInitialDataLoad(phone: username!, to_connection_id: self.desktopRoomID, from_connection_id: self.mobileSocketID, data: sqliteDB.getChatDetails() as AnyObject, type: "loading_chatlist")
             
             self.utilityService.sendDataToDesktopApp(data1: sqliteDB.getContactDetails() as AnyObject ,type1: "loading_contacts")
-            var profilepic=UIImage(named: "profile-pic1.png")
-            
-           self.utilityService.sendAttachment(profilepic, unique_id1: "1234456")
             
             
            //==-- serviceSendInitialData.startInitialDataLoad(phone: username!, to_connection_id: self.desktopRoomID, from_connection_id: self.mobileSocketID, data: sqliteDB.getContactDetails() as AnyObject, type: "loading_contacts")
@@ -208,10 +205,23 @@ class LoginAPI{
             
             self.delegateDesktopApp.socketReceivedDesktopAppMessage("platform_room_message", data: data as AnyObject!)
             var userid=data[0]
-            var dataconversations=sqliteDB.getChatListForDesktopApp(user1: userid as! String)
+            var msg=data[1] as! String
             
-            
-            self.utilityService.sendDataToDesktopApp(data1: dataconversations as AnyObject ,type1: "loading_conversation")
+            if(msg=="loading_conversation")
+            {
+                var dataconversations=sqliteDB.getChatListForDesktopApp(user1: userid as! String)
+                self.utilityService.sendDataToDesktopApp(data1: dataconversations as AnyObject ,type1: "loading_conversation")
+                
+                
+            }
+            if(msg=="desktop_requesting_attachment")
+            {
+                var profilepic=UIImage(named: "6e473dd6b06a83a5275bdd2e4db7f601.jpg")
+                
+                self.utilityService.sendAttachment(profilepic, unique_id1: "1234456")
+                
+            }
+            //desktop_requesting_attachment
             
             //==serviceSendInitialData.startInitialDataLoad(phone: username!, to_connection_id: self.desktopRoomID, from_connection_id: self.mobileSocketID, data: dataconversations as AnyObject, type: "loading_conversation")
             

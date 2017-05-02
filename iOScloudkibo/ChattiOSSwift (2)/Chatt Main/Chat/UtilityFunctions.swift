@@ -2423,7 +2423,7 @@ print("tempURL is \(temporaryURL) and response is \(response.allHeaderFields)")
     }
     
     func sendAttachment(_ screenshot: UIImage!,unique_id1:String) {
-        var chunkLength=64000
+        var chunkLength=4000
         var imageData:Data = UIImageJPEGRepresentation(screenshot, 1.0)!
         var numchunks=0
         var len=imageData.count
@@ -2443,16 +2443,20 @@ print("tempURL is \(temporaryURL) and response is \(response.allHeaderFields)")
             var newrange=start..<end
             
             let range:Range<Data.Index> = start..<end
-            var data=["unique_id":unique_id1,"chunk":imageData.subdata(in: range),"chunk_id":j,"total_chunks":numchunks]
-            self.sendDataToDesktopApp(data1: data, type1: "mobile_sending_chunk")
+            var data=["unique_id":unique_id1,"chunk":imageData.subdata(in: range),"chunk_id":j,"total_chunks":numchunks] as [String : Any]
+            print(data)
+            self.sendDataToDesktopApp(data1: data as AnyObject, type1: "mobile_sending_chunk")
             //self.sendImageUsingSocket(imageData.subdata(in: range))
             
         }
         if((len%chunkLength) > 0)
         {
+            print("len%chunkLength \(len%chunkLength)")
+            
             //imageData.getBytes(&imageData, length: numchunks*chunkLength)
-            var data=["unique_id":unique_id1,"chunk":imageData.subdata(in: numchunks*chunkLength..<len%chunkLength),"chunk_id":numchunks,"total_chunks":numchunks]
-            self.sendDataToDesktopApp(data1: data, type1: "mobile_sending_chunk")
+            var data=["unique_id":unique_id1,"chunk":imageData.subdata(in: numchunks*chunkLength..<len
+                /*%chunkLength*/),"chunk_id":numchunks,"total_chunks":numchunks] as [String : Any]
+            self.sendDataToDesktopApp(data1: data as AnyObject, type1: "mobile_sending_chunk")
            
             
            // self.sendImageUsingSocket(imageData.subdata(in: numchunks*chunkLength..<len%chunkLength))
