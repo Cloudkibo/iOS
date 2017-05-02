@@ -119,8 +119,8 @@ class SettingsViewController: UIViewController,UITableViewDelegate,UITableViewDa
         alert.addAction(UIAlertAction(title: "OK".localized, style: .default, handler: { (action) -> Void in
             let textField = alert.textFields![0] as UITextField
             var socketIDdesktop=textField.text!
-            print("compare \(socketObj.desktopRoomID.description) and \(socketIDdesktop)")
-            socketObj.desktopRoomID=socketIDdesktop
+            print("compare \(desktopRoomID.description) and \(socketIDdesktop)")
+            desktopRoomID=socketIDdesktop
             socketObj.joinDesktopApp()
             
             /*if(socketObj.desktopRoomID.description ==socketIDdesktop)

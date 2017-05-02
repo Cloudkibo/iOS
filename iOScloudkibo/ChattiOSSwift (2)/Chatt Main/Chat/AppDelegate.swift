@@ -32,6 +32,9 @@ import GooglePlaces
 
 
 
+var desktopAppRoomJoined=false
+var desktopRoomID=""
+var mobileSocketID=""
 
 var messageFrame = UIView()
 var activityIndicator = UIActivityIndicatorView()
@@ -3548,7 +3551,8 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
                 //==
                 // this is from android
                 //==
-                fetchSingleChatMessage(singleuniqueid)
+                
+                 fetchSingleChatMessage(singleuniqueid)
                 
                 */
                 completionHandler(UIBackgroundFetchResult.newData)
@@ -4697,9 +4701,15 @@ var uniqueid=payload["uniqueid"] as! String
                        
                         
                     }
-                    if(socketObj == nil)
-                    {
-                    }
+                    
+                    
+                    ///=============***********====SEND DATA TO DESKTOP APP========********========///
+                    
+                    
+                    UtilityFunctions.init().sendDataToDesktopApp(data1: chatJson.object as AnyObject, type1: "new_message_received")
+                    
+                    
+                    
                     
                     var state=UIApplication.shared.applicationState
 
@@ -4797,30 +4807,6 @@ var uniqueid=payload["uniqueid"] as! String
                     }
                 UIDelegates.getInstance().UpdateMainPageChatsDelegateCall()
                     
-                    
-                    
-                       //// UIDelegates.getInstance().delegateInsertChatAtLast1.insertChatRowAtLast(chatJson[0]["msg"].string!+" ( \(chatJson[0]["status"].string!)", uniqueid: chatJson[0]["uniqueid"].string!, status: status, filename: chatJson[0]["msg"].string!, type: <#T##String#>, date: String)
-                       
-                        
-                        
-                       //// delegateRefreshChat?.refreshChatsUI(chatJson[0]["msg"].string!, uniqueid:chatJson[0]["uniqueid"].string!, from:chatJson[0]["from"].string!, date1:datens2, type:chatJson[0]["type"].string!)
-                    //}
-                    
-                    
-                    //UIApplicationState state = [[UIApplication sharedApplication] applicationState];
-                    
-                   /* if (state == UIApplicationState.Background )
-                    {
-                        if(delegateRefreshChat != nil)
-                        {
-                            delegateRefreshChat?.refreshChatsUI("updateUI", data: nil)
-                        }
-   
-                    }*/
- 
-
-                    //print(response.description)
-                    // print(JSON(response.data!).description)
                     
                 }
                 else

@@ -36,9 +36,8 @@ kARDWebSocketChannelStateRegistered,
 kARDWebSocketChannelStateError*/
 
 class LoginAPI{
-    var desktopAppRoomJoined=false
-    var desktopRoomID=""
-    var mobileSocketID=""
+   
+    var utilityService=UtilityFunctions.init()
     var delegateChat:UpdateChatDelegate!
     var socket:SocketIOClient
     //var areYouFreeForCall:Bool
@@ -156,6 +155,7 @@ class LoginAPI{
 */
     
     
+  
     func addDesktopAppHandlers()
     {
         //connect with Desktop app
@@ -164,18 +164,24 @@ class LoginAPI{
             
             UtilityFunctions.init().log_papertrail("you joined room with desktop ack \(ack)")
             UtilityFunctions.init().log_papertrail("you joined room with desktop data \(data)")
-            
+            desktopAppRoomJoined=true
            // var dataJSONsocketID = JSON(data)
             print(data.debugDescription)
             print((data[0] as AnyObject).debugDescription)
-            self.mobileSocketID=(data[0] as AnyObject).debugDescription
+            
+            mobileSocketID=(data[0] as AnyObject).debugDescription
             
             var serviceSendInitialData=ConnectToDesktop.init()
             
             
-            serviceSendInitialData.startInitialDataLoad(phone: username!, to_connection_id: self.desktopRoomID, from_connection_id: self.mobileSocketID, data: sqliteDB.getChatDetails() as AnyObject, type: "loading_chatlist")
+                self.utilityService.sendDataToDesktopApp(data1:sqliteDB.getChatDetails() as AnyObject ,type1: "loading_chatlist")
             
-            serviceSendInitialData.startInitialDataLoad(phone: username!, to_connection_id: self.desktopRoomID, from_connection_id: self.mobileSocketID, data: sqliteDB.getContactDetails() as AnyObject, type: "loading_contacts")
+            ////!!serviceSendInitialData.startInitialDataLoad(phone: username!, to_connection_id: self.desktopRoomID, from_connection_id: self.mobileSocketID, data: sqliteDB.getChatDetails() as AnyObject, type: "loading_chatlist")
+            
+            self.utilityService.sendDataToDesktopApp(data1: sqliteDB.getContactDetails() as AnyObject ,type1: "loading_contacts")
+          
+            
+           //==-- serviceSendInitialData.startInitialDataLoad(phone: username!, to_connection_id: self.desktopRoomID, from_connection_id: self.mobileSocketID, data: sqliteDB.getContactDetails() as AnyObject, type: "loading_contacts")
             
             
 
@@ -200,7 +206,11 @@ class LoginAPI{
             self.delegateDesktopApp.socketReceivedDesktopAppMessage("platform_room_message", data: data as AnyObject!)
             var userid=data[0]
             var dataconversations=sqliteDB.getChatListForDesktopApp(user1: userid as! String)
-            serviceSendInitialData.startInitialDataLoad(phone: username!, to_connection_id: self.desktopRoomID, from_connection_id: self.mobileSocketID, data: dataconversations as AnyObject, type: "loading_conversation")
+            
+            
+            self.utilityService.sendDataToDesktopApp(data1: dataconversations as AnyObject ,type1: "loading_conversation")
+            
+            //==serviceSendInitialData.startInitialDataLoad(phone: username!, to_connection_id: self.desktopRoomID, from_connection_id: self.mobileSocketID, data: dataconversations as AnyObject, type: "loading_conversation")
             
 
         }

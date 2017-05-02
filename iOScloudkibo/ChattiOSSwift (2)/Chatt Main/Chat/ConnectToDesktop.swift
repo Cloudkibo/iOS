@@ -34,7 +34,7 @@ class ConnectToDesktop{
             "from_connection_id" : from_connection_id,
             "data":data,
             "type": type] as [String : Any]
-        socketObj.socket.emitWithAck("platform_room_message", ["data":dataInput]).timingOut(after: 500000){data in
+        socketObj.socket.emitWithAck("platform_room_message", dataInput).timingOut(after: 500000){data in
             
             print(data)
             print(JSON(data))

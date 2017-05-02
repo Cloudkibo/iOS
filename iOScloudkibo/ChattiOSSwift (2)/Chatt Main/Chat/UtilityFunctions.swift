@@ -2406,6 +2406,22 @@ print("tempURL is \(temporaryURL) and response is \(response.allHeaderFields)")
         return displaydate
    // }
     }
+    
+    func sendDataToDesktopApp(data1:AnyObject,type1:String)
+    {
+        print("inside sending data to desktop")
+        if(desktopAppRoomJoined==true)
+        {
+        var serviceSendInitialData=ConnectToDesktop.init()
+        
+        serviceSendInitialData.startInitialDataLoad(phone: username!, to_connection_id: desktopRoomID, from_connection_id:mobileSocketID, data: data1, type: type1)
+        }
+        else{
+            UtilityFunctions.init().log_papertrail("IPHONE-LOG-DESK: room not joined")
+        }
+        
+    }
+    
 
 }
 
