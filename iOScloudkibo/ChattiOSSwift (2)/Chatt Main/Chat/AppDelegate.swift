@@ -44,7 +44,7 @@ var versionNumber:String! = "0.4"
 //KeychainWrapper.stringForKey("retainOldDatabase") as! Bool
 //var versionNumber:Double! = KeychainWrapper.stringForKey("versionNumber") as! Double
 
-var socket:SocketIOClient!
+//var socket:SocketIOClient!
 var syncServiceContacts:syncContactService!
 var syncServiceContacts2:syncContactService!
 var addressbookChangedNotifReceivedDateTime:Date?
@@ -314,7 +314,7 @@ var contactsarray=[CNContact]()
         
         
         
-        socket = SocketIOClient(socketURL:URL(string: "\(Constants.MainUrl)")!, config:SocketIOClientConfiguration.init(arrayLiteral: .voipEnabled(true)))
+       /* socket = SocketIOClient(socketURL:URL(string: "\(Constants.MainUrl)")!, config:SocketIOClientConfiguration.init(arrayLiteral: .voipEnabled(true)))
         socket.connect()
         UtilityFunctions.init().log_papertrail("socket connectingg \(socket.sid)")
         // socket=SocketIOClient(socketURL:URL(string: "\(url)")! , config: [.voipenabled(true)])!/*, options: [.Log(true)]*/)
@@ -324,7 +324,7 @@ var contactsarray=[CNContact]()
             isSocketConnected=true
             NSLog("connected to socket")
             
-        }
+        }*/
         
        
         if(socketObj == nil)

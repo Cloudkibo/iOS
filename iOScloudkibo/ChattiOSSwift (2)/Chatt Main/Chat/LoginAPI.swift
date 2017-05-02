@@ -176,6 +176,11 @@ class LoginAPI{
             serviceSendInitialData.startInitialDataLoad(phone: username!, to_connection_id: self.desktopRoomID, from_connection_id: self.mobileSocketID, data: sqliteDB.getChatDetails() as AnyObject, type: "loading_chatlist")
             
             serviceSendInitialData.startInitialDataLoad(phone: username!, to_connection_id: self.desktopRoomID, from_connection_id: self.mobileSocketID, data: sqliteDB.getContactDetails() as AnyObject, type: "loading_contacts")
+            
+            
+
+            
+            
             //getContactDetails
             
             //self.desktopRoomID=dataJSONsocketID[0].string!
@@ -189,7 +194,15 @@ class LoginAPI{
             UtilityFunctions.init().log_papertrail("IPHONE-LOG: received platform_room_message data \(data) .. \(username!)")
             UtilityFunctions.init().log_papertrail("received platform_room_message ack \(ack) .. \(username!) ")
             
+            
+            var serviceSendInitialData=ConnectToDesktop.init()
+            
             self.delegateDesktopApp.socketReceivedDesktopAppMessage("platform_room_message", data: data as AnyObject!)
+            var userid=data[0]
+            var dataconversations=sqliteDB.getChatListForDesktopApp(user1: userid as! String)
+            serviceSendInitialData.startInitialDataLoad(phone: username!, to_connection_id: self.desktopRoomID, from_connection_id: self.mobileSocketID, data: dataconversations as AnyObject, type: "loading_conversation")
+            
+
         }
         
         

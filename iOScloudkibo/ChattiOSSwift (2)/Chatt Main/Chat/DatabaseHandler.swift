@@ -3677,6 +3677,67 @@ print("--------")
         return IAMblockedByList
     }
     
+    func getChatListForDesktopApp(user1:String)->[[String:Any]]
+    {
+       
+        var allChatsList=[[String:Any]]()
+       
+    
+        let to = Expression<String>("to")
+        let from = Expression<String>("from")
+        let fromFullName = Expression<String>("fromFullName")
+        let msg = Expression<String>("msg")
+        let owneruser = Expression<String>("owneruser")
+        let date = Expression<Date>("date")
+        let uniqueid = Expression<String>("uniqueid")
+        let status = Expression<String>("status")
+        let contactPhone = Expression<String>("contactPhone")
+        let type = Expression<String>("type")
+        let file_type = Expression<String>("file_type")
+        let file_path = Expression<String>("file_path")
+        let broadcastlistID = Expression<String>("broadcastlistID")
+        let isBroadcastMessage = Expression<Bool>("isBroadcastMessage")
+        
+        /* toperson
+         fromperson
+         fromFullName
+         msg
+         date
+         status
+         type
+         file_type
+         uniqueid
+         contact_phone*/
+        
+        self.userschats = Table("userschats")
+        
+        var query=(self.userschats.filter(to==user1 || from==user1).order(date.asc))
+        do
+        {
+            for list in try self.db.prepare(query)
+            {
+            var newEntry = [String : Any]()
+                
+                newEntry["toperson"]=list.get(to)
+                newEntry["fromperson"]=list.get(from)
+                newEntry["fromFullName"]=list.get(fromFullName)
+                newEntry["msg"]=list.get(msg)
+                newEntry["date"]=list.get(date).debugDescription as AnyObject
+                newEntry["status"]=list.get(status)
+                newEntry["type"]=list.get(type)
+                newEntry["file_type"]=list.get(file_type)
+                newEntry["uniqueid"]=list.get(uniqueid)
+                newEntry["contact_phone"]=list.get(date).debugDescription as AnyObject
+                allChatsList.append(newEntry)
+            
+            }
+        }
+        catch{
+            
+        }
+        return allChatsList
+    }
+    
     func getChatDetails()->[[String:Any]]
     {
         let to = Expression<String>("to")
