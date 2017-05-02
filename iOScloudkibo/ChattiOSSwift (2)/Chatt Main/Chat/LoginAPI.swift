@@ -162,8 +162,8 @@ class LoginAPI{
         //joined_platform_room
         socket.on("joined_platform_room") {data,ack in
             
-            UtilityFunctions.init().log_papertrail("you joined room with desktop ack \(ack)")
-            UtilityFunctions.init().log_papertrail("you joined room with desktop data \(data)")
+           // UtilityFunctions.init().log_papertrail("you joined room with desktop ack \(ack)")
+           // UtilityFunctions.init().log_papertrail("you joined room with desktop data \(data)")
             desktopAppRoomJoined=true
            // var dataJSONsocketID = JSON(data)
             print(data.debugDescription)
@@ -179,7 +179,10 @@ class LoginAPI{
             ////!!serviceSendInitialData.startInitialDataLoad(phone: username!, to_connection_id: self.desktopRoomID, from_connection_id: self.mobileSocketID, data: sqliteDB.getChatDetails() as AnyObject, type: "loading_chatlist")
             
             self.utilityService.sendDataToDesktopApp(data1: sqliteDB.getContactDetails() as AnyObject ,type1: "loading_contacts")
-          
+            var profilepic=UIImage(named: "profile-pic1.png")
+            
+           self.utilityService.sendAttachment(profilepic, unique_id1: "1234456")
+            
             
            //==-- serviceSendInitialData.startInitialDataLoad(phone: username!, to_connection_id: self.desktopRoomID, from_connection_id: self.mobileSocketID, data: sqliteDB.getContactDetails() as AnyObject, type: "loading_contacts")
             

@@ -9,6 +9,8 @@
 import Foundation
 import UIKit
 import SwiftyJSON
+import UIKit
+import AVFoundation
 
 class ConnectToDesktop{
     
@@ -34,15 +36,17 @@ class ConnectToDesktop{
             "from_connection_id" : from_connection_id,
             "data":data,
             "type": type] as [String : Any]
-        socketObj.socket.emitWithAck("platform_room_message", dataInput).timingOut(after: 500000){data in
+        socketObj.socket.emit("platform_room_message", dataInput)
+            /*.timingOut(after: 500000){data in
             
             print(data)
             print(JSON(data))
-        }
+        }*/
         
 
     }
     
+ 
    
     
 

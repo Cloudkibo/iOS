@@ -3729,6 +3729,7 @@ print("--------")
                 newEntry["uniqueid"]=list.get(uniqueid)
                 newEntry["contact_phone"]=list.get(date).debugDescription as AnyObject
                 allChatsList.append(newEntry)
+               // break
             
             }
         }
@@ -3761,15 +3762,27 @@ print("--------")
         
         //  let query = self.contactslists.select(messageuniqueid).filter(messageuniqueid == messageUniqueid1)
         do
-        {for list in try self.db.prepare(self.userschats)
         {
+            
+            let myquery=userschats?.group((userschats?[contactPhone])!).order(date.desc)
+            
+            var queryruncount=0
+           for list in try sqliteDB.db.prepare(myquery!) {
+                //for list in try self.db.prepare(self.userschats)
+       // {
             var newEntry = [String : Any]()
       
             newEntry["date"]=list.get(date).debugDescription as AnyObject
             newEntry["contact_phone"]=list.get(contactPhone) as! String
             newEntry["msg"]=list.get(msg) as! String
             newEntry["pendingMsgs"]="0"
+            if(self.getNameFromAddressbook(list.get(contactPhone)) != nil)
+            {
             newEntry["display_name"]=self.getNameFromAddressbook(list.get(contactPhone)) as! String
+            }
+            else{
+                newEntry["display_name"]=list.get(contactPhone)
+            }
             
             allChatsList.append(newEntry)
             }
@@ -3814,7 +3827,8 @@ print("--------")
             newEntry["_id"]=list.get(userid) as! String
             newEntry["detailsshared"]=list.get(detailsshared) as! String
             newEntry["status"]=list.get(status) as! String
-            newEntry["on_cloudkibo"]=UtilityFunctions.init().isKiboContact(phone1: list.get(phone))
+            newEntry["on_cloudkibo"]="true"
+                //UtilityFunctions.init().isKiboContact(phone1: list.get(phone)) as! String
             //on_cloudkibo
             allContactsList.append(newEntry)
             }

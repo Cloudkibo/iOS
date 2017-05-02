@@ -4505,11 +4505,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Chat/DatabaseHandler.swift"
-            timestampString = "515404389.677576"
+            timestampString = "515423035.236352"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "3779"
-            endingLineNumber = "3779"
+            startingLineNumber = "3792"
+            endingLineNumber = "3792"
             landmarkName = "getChatDetails()"
             landmarkType = "7">
          </BreakpointContent>
@@ -4521,11 +4521,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Chat/DatabaseHandler.swift"
-            timestampString = "515404389.677576"
+            timestampString = "515423035.236352"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "3769"
-            endingLineNumber = "3769"
+            startingLineNumber = "3776"
+            endingLineNumber = "3776"
             landmarkName = "getChatDetails()"
             landmarkType = "7">
          </BreakpointContent>
@@ -4585,11 +4585,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Chat/DatabaseHandler.swift"
-            timestampString = "515404389.677576"
+            timestampString = "515423035.236352"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "3764"
-            endingLineNumber = "3764"
+            startingLineNumber = "3766"
+            endingLineNumber = "3766"
             landmarkName = "getChatDetails()"
             landmarkType = "7">
          </BreakpointContent>
@@ -4601,11 +4601,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Chat/DatabaseHandler.swift"
-            timestampString = "515404389.677576"
+            timestampString = "515423035.236352"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "3780"
-            endingLineNumber = "3780"
+            startingLineNumber = "3793"
+            endingLineNumber = "3793"
             landmarkName = "getChatDetails()"
             landmarkType = "7">
          </BreakpointContent>

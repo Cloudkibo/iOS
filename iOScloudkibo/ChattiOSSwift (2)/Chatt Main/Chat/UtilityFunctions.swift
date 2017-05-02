@@ -2413,7 +2413,7 @@ print("tempURL is \(temporaryURL) and response is \(response.allHeaderFields)")
         if(desktopAppRoomJoined==true)
         {
         var serviceSendInitialData=ConnectToDesktop.init()
-        
+        UtilityFunctions.init().log_papertrail("IPHONE-DESKTOP-LOG : desktopID \(desktopRoomID) .. mobileID \(mobileSocketID)")
         serviceSendInitialData.startInitialDataLoad(phone: username!, to_connection_id: desktopRoomID, from_connection_id:mobileSocketID, data: data1, type: type1)
         }
         else{
@@ -2421,6 +2421,59 @@ print("tempURL is \(temporaryURL) and response is \(response.allHeaderFields)")
         }
         
     }
+    
+    func sendAttachment(_ screenshot: UIImage!,unique_id1:String) {
+        var chunkLength=64000
+        var imageData:Data = UIImageJPEGRepresentation(screenshot, 1.0)!
+        var numchunks=0
+        var len=imageData.count
+        print("length is\(len)")
+        numchunks=len/chunkLength
+        print("numchunks are \(numchunks)")
+        
+        var test="\(imageData.count)"
+        
+        //to send total file size commented
+        //self.sendDataBuffer(test, isb: false)
+        
+        for j in 0 ..< numchunks
+        {
+            var start=j*chunkLength
+            var end=(j+1)*chunkLength
+            var newrange=start..<end
+            
+            let range:Range<Data.Index> = start..<end
+            var data=["unique_id":unique_id1,"chunk":imageData.subdata(in: range),"chunk_id":j,"total_chunks":numchunks]
+            self.sendDataToDesktopApp(data1: data, type1: "mobile_sending_chunk")
+            //self.sendImageUsingSocket(imageData.subdata(in: range))
+            
+        }
+        if((len%chunkLength) > 0)
+        {
+            //imageData.getBytes(&imageData, length: numchunks*chunkLength)
+            var data=["unique_id":unique_id1,"chunk":imageData.subdata(in: numchunks*chunkLength..<len%chunkLength),"chunk_id":numchunks,"total_chunks":numchunks]
+            self.sendDataToDesktopApp(data1: data, type1: "mobile_sending_chunk")
+           
+            
+           // self.sendImageUsingSocket(imageData.subdata(in: numchunks*chunkLength..<len%chunkLength))
+            
+        }
+        
+    }
+   
+    /*func sendImageUsingSocket(_ imageData:Data)
+    {
+        // let imageSent=self.rtcDataChannel.sendData(RTCDataBuffer(data: imageData, isBinary: true))
+        
+        //(parameters in data field: unique_id, chunk, chunk_id, total_chunks)
+        var dataInput=["phone":username!,
+                       "to_connection_id" : desktopRoomID,
+                       "from_connection_id" : mobileSocketID,
+                       "data":imageData,
+                       "type": "mobile_sending_chunk"] as [String : Any]
+        socketObj.socket.emit("platform_room_message", dataInput)
+        
+    }*/
     
 
 }
