@@ -180,6 +180,22 @@ class LoginAPI{
             
             self.utilityService.sendDataToDesktopApp(data1: sqliteDB.getContactDetails() as AnyObject ,type1: "loading_contacts")
             
+            var groupdetails=sqliteDB.getGroupDetails()
+            let group_name = Expression<String>("group_name")
+            let group_icon = Expression<Data>("group_icon")
+            let date_creation = Expression<Date>("date_creation")
+            let unique_id = Expression<String>("unique_id")
+            let isMute = Expression<Bool>("isMute")
+            let status = Expression<String>("status")
+            
+        
+            var groupParams=["unique_id":groupdetails["unique_id"],
+            "group_name":groupdetails["group_name"],
+            "is_mute":"\(groupdetails["isMute"])",
+            "date_creation":"\(groupdetails["date_creation"])"]
+            
+            self.utilityService.sendDataToDesktopApp(data1: groupParams as AnyObject ,type1: "loading_groups")
+            
             
            //==-- serviceSendInitialData.startInitialDataLoad(phone: username!, to_connection_id: self.desktopRoomID, from_connection_id: self.mobileSocketID, data: sqliteDB.getContactDetails() as AnyObject, type: "loading_contacts")
             

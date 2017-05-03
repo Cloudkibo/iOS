@@ -111,6 +111,7 @@ class syncContactService
                                 print("synccccc got friends/contactslist from server done")
                                 DispatchQueue.main.async
                                 {
+                                    UIDelegates.getInstance().UpdateMainPageChatsDelegateCall()
                                 if(self.delegateRefreshContactsList != nil)
                                 {
                                 self.delegateRefreshContactsList?.refreshContactsList("refreshContactsUI")

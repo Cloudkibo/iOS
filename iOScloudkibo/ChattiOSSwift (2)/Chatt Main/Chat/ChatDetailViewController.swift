@@ -6754,7 +6754,7 @@ var isKiboContact="false"
                     
                     
                     
-                    
+                    print("broadcast message sent to \(chatstanza)")
                     print("main thread of send chat")
                     DispatchQueue.main.async {
                         
@@ -6762,7 +6762,7 @@ var isKiboContact="false"
                     }
                     
                 }//if success
-                else{
+                else{print("error sending broadcast message : \(response.error)")
                     DispatchQueue.main.async {
                         
                         return completion(nil, false)
@@ -6937,7 +6937,7 @@ var isKiboContact="false"
                 type : req.body.type,
                 file_type : req.body.file_type
                 */
-                imParas2=["from":"\(username!)" as AnyObject,"to":"\(self.broadcastMembersPhones)" as AnyObject,"fromFullName":"\(displayname)" as AnyObject,"msg":"\(self.txtFldMessage.text!)","uniqueid":"\(uniqueID)","type":"chat","file_type":"","date":"\(dateSentDateType!)"]
+                imParas2=["from":"\(username!)" as AnyObject,"to":"\(self.broadcastMembersPhones)" as AnyObject,"fromFullName":"\(displayname)" as AnyObject,"msg":"\(self.txtFldMessage.text!)" as AnyObject,"uniqueid":"\(uniqueID)" as AnyObject,"type":"chat" as AnyObject,"file_type":"" as AnyObject,"date":"\(dateSentDateType!)" as AnyObject]
                 
             for i in 0 ..< self.broadcastMembersPhones.count
             {
@@ -7063,6 +7063,8 @@ var isKiboContact="false"
             */
             
             self.sendBroadcastChatMessage(imParas2, completion: { (uniqueid, result) in
+                if(result==true)
+                {
                  var searchformat=NSPredicate(format: "uniqueid = %@",uniqueid!)
                 var resultArray=self.messages.filtered(using: searchformat)
                 var ind=self.messages.index(of: resultArray.first!)
@@ -7080,6 +7082,7 @@ var isKiboContact="false"
                 self.tblForChats.beginUpdates()
                 self.tblForChats.reloadRows(at: [indexp], with: UITableViewRowAnimation.bottom)
                 self.tblForChats.endUpdates()
+                }
 
                 
             })
