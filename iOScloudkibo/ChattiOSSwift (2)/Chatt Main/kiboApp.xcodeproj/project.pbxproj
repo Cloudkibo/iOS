@@ -613,6 +613,7 @@
 		713F3DD61D7A88990072C9E9 /* ArchivedChatsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ArchivedChatsViewController.swift; sourceTree = "<group>"; };
 		7141A51B1EB726D100BA244A /* ConnectToDesktop.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConnectToDesktop.swift; sourceTree = "<group>"; };
 		7141A53B1EB8C30000BA244A /* 6e473dd6b06a83a5275bdd2e4db7f601.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = 6e473dd6b06a83a5275bdd2e4db7f601.jpg; sourceTree = "<group>"; };
+		7141A53D1EB9A42E00BA244A /* GoogleMaps.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = GoogleMaps.bundle; path = GoogleMaps.framework/Versions/A/Resources/GoogleMaps.bundle; sourceTree = "<group>"; };
 		7142EC8B1DBE33560070826F /* syncGroupsService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = syncGroupsService.swift; sourceTree = "<group>"; };
 		7142EC961DBF51DC0070826F /* UtilityFunctions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UtilityFunctions.swift; sourceTree = "<group>"; };
 		7142EC981DC196DB0070826F /* GroupInfoCells.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GroupInfoCells.swift; sourceTree = "<group>"; };
@@ -621,7 +622,6 @@
 		7146903D1E66F4BF00FA6530 /* GoogleMaps.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = GoogleMaps.framework; sourceTree = "<group>"; };
 		7146903E1E66F4BF00FA6530 /* GoogleMapsCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = GoogleMapsCore.framework; sourceTree = "<group>"; };
 		7146905F1E66F51200FA6530 /* GoogleMapsBase.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = GoogleMapsBase.framework; sourceTree = "<group>"; };
-		714690611E66F54500FA6530 /* GoogleMaps.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = GoogleMaps.bundle; path = GoogleMaps.framework/Versions/A/Resources/GoogleMaps.bundle; sourceTree = "<group>"; };
 		714690651E68348E00FA6530 /* MapViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
 		7150119E1D12D0940091AD7B /* Reachability.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Reachability.swift; sourceTree = "<group>"; };
 		715236821E4AEB6E00524BC3 /* SwiftyJSON.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SwiftyJSON.xcodeproj; path = "../../../../../../../Downloads/SwiftyJSON-master 6/SwiftyJSON.xcodeproj"; sourceTree = "<group>"; };
@@ -822,11 +822,11 @@
 				71803D291E93D12600A0604D /* Regex.swift */,
 				71803D2A1E93D12600A0604D /* StringExtension.swift */,
 				71803D2B1E93D12600A0604D /* SwiftLinkPreview.swift */,
+				7141A53D1EB9A42E00BA244A /* GoogleMaps.bundle */,
 				71636DC91E8D3042007D7A02 /* GooglePlacePicker.bundle */,
 				71636DC71E8D3038007D7A02 /* GooglePlacePicker.framework */,
 				71636DC51E8D2FA2007D7A02 /* GooglePlaces.bundle */,
 				71636DC31E8D2F84007D7A02 /* GooglePlaces.framework */,
-				714690611E66F54500FA6530 /* GoogleMaps.bundle */,
 				7146905F1E66F51200FA6530 /* GoogleMapsBase.framework */,
 				7146903D1E66F4BF00FA6530 /* GoogleMaps.framework */,
 				7146903E1E66F4BF00FA6530 /* GoogleMapsCore.framework */,
@@ -1980,7 +1980,7 @@
 				CODE_SIGN_ENTITLEMENTS = Chat/Chat.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=*]" = "iPhone Developer: Jawaid Ekram (S6L9EK8V4A)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEVELOPMENT_TEAM = LRN8T5S99N;
 				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
@@ -2011,8 +2011,8 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = iCloud.MyAppTemplates.cloudkibo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "049b2ac7-f231-4ed1-a534-c5402c9e9ccf";
-				PROVISIONING_PROFILE_SPECIFIER = newKiboChatDevelopment;
+				PROVISIONING_PROFILE = "20864965-3303-4bda-9440-efdb766cef57";
+				PROVISIONING_PROFILE_SPECIFIER = "KiboChat Production Profile";
 				SCAN_ALL_SOURCE_FILES_FOR_INCLUDES = NO;
 				SDKROOT = iphoneos;
 				SWIFT_OBJC_BRIDGING_HEADER = "Chat/Chat-Bridging-Header.h";
@@ -2036,7 +2036,7 @@
 				CODE_SIGN_ENTITLEMENTS = Chat/Chat.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=*]" = "iPhone Developer: Jawaid Ekram (S6L9EK8V4A)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEVELOPMENT_TEAM = LRN8T5S99N;
 				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
@@ -2071,8 +2071,8 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = iCloud.MyAppTemplates.cloudkibo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "049b2ac7-f231-4ed1-a534-c5402c9e9ccf";
-				PROVISIONING_PROFILE_SPECIFIER = newKiboChatDevelopment;
+				PROVISIONING_PROFILE = "20864965-3303-4bda-9440-efdb766cef57";
+				PROVISIONING_PROFILE_SPECIFIER = "KiboChat Production Profile";
 				SCAN_ALL_SOURCE_FILES_FOR_INCLUDES = NO;
 				SDKROOT = iphoneos;
 				SWIFT_OBJC_BRIDGING_HEADER = "Chat/Chat-Bridging-Header.h";

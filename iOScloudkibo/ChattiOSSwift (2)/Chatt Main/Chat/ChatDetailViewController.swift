@@ -5100,7 +5100,7 @@ var isKiboContact="false"
             formatter2.dateFormat = "MM/dd hh:mm a";
             let displaydate=formatter2.string(from: defaultTimeZoneStr!)
             
-            var url=URL.init(string: "http://maps.google.com/maps/api/staticmap?center=\(latitude),\(longitude)&zoom=18&size=500x300&sensor=TRUE_OR_FALSE")
+            var url=URL.init(string: "http://maps.google.com/maps/api/staticmap?center=\(latitude),\(longitude)&zoom=18&size=500x300&sensor=TRUE_OR_FALSE&key=AIzaSyDdmboY4sJuQi0arQAcAebJrvNjdDXACfQ")
             let resource = ImageResource(downloadURL: url!, cacheKey: "\(uniqueidDictValue)")
             chatImage.kf.setImage(with: resource)
             textLable.text=msg! as! String
@@ -6204,7 +6204,7 @@ var isKiboContact="false"
                     }
                 }
                 else{
-                    print("here in elseeee")
+                    print("here sending broadcast message")
                     var result1=false
                     var uniqueid1=""
                     var count=0
@@ -6238,6 +6238,8 @@ var isKiboContact="false"
                                 }*/
                             }
                         }}
+                    
+                    
                     /*  }
                      }*/
                 }
@@ -6736,69 +6738,64 @@ var isKiboContact="false"
     }
     
     
+    func sendBroadcastChatMessage(_ chatstanza:[String:AnyObject],completion:@escaping (_ uniqueid:String?,_ result:Bool)->())
+    {
+        var url=Constants.MainUrl+Constants.sendbroadcastmessage
+        DispatchQueue.global(priority: DispatchQueue.GlobalQueuePriority.default).async{
+            
+            let request = Alamofire.request("\(url)", method: .post, parameters:  chatstanza,headers:header).responseJSON { response in
+                
+                if(response.response?.statusCode==200)
+                {
+                    
+                    var statusNow="sent"
+                    
+                    sqliteDB.UpdateChatStatus(chatstanza["uniqueid"]! as! String, newstatus: "sent")
+                    
+                    
+                    
+                    
+                    print("main thread of send chat")
+                    DispatchQueue.main.async {
+                        
+                        return completion(chatstanza["uniqueid"]! as! String,true)
+                    }
+                    
+                }//if success
+                else{
+                    DispatchQueue.main.async {
+                        
+                        return completion(nil, false)
+                    }
+                }
+            }//)
+        }
+        
+    }
     
     func sendChatMessage(_ chatstanza:[String:String],completion:@escaping (_ uniqueid:String?,_ result:Bool)->())
     {
-       // let queue=dispatch_get_global_queue(QOS_CLASS_USER_INITIATED,0)
-   // let queue = dispatch_queue_create("com.kibochat.manager-response-queue", DISPATCH_QUEUE_CONCURRENT)
           var url=Constants.MainUrl+Constants.sendChatURL
-     /*  let request = Alamofire.request(.POST, "\(url)", parameters: chatstanza,headers:header)
-        request.response(
-            queue: queue,
-            responseSerializer: Request.JSONResponseSerializer(options: .AllowFragments),
-            completionHandler: { response in
-                */
-       // dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT,0))
- DispatchQueue.global(priority: DispatchQueue.GlobalQueuePriority.default).async{
+        DispatchQueue.global(priority: DispatchQueue.GlobalQueuePriority.default).async{
     
     let request = Alamofire.request("\(url)", method: .post, parameters:  chatstanza,headers:header).responseJSON { response in
 
-    
-        //alamofire4
-   //// let request = Alamofire.request(.POST, "\(url)", parameters: chatstanza,headers:header).responseJSON { response in
-       
-        
-        // You are now running on the concurrent `queue` you created earlier.
-          //print("Parsing JSON on thread: \(NSThread.currentThread()) is main thread: \(NSThread.isMainThread())")
-                
-                // Validate your JSON response and convert into model objects if necessary
-                //print(response.result.value) //status, uniqueid
-                
-                // To update anything on the main thread, just jump back on like so.
-                ////print("\(chatstanza) ..  \(response)")
-                if(response.response?.statusCode==200)
+                    if(response.response?.statusCode==200)
                 {
-                  //  dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT,0))
-                     //{
-                //print("chat ack received")
+                  
                 var statusNow="sent"
-                ///var chatmsg=JSON(data)
-               /// //print(data[0])
-                /////print(chatmsg[0])
-                    //print("chat sent unikque id \(chatstanza["uniqueid"])")
                     
                 sqliteDB.UpdateChatStatus(chatstanza["uniqueid"]!, newstatus: "sent")
                 
         
                     
                 
-                
-                
-            // DispatchQueue.main.async {
-                    //print("Am I back on the main thread: \(NSThread.isMainThread())")
-                    
-                    print("main thread of send chat")
+                     print("main thread of send chat")
                     DispatchQueue.main.async {
 
                 return completion(chatstanza["uniqueid"]!,true)
                     }
-                    //self.retrieveChatFromSqlite(self.selectedContact)
-
-                    
-            
-           
-        // }
-               // }
+                  
             }//if success
             else{
                     DispatchQueue.main.async {
@@ -6912,7 +6909,7 @@ var isKiboContact="false"
         
         //2016-10-15T22:18:16.000
         var imParas=[String:String]()
-        var imParas2=[[String:String]]()
+        var imParas2=[String:AnyObject]()
         
         var statusNow=""
         statusNow="pending"
@@ -6929,10 +6926,21 @@ var isKiboContact="false"
         }
         else{
             //save as broadcast message
+           /* for i in 0 ..< self.broadcastMembersPhones.count
+            {
+                to: req.body.to, // this should be array of phone numbers
+                from: req.body.from,
+                date: req.body.date,
+                fromFullName: req.body.fromFullName,
+                msg: req.body.msg,
+                uniqueid : req.body.uniqueid,
+                type : req.body.type,
+                file_type : req.body.file_type
+                */
+                imParas2=["from":"\(username!)" as AnyObject,"to":"\(self.broadcastMembersPhones)" as AnyObject,"fromFullName":"\(displayname)" as AnyObject,"msg":"\(self.txtFldMessage.text!)","uniqueid":"\(uniqueID)","type":"chat","file_type":"","date":"\(dateSentDateType!)"]
+                
             for i in 0 ..< self.broadcastMembersPhones.count
             {
-                imParas2.append(["from":"\(username!)","to":"\(self.broadcastMembersPhones[i])","fromFullName":"\(displayname)","msg":"\(self.txtFldMessage.text!)","uniqueid":"\(uniqueID)","type":"chat","file_type":"","date":"\(dateSentDateType!)"])
-                
                 
                 sqliteDB.SaveBroadcastChat("\(self.broadcastMembersPhones[i])", from1: username!, owneruser1: username!, fromFullName1: displayname, msg1: self.txtFldMessage.text!, date1: dateSentDateType, uniqueid1: uniqueID, status1: statusNow, type1: "chat", file_type1: "", file_path1: "", broadcastlistID1: self.broadcastlistID1)
                 //broadcastMembersPhones[i]
@@ -7043,6 +7051,41 @@ var isKiboContact="false"
             var result1=false
             var uniqueid1=""
             var count=0
+            
+            /*to: req.body.to, // this should be array of phone numbers
+            from: req.body.from,
+            date: req.body.date,
+            fromFullName: req.body.fromFullName,
+            msg: req.body.msg,
+            uniqueid : req.body.uniqueid,
+            type : req.body.type,
+            file_type : req.body.file_type
+            */
+            
+            self.sendBroadcastChatMessage(imParas2, completion: { (uniqueid, result) in
+                 var searchformat=NSPredicate(format: "uniqueid = %@",uniqueid!)
+                var resultArray=self.messages.filtered(using: searchformat)
+                var ind=self.messages.index(of: resultArray.first!)
+                //cfpresultArray.first
+                //resultArray.first
+                var aa=self.messages.object(at: ind) as! [String:AnyObject]
+                var actualmsg=aa["message"] as! String
+                actualmsg=actualmsg.removeCharsFromEnd(10)
+                //var actualmsg=newmsg
+                aa["message"]="\(actualmsg) (sent)" as AnyObject?
+                self.messages.replaceObject(at: ind, with: aa)
+                //  self.messages.objectAtIndex(ind).message="\(self.messages[ind]["message"]) (sent)"
+                var indexp=IndexPath(row:ind, section:0)
+                print("update rowsssss 5671 line")
+                self.tblForChats.beginUpdates()
+                self.tblForChats.reloadRows(at: [indexp], with: UITableViewRowAnimation.bottom)
+                self.tblForChats.endUpdates()
+
+                
+            })
+            
+            //change in broadcase endpoint
+            /*
             for i in 0 ..< imParas2.count
             {
                 
@@ -7076,6 +7119,10 @@ var isKiboContact="false"
                          }*/
                     }
                 }}
+            
+            
+            */
+            
             /*  }
              }*/
         }
