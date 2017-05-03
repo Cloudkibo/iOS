@@ -180,20 +180,13 @@ class LoginAPI{
             
             self.utilityService.sendDataToDesktopApp(data1: sqliteDB.getContactDetails() as AnyObject ,type1: "loading_contacts")
             
-            var groupdetails=sqliteDB.getGroupDetails()
-            let group_name = Expression<String>("group_name")
-            let group_icon = Expression<Data>("group_icon")
-            let date_creation = Expression<Date>("date_creation")
-            let unique_id = Expression<String>("unique_id")
-            let isMute = Expression<Bool>("isMute")
-            let status = Expression<String>("status")
+            var groupdetailsArray=sqliteDB.getGroupDetails()
+         
             
-        
-            var groupParams=["unique_id":groupdetails["unique_id"],
-            "group_name":groupdetails["group_name"],
-            "is_mute":"\(groupdetails["isMute"])",
-            "date_creation":"\(groupdetails["date_creation"])"]
-            
+        var groupParams=[[String:Any]]()
+            for groupdetails in groupdetailsArray{
+            groupParams.append(["unique_id":groupdetails["unique_id"],"group_name":groupdetails["group_name"],"is_mute":"\(groupdetails["isMute"]!)","date_creation":"\(groupdetails["date_creation"]!)"])
+            }
             self.utilityService.sendDataToDesktopApp(data1: groupParams as AnyObject ,type1: "loading_groups")
             
             
@@ -222,21 +215,40 @@ class LoginAPI{
             self.delegateDesktopApp.socketReceivedDesktopAppMessage("platform_room_message", data: data as AnyObject!)
             var userid=data[0]
             var msg=data[1] as! String
-            
-            if(msg=="loading_conversation")
+            var jsondata=JSON(data)
+            var type=jsondata["type"].string!
+            if(type=="loading_conversation")
             {
                 var dataconversations=sqliteDB.getChatListForDesktopApp(user1: userid as! String)
                 self.utilityService.sendDataToDesktopApp(data1: dataconversations as AnyObject ,type1: "loading_conversation")
                 
                 
             }
-            if(msg=="desktop_requesting_attachment")
+            if(type=="desktop_requesting_attachment")
             {
                 var profilepic=UIImage(named: "6e473dd6b06a83a5275bdd2e4db7f601.jpg")
                 
                 self.utilityService.sendAttachment(profilepic, unique_id1: "1234456")
                 
             }
+            
+            //new_message_sent
+            if(type=="new_message_sent")
+            {
+                var jsondata1=(JSON(data[0] as! String))["data"] as! [String:AnyObject]
+               // var datapayload:[String:Any]=jsondata["data"].dictionaryObject
+                sqliteDB.SaveChat(jsondata1["to"] as! String, from1: jsondata1["from"] as! String, owneruser1: "", fromFullName1: jsondata1["fromFullName"] as! String, msg1: jsondata1["msg"] as! String, date1: jsondata1["date"] as! Date, uniqueid1: jsondata1["uniqueid"] as! String, status1: "pending", type1: jsondata1["type"] as! String, file_type1: jsondata1["file_type"] as! String, file_path1: "")
+                
+                var imParas=["from":jsondata1["from"] as! String,"to":jsondata1["to"] as! String,"fromFullName":jsondata1["fromFullName"] as! String,"msg":jsondata1["msg"] as! String,"uniqueid":jsondata1["uniqueid"] as! String,"type":jsondata1["type"] as! String,"file_type":jsondata1["file_type"] as! String,"date":"\(jsondata1["date"] as! Date)"]
+                
+               managerFile.sendChatMessage(imParas, completion: { (result) in
+                
+                print("chat message sent to server from desktop app")
+               })
+
+            }
+            
+            
             //desktop_requesting_attachment
             
             //==serviceSendInitialData.startInitialDataLoad(phone: username!, to_connection_id: self.desktopRoomID, from_connection_id: self.mobileSocketID, data: dataconversations as AnyObject, type: "loading_conversation")
