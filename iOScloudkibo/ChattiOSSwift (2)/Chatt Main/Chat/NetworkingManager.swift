@@ -530,16 +530,251 @@ class NetworkingManager
         })
     }
     
-    
     func uploadFile(_ filePath1:String,to1:String,from1:String, uniqueid1:String,file_name1:String,file_size1:String,file_type1:String,type1:String){
         
-       var parameters = [
+        var parameters = [
             "to": to1,
             "from": from1,
             "uniqueid": uniqueid1,
             "filename": file_name1,
             "filesize": file_size1,
             "filetype": file_type1]
+        
+        
+        /*var parameterJSON = JSON([
+         "to": to1,
+         "from": from1,
+         "uniqueid": uniqueid1,
+         "file_name": file_name1,
+         "file_size": file_size1,
+         "file_type": file_type1
+         /*to
+         from
+         uniqueid
+         file_name
+         file_size
+         file_type
+         */
+         ])
+         
+         */
+        // JSON stringify
+        // let parameterString = parameterJSON.rawString(NSUTF8StringEncoding, options: NSJSONWritingOptions.PrettyPrinted )
+        // let jsonParameterData = parameterString!.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: true)
+        
+        var imageData:Data?
+        if(self.imageExtensions.contains(file_type1.lowercased()))
+        {
+            imageData=UIImageJPEGRepresentation(UIImage(contentsOfFile: filePath1)!,0.9)
+            print("new upload image size is \(imageData!.count)")
+        }
+            
+        else{
+            
+            /*if(self.audioExtensions.contains(file_type1.lowercased()))
+             {
+             //imageData=UIImageJPEGRepresentation(UIImage(contentsOfFile: filePath1)!,0.9)
+             print("audio file is uploading")
+             //imageData=try? Data(contentsOf: URL(fileURLWithPath: filePath1))
+             }else{*/
+            imageData=try? Data(contentsOf: URL(fileURLWithPath: filePath1))
+            print("old upload image size is \(imageData!.count)")
+            var imageData2=imageData!.compressed(using: Compression.zlib)
+            print("imageData2 is \(imageData2)")
+            print("old upload image compressed size is \(imageData2!.count)")
+            //}
+        }
+        // var imageData=UIImageJPEGRepresentation(UIImage(contentsOfFile: filePath1)!,0.9)
+        
+        // print("ols upload image size is \(imageData2!.length)")
+        
+        print("mimetype is \(MimeType(file_type1))")
+        
+        var urlupload=Constants.MainUrl+Constants.uploadFile
+        
+        
+        Alamofire.upload(
+            multipartFormData: { multipartFormData in
+                multipartFormData.append(imageData!, withName:  "file", fileName: file_name1, mimeType: self.MimeType(file_type1))                //,fileName: file_name1, mimeType: "image/\(file_type1)")
+                for (key, value) in parameters {
+                    multipartFormData.append(value.data(using: .utf8)!, withName: key)
+                    // multipartFormData.append(data: value.data(using: String.Encoding.utf8)!, withName: key)
+                }
+                
+        },
+            to: urlupload,headers: header,
+            encodingCompletion: { encodingResult in
+                switch encodingResult {
+                    
+                    /*
+                     Alamofire.upload(
+                     .POST,
+                     urlupload,
+                     headers: header,
+                     multipartFormData: { multipartFormData in
+                     multipartFormData.appendBodyPart(data: imageData!, name: "file"
+                     ,fileName: file_name1, mimeType: self.MimeType(file_type1))
+                     //,fileName: file_name1, mimeType: "image/\(file_type1)")
+                     for (key, value) in parameters {
+                     multipartFormData.appendBodyPart(data: value.dataUsingEncoding(NSUTF8StringEncoding)!, name: key)
+                     }
+                     ///multipartFormData.appendBodyPart(data: jsonParameterData!, name: "goesIntoForm")
+                     
+                     },
+                     encodingCompletion: { encodingResult in
+                     switch encodingResult {
+                     */
+                case .success(let upload, _, _):
+                    
+                    upload.validate()
+                    upload.uploadProgress { progress in // main queue by default
+                        print("Upload Progress: \(progress.fractionCompleted)")
+                    }
+                    upload.responseJSON { response in
+                        print(response.response?.statusCode)
+                        print(response.data!)
+                        
+                        switch response.result {
+                        case .success:
+                            
+                            
+                            var imParas=["from":from1,"to":to1,"fromFullName":"\(displayname)","msg":file_name1,"uniqueid":uniqueid1,"type":"file","file_type":type1]
+                            print("imparas are \(imParas)")
+                            
+                            
+                            var statusNow="pending"
+                            
+                            
+                            
+                            //------
+                            
+                            var url=Constants.MainUrl+Constants.sendChatURL
+                            let request = Alamofire.request("\(url)", method: .post, parameters:  imParas,headers:header).responseJSON { response in
+                                
+                                
+                                //alamofire4
+                                //// let request = Alamofire.request(.POST, "\(url)", parameters: chatstanza,headers:header).responseJSON { response in
+                                
+                                
+                                // You are now running on the concurrent `queue` you created earlier.
+                                //print("Parsing JSON on thread: \(NSThread.currentThread()) is main thread: \(NSThread.isMainThread())")
+                                
+                                // Validate your JSON response and convert into model objects if necessary
+                                //print(response.result.value) //status, uniqueid
+                                
+                                // To update anything on the main thread, just jump back on like so.
+                                print("\(imParas) ..  \(response)")
+                                if(response.response?.statusCode==200)
+                                {
+                                    //  dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT,0))
+                                    //{
+                                    //print("chat ack received")
+                                    // var statusNow="sent"
+                                    
+                                    
+                                    
+                                    
+                                    //==-----
+                                    ////////// var ackFile=socketObj.socket.emitWithAck("im",["room":"globalchatroom","stanza":imParas])
+                                    
+                                    /////// ackFile.timingOut(after: 150000, callback: { (data) in
+                                    
+                                    print("chat ack received  \(response.data!)")
+                                    statusNow="sent"
+                                    var chatmsg=JSON(response.data!)
+                                    print("response.data! \(response.data!)")
+                                    print("response.result.value \(response.result.value)")
+                                    print("JSON chatmsg \(chatmsg)")
+                                    print("JSON response.result.value \(JSON(response.result.value!))")
+                                    // print(chatmsg[0])
+                                    // sqliteDB.UpdateChatStatus(chatmsg[0]["uniqueid"].string!, newstatus: chatmsg[0]["status"].string!)
+                                    sqliteDB.UpdateChatStatus(chatmsg["uniqueid"].string!, newstatus: chatmsg["status"].string!)
+                                    
+                                    DispatchQueue.main.async() {
+                                        if(UIDelegates.getInstance().delegateSingleChatDetails1 != nil)
+                                        {
+                                            UIDelegates.getInstance().UpdateSingleChatDetailDelegateCall()
+                                        }
+                                        if(delegateRefreshChat != nil)
+                                        {print("updating UI now ...")
+                                            delegateRefreshChat?.refreshChatsUI(nil, uniqueid:nil, from:nil, date1:nil, type:"status")
+                                        }
+                                        
+                                        if(socketObj.delegateChat != nil)
+                                        {
+                                            socketObj.delegateChat?.socketReceivedMessageChat("updateUI", data: nil)
+                                        }
+                                        /* if(self.delegate != nil)
+                                         {
+                                         self.delegate?.socketReceivedMessage("updateUI", data: nil)
+                                         }*/
+                                        ///////// }
+                                        
+                                    }
+                                    //^^^self.retrieveChatFromSqlite(self.selectedContact)
+                                    //self.tblForChats.reloadData()
+                                    ////////   })
+                                    
+                                    
+                                    /*if(self.delegateChat != nil)
+                                     {
+                                     self.delegateChat?.socketReceivedMessageChat("updateUI", data: nil)
+                                     }
+                                     if(self.delegate != nil)
+                                     {
+                                     self.delegate?.socketReceivedMessage("updateUI", data: nil)
+                                     }
+                                     */
+                                    
+                                    if(self.delegateProgressUpload != nil)
+                                    {
+                                        self.delegateProgressUpload.updateProgressUpload(1.0,uniqueid: uniqueid1)
+                                        
+                                    }
+                                    
+                                    //debugPrint(response)
+                                    print("file upload success")
+                                    print(response.result.value)
+                                    print(JSON(response.result.value!)) // "status":"success"
+                                }
+                                    // case .failure(let error):
+                                else{
+                                    print("file upload failure")
+                                }
+                                
+                            }
+                            //debugPrint(response)
+                            /*print("response 2 nsdata is \(JSON((response.2?.base64EncodedStringWithOptions(NSDataBase64EncodingOptions.Encoding64CharacterLineLength))!)))")
+                             print("statuscode is \(response.1?.statusCode)")
+                             print("jsonn response is \(response.1!)")
+                             print(response.2?.description)
+                             print(JSON(response.2!))
+                             */
+                            //  print("response is \(response.debugDescription)")
+                        // print("response result value is \(response.result.value)")
+                        case .failure: print("case failure upload encoding")
+                            
+                        }
+                    }
+                    
+                    
+                case .failure: print("case failure in encoding")
+                    
+                }
+        })
+    }
+    
+    
+    func uploadBroadcastFile(_ filePath1:String,to1:[String],from1:String, uniqueid1:String,file_name1:String,file_size1:String,file_type1:String,type1:String,totalmembers:String){
+        
+       var parameters = [
+            "to": to1,
+            "from": from1,
+            "uniqueid": uniqueid1,
+            "total_members":totalmembers,
+            "filename": file_name1,
+            "filesize": file_size1,
+            "filetype": file_type1] as [String : Any]
  
     
         /*var parameterJSON = JSON([

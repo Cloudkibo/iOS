@@ -104,8 +104,8 @@ static let connectionstring="Endpoint=sb://cloudkibo.servicebus.windows.net/;Sha
     static var getLastSeen = "/api/users/getUserInfo"
     static var updateGroupName = "/api/groupmessaging/updateGroupName"
     
-    static var sendbroadcastmessage="/api/userchats/sendbroadcast/"
-    
+    static var sendbroadcastmessage="/api/userchat/sendbroadcast/"
+    static var uploadFileBroadcast="/api/broadcastfile/upload"
   //  static var fetchSingleGroupChat="/api/groupchat/fetchSingleChat"
     /*
      private static String phoneContactsURL = "https://www.cloudkibo.com/api/users/searchaccountsbyphone/";

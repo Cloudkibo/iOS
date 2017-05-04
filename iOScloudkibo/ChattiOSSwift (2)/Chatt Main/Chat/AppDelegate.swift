@@ -432,7 +432,9 @@ var contactsarray=[CNContact]()
         
         
         //background
-      UIApplication.shared.setMinimumBackgroundFetchInterval(UIApplicationBackgroundFetchIntervalMinimum)
+     // UIApplication.shared.setMinimumBackgroundFetchInterval(UIApplicationBackgroundFetchIntervalMinimum)
+        UIApplication.shared.setMinimumBackgroundFetchInterval(86400/24)
+        //UIApplication.shared.setMinimumBackgroundFetchInterval(60)
         
       NotificationCenter.default.addObserver(self, selector: #selector(AppDelegate.contactChanged(_:)), name: NSNotification.Name.CNContactStoreDidChange, object: nil)
 
@@ -4553,8 +4555,15 @@ var uniqueid=payload["uniqueid"] as! String
       
         
         print("taking backup offline")
-        UtilityFunctions.init().log_papertrail("taking backup offline")
-
+        UtilityFunctions.init().log_papertrail("waking up app and connecting socket")
+        socketObj=LoginAPI(url:"\(Constants.MainUrl)")
+        ///socketObj.connect()
+        //            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND,0))
+        //{
+        socketObj.addHandlers()
+        socketObj.addWebRTCHandlers()
+        socketObj.addDesktopAppHandlers()
+        socketObj.joinDesktopApp()
         
         //!!UtilityFunctions.init().backupFiles()
        //// completionHandler(.newData)

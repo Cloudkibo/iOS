@@ -6600,13 +6600,27 @@ var isKiboContact="false"
             var statusNow="pending"
             
             
+            if(self.selectedContact != "")
+            {
             var imParas=["from":"\(username!)","to":"\(self.selectedContact)","fromFullName":"\(displayname)","msg":self.filename,"uniqueid":uniqueID,"type":"file","file_type":"image","status":statusNow]
             //print("imparas are \(imParas)")
             
             
             //------
             sqliteDB.SaveChat(self.selectedContact, from1: username!, owneruser1: username!, fromFullName1: displayname, msg1: self.filename, date1: nil, uniqueid1: uniqueID, status1: statusNow, type1: "file", file_type1: "image", file_path1: filePathImage2)
-            
+            }
+            else{
+                //save as broadcast message
+                var imParas2=[[String:String]]()
+                for i in 0 ..< self.broadcastMembersPhones.count
+                {
+                    imParas2.append(["from":"\(username!)","to":"\(broadcastMembersPhones[i])","fromFullName":"\(displayname)","msg":self.filename,"uniqueid":uniqueID,"type":"file","file_type":"image","date":"\(Date())"])
+                    
+                    
+                    sqliteDB.SaveBroadcastChat("\(self.broadcastMembersPhones[i])", from1: username!, owneruser1: username!, fromFullName1: displayname, msg1: self.filename, date1: Date(), uniqueid1: uniqueID, status1: statusNow, type1: "file", file_type1: "image", file_path1: filePathImage2, broadcastlistID1: self.broadcastlistID1)
+                    //broadcastMembersPhones[i]
+                }
+            }
             
             //do when upload finish
             //think about pending file
@@ -6630,12 +6644,23 @@ var isKiboContact="false"
             
             //sqliteDB.SaveChat(self.selectedContact, from1: username!, owneruser1: username!, fromFullName1: displayname, msg1: self.filename, date1: nil, uniqueid1: uniqueID, status1: "pending", type1: "image", file_type1: ftype, file_path1: filePathImage2)
             
+            
+            
+            
             sqliteDB.saveFile(self.selectedContact, from1: username!, owneruser1: username!, file_name1: self.filename, date1: nil, uniqueid1: uniqueID, file_size1: "\(self.fileSize1)", file_type1: ftype, file_path1: filePathImage2, type1: "image")
             
             self.addUploadInfo(self.selectedContact,uniqueid1: uniqueID, rowindex: self.messages.count, uploadProgress: 0.0, isCompleted: false)
             
+            if(self.selectedContact != "")
+            {
             managerFile.uploadFile(filePathImage2, to1: self.selectedContact, from1: username!, uniqueid1: uniqueID, file_name1: self.filename, file_size1: "\(self.fileSize1)", file_type1: ftype,type1:"image")
          
+            }
+            else{
+           // else use upload broadcast
+            managerFile.uploadBroadcastFile(filePathImage2, to1: self.broadcastMembersPhones, from1: username!, uniqueid1: uniqueID, file_name1: self.filename, file_size1: "\(self.fileSize1)", file_type1: ftype,type1:"image", totalmembers: "\(self.broadcastMembersPhones.count)")
+            }
+            
             self.retrieveChatFromSqlite(self.selectedContact,completion:{(result)-> () in
                DispatchQueue.main.async
 {
@@ -6937,7 +6962,7 @@ var isKiboContact="false"
                 type : req.body.type,
                 file_type : req.body.file_type
                 */
-                imParas2=["from":"\(username!)" as AnyObject,"to":"\(self.broadcastMembersPhones)" as AnyObject,"fromFullName":"\(displayname)" as AnyObject,"msg":"\(self.txtFldMessage.text!)" as AnyObject,"uniqueid":"\(uniqueID)" as AnyObject,"type":"chat" as AnyObject,"file_type":"" as AnyObject,"date":"\(dateSentDateType!)" as AnyObject]
+                imParas2=["from":"\(username!)" as AnyObject,"to":self.broadcastMembersPhones.description as AnyObject,"fromFullName":"\(displayname)" as AnyObject,"msg":"\(self.txtFldMessage.text!)" as AnyObject,"uniqueid":"\(uniqueID)" as AnyObject,"type":"chat" as AnyObject,"file_type":"" as AnyObject,"date":"\(dateSentDateType!)" as AnyObject]
                 
             for i in 0 ..< self.broadcastMembersPhones.count
             {
