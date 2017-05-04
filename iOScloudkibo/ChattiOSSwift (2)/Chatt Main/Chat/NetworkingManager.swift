@@ -833,7 +833,7 @@ class NetworkingManager
             multipartFormData: { multipartFormData in
                 multipartFormData.append(imageData!, withName:  "file", fileName: file_name1, mimeType: self.MimeType(file_type1))                //,fileName: file_name1, mimeType: "image/\(file_type1)")
                 for (key, value) in parameters {
-                    multipartFormData.append(value.data(using: .utf8)!, withName: key)
+                    multipartFormData.append(Data.init((value as AnyObject).description.data(using: String.Encoding.utf8)!), withName: key)
                    // multipartFormData.append(data: value.data(using: String.Encoding.utf8)!, withName: key)
                 }
 
@@ -874,7 +874,7 @@ class NetworkingManager
                 case .success:
                     
                     
-                    var imParas=["from":from1,"to":to1,"fromFullName":"\(displayname)","msg":file_name1,"uniqueid":uniqueid1,"type":"file","file_type":type1]
+                    var imParas=["from":from1,"to":to1,"fromFullName":"\(displayname)","msg":file_name1,"uniqueid":uniqueid1,"type":"file","file_type":type1] as [String : Any]
                     print("imparas are \(imParas)")
                     
                     

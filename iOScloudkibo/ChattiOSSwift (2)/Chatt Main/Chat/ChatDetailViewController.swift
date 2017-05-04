@@ -6614,7 +6614,7 @@ var isKiboContact="false"
                 var imParas2=[[String:String]]()
                 for i in 0 ..< self.broadcastMembersPhones.count
                 {
-                    imParas2.append(["from":"\(username!)","to":"\(broadcastMembersPhones[i])","fromFullName":"\(displayname)","msg":self.filename,"uniqueid":uniqueID,"type":"file","file_type":"image","date":"\(Date())"])
+                    imParas2.append(["from":"\(username!)","to":"\(self.broadcastMembersPhones[i])","fromFullName":"\(displayname)","msg":self.filename,"uniqueid":uniqueID,"type":"file","file_type":"image","date":"\(Date())"])
                     
                     
                     sqliteDB.SaveBroadcastChat("\(self.broadcastMembersPhones[i])", from1: username!, owneruser1: username!, fromFullName1: displayname, msg1: self.filename, date1: Date(), uniqueid1: uniqueID, status1: statusNow, type1: "file", file_type1: "image", file_path1: filePathImage2, broadcastlistID1: self.broadcastlistID1)
