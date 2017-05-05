@@ -873,9 +873,11 @@ class NetworkingManager
                 case .success:
                     
                     
-                    var imParas=["from":from1,"to":to1,"fromFullName":"\(displayname)","msg":file_name1,"uniqueid":uniqueid1,"type":"file","file_type":type1] as [String : Any]
-                    print("imparas are \(imParas)")
+                    //var imParas=["from":from1,"to":to1,"fromFullName":"\(displayname)","msg":file_name1,"uniqueid":uniqueid1,"type":"file","file_type":type1] as [String : Any]
                     
+                    var imParas:[String:AnyObject]=["from":username! as AnyObject,"to":to1 as AnyObject,"fromFullName":displayname as AnyObject,"msg":file_name1 as AnyObject,"uniqueid":uniqueid1 as AnyObject,"type":"file" as AnyObject,"file_type":type1 as AnyObject]
+                    
+                    print("imparas are \(imParas)")
                     
                     var statusNow="pending"
                  
@@ -883,8 +885,8 @@ class NetworkingManager
                     
                     //------
                   
-                     var url=Constants.MainUrl+Constants.sendChatURL
-                    let request = Alamofire.request("\(url)", method: .post, parameters:  imParas,headers:header).responseJSON { response in
+                     var url=Constants.MainUrl+Constants.sendbroadcastmessage
+                    let request = Alamofire.request("\(url)", method: .post, parameters: imParas,encoding:JSONEncoding.default,headers:header).response { response in
                         
                         
                         //alamofire4
@@ -918,9 +920,9 @@ class NetworkingManager
                         statusNow="sent"
                         var chatmsg=JSON(response.data!)
                         print("response.data! \(response.data!)")
-                            print("response.result.value \(response.result.value)")
+                            //print("response.result.value \(response. result.value)")
                             print("JSON chatmsg \(chatmsg)")
-                            print("JSON response.result.value \(JSON(response.result.value!))")
+                            //print("JSON response.result.value \(JSON(response.result.value!))")
                        // print(chatmsg[0])
                        // sqliteDB.UpdateChatStatus(chatmsg[0]["uniqueid"].string!, newstatus: chatmsg[0]["status"].string!)
                             sqliteDB.UpdateChatStatus(chatmsg["uniqueid"].string!, newstatus: chatmsg["status"].string!)
@@ -969,8 +971,8 @@ class NetworkingManager
                     
                     //debugPrint(response)
                     print("file upload success")
-                    print(response.result.value)
-                    print(JSON(response.result.value!)) // "status":"success"
+                   // print(response.result.value)
+                   // print(JSON(response.result.value!)) // "status":"success"
                         }
                // case .failure(let error):
                         else{

@@ -4752,10 +4752,12 @@ var uniqueid=payload["uniqueid"] as! String
                         AudioServicesPlaySystemSound (systemSoundID)
                     var type=0
                     var filename=""
+                    print("chatJson[type].string! is \(chatJson[0]["type"].string!)")
                     switch(chatJson[0]["from"].string!)
                     {
+                        
                     case username! :
-                        switch(chatJson[0]["type"].string!)
+                        switch(chatJson[0]["file_type"].string!)
                         {
                         case "image" :
                              type=4
@@ -4780,7 +4782,7 @@ var uniqueid=payload["uniqueid"] as! String
                         }
                         
                     default:
-                        switch(chatJson[0]["type"].string!)
+                        switch(chatJson[0]["file_type"].string!)
                         {
                         case "image" :
                              type=3
