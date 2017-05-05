@@ -3020,7 +3020,7 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
             {
                 //commenting for testing
                 
-              /*  var syncservice=syncService.init()
+                var syncservice=syncService.init()
                 syncservice.startUpwardSyncService({ (result, error) in
                     
                     print("upward sync donee")
@@ -3040,7 +3040,7 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
                     
                 })
                 
-                */
+ 
                 
                 
                 
@@ -4827,7 +4827,7 @@ var uniqueid=payload["uniqueid"] as! String
                 }
             case .failure:
                 
-                Alamofire.request("\(Constants.MainUrl+Constants.urllog)", method: .post, parameters:  ["data":"IPHONE_LOG: fetch single chat FAILED \(uniqueid)"],headers:header).response{
+                Alamofire.request("\(Constants.MainUrl+Constants.urllog)", method: .post, parameters:  ["data":"IPHONE_LOG: fetch single chat FAILED \(uniqueid) .. \(response.result.error) .. \(response.error)"],headers:header).response{
                     response in
                     //print(error)
                 }

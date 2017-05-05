@@ -6611,10 +6611,11 @@ var isKiboContact="false"
             }
             else{
                 //save as broadcast message
-                var imParas2=[[String:String]]()
+                //var imParas2=[[String:String]]()
                 for i in 0 ..< self.broadcastMembersPhones.count
                 {
-                    imParas2.append(["from":"\(username!)","to":"\(self.broadcastMembersPhones[i])","fromFullName":"\(displayname)","msg":self.filename,"uniqueid":uniqueID,"type":"file","file_type":"image","date":"\(Date())"])
+                
+                    //imParas2.append(["from":"\(username!)","to":"\(self.broadcastMembersPhones[i])","fromFullName":"\(displayname)","msg":self.filename,"uniqueid":uniqueID,"type":"file","file_type":"image","date":"\(Date())"])
                     
                     
                     sqliteDB.SaveBroadcastChat("\(self.broadcastMembersPhones[i])", from1: username!, owneruser1: username!, fromFullName1: displayname, msg1: self.filename, date1: Date(), uniqueid1: uniqueID, status1: statusNow, type1: "file", file_type1: "image", file_path1: filePathImage2, broadcastlistID1: self.broadcastlistID1)
@@ -6767,15 +6768,17 @@ var isKiboContact="false"
     {
         var url=Constants.MainUrl+Constants.sendbroadcastmessage
         DispatchQueue.global(priority: DispatchQueue.GlobalQueuePriority.default).async{
+            ///Alamofire.request(Constants.MainUrl+Constants.getLastSeen, method: .post, parameters: ["phone":selectedContact], encoding: JSONEncoding.default, headers: header)
             
-            let request = Alamofire.request("\(url)", method: .post, parameters:  chatstanza,headers:header).responseJSON { response in
+            Alamofire.request(url, method: .post, parameters:chatstanza, encoding: JSONEncoding.default, headers: header).response{ response in
+                //(url, method: .post, parameters:chatstanza.object,encoding: JSONEncoding.default, headers:header).responseJSON { response in
                 
                 if(response.response?.statusCode==200)
                 {
                     
                     var statusNow="sent"
                     
-                    sqliteDB.UpdateChatStatus(chatstanza["uniqueid"]! as! String, newstatus: "sent")
+                    sqliteDB.UpdateChatStatus(chatstanza["uniqueid"] as! String, newstatus: "sent")
                     
                     
                     
@@ -6783,7 +6786,7 @@ var isKiboContact="false"
                     print("main thread of send chat")
                     DispatchQueue.main.async {
                         
-                        return completion(chatstanza["uniqueid"]! as! String,true)
+                        return completion(chatstanza["uniqueid"] as! String,true)
                     }
                     
                 }//if success
@@ -6962,6 +6965,7 @@ var isKiboContact="false"
                 type : req.body.type,
                 file_type : req.body.file_type
                 */
+            
                 imParas2=["from":"\(username!)" as AnyObject,"to":self.broadcastMembersPhones.description as AnyObject,"fromFullName":"\(displayname)" as AnyObject,"msg":"\(self.txtFldMessage.text!)" as AnyObject,"uniqueid":"\(uniqueID)" as AnyObject,"type":"chat" as AnyObject,"file_type":"" as AnyObject,"date":"\(dateSentDateType!)" as AnyObject]
                 
             for i in 0 ..< self.broadcastMembersPhones.count
@@ -7087,7 +7091,9 @@ var isKiboContact="false"
             file_type : req.body.file_type
             */
             
-            self.sendBroadcastChatMessage(imParas2, completion: { (uniqueid, result) in
+            var jsonObj:[String:AnyObject]=["from":username! as AnyObject,"to":self.broadcastMembersPhones as AnyObject,"fromFullName":displayname as AnyObject,"msg":msggg as AnyObject,"uniqueid":uniqueID as AnyObject,"type":"chat" as AnyObject,"file_type":"" as AnyObject,"date":"\(dateSentDateType!)" as AnyObject]
+            
+            self.sendBroadcastChatMessage(jsonObj, completion: { (uniqueid, result) in
                 if(result==true)
                 {
                  var searchformat=NSPredicate(format: "uniqueid = %@",uniqueid!)

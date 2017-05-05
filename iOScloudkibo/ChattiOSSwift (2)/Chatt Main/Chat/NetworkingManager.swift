@@ -767,15 +767,14 @@ class NetworkingManager
     
     func uploadBroadcastFile(_ filePath1:String,to1:[String],from1:String, uniqueid1:String,file_name1:String,file_size1:String,file_type1:String,type1:String,totalmembers:String){
         
-       var parameters = [
+        var parameters:JSON = [
             "to": to1,
             "from": from1,
             "uniqueid": uniqueid1,
             "total_members":totalmembers,
             "filename": file_name1,
             "filesize": file_size1,
-            "filetype": file_type1] as [String : Any]
- 
+            "filetype": file_type1] 
     
         /*var parameterJSON = JSON([
             "to": to1,
@@ -826,7 +825,7 @@ class NetworkingManager
         
         print("mimetype is \(MimeType(file_type1))")
         
-        var urlupload=Constants.MainUrl+Constants.uploadFile
+        var urlupload=Constants.MainUrl+Constants.uploadFileBroadcast
     
         
         Alamofire.upload(
