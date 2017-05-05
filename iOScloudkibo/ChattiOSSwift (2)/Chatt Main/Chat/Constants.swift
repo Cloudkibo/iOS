@@ -106,6 +106,9 @@ static let connectionstring="Endpoint=sb://cloudkiboiospush.servicebus.windows.n
     
     static var sendbroadcastmessage="/api/userchat/sendbroadcast/"
     static var uploadFileBroadcast="/api/broadcastfile/upload"
+    static var checkPendingFilesBroadcast="/api/broadcastfile/checkpendingfile"
+    static var confirmDownloadBroadcast="/api/broadcastfile/confirmdownload"
+    static var downloadFileBroadcast="/api/broadcastfile/download"
   //  static var fetchSingleGroupChat="/api/groupchat/fetchSingleChat"
     /*
      private static String phoneContactsURL = "https://www.cloudkibo.com/api/users/searchaccountsbyphone/";

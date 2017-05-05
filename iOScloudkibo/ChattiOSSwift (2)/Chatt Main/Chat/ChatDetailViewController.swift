@@ -241,8 +241,15 @@ var isKiboContact="false"
             managerFile.uploadFile(filePathImage2, to1: self.selectedContact, from1: username!, uniqueid1: uniqueID, file_name1: self.filename, file_size1: "\(self.fileSize1)", file_type1: ftype,type1:"audio")
             }
             else{
-                sqliteDB.SaveChat(self.selectedContact, from1: username!, owneruser1: username!, fromFullName1: displayname, msg1: self.filename, date1: nil, uniqueid1: uniqueID, status1: statusNow, type1: "file", file_type1: "audio", file_path1: filePathImage2)
-            
+                for i in 0 ..< broadcastMembersPhones.count
+                {
+                    //imParas2.append(["from":"\(username!)","to":"\(broadcastMembersPhones[i])","fromFullName":"\(displayname)","msg":"\(msgbody)","uniqueid":"\(uniqueID)","type":"location","file_type":"","date":"\(dateSentDateType!)"])
+                    
+                    
+                    sqliteDB.SaveBroadcastChat("\(broadcastMembersPhones[i])", from1: username!, owneruser1: username!, fromFullName1: displayname, msg1: self.filename, date1: nil, uniqueid1: uniqueID, status1: statusNow, type1: "broadcast_file", file_type1: "audio", file_path1: filePathImage2, broadcastlistID1: broadcastlistID1)
+                    //broadcastMembersPhones[i]
+                }
+
                 
                 managerFile.uploadBroadcastFile(filePathImage2, to1: self.broadcastMembersPhones, from1: username!, uniqueid1: uniqueID, file_name1: self.filename, file_size1: "\(self.fileSize1)", file_type1: ftype,type1:"audio", totalmembers: "\(self.broadcastMembersPhones.count)")
             }
@@ -1327,8 +1334,14 @@ var isKiboContact="false"
                         if(filedownloaded==false)
                         {
                             //checkpendingfiles
-                          
+                          if(tblContacts[type]=="file")
+                          {
                             managerFile.checkPendingFiles(tblContacts[uniqueid])
+                            }
+                            if(tblContacts[type]=="broadcast_file")
+                            {
+                                managerFile.checkPendingFilesBroadcasr(tblContacts[uniqueid])
+                            }
                         }
 
                       //  self.addUploadInfo(selectedContact, uniqueid1: tblContacts[uniqueid], rowindex: messages.count, uploadProgress: 1, isCompleted: true)
@@ -1346,7 +1359,14 @@ var isKiboContact="false"
                         if(filedownloaded==false)
                         {
                             //checkpendingfiles
-                            managerFile.checkPendingFiles(tblContacts[uniqueid])
+                            if(tblContacts[type]=="file")
+                            {
+                                managerFile.checkPendingFiles(tblContacts[uniqueid])
+                            }
+                            if(tblContacts[type]=="broadcast_file")
+                            {
+                                managerFile.checkPendingFilesBroadcasr(tblContacts[uniqueid])
+                            }
                         }
 
                        // self.addUploadInfo(selectedContact, uniqueid1: tblContacts[uniqueid], rowindex: messages.count, uploadProgress: 1, isCompleted: true)
@@ -1373,8 +1393,14 @@ var isKiboContact="false"
                                 {
                                     print("video is not downloaded locally")
                                     //checkpendingfiles
-                                    
-                                    managerFile.checkPendingFiles(tblContacts[uniqueid])
+                                    if(tblContacts[type]=="file")
+                                    {
+                                        managerFile.checkPendingFiles(tblContacts[uniqueid])
+                                    }
+                                    if(tblContacts[type]=="broadcast_file")
+                                    {
+                                        managerFile.checkPendingFilesBroadcasr(tblContacts[uniqueid])
+                                    }
                                 }
                                 
                                 print("found video received")
@@ -1391,8 +1417,14 @@ var isKiboContact="false"
                                     {
                                         print("audio is not downloaded locally")
                                         //checkpendingfiles
-                                        
-                                        managerFile.checkPendingFiles(tblContacts[uniqueid])
+                                        if(tblContacts[type]=="file")
+                                        {
+                                            managerFile.checkPendingFiles(tblContacts[uniqueid])
+                                        }
+                                        if(tblContacts[type]=="broadcast_file")
+                                        {
+                                            managerFile.checkPendingFilesBroadcasr(tblContacts[uniqueid])
+                                        }
                                     }
 
                                     
@@ -1711,8 +1743,14 @@ var isKiboContact="false"
                             if(filedownloaded==false)
                             {
                                 //checkpendingfiles
-                                
-                                managerFile.checkPendingFiles(tblContacts[uniqueid])
+                                if(tblContacts[type]=="file")
+                                {
+                                    managerFile.checkPendingFiles(tblContacts[uniqueid])
+                                }
+                                if(tblContacts[type]=="broadcast_file")
+                                {
+                                    managerFile.checkPendingFilesBroadcasr(tblContacts[uniqueid])
+                                }
                             }
                             
                             //  self.addUploadInfo(selectedContact, uniqueid1: tblContacts[uniqueid], rowindex: messages.count, uploadProgress: 1, isCompleted: true)
@@ -1730,7 +1768,14 @@ var isKiboContact="false"
                             if(filedownloaded==false)
                             {
                                 //checkpendingfiles
-                                managerFile.checkPendingFiles(tblContacts[uniqueid])
+                                if(tblContacts[type]=="file")
+                                {
+                                    managerFile.checkPendingFiles(tblContacts[uniqueid])
+                                }
+                                if(tblContacts[type]=="broadcast_file")
+                                {
+                                    managerFile.checkPendingFilesBroadcasr(tblContacts[uniqueid])
+                                }
                             }
                             
                             // self.addUploadInfo(selectedContact, uniqueid1: tblContacts[uniqueid], rowindex: messages.count, uploadProgress: 1, isCompleted: true)
@@ -2074,8 +2119,14 @@ var isKiboContact="false"
                             {
                                 //checkpendingfiles
                                 
-                                managerFile.checkPendingFiles(tblContacts[uniqueid])
-                            }
+                                if(tblContacts[type]=="file")
+                                {
+                                    managerFile.checkPendingFiles(tblContacts[uniqueid])
+                                }
+                                if(tblContacts[type]=="broadcast_file")
+                                {
+                                    managerFile.checkPendingFilesBroadcasr(tblContacts[uniqueid])
+                                }                            }
                             
                             //  self.addUploadInfo(selectedContact, uniqueid1: tblContacts[uniqueid], rowindex: messages.count, uploadProgress: 1, isCompleted: true)
                             messages2.add(["message":tblContacts[msg],"filename":tblContacts[msg],"status":tblContacts[status], "type":"3", "date":defaultTimeeee, "uniqueid":tblContacts[uniqueid]])
@@ -2093,7 +2144,14 @@ var isKiboContact="false"
                             {
                                 //checkpendingfiles
                                 
-                                managerFile.checkPendingFiles(tblContacts[uniqueid])
+                                if(tblContacts[type]=="file")
+                                {
+                                    managerFile.checkPendingFiles(tblContacts[uniqueid])
+                                }
+                                if(tblContacts[type]=="broadcast_file")
+                                {
+                                    managerFile.checkPendingFilesBroadcasr(tblContacts[uniqueid])
+                                }
                             }
                             
                             // self.addUploadInfo(selectedContact, uniqueid1: tblContacts[uniqueid], rowindex: messages.count, uploadProgress: 1, isCompleted: true)
@@ -2122,8 +2180,14 @@ var isKiboContact="false"
                                     {
                                         print("video is not downloaded locally")
                                         //checkpendingfiles
-                                        
-                                        managerFile.checkPendingFiles(tblContacts[uniqueid])
+                                        if(tblContacts[type]=="file")
+                                        {
+                                            managerFile.checkPendingFiles(tblContacts[uniqueid])
+                                        }
+                                        if(tblContacts[type]=="broadcast_file")
+                                        {
+                                            managerFile.checkPendingFilesBroadcasr(tblContacts[uniqueid])
+                                        }
                                     }
 
                                     print("found contact received")
@@ -6409,18 +6473,30 @@ var isKiboContact="false"
             
             
             //------
-            sqliteDB.SaveChat(self.selectedContact, from1: username!, owneruser1: username!, fromFullName1: displayname, msg1: self.filename, date1: nil, uniqueid1: uniqueID, status1: statusNow, type1: "file", file_type1: "video", file_path1: filePathImage2)
-            
-            
+           
         
             sqliteDB.saveFile(self.selectedContact, from1: username!, owneruser1: username!, file_name1: self.filename, date1: nil, uniqueid1: uniqueID, file_size1: "\(self.fileSize1)", file_type1: ftype, file_path1: filePathImage2, type1: "video")
             
             self.addUploadInfo(self.selectedContact,uniqueid1: uniqueID, rowindex: self.messages.count, uploadProgress: 0.0, isCompleted: false)
             
                 if(self.selectedContact != "")
-            {managerFile.uploadFile(filePathImage2, to1: self.selectedContact, from1: username!, uniqueid1: uniqueID, file_name1: self.filename, file_size1: "\(self.fileSize1)", file_type1: ftype,type1:"video")
+                {   sqliteDB.SaveChat(self.selectedContact, from1: username!, owneruser1: username!, fromFullName1: displayname, msg1: self.filename, date1: nil, uniqueid1: uniqueID, status1: statusNow, type1: "file", file_type1: "video", file_path1: filePathImage2)
+                    
+          
+                    
+                    managerFile.uploadFile(filePathImage2, to1: self.selectedContact, from1: username!, uniqueid1: uniqueID, file_name1: self.filename, file_size1: "\(self.fileSize1)", file_type1: ftype,type1:"video")
             }else{
-                managerFile.uploadBroadcastFile(filePathImage2, to1: self.broadcastMembersPhones, from1: username!, uniqueid1: uniqueID, file_name1: self.filename, file_size1: "\(self.fileSize1)", file_type1: ftype,type1:"image", totalmembers: "\(self.broadcastMembersPhones.count)")
+                    for i in 0 ..< self.broadcastMembersPhones.count
+                    {
+                        //imParas2.append(["from":"\(username!)","to":"\(broadcastMembersPhones[i])","fromFullName":"\(displayname)","msg":"\(msgbody)","uniqueid":"\(uniqueID)","type":"location","file_type":"","date":"\(dateSentDateType!)"])
+                        
+                        
+                        sqliteDB.SaveBroadcastChat("\(self.broadcastMembersPhones[i])", from1: username!, owneruser1: username!, fromFullName1: displayname, msg1: self.filename, date1: nil, uniqueid1: uniqueID, status1: statusNow, type1: "broadcast_file", file_type1: "video", file_path1: filePathImage2, broadcastlistID1: self.broadcastlistID1)
+                        //broadcastMembersPhones[i]
+                    }
+
+                    
+                managerFile.uploadBroadcastFile(filePathImage2, to1: self.broadcastMembersPhones, from1: username!, uniqueid1: uniqueID, file_name1: self.filename, file_size1: "\(self.fileSize1)", file_type1: ftype,type1:"video", totalmembers: "\(self.broadcastMembersPhones.count)")
             }
             self.retrieveChatFromSqlite(self.selectedContact,completion:{(result)-> () in
                 DispatchQueue.main.async
@@ -6631,7 +6707,7 @@ var isKiboContact="false"
                     //imParas2.append(["from":"\(username!)","to":"\(self.broadcastMembersPhones[i])","fromFullName":"\(displayname)","msg":self.filename,"uniqueid":uniqueID,"type":"file","file_type":"image","date":"\(Date())"])
                     
                     
-                    sqliteDB.SaveBroadcastChat("\(self.broadcastMembersPhones[i])", from1: username!, owneruser1: username!, fromFullName1: displayname, msg1: self.filename, date1: Date(), uniqueid1: uniqueID, status1: statusNow, type1: "file", file_type1: "image", file_path1: filePathImage2, broadcastlistID1: self.broadcastlistID1)
+                    sqliteDB.SaveBroadcastChat("\(self.broadcastMembersPhones[i])", from1: username!, owneruser1: username!, fromFullName1: displayname, msg1: self.filename, date1: Date(), uniqueid1: uniqueID, status1: statusNow, type1: "broadcast_file", file_type1: "image", file_path1: filePathImage2, broadcastlistID1: self.broadcastlistID1)
                     //broadcastMembersPhones[i]
                 }
             }
@@ -7741,9 +7817,6 @@ var isKiboContact="false"
             
                 
                 //------
-                sqliteDB.SaveChat(self.selectedContact, from1: username!, owneruser1: username!, fromFullName1: displayname, msg1: fname+"."+ftype, date1: nil, uniqueid1: uniqueID, status1: statusNow, type1: "file", file_type1: "document", file_path1: filePathImage2)
-                
-                
                 
                 
                 //emit when uploaded 
@@ -7772,9 +7845,26 @@ var isKiboContact="false"
                 self.addUploadInfo(self.selectedContact,uniqueid1: uniqueID, rowindex: self.messages.count, uploadProgress: 0.0, isCompleted: false)
                 if(self.selectedContact != "")
                 {
+                    sqliteDB.SaveChat(self.selectedContact, from1: username!, owneruser1: username!, fromFullName1: displayname, msg1: fname+"."+ftype, date1: nil, uniqueid1: uniqueID, status1: statusNow, type1: "file", file_type1: "document", file_path1: filePathImage2)
+                    
+                    
+           
+                    
                 managerFile.uploadFile(filePathImage2, to1: self.selectedContact, from1: username!, uniqueid1: uniqueID, file_name1: fname+"."+ftype, file_size1: "\(self.fileSize1)", file_type1: ftype, type1:"document")
                 }else{
-                managerFile.uploadBroadcastFile(filePathImage2, to1: self.broadcastMembersPhones, from1: username!, uniqueid1: uniqueID, file_name1: self.filename, file_size1: "\(self.fileSize1)", file_type1: ftype,type1:"image", totalmembers: "\(self.broadcastMembersPhones.count)")
+                    
+                    //save as broadcast message
+                    for i in 0 ..< self.broadcastMembersPhones.count
+                    {
+                        //imParas2.append(["from":"\(username!)","to":"\(broadcastMembersPhones[i])","fromFullName":"\(displayname)","msg":"\(msgbody)","uniqueid":"\(uniqueID)","type":"location","file_type":"","date":"\(dateSentDateType!)"])
+                        
+                        
+                        sqliteDB.SaveBroadcastChat("\(self.broadcastMembersPhones[i])", from1: username!, owneruser1: username!, fromFullName1: displayname, msg1: fname+"."+ftype, date1: nil, uniqueid1: uniqueID, status1: statusNow, type1: "broadcast_file", file_type1: "document", file_path1: filePathImage2, broadcastlistID1: self.broadcastlistID1)
+                        //broadcastMembersPhones[i]
+                    }
+
+                    
+                managerFile.uploadBroadcastFile(filePathImage2, to1: self.broadcastMembersPhones, from1: username!, uniqueid1: uniqueID, file_name1: fname+"."+ftype, file_size1: "\(self.fileSize1)", file_type1: ftype,type1:"document", totalmembers: "\(self.broadcastMembersPhones.count)")
                 }
                 
               ////  sqliteDB.saveChatImage(self.selectedContact, from1: username!, owneruser1: username!, fromFullName1: "fafa", msg1: fname!+"."+ftype, date1: nil, uniqueid1: uniqueID, status1: "pending", type1: "document", file_type1: ftype, file_path1: filePathImage2)

@@ -1730,7 +1730,7 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
     var pendingchatsarray=[[String:String]]()
     var pendinggroupchatsarray=[[String:AnyObject]]()
     
-    func synchroniseChatData()
+    /*func synchroniseChatData()
     {
                 print("synchronise called")
         if(accountKit == nil){
@@ -1843,7 +1843,7 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
                 })
             })
         }
-    }
+    }*/
     /*{
         print("synchronise called")
         if(accountKit == nil){
@@ -2066,7 +2066,7 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
         }
     }
     
-    func fetchChatsFromServer()
+    /*func fetchChatsFromServer()
     {
         
         if(socketObj != nil)
@@ -2393,7 +2393,7 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
             }
         
     }
-    
+    */
 
   
     
@@ -3431,7 +3431,7 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
  group:you_are_added
  */
                     
-                    if(notifType=="chat" || notifType=="file" || notifType=="contact" || notifType=="location" || notifType=="link")
+                    if(notifType=="chat" || notifType=="file" || notifType=="broadcast_file" || notifType=="contact" || notifType=="location" || notifType=="link")
                    
                     {print("payload of iOS chat")
                     fetchSingleChatMessage(singleuniqueid)
@@ -4697,7 +4697,12 @@ var uniqueid=payload["uniqueid"] as! String
                           //change logic uncomment  managerFile.checkPendingFiles(username!)
                             managerFile.checkPendingFiles(chatJson[0]["uniqueid"].string!)
                         }
-                        
+                        if(chatJson[0]["type"].string! == "broadcast_file")
+                        {
+                            //change logic uncomment  managerFile.checkPendingFiles(username!)
+                            managerFile.checkPendingFilesBroadcasr(chatJson[0]["uniqueid"].string!)
+                        }
+                        //
                         //===
                         //===
                         
