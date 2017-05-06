@@ -3417,6 +3417,18 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
                 {
                     updateMessageStatus(singleuniqueid, status: (userInfo["status"] as? String)!)
                     print("calling completion handler for status update now")
+                   
+                    /*
+                     else if (payload.getString("type").equals("message_status")) {
+                     
+                     JSONObject row = payload.getJSONObject("data");
+                     
+                     sendMessageStatusUsingAPI(row.getString("status"),
+                     row.getString("uniqueid"), row.getString("sender")); //this is when desktop sends to us
+ */
+                    
+                    var dataForDesktopApp=["uniqueid":singleuniqueid,"status":userInfo["status"] as? String]
+                    UtilityFunctions.init().sendDataToDesktopApp(data1: dataForDesktopApp as AnyObject, type1: "message_status")
                     
                     UIDelegates.getInstance().UpdateSingleChatDetailDelegateCall()
                     UIDelegates.getInstance().UpdateMainPageChatsDelegateCall()
