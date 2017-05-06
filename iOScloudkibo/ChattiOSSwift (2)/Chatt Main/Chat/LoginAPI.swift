@@ -247,6 +247,27 @@ class LoginAPI{
                })
 
             }
+            if(type=="message_status")
+            {
+                /*
+                 JSONObject row = payload.getJSONObject("data");
+                 
+                 sendMessageStatusUsingAPI(row.getString("status"),
+                 row.getString("uniqueid"), row.getString("sender"));
+ */
+                var jsondata1=(JSON(data[0] as! String))["data"] as! [String:AnyObject]
+                var uniqueid1=jsondata1["uniqueid"] as! String
+                var sender1=jsondata1["sender"] as! String
+                var status1=jsondata1["status"] as! String
+                
+                sqliteDB.UpdateChatStatus(uniqueid1, newstatus: status1)
+                
+                //!!! CHECK AND ASK
+                sqliteDB.saveMessageStatusSeen(status1, sender1: sender1, uniqueid1: uniqueid1)
+                
+                managerFile.sendChatStatusUpdateMessage(uniqueid1, status: status1, sender: sender1)
+                
+            }
             
             
             //desktop_requesting_attachment
