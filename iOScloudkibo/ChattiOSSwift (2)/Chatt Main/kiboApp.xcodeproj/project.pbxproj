@@ -142,6 +142,9 @@
 		71C1A2CF1D768ABC00FC5157 /* GroupChatingDetailController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71C1A2CE1D768ABC00FC5157 /* GroupChatingDetailController.swift */; };
 		71C1A2D91D769B0900FC5157 /* MyCustomCellTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71C1A2D51D769B0900FC5157 /* MyCustomCellTableViewCell.swift */; };
 		71C1A2DA1D769B0900FC5157 /* PKSwipeTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71C1A2D61D769B0900FC5157 /* PKSwipeTableViewCell.swift */; };
+		71C2B3931EBDA22100B9B49C /* GoogleMaps.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 7141A53D1EB9A42E00BA244A /* GoogleMaps.bundle */; };
+		71C2B3941EBDA22100B9B49C /* GooglePlacePicker.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 71636DC91E8D3042007D7A02 /* GooglePlacePicker.bundle */; };
+		71C2B3951EBDA22100B9B49C /* GooglePlaces.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 71636DC51E8D2FA2007D7A02 /* GooglePlaces.bundle */; };
 		71C401741CF7159F00D38126 /* video-camera-icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 71C401701CF7159F00D38126 /* video-camera-icon.png */; };
 		71C401751CF7159F00D38126 /* video-camera-icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 71C401711CF7159F00D38126 /* video-camera-icon@2x.png */; };
 		71C401761CF7159F00D38126 /* videoOff.png in Resources */ = {isa = PBXBuildFile; fileRef = 71C401721CF7159F00D38126 /* videoOff.png */; };
@@ -1536,6 +1539,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				71C2B3931EBDA22100B9B49C /* GoogleMaps.bundle in Resources */,
+				71C2B3941EBDA22100B9B49C /* GooglePlacePicker.bundle in Resources */,
+				71C2B3951EBDA22100B9B49C /* GooglePlaces.bundle in Resources */,
 				71C4018A1CF715C500D38126 /* audioOn.png in Resources */,
 				7134C6991EA79E7C00FF588E /* InfoPlist.strings in Resources */,
 				71C401761CF7159F00D38126 /* videoOff.png in Resources */,

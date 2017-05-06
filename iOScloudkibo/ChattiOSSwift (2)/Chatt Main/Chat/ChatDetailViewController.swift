@@ -1059,11 +1059,13 @@ var isKiboContact="false"
          let file_type = Expression<String>("file_type")
         
         let broadcastlistID = Expression<String>("broadcastlistID")
+        var tbl_userchats=sqliteDB.userschats
         //broadcastlistID
         
-        if(self.selectedContact != "")
-        {var tbl_userchats=sqliteDB.userschats
-        var res=tbl_userchats?.filter(to==selecteduser || from==selecteduser)
+       // if(self.selectedContact != "")
+        //{
+            //var tbl_userchats=sqliteDB.userschats
+        //var res=tbl_userchats?.filter(to==selecteduser || from==selecteduser)
         //to==selecteduser || from==selecteduser
         //print("chat from sqlite is")
         //print(res)
@@ -1082,7 +1084,7 @@ var isKiboContact="false"
                 }
                 else{
                     
-                    query=(tbl_userchats?.filter(broadcastlistID == self.broadcastlistID1 && from == username!))!/*.group(uniqueid).order(date.desc)*/
+                    query=(tbl_userchats?.filter(broadcastlistID == self.broadcastlistID1 && from == username!).order(date.asc).group(uniqueid))!
                 }
                 
 
@@ -1511,8 +1513,9 @@ var isKiboContact="false"
             }
                        //print(error)
         }
-        }
-        else
+       // }
+        //!!
+        /*else
         {var tbl_userchats=sqliteDB.userschats
             var res=tbl_userchats?.filter(broadcastlistID==self.broadcastlistID1 && from==username!).group(uniqueid)
             //to==selecteduser || from==selecteduser
@@ -1859,6 +1862,7 @@ var isKiboContact="false"
                 //print(error)
             }
         }
+        */
         /////var tbl_userchats=sqliteDB.db["userschats"]
         }
     }
@@ -1918,7 +1922,7 @@ var isKiboContact="false"
                 else{
                 
                     query=(tbl_userchats?.filter(broadcastlistID == self.broadcastlistID1 && from == username!).group(uniqueid).order(date.asc))!
-/*.group(uniqueid).order(date.desc)*/
+                        //.group(uniqueid).order(date.desc)
 }
         
        /* var queryruncount=0

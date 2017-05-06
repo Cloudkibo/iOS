@@ -4586,6 +4586,8 @@ var uniqueid=payload["uniqueid"] as! String
     func application(_ application: UIApplication, handleEventsForBackgroundURLSession identifier: String, completionHandler: @escaping () -> Void) {
         
          NetworkingManager.sharedManager.backgroundCompletionHandler = completionHandler
+        
+        UtilityFunctions.init().log_papertrail("IPHONE-LOG: \(username) completion background manager handler \(identifier)")
     }
     func fetchSingleChatMessage(_ uniqueid:String)
     {

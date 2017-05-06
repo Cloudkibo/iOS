@@ -1097,7 +1097,7 @@ class NetworkingManager
     }
     
     
-    func checkPendingFiles(_ uniqueid1:String)
+    func checkPendingFilesBroadcasr(_ uniqueid1:String)
     {print("inside checkpending")
         var checkPendingFiles=Constants.MainUrl+Constants.checkPendingFilesBroadcast
         
@@ -1128,16 +1128,31 @@ class NetworkingManager
                         {
                             print("downloading file with id \(jsonResult["filepending"]["uniqueid"])")
                             
+                            /*
+                             "filepending" : {
+                             "from" : "+923333864540",
+                             "uniqueid" : "PhYUgbp2017569504",
+                             "_id" : "590d560143bfa19d46a28474",
+                             "__v" : 0,
+                             "file_type" : "PNG",
+                             "members_downloaded" : 0,
+                             "file_size" : 0,
+                             "file_name" : "IMG_0109.PNG",
+                             "date" : "2017-05-06T04:50:09.341Z",
+                             "total_members" : 1,
+                             "path" : "\/fb442acab6d2017560509.png"
+                             }
+                             */
                             var fileuniqueid=jsonResult["filepending"]["uniqueid"].string!
                             var filePendingName=jsonResult["filepending"]["file_name"].string!
                             var filefrom=jsonResult["filepending"]["from"].string!
                             var filetype=jsonResult["filepending"]["file_type"].string!
                             var filePendingSize="\(jsonResult["filepending"]["file_size"])"
                             var filependingDate=jsonResult["filepending"]["date"].string!
-                            var filePendingTo=jsonResult["filepending"]["to"].string!
+                            //var filePendingTo=jsonResult["filepending"]["to"].string!
                             
                             //  self.downloadFile("\(jsonResult["filepending"]["uniqueid"])")
-                            self.downloadBroadcastFile(fileuniqueid,filePendingName: filePendingName,filefrom: filefrom,filetype: filetype,filePendingSize: filePendingSize,filependingDate: filependingDate,filePendingTo: filePendingTo)
+                            self.downloadBroadcastFile(fileuniqueid,filePendingName: filePendingName,filefrom: filefrom,filetype: filetype,filePendingSize: filePendingSize,filependingDate: filependingDate,filePendingTo: username!)
                         }
                         //}
                         
@@ -1156,7 +1171,7 @@ class NetworkingManager
     }
     
     
-    func checkPendingFilesBroadcasr(_ uniqueid1:String)
+    func checkPendingFiles(_ uniqueid1:String)
     {print("inside checkpending")
         var checkPendingFiles=Constants.MainUrl+Constants.checkPendingFile
         
