@@ -1195,7 +1195,7 @@ var isKiboContact="false"
                     {
                         if(tblContacts[type]=="contact")
                         {
-                            messages2.add(["message":tblContacts[msg]+" (\(tblContacts[status])) ","status":tblContacts[status], "type":"8", "date":defaultTimeeee, "uniqueid":tblContacts[uniqueid]])
+                            messages2.add(["message":tblContacts[msg]/*+" (\(tblContacts[status])) "*/,"status":tblContacts[status], "type":"8", "date":defaultTimeeee, "uniqueid":tblContacts[uniqueid]])
                             
                             
                         }
@@ -2031,7 +2031,7 @@ var isKiboContact="false"
                             {
                                 if(tblContacts[type]=="contact")
                                 {
-                                    messages2.add(["message":tblContacts[msg]+" (\(tblContacts[status])) ","status":tblContacts[status], "type":"8", "date":defaultTimeeee, "uniqueid":tblContacts[uniqueid]])
+                                    messages2.add(["message":tblContacts[msg]/*+" (\(tblContacts[status])) ") "*/,"status":tblContacts[status], "type":"8", "date":defaultTimeeee, "uniqueid":tblContacts[uniqueid]])
                                     
 
                                 }
@@ -4469,8 +4469,6 @@ var isKiboContact="false"
             let btnMessageView = buttonsView.viewWithTag(2) as! UIButton
             
             
-            btnSaveView.addTarget(self, action: #selector(ChatDetailViewController.BtnSaveContactClicked(_:)), for:.touchUpInside)
-            
             //buttonSave.tag=indexPath.row
             buttonSave.isHidden=true
            
@@ -4478,6 +4476,11 @@ var isKiboContact="false"
             let contactinfo=msg!.components(separatedBy: ":") ///return array string
             textLable.text = contactinfo[0]
             contactreceivedphone=contactinfo[1]
+            //btnSaveView.setValue(contactinfo[1], forUndefinedKey: "phone")
+            btnSaveView.addTarget(self, action: #selector(ChatDetailViewController.BtnSaveContactClicked(_:)), for:.touchUpInside)
+          
+            
+            
             isKiboContact=contactinfo[2]
             if(isKiboContact=="false")
             {
@@ -4630,7 +4633,7 @@ var isKiboContact="false"
             
                chatImage.image = UIImage(named: "chat_send")?.stretchableImage(withLeftCapWidth: 40,topCapHeight: 20);
             
-            contactCardSelected=number
+            //!!==--contactCardSelected=number
             let tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(ChatDetailViewController.contactSharedTapped(_:)))
             //Add the recognizer to your view.
             chatImage.addGestureRecognizer(tapRecognizer)
@@ -5281,7 +5284,26 @@ var isKiboContact="false"
         let messageVC = MFMessageComposeViewController()
         
         messageVC.body = "Hey, \n \n I just downloaded KiboChat App on my iPhone. \n \n It is a smartphone messenger with added features. It provides integrated and unified voice, video, and data communication. \n \n It is available for both Android and iPhone and there is no PIN or username to remember. \n \n Get it now from https://api.cloudkibo.com and say good-bye to SMS!".localized;
-        messageVC.recipients = [contactreceivedphone]
+        
+        var cell=sender.superview?.superview?.superview as! UITableViewCell
+        var indexPath=tblForChats.indexPath(for: cell)
+        print("save new contact clicked")
+        let contact = CNMutableContact()
+        var rowselected=indexPath?.row
+        var messageDic = messages.object(at: rowselected!) as! [String : String];
+        let msg = messageDic["message"] as NSString!
+        
+        //sender.tag=15
+        
+        let contactinfo=msg?.components(separatedBy: ":") ///return array string
+        //textLable.text = contactinfo[0]
+        //contactreceivedphone=(contactinfo?[1])!
+        
+        //var phonevalue=sender.value(forKey: "phone")
+        //var phoneIdentifier=sqliteDB.getIdentifierFRomPhone((contactinfo?[1])!)
+        messageVC.recipients = [(contactinfo?[1])!]
+        
+        //!!messageVC.recipients = [contactreceivedphone]
         messageVC.messageComposeDelegate = self;
         
         self.present(messageVC, animated: false, completion: nil)
@@ -5294,20 +5316,23 @@ var isKiboContact="false"
     }
     func BtnSaveContactClicked(_ sender:UIButton)
     {
+        var cell=sender.superview?.superview?.superview as! UITableViewCell
+        var indexPath=tblForChats.indexPath(for: cell)
         print("save new contact clicked")
         let contact = CNMutableContact()
-        /*var rowselected=sender.tag
-        var messageDic = messages.object(at: rowselected) as! [String : String];
+        var rowselected=indexPath?.row
+        var messageDic = messages.object(at: rowselected!) as! [String : String];
         let msg = messageDic["message"] as NSString!
         
         //sender.tag=15
         
         let contactinfo=msg?.components(separatedBy: ":") ///return array string
         //textLable.text = contactinfo[0]
-        contactreceivedphone=(contactinfo?[1])!
-        */
+        //contactreceivedphone=(contactinfo?[1])!
         
-      var phoneIdentifier=sqliteDB.getIdentifierFRomPhone(contactreceivedphone)
+        //var phonevalue=sender.value(forKey: "phone")
+        var phoneIdentifier=sqliteDB.getIdentifierFRomPhone((contactinfo?[1])!)
+      //var phoneIdentifier=sqliteDB.getIdentifierFRomPhone(contactreceivedphone)
         if(phoneIdentifier != nil)
         {
             
@@ -5317,7 +5342,8 @@ var isKiboContact="false"
         }
         contact.phoneNumbers = [CNLabeledValue(
             label:CNLabelPhoneNumberiPhone,
-            value:CNPhoneNumber(stringValue:contactreceivedphone))]
+           // value:CNPhoneNumber(stringValue:contactreceivedphone))]
+             value:CNPhoneNumber(stringValue:(contactinfo?[1])!))]
         let contactViewController = CNContactViewController(forNewContact: contact)
         contactViewController.delegate=self
         //var contactDetailShow=CNContactViewControllr.init(contact)
@@ -5588,6 +5614,23 @@ var isKiboContact="false"
     func contactSharedTapped(_ gestureRecognizer: UITapGestureRecognizer) {
         //tappedImageView will be the image view that was tapped.
         //dismiss it, animate it off screen, whatever.
+        var cell = gestureRecognizer.view?.superview?.superview as! UITableViewCell
+        var indexPath=tblForChats.indexPath(for: cell as! UITableViewCell)
+        print("get contact info shared")
+        let contact = CNMutableContact()
+        var rowselected=indexPath?.row
+        var messageDic = messages.object(at: rowselected!) as! [String : String];
+        let msg = messageDic["message"] as NSString!
+        
+        //sender.tag=15
+        
+        let contactinfo=msg?.components(separatedBy: ":") ///return array string
+        //textLable.text = contactinfo[0]
+        //contactreceivedphone=(contactinfo?[1])!
+        
+        //var phonevalue=sender.value(forKey: "phone")
+       // var phoneIdentifier=sqliteDB.getIdentifierFRomPhone((contactinfo?[1])!)
+        self.contactCardSelected=(contactinfo?[1])!
         contactshared=true
         
         self.performSegue(withIdentifier: "contactdetailsinfosegue", sender: nil);
@@ -6226,7 +6269,7 @@ var isKiboContact="false"
                 print("adding msg \(msggg)")
                 
                 //==--self.tblForChats.reloadRowsAtIndexPaths([lastrowindexpath], withRowAnimation: .None)
-                self.addMessage(msggg+" (\(statusNow))",status:statusNow,ofType: "8",date:defaultTimeZoneStr, uniqueid: uniqueID)
+                self.addMessage(msggg/*+" (\(statusNow))"*/,status:statusNow,ofType: "8",date:defaultTimeZoneStr, uniqueid: uniqueID)
                 
                 self.tblForChats.reloadData()
                 if(self.messages.count>1)
