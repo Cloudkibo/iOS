@@ -1426,7 +1426,7 @@ class NetworkingManager
     {
         print("inside download file function uniqueid \(fileuniqueid) and filetype is \(filetype) filePendingSize is \(filePendingSize)")
         
-        var downloadURL=Constants.MainUrl+Constants.downloadFileBroadcast
+        var downloadURL=Constants.MainUrl+Constants.downloadFile
         print("start download")
         print(Date())
         
@@ -1663,7 +1663,7 @@ class NetworkingManager
             
             print("download done long")
             print(NSDate())
-            self.confirmDownloadBroadcast(fileuniqueid)
+            self.confirmDownload(fileuniqueid)
             print("confirminggggggg")
             
             // print(request?.)
@@ -1936,7 +1936,7 @@ class NetworkingManager
                 
                 print("download done long")
                 print(NSDate())
-                self.confirmDownload(fileuniqueid)
+                self.confirmDownloadBroadcast(fileuniqueid)
                 print("confirminggggggg")
                 
                // print(request?.)
