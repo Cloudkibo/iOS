@@ -28,7 +28,7 @@ import GooglePlacePicker
 import GooglePlaces
 //import UserNotifications
 //import WindowsAzureMessaging
-
+import PushKit
 
 
 
@@ -134,8 +134,48 @@ var reachability:Reachability!;
 var contactsarray=[CNContact]()
 
 @UIApplicationMain
- class AppDelegate: UIResponder, UIApplicationDelegate,AppDelegateScreenDelegate,UNUserNotificationCenterDelegate {
+class AppDelegate: UIResponder, UIApplicationDelegate,AppDelegateScreenDelegate,UNUserNotificationCenterDelegate,PKPushRegistryDelegate {
+    /*!
+     @method        pushRegistry:didUpdatePushCredentials:forType:
+     @abstract      This method is invoked when new credentials (including push token) have been received for the specified
+     PKPushType.
+     @param         registry
+     The PKPushRegistry instance responsible for the delegate callback.
+     @param         credentials
+     The push credentials that can be used to send pushes to the device for the specified PKPushType.
+     @param         type
+     This is a PKPushType constant which is present in [registry desiredPushTypes].
+     */
+    @available(iOS 8.0, *)
+    public func pushRegistry(_ registry: PKPushRegistry, didUpdate credentials: PKPushCredentials, forType type: PKPushType) {
+        
+        
+        let token = credentials.token.map { String(format: "%02.2hhx", $0) }.joined()
+        print("voip2 token: \(token)")
+        //NSLog("voip2 token: \(credentials.token.base64EncodedString())")
 
+        
+    }
+
+    func pushRegistry(_ registry: PKPushRegistry, didInvalidatePushTokenForType type: PKPushType) {
+        
+        
+    }
+
+    func pushRegistry(_ registry: PKPushRegistry, didReceiveIncomingPushWith payload: PKPushPayload, forType type: PKPushType) {
+        
+        print("Process the received push")
+        socketObj=LoginAPI(url:"\(Constants.MainUrl)")
+        ///socketObj.connect()
+        socketObj.addHandlers()
+        socketObj.addWebRTCHandlers()
+        
+       // UtilityFunctions.init().backupFiles()
+       /* for var i in 0..<99999
+        {
+            print("helloo \(i)")
+        }*/
+    }
 
     
     var window: UIWindow?
@@ -420,6 +460,8 @@ var contactsarray=[CNContact]()
                 UIApplication.shared.registerForRemoteNotifications()
             }
             
+            self.PushKitRegistration()
+
         //UIApplication.shared.registerUserNotificationSettings(pushNotificationSettings)
        
             /*}
@@ -433,7 +475,7 @@ var contactsarray=[CNContact]()
         
         //background
      // UIApplication.shared.setMinimumBackgroundFetchInterval(UIApplicationBackgroundFetchIntervalMinimum)
-        UIApplication.shared.setMinimumBackgroundFetchInterval(86400/24)
+        //!!UIApplication.shared.setMinimumBackgroundFetchInterval(86400/24)
         //UIApplication.shared.setMinimumBackgroundFetchInterval(60)
         
       NotificationCenter.default.addObserver(self, selector: #selector(AppDelegate.contactChanged(_:)), name: NSNotification.Name.CNContactStoreDidChange, object: nil)
@@ -529,6 +571,72 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
         return true
         
     }
+    func application(application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: NSError) {
+        print("Failed to register:", error)
+    }
+    
+    func PushKitRegistration()
+    {
+        
+        let mainQueue = DispatchQueue.main
+        // Create a push registry object
+        if #available(iOS 8.0, *) {
+            
+            let voipRegistry: PKPushRegistry = PKPushRegistry(queue: mainQueue)
+            
+            // Set the registry's delegate to self
+            
+            voipRegistry.delegate = self
+            
+            // Set the push type to VoIP
+            
+            voipRegistry.desiredPushTypes = [PKPushType.voIP]
+            
+        } else {
+            // Fallback on earlier versions
+        }
+        
+        
+    }
+    /*
+    func pushRegistry(registry: PKPushRegistry!, didInvalidatePushTokenForType type: String!) {
+        
+        NSLog("token invalidated")
+    }
+    */
+    /*@available(iOS 8.*0, *)
+    func pushRegistry(registry: PKPushRegistry!, didUpdatePushCredentials credentials: PKPushCredentials!, forType type: String!) {
+        // Register VoIP push token (a property of PKPushCredentials) with server
+        
+      /*  let hexString : String = UnsafeBufferPointer<UInt8>(start: UnsafePointer(credentials.token.bytes),
+                                                            count: credentials.token.length).map { String(format: "%02x", $0) }.joinWithSeparator("")
+        */
+        /*let tokenChars = UnsafePointer<CChar>(UnsafePointer(credentials.token.bytes))
+        var tokenString = ""
+        
+        for i in 0..<credentials.token.count {
+            tokenString += String(format: "%02.2hhx", arguments: [tokenChars[i]])
+        }
+        
+        print("Device Token:", tokenString)
+        */
+        //print(hexString)
+        NSLog("voip token: \(credentials.token)")
+        
+    }*/
+    
+    
+   /* @available(iOS 8.0, *)
+    func pushRegistry(registry: PKPushRegistry!, didReceiveIncomingPushWithPayload payload: PKPushPayload!, forType type: String!) {
+        print("Process the received push")
+        socketObj=LoginAPI(url:"\(Constants.MainUrl)")
+        ///socketObj.connect()
+        socketObj.addHandlers()
+        socketObj.addWebRTCHandlers()
+        // Process the received push
+        // From here you have to schedule your local notification
+        
+    }*/
     
    /* func checkForReachability(notification:NSNotification)
     {
@@ -2863,13 +2971,13 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
         }*/
         
         ///!!
-       /* if(socketObj != nil)
+        if(socketObj != nil)
         {   //// socketObj.socket.close()
             socketObj.socket.disconnect()
             socketObj.socket.removeAllHandlers()
             ////// swiftt3 socketObj.socket.close()
             /////  socketObj=nil
-        }*/
+        }
         
     }
     
@@ -4567,7 +4675,7 @@ var uniqueid=payload["uniqueid"] as! String
       
         
         print("taking backup offline")
-        UtilityFunctions.init().log_papertrail("waking up app and connecting socket")
+        /*UtilityFunctions.init().log_papertrail("waking up app and connecting socket")
         socketObj=LoginAPI(url:"\(Constants.MainUrl)")
         ///socketObj.connect()
         //            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND,0))
@@ -4576,8 +4684,8 @@ var uniqueid=payload["uniqueid"] as! String
         socketObj.addWebRTCHandlers()
         socketObj.addDesktopAppHandlers()
         socketObj.joinDesktopApp()
-        
-        //!!UtilityFunctions.init().backupFiles()
+        */
+       UtilityFunctions.init().backupFiles()
        //// completionHandler(.newData)
         
         /*if let tabBarController = window?.rootViewController as? UITabBarController,

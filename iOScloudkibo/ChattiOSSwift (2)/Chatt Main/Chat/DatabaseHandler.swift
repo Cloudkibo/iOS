@@ -166,6 +166,18 @@ print("alter table needed")
     print("unable to alter \(error)")
             }
         }
+        if(version < 0.1312)
+        {
+            print("alter table needed")
+            let isArchived = Expression<Bool>("isArchived")
+            
+            do{
+                try db.run(self.userschats.addColumn(isArchived, defaultValue: false))
+            }
+            catch{
+                print("unable to alter \(error)")
+            }
+        }
     }
     
     func resetTables()
@@ -546,6 +558,8 @@ print("alter table needed")
         let file_path = Expression<String>("file_path")
         let broadcastlistID = Expression<String>("broadcastlistID")
         let isBroadcastMessage = Expression<Bool>("isBroadcastMessage")
+        let isArchived = Expression<Bool>("isArchived")
+        
         //let file_path = Expression<String>("file_path")
 
         
@@ -583,6 +597,7 @@ print("alter table needed")
                 t.column(file_path, defaultValue:"")
                 t.column(broadcastlistID, defaultValue:"")
                 t.column(isBroadcastMessage, defaultValue:false)
+                t.column(isArchived, defaultValue:false)
                 //t.column(file_path, defaultValue:"")
                 
                 //     "name" TEXT
@@ -3677,6 +3692,28 @@ print("--------")
         return IAMblockedByList
     }
     
+    func updateArchiveStatus(contactPhone1:String)
+    {
+        let isArchived = Expression<Bool>("isArchived")
+        let contactPhone = Expression<String>("contactPhone")
+        
+        
+        let tbl_userchats=sqliteDB.userschats
+        
+        let query = tbl_userchats?.select(contactPhone)           // SELECT "email" FROM "users"
+            .filter(contactPhone == contactPhone1)     // WHERE "name" IS NOT NULL
+        
+        do{for tblContacts in try sqliteDB.db.prepare((tbl_userchats?.filter(contactPhone == contactPhone1))!)
+        {
+            var res=try sqliteDB.db.run((query?.update(isArchived <- true))!)
+            }
+        }
+            catch{
+                print("eror: in updating archive status")
+            }
+        
+    }
+    
     func getChatListForDesktopApp(user1:String)->[[String:Any]]
     {
        
@@ -3697,6 +3734,7 @@ print("--------")
         let file_path = Expression<String>("file_path")
         let broadcastlistID = Expression<String>("broadcastlistID")
         let isBroadcastMessage = Expression<Bool>("isBroadcastMessage")
+        let isArchived = Expression<Bool>("isArchived")
         
         /* toperson
          fromperson
@@ -3728,6 +3766,7 @@ print("--------")
                 newEntry["file_type"]=list.get(file_type)
                 newEntry["uniqueid"]=list.get(uniqueid)
                 newEntry["contact_phone"]=list.get(date).debugDescription as AnyObject
+                newEntry["isArchived"]=list.get(isArchived).debugDescription as AnyObject
                 allChatsList.append(newEntry)
                // break
             
@@ -3755,6 +3794,9 @@ print("--------")
         let file_path = Expression<String>("file_path")
         let broadcastlistID = Expression<String>("broadcastlistID")
         let isBroadcastMessage = Expression<Bool>("isBroadcastMessage")
+        let isArchived = Expression<Bool>("isArchived")
+       
+        
         
         self.userschats = Table("userschats")
         var allChatsList=[[String:Any]]()
@@ -3783,7 +3825,7 @@ print("--------")
             else{
                 newEntry["display_name"]=list.get(contactPhone)
             }
-            
+            newEntry["isArchived"]=list.get(isArchived)
             allChatsList.append(newEntry)
             }
         }

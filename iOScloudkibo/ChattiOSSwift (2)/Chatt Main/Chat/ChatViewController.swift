@@ -5441,10 +5441,12 @@ break
     }
     
     
-    //UNCOMMENT WHEN DEALINAG WITH GROUPS
-    
+    //UNCOMMENT WHEN DEALINAG WITH groupStatusUpdatesTemp
+    func swipeableTableViewCell(_ cell: SWTableViewCell!, didTriggerLeftUtilityButtonWith index: Int) {
+   print("archive tapped")
+    }
    func swipeableTableViewCell(_ cell: SWTableViewCell!, didTriggerRightUtilityButtonWith index: Int) {
-    
+    print("tapped swipe \(index)")
     swipeindexRow=tblForChat.indexPath(for: cell)!.row
        // if(index==0)
        // {
