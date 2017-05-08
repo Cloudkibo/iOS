@@ -1328,6 +1328,7 @@ print("alter table needed")
         
         let broadcastlistID = Expression<String>("broadcastlistID")
         let isBroadcastMessage = Expression<Bool>("isBroadcastMessage")
+        let isArchived = Expression<Bool>("isArchived")
         
         
         let tbl_userchats=sqliteDB.userschats
@@ -1418,6 +1419,11 @@ print("alter table needed")
                 alreadyexists=true
             }
             
+            var isArchived1=false
+            for res in try sqliteDB.db.prepare((tbl_userchats?.filter(contactPhone == contactPhone1))!)
+            {
+                isArchived1=res.get(isArchived)
+            }
             if(alreadyexists==false)
             {
                 print("adding chat \(file_type1) .. \(msg1) .. type \(type1)")
@@ -1432,7 +1438,8 @@ print("alter table needed")
                     contactPhone<-contactPhone1,
                     type<-type1,
                     file_type<-file_type1,
-                    file_path<-file_path1
+                    file_path<-file_path1,
+                    isArchived<-isArchived1
                     ))!)
                 
                 // UtilityFunctions.init().log_papertrail("IPHONE_LOG: \(username!) saving chat in db \(rowid)")
@@ -3692,7 +3699,7 @@ print("--------")
         return IAMblockedByList
     }
     
-    func updateArchiveStatus(contactPhone1:String)
+    func updateArchiveStatus(contactPhone1:String,status:Bool)
     {
         let isArchived = Expression<Bool>("isArchived")
         let contactPhone = Expression<String>("contactPhone")
@@ -3705,7 +3712,7 @@ print("--------")
         
         do{for tblContacts in try sqliteDB.db.prepare((tbl_userchats?.filter(contactPhone == contactPhone1))!)
         {
-            var res=try sqliteDB.db.run((query?.update(isArchived <- true))!)
+            var res=try sqliteDB.db.run((query?.update(isArchived <- status))!)
             }
         }
             catch{
@@ -3766,7 +3773,7 @@ print("--------")
                 newEntry["file_type"]=list.get(file_type)
                 newEntry["uniqueid"]=list.get(uniqueid)
                 newEntry["contact_phone"]=list.get(date).debugDescription as AnyObject
-                newEntry["isArchived"]=list.get(isArchived).debugDescription as AnyObject
+                newEntry["isArchived"]=list.get(isArchived) as AnyObject
                 allChatsList.append(newEntry)
                // break
             

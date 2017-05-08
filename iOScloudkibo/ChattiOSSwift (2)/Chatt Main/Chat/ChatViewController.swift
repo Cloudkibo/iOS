@@ -2387,7 +2387,7 @@ EPPickerDelegate,SWTableViewCellDelegate,UpdateChatViewsDelegate,RefreshContacts
         let contactPhone = Expression<String>("contactPhone")
         /////////// let contactProfileImage = Expression<NSData>("profileimage")
         let uniqueidentifier = Expression<String>("uniqueidentifier")
-        
+        let isArchived = Expression<Bool>("isArchived")
         
         let blockedByMe = Expression<Bool>("blockedByMe")
         let IamBlocked = Expression<Bool>("IamBlocked")
@@ -2406,7 +2406,7 @@ EPPickerDelegate,SWTableViewCellDelegate,UpdateChatViewsDelegate,RefreshContacts
         }
         
         
-        let myquery=tbl_userchats?.group((tbl_userchats?[contactPhone])!).order(date.desc)
+        let myquery=tbl_userchats?.filter(isArchived==false).group((tbl_userchats?[contactPhone])!).order(date.desc)
         
         var queryruncount=0
         do{for ccc in try sqliteDB.db.prepare(myquery!) {
@@ -5469,6 +5469,8 @@ break
             if(editButtonOutlet.title==NSLocalizedString("Edit", tableName: nil, bundle: Bundle.main, value: "", comment: "Edit"))
                 //"Edit")
             {//UITableViewCellEditingStyle
+                if(index==0)
+                {
              if(ChatType != "single")
                 {
                 //let more = UITableViewRowAction(style: .Normal, title: "More") { action, index in
@@ -5611,6 +5613,22 @@ shareMenu.addAction(cancelAction)
                     
                 })
                 }
+    }//end if more pressed
+            else{
+                //archive pressed
+                    if(ChatType != "single")
+                    {
+                    }
+                    else{
+                        //single chat
+                        sqliteDB.updateArchiveStatus(contactPhone1: ContactUsernames, status: true)
+                        DispatchQueue.main.async
+                        {
+                        self.tblForChat.reloadData()
+                        }
+                    }
+            
+    }
     } // if edit
     
     }

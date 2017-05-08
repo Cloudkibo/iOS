@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ArchivedChatsViewController: UIViewController {
+class ArchivedChatsViewController: UIViewController,SWTableViewCellDelegate {
 
     @IBOutlet weak var tblArchivedChats: UITableView!
     override func viewDidLoad() {
@@ -33,11 +33,25 @@ class ArchivedChatsViewController: UIViewController {
     
      func tableView(_ tableView: UITableView, cellForRowAtIndexPath indexPath: IndexPath) -> UITableViewCell {
         
-        let cell = tblArchivedChats.dequeueReusableCell(withIdentifier: "ArchivedChatsCell")! as UITableViewCell
+        let cell = tblArchivedChats.dequeueReusableCell(withIdentifier: "ArchivedChatsCell")! as! SWTableViewCell
+        cell.rightUtilityButtons=self.getRightUtilityButtonsToCell() as [AnyObject]
+        cell.delegate=self
         
         return cell
         
         
+    }
+    func getRightUtilityButtonsToCell()-> NSMutableArray{
+        let utilityButtons: NSMutableArray = NSMutableArray()
+        
+        
+        utilityButtons.sw_addUtilityButton(with: UtilityFunctions.init().hexStringToUIColor("#DCDEE0"), icon: UIImage(named:"more.png".localized))
+        
+        //utilityButtons.sw_addUtilityButtonWithColor(UIColor.redColor(), title: NSLocalizedString("ABC", comment: ""))
+        //DCDEE0
+        utilityButtons.sw_addUtilityButton(with: UtilityFunctions.init().hexStringToUIColor("#24669A"), icon: UIImage(named:"archive.png".localized))
+        return utilityButtons
+        //24669A
     }
     
     func tableView(_ tableView: UITableView, heightForRowAtIndexPath indexPath: IndexPath) -> CGFloat {
